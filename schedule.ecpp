@@ -1,0 +1,63 @@
+<%pre>
+#include <boost/lexical_cast.hpp>
+#include <vdr/plugin.h>
+#include <vdr/channels.h>
+#include <vdr/epg.h>
+#include <vdr/config.h>
+int channel_number;
+
+cSchedulesLock schedulesLock;
+const cSchedules* schedules = cSchedules::Schedules(schedulesLock);
+
+
+</%pre>
+<%args>
+channel;
+</%args>
+<html>
+ <head>
+  <title>ecpp-application testproject</title>
+ </head>
+ <body>
+<{
+
+if (channel.empty()) {
+	channel_number = 1;
+} else {
+	try {
+		channel_number = boost::lexical_cast<int>(channel);
+	} catch (boost::bad_lexical_cast const&) { 
+}>
+  Channel nicht numerisch!
+<{
+	}
+}>
+
+	Programm für Channel Nummer <$ channel_number $><br/>
+
+<{
+
+	for (cChannel *channel = Channels.First(); channel; channel = Channels.Next(channel)) {
+		if (!channel->GroupSep() && (channel->Number() == channel_number)) {
+
+			const cSchedule *Schedule = schedules->GetSchedule(channel);
+			if (Schedule) {
+				time_t now = time(NULL) - Setup.EPGLinger * 60;
+				for (const cEvent *ev = Schedule->Events()->First(); ev; ev = Schedule->Events()->Next(ev)) {
+}>
+	<$ ev->Title() $><br/>
+
+<{
+				}
+			} else {
+}>
+	Kein Schedule für Channel <$ channel->Number() $>
+<{
+			}
+		}
+	}
+   
+}
+}>
+ </body>
+</html>
