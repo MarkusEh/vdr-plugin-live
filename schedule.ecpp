@@ -4,9 +4,6 @@
 #include <vdr/epg.h>
 #include <vdr/config.h>
 
-cSchedulesLock schedulesLock;
-const cSchedules* schedules = cSchedules::Schedules(schedulesLock);
-
 </%pre>
 <%args>
 int channel;
@@ -20,6 +17,9 @@ int channel;
 	Programm für Channel Nummer <$ channel $><br/>
 
 <{
+	cSchedulesLock schedulesLock;
+	const cSchedules* schedules = cSchedules::Schedules(schedulesLock);
+
 	cChannel* Channel = Channels.GetByNumber(channel);
 	if (Channel) {
 		const cSchedule *Schedule = schedules->GetSchedule(Channel);
