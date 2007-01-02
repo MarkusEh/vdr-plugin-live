@@ -53,10 +53,10 @@ char const* Setup::Help() const
 		ostringstream builder;
 		builder << "  -L DIR,   --lib=DIR       libtnt-live.so will be searched in DIR\n"
 				   "                            (default: " << m_libraryPath << ")\n"
-				<< "  -p PORT,  --port=PORT     use PORT to listen for incoming\n"
-				   "                            connections (default: " << m_serverPort << ")\n"
-				<< "  -i IP,    --ip=IP         bind server only to specified IP, can\n"
-				   "                            appear multiple times\n"
+				<< "  -p PORT,  --port=PORT     use PORT to listen for incoming connections\n"
+				   "                            (default: " << m_serverPort << ")\n"
+				<< "  -i IP,    --ip=IP         bind server only to specified IP, may appear\n"
+				   "                            multiple times\n"
 				   "                            (default: 0.0.0.0)\n";
 		m_helpString = builder.str();
 	}
