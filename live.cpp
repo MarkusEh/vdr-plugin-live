@@ -3,7 +3,7 @@
  *
  * See the README file for copyright information and how to reach the author.
  *
- * $Id: live.cpp,v 1.2 2007/01/02 21:09:12 lordjaxom Exp $
+ * $Id: live.cpp,v 1.3 2007/01/02 21:56:37 lordjaxom Exp $
  */
 
 #include <memory>
@@ -16,7 +16,7 @@ namespace vdrlive {
 using namespace std;
 
 static const char *VERSION        = "0.0.1";
-static const char *DESCRIPTION    = "Enter description for 'httpd' plugin";
+static const char *DESCRIPTION    = "Live Integrated VDR Environment";
 
 class Plugin : public cPlugin {
 public:
