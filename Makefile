@@ -1,7 +1,7 @@
 #
 # Makefile for a Video Disk Recorder plugin
 #
-# $Id: Makefile,v 1.4 2007/01/02 20:23:45 lordjaxom Exp $
+# $Id: Makefile,v 1.5 2007/01/02 21:08:00 lordjaxom Exp $
 
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.
@@ -27,9 +27,9 @@ LDFLAGS  += `tntnet-config --libs`
 
 ### The directory environment:
 
-VDRDIR = ../../..
-LIBDIR = ../../lib
-TMPDIR = /tmp
+VDRDIR   ?= ../../..
+LIBDIR   ?= ../../lib
+TMPDIR   ?= /tmp
 
 ### Allow user defined options to overwrite defaults:
 
@@ -47,12 +47,10 @@ PACKAGE = vdr-$(ARCHIVE)
 ### Includes and Defines (add further entries here):
 
 INCLUDES += -I$(VDRDIR)/include -Ihttpd
-
 DEFINES  += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"'
+LIBS     += httpd/libhttpd.a
 
 SUBDIRS   = httpd
-
-LIBS     += httpd/libhttpd.a
 
 ### The object files (add further files here):
 
