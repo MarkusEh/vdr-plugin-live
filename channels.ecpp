@@ -1,0 +1,22 @@
+<%pre>
+#include <vdr/channels.h>
+</%pre>
+<html>
+ <head>
+  <title>ecpp-application testproject</title>
+ </head>
+ <body>
+<{
+
+        for (cChannel *channel = Channels.First(); channel; channel = Channels.Next(channel)) {
+                if (!channel->GroupSep() && *channel->Name()) {
+}>
+        <$ channel->Name() $>
+<{
+         }
+      }
+
+
+}>
+ </body>
+</html>
