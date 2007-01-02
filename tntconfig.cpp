@@ -32,10 +32,15 @@ void TntConfig::WriteConfig()
 	}
 
 	// XXX modularize
-	file << "MapUrl /([^.]+)(\\..+)? $1@libtnt-live" << std::endl;
-	file << "Listen 0.0.0.0 8003" << std::endl;
-	file << "PropertyFile " << m_propertiesPath << std::endl;
-	file << "CompPath " << Setup::Get().GetLibraryPath() << "/" << std::endl;
+	file << "MapUrl /([^.]+)(\\..+)? $1@libtnt-live" << endl;
+	file << "PropertyFile " << m_propertiesPath << endl;
+	file << "CompPath " << Setup::Get().GetLibraryPath() << endl;
+
+	Setup::IpList const& ips = Setup::Get().GetServerIps();
+	int port = Setup::Get().GetServerPort();
+	for ( Setup::IpList::const_iterator ip = ips.begin(); ip != ips.end(); ++ip ) {
+		file << "Listen " << *ip << " " << port << endl;
+	}
 }
 
 void TntConfig::WriteProperties()
@@ -52,8 +57,8 @@ void TntConfig::WriteProperties()
 	}
 
 	// XXX modularize
-	file << "rootLogger=INFO" << std::endl;
-	file << "logger.tntnet=INFO" << std::endl;
+	file << "rootLogger=INFO" << endl;
+	file << "logger.tntnet=INFO" << endl;
 }
 
 TntConfig const& TntConfig::Get()

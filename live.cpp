@@ -3,7 +3,7 @@
  *
  * See the README file for copyright information and how to reach the author.
  *
- * $Id: live.cpp,v 1.1 2007/01/02 19:18:27 lordjaxom Exp $
+ * $Id: live.cpp,v 1.2 2007/01/02 21:09:12 lordjaxom Exp $
  */
 
 #include <memory>
@@ -42,7 +42,7 @@ Plugin::Plugin(void)
 
 const char *Plugin::CommandLineHelp(void)
 {
-	return "-L DIR   --lib=DIR       libtnt-live.so will be searched in DIR\n";
+	return Setup::Get().Help();
 }
 
 bool Plugin::ProcessArgs(int argc, char *argv[])
