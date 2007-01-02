@@ -36,25 +36,20 @@ if (channel.empty()) {
 	Programm für Channel Nummer <$ channel_number $><br/>
 
 <{
-
-	for (cChannel *channel = Channels.First(); channel; channel = Channels.Next(channel)) {
-		if (!channel->GroupSep() && (channel->Number() == channel_number)) {
-
-			const cSchedule *Schedule = schedules->GetSchedule(channel);
-			if (Schedule) {
-				time_t now = time(NULL) - Setup.EPGLinger * 60;
-				for (const cEvent *ev = Schedule->Events()->First(); ev; ev = Schedule->Events()->Next(ev)) {
+	cChannel* channel = Channels.GetByNumber(channel_number);
+	const cSchedule *Schedule = schedules->GetSchedule(channel);
+	if (Schedule) {
+		time_t now = time(NULL) - Setup.EPGLinger * 60;
+		for (const cEvent *ev = Schedule->Events()->First(); ev; ev = Schedule->Events()->Next(ev)) {
 }>
 	<$ ev->Title() $><br/>
 
 <{
-				}
-			} else {
+		}
+	} else {
 }>
 	Kein Schedule für Channel <$ channel->Number() $>
 <{
-			}
-		}
 	}
    
 }

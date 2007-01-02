@@ -33,7 +33,7 @@ void TntConfig::WriteConfig()
 
 	// XXX modularize
 	file << "MapUrl /([^.]+)(\\..+)? $1@libtnt-live" << std::endl;
-	file << "Listen 0.0.0.0 8001" << std::endl;
+	file << "Listen 0.0.0.0 8003" << std::endl;
 	file << "PropertyFile " << m_propertiesPath << std::endl;
 	file << "CompPath " << Setup::Get().GetLibraryPath() << "/" << std::endl;
 }
