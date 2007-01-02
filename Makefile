@@ -1,7 +1,7 @@
 #
 # Makefile for a Video Disk Recorder plugin
 #
-# $Id: Makefile,v 1.5 2007/01/02 21:08:00 lordjaxom Exp $
+# $Id: Makefile,v 1.6 2007/01/02 21:30:58 lordjaxom Exp $
 
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.
@@ -117,7 +117,7 @@ dist: clean $(WEBS:%.o=%.cpp)
 	@echo Distribution package created as $(PACKAGE).tgz
 
 clean:
-	@-rm -f $(OBJS) $(WEBS) $(DEPFILE) *.so *.tgz core* *~
+	@-rm -f $(OBJS) $(WEBS) $(WEBS:%.o=%.cpp) $(DEPFILE) *.so *.tgz core* *~
 	@for dir in $(SUBDIRS); do \
 		make -C $$dir clean ; \
 	done
