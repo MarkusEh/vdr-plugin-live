@@ -1,7 +1,7 @@
 #
 # Makefile for a Video Disk Recorder plugin
 #
-# $Id: Makefile,v 1.3 2007/01/02 20:20:36 lordjaxom Exp $
+# $Id: Makefile,v 1.4 2007/01/02 20:23:45 lordjaxom Exp $
 
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.
@@ -20,7 +20,7 @@ VERSION = $(shell grep 'static const char \*VERSION *=' $(PLUGIN).cpp | awk '{ p
 CXX      ?= g++
 CXXFLAGS ?= -fPIC -g -O2 -Wall -Woverloaded-virtual
 
-ECPPC    ?= /usr/local/bin/ecppc
+ECPPC    ?= ecppc
 CXXFLAGS += `tntnet-config --cxxflags`
 
 LDFLAGS  += `tntnet-config --libs`
