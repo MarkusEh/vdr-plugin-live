@@ -1,7 +1,7 @@
 #
 # Makefile for a Video Disk Recorder plugin
 #
-# $Id: Makefile,v 1.11 2007/01/03 16:14:31 lordjaxom Exp $
+# $Id: Makefile,v 1.12 2007/01/03 16:22:19 lordjaxom Exp $
 
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.
@@ -19,6 +19,7 @@ VERSION = $(shell grep 'static const char \*VERSION *=' $(PLUGIN).cpp | awk '{ p
 
 CXX      ?= g++
 CXXFLAGS ?= -fPIC -g -O2 -Wall -Woverloaded-virtual
+LDFLAGS  ?= -fPIC -g
 
 ECPPC    ?= ecppc
 CXXFLAGS += `tntnet-config --cxxflags`
@@ -63,7 +64,7 @@ WEBSITE = styles.o menu.o channels.o schedule.o whats_on_now.o
 
 .PHONY: all dist clean SUBDIRS
 
-all: libvdr-$(PLUGIN).so libtnt-$(PLUGIN).so
+all: SUBDIRS libvdr-$(PLUGIN).so libtnt-$(PLUGIN).so
 
 ### Implicit rules:
 
@@ -101,12 +102,12 @@ SUBDIRS:
 		make -C $$dir CXX="$(CXX)" CXXFLAGS="$(CXXFLAGS)" lib$$dir.a ; \
 	done
 
-libvdr-$(PLUGIN).so: $(PLUGINOBJS) SUBDIRS
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared $(PLUGINOBJS) $(LIBS) -o $@ 
+libvdr-$(PLUGIN).so: $(PLUGINOBJS) $(LIBS)
+	$(CXX) $(LDFLAGS) -shared -o $@ $^ $(LIBS)
 	@cp --remove-destination $@ $(LIBDIR)/$@.$(APIVERSION)
 
 libtnt-$(PLUGIN).so: $(WEBOBJS) $(WEBSITE)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared -o $@ $^
+	$(CXX) $(LDFLAGS) -shared -o $@ $^
 	@cp --remove-destination $@ $(LIBDIR)/$@
 
 dist: clean
