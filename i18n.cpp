@@ -25,50 +25,50 @@ const tI18nPhrase Phrases[] = {
     "", // Dansk
     "", //Czech
   },
-  { "o'clock",
-    "Uhr",
-    "", // Slovenski
-    "", // Italiono
-    "", // Nederlands
-    "", // Português
-    "", // Français
-    "", // Norsk
-    "", // Finnish
-    "", // Polski
-    "", // Español
-    "", // Greek
-    "", // Svenska
-    "", // Românã
-    "", // Magyar
-    "", // Català
-    "", // Russian
-    "", // Hrvatski
-    "", // Eesti
-    "", // Dansk
-    "", //Czech
-  },
+	{ "%I.%M %p", // Time formatting string
+	  "%H.%M Uhr",
+	  "",
+	  "",
+	  "",
+	  "",
+	  "",
+	  "",
+	  "",
+	  "",
+	  "",
+	  "",
+	  "",
+	  "",
+	  "",
+	  "",
+	  "",
+	  "",
+	  "",
+	  "",
+	  "",
+	},
 	/*
-	{ "English",
-	  "Deutsch",
-	  "Slovenski",
-	  "Italiano",
-	  "Nederlands",
-	  "Português",
-	  "Français",
-	  "Norsk",
-	  "suomi", // Finnish (this is not a typo - it's really lowercase!)
-	  "Polski",
-	  "Español",
-	  "ÅëëçíéêÜ", // Greek
-	  "Svenska",
-	  "Românã",
-	  "Magyar",
-	  "Català",
-	  "ÀãááÚØÙ", // Russian
-	  "Hrvatski",
-	  "Eesti",
-	  "Dansk",
-	  "Èesky", //Czech
+	{ "", // English
+	  "", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", //Czech
 	}, */
 	{ 0 },
 };
