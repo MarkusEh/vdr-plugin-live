@@ -30,10 +30,10 @@ OBJS	= styles.o
 
 ### Targets:
 
-all: libcss.a
+all: libcss.o
 
-libcss.a: $(OBJS)
-	$(AR) r $@ $^
+libcss.o: $(OBJS)
+	$(LD) -i -o $@ $^
 
 clean:
 	@rm -f *~ *.o core* libcss.a $(OBJS:%.o=%.cpp)

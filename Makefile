@@ -1,7 +1,7 @@
 #
 # Makefile for a Video Disk Recorder plugin
 #
-# $Id: Makefile,v 1.14 2007/01/03 18:33:33 tadi Exp $
+# $Id: Makefile,v 1.15 2007/01/03 19:33:54 tadi Exp $
 
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.
@@ -58,8 +58,8 @@ SUBDIRS   = httpd pages css
 PLUGINOBJS = $(PLUGIN).o thread.o tntconfig.o setup.o i18n.o
 
 WEBOBJS = tools.o
-WEBLIBS = pages/libpages.a \
-	  css/libcss.a
+WEBLIBS = pages/libpages.o \
+	  css/libcss.o
 
 ### Default rules:
 
@@ -85,7 +85,7 @@ $(DEPFILE): Makefile
 
 SUBDIRS:
 	@for dir in $(SUBDIRS); do \
-		make -C $$dir CXX="$(CXX)" CXXFLAGS="$(CXXFLAGS)" lib$$dir.a ; \
+		make -C $$dir CXX="$(CXX)" CXXFLAGS="$(CXXFLAGS)" ; \
 	done
 
 libvdr-$(PLUGIN).so: $(PLUGINOBJS) $(LIBS)
