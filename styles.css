@@ -1,0 +1,60 @@
+body {
+	margin: 0px;
+	padding: 0px;
+	font-size: 12px;
+	font-family: Helvetica,Arial,sans-serif;
+}
+
+div.left_area {
+	width: 150px;
+	float: left;
+}
+
+div.inhalt {
+
+}
+
+div.menu {
+	border: 1px solid #6D96A9;
+	color: #6D96A9;
+	padding: 5px;
+	margin: 5px;
+}
+
+div.menu a {
+	text-decoration: none;
+}
+
+div.menu a:hover {
+	text-decoration: none;
+	background: #DEE6EE;
+}
+
+
+div.head_box {
+	border: 1px solid #6D96A9;
+	background: #DEE6EE;
+	margin: 2px;
+	padding: 5px;
+	font-weight: bold;
+	font-size: 14px;
+	color: black;
+}
+
+
+
+div.event {
+	width: 250px;
+	height: 250px;
+	float: left;
+	border: 1px solid #6D96A9;
+	margin: 2px;
+}
+
+div.event .station {
+	background: #6D96A9;
+	color: white;
+	font-weight: bold;
+	margin: 0;
+	padding: 3px 3px 3px 10px;
+}

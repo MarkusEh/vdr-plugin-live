@@ -1,0 +1,7 @@
+<%pre>
+#include <vdr/plugin.h>
+#include <vdr/config.h>
+</%pre>
+			<div class="menu">
+				<a href="whats_on_now.html"><$ tr("What's on now?") $></a>
+			</div>
