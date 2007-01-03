@@ -1,0 +1,31 @@
+<%pre>
+#include <vdr/plugin.h>
+#include <vdr/channels.h>
+#include <vdr/epg.h>
+#include <vdr/config.h>
+#include <vdr/i18n.h>
+#include "tools.h"
+
+using namespace vdrlive;
+
+</%pre>
+<%args>
+title;
+short_description;
+description;
+channel_name;
+</%args>
+
+			<table class="event" cellpadding="0" cellspacing="0">
+				<tr><td class="station" colspan="2"><$ channel_name $></td></tr>
+				<tr>
+					<td class="tools">
+					&nbsp;
+					</td>
+					<td class="content">
+						<div class="title"><$ title $></div>
+						<div class="short"><$ short_description $></div>
+						<div class="description"><$  description $></div>
+					</td>
+				</tr>
+			</table>
