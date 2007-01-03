@@ -3,27 +3,27 @@
 #include <vdr/plugin.h>
 #include <vdr/channels.h>
 </%pre>
-<%args>
-vorname;
-nachname;
-alter;
-</%args>
 <html>
- <head>
-  <title>ecpp-application testproject</title>
- </head>
- <body>
+	<head>
+ 		<title><$ tr("channels") $></title>
+	</head>
+	<body>
+
+		<div id="inhalt">
 <{
 
 	for (cChannel *channel = Channels.First(); channel; channel = Channels.Next(channel)) {
 		if (!channel->GroupSep() && *channel->Name()) {
 }>
-	<$ channel->Name() $><a href="schedule.html?channel=<$ channel->Number() $>">Programm</a><br/>
+			<div class="channel">
+				<a href="schedule.html?channel=<$ channel->Number() $>"><$ channel->Name() $></a>
+			</div>
 <{
          }
       }
-   
+
 
 }>
- </body>
+		</div>
+	</body>
 </html>
