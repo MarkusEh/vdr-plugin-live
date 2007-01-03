@@ -7,7 +7,7 @@ CXXFLAGS ?= -O2 -Woverloaded-virtual -Wall -fPIC
 CXXFLAGS += `tntnet-config --cxxflags`
 LDFLAGS  += `tntnet-config --libs`
 
-INCLUDES += -I..
+INCLUDES += -I.. -I$(VDRDIR)/include
 
 ### The directory environment:
 VDRDIR   ?= ../../../..
