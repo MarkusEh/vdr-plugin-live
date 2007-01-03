@@ -26,7 +26,7 @@ const tI18nPhrase Phrases[] = {
     "", //Czech
   },
 	{ "%I.%M %p", // Time formatting string
-	  "%H.%M Uhr",
+	  "%H:%M Uhr",
 	  "",
 	  "",
 	  "",
