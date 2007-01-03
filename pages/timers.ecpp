@@ -27,7 +27,9 @@ using namespace vdrlive;
 			<div class="head_box">
 				<$ tr("Timers") $>
 			</div>
-
+%			if (Timers.Count() == 0) {
+			Keiner Timer definiert
+%			} else {
 			<table class="timers" cellspacing="0" cellpadding="0">
 				<tr>
 					<td class="head"><$ tr("Start") $></td>
@@ -35,8 +37,8 @@ using namespace vdrlive;
 					<td class="head"><$ tr("File") $></td>
 				</tr>
 <{
-	for (cTimer *timer = Timers.First(); timer; timer = Timers.Next(timer)) {
-		timer->SetEventFromSchedule(); // make sure the event is current
+				for (cTimer *timer = Timers.First(); timer; timer = Timers.Next(timer)) {
+					timer->SetEventFromSchedule(); // make sure the event is current
 }>
 				<tr>
 					<td><$ FormatDateTime(tr("%I:%M %p"), timer->Start()) $></td>
@@ -44,7 +46,8 @@ using namespace vdrlive;
 					<td><$ timer->File() $></td>
 				</tr>
 <{
-	}
+				}
+			}
 }>
 			</table>
 		</div>
