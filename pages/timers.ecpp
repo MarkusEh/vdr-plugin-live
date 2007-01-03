@@ -33,7 +33,9 @@ using namespace vdrlive;
 %			} else {
 			<table class="timers" cellspacing="0" cellpadding="0">
 				<tr>
+					<td class="head"><$ tr("Active") $></td>
 					<td class="head"><$ tr("Channel") $></td>
+					<td class="head"><$ tr("Date") $></td>
 					<td class="head"><$ tr("Start") $></td>
 					<td class="head"><$ tr("Stop") $></td>
 					<td class="head"><$ tr("File") $></td>
@@ -45,7 +47,9 @@ using namespace vdrlive;
 					
 }>
 				<tr class="<$ active ? "active" : "" $>">
+					<td><$ (timer->Flags() & 1) ? "Ja" : "Nein" $></td>
 					<td><$ timer->Channel()->Name() $></td>
+					<td><$ FormatDateTime(tr("%a, %b %d"), timer->Day()) $></td>
 					<td><$ FormatDateTime(tr("%I:%M %p"), timer->Start()) $></td>
 					<td><$ FormatDateTime(tr("%I:%M %p"), timer->Stop()) $></td>
 					<td><$ timer->File() $></td>
