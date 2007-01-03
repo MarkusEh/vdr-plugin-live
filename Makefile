@@ -1,7 +1,7 @@
 #
 # Makefile for a Video Disk Recorder plugin
 #
-# $Id: Makefile,v 1.10 2007/01/03 16:13:24 tadi Exp $
+# $Id: Makefile,v 1.11 2007/01/03 16:14:31 lordjaxom Exp $
 
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.
@@ -109,7 +109,7 @@ libtnt-$(PLUGIN).so: $(WEBOBJS) $(WEBSITE)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared -o $@ $^
 	@cp --remove-destination $@ $(LIBDIR)/$@
 
-dist: clean $(WEBSITE:%.o=%.cpp)
+dist: clean
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
 	@mkdir $(TMPDIR)/$(ARCHIVE)
 	@cp -a * $(TMPDIR)/$(ARCHIVE)
