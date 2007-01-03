@@ -94,7 +94,8 @@ table.event tr td.content .short {
 }
 
 table.timers {
-	padding-top: 10px;
+	margin-top: 10px;
+	border: 1px solid #6D96A9; 
 }
 
 table.timers tr td {
