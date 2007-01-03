@@ -3,12 +3,12 @@
  *
  * See the README file for copyright information and how to reach the author.
  *
- * $Id: live.cpp,v 1.4 2007/01/03 15:54:31 lordjaxom Exp $
+ * $Id: live.cpp,v 1.5 2007/01/03 21:43:21 lordjaxom Exp $
  */
 
-#include <memory>
 #include <vdr/plugin.h>
 #include "i18n.h"
+#include "live.h"
 #include "setup.h"
 #include "thread.h"
 
@@ -16,26 +16,8 @@ namespace vdrlive {
 
 using namespace std;
 
-static const char *VERSION        = "0.0.1";
-static const char *DESCRIPTION    = "Live Integrated VDR Environment";
-
-class Plugin : public cPlugin {
-public:
-	Plugin(void);
-	virtual const char *Version(void) { return VERSION; }
-	virtual const char *Description(void) { return DESCRIPTION; }
-	virtual const char *CommandLineHelp(void);
-	virtual bool ProcessArgs(int argc, char *argv[]);
-	virtual bool Start(void);
-	virtual void Stop(void);
-	virtual void MainThreadHook(void);
-	virtual cString Active(void);
-	virtual cMenuSetupPage *SetupMenu(void);
-	virtual bool SetupParse(const char *Name, const char *Value);
-
-private:
-	auto_ptr< ServerThread > m_thread;
-};
+const char *Plugin::VERSION        = "0.0.1";
+const char *Plugin::DESCRIPTION    = "Live Integrated VDR Environment";
 
 Plugin::Plugin(void)
 {
@@ -43,12 +25,12 @@ Plugin::Plugin(void)
 
 const char *Plugin::CommandLineHelp(void)
 {
-	return Setup::Get().Help();
+	return LiveSetup().CommandLineHelp();
 }
 
 bool Plugin::ProcessArgs(int argc, char *argv[])
 {
-	return Setup::Get().Parse( argc, argv );
+	return LiveSetup().ParseCommandLine( argc, argv );
 }
 
 bool Plugin::Start(void)
@@ -80,7 +62,13 @@ cMenuSetupPage *Plugin::SetupMenu(void)
 
 bool Plugin::SetupParse(const char *Name, const char *Value)
 {
-	return true;
+	return LiveSetup().ParseSetupEntry( Name, Value );
+}
+
+Setup& Plugin::GetLiveSetup()
+{
+	static Setup instance;
+	return instance;
 }
 
 } // namespace vdrlive

@@ -1,5 +1,7 @@
 #include <sstream>
 #include <stdexcept>
+#include "live.h"
+#include "setup.h"
 #include "tools.h"
 
 namespace vdrlive {

@@ -35,10 +35,10 @@ void TntConfig::WriteConfig()
 	file << "MapUrl ^/$ whats_on_now@libtnt-live" << endl;
 	file << "MapUrl /([^.]+)(\\..+)? $1@libtnt-live" << endl;
 	file << "PropertyFile " << m_propertiesPath << endl;
-	file << "CompPath " << Setup::Get().GetLibraryPath() << endl;
+	file << "CompPath " << LiveSetup().GetLibraryPath() << endl;
 
-	Setup::IpList const& ips = Setup::Get().GetServerIps();
-	int port = Setup::Get().GetServerPort();
+	Setup::IpList const& ips = LiveSetup().GetServerIps();
+	int port = LiveSetup().GetServerPort();
 	for ( Setup::IpList::const_iterator ip = ips.begin(); ip != ips.end(); ++ip ) {
 		file << "Listen " << *ip << " " << port << endl;
 	}

@@ -1,8 +1,8 @@
 #include <cstdlib>
 #include <iostream>
 #include <stdexcept>
+#include <vdr/tools.h>
 #include <tnt/tntnet.h>
-#include <vdr/plugin.h>
 #include "thread.h"
 #include "tntconfig.h"
 

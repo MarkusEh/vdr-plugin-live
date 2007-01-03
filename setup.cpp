@@ -19,11 +19,12 @@ using namespace std;
 
 Setup::Setup():
 		m_libraryPath( "/usr/local/lib" ),
-		m_serverPort( 8001 )
+		m_serverPort( 8001 ),
+		m_lastChannel( 0 )
 {
 }
 
-bool Setup::Parse( int argc, char* argv[] )
+bool Setup::ParseCommandLine( int argc, char* argv[] )
 {
 	static struct option opts[] = {
 			{ "lib",  required_argument, NULL, 'L' },
@@ -47,7 +48,7 @@ bool Setup::Parse( int argc, char* argv[] )
 		   CheckServerIps();
 }
 
-char const* Setup::Help() const
+char const* Setup::CommandLineHelp() const
 {
 	if ( m_helpString.empty() ) {
 		ostringstream builder;
@@ -62,6 +63,15 @@ char const* Setup::Help() const
 	}
 	return m_helpString.c_str();
 }
+
+bool Setup::ParseSetupEntry( char const* name, char const* value )
+{
+	cout << "Parsing " << name << " = " << value << endl;
+	if ( strcmp( name, "LastChannel" ) == 0 ) m_lastChannel = atoi( value );
+	else return false;
+	return true;
+}
+
 
 bool Setup::CheckLibraryPath()
 {
@@ -102,10 +112,4 @@ bool Setup::CheckServerIps()
 	return true;
 }
 
-Setup& Setup::Get()
-{
-	static Setup instance;
-	return instance;
-}
-	
 } // namespace vdrlive

@@ -2,17 +2,20 @@
 #include <boost/lexical_cast.hpp>
 #include <vdr/plugin.h>
 #include <vdr/channels.h>
+#include "setup.h"
+
+using namespace vdrlive;
+
 </%pre>
 <html>
 	<head>
  		<title><$ tr("channels") $></title>
 	</head>
 	<body>
-
 		<div id="inhalt">
 <{
 
-	for (cChannel *channel = Channels.First(); channel; channel = Channels.Next(channel)) {
+	for (cChannel *channel = Channels.First(); channel && channel->Number() <= LiveSetup().GetLastChannel(); channel = Channels.Next(channel)) {
 		if (!channel->GroupSep() && *channel->Name()) {
 }>
 			<div class="channel">
