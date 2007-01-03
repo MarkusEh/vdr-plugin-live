@@ -3,11 +3,12 @@
  *
  * See the README file for copyright information and how to reach the author.
  *
- * $Id: live.cpp,v 1.3 2007/01/02 21:56:37 lordjaxom Exp $
+ * $Id: live.cpp,v 1.4 2007/01/03 15:54:31 lordjaxom Exp $
  */
 
 #include <memory>
 #include <vdr/plugin.h>
+#include "i18n.h"
 #include "setup.h"
 #include "thread.h"
 
@@ -52,6 +53,7 @@ bool Plugin::ProcessArgs(int argc, char *argv[])
 
 bool Plugin::Start(void)
 {
+	RegisterI18n( vdrlive::Phrases );
 	// XXX error handling
 	m_thread.reset( new ServerThread );
 	m_thread->Start();
