@@ -1,7 +1,7 @@
 #
 # Makefile for a Video Disk Recorder plugin
 #
-# $Id: Makefile,v 1.12 2007/01/03 16:22:19 lordjaxom Exp $
+# $Id: Makefile,v 1.13 2007/01/03 18:22:47 tadi Exp $
 
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.
@@ -51,14 +51,15 @@ INCLUDES += -I$(VDRDIR)/include -Ihttpd
 DEFINES  += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"'
 LIBS     += httpd/libhttpd.a
 
-SUBDIRS   = httpd
+SUBDIRS   = httpd pages
 
 ### The object files (add further files here):
 
 PLUGINOBJS = $(PLUGIN).o thread.o tntconfig.o setup.o i18n.o
 
 WEBOBJS = tools.o
-WEBSITE = styles.o menu.o channels.o schedule.o whats_on_now.o
+WEBLIBS = pages/libpages.a \
+	  css/libcss.a
 
 ### Default rules:
 
@@ -70,21 +71,6 @@ all: SUBDIRS libvdr-$(PLUGIN).so libtnt-$(PLUGIN).so
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $(DEFINES) $(INCLUDES) $<
-
-%.cpp: %.ecpp
-	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CPP) $<
-
-%.cpp: %.gif
-	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_GIF) -b $<
-
-%.cpp: %.jpg
-	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_JPG) -b $<
-
-%.cpp: %.css
-	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CSS) -b $<
-
-%.cpp: %.js
-	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_JS) -b $<
 
 # Dependencies:
 
@@ -106,7 +92,7 @@ libvdr-$(PLUGIN).so: $(PLUGINOBJS) $(LIBS)
 	$(CXX) $(LDFLAGS) -shared -o $@ $^ $(LIBS)
 	@cp --remove-destination $@ $(LIBDIR)/$@.$(APIVERSION)
 
-libtnt-$(PLUGIN).so: $(WEBOBJS) $(WEBSITE)
+libtnt-$(PLUGIN).so: $(WEBOBJS) $(WEBLIBS)
 	$(CXX) $(LDFLAGS) -shared -o $@ $^
 	@cp --remove-destination $@ $(LIBDIR)/$@
 
@@ -119,9 +105,7 @@ dist: clean
 	@echo Distribution package created as $(PACKAGE).tgz
 
 clean:
-	@-rm -f $(PLUGINOBJS) $(WEBOBJS) $(WEBSITE) $(WEBSITE:%.o=%.cpp) $(DEPFILE) *.so *.tgz core* *~
+	@-rm -f $(PLUGINOBJS) $(WEBOBJS) $(DEPFILE) *.so *.tgz core* *~
 	@for dir in $(SUBDIRS); do \
 		make -C $$dir clean ; \
 	done
-
-                                        
