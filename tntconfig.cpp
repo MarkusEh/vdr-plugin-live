@@ -32,6 +32,7 @@ void TntConfig::WriteConfig()
 	}
 
 	// XXX modularize
+	file << "MapUrl ^/$ whats_on_now@libtnt-live" << endl;
 	file << "MapUrl /([^.]+)(\\..+)? $1@libtnt-live" << endl;
 	file << "PropertyFile " << m_propertiesPath << endl;
 	file << "CompPath " << Setup::Get().GetLibraryPath() << endl;
