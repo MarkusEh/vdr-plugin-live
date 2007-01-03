@@ -39,6 +39,7 @@ using namespace vdrlive;
 					<td class="head"><$ tr("Date") $></td>
 					<td class="head"><$ tr("Start") $></td>
 					<td class="head"><$ tr("Stop") $></td>
+					<td class="head">&nbsp;</td>
 					<td class="head"><$ tr("File") $></td>
 				</tr>
 <{
@@ -47,11 +48,12 @@ using namespace vdrlive;
 				for (SortedTimers::iterator timer = timers.begin(); timer != timers.end(); ++timer) {
 }>
 				<tr class="<$ active ? "active" : "" $>">
-					<td><$ (timer->Flags() & 1) ? "Ja" : "Nein" $></td>
+					<td><img src="/<$ (timer->Flags() & 1) ? "active" : "inactive" $>.png" alt="Aktiv?" /></td>
 					<td><$ timer->Channel()->Name() $></td>
 					<td><$ FormatDateTime(tr("%a, %b %d"), timer->Day()) $></td>
-					<td><$ FormatDateTime(tr("%I:%M %p"), timer->StartTime()) $></td>
-					<td><$ FormatDateTime(tr("%I:%M %p"), timer->StopTime()) $></td>
+					<td><$ FormatDateTime(tr("%I:%M %p"), timer->Start()) $></td>
+					<td><$ FormatDateTime(tr("%I:%M %p"), timer->Stop()) $></td>
+					<td><? (timer->Flags() & 8) ? "<img src=\"/record.png\" alt=\"Record\" />" ?></td>
 					<td><$ timer->File() $></td>
 				</tr>
 <{
