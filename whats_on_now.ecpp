@@ -9,10 +9,6 @@
 </%args>
 <{
 
-char buf[6];
-struct tm tm_r;
-//strftime(buf, sizeof(buf), "%H.%M", localtime(tm_r));
-
 cSchedulesLock schedulesLock;
 const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
 
@@ -29,7 +25,7 @@ const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
 		</div>
 		<div class="inhalt">
 			<div class="head_box">
-				Was l&auml;ft jetzt um Uhr
+				Was l&auml;uft jetzt um Uhr
 			</div>
 
 <{
@@ -39,13 +35,15 @@ const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
 			if (Schedule) {
 				const cEvent *Event = Schedule->GetPresentEvent();
 					if (Event) {
-						const char *title = Event->Title() ? Event->Title() : '';
+						std::string title(Event->Title() ? Event->Title() : "");
+						std::string short_description(Event->ShortText() ? Event->ShortText() : "");
+						std::string description(Event->Description() ? Event->Description() : "");
 }>
 			<div class="event">
 				<div class="station"><$ Channel->Name() $></div>
-				<span class="title"><$ Event->Title() $></span><br/>
-				<span class="short"></span>
-				<p><? Event->Description() ? Event->Description() ?></p>
+				<span class="title"><$ title $></span><br/>
+				<span class="short"><$ short_description $></span>
+				<p><$  description $></p>
 			</div>
 <{
 					}

@@ -8,17 +8,18 @@ body {
 div.left_area {
 	width: 150px;
 	float: left;
+	margin: 5px;
 }
 
 div.inhalt {
-
+	float: left;
+	margin: 5px;
 }
 
 div.menu {
 	border: 1px solid #6D96A9;
 	color: #6D96A9;
 	padding: 5px;
-	margin: 5px;
 }
 
 div.menu a {
