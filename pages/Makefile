@@ -42,10 +42,10 @@ OBJS	= menu.o  event_widget.o channels.o schedule.o whats_on_now.o whats_on_next
 
 ### Targets:
 
-all: libpages.o
+all: libpages.a
 
-libpages.o: $(OBJS)
-	$(LD) -i -o $@ $^
+libpages.a: $(OBJS)
+	$(AR) r $@ $^
 
 clean:
 	@rm -f *~ *.o core* libpages.a $(OBJS:%.o=%.cpp)
