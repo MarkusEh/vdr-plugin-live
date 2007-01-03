@@ -45,8 +45,6 @@ using namespace vdrlive;
 				bool active = false;
 				SortedTimers timers;
 				for (SortedTimers::iterator timer = timers.begin(); timer != timers.end(); ++timer) {
-					timer->SetEventFromSchedule(); // make sure the event is current
-					
 }>
 				<tr class="<$ active ? "active" : "" $>">
 					<td><$ (timer->Flags() & 1) ? "Ja" : "Nein" $></td>
