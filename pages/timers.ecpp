@@ -52,8 +52,8 @@ using namespace vdrlive;
 					<td><$ (timer->Flags() & 1) ? "Ja" : "Nein" $></td>
 					<td><$ timer->Channel()->Name() $></td>
 					<td><$ FormatDateTime(tr("%a, %b %d"), timer->Day()) $></td>
-					<td><$ FormatDateTime(tr("%I:%M %p"), timer->Start()) $></td>
-					<td><$ FormatDateTime(tr("%I:%M %p"), timer->Stop()) $></td>
+					<td><$ FormatDateTime(tr("%I:%M %p"), timer->StartTime()) $></td>
+					<td><$ FormatDateTime(tr("%I:%M %p"), timer->StopTime()) $></td>
 					<td><$ timer->File() $></td>
 				</tr>
 <{
