@@ -75,6 +75,11 @@ div.description {
 	margin-top: 10px;
 }
 
+div.info {
+	text-align: right;
+	margin-bottom: 3px;
+}
+
 table.event tr td.station {
 	background: #6D96A9;
 	color: white;

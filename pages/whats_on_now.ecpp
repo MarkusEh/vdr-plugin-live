@@ -43,8 +43,10 @@ const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
 						std::string title(Event->Title() ? Event->Title() : "");
 						std::string short_description(Event->ShortText() ? Event->ShortText() : "");
 						std::string description(Event->Description() ? Event->Description() : "");
+						std::string start(Event->StartTime() ? FormatDateTime(tr("%I:%M %p"), Event->StartTime()) : "");
+						std::string end(Event->EndTime() ? FormatDateTime(tr("%I:%M %p"), Event->EndTime()) : "");
 }>
-<& event_widget title=(title) short_description=(short_description) description=(description) channel_name=(Channel->Name())>
+<& event_widget title=(title) short_description=(short_description) description=(description) channel_name=(Channel->Name()) start=(start) end=(end)>
 <{
 					}
 			}
