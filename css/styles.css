@@ -44,38 +44,38 @@ div.head_box {
 
 
 
-div.event {
+table.event {
 	width: 250px;
+	height: 250px;
 	float: left;
 	border: 1px solid #6D96A9;
 	margin: 2px;
+	padding: 0px;
 }
 
-div.event div.tools {
-	width: 20px;
-	height: 225px;
-	float: left;
+table.event tr td.tools {
 	background: #DEE6EE;
 	padding: 2px;
-	margin: 0px;
+	width: 25px;
 }
 
-div.event div.content {
+table.event tr td.content {
 	float: left;
-	margin: 0;
 	padding: 5px;
-	height: 225px;	
 }
 
-div.event div.content. div.description {
+table.event tr td.content {
+	float: left;
+	padding: 5px;
+}
+
+div.description {
+	height: 150px;
 	overflow: auto;
+	margin-top: 10px;
 }
 
-div.event div.content p {
-	
-}
-
-div.event .station {
+table.event tr td.station {
 	background: #6D96A9;
 	color: white;
 	font-weight: bold;
@@ -83,11 +83,13 @@ div.event .station {
 	padding: 3px 3px 3px 10px;
 }
 
-div.event div.content .title {
+table.event tr td.content .title {
 	font-weight: bold;
+	height: 15px;
 }
 
-div.event div.content .short {
+table.event tr td.content .short {
 	font-size: 11px;
+	height: 40px;
 }
 
