@@ -25,7 +25,7 @@ end;
 					&nbsp;
 					</td>
 					<td class="content">
-						<div class="info"><$ start $>-<$ end $></div>
+						<div class="info"><$ start $> - <$ end $></div>
 						<div class="title"><$ title $></div>
 						<div class="short"><$ short_description $></div>
 						<div class="description"><$  description $></div>
