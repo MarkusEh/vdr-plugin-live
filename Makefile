@@ -1,7 +1,7 @@
 #
 # Makefile for a Video Disk Recorder plugin
 #
-# $Id: Makefile,v 1.7 2007/01/03 15:18:04 thomas Exp $
+# $Id: Makefile,v 1.8 2007/01/03 15:46:03 lordjaxom Exp $
 
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.
@@ -54,7 +54,7 @@ SUBDIRS   = httpd
 
 ### The object files (add further files here):
 
-OBJS = $(PLUGIN).o thread.o tntconfig.o setup.o
+OBJS = $(PLUGIN).o thread.o tntconfig.o setup.o i18n.o
 
 WEBS = styles.o menu.o channels.o schedule.o whats_on_now.o
 
