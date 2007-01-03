@@ -14,7 +14,7 @@ VDRDIR   ?= ../../../..
 
 ### The object files (add further files here):
 
-OBJS	= menu.o  event_widget.o channels.o schedule.o whats_on_now.o whats_on_next.o
+OBJS	= menu.o  event_widget.o channels.o schedule.o whats_on_now.o whats_on_next.o timers.o
 
 ### Default rules:
 

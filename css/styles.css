@@ -93,3 +93,19 @@ table.event tr td.content .short {
 	height: 40px;
 }
 
+table.timers {
+	padding-top: 10px;
+}
+
+table.timers tr td {
+	padding: 3px;
+}
+
+table.timers tr td.head {
+	background: #6D96A9;
+	color: white;
+	font-weight: bold;
+	margin: 0;
+	padding: 3px;
+}
+

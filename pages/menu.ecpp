@@ -4,5 +4,6 @@
 </%pre>
 			<div class="menu">
 				<a href="whats_on_now.html"><$ tr("What's on now?") $></a><br/>
-				<a href="whats_on_next.html"><$ tr("What's on next?") $></a>
+				<a href="whats_on_next.html"><$ tr("What's on next?") $></a><br/>
+				<a href="timers.html"><$ tr("Timers") $></a>
 			</div>
