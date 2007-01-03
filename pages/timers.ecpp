@@ -3,6 +3,7 @@
 #include <vdr/timers.h>
 #include <vdr/config.h>
 #include <vdr/i18n.h>
+#include "timers.h"
 #include "tools.h"
 
 using namespace vdrlive;
@@ -42,7 +43,8 @@ using namespace vdrlive;
 				</tr>
 <{
 				bool active = false;
-				for (cTimer *timer = Timers.First(); timer; timer = Timers.Next(timer)) {
+				SortedTimers timers;
+				for (SortedTimers::iterator timer = timers.begin(); timer != timers.end(); ++timer) {
 					timer->SetEventFromSchedule(); // make sure the event is current
 					
 }>
