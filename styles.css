@@ -59,3 +59,11 @@ div.event .station {
 	margin: 0;
 	padding: 3px 3px 3px 10px;
 }
+
+div.event .title {
+	font-weight: bold;
+}
+
+div.event .short {
+	font-size: 11px;
+}

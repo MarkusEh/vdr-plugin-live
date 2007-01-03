@@ -25,7 +25,7 @@ const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
 		</div>
 		<div class="inhalt">
 			<div class="head_box">
-				Was l&auml;uft jetzt um Uhr
+				<$ tr("What's running at") $> <$ tr("o'clock") $>
 			</div>
 
 <{
