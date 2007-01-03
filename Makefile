@@ -1,7 +1,7 @@
 #
 # Makefile for a Video Disk Recorder plugin
 #
-# $Id: Makefile,v 1.8 2007/01/03 15:46:03 lordjaxom Exp $
+# $Id: Makefile,v 1.9 2007/01/03 16:03:30 lordjaxom Exp $
 
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.
@@ -54,9 +54,10 @@ SUBDIRS   = httpd
 
 ### The object files (add further files here):
 
-OBJS = $(PLUGIN).o thread.o tntconfig.o setup.o i18n.o
+PLUGINOBJS = $(PLUGIN).o thread.o tntconfig.o setup.o i18n.o
 
-WEBS = styles.o menu.o channels.o schedule.o whats_on_now.o
+WEBOBJS = tools.o
+WEBSITE = styles.o menu.o channels.o schedule.o whats_on_now.o
 
 ### Default rules:
 
@@ -89,7 +90,7 @@ all: libvdr-$(PLUGIN).so libtnt-$(PLUGIN).so
 MAKEDEP = $(CXX) -MM -MG
 DEPFILE = .dependencies
 $(DEPFILE): Makefile
-	@$(MAKEDEP) $(DEFINES) $(INCLUDES) $(OBJS:%.o=%.cpp) > $@
+	@$(MAKEDEP) $(DEFINES) $(INCLUDES) $(PLUGINOBJS:%.o=%.cpp) > $@
 
 -include $(DEPFILE)
 
@@ -100,15 +101,15 @@ SUBDIRS:
 		make -C $$dir CXX="$(CXX)" CXXFLAGS="$(CXXFLAGS)" lib$$dir.a ; \
 	done
 
-libvdr-$(PLUGIN).so: $(OBJS) SUBDIRS
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared $(OBJS) $(LIBS) -o $@ 
+libvdr-$(PLUGIN).so: $(PLUGINOBJS) SUBDIRS
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared $(PLUGINOBJS) $(LIBS) -o $@ 
 	@cp --remove-destination $@ $(LIBDIR)/$@.$(APIVERSION)
 
-libtnt-$(PLUGIN).so: $(WEBS)
+libtnt-$(PLUGIN).so: $(WEBOBJS) $(WEBSITE)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared -o $@ $^
 	@cp --remove-destination $@ $(LIBDIR)/$@
 
-dist: clean $(WEBS:%.o=%.cpp)
+dist: clean $(WEBSITE:%.o=%.cpp)
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
 	@mkdir $(TMPDIR)/$(ARCHIVE)
 	@cp -a * $(TMPDIR)/$(ARCHIVE)
@@ -117,7 +118,7 @@ dist: clean $(WEBS:%.o=%.cpp)
 	@echo Distribution package created as $(PACKAGE).tgz
 
 clean:
-	@-rm -f $(OBJS) $(WEBS) $(WEBS:%.o=%.cpp) $(DEPFILE) *.so *.tgz core* *~
+	@-rm -f $(PLUGINOBJS) $(WEBOBJS) $(WEBSITE) $(WEBDATA:%.o=%.cpp) $(DEPFILE) *.so *.tgz core* *~
 	@for dir in $(SUBDIRS); do \
 		make -C $$dir clean ; \
 	done
