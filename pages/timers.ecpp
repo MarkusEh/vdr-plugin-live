@@ -1,0 +1,52 @@
+<%pre>
+#include <vdr/plugin.h>
+#include <vdr/timers.h>
+#include <vdr/config.h>
+#include <vdr/i18n.h>
+#include "tools.h"
+
+using namespace vdrlive;
+
+</%pre>
+<%args>
+</%args>
+<{
+
+
+}>
+<html>
+	<head>
+		<title>VDR-Live - <$ tr("Timers") $></title>
+		<link rel="stylesheet" type="text/css" href="/styles.css" />
+	</head>
+	<body>
+		<div class="left_area">
+<& menu >
+		</div>
+		<div class="inhalt">
+			<div class="head_box">
+				<$ tr("Timers") $>
+			</div>
+
+			<table class="timers" cellspacing="0" cellpadding="0">
+				<tr>
+					<td class="head"><$ tr("Start") $></td>
+					<td class="head"><$ tr("Stop") $></td>
+					<td class="head"><$ tr("File") $></td>
+				</tr>
+<{
+	for (cTimer *timer = Timers.First(); timer; timer = Timers.Next(timer)) {
+		timer->SetEventFromSchedule(); // make sure the event is current
+}>
+				<tr>
+					<td><$ FormatDateTime(tr("%I:%M %p"), timer->Start()) $></td>
+					<td><$ FormatDateTime(tr("%I:%M %p"), timer->Stop()) $></td>
+					<td><$ timer->File() $></td>
+				</tr>
+<{
+	}
+}>
+			</table>
+		</div>
+	</body>
+</html>
