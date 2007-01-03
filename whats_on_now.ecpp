@@ -3,6 +3,7 @@
 #include <vdr/channels.h>
 #include <vdr/epg.h>
 #include <vdr/config.h>
+#include <vdr/i18n.h>
 #include "tools.h"
 
 using namespace vdrlive;
@@ -45,10 +46,13 @@ const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
 			<div class="event">
 				<div class="station"><$ Channel->Name() $></div>
 				<div class="tools">
+					&nbsp;
 				</div>
-				<span class="title"><$ title $></span><br/>
-				<span class="short"><$ short_description $></span>
-				<p><$  description $></p>
+				<div class="content">
+					<span class="title"><$ title $></span><br/>
+					<span class="short"><$ short_description $></span>
+					<div class="description"><$  description $></div>
+				</div>
 			</div>
 <{
 					}
