@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <functional>
 #include <iostream>
-#include <numeric>
 #include <sstream>
 #include <getopt.h>
 #include <stdint.h>
@@ -66,7 +65,6 @@ char const* Setup::CommandLineHelp() const
 
 bool Setup::ParseSetupEntry( char const* name, char const* value )
 {
-	cout << "Parsing " << name << " = " << value << endl;
 	if ( strcmp( name, "LastChannel" ) == 0 ) m_lastChannel = atoi( value );
 	else return false;
 	return true;

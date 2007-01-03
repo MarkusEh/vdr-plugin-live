@@ -1,8 +1,9 @@
 #ifndef VDR_LIVE_SETUP_H
 #define VDR_LIVE_SETUP_H
 
-#include <string>
 #include <list>
+#include <numeric>
+#include <string>
 #include "live.h"
 
 namespace vdrlive {
@@ -21,7 +22,7 @@ public:
 	int GetServerPort() const { return m_serverPort; }
 	IpList const& GetServerIps() const { return m_serverIps; }
 	// vdr-setup
-	int GetLastChannel() const { return m_lastChannel; }
+	int GetLastChannel() const { return m_lastChannel == 0 ? std::numeric_limits< int >::max() : m_lastChannel; }
 
 	bool ParseCommandLine( int argc, char* argv[] );
 	char const* CommandLineHelp() const;
