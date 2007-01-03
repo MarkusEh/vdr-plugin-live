@@ -25,6 +25,7 @@ const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
 	</head>
 	<body>
 		<div class="left_area">
+			<img src="logo.png" alt="VDR Live!" border="0" />
 <& menu >
 		</div>
 		<div class="inhalt">

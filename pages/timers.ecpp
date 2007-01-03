@@ -21,6 +21,7 @@ using namespace vdrlive;
 	</head>
 	<body>
 		<div class="left_area">
+			<img src="logo.png" alt="VDR Live!" border="0" />
 <& menu >
 		</div>
 		<div class="inhalt">
@@ -32,20 +33,25 @@ using namespace vdrlive;
 %			} else {
 			<table class="timers" cellspacing="0" cellpadding="0">
 				<tr>
+					<td class="head"><$ tr("Channel") $></td>
 					<td class="head"><$ tr("Start") $></td>
 					<td class="head"><$ tr("Stop") $></td>
 					<td class="head"><$ tr("File") $></td>
 				</tr>
 <{
+				bool active = false;
 				for (cTimer *timer = Timers.First(); timer; timer = Timers.Next(timer)) {
 					timer->SetEventFromSchedule(); // make sure the event is current
+					
 }>
-				<tr>
+				<tr class="<$ active ? "active" : "" $>">
+					<td><$ timer->Channel()->Name() $></td>
 					<td><$ FormatDateTime(tr("%I:%M %p"), timer->Start()) $></td>
 					<td><$ FormatDateTime(tr("%I:%M %p"), timer->Stop()) $></td>
 					<td><$ timer->File() $></td>
 				</tr>
 <{
+					active = !active;
 				}
 			}
 }>

@@ -98,7 +98,11 @@ table.timers {
 }
 
 table.timers tr td {
-	padding: 3px;
+	padding: 3px 7px 3px 3px;
+}
+
+table.timers tr.active {
+	background: #DEE6EE;
 }
 
 table.timers tr td.head {
