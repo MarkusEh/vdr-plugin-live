@@ -3,7 +3,7 @@
 #include <vdr/timers.h>
 #include <vdr/config.h>
 #include <vdr/i18n.h>
-#include "sortedtimers.h"
+#include "timers.h"
 #include "tools.h"
 
 using namespace vdrlive;
@@ -53,7 +53,7 @@ using namespace vdrlive;
 					<td><$ FormatDateTime(tr("%a, %b %d"), timer->Day()) $></td>
 					<td><$ FormatDateTime(tr("%I:%M %p"), timer->StartTime()) $></td>
 					<td><$ FormatDateTime(tr("%I:%M %p"), timer->StopTime()) $></td>
-					<td><? (timer->Flags() & 8) ? "<img src=\"/record.png\" alt=\"Record\" />" ?></td>
+					<td><{ if (timer->Flags() & 8) { }><img src="/record.png" alt="Record" /><{ } }></td>
 					<td><$ timer->File() $></td>
 				</tr>
 <{
