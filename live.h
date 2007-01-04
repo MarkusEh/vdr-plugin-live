@@ -2,6 +2,7 @@
 #define VDR_LIVE_LIVE_H
 
 #include <memory>
+#include <string>
 #include <vdr/plugin.h>
 #include "thread.h"
 
@@ -40,9 +41,13 @@ public:
 	virtual Setup& GetLiveSetup();
 	virtual TimerManager& GetLiveTimerManager();
 
+	static std::string const& GetConfigDirectory() { return m_configDirectory; }
+
 private:
 	static const char *VERSION;
 	static const char *DESCRIPTION;
+
+	static std::string m_configDirectory;
 
 	std::auto_ptr< ServerThread > m_thread;
 };

@@ -11,25 +11,44 @@ namespace vdrlive {
 using namespace std;
 using namespace tnt;
 
-ServerThread::ServerThread():
-		m_configPath( 0 )
+class ProtectedCString
+{
+public:
+	ProtectedCString( char const* string ): m_string( strdup( string ) ) {}
+	~ProtectedCString() { free( m_string ); }
+
+	operator char*() { return m_string; }
+
+private:
+	char* m_string;
+};
+
+ServerThread::ServerThread()
 {
 }
 
 ServerThread::~ServerThread()
 {
-	free( m_configPath );
+	Stop();
+}
+
+void ServerThread::Stop()
+{
+	if ( Active() ) {
+		m_server->shutdown();
+		Cancel( 5 );
+	}
 }
 
 void ServerThread::Action()
 {
 	try {
-		m_configPath = strdup( TntConfig::Get().GetConfigPath().c_str() );
+		ProtectedCString configPath( TntConfig::Get().GetConfigPath().c_str() );
 
-		char* argv[] = { "tntnet", "-c", m_configPath };
+		char* argv[] = { "tntnet", "-c", configPath };
 		int argc = sizeof( argv ) / sizeof( argv[0] );
-		Tntnet app( argc, argv );
-		app.run();
+		m_server.reset( new Tntnet( argc, argv ) );
+		m_server->run();
 	} catch ( exception const& ex ) {
 		// XXX move initial error handling to live.cpp
 		esyslog( "ERROR: live httpd server crashed: %s", ex.what() );

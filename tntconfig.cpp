@@ -4,6 +4,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <vdr/plugin.h>
+#include "live.h"
 #include "setup.h"
 #include "tntconfig.h"
 
@@ -21,7 +22,7 @@ void TntConfig::WriteConfig()
 	WriteProperties();
 
 	ostringstream builder;
-	builder << cPlugin::ConfigDirectory( PLUGIN_NAME_I18N ) << "/httpd.config";
+	builder << Plugin::GetConfigDirectory() << "/httpd.config";
 	m_configPath = builder.str();
 	
 	ofstream file( m_configPath.c_str(), ios::out | ios::trunc );
@@ -47,7 +48,7 @@ void TntConfig::WriteConfig()
 void TntConfig::WriteProperties()
 {
 	ostringstream builder;
-	builder << cPlugin::ConfigDirectory( PLUGIN_NAME_I18N ) << "/httpd.properties";
+	builder << Plugin::GetConfigDirectory() << "/httpd.properties";
 	m_propertiesPath = builder.str();
 	
 	ofstream file( m_propertiesPath.c_str(), ios::out | ios::trunc );

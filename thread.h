@@ -1,7 +1,10 @@
 #ifndef VDR_LIVE_THREAD_H
 #define VDR_LIVE_THREAD_H
 
+#include <memory>
 #include <vdr/thread.h>
+
+namespace tnt { class Tntnet; }
 
 namespace vdrlive {
 
@@ -10,11 +13,13 @@ public:
 	ServerThread();
 	virtual ~ServerThread();
 
+	void Stop();
+
 protected:
 	virtual void Action();
 
 private:
-	char* m_configPath;
+	std::auto_ptr< tnt::Tntnet > m_server;
 };
 
 } // namespace vdrlive
