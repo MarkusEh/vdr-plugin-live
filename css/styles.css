@@ -147,3 +147,38 @@ table.schedule tr td {
 table.schedule tr.active {
 	background: #DEE6EE;
 }
+
+<#
+  ##########################
+  #  Remote Control Keypad
+  ##########################
+#>
+
+table.keypad {
+	margin-top: 10px;
+	border: 1px solid #6D96A9; 
+}
+
+table.keypad tr td.button button {
+	width: 4em;
+}
+
+table.keypad tr td.redbutton button {
+	width: 3em;
+	background-color: #FF0000;
+}
+
+table.keypad tr td.greenbutton button {
+	width: 3em;
+	background-color: #00FF00;
+}
+
+table.keypad tr td.yellowbutton button {
+	width: 3em;
+	background-color: #FFFF00;
+}
+
+table.keypad tr td.bluebutton button {
+	width: 3em;
+	background-color: #0000FF;
+}

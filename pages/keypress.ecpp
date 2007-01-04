@@ -1,0 +1,16 @@
+<%pre>
+#include <vdr/remote.h>
+</%pre>
+<%args>
+int keycode = kNone;
+</%args>
+<%cpp>
+reply.setContentType("application/xml");
+</%cpp>
+<?xml version="1.0"?>
+<service>
+<request name="keypress">
+<param name="keycode"><$ keycode $></param>
+</request>
+<response><$ cRemote::Put( (eKeys)keycode ) ? "1" : "0" $></response>
+</service>

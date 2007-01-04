@@ -7,5 +7,6 @@
 				<a href="whats_on_next.html"><$ tr("What's on next?") $></a><br/>
 				<a href="schedule.html"><$ tr("Schedule") $></a><br />
 				<a href="timers.html"><$ tr("Timers") $></a><br />
-				<a href="recordings.html"><$ tr("Recordings") $></a>
+				<a href="recordings.html"><$ tr("Recordings") $></a><br />
+				<a href="remote.html"><$ tr("Remote Control") $></a>
 			</div>

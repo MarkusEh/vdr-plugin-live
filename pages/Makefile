@@ -16,7 +16,8 @@ VDRDIR   ?= ../../../..
 ### The object files (add further files here):
 
 OBJS	= menu.o event_widget.o channels.o recordings.o schedule.o \
-          screenshot.o timers.o whats_on_now.o whats_on_next.o
+          screenshot.o timers.o whats_on_now.o whats_on_next.o     \
+		  keypress.o remote.o
 
 ### Default rules:
 
@@ -33,16 +34,16 @@ all: libpages.a
 	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CPP) $<
 
 %.cpp: %.gif
-	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_GIF) -b $<
+	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_GIF) -b -m "image/gif" $<
 
 %.cpp: %.jpg
-	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_JPG) -b $<
+	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_JPG) -b -m "image/jpg" $<
 
 %.cpp: %.css
-	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CSS) -b $<
+	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CSS) -b -m "text/css" $<
 
 %.cpp: %.js
-	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_JS) -b $<
+	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_JS) -b -m "test/javascript" $<
 
 ### Targets:
 
