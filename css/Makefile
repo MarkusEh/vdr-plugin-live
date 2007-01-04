@@ -20,6 +20,8 @@ OBJS	= styles.o
 
 .PHONY: all clean
 
+all: libcss.a
+
 ### Implicit rules:
 
 %.o: %.cpp
@@ -29,8 +31,6 @@ OBJS	= styles.o
 	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CSS) -b $<
 
 ### Targets:
-
-all: libcss.a
 
 libcss.a: $(OBJS)
 	$(AR) r $@ $^

@@ -20,6 +20,8 @@ OBJS	= logo.o record.o active.o inactive.o
 
 .PHONY: all clean
 
+all: libimages.a
+
 ### Implicit rules:
 
 %.o: %.cpp
@@ -29,8 +31,6 @@ OBJS	= logo.o record.o active.o inactive.o
 	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CSS) -b $<
 
 ### Targets:
-
-all: libimages.a
 
 libimages.a: $(OBJS)
 	$(AR) r $@ $^

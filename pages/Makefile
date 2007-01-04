@@ -20,6 +20,8 @@ OBJS	= menu.o  event_widget.o channels.o schedule.o whats_on_now.o whats_on_next
 
 .PHONY: all clean
 
+all: libpages.a
+
 ### Implicit rules:
 
 %.o: %.cpp
@@ -41,8 +43,6 @@ OBJS	= menu.o  event_widget.o channels.o schedule.o whats_on_now.o whats_on_next
 	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_JS) -b $<
 
 ### Targets:
-
-all: libpages.a
 
 libpages.a: $(OBJS)
 	$(AR) r $@ $^
