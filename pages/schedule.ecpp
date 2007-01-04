@@ -70,8 +70,9 @@ int channel = -1;
 				bool active_line = false;
 				std::string current_day = "";
 				const cEvent* PresentEvent = Schedule->GetPresentEvent();
+				time_t now = time(NULL) - ::Setup.EPGLinger * 60;
 				for (const cEvent *Event = Schedule->Events()->First(); Event; Event = Schedule->Events()->Next(Event)) {
-					if (Event->EndTime() <= time(0) && Event != PresentEvent)
+					if (Event->EndTime() <= now && Event != PresentEvent)
 						continue;
 
 					active_line = !active_line;
