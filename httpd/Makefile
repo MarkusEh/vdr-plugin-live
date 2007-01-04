@@ -8,6 +8,12 @@ INCLUDES += -I.
 OBJS = dispatcher.o  job.o       regex.o   worker.o \
        listener.o    poller.o    tntnet.o
 
+### Default rules:
+
+.PHONY: all clean
+
+all: libhttpd.a
+
 ### Implicit rules:
 
 %.o: %.cpp
@@ -23,8 +29,6 @@ $(DEPFILE): Makefile
 -include $(DEPFILE)
 
 ### Targets:
-
-all: libhttpd.a
 
 libhttpd.a: $(OBJS)
 	$(AR) r $@ $^
