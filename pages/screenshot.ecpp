@@ -1,7 +1,5 @@
 <%pre>
-#include <iostream>
 #include <vdr/device.h>
-using namespace std;
 </%pre>
 <%args>
 int quality = 80;
