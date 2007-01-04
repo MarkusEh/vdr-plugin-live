@@ -3,7 +3,7 @@
 #include <vdr/config.h>
 #include <vdr/i18n.h>
 #include "tools.h"
-#include "recordings.h"
+// #include "recordings.h"
 
 using namespace vdrlive;
 
