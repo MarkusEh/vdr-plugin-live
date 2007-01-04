@@ -8,12 +8,20 @@
 namespace vdrlive {
 
 class Setup;
+class TimerManager;
 
 class PluginBase : public cPlugin 
 {
 public:
 	virtual Setup& GetLiveSetup() = 0;
+	virtual TimerManager& GetLiveTimerManager() = 0;
 };
+
+inline PluginBase& LivePlugin()
+{
+	static PluginBase& plugin = *static_cast< PluginBase* >( cPluginManager::GetPlugin( PLUGIN_NAME_I18N ) );
+	return plugin;
+}
 
 class Plugin : public PluginBase {
 public:
@@ -30,6 +38,7 @@ public:
 	virtual bool SetupParse(const char *Name, const char *Value);
 
 	virtual Setup& GetLiveSetup();
+	virtual TimerManager& GetLiveTimerManager();
 
 private:
 	static const char *VERSION;

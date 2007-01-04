@@ -3,23 +3,27 @@
 
 #include <list>
 #include <vdr/timers.h>
+#include "live.h"
 
 namespace vdrlive {
 
-class SortedTimers
-{
-public:
-	typedef std::list< cTimer > List;
-	typedef List::iterator iterator;
-	
-	SortedTimers();
+class Plugin;
 
-	iterator begin() { return m_timers.begin(); }
-	iterator end() { return m_timers.end(); }
-	
+class TimerManager
+{
+	friend TimerManager& Plugin::GetLiveTimerManager();
+
 private:
-	List m_timers;
+	TimerManager();
+	TimerManager( TimerManager const& );
+
+	
 };
+
+inline TimerManager& LiveTimerManager()
+{
+	return LivePlugin().GetLiveTimerManager();
+}
 
 } // namespace vdrlive
 

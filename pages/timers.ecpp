@@ -3,7 +3,7 @@
 #include <vdr/timers.h>
 #include <vdr/config.h>
 #include <vdr/i18n.h>
-#include "timers.h"
+#include "sortedtimers.h"
 #include "tools.h"
 
 using namespace vdrlive;

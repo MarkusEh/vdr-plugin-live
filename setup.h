@@ -48,8 +48,7 @@ private:
 
 inline Setup& LiveSetup()
 {
-	static PluginBase& plugin = *static_cast< Plugin* >( cPluginManager::GetPlugin( PLUGIN_NAME_I18N ) );
-	return plugin.GetLiveSetup();
+	return LivePlugin().GetLiveSetup();
 }
 
 } // namespace vdrlive

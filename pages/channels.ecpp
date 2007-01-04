@@ -1,5 +1,4 @@
 <%pre>
-#include <boost/lexical_cast.hpp>
 #include <vdr/plugin.h>
 #include <vdr/channels.h>
 #include "setup.h"

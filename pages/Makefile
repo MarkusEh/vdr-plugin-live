@@ -7,9 +7,10 @@ CXXFLAGS ?= -O2 -Woverloaded-virtual -Wall -fPIC
 CXXFLAGS += `tntnet-config --cxxflags`
 LDFLAGS  += `tntnet-config --libs`
 
-INCLUDES += -I.. -I$(VDRDIR)/include
+INCLUDES += -I.. -I../pagelib -I$(VDRDIR)/include
 
 ### The directory environment:
+
 VDRDIR   ?= ../../../..
 
 ### The object files (add further files here):

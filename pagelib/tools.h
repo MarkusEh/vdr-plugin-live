@@ -19,6 +19,8 @@ public:
 	bool operator!() { return !m_locked; }
 
 private:
+	ReadLock( ReadLock const& );
+
 	cRwLock& m_lock;
 	bool m_locked;
 };

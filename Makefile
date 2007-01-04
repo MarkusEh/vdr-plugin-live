@@ -1,7 +1,7 @@
 #
 # Makefile for a Video Disk Recorder plugin
 #
-# $Id: Makefile,v 1.20 2007/01/03 23:06:10 lordjaxom Exp $
+# $Id: Makefile,v 1.21 2007/01/04 15:02:00 lordjaxom Exp $
 
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.
@@ -54,16 +54,14 @@ export DEFINES
 
 LIBS     += httpd/libhttpd.a
 
-SUBDIRS   = httpd pages css images
+SUBDIRS   = httpd pages css images pagelib
 
 ### The object files (add further files here):
 
-PLUGINOBJS = $(PLUGIN).o thread.o tntconfig.o setup.o i18n.o
+PLUGINOBJS = $(PLUGIN).o thread.o tntconfig.o setup.o i18n.o timers.o
 
-WEBOBJS = tools.o timers.o
-WEBLIBS = pages/libpages.a \
-	  css/libcss.a \
-	  images/libimages.a
+WEBLIBS = pages/libpages.a css/libcss.a images/libimages.a pagelib/libpagelib.a
+
 
 ### Default rules:
 
@@ -96,7 +94,7 @@ libvdr-$(PLUGIN).so: $(PLUGINOBJS) $(LIBS)
 	$(CXX) $(LDFLAGS) -shared -o $@ $^ $(LIBS)
 	@cp --remove-destination $@ $(LIBDIR)/$@.$(APIVERSION)
 
-libtnt-$(PLUGIN).so: $(WEBOBJS) $(WEBLIBS)
+libtnt-$(PLUGIN).so: $(WEBLIBS)
 	$(CXX) $(LDFLAGS) -Wl,--whole-archive -shared -o $@ $^
 	@cp --remove-destination $@ $(LIBDIR)/$@
 
@@ -109,7 +107,7 @@ dist: clean
 	@echo Distribution package created as $(PACKAGE).tgz
 
 clean:
-	@-rm -f $(PLUGINOBJS) $(WEBOBJS) $(DEPFILE) *.so *.tgz core* *~
+	@-rm -f $(PLUGINOBJS) $(DEPFILE) *.so *.tgz core* *~
 	@for dir in $(SUBDIRS); do \
 		make -C $$dir clean ; \
 	done

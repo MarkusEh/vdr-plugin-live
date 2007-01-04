@@ -3,7 +3,7 @@
  *
  * See the README file for copyright information and how to reach the author.
  *
- * $Id: live.cpp,v 1.5 2007/01/03 21:43:21 lordjaxom Exp $
+ * $Id: live.cpp,v 1.6 2007/01/04 15:02:00 lordjaxom Exp $
  */
 
 #include <vdr/plugin.h>
@@ -11,6 +11,7 @@
 #include "live.h"
 #include "setup.h"
 #include "thread.h"
+#include "timers.h"
 
 namespace vdrlive {
 
@@ -68,6 +69,12 @@ bool Plugin::SetupParse(const char *Name, const char *Value)
 Setup& Plugin::GetLiveSetup()
 {
 	static Setup instance;
+	return instance;
+}
+
+TimerManager& Plugin::GetLiveTimerManager()
+{
+	static TimerManager instance;
 	return instance;
 }
 
