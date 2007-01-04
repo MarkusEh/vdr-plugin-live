@@ -1,6 +1,6 @@
 #include "timers.h"
 
-static bool operator<( cTimer & left, cTimer & right )
+static bool operator<( cTimer const& left, cTimer const& right )
 {
 	return left.Compare( right ) < 0;
 }
