@@ -3,6 +3,7 @@
 #include <vdr/plugin.h>
 #include <vdr/channels.h>
 #include "setup.h"
+#include "tools.h"
 
 using namespace vdrlive;
 
@@ -15,17 +16,24 @@ using namespace vdrlive;
 		<div id="inhalt">
 <{
 
-	for (cChannel *channel = Channels.First(); channel && channel->Number() <= LiveSetup().GetLastChannel(); channel = Channels.Next(channel)) {
-		if (!channel->GroupSep() && *channel->Name()) {
+	ReadLock channelsLock( Channels );
+	if (channelsLock) {
+		for (cChannel *channel = Channels.First(); channel && channel->Number() <= LiveSetup().GetLastChannel(); channel = Channels.Next(channel)) {
+			if (!channel->GroupSep() && *channel->Name()) {
 }>
-			<div class="channel">
-				<a href="schedule.html?channel=<$ channel->Number() $>"><$ channel->Name() $></a>
-			</div>
+				<div class="channel">
+					<a href="schedule.html?channel=<$ channel->Number() $>"><$ channel->Name() $></a>
+				</div>
 <{
-         }
-      }
-
-
+			 }
+		}
+	} else {
+}>
+	<div class="error">
+		Zugriff auf Kanäle temporär nicht möglich. Bitte später versuchen.
+	</div>
+<{
+	}
 }>
 		</div>
 	</body>
