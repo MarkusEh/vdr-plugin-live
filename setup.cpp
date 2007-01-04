@@ -19,7 +19,8 @@ using namespace std;
 Setup::Setup():
 		m_libraryPath( "/usr/local/lib" ),
 		m_serverPort( 8001 ),
-		m_lastChannel( 0 )
+		m_lastChannel( 0 ),
+		m_screenshotInterval( 1000 )
 {
 }
 
@@ -66,6 +67,7 @@ char const* Setup::CommandLineHelp() const
 bool Setup::ParseSetupEntry( char const* name, char const* value )
 {
 	if ( strcmp( name, "LastChannel" ) == 0 ) m_lastChannel = atoi( value );
+	else if ( strcmp( name, "ScreenshotInterval" ) == 0 ) m_screenshotInterval = atoi( value );
 	else return false;
 	return true;
 }

@@ -23,6 +23,7 @@ public:
 	IpList const& GetServerIps() const { return m_serverIps; }
 	// vdr-setup
 	int GetLastChannel() const { return m_lastChannel == 0 ? std::numeric_limits< int >::max() : m_lastChannel; }
+	int GetScreenshotInterval() const { return m_screenshotInterval; }
 
 	bool ParseCommandLine( int argc, char* argv[] );
 	char const* CommandLineHelp() const;
@@ -40,6 +41,7 @@ private:
 	IpList m_serverIps;
 	// vdr-setup
 	int m_lastChannel;
+	int m_screenshotInterval;
 
 	bool CheckLibraryPath();
 	bool CheckServerPort();
