@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
+            "http://www.w3.org/TR/REC-html40/strict.dtd">
+<html>
+  <head>
+    <title>[DOM Tooltip] Example 6: XHTML Content</title>
+    <style>
+@import url(example.css);
+    </style>
+    <script type="text/javascript" language="javascript" src="../domLib.js"></script>
+    <script type="text/javascript" language="javascript" src="../domTT.js"></script>
+    <script type="text/javascript" language="javascript" src="../domTT_drag.js"></script>
+    <script type="text/javascript" language="javascript">
+var domTT_styleClass = 'domTTOverlib';
+var domTT_maxWidth = false;
+try
+{
+    var winCloseButton = document.createElement('img');
+    winCloseButton.src = 'close.gif';
+	winCloseButton.style.verticalAlign = 'bottom';
+}
+// permission denied
+catch (e)
+{
+    var winCloseButton = 'X';
+}
+    </script>
+  </head>
+  <body>
+    <div class="title">Example 6: XHTML Content</div>
+    <div class="main">
+    <p>In this example, the versatility of the tooltip content is demonstrated by using XHTML in the content.  Including XHTML allows for embedding of markup, images, and even an <u>iframe</u>!  The tooltip on the left contains an embedded image by referencing the content of an existing html element.  The second link uses the same html, but includes it inline. The last link acts as an inline window, loading the Google homepage!*</p>
+    <p>
+		<a href="index.html" onmouseover="domTT_activate(this, event, 'content', document.getElementById('prairedog'));">Take a look!</a>
+		|
+		<a href="index.html" onmouseover="domTT_activate(this, event, 'content', 'How adorable!&lt;br /&gt;&lt;img src=&quot;prairiedog.jpg&quot; /&gt;');">Take another look!</a>
+		|
+		<a href="#void" onclick="return makeFalse(domTT_activate(this, event, 'id', 'local', 'caption', 'Relative URL', 'content', '&lt;iframe src=&quot;inline.html&quot; style=&quot;width: 400px; height: 200px;&quot;&gt;&lt;/iframe&gt;', 'type', 'sticky', 'styleClass', 'domTTWin', 'closeLink', winCloseButton, 'draggable', true, 'closeAction', 'destroy'));">Inline window (local)</a>
+		|
+		<a href="#void" onclick="return makeFalse(domTT_activate(this, event, 'caption', 'Google Search', 'content', '&lt;iframe src=&quot;http://www.google.com/firefox&quot; style=&quot;width: 600px; height: 400px;&quot;&gt;&lt;/iframe&gt;', 'statusText', 'Loading Google...', 'type', 'sticky', 'styleClass', 'domTTWin', 'closeLink', winCloseButton, 'draggable', true, 'closeAction', 'destroy'));">Inline window (external)</a>
+	</p>
+	<p class="small">Note: The first tooltip passes in a DOM object for the content.  The content of this tip is placed in a hidden element and then moved into the tip when it becomes active.</p>
+    <p class="small">Note: Notice how the webpage in the <u>iframe</u> reload each time the tooltip is opened.  This happens because the 'closeAction' option is set to 'destroy'.  If we change 'closeAction' to 'hide', then the webpage will remain active when it is not visible.  This option can be useful when the content in the webpage needs to be cleared after working with it, for instance if we wanted to clear the search we made each time and start fresh.</p>
+	<p class="small">Note: To load a secondary URL from an onclick event, as is the case in this iframe, it is necessary to cancel the click event by wrapping the call to 'domTT_activate()' in 'makeFalse()'.</p>
+    </div>
+    <div style="float: left;"><a href="example5.html">&#171;Example 5</a></div><div style="float: right;"><a href="example7.html">Example 7&#187;</a></div>
+	<div id="tooltipPool" style="display: none">
+		<div id="prairedog">
+			How adorable!
+			<br />
+			<img src="prairiedog.jpg" height="148" width="135" />
+		</div>
+	</div>
+  </body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
+            "http://www.w3.org/TR/REC-html40/strict.dtd">
+<html>
+  <head>
+    <title>[DOM Tooltip] Example 4: Behavior Options</title>
+    <style>
+@import url(example.css);
+    </style>
+    <script type="text/javascript" language="javascript" src="../domLib.js"></script>
+    <script type="text/javascript" language="javascript" src="../domTT.js"></script>
+    <script type="text/javascript" language="javascript" src="../domTT_drag.js"></script>
+    <script>
+var domTT_styleClass = 'domTTOverlib';
+    </script>
+  </head>
+  <body>
+    <div class="title">Example 4: Behavior Options</div>
+    <div class="main">
+    <p>This example demonstrates the different behaviors that can be assigned to the tips!  The term 'sticky' simply means that the tooltip does not go away when the mouse moves away from the target or the tip.  The previous examples used the 'greasy' setting.  To close a sticky tooltip, you just click on the '[close]' dialog, which is auto-generated and set using the 'closeLink' option.  The second target (<em>notice, not a link</em>) uses a custom link inside the contents using the <code>domTT_close()</code> method.  The final link uses the 'velcro' setting, which causes the tip to disappear only when the mouse moves out of the tip itself.</p>
+    <p>
+		<a href="index.html" onmouseover="domTT_activate(this, event, 'content', 'This tip stays put when active');" onclick="return makeFalse(domTT_activate(this, event, 'caption', 'I\'m Stuck &amp; Draggable &nbsp;', 'content', 'Go on, drag me around!', 'type', 'sticky', 'closeLink', '[close]', 'draggable', true));">Click to stick</a>
+		|
+		<strong onmouseover="domTT_activate(this, event, 'caption', 'Caption here...', 'content', '...and text here.  [ <a href=&quot;#void&quot; onclick=&quot;domTT_close(this);&quot;>x</a> ]', 'type', 'sticky', 'closeLink', '', 'draggable', true);">Custom close link</strong>
+		|
+		<a href="index.html" onmouseover="domTT_activate(this, event, 'content', 'This tip will disappear on mouse out', 'type', 'velcro');">Velcro tooltip</a>
+		|
+		<strong>Name:</strong> <input type="text" onfocus="this.blur();" style="background-color: #EFEFEF; font-size: 10px;" name="fullname" onclick="domTT_deactivate(this.id);" onmouseover="domTT_activate(this, event, 'content', 'Sorry, this input is disabled!', 'lifetime', 30000);" />
+	</p>
+    <p>This example also demonstrates another important feature.  First, click on the left link. Then, before closing the tooltip tip, fly over the second target.  Ah!...two tooltips can co-exist.  Tips can either be on links or on plain text.  Also, notice they are on top of each other.  Well...go on, click and drag the caption part of the first two tips to move them around! You will see that the tip being dragged always goes on top of the stationary tip.</p>
+	<p>The example on the right demonstrates the use of tooltips on form fields.  The onclick event makes a call to <code>domTT_deactivate(this.id)</code>, which deactivates the tooltip. <em>The id is always available on an element following domTT_active().</em> (Please note, disabed form fields do not have positions in the page.  It is necessary to emulate a disabled field using the blur function.)</p>
+    </div>
+    <div style="float: left;"><a href="example3.html">&#171;Example 3</a></div><div style="float: right;"><a href="example5.html">Example 5&#187;</a></div>
+  </body>
+</html>

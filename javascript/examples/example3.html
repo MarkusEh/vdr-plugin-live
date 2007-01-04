@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
+            "http://www.w3.org/TR/REC-html40/strict.dtd">
+<html>
+  <head>
+    <title>[DOM Tooltip] Example 3: Styled Tooltips</title>
+    <style>
+@import url(example.css);
+    </style>
+    <script type="text/javascript" language="javascript" src="../domLib.js"></script>
+    <script type="text/javascript" language="javascript" src="../domTT.js"></script>
+    <script type="text/javascript" language="javascript">
+var domTT_styleClass = 'domTTOverlib';
+    </script>
+  </head>
+  <body>
+    <div class="title">Example 3: Styled Tooltips</div>
+    <div class="main">
+    <p>The third example demonstrates how easily DOM Tooltips can duplicate the styles of other tooltips found around the web.  The first link uses the default <a href="http://www.bosrup.com/web/overlib/">overlib</a> style and appears without a delay.  The second link adds an auto-generated caption to the tooltip and only trails the mouse on the 'x' axis.  Getting a bit more fancy, the third link uses the more stylish <a href="http://www.kryogenix.org/code/browser/nicetitle/">nicetitles</a> style, using a calculated position and XHTML in the content rather than just plain text.*</p>
+    <p>
+		<a href="index.html" onmouseover="domTT_activate(this, event, 'content', 'This tooltip uses the overlib style.', 'trail', true, 'delay', 0);">overlib style</a>
+		|
+		<a href="index.html" onmouseover="domTT_activate(this, event, 'caption', 'The caption goes here...', 'content', '...and the content goes here.', 'trail', 'x');">overlib style with caption</a>
+		|
+		<a href="index.html" onmouseover="domTT_activate(this, event, 'content', 'Many weblogs are now sporting this look.<p>i.e. http://blog.codefront.net</p>', 'styleClass', 'niceTitle', 'x', this.offsetLeft + 5, 'y', this.offsetTop + 5);">nicetitles style</a>
+	</p>
+	<p class="small">* The nicetitle style is taking advantage of the transparency and curved border style provided in some of the newer browsers, such as Mozilla, to add to the sleak look.  These settings will not be visible in all browsers.</p>
+    </div>
+    <div style="float: left;"><a href="example2.html">&#171;Example 2</a></div><div style="float: right;"><a href="example4.html">Example 4&#187;</a></div>
+  </body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
+            "http://www.w3.org/TR/REC-html40/strict.dtd">
+<html>
+  <head>
+    <title>[DOM Tooltip] Example 14: Positioning</title>
+    <style>
+@import url(example.css);
+#target div {
+	float: right;
+}
+#target div.contents {
+	float: none;
+}
+    </style>
+    <script type="text/javascript" language="javascript" src="../domLib.js"></script>
+    <script type="text/javascript" language="javascript" src="../domTT.js"></script>
+    <script type="text/javascript" language="javascript">
+var domTT_styleClass = 'domTTClassic';
+    </script>
+  </head>
+  <body>
+    <div class="title">Example 14: Positioning</div>
+    <div class="main">
+    <p>Here we will demonstrate fixed positioning of the tooltip relative to objects on the page.  In this example, the matrix of distros is an image map which trigger tooltips to display the respective names.  The two distros on the left use the "parent" option, which specifies a target area that will host the tooltip when it appears.  Naturally the tooltip must be relatively positioned in this case to be taken in by its parent.  The two distros on the right, however, calculate their position based on the position of the image using the <code>domLib_getOffsets()</code> function.  It appears to be more work, but in the end, the second method offers the most flexibility.</p>
+    <p>
+		<table width="100%">
+		<tr>
+		<td id="target" width="49%"></td>
+		<td width="2%"><img id="distros" src="distros.png" height="100" width="100" usemap="#distros" border="0" /></td>
+		<td width="49%"></td>
+		</table>
+	</p>
+	<p class="small">* While setting up this example I realized that domTT could use more flexibility in this area.</p>
+	<p class="small">** Keep in mind that because the tooltips are created using div tags, it is necessary to change the display style to 'inline' using the first technique to prevent them from displaying as fully expanded blocks.</p>
+    </div>
+    <div style="float: left;"><a href="example13.html">&#171;Example 13</a></div><div style="float: right;"><a href="index.html">Index&#187;</a></div>
+  	<map name="distros">
+		<area shape="rect" coords="0,0,50,50" onmouseover="domTT_activate(this, event, 'content', 'distro: Red Hat', 'parent', document.getElementById('target'), 'position', 'relative');" />
+		<area shape="rect" coords="0,50,50,100" onmouseover="domTT_activate(this, event, 'content', 'Gentoo', 'caption', 'distro', 'parent', document.getElementById('target'), 'position', 'relative');" />
+		<area shape="rect" coords="50,0,100,50" onmouseover="domTT_activate(this, event, 'content', 'FreeBSD', 'caption', 'distro', 'x', domLib_getOffsets(document.getElementById('distros')).get('left') + 100, 'y', domLib_getOffsets(document.getElementById('distros')).get('top') + 14);" />
+		<area shape="rect" coords="50,50,100,100" onmouseover="domTT_activate(this, event, 'content', 'Debian', 'caption', 'distro', 'x', domLib_getOffsets(document.getElementById('distros')).get('left') + 100, 'y', domLib_getOffsets(document.getElementById('distros')).get('top') + 14)" />
+	</map>
+  </body>
+</html>

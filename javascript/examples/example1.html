@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
+            "http://www.w3.org/TR/REC-html40/strict.dtd">
+<html>
+  <head>
+    <title>[DOM Tooltip] Example 1: Native Tooltips</title>
+    <style>
+@import url(example.css);
+    </style>
+    <script type="text/javascript" language="javascript" src="../domLib.js"></script>
+    <script type="text/javascript" language="javascript" src="../domTT.js"></script>
+    <script type="text/javascript" language="javascript">
+var domTT_styleClass = 'domTTClassic';
+
+// OPTIONAL: block events until page is fully loaded
+// This is a workaround for the 'operation aborted' IE bug
+var domTT_postponeActivation = true;
+window.onload = function() {
+	domTT_documentLoaded = true;
+}
+    </script>
+  </head>
+  <body>
+    <div class="title">Example 1: Native Tooltips</div>
+    <div class="main">
+    <p>The first example demonstrates the most fundamental use of the tooltip library, as a replacement for native tooltips.  In this example, we see how closely a DOM Tooltip can match the functionality of native browser tooltips.  There are two links below.  The link on the left uses the <em>title</em> attribute, which is interpreted by the browser as a tooltip command.  The link on the right uses the DOM Tooltip library to generate the same tooltip.*  The tooltip will even disappear after a 5 second delay, approximately the same delay the browser uses for its tooltips.**</p>
+    <p>It is not necessary to specify the width of the tooltip. The tooltip will expand to the available space if no width is specified.</p>
+    <p>
+		<a href="index.html" title="Our First Tooltip">Native Tooltip</a>
+		|
+		<a href="index.html" onmouseover="domTT_activate(this, event, 'content', 'Our First Tooltip', 'lifetime', 5000);">DOM Tooltip</a>
+	</p>
+    <p class="small">* If you are using Opera 7, you may have a native tooltip popping up on the right link. It is necessary to navigate to your preferences and turn off tooltips (Preferences &gt; Window &gt; Show Tooltips).</p>
+    <p class="small">** In Opera 7, the native tooltip says until you mouseout.</p>
+    <p class="small">Note: The benefit which the DOM Tooltip has over the native tooltip is developer control.  The DOM Tooltip settings allow you to modify how long before the tip shows up, the colors used, and a host of other options.  Native tooltips are hard to rely on.  Sometimes they just don't show up, in different browsers they have different colors and, if you hold your mouse still long enough, they eventually disappear while the mouse is still over the link.</p>
+    </div>
+    <div style="float: left;"><a href="toc.html">&#171;TOC</a></div><div style="float: right;"><a href="example2.html">Example 2&#187;</a></div>
+  </body>
+</html>

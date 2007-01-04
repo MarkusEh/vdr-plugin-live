@@ -1,0 +1,160 @@
+<html>
+	<head>
+		<title>DOM Tooltip Library :: HOWTO</title>
+		<style type="text/css">
+body
+{
+	margin: 0;
+	padding: 10px;
+	font-size: .85em;
+	line-height: 1.3em;
+}
+dl
+{
+	margin-left: 10px;
+}
+dt
+{
+	font-weight: bold;
+}
+		</style>
+	</head>
+	<body>
+		<h1>DOM Tooltip Library HOWTO</h1>
+		<h3>Usage</h3>
+		<p>This library offers a variety of ways to enable custom tooltips.  The standard way of creating a tooltip is to add the domTT_activate() call to one of the event handlers of the target element.  Tips can also be created programatically, which can be used for popping up inline windows.  Another option is to call the method domTT_replaceTitles(), which replaces all elements containing the class 'tooltip' and the title attribute with a custom tooltip on mouseover.</p>
+		<h3>Examples</h3>
+		<pre>&lt;a href="index.html" onmouseover="domTT_activate(this, event, 'content', 'My first tooltip', 'trail', true);"&gt;sample link&lt;/a&gt;</pre>
+		<h3>Options</h3>
+		<p>The only required option to create a tooltip is the 'content' option.  Most of the options below have a default value which is held in a global variable.  If the option is specified, it overrides the default.  The options are summarized below.</p>
+		<dl>
+			<dt>caption [text|xhtml|DOM Node]</dt>
+			<dd>An auto-generated caption will be created if this text is present.  <strong>Set this to <code>false</code> when creating a sticky tip to prevent the automatic caption with close link.</strong></dd>
+
+			<dt>content [text|xhtml|DOM Node|function] (required)</dt>
+			<dd>The main content of the tip, which may be XHTML text. Note that when using a function, it is only called when the tip is activated, so it is necessary to use 'closeMethod' of 'destroy' to redraw each time.</dd>
+
+			<dt>clearMouse [boolean]</dt>
+			<dd>This option flags whether the tip should attempt to avoid the mouse when the direction is south.</dd>
+
+			<dt>closeAction ['hide'|'destroy']</dt>
+			<dd>Determines if the tip should be destroyed (removed from DOM) or just hidden when deactivated. (If fading is used, hiding is forced)</dd>
+
+			<dt>closeLink [text|xhtml|DOM Node]</dt>
+			<dd>The text that should be used for the auto-generated close link used for sticky tips.</dd>
+
+			<dt>delay [ms]</dt>
+			<dd>Time in milliseconds before the tip appears.</dd>
+
+			<dt>direction ['southeast'|'southwest'|'northeast'|'northwest'|'north'|'south']</dt>
+			<dd>The position of the tip relative to the mouse.</dd>
+
+			<dt>draggable [boolean]</dt>
+			<dd>Determines of the sticky tooltip can be dragged.</dd>
+
+			<dt>fade ['in'|'out'|'neither'|'both']</dt>
+			<dd>Sets the alpha effect when the tip is created or destroyed.</dd>
+
+			<dt>fadeMax [0-100]</dt>
+			<dd>Sets the maximum alpha that should be used for the alpha effect. (Minimum is always 0, or invisible)</dd>
+
+			<dt>grid [px]</dt>
+			<dd>Snaps the trailing to a grid, so that the tip only moves after a set number of pixels.</dd>
+
+			<dt>id [string]</dt>
+			<dd>The XML id that should be assigned to the tip.  Using this setting allows for external manipulation of the tip.</dd>
+
+			<dt>inframe [boolean]</dt>
+			<dd>Hints that the tooltip is inside an iframe, so that the tip can be manipulated from the parent frame.</dd>
+
+			<dt>lifetime [ms]</dt>
+			<dd>The duration of time before the tooltip is automatically terminated, as long as it is still activated.</dd>
+
+			<dt>offsetX [px]</dt>
+			<dd>The left-to-right offset from the event where the tip should be placed.</dd>
+
+			<dt>offsetY [px]</dt>
+			<dd>The top-to-bottom offset from the event where the tip should be placed.</dd>
+
+			<dt>parent [DOM Node]</dt>
+			<dd>The parent node on which the tip should be appended.  Usually used for tips with a relative position.</dd>
+
+			<dt>position ['absolute'|'relative'|'fixed']</dt>
+			<dd>The style position of the tip. (In most cases, the position is 'absolute')</dd>
+
+			<dt>predefined [string]</dt>
+			<dd>A reference to a previously defined tooltip using domTT_addPredefined()</dd>
+
+			<dt>statusText [string]</dt>
+			<dd>Sets the text to be used in the statusbar when the tip is activated.  <strong>If used with mouseover, it is necessary to wrap the domTT_activate() call in 'return domTT_true()'.</strong></dd>
+
+			<dt>styleClass [string]</dt>
+			<dd>The class that will be assigned to the tip.  The contents of the tip is assigned the class 'content' and the caption of the tip is assigned the class 'caption'.</dd>
+
+			<dt>type ['greasy'|'sticky'|'velcro']</dt>
+			<dd>Sets the fate of the tip.  A greasy tip disappears when a mouse out occurs on owner.  A sticky tip stays active until explicitly destroyed (a caption is also forced).  A velcro tip disappears when a mouse out occurs on the tip itself.</dd>
+
+			<dt>trail [true|false|'x'|'y']</dt>
+			<dd>On which axis the tip should be updated when the mouse moves. A value of true updates on both axes.</dd>
+
+			<dt>lazy [boolean]</dt>
+			<dd>Whether or not to enable a delay when updating the mouse position of a trailing tip (drunk tooltip).</dd>
+
+			<dt>width [px]</dt>
+			<dd>A manual width for the tip.</dd>
+
+			<dt>maxWidth [px]</dt>
+			<dd>A manual maximum width for the tip. (In Firefox, this is controlled by the max-width style of the element)</dd>
+
+			<dt>x [px]</dt>
+			<dd>The absolute x position to be used for the tip location. This can be a calculated value, such as 'this.offsetLeft + 5'.</dd>
+
+			<dt>y [px]</dt>
+			<dd>The absolute y position to be used for the tip location. This can be a calculated value, such as 'this.offsetTop + 5'.</dd>
+
+		</dl>
+		<h3>Function Reference</h3>
+		<p>The DOM tooltip library offers a handful of functions, prefixed with 'domTT_', to aid in manipulating the tooltips.  The following is a reference of these function calls.</p>
+		<dl>
+			<dt>domTT_activate()</dt>
+			<dd>The primary method for activating a tooltip, typically placed in an event handler such as <code>onmouseover</code>.  The first two arguments must always be <code>this</code> and <code>event</code>, respectively.  These two variable capture the environment on which to act.  The rest of the arguments alternate between option name and option value from the list above.</dd>
+			<dt>domTT_addPredefined()</dt>
+			<dd>For times when tooltip creation should be seperated from activation, this method can be used to prepare the tooltips.  The first argument is a unique name for the configuration, and the rest of the arguments alternate between option name and option value from the list of options above.  A preconfigured tip can be reused any number of times, and the activate call can override options in the predefined configuration.  A typical activate call for a predefined tooltip looks like: <code>domTT_activate(this, event, 'predefined', 'mytip')</code></dd>
+			<dt>domTT_close()</dt>
+			<dd>A more flexible alternative to <code>domTT_deactivate()</code>, this function assists in immediately closing the tooltip.  The argument can either be a child object of the tip, the tip id or the owner id.  From within a tooltip, the call is typically: <code>domTT_close(this)</code></dd>
+			<dt>domTT_deactivate()</dt>
+			<dd>In most cases, this method is automatically registered on the target element when <code>domTT_activate()</code> is first called.  However, it may be necessary to programmatically close a tooltip.  In this case, this method can be used.  It requires one parameter, which can be the ID of the tooltip, the ID of the target or the target object itself.</dd>
+			<dt>domTT_mouseout()</dt>
+			<dd>When a tooltip is activate, it automatically registers a mouseout handler to close to tooltip unless one already exists.  If you intend to have a custom mouseout handler on the target that activates the tip, you <strong><u>must</u></strong> make a <strong><u>call</u></strong> to <strong><code>domTT_mouseout(this, event)</code></strong> from within your mouseout handler.  Otherwise, the tooltip will never be deactivated!</dd>
+			<dt>domTT_update()</dt>
+			<dd>If you find that you need to update the contents or caption of a tooltip after it has been created, you will find this function convenient.  You must specify a tooltip id, target id or target node and new text or XHTML content and it will be used to replace the content of the existing tooltip.  The third parameter allows you to specify either 'content' or 'caption', though it is optional and 'content' is the default.</dd>
+			<dt>makeTrue()/makeFalse()</dt>
+			<dd>These methods are indended soley for coaxing the return value of an event handler.  Of times, it is necessary to return either true or false to the event handler, regardless of what the function in the handler might return.  These methods will guarantee that result.  For instance, the <code>onclick</code> handler must return false for a link or else the browser will follow the target href.  Conversely, the handler must return true or else the browser will stall.  These methods just help to achieve the desired behavior.</dd>
+		</dl>
+		<h3>Global Settings</h3>
+		<p>All of the options above can be used a global settings by prepending the 'domTT_' prefix.  These assignments are a good way to establish common behaviors for your tooltips on the webpage.  A couple of additional settings are documented here.  <em>Be sure to include your custom values below the point when the domTT library is included so that they override the default values.</em></p>
+		<dl>
+			<dt>domTT_oneOnly</dt>
+			<dd>Set to this <code>true</code> to allow only one active tip at a time.  When a tooltip is created, it will deactivate the last opened tooltip.  You can access the last opened tooltip using the global variable domTT_lastOpened</dd>
+			<dt>fading</dt>
+			<dd>In order to use the fading feature, you must include the library fadomatic.js in your web page.  See examples #5.</dd>
+			<dt>dragging</dt>
+			<dd>In order to drag tooltips, you must include the library domTT_drag.js in your web page.  See example #4.</dd>
+			<dt>domTT_useGlobalMousePosition</dt>
+			<dd>This setting will allow domTT to register an event handler on the document to track the position of the mouse.  Registering this event allows the trailing feature to behave more smoothly.</dd>
+			<dt>domTT_screenEdgeDetection</dt>
+			<dd>Enable the screen edge detection feature, which will prevent the tip from leaving the page.  Setting this to <code>false</code> disables this feature.</dd>
+			<dt>domTT_screenEdgePadding</dt>
+			<dd>When using screen edge detection, this setting specifies how close to the edge the tip should be allowed to travel.</dd>
+			<dt>domTT_detectCollisions</dt>
+			<dd>If you would rather not having the select boxes and other interfering elements hidden when a visual collision is detected, you may turn off the functionality globally using this flag.</dd>
+		</dl>
+		<h3>Common Problems</h3>
+		<ul>
+			<li>If tips are not disappearing in low latency situations, use <code>onmouseover = domTT_deactivate(this.id);</code> to be sure it is discarded.  (It seems, though, that a bug fix in 0.7.3 solved this problem.)</li>
+			<li>If the error 'operation aborted' is being thrown in IE, use the domTT_postponeActivation along with domTT_documentLoaded to prevent these types of page load problems.</li>
+			<li>To get dynamic updates on your tips using AJAX, you can either address the tip by its id, manipulate the node linked to the content, or use this domTT_update method.  This point to remember is that the content is only processed when the tip is activated.</li>
+			<li>Disabled form fields do not have positions in the page.  This prevents tooltips from being placed next to them.  In order to use tooltips with form fields that are inactive, please use the onfocus="this.blur()" trick along with appropriate visual styling.  In general, the disabled attribute causes other side-effects anyway.</li>
+		</ul>
+	</body>
+</html>

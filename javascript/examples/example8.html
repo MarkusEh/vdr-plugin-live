@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
+            "http://www.w3.org/TR/REC-html40/strict.dtd">
+<html>
+  <head>
+    <title>[DOM Tooltip] Example 8: Custom Context Menu</title>
+    <style>
+@import url(example.css);
+table {
+  border-collapse: collapse;
+  background-color: #E6E6E6;
+  color: #000000;
+  border: 0;
+  width: 148px;
+  margin: 0 auto;
+}
+td {
+  padding: 2px 2px 2px 20px;
+  text-align: left;
+  font-size: 12px;
+  font-family: sans-serif;
+}
+td.hover {
+}
+td.hr {
+  padding: 2px;
+  height: 4px;
+}
+td.hr {
+  cursor: default;
+  background-color: #E6E6E6;
+}
+div.hr {
+  border: 1px inset #E6E6E6;
+  height: 0px;
+  font-size: 0px;
+}
+    </style>
+    <script type="text/javascript" language="javascript" src="../domLib.js"></script>
+    <script type="text/javascript" language="javascript" src="../domTT.js"></script>
+    <script type="text/javascript" language="javascript">
+var domTT_styleClass = 'domTTMenu';
+try
+{
+    window.defaultStatus = 'Right click (or Ctrl+click) for menu';
+}
+// permission denied
+catch(e) {}
+var menuId;
+onload = function()
+{
+    var tmp_type = 'sticky';
+    if (window.location.search == '?velcro')
+	{
+        tmp_type = 'velcro';
+    }
+
+    domTT_addPredefined('menu', 'content', document.getElementById('menu'), 'caption', false, 'type', tmp_type, 'statusText', 'Select Option...', 'clearMouse', false, 'offsetX', 0, 'offsetY', 0);
+
+	document.oncontextmenu = function(in_event)
+	{ 
+		if (typeof(in_event) == 'undefined')
+		{
+			in_event = event;
+		}
+
+	    if (in_event.ctrlKey)
+		{
+	        return;
+	    }
+	
+	    if (domTT_isActive(menuId))
+		{
+	        domTT_deactivate(menuId);
+	    }
+	    else
+		{
+	        menuId = domTT_activate(this, in_event, 'predefined', 'menu');
+	    }
+	    
+	    return false;
+	};
+	
+	document.onmousedown = function(in_event)
+	{ 
+		if (typeof(in_event) == 'undefined')
+		{
+			in_event = event;
+		}
+
+	    if (domLib_isOpera || domLib_isKonq)
+		{
+	        if ((domLib_isKonq || in_event[domLib_eventButton] == 1) && domTT_isActive(menuId))
+			{
+	            domTT_deactivate(menuId); 
+	        }
+	        else if (in_event.ctrlKey)
+			{
+	            menuId = domTT_activate(this, in_event, 'predefined', 'menu');
+				return false; 
+	        }
+	    }
+	    else
+		{
+	        if (in_event[domLib_eventButton] == 1 && domTT_isActive(menuId))
+			{ 
+	            domTT_deactivate(menuId); 
+	        } 
+	    }
+	};
+}
+
+function HoverMe(in_this)
+{
+    in_this.style.backgroundColor = '#4C59A6';
+    in_this.style.color = '#FFFFFF';
+    in_this.style.cursor = domLib_isIE ? 'hand' : 'pointer';
+}
+
+function UnhoverMe(in_this)
+{
+    in_this.style.backgroundColor = '';
+    in_this.style.color = '';
+    in_this.style.cursor = '';
+}
+    </script>
+  </head>
+  <body>
+    <div class="title">Example 8: Custom Context Menu</div>
+    <div class="main">
+    <p>This example thinks way outside the box, replacing the context menu with a custom tooltip.  Right click on the page to see a custom context menu. (If you are on Opera 7 or Konqueror, use CTRL+click).  Hold down control key to get a regular context menu (If you are on Opera 7 or Konqueror, get the context menu with a right click).</p>
+    <p>To try out the <em>velcro</em> tooltip for this menu, <a href="example8.html?velcro">reload</a> the page with the 'type' option set to 'velcro'. Notice when you mouse out of the tip, it destroys itself.  No need to click somewhere on the page to kill the menu.</p>
+    </div>
+    <div style="float: left;"><a href="example7.html">&#171;Example 7</a></div><div style="float: right;"><a href="example9.html">Example 9&#187;</a></div>
+    <div style="display: none;" id="tooltipPool">
+      <table id="menu" onselectstart="return false;">
+        <tr>
+          <td onmouseover="HoverMe(this);" onmouseout="UnhoverMe(this);">Custom Item</td>
+        </tr>
+        <tr>
+          <td onmouseover="HoverMe(this);" onmouseout="UnhoverMe(this);">Another Item</td>
+        </tr>
+        <tr>
+          <td class="hr"><div class="hr"></div></td>
+        </tr>
+        <tr>
+          <td onmouseover="HoverMe(this);" onmouseout="UnhoverMe(this);">New Section</td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

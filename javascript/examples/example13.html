@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
+            "http://www.w3.org/TR/REC-html40/strict.dtd">
+<html>
+  <head>
+    <title>[DOM Tooltip] Example 13: Nested Tooltips</title>
+    <style>
+@import url(example.css);
+    </style>
+    <script type="text/javascript" language="javascript" src="../domLib.js"></script>
+    <script type="text/javascript" language="javascript" src="../domTT.js"></script>
+    <script type="text/javascript" language="javascript">
+var domTT_styleClass = 'domTTClassic';
+    </script>
+  </head>
+  <body>
+    <div class="title">Example 13: Nested Tooltips</div>
+    <div class="main">
+    <p>It is very possible to have a tooltip within a tooltip.  In fact, it isn't really inside as must as it is on top.  In this example, the large content in the first tooltip contains an element which shows a second tooltip.  The second tooltip appears on top of the first.</p>
+    <p>
+		<a href="index.html" onmouseover="domTT_activate(this, event, 'content', document.getElementById('content1'), 'type', 'velcro');">Nested within!</a>
+	</p>
+	<p class="small">* Obviously, you have to do some thinking about tooltip behavior to be able to navigate to the nested tooltip target.</p>
+    </div>
+    <div style="float: left;"><a href="example12.html">&#171;Example 12</a></div><div style="float: right;"><a href="example14.html">Example 14&#187;</a></div>
+  <div id="container" style="display: none;">
+	<div id="content1">
+  	<p>This is a whole lot of content.</p>
+  	<p>It is all inside the tooltip.</p>
+  	<p>Smack in the <span style="text-decoration: underline;" onmouseover="domTT_activate(this, event, 'content', 'Do you like this?');">middle</span> of all of this, we have a tooltip.</p>
+  	<p>That would mean that this tooltip is nested!</p>
+  	</div>
+  </div>
+  </body>
+</html>

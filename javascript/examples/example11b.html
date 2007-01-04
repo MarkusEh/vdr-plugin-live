@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
+		"http://www.w3.org/TR/REC-html40/strict.dtd">
+<html>
+  <head>
+    <style>
+@import url(example.css);
+    </style>
+    <script language="javascript" src="../domLib.js"></script>
+    <script language="javascript" src="../domTT.js"></script>
+  </head>
+  <body>
+	<div class="title">Child Frame</div>
+	<div class="main">
+    <p style="cursor: pointer; cursor: hand;" onmouseover="domTT_activate(this, event, 'content', 'This is an example of a tooltip which is fired from inside of an iframe', 'parent', window.parent.document.body, 'inframe', true, 'trail', true);">Would you like to know more about me?  Fly over me to see</p>
+	<p class="small">Note: The way this works is that the event is fired from the element inside of the iframe but the tooltip is created in the parent frame and uses the event plus the offset of the iframe element in the parent document.</p>
+    </div>
+  </body>
+</html>

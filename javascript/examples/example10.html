@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
+            "http://www.w3.org/TR/REC-html40/strict.dtd">
+<html>
+  <head>
+    <title>[DOM Tooltip] Example 10: Onload PopIn</title>
+    <style>
+@import url(example.css);
+    </style>
+    <script type="text/javascript" language="javascript" src="../domLib.js"></script>
+    <script type="text/javascript" language="javascript" src="../domTT.js"></script>
+    <script type="text/javascript" language="javascript" src="../domTT_drag.js"></script>
+    <script type="text/javascript" language="javascript">
+var domTT_styleClass = 'domTTWin';
+var domTT_draggable = true;
+var domTT_closeLink = '<img src="close.gif" style="vertical-align: bottom;" width="16" height="14" />';
+window.onload = function(in_event)
+{
+    domTT_addPredefined('popup', 'caption', 'Welcome to my site', 'content', '<div style="text-align: justify; padding: 2px 5px; font-size: 13px; font-family: Arial; background-color: #FFFFFF;"><img src="penguin.gif" width="45" height="46" style="float: left; margin: 5px 3px 0 0;" /><span style="font-weight: bold;">Welcome to Mojavelinux.com!</span><br />Since this is your first visit, I wanted to welcome you personally to my site.  Hopefully you will find that your time here will satify all your coding needs.  If not, well, then I just hope that you enjoy yourself and have a good time.</div>', 'type', 'sticky');
+    domTT_activate('popup1', null, 'predefined', 'popup', 'x', 400, 'y', 150, 'width', 260, 'delay', 1000);
+    domTT_activate('popup2', null, 'caption', 'Hello There!', 'content', '<div style="background-color: #FFFFFF; font-size: 13px; padding: 2px; font-family: Arial;">This is an example of a second popup tooltip onload.  It has a delay twice as long as the first popup.<br /><a href="#void" onclick="domTT_close(this);">close me!</a></div>', 'x', 125, 'y', 300, 'width', 150, 'delay', 2000, 'type', 'sticky');
+}
+    </script>
+  </head>
+  <body>
+    <div class="title">Example 10: Onload PopIn</div>
+    <div class="main">
+    <p>Okay, I know that some of you aren't going to like what you see in this example, but you have to admit, it is better than a popup window and can be used in a positive way without being too intrusive.  So here is my introduction...</p>
+    <p>If you don't want to annoy users with a popup window, but you do want to alert the attention of your audience, this can be a nice middleground.  Simply add the <strong>domTT_activate()</strong> call to the onload handler (or at any arbitrary time) and specify and 'x' and 'y' position for your tooltip (or else it will end up in the upper left corner).  When creating tooltips that are not associated with a javascript event, the second parameter to <strong>domTT_activate()</strong> should be set to <code>null</code>.</p>
+	<p><a href="#void" onclick="domTT_closeAll();">Close windows</a></p>
+	<p class="small">* The second popup uses a custom close link in its content.</p>
+    </div>
+    <div style="float: left;"><a href="example9.html">&#171;Example 9</a></div><div style="float: right;"><a href="example11.html">Example 11&#187;</a></div>
+  </body>
+</html>

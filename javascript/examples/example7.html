@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
+            "http://www.w3.org/TR/REC-html40/strict.dtd">
+<html>
+  <head>
+    <title>[DOM Tooltip] Example 7: Object Detection</title>
+    <style>
+@import url(example.css);
+div.domTTOverlib
+{
+    max-width: 200px;
+}
+    </style>
+    <script type="text/javascript" language="javascript" src="../domLib.js"></script>
+    <script type="text/javascript" language="javascript" src="../domTT.js"></script>
+    <script type="text/javascript" language="javascript">
+var domTT_styleClass = 'domTT';
+var domTT_maxWidth = 200;
+    </script>
+  </head>
+  <body>
+    <div class="title">Example 7: Object Detection</div>
+    <div class="main">
+    <p>There are some elements that overlap the tooltips, such as select form elements and flash animations.  DOM Tooltip can hunt down and hide these elements that cannot be overlapped.*  The solution is somewhat crude, but necessary in order to ensure the tooltip remains visible.</p>
+	<p class="note">Note: The collection of elements to hide is cached in a variable <code>domLib_collisionElements</code> on the first tooltip activation.  It is possible to flush the cache and force a new search by setting the global variable <code>domLib_collisionsCached</code> to <code>false</code>.</p>
+    <p>
+		<a href="index.html" onmouseover="return makeTrue(domTT_activate(this, event, 'caption', 'Where are the culprits?', 'content', 'I\'m out to hunt and destroy! &lt;select&gt;&lt;option&gt;don\'t kill me!&lt;/option&gt;&lt;/select&gt;', 'statusText', 'Where did they go??? Fly out again to find out.', 'trail', true, 'closeMethod', 'destroy'));">Hunt and destroy</a>
+	</p>
+    <p>
+      <select name="select1[]" multiple="multiple" size="2">
+        <option value="0">I'm in the way</option>
+        <option value="1">I'm in the way</option>
+        <option value="2">I'm in the way</option>
+        <option value="3">I'm in the way</option>
+        <option value="4">I'm in the way</option>
+        <option value="5">I'm in the way</option>
+        <option value="6">I'm in the way</option>
+      </select>
+	  <select style="vertical-align: top;">
+        <option value="0">I'm in the way</option>
+        <option value="1">I'm in the way</option>
+	  </select>
+    </p>
+    <p class="small">* This problem is very browser specific.  In IE, <u>select</u> elements are drawn using the native window library widgets and are thus sitting on top of the html page layer.  Therefore, no html element can go above these decorations.</p>
+    </div>
+    <div style="float: left;"><a href="example6.html">&#171;Example 6</a></div><div style="float: right;"><a href="example8.html">Example 8&#187;</a></div>
+  </body>
+</html>

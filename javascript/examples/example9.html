@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
+            "http://www.w3.org/TR/REC-html40/strict.dtd">
+<html>
+  <head>
+    <title>[DOM Tooltip] Example 9: Auto-Generated Tips</title>
+    <style>
+@import url(example.css);
+    </style>
+    <script type="text/javascript" language="javascript" src="../domLib.js"></script>
+    <script type="text/javascript" language="javascript" src="../domTT.js"></script>
+    <script type="text/javascript" language="javascript" src="behaviour.js"></script>
+    <script type="text/javascript" language="javascript">
+var domTT_styleClass = 'niceTitle';
+    </script>
+  </head>
+  <body>
+    <div class="title">Example 9: Auto-generated Tips</div>
+    <div class="main">
+    <p>In order to reduce the footprint of the DOM Tooltip library, the tips can be automatically created by reading the 'title' attribute on the page elements.  To enable this feature, call the function 'domTT_replaceTitles()' at the bottom of the page.*  This function looks for elements that contain the class 'tooltip' and have a 'title' attribute set.  The title attribute is replaced with a custom tooltip. The 'domTT_replaceTitles()' function also takes an optional decorator function, which can be used to customize the rendering of the title content within the tooltip.</p>
+	<p>Another way to abstract the usage of the DOM Tooltip library is to use the integration with the behaviour library, which is used in the third example below.  This library uses CSS selectors to define javascript behaviour on an html element.  This method of defining tooltips is strongly encouraged, since it enables seperation of html and javascript.  It also prevents lock-in to the DOM Tooltip library.</p>
+    <p>
+		<strong title="That's what a tooltip is for!" class="tooltip">Need help?</strong>
+		|
+		<a href="http://www.alistapart.com" title="An excellent resource for web design:" class="tooltip">Recommended reading</a>
+		|
+		<a href="http://bennolan.com/behaviour/"><span class="tooltip1">Clean up your markup</span></a>
+	</p>
+	<p class="small">* Using this feature takes away some of the functionality of the tooltip library.  This problem might be addressed in future releases.</p>
+    </div>
+    <div style="float: left;"><a href="example8.html">&#171;Example 8</a></div><div style="float: right;"><a href="example10.html">Example 10&#187;</a></div>
+  <script type="text/javascript">
+function nicetitleDecorator(el)
+{
+	var result = el.title;
+	if (el.href)
+	{
+		result += '<p>' + el.href + '</p>';
+	}
+
+	return result;
+}
+
+domTT_replaceTitles(nicetitleDecorator);
+ 
+var tooltips = {
+	'span.tooltip1' : function(element) {
+		element.onmouseover = function(event) {
+			domTT_activate(this, event, 'content', 'After all the work of WASP and others to promote clean markup, valid pages and graceful degradataion via css - it sucks that we\'re going back to tag soup days by throwing javascript tags into our html. The better way to do javascript is to do it unobtrusively, using the behaviour library.', 'trail', true);
+		}
+	}
+}
+ 
+Behaviour.register(tooltips);
+  </script>
+  </body>
+</html>

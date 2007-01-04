@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
+            "http://www.w3.org/TR/REC-html40/strict.dtd">
+<html>
+  <head>
+    <title>[DOM Tooltip] Example 12: Dynamic Tooltips</title>
+    <style>
+@import url(example.css);
+    </style>
+    <script type="text/javascript" language="javascript" src="../domLib.js"></script>
+    <script type="text/javascript" language="javascript" src="../domTT.js"></script>
+    <script type="text/javascript" language="javascript">
+var domTT_styleClass = 'domTTClassic';
+var tooltipContentData = [
+	'No content yet.  Click one of the links below.',
+	'What would you like to do today?',
+	'Implement tooltips on your site?  <b>Excellent!</b>',
+	'You should definitely consider using domTT.'
+];
+
+var tooltipContentIndex = 0;
+function getTooltipContent() {
+	return tooltipContentData[tooltipContentIndex];
+}
+
+window.onload = function() {
+	var ttcontainer = document.createElement('div');
+	ttcontainer.style.display = 'none';
+	document.body.appendChild(ttcontainer);
+
+	var content = document.createTextNode(new Date());
+	var tooltipDiv = document.createElement('div');
+	tooltipDiv.id = 'date';
+	tooltipDiv.appendChild(content);
+	ttcontainer.appendChild(tooltipDiv);
+	setInterval('updateTime()', 1000);
+}
+
+// emulating an ajax callback
+function updateTime() {
+	document.getElementById('date').firstChild.nodeValue = (new Date());
+}
+    </script>
+  </head>
+  <body>
+    <div class="title">Example 12: Dynamic Tooltips</div>
+    <div class="main">
+    <p>Many users have requested a way to dynamically update the tooltip content after first creation.  Well, here it is!  There are many ways to get this done, but the easiest is certainly by maintaining an external collection of content and then referencing this collection (or a pointer to this collection) from the domTT_activate() call.  It is also possible to modify the existing tooltip, but it is much more difficult and requires DOM work.</p>
+    <p>
+		<a href="index.html" onmouseover="domTT_activate(this, event, 'content', getTooltipContent, 'lifetime', 5000, 'closeAction', 'destroy');">Check the content</a>
+		|
+		<a href="index.html" onmouseout="domTT_mouseout(this, event); domTT_update('dynamicTip', tooltipContentData[3]);" onmouseover="domTT_activate(this, event, 'content', 'On mouseout, the content will be changed.', 'lifetime', 5000, 'id', 'dynamicTip');">Another dynamic tip</a>
+		|
+		<strong onmouseover="domTT_activate(this, event, 'content', document.getElementById('date'));">What time is it?</strong>
+	</p>
+	<p><a href="#void" onclick="tooltipContentIndex = 1;">toggle content 1</a> | <a href="#void" onclick="tooltipContentIndex = 2;">toggle content 2</a> | <a href="#void" onclick="tooltipContentIndex = 3;">toggle content 3</a></p>
+    <p class="small">* The first method requires the 'closeAction' option to be 'destroy' since the tip must be recreated each time.  This technique does not work with fading tips because of how they are closed (never destroyed).</p>
+	<p class="small">* The second method uses the helper function domTT_update() to modify the content of an existing tip.  The tip must exist for this to work.</p>
+    </div>
+    <div style="float: left;"><a href="example11.html">&#171;Example 11</a></div><div style="float: right;"><a href="example13.html">Example 13&#187;</a></div>
+  </body>
+</html>

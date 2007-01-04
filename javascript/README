@@ -1,0 +1,142 @@
+$Id: README,v 1.1 2007/01/04 22:29:18 thomas Exp $
+
+Project: DOM Tooltip
+Maintainer:  Dan Allen (Mojavelinux) <dan.allen@mojavelinux.com>
+Contributors:
+	Josh Gross (JPortalHome) <josh@jportalhome.com>
+	Jason Rust (CodeJanitor) <jason@rustyparts.com>
+License: Apache 2.0
+
+What is it?
+-----------
+This javascript library will allow you to have dynamic and configurable
+tooltips on your html pages. There are several other tooltip libraries on the
+web, but you will find that this library is very complete and stable.  It
+includes support for all the modern browsers and behaves in a consistent way
+across these platforms.  This library does not support Netscape 4. Netscape 4
+is no longer an acceptable browser and it is time to move forward. That is why
+I prefixed the project title with DOM. If your browser doesn't support the DOM
+standard, then this library won't work.
+
+How does it work?
+-----------------
+This library supports Gecko (Mozilla/Netscape6+,Firefox, etc), IE 5.5+, IE on
+Mac, Safari, Konqueror and Opera 7 (which includes full DOM and CSS2 support).
+The tooltips are configured through class definitions in your stylesheet and
+the rest is up to javascript. The tooltips may consist of two parts, the
+caption and the content. The caption is optional. The tips can either be
+greasy, sticky, or velcro.  Greasy means that they move around when you move
+the mouse around and go away when you leave the element. Sticky means that they
+stick around after you leave the element and are otherwise stationary.  Velcro
+tips disappear after a mouseout occurs on the tip itself. The tooltips also
+have directionality, so you can have tips that are 'northeast', 'northwest',
+'southeast' or 'southwest' of the mouse.
+
+Be sure to include the file 'domLib.js' whereever you use 'domTT.js' and if you
+want to have draggable tips or opacity fading, include the 'domTT_drag.js' and
+'fadomatic.js' files as well. **Some of these libraries are available under the
+domLib project.**  Please see the HOWTO.html for details on how to use the
+library and the options that are available.
+
+Why is this program so big?
+---------------------------
+Partly because it is feature rich and thus there is lots of code, partly
+because we try to use comments where ever necessary to clarify issues, and
+partly because our coding style is one which makes liberal use of whitespace.
+However, to save your users the trouble of downloading 50k of JavaScript every
+time they come to your page you can use Douglas Crockford's excellent jsmin
+program to strip all non-essentials from the code, reducing it's size by as
+much as 50%.  This program has been verified to work with his program, located at:
+http://www.crockford.com/javascript/jsmin.html  
+An example usage would be: 
+bash# ./jsmin domTT.js domTT_min.js \
+"domTT is Copyright Dan Allen (dan.allen@mojavelinux.com) (2002 - 2005).  Licensed under the Apache 2.0 license"
+
+Anything I should know?
+-----------------------
+Additionally, this tooltip library autodetects select boxes in IE and the
+scrollbar on multiple selects in mozilla (the only issue mozilla has) and
+HIDES them whenever the tooltip collides with them.  Hence, it has full
+collision detection with components which cannot use the zIndex propery!!
+
+In order for it to work correctly you'll want to follow the example stylesheet
+pretty closely.  It has been crafted to work well on all the supported
+browsers.  Note the body { margin: 0; } style which is needed if you want it to
+work decently on Mac IE and Opera.  (According the W3C standard, a body cannot
+have a margin anyway).
+
+By default, the library accounts for the size of the mouse when the tip is
+in one of the two southern positions.  If you need to turn off this correction
+on a given tip, set the option 'clearMouse' to false.  If the size of the mouse
+needs to be adjusted, overwrite the global variable domTT_mouseHeight.
+
+In 0.7.1, the hiding of flash animations was added for those browsers that
+cannot put html over top of flash.  However, there are a couple of
+requirements.  First, the syntax that must be used is:
+
+<object
+   type="application/x-shockwave-flash"
+   data="animation.swf"
+   width="450px"
+   height="250px"
+   pluginspage="http://www.macromedia.com/go/getflashplayer">
+   <param name="movie" value="animation.swf" />
+   <param name="wmode" value="opaque" />
+   ...alternate (non-flash) html here!...
+</object>
+
+If you use the object+embed syntax, the flash will not be properly detected.
+The second requirement is that the flash must be included in an element with a
+position of either absolute or relative.  If it is not, the flash animation
+will be relocated in the DOM and therefore will not be aware of its location on
+the page, making collision detection worthless.
+
+Why did you write it?
+---------------------
+The reason I wrote this library is because I wanted a library which used 100%
+DOM to do the tooltips, was easy to configure, was fast, and which was freely
+distributable.  You may use this library in personal or company, open source or
+proprietry projects.  I wrote it for you, so enjoy it.  All I ask is that you
+spread the word and please give me credit by leaving in my comments.  If you
+do make patches, please let me know about them on my forums.  Viva Open Source!!
+
+Important Changes in 0.7.1
+--------------------------
+Fading library is now fadomatic.js, so be sure to change your include
+when using the fade feature.  This is a third party library developed
+by fadomatic@chimpen.com.  You can find this library at the following URL:
+
+  http://chimpen.com/fadomatic
+
+The global setting domTT_classPrefix was changed to domTT_styleClass and the
+equivalent options without the domTT_ prefix in the domTT_activate() function
+call have been changed.
+
+Important Changes in 0.70
+-----------------------------
+IE 5.0 is no longer supported because its DOM implementation is just too
+crippled.  Many of the complaints about the positioning of the tips and
+the screen edge detecting are now fixed.
+
+Important API Changes in 0.60
+------------------------------
+The release is 0.60 and it introduced several significant changes over the
+0.55 release.  Several of the options have changed names.  The following is a
+list:
+
+'status' -> 'statusText'
+'close'  -> 'closeAction'
+'prefix' -> 'classPrefix'
+'id'     -> *no longer an option*
+
+There is also a new option 'trail' which is used in place of mousemove.  Do not
+use domTT_activate() in the onmousemove event handler any longer!!!  It was far
+too slow to parse the same options all over again from onmouseover, so now just
+specify the domTT_activate() in onmouseover with the option trail.
+
+Also to note, the functions domTT_true() and domTT_false() have been changed to
+makeTrue() and makeFalse() respectively to make them more understandable.
+
+Be sure to include the file 'domLib.js' whereever you use 'domTT.js'
+and if you want to have draggable tips or opacity fading, include the
+'domTT_drag.js' and 'fadomatic.js' files as well.

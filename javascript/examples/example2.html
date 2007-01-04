@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
+            "http://www.w3.org/TR/REC-html40/strict.dtd">
+<html>
+  <head>
+    <title>[DOM Tooltip] Example 2: Basic Features</title>
+    <style>
+@import url(example.css);
+    </style>
+    <script type="text/javascript" language="javascript" src="../domLib.js"></script>
+    <script type="text/javascript" language="javascript" src="../domTT.js"></script>
+    <script type="text/javascript" language="javascript">
+var domTT_styleClass = 'domTTClassic';
+    </script>
+  </head>
+  <!-- add a domTT_deactivate to the body to prevent tooltip artifacts when
+       changing tabs or applications (demonstrate this feature) -->
+  <body onblur="domTT_deactivate(domTT_lastOpened);">
+    <div class="title">Example 2: Basic Features</div>
+	<div class="main">
+    <p>In the second example, some of the basic options are demonstrated.  In the first link, the browser's status bar text is set while the mouse is flying over the link.  This is done by adding the 'statusText' option to the domTT_activate() function.*  The second link demonstrates the trailing option.  The position of the tooltip follows the position of the mouse.**  The third link changes the directionality of the tooltip by setting the 'direction' option to 'northeast'.</p>
+    <p>
+		<a href="index.html" onmouseover="return makeTrue(domTT_activate(this, event, 'content', 'Tooltip with status text', 'statusText', 'Help! I am stuck in this statusbar!'));">Status text</a>
+		|
+		<a href="index.html" onmouseover="domTT_activate(this, event, 'content', 'This tooltip trails the mouse position.', 'trail', true);">Trailing tooltip</a>
+		|
+		<a href="index.html" onmouseover="domTT_activate(this, event, 'content', 'I like it a bit better up here!', 'trail', true, 'direction', 'northeast');">Northeast tooltip</a>
+	</p>
+    <p class="small">* In order to get the status bar text to override the browser default when using domTT_activate() on a <u>link</u> tag, you must wrap the event call in <u>return makeTrue()</u> so that it intercepts this default from occuring (the default is to show the <em>href</em> value of the link).  This is <strong>not</strong> necessary for any other tag, such as a span or div tag. Setting the status bar text has problems in some browsers.</p>
+    <p class="small">** Writing the the status bar is an uphill battle when dealing with links because the browser likes to display its own text here.  Some workarounds must be used.</p>
+    <p class="small">Note: The mousemove event triggers very slowly in Mozilla when using a slower computer, so this constant update is not always very smooth. This is a limitation of Mozilla.</p>
+    </div>
+    <div style="float: left;"><a href="example1.html">&#171;Example 1</a></div><div style="float: right;"><a href="example3.html">Example 3&#187;</a></div>
+  </body>
+</html>
