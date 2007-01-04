@@ -119,3 +119,31 @@ table.timers tr td.head {
 	padding: 3px;
 }
 
+<#
+  ##########################
+  #  Schedule
+  ##########################
+#>
+
+table.schedule {
+	margin-top: 10px;
+	border: 1px solid #6D96A9; 
+}
+
+table.schedule tr td.head {
+	background: #6D96A9;
+	color: white;
+	font-weight: bold;
+	margin: 0;
+	padding: 3px;
+}
+
+table.schedule tr td {
+	vertical-align: top;
+	padding: 3px 7px 3px 3px;
+}
+
+
+table.schedule tr.active {
+	background: #DEE6EE;
+}
