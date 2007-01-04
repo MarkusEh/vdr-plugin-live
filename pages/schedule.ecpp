@@ -3,43 +3,111 @@
 #include <vdr/channels.h>
 #include <vdr/epg.h>
 #include <vdr/config.h>
+#include "setup.h"
+#include "tools.h"
+
+using namespace vdrlive;
 
 </%pre>
 <%args>
-int channel;
+int channel = -1;
 </%args>
-<html>
- <head>
-  <title>ecpp-application testproject</title>
- </head>
- <body>
-
-	Programm für Channel Nummer <$ channel $><br/>
-
 <{
 	cSchedulesLock schedulesLock;
 	const cSchedules* schedules = cSchedules::Schedules(schedulesLock);
+	cChannel* Channel;
 
-	cChannel* Channel = Channels.GetByNumber(channel);
-	if (Channel) {
-		const cSchedule *Schedule = schedules->GetSchedule(Channel);
-		if (Schedule) {
-			for (const cEvent *ev = Schedule->Events()->First(); ev; ev = Schedule->Events()->Next(ev)) {
+	ReadLock channelsLock( Channels );
+	if (channelsLock) {
+		if (channel > 0) {
+			Channel = Channels.GetByNumber(channel);
+		} else {
+			Channel = Channels.Get(Channels.GetNextNormal(-1));
+		}
+
 }>
-	<$ ev->Title() $><br/>
-
+<html>
+	<head>
+		<title>VDR Live - <$ tr("Schedule") $></title>
+		<link rel="stylesheet" type="text/css" href="/styles.css" />
+	</head>
+	<body>
+		<div class="left_area">
+			<img src="logo.png" alt="VDR Live!" border="0" />
+<& menu >
+		</div>
+		<div class="inhalt">
+			<div class="head_box">
+				<table>
+					<tr>
+						<td><? Channel ? Channel->Name() ?></td>
+						<td>
+							<form name="channels" id="channels">
+								<select name="channel" onchange="document.forms.channels.submit()">
+<{
+		for (cChannel *channel = Channels.First(); channel && channel->Number() <= LiveSetup().GetLastChannel(); channel = Channels.Next(channel)) {
+			if (!channel->GroupSep() && *channel->Name()) {
+}>
+									<option value="<$ channel->Number() $>"<? channel->Number() == Channel->Number() ? " selected=\"selected\""?>><$ channel->Name() $></option>
 <{
 			}
-		} else {
+		}
 }>
-	Kein Schedule für Channel <$ Channel->Number() $>
+								</select>
+							</form>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+<{
+		if (Channel) {
+			const cSchedule *Schedule = schedules->GetSchedule(Channel);
+			if (Schedule) {
+}>
+			<table class="schedule" cellspacing="0" callpadding="0">
+<{
+				bool active_line = false;
+				std::string current_day = "";
+				for (const cEvent *Event = Schedule->Events()->First(); Event; Event = Schedule->Events()->Next(Event)) {
+					active_line = !active_line;
+					std::string title(Event->Title() ? Event->Title() : "");
+					std::string short_description(Event->ShortText() ? Event->ShortText() : "");
+					std::string description(Event->Description() ? Event->Description() : "");
+					std::string start(Event->StartTime() ? FormatDateTime(tr("%I:%M %p"), Event->StartTime()) : "");
+					std::string end(Event->EndTime() ? FormatDateTime(tr("%I:%M %p"), Event->EndTime()) : "");
+					std::string day(Event->StartTime() ? FormatDateTime(tr("%A, %b %d %Y"), Event->StartTime()) : "");
+
+					if (current_day != day) {
+						current_day = day;
+}>
+				<tr>
+					<td class="head" colspan="3"><$ current_day $></td>
+				</tr>
+<{
+					}
+}>
+				<tr class="<? active_line ? "active" ?>">
+					<td><$ start $> - <$ end $></td>
+					<td><strong><$ title $></strong><br /><$ short_description $><br /></td>
+					<td>&nbsp;</td>
+				</tr>
+<{
+			}
+}>
+			</table>
+<{
+			} else {
+}>
+		Kein Schedule für Channel <$ Channel->Number() $>
 <{
 		}
-	} else {
+		} else {
 }>
-	Kein Channel mit der Nummer <$ channel $>
+		Kein Channel mit der Nummer <$ channel $>
 <{
+		}
 	}
 }>
- </body>
+	</body>
 </html>
