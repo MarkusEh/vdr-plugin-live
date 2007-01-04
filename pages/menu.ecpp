@@ -6,5 +6,6 @@
 				<a href="whats_on_now.html"><$ tr("What's on now?") $></a><br/>
 				<a href="whats_on_next.html"><$ tr("What's on next?") $></a><br/>
 				<a href="schedule.html"><$ tr("Schedule") $></a><br />
-				<a href="timers.html"><$ tr("Timers") $></a>
+				<a href="timers.html"><$ tr("Timers") $></a><br />
+				<a href="recordings.html"><$ tr("Recordings") $></a>
 			</div>

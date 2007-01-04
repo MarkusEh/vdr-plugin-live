@@ -1,0 +1,56 @@
+<%pre>
+#include <vdr/plugin.h>
+#include <vdr/recording.h>
+#include <vdr/config.h>
+#include <vdr/i18n.h>
+#include "tools.h"
+
+using namespace vdrlive;
+
+</%pre>
+<%args>
+</%args>
+<{
+
+
+}>
+<html>
+	<head>
+		<title>VDR-Live - <$ tr("Recordings") $></title>
+		<link rel="stylesheet" type="text/css" href="/styles.css" />
+	</head>
+	<body>
+		<div class="left_area">
+			<img src="logo.png" alt="VDR Live!" border="0" />
+<& menu >
+		</div>
+		<div class="inhalt">
+			<div class="head_box">
+				<$ tr("Recordings") $>
+			</div>
+%			if (Recordings.Count() == 0) {
+			Keine Aufnahmen vorhanden
+%			} else {
+			<table class="recordings" cellspacing="0" cellpadding="0">
+				<tr>
+					<td class="head"><$ tr("Date") $></td>
+					<td class="head"><$ tr("Time") $></td>
+					<td class="head"><$ tr("Name") $></td>
+				</tr>
+<{
+				for (cRecording* recording = Recordings.First(); recording != 0; recording = Recordings.Next( recording ) ) {
+					const cRecordingInfo* recInfo = recording->Info();
+}>
+				<tr class="recording">
+					<td><$ FormatDateTime(tr("%a, %b %d"), recording->start) $></td>
+					<td><$ FormatDateTime(tr("%I:%M %p"), recording->start) $></td>
+					<td><$ recording->Name() $></td>
+				</tr>
+<{
+				}
+			}
+}>
+			</table>
+		</div>
+	</body>
+</html>
