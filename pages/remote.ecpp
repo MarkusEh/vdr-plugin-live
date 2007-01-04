@@ -1,0 +1,191 @@
+<%pre>
+#include <vdr/i18n.h>
+#include <vdr/keys.h>
+#include "setup.h"
+
+using namespace vdrlive;
+</%pre>
+<html>
+	<head>
+		<script type="text/javascript"><!--
+		var newImg = new Image();
+		var imgsrc = "";
+		var interval = -1;
+		  
+		function StreamLoad()
+		{
+			uniq = new Date();
+			uniq = uniq.getTime();
+			document.images.vdrlive.src=newImg.src;
+			newImg.src=imgsrc+"?"+uniq;
+		}
+				  
+		function StreamInit()
+		{
+			imgsrc = document.images.vdrlive.src;
+			uniq = new Date();
+			uniq = uniq.getTime();
+			newImg.src=imgsrc+"?"+uniq;
+			interval = window.setInterval("StreamLoad()", 1000);
+		}
+
+		function ChangeInterval()
+		{
+			var element = document.getElementsByName('interval').item(0);
+			var timeout = element.value;
+			window.clearInterval(interval);
+			interval = window.setInterval("StreamLoad()", timeout);
+		}
+
+		function NewXMLHttpRequest()
+		{
+			var xml = null;
+			if (window.XMLHttpRequest) {
+				xml = new XMLHttpRequest();
+				if (xml.overrideMimeType)
+					xml.overrideMimeType('text/xml');
+			} else if (window.ActiveXObject) {
+				try {
+					xml = new ActiveXObject("Msxml2.XMLHTTP");
+				} catch (e) {
+					try {
+						xml = new ActiveXObject("Microsoft.XMLHTTP");
+					} catch (e) {}
+				}
+			}
+			return xml;
+		}
+
+		function KeyPress(keycode)
+		{
+			var xml = NewXMLHttpRequest();
+			xml.onreadystatechange = function() { KeyPressResponse(xml); }
+			xml.open('GET', 'keypress.xml?keycode='+keycode, true);
+			xml.send(null);
+		}
+
+		function KeyPressResponse(xml)
+		{
+			try {
+				if (xml.readyState == 4) {
+					if (xml.status == 200) {
+						var xmldoc = xml.responseXML;
+						var result = xmldoc.getElementsByTagName('response').item(0).firstChild.data;
+						if (result != 1) {
+							alert("Unable to queue keypress");
+						}
+					} else {
+						alert("Invokation of webservice 'keypress' failed with http status code "+xml.status);
+					}
+				}
+			} catch (e) {
+				alert("Invokation of webservice 'keypress' failed with description: "+e.description);
+			}
+		}
+
+		function FillIntervals()
+		{
+			var element = document.getElementsByName('interval').item(0);
+			var items = new Array(100, 200, 500, 1000, 2000, 5000);
+			element.options.length = items.length;
+			for (i = 0; i < items.length; ++i) {
+				element.options[i].value = items[i];
+				element.options[i].text = (items[i] / 1000) + " s";
+				if (items[i] == <$ LiveSetup().GetScreenshotInterval() $>)
+					element.selectedIndex = i;
+			}
+		}
+		//--></script>
+		<title>VDR-Live - <$ tr("Remote Control") $></title>
+		<link rel="stylesheet" type="text/css" href="/styles.css" />
+	</head>
+	<body onload="StreamInit(); FillIntervals();">
+		<div class="left_area">
+			<img src="logo.png" alt="VDR Live!" border="0" />
+<& menu >
+		</div>
+		<div class="inhalt">
+			<div class="head_box">
+				<$ tr("Remote Control") $>
+			</div>
+			<div class="screenshot">
+				<img src="screenshot.jpg" name="vdrlive" /><br />
+				<$ tr("Interval:") $> <select name="interval" onchange="ChangeInterval()"></select>
+			</div>
+			<table class="keypad" cellspacing="0" cellpadding="0">
+				<tr>
+					<td class="button"><button type="button" onclick="KeyPress(<$ k1 $>)">1</button></td>
+					<td class="button"><button type="button" onclick="KeyPress(<$ k2 $>)">2</button></td>
+					<td class="button"><button type="button" onclick="KeyPress(<$ k3 $>)">3</button></td>
+				</tr>
+				<tr>
+					<td class="button"><button type="button" onclick="KeyPress(<$ k4 $>)">4</button></td>
+					<td class="button"><button type="button" onclick="KeyPress(<$ k5 $>)">5</button></td>
+					<td class="button"><button type="button" onclick="KeyPress(<$ k6 $>)">6</button></td>
+				</tr>
+				<tr>
+					<td class="button"><button type="button" onclick="KeyPress(<$ k7 $>)">7</button></td>
+					<td class="button"><button type="button" onclick="KeyPress(<$ k8 $>)">8</button></td>
+					<td class="button"><button type="button" onclick="KeyPress(<$ k9 $>)">9</button></td>
+				</tr>
+				<tr>
+					<td class="button">&nbsp;</td>
+					<td class="button"><button type="button" onclick="KeyPress(<$ k0 $>)">0</button></td>
+					<td class="button">&nbsp;</td>
+				</tr>
+				<tr>
+					<td class="button" colspan="3">&nbsp;</td>
+				</tr>
+				<tr>
+					<td class="button"><button type="button" onclick="KeyPress(<$ kMenu $>)"><$ tr("Menu") $></button></td>
+					<td class="button">&nbsp;</button></td>
+					<td class="button"><button type="button" onclick="KeyPress(<$ kBack $>)"><$ tr("Back") $></button></td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<table cellspacing="0" cellpadding="0">
+							<tr>
+								<td class="redbutton"><button type="button" onclick="KeyPress(<$ kRed $>)">&nbsp;</button></td>
+								<td class="greenbutton"><button type="button" onclick="KeyPress(<$ kGreen $>)">&nbsp;</button></td>
+								<td class="yellowbutton"><button type="button" onclick="KeyPress(<$ kYellow $>)">&nbsp;</button></td>
+								<td class="bluebutton"><button type="button" onclick="KeyPress(<$ kBlue $>)">&nbsp;</button></td>
+							<tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="button" colspan="3">&nbsp;</td>
+				</tr>
+				<tr>
+					<td class="button">&nbsp;</td>
+					<td class="button"><button type="button" onclick="KeyPress(<$ kUp $>)">^</button></td>
+					<td class="button">&nbsp;</td>
+				</tr>
+				<tr>
+					<td class="button" colspan="3">&nbsp;</td>
+				</tr>
+				<tr>
+					<td class="button"><button type="button" onclick="KeyPress(<$ kLeft $>)">&lt;</button></td>
+					<td class="button"><button type="button" onclick="KeyPress(<$ kOk $>)"><$ tr("Ok") $></button></td>
+					<td class="button"><button type="button" onclick="KeyPress(<$ kRight $>)">&gt;</button></td>
+				</tr>
+				<tr>
+					<td class="button" colspan="3">&nbsp;</td>
+				</tr>
+				<tr>
+					<td class="button">&nbsp;</td>
+					<td class="button"><button type="button" onclick="KeyPress(<$ kDown $>)">v</button></td>
+					<td class="button">&nbsp;</td>
+				</tr>
+				<tr>
+					<td class="button" colspan="3">&nbsp;</td>
+				</tr>
+				<tr>
+					<td class="button"><button type="button" onclick="KeyPress(<$ kVolDn $>)"><$ tr("Vol-") $></button></td>
+					<td class="button"><button type="button" onclick="KeyPress(<$ kMute $>)"><$ tr("Mute") $></button></td>
+					<td class="button"><button type="button" onclick="KeyPress(<$ kVolUp $>)"><$ tr("Vol+") $></button></td>
+				</tr>
+			</table>
+		</div>
+	</body>
+</html>
