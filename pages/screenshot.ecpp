@@ -1,0 +1,24 @@
+<%pre>
+#include <iostream>
+#include <vdr/device.h>
+using namespace std;
+</%pre>
+<%args>
+int quality = 80;
+int width = 320;
+int height = 240;
+</%args>
+<%cpp>
+	reply.setContentType("image/jpg");
+
+	cDevice* device = cDevice::PrimaryDevice();
+	if ( device == 0 )
+		return DECLINED;
+
+	int size;
+	uchar* image = device->GrabImage( size, true, quality, width, height );
+	if ( image == 0 )
+		return DECLINED;
+
+	reply.out().write( reinterpret_cast< char* >( image ), size );
+</%cpp>
