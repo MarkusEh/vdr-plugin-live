@@ -45,10 +45,10 @@ int channel = -1;
 							<form name="channels" id="channels">
 								<select name="channel" onchange="document.forms.channels.submit()">
 <{
-		for (cChannel *channel = Channels.First(); channel && channel->Number() <= LiveSetup().GetLastChannel(); channel = Channels.Next(channel)) {
-			if (!channel->GroupSep() && *channel->Name()) {
+		for (cChannel *listChannel = Channels.First(); listChannel && listChannel->Number() <= LiveSetup().GetLastChannel(); listChannel = Channels.Next(listChannel)) {
+			if (!listChannel->GroupSep() && *listChannel->Name()) {
 }>
-									<option value="<$ channel->Number() $>"<? channel->Number() == Channel->Number() ? " selected=\"selected\""?>><$ channel->Name() $></option>
+									<option value="<$ listChannel->Number() $>"<? listChannel->Number() == Channel->Number() ? " selected=\"selected\""?>><$ listChannel->Name() $></option>
 <{
 			}
 		}
