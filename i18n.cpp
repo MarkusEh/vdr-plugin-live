@@ -69,6 +69,28 @@ const tI18nPhrase Phrases[] = {
 	  "", // Dansk
 	  "", //Czech
 	},
+	{ "%A, %b %d %Y", // English
+	  "%A, %d.%m.%Y", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", //Czech
+	},
 	{ "Date", // English
 	  "Datum", // Deutsch
 	  "", // Slovenski
@@ -91,8 +113,8 @@ const tI18nPhrase Phrases[] = {
 	  "", // Dansk
 	  "", //Czech
 	},
-	{ "%A, %b %d %Y", // English
-	  "%A, %d.%m.%Y", // Deutsch
+	{ "Time", // English
+	  "Zeit", // Deutsch
 	  "", // Slovenski
 	  "", // Italiano
 	  "", // Nederlands
