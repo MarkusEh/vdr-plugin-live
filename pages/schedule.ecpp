@@ -69,7 +69,11 @@ int channel = -1;
 <{
 				bool active_line = false;
 				std::string current_day = "";
+				time_t now = time(0);
 				for (const cEvent *Event = Schedule->Events()->First(); Event; Event = Schedule->Events()->Next(Event)) {
+					if (Event->StartTime() + Event->Duration() < now && !Event->IsRunning())
+						continue;
+
 					active_line = !active_line;
 					std::string title(Event->Title() ? Event->Title() : "");
 					std::string short_description(Event->ShortText() ? Event->ShortText() : "");
