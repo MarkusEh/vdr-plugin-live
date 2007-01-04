@@ -28,7 +28,7 @@ all: libimages.a
 	$(CXX) $(CXXFLAGS) -c $(DEFINES) $(INCLUDES) $<
 
 %.cpp: %.png
-	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CSS) -b $<
+	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CSS) -b -m "image/png" $<
 
 ### Targets:
 

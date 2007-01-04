@@ -28,7 +28,7 @@ all: libcss.a
 	$(CXX) $(CXXFLAGS) -c $(DEFINES) $(INCLUDES) $<
 
 %.cpp: %.css
-	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CSS) -b $<
+	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CSS) -b -m "text/css" $<
 
 ### Targets:
 
