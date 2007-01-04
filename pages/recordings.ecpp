@@ -31,17 +31,19 @@ using namespace vdrlive;
 %			if (Recordings.Count() == 0) {
 			Keine Aufnahmen vorhanden
 %			} else {
-			<table class="recordings" cellspacing="0" cellpadding="0">
+			<table class="recording" cellspacing="0" cellpadding="0">
 				<tr>
 					<td class="head"><$ tr("Date") $></td>
 					<td class="head"><$ tr("Time") $></td>
 					<td class="head"><$ tr("Name") $></td>
 				</tr>
 <{
+				bool active = false;
 				for (cRecording* recording = Recordings.First(); recording != 0; recording = Recordings.Next( recording ) ) {
 					const cRecordingInfo* recInfo = recording->Info();
+					active = !active;
 }>
-				<tr class="recording">
+				<tr class="<? active ? "active" ?>">
 					<td><$ FormatDateTime(tr("%a, %b %d"), recording->start) $></td>
 					<td><$ FormatDateTime(tr("%I:%M %p"), recording->start) $></td>
 					<td><$ recording->Name() $></td>
