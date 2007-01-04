@@ -34,4 +34,4 @@ libhttpd.a: $(OBJS)
 	$(AR) r $@ $^
 
 clean:
-	@rm -f *.o core* libproctools.a proctest $(DEPFILE)
+	@rm -f *.o core* libhttpd.a proctest $(DEPFILE)
