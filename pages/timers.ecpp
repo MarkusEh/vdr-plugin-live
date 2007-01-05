@@ -1,9 +1,8 @@
 <%pre>
 #include <vdr/plugin.h>
-#include <vdr/timers.h>
 #include <vdr/config.h>
 #include <vdr/i18n.h>
-#include "sortedtimers.h"
+#include "timers.h"
 #include "tools.h"
 
 using namespace vdrlive;
@@ -29,11 +28,17 @@ using namespace vdrlive;
 			<div class="head_box">
 				<$ tr("Timers") $>
 			</div>
-%			if (Timers.Count() == 0) {
-			Keiner Timer definiert
+<{
+			cMutexLock timersLock( &LiveTimerManager() );
+			SortedTimersInterface& timers = LiveTimerManager().GetTimers();
+
+			if (timers.size() == 0) {
+}>
+				Keiner Timer definiert
 %			} else {
 			<table class="timers" cellspacing="0" cellpadding="0">
 				<tr>
+					<td class="head">&nbsp;</td>
 					<td class="head"><$ tr("Active") $></td>
 					<td class="head"><$ tr("Channel") $></td>
 					<td class="head"><$ tr("Date") $></td>
@@ -44,10 +49,10 @@ using namespace vdrlive;
 				</tr>
 <{
 				bool active = false;
-				SortedTimers timers;
 				for (SortedTimers::iterator timer = timers.begin(); timer != timers.end(); ++timer) {
 }>
 				<tr class="<$ active ? "active" : "" $>">
+					<td><button type="button" class="smallbutton" onclick="location.href='edittimer.html?timer=<$ timers.GetTimerId(*timer) $>';"><$ tr("Edit") $></button></td>
 					<td><img src="/<$ (timer->Flags() & 1) ? "active" : "inactive" $>.png" alt="Aktiv?" /></td>
 					<td><$ timer->Channel()->Name() $></td>
 					<td><$ FormatDateTime(tr("%a, %b %d"), timer->Day()) $></td>
