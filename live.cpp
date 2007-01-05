@@ -3,7 +3,7 @@
  *
  * See the README file for copyright information and how to reach the author.
  *
- * $Id: live.cpp,v 1.7 2007/01/04 17:42:33 lordjaxom Exp $
+ * $Id: live.cpp,v 1.8 2007/01/05 11:35:32 lordjaxom Exp $
  */
 
 #include <vdr/plugin.h>
@@ -24,7 +24,6 @@ std::string Plugin::m_configDirectory;
 
 Plugin::Plugin(void)
 {
-	m_configDirectory = cPlugin::ConfigDirectory( PLUGIN_NAME_I18N );
 }
 
 const char *Plugin::CommandLineHelp(void)
@@ -39,6 +38,8 @@ bool Plugin::ProcessArgs(int argc, char *argv[])
 
 bool Plugin::Start(void)
 {
+	m_configDirectory = cPlugin::ConfigDirectory( PLUGIN_NAME_I18N );
+
 	RegisterI18n( vdrlive::Phrases );
 	// XXX error handling
 	m_thread.reset( new ServerThread );
