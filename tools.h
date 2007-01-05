@@ -3,12 +3,14 @@
 
 #include <ctime>
 #include <string>
+#include <vector>
 #include <vdr/thread.h>
 
 namespace vdrlive {
 
 std::string FormatDateTime( char const* format, time_t time );
 std::string StringReplace( std::string const& text, std::string const& substring, std::string const& replacement );
+std::vector< std::string > StringSplit( std::string const& text, char delimiter );
 
 class ReadLock
 {

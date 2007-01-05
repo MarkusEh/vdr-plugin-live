@@ -37,4 +37,17 @@ string StringReplace( string const& text, string const& substring, string const&
 	return result;
 }
 
+vector< string > StringSplit( string const& text, char delimiter )
+{
+	vector< string > result;
+	string::size_type last = 0, pos;
+	while ( ( pos = text.find( delimiter, last ) ) != string::npos ) {
+		result.push_back( text.substr( last, pos - last ) );
+		last = pos + 1;
+	}
+	if ( last < text.length() )
+		result.push_back( text.substr( last ) );
+	return result;
+}
+
 }
