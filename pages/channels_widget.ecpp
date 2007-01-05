@@ -1,0 +1,27 @@
+<%pre>
+#include <vdr/channels.h>
+#include "setup.h"
+#include "tools.h"
+
+using namespace vdrlive;
+
+</%pre>
+<%args>
+name = "channel";
+int lastChannel = LiveSetup().GetLastChannel();
+selected;
+</%args>
+	
+	<select name="<$ name $>">
+<{
+		for (cChannel *listChannel = Channels.First(); listChannel && listChannel->Number() <= lastChannel; listChannel = Channels.Next(listChannel)) {
+			if (!listChannel->GroupSep() && *listChannel->Name()) {
+				std::string channelId = *listChannel->GetChannelID().ToString();
+}>
+				<option value="<$ listChannel->Number() $>" 
+					<$ channelId == selected ? "selected=\"selected\"" : "" $>><$ listChannel->Name() $></option>
+<{
+			}
+		}
+}>
+	</select>
