@@ -11,16 +11,17 @@ name = "channel";
 int lastChannel = LiveSetup().GetLastChannel();
 selected;
 onchange;
+bool channelId = false;
 </%args>
 	
 	<select name="<$ name $>" <{ reply.out() << ( !onchange.empty() ? "onchange=\""+onchange+"\"" : "" ); }>>
 <{
 		for (cChannel *listChannel = Channels.First(); listChannel && listChannel->Number() <= lastChannel; listChannel = Channels.Next(listChannel)) {
 			if (!listChannel->GroupSep() && *listChannel->Name()) {
-				std::string channelId = *listChannel->GetChannelID().ToString();
+				std::string listChannelId = *listChannel->GetChannelID().ToString();
 }>
-				<option value="<$ listChannel->Number() $>" 
-					<{ reply.out() << ( channelId == selected ? "selected=\"selected\"" : "" ); }>><$ listChannel->Name() $></option>
+				<option value="<? channelId ? *listChannel->GetChannelID().ToString() ?><? !channelId ? listChannel->Number() ?>" 
+					<{ reply.out() << ( listChannelId == selected ? "selected=\"selected\"" : "" ); }>><$ listChannel->Name() $></option>
 <{
 			}
 		}
