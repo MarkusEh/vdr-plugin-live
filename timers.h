@@ -9,39 +9,29 @@
 
 namespace vdrlive {
 
-class Plugin;
-
-class SortedTimersInterface: public std::list< cTimer >
-{
-public:
-	virtual ~SortedTimersInterface() {}
-
-	virtual std::string GetTimerId( cTimer const& timer ) = 0;
-};
-
-class SortedTimers: public SortedTimersInterface
+class SortedTimers: public std::list< cTimer >
 {
 	friend class TimerManager;
 
 public:
-	virtual std::string GetTimerId( cTimer const& timer );
+	std::string GetTimerId( cTimer const& timer );
+	cTimer* GetByTimerId( std::string const& timerid );
 	
 private:
 	SortedTimers();
 	SortedTimers( SortedTimers const& );
 
 	int m_state;
-	int m_refs;
 	
 	void ReloadTimers( bool initial = false );
 };
 
 class TimerManager: public cMutex
 {
-	friend TimerManager& Plugin::GetLiveTimerManager();
+	friend TimerManager& LiveTimerManager();
 
 public:
-	SortedTimersInterface& GetTimers() { return m_timers; }
+	SortedTimers& GetTimers() { return m_timers; }
 
 	// may only be called from Plugin::MainThreadHook
 	void DoPendingWork();
@@ -53,10 +43,7 @@ private:
 	SortedTimers m_timers;
 };
 
-inline TimerManager& LiveTimerManager()
-{
-	return LivePlugin().GetLiveTimerManager();
-}
+TimerManager& LiveTimerManager();
 
 } // namespace vdrlive
 
