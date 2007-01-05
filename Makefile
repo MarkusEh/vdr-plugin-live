@@ -1,7 +1,7 @@
 #
 # Makefile for a Video Disk Recorder plugin
 #
-# $Id: Makefile,v 1.22 2007/01/04 23:04:57 tadi Exp $
+# $Id: Makefile,v 1.23 2007/01/05 19:39:12 lordjaxom Exp $
 
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.
@@ -54,23 +54,20 @@ export DEFINES
 
 LIBS     += httpd/libhttpd.a
 
-SUBDIRS   = httpd pagelib pages css images javascript
+SUBDIRS   = httpd pages css images javascript
 
 ### The object files (add further files here):
 
-PLUGINOBJS = $(PLUGIN).o thread.o tntconfig.o setup.o i18n.o timers.o
+PLUGINOBJS = $(PLUGIN).o thread.o tntconfig.o setup.o i18n.o timers.o \
+             tools.o
 
-WEBLIBS = \
-	pagelib/libpagelib.a \
-	pages/libpages.a \
-	css/libcss.a \
-	images/libimages.a
+WEBLIBS    = pages/libpages.a css/libcss.a images/libimages.a
 
 ### Default rules:
 
 .PHONY: all dist clean SUBDIRS
 
-all: SUBDIRS libvdr-$(PLUGIN).so libtnt-$(PLUGIN).so
+all: SUBDIRS libvdr-$(PLUGIN).so
 
 ### Implicit rules:
 
@@ -93,13 +90,10 @@ SUBDIRS:
 		make -C $$dir CXX="$(CXX)" CXXFLAGS="$(CXXFLAGS)" || exit 1; \
 	done
 
-libvdr-$(PLUGIN).so: $(PLUGINOBJS) $(LIBS)
-	$(CXX) $(LDFLAGS) -shared -o $@ $^ $(LIBS)
-	@cp --remove-destination $@ $(LIBDIR)/$@.$(APIVERSION)
-
-libtnt-$(PLUGIN).so: $(WEBLIBS)
+libvdr-$(PLUGIN).so: $(PLUGINOBJS) $(LIBS) $(WEBLIBS)
 	$(CXX) $(LDFLAGS) -Wl,--whole-archive -shared -o $@ $^
-	@cp --remove-destination $@ $(LIBDIR)/$@
+	@cp --remove-destination $@ $(LIBDIR)/$@.$(APIVERSION)
+	@echo "dlname=\"$@.$(APIVERSION)\"" > $(LIBDIR)/$(shell basename $@ .so).la
 
 dist: clean
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
