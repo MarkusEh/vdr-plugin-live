@@ -3,7 +3,13 @@ AR       ?= ar
 
 CXXFLAGS ?= -O2 -Woverloaded-virtual -Wall -fPIC
 
+CXXFLAGS += `tntnet-config --cxxflags`
+
+### Includes and Defines (add further entries here):
+
 INCLUDES += -I.
+
+### The object files (add further files here):
 
 OBJS = dispatcher.o  job.o       regex.o   worker.o \
        listener.o    poller.o    tntnet.o
