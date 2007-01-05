@@ -3,7 +3,7 @@
 #include <vdr/config.h>
 #include <vdr/i18n.h>
 #include "tools.h"
-// #include "recordings.h"
+#include "recordings.h"
 
 using namespace vdrlive;
 
@@ -29,25 +29,40 @@ using namespace vdrlive;
 				<$ tr("Recordings") $>
 			</div>
 %			if (Recordings.Count() == 0) {
-			Keine Aufnahmen vorhanden
+				Keine Aufnahmen vorhanden
 %			} else {
-			<table class="recording" cellspacing="0" cellpadding="0">
+				<table class="recording" cellspacing="0" cellpadding="0">
 				<tr>
+					<td class="head"><$ tr("Structure") $></td>
 					<td class="head"><$ tr("Date") $></td>
 					<td class="head"><$ tr("Time") $></td>
+					<td class="head"><$ tr("Levels") $></td>
 					<td class="head"><$ tr("Name") $></td>
 				</tr>
+%				RecordingsTree recordingsTree;
+				<div class="recordings">
+					 <ul>
 <{
 				bool active = false;
-				for (cRecording* recording = Recordings.First(); recording != 0; recording = Recordings.Next( recording ) ) {
-					const cRecordingInfo* recInfo = recording->Info();
+				RecordingsTree::Map::iterator iter;
+				for (iter = recordingsTree.begin(); iter != recordingsTree.end(); iter++) {
+					RecordingsTree::RecordingsItemPtr recItem = iter->second;
 					active = !active;
 }>
-				<tr class="<? active ? "active" ?>">
-					<td><$ FormatDateTime(tr("%a, %b %d"), recording->start) $></td>
-					<td><$ FormatDateTime(tr("%I:%M %p"), recording->start) $></td>
-					<td><$ recording->Name() $></td>
-				</tr>
+					<table class="recording" cellspacing="0" cellpadding="0">
+					<tr class="<? active ? "active" ?>">
+						 <td>&nbsp;</td>
+%					if (recItem->IsDir()) {
+						 <td><$ recItem->StartTime() $></td>
+						 <td><$ recItem->StartTime() $></td>
+%					} else {
+						 <td>&nbsp;</td>
+						 <td><$ FormatDateTime(tr("%a, %b %d"), recItem->StartTime()) $></td>
+						 <td><$ FormatDateTime(tr("%I:%M %p"), recItem->StartTime()) $></td>
+%					}
+						 <td><$ recItem->Name() $></td>
+					</tr>
+					</table>
 <{
 				}
 			}
