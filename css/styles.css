@@ -42,7 +42,17 @@ div.head_box {
 	color: black;
 }
 
-
+button.smallbutton {
+	width: 51px;
+	height: 17px;
+	background-color: inherit;
+	background-image: url(button_blue.png);
+	color: #FFFFFF;
+	font-size: 15px;
+	border: 0px;
+	vertical-align: middle;
+	text-align: center;
+}
 
 table.event {
 	width: 250px;
