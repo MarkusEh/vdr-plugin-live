@@ -48,10 +48,11 @@ button.smallbutton {
 	background-color: inherit;
 	background-image: url(button_blue.png);
 	color: #FFFFFF;
-	font-size: 15px;
+	font-size: 14px;
 	border: 0px;
 	vertical-align: middle;
 	text-align: center;
+	cursor: pointer;
 }
 
 table.event {
