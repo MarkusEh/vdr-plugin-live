@@ -15,7 +15,7 @@ namespace vdrlive {
 				m_maxLevel = recording->HierarchyLevels();
 			}
 
-			RecordingsItemPtr& dir = m_root;
+			RecordingsItemPtr dir = m_root;
 			string name(recording->Name());
 			int level = 0;
 			size_t index = 0;
