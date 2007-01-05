@@ -17,7 +17,7 @@ VDRDIR   ?= ../../../..
 
 OBJS	= menu.o event_widget.o channels.o recordings.o schedule.o \
           screenshot.o timers.o whats_on_now.o whats_on_next.o     \
-		  keypress.o remote.o channels_widget.o
+		  keypress.o remote.o channels_widget.o edit_timer.o
 
 ### Default rules:
 
