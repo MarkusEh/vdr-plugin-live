@@ -11,7 +11,7 @@ VDRDIR   ?= ../../../..
 
 ### The object files (add further files here):
 
-OBJS	= sortedtimers.o tools.o
+OBJS	= tools.o
 
 ### Default rules:
 
