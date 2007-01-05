@@ -35,11 +35,11 @@ private:
 	Setup( Setup const& );
 
 	mutable std::string m_helpString;
-	// commandline
+	// commandline options
 	std::string m_libraryPath;
 	int m_serverPort;
 	IpList m_serverIps;
-	// vdr-setup
+	// setup options
 	int m_lastChannel;
 	int m_screenshotInterval;
 
