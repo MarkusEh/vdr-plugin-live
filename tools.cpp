@@ -49,4 +49,13 @@ vector< string > StringSplit( string const& text, char delimiter )
 	return result;
 }
 
+int StringToInt( std::string const& string, int base )
+{
+	char* end;
+	int result = strtol( string.c_str(), &end, base );
+	if ( *end == '\0' )
+		return result;
+	return 0;
+}
+
 }

@@ -13,6 +13,7 @@ namespace vdrlive {
 std::string FormatDateTime( char const* format, time_t time );
 std::string StringReplace( std::string const& text, std::string const& substring, std::string const& replacement );
 std::vector< std::string > StringSplit( std::string const& text, char delimiter );
+int StringToInt( std::string const& string, int base = 10 );
 
 struct bad_lexical_cast: std::runtime_error 
 {
