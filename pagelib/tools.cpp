@@ -26,4 +26,15 @@ string FormatDateTime( char const* format, time_t time )
 	return result;
 }
 
+string StringReplace( string const& text, string const& substring, string const& replacement )
+{
+	string result = text;
+	string::size_type pos = 0;
+	while ( ( pos = result.find( substring, pos ) ) != string::npos ) {
+		result.replace( pos, substring.length(), replacement );
+		pos += replacement.length();
+	}
+	return result;
+}
+
 }

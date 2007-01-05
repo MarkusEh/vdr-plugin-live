@@ -8,6 +8,7 @@
 namespace vdrlive {
 
 std::string FormatDateTime( char const* format, time_t time );
+std::string StringReplace( std::string const& text, std::string const& substring, std::string const& replacement );
 
 class ReadLock
 {
