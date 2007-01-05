@@ -55,6 +55,10 @@ button.smallbutton {
 	cursor: pointer;
 }
 
+table td.buttonpanel {
+	text-align: right;
+}
+
 table.event {
 	width: 250px;
 	height: 250px;
