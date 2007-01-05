@@ -43,6 +43,8 @@ private:
 	bool CheckServerIps();
 };
 
+Setup& LiveSetup();
+
 } // namespace vdrlive
 
 #endif // VDR_LIVE_SETUP_H
