@@ -10,16 +10,17 @@ using namespace vdrlive;
 name = "channel";
 int lastChannel = LiveSetup().GetLastChannel();
 selected;
+onchange;
 </%args>
 	
-	<select name="<$ name $>">
+	<select name="<$ name $>" <{ reply.out() << ( !onchange.empty() ? "onchange=\""+onchange+"\"" : "" ); }>>
 <{
 		for (cChannel *listChannel = Channels.First(); listChannel && listChannel->Number() <= lastChannel; listChannel = Channels.Next(listChannel)) {
 			if (!listChannel->GroupSep() && *listChannel->Name()) {
 				std::string channelId = *listChannel->GetChannelID().ToString();
 }>
 				<option value="<$ listChannel->Number() $>" 
-					<$ channelId == selected ? "selected=\"selected\"" : "" $>><$ listChannel->Name() $></option>
+					<{ reply.out() << ( channelId == selected ? "selected=\"selected\"" : "" ); }>><$ listChannel->Name() $></option>
 <{
 			}
 		}
