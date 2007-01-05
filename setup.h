@@ -18,7 +18,6 @@ public:
 	typedef std::list< std::string > IpList;
 
 	// commandline
-	std::string const& GetLibraryPath() const { return m_libraryPath; }
 	int GetServerPort() const { return m_serverPort; }
 	IpList const& GetServerIps() const { return m_serverIps; }
 	// vdr-setup
@@ -36,14 +35,12 @@ private:
 
 	mutable std::string m_helpString;
 	// commandline options
-	std::string m_libraryPath;
 	int m_serverPort;
 	IpList m_serverIps;
 	// setup options
 	int m_lastChannel;
 	int m_screenshotInterval;
 
-	bool CheckLibraryPath();
 	bool CheckServerPort();
 	bool CheckServerIps();
 };

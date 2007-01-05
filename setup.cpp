@@ -17,7 +17,6 @@ namespace vdrlive {
 using namespace std;
 
 Setup::Setup():
-		m_libraryPath( "/usr/local/lib" ),
 		m_serverPort( 8001 ),
 		m_lastChannel( 0 ),
 		m_screenshotInterval( 1000 )
@@ -27,24 +26,21 @@ Setup::Setup():
 bool Setup::ParseCommandLine( int argc, char* argv[] )
 {
 	static struct option opts[] = {
-			{ "lib",  required_argument, NULL, 'L' },
 			{ "port", required_argument, NULL, 'p' },
 			{ "ip",   required_argument, NULL, 'i' },
 			{ 0 }
 	};
 
 	int optchar, optind = 0;
-	while ( ( optchar = getopt_long( argc, argv, "L:p:i:", opts, &optind ) ) != -1 ) {
+	while ( ( optchar = getopt_long( argc, argv, "p:i:", opts, &optind ) ) != -1 ) {
 		switch ( optchar ) {
-		case 'L': m_libraryPath = optarg; break;
 		case 'p': m_serverPort = atoi( optarg ); break;
 		case 'i': m_serverIps.push_back( optarg ); break;
 		default:  return false;
 		}
 	}
 
-	return CheckLibraryPath() &&
-		   CheckServerPort() &&
+	return CheckServerPort() &&
 		   CheckServerIps();
 }
 
@@ -52,9 +48,7 @@ char const* Setup::CommandLineHelp() const
 {
 	if ( m_helpString.empty() ) {
 		ostringstream builder;
-		builder << "  -L DIR,   --lib=DIR       libtnt-live.so will be searched in DIR\n"
-				   "                            (default: " << m_libraryPath << ")\n"
-				<< "  -p PORT,  --port=PORT     use PORT to listen for incoming connections\n"
+		builder << "  -p PORT,  --port=PORT     use PORT to listen for incoming connections\n"
 				   "                            (default: " << m_serverPort << ")\n"
 				<< "  -i IP,    --ip=IP         bind server only to specified IP, may appear\n"
 				   "                            multiple times\n"
@@ -69,19 +63,6 @@ bool Setup::ParseSetupEntry( char const* name, char const* value )
 	if ( strcmp( name, "LastChannel" ) == 0 ) m_lastChannel = atoi( value );
 	else if ( strcmp( name, "ScreenshotInterval" ) == 0 ) m_screenshotInterval = atoi( value );
 	else return false;
-	return true;
-}
-
-
-bool Setup::CheckLibraryPath()
-{
-	ostringstream builder;
-	builder << m_libraryPath << "/libtnt-live.so";
-	if ( access( builder.str().c_str(), R_OK ) != 0 ) {
-		esyslog( "ERROR: live can't open content library %s: %s", builder.str().c_str(), strerror( errno ) );
-		cerr << "ERROR: live can't open content library " << builder << ": " << strerror( errno ) << endl;
-		return false;
-	}
 	return true;
 }
 
