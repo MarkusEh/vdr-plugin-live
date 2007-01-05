@@ -11,16 +11,29 @@ using namespace vdrlive;
 </%pre>
 <%args>
 timerid;
+bool active = true;
+channel = "";
+title = "";
+day = FormatDateTime( "%d", time( 0 ) );
+bool wday_mon = false;
+bool wday_tue = false;
+bool wday_wed = false;
+bool wday_thu = false;
+bool wday_fri = false;
+bool wday_sat = false;
+bool wday_sun = false;
+int start_h = StringToInt( FormatDateTime( "%H", time( 0 ) ) );
+int start_m = StringToInt( FormatDateTime( "%M", time( 0 ) ) );
+int end_h = StringToInt( FormatDateTime( "%H", time( 0 ) ) );
+int end_m = StringToInt( FormatDateTime( "%M", time( 0 ) ) );
+bool vps = ::Setup.UseVps;
+int priority = ::Setup.DefaultPriority;
+int lifetime = ::Setup.DefaultLifetime;
 </%args>
 <{
 	ReadLock channelsLock( Channels );
 	if (!channelsLock) 
 		return DECLINED; // XXX error page
-
-	{
-		ReadLock channelsLock2( Channels );
-		if (!channelsLock2)return DECLINED;
-	}
 
 	cMutexLock timersLock( &LiveTimerManager() );
 	SortedTimers& timers = LiveTimerManager().GetTimers();
@@ -32,24 +45,26 @@ timerid;
 			return DECLINED; // XXX error page
 	}
 
-	bool active = timer ? timer->Flags() & tfActive : true;
-	std::string channel = timer ? *timer->Channel()->GetChannelID().ToString() : "";
-	std::string title = timer ? timer->File() : "";
-	int day = ( !timer || timer->Day() ) ? StringToInt( FormatDateTime( "%d", timer ? timer->Day() : time( 0 ) ) ) : 0;
-	bool wday_mon = timer ? timer->WeekDays() & 0x01 : false;
-	bool wday_tue = timer ? timer->WeekDays() & 0x02 : false;
-	bool wday_wed = timer ? timer->WeekDays() & 0x04 : false;
-	bool wday_thu = timer ? timer->WeekDays() & 0x08 : false;
-	bool wday_fri = timer ? timer->WeekDays() & 0x10 : false;
-	bool wday_sat = timer ? timer->WeekDays() & 0x20 : false;
-	bool wday_sun = timer ? timer->WeekDays() & 0x40 : false;
-	int start_h = timer ? ( timer->Start() / 100 ) % 100 : StringToInt( FormatDateTime( "%H", time( 0 ) ) );
-	int start_m = timer ? timer->Start() % 100 : StringToInt( FormatDateTime( "%M", time( 0 ) ) );
-	int end_h = timer ? ( timer->Stop() / 100 ) % 100 : StringToInt( FormatDateTime( "%H", time( 0 ) ) );
-	int end_m = timer ? timer->Stop() % 100 : StringToInt( FormatDateTime( "%M", time( 0 ) ) );
-	bool vps = timer ? timer->Flags() & tfVps : ::Setup.UseVps;
-	int priority = timer ? timer->Priority() : ::Setup.DefaultPriority;
-	int lifetime = timer ? timer->Lifetime() : ::Setup.DefaultLifetime;
+	if ( request.getMethod() != "POST" && timer != 0 ) {
+		active = timer->Flags() & tfActive;
+		channel = *timer->Channel()->GetChannelID().ToString();
+		title = timer->File();
+		day = timer->Day() ? FormatDateTime( "%d", timer->Day() ) : "";
+		wday_mon = timer->WeekDays() & 0x01;
+		wday_tue = timer->WeekDays() & 0x02;
+		wday_wed = timer->WeekDays() & 0x04;
+		wday_thu = timer->WeekDays() & 0x08;
+		wday_fri = timer->WeekDays() & 0x10;
+		wday_sat = timer->WeekDays() & 0x20;
+		wday_sun = timer->WeekDays() & 0x40;
+		start_h = ( timer->Start() / 100 ) % 100;
+		start_m = timer->Start() % 100;
+		end_h = ( timer->Stop() / 100 ) % 100;
+		end_m = timer->Stop() % 100;
+		vps = timer->Flags() & tfVps;
+		priority = timer->Priority();
+		lifetime = timer->Lifetime();
+	}
 }>
 <html>
 	<head>
@@ -63,7 +78,7 @@ timerid;
 		</div>
 		<div class="inhalt">
 			<div class="head_box"><$ timer ? tr("Edit timer") : tr("New timer") $></div>
-			<form name="new_timer">
+			<form method="POST" name="edit_timer">
 				<input type="hidden" name="timerid" value="<$ timerid $>"/>
 				<table>
 					<tr>
@@ -78,7 +93,7 @@ timerid;
 							Kanal:
 						</td>
 						<td>
-<& channels_widget name=("channel") selected=(channel) &>
+<& channels_widget name=("channel") channelId=(true) selected=(channel) &>
 						</td>
 					</tr>
 					
@@ -90,7 +105,7 @@ timerid;
 					
 					<tr>
 						<td>Tag der Aufnahme</td>
-						<td><input type="text" name="day" value="<? day ? day ?>" size="2" maxlength="2" /></td>
+						<td><input type="text" name="day" value="<$ day $>" size="2" maxlength="2" /></td>
 					</tr>
 					
 					<tr>
@@ -123,14 +138,17 @@ timerid;
 
 					<tr>
 						<td>Priorität:</td>
-						<td><input type="text" size="2" maxlength="2" name="prio" value="<$ priority $>" /></td>
+						<td><input type="text" size="2" maxlength="2" name="priority" value="<$ priority $>" /></td>
 					</tr>
 					
 					<tr>
 						<td>Lebensdauer:</td>
-						<td><input type="text" size="2" maxlength="2" name="life" value="<$ lifetime $>" /></td>
+						<td><input type="text" size="2" maxlength="2" name="lifetime" value="<$ lifetime $>" /></td>
 					</tr>
 					
+					<tr>
+						<td class="buttonpanel" colspan="2"><button type="submit"><$ tr("Save") $></button></td>
+					</tr>
 				</table>
 			</form>
 		</div>
