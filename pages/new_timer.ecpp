@@ -1,0 +1,114 @@
+<%pre>
+#include <vdr/plugin.h>
+#include <vdr/timers.h>
+#include <vdr/config.h>
+#include <vdr/i18n.h>
+#include "setup.h"
+#include "tools.h"
+
+using namespace vdrlive;
+
+</%pre>
+<%args>
+</%args>
+<{
+	ReadLock channelsLock( Channels );
+	if (channelsLock) {
+}>
+<html>
+	<head>
+		<title>VDR Live - <$ tr("New timer") $></title>
+		<link rel="stylesheet" type="text/css" href="/styles.css" />
+	</head>
+	<body>
+		<div class="left_area">
+			<img src="logo.png" alt="VDR Live!" border="0" />
+<& menu >
+		</div>
+		<div class="inhalt">
+			<div class="head_box"><$ tr("New timer") $></div>
+			<form name="new_timer">
+				<table>
+					<tr>
+						<td>Timer aktiv: </td>
+						<td>
+							<input name="active" value="1" checked="checked" type="radio">Ja
+							<input name="active" value="0" type="radio">Nein
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Kanal:
+						</td>
+						<td>
+							<select name="channel">
+<{
+		for (cChannel *listChannel = Channels.First(); listChannel && listChannel->Number() <= LiveSetup().GetLastChannel(); listChannel = Channels.Next(listChannel)) {
+			if (!listChannel->GroupSep() && *listChannel->Name()) {
+}>
+									<option value="<$ listChannel->Number() $>"><$ listChannel->Name() $></option>
+<{
+			}
+		}
+}>
+							</select>
+						</td>
+					</tr>
+					
+					<tr>
+						<td>Titel</td>
+						<td><input type="text" name="day" value="" size="80" /></td>
+					</tr>
+					
+					
+					<tr>
+						<td>Tag der Aufnahme</td>
+						<td><input type="text" name="day" value="" size="2" maxlength="2" /></td>
+					</tr>
+					
+					<tr>
+						<td>Wochentag</td>
+						<td>
+							<input type="checkbox" name="wday_mon" value="1" /> Montag
+							<input type="checkbox" name="wday_tue" value="1" /> Dienstag
+							<input type="checkbox" name="wday_wed" value="1" /> Mittwoch
+							<input type="checkbox" name="wday_thu" value="1" /> Donnerstag
+							<input type="checkbox" name="wday_fri" value="1" /> Freitag
+							<input type="checkbox" name="wday_sat" value="1" /> Samstag
+							<input type="checkbox" name="wday_sun" value="1" /> Sonntag
+						</td>
+					</tr>
+					
+					<tr>
+						<td>Startzeit:</td>
+						<td><input type="text" size="2" maxlength="2" name="start_h" value="" /> : <input type="text" size="2" maxlength="2" name="start_m" value="" /></td>
+					</tr>
+					
+					<tr>
+						<td>Endzeit:</td>
+						<td><input type="text" size="2" maxlength="2" name="end_h" value="" /> : <input type="text" size="2" maxlength="2" name="end_m" value="" /></td>
+					</tr>
+					
+					<tr>
+						<td>VPS verwenden</td>
+						<td><input type="checkbox" name="vps" value="1" /></td>
+					</tr>
+
+					<tr>
+						<td>Priorität:</td>
+						<td><input type="text" size="2" maxlength="2" name="prio" value="99" /></td>
+					</tr>
+					
+					<tr>
+						<td>Lebensdauer:</td>
+						<td><input type="text" size="2" maxlength="2" name="life" value="99" /></td>
+					</tr>
+					
+				</table>
+			</form>
+		</div>
+	</body>
+</html>
+<{
+	}
+}>
