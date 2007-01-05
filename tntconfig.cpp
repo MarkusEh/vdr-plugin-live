@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
+#include <vdr/config.h>
 #include <vdr/plugin.h>
 #include "live.h"
 #include "setup.h"
@@ -33,10 +34,9 @@ void TntConfig::WriteConfig()
 	}
 
 	// XXX modularize
-	file << "MapUrl ^/$ whats_on_now@libtnt-live" << endl;
-	file << "MapUrl /([^.]+)(\\..+)? $1@libtnt-live" << endl;
+	file << "MapUrl ^/$ whats_on_now@" << endl;
+	file << "MapUrl /([^.]+)(\\..+)? $1@" << endl;
 	file << "PropertyFile " << m_propertiesPath << endl;
-	file << "CompPath " << LiveSetup().GetLibraryPath() << endl;
 
 	Setup::IpList const& ips = LiveSetup().GetServerIps();
 	int port = LiveSetup().GetServerPort();
