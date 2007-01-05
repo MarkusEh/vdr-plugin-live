@@ -3,7 +3,7 @@
  *
  * See the README file for copyright information and how to reach the author.
  *
- * $Id: live.cpp,v 1.9 2007/01/05 17:52:46 lordjaxom Exp $
+ * $Id: live.cpp,v 1.10 2007/01/05 19:51:38 lordjaxom Exp $
  */
 
 #include <vdr/plugin.h>
@@ -70,18 +70,6 @@ cMenuSetupPage *Plugin::SetupMenu(void)
 bool Plugin::SetupParse(const char *Name, const char *Value)
 {
 	return LiveSetup().ParseSetupEntry( Name, Value );
-}
-
-Setup& Plugin::GetLiveSetup()
-{
-	static Setup instance;
-	return instance;
-}
-
-TimerManager& Plugin::GetLiveTimerManager()
-{
-	static TimerManager instance;
-	return instance;
 }
 
 } // namespace vdrlive

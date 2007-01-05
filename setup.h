@@ -8,11 +8,9 @@
 
 namespace vdrlive {
 
-class Plugin;
-
 class Setup
 {
-	friend Setup& Plugin::GetLiveSetup();
+	friend Setup& LiveSetup();
 
 public:
 	typedef std::list< std::string > IpList;
@@ -44,11 +42,6 @@ private:
 	bool CheckServerPort();
 	bool CheckServerIps();
 };
-
-inline Setup& LiveSetup()
-{
-	return LivePlugin().GetLiveSetup();
-}
 
 } // namespace vdrlive
 

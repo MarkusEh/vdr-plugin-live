@@ -93,4 +93,10 @@ bool Setup::CheckServerIps()
 	return true;
 }
 
+Setup& LiveSetup()
+{
+	static Setup instance;
+	return instance;
+}
+
 } // namespace vdrlive
