@@ -3,7 +3,7 @@
  *
  * See the README file for copyright information and how to reach the author.
  *
- * $Id: live.cpp,v 1.8 2007/01/05 11:35:32 lordjaxom Exp $
+ * $Id: live.cpp,v 1.9 2007/01/05 17:52:46 lordjaxom Exp $
  */
 
 #include <vdr/plugin.h>
@@ -54,6 +54,7 @@ void Plugin::Stop(void)
 
 void Plugin::MainThreadHook(void)
 {
+	LiveTimerManager().DoPendingWork();
 }
 
 cString Plugin::Active(void)
