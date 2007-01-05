@@ -53,9 +53,9 @@ using namespace vdrlive;
 }>
 				<tr class="<$ active ? "active" : "" $>">
 					<td><button type="button" class="smallbutton" onclick="location.href='edit_timer.html?timerid=<$ timers.GetTimerId(*timer) $>';"><$ tr("Edit") $></button></td>
-					<td><img src="/<$ (timer->Flags() & 1) ? "active" : "inactive" $>.png" alt="Aktiv?" /></td>
+					<td><img src="/<$ (timer->Flags() & tfActive) ? "active" : "inactive" $>.png" alt="Aktiv?" /></td>
 					<td><$ timer->Channel()->Name() $></td>
-					<td><$ FormatDateTime(tr("%a, %b %d"), timer->Day()) $></td>
+					<td><$ timer->Day() > 0 ? FormatDateTime(tr("%a, %b %d"), timer->Day()) : " " $></td>
 					<td><$ FormatDateTime(tr("%I:%M %p"), timer->StartTime()) $></td>
 					<td><$ FormatDateTime(tr("%I:%M %p"), timer->StopTime()) $></td>
 					<td><{ if (timer->Flags() & 8) { }><img src="/record.png" alt="Record" /><{ } }></td>

@@ -32,6 +32,24 @@ timerid;
 			return DECLINED; // XXX error page
 	}
 
+	bool active = timer ? timer->Flags() & tfActive : true;
+	std::string channel = timer ? *timer->Channel()->GetChannelID().ToString() : "";
+	std::string title = timer ? timer->File() : "";
+	int day = ( !timer || timer->Day() ) ? StringToInt( FormatDateTime( "%d", timer ? timer->Day() : time( 0 ) ) ) : 0;
+	bool wday_mon = timer ? timer->WeekDays() & 0x01 : false;
+	bool wday_tue = timer ? timer->WeekDays() & 0x02 : false;
+	bool wday_wed = timer ? timer->WeekDays() & 0x04 : false;
+	bool wday_thu = timer ? timer->WeekDays() & 0x08 : false;
+	bool wday_fri = timer ? timer->WeekDays() & 0x10 : false;
+	bool wday_sat = timer ? timer->WeekDays() & 0x20 : false;
+	bool wday_sun = timer ? timer->WeekDays() & 0x40 : false;
+	int start_h = timer ? ( timer->Start() / 100 ) % 100 : StringToInt( FormatDateTime( "%H", time( 0 ) ) );
+	int start_m = timer ? timer->Start() % 100 : StringToInt( FormatDateTime( "%M", time( 0 ) ) );
+	int end_h = timer ? ( timer->Stop() / 100 ) % 100 : StringToInt( FormatDateTime( "%H", time( 0 ) ) );
+	int end_m = timer ? timer->Stop() % 100 : StringToInt( FormatDateTime( "%M", time( 0 ) ) );
+	bool vps = timer ? timer->Flags() & tfVps : ::Setup.UseVps;
+	int priority = timer ? timer->Priority() : ::Setup.DefaultPriority;
+	int lifetime = timer ? timer->Lifetime() : ::Setup.DefaultLifetime;
 }>
 <html>
 	<head>
@@ -51,8 +69,8 @@ timerid;
 					<tr>
 						<td>Timer aktiv: </td>
 						<td>
-							<input name="active" value="1" checked="checked" type="radio">Ja
-							<input name="active" value="0" type="radio">Nein
+							<input name="active" value="1" <{ reply.out() << ( active ? "checked=\"checked\"" : "" ); }> type="radio">Ja
+							<input name="active" value="0" <{ reply.out() << ( !active ? "checked=\"checked\"" : "" ); }> type="radio">Nein
 						</td>
 					</tr>
 					<tr>
@@ -60,67 +78,57 @@ timerid;
 							Kanal:
 						</td>
 						<td>
-							<select name="channel">
-<{
-		for (cChannel *listChannel = Channels.First(); listChannel && listChannel->Number() <= LiveSetup().GetLastChannel(); listChannel = Channels.Next(listChannel)) {
-			if (!listChannel->GroupSep() && *listChannel->Name()) {
-}>
-									<option value="<$ listChannel->Number() $>"><$ listChannel->Name() $></option>
-<{
-			}
-		}
-}>
-							</select>
+<& channels_widget name=("channel") selected=(channel) &>
 						</td>
 					</tr>
 					
 					<tr>
 						<td>Titel</td>
-						<td><input type="text" name="day" value="" size="80" /></td>
+						<td><input type="text" name="title" value="<$ title $>" size="80" /></td>
 					</tr>
 					
 					
 					<tr>
 						<td>Tag der Aufnahme</td>
-						<td><input type="text" name="day" value="" size="2" maxlength="2" /></td>
+						<td><input type="text" name="day" value="<? day ? day ?>" size="2" maxlength="2" /></td>
 					</tr>
 					
 					<tr>
 						<td>Wochentag</td>
 						<td>
-							<input type="checkbox" name="wday_mon" value="1" /> Montag
-							<input type="checkbox" name="wday_tue" value="1" /> Dienstag
-							<input type="checkbox" name="wday_wed" value="1" /> Mittwoch
-							<input type="checkbox" name="wday_thu" value="1" /> Donnerstag
-							<input type="checkbox" name="wday_fri" value="1" /> Freitag
-							<input type="checkbox" name="wday_sat" value="1" /> Samstag
-							<input type="checkbox" name="wday_sun" value="1" /> Sonntag
+							<input type="checkbox" name="wday_mon" value="1" <{ reply.out() << ( wday_mon ? "checked=\"checked\"" : "" ); }>/> Montag
+							<input type="checkbox" name="wday_tue" value="1" <{ reply.out() << ( wday_tue ? "checked=\"checked\"" : "" ); }>/> Dienstag
+							<input type="checkbox" name="wday_wed" value="1" <{ reply.out() << ( wday_wed ? "checked=\"checked\"" : "" ); }>/> Mittwoch
+							<input type="checkbox" name="wday_thu" value="1" <{ reply.out() << ( wday_thu ? "checked=\"checked\"" : "" ); }>/> Donnerstag
+							<input type="checkbox" name="wday_fri" value="1" <{ reply.out() << ( wday_fri ? "checked=\"checked\"" : "" ); }>/> Freitag
+							<input type="checkbox" name="wday_sat" value="1" <{ reply.out() << ( wday_sat ? "checked=\"checked\"" : "" ); }>/> Samstag
+							<input type="checkbox" name="wday_sun" value="1" <{ reply.out() << ( wday_sun ? "checked=\"checked\"" : "" ); }>/> Sonntag
 						</td>
 					</tr>
 					
 					<tr>
 						<td>Startzeit:</td>
-						<td><input type="text" size="2" maxlength="2" name="start_h" value="" /> : <input type="text" size="2" maxlength="2" name="start_m" value="" /></td>
+						<td><input type="text" size="2" maxlength="2" name="start_h" value="<$ start_h $>" /> : <input type="text" size="2" maxlength="2" name="start_m" value="<$ start_m $>" /></td>
 					</tr>
 					
 					<tr>
 						<td>Endzeit:</td>
-						<td><input type="text" size="2" maxlength="2" name="end_h" value="" /> : <input type="text" size="2" maxlength="2" name="end_m" value="" /></td>
+						<td><input type="text" size="2" maxlength="2" name="end_h" value="<$ end_h $>" /> : <input type="text" size="2" maxlength="2" name="end_m" value="<$ end_m $>" /></td>
 					</tr>
 					
 					<tr>
 						<td>VPS verwenden</td>
-						<td><input type="checkbox" name="vps" value="1" /></td>
+						<td><input type="checkbox" name="vps" value="1" <{ reply.out() << ( vps ? "checked=\"checked\"" : "" ); }>/></td>
 					</tr>
 
 					<tr>
 						<td>Priorität:</td>
-						<td><input type="text" size="2" maxlength="2" name="prio" value="99" /></td>
+						<td><input type="text" size="2" maxlength="2" name="prio" value="<$ priority $>" /></td>
 					</tr>
 					
 					<tr>
 						<td>Lebensdauer:</td>
-						<td><input type="text" size="2" maxlength="2" name="life" value="99" /></td>
+						<td><input type="text" size="2" maxlength="2" name="life" value="<$ lifetime $>" /></td>
 					</tr>
 					
 				</table>
