@@ -1,23 +1,41 @@
 <%pre>
 #include <vdr/plugin.h>
-#include <vdr/timers.h>
 #include <vdr/config.h>
 #include <vdr/i18n.h>
 #include "setup.h"
 #include "tools.h"
+#include "timers.h"
 
 using namespace vdrlive;
 
 </%pre>
 <%args>
+timerid;
 </%args>
 <{
 	ReadLock channelsLock( Channels );
-	if (channelsLock) {
+	if (!channelsLock) 
+		return DECLINED; // XXX error page
+
+	{
+		ReadLock channelsLock2( Channels );
+		if (!channelsLock2)return DECLINED;
+	}
+
+	cMutexLock timersLock( &LiveTimerManager() );
+	SortedTimers& timers = LiveTimerManager().GetTimers();
+
+	cTimer* timer = 0;
+	if ( !timerid.empty() ) {
+		timer = timers.GetByTimerId( timerid );
+		if ( timer == 0 )
+			return DECLINED; // XXX error page
+	}
+
 }>
 <html>
 	<head>
-		<title>VDR Live - <$ tr("New timer") $></title>
+		<title>VDR Live - <$ timer ? tr("Edit timer") : tr("New timer") $></title>
 		<link rel="stylesheet" type="text/css" href="/styles.css" />
 	</head>
 	<body>
@@ -26,8 +44,9 @@ using namespace vdrlive;
 <& menu >
 		</div>
 		<div class="inhalt">
-			<div class="head_box"><$ tr("New timer") $></div>
+			<div class="head_box"><$ timer ? tr("Edit timer") : tr("New timer") $></div>
 			<form name="new_timer">
+				<input type="hidden" name="timerid" value="<$ timerid $>"/>
 				<table>
 					<tr>
 						<td>Timer aktiv: </td>
@@ -109,6 +128,3 @@ using namespace vdrlive;
 		</div>
 	</body>
 </html>
-<{
-	}
-}>

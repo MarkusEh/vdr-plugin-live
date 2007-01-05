@@ -49,6 +49,7 @@ void ServerThread::Action()
 		int argc = sizeof( argv ) / sizeof( argv[0] );
 		m_server.reset( new Tntnet( argc, argv ) );
 		m_server->run();
+		m_server.reset( 0 );
 	} catch ( exception const& ex ) {
 		// XXX move initial error handling to live.cpp
 		esyslog( "ERROR: live httpd server crashed: %s", ex.what() );

@@ -30,7 +30,7 @@ using namespace vdrlive;
 			</div>
 <{
 			cMutexLock timersLock( &LiveTimerManager() );
-			SortedTimersInterface& timers = LiveTimerManager().GetTimers();
+			SortedTimers& timers = LiveTimerManager().GetTimers();
 
 			if (timers.size() == 0) {
 }>
@@ -52,7 +52,7 @@ using namespace vdrlive;
 				for (SortedTimers::iterator timer = timers.begin(); timer != timers.end(); ++timer) {
 }>
 				<tr class="<$ active ? "active" : "" $>">
-					<td><button type="button" class="smallbutton" onclick="location.href='edittimer.html?timer=<$ timers.GetTimerId(*timer) $>';"><$ tr("Edit") $></button></td>
+					<td><button type="button" class="smallbutton" onclick="location.href='edit_timer.html?timerid=<$ timers.GetTimerId(*timer) $>';"><$ tr("Edit") $></button></td>
 					<td><img src="/<$ (timer->Flags() & 1) ? "active" : "inactive" $>.png" alt="Aktiv?" /></td>
 					<td><$ timer->Channel()->Name() $></td>
 					<td><$ FormatDateTime(tr("%a, %b %d"), timer->Day()) $></td>

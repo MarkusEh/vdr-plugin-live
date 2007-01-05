@@ -43,6 +43,7 @@ int channel = -1;
 						<td><? Channel ? Channel->Name() ?></td>
 						<td>
 							<form name="channels" id="channels">
+<& channels_widget name=("channel") &>
 								<select name="channel" onchange="document.forms.channels.submit()">
 <{
 		for (cChannel *listChannel = Channels.First(); listChannel && listChannel->Number() <= LiveSetup().GetLastChannel(); listChannel = Channels.Next(listChannel)) {
