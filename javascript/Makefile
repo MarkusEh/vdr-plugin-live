@@ -7,7 +7,7 @@ CXXFLAGS ?= -O2 -Woverloaded-virtual -Wall -fPIC
 CXXFLAGS += `tntnet-config --cxxflags`
 LDFLAGS  += `tntnet-config --libs`
 
-INCLUDES += -I.. -I../pagelib -I$(VDRDIR)/include
+INCLUDES += -I.. -I$(VDRDIR)/include
 
 ### The directory environment:
 
@@ -29,7 +29,7 @@ all: libjavascript.a
 	$(CXX) $(CXXFLAGS) -c $(DEFINES) $(INCLUDES) $<
 
 %.cpp: %.js
-	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_JS) -b -m "test/javascript" $<
+	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_JS) -b -m "text/javascript" $<
 
 ### Targets:
 
