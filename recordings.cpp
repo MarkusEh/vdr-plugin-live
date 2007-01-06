@@ -4,18 +4,12 @@
 
 namespace vdrlive {
 
-	RecordingsTree::RecordingsTree* RecordingsTree::globalInstance = 0;
-
 	RecordingsTree::RecordingsTree() :
 		m_maxLevel(0),
 		m_root(new RecordingsItemDir()),
 		m_recordingsLock(&Recordings)
 
 	{
-		if (globalInstance != 0) {
-			// TODO: report ERROR and fail.
-		}
-
 		for ( cRecording* recording = Recordings.First(); recording != 0; recording = Recordings.Next( recording ) ) {
 			if (m_maxLevel < recording->HierarchyLevels()) {
 				m_maxLevel = recording->HierarchyLevels();
@@ -46,17 +40,10 @@ namespace vdrlive {
 				}
 			} while (pos != string::npos);
 		}
-
-		globalInstance = this;
 	}
 
 	RecordingsTree::~RecordingsTree()
 	{
-		if (globalInstance != this)
-		{
-			// TODO: report ERROR and fail
-		}
-		globalInstance = 0;
 	}
 
 	RecordingsTree::Map::iterator RecordingsTree::begin(const vector< string >& path)
@@ -126,15 +113,6 @@ namespace vdrlive {
 	time_t RecordingsTree::RecordingsItemRec::StartTime() const
 	{
 		return m_recording->start;
-	}
-
-	RecordingsTree& LiveRecordingsTree()
-	{
-		if (RecordingsTree::globalInstance == 0)
-		{
-			// TODO: report ERROR and fail!
-		}
-		return *RecordingsTree::globalInstance;
 	}
 
 } // namespace vdrlive

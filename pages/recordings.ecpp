@@ -1,4 +1,5 @@
 <%pre>
+#include <sstream>
 #include <vdr/plugin.h>
 #include <vdr/config.h>
 #include <vdr/i18n.h>
@@ -8,6 +9,9 @@
 using namespace vdrlive;
 
 </%pre>
+<%request scope="page">
+RecordingsTree recordingsTree;
+</%request>
 <%args>
 </%args>
 <{
@@ -16,6 +20,7 @@ using namespace vdrlive;
 	<head>
 		<title>VDR-Live - <$ tr("Recordings") $></title>
 		<link rel="stylesheet" type="text/css" href="/styles.css" />
+		<script src="treetoggle.js" type="text/javascript" />
 	</head>
 	<body>
 		<div class="left_area">
@@ -29,19 +34,63 @@ using namespace vdrlive;
 %			if (Recordings.Count() == 0) {
 				Keine Aufnahmen vorhanden
 %			} else {
-				<table class="recording" cellspacing="0" cellpadding="0">
-				<tr>
-					<td class="head"><$ tr("Structure") $></td>
-					<td class="head"><$ tr("Date") $></td>
-					<td class="head"><$ tr("Time") $></td>
-					<td class="head"><$ tr("Name") $></td>
-				</tr>
-				</table>
-%				RecordingsTree recordingsTree;
 				<div class="recordings">
-<& recordings_item &>
+<& recordings.recordings_item &>
 				</div>
 %			}
 		</div>
 	</body>
 </html>
+<%def recordings_item>
+<%args>
+path[];
+int level = 0;
+</%args>
+<{
+if (level > 0) {
+}>
+<ul class="recordingslist" style="display: none;">
+<{
+}
+else {
+}>
+<ul class="recordingslist" style="display: block;">
+<{
+} // if (level > 0)
+
+RecordingsTree::Map::iterator iter;
+RecordingsTree::Map::iterator end = recordingsTree.end(path);
+for (iter = recordingsTree.begin(path); iter != end; iter++) {
+	RecordingsTree::RecordingsItemPtr recItem = iter->second;
+	std::string folderimg(level > 0 ? "folder_closed.png" : "folder_closed.png");
+	std::string collapseimg(level > 0 ? "plus.png" : "plus.png");
+}>
+	<li class="recording">
+%	if (recItem->IsDir()) {
+%		// Die folgenden img-Tags muessen direkt auf einander folgen
+%		// wegen dem etwas 'beschraenkten' treetoggle.js.
+		<a onClick="Toggle(this)" href="#"><img src="/<$ collapseimg $>" alt="" /><img src="/<$ folderimg $>" alt="" />
+		<span class="recordingname"><$ recItem->Name() $></span>
+		</a><{
+		cxxtools::QueryParams recItemParams(qparam, false);
+		for (path_type::const_iterator i = path.begin(); i != path.end(); ++i) {
+			recItemParams.add("path", *i);
+		}
+		ostringstream levelStr;
+		levelStr << ++level;
+		recItemParams.add("path", recItem->Name());
+		recItemParams.add("level", levelStr.str());
+		callComp("recordings.recordings_item", request, reply, recItemParams);
+	} else {
+}>
+		<img src="/transparent.png" alt="" width="16" height="16" /><img src="/file.png" alt="file" />
+		<span class="recordingdate"><$ FormatDateTime(tr("%a, %b %d"), recItem->StartTime()) $></span>
+		<span class="recordingtime"><$ FormatDateTime(tr("%I:%M %p"), recItem->StartTime()) $></span>
+		<span class="recordingname"><$ recItem->Name() $></span>
+%	}
+	</li>
+<{
+}
+}>
+</ul>
+</%def>

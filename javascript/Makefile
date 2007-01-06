@@ -15,7 +15,8 @@ VDRDIR   ?= ../../../..
 
 ### The object files (add further files here):
 
-OBJS	= alphaAPI.o  domLib.o  domTT_drag.o  domTT.o  fadomatic.o
+OBJS	= alphaAPI.o  domLib.o  domTT_drag.o  domTT.o  fadomatic.o \
+	  treeview.o
 
 ### Default rules:
 

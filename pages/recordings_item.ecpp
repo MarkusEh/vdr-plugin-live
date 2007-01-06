@@ -24,11 +24,11 @@ for (iter = recordingsTree.begin(path); iter != end; iter++) {
 }>
 	<li class="recording <? active ? "active" ?>">
 %	if (recItem->IsDir()) {
-		<span class="recordingexpand">DirIcon</span>
+		<span class="recordingmime"><img src="/folder_open.png" alt="folder_open" /></span>
 		<span class="recordingdate"><$ recItem->StartTime() $></span>
 		<span class="recordingtime"><$ recItem->StartTime() $></span>
 %	} else {
-		<span class="recordingexpand">FileIcon</span>
+		<span class="recordingmime"><img src="/file.png" alt="file" /></span>
 		<span class="recordingdate"><$ FormatDateTime(tr("%a, %b %d"), recItem->StartTime()) $></span>
 		<span class="recordingtime"><$ FormatDateTime(tr("%I:%M %p"), recItem->StartTime()) $></span>
 %	}

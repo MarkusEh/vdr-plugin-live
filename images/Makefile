@@ -14,7 +14,9 @@ VDRDIR   ?= ../../../..
 
 ### The object files (add further files here):
 
-OBJS	= logo.o record.o active.o inactive.o button_blue.o
+OBJS	= logo.o record.o active.o inactive.o button_blue.o	\
+	  file.o folder_closed.o folder_open.o plus.o minus.o	\
+	  transparent.o
 
 ### Default rules:
 

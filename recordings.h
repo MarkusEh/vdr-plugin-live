@@ -14,8 +14,6 @@ namespace vdrlive {
 
 	class RecordingsTree
 	{
-		friend RecordingsTree& LiveRecordingsTree();
-
 		public:
 
 			class RecordingsItem;
@@ -84,11 +82,8 @@ namespace vdrlive {
 			int m_maxLevel;
 			RecordingsItemPtr m_root;
 			cThreadLock m_recordingsLock;
-
-			static RecordingsTree* globalInstance;
 	};
 
-	RecordingsTree& LiveRecordingsTree();
 } // namespace vdrlive
 
 #endif // VDR_LIVE_RECORDINGS_H
