@@ -13,6 +13,8 @@ namespace vdrlive {
 
 	class RecordingsTree
 	{
+		friend RecordingsTree& LiveRecordingsTree();
+
 		public:
 
 			class RecordingsItem;
@@ -26,6 +28,7 @@ namespace vdrlive {
 
 				public:
 					virtual ~RecordingsItem();
+
 					virtual time_t StartTime() const = 0;
 					virtual bool IsDir() const = 0;
 					virtual const char* Name() const = 0;
@@ -41,8 +44,9 @@ namespace vdrlive {
 			{
 				public:
 					RecordingsItemDir();
-					virtual ~RecordingsItemDir();
 					RecordingsItemDir(const string& name, int level);
+
+					virtual ~RecordingsItemDir();
 
 					virtual time_t StartTime() const { return 0; }
 					virtual bool IsDir() const { return true; }
@@ -57,6 +61,7 @@ namespace vdrlive {
 			{
 				public:
 					RecordingsItemRec(cRecording* recording);
+
 					virtual ~RecordingsItemRec();
 
 					virtual time_t StartTime() const;
@@ -68,6 +73,7 @@ namespace vdrlive {
 			};
 
 			RecordingsTree();
+
 			virtual ~RecordingsTree();
 
 			Map::iterator begin() { return m_root->m_entries.begin(); }
@@ -79,8 +85,11 @@ namespace vdrlive {
 			int m_maxLevel;
 			RecordingsItemPtr m_root;
 			cThreadLock m_recordingsLock;
+
+			static RecordingsTree* globalInstance;
 	};
 
+	RecordingsTree& LiveRecordingsTree();
 } // namespace vdrlive
 
 #endif // VDR_LIVE_RECORDINGS_H

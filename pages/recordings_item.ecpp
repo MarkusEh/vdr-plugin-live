@@ -1,0 +1,34 @@
+<%pre>
+#include "recordings.h"
+#include "tools.h"
+
+using namespace vdrlive;
+
+</%pre>
+<%args>
+</%args>
+<ul class="recordingslist">
+<{
+RecordingsTree& recordingsTree = LiveRecordingsTree();
+bool active = false;
+RecordingsTree::Map::iterator iter;
+for (iter = recordingsTree.begin(); iter != recordingsTree.end(); iter++) {
+	RecordingsTree::RecordingsItemPtr recItem = iter->second;
+	active = !active;
+}>
+	<li class="recording <? active ? "active" ?>">
+%	if (recItem->IsDir()) {
+		<span class="recordingexpand"></span>
+		<span class="recordingdate"><$ recItem->StartTime() $></span>
+		<span class="recordingtime"><$ recItem->StartTime() $></span>
+%	} else {
+		<span class="recordingexpand">FileIcon</span>
+		<span class="recordingdate"><$ FormatDateTime(tr("%a, %b %d"), recItem->StartTime()) $></span>
+		<span class="recordingtime"><$ FormatDateTime(tr("%I:%M %p"), recItem->StartTime()) $></span>
+%	}
+		<span class="recordingname"><$ recItem->Name() $></span>
+	</li>
+<(
+}
+}>
+</ul>
