@@ -35,15 +35,14 @@ for (iter = recordingsTree.begin(path); iter != end; iter++) {
 		<span class="recordingname"><$ recItem->Name() $></span>
 <{
 	if (recItem->IsDir()) {
-		std::string pathArg;
+		cxxtools::QueryParams recItemParams(qparam, false);
 		for (path_type::const_iterator i = path.begin(); i != path.end(); ++i) {
-			pathArg += "path=(" + *i + ") ";
+			recItemParams.add("path", *i);
 		}
-		string name(recItem->Name());
-		pathArg += "path=(" + name + ") ";
+		recItemParams.add("path", recItem->Name());
+		callComp("recordings_item", request, reply, recItemParams);
+	}
 }>
-		<span class="recordingtest"><$ pathArg $></span>
-%	}
 	</li>
 <{
 }

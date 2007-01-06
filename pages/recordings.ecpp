@@ -38,10 +38,8 @@ using namespace vdrlive;
 				</tr>
 				</table>
 %				RecordingsTree recordingsTree;
-%				std::string pathArg("Filme");
-%				esyslog("DH: calling component: %s with arg %s", "recordings_item", pathArg.c_str());
 				<div class="recordings">
-<& recordings_item path=("Serien") path=("Familie Heinz Becker") &>
+<& recordings_item &>
 				</div>
 %			}
 		</div>
