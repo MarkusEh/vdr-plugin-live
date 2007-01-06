@@ -19,8 +19,8 @@ RecordingsTree recordingsTree;
 <html>
 	<head>
 		<title>VDR-Live - <$ tr("Recordings") $></title>
-		<link rel="stylesheet" type="text/css" href="/styles.css" />
-		<script src="treetoggle.js" type="text/javascript" />
+		<link rel="stylesheet" type="text/css" href="styles.css" />
+		<script src="treeview.js" type="text/javascript" />
 	</head>
 	<body>
 		<div class="left_area">
@@ -67,11 +67,12 @@ for (iter = recordingsTree.begin(path); iter != end; iter++) {
 }>
 	<li class="recording">
 %	if (recItem->IsDir()) {
+		<a onClick="Toggle(this)" href="#">
 %		// Die folgenden img-Tags muessen direkt auf einander folgen
-%		// wegen dem etwas 'beschraenkten' treetoggle.js.
-		<a onClick="Toggle(this)" href="#"><img src="/<$ collapseimg $>" alt="" /><img src="/<$ folderimg $>" alt="" />
-		<span class="recordingname"><$ recItem->Name() $></span>
-		</a><{
+		<img class="recording_expander" src="<$ collapseimg $>" alt="" /><img class="recording_folder" src="<$ folderimg $>" alt="" />
+		<span class="recording_name"><$ recItem->Name() $></span>
+		</a>
+<{
 		cxxtools::QueryParams recItemParams(qparam, false);
 		for (path_type::const_iterator i = path.begin(); i != path.end(); ++i) {
 			recItemParams.add("path", *i);
@@ -83,10 +84,10 @@ for (iter = recordingsTree.begin(path); iter != end; iter++) {
 		callComp("recordings.recordings_item", request, reply, recItemParams);
 	} else {
 }>
-		<img src="/transparent.png" alt="" width="16" height="16" /><img src="/file.png" alt="file" />
-		<span class="recordingdate"><$ FormatDateTime(tr("%a, %b %d"), recItem->StartTime()) $></span>
-		<span class="recordingtime"><$ FormatDateTime(tr("%I:%M %p"), recItem->StartTime()) $></span>
-		<span class="recordingname"><$ recItem->Name() $></span>
+		<img src="transparent.png" alt="" width="16" height="16" /><img src="file.png" alt="file" />
+		<span class="recording_date"><$ FormatDateTime(tr("%a, %b %d"), recItem->StartTime()) $></span>
+		<span class="recording_time"><$ FormatDateTime(tr("%I:%M %p"), recItem->StartTime()) $></span>
+		<span class="recording_name"><$ recItem->Name() $></span>
 %	}
 	</li>
 <{

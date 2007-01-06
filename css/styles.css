@@ -134,11 +134,9 @@ table.timers tr td.head {
 	padding: 3px;
 }
 
-<#
-  ##########################
-  #  Schedule
-  ##########################
-#>
+/*
+ * Schedule
+ */
 
 table.schedule {
 	margin-top: 10px;
@@ -163,42 +161,23 @@ table.schedule tr.active {
 	background: #DEE6EE;
 }
 
-<#
-  ##########################
-  #  Recordings
-  ##########################
-#>
+/*
+ *  Recordings
+ */
 
-table.recording {
-	margin-top: 10px;
-	border: 1px solid #6D96A9; 
+.recordings ul {
+	list-style-type: none;
+        /* padding: 0px; */
+        margin: 0px;
 }
 
-table.recording tr td.head {
-	background: #6D96A9;
-	color: white;
-	font-weight: bold;
-	margin: 0;
-	padding: 3px;
+.recordings img {
+        border: 0px solid white;
 }
 
-table.recording tr td {
-	vertical-align: top;
-	padding: 3px 7px 3px 3px;
-}
-
-
-table.recording tr.active {
-	background: #DEE6EE;
-}
-
-
-
-<#
-  ##########################
-  #  Remote Control Keypad
-  ##########################
-#>
+/*
+ *  Remote Control Keypad
+ */
 
 table.keypad {
 	margin-top: 10px;
