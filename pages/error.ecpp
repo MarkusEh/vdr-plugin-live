@@ -1,0 +1,25 @@
+<%args>
+errorTitle;
+errorMessage;
+</%args>
+<%request scope="global">
+std::string pageTitle;
+</%request>
+<html>
+	<head>
+		<title>VDR-Live - <$ pageTitle $></title>
+		<link rel="stylesheet" type="text/css" href="/styles.css" />
+	</head>
+	<body>
+		<div class="left_area">
+			<img src="logo.png" alt="VDR Live!" border="0" />
+			<& menu >
+		</div>
+		<div class="inhalt">
+			<div class="head_box">
+				<$ pageTitle $>
+			</div>
+			<& error_widget errorTitle=(errorTitle) errorMessage=(errorMessage) &>
+		</div>
+	</body>
+</html>
