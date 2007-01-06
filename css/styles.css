@@ -31,7 +31,6 @@ div.menu a:hover {
 	background: #DEE6EE;
 }
 
-
 div.head_box {
 	border: 1px solid #6D96A9;
 	background: #DEE6EE;
@@ -175,6 +174,16 @@ table.schedule tr.active {
         border: 0px solid white;
 }
 
+table.recording tr td {
+	vertical-align: top;
+	padding: 3px 7px 3px 3px;
+}
+
+
+table.recording tr.active {
+	background: #DEE6EE;
+}
+
 /*
  *  Remote Control Keypad
  */
@@ -207,3 +216,28 @@ table.keypad tr td.bluebutton button {
 	width: 3em;
 	background-color: #0000FF;
 }
+
+/*
+  ##########################
+  #  Error widget
+  ##########################
+*/
+
+table.error {
+	border: 1px solid #E9360D;
+	margin: 2px;
+	padding: 0px;
+}
+
+table.error tr td.message {
+	padding: 5px;
+}
+
+table.error tr td.title {
+	background: #E9360D;
+	color: white;
+	font-weight: bold;
+	margin: 0;
+	padding: 3px 3px 3px 10px;
+}
+
