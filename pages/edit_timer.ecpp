@@ -1,9 +1,9 @@
 <%pre>
 #include <sstream>
-#include <vdr/plugin.h>
 #include <vdr/config.h>
 #include <vdr/i18n.h>
-#include "setup.h"
+#include <tnt/savepoint.h>
+#include "exception.h"
 #include "tools.h"
 #include "timers.h"
 
@@ -13,7 +13,6 @@ using namespace vdrlive;
 </%pre>
 <%args>
 timerid;
-bool submit = false;
 bool active = true;
 channel = "";
 title = "";
@@ -34,10 +33,14 @@ int priority = ::Setup.DefaultPriority;
 int lifetime = ::Setup.DefaultLifetime;
 aux = "";
 </%args>
+<%request scope="global">
+std::string pageTitle( tr("Edit timer") );
+</%request>
 <%cpp>
+try {
 	ReadLock channelsLock( Channels );
-	if (!channelsLock) 
-		return DECLINED; // XXX error page
+	if ( !channelsLock )
+		throw HtmlError( tr("Channels"), tr("Couldn't aquire access to channels, please try again later.") );
 
 	cMutexLock timersLock( &LiveTimerManager() );
 	SortedTimers& timers = LiveTimerManager().GetTimers();
@@ -46,7 +49,7 @@ aux = "";
 	if ( !timerid.empty() ) {
 		timer = timers.GetByTimerId( timerid );
 		if ( timer == 0 )
-			return DECLINED; // XXX error page
+			throw HtmlError( tr("Timers"), tr("Couldn't find channel. Maybe you mistyped your request?") );
 	}
 
 	if ( request.getMethod() != "POST" && timer != 0 ) {
@@ -72,14 +75,11 @@ aux = "";
 	}
 
 	std::string result;
-	if ( submit ) {
+	if ( request.getMethod() == "POST" ) {
 		uint flags = ( active ? tfActive : 0 ) | ( vps ? tfVps : 0 );
 		string weekdays = string( wday_mon ? "M" : "-" ) + ( wday_tue ? "T" : "-" ) + ( wday_wed ? "W" : "-" ) 
 							  + ( wday_thu ? "T" : "-" ) + ( wday_fri ? "F" : "-" ) + ( wday_sat ? "S" : "-" )
 							  + ( wday_sun ? "S" : "-" );
-					//( wday_mon ? 0x01 : 0 ) | ( wday_tue ? 0x02 : 0 ) | ( wday_wed ? 0x04 : 0 ) |
-		            //( wday_thu ? 0x08 : 0 ) | ( wday_fri ? 0x10 : 0 ) | ( wday_sat ? 0x20 : 0 ) |
-					//( wday_sun ? 0x40 : 0 );
 		ostringstream builder;
 		builder << flags << ":" << channel << ":" << ( weekdays != "-------" ? weekdays : "" )
 				<< ( weekdays == "-------" || day.empty() ? "" : "@" ) << day << ":" << ( start_h * 100 + start_m )
@@ -87,8 +87,10 @@ aux = "";
 
 		std::string error = LiveTimerManager().UpdateTimer( timer, builder.str() );
 		if ( !error.empty() )
-			reply.out() << error;
+			throw HtmlError( tr("Timers"), error );
 	}
+
+	tnt::Savepoint spoint( reply );
 </%cpp>
 <html>
 	<head>
@@ -172,10 +174,19 @@ aux = "";
 					</tr>
 					
 					<tr>
-						<td class="buttonpanel" colspan="2"><button name="submit" type="submit" value="1"><$ tr("Save") $></button></td>
+						<td class="buttonpanel" colspan="2"><button name="submit" type="submit"><$ tr("Save") $></button></td>
 					</tr>
 				</table>
 			</form>
 		</div>
 	</body>
 </html>
+<%cpp>
+	spoint.commit();
+} catch ( HtmlError const& ex ) {
+	cxxtools::QueryParams param = qparam;
+	param.add( "errorTitle", ex.GetTitle() );
+	param.add( "errorMessage", ex.GetMessage() );
+	callComp( "error", request, reply, param );
+}
+</%cpp>

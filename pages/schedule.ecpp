@@ -3,6 +3,8 @@
 #include <vdr/channels.h>
 #include <vdr/epg.h>
 #include <vdr/config.h>
+#include <tnt/savepoint.h>
+#include "exception.h"
 #include "setup.h"
 #include "tools.h"
 
@@ -12,29 +14,42 @@ using namespace vdrlive;
 <%args>
 int channel = -1;
 </%args>
-<{
+<%request scope="global">
+std::string pageTitle( tr("Schedule") );
+</%request>
+<%cpp>
+try {
 	cSchedulesLock schedulesLock;
-	const cSchedules* schedules = cSchedules::Schedules(schedulesLock);
-	cChannel* Channel;
+	cSchedules const* schedules = cSchedules::Schedules( schedulesLock );
 
 	ReadLock channelsLock( Channels );
-	if (channelsLock) {
-		if (channel > 0) {
-			Channel = Channels.GetByNumber(channel);
-		} else {
-			Channel = Channels.Get(Channels.GetNextNormal(-1));
-		}
+	if ( !channelsLock )
+		throw HtmlError( tr("Channels"), tr("Couldn't aquire access to channels, please try again later.") );
 
-}>
+	cChannel* Channel;
+	if ( channel > 0 )
+		Channel = Channels.GetByNumber( channel );
+	else
+		Channel = Channels.Get( Channels.GetNextNormal( -1 ) );
+
+	if ( Channel == 0 )
+		throw HtmlError( tr("Channels"), tr("Couldn't find channel or no channels available. Maybe you mistyped your request?") );
+
+	cSchedule const* Schedule = schedules->GetSchedule( Channel );
+	if ( Schedule == 0 )
+		throw HtmlError( tr("Schedule"), tr("No schedules available for this channel.") );
+
+	tnt::Savepoint spoint( reply );
+</%cpp>
 <html>
 	<head>
-		<title>VDR Live - <$ tr("Schedule") $></title>
+		<title>VDR Live - <$ pageTitle $></title>
 		<link rel="stylesheet" type="text/css" href="/styles.css" />
 	</head>
 	<body>
 		<div class="left_area">
 			<img src="logo.png" alt="VDR Live!" border="0" />
-<& menu >
+			<& menu >
 		</div>
 		<div class="inhalt">
 			<div class="head_box">
@@ -43,18 +58,14 @@ int channel = -1;
 						<td><? Channel ? Channel->Name() ?></td>
 						<td>
 							<form name="channels" id="channels">
-<& channels_widget name=("channel") selected=(Channel ? *Channel->GetChannelID().ToString() : "") onchange=("document.forms.channels.submit()") &>
+							<& channels_widget name=("channel") selected=(Channel ? *Channel->GetChannelID().ToString() : "") 
+									onchange=("document.forms.channels.submit()") &>
 							</form>
 						</td>
 					</tr>
 				</table>
 			</div>
 
-<{
-		if (Channel) {
-			const cSchedule *Schedule = schedules->GetSchedule(Channel);
-			if (Schedule) {
-}>
 			<table class="schedule" cellspacing="0" callpadding="0">
 <{
 				bool active_line = false;
@@ -76,33 +87,26 @@ int channel = -1;
 					if (current_day != day) {
 						current_day = day;
 }>
-				<tr>
-					<td class="head" colspan="3"><$ current_day $></td>
-				</tr>
-<{
-					}
-}>
-				<tr class="<? active_line ? "active" ?>">
-					<td><$ start $> - <$ end $></td>
-					<td><strong><$ title $></strong><br /><$ short_description $><br /></td>
-					<td>&nbsp;</td>
-				</tr>
-<{
-			}
-}>
+						<tr>
+							<td class="head" colspan="3"><$ current_day $></td>
+						</tr>
+%					}
+					<tr class="<? active_line ? "active" ?>">
+						<td><$ start $> - <$ end $></td>
+						<td><strong><$ title $></strong><br /><$ short_description $><br /></td>
+						<td>&nbsp;</td>
+					</tr>
+%				}
 			</table>
-<{
-			} else {
-}>
-		Kein Schedule für Channel <$ Channel->Number() $>
-<{
-		}
-		} else {
-}>
-		Kein Channel mit der Nummer <$ channel $>
-<{
-		}
-	}
-}>
+		</div>
 	</body>
 </html>
+<%cpp>
+	spoint.commit();
+} catch ( HtmlError const& ex ) {
+	cxxtools::QueryParams param = qparam;
+	param.add( "errorTitle", ex.GetTitle() );
+	param.add( "errorMessage", ex.GetMessage() );
+	callComp( "error", request, reply, param );
+}
+</%cpp>

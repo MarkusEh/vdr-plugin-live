@@ -1,6 +1,4 @@
 <%pre>
-#include <vdr/plugin.h>
-#include <vdr/config.h>
 #include <vdr/i18n.h>
 #include "timers.h"
 #include "tools.h"
@@ -10,10 +8,9 @@ using namespace vdrlive;
 </%pre>
 <%args>
 </%args>
-<{
-
-
-}>
+<%cpp>
+//cMutexLock timersLock( &LiveTimerManager() );
+</%cpp>
 <html>
 	<head>
 		<title>VDR-Live - <$ tr("Timers") $></title>

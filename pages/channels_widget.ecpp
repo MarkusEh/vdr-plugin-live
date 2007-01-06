@@ -1,5 +1,6 @@
 <%pre>
 #include <vdr/channels.h>
+#include "exception.h"
 #include "setup.h"
 #include "tools.h"
 
@@ -13,17 +14,19 @@ selected;
 onchange;
 bool channelId = false;
 </%args>
-	
+<%cpp>
+ReadLock channelsLock( Channels );
+if ( !channelsLock )
+	throw HtmlError( tr("Channels"), tr("Couldn't aquire access to channels, please try again later.") );
+</%cpp>
 	<select name="<$ name $>" <{ reply.out() << ( !onchange.empty() ? "onchange=\""+onchange+"\"" : "" ); }>>
-<{
-		for (cChannel *listChannel = Channels.First(); listChannel && listChannel->Number() <= lastChannel; listChannel = Channels.Next(listChannel)) {
-			if (!listChannel->GroupSep() && *listChannel->Name()) {
-				std::string listChannelId = *listChannel->GetChannelID().ToString();
-}>
-				<option value="<? channelId ? *listChannel->GetChannelID().ToString() ?><? !channelId ? listChannel->Number() ?>" 
-					<{ reply.out() << ( listChannelId == selected ? "selected=\"selected\"" : "" ); }>><$ listChannel->Name() $></option>
-<{
-			}
-		}
-}>
+%		for ( cChannel *listChannel = Channels.First(); listChannel && listChannel->Number() <= lastChannel; 
+%			  listChannel = Channels.Next( listChannel ) ) {
+%			if ( listChannel->GroupSep() || *listChannel->Name() == '\0' )
+%				continue;
+%
+%			std::string listChannelId = *listChannel->GetChannelID().ToString();
+			<option value="<? channelId ? *listChannel->GetChannelID().ToString() ?><? !channelId ? listChannel->Number() ?>" 
+				<{ reply.out() << ( listChannelId == selected ? "selected=\"selected\"" : "" ); }>><$ listChannel->Name() $></option>
+%		}
 	</select>
