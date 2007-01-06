@@ -33,14 +33,31 @@ class TimerManager: public cMutex
 public:
 	SortedTimers& GetTimers() { return m_timers; }
 
+	std::string UpdateTimer( cTimer* timer, std::string const& timerString );
+
 	// may only be called from Plugin::MainThreadHook
 	void DoPendingWork();
 
 private:
+	typedef std::pair< cTimer*, std::string > TimerPair;
+	typedef std::pair< TimerPair, std::string > ErrorPair;
+	typedef std::list< TimerPair > TimerList;
+	typedef std::list< ErrorPair > ErrorList;
+	
 	TimerManager();
 	TimerManager( TimerManager const& );
 
 	SortedTimers m_timers;
+	TimerList m_updateTimers;
+	ErrorList m_failedUpdates;
+	cCondVar m_updateWait;
+
+	void DoUpdateTimers();
+	void DoInsertTimer( TimerPair& timerData );
+	void DoUpdateTimer( TimerPair& timerData );
+
+	void StoreError( TimerPair const& timerData, std::string const& error );
+	std::string GetError( TimerPair const& timerData );
 };
 
 TimerManager& LiveTimerManager();

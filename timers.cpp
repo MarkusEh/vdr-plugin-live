@@ -1,3 +1,4 @@
+#include <memory>
 #include <sstream>
 #include <vector>
 #include "timers.h"
@@ -64,7 +65,7 @@ void SortedTimers::ReloadTimers( bool initial )
 	if ( !Timers.Modified( m_state ) && !initial )
 		return;
 
-	dsyslog("reloading timers");
+	dsyslog("live reloading timers");
 
 	clear();
 	for ( cTimer* timer = Timers.First(); timer != 0; timer = Timers.Next( timer ) ) {
@@ -77,10 +78,100 @@ TimerManager::TimerManager()
 {
 }
 
+string TimerManager::UpdateTimer( cTimer* timer, std::string const& timerString )
+{
+	TimerPair timerData( timer, timerString );
+
+	dsyslog("SV: in UpdateTimer");
+	m_updateTimers.push_back( timerData );
+	dsyslog("SV: wait for update");
+	m_updateWait.Wait( *this );
+	dsyslog("SV: update done");
+	return GetError( timerData );
+}
+
 void TimerManager::DoPendingWork()
 {
 	cMutexLock lock( this );
+	if ( m_updateTimers.size() > 0 )
+		DoUpdateTimers();
 	m_timers.ReloadTimers();
+}
+
+void TimerManager::DoUpdateTimers()
+{
+	dsyslog("SV: updating timers");
+	for ( TimerList::iterator timer = m_updateTimers.begin(); timer != m_updateTimers.end(); ++timer ) {
+		if ( timer->first == 0 ) // new timer
+			DoInsertTimer( *timer );
+		else if ( timer->second == "" ) // delete timer
+			; // XXX
+		else // update timer
+			DoUpdateTimer( *timer );
+	}
+	m_updateTimers.clear();
+	dsyslog("SV: signalling waiters");
+	m_updateWait.Broadcast();
+}
+
+void TimerManager::DoInsertTimer( TimerPair& timerData )
+{
+	auto_ptr< cTimer > newTimer( new cTimer );
+	if ( !newTimer->Parse( timerData.second.c_str() ) ) {
+		StoreError( timerData, tr("Error in timer settings") );
+		return;
+	}
+
+	cTimer* checkTimer = Timers.GetTimer( newTimer.get() );
+	if ( checkTimer != 0 ) {
+		StoreError( timerData, tr("Timer already defined") );
+		return;
+	}
+
+	Timers.Add( newTimer.release() );
+	Timers.SetModified();
+	isyslog( "live timer %s added", *newTimer->ToDescr() );
+}
+
+void TimerManager::DoUpdateTimer( TimerPair& timerData )
+{
+	if ( Timers.BeingEdited() ) {
+		StoreError( timerData, tr("Timers are being edited - try again later") );
+		return;
+	}
+
+	cTimer* oldTimer = Timers.GetTimer( timerData.first );
+	if ( oldTimer == 0 ) {
+		StoreError( timerData, tr("Timer not defined") );
+		return;
+	}
+
+	cTimer copy = *oldTimer;
+	if ( !copy.Parse( timerData.second.c_str() ) ) {
+		StoreError( timerData, tr("Error in timer settings") );
+		return;
+	}
+
+	*oldTimer = copy;
+	Timers.SetModified();
+	isyslog("live timer %s modified (%s)", *oldTimer->ToDescr(), oldTimer->HasFlags(tfActive) ? "active" : "inactive");
+}
+
+void TimerManager::StoreError( TimerPair const& timerData, std::string const& error )
+{
+	m_failedUpdates.push_back( ErrorPair( timerData, error ) );
+}
+
+string TimerManager::GetError( TimerPair const& timerData )
+{
+	for ( ErrorList::iterator error = m_failedUpdates.begin(); error != m_failedUpdates.end(); ++error ) {
+		if ( error->first == timerData ) {
+			string message = error->second;
+			m_failedUpdates.erase( error );
+			return message;
+		}
+	}
+	return "";
 }
 
 TimerManager& LiveTimerManager()

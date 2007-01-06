@@ -1,4 +1,5 @@
 <%pre>
+#include <sstream>
 #include <vdr/plugin.h>
 #include <vdr/config.h>
 #include <vdr/i18n.h>
@@ -6,11 +7,13 @@
 #include "tools.h"
 #include "timers.h"
 
+using namespace std;
 using namespace vdrlive;
 
 </%pre>
 <%args>
 timerid;
+bool submit = false;
 bool active = true;
 channel = "";
 title = "";
@@ -29,8 +32,9 @@ int end_m = StringToInt( FormatDateTime( "%M", time( 0 ) ) );
 bool vps = ::Setup.UseVps;
 int priority = ::Setup.DefaultPriority;
 int lifetime = ::Setup.DefaultLifetime;
+aux = "";
 </%args>
-<{
+<%cpp>
 	ReadLock channelsLock( Channels );
 	if (!channelsLock) 
 		return DECLINED; // XXX error page
@@ -48,7 +52,7 @@ int lifetime = ::Setup.DefaultLifetime;
 	if ( request.getMethod() != "POST" && timer != 0 ) {
 		active = timer->Flags() & tfActive;
 		channel = *timer->Channel()->GetChannelID().ToString();
-		title = timer->File();
+		title = timer->File() ? timer->File() : "";
 		day = timer->Day() ? FormatDateTime( "%d", timer->Day() ) : "";
 		wday_mon = timer->WeekDays() & 0x01;
 		wday_tue = timer->WeekDays() & 0x02;
@@ -64,8 +68,28 @@ int lifetime = ::Setup.DefaultLifetime;
 		vps = timer->Flags() & tfVps;
 		priority = timer->Priority();
 		lifetime = timer->Lifetime();
+		aux = timer->Aux() ? timer->Aux() : "";
 	}
-}>
+
+	std::string result;
+	if ( submit ) {
+		uint flags = ( active ? tfActive : 0 ) | ( vps ? tfVps : 0 );
+		string weekdays = string( wday_mon ? "M" : "-" ) + ( wday_tue ? "T" : "-" ) + ( wday_wed ? "W" : "-" ) 
+							  + ( wday_thu ? "T" : "-" ) + ( wday_fri ? "F" : "-" ) + ( wday_sat ? "S" : "-" )
+							  + ( wday_sun ? "S" : "-" );
+					//( wday_mon ? 0x01 : 0 ) | ( wday_tue ? 0x02 : 0 ) | ( wday_wed ? 0x04 : 0 ) |
+		            //( wday_thu ? 0x08 : 0 ) | ( wday_fri ? 0x10 : 0 ) | ( wday_sat ? 0x20 : 0 ) |
+					//( wday_sun ? 0x40 : 0 );
+		ostringstream builder;
+		builder << flags << ":" << channel << ":" << ( weekdays != "-------" ? weekdays : "" )
+				<< ( weekdays == "-------" || day.empty() ? "" : "@" ) << day << ":" << ( start_h * 100 + start_m )
+				<< ":" << ( end_h * 100 + end_m ) << ":" << priority << ":" << lifetime << ":" << title << ":" << aux;
+
+		std::string error = LiveTimerManager().UpdateTimer( timer, builder.str() );
+		if ( !error.empty() )
+			reply.out() << error;
+	}
+</%cpp>
 <html>
 	<head>
 		<title>VDR Live - <$ timer ? tr("Edit timer") : tr("New timer") $></title>
@@ -80,6 +104,7 @@ int lifetime = ::Setup.DefaultLifetime;
 			<div class="head_box"><$ timer ? tr("Edit timer") : tr("New timer") $></div>
 			<form method="POST" name="edit_timer">
 				<input type="hidden" name="timerid" value="<$ timerid $>"/>
+				<input type="hidden" name="aux" value="<$ aux $>"/>
 				<table>
 					<tr>
 						<td>Timer aktiv: </td>
@@ -147,7 +172,7 @@ int lifetime = ::Setup.DefaultLifetime;
 					</tr>
 					
 					<tr>
-						<td class="buttonpanel" colspan="2"><button type="submit"><$ tr("Save") $></button></td>
+						<td class="buttonpanel" colspan="2"><button name="submit" type="submit" value="1"><$ tr("Save") $></button></td>
 					</tr>
 				</table>
 			</form>
