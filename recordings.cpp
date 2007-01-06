@@ -28,15 +28,16 @@ namespace vdrlive {
 					Map::iterator i = dir->m_entries.find(dirName);
 					if (i == dir->m_entries.end()) {
 						RecordingsItemPtr recPtr (new RecordingsItemDir(dirName, level));
-						dir->m_entries[dirName] = recPtr;
+						dir->m_entries.insert(pair< string, RecordingsItemPtr > (dirName, recPtr));
+						i = dir->m_entries.find(dirName);
 					}
-					dir = dir->m_entries[dirName];
+					dir = i->second;
 					level++;
 				}
 				else {
 					string dirName(name.substr(index, name.length() - index));
 					RecordingsItemPtr recPtr (new RecordingsItemRec(dirName, recording));
-					dir->m_entries[dirName] = recPtr;
+					dir->m_entries.insert(pair< string, RecordingsItemPtr > (dirName, recPtr));
 				}
 			} while (pos != string::npos);
 		}
@@ -55,7 +56,8 @@ namespace vdrlive {
 		RecordingsItemPtr recItem = m_root;
 		for (vector< string >::const_iterator i = path.begin(); i != path.end(); ++i)
 		{
-			recItem = recItem->m_entries[*i];
+			Map::iterator iter = recItem->m_entries.find(*i);
+			recItem = iter->second;
 		}
 		return recItem->m_entries.begin();
 	}
@@ -69,7 +71,8 @@ namespace vdrlive {
 		RecordingsItemPtr recItem = m_root;
 		for (vector< string >::const_iterator i = path.begin(); i != path.end(); ++i)
 		{
-			recItem = recItem->m_entries[*i];
+			Map::iterator iter = recItem->m_entries.find(*i);
+			recItem = iter->second;
 		}
 		return recItem->m_entries.end();
 	}

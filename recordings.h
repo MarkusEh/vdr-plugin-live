@@ -19,7 +19,7 @@ namespace vdrlive {
 			class RecordingsItem;
 
 			typedef shared_ptr< RecordingsItem > RecordingsItemPtr;
-			typedef map< string, RecordingsItemPtr > Map;
+			typedef multimap< string, RecordingsItemPtr > Map;
 
 			class RecordingsItem
 			{
