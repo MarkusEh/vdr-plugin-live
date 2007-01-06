@@ -3,6 +3,7 @@
 
 #include <ctime>
 #include <map>
+#include <vector>
 #include <boost/shared_ptr.hpp>
 #include <vdr/recording.h>
 
@@ -31,12 +32,13 @@ namespace vdrlive {
 
 					virtual time_t StartTime() const = 0;
 					virtual bool IsDir() const = 0;
-					virtual const char* Name() const = 0;
+					virtual const string& Name() const { return m_name; }
 
 				protected:
-					RecordingsItem();
+					RecordingsItem(const string& name);
 
 				private:
+					string m_name;
 					Map m_entries;
 			};
 
@@ -50,23 +52,20 @@ namespace vdrlive {
 
 					virtual time_t StartTime() const { return 0; }
 					virtual bool IsDir() const { return true; }
-					virtual const char* Name() const { return m_name.c_str(); }
 
 				private:
-					string m_name;
 					int m_level;
 			};
 
 			class RecordingsItemRec : public RecordingsItem
 			{
 				public:
-					RecordingsItemRec(cRecording* recording);
+					RecordingsItemRec(const string& name, cRecording* recording);
 
 					virtual ~RecordingsItemRec();
 
 					virtual time_t StartTime() const;
 					virtual bool IsDir() const { return false; }
-					virtual const char* Name() const { return m_recording->Name(); }
 
 				private:
 					cRecording *m_recording;
@@ -76,8 +75,8 @@ namespace vdrlive {
 
 			virtual ~RecordingsTree();
 
-			Map::iterator begin() { return m_root->m_entries.begin(); }
-			Map::iterator end() { return m_root->m_entries.end(); }
+			Map::iterator begin(const vector< string >& path);
+			Map::iterator end(const vector< string >&path);
 
 			int MaxLevel() const { return m_maxLevel; }
 

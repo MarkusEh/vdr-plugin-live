@@ -6,19 +6,25 @@ using namespace vdrlive;
 
 </%pre>
 <%args>
+path[];
 </%args>
 <ul class="recordingslist">
 <{
+esyslog("DH: in component 'recordings_item' path elements are:");
+for (path_type::const_iterator i = path.begin(); i != path.end(); ++i) {
+	esyslog("DH: %s", (*i).c_str());
+}
 RecordingsTree& recordingsTree = LiveRecordingsTree();
 bool active = false;
 RecordingsTree::Map::iterator iter;
-for (iter = recordingsTree.begin(); iter != recordingsTree.end(); iter++) {
+RecordingsTree::Map::iterator end = recordingsTree.end(path);
+for (iter = recordingsTree.begin(path); iter != end; iter++) {
 	RecordingsTree::RecordingsItemPtr recItem = iter->second;
 	active = !active;
 }>
 	<li class="recording <? active ? "active" ?>">
 %	if (recItem->IsDir()) {
-		<span class="recordingexpand"></span>
+		<span class="recordingexpand">DirIcon</span>
 		<span class="recordingdate"><$ recItem->StartTime() $></span>
 		<span class="recordingtime"><$ recItem->StartTime() $></span>
 %	} else {
@@ -27,8 +33,19 @@ for (iter = recordingsTree.begin(); iter != recordingsTree.end(); iter++) {
 		<span class="recordingtime"><$ FormatDateTime(tr("%I:%M %p"), recItem->StartTime()) $></span>
 %	}
 		<span class="recordingname"><$ recItem->Name() $></span>
+<{
+	if (recItem->IsDir()) {
+		std::string pathArg;
+		for (path_type::const_iterator i = path.begin(); i != path.end(); ++i) {
+			pathArg += "path=(" + *i + ") ";
+		}
+		string name(recItem->Name());
+		pathArg += "path=(" + name + ") ";
+}>
+		<span class="recordingtest"><$ pathArg $></span>
+%	}
 	</li>
-<(
+<{
 }
 }>
 </ul>

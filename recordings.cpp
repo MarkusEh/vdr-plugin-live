@@ -40,8 +40,9 @@ namespace vdrlive {
 					level++;
 				}
 				else {
-					RecordingsItemPtr recPtr (new RecordingsItemRec(recording));
-					dir->m_entries[name] = recPtr;
+					string dirName(name.substr(index, name.length() - index));
+					RecordingsItemPtr recPtr (new RecordingsItemRec(dirName, recording));
+					dir->m_entries[dirName] = recPtr;
 				}
 			} while (pos != string::npos);
 		}
@@ -58,7 +59,36 @@ namespace vdrlive {
 		globalInstance = 0;
 	}
 
-	RecordingsTree::RecordingsItem::RecordingsItem() :
+	RecordingsTree::Map::iterator RecordingsTree::begin(const vector< string >& path)
+	{
+		if (path.empty()) {
+			return m_root->m_entries.begin();
+		}
+
+		RecordingsItemPtr recItem = m_root;
+		for (vector< string >::const_iterator i = path.begin(); i != path.end(); ++i)
+		{
+			recItem = recItem->m_entries[*i];
+		}
+		return recItem->m_entries.begin();
+	}
+
+	RecordingsTree::Map::iterator RecordingsTree::end(const vector< string >&path)
+	{
+		if (path.empty()) {
+			return m_root->m_entries.end();
+		}
+
+		RecordingsItemPtr recItem = m_root;
+		for (vector< string >::const_iterator i = path.begin(); i != path.end(); ++i)
+		{
+			recItem = recItem->m_entries[*i];
+		}
+		return recItem->m_entries.end();
+	}
+
+	RecordingsTree::RecordingsItem::RecordingsItem(const string& name) :
+		m_name(name),
 		m_entries()
 	{
 	}
@@ -68,7 +98,7 @@ namespace vdrlive {
 	}
 
 	RecordingsTree::RecordingsItemDir::RecordingsItemDir() :
-		m_name(),
+		RecordingsItem(""),
 		m_level(0)
 	{
 	}
@@ -78,12 +108,13 @@ namespace vdrlive {
 	}
 
 	RecordingsTree::RecordingsItemDir::RecordingsItemDir(const string& name, int level) :
-		m_name(name),
+		RecordingsItem(name),
 		m_level(level)
 	{
 	}
 
-	RecordingsTree::RecordingsItemRec::RecordingsItemRec(cRecording* recording) :
+	RecordingsTree::RecordingsItemRec::RecordingsItemRec(const string& name, cRecording* recording) :
+		RecordingsItem(name),
 		m_recording(recording)
 	{
 	}
