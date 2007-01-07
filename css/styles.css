@@ -46,6 +46,7 @@ button.smallbutton {
 	height: 17px;
 	background-color: inherit;
 	background-image: url(button_blue.png);
+	background-repeat: no-repeat;
 	color: #FFFFFF;
 	font-size: 14px;
 	border: 0px;
