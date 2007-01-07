@@ -18,8 +18,13 @@ type = "now";
 cSchedulesLock schedulesLock;
 const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
 
-std::string head(tr("What's running at")+ std::string(" ") + FormatDateTime(tr("%I:%M %p"), time(0)));
-
+std::string head;
+if (type == "now") {
+	head = tr("What's running at")+std::string(" ")+FormatDateTime(tr("%I:%M %p"), time(0));
+} else {
+	head = tr("What's on next?");
+}
+	
 }>
 <html>
 	<head>
