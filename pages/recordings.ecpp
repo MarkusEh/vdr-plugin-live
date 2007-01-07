@@ -74,7 +74,7 @@ for (iter = recordingsTree.begin(path); iter != end; iter++) {
 	}
 }>
 %	if (recItem->IsDir()) {
-		<a onClick="Toggle(this)">
+%		reply.out() << "<a onClick=\"Toggle(this)\">";
 %		// Die folgenden img-Tags muessen direkt auf einander folgen
 		<img class="recording_expander" src="<$ collapseimg $>" alt="" /><img class="recording_folder" src="<$ folderimg $>" alt="" />
 		<span class="recording_name"><$ recItem->Name() $></span>
@@ -90,8 +90,8 @@ for (iter = recordingsTree.begin(path); iter != end; iter++) {
 		recItemParams.add("level", levelStr.str());
 		callComp("recordings.recordings_item", request, reply, recItemParams);
 	} else {
+		reply.out() << "<img src=\"transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" /><img src=\"file.png\" alt=\"file\" />";
 }>
-		<img src="transparent.png" alt="" width="16" height="16" /><img src="file.png" alt="file" />
 		<span class="recording_date"><$ FormatDateTime(tr("%a, %b %d"), recItem->StartTime()) $></span>
 		<span class="recording_time"><$ FormatDateTime(tr("%I:%M %p"), recItem->StartTime()) $></span>
 		<span class="recording_name"><$ recItem->Name() $></span>

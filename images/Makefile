@@ -17,7 +17,9 @@ VDRDIR   ?= ../../../..
 OBJS	= logo.o record.o active.o inactive.o button_blue.o	\
 	  file.o folder_closed.o folder_open.o plus.o minus.o	\
 	  transparent.o	edit.o del.o				\
-	  bg_header_h.o bg_header_l.o bg_header_r.o
+	  bg_header_h.o bg_header_l.o bg_header_r.o		\
+	  bg_box_h.o  bg_box_l.o  bg_box_r.o
+
 
 ### Default rules:
 
