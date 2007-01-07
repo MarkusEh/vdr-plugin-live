@@ -1,0 +1,26 @@
+<%pre>
+</%pre>
+<%args>
+</%args>
+<{
+}>
+<%def header_box>
+<%args>
+content[];
+htmlcode;
+</%args>
+<{
+}>
+			<div class="head_box_l">
+				<div class="head_box_m">
+					<div class="head_box_r">
+						<table class="head_box_text"><tr><td>
+%							for(content_type::const_iterator it = content.begin(); it != content.end(); ++it) {
+								<$ *it $>
+%							}
+%							reply.out() << htmlcode;
+						</td></tr></table>
+					</div>
+				</div>
+			</div>
+</%def>

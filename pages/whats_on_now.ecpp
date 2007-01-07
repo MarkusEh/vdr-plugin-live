@@ -30,9 +30,7 @@ const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
 <& menu >
 		</div>
 		<div class="inhalt">
-			<div class="head_box">
-				<$ tr("What's running at") $> <$ FormatDateTime(tr("%I:%M %p"), time(0)) $>
-			</div>
+<& pageelems.header_box content=(tr("What's running at")) content=(FormatDateTime(tr("%I:%M %p"), time(0))) &>
 
 <{
 	ReadLock channelsLock( Channels );

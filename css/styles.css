@@ -1,8 +1,8 @@
 body {
 	margin: 0px;
 	padding: 0px;
-	font-size: 12px;
-	font-family: Helvetica,Arial,sans-serif;
+	font-size: 11px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
 div.left_area {
@@ -31,14 +31,39 @@ div.menu a:hover {
 	background: #DEE6EE;
 }
 
-div.head_box {
-	border: 1px solid #6D96A9;
-	background: #DEE6EE;
-	margin: 2px;
-	padding: 5px;
+div.head_box_l {
+	background-image: url(bg_header_l.png);
+	background-position: top left;
+	background-repeat: no-repeat;
+	margin: 0;
+	margin-bottom: 2ex;
+	padding: 0;
+}
+
+div.head_box_m {
+	background-image: url(bg_header_h.png);
+	background-repeat: repeat-x;
+	margin: 3px;
+	padding: 0;
+}
+
+div.head_box_r {
+	background-image: url(bg_header_r.png);
+	background-position: top right;
+	background-repeat: no-repeat;
+	margin: -3px;
+	padding: 0;
+	padding-left: 0.5em;
+}
+
+table.head_box_text {
+	color: #ffffff;
+	font-size: 11px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	padding: 0;
+	margin: 0;
+	height: 30px;
 	font-weight: bold;
-	font-size: 14px;
-	color: black;
 }
 
 button.smallbutton {
@@ -48,7 +73,7 @@ button.smallbutton {
 	background-image: url(button_blue.png);
 	background-repeat: no-repeat;
 	color: #FFFFFF;
-	font-size: 14px;
+	font-size: 11px;
 	border: 0px;
 	vertical-align: middle;
 	text-align: center;
@@ -88,23 +113,27 @@ div.description {
 	height: 150px;
 	overflow: auto;
 	margin-top: 10px;
+	font-size: 11px;
 }
 
 div.info {
 	text-align: right;
 	margin-bottom: 3px;
+	font-size: 11px;
 }
 
 table.event tr td.station {
 	background: #6D96A9;
 	color: white;
 	font-weight: bold;
+	font-size: 11px;
 	margin: 0;
 	padding: 3px 3px 3px 10px;
 }
 
 table.event tr td.content .title {
 	font-weight: bold;
+	font-size: 11px;
 	height: 15px;
 }
 
@@ -116,6 +145,7 @@ table.event tr td.content .short {
 table.timers {
 	margin-top: 10px;
 	border: 1px solid #6D96A9;
+	font-size: 11px;
 }
 
 table.timers tr td {
@@ -143,12 +173,14 @@ table.timers tr td.head {
 table.schedule {
 	margin-top: 10px;
 	border: 1px solid #6D96A9;
+	font-size: 11px;
 }
 
 table.schedule tr td.head {
 	background: #6D96A9;
 	color: white;
 	font-weight: bold;
+	font-size: 11px;
 	margin: 0;
 	padding: 3px;
 }
@@ -156,11 +188,13 @@ table.schedule tr td.head {
 table.schedule tr td {
 	vertical-align: top;
 	padding: 3px 7px 3px 3px;
+	font-size: 11px;
 }
 
 
 table.schedule tr.active {
 	background: #DEE6EE;
+	font-size: 11px;
 }
 
 

@@ -34,9 +34,7 @@ try {
 <& menu &>
 		</div>
 		<div class="inhalt">
-			<div class="head_box">
-				<$ tr("Recordings") $>
-			</div>
+<& pageelems.header_box content=(tr("Recordings")) &>
 %			if (Recordings.Count() == 0) {
 				Keine Aufnahmen vorhanden
 %			} else {

@@ -22,9 +22,7 @@ using namespace vdrlive;
 <& menu >
 		</div>
 		<div class="inhalt">
-			<div class="head_box">
-				<$ tr("Timers") $>
-			</div>
+<& pageelems.header_box	content=(tr("Timers")) &>
 <{
 			cMutexLock timersLock( &LiveTimerManager() );
 			SortedTimers& timers = LiveTimerManager().GetTimers();

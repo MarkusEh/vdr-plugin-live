@@ -30,9 +30,7 @@ const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
 <& menu >
 		</div>
 		<div class="inhalt">
-			<div class="head_box">
-				<$ tr("What's on next?") $>
-			</div>
+<& pageelems.header_box content=(tr("What's on next?")) &>
 
 <{
 	ReadLock channelsLock( Channels );

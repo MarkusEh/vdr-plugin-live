@@ -11,7 +11,7 @@ using namespace vdrlive;
 		var newImg = new Image();
 		var imgsrc = "";
 		var interval = -1;
-		  
+
 		function StreamLoad()
 		{
 			uniq = new Date();
@@ -19,7 +19,7 @@ using namespace vdrlive;
 			document.images.vdrlive.src=newImg.src;
 			newImg.src=imgsrc+"?"+uniq;
 		}
-				  
+
 		function StreamInit()
 		{
 			imgsrc = document.images.vdrlive.src;
@@ -105,9 +105,7 @@ using namespace vdrlive;
 <& menu >
 		</div>
 		<div class="inhalt">
-			<div class="head_box">
-				<$ tr("Remote Control") $>
-			</div>
+<& pageelems.header_box content=(tr("Remote Control")) &>
 			<div class="screenshot">
 				<img src="screenshot.jpg" name="vdrlive" /><br />
 				<$ tr("Interval:") $> <select name="interval" onchange="ChangeInterval()"></select>
