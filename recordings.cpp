@@ -33,9 +33,15 @@ namespace vdrlive {
 						RecordingsItemPtr recPtr (new RecordingsItemDir(dirName, level));
 						dir->m_entries.insert(pair< string, RecordingsItemPtr > (dirName, recPtr));
 						i = findDir(dir, dirName);
-						esyslog("DH: added dir: '%s'", dirName.c_str());
+						if (i != dir->m_entries.end()) {
+							esyslog("DH: added dir: '%s'", dirName.c_str());
+						}
+						else {
+							esyslog("DH: panic: didn't found inserted dir: '%s'", dirName.c_str());
+						}
 					}
 					dir = i->second;
+					esyslog("DH: current dir: '%s'", dir->Name().c_str());
 					level++;
 				}
 				else {
