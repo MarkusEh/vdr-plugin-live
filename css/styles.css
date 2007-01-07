@@ -1,6 +1,28 @@
+/* ######################
+   #  Globals
+   ######################
+*/
+
 body {
 	margin: 0px;
 	padding: 0px;
+	font-size: 11px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+table {
+	font-size: 11px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+input {
+	border: 1px solid #6D96A9;
+	font-size: 11px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	background: #FEFEFE;
+}
+
+select {
 	font-size: 11px;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 }
@@ -96,8 +118,7 @@ div.head_box_r {
 
 table.head_box_text {
 	color: #ffffff;
-	font-size: 11px;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-weight: bold;
 	padding: 0;
 	margin: 0;
 	height: 30px;
@@ -157,39 +178,34 @@ div.description {
 	height: 150px;
 	overflow: auto;
 	margin-top: 10px;
-	font-size: 11px;
 }
 
 div.info {
 	text-align: right;
 	margin-bottom: 3px;
-	font-size: 11px;
 }
 
 table.event tr td.station {
 	background: #6D96A9;
 	color: white;
 	font-weight: bold;
-	font-size: 11px;
 	margin: 0;
 	padding: 3px 3px 3px 10px;
 }
 
 table.event tr td.content .title {
 	font-weight: bold;
-	font-size: 11px;
 	height: 15px;
 }
 
 table.event tr td.content .short {
-	font-size: 11px;
 	height: 40px;
+	overflow: hidden;
 }
 
 table.timers {
 	margin-top: 10px;
 	border: 1px solid #6D96A9;
-	font-size: 11px;
 }
 
 table.timers tr td {
@@ -217,14 +233,12 @@ table.timers tr td.head {
 table.schedule {
 	margin-top: 10px;
 	border: 1px solid #6D96A9;
-	font-size: 11px;
 }
 
 table.schedule tr td.head {
 	background: #6D96A9;
 	color: white;
 	font-weight: bold;
-	font-size: 11px;
 	margin: 0;
 	padding: 3px;
 }
@@ -232,13 +246,11 @@ table.schedule tr td.head {
 table.schedule tr td {
 	vertical-align: top;
 	padding: 3px 7px 3px 3px;
-	font-size: 11px;
 }
 
 
 table.schedule tr.active {
 	background: #DEE6EE;
-	font-size: 11px;
 }
 
 
@@ -350,9 +362,4 @@ table.edit tr td.label {
 
 table.edit tr.active {
 	background: #DEE6EE;
-}
-
-input {
-	border: 1px solid #6D96A9;
-	background: #FEFEFE;
 }
