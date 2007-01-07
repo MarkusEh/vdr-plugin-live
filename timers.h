@@ -33,7 +33,8 @@ class TimerManager: public cMutex
 public:
 	SortedTimers& GetTimers() { return m_timers; }
 
-	std::string UpdateTimer( cTimer* timer, std::string const& timerString );
+	void UpdateTimer( cTimer* timer, int flags, std::string const& channel, std::string const& weekdays, std::string const& day,
+					  int start, int stop, int priority, int lifetime, std::string const& title, std::string const& aux );
 
 	// may only be called from Plugin::MainThreadHook
 	void DoPendingWork();

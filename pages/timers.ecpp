@@ -6,29 +6,26 @@
 using namespace vdrlive;
 
 </%pre>
-<%args>
-</%args>
+<%include>page_init.ecpp</%include>
 <%cpp>
-//cMutexLock timersLock( &LiveTimerManager() );
+	pageTitle = tr("Timers");
+
+	cMutexLock timersLock( &LiveTimerManager() );
+	SortedTimers& timers = LiveTimerManager().GetTimers();
 </%cpp>
 <html>
 	<head>
-		<title>VDR-Live - <$ tr("Timers") $></title>
+		<title>VDR-Live - <$ pageTitle $></title>
 		<link rel="stylesheet" type="text/css" href="/styles.css" />
 	</head>
 	<body>
 		<div class="left_area">
 			<img src="logo.png" alt="VDR Live!" border="0" />
-<& menu >
+			<& menu >
 		</div>
 		<div class="inhalt">
-<& pageelems.header_box	content=(tr("Timers")) &>
-<{
-			cMutexLock timersLock( &LiveTimerManager() );
-			SortedTimers& timers = LiveTimerManager().GetTimers();
-
-			if (timers.size() == 0) {
-}>
+			<& pageelems.header_box	content=(pageTitle) &>
+%			if (timers.size() == 0) {
 				Keiner Timer definiert
 %			} else {
 			<table class="timers" cellspacing="0" cellpadding="0">
@@ -65,3 +62,4 @@ using namespace vdrlive;
 		</div>
 	</body>
 </html>
+<%include>page_exit.ecpp</%include>

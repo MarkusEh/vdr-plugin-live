@@ -1,4 +1,8 @@
 #include <stdexcept>
+#include <tnt/httprequest.h>
+#include <tnt/httpreply.h>
+#include <tnt/ecpp.h>
+#include "exception.h"
 #include "live.h"
 #include "setup.h"
 #include "tools.h"
@@ -58,4 +62,4 @@ int StringToInt( std::string const& string, int base )
 	return 0;
 }
 
-}
+} // namespace vdrlive

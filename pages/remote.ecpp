@@ -5,6 +5,10 @@
 
 using namespace vdrlive;
 </%pre>
+<%include>page_init.ecpp</%include>
+<%cpp>
+	pageTitle = tr("Remote control");
+</%cpp>
 <html>
 	<head>
 		<script type="text/javascript"><!--
@@ -96,7 +100,7 @@ using namespace vdrlive;
 			}
 		}
 		//--></script>
-		<title>VDR-Live - <$ tr("Remote Control") $></title>
+		<title>VDR-Live - <$ pageTitle $></title>
 		<link rel="stylesheet" type="text/css" href="/styles.css" />
 	</head>
 	<body onload="StreamInit(); FillIntervals();">
@@ -105,7 +109,7 @@ using namespace vdrlive;
 <& menu >
 		</div>
 		<div class="inhalt">
-<& pageelems.header_box content=(tr("Remote Control")) &>
+			<& pageelems.header_box content=(pageTitle) &>
 			<div class="screenshot">
 				<img src="screenshot.jpg" name="vdrlive" /><br />
 				<$ tr("Interval:") $> <select name="interval" onchange="ChangeInterval()"></select>
@@ -187,3 +191,4 @@ using namespace vdrlive;
 		</div>
 	</body>
 </html>
+<%include>page_exit.ecpp</%include>

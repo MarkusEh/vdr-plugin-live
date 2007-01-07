@@ -1,6 +1,7 @@
 #include <memory>
 #include <sstream>
 #include <vector>
+#include "exception.h"
 #include "timers.h"
 #include "tools.h"
 
@@ -78,16 +79,26 @@ TimerManager::TimerManager()
 {
 }
 
-string TimerManager::UpdateTimer( cTimer* timer, std::string const& timerString )
+void TimerManager::UpdateTimer( cTimer* timer, int flags, string const& channel, string const& weekdays, string const& day,
+								int start, int stop, int priority, int lifetime, string const& title, string const& aux )
 {
-	TimerPair timerData( timer, timerString );
+	ostringstream builder;
+	builder << flags << ":" << channel << ":" << ( weekdays != "-------" ? weekdays : "" )
+			<< ( weekdays == "-------" || day.empty() ? "" : "@" ) << day << ":" << start << ":" << stop << ":"
+			<< priority << ":" << lifetime << ":" << title << ":" << aux;
+	dsyslog("%s", builder.str().c_str());
+
+	TimerPair timerData( timer, builder.str() );
 
 	dsyslog("SV: in UpdateTimer");
 	m_updateTimers.push_back( timerData );
 	dsyslog("SV: wait for update");
 	m_updateWait.Wait( *this );
 	dsyslog("SV: update done");
-	return GetError( timerData );
+
+	string error = GetError( timerData );
+	if ( !error.empty() )
+		throw HtmlError( error );
 }
 
 void TimerManager::DoPendingWork()

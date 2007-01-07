@@ -3,7 +3,6 @@
 #include <vdr/channels.h>
 #include <vdr/epg.h>
 #include <vdr/config.h>
-#include <tnt/savepoint.h>
 #include "exception.h"
 #include "setup.h"
 #include "tools.h"
@@ -12,19 +11,18 @@ using namespace vdrlive;
 
 </%pre>
 <%args>
-int channel = -1;
+	int channel = -1;
 </%args>
-<%request scope="global">
-std::string pageTitle( tr("Schedule") );
-</%request>
+<%include>page_init.ecpp</%include>
 <%cpp>
-try {
+	pageTitle = tr("Schedule");
+
 	cSchedulesLock schedulesLock;
 	cSchedules const* schedules = cSchedules::Schedules( schedulesLock );
 
 	ReadLock channelsLock( Channels );
 	if ( !channelsLock )
-		throw HtmlError( tr("Channels"), tr("Couldn't aquire access to channels, please try again later.") );
+		throw HtmlError( tr("Couldn't aquire access to channels, please try again later.") );
 
 	cChannel* Channel;
 	if ( channel > 0 )
@@ -33,13 +31,11 @@ try {
 		Channel = Channels.Get( Channels.GetNextNormal( -1 ) );
 
 	if ( Channel == 0 )
-		throw HtmlError( tr("Channels"), tr("Couldn't find channel or no channels available. Maybe you mistyped your request?") );
+		throw HtmlError( tr("Couldn't find channel or no channels available. Maybe you mistyped your request?") );
 
 	cSchedule const* Schedule = schedules->GetSchedule( Channel );
 	if ( Schedule == 0 )
-		throw HtmlError( tr("Schedule"), tr("No schedules available for this channel.") );
-
-	tnt::Savepoint spoint( reply );
+		throw HtmlError( tr("No schedules available for this channel.") );
 </%cpp>
 <html>
 	<head>
@@ -101,12 +97,4 @@ try {
 		</div>
 	</body>
 </html>
-<%cpp>
-	spoint.commit();
-} catch ( HtmlError const& ex ) {
-	cxxtools::QueryParams param = qparam;
-	param.add( "errorTitle", ex.GetTitle() );
-	param.add( "errorMessage", ex.GetMessage() );
-	callComp( "error", request, reply, param );
-}
-</%cpp>
+<%include>page_exit.ecpp</%include>

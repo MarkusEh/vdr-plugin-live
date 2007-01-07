@@ -1,11 +1,12 @@
 <%pre>
 #include <vdr/remote.h>
+
 </%pre>
 <%args>
-int keycode = kNone;
+	int keycode = kNone;
 </%args>
 <%cpp>
-reply.setContentType("application/xml");
+	reply.setContentType("application/xml");
 </%cpp>
 <?xml version="1.0"?>
 <service>

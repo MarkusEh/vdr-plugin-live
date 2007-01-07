@@ -13,6 +13,7 @@ using namespace vdrlive;
 <%args>
 type = "now";
 </%args>
+<%include>page_init.ecpp</%include>
 <{
 
 cSchedulesLock schedulesLock;
@@ -91,3 +92,4 @@ if (type == "now") {
 		</div>
 	</body>
 </html>
+<%include>page_exit.ecpp</%include>

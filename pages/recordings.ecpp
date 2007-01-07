@@ -2,7 +2,6 @@
 #include <sstream>
 #include <vdr/plugin.h>
 #include <vdr/config.h>
-#include <tnt/savepoint.h>
 #include "exception.h"
 #include "tools.h"
 #include "recordings.h"
@@ -12,15 +11,12 @@ using namespace vdrlive;
 </%pre>
 <%args>
 </%args>
-<%request scope="global">
-std::string pageTitle(tr("Recordings"));
-</%request>
 <%request scope="page">
 RecordingsTree recordingsTree;
 </%request>
+<%include>page_init.ecpp</%include>
 <%cpp>
-try {
-	tnt::Savepoint spoint(reply);
+	pageTitle = tr("Recordings");
 </%cpp>
 <html>
 	<head>
@@ -45,6 +41,8 @@ try {
 		</div>
 	</body>
 </html>
+<%include>page_exit.ecpp</%include>
+
 <%def recordings_item>
 <%args>
 path[];
@@ -104,12 +102,3 @@ for (iter = recordingsTree.begin(path); iter != end; iter++) {
 }>
 </ul>
 </%def>
-<%cpp>
-	spoint.commit();
-} catch ( HtmlError const& ex ) {
-	cxxtools::QueryParams param = qparam;
-	param.add( "errorTitle", ex.GetTitle() );
-	param.add( "errorMessage", ex.GetMessage() );
-	callComp( "error", request, reply, param );
-}
-</%cpp>
