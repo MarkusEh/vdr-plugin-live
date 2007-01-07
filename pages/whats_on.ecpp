@@ -18,7 +18,7 @@ type = "now";
 cSchedulesLock schedulesLock;
 const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
 
-std::string head(tr("What's running at")+FormatDateTime(tr("%I:%M %p"), time(0)));
+std::string head(tr("What's running at")+ std::string(" ") + FormatDateTime(tr("%I:%M %p"), time(0)));
 
 }>
 <html>
@@ -29,7 +29,7 @@ std::string head(tr("What's running at")+FormatDateTime(tr("%I:%M %p"), time(0))
     <script type="text/javascript" language="javascript" src="domTT.js"></script>
     <script type="text/javascript" language="javascript">
 			var domTT_styleClass = 'domTTOverlib';
-    </script>		
+    </script>
 	</head>
 	<body>
 		<div class="left_area">
@@ -37,7 +37,7 @@ std::string head(tr("What's running at")+FormatDateTime(tr("%I:%M %p"), time(0))
 <& menu >
 		</div>
 		<div class="inhalt">
-<& pageelems.header_box content=(head) &>		
+<& pageelems.header_box content=(head) &>
 
 <{
 	ReadLock channelsLock( Channels );
@@ -58,8 +58,8 @@ std::string head(tr("What's running at")+FormatDateTime(tr("%I:%M %p"), time(0))
 							std::string end_h(FormatDateTime( "%H", Event->EndTime()));
 							std::string start_m(FormatDateTime( "%M", Event->StartTime()));
 							std::string end_m(FormatDateTime( "%M", Event->EndTime()));
-						
-						
+
+
 }>
 			<table class="event" cellpadding="0" cellspacing="0">
 				<tr><td class="station" colspan="2"><$ channel_name $></td></tr>
