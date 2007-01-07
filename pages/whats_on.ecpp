@@ -18,10 +18,7 @@ type = "now";
 cSchedulesLock schedulesLock;
 const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
 
-if (type == "now") 
-	std::string head(tr("What's running now"));
-else 
-	std::string head(tr("What's running at")+FormatDateTime(tr("%I:%M %p"), time(0)));
+std::string head(tr("What's running at")+FormatDateTime(tr("%I:%M %p"), time(0)));
 
 }>
 <html>
