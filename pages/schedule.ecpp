@@ -13,7 +13,7 @@ using namespace vdrlive;
 <%args>
 	int channel = -1;
 </%args>
-<%include>page_init.ecpp</%include>
+<%include>page_init.eh</%include>
 <%cpp>
 	pageTitle = tr("Schedule");
 
@@ -97,4 +97,4 @@ using namespace vdrlive;
 		</div>
 	</body>
 </html>
-<%include>page_exit.ecpp</%include>
+<%include>page_exit.eh</%include>

@@ -31,7 +31,7 @@ using namespace vdrlive;
 	int lifetime = ::Setup.DefaultLifetime;
 	aux = "";
 </%args>
-<%include>page_init.ecpp</%include>
+<%include>page_init.eh</%include>
 <%cpp>
 	pageTitle = tr("Edit timer");
 
@@ -172,4 +172,4 @@ using namespace vdrlive;
 		</div>
 	</body>
 </html>
-<%include>page_exit.ecpp</%include>
+<%include>page_exit.eh</%include>

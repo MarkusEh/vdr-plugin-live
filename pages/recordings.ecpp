@@ -14,7 +14,7 @@ using namespace vdrlive;
 <%request scope="page">
 RecordingsTree recordingsTree;
 </%request>
-<%include>page_init.ecpp</%include>
+<%include>page_init.eh</%include>
 <%cpp>
 	pageTitle = tr("Recordings");
 </%cpp>
@@ -41,7 +41,7 @@ RecordingsTree recordingsTree;
 		</div>
 	</body>
 </html>
-<%include>page_exit.ecpp</%include>
+<%include>page_exit.eh</%include>
 
 <%def recordings_item>
 <%args>
