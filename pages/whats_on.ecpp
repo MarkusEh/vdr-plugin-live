@@ -1,0 +1,86 @@
+<%pre>
+#include <vdr/plugin.h>
+#include <vdr/channels.h>
+#include <vdr/epg.h>
+#include <vdr/config.h>
+#include <vdr/i18n.h>
+#include "setup.h"
+#include "tools.h"
+
+using namespace vdrlive;
+
+</%pre>
+<%args>
+type = "now";
+</%args>
+<{
+
+cSchedulesLock schedulesLock;
+const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
+
+if (type == "now") 
+	std::string head(tr("What's running now"));
+else 
+	std::string head(tr("What's running at")+FormatDateTime(tr("%I:%M %p"), time(0)));
+
+}>
+<html>
+	<head>
+		<title>VDR-Live - <$ head $></title>
+		<link rel="stylesheet" type="text/css" href="/styles.css" />
+	</head>
+	<body>
+		<div class="left_area">
+			<img src="logo.png" alt="VDR Live!" border="0" />
+<& menu >
+		</div>
+		<div class="inhalt">
+<& pageelems.header_box content=(head) &>		
+
+<{
+	ReadLock channelsLock( Channels );
+	if (channelsLock) {
+		for (cChannel *Channel = Channels.First(); Channel && Channel->Number() <= LiveSetup().GetLastChannel(); Channel = Channels.Next(Channel)) {
+			if (!Channel->GroupSep()) {
+				const cSchedule *Schedule = Schedules->GetSchedule(Channel);
+				if (Schedule) {
+					const cEvent *Event = (type == "now" ? Schedule->GetPresentEvent() : Schedule->GetFollowingEvent());
+						if (Event) {
+							std::string title(Event->Title() ? Event->Title() : "");
+							std::string channel_name(Channel->Name());
+							std::string short_description(Event->ShortText() ? Event->ShortText() : "");
+							std::string description(Event->Description() ? Event->Description() : "");
+							std::string start(Event->StartTime() ? FormatDateTime(tr("%I:%M %p"), Event->StartTime()) : "");
+							std::string end(Event->EndTime() ? FormatDateTime(tr("%I:%M %p"), Event->EndTime()) : "");
+							std::string start_h(FormatDateTime( "%H", Event->StartTime()));
+							std::string end_h(FormatDateTime( "%H", Event->EndTime()));
+							std::string start_m(FormatDateTime( "%M", Event->StartTime()));
+							std::string end_m(FormatDateTime( "%M", Event->EndTime()));
+						
+						
+}>
+			<table class="event" cellpadding="0" cellspacing="0">
+				<tr><td class="station" colspan="2"><$ channel_name $></td></tr>
+				<tr>
+					<td class="tools">
+						<a href="edit_timer.html?title=<$ title $>&start_h=<$ start_h $>&end_h=<$ end_h $>&start_m=<$ start_m $>&end_m=<$ end_m $>"><img src="/record.png" alt="" <& tooltip_widget tooltip=(tr("Record this")) &> border="0"/></a>
+					</td>
+					<td class="content">
+						<div class="info"><$ start $> - <$ end $></div>
+						<div class="title"><$ title $></div>
+						<div class="short"><$ short_description $></div>
+						<div class="description"><$  description $></div>
+					</td>
+				</tr>
+			</table>
+
+<{
+					}
+				}
+			}
+		}
+	}
+}>
+		</div>
+	</body>
+</html>
