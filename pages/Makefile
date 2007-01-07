@@ -15,10 +15,10 @@ VDRDIR   ?= ../../../..
 
 ### The object files (add further files here):
 
-OBJS	= menu.o event_widget.o channels.o recordings.o schedule.o \
-          screenshot.o timers.o whats_on_now.o whats_on_next.o     \
+OBJS	= menu.o channels.o recordings.o schedule.o \
+          screenshot.o timers.o whats_on.o \
           keypress.o remote.o channels_widget.o edit_timer.o       \
-          error_widget.o error.o pageelems.o
+          error_widget.o error.o pageelems.o tooltip_widget.o
 
 ### Default rules:
 
