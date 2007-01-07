@@ -187,7 +187,7 @@ div.info {
 table.event tr td.station {
 	margin: 0;
 	padding: 0;
-	height: 25px;
+	height: 23px;
 }
 
 table.event tr td.content .title {
@@ -368,7 +368,7 @@ table.edit tr.active {
 td.station div {
 	margin: 0;
 	padding: 0;
-	height: 25px;
+	height: 23px;
 	background: url(/bg_box_l.png) top left no-repeat;
 	cursor: pointer;
 	color: white;
@@ -379,13 +379,14 @@ td.station div {
 td.station div div {
 	background: url(/bg_box_r.png) top right no-repeat;
 	margin-left: 3px;
-	height: 25px;
+	height: 23px;
 }
 
 td.station div div div {
  	margin: 0 3px 0 0px;
- 	padding: 5px;
+ 	padding: 2px;
 	background: url(/bg_box_h.png) repeat-x;
-	height: 25px;
+	height: 23px;
 	vertical-align: middle;
+	text-align: left;
 }
