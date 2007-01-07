@@ -69,8 +69,13 @@ namespace vdrlive {
 		RecordingsItemPtr recItem = m_root;
 		for (vector< string >::const_iterator i = path.begin(); i != path.end(); ++i)
 		{
-			Map::iterator iter = recItem->m_entries.find(*i);
-			recItem = iter->second;
+			pair< Map::iterator, Map::iterator> range = recItem->m_entries.equal_range(*i);
+			for (Map::iterator iter = range.first; iter != range.second; ++iter) {
+				if (iter->second->IsDir()) {
+					recItem = iter->second;
+					break;
+				}
+			}
 		}
 		return recItem->m_entries.begin();
 	}
@@ -84,8 +89,13 @@ namespace vdrlive {
 		RecordingsItemPtr recItem = m_root;
 		for (vector< string >::const_iterator i = path.begin(); i != path.end(); ++i)
 		{
-			Map::iterator iter = recItem->m_entries.find(*i);
-			recItem = iter->second;
+			pair< Map::iterator, Map::iterator> range = recItem->m_entries.equal_range(*i);
+			for (Map::iterator iter = range.first; iter != range.second; ++iter) {
+				if (iter->second->IsDir()) {
+					recItem = iter->second;
+					break;
+				}
+			}
 		}
 		return recItem->m_entries.end();
 	}
