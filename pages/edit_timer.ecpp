@@ -107,73 +107,71 @@ try {
 			<form method="POST" name="edit_timer">
 				<input type="hidden" name="timerid" value="<$ timerid $>"/>
 				<input type="hidden" name="aux" value="<$ aux $>"/>
-				<table>
-					<tr>
-						<td>Timer aktiv: </td>
+				<table class="edit" cellpadding="0" cellspacing="0">
+					<tr class="active">
+						<td class="label"><$ tr("Active") $>:</td>
 						<td>
-							<input name="active" value="1" <{ reply.out() << ( active ? "checked=\"checked\"" : "" ); }> type="radio">Ja
-							<input name="active" value="0" <{ reply.out() << ( !active ? "checked=\"checked\"" : "" ); }> type="radio">Nein
+							<input name="active" value="1" <{ reply.out() << ( active ? "checked=\"checked\"" : "" ); }> type="radio"><$ tr("Yes") $>
+							<input name="active" value="0" <{ reply.out() << ( !active ? "checked=\"checked\"" : "" ); }> type="radio"><$ tr("No") $>
 						</td>
 					</tr>
 					<tr>
-						<td>
-							Kanal:
-						</td>
+						<td class="label"><$ tr("Channel") $>:</td>
 						<td>
 <& channels_widget name=("channel") channelId=(true) selected=(channel) &>
 						</td>
 					</tr>
 					
-					<tr>
-						<td>Titel</td>
+					<tr class="active">
+						<td class="label"><$ tr("Title" ) $>:</td>
 						<td><input type="text" name="title" value="<$ title $>" size="80" /></td>
 					</tr>
 					
 					
 					<tr>
-						<td>Tag der Aufnahme</td>
+						<td class="label"><$ tr("Day") $>:</td>
 						<td><input type="text" name="day" value="<$ day $>" size="2" maxlength="2" /></td>
 					</tr>
 					
-					<tr>
-						<td>Wochentag</td>
+					<tr class="active">
+						<td class="label"><$ tr("Weekday") $>:</td>
 						<td>
-							<input type="checkbox" name="wday_mon" value="1" <{ reply.out() << ( wday_mon ? "checked=\"checked\"" : "" ); }>/> Montag
-							<input type="checkbox" name="wday_tue" value="1" <{ reply.out() << ( wday_tue ? "checked=\"checked\"" : "" ); }>/> Dienstag
-							<input type="checkbox" name="wday_wed" value="1" <{ reply.out() << ( wday_wed ? "checked=\"checked\"" : "" ); }>/> Mittwoch
-							<input type="checkbox" name="wday_thu" value="1" <{ reply.out() << ( wday_thu ? "checked=\"checked\"" : "" ); }>/> Donnerstag
-							<input type="checkbox" name="wday_fri" value="1" <{ reply.out() << ( wday_fri ? "checked=\"checked\"" : "" ); }>/> Freitag
-							<input type="checkbox" name="wday_sat" value="1" <{ reply.out() << ( wday_sat ? "checked=\"checked\"" : "" ); }>/> Samstag
-							<input type="checkbox" name="wday_sun" value="1" <{ reply.out() << ( wday_sun ? "checked=\"checked\"" : "" ); }>/> Sonntag
+							<input type="checkbox" name="wday_mon" value="1" <{ reply.out() << ( wday_mon ? "checked=\"checked\"" : "" ); }>/> <$ tr("Monday") $>
+							<input type="checkbox" name="wday_tue" value="1" <{ reply.out() << ( wday_tue ? "checked=\"checked\"" : "" ); }>/> <$ tr("Tuesday") $>
+							<input type="checkbox" name="wday_wed" value="1" <{ reply.out() << ( wday_wed ? "checked=\"checked\"" : "" ); }>/> <$ tr("Wednesday") $>
+							<input type="checkbox" name="wday_thu" value="1" <{ reply.out() << ( wday_thu ? "checked=\"checked\"" : "" ); }>/> <$ tr("Thursday") $>
+							<input type="checkbox" name="wday_fri" value="1" <{ reply.out() << ( wday_fri ? "checked=\"checked\"" : "" ); }>/> <$ tr("Friday") $>
+							<input type="checkbox" name="wday_sat" value="1" <{ reply.out() << ( wday_sat ? "checked=\"checked\"" : "" ); }>/> <$ tr("Saturday") $>
+							<input type="checkbox" name="wday_sun" value="1" <{ reply.out() << ( wday_sun ? "checked=\"checked\"" : "" ); }>/> <$ tr("Sunday") $>
 						</td>
 					</tr>
 					
 					<tr>
-						<td>Startzeit:</td>
+						<td class="label"><$ tr("Start") $>:</td>
 						<td><input type="text" size="2" maxlength="2" name="start_h" value="<$ start_h $>" /> : <input type="text" size="2" maxlength="2" name="start_m" value="<$ start_m $>" /></td>
 					</tr>
 					
-					<tr>
-						<td>Endzeit:</td>
+					<tr class="active">
+						<td class="label"><$ tr("Stop") $>:</td>
 						<td><input type="text" size="2" maxlength="2" name="end_h" value="<$ end_h $>" /> : <input type="text" size="2" maxlength="2" name="end_m" value="<$ end_m $>" /></td>
 					</tr>
 					
 					<tr>
-						<td>VPS verwenden</td>
+						<td class="label"><$ tr("Use VPS") $>:</td>
 						<td><input type="checkbox" name="vps" value="1" <{ reply.out() << ( vps ? "checked=\"checked\"" : "" ); }>/></td>
 					</tr>
 
-					<tr>
-						<td>Priorität:</td>
+					<tr class="active">
+						<td class="label"><$ tr("Priority") $>:</td>
 						<td><input type="text" size="2" maxlength="2" name="priority" value="<$ priority $>" /></td>
 					</tr>
 					
 					<tr>
-						<td>Lebensdauer:</td>
+						<td class="label"><$ tr("Lifetime") $>:</td>
 						<td><input type="text" size="2" maxlength="2" name="lifetime" value="<$ lifetime $>" /></td>
 					</tr>
 					
-					<tr>
+					<tr class="active">
 						<td class="buttonpanel" colspan="2"><button name="submit" type="submit"><$ tr("Save") $></button></td>
 					</tr>
 				</table>
