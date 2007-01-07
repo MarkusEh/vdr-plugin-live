@@ -82,6 +82,8 @@ namespace vdrlive {
 			int m_maxLevel;
 			RecordingsItemPtr m_root;
 			cThreadLock m_recordingsLock;
+
+			Map::iterator findDir(RecordingsItemPtr& dir, const string& dirname);
 	};
 
 } // namespace vdrlive

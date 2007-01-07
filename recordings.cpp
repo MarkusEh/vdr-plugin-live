@@ -25,11 +25,11 @@ namespace vdrlive {
 				if (pos != string::npos) {
 					string dirName(name.substr(index, pos - index));
 					index = pos + 1;
-					Map::iterator i = dir->m_entries.find(dirName);
+					Map::iterator i = findDir(dir, dirName);
 					if (i == dir->m_entries.end()) {
 						RecordingsItemPtr recPtr (new RecordingsItemDir(dirName, level));
 						dir->m_entries.insert(pair< string, RecordingsItemPtr > (dirName, recPtr));
-						i = dir->m_entries.find(dirName);
+						i = findDir(dir, dirName);
 					}
 					dir = i->second;
 					level++;
@@ -75,6 +75,17 @@ namespace vdrlive {
 			recItem = iter->second;
 		}
 		return recItem->m_entries.end();
+	}
+
+	RecordingsTree::Map::iterator RecordingsTree::findDir(RecordingsItemPtr& dir, const string& dirName)
+	{
+		pair< Map::iterator, Map::iterator > range = dir->m_entries.equal_range(dirName);
+		for (Map::iterator i = range.first; i != range.second; ++i) {
+			if (i->second->IsDir()) {
+				return i;
+			}
+		}
+		return dir->m_entries.end();
 	}
 
 	RecordingsTree::RecordingsItem::RecordingsItem(const string& name) :
