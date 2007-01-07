@@ -69,7 +69,11 @@ if (type == "now") {
 
 }>
 			<table class="event" cellpadding="0" cellspacing="0">
-				<tr><td class="station" colspan="2"><$ channel_name $></td></tr>
+				<tr>
+					<td class="station" colspan="2">
+						<div><div><div><$ channel_name $></div></div></div>
+					</td>
+				</tr>
 				<tr>
 					<td class="tools">
 						<a href="edit_timer.html?channel=<$ channel_id $>&title=<$ title $>&start_h=<$ start_h $>&end_h=<$ end_h $>&start_m=<$ start_m $>&end_m=<$ end_m $>"><img src="/record.png" alt="" <& tooltip_widget tooltip=(tr("Record this")) &> border="0"/></a>
