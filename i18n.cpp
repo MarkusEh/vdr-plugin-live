@@ -641,7 +641,29 @@ const tI18nPhrase Phrases[] = {
 	  "", // Dansk
 	  "", //Czech
 	},
-	
+	{ "Record this", // English
+	  "Diese Sendung aufnehmen", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", //Czech
+	},
+		
 	/*
 	{ "", // English
 	  "", // Deutsch

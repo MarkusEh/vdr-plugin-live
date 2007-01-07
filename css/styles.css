@@ -5,6 +5,34 @@ body {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
+/* ######################
+   #  Overlib Style for Tooltips
+   ######################
+*/
+
+div.domTTOverlib {
+	border: 1px solid #333366;
+	background-color: #333366;
+}
+
+div.domTTOverlib .caption {
+	font-family: Verdana, Helvetica;
+	font-size: 10px;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+
+div.domTTOverlib .contents {
+	font-size: 10px;
+	font-family: Verdana, Helvetica;
+	padding: 2px;
+	background-color: #F1F1FF;
+}
+
+/* #######################
+   #  Areas
+   #######################
+*/
 div.left_area {
 	width: 150px;
 	float: left;
@@ -15,6 +43,11 @@ div.inhalt {
 	float: left;
 	margin: 5px;
 }
+
+/* #######################
+   #  Menue
+   #######################
+*/
 
 div.menu {
 	border: 1px solid #6D96A9;
@@ -30,6 +63,11 @@ div.menu a:hover {
 	text-decoration: none;
 	background: #DEE6EE;
 }
+
+/* #######################
+   #  Head Box
+   #######################
+*/
 
 div.head_box_l {
 	background-image: url(bg_header_l.png);
@@ -63,7 +101,6 @@ table.head_box_text {
 	padding: 0;
 	margin: 0;
 	height: 30px;
-	font-weight: bold;
 }
 
 button.smallbutton {
@@ -95,9 +132,16 @@ table.event {
 
 table.event tr td.tools {
 	background: #DEE6EE;
-	padding: 2px;
+	padding: 10px 2px 10px 2px;
 	width: 25px;
+	text-align: center;
+	vertical-align: top;
 }
+
+table.event tr td.tools img {
+	cursor: pointer;
+}
+
 
 table.event tr td.content {
 	float: left;
