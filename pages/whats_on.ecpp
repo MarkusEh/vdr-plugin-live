@@ -56,6 +56,7 @@ if (type == "now") {
 						if (Event) {
 							std::string title(Event->Title() ? Event->Title() : "");
 							std::string channel_name(Channel->Name());
+							std::string channel_id(*Channel->GetChannelID().ToString());
 							std::string short_description(Event->ShortText() ? Event->ShortText() : "");
 							std::string description(Event->Description() ? Event->Description() : "");
 							std::string start(Event->StartTime() ? FormatDateTime(tr("%I:%M %p"), Event->StartTime()) : "");
@@ -71,7 +72,7 @@ if (type == "now") {
 				<tr><td class="station" colspan="2"><$ channel_name $></td></tr>
 				<tr>
 					<td class="tools">
-						<a href="edit_timer.html?title=<$ title $>&start_h=<$ start_h $>&end_h=<$ end_h $>&start_m=<$ start_m $>&end_m=<$ end_m $>"><img src="/record.png" alt="" <& tooltip_widget tooltip=(tr("Record this")) &> border="0"/></a>
+						<a href="edit_timer.html?channel=<$ channel_id $>&title=<$ title $>&start_h=<$ start_h $>&end_h=<$ end_h $>&start_m=<$ start_m $>&end_m=<$ end_m $>"><img src="/record.png" alt="" <& tooltip_widget tooltip=(tr("Record this")) &> border="0"/></a>
 					</td>
 					<td class="content">
 						<div class="info"><$ start $> - <$ end $></div>
