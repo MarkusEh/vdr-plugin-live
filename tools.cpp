@@ -62,4 +62,13 @@ int StringToInt( std::string const& string, int base )
 	return 0;
 }
 
+string StringRepeat(int times, const string& input)
+{
+	string result;
+	for (int i = 0; i < times; i++) {
+		result += input;
+	}
+	return result;
+}
+
 } // namespace vdrlive
