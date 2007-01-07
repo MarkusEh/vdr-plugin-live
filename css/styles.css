@@ -240,3 +240,41 @@ table.error tr td.title {
 	padding: 3px 3px 3px 10px;
 }
 
+/*
+  ##############################
+  #  Edit Tables
+  ##############################
+*/
+
+table.edit {
+	margin-top: 10px;
+	border: 1px solid #6D96A9;
+}
+
+table.edit tr td.head {
+	background: #6D96A9;
+	color: white;
+	font-weight: bold;
+	margin: 0;
+	padding: 3px;
+}
+
+table.edit tr td {
+	vertical-align: top;
+	padding: 3px 7px 3px 3px;
+	vertical-align: middle;
+}
+
+table.edit tr td.label {
+	font-weight: bold;
+}
+
+
+table.edit tr.active {
+	background: #DEE6EE;
+}
+
+input {
+	border: 1px solid #6D96A9;
+	background: #FEFEFE;
+}
