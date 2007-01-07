@@ -10,6 +10,7 @@ namespace vdrlive {
 		m_recordingsLock(&Recordings)
 
 	{
+		esyslog("DH: ****** RecordingsTree::RecordingsTree() ********");
 		for ( cRecording* recording = Recordings.First(); recording != 0; recording = Recordings.Next( recording ) ) {
 			if (m_maxLevel < recording->HierarchyLevels()) {
 				m_maxLevel = recording->HierarchyLevels();
@@ -17,6 +18,8 @@ namespace vdrlive {
 
 			RecordingsItemPtr dir = m_root;
 			string name(recording->Name());
+
+			esyslog("DH: recName = '%s'", recording->Name());
 			int level = 0;
 			size_t index = 0;
 			size_t pos = 0;
@@ -30,21 +33,25 @@ namespace vdrlive {
 						RecordingsItemPtr recPtr (new RecordingsItemDir(dirName, level));
 						dir->m_entries.insert(pair< string, RecordingsItemPtr > (dirName, recPtr));
 						i = findDir(dir, dirName);
+						esyslog("DH: added dir: '%s'", dirName.c_str());
 					}
 					dir = i->second;
 					level++;
 				}
 				else {
-					string dirName(name.substr(index, name.length() - index));
-					RecordingsItemPtr recPtr (new RecordingsItemRec(dirName, recording));
-					dir->m_entries.insert(pair< string, RecordingsItemPtr > (dirName, recPtr));
+					string recName(name.substr(index, name.length() - index));
+					RecordingsItemPtr recPtr (new RecordingsItemRec(recName, recording));
+					dir->m_entries.insert(pair< string, RecordingsItemPtr > (recName, recPtr));
+					esyslog("DH: added rec: '%s'", recName.c_str());
 				}
 			} while (pos != string::npos);
 		}
+		esyslog("DH: ------ RecordingsTree::RecordingsTree() --------");
 	}
 
 	RecordingsTree::~RecordingsTree()
 	{
+		esyslog("DH: ****** RecordingsTree::~RecordingsTree() ********");
 	}
 
 	RecordingsTree::Map::iterator RecordingsTree::begin(const vector< string >& path)
