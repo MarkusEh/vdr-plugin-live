@@ -103,7 +103,7 @@ try {
 <& menu >
 		</div>
 		<div class="inhalt">
-			<div class="head_box"><$ timer ? tr("Edit timer") : tr("New timer") $></div>
+<& pageelems.header_box content=(timer ? tr("Edit timer") : tr("New timer")) &>
 			<form method="POST" name="edit_timer">
 				<input type="hidden" name="timerid" value="<$ timerid $>"/>
 				<input type="hidden" name="aux" value="<$ aux $>"/>
