@@ -71,4 +71,16 @@ string StringRepeat(int times, const string& input)
 	return result;
 }
 
+string StringWordTruncated(const string& input, size_t maxLen, bool& truncated)
+{
+	if (input.length() <= maxLen)
+	{
+		return input;
+	}
+	truncated = true;
+	string result = input.substr(0, maxLen);
+	size_t pos = result.find_last_of(" \t,;:.\n?!'\"/\\()[]{}*+-");
+	return result.substr(0, pos);
+}
+
 } // namespace vdrlive
