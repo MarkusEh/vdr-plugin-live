@@ -58,11 +58,17 @@ div.domTTOverlib .contents {
 div.left_area {
 	width: 150px;
 	float: left;
+}
+
+div.left_area img.logo {
 	margin: 5px;
 }
 
-div.inhalt {
+div.right_area {
 	float: left;
+}
+
+div.inhalt {
 	margin: 5px;
 }
 
@@ -75,6 +81,7 @@ div.menu {
 	border: 1px solid #6D96A9;
 	color: #6D96A9;
 	padding: 5px;
+	margin: 5px;
 }
 
 div.menu a {
@@ -142,63 +149,101 @@ table td.buttonpanel {
 	text-align: right;
 }
 
-table.event {
-	width: 250px;
-	height: 250px;
+
+/* ################
+   #  Event
+   ################
+*/
+div.event {
+	width: 255px;
+	height: 255px;
+	padding: 0;
 	float: left;
-	margin: 2px;
-	padding: 0px;
 }
 
-table.event tr td.tools {
+div.event div.station {
+	margin: 0;
+	padding: 0;
+	width: 250px;
+}
+
+div.station div {
+	margin: 0;
+	padding: 0;
+	background: url(/bg_box_l.png) top left no-repeat;
+	height: 23px;	
+}
+
+div.station div div {
+	background: url(/bg_box_r.png) top right no-repeat;
+}
+
+div.station div div div {
+	background: url(/bg_box_h.png) repeat-x;
+	vertical-align: middle;
+	text-align: left;
+	margin-right: 3px;
+	margin-left: 3px;
+	padding-left: 5px;
+	color: white;
+	font-weight: bold;
+}
+
+
+
+div.tools {
+	float: left;
+	width: 26px;
+	height: 220px;
+	margin: 0;
+	padding: 0;
+	
 	background: #DEE6EE;
-	padding: 10px 2px 10px 2px;
-	width: 25px;
 	text-align: center;
 	vertical-align: top;
 	border-left: 1px solid #000000;
 	border-bottom: 1px solid #000000;
 }
 
-table.event tr td.tools img {
-	cursor: pointer;
-}
-
-
-table.event tr td.content {
-	width: 225px;
-	float: left;
-	padding: 5px;
+div.content {
+	width: 224px;
+	height: 220px;
+	padding: 0;
+	margin: 0;
+	margin-left: 25px;
+	
 	border-right: 1px solid #000000;
 	border-bottom: 1px solid #000000;
 }
 
+div.tools img {
+	margin: 5px 2px;
+}
+
 div.description {
-	height: 150px;
-	overflow: auto;
-	margin-top: 10px;
+	margin: 5px;
 }
 
 div.info {
 	text-align: right;
-	margin-bottom: 3px;
+	padding: 5px;
 }
 
-table.event tr td.station {
-	margin: 0;
-	padding: 0;
-	height: 23px;
-}
-
-table.event tr td.content .title {
+div.title {
 	font-weight: bold;
-	height: 15px;
+	margin: 5px;
 }
 
-table.event tr td.content .short {
-	height: 40px;
-	overflow: hidden;
+div.short {
+	font-weight: normal;
+	margin: 5px;
 }
+
+
+/* #############
+   # Timers
+   #############
+*/
 
 table.timers {
 	margin-top: 10px;
@@ -360,33 +405,3 @@ table.edit tr.active {
 	background: #DEE6EE;
 }
 
-/*
-
-  Buttons
-*/
-
-td.station div {
-	margin: 0;
-	padding: 0;
-	height: 23px;
-	background: url(/bg_box_l.png) top left no-repeat;
-	cursor: pointer;
-	color: white;
-	font-weight: bold;
-	text-align: center;
-}
-
-td.station div div {
-	background: url(/bg_box_r.png) top right no-repeat;
-	margin-left: 3px;
-	height: 23px;
-}
-
-td.station div div div {
- 	margin: 0 3px 0 0px;
- 	padding: 2px;
-	background: url(/bg_box_h.png) repeat-x;
-	height: 23px;
-	vertical-align: middle;
-	text-align: left;
-}
