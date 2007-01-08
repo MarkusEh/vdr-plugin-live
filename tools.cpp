@@ -71,7 +71,7 @@ string StringRepeat(int times, const string& input)
 	return result;
 }
 
-string StringWordTruncated(const string& input, size_t maxLen, bool& truncated)
+string StringWordTruncate(const string& input, size_t maxLen, bool& truncated)
 {
 	if (input.length() <= maxLen)
 	{
