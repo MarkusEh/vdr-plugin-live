@@ -139,9 +139,10 @@ void TimerManager::DoInsertTimer( TimerPair& timerData )
 		return;
 	}
 
-	Timers.Add( newTimer.release() );
+	Timers.Add( newTimer.get() );
 	Timers.SetModified();
 	isyslog( "live timer %s added", *newTimer->ToDescr() );
+	newTimer.release();
 }
 
 void TimerManager::DoUpdateTimer( TimerPair& timerData )
