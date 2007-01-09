@@ -18,6 +18,7 @@ RecordingsTree recordingsTree;
 <%cpp>
 	pageTitle = tr("Recordings");
 </%cpp>
+<& pageelems.doc_type &>
 <html>
 	<head>
 		<title>VDR-Live - <$ pageTitle $></title>
@@ -29,6 +30,7 @@ RecordingsTree recordingsTree;
 			<img src="logo.png" alt="VDR Live!" border="0" />
 <& menu &>
 		</div>
+		<div class="right_area">
 		<div class="inhalt">
 <& pageelems.header_box content=(tr("Recordings")) &>
 %			if (Recordings.Count() == 0) {
@@ -38,6 +40,7 @@ RecordingsTree recordingsTree;
 <& recordings.recordings_item &>
 				</div>
 %			}
+		</div>
 		</div>
 	</body>
 </html>
