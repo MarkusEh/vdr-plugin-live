@@ -13,6 +13,9 @@ using namespace vdrlive;
 <%args>
 	int channel = -1;
 </%args>
+<%request scope="page">
+cChannel* Channel;
+</%request>
 <%include>page_init.eh</%include>
 <%cpp>
 	pageTitle = tr("Schedule");
@@ -24,7 +27,7 @@ using namespace vdrlive;
 	if ( !channelsLock )
 		throw HtmlError( tr("Couldn't aquire access to channels, please try again later.") );
 
-	cChannel* Channel;
+	// cChannel* Channel; (see %request above)
 	if ( channel > 0 )
 		Channel = Channels.GetByNumber( channel );
 	else
@@ -37,6 +40,7 @@ using namespace vdrlive;
 	if ( Schedule == 0 )
 		throw HtmlError( tr("No schedules available for this channel.") );
 </%cpp>
+<& pageelems.doc_type &>
 <html>
 	<head>
 		<title>VDR Live - <$ pageTitle $></title>
@@ -47,21 +51,9 @@ using namespace vdrlive;
 			<img src="logo.png" alt="VDR Live!" border="0" />
 			<& menu >
 		</div>
+	<div class="right_area">
 		<div class="inhalt">
-			<div class="head_box">
-				<table>
-					<tr>
-						<td><? Channel ? Channel->Name() ?></td>
-						<td>
-							<form name="channels" id="channels">
-							<& channels_widget name=("channel") selected=(Channel ? *Channel->GetChannelID().ToString() : "") 
-									onchange=("document.forms.channels.submit()") &>
-							</form>
-						</td>
-					</tr>
-				</table>
-			</div>
-
+<&pageelems.header_box component=("schedule.channel_selection") &>
 			<table class="schedule" cellspacing="0" callpadding="0">
 <{
 				bool active_line = false;
@@ -95,6 +87,21 @@ using namespace vdrlive;
 %				}
 			</table>
 		</div>
+	</div>
 	</body>
 </html>
 <%include>page_exit.eh</%include>
+
+<%def channel_selection>
+				<table>
+					<tr>
+						<td><? Channel ? Channel->Name() ?></td>
+						<td>
+							<form name="channels" id="channels">
+							<& channels_widget name=("channel") selected=(Channel ? *Channel->GetChannelID().ToString() : "")
+									onchange=("document.forms.channels.submit()") &>
+							</form>
+						</td>
+					</tr>
+				</table>
+</%def>

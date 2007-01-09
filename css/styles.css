@@ -171,7 +171,7 @@ div.station div {
 	margin: 0;
 	padding: 0;
 	background: url(/bg_box_l.png) top left no-repeat;
-	height: 23px;	
+	height: 23px;
 }
 
 div.station div div {
@@ -198,7 +198,7 @@ div.tools {
 	height: 220px;
 	margin: 0;
 	padding: 0;
-	
+
 	background: #DEE6EE;
 	text-align: center;
 	vertical-align: top;
@@ -212,7 +212,7 @@ div.content {
 	padding: 0;
 	margin: 0;
 	margin-left: 25px;
-	
+
 	border-right: 1px solid #000000;
 	border-bottom: 1px solid #000000;
 }
@@ -312,6 +312,40 @@ table.schedule tr.active {
 .recordings img {
         border: 0px solid white;
 }
+
+.recording li {
+}
+
+.recording_item div {
+        float: left;
+}
+
+.recording_item div.recording_day {
+        width: 2.5em;
+}
+
+.recording_item div.recording_date {
+        width: 6em;
+}
+
+.recording_item div.recording_time {
+	width: 6em;
+}
+
+.recording_item div.recording_name {
+	font-weight: bold;
+}
+
+.recordings ul {
+	clear: both;
+}
+
+.recording_item div.recording_clear {
+	clear: both;
+        width: 0px;
+	height: 0px;
+}
+
 
 /*
   ##############################

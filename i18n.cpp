@@ -91,6 +91,28 @@ const tI18nPhrase Phrases[] = {
 	  "", // Dansk
 	  "", //Czech
 	},
+	{ "%b %d %y", // English
+	  "%d.%m.%y", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", //Czech
+	},
 	{ "Date", // English
 	  "Datum", // Deutsch
 	  "", // Slovenski

@@ -7,6 +7,7 @@
 	errorTitle = tr("Page error");
 	errorMessage;
 </%args>
+<& pageelems.doc_type &>
 <html>
 	<head>
 		<title>VDR-Live - <$ pageTitle $></title>
@@ -17,9 +18,11 @@
 			<img src="logo.png" alt="VDR Live!" border="0" />
 			<& menu >
 		</div>
+		<div class="right_area">
 		<div class="inhalt">
 			<& pageelems.header_box content=(pageTitle) &>
 			<& error.error_widget errorTitle=(errorTitle) errorMessage=(errorMessage) &>
+		</div>
 		</div>
 	</body>
 </html>

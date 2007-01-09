@@ -13,6 +13,7 @@ using namespace vdrlive;
 	cMutexLock timersLock( &LiveTimerManager() );
 	SortedTimers& timers = LiveTimerManager().GetTimers();
 </%cpp>
+<& pageelems.doc_type &>
 <html>
 	<head>
 		<title>VDR-Live - <$ pageTitle $></title>
@@ -23,6 +24,7 @@ using namespace vdrlive;
 			<img src="logo.png" alt="VDR Live!" border="0" />
 			<& menu >
 		</div>
+	<div class="right_area">
 		<div class="inhalt">
 			<& pageelems.header_box	content=(pageTitle) &>
 %			if (timers.size() == 0) {
@@ -60,6 +62,7 @@ using namespace vdrlive;
 }>
 			</table>
 		</div>
+	</div>
 	</body>
 </html>
 <%include>page_exit.eh</%include>

@@ -74,7 +74,7 @@ using namespace vdrlive;
 	string result;
 	if ( request.getMethod() == "POST" ) {
 		uint flags = ( active ? tfActive : 0 ) | ( vps ? tfVps : 0 );
-		string weekdays = string( wday_mon ? "M" : "-" ) + ( wday_tue ? "T" : "-" ) + ( wday_wed ? "W" : "-" ) 
+		string weekdays = string( wday_mon ? "M" : "-" ) + ( wday_tue ? "T" : "-" ) + ( wday_wed ? "W" : "-" )
 							  + ( wday_thu ? "T" : "-" ) + ( wday_fri ? "F" : "-" ) + ( wday_sat ? "S" : "-" )
 							  + ( wday_sun ? "S" : "-" );
 		int start = start_h * 100 + start_m;
@@ -85,6 +85,7 @@ using namespace vdrlive;
 		return reply.redirect("timers.html");
 	}
 </%cpp>
+<& pageelems.doc_type &>
 <html>
 	<head>
 		<title>VDR Live - <$ timer ? tr("Edit timer") : tr("New timer") $></title>
@@ -95,6 +96,7 @@ using namespace vdrlive;
 			<img src="logo.png" alt="VDR Live!" border="0" />
 <& menu >
 		</div>
+	<div class="right_area">
 		<div class="inhalt">
 <& pageelems.header_box content=(timer ? tr("Edit timer") : tr("New timer")) &>
 			<form method="POST" name="edit_timer">
@@ -114,18 +116,18 @@ using namespace vdrlive;
 <& channels_widget name=("channel") channelid=(true) selected=(channel) &>
 						</td>
 					</tr>
-					
+
 					<tr class="active">
 						<td class="label"><$ tr("Title" ) $>:</td>
 						<td><input type="text" name="title" value="<$ title $>" size="80" /></td>
 					</tr>
-					
-					
+
+
 					<tr>
 						<td class="label"><$ tr("Day") $>:</td>
 						<td><input type="text" name="day" value="<$ day $>" size="2" maxlength="2" /></td>
 					</tr>
-					
+
 					<tr class="active">
 						<td class="label"><$ tr("Weekday") $>:</td>
 						<td>
@@ -138,17 +140,17 @@ using namespace vdrlive;
 							<input type="checkbox" name="wday_sun" value="1" <{ reply.out() << ( wday_sun ? "checked=\"checked\"" : "" ); }>/> <$ tr("Sunday") $>
 						</td>
 					</tr>
-					
+
 					<tr>
 						<td class="label"><$ tr("Start") $>:</td>
 						<td><input type="text" size="2" maxlength="2" name="start_h" value="<$ start_h $>" /> : <input type="text" size="2" maxlength="2" name="start_m" value="<$ start_m $>" /></td>
 					</tr>
-					
+
 					<tr class="active">
 						<td class="label"><$ tr("Stop") $>:</td>
 						<td><input type="text" size="2" maxlength="2" name="end_h" value="<$ end_h $>" /> : <input type="text" size="2" maxlength="2" name="end_m" value="<$ end_m $>" /></td>
 					</tr>
-					
+
 					<tr>
 						<td class="label"><$ tr("Use VPS") $>:</td>
 						<td><input type="checkbox" name="vps" value="1" <{ reply.out() << ( vps ? "checked=\"checked\"" : "" ); }>/></td>
@@ -158,18 +160,19 @@ using namespace vdrlive;
 						<td class="label"><$ tr("Priority") $>:</td>
 						<td><input type="text" size="2" maxlength="2" name="priority" value="<$ priority $>" /></td>
 					</tr>
-					
+
 					<tr>
 						<td class="label"><$ tr("Lifetime") $>:</td>
 						<td><input type="text" size="2" maxlength="2" name="lifetime" value="<$ lifetime $>" /></td>
 					</tr>
-					
+
 					<tr class="active">
 						<td class="buttonpanel" colspan="2"><button name="submit" type="submit"><$ tr("Save") $></button></td>
 					</tr>
 				</table>
 			</form>
 		</div>
+	</div>
 	</body>
 </html>
 <%include>page_exit.eh</%include>
