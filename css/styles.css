@@ -309,11 +309,9 @@ table.schedule tr.active {
         margin: 0px;
 }
 
-.recordings img {
-        border: 0px solid white;
-}
-
-.recording li {
+div.recording_item {
+	overflow: hidden;
+        border: 0px dotted green;
 }
 
 .recording_item div {
@@ -321,31 +319,20 @@ table.schedule tr.active {
 }
 
 .recording_item div.recording_day {
-        width: 2.5em;
+        width: 2.25em;
 }
 
 .recording_item div.recording_date {
-        width: 6em;
+        width: 5.25em;
 }
 
 .recording_item div.recording_time {
-	width: 6em;
+	width: 5.75em;
 }
 
 .recording_item div.recording_name {
 	font-weight: bold;
 }
-
-.recordings ul {
-	clear: both;
-}
-
-.recording_item div.recording_clear {
-	clear: both;
-        width: 0px;
-	height: 0px;
-}
-
 
 /*
   ##############################

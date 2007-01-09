@@ -17,10 +17,24 @@ function findSibling(node, name)
 	return null;
 }
 
+function findChildNode(node, className)
+{
+	for (idx = 0; idx < node.childNodes.length; idx++) {
+		n = node.childNodes.item(idx);
+		if (n.nodeType == Node.ELEMENT_NODE) {
+			attr = n.getAttributeNode("class");
+			if ((attr != null) && (attr.nodeValue == className)) {
+				return n;
+			}
+		}
+	}
+	return null;
+}
+
 function findImageNode(node, className)
 {
-	for (var idx = 0; idx < node.childNodes.length; idx++) {
-		var n = node.childNodes.item(idx);
+	for (idx = 0; idx < node.childNodes.length; idx++) {
+		n = node.childNodes.item(idx);
 		if ((n.nodeType == Node.ELEMENT_NODE) && (n.nodeName == "IMG")) {
 			attr = n.getAttributeNode("class");
 			if ((attr != null) && (attr.nodeValue == className)) {
@@ -52,15 +66,18 @@ function Toggle(node)
 	if (sibling == null)
 		return;
 
+	imgChild = findChildNode(node, "recording_imgs");
 	if (sibling.style.display == 'none')
 	{
-		setImages(node, "minus.png", "folder_open.png");
+		if (imgChild != null)
+			setImages(imgChild, "minus.png", "folder_open.png");
 		sibling.style.display = 'block';
 	}
 	// Collapse the branch if it IS visible
 	else
 	{
-		setImages(node, "plus.png", "folder_closed.png");
+		if (imgChild != null)
+			setImages(imgChild, "plus.png", "folder_closed.png");
 		sibling.style.display = 'none';
 	}
 }

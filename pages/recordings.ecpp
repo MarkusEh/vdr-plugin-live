@@ -1,5 +1,4 @@
 <%pre>
-#include <sstream>
 #include <vdr/plugin.h>
 #include <vdr/config.h>
 #include "exception.h"
@@ -87,10 +86,8 @@ for (iter = recordingsTree.begin(path); iter != end; iter++) {
 		for (path_type::const_iterator i = path.begin(); i != path.end(); ++i) {
 			recItemParams.add("path", *i);
 		}
-		ostringstream levelStr;
-		levelStr << (level + 1);
 		recItemParams.add("path", recItem->Name());
-		recItemParams.add("level", levelStr.str());
+		recItemParams.add("level", lexical_cast<std::string, int>(level + 1));
 		callComp("recordings.recordings_item", request, reply, recItemParams);
 	} else {
 		reply.out() << std::string("\t\t\t")
