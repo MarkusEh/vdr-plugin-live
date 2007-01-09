@@ -15,7 +15,7 @@
 	</head>
 	<body>
 		<div class="left_area">
-			<img src="logo.png" alt="VDR Live!" border="0" />
+			<& pageelems.logo &>
 			<& menu >
 		</div>
 		<div class="right_area">

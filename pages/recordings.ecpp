@@ -27,17 +27,17 @@ RecordingsTree recordingsTree;
 	</head>
 	<body>
 		<div class="left_area">
-			<img src="logo.png" alt="VDR Live!" border="0" />
-<& menu &>
+			<& pageelems.logo &>
+			<& menu &>
 		</div>
 		<div class="right_area">
 		<div class="inhalt">
-<& pageelems.header_box content=(tr("Recordings")) &>
+			<& pageelems.header_box content=(tr("Recordings")) &>
 %			if (Recordings.Count() == 0) {
 				Keine Aufnahmen vorhanden
 %			} else {
 				<div class="recordings">
-<& recordings.recordings_item &>
+					<& recordings.recordings_item &>
 				</div>
 %			}
 		</div>

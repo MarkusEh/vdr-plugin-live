@@ -40,14 +40,12 @@ if (type == "now") {
 	</head>
 	<body>
 		<div class="left_area">
-			<img src="logo.png" alt="VDR Live!" class="logo"/>
-<& menu >
+			<& pageelems.logo &>
+			<& menu >
 		</div>
-
 		<div class="right_area">
 			<div class="inhalt">
-<& pageelems.header_box content=(head) &>
-
+				<& pageelems.header_box content=(head) &>
 <{
 	ReadLock channelsLock( Channels );
 	if (channelsLock) {

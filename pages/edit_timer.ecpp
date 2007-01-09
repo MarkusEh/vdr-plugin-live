@@ -93,8 +93,8 @@ using namespace vdrlive;
 	</head>
 	<body>
 		<div class="left_area">
-			<img src="logo.png" alt="VDR Live!" border="0" />
-<& menu >
+			<& pageelems.logo &>
+			<& menu >
 		</div>
 	<div class="right_area">
 		<div class="inhalt">
