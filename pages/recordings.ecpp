@@ -37,7 +37,7 @@ RecordingsTree recordingsTree;
 				Keine Aufnahmen vorhanden
 %			} else {
 				<div class="recordings">
-					<& recordings.recordings_item &>
+<& recordings.recordings_item &>
 				</div>
 %			}
 		</div>
@@ -54,34 +54,34 @@ int level = 0;
 <{
 if (level > 0) {
 }>
-<ul class="recordingslist" style="display: none;">
+	<ul class="recordingslist" style="display: none;">
 <{
 }
 else {
 }>
-<ul class="recordingslist" style="display: block;">
+	<ul class="recordingslist" style="display: block;">
 <{
 } // if (level > 0)
-
 RecordingsTree::Map::iterator iter;
 RecordingsTree::Map::iterator end = recordingsTree.end(path);
 for (iter = recordingsTree.begin(path); iter != end; iter++) {
 	RecordingsTree::RecordingsItemPtr recItem = iter->second;
-	std::string folderimg(level > 0 ? "folder_closed.png" : "folder_closed.png");
-	std::string collapseimg(level > 0 ? "plus.png" : "plus.png");
+	std::string folderimg("folder_closed.png");
+	std::string collapseimg("plus.png");
 }>
-	<li class="recording">
+		<li class="recording">
 <{
-	for (int i = 0; i < level; i++) {
-		reply.out() << "<img src=\"transparent.png\" alt=\"\" width=\"16\" height=\"16\" />";
-	}
+	if (recItem->IsDir()) {
+		reply.out() << std::string("\t\t\t")
+			+ std::string("<div class=\"recording_item\" onclick=\"Toggle(this)\">\n")
+			+ std::string("\t\t\t<div class=\"recording_imgs\">")
+			+ StringRepeat(level, "<img src=\"transparent.png\" alt=\"\" width=\"16\" height=\"16\" />")
+			+ std::string("<img class=\"recording_expander\" src=\"") + collapseimg + std::string("\" alt=\"\" />")
+			+ std::string("<img class=\"recording_folder\" src=\"") + folderimg + std::string("\" alt=\"\" />")
+			+ std::string("</div>");
 }>
-%	if (recItem->IsDir()) {
-%		reply.out() << "<a onClick=\"Toggle(this)\">";
-%		// Die folgenden img-Tags muessen direkt auf einander folgen
-		<img class="recording_expander" src="<$ collapseimg $>" alt="" /><img class="recording_folder" src="<$ folderimg $>" alt="" />
-		<span class="recording_name"><$ recItem->Name() $></span>
-		</a>
+			<div class="recording_name"><$ recItem->Name() $></div>
+			</div>
 <{
 		cxxtools::QueryParams recItemParams(qparam, false);
 		for (path_type::const_iterator i = path.begin(); i != path.end(); ++i) {
@@ -93,15 +93,23 @@ for (iter = recordingsTree.begin(path); iter != end; iter++) {
 		recItemParams.add("level", levelStr.str());
 		callComp("recordings.recordings_item", request, reply, recItemParams);
 	} else {
-		reply.out() << "<img src=\"transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" /><img src=\"file.png\" alt=\"file\" />";
+		reply.out() << std::string("\t\t\t")
+			+ std::string("<div class=\"recording_item\">\n")
+			+ std::string("\t\t\t<div class=\"recording_imgs\">")
+			+ StringRepeat(level, "<img src=\"transparent.png\" alt=\"\" width=\"16\" height=\"16\" />")
+			+ std::string("<img src=\"transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />")
+			+ std::string("<img src=\"file.png\" alt=\"file\" />")
+			+ std::string("</div>");
 }>
-		<span class="recording_date"><$ FormatDateTime(tr("%a, %b %d"), recItem->StartTime()) $></span>
-		<span class="recording_time"><$ FormatDateTime(tr("%I:%M %p"), recItem->StartTime()) $></span>
-		<span class="recording_name"><$ recItem->Name() $></span>
+			<div class="recording_day"><$ FormatDateTime("%a,", recItem->StartTime()) $></div>
+			<div class="recording_date"><$ FormatDateTime(tr("%b %d %y"), recItem->StartTime()) $></div>
+			<div class="recording_time"><$ FormatDateTime(tr("%I:%M %p"), recItem->StartTime()) $></div>
+			<div class="recording_name"><$ recItem->Name() $></div>
+			</div>
 %	}
-	</li>
+		</li>
 <{
 }
 }>
-</ul>
+	</ul>
 </%def>

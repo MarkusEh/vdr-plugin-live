@@ -2,7 +2,7 @@
 #include <vdr/plugin.h>
 #include <vdr/config.h>
 </%pre>
-			<div class="menu">
+<div class="menu">
 				<a href="whats_on.html?type=now"><$ tr("What's on now?") $></a><br/>
 				<a href="whats_on.html?type=next"><$ tr("What's on next?") $></a><br/>
 				<a href="schedule.html"><$ tr("Schedule") $></a><br />
