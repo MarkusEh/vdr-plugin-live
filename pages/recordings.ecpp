@@ -80,6 +80,7 @@ for (iter = recordingsTree.begin(path); iter != end; iter++) {
 			+ std::string("</div>");
 }>
 			<div class="recording_name"><$ recItem->Name() $></div>
+			<div class="recording_actions">&nbsp;</div>
 			</div>
 <{
 		cxxtools::QueryParams recItemParams(qparam, false);
@@ -95,13 +96,14 @@ for (iter = recordingsTree.begin(path); iter != end; iter++) {
 			+ std::string("\t\t\t<div class=\"recording_imgs\">")
 			+ StringRepeat(level, "<img src=\"transparent.png\" alt=\"\" width=\"16\" height=\"16\" />")
 			+ std::string("<img src=\"transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />")
-			+ std::string("<img src=\"file.png\" alt=\"file\" />")
+			+ std::string("<img src=\"movie.png\" alt=\"movie\" />")
 			+ std::string("</div>");
 }>
 			<div class="recording_day"><$ FormatDateTime("%a,", recItem->StartTime()) $></div>
 			<div class="recording_date"><$ FormatDateTime(tr("%b %d %y"), recItem->StartTime()) $></div>
 			<div class="recording_time"><$ FormatDateTime(tr("%I:%M %p"), recItem->StartTime()) $></div>
 			<div class="recording_name"><$ recItem->Name() $></div>
+			<div class="recording_actions">&nbsp;</div>
 			</div>
 %	}
 		</li>
