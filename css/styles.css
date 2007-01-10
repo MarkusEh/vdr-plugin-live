@@ -308,17 +308,17 @@ div.recordings {
 
 .recordings ul {
 	list-style-type: none;
-        padding: 0px;
-        margin: 0px;
+	padding: 0px;
+	margin: 0px;
 }
 
 div.recording_item {
 	overflow: hidden;
-        border: 0px dotted green;
+	border: 0px dotted green;
 }
 
 .recording_item div {
-        float: left;
+	float: left;
 }
 
 .recording_item div.recording_imgs{
@@ -326,11 +326,10 @@ div.recording_item {
 }
 
 .recording_item div.recording_day {
-        width: 2.25em;
 }
 
 .recording_item div.recording_date {
-        width: 5.25em;
+	width: 5.25em;
 }
 
 .recording_item div.recording_time {
@@ -339,6 +338,11 @@ div.recording_item {
 
 .recording_item div.recording_name {
 	font-weight: bold;
+}
+
+.recording_item div.recording_actions {
+	float: right;
+	margin-left: 3em;
 }
 
 /*

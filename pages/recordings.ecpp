@@ -22,7 +22,12 @@ RecordingsTree recordingsTree;
 	<head>
 		<title>VDR-Live - <$ pageTitle $></title>
 		<link rel="stylesheet" type="text/css" href="styles.css" />
-		<script src="treeview.js" type="text/javascript" />
+		<script type="text/javascript" language="javascript" src="treeview.js" />
+		<script type="text/javascript" language="javascript" src="domLib.js"></script>
+    	<script type="text/javascript" language="javascript" src="domTT.js"></script>
+    	<script type="text/javascript" language="javascript">
+			var domTT_styleClass = 'recording_tt';
+    	</script>
 	</head>
 	<body>
 		<div class="left_area">
@@ -63,18 +68,18 @@ else {
 } // if (level > 0)
 RecordingsTree::Map::iterator iter;
 RecordingsTree::Map::iterator end = recordingsTree.end(path);
+}>
+		<li class="recording">
+<{
 for (iter = recordingsTree.begin(path); iter != end; iter++) {
 	RecordingsTree::RecordingsItemPtr recItem = iter->second;
 	std::string folderimg("folder_closed.png");
 	std::string collapseimg("plus.png");
-}>
-		<li class="recording">
-<{
 	if (recItem->IsDir()) {
 		reply.out() << std::string("\t\t\t")
 			+ std::string("<div class=\"recording_item\" onclick=\"Toggle(this)\">\n")
 			+ std::string("\t\t\t<div class=\"recording_imgs\">")
-			+ StringRepeat(level, "<img src=\"transparent.png\" alt=\"\" width=\"16\" height=\"16\" />")
+			+ StringRepeat(level, "<img src=\"transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />")
 			+ std::string("<img class=\"recording_expander\" src=\"") + collapseimg + std::string("\" alt=\"\" />")
 			+ std::string("<img class=\"recording_folder\" src=\"") + folderimg + std::string("\" alt=\"\" />")
 			+ std::string("</div>");
@@ -90,20 +95,32 @@ for (iter = recordingsTree.begin(path); iter != end; iter++) {
 		recItemParams.add("path", recItem->Name());
 		recItemParams.add("level", lexical_cast<std::string, int>(level + 1));
 		callComp("recordings.recordings_item", request, reply, recItemParams);
-	} else {
+	}
+}
+for (iter = recordingsTree.begin(path); iter != end; iter++) {
+	RecordingsTree::RecordingsItemPtr recItem = iter->second;
+	std::string folderimg("folder_closed.png");
+	std::string collapseimg("plus.png");
+    if (!recItem->IsDir()) {
+		std::string day(FormatDateTime("%a,", recItem->StartTime()));
+		std::string dayLen(lexical_cast<std::string, int>(day.length() - 1) + ".25em;");
 		reply.out() << std::string("\t\t\t")
 			+ std::string("<div class=\"recording_item\">\n")
 			+ std::string("\t\t\t<div class=\"recording_imgs\">")
-			+ StringRepeat(level, "<img src=\"transparent.png\" alt=\"\" width=\"16\" height=\"16\" />")
+			+ StringRepeat(level, "<img src=\"transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />")
 			+ std::string("<img src=\"transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />")
 			+ std::string("<img src=\"movie.png\" alt=\"movie\" />")
 			+ std::string("</div>");
 }>
-			<div class="recording_day"><$ FormatDateTime("%a,", recItem->StartTime()) $></div>
+			<div class="recording_day" style="width: <$ dayLen $>"><$ day $></div>
 			<div class="recording_date"><$ FormatDateTime(tr("%b %d %y"), recItem->StartTime()) $></div>
 			<div class="recording_time"><$ FormatDateTime(tr("%I:%M %p"), recItem->StartTime()) $></div>
 			<div class="recording_name"><$ recItem->Name() $></div>
-			<div class="recording_actions">&nbsp;</div>
+			<div class="recording_actions">
+				 <img src="play.png" alt="">
+				 <img src="edit.png" alt"">
+				 <img src="del.png" alt="">
+			</div>
 			</div>
 %	}
 		</li>

@@ -78,7 +78,7 @@ if (type == "now") {
 						<div><div><div><$ channel_name $></div></div></div>
 					</div>
 					<div class="tools">
-						<a href="edit_timer.html?channel=<$ channel_id $>&title=<$ title $>&start_h=<$ start_h $>&end_h=<$ end_h $>&start_m=<$ start_m $>&end_m=<$ end_m $>"><img src="/record.png" alt="" <& tooltip_widget tooltip=(tr("Record this")) &> border="0" /></a>
+						<a href="edit_timer.html?channel=<$ channel_id $>&title=<$ title $>&start_h=<$ start_h $>&end_h=<$ end_h $>&start_m=<$ start_m $>&end_m=<$ end_m $>"><img src="/record.png" alt="" <& tooltip_widget tooltip=(tr("Record this")) &> /></a>
 					</div>
 					<div class="content">
 						<div class="info"><$ start $> - <$ end $></div>
