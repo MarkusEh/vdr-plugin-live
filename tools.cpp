@@ -15,7 +15,6 @@ istream& operator>>( istream& is, tChannelID& ret )
 		string line;
 		if ( !getline( is, line ) || ( !line.empty() && !( ret = tChannelID::FromString( line.c_str() ) ).Valid() ) )
 			is.setstate( ios::badbit );
-		cerr << "channel id " << line << endl << endl;
 	}
 	return is;
 }
