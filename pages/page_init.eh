@@ -8,5 +8,6 @@ std::string pageTitle;
 </%request>
 <%cpp>
 try {
+	reply.setHeader("Expires", "Mon, 26 Jul 1997 05:00:00 GMT");
 	tnt::Savepoint spoint( reply );
 </%cpp>
