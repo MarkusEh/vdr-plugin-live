@@ -2,11 +2,22 @@
 #define VDR_LIVE_TOOLS_H
 
 #include <ctime>
+#include <istream>
+#include <ostream>
 #include <sstream>
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <vdr/channels.h>
 #include <vdr/thread.h>
+
+std::istream& operator>>( std::istream& is, tChannelID& ret );
+
+inline 
+std::ostream& operator<<( std::ostream& os, tChannelID const& id )
+{
+	return os << *id.ToString();
+}
 
 namespace vdrlive {
 

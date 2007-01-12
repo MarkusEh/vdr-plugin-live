@@ -7,6 +7,7 @@
 #include "setup.h"
 #include "tools.h"
 
+using namespace std;
 using namespace vdrlive;
 
 </%pre>
@@ -19,9 +20,9 @@ type = "now";
 cSchedulesLock schedulesLock;
 const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
 
-std::string head;
+string head;
 if (type == "now") {
-	head = tr("What's running at")+std::string(" ")+FormatDateTime(tr("%I:%M %p"), time(0));
+	head = tr("What's running at")+string(" ")+FormatDateTime(tr("%I:%M %p"), time(0));
 } else {
 	head = tr("What's on next?");
 }
@@ -55,22 +56,19 @@ if (type == "now") {
 				if (Schedule) {
 					const cEvent *Event = (type == "now" ? Schedule->GetPresentEvent() : Schedule->GetFollowingEvent());
 						if (Event) {
-							std::string title(Event->Title() ? Event->Title() : "");
-							std::string channel_name(Channel->Name());
-							std::string channel_id(*Channel->GetChannelID().ToString());
-							std::string short_description(Event->ShortText() ? Event->ShortText() : "");
-							std::string description(Event->Description() ? Event->Description() : "");
-							std::string start(Event->StartTime() ? FormatDateTime(tr("%I:%M %p"), Event->StartTime()) : "");
-							std::string end(Event->EndTime() ? FormatDateTime(tr("%I:%M %p"), Event->EndTime()) : "");
-							std::string start_h(FormatDateTime( "%H", Event->StartTime()));
-							std::string end_h(FormatDateTime( "%H", Event->EndTime()));
-							std::string start_m(FormatDateTime( "%M", Event->StartTime()));
-							std::string end_m(FormatDateTime( "%M", Event->EndTime()));
+							string title(Event->Title() ? Event->Title() : "");
+							string channel_name(Channel->Name());
+							string short_description(Event->ShortText() ? Event->ShortText() : "");
+							string description(Event->Description() ? Event->Description() : "");
+							string start(Event->StartTime() ? FormatDateTime(tr("%I:%M %p"), Event->StartTime()) : "");
+							string end(Event->EndTime() ? FormatDateTime(tr("%I:%M %p"), Event->EndTime()) : "");
+							tChannelID channel_id(Channel->GetChannelID());
+							tEventID event = Event->EventID();
 
 							bool truncated = false;
 							description = StringWordTruncate(description, 250, truncated);
 							if (truncated) {
-								description += std::string(" ") + tr("more") + std::string(" ...");
+								description += string(" ") + tr("more") + string(" ...");
 							}
 }>
 				<div class="event">
@@ -78,7 +76,7 @@ if (type == "now") {
 						<div><div><div><$ channel_name $></div></div></div>
 					</div>
 					<div class="tools">
-						<a href="edit_timer.html?channel=<$ channel_id $>&title=<$ title $>&start_h=<$ start_h $>&end_h=<$ end_h $>&start_m=<$ start_m $>&end_m=<$ end_m $>"><img src="/record.png" alt="" <& tooltip_widget tooltip=(tr("Record this")) &> /></a>
+						<& pageelems.event_timer channelid=(channel_id) eventid=(event) &>
 					</div>
 					<div class="content">
 						<div class="info"><$ start $> - <$ end $></div>

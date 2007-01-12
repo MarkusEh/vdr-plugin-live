@@ -79,11 +79,11 @@ TimerManager::TimerManager()
 {
 }
 
-void TimerManager::UpdateTimer( cTimer* timer, int flags, string const& channel, string const& weekdays, string const& day,
+void TimerManager::UpdateTimer( cTimer* timer, int flags, tChannelID& channel, string const& weekdays, string const& day,
 								int start, int stop, int priority, int lifetime, string const& title, string const& aux )
 {
 	ostringstream builder;
-	builder << flags << ":" << channel << ":" << ( weekdays != "-------" ? weekdays : "" )
+	builder << flags << ":" << *channel.ToString() << ":" << ( weekdays != "-------" ? weekdays : "" )
 			<< ( weekdays == "-------" || day.empty() ? "" : "@" ) << day << ":" << start << ":" << stop << ":"
 			<< priority << ":" << lifetime << ":" << title << ":" << aux;
 	dsyslog("%s", builder.str().c_str());

@@ -7,6 +7,7 @@
 #include "setup.h"
 #include "tools.h"
 
+using namespace std;
 using namespace vdrlive;
 
 </%pre>
@@ -14,7 +15,7 @@ using namespace vdrlive;
 	int channel = -1;
 </%args>
 <%request scope="page">
-cChannel* Channel;
+	cChannel* Channel;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
@@ -57,29 +58,32 @@ cChannel* Channel;
 			<table class="schedule" cellspacing="0" callpadding="0">
 <{
 				bool active_line = false;
-				std::string current_day = "";
+				string current_day = "";
 				const cEvent* PresentEvent = Schedule->GetPresentEvent();
 				time_t now = time(NULL) - ::Setup.EPGLinger * 60;
+				tChannelID channel_id(Channel->GetChannelID());
 				for (const cEvent *Event = Schedule->Events()->First(); Event; Event = Schedule->Events()->Next(Event)) {
 					if (Event->EndTime() <= now && Event != PresentEvent)
 						continue;
 
 					active_line = !active_line;
-					std::string title(Event->Title() ? Event->Title() : "");
-					std::string short_description(Event->ShortText() ? Event->ShortText() : "");
-					std::string description(Event->Description() ? Event->Description() : "");
-					std::string start(Event->StartTime() ? FormatDateTime(tr("%I:%M %p"), Event->StartTime()) : "");
-					std::string end(Event->EndTime() ? FormatDateTime(tr("%I:%M %p"), Event->EndTime()) : "");
-					std::string day(Event->StartTime() ? FormatDateTime(tr("%A, %b %d %Y"), Event->StartTime()) : "");
+					string title(Event->Title() ? Event->Title() : "");
+					string short_description(Event->ShortText() ? Event->ShortText() : "");
+					string description(Event->Description() ? Event->Description() : "");
+					string start(Event->StartTime() ? FormatDateTime(tr("%I:%M %p"), Event->StartTime()) : "");
+					string end(Event->EndTime() ? FormatDateTime(tr("%I:%M %p"), Event->EndTime()) : "");
+					string day(Event->StartTime() ? FormatDateTime(tr("%A, %b %d %Y"), Event->StartTime()) : "");
+					tEventID event = Event->EventID();
 
 					if (current_day != day) {
 						current_day = day;
 }>
 						<tr>
-							<td class="head" colspan="3"><$ current_day $></td>
+							<td class="head" colspan="4"><$ current_day $></td>
 						</tr>
 %					}
 					<tr class="<? active_line ? "active" ?>">
+						<td><& pageelems.event_timer channelid=(channel_id) eventid=(event) &></td>
 						<td><$ start $> - <$ end $></td>
 						<td><strong><$ title $></strong><br /><$ short_description $><br /></td>
 						<td>&nbsp;</td>

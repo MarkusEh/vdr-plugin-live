@@ -7,10 +7,21 @@
 #include "setup.h"
 #include "tools.h"
 
-namespace vdrlive {
-
 using namespace std;
 	
+istream& operator>>( istream& is, tChannelID& ret )
+{
+	if ( is.rdbuf()->in_avail() > 0 ) {
+		string line;
+		if ( !getline( is, line ) || ( !line.empty() && !( ret = tChannelID::FromString( line.c_str() ) ).Valid() ) )
+			is.setstate( ios::badbit );
+		cerr << "channel id " << line << endl << endl;
+	}
+	return is;
+}
+
+namespace vdrlive {
+
 string FormatDateTime( char const* format, time_t time )
 {
 	struct tm tm_r;

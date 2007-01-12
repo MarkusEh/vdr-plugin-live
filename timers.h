@@ -3,6 +3,7 @@
 
 #include <list>
 #include <string>
+#include <vdr/channels.h>
 #include <vdr/timers.h>
 #include <vdr/thread.h>
 #include "live.h"
@@ -33,7 +34,7 @@ class TimerManager: public cMutex
 public:
 	SortedTimers& GetTimers() { return m_timers; }
 
-	void UpdateTimer( cTimer* timer, int flags, std::string const& channel, std::string const& weekdays, std::string const& day,
+	void UpdateTimer( cTimer* timer, int flags, tChannelID& channel, std::string const& weekdays, std::string const& day,
 					  int start, int stop, int priority, int lifetime, std::string const& title, std::string const& aux );
 
 	// may only be called from Plugin::MainThreadHook
