@@ -26,21 +26,17 @@ RecordingsTree recordingsTree;
 <& pageelems.tooltip_js &>
 	</head>
 	<body>
-		<div class="left_area">
-			<& pageelems.logo &>
-			<& menu &>
-		</div>
-		<div class="right_area">
-		<div class="inhalt">
+		<& pageelems.logo &>
+		<& menu active=("recordings") &>
+	<div class="inhalt">
 			<& pageelems.header_box content=(tr("Recordings")) &>
 %			if (Recordings.Count() == 0) {
 				Keine Aufnahmen vorhanden
 %			} else {
-				<div class="recordings">
+			<div class="recordings">
 <& recordings.recordings_item &>
-				</div>
+			</div>
 %			}
-		</div>
 		</div>
 	</body>
 </html>

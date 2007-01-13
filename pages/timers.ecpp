@@ -20,11 +20,8 @@ using namespace vdrlive;
 		<link rel="stylesheet" type="text/css" href="/styles.css" />
 	</head>
 	<body>
-		<div class="left_area">
-			<& pageelems.logo &>
-			<& menu >
-		</div>
-	<div class="right_area">
+		<& pageelems.logo &>
+		<& menu active=("timers") &>
 		<div class="inhalt">
 			<& pageelems.header_box	content=(pageTitle) &>
 %			if (timers.size() == 0) {
@@ -62,7 +59,6 @@ using namespace vdrlive;
 }>
 			</table>
 		</div>
-	</div>
 	</body>
 </html>
 <%include>page_exit.eh</%include>

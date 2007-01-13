@@ -48,11 +48,8 @@ using namespace vdrlive;
 		<link rel="stylesheet" type="text/css" href="/styles.css" />
 	</head>
 	<body>
-		<div class="left_area">
-			<& pageelems.logo &>
-			<& menu >
-		</div>
-	<div class="right_area">
+		<& pageelems.logo &>
+		<& menu active=("schedule")>
 		<div class="inhalt">
 <&pageelems.header_box component=("schedule.channel_selection") &>
 			<table class="schedule" cellspacing="0" callpadding="0">
@@ -91,7 +88,6 @@ using namespace vdrlive;
 %				}
 			</table>
 		</div>
-	</div>
 	</body>
 </html>
 <%include>page_exit.eh</%include>

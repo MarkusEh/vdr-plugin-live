@@ -107,7 +107,7 @@ using namespace vdrlive;
 	<body onload="StreamInit(); FillIntervals();">
 		<div class="left_area">
 			<& pageelems.logo &>
-			<& menu >
+			<& menu active="remote" &>
 		</div>
 	<div class="right_area"
 		<div class="inhalt">

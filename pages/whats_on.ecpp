@@ -24,6 +24,7 @@ string head;
 if (type == "now") {
 	head = tr("What's running at")+string(" ")+FormatDateTime(tr("%I:%M %p"), time(0));
 } else {
+	type="next";
 	head = tr("What's on next?");
 }
 
@@ -40,13 +41,9 @@ if (type == "now") {
     </script>
 	</head>
 	<body>
-		<div class="left_area">
-			<& pageelems.logo &>
-			<& menu >
-		</div>
-		<div class="right_area">
-			<div class="inhalt">
-				<& pageelems.header_box content=(head) &>
+		<& pageelems.logo &>
+		<& menu active=(type) &>
+		<div class="inhalt">
 <{
 	ReadLock channelsLock( Channels );
 	if (channelsLock) {

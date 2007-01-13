@@ -2,11 +2,29 @@
 #include <vdr/plugin.h>
 #include <vdr/config.h>
 </%pre>
+<%args>
+active;
+</%args>
+<%request scope="page">
+std::string set_active;
+</%request>
+<{
+	set_active = active;
+}>
 <div class="menu">
-				<a href="whats_on.html?type=now"><$ tr("What's on now?") $></a><br/>
-				<a href="whats_on.html?type=next"><$ tr("What's on next?") $></a><br/>
-				<a href="schedule.html"><$ tr("Schedule") $></a><br />
-				<a href="timers.html"><$ tr("Timers") $></a><br />
-				<a href="recordings.html"><$ tr("Recordings") $></a><br />
-				<a href="remote.html"><$ tr("Remote Control") $></a>
-			</div>
+	<a href="whats_on.html?type=now" <& menu.setactive current=("now") &>><$ tr("What's on now?") $></a> |
+	<a href="whats_on.html?type=next" <& menu.setactive current=("next") &>><$ tr("What's on next?") $></a> |
+	<a href="schedule.html" <& menu.setactive current=("schedule") &>><$ tr("Schedule") $></a> |
+	<a href="timers.html" <& menu.setactive current=("timers") &>><$ tr("Timers") $></a> |
+	<a href="recordings.html" <& menu.setactive current=("recordings") &>><$ tr("Recordings") $></a> |
+	<a href="remote.html" <& menu.setactive current=("remote") &>><$ tr("Remote Control") $></a> 
+</div>
+
+<%def setactive>
+<%args>
+current;
+</%args>
+<{ if (current== set_active) { }>
+class="active"
+<{ } }>
+</%def>
