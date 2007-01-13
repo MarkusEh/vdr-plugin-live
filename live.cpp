@@ -3,13 +3,14 @@
  *
  * See the README file for copyright information and how to reach the author.
  *
- * $Id: live.cpp,v 1.10 2007/01/05 19:51:38 lordjaxom Exp $
+ * $Id: live.cpp,v 1.11 2007/01/13 18:37:21 lordjaxom Exp $
  */
 
 #include <vdr/plugin.h>
 #include "i18n.h"
 #include "live.h"
 #include "setup.h"
+#include "tasks.h"
 #include "thread.h"
 #include "timers.h"
 
@@ -55,6 +56,7 @@ void Plugin::Stop(void)
 void Plugin::MainThreadHook(void)
 {
 	LiveTimerManager().DoPendingWork();
+	LiveTaskManager().DoScheduledWork();
 }
 
 cString Plugin::Active(void)

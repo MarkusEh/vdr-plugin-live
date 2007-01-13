@@ -17,6 +17,8 @@ class SortedTimers: public std::list< cTimer >
 public:
 	std::string GetTimerId( cTimer const& timer );
 	cTimer* GetByTimerId( std::string const& timerid );
+
+	bool Modified() { return Timers.Modified( m_state ); }
 	
 private:
 	SortedTimers();

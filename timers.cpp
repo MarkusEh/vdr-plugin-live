@@ -63,9 +63,6 @@ cTimer* SortedTimers::GetByTimerId( string const& timerid )
 
 void SortedTimers::ReloadTimers( bool initial )
 {
-	if ( !Timers.Modified( m_state ) && !initial )
-		return;
-
 	dsyslog("live reloading timers");
 
 	clear();
@@ -103,9 +100,15 @@ void TimerManager::UpdateTimer( cTimer* timer, int flags, tChannelID& channel, s
 
 void TimerManager::DoPendingWork()
 {
+	if ( m_updateTimers.size() == 0 && !m_timers.Modified() )
+		return;
+
 	cMutexLock lock( this );
-	if ( m_updateTimers.size() > 0 )
+	if ( m_updateTimers.size() > 0 ) {
 		DoUpdateTimers();
+		dsyslog("SV: signalling waiters");
+		m_updateWait.Broadcast();
+	}
 	m_timers.ReloadTimers();
 }
 
@@ -121,8 +124,6 @@ void TimerManager::DoUpdateTimers()
 			DoUpdateTimer( *timer );
 	}
 	m_updateTimers.clear();
-	dsyslog("SV: signalling waiters");
-	m_updateWait.Broadcast();
 }
 
 void TimerManager::DoInsertTimer( TimerPair& timerData )

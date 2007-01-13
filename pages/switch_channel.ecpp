@@ -1,0 +1,31 @@
+<%pre>
+#include <vdr/channels.h>
+#include "exception.h"
+#include "tasks.h"
+#include "tools.h"
+
+using namespace vdrlive;
+
+</%pre>
+<%args>
+	tChannelID channelid;
+</%args>
+<%cpp>
+	bool result = false;
+
+	reply.setContentType( "application/xml" );
+
+	ReadLock channelsLock( Channels );
+	if ( channelsLock ) {
+		cChannel* channel = Channels.GetByChannelID( channelid );
+		if ( channel != 0 )
+			result = LiveTaskManager().SwitchChannel( channel->Number() );
+	}
+</%cpp>
+<?xml version="1.0"?>
+<service>
+<request name="switch_channel">
+<param name="channel"><$ *channelid.ToString() $></param>
+</request>
+<response><$ result ? "1" : "0" $></response>
+</service>
