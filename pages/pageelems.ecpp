@@ -48,9 +48,12 @@ component;
 </%cpp>
 </%def>
 <%def tooltip_js>
+<%args>
+styleClass="domTTOverlib";
+</%args>
     <script type="text/javascript" language="javascript" src="domLib.js"></script>
     <script type="text/javascript" language="javascript" src="domTT.js"></script>
     <script type="text/javascript" language="javascript">
-                        var domTT_styleClass = 'domTTOverlib';
+                        var domTT_styleClass = "<$ styleClass $>";
     </script>
 </%def>
