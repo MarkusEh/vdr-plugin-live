@@ -42,7 +42,7 @@ component;
 	tChannelID channelid;
 	tEventID eventid;
 </%args>
-	<a href="edit_timer.html?channelid=<$ *channelid.ToString() $>&eventid=<$ eventid $>"><img src="/record.png" alt="" <& tooltip_widget tooltip=(tr("Record this")) &> /></a>
+	<a href="edit_timer.html?channelid=<$ *channelid.ToString() $>&eventid=<$ eventid $>"><img src="/record.png" alt="" <& tooltip_widget tooltip=(tr("Record this")) &> border="0"/></a>
 <%cpp>
 
 </%cpp>
