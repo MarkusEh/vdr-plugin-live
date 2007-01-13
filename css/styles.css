@@ -27,6 +27,10 @@ select {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
+img {
+	border: 0;
+}
+
 /* ######################
    #  Overlib Style for Tooltips
    ######################
