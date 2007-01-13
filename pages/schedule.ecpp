@@ -73,18 +73,30 @@ using namespace vdrlive;
 					tEventID event = Event->EventID();
 
 					if (current_day != day) {
-						current_day = day;
+						if (current_day != "") {
 }>
 						<tr>
-							<td class="head" colspan="4"><$ current_day $></td>
+							<td colspan="4" style="border-top: 1px solid black">&nbsp;</td></tr>
 						</tr>
+<{
+						}
+}>
+						<tr>
+							<td class="day" colspan="4"><div class="boxheader"><div><div><$ day $></div></div></div></td>
+						</tr>
+%					current_day = day;
 %					}
 					<tr class="<? active_line ? "active" ?>">
-						<td><& pageelems.event_timer channelid=(channel_id) eventid=(event) &></td>
+						<td style="border-left: 1px solid black"><& pageelems.event_timer channelid=(channel_id) eventid=(event) &></td>
 						<td><$ start $> - <$ end $></td>
 						<td><strong><$ title $></strong><br /><$ short_description $><br /></td>
-						<td>&nbsp;</td>
+						<td style="border-right: 1px solid black">&nbsp;</td>
 					</tr>
+%				}
+%				if (Schedule->Events()->Count() > 0) {
+						<tr>
+							<td colspan="4" style="border-top: 1px solid black">&nbsp;</td></tr>
+						</tr>
 %				}
 			</table>
 		</div>

@@ -24,7 +24,5 @@ std::string set_active;
 <%args>
 current;
 </%args>
-<{ if (current== set_active) { }>
-class="active"
-<{ } }>
+<%cpp> if (current== set_active) { </%cpp>class="active"<%cpp> } </%cpp>
 </%def>

@@ -275,8 +275,8 @@ table.timers tr td.head {
 */
 
 table.schedule {
-	margin-top: 10px;
-	border: 1px solid #6D96A9;
+	margin: 10px 0 0 0 ;
+	padding: 0;
 }
 
 table.schedule tr td.head {
@@ -292,9 +292,44 @@ table.schedule tr td {
 	padding: 3px 7px 3px 3px;
 }
 
+table.schedule tr td.day {
+	vertical-align: top;
+	padding: 0;
+	margin: 0;
+	border:none;
+}
 
 table.schedule tr.active {
 	background: #DEE6EE;
+}
+
+/*
+  ##############################
+  #  Blue Baground Thingy
+  ##############################
+*/
+
+div.boxheader	 {
+	margin: 0;
+	padding: 0;
+	background: url(/bg_box_l.png) top left no-repeat;
+}
+
+div.boxheader div {
+	background: url(/bg_box_r.png) top right no-repeat;
+}
+
+div.boxheader div div {
+	background: url(/bg_box_h.png) repeat-x;
+	vertical-align: middle;
+	text-align: left;
+	margin-right: 3px;
+	margin-left: 3px;
+	padding-left: 5px;
+	padding-top: 2px;
+	color: white;
+	font-weight: bold;
+	height: 21px;
 }
 
 
