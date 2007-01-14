@@ -63,7 +63,7 @@ using namespace vdrlive;
 					if (Event->EndTime() <= now && Event != PresentEvent)
 						continue;
 
-					active_line = !active_line;
+					//active_line = !active_line;
 					string title(Event->Title() ? Event->Title() : "");
 					string short_description(Event->ShortText() ? Event->ShortText() : "");
 					string description(Event->Description() ? Event->Description() : "");

@@ -200,11 +200,12 @@ div.tools {
 	margin: 0;
 	padding: 0;
 
-	background: #DEE6EE;
+	background: #E9EFFF;
 	text-align: center;
 	vertical-align: top;
 	border-left: 1px solid #000000;
 	border-bottom: 1px solid #000000;
+	border-right: 1px solid #C0C1DA;
 }
 
 div.content {
@@ -291,6 +292,7 @@ table.schedule tr td.head {
 table.schedule tr td {
 	vertical-align: top;
 	padding: 3px 7px 3px 3px;
+	background: url(http://cerebellum/~michi/bg_line.png) bottom repeat-x;
 }
 
 table.schedule tr td.day {
