@@ -442,7 +442,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Eesti
 	  "", // Dansk
 	  "", //Czech
-	},	
+	},
 	{ "Use VPS", // English
 	  "VPS verwenden", // Deutsch
 	  "", // Slovenski
@@ -685,7 +685,28 @@ const tI18nPhrase Phrases[] = {
 	  "", // Dansk
 	  "", //Czech
 	},
-		
+	{ "Click to view details.", // English
+	  "Für Details klicken.", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", //Czech
+	},
 	{ "more", // English
 	  "mehr", // Deutsch
 	  "", // Slovenski
@@ -708,7 +729,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Dansk
 	  "", //Czech
 	},
-		
+
 	/*
 	{ "", // English
 	  "", // Deutsch

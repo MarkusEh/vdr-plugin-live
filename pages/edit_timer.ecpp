@@ -38,14 +38,15 @@ using namespace vdrlive;
 	int lifetime = 0;
 	string aux = "";
 </%args>
+<%request scope="page">
+cTimer* timer;
+</%request>
 <%include>page_init.eh</%include>
 <%cpp>
-	pageTitle = tr("Edit timer");
-
 	cMutexLock timersLock( &LiveTimerManager() );
 	SortedTimers& timers = LiveTimerManager().GetTimers();
 
-	cTimer* timer = 0;
+	timer = 0;
 	if ( !timerid.empty() ) {
 		timer = timers.GetByTimerId( timerid );
 		if ( timer == 0 )
@@ -108,16 +109,15 @@ using namespace vdrlive;
 <html>
 	<head>
 		<title>VDR Live - <$ timer ? tr("Edit timer") : tr("New timer") $></title>
-		<link rel="stylesheet" type="text/css" href="/styles.css" />
+		<link rel="stylesheet" type="text/css" href="styles.css" />
 	</head>
 	<body>
 		<div class="left_area">
 			<& pageelems.logo &>
-			<& menu >
+			<& menu active=("timers") component=("edit_timer.header") &>
 		</div>
 	<div class="right_area">
 		<div class="inhalt">
-<& pageelems.header_box content=(timer ? tr("Edit timer") : tr("New timer")) &>
 			<form method="POST" name="edit_timer" action="edit_timer.ecpp">
 				<input type="hidden" name="timerid" value="<$ timerid $>"/>
 				<input type="hidden" name="aux" value="<$ aux $>"/>
@@ -195,3 +195,7 @@ using namespace vdrlive;
 	</body>
 </html>
 <%include>page_exit.eh</%include>
+
+<%def header>
+<span><$ (timer ? tr("Edit timer") : tr("New timer")) $></span>
+</%def>

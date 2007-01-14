@@ -158,23 +158,23 @@ for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 }>
 			<div class="re_longdescr" id="<$ (lPref + recItem->Id()) $>">
 				<div class="re_station">
-					<div class="boxheader"><div><div><$ tr("Recording details") $><& tooltip.close domId=(lPref + recItem->Id()) &></div></div></div>
+					<div class="boxheader"><div><div><$ recItem->Name() $><& tooltip.close domId=(lPref + recItem->Id()) &></div></div></div>
 				</div>
 				<div class="re_content">
 					<div class="info"><$ (start) $></div>
 					<div class="title"><$ (title) $></div>
+					<div class="short"><$ (shortDescr) $></div>
 					<div class="description">
 						<$ (longDescr) $>
 					</div>
 				</div>
 			</div>
 			<div class="re_shortdescr" id="<$ (sPref + recItem->Id()) $>">
-				<div class="re_station">
-					<div class="boxheader"><div><div><$ (title) $></div></div></div>
-				</div>
 				<div class="re_content">
-					<div class="info"><$ (start) $></div>
+%			if (!shortDescr.empty()) {
 					<div class="short"><$ (shortDescr) $></div>
+%			}
+					<div class="hint"><$ tr("Click to view details.") $></div>
 				</div>
 			</div>
 <{

@@ -37,8 +37,8 @@ img {
 */
 
 div.domTTOverlib {
-	border: 1px solid #333366;
-	background-color: #333366;
+	border: 1px solid #C0C1DA;
+	background-color: #E9EFFF;
 }
 
 div.domTTOverlib .caption {
@@ -81,7 +81,7 @@ div.menu a {
 
 div.menu a.active {
 	text-decoration: none;
-	color: #6D96A9;
+	color: #FFDB88;
 	font-weight: bold;
 }
 
@@ -297,6 +297,7 @@ table.schedule tr td {
 	vertical-align: top;
 	padding: 3px 7px 3px 3px;
 	background: url(bg_line.png) bottom repeat-x;
+        border-bottom: 1px solid #C0C1DA;
 }
 
 table.schedule tr td.day {
@@ -358,7 +359,8 @@ div.recordings {
 
 div.recording_item {
 	overflow: hidden;
-	border: 0px dotted green;
+	background: url(bg_line.png) bottom repeat-x;
+	border-bottom: 1px solid #C0C1DA;
 }
 
 .recording_item div {
@@ -382,6 +384,7 @@ div.recording_item {
 
 .recording_item div.recording_name {
 	font-weight: bold;
+	cursor: pointer;
 }
 
 .recording_item div.recording_actions {
@@ -400,11 +403,10 @@ div.recordings_data {
 
 div.domTTrecordings {
 	border: none;
-        width: 75%;
 }
 
 .domTTrecordings div.re_shortdescr {
-        width: 66%;
+	background-color: #E9EFFF;
 }
 
 .domTTrecordings div.re_longdescr {
