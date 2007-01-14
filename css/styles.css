@@ -90,6 +90,10 @@ div.menu a:hover {
 	text-decoration: underline;
 }
 
+div.menu form {
+	display: inline;
+}
+
 div.inhalt {
 	padding: 10px;
 }
@@ -292,7 +296,7 @@ table.schedule tr td.head {
 table.schedule tr td {
 	vertical-align: top;
 	padding: 3px 7px 3px 3px;
-	background: url(http://cerebellum/~michi/bg_line.png) bottom repeat-x;
+	background: url(bg_line.png) bottom repeat-x;
 }
 
 table.schedule tr td.day {

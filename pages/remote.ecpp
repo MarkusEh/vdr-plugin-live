@@ -111,7 +111,6 @@ using namespace vdrlive;
 		</div>
 	<div class="right_area"
 		<div class="inhalt">
-			<& pageelems.header_box content=(pageTitle) &>
 			<div class="screenshot">
 				<img src="screenshot.jpg" name="vdrlive" /><br />
 				<$ tr("Interval:") $> <select name="interval" onchange="ChangeInterval()"></select>

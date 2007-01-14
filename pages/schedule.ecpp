@@ -45,13 +45,12 @@ using namespace vdrlive;
 <html>
 	<head>
 		<title>VDR Live - <$ pageTitle $></title>
-		<link rel="stylesheet" type="text/css" href="/styles.css" />
+		<link rel="stylesheet" type="text/css" href="styles.css" />
 	</head>
 	<body>
 		<& pageelems.logo &>
-		<& menu active=("schedule")>
+		<& menu active=("schedule") component=("schedule.channel_selection")>
 		<div class="inhalt">
-<&pageelems.header_box component=("schedule.channel_selection") &>
 			<table class="schedule" cellspacing="0" callpadding="0">
 <{
 				bool active_line = false;
@@ -105,15 +104,5 @@ using namespace vdrlive;
 <%include>page_exit.eh</%include>
 
 <%def channel_selection>
-				<table>
-					<tr>
-						<td><? Channel ? Channel->Name() ?></td>
-						<td>
-							<form name="channels" id="channels">
-							<& channels_widget name=("channel") selected=(Channel ? *Channel->GetChannelID().ToString() : "")
-									onchange=("document.forms.channels.submit()") &>
-							</form>
-						</td>
-					</tr>
-				</table>
+<form name="channels" id="channels"><& channels_widget name=("channel") selected=(Channel ? *Channel->GetChannelID().ToString() : "") onchange=("document.forms.channels.submit()") &></form>
 </%def>

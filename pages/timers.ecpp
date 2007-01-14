@@ -23,7 +23,6 @@ using namespace vdrlive;
 		<& pageelems.logo &>
 		<& menu active=("timers") &>
 		<div class="inhalt">
-			<& pageelems.header_box	content=(pageTitle) &>
 %			if (timers.size() == 0) {
 				Keiner Timer definiert
 %			} else {
