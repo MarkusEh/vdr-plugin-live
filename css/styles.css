@@ -393,18 +393,32 @@ div.recordings_data {
 	width: 66%;
 }
 
-.recordings_data div.re_shortdescr {
-        width: 50%;
-        height: 25%;
+/* ##############################
+   #  Recording style for tooltips
+   ##############################
+*/
+
+div.domTTrecordings {
+	border: none;
+        width: 75%;
 }
 
-.recordings_data div.re_longdescr {
+.domTTrecordings div.re_shortdescr {
         width: 66%;
-        height: 50%;
 }
 
-.recordings_data div.re_content {
+.domTTrecordings div.re_longdescr {
+        width: 75%;
+}
+
+.domTTrecordings div.re_content {
 	border: 1px solid black;
+        background: white;
+}
+
+.domTTrecordings div.boxheader div div a {
+	float: right;
+	margin-left: auto;
 }
 
 /*

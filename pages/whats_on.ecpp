@@ -33,12 +33,8 @@ if (type == "now") {
 <html>
 	<head>
 		<title>VDR-Live - <$ head $></title>
-		<link rel="stylesheet" type="text/css" href="/styles.css" />
-    <script type="text/javascript" language="javascript" src="domLib.js"></script>
-    <script type="text/javascript" language="javascript" src="domTT.js"></script>
-    <script type="text/javascript" language="javascript">
-			var domTT_styleClass = 'domTTOverlib';
-    </script>
+		<link rel="stylesheet" type="text/css" href="styles.css" />
+<& tooltip.javascript &>
 	</head>
 	<body>
 		<& pageelems.logo &>

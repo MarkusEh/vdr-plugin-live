@@ -14,6 +14,7 @@ using namespace std;
 <img src="logo.png" alt="VDR Live!" class="logo"/>
 </%def>
 
+<#
 <%def header_box>
 <%args>
 content[];
@@ -36,24 +37,12 @@ component;
 				</div>
 			</div>
 </%def>
+#>
 
 <%def event_timer>
 <%args>
 	tChannelID channelid;
 	tEventID eventid;
 </%args>
-	<a href="edit_timer.html?channelid=<$ *channelid.ToString() $>&eventid=<$ eventid $>"><img src="record.png" alt="" <& tooltip_widget tooltip=(tr("Record this")) &> border="0"/></a>
-<%cpp>
-
-</%cpp>
-</%def>
-<%def tooltip_js>
-<%args>
-styleClass="domTTOverlib";
-</%args>
-    <script type="text/javascript" language="javascript" src="domLib.js"></script>
-    <script type="text/javascript" language="javascript" src="domTT.js"></script>
-    <script type="text/javascript" language="javascript">
-                        var domTT_styleClass = "<$ styleClass $>";
-    </script>
+	<a href="edit_timer.html?channelid=<$ *channelid.ToString() $>&eventid=<$ eventid $>"><img src="record.png" alt="" <& tooltip.hint text=(tr("Record this")) &> border="0"/></a>
 </%def>

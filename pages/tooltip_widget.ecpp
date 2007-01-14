@@ -1,4 +1,0 @@
-<%args>
-tooltip = "";
-</%args>
- onmouseover="domTT_activate(this, event, 'content', '<$ tooltip $>', 'trail', true, 'delay', 0);"
