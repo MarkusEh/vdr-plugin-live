@@ -171,16 +171,16 @@ div.event div.station {
 div.station div {
 	margin: 0;
 	padding: 0;
-	background: url(/bg_box_l.png) top left no-repeat;
+	background: url(bg_box_l.png) top left no-repeat;
 	height: 23px;
 }
 
 div.station div div {
-	background: url(/bg_box_r.png) top right no-repeat;
+	background: url(bg_box_r.png) top right no-repeat;
 }
 
 div.station div div div {
-	background: url(/bg_box_h.png) repeat-x;
+	background: url(bg_box_h.png) repeat-x;
 	vertical-align: middle;
 	text-align: left;
 	margin-right: 3px;
@@ -220,6 +220,7 @@ div.content {
 
 div.tools img {
 	margin: 5px 2px;
+	border: 0px;
 }
 
 div.description {
@@ -312,15 +313,15 @@ table.schedule tr.active {
 div.boxheader	 {
 	margin: 0;
 	padding: 0;
-	background: url(/bg_box_l.png) top left no-repeat;
+	background: url(bg_box_l.png) top left no-repeat;
 }
 
 div.boxheader div {
-	background: url(/bg_box_r.png) top right no-repeat;
+	background: url(bg_box_r.png) top right no-repeat;
 }
 
 div.boxheader div div {
-	background: url(/bg_box_h.png) repeat-x;
+	background: url(bg_box_h.png) repeat-x;
 	vertical-align: middle;
 	text-align: left;
 	margin-right: 3px;
@@ -330,6 +331,7 @@ div.boxheader div div {
 	color: white;
 	font-weight: bold;
 	height: 21px;
+        line-height: 20px;
 }
 
 
@@ -379,6 +381,24 @@ div.recording_item {
 .recording_item div.recording_actions {
 	float: right;
 	margin-left: 3em;
+}
+
+div.recordings_data {
+	width: 66%;
+}
+
+.recordings_data div.re_shortdescr {
+        width: 50%;
+        height: 25%;
+}
+
+.recordings_data div.re_longdescr {
+        width: 66%;
+        height: 50%;
+}
+
+.recordings_data div.re_content {
+	border: 1px solid black;
 }
 
 /*

@@ -1,5 +1,6 @@
 #include <string>
 #include <boost/shared_ptr.hpp>
+#include "tools.h"
 #include "recordings.h"
 
 namespace vdrlive {
@@ -10,6 +11,7 @@ namespace vdrlive {
 		m_recordingsLock(&Recordings)
 
 	{
+		int recCount = 0;
 		// esyslog("DH: ****** RecordingsTree::RecordingsTree() ********");
 		for ( cRecording* recording = Recordings.First(); recording != 0; recording = Recordings.Next( recording ) ) {
 			if (m_maxLevel < recording->HierarchyLevels()) {
@@ -46,7 +48,9 @@ namespace vdrlive {
 				}
 				else {
 					string recName(name.substr(index, name.length() - index));
-					RecordingsItemPtr recPtr (new RecordingsItemRec(recName, recording));
+					string recId("recId_");
+					recId += lexical_cast<string, int>(++recCount);
+					RecordingsItemPtr recPtr (new RecordingsItemRec(recId, recName, recording));
 					dir->m_entries.insert(pair< string, RecordingsItemPtr > (recName, recPtr));
 					// esyslog("DH: added rec: '%s'", recName.c_str());
 				}
@@ -137,9 +141,10 @@ namespace vdrlive {
 	{
 	}
 
-	RecordingsTree::RecordingsItemRec::RecordingsItemRec(const string& name, cRecording* recording) :
+	RecordingsTree::RecordingsItemRec::RecordingsItemRec(const string& id, const string& name, cRecording* recording) :
 		RecordingsItem(name),
-		m_recording(recording)
+		m_recording(recording),
+		m_id(id)
 	{
 	}
 

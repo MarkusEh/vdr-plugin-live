@@ -12,6 +12,8 @@ using namespace vdrlive;
 </%args>
 <%request scope="page">
 RecordingsTree recordingsTree;
+const std::string lPref("long_");
+const std::string sPref("short_");
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
@@ -29,12 +31,14 @@ RecordingsTree recordingsTree;
 		<& pageelems.logo &>
 		<& menu active=("recordings") &>
 	<div class="inhalt">
-			<& pageelems.header_box content=(tr("Recordings")) &>
 %			if (Recordings.Count() == 0) {
 				Keine Aufnahmen vorhanden
 %			} else {
 			<div class="recordings">
 <& recordings.recordings_item &>
+			</div>
+			<div class="recordings_data" style="display: none;">
+<& recordings.recordings_data &>
 			</div>
 %			}
 		</div>
@@ -63,7 +67,7 @@ RecordingsTree::Map::iterator end = recordingsTree.end(path);
 }>
 		<li class="recording">
 <{
-for (iter = recordingsTree.begin(path); iter != end; iter++) {
+for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 	RecordingsTree::RecordingsItemPtr recItem = iter->second;
 	std::string folderimg("folder_closed.png");
 	std::string collapseimg("plus.png");
@@ -89,7 +93,7 @@ for (iter = recordingsTree.begin(path); iter != end; iter++) {
 		callComp("recordings.recordings_item", request, reply, recItemParams);
 	}
 }
-for (iter = recordingsTree.begin(path); iter != end; iter++) {
+for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 	RecordingsTree::RecordingsItemPtr recItem = iter->second;
 	std::string folderimg("folder_closed.png");
 	std::string collapseimg("plus.png");
@@ -120,4 +124,62 @@ for (iter = recordingsTree.begin(path); iter != end; iter++) {
 }
 }>
 	</ul>
+</%def>
+
+<%def recordings_data>
+<%args>
+path[];
+int level = 0;
+</%args>
+<{
+RecordingsTree::Map::iterator iter;
+RecordingsTree::Map::iterator end = recordingsTree.end(path);
+
+for (iter = recordingsTree.begin(path); iter != end; ++iter) {
+	RecordingsTree::RecordingsItemPtr recItem = iter->second;
+	if (recItem->IsDir()) {
+		cxxtools::QueryParams recItemParams(qparam, false);
+		for (path_type::const_iterator i = path.begin(); i != path.end(); ++i) {
+			recItemParams.add("path", *i);
+		}
+		recItemParams.add("path", recItem->Name());
+		recItemParams.add("level", lexical_cast<std::string, int>(level + 1));
+		callComp("recordings.recordings_data", request, reply, recItemParams);
+	}
+	else {
+		const cRecordingInfo* info = recItem->RecInfo();
+		if (info) {
+			std::string start(FormatDateTime("%a,", recItem->StartTime()) + std::string(" ")
+				+ FormatDateTime(tr("%b %d %y"), recItem->StartTime()) + std::string(" ")
+				+ FormatDateTime(tr("%I:%M %p"), recItem->StartTime()));
+			std::string title(recItem->Name()); if (info->Title()) title = info->Title();
+			std::string shortDescr;				if (info->ShortText()) shortDescr = info->ShortText();
+			std::string longDescr;				if (info->Description()) longDescr = info->Description();
+}>
+			<div class="re_longdescr" id="<$ (lPref + recItem->Id()) $>">
+				<div class="re_station">
+					<div class="boxheader"><div><div><$ tr("Recording details") $></div></div></div>
+				</div>
+				<div class="re_content">
+					<div class="info"><$ (start) $></div>
+					<div class="title"><$ (title) $></div>
+					<div class="description">
+						<$ (longDescr) $>
+					</div>
+				</div>
+			</div>
+			<div class="re_shortdescr" id="<$ (sPref + recItem->Id()) $>">
+				<div class="re_station">
+					<div class="boxheader"><div><div><$ (title) $></div></div></div>
+				</div>
+				<div class="re_content">
+					<div class="info"><$ (start) $></div>
+					<div class="short"><$ (shortDescr) $></div>
+				</div>
+			</div>
+<{
+		}
+	}
+}
+}>
 </%def>

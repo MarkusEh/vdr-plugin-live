@@ -31,6 +31,9 @@ namespace vdrlive {
 					virtual time_t StartTime() const = 0;
 					virtual bool IsDir() const = 0;
 					virtual const string& Name() const { return m_name; }
+					virtual const string& Id() const = 0;
+
+					virtual const cRecordingInfo* RecInfo() const { return 0; }
 
 				protected:
 					RecordingsItem(const string& name);
@@ -50,6 +53,7 @@ namespace vdrlive {
 
 					virtual time_t StartTime() const { return 0; }
 					virtual bool IsDir() const { return true; }
+					virtual const string& Id() const { return ""; }
 
 				private:
 					int m_level;
@@ -58,15 +62,19 @@ namespace vdrlive {
 			class RecordingsItemRec : public RecordingsItem
 			{
 				public:
-					RecordingsItemRec(const string& name, cRecording* recording);
+					RecordingsItemRec(const string& id, const string& name, cRecording* recording);
 
 					virtual ~RecordingsItemRec();
 
 					virtual time_t StartTime() const;
 					virtual bool IsDir() const { return false; }
+					virtual const string& Id() const { return m_id; }
+
+					virtual const cRecordingInfo* RecInfo() const { return m_recording->Info(); }
 
 				private:
 					cRecording *m_recording;
+					string m_id;
 			};
 
 			RecordingsTree();
