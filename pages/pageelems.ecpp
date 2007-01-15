@@ -46,3 +46,16 @@ component;
 </%args>
 	<a href="edit_timer.html?channelid=<$ *channelid.ToString() $>&eventid=<$ eventid $>"><img src="record.png" alt="" <& tooltip.hint text=(tr("Record this")) &> border="0"/></a>
 </%def>
+
+<%def ajax_js>
+	<script type="text/javascript" language="javascript" src="ajax.js"></script>
+</%def>
+
+<%def play_recording>
+<%args>
+	string recordingid;
+	string image;
+	string alt = "";
+</%args>
+	<a href="javascript:LiveSimpleAjaxRequest('play_recording.xml', 'recording', '<$ recordingid $>');"><img src="<$ image $>" alt="<$ alt $>" border="0"/></a>
+</%def>

@@ -12,6 +12,7 @@ using namespace vdrlive;
 <& pageelems.doc_type &>
 <html>
 	<head>
+		<& pageelems.ajax_js &>
 		<script type="text/javascript"><!--
 		var newImg = new Image();
 		var imgsrc = "";
@@ -42,50 +43,9 @@ using namespace vdrlive;
 			interval = window.setInterval("StreamLoad()", timeout);
 		}
 
-		function NewXMLHttpRequest()
-		{
-			var xml = null;
-			if (window.XMLHttpRequest) {
-				xml = new XMLHttpRequest();
-				if (xml.overrideMimeType)
-					xml.overrideMimeType('text/xml');
-			} else if (window.ActiveXObject) {
-				try {
-					xml = new ActiveXObject("Msxml2.XMLHTTP");
-				} catch (e) {
-					try {
-						xml = new ActiveXObject("Microsoft.XMLHTTP");
-					} catch (e) {}
-				}
-			}
-			return xml;
-		}
-
 		function KeyPress(keycode)
 		{
-			var xml = NewXMLHttpRequest();
-			xml.onreadystatechange = function() { KeyPressResponse(xml); }
-			xml.open('GET', 'keypress.xml?keycode='+keycode, true);
-			xml.send(null);
-		}
-
-		function KeyPressResponse(xml)
-		{
-			try {
-				if (xml.readyState == 4) {
-					if (xml.status == 200) {
-						var xmldoc = xml.responseXML;
-						var result = xmldoc.getElementsByTagName('response').item(0).firstChild.data;
-						if (result != 1) {
-							alert("Unable to queue keypress");
-						}
-					} else {
-						alert("Invokation of webservice 'keypress' failed with http status code "+xml.status);
-					}
-				}
-			} catch (e) {
-				alert("Invokation of webservice 'keypress' failed with description: "+e.description);
-			}
+			LiveSimpleAjaxRequest('keypress.xml', 'keycode', keycode);
 		}
 
 		function FillIntervals()

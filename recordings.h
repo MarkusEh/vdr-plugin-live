@@ -31,8 +31,9 @@ namespace vdrlive {
 					virtual time_t StartTime() const = 0;
 					virtual bool IsDir() const = 0;
 					virtual const string& Name() const { return m_name; }
-					virtual const string& Id() const = 0;
+					virtual const string Id() const = 0;
 
+					virtual const cRecording* Recording() const { return 0; }
 					virtual const cRecordingInfo* RecInfo() const { return 0; }
 
 				protected:
@@ -53,7 +54,7 @@ namespace vdrlive {
 
 					virtual time_t StartTime() const { return 0; }
 					virtual bool IsDir() const { return true; }
-					virtual const string& Id() const { return ""; }
+					virtual const string Id() const { return ""; }
 
 				private:
 					int m_level;
@@ -68,8 +69,9 @@ namespace vdrlive {
 
 					virtual time_t StartTime() const;
 					virtual bool IsDir() const { return false; }
-					virtual const string& Id() const { return m_id; }
+					virtual const string Id() const { return m_id; }
 
+					virtual const cRecording* Recording() const { return m_recording; }
 					virtual const cRecordingInfo* RecInfo() const { return m_recording->Info(); }
 
 				private:

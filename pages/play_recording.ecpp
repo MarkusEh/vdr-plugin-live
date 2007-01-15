@@ -1,0 +1,26 @@
+<%pre>
+#include <string>
+#include <vdr/recording.h>
+#include "exception.h"
+#include "tasks.h"
+#include "tools.h"
+
+using namespace std;
+using namespace vdrlive;
+
+</%pre>
+<%args>
+	string recordingid;
+</%args>
+<%cpp>
+	reply.setContentType( "application/xml" );
+
+	bool result = LiveTaskManager().ReplayRecording( recordingid );
+</%cpp>
+<?xml version="1.0"?>
+<service>
+<request name="switch_channel">
+<param name="recording"><$ recordingid $></param>
+</request>
+<response><$ result ? "1" : "0" $></response>
+</service>

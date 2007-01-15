@@ -25,7 +25,8 @@ const std::string sPref("short_");
 		<title>VDR-Live - <$ pageTitle $></title>
 		<link rel="stylesheet" type="text/css" href="styles.css" />
 		<script type="text/javascript" language="javascript" src="treeview.js"></script>
-<& tooltip.javascript var=("domTT_oneOnly") value=("true") var=("domTT_styleClass") value=("domTTrecordings") &>
+		<& tooltip.javascript var=("domTT_oneOnly") value=("true") var=("domTT_styleClass") value=("domTTrecordings") &>
+		<& pageelems.ajax_js &>
 	</head>
 	<body>
 		<& pageelems.logo &>
@@ -116,7 +117,7 @@ for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 			<div class="recording_time"><$ FormatDateTime(tr("%I:%M %p"), recItem->StartTime()) $></div>
 			<div class="recording_name" <& tooltip.hint text=(shortDescr) &><& tooltip.display domId=(lPref + recItem->Id()) &>><$ recItem->Name() $></div>
 			<div class="recording_actions">
-				 <img src="play.png" alt="" />
+				 <& pageelems.play_recording recordingid=(recItem->Recording()->FileName()) image="play.png" alt="" &>
 				 <img src="edit.png" alt="" />
 				 <img src="del.png" alt="" />
 			</div>
