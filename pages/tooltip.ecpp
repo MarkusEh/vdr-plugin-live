@@ -12,7 +12,7 @@ value[];
 %   for (var_type::const_iterator it = var.begin(); it != var.end(); ++it, idx++) {
 	var <$ *it $> = "<$ (value[idx]) $>";
 %   }
-	domTT_addPredefined('tipHint', 'trail', true, 'delay', 0);
+	domTT_addPredefined('tipHint', 'trail', true, 'delay', 0, 'styleClass', 'domTTOverlib');
 	domTT_addPredefined('tipInfo', 'trail', true, 'delay', 0);
 	domTT_addPredefined('tipDisp', 'trail', false, 'delay', 0, 'type', 'sticky', 'caption', false, 'offsetX', -30, 'offsetY', -30, 'draggable', true);
     </script>

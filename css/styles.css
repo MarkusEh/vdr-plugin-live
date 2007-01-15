@@ -37,22 +37,18 @@ img {
 */
 
 div.domTTOverlib {
-	border: 1px solid #C0C1DA;
-	background-color: #E9EFFF;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	border: 1px solid #EBC94C;
+	background-color: #F4FFC3;
 }
 
 div.domTTOverlib .caption {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 11px;
 	font-weight: bold;
-	color: #FFFFFF;
 }
 
 div.domTTOverlib .contents {
-	font-size: 11px;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
 	padding: 2px;
-	background-color: #F1F1FF;
 }
 
 
@@ -247,6 +243,10 @@ div.short {
 	margin: 5px;
 }
 
+div.hint {
+	font-style: italic;
+	margin: 0px 5px 5px 5px;
+}
 
 /* #############
    # Timers
@@ -389,11 +389,7 @@ div.recording_item {
 
 .recording_item div.recording_actions {
 	float: right;
-	margin-left: 3em;
-}
-
-div.recordings_data {
-	width: 66%;
+	padding-right: 3em;
 }
 
 /* ##############################
@@ -402,15 +398,11 @@ div.recordings_data {
 */
 
 div.domTTrecordings {
+	width: 66%;
 	border: none;
 }
 
-.domTTrecordings div.re_shortdescr {
-	background-color: #E9EFFF;
-}
-
 .domTTrecordings div.re_longdescr {
-        width: 75%;
 }
 
 .domTTrecordings div.re_content {
@@ -419,8 +411,6 @@ div.domTTrecordings {
 }
 
 .domTTrecordings div.boxheader div div a {
-	float: right;
-	margin-left: auto;
 }
 
 /*

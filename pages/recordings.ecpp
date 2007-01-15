@@ -107,11 +107,14 @@ for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 			+ std::string("<img src=\"transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />")
 			+ std::string("<img src=\"movie.png\" alt=\"movie\" />")
 			+ std::string("</div>");
+
+		const cRecordingInfo* info = recItem->RecInfo();
+		std::string shortDescr(tr("Click to view details.")); if (info && info->ShortText()) shortDescr = (std::string("") +  info->ShortText() + std::string("<br />") + shortDescr);
 }>
 			<div class="recording_day" style="width: <$ dayLen $>"><$ day $></div>
 			<div class="recording_date"><$ FormatDateTime(tr("%b %d %y"), recItem->StartTime()) $></div>
 			<div class="recording_time"><$ FormatDateTime(tr("%I:%M %p"), recItem->StartTime()) $></div>
-			<div class="recording_name" <& tooltip.info domId=(sPref + recItem->Id()) &><& tooltip.display domId=(lPref + recItem->Id()) &>><$ recItem->Name() $></div>
+			<div class="recording_name" <& tooltip.hint text=(shortDescr) &><& tooltip.display domId=(lPref + recItem->Id()) &>><$ recItem->Name() $></div>
 			<div class="recording_actions">
 				 <img src="play.png" alt="" />
 				 <img src="edit.png" alt="" />
@@ -167,14 +170,6 @@ for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 					<div class="description">
 						<$ (longDescr) $>
 					</div>
-				</div>
-			</div>
-			<div class="re_shortdescr" id="<$ (sPref + recItem->Id()) $>">
-				<div class="re_content">
-%			if (!shortDescr.empty()) {
-					<div class="short"><$ (shortDescr) $></div>
-%			}
-					<div class="hint"><$ tr("Click to view details.") $></div>
 				</div>
 			</div>
 <{
