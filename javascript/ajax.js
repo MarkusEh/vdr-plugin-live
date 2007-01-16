@@ -23,8 +23,9 @@ function LiveAjaxCall(url)
 
 	this.request = function(param, value) 
 	{
-		var url = this.url+'?'+name+"="+value;
-		this.xml.onreadystatechange = function() { this.readystatechanged(); }
+		var url = this.url+'?'+param+"="+value;
+		var obj = this;
+		this.xml.onreadystatechange = function() { obj.readystatechanged(); }
 		this.xml.open('GET', url, true);
 		this.xml.send(null);
 	};
