@@ -1,25 +1,64 @@
 #include <vdr/channels.h>
+#include <vdr/i18n.h>
 #include <vdr/menu.h>
 #include <vdr/recording.h>
+#include "exception.h"
 #include "tasks.h"
+#include "tools.h"
+
+using namespace std;
 
 namespace vdrlive {
 
-TaskManager::TaskManager():
-		m_switchChannel( 0, false ),
-		m_replayRecording( "", false )
+void SwitchChannelTask::Action() 
+{
+	ReadLock lock( Channels );
+	cChannel* channel = Channels.GetByChannelID( m_channel );
+	if ( channel == 0 ) {
+		SetError( tr("Couldn't find channel or no channels available. Maybe you mistyped your request?") );
+		return;
+	}
+
+	if ( !Channels.SwitchTo( channel->Number() ) )
+		SetError( tr("Couldn't switch channels") );
+}
+
+TaskManager::TaskManager()
 {
 }
 
-bool TaskManager::SwitchChannel( int number )
+bool TaskManager::Execute( Task* task, string& error )
 {
-	return ScheduleCommand( m_switchChannel, number );
-	//cMutexLock lock( this );
-	//m_switchChannel.first = number;
-	//m_scheduleWait.Wait( *this );
-	//return m_switchChannel.second;
+	auto_ptr< Task > reaper( task );
+	cMutexLock lock( this );
+
+	m_taskQueue.push_back( task );
+	m_scheduleWait.Wait( *this );
+	error = task->Error();
+	return task->Result();
 }
 
+bool TaskManager::Execute( Task* task )
+{
+	string dummyError;
+	return Execute( task, dummyError );
+}
+
+void TaskManager::DoScheduledTasks()
+{
+	if ( m_taskQueue.empty() )
+		return;
+
+	cMutexLock lock( this );
+	while ( !m_taskQueue.empty() ) {
+		Task* current = m_taskQueue.front();
+		current->Action();
+		m_taskQueue.pop_front();
+	}
+	m_scheduleWait.Broadcast();
+}
+
+/*
 bool TaskManager::ReplayRecording( std::string const& fileName )
 {
 	return ScheduleCommand( m_replayRecording, fileName );
@@ -28,42 +67,7 @@ bool TaskManager::ReplayRecording( std::string const& fileName )
 	//m_scheduleWait.Wait( *this );
 	//return m_replayResult;
 }
-
-void TaskManager::DoScheduledWork()
-{
-	if ( m_switchChannel.first == 0 && m_replayRecording.first.empty() )
-		return;
-
-	cMutexLock lock( this );
-	if ( m_switchChannel.first != 0 )
-		DoSwitchChannel();
-	if ( !m_replayRecording.first.empty() )
-		DoReplayRecording();
-	m_scheduleWait.Broadcast();
-}
-
-void TaskManager::DoSwitchChannel()
-{
-	m_switchChannel.second = Channels.SwitchTo( m_switchChannel.first );
-	m_switchChannel.first = 0;
-}
-
-void TaskManager::DoReplayRecording()
-{
-	bool result = false;
-	cThreadLock lock( &Recordings );
-
-	cRecording* recording = Recordings.GetByName( m_replayRecording.first.c_str() );
-	if ( recording ) {
-		cReplayControl::SetRecording( 0, 0 );
-		cControl::Shutdown();
-		cReplayControl::SetRecording( recording->FileName(), recording->Title() );
-		cControl::Launch( new cReplayControl );
-		cControl::Attach();
-		result = true;
-	}
-	m_replayRecording.first.clear();
-}
+*/
 
 TaskManager& LiveTaskManager()
 {

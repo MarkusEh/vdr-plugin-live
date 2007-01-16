@@ -1,52 +1,82 @@
 #ifndef VDR_LIVE_TASKS_H
 #define VDR_LIVE_TASKS_H
 
+#include <deque>
+#include <memory>
 #include <string>
-#include <utility>
+#include <vdr/channels.h>
 #include <vdr/thread.h>
 
 namespace vdrlive {
+
+class Task;
 
 class TaskManager: public cMutex
 {
 	friend TaskManager& LiveTaskManager();
 
+	typedef std::deque< Task* > TaskQueue;
+
 public:
-	bool SwitchChannel( int number );
-	bool ReplayRecording( std::string const& fileName );
+	bool Execute( Task* task, std::string& error );
+	bool Execute( Task* task );
 
 	// may only be called from Plugin::MainThreadHook
-	void DoScheduledWork();
-	
-private:
-	template< typename Type >
-	struct Task: std::pair< Type, bool > 
-	{
-		Task( Type const& first, bool second ): std::pair< Type, bool >( first, second ) {}
-	};
+	void DoScheduledTasks();
 
+private:
 	TaskManager();
 	TaskManager( TaskManager const& );
 
-	Task< int > m_switchChannel;
-	Task< std::string > m_replayRecording;
+	TaskQueue m_taskQueue;
 	cCondVar m_scheduleWait;
-
-	template< typename Type >
-	bool ScheduleCommand( Task< Type >& member, Type const& param );
-
-	void DoSwitchChannel();
-	void DoReplayRecording();
 };
-	
-template< typename Type >
-inline bool TaskManager::ScheduleCommand( Task< Type >& member, Type const& param )
+
+class Task
 {
-	cMutexLock lock( this );
-	member.first = param;
-	m_scheduleWait.Wait( *this );
-	return member.second;
-}
+	friend void TaskManager::DoScheduledTasks();
+
+public:
+	virtual ~Task() {}
+
+	bool Result() const { return m_result; }
+	std::string const& Error() const { return m_error; }
+
+protected:
+	Task(): m_result( true ) {}
+	Task( Task const& );
+
+	void SetError( std::string const& error ) { m_result = false; m_error = error; }
+
+	virtual void Action() = 0;
+
+private:
+	bool m_result;
+	std::string m_error;
+};
+
+class SwitchChannelTask: public Task
+{
+public:
+	SwitchChannelTask( tChannelID channel ): m_channel( channel ) {}
+	
+private:
+	tChannelID m_channel;
+
+	virtual void Action();
+};
+
+class ReplayRecordingTask: public Task
+{
+public:
+	ReplayRecordingTask( std::string const& recording ): m_recording( recording ) {}
+
+private:
+	std::string m_recording;
+	
+	virtual void Action() {}
+};
+
 
 TaskManager& LiveTaskManager();
 
