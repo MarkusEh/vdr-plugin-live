@@ -44,7 +44,7 @@ component;
 	tChannelID channelid;
 	tEventID eventid;
 </%args>
-	<a href="edit_timer.html?channelid=<$ *channelid.ToString() $>&eventid=<$ eventid $>"><img src="record.png" alt="" <& tooltip.hint text=(tr("Record this")) &> border="0"/></a>
+	<a href="edit_timer.html?channelid=<$ *channelid.ToString() $>&eventid=<$ eventid $>"><img src="record.png" alt="" <& tooltip.hint text=(tr("Record this")) &> /></a>
 </%def>
 
 <%def ajax_js>
@@ -57,5 +57,5 @@ component;
 	string image;
 	string alt = "";
 </%args>
-	<a href="javascript:LiveSimpleAjaxRequest('play_recording.xml', 'recording', '<$ recordingid $>');"><img src="<$ image $>" alt="<$ alt $>" border="0"/></a>
+	<a href="javascript:LiveSimpleAjaxRequest('play_recording.xml', 'recording', '<$ recordingid $>');"><img src="<$ image $>" alt="<$ alt $>" /></a>
 </%def>

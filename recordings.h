@@ -12,6 +12,27 @@ namespace vdrlive {
 	using namespace boost;
 	using namespace std;
 
+	class RecordingsManager;
+	typedef shared_ptr<RecordingsManager> RecordingsManagerPtr;
+
+	class RecordingsManager
+	{
+		friend RecordingsManagerPtr LiveRecordingsManager();
+
+		public:
+			/**
+			 *	generates a Md5 hash from a cRecording entry. It can be used
+			 *  to reidentify a recording.
+			 */
+			string Md5Hash(const cRecording* recording) const;
+
+		private:
+			RecordingsManager();
+
+			cThreadLock m_recordingsLock;
+	};
+
+
 	class RecordingsTree
 	{
 		public:
@@ -54,7 +75,7 @@ namespace vdrlive {
 
 					virtual time_t StartTime() const { return 0; }
 					virtual bool IsDir() const { return true; }
-					virtual const string Id() const { return ""; }
+					virtual const string Id() const { string e; return e; }
 
 				private:
 					int m_level;
@@ -79,7 +100,7 @@ namespace vdrlive {
 					string m_id;
 			};
 
-			RecordingsTree();
+			RecordingsTree(RecordingsManagerPtr recManPtr);
 
 			virtual ~RecordingsTree();
 
@@ -91,10 +112,19 @@ namespace vdrlive {
 		private:
 			int m_maxLevel;
 			RecordingsItemPtr m_root;
-			cThreadLock m_recordingsLock;
+			RecordingsManagerPtr m_recManPtr;
 
 			Map::iterator findDir(RecordingsItemPtr& dir, const string& dirname);
 	};
+
+	/**
+	 *	return singleton instance of RecordingsManager as a shared Pointer.
+	 *  This ensures that after last use of the RecordingsManager it is
+	 *  deleted. After deletion of the original RecordingsManager a repeated
+	 *  call to this function creates a new RecordingsManager which is again
+	 *	kept alive as long references to it exist.
+	 */
+	RecordingsManagerPtr LiveRecordingsManager();
 
 } // namespace vdrlive
 

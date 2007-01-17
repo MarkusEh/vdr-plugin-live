@@ -1,17 +1,37 @@
-#include <string>
+#include <cstring>
+#include <openssl/md5.h>
 #include <boost/shared_ptr.hpp>
+#include <boost/weak_ptr.hpp>
+#include <string>
+#include <sstream>
 #include "tools.h"
 #include "recordings.h"
 
 namespace vdrlive {
 
-	RecordingsTree::RecordingsTree() :
+	RecordingsManager::RecordingsManager() :
+		m_recordingsLock(&Recordings)
+	{
+	}
+
+	string RecordingsManager::Md5Hash(const cRecording* recording) const
+	{
+		unsigned char md5[MD5_DIGEST_LENGTH];
+		const char* fileName = recording->FileName();
+		MD5(reinterpret_cast<const unsigned char*>(fileName), strlen(fileName), md5);
+
+		ostringstream hashStr;
+		hashStr << hex;
+		for (size_t i = 0; i < MD5_DIGEST_LENGTH; i++)
+			hashStr << (0 + md5[i]);
+		return hashStr.str();
+	}
+
+	RecordingsTree::RecordingsTree(RecordingsManagerPtr recMan) :
 		m_maxLevel(0),
 		m_root(new RecordingsItemDir()),
-		m_recordingsLock(&Recordings)
-
+		m_recManPtr(recMan)
 	{
-		int recCount = 0;
 		// esyslog("DH: ****** RecordingsTree::RecordingsTree() ********");
 		for ( cRecording* recording = Recordings.First(); recording != 0; recording = Recordings.Next( recording ) ) {
 			if (m_maxLevel < recording->HierarchyLevels()) {
@@ -48,9 +68,7 @@ namespace vdrlive {
 				}
 				else {
 					string recName(name.substr(index, name.length() - index));
-					string recId("recId_");
-					recId += lexical_cast<string, int>(++recCount);
-					RecordingsItemPtr recPtr (new RecordingsItemRec(recId, recName, recording));
+					RecordingsItemPtr recPtr (new RecordingsItemRec(m_recManPtr->Md5Hash(recording), recName, recording));
 					dir->m_entries.insert(pair< string, RecordingsItemPtr > (recName, recPtr));
 					// esyslog("DH: added rec: '%s'", recName.c_str());
 				}
@@ -155,6 +173,21 @@ namespace vdrlive {
 	time_t RecordingsTree::RecordingsItemRec::StartTime() const
 	{
 		return m_recording->start;
+	}
+
+	RecordingsManagerPtr LiveRecordingsManager()
+	{
+		static weak_ptr<RecordingsManager> livingRecMan;
+
+		RecordingsManagerPtr r = livingRecMan.lock();
+		if (r) {
+			return r;
+		}
+		else {
+			RecordingsManagerPtr n(new RecordingsManager);
+			livingRecMan = n;
+			return n;
+		}
 	}
 
 } // namespace vdrlive

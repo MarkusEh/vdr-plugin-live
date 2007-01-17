@@ -402,12 +402,35 @@ div.domTTrecordings {
 	border: none;
 }
 
-.domTTrecordings div.re_longdescr {
+.domTTrecordings div.re_description {
 }
 
 .domTTrecordings div.re_content {
-	border: 1px solid black;
+	padding: 0;
+	margin: 0;
+
+	border-right: 1px solid #000000;
+	border-bottom: 1px solid #000000;
         background: white;
+}
+
+.domTTrecordings div.re_content div.re_tools {
+	float: left;
+	width: 26px;
+	margin: 0;
+	padding: 0;
+
+	text-align: center;
+	vertical-align: top;
+	border-right: 1px solid #C0C1DA;
+}
+
+.domTTrecordings div.re_content div div {
+	margin-left: 50px;
+}
+
+.domTTrecordings div.re_content div.re_tools a img {
+	margin-top: 5px;
 }
 
 .domTTrecordings div.boxheader div div a {
