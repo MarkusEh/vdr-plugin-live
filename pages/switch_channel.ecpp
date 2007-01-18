@@ -12,11 +12,15 @@ using namespace vdrlive;
 </%args>
 <%cpp>
 	reply.setContentType( "application/xml" );
+
+	SwitchChannelTask task( channelid );
+	LiveTaskManager().Execute( task );
 </%cpp>
 <?xml version="1.0"?>
 <service>
 <request name="switch_channel">
 <param name="channel"><$ *channelid.ToString() $></param>
 </request>
-<response><$ LiveTaskManager().Execute( new SwitchChannelTask( channelid ) ) $></response>
+<response><$ task.Result() $></response>
+<error><$ task.Error() $></error>
 </service>

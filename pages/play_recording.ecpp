@@ -14,11 +14,15 @@ using namespace vdrlive;
 </%args>
 <%cpp>
 	reply.setContentType( "application/xml" );
+
+	ReplayRecordingTask task( recordingid );
+	LiveTaskManager().Execute( task );
 </%cpp>
 <?xml version="1.0"?>
 <service>
-<request name="switch_channel">
+<request name="play_recording">
 <param name="recording"><$ recordingid $></param>
 </request>
-<response><$ LiveTaskManager().Execute( new ReplayRecordingTask( recordingid ) ) $></response>
+<response><$ task.Result() $></response>
+<error><$ task.Error() $></error>
 </service>
