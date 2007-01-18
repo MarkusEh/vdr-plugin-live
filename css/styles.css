@@ -32,23 +32,67 @@ img {
 }
 
 /* ######################
-   #  Overlib Style for Tooltips
+   # Tooltip style for hints
    ######################
 */
 
-div.domTTOverlib {
+div.domTThint {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 11px;
 	border: 1px solid #EBC94C;
 	background-color: #F4FFC3;
 }
 
-div.domTTOverlib .caption {
+div.domTThint .caption {
 	font-weight: bold;
 }
 
-div.domTTOverlib .contents {
+div.domTThint .contents {
 	padding: 2px;
+}
+
+/* ##############################
+   # Tooltip style for epg infos
+   ##############################
+*/
+
+div.domTTepg {
+	width: 66%;
+	border: none;
+}
+
+.domTTepg div.epg_description {
+}
+
+.domTTepg div.epg_content {
+	padding: 0;
+	margin: 0;
+
+	border-left: 1px solid #000000;
+	border-right: 1px solid #000000;
+	border-bottom: 1px solid #000000;
+        background: white url(bg_tools.png) top left repeat-y;
+}
+
+.domTTepg div.epg_content div.epg_tools {
+	float: left;
+	width: 26px;
+	margin: 0;
+	padding: 0;
+
+	text-align: center;
+	vertical-align: top;
+}
+
+.domTTepg div.epg_content div div {
+	margin-left: 40px;
+}
+
+.domTTepg div.epg_content div.epg_tools img {
+	margin-top: 5px;
+}
+
+.domTTepg div.boxheader div div a {
 }
 
 
@@ -159,13 +203,14 @@ div.event {
 	width: 255px;
 	height: 255px;
 	padding: 0;
+	margin-right: 5px;
 	float: left;
 }
 
 div.event div.station {
 	margin: 0;
 	padding: 0;
-	width: 250px;
+	width: 255px;
 }
 
 div.station div {
@@ -191,37 +236,36 @@ div.station div div div {
 	font-weight: bold;
 }
 
+div.content {
+	width: 253px;
+	height: 220px;
+	padding: 0;
+	margin: 0;
 
+	background: white url(bg_tools.png) top left repeat-y;
+	border-left: 1px solid #000000;
+	border-right: 1px solid #000000;
+	border-bottom: 1px solid #000000;
+}
 
-div.tools {
+div.content div.tools {
 	float: left;
 	width: 26px;
 	height: 220px;
 	margin: 0;
 	padding: 0;
 
-	background: #E9EFFF;
 	text-align: center;
 	vertical-align: top;
-	border-left: 1px solid #000000;
-	border-bottom: 1px solid #000000;
-	border-right: 1px solid #C0C1DA;
 }
 
-div.content {
-	width: 224px;
-	height: 220px;
-	padding: 0;
-	margin: 0;
-	margin-left: 25px;
-
-	border-right: 1px solid #000000;
-	border-bottom: 1px solid #000000;
-}
-
-div.tools img {
+div.content div.tools img {
 	margin: 5px 2px;
 	border: 0px;
+}
+
+div.content div {
+	padding-left: 15px;
 }
 
 div.description {
@@ -241,11 +285,6 @@ div.title {
 div.short {
 	font-weight: normal;
 	margin: 5px;
-}
-
-div.hint {
-	font-style: italic;
-	margin: 0px 5px 5px 5px;
 }
 
 /* #############
@@ -313,7 +352,7 @@ table.schedule tr.active {
 
 /*
   ##############################
-  #  Blue Baground Thingy
+  #  Blue Background Thingy
   ##############################
 */
 
@@ -390,50 +429,6 @@ div.recording_item {
 .recording_item div.recording_actions {
 	float: right;
 	padding-right: 3em;
-}
-
-/* ##############################
-   #  Recording style for tooltips
-   ##############################
-*/
-
-div.domTTrecordings {
-	width: 66%;
-	border: none;
-}
-
-.domTTrecordings div.re_description {
-}
-
-.domTTrecordings div.re_content {
-	padding: 0;
-	margin: 0;
-
-	border-right: 1px solid #000000;
-	border-bottom: 1px solid #000000;
-        background: white;
-}
-
-.domTTrecordings div.re_content div.re_tools {
-	float: left;
-	width: 26px;
-	margin: 0;
-	padding: 0;
-
-	text-align: center;
-	vertical-align: top;
-	border-right: 1px solid #C0C1DA;
-}
-
-.domTTrecordings div.re_content div div {
-	margin-left: 50px;
-}
-
-.domTTrecordings div.re_content div.re_tools a img {
-	margin-top: 5px;
-}
-
-.domTTrecordings div.boxheader div div a {
 }
 
 /*

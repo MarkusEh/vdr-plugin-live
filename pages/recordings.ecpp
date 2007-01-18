@@ -12,6 +12,7 @@ using namespace vdrlive;
 </%args>
 <%request scope="page">
 RecordingsTree recordingsTree(LiveRecordingsManager());
+RecordingsTree::RecordingsItemPtr currRecItem;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
@@ -23,7 +24,7 @@ RecordingsTree recordingsTree(LiveRecordingsManager());
 		<title>VDR-Live - <$ pageTitle $></title>
 		<link rel="stylesheet" type="text/css" href="styles.css" />
 		<script type="text/javascript" language="javascript" src="treeview.js"></script>
-		<& tooltip.javascript var=("domTT_oneOnly") value=("true") var=("domTT_styleClass") value=("domTTrecordings") &>
+		<& tooltip.javascript var=("domTT_oneOnly") value=("true") var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 	</head>
 	<body>
@@ -97,6 +98,7 @@ for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 	std::string folderimg("folder_closed.png");
 	std::string collapseimg("plus.png");
     if (!recItem->IsDir()) {
+		currRecItem = recItem;
 		std::string day(FormatDateTime("%a,", recItem->StartTime()));
 		std::string dayLen(lexical_cast<std::string, int>(day.length() - 1) + ".25em;");
 		reply.out() << std::string("\t\t\t")
@@ -149,6 +151,7 @@ for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 		callComp("recordings.recordings_data", request, reply, recItemParams);
 	}
 	else {
+		currRecItem = recItem;
 		const cRecordingInfo* info = recItem->RecInfo();
 		if (info) {
 			std::string start(FormatDateTime("%a,", recItem->StartTime()) + std::string(" ")
@@ -158,27 +161,14 @@ for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 			std::string shortDescr;				if (info->ShortText()) shortDescr = info->ShortText();
 			std::string longDescr;				if (info->Description()) longDescr = info->Description();
 }>
-			<div class="re_description" id="<$ (recItem->Id()) $>">
-				<div class="station">
-					<div class="boxheader"><div><div><$ recItem->Name() $><& tooltip.close domId=(recItem->Id()) &></div></div></div>
-				</div>
-				<div class="re_content">
-					<div class="re_tools">
-				 		<& pageelems.play_recording recordingid=(recItem->Id()) image="play.png" alt="" &>
-					</div>
-				 	<div>
-						<div class="info"><$ (start) $></div>
-				 		<div class="title"><$ (title) $></div>
-						<div class="short"><$ (shortDescr) $></div>
-						<div class="description">
-							<$ (longDescr) $>
-						</div>
-					</div>
-				</div>
-			</div>
+			<& pageelems.epg_tt_box boxId=(recItem->Id()) caption=(recItem->Name()) tools_comp=("recordings.rec_tools") time=(start) title=(title) short_descr=(shortDescr) long_descr=(longDescr) &>
 <{
 		}
 	}
 }
 }>
+</%def>
+
+<%def rec_tools>
+<& pageelems.play_recording recordingid=(currRecItem->Id()) image="play.png" alt="" &>
 </%def>

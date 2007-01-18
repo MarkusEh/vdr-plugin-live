@@ -6,6 +6,7 @@
 using namespace std;
 
 </%pre>
+
 <%def doc_type>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 </%def>
@@ -58,4 +59,34 @@ component;
 	string alt = "";
 </%args>
 	<a href="javascript:LiveSimpleAjaxRequest('play_recording.xml', 'recording', '<$ recordingid $>');"><img src="<$ image $>" alt="<$ alt $>" /></a>
+</%def>
+
+<%def epg_tt_box>
+<%args>
+	string boxId;
+	string caption;
+	string tools_comp;
+	string time;
+	string title;
+	string short_descr;
+	string long_descr;
+</%args>
+	<div class="epg_description" id="<$ (boxId) $>">
+		<div class="station">
+			<div class="boxheader"><div><div><$ (caption) $><& tooltip.close domId=(boxId) &></div></div></div>
+		</div>
+		<div class="epg_content">
+			<div class="epg_tools">
+		 		<& (tools_comp) &>
+			</div>
+		 	<div>
+				<div class="info"><$ (time) $></div>
+		 		<div class="title"><$ (title) $></div>
+				<div class="short"><$ (short_descr) $></div>
+				<div class="description">
+					<$ (long_descr) $>
+				</div>
+			</div>
+		</div>
+	</div>
 </%def>
