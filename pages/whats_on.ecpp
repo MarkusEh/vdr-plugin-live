@@ -79,7 +79,7 @@ if (type == "now") {
 						<div class="title"><$ title $></div>
 						<div class="short"><$ short_description $></div>
 						<div class="description">
-							<$  description $>
+							<{ reply.out() << StringEscapeAndBreak( description ); }>
 						</div>
 				 	</div>
 				</div>

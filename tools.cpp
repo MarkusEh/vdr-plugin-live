@@ -1,13 +1,15 @@
 #include <stdexcept>
+#include <tnt/ecpp.h>
+#include <tnt/htmlescostream.h>
 #include <tnt/httprequest.h>
 #include <tnt/httpreply.h>
-#include <tnt/ecpp.h>
 #include "exception.h"
 #include "live.h"
 #include "setup.h"
 #include "tools.h"
 
 using namespace std;
+using namespace tnt;
 	
 istream& operator>>( istream& is, tChannelID& ret )
 {
@@ -91,6 +93,14 @@ string StringWordTruncate(const string& input, size_t maxLen, bool& truncated)
 	string result = input.substr(0, maxLen);
 	size_t pos = result.find_last_of(" \t,;:.\n?!'\"/\\()[]{}*+-");
 	return result.substr(0, pos);
+}
+
+string StringEscapeAndBreak( string const& input )
+{
+	stringstream plainBuilder;
+	HtmlEscOstream builder( plainBuilder );
+	builder << input;
+	return StringReplace( plainBuilder.str(), "\n", "<br/>" );
 }
 
 } // namespace vdrlive
