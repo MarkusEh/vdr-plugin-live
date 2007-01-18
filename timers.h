@@ -41,6 +41,7 @@ public:
 
 	// may only be called from Plugin::MainThreadHook
 	void DoPendingWork();
+	void DoReloadTimers() { m_timers.ReloadTimers(); }
 
 private:
 	typedef std::pair< cTimer*, std::string > TimerPair;

@@ -109,7 +109,7 @@ void TimerManager::DoPendingWork()
 		dsyslog("SV: signalling waiters");
 		m_updateWait.Broadcast();
 	}
-	m_timers.ReloadTimers();
+	DoReloadTimers();
 }
 
 void TimerManager::DoUpdateTimers()
