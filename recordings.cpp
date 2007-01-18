@@ -27,6 +27,17 @@ namespace vdrlive {
 		return hashStr.str();
 	}
 
+	const cRecording* RecordingsManager::GetByMd5Hash(const string& hash) const
+	{
+		if (!hash.empty()) {
+			for (cRecording* rec = Recordings.First(); rec != 0; rec = Recordings.Next(rec)) {
+				if (hash == Md5Hash(rec))
+					return rec;
+			}
+		}
+		return 0;
+	}
+
 	RecordingsTree::RecordingsTree(RecordingsManagerPtr recMan) :
 		m_maxLevel(0),
 		m_root(new RecordingsItemDir()),

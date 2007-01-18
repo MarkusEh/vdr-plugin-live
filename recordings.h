@@ -26,6 +26,12 @@ namespace vdrlive {
 			 */
 			string Md5Hash(const cRecording* recording) const;
 
+			/**
+			 *  fetches a cRecording from VDR's Recordings collection. Returns
+			 *  NULL if recording was not found
+			 */
+			const cRecording* GetByMd5Hash(const std::string& hash) const;
+
 		private:
 			RecordingsManager();
 
