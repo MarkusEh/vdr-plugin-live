@@ -58,7 +58,7 @@ component;
 	string image;
 	string alt = "";
 </%args>
-	<a href="javascript:LiveSimpleAjaxRequest('play_recording.xml', 'recording', '<$ recordingid $>');"><img src="<$ image $>" alt="<$ alt $>" /></a>
+	<a href="javascript:LiveSimpleAjaxRequest('play_recording.xml', 'recordingid', '<$ recordingid $>');"><img src="<$ image $>" alt="<$ alt $>" /></a>
 </%def>
 
 <%def epg_tt_box>
