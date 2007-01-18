@@ -18,8 +18,7 @@ class TaskManager: public cMutex
 	typedef std::deque< Task* > TaskQueue;
 
 public:
-	bool Execute( Task* task, std::string& error );
-	bool Execute( Task* task );
+	bool Execute( Task& task );
 
 	// may only be called from Plugin::MainThreadHook
 	void DoScheduledTasks();
@@ -58,7 +57,7 @@ private:
 class SwitchChannelTask: public Task
 {
 public:
-	SwitchChannelTask( tChannelID channel ): m_channel( channel ) {}
+	explicit SwitchChannelTask( tChannelID channel ): m_channel( channel ) {}
 	
 private:
 	tChannelID m_channel;
@@ -69,12 +68,12 @@ private:
 class ReplayRecordingTask: public Task
 {
 public:
-	ReplayRecordingTask( std::string const& recording ): m_recording( recording ) {}
+	explicit ReplayRecordingTask( std::string const& recording ): m_recording( recording ) {}
 
 private:
 	std::string m_recording;
 	
-	virtual void Action() {}
+	virtual void Action();
 };
 
 
