@@ -37,10 +37,8 @@ function LiveAjaxCall(url)
 				if (this.xml.status == 200) {
 					var xmldoc = xml.responseXML;
 					var result = Number(xmldoc.getElementsByTagName('response').item(0).firstChild.data);
-					alert(result);
 					if (!result) {
 						var error = xmldoc.getElementsByTagName('error').item(0).firstChild.data;
-						alert(error);
 						this.onerror(error);
 					} else
 						this.oncomplete();
