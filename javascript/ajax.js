@@ -19,7 +19,7 @@ function LiveAjaxCall(url)
 	this.xml = xml;
 
 	this.onerror = function(message) {};
-	this.oncomplete = function(result) {};
+	this.oncomplete = function() {};
 
 	this.request = function(param, value) 
 	{
@@ -36,8 +36,14 @@ function LiveAjaxCall(url)
 			if (this.xml.readyState == 4) {
 				if (this.xml.status == 200) {
 					var xmldoc = xml.responseXML;
-					var result = xmldoc.getElementsByTagName('response').item(0).firstChild.data;
-					this.oncomplete(result);
+					var result = Number(xmldoc.getElementsByTagName('response').item(0).firstChild.data);
+					alert(result);
+					if (!result) {
+						var error = xmldoc.getElementsByTagName('error').item(0).firstChild.data;
+						alert(error);
+						this.onerror(error);
+					} else
+						this.oncomplete();
 				} else {
 					this.onerror('Invocation of webservice "'+this.url+'" failed with http status code '+this.xml.status);
 				}
@@ -52,7 +58,6 @@ function LiveSimpleAjaxRequest(url, param, value)
 {
 	var xml = new LiveAjaxCall(url);
 	xml.onerror = function(message) { alert(message); }
-	xml.oncomplete = function(response) { }
 	xml.request(param, value);
 };
 
