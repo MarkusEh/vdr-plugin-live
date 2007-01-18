@@ -10,18 +10,18 @@ using namespace vdrlive;
 
 </%pre>
 <%args>
-	string recordingid;
+	string param;
 </%args>
 <%cpp>
 	reply.setContentType( "application/xml" );
 
-	ReplayRecordingTask task( recordingid );
+	ReplayRecordingTask task( param );
 	LiveTaskManager().Execute( task );
 </%cpp>
 <?xml version="1.0"?>
 <service>
 <request name="play_recording">
-<param name="recording"><$ recordingid $></param>
+<param name="recording"><$ param $></param>
 </request>
 <response><$ task.Result() $></response>
 <error><$ task.Error() $></error>

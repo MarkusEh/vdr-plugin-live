@@ -117,7 +117,7 @@ for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 			<div class="recording_time"><$ FormatDateTime(tr("%I:%M %p"), recItem->StartTime()) $></div>
 			<div class="recording_name" <& tooltip.hint text=(shortDescr) &><& tooltip.display domId=(recItem->Id()) &>><$ recItem->Name() $></div>
 			<div class="recording_actions">
-				 <& pageelems.play_recording recordingid=(recItem->Id()) image="play.png" alt="" &>
+				 <& pageelems.ajax_action_href action="play_recording" param=(recItem->Id()) image="play.png" alt="" &>
 				 <img src="edit.png" alt="" />
 				 <img src="del.png" alt="" />
 			</div>
@@ -170,5 +170,5 @@ for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 </%def>
 
 <%def rec_tools>
-<& pageelems.play_recording recordingid=(currRecItem->Id()) image="play.png" alt="" &>
+<& pageelems.ajax_action_href action="play_recording" param=(currRecItem->Id()) image="play.png" alt="" &>
 </%def>

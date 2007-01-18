@@ -8,18 +8,18 @@ using namespace vdrlive;
 
 </%pre>
 <%args>
-	tChannelID channelid;
+	tChannelID param;
 </%args>
 <%cpp>
 	reply.setContentType( "application/xml" );
 
-	SwitchChannelTask task( channelid );
+	SwitchChannelTask task( param );
 	LiveTaskManager().Execute( task );
 </%cpp>
 <?xml version="1.0"?>
 <service>
 <request name="switch_channel">
-<param name="channel"><$ *channelid.ToString() $></param>
+<param name="channel"><$ *param.ToString() $></param>
 </request>
 <response><$ task.Result() $></response>
 <error><$ task.Error() $></error>

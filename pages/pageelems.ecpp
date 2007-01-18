@@ -52,13 +52,14 @@ component;
 	<script type="text/javascript" language="javascript" src="ajax.js"></script>
 </%def>
 
-<%def play_recording>
+<%def ajax_action_href>
 <%args>
-	string recordingid;
+	string action;
+	string param;
 	string image;
 	string alt = "";
 </%args>
-	<a href="javascript:LiveSimpleAjaxRequest('play_recording.xml', 'recordingid', '<$ recordingid $>');"><img src="<$ image $>" alt="<$ alt $>" /></a>
+	<a href="javascript:LiveSimpleAjaxRequest('<$ action $>.xml', 'param', '<$ param $>');"><img src="<$ image $>" border="0" alt="<$ alt $>" /></a>
 </%def>
 
 <%def epg_tt_box>
