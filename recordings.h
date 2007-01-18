@@ -9,11 +9,8 @@
 
 namespace vdrlive {
 
-	using namespace boost;
-	using namespace std;
-
 	class RecordingsManager;
-	typedef shared_ptr<RecordingsManager> RecordingsManagerPtr;
+	typedef boost::shared_ptr<RecordingsManager> RecordingsManagerPtr;
 
 	class RecordingsManager
 	{
@@ -24,7 +21,7 @@ namespace vdrlive {
 			 *	generates a Md5 hash from a cRecording entry. It can be used
 			 *  to reidentify a recording.
 			 */
-			string Md5Hash(const cRecording* recording) const;
+			std::string Md5Hash(const cRecording* recording) const;
 
 			/**
 			 *  fetches a cRecording from VDR's Recordings collection. Returns
@@ -45,8 +42,8 @@ namespace vdrlive {
 
 			class RecordingsItem;
 
-			typedef shared_ptr< RecordingsItem > RecordingsItemPtr;
-			typedef multimap< string, RecordingsItemPtr > Map;
+			typedef boost::shared_ptr< RecordingsItem > RecordingsItemPtr;
+			typedef std::multimap< std::string, RecordingsItemPtr > Map;
 
 			class RecordingsItem
 			{
@@ -57,17 +54,17 @@ namespace vdrlive {
 
 					virtual time_t StartTime() const = 0;
 					virtual bool IsDir() const = 0;
-					virtual const string& Name() const { return m_name; }
-					virtual const string Id() const = 0;
+					virtual const std::string& Name() const { return m_name; }
+					virtual const std::string Id() const = 0;
 
 					virtual const cRecording* Recording() const { return 0; }
 					virtual const cRecordingInfo* RecInfo() const { return 0; }
 
 				protected:
-					RecordingsItem(const string& name);
+					RecordingsItem(const std::string& name);
 
 				private:
-					string m_name;
+					std::string m_name;
 					Map m_entries;
 			};
 
@@ -75,13 +72,13 @@ namespace vdrlive {
 			{
 				public:
 					RecordingsItemDir();
-					RecordingsItemDir(const string& name, int level);
+					RecordingsItemDir(const std::string& name, int level);
 
 					virtual ~RecordingsItemDir();
 
 					virtual time_t StartTime() const { return 0; }
 					virtual bool IsDir() const { return true; }
-					virtual const string Id() const { string e; return e; }
+					virtual const std::string Id() const { std::string e; return e; }
 
 				private:
 					int m_level;
@@ -90,28 +87,28 @@ namespace vdrlive {
 			class RecordingsItemRec : public RecordingsItem
 			{
 				public:
-					RecordingsItemRec(const string& id, const string& name, cRecording* recording);
+					RecordingsItemRec(const std::string& id, const std::string& name, cRecording* recording);
 
 					virtual ~RecordingsItemRec();
 
 					virtual time_t StartTime() const;
 					virtual bool IsDir() const { return false; }
-					virtual const string Id() const { return m_id; }
+					virtual const std::string Id() const { return m_id; }
 
 					virtual const cRecording* Recording() const { return m_recording; }
 					virtual const cRecordingInfo* RecInfo() const { return m_recording->Info(); }
 
 				private:
 					cRecording *m_recording;
-					string m_id;
+					std::string m_id;
 			};
 
 			RecordingsTree(RecordingsManagerPtr recManPtr);
 
 			virtual ~RecordingsTree();
 
-			Map::iterator begin(const vector< string >& path);
-			Map::iterator end(const vector< string >&path);
+			Map::iterator begin(const std::vector< std::string >& path);
+			Map::iterator end(const std::vector< std::string >&path);
 
 			int MaxLevel() const { return m_maxLevel; }
 
@@ -120,7 +117,7 @@ namespace vdrlive {
 			RecordingsItemPtr m_root;
 			RecordingsManagerPtr m_recManPtr;
 
-			Map::iterator findDir(RecordingsItemPtr& dir, const string& dirname);
+			Map::iterator findDir(RecordingsItemPtr& dir, const std::string& dirname);
 	};
 
 	/**

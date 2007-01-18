@@ -7,6 +7,10 @@
 #include "tools.h"
 #include "recordings.h"
 
+
+using namespace boost;
+using namespace std;
+
 namespace vdrlive {
 
 	RecordingsManager::RecordingsManager() :
