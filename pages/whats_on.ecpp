@@ -62,7 +62,7 @@ if (type == "now") {
 							tEventID event = Event->EventID();
 
 							bool truncated = false;
-							string description(StringWordTruncate(epgEvent->LongDescr(), 250, truncated));
+							string description();
 }>
 			<div class="event">
 				<div class="station">
@@ -79,7 +79,8 @@ if (type == "now") {
 						<div class="info"><$ (epgEvent->StartTime(tr("%I:%M %p"))) $> - <$ (epgEvent->EndTime(tr("%I:%M %p"))) $></div>
 						<div class="title"><$ (epgEvent->Title()) $></div>
 						<div class="short"><$ (epgEvent->ShortDescr()) $></div>
-						<div class="description"<& tooltip.hint text=(StringEscapeAndBreak(description) + string("<br />") + string(tr("Click to view details."))) &><& tooltip.display domId=(epgEvent->Id()) &>><$ (string(tr("more")) + string(" ...")) $></div>
+						<div class="description"><$ (StringWordTruncate(epgEvent->LongDescr(), 150, truncated)) $></div>
+						<div class="more"<& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), 300, truncated)) + string("<br />") + string(tr("Click to view details."))) &><& tooltip.display domId=(epgEvent->Id()) &>><$ (string(tr("more")) + string(" ...")) $></div>
 				 	</div>
 				</div>
 			</div>

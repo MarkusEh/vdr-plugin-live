@@ -202,7 +202,7 @@ table td.buttonpanel {
 */
 div.event {
 	width: 255px;
-	height: 155px;
+	height: 255px;
 	padding: 0;
 	margin-right: 5px;
 	float: left;
@@ -239,7 +239,7 @@ div.station div div div {
 
 div.content {
 	width: 253px;
-	height: 120px;
+	height: 220px;
 	padding: 0;
 	margin: 0;
 
@@ -252,7 +252,7 @@ div.content {
 div.content div.tools {
 	float: left;
 	width: 26px;
-	height: 120px;
+	height: 220px;
 	margin: 0;
 	padding: 0;
 
@@ -271,8 +271,6 @@ div.content div {
 
 div.description {
 	margin: 5px;
-	font-weight: bold;
-	cursor: pointer;
 }
 
 div.info {
@@ -288,6 +286,12 @@ div.title {
 div.short {
 	font-weight: normal;
 	margin: 5px;
+}
+
+div.more {
+	margin: 5px;
+	font-weight: bold;
+	cursor: pointer;
 }
 
 /* #############
