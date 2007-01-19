@@ -24,7 +24,7 @@ SortedTimers::SortedTimers():
 string SortedTimers::GetTimerId( cTimer const& timer )
 {
 	ostringstream builder;
-	builder << *timer.Channel()->GetChannelID().ToString() << ":" << timer.WeekDays() << ":"
+	builder << timer.Channel()->GetChannelID() << ":" << timer.WeekDays() << ":"
 			<< timer.Day() << ":" << timer.Start() << ":" << timer.Stop();
 	return builder.str();
 }
@@ -80,7 +80,7 @@ void TimerManager::UpdateTimer( cTimer* timer, int flags, tChannelID& channel, s
 								int start, int stop, int priority, int lifetime, string const& title, string const& aux )
 {
 	ostringstream builder;
-	builder << flags << ":" << *channel.ToString() << ":" << ( weekdays != "-------" ? weekdays : "" )
+	builder << flags << ":" << channel << ":" << ( weekdays != "-------" ? weekdays : "" )
 			<< ( weekdays == "-------" || day.empty() ? "" : "@" ) << day << ":" << start << ":" << stop << ":"
 			<< priority << ":" << lifetime << ":" << title << ":" << aux;
 	dsyslog("%s", builder.str().c_str());

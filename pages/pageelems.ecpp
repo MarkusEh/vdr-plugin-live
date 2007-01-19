@@ -45,7 +45,7 @@ component;
 	tChannelID channelid;
 	tEventID eventid;
 </%args>
-	<a href="edit_timer.html?channelid=<$ *channelid.ToString() $>&eventid=<$ eventid $>"><img src="record.png" alt="" <& tooltip.hint text=(tr("Record this")) &> /></a>
+	<a href="edit_timer.html?channelid=<$ channelid $>&eventid=<$ eventid $>"><img src="record.png" alt="" <& tooltip.hint text=(tr("Record this")) &> /></a>
 </%def>
 
 <%def ajax_js>

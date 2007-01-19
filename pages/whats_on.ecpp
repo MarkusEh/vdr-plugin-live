@@ -72,7 +72,7 @@ if (type == "now") {
 				<div class="content">
 					<div class="tools">
 						<& pageelems.event_timer channelid=(channel_id) eventid=(event) &>
-						<& pageelems.ajax_action_href action="switch_channel" param=(*channel_id.ToString()) image="zap.png" alt="" &>
+						<& pageelems.ajax_action_href action="switch_channel" param=(channel_id) image="zap.png" alt="" &>
 					</div>
 				 	<div>
 						<div class="info"><$ start $> - <$ end $></div>

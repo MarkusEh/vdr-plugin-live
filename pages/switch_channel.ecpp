@@ -19,7 +19,7 @@ using namespace vdrlive;
 <?xml version="1.0"?>
 <service>
 <request name="switch_channel">
-<param name="channel"><$ *param.ToString() $></param>
+<param name="channel"><$ param $></param>
 </request>
 <response><$ task.Result() $></response>
 <error><$ task.Error() $></error>

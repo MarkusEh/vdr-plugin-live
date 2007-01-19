@@ -132,7 +132,7 @@ cTimer* timer;
 					<tr>
 						<td class="label"><$ tr("Channel") $>:</td>
 						<td>
-<& channels_widget name=("channel") channelid=(true) selected=(*channel.ToString()) &>
+<& channels_widget name=("channel") channelid=(true) selected=(channel) &>
 						</td>
 					</tr>
 
