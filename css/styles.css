@@ -41,6 +41,7 @@ div.domTThint {
 	font-size: 11px;
 	border: 1px solid #EBC94C;
 	background-color: #F4FFC3;
+        max-width: 35em;
 }
 
 div.domTThint .caption {
@@ -201,7 +202,7 @@ table td.buttonpanel {
 */
 div.event {
 	width: 255px;
-	height: 255px;
+	height: 155px;
 	padding: 0;
 	margin-right: 5px;
 	float: left;
@@ -238,7 +239,7 @@ div.station div div div {
 
 div.content {
 	width: 253px;
-	height: 220px;
+	height: 120px;
 	padding: 0;
 	margin: 0;
 
@@ -251,7 +252,7 @@ div.content {
 div.content div.tools {
 	float: left;
 	width: 26px;
-	height: 220px;
+	height: 120px;
 	margin: 0;
 	padding: 0;
 
@@ -270,6 +271,8 @@ div.content div {
 
 div.description {
 	margin: 5px;
+	font-weight: bold;
+	cursor: pointer;
 }
 
 div.info {

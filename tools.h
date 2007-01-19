@@ -28,6 +28,7 @@ int StringToInt( std::string const& string, int base = 10 );
 std::string StringRepeat(int times, const std::string& input);
 std::string StringWordTruncate(const std::string& input, size_t maxLen, bool& truncated);
 std::string StringEscapeAndBreak( std::string const& input );
+std::string StringFormatBreak(std::string const& input);
 
 struct bad_lexical_cast: std::runtime_error 
 {

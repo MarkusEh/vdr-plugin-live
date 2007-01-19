@@ -37,7 +37,7 @@ RecordingsTree::RecordingsItemPtr currRecItem;
 			<div class="recordings">
 <& recordings.recordings_item &>
 			</div>
-			<div class="recordings_data" style="display: none;">
+			<div class="epg_data" style="display: none;">
 <& recordings.recordings_data &>
 			</div>
 %			}

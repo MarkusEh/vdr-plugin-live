@@ -4,41 +4,23 @@
 #include "tools.h"
 
 using namespace std;
+using namespace vdrlive;
 
 </%pre>
+
+<# ---------------------------------------------------------------------- #>
 
 <%def doc_type>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 </%def>
 
+<# ---------------------------------------------------------------------- #>
+
 <%def logo>
 <img src="logo.png" alt="VDR Live!" class="logo"/>
 </%def>
 
-<#
-<%def header_box>
-<%args>
-content[];
-component;
-</%args>
-<{
-}>
-			<div class="head_box_l">
-				<div class="head_box_m">
-					<div class="head_box_r">
-						<table class="head_box_text"><tr><td>
-%							for(content_type::const_iterator it = content.begin(); it != content.end(); ++it) {
-								<$ *it $>
-%							}
-%							if (!component.empty()) {
-							<& (component) &>
-%							}
-						</td></tr></table>
-					</div>
-				</div>
-			</div>
-</%def>
-#>
+<# ---------------------------------------------------------------------- #>
 
 <%def event_timer>
 <%args>
@@ -48,19 +30,26 @@ component;
 	<a href="edit_timer.html?channelid=<$ channelid $>&eventid=<$ eventid $>"><img src="record.png" alt="" <& tooltip.hint text=(tr("Record this")) &> /></a>
 </%def>
 
+<# ---------------------------------------------------------------------- #>
+
 <%def ajax_js>
 	<script type="text/javascript" language="javascript" src="ajax.js"></script>
 </%def>
 
+<# ---------------------------------------------------------------------- #>
+
 <%def ajax_action_href>
 <%args>
 	string action;
+	string tip;
 	string param;
 	string image;
 	string alt = "";
 </%args>
-	<a href="javascript:LiveSimpleAjaxRequest('<$ action $>.xml', 'param', '<$ param $>');"><img src="<$ image $>" border="0" alt="<$ alt $>" /></a>
+	<a href="javascript:LiveSimpleAjaxRequest('<$ action $>.xml', 'param', '<$ param $>');" <%cpp>if (!tip.empty()) { </%cpp><& tooltip.hint text=(tip) &> <%cpp> } </%cpp>><img src="<$ image $>" alt="<$ alt $>" /></a>
 </%def>
+
+<# ---------------------------------------------------------------------- #>
 
 <%def epg_tt_box>
 <%args>
@@ -85,7 +74,7 @@ component;
 		 		<div class="title"><$ (title) $></div>
 				<div class="short"><$ (short_descr) $></div>
 				<div class="description">
-					<$ (long_descr) $>
+					<{ reply.out() << StringEscapeAndBreak(long_descr); }>
 				</div>
 			</div>
 		</div>

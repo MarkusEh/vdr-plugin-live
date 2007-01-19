@@ -95,6 +95,11 @@ string StringWordTruncate(const string& input, size_t maxLen, bool& truncated)
 	return result.substr(0, pos);
 }
 
+string StringFormatBreak(string const& input)
+{
+	return StringReplace( input, "\n", "<br/>" );
+}
+
 string StringEscapeAndBreak( string const& input )
 {
 	stringstream plainBuilder;

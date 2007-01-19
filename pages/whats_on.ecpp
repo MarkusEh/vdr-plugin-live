@@ -6,6 +6,7 @@
 #include <vdr/i18n.h>
 #include "setup.h"
 #include "tools.h"
+#include "epg_events.h"
 
 using namespace std;
 using namespace vdrlive;
@@ -34,7 +35,7 @@ if (type == "now") {
 	<head>
 		<title>VDR-Live - <$ head $></title>
 		<link rel="stylesheet" type="text/css" href="styles.css" />
-		<& tooltip.javascript &>
+		<& tooltip.javascript  var=("domTT_oneOnly") value=("true") var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 	</head>
 	<body>
@@ -42,49 +43,46 @@ if (type == "now") {
 		<& menu active=(type) &>
 		<div class="inhalt">
 <{
+	EpgEvents epgEvents;
+
 	ReadLock channelsLock( Channels );
 	if (channelsLock) {
+		int evntNr = 0;
 		for (cChannel *Channel = Channels.First(); Channel && Channel->Number() <= LiveSetup().GetLastChannel(); Channel = Channels.Next(Channel)) {
 			if (!Channel->GroupSep()) {
 				const cSchedule *Schedule = Schedules->GetSchedule(Channel);
 				if (Schedule) {
 					const cEvent *Event = (type == "now" ? Schedule->GetPresentEvent() : Schedule->GetFollowingEvent());
 						if (Event) {
-							string title(Event->Title() ? Event->Title() : "");
-							string channel_name(Channel->Name());
-							string short_description(Event->ShortText() ? Event->ShortText() : "");
-							string description(Event->Description() ? Event->Description() : "");
-							string start(Event->StartTime() ? FormatDateTime(tr("%I:%M %p"), Event->StartTime()) : "");
-							string end(Event->EndTime() ? FormatDateTime(tr("%I:%M %p"), Event->EndTime()) : "");
+							std::string evntId("eventId_");
+							evntId += lexical_cast<std::string, int>(++evntNr);
+							EpgEventPtr epgEvent(new EpgEvent(evntId, Event, Channel->Name()));
+							epgEvents.push_back(epgEvent);
 							tChannelID channel_id(Channel->GetChannelID());
 							tEventID event = Event->EventID();
 
 							bool truncated = false;
-							description = StringWordTruncate(description, 250, truncated);
-							if (truncated) {
-								description += string(" ") + tr("more") + string(" ...");
-							}
+							string description(StringWordTruncate(epgEvent->LongDescr(), 250, truncated));
 }>
 			<div class="event">
 				<div class="station">
-					<div><div><div><$ channel_name $></div></div></div>
+					<div><div><div><$ (epgEvent->ChannelName()) $></div></div></div>
 				</div>
 				<div class="content">
 					<div class="tools">
 						<& pageelems.event_timer channelid=(channel_id) eventid=(event) &>
-						<& pageelems.ajax_action_href action="switch_channel" param=(channel_id) image="zap.png" alt="" &>
+%							if (type == "now") {
+						<& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channel_id) image="zap.png" alt="" &>
+%							}
 					</div>
 				 	<div>
-						<div class="info"><$ start $> - <$ end $></div>
-						<div class="title"><$ title $></div>
-						<div class="short"><$ short_description $></div>
-						<div class="description">
-							<{ reply.out() << StringEscapeAndBreak( description ); }>
-						</div>
+						<div class="info"><$ (epgEvent->StartTime(tr("%I:%M %p"))) $> - <$ (epgEvent->EndTime(tr("%I:%M %p"))) $></div>
+						<div class="title"><$ (epgEvent->Title()) $></div>
+						<div class="short"><$ (epgEvent->ShortDescr()) $></div>
+						<div class="description"<& tooltip.hint text=(StringEscapeAndBreak(description) + string("<br />") + string(tr("Click to view details."))) &><& tooltip.display domId=(epgEvent->Id()) &>><$ (string(tr("more")) + string(" ...")) $></div>
 				 	</div>
 				</div>
 			</div>
-
 
 <{
 					}
@@ -94,6 +92,19 @@ if (type == "now") {
 	}
 }>
 		</div>
+
+		<div class="epg_data" style="display: none;">
+<{
+	// create hidden div for the tooltip hints.
+	for (vector<EpgEventPtr>::iterator i = epgEvents.begin(); i != epgEvents.end(); ++i) {
+		EpgEventPtr epg = *i;
+}>
+		<& pageelems.epg_tt_box boxId=(epg->Id()) caption=(epg->ChannelName()) time=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) short_descr=(epg->ShortDescr()) long_descr=(epg->LongDescr()) &>
+<{
+	}
+}>
+		</div>
+
 	</body>
 </html>
 <%include>page_exit.eh</%include>
