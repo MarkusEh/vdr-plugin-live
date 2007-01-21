@@ -34,6 +34,15 @@ all: libpages.a
 %.cpp: %.ecpp
 	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CPP) $<
 
+# Dependencies:
+
+MAKEDEP = $(CXX) -MM -MG
+DEPFILE = .dependencies
+$(DEPFILE): Makefile $(OBJS:%.o=%.cpp)
+	@$(MAKEDEP) $(DEFINES) $(INCLUDES) $(OBJS:%.o=%.cpp) > $@
+
+-include $(DEPFILE)
+
 ### Targets:
 
 libpages.a: $(OBJS)
