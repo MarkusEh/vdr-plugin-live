@@ -67,7 +67,7 @@ using namespace vdrlive;
 		</div>
 		<div class="epg_content">
 			<div class="epg_tools">
-		 		<& (tools_comp) &>
+		 		<& (tools_comp) id=(boxId) &>
 			</div>
 		 	<div>
 				<div class="info"><$ (time) $></div>

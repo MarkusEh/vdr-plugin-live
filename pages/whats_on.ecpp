@@ -66,7 +66,7 @@ if (type == "now") {
 }>
 			<div class="event">
 				<div class="station">
-					<div><div><div><$ (epgEvent->ChannelName()) $></div></div></div>
+					<div><div><div><$ (epgEvent->Caption()) $></div></div></div>
 				</div>
 				<div class="content">
 					<div class="tools">
@@ -93,14 +93,13 @@ if (type == "now") {
 	}
 }>
 		</div>
-
 		<div class="epg_data" style="display: none;">
 <{
 	// create hidden div for the tooltip hints.
 	for (vector<EpgEventPtr>::iterator i = epgEvents.begin(); i != epgEvents.end(); ++i) {
 		EpgEventPtr epg = *i;
 }>
-		<& pageelems.epg_tt_box boxId=(epg->Id()) caption=(epg->ChannelName()) time=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) short_descr=(epg->ShortDescr()) long_descr=(epg->LongDescr()) &>
+		<& pageelems.epg_tt_box boxId=(epg->Id()) caption=(epg->Caption()) time=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) short_descr=(epg->ShortDescr()) long_descr=(epg->LongDescr()) &>
 <{
 	}
 }>

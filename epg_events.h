@@ -19,32 +19,42 @@ namespace vdrlive
 	class EpgEvent
 	{
 		public:
-			EpgEvent(const std::string& id, const cEvent* event, const char* channelName = "");
+			EpgEvent(const std::string& id,
+					 const std::string& caption,
+					 const std::string& title,
+					 const std::string& short_descr,
+					 const std::string& long_descr,
+					 time_t start_time,
+					 time_t end_time);
+
+			EpgEvent(const std::string& id,
+					 const cEvent* event,
+					 const char* channelName = "");
 
 			virtual ~EpgEvent();
 
-			const std::string& Id() const { return eventId; }
+			const std::string& Id() const { return m_eventId; }
 
-			const std::string& Title() const { return title; }
+			const std::string& Title() const { return m_title; }
 
-			const std::string& ChannelName() const { return channel_name; }
+			const std::string& Caption() const { return m_caption; }
 
-			const std::string& ShortDescr() const { return short_descr; }
+			const std::string& ShortDescr() const { return m_short_descr; }
 
-			const std::string& LongDescr() const { return long_descr; }
+			const std::string& LongDescr() const { return m_long_descr; }
 
 			const std::string StartTime(const char* format) const;
 
 			const std::string EndTime(const char* format) const;
 
 		private:
-			std::string eventId;
-			std::string title;
-			std::string channel_name;
-			std::string short_descr;
-			std::string long_descr;
-			time_t start_time;
-			time_t end_time;
+			std::string m_eventId;
+			std::string m_caption;
+			std::string m_title;
+			std::string m_short_descr;
+			std::string m_long_descr;
+			time_t m_start_time;
+			time_t m_end_time;
 	};
 
 	typedef boost::shared_ptr<EpgEvent> EpgEventPtr;

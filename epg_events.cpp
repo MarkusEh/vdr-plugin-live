@@ -4,14 +4,31 @@
 
 namespace vdrlive
 {
+	EpgEvent::EpgEvent(const std::string& id,
+					   const std::string& caption,
+					   const std::string& title,
+					   const std::string& short_descr,
+					   const std::string& long_descr,
+					   time_t start_time,
+					   time_t end_time) :
+		m_eventId(id),
+		m_caption(caption),
+		m_title(title),
+		m_short_descr(short_descr),
+		m_long_descr(long_descr),
+		m_start_time(start_time),
+		m_end_time(end_time)
+	{
+	}
+
 	EpgEvent::EpgEvent(const std::string& id, const cEvent* event, const char* channelName) :
-		eventId(id),
-		title(event->Title() ? event->Title() : ""),
-		channel_name(channelName),
-		short_descr(event->ShortText() ? event->ShortText() : ""),
-		long_descr(event->Description() ? event->Description() : ""),
-		start_time(event->StartTime()),
-		end_time(event->EndTime())
+		m_eventId(id),
+		m_caption(channelName),
+		m_title(event->Title() ? event->Title() : ""),
+		m_short_descr(event->ShortText() ? event->ShortText() : ""),
+		m_long_descr(event->Description() ? event->Description() : ""),
+		m_start_time(event->StartTime()),
+		m_end_time(event->EndTime())
 	{
 	}
 
@@ -21,12 +38,12 @@ namespace vdrlive
 
 	const std::string EpgEvent::StartTime(const char* format) const
 	{
-		return FormatDateTime(format, start_time);
+		return FormatDateTime(format, m_start_time);
 	}
 
 	const std::string EpgEvent::EndTime(const char* format) const
 	{
-		return FormatDateTime(format, end_time);
+		return FormatDateTime(format, m_end_time);
 	}
 
 	EpgEvents::EpgEvents() :

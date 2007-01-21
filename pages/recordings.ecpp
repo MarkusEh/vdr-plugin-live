@@ -1,18 +1,22 @@
 <%pre>
 #include <vdr/plugin.h>
 #include <vdr/config.h>
+
 #include "exception.h"
 #include "tools.h"
+#include "epg_events.h"
+
 #include "recordings.h"
 
 using namespace vdrlive;
+using namespace std;
 
 </%pre>
 <%args>
 </%args>
 <%request scope="page">
 RecordingsTree recordingsTree(LiveRecordingsManager());
-RecordingsTree::RecordingsItemPtr currRecItem;
+EpgEvents epgEvents;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
@@ -69,16 +73,16 @@ RecordingsTree::Map::iterator end = recordingsTree.end(path);
 <{
 for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 	RecordingsTree::RecordingsItemPtr recItem = iter->second;
-	std::string folderimg("folder_closed.png");
-	std::string collapseimg("plus.png");
+	string folderimg("folder_closed.png");
+	string collapseimg("plus.png");
 	if (recItem->IsDir()) {
-		reply.out() << std::string("\t\t\t")
-			+ std::string("<div class=\"recording_item\" onclick=\"Toggle(this)\">\n")
-			+ std::string("\t\t\t<div class=\"recording_imgs\">")
+		reply.out() << string("\t\t\t")
+			+ string("<div class=\"recording_item\" onclick=\"Toggle(this)\">\n")
+			+ string("\t\t\t<div class=\"recording_imgs\">")
 			+ StringRepeat(level, "<img src=\"transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />")
-			+ std::string("<img class=\"recording_expander\" src=\"") + collapseimg + std::string("\" alt=\"\" />")
-			+ std::string("<img class=\"recording_folder\" src=\"") + folderimg + std::string("\" alt=\"\" />")
-			+ std::string("</div>");
+			+ string("<img class=\"recording_expander\" src=\"") + collapseimg + string("\" alt=\"\" />")
+			+ string("<img class=\"recording_folder\" src=\"") + folderimg + string("\" alt=\"\" />")
+			+ string("</div>");
 }>
 			<div class="recording_name"><$ recItem->Name() $></div>
 			<div class="recording_actions">&nbsp;</div>
@@ -89,28 +93,37 @@ for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 			recItemParams.add("path", *i);
 		}
 		recItemParams.add("path", recItem->Name());
-		recItemParams.add("level", lexical_cast<std::string, int>(level + 1));
+		recItemParams.add("level", lexical_cast<string, int>(level + 1));
 		callComp("recordings.recordings_item", request, reply, recItemParams);
 	}
 }
 for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 	RecordingsTree::RecordingsItemPtr recItem = iter->second;
-	std::string folderimg("folder_closed.png");
-	std::string collapseimg("plus.png");
+	string folderimg("folder_closed.png");
+	string collapseimg("plus.png");
     if (!recItem->IsDir()) {
-		currRecItem = recItem;
-		std::string day(FormatDateTime("%a,", recItem->StartTime()));
-		std::string dayLen(lexical_cast<std::string, int>(day.length() - 1) + ".25em;");
-		reply.out() << std::string("\t\t\t")
-			+ std::string("<div class=\"recording_item\">\n")
-			+ std::string("\t\t\t<div class=\"recording_imgs\">")
-			+ StringRepeat(level, "<img src=\"transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />")
-			+ std::string("<img src=\"transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />")
-			+ std::string("<img src=\"movie.png\" alt=\"movie\" />")
-			+ std::string("</div>");
-
 		const cRecordingInfo* info = recItem->RecInfo();
-		std::string shortDescr(tr("Click to view details.")); if (info && info->ShortText()) shortDescr = (std::string("") +  info->ShortText() + std::string("<br />") + shortDescr);
+		if (info) {
+			EpgEventPtr epgEvent(new EpgEvent(recItem->Id(),
+											  recItem->Name(),
+											  info->Title() ? info->Title() : recItem->Name(),
+											  info->ShortText() ? info->ShortText() : "",
+											  info->Description() ? info->Description() : "",
+											  recItem->StartTime(),
+											  recItem->StartTime()));
+			epgEvents.push_back(epgEvent);
+		}
+		string day(FormatDateTime("%a,", recItem->StartTime()));
+		string dayLen(lexical_cast<string, int>(day.length() - 1) + ".25em;");
+		reply.out() << string("\t\t\t")
+			+ string("<div class=\"recording_item\">\n")
+			+ string("\t\t\t<div class=\"recording_imgs\">")
+			+ StringRepeat(level, "<img src=\"transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />")
+			+ string("<img src=\"transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />")
+			+ string("<img src=\"movie.png\" alt=\"movie\" />")
+			+ string("</div>");
+
+		string shortDescr(tr("Click to view details.")); if (info && info->ShortText()) shortDescr = (string("") +  info->ShortText() + string("<br />") + shortDescr);
 }>
 			<div class="recording_day" style="width: <$ dayLen $>"><$ day $></div>
 			<div class="recording_date"><$ FormatDateTime(tr("%b %d %y"), recItem->StartTime()) $></div>
@@ -130,45 +143,26 @@ for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 	</ul>
 </%def>
 
-<%def recordings_data>
-<%args>
-path[];
-int level = 0;
-</%args>
-<{
-RecordingsTree::Map::iterator iter;
-RecordingsTree::Map::iterator end = recordingsTree.end(path);
 
-for (iter = recordingsTree.begin(path); iter != end; ++iter) {
-	RecordingsTree::RecordingsItemPtr recItem = iter->second;
-	if (recItem->IsDir()) {
-		cxxtools::QueryParams recItemParams(qparam, false);
-		for (path_type::const_iterator i = path.begin(); i != path.end(); ++i) {
-			recItemParams.add("path", *i);
-		}
-		recItemParams.add("path", recItem->Name());
-		recItemParams.add("level", lexical_cast<std::string, int>(level + 1));
-		callComp("recordings.recordings_data", request, reply, recItemParams);
-	}
-	else {
-		currRecItem = recItem;
-		const cRecordingInfo* info = recItem->RecInfo();
-		if (info) {
-			std::string start(FormatDateTime("%a,", recItem->StartTime()) + std::string(" ")
-				+ FormatDateTime(tr("%b %d %y"), recItem->StartTime()) + std::string(" ")
-				+ FormatDateTime(tr("%I:%M %p"), recItem->StartTime()));
-			std::string title(recItem->Name()); if (info->Title()) title = info->Title();
-			std::string shortDescr;				if (info->ShortText()) shortDescr = info->ShortText();
-			std::string longDescr;				if (info->Description()) longDescr = info->Description();
-}>
-			<& pageelems.epg_tt_box boxId=(recItem->Id()) caption=(recItem->Name()) tools_comp=("recordings.rec_tools") time=(start) title=(title) short_descr=(shortDescr) long_descr=(longDescr) &>
+<%def recordings_data>
 <{
-		}
+
+	// create hidden div for the tooltip hints.
+	for (vector<EpgEventPtr>::iterator i = epgEvents.begin(); i != epgEvents.end(); ++i) {
+		EpgEventPtr epg = *i;
+		string start(epg->StartTime("%a,") + string(" ")
+				+ epg->StartTime(tr("%b %d %y")) + string(" ")
+				+ epg->StartTime(tr("%I:%M %p")));
+}>
+		<& pageelems.epg_tt_box boxId=(epg->Id()) caption=(epg->Caption()) tools_comp=("recordings.rec_tools") time=(start) title=(epg->Title()) short_descr=(epg->ShortDescr()) long_descr=(epg->LongDescr()) &>
+<{
 	}
-}
 }>
 </%def>
 
 <%def rec_tools>
-<& pageelems.ajax_action_href action="play_recording" param=(currRecItem->Id()) image="play.png" alt="" &>
+<%args>
+	string id;
+</%args>
+<& pageelems.ajax_action_href action="play_recording" param=(id) image="play.png" alt="" &>
 </%def>
