@@ -35,7 +35,7 @@ if (type == "now") {
 	<head>
 		<title>VDR-Live - <$ head $></title>
 		<link rel="stylesheet" type="text/css" href="styles.css" />
-		<& tooltip.javascript  var=("domTT_oneOnly") value=("true") var=("domTT_styleClass") value=("domTTepg") &>
+		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 	</head>
 	<body>

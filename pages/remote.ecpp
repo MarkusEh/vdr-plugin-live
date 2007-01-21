@@ -7,7 +7,7 @@ using namespace vdrlive;
 </%pre>
 <%include>page_init.eh</%include>
 <%cpp>
-	pageTitle = tr("Remote control");
+	pageTitle = tr("Remote Control");
 </%cpp>
 <& pageelems.doc_type &>
 <html>

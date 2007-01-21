@@ -1,4 +1,4 @@
-/** $Id: domTT.js,v 1.1 2007/01/04 22:29:18 thomas Exp $ */
+/** $Id: domTT.js,v 1.2 2007/01/21 21:23:02 tadi Exp $ */
 // {{{ license
 
 /*
@@ -589,6 +589,11 @@ function domTT_create(in_options)
 	{
 		if (in_options.get('position') == 'absolute' && domTT_dragEnabled && in_options.get('draggable'))
 		{
+			// inserted by tadi: begin
+			if (typeof(captionRow) == 'undefined') {
+				captionRow = tipObj;
+			}
+			// inserted by tadi: end
 			if (domLib_isIE)
 			{
 				captionRow.onselectstart = function() { return false; };

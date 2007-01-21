@@ -28,7 +28,7 @@ EpgEvents epgEvents;
 		<title>VDR-Live - <$ pageTitle $></title>
 		<link rel="stylesheet" type="text/css" href="styles.css" />
 		<script type="text/javascript" language="javascript" src="treeview.js"></script>
-		<& tooltip.javascript var=("domTT_oneOnly") value=("true") var=("domTT_styleClass") value=("domTTepg") &>
+		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 	</head>
 	<body>
@@ -130,7 +130,7 @@ for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 			<div class="recording_time"><$ FormatDateTime(tr("%I:%M %p"), recItem->StartTime()) $></div>
 			<div class="recording_name" <& tooltip.hint text=(shortDescr) &><& tooltip.display domId=(recItem->Id()) &>><$ recItem->Name() $></div>
 			<div class="recording_actions">
-				 <& pageelems.ajax_action_href action="play_recording" param=(recItem->Id()) image="play.png" alt="" &>
+				 <& pageelems.ajax_action_href action="play_recording" param=(recItem->Id()) tip=(tr("play this recording.")) image="play.png" alt="" &>
 				 <img src="edit.png" alt="" />
 				 <img src="del.png" alt="" />
 			</div>
@@ -164,5 +164,5 @@ for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 <%args>
 	string id;
 </%args>
-<& pageelems.ajax_action_href action="play_recording" param=(id) image="play.png" alt="" &>
+<& pageelems.ajax_action_href action="play_recording" param=(id) tip=(tr("play this recording.")) image="play.png" alt="" &>
 </%def>

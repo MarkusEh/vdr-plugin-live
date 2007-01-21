@@ -6,6 +6,7 @@ value[];
 </%args>
     <script type="text/javascript" language="javascript" src="domLib.js"></script>
     <script type="text/javascript" language="javascript" src="domTT.js"></script>
+    <script type="text/javascript" language="javascript" src="domTT_drag.js"></script>
     <script type="text/javascript" language="javascript">
 	var domTT_styleClass = "<$ styleClass $>";
 %   int idx = 0;
@@ -36,7 +37,7 @@ domId;
 <%args>
 domId;
 </%args>
- onclick="return makeFalse(domTT_activate(this, event, 'predefined', 'tipDisp', 'content', document.getElementById('<$ domId $>'), 'id', '<$ (domId + "_tip") $>'));"
+ onclick="domTT_close(domTT_lastOpened); return makeFalse(domTT_activate(this, event, 'predefined', 'tipDisp', 'content', document.getElementById('<$ domId $>'), 'id', '<$ (domId + "_tip") $>'));"
 </%def>
 
 <%def close>
