@@ -20,7 +20,6 @@
 		</div>
 		<div class="right_area">
 		<div class="inhalt">
-			<& pageelems.header_box content=(pageTitle) &>
 			<& error.error_widget errorTitle=(errorTitle) errorMessage=(errorMessage) &>
 		</div>
 		</div>
