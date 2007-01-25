@@ -44,7 +44,7 @@ using namespace vdrlive;
 					<td><button type="button" class="smallbutton" onclick="location.href='edit_searchtimer.html?timerid=<$ timer->Id() $>';"><$ tr("Edit") $></button></td>
 					<td><img src="/<$ timer->UseAsSearchTimer() ? "active" : "inactive" $>.png" alt="Aktiv?" /></td>
 					<td><$ timer->Search() $></td>
-					<td><$ timer->UseChannel() ? *timer->ChannelMin().ToString() : "&nbsp;" $></td>
+					<td><? timer->UseChannel() ? *timer->ChannelMin().ToString() ?></td>
 					<td><? timer->UseTime() ? timer->StartTime() ?></td>
 					<td><? timer->UseTime() ? timer->StopTime() ?></td>
 					<td>&nbsp;</td>
