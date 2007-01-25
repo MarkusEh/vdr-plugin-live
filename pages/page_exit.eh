@@ -1,7 +1,10 @@
 <# do not add to Makefile #>
+<%pre>
+#include "exception.h"
+</%pre>
 <%cpp>
 	spoint.commit();
-} catch ( HtmlError const& ex ) {
+} catch ( vdrlive::HtmlError const& ex ) {
 	cxxtools::QueryParams param = qparam;
 	param.add( "pageTitle", pageTitle );
 	param.add( "errorMessage", ex.what() );
