@@ -1,0 +1,62 @@
+<%pre>
+#include <vdr/i18n.h>
+#include "epgsearch.h"
+#include "tools.h"
+
+using namespace vdrlive;
+
+</%pre>
+<%include>page_init.eh</%include>
+<%cpp>
+	pageTitle = tr("Searchtimers");
+
+	SearchTimers timers;
+</%cpp>
+<& pageelems.doc_type &>
+<html>
+	<head>
+		<title>VDR-Live - <$ pageTitle $></title>
+		<link rel="stylesheet" type="text/css" href="/styles.css" />
+	</head>
+	<body>
+		<& pageelems.logo &>
+		<& menu active=("searchtimers") &>
+		<div class="inhalt">
+%			if (timers.size() == 0) {
+				Keiner Suchtimer definiert
+%			} else {
+			<table class="timers" cellspacing="0" cellpadding="0">
+				<tr>
+					<td class="head">&nbsp;</td>
+					<td class="head"><$ tr("Active") $></td>
+					<td class="head"><$ tr("Expression") $></td>
+					<td class="head"><$ tr("Channel") $></td>
+					<td class="head"><$ tr("Start") $></td>
+					<td class="head"><$ tr("Stop") $></td>
+					<td class="head">&nbsp;</td>
+					<td class="head">&nbsp;</td>
+				</tr>
+<{
+				bool active = false;
+				for (SearchTimers::iterator timer = timers.begin(); timer != timers.end(); ++timer) {
+}>
+				<tr class="<$ active ? "active" : "" $>">
+					<td><button type="button" class="smallbutton" onclick="location.href='edit_searchtimer.html?timerid=<$ timer->Id() $>';"><$ tr("Edit") $></button></td>
+					<td><img src="/<$ timer->UseAsSearchTimer() ? "active" : "inactive" $>.png" alt="Aktiv?" /></td>
+					<td><$ timer->Search() $></td>
+					<td><$ timer->UseChannel() ? *timer->ChannelMin().ToString() : "&nbsp;" $></td>
+					<td><? timer->UseTime() ? timer->StartTime() ?></td>
+					<td><? timer->UseTime() ? timer->StopTime() ?></td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+<{
+					active = !active;
+				}
+			}
+}>
+			</table>
+		</div>
+	</body>
+</html>
+<%include>page_exit.eh</%include>

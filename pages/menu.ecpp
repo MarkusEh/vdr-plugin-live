@@ -20,6 +20,7 @@ std::string set_component;
 	<a href="whats_on.html?type=next" <& menu.setactive current=("next") &>><$ tr("What's on next?") $></a> <& menu.component current=("next") &> |
 	<a href="schedule.html" <& menu.setactive current=("schedule") &>><$ tr("Schedule") $></a> <& menu.component current=("schedule") &> |
 	<a href="timers.html" <& menu.setactive current=("timers") &>><$ tr("Timers") $></a> <& menu.component current=("timers") &> |
+	<a href="searchtimers.html" <& menu.setactive current=("searchtimers") &>><$ tr("Searchtimers") $></a> <& menu.component current=("searchtimers") &> |
 	<a href="recordings.html" <& menu.setactive current=("recordings") &>><$ tr("Recordings") $></a> <& menu.component current=("recordings") &> |
 	<a href="remote.html" <& menu.setactive current=("remote") &>><$ tr("Remote Control") $></a> <& menu.component current=("remote") &>
 </div>
