@@ -19,8 +19,8 @@ OBJS	= logo.o record.o active.o inactive.o button_blue.o	\
 	  transparent.o	edit.o del.o play.o close.o		\
 	  bg_header_h.o bg_header_l.o bg_header_r.o		\
 	  bg_box_h.o  bg_box_l.o  bg_box_r.o			\
-	  movie.o menu_line_bg.o bg_line.o bg_tools.o   \
-	  zap.o
+	  movie.o menu_line_bg.o bg_line.o bg_tools.o   	\
+	  zap.o favicon.o
 
 ### Default rules:
 
@@ -35,6 +35,9 @@ all: libimages.a
 
 %.cpp: %.png
 	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CSS) -b -m "image/png" $<
+
+%.cpp: %.ico
+	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CSS) -b -m "image/x-icon" $<
 
 ### Targets:
 
