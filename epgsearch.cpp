@@ -1,4 +1,5 @@
 #include <vector>
+#include <vdr/channels.h>
 #include <vdr/plugin.h>
 #include "epgsearch/services.h"
 #include "epgsearch.h"
@@ -71,8 +72,10 @@ SearchTimer::SearchTimer( string const& data ):
 void SearchTimer::ParseChannel( string const& data )
 {
 	switch ( m_useChannel ) {
+	case NoChannel: m_channels = tr("All"); break;
 	case Interval: ParseChannelIDs( data ); break;
-	case Group: m_channelGroup = data; break;
+	case Group: m_channels = data; break;
+	case FTAOnly: m_channels = tr("FTA"); break;
 	}
 }
 
@@ -80,8 +83,19 @@ void SearchTimer::ParseChannelIDs( string const& data )
 {
 	vector< string > parts = StringSplit( data, '|' );
 	m_channelMin = lexical_cast< tChannelID >( parts[ 0 ] );
-	if ( parts.size() == 2 )
-		m_channelMax = lexical_cast< tChannelID >( parts[ 1 ] );
+
+	cChannel const* channel = Channels.GetByChannelID( m_channelMin );
+	if ( channel != 0 )
+		m_channels = channel->Name();
+
+	if ( parts.size() < 2 )
+		return;
+
+	m_channelMax = lexical_cast< tChannelID >( parts[ 1 ] );
+
+	channel = Channels.GetByChannelID( m_channelMax );
+	if ( channel != 0 )
+		m_channels += string( " - " ) + channel->Name();
 }
 
 SearchTimers::SearchTimers()
@@ -90,6 +104,7 @@ SearchTimers::SearchTimers()
 	if ( cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
 		throw HtmlError( tr("No searchtimers available") );
 
+	ReadLock channelsLock( Channels, 0 );
 	list< string > timers = service.handler->SearchTimerList();
 	m_timers.assign( timers.begin(), timers.end() );
 }

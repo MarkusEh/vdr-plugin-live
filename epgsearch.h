@@ -14,7 +14,7 @@ bool operator<( SearchTimer const& left, SearchTimer const& right );
 class SearchTimer
 {
 public:
-	enum UseChannel
+	enum eUseChannel
 	{
 		NoChannel = 0,
 		Interval = 1,
@@ -29,9 +29,8 @@ public:
 	bool UseTime() const { return m_useTime; }
 	int StartTime() const { return m_startTime; }
 	int StopTime() const { return m_stopTime; }
-	bool UseChannel() const { return m_useChannel; }
-	tChannelID const& ChannelMin() const { return m_channelMin; }
-	tChannelID const& ChannelMax() const { return m_channelMax; }
+	eUseChannel UseChannel() const { return static_cast< eUseChannel >( m_useChannel ); }
+	std::string ChannelText() const { return m_channels; }
 	bool UseAsSearchTimer() const { return m_useAsSearchTimer; }
 
 	friend bool operator<( SearchTimer const& left, SearchTimer const& right );
@@ -45,7 +44,7 @@ private:
 	int m_useChannel;
 	tChannelID m_channelMin;
 	tChannelID m_channelMax;
-	std::string m_channelGroup;
+	std::string m_channels;
 	bool m_useCase;
 	int m_mode;
 	bool m_useTitle;
