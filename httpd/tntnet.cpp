@@ -516,10 +516,10 @@ namespace tnt
   {
     log_debug("init workerprocess");
 
-    signal(SIGPIPE, SIG_IGN);
-    signal(SIGABRT, SIG_IGN);
-    signal(SIGTERM, sigEnd);
-    signal(SIGHUP, sigReload);
+    //signal(SIGPIPE, SIG_IGN);
+    //signal(SIGABRT, SIG_IGN);
+    //signal(SIGTERM, sigEnd);
+    //signal(SIGHUP, sigReload);
 
     configureDispatcher(d_dispatcher, config);
 
