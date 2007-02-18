@@ -64,12 +64,9 @@ using namespace vdrlive;
 		<title>VDR-Live - <$ pageTitle $></title>
 		<link rel="stylesheet" type="text/css" href="/styles.css" />
 	</head>
-	<body onload="StreamInit(); FillIntervals();">
-		<div class="left_area">
-			<& pageelems.logo &>
-			<& menu active="remote" &>
-		</div>
-	<div class="right_area"
+	<body onload="StreamInit(); FillIntervals()">
+		<& pageelems.logo &>
+		<& menu active="remote" &>
 		<div class="inhalt">
 			<div class="screenshot">
 				<img src="screenshot.jpg" name="vdrlive" /><br />
@@ -150,7 +147,6 @@ using namespace vdrlive;
 				</tr>
 			</table>
 		</div>
-	</div>
 	</body>
 </html>
 <%include>page_exit.eh</%include>

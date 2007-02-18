@@ -3,49 +3,71 @@
 namespace vdrlive {
 
 const tI18nPhrase Phrases[] = {
-  { "What's running at",
-    "Was läuft um",
-    "", // Slovenski
-    "", // Italiono
-    "", // Nederlands
-    "", // Português
-    "", // Français
-    "", // Norsk
-    "", // Finnish
-    "", // Polski
-    "", // Español
-    "", // Greek
-    "", // Svenska
-    "", // Românã
-    "", // Magyar
-    "", // Català
-    "", // Russian
-    "", // Hrvatski
-    "", // Eesti
-    "", // Dansk
-    "", //Czech
-  },
-	{ "%I:%M %p", // Time formatting string
-	  "%H:%M Uhr",
-	  "",
-	  "",
-	  "",
-	  "",
-	  "",
-	  "",
-	  "",
-	  "",
-	  "",
-	  "",
-	  "",
-	  "",
-	  "",
-	  "",
-	  "",
-	  "",
-	  "",
-	  "",
-	  "",
+	{ "What's running at",
+	  "Was läuft um",
+	  "", // Slovenski
+	  "", // Italiono
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	},
+	{ "%I:%M %p", // Time formatting string (Hour:Minute suffix)
+	  "%H:%M Uhr", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	},
+	{ "%I:%M:%S %p", // Time formatting string (Hour:Minute:Seconds suffix)
+	  "%H:%M:%S Uhr", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
 	},
 	{ "%a, %b %d", // English
 	  "%a, %d.%m.", // Deutsch
@@ -67,7 +89,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "%A, %b %d %Y", // English
 	  "%A, %d.%m.%Y", // Deutsch
@@ -89,7 +111,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "%b %d %y", // English
 	  "%d.%m.%y", // Deutsch
@@ -111,7 +133,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "Date", // English
 	  "Datum", // Deutsch
@@ -133,7 +155,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "Time", // English
 	  "Zeit", // Deutsch
@@ -155,7 +177,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "Recordings", // English
 	  "Aufnahmen", // Deutsch
@@ -177,7 +199,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "Remote Control", // English
 	  "Fernbedienung", // Deutsch
@@ -199,7 +221,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "Interval:", // English
 	  "Intervall:", // Deutsch
@@ -221,7 +243,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "Save", // English
 	  "Speichern", // Deutsch
@@ -243,7 +265,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "Menu", // English
 	  "Menü", // Deutsch
@@ -265,7 +287,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "Back", // English
 	  "Zurück", // Deutsch
@@ -287,7 +309,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "Ok", // English
 	  "Ok", // Deutsch
@@ -309,7 +331,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "Vol+", // English
 	  "Laut+", // Deutsch
@@ -331,7 +353,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "Vol-", // English
 	  "Laut-", // Deutsch
@@ -353,7 +375,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "Mute", // English
 	  "Stumm", // Deutsch
@@ -375,7 +397,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "New timer", // English
 	  "Neuer Timer", // Deutsch
@@ -397,7 +419,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "Edit", // English
 	  "Ändern", // Deutsch
@@ -419,7 +441,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "Weekday", // English
 	  "Wochentag", // Deutsch
@@ -441,7 +463,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "Use VPS", // English
 	  "VPS verwenden", // Deutsch
@@ -463,7 +485,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "Monday", // English
 	  "Montag", // Deutsch
@@ -485,7 +507,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "Tuesday", // English
 	  "Dienstag", // Deutsch
@@ -507,7 +529,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "Wednesday", // English
 	  "Mittwoch", // Deutsch
@@ -529,7 +551,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "Thursday", // English
 	  "Donnerstag", // Deutsch
@@ -551,7 +573,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "Friday", // English
 	  "Freitag", // Deutsch
@@ -573,7 +595,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "Saturday", // English
 	  "Samstag", // Deutsch
@@ -595,7 +617,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "Sunday", // English
 	  "Sonntag", // Deutsch
@@ -617,7 +639,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "Yes", // English
 	  "Ja", // Deutsch
@@ -639,7 +661,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "No", // English
 	  "Nein", // Deutsch
@@ -661,7 +683,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "Record this", // English
 	  "Diese Sendung aufnehmen", // Deutsch
@@ -683,7 +705,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "Click to view details.", // English
 	  "Für Details klicken.", // Deutsch
@@ -705,7 +727,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "more", // English
 	  "mehr", // Deutsch
@@ -727,7 +749,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "Switch to this channel.", // English
 	  "Zu diesem Kanal umschalten.", // Deutsch
@@ -749,7 +771,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	{ "play this recording.", // English
 	  "Diese Aufnahme abspielen.", // Deutsch
@@ -771,7 +793,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 
 	/*
@@ -795,7 +817,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Hrvatski
 	  "", // Eesti
 	  "", // Dansk
-	  "", //Czech
+	  "", // Czech
 	},
 	*/
 	{ 0 },

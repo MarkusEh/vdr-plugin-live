@@ -17,7 +17,21 @@ using namespace vdrlive;
 <# ---------------------------------------------------------------------- #>
 
 <%def logo>
-<img src="logo.png" alt="VDR Live!" class="logo"/>
+<div class="page_header">
+	<img src="logo.png" alt="VDR Live!" class="logo"/>
+	<div id="infobox">
+	</div>
+</div>
+<div style="clear: both"></div>
+</%def>
+
+<# ---------------------------------------------------------------------- #>
+
+<%def progressbar>
+<%args>
+	string progress;
+</%args>
+<div class="__progress"><div class="__elapsed" style="width: <$ progress $>px"></div></div>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -60,6 +74,7 @@ using namespace vdrlive;
 	string title;
 	string short_descr;
 	string long_descr;
+	int elapsed = -1;
 </%args>
 	<div class="epg_description" id="<$ (boxId) $>">
 		<div class="station">
@@ -71,12 +86,44 @@ using namespace vdrlive;
 			</div>
 		 	<div>
 				<div class="info"><$ (time) $></div>
+%	if (elapsed >= 0) {
+				<div class="progress"><div><& pageelems.progressbar progress=(elapsed) &></div></div>
+%	}
 		 		<div class="title"><$ (title) $></div>
 				<div class="short"><$ (short_descr) $></div>
 				<div class="description">
 					<{ reply.out() << StringEscapeAndBreak(long_descr); }>
 				</div>
 			</div>
+		</div>
+	</div>
+</%def>
+
+<# ---------------------------------------------------------------------- #>
+
+<%def status_box>
+<%args>
+	string type;
+	string currentTime;
+	string caption;
+	string title;
+	string duration;
+	int elapsed;
+</%args>
+	<div class="statuscontent">
+		<div class="st_header">
+			<div class="caption"><$ caption $></div>
+			<div class="now">&nbsp;<$ currentTime $></div>
+		</div>
+		<div class="st_content">
+			<div class="name"><$ title $></div>
+			<div class="duration">&nbsp;<$ duration $></div>
+		</div>
+		<div class="st_controls">
+			<div class="buttons">&nbsp;</div>
+%			if (elapsed >= 0) {
+			<div class="progress"><& pageelems.progressbar progress=(elapsed) &></div>
+%			}
 		</div>
 	</div>
 </%def>

@@ -46,8 +46,9 @@ using namespace vdrlive;
 	<head>
 		<title>VDR Live - <$ pageTitle $></title>
 		<link rel="stylesheet" type="text/css" href="styles.css" />
+		<& pageelems.ajax_js &>
 	</head>
-	<body>
+	<body onload="LiveStatusAjaxRequest('infobox.html', 'infobox')">
 		<& pageelems.logo &>
 		<& menu active=("schedule") component=("schedule.channel_selection")>
 		<div class="inhalt">

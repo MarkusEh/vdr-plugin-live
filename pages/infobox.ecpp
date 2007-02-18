@@ -1,0 +1,72 @@
+<%pre>
+#include <vdr/plugin.h>
+#include <vdr/config.h>
+#include <vdr/recording.h>
+#include <vdr/channels.h>
+#include <vdr/menu.h>
+#include <vdr/device.h>
+
+#include "exception.h"
+#include "tools.h"
+#include "epg_events.h"
+
+using namespace vdrlive;
+using namespace std;
+
+</%pre>
+<%include>page_init.eh</%include>
+<{
+	EpgEvents epgEvents;
+
+	if (cReplayControl::NowReplaying()) {
+		cThreadLock RecordingsLock(&Recordings);
+		cRecording *Recording = Recordings.GetByName(cReplayControl::NowReplaying());
+		if (Recording) {
+			const cRecordingInfo* info = Recording->Info();
+			if (info) {
+				EpgEventPtr epgEvent(new EpgEvent("recording",
+												  Recording->Name(),
+												  info->Title() ? info->Title() : Recording->Name(),
+												  info->ShortText() ? info->ShortText() : "",
+												  info->Description() ? info->Description() : "",
+												  Recording->start,
+												  Recording->start));
+				epgEvents.push_back(epgEvent);
+			}
+		}
+	}
+	else {
+		ReadLock channelsLock( Channels );
+		if (cDevice::CurrentChannel()) {
+			cChannel* Channel = Channels.GetByNumber(cDevice::CurrentChannel());
+			if (!Channel)
+				throw HtmlError("got invalid channel number!");
+			cSchedulesLock schedulesLock;
+			const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
+			const cSchedule *Schedule = Schedules->GetSchedule(Channel);
+			if (Schedule) {
+				const cEvent *Event = Schedule->GetPresentEvent();
+				if (Event) {
+					EpgEventPtr epgEvent(new EpgEvent("channel",
+													  Event,
+													  Channel->Name()));
+					epgEvents.push_back(epgEvent);
+				}
+			}
+		}
+	}
+	if (epgEvents.size() > 0) {
+		for (vector<EpgEventPtr>::iterator i = epgEvents.begin(); i != epgEvents.end(); ++i) {
+			EpgEventPtr epg = *i;
+}>
+		<& pageelems.status_box type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) &>
+<{
+		}
+	}
+	else {
+}>
+		No relevant information could be retrieved!
+<{
+	}
+}>
+<%include>page_exit.eh</%include>

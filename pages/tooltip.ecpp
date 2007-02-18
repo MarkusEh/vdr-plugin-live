@@ -44,5 +44,5 @@ domId;
 <%args>
 domId;
 </%args>
- <a href="#void" onclick="domTT_close('<$ (domId + "_tip") $>')"><img src="close.png" alt=""></a>
+ <a href="#void" onclick="domTT_close('<$ (domId + "_tip") $>')"><img src="close.png" alt="" /></a>
 </%def>

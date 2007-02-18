@@ -27,14 +27,14 @@ EpgEvents epgEvents;
 	<head>
 		<title>VDR-Live - <$ pageTitle $></title>
 		<link rel="stylesheet" type="text/css" href="styles.css" />
-		<script type="text/javascript" language="javascript" src="treeview.js"></script>
 		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
+		<script type="text/javascript" language="javascript" src="treeview.js"></script>
 	</head>
-	<body>
+	<body onload="LiveStatusAjaxRequest('infobox.html', 'infobox')">
 		<& pageelems.logo &>
 		<& menu active=("recordings") &>
-	<div class="inhalt">
+		<div class="inhalt">
 %			if (Recordings.Count() == 0) {
 				Keine Aufnahmen vorhanden
 %			} else {
@@ -154,7 +154,7 @@ for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 				+ epg->StartTime(tr("%b %d %y")) + string(" ")
 				+ epg->StartTime(tr("%I:%M %p")));
 }>
-		<& pageelems.epg_tt_box boxId=(epg->Id()) caption=(epg->Caption()) tools_comp=("recordings.rec_tools") time=(start) title=(epg->Title()) short_descr=(epg->ShortDescr()) long_descr=(epg->LongDescr()) &>
+		<& pageelems.epg_tt_box boxId=(epg->Id()) caption=(epg->Caption()) tools_comp=("recordings.rec_tools") time=(start) title=(epg->Title()) short_descr=(epg->ShortDescr()) long_descr=(epg->LongDescr()) elapsed=(epg->Elapsed()) &>
 <{
 	}
 }>

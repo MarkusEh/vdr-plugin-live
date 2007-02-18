@@ -10,7 +10,7 @@
 
 using namespace std;
 using namespace tnt;
-	
+
 istream& operator>>( istream& is, tChannelID& ret )
 {
 	if ( is.rdbuf()->in_avail() > 0 ) {
@@ -31,7 +31,7 @@ string FormatDateTime( char const* format, time_t time )
 		builder << "cannot represent timestamp " << time << " as local time";
 		throw runtime_error( builder.str() );
 	}
-	
+
 	char result[ 256 ];
 	if ( strftime( result, sizeof( result ), format, &tm_r ) == 0 ) {
 		ostringstream builder;

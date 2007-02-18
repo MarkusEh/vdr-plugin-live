@@ -1,3 +1,5 @@
+#include <time.h>
+
 #include "tools.h"
 
 #include "epg_events.h"
@@ -44,6 +46,22 @@ namespace vdrlive
 	const std::string EpgEvent::EndTime(const char* format) const
 	{
 		return FormatDateTime(format, m_end_time);
+	}
+
+	const std::string EpgEvent::CurrentTime(const char* format) const
+	{
+		return FormatDateTime(format, time(0));
+	}
+
+	int EpgEvent::Elapsed() const
+	{
+		if (m_end_time > m_start_time) {
+			time_t now = time(0);
+			if ((m_start_time <= now) && (now <= m_end_time)) {
+				return 100 * (now - m_start_time) / (m_end_time - m_start_time);
+			}
+		}
+		return -1;
 	}
 
 	EpgEvents::EpgEvents() :

@@ -38,7 +38,7 @@ if (type == "now") {
 		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 	</head>
-	<body>
+	<body onload="LiveStatusAjaxRequest('infobox.html', 'infobox')">
 		<& pageelems.logo &>
 		<& menu active=(type) &>
 		<div class="inhalt">
@@ -54,7 +54,7 @@ if (type == "now") {
 				if (Schedule) {
 					const cEvent *Event = (type == "now" ? Schedule->GetPresentEvent() : Schedule->GetFollowingEvent());
 						if (Event) {
-							std::string evntId("eventId_");
+							string evntId("eventId_");
 							evntId += lexical_cast<std::string, int>(++evntNr);
 							EpgEventPtr epgEvent(new EpgEvent(evntId, Event, Channel->Name()));
 							epgEvents.push_back(epgEvent);
@@ -81,10 +81,12 @@ if (type == "now") {
 						<div class="short"><$ (epgEvent->ShortDescr()) $></div>
 						<div class="description"><$ (StringWordTruncate(epgEvent->LongDescr(), 150, truncated)) $></div>
 						<div class="more"<& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), 300, truncated)) + string("<br />") + string(tr("Click to view details."))) &><& tooltip.display domId=(epgEvent->Id()) &>><$ (string(tr("more")) + string(" ...")) $></div>
+%							if (epgEvent->Elapsed() >= 0) {
+						<div class="progress"><div><& pageelems.progressbar progress=(epgEvent->Elapsed()) &></div></div>
+%							}
 				 	</div>
 				</div>
 			</div>
-
 <{
 					}
 				}
@@ -99,7 +101,7 @@ if (type == "now") {
 	for (vector<EpgEventPtr>::iterator i = epgEvents.begin(); i != epgEvents.end(); ++i) {
 		EpgEventPtr epg = *i;
 }>
-		<& pageelems.epg_tt_box boxId=(epg->Id()) caption=(epg->Caption()) time=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) short_descr=(epg->ShortDescr()) long_descr=(epg->LongDescr()) &>
+		<& pageelems.epg_tt_box boxId=(epg->Id()) caption=(epg->Caption()) time=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) short_descr=(epg->ShortDescr()) long_descr=(epg->LongDescr()) elapsed=(epg->Elapsed()) &>
 <{
 	}
 }>

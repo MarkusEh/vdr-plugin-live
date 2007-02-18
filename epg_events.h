@@ -47,6 +47,10 @@ namespace vdrlive
 
 			const std::string EndTime(const char* format) const;
 
+			const std::string CurrentTime(const char* format) const;
+
+			int Elapsed() const;
+
 		private:
 			std::string m_eventId;
 			std::string m_caption;

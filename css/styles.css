@@ -85,8 +85,12 @@ div.domTTepg {
 	vertical-align: top;
 }
 
+.domTTepg div.epg_content div div.progress div {
+	padding-left: 0px;
+}
+
 .domTTepg div.epg_content div div {
-	margin-left: 40px;
+	padding-left: 35px;
 }
 
 .domTTepg div.epg_content div.epg_tools img {
@@ -95,7 +99,6 @@ div.domTTepg {
 
 .domTTepg div.boxheader div div a {
 }
-
 
 /* #######################
    #  Menue
@@ -137,6 +140,70 @@ div.menu form {
 
 div.inhalt {
 	padding: 10px;
+}
+
+/* #######################
+   #  Info Box (near logo)
+   #######################
+*/
+img.logo {
+	float: left;
+	margin-top: 5px;
+	margin-left: 5px;
+	margin-right: 25px;
+}
+
+div#infobox {
+	float: left;
+	border: 1px solid #C0C1DA;
+	margin: 5px;
+	width: 300px;
+}
+
+div#infobox div.st_header {
+	overflow: hidden;
+	padding: 4px;
+	background: #E9EFFF;
+	border-bottom: 1px solid #C0C1DA;
+}
+
+div#infobox div.st_header div.now {
+	float: right;
+}
+
+div#infobox div.st_header div.caption {
+	float: left;
+	overflow: hidden;
+	font-weight: bold;
+}
+
+div#infobox div.st_content {
+	overflow: hidden;
+	padding: 4px;
+	background: white url('bg_line_top.png') top left repeat-x;
+}
+
+div#infobox div.st_content div.duration {
+	float: right;
+}
+
+div#infobox div.st_content div.name {
+	float: left;
+	overflow: hidden;
+	font-weight: bold;
+}
+
+div#infobox div.st_controls {
+	overflow: hidden;
+	padding: 4px;
+}
+
+div#infobox div.st_controls div.progress {
+	float: right;
+}
+
+div#infobox div.st_controls div.buttons {
+	float: left;
 }
 
 /* #######################
@@ -195,11 +262,11 @@ table td.buttonpanel {
 	text-align: right;
 }
 
-
 /* ################
    #  Event
    ################
 */
+
 div.event {
 	width: 255px;
 	height: 255px;
@@ -278,6 +345,16 @@ div.info {
 	padding: 5px;
 }
 
+div.progress {
+	overflow: hidden;
+	padding-right: 4px;
+}
+
+div.progress div {
+	float: right;
+	padding: 0px;
+}
+
 div.title {
 	font-weight: bold;
 	margin: 5px;
@@ -292,6 +369,19 @@ div.more {
 	margin: 5px;
 	font-weight: bold;
 	cursor: pointer;
+}
+
+div.__progress {
+	overflow: hidden;
+	width: 100px;
+	height: 8px;
+	border: 1px solid #C0C1DA;
+}
+
+div.__progress div.__elapsed {
+	float: left;
+	height: 8px;
+	background-color: #E9EFFF;
 }
 
 /* #############
@@ -386,7 +476,6 @@ div.boxheader div div {
 	height: 21px;
         line-height: 20px;
 }
-
 
 /*
   ##############################
