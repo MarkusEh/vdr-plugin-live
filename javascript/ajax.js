@@ -66,18 +66,3 @@ function LiveSimpleAjaxRequest(url, param, value)
 	xml.onerror = function(message) { alert(message); }
 	xml.request(param, value);
 };
-
-function LiveStatusAjaxRequest(url, containerid)
-{
-	var xml = new LiveAjaxCall("text", url);
-	xml.oncomplete = function()
-		{
-			document.getElementById(containerid).innerHTML = this.xml.responseText;
-			window.setTimeout("LiveStatusAjaxRequest('" + url + "', '" + containerid + "')", 1000);
-		}
-	xml.onerror = function(message)
-		{
-			document.getElementById(containerid).innerHTML = "<div>ERROR: " + message + "</div>";
-		}
-	xml.request("", "");
-}

@@ -157,12 +157,12 @@ div#infobox {
 	float: left;
 	border: 1px solid #C0C1DA;
 	margin: 5px;
-	width: 300px;
+	width: 320px;
 }
 
 div#infobox div.st_header {
 	overflow: hidden;
-	padding: 4px;
+	padding: 1px 4px;
 	background: #E9EFFF;
 	border-bottom: 1px solid #C0C1DA;
 }

@@ -48,6 +48,7 @@ using namespace vdrlive;
 
 <%def ajax_js>
 	<script type="text/javascript" language="javascript" src="ajax.js"></script>
+	<script type="text/javascript" language="javascript" src="vdr_status.js"></script>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -113,7 +114,7 @@ using namespace vdrlive;
 	<div class="statuscontent">
 		<div class="st_header">
 			<div class="caption"><$ caption $></div>
-			<div class="now">&nbsp;<$ currentTime $></div>
+			<div class="now">&nbsp;<img id="statusReloadBtn" src="stop.png" alt="toggle reload on and off" onclick="LiveStatusToggleUpdate()" />&nbsp;<$ currentTime $></div>
 		</div>
 		<div class="st_content">
 			<div class="name"><$ title $></div>
