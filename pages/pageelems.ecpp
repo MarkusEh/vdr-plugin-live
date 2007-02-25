@@ -1,5 +1,6 @@
 <%pre>
 #include <string>
+#include <vdr/menu.h>
 #include <vdr/epg.h>
 #include "tools.h"
 
@@ -59,7 +60,7 @@ using namespace vdrlive;
 	string tip;
 	string param;
 	string image;
-	string alt = "";
+	string alt;
 </%args>
 	<a href="javascript:LiveSimpleAjaxRequest('<$ action $>.xml', 'param', '<$ param $>');" <%cpp>if (!tip.empty()) { </%cpp><& tooltip.hint text=(tip) &> <%cpp> } </%cpp>><img src="<$ image $>" alt="<$ alt $>" /></a>
 </%def>
@@ -110,18 +111,20 @@ using namespace vdrlive;
 	string title;
 	string duration;
 	int elapsed;
+	string prev_chan;
+	string next_chan;
 </%args>
 	<div class="statuscontent">
 		<div class="st_header">
 			<div class="caption"><$ caption $></div>
-			<div class="now">&nbsp;<img id="statusReloadBtn" src="stop.png" alt="toggle reload on and off" onclick="LiveStatusToggleUpdate()" />&nbsp;<$ currentTime $></div>
+			<div class="now">&nbsp;<$ currentTime $></div>
 		</div>
 		<div class="st_content">
 			<div class="name"><$ title $></div>
 			<div class="duration">&nbsp;<$ duration $></div>
 		</div>
 		<div class="st_controls">
-			<div class="buttons">&nbsp;</div>
+			<div class="buttons"><a href="javascript:LiveStatusToggleUpdate()" ><img id="statusReloadBtn" src="stop.png" alt="" /></a><%cpp>if (!prev_chan.empty()) { </%cpp><& ajax_action_href action=("switch_channel") param=(prev_chan) image=("one_downarrow.png") &><%cpp> } if (!next_chan.empty()) { </%cpp><& ajax_action_href action=("switch_channel") param=(next_chan) image=("one_uparrow.png") &><%cpp> } </%cpp></div>
 %			if (elapsed >= 0) {
 			<div class="progress"><& pageelems.progressbar progress=(elapsed) &></div>
 %			}

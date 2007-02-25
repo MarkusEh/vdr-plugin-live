@@ -17,6 +17,9 @@ using namespace std;
 <%include>page_init.eh</%include>
 <{
 	EpgEvents epgEvents;
+	string EMPTY_STR;
+	tChannelID prev_chan;
+	tChannelID next_chan;
 
 	if (cReplayControl::NowReplaying()) {
 		cThreadLock RecordingsLock(&Recordings);
@@ -36,37 +39,103 @@ using namespace std;
 		}
 	}
 	else {
+		string CHANNEL_STR("channel");
 		ReadLock channelsLock( Channels );
+
 		if (cDevice::CurrentChannel()) {
 			cChannel* Channel = Channels.GetByNumber(cDevice::CurrentChannel());
 			if (!Channel)
 				throw HtmlError("got invalid channel number!");
+
+			cChannel* tmp = Channels.GetByNumber(Channels.GetPrevNormal(cDevice::CurrentChannel()));
+			if (tmp)
+				prev_chan = tmp->GetChannelID();
+			tmp = Channels.GetByNumber(Channels.GetNextNormal(cDevice::CurrentChannel()));
+			if (tmp)
+				next_chan = tmp->GetChannelID();
+
+			string chanName(Channel->Name());
 			cSchedulesLock schedulesLock;
 			const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
 			const cSchedule *Schedule = Schedules->GetSchedule(Channel);
+
 			if (Schedule) {
 				const cEvent *Event = Schedule->GetPresentEvent();
 				if (Event) {
-					EpgEventPtr epgEvent(new EpgEvent("channel",
+					EpgEventPtr epgEvent(new EpgEvent(CHANNEL_STR,
 													  Event,
 													  Channel->Name()));
 					epgEvents.push_back(epgEvent);
 				}
+				else {
+					string noInfo(tr("no epg info for current event!"));
+					EpgEventPtr epgEvent(new EpgEvent(CHANNEL_STR,
+													  chanName,
+													  noInfo,
+													  EMPTY_STR, EMPTY_STR,
+													  time(0),
+													  time(0)));
+					epgEvents.push_back(epgEvent);
+				}
+			}
+			else {
+				string noInfo(tr("no epg info for current channel!"));
+				EpgEventPtr epgEvent(new EpgEvent(CHANNEL_STR,
+												  Channel->Name(),
+												  noInfo,
+												  EMPTY_STR, EMPTY_STR,
+												  time(0),
+												  time(0)));
+				epgEvents.push_back(epgEvent);
 			}
 		}
+		else {
+			string chanName(tr("no current channel!"));
+			EpgEventPtr epgEvent(new EpgEvent(CHANNEL_STR,
+											  chanName,
+											  chanName,
+											  EMPTY_STR, EMPTY_STR,
+											  time(0),
+											  time(0)));
+			epgEvents.push_back(epgEvent);
+		}
 	}
-	if (epgEvents.size() > 0) {
-		for (vector<EpgEventPtr>::iterator i = epgEvents.begin(); i != epgEvents.end(); ++i) {
-			EpgEventPtr epg = *i;
+	if (epgEvents.size() == 0) {
+		string ERROR_STR("error");
+		string noInfo(tr("error retrieving status info!"));
+		string chanName(tr("no current channel!"));
+		EpgEventPtr epgEvent(new EpgEvent(ERROR_STR,
+										  chanName,
+										  noInfo,
+										  EMPTY_STR, EMPTY_STR,
+										  time(0),
+										  time(0)));
+		epgEvents.push_back(epgEvent);
+	}
+	for (vector<EpgEventPtr>::iterator i = epgEvents.begin(); i != epgEvents.end(); ++i) {
+		EpgEventPtr epg = *i;
+		if (prev_chan.Valid() && next_chan.Valid())
+		{
+}>
+		<& pageelems.status_box type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) prev_chan=(prev_chan) next_chan=(next_chan) &>
+<{
+		}
+		else if (prev_chan.Valid()) {
+}>
+		<& pageelems.status_box type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) prev_chan=(prev_chan) &>
+<{
+		}
+		else if (next_chan.Valid()) {
+}>
+		<& pageelems.status_box type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) next_chan=(next_chan) &>
+<{
+		}
+		else {
 }>
 		<& pageelems.status_box type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) &>
 <{
 		}
-	}
-	else {
-}>
-		No relevant information could be retrieved!
-<{
+		break;
 	}
 }>
 <%include>page_exit.eh</%include>

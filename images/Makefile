@@ -20,7 +20,8 @@ OBJS	= logo.o record.o active.o inactive.o button_blue.o	\
 	  bg_header_h.o bg_header_l.o bg_header_r.o		\
 	  bg_box_h.o  bg_box_l.o  bg_box_r.o			\
 	  movie.o menu_line_bg.o bg_line.o bg_tools.o   	\
-	  zap.o favicon.o bg_line_top.o reload.o stop.o
+	  zap.o favicon.o bg_line_top.o reload.o stop.o		\
+	  one_uparrow.o one_downarrow.o
 
 ### Default rules:
 

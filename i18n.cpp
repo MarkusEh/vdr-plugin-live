@@ -685,6 +685,72 @@ const tI18nPhrase Phrases[] = {
 	  "", // Dansk
 	  "", // Czech
 	},
+	{ "Searchtimers", // English
+	  "Suchtimer", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	},
+	{ "previous channel", // English
+	  "Sender zurück", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	},
+	{ "next channel", // English
+	  "Sender vor", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	},
 	{ "Record this", // English
 	  "Diese Sendung aufnehmen", // Deutsch
 	  "", // Slovenski
@@ -775,6 +841,116 @@ const tI18nPhrase Phrases[] = {
 	},
 	{ "play this recording.", // English
 	  "Diese Aufnahme abspielen.", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	},
+	{ "toggle status update.", // English
+	  "Statusabfrage ein- oder ausschalten.", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	},
+	{ "no epg info for current event!", // English
+	  "Keine Infos zur Sendung!", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	},
+	{ "no epg info for current channel!", // English
+	  "Dieser Kanal hat kein EPG!", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	},
+	{ "no current channel!", // English
+	  "Keinen Kanal gefunden!", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	},
+	{ "error retrieving status info!", // English
+	  "Fehler: Status nicht verfügbar!", // Deutsch
 	  "", // Slovenski
 	  "", // Italiano
 	  "", // Nederlands
