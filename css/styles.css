@@ -198,11 +198,12 @@ div#infobox div.st_controls {
 	padding: 4px;
 }
 
-div#infobox div.st_controls div.progress {
+div#infobox div.st_controls div.st_pbar {
+	padding-top: 4px;
 	float: right;
 }
 
-div#infobox div.st_controls div.buttons {
+div#infobox div.st_controls div.st_btns {
 	float: left;
 }
 
