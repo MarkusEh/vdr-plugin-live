@@ -66,7 +66,7 @@ if (type == "now") {
 }>
 			<div class="event">
 				<div class="station">
-					<div><div><div><$ (epgEvent->Caption()) $></div></div></div>
+					<div><div><div><a href="schedule.html?channel=<$ Channel->Number() $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ (epgEvent->Caption()) $></a></div></div></div>
 				</div>
 				<div class="content">
 					<div class="tools">
