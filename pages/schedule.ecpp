@@ -46,6 +46,7 @@ using namespace vdrlive;
 	<head>
 		<title>VDR Live - <$ pageTitle $></title>
 		<link rel="stylesheet" type="text/css" href="styles.css" />
+		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 	</head>
 	<body onload="LiveStatusAjaxRequest('infobox.html', 'infobox')">
@@ -76,7 +77,7 @@ using namespace vdrlive;
 						if (current_day != "") {
 }>
 						<tr>
-							<td colspan="4" style="border-top: 1px solid black">&nbsp;</td></tr>
+							<td colspan="4" style="border-top: 1px solid black; border-bottom: none; background-image: url()">&nbsp;</td></tr>
 						</tr>
 <{
 						}
@@ -95,7 +96,7 @@ using namespace vdrlive;
 %				}
 %				if (Schedule->Events()->Count() > 0) {
 						<tr>
-							<td colspan="4" style="border-top: 1px solid black">&nbsp;</td></tr>
+							<td colspan="4" style="border-top: 1px solid black; background: none">&nbsp;</td></tr>
 						</tr>
 %				}
 			</table>
