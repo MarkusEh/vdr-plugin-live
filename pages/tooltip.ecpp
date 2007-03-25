@@ -23,7 +23,7 @@ value[];
 <%args>
 text;
 </%args>
- onmouseover="domTT_activate(this, event, 'predefined', 'tipHint', 'content', '<$ text $>');"
+ onmouseover="domTT_close(domTT_lastOpened); domTT_activate(this, event, 'predefined', 'tipHint', 'content', '<$ text $>');"
 </%def>
 
 <%def info>
