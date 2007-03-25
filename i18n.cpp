@@ -971,6 +971,50 @@ const tI18nPhrase Phrases[] = {
 	  "", // Dansk
 	  "", // Czech
 	},
+	{ "Stop updates", // English
+	  "Updates anhalten", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	},
+	{ "View the schedule of this channel", // English
+	  "Zum Progamm dieses Kanals", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	},
 
 	/*
 	{ "", // English
