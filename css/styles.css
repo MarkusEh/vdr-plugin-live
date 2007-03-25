@@ -228,6 +228,7 @@ div.head_box_m {
 	padding: 0;
 }
 
+
 div.head_box_r {
 	background-image: url(bg_header_r.png);
 	background-position: top right;
@@ -304,6 +305,17 @@ div.station div div div {
 	color: white;
 	font-weight: bold;
 }
+
+div.station div div div a {
+	color: #ffffff;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+div.station div div div a:hover {
+	text-decoration: underline;
+}
+
 
 div.content {
 	width: 253px;
@@ -391,24 +403,32 @@ div.__progress div.__elapsed {
 */
 
 table.timers {
+	padding: 0;
+	margin: 0;
 	margin-top: 10px;
-	border: 1px solid #6D96A9;
 }
 
 table.timers tr td {
 	padding: 3px 7px 3px 3px;
 }
 
+table.timers tr td.border {
+	padding: 0;
+	margin: 0;
+	width: 1px;
+}
+
 table.timers tr.active {
 	background: #DEE6EE;
 }
 
-table.timers tr td.head {
-	background: #6D96A9;
+table.timers tr.head td {
 	color: white;
 	font-weight: bold;
 	margin: 0;
-	padding: 3px;
+	padding: 0;
+	background: url(bg_box_h.png) repeat-x;
+	height: 23px;
 }
 
 /*
