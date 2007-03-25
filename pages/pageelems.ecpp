@@ -124,7 +124,7 @@ using namespace vdrlive;
 			<div class="duration">&nbsp;<$ duration $></div>
 		</div>
 		<div class="st_controls">
-			<div class="st_btns"><a href="javascript:LiveStatusToggleUpdate()" ><img id="statusReloadBtn" src="stop.png" alt="" /></a><%cpp>if (!prev_chan.empty()) { </%cpp><& ajax_action_href action=("switch_channel") param=(prev_chan) image=("one_downarrow.png") &><%cpp> } if (!next_chan.empty()) { </%cpp><& ajax_action_href action=("switch_channel") param=(next_chan) image=("one_uparrow.png") &><%cpp> } </%cpp></div>
+			<div class="st_btns"><a href="javascript:LiveStatusToggleUpdate()" <& tooltip.hint text=(tr("Stop updates")) &>><img id="statusReloadBtn" src="stop.png" alt="" /></a><%cpp>if (!prev_chan.empty()) { </%cpp><& ajax_action_href action=("switch_channel") param=(prev_chan) image=("one_downarrow.png") tip=(tr("previous channel")) &><%cpp> } if (!next_chan.empty()) { </%cpp><& ajax_action_href action=("switch_channel") param=(next_chan) image=("one_uparrow.png") tip=(tr("next channel")) &><%cpp> } </%cpp></div>
 %			if (elapsed >= 0) {
 			<div class="st_pbar"><& pageelems.progressbar progress=(elapsed) &></div>
 %			}
