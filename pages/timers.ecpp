@@ -18,6 +18,7 @@ using namespace vdrlive;
 	<head>
 		<title>VDR-Live - <$ pageTitle $></title>
 		<link rel="stylesheet" type="text/css" href="/styles.css" />
+		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 	</head>
 	<body onload="LiveStatusAjaxRequest('infobox.html', 'infobox')">
@@ -28,21 +29,24 @@ using namespace vdrlive;
 				Keiner Timer definiert
 %			} else {
 			<table class="timers" cellspacing="0" cellpadding="0">
-				<tr>
-					<td class="head">&nbsp;</td>
-					<td class="head"><$ tr("Active") $></td>
-					<td class="head"><$ tr("Channel") $></td>
-					<td class="head"><$ tr("Date") $></td>
-					<td class="head"><$ tr("Start") $></td>
-					<td class="head"><$ tr("Stop") $></td>
-					<td class="head">&nbsp;</td>
-					<td class="head"><$ tr("File") $></td>
+				<tr class="head">
+					<td style="background: url(bg_box_l.png); width: 3px;"/></td>
+					<td>&nbsp;</td>
+					<td><$ tr("Active") $></td>
+					<td><$ tr("Channel") $></td>
+					<td><$ tr("Date") $></td>
+					<td><$ tr("Start") $></td>
+					<td><$ tr("Stop") $></td>
+					<td>&nbsp;</td>
+					<td><$ tr("File") $></td>
+					<td style="background: url(bg_box_r.png); width: 3px;" /></td>
 				</tr>
 <{
 				bool active = false;
 				for (SortedTimers::iterator timer = timers.begin(); timer != timers.end(); ++timer) {
 }>
 				<tr class="<$ active ? "active" : "" $>">
+					<td class="border" style="border-left: 1px solid black"></td>
 					<td><button type="button" class="smallbutton" onclick="location.href='edit_timer.html?timerid=<$ timers.GetTimerId(*timer) $>';"><$ tr("Edit") $></button></td>
 					<td><img src="/<$ (timer->Flags() & tfActive) ? "active" : "inactive" $>.png" alt="Aktiv?" /></td>
 					<td><$ timer->Channel()->Name() $></td>
@@ -51,12 +55,14 @@ using namespace vdrlive;
 					<td><$ FormatDateTime(tr("%I:%M %p"), timer->StopTime()) $></td>
 					<td><{ if (timer->Recording()) { }><img src="/record.png" alt="Record" /><{ } }></td>
 					<td><$ timer->File() $></td>
+					<td class="border" style="border-right: 1px solid black"></td>
 				</tr>
 <{
 					active = !active;
 				}
 			}
 }>
+				<tr><td colspan="10" style="border-top: 1px solid black">&nbsp;</td></tr>
 			</table>
 		</div>
 	</body>
