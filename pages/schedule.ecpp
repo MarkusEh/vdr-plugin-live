@@ -77,7 +77,7 @@ using namespace vdrlive;
 						if (current_day != "") {
 }>
 						<tr>
-							<td colspan="4" style="border-top: 1px solid black; border-bottom: none; background-image: url()">&nbsp;</td></tr>
+							<td colspan="4" style="border-top: 1px solid black; border-bottom: none; background-image: none">&nbsp;</td></tr>
 						</tr>
 <{
 						}
