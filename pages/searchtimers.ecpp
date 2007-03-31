@@ -28,21 +28,24 @@ using namespace vdrlive;
 				Keiner Suchtimer definiert
 %			} else {
 			<table class="timers" cellspacing="0" cellpadding="0">
-				<tr>
-					<td class="head">&nbsp;</td>
-					<td class="head"><$ tr("Active") $></td>
-					<td class="head"><$ tr("Expression") $></td>
-					<td class="head"><$ tr("Channel") $></td>
-					<td class="head"><$ tr("Start") $></td>
-					<td class="head"><$ tr("Stop") $></td>
-					<td class="head">&nbsp;</td>
-					<td class="head">&nbsp;</td>
+				<tr class="head">
+					<td style="background: url(bg_box_l.png); width: 3px;"/></td>
+					<td>&nbsp;</td>
+					<td><$ tr("Active") $></td>
+					<td><$ tr("Expression") $></td>
+					<td><$ tr("Channel") $></td>
+					<td><$ tr("Start") $></td>
+					<td><$ tr("Stop") $></td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td style="background: url(bg_box_r.png); width: 3px;" /></td>
 				</tr>
 <{
 				bool active = false;
 				for (SearchTimers::iterator timer = timers.begin(); timer != timers.end(); ++timer) {
 }>
 				<tr class="<$ active ? "active" : "" $>">
+					<td class="border" style="border-left: 1px solid black"></td>
 					<td><button type="button" class="smallbutton" onclick="location.href='edit_searchtimer.html?timerid=<$ timer->Id() $>';"><$ tr("Edit") $></button></td>
 					<td><img src="/<$ timer->UseAsSearchTimer() ? "active" : "inactive" $>.png" alt="Aktiv?" /></td>
 					<td><$ timer->Search() $></td>
@@ -51,12 +54,14 @@ using namespace vdrlive;
 					<td><? timer->UseTime() ? timer->StopTime() ?></td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
+					<td class="border" style="border-right: 1px solid black"></td>
 				</tr>
 <{
 					active = !active;
 				}
 			}
 }>
+				<tr><td colspan="10" style="border-top: 1px solid black">&nbsp;</td></tr>
 			</table>
 		</div>
 	</body>

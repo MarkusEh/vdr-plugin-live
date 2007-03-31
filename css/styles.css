@@ -554,33 +554,100 @@ div.recording_item {
   ##############################
 */
 
+div.screenshot {
+	float: left;
+	margin-right: 20px;
+}
+
+button.redbutton {
+	width: 36px;
+	height: 17px;
+	background-color: inherit;
+	background-image: url(remote_button_red.png);
+	background-repeat: no-repeat;
+	color: #FFFFFF;
+	font-size: 11px;
+	border: 0px;
+	vertical-align: middle;
+	text-align: center;
+	cursor: pointer;
+}
+
+button.greenbutton {
+	width: 36px;
+	height: 17px;
+	background-color: inherit;
+	background-image: url(remote_button_green.png);
+	background-repeat: no-repeat;
+	color: #FFFFFF;
+	font-size: 11px;
+	border: 0px;
+	vertical-align: middle;
+	text-align: center;
+	cursor: pointer;
+}
+
+button.yellowbutton {
+	width: 36px;
+	height: 17px;
+	background-color: inherit;
+	background-image: url(remote_button_yellow.png);
+	background-repeat: no-repeat;
+	color: #FFFFFF;
+	font-size: 11px;
+	border: 0px;
+	vertical-align: middle;
+	text-align: center;
+	cursor: pointer;
+}
+
+button.bluebutton {
+	width: 36px;
+	height: 17px;
+	background-color: inherit;
+	background-image: url(remote_button_blue.png);
+	background-repeat: no-repeat;
+	color: #FFFFFF;
+	font-size: 11px;
+	border: 0px;
+	vertical-align: middle;
+	text-align: center;
+	cursor: pointer;
+}
+
+
+button.greybutton {
+	width: 51px;
+	height: 17px;
+	background-color: inherit;
+	background-image: url(remote_button_grey.png);
+	background-repeat: no-repeat;
+	color: #FFFFFF;
+	font-size: 11px;
+	border: 0px;
+	vertical-align: middle;
+	text-align: center;
+	cursor: pointer;
+}
+
 table.keypad {
-	margin-top: 10px;
 	border: 1px solid #6D96A9;
 }
 
+table.keypad td.button {
+	text-align: center;
+}
+
 table.keypad tr td.button button {
-	width: 4em;
+	padding: 0;
 }
 
-table.keypad tr td.redbutton button {
-	width: 3em;
-	background-color: #FF0000;
+table.colorbutton {
+	width: 100%;
 }
 
-table.keypad tr td.greenbutton button {
-	width: 3em;
-	background-color: #00FF00;
-}
-
-table.keypad tr td.yellowbutton button {
-	width: 3em;
-	background-color: #FFFF00;
-}
-
-table.keypad tr td.bluebutton button {
-	width: 3em;
-	background-color: #0000FF;
+table.colorbutton td.colorbutton {
+	text-align: center;
 }
 
 /*

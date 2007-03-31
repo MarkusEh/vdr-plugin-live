@@ -74,41 +74,52 @@ using namespace vdrlive;
 			</div>
 			<table class="keypad" cellspacing="0" cellpadding="0">
 				<tr>
-					<td class="button"><button type="button" onclick="KeyPress(<$ k1 $>)">1</button></td>
-					<td class="button"><button type="button" onclick="KeyPress(<$ k2 $>)">2</button></td>
-					<td class="button"><button type="button" onclick="KeyPress(<$ k3 $>)">3</button></td>
+					<td class="button">&nbsp;</td>
+					<td class="button">&nbsp;</td>
+					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ kPower $>)">Power</button></td>
+				<tr>
+				<tr>
+					<td class="button" colspan="3">&nbsp;</td>
+				</tr>
+					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ k1 $>)">1</button></td>
+					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ k2 $>)">2</button></td>
+					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ k3 $>)">3</button></td>
 				</tr>
 				<tr>
-					<td class="button"><button type="button" onclick="KeyPress(<$ k4 $>)">4</button></td>
-					<td class="button"><button type="button" onclick="KeyPress(<$ k5 $>)">5</button></td>
-					<td class="button"><button type="button" onclick="KeyPress(<$ k6 $>)">6</button></td>
+					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ k4 $>)">4</button></td>
+					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ k5 $>)">5</button></td>
+					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ k6 $>)">6</button></td>
 				</tr>
 				<tr>
-					<td class="button"><button type="button" onclick="KeyPress(<$ k7 $>)">7</button></td>
-					<td class="button"><button type="button" onclick="KeyPress(<$ k8 $>)">8</button></td>
-					<td class="button"><button type="button" onclick="KeyPress(<$ k9 $>)">9</button></td>
+					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ k7 $>)">7</button></td>
+					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ k8 $>)">8</button></td>
+					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ k9 $>)">9</button></td>
 				</tr>
 				<tr>
 					<td class="button">&nbsp;</td>
-					<td class="button"><button type="button" onclick="KeyPress(<$ k0 $>)">0</button></td>
+					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ k0 $>)">0</button></td>
 					<td class="button">&nbsp;</td>
 				</tr>
 				<tr>
 					<td class="button" colspan="3">&nbsp;</td>
 				</tr>
 				<tr>
-					<td class="button"><button type="button" onclick="KeyPress(<$ kMenu $>)"><$ tr("Menu") $></button></td>
+					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ kMenu $>)"><$ tr("Menu") $></button></td>
 					<td class="button">&nbsp;</button></td>
-					<td class="button"><button type="button" onclick="KeyPress(<$ kBack $>)"><$ tr("Back") $></button></td>
+					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ kBack $>)"><$ tr("Back") $></button></td>
 				</tr>
 				<tr>
-					<td colspan="3">
-						<table cellspacing="0" cellpadding="0">
+					<td class="button" colspan="3">&nbsp;</td>
+				</tr>
+
+				<tr>
+					<td colspan="4">
+						<table class="colorbutton" cellspacing="0" cellpadding="0">
 							<tr>
-								<td class="redbutton"><button type="button" onclick="KeyPress(<$ kRed $>)">&nbsp;</button></td>
-								<td class="greenbutton"><button type="button" onclick="KeyPress(<$ kGreen $>)">&nbsp;</button></td>
-								<td class="yellowbutton"><button type="button" onclick="KeyPress(<$ kYellow $>)">&nbsp;</button></td>
-								<td class="bluebutton"><button type="button" onclick="KeyPress(<$ kBlue $>)">&nbsp;</button></td>
+								<td class="colorbutton redbutton"><button class="redbutton" type="button" onclick="KeyPress(<$ kRed $>)">&nbsp;</button></td>
+								<td class="colorbutton greenbutton"><button class="greenbutton" type="button" onclick="KeyPress(<$ kGreen $>)">&nbsp;</button></td>
+								<td class="colorbutton yellowbutton"><button class="yellowbutton" type="button" onclick="KeyPress(<$ kYellow $>)">&nbsp;</button></td>
+								<td class="colorbutton bluebutton"><button class="bluebutton" type="button" onclick="KeyPress(<$ kBlue $>)">&nbsp;</button></td>
 							<tr>
 						</table>
 					</td>
@@ -118,32 +129,32 @@ using namespace vdrlive;
 				</tr>
 				<tr>
 					<td class="button">&nbsp;</td>
-					<td class="button"><button type="button" onclick="KeyPress(<$ kUp $>)">^</button></td>
+					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ kUp $>)">^</button></td>
 					<td class="button">&nbsp;</td>
 				</tr>
 				<tr>
 					<td class="button" colspan="3">&nbsp;</td>
 				</tr>
 				<tr>
-					<td class="button"><button type="button" onclick="KeyPress(<$ kLeft $>)">&lt;</button></td>
-					<td class="button"><button type="button" onclick="KeyPress(<$ kOk $>)"><$ tr("Ok") $></button></td>
-					<td class="button"><button type="button" onclick="KeyPress(<$ kRight $>)">&gt;</button></td>
+					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ kLeft $>)">&lt;</button></td>
+					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ kOk $>)"><$ tr("Ok") $></button></td>
+					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ kRight $>)">&gt;</button></td>
 				</tr>
 				<tr>
 					<td class="button" colspan="3">&nbsp;</td>
 				</tr>
 				<tr>
 					<td class="button">&nbsp;</td>
-					<td class="button"><button type="button" onclick="KeyPress(<$ kDown $>)">v</button></td>
+					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ kDown $>)">v</button></td>
 					<td class="button">&nbsp;</td>
 				</tr>
 				<tr>
 					<td class="button" colspan="3">&nbsp;</td>
 				</tr>
 				<tr>
-					<td class="button"><button type="button" onclick="KeyPress(<$ kVolDn $>)"><$ tr("Vol-") $></button></td>
-					<td class="button"><button type="button" onclick="KeyPress(<$ kMute $>)"><$ tr("Mute") $></button></td>
-					<td class="button"><button type="button" onclick="KeyPress(<$ kVolUp $>)"><$ tr("Vol+") $></button></td>
+					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ kVolDn $>)"><$ tr("Vol-") $></button></td>
+					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ kMute $>)"><$ tr("Mute") $></button></td>
+					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ kVolUp $>)"><$ tr("Vol+") $></button></td>
 				</tr>
 			</table>
 		</div>
