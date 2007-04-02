@@ -15,15 +15,13 @@ VDRDIR   ?= ../../../..
 ### The object files (add further files here):
 
 OBJS	= logo.o record.o active.o inactive.o button_blue.o	\
-	  remote_button_yellow.o remote_button_green.o		\
-	  remote_button_red.o remote_button_grey.o    		\
-	  remote_button_blue.o file.o folder_closed.o		\
-	  folder_open.o plus.o minus.o transparent.o		\
-	  edit.o del.o play.o close.o bg_header_h.o		\
-	  bg_header_l.o bg_header_r.o bg_box_h.o bg_box_l.o	\
-	  bg_box_r.o movie.o menu_line_bg.o bg_line.o		\
-	  bg_tools.o zap.o favicon.o bg_line_top.o reload.o	\
-	  stop.o one_uparrow.o one_downarrow.o	   		\
+	  file.o folder_closed.o folder_open.o plus.o minus.o	\
+	  transparent.o edit.o del.o play.o close.o   		\
+	  bg_header_h.o bg_header_l.o bg_header_r.o bg_box_h.o	\
+	  bg_box_l.o bg_box_r.o movie.o menu_line_bg.o		\
+	  bg_line.o bg_tools.o zap.o favicon.o bg_line_top.o	\
+	  reload.o stop.o one_uparrow.o one_downarrow.o tv.o	\
+	  remotecontrol.o
 
 ### Default rules:
 

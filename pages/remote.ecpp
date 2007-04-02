@@ -12,6 +12,9 @@ using namespace vdrlive;
 <& pageelems.doc_type &>
 <html>
 	<head>
+		<title>VDR-Live - <$ pageTitle $></title>
+		<link rel="stylesheet" type="text/css" href="/styles.css" />
+		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 		<script type="text/javascript"><!--
 		var newImg = new Image();
@@ -61,102 +64,50 @@ using namespace vdrlive;
 			}
 		}
 		//--></script>
-		<title>VDR-Live - <$ pageTitle $></title>
-		<link rel="stylesheet" type="text/css" href="/styles.css" />
 	</head>
-	<body onload="StreamInit(); FillIntervals()">
+	<body onload="StreamInit(); FillIntervals(); LiveStatusAjaxRequest('infobox.html', 'infobox')">
 		<& pageelems.logo &>
 		<& menu active="remote" &>
 		<div class="inhalt">
 			<div class="screenshot">
 				<img src="screenshot.jpg" name="vdrlive" /><br />
-				<$ tr("Interval:") $> <select name="interval" onchange="ChangeInterval()"></select>
 			</div>
-			<table class="keypad" cellspacing="0" cellpadding="0">
-				<tr>
-					<td class="button">&nbsp;</td>
-					<td class="button">&nbsp;</td>
-					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ kPower $>)">Power</button></td>
-				<tr>
-				<tr>
-					<td class="button" colspan="3">&nbsp;</td>
-				</tr>
-					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ k1 $>)">1</button></td>
-					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ k2 $>)">2</button></td>
-					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ k3 $>)">3</button></td>
-				</tr>
-				<tr>
-					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ k4 $>)">4</button></td>
-					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ k5 $>)">5</button></td>
-					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ k6 $>)">6</button></td>
-				</tr>
-				<tr>
-					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ k7 $>)">7</button></td>
-					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ k8 $>)">8</button></td>
-					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ k9 $>)">9</button></td>
-				</tr>
-				<tr>
-					<td class="button">&nbsp;</td>
-					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ k0 $>)">0</button></td>
-					<td class="button">&nbsp;</td>
-				</tr>
-				<tr>
-					<td class="button" colspan="3">&nbsp;</td>
-				</tr>
-				<tr>
-					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ kMenu $>)"><$ tr("Menu") $></button></td>
-					<td class="button">&nbsp;</button></td>
-					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ kBack $>)"><$ tr("Back") $></button></td>
-				</tr>
-				<tr>
-					<td class="button" colspan="3">&nbsp;</td>
-				</tr>
-
-				<tr>
-					<td colspan="4">
-						<table class="colorbutton" cellspacing="0" cellpadding="0">
-							<tr>
-								<td class="colorbutton redbutton"><button class="redbutton" type="button" onclick="KeyPress(<$ kRed $>)">&nbsp;</button></td>
-								<td class="colorbutton greenbutton"><button class="greenbutton" type="button" onclick="KeyPress(<$ kGreen $>)">&nbsp;</button></td>
-								<td class="colorbutton yellowbutton"><button class="yellowbutton" type="button" onclick="KeyPress(<$ kYellow $>)">&nbsp;</button></td>
-								<td class="colorbutton bluebutton"><button class="bluebutton" type="button" onclick="KeyPress(<$ kBlue $>)">&nbsp;</button></td>
-							<tr>
-						</table>
-					</td>
-				</tr>
-				<tr>
-					<td class="button" colspan="3">&nbsp;</td>
-				</tr>
-				<tr>
-					<td class="button">&nbsp;</td>
-					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ kUp $>)">^</button></td>
-					<td class="button">&nbsp;</td>
-				</tr>
-				<tr>
-					<td class="button" colspan="3">&nbsp;</td>
-				</tr>
-				<tr>
-					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ kLeft $>)">&lt;</button></td>
-					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ kOk $>)"><$ tr("Ok") $></button></td>
-					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ kRight $>)">&gt;</button></td>
-				</tr>
-				<tr>
-					<td class="button" colspan="3">&nbsp;</td>
-				</tr>
-				<tr>
-					<td class="button">&nbsp;</td>
-					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ kDown $>)">v</button></td>
-					<td class="button">&nbsp;</td>
-				</tr>
-				<tr>
-					<td class="button" colspan="3">&nbsp;</td>
-				</tr>
-				<tr>
-					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ kVolDn $>)"><$ tr("Vol-") $></button></td>
-					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ kMute $>)"><$ tr("Mute") $></button></td>
-					<td class="button"><button class="greybutton" type="button" onclick="KeyPress(<$ kVolUp $>)"><$ tr("Vol+") $></button></td>
-				</tr>
-			</table>
+			<div>
+			<img src="remotecontrol.png" width="162" height="363" border="0" usemap="#remote" />
+			     <map name="remote">
+			     	  <area href="#" shape="circle" coords="37,36,10" alt="Power" onclick="KeyPress(<$ kPower $>)" <& tooltip.hint text=(tr("Power")) &> nohref="nohref" />
+				  <area href="#" shape="rect" coords="27,60,59,75" alt="1" onclick="KeyPress(<$ k1 $>)" <& tooltip.hint text=("1") &> nohref="nohref" />
+				  <area href="#" shape="rect" coords="64,59,98,75" alt="2" onclick="KeyPress(<$ k2 $>)" <& tooltip.hint text=("2") &> nohref="nohref" />
+				  <area href="#" shape="rect" coords="103,59,137,75" alt="3" onclick="KeyPress(<$ k3 $>)" <& tooltip.hint text=("3") &> nohref="nohref" />
+				  <area href="#" shape="rect" coords="25,82,60,98" alt="4" onclick="KeyPress(<$ k4 $>)" <& tooltip.hint text=("4") &> nohref="nohref" />
+				  <area href="#" shape="rect" coords="65,82,98,99" alt="5" onclick="KeyPress(<$ k5 $>)" <& tooltip.hint text=("5") &> nohref="nohref" />
+				  <area href="#" shape="rect" coords="103,83,137,99" alt="6" onclick="KeyPress(<$ k6 $>)" <& tooltip.hint text=("6") &> nohref="nohref" />
+				  <area href="#" shape="rect" coords="26,106,60,121" alt="7"  onclick="KeyPress(<$ k7 $>)" <& tooltip.hint text=("7") &> nohref="nohref" />
+				  <area href="#" shape="rect" coords="65,105,97,121" alt="8" onclick="KeyPress(<$ k8 $>)" <& tooltip.hint text=("8") &> nohref="nohref" />
+				  <area href="#" shape="rect" coords="104,106,137,122" alt="9" onclick="KeyPress(<$ k9 $>)" <& tooltip.hint text=("9") &> nohref="nohref" />
+				  <area href="#" shape="rect" coords="66,128,98,144" alt="0" onclick="KeyPress(<$ k0 $>)" <& tooltip.hint text=("0") &> nohref="nohref" />
+				  <area href="#" shape="circle" coords="37,157,13" alt="Vol+" onclick="KeyPress(<$ kVolUp $>)" <& tooltip.hint text=("Vol+") &> nohref="nohref" />
+				  <area href="#" shape="circle" coords="37,190,13" alt="Vol-" onclick="KeyPress(<$ kVolDn $>)" <& tooltip.hint text=("Vol-") &> nohref="nohref" />
+				  <area href="#" shape="circle" coords="125,157,13" alt="P+" onclick="KeyPress(<$ kChanUp $>)" <& tooltip.hint text=("P+") &> nohref="nohref" />
+				  <area href="#" shape="circle" coords="125,190,13" alt="P-" onclick="KeyPress(<$ kChanDn $>)" <& tooltip.hint text=("P-") &> nohref="nohref" />
+				  <area href="#" shape="circle" coords="81,174,8" alt="Mute" onclick="KeyPress(<$ kMute $>)" <& tooltip.hint text=(tr("Mute")) &> nohref="nohref" />
+				  <area href="#" shape="circle" coords="81,202,11" alt="Record" onclick="KeyPress(<$ kRecord $>)" <& tooltip.hint text=(tr("Begin Recording")) &> nohref="nohref" />
+				  <area href="#" shape="poly" coords="39,215,29,227,30,235,39,236,51,222,49,215,43,213" alt="Menu" onclick="KeyPress(<$ kMenu $>)" <& tooltip.hint text=(tr("Menu")) &> nohref="nohref" />
+				  <area href="#" shape="poly" coords="119,213,127,219,135,230,132,235,127,236,119,231,114,223,113,215" alt="Exit" onclick="KeyPress(<$ kBack $>)" <& tooltip.hint text=(tr("Exit")) &> nohref="nohref" />
+				  <area href="#" shape="poly" coords="58,230,70,223,82,223,91,223,105,231,96,240,87,237,78,236,69,240,66,241,58,232" alt="Up" onclick="KeyPress(<$ kUp $>)" <& tooltip.hint text=(tr("Up")) &> nohref="nohref" />
+				  <area href="#" shape="poly" coords="111,237,119,249,121,259,119,275,113,285,109,284,101,276,104,270,107,260,106,253,101,245" alt="Right" onclick="KeyPress(<$ kRight $>)" <& tooltip.hint text=(tr("Right")) &> nohref="nohref" />
+				  <area href="#" shape="poly" coords="66,281,75,285,86,285,95,281,106,291,100,295,87,300,73,300,58,291,57,289,58,289" alt="Down" onclick="KeyPress(<$ kDown $>)" <& tooltip.hint text=(tr("Down")) &> nohref="nohref" />
+				  <area href="#" shape="poly" coords="51,236,61,245,56,256,57,266,61,277,52,285,47,278,42,264,43,252,49,240" alt="Left" onclick="KeyPress(<$ kLeft $>)" <& tooltip.hint text=(tr("Left")) &> nohref="nohref" />
+				  <area href="#" shape="circle" coords="81,261,17" alt="Ok" onclick="KeyPress(<$ kOk $>)" <& tooltip.hint text=("Ok") &> nohref="nohref" />
+				  <area href="#" shape="rect" coords="25,309,52,324" alt="Red" onclick="KeyPress(<$ kRed $>)" <& tooltip.hint text=(tr("Red")) &> nohref="nohref" />
+				  <area href="#" shape="rect" coords="53,309,81,324" alt="Green" onclick="KeyPress(<$ kGreen $>)" <& tooltip.hint text=(tr("Green")) &> nohref="nohref" />
+				  <area href="#" shape="rect" coords="83,309,109,324" alt="Yellow" onclick="KeyPress(<$ kYellow $>)" <& tooltip.hint text=(tr("Yellow")) &> nohref="nohref" />
+				  <area href="#" shape="rect" coords="110,310,137,323" alt="Blue" onclick="KeyPress(<$ kBlue $>)" <& tooltip.hint text=(tr("Blue")) &> nohref="nohref" />
+			     </map>
+			</div>
+			<div>
+			     	<$ tr("Interval:") $> <select name="interval" onchange="ChangeInterval()"></select>
+			</div>
 		</div>
 	</body>
 </html>

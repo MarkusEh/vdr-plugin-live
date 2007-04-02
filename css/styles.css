@@ -555,100 +555,16 @@ div.recording_item {
 */
 
 div.screenshot {
+	background-image: url(tv.png);
+	background-repeat: no-repeat;
+	height: 240px;
+	width: 320px;
 	float: left;
+	padding: 20px 20px 98px 21px;
 	margin-right: 20px;
 }
 
-button.redbutton {
-	width: 36px;
-	height: 17px;
-	background-color: inherit;
-	background-image: url(remote_button_red.png);
-	background-repeat: no-repeat;
-	color: #FFFFFF;
-	font-size: 11px;
-	border: 0px;
-	vertical-align: middle;
-	text-align: center;
-	cursor: pointer;
-}
-
-button.greenbutton {
-	width: 36px;
-	height: 17px;
-	background-color: inherit;
-	background-image: url(remote_button_green.png);
-	background-repeat: no-repeat;
-	color: #FFFFFF;
-	font-size: 11px;
-	border: 0px;
-	vertical-align: middle;
-	text-align: center;
-	cursor: pointer;
-}
-
-button.yellowbutton {
-	width: 36px;
-	height: 17px;
-	background-color: inherit;
-	background-image: url(remote_button_yellow.png);
-	background-repeat: no-repeat;
-	color: #FFFFFF;
-	font-size: 11px;
-	border: 0px;
-	vertical-align: middle;
-	text-align: center;
-	cursor: pointer;
-}
-
-button.bluebutton {
-	width: 36px;
-	height: 17px;
-	background-color: inherit;
-	background-image: url(remote_button_blue.png);
-	background-repeat: no-repeat;
-	color: #FFFFFF;
-	font-size: 11px;
-	border: 0px;
-	vertical-align: middle;
-	text-align: center;
-	cursor: pointer;
-}
-
-
-button.greybutton {
-	width: 51px;
-	height: 17px;
-	background-color: inherit;
-	background-image: url(remote_button_grey.png);
-	background-repeat: no-repeat;
-	color: #FFFFFF;
-	font-size: 11px;
-	border: 0px;
-	vertical-align: middle;
-	text-align: center;
-	cursor: pointer;
-}
-
-table.keypad {
-	border: 1px solid #6D96A9;
-}
-
-table.keypad td.button {
-	text-align: center;
-}
-
-table.keypad tr td.button button {
-	padding: 0;
-}
-
-table.colorbutton {
-	width: 100%;
-}
-
-table.colorbutton td.colorbutton {
-	text-align: center;
-}
+*/
 
 /*
   ##############################

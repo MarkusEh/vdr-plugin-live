@@ -289,6 +289,28 @@ const tI18nPhrase Phrases[] = {
 	  "", // Dansk
 	  "", // Czech
 	},
+	{ "Exit", // English
+	  "Zurück", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	},
 	{ "Back", // English
 	  "Zurück", // Deutsch
 	  "", // Slovenski
@@ -995,6 +1017,226 @@ const tI18nPhrase Phrases[] = {
 	},
 	{ "View the schedule of this channel", // English
 	  "Zum Progamm dieses Kanals", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	},
+	{ "Power", // English
+	  "Ausschalten", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	},
+	{ "Begin Recording", // English
+	  "Sofortaufnahme", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	},
+	{ "Up", // English
+	  "Hoch", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	},
+	{ "Down", // English
+	  "Runter", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	},
+	{ "Left", // English
+	  "Links", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	},
+	{ "Right", // English
+	  "Rechts", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	},
+	{ "Red", // English
+	  "Rot", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	},
+	{ "Green", // English
+	  "Grün", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	},
+	{ "Yellow", // English
+	  "Gelb", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	},
+	{ "Blue", // English
+	  "Blau", // Deutsch
 	  "", // Slovenski
 	  "", // Italiano
 	  "", // Nederlands
