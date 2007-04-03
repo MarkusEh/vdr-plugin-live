@@ -73,7 +73,7 @@ using namespace vdrlive;
 				<img src="screenshot.jpg" name="vdrlive" /><br />
 			</div>
 			<div>
-			<img src="remotecontrol.png" width="162" height="363" border="0" usemap="#remote" />
+			<img src="remotecontrol.jpg" width="162" height="363" border="0" usemap="#remote" />
 			     <map name="remote">
 			     	  <area href="#" shape="circle" coords="37,36,10" alt="Power" onclick="KeyPress(<$ kPower $>)" <& tooltip.hint text=(tr("Power")) &> nohref="nohref" />
 				  <area href="#" shape="rect" coords="27,60,59,75" alt="1" onclick="KeyPress(<$ k1 $>)" <& tooltip.hint text=("1") &> nohref="nohref" />

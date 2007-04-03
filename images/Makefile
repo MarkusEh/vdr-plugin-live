@@ -37,6 +37,9 @@ all: libimages.a
 %.cpp: %.png
 	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CSS) -b -m "image/png" $<
 
+%.cpp: %.jpg
+	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CSS) -b -m "image/jpg" $<
+
 %.cpp: %.ico
 	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CSS) -b -m "image/x-icon" $<
 
