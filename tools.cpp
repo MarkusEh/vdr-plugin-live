@@ -108,4 +108,17 @@ string StringEscapeAndBreak( string const& input )
 	return StringReplace( plainBuilder.str(), "\n", "<br/>" );
 }
 
+string StringTrim(string const& str)
+{
+   string res = str;
+   string::size_type pos = res.find_last_not_of(' ');
+   if(pos != string::npos) {
+      res.erase(pos + 1);
+      pos = res.find_first_not_of(' ');
+      if(pos != string::npos) res.erase(0, pos);
+   }
+   else res.erase(res.begin(), res.end());
+   return res;
+}
+
 } // namespace vdrlive
