@@ -25,7 +25,7 @@ using namespace vdrlive;
 		<& menu active=("searchtimers") &>
 		<div class="inhalt">
 %			if (timers.size() == 0) {
-				Keiner Suchtimer definiert
+				Keine Suchtimer definiert
 %			} else {
 			<table class="timers" cellspacing="0" cellpadding="0">
 				<tr class="head">
@@ -46,12 +46,12 @@ using namespace vdrlive;
 }>
 				<tr class="<$ active ? "active" : "" $>">
 					<td class="border" style="border-left: 1px solid black"></td>
-					<td><button type="button" class="smallbutton" onclick="location.href='edit_searchtimer.html?timerid=<$ timer->Id() $>';"><$ tr("Edit") $></button></td>
+					<td><button type="button" class="smallbutton" onclick="location.href='edit_searchtimer.html?searchtimerid=<$ timer->Id() $>';"><$ tr("Edit") $></button></td>
 					<td><img src="/<$ timer->UseAsSearchTimer() ? "active" : "inactive" $>.png" alt="Aktiv?" /></td>
 					<td><$ timer->Search() $></td>
 					<td><$ timer->ChannelText() $></td>
-					<td><? timer->UseTime() ? timer->StartTime() ?></td>
-					<td><? timer->UseTime() ? timer->StopTime() ?></td>
+					<td><? timer->UseTime() ? timer->StartTimeFormatted() ?></td>
+					<td><? timer->UseTime() ? timer->StopTimeFormatted() ?></td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 					<td class="border" style="border-right: 1px solid black"></td>
