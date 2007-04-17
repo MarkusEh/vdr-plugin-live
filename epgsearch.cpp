@@ -1,4 +1,5 @@
 #include <vector>
+#include <algorithm>
 #include <vdr/channels.h>
 #include <vdr/plugin.h>
 #include <iomanip>
@@ -13,7 +14,11 @@ using namespace std;
 
 bool operator<( SearchTimer const& left, SearchTimer const& right )
 {
-	return left.m_search < right.m_search;
+   string leftlower = left.m_search;
+   string rightlower = right.m_search;
+   std::transform(leftlower.begin(), leftlower.end(), leftlower.begin(), (int(*)(int)) tolower);
+   std::transform(rightlower.begin(), rightlower.end(), rightlower.begin(), (int(*)(int)) tolower);
+   return leftlower < rightlower;
 }
 
 SearchTimer::SearchTimer()
