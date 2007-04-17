@@ -60,6 +60,8 @@ using namespace vdrlive;
     bool useextepginfo = false;
     string extepgvalues[];
     bool avoidrepeats = false;
+    int allowedrepeats = 0;
+    int repeatswithindays = 0;
     bool comparetitle = false;
     bool comparesubtitle = false;
     bool comparesummary = false;
@@ -170,6 +172,8 @@ Blacklists blacklists;
         searchtimer->SetAvoidRepeats(avoidrepeats);
         if (avoidrepeats)
         {
+            searchtimer->SetAllowedRepeats(allowedrepeats);
+            searchtimer->SetRepeatsWithinDays(repeatswithindays);
             searchtimer->SetCompareTitle(comparetitle);
             searchtimer->SetCompareSubtitle(comparesubtitle);
             searchtimer->SetCompareSummary(comparesummary);
@@ -273,6 +277,8 @@ Blacklists blacklists;
                 extepgvalues.push_back("");
         }
         avoidrepeats = searchtimer->AvoidRepeats();
+        allowedrepeats =  searchtimer->AllowedRepeats();
+        repeatswithindays = searchtimer->RepeatsWithinDays();
         comparetitle = searchtimer->CompareTitle();
         comparesubtitle = searchtimer->CompareSubtitle();
         comparesummary = searchtimer->CompareSummary();
@@ -638,6 +644,12 @@ Blacklists blacklists;
                                                 onclick="changedavoidrepeats(this)" id="avoidrepeats"/>
                                     <div id="avoidrepeatssettings" style="display: none">
                                     <table border="0" cellpadding="0" cellspacing="0">
+                                        <tr>
+        									<td><$ tr("Allowed repeats") $>:</td>
+		        							<td>
+                                            <input type="text" size="3" maxlength="3" name="allowedrepeats" value="<$ allowedrepeats $>" /> <$ tr("Only repeats within ... days") $>:<input type="text" size="3" maxlength="3" name="repeatswithindays" value="<$ repeatswithindays $>" />
+                                            </td>
+                                        </tr>
                      					<tr>
                                             <td><$ tr("Compare title" ) $>:</td>   
                                             <td><input type="checkbox" name="comparetitle" value="1" <{ CHECKIF(comparetitle) }>/>

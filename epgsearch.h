@@ -99,6 +99,10 @@ public:
     void SetExtEPGInfo(std::vector< std::string > ExtEPGInfo) { m_ExtEPGInfo = ExtEPGInfo; } 
     bool AvoidRepeats() const { return m_avoidrepeats; }
     void SetAvoidRepeats(bool avoidrepeats) { m_avoidrepeats = avoidrepeats; }
+    int AllowedRepeats() const { return m_allowedrepeats; }
+    void SetAllowedRepeats(int allowedrepeats) { m_allowedrepeats = allowedrepeats; }
+    int RepeatsWithinDays() const { return m_repeatsWithinDays; }
+    void SetRepeatsWithinDays(int repeatsWithinDays) { m_repeatsWithinDays = repeatsWithinDays; }
     bool CompareTitle() const { return m_compareTitle; }
     void SetCompareTitle(bool compareTitle) { m_compareTitle = compareTitle; }
     bool CompareSubtitle() const { return m_compareSubtitle; }

@@ -1940,6 +1940,50 @@ const tI18nPhrase Phrases[] = {
       "",// TODO Dansk
       "",// TODO Èesky (Czech)
     },
+    { "Allowed repeats",
+      "Erlaubte Wiederholungen",
+      "",// TODO
+      "",// Italiano
+      "",// TODO
+      "",// TODO
+      "Répétitions autorisées",// Francais Pat
+      "",// TODO
+      "Sallittujen uusintojen lukumäärä",
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO Eesti
+      "",// TODO Dansk
+      "",// TODO Èesky (Czech)
+    },
+    { "Only repeats within ... days",
+      "Nur Wiederh. innerhalb ... Tagen",
+      "",// TODO
+      "",// Italiano
+      "",// TODO
+      "",// TODO
+      "Que répétion, pendant ... jours",// Francais Pat
+      "",// TODO
+      "Vain uusinnat ... päivän sisällä",
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO Eesti
+      "",// TODO Dansk
+      "",// TODO Èesky (Czech)
+    },
     { "Compare title",
       "Vergleiche Titel",
       "",// TODO
