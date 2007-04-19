@@ -2338,6 +2338,28 @@ const tI18nPhrase Phrases[] = {
 	  "", // Dansk
 	  "", // Czech
 	},
+    { "New",
+      "Neu",
+      "Novo",
+      "Nuovo",
+      "Nieuw",
+      "Novo",
+      "Nouveau",
+      "Ny",
+      "Uusi",
+      "Nowy",
+      "Nuevo",
+      "Nня",
+      "Ny",
+      "Nou",
+      "кj",
+      "Nou",
+      "Добавить",
+      "Novi",
+      "Uus",
+      "Ny",
+      "Nov§",
+    },
 	/*
 	{ "", // English
 	  "", // Deutsch
