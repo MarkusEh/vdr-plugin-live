@@ -28,7 +28,7 @@ SearchTimer::SearchTimer()
 
 void SearchTimer::Init()
 {
-   m_id = -1;
+   m_id = 0;
    m_useTime = false;
    m_startTime = 0;
    m_stopTime = 0;

@@ -293,6 +293,13 @@ Blacklists blacklists;
         marginstop = searchtimer->MarginStop();
         usevps = searchtimer->UseVPS();
     }
+    else
+    {
+        for(unsigned int i=0; i<extEPGInfos.size(); i++)
+            extepgvalues.push_back("");
+        for(unsigned int i=0; i<extEPGInfos.size(); i++)
+            avoidrepeatscatselected.push_back(false);
+    }   
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -585,7 +592,7 @@ Blacklists blacklists;
                                 <select name="blacklists" multiple="multiple" size="5" onchange="changedblacklistsel(this)">
 %                                   int i=0; for (Blacklists::iterator blacklist = blacklists.begin(); blacklist != blacklists.end(); ++blacklist, i++) {                                     
 
-                                    <option value="<$ blacklist->Id() $>" <{ SELECTIF(searchtimer->BlacklistSelected(blacklist->Id())) }>><$ blacklist->Search() $></option>
+                                    <option value="<$ blacklist->Id() $>" <{ SELECTIF(searchtimer && searchtimer->BlacklistSelected(blacklist->Id())) }>><$ blacklist->Search() $></option>
 %                                   }
                                 </select>
 %                           }

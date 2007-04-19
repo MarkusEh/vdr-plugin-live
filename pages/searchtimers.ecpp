@@ -36,6 +36,7 @@ using namespace vdrlive;
 					<td><$ tr("Channel") $></td>
 					<td><$ tr("Start") $></td>
 					<td><$ tr("Stop") $></td>
+                    <td><button type="button" class="smallbutton" onclick="location.href='edit_searchtimer.html';"><$ tr("New") $></button></td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 					<td style="background: url(bg_box_r.png); width: 3px;" /></td>
