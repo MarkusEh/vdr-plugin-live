@@ -5,6 +5,7 @@
 #include <list>
 #include <string>
 #include <vdr/channels.h>
+#include <vdr/epg.h>
 
 namespace vdrlive {
 
@@ -296,6 +297,57 @@ public:
 	const_iterator end() const { return m_list.end(); }
 private:
 	blacklist m_list;
+};
+
+class SearchResult
+{
+public:
+	SearchResult( std::string const& data );
+
+	int SearchId() const { return m_searchId; }
+	tEventID EventId() const { return m_eventId; }
+	std::string const& Title() const { return m_title; }
+	std::string const& ShortText() const { return m_shorttext; }
+    time_t StartTime() const { return m_starttime; }
+    time_t StopTime() const { return m_stoptime; }
+    tChannelID Channel() const { return m_channel; }
+    time_t TimerStartTime() const { return m_timerstart; }
+    time_t TimerStopTime() const { return m_timerstop; }
+    int TimerMode() const { return m_timerMode; }
+    bool operator<( SearchResult const& other ) const { return m_starttime <  other.m_starttime; }
+
+private:
+	int m_searchId;
+    tEventID m_eventId;
+    std::string m_title;
+	std::string m_shorttext;
+    time_t m_starttime;
+    time_t m_stoptime;
+	tChannelID m_channel;
+    time_t m_timerstart;
+    time_t m_timerstop;
+    std::string m_file;
+    int m_timerMode;
+};
+
+class SearchResults
+{
+public:
+	typedef std::list< SearchResult > searchresults;
+	typedef searchresults::size_type size_type;
+	typedef searchresults::iterator iterator;
+	typedef searchresults::const_iterator const_iterator;
+
+	SearchResults(int searchId);
+
+	size_type size() const { return m_list.size(); }
+
+	iterator begin() { return m_list.begin(); }
+	const_iterator begin() const { return m_list.begin(); }
+	iterator end() { return m_list.end(); }
+	const_iterator end() const { return m_list.end(); }
+private:
+	searchresults m_list;
 };
 
 }

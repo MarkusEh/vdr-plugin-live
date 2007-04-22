@@ -432,4 +432,39 @@ Blacklists::Blacklists()
     m_list.sort();
 }
 
+SearchResult::SearchResult( string const& data )
+{
+   vector< string > parts = StringSplit( data, ':' );
+   try {
+      vector< string >::const_iterator part = parts.begin();
+      for ( int i = 0; part != parts.end(); ++i, ++part ) {
+			switch ( i ) {
+			case  0: m_searchId = lexical_cast< int >( *part ); break;
+			case  1: m_eventId = lexical_cast< u_int32_t >( *part ); break;
+			case  2: m_title = *part; break;
+			case  3: m_shorttext = *part; break;
+			case  4: m_starttime = lexical_cast< unsigned long >( *part ); break;
+			case  5: m_stoptime = lexical_cast< unsigned long >( *part ); break;
+			case  6: m_channel = lexical_cast< tChannelID >( *part ); break;
+			case  7: m_timerstart = lexical_cast< unsigned long >( *part ); break;
+			case  8: m_timerstop = lexical_cast< unsigned long >( *part ); break;
+            case  9: m_file = *part; break;
+            case 10: m_timerMode = lexical_cast< int >( *part ); break;
+			}
+		}
+	} catch ( bad_lexical_cast const& ex ) {
+	}
+}
+
+SearchResults::SearchResults(int id)
+{
+	Epgsearch_services_v1_0 service;
+	if ( cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
+		throw HtmlError( tr("No searchtimers available") );
+
+	list< string > list = service.handler->QuerySearchTimer(id);
+	m_list.assign( list.begin(), list.end() );
+    m_list.sort();
+}
+
 } // namespace vdrlive
