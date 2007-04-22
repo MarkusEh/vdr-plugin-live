@@ -1,0 +1,82 @@
+<%pre>
+#include <vdr/channels.h>
+#include <vdr/i18n.h>
+#include <vdr/epg.h>
+#include "epgsearch.h"
+#include "tools.h"
+
+using namespace vdrlive;
+using namespace std;
+
+</%pre>
+<%args>
+	// input parameters
+	int searchtimerid;
+</%args>
+<%include>page_init.eh</%include>
+<%cpp>
+	pageTitle = tr("Search results");
+
+	SearchResults results(searchtimerid);
+</%cpp>
+<& pageelems.doc_type &>
+<html>
+	<head>
+		<title>VDR-Live - <$ pageTitle $></title>
+		<link rel="stylesheet" type="text/css" href="/styles.css" />
+		<& pageelems.ajax_js &>
+	</head>
+	<body onload="LiveStatusAjaxRequest('infobox.html', 'infobox')">
+		<& pageelems.logo &>
+		<& menu active=("searchresults") &>
+		<div class="inhalt">
+%           if (results.size() == 0) {
+                <$ tr("No search results") $>
+%           }
+			<table class="searchresults" cellspacing="0" callpadding="0">
+<{
+				string current_day = "";
+				bool active_line = false;
+         		for (SearchResults::iterator result = results.begin(); result != results.end(); ++result) {
+//                    active_line = !active_line;
+                    string channelname = Channels.GetByChannelID(result->Channel())->Name();
+					string start(result->StartTime() ? FormatDateTime(tr("%I:%M %p"), result->StartTime()) : "");
+					string end(result->StopTime() ? FormatDateTime(tr("%I:%M %p"), result->StopTime()) : "");
+					string day(result->StartTime() ? FormatDateTime(tr("%A, %b %d %Y"), result->StartTime()) : "");
+					tEventID event = result->EventId();
+                    tChannelID channel_id(result->Channel());
+					if (current_day != day) {
+						if (current_day != "") {
+}>
+						<tr>
+							<td colspan="5" style="border-top: 1px solid black; border-bottom: none; background-image: none">&nbsp;</td></tr>
+						</tr>
+<{
+						}
+}>
+						<tr>
+							<td class="day" colspan="5"><div class="boxheader"><div><div><$ day $></div></div></div></td>
+						</tr>
+%					current_day = day;
+%					}
+                    <tr class="<? active_line ? "active" ?>">
+						<td style="border-left: 1px solid black"><& pageelems.event_timer channelid=(channel_id) eventid=(event) &></td>
+						<td><$ channelname $></td>
+						<td><$ start $> - <$ end $></td>
+						<td><strong><$ result->Title() $></strong><br /><$ result->ShortText() $><br /></td>
+						<td style="border-right: 1px solid black">&nbsp;</td>
+					</tr>
+%				}
+%				if (results.size() > 0) {
+						<tr>
+							<td colspan="5" style="border-top: 1px solid black; background: none">&nbsp;</td></tr>
+						</tr>
+%				}
+			</table>
+		</div>
+	</body>
+</html>
+
+<%include>page_exit.eh</%include>
+
+
