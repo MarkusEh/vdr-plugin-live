@@ -624,3 +624,40 @@ table.edit tr.active {
 	background: #DEE6EE;
 }
 
+
+/*
+  ##############################
+  #  Search results
+  ##############################
+*/
+
+table.searchresults {
+	margin: 10px 0 0 0;
+	padding: 0;
+}
+
+table.searchresults tr td.head {
+	background: #6D96A9;
+	color: white;
+	font-weight: bold;
+	margin: 0;
+	padding: 3px;
+}
+
+table.searchresults tr td {
+	vertical-align: top;
+	padding: 3px 7px 7px 3px;
+	background: url(bg_line.png) bottom repeat-x;
+        border-bottom: 1px solid #C0C1DA;
+}
+
+table.searchresults tr td.day {
+	vertical-align: top;
+	padding: 0;
+	margin: 0;
+	border:none;
+}
+
+table.searchresults tr.active {
+	background: #DEE6EE;
+}
