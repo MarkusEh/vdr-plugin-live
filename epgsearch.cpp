@@ -35,9 +35,9 @@ void SearchTimer::Init()
    m_useChannel = NoChannel;
    m_useCase = false;
    m_mode = 0;
-   m_useTitle = false;
-   m_useSubtitle = false;
-   m_useDescription = false;
+   m_useTitle = true;
+   m_useSubtitle = true;
+   m_useDescription = true;
    m_useDuration = false;
    m_minDuration = 0;
    m_maxDuration = 0;

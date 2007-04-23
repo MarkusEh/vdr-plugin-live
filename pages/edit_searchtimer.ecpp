@@ -299,6 +299,9 @@ Blacklists blacklists;
             extepgvalues.push_back("");
         for(unsigned int i=0; i<extEPGInfos.size(); i++)
             avoidrepeatscatselected.push_back(false);
+        usetitle = true;
+        usesubtitle = true;
+        usedescr = true;
     }   
 </%cpp>
 <& pageelems.doc_type &>
