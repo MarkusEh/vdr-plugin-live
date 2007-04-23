@@ -28,7 +28,7 @@ SearchTimer::SearchTimer()
 
 void SearchTimer::Init()
 {
-   m_id = 0;
+   m_id = -1;
    m_useTime = false;
    m_startTime = 0;
    m_stopTime = 0;
@@ -306,6 +306,7 @@ bool SearchTimers::Save(SearchTimer* searchtimer)
        return service.handler->ModSearchTimer(searchtimer->ToText());
     else
     {
+       searchtimer->SetId(0);
        int id = service.handler->AddSearchTimer(searchtimer->ToText());
        if (id >= 0)
           searchtimer->SetId(id);
