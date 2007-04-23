@@ -21,7 +21,7 @@ OBJS	= logo.o record.o active.o inactive.o button_blue.o	\
 	  bg_box_l.o bg_box_r.o movie.o menu_line_bg.o		\
 	  bg_line.o bg_tools.o zap.o favicon.o bg_line_top.o	\
 	  reload.o stop.o one_uparrow.o one_downarrow.o tv.o	\
-	  remotecontrol.o search.o
+	  remotecontrol.o search.o record_timer.o
 
 ### Default rules:
 
