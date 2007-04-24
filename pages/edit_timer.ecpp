@@ -122,32 +122,42 @@ cTimer* timer;
 				<input type="hidden" name="timerid" value="<$ timerid $>"/>
 				<input type="hidden" name="aux" value="<$ aux $>"/>
 				<table class="edit" cellpadding="0" cellspacing="0">
-					<tr class="active">
+					<tr>
+						<td class="head" colspan="4"><div class="boxheader"><div><div><$ timer ? tr("Edit timer") : tr("New timer") $></div></div></div></td>
+					</tr>
+					<tr>
+						<td class="border" style="border-left: 1px solid black"></td>
 						<td class="label"><$ tr("Active") $>:</td>
 						<td>
 							<input name="active" value="1" <{ reply.out() << ( active ? "checked=\"checked\"" : "" ); }> type="radio"><$ tr("Yes") $>
 							<input name="active" value="0" <{ reply.out() << ( !active ? "checked=\"checked\"" : "" ); }> type="radio"><$ tr("No") $>
 						</td>
+						<td class="border" style="border-right: 1px solid black"></td>
 					</tr>
 					<tr>
+						<td class="border" style="border-left: 1px solid black"></td>
 						<td class="label"><$ tr("Channel") $>:</td>
-						<td>
-<& channels_widget name=("channel") channelid=(true) selected=(channel) &>
-						</td>
+						<td><& channels_widget name=("channel") channelid=(true) selected=(channel) &></td>
+						<td class="border" style="border-right: 1px solid black"></td>
 					</tr>
 
-					<tr class="active">
+					<tr>
+						<td class="border" style="border-left: 1px solid black"></td>
 						<td class="label"><$ tr("Title" ) $>:</td>
 						<td><input type="text" name="title" value="<$ title $>" size="80" /></td>
+						<td class="border" style="border-right: 1px solid black"></td>
 					</tr>
 
 
 					<tr>
+						<td class="border" style="border-left: 1px solid black"></td>
 						<td class="label"><$ tr("Day") $>:</td>
 						<td><input type="text" name="day" value="<$ day $>" size="2" maxlength="2" /></td>
+						<td class="border" style="border-right: 1px solid black"></td>
 					</tr>
 
-					<tr class="active">
+					<tr>
+						<td class="border" style="border-left: 1px solid black"></td>
 						<td class="label"><$ tr("Weekday") $>:</td>
 						<td>
 							<input type="checkbox" name="wday_mon" value="1" <{ reply.out() << ( wday_mon ? "checked=\"checked\"" : "" ); }>/> <$ tr("Monday") $>
@@ -157,36 +167,49 @@ cTimer* timer;
 							<input type="checkbox" name="wday_fri" value="1" <{ reply.out() << ( wday_fri ? "checked=\"checked\"" : "" ); }>/> <$ tr("Friday") $>
 							<input type="checkbox" name="wday_sat" value="1" <{ reply.out() << ( wday_sat ? "checked=\"checked\"" : "" ); }>/> <$ tr("Saturday") $>
 							<input type="checkbox" name="wday_sun" value="1" <{ reply.out() << ( wday_sun ? "checked=\"checked\"" : "" ); }>/> <$ tr("Sunday") $>
+						<td class="border" style="border-right: 1px solid black"></td>
 						</td>
 					</tr>
 
 					<tr>
+						<td class="border" style="border-left: 1px solid black"></td>
 						<td class="label"><$ tr("Start") $>:</td>
 						<td><input type="text" size="2" maxlength="2" name="start_h" value="<$ start_h $>" /> : <input type="text" size="2" maxlength="2" name="start_m" value="<$ start_m $>" /></td>
+						<td class="border" style="border-right: 1px solid black"></td>
 					</tr>
 
-					<tr class="active">
+					<tr>
+						<td class="border" style="border-left: 1px solid black"></td>
 						<td class="label"><$ tr("Stop") $>:</td>
 						<td><input type="text" size="2" maxlength="2" name="end_h" value="<$ end_h $>" /> : <input type="text" size="2" maxlength="2" name="end_m" value="<$ end_m $>" /></td>
+						<td class="border" style="border-right: 1px solid black"></td>
 					</tr>
 
 					<tr>
+						<td class="border" style="border-left: 1px solid black"></td>
 						<td class="label"><$ tr("Use VPS") $>:</td>
 						<td><input type="checkbox" name="vps" value="1" <{ reply.out() << ( vps ? "checked=\"checked\"" : "" ); }>/></td>
-					</tr>
-
-					<tr class="active">
-						<td class="label"><$ tr("Priority") $>:</td>
-						<td><input type="text" size="2" maxlength="2" name="priority" value="<$ priority $>" /></td>
+						<td class="border" style="border-right: 1px solid black"></td>
 					</tr>
 
 					<tr>
-						<td class="label"><$ tr("Lifetime") $>:</td>
-						<td><input type="text" size="2" maxlength="2" name="lifetime" value="<$ lifetime $>" /></td>
+						<td class="border" style="border-left: 1px solid black"></td>
+						<td class="label"><$ tr("Priority") $>:</td>
+						<td><input type="text" size="2" maxlength="2" name="priority" value="<$ priority $>" /></td>
+						<td class="border" style="border-right: 1px solid black"></td>
 					</tr>
 
-					<tr class="active">
+					<tr>
+						<td class="border" style="border-left: 1px solid black"></td>
+						<td class="label"><$ tr("Lifetime") $>:</td>
+						<td><input type="text" size="2" maxlength="2" name="lifetime" value="<$ lifetime $>" /></td>
+						<td class="border" style="border-right: 1px solid black"></td>
+					</tr>
+
+					<tr style="border-bottom: 1px solid black">
+						<td class="border" style="border-left: 1px solid black"></td>
 						<td class="buttonpanel" colspan="2"><button name="submit" type="submit"><$ tr("Save") $></button></td>
+						<td class="border" style="border-right: 1px solid black"></td>
 					</tr>
 				</table>
 			</form>
