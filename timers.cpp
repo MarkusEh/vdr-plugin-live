@@ -98,6 +98,14 @@ void TimerManager::UpdateTimer( cTimer* timer, int flags, tChannelID& channel, s
 		throw HtmlError( error );
 }
 
+void TimerManager::DelTimer( cTimer* timer)
+{
+	cTimer* delTimer = Timers.GetTimer(timer);
+	Timers.Del(delTimer, true);
+	Timers.SetModified();
+	m_timers.ReloadTimers(false);
+}
+
 void TimerManager::DoPendingWork()
 {
 	if ( m_updateTimers.size() == 0 && !m_timers.Modified() )

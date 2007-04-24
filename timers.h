@@ -39,6 +39,7 @@ public:
 	void UpdateTimer( cTimer* timer, int flags, tChannelID& channel, std::string const& weekdays, std::string const& day,
 					  int start, int stop, int priority, int lifetime, std::string const& title, std::string const& aux );
 
+	void DelTimer( cTimer* timer);
 	// may only be called from Plugin::MainThreadHook
 	void DoPendingWork();
 	void DoReloadTimers() { m_timers.ReloadTimers(); }
