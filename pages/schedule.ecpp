@@ -96,7 +96,7 @@ using namespace vdrlive;
 %				}
 %				if (Schedule->Events()->Count() > 0) {
 						<tr>
-							<td colspan="4" style="border-top: 1px solid black; background: none">&nbsp;</td></tr>
+							<td colspan="4" style="border-top: 1px solid black; background-image: none; border-bottom: none">&nbsp;</td></tr>
 						</tr>
 %				}
 			</table>
