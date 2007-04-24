@@ -253,6 +253,7 @@ public:
 
 	SearchTimers();
 	bool Save(SearchTimer* searchtimer);
+	bool Reload();
 
 	size_type size() const { return m_timers.size(); }
 
@@ -262,6 +263,7 @@ public:
 	const_iterator end() const { return m_timers.end(); }
 	SearchTimer* GetByTimerId( std::string const& id );
 	bool ToggleActive(std::string const& id);
+	bool Delete(std::string const& id);
 private:
 	TimerList m_timers;
 };

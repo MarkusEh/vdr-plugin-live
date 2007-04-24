@@ -20,6 +20,8 @@ using namespace std;
 	if ( !searchtimerid.empty() ) {
 		if (action == "toggle")
 			timers.ToggleActive(searchtimerid);
+		if (action == "delete")
+			timers.Delete(searchtimerid);
 	}
 </%cpp>
 <& pageelems.doc_type &>
@@ -60,9 +62,10 @@ using namespace std;
 					<td><? timer->UseTime() ? timer->StartTimeFormatted() ?></td>
 					<td><? timer->UseTime() ? timer->StopTimeFormatted() ?></td>
 					<td>&nbsp;</td>
-					<td><a href="searchtimers.html?searchtimerid=<$ timer->Id() $>&action=toggle"><img src="/<$ timer->UseAsSearchTimer() ? "active" : "inactive" $>.png" alt="" <& tooltip.hint text=(tr("Toggle searchtimer actions (in)active")) &>"/></a></td>
-					<td><a href="searchresults.html?searchtimerid=<$ timer->Id() $>"><img src="/search.png" border="0" alt="" <& tooltip.hint text=(tr("Browse searchtimer results")) &> ></a></td>
-					<td><a href="edit_searchtimer.html?searchtimerid=<$ timer->Id() $>"><img src="/edit.png" alt=""  <& tooltip.hint text=(tr("Edit search timer")) &> ></a></td>
+					<td><a href="searchtimers.html?searchtimerid=<$ timer->Id() $>&action=toggle"><img src="/<$ timer->UseAsSearchTimer() ? "active" : "inactive" $>.png" alt="" <& tooltip.hint text=(tr("Toggle search timer actions (in)active")) &>/></a></td>
+					<td><a href="searchresults.html?searchtimerid=<$ timer->Id() $>"><img src="/search.png" border="0" alt="" <& tooltip.hint text=(tr("Browse search timer results")) &> ></a></td>
+					<td><a href="edit_searchtimer.html?searchtimerid=<$ timer->Id() $>"><img src="/edit.png" alt=""  <& tooltip.hint text=(tr("Edit search timer")) &>/></a></td>
+					<td><a href="searchtimers.html?searchtimerid=<$ timer->Id() $>&action=delete"><img src="/del.png" alt="" <& tooltip.hint text=(tr("Delete search timer")) &>/></a></td>
 					<td class="border" style="border-right: 1px solid black"></td>
 				</tr>
 <{

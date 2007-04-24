@@ -284,6 +284,11 @@ string SearchTimer::StopTimeFormatted()
 
 SearchTimers::SearchTimers()
 {
+	Reload();
+}
+
+bool SearchTimers::Reload()
+{
 	Epgsearch_services_v1_0 service;
 	if ( cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
 		throw HtmlError( tr("No searchtimers available") );
@@ -291,7 +296,8 @@ SearchTimers::SearchTimers()
 	ReadLock channelsLock( Channels, 0 );
 	list< string > timers = service.handler->SearchTimerList();
 	m_timers.assign( timers.begin(), timers.end() );
-    m_timers.sort();
+	m_timers.sort();
+	return true;
 }
 
 bool SearchTimers::Save(SearchTimer* searchtimer)
@@ -300,18 +306,18 @@ bool SearchTimers::Save(SearchTimer* searchtimer)
 	if ( cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
 		throw HtmlError( tr("No searchtimers available") );
 
-    if (!searchtimer) return false;
+	if (!searchtimer) return false;
 	ReadLock channelsLock( Channels, 0 );
-    if (searchtimer->Id() >= 0)
-       return service.handler->ModSearchTimer(searchtimer->ToText());
-    else
-    {
-       searchtimer->SetId(0);
-       int id = service.handler->AddSearchTimer(searchtimer->ToText());
-       if (id >= 0)
-          searchtimer->SetId(id);
-       return (id >= 0);
-    }
+	if (searchtimer->Id() >= 0)
+		return service.handler->ModSearchTimer(searchtimer->ToText());
+	else
+	{
+		searchtimer->SetId(0);
+		int id = service.handler->AddSearchTimer(searchtimer->ToText());
+		if (id >= 0)
+			searchtimer->SetId(id);
+		return (id >= 0);
+	}
 }
 
 SearchTimer* SearchTimers::GetByTimerId( std::string const& id )
@@ -329,6 +335,20 @@ bool SearchTimers::ToggleActive(std::string const& id)
 	if (!search) return false;
 	search->SetUseAsSearchTimer(!search->UseAsSearchTimer());
 	return Save(search);
+}
+
+bool SearchTimers::Delete(std::string const& id)
+{
+	SearchTimer* search = GetByTimerId( id );
+	if (!search) return false;
+
+	Epgsearch_services_v1_0 service;
+	if ( cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
+		throw HtmlError( tr("No searchtimers available") );
+
+	if (service.handler->DelSearchTimer(lexical_cast< int >( id )))
+		return Reload();
+	return false;
 }
 
 bool SearchTimer::BlacklistSelected(int id) const
