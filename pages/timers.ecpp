@@ -75,9 +75,9 @@ cTimer* timer;
 					<td><$ FormatDateTime(tr("%I:%M %p"), timer->StopTime()) $></td>
 					<td><{ if (timer->Recording()) { }><img src="/record.png" alt="Record" /><{ } }></td>
 					<td><$ timer->File() $></td>
-					<td><a href="timers.html?timerid=<$ timers.GetTimerId(*timer) $>&action=toggle"><img src="/<$ (timer->Flags() & tfActive) ? "active" : "inactive" $>.png" alt="Aktiv?" /></a></td>
-					<td><button type="button" class="smallbutton" onclick="location.href='edit_timer.html?timerid=<$ timers.GetTimerId(*timer) $>';"><$ tr("Edit") $></button></td>
-					<td><a href="timers.html?timerid=<$ timers.GetTimerId(*timer) $>&action=delete"><img src="del.png" border="0"></a></td>
+					<td><a href="timers.html?timerid=<$ timers.GetTimerId(*timer) $>&action=toggle"><img src="/<$ (timer->Flags() & tfActive) ? "active" : "inactive" $>.png" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &>/></a></td>
+					<td><a href="edit_timer.html?timerid=<$ timers.GetTimerId(*timer) $>"><img src="edit.png" alt="" <& tooltip.hint text=(tr("Edit timer")) &>></a></td>
+					<td><a href="timers.html?timerid=<$ timers.GetTimerId(*timer) $>&action=delete"><img src="del.png" alt="" <& tooltip.hint text=(tr("Delete timer")) &>></a></td>
 					<td class="border" style="border-right: 1px solid black"></td>
 				</tr>
 <{

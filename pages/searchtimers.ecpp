@@ -18,6 +18,7 @@ using namespace vdrlive;
 	<head>
 		<title>VDR-Live - <$ pageTitle $></title>
 		<link rel="stylesheet" type="text/css" href="/styles.css" />
+		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 	</head>
 	<body onload="LiveStatusAjaxRequest('infobox.html', 'infobox')">
@@ -50,9 +51,9 @@ using namespace vdrlive;
 					<td><? timer->UseTime() ? timer->StartTimeFormatted() ?></td>
 					<td><? timer->UseTime() ? timer->StopTimeFormatted() ?></td>
 					<td>&nbsp;</td>
-					<td><img src="/<$ timer->UseAsSearchTimer() ? "active" : "inactive" $>.png" alt="Aktiv?" /></td>
-					<td><a href='searchresults.html?searchtimerid=<$ timer->Id() $>'"><img src="/search.png" border="0" alt="<$ tr("Search") $>"></a></td>
-					<td><button type="button" class="smallbutton" onclick="location.href='edit_searchtimer.html?searchtimerid=<$ timer->Id() $>';"><$ tr("Edit") $></button></td>
+					<td><img src="/<$ timer->UseAsSearchTimer() ? "active" : "inactive" $>.png" alt="" <& tooltip.hint text=(tr("Toggle searchtimer actions (in)active")) &>/></td>
+					<td><a href="searchresults.html?searchtimerid=<$ timer->Id() $>"><img src="/search.png" border="0" alt="" <& tooltip.hint text=(tr("Browse searchtimer results")) &>></a></td>
+					<td><a href="edit_searchtimer.html?searchtimerid=<$ timer->Id() $>"><img src="/edit.png" alt=""  <& tooltip.hint text=(tr("Edit searchtimer")) &>></a></td>
 					<td class="border" style="border-right: 1px solid black"></td>
 				</tr>
 <{
