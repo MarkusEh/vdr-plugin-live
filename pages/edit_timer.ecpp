@@ -114,7 +114,7 @@ cTimer* timer;
 	<body>
 		<div class="left_area">
 			<& pageelems.logo &>
-			<& menu active=("timers") component=("edit_timer.header") &>
+			<& menu active=("timers") &>
 		</div>
 	<div class="right_area">
 		<div class="inhalt">
@@ -221,7 +221,3 @@ cTimer* timer;
 	</body>
 </html>
 <%include>page_exit.eh</%include>
-
-<%def header>
-<span><$ (timer ? tr("Edit timer") : tr("New timer")) $></span>
-</%def>

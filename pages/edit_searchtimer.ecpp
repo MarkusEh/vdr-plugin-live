@@ -418,7 +418,7 @@ Blacklists blacklists;
 	<body onload="initform()">
 		<div class="left_area">
 			<& pageelems.logo &>
-			<& menu active=("searchtimers") component=("edit_searchtimer.header") &>
+			<& menu active=("searchtimers") &>
 		</div>
 		<div class="right_area">
 			<div class="inhalt">
@@ -786,7 +786,3 @@ Blacklists blacklists;
 	</body>
 </html>
 <%include>page_exit.eh</%include>
-
-<%def header>
-<span><$ (searchtimer ? tr("Edit search timer") : tr("New search timer")) $></span>
-</%def>
