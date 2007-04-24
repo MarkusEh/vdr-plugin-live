@@ -106,6 +106,15 @@ void TimerManager::DelTimer( cTimer* timer)
 	m_timers.ReloadTimers(false);
 }
 
+void TimerManager::ToggleTimerActive( cTimer* timer)
+{
+	cTimer* toggleTimer = Timers.GetTimer(timer);
+	toggleTimer->OnOff();
+	Timers.SetModified();
+	m_timers.ReloadTimers(false);
+}
+
+
 void TimerManager::DoPendingWork()
 {
 	if ( m_updateTimers.size() == 0 && !m_timers.Modified() )
