@@ -208,7 +208,10 @@ cTimer* timer;
 
 					<tr>
 						<td class="border" style="border-left: 1px solid black; border-bottom: 1px solid black"></td>
-						<td class="buttonpanel" colspan="2" style="border-bottom: 1px solid black"><button name="submit" type="submit"><$ tr("Save") $></button></td>
+						<td class="buttonpanel" colspan="2" style="border-bottom: 1px solid black">
+							<button class="green" type="submit"><$ tr("Save") $></button>
+							<button type="button" class="red" onclick="location.href='timers.html';"><$ tr("Cancel") $></button>
+						</td>
 						<td class="border" style="border-right: 1px solid black; border-bottom: 1px solid black"></td>
 					</tr>
 				</table>

@@ -51,9 +51,9 @@ using namespace vdrlive;
 					<td><? timer->UseTime() ? timer->StartTimeFormatted() ?></td>
 					<td><? timer->UseTime() ? timer->StopTimeFormatted() ?></td>
 					<td>&nbsp;</td>
-					<td><img src="/<$ timer->UseAsSearchTimer() ? "active" : "inactive" $>.png" alt="" <& tooltip.hint text=(tr("Toggle searchtimer actions (in)active")) &>/></td>
-					<td><a href="searchresults.html?searchtimerid=<$ timer->Id() $>"><img src="/search.png" border="0" alt="" <& tooltip.hint text=(tr("Browse searchtimer results")) &>></a></td>
-					<td><a href="edit_searchtimer.html?searchtimerid=<$ timer->Id() $>"><img src="/edit.png" alt=""  <& tooltip.hint text=(tr("Edit searchtimer")) &>></a></td>
+					<td><img src="/<$ timer->UseAsSearchTimer() ? "active" : "inactive" $>.png" alt="" <& tooltip.hint text=(tr("Toggle searchtimer actions (in)active")) &>"/></td>
+					<td><a href="searchresults.html?searchtimerid=<$ timer->Id() $>"><img src="/search.png" border="0" alt="" <& tooltip.hint text=(tr("Browse searchtimer results")) &> ></a></td>
+					<td><a href="edit_searchtimer.html?searchtimerid=<$ timer->Id() $>"><img src="/edit.png" alt=""  <& tooltip.hint text=(tr("Edit searchtimer")) &> ></a></td>
 					<td class="border" style="border-right: 1px solid black"></td>
 				</tr>
 <{

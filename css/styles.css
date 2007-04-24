@@ -261,6 +261,37 @@ button.smallbutton {
 	cursor: pointer;
 }
 
+button.green {
+	width: 100px;
+	height: 20px;
+	background-color: inherit;
+	background-image: url(button_green.png);
+	background-repeat: no-repeat;
+	color: #FFFFFF;
+	font-size: 12px;
+	border: 0px;
+	vertical-align: middle;
+	text-align: center;
+	cursor: pointer;
+	padding-bottom: 3px;
+}
+
+button.red {
+	width: 100px;
+	height: 20px;
+	background-color: inherit;
+	background-image: url(button_red.png);
+	background-repeat: no-repeat;
+	color: #FFFFFF;
+	font-size: 11px;
+	border: 0px;
+	vertical-align: middle;
+	text-align: center;
+	cursor: pointer;
+	padding-bottom: 3px;
+}
+
+
 table td.buttonpanel {
 	text-align: right;
 }
@@ -626,10 +657,16 @@ table.edit tr td {
 
 table.edit tr td.label {
 	font-weight: bold;
+	vertical-align: top;
 }
 
 table.edit tr.active {
 	background: #DEE6EE;
+}
+
+table.edit td.blank {
+	background: none;
+	border: none;
 }
 
 
