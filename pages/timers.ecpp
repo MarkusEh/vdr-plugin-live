@@ -65,10 +65,9 @@ cTimer* timer;
 					<td style="background: url(bg_box_r.png); width: 3px;" /></td>
 				</tr>
 <{
-				bool active = false;
 				for (SortedTimers::iterator timer = timers.begin(); timer != timers.end(); ++timer) {
 }>
-				<tr class="<$ active ? "active" : "" $>">
+				<tr>
 					<td class="border" style="border-left: 1px solid black"></td>
 					<td><$ timer->Channel()->Name() $></td>
 					<td><$ timer->WeekDays() > 0 ? *cTimer::PrintDay(0, timer->WeekDays()) : FormatDateTime(tr("%a, %b %d"), timer->Day()) $></td>
@@ -82,11 +81,10 @@ cTimer* timer;
 					<td class="border" style="border-right: 1px solid black"></td>
 				</tr>
 <{
-					active = !active;
 				}
 			}
 }>
-				<tr><td colspan="10" style="border-top: 1px solid black">&nbsp;</td></tr>
+				<tr><td colspan="11" style="border-top: 1px solid black; background-image: none; border-bottom: none">&nbsp;</td></tr>
 			</table>
 		</div>
 	</body>
