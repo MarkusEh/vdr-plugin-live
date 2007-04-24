@@ -3,15 +3,34 @@
 #include "timers.h"
 #include "tools.h"
 
+using namespace std;
 using namespace vdrlive;
 
 </%pre>
+<%args>
+	// input parameters
+	string timerid;
+	string action;
+</%args>
+<%request scope="page">
+cTimer* timer;
+</%request>
 <%include>page_init.eh</%include>
 <%cpp>
 	pageTitle = tr("Timers");
 
 	cMutexLock timersLock( &LiveTimerManager() );
 	SortedTimers& timers = LiveTimerManager().GetTimers();
+
+	timer = 0;
+	if ( !timerid.empty() ) {
+		timer = timers.GetByTimerId( timerid );
+		if ( timer == 0 )
+			throw HtmlError( tr("Couldn't find timer. Maybe you mistyped your request?") );
+		if (action == "delete")
+			LiveTimerManager().DelTimer(timer);
+	}
+
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -31,7 +50,6 @@ using namespace vdrlive;
 			<table class="timers" cellspacing="0" cellpadding="0">
 				<tr class="head">
 					<td style="background: url(bg_box_l.png); width: 3px;"/></td>
-					<td>&nbsp;</td>
 					<td><$ tr("Active") $></td>
 					<td><$ tr("Channel") $></td>
 					<td><$ tr("Date") $></td>
@@ -39,6 +57,8 @@ using namespace vdrlive;
 					<td><$ tr("Stop") $></td>
 					<td>&nbsp;</td>
 					<td><$ tr("File") $></td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
 					<td style="background: url(bg_box_r.png); width: 3px;" /></td>
 				</tr>
 <{
@@ -47,7 +67,6 @@ using namespace vdrlive;
 }>
 				<tr class="<$ active ? "active" : "" $>">
 					<td class="border" style="border-left: 1px solid black"></td>
-					<td><button type="button" class="smallbutton" onclick="location.href='edit_timer.html?timerid=<$ timers.GetTimerId(*timer) $>';"><$ tr("Edit") $></button></td>
 					<td><img src="/<$ (timer->Flags() & tfActive) ? "active" : "inactive" $>.png" alt="Aktiv?" /></td>
 					<td><$ timer->Channel()->Name() $></td>
 					<td><$ timer->WeekDays() > 0 ? *cTimer::PrintDay(0, timer->WeekDays()) : FormatDateTime(tr("%a, %b %d"), timer->Day()) $></td>
@@ -55,6 +74,8 @@ using namespace vdrlive;
 					<td><$ FormatDateTime(tr("%I:%M %p"), timer->StopTime()) $></td>
 					<td><{ if (timer->Recording()) { }><img src="/record.png" alt="Record" /><{ } }></td>
 					<td><$ timer->File() $></td>
+					<td><button type="button" class="smallbutton" onclick="location.href='edit_timer.html?timerid=<$ timers.GetTimerId(*timer) $>';"><$ tr("Edit") $></button></td>
+					<td><a href="timers.html?timerid=<$ timers.GetTimerId(*timer) $>&action=delete"><img src="del.png" border="0"></a></td>
 					<td class="border" style="border-right: 1px solid black"></td>
 				</tr>
 <{
