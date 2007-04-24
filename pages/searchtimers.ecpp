@@ -30,12 +30,12 @@ using namespace vdrlive;
 %			} else {
 			<table class="timers" cellspacing="0" cellpadding="0">
 				<tr class="head">
-					<td class="border" style="background: url(bg_box_l.png); width: 3px;"/></td>
-					<td><$ tr("") $></td>
+					<td class="border" style="background: url(bg_box_l.png); width: 3px"/></td>
 					<td><$ tr("Expression") $></td>
 					<td><$ tr("Channel") $></td>
 					<td><$ tr("Start") $>&nbsp;</td>
 					<td><$ tr("Stop") $></td>
+					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 					<td><button type="button" class="smallbutton" onclick="location.href='edit_searchtimer.html';"><$ tr("New") $></button></td>
@@ -45,7 +45,7 @@ using namespace vdrlive;
 				for (SearchTimers::iterator timer = timers.begin(); timer != timers.end(); ++timer) {
 }>
 				<tr>
-					<td class="border" style="border-left: 1px solid black; width: 3px"></td>
+					<td class="border" style="border-left: 1px solid black"></td>
 					<td><$ timer->Search() $></td>
 					<td><$ timer->ChannelText() $></td>
 					<td><? timer->UseTime() ? timer->StartTimeFormatted() ?></td>
