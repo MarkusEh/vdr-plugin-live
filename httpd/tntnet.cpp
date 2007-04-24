@@ -44,11 +44,11 @@
 #endif
 
 #ifndef TNTNET_CONF
-# define TNTNET_CONF "/etc/tntnet.conf"
+# define TNTNET_CONF "/var/lib/vdr/plugins/live/httpd.config"
 #endif
 
 #ifndef TNTNET_PID
-# define TNTNET_PID "/var/run/tntnet.pid"
+# define TNTNET_PID "/var/run/vdr/tntnet.pid"
 #endif
 
 log_define("tntnet.tntnet")
