@@ -40,6 +40,7 @@ public:
 					  int start, int stop, int priority, int lifetime, std::string const& title, std::string const& aux );
 
 	void DelTimer( cTimer* timer);
+	void ToggleTimerActive( cTimer* timer);
 	// may only be called from Plugin::MainThreadHook
 	void DoPendingWork();
 	void DoReloadTimers() { m_timers.ReloadTimers(); }
