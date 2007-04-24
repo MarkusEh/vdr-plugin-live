@@ -410,6 +410,8 @@ table.timers {
 
 table.timers tr td {
 	padding: 3px 7px 3px 3px;
+	background: url(bg_line.png) bottom repeat-x;
+        border-bottom: 1px solid #C0C1DA;
 }
 
 table.timers tr td.border {
