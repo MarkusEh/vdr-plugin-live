@@ -323,6 +323,14 @@ SearchTimer* SearchTimers::GetByTimerId( std::string const& id )
       
 }
 
+bool SearchTimers::ToggleActive(std::string const& id)
+{
+	SearchTimer* search = GetByTimerId( id );
+	if (!search) return false;
+	search->SetUseAsSearchTimer(!search->UseAsSearchTimer());
+	return Save(search);
+}
+
 bool SearchTimer::BlacklistSelected(int id) const
 { 
    for(unsigned int i=0; i<m_blacklistIDs.size(); i++) 
