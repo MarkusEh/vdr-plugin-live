@@ -39,6 +39,7 @@ using namespace std;
 			<table class="timers" cellspacing="0" cellpadding="0">
 				<tr class="head">
 					<td style="background: url(bg_box_l.png); width: 3px"/></td>
+					<td>&nbsp;</td>
 					<td><$ tr("Expression") $></td>
 					<td><$ tr("Channel") $></td>
 					<td><$ tr("Start") $>&nbsp;</td>
@@ -54,6 +55,7 @@ using namespace std;
 }>
 				<tr>
 					<td class="border" style="border-left: 1px solid black"></td>
+					<td><? timer->UseAsSearchTimer() ? ">" ?></td>
 					<td><$ timer->Search() $></td>
 					<td><$ timer->ChannelText() $></td>
 					<td><? timer->UseTime() ? timer->StartTimeFormatted() ?></td>
