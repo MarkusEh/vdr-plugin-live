@@ -46,3 +46,10 @@ domId;
 </%args>
  <a href="#void" onclick="domTT_close('<$ (domId + "_tip") $>')"><img src="close.png" alt="" /></a>
 </%def>
+
+<%def help>
+<%args>
+text;
+</%args>
+ <img src="/help.png" onmouseover="domTT_close(domTT_lastOpened); domTT_activate(this, event, 'predefined', 'tipHint', 'content', '<$ text $>');"></img>
+</%def>

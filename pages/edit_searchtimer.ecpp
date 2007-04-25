@@ -308,6 +308,7 @@ Blacklists blacklists;
 <html>
 	<head>
 		<& pageelems.ajax_js &>
+		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<script type="text/javascript"><!--
 
 		function initform()
@@ -537,9 +538,9 @@ Blacklists blacklists;
 									<option value="3" <{ SELECTIF(usechannel == 3) }> ><$ tr("only FTA") $></option>
 								</select>
 								
-								<div id="channelinterval" style="display: none">
+								<div id="channelinterval" style="display: none;" class="dependent">
 									<$ tr("from channel" ) $>:
-									<& channels_widget name=("channelfrom") channelid=(true) selected=(channelfrom) &>
+									<& channels_widget name=("channelfrom") channelid=(true) selected=(channelfrom) &><br />
 									<$ tr("to channel" ) $>:
 									<& channels_widget name=("channelto") channelid=(true) selected=(channelto) &>
 								</div>
@@ -564,14 +565,20 @@ Blacklists blacklists;
 							<td>
 								<input type="checkbox" name="usetime" value="1" <{ CHECKIF(usetime) }> onclick="changedusetime(this)" id="usetime" />
 								<div id="timesettings" style="display: none">
-									<table border="0" cellpadding="0" cellspacing="0">
+									<table border="0" cellpadding="0" cellspacing="0" class="dependent">
 										<tr>
 											<td><$ tr("Start after") $>:</td>
-											<td><input type="text" size="2" maxlength="2" name="start_h" value="<$ start_h $>" /> : <input type="text" size="2" maxlength="2" name="start_m" value="<$ start_m $>" /></td>
+											<td>
+												<input type="text" size="2" maxlength="2" name="start_h" value="<$ start_h $>" /> : <input type="text" size="2" maxlength="2" name="start_m" value="<$ start_m $>" />
+												<& tooltip.help text=(tr("The time the show may start at the earliest")) &>
+											</td>
 										</tr>
 										<tr>
 											<td><$ tr("Start before") $>:</td>
-											<td><input type="text" size="2" maxlength="2" name="stop_h" value="<$ stop_h $>" /> : <input type="text" size="2" maxlength="2" name="stop_m" value="<$ stop_m $>" /></td>
+											<td>
+												<input type="text" size="2" maxlength="2" name="stop_h" value="<$ stop_h $>" /> : <input type="text" size="2" maxlength="2" name="stop_m" value="<$ stop_m $>" />
+												<& tooltip.help text=(tr("The time the show may start at the latest")) &>
+											</td>
 										</tr>
 									</table>
 								</div>
@@ -586,7 +593,7 @@ Blacklists blacklists;
 							<td>
 								<input type="checkbox" name="useduration" value="1" <{ CHECKIF(useduration) }> onclick="changeduseduration(this)" id="useduration" />
 								<div id="durationsettings" style="display: none">
-									<table border="0" cellpadding="0" cellspacing="0">
+									<table border="0" cellpadding="0" cellspacing="0" class="dependent">
 										<tr>
 											<td><$ tr("Min. duration") $>:</td>
 											<td><input type="text" size="3" maxlength="3" name="durationmin" value="<$ durationmin $>" /> min</td>
@@ -607,7 +614,7 @@ Blacklists blacklists;
 							<td class="label"><$ tr("Use day of week") $>:</td>  
 							<td>
 								<input type="checkbox" name="useweekday" value="1" <{ CHECKIF(useweekday) }> onclick="changeduseweekday(this)" id="useweekday" />
-								<div id="weekdaysettings" style="display: none">
+								<div id="weekdaysettings" style="display: none" class="dependent">
 									<input type="checkbox" name="wday_mon" value="1" <{ CHECKIF(wday_mon) }> /> <$ tr("Monday") $>
 									<input type="checkbox" name="wday_tue" value="1" <{ CHECKIF(wday_tue) }> /> <$ tr("Tuesday") $>
 									<input type="checkbox" name="wday_wed" value="1" <{ CHECKIF(wday_wed) }> /> <$ tr("Wednesday") $>
@@ -630,7 +637,7 @@ Blacklists blacklists;
 									<option value="1" <{ SELECTIF(blacklistmode == 1) }> ><$ tr("Selection") $></option>
 									<option value="2" <{ SELECTIF(blacklistmode == 2) }> ><$ tr("all") $></option>
 								</select>
-								<div id="blacklistmodesettings" style="display: none">
+								<div class="dependent" id="blacklistmodesettings" style="display: none">
 %								if (blacklists.size() > 0) {
 									<select name="blacklists" multiple="multiple" size="5" onchange="changedblacklistsel(this)">
 %									int i=0; for (Blacklists::iterator blacklist = blacklists.begin(); blacklist != blacklists.end(); ++blacklist, i++) {
@@ -667,7 +674,7 @@ Blacklists blacklists;
 									</select>
 								</div>
 								<div id="searchtimermode1settings" style="display: none">
-									<table border="0" cellpadding="0" cellspacing="0">
+									<table class="dependent" border="0" cellpadding="0" cellspacing="0">
 										<tr>
 											<td><$ tr("Series recording") $>:</td>
 											<td><input type="checkbox" name="seriesrecording" value="1" <{ CHECKIF(seriesrecording) }>/></td>
@@ -753,14 +760,14 @@ Blacklists blacklists;
 										</tr>
 	
 										<tr>
-											<td><$ tr("Use VPS") $>:</td>
-											<td><input type="checkbox" name="usevps" value="1" <{ CHECKIF(usevps) }>/></td>
+											<td class="blank"><$ tr("Use VPS") $>:</td>
+											<td class="blank"><input type="checkbox" name="usevps" value="1" <{ CHECKIF(usevps) }>/></td>
 										</tr>
 									</table>
 								</div>
 
 								<div id="searchtimermode3settings" style="display: none">
-									<table border="0" cellpadding="0" cellspacing="0">
+									<table class="dependent" border="0" cellpadding="0" cellspacing="0">
 										<tr>
 											<td><$ tr("Switch ... minutes before start") $>:</td>
 											<td><input type="text" name="switchminbefore" id="switchminbefore" size="2" value="<$ switchminbefore $>"/></td>

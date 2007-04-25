@@ -651,7 +651,7 @@ table.edit tr td {
 	padding: 6px 7px 6px 3px;
 	vertical-align: middle;
 	background: url(bg_line.png) bottom repeat-x;
-        border-bottom: 1px solid #C0C1DA;
+	border-bottom: 1px solid #C0C1DA;
 }
 
 table.edit tr td.label {
@@ -668,6 +668,20 @@ table.edit td.blank {
 	border: none;
 }
 
+table.dependent {
+	background-color: #DEE6EE;
+	margin-top: 10px;
+}
+
+table.dependent tr td {
+	background: none;
+}
+
+div.dependent {
+	background-color: #DEE6EE;
+	margin-top: 10px;
+	padding: 6px 7px 6px 3px;
+}
 
 /*
   ##############################
