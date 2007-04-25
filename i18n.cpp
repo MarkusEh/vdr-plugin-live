@@ -1153,111 +1153,111 @@ const tI18nPhrase Phrases[] = {
       "",// TODO
       "esatta corrispondenza",// Italiano
       "precies passend",
-      "",// TODO  
+      "",// TODO
       "correspond ex  actement",
-      "",// TODO  
+      "",// TODO
       "täsmällinen",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
       "",// TODO Ees  ti
-      "",// TODO Dansk    
+      "",// TODO Dansk
       "",// TODO Èesky (Czec  h)
-      
+
     },
     { "regular expression",
       "regulärer Ausdruck",
-      "",// TODO  
+      "",// TODO
       "espressione regolare",// Italiano
       "reguliere uitdruk  king",
-      "",// TODO  
+      "",// TODO
       "expression réguliere",
-      "",// TODO  
+      "",// TODO
       "säännöllinen lauseke",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
       "",// TODO Ees  ti
-      "",// TODO Dansk    
-      "",// TODO Èesky (Czec  h)      
+      "",// TODO Dansk
+      "",// TODO Èesky (Czec  h)
     },
     { "Match case",
       "Groß/klein",
       "",// TODO
       "Mai    uscolo/Minuscolo",// Italiano
       "Idem case",
-      "",// TODO  
+      "",// TODO
       "Maj/Minuscule",
-      "",// TODO  
+      "",// TODO
       "Huomioi kirja inkoko",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
       "",// TODO Eesti
-      "",// TODO Dansk    
+      "",// TODO Dansk
       "",// TODO Èesky (Czech)
     },
     { "Tolerance",
       "Toleranz",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "Tolérance",// TODO 
-      "",// TODO  
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "Tolérance",// TODO
+      "",// TODO
       "Toleranssi",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO Eesti  
-      "",// TODO Dansk    
-      "",// TODO Èesky (Czech)    
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO Eesti
+      "",// TODO Dansk
+      "",// TODO Èesky (Czech)
     },
     { "fuzzy",
       "unscharf",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
       "imprécis",
-      "",// TODO  
+      "",// TODO
       "sumea",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO Eesti    
-      "",// TODO Dansk    
-      "",// TODO Èesky (Czech)    
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO Eesti
+      "",// TODO Dansk
+      "",// TODO Èesky (Czech)
     },
     { "Search in", // English
       "Suche in", // Deutsch
@@ -1347,378 +1347,400 @@ const tI18nPhrase Phrases[] = {
       "", // Dansk
       "", // Czech
     },
+    { "Show schedule of channel", // English
+      "Wähle das Programm des Kanals", // Deutsch
+      "", // Slovenski
+      "", // Italiano
+      "", // Nederlands
+      "", // Português
+      "", // Français
+      "", // Norsk
+      "", // Finnish
+      "", // Polski
+      "", // Español
+      "", // Greek
+      "", // Svenska
+      "", // Românã
+      "", // Magyar
+      "", // Català
+      "", // Russian
+      "", // Hrvatski
+      "", // Eesti
+      "", // Dansk
+      "", // Czech
+    },
     { "Use channel",
       "Verw. Kanal",
-      "",// TODO  
-      "Utilizzare canale",// Italiano 
+      "",// TODO
+      "Utilizzare canale",// Italiano
       "Gebruik kanaal",
-      "",// TODO  
+      "",// TODO
       "Utiliser le canal",
-      "",// TODO  
+      "",// TODO
       "Käytä kanavaa",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO Eesti    
-      "",// TODO Dansk    
-      "",// TODO Èesky (Czech)    
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO Eesti
+      "",// TODO Dansk
+      "",// TODO Èesky (Czech)
     },
     { "interval",
       "Bereich",
-      "",// TODO  
-      "intervallo",// Italiano    
+      "",// TODO
+      "intervallo",// Italiano
       "interval",
-      "",// TODO  
-      "interval",// Francais Pat  
-      "",// TODO  
+      "",// TODO
+      "interval",// Francais Pat
+      "",// TODO
       "kyllä",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
       "",// TODO Eesti
-      "",// TODO Dansk    
-      "",// TODO Èesky (Czech)    
+      "",// TODO Dansk
+      "",// TODO Èesky (Czech)
     },
     { "channel group",
       "Kanalgruppe",
-      "",// TODO  
-      "gruppo canali",// Italiano 
+      "",// TODO
+      "gruppo canali",// Italiano
       "kanaal groep",
-      "",// TODO  
-      "Groupe de chaînes",// Francais Pat 
-      "",// TODO  
+      "",// TODO
+      "Groupe de chaînes",// Francais Pat
+      "",// TODO
       "kanavaryhmä",
-      "",// TODO  
-      "",// TODO      
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO Eesti    
-      "",// TODO Dansk    
-      "",// TODO Èesky (Czech)    
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO Eesti
+      "",// TODO Dansk
+      "",// TODO Èesky (Czech)
     },
     { "only FTA",
       "ohne PayTV",
-      "",// TODO  
-      "solo FTA",// Italiano  
+      "",// TODO
+      "solo FTA",// Italiano
       "alleen FTA",
-      "",// TODO  
+      "",// TODO
       "sans TV-Payante",
-      "",// TODO  
+      "",// TODO
       "vapaat kanavat",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO Eesti    
-      "",// TODO Dansk    
-      "",// TODO Èesky (Czech)    
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO Eesti
+      "",// TODO Dansk
+      "",// TODO Èesky (Czech)
     },
     { "from channel",
       "von Kanal",
-      "",// TODO  
-      "da canale",// Italiano   
+      "",// TODO
+      "da canale",// Italiano
       "van kanaal",
-      "",// TODO  
+      "",// TODO
       "de la Chaîne",
-      "",// TODO  
+      "",// TODO
       "Kanavasta",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO Eesti    
-      "",// TODO Dansk    
-      "",// TODO Èesky (Czech)          
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO Eesti
+      "",// TODO Dansk
+      "",// TODO Èesky (Czech)
     },
     { "to channel",
       "bis Kanal",
-      "",// TODO  
-      "a canale",// Italiano    
+      "",// TODO
+      "a canale",// Italiano
       "tot kanaal",
-      "",// TODO  
+      "",// TODO
       "à la Chaîne",
-      "",// TODO  
+      "",// TODO
       "Kanavaan",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO Eesti    
-      "",// TODO Dansk    
-      "",// TODO Èesky (Czech)    
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO Eesti
+      "",// TODO Dansk
+      "",// TODO Èesky (Czech)
     },
     { "Use extended EPG info",
       "Verw. erweiterte EPG Info",
-      "",// TODO  
-      "Utilizzare informazioni EPG estesa",// Italiano    
+      "",// TODO
+      "Utilizzare informazioni EPG estesa",// Italiano
       "Gebruik uitgebreide EPG info",
-      "",// TODO  
-      "Utiliser les infos EPG avancées",// Francais Pat   
-      "",// TODO  
+      "",// TODO
+      "Utiliser les infos EPG avancées",// Francais Pat
+      "",// TODO
       "Käytä laajennettua ohjelmaopasta",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
       "",// TODO Eesti
-      "",// TODO Dansk    
-      "",// TODO Èesky (Czech)    
+      "",// TODO Dansk
+      "",// TODO Èesky (Czech)
     },
     { "Use time",
       "Verw. Uhrzeit",
-      "",// TODO  
-      "Utilizzare l'orario",// Italiano   
+      "",// TODO
+      "Utilizzare l'orario",// Italiano
       "Gebruik tijd",
-      "",// TODO  
+      "",// TODO
       "Utiliser l'heure",
-      "",// TODO  
+      "",// TODO
       "Käytä aloitusaikaa",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO Eesti    
-      "",// TODO Dansk    
-      "",// TODO Èesky (Czech)    
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO Eesti
+      "",// TODO Dansk
+      "",// TODO Èesky (Czech)
     },
     { "Start after",
       "Start nach",
-      "",// TODO  
-      "Comincia dopo",// Italiano   
+      "",// TODO
+      "Comincia dopo",// Italiano
       "Start na",
-      "",// TODO  
+      "",// TODO
       "Départ après",
-      "",// TODO  
+      "",// TODO
       "Aloitusaika aikaisintaan",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO Eesti    
-      "",// TODO Dansk    
-      "",// TODO Èesky (Czech)    
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO Eesti
+      "",// TODO Dansk
+      "",// TODO Èesky (Czech)
     },
     { "Start before",
       "Start vor",
-      "",// TODO  
-      "Comincia prima",// Italiano  
+      "",// TODO
+      "Comincia prima",// Italiano
       "Start voor",
-      "",// TODO  
+      "",// TODO
       "Départ avant",
-      "",// TODO  
+      "",// TODO
       "Aloitusaika viimeistään",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO Eesti    
-      "",// TODO Dansk    
-      "",// TODO Èesky (Czech)    
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO Eesti
+      "",// TODO Dansk
+      "",// TODO Èesky (Czech)
     },
     { "Use duration",
       "Verw. Dauer",
-      "",// TODO  
-      "Utilizzare durata",// Italiano 
+      "",// TODO
+      "Utilizzare durata",// Italiano
       "Gebruiks duur",
-      "",// TODO  
+      "",// TODO
       "Durée d'utilisation",
-      "",// TODO  
+      "",// TODO
       "Käytä kestoaikaa",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO Eesti    
-      "",// TODO Dansk    
-      "",// TODO Èesky (Czech)    
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO Eesti
+      "",// TODO Dansk
+      "",// TODO Èesky (Czech)
     },
     { "Max. duration",
       "Max. Dauer",
-      "",// TODO  
-      "Durata Massima",// Italiano  
+      "",// TODO
+      "Durata Massima",// Italiano
       "Max. duur",
-      "",// TODO  
+      "",// TODO
       "Durée max.",
-      "",// TODO  
+      "",// TODO
       "Kestoaika enintään",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO Eesti    
-      "",// TODO Dansk    
-      "",// TODO Èesky (Czech)    
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO Eesti
+      "",// TODO Dansk
+      "",// TODO Èesky (Czech)
     },
     { "Min. duration",
       "Min. Dauer",
-      "",// TODO  
-      "Durata Minima",// Italiano   
+      "",// TODO
+      "Durata Minima",// Italiano
       "Min. duur",
-      "",// TODO  
+      "",// TODO
       "Durée min.",
-      "",// TODO  
+      "",// TODO
       "Kestoaika vähintään",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO Eesti    
-      "",// TODO Dansk    
-      "",// TODO Èesky (Czech)    
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO Eesti
+      "",// TODO Dansk
+      "",// TODO Èesky (Czech)
     },
     { "Use day of week",
       "Verw. Wochentag",
-      "",// TODO  
-      "Utilizzare giorno della settimana",// Italiano 
+      "",// TODO
+      "Utilizzare giorno della settimana",// Italiano
       "Gebruik dag van de week",
-      "",// TODO  
+      "",// TODO
       "Utiliser les jours de la semaine",
-      "",// TODO  
+      "",// TODO
       "Käytä viikonpäivää",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO Eesti    
-      "",// TODO Dansk    
-      "",// TODO Èesky (Czech)    
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO Eesti
+      "",// TODO Dansk
+      "",// TODO Èesky (Czech)
     },
     { "Use blacklists",
       "Verw. Ausschlusslisten",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "Utiliser la liste des exclus",// TODO  
-      "",// TODO  
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "Utiliser la liste des exclus",// TODO
+      "",// TODO
       "Käytä mustia listoja",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO Eesti    
-      "",// TODO Dansk    
-      "",// TODO Èesky (Czech)    
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO Eesti
+      "",// TODO Dansk
+      "",// TODO Èesky (Czech)
     },
     { "Use in favorites menu",
       "In Favoritenmenü verw.",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
       "Utiliser dans le menu favoris",
-      "",// TODO  
+      "",// TODO
       "Käytä suosikkina",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO Eesti    
-      "",// TODO Dansk    
-      "",// TODO Èesky (Czech)    
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO Eesti
+      "",// TODO Dansk
+      "",// TODO Èesky (Czech)
     },
     { "Use as search timer",
       "Als Suchtimer verwenden",
-      "",// TODO  
-      "Utilizzare come timer di ricerca",// Italiano  
+      "",// TODO
+      "Utilizzare come timer di ricerca",// Italiano
       "Gebruik als zoek timer",
-      "",// TODO  
+      "",// TODO
       "Utiliser la recherche",
-      "",// TODO  
+      "",// TODO
       "Käytä hakuajastimena",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO Eesti    
-      "",// TODO Dansk    
-      "",// TODO Èesky (Czech)    
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO Eesti
+      "",// TODO Dansk
+      "",// TODO Èesky (Czech)
     },
     { "Record",
       "Aufnehmen",
@@ -1744,179 +1766,179 @@ const tI18nPhrase Phrases[] = {
     },
     { "Switch only",
       "Nur umschalten",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
       "Seulement changer de chaine",
-      "",// TODO  
+      "",// TODO
       "kanavanvaihto",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO Eesti    
-      "",// TODO Dansk    
-      "",// TODO Èesky (Czech)    
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO Eesti
+      "",// TODO Dansk
+      "",// TODO Èesky (Czech)
     },
     { "Announce only",
       "Nur ankündigen",
-      "",// TODO  
-      "Solo annuncio (niente timer)",// Italiano  
+      "",// TODO
+      "Solo annuncio (niente timer)",// Italiano
       "Alleen aankondigen (geen timer)",
-      "",// TODO  
+      "",// TODO
       "Annoncer seulement début d'une programme",
-      "",// TODO  
+      "",// TODO
       "muistutus",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO Eesti    
-      "",// TODO Dansk    
-      "",// TODO Èesky (Czech)    
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO Eesti
+      "",// TODO Dansk
+      "",// TODO Èesky (Czech)
     },
     { "Series recording",
       "Serienaufnahme",
-      "",// TODO  
-      "Registrazione serie",// Italiano   
+      "",// TODO
+      "Registrazione serie",// Italiano
       "Serie's opnemen",
-      "",// TODO  
+      "",// TODO
       "Enregistrement de serie",
-      "",// TODO  
+      "",// TODO
       "Sarjatallennus",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO Eesti    
-      "",// TODO Dansk    
-      "",// TODO Èesky (Czech)    
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO Eesti
+      "",// TODO Dansk
+      "",// TODO Èesky (Czech)
     },
     { "Directory",
       "Verzeichnis",
-      "",// TODO  
-      "Cartella",// Italiano  
+      "",// TODO
+      "Cartella",// Italiano
       "Directory",
-      "",// TODO  
+      "",// TODO
       "Dossier",
-      "",// TODO  
+      "",// TODO
       "Hakemisto",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO Eesti    
-      "",// TODO Dansk    
-      "",// TODO Èesky (Czech)    
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO Eesti
+      "",// TODO Dansk
+      "",// TODO Èesky (Czech)
     },
     { "Delete recordings after ... days",
       "Aufn. nach ... Tagen löschen",
-      "",// TODO  
-      "",// Italiano  
-      "",// TODO  
-      "",// TODO  
-      "Effacer l'enregistrement après ... jours",// Francais Pat  
-      "",// TODO  
+      "",// TODO
+      "",// Italiano
+      "",// TODO
+      "",// TODO
+      "Effacer l'enregistrement après ... jours",// Francais Pat
+      "",// TODO
       "Poista tallenteet ... päivän jälkeen",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO Eesti    
-      "",// TODO Dansk    
-      "",// TODO Èesky (Czech)    
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO Eesti
+      "",// TODO Dansk
+      "",// TODO Èesky (Czech)
     },
     { "Keep ... recordings",
       "Behalte ... Aufnahmen",
-      "",// TODO  
-      "",// Italiano    
-      "",// TODO  
-      "",// TODO  
+      "",// TODO
+      "",// Italiano
+      "",// TODO
+      "",// TODO
       "Garder .... enregistrements",
-      "",// TODO  
+      "",// TODO
       "Säilytä ... tallennetta",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO Eesti    
-      "",// TODO Dansk    
-      "",// TODO Èesky (Czech)    
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO Eesti
+      "",// TODO Dansk
+      "",// TODO Èesky (Czech)
     },
     { "Pause when ... recordings exist",
       "Pause, wenn ... Aufnahmen exist.",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "Pause, lorsque ... l'enregistrement existe.",// TODO   
-      "",// TODO  
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "Pause, lorsque ... l'enregistrement existe.",// TODO
+      "",// TODO
       "Keskeytä ... tallenteen jälkeen",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO Eesti  
-      "",// TODO Dansk    
-      "",// TODO Èesky (Czech)    
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO Eesti
+      "",// TODO Dansk
+      "",// TODO Èesky (Czech)
     },
     { "Switch ... minutes before start",
       "Umschalten ... Minuten vor Start",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "Changer ... minutes avant le début",// TODO    
-      "",// TODO  
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "Changer ... minutes avant le début",// TODO
+      "",// TODO
       "Vaihda ... minuuttia ennen alkua",
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO  
-      "",// TODO Eesti  
-      "",// TODO Dansk    
-      "",// TODO Èesky (Czech)    
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO
+      "",// TODO Eesti
+      "",// TODO Dansk
+      "",// TODO Èesky (Czech)
     },
     { "Avoid repeats",
       "Vermeide Wiederholung",

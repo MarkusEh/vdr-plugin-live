@@ -106,5 +106,5 @@ using namespace vdrlive;
 <%include>page_exit.eh</%include>
 
 <%def channel_selection>
-<form name="channels" id="channels"><& channels_widget name=("channel") selected=(Channel ? *Channel->GetChannelID().ToString() : "") onchange=("document.forms.channels.submit()") &></form>
+<form name="channels" id="channels"><span><$ tr("Show schedule of channel") $>: </span><& channels_widget name=("channel") selected=(Channel ? *Channel->GetChannelID().ToString() : "") onchange=("document.forms.channels.submit()") &></form>
 </%def>

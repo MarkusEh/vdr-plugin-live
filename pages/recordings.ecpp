@@ -84,7 +84,9 @@ for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 			+ string("<img class=\"recording_folder\" src=\"") + folderimg + string("\" alt=\"\" />")
 			+ string("</div>");
 }>
-			<div class="recording_name"><$ recItem->Name() $></div>
+			<div class="recording_spec">
+			  <div class="recording_name"><$ recItem->Name() $></div>
+            </div>
 			<div class="recording_actions">&nbsp;</div>
 			</div>
 <{
@@ -125,10 +127,12 @@ for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 
 		string shortDescr(tr("Click to view details.")); if (info && info->ShortText()) shortDescr = (string("") +  info->ShortText() + string("<br />") + shortDescr);
 }>
-			<div class="recording_day" style="width: <$ dayLen $>"><$ day $></div>
-			<div class="recording_date"><$ FormatDateTime(tr("%b %d %y"), recItem->StartTime()) $></div>
-			<div class="recording_time"><$ FormatDateTime(tr("%I:%M %p"), recItem->StartTime()) $></div>
-			<div class="recording_name" <& tooltip.hint text=(shortDescr) &><& tooltip.display domId=(recItem->Id()) &>><$ recItem->Name() $></div>
+			<div class="recording_spec">
+			  <div class="recording_day" style="width: <$ dayLen $>"><$ day $></div>
+			  <div class="recording_date"><$ FormatDateTime(tr("%b %d %y"), recItem->StartTime()) $></div>
+			  <div class="recording_time"><$ FormatDateTime(tr("%I:%M %p"), recItem->StartTime()) $></div>
+			  <div class="recording_name" <& tooltip.hint text=(shortDescr) &><& tooltip.display domId=(recItem->Id()) &>><$ recItem->Name() $></div>
+			</div>
 			<div class="recording_actions">
 				 <& pageelems.ajax_action_href action="play_recording" param=(recItem->Id()) tip=(tr("play this recording.")) image="play.png" alt="" &>
 				 <img src="edit.png" alt="" />

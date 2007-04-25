@@ -143,6 +143,24 @@ div.inhalt {
 	padding: 10px;
 }
 
+div.pagemenu {
+	margin-top: 2px;
+	padding-top: 6px;
+	background: #FFFFFF url(bg_line.png) top repeat-x;
+}
+
+div.pagemenu div {
+	padding-bottom: 6px;
+	background: #FFFFFF url(bg_line_top.png) bottom repeat-x;
+}
+
+div.pagemenu div div {
+	padding: 2px 0px 2px 10px;
+	background: #E9EFFF;
+	border-top: 1px solid #C0C1DA;
+	border-bottom: 1px solid #C0C1DA;
+}
+
 /* #######################
    #  Info Box (near logo)
    #######################
@@ -555,6 +573,10 @@ div.recording_item {
 
 .recording_item div.recording_imgs{
 	margin-right: 0.5em;
+}
+
+.recording_item div.recording_spec {
+	padding-top: 0.5ex;
 }
 
 .recording_item div.recording_day {
