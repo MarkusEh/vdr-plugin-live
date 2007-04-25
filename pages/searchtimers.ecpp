@@ -28,17 +28,6 @@ using namespace std;
 <html>
 	<head>
 		<& pageelems.ajax_js &>
-		<script type="text/javascript"><!--
-
-		function confirmdel(deltarget)
-		{
-			Check = confirm("<$ tr("Delete this search timer?") $>");
-			if (Check == true)
-				self.location.href = deltarget;
-		}
-
-		//--></script>
-
 		<title>VDR-Live - <$ pageTitle $></title>
 		<link rel="stylesheet" type="text/css" href="/styles.css" />
 		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
@@ -75,7 +64,8 @@ using namespace std;
 					<td><a href="searchtimers.html?searchtimerid=<$ timer->Id() $>&action=toggle"><img src="/<$ timer->UseAsSearchTimer() ? "active" : "inactive" $>.png" alt="<$ tr("Toggle search timer actions (in)active") $>" <& tooltip.hint text=(tr("Toggle search timer actions (in)active")) &>/></a></td>
 					<td><a href="searchresults.html?searchtimerid=<$ timer->Id() $>"><img src="/search.png" border="0" alt="<$ tr("Browse search timer results") $>" <& tooltip.hint text=(tr("Browse search timer results")) &> ></a></td>
 					<td><a href="edit_searchtimer.html?searchtimerid=<$ timer->Id() $>"><img src="/edit.png" alt="<$ tr("Edit search timer") $>" <& tooltip.hint text=(tr("Edit search timer")) &>/></a></td>					
-					<td><a href="JavaScript:confirmdel('searchtimers.html?searchtimerid=<$ timer->Id() $>&action=delete')"><img src="/del.png" alt="<$ tr("Delete search timer") $>" <& tooltip.hint text=(tr("Delete search timer")) &>/></a></td>
+					<td><a href="searchtimers.html?searchtimerid=<$ timer->Id() $>&action=delete" onclick="return confirm('<$ tr("Delete this search timer?") $>')"><img src="/del.png" alt="<$ tr("Delete search timer") $>" <& tooltip.hint text=(tr("Delete search timer")) &>/></a>
+					</td>
 					<td class="border" style="border-right: 1px solid black"></td>
 				</tr>
 <{
