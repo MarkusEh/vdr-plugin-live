@@ -36,9 +36,6 @@ using namespace std;
 		<& pageelems.logo &>
 		<& menu active=("searchtimers") &>
 		<div class="inhalt">
-%			if (timers.size() == 0) {
-				Keine Suchtimer definiert
-%			} else {
 			<table class="timers" cellspacing="0" cellpadding="0">
 				<tr class="head">
 					<td style="background: url(bg_box_l.png); width: 3px"/></td>
@@ -69,7 +66,6 @@ using namespace std;
 				</tr>
 <{
 				}
-			}
 }>
 				<tr><td colspan="10" style="border-top: 1px solid black; background-image: none; border-bottom: none">&nbsp;</td></tr>
 			</table>
