@@ -2602,6 +2602,28 @@ const tI18nPhrase Phrases[] = {
       "",
       "",
     },
+	{ "Delete this search timer?", // English
+	"Diesen Suchtimer löschen?", // Deutsch
+	"", // Slovenski
+	"", // Italiano
+	"", // Nederlands
+	"", // Português
+	"", // Français
+	"", // Norsk
+	"", // Finnish
+	"", // Polski
+	"", // Español
+	"", // Greek
+	"", // Svenska
+	"", // Românã
+	"", // Magyar
+	"", // Català
+	"", // Russian
+	"", // Hrvatski
+	"", // Eesti
+	"", // Dansk
+	"", // Czech
+	},
     { "Cancel",
       "Abbrechen",
       "",
