@@ -7,12 +7,17 @@
 #include "live.h"
 #include <vdr/menuitems.h>
 
+
 namespace vdrlive {
+
+// forward declaration, see below
+class cMenuSetupLive;
 
 class Setup
 {
 	friend Setup& LiveSetup();
-	friend class cMenuSetupLive;
+	friend class cMenuSetupLive; // friend declaration is not forward 
+								 // declaration, although gcc 3.3 claims so
 
 public:
 	typedef std::list< std::string > IpList;
@@ -60,8 +65,6 @@ private:
 
 Setup& LiveSetup();
 
-} // namespace vdrlive
-
 class cMenuSetupLive : public cMenuSetupPage {
 
 protected:
@@ -80,5 +83,6 @@ private:
 	char m_adminPassword[20];
 };
 
+} // namespace vdrlive
 
 #endif // VDR_LIVE_SETUP_H

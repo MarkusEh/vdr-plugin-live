@@ -107,8 +107,6 @@ Setup& LiveSetup()
 	return instance;
 }
 
-} // namespace vdrlive
-
 cMenuSetupLive::cMenuSetupLive():
 		cMenuSetupPage()
 {
@@ -141,5 +139,7 @@ void cMenuSetupLive::Store(void)
 	vdrlive::LiveSetup().SetAdminPassword(m_adminPassword);
 	SetupStore("AdminPassword",  m_adminPassword);
 }
+
+} // namespace vdrlive
 
 
