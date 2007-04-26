@@ -1,0 +1,68 @@
+<%pre>
+#include "tools.h"
+#include "setup.h"
+
+using namespace std;
+using namespace vdrlive;
+
+</%pre>
+<%args>
+std::string login;
+std::string password;
+std::string action;
+</%args>
+<%session scope="global">
+bool logged_in(false);
+</%session>
+<{
+
+std::string message;
+
+if (action == "login") {
+	if ((login == LiveSetup().GetAdminLogin()) && (password == LiveSetup().GetAdminPassword())) {
+		logged_in = true;
+	} else {
+		message = "Username oder Passwort falsch";
+	}
+} else if (action == "logout") {
+	logged_in = false;
+}
+
+if (logged_in || !LiveSetup().UseAuth()) return reply.redirect("whats_on.html");
+
+}>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<title>VDR-Live - Login</title>
+		<link rel="stylesheet" type="text/css" href="styles.css" />
+		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
+		<& pageelems.ajax_js &>
+	</head>
+	<body>
+	<div style="width: 440px; margin: 0 auto; text-align: center; padding: 20px">
+		<div class="boxheader"><div><div>VDR Live Login</div></div></div>
+		<div style="border: 1px solid black; padding: 15px">
+			<img src="logo_login.png" alt="VDR Live"></img>
+			<form name="auth">
+				<input type="hidden" name="action" value="login" />
+				<table class="login">
+					<tr>
+						<td><$ tr("Login") $></td>
+						<td><input type="text" name="login" value="<$ login $>" /></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td><$ tr("Password") $></td>
+						<td><input type="password" name="password" value="<$ password $>" /></td>
+						<td><button type="submit" class="blue"><$ tr("Login") $></td>
+					</tr>
+				</table>
+			</form>
+			<div style="color: red; margin: 0 auto; padding: 10px">
+				<$ message $>
+			</div>
+		</div>
+	</div>
+	</body>
+</html>
