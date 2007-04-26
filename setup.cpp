@@ -8,8 +8,10 @@
 #include <getopt.h>
 #include <stdint.h>
 #include <unistd.h>
+#include <string>
 #include <arpa/inet.h>
 #include <vdr/tools.h>
+#include <vdr/menuitems.h>
 #include "setup.h"
 
 namespace vdrlive {
@@ -19,7 +21,10 @@ using namespace std;
 Setup::Setup():
 		m_serverPort( 8001 ),
 		m_lastChannel( 0 ),
-		m_screenshotInterval( 1000 )
+		m_screenshotInterval( 1000 ),
+		m_useAuth( 1 ),
+		m_adminLogin("admin"),
+		m_adminPassword("live")
 {
 }
 
@@ -62,6 +67,9 @@ bool Setup::ParseSetupEntry( char const* name, char const* value )
 {
 	if ( strcmp( name, "LastChannel" ) == 0 ) m_lastChannel = atoi( value );
 	else if ( strcmp( name, "ScreenshotInterval" ) == 0 ) m_screenshotInterval = atoi( value );
+	else if ( strcmp( name, "UseAuth" ) == 0 ) m_useAuth = atoi( value );
+	else if ( strcmp( name, "AdminLogin" ) == 0 ) m_adminLogin = value;
+	else if ( strcmp( name, "AdminPassword" ) == 0 ) m_adminPassword = value;
 	else return false;
 	return true;
 }
@@ -100,3 +108,38 @@ Setup& LiveSetup()
 }
 
 } // namespace vdrlive
+
+cMenuSetupLive::cMenuSetupLive():
+		cMenuSetupPage()
+{
+	m_lastChannel = vdrlive::LiveSetup().GetLastChannel();
+	m_useAuth = vdrlive::LiveSetup().UseAuth();
+	strcpy(m_adminLogin, vdrlive::LiveSetup().GetAdminLogin().c_str());
+	strcpy(m_adminPassword, vdrlive::LiveSetup().GetAdminPassword().c_str());
+	
+	Clear();
+	//Add(new cMenuEditIntItem(tr("Last channel to display"),  &m_lastChannel, 0, 65536));
+	Add(new cMenuEditChanItem(tr("Last channel to display"), &m_lastChannel, tr("No limit")));
+	//Add(new cMenuEditIntItem(tr("Screenshot interval"),  &m_lastChannel, 0, 65536));
+	Add(new cMenuEditBoolItem(tr("Use authentication"), &m_useAuth, tr("No"), tr("Yes")));
+	Add(new cMenuEditStrItem( tr("Admin login"), m_adminLogin, 12, tr(FileNameChars)));
+	Add(new cMenuEditStrItem( tr("Admin password"), m_adminPassword, 12, tr(FileNameChars)));
+	Display();
+}
+
+void cMenuSetupLive::Store(void)
+{
+	vdrlive::LiveSetup().SetLastChannel(m_lastChannel);
+	SetupStore("LastChannel",  m_lastChannel);
+	
+	vdrlive::LiveSetup().SetUseAuth(m_useAuth);
+	SetupStore("UseAuth",  m_useAuth);
+	
+	vdrlive::LiveSetup().SetAdminLogin(m_adminLogin);
+	SetupStore("AdminLogin",  m_adminLogin);
+	
+	vdrlive::LiveSetup().SetAdminPassword(m_adminPassword);
+	SetupStore("AdminPassword",  m_adminPassword);
+}
+
+

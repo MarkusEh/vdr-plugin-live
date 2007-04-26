@@ -3,7 +3,7 @@
  *
  * See the README file for copyright information and how to reach the author.
  *
- * $Id: live.cpp,v 1.13 2007/01/18 18:29:30 lordjaxom Exp $
+ * $Id: live.cpp,v 1.14 2007/04/26 16:17:36 thomas Exp $
  */
 
 #include <vdr/plugin.h>
@@ -69,7 +69,7 @@ cString Plugin::Active(void)
 
 cMenuSetupPage *Plugin::SetupMenu(void)
 {
-	return NULL;
+	return new cMenuSetupLive();
 }
 
 bool Plugin::SetupParse(const char *Name, const char *Value)
