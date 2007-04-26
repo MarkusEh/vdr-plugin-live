@@ -5,7 +5,13 @@
 
 using namespace vdrlive;
 </%pre>
+<%session scope="global">
+bool logged_in(false);
+</%session>
 <%include>page_init.eh</%include>
+<{
+if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+}>
 <%cpp>
 	pageTitle = tr("Remote Control");
 </%cpp>

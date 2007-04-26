@@ -8,6 +8,7 @@
 #include "exception.h"
 #include "tools.h"
 #include "epgsearch.h"
+#include "setup.h"
 
 using namespace std;
 using namespace vdrlive;
@@ -73,6 +74,9 @@ using namespace vdrlive;
     bool usevps = false;
     string blacklistids_internal;
 </%args>
+<%session scope="global">
+bool logged_in(false);
+</%session>
 <%request scope="page">
 SearchTimer* searchtimer;
 ExtEPGInfos extEPGInfos;
@@ -81,6 +85,9 @@ Blacklists blacklists;
 
 </%request>
 <%include>page_init.eh</%include>
+<{
+if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+}>
 <%cpp>
 
 #define SELECTIF(x) reply.out() << ( (x) ? "selected=\"selected\"" : "" ); 

@@ -4,6 +4,7 @@
 #include <vdr/epg.h>
 #include "epgsearch.h"
 #include "tools.h"
+#include "setup.h"
 
 using namespace vdrlive;
 using namespace std;
@@ -13,7 +14,13 @@ using namespace std;
 	// input parameters
 	int searchtimerid;
 </%args>
+<%session scope="global">
+bool logged_in(false);
+</%session>
 <%include>page_init.eh</%include>
+<{
+if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+}>
 <%cpp>
 	pageTitle = tr("Search results");
 
