@@ -48,7 +48,7 @@ if (logged_in || !LiveSetup().UseAuth()) return reply.redirect("whats_on.html");
 				<input type="hidden" name="action" value="login" />
 				<table class="login">
 					<tr>
-						<td><$ tr("Login") $></td>
+						<td><$ tr("User") $></td>
 						<td><input type="text" name="login" value="<$ login $>" /></td>
 						<td>&nbsp;</td>
 					</tr>

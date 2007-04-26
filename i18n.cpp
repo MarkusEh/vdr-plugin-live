@@ -2757,8 +2757,8 @@ const tI18nPhrase Phrases[] = {
       "", // Dansk
       "", // Czech
       },
-      { "Login", // English
-      "Login", // Deutsch
+      { "User", // English
+      "Benutzer", // Deutsch
       "", // Slovenski
       "", // Italiano
       "", // Nederlands
@@ -2933,6 +2933,50 @@ const tI18nPhrase Phrases[] = {
       "", // Dansk
       "", // Czech
       },
+    { "Logout", // English
+      "Abmelden", // Deutsch
+      "", // Slovenski
+      "", // Italiano
+      "", // Nederlands
+      "", // Português
+      "", // Français
+      "", // Norsk
+      "", // Finnish
+      "", // Polski
+      "", // Español
+      "", // Greek
+      "", // Svenska
+      "", // Românã
+      "", // Magyar
+      "", // Català
+      "", // Russian
+      "", // Hrvatski
+      "", // Eesti
+      "", // Dansk
+      "", // Czech
+    },
+    { "Login", // English
+      "Anmelden", // Deutsch
+      "", // Slovenski
+      "", // Italiano
+      "", // Nederlands
+      "", // Português
+      "", // Français
+      "", // Norsk
+      "", // Finnish
+      "", // Polski
+      "", // Español
+      "", // Greek
+      "", // Svenska
+      "", // Românã
+      "", // Magyar
+      "", // Català
+      "", // Russian
+      "", // Hrvatski
+      "", // Eesti
+      "", // Dansk
+      "", // Czech
+    },
 
 
     /*

@@ -124,6 +124,10 @@ div.menu a {
 	font-weight: bold;
 }
 
+a#login {
+	color: #F5FF2D;
+}
+
 div.menu a.active {
 	text-decoration: none;
 	color: #FFDB88;
