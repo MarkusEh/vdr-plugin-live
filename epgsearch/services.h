@@ -112,7 +112,9 @@ class cServiceHandler
    virtual bool DelSearchTimer(int) = 0;
    // deletes search timer with given ID and returns success
    virtual std::list<std::string> QuerySearchTimer(int) = 0;
-   // returns the search result of the searchtimer with given ID in the same format as used in SVDRP command 'QRYS' (->MANUAL)    
+   // returns the search result of the searchtimer with given ID in the same format as used in SVDRP command 'QRYS' (->MANUAL)        
+   virtual std::list<std::string> QuerySearch(std::string) = 0;
+   // returns the search result of the searchtimer with given settings in the same format as used in SVDRP command 'QRYS' (->MANUAL)        
    virtual std::list<std::string> ExtEPGInfoList() = 0;
    // returns a list of extended EPG categories in the same format as used in epgsearchcats.conf 
    virtual std::list<std::string> ChanGrpList() = 0;
