@@ -12,7 +12,8 @@ using namespace std;
 </%pre>
 <%args>
 	// input parameters
-	int searchtimerid;
+	string searchtimerid;
+	string searchtimerquery;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -23,8 +24,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 }>
 <%cpp>
 	pageTitle = tr("Search results");
-
-	SearchResults results(searchtimerid);
+	SearchResults results;
+	if (!searchtimerid.empty())
+		results.GetByID(lexical_cast< int >(searchtimerid));
+	if (!searchtimerquery.empty())
+		results.GetByQuery(SearchResults::PopQuery(searchtimerquery));
 </%cpp>
 <& pageelems.doc_type &>
 <html>

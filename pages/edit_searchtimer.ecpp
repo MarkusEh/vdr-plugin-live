@@ -17,29 +17,31 @@ using namespace vdrlive;
 <%args>
 	// input parameters
 	string searchtimerid;
+	string test;
+
 	// form parameters
 	string search = "";
-    int mode = 0;
-    bool matchcase = false;
-    int tolerance = 1;
-    bool usetitle = false;
-    bool usesubtitle = false;
-    bool usedescr = false;
-    int usechannel = SearchTimer::NoChannel;
+	int mode = 0;
+	bool matchcase = false;
+	int tolerance = 1;
+	bool usetitle = false;
+	bool usesubtitle = false;
+	bool usedescr = false;
+	int usechannel = SearchTimer::NoChannel;
 	tChannelID channelidfrom;
 	tChannelID channelfrom;
 	tChannelID channelidto;
 	tChannelID channelto;
-    string changrpsel = "";
-    bool usetime = false;
+	string changrpsel = "";
+	bool usetime = false;
 	string start_h = "00";
 	string start_m = "00";
 	string stop_h = "00";
 	string stop_m = "00";
-    bool useduration = false;
+	bool useduration = false;
 	int durationmin = 0;
 	int durationmax = 90;
-    bool useweekday = false;
+	bool useweekday = false;
 	bool wday_mon = false;
 	bool wday_tue = false;
 	bool wday_wed = false;
@@ -47,32 +49,32 @@ using namespace vdrlive;
 	bool wday_fri = false;
 	bool wday_sat = false;
 	bool wday_sun = false;
-    bool useinfavorites = false;
-    bool useassearchtimer = false;
-    int searchtimeraction = 0;
-    bool seriesrecording = false;
-    string directory = "";
-    int delrecafterdays = 0;
-    int keeprecs = 0;
-    int pauseonrecs = 0;
-    int blacklistmode = 0;
-    string blacklistids[];
-    int switchminbefore = 0;
-    bool useextepginfo = false;
-    string extepgvalues[];
-    bool avoidrepeats = false;
-    int allowedrepeats = 0;
-    int repeatswithindays = 0;
-    bool comparetitle = false;
-    bool comparesubtitle = false;
-    bool comparesummary = false;
-    unsigned avoidrepeatscatselected[];
-    int priority = 0;
-    int lifetime = 0;
-    int marginstart = 0;
-    int marginstop = 0;
-    bool usevps = false;
-    string blacklistids_internal;
+	bool useinfavorites = false;
+	bool useassearchtimer = false;
+	int searchtimeraction = 0;
+	bool seriesrecording = false;
+	string directory = "";
+	int delrecafterdays = 0;
+	int keeprecs = 0;
+	int pauseonrecs = 0;
+	int blacklistmode = 0;
+	string blacklistids[];
+	int switchminbefore = 0;
+	bool useextepginfo = false;
+	string extepgvalues[];
+	bool avoidrepeats = false;
+	int allowedrepeats = 0;
+	int repeatswithindays = 0;
+	bool comparetitle = false;
+	bool comparesubtitle = false;
+	bool comparesummary = false;
+	unsigned avoidrepeatscatselected[];
+	int priority = 0;
+	int lifetime = 0;
+	int marginstart = 0;
+	int marginstop = 0;
+	bool usevps = false;
+	string blacklistids_internal;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -94,113 +96,122 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 #define CHECKIF(x) reply.out() << ( (x) ? "checked=\"checked\"" : "" ); 
 
 	SearchTimers searchtimers;
-
 	searchtimer = 0;
+
 	if (  !searchtimerid.empty() ) {
 		searchtimer = searchtimers.GetByTimerId( searchtimerid );
 		if ( searchtimer == 0 )
 			throw HtmlError( tr("Couldn't find searchtimer. Maybe you mistyped your request?") );
 	}
 
-	if ( request.getMethod() == "POST" ) {
-        if ( !searchtimerid.empty() )
-		    searchtimer = searchtimers.GetByTimerId( searchtimerid );
-        else
-            searchtimer = new SearchTimer;
+	bool testmode = !test.empty();
+	if ( request.getMethod() == "POST") {
+		if ( !searchtimerid.empty() && !testmode)
+			searchtimer = searchtimers.GetByTimerId( searchtimerid );
+		else
+			searchtimer = new SearchTimer;
 
-        searchtimer->SetSearch(search);
-        searchtimer->SetSearchMode(mode);
-        searchtimer->SetTolerance(tolerance);
-        searchtimer->SetMatchCase(matchcase);
-        searchtimer->SetUseTitle(usetitle);
-        searchtimer->SetUseSubtitle(usesubtitle);
-        searchtimer->SetUseDescription(usedescr);
-        searchtimer->SetUseExtEPGInfo(useextepginfo);
-        if (useextepginfo)
-        {
-            vector< string > infos;
-            unsigned int i=0;
-            for (ExtEPGInfos::iterator extinfo = extEPGInfos.begin(); extinfo != extEPGInfos.end(); ++extinfo, i++)
-            {
-                ostringstream os;
-                os << extinfo->Id() << "#" << (i<extepgvalues.size()?extepgvalues[i]:"");
-                infos.push_back(os.str());
-            }
-            searchtimer->SetExtEPGInfo(infos);
-        }   
-        searchtimer->SetUseChannel((SearchTimer::eUseChannel)usechannel);
-        if (usechannel == SearchTimer::Interval)
-        {
-            searchtimer->SetChannelMin(channelfrom);
-            searchtimer->SetChannelMax(channelto);
-        }
-        if (usechannel == SearchTimer::Group)
-            searchtimer->SetChannelText(changrpsel);
-
-        searchtimer->SetUseTime(usetime);
-        if (usetime)
-        {
-            searchtimer->SetStartTime(StringToInt(start_h) * 100 + StringToInt(start_m));
-            searchtimer->SetStopTime(StringToInt(stop_h) * 100 + StringToInt(stop_m));
-        }  
-        searchtimer->SetUseDuration(useduration);
-        if (useduration)
-        {
-            searchtimer->SetMinDuration(durationmin);
-            searchtimer->SetMaxDuration(durationmax);
-        }     
-        searchtimer->SetUseDayOfWeek(useweekday);
-        if (useweekday)
-        {
-            int dayofweek = 0;
-            if (wday_sun) dayofweek |= 0x01;
-            if (wday_mon) dayofweek |= 0x02;
-            if (wday_tue) dayofweek |= 0x04;
-            if (wday_wed) dayofweek |= 0x08;
-            if (wday_thu) dayofweek |= 0x10;
-            if (wday_fri) dayofweek |= 0x20;
-            if (wday_sat) dayofweek |= 0x40;
-            searchtimer->SetDayOfWeek(-dayofweek);
-        }
-        searchtimer->SetUseInFavorites(useinfavorites);
-        searchtimer->SetUseAsSearchTimer(useassearchtimer);
-        searchtimer->SetSearchTimerAction(searchtimeraction);	
-        searchtimer->SetUseSeriesRecording(seriesrecording);
-        searchtimer->SetDirectory(directory);
-        searchtimer->SetDelRecsAfterDays(delrecafterdays);
-        searchtimer->SetKeepRecs(keeprecs);
-        searchtimer->SetPauseOnRecs(pauseonrecs);
-        searchtimer->SetBlacklistMode(blacklistmode);
-        if (blacklistmode == 1)
-            searchtimer->ParseBlacklist(blacklistids_internal);
-
-        searchtimer->SetSwitchMinBefore(switchminbefore);
-
-        searchtimer->SetAvoidRepeats(avoidrepeats);
-        if (avoidrepeats)
-        {
-            searchtimer->SetAllowedRepeats(allowedrepeats);
-            searchtimer->SetRepeatsWithinDays(repeatswithindays);
-            searchtimer->SetCompareTitle(comparetitle);
-            searchtimer->SetCompareSubtitle(comparesubtitle);
-            searchtimer->SetCompareSummary(comparesummary);
-        }  
-        unsigned long catsselected = 0; 
-        for (unsigned int i=0; i< avoidrepeatscatselected.size(); i++)
-   		    catsselected |= (1<< (avoidrepeatscatselected[i]-1));
-
-        searchtimer->SetCompareCategories(catsselected);
-        searchtimer->SetPriority(priority);
-        searchtimer->SetLifetime(lifetime);
-        searchtimer->SetMarginStart(marginstart);
-        searchtimer->SetMarginStop(marginstop);
-        searchtimer->SetUseVPS(usevps);
-
-        searchtimers.Save(searchtimer);
-		return reply.redirect("searchtimers.html");
-
+		searchtimer->SetSearch(search);
+		searchtimer->SetSearchMode(mode);
+		searchtimer->SetTolerance(tolerance);
+		searchtimer->SetMatchCase(matchcase);
+		searchtimer->SetUseTitle(usetitle);
+		searchtimer->SetUseSubtitle(usesubtitle);
+		searchtimer->SetUseDescription(usedescr);
+		searchtimer->SetUseExtEPGInfo(useextepginfo);
+		if (useextepginfo)
+		{
+			vector< string > infos;
+			unsigned int i=0;
+			for (ExtEPGInfos::iterator extinfo = extEPGInfos.begin(); extinfo != extEPGInfos.end(); ++extinfo, i++)
+			{
+			ostringstream os;
+			os << extinfo->Id() << "#" << (i<extepgvalues.size()?extepgvalues[i]:"");
+			infos.push_back(os.str());
+			}
+			searchtimer->SetExtEPGInfo(infos);
+		}   
+		searchtimer->SetUseChannel((SearchTimer::eUseChannel)usechannel);
+		if (usechannel == SearchTimer::Interval)
+		{
+			searchtimer->SetChannelMin(channelfrom);
+			searchtimer->SetChannelMax(channelto);
+		}
+		if (usechannel == SearchTimer::Group)
+			searchtimer->SetChannelText(changrpsel);
+		
+		searchtimer->SetUseTime(usetime);
+		if (usetime)
+		{
+			searchtimer->SetStartTime(StringToInt(start_h) * 100 + StringToInt(start_m));
+			searchtimer->SetStopTime(StringToInt(stop_h) * 100 + StringToInt(stop_m));
+		}  
+		searchtimer->SetUseDuration(useduration);
+		if (useduration)
+		{
+			searchtimer->SetMinDuration(durationmin);
+			searchtimer->SetMaxDuration(durationmax);
+		}     
+		searchtimer->SetUseDayOfWeek(useweekday);
+		if (useweekday)
+		{
+			int dayofweek = 0;
+			if (wday_sun) dayofweek |= 0x01;
+			if (wday_mon) dayofweek |= 0x02;
+			if (wday_tue) dayofweek |= 0x04;
+			if (wday_wed) dayofweek |= 0x08;
+			if (wday_thu) dayofweek |= 0x10;
+			if (wday_fri) dayofweek |= 0x20;
+			if (wday_sat) dayofweek |= 0x40;
+			searchtimer->SetDayOfWeek(-dayofweek);
+		}
+		searchtimer->SetUseInFavorites(useinfavorites);
+		searchtimer->SetUseAsSearchTimer(useassearchtimer);
+		searchtimer->SetSearchTimerAction(searchtimeraction);	
+		searchtimer->SetUseSeriesRecording(seriesrecording);
+		searchtimer->SetDirectory(directory);
+		searchtimer->SetDelRecsAfterDays(delrecafterdays);
+		searchtimer->SetKeepRecs(keeprecs);
+		searchtimer->SetPauseOnRecs(pauseonrecs);
+		searchtimer->SetBlacklistMode(blacklistmode);
+		if (blacklistmode == 1)
+			searchtimer->ParseBlacklist(blacklistids_internal);
+		
+		searchtimer->SetSwitchMinBefore(switchminbefore);
+		
+		searchtimer->SetAvoidRepeats(avoidrepeats);
+		if (avoidrepeats)
+		{
+			searchtimer->SetAllowedRepeats(allowedrepeats);
+			searchtimer->SetRepeatsWithinDays(repeatswithindays);
+			searchtimer->SetCompareTitle(comparetitle);
+			searchtimer->SetCompareSubtitle(comparesubtitle);
+			searchtimer->SetCompareSummary(comparesummary);
+		}  
+		unsigned long catsselected = 0; 
+		for (unsigned int i=0; i< avoidrepeatscatselected.size(); i++)
+			catsselected |= (1<< (avoidrepeatscatselected[i]-1));
+		
+		searchtimer->SetCompareCategories(catsselected);
+		searchtimer->SetPriority(priority);
+		searchtimer->SetLifetime(lifetime);
+		searchtimer->SetMarginStart(marginstart);
+		searchtimer->SetMarginStop(marginstop);
+		searchtimer->SetUseVPS(usevps);
+		
+		if (!testmode)
+		{
+			searchtimers.Save(searchtimer);			
+			return reply.redirect("searchtimers.html");
+		}
+		else
+		{
+			searchtimer->SetId(0);
+			string md5 = SearchResults::AddQuery(searchtimer->ToText());
+			return reply.redirect("searchresults.html?searchtimerquery=" + md5);
+		}
 	}
-    pageTitle = searchtimer ? tr("Edit search timer") : tr("New search timer");
+	pageTitle = searchtimer ? tr("Edit search timer") : tr("New search timer");
 
 	if ( searchtimer != 0 ) {
 		search = searchtimer->Search(); 
@@ -788,7 +799,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 						<tr>
 							<td class="border" style="border-left: 1px solid black"></td>
 							<td class="buttonpanel" colspan="2">
-								<button class="green" type="submit"><$ tr("Save") $></button>
+								<button class="green" type="submit" name="test" value="test"><$ tr("Test") $></button>
+								<button class="green" type="submit" name="save"><$ tr("Save") $></button>
 								<button type="button" class="red" onclick="location.href='searchtimers.html';"><$ tr("Cancel") $></button>
 							</td>
 							<td class="border" style="border-right: 1px solid black"></td>
