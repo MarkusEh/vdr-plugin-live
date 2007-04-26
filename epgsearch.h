@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <list>
+#include <set>
 #include <string>
 #include <vdr/channels.h>
 #include <vdr/epg.h>
@@ -335,13 +336,16 @@ private:
 
 class SearchResults
 {
+	static std::set<std::string> querySet;
 public:
 	typedef std::list< SearchResult > searchresults;
 	typedef searchresults::size_type size_type;
 	typedef searchresults::iterator iterator;
 	typedef searchresults::const_iterator const_iterator;
 
-	SearchResults(int searchId);
+	SearchResults() {}
+	void GetByID(int id);
+	void GetByQuery(std::string const& query);
 
 	size_type size() const { return m_list.size(); }
 
@@ -349,6 +353,10 @@ public:
 	const_iterator begin() const { return m_list.begin(); }
 	iterator end() { return m_list.end(); }
 	const_iterator end() const { return m_list.end(); }
+
+	static std::string AddQuery(std::string const& query);
+	static std::string PopQuery(std::string const& md5);
+	static std::string MD5Hash(std::string const& query);
 private:
 	searchresults m_list;
 };

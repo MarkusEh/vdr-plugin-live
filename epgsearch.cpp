@@ -3,6 +3,7 @@
 #include <vdr/channels.h>
 #include <vdr/plugin.h>
 #include <iomanip>
+#include <openssl/md5.h>
 #include "epgsearch/services.h"
 #include "epgsearch.h"
 #include "exception.h"
@@ -485,7 +486,9 @@ SearchResult::SearchResult( string const& data )
 	}
 }
 
-SearchResults::SearchResults(int id)
+std::set<std::string> SearchResults::querySet;
+
+void SearchResults::GetByID(int id)
 {
 	Epgsearch_services_v1_0 service;
 	if ( cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
@@ -494,6 +497,55 @@ SearchResults::SearchResults(int id)
 	list< string > list = service.handler->QuerySearchTimer(id);
 	m_list.assign( list.begin(), list.end() );
     m_list.sort();
+}
+
+void SearchResults::GetByQuery(std::string const& query)
+{
+	Epgsearch_services_v1_0 service;
+	if ( cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
+		throw HtmlError( tr("No searchtimers available") );
+
+	list< string > list = service.handler->QuerySearch(query);
+	m_list.assign( list.begin(), list.end() );
+	m_list.sort();
+}
+
+std::string SearchResults::MD5Hash(std::string const& query)
+{
+	unsigned char md5[MD5_DIGEST_LENGTH];
+	MD5(reinterpret_cast<const unsigned char*>(query.c_str()), query.size(), md5);
+
+	ostringstream hashStr;
+	hashStr << hex;
+	for (size_t i = 0; i < MD5_DIGEST_LENGTH; i++)
+		hashStr << (0 + md5[i]);
+
+	return hashStr.str();
+}
+
+std::string SearchResults::AddQuery(std::string const& query)
+{
+	querySet.insert(query);
+	return MD5Hash(query);
+}
+
+std::string SearchResults::PopQuery(std::string const& md5)
+{
+	std::string query;
+	if (!md5.empty()) 
+	{
+		std::set<std::string>::iterator it;
+		for (it = querySet.begin(); it != querySet.end(); it++) 
+		{
+			if (md5 == MD5Hash(*it))
+			{
+				query = *it;
+				querySet.erase(it);
+				break;
+			}
+		}
+	}
+	return query;
 }
 
 } // namespace vdrlive
