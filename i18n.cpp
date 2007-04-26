@@ -2691,6 +2691,28 @@ const tI18nPhrase Phrases[] = {
       "",
       "",
     },
+      { "Test", // English
+      "Testen", // Deutsch
+      "", // Slovenski
+      "", // Italiano
+      "", // Nederlands
+      "", // Português
+      "", // Français
+      "", // Norsk
+      "", // Finnish
+      "", // Polski
+      "", // Español
+      "", // Greek
+      "", // Svenska
+      "", // Românã
+      "", // Magyar
+      "", // Català
+      "", // Russian
+      "", // Hrvatski
+      "", // Eesti
+      "", // Dansk
+      "", // Czech
+      },
       { "The time the show may start at the latest", // English
       "Die Zeit, zu der die Sendung spätestens angefangen haben muss", // Deutsch
       "", // Slovenski
