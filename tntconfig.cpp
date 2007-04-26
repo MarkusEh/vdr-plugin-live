@@ -34,7 +34,7 @@ void TntConfig::WriteConfig()
 	}
 
 	// XXX modularize
-	file << "MapUrl ^/$ whats_on@" << endl;
+	file << "MapUrl ^/$ login@" << endl;
 	file << "MapUrl /([^.]+)(\\..+)? $1@" << endl;
 	file << "PropertyFile " << m_propertiesPath << endl;
 

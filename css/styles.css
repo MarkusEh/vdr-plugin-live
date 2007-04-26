@@ -309,6 +309,21 @@ button.red {
 	padding-bottom: 3px;
 }
 
+button.blue {
+	width: 100px;
+	height: 20px;
+	background-color: inherit;
+	background-image: url(button_blue.png);
+	background-repeat: no-repeat;
+	color: #FFFFFF;
+	font-size: 11px;
+	border: 0px;
+	vertical-align: middle;
+	text-align: center;
+	cursor: pointer;
+	padding-bottom: 3px;
+}
+
 table td.buttonpanel {
 	text-align: right;
 }
@@ -742,4 +757,19 @@ table.searchresults td.border {
 	padding: 0;
 	margin: 0;
 	width: 1px;
+}
+
+/*
+  ##############################
+  #  Login
+  ##############################
+*/
+
+table.login {
+	margin: 0 auto;;
+}
+
+table.login tr td {
+	padding: 3px 5px;
+	vertical-align: right;
 }

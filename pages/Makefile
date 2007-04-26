@@ -20,7 +20,7 @@ OBJS	= menu.o channels.o recordings.o schedule.o		\
           keypress.o remote.o channels_widget.o edit_timer.o	\
           error.o pageelems.o tooltip.o play_recording.o	\
           searchtimers.o infobox.o edit_searchtimer.o	\
-          searchresults.o
+          searchresults.o login.o
 
 ### Default rules:
 
