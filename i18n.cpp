@@ -2493,7 +2493,7 @@ const tI18nPhrase Phrases[] = {
       "",
     },
     { "Toggle search timer actions (in)active",
-      "Suchtimer (de)aktivieren",
+      "Aktionen des Suchtimers (de)aktivieren",
       "",
       "",
       "",
