@@ -80,7 +80,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 %				}
 %				if (results.size() > 0) {
 						<tr>
-							<td colspan="5" style="border-top: 1px solid black; background: none">&nbsp;</td></tr>
+							<td colspan="5" style="border-top: 1px solid black; background: none; border-bottom: none">&nbsp;</td></tr>
 						</tr>
 %				}
 			</table>
