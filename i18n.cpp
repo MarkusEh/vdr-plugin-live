@@ -2757,6 +2757,29 @@ const tI18nPhrase Phrases[] = {
       "", // Dansk
       "", // Czech
       },
+	{ "Search text too short - use anyway?",
+	"Suchtext zu kurz - trotzdem verwenden?",
+	"",// TODO
+	"Il testo da cercare è troppo corto.  Continuare lo stesso?",// Italiano
+	"Zoek tekst tekort - toch gebruiken?",
+	"",// TODO
+	"Texte de recherche est trop court - l'utiliser comme même?",
+	"",// TODO
+	"Liian suppea hakuehto - etsitäänkö silti?",
+	"",// TODO
+	"",// TODO
+	"",// TODO
+	"",// TODO
+	"",// TODO
+	"",// TODO
+	"",// TODO 
+	"",// TODO
+	"",// TODO
+	"",// TODO Eesti
+	"",// TODO Dansk
+	"",// TODO Èesky (Czech)
+	
+	},
       { "User", // English
       "Benutzer", // Deutsch
       "", // Slovenski

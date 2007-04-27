@@ -342,6 +342,13 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			changedblacklistmode(document.getElementById("blacklistmode"));
 		}
 
+		function checksearch()
+		{
+			if (document.getElementById("searchterm").value.length <= 3)
+				return confirm('<$ tr("Search text too short - use anyway?") $>');
+			return true;
+		}
+
 		function changedsearchmode(selection)
 		{
 			document.getElementById("tolerance").style.display = (selection.options[selection.selectedIndex].value == 5 ? "block" : "none");
@@ -453,7 +460,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 						<tr>
 							<td class="border" style="border-left: 1px solid black"></td>
 							<td class="label"><$ tr("Search term") $>:</td>
-							<td><input type="text" name="search" value="<$ search $>" size="90" /></td>
+							<td><input type="text" name="search" value="<$ search $>" size="90" id="searchterm" /></td>
 							<td class="border" style="border-right: 1px solid black"></td>
 						</tr>
 	
@@ -799,8 +806,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 						<tr>
 							<td class="border" style="border-left: 1px solid black"></td>
 							<td class="buttonpanel" colspan="2">
-								<button class="green" type="submit" name="test" value="test"><$ tr("Test") $></button>
-								<button class="green" type="submit" name="save"><$ tr("Save") $></button>
+								<button class="green" type="submit" name="test" value="test" onclick="return checksearch();"><$ tr("Test") $></button>
+								<button class="green" type="submit" name="save" onclick="return checksearch();"><$ tr("Save") $></button>
 								<button type="button" class="red" onclick="location.href='searchtimers.html';"><$ tr("Cancel") $></button>
 							</td>
 							<td class="border" style="border-right: 1px solid black"></td>
