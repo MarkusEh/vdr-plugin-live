@@ -165,6 +165,12 @@ div.pagemenu div div {
 	border-bottom: 1px solid #C0C1DA;
 }
 
+div.pagemenu a {
+	text-decoration: none;
+	color: black;
+	font-weight: bold;
+}
+
 /* #######################
    #  Info Box (near logo)
    #######################
@@ -770,7 +776,7 @@ table.searchresults td.border {
 */
 
 table.login {
-	margin: 0 auto;;
+	margin: 0 auto;
 }
 
 table.login tr td {

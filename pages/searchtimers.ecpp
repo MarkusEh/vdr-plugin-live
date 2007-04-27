@@ -42,7 +42,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	</head>
 	<body onload="LiveStatusAjaxRequest('infobox.html', 'infobox')">
 		<& pageelems.logo &>
-		<& menu active=("searchtimers") &>
+		<& menu active=("searchtimers") component=("searchtimers.searchtimer_actions")>
 		<div class="inhalt">
 			<table class="timers" cellspacing="0" cellpadding="0">
 				<tr class="head">
@@ -55,7 +55,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
-					<td><a href="edit_searchtimer.html"><img src="/button_new.png" alt="" <& tooltip.hint text=(tr("New search timer")) &>/></a></td>
+					<td>&nbsp;</td>
 					<td style="background: url(bg_box_r.png); width: 3px;" /></td>
 				</tr>
 <{
@@ -84,3 +84,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	</body>
 </html>
 <%include>page_exit.eh</%include>
+
+<%def searchtimer_actions>
+<a href="edit_searchtimer.html"><$ tr("New search timer") $></a>
+</%def>

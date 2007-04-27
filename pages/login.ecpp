@@ -40,7 +40,7 @@ if (logged_in || !LiveSetup().UseAuth()) return reply.redirect("whats_on.html");
 		<& pageelems.ajax_js &>
 	</head>
 	<body>
-	<div style="width: 440px; margin: 0 auto; text-align: center; padding: 20px">
+	<div style="width: 420px; margin: 0 auto; text-align: center; padding: 20px">
 		<div class="boxheader"><div><div>VDR Live Login</div></div></div>
 		<div style="border: 1px solid black; padding: 15px">
 			<img src="logo_login.png" alt="VDR Live"></img>
@@ -48,18 +48,18 @@ if (logged_in || !LiveSetup().UseAuth()) return reply.redirect("whats_on.html");
 				<input type="hidden" name="action" value="login" />
 				<table class="login">
 					<tr>
-						<td><$ tr("User") $></td>
-						<td><input type="text" name="login" value="<$ login $>" /></td>
+						<td><$ tr("User") $>:</td>
+						<td><input type="text" name="login" value="<$ login $>" size="15" maxlength="15" /></td>
 						<td>&nbsp;</td>
 					</tr>
 					<tr>
-						<td><$ tr("Password") $></td>
-						<td><input type="password" name="password" value="<$ password $>" /></td>
+						<td><$ tr("Password") $>:</td>
+						<td><input type="password" name="password" value="<$ password $>" size="15" maxlength="15" /></td>
 						<td><button type="submit" class="blue"><$ tr("Login") $></td>
 					</tr>
 				</table>
 			</form>
-			<div style="color: red; margin: 0 auto; padding: 10px">
+			<div style="color: red; margin: 0 auto;">
 				<$ message $>
 			</div>
 		</div>

@@ -422,7 +422,7 @@ const tI18nPhrase Phrases[] = {
       "", // Czech
     },
     { "New timer", // English
-      "Neuer Timer", // Deutsch
+      "Neuen Timer anlegen", // Deutsch
       "", // Slovenski
       "", // Italiano
       "", // Nederlands
