@@ -63,7 +63,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 }>
 				<tr>
 					<td class="border" style="border-left: 1px solid black"></td>
-					<td><? timer->UseAsSearchTimer() ? ">" ?></td>
+					<td><{ if(timer->UseAsSearchTimer()) { }><img src="/arrow.png" alt=""><{ } }></td>
 					<td><$ timer->Search() $></td>
 					<td><$ timer->ChannelText() $></td>
 					<td><? timer->UseTime() ? timer->StartTimeFormatted() ?></td>
