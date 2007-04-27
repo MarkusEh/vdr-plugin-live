@@ -74,14 +74,13 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 }>
 				<tr class="head">
 					<td style="background: url(bg_box_l.png); width: 3px;"/></td>
-					<td colspan="10"><$ timer->WeekDays() > 0 ? *cTimer::PrintDay(0, timer->WeekDays()) : FormatDateTime(tr("%A, %x"), timer->Day()) $></td>
+					<td colspan="9"><$ timer->WeekDays() > 0 ? *cTimer::PrintDay(0, timer->WeekDays()) : FormatDateTime(tr("%A, %x"), timer->Day()) $></td>
 					<td style="background: url(bg_box_r.png); width: 3px;" /></td>
 				</tr>
 				<tr class="description">
 					<td class="border" style="border-left: 1px solid black"></td>
 					<td>&nbsp;</td>
 					<td><$ tr("Channel") $></td>
-					<td><$ tr("Date") $></td>
 					<td><$ tr("Start") $></td>
 					<td><$ tr("Stop") $></td>
 					<td>&nbsp;</td>
@@ -98,7 +97,6 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					<td class="border" style="border-left: 1px solid black"></td>
 					<td><{ if (timer->Flags() & tfActive) { }><img src="/arrow.png" alt=""> <{ } }></td>
 					<td><$ timer->Channel()->Name() $></td>
-					<td><$ timer->WeekDays() > 0 ? *cTimer::PrintDay(0, timer->WeekDays()) : FormatDateTime(tr("%a, %b %d"), timer->Day()) $></td>
 					<td><$ FormatDateTime(tr("%I:%M %p"), timer->StartTime()) $></td>
 					<td><$ FormatDateTime(tr("%I:%M %p"), timer->StopTime()) $></td>
 					<td><{ if (timer->Recording()) { }><img src="/record.png" alt="Record" /><{ } }></td>
