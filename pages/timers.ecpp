@@ -68,7 +68,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					<td><$ tr("File") $></td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
-					<td>&nbsp;</td>
+					<td><a href="edit_timer.html"><img src="/button_new.png" alt="" <& tooltip.hint text=(tr("New timer")) &>/></a></td>
 					<td style="background: url(bg_box_r.png); width: 3px;" /></td>
 				</tr>
 <{
