@@ -72,7 +72,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	</head>
 	<body onload="StreamInit(); FillIntervals(); LiveStatusAjaxRequest('infobox.html', 'infobox')">
 		<& pageelems.logo &>
-		<& menu active="remote" &>
+		<& menu active="remote" component=("remote.remote_actions")>
 		<div class="inhalt">
 			<div class="screenshot">
 				<img src="screenshot.jpg" name="vdrlive" /><br />
@@ -110,10 +110,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 				  <area href="#" shape="rect" coords="110,310,137,323" alt="Blue" onclick="KeyPress(<$ kBlue $>)" nohref="nohref" />
 			     </map>
 			</div>
-			<div>
-			     	<$ tr("Interval:") $> <select name="interval" onchange="ChangeInterval()"></select>
-			</div>
 		</div>
 	</body>
 </html>
 <%include>page_exit.eh</%include>
+
+<%def remote_actions>
+<$ tr("Interval") $>: <select name="interval" onchange="ChangeInterval()"></select>
+</%def>

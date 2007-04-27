@@ -223,8 +223,8 @@ const tI18nPhrase Phrases[] = {
       "", // Dansk
       "", // Czech
     },
-    { "Interval:", // English
-      "Intervall:", // Deutsch
+    { "Interval", // English
+      "Intervall", // Deutsch
       "", // Slovenski
       "", // Italiano
       "", // Nederlands
