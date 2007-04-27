@@ -41,6 +41,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 	}
 
+	int previousDay = 0;
+
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -58,6 +60,18 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 				Keiner Timer definiert
 %			} else {
 			<table class="timers" cellspacing="0" cellpadding="0">
+<{
+				for (SortedTimers::iterator timer = timers.begin(); timer != timers.end(); ++timer) {
+					if (previousDay != timer->Day()) {
+						if (previousDay > 0) {
+}>
+						<tr>
+							<td colspan="11" style="border-top: 1px solid black; border-bottom: none; background-image: none">&nbsp;</td></tr>
+						</tr>
+<{
+						}
+						previousDay = timer->Day();
+}>
 				<tr class="head">
 					<td style="background: url(bg_box_l.png); width: 3px;"/></td>
 					<td><$ tr("Channel") $></td>
@@ -71,8 +85,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					<td><a href="edit_timer.html"><img src="/button_new.png" alt="" <& tooltip.hint text=(tr("New timer")) &>/></a></td>
 					<td style="background: url(bg_box_r.png); width: 3px;" /></td>
 				</tr>
-<{
-				for (SortedTimers::iterator timer = timers.begin(); timer != timers.end(); ++timer) {
+					<{
+					}
 }>
 				<tr>
 					<td class="border" style="border-left: 1px solid black"></td>
