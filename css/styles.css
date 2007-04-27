@@ -486,7 +486,7 @@ table.timers {
 table.timers tr td {
 	padding: 3px 7px 3px 3px;
 	background: url(bg_line.png) bottom repeat-x;
-        border-bottom: 1px solid #C0C1DA;
+	border-bottom: 1px solid #C0C1DA;
 }
 
 table.timers td.border {
@@ -502,6 +502,11 @@ table.timers tr.head td {
 	padding: 0;
 	background: url(bg_box_h.png) repeat-x;
 	height: 23px;
+}
+
+table.timers tr.description td {
+	font-weight: bold;
+	background: #E9EFFF;
 }
 
 /*
@@ -641,7 +646,6 @@ div.screenshot {
 	margin-right: 20px;
 }
 
-*/
 
 /*
   ##############################
