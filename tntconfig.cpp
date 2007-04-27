@@ -37,6 +37,7 @@ void TntConfig::WriteConfig()
 	file << "MapUrl ^/$ login@" << endl;
 	file << "MapUrl /([^.]+)(\\..+)? $1@" << endl;
 	file << "PropertyFile " << m_propertiesPath << endl;
+	file << "SessionTimeout 86400" << endl;
 
 	Setup::IpList const& ips = LiveSetup().GetServerIps();
 	int port = LiveSetup().GetServerPort();
