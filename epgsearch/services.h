@@ -4,6 +4,7 @@
 #include <string>
 #include <list>
 #include <memory>
+#include <set>
 #include <vdr/osdbase.h>
 
 // Data structure for service "Epgsearch-search-v1.0"
@@ -121,6 +122,8 @@ class cServiceHandler
    // returns a list of channel groups maintained by epgsearch
    virtual std::list<std::string> BlackList() = 0;
    // returns a list of blacklists in the same format as used in epgsearchblacklists.conf
+   virtual std::set<std::string> DirectoryList() = 0;
+   // List of all recording directories used in recordings, timers, search timers or in epgsearchdirs.conf
    virtual ~cServiceHandler() {}
 };
 

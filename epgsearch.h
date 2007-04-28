@@ -361,6 +361,25 @@ private:
 	searchresults m_list;
 };
 
+class RecordingDirs
+{
+public:
+	typedef std::set< std::string > recordingdirs;
+	typedef recordingdirs::size_type size_type;
+	typedef recordingdirs::iterator iterator;
+	typedef recordingdirs::const_iterator const_iterator;
+	
+	RecordingDirs();
+
+	iterator begin() { return m_set.begin(); }
+	const_iterator begin() const { return m_set.begin(); }
+	iterator end() { return m_set.end(); }
+	const_iterator end() const { return m_set.end(); }
+
+private:
+	recordingdirs m_set;
+};
+
 }
 
  // namespace vdrlive

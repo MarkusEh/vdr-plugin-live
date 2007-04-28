@@ -84,7 +84,7 @@ SearchTimer* searchtimer;
 ExtEPGInfos extEPGInfos;
 ChannelGroups channelGroups;
 Blacklists blacklists;
-
+RecordingDirs recordingdirs;
 </%request>
 <%include>page_init.eh</%include>
 <{
@@ -436,6 +436,10 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 				}
 			}
 		}
+		function changeddirselection(selection)
+		{
+			document.getElementById("directory").value = selection.value; 
+		}
 		//--></script>
 
 		<title>VDR Live - <$ searchtimer ? tr("Edit search timer") : tr("New search timer") $></title>
@@ -707,7 +711,14 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 										
 										<tr>
 											<td><$ tr("Directory") $>:</td>
-											<td><input type="text" name="directory" value="<$ directory $>" size="70" /></td>
+											<td><input type="text" name="directory" id="directory" value="<$ directory $>" size="70" /><br>
+											<select onchange="changeddirselection(this)" name="recordingdirsselection" size="1" id="recordingdirsselection">
+											<option/>
+%											for (RecordingDirs::iterator rdir = recordingdirs.begin(); rdir != recordingdirs.end(); ++rdir) {
+												<option value="<$ *rdir $>"><$ *rdir $></option>
+%											}
+											</select>
+											</td>
 										</tr>
 										
 										<tr>

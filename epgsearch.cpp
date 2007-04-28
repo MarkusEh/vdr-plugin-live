@@ -548,4 +548,13 @@ std::string SearchResults::PopQuery(std::string const& md5)
 	return query;
 }
 
+RecordingDirs::RecordingDirs()
+{
+	Epgsearch_services_v1_0 service;
+	if ( cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
+		throw HtmlError( tr("No searchtimers available") );
+
+	m_set = service.handler->DirectoryList();
+}
+
 } // namespace vdrlive
