@@ -786,5 +786,5 @@ table.login {
 
 table.login tr td {
 	padding: 3px 5px;
-	vertical-align: right;
+	text-align: right;
 }
