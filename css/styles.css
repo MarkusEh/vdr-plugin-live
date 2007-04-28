@@ -502,6 +502,7 @@ table.timers tr.head td {
 	padding: 0;
 	background: url(bg_box_h.png) repeat-x;
 	height: 23px;
+	border-bottom: 1px solid black;
 }
 
 table.timers tr.description td {
