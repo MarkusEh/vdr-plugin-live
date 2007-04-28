@@ -73,7 +73,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 						previousDay = timer->Day();
 }>
 				<tr class="head">
-					<td style="background: url(bg_box_l.png); width: 3px;"/></td>
+					<td style="background: url(bg_box_l.png); width: 3px;"></td>
 					<td colspan="9"><$ timer->WeekDays() > 0 ? *cTimer::PrintDay(0, timer->WeekDays()) : FormatDateTime(tr("%A, %x"), timer->Day()) $></td>
 					<td style="background: url(bg_box_r.png); width: 3px;" /></td>
 				</tr>
@@ -95,7 +95,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 }>
 				<tr>
 					<td class="border" style="border-left: 1px solid black"></td>
-					<td><{ if (timer->Flags() & tfActive) { }><img src="/arrow.png" alt=""> <{ } }></td>
+					<td><{ if (timer->Flags() & tfActive) { }><img src="/arrow.png" alt=""></img> <{ } }></td>
 					<td><$ timer->Channel()->Name() $></td>
 					<td><$ FormatDateTime(tr("%I:%M %p"), timer->StartTime()) $></td>
 					<td><$ FormatDateTime(tr("%I:%M %p"), timer->StopTime()) $></td>
