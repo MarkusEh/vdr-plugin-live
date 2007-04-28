@@ -1,6 +1,7 @@
 <%pre>
 #include <vdr/plugin.h>
 #include <vdr/config.h>
+#include "setup.h"
 </%pre>
 <%args>
 active;
@@ -11,6 +12,9 @@ std::string set_active;
 std::string set_component;
 </%request>
 <{
+
+	using namespace vdrlive;
+
 	set_active = active;
 	if (!component.empty())
 		set_component = component;
@@ -22,8 +26,10 @@ std::string set_component;
 	<a href="timers.html" <& menu.setactive current=("timers") &>><$ tr("Timers") $></a> |
 	<a href="searchtimers.html" <& menu.setactive current=("searchtimers") &>><$ tr("Searchtimers") $></a> |
 	<a href="recordings.html" <& menu.setactive current=("recordings") &>><$ tr("Recordings") $></a> |
-	<a href="remote.html" <& menu.setactive current=("remote") &>><$ tr("Remote Control") $></a> |
-	<a id="login" href="login.html?action=logout"><$ tr("Logout") $></a>
+	<a href="remote.html" <& menu.setactive current=("remote") &>><$ tr("Remote Control") $></a>
+% if (LiveSetup().UseAuth()) {
+	| <a id="login" href="login.html?action=logout"><$ tr("Logout") $></a>
+% }
 </div>
 % if (!component.empty()) {
 <div class="pagemenu">
