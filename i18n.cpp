@@ -3000,8 +3000,72 @@ const tI18nPhrase Phrases[] = {
       "", // Dansk
       "", // Czech
     },
-
-
+	{ "Search", // English
+	"Suchen", // Deutsch
+	"", // Slovenski
+	"", // Italiano
+	"", // Nederlands
+	"", // Português
+	"", // Français
+	"", // Norsk
+	"", // Finnish
+	"", // Polski
+	"", // Español
+	"", // Greek
+	"", // Svenska
+	"", // Românã
+	"", // Magyar
+	"", // Català
+	"", // Russian
+	"", // Hrvatski
+	"", // Eesti
+	"", // Dansk
+	"", // Czech
+	},
+	{ "Extended search", // English
+	"Erweiterte Suche", // Deutsch
+	"", // Slovenski
+	"", // Italiano
+	"", // Nederlands
+	"", // Português
+	"", // Français
+	"", // Norsk
+	"", // Finnish
+	"", // Polski
+	"", // Español
+	"", // Greek
+	"", // Svenska
+	"", // Românã
+	"", // Magyar
+	"", // Català
+	"", // Russian
+	"", // Hrvatski
+	"", // Eesti
+	"", // Dansk
+	"", // Czech
+	},
+	{ "Search settings", // English
+	"Einstellungen zur Suche", // Deutsch
+	"", // Slovenski
+	"", // Italiano
+	"", // Nederlands
+	"", // Português
+	"", // Français
+	"", // Norsk
+	"", // Finnish
+	"", // Polski
+	"", // Español
+	"", // Greek
+	"", // Svenska
+	"", // Românã
+	"", // Magyar
+	"", // Català
+	"", // Russian
+	"", // Hrvatski
+	"", // Eesti
+	"", // Dansk
+	"", // Czech
+	},
     /*
       { "", // English
       "", // Deutsch
