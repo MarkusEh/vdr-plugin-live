@@ -37,7 +37,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		<link rel="stylesheet" type="text/css" href="/styles.css" />
 		<& pageelems.ajax_js &>
 	</head>
-	<body onload="LiveStatusAjaxRequest('infobox.html', 'infobox')">
+	<body onload="<& pageelems.infobox_start_update &>">
 		<& pageelems.logo &>
 		<& menu active=("searchresults") &>
 		<div class="inhalt">
