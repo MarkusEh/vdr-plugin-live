@@ -781,7 +781,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 										</tr>
 	
 										<tr>
-											<td><$ tr("Priority") $>:</td>
+											<td><$ tr("Lifetime") $>:</td>
 											<td><input type="text" name="lifetime" size="2" value="<$ lifetime $>"/></td>
 										</tr>
 	
