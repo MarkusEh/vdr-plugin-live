@@ -38,7 +38,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		<& pageelems.ajax_js &>
 		<script type="text/javascript" language="javascript" src="treeview.js"></script>
 	</head>
-	<body onload="LiveStatusAjaxRequest('infobox.html', 'infobox')">
+	<body onload="<& pageelems.infobox_start_update &>">
 		<& pageelems.logo &>
 		<& menu active=("recordings") &>
 		<div class="inhalt">

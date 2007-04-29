@@ -55,7 +55,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 	</head>
-	<body onload="LiveStatusAjaxRequest('infobox.html', 'infobox')">
+	<body onload="<& pageelems.infobox_start_update &>">
 		<& pageelems.logo &>
 		<& menu active=("schedule") component=("schedule.channel_selection")>
 		<div class="inhalt">

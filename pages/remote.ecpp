@@ -70,7 +70,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		}
 		//--></script>
 	</head>
-	<body onload="StreamInit(); FillIntervals(); LiveStatusAjaxRequest('infobox.html', 'infobox')">
+	<body onload="StreamInit(); FillIntervals(); <& pageelems.infobox_start_update &>">
 		<& pageelems.logo &>
 		<& menu active="remote" component=("remote.remote_actions")>
 		<div class="inhalt">

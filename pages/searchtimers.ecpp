@@ -34,13 +34,12 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <& pageelems.doc_type &>
 <html>
 	<head>
-		<& pageelems.ajax_js &>
 		<title>VDR-Live - <$ pageTitle $></title>
-		<link rel="stylesheet" type="text/css" href="/styles.css" />
+		<link rel="stylesheet" type="text/css" href="styles.css" />
 		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 	</head>
-	<body onload="LiveStatusAjaxRequest('infobox.html', 'infobox')">
+	<body onload="<& pageelems.infobox_start_update &>">
 		<& pageelems.logo &>
 		<& menu active=("searchtimers") component=("searchtimers.searchtimer_actions")>
 		<div class="inhalt">

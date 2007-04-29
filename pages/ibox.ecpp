@@ -14,12 +14,16 @@ using namespace vdrlive;
 using namespace std;
 
 </%pre>
-<%include>page_init.eh</%include>
-<{
+<%args>
+	int update;
+</%args>
+<%cpp>
 	EpgEvents epgEvents;
 	string EMPTY_STR;
 	tChannelID prev_chan;
 	tChannelID next_chan;
+
+	reply.setContentType( "application/xml" );
 
 	if (cReplayControl::NowReplaying()) {
 		cThreadLock RecordingsLock(&Recordings);
@@ -44,8 +48,6 @@ using namespace std;
 
 		if (cDevice::CurrentChannel()) {
 			cChannel* Channel = Channels.GetByNumber(cDevice::CurrentChannel());
-			if (!Channel)
-				throw HtmlError("got invalid channel number!");
 
 			cChannel* tmp = Channels.GetByNumber(Channels.GetPrevNormal(cDevice::CurrentChannel()));
 			if (tmp)
@@ -116,26 +118,60 @@ using namespace std;
 		EpgEventPtr epg = *i;
 		if (prev_chan.Valid() && next_chan.Valid())
 		{
-}>
-		<& pageelems.status_box type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) prev_chan=(prev_chan) next_chan=(next_chan) &>
-<{
+</%cpp>
+<& xmlresponse update=(update) type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) prev_chan=(prev_chan) next_chan=(next_chan) &>
+<%cpp>
 		}
 		else if (prev_chan.Valid()) {
-}>
-		<& pageelems.status_box type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) prev_chan=(prev_chan) &>
-<{
+</%cpp>
+<& xmlresponse update=(update) type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) prev_chan=(prev_chan) &>
+<%cpp>
 		}
 		else if (next_chan.Valid()) {
-}>
-		<& pageelems.status_box type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) next_chan=(next_chan) &>
-<{
+</%cpp>
+<& xmlresponse update=(update) type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) next_chan=(next_chan) &>
+<%cpp>
 		}
 		else {
-}>
-		<& pageelems.status_box type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) &>
-<{
+</%cpp>
+<& xmlresponse update=(update) type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) &>
+<%cpp>
 		}
 		break;
 	}
-}>
-<%include>page_exit.eh</%include>
+</%cpp>
+
+<%def xmlresponse>
+<%args>
+	int update;
+	string type;
+	string currentTime;
+	string caption;
+	string title;
+	string duration;
+	int elapsed;
+	string prev_chan;
+	string next_chan;
+</%args>
+<?xml version="1.0"?>
+<service>
+  <request name="ibox">
+	<param name="update"><$ update $></param>
+  </request>
+  <response>1</response>
+  <error></error>
+  <values>
+	<update><$ update $></update>
+	<epginfo>
+	  <type><$ type $></type>
+	  <caption><$ caption $></caption>
+	  <timenow><$ currentTime $></timenow>
+	  <name><$ title $></name>
+	  <duration><$ duration $></duration>
+	  <elapsed><$ elapsed $></elapsed>
+	  <nextchan><$ next_chan $></nextchan>
+	  <prevchan><$ prev_chan $></prevchan>
+	</epginfo>
+  </values>
+</service>
+</%def>

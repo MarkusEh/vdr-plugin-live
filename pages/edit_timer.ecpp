@@ -117,13 +117,12 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	<head>
 		<title>VDR Live - <$ timer ? tr("Edit timer") : tr("New timer") $></title>
 		<link rel="stylesheet" type="text/css" href="styles.css" />
+		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
+		<& pageelems.ajax_js &>
 	</head>
-	<body>
-		<div class="left_area">
-			<& pageelems.logo &>
-			<& menu active=("timers") &>
-		</div>
-	<div class="right_area">
+	<body onload="<& pageelems.infobox_start_update &>">
+		<& pageelems.logo &>
+		<& menu active=("timers") &>
 		<div class="inhalt">
 			<form method="POST" name="edit_timer" action="edit_timer.ecpp">
 				<input type="hidden" name="timerid" value="<$ timerid $>"/>
@@ -224,7 +223,6 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 				</table>
 			</form>
 		</div>
-	</div>
 	</body>
 </html>
 <%include>page_exit.eh</%include>

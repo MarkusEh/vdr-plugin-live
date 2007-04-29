@@ -3,6 +3,7 @@
 #include <vdr/menu.h>
 #include <vdr/epg.h>
 #include "tools.h"
+#include "i18n.h"
 
 using namespace std;
 using namespace vdrlive;
@@ -20,19 +21,64 @@ using namespace vdrlive;
 <%def logo>
 <div class="page_header">
 	<img src="logo.png" alt="VDR Live!" class="logo"/>
-	<div id="infobox">
-	</div>
+	<& infobox &>
 </div>
 <div style="clear: both"></div>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
 
+<%def infobox>
+<div id="infobox">
+	<div class="statuscontent">
+		<div class="st_header">
+			<div id="infobox_caption" class="caption"><$ tr("retrieving status ...") $></div>
+			<div id="infobox_timenow" class="now">--:--</div>
+		</div>
+		<div class="st_content">
+			<div id="infobox_name" class="name"></div>
+			<div id="infobox_duration" class="duration">--:--</div>
+		</div>
+		<div class="st_controls">
+			<div class="st_btns">
+				<a href="javascript:LiveStatusToggleUpdate()" <& tooltip.hint text=(tr("Stop updates")) &>><img id="statusReloadBtn" src="stop.png" alt="" /></a>
+				<span id="infobox_recording_buttons" style="display: none"></span>
+				<span id="infobox_channel_buttons">
+					<& ajax_action_href action=("switch_channel") id=("infobox_prevchan") image=("one_downarrow.png") tip=(tr("previous channel")) &>
+					<& ajax_action_href action=("switch_channel") id=("infobox_nextchan") image=("one_uparrow.png") tip=(tr("next channel")) &>
+				</span>
+			</div>
+			<div class="st_pbar">
+				<& progressbar id=("infobox_elapsed") &>
+			</div>
+		</div>
+	</div>
+</div>
+</%def>
+
+<# ---------------------------------------------------------------------- #>
+
+<%def infobox_start_update>
+<%cpp> { </%cpp>LiveStatusRequest('ibox.xml', 'infobox')<%cpp> } </%cpp>
+</%def>
+
+<# ---------------------------------------------------------------------- #>
+
+<%def hide_element>
+<%args>
+	bool hide = true;
+</%args>
+<%cpp> if (hide) { </%cpp>style="visibility: hidden"<%cpp> } </%cpp>
+</%def>
+
+<# ---------------------------------------------------------------------- #>
+
 <%def progressbar>
 <%args>
-	string progress;
+	string progress = "0";
+	string id;
 </%args>
-<div class="__progress"><div class="__elapsed" style="width: <$ progress $>px"></div></div>
+<div class="__progress"><div class="__elapsed" <? !id.empty() ? "id=" + id ?> style="width: <$ progress $>px"></div></div>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -61,8 +107,9 @@ using namespace vdrlive;
 	string param;
 	string image;
 	string alt;
+	string id;
 </%args>
-	<a href="javascript:LiveSimpleAjaxRequest('<$ action $>.xml', 'param', '<$ param $>');" <%cpp>if (!tip.empty()) { </%cpp><& tooltip.hint text=(tip) &> <%cpp> } </%cpp>><img src="<$ image $>" alt="<$ alt $>" /></a>
+<%cpp> { </%cpp> <a <? !id.empty() ? "id=" + id ?> <& hide_element hide=(!id.empty()) &> href="javascript:LiveSimpleAjaxRequest('<$ action $>.xml', 'param', '<$ param $>');" <%cpp>if (!tip.empty()) { </%cpp><& tooltip.hint text=(tip) &> <%cpp> } </%cpp>><img src="<$ image $>" alt="<$ alt $>" /></a> <%cpp> } </%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>

@@ -92,8 +92,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 }>
 <%cpp>
 
-#define SELECTIF(x) reply.out() << ( (x) ? "selected=\"selected\"" : "" ); 
-#define CHECKIF(x) reply.out() << ( (x) ? "checked=\"checked\"" : "" ); 
+#define SELECTIF(x) reply.out() << ( (x) ? "selected=\"selected\"" : "" );
+#define CHECKIF(x) reply.out() << ( (x) ? "checked=\"checked\"" : "" );
 
 	SearchTimers searchtimers;
 	searchtimer = 0;
@@ -130,7 +130,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			infos.push_back(os.str());
 			}
 			searchtimer->SetExtEPGInfo(infos);
-		}   
+		}
 		searchtimer->SetUseChannel((SearchTimer::eUseChannel)usechannel);
 		if (usechannel == SearchTimer::Interval)
 		{
@@ -139,19 +139,19 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		}
 		if (usechannel == SearchTimer::Group)
 			searchtimer->SetChannelText(changrpsel);
-		
+
 		searchtimer->SetUseTime(usetime);
 		if (usetime)
 		{
 			searchtimer->SetStartTime(StringToInt(start_h) * 100 + StringToInt(start_m));
 			searchtimer->SetStopTime(StringToInt(stop_h) * 100 + StringToInt(stop_m));
-		}  
+		}
 		searchtimer->SetUseDuration(useduration);
 		if (useduration)
 		{
 			searchtimer->SetMinDuration(durationmin);
 			searchtimer->SetMaxDuration(durationmax);
-		}     
+		}
 		searchtimer->SetUseDayOfWeek(useweekday);
 		if (useweekday)
 		{
@@ -167,7 +167,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		}
 		searchtimer->SetUseInFavorites(useinfavorites);
 		searchtimer->SetUseAsSearchTimer(useassearchtimer);
-		searchtimer->SetSearchTimerAction(searchtimeraction);	
+		searchtimer->SetSearchTimerAction(searchtimeraction);
 		searchtimer->SetUseSeriesRecording(seriesrecording);
 		searchtimer->SetDirectory(directory);
 		searchtimer->SetDelRecsAfterDays(delrecafterdays);
@@ -176,9 +176,9 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		searchtimer->SetBlacklistMode(blacklistmode);
 		if (blacklistmode == 1)
 			searchtimer->ParseBlacklist(blacklistids_internal);
-		
+
 		searchtimer->SetSwitchMinBefore(switchminbefore);
-		
+
 		searchtimer->SetAvoidRepeats(avoidrepeats);
 		if (avoidrepeats)
 		{
@@ -187,21 +187,21 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			searchtimer->SetCompareTitle(comparetitle);
 			searchtimer->SetCompareSubtitle(comparesubtitle);
 			searchtimer->SetCompareSummary(comparesummary);
-		}  
-		unsigned long catsselected = 0; 
+		}
+		unsigned long catsselected = 0;
 		for (unsigned int i=0; i< avoidrepeatscatselected.size(); i++)
 			catsselected |= (1<< (avoidrepeatscatselected[i]-1));
-		
+
 		searchtimer->SetCompareCategories(catsselected);
 		searchtimer->SetPriority(priority);
 		searchtimer->SetLifetime(lifetime);
 		searchtimer->SetMarginStart(marginstart);
 		searchtimer->SetMarginStop(marginstop);
 		searchtimer->SetUseVPS(usevps);
-		
+
 		if (!testmode)
 		{
-			searchtimers.Save(searchtimer);			
+			searchtimers.Save(searchtimer);
 			return reply.redirect("searchtimers.html");
 		}
 		else
@@ -214,7 +214,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	pageTitle = searchtimer ? tr("Edit search timer") : tr("New search timer");
 
 	if ( searchtimer != 0 ) {
-		search = searchtimer->Search(); 
+		search = searchtimer->Search();
         mode = searchtimer->SearchMode();
         tolerance = searchtimer->Tolerance();
         matchcase = searchtimer->MatchCase();
@@ -263,18 +263,18 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
             }
             else
             {
-                wday_sun = -dayofweek & 0x01; 
-                wday_mon = -dayofweek & 0x02; 
-                wday_tue = -dayofweek & 0x04; 
-                wday_wed = -dayofweek & 0x08; 
-                wday_thu = -dayofweek & 0x10; 
-                wday_fri = -dayofweek & 0x20; 
-                wday_sat = -dayofweek & 0x40; 
+                wday_sun = -dayofweek & 0x01;
+                wday_mon = -dayofweek & 0x02;
+                wday_tue = -dayofweek & 0x04;
+                wday_wed = -dayofweek & 0x08;
+                wday_thu = -dayofweek & 0x10;
+                wday_fri = -dayofweek & 0x20;
+                wday_sat = -dayofweek & 0x40;
             }
-        }       
+        }
         useinfavorites = searchtimer->UseInFavorites();
         useassearchtimer = searchtimer->UseAsSearchTimer();
-        searchtimeraction = searchtimer->SearchTimerAction();	
+        searchtimeraction = searchtimer->SearchTimerAction();
         seriesrecording = searchtimer->UseSeriesRecording();
         directory = searchtimer->Directory();
         delrecafterdays = searchtimer->DelRecsAfterDays();
@@ -287,7 +287,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
         for(unsigned int i=0; i<extEPGInfos.size(); i++)
         {
             if (i<infos.size())
-            {   
+            {
                 vector< string > parts = StringSplit( infos[i], '#' );
                 extepgvalues.push_back(parts.size() > 1?parts[1]:"");
             }
@@ -320,13 +320,15 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
         usetitle = true;
         usesubtitle = true;
         usedescr = true;
-    }   
+    }
 </%cpp>
 <& pageelems.doc_type &>
 <html>
 	<head>
-		<& pageelems.ajax_js &>
+		<title>VDR Live - <$ searchtimer ? tr("Edit search timer") : tr("New search timer") $></title>
+		<link rel="stylesheet" type="text/css" href="styles.css" />
 		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
+		<& pageelems.ajax_js &>
 		<script type="text/javascript"><!--
 
 		function initform()
@@ -383,10 +385,10 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 		function changedsearchtimermode(selection)
 		{
-		document.getElementById("searchtimermode1settings").style.display = 
+		document.getElementById("searchtimermode1settings").style.display =
 			(selection.options[selection.selectedIndex].value == 0 &
 			document.getElementById("useassearchtimer").checked ? "block" : "none");
-		document.getElementById("searchtimermode3settings").style.display = 
+		document.getElementById("searchtimermode3settings").style.display =
 			(selection.options[selection.selectedIndex].value == 2 &
 			document.getElementById("useassearchtimer").checked ? "block" : "none");
 		}
@@ -398,15 +400,15 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 		function changedextepginfo(selection)
 		{
-			var i; 
+			var i;
 			document.getElementById(selection.name + "_value").value = "";
-			for(i=0;i<selection.length;i++) 
-			{ 
+			for(i=0;i<selection.length;i++)
+			{
 				if (selection.options[i].selected)
 				{
 				if (document.getElementById(selection.name + "_value").value != "")
 					document.getElementById(selection.name + "_value").value += ",";
-				document.getElementById(selection.name + "_value").value += selection.options[i].value; 
+				document.getElementById(selection.name + "_value").value += selection.options[i].value;
 				}
 			}
 		}
@@ -418,21 +420,21 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 		function changedblacklistmode(selection)
 		{
-			document.getElementById("blacklistmodesettings").style.display = 
+			document.getElementById("blacklistmodesettings").style.display =
 				(selection.options[selection.selectedIndex].value == 1 ? "block" : "none");
 		}
 
 		function changedblacklistsel(selection)
 		{
-			var i; 
+			var i;
 			document.getElementById("blacklistids_internal").value = "";
-			for(i=0;i<selection.length;i++) 
-			{ 
+			for(i=0;i<selection.length;i++)
+			{
 				if (selection.options[i].selected)
 				{
 				if (document.getElementById("blacklistids_internal").value != "")
 					document.getElementById("blacklistids_internal").value += "|";
-				document.getElementById("blacklistids_internal").value += selection.options[i].value; 
+				document.getElementById("blacklistids_internal").value += selection.options[i].value;
 				}
 			}
 		}
@@ -441,16 +443,10 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			document.getElementById("directory").value = selection.value; 
 		}
 		//--></script>
-
-		<title>VDR Live - <$ searchtimer ? tr("Edit search timer") : tr("New search timer") $></title>
-		<link rel="stylesheet" type="text/css" href="styles.css" />
 	</head>
-	<body onload="initform()">
-		<div class="left_area">
-			<& pageelems.logo &>
-			<& menu active=("searchtimers") &>
-		</div>
-		<div class="right_area">
+	<body onload="<& pageelems.infobox_start_update &>; initform()">
+		<& pageelems.logo &>
+		<& menu active=("searchtimers") &>
 			<div class="inhalt">
 				<form method="POST" name="edit_searchtimer" action="edit_searchtimer.ecpp">
 					<input type="hidden" name="searchtimerid" value="<$ searchtimerid $>"/>
@@ -459,7 +455,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 						<tr>
 							<td  class="head" colspan="4"><div class="boxheader"><div><div><$ searchtimer ? tr("Edit search timer") : tr("New search timer") $></div></div></div></td>
 						</tr>
-						
+
 						<!-- Search term -->
 						<tr>
 							<td class="border" style="border-left: 1px solid black"></td>
@@ -467,7 +463,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 							<td><input type="text" name="search" value="<$ search $>" size="90" id="searchterm" /></td>
 							<td class="border" style="border-right: 1px solid black"></td>
 						</tr>
-	
+
 						<!-- Search mode -->
 						<tr>
 							<td class="border" style="border-left: 1px solid black"></td>
@@ -498,7 +494,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 							<td><input type="checkbox" name="matchcase" value="1" <{ CHECKIF(matchcase) }> id="matchcase"/></td>
 							<td class="border" style="border-right: 1px solid black"></td>
 						</tr>
-	
+
 						<!-- Search in -->
 						<tr>
 							<td class="border" style="border-left: 1px solid black"></td>
@@ -506,10 +502,10 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 							<td>
 								<input type="checkbox" name="usetitle" value="1" <{ CHECKIF(usetitle) }> />
 								<label for="usetitle"><$ tr("Title") $> </label>
-								
+
 								<input type="checkbox" name="usesubtitle" value="1" <{ CHECKIF(usesubtitle) }> />
 								<label for="usesubtitle"><$ tr("Episode") $> </label>
-								
+
 								<input type="checkbox" name="usedescr" value="1" <{ CHECKIF(usedescr) }> />
 								<label for="usedescr"><$ tr("Description") $> </label>
 							</td>
@@ -525,7 +521,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 								<input type="checkbox" name="useextepginfo" value="1" <{ CHECKIF(useextepginfo) }> onclick="changeduseextepginfo(this)" id="useextepginfo"/>
 								<div id="use_extepg_settings" style="display: none">
 									<table border="0" cellspacing="0" cellpadding="0">
-%										int i=0; for (ExtEPGInfos::iterator extinfo = extEPGInfos.begin(); extinfo != extEPGInfos.end(); ++extinfo, i++) {                                     
+%										int i=0; for (ExtEPGInfos::iterator extinfo = extEPGInfos.begin(); extinfo != extEPGInfos.end(); ++extinfo, i++) {
 										<tr valign="top">
 											<td align="left" valign="top"><$ extinfo->Name() $></td>
 											<td align="left" valign="top">
@@ -559,21 +555,21 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 							<td class="border" style="border-left: 1px solid black"></td>
 							<td class="label"><$ tr("Use channel" ) $>:</td>
 							<td>
-								
+
 								<select onchange="changedchannelmode(this)" name="usechannel" size="1" id="channel_mode">
 									<option value="0" <{ SELECTIF(usechannel == 0) }> ><$ tr("no") $></option>
 									<option value="1" <{ SELECTIF(usechannel == 1) }> ><$ tr("interval") $></option>
 									<option value="2" <{ SELECTIF(usechannel == 2) }> ><$ tr("channel group") $></option>
 									<option value="3" <{ SELECTIF(usechannel == 3) }> ><$ tr("only FTA") $></option>
 								</select>
-								
+
 								<div id="channelinterval" style="display: none;" class="dependent">
 									<$ tr("from channel" ) $>:
 									<& channels_widget name=("channelfrom") channelid=(true) selected=(channelfrom) &><br />
 									<$ tr("to channel" ) $>:
 									<& channels_widget name=("channelto") channelid=(true) selected=(channelto) &>
 								</div>
-								
+
 								<div id="channelgroup" style="display: none">
 %									if (channelGroups.size() > 0) {
 									<select name="changrpsel" size="1" id="changrpsel">
@@ -590,7 +586,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 						<!-- Use time -->
 						<tr>
 							<td class="border" style="border-left: 1px solid black"></td>
-							<td class="label"><$ tr("Use time") $>:</td>  
+							<td class="label"><$ tr("Use time") $>:</td>
 							<td>
 								<input type="checkbox" name="usetime" value="1" <{ CHECKIF(usetime) }> onclick="changedusetime(this)" id="usetime" />
 								<div id="timesettings" style="display: none">
@@ -618,7 +614,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 						<!-- Use duration -->
 						<tr>
 							<td class="border" style="border-left: 1px solid black"></td>
-							<td class="label"><$ tr("Use duration") $>:</td>  
+							<td class="label"><$ tr("Use duration") $>:</td>
 							<td>
 								<input type="checkbox" name="useduration" value="1" <{ CHECKIF(useduration) }> onclick="changeduseduration(this)" id="useduration" />
 								<div id="durationsettings" style="display: none">
@@ -636,11 +632,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 							</td>
 							<td class="border" style="border-right: 1px solid black"></td>
 						</tr>
-		
+
 						<!-- Use weekday -->
 						<tr>
 							<td class="border" style="border-left: 1px solid black"></td>
-							<td class="label"><$ tr("Use day of week") $>:</td>  
+							<td class="label"><$ tr("Use day of week") $>:</td>
 							<td>
 								<input type="checkbox" name="useweekday" value="1" <{ CHECKIF(useweekday) }> onclick="changeduseweekday(this)" id="useweekday" />
 								<div id="weekdaysettings" style="display: none" class="dependent">
@@ -659,7 +655,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 						<!-- Use blacklists -->
 						<tr>
 							<td class="border" style="border-left: 1px solid black"></td>
-							<td class="label"><$ tr("Use blacklists" ) $>:</td>   
+							<td class="label"><$ tr("Use blacklists" ) $>:</td>
 							<td>
 								<select onchange="changedblacklistmode(this)" name="blacklistmode" size="1" id="blacklistmode">
 									<option value="0" <{ SELECTIF(blacklistmode == 0) }> ><$ tr("no") $></option>
@@ -690,7 +686,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 						<!-- Use as search timer -->
 						<tr>
 							<td class="border" style="border-left: 1px solid black"></td>
-							<td class="label"><$ tr("Use as search timer" ) $>:</td>   
+							<td class="label"><$ tr("Use as search timer" ) $>:</td>
 							<td>
 								<div style="float:left; max-width:50%; margin-right:20px">
 									<input type="checkbox" name="useassearchtimer" value="1" <{ CHECKIF(useassearchtimer) }> onclick="changeduseassearchtimer(this)" id="useassearchtimer"/>
@@ -708,7 +704,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 											<td><$ tr("Series recording") $>:</td>
 											<td><input type="checkbox" name="seriesrecording" value="1" <{ CHECKIF(seriesrecording) }>/></td>
 										</tr>
-										
+
 										<tr>
 											<td><$ tr("Directory") $>:</td>
 											<td><input type="text" name="directory" id="directory" value="<$ directory $>" size="70" /><br>
@@ -720,7 +716,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 											</select>
 											</td>
 										</tr>
-										
+
 										<tr>
 											<td><$ tr("Delete recordings after ... days") $>:</td>
 											<td>
@@ -729,14 +725,14 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 												<input type="text" name="keeprecs" size="2" value="<$ keeprecs $>"/>
 											</td>
 										</tr>
-										
+
 										<tr>
 											<td><$ tr("Pause when ... recordings exist") $>:</td>
 											<td><input type="text" name="pauseonrecs" id="pauseonrecs" size="2" value="<$ pauseonrecs $>"/></td>
 										</tr>
-	
+
 										<tr>
-											<td><$ tr("Avoid repeats" ) $>:</td>   
+											<td><$ tr("Avoid repeats" ) $>:</td>
 											<td><input type="checkbox" name="avoidrepeats" value="1" <{ CHECKIF(avoidrepeats) }> onclick="changedavoidrepeats(this)" id="avoidrepeats"/>
 												<div id="avoidrepeatssettings" style="display: none">
 													<table border="0" cellpadding="0" cellspacing="0">
@@ -746,9 +742,9 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 																<input type="text" size="3" maxlength="3" name="allowedrepeats" value="<$ allowedrepeats $>" /> <$ tr("Only repeats within ... days") $>:<input type="text" size="3" maxlength="3" name="repeatswithindays" value="<$ repeatswithindays $>" />
 															</td>
 														</tr>
-	
+
 														<tr>
-															<td><$ tr("Compare title" ) $>:</td>   
+															<td><$ tr("Compare title" ) $>:</td>
 															<td><input type="checkbox" name="comparetitle" value="1" <{ CHECKIF(comparetitle) }>/>
 														</tr>
 
@@ -756,9 +752,9 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 															<td><$ tr("Compare subtitle" ) $>:</td>
 															<td><input type="checkbox" name="comparesubtitle" value="1" <{ CHECKIF(comparesubtitle) }>/>
 														</tr>
-														
+
 														<tr>
-															<td><$ tr("Compare summary" ) $>:</td>   
+															<td><$ tr("Compare summary" ) $>:</td>
 															<td><input type="checkbox" name="comparesummary" value="1" <{ CHECKIF(comparesummary) }>/>
 														</tr>
 
@@ -779,22 +775,22 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 											<td><$ tr("Priority") $>:</td>
 											<td><input type="text" name="priority" size="2" value="<$ priority $>"/></td>
 										</tr>
-	
+
 										<tr>
 											<td><$ tr("Lifetime") $>:</td>
 											<td><input type="text" name="lifetime" size="2" value="<$ lifetime $>"/></td>
 										</tr>
-	
+
 										<tr>
 											<td><$ tr("Setup.Recording$Margin at start (min)") $>:</td>
 											<td><input type="text" name="marginstart" size="2" value="<$ marginstart $>"/></td>
 										</tr>
-	
+
 										<tr>
 											<td><$ tr("Setup.Recording$Margin at stop (min)") $>:</td>
 											<td><input type="text" name="marginstop" size="2" value="<$ marginstop $>"/></td>
 										</tr>
-	
+
 										<tr>
 											<td class="blank"><$ tr("Use VPS") $>:</td>
 											<td class="blank"><input type="checkbox" name="usevps" value="1" <{ CHECKIF(usevps) }>/></td>
@@ -826,7 +822,6 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					</table>
 				</form>
 			</div>
-		</div>
 	</body>
 </html>
 <%include>page_exit.eh</%include>

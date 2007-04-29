@@ -43,7 +43,7 @@ if (type == "now") {
 		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 	</head>
-	<body onload="LiveStatusAjaxRequest('infobox.html', 'infobox')">
+	<body onload="<& pageelems.infobox_start_update &>">
 		<& pageelems.logo &>
 		<& menu active=(type) &>
 		<div class="inhalt">
