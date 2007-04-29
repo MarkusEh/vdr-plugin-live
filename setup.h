@@ -42,7 +42,7 @@ public:
 	char const* CommandLineHelp() const;
 
 	bool ParseSetupEntry( char const* name, char const* value );
-	
+	bool HaveEPGSearch(void);	
 private:
 	Setup();
 	Setup( Setup const& );

@@ -24,7 +24,10 @@ std::string set_component;
 	<a href="whats_on.html?type=next" <& menu.setactive current=("next") &>><$ tr("What's on next?") $></a> |
 	<a href="schedule.html" <& menu.setactive current=("schedule") &>><$ tr("Schedule") $></a> |
 	<a href="timers.html" <& menu.setactive current=("timers") &>><$ tr("Timers") $></a> |
+% if (LiveSetup().HaveEPGSearch()) {
+	<a href="searchepg.html" <& menu.setactive current=("searchepg") &>><$ tr("Search") $></a> |
 	<a href="searchtimers.html" <& menu.setactive current=("searchtimers") &>><$ tr("Searchtimers") $></a> |
+% }
 	<a href="recordings.html" <& menu.setactive current=("recordings") &>><$ tr("Recordings") $></a> |
 	<a href="remote.html" <& menu.setactive current=("remote") &>><$ tr("Remote Control") $></a>
 % if (LiveSetup().UseAuth()) {
@@ -39,7 +42,10 @@ std::string set_component;
 	<& menu.component current=("next") &>
 	<& menu.component current=("schedule") &>
 	<& menu.component current=("timers") &>
+% if (LiveSetup().HaveEPGSearch()) {
+	<& menu.component current=("search") &>
 	<& menu.component current=("searchtimers") &>
+% }
 	<& menu.component current=("recordings") &>
 	<& menu.component current=("remote") &>
   </div>

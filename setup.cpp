@@ -12,6 +12,7 @@
 #include <arpa/inet.h>
 #include <vdr/tools.h>
 #include <vdr/menuitems.h>
+#include <vdr/plugin.h>
 #include "setup.h"
 
 namespace vdrlive {
@@ -101,6 +102,11 @@ bool Setup::CheckServerIps()
 	return true;
 }
 
+bool Setup::HaveEPGSearch(void)
+{
+	return cPluginManager::GetPlugin("epgsearch") != NULL;	
+}
+
 Setup& LiveSetup()
 {
 	static Setup instance;
@@ -139,6 +145,7 @@ void cMenuSetupLive::Store(void)
 	vdrlive::LiveSetup().SetAdminPassword(m_adminPassword);
 	SetupStore("AdminPassword",  m_adminPassword);
 }
+
 
 } // namespace vdrlive
 
