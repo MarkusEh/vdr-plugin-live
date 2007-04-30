@@ -80,11 +80,11 @@ using namespace vdrlive;
 bool logged_in(false);
 </%session>
 <%request scope="page">
-SearchTimer* searchtimer;
 ExtEPGInfos extEPGInfos;
 ChannelGroups channelGroups;
 Blacklists blacklists;
 RecordingDirs recordingdirs;
+SearchTimer* editsearchtimer;
 </%request>
 <%include>page_init.eh</%include>
 <{
@@ -96,29 +96,26 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 #define CHECKIF(x) reply.out() << ( (x) ? "checked=\"checked\"" : "" );
 
 	SearchTimers searchtimers;
-	searchtimer = 0;
-
-	if (  !searchtimerid.empty() ) {
-		searchtimer = searchtimers.GetByTimerId( searchtimerid );
-		if ( searchtimer == 0 )
-			throw HtmlError( tr("Couldn't find searchtimer. Maybe you mistyped your request?") );
-	}
-
 	bool testmode = !test.empty();
-	if ( request.getMethod() == "POST") {
-		if ( !searchtimerid.empty() && !testmode)
-			searchtimer = searchtimers.GetByTimerId( searchtimerid );
-		else
-			searchtimer = new SearchTimer;
+	editsearchtimer = NULL;
 
-		searchtimer->SetSearch(search);
-		searchtimer->SetSearchMode(mode);
-		searchtimer->SetTolerance(tolerance);
-		searchtimer->SetMatchCase(matchcase);
-		searchtimer->SetUseTitle(usetitle);
-		searchtimer->SetUseSubtitle(usesubtitle);
-		searchtimer->SetUseDescription(usedescr);
-		searchtimer->SetUseExtEPGInfo(useextepginfo);
+	if ( request.getMethod() == "POST") {
+		SearchTimer searchtimer;
+		if ( !searchtimerid.empty() && !testmode) {
+			editsearchtimer = searchtimers.GetByTimerId( searchtimerid );
+			if ( editsearchtimer == 0 )
+				throw HtmlError( tr("Couldn't find searchtimer. Maybe you mistyped your request?") );
+			searchtimer.SetId(editsearchtimer->Id());
+		}
+
+		searchtimer.SetSearch(search);
+		searchtimer.SetSearchMode(mode);
+		searchtimer.SetTolerance(tolerance);
+		searchtimer.SetMatchCase(matchcase);
+		searchtimer.SetUseTitle(usetitle);
+		searchtimer.SetUseSubtitle(usesubtitle);
+		searchtimer.SetUseDescription(usedescr);
+		searchtimer.SetUseExtEPGInfo(useextepginfo);
 		if (useextepginfo)
 		{
 			vector< string > infos;
@@ -129,30 +126,30 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			os << extinfo->Id() << "#" << (i<extepgvalues.size()?extepgvalues[i]:"");
 			infos.push_back(os.str());
 			}
-			searchtimer->SetExtEPGInfo(infos);
-		}
-		searchtimer->SetUseChannel((SearchTimer::eUseChannel)usechannel);
+			searchtimer.SetExtEPGInfo(infos);
+		}   
+		searchtimer.SetUseChannel((SearchTimer::eUseChannel)usechannel);
 		if (usechannel == SearchTimer::Interval)
 		{
-			searchtimer->SetChannelMin(channelfrom);
-			searchtimer->SetChannelMax(channelto);
+			searchtimer.SetChannelMin(channelfrom);
+			searchtimer.SetChannelMax(channelto);
 		}
 		if (usechannel == SearchTimer::Group)
-			searchtimer->SetChannelText(changrpsel);
-
-		searchtimer->SetUseTime(usetime);
+			searchtimer.SetChannelText(changrpsel);
+		
+		searchtimer.SetUseTime(usetime);
 		if (usetime)
 		{
-			searchtimer->SetStartTime(StringToInt(start_h) * 100 + StringToInt(start_m));
-			searchtimer->SetStopTime(StringToInt(stop_h) * 100 + StringToInt(stop_m));
-		}
-		searchtimer->SetUseDuration(useduration);
+			searchtimer.SetStartTime(StringToInt(start_h) * 100 + StringToInt(start_m));
+			searchtimer.SetStopTime(StringToInt(stop_h) * 100 + StringToInt(stop_m));
+		}  
+		searchtimer.SetUseDuration(useduration);
 		if (useduration)
 		{
-			searchtimer->SetMinDuration(durationmin);
-			searchtimer->SetMaxDuration(durationmax);
-		}
-		searchtimer->SetUseDayOfWeek(useweekday);
+			searchtimer.SetMinDuration(durationmin);
+			searchtimer.SetMaxDuration(durationmax);
+		}     
+		searchtimer.SetUseDayOfWeek(useweekday);
 		if (useweekday)
 		{
 			int dayofweek = 0;
@@ -163,169 +160,172 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			if (wday_thu) dayofweek |= 0x10;
 			if (wday_fri) dayofweek |= 0x20;
 			if (wday_sat) dayofweek |= 0x40;
-			searchtimer->SetDayOfWeek(-dayofweek);
+			searchtimer.SetDayOfWeek(-dayofweek);
 		}
-		searchtimer->SetUseInFavorites(useinfavorites);
-		searchtimer->SetUseAsSearchTimer(useassearchtimer);
-		searchtimer->SetSearchTimerAction(searchtimeraction);
-		searchtimer->SetUseSeriesRecording(seriesrecording);
-		searchtimer->SetDirectory(directory);
-		searchtimer->SetDelRecsAfterDays(delrecafterdays);
-		searchtimer->SetKeepRecs(keeprecs);
-		searchtimer->SetPauseOnRecs(pauseonrecs);
-		searchtimer->SetBlacklistMode(blacklistmode);
+		searchtimer.SetUseInFavorites(useinfavorites);
+		searchtimer.SetUseAsSearchTimer(useassearchtimer);
+		searchtimer.SetSearchTimerAction(searchtimeraction);	
+		searchtimer.SetUseSeriesRecording(seriesrecording);
+		searchtimer.SetDirectory(directory);
+		searchtimer.SetDelRecsAfterDays(delrecafterdays);
+		searchtimer.SetKeepRecs(keeprecs);
+		searchtimer.SetPauseOnRecs(pauseonrecs);
+		searchtimer.SetBlacklistMode(blacklistmode);
 		if (blacklistmode == 1)
-			searchtimer->ParseBlacklist(blacklistids_internal);
-
-		searchtimer->SetSwitchMinBefore(switchminbefore);
-
-		searchtimer->SetAvoidRepeats(avoidrepeats);
+			searchtimer.ParseBlacklist(blacklistids_internal);
+		
+		searchtimer.SetSwitchMinBefore(switchminbefore);		
+		searchtimer.SetAvoidRepeats(avoidrepeats);
 		if (avoidrepeats)
 		{
-			searchtimer->SetAllowedRepeats(allowedrepeats);
-			searchtimer->SetRepeatsWithinDays(repeatswithindays);
-			searchtimer->SetCompareTitle(comparetitle);
-			searchtimer->SetCompareSubtitle(comparesubtitle);
-			searchtimer->SetCompareSummary(comparesummary);
-		}
-		unsigned long catsselected = 0;
+			searchtimer.SetAllowedRepeats(allowedrepeats);
+			searchtimer.SetRepeatsWithinDays(repeatswithindays);
+			searchtimer.SetCompareTitle(comparetitle);
+			searchtimer.SetCompareSubtitle(comparesubtitle);
+			searchtimer.SetCompareSummary(comparesummary);
+		}  
+		unsigned long catsselected = 0; 
 		for (unsigned int i=0; i< avoidrepeatscatselected.size(); i++)
 			catsselected |= (1<< (avoidrepeatscatselected[i]-1));
-
-		searchtimer->SetCompareCategories(catsselected);
-		searchtimer->SetPriority(priority);
-		searchtimer->SetLifetime(lifetime);
-		searchtimer->SetMarginStart(marginstart);
-		searchtimer->SetMarginStop(marginstop);
-		searchtimer->SetUseVPS(usevps);
-
+		searchtimer.SetCompareCategories(catsselected);
+		searchtimer.SetPriority(priority);
+		searchtimer.SetLifetime(lifetime);
+		searchtimer.SetMarginStart(marginstart);
+		searchtimer.SetMarginStop(marginstop);
+		searchtimer.SetUseVPS(usevps);
+		
 		if (!testmode)
 		{
-			searchtimers.Save(searchtimer);
+			searchtimers.Save(&searchtimer);			
 			return reply.redirect("searchtimers.html");
 		}
 		else
 		{
-			searchtimer->SetId(0);
-			string md5 = SearchResults::AddQuery(searchtimer->ToText());
+			searchtimer.SetId(0);
+			string md5 = SearchResults::AddQuery(searchtimer.ToText());
 			return reply.redirect("searchresults.html?searchtimerquery=" + md5);
 		}
 	}
-	pageTitle = searchtimer ? tr("Edit search timer") : tr("New search timer");
+	pageTitle = !searchtimerid.empty() ? tr("Edit search timer") : tr("New search timer");
 
-	if ( searchtimer != 0 ) {
-		search = searchtimer->Search();
-        mode = searchtimer->SearchMode();
-        tolerance = searchtimer->Tolerance();
-        matchcase = searchtimer->MatchCase();
-        usetitle = searchtimer->UseTitle();
-        usesubtitle = searchtimer->UseSubtitle();
-        usedescr = searchtimer->UseDescription();
-        usechannel = searchtimer->UseChannel();
-        channelfrom = searchtimer->ChannelMin();
-        channelto = searchtimer->ChannelMax();
-        if (!channelto.Valid() && channelfrom.Valid())
-           channelto = channelfrom;
-        if (usechannel == SearchTimer::Group)
-            changrpsel = searchtimer->ChannelText();
-        usetime = searchtimer->UseTime();
-        ostringstream os;
-        os << setw(2) << setfill('0') << ( searchtimer->StartTime() / 100 ) % 100;
-		start_h = os.str();
-        os.str("");
-        os << setw(2) << setfill('0') << searchtimer->StartTime() % 100;
-		start_m = os.str();
-        os.str("");
-        os << setw(2) << setfill('0') << ( searchtimer->StopTime() / 100 ) % 100;
-		stop_h = os.str();
-        os.str("");
-        os << setw(2) << setfill('0') << searchtimer->StopTime() % 100;
-		stop_m = os.str();
-        useduration = searchtimer->UseDuration();
-        if (useduration)
-        {
-            durationmin = searchtimer->MinDuration();
-            durationmax = searchtimer->MaxDuration();
-        }
-        useweekday = searchtimer->UseDayOfWeek();
-        if (useweekday)
-        {
-            int dayofweek = searchtimer->DayOfWeek();
-            if (dayofweek >= 0)
-            {
-        		wday_sun = (dayofweek == 0);
-        		wday_mon = (dayofweek == 1);
-    	    	wday_tue = (dayofweek == 2);
-	    	    wday_wed = (dayofweek == 3);
-    	    	wday_thu = (dayofweek == 4);
-	        	wday_fri = (dayofweek == 5);
-		        wday_sat = (dayofweek == 6);
-            }
-            else
-            {
-                wday_sun = -dayofweek & 0x01;
-                wday_mon = -dayofweek & 0x02;
-                wday_tue = -dayofweek & 0x04;
-                wday_wed = -dayofweek & 0x08;
-                wday_thu = -dayofweek & 0x10;
-                wday_fri = -dayofweek & 0x20;
-                wday_sat = -dayofweek & 0x40;
-            }
-        }
-        useinfavorites = searchtimer->UseInFavorites();
-        useassearchtimer = searchtimer->UseAsSearchTimer();
-        searchtimeraction = searchtimer->SearchTimerAction();
-        seriesrecording = searchtimer->UseSeriesRecording();
-        directory = searchtimer->Directory();
-        delrecafterdays = searchtimer->DelRecsAfterDays();
-        keeprecs = searchtimer->KeepRecs();
-        pauseonrecs = searchtimer->PauseOnRecs();
-        blacklistmode = searchtimer->BlacklistMode();
-        switchminbefore = searchtimer->SwitchMinBefore();
-        useextepginfo = searchtimer->UseExtEPGInfo();
-        vector< string > infos = searchtimer->ExtEPGInfo();
-        for(unsigned int i=0; i<extEPGInfos.size(); i++)
-        {
-            if (i<infos.size())
-            {
-                vector< string > parts = StringSplit( infos[i], '#' );
-                extepgvalues.push_back(parts.size() > 1?parts[1]:"");
-            }
-            else
-                extepgvalues.push_back("");
-        }
-        avoidrepeats = searchtimer->AvoidRepeats();
-        allowedrepeats =  searchtimer->AllowedRepeats();
-        repeatswithindays = searchtimer->RepeatsWithinDays();
-        comparetitle = searchtimer->CompareTitle();
-        comparesubtitle = searchtimer->CompareSubtitle();
-        comparesummary = searchtimer->CompareSummary();
-        for(unsigned int i=0; i<extEPGInfos.size(); i++)
-        {
-            bool selected = searchtimer->CompareCategories() & (1<<i);
-            avoidrepeatscatselected.push_back(selected);
-        }
-        priority = searchtimer->Priority();
-        lifetime = searchtimer->Lifetime();
-        marginstart = searchtimer->MarginStart();
-        marginstop = searchtimer->MarginStop();
-        usevps = searchtimer->UseVPS();
-    }
-    else
-    {
-        for(unsigned int i=0; i<extEPGInfos.size(); i++)
-            extepgvalues.push_back("");
-        for(unsigned int i=0; i<extEPGInfos.size(); i++)
-            avoidrepeatscatselected.push_back(false);
-        usetitle = true;
-        usesubtitle = true;
-        usedescr = true;
-    }
+	if (  !searchtimerid.empty() ) {
+		SearchTimer* searchtimer = searchtimers.GetByTimerId( searchtimerid );
+		if ( searchtimer == 0 )
+			throw HtmlError( tr("Couldn't find searchtimer. Maybe you mistyped your request?") );
+
+		search = searchtimer->Search(); 
+		mode = searchtimer->SearchMode();
+		tolerance = searchtimer->Tolerance();
+		matchcase = searchtimer->MatchCase();
+		usetitle = searchtimer->UseTitle();
+		usesubtitle = searchtimer->UseSubtitle();
+		usedescr = searchtimer->UseDescription();
+		usechannel = searchtimer->UseChannel();
+		channelfrom = searchtimer->ChannelMin();
+		channelto = searchtimer->ChannelMax();
+		if (!channelto.Valid() && channelfrom.Valid())
+			channelto = channelfrom;
+		if (usechannel == SearchTimer::Group)
+			changrpsel = searchtimer->ChannelText();
+		usetime = searchtimer->UseTime();
+		ostringstream os;
+		os << setw(2) << setfill('0') << ( searchtimer->StartTime() / 100 ) % 100;
+			start_h = os.str();
+		os.str("");
+		os << setw(2) << setfill('0') << searchtimer->StartTime() % 100;
+			start_m = os.str();
+		os.str("");
+		os << setw(2) << setfill('0') << ( searchtimer->StopTime() / 100 ) % 100;
+			stop_h = os.str();
+		os.str("");
+		os << setw(2) << setfill('0') << searchtimer->StopTime() % 100;
+			stop_m = os.str();
+		useduration = searchtimer->UseDuration();
+		if (useduration)
+		{
+			durationmin = searchtimer->MinDuration();
+			durationmax = searchtimer->MaxDuration();
+		}
+		useweekday = searchtimer->UseDayOfWeek();
+		if (useweekday)
+		{
+			int dayofweek = searchtimer->DayOfWeek();
+			if (dayofweek >= 0)
+			{
+				wday_sun = (dayofweek == 0);
+				wday_mon = (dayofweek == 1);
+			wday_tue = (dayofweek == 2);
+				wday_wed = (dayofweek == 3);
+			wday_thu = (dayofweek == 4);
+				wday_fri = (dayofweek == 5);
+				wday_sat = (dayofweek == 6);
+			}
+			else
+			{
+			wday_sun = -dayofweek & 0x01; 
+			wday_mon = -dayofweek & 0x02; 
+			wday_tue = -dayofweek & 0x04; 
+			wday_wed = -dayofweek & 0x08; 
+			wday_thu = -dayofweek & 0x10; 
+			wday_fri = -dayofweek & 0x20; 
+			wday_sat = -dayofweek & 0x40; 
+			}
+		}       
+		useinfavorites = searchtimer->UseInFavorites();
+		useassearchtimer = searchtimer->UseAsSearchTimer();
+		searchtimeraction = searchtimer->SearchTimerAction();	
+		seriesrecording = searchtimer->UseSeriesRecording();
+		directory = searchtimer->Directory();
+		delrecafterdays = searchtimer->DelRecsAfterDays();
+		keeprecs = searchtimer->KeepRecs();
+		pauseonrecs = searchtimer->PauseOnRecs();
+		blacklistmode = searchtimer->BlacklistMode();
+		switchminbefore = searchtimer->SwitchMinBefore();
+		useextepginfo = searchtimer->UseExtEPGInfo();
+		vector< string > infos = searchtimer->ExtEPGInfo();
+		for(unsigned int i=0; i<extEPGInfos.size(); i++)
+		{
+			if (i<infos.size())
+			{   
+			vector< string > parts = StringSplit( infos[i], '#' );
+			extepgvalues.push_back(parts.size() > 1?parts[1]:"");
+			}
+			else
+			extepgvalues.push_back("");
+		}
+		avoidrepeats = searchtimer->AvoidRepeats();
+		allowedrepeats =  searchtimer->AllowedRepeats();
+		repeatswithindays = searchtimer->RepeatsWithinDays();
+		comparetitle = searchtimer->CompareTitle();
+		comparesubtitle = searchtimer->CompareSubtitle();
+		comparesummary = searchtimer->CompareSummary();
+		for(unsigned int i=0; i<extEPGInfos.size(); i++)
+		{
+			bool selected = searchtimer->CompareCategories() & (1<<i);
+			avoidrepeatscatselected.push_back(selected);
+		}
+		priority = searchtimer->Priority();
+		lifetime = searchtimer->Lifetime();
+		marginstart = searchtimer->MarginStart();
+		marginstop = searchtimer->MarginStop();
+		usevps = searchtimer->UseVPS();
+		editsearchtimer = searchtimer;
+	}
+	else
+	{
+		for(unsigned int i=0; i<extEPGInfos.size(); i++)
+			extepgvalues.push_back("");
+		for(unsigned int i=0; i<extEPGInfos.size(); i++)
+			avoidrepeatscatselected.push_back(false);
+		usetitle = true;
+		usesubtitle = true;
+		usedescr = true;
+	}   
 </%cpp>
 <& pageelems.doc_type &>
 <html>
 	<head>
-		<title>VDR Live - <$ searchtimer ? tr("Edit search timer") : tr("New search timer") $></title>
+		<title>VDR Live - <$ editsearchtimer ? tr("Edit search timer") : tr("New search timer") $></title>
 		<link rel="stylesheet" type="text/css" href="styles.css" />
 		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
@@ -453,7 +453,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					<input type="hidden" name="blacklistids_internal" value="<$ blacklistids_internal $>" id="blacklistids_internal"/>
 					<table class="edit" cellpadding="0" cellspacing="0">
 						<tr>
-							<td  class="head" colspan="4"><div class="boxheader"><div><div><$ searchtimer ? tr("Edit search timer") : tr("New search timer") $></div></div></div></td>
+							<td  class="head" colspan="4"><div class="boxheader"><div><div><$ editsearchtimer ? tr("Edit search timer") : tr("New search timer") $></div></div></div></td>
 						</tr>
 
 						<!-- Search term -->
@@ -666,7 +666,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 %								if (blacklists.size() > 0) {
 									<select name="blacklists" multiple="multiple" size="5" onchange="changedblacklistsel(this)">
 %									int i=0; for (Blacklists::iterator blacklist = blacklists.begin(); blacklist != blacklists.end(); ++blacklist, i++) {
-										<option value="<$ blacklist->Id() $>" <{ SELECTIF(searchtimer && searchtimer->BlacklistSelected(blacklist->Id())) }>><$ blacklist->Search() $></option>
+										<option value="<$ blacklist->Id() $>" <{ SELECTIF(editsearchtimer && editsearchtimer->BlacklistSelected(blacklist->Id())) }>><$ blacklist->Search() $></option>
 %									         }
 									</select>
 %								}
