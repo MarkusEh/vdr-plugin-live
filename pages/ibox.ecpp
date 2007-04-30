@@ -153,7 +153,7 @@ using namespace std;
 	string prev_chan;
 	string next_chan;
 </%args>
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <service>
   <request name="ibox">
 	<param name="update"><$ update $></param>
