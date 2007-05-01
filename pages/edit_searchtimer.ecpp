@@ -339,7 +339,9 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			changeduseduration(document.getElementById("useduration"));
 			changeduseweekday(document.getElementById("useweekday"));
 			changeduseassearchtimer(document.getElementById("useassearchtimer"));
+%	if (extEPGInfos.size() > 0) {
 			changeduseextepginfo(document.getElementById("useextepginfo"));
+%	}
 			changedavoidrepeats(document.getElementById("avoidrepeats"));
 			changedblacklistmode(document.getElementById("blacklistmode"));
 		}
@@ -500,14 +502,18 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 							<td class="border" style="border-left: 1px solid black"></td>
 							<td class="label"><$ tr("Search in") $>:</td>
 							<td>
-								<input type="checkbox" name="usetitle" value="1" <{ CHECKIF(usetitle) }> />
-								<label for="usetitle"><$ tr("Title") $> </label>
-
-								<input type="checkbox" name="usesubtitle" value="1" <{ CHECKIF(usesubtitle) }> />
-								<label for="usesubtitle"><$ tr("Episode") $> </label>
-
-								<input type="checkbox" name="usedescr" value="1" <{ CHECKIF(usedescr) }> />
-								<label for="usedescr"><$ tr("Description") $> </label>
+								<div class="dotted">
+									<input type="checkbox" name="usetitle" value="1" <{ CHECKIF(usetitle) }> />
+									<label for="usetitle"><$ tr("Title") $> </label>
+								</div>
+								<div class="dotted">
+									<input type="checkbox" name="usesubtitle" value="1" <{ CHECKIF(usesubtitle) }> />
+									<label for="usesubtitle"><$ tr("Episode") $> </label>
+								</div>
+								<div class="dotted">
+									<input type="checkbox" name="usedescr" value="1" <{ CHECKIF(usedescr) }> />
+									<label for="usedescr"><$ tr("Description") $> </label>
+								</div>
 							</td>
 							<td class="border" style="border-right: 1px solid black"></td>
 						</tr>
@@ -596,14 +602,14 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 								<div id="timesettings" style="display: none">
 									<table border="0" cellpadding="0" cellspacing="0" class="dependent">
 										<tr>
-											<td class="title"><$ tr("Start after") $>:</td>
+											<td><$ tr("Start after") $>:</td>
 											<td>
 												<input type="text" size="2" maxlength="2" name="start_h" value="<$ start_h $>" /> : <input type="text" size="2" maxlength="2" name="start_m" value="<$ start_m $>" />
 												<& tooltip.help text=(tr("The time the show may start at the earliest")) &>
 											</td>
 										</tr>
 										<tr>
-											<td class="title"><$ tr("Start before") $>:</td>
+											<td><$ tr("Start before") $>:</td>
 											<td>
 												<input type="text" size="2" maxlength="2" name="stop_h" value="<$ stop_h $>" /> : <input type="text" size="2" maxlength="2" name="stop_m" value="<$ stop_m $>" />
 												<& tooltip.help text=(tr("The time the show may start at the latest")) &>
@@ -644,13 +650,14 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 							<td>
 								<input type="checkbox" name="useweekday" value="1" <{ CHECKIF(useweekday) }> onclick="changeduseweekday(this)" id="useweekday" />
 								<div id="weekdaysettings" style="display: none" class="dependent">
-									<input type="checkbox" name="wday_mon" value="1" <{ CHECKIF(wday_mon) }> /> <$ tr("Monday") $>
-									<input type="checkbox" name="wday_tue" value="1" <{ CHECKIF(wday_tue) }> /> <$ tr("Tuesday") $>
-									<input type="checkbox" name="wday_wed" value="1" <{ CHECKIF(wday_wed) }> /> <$ tr("Wednesday") $>
-									<input type="checkbox" name="wday_thu" value="1" <{ CHECKIF(wday_thu) }> /> <$ tr("Thursday") $>
-									<input type="checkbox" name="wday_fri" value="1" <{ CHECKIF(wday_fri) }> /> <$ tr("Friday") $>
-									<input type="checkbox" name="wday_sat" value="1" <{ CHECKIF(wday_sat) }> /> <$ tr("Saturday") $>
-									<input type="checkbox" name="wday_sun" value="1" <{ CHECKIF(wday_sun) }> /> <$ tr("Sunday") $>
+									<div class="dotted"><input type="checkbox" name="wday_mon" value="1" <{ CHECKIF(wday_mon) }> /> <$ tr("Monday") $></div>
+									<div class="dotted"><input type="checkbox" name="wday_tue" value="1" <{ CHECKIF(wday_tue) }> /> <$ tr("Tuesday") $></div>
+									<div class="dotted"><input type="checkbox" name="wday_wed" value="1" <{ CHECKIF(wday_wed) }> /> <$ tr("Wednesday") $></div>
+									<div class="dotted"><input type="checkbox" name="wday_thu" value="1" <{ CHECKIF(wday_thu) }> /> <$ tr("Thursday") $></div>
+									<div class="dotted"><input type="checkbox" name="wday_fri" value="1" <{ CHECKIF(wday_fri) }> /> <$ tr("Friday") $></div>
+									<div class="dotted"><input type="checkbox" name="wday_sat" value="1" <{ CHECKIF(wday_sat) }> /> <$ tr("Saturday") $></div>
+									<div class="dotted"><input type="checkbox" name="wday_sun" value="1" <{ CHECKIF(wday_sun) }> /> <$ tr("Sunday") $></div>
+									<br style="clear: both" /><!-- Der muss da sein damit die Höhenberechnung klappt. Glaubt mir, ist so. -->
 								</div>
 							</td>
 							<td class="border" style="border-right: 1px solid black"></td>

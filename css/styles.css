@@ -648,6 +648,19 @@ div.screenshot {
 	margin-right: 20px;
 }
 
+/*
+  ##############################
+  #  Dotted Frame
+  ##############################
+*/
+
+div.dotted {
+	border: 1px dotted black;
+	padding: 5px;
+	margin: 2px;
+	float: left;
+}
+
 
 /*
   ##############################
