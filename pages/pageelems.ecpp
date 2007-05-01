@@ -109,7 +109,7 @@ using namespace vdrlive;
 	string alt;
 	string id;
 </%args>
-<%cpp> { </%cpp> <a <? !id.empty() ? "id=" + id ?> <& hide_element hide=(!id.empty()) &> href="javascript:LiveSimpleAjaxRequest('<$ action $>.xml', 'param', '<$ param $>');" <%cpp>if (!tip.empty()) { </%cpp><& tooltip.hint text=(tip) &> <%cpp> } </%cpp>><img src="<$ image $>" alt="<$ alt $>" /></a> <%cpp> } </%cpp>
+<%cpp> { </%cpp> <a <? !id.empty() ? "id=" + id ?> <& hide_element hide=(!id.empty()) &> href="javascript:LiveSimpleAjaxRequest('<$ action $>.xml', 'param', '<$ param $>');" <%cpp>if (!tip.empty()) { </%cpp><& tooltip.hint text=(tip) &> <%cpp> } </%cpp>><img src="<$ image $>" alt="<$ alt $>"></img></a> <%cpp> } </%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -171,7 +171,7 @@ using namespace vdrlive;
 			<div class="duration">&nbsp;<$ duration $></div>
 		</div>
 		<div class="st_controls">
-			<div class="st_btns"><a href="javascript:LiveStatusToggleUpdate()" <& tooltip.hint text=(tr("Stop updates")) &>><img id="statusReloadBtn" src="stop.png" alt="" /></a><%cpp>if (!prev_chan.empty()) { </%cpp><& ajax_action_href action=("switch_channel") param=(prev_chan) image=("one_downarrow.png") tip=(tr("previous channel")) &><%cpp> } if (!next_chan.empty()) { </%cpp><& ajax_action_href action=("switch_channel") param=(next_chan) image=("one_uparrow.png") tip=(tr("next channel")) &><%cpp> } </%cpp></div>
+			<div class="st_btns"><a href="javascript:LiveStatusToggleUpdate()" <& tooltip.hint text=(tr("Stop updates")) &>><img id="statusReloadBtn" src="stop.png" alt=""></img></a><%cpp>if (!prev_chan.empty()) { </%cpp><& ajax_action_href action=("switch_channel") param=(prev_chan) image=("one_downarrow.png") tip=(tr("previous channel")) &><%cpp> } if (!next_chan.empty()) { </%cpp><& ajax_action_href action=("switch_channel") param=(next_chan) image=("one_uparrow.png") tip=(tr("next channel")) &><%cpp> } </%cpp></div>
 %			if (elapsed >= 0) {
 			<div class="st_pbar"><& pageelems.progressbar progress=(elapsed) &></div>
 %			}
