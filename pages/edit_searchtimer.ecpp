@@ -732,7 +732,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 										</tr>
 
 										<tr>
-											<td><$ tr("Avoid repeats" ) $>:</td>
+											<td style="vertical-align: top"><$ tr("Avoid repeats" ) $>:</td>
 											<td><input type="checkbox" name="avoidrepeats" value="1" <{ CHECKIF(avoidrepeats) }> onclick="changedavoidrepeats(this)" id="avoidrepeats"/>
 												<div id="avoidrepeatssettings" style="display: none">
 													<table border="0" cellpadding="0" cellspacing="0">
