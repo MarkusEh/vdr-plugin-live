@@ -59,7 +59,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		<& pageelems.logo &>
 		<& menu active=("schedule") component=("schedule.channel_selection")>
 		<div class="inhalt">
-			<table class="schedule" cellspacing="0" callpadding="0">
+			<table class="schedule" cellspacing="0" cellpadding="0">
 <{
 				bool active_line = false;
 				string current_day = "";
@@ -102,7 +102,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 %				}
 %				if (Schedule->Events()->Count() > 0) {
 						<tr>
-							<td colspan="4" style="border-top: 1px solid black; background-image: none; border-bottom: none">&nbsp;</td></tr>
+							<td colspan="4" style="border-top: 1px solid black; background-image: none; border-bottom: none">&nbsp;</td>
 						</tr>
 %				}
 			</table>
