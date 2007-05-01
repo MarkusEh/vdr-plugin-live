@@ -277,7 +277,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 						<tr>
 							<td class="label"><$ tr("Search mode" ) $>:</td>
 							<td>
-								<div style="float:left; max-width:50%; margin-right:20px">
+								<div style="float:left; margin-right:20px">
 									<select onchange="changedsearchmode(this)" name="mode" size="1" id="search_mode">
 										<option value="0" <{ SELECTIF(mode == 0) }> ><$ tr("phrase") $></option>
 										<option value="1" <{ SELECTIF(mode == 1) }> ><$ tr("all words") $></option>
@@ -304,14 +304,20 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 						<tr>
 							<td class="label"><$ tr("Search in") $>:</td>
 							<td>
-								<input type="checkbox" name="usetitle" value="1" <{ CHECKIF(usetitle) }> />
-								<label for="usetitle"><$ tr("Title") $> </label>
+								<div class="dotted">
+									<input type="checkbox" name="usetitle" value="1" <{ CHECKIF(usetitle) }> />
+									<label for="usetitle"><$ tr("Title") $> </label>
+								</div>
+								
+								<div class="dotted">
+									<input type="checkbox" name="usesubtitle" value="1" <{ CHECKIF(usesubtitle) }> />
+									<label for="usesubtitle"><$ tr("Episode") $> </label>
+								</div>
 
-								<input type="checkbox" name="usesubtitle" value="1" <{ CHECKIF(usesubtitle) }> />
-								<label for="usesubtitle"><$ tr("Episode") $> </label>
-
-								<input type="checkbox" name="usedescr" value="1" <{ CHECKIF(usedescr) }> />
-								<label for="usedescr"><$ tr("Description") $> </label>
+								<div class="dotted">
+									<input type="checkbox" name="usedescr" value="1" <{ CHECKIF(usedescr) }> />
+									<label for="usedescr"><$ tr("Description") $> </label>
+								</div>
 							</td>
 						</tr>
 
@@ -363,11 +369,17 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 									<option value="3" <{ SELECTIF(usechannel == 3) }> ><$ tr("only FTA") $></option>
 								</select>
 
-								<div id="channelinterval" style="display: none;" class="dependent">
-									<$ tr("from channel" ) $>:
-									<& channels_widget name=("channelfrom") channelid=(true) selected=(channelfrom) &><br />
-									<$ tr("to channel" ) $>:
-									<& channels_widget name=("channelto") channelid=(true) selected=(channelto) &>
+								<div id="channelinterval" style="display: none;">
+									<table>
+										<tr>
+											<td><$ tr("from channel" ) $>:</td>
+											<td><& channels_widget name=("channelfrom") channelid=(true) selected=(channelfrom) &></td>
+										</tr>
+										<tr>
+											<td><$ tr("to channel" ) $>:</td>
+											<td><& channels_widget name=("channelto") channelid=(true) selected=(channelto) &></td>
+										</tr>
+									</table>
 								</div>
 
 								<div id="channelgroup" style="display: none">
@@ -388,7 +400,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 							<td>
 								<input type="checkbox" name="usetime" value="1" <{ CHECKIF(usetime) }> onclick="changedusetime(this)" id="usetime" />
 								<div id="timesettings" style="display: none">
-									<table border="0" cellpadding="0" cellspacing="0" class="dependent">
+									<table border="0" cellpadding="0" cellspacing="0">
 										<tr>
 											<td><$ tr("Start after") $>:</td>
 											<td>
@@ -414,7 +426,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 							<td>
 								<input type="checkbox" name="useduration" value="1" <{ CHECKIF(useduration) }> onclick="changeduseduration(this)" id="useduration" />
 								<div id="durationsettings" style="display: none">
-									<table border="0" cellpadding="0" cellspacing="0" class="dependent">
+									<table border="0" cellpadding="0" cellspacing="0">
 										<tr>
 											<td><$ tr("Min. duration") $>:</td>
 											<td><input type="text" size="3" maxlength="3" name="durationmin" value="<$ durationmin $>" /> min</td>
@@ -433,14 +445,15 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 							<td class="label"><$ tr("Use day of week") $>:</td>
 							<td>
 								<input type="checkbox" name="useweekday" value="1" <{ CHECKIF(useweekday) }> onclick="changeduseweekday(this)" id="useweekday" />
-								<div id="weekdaysettings" style="display: none" class="dependent">
-									<input type="checkbox" name="wday_mon" value="1" <{ CHECKIF(wday_mon) }> /> <$ tr("Monday") $>
-									<input type="checkbox" name="wday_tue" value="1" <{ CHECKIF(wday_tue) }> /> <$ tr("Tuesday") $>
-									<input type="checkbox" name="wday_wed" value="1" <{ CHECKIF(wday_wed) }> /> <$ tr("Wednesday") $>
-									<input type="checkbox" name="wday_thu" value="1" <{ CHECKIF(wday_thu) }> /> <$ tr("Thursday") $>
-									<input type="checkbox" name="wday_fri" value="1" <{ CHECKIF(wday_fri) }> /> <$ tr("Friday") $>
-									<input type="checkbox" name="wday_sat" value="1" <{ CHECKIF(wday_sat) }> /> <$ tr("Saturday") $>
-									<input type="checkbox" name="wday_sun" value="1" <{ CHECKIF(wday_sun) }> /> <$ tr("Sunday") $>
+								<div id="weekdaysettings" style="display: none; white-space: nowrap">
+									<div class="dotted"><input type="checkbox" name="wday_mon" value="1" <{ CHECKIF(wday_mon) }> /> <$ tr("Monday") $></div>
+									<div class="dotted"><input type="checkbox" name="wday_tue" value="1" <{ CHECKIF(wday_tue) }> /> <$ tr("Tuesday") $></div>
+									<div class="dotted"><input type="checkbox" name="wday_wed" value="1" <{ CHECKIF(wday_wed) }> /> <$ tr("Wednesday") $></div>
+									<div class="dotted"><input type="checkbox" name="wday_thu" value="1" <{ CHECKIF(wday_thu) }> /> <$ tr("Thursday") $></div>
+									<div class="dotted"><input type="checkbox" name="wday_fri" value="1" <{ CHECKIF(wday_fri) }> /> <$ tr("Friday") $></div>
+									<div class="dotted"><input type="checkbox" name="wday_sat" value="1" <{ CHECKIF(wday_sat) }> /> <$ tr("Saturday") $></div>
+									<div class="dotted"><input type="checkbox" name="wday_sun" value="1" <{ CHECKIF(wday_sun) }> /> <$ tr("Sunday") $></div>
+									<br style="clear: both" /><!-- fuer die Hoehenberechnung vom Div unerlaesslich! HAENDE WEG! -->
 								</div>
 							</td>
 						</tr>
