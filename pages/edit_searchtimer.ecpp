@@ -563,11 +563,15 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 									<option value="3" <{ SELECTIF(usechannel == 3) }> ><$ tr("only FTA") $></option>
 								</select>
 
-								<div id="channelinterval" style="display: none;" class="dependent">
-									<$ tr("from channel" ) $>:
-									<& channels_widget name=("channelfrom") channelid=(true) selected=(channelfrom) &><br />
-									<$ tr("to channel" ) $>:
-									<& channels_widget name=("channelto") channelid=(true) selected=(channelto) &>
+								<div id="channelinterval" style="display: none;">
+									<table border="0" cellpadding="0" cellspacing="0" class="dependent">
+										<tr>
+											<td class="title"><$ tr("from channel" ) $>:</td><td><& channels_widget name=("channelfrom") channelid=(true) selected=(channelfrom) &><br /></td>
+										</tr>
+										<tr>
+											<td class="title" style="border-bottom: none"><$ tr("to channel" ) $>:</td><td style="border-bottom: none"><& channels_widget name=("channelto") channelid=(true) selected=(channelto) &></td>
+										</tr>
+									</table>
 								</div>
 
 								<div id="channelgroup" style="display: none">
@@ -592,14 +596,14 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 								<div id="timesettings" style="display: none">
 									<table border="0" cellpadding="0" cellspacing="0" class="dependent">
 										<tr>
-											<td><$ tr("Start after") $>:</td>
+											<td class="title"><$ tr("Start after") $>:</td>
 											<td>
 												<input type="text" size="2" maxlength="2" name="start_h" value="<$ start_h $>" /> : <input type="text" size="2" maxlength="2" name="start_m" value="<$ start_m $>" />
 												<& tooltip.help text=(tr("The time the show may start at the earliest")) &>
 											</td>
 										</tr>
 										<tr>
-											<td><$ tr("Start before") $>:</td>
+											<td class="title"><$ tr("Start before") $>:</td>
 											<td>
 												<input type="text" size="2" maxlength="2" name="stop_h" value="<$ stop_h $>" /> : <input type="text" size="2" maxlength="2" name="stop_m" value="<$ stop_m $>" />
 												<& tooltip.help text=(tr("The time the show may start at the latest")) &>
@@ -701,14 +705,14 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 								<div id="searchtimermode1settings" style="display: none">
 									<table class="dependent" border="0" cellpadding="0" cellspacing="0">
 										<tr>
-											<td><$ tr("Series recording") $>:</td>
+											<td class="title"><$ tr("Series recording") $>:</td>
 											<td><input type="checkbox" name="seriesrecording" value="1" <{ CHECKIF(seriesrecording) }>/></td>
 										</tr>
 
 										<tr>
-											<td><$ tr("Directory") $>:</td>
+											<td class="title"><$ tr("Directory") $>:</td>
 											<td><input type="text" name="directory" id="directory" value="<$ directory $>" size="70" /><br>
-											<select onchange="changeddirselection(this)" name="recordingdirsselection" size="1" id="recordingdirsselection">
+											<select onchange="changeddirselection(this)" name="recordingdirsselection" size="1" id="recordingdirsselection" style="margin-top: 5px">
 											<option/>
 %											for (RecordingDirs::iterator rdir = recordingdirs.begin(); rdir != recordingdirs.end(); ++rdir) {
 												<option value="<$ *rdir $>"><$ *rdir $></option>
@@ -718,7 +722,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 										</tr>
 
 										<tr>
-											<td><$ tr("Delete recordings after ... days") $>:</td>
+											<td class="title"><$ tr("Delete recordings after ... days") $>:</td>
 											<td>
 												<input type="text" name="delrecafterdays" id="delrecafterdays" size="2" value="<$ delrecafterdays $>"/>&nbsp;&nbsp;
 												<$ tr("Keep ... recordings") $>:
@@ -727,12 +731,12 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 										</tr>
 
 										<tr>
-											<td><$ tr("Pause when ... recordings exist") $>:</td>
+											<td class="title"><$ tr("Pause when ... recordings exist") $>:</td>
 											<td><input type="text" name="pauseonrecs" id="pauseonrecs" size="2" value="<$ pauseonrecs $>"/></td>
 										</tr>
 
 										<tr>
-											<td style="vertical-align: top"><$ tr("Avoid repeats" ) $>:</td>
+											<td class="title"><$ tr("Avoid repeats" ) $>:</td>
 											<td><input type="checkbox" name="avoidrepeats" value="1" <{ CHECKIF(avoidrepeats) }> onclick="changedavoidrepeats(this)" id="avoidrepeats"/>
 												<div id="avoidrepeatssettings" style="display: none">
 													<table border="0" cellpadding="0" cellspacing="0">
@@ -772,22 +776,22 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 										</tr>
 
 										<tr>
-											<td><$ tr("Priority") $>:</td>
+											<td class="title"><$ tr("Priority") $>:</td>
 											<td><input type="text" name="priority" size="2" value="<$ priority $>"/></td>
 										</tr>
 
 										<tr>
-											<td><$ tr("Lifetime") $>:</td>
+											<td class="title"><$ tr("Lifetime") $>:</td>
 											<td><input type="text" name="lifetime" size="2" value="<$ lifetime $>"/></td>
 										</tr>
 
 										<tr>
-											<td><$ tr("Setup.Recording$Margin at start (min)") $>:</td>
+											<td class="title"><$ tr("Setup.Recording$Margin at start (min)") $>:</td>
 											<td><input type="text" name="marginstart" size="2" value="<$ marginstart $>"/></td>
 										</tr>
 
 										<tr>
-											<td><$ tr("Setup.Recording$Margin at stop (min)") $>:</td>
+											<td class="title"><$ tr("Setup.Recording$Margin at stop (min)") $>:</td>
 											<td><input type="text" name="marginstop" size="2" value="<$ marginstop $>"/></td>
 										</tr>
 
@@ -801,7 +805,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 								<div id="searchtimermode3settings" style="display: none">
 									<table class="dependent" border="0" cellpadding="0" cellspacing="0">
 										<tr>
-											<td><$ tr("Switch ... minutes before start") $>:</td>
+											<td class="title"><$ tr("Switch ... minutes before start") $>:</td>
 											<td><input type="text" name="switchminbefore" id="switchminbefore" size="2" value="<$ switchminbefore $>"/></td>
 										</tr>
 									</table>

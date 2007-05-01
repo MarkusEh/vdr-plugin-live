@@ -20,6 +20,7 @@ input {
 	font-size: 11px;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	background: #FEFEFE;
+	margin: 0;
 }
 
 select {
@@ -727,7 +728,14 @@ table.dependent {
 
 table.dependent tr td {
 	background: none;
+	vertical-align: middle;
 }
+
+table.dependent tr td.title {
+	background: none;
+	vertical-align: top;
+}
+
 
 div.dependent {
 	background-color: #DEE6EE;
