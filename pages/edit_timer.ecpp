@@ -180,14 +180,14 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					<tr>
 						<td class="border" style="border-left: 1px solid black"></td>
 						<td class="label"><$ tr("Start") $>:</td>
-						<td><input type="text" size="2" maxlength="2" name="start_h" value="<$ start_h $>" /> : <input type="text" size="2" maxlength="2" name="start_m" value="<$ start_m $>" /></td>
+						<td><input type="text" size="2" maxlength="2" name="start_h" value="<$ ZeroPad(start_h) $>" /> : <input type="text" size="2" maxlength="2" name="start_m" value="<$ ZeroPad(start_m) $>" /></td>
 						<td class="border" style="border-right: 1px solid black"></td>
 					</tr>
 
 					<tr>
 						<td class="border" style="border-left: 1px solid black"></td>
 						<td class="label"><$ tr("Stop") $>:</td>
-						<td><input type="text" size="2" maxlength="2" name="end_h" value="<$ end_h $>" /> : <input type="text" size="2" maxlength="2" name="end_m" value="<$ end_m $>" /></td>
+						<td><input type="text" size="2" maxlength="2" name="end_h" value="<$ ZeroPad(end_h) $>" /> : <input type="text" size="2" maxlength="2" name="end_m" value="<$ ZeroPad(end_m) $>" /></td>
 						<td class="border" style="border-right: 1px solid black"></td>
 					</tr>
 
