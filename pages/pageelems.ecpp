@@ -20,7 +20,7 @@ using namespace vdrlive;
 
 <%def logo>
 <div class="page_header">
-	<img src="logo.png" alt="VDR Live!" class="logo"/>
+	<img src="logo.png" alt="VDR Live!" class="logo"></img>
 	<& infobox &>
 </div>
 <div style="clear: both"></div>
