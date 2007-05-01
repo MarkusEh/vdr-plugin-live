@@ -1,4 +1,5 @@
 #include <stdexcept>
+#include <iomanip>
 #include <tnt/ecpp.h>
 #include <tnt/htmlescostream.h>
 #include <tnt/httprequest.h>
@@ -7,6 +8,7 @@
 #include "live.h"
 #include "setup.h"
 #include "tools.h"
+
 
 using namespace std;
 using namespace tnt;
@@ -120,5 +122,13 @@ string StringTrim(string const& str)
    else res.erase(res.begin(), res.end());
    return res;
 }
+
+string ZeroPad(int number)
+{
+   ostringstream os;
+   os << setw(2) << setfill('0') << number;
+   return os.str();
+}
+
 
 } // namespace vdrlive

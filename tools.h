@@ -30,6 +30,7 @@ std::string StringWordTruncate(const std::string& input, size_t maxLen, bool& tr
 std::string StringEscapeAndBreak( std::string const& input );
 std::string StringFormatBreak(std::string const& input);
 std::string StringTrim(const std::string& str);
+std::string ZeroPad(int number);
 
 struct bad_lexical_cast: std::runtime_error 
 {
