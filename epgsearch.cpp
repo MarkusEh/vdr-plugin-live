@@ -269,18 +269,12 @@ void SearchTimer::ParseBlacklist( string const& data )
 
 string SearchTimer::StartTimeFormatted()
 {
-   ostringstream os;
-   os << setw(2) << setfill('0') << ( StartTime() / 100 ) % 100 << ":" 
-      << setw(2) << setfill('0') << StartTime() % 100;
-   return os.str();
+	return ZeroPad((StartTime() / 100 ) % 100) + ":" + ZeroPad(StartTime() % 100);
 }
 
 string SearchTimer::StopTimeFormatted()
 {
-   ostringstream os;
-   os << setw(2) << setfill('0') << ( StopTime() / 100 ) % 100 << ":" 
-      << setw(2) << setfill('0') << StopTime() % 100;
-   return os.str();
+	return ZeroPad((StopTime() / 100 ) % 100) + ":" + ZeroPad(StopTime() % 100);
 }
 
 SearchTimers::SearchTimers()
