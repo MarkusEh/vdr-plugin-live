@@ -47,12 +47,13 @@ using namespace std;
 		ReadLock channelsLock( Channels );
 
 		if (cDevice::CurrentChannel()) {
+			const int SKIP_GAP = 1;
 			cChannel* Channel = Channels.GetByNumber(cDevice::CurrentChannel());
 
-			cChannel* tmp = Channels.GetByNumber(Channels.GetPrevNormal(cDevice::CurrentChannel()));
+			cChannel* tmp = Channels.GetByNumber(Channels.GetPrevNormal(cDevice::CurrentChannel()), -SKIP_GAP);
 			if (tmp)
 				prev_chan = tmp->GetChannelID();
-			tmp = Channels.GetByNumber(Channels.GetNextNormal(cDevice::CurrentChannel()));
+			tmp = Channels.GetByNumber(Channels.GetNextNormal(cDevice::CurrentChannel()), SKIP_GAP);
 			if (tmp)
 				next_chan = tmp->GetChannelID();
 
