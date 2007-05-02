@@ -97,8 +97,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					<td class="border" style="border-left: 1px solid black"></td>
 					<td><{ if (timer->Flags() & tfActive) { }><img src="/arrow.png" alt=""></img> <{ } }></td>
 					<td><$ timer->Channel()->Name() $></td>
-					<td><$ FormatDateTime(tr("%I:%M"), timer->StartTime()) $></td>
-					<td><$ FormatDateTime(tr("%I:%M"), timer->StopTime()) $></td>
+					<td><$ FormatDateTime(tr("%I:%M %p"), timer->StartTime()) $></td>
+					<td><$ FormatDateTime(tr("%I:%M %p"), timer->StopTime()) $></td>
 					<td><{ if (timer->Recording()) { }><img src="/record.png" alt="Record" /><{ } }></td>
 					<td><$ timer->File() $></td>
 					<td><a href="timers.html?timerid=<$ timers.GetTimerId(*timer) $>&action=toggle"><img src="/<$ (timer->Flags() & tfActive) ? "active" : "inactive" $>.png" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &>></img></a></td>
