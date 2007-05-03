@@ -121,13 +121,22 @@ cMenuSetupLive::cMenuSetupLive():
 	strcpy(m_adminLogin, vdrlive::LiveSetup().GetAdminLogin().c_str());
 	strcpy(m_adminPassword, vdrlive::LiveSetup().GetAdminPassword().c_str());
 	
+	string strHidden(strlen(m_adminPassword), '*');
+	strcpy(m_tmpPassword, strHidden.c_str());
+	Set();
+}
+
+void cMenuSetupLive::Set(void)
+{
+	int current = Current();
 	Clear();
 	//Add(new cMenuEditIntItem(tr("Last channel to display"),  &m_lastChannel, 0, 65536));
 	Add(new cMenuEditChanItem(tr("Last channel to display"), &m_lastChannel, tr("No limit")));
 	//Add(new cMenuEditIntItem(tr("Screenshot interval"),  &m_lastChannel, 0, 65536));
 	Add(new cMenuEditBoolItem(tr("Use authentication"), &m_useAuth, tr("No"), tr("Yes")));
 	Add(new cMenuEditStrItem( tr("Admin login"), m_adminLogin, 12, tr(FileNameChars)));
-	Add(new cMenuEditStrItem( tr("Admin password"), m_adminPassword, 12, tr(FileNameChars)));
+	Add(new cMenuEditStrItem( tr("Admin password"), m_tmpPassword, 12, tr(FileNameChars)));
+	SetCurrent(Get(current));
 	Display();
 }
 
@@ -146,6 +155,53 @@ void cMenuSetupLive::Store(void)
 	SetupStore("AdminPassword",  m_adminPassword);
 }
 
+bool cMenuSetupLive::InEditMode(const char* ItemText, const char* ItemName, const char* ItemValue)
+{
+	bool bEditMode = true;
+	// ugly solution to detect, if in edit mode
+	char* value = strdup(ItemText);
+	strreplace(value, ItemName, "");
+	strreplace(value, ":\t", "");
+	// for bigpatch
+	strreplace(value, "\t", "");
+	if (strlen(value) == strlen(ItemValue))
+		bEditMode = false;
+	free(value);
+	return bEditMode;
+}
+
+eOSState cMenuSetupLive::ProcessKey(eKeys Key)
+{
+	const char* ItemText = Get(Current())->Text();
+	bool bPassWasInEditMode = false;
+	if (ItemText && strlen(ItemText) > 0 && strstr(ItemText, tr("Admin password")) == ItemText)
+		bPassWasInEditMode = InEditMode(ItemText, tr("Admin password"), m_tmpPassword);
+ 
+	eOSState state = cMenuSetupPage::ProcessKey(Key);
+   
+	ItemText = Get(Current())->Text();
+	bool bPassIsInEditMode = false;
+	if (ItemText && strlen(ItemText) > 0 && strstr(ItemText, tr("Admin password")) == ItemText)
+		bPassIsInEditMode = InEditMode(ItemText, tr("Admin password"), m_tmpPassword);
+
+	if (bPassWasInEditMode && !bPassIsInEditMode)
+	{
+		strcpy(m_adminPassword, m_tmpPassword);
+		string strHidden(strlen(m_adminPassword), '*');
+		strcpy(m_tmpPassword, strHidden.c_str());
+		Set();
+		Display();
+	}
+	if (!bPassWasInEditMode && bPassIsInEditMode)
+	{
+		strcpy(m_tmpPassword, "");
+		Set();
+		Display();
+		state = cMenuSetupPage::ProcessKey(Key);
+	}
+
+	return state;
+}
 
 } // namespace vdrlive
 

@@ -68,9 +68,8 @@ Setup& LiveSetup();
 class cMenuSetupLive : public cMenuSetupPage {
 
 protected:
-  virtual void Store(void);
-//  virtual eOSState ProcessKey(eKeys Key);
-
+	virtual void Store(void);
+	virtual eOSState ProcessKey(eKeys Key);
 public:
   cMenuSetupLive();
   
@@ -81,6 +80,10 @@ private:
 	int m_useAuth;
 	char m_adminLogin[20];
 	char m_adminPassword[20];
+	char m_tmpPassword[20]; 
+
+	void Set(void);
+	bool InEditMode(const char* ItemText, const char* ItemName, const char* ItemValue);
 };
 
 } // namespace vdrlive
