@@ -467,8 +467,8 @@ SearchResult::SearchResult( string const& data )
 			switch ( i ) {
 			case  0: m_searchId = lexical_cast< int >( *part ); break;
 			case  1: m_eventId = lexical_cast< u_int32_t >( *part ); break;
-			case  2: m_title = *part; break;
-			case  3: m_shorttext = *part; break;
+			case  2: m_title = StringReplace( *part, "|", ":" ); break;
+			case  3: m_shorttext = StringReplace( *part, "|", ":" ); break;
 			case  4: m_starttime = lexical_cast< unsigned long >( *part ); break;
 			case  5: m_stoptime = lexical_cast< unsigned long >( *part ); break;
 			case  6: m_channel = lexical_cast< tChannelID >( *part ); break;
