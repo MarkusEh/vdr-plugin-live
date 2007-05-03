@@ -269,12 +269,14 @@ void SearchTimer::ParseBlacklist( string const& data )
 
 string SearchTimer::StartTimeFormatted()
 {
-	return ZeroPad((StartTime() / 100 ) % 100) + ":" + ZeroPad(StartTime() % 100);
+	time_t start = cTimer::SetTime(time(NULL), (((StartTime() / 100 ) % 100) * 60 * 60) + (StartTime() % 100 * 60));
+	return FormatDateTime(tr("%I:%M %p"), start);
 }
 
 string SearchTimer::StopTimeFormatted()
 {
-	return ZeroPad((StopTime() / 100 ) % 100) + ":" + ZeroPad(StopTime() % 100);
+	time_t stop = cTimer::SetTime(time(NULL), (((StopTime() / 100 ) % 100) * 60 * 60) + (StopTime() % 100 * 60));
+	return FormatDateTime(tr("%I:%M %p"), stop);
 }
 
 SearchTimers::SearchTimers()
