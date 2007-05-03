@@ -4,6 +4,7 @@
 #include <vdr/epg.h>
 #include "tools.h"
 #include "i18n.h"
+#include "timers.h"
 
 using namespace std;
 using namespace vdrlive;
@@ -88,7 +89,16 @@ using namespace vdrlive;
 	tChannelID channelid;
 	tEventID eventid;
 </%args>
-	<a href="edit_timer.html?channelid=<$ channelid $>&eventid=<$ eventid $>"><img src="record.png" alt="" <& tooltip.hint text=(tr("Record this")) &> /></a>
+<%cpp>	const cTimer* timer = LiveTimerManager().GetTimer(eventid, channelid);
+	if (timer) { 
+</%cpp>
+	<a href="edit_timer.html?timerid=<$ LiveTimerManager().GetTimers().GetTimerId(*timer) $>">
+		<img src="record_timer.png" alt="" <& tooltip.hint text=(tr("Edit this")) &> />
+<%cpp> } else { </%cpp>
+	<a href="edit_timer.html?channelid=<$ channelid $>&eventid=<$ eventid $>">
+		<img src="record.png" alt="" <& tooltip.hint text=(tr("Record this")) &> />
+<%cpp> } </%cpp>
+	</a>
 </%def>
 
 <# ---------------------------------------------------------------------- #>

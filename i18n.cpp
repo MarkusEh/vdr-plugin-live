@@ -817,6 +817,28 @@ const tI18nPhrase Phrases[] = {
       "", // Dansk
       "", // Czech
     },
+    { "Edit this", // English
+      "Timer editieren", // Deutsch
+      "", // Slovenski
+      "", // Italiano
+      "", // Nederlands
+      "", // Português
+      "", // Français
+      "", // Norsk
+      "", // Finnish
+      "", // Polski
+      "", // Español
+      "", // Greek
+      "", // Svenska
+      "", // Românã
+      "", // Magyar
+      "", // Català
+      "", // Russian
+      "", // Hrvatski
+      "", // Eesti
+      "", // Dansk
+      "", // Czech
+    },
     { "Click to view details.", // English
       "Für Details klicken.", // Deutsch
       "", // Slovenski

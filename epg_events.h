@@ -51,6 +51,8 @@ namespace vdrlive
 
 			int Elapsed() const;
 
+			const cTimer* GetTimer() const;
+
 		private:
 			std::string m_eventId;
 			std::string m_caption;

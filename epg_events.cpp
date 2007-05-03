@@ -64,6 +64,11 @@ namespace vdrlive
 		return -1;
 	}
 
+	const cTimer* EpgEvent::GetTimer() const
+	{
+		return NULL;
+	}
+
 	EpgEvents::EpgEvents() :
 		std::vector<EpgEventPtr>()
 	{

@@ -204,6 +204,21 @@ string TimerManager::GetError( TimerPair const& timerData )
 	return "";
 }
 
+const cTimer* TimerManager::GetTimer(tEventID eventid, tChannelID channelid)
+{
+	cMutexLock timersLock( &LiveTimerManager() );
+	SortedTimers& timers = LiveTimerManager().GetTimers();
+
+	for ( SortedTimers::iterator timer = timers.begin(); timer != timers.end(); ++timer )
+		if (timer->Channel() && timer->Channel()->GetChannelID() == channelid)
+		{
+			if (!timer->Event()) timer->SetEventFromSchedule();
+			if (timer->Event() && timer->Event()->EventID() == eventid)
+				return &*timer;
+		}
+ 	return NULL;
+}
+	
 TimerManager& LiveTimerManager()
 {
 	static TimerManager instance;

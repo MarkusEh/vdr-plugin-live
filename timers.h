@@ -44,6 +44,7 @@ public:
 	// may only be called from Plugin::MainThreadHook
 	void DoPendingWork();
 	void DoReloadTimers() { m_timers.ReloadTimers(); }
+	const cTimer* GetTimer(tEventID eventid, tChannelID channelid);
 
 private:
 	typedef std::pair< cTimer*, std::string > TimerPair;

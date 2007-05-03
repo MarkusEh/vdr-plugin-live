@@ -35,6 +35,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	<head>
 		<title>VDR-Live - <$ pageTitle $></title>
 		<link rel="stylesheet" type="text/css" href="/styles.css" />
+		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 	</head>
 	<body onload="<& pageelems.infobox_start_update &>">
@@ -55,7 +56,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					string end(result->StopTime() ? FormatDateTime(tr("%I:%M %p"), result->StopTime()) : "");
 					string day(result->StartTime() ? FormatDateTime(tr("%A, %b %d %Y"), result->StartTime()) : "");
 					tEventID event = result->EventId();
-                    tChannelID channel_id(result->Channel());
+					tChannelID channel_id(result->Channel());
 					if (current_day != day) {
 						if (current_day != "") {
 }>
@@ -71,7 +72,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 %					current_day = day;
 %					}
                     <tr class="<? active_line ? "active" ?>">
-						<td style="border-left: 1px solid black"><& pageelems.event_timer channelid=(channel_id) eventid=(event) &></td>
+						<td style="border-left: 1px solid black"><& pageelems.event_timer channelid=(channel_id) eventid=(event)&></td>
 						<td><$ channelname $></td>
 						<td><$ start $> - <$ end $></td>
 						<td><strong><$ result->Title() $></strong><br /><$ result->ShortText() $><br /></td>
