@@ -97,7 +97,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 						<td><$ start $> - <$ end $></td>
 						<td>
 %							if(Event == PresentEvent) {
-							<a name="cur" id="cur"></a><font color="#FF0000">
+							<font color="#0000FF">
 % 							}
 							<strong><$ title $></strong><br /><$ short_description $><br />
 %							if(Event == PresentEvent) {

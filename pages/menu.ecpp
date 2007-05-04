@@ -22,7 +22,7 @@ std::string set_component;
 <div class="menu">
 	<a href="whats_on.html?type=now" <& menu.setactive current=("now") &>><$ tr("What's on now?") $></a> |
 	<a href="whats_on.html?type=next" <& menu.setactive current=("next") &>><$ tr("What's on next?") $></a> |
-	<a href="schedule.html#cur" <& menu.setactive current=("schedule") &>><$ tr("Schedule") $></a> |
+	<a href="schedule.html" <& menu.setactive current=("schedule") &>><$ tr("Schedule") $></a> |
 	<a href="timers.html" <& menu.setactive current=("timers") &>><$ tr("Timers") $></a> |
 % if (LiveSetup().HaveEPGSearch()) {
 	<a href="searchepg.html" <& menu.setactive current=("searchepg") &>><$ tr("Search") $></a> |
