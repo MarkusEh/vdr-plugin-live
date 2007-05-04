@@ -6,6 +6,7 @@
 #include "exception.h"
 #include "setup.h"
 #include "tools.h"
+#include "epg_events.h"
 
 using namespace std;
 using namespace vdrlive;
@@ -61,14 +62,22 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		<div class="inhalt">
 			<table class="schedule" cellspacing="0" cellpadding="0">
 <{
+				EpgEvents epgEvents;
+
 				bool active_line = false;
 				string current_day = "";
 				const cEvent* PresentEvent = Schedule->GetPresentEvent();
 				time_t now = time(NULL) - ::Setup.EPGLinger * 60;
 				tChannelID channel_id(Channel->GetChannelID());
+				int evntNr = 0;
 				for (const cEvent *Event = Schedule->Events()->First(); Event; Event = Schedule->Events()->Next(Event)) {
 					if (Event->EndTime() <= now && Event != PresentEvent)
 						continue;
+
+					string evntId("eventId_");
+					evntId += lexical_cast<std::string, int>(++evntNr);
+					EpgEventPtr epgEvent(new EpgEvent(evntId, Event, Channel->Name()));
+					epgEvents.push_back(epgEvent);
 
 					//active_line = !active_line;
 					string title(Event->Title() ? Event->Title() : "");
@@ -78,17 +87,21 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					string end(Event->EndTime() ? FormatDateTime(tr("%I:%M %p"), Event->EndTime()) : "");
 					string day(Event->StartTime() ? FormatDateTime(tr("%A, %b %d %Y"), Event->StartTime()) : "");
 					tEventID event = Event->EventID();
+					ostringstream os;
+      					os << Event->EventID();
+					string strEventID = os.str();
+					bool truncated = false;
 					if (current_day != day) {
 						if (current_day != "") {
 }>
 						<tr>
-							<td colspan="4" style="border-top: 1px solid black; border-bottom: none; background-image: none">&nbsp;</td></tr>
+							<td colspan="5" style="border-top: 1px solid black; border-bottom: none; background-image: none">&nbsp;</td></tr>
 						</tr>
 <{
 						}
 }>
 						<tr>
-							<td class="day" colspan="4"><div class="boxheader"><div><div><$ day $></div></div></div></td>
+							<td class="day" colspan="5"><div class="boxheader"><div><div><$ day $></div></div></div></td>
 						</tr>
 %					current_day = day;
 %					}
@@ -104,6 +117,9 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 							</font>
 %							}
 						</td>
+						<td>
+							<div class="more"<& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(description, 300, truncated)) + string("<br />") + string(tr("Click to view details."))) &><& tooltip.display domId=(epgEvent->Id()) &>><$ (string(tr("more")) + string(" ...")) $></div>
+						</td>
 						<td style="border-right: 1px solid black">&nbsp;</td>
 					</tr>
 %				}
@@ -114,7 +130,17 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 %				}
 			</table>
 		</div>
-	</body>
+		<div class="epg_data" style="display: none;">
+<{
+	// create hidden div for the tooltip hints.
+	for (vector<EpgEventPtr>::iterator i = epgEvents.begin(); i != epgEvents.end(); ++i) {
+		EpgEventPtr epg = *i;
+}>
+		<& pageelems.epg_tt_box boxId=(epg->Id()) caption=(epg->Caption()) time=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) short_descr=(epg->ShortDescr()) long_descr=(epg->LongDescr()) elapsed=(epg->Elapsed()) &>
+<{
+	}
+}>
+		</div>	</body>
 </html>
 <%include>page_exit.eh</%include>
 
