@@ -1,11 +1,18 @@
 <%pre>
 #include <vdr/remote.h>
+#include "setup.h"
+
+using namespace vdrlive;
 
 </%pre>
 <%args>
 	int keycode = kNone;
 </%args>
+<%session scope="global">
+bool logged_in(false);
+</%session>
 <%cpp>
+	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	reply.setContentType("application/xml");
 </%cpp>
 <?xml version="1.0"?>

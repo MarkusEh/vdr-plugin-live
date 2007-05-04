@@ -13,6 +13,12 @@ using namespace vdrlive;
 	onchange;
 	bool channelid = false;
 </%args>
+<%session scope="global">
+bool logged_in(false);
+</%session>
+<{
+if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+}>
 <%cpp>
 	ReadLock channelsLock( Channels );
 	if ( !channelsLock )

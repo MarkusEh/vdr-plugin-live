@@ -7,6 +7,7 @@
 #include <vdr/device.h>
 
 #include "exception.h"
+#include "setup.h"
 #include "tools.h"
 #include "epg_events.h"
 
@@ -17,12 +18,15 @@ using namespace std;
 <%args>
 	int update;
 </%args>
+<%session scope="global">
+bool logged_in(false);
+</%session>
 <%cpp>
+	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	EpgEvents epgEvents;
 	string EMPTY_STR;
 	tChannelID prev_chan;
 	tChannelID next_chan;
-
 	reply.setContentType( "application/xml" );
 
 	if (cReplayControl::NowReplaying()) {

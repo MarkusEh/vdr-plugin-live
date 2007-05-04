@@ -2,6 +2,7 @@
 #include <string>
 #include <vdr/recording.h>
 #include "exception.h"
+#include "setup.h"
 #include "tasks.h"
 #include "tools.h"
 
@@ -12,7 +13,11 @@ using namespace vdrlive;
 <%args>
 	string param;
 </%args>
+<%session scope="global">
+bool logged_in(false);
+</%session>
 <%cpp>
+	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	reply.setContentType( "application/xml" );
 
 	ReplayRecordingTask task( param );

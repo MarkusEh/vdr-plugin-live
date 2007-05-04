@@ -2,15 +2,24 @@
 #include <vdr/plugin.h>
 #include <vdr/config.h>
 #include "setup.h"
+
+using namespace vdrlive;
+
 </%pre>
 <%args>
 active;
 component;
 </%args>
+<%session scope="global">
+bool logged_in(false);
+</%session>
 <%request scope="page">
 std::string set_active;
 std::string set_component;
 </%request>
+<{
+if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+}>
 <{
 
 	using namespace vdrlive;
