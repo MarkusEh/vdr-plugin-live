@@ -8,7 +8,7 @@ namespace vdrlive {
 using namespace std;
 
 const unsigned int GrabMinIntervalMs = 500; 
-const unsigned int GrabPauseIntervalMs = GrabMinIntervalMs * 10;
+const unsigned int GrabPauseIntervalMs = GrabMinIntervalMs * 20;
 
 class GrabImageTask: public StickyTask
 {
