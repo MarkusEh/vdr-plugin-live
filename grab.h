@@ -17,6 +17,7 @@ class GrabImageManager
 	friend class GrabImageTask;
 
 public:
+	bool CanGrab() const;
 	GrabImageInfo GetImage() const;
 
 private:

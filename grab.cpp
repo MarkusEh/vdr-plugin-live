@@ -22,6 +22,7 @@ public:
 		{}
 
 	void Activate() { m_firstTime = 0; }
+	bool IsActive();
 
 private:
 	uint64_t m_firstTime;
@@ -29,9 +30,36 @@ private:
 	int m_quality;
 	int m_width;
 	int m_height;
+
+	bool GrabImage();
 	
 	virtual void Action();
 };
+
+bool GrabImageTask::IsActive() 
+{
+	cMutexLock lock( &LiveTaskManager() );
+	return GrabImage();
+}
+
+bool GrabImageTask::GrabImage()
+{
+	cDevice* device = cDevice::PrimaryDevice();
+	if ( device == 0 ) {
+		SetError( tr("Couldn't aquire primary device") );
+		return false;
+	}
+
+	int size = 0;
+	uchar* image = device->GrabImage( size, true, m_quality, m_width, m_height );
+	if ( image == 0 ) {
+		SetError( tr("Couldn't grab image from primary device") );
+		return false;
+	}
+
+	LiveGrabImageManager().PutImage( reinterpret_cast< char* >( image ), size );
+	return true;
+}
 
 void GrabImageTask::Action()
 {
@@ -43,20 +71,9 @@ void GrabImageTask::Action()
 	if ( now - m_lastTime < GrabMinIntervalMs || now - m_firstTime > GrabPauseIntervalMs )
 		return;
 
-	cDevice* device = cDevice::PrimaryDevice();
-	if ( device == 0 ) {
-		SetError( tr("Couldn't aquire primary device") );
+	if ( !GrabImage() )
 		return;
-	}
 
-	int size = 0;
-	uchar* image = device->GrabImage( size, true, m_quality, m_width, m_height );
-	if ( image == 0 ) {
-		SetError( tr("Couldn't grab image from primary device") );
-		return;
-	}
-
-	LiveGrabImageManager().PutImage( reinterpret_cast< char* >( image ), size );
 	m_lastTime = now;
 }
 
@@ -72,6 +89,11 @@ GrabImageInfo GrabImageManager::GetImage() const
 	cMutexLock lock( &LiveTaskManager() );
 	m_task->Activate();
 	return make_pair( m_image, m_size );
+}
+
+bool GrabImageManager::CanGrab() const 
+{
+	return m_task->IsActive();
 }
 
 void GrabImageManager::PutImage( char* image, int size )

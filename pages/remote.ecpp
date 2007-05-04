@@ -2,6 +2,7 @@
 #include <vdr/i18n.h>
 #include <vdr/keys.h>
 #include "setup.h"
+#include "grab.h"
 
 using namespace vdrlive;
 </%pre>
@@ -75,7 +76,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		<& menu active="remote" component=("remote.remote_actions")>
 		<div class="inhalt">
 			<div class="screenshot">
-				<img src="screenshot.jpg" name="vdrlive" /><br />
+<{				if (!LiveGrabImageManager().CanGrab()) {	}>
+					bloek
+<{				} else {									}>
+					<img src="screenshot.jpg" name="vdrlive" /><br />
+<{				}											}>
 			</div>
 			<div>
 			<img src="remotecontrol.jpg" width="162" height="363" border="0" usemap="#remote" />
