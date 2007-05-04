@@ -78,7 +78,6 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					string end(Event->EndTime() ? FormatDateTime(tr("%I:%M %p"), Event->EndTime()) : "");
 					string day(Event->StartTime() ? FormatDateTime(tr("%A, %b %d %Y"), Event->StartTime()) : "");
 					tEventID event = Event->EventID();
-
 					if (current_day != day) {
 						if (current_day != "") {
 }>
@@ -96,7 +95,15 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					<tr class="<? active_line ? "active" ?>">
 						<td style="border-left: 1px solid black"><& pageelems.event_timer channelid=(channel_id) eventid=(event) &></td>
 						<td><$ start $> - <$ end $></td>
-						<td><strong><$ title $></strong><br /><$ short_description $><br /></td>
+						<td>
+%							if(Event == PresentEvent) {
+							<a name="cur" id="cur"></a><font color="#FF0000">
+% 							}
+							<strong><$ title $></strong><br /><$ short_description $><br />
+%							if(Event == PresentEvent) {
+							</font>
+%							}
+						</td>
 						<td style="border-right: 1px solid black">&nbsp;</td>
 					</tr>
 %				}
