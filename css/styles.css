@@ -548,6 +548,12 @@ table.schedule tr.active {
 	background: #DEE6EE;
 }
 
+table.schedule div.more {
+	margin: 0px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
 /*
   ##############################
   #  Blue Background Thingy

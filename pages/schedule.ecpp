@@ -112,13 +112,10 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 %							if(Event == PresentEvent) {
 							<font color="#0000FF">
 % 							}
-							<strong><$ title $></strong><br /><$ short_description $><br />
+							<div class="more"<& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(description, 300, truncated)) + string("<br />") + string(tr("Click to view details."))) &><& tooltip.display domId=(epgEvent->Id()) &>><strong><$ title $></strong></div><$ short_description $><br />
 %							if(Event == PresentEvent) {
 							</font>
 %							}
-						</td>
-						<td>
-							<div class="more"<& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(description, 300, truncated)) + string("<br />") + string(tr("Click to view details."))) &><& tooltip.display domId=(epgEvent->Id()) &>><$ (string(tr("more")) + string(" ...")) $></div>
 						</td>
 						<td style="border-right: 1px solid black">&nbsp;</td>
 					</tr>
