@@ -1,5 +1,8 @@
 <%pre>
-#include <vdr/device.h>
+#include "grab.h"
+
+using namespace vdrlive;
+
 </%pre>
 <%args>
 int quality = 80;
@@ -9,14 +12,7 @@ int height = 240;
 <%cpp>
 	reply.setContentType("image/jpg");
 
-	cDevice* device = cDevice::PrimaryDevice();
-	if ( device == 0 )
-		return DECLINED;
-
-	int size;
-	uchar* image = device->GrabImage( size, true, quality, width, height );
-	if ( image == 0 )
-		return DECLINED;
-
-	reply.out().write( reinterpret_cast< char* >( image ), size );
+	GrabImageInfo image = LiveGrabImageManager().GetImage();
+	if ( image.second > 0 )
+		reply.out().write( image.first.get(), image.second );
 </%cpp>

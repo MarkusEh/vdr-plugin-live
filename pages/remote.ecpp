@@ -59,7 +59,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		function FillIntervals()
 		{
 			var element = document.getElementsByName('interval').item(0);
-			var items = new Array(100, 200, 500, 1000, 2000, 5000);
+			var items = new Array(1000, 2000, 5000);
 			element.options.length = items.length;
 			for (i = 0; i < items.length; ++i) {
 				element.options[i].value = items[i];

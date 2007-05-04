@@ -1,3 +1,5 @@
+#include <algorithm>
+#include <boost/bind.hpp>
 #include <vdr/channels.h>
 #include <vdr/i18n.h>
 #include <vdr/menu.h>
@@ -7,9 +9,20 @@
 #include "tasks.h"
 #include "tools.h"
 
-using namespace std;
-
 namespace vdrlive {
+
+using namespace std;
+using namespace boost;
+
+StickyTask::StickyTask()
+{
+	LiveTaskManager().AddStickyTask( *this );
+}
+
+StickyTask::~StickyTask()
+{
+	LiveTaskManager().RemoveStickyTask( *this );
+}
 
 void SwitchChannelTask::Action() 
 {
@@ -44,6 +57,18 @@ TaskManager::TaskManager()
 {
 }
 
+void TaskManager::AddStickyTask( Task& task ) 
+{ 
+	cMutexLock lock( this );
+	m_stickyTasks.push_back( &task ); 
+}
+	
+void TaskManager::RemoveStickyTask( Task& task )
+{
+	cMutexLock lock( this );
+	m_stickyTasks.erase( find( m_stickyTasks.begin(), m_stickyTasks.end(), &task ) );
+}
+
 bool TaskManager::Execute( Task& task )
 {
 	cMutexLock lock( this );
@@ -55,15 +80,18 @@ bool TaskManager::Execute( Task& task )
 
 void TaskManager::DoScheduledTasks()
 {
-	if ( m_taskQueue.empty() )
+	if ( m_taskQueue.empty() && m_stickyTasks.empty() )
 		return;
 
 	cMutexLock lock( this );
-	while ( !m_taskQueue.empty() ) {
+	/*while ( !m_taskQueue.empty() ) {
 		Task* current = m_taskQueue.front();
 		current->Action();
 		m_taskQueue.pop_front();
-	}
+	}*/
+	for_each( m_taskQueue.begin(), m_taskQueue.end(), bind( &Task::Action, _1 ) );
+	for_each( m_stickyTasks.begin(), m_stickyTasks.end(), bind( &Task::Action, _1 ) );
+	m_taskQueue.clear();
 	m_scheduleWait.Broadcast();
 }
 

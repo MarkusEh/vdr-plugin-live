@@ -1,9 +1,9 @@
 #ifndef VDR_LIVE_TASKS_H
 #define VDR_LIVE_TASKS_H
 
-#include <deque>
 #include <memory>
 #include <string>
+#include <vector>
 #include <vdr/channels.h>
 #include <vdr/thread.h>
 
@@ -14,8 +14,9 @@ class Task;
 class TaskManager: public cMutex
 {
 	friend TaskManager& LiveTaskManager();
+	friend class StickyTask;
 
-	typedef std::deque< Task* > TaskQueue;
+	typedef std::vector< Task* > TaskList;
 
 public:
 	bool Execute( Task& task );
@@ -27,7 +28,11 @@ private:
 	TaskManager();
 	TaskManager( TaskManager const& );
 
-	TaskQueue m_taskQueue;
+	void AddStickyTask( Task& task );
+	void RemoveStickyTask( Task& task );
+
+	TaskList m_taskQueue;
+	TaskList m_stickyTasks;
 	cCondVar m_scheduleWait;
 };
 
@@ -42,16 +47,25 @@ public:
 	std::string const& Error() const { return m_error; }
 
 protected:
-	Task(): m_result( true ) {}
+	explicit Task()
+		: m_result( true )
+		{}
 	Task( Task const& );
 
 	void SetError( std::string const& error ) { m_result = false; m_error = error; }
 
-	virtual void Action() = 0;
-
 private:
 	bool m_result;
 	std::string m_error;
+
+	virtual void Action() = 0;
+};
+
+class StickyTask: public Task
+{
+protected:
+	explicit StickyTask();
+	virtual ~StickyTask();
 };
 
 class SwitchChannelTask: public Task
