@@ -1,7 +1,7 @@
 #
 # Makefile for a Video Disk Recorder plugin
 #
-# $Id: Makefile,v 1.33 2007/05/04 18:53:31 lordjaxom Exp $
+# $Id: Makefile,v 1.34 2007/05/05 21:59:58 tadi Exp $
 
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.
@@ -52,7 +52,7 @@ INCLUDES += -I$(VDRDIR)/include -Ihttpd
 DEFINES  += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"'
 export DEFINES
 
-LIBS     += -lssl httpd/libhttpd.a
+LIBS     += httpd/libhttpd.a -lssl
 
 SUBDIRS   = httpd pages css images javascript
 
@@ -93,7 +93,7 @@ SUBDIRS:
 	done
 
 libvdr-$(PLUGIN).so: $(PLUGINOBJS) $(LIBS) $(WEBLIBS)
-	$(CXX) $(LDFLAGS) -Wl,--whole-archive -shared -o $@ $^
+	$(CXX) $(LDFLAGS) -shared -o $@  $(PLUGINOBJS) -Wl,--whole-archive $(WEBLIBS) -Wl,--no-whole-archive $(LIBS)
 	@cp --remove-destination $@ $(LIBDIR)/$@.$(APIVERSION)
 
 dist: clean
