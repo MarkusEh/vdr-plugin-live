@@ -31,7 +31,7 @@ function LiveStatusRequest(url, containerid)
 		}
 	status.onerror = function(message)
 		{
-			vst_reload = false;
+			LiveStatusToggleUpdate();
  			LiveStatusReportError(message, containerid);
 		}
 	status.request("update", vst_reload ? "1" : "0");

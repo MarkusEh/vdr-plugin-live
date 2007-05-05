@@ -15,7 +15,6 @@
 
 namespace vdrlive
 {
-
 	class EpgEvent
 	{
 		public:
@@ -31,6 +30,15 @@ namespace vdrlive
 					 const cEvent* event,
 					 const char* channelName = "");
 
+			EpgEvent(const std::string& id,
+					 const std::string& caption,
+					 const std::string& title,
+					 const std::string& short_descr,
+					 const std::string& long_descr,
+					 const std::string& archived,
+					 time_t start_time,
+					 time_t end_time);
+
 			virtual ~EpgEvent();
 
 			const std::string& Id() const { return m_eventId; }
@@ -42,6 +50,8 @@ namespace vdrlive
 			const std::string& ShortDescr() const { return m_short_descr; }
 
 			const std::string& LongDescr() const { return m_long_descr; }
+
+			const std::string& Archived() const { return m_archived; }
 
 			const std::string StartTime(const char* format) const;
 
@@ -59,6 +69,7 @@ namespace vdrlive
 			std::string m_title;
 			std::string m_short_descr;
 			std::string m_long_descr;
+			std::string m_archived;
 			time_t m_start_time;
 			time_t m_end_time;
 	};

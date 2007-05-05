@@ -79,7 +79,7 @@ using namespace vdrlive;
 	string progress = "0";
 	string id;
 </%args>
-<div class="__progress"><div class="__elapsed" <? !id.empty() ? "id=" + id ?> style="width: <$ progress $>px"></div></div>
+<div class="__progress"><div class="__elapsed" <%cpp> if (!id.empty()) { </%cpp>id="<$ id $>"<%cpp> } </%cpp> style="width: <$ progress $>px"></div></div>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -90,7 +90,7 @@ using namespace vdrlive;
 	tEventID eventid;
 </%args>
 <%cpp>	const cTimer* timer = LiveTimerManager().GetTimer(eventid, channelid);
-	if (timer) { 
+	if (timer) {
 </%cpp>
 	<a href="edit_timer.html?timerid=<$ LiveTimerManager().GetTimers().GetTimerId(*timer) $>">
 		<img src="record_timer.png" alt="" <& tooltip.hint text=(tr("Edit this")) &> />
@@ -104,8 +104,8 @@ using namespace vdrlive;
 <# ---------------------------------------------------------------------- #>
 
 <%def ajax_js>
-	<script type="text/javascript" language="javascript" src="ajax.js"></script>
-	<script type="text/javascript" language="javascript" src="vdr_status.js"></script>
+	<script type="text/javascript" src="ajax.js"></script>
+	<script type="text/javascript" src="vdr_status.js"></script>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -119,7 +119,7 @@ using namespace vdrlive;
 	string alt;
 	string id;
 </%args>
-<%cpp> { </%cpp> <a <? !id.empty() ? "id=" + id ?> <& hide_element hide=(!id.empty()) &> href="javascript:LiveSimpleAjaxRequest('<$ action $>.xml', 'param', '<$ param $>');" <%cpp>if (!tip.empty()) { </%cpp><& tooltip.hint text=(tip) &> <%cpp> } </%cpp>><img src="<$ image $>" alt="<$ alt $>"></img></a> <%cpp> } </%cpp>
+<%cpp> { </%cpp> <a <%cpp> if (!id.empty()) { </%cpp> id="<$ id $>" <%cpp> } </%cpp><& hide_element hide=(!id.empty()) &> href="javascript:LiveSimpleAjaxRequest('<$ action $>.xml', 'param', '<$ param $>');" <%cpp>if (!tip.empty()) { </%cpp><& tooltip.hint text=(tip) &> <%cpp> } </%cpp>><img src="<$ image $>" alt="<$ alt $>"></img></a> <%cpp> } </%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -133,6 +133,7 @@ using namespace vdrlive;
 	string title;
 	string short_descr;
 	string long_descr;
+	string archived;
 	int elapsed = -1;
 </%args>
 	<div class="epg_description" id="<$ (boxId) $>">
@@ -141,50 +142,20 @@ using namespace vdrlive;
 		</div>
 		<div class="epg_content">
 			<div class="epg_tools">
-		 		<& (tools_comp) id=(boxId) &>
+		 		<& (tools_comp) id=(boxId) archived=(archived) &>
 			</div>
 		 	<div>
-				<div class="info"><$ (time) $></div>
+				<div class="info"><%cpp> if (!archived.empty()) { </%cpp><span class="bold"><$ (archived + " ") $></span><%cpp> } </%cpp><$ (time) $></div>
 %	if (elapsed >= 0) {
 				<div class="progress"><div><& pageelems.progressbar progress=(elapsed) &></div></div>
 %	}
 		 		<div class="title"><$ (title) $></div>
 				<div class="short"><$ (short_descr) $></div>
 				<div class="description">
-					<{ reply.out() << StringEscapeAndBreak(long_descr); }>
+					<%cpp> reply.out() << StringEscapeAndBreak(long_descr); </%cpp>
 				</div>
 			</div>
 		</div>
 	</div>
 </%def>
 
-<# ---------------------------------------------------------------------- #>
-
-<%def status_box>
-<%args>
-	string type;
-	string currentTime;
-	string caption;
-	string title;
-	string duration;
-	int elapsed;
-	string prev_chan;
-	string next_chan;
-</%args>
-	<div class="statuscontent">
-		<div class="st_header">
-			<div class="caption"><$ caption $></div>
-			<div class="now">&nbsp;<$ currentTime $></div>
-		</div>
-		<div class="st_content">
-			<div class="name"><$ title $></div>
-			<div class="duration">&nbsp;<$ duration $></div>
-		</div>
-		<div class="st_controls">
-			<div class="st_btns"><a href="javascript:LiveStatusToggleUpdate()" <& tooltip.hint text=(tr("Stop updates")) &>><img id="statusReloadBtn" src="stop.png" alt=""></img></a><%cpp>if (!prev_chan.empty()) { </%cpp><& ajax_action_href action=("switch_channel") param=(prev_chan) image=("one_downarrow.png") tip=(tr("previous channel")) &><%cpp> } if (!next_chan.empty()) { </%cpp><& ajax_action_href action=("switch_channel") param=(next_chan) image=("one_uparrow.png") tip=(tr("next channel")) &><%cpp> } </%cpp></div>
-%			if (elapsed >= 0) {
-			<div class="st_pbar"><& pageelems.progressbar progress=(elapsed) &></div>
-%			}
-		</div>
-	</div>
-</%def>

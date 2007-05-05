@@ -34,6 +34,15 @@ img {
 }
 
 /* ######################
+   # global style properties
+   ######################
+*/
+
+.bold {
+	font-weight: bold;
+}
+
+/* ######################
    # Tooltip style for hints
    ######################
 */
@@ -591,6 +600,7 @@ div.boxheader div div {
 */
 
 div.recordings {
+	border: 1px solid black;
 }
 
 .recordings ul {

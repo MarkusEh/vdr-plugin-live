@@ -201,6 +201,50 @@ const tI18nPhrase Phrases[] = {
       "", // Dansk
       "", // Czech
     },
+    { "List of recordings", // English
+      "Liste der Aufnahmen", // Deutsch
+      "", // Slovenski
+      "", // Italiano
+      "", // Nederlands
+      "", // Português
+      "", // Français
+      "", // Norsk
+      "", // Finnish
+      "", // Polski
+      "", // Español
+      "", // Greek
+      "", // Svenska
+      "", // Românã
+      "", // Magyar
+      "", // Català
+      "", // Russian
+      "", // Hrvatski
+      "", // Eesti
+      "", // Dansk
+      "", // Czech
+    },
+    { "No recordings found", // English
+      "Keine Aufnahmen vorhanden", // Deutsch
+      "", // Slovenski
+      "", // Italiano
+      "", // Nederlands
+      "", // Português
+      "", // Français
+      "", // Norsk
+      "", // Finnish
+      "", // Polski
+      "", // Español
+      "", // Greek
+      "", // Svenska
+      "", // Românã
+      "", // Magyar
+      "", // Català
+      "", // Russian
+      "", // Hrvatski
+      "", // Eesti
+      "", // Dansk
+      "", // Czech
+    },
     { "Remote Control", // English
       "Fernbedienung", // Deutsch
       "", // Slovenski
@@ -2669,26 +2713,26 @@ const tI18nPhrase Phrases[] = {
       "",
     },
 	{ "Delete this search timer?", // English
-	"Diesen Suchtimer löschen?", // Deutsch
-	"", // Slovenski
-	"", // Italiano
-	"", // Nederlands
-	"", // Português
-	"", // Français
-	"", // Norsk
-	"", // Finnish
-	"", // Polski
-	"", // Español
-	"", // Greek
-	"", // Svenska
-	"", // Românã
-	"", // Magyar
-	"", // Català
-	"", // Russian
-	"", // Hrvatski
-	"", // Eesti
-	"", // Dansk
-	"", // Czech
+	  "Diesen Suchtimer löschen?", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
 	},
     { "Cancel",
       "Abbrechen",
@@ -2735,7 +2779,7 @@ const tI18nPhrase Phrases[] = {
       "",
       "",
     },
-      { "Test", // English
+	{ "Test", // English
       "Testen", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -2756,8 +2800,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
-      { "The time the show may start at the latest", // English
+	},
+	{ "The time the show may start at the latest", // English
       "Die Zeit, zu der die Sendung spätestens angefangen haben muss", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -2778,8 +2822,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
-      { "The time the show may start at the earliest", // English
+	},
+	{ "The time the show may start at the earliest", // English
       "Die Zeit, zu der die Sendung frühestens anfangen darf", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -2800,31 +2844,31 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
+	},
 	{ "Search text too short - use anyway?",
-	"Suchtext zu kurz - trotzdem verwenden?",
-	"",// TODO
-	"Il testo da cercare è troppo corto.  Continuare lo stesso?",// Italiano
-	"Zoek tekst tekort - toch gebruiken?",
-	"",// TODO
-	"Texte de recherche est trop court - l'utiliser comme même?",
-	"",// TODO
-	"Liian suppea hakuehto - etsitäänkö silti?",
-	"",// TODO
-	"",// TODO
-	"",// TODO
-	"",// TODO
-	"",// TODO
-	"",// TODO
-	"",// TODO 
-	"",// TODO
-	"",// TODO
-	"",// TODO Eesti
-	"",// TODO Dansk
-	"",// TODO Èesky (Czech)
+	  "Suchtext zu kurz - trotzdem verwenden?",
+	  "",// TODO
+	  "Il testo da cercare è troppo corto.  Continuare lo stesso?",// Italiano
+	  "Zoek tekst tekort - toch gebruiken?",
+	  "",// TODO
+	  "Texte de recherche est trop court - l'utiliser comme même?",
+	  "",// TODO
+	  "Liian suppea hakuehto - etsitäänkö silti?",
+	  "",// TODO
+	  "",// TODO
+	  "",// TODO
+	  "",// TODO
+	  "",// TODO
+	  "",// TODO
+	  "",// TODO 
+	  "",// TODO
+	  "",// TODO
+	  "",// TODO Eesti
+	  "",// TODO Dansk
+	  "",// TODO Èesky (Czech)
 	
 	},
-      { "User", // English
+	{ "User", // English
       "Benutzer", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -2845,8 +2889,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
-      { "Password", // English
+	},
+	{ "Password", // English
       "Passwort", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -2867,8 +2911,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
-      { "Last channel to display", // English
+	},
+	{ "Last channel to display", // English
       "Letzer angezeigter Kanal", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -2889,8 +2933,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
-      { "Use authentication", // English
+	},
+	{ "Use authentication", // English
       "Authentifizierung nutzen", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -2911,8 +2955,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
-      { "No Limit", // English
+	},
+	{ "No Limit", // English
       "Alle zeigen", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -2933,8 +2977,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
-      { "Admin login", // English
+	},
+	{ "Admin login", // English
       "Admin Login", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -2955,8 +2999,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
-      { "Admin password", // English
+	},
+	{ "Admin password", // English
       "Admin Passwort", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -2977,8 +3021,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
-      { "VDR Live Login", // English
+	},
+	{ "VDR Live Login", // English
       "VDR Live Login", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -2999,7 +3043,7 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
+	},
     { "Logout", // English
       "Abmelden", // Deutsch
       "", // Slovenski
@@ -3045,70 +3089,92 @@ const tI18nPhrase Phrases[] = {
       "", // Czech
     },
 	{ "Search", // English
-	"Suchen", // Deutsch
-	"", // Slovenski
-	"", // Italiano
-	"", // Nederlands
-	"", // Português
-	"", // Français
-	"", // Norsk
-	"", // Finnish
-	"", // Polski
-	"", // Español
-	"", // Greek
-	"", // Svenska
-	"", // Românã
-	"", // Magyar
-	"", // Català
-	"", // Russian
-	"", // Hrvatski
-	"", // Eesti
-	"", // Dansk
-	"", // Czech
+	  "Suchen", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
 	},
 	{ "Extended search", // English
-	"Erweiterte Suche", // Deutsch
-	"", // Slovenski
-	"", // Italiano
-	"", // Nederlands
-	"", // Português
-	"", // Français
-	"", // Norsk
-	"", // Finnish
-	"", // Polski
-	"", // Español
-	"", // Greek
-	"", // Svenska
-	"", // Românã
-	"", // Magyar
-	"", // Català
-	"", // Russian
-	"", // Hrvatski
-	"", // Eesti
-	"", // Dansk
-	"", // Czech
+	  "Erweiterte Suche", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
 	},
 	{ "Search settings", // English
-	"Einstellungen zur Suche", // Deutsch
-	"", // Slovenski
-	"", // Italiano
-	"", // Nederlands
-	"", // Português
-	"", // Français
-	"", // Norsk
-	"", // Finnish
-	"", // Polski
-	"", // Español
-	"", // Greek
-	"", // Svenska
-	"", // Românã
-	"", // Magyar
-	"", // Català
-	"", // Russian
-	"", // Hrvatski
-	"", // Eesti
-	"", // Dansk
-	"", // Czech
+	  "Einstellungen zur Suche", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	},
+	{ "On archive DVD No.", // English
+	  "Auf Archiv-DVD Nr.", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
 	},
     /*
       { "", // English

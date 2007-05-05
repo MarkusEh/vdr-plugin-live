@@ -1,6 +1,7 @@
 #include <time.h>
 
 #include "tools.h"
+#include "recordings.h"
 
 #include "epg_events.h"
 
@@ -18,6 +19,7 @@ namespace vdrlive
 		m_title(title),
 		m_short_descr(short_descr),
 		m_long_descr(long_descr),
+		m_archived(),
 		m_start_time(start_time),
 		m_end_time(end_time)
 	{
@@ -29,8 +31,28 @@ namespace vdrlive
 		m_title(event->Title() ? event->Title() : ""),
 		m_short_descr(event->ShortText() ? event->ShortText() : ""),
 		m_long_descr(event->Description() ? event->Description() : ""),
+		m_archived(),
 		m_start_time(event->StartTime()),
 		m_end_time(event->EndTime())
+	{
+	}
+
+	EpgEvent::EpgEvent(const std::string& id,
+					   const std::string& caption,
+					   const std::string& title,
+					   const std::string& short_descr,
+					   const std::string& long_descr,
+					   const std::string& archived,
+					   time_t start_time,
+					   time_t end_time) :
+		m_eventId(id),
+		m_caption(caption),
+		m_title(title),
+		m_short_descr(short_descr),
+		m_long_descr(long_descr),
+		m_archived(archived),
+		m_start_time(start_time),
+		m_end_time(end_time)
 	{
 	}
 

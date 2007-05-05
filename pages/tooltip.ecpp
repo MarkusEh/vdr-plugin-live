@@ -4,10 +4,10 @@ styleClass="domTThint";
 var[];
 value[];
 </%args>
-    <script type="text/javascript" language="javascript" src="domLib.js"></script>
-    <script type="text/javascript" language="javascript" src="domTT.js"></script>
-    <script type="text/javascript" language="javascript" src="domTT_drag.js"></script>
-    <script type="text/javascript" language="javascript">
+    <script type="text/javascript" src="domLib.js"></script>
+    <script type="text/javascript" src="domTT.js"></script>
+    <script type="text/javascript" src="domTT_drag.js"></script>
+    <script type="text/javascript">
 	var domTT_styleClass = "<$ styleClass $>";
 %   int idx = 0;
 %   for (var_type::const_iterator it = var.begin(); it != var.end(); ++it, idx++) {

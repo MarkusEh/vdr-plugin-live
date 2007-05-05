@@ -16,7 +16,7 @@ using namespace std;
 <%args>
 </%args>
 <%session scope="global">
-bool logged_in(false);
+	bool logged_in(false);
 </%session>
 <%request scope="page">
 RecordingsTree recordingsTree(LiveRecordingsManager());
@@ -36,17 +36,20 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		<link rel="stylesheet" type="text/css" href="styles.css" />
 		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
-		<script type="text/javascript" language="javascript" src="treeview.js"></script>
+		<script type="text/javascript" src="treeview.js"></script>
 	</head>
 	<body onload="<& pageelems.infobox_start_update &>">
 		<& pageelems.logo &>
 		<& menu active=("recordings") &>
 		<div class="inhalt">
+			<div class="boxheader"><div><div><$ tr("List of recordings") $></div></div></div>
 %			if (Recordings.Count() == 0) {
-				Keine Aufnahmen vorhanden
+				<$ tr("No recordings found") $>
 %			} else {
 			<div class="recordings">
+			<ul class="recordingslist" style="display: block;">
 <& recordings.recordings_item &>
+			</ul>
 			</div>
 			<div class="epg_data" style="display: none;">
 <& recordings.recordings_data &>
@@ -57,123 +60,152 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 </html>
 <%include>page_exit.eh</%include>
 
+<# ---------------------------------------------------------------------- #>
+
 <%def recordings_item>
 <%args>
-path[];
-int level = 0;
+	path[];
+	int level = 0;
 </%args>
-<{
-if (level > 0) {
-}>
-	<ul class="recordingslist" style="display: none;">
-<{
-}
-else {
-}>
-	<ul class="recordingslist" style="display: block;">
-<{
-} // if (level > 0)
+<%cpp>
 RecordingsTree::Map::iterator iter;
 RecordingsTree::Map::iterator end = recordingsTree.end(path);
-}>
-		<li class="recording">
-<{
+
 for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 	RecordingsTree::RecordingsItemPtr recItem = iter->second;
 	string folderimg("folder_closed.png");
 	string collapseimg("plus.png");
 	if (recItem->IsDir()) {
-		reply.out() << string("\t\t\t")
-			+ string("<div class=\"recording_item\" onclick=\"Toggle(this)\">\n")
-			+ string("\t\t\t<div class=\"recording_imgs\">")
-			+ StringRepeat(level, "<img src=\"transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />")
-			+ string("<img class=\"recording_expander\" src=\"") + collapseimg + string("\" alt=\"\" />")
-			+ string("<img class=\"recording_folder\" src=\"") + folderimg + string("\" alt=\"\" />")
-			+ string("</div>");
-}>
-			<div class="recording_spec">
-			  <div class="recording_name"><$ recItem->Name() $></div>
-            </div>
-			<div class="recording_actions">&nbsp;</div>
-			</div>
-<{
+</%cpp>
+	<li class="recording">
+		<& rec_item_dir name=(recItem->Name()) level=(level) &>
+<%cpp>
 		cxxtools::QueryParams recItemParams(qparam, false);
 		for (path_type::const_iterator i = path.begin(); i != path.end(); ++i) {
 			recItemParams.add("path", *i);
 		}
 		recItemParams.add("path", recItem->Name());
 		recItemParams.add("level", lexical_cast<string, int>(level + 1));
-		callComp("recordings.recordings_item", request, reply, recItemParams);
-	}
-}
+</%cpp>
+		<ul class="recordingslist" style="display: none;">
+%		callComp("recordings.recordings_item", request, reply, recItemParams);
+    	</ul>
+	</li>
+%	}
+%}
+<%cpp>
 for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 	RecordingsTree::RecordingsItemPtr recItem = iter->second;
-	string folderimg("folder_closed.png");
-	string collapseimg("plus.png");
     if (!recItem->IsDir()) {
-		const cRecordingInfo* info = recItem->RecInfo();
-		if (info) {
-			EpgEventPtr epgEvent(new EpgEvent(recItem->Id(),
-											  recItem->Name(),
-											  info->Title() ? info->Title() : recItem->Name(),
-											  info->ShortText() ? info->ShortText() : "",
-											  info->Description() ? info->Description() : "",
-											  recItem->StartTime(),
-											  recItem->StartTime()));
+		EpgEventPtr epgEvent(RecordingsTree::CreateEpgEvent(recItem));
+		if (epgEvent) {
 			epgEvents.push_back(epgEvent);
 		}
 		string day(FormatDateTime("%a,", recItem->StartTime()));
 		string dayLen(lexical_cast<string, int>(day.length() - 1) + ".25em;");
-		reply.out() << string("\t\t\t")
-			+ string("<div class=\"recording_item\">\n")
-			+ string("\t\t\t<div class=\"recording_imgs\">")
-			+ StringRepeat(level, "<img src=\"transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />")
-			+ string("<img src=\"transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />")
-			+ string("<img src=\"movie.png\" alt=\"movie\" />")
-			+ string("</div>");
-
-		string shortDescr(tr("Click to view details.")); if (info && info->ShortText()) shortDescr = (string("") +  info->ShortText() + string("<br />") + shortDescr);
-}>
-			<div class="recording_spec">
-			  <div class="recording_day" style="width: <$ dayLen $>"><$ day $></div>
-			  <div class="recording_date"><$ FormatDateTime(tr("%b %d %y"), recItem->StartTime()) $></div>
-			  <div class="recording_time"><$ FormatDateTime(tr("%I:%M %p"), recItem->StartTime()) $></div>
-			  <div class="recording_name" <& tooltip.hint text=(shortDescr) &><& tooltip.display domId=(recItem->Id()) &>><$ recItem->Name() $></div>
-			</div>
-			<div class="recording_actions">
-				 <& pageelems.ajax_action_href action="play_recording" param=(recItem->Id()) tip=(tr("play this recording.")) image="play.png" alt="" &>
-				 <img src="edit.png" alt="" />
-				 <img src="del.png" alt="" />
-			</div>
-			</div>
-%	}
-		</li>
-<{
+		string shortDescr(tr("Click to view details.")); if (epgEvent && !epgEvent->ShortDescr().empty()) shortDescr = (epgEvent->ShortDescr() + string("<br />") + shortDescr);
+</%cpp>
+	<li class="recording">
+	<& rec_item_file name=(recItem->Name()) level=(level) id=(recItem->Id()) day=(day) dayLen=(dayLen) startTime=(recItem->StartTime()) shortDescr=(shortDescr) archived=(epgEvent ? epgEvent->Archived() : "") archiveId=(recItem->ArchiveId()) &>
+    </li>
+<%cpp>
+	}
 }
-}>
-	</ul>
+</%cpp>
 </%def>
 
+<# ---------------------------------------------------------------------- #>
 
 <%def recordings_data>
 <{
-
 	// create hidden div for the tooltip hints.
 	for (vector<EpgEventPtr>::iterator i = epgEvents.begin(); i != epgEvents.end(); ++i) {
 		EpgEventPtr epg = *i;
 		string start(epg->StartTime("%a,") + string(" ")
 				+ epg->StartTime(tr("%b %d %y")) + string(" ")
 				+ epg->StartTime(tr("%I:%M %p")));
+		string tools_component = epg->Archived().empty() ? "recordings.rec_tools" : "recordings.archived_disc" ;
 }>
-		<& pageelems.epg_tt_box boxId=(epg->Id()) caption=(epg->Caption()) tools_comp=("recordings.rec_tools") time=(start) title=(epg->Title()) short_descr=(epg->ShortDescr()) long_descr=(epg->LongDescr()) elapsed=(epg->Elapsed()) &>
+		<& pageelems.epg_tt_box boxId=(epg->Id()) caption=(epg->Caption()) tools_comp=(tools_component) time=(start) title=(epg->Title()) short_descr=(epg->ShortDescr()) long_descr=(epg->LongDescr()) archived=(epg->Archived()) elapsed=(epg->Elapsed()) &>
 <{
 	}
 }>
 </%def>
+
+<# ---------------------------------------------------------------------- #>
 
 <%def rec_tools>
 <%args>
 	string id;
 </%args>
 <& pageelems.ajax_action_href action="play_recording" param=(id) tip=(tr("play this recording.")) image="play.png" alt="" &>
+</%def>
+
+<# ---------------------------------------------------------------------- #>
+
+<%def archived_disc>
+<%args>
+	string archived;
+</%args>
+<img src="on_dvd.png" alt="on_dvd" <& tooltip.hint text=(archived) &> />
+</%def>
+
+<# ---------------------------------------------------------------------- #>
+
+<%def rec_item_dir>
+<%args>
+	string name;
+	int level;
+	string collapseimg = "plus.png";
+	string folderimg = "folder_closed.png";
+</%args>
+	<div class="recording_item" onclick="Toggle(this)">
+	<div class="recording_imgs"><%cpp> reply.out() << StringRepeat(level, "<img src=\"transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />"); </%cpp><img class="recording_expander" src="<$ collapseimg $>" alt="" /><img class="recording_folder" src="<$ folderimg $>" alt="" /></div>
+	<div class="recording_spec">
+	  <div class="recording_name"><$ name $></div>
+    </div>
+	<div class="recording_actions">&nbsp;</div>
+	</div>
+</%def>
+
+<# ---------------------------------------------------------------------- #>
+
+<%def rec_item_file>
+<%args>
+	string name;
+	int level;
+	string id;
+	string day;
+	string dayLen;
+	time_t startTime;
+	string shortDescr;
+	string archived;
+	string archiveId;
+</%args>
+	<div class="recording_item">
+	<div class="recording_imgs"><%cpp> reply.out() << StringRepeat(level + 1, "<img src=\"transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />"); </%cpp><%cpp> if (!archived.empty()) { </%cpp><& archived_disc archived=(archived) &><%cpp> } else { </%cpp><img src="movie.png" alt="movie" /><%cpp> } </%cpp></div>
+	<div class="recording_spec">
+		<div class="recording_day" style="width: <$ dayLen $>"><$ day $></div>
+		<div class="recording_date"><$ FormatDateTime(tr("%b %d %y"), startTime) $></div>
+		<div class="recording_time"><$ FormatDateTime(tr("%I:%M %p"), startTime) $></div>
+		<div class="recording_name" <& tooltip.hint text=(shortDescr) &><& tooltip.display domId=(id) &>><$ name $></div>
+		<%cpp> if (! archived.empty()) { </%cpp><div><$ archived $></div><%cpp> } </%cpp>
+	</div>
+	<div class="recording_actions">
+<%cpp>
+		if (archived.empty()) {
+</%cpp>
+		<& pageelems.ajax_action_href action="play_recording" param=(id) tip=(tr("play this recording.")) image="play.png" alt="" &>
+<%cpp>
+	    }
+		else {
+</%cpp>
+		<img src="transparent.png" alt="" width="16px" height="16px" />
+<%cpp>
+		}
+</%cpp>
+		<img src="edit.png" alt="" />
+		<img src="del.png" alt="" />
+	</div>
+	</div>
 </%def>

@@ -1,10 +1,13 @@
+#include <unistd.h>
 #include <cstring>
 #include <openssl/md5.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 #include <string>
 #include <sstream>
+#include <fstream>
 #include "tools.h"
+#include "epg_events.h"
 #include "recordings.h"
 
 
@@ -25,7 +28,7 @@ namespace vdrlive {
 		MD5(reinterpret_cast<const unsigned char*>(fileName), strlen(fileName), md5);
 
 		ostringstream hashStr;
-		hashStr << hex;
+		hashStr << "MD5" << hex;
 		for (size_t i = 0; i < MD5_DIGEST_LENGTH; i++)
 			hashStr << (0 + md5[i]);
 		return hashStr.str();
@@ -188,6 +191,69 @@ namespace vdrlive {
 	time_t RecordingsTree::RecordingsItemRec::StartTime() const
 	{
 		return m_recording->start;
+	}
+
+	bool RecordingsTree::RecordingsItemRec::IsArchived() const
+	{
+		string filename = m_recording->FileName();
+
+		string vdrFile = filename + "/001.vdr";
+		if (0 == access(vdrFile.c_str(), R_OK))
+			return false;
+
+		filename += "/dvd.vdr";
+		return (0 == access(filename.c_str(), R_OK));
+	}
+
+	const std::string RecordingsTree::RecordingsItemRec::ArchiveId() const
+	{
+		string filename = m_recording->FileName();
+
+		filename += "/dvd.vdr";
+		ifstream dvd(filename.c_str());
+
+		if (dvd) {
+			string archiveDisc;
+			string videoDisc;
+			dvd >> archiveDisc;
+			if ("0000" == archiveDisc) {
+				dvd >> videoDisc;
+				return videoDisc;
+			}
+			return archiveDisc;
+		}
+		return "";
+	}
+
+	EpgEventPtr RecordingsTree::CreateEpgEvent(const RecordingsItemPtr recItem)
+	{
+		const cRecordingInfo* info = recItem->RecInfo();
+		if (info) {
+			std::string archived;
+			if (recItem->IsArchived()) {
+				archived += " [";
+				archived += tr("On archive DVD No.");
+				archived += ": ";
+				archived += recItem->ArchiveId();
+				archived += "]";
+			}
+			EpgEventPtr epgEvent(
+				new EpgEvent(
+					recItem->Id(),
+					recItem->Name(),
+					info->Title() ? info->Title() : recItem->Name(),
+					info->ShortText() ? info->ShortText() : "",
+					info->Description() ? info->Description() : "",
+					archived,
+					recItem->StartTime(),
+					recItem->StartTime()
+					)
+				);
+			return epgEvent;
+		}
+		else {
+			return EpgEventPtr();
+		}
 	}
 
 	RecordingsManagerPtr LiveRecordingsManager()
