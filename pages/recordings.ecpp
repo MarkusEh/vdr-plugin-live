@@ -23,10 +23,9 @@ RecordingsTree recordingsTree(LiveRecordingsManager());
 EpgEvents epgEvents;
 </%request>
 <%include>page_init.eh</%include>
-<{
-if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
-}>
 <%cpp>
+	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+
 	pageTitle = tr("Recordings");
 </%cpp>
 <& pageelems.doc_type &>
@@ -117,7 +116,7 @@ for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 <# ---------------------------------------------------------------------- #>
 
 <%def recordings_data>
-<{
+<%cpp>
 	// create hidden div for the tooltip hints.
 	for (vector<EpgEventPtr>::iterator i = epgEvents.begin(); i != epgEvents.end(); ++i) {
 		EpgEventPtr epg = *i;
@@ -125,11 +124,11 @@ for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 				+ epg->StartTime(tr("%b %d %y")) + string(" ")
 				+ epg->StartTime(tr("%I:%M %p")));
 		string tools_component = epg->Archived().empty() ? "recordings.rec_tools" : "recordings.archived_disc" ;
-}>
+</%cpp>
 		<& pageelems.epg_tt_box boxId=(epg->Id()) caption=(epg->Caption()) tools_comp=(tools_component) time=(start) title=(epg->Title()) short_descr=(epg->ShortDescr()) long_descr=(epg->LongDescr()) archived=(epg->Archived()) elapsed=(epg->Elapsed()) &>
-<{
+<%cpp>
 	}
-}>
+</%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
