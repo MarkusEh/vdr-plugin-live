@@ -39,7 +39,7 @@ using namespace vdrlive;
 			LiveTimerManager().ToggleTimerActive(timer);
 	}
 
-	int previousDay = 0;
+	string previousDay = "";
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -59,15 +59,16 @@ using namespace vdrlive;
 			<table class="timers" cellspacing="0" cellpadding="0">
 <%cpp>
 				for (SortedTimers::iterator timer = timers.begin(); timer != timers.end(); ++timer) {
-					if (previousDay != timer->Day()) {
-						if (previousDay > 0) {
+					string currentDay = timer->WeekDays() > 0 ? *cTimer::PrintDay(0, timer->WeekDays()) : 							FormatDateTime(tr("%A, %x"), timer->Day());
+					if (previousDay != currentDay) {
+						if (!previousDay.empty()) {
 </%cpp>
 						<tr>
 							<td colspan="10" style="border-top: 1px solid black; border-bottom: none; background-image: none">&nbsp;</td>
 						</tr>
 <%cpp>
 						}
-						previousDay = timer->Day();
+						previousDay = currentDay;
 </%cpp>
 				<tr class="head">
 					<td style="background: url(bg_box_l.png); width: 3px;"></td>
