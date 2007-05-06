@@ -14,6 +14,7 @@
 #include <vdr/menuitems.h>
 #include <vdr/plugin.h>
 #include "setup.h"
+#include "tools.h"
 
 namespace vdrlive {
 
@@ -24,9 +25,9 @@ Setup::Setup():
 		m_lastChannel( 0 ),
 		m_screenshotInterval( 1000 ),
 		m_useAuth( 1 ),
-		m_adminLogin("admin"),
-		m_adminPassword("live")
+		m_adminLogin("admin")		
 {
+	m_adminPasswordMD5 = "4:" + MD5Hash("live");
 }
 
 bool Setup::ParseCommandLine( int argc, char* argv[] )
@@ -70,7 +71,7 @@ bool Setup::ParseSetupEntry( char const* name, char const* value )
 	else if ( strcmp( name, "ScreenshotInterval" ) == 0 ) m_screenshotInterval = atoi( value );
 	else if ( strcmp( name, "UseAuth" ) == 0 ) m_useAuth = atoi( value );
 	else if ( strcmp( name, "AdminLogin" ) == 0 ) m_adminLogin = value;
-	else if ( strcmp( name, "AdminPassword" ) == 0 ) m_adminPassword = value;
+	else if ( strcmp( name, "AdminPasswordMD5" ) == 0 ) m_adminPasswordMD5 = value;
 	else return false;
 	return true;
 }
@@ -107,6 +108,28 @@ bool Setup::HaveEPGSearch(void)
 	return cPluginManager::GetPlugin("epgsearch") != NULL;	
 }
 
+std::string Setup::GetMD5HashAdminPassword() const
+{
+	// format is <length>:<md5-hash of password>
+	vector< string > parts = StringSplit( m_adminPasswordMD5, ':' ); 
+	return (parts.size() > 1) ? parts[1] : "";
+}
+
+int Setup::GetAdminPasswordLength() const
+{
+	// format is <length>:<md5-hash of password>
+	vector< string > parts = StringSplit( m_adminPasswordMD5, ':' ); 
+	return (parts.size() > 0) ? lexical_cast< int >( parts[0] ) : 0;
+}
+
+std::string Setup::SetAdminPassword(std::string password) 
+{ 
+	ostringstream passwordStr;
+	passwordStr << password.size() << ":" << MD5Hash(password);
+	m_adminPasswordMD5 = passwordStr.str(); 
+	return m_adminPasswordMD5;
+}
+
 Setup& LiveSetup()
 {
 	static Setup instance;
@@ -119,9 +142,8 @@ cMenuSetupLive::cMenuSetupLive():
 	m_lastChannel = vdrlive::LiveSetup().GetLastChannel();
 	m_useAuth = vdrlive::LiveSetup().UseAuth();
 	strcpy(m_adminLogin, vdrlive::LiveSetup().GetAdminLogin().c_str());
-	strcpy(m_adminPassword, vdrlive::LiveSetup().GetAdminPassword().c_str());
-	
-	string strHidden(strlen(m_adminPassword), '*');
+
+	string strHidden(vdrlive::LiveSetup().GetAdminPasswordLength(), '*');
 	strcpy(m_tmpPassword, strHidden.c_str());
 	Set();
 }
@@ -151,8 +173,8 @@ void cMenuSetupLive::Store(void)
 	vdrlive::LiveSetup().SetAdminLogin(m_adminLogin);
 	SetupStore("AdminLogin",  m_adminLogin);
 	
-	vdrlive::LiveSetup().SetAdminPassword(m_adminPassword);
-	SetupStore("AdminPassword",  m_adminPassword);
+	std::string passwordMD5 = vdrlive::LiveSetup().SetAdminPassword(m_adminPassword);
+	SetupStore("AdminPasswordMD5",  passwordMD5.c_str());
 }
 
 bool cMenuSetupLive::InEditMode(const char* ItemText, const char* ItemName, const char* ItemValue)

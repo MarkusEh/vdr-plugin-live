@@ -3,7 +3,6 @@
 #include <vdr/channels.h>
 #include <vdr/plugin.h>
 #include <iomanip>
-#include <openssl/md5.h>
 #include "epgsearch/services.h"
 #include "epgsearch.h"
 #include "exception.h"
@@ -504,19 +503,6 @@ void SearchResults::GetByQuery(std::string const& query)
 	list< string > list = service.handler->QuerySearch(query);
 	m_list.assign( list.begin(), list.end() );
 	m_list.sort();
-}
-
-std::string SearchResults::MD5Hash(std::string const& query)
-{
-	unsigned char md5[MD5_DIGEST_LENGTH];
-	MD5(reinterpret_cast<const unsigned char*>(query.c_str()), query.size(), md5);
-
-	ostringstream hashStr;
-	hashStr << hex;
-	for (size_t i = 0; i < MD5_DIGEST_LENGTH; i++)
-		hashStr << (0 + md5[i]);
-
-	return hashStr.str();
 }
 
 std::string SearchResults::AddQuery(std::string const& query)

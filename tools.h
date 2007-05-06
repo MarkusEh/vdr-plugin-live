@@ -31,6 +31,7 @@ std::string StringEscapeAndBreak( std::string const& input );
 std::string StringFormatBreak(std::string const& input);
 std::string StringTrim(const std::string& str);
 std::string ZeroPad(int number);
+std::string MD5Hash(std::string const& str);
 
 struct bad_lexical_cast: std::runtime_error 
 {

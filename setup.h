@@ -29,12 +29,13 @@ public:
 	int GetLastChannel() const { return m_lastChannel == 0 ? std::numeric_limits< int >::max() : m_lastChannel; }
 	int GetScreenshotInterval() const { return m_screenshotInterval; }
 	std::string GetAdminLogin() const { return m_adminLogin; }
-	std::string GetAdminPassword() const { return m_adminPassword; }
+	std::string GetMD5HashAdminPassword() const;
+	int GetAdminPasswordLength() const;
 	bool UseAuth() const { return m_useAuth; }
 	
 	void SetLastChannel(int lastChannel) { m_lastChannel = lastChannel; }
 	void SetAdminLogin(std::string login) { m_adminLogin = login; }
-	void SetAdminPassword(std::string password) { m_adminPassword = password; }
+	std::string SetAdminPassword(std::string password);
 	void SetUseAuth(int auth) { m_useAuth = auth; }
 	void SetScrenshotInterval(int interval) { m_screenshotInterval = interval; }
 
@@ -57,7 +58,7 @@ private:
 	
 	int m_useAuth;
 	std::string m_adminLogin;
-	std::string m_adminPassword;
+	std::string m_adminPasswordMD5;
 
 	bool CheckServerPort();
 	bool CheckServerIps();

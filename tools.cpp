@@ -4,6 +4,7 @@
 #include <tnt/htmlescostream.h>
 #include <tnt/httprequest.h>
 #include <tnt/httpreply.h>
+#include <openssl/md5.h>
 #include "exception.h"
 #include "live.h"
 #include "setup.h"
@@ -130,5 +131,17 @@ string ZeroPad(int number)
    return os.str();
 }
 
+std::string MD5Hash(std::string const& str)
+{
+	unsigned char md5[MD5_DIGEST_LENGTH];
+	MD5(reinterpret_cast<const unsigned char*>(str.c_str()), str.size(), md5);
+
+	ostringstream hashStr;
+	hashStr << hex;
+	for (size_t i = 0; i < MD5_DIGEST_LENGTH; i++)
+		hashStr << (0 + md5[i]);
+
+	return hashStr.str();
+}
 
 } // namespace vdrlive

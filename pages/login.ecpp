@@ -19,7 +19,7 @@ bool logged_in(false);
 std::string message;
 
 if (action == "login") {
-	if ((login == LiveSetup().GetAdminLogin()) && (password == LiveSetup().GetAdminPassword())) {
+	if ((login == LiveSetup().GetAdminLogin()) && (MD5Hash(password) == LiveSetup().GetMD5HashAdminPassword())) {
 		logged_in = true;
 	} else {
 		message = "Username oder Passwort falsch";

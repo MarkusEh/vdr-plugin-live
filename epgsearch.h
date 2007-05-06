@@ -356,7 +356,6 @@ public:
 
 	static std::string AddQuery(std::string const& query);
 	static std::string PopQuery(std::string const& md5);
-	static std::string MD5Hash(std::string const& query);
 private:
 	searchresults m_list;
 };
