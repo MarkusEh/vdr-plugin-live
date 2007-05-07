@@ -143,8 +143,11 @@ cMenuSetupLive::cMenuSetupLive():
 	m_useAuth = vdrlive::LiveSetup().UseAuth();
 	strcpy(m_adminLogin, vdrlive::LiveSetup().GetAdminLogin().c_str());
 
+	m_oldpasswordMD5 = m_newpasswordMD5 = vdrlive::LiveSetup().GetMD5HashAdminPassword();
+	
 	string strHidden(vdrlive::LiveSetup().GetAdminPasswordLength(), '*');
-	strcpy(m_tmpPassword, strHidden.c_str());
+	strn0cpy(m_tmpPassword, strHidden.c_str(), sizeof(m_tmpPassword));
+	strcpy(m_adminPassword, "");
 	Set();
 }
 
@@ -156,8 +159,8 @@ void cMenuSetupLive::Set(void)
 	Add(new cMenuEditChanItem(tr("Last channel to display"), &m_lastChannel, tr("No limit")));
 	//Add(new cMenuEditIntItem(tr("Screenshot interval"),  &m_lastChannel, 0, 65536));
 	Add(new cMenuEditBoolItem(tr("Use authentication"), &m_useAuth, tr("No"), tr("Yes")));
-	Add(new cMenuEditStrItem( tr("Admin login"), m_adminLogin, 12, tr(FileNameChars)));
-	Add(new cMenuEditStrItem( tr("Admin password"), m_tmpPassword, 12, tr(FileNameChars)));
+	Add(new cMenuEditStrItem( tr("Admin login"), m_adminLogin, sizeof(m_adminLogin), tr(FileNameChars)));
+	Add(new cMenuEditStrItem( tr("Admin password"), m_tmpPassword, sizeof(m_tmpPassword), tr(FileNameChars)));
 	SetCurrent(Get(current));
 	Display();
 }
@@ -173,8 +176,11 @@ void cMenuSetupLive::Store(void)
 	vdrlive::LiveSetup().SetAdminLogin(m_adminLogin);
 	SetupStore("AdminLogin",  m_adminLogin);
 	
-	std::string passwordMD5 = vdrlive::LiveSetup().SetAdminPassword(m_adminPassword);
-	SetupStore("AdminPasswordMD5",  passwordMD5.c_str());
+	if (m_oldpasswordMD5 != m_newpasswordMD5) // only save the password if needed
+	{
+		std::string passwordMD5 = vdrlive::LiveSetup().SetAdminPassword(m_adminPassword);
+		SetupStore("AdminPasswordMD5",  passwordMD5.c_str());
+	}
 }
 
 bool cMenuSetupLive::InEditMode(const char* ItemText, const char* ItemName, const char* ItemValue)
@@ -209,6 +215,7 @@ eOSState cMenuSetupLive::ProcessKey(eKeys Key)
 	if (bPassWasInEditMode && !bPassIsInEditMode)
 	{
 		strcpy(m_adminPassword, m_tmpPassword);
+		m_newpasswordMD5 = MD5Hash(m_tmpPassword);
 		string strHidden(strlen(m_adminPassword), '*');
 		strcpy(m_tmpPassword, strHidden.c_str());
 		Set();

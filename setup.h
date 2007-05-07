@@ -82,6 +82,8 @@ private:
 	char m_adminLogin[20];
 	char m_adminPassword[20];
 	char m_tmpPassword[20]; 
+	std::string m_oldpasswordMD5;
+	std::string m_newpasswordMD5;
 
 	void Set(void);
 	bool InEditMode(const char* ItemText, const char* ItemName, const char* ItemValue);
