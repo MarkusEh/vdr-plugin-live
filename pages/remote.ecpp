@@ -71,7 +71,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		}
 		//--></script>
 	</head>
-	<body onload="StreamInit(); FillIntervals(); <& pageelems.infobox_start_update &>">
+	<body onload="<& pageelems.infobox_start_update &>; StreamInit(); FillIntervals()">
 		<& pageelems.logo &>
 		<& menu active="remote" component=("remote.remote_actions")>
 		<div class="inhalt">
