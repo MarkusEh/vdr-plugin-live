@@ -45,17 +45,21 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		<div class="inhalt">
 			<table class="timers" cellspacing="0" cellpadding="0">
 				<tr class="head">
-					<td style="background: url(bg_box_l.png); width: 3px"></td>
+					<td style="background: url(bg_box_l.png); width: 3px;"></td>
+					<td colspan="8"><$ pageTitle $></td>
+					<td style="background: url(bg_box_r.png); width: 3px;"></td>
+				</tr>
+				<tr class="description">
+					<td class="border" style="border-left: 1px solid black"></td>
 					<td>&nbsp;</td>
 					<td><$ tr("Expression") $></td>
 					<td><$ tr("Channel") $></td>
-					<td><$ tr("Start") $>&nbsp;</td>
-					<td><$ tr("Stop") $></td>
+					<td><$ tr("Starts between") $>&nbsp;</td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
-					<td style="background: url(bg_box_r.png); width: 3px;"></td>
+					<td class="border" style="border-right: 1px solid black"></td>
 				</tr>
 <{
 				for (SearchTimers::iterator timer = timers.begin(); timer != timers.end(); ++timer) {
@@ -65,8 +69,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					<td><{ if(timer->UseAsSearchTimer()) { }><img src="/arrow.png" alt=""></img><{ } }></td>
 					<td><$ timer->Search() $></td>
 					<td><$ timer->ChannelText() $></td>
-					<td><? timer->UseTime() ? timer->StartTimeFormatted() ?></td>
-					<td><? timer->UseTime() ? timer->StopTimeFormatted() ?></td>
+					<td><? timer->UseTime() ? timer->StartTimeFormatted()+" - "+timer->StopTimeFormatted() ?></td>
 					<td><a href="searchtimers.html?searchtimerid=<$ timer->Id() $>&action=toggle"><img src="/<$ timer->UseAsSearchTimer() ? "active" : "inactive" $>.png" alt="<$ tr("Toggle search timer actions (in)active") $>" <& tooltip.hint text=(tr("Toggle search timer actions (in)active")) &>></img></a></td>
 					<td><a href="searchresults.html?searchtimerid=<$ timer->Id() $>"><img src="/search.png" border="0" alt="<$ tr("Browse search timer results") $>" <& tooltip.hint text=(tr("Browse search timer results")) &>></img></a></td>
 					<td><a href="edit_searchtimer.html?searchtimerid=<$ timer->Id() $>"><img src="/edit.png" alt="<$ tr("Edit search timer") $>" <& tooltip.hint text=(tr("Edit search timer")) &>></img></a></td>
