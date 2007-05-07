@@ -98,7 +98,7 @@ using namespace vdrlive;
 				<tr>
 					<td class="border" style="border-left: 1px solid black"></td>
 					<td><img src="<$ timerStateImg $>" alt=""></img></td>
-					<td><$ timer->Channel()->Name() $></td>
+					<td><a href="schedule.html?channel=<$ timer->Channel()->Number()$>"><$ timer->Channel()->Name() $></a></td>
 					<td><$ FormatDateTime(tr("%I:%M %p"), timer->StartTime()) $></td>
 					<td><$ FormatDateTime(tr("%I:%M %p"), timer->StopTime()) $></td>
 					<td><$ timer->File() $></td>
