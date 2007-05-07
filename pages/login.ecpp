@@ -39,10 +39,10 @@ if (logged_in || !LiveSetup().UseAuth()) return reply.redirect("whats_on.html");
 		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 	</head>
-	<body>
-	<div style="width: 420px; margin: 0 auto; text-align: center; padding: 20px">
+	<body onload="document.auth.login.focus()">
+	<div style="width: 315px; margin: 0 auto; text-align: center; padding: 20px">
 		<div class="boxheader"><div><div>VDR Live Login</div></div></div>
-		<div style="border: 1px solid black; padding: 15px">
+		<div style="border: 1px solid black; padding: 2px">
 			<img src="logo_login.png" alt="VDR Live"></img>
 			<form name="auth">
 				<input type="hidden" name="action" value="login" />
