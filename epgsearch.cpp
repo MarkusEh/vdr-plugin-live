@@ -21,6 +21,16 @@ bool operator<( SearchTimer const& left, SearchTimer const& right )
    return leftlower < rightlower;
 }
 
+bool CheckEpgsearchVersion()
+{
+	cPlugin* epgsearch = cPluginManager::GetPlugin("epgsearch");
+	if (!epgsearch) return false;
+	char minVersion[] = "0.9.21";
+	if (string(epgsearch->Version()) < string(minVersion))
+		throw HtmlError( tr("Required minimum version of epgsearch: ") + string(minVersion));
+	return true;
+}
+
 SearchTimer::SearchTimer()
 {
    Init();
@@ -286,7 +296,7 @@ SearchTimers::SearchTimers()
 bool SearchTimers::Reload()
 {
 	Epgsearch_services_v1_0 service;
-	if ( cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
+	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
 		throw HtmlError( tr("No searchtimers available") );
 
 	ReadLock channelsLock( Channels, 0 );
@@ -299,7 +309,7 @@ bool SearchTimers::Reload()
 bool SearchTimers::Save(SearchTimer* searchtimer)
 {
 	Epgsearch_services_v1_0 service;
-	if ( cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
+	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
 		throw HtmlError( tr("No searchtimers available") );
 
 	if (!searchtimer) return false;
@@ -339,7 +349,7 @@ bool SearchTimers::Delete(std::string const& id)
 	if (!search) return false;
 
 	Epgsearch_services_v1_0 service;
-	if ( cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
+	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
 		throw HtmlError( tr("No searchtimers available") );
 
 	if (service.handler->DelSearchTimer(lexical_cast< int >( id )))
@@ -400,7 +410,7 @@ bool ExtEPGInfo::Selected(unsigned int index, std::string const& values)
 ExtEPGInfos::ExtEPGInfos()
 {
 	Epgsearch_services_v1_0 service;
-	if ( cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
+	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
 		throw HtmlError( tr("No searchtimers available") );
 
 	list< string > infos = service.handler->ExtEPGInfoList();
@@ -424,7 +434,7 @@ ChannelGroup::ChannelGroup( string const& data )
 ChannelGroups::ChannelGroups()
 {
 	Epgsearch_services_v1_0 service;
-	if ( cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
+	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
 		throw HtmlError( tr("No searchtimers available") );
 
 	list< string > list = service.handler->ChanGrpList();
@@ -449,7 +459,7 @@ Blacklist::Blacklist( string const& data )
 Blacklists::Blacklists()
 {
 	Epgsearch_services_v1_0 service;
-	if ( cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
+	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
 		throw HtmlError( tr("No searchtimers available") );
 
 	list< string > list = service.handler->BlackList();
@@ -486,7 +496,7 @@ std::set<std::string> SearchResults::querySet;
 void SearchResults::GetByID(int id)
 {
 	Epgsearch_services_v1_0 service;
-	if ( cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
+	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
 		throw HtmlError( tr("No searchtimers available") );
 
 	list< string > list = service.handler->QuerySearchTimer(id);
@@ -497,7 +507,7 @@ void SearchResults::GetByID(int id)
 void SearchResults::GetByQuery(std::string const& query)
 {
 	Epgsearch_services_v1_0 service;
-	if ( cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
+	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
 		throw HtmlError( tr("No searchtimers available") );
 
 	list< string > list = service.handler->QuerySearch(query);
@@ -533,7 +543,7 @@ std::string SearchResults::PopQuery(std::string const& md5)
 RecordingDirs::RecordingDirs()
 {
 	Epgsearch_services_v1_0 service;
-	if ( cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
+	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
 		throw HtmlError( tr("No searchtimers available") );
 
 	m_set = service.handler->DirectoryList();
