@@ -154,6 +154,9 @@ div.menu form {
 }
 
 div.inhalt {
+	height: 200;
+	width: 100% 
+	overflow: auto;
 	padding: 10px;
 }
 
@@ -519,6 +522,13 @@ table.timers tr.description td {
 	font-weight: bold;
 	background: #E9EFFF;
 }
+
+table.timers a {
+	text-decoration: none;
+	color: black;
+	font-weight: bold;
+}
+
 
 /*
   ##############################
