@@ -41,13 +41,19 @@ using namespace vdrlive;
 			<div id="infobox_duration" class="duration">--:--</div>
 		</div>
 		<div class="st_controls">
-			<div class="st_btns">
-				<a href="javascript:LiveStatusToggleUpdate()" <& tooltip.hint text=(tr("Stop updates")) &>><img id="statusReloadBtn" src="stop.png" alt="" /></a>
-				<span id="infobox_recording_buttons" style="display: none"></span>
-				<span id="infobox_channel_buttons">
-					<& ajax_action_href action=("switch_channel") id=("infobox_prevchan") image=("one_downarrow.png") tip=(tr("previous channel")) &>
-					<& ajax_action_href action=("switch_channel") id=("infobox_nextchan") image=("one_uparrow.png") tip=(tr("next channel")) &>
-				</span>
+			<div class="st_update">
+				<a href="javascript:LiveStatusToggleUpdate()" <& tooltip.hint text=(tr("Stop updates")) &>><img id="statusReloadBtn" src="stop_update.png" alt="" /></a>
+			</div>
+			<div id="infobox_recording_buttons" style="display: none">
+				<& ajax_action_href action=("stop_recording") id=("infobox_stop") image=("stop.png") tip=(tr("stop playback")) &>
+				<& ajax_action_href action=("play_recording") id=("infobox_play") image=("play.png") tip=(tr("resume playback")) &>
+				<& ajax_action_href action=("pause_recording") id=("infobox_pause") image=("pause.png") tip=(tr("pause playback")) &>
+				<& ajax_action_href action=("rwd_recording") id=("infobox_rwd") image=("rwd.png") tip=(tr("fast forward")) &>
+				<& ajax_action_href action=("ffw_recording") id=("infobox_ffw") image=("ffw.png") tip=(tr("fast rewind")) &>
+			</div>
+			<div id="infobox_channel_buttons">
+				<& ajax_action_href action=("switch_channel") id=("infobox_prevchan") image=("one_downarrow.png") tip=(tr("previous channel")) &>
+				<& ajax_action_href action=("switch_channel") id=("infobox_nextchan") image=("one_uparrow.png") tip=(tr("next channel")) &>
 			</div>
 			<div class="st_pbar">
 				<& progressbar id=("infobox_elapsed") &>

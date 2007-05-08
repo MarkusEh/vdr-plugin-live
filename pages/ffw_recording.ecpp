@@ -20,7 +20,7 @@ using namespace vdrlive;
 	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	reply.setContentType( "application/xml" );
 
-	PlayRecordingTask task( param );
+	ForwardRecordingTask task( param );
 	LiveTaskManager().Execute( task );
 </%cpp>
-<& xmlresponse.ajax name=("play_recording") pname=("recording") value=(param) result=(task.Result()) error=(task.Error()) &>
+<& xmlresponse.ajax name=("ffw_recording") pname=("recording") value=(param) result=(task.Result()) error=(task.Error()) &>

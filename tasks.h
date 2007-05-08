@@ -72,21 +72,70 @@ class SwitchChannelTask: public Task
 {
 public:
 	explicit SwitchChannelTask( tChannelID channel ): m_channel( channel ) {}
-	
+
 private:
 	tChannelID m_channel;
 
 	virtual void Action();
 };
 
-class ReplayRecordingTask: public Task
+class RecordingTask: public Task
+{
+protected:
+	explicit RecordingTask(std::string const& recording)
+		: m_recording(recording)
+	{}
+
+	std::string m_recording;
+};
+
+class PlayRecordingTask: public RecordingTask
 {
 public:
-	explicit ReplayRecordingTask( std::string const& recording ): m_recording( recording ) {}
+	explicit PlayRecordingTask( std::string const& recording )
+		: RecordingTask(recording)
+	{}
 
-private:
-	std::string m_recording;
-	
+	virtual void Action();
+};
+
+class PauseRecordingTask: public RecordingTask
+{
+public:
+	explicit PauseRecordingTask( std::string const& recording )
+		: RecordingTask(recording)
+	{}
+
+	virtual void Action();
+};
+
+class StopRecordingTask: public RecordingTask
+{
+public:
+	explicit StopRecordingTask( std::string const& recording )
+		: RecordingTask(recording)
+	{}
+
+	virtual void Action();
+};
+
+class ForwardRecordingTask: public RecordingTask
+{
+public:
+	explicit ForwardRecordingTask( std::string const& recording )
+		: RecordingTask(recording)
+	{}
+
+	virtual void Action();
+};
+
+class BackwardRecordingTask: public RecordingTask
+{
+public:
+	explicit BackwardRecordingTask( std::string const& recording )
+		: RecordingTask(recording)
+	{}
+
 	virtual void Action();
 };
 

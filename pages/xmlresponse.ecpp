@@ -1,0 +1,62 @@
+<%pre>
+#include <string>
+
+using namespace std;
+</%pre>
+
+<# ------------------------------------------------------------------------- #>
+
+<%def ajax>
+<%args>
+	string name;
+	string pname;
+	string value;
+	bool result;
+	string error;
+</%args>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<service>
+  <request name="<$ name $>">
+     <param name="<$ pname $>"><$ value $></param>
+  </request>
+  <response><$ result $></response>
+  <error><$ error $></error>
+</service>
+</%def>
+
+<# ------------------------------------------------------------------------- #>
+
+<%def ibox>
+<%args>
+	int update;
+	string type;
+	string currentTime;
+	string caption;
+	string title;
+	string duration;
+	int elapsed;
+	string prev_chan;
+	string next_chan;
+</%args>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<service>
+  <request name="ibox">
+	<param name="update"><$ update $></param>
+  </request>
+  <response>1</response>
+  <error></error>
+  <values>
+	<update><$ update $></update>
+	<epginfo>
+	  <type><$ type $></type>
+	  <caption><$ caption $></caption>
+	  <timenow><$ currentTime $></timenow>
+	  <name><$ title $></name>
+	  <duration><$ duration $></duration>
+	  <elapsed><$ elapsed $></elapsed>
+	  <nextchan><$ next_chan $></nextchan>
+	  <prevchan><$ prev_chan $></prevchan>
+	</epginfo>
+  </values>
+</service>
+</%def>

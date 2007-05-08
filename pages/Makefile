@@ -18,9 +18,11 @@ VDRDIR   ?= ../../../..
 OBJS	= menu.o channels.o recordings.o schedule.o		\
           screenshot.o timers.o whats_on.o switch_channel.o	\
           keypress.o remote.o channels_widget.o edit_timer.o	\
-          error.o pageelems.o tooltip.o play_recording.o	\
+          error.o pageelems.o tooltip.o 			\
           searchtimers.o edit_searchtimer.o searchresults.o 	\
-          searchepg.o login.o ibox.o
+          searchepg.o login.o ibox.o xmlresponse.o		\
+	  play_recording.o pause_recording.o stop_recording.o	\
+	  ffw_recording.o rwd_recording.o
 
 ### Default rules:
 

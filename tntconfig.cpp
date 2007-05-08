@@ -25,7 +25,7 @@ void TntConfig::WriteConfig()
 	ostringstream builder;
 	builder << Plugin::GetConfigDirectory() << "/httpd.config";
 	m_configPath = builder.str();
-	
+
 	ofstream file( m_configPath.c_str(), ios::out | ios::trunc );
 	if ( !file ) {
 		ostringstream builder;
@@ -51,7 +51,7 @@ void TntConfig::WriteProperties()
 	ostringstream builder;
 	builder << Plugin::GetConfigDirectory() << "/httpd.properties";
 	m_propertiesPath = builder.str();
-	
+
 	ofstream file( m_propertiesPath.c_str(), ios::out | ios::trunc );
 	if ( !file ) {
 		ostringstream builder;

@@ -11,8 +11,15 @@ body {
 }
 
 table {
+	width: 100%;
 	font-size: 11px;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
+	margin: 0px;
+}
+
+tr, td {
+	padding-top: 0px;
+	padding-bottom: 0px;
 }
 
 input {
@@ -245,8 +252,21 @@ div#infobox div.st_controls div.st_pbar {
 	float: right;
 }
 
-div#infobox div.st_controls div.st_btns {
+div#infobox div.st_controls div {
 	float: left;
+}
+
+div#infobox div.st_controls div.st_update {
+        padding-right: 5px;
+        border-right: 1px solid  #C0C1DA;
+}
+
+div#infobox div.st_controls div#infobox_recording_buttons {
+        padding-left: 5px;
+}
+
+div#infobox div.st_controls div#infobox_channel_buttons {
+        padding-left: 5px;
 }
 
 /* #######################
@@ -269,7 +289,6 @@ div.head_box_m {
 	margin: 3px;
 	padding: 0;
 }
-
 
 div.head_box_r {
 	background-image: url(bg_header_r.png);
@@ -551,7 +570,7 @@ table.schedule tr td.head {
 
 table.schedule tr td {
 	vertical-align: top;
-	padding: 3px 7px 3px 3px;
+	padding: 0px 7px 0px 3px;
 	background: url(bg_line.png) bottom repeat-x;
         border-bottom: 1px solid #C0C1DA;
 }
@@ -651,6 +670,18 @@ div.recording_item {
 .recording_item div.recording_name {
 	font-weight: bold;
 	cursor: pointer;
+}
+
+.recording_item div.recording_name span {
+	font-weight: normal;
+	cursor: pointer;
+}
+
+.recording_item div.recording_arch {
+	float: right;
+	padding-top: 0.5ex;
+	padding-left: 0.5em;
+	padding-right: 0.5em;
 }
 
 .recording_item div.recording_actions {
@@ -829,6 +860,7 @@ table.searchresults td.border {
 
 table.login {
 	margin: 0 auto;
+	padding: 20ox;
 }
 
 table.login tr td {

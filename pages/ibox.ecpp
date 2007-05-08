@@ -10,6 +10,7 @@
 #include "setup.h"
 #include "tools.h"
 #include "epg_events.h"
+#include "recordings.h"
 
 using namespace vdrlive;
 using namespace std;
@@ -30,18 +31,22 @@ bool logged_in(false);
 	reply.setContentType( "application/xml" );
 
 	if (cReplayControl::NowReplaying()) {
-		cThreadLock RecordingsLock(&Recordings);
-		cRecording *Recording = Recordings.GetByName(cReplayControl::NowReplaying());
-		if (Recording) {
-			const cRecordingInfo* info = Recording->Info();
+		RecordingsManagerPtr recManager = LiveRecordingsManager();
+		cRecording *recording = Recordings.GetByName(cReplayControl::NowReplaying());
+		if (recording) {
+			string name(recording->Name());
+			size_t index = name.find_last_of('~');
+			if (index != string::npos)
+				name = name.substr(index, name.length());
+			const cRecordingInfo* info = recording->Info();
 			if (info) {
-				EpgEventPtr epgEvent(new EpgEvent("recording",
-												  Recording->Name(),
-												  info->Title() ? info->Title() : Recording->Name(),
+				EpgEventPtr epgEvent(new EpgEvent(recManager->Md5Hash(recording),
+												  tr("playing recording"),
+												  info->Title() ? info->Title() : name,
 												  info->ShortText() ? info->ShortText() : "",
 												  info->Description() ? info->Description() : "",
-												  Recording->start,
-												  Recording->start));
+												  recording->start,
+												  recording->start));
 				epgEvents.push_back(epgEvent);
 			}
 		}
@@ -124,59 +129,25 @@ bool logged_in(false);
 		if (prev_chan.Valid() && next_chan.Valid())
 		{
 </%cpp>
-<& xmlresponse update=(update) type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) prev_chan=(prev_chan) next_chan=(next_chan) &>
+<& xmlresponse.ibox update=(update) type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) prev_chan=(prev_chan) next_chan=(next_chan) &>
 <%cpp>
 		}
 		else if (prev_chan.Valid()) {
 </%cpp>
-<& xmlresponse update=(update) type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) prev_chan=(prev_chan) &>
+<& xmlresponse.ibox update=(update) type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) prev_chan=(prev_chan) &>
 <%cpp>
 		}
 		else if (next_chan.Valid()) {
 </%cpp>
-<& xmlresponse update=(update) type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) next_chan=(next_chan) &>
+<& xmlresponse.ibox update=(update) type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) next_chan=(next_chan) &>
 <%cpp>
 		}
 		else {
 </%cpp>
-<& xmlresponse update=(update) type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) &>
+<& xmlresponse.ibox update=(update) type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) &>
 <%cpp>
 		}
 		break;
 	}
 </%cpp>
 
-<%def xmlresponse>
-<%args>
-	int update;
-	string type;
-	string currentTime;
-	string caption;
-	string title;
-	string duration;
-	int elapsed;
-	string prev_chan;
-	string next_chan;
-</%args>
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<service>
-  <request name="ibox">
-	<param name="update"><$ update $></param>
-  </request>
-  <response>1</response>
-  <error></error>
-  <values>
-	<update><$ update $></update>
-	<epginfo>
-	  <type><$ type $></type>
-	  <caption><$ caption $></caption>
-	  <timenow><$ currentTime $></timenow>
-	  <name><$ title $></name>
-	  <duration><$ duration $></duration>
-	  <elapsed><$ elapsed $></elapsed>
-	  <nextchan><$ next_chan $></nextchan>
-	  <prevchan><$ prev_chan $></prevchan>
-	</epginfo>
-  </values>
-</service>
-</%def>

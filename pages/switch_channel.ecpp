@@ -16,11 +16,4 @@ using namespace vdrlive;
 	SwitchChannelTask task( param );
 	LiveTaskManager().Execute( task );
 </%cpp>
-<?xml version="1.0"?>
-<service>
-<request name="switch_channel">
-<param name="channel"><$ param $></param>
-</request>
-<response><$ task.Result() $></response>
-<error><$ task.Error() $></error>
-</service>
+<& xmlresponse.ajax name=("switch_channel") pname=("channel") value=(param) result=(task.Result()) error=(task.Error()) &>

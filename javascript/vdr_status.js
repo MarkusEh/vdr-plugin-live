@@ -39,6 +39,25 @@ function LiveStatusRequest(url, containerid)
 
 function LiveStatusShowInfo(xmldoc, containerId)
 {
+	var infoType = xmldoc.getElementsByTagName('type').item(0);
+
+	var channel = document.getElementById(containerId + '_channel_buttons');
+	var playback = document.getElementById(containerId + '_recording_buttons');
+
+	if (infoType.firstChild.nodeValue != "channel") {
+		channel.style.display = 'none';
+		playback.style.display = 'block';
+		LiveStatusSetTextContent(containerId, 'pause', infoType.firstChild.nodeValue);
+		LiveStatusSetTextContent(containerId, 'play', infoType.firstChild.nodeValue);
+		LiveStatusSetTextContent(containerId, 'rwd', infoType.firstChild.nodeValue);
+		LiveStatusSetTextContent(containerId, 'ffw', infoType.firstChild.nodeValue);
+		LiveStatusSetTextContent(containerId, 'stop', infoType.firstChild.nodeValue);
+	}
+	else {
+		playback.style.display = 'none';
+		channel.style.display = 'block';
+	}
+
 	var epgInfo = xmldoc.getElementsByTagName('epginfo').item(0);
 
 	for (var i = 0; i < epgInfo.childNodes.length; i++) {
@@ -89,6 +108,22 @@ function LiveStatusSetTextContent(containerId, nodeName, textContent)
 				else {
 					docNode.style.visibility = "hidden";
 				}
+				break;
+			}
+			case "pause":
+			case "play":
+			case "rwd":
+			case "ffw":
+			case "stop":
+			{
+				if (textContent != "") {
+					docNode.href = "javascript:LiveSimpleAjaxRequest('" + nodeName + "_recording.xml', 'param', '" + textContent + "');";
+					docNode.style.visibility = "visible";
+				}
+				else {
+					docNode.style.visibility = "hidden";
+				}
+				break;
 			}
 			default:
 				break;
@@ -110,6 +145,6 @@ function LiveStatusToggleUpdate()
 	var img = document.getElementById('statusReloadBtn');
 	if (img != null) {
 		// change image according to state.
-		img.src = vst_reload ? 'stop.png' : 'reload.png';
+		img.src = vst_reload ? 'stop_update.png' : 'reload.png';
 	}
 }

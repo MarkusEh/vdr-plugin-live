@@ -24,7 +24,7 @@ StickyTask::~StickyTask()
 	LiveTaskManager().RemoveStickyTask( *this );
 }
 
-void SwitchChannelTask::Action() 
+void SwitchChannelTask::Action()
 {
 	ReadLock lock( Channels );
 	cChannel* channel = Channels.GetByChannelID( m_channel );
@@ -37,7 +37,7 @@ void SwitchChannelTask::Action()
 		SetError( tr("Couldn't switch to channel.") );
 }
 
-void ReplayRecordingTask::Action()
+void PlayRecordingTask::Action()
 {
 	RecordingsManagerPtr recordings = LiveRecordingsManager();
 	cRecording const* recording = recordings->GetByMd5Hash( m_recording );
@@ -46,23 +46,144 @@ void ReplayRecordingTask::Action()
 		return;
 	}
 
+	const char *current = cReplayControl::NowReplaying();
+	if (!current || (0 != strcmp(current, recording->FileName()))) {
+		cReplayControl::SetRecording( 0, 0 );
+		cControl::Shutdown();
+		cReplayControl::SetRecording( recording->FileName(), recording->Title() );
+		cControl::Launch( new cReplayControl );
+		cControl::Attach();
+	}
+	else {
+		cReplayControl* replayControl = reinterpret_cast<cReplayControl*>(cControl::Control());
+		if (! replayControl) {
+			SetError(tr("Cannot control playback!"));
+			return;
+		}
+
+		replayControl->Play();
+	}
+}
+
+void PauseRecordingTask::Action()
+{
+	RecordingsManagerPtr recordings = LiveRecordingsManager();
+	cRecording const* recording = recordings->GetByMd5Hash( m_recording );
+	if ( recording == 0 ) {
+		SetError( tr("Couldn't find recording or no recordings available.") );
+		return;
+	}
+
+	const char *current = cReplayControl::NowReplaying();
+	if (!current) {
+		SetError(tr("Not playing a recording."));
+		return;
+	}
+
+	if (0 != strcmp(current, recording->FileName())) {
+		// not replaying same recording like in request
+		SetError(tr("Not playing the same recording as from request."));
+		return;
+	}
+
+	cReplayControl* replayControl = reinterpret_cast<cReplayControl*>(cControl::Control());
+	if (! replayControl) {
+		SetError(tr("Cannot control playback!"));
+		return;
+	}
+
+	replayControl->Pause();
+}
+
+void StopRecordingTask::Action()
+{
+	RecordingsManagerPtr recordings = LiveRecordingsManager();
+	cRecording const* recording = recordings->GetByMd5Hash( m_recording );
+	if ( recording == 0 ) {
+		SetError( tr("Couldn't find recording or no recordings available.") );
+		return;
+	}
+
+	const char *current = cReplayControl::NowReplaying();
+	if (!current) {
+		SetError(tr("Not playing a recording."));
+		return;
+	}
+
 	cReplayControl::SetRecording( 0, 0 );
 	cControl::Shutdown();
-	cReplayControl::SetRecording( recording->FileName(), recording->Title() );
-	cControl::Launch( new cReplayControl );
-	cControl::Attach();
+}
+
+void ForwardRecordingTask::Action()
+{
+	RecordingsManagerPtr recordings = LiveRecordingsManager();
+	cRecording const* recording = recordings->GetByMd5Hash( m_recording );
+	if ( recording == 0 ) {
+		SetError( tr("Couldn't find recording or no recordings available.") );
+		return;
+	}
+
+	const char *current = cReplayControl::NowReplaying();
+	if (!current) {
+		SetError(tr("Not playing a recording."));
+		return;
+	}
+
+	if (0 != strcmp(current, recording->FileName())) {
+		// not replaying same recording like in request
+		SetError(tr("Not playing the same recording as from request."));
+		return;
+	}
+
+	cReplayControl* replayControl = reinterpret_cast<cReplayControl*>(cControl::Control());
+	if (! replayControl) {
+		SetError(tr("Cannot control playback!"));
+		return;
+	}
+
+	replayControl->Forward();
+}
+
+void BackwardRecordingTask::Action()
+{
+	RecordingsManagerPtr recordings = LiveRecordingsManager();
+	cRecording const* recording = recordings->GetByMd5Hash( m_recording );
+	if ( recording == 0 ) {
+		SetError( tr("Couldn't find recording or no recordings available.") );
+		return;
+	}
+
+	const char *current = cReplayControl::NowReplaying();
+	if (!current) {
+		SetError(tr("Not playing a recording."));
+		return;
+	}
+
+	if (0 != strcmp(current, recording->FileName())) {
+		// not replaying same recording like in request
+		SetError(tr("Not playing the same recording as from request."));
+		return;
+	}
+
+	cReplayControl* replayControl = reinterpret_cast<cReplayControl*>(cControl::Control());
+	if (! replayControl) {
+		SetError(tr("Cannot control playback!"));
+		return;
+	}
+
+	replayControl->Backward();
 }
 
 TaskManager::TaskManager()
 {
 }
 
-void TaskManager::AddStickyTask( Task& task ) 
-{ 
+void TaskManager::AddStickyTask( Task& task )
+{
 	cMutexLock lock( this );
-	m_stickyTasks.push_back( &task ); 
+	m_stickyTasks.push_back( &task );
 }
-	
+
 void TaskManager::RemoveStickyTask( Task& task )
 {
 	cMutexLock lock( this );
