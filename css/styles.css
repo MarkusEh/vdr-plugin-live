@@ -11,7 +11,6 @@ body {
 }
 
 table {
-	width: 100%;
 	font-size: 11px;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	margin: 0px;
@@ -860,7 +859,6 @@ table.searchresults td.border {
 
 table.login {
 	margin: 0 auto;
-	padding: 20ox;
 }
 
 table.login tr td {
