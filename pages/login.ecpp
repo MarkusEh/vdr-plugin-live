@@ -22,7 +22,7 @@ if (action == "login") {
 	if ((login == LiveSetup().GetAdminLogin()) && (MD5Hash(password) == LiveSetup().GetMD5HashAdminPassword())) {
 		logged_in = true;
 	} else {
-		message = "Username oder Passwort falsch";
+		message = tr("Wrong username or password");
 	}
 } else if (action == "logout") {
 	logged_in = false;

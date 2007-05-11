@@ -3330,6 +3330,28 @@ const tI18nPhrase Phrases[] = {
       "", // Dansk
       "", // Czech
       },
+      { "Wrong username or password", // English
+      "Falscher Benutzername oder Passwort", // Deutsch
+      "", // Slovenski
+      "", // Italiano
+      "", // Nederlands
+      "", // Português
+      "", // Français
+      "", // Norsk
+      "", // Finnish
+      "", // Polski
+      "", // Español
+      "", // Greek
+      "", // Svenska
+      "", // Românã
+      "", // Magyar
+      "", // Català
+      "", // Russian
+      "", // Hrvatski
+      "", // Eesti
+      "", // Dansk
+      "", // Czech
+      },
       { "Required minimum version of epgsearch: ", // English
       "Benötigte Mindestversion von epgsearch: ", // Deutsch
       "", // Slovenski
