@@ -21,7 +21,7 @@ namespace vdrlive {
 using namespace std;
 
 Setup::Setup():
-		m_serverPort( 8001 ),
+		m_serverPort( 8008 ),
 		m_lastChannel( 0 ),
 		m_screenshotInterval( 1000 ),
 		m_useAuth( 1 ),
