@@ -857,6 +857,11 @@ table.searchresults div.more {
 	cursor: pointer;
 }
 
+table.searchresults a {
+	text-decoration: none;
+	color: black;
+	font-weight: bold;
+}
 /*
   ##############################
   #  Login

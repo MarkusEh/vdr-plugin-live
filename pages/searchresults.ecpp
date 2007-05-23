@@ -56,6 +56,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 				for (SearchResults::iterator result = results.begin(); result != results.end(); ++result) {
 //					active_line = !active_line;
 					string channelname = Channels.GetByChannelID(result->Channel())->Name();
+					int channelnr = Channels.GetByChannelID(result->Channel())->Number();
 					string start(result->StartTime() ? FormatDateTime(tr("%I:%M %p"), result->StartTime()) : "");
 					string end(result->StopTime() ? FormatDateTime(tr("%I:%M %p"), result->StopTime()) : "");
 					string day(result->StartTime() ? FormatDateTime(tr("%A, %b %d %Y"), result->StartTime()) : "");
@@ -86,7 +87,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 %					}
                     <tr class="<? active_line ? "active" ?>">
 						<td style="border-left: 1px solid black"><& pageelems.event_timer channelid=(channel_id) eventid=(event)&></td>
-						<td><$ channelname $></td>
+						<td><a href="schedule.html?channel=<$ channelnr $>"><$ channelname $></a></td>
 						<td><$ start $> - <$ end $></td>
 
 						<td>
