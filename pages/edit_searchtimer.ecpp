@@ -320,6 +320,10 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		usetitle = true;
 		usesubtitle = true;
 		usedescr = true;
+		priority = lexical_cast< int >(EPGSearchSetupValues::ReadValue("DefPriority"));
+		lifetime = lexical_cast< int >(EPGSearchSetupValues::ReadValue("DefLifetime"));
+		marginstart = lexical_cast< int >(EPGSearchSetupValues::ReadValue("DefMarginStart"));
+		marginstop = lexical_cast< int >(EPGSearchSetupValues::ReadValue("DefMarginStop"));
 	}   
 </%cpp>
 <& pageelems.doc_type &>
