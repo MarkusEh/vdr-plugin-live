@@ -851,6 +851,12 @@ table.searchresults td.border {
 	width: 1px;
 }
 
+table.searchresults div.more {
+	margin: 0px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
 /*
   ##############################
   #  Login

@@ -312,6 +312,7 @@ public:
 	tEventID EventId() const { return m_eventId; }
 	std::string const& Title() const { return m_title; }
 	std::string const& ShortText() const { return m_shorttext; }
+	std::string const& Description() const { return m_description; }
 	time_t StartTime() const { return m_starttime; }
 	time_t StopTime() const { return m_stoptime; }
 	tChannelID Channel() const { return m_channel; }
@@ -325,6 +326,7 @@ private:
 	tEventID m_eventId;
 	std::string m_title;
 	std::string m_shorttext;
+	std::string m_description;
 	time_t m_starttime;
 	time_t m_stoptime;
 	tChannelID m_channel;

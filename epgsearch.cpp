@@ -25,7 +25,7 @@ bool CheckEpgsearchVersion()
 {
 	cPlugin* epgsearch = cPluginManager::GetPlugin("epgsearch");
 	if (!epgsearch) return false;
-	char minVersion[] = "0.9.21";
+	char minVersion[] = "0.9.22";
 	if (string(epgsearch->Version()) < string(minVersion))
 		throw HtmlError( tr("Required minimum version of epgsearch: ") + string(minVersion));
 	return true;
@@ -478,13 +478,14 @@ SearchResult::SearchResult( string const& data )
 			case  1: m_eventId = lexical_cast< u_int32_t >( *part ); break;
 			case  2: m_title = StringReplace( *part, "|", ":" ); break;
 			case  3: m_shorttext = StringReplace( *part, "|", ":" ); break;
-			case  4: m_starttime = lexical_cast< unsigned long >( *part ); break;
-			case  5: m_stoptime = lexical_cast< unsigned long >( *part ); break;
-			case  6: m_channel = lexical_cast< tChannelID >( *part ); break;
-			case  7: m_timerstart = lexical_cast< unsigned long >( *part ); break;
-			case  8: m_timerstop = lexical_cast< unsigned long >( *part ); break;
-            case  9: m_file = *part; break;
-            case 10: m_timerMode = lexical_cast< int >( *part ); break;
+			case  4: m_description = StringReplace( *part, "|", ":" ); break;
+			case  5: m_starttime = lexical_cast< unsigned long >( *part ); break;
+			case  6: m_stoptime = lexical_cast< unsigned long >( *part ); break;
+			case  7: m_channel = lexical_cast< tChannelID >( *part ); break;
+			case  8: m_timerstart = lexical_cast< unsigned long >( *part ); break;
+			case  9: m_timerstop = lexical_cast< unsigned long >( *part ); break;
+			case 10: m_file = *part; break;
+			case 11: m_timerMode = lexical_cast< int >( *part ); break;
 			}
 		}
 	} catch ( bad_lexical_cast const& ex ) {
