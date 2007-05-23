@@ -10,7 +10,6 @@ using namespace std;
 	bool useauth = 0;
 	string login;
 	string pass;
-	int passLength = 0;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -23,14 +22,18 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	if ( request.getMethod() == "POST") {		
 		LiveSetup().SetLastChannel(lastchannel);
 		LiveSetup().SetUseAuth(useauth);
-		LiveSetup().SetAdminLogin(login);
-		LiveSetup().SetAdminPassword(pass);
-		return reply.redirect("setup.html");
+		if (useauth) {
+			LiveSetup().SetAdminLogin(login);
+			if (pass != "")
+				LiveSetup().SetAdminPassword(pass);
+		}
+		LiveSetup().SaveSetup();
 	}
 	pageTitle = tr("Setup");
 	lastchannel = LiveSetup().GetLastChannel();
 	login = LiveSetup().GetAdminLogin();
 	useauth = LiveSetup().UseAuth();
+
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -39,8 +42,18 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		<link rel="stylesheet" type="text/css" href="/styles.css" />
 		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
+		<script type="text/javascript"><!--
+		function initform()
+		{
+			changeduseauth(document.getElementById("useauth"));
+		}
+		function changeduseauth(selection)
+		{
+			document.getElementById("authsection").style.display = (selection.checked ? "block" : "none");
+		}
+		//--></script>
 	</head>
-	<body onload="<& pageelems.infobox_start_update &>">
+	<body onload="<& pageelems.infobox_start_update &>; initform()">
 		<& pageelems.logo &>
 		<& menu active=("setup") &>
 		<div class="inhalt">
@@ -48,7 +61,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 				<table class="edit" cellpadding="0" cellspacing="0">
 					<tr>
 						<td  class="head" colspan="4"><div class="boxheader"><div><div><$ tr("Setup") $></div></div></div></td>
-					</tr>					<!-- Last channel -->
+					</tr>
 					<tr>
 						<td class="border" style="border-left: 1px solid black"></td>
 						<td class="label"><$ tr("Last channel to display") $>:</td>
@@ -58,22 +71,23 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					<tr>
 						<td class="border" style="border-left: 1px solid black"></td>
 						<td class="label"><$ tr("Use authentication") $>:</td>
-						<td><input type="checkbox" name="useauth" value="1" <{ reply.out() << ( useauth ? "checked=\"checked\"" : "" ); }>/></td>
+						<td>
+							<input type="checkbox" name="useauth" id="useauth" value="1" <{ reply.out() << ( useauth ? "checked=\"checked\"" : "" ); }> onclick="changeduseauth(this)"/>
+							<div id="authsection" style="display: none">
+							<table border="0" cellpadding="0" cellspacing="0" class="dependent">
+							<tr>
+								<td><$ tr("Admin login") $>:</td>
+								<td><input type="text" name="login" value="<$ login $>" id="login" /></td>
+							</tr>
+							<tr>
+								<td><$ tr("Admin password") $>:</td>
+								<td><input  type="password" name="pass" value="<$ pass $>" id="pass" /></td>
+							</tr>
+							</table>
+							</div>
+						</td>
 						<td class="border" style="border-right: 1px solid black"></td>
 					</tr>
-					<tr>
-						<td class="border" style="border-left: 1px solid black"></td>
-						<td class="label"><$ tr("Admin login") $>:</td>
-						<td><input type="text" name="login" value="<$ login $>" id="login" /></td>
-						<td class="border" style="border-right: 1px solid black"></td>
-					</tr>
-					<tr>
-						<td class="border" style="border-left: 1px solid black"></td>
-						<td class="label"><$ tr("Admin password") $>:</td>
-						<td><input type="text" name="pass" value="<$ pass $>" id="pass" /></td>
-						<td class="border" style="border-right: 1px solid black"></td>
-					</tr>
-
 					<tr>
 						<td class="border" style="border-left: 1px solid black"></td>
 						<td class="buttonpanel" colspan="2">

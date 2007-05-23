@@ -39,6 +39,8 @@ public:
 	void SetUseAuth(int auth) { m_useAuth = auth; }
 	void SetScrenshotInterval(int interval) { m_screenshotInterval = interval; }
 
+	bool SaveSetup();
+
 	bool ParseCommandLine( int argc, char* argv[] );
 	char const* CommandLineHelp() const;
 
@@ -47,6 +49,9 @@ public:
 private:
 	Setup();
 	Setup( Setup const& );
+
+	// me
+	cPlugin* liveplugin;
 
 	mutable std::string m_helpString;
 	// commandline options

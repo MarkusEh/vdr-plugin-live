@@ -28,6 +28,7 @@ Setup::Setup():
 		m_adminLogin("admin")		
 {
 	m_adminPasswordMD5 = "4:" + MD5Hash("live");
+	liveplugin = cPluginManager::GetPlugin("live");
 }
 
 bool Setup::ParseCommandLine( int argc, char* argv[] )
@@ -130,6 +131,19 @@ std::string Setup::SetAdminPassword(std::string password)
 	return m_adminPasswordMD5;
 }
 
+bool Setup::SaveSetup()
+{
+	if (!liveplugin) return false;
+	liveplugin->SetupStore("LastChannel",  m_lastChannel);
+	liveplugin->SetupStore("UseAuth",  m_useAuth);
+	if (m_useAuth)
+	{
+		liveplugin->SetupStore("AdminLogin",  m_adminLogin.c_str());
+		liveplugin->SetupStore("AdminPasswordMD5",  m_adminPasswordMD5.c_str());
+	}
+	return true;
+}
+
 Setup& LiveSetup()
 {
 	static Setup instance;
@@ -168,19 +182,11 @@ void cMenuSetupLive::Set(void)
 void cMenuSetupLive::Store(void)
 {
 	vdrlive::LiveSetup().SetLastChannel(m_lastChannel);
-	SetupStore("LastChannel",  m_lastChannel);
-	
 	vdrlive::LiveSetup().SetUseAuth(m_useAuth);
-	SetupStore("UseAuth",  m_useAuth);
-	
 	vdrlive::LiveSetup().SetAdminLogin(m_adminLogin);
-	SetupStore("AdminLogin",  m_adminLogin);
-	
 	if (m_oldpasswordMD5 != m_newpasswordMD5) // only save the password if needed
-	{
-		std::string passwordMD5 = vdrlive::LiveSetup().SetAdminPassword(m_adminPassword);
-		SetupStore("AdminPasswordMD5",  passwordMD5.c_str());
-	}
+		vdrlive::LiveSetup().SetAdminPassword(m_adminPassword);
+	LiveSetup().SaveSetup();
 }
 
 bool cMenuSetupLive::InEditMode(const char* ItemText, const char* ItemName, const char* ItemValue)
