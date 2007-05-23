@@ -125,6 +125,10 @@ class cServiceHandler
    virtual std::set<std::string> DirectoryList() = 0;
    // List of all recording directories used in recordings, timers, search timers or in epgsearchdirs.conf
    virtual ~cServiceHandler() {}
+   // Read a setup value
+   virtual std::string ReadSetupValue(const std::string& entry) = 0;
+   // Write a setup value
+   virtual bool WriteSetupValue(const std::string& entry, const std::string& value) = 0;
 };
 
 struct Epgsearch_services_v1_0

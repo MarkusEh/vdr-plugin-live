@@ -381,6 +381,13 @@ private:
 	recordingdirs m_set;
 };
 
+class EPGSearchSetupValues
+{
+public:
+	static std::string ReadValue(const std::string& entry);	
+	static bool WriteValue(const std::string& entry, const std::string& value);	
+};
+
 }
 
  // namespace vdrlive

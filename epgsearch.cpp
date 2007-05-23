@@ -12,6 +12,8 @@ namespace vdrlive {
 
 using namespace std;
 
+char ServiceInterface[] = "Epgsearch-services-v1.0-beta1";
+
 bool operator<( SearchTimer const& left, SearchTimer const& right )
 {
    string leftlower = left.m_search;
@@ -54,8 +56,8 @@ void SearchTimer::Init()
    m_useDayOfWeek = false;
    m_dayOfWeek = 0;
    m_useEpisode = false;
-   m_priority = 99;
-   m_lifetime = 50;
+   m_priority = lexical_cast< int >(EPGSearchSetupValues::ReadValue("DefPriority"));
+   m_lifetime = lexical_cast< int >(EPGSearchSetupValues::ReadValue("DefLifetime"));
    m_fuzzytolerance = 1;
    m_useInFavorites = false;
    m_useAsSearchtimer = false;
@@ -66,8 +68,8 @@ void SearchTimer::Init()
    m_switchMinBefore = 1;
    m_useExtEPGInfo = false;
    m_useVPS = false;
-   m_marginstart = 2;
-   m_marginstop = 10;
+   m_marginstart = lexical_cast< int >(EPGSearchSetupValues::ReadValue("DefMarginStart"));
+   m_marginstop = lexical_cast< int >(EPGSearchSetupValues::ReadValue("DefMarginStop"));
 }
 
 SearchTimer::SearchTimer( string const& data )
@@ -114,11 +116,11 @@ SearchTimer::SearchTimer( string const& data )
 			case 33: m_catvaluesAvoidRepeat = lexical_cast< unsigned long >( *part ); break;
 			case 34: m_repeatsWithinDays = lexical_cast< int >( *part ); break;
 			case 35: m_delAfterDays = lexical_cast< int >( *part ); break;
-            case 36: m_recordingsKeep = lexical_cast< int >( *part ); break;
-            case 37: m_switchMinBefore = lexical_cast< int >( *part ); break;
-            case 38: m_pauseOnNrRecordings = lexical_cast< int >( *part ); break;
-            case 39: m_blacklistmode = lexical_cast< int >( *part ); break;
-            case 40: ParseBlacklist( *part ); break;
+			case 36: m_recordingsKeep = lexical_cast< int >( *part ); break;
+			case 37: m_switchMinBefore = lexical_cast< int >( *part ); break;
+			case 38: m_pauseOnNrRecordings = lexical_cast< int >( *part ); break;
+			case 39: m_blacklistmode = lexical_cast< int >( *part ); break;
+			case 40: ParseBlacklist( *part ); break;
 			case 41: m_fuzzytolerance = lexical_cast< int >( *part ); break;
 			case 42: m_useInFavorites = lexical_cast< bool >( *part ); break;
 			case 43: m_menuTemplate = lexical_cast< int >( *part ); break;
@@ -296,8 +298,8 @@ SearchTimers::SearchTimers()
 bool SearchTimers::Reload()
 {
 	Epgsearch_services_v1_0 service;
-	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
-		throw HtmlError( tr("No searchtimers available") );
+	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
+		throw HtmlError( tr("EPGSearch version outdated! Please update.") );
 
 	ReadLock channelsLock( Channels, 0 );
 	list< string > timers = service.handler->SearchTimerList();
@@ -310,7 +312,7 @@ bool SearchTimers::Save(SearchTimer* searchtimer)
 {
 	Epgsearch_services_v1_0 service;
 	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
-		throw HtmlError( tr("No searchtimers available") );
+		throw HtmlError( tr("EPGSearch version outdated! Please update.") );
 
 	if (!searchtimer) return false;
 	ReadLock channelsLock( Channels, 0 );
@@ -349,8 +351,8 @@ bool SearchTimers::Delete(std::string const& id)
 	if (!search) return false;
 
 	Epgsearch_services_v1_0 service;
-	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
-		throw HtmlError( tr("No searchtimers available") );
+	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
+		throw HtmlError( tr("EPGSearch version outdated! Please update.") );
 
 	if (service.handler->DelSearchTimer(lexical_cast< int >( id )))
 		return Reload();
@@ -410,8 +412,8 @@ bool ExtEPGInfo::Selected(unsigned int index, std::string const& values)
 ExtEPGInfos::ExtEPGInfos()
 {
 	Epgsearch_services_v1_0 service;
-	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
-		throw HtmlError( tr("No searchtimers available") );
+	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
+		throw HtmlError( tr("EPGSearch version outdated! Please update.") );
 
 	list< string > infos = service.handler->ExtEPGInfoList();
 	m_infos.assign( infos.begin(), infos.end() );
@@ -434,8 +436,8 @@ ChannelGroup::ChannelGroup( string const& data )
 ChannelGroups::ChannelGroups()
 {
 	Epgsearch_services_v1_0 service;
-	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
-		throw HtmlError( tr("No searchtimers available") );
+	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
+		throw HtmlError( tr("EPGSearch version outdated! Please update.") );
 
 	list< string > list = service.handler->ChanGrpList();
 	m_list.assign( list.begin(), list.end() );
@@ -459,8 +461,8 @@ Blacklist::Blacklist( string const& data )
 Blacklists::Blacklists()
 {
 	Epgsearch_services_v1_0 service;
-	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
-		throw HtmlError( tr("No searchtimers available") );
+	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
+		throw HtmlError( tr("EPGSearch version outdated! Please update.") );
 
 	list< string > list = service.handler->BlackList();
 	m_list.assign( list.begin(), list.end() );
@@ -497,8 +499,8 @@ std::set<std::string> SearchResults::querySet;
 void SearchResults::GetByID(int id)
 {
 	Epgsearch_services_v1_0 service;
-	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
-		throw HtmlError( tr("No searchtimers available") );
+	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
+		throw HtmlError( tr("EPGSearch version outdated! Please update.") );
 
 	list< string > list = service.handler->QuerySearchTimer(id);
 	m_list.assign( list.begin(), list.end() );
@@ -508,8 +510,8 @@ void SearchResults::GetByID(int id)
 void SearchResults::GetByQuery(std::string const& query)
 {
 	Epgsearch_services_v1_0 service;
-	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
-		throw HtmlError( tr("No searchtimers available") );
+	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
+		throw HtmlError( tr("EPGSearch version outdated! Please update.") );
 
 	list< string > list = service.handler->QuerySearch(query);
 	m_list.assign( list.begin(), list.end() );
@@ -544,10 +546,28 @@ std::string SearchResults::PopQuery(std::string const& md5)
 RecordingDirs::RecordingDirs()
 {
 	Epgsearch_services_v1_0 service;
-	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
-		throw HtmlError( tr("No searchtimers available") );
+	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
+		throw HtmlError( tr("EPGSearch version outdated! Please update.") );
 
 	m_set = service.handler->DirectoryList();
+}
+
+std::string EPGSearchSetupValues::ReadValue(const std::string& entry)
+{
+	Epgsearch_services_v1_0 service;
+	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
+		throw HtmlError( tr("EPGSearch version outdated! Please update.") );
+
+	return service.handler->ReadSetupValue(entry);
+}
+
+bool EPGSearchSetupValues::WriteValue(const std::string& entry, const std::string& value)
+{
+	Epgsearch_services_v1_0 service;
+	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
+		throw HtmlError( tr("EPGSearch version outdated! Please update.") );
+
+	return service.handler->WriteSetupValue(entry, value);
 }
 
 } // namespace vdrlive
