@@ -311,7 +311,7 @@ bool SearchTimers::Reload()
 bool SearchTimers::Save(SearchTimer* searchtimer)
 {
 	Epgsearch_services_v1_0 service;
-	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService("Epgsearch-services-v1.0", &service) == 0 )
+	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
 		throw HtmlError( tr("EPGSearch version outdated! Please update.") );
 
 	if (!searchtimer) return false;
