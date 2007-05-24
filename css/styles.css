@@ -531,8 +531,6 @@ table.timers tr.head td {
 	font-weight: bold;
 	margin: 0;
 	padding: 0;
-	background: url(bg_box_h.png) repeat-x;
-	height: 23px;
 	border-bottom: 1px solid black;
 }
 

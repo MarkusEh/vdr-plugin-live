@@ -71,9 +71,11 @@ using namespace vdrlive;
 						previousDay = currentDay;
 </%cpp>
 				<tr class="head">
-					<td style="background: url(bg_box_l.png); width: 3px;"></td>
-					<td colspan="8"><$ timer->WeekDays() > 0 ? *cTimer::PrintDay(0, timer->WeekDays()) : FormatDateTime(tr("%A, %x"), timer->Day()) $></td>
-					<td style="background: url(bg_box_r.png); width: 3px;"></td>
+					<td colspan="10">
+						<div class="boxheader"><div><div>
+							<$ timer->WeekDays() > 0 ? *cTimer::PrintDay(0, timer->WeekDays()) : FormatDateTime(tr("%A, %x"), timer->Day()) $>
+						</div></div></div>
+					</td>
 				</tr>
 				<tr class="description">
 					<td class="border" style="border-left: 1px solid black"></td>

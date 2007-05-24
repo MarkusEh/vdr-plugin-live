@@ -45,9 +45,9 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		<div class="inhalt">
 			<table class="timers" cellspacing="0" cellpadding="0">
 				<tr class="head">
-					<td style="background: url(bg_box_l.png); width: 3px;"></td>
-					<td colspan="8"><$ pageTitle $></td>
-					<td style="background: url(bg_box_r.png); width: 3px;"></td>
+					<td colspan="10">
+						<div class="boxheader"><div><div><$ pageTitle $></div></div></div>
+					</td>
 				</tr>
 				<tr class="description">
 					<td class="border" style="border-left: 1px solid black"></td>
