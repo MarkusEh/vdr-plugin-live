@@ -711,10 +711,11 @@ div.screenshot {
 */
 
 div.dotted {
-	border: 1px dotted black;
-	padding: 5px;
+	border: 1px dotted #bbbbbb;
+	padding: 3px;
 	margin: 2px;
 	float: left;
+	background-color: #f3f3f3;
 }
 
 

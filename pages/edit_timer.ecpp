@@ -135,8 +135,14 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 						<td class="border" style="border-left: 1px solid black"></td>
 						<td class="label"><$ tr("Active") $>:</td>
 						<td>
-							<input name="active" value="1" <{ reply.out() << ( active ? "checked=\"checked\"" : "" ); }> type="radio"><$ tr("Yes") $>
-							<input name="active" value="0" <{ reply.out() << ( !active ? "checked=\"checked\"" : "" ); }> type="radio"><$ tr("No") $>
+							<div class="dotted">
+								<input id="active_1" name="active" value="1" <{ reply.out() << ( active ? "checked=\"checked\"" : "" ); }> type="radio"></input>
+								<label for="active_1"><$ tr("Yes") $></label>
+							</div>
+							<div class="dotted">
+								<input id="active_0" name="active" value="0" <{ reply.out() << ( !active ? "checked=\"checked\"" : "" ); }> type="radio"></input>
+								<label for="active_0"><$ tr("No") $></label>
+							</div>
 						</td>
 						<td class="border" style="border-right: 1px solid black"></td>
 					</tr>
@@ -166,13 +172,34 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 						<td class="border" style="border-left: 1px solid black"></td>
 						<td class="label"><$ tr("Weekday") $>:</td>
 						<td>
-							<input type="checkbox" name="wday_mon" value="1" <{ reply.out() << ( wday_mon ? "checked=\"checked\"" : "" ); }>/> <$ tr("Monday") $>
-							<input type="checkbox" name="wday_tue" value="1" <{ reply.out() << ( wday_tue ? "checked=\"checked\"" : "" ); }>/> <$ tr("Tuesday") $>
-							<input type="checkbox" name="wday_wed" value="1" <{ reply.out() << ( wday_wed ? "checked=\"checked\"" : "" ); }>/> <$ tr("Wednesday") $>
-							<input type="checkbox" name="wday_thu" value="1" <{ reply.out() << ( wday_thu ? "checked=\"checked\"" : "" ); }>/> <$ tr("Thursday") $>
-							<input type="checkbox" name="wday_fri" value="1" <{ reply.out() << ( wday_fri ? "checked=\"checked\"" : "" ); }>/> <$ tr("Friday") $>
-							<input type="checkbox" name="wday_sat" value="1" <{ reply.out() << ( wday_sat ? "checked=\"checked\"" : "" ); }>/> <$ tr("Saturday") $>
-							<input type="checkbox" name="wday_sun" value="1" <{ reply.out() << ( wday_sun ? "checked=\"checked\"" : "" ); }>/> <$ tr("Sunday") $>
+							<div class="dotted">
+								<input id="wday_mon" type="checkbox" name="wday_mon" value="1" <{ reply.out() << ( wday_mon ? "checked=\"checked\"" : "" ); }> />
+								<label for="wday_mon"><$ tr("Monday") $></label>
+							</div>
+							<div class="dotted">
+								<input id="wday_tue" type="checkbox" name="wday_tue" value="1" <{ reply.out() << ( wday_tue ? "checked=\"checked\"" : "" ); }> />
+								<label for="wday_tue"><$ tr("Tuesday") $></label>
+							</div>
+							<div class="dotted">
+								<input id="wdry_wed" type="checkbox" name="wday_wed" value="1" <{ reply.out() << ( wday_wed ? "checked=\"checked\"" : "" ); }> />
+								<label for="wday_wed"><$ tr("Wednesday") $></label>
+							</div>
+							<div class="dotted">
+								<input id="wday_thu" type="checkbox" name="wday_thu" value="1" <{ reply.out() << ( wday_thu ? "checked=\"checked\"" : "" ); }> />
+								<label for="wday_thu"><$ tr("Thursday") $></label>
+							</div>
+							<div class="dotted">
+								<input id ="wday_fri" type="checkbox" name="wday_fri" value="1" <{ reply.out() << ( wday_fri ? "checked=\"checked\"" : "" ); }> />
+								<label for="wday_fri"><$ tr("Friday") $></label>
+							</div>
+							<div class="dotted">
+								<input id="wday_sat" type="checkbox" name="wday_sat" value="1" <{ reply.out() << ( wday_sat ? "checked=\"checked\"" : "" ); }> />
+								<label for="wday_sat"><$ tr("Saturday") $></label>
+							</div>
+							<div class="dotted">
+								<input id="wday_sun" type="checkbox" name="wday_sun" value="1" <{ reply.out() << ( wday_sun ? "checked=\"checked\"" : "" ); }> />
+								<label for="wday_sun"><$ tr("Sunday") $></label>
+							</div>
 						<td class="border" style="border-right: 1px solid black"></td>
 						</td>
 					</tr>
