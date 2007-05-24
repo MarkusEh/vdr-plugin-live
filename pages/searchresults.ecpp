@@ -41,7 +41,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	</head>
 	<body onload="<& pageelems.infobox_start_update &>">
 		<& pageelems.logo &>
-		<& menu active=("searchresults") &>
+		<& menu active=("searchepg") &>
 		<div class="inhalt">
 %           if (results.size() == 0) {
                 <$ tr("No search results") $>
