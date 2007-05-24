@@ -1,7 +1,7 @@
 #
 # Makefile for a Video Disk Recorder plugin
 #
-# $Id: Makefile,v 1.35 2007/05/24 06:59:05 winni Exp $
+# $Id: Makefile,v 1.36 2007/05/24 07:20:45 winni Exp $
 
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.
@@ -20,7 +20,7 @@ VERSION = $(shell grep 'const char \*Plugin::VERSION *=' $(PLUGIN).cpp | awk '{ 
 CXX      ?= g++
 
 ### tntnet produces some compiler warnings, so we add -Wno-unused-variable -Wno-non-virtual-dtor for nice output ;)
-CXXFLAGS ?= -fPIC -g -O2 -Wall -Woverloaded-virtual -Wno-unused-variable -Wno-non-virtual-dtor
+CXXFLAGS ?= -fPIC -O2 -Wall -Woverloaded-virtual -Wno-unused-variable -Wno-non-virtual-dtor
 LDFLAGS  ?= -fPIC -g
 
 ECPPC    ?= ecppc
