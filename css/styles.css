@@ -886,7 +886,7 @@ div.about_box {
 }
 
 div#aboutBox_tip {
-	width: 33%;
+	width: 45%;
 }
 
 .about_box div.about_description {
@@ -912,11 +912,11 @@ div#aboutBox_tip {
 .about_box div.about_content div.about_left {
 	text-align: right;
 	float: left;
-	width: 100px;
+	width: 175px;
 }
 
 .about_box div.about_content div.about_right {
-	padding-left: 115px;
+	padding-left: 200px;
 }
 
 .about_box div.about_content div.about_head {

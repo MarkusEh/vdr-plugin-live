@@ -186,22 +186,22 @@ static bool HasEpgsearch()
 		<div class="about_content">
 		 	<div>
 				<div class="about_head"><div><div><$ tr("Authors") $></div></div></div>
-				<div class="about_left"><$ tr("Project leader:") $></div>
+				<div class="about_left"><$ tr("Project leader") $>:</div>
 				<div class="about_right">Thomas Keil</div>
-				<div class="about_left"><$ tr("Webserver:") $></div>
+				<div class="about_left"><$ tr("Webserver") $>:</div>
 				<div class="about_right">Sascha Volkenandt</div>
-				<div class="about_left"><$ tr("Content:") $></div>
+				<div class="about_left"><$ tr("Content") $>:</div>
 				<div class="about_right">Dieter Hametner</div>
-				<div class="about_left"><$ tr("Content:") $></div>
+				<div class="about_left"><$ tr("Content") $>:</div>
 				<div class="about_right">Christian Wieninger</div>
-				<div class="about_left"><$ tr("Graphics:") $></div>
+				<div class="about_left"><$ tr("Graphics") $>:</div>
 				<div class="about_right">Michael Brückner</div>
 				<div class="about_head"><div><div><$ tr("Information") $></div></div></div>
-				<div class="about_left"><$ tr("LIVE version:") $></div>
+				<div class="about_left"><$ tr("LIVE version") $>:</div>
 				<div class="about_right"><$ LIVEVERSION $></div>
-				<div class="about_left"><$ tr("VDR version:") $></div>
+				<div class="about_left"><$ tr("VDR version") $>:</div>
 				<div class="about_right"><$ VDRVERSION $></div>
-				<div class="about_left"><$ tr("Features:") $></div>
+				<div class="about_left"><$ tr("Features") $>:</div>
 				<div class="about_right">
 <{
 					bool hasEpgsearch = HasEpgsearch();
