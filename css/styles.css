@@ -882,8 +882,11 @@ table.login tr td {
 */
 
 div.about_box {
-	width: 50%;
 	border: none;
+}
+
+div#aboutBox_tip {
+	width: 33%;
 }
 
 .about_box div.about_description {
@@ -918,7 +921,7 @@ div.about_box {
 
 .about_box div.about_content div.about_head {
 	font-weight: bold;
-	margin-top: 2px;
+	margin-top: 0px;
 	padding-top: 6px;
 	margin-bottom: 6px;
 	background: #FFFFFF url(bg_line.png) top repeat-x;
