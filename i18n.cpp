@@ -1568,7 +1568,7 @@ const tI18nPhrase Phrases[] = {
       "", // Czech
     },
     { "Show schedule of channel", // English
-      "Wähle das Programm des Kanals", // Deutsch
+      "Zeige Programm dieses Kanals", // Deutsch
       "", // Slovenski
       "", // Italiano
       "", // Nederlands
