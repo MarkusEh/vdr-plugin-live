@@ -3,6 +3,7 @@
 #include <vdr/menu.h>
 #include <vdr/epg.h>
 #include "epgsearch.h"
+#include "exception.h"
 #include "i18n.h"
 #include "setup.h"
 #include "timers.h"
@@ -10,6 +11,16 @@
 
 using namespace std;
 using namespace vdrlive;
+
+static bool HasEpgsearch()
+{
+	bool result = false;
+	try {
+		result = CheckEpgsearchVersion();
+	} catch (HtmlError const& ex) {
+	}
+	return result;
+}
 
 </%pre>
 
@@ -193,9 +204,10 @@ using namespace vdrlive;
 				<div class="about_left"><$ tr("Features:") $></div>
 				<div class="about_right">
 <{
-					bool hasEpgsearch = CheckEpgsearchVersion();
+					bool hasEpgsearch = HasEpgsearch();
+					string epgsearchVersion = hasEpgsearch ? string( cPluginManager::GetPlugin("epgsearch")->Version() ) + " " : "";
 }>
-					<img align="center" src="<$ hasEpgsearch ? "" : "in" $>active.png"/> EPGsearch (<a href="http://freenet-homepage.de/cwieninger/html/vdr-epg-search.html" target="_blank">Homepage</a>)<br/>
+					<img align="center" src="<$ hasEpgsearch ? "" : "in" $>active.png"/> EPGsearch <$ epgsearchVersion $>(<a href="http://freenet-homepage.de/cwieninger/html/vdr-epg-search.html" target="_blank">Homepage</a>)<br/>
 				</div>
 			</div>
 		</div>
