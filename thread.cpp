@@ -54,6 +54,7 @@ void ServerThread::Action()
 		// XXX move initial error handling to live.cpp
 		esyslog( "ERROR: live httpd server crashed: %s", ex.what() );
 		cerr << "HTTPD FATAL ERROR: " << ex.what() << endl;
+		cThread::EmergencyExit(true);
 	}
 }
 
