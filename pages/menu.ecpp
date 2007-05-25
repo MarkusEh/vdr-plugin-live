@@ -65,10 +65,10 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
   </div>
  </div>
 </div>
+% }
 <div style="display:none;">
 	<& pageelems.about_tt_box &>
 </div>
-% }
 
 <%def setactive>
 <%args>

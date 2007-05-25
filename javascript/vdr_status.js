@@ -8,35 +8,6 @@ var vst_timer;
 var vst_boxId = null;
 var vst_url = null;
 
-function LiveStatusRequest(url, containerid)
-{
-	if (vst_url == null)
-	{
-		vst_url = url;
-	}
-	if (vst_boxId == null)
-		vst_boxId = containerid;
-
-	var status = new LiveAjaxCall("xml", url);
-	status.oncomplete = function()
-		{
-			try {
-				LiveStatusShowInfo(this.xml.responseXML, containerid);
-			}
-			catch (e) {
-				LiveStatusReportError(e.message, containerid);
-			}
-			if (vst_reload)
-				vst_timer = window.setTimeout("LiveStatusRequest('" + url + "', '" + containerid + "')", 1000);
-		}
-	status.onerror = function(message)
-		{
-			LiveStatusToggleUpdate();
- 			LiveStatusReportError(message, containerid);
-		}
-	status.request("update", vst_reload ? "1" : "0");
-}
-
 function LiveStatusShowInfo(xmldoc, containerId)
 {
 	var infoType = xmldoc.getElementsByTagName('type').item(0);
@@ -147,4 +118,33 @@ function LiveStatusToggleUpdate()
 		// change image according to state.
 		img.src = vst_reload ? 'stop_update.png' : 'reload.png';
 	}
+}
+
+function LiveStatusRequest(url, containerid)
+{
+	if (vst_url == null)
+	{
+		vst_url = url;
+	}
+	if (vst_boxId == null)
+		vst_boxId = containerid;
+
+	var status = new LiveAjaxCall("xml", url);
+	status.oncomplete = function()
+		{
+			try {
+				LiveStatusShowInfo(this.xml.responseXML, containerid);
+			}
+			catch (e) {
+				LiveStatusReportError(e.message, containerid);
+			}
+			if (vst_reload)
+				vst_timer = window.setTimeout("LiveStatusRequest('" + url + "', '" + containerid + "')", 1000);
+		}
+	status.onerror = function(message)
+		{
+			LiveStatusToggleUpdate();
+ 			LiveStatusReportError(message, containerid);
+		}
+	status.request("update", vst_reload ? "1" : "0");
 }
