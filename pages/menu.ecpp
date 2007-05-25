@@ -46,8 +46,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 --- #>
 % if (LiveSetup().UseAuth()) {
 	| <a id="login" href="login.html?action=logout"><$ tr("Logout") $></a>
-	| <a<& tooltip.display domId=("aboutBox") &> href="#">?</a>
 % }
+	| <a<& tooltip.display domId=("aboutBox") &> href="#">?</a>
 </div>
 % if (!component.empty()) {
 <div class="pagemenu">
@@ -66,31 +66,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
  </div>
 </div>
 <div style="display:none;">
-	<div class="about_box" id="aboutBox">
-		<div class="station">
-			<div class="boxheader"><div><div><$ LIVESUMMARY $><& tooltip.close domId=("aboutBox") &></div></div></div>
-		</div>
-		<div class="about_content">
-		 	<div>
-				<div class="about_head"><div><div><$ tr("Authors") $></div></div></div>
-				<div class="about_left"><$ tr("Project leader:") $></div>
-				<div class="about_right">Thomas Keil</div>
-				<div class="about_left"><$ tr("Webserver:") $></div>
-				<div class="about_right">Sascha Volkenandt</div>
-				<div class="about_left"><$ tr("Content:") $></div>
-				<div class="about_right">Dieter Hametner</div>
-				<div class="about_left"><$ tr("Content:") $></div>
-				<div class="about_right">Christian Wieninger</div>
-				<div class="about_left"><$ tr("Graphics:") $></div>
-				<div class="about_right">Michi Brückner</div>
-				<div class="about_head"><div><div><$ tr("Information") $></div></div></div>
-				<div class="about_left"><$ tr("LIVE version:") $></div>
-				<div class="about_right"><$ LIVEVERSION $></div>
-				<div class="about_left"><$ tr("VDR version:") $></div>
-				<div class="about_right"><$ VDRVERSION $></div>
-			</div>
-		</div>
-	</div>
+	<& pageelems.about_tt_box &>
 </div>
 % }
 

@@ -14,6 +14,8 @@ class SearchTimer;
 
 bool operator<( SearchTimer const& left, SearchTimer const& right );
 
+bool CheckEpgsearchVersion();
+
 class SearchTimer
 {
 public:

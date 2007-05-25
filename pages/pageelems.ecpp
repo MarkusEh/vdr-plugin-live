@@ -2,9 +2,11 @@
 #include <string>
 #include <vdr/menu.h>
 #include <vdr/epg.h>
-#include "tools.h"
+#include "epgsearch.h"
 #include "i18n.h"
+#include "setup.h"
 #include "timers.h"
+#include "tools.h"
 
 using namespace std;
 using namespace vdrlive;
@@ -165,3 +167,37 @@ using namespace vdrlive;
 	</div>
 </%def>
 
+<%def about_tt_box>
+	<div class="about_box" id="aboutBox">
+		<div class="station">
+			<div class="boxheader"><div><div><$ LIVESUMMARY $><& tooltip.close domId=("aboutBox") &></div></div></div>
+		</div>
+		<div class="about_content">
+		 	<div>
+				<div class="about_head"><div><div><$ tr("Authors") $></div></div></div>
+				<div class="about_left"><$ tr("Project leader:") $></div>
+				<div class="about_right">Thomas Keil</div>
+				<div class="about_left"><$ tr("Webserver:") $></div>
+				<div class="about_right">Sascha Volkenandt</div>
+				<div class="about_left"><$ tr("Content:") $></div>
+				<div class="about_right">Dieter Hametner</div>
+				<div class="about_left"><$ tr("Content:") $></div>
+				<div class="about_right">Christian Wieninger</div>
+				<div class="about_left"><$ tr("Graphics:") $></div>
+				<div class="about_right">Michi Brückner</div>
+				<div class="about_head"><div><div><$ tr("Information") $></div></div></div>
+				<div class="about_left"><$ tr("LIVE version:") $></div>
+				<div class="about_right"><$ LIVEVERSION $></div>
+				<div class="about_left"><$ tr("VDR version:") $></div>
+				<div class="about_right"><$ VDRVERSION $></div>
+				<div class="about_left"><$ tr("Features:") $></div>
+				<div class="about_right">
+<{
+					bool hasEpgsearch = CheckEpgsearchVersion();
+}>
+					<img align="center" src="<$ hasEpgsearch ? "" : "in" $>active.png"/> EPGsearch (<a href="http://freenet-homepage.de/cwieninger/html/vdr-epg-search.html" target="_blank">Homepage</a>)<br/>
+				</div>
+			</div>
+		</div>
+	</div>
+</%def>
