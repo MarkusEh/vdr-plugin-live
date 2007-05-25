@@ -29,8 +29,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		set_component = component;
 }>
 <div class="menu">
-	<a href="whats_on.html?type=now" <& menu.setactive current=("now") &>><$ tr("What's on now?") $></a> |
-	<a href="whats_on.html?type=next" <& menu.setactive current=("next") &>><$ tr("What's on next?") $></a> |
+	<a href="whats_on.html?type=now" <& menu.setactive current=("whats_on") &>><$ tr("What's on?") $></a> |
 	<a href="schedule.html" <& menu.setactive current=("schedule") &>><$ tr("Schedule") $></a> |
 	<a href="timers.html" <& menu.setactive current=("timers") &>><$ tr("Timers") $></a> |
 % if (LiveSetup().HaveEPGSearch()) {
@@ -51,8 +50,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <div class="pagemenu">
  <div> <!-- outer -->
   <div> <!-- inner -->
-	<& menu.component current=("now") &>
-	<& menu.component current=("next") &>
+	<& menu.component current=("whats_on") &>
 	<& menu.component current=("schedule") &>
 	<& menu.component current=("timers") &>
 % if (LiveSetup().HaveEPGSearch()) {

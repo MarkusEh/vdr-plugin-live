@@ -45,7 +45,7 @@ if (type == "now") {
 	</head>
 	<body onload="<& pageelems.infobox_start_update &>">
 		<& pageelems.logo &>
-		<& menu active=(type) &>
+		<& menu active=("whats_on") component=("whats_on.whats_on_actions")>
 		<div class="inhalt">
 <{
 	EpgEvents epgEvents;
@@ -118,3 +118,8 @@ if (type == "now") {
 	</body>
 </html>
 <%include>page_exit.eh</%include>
+
+<%def whats_on_actions>
+<a href="whats_on.html?type=now"><$ tr("Now") $></a>&nbsp;&nbsp;
+<a href="whats_on.html?type=next"><$ tr("Next") $></a>
+</%def>
