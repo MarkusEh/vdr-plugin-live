@@ -875,3 +875,63 @@ table.login tr td {
 	padding: 3px 5px;
 	text-align: right;
 }
+
+/* ##############################
+   # About box
+   ##############################
+*/
+
+div.about_box {
+	width: 50%;
+	border: none;
+}
+
+.about_box div.about_description {
+}
+
+.about_box div.about_content {
+	padding: 0;
+	margin: 0;
+
+	border-left: 1px solid #000000;
+	border-right: 1px solid #000000;
+	border-bottom: 1px solid #000000;
+}
+
+.about_box div.about_content div {
+	background-color: white;
+	padding-bottom: 6px;
+}
+
+.about_box div.boxheader div div a {
+}
+
+.about_box div.about_content div.about_left {
+	text-align: right;
+	float: left;
+	width: 100px;
+}
+
+.about_box div.about_content div.about_right {
+	padding-left: 115px;
+}
+
+.about_box div.about_content div.about_head {
+	font-weight: bold;
+	margin-top: 2px;
+	padding-top: 6px;
+	margin-bottom: 6px;
+	background: #FFFFFF url(bg_line.png) top repeat-x;
+}
+
+.about_box div.about_content div.about_head div {
+	padding-bottom: 6px;
+	background: #FFFFFF url(bg_line_top.png) bottom repeat-x;
+}
+
+.about_box div.about_content div.about_head div div {
+	padding: 2px 0px 2px 10px;
+	background: #E9EFFF;
+	border-top: 1px solid #C0C1DA;
+	border-bottom: 1px solid #C0C1DA;
+}

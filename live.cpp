@@ -3,7 +3,7 @@
  *
  * See the README file for copyright information and how to reach the author.
  *
- * $Id: live.cpp,v 1.14 2007/04/26 16:17:36 thomas Exp $
+ * $Id: live.cpp,v 1.15 2007/05/25 19:12:28 lordjaxom Exp $
  */
 
 #include <vdr/plugin.h>
@@ -19,8 +19,8 @@ namespace vdrlive {
 
 using namespace std;
 
-const char *Plugin::VERSION        = "0.0.1";
-const char *Plugin::DESCRIPTION    = "Live Integrated VDR Environment";
+const char *Plugin::VERSION        = LIVEVERSION;
+const char *Plugin::DESCRIPTION    = LIVESUMMARY;
 
 std::string Plugin::m_configDirectory;
 
