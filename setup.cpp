@@ -73,6 +73,7 @@ bool Setup::ParseSetupEntry( char const* name, char const* value )
 	else if ( strcmp( name, "UseAuth" ) == 0 ) m_useAuth = atoi( value );
 	else if ( strcmp( name, "AdminLogin" ) == 0 ) m_adminLogin = value;
 	else if ( strcmp( name, "AdminPasswordMD5" ) == 0 ) m_adminPasswordMD5 = value;
+	else if ( strcmp( name, "UserdefTimes" ) == 0 ) m_times = value;
 	else return false;
 	return true;
 }
@@ -141,6 +142,7 @@ bool Setup::SaveSetup()
 		liveplugin->SetupStore("AdminLogin",  m_adminLogin.c_str());
 		liveplugin->SetupStore("AdminPasswordMD5",  m_adminPasswordMD5.c_str());
 	}
+	liveplugin->SetupStore("UserdefTimes",  m_times.c_str());
 	return true;
 }
 

@@ -14,6 +14,8 @@ using namespace vdrlive;
 </%pre>
 <%args>
 type = "now";
+string attime;
+time_t seektime = 0;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -29,9 +31,13 @@ const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
 string head;
 if (type == "now") {
 	head = tr("What's running at")+string(" ")+FormatDateTime(tr("%I:%M %p"), time(0));
-} else {
-	type="next";
+} else if (type == "next") {
 	head = tr("What's on next?");
+} else if (type == "at") {
+	seektime = GetTimeT(attime);
+	if (seektime - time(0) + 3600 < 0) 
+		seektime += 24 * 60 * 60;
+	head = tr("What's running at")+string(" ")+FormatDateTime(tr("%a, %b %d"), seektime) + string(" ") + FormatDateTime(tr("%I:%M %p"), seektime);
 }
 
 }>
@@ -42,6 +48,13 @@ if (type == "now") {
 		<link rel="stylesheet" type="text/css" href="styles.css" />
 		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
+		<script type="text/javascript"><!--
+		function showtime(selection)
+		{
+			if (selection.options[selection.selectedIndex].value != "")
+				window.location.href = "whats_on.html?type=at&attime=" + selection.options[selection.selectedIndex].value;
+		}
+		//--></script>
 	</head>
 	<body onload="<& pageelems.infobox_start_update &>">
 		<& pageelems.logo &>
@@ -49,15 +62,28 @@ if (type == "now") {
 		<div class="inhalt">
 <{
 	EpgEvents epgEvents;
-
+	time_t seektime = 0;
+	if (type == "at")
+	{
+		seektime = GetTimeT(attime);
+		if (seektime - time(0) + 3600 < 0) 
+			seektime += 24 * 60 * 60;
+	}
 	ReadLock channelsLock( Channels );
 	if (channelsLock) {
 		int evntNr = 0;
 		for (cChannel *Channel = Channels.First(); Channel && Channel->Number() <= LiveSetup().GetLastChannel(); Channel = Channels.Next(Channel)) {
 			if (!Channel->GroupSep()) {
 				const cSchedule *Schedule = Schedules->GetSchedule(Channel);
-				if (Schedule) {
-					const cEvent *Event = (type == "now" ? Schedule->GetPresentEvent() : Schedule->GetFollowingEvent());
+				if (Schedule) {				
+					const cEvent *Event = NULL;
+					if (type == "now")
+						Event = Schedule->GetPresentEvent();
+					else if (type == "next")
+						Event = Schedule->GetFollowingEvent();
+					else if (type == "at")
+						Event = Schedule->GetEventAround(seektime);
+					
 						if (Event) {
 							string evntId("eventId_");
 							evntId += lexical_cast<std::string, int>(++evntNr);
@@ -121,5 +147,17 @@ if (type == "now") {
 
 <%def whats_on_actions>
 <a href="whats_on.html?type=now"><$ tr("Now") $></a>&nbsp;&nbsp;
-<a href="whats_on.html?type=next"><$ tr("Next") $></a>
+<a href="whats_on.html?type=next"><$ tr("Next") $></a>&nbsp;&nbsp;
+<select name="userdeftimes" size="1" id="userdeftimes" onchange="showtime(this)">
+	<option value="0"/>
+<{
+	vector< string > parts = StringSplit( LiveSetup().GetTimes(), ';' );
+	vector< string >::const_iterator part = parts.begin();
+	for ( int i = 0; part != parts.end(); ++i, ++part ) {
+}>
+	<option value="<$ *part $>"> <$ *part $></option>
+<{
+	}
+}>
+</select>
 </%def>

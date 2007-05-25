@@ -32,12 +32,14 @@ public:
 	std::string GetMD5HashAdminPassword() const;
 	int GetAdminPasswordLength() const;
 	bool UseAuth() const { return m_useAuth; }
+	std::string GetTimes() const { return m_times; }
 	
 	void SetLastChannel(int lastChannel) { m_lastChannel = lastChannel; }
 	void SetAdminLogin(std::string login) { m_adminLogin = login; }
 	std::string SetAdminPassword(std::string password);
 	void SetUseAuth(int auth) { m_useAuth = auth; }
 	void SetScrenshotInterval(int interval) { m_screenshotInterval = interval; }
+	void SetTimes(std::string times) { m_times = times; }
 
 	bool SaveSetup();
 
@@ -64,6 +66,7 @@ private:
 	int m_useAuth;
 	std::string m_adminLogin;
 	std::string m_adminPasswordMD5;
+	std::string m_times;
 
 	bool CheckServerPort();
 	bool CheckServerIps();

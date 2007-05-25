@@ -10,6 +10,7 @@ using namespace std;
 	bool useauth = 0;
 	string login;
 	string pass;
+	string times;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -27,12 +28,14 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			if (pass != "")
 				LiveSetup().SetAdminPassword(pass);
 		}
-		LiveSetup().SaveSetup();
+		LiveSetup().SetTimes(times);
+		LiveSetup().SaveSetup();		
 	}
 	pageTitle = tr("Setup");
 	lastchannel = LiveSetup().GetLastChannel();
 	login = LiveSetup().GetAdminLogin();
 	useauth = LiveSetup().UseAuth();
+	times = LiveSetup().GetTimes();
 
 </%cpp>
 <& pageelems.doc_type &>
@@ -86,6 +89,12 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 							</table>
 							</div>
 						</td>
+						<td class="border" style="border-right: 1px solid black"></td>
+					</tr>
+					<tr>
+						<td class="border" style="border-left: 1px solid black"></td>
+						<td class="label"><$ tr("additional fixed times in 'What's on?'") $>:</td>
+						<td><input type="text" name="times" value="<$ times $>" id="times" /></td>
 						<td class="border" style="border-right: 1px solid black"></td>
 					</tr>
 					<tr>

@@ -144,4 +144,19 @@ std::string MD5Hash(std::string const& str)
 	return hashStr.str();
 }
 
+#define HOURS(x) ((x)/100)
+#define MINUTES(x) ((x)%100)
+
+time_t GetTimeT(std::string timestring) // timestring in HH:MM
+{
+	timestring = StringReplace(timestring, ":", "");
+	int iTime = lexical_cast< int >( timestring );
+	struct tm tm_r;
+	time_t t = time(NULL);
+	tm* tmnow = localtime_r(&t, &tm_r);
+	tmnow->tm_hour = HOURS(iTime);
+	tmnow->tm_min = MINUTES(iTime);
+	return mktime(tmnow);
+}
+
 } // namespace vdrlive

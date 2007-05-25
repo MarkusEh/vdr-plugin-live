@@ -3483,6 +3483,28 @@ const tI18nPhrase Phrases[] = {
       "", // Dansk
       "", // Czech
     },
+    { "additional fixed times in 'What's on?'",
+      "zusätzliche Zeitpunkte in 'Was läuft?'",
+      "", // Slovenski
+      "", // Italiono
+      "", // Nederlands
+      "", // Português
+      "", // Français
+      "", // Norsk
+      "", // Finnish
+      "", // Polski
+      "", // Español
+      "", // Greek
+      "", // Svenska
+      "", // Românã
+      "", // Magyar
+      "", // Català
+      "", // Russian
+      "", // Hrvatski
+      "", // Eesti
+      "", // Dansk
+      "", // Czech
+    },
     /*
       { "", // English
       "", // Deutsch
