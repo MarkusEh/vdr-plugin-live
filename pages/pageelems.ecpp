@@ -184,7 +184,7 @@ using namespace vdrlive;
 				<div class="about_left"><$ tr("Content:") $></div>
 				<div class="about_right">Christian Wieninger</div>
 				<div class="about_left"><$ tr("Graphics:") $></div>
-				<div class="about_right">Michi Brückner</div>
+				<div class="about_right">Michael Brückner</div>
 				<div class="about_head"><div><div><$ tr("Information") $></div></div></div>
 				<div class="about_left"><$ tr("LIVE version:") $></div>
 				<div class="about_right"><$ LIVEVERSION $></div>
