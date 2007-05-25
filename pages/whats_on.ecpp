@@ -79,6 +79,9 @@ if (type == "now") {
 %							if (type == "now") {
 						<& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channel_id) image="zap.png" alt="" &>
 %							}
+%						if (LiveSetup().HaveEPGSearch()) {
+						<a href="searchresults.html?searchplain=<$ StringEscapeAndBreak(epgEvent->Title()) $>"><img src="/search.png" border="0" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a>
+%						}
 					</div>
 				 	<div>
 						<div class="info"><$ (epgEvent->StartTime(tr("%I:%M %p"))) $> - <$ (epgEvent->EndTime(tr("%I:%M %p"))) $></div>

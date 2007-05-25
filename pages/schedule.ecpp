@@ -106,7 +106,12 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 %					current_day = day;
 %					}
 					<tr class="<? active_line ? "active" ?>">
-						<td style="border-left: 1px solid black"><& pageelems.event_timer channelid=(channel_id) eventid=(event) &></td>
+						<td style="border-left: 1px solid black"><& pageelems.event_timer channelid=(channel_id) eventid=(event) &>
+%						if (LiveSetup().HaveEPGSearch()) {
+						<a href="searchresults.html?searchplain=<$ StringEscapeAndBreak(title) $>"><img src="/search.png" border="0" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a>
+%						}
+
+						</td>
 						<td><$ start $> - <$ end $></td>
 						<td>
 %							if(Event == PresentEvent) {

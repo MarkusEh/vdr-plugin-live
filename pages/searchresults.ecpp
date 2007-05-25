@@ -15,6 +15,7 @@ using namespace std;
 	// input parameters
 	string searchtimerid;
 	string searchtimerquery;
+	string searchplain;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -30,6 +31,19 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		results.GetByID(lexical_cast< int >(searchtimerid));
 	if (!searchtimerquery.empty())
 		results.GetByQuery(SearchResults::PopQuery(searchtimerquery));
+	if (!searchplain.empty())
+	{
+		string query = searchplain;
+		StringReplace(query, "&amp;", "&");
+		SearchTimer s;
+		s.SetId(0);
+		s.SetSearch(query);
+		s.SetSearchMode(0);
+		s.SetUseTitle(true);		
+		s.SetUseSubtitle(false);
+		s.SetUseDescription(false);		
+		results.GetByQuery(s.ToText());
+	}
 </%cpp>
 <& pageelems.doc_type &>
 <html>
