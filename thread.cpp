@@ -45,7 +45,7 @@ void ServerThread::Action()
 	try {
 		ProtectedCString configPath( TntConfig::Get().GetConfigPath().c_str() );
 
-		char* argv[] = { "tntnet", "-c", configPath };
+		char* argv[] = { const_cast< char* >( "tntnet" ), const_cast< char* >( "-c" ), configPath };
 		int argc = sizeof( argv ) / sizeof( argv[0] );
 		m_server.reset( new Tntnet( argc, argv ) );
 		m_server->run();
