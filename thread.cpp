@@ -48,7 +48,6 @@ void ServerThread::Action()
 		char* argv[] = { "tntnet", "-c", configPath };
 		int argc = sizeof( argv ) / sizeof( argv[0] );
 		m_server.reset( new Tntnet( argc, argv ) );
-		throw std::runtime_error("port not available");
 		m_server->run();
 		m_server.reset( 0 );
 	} catch ( exception const& ex ) {
