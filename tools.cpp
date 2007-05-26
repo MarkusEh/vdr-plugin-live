@@ -150,6 +150,8 @@ std::string MD5Hash(std::string const& str)
 time_t GetTimeT(std::string timestring) // timestring in HH:MM
 {
 	timestring = StringReplace(timestring, ":", "");
+	if (timestring.size() < 4)
+		timestring += string(4 - timestring.size(), '0');
 	int iTime = lexical_cast< int >( timestring );
 	struct tm tm_r;
 	time_t t = time(NULL);
