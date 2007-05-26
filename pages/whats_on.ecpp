@@ -36,6 +36,7 @@ if (type == "now") {
 } else if (type == "next") {
 	head = tr("What's on next?");
 } else if (type == "at") {
+	attime = ExpandTimeString(attime);
 	seektime = GetTimeT(attime);
 	if (seektime - time(0) + 3600 < 0) // if wanted time is past more then 1h, then use tomorrow
 		seektime += SECSINDAY;
@@ -51,6 +52,10 @@ if (type == "now") {
 		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 		<script type="text/javascript"><!--
+		function init()
+		{
+			document.getElementById("spectime").value = "<$ attime $>";
+		}
 		function showtime(selection)
 		{
 			if (selection.options[selection.selectedIndex].value != "")
@@ -63,7 +68,7 @@ if (type == "now") {
 		}
 		//--></script>
 	</head>
-	<body onload="<& pageelems.infobox_start_update &>">
+	<body onload="<& pageelems.infobox_start_update &>; init()">
 		<& pageelems.logo &>
 		<& menu active=("whats_on") component=("whats_on.whats_on_actions")>
 		<div class="inhalt">

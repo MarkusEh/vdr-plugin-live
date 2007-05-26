@@ -147,11 +147,28 @@ std::string MD5Hash(std::string const& str)
 #define HOURS(x) ((x)/100)
 #define MINUTES(x) ((x)%100)
 
+std::string ExpandTimeString(std::string timestring)
+{
+	string::size_type colonpos = timestring.find(":");
+	if (colonpos == string::npos)
+	{
+		timestring += string(std::max(0,(int)(4 - timestring.size())), '0');
+		timestring = string(timestring.begin(), timestring.begin() + 2) + ":" + string(timestring.begin() + 2, timestring.end());
+	}
+	else
+	{
+		string hours = string(timestring.begin(), timestring.begin() + colonpos);
+		string mins = string(timestring.begin() + colonpos + 1, timestring.end());
+		hours = string(std::max(0,(int)(2 - hours.size())), '0') + hours;
+		mins = string(std::max(0,(int)(2 - mins.size())), '0') + mins;
+		timestring = hours + ":" + mins;
+	}
+	return timestring;
+}
+
 time_t GetTimeT(std::string timestring) // timestring in HH:MM
 {
 	timestring = StringReplace(timestring, ":", "");
-	if (timestring.size() < 4)
-		timestring += string(4 - timestring.size(), '0');
 	int iTime = lexical_cast< int >( timestring );
 	struct tm tm_r;
 	time_t t = time(NULL);
