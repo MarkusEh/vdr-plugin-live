@@ -200,7 +200,7 @@ div.pagemenu span {
 div.pagemenu span.sep {
 	text-decoration: none;
 	color: grey;
-	font-weight: bold;
+	font-weight: lighter;
 	padding: 5px;
 }
 
