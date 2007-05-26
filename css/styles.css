@@ -190,6 +190,20 @@ div.pagemenu a {
 	font-weight: bold;
 }
 
+div.pagemenu span {
+	text-decoration: none;
+	color: black;
+	font-weight: bold;
+	padding: 5px;
+}
+
+div.pagemenu span.sep {
+	text-decoration: none;
+	color: grey;
+	font-weight: bold;
+	padding: 5px;
+}
+
 /* #######################
    #  Info Box (near logo)
    #######################
