@@ -3418,6 +3418,28 @@ const tI18nPhrase Phrases[] = {
       "", // Dansk
       "", // Czech
       },
+    { "What's on",
+      "Was läuft",
+      "", // Slovenski
+      "", // Italiono
+      "", // Nederlands
+      "", // Português
+      "", // Français
+      "", // Norsk
+      "", // Finnish
+      "", // Polski
+      "", // Español
+      "", // Greek
+      "", // Svenska
+      "", // Românã
+      "", // Magyar
+      "", // Català
+      "", // Russian
+      "", // Hrvatski
+      "", // Eesti
+      "", // Dansk
+      "", // Czech
+    },
     { "What's on?",
       "Was läuft?",
       "", // Slovenski
@@ -3439,7 +3461,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-    },    { "Now",
+    },
+    { "Now",
       "Jetzt",
       "", // Slovenski
       "", // Italiono
@@ -3462,7 +3485,7 @@ const tI18nPhrase Phrases[] = {
       "", // Czech
     },
     { "Next",
-      "Nächstes",
+      "als Nächstes",
       "", // Slovenski
       "", // Italiono
       "", // Nederlands
@@ -3485,6 +3508,50 @@ const tI18nPhrase Phrases[] = {
     },
     { "additional fixed times in 'What's on?'",
       "zusätzliche Zeitpunkte in 'Was läuft?'",
+      "", // Slovenski
+      "", // Italiono
+      "", // Nederlands
+      "", // Português
+      "", // Français
+      "", // Norsk
+      "", // Finnish
+      "", // Polski
+      "", // Español
+      "", // Greek
+      "", // Svenska
+      "", // Românã
+      "", // Magyar
+      "", // Català
+      "", // Russian
+      "", // Hrvatski
+      "", // Eesti
+      "", // Dansk
+      "", // Czech
+    },
+    { "Format is HH:MM. Separate multiple times with a colon",
+      "Format ist HH:MM. Mehrere Zeiten durch Semikolon trennen",
+      "", // Slovenski
+      "", // Italiono
+      "", // Nederlands
+      "", // Português
+      "", // Français
+      "", // Norsk
+      "", // Finnish
+      "", // Polski
+      "", // Español
+      "", // Greek
+      "", // Svenska
+      "", // Românã
+      "", // Magyar
+      "", // Català
+      "", // Russian
+      "", // Hrvatski
+      "", // Eesti
+      "", // Dansk
+      "", // Czech
+    },
+    { "at",
+      "um",
       "", // Slovenski
       "", // Italiono
       "", // Nederlands
