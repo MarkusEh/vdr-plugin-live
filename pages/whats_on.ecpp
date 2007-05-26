@@ -15,7 +15,7 @@ using namespace vdrlive;
 <%args>
 type = "now";
 string attime;
-time_t seektime = 0;
+
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -29,15 +29,17 @@ cSchedulesLock schedulesLock;
 const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
 
 string head;
+time_t seektime = 0;
+
 if (type == "now") {
 	head = tr("What's running at")+string(" ")+FormatDateTime(tr("%I:%M %p"), time(0));
 } else if (type == "next") {
 	head = tr("What's on next?");
 } else if (type == "at") {
 	seektime = GetTimeT(attime);
-	if (seektime - time(0) + 3600 < 0) 
-		seektime += 24 * 60 * 60;
-	head = tr("What's running at")+string(" ")+FormatDateTime(tr("%a, %b %d"), seektime) + string(" ") + FormatDateTime(tr("%I:%M %p"), seektime);
+	if (seektime - time(0) + 3600 < 0) // if wanted time is past more then 1h, then use tomorrow
+		seektime += SECSINDAY;
+	head = tr("What's running at") + string(" ") + FormatDateTime(tr("%I:%M %p"), seektime) +string(" (") +FormatDateTime(tr("%a, %b %d"), seektime) + string(")");
 }
 
 }>
@@ -54,6 +56,11 @@ if (type == "now") {
 			if (selection.options[selection.selectedIndex].value != "")
 				window.location.href = "whats_on.html?type=at&attime=" + selection.options[selection.selectedIndex].value;
 		}
+		function showspectime(selection)
+		{
+			if (selection.value != "")
+				window.location.href = "whats_on.html?type=at&attime=" + selection.value;
+		}
 		//--></script>
 	</head>
 	<body onload="<& pageelems.infobox_start_update &>">
@@ -62,13 +69,7 @@ if (type == "now") {
 		<div class="inhalt">
 <{
 	EpgEvents epgEvents;
-	time_t seektime = 0;
-	if (type == "at")
-	{
-		seektime = GetTimeT(attime);
-		if (seektime - time(0) + 3600 < 0) 
-			seektime += 24 * 60 * 60;
-	}
+
 	ReadLock channelsLock( Channels );
 	if (channelsLock) {
 		int evntNr = 0;
@@ -146,8 +147,11 @@ if (type == "now") {
 <%include>page_exit.eh</%include>
 
 <%def whats_on_actions>
-<a href="whats_on.html?type=now"><$ tr("Now") $></a>&nbsp;&nbsp;
-<a href="whats_on.html?type=next"><$ tr("Next") $></a>&nbsp;&nbsp;
+<a href="whats_on.html?type=now"><$ tr("Now") $></a>
+<span class="sep">|</span>
+<a href="whats_on.html?type=next"><$ tr("Next") $></a>
+<span class="sep">|</span>
+<span><$ tr("What's on") $></span>
 <select name="userdeftimes" size="1" id="userdeftimes" onchange="showtime(this)">
 	<option value="0"/>
 <{
@@ -155,9 +159,12 @@ if (type == "now") {
 	vector< string >::const_iterator part = parts.begin();
 	for ( int i = 0; part != parts.end(); ++i, ++part ) {
 }>
-	<option value="<$ *part $>"> <$ *part $></option>
+	<option value="<$ *part $>"> <$ tr("at") + string(" ") + *part $></option>
 <{
 	}
 }>
 </select>
+<span class="sep">|</span>
+<span><$ tr("at") $></span>
+<input type="text" size="6" name="spectime" id="spectime" onchange="showspectime(this)"/></td>
 </%def>
