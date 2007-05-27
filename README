@@ -40,6 +40,33 @@ full blown package we might provide a stripped down version in the future.
 
 
 
+Setup
+=====
+
+Live provides a username/password protection, so that it can be used from
+the internet. The default username and password are:
+
+	admin/live
+
+The default port is 8008.
+You can adjust the port in <vdr_config_dir>/plugins/live/httpd.config:
+
+	Listen 0.0.0.0 8008
+
+Please don't touch anything else in this file.
+The rest of the parameters can be adjusted in VDR's OSD or in the web
+interface.
+
+The password is stored as a MD5 hash.
+"Last Channel" is the last channel in the channels list, that live displays.
+This is especially useful if you have VDR's automatic channel update active.
+For example, you can add a group seperator ":@1000 Found automatically" to
+channels.conf an set this parameter to "1000". Thus, everything VDR finds
+during scanning (which can after a few months be well more than 3000
+channels) won't be displayed.
+
+
+
 So how does it work?
 ====================
 Basically, Live itself is a Tntnet webserver integrated into the plugin
