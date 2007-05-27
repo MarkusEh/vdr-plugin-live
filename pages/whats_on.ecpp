@@ -61,7 +61,7 @@ if (type == "now") {
 		function init()
 		{
 %			if (attime != "") {
-				document.getElementById("spectime").value = "<$ attime $>";
+				document.getElementById("spectime").value = "<$ displaytime $>";
 %			}
 <{
 			if (fixtime != "") {
