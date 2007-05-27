@@ -152,8 +152,14 @@ std::string ExpandTimeString(std::string timestring)
 	string::size_type colonpos = timestring.find(":");
 	if (colonpos == string::npos)
 	{
-		timestring += string(std::max(0,(int)(4 - timestring.size())), '0');
-		timestring = string(timestring.begin(), timestring.begin() + 2) + ":" + string(timestring.begin() + 2, timestring.end());
+		if (timestring.size() == 1)
+			timestring = "0" + timestring + ":00";
+		else if (timestring.size() == 2)
+			timestring = timestring + ":00";
+		else if (timestring.size() == 3)
+			timestring = "0" + string(timestring.begin(), timestring.begin() + 1) + ":" + string(timestring.begin() + 1, timestring.end());
+		else
+			timestring = string(timestring.begin(), timestring.begin() + 2) + ":" + string(timestring.begin() + 2, timestring.end());
 	}
 	else
 	{
