@@ -71,7 +71,7 @@ So how does it work?
 ====================
 Basically, Live itself is a Tntnet webserver integrated into the plugin
 structure VDR needs.
-This webserver, running in VDR's environment, is provided it with all public data
+This webserver, running in VDR's environment, is provided with all public data
 structures VDR provides for plugins and thus has very fast access to
 information like the EPG, timers or recordings.
 
