@@ -12,7 +12,7 @@ namespace vdrlive {
 
 using namespace std;
 
-char ServiceInterface[] = "Epgsearch-services-v1.0-beta1";
+char ServiceInterface[] = "Epgsearch-services-v1.0";
 
 bool operator<( SearchTimer const& left, SearchTimer const& right )
 {
