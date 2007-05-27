@@ -1,12 +1,13 @@
 <%pre>
 #include "setup.h"
+#include "tools.h"
 
 using namespace vdrlive;
 using namespace std;
 
 </%pre>
 <%args>
-	int lastchannel = 0;
+	string lastchannel;
 	bool useauth = 0;
 	string login;
 	string pass;
@@ -21,7 +22,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 }>
 <%cpp>
 	if ( request.getMethod() == "POST") {		
-		LiveSetup().SetLastChannel(lastchannel);
+		LiveSetup().SetLastChannel(lastchannel != "" ? lexical_cast< int >(lastchannel):0);
 		LiveSetup().SetUseAuth(useauth);
 		if (useauth) {
 			LiveSetup().SetAdminLogin(login);
@@ -32,7 +33,12 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		LiveSetup().SaveSetup();		
 	}
 	pageTitle = tr("Setup");
-	lastchannel = LiveSetup().GetLastChannel();
+	int ilastchannel = LiveSetup().GetLastChannel();
+	if (ilastchannel == std::numeric_limits< int >::max())
+		lastchannel = "";
+	else
+		lastchannel = lexical_cast<std::string, int>(ilastchannel);
+
 	login = LiveSetup().GetAdminLogin();
 	useauth = LiveSetup().UseAuth();
 	times = LiveSetup().GetTimes();
