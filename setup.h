@@ -7,7 +7,7 @@
 #include "live.h"
 #include <vdr/menuitems.h>
 
-#define LIVEVERSION "0.0.1"
+#define LIVEVERSION "0.1.0"
 #define LIVEVERSNUM 1
 #define LIVESUMMARY "Live Integrated VDR Environment"
 
