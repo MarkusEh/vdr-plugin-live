@@ -135,7 +135,28 @@ const tI18nPhrase Phrases[] = {
       "", // Dansk
       "", // Czech
     },
-    { "Date", // English
+    { "%A, %x", // English
+      "%A, %x", // Deutsch
+      "", // Slovenski
+      "", // Italiano
+      "", // Nederlands
+      "", // Português
+      "", // Français
+      "", // Norsk
+      "", // Finnish
+      "", // Polski
+      "", // Español
+      "", // Greek
+      "", // Svenska
+      "", // Românã
+      "", // Magyar
+      "", // Català
+      "", // Russian
+      "", // Hrvatski
+      "", // Eesti
+      "", // Dansk
+      "", // Czech
+    },    { "Date", // English
       "Datum", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -3770,6 +3791,50 @@ const tI18nPhrase Phrases[] = {
       "", // Dansk
       "", // Czech
     },
+      { "Couldn't find timer. Maybe you mistyped your request?", // English
+      "Konnte Timer nicht finden. Evtl. fehlerhafte Anforderung?", // Deutsch
+      "", // Slovenski
+      "", // Italiano
+      "", // Nederlands
+      "", // Português
+      "", // Français
+      "", // Norsk
+      "", // Finnish
+      "", // Polski
+      "", // Español
+      "", // Greek
+      "", // Svenska
+      "", // Românã
+      "", // Magyar
+      "", // Català
+      "", // Russian
+      "", // Hrvatski
+      "", // Eesti
+      "", // Dansk
+      "", // Czech
+      },
+      { "Page error", // English
+      "Seitenfehler", // Deutsch
+      "", // Slovenski
+      "", // Italiano
+      "", // Nederlands
+      "", // Português
+      "", // Français
+      "", // Norsk
+      "", // Finnish
+      "", // Polski
+      "", // Español
+      "", // Greek
+      "", // Svenska
+      "", // Românã
+      "", // Magyar
+      "", // Català
+      "", // Russian
+      "", // Hrvatski
+      "", // Eesti
+      "", // Dansk
+      "", // Czech
+      },
     /*
       { "", // English
       "", // Deutsch
