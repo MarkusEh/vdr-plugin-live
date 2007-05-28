@@ -54,6 +54,14 @@ You can adjust the port in <vdr_config_dir>/plugins/live/httpd.config:
 	Listen 0.0.0.0 8008
 
 Please don't touch anything else in this file.
+You can also specifiy this parameter via commandline:
+
+  -p PORT,  --port=PORT     use PORT to listen for incoming connections
+                            (default: 8008)
+  -i IP,    --ip=IP         bind server only to specified IP, may appear
+                            multiple times
+                            (default: 0.0.0.0)
+
 The rest of the parameters can be adjusted in VDR's OSD or in the web
 interface.
 
