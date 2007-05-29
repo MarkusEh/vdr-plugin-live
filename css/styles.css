@@ -190,6 +190,11 @@ div.pagemenu a {
 	font-weight: bold;
 }
 
+div.pagemenu a.active {
+	text-decoration: none;
+	color: blue;
+	font-weight: bold;
+}
 div.pagemenu span {
 	text-decoration: none;
 	color: black;

@@ -60,6 +60,12 @@ if (type == "now") {
 		<script type="text/javascript"><!--
 		function init()
 		{
+%			if (type == "now") {
+				document.getElementById("nowhref").className = "active";
+%			}
+%			if (type == "next") {
+				document.getElementById("nexthref").className = "active";
+%			}
 %			if (attime != "") {
 				document.getElementById("spectime").value = "<$ displaytime $>";
 %			}
@@ -170,9 +176,9 @@ if (type == "now") {
 <%include>page_exit.eh</%include>
 
 <%def whats_on_actions>
-<a href="whats_on.html?type=now"><$ tr("Now") $></a>
+<a href="whats_on.html?type=now" id="nowhref"><$ tr("Now") $></a>
 <span class="sep">|</span>
-<a href="whats_on.html?type=next"><$ tr("Next") $></a>
+<a href="whats_on.html?type=next" id="nexthref"><$ tr("Next") $></a>
 <span class="sep">|</span>
 <span><$ tr("What's on") $></span>
 <select name="userdeftimes" size="1" id="userdeftimes" onchange="showtime(this)">
