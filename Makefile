@@ -1,7 +1,7 @@
 #
 # Makefile for a Video Disk Recorder plugin
 #
-# $Id: Makefile,v 1.36 2007/05/24 07:20:45 winni Exp $
+# $Id: Makefile,v 1.37 2007/05/29 16:06:58 lordjaxom Exp $
 
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.
@@ -26,7 +26,7 @@ LDFLAGS  ?= -fPIC -g
 ECPPC    ?= ecppc
 CXXFLAGS += `tntnet-config --cxxflags`
 
-LDFLAGS  += `tntnet-config --libs`
+LIBS  += $(shell tntnet-config --libs)
 
 ### The directory environment:
 
@@ -71,7 +71,7 @@ WEBLIBS    = pages/libpages.a css/libcss.a images/libimages.a \
 
 .PHONY: all dist clean SUBDIRS
 
-all: SUBDIRS libvdr-$(PLUGIN).so
+all: libvdr-$(PLUGIN).so
 
 ### Implicit rules:
 
@@ -94,7 +94,7 @@ SUBDIRS:
 		make -C $$dir CXX="$(CXX)" CXXFLAGS="$(CXXFLAGS)" || exit 1; \
 	done
 
-libvdr-$(PLUGIN).so: $(PLUGINOBJS) $(LIBS) $(WEBLIBS)
+libvdr-$(PLUGIN).so: SUBDIRS $(PLUGINOBJS)
 	$(CXX) $(LDFLAGS) -shared -o $@  $(PLUGINOBJS) -Wl,--whole-archive $(WEBLIBS) -Wl,--no-whole-archive $(LIBS)
 	@cp --remove-destination $@ $(LIBDIR)/$@.$(APIVERSION)
 
