@@ -77,7 +77,6 @@ namespace tnt
   {
     cxxtools::MutexLock lock(mutex);
     workers.erase(this);
-    comploader.cleanup();
 
     log_debug("delete worker " << threadId << " - " << workers.size() << " threads left - " << application.getQueue().getWaitThreadCount() << " waiting threads");
   }
