@@ -210,7 +210,7 @@ static bool HasEpgsearch()
 					<img align="center" src="<$ hasEpgsearch ? "" : "in" $>active.png"/> EPGsearch <$ epgsearchVersion $>(<a href="http://winni.vdr-developer.org/epgsearch/index.html" target="_blank">Homepage</a>)<br/>
 				</div>
 				<div class="about_head"><div><div><$ tr("Bugs and suggestions") $></div></div></div>
-				<div class="about_line"><$ tr("If you encounter any bugs or would like to suggest new features, please use our bugtracker:") $><br/>
+				<div class="about_line"><$ tr("If you encounter any bugs or would like to suggest new features, please use our bugtracker") $>:<br/>
 					<a target="_blank" href="http://www.vdr-developer.org/mantisbt">http://www.vdr-developer.org/mantisbt</a></div>
 			</div>
 		</div>

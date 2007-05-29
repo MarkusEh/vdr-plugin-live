@@ -899,6 +899,12 @@ div.about_box {
 	border: none;
 }
 
+div.about_box a {
+	text-decoration: none;
+	color: black;
+	font-weight: bold;
+}
+
 div#aboutBox_tip {
 	width: 45%;
 }
@@ -934,7 +940,7 @@ div#aboutBox_tip {
 }
 
 .about_box div.about_content div.about_line {
-	padding-left: 5px;
+	padding-left: 10px;
 }
 
 .about_box div.about_content div.about_head {

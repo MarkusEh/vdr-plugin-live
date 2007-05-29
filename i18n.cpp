@@ -3835,6 +3835,50 @@ const tI18nPhrase Phrases[] = {
       "", // Dansk
       "", // Czech
       },
+      { "If you encounter any bugs or would like to suggest new features, please use our bugtracker", // English
+      "Für Fehler oder Verbesserungsvorschläge steht unser Bugtracker bereit", // Deutsch
+      "", // Slovenski
+      "", // Italiano
+      "", // Nederlands
+      "", // Português
+      "", // Français
+      "", // Norsk
+      "", // Finnish
+      "", // Polski
+      "", // Español
+      "", // Greek
+      "", // Svenska
+      "", // Românã
+      "", // Magyar
+      "", // Català
+      "", // Russian
+      "", // Hrvatski
+      "", // Eesti
+      "", // Dansk
+      "", // Czech
+      },
+      { "Bugs and suggestions", // English
+      "Fehlerberichte und Vorschläge", // Deutsch
+      "", // Slovenski
+      "", // Italiano
+      "", // Nederlands
+      "", // Português
+      "", // Français
+      "", // Norsk
+      "", // Finnish
+      "", // Polski
+      "", // Español
+      "", // Greek
+      "", // Svenska
+      "", // Românã
+      "", // Magyar
+      "", // Català
+      "", // Russian
+      "", // Hrvatski
+      "", // Eesti
+      "", // Dansk
+      "", // Czech
+      },
     /*
       { "", // English
       "", // Deutsch
