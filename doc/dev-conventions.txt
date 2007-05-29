@@ -1,0 +1,25 @@
+This file contains some guidlines for developers about what to obey
+when adding new functionality to live plugin.
+
+First of all please look at the existing code and how it was done
+there. We are still open for improvement suggestions though.
+
+We want to support a broad range of browsers. On one side are hand held
+devices like WEB-enabled PDAs or mobile phones. They often lack full
+grown support for ECMAScript and have small screen sizes. The other
+extreme are the desktop browsers like FireFox, Konqueror, Opera and
+perhabs IE (if the 'powers that be' make him more CSS compliant).
+Here WEB 2.0 featuers can improve the users experience.
+
+In the future some themeing in live might help to cover this broad
+range. Meanwhile we suggest the following rule to activate
+functionality with and without ECMAScript support:
+
+Use anchors analog to this example
+
+ <a href="show_content.html?ref=additional_content_ref"
+ onclick="makefalse(requestbox('additional_content_ref'));">link</a>
+
+to retrieve and display extra information either in a WEB 2.0 fashion
+in an popup box or on a separte page in a html fashion.
+

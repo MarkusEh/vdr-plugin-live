@@ -87,3 +87,8 @@ Live's "pages" are written in "ecpp", a language integrating C++ and HTML in
 one file, very much like e.g. PHP or ASP weave functionality and "static"
 content information together.
 
+
+Contribute!
+===========
+If you would like to contribute, please read doc/dev-contribute.txt
+and doc/TODO.txt.
