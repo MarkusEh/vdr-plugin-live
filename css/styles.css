@@ -933,6 +933,10 @@ div#aboutBox_tip {
 	padding-left: 200px;
 }
 
+.about_box div.about_content div.about_line {
+	padding-left: 5px;
+}
+
 .about_box div.about_content div.about_head {
 	font-weight: bold;
 	margin-top: 0px;

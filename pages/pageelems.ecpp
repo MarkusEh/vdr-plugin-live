@@ -187,15 +187,15 @@ static bool HasEpgsearch()
 		 	<div>
 				<div class="about_head"><div><div><$ tr("Authors") $></div></div></div>
 				<div class="about_left"><$ tr("Project leader") $>:</div>
-				<div class="about_right">Thomas Keil</div>
+				<div class="about_right">Thomas Keil (Thomas)</div>
 				<div class="about_left"><$ tr("Webserver") $>:</div>
-				<div class="about_right">Sascha Volkenandt</div>
+				<div class="about_right">Sascha Volkenandt (LordJaxom)</div>
 				<div class="about_left"><$ tr("Content") $>:</div>
-				<div class="about_right">Dieter Hametner</div>
+				<div class="about_right">Dieter Hametner (tadi)</div>
 				<div class="about_left"><$ tr("Content") $>:</div>
-				<div class="about_right">Christian Wieninger</div>
+				<div class="about_right">Christian Wieninger (winni)</div>
 				<div class="about_left"><$ tr("Graphics") $>:</div>
-				<div class="about_right">Michael Brückner</div>
+				<div class="about_right">Michael Brückner (skiller2k1)</div>
 				<div class="about_head"><div><div><$ tr("Information") $></div></div></div>
 				<div class="about_left"><$ tr("LIVE version") $>:</div>
 				<div class="about_right"><$ LIVEVERSION $></div>
@@ -209,6 +209,9 @@ static bool HasEpgsearch()
 }>
 					<img align="center" src="<$ hasEpgsearch ? "" : "in" $>active.png"/> EPGsearch <$ epgsearchVersion $>(<a href="http://winni.vdr-developer.org/epgsearch/index.html" target="_blank">Homepage</a>)<br/>
 				</div>
+				<div class="about_head"><div><div><$ tr("Bugs and suggestions") $></div></div></div>
+				<div class="about_line"><$ tr("If you encounter any problems or like to suggest new features, please use our bugtracker:") $><br/>
+					<a target="_blank" href="http://www.vdr-developer.org/mantisbt">http://www.vdr-developer.org/mantisbt</a></div>
 			</div>
 		</div>
 	</div>
