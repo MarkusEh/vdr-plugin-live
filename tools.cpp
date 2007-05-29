@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <stdexcept>
 #include <iomanip>
 #include <tnt/ecpp.h>
@@ -182,6 +183,43 @@ time_t GetTimeT(std::string timestring) // timestring in HH:MM
 	tmnow->tm_hour = HOURS(iTime);
 	tmnow->tm_min = MINUTES(iTime);
 	return mktime(tmnow);
+}
+
+struct urlencoder
+{
+	ostream& ostr_;
+
+	urlencoder( ostream& ostr ): ostr_( ostr ) {}
+	
+	void operator()( char ch )
+	{
+		static const char allowedChars[] = {
+		//	  0 ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  A ,  B ,  C ,  D ,  E ,  F ,
+			 '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_',	//00
+			 '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_',	//10
+			 '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', 0x2D,0x2E,0x2F,	//20
+			 0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,'_', '_', '_', '_', '_', '_',	//30
+			 '_', 0x41,0x42,0x43,0x44,0x45,0x46,0x47,0x48,0x49,0x4A,0x4B,0x4C,0x4D,0x4E,0x4F,	//40
+			 0x50,0x51,0x52,0x53,0x54,0x55,0x56,0x57,0x58,0x59,0x5A,'_', '_', '_', '_', '_',	//50
+			 '_', 0x61,0x62,0x63,0x64,0x65,0x66,0x67,0x68,0x69,0x6A,0x6B,0x6C,0x6D,0x6E,0x6F,	//60
+			 0x70,0x71,0x72,0x73,0x74,0x75,0x76,0x77,0x78,0x79,0x7A,'_', '_', '_', '_', '_' 	//70
+			 // everything above 127 (for signed char, below zero) is replaced with '_'
+		};
+
+		if ( ch == ' ' )
+			ostr_ << '+';
+		else if ( allowedChars[ size_t( ch ) ] == '_' )
+			ostr_ << '%' << setw( 2 ) << setfill( '0' ) << hex << int( ch );
+		else
+			ostr_ << ch;
+	}
+};
+
+string StringUrlEncode( string const& input )
+{
+	ostringstream ostr;
+	for_each( input.begin(), input.end(), urlencoder( ostr ) );
+	return ostr.str();
 }
 
 } // namespace vdrlive
