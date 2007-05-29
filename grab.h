@@ -1,12 +1,12 @@
 #ifndef VDR_LIVE_GRAB_H
 #define VDR_LIVE_GRAB_H
 
-#include <boost/shared_array.hpp>
+#include "stdext.h"
 #include "tasks.h"
 
 namespace vdrlive {
 
-typedef boost::shared_array< char > GrabImagePtr;
+typedef std::tr1::shared_ptr< char > GrabImagePtr;
 typedef std::pair< GrabImagePtr, int > GrabImageInfo;
 
 class GrabImageTask;

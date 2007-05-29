@@ -3,7 +3,6 @@
 
 #include <ctime>
 #include <vector>
-#include <boost/shared_ptr.hpp>
 
 #include <vdr/plugin.h>
 #include <vdr/channels.h>
@@ -12,6 +11,7 @@
 #include <vdr/i18n.h>
 
 #include "live.h"
+#include "stdext.h"
 
 namespace vdrlive
 {
@@ -74,7 +74,7 @@ namespace vdrlive
 			time_t m_end_time;
 	};
 
-	typedef boost::shared_ptr<EpgEvent> EpgEventPtr;
+	typedef std::tr1::shared_ptr<EpgEvent> EpgEventPtr;
 
 	class EpgEvents : public std::vector<EpgEventPtr> {
 		public:

@@ -1,17 +1,16 @@
 #include <unistd.h>
 #include <cstring>
 #include <openssl/md5.h>
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
 #include <string>
 #include <sstream>
 #include <fstream>
 #include "tools.h"
 #include "epg_events.h"
 #include "recordings.h"
+#include "stdext.h"
 
 
-using namespace boost;
+using namespace std::tr1;
 using namespace std;
 
 namespace vdrlive {

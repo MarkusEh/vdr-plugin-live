@@ -79,7 +79,6 @@ void GrabImageTask::Action()
 
 GrabImageManager::GrabImageManager()
 		: m_task( new GrabImageTask )
-		, m_image( 0, &free )
 		, m_size( 0 )
 {
 }

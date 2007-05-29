@@ -4,17 +4,17 @@
 #include <ctime>
 #include <map>
 #include <vector>
-#include <boost/shared_ptr.hpp>
 #include <vdr/recording.h>
+#include "stdext.h"
 
 namespace vdrlive {
 
 	// Forward declations from epg_events.h
 	class EpgEvent;
-	typedef boost::shared_ptr<EpgEvent> EpgEventPtr;
+	typedef std::tr1::shared_ptr<EpgEvent> EpgEventPtr;
 
 	class RecordingsManager;
-	typedef boost::shared_ptr<RecordingsManager> RecordingsManagerPtr;
+	typedef std::tr1::shared_ptr<RecordingsManager> RecordingsManagerPtr;
 
 	class RecordingsManager
 	{
@@ -46,7 +46,7 @@ namespace vdrlive {
 
 			class RecordingsItem;
 
-			typedef boost::shared_ptr< RecordingsItem > RecordingsItemPtr;
+			typedef std::tr1::shared_ptr< RecordingsItem > RecordingsItemPtr;
 			typedef std::multimap< std::string, RecordingsItemPtr > Map;
 
 			class RecordingsItem

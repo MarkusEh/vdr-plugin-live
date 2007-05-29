@@ -1,18 +1,19 @@
 #include <algorithm>
-#include <boost/bind.hpp>
 #include <vdr/channels.h>
 #include <vdr/i18n.h>
 #include <vdr/menu.h>
 #include <vdr/recording.h>
 #include "exception.h"
 #include "recordings.h"
+#include "stdext.h"
 #include "tasks.h"
 #include "tools.h"
 
 namespace vdrlive {
 
 using namespace std;
-using namespace boost;
+using namespace std::tr1;
+using namespace std::tr1::placeholders;
 
 StickyTask::StickyTask()
 {
