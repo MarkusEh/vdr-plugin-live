@@ -12,7 +12,7 @@ class Plugin : public cPlugin {
 public:
 	Plugin(void);
 	virtual const char *Version(void) { return VERSION; }
-	virtual const char *Description(void) { return DESCRIPTION; }
+	virtual const char *Description(void) { return tr(DESCRIPTION); }
 	virtual const char *CommandLineHelp(void);
 	virtual bool ProcessArgs(int argc, char *argv[]);
 	virtual bool Start(void);
