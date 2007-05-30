@@ -30,9 +30,14 @@ fast.
 Requirements:
 =============
 
+VDR >= 1.4.3-3
 Tntnet >= 1.5.3		- http://www.tntnet.org/download.hms
 Cxxtools >= 1.4.3	- http://www.tntnet.org/download.hms
-boost >= 1.32.0		- http://www.boost.org
+gcc >= 3.1
+
+if gcc < 4.0:
+boost >= 1.32.0		- http://www.boost.org 
+
 
 Tntnet provides basic webserver functions for live and needs cxxtools.
 Boost provides some data structures we need. While currently relying on the
