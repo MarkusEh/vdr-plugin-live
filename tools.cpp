@@ -216,7 +216,7 @@ struct urlencoder
 
 		if ( ch == ' ' )
 			ostr_ << '+';
-		else if ( allowedChars[ size_t( ch ) ] == '_' )
+		else if ( static_cast< signed char >( ch ) < 0 || allowedChars[ size_t( ch ) ] == '_' )
 			ostr_ << '%' << setw( 2 ) << setfill( '0' ) << hex << int( ch );
 		else
 			ostr_ << ch;
