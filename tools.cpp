@@ -10,6 +10,7 @@
 #include "live.h"
 #include "setup.h"
 #include "tools.h"
+#include "md5.h"
 
 
 using namespace std;
@@ -134,7 +135,14 @@ string ZeroPad(int number)
 
 std::string MD5Hash(std::string const& str)
 {
-	unsigned char md5[MD5_DIGEST_LENGTH];
+	char* szInput = strdup(str.c_str());
+	if (!szInput) return "";
+	char* szRes = MD5String(szInput);
+	string res = szRes;
+	free(szRes);
+	return res;
+
+/*	unsigned char md5[MD5_DIGEST_LENGTH];
 	MD5(reinterpret_cast<const unsigned char*>(str.c_str()), str.size(), md5);
 
 	ostringstream hashStr;
@@ -143,6 +151,7 @@ std::string MD5Hash(std::string const& str)
 		hashStr << (0 + md5[i]);
 
 	return hashStr.str();
+*/
 }
 
 #define HOURS(x) ((x)/100)

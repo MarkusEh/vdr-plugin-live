@@ -22,7 +22,8 @@ namespace vdrlive {
 
 	string RecordingsManager::Md5Hash(const cRecording* recording) const
 	{
-		unsigned char md5[MD5_DIGEST_LENGTH];
+		return MD5Hash(recording->FileName());
+/*		unsigned char md5[MD5_DIGEST_LENGTH];
 		const char* fileName = recording->FileName();
 		MD5(reinterpret_cast<const unsigned char*>(fileName), strlen(fileName), md5);
 
@@ -31,6 +32,7 @@ namespace vdrlive {
 		for (size_t i = 0; i < MD5_DIGEST_LENGTH; i++)
 			hashStr << (0 + md5[i]);
 		return hashStr.str();
+*/
 	}
 
 	const cRecording* RecordingsManager::GetByMd5Hash(const string& hash) const
