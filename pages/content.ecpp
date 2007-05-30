@@ -1,5 +1,6 @@
 <%pre>
 #include <string>
+#include <tnt/httperror.h>
 #include <tnt/httpheader.h>
 #include "filecache.h"
 #include "setup.h"
@@ -22,7 +23,7 @@ reply.setContentType("image/png");
 
 FileCache::ptr_type f = LiveFileCache().get("/tmp/live/" + file);
 if (f.get() == 0)
-	return HTTP_NOT_FOUND;
+	throw tnt::NotFoundException(request.getUrl());
 
 string ctime = tnt::HttpMessage::htdate(f->ctime());
 string browserTime = request.getHeader(tnt::httpheader::ifModifiedSince);
