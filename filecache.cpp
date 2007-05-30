@@ -1,13 +1,17 @@
 #include <algorithm>
 #include <fstream>
 #include <istream>
+#include <sys/stat.h>
 #include "filecache.h"
 
 namespace vdrlive {
 
 std::time_t FileObject::get_filetime( std::string const& path )
 {
-	return 9999;
+	struct stat sbuf;
+	if ( stat( path.c_str(), &sbuf ) < 0 )
+		return 0; // XXX
+	return sbuf.st_ctime;
 }
 
 bool FileObject::is_current() const
