@@ -49,11 +49,7 @@ the internet. The default username and password are:
 	admin/live
 
 The default port is 8008.
-You can adjust the port in <vdr_config_dir>/plugins/live/httpd.config:
 
-	Listen 0.0.0.0 8008
-
-Please don't touch anything else in this file.
 You can also specifiy this parameter via commandline:
 
   -p PORT,  --port=PORT     use PORT to listen for incoming connections
