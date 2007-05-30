@@ -24,7 +24,7 @@ OBJS	= logo.o record.o active.o inactive.o button_blue.o	\
 	  tv.o remotecontrol.o search.o record_timer.o		\
 	  button_red.o button_green.o button_new.o help.o	\
 	  logo_login.o button_yellow.o arrow.o arrow_rec.o	\
-	  on_dvd.o pause.o ffw.o rwd.o stop.o
+	  on_dvd.o pause.o ffw.o rwd.o stop.o imdb.o
 
 ### Default rules:
 
