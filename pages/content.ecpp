@@ -1,0 +1,34 @@
+<%pre>
+#include <string>
+#include <tnt/httpheader.h>
+#include "filecache.h"
+#include "setup.h"
+
+using namespace std;
+using namespace vdrlive;
+
+</%pre>
+<%args>
+string file;
+</%args>
+<%session scope="global">
+bool logged_in(false);
+</%session>
+<%cpp>
+//if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+
+reply.setContentType("image/png");
+//reply.setContentType("text/plain");
+
+FileCache::ptr_type f = LiveFileCache().get("/tmp/live/" + file);
+if (f.get() == 0)
+	return HTTP_NOT_FOUND;
+
+string ctime = tnt::HttpMessage::htdate(f->ctime());
+string browserTime = request.getHeader(tnt::httpheader::ifModifiedSince);
+if (browserTime == ctime)
+	return HTTP_NOT_MODIFIED;
+
+reply.setHeader(tnt::httpheader::lastModified, ctime);
+reply.out().write(f->data(), f->size());
+</%cpp>
