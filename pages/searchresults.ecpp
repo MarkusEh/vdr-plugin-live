@@ -33,11 +33,9 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		results.GetByQuery(SearchResults::PopQuery(searchtimerquery));
 	if (!searchplain.empty())
 	{
-		string query = searchplain;
-		StringReplace(query, "&amp;", "&");
 		SearchTimer s;
 		s.SetId(0);
-		s.SetSearch(query);
+		s.SetSearch(searchplain);
 		s.SetSearchMode(0);
 		s.SetUseTitle(true);		
 		s.SetUseSubtitle(false);

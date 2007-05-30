@@ -21,6 +21,13 @@ string fixtime;
 <%session scope="global">
 bool logged_in(false);
 </%session>
+<%request scope="page">
+string current_type;
+string current_attime;
+string current_fixtime;
+string current_displaytime;
+</%request>
+
 <%include>page_init.eh</%include>
 <{
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
@@ -33,6 +40,10 @@ string head;
 time_t seektime = 0;
 string displaytime;
 
+current_type = type;
+current_attime = attime;
+current_fixtime = fixtime;
+
 if (type == "now") {
 	head = tr("What's running at")+string(" ")+FormatDateTime(tr("%I:%M %p"), time(0));
 } else if (type == "next") {
@@ -42,6 +53,7 @@ if (type == "now") {
 		displaytime = ExpandTimeString(attime);
 	else if (fixtime != "")
 		displaytime = ExpandTimeString(fixtime);
+	current_displaytime = displaytime;
 
 	seektime = GetTimeT(displaytime);
 	if (seektime - time(0) + 3600 < 0) // if wanted time is past more then 1h, then use tomorrow
@@ -58,28 +70,6 @@ if (type == "now") {
 		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 		<script type="text/javascript"><!--
-		function init()
-		{
-%			if (type == "now") {
-				document.getElementById("nowhref").className = "active";
-%			}
-%			if (type == "next") {
-				document.getElementById("nexthref").className = "active";
-%			}
-%			if (attime != "") {
-				document.getElementById("spectime").value = "<$ displaytime $>";
-%			}
-<{
-			if (fixtime != "") {
-				vector< string > parts = StringSplit( LiveSetup().GetTimes(), ';' );
-				vector< string >::const_iterator part = parts.begin();
-				for ( int i = 0; part != parts.end(); ++i, ++part ) {
-					if (*part == fixtime)  {
-}>
-				document.getElementById("userdeftimes").options[<$ i+1 $>].selected = true;
-<{			}}}
-}>
-		}
 		function showtime(selection)
 		{
 			if (selection.options[selection.selectedIndex].value != "")
@@ -92,7 +82,7 @@ if (type == "now") {
 		}
 		//--></script>
 	</head>
-	<body onload="<& pageelems.infobox_start_update &>; init()">
+	<body onload="<& pageelems.infobox_start_update &>">
 		<& pageelems.logo &>
 		<& menu active=("whats_on") component=("whats_on.whats_on_actions")>
 		<div class="inhalt">
@@ -176,9 +166,9 @@ if (type == "now") {
 <%include>page_exit.eh</%include>
 
 <%def whats_on_actions>
-<a href="whats_on.html?type=now" id="nowhref"><$ tr("Now") $></a>
+<a class="<? current_type == "now" ? "active" ?>" href="whats_on.html?type=now" id="nowhref"><$ tr("Now") $></a>
 <span class="sep">|</span>
-<a href="whats_on.html?type=next" id="nexthref"><$ tr("Next") $></a>
+<a class="<? current_type == "next" ? "active" ?>" href="whats_on.html?type=next" id="nexthref"><$ tr("Next") $></a>
 <span class="sep">|</span>
 <span><$ tr("What's on") $></span>
 <select name="userdeftimes" size="1" id="userdeftimes" onchange="showtime(this)">
@@ -188,12 +178,12 @@ if (type == "now") {
 	vector< string >::const_iterator part = parts.begin();
 	for ( int i = 0; part != parts.end(); ++i, ++part ) {
 }>
-	<option value="<$ *part $>"> <$ tr("at") + string(" ") + *part $></option>
+	<option <{ reply.out() << ( (current_fixtime != "" && *part == current_displaytime) ? "selected=\"selected\"" : "" ); }> value="<$ *part $>"> <$ tr("at") + string(" ") + *part $></option>
 <{
 	}
 }>
 </select>
 <span class="sep">|</span>
 <span><$ tr("at") $></span>
-<input type="text" size="6" name="spectime" id="spectime" onchange="showspectime(this)"/></td>
+<input type="text" size="6" name="spectime" id="spectime" value = "<? current_attime != "" ? current_displaytime ?>" onchange="showspectime(this)"/></td>
 </%def>
