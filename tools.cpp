@@ -5,7 +5,6 @@
 #include <tnt/htmlescostream.h>
 #include <tnt/httprequest.h>
 #include <tnt/httpreply.h>
-#include <openssl/md5.h>
 #include "exception.h"
 #include "live.h"
 #include "setup.h"
