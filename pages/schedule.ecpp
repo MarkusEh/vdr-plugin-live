@@ -110,7 +110,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 %						if (LiveSetup().HaveEPGSearch()) {
 						<a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="/search.png" border="0" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a>
 %						}
-
+						<a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(title) $>"><img src="imdb.png" border="0" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a>
 						</td>
 						<td><$ start $> - <$ end $></td>
 						<td>
