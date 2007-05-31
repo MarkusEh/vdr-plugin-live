@@ -3858,7 +3858,7 @@ const tI18nPhrase Phrases[] = {
       "", // Czech
       },
       { "Couldn't find channel or no channels available. Maybe you mistyped your request?", // English
-      "", // Deutsch
+      "Konnte Kanal nicht finden oder keine Kanäle verfügbar. Ist die Anfrage korrekt?", // Deutsch
       "", // Slovenski
       "", // Italiano
       "", // Nederlands
