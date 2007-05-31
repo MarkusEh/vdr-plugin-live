@@ -586,7 +586,7 @@ table.schedule tr td.head {
 
 table.schedule tr td {
 	vertical-align: top;
-	padding: 0px 7px 0px 3px;
+	padding: 3px 7px 3px 3px;
 	background: url(bg_line.png) bottom repeat-x;
         border-bottom: 1px solid #C0C1DA;
 }
