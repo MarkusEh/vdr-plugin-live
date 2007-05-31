@@ -53,4 +53,4 @@ libpages.a: $(OBJS)
 	$(AR) r $@ $^
 
 clean:
-	@rm -f *~ *.o core* libpages.a $(OBJS:%.o=%.cpp)
+	@rm -f *~ *.o core* libpages.a $(OBJS:%.o=%.cpp) $(DEPFILE)
