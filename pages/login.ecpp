@@ -34,14 +34,14 @@ if (logged_in || !LiveSetup().UseAuth()) return reply.redirect("whats_on.html");
 <& pageelems.doc_type &>
 <html>
 	<head>
-		<title>VDR-Live - Login</title>
+		<title>VDR-Live - <$ tr("Login") $></title>
 		<link rel="stylesheet" type="text/css" href="styles.css" />
 		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 	</head>
 	<body onload="document.auth.login.focus()">
 	<div style="width: 350px; margin: 0 auto; text-align: center; padding: 20px">
-		<div class="boxheader"><div><div>VDR Live Login</div></div></div>
+		<div class="boxheader"><div><div><$ tr("VDR Live Login") $></div></div></div>
 		<div style="border: 1px solid black; padding: 15px">
 			<img src="logo_login.png" alt="VDR Live"></img>
 			<form name="auth">
