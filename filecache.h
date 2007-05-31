@@ -4,6 +4,7 @@
 #include <numeric>
 #include <string>
 #include <vector>
+#include <vdr/thread.h>
 #include <vdr/tools.h>
 #include "cache.h"
 
@@ -40,6 +41,7 @@ public:
 
 	ptr_type get( key_type const& key )
 	{
+		cMutexLock lock( &m_mutex );
 		dsyslog( "vdrlive::FileCache::get( %s )", key.c_str() );
 		dsyslog( "vdrlive::FileCache had %u entries (weight: %u)", count(), weight() );
 		ptr_type result = base_type::get( key );
@@ -47,6 +49,9 @@ public:
 		dsyslog( "vdrlive::FileCache::get( %s ) = %p", key.c_str(), result.get() );
 		return result;
 	}
+
+private:
+	cMutex m_mutex;
 };
 
 //typedef vgstools::cache< std::string, FileObject > FileCache;
