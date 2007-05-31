@@ -1,0 +1,13 @@
+2007-06-01  Dieter Hametner  <dh+vdr@gekrumbel.de>
+
+	These changes fix bug entry #339
+	* css-themeing.txt: describe how to do css themeing.
+	* content.ecpp:
+		- check for additional parameter and use it as mime
+		  type.
+		- use compile time variable USRDIR for path to the files
+		  loaded via content.ecpp
+	* pageelems.ecpp: link to css/siteprefs.css
+	* pages/*.ecpp: changed style link to pageelems.stylesheet
+		        component.
+	* tntconfig.cpp: added MapUrl for css<something>/cssfile.

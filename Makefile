@@ -1,7 +1,7 @@
 #
 # Makefile for a Video Disk Recorder plugin
 #
-# $Id: Makefile,v 1.38 2007/05/30 17:30:00 winni Exp $
+# $Id: Makefile,v 1.39 2007/05/31 23:44:01 tadi Exp $
 
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.
@@ -33,6 +33,7 @@ LIBS  += $(shell tntnet-config --libs)
 VDRDIR   ?= ../../..
 LIBDIR   ?= ../../lib
 TMPDIR   ?= /tmp
+USRDIR	 ?= /usr/share/vdr-plugin-$(PLUGIN)
 
 ### Allow user defined options to overwrite defaults:
 
@@ -51,10 +52,10 @@ PACKAGE = vdr-$(ARCHIVE)
 
 INCLUDES += -I$(VDRDIR)/include -Ihttpd
 
-DEFINES  += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"'
+DEFINES  += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"' -DUSRDIR='"$(USRDIR)"'
 export DEFINES
 
-LIBS     += httpd/libhttpd.a 
+LIBS     += httpd/libhttpd.a
 
 SUBDIRS   = httpd pages css images javascript
 
@@ -62,7 +63,7 @@ SUBDIRS   = httpd pages css images javascript
 
 PLUGINOBJS = $(PLUGIN).o thread.o tntconfig.o setup.o i18n.o timers.o \
              tools.o recordings.o tasks.o status.o epg_events.o epgsearch.o \
-			 grab.o md5.o
+	     grab.o md5.o filecache.o
 
 WEBLIBS    = pages/libpages.a css/libcss.a images/libimages.a \
              javascript/libjavascript.a

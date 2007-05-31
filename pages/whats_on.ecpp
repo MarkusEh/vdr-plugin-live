@@ -69,7 +69,7 @@ if (type == "now") {
 <html>
 	<head>
 		<title>VDR-Live - <$ head $></title>
-		<link rel="stylesheet" type="text/css" href="styles.css" />
+		<& pageelems.stylesheets &>
 		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 		<script type="text/javascript"><!--
@@ -105,7 +105,7 @@ if (type == "now") {
 		for (cChannel *Channel = Channels.First(); Channel && Channel->Number() <= LiveSetup().GetLastChannel(); Channel = Channels.Next(Channel)) {
 			if (!Channel->GroupSep()) {
 				const cSchedule *Schedule = Schedules->GetSchedule(Channel);
-				if (Schedule) {				
+				if (Schedule) {
 					const cEvent *Event = NULL;
 					if (type == "now")
 						Event = Schedule->GetPresentEvent();
@@ -113,7 +113,7 @@ if (type == "now") {
 						Event = Schedule->GetFollowingEvent();
 					else if (type == "at")
 						Event = Schedule->GetEventAround(seektime);
-					
+
 						if (Event) {
 							string evntId("eventId_");
 							evntId += lexical_cast<std::string, int>(++evntNr);

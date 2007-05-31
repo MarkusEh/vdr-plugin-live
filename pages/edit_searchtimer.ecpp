@@ -127,7 +127,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			infos.push_back(os.str());
 			}
 			searchtimer.SetExtEPGInfo(infos);
-		}   
+		}
 		searchtimer.SetUseChannel((SearchTimer::eUseChannel)usechannel);
 		if (usechannel == SearchTimer::Interval)
 		{
@@ -136,19 +136,19 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		}
 		if (usechannel == SearchTimer::Group)
 			searchtimer.SetChannelText(changrpsel);
-		
+
 		searchtimer.SetUseTime(usetime);
 		if (usetime)
 		{
 			searchtimer.SetStartTime(StringToInt(start_h) * 100 + StringToInt(start_m));
 			searchtimer.SetStopTime(StringToInt(stop_h) * 100 + StringToInt(stop_m));
-		}  
+		}
 		searchtimer.SetUseDuration(useduration);
 		if (useduration)
 		{
 			searchtimer.SetMinDuration(durationmin);
 			searchtimer.SetMaxDuration(durationmax);
-		}     
+		}
 		searchtimer.SetUseDayOfWeek(useweekday);
 		if (useweekday)
 		{
@@ -164,7 +164,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		}
 		searchtimer.SetUseInFavorites(useinfavorites);
 		searchtimer.SetUseAsSearchTimer(useassearchtimer);
-		searchtimer.SetSearchTimerAction(searchtimeraction);	
+		searchtimer.SetSearchTimerAction(searchtimeraction);
 		searchtimer.SetUseSeriesRecording(seriesrecording);
 		searchtimer.SetDirectory(directory);
 		searchtimer.SetDelRecsAfterDays(delrecafterdays);
@@ -173,8 +173,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		searchtimer.SetBlacklistMode(blacklistmode);
 		if (blacklistmode == 1)
 			searchtimer.ParseBlacklist(blacklistids_internal);
-		
-		searchtimer.SetSwitchMinBefore(switchminbefore);		
+
+		searchtimer.SetSwitchMinBefore(switchminbefore);
 		searchtimer.SetAvoidRepeats(avoidrepeats);
 		if (avoidrepeats)
 		{
@@ -183,8 +183,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			searchtimer.SetCompareTitle(comparetitle);
 			searchtimer.SetCompareSubtitle(comparesubtitle);
 			searchtimer.SetCompareSummary(comparesummary);
-		}  
-		unsigned long catsselected = 0; 
+		}
+		unsigned long catsselected = 0;
 		for (unsigned int i=0; i< avoidrepeatscatselected.size(); i++)
 			catsselected |= (1<< (avoidrepeatscatselected[i]-1));
 		searchtimer.SetCompareCategories(catsselected);
@@ -193,10 +193,10 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		searchtimer.SetMarginStart(marginstart);
 		searchtimer.SetMarginStop(marginstop);
 		searchtimer.SetUseVPS(usevps);
-		
+
 		if (!testmode)
 		{
-			searchtimers.Save(&searchtimer);			
+			searchtimers.Save(&searchtimer);
 			return reply.redirect("searchtimers.html");
 		}
 		else
@@ -213,7 +213,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		if ( searchtimer == 0 )
 			throw HtmlError( tr("Couldn't find searchtimer. Maybe you mistyped your request?") );
 
-		search = searchtimer->Search(); 
+		search = searchtimer->Search();
 		mode = searchtimer->SearchMode();
 		tolerance = searchtimer->Tolerance();
 		matchcase = searchtimer->MatchCase();
@@ -262,18 +262,18 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			}
 			else
 			{
-			wday_sun = -dayofweek & 0x01; 
-			wday_mon = -dayofweek & 0x02; 
-			wday_tue = -dayofweek & 0x04; 
-			wday_wed = -dayofweek & 0x08; 
-			wday_thu = -dayofweek & 0x10; 
-			wday_fri = -dayofweek & 0x20; 
-			wday_sat = -dayofweek & 0x40; 
+			wday_sun = -dayofweek & 0x01;
+			wday_mon = -dayofweek & 0x02;
+			wday_tue = -dayofweek & 0x04;
+			wday_wed = -dayofweek & 0x08;
+			wday_thu = -dayofweek & 0x10;
+			wday_fri = -dayofweek & 0x20;
+			wday_sat = -dayofweek & 0x40;
 			}
-		}       
+		}
 		useinfavorites = searchtimer->UseInFavorites();
 		useassearchtimer = searchtimer->UseAsSearchTimer();
-		searchtimeraction = searchtimer->SearchTimerAction();	
+		searchtimeraction = searchtimer->SearchTimerAction();
 		seriesrecording = searchtimer->UseSeriesRecording();
 		directory = searchtimer->Directory();
 		delrecafterdays = searchtimer->DelRecsAfterDays();
@@ -286,7 +286,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		for(unsigned int i=0; i<extEPGInfos.size(); i++)
 		{
 			if (i<infos.size())
-			{   
+			{
 			vector< string > parts = StringSplit( infos[i], '#' );
 			extepgvalues.push_back(parts.size() > 1?parts[1]:"");
 			}
@@ -324,13 +324,13 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		lifetime = lexical_cast< int >(EPGSearchSetupValues::ReadValue("DefLifetime"));
 		marginstart = lexical_cast< int >(EPGSearchSetupValues::ReadValue("DefMarginStart"));
 		marginstop = lexical_cast< int >(EPGSearchSetupValues::ReadValue("DefMarginStop"));
-	}   
+	}
 </%cpp>
 <& pageelems.doc_type &>
 <html>
 	<head>
 		<title>VDR Live - <$ editsearchtimer ? tr("Edit search timer") : tr("New search timer") $></title>
-		<link rel="stylesheet" type="text/css" href="styles.css" />
+		<& pageelems.stylesheets &>
 		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 		<script type="text/javascript"><!--
@@ -446,7 +446,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		}
 		function changeddirselection(selection)
 		{
-			document.getElementById("directory").value = selection.value; 
+			document.getElementById("directory").value = selection.value;
 		}
 		//--></script>
 	</head>

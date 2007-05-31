@@ -52,7 +52,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <html>
 	<head>
 		<title>VDR Live - <$ pageTitle $></title>
-		<link rel="stylesheet" type="text/css" href="styles.css" />
+		<& pageelems.stylesheets &>
 		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 	</head>

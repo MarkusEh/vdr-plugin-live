@@ -20,17 +20,13 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <html>
 	<head>
 		<title>VDR-Live - <$ pageTitle $></title>
-		<link rel="stylesheet" type="text/css" href="/styles.css" />
+		<& pageelems.stylesheets &>
 	</head>
 	<body>
-		<div class="left_area">
-			<& pageelems.logo &>
-			<& menu &>
-		</div>
-		<div class="right_area">
+		<& pageelems.logo &>
+		<& menu &>
 		<div class="inhalt">
 			<& error.error_widget errorTitle=(errorTitle) errorMessage=(errorMessage) &>
-		</div>
 		</div>
 	</body>
 </html>

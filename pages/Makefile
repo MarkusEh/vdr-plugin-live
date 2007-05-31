@@ -22,7 +22,7 @@ OBJS	= menu.o channels.o recordings.o schedule.o		\
           searchtimers.o edit_searchtimer.o searchresults.o 	\
           searchepg.o login.o ibox.o xmlresponse.o		\
 	  play_recording.o pause_recording.o stop_recording.o	\
-	  ffw_recording.o rwd_recording.o setup.o
+	  ffw_recording.o rwd_recording.o setup.o content.o
 
 ### Default rules:
 
@@ -53,4 +53,4 @@ libpages.a: $(OBJS)
 	$(AR) r $@ $^
 
 clean:
-	@rm -f *~ *.o core* libpages.a $(OBJS:%.o=%.cpp) $(DEPFILE)
+	@rm -f *~ *.o core* libpages.a $(OBJS:%.o=%.cpp)

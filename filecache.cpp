@@ -41,9 +41,11 @@ FileCache& LiveFileCache()
 
 } // namespace vdrlive
 
+#if 0
 using namespace vdrlive;
 
 int main()
 {
 	FileCache::ptr_type f = LiveFileCache().get("/tmp/live/active.png");
 }
+#endif

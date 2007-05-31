@@ -32,6 +32,13 @@ static bool HasEpgsearch()
 
 <# ---------------------------------------------------------------------- #>
 
+<%def stylesheets>
+<link rel="stylesheet" type="text/css" href="styles.css"/>
+<link rel="stylesheet" type="text/css" href="css/siteprefs.css"/>
+</%def>
+
+<# ---------------------------------------------------------------------- #>
+
 <%def logo>
 <div class="page_header">
 	<img src="logo.png" alt="VDR Live!" class="logo"></img>

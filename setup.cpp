@@ -25,7 +25,7 @@ Setup::Setup():
 		m_lastChannel( 0 ),
 		m_screenshotInterval( 1000 ),
 		m_useAuth( 1 ),
-		m_adminLogin("admin")		
+		m_adminLogin("admin")
 {
 	m_adminPasswordMD5 = "4:" + MD5Hash("live");
 	liveplugin = cPluginManager::GetPlugin("live");
@@ -108,28 +108,28 @@ bool Setup::CheckServerIps()
 
 bool Setup::HaveEPGSearch(void)
 {
-	return cPluginManager::GetPlugin("epgsearch") != NULL;	
+	return cPluginManager::GetPlugin("epgsearch") != NULL;
 }
 
 std::string Setup::GetMD5HashAdminPassword() const
 {
 	// format is <length>:<md5-hash of password>
-	vector< string > parts = StringSplit( m_adminPasswordMD5, ':' ); 
+	vector< string > parts = StringSplit( m_adminPasswordMD5, ':' );
 	return (parts.size() > 1) ? parts[1] : "";
 }
 
 int Setup::GetAdminPasswordLength() const
 {
 	// format is <length>:<md5-hash of password>
-	vector< string > parts = StringSplit( m_adminPasswordMD5, ':' ); 
+	vector< string > parts = StringSplit( m_adminPasswordMD5, ':' );
 	return (parts.size() > 0) ? lexical_cast< int >( parts[0] ) : 0;
 }
 
-std::string Setup::SetAdminPassword(std::string password) 
-{ 
+std::string Setup::SetAdminPassword(std::string password)
+{
 	ostringstream passwordStr;
 	passwordStr << password.size() << ":" << MD5Hash(password);
-	m_adminPasswordMD5 = passwordStr.str(); 
+	m_adminPasswordMD5 = passwordStr.str();
 	return m_adminPasswordMD5;
 }
 
@@ -176,7 +176,7 @@ cMenuSetupLive::cMenuSetupLive():
 	strcpy(m_adminLogin, vdrlive::LiveSetup().GetAdminLogin().c_str());
 
 	m_oldpasswordMD5 = m_newpasswordMD5 = vdrlive::LiveSetup().GetMD5HashAdminPassword();
-	
+
 	string strHidden(vdrlive::LiveSetup().GetAdminPasswordLength(), '*');
 	strn0cpy(m_tmpPassword, strHidden.c_str(), sizeof(m_tmpPassword));
 	strcpy(m_adminPassword, "");
@@ -228,9 +228,9 @@ eOSState cMenuSetupLive::ProcessKey(eKeys Key)
 	bool bPassWasInEditMode = false;
 	if (ItemText && strlen(ItemText) > 0 && strstr(ItemText, tr("Admin password")) == ItemText)
 		bPassWasInEditMode = InEditMode(ItemText, tr("Admin password"), m_tmpPassword);
- 
+
 	eOSState state = cMenuSetupPage::ProcessKey(Key);
-   
+
 	ItemText = Get(Current())->Text();
 	bool bPassIsInEditMode = false;
 	if (ItemText && strlen(ItemText) > 0 && strstr(ItemText, tr("Admin password")) == ItemText)

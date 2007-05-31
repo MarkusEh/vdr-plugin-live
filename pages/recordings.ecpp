@@ -32,7 +32,7 @@ EpgEvents epgEvents;
 <html>
 	<head>
 		<title>VDR-Live - <$ pageTitle $></title>
-		<link rel="stylesheet" type="text/css" href="styles.css" />
+		<& pageelems.stylesheets &>
 		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 		<script type="text/javascript" src="treeview.js"></script>

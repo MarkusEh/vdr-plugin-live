@@ -151,7 +151,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <html>
 	<head>
 		<title>VDR Live - <$ tr("Search") $></title>
-		<link rel="stylesheet" type="text/css" href="styles.css" />
+		<& pageelems.stylesheets &>
 		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 		<script type="text/javascript"><!--
@@ -308,7 +308,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 									<input type="checkbox" name="usetitle" value="1" <{ CHECKIF(usetitle) }> />
 									<label for="usetitle"><$ tr("Title") $> </label>
 								</div>
-								
+
 								<div class="dotted">
 									<input type="checkbox" name="usesubtitle" value="1" <{ CHECKIF(usesubtitle) }> />
 									<label for="usesubtitle"><$ tr("Episode") $> </label>

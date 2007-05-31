@@ -37,9 +37,9 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		s.SetId(0);
 		s.SetSearch(searchplain);
 		s.SetSearchMode(0);
-		s.SetUseTitle(true);		
+		s.SetUseTitle(true);
 		s.SetUseSubtitle(false);
-		s.SetUseDescription(false);		
+		s.SetUseDescription(false);
 		results.GetByQuery(s.ToText());
 	}
 </%cpp>
@@ -47,7 +47,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <html>
 	<head>
 		<title>VDR-Live - <$ pageTitle $></title>
-		<link rel="stylesheet" type="text/css" href="/styles.css" />
+		<& pageelems.stylesheets &>
 		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 	</head>
@@ -76,7 +76,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					tChannelID channel_id(result->Channel());
 					string description = result->Description();
 
-					
+
 					string evntId("eventId_");
 					evntId += lexical_cast<std::string, int>(++evntNr);
 					EpgEventPtr epgEvent(new EpgEvent(evntId, channelname, result->Title(), result->ShortText(), description, result->StartTime(), result->StopTime()));
@@ -105,7 +105,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 						<td>
 							<div class="more"<& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(description, 300, truncated)) + string("<br />") + string(tr("Click to view details."))) &><& tooltip.display domId=(epgEvent->Id()) &>><strong><$ result->Title() $></strong></div><$ result->ShortText() $><br />
 						</td>
-						
+
 						<td style="border-right: 1px solid black">&nbsp;</td>
 					</tr>
 %				}

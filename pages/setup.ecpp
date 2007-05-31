@@ -24,7 +24,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <%cpp>
 #define SELECTIF(x) reply.out() << ( (x) ? "selected=\"selected\"" : "" );
 
-	if ( request.getMethod() == "POST") {		
+	if ( request.getMethod() == "POST") {
 		LiveSetup().SetLastChannel(lastchannel != "" ? lexical_cast< int >(lastchannel):0);
 		LiveSetup().SetUseAuth(useauth);
 		if (useauth) {
@@ -34,7 +34,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		}
 		LiveSetup().SetTimes(times);
 		LiveSetup().SetStartScreen(startscreen);
-		LiveSetup().SaveSetup();		
+		LiveSetup().SaveSetup();
 	}
 	pageTitle = tr("Setup");
 	int ilastchannel = LiveSetup().GetLastChannel();
@@ -53,7 +53,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <html>
 	<head>
 		<title>VDR-Live - <$ pageTitle $></title>
-		<link rel="stylesheet" type="text/css" href="/styles.css" />
+		<& pageelems.stylesheets &>
 		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 		<script type="text/javascript"><!--

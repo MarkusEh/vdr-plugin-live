@@ -1,0 +1,27 @@
+How to do live theming with CSS.
+================================
+
+Live supports CSS theming. While the structure of the html pages is
+given by the plugin, there is the possibility to change the look
+through CSS.
+
+Currently a predefined, compiled into the plugin stylesheet 'styles.css' is
+delivered first. Then a stylesheet 'css/siteprefs.css' is sent to the
+browser. 'css/siteprefs.css' is a normal file that is found in
+USRDIR. The default of USRDIR is /usr/share/vdr-plugin-live. This
+can be changed at compile time by setting the USRDIR variable
+(i.E. USRDIR=/tmp/live make)
+
+One of the next steps will be a mechanism to select additional style
+files and images through a theme setting in vdr. The different themes
+will be also located in theme related subdirs beneath USRDIR.
+
+
+User Contribution
+=================
+
+If you created a nice new look, you can provide it to us. We will try
+to include it into the live distribution.
+
+If you need special html support for your styling needs don't hesitate
+to submit a suggestion.
