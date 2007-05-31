@@ -138,8 +138,8 @@ if (type == "now") {
 %							}
 %						if (LiveSetup().HaveEPGSearch()) {
 						<a href="searchresults.html?searchplain=<$ StringEscapeAndBreak(epgEvent->Title()) $>"><img src="/search.png" border="0" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a>
-						<a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(epgEvent->Title()) $>"><img src="imdb.png" border="0" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a>
 %						}
+						<a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(epgEvent->Title()) $>"><img src="imdb.png" border="0" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a>
 					</div>
 				 	<div>
 						<div class="info"><$ (epgEvent->StartTime(tr("%I:%M %p"))) $> - <$ (epgEvent->EndTime(tr("%I:%M %p"))) $></div>
