@@ -35,6 +35,7 @@ void TntConfig::WriteConfig()
 
 	// XXX modularize
 	file << "MapUrl ^/$ login@" << endl;
+	file << "MapUrl /([^/]+/.+) content@ $1" << endl;
 	file << "MapUrl /([^.]+)(\\..+)? $1@" << endl;
 	file << "PropertyFile " << m_propertiesPath << endl;
 	file << "SessionTimeout 86400" << endl;
