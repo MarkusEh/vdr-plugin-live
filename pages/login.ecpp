@@ -28,7 +28,7 @@ if (action == "login") {
 	logged_in = false;
 }
 
-if (logged_in || !LiveSetup().UseAuth()) return reply.redirect("whats_on.html");
+if (logged_in || !LiveSetup().UseAuth()) return reply.redirect(LiveSetup().GetStartScreenLink());
 
 }>
 <& pageelems.doc_type &>

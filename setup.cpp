@@ -74,6 +74,7 @@ bool Setup::ParseSetupEntry( char const* name, char const* value )
 	else if ( strcmp( name, "AdminLogin" ) == 0 ) m_adminLogin = value;
 	else if ( strcmp( name, "AdminPasswordMD5" ) == 0 ) m_adminPasswordMD5 = value;
 	else if ( strcmp( name, "UserdefTimes" ) == 0 ) m_times = value;
+	else if ( strcmp( name, "StartPage" ) == 0 ) m_startscreen = value;
 	else return false;
 	return true;
 }
@@ -132,6 +133,20 @@ std::string Setup::SetAdminPassword(std::string password)
 	return m_adminPasswordMD5;
 }
 
+std::string Setup::GetStartScreenLink() const
+{
+	if (m_startscreen == "whatsonnext")
+		return "whats_on.html?type=next";
+	else if (m_startscreen == "schedule")
+		return "schedule.html";
+	else if (m_startscreen == "timers")
+		return "timers.html";
+	else if (m_startscreen == "recordings")
+		return "recordings.html";
+	else
+		return "whats_on.html?type=now";
+}
+
 bool Setup::SaveSetup()
 {
 	if (!liveplugin) return false;
@@ -143,6 +158,7 @@ bool Setup::SaveSetup()
 		liveplugin->SetupStore("AdminPasswordMD5",  m_adminPasswordMD5.c_str());
 	}
 	liveplugin->SetupStore("UserdefTimes",  m_times.c_str());
+	liveplugin->SetupStore("StartPage",  m_startscreen.c_str());
 	return true;
 }
 

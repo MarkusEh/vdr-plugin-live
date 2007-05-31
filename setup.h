@@ -36,6 +36,8 @@ public:
 	int GetAdminPasswordLength() const;
 	bool UseAuth() const { return m_useAuth; }
 	std::string GetTimes() const { return m_times; }
+	std::string GetStartScreen() const { return m_startscreen; }
+	std::string GetStartScreenLink() const;
 	
 	void SetLastChannel(int lastChannel) { m_lastChannel = lastChannel; }
 	void SetAdminLogin(std::string login) { m_adminLogin = login; }
@@ -43,6 +45,7 @@ public:
 	void SetUseAuth(int auth) { m_useAuth = auth; }
 	void SetScrenshotInterval(int interval) { m_screenshotInterval = interval; }
 	void SetTimes(std::string times) { m_times = times; }
+	void SetStartScreen(std::string startscreen) { m_startscreen = startscreen; }
 
 	bool SaveSetup();
 
@@ -70,6 +73,7 @@ private:
 	std::string m_adminLogin;
 	std::string m_adminPasswordMD5;
 	std::string m_times;
+	std::string m_startscreen;
 
 	bool CheckServerPort();
 	bool CheckServerIps();

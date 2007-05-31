@@ -12,6 +12,7 @@ using namespace std;
 	string login;
 	string pass;
 	string times;
+	string startscreen;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -21,6 +22,8 @@ bool logged_in(false);
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 }>
 <%cpp>
+#define SELECTIF(x) reply.out() << ( (x) ? "selected=\"selected\"" : "" );
+
 	if ( request.getMethod() == "POST") {		
 		LiveSetup().SetLastChannel(lastchannel != "" ? lexical_cast< int >(lastchannel):0);
 		LiveSetup().SetUseAuth(useauth);
@@ -30,6 +33,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 				LiveSetup().SetAdminPassword(pass);
 		}
 		LiveSetup().SetTimes(times);
+		LiveSetup().SetStartScreen(startscreen);
 		LiveSetup().SaveSetup();		
 	}
 	pageTitle = tr("Setup");
@@ -42,6 +46,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	login = LiveSetup().GetAdminLogin();
 	useauth = LiveSetup().UseAuth();
 	times = LiveSetup().GetTimes();
+	startscreen = LiveSetup().GetStartScreen();
 
 </%cpp>
 <& pageelems.doc_type &>
@@ -102,6 +107,18 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 						<td class="label"><$ tr("additional fixed times in 'What's on?'") $>:</td>
 						<td><input type="text" name="times" value="<$ times $>" id="times" />
 							<& tooltip.help text=(tr("Format is HH:MM. Separate multiple times with a colon")) &></td>
+						<td class="border" style="border-right: 1px solid black"></td>
+					</tr>
+					<tr>
+						<td class="border" style="border-left: 1px solid black"></td>
+						<td class="label"><$ tr("Start page") $>:</td>
+						<td><select name="startscreen" size="1" id="startscreen">
+							<option value="whatsonnow" <{ SELECTIF(startscreen == "whatsonnow") }>><$ tr("What's on now?") $></option>
+							<option value="whatsonnext" <{ SELECTIF(startscreen == "whatsonnext") }>><$ tr("What's on next?") $></option>
+							<option value="schedule" <{ SELECTIF(startscreen == "schedule") }>><$ tr("Schedule") $></option>
+							<option value="recordings" <{ SELECTIF(startscreen == "recordings") }>><$ tr("Recordings") $></option>
+							<option value="timers" <{ SELECTIF(startscreen == "timers") }>><$ tr("Timers") $></option>
+						</select></td>
 						<td class="border" style="border-right: 1px solid black"></td>
 					</tr>
 					<tr>
