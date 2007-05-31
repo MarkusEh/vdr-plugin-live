@@ -296,7 +296,7 @@ const tI18nPhrase Phrases[] = {
       "", // Português
       "", // Français
       "", // Norsk
-      "Toista",
+      "Toistetaan tallennetta",
       "", // Polski
       "", // Español
       "", // Greek
@@ -318,7 +318,7 @@ const tI18nPhrase Phrases[] = {
       "", // Português
       "", // Français
       "", // Norsk
-      "Lopeta",
+      "Lopeta toisto",
       "", // Polski
       "", // Español
       "", // Greek
@@ -340,7 +340,7 @@ const tI18nPhrase Phrases[] = {
       "", // Português
       "", // Français
       "", // Norsk
-      "Jatka",
+      "Jatka toistoa",
       "", // Polski
       "", // Español
       "", // Greek
@@ -362,7 +362,7 @@ const tI18nPhrase Phrases[] = {
       "", // Português
       "", // Français
       "", // Norsk
-      "Pysäytä",
+      "Pysäytä toisto",
       "", // Polski
       "", // Español
       "", // Greek
@@ -3205,7 +3205,7 @@ const tI18nPhrase Phrases[] = {
       "", // Português
       "", // Français
       "", // Norsk
-      "VDR Live -käyttäjätunnus",
+      "VDR Live - sisäänkirjautuminen",
       "", // Polski
       "", // Español
       "", // Greek
@@ -3857,6 +3857,28 @@ const tI18nPhrase Phrases[] = {
       "", // Dansk
       "", // Czech
       },
+      { "Couldn't find channel or no channels available. Maybe you mistyped your request?", // English
+      "", // Deutsch
+      "", // Slovenski
+      "", // Italiano
+      "", // Nederlands
+      "", // Português
+      "", // Français
+      "", // Norsk
+      "Kanavaa ei löydy. Kirjoititko varmasti oikein?",
+      "", // Polski
+      "", // Español
+      "", // Greek
+      "", // Svenska
+      "", // Românã
+      "", // Magyar
+      "", // Català
+      "", // Russian
+      "", // Hrvatski
+      "", // Eesti
+      "", // Dansk
+      "", // Czech
+      },
       { "Page error", // English
       "Seitenfehler", // Deutsch
       "", // Slovenski
@@ -3887,7 +3909,7 @@ const tI18nPhrase Phrases[] = {
       "", // Português
       "", // Français
       "", // Norsk
-      "", // Finnish
+      "Voit raportoida sekä virheet että parannusehdotukset suoraan havaintotietokantaan", // Finnish
       "", // Polski
       "", // Español
       "", // Greek
@@ -3909,7 +3931,7 @@ const tI18nPhrase Phrases[] = {
       "", // Português
       "", // Français
       "", // Norsk
-      "", // Finnish
+      "Virheraportoinnit ja parannusehdotukset", // Finnish
       "", // Polski
       "", // Español
       "", // Greek
@@ -3931,7 +3953,7 @@ const tI18nPhrase Phrases[] = {
       "", // Português
       "", // Français
       "", // Norsk
-      "", // Finnish
+      "Hae IMDB:stä", // Finnish
       "", // Polski
       "", // Español
       "", // Greek
