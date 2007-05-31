@@ -4,6 +4,7 @@
 #include <cassert>
 #include <algorithm>
 #include <ctime>
+#include <functional>
 #include <list>
 #include <map>
 #include <utility>
@@ -18,7 +19,7 @@
 
 namespace vgstools {
 
-template< typename TKey, typename TValue >
+template< typename TKey, typename TValue, typename KeyComp = std::less< TKey > >
 class cache
 {
 public:
@@ -40,7 +41,7 @@ private:
 	typedef std::pair< key_type, ptr_type > value_type;
 
 	typedef std::list< value_type > ValueList;
-	typedef std::map< key_type, typename ValueList::iterator > KeyMap;
+	typedef std::map< key_type, typename ValueList::iterator, KeyComp > KeyMap;
 
 public:
 	cache( size_t maxWeight )
