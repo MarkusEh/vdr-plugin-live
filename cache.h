@@ -68,16 +68,25 @@ public:
 
 			m_currentWeight -= result->weight();
 			m_values.erase( it->second );
-			m_lookup.erase( it );
+			//m_lookup.erase( it );
 		}
 
-		if ( !result->load() )
+		if ( !result->load() ) {
+			if ( it != m_lookup.end() )
+				m_lookup.erase( it );
 			return ptr_type();
+		}
 
 		// put new object into cache
 		if ( result->weight() < m_maxWeight ) {
 			m_currentWeight += result->weight();
-			m_lookup.insert( std::make_pair( key, m_values.insert( m_values.begin(), std::make_pair( key, result ) ) ) );
+
+			typename ValueList::iterator element = m_values.insert( m_values.begin(), std::make_pair( key, result ) );
+			if ( it != m_lookup.end() )
+				it->second = element;
+			else
+				m_lookup.insert( std::make_pair( key, element ) );
+
 			while ( m_currentWeight > m_maxWeight ) {
 				value_type& value = m_values.back();
 				m_currentWeight -= value.second->weight();
