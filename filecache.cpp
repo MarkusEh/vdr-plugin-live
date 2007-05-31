@@ -10,20 +10,8 @@ std::time_t FileObject::get_filetime( std::string const& path )
 {
 	struct stat sbuf;
 	if ( stat( path.c_str(), &sbuf ) < 0 )
-		return 0; // XXX
+		return 0;
 	return sbuf.st_ctime;
-}
-
-bool FileObject::is_current() const
-{
-	return m_ctime < get_filetime( m_path );
-	/*struct stat statBuf = { 0 };
- * 	if ( ::stat( m_path.c_str(), &statBuf ) < 0 ) {
- * 		}
-	if ( m_ctime == 0 )
-		return true;
-	m_ctime = get_filetime( m_path );
-	return timestamp < m_ctime;*/
 }
 
 bool FileObject::load()

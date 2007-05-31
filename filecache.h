@@ -1,6 +1,7 @@
 #ifndef VDR_LIVE_FILECACHE_H
 #define VDR_LIVE_FILECACHE_H
 
+#include <numeric>
 #include <string>
 #include <vector>
 #include <vdr/tools.h>
@@ -12,12 +13,12 @@ class FileObject
 {
 public:
 	FileObject( std::string const& path )
-		: m_ctime( 0 )
+		: m_ctime( std::numeric_limits< std::time_t >::max()  )
 		, m_path( path ) {}
 
 	std::size_t size() const { return m_data.size(); }
 	std::size_t weight() const { return size(); }
-	bool is_current() const;
+	bool is_current() const { return m_ctime == get_filetime( m_path ); }
 	bool load();
 	char const* data() const { return &m_data[0]; }
 	std::time_t ctime() const { return m_ctime; }
@@ -33,6 +34,7 @@ private:
 class FileCache: public vgstools::cache< std::string, FileObject >
 {
 	typedef vgstools::cache< std::string, FileObject > base_type;
+
 public:
 	FileCache( size_t maxWeight ): base_type( maxWeight ) {}
 

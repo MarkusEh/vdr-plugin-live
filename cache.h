@@ -1,6 +1,7 @@
 #ifndef VGSTOOLS_CACHE_H
 #define VGSTOOLS_CACHE_H
 
+#include <cassert>
 #include <algorithm>
 #include <ctime>
 #include <list>
@@ -22,22 +23,24 @@ class cache
 {
 public:
 	typedef TKey key_type;
-	typedef TValue value_type;
-	typedef std::tr1::shared_ptr< value_type > ptr_type;
+	typedef TValue mapped_type;
+	typedef std::tr1::shared_ptr< mapped_type > ptr_type;
 
 private:
-	struct Value
+	/*struct Value
 	{
-		ptr_type value;
-		std::time_t creation;
+		key_type key_;
+		ptr_type value_;
 
-		Value( key_type const& key )
-			: value( new value_type( key ) )
-			, creation( 0 ) {}
-	};
+		Value( key_type const& key, ptr_type const& value )
+			: key_( key )
+			, value_( value ) {}
+	};*/
 
-	typedef std::list< Value > ValueList;
-	typedef std::map< TKey, typename ValueList::iterator > KeyMap;
+	typedef std::pair< key_type, ptr_type > value_type;
+
+	typedef std::list< value_type > ValueList;
+	typedef std::map< key_type, typename ValueList::iterator > KeyMap;
 
 public:
 	cache( size_t maxWeight )
@@ -49,6 +52,43 @@ public:
 
 	ptr_type get( key_type const& key )
 	{
+		assert( m_lookup.size() == m_values.size() );
+
+		typename KeyMap::iterator it = m_lookup.find( key );
+		ptr_type result = it != m_lookup.end() ? it->second->second : ptr_type( new mapped_type( key ) );
+
+		if ( it != m_lookup.end() ) {
+			if ( result->is_current() ) {
+				if ( it->second != m_values.begin() ) {
+					m_values.erase( it->second );
+					it->second = m_values.insert( m_values.begin(), std::make_pair( key, result ) );
+				}
+				return result;
+			}
+
+			m_currentWeight -= result->weight();
+			m_values.erase( it->second );
+			m_lookup.erase( it );
+		}
+
+		if ( !result->load() )
+			return ptr_type();
+
+		// put new object into cache
+		if ( result->weight() < m_maxWeight ) {
+			m_currentWeight += result->weight();
+			m_lookup.insert( std::make_pair( key, m_values.insert( m_values.begin(), std::make_pair( key, result ) ) ) );
+			while ( m_currentWeight > m_maxWeight ) {
+				value_type& value = m_values.back();
+				m_currentWeight -= value.second->weight();
+				m_lookup.erase( m_lookup.find( value.first ) );
+				m_values.pop_back();
+			}
+		}
+
+		return result;
+#if 0	
+		
 		typename KeyMap::iterator it = m_lookup.find( key );
 		if ( it == m_lookup.end() ) {
 			typename ValueList::iterator element = m_values.insert( m_values.begin(), Value( key ) );
@@ -75,6 +115,7 @@ public:
 			value = &*element;
 		}
 		return value->value;
+#endif
 	}
 
 private:
