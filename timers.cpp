@@ -15,6 +15,9 @@ namespace vdrlive {
 using namespace std;
 using namespace vdrlive;
 
+static char const* const TIMER_DELETE = "DELETE";
+static char const* const TIMER_TOGGLE = "TOGGLE";
+
 SortedTimers::SortedTimers():
 		m_state( 0 )
 {
@@ -79,6 +82,8 @@ TimerManager::TimerManager()
 void TimerManager::UpdateTimer( cTimer* timer, int flags, tChannelID& channel, string const& weekdays, string const& day,
 								int start, int stop, int priority, int lifetime, string const& title, string const& aux )
 {
+	cMutexLock lock( this );
+
 	ostringstream builder;
 	builder << flags << ":" << channel << ":" << ( weekdays != "-------" ? weekdays : "" )
 			<< ( weekdays == "-------" || day.empty() ? "" : "@" ) << day << ":" << start << ":" << stop << ":"
@@ -98,22 +103,33 @@ void TimerManager::UpdateTimer( cTimer* timer, int flags, tChannelID& channel, s
 		throw HtmlError( error );
 }
 
-void TimerManager::DelTimer( cTimer* timer)
+void TimerManager::DelTimer( cTimer* timer )
 {
-	cTimer* delTimer = Timers.GetTimer(timer);
-	Timers.Del(delTimer, true);
-	Timers.SetModified();
-	m_timers.ReloadTimers(false);
+	cMutexLock lock( this );
+
+	TimerPair timerData( timer, TIMER_DELETE );
+
+	m_updateTimers.push_back( timerData );
+	m_updateWait.Wait( *this );
+
+	string error = GetError( timerData );
+	if ( !error.empty() )
+		throw HtmlError( error );
 }
 
 void TimerManager::ToggleTimerActive( cTimer* timer)
 {
-	cTimer* toggleTimer = Timers.GetTimer(timer);
-	toggleTimer->OnOff();
-	Timers.SetModified();
-	m_timers.ReloadTimers(false);
-}
+	cMutexLock lock( this );
 
+	TimerPair timerData( timer, TIMER_TOGGLE );
+
+	m_updateTimers.push_back( timerData );
+	m_updateWait.Wait( *this );
+
+	string error = GetError( timerData );
+	if ( !error.empty() )
+		throw HtmlError( error );
+}
 
 void TimerManager::DoPendingWork()
 {
@@ -123,10 +139,10 @@ void TimerManager::DoPendingWork()
 	cMutexLock lock( this );
 	if ( m_updateTimers.size() > 0 ) {
 		DoUpdateTimers();
-		dsyslog("SV: signalling waiters");
-		m_updateWait.Broadcast();
 	}
 	DoReloadTimers();
+	dsyslog("SV: signalling waiters");
+	m_updateWait.Broadcast();
 }
 
 void TimerManager::DoUpdateTimers()
@@ -135,8 +151,10 @@ void TimerManager::DoUpdateTimers()
 	for ( TimerList::iterator timer = m_updateTimers.begin(); timer != m_updateTimers.end(); ++timer ) {
 		if ( timer->first == 0 ) // new timer
 			DoInsertTimer( *timer );
-		else if ( timer->second == "" ) // delete timer
-			; // XXX
+		else if ( timer->second == TIMER_DELETE ) // delete timer
+			DoDeleteTimer( *timer );
+		else if ( timer->second == TIMER_TOGGLE ) // toggle timer
+			DoToggleTimer( *timer );
 		else // update timer
 			DoUpdateTimer( *timer );
 	}
@@ -185,6 +203,47 @@ void TimerManager::DoUpdateTimer( TimerPair& timerData )
 	*oldTimer = copy;
 	Timers.SetModified();
 	isyslog("live timer %s modified (%s)", *oldTimer->ToDescr(), oldTimer->HasFlags(tfActive) ? "active" : "inactive");
+}
+
+void TimerManager::DoDeleteTimer( TimerPair& timerData )
+{
+	if ( Timers.BeingEdited() ) {
+		StoreError( timerData, tr("Timers are being edited - try again later") );
+		return;
+	}
+
+	cTimer* oldTimer = Timers.GetTimer( timerData.first );
+	if ( oldTimer == 0 ) {
+		StoreError( timerData, tr("Timer not defined") );
+		return;
+	}
+
+	cTimer copy = *oldTimer;
+	if ( oldTimer->Recording() ) {
+		oldTimer->Skip();
+		cRecordControls::Process( time( 0 ) );
+	}
+	Timers.Del( oldTimer );
+	Timers.SetModified();
+	isyslog("live timer %s deleted", *copy.ToDescr());
+}
+
+void TimerManager::DoToggleTimer( TimerPair& timerData )
+{
+	if ( Timers.BeingEdited() ) {
+		StoreError( timerData, tr("Timers are being edited - try again later") );
+		return;
+	}
+
+	cTimer* toggleTimer = Timers.GetTimer( timerData.first );
+	if ( toggleTimer == 0 ) {
+		StoreError( timerData, tr("Timer not defined") );
+		return;
+	}
+
+	toggleTimer->OnOff();
+	Timers.SetModified();
+	isyslog("live timer %s toggled %s", *toggleTimer->ToDescr(), toggleTimer->HasFlags(tfActive) ? "on" : "off");
 }
 
 void TimerManager::StoreError( TimerPair const& timerData, std::string const& error )

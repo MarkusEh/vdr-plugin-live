@@ -4,6 +4,7 @@
 #include <list>
 #include <string>
 #include <vdr/channels.h>
+#include <vdr/menu.h>
 #include <vdr/timers.h>
 #include <vdr/thread.h>
 #include "live.h"
@@ -63,6 +64,8 @@ private:
 	void DoUpdateTimers();
 	void DoInsertTimer( TimerPair& timerData );
 	void DoUpdateTimer( TimerPair& timerData );
+	void DoDeleteTimer( TimerPair& timerData );
+	void DoToggleTimer( TimerPair& timerData );
 
 	void StoreError( TimerPair const& timerData, std::string const& error );
 	std::string GetError( TimerPair const& timerData );
