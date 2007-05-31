@@ -14,6 +14,7 @@ using namespace vdrlive;
 </%pre>
 <%args>
 type = "now";
+mode = "detail";
 string attime;
 string fixtime;
 
@@ -23,6 +24,7 @@ bool logged_in(false);
 </%session>
 <%request scope="page">
 string current_type;
+string current_mode;
 string current_attime;
 string current_fixtime;
 string current_displaytime;
@@ -41,6 +43,7 @@ time_t seektime = 0;
 string displaytime;
 
 current_type = type;
+current_mode = mode;
 current_attime = attime;
 current_fixtime = fixtime;
 
@@ -73,12 +76,12 @@ if (type == "now") {
 		function showtime(selection)
 		{
 			if (selection.options[selection.selectedIndex].value != "")
-				window.location.href = "whats_on.html?type=at&fixtime=" + selection.options[selection.selectedIndex].value;
+				window.location.href = "whats_on.html?type=at&mode=<$ current_mode $>&fixtime=" + selection.options[selection.selectedIndex].value;
 		}
 		function showspectime(selection)
 		{
 			if (selection.value != "")
-				window.location.href = "whats_on.html?type=at&attime=" + selection.value;
+				window.location.href = "whats_on.html?type=at&mode=<$ current_mode $>&attime=" + selection.value;
 		}
 		//--></script>
 	</head>
@@ -86,11 +89,18 @@ if (type == "now") {
 		<& pageelems.logo &>
 		<& menu active=("whats_on") component=("whats_on.whats_on_actions")>
 		<div class="inhalt">
+%			if (mode == "list") {
+			<table class="schedule" cellspacing="0" cellpadding="0">
+				<tr>
+					<td class="day" colspan="5"><div class="boxheader"><div><div><$ head $></div></div></div></td>
+				</tr>
+%	    }
 <{
 	EpgEvents epgEvents;
 
 	ReadLock channelsLock( Channels );
 	if (channelsLock) {
+		bool active_line = false;
 		int evntNr = 0;
 		for (cChannel *Channel = Channels.First(); Channel && Channel->Number() <= LiveSetup().GetLastChannel(); Channel = Channels.Next(Channel)) {
 			if (!Channel->GroupSep()) {
@@ -115,6 +125,7 @@ if (type == "now") {
 							bool truncated = false;
 							string description();
 }>
+%		if (mode == "detail") {
 			<div class="event">
 				<div class="station">
 					<div><div><div><a href="schedule.html?channel=<$ Channel->Number() $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ (epgEvent->Caption()) $></a></div></div></div>
@@ -142,6 +153,20 @@ if (type == "now") {
 				 	</div>
 				</div>
 			</div>
+%   } else { // mode == "list"
+				<tr class="<? active_line ? "active" ?>">
+					<td style="border-left: 1px solid black"><& pageelems.event_timer channelid=(channel_id) eventid=(event) &>
+%					if (LiveSetup().HaveEPGSearch()) {
+						<a href="searchresults.html?searchplain=<$ StringUrlEncode(epgEvent->Title()) $>"><img src="/search.png" border="0" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a>
+%					}
+					</td>
+					<td><$ (epgEvent->StartTime(tr("%I:%M %p"))) $> - <$ (epgEvent->EndTime(tr("%I:%M %p"))) $></td>
+					<td>
+					<div class="more"<& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), 300, truncated)) + string("<br />") + string(tr("Click to view details."))) &><& tooltip.display domId=(epgEvent->Id()) &>><strong><$ (epgEvent->Title()) $></strong></div><$ (epgEvent->ShortDescr()) $><br />
+					</td>
+					<td style="border-right: 1px solid black">&nbsp;</td>
+				</tr>
+%   }
 <{
 					}
 				}
@@ -160,6 +185,12 @@ if (type == "now") {
 <{
 	}
 }>
+%			if (mode == "list") {
+				<tr>
+					<td colspan="4" style="border-top: 1px solid black; background-image: none; border-bottom: none">&nbsp;</td>
+				</tr>
+			</table>
+%   	}
 		</div>
 
 	</body>
@@ -167,9 +198,9 @@ if (type == "now") {
 <%include>page_exit.eh</%include>
 
 <%def whats_on_actions>
-<a class="<? current_type == "now" ? "active" ?>" href="whats_on.html?type=now" id="nowhref"><$ tr("Now") $></a>
+<a class="<? current_type == "now" ? "active" ?>" href="whats_on.html?type=now&amp;mode=<$ current_mode $>" id="nowhref"><$ tr("Now") $></a>
 <span class="sep">|</span>
-<a class="<? current_type == "next" ? "active" ?>" href="whats_on.html?type=next" id="nexthref"><$ tr("Next") $></a>
+<a class="<? current_type == "next" ? "active" ?>" href="whats_on.html?type=next&amp;mode=<$ current_mode $>" id="nexthref"><$ tr("Next") $></a>
 <span class="sep">|</span>
 <span><$ tr("What's on") $></span>
 <select name="userdeftimes" size="1" id="userdeftimes" onchange="showtime(this)">
@@ -186,5 +217,9 @@ if (type == "now") {
 </select>
 <span class="sep">|</span>
 <span><$ tr("at") $></span>
-<input type="text" size="6" name="spectime" id="spectime" value = "<? current_attime != "" ? current_displaytime ?>" onchange="showspectime(this)"/></td>
+<input type="text" size="6" name="spectime" id="spectime" value = "<? current_attime != "" ? current_displaytime ?>" onchange="showspectime(this)"/>
+<span class="sep">|</span>
+<a href="whats_on.html?mode=detail&amp;type=<$ current_type $>&amp;attime=<$ current_attime $>&amp;fixtime=<$ current_fixtime $>"><$ tr("Detailview") $></a>
+<span class="sep">|</span>
+<a href="whats_on.html?mode=list&amp;type=<$ current_type $>&amp;attime=<$ current_attime $>&amp;fixtime=<$ current_fixtime $>"><$ tr("Listview") $></a>
 </%def>
