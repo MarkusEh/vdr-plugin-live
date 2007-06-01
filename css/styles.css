@@ -160,7 +160,7 @@ div.menu form {
 }
 
 div.inhalt {
-	height: 200;
+	height: 200px;
 	width: 100% 
 	overflow: auto;
 	padding: 10px;
