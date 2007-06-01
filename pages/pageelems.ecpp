@@ -41,7 +41,9 @@ static bool HasEpgsearch()
 
 <%def logo>
 <div class="page_header">
-	<img src="logo.png" alt="VDR Live!" class="logo"></img>
+
+<a href="<$ LiveSetup().GetStartScreenLink()$>">	
+<img src="logo.png" alt="VDR Live!" class="logo"></img></a>
 	<& infobox &>
 </div>
 <div style="clear: both"></div>
