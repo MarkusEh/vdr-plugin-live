@@ -66,14 +66,14 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 }>
 				<tr>
 					<td class="border" style="border-left: 1px solid black"></td>
-					<td><{ if(timer->UseAsSearchTimer()) { }><img src="/arrow.png" alt=""></img><{ } }></td>
+					<td><{ if(timer->UseAsSearchTimer()) { }><img src="arrow.png" alt=""></img><{ } }></td>
 					<td><$ timer->Search() $></td>
 					<td><$ timer->ChannelText() $></td>
 					<td><? timer->UseTime() ? timer->StartTimeFormatted()+" - "+timer->StopTimeFormatted() ?></td>
-					<td><a href="searchtimers.html?searchtimerid=<$ timer->Id() $>&action=toggle"><img src="/<$ timer->UseAsSearchTimer() ? "active" : "inactive" $>.png" alt="<$ tr("Toggle search timer actions (in)active") $>" <& tooltip.hint text=(tr("Toggle search timer actions (in)active")) &>></img></a></td>
-					<td><a href="searchresults.html?searchtimerid=<$ timer->Id() $>"><img src="/search.png" border="0" alt="<$ tr("Browse search timer results") $>" <& tooltip.hint text=(tr("Browse search timer results")) &>></img></a></td>
-					<td><a href="edit_searchtimer.html?searchtimerid=<$ timer->Id() $>"><img src="/edit.png" alt="<$ tr("Edit search timer") $>" <& tooltip.hint text=(tr("Edit search timer")) &>></img></a></td>
-					<td><a href="searchtimers.html?searchtimerid=<$ timer->Id() $>&action=delete" onclick="return confirm('<$ tr("Delete this search timer?") $>')"><img src="/del.png" alt="<$ tr("Delete search timer") $>" <& tooltip.hint text=(tr("Delete search timer")) &>></img></a></td>
+					<td><a href="searchtimers.html?searchtimerid=<$ timer->Id() $>&action=toggle"><img src="<$ timer->UseAsSearchTimer() ? "active" : "inactive" $>.png" alt="<$ tr("Toggle search timer actions (in)active") $>" <& tooltip.hint text=(tr("Toggle search timer actions (in)active")) &>></img></a></td>
+					<td><a href="searchresults.html?searchtimerid=<$ timer->Id() $>"><img src="search.png" border="0" alt="<$ tr("Browse search timer results") $>" <& tooltip.hint text=(tr("Browse search timer results")) &>></img></a></td>
+					<td><a href="edit_searchtimer.html?searchtimerid=<$ timer->Id() $>"><img src="edit.png" alt="<$ tr("Edit search timer") $>" <& tooltip.hint text=(tr("Edit search timer")) &>></img></a></td>
+					<td><a href="searchtimers.html?searchtimerid=<$ timer->Id() $>&action=delete" onclick="return confirm('<$ tr("Delete this search timer?") $>')"><img src="del.png" alt="<$ tr("Delete search timer") $>" <& tooltip.hint text=(tr("Delete search timer")) &>></img></a></td>
 					<td class="border" style="border-right: 1px solid black"></td>
 				</tr>
 <{

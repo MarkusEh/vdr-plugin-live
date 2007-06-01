@@ -51,5 +51,5 @@ domId;
 <%args>
 text;
 </%args>
- <img src="/help.png" onmouseover="domTT_close(domTT_lastOpened); domTT_activate(this, event, 'predefined', 'tipHint', 'content', '<$ text $>');"></img>
+ <img src="help.png" onmouseover="domTT_close(domTT_lastOpened); domTT_activate(this, event, 'predefined', 'tipHint', 'content', '<$ text $>');"></img>
 </%def>
