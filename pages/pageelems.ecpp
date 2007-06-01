@@ -2,8 +2,8 @@
 #include <string>
 #include <vdr/menu.h>
 #include <vdr/epg.h>
-#include "epgsearch.h"
 #include "exception.h"
+#include "livefeatures.h"
 #include "i18n.h"
 #include "setup.h"
 #include "timers.h"
@@ -11,16 +11,6 @@
 
 using namespace std;
 using namespace vdrlive;
-
-static bool HasEpgsearch()
-{
-	bool result = false;
-	try {
-		result = CheckEpgsearchVersion();
-	} catch (HtmlError const& ex) {
-	}
-	return result;
-}
 
 </%pre>
 
@@ -213,10 +203,15 @@ static bool HasEpgsearch()
 				<div class="about_left"><$ tr("Features") $>:</div>
 				<div class="about_right">
 <{
-					bool hasEpgsearch = HasEpgsearch();
-					string epgsearchVersion = hasEpgsearch ? string( cPluginManager::GetPlugin("epgsearch")->Version() ) + " " : "";
+					Features< features::epgsearch >& epgsearch = LiveFeatures< features::epgsearch >();
 }>
-					<img align="center" src="<$ hasEpgsearch ? "" : "in" $>active.png"/> EPGsearch <$ epgsearchVersion $>(<a href="http://winni.vdr-developer.org/epgsearch/index.html" target="_blank"><$ tr("Homepage") $></a>)<br/>
+					<img align="center" src="<$ epgsearch.Recent() ? "" : "in" $>active.png"/> EPGsearch
+%					if ( epgsearch.Recent() ) {
+						(<$ tr("active") $>: <$ epgsearch.Version() $>)
+%					} else {
+						(<$ tr("required") $>: <$ epgsearch.MinVersion() $>)
+%					}
+					(<a href="http://winni.vdr-developer.org/epgsearch/index.html" target="_blank"><$ tr("Homepage") $></a>)<br/>
 				</div>
 				<div class="about_head"><div><div><$ tr("Bugs and suggestions") $></div></div></div>
 				<div class="about_line"><$ tr("If you encounter any bugs or would like to suggest new features, please use our bugtracker") $>:<br/>
