@@ -106,11 +106,6 @@ bool Setup::CheckServerIps()
 	return true;
 }
 
-bool Setup::HaveEPGSearch(void)
-{
-	return cPluginManager::GetPlugin("epgsearch") != NULL;
-}
-
 std::string Setup::GetMD5HashAdminPassword() const
 {
 	// format is <length>:<md5-hash of password>

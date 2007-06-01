@@ -6,6 +6,7 @@
 #include "epgsearch/services.h"
 #include "epgsearch.h"
 #include "exception.h"
+#include "livefeatures.h"
 #include "tools.h"
 
 namespace vdrlive {
@@ -25,12 +26,14 @@ bool operator<( SearchTimer const& left, SearchTimer const& right )
 
 bool CheckEpgsearchVersion()
 {
-	cPlugin* epgsearch = cPluginManager::GetPlugin("epgsearch");
-	if (!epgsearch) return false;
-	char minVersion[] = "0.9.22";
-	if (string(epgsearch->Version()) < string(minVersion))
-		throw HtmlError( tr("Required minimum version of epgsearch: ") + string(minVersion));
-	return true;
+	/* @winni: Falls Du an der Versionsnummer Anpassungen vornehmen willst, mach das bitte in livefeatures.h ganz unten. Danke */
+	Features< features::epgsearch >& f = LiveFeatures< features::epgsearch >();
+	if ( f.Loaded() ) {
+		if ( !f.Recent() )
+			throw HtmlError( tr("Required minimum version of epgsearch: ") + string( f.MinVersion() ));
+		return true;
+	}
+	return false;
 }
 
 SearchTimer::SearchTimer()

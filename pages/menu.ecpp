@@ -2,6 +2,7 @@
 #include <string>
 #include <vdr/plugin.h>
 #include <vdr/config.h>
+#include "livefeatures.h"
 #include "setup.h"
 
 using namespace std;
@@ -34,7 +35,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	<a href="whats_on.html?type=now" <& menu.setactive current=("whats_on") &>><$ tr("What's on?") $></a> |
 	<a href="schedule.html" <& menu.setactive current=("schedule") &>><$ tr("Schedule") $></a> |
 	<a href="timers.html" <& menu.setactive current=("timers") &>><$ tr("Timers") $></a> |
-% if (LiveSetup().HaveEPGSearch()) {
+% if ( LiveFeatures< features::epgsearch >().Recent() ) {
 	<a href="searchepg.html" <& menu.setactive current=("searchepg") &>><$ tr("Search") $></a> |
 	<a href="searchtimers.html" <& menu.setactive current=("searchtimers") &>><$ tr("Searchtimers") $></a> |
 % }
@@ -56,7 +57,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	<& menu.component current=("whats_on") &>
 	<& menu.component current=("schedule") &>
 	<& menu.component current=("timers") &>
-% if (LiveSetup().HaveEPGSearch()) {
+% if ( LiveFeatures< features::epgsearch >().Recent() ) {
 	<& menu.component current=("search") &>
 	<& menu.component current=("searchtimers") &>
 % }
