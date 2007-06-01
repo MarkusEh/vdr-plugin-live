@@ -1,3 +1,8 @@
+2007-06-01  Sascha Volkenandt <sascha at akv-soft dot de>
+
+	The detection of featured plugins was uniformed. The display in the about
+	box now reads "active: <version>" or "required: <version>"
+
 2007-06-01  Dieter Hametner  <dh+vdr@gekrumbel.de>
 
 	These changes fix bug entry #339
