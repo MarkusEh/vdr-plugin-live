@@ -16,3 +16,9 @@
 	* pages/*.ecpp: changed style link to pageelems.stylesheet
 		        component.
 	* tntconfig.cpp: added MapUrl for css<something>/cssfile.
+
+unrecorded  Sascha Volkenandt <sascha at akv-soft dot de>
+
+	Due to the introduction of a uniform header for C++ standard extenstions,
+	the boost library is now only necessary if the used g++ compiler version
+	is less than 4.0
