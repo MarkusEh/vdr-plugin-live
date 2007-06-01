@@ -3967,7 +3967,7 @@ const tI18nPhrase Phrases[] = {
       "", // Dansk
       "", // Czech
       },
-      { "Detailview", // English
+      { "Detail view", // English
       "Ausführliche Ansicht", // Deutsch
       "", // Slovenski
       "", // Italiano
