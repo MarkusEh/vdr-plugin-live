@@ -830,7 +830,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 							<td class="buttonpanel" colspan="2">
 								<button class="green" type="submit" name="test" value="test" onclick="return checksearch();"><$ tr("Test") $></button>
 								<button class="green" type="submit" name="save" onclick="return checksearch();"><$ tr("Save") $></button>
-								<button type="button" class="red" onclick="location.href='searchtimers.html';"><$ tr("Cancel") $></button>
+								<button type="button" class="red" onclick="history.back()"><$ tr("Cancel") $></button>
 							</td>
 							<td class="border" style="border-right: 1px solid black"></td>
 						</tr>
