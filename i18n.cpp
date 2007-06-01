@@ -3,8 +3,8 @@
 namespace vdrlive {
 
 const tI18nPhrase Phrases[] = {
-    { "Live Integrated VDR Environment",
-      "Live Integrated VDR Environment",
+    { "Live Interactive VDR Environment",
+      "Live Interactive VDR Environment",
       "", // Slovenski
       "", // Italiono
       "", // Nederlands
@@ -3989,7 +3989,7 @@ const tI18nPhrase Phrases[] = {
       "", // Dansk
       "", // Czech
       },
-      { "Listview", // English
+      { "List view", // English
       "Listenansicht", // Deutsch
       "", // Slovenski
       "", // Italiano
