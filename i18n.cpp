@@ -3975,7 +3975,7 @@ const tI18nPhrase Phrases[] = {
       "", // Português
       "", // Français
       "", // Norsk
-      "", // Finnish
+      "Ruudukkonäkymä", // Finnish
       "", // Polski
       "", // Español
       "", // Greek
@@ -3997,7 +3997,7 @@ const tI18nPhrase Phrases[] = {
       "", // Português
       "", // Français
       "", // Norsk
-      "", // Finnish
+      "Listanäkymä", // Finnish
       "", // Polski
       "", // Español
       "", // Greek
@@ -4019,7 +4019,7 @@ const tI18nPhrase Phrases[] = {
       "", // Português
       "", // Français
       "", // Norsk
-      "", // Finnish
+      "Ajastinta ei ole määritelty", // Finnish
       "", // Polski
       "", // Español
       "", // Greek
@@ -4041,7 +4041,7 @@ const tI18nPhrase Phrases[] = {
       "", // Português
       "", // Français
       "", // Norsk
-      "", // Finnish
+      "Aloitussivu", // Finnish
       "", // Polski
       "", // Español
       "", // Greek
