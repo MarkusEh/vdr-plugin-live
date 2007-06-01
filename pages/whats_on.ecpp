@@ -156,14 +156,24 @@ if (type == "now") {
 %   } else { // mode == "list"
 				<tr class="<? active_line ? "active" ?>">
 					<td style="border-left: 1px solid black"><& pageelems.event_timer channelid=(channel_id) eventid=(event) &>
+%					if (type == "now") {
+						<& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channel_id) image="zap.png" alt="" &>
+%					}
 %					if (LiveSetup().HaveEPGSearch()) {
 						<a href="searchresults.html?searchplain=<$ StringUrlEncode(epgEvent->Title()) $>"><img src="/search.png" border="0" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a>
 %					}
+						<a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(epgEvent->Title()) $>"><img src="imdb.png" border="0" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a>
 					</td>
-					<td><$ (epgEvent->StartTime(tr("%I:%M %p"))) $> - <$ (epgEvent->EndTime(tr("%I:%M %p"))) $></td>
+					<td>
+						<div><$ (epgEvent->StartTime(tr("%I:%M %p"))) $> - <$ (epgEvent->EndTime(tr("%I:%M %p"))) $></div>
+%							if (epgEvent->Elapsed() >= 0) {
+						<div class="progress"><div><& pageelems.progressbar progress=(epgEvent->Elapsed()) &></div></div>
+%							}
+					</td>
 					<td>
 					<div class="more"<& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), 300, truncated)) + string("<br />") + string(tr("Click to view details."))) &><& tooltip.display domId=(epgEvent->Id()) &>><strong><$ (epgEvent->Title()) $></strong></div><$ (epgEvent->ShortDescr()) $><br />
 					</td>
+					<td><div class="station"><a href="schedule.html?channel=<$ Channel->Number() $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ (epgEvent->Caption()) $></a></div></td>
 					<td style="border-right: 1px solid black">&nbsp;</td>
 				</tr>
 %   }
@@ -187,7 +197,7 @@ if (type == "now") {
 }>
 %			if (mode == "list") {
 				<tr>
-					<td colspan="4" style="border-top: 1px solid black; background-image: none; border-bottom: none">&nbsp;</td>
+					<td colspan="5" style="border-top: 1px solid black; background-image: none; border-bottom: none">&nbsp;</td>
 				</tr>
 			</table>
 %   	}
@@ -219,7 +229,9 @@ if (type == "now") {
 <span><$ tr("at") $></span>
 <input type="text" size="6" name="spectime" id="spectime" value = "<? current_attime != "" ? current_displaytime ?>" onchange="showspectime(this)"/>
 <span class="sep">|</span>
-<a href="whats_on.html?mode=detail&amp;type=<$ current_type $>&amp;attime=<$ current_attime $>&amp;fixtime=<$ current_fixtime $>"><$ tr("Detailview") $></a>
-<span class="sep">|</span>
-<a href="whats_on.html?mode=list&amp;type=<$ current_type $>&amp;attime=<$ current_attime $>&amp;fixtime=<$ current_fixtime $>"><$ tr("Listview") $></a>
+% if ( current_mode == "list" ) {
+<a href="whats_on.html?mode=detail&amp;type=<$ current_type $>&amp;attime=<$ current_attime $>&amp;fixtime=<$ current_fixtime $>"><$ tr("Details view") $></a>
+% } else {
+<a href="whats_on.html?mode=list&amp;type=<$ current_type $>&amp;attime=<$ current_attime $>&amp;fixtime=<$ current_fixtime $>"><$ tr("List view") $></a>
+% }
 </%def>

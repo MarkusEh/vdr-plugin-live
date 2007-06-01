@@ -440,6 +440,19 @@ div.station div div div a:hover {
 	text-decoration: underline;
 }
 
+td div.station {
+	vertical-align: middle;
+}
+
+td div.station a {
+	color: black;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+td div.station a:hover {
+	text-decoration: underline;
+}
 
 div.content {
 	width: 253px;
