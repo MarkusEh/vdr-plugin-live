@@ -28,7 +28,7 @@ string path(request.getPathInfo());
 
 FileCache::ptr_type f = LiveFileCache().get(USRDIR "/" + path);
 if (f.get() == 0) {
-	throw tnt::NotFoundException(request.getUrl());
+	return DECLINED;
 }
 string ctime = tnt::HttpMessage::htdate(f->ctime());
 string browserTime = request.getHeader(tnt::httpheader::ifModifiedSince);
