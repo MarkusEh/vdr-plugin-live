@@ -41,6 +41,7 @@ using namespace vdrlive;
 </%args>
 <%session scope="global">
 bool logged_in(false);
+string edit_timerreferer;
 </%session>
 <%request scope="page">
 cTimer* timer;
@@ -69,9 +70,10 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		int stop = end_h * 100 + end_m;
 
 		LiveTimerManager().UpdateTimer( timer, flags, channel, weekdays, day, start, stop, priority, lifetime, title, aux );
-
-		return reply.redirect("timers.html");
+		return reply.redirect(!edit_timerreferer.empty()?edit_timerreferer:"timers.html");
 	}
+
+	edit_timerreferer = request.getHeader("Referer:", "timers.html");
 
 	auto_ptr< cTimer > eventTimer;
 	if ( timer == 0 ) {
