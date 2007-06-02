@@ -30,7 +30,7 @@ fast.
 Requirements:
 =============
 
-VDR >= 1.4.3-3
+VDR >= 1.4.0-2
 Tntnet >= 1.5.3		- http://www.tntnet.org/download.hms
 Cxxtools >= 1.4.3	- http://www.tntnet.org/download.hms
 gcc >= 3.1

@@ -30,9 +30,14 @@ bool logged_in(false);
 	tChannelID next_chan;
 	reply.setContentType( "application/xml" );
 
-	if (cReplayControl::NowReplaying()) {
+#if VDRVERSNUM >= 10403
+	const char* NowReplaying = cReplayControl::NowReplaying();
+#else
+	const char* NowReplaying = cControl::Control()?cReplayControl::LastReplayed():NULL;
+#endif
+	if (NowReplaying) {
 		RecordingsManagerPtr recManager = LiveRecordingsManager();
-		cRecording *recording = Recordings.GetByName(cReplayControl::NowReplaying());
+		cRecording *recording = Recordings.GetByName(NowReplaying);
 		if (recording) {
 			string name(recording->Name());
 			size_t index = name.find_last_of('~');

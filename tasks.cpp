@@ -15,6 +15,15 @@ using namespace std;
 using namespace std::tr1;
 using namespace std::tr1::placeholders;
 
+const char* NowReplaying()
+{
+#if VDRVERSNUM >= 10403
+	return cReplayControl::NowReplaying();
+#else
+	return cControl::Control()?cReplayControl::LastReplayed():NULL;
+#endif
+}
+
 StickyTask::StickyTask()
 {
 	LiveTaskManager().AddStickyTask( *this );
@@ -47,7 +56,7 @@ void PlayRecordingTask::Action()
 		return;
 	}
 
-	const char *current = cReplayControl::NowReplaying();
+	const char *current = NowReplaying();
 	if (!current || (0 != strcmp(current, recording->FileName()))) {
 		cReplayControl::SetRecording( 0, 0 );
 		cControl::Shutdown();
@@ -75,7 +84,7 @@ void PauseRecordingTask::Action()
 		return;
 	}
 
-	const char *current = cReplayControl::NowReplaying();
+	const char *current = NowReplaying();
 	if (!current) {
 		SetError(tr("Not playing a recording."));
 		return;
@@ -105,7 +114,7 @@ void StopRecordingTask::Action()
 		return;
 	}
 
-	const char *current = cReplayControl::NowReplaying();
+	const char *current = NowReplaying();
 	if (!current) {
 		SetError(tr("Not playing a recording."));
 		return;
@@ -124,7 +133,7 @@ void ForwardRecordingTask::Action()
 		return;
 	}
 
-	const char *current = cReplayControl::NowReplaying();
+	const char *current = NowReplaying();
 	if (!current) {
 		SetError(tr("Not playing a recording."));
 		return;
@@ -154,7 +163,7 @@ void BackwardRecordingTask::Action()
 		return;
 	}
 
-	const char *current = cReplayControl::NowReplaying();
+	const char *current = NowReplaying();
 	if (!current) {
 		SetError(tr("Not playing a recording."));
 		return;
