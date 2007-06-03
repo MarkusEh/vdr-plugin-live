@@ -3,70 +3,12 @@
    ######################
 */
 
-body {
-	margin: 0px;
-	padding: 0px;
-	font-size: 11px;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-}
-
-table {
-	font-size: 11px;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	margin: 0px;
-}
-
-tr, td {
-	padding-top: 0px;
-	padding-bottom: 0px;
-}
-
 input {
 	border: 1px solid #963B5F;
-	font-size: 11px;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	background: #FEFEFE;
-	margin: 0;
 }
 
 select {
 	border: 1px solid #963B5F;
-	font-size: 11px;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-}
-
-img {
-	border: 0;
-}
-
-/* ######################
-   # global style properties
-   ######################
-*/
-
-.bold {
-	font-weight: bold;
-}
-
-/* ######################
-   # Tooltip style for hints
-   ######################
-*/
-
-div.domTThint {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 11px;
-	border: 1px solid #EBC94C;
-	background-color: #F4FFC3;
-        max-width: 35em;
-}
-
-div.domTThint .caption {
-	font-weight: bold;
-}
-
-div.domTThint .contents {
-	padding: 2px;
 }
 
 /* ##############################
@@ -74,47 +16,8 @@ div.domTThint .contents {
    ##############################
 */
 
-div.domTTepg {
-	width: 66%;
-	border: none;
-}
-
-.domTTepg div.epg_description {
-}
-
 .domTTepg div.epg_content {
-	padding: 0;
-	margin: 0;
-
-	border-left: 1px solid #000000;
-	border-right: 1px solid #000000;
-	border-bottom: 1px solid #000000;
         background: white url(../img/bg_tools.png) top left repeat-y;
-}
-
-.domTTepg div.epg_content div.epg_tools {
-	float: left;
-	width: 26px;
-	margin: 0;
-	padding: 0;
-
-	text-align: center;
-	vertical-align: top;
-}
-
-.domTTepg div.epg_content div div.progress div {
-	padding-left: 0px;
-}
-
-.domTTepg div.epg_content div div {
-	padding-left: 35px;
-}
-
-.domTTepg div.epg_content div.epg_tools img {
-	margin-top: 5px;
-}
-
-.domTTepg div.boxheader div div a {
 }
 
 /* #######################
@@ -124,167 +27,51 @@ div.domTTepg {
 
 div.menu {
 	background: #000057  url(../img/menu_line_bg.png) repeat-x;
-	min-height: 27px;
-	margin: 0;
-	padding: 0 0 0 10px;
-	line-height: 20px;
-	vertical-align: middle;
-	border-top: 1px solid black;
-	border-bottom: 1px solid black;
 	color: #FFE9FA;
 }
 
-div.menu a {
-	text-decoration: none;
-	color: white;
-	font-weight: bold;
-}
-
-a#login {
-	color: #F5FF2D;
-}
-
-div.menu a.active {
-	text-decoration: none;
-	color: #FFDB88;
-	font-weight: bold;
-}
-
-
-div.menu a:hover {
-	text-decoration: underline;
-}
-
-div.menu form {
-	display: inline;
-}
-
-div.inhalt {
-	height: 200px;
-	width: 100% 
-	overflow: auto;
-	padding: 10px;
-}
-
 div.pagemenu {
-	margin-top: 2px;
-	padding-top: 6px;
 	background: #FFFFFF url(../img/bg_line.png) top repeat-x;
 }
 
 div.pagemenu div {
-	padding-bottom: 6px;
 	background: #FFFFFF url(../img/bg_line_top.png) bottom repeat-x;
 }
 
 div.pagemenu div div {
-	padding: 2px 0px 2px 10px;
 	background: #FFE9FA;
 	border-top: 1px solid #DA8DA8;
 	border-bottom: 1px solid #DA8DA8;
 }
 
-div.pagemenu a {
-	text-decoration: none;
-	color: black;
-	font-weight: bold;
-}
-
 div.pagemenu a.active {
-	text-decoration: none;
 	color: #984E79;
-	font-weight: bold;
-}
-div.pagemenu span {
-	text-decoration: none;
-	color: black;
-	font-weight: bold;
-	padding: 5px;
 }
 
 div.pagemenu span.sep {
-	text-decoration: none;
 	color: #DA8DA8;
-	font-weight: lighter;
-	padding: 5px;
 }
 
 /* #######################
    #  Info Box (near logo)
    #######################
 */
-img.logo {
-	float: left;
-	margin-top: 5px;
-	margin-left: 5px;
-	margin-right: 25px;
-}
 
 div#infobox {
-	float: left;
 	border: 1px solid #DA8DA8;
-	margin: 5px;
-	width: 320px;
 }
 
 div#infobox div.st_header {
-	overflow: hidden;
-	padding: 1px 4px;
 	background: #FFE9FA;
 	border-bottom: 1px solid #DA8DA8;
 }
 
-div#infobox div.st_header div.now {
-	float: right;
-}
-
-div#infobox div.st_header div.caption {
-	float: left;
-	overflow: hidden;
-	font-weight: bold;
-}
-
 div#infobox div.st_content {
-	overflow: hidden;
-	padding: 4px;
 	background: white url(../img/bg_line_top.png) top left repeat-x;
 }
 
-div#infobox div.st_content div.duration {
-	float: right;
-}
-
-div#infobox div.st_content div.name {
-	float: left;
-	overflow: hidden;
-	font-weight: bold;
-}
-
-div#infobox div.st_controls {
-	overflow: hidden;
-	padding: 4px;
-}
-
-div#infobox div.st_controls div.st_pbar {
-	padding-top: 4px;
-	float: right;
-}
-
-div#infobox div.st_controls div {
-	float: left;
-}
-
 div#infobox div.st_controls div.st_update {
-        padding-right: 5px;
         border-right: 1px solid  #DA8DA8;
-}
-
-div#infobox div.st_controls div#infobox_recording_buttons {
-        padding-left: 5px;
-}
-
-div#infobox div.st_controls div#infobox_channel_buttons {
-        padding-left: 5px;
 }
 
 /* #######################
@@ -294,98 +81,30 @@ div#infobox div.st_controls div#infobox_channel_buttons {
 
 div.head_box_l {
 	background-image: url(../img/bg_header_l.png);
-	background-position: top left;
-	background-repeat: no-repeat;
-	margin: 0;
-	margin-bottom: 2ex;
-	padding: 0;
 }
 
 div.head_box_m {
 	background-image: url(../img/bg_header_h.png);
-	background-repeat: repeat-x;
-	margin: 3px;
-	padding: 0;
 }
 
 div.head_box_r {
 	background-image: url(../img/bg_header_r.png);
-	background-position: top right;
-	background-repeat: no-repeat;
-	margin: -3px;
-	padding: 0;
-	padding-left: 0.5em;
-}
-
-table.head_box_text {
-	color: #ffffff;
-	font-weight: bold;
-	padding: 0;
-	margin: 0;
-	height: 30px;
 }
 
 button.smallbutton {
-	width: 51px;
-	height: 17px;
-	background-color: inherit;
 	background-image: url(../img/button_blue.png);
-	background-repeat: no-repeat;
-	color: #FFFFFF;
-	font-size: 11px;
-	border: 0px;
-	vertical-align: middle;
-	text-align: center;
-	cursor: pointer;
 }
 
 button.green {
-	width: 100px;
-	height: 20px;
-	background-color: inherit;
 	background-image: url(../img/button_green.png);
-	background-repeat: no-repeat;
-	color: #FFFFFF;
-	font-size: 11px;
-	border: 0px;
-	vertical-align: middle;
-	text-align: center;
-	cursor: pointer;
-	padding-bottom: 3px;
 }
 
 button.red {
-	width: 100px;
-	height: 20px;
-	background-color: inherit;
 	background-image: url(../img/button_red.png);
-	background-repeat: no-repeat;
-	color: #FFFFFF;
-	font-size: 11px;
-	border: 0px;
-	vertical-align: middle;
-	text-align: center;
-	cursor: pointer;
-	padding-bottom: 3px;
 }
 
 button.blue {
-	width: 100px;
-	height: 20px;
-	background-color: inherit;
 	background-image: url(../img/button_blue.png);
-	background-repeat: no-repeat;
-	color: #FFFFFF;
-	font-size: 11px;
-	border: 0px;
-	vertical-align: middle;
-	text-align: center;
-	cursor: pointer;
-	padding-bottom: 3px;
-}
-
-table td.buttonpanel {
-	text-align: right;
 }
 
 /* ################
@@ -393,25 +112,8 @@ table td.buttonpanel {
    ################
 */
 
-div.event {
-	width: 255px;
-	height: 255px;
-	padding: 0;
-	margin-right: 5px;
-	float: left;
-}
-
-div.event div.station {
-	margin: 0;
-	padding: 0;
-	width: 255px;
-}
-
 div.station div {
-	margin: 0;
-	padding: 0;
 	background: url(../img/bg_box_l.png) top left no-repeat;
-	height: 23px;
 }
 
 div.station div div {
@@ -420,117 +122,17 @@ div.station div div {
 
 div.station div div div {
 	background: url(../img/bg_box_h.png) repeat-x;
-	vertical-align: middle;
-	text-align: left;
-	margin-right: 3px;
-	margin-left: 3px;
-	padding-left: 5px;
-	padding-top: 2px;
-	color: white;
-	font-weight: bold;
-}
-
-div.station div div div a {
-	color: #ffffff;
-	font-weight: bold;
-	text-decoration: none;
-}
-
-div.station div div div a:hover {
-	text-decoration: underline;
-}
-
-td div.station {
-	vertical-align: middle;
-}
-
-td div.station a {
-	color: black;
-	font-weight: bold;
-	text-decoration: none;
-}
-
-td div.station a:hover {
-	text-decoration: underline;
 }
 
 div.content {
-	width: 253px;
-	height: 220px;
-	padding: 0;
-	margin: 0;
-
 	background: white url(../img/bg_tools.png) top left repeat-y;
-	border-left: 1px solid #000000;
-	border-right: 1px solid #000000;
-	border-bottom: 1px solid #000000;
-}
-
-div.content div.tools {
-	float: left;
-	width: 26px;
-	height: 220px;
-	margin: 0;
-	padding: 0;
-
-	text-align: center;
-	vertical-align: top;
-}
-
-div.content div.tools img {
-	margin: 5px 2px;
-	border: 0px;
-}
-
-div.content div {
-	padding-left: 15px;
-}
-
-div.description {
-	margin: 5px;
-}
-
-div.info {
-	text-align: right;
-	padding: 5px;
-}
-
-div.progress {
-	overflow: hidden;
-	padding-right: 4px;
-}
-
-div.progress div {
-	float: right;
-	padding: 0px;
-}
-
-div.title {
-	font-weight: bold;
-	margin: 5px;
-}
-
-div.short {
-	font-weight: normal;
-	margin: 5px;
-}
-
-div.more {
-	margin: 5px;
-	font-weight: bold;
-	cursor: pointer;
 }
 
 div.__progress {
-	overflow: hidden;
-	width: 100px;
-	height: 8px;
 	border: 1px solid #DA8DA8;
 }
 
 div.__progress div.__elapsed {
-	float: left;
-	height: 8px;
 	background-color: #FFE9FA;
 }
 
@@ -540,41 +142,13 @@ div.__progress div.__elapsed {
    #############
 */
 
-table.timers {
-	padding: 0;
-	margin: 0;
-	margin-top: 10px;
-}
-
 table.timers tr td {
-	padding: 3px 7px 3px 3px;
 	background: url(../img/bg_line.png) bottom repeat-x;
 	border-bottom: 1px solid #DA8DA8;
 }
 
-table.timers td.border {
-	padding: 0;
-	margin: 0;
-	width: 1px;
-}
-
-table.timers tr.head td {
-	color: white;
-	font-weight: bold;
-	margin: 0;
-	padding: 0;
-	border-bottom: 1px solid black;
-}
-
 table.timers tr.description td {
-	font-weight: bold;
 	background: #FFE9FA;
-}
-
-table.timers a {
-	text-decoration: none;
-	color: black;
-	font-weight: bold;
 }
 
 
@@ -584,42 +158,15 @@ table.timers a {
   ##############################
 */
 
-table.schedule {
-	margin: 10px 0 0 0 ;
-	padding: 0;
-}
-
 table.schedule tr td.head {
 	background: #963B5F;
-	color: white;
-	font-weight: bold;
-	margin: 0;
-	padding: 3px;
 }
 
 table.schedule tr td {
-	vertical-align: top;
-	padding: 3px 7px 3px 3px;
 	background: url(../img/bg_line.png) bottom repeat-x;
         border-bottom: 1px solid #DA8DA8;
 }
 
-table.schedule tr td.day {
-	vertical-align: top;
-	padding: 0;
-	margin: 0;
-	border:none;
-}
-
-table.schedule tr.active {
-	background: #DEE6EE;
-}
-
-table.schedule div.more {
-	margin: 0px;
-	font-weight: bold;
-	cursor: pointer;
-}
 
 /*
   ##############################
@@ -628,8 +175,6 @@ table.schedule div.more {
 */
 
 div.boxheader	 {
-	margin: 0;
-	padding: 0;
 	background: url(../img/bg_box_l.png) top left no-repeat;
 }
 
@@ -639,16 +184,6 @@ div.boxheader div {
 
 div.boxheader div div {
 	background: url(../img/bg_box_h.png) repeat-x;
-	vertical-align: middle;
-	text-align: left;
-	margin-right: 3px;
-	margin-left: 3px;
-	padding-left: 5px;
-	padding-top: 2px;
-	color: white;
-	font-weight: bold;
-	height: 21px;
-        line-height: 20px;
 }
 
 /*
@@ -657,66 +192,11 @@ div.boxheader div div {
   ##############################
 */
 
-div.recordings {
-	border: 1px solid black;
-}
-
-.recordings ul {
-	list-style-type: none;
-	padding: 0px;
-	margin: 0px;
-}
-
 div.recording_item {
-	overflow: hidden;
 	background: url(../img/bg_line.png) bottom repeat-x;
 	border-bottom: 1px solid #DA8DA8;
 }
 
-.recording_item div {
-	float: left;
-}
-
-.recording_item div.recording_imgs{
-	margin-right: 0.5em;
-}
-
-.recording_item div.recording_spec {
-	padding-top: 0.5ex;
-}
-
-.recording_item div.recording_day {
-}
-
-.recording_item div.recording_date {
-	width: 5.25em;
-}
-
-.recording_item div.recording_time {
-	width: 5.75em;
-}
-
-.recording_item div.recording_name {
-	font-weight: bold;
-	cursor: pointer;
-}
-
-.recording_item div.recording_name span {
-	font-weight: normal;
-	cursor: pointer;
-}
-
-.recording_item div.recording_arch {
-	float: right;
-	padding-top: 0.5ex;
-	padding-left: 0.5em;
-	padding-right: 0.5em;
-}
-
-.recording_item div.recording_actions {
-	float: right;
-	padding-right: 3em;
-}
 
 /*
   ##############################
@@ -726,57 +206,6 @@ div.recording_item {
 
 div.screenshot {
 	background-image: url(../img/tv.jpg);
-	background-repeat: no-repeat;
-	height: 240px;
-	width: 320px;
-	float: left;
-	padding: 20px 20px 98px 21px;
-	margin-right: 20px;
-}
-
-/*
-  ##############################
-  #  Dotted Frame
-  ##############################
-*/
-
-div.dotted {
-	border: 1px dotted #bbbbbb;
-	padding: 3px;
-	margin: 2px;
-	float: left;
-	background-color: #f3f3f3;
-}
-
-
-/*
-  ##############################
-  #  Error widget
-  ##############################
-*/
-
-table.error {
-	border: 1px solid #E9360D;
-	margin: 2px;
-	padding: 0px;
-}
-
-table.error tr td.message {
-	padding: 5px;
-}
-
-table.error tr td.title {
-	background: #E9360D;
-	color: white;
-	font-weight: bold;
-	margin: 0;
-	padding: 3px 3px 3px 10px;
-}
-
-table.error td.border {
-	padding: 0;
-	margin: 0;
-	width: 1px;
 }
 
 
@@ -786,62 +215,11 @@ table.error td.border {
   ##############################
 */
 
-table.edit {
-	margin-top: 10px;
-}
-
-table.edit tr td.head {
-	background: white;
-	color: white;
-	font-weight: bold;
-	margin: 0;
-	padding: 0;
-	border:none;
-}
-
 table.edit tr td {
-	vertical-align: top;
-	padding: 6px 7px 6px 3px;
-	vertical-align: middle;
 	background: url(../img/bg_line.png) bottom repeat-x;
 	border-bottom: 1px solid #DA8DA8;
 }
 
-table.edit tr td.label {
-	font-weight: bold;
-	vertical-align: top;
-}
-
-table.edit tr.active {
-	background: #DEE6EE;
-}
-
-table.edit td.blank {
-	background: none;
-	border: none;
-}
-
-table.dependent {
-	background-color: #DEE6EE;
-	margin-top: 10px;
-}
-
-table.dependent tr td {
-	background: none;
-	vertical-align: middle;
-}
-
-table.dependent tr td.title {
-	background: none;
-	vertical-align: top;
-}
-
-
-div.dependent {
-	background-color: #DEE6EE;
-	margin-top: 10px;
-	padding: 6px 7px 6px 3px;
-}
 
 /*
   ##############################
@@ -849,133 +227,30 @@ div.dependent {
   ##############################
 */
 
-table.searchresults {
-	margin: 10px 0 0 0;
-	padding: 0;
-}
-
 table.searchresults tr td.head {
 	background: #963B5F;
-	color: white;
-	font-weight: bold;
-	margin: 0;
-	padding: 3px;
 }
 
 table.searchresults tr td {
-	vertical-align: top;
-	padding: 3px 7px 7px 3px;
 	background: url(../img/bg_line.png) bottom repeat-x;
         border-bottom: 1px solid #DA8DA8;
 }
 
-table.searchresults tr td.day {
-	vertical-align: top;
-	padding: 0;
-	margin: 0;
-	border:none;
-}
-
-table.searchresults td.border {
-	padding: 0;
-	margin: 0;
-	width: 1px;
-}
-
-table.searchresults div.more {
-	margin: 0px;
-	font-weight: bold;
-	cursor: pointer;
-}
-
-table.searchresults a {
-	text-decoration: none;
-	color: black;
-	font-weight: bold;
-}
-/*
-  ##############################
-  #  Login
-  ##############################
-*/
-
-table.login {
-	margin: 0 auto;
-}
-
-table.login tr td {
-	padding: 3px 5px;
-	text-align: right;
-}
 
 /* ##############################
    # About box
    ##############################
 */
 
-div.about_box {
-	border: none;
-}
-
-div.about_box a {
-	text-decoration: none;
-	color: black;
-	font-weight: bold;
-}
-
-div#aboutBox_tip {
-	width: 45%;
-}
-
-.about_box div.about_description {
-}
-
-.about_box div.about_content {
-	padding: 0;
-	margin: 0;
-
-	border-left: 1px solid #000000;
-	border-right: 1px solid #000000;
-	border-bottom: 1px solid #000000;
-}
-
-.about_box div.about_content div {
-	background-color: white;
-	padding-bottom: 6px;
-}
-
-.about_box div.boxheader div div a {
-}
-
-.about_box div.about_content div.about_left {
-	text-align: right;
-	float: left;
-	width: 175px;
-}
-
-.about_box div.about_content div.about_right {
-	padding-left: 200px;
-}
-
-.about_box div.about_content div.about_line {
-	padding-left: 10px;
-}
-
 .about_box div.about_content div.about_head {
-	font-weight: bold;
-	margin-top: 0px;
-	padding-top: 6px;
-	margin-bottom: 6px;
 	background: #FFFFFF url(../img/bg_line.png) top repeat-x;
 }
 
 .about_box div.about_content div.about_head div {
-	padding-bottom: 6px;
 	background: #FFFFFF url(../img/bg_line_top.png) bottom repeat-x;
 }
 
 .about_box div.about_content div.about_head div div {
-	padding: 2px 0px 2px 10px;
 	background: #FFE9FA;
 	border-top: 1px solid #DA8DA8;
 	border-bottom: 1px solid #DA8DA8;
