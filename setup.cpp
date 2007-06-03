@@ -180,8 +180,6 @@ bool Setup::CheckLocalNet(const std::string& ip)
 	string bin_addr = bin_addrstream.str();
 	string bin_net_range(bin_net.begin(), bin_net.begin() + range);
 	string addr_net_range(bin_addr.begin(), bin_addr.begin() + range);
-	cout << bin_net_range << endl;
-	cout << addr_net_range << endl;
 	m_islocalnet = (bin_net_range == addr_net_range);
 	
 	return m_islocalnet;
