@@ -26,7 +26,8 @@ Setup::Setup():
 		m_lastChannel( 0 ),
 		m_screenshotInterval( 1000 ),
 		m_useAuth( 1 ),
-		m_adminLogin("admin")
+		m_adminLogin("admin"),
+		m_lastwhatsonlistmode("detail")
 {
 	m_adminPasswordMD5 = "4:" + MD5Hash("live");
 	liveplugin = cPluginManager::GetPlugin("live");
@@ -77,6 +78,7 @@ bool Setup::ParseSetupEntry( char const* name, char const* value )
 	else if ( strcmp( name, "UserdefTimes" ) == 0 ) m_times = value;
 	else if ( strcmp( name, "StartPage" ) == 0 ) m_startscreen = value;
 	else if ( strcmp( name, "LocalNetMask" ) == 0 ) { m_localnetmask = value; }
+	else if ( strcmp( name, "LastWhatsOnListMode" ) == 0 ) { m_lastwhatsonlistmode = value; }
 	else return false;
 	return true;
 }
@@ -198,6 +200,7 @@ bool Setup::SaveSetup()
 	}
 	liveplugin->SetupStore("UserdefTimes",  m_times.c_str());
 	liveplugin->SetupStore("StartPage",  m_startscreen.c_str());
+	liveplugin->SetupStore("LastWhatsOnListMode", m_lastwhatsonlistmode.c_str());
 	return true;
 }
 

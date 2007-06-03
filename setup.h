@@ -41,6 +41,7 @@ public:
 	std::string GetStartScreenLink() const;
 	std::string GetLocalNetMask() const { return m_localnetmask; };
 	bool GetIsLocalNet() const { return m_islocalnet; };
+	std::string GetLastWhatsOnListMode() const { return m_lastwhatsonlistmode; }
 	
 	void SetLastChannel(int lastChannel) { m_lastChannel = lastChannel; }
 	void SetAdminLogin(std::string login) { m_adminLogin = login; }
@@ -51,7 +52,7 @@ public:
 	void SetStartScreen(std::string startscreen) { m_startscreen = startscreen; }
 	void SetLocalNetMask(std::string localnetmask) { m_localnetmask = localnetmask; }
 	void SetIsLocalNet(bool islocalnet) { m_islocalnet = islocalnet; }
-	
+	void SetLastWhatsOnListMode(std::string mode) { m_lastwhatsonlistmode = mode; SaveSetup(); }
 	bool SaveSetup();
 
 	bool ParseCommandLine( int argc, char* argv[] );
@@ -81,6 +82,7 @@ private:
 	std::string m_startscreen;
 	std::string m_localnetmask;
 	bool m_islocalnet;
+	std::string m_lastwhatsonlistmode;
 	
 	bool CheckServerPort();
 	bool CheckServerIps();
