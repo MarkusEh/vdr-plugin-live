@@ -49,7 +49,7 @@ public:
 	void SetScrenshotInterval(int interval) { m_screenshotInterval = interval; }
 	void SetTimes(std::string times) { m_times = times; }
 	void SetStartScreen(std::string startscreen) { m_startscreen = startscreen; }
-	void SetLocalNetMask(std::string localnetmask) { m_localnetmask = localnetmask; CheckLocalNet(); }
+	void SetLocalNetMask(std::string localnetmask) { m_localnetmask = localnetmask; }
 	void SetIsLocalNet(bool islocalnet) { m_islocalnet = islocalnet; }
 	
 	bool SaveSetup();
@@ -58,7 +58,7 @@ public:
 	char const* CommandLineHelp() const;
 
 	bool ParseSetupEntry( char const* name, char const* value );
-
+	bool CheckLocalNet(const std::string& ip);
 private:
 	Setup();
 	Setup( Setup const& );
@@ -84,7 +84,6 @@ private:
 	
 	bool CheckServerPort();
 	bool CheckServerIps();
-	bool CheckLocalNet();
 };
 
 Setup& LiveSetup();

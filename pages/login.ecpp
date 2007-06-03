@@ -28,6 +28,8 @@ if (action == "login") {
 	logged_in = false;
 }
 
+LiveSetup().CheckLocalNet(request.getPeerIp());
+
 if (logged_in || !LiveSetup().UseAuth()) return reply.redirect(LiveSetup().GetStartScreenLink());
 
 }>

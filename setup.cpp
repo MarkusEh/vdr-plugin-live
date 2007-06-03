@@ -16,7 +16,6 @@
 #include <vdr/plugin.h>
 #include "setup.h"
 #include "tools.h"
-#include <netdb.h>
 
 namespace vdrlive {
 
@@ -77,7 +76,7 @@ bool Setup::ParseSetupEntry( char const* name, char const* value )
 	else if ( strcmp( name, "AdminPasswordMD5" ) == 0 ) m_adminPasswordMD5 = value;
 	else if ( strcmp( name, "UserdefTimes" ) == 0 ) m_times = value;
 	else if ( strcmp( name, "StartPage" ) == 0 ) m_startscreen = value;
-	else if ( strcmp( name, "LocalNetMask" ) == 0 ) { m_localnetmask = value; CheckLocalNet(); }
+	else if ( strcmp( name, "LocalNetMask" ) == 0 ) { m_localnetmask = value; }
 	else return false;
 	return true;
 }
@@ -150,25 +149,8 @@ bool Setup::UseAuth() const
 	return m_useAuth && !GetIsLocalNet();
 }
 
-bool Setup::CheckLocalNet()
+bool Setup::CheckLocalNet(const std::string& ip)
 {
-	// get local ip
-	m_islocalnet = false;
-	char ac[80];
-	if (gethostname(ac, sizeof(ac)) != 0) {
-		esyslog("Error: getting local host name.");
-		return false;
-	}
-	
-	struct hostent *phe = gethostbyname(ac);
-	if (phe == 0) {
-		esyslog("Error: bad host lookup.");
-		return false;
-	}
-
-	char * szLocalIP;
-	szLocalIP = inet_ntoa (*(struct in_addr *)*phe->h_addr_list);
-	
 	// split local net mask in net and range
 	vector< string > parts = StringSplit( m_localnetmask, '/' );	
 	if (parts.size() != 2) return false;
@@ -177,7 +159,7 @@ bool Setup::CheckLocalNet()
 	int range = lexical_cast< int >(parts[1]); 
 	// split net and ip addr in its 4 subcomponents
 	vector< string > netparts = StringSplit( net, '.' );	
-	vector< string > addrparts = StringSplit( szLocalIP, '.' );	
+	vector< string > addrparts = StringSplit( ip, '.' );	
 	if (netparts.size() != 4 || addrparts.size() != 4) return false;
 
 	// to binary representation
@@ -198,6 +180,8 @@ bool Setup::CheckLocalNet()
 	string bin_addr = bin_addrstream.str();
 	string bin_net_range(bin_net.begin(), bin_net.begin() + range);
 	string addr_net_range(bin_addr.begin(), bin_addr.begin() + range);
+	cout << bin_net_range << endl;
+	cout << addr_net_range << endl;
 	m_islocalnet = (bin_net_range == addr_net_range);
 	
 	return m_islocalnet;

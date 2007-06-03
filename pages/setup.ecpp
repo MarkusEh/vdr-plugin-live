@@ -33,6 +33,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			if (pass != "")
 				LiveSetup().SetAdminPassword(pass);
 			LiveSetup().SetLocalNetMask(localnetmask);
+			LiveSetup().CheckLocalNet(request.getPeerIp());
 		}
 		LiveSetup().SetTimes(times);
 		LiveSetup().SetStartScreen(startscreen);
