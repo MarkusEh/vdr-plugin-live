@@ -5,6 +5,7 @@
 #include <functional>
 #include <iostream>
 #include <sstream>
+#include <bitset>
 #include <getopt.h>
 #include <stdint.h>
 #include <unistd.h>
@@ -15,6 +16,7 @@
 #include <vdr/plugin.h>
 #include "setup.h"
 #include "tools.h"
+#include <netdb.h>
 
 namespace vdrlive {
 
@@ -75,6 +77,7 @@ bool Setup::ParseSetupEntry( char const* name, char const* value )
 	else if ( strcmp( name, "AdminPasswordMD5" ) == 0 ) m_adminPasswordMD5 = value;
 	else if ( strcmp( name, "UserdefTimes" ) == 0 ) m_times = value;
 	else if ( strcmp( name, "StartPage" ) == 0 ) m_startscreen = value;
+	else if ( strcmp( name, "LocalNetMask" ) == 0 ) { m_localnetmask = value; CheckLocalNet(); }
 	else return false;
 	return true;
 }
@@ -142,6 +145,64 @@ std::string Setup::GetStartScreenLink() const
 		return "whats_on.html?type=now";
 }
 
+bool Setup::UseAuth() const
+{
+	return m_useAuth && !GetIsLocalNet();
+}
+
+bool Setup::CheckLocalNet()
+{
+	// get local ip
+	m_islocalnet = false;
+	char ac[80];
+	if (gethostname(ac, sizeof(ac)) != 0) {
+		esyslog("Error: getting local host name.");
+		return false;
+	}
+	
+	struct hostent *phe = gethostbyname(ac);
+	if (phe == 0) {
+		esyslog("Error: bad host lookup.");
+		return false;
+	}
+
+	char * szLocalIP;
+	szLocalIP = inet_ntoa (*(struct in_addr *)*phe->h_addr_list);
+	
+	// split local net mask in net and range
+	vector< string > parts = StringSplit( m_localnetmask, '/' );	
+	if (parts.size() != 2) return false;
+	string net = parts[0]; 
+
+	int range = lexical_cast< int >(parts[1]); 
+	// split net and ip addr in its 4 subcomponents
+	vector< string > netparts = StringSplit( net, '.' );	
+	vector< string > addrparts = StringSplit( szLocalIP, '.' );	
+	if (netparts.size() != 4 || addrparts.size() != 4) return false;
+
+	// to binary representation
+	ostringstream bin_netstream;
+	bin_netstream << bitset<8>(lexical_cast<long>(netparts[0]))
+		<< bitset<8>(lexical_cast<long>(netparts[1]))
+		<< bitset<8>(lexical_cast<long>(netparts[2]))
+		<< bitset<8>(lexical_cast<long>(netparts[3]));
+
+	ostringstream bin_addrstream;
+	bin_addrstream << bitset<8>(lexical_cast<long>(addrparts[0]))
+		<< bitset<8>(lexical_cast<long>(addrparts[1]))
+		<< bitset<8>(lexical_cast<long>(addrparts[2]))
+		<< bitset<8>(lexical_cast<long>(addrparts[3]));
+
+	// compare range
+	string bin_net = bin_netstream.str();
+	string bin_addr = bin_addrstream.str();
+	string bin_net_range(bin_net.begin(), bin_net.begin() + range);
+	string addr_net_range(bin_addr.begin(), bin_addr.begin() + range);
+	m_islocalnet = (bin_net_range == addr_net_range);
+	
+	return m_islocalnet;
+}
+
 bool Setup::SaveSetup()
 {
 	if (!liveplugin) return false;
@@ -151,6 +212,7 @@ bool Setup::SaveSetup()
 	{
 		liveplugin->SetupStore("AdminLogin",  m_adminLogin.c_str());
 		liveplugin->SetupStore("AdminPasswordMD5",  m_adminPasswordMD5.c_str());
+		liveplugin->SetupStore("LocalNetMask",  m_localnetmask.c_str());
 	}
 	liveplugin->SetupStore("UserdefTimes",  m_times.c_str());
 	liveplugin->SetupStore("StartPage",  m_startscreen.c_str());

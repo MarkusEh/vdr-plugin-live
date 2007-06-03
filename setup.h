@@ -34,10 +34,13 @@ public:
 	std::string GetAdminLogin() const { return m_adminLogin; }
 	std::string GetMD5HashAdminPassword() const;
 	int GetAdminPasswordLength() const;
-	bool UseAuth() const { return m_useAuth; }
+	bool GetUseAuth() const { return m_useAuth; }
+	bool UseAuth() const;
 	std::string GetTimes() const { return m_times; }
 	std::string GetStartScreen() const { return m_startscreen; }
 	std::string GetStartScreenLink() const;
+	std::string GetLocalNetMask() const { return m_localnetmask; };
+	bool GetIsLocalNet() const { return m_islocalnet; };
 	
 	void SetLastChannel(int lastChannel) { m_lastChannel = lastChannel; }
 	void SetAdminLogin(std::string login) { m_adminLogin = login; }
@@ -46,7 +49,9 @@ public:
 	void SetScrenshotInterval(int interval) { m_screenshotInterval = interval; }
 	void SetTimes(std::string times) { m_times = times; }
 	void SetStartScreen(std::string startscreen) { m_startscreen = startscreen; }
-
+	void SetLocalNetMask(std::string localnetmask) { m_localnetmask = localnetmask; CheckLocalNet(); }
+	void SetIsLocalNet(bool islocalnet) { m_islocalnet = islocalnet; }
+	
 	bool SaveSetup();
 
 	bool ParseCommandLine( int argc, char* argv[] );
@@ -74,9 +79,12 @@ private:
 	std::string m_adminPasswordMD5;
 	std::string m_times;
 	std::string m_startscreen;
-
+	std::string m_localnetmask;
+	bool m_islocalnet;
+	
 	bool CheckServerPort();
 	bool CheckServerIps();
+	bool CheckLocalNet();
 };
 
 Setup& LiveSetup();

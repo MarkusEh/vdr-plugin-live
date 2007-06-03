@@ -1,3 +1,10 @@
+2007-06-03  Christian Wieninger <cwieninger at gmx dot de>
+	Setup includes now a local net mask specifying the address range without 
+	necessary login (#321)
+
+2007-06-02  Christian Wieninger <cwieninger at gmx dot de>
+	required version of VDR is now >= 1.4.0-2
+
 2007-06-01  Sascha Volkenandt <sascha at akv-soft dot de>
 
 	The detection of featured plugins was uniformed. The display in the about

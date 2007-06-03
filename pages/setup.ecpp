@@ -13,6 +13,7 @@ using namespace std;
 	string pass;
 	string times;
 	string startscreen;
+	string localnetmask;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -31,6 +32,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			LiveSetup().SetAdminLogin(login);
 			if (pass != "")
 				LiveSetup().SetAdminPassword(pass);
+			LiveSetup().SetLocalNetMask(localnetmask);
 		}
 		LiveSetup().SetTimes(times);
 		LiveSetup().SetStartScreen(startscreen);
@@ -44,10 +46,10 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		lastchannel = lexical_cast<std::string, int>(ilastchannel);
 
 	login = LiveSetup().GetAdminLogin();
-	useauth = LiveSetup().UseAuth();
+	useauth = LiveSetup().GetUseAuth();
 	times = LiveSetup().GetTimes();
 	startscreen = LiveSetup().GetStartScreen();
-
+	localnetmask = LiveSetup().GetLocalNetMask();
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -96,6 +98,10 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 							<tr>
 								<td><$ tr("Admin password") $>:</td>
 								<td><input  type="password" name="pass" value="<$ pass $>" id="pass" /></td>
+							</tr>
+							<tr>
+								<td><$ tr("Local net (no login required)") $>:</td>
+								<td><input  type="text" name="localnetmask" value="<$ localnetmask $>" id="localnetmask" /></td>
 							</tr>
 							</table>
 							</div>
