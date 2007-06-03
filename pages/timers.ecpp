@@ -99,14 +99,14 @@ using namespace vdrlive;
 </%cpp>
 				<tr>
 					<td class="border" style="border-left: 1px solid black"></td>
-					<td><img src="<$ timerStateImg $>" alt=""></img></td>
+					<td><img src="<$ LiveSetup().GetThemedLink("img", timerStateImg) $>" alt=""></img></td>
 					<td><a href="schedule.html?channel=<$ timer->Channel()->Number()$>"><$ timer->Channel()->Name() $></a></td>
 					<td><$ FormatDateTime(tr("%I:%M %p"), timer->StartTime()) $></td>
 					<td><$ FormatDateTime(tr("%I:%M %p"), timer->StopTime()) $></td>
 					<td><$ timer->File() $></td>
-					<td><a href="timers.html?timerid=<$ timers.GetTimerId(*timer) $>&action=toggle"><img src="<$ (timer->Flags() & tfActive) ? "active" : "inactive" $>.png" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &>></img></a></td>
-					<td><a href="edit_timer.html?timerid=<$ timers.GetTimerId(*timer) $>"><img src="edit.png" alt="" <& tooltip.hint text=(tr("Edit timer")) &>></img></a></td>
-					<td><a href="timers.html?timerid=<$ timers.GetTimerId(*timer) $>&action=delete"><img src="del.png" alt="" <& tooltip.hint text=(tr("Delete timer")) &>></img></a></td>
+					<td><a href="timers.html?timerid=<$ timers.GetTimerId(*timer) $>&action=toggle"><img src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &>></img></a></td>
+					<td><a href="edit_timer.html?timerid=<$ timers.GetTimerId(*timer) $>"><img src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="" <& tooltip.hint text=(tr("Edit timer")) &>></img></a></td>
+					<td><a href="timers.html?timerid=<$ timers.GetTimerId(*timer) $>&action=delete"><img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint text=(tr("Delete timer")) &>></img></a></td>
 					<td class="border" style="border-right: 1px solid black"></td>
 				</tr>
 <%cpp>

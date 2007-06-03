@@ -77,6 +77,7 @@ bool Setup::ParseSetupEntry( char const* name, char const* value )
 	else if ( strcmp( name, "AdminPasswordMD5" ) == 0 ) m_adminPasswordMD5 = value;
 	else if ( strcmp( name, "UserdefTimes" ) == 0 ) m_times = value;
 	else if ( strcmp( name, "StartPage" ) == 0 ) m_startscreen = value;
+	else if ( strcmp( name, "Theme" ) == 0 ) m_theme = value;
 	else if ( strcmp( name, "LocalNetMask" ) == 0 ) { m_localnetmask = value; }
 	else if ( strcmp( name, "LastWhatsOnListMode" ) == 0 ) { m_lastwhatsonlistmode = value; }
 	else return false;
@@ -154,14 +155,14 @@ bool Setup::UseAuth() const
 bool Setup::CheckLocalNet(const std::string& ip)
 {
 	// split local net mask in net and range
-	vector< string > parts = StringSplit( m_localnetmask, '/' );	
+	vector< string > parts = StringSplit( m_localnetmask, '/' );
 	if (parts.size() != 2) return false;
-	string net = parts[0]; 
+	string net = parts[0];
 
-	int range = lexical_cast< int >(parts[1]); 
+	int range = lexical_cast< int >(parts[1]);
 	// split net and ip addr in its 4 subcomponents
-	vector< string > netparts = StringSplit( net, '.' );	
-	vector< string > addrparts = StringSplit( ip, '.' );	
+	vector< string > netparts = StringSplit( net, '.' );
+	vector< string > addrparts = StringSplit( ip, '.' );
 	if (netparts.size() != 4 || addrparts.size() != 4) return false;
 
 	// to binary representation
@@ -183,7 +184,7 @@ bool Setup::CheckLocalNet(const std::string& ip)
 	string bin_net_range(bin_net.begin(), bin_net.begin() + range);
 	string addr_net_range(bin_addr.begin(), bin_addr.begin() + range);
 	m_islocalnet = (bin_net_range == addr_net_range);
-	
+
 	return m_islocalnet;
 }
 
@@ -200,6 +201,7 @@ bool Setup::SaveSetup()
 	}
 	liveplugin->SetupStore("UserdefTimes",  m_times.c_str());
 	liveplugin->SetupStore("StartPage",  m_startscreen.c_str());
+	liveplugin->SetupStore("Theme", m_theme.c_str());
 	liveplugin->SetupStore("LastWhatsOnListMode", m_lastwhatsonlistmode.c_str());
 	return true;
 }

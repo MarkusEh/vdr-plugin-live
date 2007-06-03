@@ -3,18 +3,111 @@ How to do live theming with CSS.
 
 Live supports CSS theming. While the structure of the html pages is
 given by the plugin, there is the possibility to change the look
-through CSS.
+through CSS and exchanged images.
 
-Currently a predefined, compiled into the plugin stylesheet 'styles.css' is
-delivered first. Then a stylesheet 'css/siteprefs.css' is sent to the
-browser. 'css/siteprefs.css' is a normal file that is found in
-USRDIR. The default of USRDIR is /usr/share/vdr-plugin-live. This
-can be changed at compile time by setting the USRDIR variable
-(i.E. USRDIR=/tmp/live make)
 
-One of the next steps will be a mechanism to select additional style
-files and images through a theme setting in vdr. The different themes
-will be also located in theme related subdirs beneath USRDIR.
+Themable resources
+------------------
+
+CSS stylesheets and referenced images are themable. That means a theme
+can replace the icons and background images in the markup.
+
+
+Access scheme for the css stylesheets
+-------------------------------------
+
+Each live page requests at least three stylesheets in the following
+order:
+
+ 1. 'styles.css' (the build in stylesheet) is requested.
+ 2. The theme master stylesheet 'theme.css' is requested.
+ 3. A site preferences stylesheet is requested ('siteprefs.css')
+
+
+Location for the stylesheets
+----------------------------
+
+The initial stylesheet 'styles.css' provides a basic layout. It is a
+builtin stylesheet and can not be altered after live is compiled and
+installed.
+
+The theme stylesheed 'theme.css' is requested through following url:
+
+  themes/<themename>/css/theme.css
+
+The site preference stylesheet is requested through this url:
+
+  css/siteprefs.css
+
+
+Access scheme for themable images
+---------------------------------
+
+All themable images in the pages, that live delivers to the browser are
+accessed through the url
+
+  themes/<themename>/img/<imagename>
+
+If a image is not found under that url, the image is searched in
+  common/img/<imagename>
+
+And if not found there, an attempt to deliver a built in image is taken.
+
+
+Location of the resources in the file system
+--------------------------------------------
+
+All themable content must be present in the directory specified by
+USRDIR. The default USRDIR is /usr/share/vdr-plugin-live. This can be
+changed at compile time by setting the USRDIR variable
+(i.E. USRDIR=/tmp/live make).
+
+That means all themes must reside in USRDIR/themes.
+
+
+Structure of a theme package
+----------------------------
+
+A theme package consists of directory named after the theme name. It
+must contain the subdirectories 'css' and 'img'. Under css and img no
+other subdirectories are allowed for security reasons (see below).
+
+In the subdirectory css a stylesheet theme.css must exist in oder to
+override or extend the already defined styles from 'styles.css'.
+
+Additional images referenced through the stylesheet and images
+replacing the default images go to the 'img' subdirectory. Replacing
+images must have the same name like the image to be replaced.
+
+The live distribution comes with a few predefinded theme packages. You
+should take look into them to better understand this structure.
+
+
+Selecting a theme in live
+-------------------------
+
+In the live setup page, the user can select the desired theme. When
+the settings are saved the selected themes become active. Live detects
+the available themes dynamicaly by scanning the 'themes' directory in
+USERDIR for available themes and creates the select box from this
+information.
+
+So the installation of a new theme is easyly done by unpacking a
+theme-archive in USRDIR/themes. This assumes the theme-archive follows
+the structure of a theme package as described above.
+
+
+Security provisions
+-------------------
+
+Live will map every url starting with themes/<themename>/css or
+themes/<themename>/img to exactly these directories under USRDIR. That
+means any path components after 'img' or 'css' are discarded. Only the
+basename of the url is appended to these directories. This is to
+prevent possible malicous requests to other locations in the
+filesystem by adding '..' to the request path. The downside of this
+is, that no additional directories below 'img' and 'css' are possible
+for the theme designer.
 
 
 User Contribution

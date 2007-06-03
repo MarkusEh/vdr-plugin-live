@@ -1,4 +1,5 @@
 <%pre>
+#include <vdr/tools.h>
 #include "setup.h"
 #include "tools.h"
 
@@ -13,6 +14,7 @@ using namespace std;
 	string pass;
 	string times;
 	string startscreen;
+	string theme;
 	string localnetmask;
 </%args>
 <%session scope="global">
@@ -37,6 +39,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		}
 		LiveSetup().SetTimes(times);
 		LiveSetup().SetStartScreen(startscreen);
+		LiveSetup().SetTheme(theme);
 		LiveSetup().SaveSetup();
 	}
 	pageTitle = tr("Setup");
@@ -50,6 +53,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	useauth = LiveSetup().GetUseAuth();
 	times = LiveSetup().GetTimes();
 	startscreen = LiveSetup().GetStartScreen();
+	theme = LiveSetup().GetTheme();
 	localnetmask = LiveSetup().GetLocalNetMask();
 </%cpp>
 <& pageelems.doc_type &>
@@ -125,6 +129,32 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 							<option value="schedule" <{ SELECTIF(startscreen == "schedule") }>><$ tr("Schedule") $></option>
 							<option value="recordings" <{ SELECTIF(startscreen == "recordings") }>><$ tr("Recordings") $></option>
 							<option value="timers" <{ SELECTIF(startscreen == "timers") }>><$ tr("Timers") $></option>
+						</select></td>
+						<td class="border" style="border-right: 1px solid black"></td>
+					</tr>
+					<tr>
+						<td class="border" style="border-left: 1px solid black"></td>
+						<td class="label"><$ tr("Theme") $>:</td>
+						<td><select name="theme" size="1" id="theme">
+<%cpp>
+{
+	cReadDir d(USRDIR "/themes");
+	struct dirent* e;
+	string parent("..");
+	string current(".");
+	while ((e = d.Next())) {
+		if ((current == e->d_name) || (parent == e->d_name)) {
+			continue;
+		}
+		if (DT_DIR != e->d_type) {
+			continue;
+		}
+</%cpp>
+							<option value="<$ e->d_name $>" <{ SELECTIF(theme == e->d_name) }>><$ e->d_name $></option>
+<%cpp>
+	}
+}
+</%cpp>
 						</select></td>
 						<td class="border" style="border-right: 1px solid black"></td>
 					</tr>

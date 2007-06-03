@@ -42,11 +42,11 @@ public:
 	ptr_type get( key_type const& key )
 	{
 		cMutexLock lock( &m_mutex );
-		dsyslog( "vdrlive::FileCache::get( %s )", key.c_str() );
-		dsyslog( "vdrlive::FileCache had %u entries (weight: %u)", count(), weight() );
+		// dsyslog( "vdrlive::FileCache::get( %s )", key.c_str() );
+		// dsyslog( "vdrlive::FileCache had %u entries (weight: %u)", count(), weight() );
 		ptr_type result = base_type::get( key );
-		dsyslog( "vdrlive::FileCache now has %u entries (weight: %u)", count(), weight() );
-		dsyslog( "vdrlive::FileCache::get( %s ) = %p", key.c_str(), result.get() );
+		// dsyslog( "vdrlive::FileCache now has %u entries (weight: %u)", count(), weight() );
+		// dsyslog( "vdrlive::FileCache::get( %s ) = %p", key.c_str(), result.get() );
 		return result;
 	}
 

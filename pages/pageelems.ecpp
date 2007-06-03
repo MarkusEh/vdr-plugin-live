@@ -24,6 +24,7 @@ using namespace vdrlive;
 
 <%def stylesheets>
 <link rel="stylesheet" type="text/css" href="styles.css"/>
+<link rel="stylesheet" type="text/css" href="<$ LiveSetup().GetThemedLink("css", "theme.css") $>"/>
 <link rel="stylesheet" type="text/css" href="css/siteprefs.css"/>
 </%def>
 
@@ -31,9 +32,8 @@ using namespace vdrlive;
 
 <%def logo>
 <div class="page_header">
-
-<a href="<$ LiveSetup().GetStartScreenLink()$>">	
-<img src="logo.png" alt="VDR Live!" class="logo"></img></a>
+<a href="<$ LiveSetup().GetStartScreenLink()$>">
+<img src="<$ LiveSetup().GetThemedLink("img", "logo.png") $>" alt="VDR Live!" class="logo"></img></a>
 	<& infobox &>
 </div>
 <div style="clear: both"></div>
@@ -54,7 +54,7 @@ using namespace vdrlive;
 		</div>
 		<div class="st_controls">
 			<div class="st_update">
-				<a href="javascript:LiveStatusToggleUpdate()" <& tooltip.hint text=(tr("Stop updates")) &>><img id="statusReloadBtn" src="stop_update.png" alt="" /></a>
+				<a href="javascript:LiveStatusToggleUpdate()" <& tooltip.hint text=(tr("Stop updates")) &>><img id="statusReloadBtn" src="<$ LiveSetup().GetThemedLink("img", "stop_update.png") $>" alt="" /></a>
 			</div>
 			<div id="infobox_recording_buttons" style="display: none">
 				<& ajax_action_href action=("stop_recording") id=("infobox_stop") image=("stop.png") tip=(tr("stop playback")) &>
@@ -111,10 +111,10 @@ using namespace vdrlive;
 	if (timer) {
 </%cpp>
 	<a href="edit_timer.html?timerid=<$ LiveTimerManager().GetTimers().GetTimerId(*timer) $>">
-		<img src="record_timer.png" alt="" <& tooltip.hint text=(tr("Edit this")) &> />
+		<img src="LiveSetup().GetThemedLink("img", "record_timer.png") $>" alt="" <& tooltip.hint text=(tr("Edit this")) &> />
 <%cpp> } else { </%cpp>
 	<a href="edit_timer.html?channelid=<$ channelid $>&eventid=<$ eventid $>">
-		<img src="record.png" alt="" <& tooltip.hint text=(tr("Record this")) &> />
+		<img src="<$ LiveSetup().GetThemedLink("img", "record.png") $>" alt="" <& tooltip.hint text=(tr("Record this")) &> />
 <%cpp> } </%cpp>
 	</a>
 </%def>
@@ -137,7 +137,7 @@ using namespace vdrlive;
 	string alt;
 	string id;
 </%args>
-<%cpp> { </%cpp> <a <%cpp> if (!id.empty()) { </%cpp> id="<$ id $>" <%cpp> } </%cpp><& hide_element hide=(!id.empty()) &> href="javascript:LiveSimpleAjaxRequest('<$ action $>.xml', 'param', '<$ param $>');" <%cpp>if (!tip.empty()) { </%cpp><& tooltip.hint text=(tip) &> <%cpp> } </%cpp>><img src="<$ image $>" alt="<$ alt $>"></img></a> <%cpp> } </%cpp>
+<%cpp> { </%cpp> <a <%cpp> if (!id.empty()) { </%cpp> id="<$ id $>" <%cpp> } </%cpp><& hide_element hide=(!id.empty()) &> href="javascript:LiveSimpleAjaxRequest('<$ action $>.xml', 'param', '<$ param $>');" <%cpp>if (!tip.empty()) { </%cpp><& tooltip.hint text=(tip) &> <%cpp> } </%cpp>><img src="<$ LiveSetup().GetThemedLink("img", image) $>" alt="<$ alt $>"></img></a> <%cpp> } </%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -205,7 +205,7 @@ using namespace vdrlive;
 <{
 					Features< features::epgsearch >& epgsearch = LiveFeatures< features::epgsearch >();
 }>
-					<img align="center" src="<$ epgsearch.Recent() ? "" : "in" $>active.png"/> EPGsearch
+					<img align="center" src="<$ LiveSetup().GetThemedLink("img", epgsearch.Recent() ? "active.png" : "inactive.png") $>"/> EPGsearch
 %					if ( epgsearch.Recent() ) {
 						(<$ tr("active") $>: <$ epgsearch.Version() $>)
 %					} else {

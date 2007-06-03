@@ -143,9 +143,9 @@ if (type == "now") {
 						<& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channel_id) image="zap.png" alt="" &>
 %							}
 %						if ( LiveFeatures< features::epgsearch >().Recent() ) {
-						<a href="searchresults.html?searchplain=<$ StringEscapeAndBreak(epgEvent->Title()) $>"><img src="search.png" border="0" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a>
+						<a href="searchresults.html?searchplain=<$ StringEscapeAndBreak(epgEvent->Title()) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a>
 %						}
-						<a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(epgEvent->Title()) $>"><img src="imdb.png" border="0" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a>
+						<a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(epgEvent->Title()) $>"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a>
 					</div>
 				 	<div>
 						<div class="info"><$ (epgEvent->StartTime(tr("%I:%M %p"))) $> - <$ (epgEvent->EndTime(tr("%I:%M %p"))) $></div>
@@ -166,9 +166,9 @@ if (type == "now") {
 						<& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channel_id) image="zap.png" alt="" &>
 %					}
 %					if ( LiveFeatures< features::epgsearch >().Recent() ) {
-						<a href="searchresults.html?searchplain=<$ StringUrlEncode(epgEvent->Title()) $>"><img src="/search.png" border="0" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a>
+						<a href="searchresults.html?searchplain=<$ StringUrlEncode(epgEvent->Title()) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" border="0" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a>
 %					}
-						<a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(epgEvent->Title()) $>"><img src="imdb.png" border="0" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a>
+						<a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(epgEvent->Title()) $>"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" border="0" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a>
 					</td>
 					<td>
 						<div><$ (epgEvent->StartTime(tr("%I:%M %p"))) $> - <$ (epgEvent->EndTime(tr("%I:%M %p"))) $></div>

@@ -183,7 +183,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 								<label for="wday_tue"><$ tr("Tuesday") $></label>
 							</div>
 							<div class="dotted">
-								<input id="wdry_wed" type="checkbox" name="wday_wed" value="1" <{ reply.out() << ( wday_wed ? "checked=\"checked\"" : "" ); }> />
+								<input id="wday_wed" type="checkbox" name="wday_wed" value="1" <{ reply.out() << ( wday_wed ? "checked=\"checked\"" : "" ); }> />
 								<label for="wday_wed"><$ tr("Wednesday") $></label>
 							</div>
 							<div class="dotted">

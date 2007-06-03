@@ -1,4 +1,7 @@
-This file contains some guidlines for developers about what to obey
+Live development guidelines
+===========================
+
+This file contains some guidelines for developers about what to obey
 when adding new functionality to live plugin.
 
 First of all please look at the existing code and how it was done
@@ -8,12 +11,15 @@ We want to support a broad range of browsers. On one side are hand held
 devices like WEB-enabled PDAs or mobile phones. They often lack full
 grown support for ECMAScript and have small screen sizes. The other
 extreme are the desktop browsers like FireFox, Konqueror, Opera and
-perhabs IE (if the 'powers that be' make him more CSS compliant).
-Here WEB 2.0 featuers can improve the users experience.
+perhaps IE (if the 'powers that be' make him more CSS compliant).
+Here WEB 2.0 features can improve the users experience.
 
-In the future some themeing in live might help to cover this broad
-range. Meanwhile we suggest the following rule to activate
-functionality with and without ECMAScript support:
+
+With or without ECMAScript
+--------------------------
+
+Since not all browsers support ECMAScript, we suggest the following
+rule to activate functionality with and without ECMAScript support:
 
 Use anchors analog to this example
 
@@ -23,3 +29,27 @@ Use anchors analog to this example
 to retrieve and display extra information either in a WEB 2.0 fashion
 in an popup box or on a separte page in a html fashion.
 
+
+Themeing
+--------
+
+Current CSS based themeing in live depends on additional stylesheets
+and a configurable location to retrieve images from (see
+css-themeing.txt).
+
+Developers must use the <& pageelems.stylesheets &> component in their
+pages to include both the default and the themed stylesheet. This is
+the easy part, because stylesheets are referred in the header at a
+central location.
+
+More difficult is the access to images, which is spread around the
+pages at the corresponding locations. To support this, a new method in
+the live Setup class (see file setup.h) has been added. It is called
+'GetThemedLink'. For every image, that might be customized, you must
+use a img tag according to this example:
+
+  <img src="<$ LiveSetup().GetThemedLink("img", "<imagename>") $>"
+  alt="someimage" />
+
+Please take a look in the existing ecpp pages for additional usage
+examples.

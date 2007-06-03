@@ -80,11 +80,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <{				if (!LiveGrabImageManager().CanGrab()) {	}>
 					bloek
 <{				} else {									}>
-					<img src="screenshot.jpg" name="vdrlive" /><br />
+					<img src="<$ LiveSetup().GetThemedLink("img", "screenshot.jpg") $>" name="vdrlive" /><br />
 <{				}											}>
 			</div>
 			<div>
-			<img src="remotecontrol.jpg" width="162" height="363" border="0" usemap="#remote" alt="" />
+			<img src="<$ LiveSetup().GetThemedLink("img", "remotecontrol.jpg") $>" width="162" height="363" border="0" usemap="#remote" alt="" />
 			     <map name="remote">
 			     	  <area href="#" shape="circle" coords="37,36,10" alt="Power" onclick="KeyPress(<$ kPower $>)" nohref="nohref" alt="" />
 				  <area href="#" shape="rect" coords="27,60,59,75" alt="1" onclick="KeyPress(<$ k1 $>)" nohref="nohref" alt="" />

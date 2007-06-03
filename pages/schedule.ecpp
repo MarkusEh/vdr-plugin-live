@@ -109,9 +109,9 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					<tr class="<? active_line ? "active" ?>">
 						<td style="border-left: 1px solid black"><& pageelems.event_timer channelid=(channel_id) eventid=(event) &>
 %						if ( LiveFeatures< features::epgsearch >().Recent() ) {
-						<a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="/search.png" border="0" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a>
+						<a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" border="0" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a>
 %						}
-						<a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(title) $>"><img src="imdb.png" border="0" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a>
+						<a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" border="0" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a>
 						</td>
 						<td><$ start $> - <$ end $></td>
 						<td>

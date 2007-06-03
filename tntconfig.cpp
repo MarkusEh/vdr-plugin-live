@@ -35,7 +35,18 @@ void TntConfig::WriteConfig()
 
 	// XXX modularize
 	file << "MapUrl ^/$ login@" << endl;
-	file << "MapUrl /css.*/(.+) content@ css/$1 text/css" << endl;
+	file << "MapUrl ^/themes/([^/]*)/css.*/(.+\\.css) content@ themes/$1/css/$2 text/css" << endl;
+
+	// the following rules provide a search scheme for images. The first
+	// rule where a image is found, terminates the search.
+	// 1. /themes/<theme>/img/<imgname>.<ext>
+	// 2. /dist/img/<imgname>.<ext>
+	// 3. <imgname>.<ext> (builtin images)
+	file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) content@ themes/$1/img/$2.$3 image/$3" << endl;
+	file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) content@ dist/img/$2.$3 image/$3" << endl;
+	file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) $2@" << endl;
+
+	file << "MapUrl ^/css.*/(.+) content@ css/$1 text/css" << endl;
 	file << "MapUrl /([^/]+/.+) content@ $1" << endl;
 	file << "MapUrl /([^.]+)(\\..+)? $1@" << endl;
 	file << "PropertyFile " << m_propertiesPath << endl;
