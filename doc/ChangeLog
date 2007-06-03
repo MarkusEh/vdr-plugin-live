@@ -1,4 +1,4 @@
-2007-06-03  Dieter Hametner  <dieter@air.mittelstation.de>
+2007-06-03  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
 	Added CSS based themeing support. For details please read
 	doc/css-themeing.txt and doc/dev-conventions.txt.
