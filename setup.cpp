@@ -27,6 +27,7 @@ Setup::Setup():
 		m_screenshotInterval( 1000 ),
 		m_useAuth( 1 ),
 		m_adminLogin("admin"),
+		m_theme("marine"),
 		m_lastwhatsonlistmode("detail")
 {
 	m_adminPasswordMD5 = "4:" + MD5Hash("live");
