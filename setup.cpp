@@ -28,7 +28,8 @@ Setup::Setup():
 		m_useAuth( 1 ),
 		m_adminLogin("admin"),
 		m_theme("marine"),
-		m_lastwhatsonlistmode("detail")
+		m_lastwhatsonlistmode("detail"),
+		m_tntnetloglevel("INFO")
 {
 	m_adminPasswordMD5 = "4:" + MD5Hash("live");
 	liveplugin = cPluginManager::GetPlugin("live");
@@ -39,14 +40,16 @@ bool Setup::ParseCommandLine( int argc, char* argv[] )
 	static struct option opts[] = {
 			{ "port", required_argument, NULL, 'p' },
 			{ "ip",   required_argument, NULL, 'i' },
+			{ "log",  required_argument, NULL, 'l' },
 			{ 0 }
 	};
 
 	int optchar, optind = 0;
-	while ( ( optchar = getopt_long( argc, argv, "p:i:", opts, &optind ) ) != -1 ) {
+	while ( ( optchar = getopt_long( argc, argv, "p:i:l:", opts, &optind ) ) != -1 ) {
 		switch ( optchar ) {
 		case 'p': m_serverPort = atoi( optarg ); break;
 		case 'i': m_serverIps.push_back( optarg ); break;
+		case 'l': m_tntnetloglevel = optarg; break;
 		default:  return false;
 		}
 	}
@@ -63,7 +66,8 @@ char const* Setup::CommandLineHelp() const
 				   "                            (default: " << m_serverPort << ")\n"
 				<< "  -i IP,    --ip=IP         bind server only to specified IP, may appear\n"
 				   "                            multiple times\n"
-				   "                            (default: 0.0.0.0)\n";
+				   "                            (default: 0.0.0.0)\n"
+				<< "  -l level, --log=level     log level for tntnet (values: INFO, DEBUG,...)\n";
 		m_helpString = builder.str();
 	}
 	return m_helpString.c_str();

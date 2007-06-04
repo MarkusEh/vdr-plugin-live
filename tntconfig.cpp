@@ -73,8 +73,8 @@ void TntConfig::WriteProperties()
 	}
 
 	// XXX modularize
-	file << "rootLogger=INFO" << endl;
-	file << "logger.tntnet=INFO" << endl;
+	file << "rootLogger=" << LiveSetup().GetTntnetLogLevel() << endl;
+	file << "logger.tntnet=" << LiveSetup().GetTntnetLogLevel() << endl;
 }
 
 TntConfig const& TntConfig::Get()

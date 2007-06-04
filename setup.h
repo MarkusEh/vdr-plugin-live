@@ -44,7 +44,7 @@ public:
 	std::string GetLocalNetMask() const { return m_localnetmask; };
 	bool GetIsLocalNet() const { return m_islocalnet; };
 	std::string GetLastWhatsOnListMode() const { return m_lastwhatsonlistmode; }
-
+	std::string GetTntnetLogLevel() const { return m_tntnetloglevel; }
 	void SetLastChannel(int lastChannel) { m_lastChannel = lastChannel; }
 	void SetAdminLogin(std::string login) { m_adminLogin = login; }
 	std::string SetAdminPassword(std::string password);
@@ -92,6 +92,7 @@ private:
 	std::string m_localnetmask;
 	bool m_islocalnet;
 	std::string m_lastwhatsonlistmode;
+	std::string m_tntnetloglevel;
 
 	bool CheckServerPort();
 	bool CheckServerIps();
