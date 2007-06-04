@@ -51,6 +51,7 @@ cTimer* timer;
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 }>
 <%cpp>
+	std::string message;
 	cMutexLock timersLock( &LiveTimerManager() );
 	SortedTimers& timers = LiveTimerManager().GetTimers();
 
@@ -69,11 +70,17 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		int start = start_h * 100 + start_m;
 		int stop = end_h * 100 + end_m;
 
-		LiveTimerManager().UpdateTimer( timer, flags, channel, weekdays, day, start, stop, priority, lifetime, title, aux );
-		return reply.redirect(!edit_timerreferer.empty()?edit_timerreferer:"timers.html");
+		if (title.empty())
+			message = tr("Please set a title for the timer!");
+		else
+		{
+			LiveTimerManager().UpdateTimer( timer, flags, channel, weekdays, day, start, stop, priority, lifetime, title, aux );
+			return reply.redirect(!edit_timerreferer.empty()?edit_timerreferer:"timers.html");
+		}
 	}
 
-	edit_timerreferer = request.getHeader("Referer:", "timers.html");
+	if (message.empty())
+		edit_timerreferer = request.getHeader("Referer:", "timers.html");
 
 	auto_ptr< cTimer > eventTimer;
 	if ( timer == 0 ) {
@@ -251,6 +258,9 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					</tr>
 				</table>
 			</form>
+			<div style="color: red; margin: 0 auto;">
+				<$ message $>
+			</div>
 		</div>
 	</body>
 </html>
