@@ -111,7 +111,7 @@ using namespace vdrlive;
 	if (timer) {
 </%cpp>
 	<a href="edit_timer.html?timerid=<$ LiveTimerManager().GetTimers().GetTimerId(*timer) $>">
-		<img src="LiveSetup().GetThemedLink("img", "record_timer.png") $>" alt="" <& tooltip.hint text=(tr("Edit this")) &> />
+		<img src="<$ LiveSetup().GetThemedLink("img", "record_timer.png") $>" alt="" <& tooltip.hint text=(tr("Edit this")) &> />
 <%cpp> } else { </%cpp>
 	<a href="edit_timer.html?channelid=<$ channelid $>&eventid=<$ eventid $>">
 		<img src="<$ LiveSetup().GetThemedLink("img", "record.png") $>" alt="" <& tooltip.hint text=(tr("Record this")) &> />

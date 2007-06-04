@@ -43,7 +43,7 @@ void TntConfig::WriteConfig()
 	// 2. /dist/img/<imgname>.<ext>
 	// 3. <imgname>.<ext> (builtin images)
 	file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) content@ themes/$1/img/$2.$3 image/$3" << endl;
-	file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) content@ dist/img/$2.$3 image/$3" << endl;
+	file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) content@ common/img/$2.$3 image/$3" << endl;
 	file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) $2@" << endl;
 
 	file << "MapUrl ^/css.*/(.+) content@ css/$1 text/css" << endl;
