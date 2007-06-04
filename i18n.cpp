@@ -4121,6 +4121,28 @@ const tI18nPhrase Phrases[] = {
       "", // Dansk
       "", // Czech
       },
+      { "Theme", // English
+      "Thema", // Deutsch
+      "", // Slovenski
+      "", // Italiano
+      "", // Nederlands
+      "", // Português
+      "", // Français
+      "", // Norsk
+      "", // Finnish
+      "", // Polski
+      "", // Español
+      "", // Greek
+      "", // Svenska
+      "", // Românã
+      "", // Magyar
+      "", // Català
+      "", // Russian
+      "", // Hrvatski
+      "", // Eesti
+      "", // Dansk
+      "", // Czech
+      },
     /*
       { "", // English
       "", // Deutsch
