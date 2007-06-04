@@ -27,20 +27,27 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <%cpp>
 #define SELECTIF(x) reply.out() << ( (x) ? "selected=\"selected\"" : "" );
 
+	std::string message;
+
 	if ( request.getMethod() == "POST") {
-		LiveSetup().SetLastChannel(lastchannel != "" ? lexical_cast< int >(lastchannel):0);
-		LiveSetup().SetUseAuth(useauth);
-		if (useauth) {
-			LiveSetup().SetAdminLogin(login);
-			if (pass != "")
-				LiveSetup().SetAdminPassword(pass);
-			LiveSetup().SetLocalNetMask(localnetmask);
-			LiveSetup().CheckLocalNet(request.getPeerIp());
+		if (useauth && (login.empty() || pass.empty()))
+			message = tr("Please set login and password!");
+		else
+		{
+			LiveSetup().SetLastChannel(lastchannel != "" ? lexical_cast< int >(lastchannel):0);
+			LiveSetup().SetUseAuth(useauth);
+			if (useauth) {
+				LiveSetup().SetAdminLogin(login);
+				if (pass != "")
+					LiveSetup().SetAdminPassword(pass);
+				LiveSetup().SetLocalNetMask(localnetmask);
+				LiveSetup().CheckLocalNet(request.getPeerIp());
+			}
+			LiveSetup().SetTimes(times);
+			LiveSetup().SetStartScreen(startscreen);
+			LiveSetup().SetTheme(theme);
+			LiveSetup().SaveSetup();
 		}
-		LiveSetup().SetTimes(times);
-		LiveSetup().SetStartScreen(startscreen);
-		LiveSetup().SetTheme(theme);
-		LiveSetup().SaveSetup();
 	}
 	pageTitle = tr("Setup");
 	int ilastchannel = LiveSetup().GetLastChannel();
@@ -167,6 +174,9 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					</tr>
 				</table>
 			</form>
+			<div style="color: red; margin: 0 auto;">
+				<$ message $>
+			</div>
 		</div>
 	</body>
 </html>
