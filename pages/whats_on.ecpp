@@ -12,6 +12,9 @@
 using namespace std;
 using namespace vdrlive;
 
+static const size_t maximumDescriptionLength = 300;
+static const size_t maximumTooltipHintLength = 150;
+
 </%pre>
 <%args>
 type = "now";
@@ -129,7 +132,9 @@ if (type == "now") {
 							tEventID event = Event->EventID();
 
 							bool truncated = false;
-							string description();
+							string truncDescription = StringWordTruncate(epgEvent->LongDescr(), maximumTooltipHintLength, truncated);
+							string longDescription = StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), maximumDescriptionLength)) 
+									+ "<br/><br/>" + tr("Click to view details.");
 }>
 %		if (mode == "detail") {
 			<div class="event">
@@ -154,8 +159,10 @@ if (type == "now") {
 %							}
 						<div class="title"><$ (epgEvent->Title()) $></div>
 						<div class="short"><$ (epgEvent->ShortDescr()) $></div>
-						<div class="description"><$ (StringWordTruncate(epgEvent->LongDescr(), 150, truncated)) $></div>
-						<div class="more"<& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), 300, truncated)) + string("<br />") + string(tr("Click to view details."))) &><& tooltip.display domId=(epgEvent->Id()) &>><$ (string(tr("more")) + string(" ...")) $></div>
+						<div class="description"><$ truncDescription $></div>
+%							if (truncated) {
+						<div class="more"<& tooltip.hint text=(longDescription) &><& tooltip.display domId=(epgEvent->Id()) &>><$ tr("more") $> ...</div>
+%							}
 				 	</div>
 				</div>
 			</div>
@@ -177,7 +184,11 @@ if (type == "now") {
 %							}
 					</td>
 					<td>
-					<div class="more"<& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), 300, truncated)) + string("<br />") + string(tr("Click to view details."))) &><& tooltip.display domId=(epgEvent->Id()) &>><strong><$ (epgEvent->Title()) $></strong></div><$ (epgEvent->ShortDescr()) $><br />
+					<div class="more"
+%					if (!longDescription.empty()) {
+						<& tooltip.hint text=(longDescription) &><& tooltip.display domId=(epgEvent->Id()) &>
+%					}
+					><strong><$ (epgEvent->Title()) $></strong></div><$ (epgEvent->ShortDescr()) $><br />
 					</td>
 					<td><div class="station"><a href="schedule.html?channel=<$ Channel->Number() $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ (epgEvent->Caption()) $></a></div></td>
 					<td style="border-right: 1px solid black">&nbsp;</td>
