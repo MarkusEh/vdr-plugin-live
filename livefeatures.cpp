@@ -23,7 +23,6 @@ SplitVersion::SplitVersion( string version )
 
 bool SplitVersion::operator<( const SplitVersion& right ) const
 {
-	dsyslog( "vdrlive::SplitVersion::operator<( %d-%s, %d-%s )", m_version, m_suffix.c_str(), right.m_version, right.m_suffix.c_str() );
 	if ( m_version == right.m_version ) {
 		if ( m_suffix.empty() ) return false;
 		if ( right.m_suffix.empty() ) return true;
