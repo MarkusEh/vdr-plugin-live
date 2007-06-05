@@ -3,6 +3,7 @@
 
 #include <ctime>
 #include <istream>
+#include <locale>
 #include <ostream>
 #include <sstream>
 #include <stdexcept>
@@ -52,6 +53,15 @@ To lexical_cast( From const& from )
 	if ( !parser )
 		throw bad_lexical_cast();
 	return result;
+}
+
+template< typename From >
+std::string ConvertToString( From const& from, std::locale const& loc = std::locale() )
+{
+	std::ostringstream parser;
+	parser.imbue( loc );
+	parser << from;
+	return parser.str();
 }
 
 class ReadLock
