@@ -1,8 +1,10 @@
 <%pre>
+#include <locale>
 #include <vdr/i18n.h>
 #include <vdr/keys.h>
-#include "setup.h"
 #include "grab.h"
+#include "setup.h"
+#include "tools.h"
 
 using namespace std;
 using namespace vdrlive;
@@ -17,6 +19,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 }>
 <%cpp>
 	pageTitle = tr("Remote Control");
+
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -68,11 +71,12 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			for (i = 0; i < items.length; ++i) {
 				element.options[i].value = items[i];
 				element.options[i].text = (items[i] / 1000) + " s";
-				if (items[i] == <$ LiveSetup().GetScreenshotInterval() $>)
+				if (items[i] == <$ ConvertToString( LiveSetup().GetScreenshotInterval(), locale("C") ) $>)
 					element.selectedIndex = i;
 			}
 		}
 		//--></script>
+% reply.sout().imbue(locale());
 	</head>
 	<body onload="<& pageelems.infobox_start_update &>; StreamInit(); FillIntervals();">
 		<& pageelems.logo &>
@@ -82,7 +86,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <{				if (!LiveGrabImageManager().CanGrab()) {	}>
 					bloek
 <{				} else {									}>
-					<img src="<$ LiveSetup().GetThemedLink("img", "screenshot.jpg") $>" name="vdrlive" /><br />
+					<img src="screenshot.jpg" name="vdrlive" /><br />
 <{				}											}>
 			</div>
 			<div>
