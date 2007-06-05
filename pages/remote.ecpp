@@ -1,10 +1,13 @@
 <%pre>
+#include <locale>
 #include <vdr/i18n.h>
 #include <vdr/keys.h>
 #include "setup.h"
 #include "grab.h"
 
+using namespace std;
 using namespace vdrlive;
+
 </%pre>
 <%session scope="global">
 bool logged_in(false);
@@ -23,6 +26,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		<& pageelems.stylesheets &>
 		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
+% reply.out().imbue(locale("C"));
 		<script type="text/javascript"><!--
 		var newImg = new Image();
 		var imgsrc = "";
@@ -71,8 +75,9 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			}
 		}
 		//--></script>
+% reply.out().imbue(locale());
 	</head>
-	<body onload="<& pageelems.infobox_start_update &>; StreamInit(); FillIntervals()">
+	<body onload="<& pageelems.infobox_start_update &>; StreamInit(); FillIntervals();">
 		<& pageelems.logo &>
 		<& menu active="remote" component=("remote.remote_actions")>
 		<div class="inhalt">
