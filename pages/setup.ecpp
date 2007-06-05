@@ -16,6 +16,7 @@ using namespace std;
 	string startscreen;
 	string theme;
 	string localnetmask;
+	int authchanged = 0;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -30,7 +31,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	std::string message;
 
 	if ( request.getMethod() == "POST") {
-		if (useauth && (login.empty() || pass.empty()))
+		if (authchanged && useauth && (login.empty() || pass.empty()))
 			message = tr("Please set login and password!");
 		else
 		{
@@ -47,6 +48,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			LiveSetup().SetStartScreen(startscreen);
 			LiveSetup().SetTheme(theme);
 			LiveSetup().SaveSetup();
+			message = tr("Setup saved.");
 		}
 	}
 	pageTitle = tr("Setup");
@@ -72,12 +74,18 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		<& pageelems.ajax_js &>
 		<script type="text/javascript"><!--
 		function initform()
-		{
+		{			
 			changeduseauth(document.getElementById("useauth"));
+			if (document.getElementById("message").value != "")
+				alert(document.getElementById("message").value);
 		}
 		function changeduseauth(selection)
 		{
 			document.getElementById("authsection").style.display = (selection.checked ? "block" : "none");
+		}
+		function setauthchanged(selection)
+		{
+			document.getElementById("authchanged").value = 1;
 		}
 		//--></script>
 	</head>
@@ -86,7 +94,9 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		<& menu active=("setup") &>
 		<div class="inhalt">
 			<form method="POST" name="setup" action="setup.ecpp">
-				<table class="edit" cellpadding="0" cellspacing="0">
+					<input type="hidden" name="authchanged" value="<$ authchanged $>" id="authchanged"/>		
+					<input type="hidden" name="message" value="<$ message $>" id="message"/>
+					<table class="edit" cellpadding="0" cellspacing="0">
 					<tr>
 						<td  class="head" colspan="4"><div class="boxheader"><div><div><$ tr("Setup") $></div></div></div></td>
 					</tr>
@@ -105,11 +115,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 							<table border="0" cellpadding="0" cellspacing="0" class="dependent">
 							<tr>
 								<td><$ tr("Admin login") $>:</td>
-								<td><input type="text" name="login" value="<$ login $>" id="login" /></td>
+								<td><input type="text" name="login" value="<$ login $>" id="login" onchange="setauthchanged(this)" /></td>
 							</tr>
 							<tr>
 								<td><$ tr("Admin password") $>:</td>
-								<td><input  type="password" name="pass" value="<$ pass $>" id="pass" /></td>
+								<td><input  type="password" name="pass" value="<$ pass $>" id="pass" onchange="setauthchanged(this)" /></td>
 							</tr>
 							<tr>
 								<td><$ tr("Local net (no login required)") $>:</td>
@@ -168,15 +178,12 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					<tr>
 						<td class="border" style="border-left: 1px solid black"></td>
 						<td class="buttonpanel" colspan="2">
-							<button class="green" type="submit" name="save" onclick="return checksearch();"><$ tr("Save") $></button>
+							<button class="green" type="submit" name="save" ><$ tr("Save") $></button>
 						</td>
 						<td class="border" style="border-right: 1px solid black"></td>
 					</tr>
 				</table>
 			</form>
-			<div style="color: red; margin: 0 auto;">
-				<$ message $>
-			</div>
 		</div>
 	</body>
 </html>
