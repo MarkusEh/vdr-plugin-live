@@ -27,6 +27,7 @@ std::vector< std::string > StringSplit( std::string const& text, char delimiter 
 int StringToInt( std::string const& string, int base = 10 );
 std::string StringRepeat(int times, const std::string& input);
 std::string StringWordTruncate(const std::string& input, size_t maxLen, bool& truncated);
+inline std::string StringWordTruncate(const std::string& input, size_t maxLen) { bool dummy; return StringWordTruncate(input, maxLen, dummy); }
 std::string StringEscapeAndBreak( std::string const& input );
 std::string StringFormatBreak(std::string const& input);
 std::string StringTrim(const std::string& str);
