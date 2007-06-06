@@ -136,14 +136,14 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			<form method="POST" name="edit_timer" action="edit_timer.ecpp">
 				<input type="hidden" name="timerid" value="<$ timerid $>"/>
 				<input type="hidden" name="aux" value="<$ aux $>"/>
-				<table class="edit" cellpadding="0" cellspacing="0">
-					<tr>
-						<td class="head" colspan="4"><div class="boxheader"><div><div><$ timer ? tr("Edit timer") : tr("New timer") $></div></div></div></td>
+				<table class="formular" cellpadding="0" cellspacing="0">
+					<tr class="head">
+						<td class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div><div><$ timer ? tr("Edit timer") : tr("New timer") $></div></div></div></td>
 					</tr>
+
 					<tr>
-						<td class="border" style="border-left: 1px solid black"></td>
-						<td class="label"><$ tr("Active") $>:</td>
-						<td>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Active") $>:</div></td>
+						<td class="rightcol">
 							<div class="dotted">
 								<input id="active_1" name="active" value="1" <{ reply.out() << ( active ? "checked=\"checked\"" : "" ); }> type="radio"></input>
 								<label for="active_1"><$ tr("Yes") $></label>
@@ -153,34 +153,26 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 								<label for="active_0"><$ tr("No") $></label>
 							</div>
 						</td>
-						<td class="border" style="border-right: 1px solid black"></td>
-					</tr>
-					<tr>
-						<td class="border" style="border-left: 1px solid black"></td>
-						<td class="label"><$ tr("Channel") $>:</td>
-						<td><& channels_widget name=("channel") channelid=(true) selected=(channel) &></td>
-						<td class="border" style="border-right: 1px solid black"></td>
 					</tr>
 
 					<tr>
-						<td class="border" style="border-left: 1px solid black"></td>
-						<td class="label"><$ tr("Title" ) $>:</td>
-						<td><input type="text" name="title" value="<$ title $>" size="80" /></td>
-						<td class="border" style="border-right: 1px solid black"></td>
-					</tr>
-
-
-					<tr>
-						<td class="border" style="border-left: 1px solid black"></td>
-						<td class="label"><$ tr("Day") $>:</td>
-						<td><input type="text" name="day" value="<$ day $>" size="2" maxlength="2" /></td>
-						<td class="border" style="border-right: 1px solid black"></td>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Channel") $>:</div></td>
+						<td class="rightcol"><div class="withmargin"><& channels_widget name=("channel") channelid=(true) selected=(channel) &></div></td>
 					</tr>
 
 					<tr>
-						<td class="border" style="border-left: 1px solid black"></td>
-						<td class="label"><$ tr("Weekday") $>:</td>
-						<td>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Title" ) $>:</div></td>
+						<td class="rightcol"><input type="text" name="title" value="<$ title $>" size="80" /></td>
+					</tr>
+
+					<tr>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Day") $>:</div></td>
+						<td class="rightcol"><input type="text" name="day" value="<$ day $>" size="2" maxlength="2" /></td>
+					</tr>
+
+					<tr>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Weekday") $>:</div></td>
+						<td class="rightcol">
 							<div class="dotted">
 								<input id="wday_mon" type="checkbox" name="wday_mon" value="1" <{ reply.out() << ( wday_mon ? "checked=\"checked\"" : "" ); }> />
 								<label for="wday_mon"><$ tr("Monday") $></label>
@@ -209,52 +201,41 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 								<input id="wday_sun" type="checkbox" name="wday_sun" value="1" <{ reply.out() << ( wday_sun ? "checked=\"checked\"" : "" ); }> />
 								<label for="wday_sun"><$ tr("Sunday") $></label>
 							</div>
-						<td class="border" style="border-right: 1px solid black"></td>
 						</td>
 					</tr>
 
 					<tr>
-						<td class="border" style="border-left: 1px solid black"></td>
-						<td class="label"><$ tr("Start") $>:</td>
-						<td><input type="text" size="2" maxlength="2" name="start_h" value="<$ ZeroPad(start_h) $>" /> : <input type="text" size="2" maxlength="2" name="start_m" value="<$ ZeroPad(start_m) $>" /></td>
-						<td class="border" style="border-right: 1px solid black"></td>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Start") $>:</div></td>
+						<td class="rightcol"><input type="text" size="2" maxlength="2" name="start_h" value="<$ ZeroPad(start_h) $>" /> : <input type="text" size="2" maxlength="2" name="start_m" value="<$ ZeroPad(start_m) $>" /></td>
 					</tr>
 
 					<tr>
-						<td class="border" style="border-left: 1px solid black"></td>
-						<td class="label"><$ tr("Stop") $>:</td>
-						<td><input type="text" size="2" maxlength="2" name="end_h" value="<$ ZeroPad(end_h) $>" /> : <input type="text" size="2" maxlength="2" name="end_m" value="<$ ZeroPad(end_m) $>" /></td>
-						<td class="border" style="border-right: 1px solid black"></td>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Stop") $>:</div></td>
+						<td class="rightcol"><input type="text" size="2" maxlength="2" name="end_h" value="<$ ZeroPad(end_h) $>" /> : <input type="text" size="2" maxlength="2" name="end_m" value="<$ ZeroPad(end_m) $>" /></td>
 					</tr>
 
 					<tr>
-						<td class="border" style="border-left: 1px solid black"></td>
-						<td class="label"><$ tr("Use VPS") $>:</td>
-						<td><input type="checkbox" name="vps" value="1" <{ reply.out() << ( vps ? "checked=\"checked\"" : "" ); }>/></td>
-						<td class="border" style="border-right: 1px solid black"></td>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Use VPS") $>:</div></td>
+						<td class="rightcol"><input type="checkbox" name="vps" value="1" <{ reply.out() << ( vps ? "checked=\"checked\"" : "" ); }>/></td>
 					</tr>
 
 					<tr>
-						<td class="border" style="border-left: 1px solid black"></td>
-						<td class="label"><$ tr("Priority") $>:</td>
-						<td><input type="text" size="2" maxlength="2" name="priority" value="<$ priority $>" /></td>
-						<td class="border" style="border-right: 1px solid black"></td>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Priority") $>:</div></td>
+						<td class="rightcol"><input type="text" size="2" maxlength="2" name="priority" value="<$ priority $>" /></td>
 					</tr>
 
 					<tr>
-						<td class="border" style="border-left: 1px solid black"></td>
-						<td class="label"><$ tr("Lifetime") $>:</td>
-						<td><input type="text" size="2" maxlength="2" name="lifetime" value="<$ lifetime $>" /></td>
-						<td class="border" style="border-right: 1px solid black"></td>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Lifetime") $>:</div></td>
+						<td class="rightcol"><input type="text" size="2" maxlength="2" name="lifetime" value="<$ lifetime $>" /></td>
 					</tr>
 
 					<tr>
-						<td class="border" style="border-left: 1px solid black; border-bottom: 1px solid black"></td>
-						<td class="buttonpanel" colspan="2" style="border-bottom: 1px solid black">
+						<td class="buttonpanel leftcol rightcol bottomrow" colspan="2">
+							<div class="withmargin">
 							<button class="green" type="submit"><$ tr("Save") $></button>
 							<button type="button" class="red" onclick="history.back()"><$ tr("Cancel") $></button>
+							</div>
 						</td>
-						<td class="border" style="border-right: 1px solid black; border-bottom: 1px solid black"></td>
 					</tr>
 				</table>
 			</form>

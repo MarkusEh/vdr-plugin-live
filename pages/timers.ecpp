@@ -56,38 +56,36 @@ using namespace vdrlive;
 %			if (timers.size() == 0) {
 				<$ tr("No timer defined") $>
 %			} else {
-			<table class="timers" cellspacing="0" cellpadding="0">
+			<table class="listing" cellspacing="0" cellpadding="0">
 <%cpp>
 				for (SortedTimers::iterator timer = timers.begin(); timer != timers.end(); ++timer) {
 					string currentDay = timer->WeekDays() > 0 ? *cTimer::PrintDay(0, timer->WeekDays()) : 							FormatDateTime(tr("%A, %x"), timer->Day());
 					if (previousDay != currentDay) {
 						if (!previousDay.empty()) {
 </%cpp>
-						<tr>
-							<td colspan="10" style="border-top: 1px solid black; border-bottom: none; background-image: none">&nbsp;</td>
+						<tr class="spacer">
+							<td colspan="8"/>
 						</tr>
 <%cpp>
 						}
 						previousDay = currentDay;
 </%cpp>
 				<tr class="head">
-					<td colspan="10">
+					<td colspan="8">
 						<div class="boxheader"><div><div>
 							<$ timer->WeekDays() > 0 ? *cTimer::PrintDay(0, timer->WeekDays()) : FormatDateTime(tr("%A, %x"), timer->Day()) $>
 						</div></div></div>
 					</td>
 				</tr>
 				<tr class="description">
-					<td class="border" style="border-left: 1px solid black"></td>
-					<td><img src="transparent.png" alt="" width="16px" height="16px" /></td>
-					<td><$ tr("Channel") $></td>
-					<td><$ tr("Start") $></td>
-					<td><$ tr("Stop") $></td>
-					<td><$ tr("File") $></td>
-					<td><img src="transparent.png" alt="" width="16px" height="16px" /></td>
-					<td><img src="transparent.png" alt="" width="16px" height="16px" /></td>
-					<td><img src="transparent.png" alt="" width="16px" height="16px" /></td>
-					<td class="border" style="border-right: 1px solid black"></td>
+					<td class="leftcol"><img src="transparent.png" alt="" width="16px" height="16px" /></td>
+					<td><div class="withmargin"><$ tr("Channel") $></div></td>
+					<td><div class="withmargin"><$ tr("Start") $></div></td>
+					<td><div class="withmargin"><$ tr("Stop") $></div></td>
+					<td><div class="withmargin"><$ tr("File") $></div></td>
+					<td class="action"><img src="transparent.png" alt="" width="16px" height="16px" /></td>
+					<td class="action"><img src="transparent.png" alt="" width="16px" height="16px" /></td>
+					<td class="action rightcol"><img src="transparent.png" alt="" width="16px" height="16px" /></td>
 				</tr>
 <%cpp>
 					}
@@ -98,22 +96,20 @@ using namespace vdrlive;
 						timerStateImg = "arrow.png";
 </%cpp>
 				<tr>
-					<td class="border" style="border-left: 1px solid black"></td>
-					<td><img src="<$ LiveSetup().GetThemedLink("img", timerStateImg) $>" alt=""></img></td>
-					<td><a href="schedule.html?channel=<$ timer->Channel()->Number()$>"><$ timer->Channel()->Name() $></a></td>
-					<td><$ FormatDateTime(tr("%I:%M %p"), timer->StartTime()) $></td>
-					<td><$ FormatDateTime(tr("%I:%M %p"), timer->StopTime()) $></td>
-					<td><$ timer->File() $></td>
-					<td><a href="timers.html?timerid=<$ timers.GetTimerId(*timer) $>&action=toggle"><img src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &>></img></a></td>
-					<td><a href="edit_timer.html?timerid=<$ timers.GetTimerId(*timer) $>"><img src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="" <& tooltip.hint text=(tr("Edit timer")) &>></img></a></td>
-					<td><a href="timers.html?timerid=<$ timers.GetTimerId(*timer) $>&action=delete"><img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint text=(tr("Delete timer")) &>></img></a></td>
-					<td class="border" style="border-right: 1px solid black"></td>
+					<td class="leftcol"><img src="<$ LiveSetup().GetThemedLink("img", timerStateImg) $>" alt=""></img></td>
+					<td><div class="withmargin"><a href="schedule.html?channel=<$ timer->Channel()->Number()$>"><$ timer->Channel()->Name() $></a></div></td>
+					<td><div class="withmargin"><$ FormatDateTime(tr("%I:%M %p"), timer->StartTime()) $></div></td>
+					<td><div class="withmargin"><$ FormatDateTime(tr("%I:%M %p"), timer->StopTime()) $></div></td>
+					<td><div class="withmargin"><$ timer->File() $></div></td>
+					<td class="action"><a href="timers.html?timerid=<$ timers.GetTimerId(*timer) $>&action=toggle"><img src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &>></img></a></td>
+					<td class="action"><a href="edit_timer.html?timerid=<$ timers.GetTimerId(*timer) $>"><img src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="" <& tooltip.hint text=(tr("Edit timer")) &>></img></a></td>
+					<td class="action rightcol"><a href="timers.html?timerid=<$ timers.GetTimerId(*timer) $>&action=delete"><img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint text=(tr("Delete timer")) &>></img></a></td>
 				</tr>
 <%cpp>
 				}
 			}
 </%cpp>
-				<tr><td colspan="10" style="border-top: 1px solid black; background-image: none; border-bottom: none">&nbsp;</td></tr>
+				<tr class="spacer"><td colspan="8"/></tr>
 			</table>
 		</div>
 	</body>

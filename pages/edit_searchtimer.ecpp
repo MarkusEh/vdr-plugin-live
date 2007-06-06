@@ -457,24 +457,21 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 				<form method="POST" name="edit_searchtimer" action="edit_searchtimer.ecpp">
 					<input type="hidden" name="searchtimerid" value="<$ searchtimerid $>"/>
 					<input type="hidden" name="blacklistids_internal" value="<$ blacklistids_internal $>" id="blacklistids_internal"/>
-					<table class="edit" cellpadding="0" cellspacing="0">
-						<tr>
-							<td  class="head" colspan="4"><div class="boxheader"><div><div><$ editsearchtimer ? tr("Edit search timer") : tr("New search timer") $></div></div></div></td>
+					<table class="formular" cellpadding="0" cellspacing="0">
+						<tr class="head">
+							<td  class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div><div><$ editsearchtimer ? tr("Edit search timer") : tr("New search timer") $></div></div></div></td>
 						</tr>
 
 						<!-- Search term -->
 						<tr>
-							<td class="border" style="border-left: 1px solid black"></td>
-							<td class="label"><$ tr("Search term") $>:</td>
-							<td><input type="text" name="search" value="<$ search $>" size="90" id="searchterm" /></td>
-							<td class="border" style="border-right: 1px solid black"></td>
+							<td class="label leftcol"><div class="withmargin"><$ tr("Search term") $>:</div></td>
+							<td class="rightcol"><input type="text" name="search" value="<$ search $>" size="90" id="searchterm" /></td>
 						</tr>
 
 						<!-- Search mode -->
 						<tr>
-							<td class="border" style="border-left: 1px solid black"></td>
-							<td class="label"><$ tr("Search mode" ) $>:</td>
-							<td>
+							<td class="label leftcol"><div class="withmargin"><$ tr("Search mode" ) $>:</div></td>
+							<td class="rightcol">
 								<div style="float:left; max-width:50%; margin-right:20px">
 									<select onchange="changedsearchmode(this)" name="mode" size="1" id="search_mode">
 										<option value="0" <{ SELECTIF(mode == 0) }> ><$ tr("phrase") $></option>
@@ -490,22 +487,18 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 										<input type="text" name="tolerance" size="2" value="<$ tolerance $>" />
 								</div>
 							</td>
-							<td class="border" style="border-right: 1px solid black"></td>
 						</tr>
 
 						<!-- Match case -->
 						<tr>
-							<td class="border" style="border-left: 1px solid black"></td>
-							<td class="label"><$ tr("Match case") $>:</td>
-							<td><input type="checkbox" name="matchcase" value="1" <{ CHECKIF(matchcase) }> id="matchcase"/></td>
-							<td class="border" style="border-right: 1px solid black"></td>
+							<td class="label leftcol"><div class="withmargin"><$ tr("Match case") $>:</div></td>
+							<td class="rightcol"><input type="checkbox" name="matchcase" value="1" <{ CHECKIF(matchcase) }> id="matchcase"/></td>
 						</tr>
 
 						<!-- Search in -->
 						<tr>
-							<td class="border" style="border-left: 1px solid black"></td>
-							<td class="label"><$ tr("Search in") $>:</td>
-							<td>
+							<td class="label leftcol"><div class="withmargin"><$ tr("Search in") $>:</div></td>
+							<td class="rightcol">
 								<div class="dotted">
 									<input type="checkbox" name="usetitle" value="1" <{ CHECKIF(usetitle) }> />
 									<label for="usetitle"><$ tr("Title") $> </label>
@@ -519,26 +512,22 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 									<label for="usedescr"><$ tr("Description") $> </label>
 								</div>
 							</td>
-							<td class="border" style="border-right: 1px solid black"></td>
 						</tr>
 
 %						if (extEPGInfos.size() > 0) {
 						<!-- Use ext. EPG categories -->
 						<tr>
-							<td class="border" style="border-left: 1px solid black"></td>
-							<td class="label"><$ tr("Use extended EPG info" ) $>:</td>
-							<td>
+							<td class="label leftcol"><div class="withmargin"><$ tr("Use extended EPG info" ) $>:</div></td>
+							<td class="rightcol">
 								<input type="checkbox" name="useextepginfo" value="1" <{ CHECKIF(useextepginfo) }> onclick="changeduseextepginfo(this)" id="useextepginfo"/>
 								<div id="use_extepg_settings" style="display: none">
-									<table border="0" cellspacing="0" cellpadding="0">
+									<table class="dependent" border="0" cellspacing="0" cellpadding="0">
 %										int i=0; for (ExtEPGInfos::iterator extinfo = extEPGInfos.begin(); extinfo != extEPGInfos.end(); ++extinfo, i++) {
-										<tr valign="top">
-											<td align="left" valign="top"><$ extinfo->Name() $></td>
-											<td align="left" valign="top">
-												<input type="text" name="extepgvalues" value="<$extepgvalues[i]$>" size="20" id="extepg_<{ reply.out() << extinfo->Id(); }>_value"/>
-											</td>
+										<tr>
+											<td class="label"><div class="withmargin"><$ extinfo->Name() $></div></td>
+											<td><input type="text" name="extepgvalues" value="<$extepgvalues[i]$>" size="20" id="extepg_<{ reply.out() << extinfo->Id(); }>_value"/></td>
 %											if (extinfo->Values().size() > 0) {
-											<td>
+											<td >
 												<select size="3" multiple="multiple" align="left" valign="top" name="extepg_<{ reply.out() << extinfo->Id(); }>" onchange="changedextepginfo(this)">
 %											for (unsigned int j=0; j<extinfo->Values().size(); j++) {
 													<option value="<{ reply.out() << extinfo->Values()[j];}>"
@@ -555,17 +544,14 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 									</table>
 								</div>
 							</td>
-							<td class="border" style="border-right: 1px solid black"></td>
 						</tr>
 %						}
 
 
 						<!-- Use channel -->
 						<tr>
-							<td class="border" style="border-left: 1px solid black"></td>
-							<td class="label"><$ tr("Use channel" ) $>:</td>
-							<td>
-
+							<td class="label leftcol"><div class="withmargin"><$ tr("Use channel" ) $>:</div></td>
+							<td class="rightcol">
 								<select onchange="changedchannelmode(this)" name="usechannel" size="1" id="channel_mode">
 									<option value="0" <{ SELECTIF(usechannel == 0) }> ><$ tr("no") $></option>
 									<option value="1" <{ SELECTIF(usechannel == 1) }> ><$ tr("interval") $></option>
@@ -574,12 +560,14 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 								</select>
 
 								<div id="channelinterval" style="display: none;">
-									<table border="0" cellpadding="0" cellspacing="0" class="dependent">
+									<table class="dependent" border="0" cellpadding="0" cellspacing="0" class="dependent">
 										<tr>
-											<td class="title"><$ tr("from channel" ) $>:</td><td><& channels_widget name=("channelfrom") channelid=(true) selected=(channelfrom) &><br /></td>
+											<td class="label"><div class="withmargin"><$ tr("from channel" ) $>:</div></td>
+											<td><& channels_widget name=("channelfrom") channelid=(true) selected=(channelfrom) &></td>
 										</tr>
 										<tr>
-											<td class="title" style="border-bottom: none"><$ tr("to channel" ) $>:</td><td style="border-bottom: none"><& channels_widget name=("channelto") channelid=(true) selected=(channelto) &></td>
+											<td class="label"><div class="withmargin"><$ tr("to channel" ) $>:</div></td>
+											<td><& channels_widget name=("channelto") channelid=(true) selected=(channelto) &></td>
 										</tr>
 									</table>
 								</div>
@@ -594,26 +582,24 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 %									}
 								</div>
 							</td>
-							<td class="border" style="border-right: 1px solid black"></td>
 						</tr>
 
 						<!-- Use time -->
 						<tr>
-							<td class="border" style="border-left: 1px solid black"></td>
-							<td class="label"><$ tr("Use time") $>:</td>
-							<td>
+							<td class="label leftcol"><div class="withmargin"><$ tr("Use time") $>:</div></td>
+							<td class="rightcol">
 								<input type="checkbox" name="usetime" value="1" <{ CHECKIF(usetime) }> onclick="changedusetime(this)" id="usetime" />
 								<div id="timesettings" style="display: none">
-									<table border="0" cellpadding="0" cellspacing="0" class="dependent">
+									<table class="dependent" border="0" cellpadding="0" cellspacing="0" class="dependent">
 										<tr>
-											<td><$ tr("Start after") $>:</td>
+											<td class="label"><div class="withmargin"><$ tr("Start after") $>:</div></td>
 											<td>
 												<input type="text" size="2" maxlength="2" name="start_h" value="<$ start_h $>" /> : <input type="text" size="2" maxlength="2" name="start_m" value="<$ start_m $>" />
 												<& tooltip.help text=(tr("The time the show may start at the earliest")) &>
 											</td>
 										</tr>
 										<tr>
-											<td><$ tr("Start before") $>:</td>
+											<td class="label"><div class="withmargin"><$ tr("Start before") $>:</div></td>
 											<td>
 												<input type="text" size="2" maxlength="2" name="stop_h" value="<$ stop_h $>" /> : <input type="text" size="2" maxlength="2" name="stop_m" value="<$ stop_m $>" />
 												<& tooltip.help text=(tr("The time the show may start at the latest")) &>
@@ -622,36 +608,32 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 									</table>
 								</div>
 							</td>
-							<td class="border" style="border-right: 1px solid black"></td>
 						</tr>
 
 						<!-- Use duration -->
 						<tr>
-							<td class="border" style="border-left: 1px solid black"></td>
-							<td class="label"><$ tr("Use duration") $>:</td>
-							<td>
+							<td class="label leftcol"><div class="withmargin"><$ tr("Use duration") $>:</div></td>
+							<td class="rightcol">
 								<input type="checkbox" name="useduration" value="1" <{ CHECKIF(useduration) }> onclick="changeduseduration(this)" id="useduration" />
 								<div id="durationsettings" style="display: none">
-									<table border="0" cellpadding="0" cellspacing="0" class="dependent">
+									<table class="dependent" border="0" cellpadding="0" cellspacing="0">
 										<tr>
-											<td><$ tr("Min. duration") $>:</td>
+											<td class="label"><div class="withmargin"><$ tr("Min. duration") $>:</div></td>
 											<td><input type="text" size="3" maxlength="3" name="durationmin" value="<$ durationmin $>" /> min</td>
 										</tr>
 										<tr>
-											<td><$ tr("Max. duration") $>:</td>
+											<td class="label"><div class="withmargin"><$ tr("Max. duration") $>:</div></td>
 											<td><input type="text" size="3" maxlength="3" name="durationmax" value="<$ durationmax $>" /> min</td>
 										</tr>
 									</table>
 								</div>
 							</td>
-							<td class="border" style="border-right: 1px solid black"></td>
 						</tr>
 
 						<!-- Use weekday -->
 						<tr>
-							<td class="border" style="border-left: 1px solid black"></td>
-							<td class="label"><$ tr("Use day of week") $>:</td>
-							<td>
+							<td class="label leftcol"><div class="withmargin"><$ tr("Use day of week") $>:</div></td>
+							<td class="rightcol">
 								<input type="checkbox" name="useweekday" value="1" <{ CHECKIF(useweekday) }> onclick="changeduseweekday(this)" id="useweekday" />
 								<div id="weekdaysettings" style="display: none" class="dependent">
 									<div class="dotted"><input type="checkbox" name="wday_mon" value="1" <{ CHECKIF(wday_mon) }> /> <$ tr("Monday") $></div>
@@ -664,14 +646,12 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 									<br style="clear: both" /><!-- Der muss da sein damit die Höhenberechnung klappt. Glaubt mir, ist so. -->
 								</div>
 							</td>
-							<td class="border" style="border-right: 1px solid black"></td>
 						</tr>
 
 						<!-- Use blacklists -->
 						<tr>
-							<td class="border" style="border-left: 1px solid black"></td>
-							<td class="label"><$ tr("Use blacklists" ) $>:</td>
-							<td>
+							<td class="label leftcol"><div class="withmargin"><$ tr("Use blacklists" ) $>:</div></td>
+							<td class="rightcol">
 								<select onchange="changedblacklistmode(this)" name="blacklistmode" size="1" id="blacklistmode">
 									<option value="0" <{ SELECTIF(blacklistmode == 0) }> ><$ tr("no") $></option>
 									<option value="1" <{ SELECTIF(blacklistmode == 1) }> ><$ tr("Selection") $></option>
@@ -687,22 +667,18 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 %								}
 								</div>
 							</td>
-							<td class="border" style="border-right: 1px solid black"></td>
 						</tr>
 
 						<!-- Use in favorites menu -->
 						<tr>
-							<td class="border" style="border-left: 1px solid black"></td>
-							<td class="label"><$ tr("Use in favorites menu") $>:</td>
-							<td><input type="checkbox" name="useinfavorites" value="1" <{ CHECKIF(useinfavorites) }>/></td>
-							<td class="border" style="border-right: 1px solid black"></td>
+							<td class="label leftcol"><div class="withmargin"><$ tr("Use in favorites menu") $>:</div></td>
+							<td class="rightcol"><input type="checkbox" name="useinfavorites" value="1" <{ CHECKIF(useinfavorites) }>/></td>
 						</tr>
 
 						<!-- Use as search timer -->
 						<tr>
-							<td class="border" style="border-left: 1px solid black"></td>
-							<td class="label"><$ tr("Use as search timer" ) $>:</td>
-							<td>
+							<td class="label leftcol"><div class="withmargin"><$ tr("Use as search timer" ) $>:</div></td>
+							<td class="rightcol">
 								<div style="float:left; max-width:50%; margin-right:20px">
 									<input type="checkbox" name="useassearchtimer" value="1" <{ CHECKIF(useassearchtimer) }> onclick="changeduseassearchtimer(this)" id="useassearchtimer"/>
 								</div>
@@ -716,12 +692,12 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 								<div id="searchtimermode1settings" style="display: none">
 									<table class="dependent" border="0" cellpadding="0" cellspacing="0">
 										<tr>
-											<td class="title"><$ tr("Series recording") $>:</td>
+											<td class="label"><div class="withmargin"><$ tr("Series recording") $>:</div></td>
 											<td><input type="checkbox" name="seriesrecording" value="1" <{ CHECKIF(seriesrecording) }>/></td>
 										</tr>
 
 										<tr>
-											<td class="title"><$ tr("Directory") $>:</td>
+											<td class="label"><div class="withmargin"><$ tr("Directory") $>:</div></td>
 											<td><input type="text" name="directory" id="directory" value="<$ directory $>" size="70" /><br>
 											<select onchange="changeddirselection(this)" name="recordingdirsselection" size="1" id="recordingdirsselection" style="margin-top: 5px">
 											<option/>
@@ -733,7 +709,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 										</tr>
 
 										<tr>
-											<td class="title"><$ tr("Delete recordings after ... days") $>:</td>
+											<td class="label"><div class="withmargin"><$ tr("Delete recordings after ... days") $>:</div></td>
 											<td>
 												<input type="text" name="delrecafterdays" id="delrecafterdays" size="2" value="<$ delrecafterdays $>"/>&nbsp;&nbsp;
 												<$ tr("Keep ... recordings") $>:
@@ -742,41 +718,41 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 										</tr>
 
 										<tr>
-											<td class="title"><$ tr("Pause when ... recordings exist") $>:</td>
+											<td class="label"><div class="withmargin"><$ tr("Pause when ... recordings exist") $>:</div></td>
 											<td><input type="text" name="pauseonrecs" id="pauseonrecs" size="2" value="<$ pauseonrecs $>"/></td>
 										</tr>
 
 										<tr>
-											<td class="title"><$ tr("Avoid repeats" ) $>:</td>
+											<td class="label"><div class="withmargin"><$ tr("Avoid repeats" ) $>:</div></td>
 											<td><input type="checkbox" name="avoidrepeats" value="1" <{ CHECKIF(avoidrepeats) }> onclick="changedavoidrepeats(this)" id="avoidrepeats"/>
 												<div id="avoidrepeatssettings" style="display: none">
-													<table border="0" cellpadding="0" cellspacing="0">
+													<table class="dependent" border="0" cellpadding="0" cellspacing="0">
 														<tr>
-															<td><$ tr("Allowed repeats") $>:</td>
+															<td class="label"></div><$ tr("Allowed repeats") $>:</div></td>
 															<td>
 																<input type="text" size="3" maxlength="3" name="allowedrepeats" value="<$ allowedrepeats $>" /> <$ tr("Only repeats within ... days") $>:<input type="text" size="3" maxlength="3" name="repeatswithindays" value="<$ repeatswithindays $>" />
 															</td>
 														</tr>
 
 														<tr>
-															<td><$ tr("Compare title" ) $>:</td>
+															<td class="label"><div class="withmargin"><$ tr("Compare title" ) $>:</div></td>
 															<td><input type="checkbox" name="comparetitle" value="1" <{ CHECKIF(comparetitle) }>/>
 														</tr>
 
-														<tr class= "active">
-															<td><$ tr("Compare subtitle" ) $>:</td>
+														<tr>
+															<td class="label"><div class="withmargin"><$ tr("Compare subtitle" ) $>:</div></td>
 															<td><input type="checkbox" name="comparesubtitle" value="1" <{ CHECKIF(comparesubtitle) }>/>
 														</tr>
 
 														<tr>
-															<td><$ tr("Compare summary" ) $>:</td>
+															<td class="label"><div class="withmargin"><$ tr("Compare summary" ) $>:</div></td>
 															<td><input type="checkbox" name="comparesummary" value="1" <{ CHECKIF(comparesummary) }>/>
 														</tr>
 
 %														if (extEPGInfos.size() > 0) {
 %															int i=0; for (ExtEPGInfos::iterator extinfo = extEPGInfos.begin(); extinfo != extEPGInfos.end(); ++extinfo, i++) {
-														<tr valign="top">
-															<td align="left" valign="top"><$ tr("Compare" ) $> <$ extinfo->Name() $>:</td>
+														<tr>
+															<td class="label"><div class="withmargin"><$ tr("Compare" ) $> <$ extinfo->Name() $>:</div></td>
 															<td><input type="checkbox" name="avoidrepeatscatselected" value="<$ i+1 $>" <{ CHECKIF(avoidrepeatscatselected[i]) }>/></td>
 														</tr>
 %															}
@@ -787,28 +763,28 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 										</tr>
 
 										<tr>
-											<td class="title"><$ tr("Priority") $>:</td>
+											<td class="label"><div class="withmargin"><$ tr("Priority") $>:</div></td>
 											<td><input type="text" name="priority" size="2" value="<$ priority $>"/></td>
 										</tr>
 
 										<tr>
-											<td class="title"><$ tr("Lifetime") $>:</td>
+											<td class="label"><div class="withmargin"><$ tr("Lifetime") $>:</div></td>
 											<td><input type="text" name="lifetime" size="2" value="<$ lifetime $>"/></td>
 										</tr>
 
 										<tr>
-											<td class="title"><$ tr("Setup.Recording$Margin at start (min)") $>:</td>
+											<td class="label"><div class="withmargin"><$ tr("Setup.Recording$Margin at start (min)") $>:</div></td>
 											<td><input type="text" name="marginstart" size="2" value="<$ marginstart $>"/></td>
 										</tr>
 
 										<tr>
-											<td class="title"><$ tr("Setup.Recording$Margin at stop (min)") $>:</td>
+											<td class="label"><div class="withmargin"><$ tr("Setup.Recording$Margin at stop (min)") $>:</div></td>
 											<td><input type="text" name="marginstop" size="2" value="<$ marginstop $>"/></td>
 										</tr>
 
 										<tr>
-											<td class="blank"><$ tr("Use VPS") $>:</td>
-											<td class="blank"><input type="checkbox" name="usevps" value="1" <{ CHECKIF(usevps) }>/></td>
+											<td class="label"><div class="withmargin"><$ tr("Use VPS") $>:</div></td>
+											<td><input type="checkbox" name="usevps" value="1" <{ CHECKIF(usevps) }>/></td>
 										</tr>
 									</table>
 								</div>
@@ -816,23 +792,22 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 								<div id="searchtimermode3settings" style="display: none">
 									<table class="dependent" border="0" cellpadding="0" cellspacing="0">
 										<tr>
-											<td class="title"><$ tr("Switch ... minutes before start") $>:</td>
+											<td class="label"><div class="withmargin"><$ tr("Switch ... minutes before start") $>:</div></td>
 											<td><input type="text" name="switchminbefore" id="switchminbefore" size="2" value="<$ switchminbefore $>"/></td>
 										</tr>
 									</table>
 								</div>
 							</td>
-							<td class="border" style="border-right: 1px solid black"></td>
 						</tr>
 
 						<tr>
-							<td class="border" style="border-left: 1px solid black"></td>
-							<td class="buttonpanel" colspan="2">
+							<td class="buttonpanel leftcol rightcol" colspan="2">
+								<div class="withmargin">
 								<button class="green" type="submit" name="test" value="test" onclick="return checksearch();"><$ tr("Test") $></button>
 								<button class="green" type="submit" name="save" onclick="return checksearch();"><$ tr("Save") $></button>
 								<button type="button" class="red" onclick="history.back()"><$ tr("Cancel") $></button>
+								</div>
 							</td>
-							<td class="border" style="border-right: 1px solid black"></td>
 						</tr>
 					</table>
 				</form>

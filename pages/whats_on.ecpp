@@ -49,7 +49,7 @@ string displaytime;
 if (mode.empty())
 	mode = LiveSetup().GetLastWhatsOnListMode();
 else
-	LiveSetup().SetLastWhatsOnListMode(mode);	
+	LiveSetup().SetLastWhatsOnListMode(mode);
 
 current_type = type;
 current_mode = mode;
@@ -99,9 +99,9 @@ if (type == "now") {
 		<& menu active=("whats_on") component=("whats_on.whats_on_actions")>
 		<div class="inhalt">
 %			if (mode == "list") {
-			<table class="schedule" cellspacing="0" cellpadding="0">
-				<tr>
-					<td class="day" colspan="5"><div class="boxheader"><div><div><$ head $></div></div></div></td>
+			<table class="listing" cellspacing="0" cellpadding="0">
+				<tr class="head">
+					<td colspan="7"><div class="boxheader"><div><div><$ head $></div></div></div></td>
 				</tr>
 %	    }
 <{
@@ -109,7 +109,6 @@ if (type == "now") {
 
 	ReadLock channelsLock( Channels );
 	if (channelsLock) {
-		bool active_line = false;
 		int evntNr = 0;
 		for (cChannel *Channel = Channels.First(); Channel && Channel->Number() <= LiveSetup().GetLastChannel(); Channel = Channels.Next(Channel)) {
 			if (!Channel->GroupSep()) {
@@ -133,7 +132,7 @@ if (type == "now") {
 
 							bool truncated = false;
 							string truncDescription = StringWordTruncate(epgEvent->LongDescr(), maximumTooltipHintLength, truncated);
-							string longDescription = StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), maximumDescriptionLength)) 
+							string longDescription = StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), maximumDescriptionLength))
 									+ "<br/><br/>" + tr("Click to view details.");
 }>
 %		if (mode == "detail") {
@@ -157,41 +156,37 @@ if (type == "now") {
 %							if (epgEvent->Elapsed() >= 0) {
 						<div class="progress"><div><& pageelems.progressbar progress=(epgEvent->Elapsed()) &></div></div>
 %							}
-						<div class="title"><$ (epgEvent->Title()) $></div>
-						<div class="short"><$ (epgEvent->ShortDescr()) $></div>
-						<div class="description"><$ truncDescription $></div>
+						<div class="title withmargin"><$ (epgEvent->Title()) $></div>
+						<div class="short withmargin"><$ (epgEvent->ShortDescr()) $></div>
+						<div class="description withmargin"><$ truncDescription $></div>
 %							if (truncated) {
-						<div class="more"<& tooltip.hint text=(longDescription) &><& tooltip.display domId=(epgEvent->Id()) &>><$ tr("more") $> ...</div>
+						<div class="more withmargin"<& tooltip.hint text=(longDescription) &><& tooltip.display domId=(epgEvent->Id()) &>><$ tr("more") $> ...</div>
 %							}
 				 	</div>
 				</div>
 			</div>
 %   } else { // mode == "list"
-				<tr class="<? active_line ? "active" ?>">
-					<td style="border-left: 1px solid black"><& pageelems.event_timer channelid=(channel_id) eventid=(event) &>
-%					if (type == "now") {
-						<& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channel_id) image="zap.png" alt="" &>
-%					}
-%					if ( LiveFeatures< features::epgsearch >().Recent() ) {
-						<a href="searchresults.html?searchplain=<$ StringUrlEncode(epgEvent->Title()) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" border="0" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a>
-%					}
-						<a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(epgEvent->Title()) $>"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" border="0" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a>
-					</td>
-					<td>
-						<div><$ (epgEvent->StartTime(tr("%I:%M %p"))) $> - <$ (epgEvent->EndTime(tr("%I:%M %p"))) $></div>
+				<tr>
+					<td class="action leftcol"><& pageelems.event_timer channelid=(channel_id) eventid=(event) &></td>
+					<td class="action"><%cpp>if (type == "now") { </%cpp><& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channel_id) image="zap.png" alt="" &><%cpp> } </%cpp>
+					<td class="action"><%cpp>if (LiveFeatures<features::epgsearch>().Recent() ) { </%cpp><a href="searchresults.html?searchplain=<$ StringUrlEncode(epgEvent->Title()) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" border="0" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a><%cpp> } else { </%cpp><img src="transparent.png" width="16" height="16"><%cpp> } </%cpp></td>
+					<td class="action"><a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(epgEvent->Title()) $>"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" border="0" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a></td>
+					<td class="topaligned">
+						<div class="withmargin">
+							<div class="nomargin"><$ (epgEvent->StartTime(tr("%I:%M %p"))) $> - <$ (epgEvent->EndTime(tr("%I:%M %p"))) $></div>
 %							if (epgEvent->Elapsed() >= 0) {
-						<div class="progress"><div><& pageelems.progressbar progress=(epgEvent->Elapsed()) &></div></div>
+							<div class="progress"><div><& pageelems.progressbar progress=(epgEvent->Elapsed()) &></div></div>
 %							}
+				        </div>
 					</td>
-					<td>
-					<div class="more"
+					<td class="topaligned">
+						<div class="more withmargin"
 %					if (!longDescription.empty()) {
 						<& tooltip.hint text=(longDescription) &><& tooltip.display domId=(epgEvent->Id()) &>
 %					}
-					><strong><$ (epgEvent->Title()) $></strong></div><$ (epgEvent->ShortDescr()) $><br />
+						><span class="title"><$ (epgEvent->Title()) $></span><br /><span class="short"><$ (epgEvent->ShortDescr()) $></span></div>
 					</td>
-					<td><div class="station"><a href="schedule.html?channel=<$ Channel->Number() $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ (epgEvent->Caption()) $></a></div></td>
-					<td style="border-right: 1px solid black">&nbsp;</td>
+					<td class="topaligned rightcol"><div class="station withmargin"><a href="schedule.html?channel=<$ Channel->Number() $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ (epgEvent->Caption()) $></a></div></td>
 				</tr>
 %   }
 <{
@@ -213,8 +208,8 @@ if (type == "now") {
 	}
 }>
 %			if (mode == "list") {
-				<tr>
-					<td colspan="5" style="border-top: 1px solid black; background-image: none; border-bottom: none">&nbsp;</td>
+				<tr class="spacer">
+					<td colspan="7"/>
 				</tr>
 			</table>
 %   	}

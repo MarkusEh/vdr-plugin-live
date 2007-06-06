@@ -58,15 +58,13 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 %           if (results.size() == 0) {
                 <$ tr("No search results") $>
 %           }
-			<table class="searchresults" cellspacing="0" callpadding="0">
+			<table class="listing" cellspacing="0" callpadding="0">
 <{
 				string current_day = "";
-				bool active_line = false;
 				EpgEvents epgEvents;
 				int evntNr = 0;
 
 				for (SearchResults::iterator result = results.begin(); result != results.end(); ++result) {
-//					active_line = !active_line;
 					string channelname = Channels.GetByChannelID(result->Channel())->Name();
 					int channelnr = Channels.GetByChannelID(result->Channel())->Number();
 					string start(result->StartTime() ? FormatDateTime(tr("%I:%M %p"), result->StartTime()) : "");
@@ -86,33 +84,28 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					if (current_day != day) {
 						if (current_day != "") {
 }>
-						<tr>
-							<td colspan="5" style="border-top: 1px solid black; border-bottom: none; background-image: none">&nbsp;</td></tr>
-						</tr>
+					<tr class="spacer">
+						<td colspan="4"/>
+					</tr>
 <{
 						}
 }>
-						<tr>
-							<td class="day" colspan="5"><div class="boxheader"><div><div><$ day $></div></div></div></td>
-						</tr>
-%					current_day = day;
+					<tr class="head">
+						<td colspan="4"><div class="boxheader"><div><div><$ day $></div></div></div></td>
+					</tr>
+%						current_day = day;
 %					}
-                    <tr class="<? active_line ? "active" ?>">
-						<td style="border-left: 1px solid black"><& pageelems.event_timer channelid=(channel_id) eventid=(event)&></td>
-						<td><a href="schedule.html?channel=<$ channelnr $>"><$ channelname $></a></td>
-						<td><$ start $> - <$ end $></td>
-
-						<td>
-							<div class="more"<& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(description, 300, truncated)) + string("<br />") + string(tr("Click to view details."))) &><& tooltip.display domId=(epgEvent->Id()) &>><strong><$ result->Title() $></strong></div><$ result->ShortText() $><br />
-						</td>
-
-						<td style="border-right: 1px solid black">&nbsp;</td>
+                    <tr>
+						<td class="action leftcol"><& pageelems.event_timer channelid=(channel_id) eventid=(event)&></td>
+						<td class="topaligned"><div class="withmargin"><a href="schedule.html?channel=<$ channelnr $>"><$ channelname $></a></div></td>
+						<td class="topaligned"><div class="withmargin"><$ start $> - <$ end $></div></td>
+						<td class="topaligned rightcol"><div class="more withmargin"<& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(description, 300, truncated)) + "<br />" + tr("Click to view details.")) &><& tooltip.display domId=(epgEvent->Id()) &>><span class="title"><$ result->Title() $></span><br /><span class="short"><%cpp>if (result->ShortText().empty()) { </%cpp>&nbsp;<%cpp> } </%cpp><$ result->ShortText() $></span></div></td>
 					</tr>
 %				}
 %				if (results.size() > 0) {
-						<tr>
-							<td colspan="5" style="border-top: 1px solid black; background: none; border-bottom: none">&nbsp;</td>
-						</tr>
+					<tr class="spacer">
+						<td colspan="4"/>
+					</tr>
 %				}
 			</table>
 		</div>

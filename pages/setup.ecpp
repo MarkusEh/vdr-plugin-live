@@ -74,7 +74,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		<& pageelems.ajax_js &>
 		<script type="text/javascript"><!--
 		function initform()
-		{			
+		{
 			changeduseauth(document.getElementById("useauth"));
 			if (document.getElementById("message").value != "")
 				alert(document.getElementById("message").value);
@@ -94,68 +94,59 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		<& menu active=("setup") &>
 		<div class="inhalt">
 			<form method="POST" name="setup" action="setup.ecpp">
-					<input type="hidden" name="authchanged" value="<$ authchanged $>" id="authchanged"/>		
+					<input type="hidden" name="authchanged" value="<$ authchanged $>" id="authchanged"/>
 					<input type="hidden" name="message" value="<$ message $>" id="message"/>
-					<table class="edit" cellpadding="0" cellspacing="0">
-					<tr>
-						<td  class="head" colspan="4"><div class="boxheader"><div><div><$ tr("Setup") $></div></div></div></td>
+					<table class="formular" cellpadding="0" cellspacing="0">
+					<tr class="head">
+						<td  class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div><div><$ tr("Setup") $></div></div></div></td>
 					</tr>
 					<tr>
-						<td class="border" style="border-left: 1px solid black"></td>
-						<td class="label"><$ tr("Last channel to display") $>:</td>
-						<td><input type="text" name="lastchannel" value="<$ lastchannel $>" id="lastchannel" /></td>
-						<td class="border" style="border-right: 1px solid black"></td>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Last channel to display") $>:</div></td>
+						<td class="rightcol"><input type="text" name="lastchannel" value="<$ lastchannel $>" id="lastchannel" /></td>
 					</tr>
 					<tr>
-						<td class="border" style="border-left: 1px solid black"></td>
-						<td class="label"><$ tr("Use authentication") $>:</td>
-						<td>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Use authentication") $>:</div></td>
+						<td class="rightcol">
 							<input type="checkbox" name="useauth" id="useauth" value="1" <{ reply.out() << ( useauth ? "checked=\"checked\"" : "" ); }> onclick="changeduseauth(this)"/>
 							<div id="authsection" style="display: none">
 							<table border="0" cellpadding="0" cellspacing="0" class="dependent">
 							<tr>
-								<td><$ tr("Admin login") $>:</td>
+								<td class="label"><div class="withmargin"><$ tr("Admin login") $>:</div></td>
 								<td><input type="text" name="login" value="<$ login $>" id="login" onchange="setauthchanged(this)" /></td>
 							</tr>
 							<tr>
-								<td><$ tr("Admin password") $>:</td>
+								<td class="label"><div class="withmargin"><$ tr("Admin password") $>:</div></td>
 								<td><input  type="password" name="pass" value="<$ pass $>" id="pass" onchange="setauthchanged(this)" /></td>
 							</tr>
 							<tr>
-								<td><$ tr("Local net (no login required)") $>:</td>
+								<td class="label"><div class="withmargin"><$ tr("Local net (no login required)") $>:</div></td>
 								<td><input  type="text" name="localnetmask" value="<$ localnetmask $>" id="localnetmask" /></td>
 							</tr>
 							</table>
 							</div>
 						</td>
-						<td class="border" style="border-right: 1px solid black"></td>
 					</tr>
 					<tr>
-						<td class="border" style="border-left: 1px solid black"></td>
-						<td class="label"><$ tr("additional fixed times in 'What's on?'") $>:</td>
-						<td><input type="text" name="times" value="<$ times $>" id="times" />
+						<td class="label leftcol"><div class="withmargin"><$ tr("additional fixed times in 'What's on?'") $>:</div></td>
+						<td class="rightcol"><input type="text" name="times" value="<$ times $>" id="times" />
 							<& tooltip.help text=(tr("Format is HH:MM. Separate multiple times with a colon")) &></td>
-						<td class="border" style="border-right: 1px solid black"></td>
 					</tr>
 					<tr>
-						<td class="border" style="border-left: 1px solid black"></td>
-						<td class="label"><$ tr("Start page") $>:</td>
-						<td><select name="startscreen" size="1" id="startscreen">
+						<td class="label leftcol"><div class="withmargin"><$ tr("Start page") $>:</div></td>
+						<td class="rightcol"><select name="startscreen" size="1" id="startscreen">
 							<option value="whatsonnow" <{ SELECTIF(startscreen == "whatsonnow") }>><$ tr("What's on now?") $></option>
 							<option value="whatsonnext" <{ SELECTIF(startscreen == "whatsonnext") }>><$ tr("What's on next?") $></option>
 							<option value="schedule" <{ SELECTIF(startscreen == "schedule") }>><$ tr("Schedule") $></option>
 							<option value="recordings" <{ SELECTIF(startscreen == "recordings") }>><$ tr("Recordings") $></option>
 							<option value="timers" <{ SELECTIF(startscreen == "timers") }>><$ tr("Timers") $></option>
 						</select></td>
-						<td class="border" style="border-right: 1px solid black"></td>
 					</tr>
 					<tr>
-						<td class="border" style="border-left: 1px solid black"></td>
-						<td class="label"><$ tr("Theme") $>:</td>
-						<td><select name="theme" size="1" id="theme">
+						<td class="label leftcol"><div class="withmargin"><$ tr("Theme") $>:</div></td>
+						<td class="rightcol"><select name="theme" size="1" id="theme">
 <%cpp>
 {
-	cReadDir d(USRDIR "/themes");
+	cReadDir d((Plugin::GetConfigDirectory() + "/themes").c_str());
 	struct dirent* e;
 	string parent("..");
 	string current(".");
@@ -173,14 +164,13 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 }
 </%cpp>
 						</select></td>
-						<td class="border" style="border-right: 1px solid black"></td>
 					</tr>
 					<tr>
-						<td class="border" style="border-left: 1px solid black"></td>
-						<td class="buttonpanel" colspan="2">
+						<td class="buttonpanel leftcol rightcol bottomrow" colspan="2">
+							<div class="withmargin">
 							<button class="green" type="submit" name="save" ><$ tr("Save") $></button>
+							</div>
 						</td>
-						<td class="border" style="border-right: 1px solid black"></td>
 					</tr>
 				</table>
 			</form>

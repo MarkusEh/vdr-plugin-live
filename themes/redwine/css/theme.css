@@ -215,7 +215,7 @@ div.screenshot {
   ##############################
 */
 
-table.edit tr td {
+table.formular tr td {
 	background: url(../img/bg_line.png) bottom repeat-x;
 	border-bottom: 1px solid #DA8DA8;
 }
@@ -227,11 +227,11 @@ table.edit tr td {
   ##############################
 */
 
-table.searchresults tr td.head {
+table.listing tr td.head {
 	background: #963B5F;
 }
 
-table.searchresults tr td {
+table.listing tr td {
 	background: url(../img/bg_line.png) bottom repeat-x;
         border-bottom: 1px solid #DA8DA8;
 }

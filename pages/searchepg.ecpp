@@ -254,28 +254,25 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		<div class="inhalt">
 			<form method="POST" name="searchepg" action="searchepg.ecpp">
 				<input type="hidden" name="blacklistids_internal" value="<$ blacklistids_internal $>" id="blacklistids_internal"/>
-				<table class="edit" cellpadding="0" cellspacing="0">
-					<tr>
-						<td  class="head" colspan="4"><div class="boxheader"><div><div><$ tr("Search settings") $></div></div></div></td>
+				<table class="formular" cellpadding="0" cellspacing="0">
+					<tr class="head">
+						<td  class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div><div><$ tr("Search settings") $></div></div></div></td>
 					</tr>
 
 					<!-- Search term -->
 					<tr>
-						<td class="border" style="border-left: 1px solid black"></td>
-						<td class="label"><$ tr("Search term") $>:</td>
-						<td><input type="text" name="search" value="<$ search $>" size="90" id="searchterm" /></td>
-						<td class="border" style="border-right: 1px solid black"></td>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Search term") $>:</div></td>
+						<td class="rightcol"><input type="text" name="search" value="<$ search $>" size="90" id="searchterm" /></td>
 					</tr>
 					<tr>
-						<td class="border" style="border-left: 1px solid black"></td>
-						<td class="label"><$ tr("Extended search") $>:</td>
-						<td>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Extended search") $>:</div></td>
+						<td class="rightcol">
 							<input type="checkbox" name="useextendedsearch" value="1" <{ CHECKIF(useextendedsearch) }> onclick="changeduseextendedsearch(this)" id="useextendedsearch"/>
 						<div id="extendedsearch" style="display: none">
 						<table class="dependent" border="0" cellpadding="0" cellspacing="0">
 						<!-- Search mode -->
 						<tr>
-							<td class="label"><$ tr("Search mode" ) $>:</td>
+							<td class="label"><div class="withmargin"><$ tr("Search mode" ) $>:</div></td>
 							<td>
 								<div style="float:left; margin-right:20px">
 									<select onchange="changedsearchmode(this)" name="mode" size="1" id="search_mode">
@@ -296,13 +293,13 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 						<!-- Match case -->
 						<tr>
-							<td class="label"><$ tr("Match case") $>:</td>
+							<td class="label"><div class="withmargin"><$ tr("Match case") $>:</div></td>
 							<td><input type="checkbox" name="matchcase" value="1" <{ CHECKIF(matchcase) }> id="matchcase"/></td>
 						</tr>
 
 						<!-- Search in -->
 						<tr>
-							<td class="label"><$ tr("Search in") $>:</td>
+							<td class="label"><div class="withmargin"><$ tr("Search in") $>:</div></td>
 							<td>
 								<div class="dotted">
 									<input type="checkbox" name="usetitle" value="1" <{ CHECKIF(usetitle) }> />
@@ -324,11 +321,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 %					if (extEPGInfos.size() > 0) {
 						<!-- Use ext. EPG categories -->
 						<tr>
-							<td class="label"><$ tr("Use extended EPG info" ) $>:</td>
+							<td class="label"><div class="withmargin"><$ tr("Use extended EPG info" ) $>:</div></td>
 							<td>
 								<input type="checkbox" name="useextepginfo" value="1" <{ CHECKIF(useextepginfo) }> onclick="changeduseextepginfo(this)" id="useextepginfo"/>
 								<div id="use_extepg_settings" style="display: none">
-									<table border="0" cellspacing="0" cellpadding="0">
+									<table class="dependent" border="0" cellspacing="0" cellpadding="0">
 %									int i=0; for (ExtEPGInfos::iterator extinfo = extEPGInfos.begin(); extinfo != extEPGInfos.end(); ++extinfo, i++) {
 										<tr valign="top">
 											<td align="left" valign="top"><$ extinfo->Name() $></td>
@@ -359,7 +356,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 						<!-- Use channel -->
 						<tr>
-							<td class="label"><$ tr("Use channel" ) $>:</td>
+							<td class="label"><div class="withmargin"><$ tr("Use channel" ) $>:</div></td>
 							<td>
 
 								<select onchange="changedchannelmode(this)" name="usechannel" size="1" id="channel_mode">
@@ -370,7 +367,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 								</select>
 
 								<div id="channelinterval" style="display: none;">
-									<table>
+									<table class="dependent" cellspacing="0" cellpadding="0">
 										<tr>
 											<td><$ tr("from channel" ) $>:</td>
 											<td><& channels_widget name=("channelfrom") channelid=(true) selected=(channelfrom) &></td>
@@ -396,11 +393,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 						<!-- Use time -->
 						<tr>
-							<td class="label"><$ tr("Use time") $>:</td>
+							<td class="label"><div class="withmargin"><$ tr("Use time") $>:</div></td>
 							<td>
 								<input type="checkbox" name="usetime" value="1" <{ CHECKIF(usetime) }> onclick="changedusetime(this)" id="usetime" />
 								<div id="timesettings" style="display: none">
-									<table border="0" cellpadding="0" cellspacing="0">
+									<table class="dependent" border="0" cellpadding="0" cellspacing="0">
 										<tr>
 											<td><$ tr("Start after") $>:</td>
 											<td>
@@ -422,11 +419,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 						<!-- Use duration -->
 						<tr>
-							<td class="label"><$ tr("Use duration") $>:</td>
+							<td class="label"><div class="withmargin"><$ tr("Use duration") $>:</div></td>
 							<td>
 								<input type="checkbox" name="useduration" value="1" <{ CHECKIF(useduration) }> onclick="changeduseduration(this)" id="useduration" />
 								<div id="durationsettings" style="display: none">
-									<table border="0" cellpadding="0" cellspacing="0">
+									<table class="dependent" border="0" cellpadding="0" cellspacing="0">
 										<tr>
 											<td><$ tr("Min. duration") $>:</td>
 											<td><input type="text" size="3" maxlength="3" name="durationmin" value="<$ durationmin $>" /> min</td>
@@ -442,7 +439,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 						<!-- Use weekday -->
 						<tr>
-							<td class="label"><$ tr("Use day of week") $>:</td>
+							<td class="label"><div class="withmargin"><$ tr("Use day of week") $>:</div></td>
 							<td>
 								<input type="checkbox" name="useweekday" value="1" <{ CHECKIF(useweekday) }> onclick="changeduseweekday(this)" id="useweekday" />
 								<div id="weekdaysettings" style="display: none; white-space: nowrap">
@@ -460,7 +457,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 						<!-- Use blacklists -->
 						<tr>
-							<td class="label"><$ tr("Use blacklists" ) $>:</td>
+							<td class="label"><div class="withmargin"><$ tr("Use blacklists" ) $>:</div></td>
 							<td>
 								<select onchange="changedblacklistmode(this)" name="blacklistmode" size="1" id="blacklistmode">
 									<option value="0" <{ SELECTIF(blacklistmode == 0) }> ><$ tr("no") $></option>
@@ -481,14 +478,13 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 						</table>
 					</div>
 					</td>
-					<td class="border" style="border-right: 1px solid black"></td>
 					</tr>
 					<tr>
-						<td class="border" style="border-left: 1px solid black"></td>
-						<td class="buttonpanel" colspan="2">
+						<td class="buttonpanel leftcol rightcol bottomrow" colspan="2">
+							<div class="withmargin">
 							<button class="green" type="submit" name="save" onclick="return checksearch();"><$ tr("Search") $></button>
+							</div>
 						</td>
-						<td class="border" style="border-right: 1px solid black"></td>
 					</tr>
 				</table>
 			</form>

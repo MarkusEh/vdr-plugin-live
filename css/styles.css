@@ -39,14 +39,50 @@ img {
 	border: 0;
 }
 
-/* ######################
+/* #########################
    # global style properties
-   ######################
+   #########################
 */
 
 .bold {
 	font-weight: bold;
 }
+
+/* ==============================
+   =  Dotted Frame
+   ==============================
+*/
+
+.dotted {
+	border: 1px dotted #bbbbbb;
+	padding: 3px;
+	margin: 2px;
+	float: left;
+	background-color: #f3f3f3;
+}
+
+
+.title {
+	font-weight: bold;
+}
+
+.short {
+	font-weight: normal;
+}
+
+.more {
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.withmargin {
+	margin: 5px;
+}
+
+.nomargin {
+	margin: 0px;
+}
+
 
 /* ######################
    # Tooltip style for hints
@@ -160,8 +196,6 @@ div.menu form {
 }
 
 div.inhalt {
-	height: 200px;
-	width: 100% 
 	overflow: auto;
 	padding: 10px;
 }
@@ -190,11 +224,16 @@ div.pagemenu a {
 	font-weight: bold;
 }
 
+div.pagemenu a:hover {
+	text-decoration: underline;
+}
+
 div.pagemenu a.active {
 	text-decoration: none;
 	color: blue;
 	font-weight: bold;
 }
+
 div.pagemenu span {
 	text-decoration: none;
 	color: black;
@@ -292,6 +331,7 @@ div#infobox div.st_controls div#infobox_channel_buttons {
    #######################
 */
 
+/* NOT USED
 div.head_box_l {
 	background-image: url(bg_header_l.png);
 	background-position: top left;
@@ -300,14 +340,18 @@ div.head_box_l {
 	margin-bottom: 2ex;
 	padding: 0;
 }
+*/
 
+/* NOT USED
 div.head_box_m {
 	background-image: url(bg_header_h.png);
 	background-repeat: repeat-x;
 	margin: 3px;
 	padding: 0;
 }
+*/
 
+/* NOT USED
 div.head_box_r {
 	background-image: url(bg_header_r.png);
 	background-position: top right;
@@ -316,7 +360,9 @@ div.head_box_r {
 	padding: 0;
 	padding-left: 0.5em;
 }
+*/
 
+/* NOT USED:
 table.head_box_text {
 	color: #ffffff;
 	font-weight: bold;
@@ -324,7 +370,9 @@ table.head_box_text {
 	margin: 0;
 	height: 30px;
 }
+*/
 
+/* NOT USED:
 button.smallbutton {
 	width: 51px;
 	height: 17px;
@@ -338,6 +386,7 @@ button.smallbutton {
 	text-align: center;
 	cursor: pointer;
 }
+*/
 
 button.green {
 	width: 100px;
@@ -388,6 +437,32 @@ table td.buttonpanel {
 	text-align: right;
 }
 
+table td.toprow {
+}
+
+table th.toprow {
+}
+
+table td.bottomrow {
+	border-bottom: 1px solid black;
+}
+
+table td.leftcol {
+	border-left: 1px solid black;
+}
+
+table td.rightcol {
+	border-right: 1px solid black;
+}
+
+table td.topaligned {
+	vertical-align: top;
+}
+
+table td.padded {
+	padding: 3px 7px 3px 3px;
+}
+
 /* ################
    #  Event
    ################
@@ -426,7 +501,6 @@ div.station div div div {
 	margin-left: 3px;
 	padding-left: 5px;
 	padding-top: 2px;
-	color: white;
 	font-weight: bold;
 }
 
@@ -498,27 +572,12 @@ div.info {
 div.progress {
 	overflow: hidden;
 	padding-right: 4px;
+	margin: 0px;
 }
 
 div.progress div {
 	float: right;
 	padding: 0px;
-}
-
-div.title {
-	font-weight: bold;
-	margin: 5px;
-}
-
-div.short {
-	font-weight: normal;
-	margin: 5px;
-}
-
-div.more {
-	margin: 5px;
-	font-weight: bold;
-	cursor: pointer;
 }
 
 div.__progress {
@@ -535,11 +594,72 @@ div.__progress div.__elapsed {
 }
 
 
+/* ##################################
+   # table listing
+   # (this is used in listing tables)
+   ##################################
+*/
+
+table.listing {
+	padding: 0px;
+	margin: 0px;
+}
+
+table.listing tr td {
+	background: url(bg_line.png) bottom repeat-x;
+	border-bottom: 1px solid #C0C1DA;
+}
+
+table.listing tr td.action {
+	padding-left: 3px;
+	padding-right: 5px;
+}
+
+table.listing tr td.leftcol {
+	padding-left: 7px;
+	padding-right: 5px;
+}
+
+table.listing tr td.current {
+	color: blue;
+}
+
+table.listing tr.head td {
+	color: white;
+	font-weight: bold;
+	margin: 0px;
+	padding: 0px;
+	border-bottom: 1px solid black;
+}
+
+table.listing tr.description td {
+	font-weight: bold;
+	background: #E9EFFF;
+}
+
+table.listing tr.spacer td {
+	height: 10px;
+	background: transparent;
+	border-top: 1px solid black;
+	border-bottom: 0px;
+}
+
+table.listing a {
+	text-decoration: none;
+	color: black;
+	font-weight: bold;
+}
+
+table.listing a:hover {
+	text-decoration: underline;
+}
+
+
 /* #############
    # Timers
    #############
 */
-
+/* NOT USED
 table.timers {
 	padding: 0;
 	margin: 0;
@@ -577,6 +697,10 @@ table.timers a {
 	font-weight: bold;
 }
 
+table.timers a:hover {
+	text-decoration: underline;
+}
+*/
 
 /*
   ##############################
@@ -584,6 +708,7 @@ table.timers a {
   ##############################
 */
 
+/* NOT USED:
 table.schedule {
 	margin: 10px 0 0 0 ;
 	padding: 0;
@@ -620,6 +745,7 @@ table.schedule div.more {
 	font-weight: bold;
 	cursor: pointer;
 }
+*/
 
 /*
   ##############################
@@ -628,12 +754,13 @@ table.schedule div.more {
 */
 
 div.boxheader	 {
-	margin: 0;
-	padding: 0;
+	margin: 0px;
+	padding: 0px;
 	background: url(bg_box_l.png) top left no-repeat;
 }
 
 div.boxheader div {
+	margin: 0px;
 	background: url(bg_box_r.png) top right no-repeat;
 }
 
@@ -736,21 +863,6 @@ div.screenshot {
 
 /*
   ##############################
-  #  Dotted Frame
-  ##############################
-*/
-
-div.dotted {
-	border: 1px dotted #bbbbbb;
-	padding: 3px;
-	margin: 2px;
-	float: left;
-	background-color: #f3f3f3;
-}
-
-
-/*
-  ##############################
   #  Error widget
   ##############################
 */
@@ -782,42 +894,42 @@ table.error td.border {
 
 /*
   ##############################
-  #  Edit Tables
+  #  Formular Tables
+  #  (are used in forms to group input elements)
   ##############################
 */
+/* 'formular' replaces 'edit' */
 
-table.edit {
+table.formular {
 	margin-top: 10px;
 }
 
-table.edit tr td.head {
-	background: white;
-	color: white;
-	font-weight: bold;
-	margin: 0;
-	padding: 0;
-	border:none;
-}
-
-table.edit tr td {
+table.formular tr td {
 	vertical-align: top;
-	padding: 6px 7px 6px 3px;
 	vertical-align: middle;
 	background: url(bg_line.png) bottom repeat-x;
 	border-bottom: 1px solid #C0C1DA;
 }
 
-table.edit tr td.label {
+table.formular tr td.leftcol {
+	padding-left: 2px;
+}
+
+table.formular tr td.rightcol {
+	padding-right: 7px;
+}
+
+table.formular tr td.label {
 	font-weight: bold;
 	vertical-align: top;
 }
 
-table.edit tr.active {
-	background: #DEE6EE;
-}
-
-table.edit td.blank {
-	background: none;
+table.formular tr.head td {
+	background: white;
+	color: white;
+	font-weight: bold;
+	margin: 0;
+	padding: 0;
 	border: none;
 }
 
@@ -827,18 +939,16 @@ table.dependent {
 }
 
 table.dependent tr td {
-	background: none;
+	background: transparent;
 	vertical-align: middle;
 }
 
 table.dependent tr td.title {
-	background: none;
+	background: transparent;
 	vertical-align: top;
 }
 
-
 div.dependent {
-	background-color: #DEE6EE;
 	margin-top: 10px;
 	padding: 6px 7px 6px 3px;
 }
@@ -849,6 +959,7 @@ div.dependent {
   ##############################
 */
 
+/* NOT USED:
 table.searchresults {
 	margin: 10px 0 0 0;
 	padding: 0;
@@ -893,6 +1004,12 @@ table.searchresults a {
 	color: black;
 	font-weight: bold;
 }
+
+table.searchresults a:hover {
+	text-decoration: underline;
+}
+*/
+
 /*
   ##############################
   #  Login
@@ -921,6 +1038,10 @@ div.about_box a {
 	text-decoration: none;
 	color: black;
 	font-weight: bold;
+}
+
+div.about_box a:hover {
+	text-decoration: underline;
 }
 
 div#aboutBox_tip {

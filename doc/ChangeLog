@@ -1,3 +1,19 @@
+2007-06-06  Dieter Hametner  <dh+vdr at gekrumbel dot de>
+
+	Use GetConfigDir instead of USRDIR define.
+
+	* pages/*.ecpp: begin of unification of table markup.
+		Still needs some tweaking but the general framework
+		is in place.
+	* styles.css: Removed different table styles.
+		Added two general table styles:
+		 - listing: for tables showing listings like
+			    search results or schedules.
+		 - formular: for tables used in input forms to
+			     layout the input elements.
+		Added some general use styles, like 'bold', 'more',
+		'withmargin', 'nomargin', 'short', 'title', 'dotted'
+
 2007-06-03  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
 	Added CSS based themeing support. For details please read

@@ -61,11 +61,10 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		<& pageelems.logo &>
 		<& menu active=("schedule") component=("schedule.channel_selection")>
 		<div class="inhalt">
-			<table class="schedule" cellspacing="0" cellpadding="0">
+			<table class="listing" cellspacing="0" cellpadding="0">
 <{
 				EpgEvents epgEvents;
 
-				bool active_line = false;
 				string current_day = "";
 				const cEvent* PresentEvent = Schedule->GetPresentEvent();
 				time_t now = time(NULL) - ::Setup.EPGLinger * 60;
@@ -80,7 +79,6 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					EpgEventPtr epgEvent(new EpgEvent(evntId, Event, Channel->Name()));
 					epgEvents.push_back(epgEvent);
 
-					//active_line = !active_line;
 					string title(Event->Title() ? Event->Title() : "");
 					string short_description(Event->ShortText() ? Event->ShortText() : "");
 					string description(Event->Description() ? Event->Description() : "");
@@ -89,47 +87,35 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					string day(Event->StartTime() ? FormatDateTime(tr("%A, %b %d %Y"), Event->StartTime()) : "");
 					tEventID event = Event->EventID();
 					ostringstream os;
-      					os << Event->EventID();
+					os << Event->EventID();
 					string strEventID = os.str();
 					bool truncated = false;
 					if (current_day != day) {
 						if (current_day != "") {
 }>
-						<tr>
-							<td colspan="5" style="border-top: 1px solid black; border-bottom: none; background-image: none">&nbsp;</td></tr>
+						<tr class="spacer">
+							<td colspan="5"/>
 						</tr>
 <{
 						}
 }>
-						<tr>
-							<td class="day" colspan="5"><div class="boxheader"><div><div><$ day $></div></div></div></td>
+						<tr class="head">
+							<td colspan="5"><div class="boxheader"><div><div><$ day $></div></div></div></td>
 						</tr>
 %					current_day = day;
 %					}
-					<tr class="<? active_line ? "active" ?>">
-						<td style="border-left: 1px solid black"><& pageelems.event_timer channelid=(channel_id) eventid=(event) &>
-%						if ( LiveFeatures< features::epgsearch >().Recent() ) {
-						<a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" border="0" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a>
-%						}
-						<a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" border="0" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a>
-						</td>
-						<td><$ start $> - <$ end $></td>
-						<td>
-%							if(Event == PresentEvent) {
-							<font color="#0000FF">
-% 							}
-							<div class="more"<& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(description, 300, truncated)) + string("<br />") + string(tr("Click to view details."))) &><& tooltip.display domId=(epgEvent->Id()) &>><strong><$ title $></strong></div><$ short_description $><br />
-%							if(Event == PresentEvent) {
-							</font>
-%							}
-						</td>
-						<td style="border-right: 1px solid black">&nbsp;</td>
+					<tr>
+						<td class="action leftcol"><& pageelems.event_timer channelid=(channel_id) eventid=(event) &></td>
+						<td class="action"><%cpp>if (LiveFeatures<features::epgsearch>().Recent() ) { </%cpp><a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a><%cpp> } else { </%cpp><img src="transparent.png" width="16" height="16"><%cpp> } </%cpp></td>
+						<td class="action"><a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" border="0" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a></td>
+						<td class="topaligned"><div class="withmargin"><$ start $> - <$ end $></div></td>
+						<td class="<? (Event == PresentEvent) ? "current" ?> topaligned rightcol"><div class="more withmargin" <& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(description, 300, truncated)) + "<br />" + tr("Click to view details.")) &><& tooltip.display domId=(epgEvent->Id()) &>><span class="title"><$ title $></span><br /><span class="short"><%cpp>if (short_description.empty()) { </%cpp>&nbsp;<%cpp> } </%cpp><$ short_description $></span></div></td>
 					</tr>
 %				}
 %				if (Schedule->Events()->Count() > 0) {
-						<tr>
-							<td colspan="4" style="border-top: 1px solid black; background-image: none; border-bottom: none">&nbsp;</td>
-						</tr>
+					<tr class="spacer">
+						<td colspan="5"/>
+					</tr>
 %				}
 			</table>
 		</div>
