@@ -3571,7 +3571,7 @@ const tI18nPhrase Phrases[] = {
       "", // Dansk
       "", // Czech
     },
-    { "Format is HH:MM. Separate multiple times with a colon",
+    { "Format is HH:MM. Separate multiple times with a semicolon",
       "Format ist HH:MM. Mehrere Zeiten durch Semikolon trennen",
       "", // Slovenski
       "", // Italiono

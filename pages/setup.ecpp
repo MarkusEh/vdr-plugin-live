@@ -129,7 +129,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("additional fixed times in 'What's on?'") $>:</div></td>
 						<td class="rightcol"><input type="text" name="times" value="<$ times $>" id="times" />
-							<& tooltip.help text=(tr("Format is HH:MM. Separate multiple times with a colon")) &></td>
+							<& tooltip.help text=(tr("Format is HH:MM. Separate multiple times with a semicolon")) &></td>
 					</tr>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Start page") $>:</div></td>
