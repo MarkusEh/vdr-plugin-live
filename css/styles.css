@@ -952,11 +952,6 @@ table.dependent tr td {
 	vertical-align: middle;
 }
 
-table.dependent tr td.title {
-	background: transparent;
-	vertical-align: top;
-}
-
 
 /*
   ##############################
