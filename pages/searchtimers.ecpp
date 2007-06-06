@@ -30,6 +30,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		if (action == "delete")
 			timers.Delete(searchtimerid);
 	}
+	if (action == "update")
+		timers.TriggerUpdate();
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -83,4 +85,6 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 <%def searchtimer_actions>
 <a href="edit_searchtimer.html"><$ tr("New search timer") $></a>
+<span class="sep">|</span>
+<a href="searchtimers.html?action=update"><$ tr("Trigger search timer update") $></a>
 </%def>

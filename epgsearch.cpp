@@ -362,6 +362,14 @@ bool SearchTimers::Delete(std::string const& id)
 	return false;
 }
 
+void SearchTimers::TriggerUpdate()
+{
+	Epgsearch_updatesearchtimers_v1_0 service;
+	service.showMessage = true;
+	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService("Epgsearch-updatesearchtimers-v1.0", &service) == 0 )
+		throw HtmlError( tr("EPGSearch version outdated! Please update.") );
+}
+
 bool SearchTimer::BlacklistSelected(int id) const
 { 
    for(unsigned int i=0; i<m_blacklistIDs.size(); i++) 

@@ -265,6 +265,7 @@ public:
 	SearchTimer* GetByTimerId( std::string const& id );
 	bool ToggleActive(std::string const& id);
 	bool Delete(std::string const& id);
+	void TriggerUpdate();
 private:
 	TimerList m_timers;
 };
