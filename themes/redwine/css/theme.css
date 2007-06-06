@@ -137,37 +137,6 @@ div.__progress div.__elapsed {
 }
 
 
-/* #############
-   # Timers
-   #############
-*/
-
-table.timers tr td {
-	background: url(../img/bg_line.png) bottom repeat-x;
-	border-bottom: 1px solid #DA8DA8;
-}
-
-table.timers tr.description td {
-	background: #FFE9FA;
-}
-
-
-/*
-  ##############################
-  #  Schedule
-  ##############################
-*/
-
-table.schedule tr td.head {
-	background: #963B5F;
-}
-
-table.schedule tr td {
-	background: url(../img/bg_line.png) bottom repeat-x;
-        border-bottom: 1px solid #DA8DA8;
-}
-
-
 /*
   ##############################
   #  Blue Background Thingy

@@ -679,7 +679,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 						<tr>
 							<td class="label leftcol"><div class="withmargin"><$ tr("Use as search timer" ) $>:</div></td>
 							<td class="rightcol">
-								<div style="float:left; max-width:50%; margin-right:20px">
+								<div>
 									<input type="checkbox" name="useassearchtimer" value="1" <{ CHECKIF(useassearchtimer) }> onclick="changeduseassearchtimer(this)" id="useassearchtimer"/>
 								</div>
 								<div id="searchtimermodesettings" style="display: none">
@@ -728,9 +728,9 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 												<div id="avoidrepeatssettings" style="display: none">
 													<table class="dependent" border="0" cellpadding="0" cellspacing="0">
 														<tr>
-															<td class="label"></div><$ tr("Allowed repeats") $>:</div></td>
+															<td class="label"><div class="withmargin"><$ tr("Allowed repeats") $>:</div></td>
 															<td>
-																<input type="text" size="3" maxlength="3" name="allowedrepeats" value="<$ allowedrepeats $>" /> <$ tr("Only repeats within ... days") $>:<input type="text" size="3" maxlength="3" name="repeatswithindays" value="<$ repeatswithindays $>" />
+																<input type="text" size="3" maxlength="3" name="allowedrepeats" value="<$ allowedrepeats $>" /><span class="withmargin"><$ tr("Only repeats within ... days") $>:</span><input type="text" size="3" maxlength="3" name="repeatswithindays" value="<$ repeatswithindays $>" />
 															</td>
 														</tr>
 

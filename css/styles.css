@@ -911,6 +911,15 @@ table.formular tr td {
 	border-bottom: 1px solid #C0C1DA;
 }
 
+able.formular tr td input {
+        margin-top: 5px;
+        margin-bottom: 2px;
+}
+
+table.formular tr td .dotted input {
+        margin-top: 0px;
+}
+
 table.formular tr td.leftcol {
 	padding-left: 2px;
 }
@@ -934,8 +943,8 @@ table.formular tr.head td {
 }
 
 table.dependent {
-	background-color: #DEE6EE;
-	margin-top: 10px;
+	background-color: #FFFFFF;
+	margin-top: 0px;
 }
 
 table.dependent tr td {
@@ -948,10 +957,6 @@ table.dependent tr td.title {
 	vertical-align: top;
 }
 
-div.dependent {
-	margin-top: 10px;
-	padding: 6px 7px 6px 3px;
-}
 
 /*
   ##############################
