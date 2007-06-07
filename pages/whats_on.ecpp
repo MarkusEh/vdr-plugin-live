@@ -224,7 +224,7 @@ if (type == "now") {
 <span class="sep">|</span>
 <a class="<? current_type == "next" ? "active" ?>" href="whats_on.html?type=next&amp;mode=<$ current_mode $>" id="nexthref"><$ tr("Next") $></a>
 <span class="sep">|</span>
-<span><$ tr("What's on") $></span>
+<span class="<? current_type == "at" && current_fixtime != "" ? "active" ?>"><$ tr("What's on") $></span>
 <select name="userdeftimes" size="1" id="userdeftimes" onchange="showtime(this)">
 	<option value="0"/>
 <{
@@ -238,7 +238,7 @@ if (type == "now") {
 }>
 </select>
 <span class="sep">|</span>
-<span><$ tr("at") $></span>
+<span class="<? current_type == "at" && current_fixtime == "" ? "active" ?>"><$ tr("at") $></span>
 <input type="text" size="6" name="spectime" id="spectime" value = "<? current_attime != "" ? current_displaytime ?>" onchange="showspectime(this)"/>
 <span class="sep">|</span>
 % if ( current_mode == "list" ) {

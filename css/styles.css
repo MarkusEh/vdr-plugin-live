@@ -241,6 +241,13 @@ div.pagemenu span {
 	padding: 5px;
 }
 
+div.pagemenu span.active {
+	text-decoration: none;
+	color: blue;
+	font-weight: bold;
+	padding: 5px;
+}
+
 div.pagemenu span.sep {
 	text-decoration: none;
 	color: #C0C1DA;

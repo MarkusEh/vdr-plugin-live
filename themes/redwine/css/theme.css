@@ -52,6 +52,10 @@ div.pagemenu span.sep {
 	color: #DA8DA8;
 }
 
+div.pagemenu span.active {
+	color: #984E79;
+}
+
 /* #######################
    #  Info Box (near logo)
    #######################
