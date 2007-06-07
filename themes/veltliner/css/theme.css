@@ -1,0 +1,261 @@
+/* ##############################
+   #  Globals
+   ##############################
+*/
+
+input {
+	border: 1px solid #004F00;
+}
+
+select {
+	border: 1px solid #E0F000;
+}
+
+/* ##############################
+   # Tooltip style for epg infos
+   ##############################
+*/
+
+.domTTepg div.epg_content {
+        background: white url(../img/bg_tools.png) top left repeat-y;
+}
+
+/* #######################
+   #  Menue
+   #######################
+*/
+
+div.menu {
+	background: #000020 url(../img/menu_line_bg.png) repeat-x;
+	color: #005E00;
+}
+
+div.pagemenu {
+	background: #00F0F0 url(../img/bg_line.png) top repeat-x;
+}
+
+div.pagemenu div {
+	background: #00F0F0 url(../img/bg_line_top.png) bottom repeat-x;
+}
+
+div.pagemenu div div {
+	background: #00AE00;
+	border-top: 1px solid #006300;
+	border-bottom: 1px solid #005E00;
+}
+
+div.pagemenu a.active {
+	color: #E03000;
+}
+
+div.pagemenu span.sep {
+	color: #001E00;
+}
+
+div.pagemenu span.active {
+	color: #E03000;
+}
+
+/* #######################
+   #  Info Box (near logo)
+   #######################
+*/
+
+div#infobox {
+	border: 1px solid #005F00;
+}
+
+div#infobox div.st_header {
+	background: #00AE00;
+	border-bottom: 1px solid #006300;
+}
+
+div#infobox div.st_content {
+	background: white url(../img/bg_line_top.png) top left repeat-x;
+}
+
+div#infobox div.st_controls div.st_update {
+        border-right: 1px solid  #009100;
+}
+
+/* #######################
+   #  Head Box
+   #######################
+*/
+
+div.head_box_l {
+	background-image: url(../img/bg_header_l.png);
+}
+
+div.head_box_m {
+	background-image: url(../img/bg_header_h.png);
+}
+
+div.head_box_r {
+	background-image: url(../img/bg_header_r.png);
+}
+
+button.smallbutton {
+	background-image: url(../img/button_blue.png);
+}
+
+button.green {
+	background-image: url(../img/button_green.png);
+}
+
+button.red {
+	background-image: url(../img/button_red.png);
+}
+
+button.blue {
+	background-image: url(../img/button_blue.png);
+}
+
+/* ################
+   #  Event
+   ################
+*/
+
+div.station div {
+	background: url(../img/bg_box_l.png) top left no-repeat;
+}
+
+div.station div div {
+	background: url(../img/bg_box_r.png) top right no-repeat;
+}
+
+div.station div div div {
+	background: url(../img/bg_box_h.png) repeat-x;
+}
+
+div.content {
+	background: white url(../img/bg_tools.png) top left repeat-y;
+}
+
+div.__progress {
+	border: 1px solid #006E00;
+}
+
+div.__progress div.__elapsed {
+	background-color: #FFCC00;
+}
+
+
+/* #############
+   # Timers
+   #############
+*/
+
+table.timers tr td {
+	background: url(../img/bg_line.png) bottom repeat-x;
+	border-bottom: 1px solid #006E00;
+}
+
+table.timers tr.description td {
+	background: #00AE00;
+}
+
+
+/*
+  ##############################
+  #  Schedule
+  ##############################
+*/
+
+table.schedule tr td.head {
+	background: #00AE00;
+}
+
+table.schedule tr td {
+	background: url(../img/bg_line.png) bottom repeat-x;
+        border-bottom: 1px solid #006E00;
+}
+
+
+/*
+  ##############################
+  #  Blue Background Thingy
+  ##############################
+*/
+
+div.boxheader	 {
+	background: url(../img/bg_box_l.png) top left no-repeat;
+}
+
+div.boxheader div {
+	background: url(../img/bg_box_r.png) top right no-repeat;
+}
+
+div.boxheader div div {
+	background: url(../img/bg_box_h.png) repeat-x;
+}
+
+/*
+  ##############################
+  #  Recordings
+  ##############################
+*/
+
+div.recording_item {
+	background: url(../img/bg_line.png) bottom repeat-x;
+	border-bottom: 1px solid #006E00;
+}
+
+
+/*
+  ##############################
+  #  Remote Control Keypad
+  ##############################
+*/
+
+div.screenshot {
+	background-image: url(../img/tv.jpg);
+}
+
+
+/*
+  ##############################
+  #  Edit Tables
+  ##############################
+*/
+
+table.edit tr td {
+	background: url(../img/bg_line.png) bottom repeat-x;
+	border-bottom: 1px solid #006E00;
+}
+
+
+/*
+  ##############################
+  #  Search results
+  ##############################
+*/
+
+table.searchresults tr td.head {
+	background: #00AE00;
+}
+
+table.searchresults tr td {
+	background: url(../img/bg_line.png) bottom repeat-x;
+        border-bottom: 1px solid #006E00;
+}
+
+
+/* ##############################
+   # About box
+   ##############################
+*/
+
+.about_box div.about_content div.about_head {
+	background: #F0F0F0 url(../img/bg_line.png) top repeat-x;
+}
+
+.about_box div.about_content div.about_head div {
+	background: #F0F0F0 url(../img/bg_line_top.png) bottom repeat-x;
+}
+
+.about_box div.about_content div.about_head div div {
+	background: #009900;
+	border-top: 1px solid #006E00;
+	border-bottom: 1px solid #006E00;
+}
