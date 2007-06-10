@@ -59,7 +59,13 @@ using namespace vdrlive;
 			<table class="listing" cellspacing="0" cellpadding="0">
 <%cpp>
 				for (SortedTimers::iterator timer = timers.begin(); timer != timers.end(); ++timer) {
-					string currentDay = timer->WeekDays() > 0 ? *cTimer::PrintDay(0, timer->WeekDays()) : 							FormatDateTime(tr("%A, %x"), timer->Day());
+					string currentDay = timer->WeekDays() > 0 ? 
+#if VDRVERSNUM < 10503
+								*cTimer::PrintDay(0, timer->WeekDays()) : 				
+#else
+								*cTimer::PrintDay(0, timer->WeekDays(), true) : 				
+#endif
+								FormatDateTime(tr("%A, %x"), timer->Day());
 					if (previousDay != currentDay) {
 						if (!previousDay.empty()) {
 </%cpp>
@@ -73,7 +79,14 @@ using namespace vdrlive;
 				<tr class="head">
 					<td colspan="8">
 						<div class="boxheader"><div><div>
-							<$ timer->WeekDays() > 0 ? *cTimer::PrintDay(0, timer->WeekDays()) : FormatDateTime(tr("%A, %x"), timer->Day()) $>
+							<$ timer->WeekDays() > 0 ?
+#if VDRVERSNUM < 10503
+								*cTimer::PrintDay(0, timer->WeekDays()) : 				
+#else
+								*cTimer::PrintDay(0, timer->WeekDays(), true) : 				
+#endif
+
+								FormatDateTime(tr("%A, %x"), timer->Day()) $>
 						</div></div></div>
 					</td>
 				</tr>
