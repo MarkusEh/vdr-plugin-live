@@ -75,6 +75,18 @@ void SortedTimers::ReloadTimers( bool initial )
 	sort();
 }
 
+string SortedTimers::GetTimerDays(cTimer const& timer)
+{
+	string currentDay = timer.WeekDays() > 0 ?
+#if VDRVERSNUM < 10503
+		*cTimer::PrintDay(0, timer.WeekDays()) :
+#else
+		*cTimer::PrintDay(0, timer.WeekDays(), true) :
+#endif
+		FormatDateTime(tr("%A, %x"), timer.Day());
+	return currentDay;
+}
+
 TimerManager::TimerManager()
 {
 }

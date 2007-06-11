@@ -801,7 +801,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 						</tr>
 
 						<tr>
-							<td class="buttonpanel leftcol rightcol" colspan="2">
+							<td class="buttonpanel leftcol rightcol bottomrow" colspan="2">
 								<div class="withmargin">
 								<button class="green" type="submit" name="test" value="test" onclick="return checksearch();"><$ tr("Test") $></button>
 								<button class="green" type="submit" name="save" onclick="return checksearch();"><$ tr("Save") $></button>

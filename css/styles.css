@@ -451,7 +451,7 @@ table th.toprow {
 }
 
 table td.bottomrow {
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid black !important;
 }
 
 table td.leftcol {
@@ -502,6 +502,7 @@ div.station div div {
 
 div.station div div div {
 	background: url(bg_box_h.png) repeat-x;
+	line-height: 20px;
 	vertical-align: middle;
 	text-align: left;
 	margin-right: 3px;
@@ -613,7 +614,7 @@ table.listing {
 }
 
 table.listing tr td {
-	background: url(bg_line.png) bottom repeat-x;
+	background: transparent url(bg_line.png) bottom repeat-x;
 	border-bottom: 1px solid #C0C1DA;
 }
 
@@ -647,7 +648,6 @@ table.listing tr.description td {
 table.listing tr.spacer td {
 	height: 10px;
 	background: transparent;
-	border-top: 1px solid black;
 	border-bottom: 0px;
 }
 

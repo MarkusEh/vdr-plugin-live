@@ -35,7 +35,7 @@ string current_displaytime;
 </%request>
 
 <%include>page_init.eh</%include>
-<{
+<%cpp>
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 
@@ -73,7 +73,7 @@ if (type == "now") {
 	head = tr("What's running at") + string(" ") + FormatDateTime(tr("%I:%M %p"), seektime) +string(" (") +FormatDateTime(tr("%a, %b %d"), seektime) + string(")");
 }
 
-}>
+</%cpp>
 <& pageelems.doc_type &>
 <html>
 	<head>
@@ -104,38 +104,46 @@ if (type == "now") {
 					<td colspan="7"><div class="boxheader"><div><div><$ head $></div></div></div></td>
 				</tr>
 %	    }
-<{
+<%cpp>
 	EpgEvents epgEvents;
 
 	ReadLock channelsLock( Channels );
 	if (channelsLock) {
 		int evntNr = 0;
 		for (cChannel *Channel = Channels.First(); Channel && Channel->Number() <= LiveSetup().GetLastChannel(); Channel = Channels.Next(Channel)) {
-			if (!Channel->GroupSep()) {
-				const cSchedule *Schedule = Schedules->GetSchedule(Channel);
-				if (Schedule) {
-					const cEvent *Event = NULL;
-					if (type == "now")
-						Event = Schedule->GetPresentEvent();
-					else if (type == "next")
-						Event = Schedule->GetFollowingEvent();
-					else if (type == "at")
-						Event = Schedule->GetEventAround(seektime);
+			if (Channel->GroupSep()) {
+				continue;
+			}
+			const cSchedule *Schedule = Schedules->GetSchedule(Channel);
+			if (!Schedule) {
+				continue;
+			}
+			const cEvent *Event = NULL;
+			if (type == "now")
+				Event = Schedule->GetPresentEvent();
+			else if (type == "next")
+				Event = Schedule->GetFollowingEvent();
+			else if (type == "at")
+				Event = Schedule->GetEventAround(seektime);
+			if (!Event) {
+				continue;
+			}
 
-						if (Event) {
-							string evntId("eventId_");
-							evntId += lexical_cast<std::string, int>(++evntNr);
-							EpgEventPtr epgEvent(new EpgEvent(evntId, Event, Channel->Name()));
-							epgEvents.push_back(epgEvent);
-							tChannelID channel_id(Channel->GetChannelID());
-							tEventID event = Event->EventID();
+			string evntId("eventId_");
+			evntId += lexical_cast<std::string, int>(++evntNr);
+			EpgEventPtr epgEvent(new EpgEvent(evntId, Event, Channel->Name()));
+			epgEvents.push_back(epgEvent);
+			tChannelID channel_id(Channel->GetChannelID());
+			tEventID event = Event->EventID();
 
-							bool truncated = false;
-							string truncDescription = StringWordTruncate(epgEvent->LongDescr(), maximumTooltipHintLength, truncated);
-							string longDescription = StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), maximumDescriptionLength))
-									+ "<br/><br/>" + tr("Click to view details.");
-}>
-%		if (mode == "detail") {
+			bool truncated = false;
+			string truncDescription = StringWordTruncate(epgEvent->LongDescr(), maximumTooltipHintLength, truncated);
+			string longDescription = StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), maximumDescriptionLength))
+				+ "<br/><br/>" + tr("Click to view details.");
+			bool lastCurrentChanel = true;
+
+			if (mode == "detail") {
+</%cpp>
 			<div class="event">
 				<div class="station">
 					<div><div><div><a href="schedule.html?channel=<$ Channel->Number() $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ (epgEvent->Caption()) $></a></div></div></div>
@@ -143,81 +151,81 @@ if (type == "now") {
 				<div class="content">
 					<div class="tools">
 						<& pageelems.event_timer channelid=(channel_id) eventid=(event) &>
-%							if (type == "now") {
+%				if (type == "now") {
 						<& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channel_id) image="zap.png" alt="" &>
-%							}
-%						if ( LiveFeatures< features::epgsearch >().Recent() ) {
+%				}
+%				if ( LiveFeatures< features::epgsearch >().Recent() ) {
 						<a href="searchresults.html?searchplain=<$ StringEscapeAndBreak(epgEvent->Title()) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a>
-%						}
+%				}
 						<a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(epgEvent->Title()) $>"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a>
 					</div>
 				 	<div>
 						<div class="info"><$ (epgEvent->StartTime(tr("%I:%M %p"))) $> - <$ (epgEvent->EndTime(tr("%I:%M %p"))) $></div>
-%							if (epgEvent->Elapsed() >= 0) {
+%				if (epgEvent->Elapsed() >= 0) {
 						<div class="progress"><div><& pageelems.progressbar progress=(epgEvent->Elapsed()) &></div></div>
-%							}
+%				}
 						<div class="title withmargin"><$ (epgEvent->Title()) $></div>
 						<div class="short withmargin"><$ (epgEvent->ShortDescr()) $></div>
 						<div class="description withmargin"><$ truncDescription $></div>
-%							if (truncated) {
+%				if (truncated) {
 						<div class="more withmargin"<& tooltip.hint text=(longDescription) &><& tooltip.display domId=(epgEvent->Id()) &>><$ tr("more") $> ...</div>
-%							}
+%				}
 				 	</div>
 				</div>
 			</div>
-%   } else { // mode == "list"
+<%cpp>
+			}
+			else { // mode == "list"
+				lastCurrentChanel = ((Channel->Number() == LiveSetup().GetLastChannel())
+									 || (!Channels.Next(Channel)));
+</%cpp>
 				<tr>
-					<td class="action leftcol"><& pageelems.event_timer channelid=(channel_id) eventid=(event) &></td>
-					<td class="action"><%cpp>if (type == "now") { </%cpp><& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channel_id) image="zap.png" alt="" &><%cpp> } </%cpp>
-					<td class="action"><%cpp>if (LiveFeatures<features::epgsearch>().Recent() ) { </%cpp><a href="searchresults.html?searchplain=<$ StringUrlEncode(epgEvent->Title()) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" border="0" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a><%cpp> } else { </%cpp><img src="transparent.png" width="16" height="16"><%cpp> } </%cpp></td>
-					<td class="action"><a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(epgEvent->Title()) $>"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" border="0" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a></td>
-					<td class="topaligned">
+					<td class="action leftcol <? lastCurrentChanel ? "bottomrow"?>"><& pageelems.event_timer channelid=(channel_id) eventid=(event) &></td>
+					<td class="action <? lastCurrentChanel ? "bottomrow"?>"><%cpp>if (type == "now") { </%cpp><& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channel_id) image="zap.png" alt="" &><%cpp> } </%cpp>
+					<td class="action <? lastCurrentChanel ? "bottomrow"?>"><%cpp>if (LiveFeatures<features::epgsearch>().Recent() ) { </%cpp><a href="searchresults.html?searchplain=<$ StringUrlEncode(epgEvent->Title()) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" border="0" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a><%cpp> } else { </%cpp><img src="transparent.png" width="16" height="16"><%cpp> } </%cpp></td>
+					<td class="action <? lastCurrentChanel ? "bottomrow"?>"><a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(epgEvent->Title()) $>"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" border="0" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a></td>
+					<td class="topaligned <? lastCurrentChanel ? "bottomrow"?>">
 						<div class="withmargin">
 							<div class="nomargin"><$ (epgEvent->StartTime(tr("%I:%M %p"))) $> - <$ (epgEvent->EndTime(tr("%I:%M %p"))) $></div>
-%							if (epgEvent->Elapsed() >= 0) {
+%				if (epgEvent->Elapsed() >= 0) {
 							<div class="progress"><div><& pageelems.progressbar progress=(epgEvent->Elapsed()) &></div></div>
-%							}
+%				}
 				        </div>
 					</td>
-					<td class="topaligned">
+					<td class="topaligned <? lastCurrentChanel ? "bottomrow"?>">
 						<div class="more withmargin"
-%					if (!longDescription.empty()) {
+%				if (!longDescription.empty()) {
 						<& tooltip.hint text=(longDescription) &><& tooltip.display domId=(epgEvent->Id()) &>
-%					}
+%				}
 						><span class="title"><$ (epgEvent->Title()) $></span><br /><span class="short"><$ (epgEvent->ShortDescr()) $></span></div>
 					</td>
-					<td class="topaligned rightcol"><div class="station withmargin"><a href="schedule.html?channel=<$ Channel->Number() $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ (epgEvent->Caption()) $></a></div></td>
+					<td class="topaligned rightcol <? lastCurrentChanel ? "bottomrow"?>"><div class="station withmargin"><a href="schedule.html?channel=<$ Channel->Number() $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ (epgEvent->Caption()) $></a></div></td>
 				</tr>
-%   }
-<{
-					}
-				}
-			}
-		}
+%   		}
+<%cpp>
+	  	}
 	}
-}>
+</%cpp>
+%	if (mode == "list") {
+			</table>
+%   }
 		</div>
 		<div class="epg_data" style="display: none;">
-<{
+<%cpp>
 	// create hidden div for the tooltip hints.
 	for (vector<EpgEventPtr>::iterator i = epgEvents.begin(); i != epgEvents.end(); ++i) {
 		EpgEventPtr epg = *i;
-}>
+</%cpp>
 		<& pageelems.epg_tt_box boxId=(epg->Id()) caption=(epg->Caption()) time=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) short_descr=(epg->ShortDescr()) long_descr=(epg->LongDescr()) elapsed=(epg->Elapsed()) &>
-<{
+<%cpp>
 	}
-}>
-%			if (mode == "list") {
-				<tr class="spacer">
-					<td colspan="7"/>
-				</tr>
-			</table>
-%   	}
+</%cpp>
 		</div>
-
 	</body>
 </html>
 <%include>page_exit.eh</%include>
+
+<# ------------------------------------------------------------------------- #>
 
 <%def whats_on_actions>
 <a class="<? current_type == "now" ? "active" ?>" href="whats_on.html?type=now&amp;mode=<$ current_mode $>" id="nowhref"><$ tr("Now") $></a>
@@ -227,15 +235,15 @@ if (type == "now") {
 <span class="<? current_type == "at" && current_fixtime != "" ? "active" ?>"><$ tr("What's on") $></span>
 <select name="userdeftimes" size="1" id="userdeftimes" onchange="showtime(this)">
 	<option value="0"/>
-<{
+<%cpp>
 	vector< string > parts = StringSplit( LiveSetup().GetTimes(), ';' );
 	vector< string >::const_iterator part = parts.begin();
 	for ( int i = 0; part != parts.end(); ++i, ++part ) {
-}>
-	<option <{ reply.out() << ( (current_fixtime != "" && *part == current_displaytime) ? "selected=\"selected\"" : "" ); }> value="<$ *part $>"> <$ tr("at") + string(" ") + *part $></option>
-<{
+</%cpp>
+	<option <%cpp> reply.out() << ( (current_fixtime != "" && *part == current_displaytime) ? "selected=\"selected\"" : "" ); </%cpp> value="<$ *part $>"> <$ tr("at") + string(" ") + *part $></option>
+<%cpp>
 	}
-}>
+</%cpp>
 </select>
 <span class="sep">|</span>
 <span class="<? current_type == "at" && current_fixtime == "" ? "active" ?>"><$ tr("at") $></span>

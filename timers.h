@@ -20,13 +20,15 @@ public:
 	cTimer* GetByTimerId( std::string const& timerid );
 
 	bool Modified() { return Timers.Modified( m_state ); }
-	
+
+	static std::string GetTimerDays(cTimer const& timer);
+
 private:
 	SortedTimers();
 	SortedTimers( SortedTimers const& );
 
 	int m_state;
-	
+
 	void ReloadTimers( bool initial = false );
 };
 
@@ -52,7 +54,7 @@ private:
 	typedef std::pair< TimerPair, std::string > ErrorPair;
 	typedef std::list< TimerPair > TimerList;
 	typedef std::list< ErrorPair > ErrorList;
-	
+
 	TimerManager();
 	TimerManager( TimerManager const& );
 

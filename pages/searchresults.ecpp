@@ -21,10 +21,9 @@ using namespace std;
 bool logged_in(false);
 </%session>
 <%include>page_init.eh</%include>
-<{
-if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
-}>
 <%cpp>
+	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+
 	pageTitle = tr("Search results");
 	SearchResults results;
 	if (!searchtimerid.empty())
@@ -59,7 +58,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
                 <$ tr("No search results") $>
 %           }
 			<table class="listing" cellspacing="0" callpadding="0">
-<{
+<%cpp>
 				string current_day = "";
 				EpgEvents epgEvents;
 				int evntNr = 0;
@@ -74,51 +73,52 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					tChannelID channel_id(result->Channel());
 					string description = result->Description();
 
-
 					string evntId("eventId_");
 					evntId += lexical_cast<std::string, int>(++evntNr);
 					EpgEventPtr epgEvent(new EpgEvent(evntId, channelname, result->Title(), result->ShortText(), description, result->StartTime(), result->StopTime()));
 					epgEvents.push_back(epgEvent);
 					bool truncated = false;
 
+					bool bottom = false;
+					SearchResults::iterator nextResult = result; ++nextResult;
+					if (nextResult == results.end())
+						bottom = true;
+					else {
+						string nextDay(nextResult->StartTime() ? FormatDateTime(tr("%A, %b %d %Y"), nextResult->StartTime()) : "");
+						bottom = (day != nextDay);
+					}
+
 					if (current_day != day) {
 						if (current_day != "") {
-}>
+</%cpp>
 					<tr class="spacer">
 						<td colspan="4"/>
 					</tr>
-<{
-						}
-}>
+%						}
 					<tr class="head">
 						<td colspan="4"><div class="boxheader"><div><div><$ day $></div></div></div></td>
 					</tr>
 %						current_day = day;
 %					}
                     <tr>
-						<td class="action leftcol"><& pageelems.event_timer channelid=(channel_id) eventid=(event)&></td>
-						<td class="topaligned"><div class="withmargin"><a href="schedule.html?channel=<$ channelnr $>"><$ channelname $></a></div></td>
-						<td class="topaligned"><div class="withmargin"><$ start $> - <$ end $></div></td>
-						<td class="topaligned rightcol"><div class="more withmargin"<& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(description, 300, truncated)) + "<br />" + tr("Click to view details.")) &><& tooltip.display domId=(epgEvent->Id()) &>><span class="title"><$ result->Title() $></span><br /><span class="short"><%cpp>if (result->ShortText().empty()) { </%cpp>&nbsp;<%cpp> } </%cpp><$ result->ShortText() $></span></div></td>
-					</tr>
-%				}
-%				if (results.size() > 0) {
-					<tr class="spacer">
-						<td colspan="4"/>
+						<td class="action leftcol <? bottom ? "bottomrow"?>"><& pageelems.event_timer channelid=(channel_id) eventid=(event)&></td>
+						<td class="topaligned <? bottom ? "bottomrow"?>"><div class="withmargin"><a href="schedule.html?channel=<$ channelnr $>"><$ channelname $></a></div></td>
+						<td class="topaligned <? bottom ? "bottomrow"?>"><div class="withmargin"><$ start $> - <$ end $></div></td>
+						<td class="topaligned rightcol <? bottom ? "bottomrow"?>"><div class="more withmargin"<& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(description, 300, truncated)) + "<br />" + tr("Click to view details.")) &><& tooltip.display domId=(epgEvent->Id()) &>><span class="title"><$ result->Title() $></span><br /><span class="short"><%cpp>if (result->ShortText().empty()) { </%cpp>&nbsp;<%cpp> } </%cpp><$ result->ShortText() $></span></div></td>
 					</tr>
 %				}
 			</table>
 		</div>
 		<div class="epg_data" style="display: none;">
-<{
+<%cpp>
 		// create hidden div for the tooltip hints.
 		for (vector<EpgEventPtr>::iterator i = epgEvents.begin(); i != epgEvents.end(); ++i) {
 			EpgEventPtr epg = *i;
-}>
+</%cpp>
 			<& pageelems.epg_tt_box boxId=(epg->Id()) caption=(epg->Caption()) time=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) short_descr=(epg->ShortDescr()) long_descr=(epg->LongDescr()) elapsed=(epg->Elapsed()) &>
-<{
+<%cpp>
 		}
-}>
+</%cpp>
 		</div>
 	</body>
 </html>
