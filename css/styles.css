@@ -333,68 +333,10 @@ div#infobox div.st_controls div#infobox_channel_buttons {
         padding-left: 5px;
 }
 
-/* #######################
-   #  Head Box
-   #######################
+/* #################################
+   # Buttons
+   #################################
 */
-
-/* NOT USED
-div.head_box_l {
-	background-image: url(bg_header_l.png);
-	background-position: top left;
-	background-repeat: no-repeat;
-	margin: 0;
-	margin-bottom: 2ex;
-	padding: 0;
-}
-*/
-
-/* NOT USED
-div.head_box_m {
-	background-image: url(bg_header_h.png);
-	background-repeat: repeat-x;
-	margin: 3px;
-	padding: 0;
-}
-*/
-
-/* NOT USED
-div.head_box_r {
-	background-image: url(bg_header_r.png);
-	background-position: top right;
-	background-repeat: no-repeat;
-	margin: -3px;
-	padding: 0;
-	padding-left: 0.5em;
-}
-*/
-
-/* NOT USED:
-table.head_box_text {
-	color: #ffffff;
-	font-weight: bold;
-	padding: 0;
-	margin: 0;
-	height: 30px;
-}
-*/
-
-/* NOT USED:
-button.smallbutton {
-	width: 51px;
-	height: 17px;
-	background-color: inherit;
-	background-image: url(button_blue.png);
-	background-repeat: no-repeat;
-	color: #FFFFFF;
-	font-size: 11px;
-	border: 0px;
-	vertical-align: middle;
-	text-align: center;
-	cursor: pointer;
-}
-*/
-
 button.green {
 	width: 100px;
 	height: 20px;
@@ -440,6 +382,11 @@ button.blue {
 	padding-bottom: 3px;
 }
 
+
+/* ################################
+   # general table cell classes
+   ################################
+*/
 table td.buttonpanel {
 	text-align: right;
 }
@@ -569,6 +516,14 @@ div.content div {
 }
 
 div.description {
+	margin: 5px;
+}
+
+div.title {
+	margin: 5px;
+}
+
+div.short {
 	margin: 5px;
 }
 
@@ -941,7 +896,6 @@ table.formular tr td.label {
 }
 
 table.formular tr.head td {
-	background: white;
 	color: white;
 	font-weight: bold;
 	margin: 0;

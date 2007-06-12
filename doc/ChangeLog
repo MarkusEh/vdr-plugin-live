@@ -1,3 +1,18 @@
+2007-06-12  Dieter Hametner  <dh+vdr at gekrumbel dot de>
+
+	Added orange-blue theme as an example of a theme with dark
+	background and light foreground colors. This theme also
+	demonstrates the use of exchanged images (logo.png, tv.jpg and
+	remotecontrol.jpg)
+
+	* styles.css: some minor style fixes, that became visible while
+	creating the orange-blue theme.
+
+2007-06-11  Dieter Hametner  <dh+vdr at gekrumbel dot de>
+
+	Fixed style layout of the tables. Added class 'bottomrow' to the
+	rows that are followed by empty spacer rows.
+
 2007-06-06  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
 	Use GetConfigDir instead of USRDIR define.

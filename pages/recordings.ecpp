@@ -43,18 +43,20 @@ EpgEvents epgEvents;
 		<div class="inhalt">
 			<div class="boxheader"><div><div><$ tr("List of recordings") $></div></div></div>
 %			if (Recordings.Count() == 0) {
-				<$ tr("No recordings found") $>
+			<$ tr("No recordings found") $>
 %			} else {
 			<div class="recordings">
 			<ul class="recordingslist" style="display: block;">
 <& recordings.recordings_item &>
 			</ul>
 			</div>
-			<div class="epg_data" style="display: none;">
-<& recordings.recordings_data &>
-			</div>
 %			}
 		</div>
+%			if (Recordings.Count() > 0) {
+		<div class="epg_data" style="display: none;">
+<& recordings.recordings_data &>
+		</div>
+%			}
 	</body>
 </html>
 <%include>page_exit.eh</%include>

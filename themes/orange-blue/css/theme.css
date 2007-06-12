@@ -1,0 +1,323 @@
+/* ######################
+   #  Globals
+   ######################
+*/
+body {
+	background-color: #081966;
+	color: white;
+}
+
+table {
+	background-color: #263480;
+}
+
+input {
+	border: 1px solid #081966;
+        background: #DDDDFF;
+}
+
+select {
+	border: 1px solid #081966;
+        background: #DDDDFF;
+}
+
+/* ######################
+   # Tooltip style for hints
+   ######################
+*/
+
+div.domTThint {
+	border: 1px solid #FCB840;
+	background-color: #EEEEFF;
+	color: black;
+}
+
+
+/* ##############################
+   # Tooltip style for epg infos
+   ##############################
+*/
+
+.domTTepg div.epg_content {
+	border-left: 1px solid #fffddd;
+	border-right: 1px solid #fffddd;
+	border-bottom: 1px solid #fffddd;
+        background: #263480 url(../img/bg_tools.png) top left repeat-y;
+}
+
+/* #######################
+   #  Menue
+   #######################
+*/
+
+div.menu {
+	background: #FCBC40  url(../img/menu_line_bg.png) repeat-x;
+	border-top: 1px solid #FFFDDD;
+	border-bottom: 1px solid #FFFDDD;
+	color: #122DBA;
+}
+
+div.menu a {
+	color: black;
+}
+
+a#login {
+	color: red;
+}
+
+div.menu a.active {
+	color: #122DBA;
+}
+
+div.pagemenu {
+	background: #FFFFFF url(../img/bg_line.png) top repeat-x;
+}
+
+div.pagemenu div {
+	background: #FFFFFF url(../img/bg_line_top.png) bottom repeat-x;
+}
+
+div.pagemenu div div {
+	background: #122DBA;
+	border-top: 1px solid #C0C0FF;
+	border-bottom: 1px solid #C0C0FF;
+}
+
+div.pagemenu a {
+	color: #FCBC40;
+}
+
+div.pagemenu a.active {
+	color: #FFFDDD;
+}
+
+div.pagemenu span {
+	color: #FCBC40;
+}
+
+div.pagemenu span.sep {
+	color: #FCBC40;
+}
+
+/* #######################
+   #  Info Box (near logo)
+   #######################
+*/
+
+div#infobox {
+	border: 1px solid #FCBC40;
+}
+
+div#infobox div.st_header {
+	background: #122DBA;
+	border-bottom: 1px solid #C0C0FF;
+}
+
+div#infobox div.st_content {
+	background: #081966 url(../img/bg_line_top.png) top left repeat-x;
+}
+
+div#infobox div.st_controls div.st_update {
+        border-right: 1px solid  #FCBC40;
+}
+
+/* ################################
+   # general table cell classes
+   ################################
+*/
+
+table td.bottomrow {
+	border-bottom: 1px solid #FFFDDD !important;
+}
+
+table td.leftcol {
+	border-left: 1px solid #FFFDDD;
+}
+
+table td.rightcol {
+	border-right: 1px solid #FFFDDD;
+}
+
+
+/* ################
+   #  Event
+   ################
+*/
+
+div.station div {
+	background: url(../img/bg_box_l.png) top left no-repeat;
+}
+
+div.station div div {
+	background: url(../img/bg_box_r.png) top right no-repeat;
+}
+
+div.station div div div {
+	background: url(../img/bg_box_h.png) repeat-x;
+}
+
+div.station div div div a {
+	color: #000000;
+}
+
+td div.station a {
+	color: #FCBC40;
+}
+
+div.content {
+	background: #263480 url(../img/bg_tools.png) top left repeat-y;
+	border-left: 1px solid #FFFDDD;
+	border-right: 1px solid #FFFDDD;
+	border-bottom: 1px solid #FFFDDD;
+}
+
+div.__progress {
+	border: 1px solid #C0C0FF;
+}
+
+div.__progress div.__elapsed {
+	background-color: #FCB840;
+}
+
+
+/* #############
+   # Timers
+   #############
+*/
+
+table.listing tr td {
+	/* background: url(../img/bg_line.png) bottom repeat-x; */
+        background: transparent;
+	border-bottom: 1px solid #FCBC40;
+}
+
+table.listing tr.description td {
+	background: #122DBA;
+}
+
+table.listing tr td.current {
+	color: #FCBC40;
+}
+
+table.listing tr.spacer td {
+	background-color: #081966;
+}
+
+table.listing a {
+	color: #FCBC40;
+}
+
+
+/*
+  ##############################
+  #  Blue Background Thingy
+  ##############################
+*/
+
+div.boxheader	 {
+	background: url(../img/bg_box_l.png) top left no-repeat;
+}
+
+div.boxheader div {
+	background: url(../img/bg_box_r.png) top right no-repeat;
+}
+
+div.boxheader div div {
+	background: url(../img/bg_box_h.png) repeat-x;
+	color: black;
+}
+
+/*
+  ##############################
+  #  Recordings
+  ##############################
+*/
+
+div.recordings {
+	border: 1px solid #FFFDDD;
+	background-color: #263480;
+}
+
+div.recording_item {
+	/* background: url(../img/bg_line.png) bottom repeat-x; */
+        background: transparent;
+	border-bottom: 1px solid #FCBC40;
+}
+
+
+/*
+  ##############################
+  #  Remote Control Keypad
+  ##############################
+*/
+
+div.screenshot {
+	background-image: url(../img/tv.jpg);
+}
+
+
+/*
+  ##############################
+  #  Dotted Frame
+  ##############################
+*/
+
+div.dotted {
+	border: 1px dotted #bbbbbb;
+	padding: 3px;
+	margin: 2px;
+	float: left;
+	background-color: #122dBA;
+}
+
+
+/*
+  ##############################
+  #  Edit Tables
+  ##############################
+*/
+
+table.formular tr td {
+	/* background: url(../img/bg_line.png) bottom repeat-x; */
+	background: transparent;
+	border-bottom: 1px solid #FCBC40;
+}
+
+table.dependent {
+	background-color: #263480;
+}
+
+
+/* ##############################
+   # About box
+   ##############################
+*/
+
+div.about_box a {
+	color: #FCBC40;
+}
+
+.about_box div.about_content {
+	border-left: 1px solid #FFFDDD;
+	border-right: 1px solid #FFFDDD;
+	border-bottom: 1px solid #FFFDDD;
+}
+
+.about_box div.about_content div {
+	background-color: #081966;
+	padding-bottom: 6px;
+}
+
+.about_box div.about_content div.about_head {
+	background: #081966 url(../img/bg_line.png) top repeat-x;
+}
+
+.about_box div.about_content div.about_head div {
+	background: #FFFFFF url(../img/bg_line_top.png) bottom repeat-x;
+}
+
+.about_box div.about_content div.about_head div div {
+	background: #122DBA;
+	border-top: 1px solid #FCBC40;
+	border-bottom: 1px solid #FCBC40;
+}
