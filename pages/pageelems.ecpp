@@ -54,7 +54,7 @@ using namespace vdrlive;
 		</div>
 		<div class="st_controls">
 			<div class="st_update">
-				<a href="javascript:LiveStatusToggleUpdate()" <& tooltip.hint text=(tr("Stop updates")) &>><img id="statusReloadBtn" src="<$ LiveSetup().GetThemedLink("img", "stop_update.png") $>" alt="" /></a>
+				<a href="javascript:LiveStatusToggleUpdate()" <& tooltip.hint text=(tr("Toggle updates on/off.")) &>><img id="statusReloadBtn" src="<$ LiveSetup().GetThemedLink("img", "stop_update.png") $>" alt="" /></a>
 			</div>
 			<div id="infobox_recording_buttons" style="display: none">
 				<& ajax_action_href action=("stop_recording") id=("infobox_stop") image=("stop.png") tip=(tr("stop playback")) &>
@@ -71,6 +71,10 @@ using namespace vdrlive;
 				<& progressbar id=("infobox_elapsed") &>
 			</div>
 		</div>
+	</div>
+	<div style="display: none;">
+		<span id="__infobox_request_err"><$ tr("No server response!") $></span>
+		<span id="__infobox_update_err"><$ tr("Failed to update infobox!") $></span>
 	</div>
 </div>
 </%def>

@@ -1,8 +1,14 @@
+2007-06-14  Dieter Hametner  <dh+vdr at gekrumbel dot de>
+
+	* infobox: show 'user friendly' error message when something went
+	  wrong while updating the status box.
+	  Fixed tooltip message for toggle update on/off of status box.
+
 2007-06-13  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
 	* pages/schedule.ecpp: If no channel is given, and a current
-	  channel is know to vdr select it when calling the schedule page
-	  in live.
+	  channel is known to vdr, select it when calling the schedule
+	  page in live.
 
 2007-06-12  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 

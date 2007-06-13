@@ -178,7 +178,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-    },    { "Date", // English
+    },
+    { "Date", // English
       "Datum", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -1146,7 +1147,7 @@ const tI18nPhrase Phrases[] = {
       "", // Dansk
       "", // Czech
     },
-    { "toggle status update.", // English
+    { "Toggle updates on/off.", // English
       "Statusabfrage ein- oder ausschalten.", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -1256,15 +1257,37 @@ const tI18nPhrase Phrases[] = {
       "", // Dansk
       "", // Czech
     },
-    { "Stop updates", // English
-      "Updates anhalten", // Deutsch
+    { "No server response!", // English
+      "Der Server antwortet nicht!", // Deutsch
       "", // Slovenski
       "", // Italiano
       "", // Nederlands
       "", // Português
       "", // Français
       "", // Norsk
-      "Aseta päivitys päälle/pois",
+      "", // Finnish
+      "", // Polski
+      "", // Español
+      "", // Greek
+      "", // Svenska
+      "", // Românã
+      "", // Magyar
+      "", // Català
+      "", // Russian
+      "", // Hrvatski
+      "", // Eesti
+      "", // Dansk
+      "", // Czech
+    },
+    { "Failed to update infobox!", // English
+      "Kann Infobox nicht aktualisieren!", // Deutsch
+      "", // Slovenski
+      "", // Italiano
+      "", // Nederlands
+      "", // Português
+      "", // Français
+      "", // Norsk
+      "", // Finnish
       "", // Polski
       "", // Español
       "", // Greek

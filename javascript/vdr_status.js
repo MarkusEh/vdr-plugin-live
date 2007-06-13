@@ -136,15 +136,17 @@ function LiveStatusRequest(url, containerid)
 				LiveStatusShowInfo(this.xml.responseXML, containerid);
 			}
 			catch (e) {
-				LiveStatusReportError(e.message, containerid);
+				var updateMsg = document.getElementById("__infobox_update_err").firstChild.nodeValue;
+				LiveStatusReportError(updateMsg, containerid);
 			}
 			if (vst_reload)
 				vst_timer = window.setTimeout("LiveStatusRequest('" + url + "', '" + containerid + "')", 1000);
 		}
 	status.onerror = function(message)
 		{
+			var requestMsg = document.getElementById("__infobox_request_err").firstChild.nodeValue;
 			LiveStatusToggleUpdate();
- 			LiveStatusReportError(message, containerid);
+ 			LiveStatusReportError(requestMsg, containerid);
 		}
 	status.request("update", vst_reload ? "1" : "0");
 }
