@@ -3,6 +3,7 @@
 #include <vdr/channels.h>
 #include <vdr/epg.h>
 #include <vdr/config.h>
+#include <vdr/device.h>
 #include "exception.h"
 #include "livefeatures.h"
 #include "setup.h"
@@ -37,11 +38,17 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		throw HtmlError( tr("Couldn't aquire access to channels, please try again later.") );
 
 	// cChannel* Channel; (see %request above)
-	if ( channel > 0 )
+	if ( channel > 0 ) {
 		Channel = Channels.GetByNumber( channel );
-	else
-		Channel = Channels.Get( Channels.GetNextNormal( -1 ) );
-
+	}
+	else {
+		if (cDevice::CurrentChannel()) {
+			Channel = Channels.GetByNumber(cDevice::CurrentChannel());
+		}
+		else {
+			Channel = Channels.Get( Channels.GetNextNormal( -1 ) );
+		}
+	}
 	if ( Channel == 0 )
 		throw HtmlError( tr("Couldn't find channel or no channels available. Maybe you mistyped your request?") );
 
