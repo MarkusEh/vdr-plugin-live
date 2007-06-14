@@ -9,7 +9,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiono
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Live Interactive VDR Environment", // Français
       "", // Norsk
       "Live-integroitu VDR-ympäristö",
       "", // Polski
@@ -31,7 +31,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiono
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Programmes diffusés à", // Français
       "", // Norsk
       "Menossa kello",
       "", // Polski
@@ -53,7 +53,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "%H:%M", // Français
       "", // Norsk
       "%H:%M",
       "", // Polski
@@ -75,7 +75,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "%H:%M:%S", // Français
       "", // Norsk
       "%H:%M:%S",
       "", // Polski
@@ -97,7 +97,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "%a %d %b", // Français
       "", // Norsk
       "%a, %d.%m.",
       "", // Polski
@@ -119,7 +119,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "%A %d %B %Y", // Français
       "", // Norsk
       "%A, %d.%m.%Y",
       "", // Polski
@@ -141,7 +141,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "%d.%m.%y", // Français
       "", // Norsk
       "%d.%m.%y",
       "", // Polski
@@ -163,7 +163,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "%A %x", // Français
       "", // Norsk
       "%A, %x",
       "", // Polski
@@ -185,7 +185,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Date", // Français
       "", // Norsk
       "Päivämäärä",
       "", // Polski
@@ -207,7 +207,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Temps", // Français
       "", // Norsk
       "Kellonaika",
       "", // Polski
@@ -229,7 +229,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Enregistrements", // Français
       "", // Norsk
       "Tallenteet",
       "", // Polski
@@ -251,7 +251,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Liste des enregistrements", // Français
       "", // Norsk
       "Tallennelistaus",
       "", // Polski
@@ -273,7 +273,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Aucun enregistrement trouvé", // Français
       "", // Norsk
       "Tallenteita ei löydy",
       "", // Polski
@@ -295,7 +295,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Lire", // Français
       "", // Norsk
       "Toistetaan tallennetta",
       "", // Polski
@@ -317,7 +317,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Arrêter", // Français
       "", // Norsk
       "Lopeta toisto",
       "", // Polski
@@ -339,7 +339,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Reprendre", // Français
       "", // Norsk
       "Jatka toistoa",
       "", // Polski
@@ -361,7 +361,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Pause", // Français
       "", // Norsk
       "Pysäytä toisto",
       "", // Polski
@@ -383,7 +383,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Avance rapide", // Français
       "", // Norsk
       "Pikakelaus eteenpäin",
       "", // Polski
@@ -405,7 +405,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Retour rapide", // Français
       "", // Norsk
       "Pikakelaus taaksepäin",
       "", // Polski
@@ -427,7 +427,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Contrôler", // Français
       "", // Norsk
       "Kauko-ohjain",
       "", // Polski
@@ -449,7 +449,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Intervalle", // Français
       "", // Norsk
       "Päivitysväli",
       "", // Polski
@@ -471,7 +471,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Sauvegarder", // Français
       "", // Norsk
       "Tallenna",
       "", // Polski
@@ -493,7 +493,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Menu", // Français
       "", // Norsk
       "Valikko",
       "", // Polski
@@ -515,7 +515,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Exit", // Français
       "", // Norsk
       "Poistu",
       "", // Polski
@@ -537,7 +537,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Retour", // Français
       "", // Norsk
       "Takaisin",
       "", // Polski
@@ -559,7 +559,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Ok", // Français
       "", // Norsk
       "Ok",
       "", // Polski
@@ -581,7 +581,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Vol+", // Français
       "", // Norsk
       "Ääni+",
       "", // Polski
@@ -603,7 +603,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Vol-", // Français
       "", // Norsk
       "Ääni-",
       "", // Polski
@@ -625,7 +625,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Sourdine", // Français
       "", // Norsk
       "Mykistä",
       "", // Polski
@@ -647,7 +647,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Nouvelle programmation", // Français
       "", // Norsk
       "Luo uusi ajastin",
       "", // Polski
@@ -669,7 +669,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Editer", // Français
       "", // Norsk
       "Muokkaa",
       "", // Polski
@@ -691,7 +691,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Jour de la semaine", // Français
       "", // Norsk
       "Viikonpäivä",
       "", // Polski
@@ -713,7 +713,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Utiliser VPS", // Français
       "", // Norsk
       "Käytä VPS-toimintoa",
       "", // Polski
@@ -735,7 +735,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Lundi", // Français
       "", // Norsk
       "Maanantai",
       "", // Polski
@@ -757,7 +757,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Mardi", // Français
       "", // Norsk
       "Tiistai",
       "", // Polski
@@ -779,7 +779,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Mercredi", // Français
       "", // Norsk
       "Keskiviikko",
       "", // Polski
@@ -801,7 +801,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Jeudi", // Français
       "", // Norsk
       "Torstai",
       "", // Polski
@@ -823,7 +823,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Vendredi", // Français
       "", // Norsk
       "Perjantai",
       "", // Polski
@@ -845,7 +845,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Samedi", // Français
       "", // Norsk
       "Lauantai",
       "", // Polski
@@ -867,7 +867,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Dimanche", // Français
       "", // Norsk
       "Sunnuntai",
       "", // Polski
@@ -889,7 +889,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Oui", // Français
       "", // Norsk
       "kyllä",
       "", // Polski
@@ -911,7 +911,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Non", // Français
       "", // Norsk
       "ei",
       "", // Polski
@@ -933,7 +933,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Recherche de programmation", // Français
       "", // Norsk
       "Hakuajastin",
       "", // Polski
@@ -955,7 +955,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Récupère le status ...", // Français
       "", // Norsk
       "Haetaan tietoja ...",
       "", // Polski
@@ -977,7 +977,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Chaîne précédente", // Français
       "", // Norsk
       "Edellinen kanava",
       "", // Polski
@@ -999,7 +999,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Chaîne suivante", // Français
       "", // Norsk
       "Seuraava kanava",
       "", // Polski
@@ -1021,7 +1021,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Enregistrer", // Français
       "", // Norsk
       "Tallenna ohjelma",
       "", // Polski
@@ -1043,7 +1043,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Editer la programmation", // Français
       "", // Norsk
       "Muokkaa ajastinta",
       "", // Polski
@@ -1065,7 +1065,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Cliquer pour les détails.", // Français
       "", // Norsk
       "Napsauta katsoaksesi lisätietoja.",
       "", // Polski
@@ -1087,7 +1087,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Plus", // Français
       "", // Norsk
       "lisätietoja",
       "", // Polski
@@ -1109,7 +1109,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Regarder", // Français
       "", // Norsk
       "Vaihda kanavalle",
       "", // Polski
@@ -1131,7 +1131,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Lire cet enregistrement", // Français
       "", // Norsk
       "Toista tallenne",
       "", // Polski
@@ -1153,7 +1153,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Activer/Désactiver l'update du status", // Français
       "", // Norsk
       "Aseta tilannekysely päälle/pois",
       "", // Polski
@@ -1175,7 +1175,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Pas d'info, pour cette évènement !", // Français
       "", // Norsk
       "Lähetyksellä ei ole ohjelmatietoja!",
       "", // Polski
@@ -1197,7 +1197,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Pas d'EPG pour cette chaîne !", // Français
       "", // Norsk
       "Kanavalla ei ole ohjelmatietoja!",
       "", // Polski
@@ -1219,7 +1219,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Pas de chaîne trouvée !", // Français
       "", // Norsk
       "Kanavaa ei löydy!",
       "", // Polski
@@ -1241,7 +1241,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Erreur: Status non disponible !", // Français
       "", // Norsk
       "Virhe: tilannetietoja ei saatavilla!",
       "", // Polski
@@ -1307,7 +1307,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Voir le programme de la chaîne", // Français
       "", // Norsk
       "Näytä ohjelmisto kanavalta",
       "", // Polski
@@ -1329,7 +1329,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Critère de recherche", // Français
       "", // Norsk
       "Hakuehto",
       "", // Polski
@@ -1351,7 +1351,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Mode de recherche", // Français
       "", // Norsk
       "Hakutapa",
       "", // Polski
@@ -1395,7 +1395,7 @@ const tI18nPhrase Phrases[] = {
       "tutte le parole",// Italiano
       "alle woorden",
       "",// TODO
-      "tout les mots",
+      "tous les mots",
       "",// TODO
       "kaikki sanat",
       "",// TODO
@@ -1440,7 +1440,7 @@ const tI18nPhrase Phrases[] = {
       "esatta corrispondenza",// Italiano
       "precies passend",
       "",// TODO
-      "correspond ex  actement",
+      "correspond exactement",
       "",// TODO
       "täsmällinen",
       "",// TODO
@@ -1463,7 +1463,7 @@ const tI18nPhrase Phrases[] = {
       "espressione regolare",// Italiano
       "reguliere uitdruk  king",
       "",// TODO
-      "expression réguliere",
+      "expression régulière",
       "",// TODO
       "säännöllinen lauseke",
       "",// TODO
@@ -1485,7 +1485,7 @@ const tI18nPhrase Phrases[] = {
       "Mai    uscolo/Minuscolo",// Italiano
       "Idem case",
       "",// TODO
-      "Maj/Minuscule",
+      "Majuscule/Minuscule",
       "",// TODO
       "Huomioi kirjainkoko",
       "",// TODO
@@ -1551,7 +1551,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Chercher dans", // Français
       "", // Norsk
       "Hae kentistä",
       "", // Polski
@@ -1573,7 +1573,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Titre", // Français
       "", // Norsk
       "Otsikko",
       "", // Polski
@@ -1595,7 +1595,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Episode", // Français
       "", // Norsk
       "Jakson nimi",
       "", // Polski
@@ -1617,7 +1617,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Description", // Français
       "", // Norsk
       "Kuvaus",
       "", // Polski
@@ -1639,7 +1639,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Afficher le programme de ", // Français
       "", // Norsk
       "Näytä kanavan ohjelmisto",
       "", // Polski
@@ -1661,7 +1661,7 @@ const tI18nPhrase Phrases[] = {
       "Utilizzare canale",// Italiano
       "Gebruik kanaal",
       "",// TODO
-      "Utiliser le canal",
+      "Utiliser la chaîne",
       "",// TODO
       "Käytä kanavaa",
       "",// TODO
@@ -1683,7 +1683,7 @@ const tI18nPhrase Phrases[] = {
       "intervallo",// Italiano
       "interval",
       "",// TODO
-      "interval",// Francais Pat
+      "intervalle",// Francais Pat
       "",// TODO
       "kyllä",
       "",// TODO
@@ -1837,7 +1837,7 @@ const tI18nPhrase Phrases[] = {
       "Comincia dopo",// Italiano
       "Start na",
       "",// TODO
-      "Départ après",
+      "Début après",
       "",// TODO
       "Aloitusaika aikaisintaan",
       "",// TODO
@@ -1859,7 +1859,7 @@ const tI18nPhrase Phrases[] = {
       "Comincia prima",// Italiano
       "Start voor",
       "",// TODO
-      "Départ avant",
+      "Début avant",
       "",// TODO
       "Aloitusaika viimeistään",
       "",// TODO
@@ -1881,7 +1881,7 @@ const tI18nPhrase Phrases[] = {
       "Utilizzare durata",// Italiano
       "Gebruiks duur",
       "",// TODO
-      "Durée d'utilisation",
+      "Utiliser durée d'émission",
       "",// TODO
       "Käytä kestoaikaa",
       "",// TODO
@@ -1991,7 +1991,7 @@ const tI18nPhrase Phrases[] = {
       "",// TODO
       "",// TODO
       "",// TODO
-      "Utiliser dans le menu favoris",
+      "Utiliser le menu favoris",
       "",// TODO
       "Käytä suosikkina",
       "",// TODO
@@ -2056,7 +2056,7 @@ const tI18nPhrase Phrases[] = {
       "",// TODO
       "",// TODO
       "",// TODO
-      "Seulement changer de chaine",
+      "Change seulement de chaine",
       "",// TODO
       "Kanavanvaihto",
       "",// TODO
@@ -2078,7 +2078,7 @@ const tI18nPhrase Phrases[] = {
       "Solo annuncio (niente timer)",// Italiano
       "Alleen aankondigen (geen timer)",
       "",// TODO
-      "Annoncer seulement début d'une programme",
+      "Annonce seulement le début du programme",
       "",// TODO
       "Muistutus",
       "",// TODO
@@ -2100,7 +2100,7 @@ const tI18nPhrase Phrases[] = {
       "Registrazione serie",// Italiano
       "Serie's opnemen",
       "",// TODO
-      "Enregistrement de serie",
+      "Enregistrement de série",
       "",// TODO
       "Sarjatallennus",
       "",// TODO
@@ -2188,7 +2188,7 @@ const tI18nPhrase Phrases[] = {
       "",// TODO
       "",// TODO
       "",// TODO
-      "Pause, lorsque ... l'enregistrement existe.",// TODO
+      "Pause, lorsque ... enregistrement existe",// TODO
       "",// TODO
       "Keskeytä ... tallenteen jälkeen",
       "",// TODO
@@ -2232,7 +2232,7 @@ const tI18nPhrase Phrases[] = {
       "",// Italiano
       "",// TODO
       "",// TODO
-      "Eviter les répétions",// Francais Pat
+      "Eviter les rediffusions",// Francais Pat
       "",// TODO
       "Estä uusinnat",
       "",// TODO
@@ -2254,7 +2254,7 @@ const tI18nPhrase Phrases[] = {
       "",// Italiano
       "",// TODO
       "",// TODO
-      "Répétitions autorisées",// Francais Pat
+      "Rediffusions autorisées",// Francais Pat
       "",// TODO
       "Sallittujen uusintojen lukumäärä",
       "",// TODO
@@ -2276,7 +2276,7 @@ const tI18nPhrase Phrases[] = {
       "",// Italiano
       "",// TODO
       "",// TODO
-      "Que répétion, pendant ... jours",// Francais Pat
+      "Répété seulement pendant ... jours",// Francais Pat
       "",// TODO
       "Vain uusinnat ... päivän sisällä",
       "",// TODO
@@ -2432,7 +2432,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Résultat de la recherche", // Français
       "", // Norsk
       "Hakutulokset",
       "", // Polski
@@ -2454,7 +2454,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Pas de résultat pour la recherche", // Français
       "", // Norsk
       "Ei hakutuloksia",
       "", // Polski
@@ -2476,7 +2476,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Power", // Français
       "", // Norsk
       "Virta",
       "", // Polski
@@ -2498,7 +2498,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Commencer à enregistrer", // Français
       "", // Norsk
       "Aloita tallennus",
       "", // Polski
@@ -2520,7 +2520,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Haut", // Français
       "", // Norsk
       "Ylös",
       "", // Polski
@@ -2542,7 +2542,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Bas", // Français
       "", // Norsk
       "Alas",
       "", // Polski
@@ -2564,7 +2564,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Gauche", // Français
       "", // Norsk
       "Vasen",
       "", // Polski
@@ -2586,7 +2586,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Droite", // Français
       "", // Norsk
       "Oikea",
       "", // Polski
@@ -2608,7 +2608,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Rouge", // Français
       "", // Norsk
       "Punainen",
       "", // Polski
@@ -2630,7 +2630,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Vert", // Français
       "", // Norsk
       "Vihreä",
       "", // Polski
@@ -2652,7 +2652,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Jaune", // Français
       "", // Norsk
       "Keltainen",
       "", // Polski
@@ -2674,7 +2674,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Bleu", // Français
       "", // Norsk
       "Sininen",
       "", // Polski
@@ -2718,7 +2718,7 @@ const tI18nPhrase Phrases[] = {
       "",
       "",
       "",
-      "",
+      "Activer/Désactiver la programmation",
       "",
       "Aseta ajastin päälle/pois",
       "",
@@ -2740,7 +2740,7 @@ const tI18nPhrase Phrases[] = {
       "",
       "",
       "",
-      "",
+      "Supprimer la programmation",
       "",
       "Poista ajastin",
       "",
@@ -2762,7 +2762,7 @@ const tI18nPhrase Phrases[] = {
       "",
       "",
       "",
-      "",
+      "Editer la programmation",
       "",
       "Muokkaa ajastinta",
       "",
@@ -2784,7 +2784,7 @@ const tI18nPhrase Phrases[] = {
       "",
       "",
       "",
-      "",
+      "(dés)activer la programmation de cette recherche",
       "",
       "Aseta hakuajastin päälle/pois",
       "",
@@ -2806,7 +2806,7 @@ const tI18nPhrase Phrases[] = {
       "",
       "",
       "",
-      "",
+      "Afficher les résultats de la recherche",
       "",
       "Selaa hakutuloksia",
       "",
@@ -2828,7 +2828,7 @@ const tI18nPhrase Phrases[] = {
       "",
       "",
       "",
-      "",
+      "Supprimer la recherche",
       "",
       "Poista hakuajastin",
       "",
@@ -2850,7 +2850,7 @@ const tI18nPhrase Phrases[] = {
       "",
       "",
       "",
-      "",
+      "Expression",
       "",
       "Hakulauseke",
       "",
@@ -2872,7 +2872,7 @@ const tI18nPhrase Phrases[] = {
       "",
       "",
       "",
-      "",
+      "Editer la recherche",
       "",
       "Muokkaa hakuajastinta",
       "",
@@ -2894,7 +2894,7 @@ const tI18nPhrase Phrases[] = {
       "",
       "",
       "",
-      "",
+      "Nouvelle recherche de programmation",
       "",
       "Luo uusi hakuajastin",
       "",
@@ -2916,7 +2916,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Italiano
 	  "", // Nederlands
 	  "", // Português
-	  "", // Français
+	  "Supprimer cette recherche ?", // Français
 	  "", // Norsk
 	  "Poistetaanko tämä hakuajastin?",
 	  "", // Polski
@@ -2938,7 +2938,7 @@ const tI18nPhrase Phrases[] = {
       "",
       "",
       "",
-      "",
+      "Abandonner",
       "",
       "Peru",
       "",
@@ -2961,7 +2961,7 @@ const tI18nPhrase Phrases[] = {
       "",
       "",
       "",
-      "",
+      "Tous",
       "",
       "Kaikki",
       "",
@@ -2983,7 +2983,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Testé", // Français
       "", // Norsk
       "Testaa",
       "", // Polski
@@ -3005,7 +3005,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Heure à laquelle l'émission doit démarrer au plus tard", // Français
       "", // Norsk
       "Lähetyksen aloitusaika viimeistään",
       "", // Polski
@@ -3027,7 +3027,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Heure à laquelle l'émission doit démarrer au plus tôt", // Français
       "", // Norsk
       "Lähetyksen aloitusaika aikaisintaan",
       "", // Polski
@@ -3049,7 +3049,7 @@ const tI18nPhrase Phrases[] = {
 	  "Il testo da cercare è troppo corto.  Continuare lo stesso?",// Italiano
 	  "Zoek tekst tekort - toch gebruiken?",
 	  "",// TODO
-	  "Texte de recherche est trop court - l'utiliser comme même?",
+	  "Le texte de recherche est trop court - Utiliser tout même ?",
 	  "",// TODO
 	  "Liian suppea hakuehto - etsitäänkö silti?",
 	  "",// TODO
@@ -3072,7 +3072,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Utilisateur", // Français
       "", // Norsk
       "Käyttäjä",
       "", // Polski
@@ -3094,7 +3094,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Mot de passe", // Français
       "", // Norsk
       "Salasana",
       "", // Polski
@@ -3116,7 +3116,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Dernière chaîne affichée", // Français
       "", // Norsk
       "Näytä viimeisenä kanava",
       "", // Polski
@@ -3138,7 +3138,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Utiliser authentification", // Français
       "", // Norsk
       "Käytä autentikointia",
       "", // Polski
@@ -3160,7 +3160,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Pas de limite", // Français
       "", // Norsk
       "ei rajoitusta",
       "", // Polski
@@ -3182,7 +3182,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Login Admin", // Français
       "", // Norsk
       "Ylläpidon käyttäjätunnus",
       "", // Polski
@@ -3204,7 +3204,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Mot de passe Admin", // Français
       "", // Norsk
       "Ylläpidon salasana",
       "", // Polski
@@ -3226,7 +3226,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "VDR Live - Connexion", // Français
       "", // Norsk
       "VDR Live - sisäänkirjautuminen",
       "", // Polski
@@ -3248,7 +3248,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Déconnexion", // Français
       "", // Norsk
       "Kirjaudu ulos",
       "", // Polski
@@ -3270,7 +3270,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Connexion", // Français
       "", // Norsk
       "Kirjaudu sisään",
       "", // Polski
@@ -3292,7 +3292,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Italiano
 	  "", // Nederlands
 	  "", // Português
-	  "", // Français
+	  "Rechercher", // Français
 	  "", // Norsk
 	  "Etsi",
 	  "", // Polski
@@ -3314,7 +3314,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Italiano
 	  "", // Nederlands
 	  "", // Português
-	  "", // Français
+	  "Recherche étendue", // Français
 	  "", // Norsk
 	  "Laajennettu haku",
 	  "", // Polski
@@ -3336,7 +3336,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Italiano
 	  "", // Nederlands
 	  "", // Português
-	  "", // Français
+	  "Paramètre de recherche", // Français
 	  "", // Norsk
 	  "Hakuasetukset",
 	  "", // Polski
@@ -3358,7 +3358,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Italiano
 	  "", // Nederlands
 	  "", // Português
-	  "", // Français
+	  "Numéro d'archive DVD", // Français
 	  "", // Norsk
 	  "Arkistointi-DVD:llä numero",
 	  "", // Polski
@@ -3380,7 +3380,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Début entre", // Français
       "", // Norsk
       "Alkaa välillä",
       "", // Polski
@@ -3402,7 +3402,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Erreur de nom d'utilisateur ou de mot de passe", // Français
       "", // Norsk
       "Väärä käyttäjätunnus tai salasana",
       "", // Polski
@@ -3424,7 +3424,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Version minimum requise de epgsearch : ", // Français
       "", // Norsk
       "Vaadittava versio EPGSearch-laajennoksesta: ",
       "", // Polski
@@ -3445,7 +3445,7 @@ const tI18nPhrase Phrases[] = {
       "", // Slovenski
       "", // Italiano
       "", // Nederlands
-      "", // Português
+      "Version de EPGSearch obsolète ! Veuillez faire la mise à jour.", // Português
       "", // Français
       "", // Norsk
       "EPGSearch-laajennos pitäisi päivittää!",
@@ -3468,7 +3468,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Recherche des rediffusions", // Français
       "", // Norsk
       "Etsi toistuvat",
       "", // Polski
@@ -3490,7 +3490,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiono
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Diffusé", // Français
       "", // Norsk
       "Menossa",
       "", // Polski
@@ -3512,7 +3512,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiono
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Programmes en cours ?", // Français
       "", // Norsk
       "Menossa?",
       "", // Polski
@@ -3534,7 +3534,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiono
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Maintenant", // Français
       "", // Norsk
       "Nyt",
       "", // Polski
@@ -3556,7 +3556,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiono
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Après", // Français
       "", // Norsk
       "Seuraavaksi",
       "", // Polski
@@ -3578,7 +3578,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiono
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Heure fixe additionnel dans 'Programme en cours'", // Français
       "", // Norsk
       "Lisäajankohdat 'Menossa?'-sivulle",
       "", // Polski
@@ -3594,13 +3594,13 @@ const tI18nPhrase Phrases[] = {
       "", // Dansk
       "", // Czech
     },
-    { "Format is HH:MM. Separate multiple times with a semicolon",
+    { "Format is HH:MM. Separate multiple times with a colon",
       "Format ist HH:MM. Mehrere Zeiten durch Semikolon trennen",
       "", // Slovenski
       "", // Italiono
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Le format est HH:MM. Séparé par des points virgule.", // Français
       "", // Norsk
       "Käytä HH:MM formaattia ja erota ajankohdat puolipisteellä",
       "", // Polski
@@ -3622,7 +3622,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiono
       "", // Nederlands
       "", // Português
-      "", // Français
+      "à", // Français
       "", // Norsk
       "Kello",
       "", // Polski
@@ -3644,7 +3644,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiono
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Auteur", // Français
       "", // Norsk
       "Tekijät",
       "", // Polski
@@ -3666,7 +3666,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiono
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Chef de projet", // Français
       "", // Norsk
       "Projektipäällikkö",
       "", // Polski
@@ -3688,7 +3688,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiono
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Serveur Web", // Français
       "", // Norsk
       "HTTP-palvelin",
       "", // Polski
@@ -3710,7 +3710,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiono
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Contenu", // Français
       "", // Norsk
       "Sisältö",
       "", // Polski
@@ -3732,7 +3732,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiono
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Graphique", // Français
       "", // Norsk
       "Grafiikka",
       "", // Polski
@@ -3754,7 +3754,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiono
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Information", // Français
       "", // Norsk
       "Tietoja",
       "", // Polski
@@ -3776,7 +3776,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiono
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Version de LIVE", // Français
       "", // Norsk
       "LIVE-versio",
       "", // Polski
@@ -3798,7 +3798,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiono
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Version de VDR", // Français
       "", // Norsk
       "VDR-versio",
       "", // Polski
@@ -3820,7 +3820,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiono
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Plugins", // Français
       "", // Norsk
       "Tuetut laajennokset",
       "", // Polski
@@ -3842,7 +3842,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiono
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Site Web", // Français
       "", // Norsk
       "Kotisivu",
       "", // Polski
@@ -3864,7 +3864,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "N'a pas trouver de programmation. Peut être une erreur dans la requête ?", // Français
       "", // Norsk
       "Ajastinta ei löydy. Kirjoititko varmasti oikein?",
       "", // Polski
@@ -3886,7 +3886,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "N'a pas trouvé la chaîne ou chaîne non disponible. Peut être une erreur dans la requête ?", // Français
       "", // Norsk
       "Kanavaa ei löydy. Kirjoititko varmasti oikein?",
       "", // Polski
@@ -3908,7 +3908,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Erreur de page", // Français
       "", // Norsk
       "Sivuvirhe",
       "", // Polski
@@ -3930,7 +3930,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Si vous rencontrez des bugs ou souhaitez suggérer de nouvelles fonctions, utilisez svp notre bugtracker", // Français
       "", // Norsk
       "Voit raportoida sekä virheet että parannusehdotukset suoraan havaintotietokantaan", // Finnish
       "", // Polski
@@ -3952,7 +3952,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Bugs et suggestions", // Français
       "", // Norsk
       "Virheraportoinnit ja parannusehdotukset", // Finnish
       "", // Polski
@@ -3974,7 +3974,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Chercher sur Internet Movie Database", // Français
       "", // Norsk
       "Hae IMDB:stä", // Finnish
       "", // Polski
@@ -3996,7 +3996,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Affichage détails", // Français
       "", // Norsk
       "Ruudukkonäkymä", // Finnish
       "", // Polski
@@ -4018,7 +4018,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Affichage liste", // Français
       "", // Norsk
       "Listanäkymä", // Finnish
       "", // Polski
@@ -4040,7 +4040,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Pas de programmation définit", // Français
       "", // Norsk
       "Ajastinta ei ole määritelty", // Finnish
       "", // Polski
@@ -4062,7 +4062,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Page de démarrage", // Français
       "", // Norsk
       "Aloitussivu", // Finnish
       "", // Polski
@@ -4084,7 +4084,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "activer", // Français
       "", // Norsk
       "", // Finnish
       "", // Polski
@@ -4106,7 +4106,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "requis", // Français
       "", // Norsk
       "", // Finnish
       "", // Polski
@@ -4128,7 +4128,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Réseau local (Pas d'identification requis)", // Français
       "", // Norsk
       "", // Finnish
       "", // Polski
@@ -4150,7 +4150,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Thème", // Français
       "", // Norsk
       "", // Finnish
       "", // Polski
@@ -4172,7 +4172,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "SVP indiqué un nom d'utilisateur et mot de passe !", // Français
       "", // Norsk
       "", // Finnish
       "", // Polski
@@ -4194,7 +4194,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "SVP indiqué un titre pour la programmation !", // Français
       "", // Norsk
       "", // Finnish
       "", // Polski
@@ -4216,7 +4216,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Paramètre sauvegardé", // Français
       "", // Norsk
       "", // Finnish
       "", // Polski
@@ -4238,7 +4238,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "", // Français
+      "Mise à jour des recherches de programmation maintenant", // Français
       "", // Norsk
       "", // Finnish
       "", // Polski
