@@ -9,24 +9,26 @@ using namespace std;
 </%pre>
 <%args>
 	string lastchannel;
-	bool useauth = 0;
+	bool useauth = false;
 	string login;
 	string pass;
 	string times;
 	string startscreen;
 	string theme;
 	string localnetmask;
+	string showInfoBox;
 	int authchanged = 0;
 </%args>
 <%session scope="global">
 bool logged_in(false);
 </%session>
 <%include>page_init.eh</%include>
-<{
+<%cpp>
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
-}>
+</%cpp>
 <%cpp>
 #define SELECTIF(x) reply.out() << ( (x) ? "selected=\"selected\"" : "" );
+#define CHECKIF(x) reply.out() << ( (x) ? "checked=\"checked\"" : "" );
 
 	std::string message;
 
@@ -47,6 +49,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			LiveSetup().SetTimes(times);
 			LiveSetup().SetStartScreen(startscreen);
 			LiveSetup().SetTheme(theme);
+			LiveSetup().SetShowInfoBox(!showInfoBox.empty());
 			LiveSetup().SaveSetup();
 			message = tr("Setup saved.");
 		}
@@ -64,6 +67,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	startscreen = LiveSetup().GetStartScreen();
 	theme = LiveSetup().GetTheme();
 	localnetmask = LiveSetup().GetLocalNetMask();
+	showInfoBox = LiveSetup().GetShowInfoBox() ? "1" : "";
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -94,9 +98,9 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		<& menu active=("setup") &>
 		<div class="inhalt">
 			<form method="POST" name="setup" action="setup.ecpp">
-					<input type="hidden" name="authchanged" value="<$ authchanged $>" id="authchanged"/>
-					<input type="hidden" name="message" value="<$ message $>" id="message"/>
-					<table class="formular" cellpadding="0" cellspacing="0">
+				<input type="hidden" name="authchanged" value="<$ authchanged $>" id="authchanged"/>
+				<input type="hidden" name="message" value="<$ message $>" id="message"/>
+				<table class="formular" cellpadding="0" cellspacing="0">
 					<tr class="head">
 						<td  class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div><div><$ tr("Setup") $></div></div></div></td>
 					</tr>
@@ -107,7 +111,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Use authentication") $>:</div></td>
 						<td class="rightcol">
-							<input type="checkbox" name="useauth" id="useauth" value="1" <{ reply.out() << ( useauth ? "checked=\"checked\"" : "" ); }> onclick="changeduseauth(this)"/>
+							<input type="checkbox" name="useauth" id="useauth" value="1" <%cpp> CHECKIF(useauth); </%cpp> onclick="changeduseauth(this)"/>
 							<div id="authsection" style="display: none">
 							<table border="0" cellpadding="0" cellspacing="0" class="dependent">
 							<tr>
@@ -127,6 +131,12 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 						</td>
 					</tr>
 					<tr>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Show dynamic VDR information box") $>:</div></td>
+						<td class="rightcol">
+							<input type="checkbox" name="showInfoBox" id="showInfoBox" value="1" <%cpp> CHECKIF(!showInfoBox.empty()); </%cpp>/>
+						</td>
+					</tr>
+					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("additional fixed times in 'What's on?'") $>:</div></td>
 						<td class="rightcol"><input type="text" name="times" value="<$ times $>" id="times" />
 							<& tooltip.help text=(tr("Format is HH:MM. Separate multiple times with a semicolon")) &></td>
@@ -134,11 +144,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Start page") $>:</div></td>
 						<td class="rightcol"><select name="startscreen" size="1" id="startscreen">
-							<option value="whatsonnow" <{ SELECTIF(startscreen == "whatsonnow") }>><$ tr("What's on now?") $></option>
-							<option value="whatsonnext" <{ SELECTIF(startscreen == "whatsonnext") }>><$ tr("What's on next?") $></option>
-							<option value="schedule" <{ SELECTIF(startscreen == "schedule") }>><$ tr("Schedule") $></option>
-							<option value="recordings" <{ SELECTIF(startscreen == "recordings") }>><$ tr("Recordings") $></option>
-							<option value="timers" <{ SELECTIF(startscreen == "timers") }>><$ tr("Timers") $></option>
+							<option value="whatsonnow" <%cpp> SELECTIF(startscreen == "whatsonnow") </%cpp>><$ tr("What's on now?") $></option>
+							<option value="whatsonnext" <%cpp> SELECTIF(startscreen == "whatsonnext") </%cpp>><$ tr("What's on next?") $></option>
+							<option value="schedule" <%cpp> SELECTIF(startscreen == "schedule") </%cpp>><$ tr("Schedule") $></option>
+							<option value="recordings" <%cpp> SELECTIF(startscreen == "recordings") </%cpp>><$ tr("Recordings") $></option>
+							<option value="timers" <%cpp> SELECTIF(startscreen == "timers") </%cpp>><$ tr("Timers") $></option>
 						</select></td>
 					</tr>
 					<tr>
@@ -158,7 +168,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			continue;
 		}
 </%cpp>
-							<option value="<$ e->d_name $>" <{ SELECTIF(theme == e->d_name) }>><$ e->d_name $></option>
+							<option value="<$ e->d_name $>" <%cpp> SELECTIF(theme == e->d_name) </%cpp>><$ e->d_name $></option>
 <%cpp>
 	}
 }

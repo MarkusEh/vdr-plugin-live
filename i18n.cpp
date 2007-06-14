@@ -1301,6 +1301,28 @@ const tI18nPhrase Phrases[] = {
       "", // Dansk
       "", // Czech
     },
+    { "Show dynamic VDR information box", // English
+      "Zeige eine dynamische VDR Status Box", // Deutsch
+      "", // Slovenski
+      "", // Italiano
+      "", // Nederlands
+      "", // Português
+      "", // Français
+      "", // Norsk
+      "", // Finnish
+      "", // Polski
+      "", // Español
+      "", // Greek
+      "", // Svenska
+      "", // Românã
+      "", // Magyar
+      "", // Català
+      "", // Russian
+      "", // Hrvatski
+      "", // Eesti
+      "", // Dansk
+      "", // Czech
+    },
     { "View the schedule of this channel", // English
       "Zeige Programm dieses Kanals", // Deutsch
       "", // Slovenski

@@ -1,3 +1,7 @@
+2007-06-15  Dieter Hametner  <dh+vdr at gekrumbel dot de>
+
+	* setup.ecpp: added option to disable infobox at all.
+
 2007-06-14  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
 	* infobox: Keep update status of infobox in session. This allows

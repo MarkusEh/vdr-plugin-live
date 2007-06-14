@@ -37,7 +37,7 @@ int update_status(1);
 <div class="page_header">
 <a href="<$ LiveSetup().GetStartScreenLink()$>">
 <img src="<$ LiveSetup().GetThemedLink("img", "logo.png") $>" alt="VDR Live!" class="logo"></img></a>
-	<& infobox &>
+<%cpp>if (LiveSetup().GetShowInfoBox()) { </%cpp><& infobox &><%cpp> } </%cpp>
 </div>
 <div style="clear: both"></div>
 </%def>
@@ -85,7 +85,7 @@ int update_status(1);
 <# ---------------------------------------------------------------------- #>
 
 <%def infobox_start_update>
-<%cpp> { </%cpp>LiveStatusRequest('ibox.xml', 'infobox', <%cpp> if (update_status) { reply.sout() << "true"; } else { reply.sout() << "false"; } </%cpp>)<%cpp> } </%cpp>
+<%cpp> if (LiveSetup().GetShowInfoBox()) { </%cpp>LiveStatusRequest('ibox.xml', 'infobox', <%cpp> if (update_status) { reply.sout() << "true"; } else { reply.sout() << "false"; } </%cpp>)<%cpp> } </%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -130,7 +130,7 @@ int update_status(1);
 
 <%def ajax_js>
 	<script type="text/javascript" src="ajax.js"></script>
-	<script type="text/javascript" src="vdr_status.js"></script>
+	<%cpp>if (LiveSetup().GetShowInfoBox()) { </%cpp><script type="text/javascript" src="vdr_status.js"></script><%cpp> } </%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
