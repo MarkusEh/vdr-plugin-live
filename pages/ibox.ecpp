@@ -21,6 +21,7 @@ using namespace std;
 </%args>
 <%session scope="global">
 bool logged_in(false);
+int update_status(1);
 </%session>
 <%cpp>
 	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
@@ -30,6 +31,9 @@ bool logged_in(false);
 	tChannelID next_chan;
 	reply.setContentType( "application/xml" );
 
+	if (update_status != update) {
+		update_status = update;
+	}
 #if VDRVERSNUM >= 10403
 	const char* NowReplaying = cReplayControl::NowReplaying();
 #else
@@ -134,22 +138,22 @@ bool logged_in(false);
 		if (prev_chan.Valid() && next_chan.Valid())
 		{
 </%cpp>
-<& xmlresponse.ibox update=(update) type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) prev_chan=(prev_chan) next_chan=(next_chan) &>
+<& xmlresponse.ibox update=(update_status) type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) prev_chan=(prev_chan) next_chan=(next_chan) &>
 <%cpp>
 		}
 		else if (prev_chan.Valid()) {
 </%cpp>
-<& xmlresponse.ibox update=(update) type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) prev_chan=(prev_chan) &>
+<& xmlresponse.ibox update=(update_status) type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) prev_chan=(prev_chan) &>
 <%cpp>
 		}
 		else if (next_chan.Valid()) {
 </%cpp>
-<& xmlresponse.ibox update=(update) type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) next_chan=(next_chan) &>
+<& xmlresponse.ibox update=(update_status) type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) next_chan=(next_chan) &>
 <%cpp>
 		}
 		else {
 </%cpp>
-<& xmlresponse.ibox update=(update) type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) &>
+<& xmlresponse.ibox update=(update_status) type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) &>
 <%cpp>
 		}
 		break;

@@ -1,5 +1,12 @@
 2007-06-14  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
+	* infobox: Keep update status of infobox in session. This allows
+	  the user to switch off status updates and change live
+	  pages. After a page change the status is updated once and then
+	  the users choice is respected.
+
+2007-06-14  Dieter Hametner  <dh+vdr at gekrumbel dot de>
+
 	* infobox: show 'user friendly' error message when something went
 	  wrong while updating the status box.
 	  Fixed tooltip message for toggle update on/off of status box.

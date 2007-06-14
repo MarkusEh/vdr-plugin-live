@@ -13,6 +13,9 @@ using namespace std;
 using namespace vdrlive;
 
 </%pre>
+<%session scope="global">
+int update_status(1);
+</%session>
 
 <# ---------------------------------------------------------------------- #>
 
@@ -82,7 +85,7 @@ using namespace vdrlive;
 <# ---------------------------------------------------------------------- #>
 
 <%def infobox_start_update>
-<%cpp> { </%cpp>LiveStatusRequest('ibox.xml', 'infobox')<%cpp> } </%cpp>
+<%cpp> { </%cpp>LiveStatusRequest('ibox.xml', 'infobox', <%cpp> if (update_status) { reply.sout() << "true"; } else { reply.sout() << "false"; } </%cpp>)<%cpp> } </%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>

@@ -40,6 +40,19 @@ function LiveStatusShowInfo(xmldoc, containerId)
 			LiveStatusSetTextContent(containerId, node.nodeName, textContent);
 		}
 	}
+
+	/* check if we still need to update the status */
+	var update = xmldoc.getElementsByTagName('update').item(0);
+	var reload = (update.firstChild.nodeValue == "1");
+
+	if (reload != vst_reload) {
+		vst_reload = reload;
+		var img = document.getElementById('statusReloadBtn');
+		if (img != null) {
+			// change image according to state.
+			img.src = vst_reload ? 'stop_update.png' : 'reload.png';
+		}
+	}
 }
 
 function LiveStatusReportError(message, containerId)
@@ -105,22 +118,13 @@ function LiveStatusSetTextContent(containerId, nodeName, textContent)
 function LiveStatusToggleUpdate()
 {
 	if (vst_reload) {
-		vst_reload = false;
 		if (vst_timer != null)
 			window.clearTimeout(vst_timer);
 	}
-	else {
-		vst_reload = true;
-		LiveStatusRequest(vst_url, vst_boxId);
-	}
-	var img = document.getElementById('statusReloadBtn');
-	if (img != null) {
-		// change image according to state.
-		img.src = vst_reload ? 'stop_update.png' : 'reload.png';
-	}
+	LiveStatusRequest(vst_url, vst_boxId, !vst_reload);
 }
 
-function LiveStatusRequest(url, containerid)
+function LiveStatusRequest(url, containerid, update)
 {
 	if (vst_url == null)
 	{
@@ -140,7 +144,7 @@ function LiveStatusRequest(url, containerid)
 				LiveStatusReportError(updateMsg, containerid);
 			}
 			if (vst_reload)
-				vst_timer = window.setTimeout("LiveStatusRequest('" + url + "', '" + containerid + "')", 1000);
+				vst_timer = window.setTimeout("LiveStatusRequest('" + url + "', '" + containerid + "', true)", 1000);
 		}
 	status.onerror = function(message)
 		{
@@ -148,5 +152,5 @@ function LiveStatusRequest(url, containerid)
 			LiveStatusToggleUpdate();
  			LiveStatusReportError(requestMsg, containerid);
 		}
-	status.request("update", vst_reload ? "1" : "0");
+	status.request("update", update ? "1" : "0");
 }
