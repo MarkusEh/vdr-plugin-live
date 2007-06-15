@@ -1,4 +1,5 @@
 <%pre>
+#include <sys/stat.h>
 #include <vdr/tools.h>
 #include "setup.h"
 #include "tools.h"
@@ -156,7 +157,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 						<td class="rightcol"><select name="theme" size="1" id="theme">
 <%cpp>
 {
-	cReadDir d((Plugin::GetConfigDirectory() + "/themes").c_str());
+	const string dirPath(Plugin::GetConfigDirectory() + "/themes");
+	cReadDir d(dirPath.c_str());
 	struct dirent* e;
 	string parent("..");
 	string current(".");
@@ -164,7 +166,13 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		if ((current == e->d_name) || (parent == e->d_name)) {
 			continue;
 		}
-		if (DT_DIR != e->d_type) {
+		/* Check if entry is a directory: I do not rely on e->d_type
+		   here because on some systems it is allways DT_UNKNOWN. Also
+		   testing for DT_DIR does not take into account symbolic
+		   links to directories.
+		*/
+		struct stat buf;
+		if ((stat((dirPath + "/" + e->d_name).c_str(), &buf) != 0) || (!S_ISDIR(buf.st_mode))) {
 			continue;
 		}
 </%cpp>
