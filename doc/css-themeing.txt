@@ -1,3 +1,13 @@
+Live themeing in a few steps:
+=============================
+
+- Copy the 'themes' directory from the sources to
+  $VDRCONFIG/plugins/live (default: /video/vdr/plugins/live)
+- Go to setup page, select desired theme from listbox.
+
+You can add own themes by creating in themes a subdirectory with your
+theme. Read further for more detailed information about themeing.
+
 How to do live theming with CSS.
 ================================
 
