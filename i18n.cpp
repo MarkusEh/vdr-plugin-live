@@ -1,3 +1,30 @@
+/* These are translations of strings used in live.  If you provide us
+   with translations for one of the missing languages or stings,
+   please keep the following line in your file and submit your extended
+   version of i18n.cpp. (If you would like to submit a patch read below)
+
+   $header$
+
+   Note to developers:
+   How to safely integrate translations from third parties:
+     - move your current verion to a safe name. i.E. i18n.cpp.current
+	    >$ mv i18n.cpp i18n.cpp.current
+	 - checkout the revision of the submitted translations (see header line)
+        >$ cvs update -r<revision> i18n.cpp
+     - create a patch with more than normal context (because of the
+       quite reqular structure of this file). 20 lines of context are safe.
+	    >$ diff -Nur -U 20 i18n.cpp i18n.cpp.translated > i18n.diff
+     - IMPORTANT: reset your verion of the file: (clears the sticky tag created
+       on checkout above)
+        >$ cvs update -A i18n.cpp
+     - restore your current version:
+	    >$ mv i18n.cpp.current i18n.cpp
+	 - apply the patch to your current version
+	    >$ patch -p1 < i18n.diff
+     - double check that no newer strings and/or translations got lost.
+	 - commit the new version.
+ */
+
 #include "i18n.h"
 
 namespace vdrlive {
