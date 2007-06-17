@@ -3,7 +3,7 @@
    please keep the following line in your file and submit your extended
    version of i18n.cpp. (If you would like to submit a patch read below)
 
-   $header$
+   $Id: i18n.cpp,v 1.92 2007/06/17 22:04:58 tadi Exp $
 
    Note to developers:
    How to safely integrate translations from third parties:
