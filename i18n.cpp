@@ -1,21 +1,22 @@
 /* These are translations of strings used in live.  If you provide us
    with translations for one of the missing languages or stings,
-   please keep the following line in your file and submit your extended
-   version of i18n.cpp. (If you would like to submit a patch read below)
+   please keep the following line in your file and submit your
+   extended version of i18n.cpp. (If you would like to submit a patch
+   add more context like described below)
 
-   $Id: i18n.cpp,v 1.92 2007/06/17 22:04:58 tadi Exp $
+   $Id: i18n.cpp,v 1.93 2007/06/18 19:15:59 tadi Exp $
 
    Note to developers:
    How to safely integrate translations from third parties:
      - move your current verion to a safe name. i.E. i18n.cpp.current
 	    >$ mv i18n.cpp i18n.cpp.current
-	 - checkout the revision of the submitted translations (see header line)
+	 - checkout the revision of the submitted translations (see Id line)
         >$ cvs update -r<revision> i18n.cpp
      - create a patch with more than normal context (because of the
        quite reqular structure of this file). 20 lines of context are safe.
 	    >$ diff -Nur -U 20 i18n.cpp i18n.cpp.translated > i18n.diff
-     - IMPORTANT: reset your verion of the file: (clears the sticky tag created
-       on checkout above)
+     - IMPORTANT: reset your version of the file: (clears the sticky
+       tag created on checkout above)
         >$ cvs update -A i18n.cpp
      - restore your current version:
 	    >$ mv i18n.cpp.current i18n.cpp
@@ -1329,7 +1330,7 @@ const tI18nPhrase Phrases[] = {
       "", // Czech
     },
     { "Show dynamic VDR information box", // English
-      "Zeige eine dynamische VDR Status Box", // Deutsch
+      "Zeige dynamische VDR Status Box", // Deutsch
       "", // Slovenski
       "", // Italiano
       "", // Nederlands
@@ -1359,6 +1360,28 @@ const tI18nPhrase Phrases[] = {
       "Voir le programme de la chaîne", // Français
       "", // Norsk
       "Näytä ohjelmisto kanavalta",
+      "", // Polski
+      "", // Español
+      "", // Greek
+      "", // Svenska
+      "", // Românã
+      "", // Magyar
+      "", // Català
+      "", // Russian
+      "", // Hrvatski
+      "", // Eesti
+      "", // Dansk
+      "", // Czech
+    },
+    { "No schedules available for this channel", // English
+      "Für diesen Kanal liegen keine EPG-Informationen vor", // Deutsch
+      "", // Slovenski
+      "", // Italiano
+      "", // Nederlands
+      "", // Português
+      "", // Français
+      "", // Norsk
+      "", // Finnish
       "", // Polski
       "", // Español
       "", // Greek
