@@ -4,7 +4,7 @@
    extended version of i18n.cpp. (If you would like to submit a patch
    add more context like described below)
 
-   $Id: i18n.cpp,v 1.94 2007/06/20 17:12:06 winni Exp $
+   $Id: i18n.cpp,v 1.95 2007/06/20 17:29:29 winni Exp $
 
    Note to developers:
    How to safely integrate translations from third parties:
@@ -301,7 +301,7 @@ const tI18nPhrase Phrases[] = {
       "", // Italiano
       "", // Nederlands
       "", // Português
-      "Pas d'enregistrement" Français
+      "Pas d'enregistrement", // Français
       "", // Norsk
       "Tallenteita ei löydy",
       "", // Polski
