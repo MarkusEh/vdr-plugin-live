@@ -1,3 +1,11 @@
+2007-06-22  Dieter Hametner  <dh+vdr at gekrumbel dot de>
+
+	Start of new 'standalone' javascript source directory
+	for live javascript files.
+
+	- Use mootools http://www.mootools.net/ as base library for
+	  'modern' Javascript based functionality.
+
 2007-06-15  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
 	* setup.ecpp: added option to disable infobox at all.

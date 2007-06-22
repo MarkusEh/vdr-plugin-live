@@ -50,7 +50,7 @@ using namespace vdrlive;
 		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 	</head>
-	<body onload="<& pageelems.infobox_start_update &>">
+	<body>
 		<& pageelems.logo &>
 		<& menu active=("timers") component=("timers.timer_actions")>
 		<div class="inhalt">

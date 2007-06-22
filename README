@@ -36,12 +36,30 @@ Cxxtools >= 1.4.3	- http://www.tntnet.org/download.hms
 gcc >= 3.1
 
 if gcc < 4.0:
-boost >= 1.32.0		- http://www.boost.org 
+boost >= 1.32.0		- http://www.boost.org
 
 
 Tntnet provides basic webserver functions for live and needs cxxtools.
 Boost provides some data structures we need. While currently relying on the
 full blown package we might provide a stripped down version in the future.
+
+
+Installation:
+=============
+
+If you compile the plugin outside of the VDR source codes you must
+copy the resulting binary to the VDRs directory where the other
+plugins are excpected.
+
+In order to work correctly you must copy the contents of 'themes' and
+'js' directories from the source distribution to the directory where
+the vdr plugins look for their configuration files. The pure VDR
+default for this is: /video/vdr/plugins/live.
+
+Many distributions change this according their file systems standards
+rules. This directory is therefor often referred as
+$VDRDIR/plugins/live. (i.E. in debian it is in
+/usr/share/vdr-plugin-live)
 
 
 

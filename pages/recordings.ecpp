@@ -37,7 +37,7 @@ EpgEvents epgEvents;
 		<& pageelems.ajax_js &>
 		<script type="text/javascript" src="treeview.js"></script>
 	</head>
-	<body onload="<& pageelems.infobox_start_update &>">
+	<body>
 		<& pageelems.logo &>
 		<& menu active=("recordings") &>
 		<div class="inhalt">

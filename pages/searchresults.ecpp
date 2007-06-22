@@ -50,7 +50,7 @@ bool logged_in(false);
 		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 	</head>
-	<body onload="<& pageelems.infobox_start_update &>">
+	<body>
 		<& pageelems.logo &>
 		<& menu active=("searchepg") &>
 		<div class="inhalt">

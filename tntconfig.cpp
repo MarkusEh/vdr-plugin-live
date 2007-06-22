@@ -35,6 +35,8 @@ void TntConfig::WriteConfig()
 
 	// XXX modularize
 	file << "MapUrl ^/$ login@" << endl;
+
+	// the following selects the theme specific 'theme.css' file
 	file << "MapUrl ^/themes/([^/]*)/css.*/(.+\\.css) content@ themes/$1/css/$2 text/css" << endl;
 
 	// the following rules provide a search scheme for images. The first
@@ -45,6 +47,9 @@ void TntConfig::WriteConfig()
 	file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) content@ themes/$1/img/$2.$3 image/$3" << endl;
 	file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) content@ common/img/$2.$3 image/$3" << endl;
 	file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) $2@" << endl;
+
+	// select additional (not build in) javascript.
+	file << "MapUrl ^/js([^.]*/)(.*\\.js) content@ js$1$2 text/javascript" << endl;
 
 	file << "MapUrl ^/css.*/(.+) content@ css/$1 text/css" << endl;
 	file << "MapUrl /([^/]+/.+) content@ $1" << endl;

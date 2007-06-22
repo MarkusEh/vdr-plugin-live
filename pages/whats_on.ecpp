@@ -94,7 +94,7 @@ if (type == "now") {
 		}
 		//--></script>
 	</head>
-	<body onload="<& pageelems.infobox_start_update &>">
+	<body>
 		<& pageelems.logo &>
 		<& menu active=("whats_on") component=("whats_on.whats_on_actions")>
 		<div class="inhalt">

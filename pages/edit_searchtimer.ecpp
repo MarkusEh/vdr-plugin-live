@@ -450,7 +450,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		}
 		//--></script>
 	</head>
-	<body onload="<& pageelems.infobox_start_update &>; initform()">
+	<body onload="initform()">
 		<& pageelems.logo &>
 		<& menu active=("searchtimers") &>
 			<div class="inhalt">

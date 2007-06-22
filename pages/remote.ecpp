@@ -78,7 +78,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		//--></script>
 % reply.sout().imbue(locale());
 	</head>
-	<body onload="<& pageelems.infobox_start_update &>; StreamInit(); FillIntervals();">
+	<body onload="StreamInit(); FillIntervals();">
 		<& pageelems.logo &>
 		<& menu active="remote" component=("remote.remote_actions")>
 		<div class="inhalt">

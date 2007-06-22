@@ -57,7 +57,7 @@ int update_status(1);
 		</div>
 		<div class="st_controls">
 			<div class="st_update">
-				<a href="javascript:LiveStatusToggleUpdate()" <& tooltip.hint text=(tr("Toggle updates on/off.")) &>><img id="statusReloadBtn" src="<$ LiveSetup().GetThemedLink("img", "stop_update.png") $>" alt="" /></a>
+				<a href="javascript:InfoBox.toggleUpdate()" <& tooltip.hint text=(tr("Toggle updates on/off.")) &>><img id="statusReloadBtn" src="<$ LiveSetup().GetThemedLink("img", "stop_update.png") $>" alt="" /></a>
 			</div>
 			<div id="infobox_recording_buttons" style="display: none">
 				<& ajax_action_href action=("stop_recording") id=("infobox_stop") image=("stop.png") tip=(tr("stop playback")) &>
@@ -80,12 +80,6 @@ int update_status(1);
 		<span id="__infobox_update_err"><$ tr("Failed to update infobox!") $></span>
 	</div>
 </div>
-</%def>
-
-<# ---------------------------------------------------------------------- #>
-
-<%def infobox_start_update>
-<%cpp> if (LiveSetup().GetShowInfoBox()) { </%cpp>LiveStatusRequest('ibox.xml', 'infobox', <%cpp> if (update_status) { reply.sout() << "true"; } else { reply.sout() << "false"; } </%cpp>)<%cpp> } </%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -129,8 +123,20 @@ int update_status(1);
 <# ---------------------------------------------------------------------- #>
 
 <%def ajax_js>
-	<script type="text/javascript" src="ajax.js"></script>
-	<%cpp>if (LiveSetup().GetShowInfoBox()) { </%cpp><script type="text/javascript" src="vdr_status.js"></script><%cpp> } </%cpp>
+	<script type="text/javascript" src="js/mootools/mootools.v1.11.js"></script>
+	<script type="text/javascript" src="js/live/liveajax.js"></script>
+<%cpp>if (LiveSetup().GetShowInfoBox()) { </%cpp>
+	<script type="text/javascript" src="js/live/vdr_status.js"></script>
+	<script type="text/javascript"><!--
+		var InfoBox = new LiveVdrInfo('ibox.xml', 'infobox');
+		window.addEvent('domready', function(){
+				InfoBox.request(<%cpp> if (update_status) { reply.sout() << "true"; } else { reply.sout() << "false"; } </%cpp>);
+			});
+		window.addEvent('unload', function(){
+				InfoBox.pageFinished();
+			});
+	--></script>
+<%cpp> } </%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
