@@ -1,0 +1,17 @@
+/* ######################
+   #  This file is part of vdr-live!
+   #  It is here to give the users the possibility to change the
+   #  default css style of vdr-live to their needs.
+   #
+   #  If you don't want to change default settings, make this file
+   #  empty, but don't delete it.
+   ######################
+*/
+
+/* uncomment this below, to make all tables full page width.
+*/
+/*
+table {
+	width: 100%;
+}
+*/
