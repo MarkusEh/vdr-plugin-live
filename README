@@ -51,10 +51,12 @@ If you compile the plugin outside of the VDR source codes you must
 copy the resulting binary to the VDRs directory where the other
 plugins are excpected.
 
-In order to work correctly you must copy the contents of 'themes' and
-'js' directories from the source distribution to the directory where
-the vdr plugins look for their configuration files. The pure VDR
-default for this is: /video/vdr/plugins/live.
+In order to work correctly you must copy the subdirectory 'live' from the source
+distribution to the directory where the vdr plugins look for their configuration 
+files. The pure VDR default for this config directory is: /video/plugins, but this
+depends also from the parameters -c or -v (see 'vdr --help' for details).
+
+cp -a <live-src-dir>/live <plugin-config-dir>/plugins
 
 Many distributions change this according their file systems standards
 rules. This directory is therefor often referred as
