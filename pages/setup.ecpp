@@ -162,8 +162,9 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	struct dirent* e;
 	string parent("..");
 	string current(".");
+	string cvsDir("CVS");
 	while ((e = d.Next())) {
-		if ((current == e->d_name) || (parent == e->d_name)) {
+		if ((current == e->d_name) || (parent == e->d_name) || (cvsDir == e->d_name)) {
 			continue;
 		}
 		/* Check if entry is a directory: I do not rely on e->d_type

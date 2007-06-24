@@ -26,7 +26,6 @@ by SVDRP, Live has direct access to VDR's data structures and is thus very
 fast.
 
 
-
 Requirements:
 =============
 
@@ -48,20 +47,21 @@ Installation:
 =============
 
 If you compile the plugin outside of the VDR source codes you must
-copy the resulting binary to the VDRs directory where the other
-plugins are exspected.
+copy the resulting binary to VDRs directory where the other plugins
+are expected.
 
-In order to work correctly you must copy the subdirectory 'live' from the source
-distribution to the directory where the vdr plugins look for their configuration 
-files. The pure VDR default for this config directory is: /video/plugins, but this
-depends also from the parameters -c or -v (see 'vdr --help' for details).
+In order to work correctly you must copy the subdirectory 'live' from
+the source distribution to the directory where the vdr plugins look
+for their configuration files. The pure VDR default for this config
+directory is: /video/plugins, but this depends also from the
+parameters -c or -v (see 'vdr --help' for details).
 
 cp -a <live-src-dir>/live <plugin-config-dir>/plugins
 
-Many distributions change this according their file systems standards rules.
-This directory is therefor often referred as:
+Many distributions change this according to their file systems
+standards rules.  This directory is therefor often referred as:
 
-$VDRDIR/plugins/live. 
+$VDRDIR/plugins/live.
 
 (i.E. in debian it is in /usr/share/vdr-plugin-live)
 
@@ -94,7 +94,6 @@ For example, you can add a group seperator ":@1000 Found automatically" to
 channels.conf an set this parameter to "1000". Thus, everything VDR finds
 during scanning (which can after a few months be well more than 3000
 channels) won't be displayed.
-
 
 
 So how does it work?
