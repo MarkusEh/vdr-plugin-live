@@ -49,7 +49,7 @@ Installation:
 
 If you compile the plugin outside of the VDR source codes you must
 copy the resulting binary to the VDRs directory where the other
-plugins are excpected.
+plugins are exspected.
 
 In order to work correctly you must copy the subdirectory 'live' from the source
 distribution to the directory where the vdr plugins look for their configuration 
@@ -58,11 +58,12 @@ depends also from the parameters -c or -v (see 'vdr --help' for details).
 
 cp -a <live-src-dir>/live <plugin-config-dir>/plugins
 
-Many distributions change this according their file systems standards
-rules. This directory is therefor often referred as
-$VDRDIR/plugins/live. (i.E. in debian it is in
-/usr/share/vdr-plugin-live)
+Many distributions change this according their file systems standards rules.
+This directory is therefor often referred as:
 
+$VDRDIR/plugins/live. 
+
+(i.E. in debian it is in /usr/share/vdr-plugin-live)
 
 
 Setup
