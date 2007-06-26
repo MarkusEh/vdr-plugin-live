@@ -58,13 +58,6 @@ parameters -c or -v (see 'vdr --help' for details).
 
 cp -a <live-src-dir>/live <plugin-config-dir>/plugins
 
-Many distributions change this according to their file systems
-standards rules.  This directory is therefor often referred as:
-
-$VDRDIR/plugins/live.
-
-(i.E. in debian it is in /usr/share/vdr-plugin-live)
-
 
 Setup
 =====
