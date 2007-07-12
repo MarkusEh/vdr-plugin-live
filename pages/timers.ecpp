@@ -47,7 +47,6 @@ using namespace vdrlive;
 	<head>
 		<title>VDR-Live - <$ pageTitle $></title>
 		<& pageelems.stylesheets &>
-		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 	</head>
 	<body>

@@ -18,16 +18,30 @@ Here WEB 2.0 features can improve the users experience.
 With or without ECMAScript
 --------------------------
 
-Since not all browsers support ECMAScript, we suggest the following
-rule to activate functionality with and without ECMAScript support:
+Since not all browsers support ECMAScript, we need to make sure all
+functions live wants to provide need to be accessible through links.
 
-Use anchors analog to this example
+With the mootools framework and its selection functions we can enhance
+the user experience through ECMAScript by selecting the relevant
+elements in the DOM and attaching event handlers from the loaded
+script files. Thus when the user disables ECMAScript in his browser
+(or the browser does not support it) the traditional web technique of
+jumping between pages provides the functions. With enabled ECMAScript
+the event handlers can take over and provide a nifty Web 2.0 technique
+solution to the user.
 
- <a href="show_content.html?ref=additional_content_ref"
- onclick="makefalse(requestbox('additional_content_ref'));">link</a>
+To enable a tooltip just add a 'title' attribute on the element and
+load 'hinttips.js' in your pages (Actually this will be allready done
+for you if you use the live page-framework).
 
-to retrieve and display extra information either in a WEB 2.0 fashion
-in an popup box or on a separte page in a html fashion.
+For popup windows that asynchronously load its contents you need to
+use normal links like <a href="epginfo.html?eventid=evnt_identifier">
+your link text here </a>.  If 'infowin.js' is loaded it will enhance
+these links with AJAX functionality. If not the link will change to a
+new page with the requested information.
+
+This means that both users with and without ECMAScript support will
+benefit from the functions in live.
 
 
 Themeing

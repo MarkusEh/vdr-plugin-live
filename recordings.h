@@ -10,8 +10,8 @@
 namespace vdrlive {
 
 	// Forward declations from epg_events.h
-	class EpgEvent;
-	typedef std::tr1::shared_ptr<EpgEvent> EpgEventPtr;
+	class EpgInfo;
+	typedef std::tr1::shared_ptr<EpgInfo> EpgInfoPtr;
 
 	class RecordingsManager;
 	typedef std::tr1::shared_ptr<RecordingsManager> RecordingsManagerPtr;
@@ -32,6 +32,21 @@ namespace vdrlive {
 			 *  NULL if recording was not found
 			 */
 			const cRecording* GetByMd5Hash(const std::string& hash) const;
+
+			/**
+			 *	Determine wether the recording has been archived on
+			 *	removable media (e.g. DVD-ROM)
+			 */
+			static bool IsArchived(const cRecording* recording);
+
+			/**
+			 *	Provide an identification of the removable media
+			 *	(e.g. DVD-ROM Number or Name) where the recording has
+			 *	been archived.
+			 */
+			static const std::string GetArchiveId(const cRecording* recording);
+
+			static const std::string GetArchiveDescr(const cRecording* recording);
 
 		private:
 			RecordingsManager();
@@ -58,10 +73,8 @@ namespace vdrlive {
 
 					virtual time_t StartTime() const = 0;
 					virtual bool IsDir() const = 0;
-					virtual bool IsArchived() const = 0;
 					virtual const std::string& Name() const { return m_name; }
 					virtual const std::string Id() const = 0;
-					virtual const std::string ArchiveId() const = 0;
 
 					virtual const cRecording* Recording() const { return 0; }
 					virtual const cRecordingInfo* RecInfo() const { return 0; }
@@ -84,9 +97,7 @@ namespace vdrlive {
 
 					virtual time_t StartTime() const { return 0; }
 					virtual bool IsDir() const { return true; }
-					virtual bool IsArchived() const { return false; }
 					virtual const std::string Id() const { std::string e; return e; }
-					virtual const std::string ArchiveId() const { std::string e; return e; }
 
 				private:
 					int m_level;
@@ -95,21 +106,19 @@ namespace vdrlive {
 			class RecordingsItemRec : public RecordingsItem
 			{
 				public:
-					RecordingsItemRec(const std::string& id, const std::string& name, cRecording* recording);
+					RecordingsItemRec(const std::string& id, const std::string& name, const cRecording* recording);
 
 					virtual ~RecordingsItemRec();
 
 					virtual time_t StartTime() const;
 					virtual bool IsDir() const { return false; }
-					virtual bool IsArchived() const ;
 					virtual const std::string Id() const { return m_id; }
-					virtual const std::string ArchiveId() const;
 
 					virtual const cRecording* Recording() const { return m_recording; }
 					virtual const cRecordingInfo* RecInfo() const { return m_recording->Info(); }
 
 				private:
-					cRecording *m_recording;
+					const cRecording *m_recording;
 					std::string m_id;
 			};
 
@@ -121,8 +130,6 @@ namespace vdrlive {
 			Map::iterator end(const std::vector< std::string >&path);
 
 			int MaxLevel() const { return m_maxLevel; }
-
-			static EpgEventPtr CreateEpgEvent(const RecordingsItemPtr recItem);
 
 		private:
 			int m_maxLevel;

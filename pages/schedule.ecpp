@@ -59,7 +59,6 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	<head>
 		<title>VDR Live - <$ pageTitle $></title>
 		<& pageelems.stylesheets &>
-		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 	</head>
 	<body>
@@ -74,10 +73,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	}
 	else {
 </%cpp>
-			<table class="listing" cellspacing="0" cellpadding="0">
+		<table class="listing" cellspacing="0" cellpadding="0">
 <%cpp>
-		EpgEvents epgEvents;
-
 		string current_day = "";
 		const cEvent* PresentEvent = Schedule->GetPresentEvent();
 		time_t now = time(NULL) - ::Setup.EPGLinger * 60;
@@ -87,21 +84,16 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			if (Event->EndTime() <= now && Event != PresentEvent)
 				continue;
 
-			string evntId("eventId_");
-			evntId += lexical_cast<std::string, int>(++evntNr);
-			EpgEventPtr epgEvent(new EpgEvent(evntId, Event, Channel->Name()));
-			epgEvents.push_back(epgEvent);
+			EpgInfoPtr epgEvent = EpgEvents::CreateEpgInfo(Channel, Event);
 
-			string title(Event->Title() ? Event->Title() : "");
-			string short_description(Event->ShortText() ? Event->ShortText() : "");
-			string description(Event->Description() ? Event->Description() : "");
-			string start(Event->StartTime() ? FormatDateTime(tr("%I:%M %p"), Event->StartTime()) : "");
-			string end(Event->EndTime() ? FormatDateTime(tr("%I:%M %p"), Event->EndTime()) : "");
-			string day(Event->StartTime() ? FormatDateTime(tr("%A, %b %d %Y"), Event->StartTime()) : "");
-			tEventID event = Event->EventID();
-			ostringstream os;
-			os << Event->EventID();
-			string strEventID = os.str();
+			string title(epgEvent->Title());
+			string short_description(epgEvent->ShortDescr());
+			string description(epgEvent->LongDescr());
+			string start(epgEvent->StartTime(tr("%I:%M %p")));
+			string end(epgEvent->EndTime(tr("%I:%M %p")));
+			string day(epgEvent->StartTime(tr("%A, %b %d %Y")));
+			string strEventID = lexical_cast<string>(Event->EventID());
+
 			bool truncated = false;
 			bool lastEventCurrentDay = false;
 			{
@@ -132,26 +124,17 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			}
 </%cpp>
 				<tr>
-					<td class="action leftcol <? lastEventCurrentDay ? "bottomrow" ?>"><& pageelems.event_timer channelid=(channel_id) eventid=(event) &></td>
+					<td class="action leftcol <? lastEventCurrentDay ? "bottomrow" ?>"><& pageelems.event_timer channelid=(channel_id) eventid=(strEventID) &></td>
 					<td class="action <? lastEventCurrentDay ? "bottomrow" ?>"><%cpp>if (LiveFeatures<features::epgsearch>().Recent() ) { </%cpp><a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a><%cpp> } else { </%cpp><img src="transparent.png" width="16" height="16"><%cpp> } </%cpp></td>
 					<td class="action <? lastEventCurrentDay ? "bottomrow" ?>"><a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" border="0" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a></td>
 					<td class="topaligned <? lastEventCurrentDay ? "bottomrow" ?>"><div class="withmargin"><$ start $> - <$ end $></div></td>
-					<td class="<? (Event == PresentEvent) ? "current" ?> topaligned rightcol <? lastEventCurrentDay ? "bottomrow" ?>"><div class="more withmargin" <& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(description, 300, truncated)) + "<br />" + tr("Click to view details.")) &><& tooltip.display domId=(epgEvent->Id()) &>><span class="title"><$ title $></span><br /><span class="short"><%cpp>if (short_description.empty()) { </%cpp>&nbsp;<%cpp> } </%cpp><$ short_description $></span></div></td>
+					<td class="<? (Event == PresentEvent) ? "current" ?> topaligned rightcol <? lastEventCurrentDay ? "bottomrow" ?>"><div class="more withmargin"><a <& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(description, 300, truncated)) + "<br />" + tr("Click to view details.")) &><& tooltip.display domId=(epgEvent->Id()) &>><span class="title"><$ title $></span><br /><span class="short"><%cpp>if (short_description.empty()) { </%cpp>&nbsp;<%cpp> } </%cpp><$ short_description $></span></a></div></td>
 				</tr>
 <%cpp>
 		}
 </%cpp>
 			</table>
-		</div>
-		<div class="epg_data" style="display: none;">
 <%cpp>
-	   	// create hidden div for the tooltip hints.
-	    for (vector<EpgEventPtr>::iterator i = epgEvents.begin(); i != epgEvents.end(); ++i) {
-			EpgEventPtr epg = *i;
-</%cpp>
-		<& pageelems.epg_tt_box boxId=(epg->Id()) caption=(epg->Caption()) time=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) short_descr=(epg->ShortDescr()) long_descr=(epg->LongDescr()) elapsed=(epg->Elapsed()) &>
-<%cpp>
-	   	}
 	}
 </%cpp>
 		</div>

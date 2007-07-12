@@ -125,16 +125,18 @@ int update_status(1);
 <%def ajax_js>
 	<script type="text/javascript" src="js/mootools/mootools.v1.11.js"></script>
 	<script type="text/javascript" src="js/live/liveajax.js"></script>
+	<script type="text/javascript" src="js/live/infowin.js"></script>
+	<script type="text/javascript" src="js/live/hinttips.js"></script>
 <%cpp>if (LiveSetup().GetShowInfoBox()) { </%cpp>
 	<script type="text/javascript" src="js/live/vdr_status.js"></script>
 	<script type="text/javascript"><!--
 		var InfoBox = new LiveVdrInfo('ibox.xml', 'infobox');
 		window.addEvent('domready', function(){
-				InfoBox.request(<%cpp> if (update_status) { reply.sout() << "true"; } else { reply.sout() << "false"; } </%cpp>);
-			});
+			InfoBox.request(<%cpp> if (update_status) { reply.sout() << "true"; } else { reply.sout() << "false"; } </%cpp>);
+		});
 		window.addEvent('unload', function(){
-				InfoBox.pageFinished();
-			});
+			InfoBox.pageFinished();
+		});
 	--></script>
 <%cpp> } </%cpp>
 </%def>
@@ -169,7 +171,7 @@ int update_status(1);
 </%args>
 	<div class="epg_description" id="<$ (boxId) $>">
 		<div class="station">
-			<div class="boxheader"><div><div><$ (caption) $><& tooltip.close domId=(boxId) &></div></div></div>
+			<div class="boxheader"><div><div class="caption"><$ (caption) $></div></div></div>
 		</div>
 		<div class="epg_content">
 			<div class="epg_tools">
@@ -191,11 +193,11 @@ int update_status(1);
 </%def>
 
 <%def about_tt_box>
-	<div class="about_box" id="aboutBox">
+	<div class="epg_description" id="aboutBox">
 		<div class="station">
-			<div class="boxheader"><div><div><$ tr(LIVESUMMARY) $><& tooltip.close domId=("aboutBox") &></div></div></div>
+			<div class="boxheader"><div><div class="caption"><$ tr(LIVESUMMARY) $></div></div></div>
 		</div>
-		<div class="about_content">
+		<div class="epg_content">
 		 	<div>
 				<div class="about_head"><div><div><$ tr("Authors") $></div></div></div>
 				<div class="about_left"><$ tr("Project leader") $>:</div>

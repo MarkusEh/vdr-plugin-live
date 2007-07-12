@@ -331,7 +331,6 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	<head>
 		<title>VDR Live - <$ editsearchtimer ? tr("Edit search timer") : tr("New search timer") $></title>
 		<& pageelems.stylesheets &>
-		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 		<script type="text/javascript"><!--
 

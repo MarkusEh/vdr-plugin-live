@@ -52,6 +52,7 @@ void TntConfig::WriteConfig()
 	file << "MapUrl ^/js([^.]*/)(.*\\.js) content@ js$1$2 text/javascript" << endl;
 
 	file << "MapUrl ^/css.*/(.+) content@ css/$1 text/css" << endl;
+	file << "MapUrl ^/img.*/(.+\\.png) content@ css/$1 image/png" << endl;
 	file << "MapUrl /([^/]+/.+) content@ $1" << endl;
 	file << "MapUrl /([^.]+)(\\..+)? $1@" << endl;
 	file << "PropertyFile " << m_propertiesPath << endl;

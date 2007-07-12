@@ -1,0 +1,114 @@
+<%pre>
+#include <sys/stat.h>
+#include <vdr/tools.h>
+#include "exception.h"
+#include "setup.h"
+#include "tools.h"
+#include "epg_events.h"
+#include "recordings.h"
+
+using namespace vdrlive;
+using namespace std;
+
+</%pre>
+<%args>
+	string epgid;
+	string async;
+</%args>
+<%session scope="global">
+bool logged_in(false);
+</%session>
+<%include>page_init.eh</%include>
+<%cpp>
+if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+</%cpp>
+<%cpp>
+	pageTitle = tr("Electronic program guide information");
+
+	bool ajaxReq = !async.empty() && (lexical_cast<int>(async) != 0);
+
+	EpgInfoPtr epgEvent;
+	bool aboutBox(false);
+
+	// These get initialized when needed. When freed by getting out
+	// out of scope they will release (if initialized) important
+	// Semaphores/Locks.
+	cSchedulesLock schedulesLock;
+	RecordingsManagerPtr recordings;
+
+	if (!epgid.empty()) {
+
+		const string recording("recording_");
+		const string event("event_");
+		const string aboutbox("aboutBox");
+
+		// check for recording:
+		if (epgid.compare(0, recording.length(), recording) == 0) {
+			recordings = LiveRecordingsManager();
+			const cRecording* recording = recordings->GetByMd5Hash(epgid);
+			if (recording == 0) {
+				throw HtmlError(tr("Couldn't find recording or no recordings available"));
+			}
+			epgEvent = EpgEvents::CreateEpgInfo(epgid, recording);
+		}
+		// check for event:
+		else if (epgid.compare(0, event.length(), event) == 0) {
+			const cSchedules* schedules = cSchedules::Schedules(schedulesLock);
+			if (!schedules) {
+				throw HtmlError(tr("Error aquiring schedules"));
+			}
+			epgEvent = EpgEvents::CreateEpgInfo(epgid, schedules);
+		}
+		// check for aboutbox:
+		else if (epgid.compare(0, aboutbox.length(), aboutbox) == 0) {
+			aboutBox = true;
+		}
+	}
+</%cpp>
+<& pageelems.doc_type &>
+<html>
+	<head>
+		<title>VDR-Live - <$ pageTitle $></title>
+<%cpp>
+	if (!ajaxReq) {
+</%cpp>
+		<& pageelems.stylesheets &>
+		<& pageelems.ajax_js &>
+<%cpp>
+	}
+</%cpp>
+	</head>
+	<body>
+<%cpp>
+	if (!ajaxReq) {
+</%cpp>
+		<& pageelems.logo &>
+		<& menu &>
+<%cpp>
+	}
+</%cpp>
+		<div class="inhalt">
+<%cpp>
+	if (epgEvent) {
+		string start(epgEvent->StartTime("%a,") + string(" ")
+				+ epgEvent->StartTime(tr("%b %d %y")) + string(" ")
+				+ epgEvent->StartTime(tr("%I:%M %p")));
+		string tools_component;
+		if (recordings) {
+			tools_component = epgEvent->Archived().empty() ? "recordings.rec_tools" : "recordings.archived_disc" ;
+		}
+</%cpp>
+		<& pageelems.epg_tt_box boxId=(epgEvent->Id()) caption=(epgEvent->Caption()) tools_comp=(tools_component) time=(start) title=(epgEvent->Title()) short_descr=(epgEvent->ShortDescr()) long_descr=(epgEvent->LongDescr()) archived=(epgEvent->Archived()) elapsed=(epgEvent->Elapsed()) &>
+<%cpp>
+	}
+	if (aboutBox) {
+</%cpp>
+		<& pageelems.about_tt_box &>
+<%cpp>
+	}
+</%cpp>
+		</div>
+	</body>
+</html>
+
+<%include>page_exit.eh</%include>

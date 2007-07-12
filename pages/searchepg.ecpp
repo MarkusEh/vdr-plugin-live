@@ -152,7 +152,6 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	<head>
 		<title>VDR Live - <$ tr("Search") $></title>
 		<& pageelems.stylesheets &>
-		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 		<script type="text/javascript"><!--
 

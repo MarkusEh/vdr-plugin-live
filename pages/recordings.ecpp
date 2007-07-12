@@ -20,7 +20,6 @@ using namespace std;
 </%session>
 <%request scope="page">
 RecordingsTree recordingsTree(LiveRecordingsManager());
-EpgEvents epgEvents;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
@@ -33,7 +32,6 @@ EpgEvents epgEvents;
 	<head>
 		<title>VDR-Live - <$ pageTitle $></title>
 		<& pageelems.stylesheets &>
-		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 		<script type="text/javascript" src="treeview.js"></script>
 	</head>
@@ -52,11 +50,6 @@ EpgEvents epgEvents;
 			</div>
 %			}
 		</div>
-%			if (Recordings.Count() > 0) {
-		<div class="epg_data" style="display: none;">
-<& recordings.recordings_data &>
-		</div>
-%			}
 	</body>
 </html>
 <%include>page_exit.eh</%include>
@@ -98,38 +91,17 @@ for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 	RecordingsTree::RecordingsItemPtr recItem = iter->second;
     if (!recItem->IsDir()) {
-		EpgEventPtr epgEvent(RecordingsTree::CreateEpgEvent(recItem));
-		if (epgEvent) {
-			epgEvents.push_back(epgEvent);
-		}
 		string day(FormatDateTime("%a,", recItem->StartTime()));
 		string dayLen(lexical_cast<string, int>(day.length() - 1) + ".25em;");
-		string hint(tr("Click to view details.")); if (epgEvent && !epgEvent->ShortDescr().empty()) hint = (epgEvent->ShortDescr() + "<br />" + hint);
+		string shortDescr(recItem->RecInfo()->ShortText() ? recItem->RecInfo()->ShortText() : "");
+		string hint(tr("Click to view details.")); if (!shortDescr.empty()) hint = shortDescr + "<br />" + hint;
 </%cpp>
 	<li class="recording">
-	<& rec_item_file name=(recItem->Name()) level=(level) id=(recItem->Id()) day=(day) dayLen=(dayLen) startTime=(recItem->StartTime()) hint=(hint) shortDescr=(epgEvent ? epgEvent->ShortDescr() : "") archived=(epgEvent ? epgEvent->Archived() : "") archiveId=(recItem->ArchiveId()) &>
+	   <& rec_item_file name=(recItem->Name()) level=(level) id=(recItem->Id()) day=(day) dayLen=(dayLen) startTime=(recItem->StartTime()) hint=(hint) shortDescr=(shortDescr) archived=(RecordingsManager::GetArchiveDescr(recItem->Recording())) &>
     </li>
 <%cpp>
 	}
 }
-</%cpp>
-</%def>
-
-<# ---------------------------------------------------------------------- #>
-
-<%def recordings_data>
-<%cpp>
-	// create hidden div for the tooltip hints.
-	for (vector<EpgEventPtr>::iterator i = epgEvents.begin(); i != epgEvents.end(); ++i) {
-		EpgEventPtr epg = *i;
-		string start(epg->StartTime("%a,") + string(" ")
-				+ epg->StartTime(tr("%b %d %y")) + string(" ")
-				+ epg->StartTime(tr("%I:%M %p")));
-		string tools_component = epg->Archived().empty() ? "recordings.rec_tools" : "recordings.archived_disc" ;
-</%cpp>
-		<& pageelems.epg_tt_box boxId=(epg->Id()) caption=(epg->Caption()) tools_comp=(tools_component) time=(start) title=(epg->Title()) short_descr=(epg->ShortDescr()) long_descr=(epg->LongDescr()) archived=(epg->Archived()) elapsed=(epg->Elapsed()) &>
-<%cpp>
-	}
 </%cpp>
 </%def>
 
@@ -182,7 +154,6 @@ for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 	string hint;
 	string shortDescr;
 	string archived;
-	string archiveId;
 </%args>
 	<div class="recording_item">
 	<div class="recording_imgs"><%cpp> reply.out() << StringRepeat(level + 1, "<img src=\"transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />"); </%cpp><%cpp> if (!archived.empty()) { </%cpp><& archived_disc archived=(archived) &><%cpp> } else { </%cpp><img src="<$ LiveSetup().GetThemedLink("img", "movie.png") $>" alt="movie" /><%cpp> } </%cpp></div>
@@ -190,7 +161,7 @@ for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 		<div class="recording_day" style="width: <$ dayLen $>"><$ day $></div>
 		<div class="recording_date"><$ FormatDateTime(tr("%b %d %y"), startTime) $></div>
 		<div class="recording_time"><$ FormatDateTime(tr("%I:%M %p"), startTime) $></div>
-		<div class="recording_name" <& tooltip.hint text=(hint) &><& tooltip.display domId=(id) &>><$ name $><br /><%cpp>if ((name != shortDescr) && (!shortDescr.empty())) {</%cpp><span><$ shortDescr $></span><%cpp> } else { </%cpp><span>&nbsp;</span><%cpp> } </%cpp></div>
+		<div class="recording_name"><a <& tooltip.hint text=(hint) &><& tooltip.display domId=(id) &>><$ name $><br /><%cpp>if ((name != shortDescr) && (!shortDescr.empty())) {</%cpp><span><$ shortDescr $></span><%cpp> } else { </%cpp><span>&nbsp;</span><%cpp> } </%cpp></a></div>
 	</div>
 	<div class="recording_actions">
 <%cpp>

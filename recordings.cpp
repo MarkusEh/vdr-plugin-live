@@ -21,7 +21,7 @@ namespace vdrlive {
 
 	string RecordingsManager::Md5Hash(const cRecording* recording) const
 	{
-		return MD5Hash(recording->FileName());
+		return "recording_" + MD5Hash(recording->FileName());
 /*		unsigned char md5[MD5_DIGEST_LENGTH];
 		const char* fileName = recording->FileName();
 		MD5(reinterpret_cast<const unsigned char*>(fileName), strlen(fileName), md5);
@@ -44,6 +44,52 @@ namespace vdrlive {
 		}
 		return 0;
 	}
+
+	bool RecordingsManager::IsArchived(const cRecording* recording)
+	{
+		string filename = recording->FileName();
+
+		string vdrFile = filename + "/001.vdr";
+		if (0 == access(vdrFile.c_str(), R_OK))
+			return false;
+
+		filename += "/dvd.vdr";
+		return (0 == access(filename.c_str(), R_OK));
+	}
+
+	const std::string RecordingsManager::GetArchiveId(const cRecording* recording)
+	{
+		string filename = recording->FileName();
+
+		filename += "/dvd.vdr";
+		ifstream dvd(filename.c_str());
+
+		if (dvd) {
+			string archiveDisc;
+			string videoDisc;
+			dvd >> archiveDisc;
+			if ("0000" == archiveDisc) {
+				dvd >> videoDisc;
+				return videoDisc;
+			}
+			return archiveDisc;
+		}
+		return "";
+	}
+
+	const string RecordingsManager::GetArchiveDescr(const cRecording* recording)
+	{
+		string archived;
+		if (IsArchived(recording)) {
+			archived += " [";
+			archived += tr("On archive DVD No.");
+			archived += ": ";
+			archived += GetArchiveId(recording);
+			archived += "]";
+		}
+		return archived;
+	}
+
 
 	RecordingsTree::RecordingsTree(RecordingsManagerPtr recMan) :
 		m_maxLevel(0),
@@ -177,7 +223,7 @@ namespace vdrlive {
 	{
 	}
 
-	RecordingsTree::RecordingsItemRec::RecordingsItemRec(const string& id, const string& name, cRecording* recording) :
+	RecordingsTree::RecordingsItemRec::RecordingsItemRec(const string& id, const string& name, const cRecording* recording) :
 		RecordingsItem(name),
 		m_recording(recording),
 		m_id(id)
@@ -193,68 +239,7 @@ namespace vdrlive {
 		return m_recording->start;
 	}
 
-	bool RecordingsTree::RecordingsItemRec::IsArchived() const
-	{
-		string filename = m_recording->FileName();
 
-		string vdrFile = filename + "/001.vdr";
-		if (0 == access(vdrFile.c_str(), R_OK))
-			return false;
-
-		filename += "/dvd.vdr";
-		return (0 == access(filename.c_str(), R_OK));
-	}
-
-	const std::string RecordingsTree::RecordingsItemRec::ArchiveId() const
-	{
-		string filename = m_recording->FileName();
-
-		filename += "/dvd.vdr";
-		ifstream dvd(filename.c_str());
-
-		if (dvd) {
-			string archiveDisc;
-			string videoDisc;
-			dvd >> archiveDisc;
-			if ("0000" == archiveDisc) {
-				dvd >> videoDisc;
-				return videoDisc;
-			}
-			return archiveDisc;
-		}
-		return "";
-	}
-
-	EpgEventPtr RecordingsTree::CreateEpgEvent(const RecordingsItemPtr recItem)
-	{
-		const cRecordingInfo* info = recItem->RecInfo();
-		if (info) {
-			std::string archived;
-			if (recItem->IsArchived()) {
-				archived += " [";
-				archived += tr("On archive DVD No.");
-				archived += ": ";
-				archived += recItem->ArchiveId();
-				archived += "]";
-			}
-			EpgEventPtr epgEvent(
-				new EpgEvent(
-					recItem->Id(),
-					recItem->Name(),
-					info->Title() ? info->Title() : recItem->Name(),
-					info->ShortText() ? info->ShortText() : "",
-					info->Description() ? info->Description() : "",
-					archived,
-					recItem->StartTime(),
-					recItem->StartTime()
-					)
-				);
-			return epgEvent;
-		}
-		else {
-			return EpgEventPtr();
-		}
-	}
 
 	RecordingsManagerPtr LiveRecordingsManager()
 	{

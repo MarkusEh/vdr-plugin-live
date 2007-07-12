@@ -2,7 +2,6 @@
 #define VDR_LIVE_WHATS_ON_H
 
 #include <ctime>
-#include <vector>
 
 #include <vdr/plugin.h>
 #include <vdr/channels.h>
@@ -15,72 +14,171 @@
 
 namespace vdrlive
 {
-	class EpgEvent
+
+	class EpgInfo
 	{
+		protected:
+			EpgInfo(const std::string& id,
+					const std::string& caption);
+
 		public:
-			EpgEvent(const std::string& id,
-					 const std::string& caption,
-					 const std::string& title,
-					 const std::string& short_descr,
-					 const std::string& long_descr,
-					 time_t start_time,
-					 time_t end_time);
+			virtual ~EpgInfo();
 
-			EpgEvent(const std::string& id,
-					 const cEvent* event,
-					 const char* channelName = "");
+			virtual const std::string Id() const { return m_eventId; }
 
-			EpgEvent(const std::string& id,
-					 const std::string& caption,
-					 const std::string& title,
-					 const std::string& short_descr,
-					 const std::string& long_descr,
-					 const std::string& archived,
-					 time_t start_time,
-					 time_t end_time);
+			virtual const std::string Caption() const { return m_caption; }
 
-			virtual ~EpgEvent();
+			virtual const std::string Title() const = 0;
 
-			const std::string& Id() const { return m_eventId; }
+			virtual const std::string ShortDescr() const = 0;
 
-			const std::string& Title() const { return m_title; }
+			virtual const std::string LongDescr() const = 0;
 
-			const std::string& Caption() const { return m_caption; }
+			virtual const std::string Archived() const { return ""; }
 
-			const std::string& ShortDescr() const { return m_short_descr; }
+			virtual const std::string StartTime(const char* format) const;
 
-			const std::string& LongDescr() const { return m_long_descr; }
+			virtual const std::string EndTime(const char* format) const;
 
-			const std::string& Archived() const { return m_archived; }
+			virtual const std::string CurrentTime(const char* format) const;
 
-			const std::string StartTime(const char* format) const;
+			virtual int Elapsed() const;
 
-			const std::string EndTime(const char* format) const;
+			// virtual const cTimer* GetTimer() const = 0;
 
-			const std::string CurrentTime(const char* format) const;
+			virtual time_t GetStartTime() const = 0;
 
-			int Elapsed() const;
-
-			const cTimer* GetTimer() const;
+			virtual time_t GetEndTime() const = 0;
 
 		private:
 			std::string m_eventId;
 			std::string m_caption;
-			std::string m_title;
-			std::string m_short_descr;
-			std::string m_long_descr;
-			std::string m_archived;
-			time_t m_start_time;
-			time_t m_end_time;
 	};
 
-	typedef std::tr1::shared_ptr<EpgEvent> EpgEventPtr;
+	typedef std::tr1::shared_ptr<EpgInfo> EpgInfoPtr;
 
-	class EpgEvents : public std::vector<EpgEventPtr> {
+	// -------------------------------------------------------------------------
+
+	class EpgString : public EpgInfo
+	{
+		friend class EpgEvents;
+
+		protected:
+			EpgString(const std::string& id,
+					  const std::string& caption,
+					  const std::string& info);
+
+		public:
+			virtual ~EpgString();
+
+			virtual const std::string Title() const;
+
+			virtual const std::string ShortDescr() const;
+
+			virtual const std::string LongDescr() const;
+
+			virtual time_t GetStartTime() const;
+
+			virtual time_t GetEndTime() const;
+
+		private:
+			const std::string m_info;
+	};
+
+	// -------------------------------------------------------------------------
+
+	class EpgEvent : public EpgInfo
+	{
+		friend class EpgEvents;
+
+		protected:
+			EpgEvent(const std::string& id,
+					 const cEvent* event,
+					 const char* channelName = "");
+
+		public:
+			virtual ~EpgEvent();
+
+			virtual const std::string Title() const { return std::string(m_event->Title() ? m_event->Title() : ""); }
+
+			virtual const std::string ShortDescr() const { return std::string(m_event->ShortText() ? m_event->ShortText() : ""); }
+
+			virtual const std::string LongDescr() const { return std::string(m_event->Description() ? m_event->Description() : ""); }
+
+			virtual time_t GetStartTime() const { return m_event->StartTime(); }
+
+			virtual time_t GetEndTime() const { return m_event->EndTime(); }
+
+		private:
+			const cEvent* m_event;
+	};
+
+	// -------------------------------------------------------------------------
+
+	class EpgRecording : public EpgInfo
+	{
+		friend class EpgEvents;
+
+		protected:
+			EpgRecording(const std::string& recid, const cRecording* recording, const char* caption);
+
+			const std::string Name() const;
+
+		public:
+			virtual ~EpgRecording();
+
+			virtual const std::string Caption() const;
+
+			virtual const std::string Title() const;
+
+			virtual const std::string ShortDescr() const;
+
+			virtual const std::string LongDescr() const;
+
+			virtual const std::string Archived() const;
+
+			virtual time_t GetStartTime() const;
+
+			virtual time_t GetEndTime() const;
+
+		private:
+			const cRecording* m_recording;
+			bool m_ownCaption;
+			mutable bool m_checkedArchived;
+			mutable std::string m_archived;
+	};
+
+	// -------------------------------------------------------------------------
+
+	class EpgEvents {
 		public:
 			EpgEvents();
 			virtual ~EpgEvents();
 
+			static std::string GetDomId(const tChannelID& chanId, const tEventID& eventId);
+
+			/**
+			 *	Allocate and initalize an epgEvent instance with the
+			 *	passed channel and event information.
+			 */
+			static EpgInfoPtr CreateEpgInfo(const cChannel* chan, const cEvent* event, const char* idOverride = 0);
+
+			/**
+			 *  This is the inverse creator for epgInfos to the creator above.
+			 */
+			static EpgInfoPtr CreateEpgInfo(const std::string& epgid, const cSchedules* schedules);
+
+			/**
+			 *	Allocate and initalize an epgEvent instance with the
+			 *	passed recording information.
+			 */
+			static EpgInfoPtr CreateEpgInfo(const std::string& recid, const cRecording* recording, const char* caption = 0);
+
+			/**
+			 *	Allocate and initalize an epgEvent instance with the
+			 *	passed string informations
+			 */
+			static EpgInfoPtr CreateEpgInfo(const std::string& id, const std::string& caption, const std::string& info);
 		private:
 	};
 }; // namespace vdrlive

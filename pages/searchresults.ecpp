@@ -47,7 +47,6 @@ bool logged_in(false);
 	<head>
 		<title>VDR-Live - <$ pageTitle $></title>
 		<& pageelems.stylesheets &>
-		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 	</head>
 	<body>
@@ -60,8 +59,6 @@ bool logged_in(false);
 			<table class="listing" cellspacing="0" callpadding="0">
 <%cpp>
 				string current_day = "";
-				EpgEvents epgEvents;
-				int evntNr = 0;
 
 				for (SearchResults::iterator result = results.begin(); result != results.end(); ++result) {
 					string channelname = Channels.GetByChannelID(result->Channel())->Name();
@@ -72,11 +69,8 @@ bool logged_in(false);
 					tEventID event = result->EventId();
 					tChannelID channel_id(result->Channel());
 					string description = result->Description();
+					string epgDomId(EpgEvents::GetDomId(result->Channel(), event));
 
-					string evntId("eventId_");
-					evntId += lexical_cast<std::string, int>(++evntNr);
-					EpgEventPtr epgEvent(new EpgEvent(evntId, channelname, result->Title(), result->ShortText(), description, result->StartTime(), result->StopTime()));
-					epgEvents.push_back(epgEvent);
 					bool truncated = false;
 
 					bool bottom = false;
@@ -104,21 +98,10 @@ bool logged_in(false);
 						<td class="action leftcol <? bottom ? "bottomrow"?>"><& pageelems.event_timer channelid=(channel_id) eventid=(event)&></td>
 						<td class="topaligned <? bottom ? "bottomrow"?>"><div class="withmargin"><a href="schedule.html?channel=<$ channelnr $>"><$ channelname $></a></div></td>
 						<td class="topaligned <? bottom ? "bottomrow"?>"><div class="withmargin"><$ start $> - <$ end $></div></td>
-						<td class="topaligned rightcol <? bottom ? "bottomrow"?>"><div class="more withmargin"<& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(description, 300, truncated)) + "<br />" + tr("Click to view details.")) &><& tooltip.display domId=(epgEvent->Id()) &>><span class="title"><$ result->Title() $></span><br /><span class="short"><%cpp>if (result->ShortText().empty()) { </%cpp>&nbsp;<%cpp> } </%cpp><$ result->ShortText() $></span></div></td>
+						<td class="topaligned rightcol <? bottom ? "bottomrow"?>"><div class="more withmargin"><a <& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(description, 300, truncated)) + "<br />" + tr("Click to view details.")) &><& tooltip.display domId=(epgDomId) &>><span class="title"><$ result->Title() $></span><br /><span class="short"><%cpp>if (result->ShortText().empty()) { </%cpp>&nbsp;<%cpp> } </%cpp><$ result->ShortText() $></span></a></div></td>
 					</tr>
 %				}
 			</table>
-		</div>
-		<div class="epg_data" style="display: none;">
-<%cpp>
-		// create hidden div for the tooltip hints.
-		for (vector<EpgEventPtr>::iterator i = epgEvents.begin(); i != epgEvents.end(); ++i) {
-			EpgEventPtr epg = *i;
-</%cpp>
-			<& pageelems.epg_tt_box boxId=(epg->Id()) caption=(epg->Caption()) time=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) short_descr=(epg->ShortDescr()) long_descr=(epg->LongDescr()) elapsed=(epg->Elapsed()) &>
-<%cpp>
-		}
-</%cpp>
 		</div>
 	</body>
 </html>

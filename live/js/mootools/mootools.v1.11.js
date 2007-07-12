@@ -3017,6 +3017,325 @@ Function.extend({
 
 
 /*
+Script: Element.Filters.js
+	add Filters capability to <Elements>.
+
+License:
+	MIT-style license.
+*/
+
+/*
+Class: Elements
+	A collection of methods to be used with <$$> elements collections.
+*/
+
+Elements.extend({
+	
+	/*
+	Property: filterByTag
+		Filters the collection by a specified tag name.
+		Returns a new Elements collection, while the original remains untouched.
+	*/
+	
+	filterByTag: function(tag){
+		return new Elements(this.filter(function(el){
+			return (Element.getTag(el) == tag);
+		}));
+	},
+	
+	/*
+	Property: filterByClass
+		Filters the collection by a specified class name.
+		Returns a new Elements collection, while the original remains untouched.
+	*/
+	
+	filterByClass: function(className, nocash){
+		var elements = this.filter(function(el){
+			return (el.className && el.className.contains(className, ' '));
+		});
+		return (nocash) ? elements : new Elements(elements);
+	},
+	
+	/*
+	Property: filterById
+		Filters the collection by a specified ID.
+		Returns a new Elements collection, while the original remains untouched.
+	*/
+	
+	filterById: function(id, nocash){
+		var elements = this.filter(function(el){
+			return (el.id == id);
+		});
+		return (nocash) ? elements : new Elements(elements);
+	},
+	
+	/*
+	Property: filterByAttribute
+		Filters the collection by a specified attribute.
+		Returns a new Elements collection, while the original remains untouched.
+		
+	Arguments:
+		name - the attribute name.
+		operator - optional, the attribute operator.
+		value - optional, the attribute value, only valid if the operator is specified.
+	*/
+	
+	filterByAttribute: function(name, operator, value, nocash){
+		var elements = this.filter(function(el){
+			var current = Element.getProperty(el, name);
+			if (!current) return false;
+			if (!operator) return true;
+			switch(operator){
+				case '=': return (current == value);
+				case '*=': return (current.contains(value));
+				case '^=': return (current.substr(0, value.length) == value);
+				case '$=': return (current.substr(current.length - value.length) == value);
+				case '!=': return (current != value);
+				case '~=': return current.contains(value, ' ');
+			}
+			return false;
+		});
+		return (nocash) ? elements : new Elements(elements);
+	}
+
+});
+
+/*
+Script: Element.Selectors.js
+	Css Query related functions and <Element> extensions
+
+License:
+	MIT-style license.
+*/
+
+/* Section: Utility Functions */
+
+/*
+Function: $E
+	Selects a single (i.e. the first found) Element based on the selector passed in and an optional filter element.
+	Returns as <Element>.
+
+Arguments:
+	selector - string; the css selector to match
+	filter - optional; a DOM element to limit the scope of the selector match; defaults to document.
+
+Example:
+	>$E('a', 'myElement') //find the first anchor tag inside the DOM element with id 'myElement'
+
+Returns:
+	a DOM element - the first element that matches the selector
+*/
+
+function $E(selector, filter){
+	return ($(filter) || document).getElement(selector);
+};
+
+/*
+Function: $ES
+	Returns a collection of Elements that match the selector passed in limited to the scope of the optional filter.
+	See Also: <Element.getElements> for an alternate syntax.
+	Returns as <Elements>.
+
+Returns:
+	an array of dom elements that match the selector within the filter
+
+Arguments:
+	selector - string; css selector to match
+	filter - optional; a DOM element to limit the scope of the selector match; defaults to document.
+
+Examples:
+	>$ES("a") //gets all the anchor tags; synonymous with $$("a")
+	>$ES('a','myElement') //get all the anchor tags within $('myElement')
+*/
+
+function $ES(selector, filter){
+	return ($(filter) || document).getElementsBySelector(selector);
+};
+
+$$.shared = {
+
+	'regexp': /^(\w*|\*)(?:#([\w-]+)|\.([\w-]+))?(?:\[(\w+)(?:([!*^$]?=)["']?([^"'\]]*)["']?)?])?$/,
+	
+	'xpath': {
+
+		getParam: function(items, context, param, i){
+			var temp = [context.namespaceURI ? 'xhtml:' : '', param[1]];
+			if (param[2]) temp.push('[@id="', param[2], '"]');
+			if (param[3]) temp.push('[contains(concat(" ", @class, " "), " ', param[3], ' ")]');
+			if (param[4]){
+				if (param[5] && param[6]){
+					switch(param[5]){
+						case '*=': temp.push('[contains(@', param[4], ', "', param[6], '")]'); break;
+						case '^=': temp.push('[starts-with(@', param[4], ', "', param[6], '")]'); break;
+						case '$=': temp.push('[substring(@', param[4], ', string-length(@', param[4], ') - ', param[6].length, ' + 1) = "', param[6], '"]'); break;
+						case '=': temp.push('[@', param[4], '="', param[6], '"]'); break;
+						case '!=': temp.push('[@', param[4], '!="', param[6], '"]');
+					}
+				} else {
+					temp.push('[@', param[4], ']');
+				}
+			}
+			items.push(temp.join(''));
+			return items;
+		},
+		
+		getItems: function(items, context, nocash){
+			var elements = [];
+			var xpath = document.evaluate('.//' + items.join('//'), context, $$.shared.resolver, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
+			for (var i = 0, j = xpath.snapshotLength; i < j; i++) elements.push(xpath.snapshotItem(i));
+			return (nocash) ? elements : new Elements(elements.map($));
+		}
+
+	},
+	
+	'normal': {
+		
+		getParam: function(items, context, param, i){
+			if (i == 0){
+				if (param[2]){
+					var el = context.getElementById(param[2]);
+					if (!el || ((param[1] != '*') && (Element.getTag(el) != param[1]))) return false;
+					items = [el];
+				} else {
+					items = $A(context.getElementsByTagName(param[1]));
+				}
+			} else {
+				items = $$.shared.getElementsByTagName(items, param[1]);
+				if (param[2]) items = Elements.filterById(items, param[2], true);
+			}
+			if (param[3]) items = Elements.filterByClass(items, param[3], true);
+			if (param[4]) items = Elements.filterByAttribute(items, param[4], param[5], param[6], true);
+			return items;
+		},
+
+		getItems: function(items, context, nocash){
+			return (nocash) ? items : $$.unique(items);
+		}
+
+	},
+
+	resolver: function(prefix){
+		return (prefix == 'xhtml') ? 'http://www.w3.org/1999/xhtml' : false;
+	},
+
+	getElementsByTagName: function(context, tagName){
+		var found = [];
+		for (var i = 0, j = context.length; i < j; i++) found.extend(context[i].getElementsByTagName(tagName));
+		return found;
+	}
+
+};
+
+$$.shared.method = (window.xpath) ? 'xpath' : 'normal';
+
+/*
+Class: Element
+	Custom class to allow all of its methods to be used with any DOM element via the dollar function <$>.
+*/
+
+Element.Methods.Dom = {
+
+	/*
+	Property: getElements
+		Gets all the elements within an element that match the given (single) selector.
+		Returns as <Elements>.
+
+	Arguments:
+		selector - string; the css selector to match
+
+	Examples:
+		>$('myElement').getElements('a'); // get all anchors within myElement
+		>$('myElement').getElements('input[name=dialog]') //get all input tags with name 'dialog'
+		>$('myElement').getElements('input[name$=log]') //get all input tags with names ending with 'log'
+
+	Notes:
+		Supports these operators in attribute selectors:
+
+		- = : is equal to
+		- ^= : starts-with
+		- $= : ends-with
+		- != : is not equal to
+
+		Xpath is used automatically for compliant browsers.
+	*/
+
+	getElements: function(selector, nocash){
+		var items = [];
+		selector = selector.trim().split(' ');
+		for (var i = 0, j = selector.length; i < j; i++){
+			var sel = selector[i];
+			var param = sel.match($$.shared.regexp);
+			if (!param) break;
+			param[1] = param[1] || '*';
+			var temp = $$.shared[$$.shared.method].getParam(items, this, param, i);
+			if (!temp) break;
+			items = temp;
+		}
+		return $$.shared[$$.shared.method].getItems(items, this, nocash);
+	},
+
+	/*
+	Property: getElement
+		Same as <Element.getElements>, but returns only the first. Alternate syntax for <$E>, where filter is the Element.
+		Returns as <Element>.
+
+	Arguments:
+		selector - string; css selector
+	*/
+
+	getElement: function(selector){
+		return $(this.getElements(selector, true)[0] || false);
+	},
+
+	/*
+	Property: getElementsBySelector
+		Same as <Element.getElements>, but allows for comma separated selectors, as in css. Alternate syntax for <$$>, where filter is the Element.
+		Returns as <Elements>.
+
+	Arguments:
+		selector - string; css selector
+	*/
+
+	getElementsBySelector: function(selector, nocash){
+		var elements = [];
+		selector = selector.split(',');
+		for (var i = 0, j = selector.length; i < j; i++) elements = elements.concat(this.getElements(selector[i], true));
+		return (nocash) ? elements : $$.unique(elements);
+	}
+
+};
+
+Element.extend({
+
+	/*
+	Property: getElementById
+		Targets an element with the specified id found inside the Element. Does not overwrite document.getElementById.
+
+	Arguments:
+		id - string; the id of the element to find.
+	*/
+
+	getElementById: function(id){
+		var el = document.getElementById(id);
+		if (!el) return false;
+		for (var parent = el.parentNode; parent != this; parent = parent.parentNode){
+			if (!parent) return false;
+		}
+		return el;
+	}/*compatibility*/,
+	
+	getElementsByClassName: function(className){ 
+		return this.getElements('.' + className); 
+	}
+	
+	/*end compatibility*/
+
+});
+
+document.extend(Element.Methods.Dom);
+Element.extend(Element.Methods.Dom);
+
+/*
 Script: Element.Form.js
 	Contains Element prototypes to deal with Forms and their elements.
 
@@ -3087,6 +3406,161 @@ Element.extend({
 			else qs(value);
 		});
 		return queryString.join('&');
+	}
+
+});
+
+/*
+Script: Element.Dimensions.js
+	Contains Element prototypes to deal with Element size and position in space.
+
+Note:
+	The functions in this script require n XHTML doctype.
+
+License:
+	MIT-style license.
+*/
+
+/*
+Class: Element
+	Custom class to allow all of its methods to be used with any DOM element via the dollar function <$>.
+*/
+
+Element.extend({
+
+	/*
+	Property: scrollTo
+		Scrolls the element to the specified coordinated (if the element has an overflow)
+
+	Arguments:
+		x - the x coordinate
+		y - the y coordinate
+
+	Example:
+		>$('myElement').scrollTo(0, 100)
+	*/
+
+	scrollTo: function(x, y){
+		this.scrollLeft = x;
+		this.scrollTop = y;
+	},
+
+	/*
+	Property: getSize
+		Return an Object representing the size/scroll values of the element.
+
+	Example:
+		(start code)
+		$('myElement').getSize();
+		(end)
+
+	Returns:
+		(start code)
+		{
+			'scroll': {'x': 100, 'y': 100},
+			'size': {'x': 200, 'y': 400},
+			'scrollSize': {'x': 300, 'y': 500}
+		}
+		(end)
+	*/
+
+	getSize: function(){
+		return {
+			'scroll': {'x': this.scrollLeft, 'y': this.scrollTop},
+			'size': {'x': this.offsetWidth, 'y': this.offsetHeight},
+			'scrollSize': {'x': this.scrollWidth, 'y': this.scrollHeight}
+		};
+	},
+
+	/*
+	Property: getPosition
+		Returns the real offsets of the element.
+
+	Arguments:
+		overflown - optional, an array of nested scrolling containers for scroll offset calculation, use this if your element is inside any element containing scrollbars
+
+	Example:
+		>$('element').getPosition();
+
+	Returns:
+		>{x: 100, y:500};
+	*/
+
+	getPosition: function(overflown){
+		overflown = overflown || [];
+		var el = this, left = 0, top = 0;
+		do {
+			left += el.offsetLeft || 0;
+			top += el.offsetTop || 0;
+			el = el.offsetParent;
+		} while (el);
+		overflown.each(function(element){
+			left -= element.scrollLeft || 0;
+			top -= element.scrollTop || 0;
+		});
+		return {'x': left, 'y': top};
+	},
+
+	/*
+	Property: getTop
+		Returns the distance from the top of the window to the Element.
+
+	Arguments:
+		overflown - optional, an array of nested scrolling containers, see Element::getPosition
+	*/
+
+	getTop: function(overflown){
+		return this.getPosition(overflown).y;
+	},
+
+	/*
+	Property: getLeft
+		Returns the distance from the left of the window to the Element.
+
+	Arguments:
+		overflown - optional, an array of nested scrolling containers, see Element::getPosition
+	*/
+
+	getLeft: function(overflown){
+		return this.getPosition(overflown).x;
+	},
+
+	/*
+	Property: getCoordinates
+		Returns an object with width, height, left, right, top, and bottom, representing the values of the Element
+
+	Arguments:
+		overflown - optional, an array of nested scrolling containers, see Element::getPosition
+
+	Example:
+		(start code)
+		var myValues = $('myElement').getCoordinates();
+		(end)
+
+	Returns:
+		(start code)
+		{
+			width: 200,
+			height: 300,
+			left: 100,
+			top: 50,
+			right: 300,
+			bottom: 350
+		}
+		(end)
+	*/
+
+	getCoordinates: function(overflown){
+		var position = this.getPosition(overflown);
+		var obj = {
+			'width': this.offsetWidth,
+			'height': this.offsetHeight,
+			'left': position.x,
+			'top': position.y
+		};
+		obj.right = obj.left + obj.width;
+		obj.bottom = obj.top + obj.height;
+		return obj;
 	}
 
 });
@@ -3268,6 +3742,633 @@ window.extend({
 
 	//ignore
 	getPosition: function(){return {'x': 0, 'y': 0};}
+
+});
+
+/*
+Script: Fx.Base.js
+	Contains <Fx.Base>, the foundamentals of the MooTools Effects.
+
+License:
+	MIT-style license.
+*/
+
+var Fx = {};
+
+/*
+Class: Fx.Base
+	Base class for the Effects.
+
+Options:
+	transition - the equation to use for the effect see <Fx.Transitions>; default is <Fx.Transitions.Sine.easeInOut>
+	duration - the duration of the effect in ms; 500 is the default.
+	unit - the unit is 'px' by default (other values include things like 'em' for fonts or '%').
+	wait - boolean: to wait or not to wait for a current transition to end before running another of the same instance. defaults to true.
+	fps - the frames per second for the transition; default is 50
+	
+Events:
+	onStart - the function to execute as the effect begins; nothing (<Class.empty>) by default.
+	onComplete - the function to execute after the effect has processed; nothing (<Class.empty>) by default.
+	onCancel - the function to execute when you manually stop the effect.
+*/
+
+Fx.Base = new Class({
+
+	options: {
+		onStart: Class.empty,
+		onComplete: Class.empty,
+		onCancel: Class.empty,
+		transition: function(p){
+			return -(Math.cos(Math.PI * p) - 1) / 2;
+		},
+		duration: 500,
+		unit: 'px',
+		wait: true,
+		fps: 50
+	},
+
+	initialize: function(options){
+		this.element = this.element || null;
+		this.setOptions(options);
+		if (this.options.initialize) this.options.initialize.call(this);
+	},
+
+	step: function(){
+		var time = $time();
+		if (time < this.time + this.options.duration){
+			this.delta = this.options.transition((time - this.time) / this.options.duration);
+			this.setNow();
+			this.increase();
+		} else {
+			this.stop(true);
+			this.set(this.to);
+			this.fireEvent('onComplete', this.element, 10);
+			this.callChain();
+		}
+	},
+
+	/*
+	Property: set
+		Immediately sets the value with no transition.
+
+	Arguments:
+		to - the point to jump to
+
+	Example:
+		>var myFx = new Fx.Style('myElement', 'opacity').set(0); //will make it immediately transparent
+	*/
+
+	set: function(to){
+		this.now = to;
+		this.increase();
+		return this;
+	},
+
+	setNow: function(){
+		this.now = this.compute(this.from, this.to);
+	},
+
+	compute: function(from, to){
+		return (to - from) * this.delta + from;
+	},
+
+	/*
+	Property: start
+		Executes an effect from one position to the other.
+
+	Arguments:
+		from - integer: staring value
+		to - integer: the ending value
+
+	Examples:
+		>var myFx = new Fx.Style('myElement', 'opacity').start(0,1); //display a transition from transparent to opaque.
+	*/
+
+	start: function(from, to){
+		if (!this.options.wait) this.stop();
+		else if (this.timer) return this;
+		this.from = from;
+		this.to = to;
+		this.change = this.to - this.from;
+		this.time = $time();
+		this.timer = this.step.periodical(Math.round(1000 / this.options.fps), this);
+		this.fireEvent('onStart', this.element);
+		return this;
+	},
+
+	/*
+	Property: stop
+		Stops the transition.
+	*/
+
+	stop: function(end){
+		if (!this.timer) return this;
+		this.timer = $clear(this.timer);
+		if (!end) this.fireEvent('onCancel', this.element);
+		return this;
+	}/*compatibility*/,
+	
+	custom: function(from, to){
+		return this.start(from, to);
+	},
+
+	clearTimer: function(end){
+		return this.stop(end);
+	}
+
+	/*end compatibility*/
+
+});
+
+Fx.Base.implement(new Chain, new Events, new Options);
+
+/*
+Script: Fx.CSS.js
+	Css parsing class for effects. Required by <Fx.Style>, <Fx.Styles>, <Fx.Elements>. No documentation needed, as its used internally.
+
+License:
+	MIT-style license.
+*/
+
+Fx.CSS = {
+
+	select: function(property, to){
+		if (property.test(/color/i)) return this.Color;
+		var type = $type(to);
+		if ((type == 'array') || (type == 'string' && to.contains(' '))) return this.Multi;
+		return this.Single;
+	},
+
+	parse: function(el, property, fromTo){
+		if (!fromTo.push) fromTo = [fromTo];
+		var from = fromTo[0], to = fromTo[1];
+		if (!$chk(to)){
+			to = from;
+			from = el.getStyle(property);
+		}
+		var css = this.select(property, to);
+		return {'from': css.parse(from), 'to': css.parse(to), 'css': css};
+	}
+
+};
+
+Fx.CSS.Single = {
+
+	parse: function(value){
+		return parseFloat(value);
+	},
+
+	getNow: function(from, to, fx){
+		return fx.compute(from, to);
+	},
+
+	getValue: function(value, unit, property){
+		if (unit == 'px' && property != 'opacity') value = Math.round(value);
+		return value + unit;
+	}
+
+};
+
+Fx.CSS.Multi = {
+
+	parse: function(value){
+		return value.push ? value : value.split(' ').map(function(v){
+			return parseFloat(v);
+		});
+	},
+
+	getNow: function(from, to, fx){
+		var now = [];
+		for (var i = 0; i < from.length; i++) now[i] = fx.compute(from[i], to[i]);
+		return now;
+	},
+
+	getValue: function(value, unit, property){
+		if (unit == 'px' && property != 'opacity') value = value.map(Math.round);
+		return value.join(unit + ' ') + unit;
+	}
+
+};
+
+Fx.CSS.Color = {
+
+	parse: function(value){
+		return value.push ? value : value.hexToRgb(true);
+	},
+
+	getNow: function(from, to, fx){
+		var now = [];
+		for (var i = 0; i < from.length; i++) now[i] = Math.round(fx.compute(from[i], to[i]));
+		return now;
+	},
+
+	getValue: function(value){
+		return 'rgb(' + value.join(',') + ')';
+	}
+
+};
+
+/*
+Script: Fx.Styles.js
+	Contains <Fx.Styles>
+
+License:
+	MIT-style license.
+*/
+
+/*
+Class: Fx.Styles
+	Allows you to animate multiple css properties at once;
+	Colors must be in hex format.
+	Inherits methods, properties, options and events from <Fx.Base>.
+
+Arguments:
+	el - the $(element) to apply the styles transition to
+	options - the fx options (see: <Fx.Base>)
+
+Example:
+	(start code)
+	var myEffects = new Fx.Styles('myElement', {duration: 1000, transition: Fx.Transitions.linear});
+
+	//height from 10 to 100 and width from 900 to 300
+	myEffects.start({
+		'height': [10, 100],
+		'width': [900, 300]
+	});
+
+	//or height from current height to 100 and width from current width to 300
+	myEffects.start({
+		'height': 100,
+		'width': 300
+	});
+	(end)
+*/
+
+Fx.Styles = Fx.Base.extend({
+
+	initialize: function(el, options){
+		this.element = $(el);
+		this.parent(options);
+	},
+
+	setNow: function(){
+		for (var p in this.from) this.now[p] = this.css[p].getNow(this.from[p], this.to[p], this);
+	},
+
+	set: function(to){
+		var parsed = {};
+		this.css = {};
+		for (var p in to){
+			this.css[p] = Fx.CSS.select(p, to[p]);
+			parsed[p] = this.css[p].parse(to[p]);
+		}
+		return this.parent(parsed);
+	},
+
+	/*
+	Property: start
+		Executes a transition for any number of css properties in tandem.
+
+	Arguments:
+		obj - an object containing keys that specify css properties to alter and values that specify either the from/to values (as an array) or just the end value (an integer).
+
+	Example:
+		see <Fx.Styles>
+	*/
+
+	start: function(obj){
+		if (this.timer && this.options.wait) return this;
+		this.now = {};
+		this.css = {};
+		var from = {}, to = {};
+		for (var p in obj){
+			var parsed = Fx.CSS.parse(this.element, p, obj[p]);
+			from[p] = parsed.from;
+			to[p] = parsed.to;
+			this.css[p] = parsed.css;
+		}
+		return this.parent(from, to);
+	},
+
+	increase: function(){
+		for (var p in this.now) this.element.setStyle(p, this.css[p].getValue(this.now[p], this.options.unit, p));
+	}
+
+});
+
+/*
+Class: Element
+	Custom class to allow all of its methods to be used with any DOM element via the dollar function <$>.
+*/
+
+Element.extend({
+
+	/*
+	Property: effects
+		Applies an <Fx.Styles> to the Element; This a shortcut for <Fx.Styles>.
+
+	Example:
+		>var myEffects = $(myElement).effects({duration: 1000, transition: Fx.Transitions.Sine.easeInOut});
+ 		>myEffects.start({'height': [10, 100], 'width': [900, 300]});
+	*/
+
+	effects: function(options){
+		return new Fx.Styles(this, options);
+	}
+
+});
+
+/*
+Script: Drag.Base.js
+	Contains <Drag.Base>, <Element.makeResizable>
+
+License:
+	MIT-style license.
+*/
+
+var Drag = {};
+
+/*
+Class: Drag.Base
+	Modify two css properties of an element based on the position of the mouse.
+	
+Note:
+	Drag.Base requires an XHTML doctype.
+
+Arguments:
+	el - the $(element) to apply the transformations to.
+	options - optional. The options object.
+
+Options:
+	handle - the $(element) to act as the handle for the draggable element. defaults to the $(element) itself.
+	modifiers - an object. see Modifiers Below.
+	limit - an object, see Limit below.
+	grid - optional, distance in px for snap-to-grid dragging
+	snap - optional, the distance you have to drag before the element starts to respond to the drag. defaults to false
+
+	modifiers:
+		x - string, the style you want to modify when the mouse moves in an horizontal direction. defaults to 'left'
+		y - string, the style you want to modify when the mouse moves in a vertical direction. defaults to 'top'
+
+	limit:
+		x - array with start and end limit relative to modifiers.x
+		y - array with start and end limit relative to modifiers.y
+		
+Events:
+	onStart - optional, function to execute when the user starts to drag (on mousedown);
+	onComplete - optional, function to execute when the user completes the drag.
+	onDrag - optional, function to execute at every step of the drag
+*/
+
+Drag.Base = new Class({
+
+	options: {
+		handle: false,
+		unit: 'px',
+		onStart: Class.empty,
+		onBeforeStart: Class.empty,
+		onComplete: Class.empty,
+		onSnap: Class.empty,
+		onDrag: Class.empty,
+		limit: false,
+		modifiers: {x: 'left', y: 'top'},
+		grid: false,
+		snap: 6
+	},
+
+	initialize: function(el, options){
+		this.setOptions(options);
+		this.element = $(el);
+		this.handle = $(this.options.handle) || this.element;
+		this.mouse = {'now': {}, 'pos': {}};
+		this.value = {'start': {}, 'now': {}};
+		this.bound = {
+			'start': this.start.bindWithEvent(this),
+			'check': this.check.bindWithEvent(this),
+			'drag': this.drag.bindWithEvent(this),
+			'stop': this.stop.bind(this)
+		};
+		this.attach();
+		if (this.options.initialize) this.options.initialize.call(this);
+	},
+
+	attach: function(){
+		this.handle.addEvent('mousedown', this.bound.start);
+		return this;
+	},
+
+	detach: function(){
+		this.handle.removeEvent('mousedown', this.bound.start);
+		return this;
+	},
+
+	start: function(event){
+		this.fireEvent('onBeforeStart', this.element);
+		this.mouse.start = event.page;
+		var limit = this.options.limit;
+		this.limit = {'x': [], 'y': []};
+		for (var z in this.options.modifiers){
+			if (!this.options.modifiers[z]) continue;
+			this.value.now[z] = this.element.getStyle(this.options.modifiers[z]).toInt();
+			this.mouse.pos[z] = event.page[z] - this.value.now[z];
+			if (limit && limit[z]){
+				for (var i = 0; i < 2; i++){
+					if ($chk(limit[z][i])) this.limit[z][i] = ($type(limit[z][i]) == 'function') ? limit[z][i]() : limit[z][i];
+				}
+			}
+		}
+		if ($type(this.options.grid) == 'number') this.options.grid = {'x': this.options.grid, 'y': this.options.grid};
+		document.addListener('mousemove', this.bound.check);
+		document.addListener('mouseup', this.bound.stop);
+		this.fireEvent('onStart', this.element);
+		event.stop();
+	},
+
+	check: function(event){
+		var distance = Math.round(Math.sqrt(Math.pow(event.page.x - this.mouse.start.x, 2) + Math.pow(event.page.y - this.mouse.start.y, 2)));
+		if (distance > this.options.snap){
+			document.removeListener('mousemove', this.bound.check);
+			document.addListener('mousemove', this.bound.drag);
+			this.drag(event);
+			this.fireEvent('onSnap', this.element);
+		}
+		event.stop();
+	},
+
+	drag: function(event){
+		this.out = false;
+		this.mouse.now = event.page;
+		for (var z in this.options.modifiers){
+			if (!this.options.modifiers[z]) continue;
+			this.value.now[z] = this.mouse.now[z] - this.mouse.pos[z];
+			if (this.limit[z]){
+				if ($chk(this.limit[z][1]) && (this.value.now[z] > this.limit[z][1])){
+					this.value.now[z] = this.limit[z][1];
+					this.out = true;
+				} else if ($chk(this.limit[z][0]) && (this.value.now[z] < this.limit[z][0])){
+					this.value.now[z] = this.limit[z][0];
+					this.out = true;
+				}
+			}
+			if (this.options.grid[z]) this.value.now[z] -= (this.value.now[z] % this.options.grid[z]);
+			this.element.setStyle(this.options.modifiers[z], this.value.now[z] + this.options.unit);
+		}
+		this.fireEvent('onDrag', this.element);
+		event.stop();
+	},
+
+	stop: function(){
+		document.removeListener('mousemove', this.bound.check);
+		document.removeListener('mousemove', this.bound.drag);
+		document.removeListener('mouseup', this.bound.stop);
+		this.fireEvent('onComplete', this.element);
+	}
+
+});
+
+Drag.Base.implement(new Events, new Options);
+
+/*
+Class: Element
+	Custom class to allow all of its methods to be used with any DOM element via the dollar function <$>.
+*/
+
+Element.extend({
+
+	/*
+	Property: makeResizable
+		Makes an element resizable (by dragging) with the supplied options.
+
+	Arguments:
+		options - see <Drag.Base> for acceptable options.
+	*/
+
+	makeResizable: function(options){
+		return new Drag.Base(this, $merge({modifiers: {x: 'width', y: 'height'}}, options));
+	}
+
+});
+
+/*
+Script: Drag.Move.js
+	Contains <Drag.Move>, <Element.makeDraggable>
+
+License:
+	MIT-style license.
+*/
+
+/*
+Class: Drag.Move
+	Extends <Drag.Base>, has additional functionality for dragging an element, support snapping and droppables.
+	Drag.move supports either position absolute or relative. If no position is found, absolute will be set.
+	Inherits methods, properties, options and events from <Drag.Base>.
+
+Note:
+	Drag.Move requires an XHTML doctype.
+
+Arguments:
+	el - the $(element) to apply the drag to.
+	options - optional. see Options below.
+
+Options:
+	all the drag.Base options, plus:
+	container - an element, will fill automatically limiting options based on the $(element) size and position. defaults to false (no limiting)
+	droppables - an array of elements you can drop your draggable to.
+	overflown - an array of nested scrolling containers, see Element::getPosition
+*/
+
+Drag.Move = Drag.Base.extend({
+
+	options: {
+		droppables: [],
+		container: false,
+		overflown: []
+	},
+
+	initialize: function(el, options){
+		this.setOptions(options);
+		this.element = $(el);
+		this.droppables = $$(this.options.droppables);
+		this.container = $(this.options.container);
+		this.position = {'element': this.element.getStyle('position'), 'container': false};
+		if (this.container) this.position.container = this.container.getStyle('position');
+		if (!['relative', 'absolute', 'fixed'].contains(this.position.element)) this.position.element = 'absolute';
+		var top = this.element.getStyle('top').toInt();
+		var left = this.element.getStyle('left').toInt();
+		if (this.position.element == 'absolute' && !['relative', 'absolute', 'fixed'].contains(this.position.container)){
+			top = $chk(top) ? top : this.element.getTop(this.options.overflown);
+			left = $chk(left) ? left : this.element.getLeft(this.options.overflown);
+		} else {
+			top = $chk(top) ? top : 0;
+			left = $chk(left) ? left : 0;
+		}
+		this.element.setStyles({'top': top, 'left': left, 'position': this.position.element});
+		this.parent(this.element);
+	},
+
+	start: function(event){
+		this.overed = null;
+		if (this.container){
+			var cont = this.container.getCoordinates();
+			var el = this.element.getCoordinates();
+			if (this.position.element == 'absolute' && !['relative', 'absolute', 'fixed'].contains(this.position.container)){
+				this.options.limit = {
+					'x': [cont.left, cont.right - el.width],
+					'y': [cont.top, cont.bottom - el.height]
+				};
+			} else {
+				this.options.limit = {
+					'y': [0, cont.height - el.height],
+					'x': [0, cont.width - el.width]
+				};
+			}
+		}
+		this.parent(event);
+	},
+
+	drag: function(event){
+		this.parent(event);
+		var overed = this.out ? false : this.droppables.filter(this.checkAgainst, this).getLast();
+		if (this.overed != overed){
+			if (this.overed) this.overed.fireEvent('leave', [this.element, this]);
+			this.overed = overed ? overed.fireEvent('over', [this.element, this]) : null;
+		}
+		return this;
+	},
+
+	checkAgainst: function(el){
+		el = el.getCoordinates(this.options.overflown);
+		var now = this.mouse.now;
+		return (now.x > el.left && now.x < el.right && now.y < el.bottom && now.y > el.top);
+	},
+
+	stop: function(){
+		if (this.overed && !this.out) this.overed.fireEvent('drop', [this.element, this]);
+		else this.element.fireEvent('emptydrop', this);
+		this.parent();
+		return this;
+	}
+
+});
+
+/*
+Class: Element
+	Custom class to allow all of its methods to be used with any DOM element via the dollar function <$>.
+*/
+
+Element.extend({
+
+	/*
+	Property: makeDraggable
+		Makes an element draggable with the supplied options.
+
+	Arguments:
+		options - see <Drag.Move> and <Drag.Base> for acceptable options.
+	*/
+
+	makeDraggable: function(options){
+		return new Drag.Move(this, options);
+	}
 
 });
 

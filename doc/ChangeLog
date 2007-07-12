@@ -1,3 +1,24 @@
+2007-07-12  Dieter Hametner  <dh+vdr at gekrumbel dot de>
+
+	Changed the javascript base of live. We now use the 'mootools'
+	framework (see http://www.mootools.net for infos) to handle
+	javascript in a browser independend fashion and for nifty Web 2.0
+	features.
+
+	Based on this framework we have now tooltips that use the XHTML
+	standard 'title' attribute and Web-2.0 popup windows for epg
+	information. This Epg information is loaded on demand and once
+	loaded, they are cached in the page for further viewing.
+
+	On the other hand this also provides us with a solution to have
+	live functioning without javascript at all. When done right, the
+	same functionality can be achieved with or without enabled
+	javascript in the browser. Currently there still are javascript
+	only features, which will be resolved in the next weeks.
+
+	This is a rather big change on many files, so they are not all
+	mentioned here.
+
 2007-06-22  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
 	Start of new 'standalone' javascript source directory

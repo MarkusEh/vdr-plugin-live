@@ -89,68 +89,147 @@ img {
    ######################
 */
 
-div.domTThint {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 11px;
-	border: 1px solid #EBC94C;
-	background-color: #F4FFC3;
-        max-width: 35em;
+.hint-tip {
+	margin: 0px auto;
+ 	max-width: 480px; /* depends on the tip backround image width */
+ 	color: #fff;
 }
 
-div.domTThint .caption {
-	font-weight: bold;
+.hint-tip .hint-tip-top .hint-tip-c,
+.hint-tip .hint-tip-bot .hint-tip-c {
+	font-size: 1px; /* ensure minimum height */
+	height: 17px;
 }
 
-div.domTThint .contents {
-	padding: 2px;
+.hint-tip .hint-tip-top {
+	background: transparent url(img/tip-hint-tl.png) no-repeat 0px 0px;
+	margin-right: 17px; /* space for right corner */
 }
+
+.hint-tip .hint-tip-top .hint-tip-c {
+	background: transparent url(img/tip-hint-tr.png) no-repeat right 0px;
+	margin-right: -17px; /* pull right corner back over "empty" space (from above margin) */
+}
+
+.hint-tip .hint-tip-bdy {
+	background: transparent url(img/tip-hint-ml.png) repeat-y 0px 0px;
+ 	margin-right: 17px;
+}
+
+.hint-tip .hint-tip-bdy .hint-tip-c {
+	background: transparent url(img/tip-hint-mr.png) repeat-y right 0px;
+	margin-right: -17px;
+}
+
+.hint-tip .hint-tip-bdy .hint-tip-c .hint-tip-s { /* optional gradient overlay */
+	/* background: transparent url(img/tip-hint-ms.jpg) repeat-x 0px 0px; */
+	padding: 0px 17px 0px 17px;
+}
+
+.hint-tip .hint-tip-bot {
+	background: transparent url(img/tip-hint-bl.png) no-repeat 0px 0px;
+	margin-right: 17px;
+}
+
+.hint-tip .hint-tip-bot .hint-tip-c {
+	background: transparent url(img/tip-hint-br.png) no-repeat right 0px;
+	margin-right: -17px;
+}
+
+.hint-title {
+	display: none;
+}
+
 
 /* ##############################
-   # Tooltip style for epg infos
+   # Infowin styles for epg infos
    ##############################
 */
 
-div.domTTepg {
-	width: 66%;
+div.info-win {
+	width: 560px;
+	max-width: 2048px;
 	border: none;
+	margin: 0px auto;
 }
 
-.domTTepg div.epg_description {
+.info-win .info-win-top .info-win-c {
+	/*font-size: 1px;*/ /* ensure minimum height */
+	height: 37px;
 }
 
-.domTTepg div.epg_content {
-	padding: 0;
-	margin: 0;
-
-	border-left: 1px solid #000000;
-	border-right: 1px solid #000000;
-	border-bottom: 1px solid #000000;
-        background: white url(bg_tools.png) top left repeat-y;
+.info-win .info-win-bot .info-win-c {
+	font-size: 1px; /* ensure minimum height */
+	height: 21px;
 }
 
-.domTTepg div.epg_content div.epg_tools {
+.info-win .info-win-top {
+	background: transparent url(img/info-win-t-l.png) no-repeat 0px 0px;
+	margin-right: 26px; /* space for right corner */
+}
+
+.info-win .info-win-top .info-win-c {
+	background: transparent url(img/info-win-t-r.png) no-repeat right 0px;
+	margin-right: -26px; /* pull right corner back over "empty" space (from above margin) */
+	overflow: hidden;
+}
+
+.info-win .info-win-top .info-win-c .info-win-t {
+	color: #FFF;
+	font-weight: bold;
+	margin-top: 14px;
+	margin-left: 15px;
 	float: left;
-	width: 26px;
-	margin: 0;
-	padding: 0;
-
-	text-align: center;
-	vertical-align: top;
 }
 
-.domTTepg div.epg_content div div.progress div {
-	padding-left: 0px;
+.info-win .info-win-top .info-win-c .info-win-b {
+	margin-top: 17px;
+	margin-right: 26px;
+	float: right;
 }
 
-.domTTepg div.epg_content div div {
-	padding-left: 35px;
+.info-win .info-win-top .info-win-c .info-win-b .close {
+	width: 16px;
+	height: 16px;
+	background: transparent url(close.png) no-repeat top right;
 }
 
-.domTTepg div.epg_content div.epg_tools img {
-	margin-top: 5px;
+.info-win .info-win-top .info-win-c .info-win-b .close:hover {
+	width: 16px;
+	height: 16px;
+	background: transparent url(img/close_red.png) no-repeat top right;
 }
 
-.domTTepg div.boxheader div div a {
+.info-win .info-win-body {
+	background: transparent url(img/info-win-m-l.png) repeat-y 0px 0px;
+ 	margin-right: 26px;
+}
+
+.info-win .info-win-body .info-win-c {
+	background: transparent url(img/info-win-m-r.png) repeat-y right 0px;
+	margin-right: -26px;
+}
+
+.info-win .info-win-body .info-win-c .info-win-s {
+	padding: 0px 26px 0px 14px;
+}
+
+.info-win .info-win-bot {
+	background: transparent url(img/info-win-b-l.png) no-repeat 0px 0px;
+	margin-right: 26px;
+}
+
+.info-win .info-win-bot .info-win-c {
+	background: transparent url(img/info-win-b-r.png) no-repeat right 0px;
+	margin-right: -26px;
+}
+
+.info-win .description {
+	margin-bottom: 0px;
+}
+
+.hint-title {
+	display: none;
 }
 
 /* #######################
@@ -556,7 +635,6 @@ div.__progress div.__elapsed {
 	background-color: #E9EFFF;
 }
 
-
 /* ##################################
    # table listing
    # (this is used in listing tables)
@@ -615,99 +693,6 @@ table.listing a {
 table.listing a:hover {
 	text-decoration: underline;
 }
-
-
-/* #############
-   # Timers
-   #############
-*/
-/* NOT USED
-table.timers {
-	padding: 0;
-	margin: 0;
-	margin-top: 10px;
-}
-
-table.timers tr td {
-	padding: 3px 7px 3px 3px;
-	background: url(bg_line.png) bottom repeat-x;
-	border-bottom: 1px solid #C0C1DA;
-}
-
-table.timers td.border {
-	padding: 0;
-	margin: 0;
-	width: 1px;
-}
-
-table.timers tr.head td {
-	color: white;
-	font-weight: bold;
-	margin: 0;
-	padding: 0;
-	border-bottom: 1px solid black;
-}
-
-table.timers tr.description td {
-	font-weight: bold;
-	background: #E9EFFF;
-}
-
-table.timers a {
-	text-decoration: none;
-	color: black;
-	font-weight: bold;
-}
-
-table.timers a:hover {
-	text-decoration: underline;
-}
-*/
-
-/*
-  ##############################
-  #  Schedule
-  ##############################
-*/
-
-/* NOT USED:
-table.schedule {
-	margin: 10px 0 0 0 ;
-	padding: 0;
-}
-
-table.schedule tr td.head {
-	background: #6D96A9;
-	color: white;
-	font-weight: bold;
-	margin: 0;
-	padding: 3px;
-}
-
-table.schedule tr td {
-	vertical-align: top;
-	padding: 3px 7px 3px 3px;
-	background: url(bg_line.png) bottom repeat-x;
-        border-bottom: 1px solid #C0C1DA;
-}
-
-table.schedule tr td.day {
-	vertical-align: top;
-	padding: 0;
-	margin: 0;
-	border:none;
-}
-
-table.schedule tr.active {
-	background: #DEE6EE;
-}
-
-table.schedule div.more {
-	margin: 0px;
-	font-weight: bold;
-	cursor: pointer;
-}
-*/
 
 /*
   ##############################
@@ -853,14 +838,12 @@ table.error td.border {
 	width: 1px;
 }
 
-
 /*
   ##############################
   #  Formular Tables
   #  (are used in forms to group input elements)
   ##############################
 */
-/* 'formular' replaces 'edit' */
 
 table.formular {
 	margin-top: 10px;
@@ -913,64 +896,6 @@ table.dependent tr td {
 	vertical-align: middle;
 }
 
-
-/*
-  ##############################
-  #  Search results
-  ##############################
-*/
-
-/* NOT USED:
-table.searchresults {
-	margin: 10px 0 0 0;
-	padding: 0;
-}
-
-table.searchresults tr td.head {
-	background: #6D96A9;
-	color: white;
-	font-weight: bold;
-	margin: 0;
-	padding: 3px;
-}
-
-table.searchresults tr td {
-	vertical-align: top;
-	padding: 3px 7px 7px 3px;
-	background: url(bg_line.png) bottom repeat-x;
-        border-bottom: 1px solid #C0C1DA;
-}
-
-table.searchresults tr td.day {
-	vertical-align: top;
-	padding: 0;
-	margin: 0;
-	border:none;
-}
-
-table.searchresults td.border {
-	padding: 0;
-	margin: 0;
-	width: 1px;
-}
-
-table.searchresults div.more {
-	margin: 0px;
-	font-weight: bold;
-	cursor: pointer;
-}
-
-table.searchresults a {
-	text-decoration: none;
-	color: black;
-	font-weight: bold;
-}
-
-table.searchresults a:hover {
-	text-decoration: underline;
-}
-*/
-
 /*
   ##############################
   #  Login
@@ -984,6 +909,44 @@ table.login {
 table.login tr td {
 	padding: 3px 5px;
 	text-align: right;
+}
+
+/*
+  ##############################
+  #  Infowin support styles for EPG-Boxes
+  ##############################
+*/
+
+.info-win div.epg_content {
+	padding: 0;
+	margin: 0;
+        background: transparent url(bg_tools.png) top left repeat-y;
+}
+
+.info-win div.epg_content div.epg_tools {
+	float: left;
+	width: 26px;
+	margin: 0;
+	padding: 0;
+
+	text-align: center;
+	vertical-align: top;
+}
+
+.info-win div.epg_content div div.progress div {
+	padding-left: 0px;
+}
+
+.info-win div.epg_content div div {
+	padding-left: 35px;
+}
+
+.info-win div.epg_content div.epg_tools img {
+	margin-top: 5px;
+}
+
+.info-win div.boxheader {
+	display: none;
 }
 
 /* ##############################
@@ -1005,14 +968,7 @@ div.about_box a:hover {
 	text-decoration: underline;
 }
 
-div#aboutBox_tip {
-	width: 45%;
-}
-
-.about_box div.about_description {
-}
-
-.about_box div.about_content {
+.info-win div.about_content {
 	padding: 0;
 	margin: 0;
 
@@ -1021,29 +977,26 @@ div#aboutBox_tip {
 	border-bottom: 1px solid #000000;
 }
 
-.about_box div.about_content div {
+.info-win div.about_content div {
 	background-color: white;
 	padding-bottom: 6px;
 }
 
-.about_box div.boxheader div div a {
-}
-
-.about_box div.about_content div.about_left {
+.info-win div.about_content div.about_left {
 	text-align: right;
 	float: left;
 	width: 175px;
 }
 
-.about_box div.about_content div.about_right {
+.info-win div.about_content div.about_right {
 	padding-left: 200px;
 }
 
-.about_box div.about_content div.about_line {
+.info-win div.about_content div.about_line {
 	padding-left: 10px;
 }
 
-.about_box div.about_content div.about_head {
+.info-win div.about_content div.about_head {
 	font-weight: bold;
 	margin-top: 0px;
 	padding-top: 6px;
@@ -1051,12 +1004,12 @@ div#aboutBox_tip {
 	background: #FFFFFF url(bg_line.png) top repeat-x;
 }
 
-.about_box div.about_content div.about_head div {
+.info-win div.about_content div.about_head div {
 	padding-bottom: 6px;
 	background: #FFFFFF url(bg_line_top.png) bottom repeat-x;
 }
 
-.about_box div.about_content div.about_head div div {
+.info-win div.about_content div.about_head div div {
 	padding: 2px 0px 2px 10px;
 	background: #E9EFFF;
 	border-top: 1px solid #C0C1DA;

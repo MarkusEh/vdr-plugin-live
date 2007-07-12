@@ -25,7 +25,6 @@ int update_status(1);
 </%session>
 <%cpp>
 	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
-	EpgEvents epgEvents;
 	string EMPTY_STR;
 	tChannelID prev_chan;
 	tChannelID next_chan;
@@ -39,25 +38,16 @@ int update_status(1);
 #else
 	const char* NowReplaying = cControl::Control()?cReplayControl::LastReplayed():NULL;
 #endif
+
+	EpgInfoPtr epgEvent;
+
 	if (NowReplaying) {
 		RecordingsManagerPtr recManager = LiveRecordingsManager();
 		cRecording *recording = Recordings.GetByName(NowReplaying);
 		if (recording) {
-			string name(recording->Name());
-			size_t index = name.find_last_of('~');
-			if (index != string::npos)
-				name = name.substr(index, name.length());
-			const cRecordingInfo* info = recording->Info();
-			if (info) {
-				EpgEventPtr epgEvent(new EpgEvent(recManager->Md5Hash(recording),
-												  tr("playing recording"),
-												  info->Title() ? info->Title() : name,
-												  info->ShortText() ? info->ShortText() : "",
-												  info->Description() ? info->Description() : "",
-												  recording->start,
-												  recording->start));
-				epgEvents.push_back(epgEvent);
-			}
+			epgEvent = EpgEvents::CreateEpgInfo(recManager->Md5Hash(recording),
+												recording,
+												tr("playing recording"));
 		}
 	}
 	else {
@@ -75,7 +65,7 @@ int update_status(1);
 			if (tmp)
 				next_chan = tmp->GetChannelID();
 
-			string chanName(Channel->Name());
+			const string chanName(Channel->Name());
 			cSchedulesLock schedulesLock;
 			const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
 			const cSchedule *Schedule = Schedules->GetSchedule(Channel);
@@ -83,80 +73,61 @@ int update_status(1);
 			if (Schedule) {
 				const cEvent *Event = Schedule->GetPresentEvent();
 				if (Event) {
-					EpgEventPtr epgEvent(new EpgEvent(CHANNEL_STR,
-													  Event,
-													  Channel->Name()));
-					epgEvents.push_back(epgEvent);
+					epgEvent = EpgEvents::CreateEpgInfo(Channel,
+														Event,
+														CHANNEL_STR.c_str());
 				}
 				else {
-					string noInfo(tr("no epg info for current event!"));
-					EpgEventPtr epgEvent(new EpgEvent(CHANNEL_STR,
-													  chanName,
-													  noInfo,
-													  EMPTY_STR, EMPTY_STR,
-													  time(0),
-													  time(0)));
-					epgEvents.push_back(epgEvent);
+					const string noInfo(tr("no epg info for current event!"));
+					epgEvent = EpgEvents::CreateEpgInfo(CHANNEL_STR,
+														chanName,
+														noInfo);
 				}
 			}
 			else {
-				string noInfo(tr("no epg info for current channel!"));
-				EpgEventPtr epgEvent(new EpgEvent(CHANNEL_STR,
-												  Channel->Name(),
-												  noInfo,
-												  EMPTY_STR, EMPTY_STR,
-												  time(0),
-												  time(0)));
-				epgEvents.push_back(epgEvent);
+				const string noInfo(tr("no epg info for current channel!"));
+				epgEvent = EpgEvents::CreateEpgInfo(CHANNEL_STR,
+													Channel->Name(),
+													noInfo);
 			}
 		}
 		else {
-			string chanName(tr("no current channel!"));
-			EpgEventPtr epgEvent(new EpgEvent(CHANNEL_STR,
-											  chanName,
-											  chanName,
-											  EMPTY_STR, EMPTY_STR,
-											  time(0),
-											  time(0)));
-			epgEvents.push_back(epgEvent);
+			const string chanName(tr("no current channel!"));
+			epgEvent = EpgEvents::CreateEpgInfo(CHANNEL_STR,
+												chanName,
+												chanName);
 		}
 	}
-	if (epgEvents.size() == 0) {
-		string ERROR_STR("error");
-		string noInfo(tr("error retrieving status info!"));
-		string chanName(tr("no current channel!"));
-		EpgEventPtr epgEvent(new EpgEvent(ERROR_STR,
-										  chanName,
-										  noInfo,
-										  EMPTY_STR, EMPTY_STR,
-										  time(0),
-										  time(0)));
-		epgEvents.push_back(epgEvent);
+	if (!epgEvent) {
+		const string ERROR_STR("error");
+		const string noInfo(tr("error retrieving status info!"));
+		const string chanName(tr("no current channel!"));
+		epgEvent = EpgEvents::CreateEpgInfo(ERROR_STR,
+											chanName,
+											noInfo);
 	}
-	for (vector<EpgEventPtr>::iterator i = epgEvents.begin(); i != epgEvents.end(); ++i) {
-		EpgEventPtr epg = *i;
+	else {
 		if (prev_chan.Valid() && next_chan.Valid())
 		{
 </%cpp>
-<& xmlresponse.ibox update=(update_status) type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) prev_chan=(prev_chan) next_chan=(next_chan) &>
+<& xmlresponse.ibox update=(update_status) type=(epgEvent->Id()) caption=(epgEvent->Caption()) currentTime=(epgEvent->CurrentTime(tr("%I:%M:%S %p"))) duration=(epgEvent->StartTime(tr("%I:%M %p")) + string(" - ") + epgEvent->EndTime(tr("%I:%M %p"))) title=(epgEvent->Title()) elapsed=(epgEvent->Elapsed()) prev_chan=(prev_chan) next_chan=(next_chan) &>
 <%cpp>
 		}
 		else if (prev_chan.Valid()) {
 </%cpp>
-<& xmlresponse.ibox update=(update_status) type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) prev_chan=(prev_chan) &>
+<& xmlresponse.ibox update=(update_status) type=(epgEvent->Id()) caption=(epgEvent->Caption()) currentTime=(epgEvent->CurrentTime(tr("%I:%M:%S %p"))) duration=(epgEvent->StartTime(tr("%I:%M %p")) + string(" - ") + epgEvent->EndTime(tr("%I:%M %p"))) title=(epgEvent->Title()) elapsed=(epgEvent->Elapsed()) prev_chan=(prev_chan) &>
 <%cpp>
 		}
 		else if (next_chan.Valid()) {
 </%cpp>
-<& xmlresponse.ibox update=(update_status) type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) next_chan=(next_chan) &>
+<& xmlresponse.ibox update=(update_status) type=(epgEvent->Id()) caption=(epgEvent->Caption()) currentTime=(epgEvent->CurrentTime(tr("%I:%M:%S %p"))) duration=(epgEvent->StartTime(tr("%I:%M %p")) + string(" - ") + epgEvent->EndTime(tr("%I:%M %p"))) title=(epgEvent->Title()) elapsed=(epgEvent->Elapsed()) next_chan=(next_chan) &>
 <%cpp>
 		}
 		else {
 </%cpp>
-<& xmlresponse.ibox update=(update_status) type=(epg->Id()) caption=(epg->Caption()) currentTime=(epg->CurrentTime(tr("%I:%M:%S %p"))) duration=(epg->StartTime(tr("%I:%M %p")) + string(" - ") + epg->EndTime(tr("%I:%M %p"))) title=(epg->Title()) elapsed=(epg->Elapsed()) &>
+<& xmlresponse.ibox update=(update_status) type=(epgEvent->Id()) caption=(epgEvent->Caption()) currentTime=(epgEvent->CurrentTime(tr("%I:%M:%S %p"))) duration=(epgEvent->StartTime(tr("%I:%M %p")) + string(" - ") + epgEvent->EndTime(tr("%I:%M %p"))) title=(epgEvent->Title()) elapsed=(epgEvent->Elapsed()) &>
 <%cpp>
 		}
-		break;
 	}
 </%cpp>
 

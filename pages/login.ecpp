@@ -38,7 +38,6 @@ if (logged_in || !LiveSetup().UseAuth()) return reply.redirect(LiveSetup().GetSt
 	<head>
 		<title>VDR-Live - <$ tr("Login") $></title>
 		<& pageelems.stylesheets &>
-		<& tooltip.javascript var=("domTT_styleClass") value=("domTTepg") &>
 		<& pageelems.ajax_js &>
 	</head>
 	<body onload="document.auth.login.focus()">

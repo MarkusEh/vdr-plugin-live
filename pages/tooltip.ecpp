@@ -4,58 +4,23 @@
 using namespace vdrlive;
 
 </%pre>
-<%def javascript>
-<%args>
-styleClass="domTThint";
-var[];
-value[];
-</%args>
-    <script type="text/javascript" src="domLib.js"></script>
-    <script type="text/javascript" src="domTT.js"></script>
-    <script type="text/javascript" src="domTT_drag.js"></script>
-    <script type="text/javascript">
-	var domTT_styleClass = "<$ styleClass $>";
-%   int idx = 0;
-%   for (var_type::const_iterator it = var.begin(); it != var.end(); ++it, idx++) {
-	var <$ *it $> = "<$ (value[idx]) $>";
-%   }
-	domTT_addPredefined('tipHint', 'trail', true, 'delay', 0, 'styleClass', 'domTThint');
-	domTT_addPredefined('tipInfo', 'trail', true, 'delay', 0);
-	domTT_addPredefined('tipDisp', 'trail', false, 'delay', 0, 'type', 'sticky', 'caption', false, 'offsetX', -30, 'offsetY', -30, 'draggable', true);
-    </script>
-</%def>
-
 <%def hint>
 <%args>
 text;
 </%args>
-<%cpp> { </%cpp> onmouseover="domTT_activate(this, event, 'predefined', 'tipHint', 'content', '<$ text $>');" <%cpp> } </%cpp>
-</%def>
-
-<%def info>
-<%args>
-domId;
-</%args>
- onmouseover="domTT_activate(this, event, 'predefined', 'tipInfo', 'content', document.getElementById('<$ domId $>'));"
+title="<$ text $>"
 </%def>
 
 <%def display>
 <%args>
 domId;
 </%args>
- onclick="domTT_close(domTT_lastOpened); return makeFalse(domTT_activate(this, event, 'predefined', 'tipDisp', 'content', document.getElementById('<$ domId $>'), 'id', '<$ (domId + "_tip") $>'));"
-</%def>
-
-<%def close>
-<%args>
-domId;
-</%args>
- <a href="#void" onclick="domTT_close('<$ (domId + "_tip") $>')"><img src="<$ LiveSetup().GetThemedLink("img", "close.png") $>" alt="" /></a>
+href="epginfo.html?epgid=<$ domId $>"
 </%def>
 
 <%def help>
 <%args>
 text;
 </%args>
- <img src="<$ LiveSetup().GetThemedLink("img", "help.png") $>" onmouseover="domTT_close(domTT_lastOpened); domTT_activate(this, event, 'predefined', 'tipHint', 'content', '<$ text $>');"></img>
+<img src="<$ LiveSetup().GetThemedLink("img", "help.png") $>" alt="" <& hint text=(text) &>></img>
 </%def>
