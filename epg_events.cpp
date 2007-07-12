@@ -138,7 +138,7 @@ namespace vdrlive
 
 	const string EpgRecording::Caption() const
 	{
-		if (!m_ownCaption) {
+		if (m_ownCaption) {
 			return EpgInfo::Caption();
 		}
 		if (!m_recording) {
@@ -196,7 +196,7 @@ namespace vdrlive
 		string name(m_recording->Name());
 		size_t index = name.find_last_of('~');
 		if (index != string::npos) {
-			name = name.substr(index, name.length());
+			name = name.substr(index+1);
 		}
 		return name;
 	}
