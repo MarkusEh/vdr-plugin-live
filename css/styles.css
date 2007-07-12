@@ -917,8 +917,12 @@ table.login tr td {
   ##############################
 */
 
+.info-win div.caption {
+	padding: 2px 0px 0px 5px;
+}
+
 .info-win div.epg_content {
-	padding: 0;
+	padding: 0px 0px 7px 0px;
 	margin: 0;
         background: transparent url(bg_tools.png) top left repeat-y;
 }
@@ -938,7 +942,7 @@ table.login tr td {
 }
 
 .info-win div.epg_content div div {
-	padding-left: 35px;
+	margin-left: 35px;
 }
 
 .info-win div.epg_content div.epg_tools img {
@@ -954,6 +958,7 @@ table.login tr td {
    ##############################
 */
 
+/*
 div.about_box {
 	border: none;
 }
@@ -977,39 +982,38 @@ div.about_box a:hover {
 	border-bottom: 1px solid #000000;
 }
 
-.info-win div.about_content div {
+.info-win div.epg_content div {
 	background-color: white;
 	padding-bottom: 6px;
 }
+*/
 
-.info-win div.about_content div.about_left {
+.info-win div.epg_content div.about_left {
 	text-align: right;
 	float: left;
 	width: 175px;
 }
 
-.info-win div.about_content div.about_right {
+.info-win div.epg_content div.about_right {
 	padding-left: 200px;
 }
 
-.info-win div.about_content div.about_line {
+.info-win div.epg_content div.about_line {
 	padding-left: 10px;
 }
 
-.info-win div.about_content div.about_head {
+.info-win div.epg_content div.about_head {
 	font-weight: bold;
-	margin-top: 0px;
+	margin-left: 26px;
 	padding-top: 6px;
-	margin-bottom: 6px;
-	background: #FFFFFF url(bg_line.png) top repeat-x;
 }
 
-.info-win div.about_content div.about_head div {
+.info-win div.epg_content div.about_head div {
 	padding-bottom: 6px;
-	background: #FFFFFF url(bg_line_top.png) bottom repeat-x;
+	margin-left: 0px;
 }
 
-.info-win div.about_content div.about_head div div {
+.info-win div.epg_content div.about_head div div {
 	padding: 2px 0px 2px 10px;
 	background: #E9EFFF;
 	border-top: 1px solid #C0C1DA;
