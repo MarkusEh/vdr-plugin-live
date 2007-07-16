@@ -248,6 +248,7 @@ InfoWin.Ajax = InfoWin.extend({
 					  onComplete: function(text, xmldoc){
 							self.fillTitle(id);
 							self.fillBody(id);
+							self.ajaxResponse.empty();
 						},
 					  onFailure: function(transport){
 							self.titleBox.setHTML(self.options.errorMsg);
