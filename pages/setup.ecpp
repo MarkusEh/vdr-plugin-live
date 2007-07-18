@@ -17,6 +17,8 @@ using namespace std;
 	string startscreen;
 	string theme;
 	string localnetmask;
+	string showLogo;
+	string useAjax;
 	string showInfoBox;
 	int authchanged = 0;
 </%args>
@@ -50,7 +52,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			LiveSetup().SetTimes(times);
 			LiveSetup().SetStartScreen(startscreen);
 			LiveSetup().SetTheme(theme);
-			LiveSetup().SetShowInfoBox(!showInfoBox.empty());
+			LiveSetup().SetShowLogo(!showLogo.empty());
+			LiveSetup().SetUseAjax(!useAjax.empty());
+			if (LiveSetup().GetUseAjax()) {
+				LiveSetup().SetShowInfoBox(!showInfoBox.empty());
+			}
 			LiveSetup().SaveSetup();
 			message = tr("Setup saved.");
 		}
@@ -68,7 +74,10 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	startscreen = LiveSetup().GetStartScreen();
 	theme = LiveSetup().GetTheme();
 	localnetmask = LiveSetup().GetLocalNetMask();
+	showLogo = LiveSetup().GetShowLogo() ? "1" : "";
+	useAjax = LiveSetup().GetUseAjax() ? "1" : "";
 	showInfoBox = LiveSetup().GetShowInfoBox() ? "1" : "";
+
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -80,6 +89,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		function initform()
 		{
 			changeduseauth(document.getElementById("useauth"));
+			changeduseajax(document.getElementById("useAjax"));
 			if (document.getElementById("message").value != "")
 				alert(document.getElementById("message").value);
 		}
@@ -90,6 +100,10 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		function setauthchanged(selection)
 		{
 			document.getElementById("authchanged").value = 1;
+		}
+		function changeduseajax(selection)
+		{
+			document.getElementById("ajaxsection").style.display = (selection.checked ? "block" : "none");
 		}
 		//--></script>
 	</head>
@@ -131,9 +145,23 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 						</td>
 					</tr>
 					<tr>
-						<td class="label leftcol"><div class="withmargin"><$ tr("Show dynamic VDR information box") $>:</div></td>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Show live logo image") $>:</div></td>
 						<td class="rightcol">
-							<input type="checkbox" name="showInfoBox" id="showInfoBox" value="1" <%cpp> CHECKIF(!showInfoBox.empty()); </%cpp>/>
+							<input type="checkbox" name="showLogo" id="showLogo" value="1" <%cpp> CHECKIF(!showLogo.empty()); </%cpp>/>
+						</td>
+					</tr>
+					<tr>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Use ajax technology") $>:</div></td>
+						<td class="rightcol">
+							<input type="checkbox" name="useAjax" id="useAjax" value="1" <%cpp> CHECKIF(!useAjax.empty()); </%cpp> onclick="changeduseajax(this)"/>
+							<div id="ajaxsection" style="display: none">
+							<table border="0" cellpadding="0" cellspacing="0" class="dependent">
+							<tr>
+								<td class="label"><div class="withmargin"><$ tr("Show dynamic VDR information box") $>:</div></td>
+								<td><input type="checkbox" name="showInfoBox" id="showInfoBox" value="1" <%cpp> CHECKIF(!showInfoBox.empty()); </%cpp>/></td>
+							</tr>
+							</table>
+							</div>
 						</td>
 					</tr>
 					<tr>

@@ -4,7 +4,7 @@
    extended version of i18n.cpp. (If you would like to submit a patch
    add more context like described below)
 
-   $Id: i18n.cpp,v 1.95 2007/06/20 17:29:29 winni Exp $
+   $Id: i18n.cpp,v 1.96 2007/07/18 23:48:14 tadi Exp $
 
    Note to developers:
    How to safely integrate translations from third parties:
@@ -1309,6 +1309,50 @@ const tI18nPhrase Phrases[] = {
     },
     { "Failed to update infobox!", // English
       "Kann Infobox nicht aktualisieren!", // Deutsch
+      "", // Slovenski
+      "", // Italiano
+      "", // Nederlands
+      "", // Português
+      "", // Français
+      "", // Norsk
+      "", // Finnish
+      "", // Polski
+      "", // Español
+      "", // Greek
+      "", // Svenska
+      "", // Românã
+      "", // Magyar
+      "", // Català
+      "", // Russian
+      "", // Hrvatski
+      "", // Eesti
+      "", // Dansk
+      "", // Czech
+    },
+    { "Show live logo image", // English
+      "Zeige das Live Logo", // Deutsch
+      "", // Slovenski
+      "", // Italiano
+      "", // Nederlands
+      "", // Português
+      "", // Français
+      "", // Norsk
+      "", // Finnish
+      "", // Polski
+      "", // Español
+      "", // Greek
+      "", // Svenska
+      "", // Românã
+      "", // Magyar
+      "", // Català
+      "", // Russian
+      "", // Hrvatski
+      "", // Eesti
+      "", // Dansk
+      "", // Czech
+    },
+    { "Use ajax technology", // English
+      "Verwende AJAX Technologie", // Deutsch
       "", // Slovenski
       "", // Italiano
       "", // Nederlands
