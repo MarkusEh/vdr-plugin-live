@@ -21,15 +21,50 @@ select {
         background: #DDDDFF;
 }
 
+a {
+	text-decoration: none;
+	color: #F5EE74;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:active {
+	text-decoration: underline;
+}
+
 /* ######################
    # Tooltip style for hints
    ######################
 */
 
-div.domTThint {
-	border: 1px solid #FCB840;
-	background-color: #EEEEFF;
+.hint-tip {
 	color: black;
+}
+
+.hint-tip .hint-tip-top {
+	background: transparent url(../img/tip-hint-tl.png) no-repeat 0px 0px;
+}
+
+.hint-tip .hint-tip-top .hint-tip-c {
+	background: transparent url(../img/tip-hint-tr.png) no-repeat right 0px;
+}
+
+.hint-tip .hint-tip-bdy {
+	background: transparent url(../img/tip-hint-ml.png) repeat-y 0px 0px;
+}
+
+.hint-tip .hint-tip-bdy .hint-tip-c {
+	background: transparent url(../img/tip-hint-mr.png) repeat-y right 0px;
+}
+
+.hint-tip .hint-tip-bot {
+	background: transparent url(../img/tip-hint-bl.png) no-repeat 0px 0px;
+}
+
+.hint-tip .hint-tip-bot .hint-tip-c {
+	background: transparent url(../img/tip-hint-br.png) no-repeat right 0px;
 }
 
 
@@ -38,11 +73,31 @@ div.domTThint {
    ##############################
 */
 
-.domTTepg div.epg_content {
-	border-left: 1px solid #fffddd;
-	border-right: 1px solid #fffddd;
-	border-bottom: 1px solid #fffddd;
-        background: #263480 url(../img/bg_tools.png) top left repeat-y;
+.info-win .info-win-top {
+	background: transparent url(../img/info-win-t-l.png) no-repeat 0px 0px;
+}
+
+.info-win .info-win-top .info-win-c {
+	background: transparent url(../img/info-win-t-r.png) no-repeat right 0px;
+}
+
+.info-win .info-win-top .info-win-c .info-win-t {
+	color: #000;
+}
+.info-win .info-win-body {
+	background: transparent url(../img/info-win-m-l.png) repeat-y 0px 0px;
+}
+
+.info-win .info-win-body .info-win-c {
+	background: transparent url(../img/info-win-m-r.png) repeat-y right 0px;
+}
+
+.info-win .info-win-bot {
+	background: transparent url(../img/info-win-b-l.png) no-repeat 0px 0px;
+}
+
+.info-win .info-win-bot .info-win-c {
+	background: transparent url(../img/info-win-b-r.png) no-repeat right 0px;
 }
 
 /* #######################
@@ -287,37 +342,24 @@ table.dependent {
 	background-color: #263480;
 }
 
+/*
+  ##############################
+  #  Infowin support styles for EPG-Boxes
+  ##############################
+*/
+
+.info-win div.epg_content {
+        background: transparent url(../img/bg_tools.png) top left repeat-y;
+}
+
 
 /* ##############################
    # About box
    ##############################
 */
 
-div.about_box a {
-	color: #FCBC40;
-}
-
-.about_box div.about_content {
-	border-left: 1px solid #FFFDDD;
-	border-right: 1px solid #FFFDDD;
-	border-bottom: 1px solid #FFFDDD;
-}
-
-.about_box div.about_content div {
-	background-color: #081966;
-	padding-bottom: 6px;
-}
-
-.about_box div.about_content div.about_head {
-	background: #081966 url(../img/bg_line.png) top repeat-x;
-}
-
-.about_box div.about_content div.about_head div {
-	background: #FFFFFF url(../img/bg_line_top.png) bottom repeat-x;
-}
-
-.about_box div.about_content div.about_head div div {
+.info-win div.epg_content div.about_head div div {
 	background: #122DBA;
-	border-top: 1px solid #FCBC40;
-	border-bottom: 1px solid #FCBC40;
+	border-top: 1px solid #C0C1DA;
+	border-bottom: 1px solid #C0C1DA;
 }

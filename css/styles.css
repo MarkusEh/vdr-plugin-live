@@ -39,6 +39,18 @@ img {
 	border: 0;
 }
 
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:active {
+	text-decoration: underline;
+}
+
 /* #########################
    # global style properties
    #########################
@@ -250,7 +262,6 @@ div.menu {
 }
 
 div.menu a {
-	text-decoration: none;
 	color: white;
 	font-weight: bold;
 }
@@ -260,14 +271,8 @@ a#login {
 }
 
 div.menu a.active {
-	text-decoration: none;
 	color: #FFDB88;
 	font-weight: bold;
-}
-
-
-div.menu a:hover {
-	text-decoration: underline;
 }
 
 div.menu form {
@@ -298,20 +303,16 @@ div.pagemenu div div {
 }
 
 div.pagemenu a {
-	text-decoration: none;
 	color: black;
 	font-weight: bold;
 }
 
-div.pagemenu a:hover {
-	text-decoration: underline;
-}
-
 div.pagemenu a.active {
-	text-decoration: none;
 	color: blue;
 	font-weight: bold;
 }
+
+/* check if still needed
 
 div.pagemenu span {
 	text-decoration: none;
@@ -333,6 +334,7 @@ div.pagemenu span.sep {
 	font-weight: lighter;
 	padding: 5px;
 }
+*/
 
 /* #######################
    #  Info Box (near logo)
@@ -541,11 +543,6 @@ div.station div div div {
 div.station div div div a {
 	color: #ffffff;
 	font-weight: bold;
-	text-decoration: none;
-}
-
-div.station div div div a:hover {
-	text-decoration: underline;
 }
 
 td div.station {
@@ -555,11 +552,6 @@ td div.station {
 td div.station a {
 	color: black;
 	font-weight: bold;
-	text-decoration: none;
-}
-
-td div.station a:hover {
-	text-decoration: underline;
 }
 
 div.content {
@@ -685,13 +677,8 @@ table.listing tr.spacer td {
 }
 
 table.listing a {
-	text-decoration: none;
 	color: black;
 	font-weight: bold;
-}
-
-table.listing a:hover {
-	text-decoration: underline;
 }
 
 /*
