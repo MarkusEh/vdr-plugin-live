@@ -4,7 +4,7 @@
    extended version of i18n.cpp. (If you would like to submit a patch
    add more context like described below)
 
-   $Id: i18n.cpp,v 1.96 2007/07/18 23:48:14 tadi Exp $
+   $Id: i18n.cpp,v 1.97 2007/07/19 21:19:44 lordjaxom Exp $
 
    Note to developers:
    How to safely integrate translations from third parties:
@@ -29,6 +29,12 @@
 #include "i18n.h"
 
 namespace vdrlive {
+
+I18n& LiveI18n()
+{
+	static I18n instance;
+	return instance;
+}
 
 const tI18nPhrase Phrases[] = {
     { "Live Interactive VDR Environment",

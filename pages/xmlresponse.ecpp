@@ -1,5 +1,6 @@
 <%pre>
 #include <string>
+#include "i18n.h"
 
 using namespace std;
 </%pre>
@@ -14,7 +15,7 @@ using namespace std;
 	bool result;
 	string error;
 </%args>
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="<$ LiveI18n().CharacterEncoding() $>"?>
 <service>
   <request name="<$ name $>">
      <param name="<$ pname $>"><$ value $></param>

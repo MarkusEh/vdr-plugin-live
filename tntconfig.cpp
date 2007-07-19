@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <vdr/config.h>
 #include <vdr/plugin.h>
+#include "i18n.h"
 #include "live.h"
 #include "setup.h"
 #include "tntconfig.h"
@@ -57,6 +58,7 @@ void TntConfig::WriteConfig()
 	file << "MapUrl /([^.]+)(\\..+)? $1@" << endl;
 	file << "PropertyFile " << m_propertiesPath << endl;
 	file << "SessionTimeout 86400" << endl;
+	file << "DefaultContentType \"text/html; charset=" << LiveI18n().CharacterEncoding() << "\"" << endl;
 
 	Setup::IpList const& ips = LiveSetup().GetServerIps();
 	int port = LiveSetup().GetServerPort();
