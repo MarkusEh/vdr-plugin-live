@@ -22,16 +22,7 @@ select {
 }
 
 a {
-	text-decoration: none;
 	color: #F5EE74;
-}
-
-a:hover {
-	text-decoration: underline;
-}
-
-a:active {
-	text-decoration: underline;
 }
 
 /* ######################

@@ -24,14 +24,17 @@ reply.setContentType(mime);
 // dsyslog("vdrlive::content::mimetype(%s)", mime.c_str());
 
 // FileCache::ptr_type f = LiveFileCache().get("/tmp/live/" + request.getPathInfo());
-string path(request.getPathInfo());
+string const path(request.getPathInfo());
 
 FileCache::ptr_type f;
 
-if (path.find(LiveSetup().GetEpgImageDir()) != 0)
-	f = LiveFileCache().get(Plugin::GetConfigDirectory() + "/" + path);
-else
+string const epgImgPath(LiveSetup().GetEpgImageDir());
+if (!epgImgPath.empty() && path.find(epgImgPath) != string::npos) {
 	f = LiveFileCache().get(path);
+}
+else {
+	f = LiveFileCache().get(Plugin::GetConfigDirectory() + "/" + path);
+}
 
 if (f.get() == 0) {
 	return DECLINED;
