@@ -180,22 +180,27 @@ int update_status(1);
 			</div>
 		 	<div>
 				<div class="info"><%cpp> if (!archived.empty()) { </%cpp><span class="bold"><$ (archived + " ") $></span><%cpp> } </%cpp><$ (time) $></div>
-%	if (elapsed >= 0) {
+<%cpp>
+	if (elapsed >= 0) {
+</%cpp>
 				<div class="progress"><div><& pageelems.progressbar progress=(elapsed) &></div></div>
-%	}
+<%cpp>
+	}
+</%cpp>
 		 		<div class="title"><$ (title) $></div>
 				<div class="short"><$ (short_descr) $></div>
 				<div class="description">
+					<span class="epg_images">
+<%cpp>
+	list<string> images = EpgEvents::EpgImages(boxId);
+	for(std::list<std::string>::iterator it = images.begin(); it != images.end(); ++it ) {
+</%cpp>
+						<img src="/epgimages/<$ *it $>" class="epg_image"/>
+<%cpp>
+	}
+</%cpp>
+					</span>
 					<%cpp> reply.out() << StringEscapeAndBreak(long_descr); </%cpp>
-				</div>
-				<br/>				
-				<div>
-<%cpp>				list<string> images = EpgEvents::EpgImages(boxId);
-				for(std::list<std::string>::iterator it = images.begin(); it != images.end(); ++it ) {
-</%cpp>
-					<img src="/epgimages/<$ *it $>">
-<%cpp>				}
-</%cpp>
 				</div>
 			</div>
 		</div>

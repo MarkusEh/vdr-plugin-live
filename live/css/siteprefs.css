@@ -15,3 +15,9 @@ table {
 	width: 100%;
 }
 */
+
+/* comment this out, if you want epg images at their native size */
+.info-win span.epg_images {
+	width: 120px;
+}
+

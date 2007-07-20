@@ -236,10 +236,6 @@ div.info-win {
 	margin-right: -26px;
 }
 
-.info-win .description {
-	margin-bottom: 0px;
-}
-
 .hint-title {
 	display: none;
 }
@@ -587,7 +583,8 @@ div.content div {
 }
 
 div.description {
-	margin: 5px;
+	margin: 5px 5px 0px 5px;
+	overflow: hidden;
 }
 
 div.title {
@@ -934,6 +931,15 @@ table.login tr td {
 
 .info-win div.epg_content div.epg_tools img {
 	margin-top: 5px;
+}
+
+.info-win span.epg_images {
+	float: right;
+        margin-left: 5px;
+}
+
+.info-win span.epg_images img.epg_image {
+	width: 100%;
 }
 
 .info-win div.boxheader {

@@ -1,6 +1,12 @@
+2007-07-21  Dieter Hametner  <dh+vdr at gekrumbel dot de>
+
+	Made epgimages better styleable. Displaying them as floats right
+	of the epg description text.
+
 2007-07-20  Christian Wieninger <cwieninger at gmx dot de>
+
 	Added support for EPG images: Specify the directory with your
-	EPG images via the new commandline option '-e <dir>' or 
+	EPG images via the new commandline option '-e <dir>' or
 	'--epgimages=<dir> like
 	-P'live -e /video/epgimages'
 
