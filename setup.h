@@ -48,6 +48,7 @@ class Setup
 		bool GetShowLogo() const { return m_showLogo != 0; }
 		bool GetUseAjax() const { return m_useAjax != 0; }
 		bool GetShowInfoBox() const { return m_showInfoBox != 0; }
+		std::string GetEpgImageDir() { return m_epgimagedir; }
 
 		void SetLastChannel(int lastChannel) { m_lastChannel = lastChannel; }
 		void SetAdminLogin(std::string login) { m_adminLogin = login; }
@@ -85,6 +86,8 @@ class Setup
 		// commandline options
 		int m_serverPort;
 		IpList m_serverIps;
+		std::string m_epgimagedir;
+
 		// setup options
 		int m_lastChannel;
 		int m_screenshotInterval;

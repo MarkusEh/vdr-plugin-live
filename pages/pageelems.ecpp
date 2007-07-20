@@ -8,6 +8,7 @@
 #include "setup.h"
 #include "timers.h"
 #include "tools.h"
+#include "epg_events.h"
 
 using namespace std;
 using namespace vdrlive;
@@ -34,25 +35,12 @@ int update_status(1);
 <# ---------------------------------------------------------------------- #>
 
 <%def logo>
-<%cpp>
-	if (LiveSetup().GetShowLogo()
-		|| (LiveSetup().GetUseAjax() && LiveSetup().GetShowInfoBox())) {
-</%cpp>
 <div class="page_header">
-<%cpp>
-		if (LiveSetup().GetShowLogo()) {
-</%cpp>
 <a href="<$ LiveSetup().GetStartScreenLink()$>">
 <img src="<$ LiveSetup().GetThemedLink("img", "logo.png") $>" alt="VDR Live!" class="logo"></img></a>
-<%cpp>
-		}
-</%cpp>
-<%cpp>if (LiveSetup().GetUseAjax() && LiveSetup().GetShowInfoBox()) { </%cpp><& infobox &><%cpp> } </%cpp>
+<%cpp>if (LiveSetup().GetShowInfoBox()) { </%cpp><& infobox &><%cpp> } </%cpp>
 </div>
 <div style="clear: both"></div>
-<%cpp>
-	}
-</%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -136,7 +124,6 @@ int update_status(1);
 <# ---------------------------------------------------------------------- #>
 
 <%def ajax_js>
-<%cpp>if (LiveSetup().GetUseAjax()) { </%cpp>
 	<script type="text/javascript" src="js/mootools/mootools.v1.11.js"></script>
 	<script type="text/javascript" src="js/live/liveajax.js"></script>
 	<script type="text/javascript" src="js/live/infowin.js"></script>
@@ -152,7 +139,6 @@ int update_status(1);
 			InfoBox.pageFinished();
 		});
 	--></script>
-<%cpp> } </%cpp>
 <%cpp> } </%cpp>
 </%def>
 
@@ -201,6 +187,15 @@ int update_status(1);
 				<div class="short"><$ (short_descr) $></div>
 				<div class="description">
 					<%cpp> reply.out() << StringEscapeAndBreak(long_descr); </%cpp>
+				</div>
+				<br/>				
+				<div>
+<%cpp>				list<string> images = EpgEvents::EpgImages(boxId);
+				for(std::list<std::string>::iterator it = images.begin(); it != images.end(); ++it ) {
+</%cpp>
+					<img src="/epgimages/<$ *it $>">
+<%cpp>				}
+</%cpp>
 				</div>
 			</div>
 		</div>

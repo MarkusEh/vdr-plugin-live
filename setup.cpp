@@ -44,15 +44,17 @@ bool Setup::ParseCommandLine( int argc, char* argv[] )
 			{ "port", required_argument, NULL, 'p' },
 			{ "ip",   required_argument, NULL, 'i' },
 			{ "log",  required_argument, NULL, 'l' },
+			{ "epgimages",  required_argument, NULL, 'e' },
 			{ 0 }
 	};
 
 	int optchar, optind = 0;
-	while ( ( optchar = getopt_long( argc, argv, "p:i:l:", opts, &optind ) ) != -1 ) {
+	while ( ( optchar = getopt_long( argc, argv, "p:i:l:e:", opts, &optind ) ) != -1 ) {
 		switch ( optchar ) {
 		case 'p': m_serverPort = atoi( optarg ); break;
 		case 'i': m_serverIps.push_back( optarg ); break;
 		case 'l': m_tntnetloglevel = optarg; break;
+		case 'e': m_epgimagedir = optarg; break;
 		default:  return false;
 		}
 	}
@@ -65,12 +67,13 @@ char const* Setup::CommandLineHelp() const
 {
 	if ( m_helpString.empty() ) {
 		ostringstream builder;
-		builder << "  -p PORT,  --port=PORT     use PORT to listen for incoming connections\n"
-				   "                            (default: " << m_serverPort << ")\n"
-				<< "  -i IP,    --ip=IP         bind server only to specified IP, may appear\n"
-				   "                            multiple times\n"
-				   "                            (default: 0.0.0.0)\n"
-				<< "  -l level, --log=level     log level for tntnet (values: INFO, DEBUG,...)\n";
+		builder         << "  -p PORT,  --port=PORT        use PORT to listen for incoming connections\n"
+				   "                               (default: " << m_serverPort << ")\n"
+				<< "  -i IP,    --ip=IP            bind server only to specified IP, may appear\n"
+				   "                               multiple times\n"
+				   "                               (default: 0.0.0.0)\n"
+				<< "  -l level, --log=level        log level for tntnet (values: INFO, DEBUG,...)\n"
+				<< "  -e <dir>, --epgimages=<dir>  directory for epgimages\n";
 		m_helpString = builder.str();
 	}
 	return m_helpString.c_str();

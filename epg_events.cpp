@@ -1,9 +1,11 @@
 #include <time.h>
+#include <glob.h>
 
 #include "tools.h"
 #include "recordings.h"
 
 #include "epg_events.h"
+#include "setup.h"
 
 using namespace std;
 
@@ -275,4 +277,29 @@ namespace vdrlive
 	{
 		return EpgInfoPtr(new EpgString(id, caption, info));
 	}
+
+	list<string> EpgEvents::EpgImages(const std::string& epgid)
+	{
+		list<string> images;
+	
+		size_t delimPos = epgid.find_last_of('_');
+		string imageId = epgid.substr(delimPos+1);
+		imageId = imageId.substr(0, imageId.size()-1); // tvm2vdr seems always to use one digit less
+		
+		const string filemask(LiveSetup().GetEpgImageDir() + "/" + imageId + "*.*");
+		glob_t globbuf;
+		globbuf.gl_offs = 0;
+		if (!LiveSetup().GetEpgImageDir().empty() && glob(filemask.c_str(), GLOB_DOOFFS, NULL, &globbuf) == 0)
+		{
+			for(int i=0; i<(int)globbuf.gl_pathc; i++)
+			{
+				const string imagefile(globbuf.gl_pathv[i]);
+				size_t delimPos = imagefile.find_last_of('/');
+				images.push_back(imagefile.substr(delimPos+1)); 
+			}
+			globfree(&globbuf);
+		}
+		return images;
+	}
+	
 }; // namespace vdrlive

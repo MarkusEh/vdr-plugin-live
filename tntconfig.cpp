@@ -49,6 +49,9 @@ void TntConfig::WriteConfig()
 	file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) content@ common/img/$2.$3 image/$3" << endl;
 	file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) $2@" << endl;
 
+	// Epg images
+	file << "MapUrl ^/epgimages/(.*)\\.(.+) content@ " << LiveSetup().GetEpgImageDir() << "/$1.$2 image/$2" << endl;
+
 	// select additional (not build in) javascript.
 	file << "MapUrl ^/js([^.]*/)(.*\\.js) content@ js$1$2 text/javascript" << endl;
 

@@ -2,6 +2,7 @@
 #define VDR_LIVE_WHATS_ON_H
 
 #include <ctime>
+#include <list>
 
 #include <vdr/plugin.h>
 #include <vdr/channels.h>
@@ -179,6 +180,8 @@ namespace vdrlive
 			 *	passed string informations
 			 */
 			static EpgInfoPtr CreateEpgInfo(const std::string& id, const std::string& caption, const std::string& info);
+
+			static std::list<std::string> EpgImages(const std::string& epgid);
 		private:
 	};
 }; // namespace vdrlive
