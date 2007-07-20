@@ -34,7 +34,6 @@ else
 	f = LiveFileCache().get(path);
 
 if (f.get() == 0) {
-cout << "declined" << endl;
 	return DECLINED;
 }
 string ctime = tnt::HttpMessage::htdate(f->ctime());
