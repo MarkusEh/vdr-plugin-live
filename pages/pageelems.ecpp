@@ -35,12 +35,25 @@ int update_status(1);
 <# ---------------------------------------------------------------------- #>
 
 <%def logo>
+<%cpp>
+	if (LiveSetup().GetShowLogo()
+		|| (LiveSetup().GetUseAjax() && LiveSetup().GetShowInfoBox())) {
+</%cpp>
 <div class="page_header">
+<%cpp>
+		if (LiveSetup().GetShowLogo()) {
+</%cpp>
 <a href="<$ LiveSetup().GetStartScreenLink()$>">
 <img src="<$ LiveSetup().GetThemedLink("img", "logo.png") $>" alt="VDR Live!" class="logo"></img></a>
-<%cpp>if (LiveSetup().GetShowInfoBox()) { </%cpp><& infobox &><%cpp> } </%cpp>
+<%cpp>
+		}
+</%cpp>
+<%cpp>if (LiveSetup().GetUseAjax() && LiveSetup().GetShowInfoBox()) { </%cpp><& infobox &><%cpp> } </%cpp>
 </div>
 <div style="clear: both"></div>
+<%cpp>
+	}
+</%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -124,6 +137,9 @@ int update_status(1);
 <# ---------------------------------------------------------------------- #>
 
 <%def ajax_js>
+<%cpp>
+	if (LiveSetup().GetUseAjax()) {
+</%cpp>
 	<script type="text/javascript" src="js/mootools/mootools.v1.11.js"></script>
 	<script type="text/javascript" src="js/live/liveajax.js"></script>
 	<script type="text/javascript" src="js/live/infowin.js"></script>
@@ -137,7 +153,9 @@ int update_status(1);
 				}
 			});
 	--></script>
-<%cpp>if (LiveSetup().GetShowInfoBox()) { </%cpp>
+<%cpp>
+		if (LiveSetup().GetShowInfoBox()) {
+</%cpp>
 	<script type="text/javascript" src="js/live/vdr_status.js"></script>
 	<script type="text/javascript"><!--
 		var InfoBox = new LiveVdrInfo('ibox.xml', 'infobox');
@@ -148,7 +166,12 @@ int update_status(1);
 			InfoBox.pageFinished();
 		});
 	--></script>
-<%cpp> } </%cpp>
+<%cpp>
+		}
+</%cpp>
+<%cpp>
+	}
+</%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
