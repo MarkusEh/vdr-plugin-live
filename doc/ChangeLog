@@ -1,5 +1,12 @@
 2007-07-21  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
+	* live/js/live/pageenhance.js: Enhance a normal web page with
+		nifty web 2.0 features.
+	* live/js/live/infowin.js: stand alone class. Used by pageenhance.js
+	* live/js/live/hinttips.js: stand alone class. Used by pageenhance.js
+
+2007-07-21  Dieter Hametner  <dh+vdr at gekrumbel dot de>
+
 	Made epgimages better styleable. Displaying them as floats right
 	of the epg description text.
 

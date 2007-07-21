@@ -1,6 +1,10 @@
 /*
- * Extension of mootools Tips class for rounded corner
- * tooltips of variable size up to some maximum.
+ * This is part of the live vdr plugin. See COPYING for license information.
+ *
+ * HintTips class.
+ *
+ * Extension of mootools Tips class for rounded corner tooltips of
+ * variable size up to some maximum.
  */
 
 var HintTips = Tips.extend({
@@ -20,15 +24,4 @@ var HintTips = Tips.extend({
 			var bt = new Element('div', {'class': this.options.className + '-tip-bot'}).inject(this.toolTip);
 			bt = new Element('div', {'class': this.options.className + '-tip-c'}).inject(bt);
 		}
-	});
-
-window.addEvent('domready', function(){
-		var tips = new HintTips($$('*[title]'), {
-			  maxTitleChars: 100,
-			  className: 'hint'
-			});
-	});
-
-window.addEvent('mousedown', function(){
-		$$('.hint-tip').setStyle('visibility', 'hidden');
 	});

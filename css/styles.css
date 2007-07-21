@@ -153,6 +153,20 @@ a:active {
 }
 
 
+/* ######################
+   # General styles for epg info
+   ######################
+*/
+
+div.epg_content {
+	border: 1px solid black;
+}
+
+span.epg_images {
+	float: right;
+        margin-left: 5px;
+}
+
 /* ##############################
    # Infowin styles for epg infos
    ##############################
@@ -495,7 +509,7 @@ table td.padded {
 }
 
 /* ################
-   #  Event
+   #  Event (page: whats_on.html)
    ################
 */
 
@@ -909,6 +923,7 @@ table.login tr td {
 	padding: 0px 0px 7px 0px;
 	margin: 0;
         background: transparent url(bg_tools.png) top left repeat-y;
+        border: 0px;
 }
 
 .info-win div.epg_content div.epg_tools {
@@ -931,11 +946,6 @@ table.login tr td {
 
 .info-win div.epg_content div.epg_tools img {
 	margin-top: 5px;
-}
-
-.info-win span.epg_images {
-	float: right;
-        margin-left: 5px;
 }
 
 .info-win span.epg_images img.epg_image {

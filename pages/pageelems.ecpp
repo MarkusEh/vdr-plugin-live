@@ -128,6 +128,15 @@ int update_status(1);
 	<script type="text/javascript" src="js/live/liveajax.js"></script>
 	<script type="text/javascript" src="js/live/infowin.js"></script>
 	<script type="text/javascript" src="js/live/hinttips.js"></script>
+	<script type="text/javascript" src="js/live/pageenhance.js"></script>
+	<script type="text/javascript"><!--
+		var liveEnhanced = new PageEnhance({
+				infoWinStrings: {
+					loadingMsg: '<$ tr("loading data") $>',
+					errorMsg: '<$ tr("an error occured!") $>'
+				}
+			});
+	--></script>
 <%cpp>if (LiveSetup().GetShowInfoBox()) { </%cpp>
 	<script type="text/javascript" src="js/live/vdr_status.js"></script>
 	<script type="text/javascript"><!--

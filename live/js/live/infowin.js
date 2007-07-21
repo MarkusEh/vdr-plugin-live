@@ -1,6 +1,12 @@
 /*
- * Extension of mootools to display a popup window with
- * some html code.
+ * This is part of the live vdr plugin. See COPYING for license information.
+ *
+ * InfoWin.js
+ *
+ * InfoWin class, InfoWin.Manager class, InfoWin.Ajax class.
+ *
+ * Extension of mootools to display a popup window with some html
+ * code.
  */
 
 /*
@@ -28,20 +34,22 @@ var InfoWin = new Class({
 		  timeout: 0,
 		  onShow: Class.empty,
 		  onHide: Class.empty,
+		  onDomExtend: Class.empty,
 		  className: 'info',
 		  wm: false, // overide default window manager.
 		  draggable: true,
 		  resizable: true,
 		  buttonimg: 'transparent.png',
-		  bodyselect: 'div.epg_content',
+		  bodyselect: 'div.content',
 		  titleselect: 'div.caption',
+		  idSuffix: '-win-id',
 		  offsets: {'x': -16, 'y': -16}
 	  },
 
 	  initialize: function(id, options){
 			this.setOptions(options);
 			this.wm = this.options.wm || InfoWin.$wm;
-			this.winFrame = $(id + '-win-id');
+			this.winFrame = $(id + this.options.idSuffix);
 			if (!$defined(this.winFrame)){
 				this.build(id);
 				this.wm.register(this);
@@ -56,7 +64,7 @@ var InfoWin = new Class({
 	  // with the user data, false otherwise.
 	  build: function(id){
 			this.winFrame = new Element('div', {
-					'id': id + '-win-id',
+					'id': id + this.options.idSuffix,
 					'class': this.options.className + '-win',
 					'styles': {
 						'position': 'absolute',
@@ -144,7 +152,9 @@ var InfoWin = new Class({
 	  fillBody: function(id){
 			var bodyElems = $$('#'+ id + ' ' + this.options.bodyselect);
 			if ($defined(bodyElems) && bodyElems.length > 0) {
-				this.winBody.empty().adopt(bodyElems);
+				this.winBody.empty();
+				this.fireEvent('onDomExtend', [id, bodyElems]);
+				this.winBody.adopt(bodyElems);
 				return true;
 			}
 			return false;
@@ -170,6 +180,12 @@ var InfoWin = new Class({
 
 InfoWin.implement(new Events, new Options);
 
+/*
+Class: InfoWin.Manager
+	Provide an container and events for the created info win
+	instances.  Closed info-wins are preserved in a hidden dom element
+	and used again if a window with a closed id is openend again.
+*/
 InfoWin.Manager = new Class({
 	  options: {
 		  zIndex: 100,
@@ -228,12 +244,17 @@ window.addEvent('domready', function(){
 		InfoWin.$wm = new InfoWin.Manager();
 	});
 
+/*
+Class: InfoWin.Ajax
 
+	Use an instance of mootools Ajax class to asynchronously request
+	the content of an info win.
+*/
 InfoWin.Ajax = InfoWin.extend({
 	  options: {
 		  loadingMsg: 'loading',
 		  errorMsg: 'an error occured!',
-		  onError: Class.empty
+		  onError: Class.empty,
 	  },
 
 	  initialize: function(id, url, options){
@@ -273,25 +294,3 @@ InfoWin.Ajax = InfoWin.extend({
 	});
 
 InfoWin.Ajax.implement(new Events, new Options);
-
-
-window.addEvent('domready', function(){
-		$$('a[href^="epginfo.html?epgid"]').each(function(el){
-				var href = el.href;
-				var epgid = $pick(href, "");
-				if (epgid != "") {
-					var extractId = /epgid=(\w+)/;
-					var found = extractId.exec(epgid);
-					if ($defined(found) && found.length > 1) {
-						epgid = found[1];
-						el.addEvent('click', function(event){
-								var event = new Event(event);
-								new InfoWin.Ajax(epgid, href).show(event);
-								event.stop();
-								return false;
-							});
-					}
-				}
-			});
-	});
-

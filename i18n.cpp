@@ -4,7 +4,7 @@
    extended version of i18n.cpp. (If you would like to submit a patch
    add more context like described below)
 
-   $Id: i18n.cpp,v 1.97 2007/07/19 21:19:44 lordjaxom Exp $
+   $Id: i18n.cpp,v 1.98 2007/07/21 17:52:41 tadi Exp $
 
    Note to developers:
    How to safely integrate translations from third parties:
@@ -1315,6 +1315,50 @@ const tI18nPhrase Phrases[] = {
     },
     { "Failed to update infobox!", // English
       "Kann Infobox nicht aktualisieren!", // Deutsch
+      "", // Slovenski
+      "", // Italiano
+      "", // Nederlands
+      "", // Português
+      "", // Français
+      "", // Norsk
+      "", // Finnish
+      "", // Polski
+      "", // Español
+      "", // Greek
+      "", // Svenska
+      "", // Românã
+      "", // Magyar
+      "", // Català
+      "", // Russian
+      "", // Hrvatski
+      "", // Eesti
+      "", // Dansk
+      "", // Czech
+    },
+    { "loading data", // English
+      "Daten nachladen", // Deutsch
+      "", // Slovenski
+      "", // Italiano
+      "", // Nederlands
+      "", // Português
+      "", // Français
+      "", // Norsk
+      "", // Finnish
+      "", // Polski
+      "", // Español
+      "", // Greek
+      "", // Svenska
+      "", // Românã
+      "", // Magyar
+      "", // Català
+      "", // Russian
+      "", // Hrvatski
+      "", // Eesti
+      "", // Dansk
+      "", // Czech
+    },
+    { "an error occured!", // English
+      "Es ist ein Fehler aufgetreten!", // Deutsch
       "", // Slovenski
       "", // Italiano
       "", // Nederlands
@@ -3180,13 +3224,12 @@ const tI18nPhrase Phrases[] = {
 	  "",// TODO
 	  "",// TODO
 	  "",// TODO
-	  "",// TODO 
+	  "",// TODO
 	  "",// TODO
 	  "",// TODO
 	  "",// TODO Eesti
 	  "",// TODO Dansk
 	  "",// TODO Èesky (Czech)
-	
 	},
 	{ "User", // English
       "Benutzer", // Deutsch
@@ -3496,7 +3539,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Dansk
 	  "", // Czech
 	},
-      { "Starts between", // English
+	{ "Starts between", // English
       "Beginnt zwischen", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -3517,8 +3560,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
-      { "Wrong username or password", // English
+	},
+	{ "Wrong username or password", // English
       "Falscher Benutzername oder Passwort", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -3539,8 +3582,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
-      { "Required minimum version of epgsearch: ", // English
+	},
+	{ "Required minimum version of epgsearch: ", // English
       "Benötigte Mindestversion von epgsearch: ", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -3561,8 +3604,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
-      { "EPGSearch version outdated! Please update.", // English
+	},
+	{ "EPGSearch version outdated! Please update.", // English
       "EPGSearch-Version zu alt, bitte updaten!", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -3583,8 +3626,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
-      { "Search for repeats.", // English
+	},
+	{ "Search for repeats.", // English
       "Nach Wiederholungen suchen.", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -3605,7 +3648,7 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
+	},
     { "What's on",
       "Was läuft",
       "", // Slovenski
@@ -3980,7 +4023,7 @@ const tI18nPhrase Phrases[] = {
       "", // Dansk
       "", // Czech
     },
-      { "Couldn't find timer. Maybe you mistyped your request?", // English
+	{ "Couldn't find timer. Maybe you mistyped your request?", // English
       "Konnte Timer nicht finden. Evtl. fehlerhafte Anforderung?", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -4001,8 +4044,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
-      { "Couldn't find channel or no channels available. Maybe you mistyped your request?", // English
+	},
+	{ "Couldn't find channel or no channels available. Maybe you mistyped your request?", // English
       "Konnte Kanal nicht finden oder keine Kanäle verfügbar. Ist die Anfrage korrekt?", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -4023,8 +4066,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
-      { "Page error", // English
+	},
+	{ "Page error", // English
       "Seitenfehler", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -4045,8 +4088,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
-      { "If you encounter any bugs or would like to suggest new features, please use our bugtracker", // English
+	},
+	{ "If you encounter any bugs or would like to suggest new features, please use our bugtracker", // English
       "Für Fehler oder Verbesserungsvorschläge steht unser Bugtracker bereit", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -4067,8 +4110,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
-      { "Bugs and suggestions", // English
+	},
+	{ "Bugs and suggestions", // English
       "Fehlerberichte und Vorschläge", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -4089,8 +4132,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
-      { "Find more at the Internet Movie Database.", // English
+	},
+	{ "Find more at the Internet Movie Database.", // English
       "Weitere Informationen in der Internet Movie Database.", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -4111,8 +4154,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
-      { "Details view", // English
+	},
+	{ "Details view", // English
       "Ausführliche Ansicht", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -4133,8 +4176,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
-      { "List view", // English
+	},
+	{ "List view", // English
       "Listenansicht", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -4155,8 +4198,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
-      { "No timer defined", // English
+	},
+	{ "No timer defined", // English
       "Keine Timer vorhanden", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -4177,8 +4220,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
-      { "Start page", // English
+	},
+	{ "Start page", // English
       "Startseite", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -4199,8 +4242,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
-      { "active", // English
+	},
+	{ "active", // English
       "aktiv", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -4221,8 +4264,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-	  },
-      { "required", // English
+	},
+	{ "required", // English
       "erforderlich", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -4243,8 +4286,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
-      { "Local net (no login required)", // English
+	},
+	{ "Local net (no login required)", // English
       "Lokales Netz (keine Anmeldung notwendig)", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -4265,8 +4308,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
-      { "Theme", // English
+	},
+	{ "Theme", // English
       "Thema", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -4287,8 +4330,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
-      { "Please set login and password!", // English
+	},
+	{ "Please set login and password!", // English
       "Bitte Login und Passwort angeben!", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -4309,8 +4352,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
-      { "Please set a title for the timer!", // English
+	},
+	{ "Please set a title for the timer!", // English
       "Bitte einen Titel für den Timer angeben!", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -4331,8 +4374,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
-      { "Setup saved.", // English
+	},
+	{ "Setup saved.", // English
       "Einstellungen gespeichert.", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -4353,8 +4396,8 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
-      { "Trigger search timer update", // English
+	},
+	{ "Trigger search timer update", // English
       "Suchtimer-Update starten", // Deutsch
       "", // Slovenski
       "", // Italiano
@@ -4375,7 +4418,7 @@ const tI18nPhrase Phrases[] = {
       "", // Eesti
       "", // Dansk
       "", // Czech
-      },
+	},
     /*
       { "", // English
       "", // Deutsch
