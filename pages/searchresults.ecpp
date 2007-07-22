@@ -69,7 +69,7 @@ bool logged_in(false);
 					tEventID event = result->EventId();
 					tChannelID channel_id(result->Channel());
 					string description = result->Description();
-					string epgDomId(EpgEvents::GetDomId(result->Channel(), event));
+					string epgDomId(EpgEvents::EncodeDomId(result->Channel(), event));
 
 					bool truncated = false;
 

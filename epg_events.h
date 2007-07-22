@@ -19,29 +19,29 @@ namespace vdrlive
 	class EpgInfo
 	{
 		protected:
-			EpgInfo(const std::string& id,
-					const std::string& caption);
+			EpgInfo(std::string const &id,
+					std::string const &caption);
 
 		public:
 			virtual ~EpgInfo();
 
-			virtual const std::string Id() const { return m_eventId; }
+			virtual std::string const Id() const { return m_eventId; }
 
-			virtual const std::string Caption() const { return m_caption; }
+			virtual std::string const Caption() const { return m_caption; }
 
-			virtual const std::string Title() const = 0;
+			virtual std::string const Title() const = 0;
 
-			virtual const std::string ShortDescr() const = 0;
+			virtual std::string const ShortDescr() const = 0;
 
-			virtual const std::string LongDescr() const = 0;
+			virtual std::string const LongDescr() const = 0;
 
-			virtual const std::string Archived() const { return ""; }
+			virtual std::string const Archived() const { return ""; }
 
-			virtual const std::string StartTime(const char* format) const;
+			virtual std::string const StartTime(const char* format) const;
 
-			virtual const std::string EndTime(const char* format) const;
+			virtual std::string const EndTime(const char* format) const;
 
-			virtual const std::string CurrentTime(const char* format) const;
+			virtual std::string const CurrentTime(const char* format) const;
 
 			virtual int Elapsed() const;
 
@@ -65,18 +65,18 @@ namespace vdrlive
 		friend class EpgEvents;
 
 		protected:
-			EpgString(const std::string& id,
-					  const std::string& caption,
-					  const std::string& info);
+			EpgString(std::string const &id,
+					  std::string const &caption,
+					  std::string const &info);
 
 		public:
 			virtual ~EpgString();
 
-			virtual const std::string Title() const;
+			virtual std::string const Title() const;
 
-			virtual const std::string ShortDescr() const;
+			virtual std::string const ShortDescr() const;
 
-			virtual const std::string LongDescr() const;
+			virtual std::string const LongDescr() const;
 
 			virtual time_t GetStartTime() const;
 
@@ -93,18 +93,18 @@ namespace vdrlive
 		friend class EpgEvents;
 
 		protected:
-			EpgEvent(const std::string& id,
-					 const cEvent* event,
-					 const char* channelName = "");
+			EpgEvent(std::string const &id,
+					 cEvent const *event,
+					 char const *channelName = "");
 
 		public:
 			virtual ~EpgEvent();
 
-			virtual const std::string Title() const { return std::string(m_event->Title() ? m_event->Title() : ""); }
+			virtual std::string const Title() const { return std::string(m_event->Title() ? m_event->Title() : ""); }
 
-			virtual const std::string ShortDescr() const { return std::string(m_event->ShortText() ? m_event->ShortText() : ""); }
+			virtual std::string const ShortDescr() const { return std::string(m_event->ShortText() ? m_event->ShortText() : ""); }
 
-			virtual const std::string LongDescr() const { return std::string(m_event->Description() ? m_event->Description() : ""); }
+			virtual std::string const LongDescr() const { return std::string(m_event->Description() ? m_event->Description() : ""); }
 
 			virtual time_t GetStartTime() const { return m_event->StartTime(); }
 
@@ -121,22 +121,24 @@ namespace vdrlive
 		friend class EpgEvents;
 
 		protected:
-			EpgRecording(const std::string& recid, const cRecording* recording, const char* caption);
+			EpgRecording(std::string const &recid,
+						 cRecording const *recording,
+						 char const *caption);
 
 			const std::string Name() const;
 
 		public:
 			virtual ~EpgRecording();
 
-			virtual const std::string Caption() const;
+			virtual std::string const Caption() const;
 
-			virtual const std::string Title() const;
+			virtual std::string const Title() const;
 
-			virtual const std::string ShortDescr() const;
+			virtual std::string const ShortDescr() const;
 
-			virtual const std::string LongDescr() const;
+			virtual std::string const LongDescr() const;
 
-			virtual const std::string Archived() const;
+			virtual std::string const Archived() const;
 
 			virtual time_t GetStartTime() const;
 
@@ -156,32 +158,36 @@ namespace vdrlive
 			EpgEvents();
 			virtual ~EpgEvents();
 
-			static std::string GetDomId(const tChannelID& chanId, const tEventID& eventId);
+			static std::string EncodeDomId(tChannelID const &chanId, tEventID const &eventId);
+			static void DecodeDomId(std::string const &epgid, tChannelID &chanId, tEventID &eventId);
 
 			/**
 			 *	Allocate and initalize an epgEvent instance with the
 			 *	passed channel and event information.
 			 */
-			static EpgInfoPtr CreateEpgInfo(const cChannel* chan, const cEvent* event, const char* idOverride = 0);
+			static EpgInfoPtr CreateEpgInfo(cChannel const *chan, cEvent const *event, char const *idOverride = 0);
 
 			/**
 			 *  This is the inverse creator for epgInfos to the creator above.
 			 */
-			static EpgInfoPtr CreateEpgInfo(const std::string& epgid, const cSchedules* schedules);
+			static EpgInfoPtr CreateEpgInfo(std::string const &epgid, cSchedules const *schedules);
 
 			/**
 			 *	Allocate and initalize an epgEvent instance with the
 			 *	passed recording information.
 			 */
-			static EpgInfoPtr CreateEpgInfo(const std::string& recid, const cRecording* recording, const char* caption = 0);
+			static EpgInfoPtr CreateEpgInfo(std::string const &recid, cRecording const *recording, char const *caption = 0);
 
 			/**
 			 *	Allocate and initalize an epgEvent instance with the
 			 *	passed string informations
 			 */
-			static EpgInfoPtr CreateEpgInfo(const std::string& id, const std::string& caption, const std::string& info);
+			static EpgInfoPtr CreateEpgInfo(std::string const &id, std::string const &caption, std::string const &info);
 
-			static std::list<std::string> EpgImages(const std::string& epgid);
+			static std::list<std::string> EpgImages(std::string const &epgid);
+
+			static int ElapsedTime(time_t const startTime, time_t const endTime);
+
 		private:
 	};
 }; // namespace vdrlive

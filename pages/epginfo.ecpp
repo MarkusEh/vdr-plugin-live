@@ -1,11 +1,30 @@
 <%pre>
 #include <sys/stat.h>
 #include <vdr/tools.h>
+
+#include "stdext.h"
 #include "exception.h"
 #include "setup.h"
 #include "tools.h"
 #include "epg_events.h"
 #include "recordings.h"
+
+namespace vdrlive {
+	class SchedulesLock
+	{
+		public:
+			SchedulesLock() : m_schedulesLock() {}
+
+			operator cSchedulesLock& () { return m_schedulesLock; }
+
+		private:
+			SchedulesLock(SchedulesLock const &schedulesLock) {}
+
+			cSchedulesLock m_schedulesLock;
+	};
+
+	typedef std::tr1::shared_ptr<SchedulesLock> SchedulesLockPtr;
+}
 
 using namespace vdrlive;
 using namespace std;
@@ -16,24 +35,25 @@ using namespace std;
 	string async;
 </%args>
 <%session scope="global">
-bool logged_in(false);
+	bool logged_in(false);
 </%session>
+<%request scope="page">
+	EpgInfoPtr epgEvent;
+</%request>
 <%include>page_init.eh</%include>
 <%cpp>
-if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
-</%cpp>
-<%cpp>
+	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+
 	pageTitle = tr("Electronic program guide information");
 
 	bool ajaxReq = !async.empty() && (lexical_cast<int>(async) != 0);
 
-	EpgInfoPtr epgEvent;
-	bool aboutBox(false);
+	bool aboutBox = false;
 
-	// These get initialized when needed. When freed by getting out
+	// One of these get initialized when needed. When freed by getting
 	// out of scope they will release (if initialized) important
 	// Semaphores/Locks.
-	cSchedulesLock schedulesLock;
+	SchedulesLockPtr schedulesLockPtr;
 	RecordingsManagerPtr recordings;
 
 	if (!epgid.empty()) {
@@ -53,7 +73,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		}
 		// check for event:
 		else if (epgid.compare(0, event.length(), event) == 0) {
-			const cSchedules* schedules = cSchedules::Schedules(schedulesLock);
+			schedulesLockPtr = SchedulesLockPtr(new SchedulesLock);
+			if (!schedulesLockPtr) {
+				throw HtmlError(tr("Error aquiring schedules lock"));
+			}
+			const cSchedules* schedules = cSchedules::Schedules(*schedulesLockPtr);
 			if (!schedules) {
 				throw HtmlError(tr("Error aquiring schedules"));
 			}
@@ -97,6 +121,9 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		if (recordings) {
 			tools_component = epgEvent->Archived().empty() ? "recordings.rec_tools" : "recordings.archived_disc" ;
 		}
+		if (schedulesLockPtr) {
+			tools_component = "epginfo.epgTools";
+		}
 </%cpp>
 		<& pageelems.epg_tt_box boxId=(epgEvent->Id()) caption=(epgEvent->Caption()) tools_comp=(tools_component) time=(start) title=(epgEvent->Title()) short_descr=(epgEvent->ShortDescr()) long_descr=(epgEvent->LongDescr()) archived=(epgEvent->Archived()) elapsed=(epgEvent->Elapsed()) &>
 <%cpp>
@@ -112,3 +139,13 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 </html>
 
 <%include>page_exit.eh</%include>
+
+<# ---------------------------------------------------------------------- #>
+
+<%def epgTools>
+<%args>
+string id;
+int detail;
+</%args>
+<& pageelems.epg_tool_box detail=(detail) epgid=(id) title=(epgEvent->Title()) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) &>
+</%def>

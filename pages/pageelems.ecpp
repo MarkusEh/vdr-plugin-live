@@ -190,6 +190,52 @@ int update_status(1);
 
 <# ---------------------------------------------------------------------- #>
 
+<%def epg_tool_box>
+<%args>
+	int detail;
+	string epgid;
+	string title;
+	time_t startTime;
+	time_t endTime;
+	int lastCurrentChanel = int();
+</%args>
+<%cpp>
+	int elapsed = EpgEvents::ElapsedTime(startTime, endTime);
+    tEventID eventId = tEventID();
+	tChannelID channelId = tChannelID();
+
+	EpgEvents::DecodeDomId(epgid, channelId, eventId);
+	if (detail) { // output for vertical toolbox
+</%cpp>
+	<& pageelems.event_timer channelid=(channelId) eventid=(eventId) &>
+<%cpp>
+		if (elapsed > 0) {
+</%cpp>
+	<& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channelId) image="zap.png" alt="" &>
+<%cpp>
+		}
+		if (LiveFeatures<features::epgsearch>().Recent()) {
+</%cpp>
+	<a href="searchresults.html?searchplain=<$ StringEscapeAndBreak(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a>
+<%cpp>
+		}
+</%cpp>
+	<a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a>
+<%cpp>
+	}
+	else { // table output
+</%cpp>
+		<td class="action leftcol <? lastCurrentChanel ? "bottomrow"?>"><& pageelems.event_timer channelid=(channelId) eventid=(eventId) &></td>
+		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><%cpp>if (elapsed > 0) { </%cpp><& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channelId) image="zap.png" alt="" &><%cpp> } </%cpp></td>
+		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><%cpp>if (LiveFeatures<features::epgsearch>().Recent()) { </%cpp><a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a><%cpp> } else { </%cpp><img src="transparent.png" width="16" height="16"><%cpp> } </%cpp></td>
+		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" border="0" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a></td>
+<%cpp>
+	}
+</%cpp>
+</%def>
+
+<# ---------------------------------------------------------------------- #>
+
 <%def epg_tt_box>
 <%args>
 	string boxId;
@@ -208,9 +254,9 @@ int update_status(1);
 		</div>
 		<div class="epg_content">
 			<div class="epg_tools">
-		 		<& (tools_comp) id=(boxId) archived=(archived) &>
+				<& (tools_comp) id=(boxId) archived=(archived) detail=(1) &>
 			</div>
-		 	<div>
+		 	<div class="epg_info">
 				<div class="info"><%cpp> if (!archived.empty()) { </%cpp><span class="bold"><$ (archived + " ") $></span><%cpp> } </%cpp><$ (time) $></div>
 <%cpp>
 	if (elapsed >= 0) {

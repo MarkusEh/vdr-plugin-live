@@ -1,3 +1,10 @@
+2007-07-22  Dieter Hametner  <dh+vdr at gekrumbel dot de>
+
+	Added toolbox buttons to epg info popup windows.
+	Some style fixes for this.
+	* pages/whats_on.ecpp: Use new pageelems.epg_tool_box component.
+	* pages/pageelems.ecpp: new epg_tool_box component.
+
 2007-07-21  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
 	* live/js/live/pageenhance.js: Enhance a normal web page with

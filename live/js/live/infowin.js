@@ -254,7 +254,7 @@ InfoWin.Ajax = InfoWin.extend({
 	  options: {
 		  loadingMsg: 'loading',
 		  errorMsg: 'an error occured!',
-		  onError: Class.empty,
+		  onError: Class.empty
 	  },
 
 	  initialize: function(id, url, options){
