@@ -119,16 +119,19 @@ int update_status(1);
 
 <%def event_timer>
 <%args>
+	string epgid;
+</%args>
+<%cpp>
 	tChannelID channelid;
 	tEventID eventid;
-</%args>
-<%cpp>	const cTimer* timer = LiveTimerManager().GetTimer(eventid, channelid);
+	EpgEvents::DecodeDomId(epgid, channelid, eventid);
+	const cTimer* timer = LiveTimerManager().GetTimer(eventid, channelid);
 	if (timer) {
 </%cpp>
 	<a href="edit_timer.html?timerid=<$ LiveTimerManager().GetTimers().GetTimerId(*timer) $>">
 		<img src="<$ LiveSetup().GetThemedLink("img", "record_timer.png") $>" alt="" <& tooltip.hint text=(tr("Edit this")) &> />
 <%cpp> } else { </%cpp>
-	<a href="edit_timer.html?channelid=<$ channelid $>&eventid=<$ eventid $>">
+	<a href="edit_timer.html?epgid=<$ epgid $>">
 		<img src="<$ LiveSetup().GetThemedLink("img", "record.png") $>" alt="" <& tooltip.hint text=(tr("Record this")) &> />
 <%cpp> } </%cpp>
 	</a>
@@ -207,7 +210,7 @@ int update_status(1);
 	EpgEvents::DecodeDomId(epgid, channelId, eventId);
 	if (detail) { // output for vertical toolbox
 </%cpp>
-	<& pageelems.event_timer channelid=(channelId) eventid=(eventId) &>
+	<& pageelems.event_timer epgid=(epgid) &>
 <%cpp>
 		if (elapsed > 0) {
 </%cpp>
@@ -225,10 +228,10 @@ int update_status(1);
 	}
 	else { // table output
 </%cpp>
-		<td class="action leftcol <? lastCurrentChanel ? "bottomrow"?>"><& pageelems.event_timer channelid=(channelId) eventid=(eventId) &></td>
+		<td class="action leftcol <? lastCurrentChanel ? "bottomrow"?>"><& pageelems.event_timer epgid=(epgid) &></td>
 		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><%cpp>if (elapsed > 0) { </%cpp><& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channelId) image="zap.png" alt="" &><%cpp> } </%cpp></td>
 		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><%cpp>if (LiveFeatures<features::epgsearch>().Recent()) { </%cpp><a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a><%cpp> } else { </%cpp><img src="transparent.png" width="16" height="16"><%cpp> } </%cpp></td>
-		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" border="0" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a></td>
+		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a></td>
 <%cpp>
 	}
 </%cpp>

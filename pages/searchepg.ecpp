@@ -251,7 +251,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		<& pageelems.logo &>
 		<& menu active=("searchepg") &>
 		<div class="inhalt">
-			<form method="POST" name="searchepg" action="searchepg.ecpp">
+			<form method="post" name="searchepg" action="searchepg.ecpp">
 				<input type="hidden" name="blacklistids_internal" value="<$ blacklistids_internal $>" id="blacklistids_internal"/>
 				<table class="formular" cellpadding="0" cellspacing="0">
 					<tr class="head">

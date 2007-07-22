@@ -21,6 +21,11 @@ tr, td {
 	padding-bottom: 0px;
 }
 
+form {
+	margin: 0;
+	padding: 0;
+}
+
 input {
 	border: 1px solid #6D96A9;
 	font-size: 11px;
@@ -301,7 +306,7 @@ div.pagemenu {
 }
 
 div.pagemenu div {
-	padding-bottom: 6px;
+	/* padding-bottom: 6px; */
 	background: #FFFFFF url(bg_line_top.png) bottom repeat-x;
 }
 
@@ -310,6 +315,12 @@ div.pagemenu div div {
 	background: #E9EFFF;
 	border-top: 1px solid #C0C1DA;
 	border-bottom: 1px solid #C0C1DA;
+}
+
+div.pagemenu div div div {
+	border: 0;
+	padding: 0;
+	margin: 0;
 }
 
 div.pagemenu a {

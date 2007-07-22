@@ -78,8 +78,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		string current_day = "";
 		const cEvent* PresentEvent = Schedule->GetPresentEvent();
 		time_t now = time(NULL) - ::Setup.EPGLinger * 60;
-		tChannelID channel_id(Channel->GetChannelID());
-		int evntNr = 0;
+		// tChannelID channel_id(Channel->GetChannelID());
+		// int evntNr = 0;
 		for (const cEvent *Event = Schedule->Events()->First(); Event; Event = Schedule->Events()->Next(Event)) {
 			if (Event->EndTime() <= now && Event != PresentEvent)
 				continue;
@@ -92,7 +92,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			string start(epgEvent->StartTime(tr("%I:%M %p")));
 			string end(epgEvent->EndTime(tr("%I:%M %p")));
 			string day(epgEvent->StartTime(tr("%A, %b %d %Y")));
-			string strEventID = lexical_cast<string>(Event->EventID());
+			string epgid = EpgEvents::EncodeDomId(Channel->GetChannelID(), Event->EventID());
+			// string strEventID = lexical_cast<string>(Event->EventID());
 
 			bool truncated = false;
 			bool lastEventCurrentDay = false;
@@ -124,9 +125,9 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			}
 </%cpp>
 				<tr>
-					<td class="action leftcol <? lastEventCurrentDay ? "bottomrow" ?>"><& pageelems.event_timer channelid=(channel_id) eventid=(strEventID) &></td>
+	   				<td class="action leftcol <? lastEventCurrentDay ? "bottomrow" ?>"><& pageelems.event_timer epgid=(epgid) &></td>
 					<td class="action <? lastEventCurrentDay ? "bottomrow" ?>"><%cpp>if (LiveFeatures<features::epgsearch>().Recent() ) { </%cpp><a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a><%cpp> } else { </%cpp><img src="transparent.png" width="16" height="16"><%cpp> } </%cpp></td>
-					<td class="action <? lastEventCurrentDay ? "bottomrow" ?>"><a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" border="0" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a></td>
+					<td class="action <? lastEventCurrentDay ? "bottomrow" ?>"><a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a></td>
 					<td class="topaligned <? lastEventCurrentDay ? "bottomrow" ?>"><div class="withmargin"><$ start $> - <$ end $></div></td>
 					<td class="<? (Event == PresentEvent) ? "current" ?> topaligned rightcol <? lastEventCurrentDay ? "bottomrow" ?>"><div class="more withmargin"><a <& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(description, 300, truncated)) + "<br />" + tr("Click to view details.")) &><& tooltip.display domId=(epgEvent->Id()) &>><span class="title"><$ title $></span><br /><span class="short"><%cpp>if (short_description.empty()) { </%cpp>&nbsp;<%cpp> } </%cpp><$ short_description $></span></a></div></td>
 				</tr>
@@ -143,5 +144,5 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <%include>page_exit.eh</%include>
 
 <%def channel_selection>
-<form name="channels" id="channels"><span><$ tr("Show schedule of channel") $>: </span><& channels_widget name=("channel") selected=(Channel ? *Channel->GetChannelID().ToString() : "") onchange=("document.forms.channels.submit()") &></form>
+<form action="." method="get" id="channels"><div><label for="channel"><$ tr("Show schedule of channel") $>: </label><& channels_widget name=("channel") selected=(Channel ? *Channel->GetChannelID().ToString() : "") onchange=("document.forms.channels.submit()") &></div></form>
 </%def>

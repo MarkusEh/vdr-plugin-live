@@ -8,6 +8,7 @@
 #include "tools.h"
 #include "timers.h"
 #include "setup.h"
+#include "epg_events.h"
 
 using namespace std;
 using namespace vdrlive;
@@ -16,8 +17,7 @@ using namespace vdrlive;
 <%args>
 	// input parameters
 	string timerid;
-	tChannelID channelid;
-	tEventID eventid = 0;
+	string epgid;
 	// form parameters
 	tChannelID channel;
 	bool active = true;
@@ -47,11 +47,13 @@ string edit_timerreferer;
 cTimer* timer;
 </%request>
 <%include>page_init.eh</%include>
-<{
-if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
-}>
 <%cpp>
-	std::string message;
+	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+
+	tChannelID channelid = tChannelID();
+	tEventID eventid = tEventID();
+
+	string message;
 	cMutexLock timersLock( &LiveTimerManager() );
 	SortedTimers& timers = LiveTimerManager().GetTimers();
 
@@ -84,6 +86,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 	auto_ptr< cTimer > eventTimer;
 	if ( timer == 0 ) {
+		EpgEvents::DecodeDomId(epgid, channelid, eventid);
 		if ( channelid.Valid() && eventid != 0 ) {
 			cerr << "grabbing event" << endl << endl;
 			cSchedulesLock schedLock;
@@ -132,7 +135,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		<& pageelems.logo &>
 		<& menu active=("timers") &>
 		<div class="inhalt">
-			<form method="POST" name="edit_timer" action="edit_timer.ecpp">
+			<form method="post" name="edit_timer" action="edit_timer.ecpp">
 				<input type="hidden" name="timerid" value="<$ timerid $>"/>
 				<input type="hidden" name="aux" value="<$ aux $>"/>
 				<table class="formular" cellpadding="0" cellspacing="0">

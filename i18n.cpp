@@ -4,7 +4,7 @@
    extended version of i18n.cpp. (If you would like to submit a patch
    add more context like described below)
 
-   $Id: i18n.cpp,v 1.98 2007/07/21 17:52:41 tadi Exp $
+   $Id: i18n.cpp,v 1.99 2007/07/22 17:22:00 tadi Exp $
 
    Note to developers:
    How to safely integrate translations from third parties:
@@ -35,6 +35,25 @@ I18n& LiveI18n()
 	static I18n instance;
 	return instance;
 }
+
+I18n::I18n()
+  : m_encoding(
+#if VDRVERSNUM >= 10503
+		cCharSetConv::SystemCharacterTable() ? cCharSetConv::SystemCharacterTable() : "UTF-8"
+#else
+		I18nCharSets()[::Setup.OSDLanguage]
+#endif
+		)
+{
+	// fix encoding spelling for html standard.
+	std::string const iso("iso");
+	if (m_encoding.find(iso) != std::string::npos) {
+		if (iso.length() == m_encoding.find_first_of("0123456789")) {
+			m_encoding.insert(iso.length(), "-");
+		}
+	}
+}
+
 
 const tI18nPhrase Phrases[] = {
     { "Live Interactive VDR Environment",
