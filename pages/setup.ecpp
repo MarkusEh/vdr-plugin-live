@@ -23,13 +23,12 @@ using namespace std;
 	int authchanged = 0;
 </%args>
 <%session scope="global">
-bool logged_in(false);
+	bool logged_in(false);
 </%session>
 <%include>page_init.eh</%include>
 <%cpp>
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
-</%cpp>
-<%cpp>
+
 #define SELECTIF(x) reply.out() << ( (x) ? "selected=\"selected\"" : "" );
 #define CHECKIF(x) reply.out() << ( (x) ? "checked=\"checked\"" : "" );
 
@@ -111,7 +110,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		<& pageelems.logo &>
 		<& menu active=("setup") &>
 		<div class="inhalt">
-			<form method="POST" name="setup" action="setup.ecpp">
+			<form method="post" action="setup.html">
 				<input type="hidden" name="authchanged" value="<$ authchanged $>" id="authchanged"/>
 				<input type="hidden" name="message" value="<$ message $>" id="message"/>
 				<table class="formular" cellpadding="0" cellspacing="0">
