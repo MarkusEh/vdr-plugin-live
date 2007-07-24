@@ -85,7 +85,7 @@ cTimer* timer;
 		edit_timerreferer = request.getHeader("Referer:", "timers.html");
 
 	auto_ptr< cTimer > eventTimer;
-	if ( timer == 0 ) {
+	if ( timer == 0 && !epgid.empty()) {
 		EpgEvents::DecodeDomId(epgid, channelid, eventid);
 		if ( channelid.Valid() && eventid != 0 ) {
 			cerr << "grabbing event" << endl << endl;
