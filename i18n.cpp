@@ -4,7 +4,7 @@
    extended version of i18n.cpp. (If you would like to submit a patch
    add more context like described below)
 
-   $Id: i18n.cpp,v 1.101 2007/07/29 17:41:38 tadi Exp $
+   $Id: i18n.cpp,v 1.102 2007/07/29 19:26:04 tadi Exp $
 
    Note to developers:
    How to safely integrate translations from third parties:
@@ -988,7 +988,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Português
 	  "Recherche", // Français
 	  "", // Norsk
-	  "Hakuajastin",
+	  "Hakuajastimet",
 	  "", // Polski
 	  "", // Español
 	  "", // Greek
@@ -1318,7 +1318,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Português
 	  "", // Français
 	  "", // Norsk
-	  "", // Finnish
+	  "Palvelin ei vastaa!", // Finnish
 	  "", // Polski
 	  "", // Español
 	  "", // Greek
@@ -1340,7 +1340,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Português
 	  "", // Français
 	  "", // Norsk
-	  "", // Finnish
+	  "Infolaatikon päivitys epäonnistui!", // Finnish
 	  "", // Polski
 	  "", // Español
 	  "", // Greek
@@ -1362,7 +1362,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Português
 	  "", // Français
 	  "", // Norsk
-	  "", // Finnish
+	  "ladataan tietója", // Finnish
 	  "", // Polski
 	  "", // Español
 	  "", // Greek
@@ -1384,7 +1384,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Português
 	  "", // Français
 	  "", // Norsk
-	  "", // Finnish
+	  "virhe havaittu!", // Finnish
 	  "", // Polski
 	  "", // Español
 	  "", // Greek
@@ -1450,7 +1450,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Português
 	  "", // Français
 	  "", // Norsk
-	  "", // Finnish
+	  "Näytä Live-logo", // Finnish
 	  "", // Polski
 	  "", // Español
 	  "", // Greek
@@ -1472,7 +1472,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Português
 	  "", // Français
 	  "", // Norsk
-	  "", // Finnish
+	  "Käytä AJAX-tekniikkaa", // Finnish
 	  "", // Polski
 	  "", // Español
 	  "", // Greek
@@ -1494,7 +1494,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Português
 	  "", // Français
 	  "", // Norsk
-	  "", // Finnish
+	  "Näytä dynaaminen VDR:n infolaatikko", // Finnish
 	  "", // Polski
 	  "", // Español
 	  "", // Greek
@@ -1538,7 +1538,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Português
 	  "", // Français
 	  "", // Norsk
-	  "", // Finnish
+	  "Tälle kanavalle ei ole saatavilla ohjelmistoa", // Finnish
 	  "", // Polski
 	  "", // Español
 	  "", // Greek
@@ -3081,7 +3081,7 @@ const tI18nPhrase Phrases[] = {
 	  "",
 	  "Expression de recherche",
 	  "",
-	  "Hakulauseke",
+	  "Hakutermi",
 	  "",
 	  "",
 	  "",
@@ -3852,7 +3852,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Português
 	  "à", // Français
 	  "", // Norsk
-	  "Kello",
+	  "kello",
 	  "", // Polski
 	  "", // Español
 	  "", // Greek
@@ -4314,7 +4314,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Português
 	  "actif", // Français
 	  "", // Norsk
-	  "", // Finnish
+	  "käytössä", // Finnish
 	  "", // Polski
 	  "", // Español
 	  "", // Greek
@@ -4336,7 +4336,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Português
 	  "requis", // Français
 	  "", // Norsk
-	  "", // Finnish
+	  "vaadittava", // Finnish
 	  "", // Polski
 	  "", // Español
 	  "", // Greek
@@ -4358,7 +4358,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Português
 	  "Réseau local (non requis)", // Français
 	  "", // Norsk
-	  "", // Finnish
+	  "Paikallinen verkko (ei autentikointia)", // Finnish
 	  "", // Polski
 	  "", // Español
 	  "", // Greek
@@ -4380,7 +4380,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Português
 	  "Thème", // Français
 	  "", // Norsk
-	  "", // Finnish
+	  "Ulkoasu", // Finnish
 	  "", // Polski
 	  "", // Español
 	  "", // Greek
@@ -4402,7 +4402,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Português
 	  "Entrée le nom d'utilisateur et le mot de passe svp!", // Français
 	  "", // Norsk
-	  "", // Finnish
+	  "Aseta käyttäjätunnus sekä salasana!", // Finnish
 	  "", // Polski
 	  "", // Español
 	  "", // Greek
@@ -4424,7 +4424,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Português
 	  "Veuillez indiquer un titre pour la programmation!", // Français
 	  "", // Norsk
-	  "", // Finnish
+	  "Aseta nimi ajastimelle!", // Finnish
 	  "", // Polski
 	  "", // Español
 	  "", // Greek
@@ -4446,7 +4446,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Português
 	  "Paramètre sauvegardé", // Français
 	  "", // Norsk
-	  "", // Finnish
+	  "Asetukset tallennettu.", // Finnish
 	  "", // Polski
 	  "", // Español
 	  "", // Greek
@@ -4468,7 +4468,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Português
 	  "Mise à jour des recherches de programmation maintenant", // Français
 	  "", // Norsk
-	  "", // Finnish
+	  "Päivitä hakuajastimet", // Finnish
 	  "", // Polski
 	  "", // Español
 	  "", // Greek
@@ -4490,7 +4490,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Português
 	  "", // Français
 	  "", // Norsk
-	  "", // Finnish
+	  "Ohjelmaoppaan tiedot", // Finnish
 	  "", // Polski
 	  "", // Español
 	  "", // Greek
@@ -4512,7 +4512,7 @@ const tI18nPhrase Phrases[] = {
 	  "", // Português
 	  "", // Français
 	  "", // Norsk
-	  "", // Finnish
+	  "Ohjelmaoppaan virhe", // Finnish
 	  "", // Polski
 	  "", // Español
 	  "", // Greek
