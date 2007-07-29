@@ -3,6 +3,10 @@
 #include "i18n.h"
 
 using namespace std;
+using namespace vdrlive;
+
+string const XMLHEADER = "<?xml version=\"1.0\" encoding=\"" + LiveI18n().CharacterEncoding() + "\"?>";
+
 </%pre>
 
 <# ------------------------------------------------------------------------- #>
@@ -15,7 +19,7 @@ using namespace std;
 	bool result;
 	string error;
 </%args>
-<?xml version="1.0" encoding="<$ LiveI18n().CharacterEncoding() $>"?>
+<$$ XMLHEADER $>
 <service>
   <request name="<$ name $>">
      <param name="<$ pname $>"><$ value $></param>
@@ -39,7 +43,7 @@ using namespace std;
 	string prev_chan;
 	string next_chan;
 </%args>
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<$$ XMLHEADER $>
 <service>
   <request name="ibox">
 	<param name="update"><$ update $></param>

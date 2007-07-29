@@ -35,27 +35,27 @@ a {
 }
 
 .hint-tip .hint-tip-top {
-	background: transparent url(../img/tip-hint-tl.png) no-repeat 0px 0px;
+	background: transparent url(/img/rounded-box-orange-tl.png) no-repeat 0px 0px;
 }
 
 .hint-tip .hint-tip-top .hint-tip-c {
-	background: transparent url(../img/tip-hint-tr.png) no-repeat right 0px;
+	background: transparent url(/img/rounded-box-orange-tr.png) no-repeat right 0px;
 }
 
 .hint-tip .hint-tip-bdy {
-	background: transparent url(../img/tip-hint-ml.png) repeat-y 0px 0px;
+	background: transparent url(/img/rounded-box-orange-ml.png) repeat-y 0px 0px;
 }
 
 .hint-tip .hint-tip-bdy .hint-tip-c {
-	background: transparent url(../img/tip-hint-mr.png) repeat-y right 0px;
+	background: transparent url(/img/rounded-box-orange-mr.png) repeat-y right 0px;
 }
 
 .hint-tip .hint-tip-bot {
-	background: transparent url(../img/tip-hint-bl.png) no-repeat 0px 0px;
+	background: transparent url(/img/rounded-box-orange-bl.png) no-repeat 0px 0px;
 }
 
 .hint-tip .hint-tip-bot .hint-tip-c {
-	background: transparent url(../img/tip-hint-br.png) no-repeat right 0px;
+	background: transparent url(/img/rounded-box-orange-br.png) no-repeat right 0px;
 }
 
 

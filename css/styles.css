@@ -119,37 +119,37 @@ a:active {
 }
 
 .hint-tip .hint-tip-top {
-	background: transparent url(img/tip-hint-tl.png) no-repeat 0px 0px;
+	background: transparent url(img/rounded-box-blue-tl.png) no-repeat 0px 0px;
 	margin-right: 17px; /* space for right corner */
 }
 
 .hint-tip .hint-tip-top .hint-tip-c {
-	background: transparent url(img/tip-hint-tr.png) no-repeat right 0px;
+	background: transparent url(img/rounded-box-blue-tr.png) no-repeat right 0px;
 	margin-right: -17px; /* pull right corner back over "empty" space (from above margin) */
 }
 
 .hint-tip .hint-tip-bdy {
-	background: transparent url(img/tip-hint-ml.png) repeat-y 0px 0px;
+	background: transparent url(img/rounded-box-blue-ml.png) repeat-y 0px 0px;
  	margin-right: 17px;
 }
 
 .hint-tip .hint-tip-bdy .hint-tip-c {
-	background: transparent url(img/tip-hint-mr.png) repeat-y right 0px;
+	background: transparent url(img/rounded-box-blue-mr.png) repeat-y right 0px;
 	margin-right: -17px;
 }
 
 .hint-tip .hint-tip-bdy .hint-tip-c .hint-tip-s { /* optional gradient overlay */
-	/* background: transparent url(img/tip-hint-ms.jpg) repeat-x 0px 0px; */
+	/* background: transparent url(img/rounded-box-blue-ms.jpg) repeat-x 0px 0px; */
 	padding: 0px 17px 0px 17px;
 }
 
 .hint-tip .hint-tip-bot {
-	background: transparent url(img/tip-hint-bl.png) no-repeat 0px 0px;
+	background: transparent url(img/rounded-box-blue-bl.png) no-repeat 0px 0px;
 	margin-right: 17px;
 }
 
 .hint-tip .hint-tip-bot .hint-tip-c {
-	background: transparent url(img/tip-hint-br.png) no-repeat right 0px;
+	background: transparent url(img/rounded-box-blue-br.png) no-repeat right 0px;
 	margin-right: -17px;
 }
 
@@ -157,6 +157,112 @@ a:active {
 	display: none;
 }
 
+
+/* ######################
+   # Style for positive notification popup
+   ######################
+*/
+
+.ok-info {
+	margin: 0px auto;
+ 	max-width: 480px; /* depends on the tip backround image width */
+ 	color: #fff;
+}
+
+.ok-info .ok-info-top .ok-info-c,
+.ok-info .ok-info-bot .ok-info-c {
+	font-size: 1px; /* ensure minimum height */
+	height: 17px;
+}
+
+.ok-info .ok-info-top {
+	background: transparent url(/img/rounded-box-green-tl.png) no-repeat 0px 0px;
+	margin-right: 17px; /* space for right corner */
+}
+
+.ok-info .ok-info-top .ok-info-c {
+	background: transparent url(/img/rounded-box-green-tr.png) no-repeat right 0px;
+	margin-right: -17px; /* pull right corner back over "empty" space (from above margin) */
+}
+
+.ok-info .ok-info-body {
+	background: transparent url(/img/rounded-box-green-ml.png) repeat-y 0px 0px;
+ 	margin-right: 17px;
+}
+
+.ok-info .ok-info-body .ok-info-c {
+	background: transparent url(/img/rounded-box-green-mr.png) repeat-y right 0px;
+	margin-right: -17px;
+}
+
+.ok-info .ok-info-body .ok-info-c .ok-info-s { /* optional gradient overlay */
+	/* background: transparent url(/img/rounded-box-green-ms.jpg) repeat-x 0px 0px; */
+	padding: 0px 17px 0px 17px;
+}
+
+.ok-info .ok-info-bot {
+	background: transparent url(/img/rounded-box-green-bl.png) no-repeat 0px 0px;
+	margin-right: 17px;
+}
+
+.ok-info .ok-info-bot .ok-info-c {
+	background: transparent url(/img/rounded-box-green-br.png) no-repeat right 0px;
+	margin-right: -17px;
+}
+
+
+.err-info {
+	margin: 0px auto;
+ 	max-width: 480px; /* depends on the tip backround image width */
+ 	color: #fff;
+}
+
+
+/* ######################
+   # Style for negative notification popup
+   ######################
+*/
+
+.err-info .err-info-top .err-info-c,
+.err-info .err-info-bot .err-info-c {
+	font-size: 1px; /* ensure minimum height */
+	height: 17px;
+}
+
+.err-info .err-info-top {
+	background: transparent url(/img/rounded-box-redwine-tl.png) no-repeat 0px 0px;
+	margin-right: 17px; /* space for right corner */
+}
+
+.err-info .err-info-top .err-info-c {
+	background: transparent url(/img/rounded-box-redwine-tr.png) no-repeat right 0px;
+	margin-right: -17px; /* pull right corner back over "empty" space (from above margin) */
+}
+
+.err-info .err-info-body {
+	background: transparent url(/img/rounded-box-redwine-ml.png) repeat-y 0px 0px;
+ 	margin-right: 17px;
+}
+
+.err-info .err-info-body .err-info-c {
+	background: transparent url(/img/rounded-box-redwine-mr.png) repeat-y right 0px;
+	margin-right: -17px;
+}
+
+.err-info .err-info-body .err-info-c .err-info-s { /* optional gradient overlay */
+	/* background: transparent url(/img/rounded-box-redwine-ms.jpg) repeat-x 0px 0px; */
+	padding: 0px 17px 0px 17px;
+}
+
+.err-info .err-info-bot {
+	background: transparent url(/img/rounded-box-redwine-bl.png) no-repeat 0px 0px;
+	margin-right: 17px;
+}
+
+.err-info .err-info-bot .err-info-c {
+	background: transparent url(/img/rounded-box-redwine-br.png) no-repeat right 0px;
+	margin-right: -17px;
+}
 
 /* ######################
    # General styles for epg info

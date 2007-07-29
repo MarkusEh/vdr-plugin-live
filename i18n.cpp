@@ -4,7 +4,7 @@
    extended version of i18n.cpp. (If you would like to submit a patch
    add more context like described below)
 
-   $Id: i18n.cpp,v 1.100 2007/07/22 22:33:56 tadi Exp $
+   $Id: i18n.cpp,v 1.101 2007/07/29 17:41:38 tadi Exp $
 
    Note to developers:
    How to safely integrate translations from third parties:
@@ -1378,6 +1378,50 @@ const tI18nPhrase Phrases[] = {
 	},
 	{ "an error occured!", // English
 	  "Es ist ein Fehler aufgetreten!", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	},
+	{ "Request succeeded!", // English
+	  "Aktion durchgeführt!", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	},
+	{ "Request failed!", // English
+	  "Aktion fehlgeschlagen!", // Deutsch
 	  "", // Slovenski
 	  "", // Italiano
 	  "", // Nederlands

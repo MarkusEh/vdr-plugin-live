@@ -4,16 +4,43 @@
 #include "tasks.h"
 #include "tools.h"
 
+using namespace std;
 using namespace vdrlive;
 
 </%pre>
 <%args>
 	tChannelID param;
+	string async;
 </%args>
 <%cpp>
-	reply.setContentType( "application/xml" );
+	bool ajaxReq = !async.empty() && (lexical_cast<int>(async) != 0);
+	string referrer;
+
+	if (ajaxReq) {
+		reply.setContentType( "application/xml" );
+	}
+	else {
+		referrer = request.getHeader("Referer:");
+	}
 
 	SwitchChannelTask task( param );
 	LiveTaskManager().Execute( task );
+
+	if (!ajaxReq) {
+		if (!referrer.empty()) {
+			return reply.redirect(referrer);
+		}
+</%cpp>
+Normale Seite:<br/>
+channel: <$ param $><br/>
+result: <$ (task.Result()) $><br/>
+error: <$ (task.Error()) $><br />
+Seitenende!
+<%cpp>
+	}
+	else {
 </%cpp>
 <& xmlresponse.ajax name=("switch_channel") pname=("channel") value=(param) result=(task.Result()) error=(task.Error()) &>
+<%cpp>
+	}
+</%cpp>

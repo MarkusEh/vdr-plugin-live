@@ -7,5 +7,5 @@ function LiveSimpleAjaxRequest(url, param, value)
 {
 	var req = new Ajax(url, {
 		  method : 'post'
-		}).request(param + '=' + value);
+		}).request(param + '=' + value + '&async=1');
 };

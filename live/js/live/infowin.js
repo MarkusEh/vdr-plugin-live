@@ -35,6 +35,7 @@ var InfoWin = new Class({
 		  onShow: Class.empty,
 		  onHide: Class.empty,
 		  onDomExtend: Class.empty,
+		  destroyOnHide: false,
 		  className: 'info',
 		  wm: false, // overide default window manager.
 		  draggable: true,
@@ -42,15 +43,17 @@ var InfoWin = new Class({
 		  buttonimg: 'transparent.png',
 		  bodyselect: 'div.content',
 		  titleselect: 'div.caption',
-		  idSuffix: '-win-id',
+		  classSuffix: '-win',
+		  idSuffix: '-id',
 		  offsets: {'x': -16, 'y': -16}
 	  },
 
 	  initialize: function(id, options){
 			this.setOptions(options);
 			this.wm = this.options.wm || InfoWin.$wm;
-			this.winFrame = $(id + this.options.idSuffix);
+			this.winFrame = $(id + this.options.classSuffix + this.options.idSuffix);
 			if (!$defined(this.winFrame)){
+				this.buildFrame(id);
 				this.build(id);
 				this.wm.register(this);
 			}
@@ -63,40 +66,29 @@ var InfoWin = new Class({
 	  // must return true if the body of the InfoWin has been filled
 	  // with the user data, false otherwise.
 	  build: function(id){
-			this.winFrame = new Element('div', {
-					'id': id + this.options.idSuffix,
-					'class': this.options.className + '-win',
-					'styles': {
-						'position': 'absolute',
-						'top': '0',
-						'left': '0'
-					}
-				});
-
 			// header of window: upper shadows, corners title and controls
 			var top = new Element('div', {
-					'class': this.options.className + '-win-top'
+					'class': this.options.className + this.options.classSuffix + '-top'
 				}).inject(this.winFrame);
 			if (this.options.draggable) this.winFrame.makeDraggable({'handle': top});
 			top = new Element('div', {
-					'class': this.options.className + '-win-c'
+					'class': this.options.className + this.options.classSuffix + '-c'
 				}).inject(top);
 			this.titleBox = new Element('div', {
-					'class': this.options.className + '-win-t'
+					'class': this.options.className + this.options.classSuffix + '-t'
 				}).inject(top);
 
 			this.buttonBox = new Element('div', {
-					'class': this.options.className + '-win-b'
+					'class': this.options.className + this.options.classSuffix + '-b'
 				}).inject(top);
 			var cls = new Element('div', {
 					'class': 'close'
 				}).inject(this.buttonBox);
-			var self = this;
 			cls.addEvent('click', function(event){
 					var event = new Event(event);
 					event.stop();
-					return self.hide();
-				});
+					return this.hide();
+				}.bind(this));
 			cls = new Element('img', {
 					'src': this.options.buttonimg,
 					'alt': 'close',
@@ -106,22 +98,22 @@ var InfoWin = new Class({
 
 			// body of window: user content.
 			var bdy = new Element('div', {
-					'class': this.options.className + '-win-body'
+					'class': this.options.className + this.options.classSuffix + '-body'
 				}).inject(this.winFrame);
 			bdy = new Element('div', {
-					'class': this.options.className + '-win-c'
+					'class': this.options.className + this.options.classSuffix + '-c'
 				}).inject(bdy);
 			this.winBody = new Element('div', {
-					'class': this.options.className + '-win-s'
+					'class': this.options.className + this.options.classSuffix + '-s'
 				}).inject(bdy);
 
 			// bottom border of window: lower shadows and corners, optional
 			// resize handle.
 			var bot = new Element('div', {
-					'class': this.options.className + '-win-bot'
+					'class': this.options.className + this.options.classSuffix + '-bot'
 				}).inject(this.winFrame);
 			bot = new Element('div', {
-					'class': this.options.className + '-win-c'
+					'class': this.options.className + this.options.classSuffix + '-c'
 				}).inject(bot);
 
 			if (this.options.resizable) {
@@ -134,18 +126,37 @@ var InfoWin = new Class({
 			return this.fillBody(id);
 		},
 
+	  buildFrame: function(id){
+			this.winFrame = new Element('div', {
+					'id': id + this.options.classSuffix + this.options.idSuffix,
+					'class': this.options.className + this.options.classSuffix,
+					'styles': {
+						'position': 'absolute',
+						'top': '0',
+						'left': '0'
+					}
+				});
+		},
+
 	  show: function(event){
-			if (this.options.timeout)
-				this.timer = this.hide.delay(this.options.timeout, this);
 			this.position(event);
 			this.fireEvent('onShow', [this.winFrame]);
 			this.wm.raise(this);
+			if (this.options.timeout)
+				this.timer = this.hide.delay(this.options.timeout, this);
 			return false;
 		},
 
 	  hide: function(){
 			this.fireEvent('onHide', [this.winFrame]);
-			this.wm.bury(this);
+			if (this.options.destroyOnHide) {
+				this.wm.unregister(this);
+				for (var z in this) this[z] = null;
+				this.destroyed = true;
+			}
+			else {
+				this.wm.bury(this);
+			}
 			return false;
 		},
 
@@ -188,10 +199,10 @@ Class: InfoWin.Manager
 */
 InfoWin.Manager = new Class({
 	  options: {
-		  zIndex: 100,
 		  closedContainer: 'infowin-closed',
 		  openedContainer: 'infowin-opened',
 		  onRegister: Class.empty,
+		  onUnregister: Class.empty,
 		  onRaise: Class.empty,
 		  onBury: Class.empty
 	  },
@@ -216,23 +227,25 @@ InfoWin.Manager = new Class({
 		},
 
 	  register: function(infoWin){
-			var self = this;
 			this.fireEvent('onRegister', [infoWin]);
 			infoWin.winFrame.addEvent('click', function(){
-					self.raise(infoWin);
-				});
+					this.raise(infoWin);
+				}.bind(this));
 			infoWin.winFrame.inject(this.closedWins);
+		},
+
+	  unregister: function(infoWin){
+			this.fireEvent('onUnregister', [infoWin]);
+			infoWin.winFrame.remove();
 		},
 
 	  raise: function(infoWin){
 			this.fireEvent('onRaise', [infoWin]);
-			infoWin.winFrame.remove();
 			infoWin.winFrame.inject(this.openedWins);
 		},
 
 	  bury: function(infoWin){
 			this.fireEvent('onBury', [infoWin]);
-			infoWin.winFrame.remove();
 			infoWin.winFrame.inject(this.closedWins);
 		}
 	});
@@ -260,21 +273,20 @@ InfoWin.Ajax = InfoWin.extend({
 	  initialize: function(id, url, options){
 			this.parent(id, options);
 			if ($defined(this.ajaxResponse)) {
-				var self = this;
 				this.addEvent('onError', function(){
-						self.hide.delay(1000, self);
-					});
+						this.hide.delay(1000, this);
+					}.bind(this));
 				var ajax = new Ajax(url, {
 					  update: this.ajaxResponse,
 					  onComplete: function(text, xmldoc){
-							self.fillTitle(id);
-							self.fillBody(id);
-							self.ajaxResponse.empty();
-						},
+							this.fillTitle(id);
+							this.fillBody(id);
+							this.ajaxResponse.remove();
+						}.bind(this),
 					  onFailure: function(transport){
-							self.titleBox.setHTML(self.options.errorMsg);
-							self.fireEvent('onError', [id, url]);
-						}
+							this.titleBox.setHTML(this.options.errorMsg);
+							this.fireEvent('onError', [id, url]);
+						}.bind(this)
 					}).request('async=1');
 			}
 		},
@@ -293,4 +305,71 @@ InfoWin.Ajax = InfoWin.extend({
 		}
 	});
 
-InfoWin.Ajax.implement(new Events, new Options);
+
+/*
+Class: Infowin.Notifier
+
+	Creates a notification popup that disappears automaticaly.
+	Usefull for a confirmation message after a AJAX action request.
+ */
+
+InfoWin.Notifier = InfoWin.extend({
+	  options: {
+		  timeout: 2500,
+		  destroyOnHide: true,
+		  className: 'ok',
+		  classSuffix: '-info',
+		  message: '',
+		  offsets: {'x': 16, 'y': 16}
+	  },
+
+	  initialize: function(id, options){
+			this.parent(id, options);
+		},
+
+	  build: function(id){
+			/* top border of hint */
+			var top = new Element('div', {
+					'class': this.options.className + this.options.classSuffix + '-top'
+				}).inject(this.winFrame);
+			top = new Element('div', {
+					'class': this.options.className + this.options.classSuffix + '-c'
+				}).inject(top);
+
+			/* body of tip: some helper divs and content */
+			var bdy = new Element('div', {
+					'class': this.options.className + this.options.classSuffix + '-body'
+				}).inject(this.winFrame);
+			bdy = new Element('div', {
+					'class': this.options.className + this.options.classSuffix + '-c'
+				}).inject(bdy);
+			this.winBody = new Element('div', {
+					'class': this.options.className + this.options.classSuffix + '-s'
+				}).inject(bdy);
+
+			/* bottom border of tip */
+			var bot = new Element('div', {
+					'class': this.options.className + this.options.classSuffix + '-bot'
+				}).inject(this.winFrame);
+			bot = new Element('div', {
+					'class': this.options.className + this.options.classSuffix + '-c'
+				}).inject(bot);
+
+			return this.fillBody(id);
+		},
+
+	  fillBody: function(id){
+			this.winFrame.setStyle('position', 'fixed');
+			this.winBody.empty().setHTML(this.options.message);
+			return true;
+		},
+
+	  position: function(event){
+			var prop = {'x': 'left', 'y': 'top'};
+			for (var z in prop) {
+				var pos = this.options.offsets[z];
+				this.winFrame.setStyle(prop[z], pos);
+			}
+		}
+	});
+

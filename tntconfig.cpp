@@ -37,16 +37,20 @@ void TntConfig::WriteConfig()
 	// XXX modularize
 	file << "MapUrl ^/$ login@" << endl;
 
+	// the following redirects vdr_request URL to the component
+	// specified by the action parameter.
+	file << "MapUrl ^/vdr_request/([^.]+) $1@" << endl;
+
 	// the following selects the theme specific 'theme.css' file
 	file << "MapUrl ^/themes/([^/]*)/css.*/(.+\\.css) content@ themes/$1/css/$2 text/css" << endl;
 
 	// the following rules provide a search scheme for images. The first
 	// rule where a image is found, terminates the search.
 	// 1. /themes/<theme>/img/<imgname>.<ext>
-	// 2. /dist/img/<imgname>.<ext>
+	// 2. /img/<imgname>.<ext>
 	// 3. <imgname>.<ext> (builtin images)
 	file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) content@ themes/$1/img/$2.$3 image/$3" << endl;
-	file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) content@ common/img/$2.$3 image/$3" << endl;
+	file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) content@ img/$2.$3 image/$3" << endl;
 	file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) $2@" << endl;
 
 	// Epg images

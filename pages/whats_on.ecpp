@@ -21,7 +21,6 @@ type = "now";
 string mode;
 string attime;
 string fixtime;
-
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -33,7 +32,6 @@ string current_attime;
 string current_fixtime;
 string current_displaytime;
 </%request>
-
 <%include>page_init.eh</%include>
 <%cpp>
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");

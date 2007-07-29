@@ -11,16 +11,23 @@
 var PageEnhance = new Class({
 	  options: {
 		  epgLinkSelector: 'a[href^="epginfo.html?epgid"]',
+		  actionLinkSelector: 'a[href^="vdr_request/"]',
 		  hintTipSelector: '*[title]',
 		  hintClassName: 'hint',
+		  notifyIdPrefix: 'notify',
 		  infoWinStrings: {
 			  loadingMsg: 'loading',
 			  errorMsg: 'an error occured!'
-			}
+			},
+		  notifyStrings: {
+			  successMsg: '<img src="active.png" alt=""> Success!',
+			  errorMsg: '<img src="del.png" alt=""> failed!'
+		  }
 	  },
 
 	  initialize: function(options){
 			this.setOptions(options);
+			this.$notifyCount = 0;
 			window.addEvent('domready', this.domReadySetup.bind(this));
 			window.addEvent('mousedown', this.mouseDownSetup.bind(this));
 		},
@@ -29,11 +36,21 @@ var PageEnhance = new Class({
 	  domReadySetup: function(){
 			$$(this.options.epgLinkSelector).each(this.epgPopup.bind(this));
 			this.addHintTips($$(this.options.hintTipSelector));
+			$$(this.options.actionLinkSelector).each(this.vdrRequest.bind(this));
 		},
 
 	  // actions applied on mouse down.
 	  mouseDownSetup: function(){
 			$$('.' + this.options.hintClassName + '-tip').setStyle('visibility', 'hidden');
+		},
+
+	  // registered as 'onDomExtend' event for InfoWin. Takes care to
+	  // enhance the new dom elements too.
+	  domExtend: function(id, elems){
+			var sel = '#' + id + ' ' + this.options.hintTipSelector;
+			elems = $$(sel);
+			this.addHintTips(elems);
+			$$('#' + id + ' ' + this.options.actionLinkSelector).each(this.vdrRequest.bind(this));
 		},
 
 	  // Epg Popup function. Apply to all elements that should
@@ -61,12 +78,31 @@ var PageEnhance = new Class({
 			}
 		},
 
-	  // registered as 'onDomExtend' event for InfoWin. Takes care to
-	  // enhance the new dom elements too.
-	  domExtend: function(id, elems){
-			var sel = '#' + id + ' ' + this.options.hintTipSelector;
-			elems = $$(sel);
-			this.addHintTips(elems);
+	  // function that requests an action from the server vdr.
+	  vdrRequest: function(el){
+			el.addEvent('click', function(event, element){
+					var href = $pick(element.href, "");
+					if (href != "") {
+						this.$notifyCount++;
+						var req = new Ajax(href, {
+							  method: 'post',
+							  onComplete: function(text, xmldoc) {
+									try {
+										var success = xmldoc.getElementsByTagName('response').item(0).firstChild.nodeValue;
+										new InfoWin.Notifier(this.options.notifyIdPrefix + this.$notifyCount, {
+											  className: success == '1' ? 'ok' : 'err',
+											  message: success == '1' ? this.options.notifyStrings.successMsg : this.options.notifyStrings.errorMsg
+											}).show(event);
+									} catch(e) {
+									}
+								}.bind(this)
+							});
+						req.request('async=1');
+						event.stop();
+						return false;
+					}
+					return true;
+				}.bindWithEvent(this, el));
 		},
 
 	  // change normal 'title'-Attributes into enhanced hinttips
