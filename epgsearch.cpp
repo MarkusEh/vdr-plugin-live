@@ -43,36 +43,50 @@ SearchTimer::SearchTimer()
 
 void SearchTimer::Init()
 {
-   m_id = -1;
-   m_useTime = false;
-   m_startTime = 0;
-   m_stopTime = 0;
-   m_useChannel = NoChannel;
-   m_useCase = false;
-   m_mode = 0;
-   m_useTitle = true;
-   m_useSubtitle = true;
-   m_useDescription = true;
-   m_useDuration = false;
-   m_minDuration = 0;
-   m_maxDuration = 0;
-   m_useDayOfWeek = false;
-   m_dayOfWeek = 0;
-   m_useEpisode = false;
-   m_priority = lexical_cast< int >(EPGSearchSetupValues::ReadValue("DefPriority"));
-   m_lifetime = lexical_cast< int >(EPGSearchSetupValues::ReadValue("DefLifetime"));
-   m_fuzzytolerance = 1;
-   m_useInFavorites = false;
-   m_useAsSearchtimer = false;
-   m_action = 0;
-   m_delAfterDays = 0;
-   m_recordingsKeep = 0;
-   m_pauseOnNrRecordings = 0;
-   m_switchMinBefore = 1;
-   m_useExtEPGInfo = false;
-   m_useVPS = false;
-   m_marginstart = lexical_cast< int >(EPGSearchSetupValues::ReadValue("DefMarginStart"));
-   m_marginstop = lexical_cast< int >(EPGSearchSetupValues::ReadValue("DefMarginStop"));
+	m_id = -1;
+	m_useTime = false;
+	m_startTime = 0;
+	m_stopTime = 0;
+	m_useChannel = NoChannel;
+	m_useCase = false;
+	m_mode = 0;
+	m_useTitle = true;
+	m_useSubtitle = true;
+	m_useDescription = true;
+	m_useDuration = false;
+	m_minDuration = 0;
+	m_maxDuration = 0;
+	m_useDayOfWeek = false;
+	m_dayOfWeek = 0;
+	m_useEpisode = false;
+	m_priority = lexical_cast< int >(EPGSearchSetupValues::ReadValue("DefPriority"));
+	m_lifetime = lexical_cast< int >(EPGSearchSetupValues::ReadValue("DefLifetime"));
+	m_fuzzytolerance = 1;
+	m_useInFavorites = false;
+	m_useAsSearchtimer = 0;
+	m_action = 0;
+	m_delAfterDays = 0;
+	m_recordingsKeep = 0;
+	m_pauseOnNrRecordings = 0;
+	m_switchMinBefore = 1;
+	m_useExtEPGInfo = false;
+	m_useVPS = false;
+	m_marginstart = lexical_cast< int >(EPGSearchSetupValues::ReadValue("DefMarginStart"));
+	m_marginstop = lexical_cast< int >(EPGSearchSetupValues::ReadValue("DefMarginStop"));
+	m_avoidrepeats = false;
+	m_allowedrepeats = 0;
+	m_compareTitle = false;
+	m_compareSubtitle = false;
+	m_compareSummary = false;
+	m_repeatsWithinDays = 0;
+	m_blacklistmode = 0;
+	m_menuTemplate = 0;
+	m_delMode = 0;
+	m_delAfterCountRecs = 0;
+	m_delAfterDaysOfFirstRec = 0;
+	m_useAsSearchTimerFrom = 0;
+	m_useAsSearchTimerTil = 0;	
+	m_catvaluesAvoidRepeat = 0;
 }
 
 SearchTimer::SearchTimer( string const& data )
@@ -98,7 +112,7 @@ SearchTimer::SearchTimer( string const& data )
 			case 12: m_useDuration = lexical_cast< bool >( *part ); break;
 			case 13: if ( m_useDuration ) m_minDuration = lexical_cast< int >( *part ); break;
 			case 14: if ( m_useDuration ) m_maxDuration = lexical_cast< int >( *part ); break;
-			case 15: m_useAsSearchtimer = lexical_cast< bool >( *part ); break;
+			case 15: m_useAsSearchtimer = lexical_cast< int >( *part ); break;
 			case 16: m_useDayOfWeek = lexical_cast< bool >( *part ); break;
 			case 17: m_dayOfWeek = lexical_cast< int >( *part ); break;
 			case 18: m_useEpisode = lexical_cast< bool >( *part ); break;
@@ -116,7 +130,7 @@ SearchTimer::SearchTimer( string const& data )
 			case 30: m_compareTitle = lexical_cast< bool >( *part ); break;
 			case 31: m_compareSubtitle = lexical_cast< bool >( *part ); break;
 			case 32: m_compareSummary = lexical_cast< bool >( *part ); break;
-			case 33: m_catvaluesAvoidRepeat = lexical_cast< unsigned long >( *part ); break;
+			case 33: m_catvaluesAvoidRepeat = lexical_cast< long >( *part ); break;
 			case 34: m_repeatsWithinDays = lexical_cast< int >( *part ); break;
 			case 35: m_delAfterDays = lexical_cast< int >( *part ); break;
 			case 36: m_recordingsKeep = lexical_cast< int >( *part ); break;
@@ -127,6 +141,11 @@ SearchTimer::SearchTimer( string const& data )
 			case 41: m_fuzzytolerance = lexical_cast< int >( *part ); break;
 			case 42: m_useInFavorites = lexical_cast< bool >( *part ); break;
 			case 43: m_menuTemplate = lexical_cast< int >( *part ); break;
+			case 44: m_delMode = lexical_cast< int >( *part ); break;
+			case 45: m_delAfterCountRecs = lexical_cast< int >( *part ); break;
+			case 46: m_delAfterDaysOfFirstRec = lexical_cast< int >( *part ); break;
+			case 47: m_useAsSearchTimerFrom = lexical_cast< time_t >( *part ); break;
+			case 48: m_useAsSearchTimerTil = lexical_cast< time_t >( *part ); break;
 			}
 		}
 	} catch ( bad_lexical_cast const& ex ) {
@@ -209,7 +228,7 @@ std::string SearchTimer::ToText()
       << (m_useDuration?1:0) << ":"
       << tmp_minDuration << ":"
       << tmp_maxDuration << ":"
-      << (m_useAsSearchtimer?1:0) << ":"
+      << m_useAsSearchtimer << ":"
       << (m_useDayOfWeek?1:0) << ":"
       << m_dayOfWeek << ":"
       << (m_useEpisode?1:0) << ":"
@@ -237,7 +256,12 @@ std::string SearchTimer::ToText()
       << tmp_blacklists << ":"
       << m_fuzzytolerance << ":"
       << (m_useInFavorites?1:0) << ":"
-      << m_menuTemplate << ":";
+      << m_menuTemplate << ":"
+      << m_delMode << ":"
+      << m_delAfterCountRecs << ":"
+      << m_delAfterDaysOfFirstRec << ":"
+      << (long) m_useAsSearchTimerFrom << ":"
+      << (long) m_useAsSearchTimerTil;
 
    return os.str();
 }
@@ -293,6 +317,54 @@ string SearchTimer::StopTimeFormatted()
 	return FormatDateTime(tr("%I:%M %p"), stop);
 }
 
+// format is in datepicker format ('mm' for month, 'dd' for day, 'yyyy' for year)
+string DatePickerToC(time_t date, string const& format)
+{
+	if (date == 0) return "";
+	string cformat = format;
+	cformat = StringReplace(cformat, "mm", "%m");
+	cformat = StringReplace(cformat, "dd", "%d");
+	cformat = StringReplace(cformat, "yyyy", "%Y");
+	return FormatDateTime(cformat.c_str(), date);
+}
+
+string SearchTimer::UseAsSearchTimerFrom(string const& format)
+{
+	return DatePickerToC(m_useAsSearchTimerFrom, format);
+}
+
+string SearchTimer::UseAsSearchTimerTil(string const& format)
+{
+	return DatePickerToC(m_useAsSearchTimerTil, format);
+}
+
+time_t GetDateFromDatePicker(std::string const& datestring, std::string const& format)
+{
+	if (datestring.empty()) 
+		return 0;
+	int year = lexical_cast< int >(datestring.substr(format.find("yyyy"), 4));
+	int month = lexical_cast< int >(datestring.substr(format.find("mm"), 2));
+	int day = lexical_cast< int >(datestring.substr(format.find("dd"), 2));
+	struct tm tm_r;
+	tm_r.tm_year = year - 1900;
+	tm_r.tm_mon = month -1;
+	tm_r.tm_mday = day;
+	tm_r.tm_hour = tm_r.tm_min = tm_r.tm_sec = 0;
+	tm_r.tm_isdst = -1; // makes sure mktime() will determine the correct DST setting
+	return mktime(&tm_r);
+}
+
+void SearchTimer::SetUseAsSearchTimerFrom(std::string const& datestring, std::string const& format)
+{
+	m_useAsSearchTimerFrom = GetDateFromDatePicker(datestring, format);
+}
+
+void SearchTimer::SetUseAsSearchTimerTil(std::string const& datestring, std::string const& format)
+{
+	m_useAsSearchTimerTil = GetDateFromDatePicker(datestring, format);
+}
+
+
 SearchTimers::SearchTimers()
 {
 	Reload();
@@ -344,7 +416,7 @@ bool SearchTimers::ToggleActive(std::string const& id)
 {
 	SearchTimer* search = GetByTimerId( id );
 	if (!search) return false;
-	search->SetUseAsSearchTimer(!search->UseAsSearchTimer());
+	search->SetUseAsSearchTimer(search->UseAsSearchTimer()==1?0:1);
 	return Save(search);
 }
 

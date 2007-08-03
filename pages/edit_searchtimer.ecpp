@@ -50,7 +50,7 @@ using namespace vdrlive;
 	bool wday_sat = false;
 	bool wday_sun = false;
 	bool useinfavorites = false;
-	bool useassearchtimer = false;
+	int useassearchtimer = 0;
 	int searchtimeraction = 0;
 	bool seriesrecording = false;
 	string directory = "";
@@ -74,7 +74,12 @@ using namespace vdrlive;
 	int marginstart = 0;
 	int marginstop = 0;
 	bool usevps = false;
+	bool delmode = false;
+	int delaftercountrecs = 0;
+	int delafterdaysoffirstrec = 0;
 	string blacklistids_internal;
+	string useassearchtimerfrom;
+	string useassearchtimerto;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -164,6 +169,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		}
 		searchtimer.SetUseInFavorites(useinfavorites);
 		searchtimer.SetUseAsSearchTimer(useassearchtimer);
+		if (useassearchtimer == 2)
+		{
+			searchtimer.SetUseAsSearchTimerFrom(useassearchtimerfrom, tr("mm/dd/yyyy"));
+			searchtimer.SetUseAsSearchTimerTil(useassearchtimerto, tr("mm/dd/yyyy"));
+		}
 		searchtimer.SetSearchTimerAction(searchtimeraction);
 		searchtimer.SetUseSeriesRecording(seriesrecording);
 		searchtimer.SetDirectory(directory);
@@ -193,7 +203,12 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		searchtimer.SetMarginStart(marginstart);
 		searchtimer.SetMarginStop(marginstop);
 		searchtimer.SetUseVPS(usevps);
-
+		searchtimer.SetDelMode(delmode);
+		if (delmode)
+		{
+			searchtimer.SetDelAfterCountRecs(delaftercountrecs);
+			searchtimer.SetDelAfterDaysOfFirstRec(delafterdaysoffirstrec);
+		}
 		if (!testmode)
 		{
 			searchtimers.Save(&searchtimer);
@@ -273,6 +288,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		}
 		useinfavorites = searchtimer->UseInFavorites();
 		useassearchtimer = searchtimer->UseAsSearchTimer();
+		if (useassearchtimer == 2)
+		{
+			useassearchtimerfrom = searchtimer->UseAsSearchTimerFrom(tr("mm/dd/yyyy"));
+			useassearchtimerto = searchtimer->UseAsSearchTimerTil(tr("mm/dd/yyyy"));
+		}
 		searchtimeraction = searchtimer->SearchTimerAction();
 		seriesrecording = searchtimer->UseSeriesRecording();
 		directory = searchtimer->Directory();
@@ -309,6 +329,10 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		marginstart = searchtimer->MarginStart();
 		marginstop = searchtimer->MarginStop();
 		usevps = searchtimer->UseVPS();
+		delmode = searchtimer->DelMode();
+		delaftercountrecs = searchtimer->DelAfterCountRecs();
+		delafterdaysoffirstrec = searchtimer->DelAfterDaysOfFirstRec();		
+
 		editsearchtimer = searchtimer;
 	}
 	else
@@ -330,10 +354,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <html>
 	<head>
 		<title>VDR Live - <$ editsearchtimer ? tr("Edit search timer") : tr("New search timer") $></title>
+		
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
-		<script type="text/javascript"><!--
 
+		<script type="text/javascript">
 		function initform()
 		{
 			changedsearchmode(document.getElementById("search_mode"));
@@ -347,6 +372,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 %	}
 			changedavoidrepeats(document.getElementById("avoidrepeats"));
 			changedblacklistmode(document.getElementById("blacklistmode"));
+			changeddelmode(document.getElementById("delmode"));
 		}
 
 		function checksearch()
@@ -384,18 +410,23 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 		function changeduseassearchtimer(selection)
 		{
-			document.getElementById("searchtimermodesettings").style.display = (selection.checked ? "block" : "none");
+			document.getElementById("searchtimermodesettings").style.display = 
+				(selection.options[selection.selectedIndex].value > 0) ? "block" : "none";
+			document.getElementById("useassearchtimeruserdef").style.display = 
+				(selection.options[selection.selectedIndex].value == 2) ? "block" : "none";
 			changedsearchtimermode(document.getElementById("searchtimer_mode"));
 		}
 
 		function changedsearchtimermode(selection)
 		{
-		document.getElementById("searchtimermode1settings").style.display =
-			(selection.options[selection.selectedIndex].value == 0 &
-			document.getElementById("useassearchtimer").checked ? "block" : "none");
-		document.getElementById("searchtimermode3settings").style.display =
-			(selection.options[selection.selectedIndex].value == 2 &
-			document.getElementById("useassearchtimer").checked ? "block" : "none");
+			document.getElementById("searchtimermode1settings").style.display =
+				(selection.options[selection.selectedIndex].value == 0 &
+				document.getElementById("useassearchtimer").options[document.getElementById("useassearchtimer").selectedIndex].value > 0) ? 
+				"block" : "none";
+			document.getElementById("searchtimermode3settings").style.display =
+				(selection.options[selection.selectedIndex].value == 2 & 
+				document.getElementById("useassearchtimer").options[document.getElementById("useassearchtimer").selectedIndex].value > 0) ? 
+				"block" : "none";
 		}
 
 		function changeduseextepginfo(selection)
@@ -447,7 +478,12 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		{
 			document.getElementById("directory").value = selection.value;
 		}
+		function changeddelmode(selection)
+		{
+			document.getElementById("delmodesettings").style.display = (selection.checked ? "block" : "none");
+		}
 		//--></script>
+
 	</head>
 	<body onload="initform()">
 		<& pageelems.logo &>
@@ -642,7 +678,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 									<div class="dotted"><input type="checkbox" name="wday_fri" value="1" <{ CHECKIF(wday_fri) }> /> <$ tr("Friday") $></div>
 									<div class="dotted"><input type="checkbox" name="wday_sat" value="1" <{ CHECKIF(wday_sat) }> /> <$ tr("Saturday") $></div>
 									<div class="dotted"><input type="checkbox" name="wday_sun" value="1" <{ CHECKIF(wday_sun) }> /> <$ tr("Sunday") $></div>
-									<br style="clear: both" /><!-- Der muss da sein damit die Höhenberechnung klappt. Glaubt mir, ist so. -->
+									<br style="clear: both" /><!-- Der muss da sein damit die Hï¿½henberechnung klappt. Glaubt mir, ist so. -->
 								</div>
 							</td>
 						</tr>
@@ -679,7 +715,23 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 							<td class="label leftcol"><div class="withmargin"><$ tr("Use as search timer" ) $>:</div></td>
 							<td class="rightcol">
 								<div>
-									<input type="checkbox" name="useassearchtimer" value="1" <{ CHECKIF(useassearchtimer) }> onclick="changeduseassearchtimer(this)" id="useassearchtimer"/>
+									<select onchange="changeduseassearchtimer(this)" name="useassearchtimer" size="1" id="useassearchtimer">
+										<option value="0" <{ SELECTIF(useassearchtimer == 0) }> ><$ tr("no") $></option>
+										<option value="1" <{ SELECTIF(useassearchtimer == 1) }> ><$ tr("yes") $></option>
+										<option value="2" <{ SELECTIF(useassearchtimer == 2) }> ><$ tr("user defined") $></option>
+									</select>
+								</div>
+								<div id="useassearchtimeruserdef" style="display: none">
+									<table class="dependent" border="0" cellpadding="0" cellspacing="0">
+										<tr>
+											<td class="label"><div class="withmargin"><$ tr("from date") $>:</div></td>
+											<td><input id="datefrom" name="useassearchtimerfrom" type="text" class="DatePicker" value="<$ useassearchtimerfrom $>" /></td>
+										</tr>
+										<tr>
+											<td class="label"><div class="withmargin"><$ tr("to date") $>:</div></td>
+											<td><input id="dateto" name="useassearchtimerto" type="text" class="DatePicker"}" value="<$ useassearchtimerto $>" /></td>
+										</tr>
+									</table>
 								</div>
 								<div id="searchtimermodesettings" style="display: none">
 									<select onchange="changedsearchtimermode(this)" name="searchtimeraction" size="1" id="searchtimer_mode">
@@ -784,6 +836,27 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 										<tr>
 											<td class="label"><div class="withmargin"><$ tr("Use VPS") $>:</div></td>
 											<td><input type="checkbox" name="usevps" value="1" <{ CHECKIF(usevps) }>/></td>
+										</tr>
+										<tr>
+											<td class="label"><div class="withmargin"><$ tr("Auto-delete search timer") $>:</div></td>
+											<td><input type="checkbox" name="delmode" value="1" <{ CHECKIF(delmode) }> onclick="changeddelmode(this)" id="delmode"/>
+											<div id="delmodesettings" style="display: none">
+												<table class="dependent" border="0" cellpadding="0" cellspacing="0" class="dependent">
+													<tr>
+														<td class="label"><div class="withmargin"><$ tr("after ... recordings") $>:</div></td>
+														<td>
+															<input type="text" size="3" maxlength="3" name="delaftercountrecs" value="<$ delaftercountrecs $>" />
+														</td>
+													</tr>
+													<tr>
+														<td class="label"><div class="withmargin"><$ tr("after ... days after first rec.") $>:</div></td>
+														<td>
+															<input type="text" size="3" maxlength="3" name="delafterdaysoffirstrec" value="<$ delafterdaysoffirstrec $>" />
+														</td>
+													</tr>
+												</table>
+											</div>
+											</td>
 										</tr>
 									</table>
 								</div>

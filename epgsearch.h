@@ -63,8 +63,8 @@ public:
 	void SetChannelMax(tChannelID channelMax) { m_channelMax = channelMax; }
 	std::string ChannelText() const { return m_channels; }
 	void SetChannelText(std::string channels) { m_channels = channels; }
-	bool UseAsSearchTimer() const { return m_useAsSearchtimer; }
-	void SetUseAsSearchTimer(bool useAsSearchtimer) { m_useAsSearchtimer = useAsSearchtimer; }
+	int UseAsSearchTimer() const { return m_useAsSearchtimer; }
+	void SetUseAsSearchTimer(int useAsSearchtimer) { m_useAsSearchtimer = useAsSearchtimer; }
 	bool UseDuration() const { return m_useDuration; }
 	void SetUseDuration(bool useDuration) { m_useDuration = useDuration; }
 	int MinDuration() const { return m_minDuration; }
@@ -123,7 +123,17 @@ public:
 	void SetMarginStop(int marginstop) { m_marginstop = marginstop; }
 	bool UseVPS() const { return m_useVPS; }
 	void SetUseVPS(bool useVPS) { m_useVPS = useVPS; }
-
+	int DelMode() const { return m_delMode; }
+	void SetDelMode(int delMode) { m_delMode = delMode; }
+	int DelAfterCountRecs() const { return m_delAfterCountRecs; }
+	void SetDelAfterCountRecs(int delAfterCountRecs) { m_delAfterCountRecs = delAfterCountRecs; }
+	int DelAfterDaysOfFirstRec() const { return m_delAfterDaysOfFirstRec; }
+	void SetDelAfterDaysOfFirstRec(int delAfterDaysOfFirstRec) { m_delAfterDaysOfFirstRec = delAfterDaysOfFirstRec; }
+	std::string UseAsSearchTimerFrom(std::string const& format);
+	void SetUseAsSearchTimerFrom(std::string const& datestring, std::string const& format);
+	std::string UseAsSearchTimerTil(std::string const& format);
+	void SetUseAsSearchTimerTil(std::string const& datestring, std::string const& format);
+	
 private:
 	int m_id;
 	std::string m_search;
@@ -149,7 +159,7 @@ private:
 	int m_lifetime;
 	int m_fuzzytolerance;
 	bool m_useInFavorites;
-	bool m_useAsSearchtimer;
+	int m_useAsSearchtimer;
 	int m_action;
 	std::string m_directory;
 	int m_delAfterDays;
@@ -171,6 +181,11 @@ private:
 	std::vector< std::string > m_blacklistIDs;
 	int m_menuTemplate;
 	unsigned long m_catvaluesAvoidRepeat;
+	int m_delMode;
+	int m_delAfterCountRecs;
+	int m_delAfterDaysOfFirstRec;
+	time_t m_useAsSearchTimerFrom;
+	time_t m_useAsSearchTimerTil;
 
 	void ParseChannel( std::string const& data );
 	void ParseChannelIDs( std::string const& data );
