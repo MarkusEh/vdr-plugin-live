@@ -30,6 +30,7 @@ int update_status(1);
 <link rel="stylesheet" type="text/css" href="styles.css"/>
 <link rel="stylesheet" type="text/css" href="<$ LiveSetup().GetThemedLink("css", "theme.css") $>"/>
 <link rel="stylesheet" type="text/css" href="css/siteprefs.css"/>
+<link rel="stylesheet" type="text/css" href="css/DatePicker.css"/>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -144,6 +145,7 @@ int update_status(1);
 	if (LiveSetup().GetUseAjax()) {
 </%cpp>
 	<script type="text/javascript" src="js/mootools/mootools.v1.11.js"></script>
+	<script type="text/javascript" src="js/mootools/DatePicker.js"></script>
 	<script type="text/javascript" src="js/live/liveajax.js"></script>
 	<script type="text/javascript" src="js/live/infowin.js"></script>
 	<script type="text/javascript" src="js/live/hinttips.js"></script>
@@ -157,7 +159,8 @@ int update_status(1);
 				notifyStrings: {
 					successMsg: '<img src="<$ LiveSetup().GetThemedLink("img", "active.png") $>" alt=""> <$ tr("Request succeeded!") $>',
 					errorMsg: '<img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt=""> <$ tr("Request failed!") $>'
-				}
+				},
+				datePickerOptions: '{ dayChars:2, dayNames: ["<$ tr("Sunday") $>", "<$ tr("Monday") $>", "<$ tr("Tuesday") $>","<$ tr("Wednesday") $>","<$ tr("Thursday") $>","<$ tr("Friday") $>","<$ tr("Saturday") $>"], format:"<$ tr("mm/dd/yyyy") $>", monthNames: ["<$ tr("January") $>","<$ tr("February") $>","<$ tr("March") $>","<$ tr("April") $>","<$ tr("May") $>","<$ tr("June") $>","<$ tr("July") $>","<$ tr("August") $>","<$ tr("September") $>","<$ tr("October") $>","<$ tr("November") $>","<$ tr("December") $>"],startDay:1}'
 			});
 	--></script>
 <%cpp>
