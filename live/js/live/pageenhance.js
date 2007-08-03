@@ -22,7 +22,9 @@ var PageEnhance = new Class({
 		  notifyStrings: {
 			  successMsg: '<img src="active.png" alt=""> Success!',
 			  errorMsg: '<img src="del.png" alt=""> failed!'
-		  }
+		  },
+		  datePickerSelector: 'input.DatePicker',
+		  datePickerOptions: ''
 	  },
 
 	  initialize: function(options){
@@ -37,6 +39,7 @@ var PageEnhance = new Class({
 			$$(this.options.epgLinkSelector).each(this.epgPopup.bind(this));
 			this.addHintTips($$(this.options.hintTipSelector));
 			$$(this.options.actionLinkSelector).each(this.vdrRequest.bind(this));
+			$$(this.options.datePickerSelector).each(this.datePicker.bind(this));
 		},
 
 	  // actions applied on mouse down.
@@ -117,7 +120,14 @@ var PageEnhance = new Class({
 			else {
 				$$(elems).each(this.tips.build, this.tips);
 			}
+		},
+
+	  // add datepicker to input element
+	  datePicker: function(el){
+			el.alt = this.options.datePickerOptions;
+			new DatePicker(el);
 		}
+
 	});
 
 PageEnhance.implement(new Events, new Options);
