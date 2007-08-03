@@ -4,7 +4,7 @@
    extended version of i18n.cpp. (If you would like to submit a patch
    add more context like described below)
 
-   $Id: i18n.cpp,v 1.102 2007/07/29 19:26:04 tadi Exp $
+   $Id: i18n.cpp,v 1.103 2007/08/03 15:27:24 winni Exp $
 
    Note to developers:
    How to safely integrate translations from third parties:
@@ -4526,6 +4526,424 @@ const tI18nPhrase Phrases[] = {
 	  "", // Dansk
 	  "", // Czech
 	},
+	{ "Auto-delete search timer", // English
+	  "Suchtimer automatisch löschen", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Portugu?s
+	  "", // Fran?ais
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Espa?ol
+	  "", // Greek
+	  "", // Svenska
+	  "", // Rom?n?
+	  "", // Magyar
+	  "", // Catal?
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	  },
+	{ "after ... recordings", // English
+	  "nach ... Aufnahmen", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Portugu?s
+	  "", // Fran?ais
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Espa?ol
+	  "", // Greek
+	  "", // Svenska
+	  "", // Rom?n?
+	  "", // Magyar
+	  "", // Catal?
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	  },
+	{ "after ... days after first rec.", // English
+	  "nach ... Tagen nach erster Aufnahme", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Portugu?s
+	  "", // Fran?ais
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Espa?ol
+	  "", // Greek
+	  "", // Svenska
+	  "", // Rom?n?
+	  "", // Magyar
+	  "", // Catal?
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	  },
+	{ "user defined", // English
+	  "benutzer-definiert", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	  },
+	{ "from date", // English
+	  "ab Datum", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	  },
+	{ "to date", // English
+	  "bis Datum", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	  },
+	{ "mm/dd/yyyy", // English - Dateformat for Datepicker, use 'mm' for month, 'dd' for day, 'yyyy' for year
+	  "dd.mm.yyyy", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	  },
+	{ "January", // English
+	  "Januar", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	  },
+	{ "February", // English
+	  "Februar", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	  },
+	{ "March", // English
+	  "März", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	  },
+	{ "April", // English
+	  "April", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	  },
+	{ "May", // English
+	  "Mai", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	  },
+	{ "June", // English
+	  "Juni", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	  },
+	{ "July", // English
+	  "Juli", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	  },
+	{ "August", // English
+	  "August", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	  },
+	{ "September", // English
+	  "September", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	  },
+	{ "October", // English
+	  "Oktober", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	  },
+	{ "November", // English
+	  "November", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	  },
+	{ "December", // English
+	  "Dezember", // Deutsch
+	  "", // Slovenski
+	  "", // Italiano
+	  "", // Nederlands
+	  "", // Português
+	  "", // Français
+	  "", // Norsk
+	  "", // Finnish
+	  "", // Polski
+	  "", // Español
+	  "", // Greek
+	  "", // Svenska
+	  "", // Românã
+	  "", // Magyar
+	  "", // Català
+	  "", // Russian
+	  "", // Hrvatski
+	  "", // Eesti
+	  "", // Dansk
+	  "", // Czech
+	  },
 	/*
 	  { "", // English
 	  "", // Deutsch
