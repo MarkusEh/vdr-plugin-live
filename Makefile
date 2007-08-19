@@ -1,7 +1,7 @@
 #
 # Makefile for a Video Disk Recorder plugin
 #
-# $Id: Makefile,v 1.44 2007/08/19 19:48:54 tadi Exp $
+# $Id: Makefile,v 1.45 2007/08/19 22:25:44 tadi Exp $
 
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.
@@ -42,6 +42,7 @@ LOCDIR	 ?= $(VDRDIR)
 ### The version number of VDR's plugin API (taken from VDR's "config.h"):
 
 APIVERSION = $(shell sed -ne '/define APIVERSION/s/^.*"\(.*\)".*$$/\1/p' $(VDRDIR)/config.h)
+I18NTARG   = $(shell if [ `echo $(APIVERSION) | tr [.] [0]` -ge "10507" ]; then echo "i18n"; fi)
 
 ### The name of the distribution archive:
 
@@ -72,7 +73,7 @@ WEBLIBS	   = pages/libpages.a css/libcss.a images/libimages.a \
 
 .PHONY: all dist clean SUBDIRS
 
-all: libvdr-$(PLUGIN).so i18n
+all: libvdr-$(PLUGIN).so $(I18NTARG)
 
 ### Implicit rules:
 
@@ -104,8 +105,8 @@ endif
 %.mo: %.po
 	msgfmt -c -o $@ $<
 
-$(I18Npot): $(wildcard *.cpp) $(wildcard pages/*.cpp)
-	xgettext -C -cTRANSLATORS --no-wrap -F -k -ktr -ktrNOOP --msgid-bugs-address='<cwieninger@gmx.de>' -o $@ *.cpp pages/*.cpp
+$(I18Npot): PAGES $(PLUGINOBJS:%.o=%.cpp)
+	xgettext -C -cTRANSLATORS --no-wrap -F -k -ktr -ktrNOOP --msgid-bugs-address='<cwieninger@gmx.de>' -o $@ $(PLUGINOBJS:%.o=%.cpp) pages/*.cpp
 
 $(I18Npo): $(I18Npot)
 	msgmerge -U --no-wrap -F --backup=none -q $@ $<
@@ -117,7 +118,7 @@ i18n: $(I18Nmo)
 	    cp $(PODIR)/$$i.mo $(LOCALEDIR)/$$i/LC_MESSAGES/$(I18Nvdrmo);\
 	    done
 
-i18n-generated.h: SUBDIRS i18n-template.h $(I18Npot) $(I18Npo) buildutil/pot2i18n.pl
+i18n-generated.h: i18n-template.h $(I18Npot) $(I18Npo) buildutil/pot2i18n.pl
 	buildutil/pot2i18n.pl $(I18Npot) i18n-template.h > $@
 
 ### Targets:
@@ -126,6 +127,9 @@ SUBDIRS:
 	@for dir in $(SUBDIRS); do \
 		make -C $$dir CXX="$(CXX)" CXXFLAGS="$(CXXFLAGS)" || exit 1; \
 	done
+
+PAGES:
+	make -C pages CXX="$(CXX)" CXXFLAGS="$(CXXFLAGS)" .dependencies || exit 1;
 
 libvdr-$(PLUGIN).so: SUBDIRS $(PLUGINOBJS)
 	$(CXX) $(LDFLAGS) -shared -o $@	 $(PLUGINOBJS) -Wl,--whole-archive $(WEBLIBS) -Wl,--no-whole-archive $(LIBS)
