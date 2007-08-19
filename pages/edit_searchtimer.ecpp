@@ -729,7 +729,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 										</tr>
 										<tr>
 											<td class="label"><div class="withmargin"><$ tr("to date") $>:</div></td>
-											<td><input id="dateto" name="useassearchtimerto" type="text" class="DatePicker"}" value="<$ useassearchtimerto $>" /></td>
+											<td><input id="dateto" name="useassearchtimerto" type="text" class="DatePicker" value="<$ useassearchtimerto $>" /></td>
 										</tr>
 									</table>
 								</div>

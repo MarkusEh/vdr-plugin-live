@@ -1,7 +1,7 @@
 #
 # Makefile for a Video Disk Recorder plugin
 #
-# $Id: Makefile,v 1.43 2007/06/13 12:18:29 winni Exp $
+# $Id: Makefile,v 1.44 2007/08/19 19:48:54 tadi Exp $
 
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.
@@ -17,22 +17,23 @@ VERSION = $(shell grep '\#define LIVEVERSION ' setup.h | awk '{ print $$3 }' | s
 
 ### The C++ compiler and options:
 
-CXX      ?= g++
+CXX	 ?= g++
 
 ### tntnet produces some compiler warnings, so we add -Wno-unused-variable -Wno-non-virtual-dtor for nice output ;)
 CXXFLAGS ?= -fPIC -O2 -Wall -Woverloaded-virtual -Wno-unused-variable -Wno-non-virtual-dtor
-LDFLAGS  ?= -fPIC -g
+LDFLAGS	 ?= -fPIC -g
 
-ECPPC    ?= ecppc
+ECPPC	 ?= ecppc
 CXXFLAGS += `tntnet-config --cxxflags`
 
 LIBS  += $(shell tntnet-config --libs)
 
 ### The directory environment:
 
-VDRDIR   ?= ../../..
-LIBDIR   ?= ../../lib
-TMPDIR   ?= /tmp
+VDRDIR	 ?= ../../..
+LIBDIR	 ?= ../../lib
+TMPDIR	 ?= /tmp
+LOCDIR	 ?= $(VDRDIR)
 
 ### Allow user defined options to overwrite defaults:
 
@@ -51,27 +52,27 @@ PACKAGE = vdr-$(ARCHIVE)
 
 INCLUDES += -I$(VDRDIR)/include -Ihttpd
 
-DEFINES  += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"'
+DEFINES	 += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"'
 export DEFINES
 
-LIBS     += httpd/libhttpd.a
+LIBS	 += httpd/libhttpd.a
 
-SUBDIRS   = httpd pages css images javascript
+SUBDIRS	  = httpd pages css images javascript
 
 ### The object files (add further files here):
 
 PLUGINOBJS = $(PLUGIN).o thread.o tntconfig.o setup.o i18n.o timers.o \
-             tools.o recordings.o tasks.o status.o epg_events.o epgsearch.o \
+	     tools.o recordings.o tasks.o status.o epg_events.o epgsearch.o \
 	     grab.o md5.o filecache.o livefeatures.o
 
-WEBLIBS    = pages/libpages.a css/libcss.a images/libimages.a \
-             javascript/libjavascript.a
+WEBLIBS	   = pages/libpages.a css/libcss.a images/libimages.a \
+	     javascript/libjavascript.a
 
 ### Default rules:
 
 .PHONY: all dist clean SUBDIRS
 
-all: libvdr-$(PLUGIN).so
+all: libvdr-$(PLUGIN).so i18n
 
 ### Implicit rules:
 
@@ -87,6 +88,38 @@ $(DEPFILE): Makefile
 
 -include $(DEPFILE)
 
+### Internationalization (I18N):
+
+PODIR	  = po
+LOCALEDIR = $(LOCDIR)/locale
+I18Npo	  = $(wildcard $(PODIR)/*.po)
+I18Nmo	  = $(addsuffix .mo, $(foreach file, $(I18Npo), $(basename $(file))))
+I18Ndirs  = $(notdir $(foreach file, $(I18Npo), $(basename $(file))))
+I18Npot	  = $(PODIR)/$(PLUGIN).pot
+I18Nvdrmo = vdr-$(PLUGIN).mo
+ifeq ($(strip $(APIVERSION)),1.5.7)
+  I18Nvdrmo = $(PLUGIN).mo
+endif
+
+%.mo: %.po
+	msgfmt -c -o $@ $<
+
+$(I18Npot): $(wildcard *.cpp) $(wildcard pages/*.cpp)
+	xgettext -C -cTRANSLATORS --no-wrap -F -k -ktr -ktrNOOP --msgid-bugs-address='<cwieninger@gmx.de>' -o $@ *.cpp pages/*.cpp
+
+$(I18Npo): $(I18Npot)
+	msgmerge -U --no-wrap -F --backup=none -q $@ $<
+
+i18n: $(I18Nmo)
+	@mkdir -p $(LOCALEDIR)
+	for i in $(I18Ndirs); do\
+	    mkdir -p $(LOCALEDIR)/$$i/LC_MESSAGES;\
+	    cp $(PODIR)/$$i.mo $(LOCALEDIR)/$$i/LC_MESSAGES/$(I18Nvdrmo);\
+	    done
+
+i18n-generated.h: SUBDIRS i18n-template.h $(I18Npot) $(I18Npo) buildutil/pot2i18n.pl
+	buildutil/pot2i18n.pl $(I18Npot) i18n-template.h > $@
+
 ### Targets:
 
 SUBDIRS:
@@ -95,7 +128,7 @@ SUBDIRS:
 	done
 
 libvdr-$(PLUGIN).so: SUBDIRS $(PLUGINOBJS)
-	$(CXX) $(LDFLAGS) -shared -o $@  $(PLUGINOBJS) -Wl,--whole-archive $(WEBLIBS) -Wl,--no-whole-archive $(LIBS)
+	$(CXX) $(LDFLAGS) -shared -o $@	 $(PLUGINOBJS) -Wl,--whole-archive $(WEBLIBS) -Wl,--no-whole-archive $(LIBS)
 	@cp --remove-destination $@ $(LIBDIR)/$@.$(APIVERSION)
 
 dist: clean
@@ -107,6 +140,7 @@ dist: clean
 	@echo Distribution package created as $(PACKAGE).tgz
 
 clean:
+	@-rm -f $(PODIR)/*.mo $(PODIR)/*.pot
 	@-rm -f $(PLUGINOBJS) $(DEPFILE) *.so *.tgz core* *~
 	@for dir in $(SUBDIRS); do \
 		make -C $$dir clean ; \

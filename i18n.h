@@ -23,7 +23,9 @@ class I18n
 
 I18n& LiveI18n();
 
+#if VDRVERSNUM < 10507
 extern const tI18nPhrase Phrases[];
+#endif
 
 } // namespace vdrlive
 

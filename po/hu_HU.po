@@ -1,0 +1,1059 @@
+# VDR plugin language source file.
+# Copyright (C) 2007 Klaus Schmidinger <kls@cadsoft.de>
+# This file is distributed under the same license as the VDR-LIVE package.
+# Istvan Koenigsberger <istvnko@hotmail.com>, 2002
+# Guido Josten <guido.josten@t-online.de>, 2002
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: VDR-LIVE 0.2.0\n"
+"Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
+"POT-Creation-Date: 2007-08-19 20:58+0200\n"
+"PO-Revision-Date: 2007-08-19 20:15+0200\n"
+"Last-Translator: Istvan Koenigsberger <istvnko@hotmail.com>, Guido Josten <guido.josten@t-online.de>\n"
+"Language-Team: <vdr@linuxtv.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-2\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: channels.ecpp:12
+msgid "channels"
+msgstr ""
+
+#: channels_widget.ecpp:25 schedule.ecpp:38
+msgid "Couldn't aquire access to channels, please try again later."
+msgstr ""
+
+#: edit_searchtimer.ecpp:112 edit_searchtimer.ecpp:229
+msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
+msgstr ""
+
+#: edit_searchtimer.ecpp:174 edit_searchtimer.ecpp:175
+#: edit_searchtimer.ecpp:293 edit_searchtimer.ecpp:294 pageelems.ecpp:163
+msgid "mm/dd/yyyy"
+msgstr ""
+
+#: edit_searchtimer.ecpp:224 edit_searchtimer.ecpp:356
+#: edit_searchtimer.ecpp:497 searchtimers.ecpp:72
+msgid "Edit search timer"
+msgstr ""
+
+#: edit_searchtimer.ecpp:224 edit_searchtimer.ecpp:356
+#: edit_searchtimer.ecpp:497 searchtimers.ecpp:88
+msgid "New search timer"
+msgstr ""
+
+#: edit_searchtimer.ecpp:381 searchepg.ecpp:173
+msgid "Search text too short - use anyway?"
+msgstr ""
+
+#: edit_searchtimer.ecpp:502 searchepg.ecpp:263
+msgid "Search term"
+msgstr ""
+
+#: edit_searchtimer.ecpp:508 searchepg.ecpp:274
+msgid "Search mode"
+msgstr ""
+
+#: edit_searchtimer.ecpp:512 searchepg.ecpp:278
+msgid "phrase"
+msgstr ""
+
+#: edit_searchtimer.ecpp:513 searchepg.ecpp:279
+msgid "all words"
+msgstr ""
+
+#: edit_searchtimer.ecpp:514 searchepg.ecpp:280
+msgid "at least one word"
+msgstr ""
+
+#: edit_searchtimer.ecpp:515 searchepg.ecpp:281
+msgid "match exactly"
+msgstr ""
+
+#: edit_searchtimer.ecpp:516 searchepg.ecpp:282
+msgid "regular expression"
+msgstr ""
+
+#: edit_searchtimer.ecpp:517 searchepg.ecpp:283
+msgid "fuzzy"
+msgstr ""
+
+#: edit_searchtimer.ecpp:521 searchepg.ecpp:287
+msgid "Tolerance"
+msgstr ""
+
+#: edit_searchtimer.ecpp:529 searchepg.ecpp:295
+msgid "Match case"
+msgstr ""
+
+#: edit_searchtimer.ecpp:535 searchepg.ecpp:301
+msgid "Search in"
+msgstr ""
+
+#: edit_searchtimer.ecpp:539 edit_timer.ecpp:166 searchepg.ecpp:305
+msgid "Title"
+msgstr ""
+
+#: edit_searchtimer.ecpp:543 searchepg.ecpp:310
+msgid "Episode"
+msgstr ""
+
+#: edit_searchtimer.ecpp:547 searchepg.ecpp:315
+msgid "Description"
+msgstr ""
+
+#: edit_searchtimer.ecpp:555 searchepg.ecpp:323
+msgid "Use extended EPG info"
+msgstr ""
+
+#: edit_searchtimer.ecpp:588 searchepg.ecpp:358
+msgid "Use channel"
+msgstr ""
+
+#: edit_searchtimer.ecpp:591 edit_searchtimer.ecpp:691
+#: edit_searchtimer.ecpp:719 searchepg.ecpp:362 searchepg.ecpp:462
+msgid "no"
+msgstr ""
+
+#: edit_searchtimer.ecpp:592 searchepg.ecpp:363
+msgid "interval"
+msgstr ""
+
+#: edit_searchtimer.ecpp:593 searchepg.ecpp:364
+msgid "channel group"
+msgstr ""
+
+#: edit_searchtimer.ecpp:594 searchepg.ecpp:365
+msgid "only FTA"
+msgstr ""
+
+#: edit_searchtimer.ecpp:600 searchepg.ecpp:371
+msgid "from channel"
+msgstr ""
+
+#: edit_searchtimer.ecpp:604 searchepg.ecpp:375
+msgid "to channel"
+msgstr ""
+
+#: edit_searchtimer.ecpp:624 searchepg.ecpp:395
+msgid "Use time"
+msgstr ""
+
+#: edit_searchtimer.ecpp:630 searchepg.ecpp:401
+msgid "Start after"
+msgstr ""
+
+#: edit_searchtimer.ecpp:633 searchepg.ecpp:404
+msgid "The time the show may start at the earliest"
+msgstr ""
+
+#: edit_searchtimer.ecpp:637 searchepg.ecpp:408
+msgid "Start before"
+msgstr ""
+
+#: edit_searchtimer.ecpp:640 searchepg.ecpp:411
+msgid "The time the show may start at the latest"
+msgstr ""
+
+#: edit_searchtimer.ecpp:650 searchepg.ecpp:421
+msgid "Use duration"
+msgstr ""
+
+#: edit_searchtimer.ecpp:656 searchepg.ecpp:427
+msgid "Min. duration"
+msgstr ""
+
+#: edit_searchtimer.ecpp:660 searchepg.ecpp:431
+msgid "Max. duration"
+msgstr ""
+
+#: edit_searchtimer.ecpp:670 searchepg.ecpp:441
+msgid "Use day of week"
+msgstr ""
+
+#: edit_searchtimer.ecpp:674 edit_timer.ecpp:180 pageelems.ecpp:163
+#: searchepg.ecpp:445 themedev.ecpp:106
+msgid "Monday"
+msgstr ""
+
+#: edit_searchtimer.ecpp:675 edit_timer.ecpp:184 pageelems.ecpp:163
+#: searchepg.ecpp:446 themedev.ecpp:110
+msgid "Tuesday"
+msgstr ""
+
+#: edit_searchtimer.ecpp:676 edit_timer.ecpp:188 pageelems.ecpp:163
+#: searchepg.ecpp:447 themedev.ecpp:114
+msgid "Wednesday"
+msgstr ""
+
+#: edit_searchtimer.ecpp:677 edit_timer.ecpp:192 pageelems.ecpp:163
+#: searchepg.ecpp:448 themedev.ecpp:118
+msgid "Thursday"
+msgstr ""
+
+#: edit_searchtimer.ecpp:678 edit_timer.ecpp:196 pageelems.ecpp:163
+#: searchepg.ecpp:449 themedev.ecpp:122
+msgid "Friday"
+msgstr ""
+
+#: edit_searchtimer.ecpp:679 edit_timer.ecpp:200 pageelems.ecpp:163
+#: searchepg.ecpp:450 themedev.ecpp:126
+msgid "Saturday"
+msgstr ""
+
+#: edit_searchtimer.ecpp:680 edit_timer.ecpp:204 pageelems.ecpp:163
+#: searchepg.ecpp:451 themedev.ecpp:130
+msgid "Sunday"
+msgstr ""
+
+#: edit_searchtimer.ecpp:688 searchepg.ecpp:459
+msgid "Use blacklists"
+msgstr ""
+
+#: edit_searchtimer.ecpp:692 searchepg.ecpp:463
+msgid "Selection"
+msgstr ""
+
+#: edit_searchtimer.ecpp:693 searchepg.ecpp:464
+msgid "all"
+msgstr ""
+
+#: edit_searchtimer.ecpp:709
+msgid "Use in favorites menu"
+msgstr ""
+
+#: edit_searchtimer.ecpp:715
+msgid "Use as search timer"
+msgstr ""
+
+#: edit_searchtimer.ecpp:720
+msgid "yes"
+msgstr ""
+
+#: edit_searchtimer.ecpp:721
+msgid "user defined"
+msgstr ""
+
+#: edit_searchtimer.ecpp:727
+msgid "from date"
+msgstr ""
+
+#: edit_searchtimer.ecpp:731
+msgid "to date"
+msgstr ""
+
+#: edit_searchtimer.ecpp:738
+msgid "Record"
+msgstr "Felvenni"
+
+#: edit_searchtimer.ecpp:739
+msgid "Announce only"
+msgstr ""
+
+#: edit_searchtimer.ecpp:740
+msgid "Switch only"
+msgstr ""
+
+#: edit_searchtimer.ecpp:746
+msgid "Series recording"
+msgstr ""
+
+#: edit_searchtimer.ecpp:751
+msgid "Directory"
+msgstr ""
+
+#: edit_searchtimer.ecpp:763
+msgid "Delete recordings after ... days"
+msgstr ""
+
+#: edit_searchtimer.ecpp:766
+msgid "Keep ... recordings"
+msgstr ""
+
+#: edit_searchtimer.ecpp:772
+msgid "Pause when ... recordings exist"
+msgstr ""
+
+#: edit_searchtimer.ecpp:777
+msgid "Avoid repeats"
+msgstr ""
+
+#: edit_searchtimer.ecpp:782
+msgid "Allowed repeats"
+msgstr ""
+
+#: edit_searchtimer.ecpp:784
+msgid "Only repeats within ... days"
+msgstr ""
+
+#: edit_searchtimer.ecpp:789
+msgid "Compare title"
+msgstr ""
+
+#: edit_searchtimer.ecpp:794
+msgid "Compare subtitle"
+msgstr ""
+
+#: edit_searchtimer.ecpp:799
+msgid "Compare summary"
+msgstr ""
+
+#: edit_searchtimer.ecpp:806
+msgid "Compare"
+msgstr ""
+
+#: edit_searchtimer.ecpp:817 edit_timer.ecpp:225
+msgid "Priority"
+msgstr ""
+
+#: edit_searchtimer.ecpp:822 edit_timer.ecpp:230
+msgid "Lifetime"
+msgstr ""
+
+#: edit_searchtimer.ecpp:827
+msgid "Setup.Recording$Margin at start (min)"
+msgstr ""
+
+#: edit_searchtimer.ecpp:832
+msgid "Setup.Recording$Margin at stop (min)"
+msgstr ""
+
+#: edit_searchtimer.ecpp:837 edit_timer.ecpp:220
+msgid "Use VPS"
+msgstr ""
+
+#: edit_searchtimer.ecpp:841
+msgid "Auto-delete search timer"
+msgstr ""
+
+#: edit_searchtimer.ecpp:846
+msgid "after ... recordings"
+msgstr ""
+
+#: edit_searchtimer.ecpp:852
+msgid "after ... days after first rec."
+msgstr ""
+
+#: edit_searchtimer.ecpp:867
+msgid "Switch ... minutes before start"
+msgstr ""
+
+#: edit_searchtimer.ecpp:878
+msgid "Test"
+msgstr ""
+
+#: edit_searchtimer.ecpp:879 edit_timer.ecpp:237 setup.ecpp:216
+#: themedev.ecpp:151
+msgid "Save"
+msgstr ""
+
+#: edit_searchtimer.ecpp:880 edit_timer.ecpp:238
+msgid "Cancel"
+msgstr ""
+
+#: edit_timer.ecpp:64 timers.ecpp:36
+msgid "Couldn't find timer. Maybe you mistyped your request?"
+msgstr ""
+
+#: edit_timer.ecpp:76
+msgid "Please set a title for the timer!"
+msgstr ""
+
+#: edit_timer.ecpp:130 edit_timer.ecpp:143 timers.ecpp:114
+msgid "Edit timer"
+msgstr ""
+
+#: edit_timer.ecpp:130 edit_timer.ecpp:143 timers.ecpp:128
+msgid "New timer"
+msgstr ""
+
+#: edit_timer.ecpp:147
+msgid "Active"
+msgstr ""
+
+#: edit_timer.ecpp:151 setup.cpp:254 themedev.ecpp:71
+msgid "Yes"
+msgstr ""
+
+#: edit_timer.ecpp:155 setup.cpp:254 themedev.ecpp:75
+msgid "No"
+msgstr ""
+
+#: edit_timer.ecpp:161 searchtimers.ecpp:56 timers.ecpp:91
+msgid "Channel"
+msgstr ""
+
+#: edit_timer.ecpp:171
+msgid "Day"
+msgstr ""
+
+#: edit_timer.ecpp:176
+msgid "Weekday"
+msgstr ""
+
+#: edit_timer.ecpp:210 timers.ecpp:92
+msgid "Start"
+msgstr ""
+
+#: edit_timer.ecpp:215 timers.ecpp:93
+msgid "Stop"
+msgstr ""
+
+#: epg_events.cpp:243
+msgid "Epg error"
+msgstr ""
+
+#: epg_events.cpp:252
+msgid "Wrong channel id"
+msgstr ""
+
+#: epg_events.cpp:256
+msgid "Channel has no schedule"
+msgstr ""
+
+#: epg_events.cpp:260
+msgid "Wrong event id"
+msgstr ""
+
+#: epginfo.ecpp:47
+msgid "Electronic program guide information"
+msgstr ""
+
+#: epginfo.ecpp:70
+msgid "Couldn't find recording or no recordings available"
+msgstr ""
+
+#: epginfo.ecpp:78
+msgid "Error aquiring schedules lock"
+msgstr ""
+
+#: epginfo.ecpp:82
+msgid "Error aquiring schedules"
+msgstr ""
+
+#: epginfo.ecpp:118 recordings.ecpp:162
+msgid "%b %d %y"
+msgstr ""
+
+#: epginfo.ecpp:119 epgsearch.cpp:311 epgsearch.cpp:317 ibox.ecpp:113
+#: ibox.ecpp:118 ibox.ecpp:123 ibox.ecpp:128 recordings.ecpp:163
+#: schedule.ecpp:92 schedule.ecpp:93 searchresults.ecpp:66
+#: searchresults.ecpp:67 timers.ecpp:110 timers.ecpp:111 whats_on.ecpp:58
+#: whats_on.ecpp:71 whats_on.ecpp:148 whats_on.ecpp:171
+msgid "%I:%M %p"
+msgstr ""
+
+#: epgsearch.cpp:33
+msgid "Required minimum version of epgsearch: "
+msgstr ""
+
+#: epgsearch.cpp:272
+msgid "All"
+msgstr ""
+
+#: epgsearch.cpp:275
+msgid "FTA"
+msgstr ""
+
+#: epgsearch.cpp:377 epgsearch.cpp:390 epgsearch.cpp:430 epgsearch.cpp:442
+#: epgsearch.cpp:499 epgsearch.cpp:523 epgsearch.cpp:548 epgsearch.cpp:586
+#: epgsearch.cpp:597 epgsearch.cpp:633 epgsearch.cpp:642 epgsearch.cpp:651
+msgid "EPGSearch version outdated! Please update."
+msgstr ""
+
+#: error.ecpp:72
+msgid "Page error"
+msgstr ""
+
+#: grab.cpp:49
+msgid "Couldn't aquire primary device"
+msgstr ""
+
+#: grab.cpp:56
+msgid "Couldn't grab image from primary device"
+msgstr ""
+
+#: ibox.ecpp:50
+msgid "playing recording"
+msgstr ""
+
+#: ibox.ecpp:81
+msgid "no epg info for current event!"
+msgstr ""
+
+#: ibox.ecpp:88
+msgid "no epg info for current channel!"
+msgstr ""
+
+#: ibox.ecpp:95 ibox.ecpp:104
+msgid "no current channel!"
+msgstr ""
+
+#: ibox.ecpp:103
+msgid "error retrieving status info!"
+msgstr ""
+
+#: ibox.ecpp:113 ibox.ecpp:118 ibox.ecpp:123 ibox.ecpp:128
+msgid "%I:%M:%S %p"
+msgstr ""
+
+#: ibox_status.ecpp:19 vdr_status.ecpp:19
+msgid "Status"
+msgstr ""
+
+#: ibox_status.ecpp:50
+msgid "Stop updates"
+msgstr ""
+
+#: ibox_status.ecpp:51 pageelems.ecpp:85
+msgid "previous channel"
+msgstr ""
+
+#: ibox_status.ecpp:52 pageelems.ecpp:86
+msgid "next channel"
+msgstr ""
+
+#: login.ecpp:25
+msgid "Wrong username or password"
+msgstr ""
+
+#: login.ecpp:39 login.ecpp:59
+msgid "Login"
+msgstr ""
+
+#: login.ecpp:45
+msgid "VDR Live Login"
+msgstr ""
+
+#: login.ecpp:52
+msgid "User"
+msgstr ""
+
+#: login.ecpp:57
+msgid "Password"
+msgstr ""
+
+#: menu.ecpp:35
+msgid "What's on?"
+msgstr ""
+
+#: menu.ecpp:36 schedule.ecpp:31 setup.ecpp:176
+msgid "Schedule"
+msgstr ""
+
+#: menu.ecpp:37 setup.ecpp:178 timers.ecpp:27
+msgid "Timers"
+msgstr ""
+
+#: menu.ecpp:39 searchepg.ecpp:142 searchepg.ecpp:153 searchepg.ecpp:484
+msgid "Search"
+msgstr ""
+
+#: menu.ecpp:40 searchtimers.ecpp:25
+msgid "Searchtimers"
+msgstr ""
+
+#: menu.ecpp:42 recordings.ecpp:28 setup.ecpp:177
+msgid "Recordings"
+msgstr ""
+
+#: menu.ecpp:43 remote.ecpp:21
+msgid "Remote Control"
+msgstr ""
+
+#: menu.ecpp:44 setup.ecpp:63 setup.ecpp:118
+msgid "Setup"
+msgstr ""
+
+#: menu.ecpp:49
+msgid "Logout"
+msgstr ""
+
+#: pageelems.ecpp:66
+msgid "retrieving status ..."
+msgstr ""
+
+#: pageelems.ecpp:75
+msgid "Toggle updates on/off."
+msgstr ""
+
+#: pageelems.ecpp:78
+msgid "stop playback"
+msgstr ""
+
+#: pageelems.ecpp:79
+msgid "resume playback"
+msgstr ""
+
+#: pageelems.ecpp:80
+msgid "pause playback"
+msgstr ""
+
+#: pageelems.ecpp:81
+msgid "fast rewind"
+msgstr ""
+
+#: pageelems.ecpp:82
+msgid "fast forward"
+msgstr ""
+
+#: pageelems.ecpp:94
+msgid "No server response!"
+msgstr ""
+
+#: pageelems.ecpp:95
+msgid "Failed to update infobox!"
+msgstr ""
+
+#: pageelems.ecpp:133
+msgid "Edit this"
+msgstr ""
+
+#: pageelems.ecpp:136
+msgid "Record this"
+msgstr ""
+
+#: pageelems.ecpp:156
+msgid "loading data"
+msgstr ""
+
+#: pageelems.ecpp:157
+msgid "an error occured!"
+msgstr ""
+
+#: pageelems.ecpp:160
+msgid "Request succeeded!"
+msgstr ""
+
+#: pageelems.ecpp:161
+msgid "Request failed!"
+msgstr ""
+
+#: pageelems.ecpp:163
+msgid "April"
+msgstr ""
+
+#: pageelems.ecpp:163
+msgid "August"
+msgstr ""
+
+#: pageelems.ecpp:163
+msgid "December"
+msgstr ""
+
+#: pageelems.ecpp:163
+msgid "February"
+msgstr ""
+
+#: pageelems.ecpp:163
+msgid "January"
+msgstr ""
+
+#: pageelems.ecpp:163
+msgid "July"
+msgstr ""
+
+#: pageelems.ecpp:163
+msgid "June"
+msgstr ""
+
+#: pageelems.ecpp:163
+msgid "March"
+msgstr ""
+
+#: pageelems.ecpp:163
+msgid "May"
+msgstr ""
+
+#: pageelems.ecpp:163
+msgid "November"
+msgstr ""
+
+#: pageelems.ecpp:163
+msgid "October"
+msgstr ""
+
+#: pageelems.ecpp:163
+msgid "September"
+msgstr ""
+
+#: pageelems.ecpp:224 pageelems.ecpp:239
+msgid "Switch to this channel."
+msgstr ""
+
+#: pageelems.ecpp:229 pageelems.ecpp:240 schedule.ecpp:129
+msgid "Search for repeats."
+msgstr ""
+
+#: pageelems.ecpp:233 pageelems.ecpp:241 schedule.ecpp:130
+msgid "Find more at the Internet Movie Database."
+msgstr ""
+
+#: pageelems.ecpp:305
+msgid "Authors"
+msgstr ""
+
+#: pageelems.ecpp:306
+msgid "Project leader"
+msgstr ""
+
+#: pageelems.ecpp:308
+msgid "Webserver"
+msgstr ""
+
+#: pageelems.ecpp:310 pageelems.ecpp:312
+msgid "Content"
+msgstr ""
+
+#: pageelems.ecpp:314
+msgid "Graphics"
+msgstr ""
+
+#: pageelems.ecpp:316
+msgid "Information"
+msgstr ""
+
+#: pageelems.ecpp:317
+msgid "LIVE version"
+msgstr ""
+
+#: pageelems.ecpp:319
+msgid "VDR version"
+msgstr ""
+
+#: pageelems.ecpp:321
+msgid "Features"
+msgstr ""
+
+#: pageelems.ecpp:328
+msgid "active"
+msgstr ""
+
+#: pageelems.ecpp:330
+msgid "required"
+msgstr ""
+
+#: pageelems.ecpp:332
+msgid "Homepage"
+msgstr ""
+
+#: pageelems.ecpp:334
+msgid "Bugs and suggestions"
+msgstr ""
+
+#: pageelems.ecpp:335
+msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
+msgstr ""
+
+#: recordings.cpp:85
+msgid "On archive DVD No."
+msgstr ""
+
+#: recordings.ecpp:42
+msgid "List of recordings"
+msgstr ""
+
+#: recordings.ecpp:44
+msgid "No recordings found"
+msgstr ""
+
+#: recordings.ecpp:97 schedule.ecpp:132 searchresults.ecpp:99
+#: whats_on.ecpp:134
+msgid "Click to view details."
+msgstr ""
+
+#: recordings.ecpp:114 recordings.ecpp:170
+msgid "play this recording."
+msgstr ""
+
+#: remote.ecpp:130
+msgid "Interval"
+msgstr ""
+
+#: schedule.ecpp:53
+msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
+msgstr ""
+
+#: schedule.ecpp:71
+msgid "No schedules available for this channel"
+msgstr ""
+
+#: schedule.ecpp:94 schedule.ecpp:106 searchresults.ecpp:68
+#: searchresults.ecpp:79
+msgid "%A, %b %d %Y"
+msgstr ""
+
+#: schedule.ecpp:147
+msgid "Show schedule of channel"
+msgstr ""
+
+#: searchepg.ecpp:258
+msgid "Search settings"
+msgstr ""
+
+#: searchepg.ecpp:267
+msgid "Extended search"
+msgstr ""
+
+#: searchresults.ecpp:27
+msgid "Search results"
+msgstr ""
+
+#: searchresults.ecpp:57
+msgid "No search results"
+msgstr ""
+
+#: searchtimers.ecpp:55
+msgid "Expression"
+msgstr ""
+
+#: searchtimers.ecpp:57
+msgid "Starts between"
+msgstr ""
+
+#: searchtimers.ecpp:70
+msgid "Toggle search timer actions (in)active"
+msgstr ""
+
+#: searchtimers.ecpp:71
+msgid "Browse search timer results"
+msgstr ""
+
+#: searchtimers.ecpp:73
+msgid "Delete search timer"
+msgstr ""
+
+#: searchtimers.ecpp:73
+msgid "Delete this search timer?"
+msgstr ""
+
+#: searchtimers.ecpp:90
+msgid "Trigger search timer update"
+msgstr ""
+
+#: setup.cpp:252 setup.ecpp:121
+msgid "Last channel to display"
+msgstr ""
+
+#: setup.cpp:252
+msgid "No limit"
+msgstr ""
+
+#: setup.cpp:254 setup.ecpp:125
+msgid "Use authentication"
+msgstr ""
+
+#: setup.cpp:255 setup.ecpp:131 themedev.ecpp:88
+msgid "Admin login"
+msgstr ""
+
+#: setup.cpp:256 setup.cpp:290 setup.cpp:291 setup.cpp:297 setup.cpp:298
+#: setup.ecpp:135 themedev.ecpp:92
+msgid "Admin password"
+msgstr ""
+
+#: setup.ecpp:39
+msgid "Please set login and password!"
+msgstr ""
+
+#: setup.ecpp:60
+msgid "Setup saved."
+msgstr ""
+
+#: setup.ecpp:139
+msgid "Local net (no login required)"
+msgstr ""
+
+#: setup.ecpp:147
+msgid "Show live logo image"
+msgstr ""
+
+#: setup.ecpp:153
+msgid "Use ajax technology"
+msgstr ""
+
+#: setup.ecpp:159
+msgid "Show dynamic VDR information box"
+msgstr ""
+
+#: setup.ecpp:167
+msgid "additional fixed times in 'What's on?'"
+msgstr ""
+
+#: setup.ecpp:169
+msgid "Format is HH:MM. Separate multiple times with a semicolon"
+msgstr ""
+
+#: setup.ecpp:172
+msgid "Start page"
+msgstr ""
+
+#: setup.ecpp:174
+msgid "What's on now?"
+msgstr ""
+
+#: setup.ecpp:175 whats_on.ecpp:60
+msgid "What's on next?"
+msgstr ""
+
+#: setup.ecpp:182
+msgid "Theme"
+msgstr ""
+
+#: tasks.cpp:42
+msgid "Couldn't find channel or no channels available."
+msgstr ""
+
+#: tasks.cpp:47
+msgid "Couldn't switch to channel."
+msgstr ""
+
+#: tasks.cpp:55 tasks.cpp:83 tasks.cpp:113 tasks.cpp:132 tasks.cpp:162
+msgid "Couldn't find recording or no recordings available."
+msgstr ""
+
+#: tasks.cpp:70 tasks.cpp:101 tasks.cpp:150 tasks.cpp:180
+msgid "Cannot control playback!"
+msgstr ""
+
+#: tasks.cpp:89 tasks.cpp:119 tasks.cpp:138 tasks.cpp:168
+msgid "Not playing a recording."
+msgstr ""
+
+#: tasks.cpp:95 tasks.cpp:144 tasks.cpp:174
+msgid "Not playing the same recording as from request."
+msgstr ""
+
+#: themedev.ecpp:30 themedev.ecpp:57
+msgid "Theme development"
+msgstr ""
+
+#: themedev.ecpp:61
+msgid "An input field"
+msgstr ""
+
+#: themedev.ecpp:62
+msgid "Example value"
+msgstr ""
+
+#: themedev.ecpp:67
+msgid "A radio box"
+msgstr ""
+
+#: themedev.ecpp:82
+msgid "A check box"
+msgstr ""
+
+#: themedev.ecpp:89
+msgid "not valid"
+msgstr ""
+
+#: themedev.ecpp:102
+msgid "Multiple check boxes"
+msgstr ""
+
+#: themedev.ecpp:137
+msgid "A dropdown box"
+msgstr ""
+
+#: themedev.ecpp:139
+msgid "blue"
+msgstr ""
+
+#: themedev.ecpp:140
+msgid "red"
+msgstr ""
+
+#: themedev.ecpp:141
+msgid "green"
+msgstr ""
+
+#: themedev.ecpp:142
+msgid "yellow"
+msgstr ""
+
+#: themedev.ecpp:143
+msgid "black"
+msgstr ""
+
+#: themedev.ecpp:144
+msgid "white"
+msgstr ""
+
+#: timers.cpp:86
+#, c-format
+msgid "%A, %x"
+msgstr ""
+
+#: timers.cpp:180 timers.cpp:211
+msgid "Error in timer settings"
+msgstr ""
+
+#: timers.cpp:186
+msgid "Timer already defined"
+msgstr ""
+
+#: timers.cpp:199 timers.cpp:223 timers.cpp:246
+msgid "Timers are being edited - try again later"
+msgstr ""
+
+#: timers.cpp:205 timers.cpp:229 timers.cpp:252
+msgid "Timer not defined"
+msgstr ""
+
+#: timers.ecpp:57
+msgid "No timer defined"
+msgstr ""
+
+#: timers.ecpp:94
+msgid "File"
+msgstr ""
+
+#: timers.ecpp:113
+msgid "Toggle timer active/inactive"
+msgstr ""
+
+#: timers.ecpp:115
+msgid "Delete timer"
+msgstr ""
+
+#: whats_on.ecpp:58 whats_on.ecpp:71
+msgid "What's running at"
+msgstr ""
+
+#: whats_on.ecpp:71
+msgid "%a, %b %d"
+msgstr ""
+
+#: whats_on.ecpp:141 whats_on.ecpp:184
+msgid "View the schedule of this channel"
+msgstr ""
+
+#: whats_on.ecpp:156
+msgid "more"
+msgstr ""
+
+#: whats_on.ecpp:202
+msgid "Now"
+msgstr ""
+
+#: whats_on.ecpp:204
+msgid "Next"
+msgstr ""
+
+#: whats_on.ecpp:206
+msgid "What's on"
+msgstr ""
+
+#: whats_on.ecpp:214 whats_on.ecpp:220
+msgid "at"
+msgstr ""
+
+#: whats_on.ecpp:224
+msgid "Details view"
+msgstr ""
+
+#: whats_on.ecpp:226
+msgid "List view"
+msgstr ""

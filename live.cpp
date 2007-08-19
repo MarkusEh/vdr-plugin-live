@@ -3,7 +3,7 @@
  *
  * See the README file for copyright information and how to reach the author.
  *
- * $Id: live.cpp,v 1.15 2007/05/25 19:12:28 lordjaxom Exp $
+ * $Id: live.cpp,v 1.16 2007/08/19 19:48:54 tadi Exp $
  */
 
 #include <vdr/plugin.h>
@@ -42,7 +42,9 @@ bool Plugin::Start(void)
 {
 	m_configDirectory = cPlugin::ConfigDirectory( PLUGIN_NAME_I18N );
 
+#if VDRVERSNUM < 10507
 	RegisterI18n( vdrlive::Phrases );
+#endif
 	// force status monitor startup
 	LiveStatusMonitor();
 	// XXX error handling

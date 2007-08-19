@@ -1,3 +1,9 @@
+2007-08-19  Dieter Hametner  <dh+vdr at gekrumbel dot de>
+
+	- Adapted (but not tested) live for the new localisation scheme
+	  since VDR 1.5.7
+	  Might need some additional tweaking...
+
 2007-07-29  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
 	- Implemented status notification popup if ajax is active.
