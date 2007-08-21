@@ -42,23 +42,25 @@ Tntnet provides basic webserver functions for live and needs cxxtools.
 Boost provides some data structures we need. While currently relying on the
 full blown package we might provide a stripped down version in the future.
 
-If you want to regenerate the backward compatible i18n-generated.h
-header file (for VDR Version prior to 1.5.7) for i18n you also need:
+If you optionaly want to regenerate the i18n-generated.h header file
+for backward compatible i18n (VDR version prior to 1.5.7) you also
+need: (See also the Internationalization section below)
 
 Locale::PO 		- perl module from CPAN www.cpan.org
+
+The default i18n-generated.h header (provided via CVS) contains all
+translations from CVS. Users that just want to stay on bleeding development
+edge of live do not need Locale::PO installed.
 
 How to get Locale::PO
 - Use search function on www.cpan.org to obtain module.
 - Check if your distribution provides the package.
   (e.g. in Debian the package name is liblocale-po-perl)
 
-The default provided (via CVS) i18n-generated.h header contains all
-translations from CVS. If you added new ones in your language specific
-.mo file and still want to use an VDR older than version 1.5.7 you
-must regenerate i18n-generated.h by calling make with the target
-generate-i18n. Only in this case you need to have Locale::PO installed
-on your system. Users that just want to stay on bleeding development
-edge of live do not need Locale::PO installed.
+If you added new translations in your language specific .mo file and
+still want to use an VDR older than version 1.5.7 you must regenerate
+i18n-generated.h by calling make with the target generate-i18n. Only
+in this case you need to have Locale::PO installed on your system.
 
 
 Installation:
@@ -124,3 +126,29 @@ Contribute!
 ===========
 If you would like to contribute, please read doc/dev-contribute.txt
 and doc/TODO.txt.
+
+
+Internationalization (i18n)
+===========================
+
+Since the release of VDR 1.5.7 the way how VDR (and its plugins) are
+localized changed dramatically. The system now uses GNU gettext. This
+has the advantage that more languages can be supported. Also the
+translations are now local to a language specific message file. So
+simultaneous translations of different languages are much better
+supported. Message files are located in the po subdirectory.
+
+The downside to this is that, in order to provide new live-plugin
+versions for VDR versions less than 1.5.7, it means one has to
+maintain old i18n.c file and the new message files. Since this would
+be an ongoing source of complications we decided to actively support
+only the new internationalization scheme from VDR 1.5.7 and above.
+
+To be able to support versions of VDR prior to 1.5.7 we generate a
+backward compatible i18n-generated.h file from the new message
+files. This generation step is *not* done automatically on every
+build. It is only neccessary if the localized strings have changed or
+if translations have been added. So if one of above is true you can
+regenerate i18n-generated.h with the make target 'generate-i18n' prior
+to creating the live plugin. In this case you need the CPAN perl
+module Locale::PO installed on your system.
