@@ -1,7 +1,7 @@
 #
 # Makefile for a Video Disk Recorder plugin
 #
-# $Id: Makefile,v 1.45 2007/08/19 22:25:44 tadi Exp $
+# $Id: Makefile,v 1.46 2007/08/21 21:12:27 tadi Exp $
 
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.
@@ -118,8 +118,8 @@ i18n: $(I18Nmo)
 	    cp $(PODIR)/$$i.mo $(LOCALEDIR)/$$i/LC_MESSAGES/$(I18Nvdrmo);\
 	    done
 
-i18n-generated.h: i18n-template.h $(I18Npot) $(I18Npo) buildutil/pot2i18n.pl
-	buildutil/pot2i18n.pl $(I18Npot) i18n-template.h > $@
+generate-i18n: i18n-template.h $(I18Npot) $(I18Npo) buildutil/pot2i18n.pl
+	buildutil/pot2i18n.pl $(I18Npot) i18n-template.h > i18n-generated.h
 
 ### Targets:
 

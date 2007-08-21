@@ -30,23 +30,35 @@ Requirements:
 =============
 
 VDR >= 1.4.0-2
-Tntnet >= 1.5.3		- http://www.tntnet.org/download.hms
-Cxxtools >= 1.4.3	- http://www.tntnet.org/download.hms
-gcc >= 3.1
 
+gcc >= 3.1
 if gcc < 4.0:
 boost >= 1.32.0		- http://www.boost.org
 
-Locale::PO 		- perl module from CPAN www.cpan.org
+Tntnet >= 1.5.3		- http://www.tntnet.org/download.hms
+Cxxtools >= 1.4.3	- http://www.tntnet.org/download.hms
 
 Tntnet provides basic webserver functions for live and needs cxxtools.
 Boost provides some data structures we need. While currently relying on the
 full blown package we might provide a stripped down version in the future.
 
+If you want to regenerate the backward compatible i18n-generated.h
+header file (for VDR Version prior to 1.5.7) for i18n you also need:
+
+Locale::PO 		- perl module from CPAN www.cpan.org
+
 How to get Locale::PO
 - Use search function on www.cpan.org to obtain module.
 - Check if your distribution provides the package.
   (e.g. in Debian the package name is liblocale-po-perl)
+
+The default provided (via CVS) i18n-generated.h header contains all
+translations from CVS. If you added new ones in your language specific
+.mo file and still want to use an VDR older than version 1.5.7 you
+must regenerate i18n-generated.h by calling make with the target
+generate-i18n. Only in this case you need to have Locale::PO installed
+on your system. Users that just want to stay on bleeding development
+edge of live do not need Locale::PO installed.
 
 
 Installation:
