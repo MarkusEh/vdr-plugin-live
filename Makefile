@@ -1,7 +1,7 @@
 #
 # Makefile for a Video Disk Recorder plugin
 #
-# $Id: Makefile,v 1.48 2007/08/22 21:28:26 tadi Exp $
+# $Id: Makefile,v 1.49 2007/09/02 18:42:07 winni Exp $
 
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.
@@ -33,7 +33,6 @@ LIBS  += $(shell tntnet-config --libs)
 VDRDIR	 ?= ../../..
 LIBDIR	 ?= ../../lib
 TMPDIR	 ?= /tmp
-LOCDIR	 ?= $(VDRDIR)
 
 ### Allow user defined options to overwrite defaults:
 
@@ -92,7 +91,7 @@ $(DEPFILE): Makefile
 ### Internationalization (I18N):
 
 PODIR	  = po
-LOCALEDIR = $(LOCDIR)/locale
+LOCALEDIR = $(VDRDIR)/locale
 I18Npo	  = $(wildcard $(PODIR)/*.po)
 I18Nmo	  = $(addsuffix .mo, $(foreach file, $(I18Npo), $(basename $(file))))
 I18Ndirs  = $(notdir $(foreach file, $(I18Npo), $(basename $(file))))
