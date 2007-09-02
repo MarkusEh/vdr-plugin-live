@@ -20,20 +20,20 @@ msgstr ""
 
 #: channels.ecpp:12
 msgid "channels"
-msgstr ""
+msgstr "kanavat"
 
 #: channels_widget.ecpp:25 schedule.ecpp:38
 msgid "Couldn't aquire access to channels, please try again later."
-msgstr ""
+msgstr "Kanavien käyttäminen epäonnistui! Yritä myöhemmin uudelleen."
 
 #: edit_searchtimer.ecpp:112 edit_searchtimer.ecpp:229
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
-msgstr ""
+msgstr "Hakuajastimia ei löydetä! Onko pyyntö oikein kirjoitettu?"
 
 #: edit_searchtimer.ecpp:174 edit_searchtimer.ecpp:175
 #: edit_searchtimer.ecpp:293 edit_searchtimer.ecpp:294 pageelems.ecpp:163
 msgid "mm/dd/yyyy"
-msgstr ""
+msgstr "mm/dd/yyyy"
 
 #: edit_searchtimer.ecpp:224 edit_searchtimer.ecpp:356
 #: edit_searchtimer.ecpp:497 searchtimers.ecpp:72
@@ -116,7 +116,7 @@ msgstr "Käytä kanavaa"
 #: edit_searchtimer.ecpp:591 edit_searchtimer.ecpp:691
 #: edit_searchtimer.ecpp:719 searchepg.ecpp:362 searchepg.ecpp:462
 msgid "no"
-msgstr ""
+msgstr "ei"
 
 #: edit_searchtimer.ecpp:592 searchepg.ecpp:363
 msgid "interval"
@@ -231,19 +231,19 @@ msgstr "Käytä hakuajastimena"
 
 #: edit_searchtimer.ecpp:720
 msgid "yes"
-msgstr ""
+msgstr "kyllä"
 
 #: edit_searchtimer.ecpp:721
 msgid "user defined"
-msgstr ""
+msgstr "käyttäjän määrittelemä"
 
 #: edit_searchtimer.ecpp:727
 msgid "from date"
-msgstr ""
+msgstr "alkaen"
 
 #: edit_searchtimer.ecpp:731
 msgid "to date"
-msgstr ""
+msgstr "päättyen"
 
 #: edit_searchtimer.ecpp:738
 msgid "Record"
@@ -307,19 +307,19 @@ msgstr "Vertaa"
 
 #: edit_searchtimer.ecpp:817 edit_timer.ecpp:225
 msgid "Priority"
-msgstr ""
+msgstr "Prioriteetti"
 
 #: edit_searchtimer.ecpp:822 edit_timer.ecpp:230
 msgid "Lifetime"
-msgstr ""
+msgstr "Elinikä"
 
 #: edit_searchtimer.ecpp:827
 msgid "Setup.Recording$Margin at start (min)"
-msgstr ""
+msgstr "Aloitusmarginaali (min)"
 
 #: edit_searchtimer.ecpp:832
 msgid "Setup.Recording$Margin at stop (min)"
-msgstr ""
+msgstr "Lopetusmarginaali (min)"
 
 #: edit_searchtimer.ecpp:837 edit_timer.ecpp:220
 msgid "Use VPS"
@@ -327,15 +327,15 @@ msgstr "Käytä VPS-toimintoa"
 
 #: edit_searchtimer.ecpp:841
 msgid "Auto-delete search timer"
-msgstr ""
+msgstr "Poista automaattisesti hakuajastimet"
 
 #: edit_searchtimer.ecpp:846
 msgid "after ... recordings"
-msgstr ""
+msgstr "... tallenteen jälkeen"
 
 #: edit_searchtimer.ecpp:852
 msgid "after ... days after first rec."
-msgstr ""
+msgstr "... päivän jälkeen ensimmäisestä"
 
 #: edit_searchtimer.ecpp:867
 msgid "Switch ... minutes before start"
@@ -372,7 +372,7 @@ msgstr "Luo uusi ajastin"
 
 #: edit_timer.ecpp:147
 msgid "Active"
-msgstr ""
+msgstr "Aktiivinen"
 
 #: edit_timer.ecpp:151 setup.cpp:254 themedev.ecpp:71
 msgid "Yes"
@@ -384,11 +384,11 @@ msgstr "ei"
 
 #: edit_timer.ecpp:161 searchtimers.ecpp:56 timers.ecpp:91
 msgid "Channel"
-msgstr ""
+msgstr "Kanava"
 
 #: edit_timer.ecpp:171
 msgid "Day"
-msgstr ""
+msgstr "Päivä"
 
 #: edit_timer.ecpp:176
 msgid "Weekday"
@@ -396,11 +396,11 @@ msgstr "Viikonpäivä"
 
 #: edit_timer.ecpp:210 timers.ecpp:92
 msgid "Start"
-msgstr ""
+msgstr "Aloitus"
 
 #: edit_timer.ecpp:215 timers.ecpp:93
 msgid "Stop"
-msgstr ""
+msgstr "Lopetus"
 
 #: epg_events.cpp:243
 msgid "Epg error"
@@ -408,15 +408,15 @@ msgstr "Ohjelmaoppaan virhe"
 
 #: epg_events.cpp:252
 msgid "Wrong channel id"
-msgstr ""
+msgstr "Väärä kanavan tunniste"
 
 #: epg_events.cpp:256
 msgid "Channel has no schedule"
-msgstr ""
+msgstr "Kanavalla ei ole ohjelmatietoja"
 
 #: epg_events.cpp:260
 msgid "Wrong event id"
-msgstr ""
+msgstr "Väärä tapahtuman tunniste"
 
 #: epginfo.ecpp:47
 msgid "Electronic program guide information"
@@ -428,11 +428,11 @@ msgstr ""
 
 #: epginfo.ecpp:78
 msgid "Error aquiring schedules lock"
-msgstr ""
+msgstr "Ohjelmatietojen lukitus epäonnistui!"
 
 #: epginfo.ecpp:82
 msgid "Error aquiring schedules"
-msgstr ""
+msgstr "Ohjelmatietojen haku epäonnistui!"
 
 #: epginfo.ecpp:118 recordings.ecpp:162
 msgid "%b %d %y"
@@ -456,7 +456,7 @@ msgstr "Kaikki"
 
 #: epgsearch.cpp:275
 msgid "FTA"
-msgstr ""
+msgstr "Vapaat"
 
 #: epgsearch.cpp:377 epgsearch.cpp:390 epgsearch.cpp:430 epgsearch.cpp:442
 #: epgsearch.cpp:499 epgsearch.cpp:523 epgsearch.cpp:548 epgsearch.cpp:586
@@ -470,11 +470,11 @@ msgstr "Sivuvirhe"
 
 #: grab.cpp:49
 msgid "Couldn't aquire primary device"
-msgstr ""
+msgstr "Ensisijaisen DVB-sovittimen käyttäminen epäonnistui!"
 
 #: grab.cpp:56
 msgid "Couldn't grab image from primary device"
-msgstr ""
+msgstr "Kuvan kaappaus ensisijaiselta DVB-sovittimelta epäonnistui!"
 
 #: ibox.ecpp:50
 msgid "playing recording"
@@ -502,11 +502,11 @@ msgstr "%H:%M:%S"
 
 #: ibox_status.ecpp:19 vdr_status.ecpp:19
 msgid "Status"
-msgstr ""
+msgstr "Tilanne"
 
 #: ibox_status.ecpp:50
 msgid "Stop updates"
-msgstr ""
+msgstr "Lopeta päivitys"
 
 #: ibox_status.ecpp:51 pageelems.ecpp:85
 msgid "previous channel"
@@ -542,11 +542,11 @@ msgstr "Menossa?"
 
 #: menu.ecpp:36 schedule.ecpp:31 setup.ecpp:176
 msgid "Schedule"
-msgstr ""
+msgstr "Ohjelmisto"
 
 #: menu.ecpp:37 setup.ecpp:178 timers.ecpp:27
 msgid "Timers"
-msgstr ""
+msgstr "Ajastimet"
 
 #: menu.ecpp:39 searchepg.ecpp:142 searchepg.ecpp:153 searchepg.ecpp:484
 msgid "Search"
@@ -566,7 +566,7 @@ msgstr "Kauko-ohjain"
 
 #: menu.ecpp:44 setup.ecpp:63 setup.ecpp:118
 msgid "Setup"
-msgstr ""
+msgstr "Asetukset"
 
 #: menu.ecpp:49
 msgid "Logout"
@@ -618,7 +618,7 @@ msgstr "Tallenna ohjelma"
 
 #: pageelems.ecpp:156
 msgid "loading data"
-msgstr "ladataan tietója"
+msgstr "ladataan tietoja"
 
 #: pageelems.ecpp:157
 msgid "an error occured!"
@@ -626,59 +626,59 @@ msgstr "virhe havaittu!"
 
 #: pageelems.ecpp:160
 msgid "Request succeeded!"
-msgstr ""
+msgstr "Pyynto onnistui!"
 
 #: pageelems.ecpp:161
 msgid "Request failed!"
-msgstr ""
+msgstr "Pyyntö epäonnistui!"
 
 #: pageelems.ecpp:163
 msgid "April"
-msgstr ""
+msgstr "Huhtikuu"
 
 #: pageelems.ecpp:163
 msgid "August"
-msgstr ""
+msgstr "Elokuu"
 
 #: pageelems.ecpp:163
 msgid "December"
-msgstr ""
+msgstr "Joulukuu"
 
 #: pageelems.ecpp:163
 msgid "February"
-msgstr ""
+msgstr "Helmikuu"
 
 #: pageelems.ecpp:163
 msgid "January"
-msgstr ""
+msgstr "Tammikuu"
 
 #: pageelems.ecpp:163
 msgid "July"
-msgstr ""
+msgstr "Heinäkuu"
 
 #: pageelems.ecpp:163
 msgid "June"
-msgstr ""
+msgstr "Kesäkuu"
 
 #: pageelems.ecpp:163
 msgid "March"
-msgstr ""
+msgstr "Maaliskuu"
 
 #: pageelems.ecpp:163
 msgid "May"
-msgstr ""
+msgstr "Toukokuu"
 
 #: pageelems.ecpp:163
 msgid "November"
-msgstr ""
+msgstr "Marraskuu"
 
 #: pageelems.ecpp:163
 msgid "October"
-msgstr ""
+msgstr "Lokakuu"
 
 #: pageelems.ecpp:163
 msgid "September"
-msgstr ""
+msgstr "Syyskuu"
 
 #: pageelems.ecpp:224 pageelems.ecpp:239
 msgid "Switch to this channel."
@@ -893,11 +893,11 @@ msgstr "Aloitussivu"
 
 #: setup.ecpp:174
 msgid "What's on now?"
-msgstr ""
+msgstr "Menossa nyt?"
 
 #: setup.ecpp:175 whats_on.ecpp:60
 msgid "What's on next?"
-msgstr ""
+msgstr "Tulossa seuraavaksi?"
 
 #: setup.ecpp:182
 msgid "Theme"
@@ -905,23 +905,23 @@ msgstr "Ulkoasu"
 
 #: tasks.cpp:42
 msgid "Couldn't find channel or no channels available."
-msgstr ""
+msgstr "Kanavaa ei löydy tai yhtään kanavaa ei ole saatavilla."
 
 #: tasks.cpp:47
 msgid "Couldn't switch to channel."
-msgstr ""
+msgstr "Kanavan valinta epäonnistui."
 
 #: tasks.cpp:55 tasks.cpp:83 tasks.cpp:113 tasks.cpp:132 tasks.cpp:162
 msgid "Couldn't find recording or no recordings available."
-msgstr ""
+msgstr "Tallennetta ei löydy tai yhtään tallennetta ei ole saatavilla."
 
 #: tasks.cpp:70 tasks.cpp:101 tasks.cpp:150 tasks.cpp:180
 msgid "Cannot control playback!"
-msgstr ""
+msgstr "Toiston hallinta epäonnistui!"
 
 #: tasks.cpp:89 tasks.cpp:119 tasks.cpp:138 tasks.cpp:168
 msgid "Not playing a recording."
-msgstr ""
+msgstr "Tallennetta ei toisteta."
 
 #: tasks.cpp:95 tasks.cpp:144 tasks.cpp:174
 msgid "Not playing the same recording as from request."
@@ -929,59 +929,59 @@ msgstr ""
 
 #: themedev.ecpp:30 themedev.ecpp:57
 msgid "Theme development"
-msgstr ""
+msgstr "Teeman kehittely"
 
 #: themedev.ecpp:61
 msgid "An input field"
-msgstr ""
+msgstr "Syötekenttä"
 
 #: themedev.ecpp:62
 msgid "Example value"
-msgstr ""
+msgstr "Esimerkkiarvo"
 
 #: themedev.ecpp:67
 msgid "A radio box"
-msgstr ""
+msgstr "Radiolaatikko"
 
 #: themedev.ecpp:82
 msgid "A check box"
-msgstr ""
+msgstr "Valintalaatikko"
 
 #: themedev.ecpp:89
 msgid "not valid"
-msgstr ""
+msgstr "epäkelpo"
 
 #: themedev.ecpp:102
 msgid "Multiple check boxes"
-msgstr ""
+msgstr "Moniosaiset valintalaatikot"
 
 #: themedev.ecpp:137
 msgid "A dropdown box"
-msgstr ""
+msgstr "Alasvetolaatikko"
 
 #: themedev.ecpp:139
 msgid "blue"
-msgstr ""
+msgstr "sininen"
 
 #: themedev.ecpp:140
 msgid "red"
-msgstr ""
+msgstr "punainen"
 
 #: themedev.ecpp:141
 msgid "green"
-msgstr ""
+msgstr "vihreä"
 
 #: themedev.ecpp:142
 msgid "yellow"
-msgstr ""
+msgstr "keltainen"
 
 #: themedev.ecpp:143
 msgid "black"
-msgstr ""
+msgstr "musta"
 
 #: themedev.ecpp:144
 msgid "white"
-msgstr ""
+msgstr "valkoinen"
 
 #: timers.cpp:86
 #, c-format
@@ -990,19 +990,19 @@ msgstr "%A, %x"
 
 #: timers.cpp:180 timers.cpp:211
 msgid "Error in timer settings"
-msgstr ""
+msgstr "Ajastimen asetukset virheelliset"
 
 #: timers.cpp:186
 msgid "Timer already defined"
-msgstr ""
+msgstr "Ajastin jo määritelty"
 
 #: timers.cpp:199 timers.cpp:223 timers.cpp:246
 msgid "Timers are being edited - try again later"
-msgstr ""
+msgstr "Ajastimia muokataan - yritä uudelleen myöhemmin"
 
 #: timers.cpp:205 timers.cpp:229 timers.cpp:252
 msgid "Timer not defined"
-msgstr ""
+msgstr "Ajastinta ei ole määritelty"
 
 #: timers.ecpp:57
 msgid "No timer defined"
@@ -1010,7 +1010,7 @@ msgstr "Ajastinta ei ole määritelty"
 
 #: timers.ecpp:94
 msgid "File"
-msgstr ""
+msgstr "Tiedosto"
 
 #: timers.ecpp:113
 msgid "Toggle timer active/inactive"
