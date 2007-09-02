@@ -424,7 +424,7 @@ msgstr "Ohjelmaoppaan tiedot"
 
 #: epginfo.ecpp:70
 msgid "Couldn't find recording or no recordings available"
-msgstr ""
+msgstr "Tallennetta ei löydy tai yhtään tallennetta ei ole saatavilla."
 
 #: epginfo.ecpp:78
 msgid "Error aquiring schedules lock"
@@ -925,11 +925,11 @@ msgstr "Tallennetta ei toisteta."
 
 #: tasks.cpp:95 tasks.cpp:144 tasks.cpp:174
 msgid "Not playing the same recording as from request."
-msgstr ""
+msgstr "Pyydettyä tallennetta ei toisteta."
 
 #: themedev.ecpp:30 themedev.ecpp:57
 msgid "Theme development"
-msgstr "Teeman kehittely"
+msgstr "Teeman rakentaminen"
 
 #: themedev.ecpp:61
 msgid "An input field"
