@@ -1,3 +1,8 @@
+2007-09-07  Dieter Hametner  <dieter@air.mittelstation.de>
+
+	* tntconfig.cpp: Checked and adapted MapUrl regular expressions
+	                 to be more live setup secure.
+
 2007-08-19  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
 	- Adapted (but not tested) live for the new localisation scheme

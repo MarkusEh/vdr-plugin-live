@@ -152,3 +152,18 @@ if translations have been added. So if one of above is true you can
 regenerate i18n-generated.h with the make target 'generate-i18n' prior
 to creating the live plugin. In this case you need the CPAN perl
 module Locale::PO installed on your system.
+
+
+Security consideratios
+======================
+
+Live uses the tntnet MapUrl mechanism to map different request urls
+to tntnet components. One component 'content.ecpp' delivers files
+found in the file system. When given the wrong 'path' it could
+retrieve any file from the server where live runs on.  Therefore
+content.ecpp needs to be enhanced to check the paths before returning
+files.  A second measure against missuse is to limit the mappings from
+MapUrl to only valid files. In the current version this approach has
+been taken. But due to the 'dificulty' to fully understand regular
+expressions, this might get spoiled again by 'unchecked' code
+contribution.
