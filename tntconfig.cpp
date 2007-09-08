@@ -23,8 +23,10 @@ void TntConfig::WriteConfig()
 {
 	WriteProperties();
 
+	string const configDir(Plugin::GetConfigDirectory());
+
 	ostringstream builder;
-	builder << Plugin::GetConfigDirectory() << "/httpd.config";
+	builder << configDir << "/httpd.config";
 	m_configPath = builder.str();
 
 	ofstream file( m_configPath.c_str(), ios::out | ios::trunc );
@@ -45,9 +47,11 @@ void TntConfig::WriteConfig()
 	//      http://www.lumadis.be/regex/test_regex.php
 	//    Newly inserted MapUrls should be marked with author and confirmed
 	//    by a second party. (use source code comments for this)
-	// 2. content.ecpp will be extended to validate paths it delivers to be
-	//    a.  relative to some given roots (default plugindir)
+	// 2. content.ecpp checks the given path to be
+	//    a.  an absolute path starting at /
 	//    b.  not containing ../ paths components
+    //    In order to do so, the MapUrl statements must create absolute
+	//    path arguments to content@
 	// ------------------------------------------------------------------------
 	// +++ CAUTION +++ CAUTION +++ CAUTION +++ CAUTION +++ CAUTION +++
 
@@ -61,7 +65,7 @@ void TntConfig::WriteConfig()
 
 	// the following selects the theme specific 'theme.css' file
 	// inserted by 'tadi' -- verified with above, but not counterchecked yet!
-	file << "MapUrl ^/themes/([^/]*)/css.*/(.+\\.css) content@ themes/$1/css/$2 text/css" << endl;
+	file << "MapUrl ^/themes/([^/]*)/css.*/(.+\\.css) content@ " << configDir << "/themes/$1/css/$2 text/css" << endl;
 
 	// the following rules provide a search scheme for images. The first
 	// rule where a image is found, terminates the search.
@@ -69,8 +73,8 @@ void TntConfig::WriteConfig()
 	// 2. /img/<imgname>.<ext>
 	// 3. <imgname>.<ext> (builtin images)
 	// inserted by 'tadi' -- verified with above, but not counterchecked yet!
-	file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) content@ themes/$1/img/$2.$3 image/$3" << endl;
-	file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) content@ img/$2.$3 image/$3" << endl;
+	file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) content@ " << configDir << "/themes/$1/img/$2.$3 image/$3" << endl;
+	file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) content@ " << configDir << "/img/$2.$3 image/$3" << endl;
 	file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) $2@" << endl;
 
 	// Epg images
@@ -87,12 +91,12 @@ void TntConfig::WriteConfig()
 	// WARNING: no path components with '.' in the name are allowed. Only
 	// the basename may contain dots and must end with '.js'
 	// inserted by 'tadi' -- verified with above, but not counterchecked yet!
-	file << "MapUrl ^/js(/[^.]*)([^/]*\\.js) content@ js$1$2 text/javascript" << endl;
+	file << "MapUrl ^/js(/[^.]*)([^/]*\\.js) content@ " << configDir << "/js$1$2 text/javascript" << endl;
 
 	// these map to 'css/basename(uri)'
 	// inserted by 'tadi' -- verified with above, but not counterchecked yet!
-	file << "MapUrl ^/css.*/(.+) content@ css/$1 text/css" << endl;
-	file << "MapUrl ^/img.*/(.+)\\.([^.]+) content@ img/$1.$2 image/$2" << endl;
+	file << "MapUrl ^/css.*/(.+) content@ " << configDir << "/css/$1 text/css" << endl;
+	file << "MapUrl ^/img.*/(.+)\\.([^.]+) content@ " << configDir << "/img/$1.$2 image/$2" << endl;
 
 	// insecure by default: DO NOT UNKOMMENT!!!
 	// file << "MapUrl /([^/]+/.+) content@ $1" << endl;

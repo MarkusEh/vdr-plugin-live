@@ -1,4 +1,10 @@
-2007-09-07  Dieter Hametner  <dieter@air.mittelstation.de>
+2007-09-09  Dieter Hametner  <dh+vdr at gekrumbel dot de>
+
+	* tntconfig.cpp: allways give absolute paths to content.ecpp
+	* pages/content.ecpp: check for absolute paths which don't contain
+		upward references (e.g. '../') and deny such requests.
+
+2007-09-07  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
 	* tntconfig.cpp: Checked and adapted MapUrl regular expressions
 	                 to be more live setup secure.
