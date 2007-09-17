@@ -3,7 +3,7 @@
  *
  * See the README file for copyright information and how to reach the author.
  *
- * $Id: live.cpp,v 1.16 2007/08/19 19:48:54 tadi Exp $
+ * $Id: live.cpp,v 1.17 2007/09/17 22:23:40 tadi Exp $
  */
 
 #include <vdr/plugin.h>
@@ -14,6 +14,7 @@
 #include "tasks.h"
 #include "thread.h"
 #include "timers.h"
+#include "preload.h"
 
 namespace vdrlive {
 
@@ -47,6 +48,10 @@ bool Plugin::Start(void)
 #endif
 	// force status monitor startup
 	LiveStatusMonitor();
+
+	// preload files into file Cache
+	PreLoadFileCache(m_configDirectory);
+
 	// XXX error handling
 	m_thread.reset( new ServerThread );
 	m_thread->Start();

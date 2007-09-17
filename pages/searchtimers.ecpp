@@ -51,7 +51,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					</td>
 				</tr>
 				<tr class="description">
-					<td class="action leftcol"><img src="transparent.png" alt="" width="16px" height="16px"/></td>
+					<td class="action leftcol"><img src="/img/transparent.png" alt="" width="16px" height="16px"/></td>
 					<td><div class="withmargin"><$ tr("Expression") $></div></td>
 					<td><div class="withmargin"><$ tr("Channel") $></div></td>
 					<td><div class="withmargin"><$ tr("Starts between") $></div></td>

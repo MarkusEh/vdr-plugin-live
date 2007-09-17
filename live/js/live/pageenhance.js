@@ -14,11 +14,12 @@ var PageEnhance = new Class({
 		  actionLinkSelector: 'a[href^="vdr_request/"]',
 		  hintTipSelector: '*[title]',
 		  hintClassName: 'hint',
-		  notifyIdPrefix: 'notify',
-		  infoWinStrings: {
+		  infoWinOptions: {
+			  bodyselect: 'div.epg_content',
 			  loadingMsg: 'loading',
 			  errorMsg: 'an error occured!'
 			},
+		  notifyIdPrefix: 'notify',
 		  notifyStrings: {
 			  successMsg: '<img src="active.png" alt=""> Success!',
 			  errorMsg: '<img src="del.png" alt=""> failed!'
@@ -68,12 +69,9 @@ var PageEnhance = new Class({
 					epgid = found[1];
 					el.addEvent('click', function(event){
 							var event = new Event(event);
-							new InfoWin.Ajax(epgid, href, {
-								  bodyselect: 'div.epg_content',
-								  onDomExtend: this.domExtend.bind(this),
-								  loadingMsg: this.options.infoWinStrings.loadingMsg,
-								  errorMsg: this.options.infoWinStrings.errorMsg
-								}).show(event);
+							new InfoWin.Ajax(epgid, href, $merge(this.options.infoWinOptions, {
+									  onDomExtend: this.domExtend.bind(this)
+											})).show(event);
 							event.stop();
 							return false;
 						}.bind(this));

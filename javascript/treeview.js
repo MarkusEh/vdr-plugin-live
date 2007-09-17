@@ -70,14 +70,14 @@ function Toggle(node)
 	if (sibling.style.display == 'none')
 	{
 		if (imgChild != null)
-			setImages(imgChild, "minus.png", "folder_open.png");
+			setImages(imgChild, "img/minus.png", "img/folder_open.png");
 		sibling.style.display = 'block';
 	}
 	// Collapse the branch if it IS visible
 	else
 	{
 		if (imgChild != null)
-			setImages(imgChild, "plus.png", "folder_closed.png");
+			setImages(imgChild, "img/plus.png", "img/folder_closed.png");
 		sibling.style.display = 'none';
 	}
 }

@@ -152,7 +152,8 @@ int update_status(1);
 	<script type="text/javascript" src="js/live/pageenhance.js"></script>
 	<script type="text/javascript"><!--
 		var liveEnhanced = new PageEnhance({
-				infoWinStrings: {
+				infoWinOptions: {
+			  		buttonimg: 'img/transparent.png',
 					loadingMsg: '<$ tr("loading data") $>',
 					errorMsg: '<$ tr("an error occured!") $>'
 				},

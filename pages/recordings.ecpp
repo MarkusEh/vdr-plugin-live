@@ -133,7 +133,7 @@ for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 	string folderimg = "folder_closed.png";
 </%args>
 	<div class="recording_item" onclick="Toggle(this)">
-	<div class="recording_imgs"><%cpp> reply.out() << StringRepeat(level, "<img src=\"transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />"); </%cpp><img class="recording_expander" src="<$ LiveSetup().GetThemedLink("img", collapseimg) $>" alt="" /><img class="recording_folder" src="<$ LiveSetup().GetThemedLink("img", folderimg) $>" alt="" /></div>
+	<div class="recording_imgs"><%cpp> reply.out() << StringRepeat(level, "<img src=\"/img/transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />"); </%cpp><img class="recording_expander" src="<$ LiveSetup().GetThemedLink("img", collapseimg) $>" alt="" /><img class="recording_folder" src="<$ LiveSetup().GetThemedLink("img", folderimg) $>" alt="" /></div>
 	<div class="recording_spec">
 	  <div class="recording_name"><$ name $></div>
     </div>
@@ -156,7 +156,7 @@ for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 	string archived;
 </%args>
 	<div class="recording_item">
-	<div class="recording_imgs"><%cpp> reply.out() << StringRepeat(level + 1, "<img src=\"transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />"); </%cpp><%cpp> if (!archived.empty()) { </%cpp><& archived_disc archived=(archived) &><%cpp> } else { </%cpp><img src="<$ LiveSetup().GetThemedLink("img", "movie.png") $>" alt="movie" /><%cpp> } </%cpp></div>
+	<div class="recording_imgs"><%cpp> reply.out() << StringRepeat(level + 1, "<img src=\"/img/transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />"); </%cpp><%cpp> if (!archived.empty()) { </%cpp><& archived_disc archived=(archived) &><%cpp> } else { </%cpp><img src="<$ LiveSetup().GetThemedLink("img", "movie.png") $>" alt="movie" /><%cpp> } </%cpp></div>
 	<div class="recording_spec">
 		<div class="recording_day" style="width: <$ dayLen $>"><$ day $></div>
 		<div class="recording_date"><$ FormatDateTime(tr("%b %d %y"), startTime) $></div>
@@ -172,7 +172,7 @@ for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 	    }
 		else {
 </%cpp>
-		<img src="transparent.png" alt="" width="16px" height="16px" />
+		<img src="/img/transparent.png" alt="" width="16px" height="16px" />
 <%cpp>
 		}
 </%cpp>

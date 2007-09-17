@@ -1,3 +1,13 @@
+2007-09-18  Dieter Hametner  <dh+vdr at gekrumbel dot de>
+
+	- Eliminated 'images' directory. The images are now not longer
+	  compiled with ecpp into the executable module of live. With the
+	  content.ecpp part and file cache we have a equally performant
+	  solution to compiled in files.
+	- Added file cache preload functionality. The file cache is filled
+	  with a list of files defined at compile time on plugin startup
+	  time.
+
 2007-09-09  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
 	* tntconfig.cpp: allways give absolute paths to content.ecpp

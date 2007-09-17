@@ -71,11 +71,11 @@ void TntConfig::WriteConfig()
 	// rule where a image is found, terminates the search.
 	// 1. /themes/<theme>/img/<imgname>.<ext>
 	// 2. /img/<imgname>.<ext>
-	// 3. <imgname>.<ext> (builtin images)
+	// deprecated: 3. <imgname>.<ext> (builtin images)
 	// inserted by 'tadi' -- verified with above, but not counterchecked yet!
 	file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) content@ " << configDir << "/themes/$1/img/$2.$3 image/$3" << endl;
 	file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) content@ " << configDir << "/img/$2.$3 image/$3" << endl;
-	file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) $2@" << endl;
+	// deprecated: file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) $2@" << endl;
 
 	// Epg images
 	string const epgImgPath(LiveSetup().GetEpgImageDir());
@@ -93,10 +93,16 @@ void TntConfig::WriteConfig()
 	// inserted by 'tadi' -- verified with above, but not counterchecked yet!
 	file << "MapUrl ^/js(/[^.]*)([^/]*\\.js) content@ " << configDir << "/js$1$2 text/javascript" << endl;
 
-	// these map to 'css/basename(uri)'
+	// map to 'css/basename(uri)'
 	// inserted by 'tadi' -- verified with above, but not counterchecked yet!
 	file << "MapUrl ^/css.*/(.+) content@ " << configDir << "/css/$1 text/css" << endl;
+
+	// map to 'img/basename(uri)'
+	// inserted by 'tadi' -- verified with above, but not counterchecked yet!
 	file << "MapUrl ^/img.*/(.+)\\.([^.]+) content@ " << configDir << "/img/$1.$2 image/$2" << endl;
+
+	// Map favicon.ico into img directory
+	file << "MapUrl ^/favicon.ico$ content@ " << configDir << "/img/favicon.ico image/x-icon" << endl;
 
 	// insecure by default: DO NOT UNKOMMENT!!!
 	// file << "MapUrl /([^/]+/.+) content@ $1" << endl;

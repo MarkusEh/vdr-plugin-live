@@ -328,7 +328,7 @@ div.info-win {
 .info-win .info-win-top .info-win-c .info-win-b .close {
 	width: 16px;
 	height: 16px;
-	background: transparent url(close.png) no-repeat top right;
+	background: transparent url(img/close.png) no-repeat top right;
 }
 
 .info-win .info-win-top .info-win-c .info-win-b .close:hover {
@@ -371,7 +371,7 @@ div.info-win {
 */
 
 div.menu {
-	background: #000057  url(menu_line_bg.png) repeat-x;
+	background: #000057  url(img/menu_line_bg.png) repeat-x;
 	min-height: 27px;
 	margin: 0;
 	padding: 0 0 0 10px;
@@ -408,12 +408,12 @@ div.inhalt {
 div.pagemenu {
 	margin-top: 2px;
 	padding-top: 6px;
-	background: #FFFFFF url(bg_line.png) top repeat-x;
+	background: #FFFFFF url(img/bg_line.png) top repeat-x;
 }
 
 div.pagemenu div {
 	/* padding-bottom: 6px; */
-	background: #FFFFFF url(bg_line_top.png) bottom repeat-x;
+	background: #FFFFFF url(img/bg_line_top.png) bottom repeat-x;
 }
 
 div.pagemenu div div {
@@ -501,7 +501,7 @@ div#infobox div.st_header div.caption {
 div#infobox div.st_content {
 	overflow: hidden;
 	padding: 4px;
-	background: white url('bg_line_top.png') top left repeat-x;
+	background: white url(img/bg_line_top.png) top left repeat-x;
 }
 
 div#infobox div.st_content div.duration {
@@ -549,7 +549,7 @@ button.green {
 	width: 100px;
 	height: 20px;
 	background-color: inherit;
-	background-image: url(button_green.png);
+	background-image: url(img/button_green.png);
 	background-repeat: no-repeat;
 	color: #FFFFFF;
 	font-size: 11px;
@@ -564,7 +564,7 @@ button.red {
 	width: 100px;
 	height: 20px;
 	background-color: inherit;
-	background-image: url(button_red.png);
+	background-image: url(img/button_red.png);
 	background-repeat: no-repeat;
 	color: #FFFFFF;
 	font-size: 11px;
@@ -579,7 +579,7 @@ button.blue {
 	width: 100px;
 	height: 20px;
 	background-color: inherit;
-	background-image: url(button_blue.png);
+	background-image: url(img/button_blue.png);
 	background-repeat: no-repeat;
 	color: #FFFFFF;
 	font-size: 11px;
@@ -647,16 +647,16 @@ div.event div.station {
 div.station div {
 	margin: 0;
 	padding: 0;
-	background: url(bg_box_l.png) top left no-repeat;
+	background: url(img/bg_box_l.png) top left no-repeat;
 	height: 23px;
 }
 
 div.station div div {
-	background: url(bg_box_r.png) top right no-repeat;
+	background: url(img/bg_box_r.png) top right no-repeat;
 }
 
 div.station div div div {
-	background: url(bg_box_h.png) repeat-x;
+	background: url(img/bg_box_h.png) repeat-x;
 	line-height: 20px;
 	vertical-align: middle;
 	text-align: left;
@@ -688,7 +688,7 @@ div.content {
 	margin: 0;
 	overflow: hidden;
 
-	background: white url(bg_tools.png) top left repeat-y;
+	background: white url(img/bg_tools.png) top left repeat-y;
 	border-left: 1px solid #000000;
 	border-right: 1px solid #000000;
 	border-bottom: 1px solid #000000;
@@ -773,7 +773,7 @@ table.listing {
 }
 
 table.listing tr td {
-	background: transparent url(bg_line.png) bottom repeat-x;
+	background: transparent url(img/bg_line.png) bottom repeat-x;
 	border-bottom: 1px solid #C0C1DA;
 }
 
@@ -824,16 +824,16 @@ table.listing a {
 div.boxheader	 {
 	margin: 0px;
 	padding: 0px;
-	background: url(bg_box_l.png) top left no-repeat;
+	background: url(img/bg_box_l.png) top left no-repeat;
 }
 
 div.boxheader div {
 	margin: 0px;
-	background: url(bg_box_r.png) top right no-repeat;
+	background: url(img/bg_box_r.png) top right no-repeat;
 }
 
 div.boxheader div div {
-	background: url(bg_box_h.png) repeat-x;
+	background: url(img/bg_box_h.png) repeat-x;
 	vertical-align: middle;
 	text-align: left;
 	margin-right: 3px;
@@ -864,7 +864,7 @@ div.recordings {
 
 div.recording_item {
 	overflow: hidden;
-	background: url(bg_line.png) bottom repeat-x;
+	background: url(img/bg_line.png) bottom repeat-x;
 	border-bottom: 1px solid #C0C1DA;
 }
 
@@ -920,7 +920,7 @@ div.recording_item {
 */
 
 div.screenshot {
-	background-image: url(tv.jpg);
+	background-image: url(img/tv.jpg);
 	background-repeat: no-repeat;
 	height: 240px;
 	width: 320px;
@@ -973,7 +973,7 @@ table.formular {
 table.formular tr td {
 	vertical-align: top;
 	vertical-align: middle;
-	background: url(bg_line.png) bottom repeat-x;
+	background: url(img/bg_line.png) bottom repeat-x;
 	border-bottom: 1px solid #C0C1DA;
 }
 
@@ -1045,7 +1045,7 @@ table.login tr td {
 .info-win div.epg_content {
 	padding: 0px 0px 7px 0px;
 	margin: 0px 0px 0px 0px;
-        background: transparent url(bg_tools.png) top left repeat-y;
+        background: transparent url(img/bg_tools.png) top left repeat-y;
         border: 0px;
 	overflow: hidden;
 }

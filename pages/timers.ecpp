@@ -87,14 +87,14 @@ using namespace vdrlive;
 					</td>
 				</tr>
 				<tr class="description">
-					<td class="leftcol"><img src="transparent.png" alt="" width="16px" height="16px" /></td>
+					<td class="leftcol"><img src="/img/transparent.png" alt="" width="16px" height="16px" /></td>
 					<td><div class="withmargin"><$ tr("Channel") $></div></td>
 					<td><div class="withmargin"><$ tr("Start") $></div></td>
 					<td><div class="withmargin"><$ tr("Stop") $></div></td>
 					<td><div class="withmargin"><$ tr("File") $></div></td>
-					<td class="action"><img src="transparent.png" alt="" width="16px" height="16px" /></td>
-					<td class="action"><img src="transparent.png" alt="" width="16px" height="16px" /></td>
-					<td class="action rightcol"><img src="transparent.png" alt="" width="16px" height="16px" /></td>
+					<td class="action"><img src="/img/transparent.png" alt="" width="16px" height="16px" /></td>
+					<td class="action"><img src="/img/transparent.png" alt="" width="16px" height="16px" /></td>
+					<td class="action rightcol"><img src="/img/transparent.png" alt="" width="16px" height="16px" /></td>
 				</tr>
 <%cpp>
 					}
