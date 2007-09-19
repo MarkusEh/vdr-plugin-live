@@ -54,7 +54,7 @@ class Setup
 		void SetAdminLogin(std::string login) { m_adminLogin = login; }
 		std::string SetAdminPassword(std::string password);
 		void SetUseAuth(int auth) { m_useAuth = auth; }
-		void SetScrenshotInterval(int interval) { m_screenshotInterval = interval; }
+		void SetScreenshotInterval(int interval) { m_screenshotInterval = interval; }
 		void SetTimes(std::string times) { m_times = times; }
 		void SetStartScreen(std::string startscreen) { m_startscreen = startscreen; }
 		void SetTheme(std::string theme) { m_theme = theme; }

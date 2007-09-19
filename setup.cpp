@@ -94,6 +94,7 @@ bool Setup::ParseSetupEntry( char const* name, char const* value )
 	else if ( strcmp( name, "ShowLogo" ) == 0 ) { m_showLogo = atoi(value); }
 	else if ( strcmp( name, "UseAjax" ) == 0 ) { m_useAjax = atoi(value); }
 	else if ( strcmp( name, "ShowInfoBox" ) == 0 ) { m_showInfoBox = atoi(value); }
+	else if ( strcmp( name, "ScreenShotInterval" ) == 0 ) { m_screenshotInterval = atoi(value); }
 	else return false;
 	return true;
 }
@@ -220,6 +221,8 @@ bool Setup::SaveSetup()
 	liveplugin->SetupStore("ShowLogo", m_showLogo);
 	liveplugin->SetupStore("UseAjax", m_useAjax);
 	liveplugin->SetupStore("ShowInfoBox", m_showInfoBox);
+	liveplugin->SetupStore("ScreenShotInterval", m_screenshotInterval);
+
 	return true;
 }
 
