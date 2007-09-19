@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2007-08-19 20:58+0200\n"
+"POT-Creation-Date: 2007-09-19 19:52+0200\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Istvan Koenigsberger <istvnko@hotmail.com>, Guido Josten <guido.josten@t-online.de>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -29,7 +29,7 @@ msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
 msgstr ""
 
 #: edit_searchtimer.ecpp:174 edit_searchtimer.ecpp:175
-#: edit_searchtimer.ecpp:293 edit_searchtimer.ecpp:294 pageelems.ecpp:163
+#: edit_searchtimer.ecpp:293 edit_searchtimer.ecpp:294 pageelems.ecpp:164
 msgid "mm/dd/yyyy"
 msgstr ""
 
@@ -111,11 +111,6 @@ msgstr ""
 msgid "Use channel"
 msgstr ""
 
-#: edit_searchtimer.ecpp:591 edit_searchtimer.ecpp:691
-#: edit_searchtimer.ecpp:719 searchepg.ecpp:362 searchepg.ecpp:462
-msgid "no"
-msgstr ""
-
 #: edit_searchtimer.ecpp:592 searchepg.ecpp:363
 msgid "interval"
 msgstr ""
@@ -172,38 +167,38 @@ msgstr ""
 msgid "Use day of week"
 msgstr ""
 
-#: edit_searchtimer.ecpp:674 edit_timer.ecpp:180 pageelems.ecpp:163
-#: searchepg.ecpp:445 themedev.ecpp:106
+#: edit_searchtimer.ecpp:674 edit_timer.ecpp:180 pageelems.ecpp:164
+#: searchepg.ecpp:445
 msgid "Monday"
 msgstr ""
 
-#: edit_searchtimer.ecpp:675 edit_timer.ecpp:184 pageelems.ecpp:163
-#: searchepg.ecpp:446 themedev.ecpp:110
+#: edit_searchtimer.ecpp:675 edit_timer.ecpp:184 pageelems.ecpp:164
+#: searchepg.ecpp:446
 msgid "Tuesday"
 msgstr ""
 
-#: edit_searchtimer.ecpp:676 edit_timer.ecpp:188 pageelems.ecpp:163
-#: searchepg.ecpp:447 themedev.ecpp:114
+#: edit_searchtimer.ecpp:676 edit_timer.ecpp:188 pageelems.ecpp:164
+#: searchepg.ecpp:447
 msgid "Wednesday"
 msgstr ""
 
-#: edit_searchtimer.ecpp:677 edit_timer.ecpp:192 pageelems.ecpp:163
-#: searchepg.ecpp:448 themedev.ecpp:118
+#: edit_searchtimer.ecpp:677 edit_timer.ecpp:192 pageelems.ecpp:164
+#: searchepg.ecpp:448
 msgid "Thursday"
 msgstr ""
 
-#: edit_searchtimer.ecpp:678 edit_timer.ecpp:196 pageelems.ecpp:163
-#: searchepg.ecpp:449 themedev.ecpp:122
+#: edit_searchtimer.ecpp:678 edit_timer.ecpp:196 pageelems.ecpp:164
+#: searchepg.ecpp:449
 msgid "Friday"
 msgstr ""
 
-#: edit_searchtimer.ecpp:679 edit_timer.ecpp:200 pageelems.ecpp:163
-#: searchepg.ecpp:450 themedev.ecpp:126
+#: edit_searchtimer.ecpp:679 edit_timer.ecpp:200 pageelems.ecpp:164
+#: searchepg.ecpp:450
 msgid "Saturday"
 msgstr ""
 
-#: edit_searchtimer.ecpp:680 edit_timer.ecpp:204 pageelems.ecpp:163
-#: searchepg.ecpp:451 themedev.ecpp:130
+#: edit_searchtimer.ecpp:680 edit_timer.ecpp:204 pageelems.ecpp:164
+#: searchepg.ecpp:451
 msgid "Sunday"
 msgstr ""
 
@@ -225,10 +220,6 @@ msgstr ""
 
 #: edit_searchtimer.ecpp:715
 msgid "Use as search timer"
-msgstr ""
-
-#: edit_searchtimer.ecpp:720
-msgid "yes"
 msgstr ""
 
 #: edit_searchtimer.ecpp:721
@@ -303,22 +294,6 @@ msgstr ""
 msgid "Compare"
 msgstr ""
 
-#: edit_searchtimer.ecpp:817 edit_timer.ecpp:225
-msgid "Priority"
-msgstr ""
-
-#: edit_searchtimer.ecpp:822 edit_timer.ecpp:230
-msgid "Lifetime"
-msgstr ""
-
-#: edit_searchtimer.ecpp:827
-msgid "Setup.Recording$Margin at start (min)"
-msgstr ""
-
-#: edit_searchtimer.ecpp:832
-msgid "Setup.Recording$Margin at stop (min)"
-msgstr ""
-
 #: edit_searchtimer.ecpp:837 edit_timer.ecpp:220
 msgid "Use VPS"
 msgstr ""
@@ -344,7 +319,6 @@ msgid "Test"
 msgstr ""
 
 #: edit_searchtimer.ecpp:879 edit_timer.ecpp:237 setup.ecpp:216
-#: themedev.ecpp:151
 msgid "Save"
 msgstr ""
 
@@ -368,36 +342,8 @@ msgstr ""
 msgid "New timer"
 msgstr ""
 
-#: edit_timer.ecpp:147
-msgid "Active"
-msgstr ""
-
-#: edit_timer.ecpp:151 setup.cpp:254 themedev.ecpp:71
-msgid "Yes"
-msgstr ""
-
-#: edit_timer.ecpp:155 setup.cpp:254 themedev.ecpp:75
-msgid "No"
-msgstr ""
-
-#: edit_timer.ecpp:161 searchtimers.ecpp:56 timers.ecpp:91
-msgid "Channel"
-msgstr ""
-
-#: edit_timer.ecpp:171
-msgid "Day"
-msgstr ""
-
 #: edit_timer.ecpp:176
 msgid "Weekday"
-msgstr ""
-
-#: edit_timer.ecpp:210 timers.ecpp:92
-msgid "Start"
-msgstr ""
-
-#: edit_timer.ecpp:215 timers.ecpp:93
-msgid "Stop"
 msgstr ""
 
 #: epg_events.cpp:243
@@ -437,10 +383,11 @@ msgid "%b %d %y"
 msgstr ""
 
 #: epginfo.ecpp:119 epgsearch.cpp:311 epgsearch.cpp:317 ibox.ecpp:113
-#: ibox.ecpp:118 ibox.ecpp:123 ibox.ecpp:128 recordings.ecpp:163
-#: schedule.ecpp:92 schedule.ecpp:93 searchresults.ecpp:66
-#: searchresults.ecpp:67 timers.ecpp:110 timers.ecpp:111 whats_on.ecpp:58
-#: whats_on.ecpp:71 whats_on.ecpp:148 whats_on.ecpp:171
+#: ibox.ecpp:118 ibox.ecpp:123 ibox.ecpp:128 infobox.ecpp:120 infobox.ecpp:125
+#: infobox.ecpp:130 infobox.ecpp:135 recordings.ecpp:163 schedule.ecpp:92
+#: schedule.ecpp:93 searchresults.ecpp:66 searchresults.ecpp:67
+#: timers.ecpp:110 timers.ecpp:111 whats_on.ecpp:58 whats_on.ecpp:71
+#: whats_on.ecpp:148 whats_on.ecpp:171
 msgid "%I:%M %p"
 msgstr ""
 
@@ -478,40 +425,25 @@ msgstr ""
 msgid "playing recording"
 msgstr ""
 
-#: ibox.ecpp:81
+#: ibox.ecpp:81 infobox.ecpp:71
 msgid "no epg info for current event!"
 msgstr ""
 
-#: ibox.ecpp:88
+#: ibox.ecpp:88 infobox.ecpp:82
 msgid "no epg info for current channel!"
 msgstr ""
 
-#: ibox.ecpp:95 ibox.ecpp:104
+#: ibox.ecpp:95 ibox.ecpp:104 infobox.ecpp:93 infobox.ecpp:106
 msgid "no current channel!"
 msgstr ""
 
-#: ibox.ecpp:103
+#: ibox.ecpp:103 infobox.ecpp:105
 msgid "error retrieving status info!"
 msgstr ""
 
-#: ibox.ecpp:113 ibox.ecpp:118 ibox.ecpp:123 ibox.ecpp:128
+#: ibox.ecpp:113 ibox.ecpp:118 ibox.ecpp:123 ibox.ecpp:128 infobox.ecpp:120
+#: infobox.ecpp:125 infobox.ecpp:130 infobox.ecpp:135
 msgid "%I:%M:%S %p"
-msgstr ""
-
-#: ibox_status.ecpp:19 vdr_status.ecpp:19
-msgid "Status"
-msgstr ""
-
-#: ibox_status.ecpp:50
-msgid "Stop updates"
-msgstr ""
-
-#: ibox_status.ecpp:51 pageelems.ecpp:85
-msgid "previous channel"
-msgstr ""
-
-#: ibox_status.ecpp:52 pageelems.ecpp:86
-msgid "next channel"
 msgstr ""
 
 #: login.ecpp:25
@@ -538,14 +470,6 @@ msgstr ""
 msgid "What's on?"
 msgstr ""
 
-#: menu.ecpp:36 schedule.ecpp:31 setup.ecpp:176
-msgid "Schedule"
-msgstr ""
-
-#: menu.ecpp:37 setup.ecpp:178 timers.ecpp:27
-msgid "Timers"
-msgstr ""
-
 #: menu.ecpp:39 searchepg.ecpp:142 searchepg.ecpp:153 searchepg.ecpp:484
 msgid "Search"
 msgstr ""
@@ -560,10 +484,6 @@ msgstr ""
 
 #: menu.ecpp:43 remote.ecpp:21
 msgid "Remote Control"
-msgstr ""
-
-#: menu.ecpp:44 setup.ecpp:63 setup.ecpp:118
-msgid "Setup"
 msgstr ""
 
 #: menu.ecpp:49
@@ -598,6 +518,14 @@ msgstr ""
 msgid "fast forward"
 msgstr ""
 
+#: pageelems.ecpp:85
+msgid "previous channel"
+msgstr ""
+
+#: pageelems.ecpp:86
+msgid "next channel"
+msgstr ""
+
 #: pageelems.ecpp:94
 msgid "No server response!"
 msgstr ""
@@ -614,135 +542,135 @@ msgstr ""
 msgid "Record this"
 msgstr ""
 
-#: pageelems.ecpp:156
+#: pageelems.ecpp:157
 msgid "loading data"
 msgstr ""
 
-#: pageelems.ecpp:157
+#: pageelems.ecpp:158
 msgid "an error occured!"
 msgstr ""
 
-#: pageelems.ecpp:160
+#: pageelems.ecpp:161
 msgid "Request succeeded!"
 msgstr ""
 
-#: pageelems.ecpp:161
+#: pageelems.ecpp:162
 msgid "Request failed!"
 msgstr ""
 
-#: pageelems.ecpp:163
+#: pageelems.ecpp:164
 msgid "April"
 msgstr ""
 
-#: pageelems.ecpp:163
+#: pageelems.ecpp:164
 msgid "August"
 msgstr ""
 
-#: pageelems.ecpp:163
+#: pageelems.ecpp:164
 msgid "December"
 msgstr ""
 
-#: pageelems.ecpp:163
+#: pageelems.ecpp:164
 msgid "February"
 msgstr ""
 
-#: pageelems.ecpp:163
+#: pageelems.ecpp:164
 msgid "January"
 msgstr ""
 
-#: pageelems.ecpp:163
+#: pageelems.ecpp:164
 msgid "July"
 msgstr ""
 
-#: pageelems.ecpp:163
+#: pageelems.ecpp:164
 msgid "June"
 msgstr ""
 
-#: pageelems.ecpp:163
+#: pageelems.ecpp:164
 msgid "March"
 msgstr ""
 
-#: pageelems.ecpp:163
+#: pageelems.ecpp:164
 msgid "May"
 msgstr ""
 
-#: pageelems.ecpp:163
+#: pageelems.ecpp:164
 msgid "November"
 msgstr ""
 
-#: pageelems.ecpp:163
+#: pageelems.ecpp:164
 msgid "October"
 msgstr ""
 
-#: pageelems.ecpp:163
+#: pageelems.ecpp:164
 msgid "September"
 msgstr ""
 
-#: pageelems.ecpp:224 pageelems.ecpp:239
+#: pageelems.ecpp:225 pageelems.ecpp:240
 msgid "Switch to this channel."
 msgstr ""
 
-#: pageelems.ecpp:229 pageelems.ecpp:240 schedule.ecpp:129
+#: pageelems.ecpp:230 pageelems.ecpp:241 schedule.ecpp:129
 msgid "Search for repeats."
 msgstr ""
 
-#: pageelems.ecpp:233 pageelems.ecpp:241 schedule.ecpp:130
+#: pageelems.ecpp:234 pageelems.ecpp:242 schedule.ecpp:130
 msgid "Find more at the Internet Movie Database."
 msgstr ""
 
-#: pageelems.ecpp:305
+#: pageelems.ecpp:306
 msgid "Authors"
 msgstr ""
 
-#: pageelems.ecpp:306
+#: pageelems.ecpp:307
 msgid "Project leader"
 msgstr ""
 
-#: pageelems.ecpp:308
+#: pageelems.ecpp:309
 msgid "Webserver"
 msgstr ""
 
-#: pageelems.ecpp:310 pageelems.ecpp:312
+#: pageelems.ecpp:311 pageelems.ecpp:313
 msgid "Content"
 msgstr ""
 
-#: pageelems.ecpp:314
+#: pageelems.ecpp:315
 msgid "Graphics"
 msgstr ""
 
-#: pageelems.ecpp:316
+#: pageelems.ecpp:317
 msgid "Information"
 msgstr ""
 
-#: pageelems.ecpp:317
+#: pageelems.ecpp:318
 msgid "LIVE version"
 msgstr ""
 
-#: pageelems.ecpp:319
+#: pageelems.ecpp:320
 msgid "VDR version"
 msgstr ""
 
-#: pageelems.ecpp:321
+#: pageelems.ecpp:322
 msgid "Features"
 msgstr ""
 
-#: pageelems.ecpp:328
+#: pageelems.ecpp:329
 msgid "active"
 msgstr ""
 
-#: pageelems.ecpp:330
+#: pageelems.ecpp:331
 msgid "required"
 msgstr ""
 
-#: pageelems.ecpp:332
+#: pageelems.ecpp:333
 msgid "Homepage"
 msgstr ""
 
-#: pageelems.ecpp:334
+#: pageelems.ecpp:335
 msgid "Bugs and suggestions"
 msgstr ""
 
-#: pageelems.ecpp:335
+#: pageelems.ecpp:336
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
 msgstr ""
 
@@ -796,6 +724,10 @@ msgstr ""
 msgid "Extended search"
 msgstr ""
 
+#: searchepg.ecpp:362 searchepg.ecpp:462
+msgid "no"
+msgstr ""
+
 #: searchresults.ecpp:27
 msgid "Search results"
 msgstr ""
@@ -806,6 +738,10 @@ msgstr ""
 
 #: searchtimers.ecpp:55
 msgid "Expression"
+msgstr ""
+
+#: searchtimers.ecpp:56 timers.ecpp:91
+msgid "Channel"
 msgstr ""
 
 #: searchtimers.ecpp:57
@@ -840,16 +776,24 @@ msgstr ""
 msgid "No limit"
 msgstr ""
 
+#: setup.cpp:254
+msgid "No"
+msgstr ""
+
 #: setup.cpp:254 setup.ecpp:125
 msgid "Use authentication"
 msgstr ""
 
-#: setup.cpp:255 setup.ecpp:131 themedev.ecpp:88
+#: setup.cpp:254
+msgid "Yes"
+msgstr ""
+
+#: setup.cpp:255 setup.ecpp:131
 msgid "Admin login"
 msgstr ""
 
 #: setup.cpp:256 setup.cpp:290 setup.cpp:291 setup.cpp:297 setup.cpp:298
-#: setup.ecpp:135 themedev.ecpp:92
+#: setup.ecpp:135
 msgid "Admin password"
 msgstr ""
 
@@ -859,6 +803,10 @@ msgstr ""
 
 #: setup.ecpp:60
 msgid "Setup saved."
+msgstr ""
+
+#: setup.ecpp:63 setup.ecpp:118
+msgid "Setup"
 msgstr ""
 
 #: setup.ecpp:139
@@ -897,6 +845,14 @@ msgstr ""
 msgid "What's on next?"
 msgstr ""
 
+#: setup.ecpp:176
+msgid "Schedule"
+msgstr ""
+
+#: setup.ecpp:178
+msgid "Timers"
+msgstr ""
+
 #: setup.ecpp:182
 msgid "Theme"
 msgstr ""
@@ -925,62 +881,6 @@ msgstr ""
 msgid "Not playing the same recording as from request."
 msgstr ""
 
-#: themedev.ecpp:30 themedev.ecpp:57
-msgid "Theme development"
-msgstr ""
-
-#: themedev.ecpp:61
-msgid "An input field"
-msgstr ""
-
-#: themedev.ecpp:62
-msgid "Example value"
-msgstr ""
-
-#: themedev.ecpp:67
-msgid "A radio box"
-msgstr ""
-
-#: themedev.ecpp:82
-msgid "A check box"
-msgstr ""
-
-#: themedev.ecpp:89
-msgid "not valid"
-msgstr ""
-
-#: themedev.ecpp:102
-msgid "Multiple check boxes"
-msgstr ""
-
-#: themedev.ecpp:137
-msgid "A dropdown box"
-msgstr ""
-
-#: themedev.ecpp:139
-msgid "blue"
-msgstr ""
-
-#: themedev.ecpp:140
-msgid "red"
-msgstr ""
-
-#: themedev.ecpp:141
-msgid "green"
-msgstr ""
-
-#: themedev.ecpp:142
-msgid "yellow"
-msgstr ""
-
-#: themedev.ecpp:143
-msgid "black"
-msgstr ""
-
-#: themedev.ecpp:144
-msgid "white"
-msgstr ""
-
 #: timers.cpp:86
 #, c-format
 msgid "%A, %x"
@@ -1004,6 +904,14 @@ msgstr ""
 
 #: timers.ecpp:57
 msgid "No timer defined"
+msgstr ""
+
+#: timers.ecpp:92
+msgid "Start"
+msgstr ""
+
+#: timers.ecpp:93
+msgid "Stop"
 msgstr ""
 
 #: timers.ecpp:94
