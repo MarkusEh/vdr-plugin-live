@@ -4,6 +4,7 @@
 #include <vdr/config.h>
 #include "livefeatures.h"
 #include "setup.h"
+#include "i18n.h"
 
 using namespace std;
 using namespace vdrlive;

@@ -9,6 +9,7 @@
 #include "setup.h"
 #include "tools.h"
 #include "epg_events.h"
+#include "i18n.h"
 
 using namespace std;
 using namespace vdrlive;

@@ -4,6 +4,7 @@
 #include "timers.h"
 #include "tools.h"
 #include "setup.h"
+#include "i18n.h"
 
 using namespace std;
 using namespace vdrlive;
