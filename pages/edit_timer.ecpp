@@ -144,21 +144,21 @@ cTimer* timer;
 					</tr>
 
 					<tr>
-						<td class="label leftcol"><div class="withmargin"><$ tr("Active") $>:</div></td>
+						<td class="label leftcol"><div class="withmargin"><$ trVDR("Active") $>:</div></td>
 						<td class="rightcol">
 							<div class="dotted">
 								<input id="active_1" name="active" value="1" <{ reply.out() << ( active ? "checked=\"checked\"" : "" ); }> type="radio"></input>
-								<label for="active_1"><$ tr("Yes") $></label>
+								<label for="active_1"><$ trVDR("yes") $></label>
 							</div>
 							<div class="dotted">
 								<input id="active_0" name="active" value="0" <{ reply.out() << ( !active ? "checked=\"checked\"" : "" ); }> type="radio"></input>
-								<label for="active_0"><$ tr("No") $></label>
+								<label for="active_0"><$ trVDR("no") $></label>
 							</div>
 						</td>
 					</tr>
 
 					<tr>
-						<td class="label leftcol"><div class="withmargin"><$ tr("Channel") $>:</div></td>
+						<td class="label leftcol"><div class="withmargin"><$ trVDR("Channel") $>:</div></td>
 						<td class="rightcol"><div class="withmargin"><& channels_widget name=("channel") channelid=(true) selected=(channel) &></div></td>
 					</tr>
 
@@ -168,7 +168,7 @@ cTimer* timer;
 					</tr>
 
 					<tr>
-						<td class="label leftcol"><div class="withmargin"><$ tr("Day") $>:</div></td>
+						<td class="label leftcol"><div class="withmargin"><$ trVDR("Day") $>:</div></td>
 						<td class="rightcol"><input type="text" name="day" value="<$ day $>" size="2" maxlength="2" /></td>
 					</tr>
 
@@ -207,12 +207,12 @@ cTimer* timer;
 					</tr>
 
 					<tr>
-						<td class="label leftcol"><div class="withmargin"><$ tr("Start") $>:</div></td>
+						<td class="label leftcol"><div class="withmargin"><$ trVDR("Start") $>:</div></td>
 						<td class="rightcol"><input type="text" size="2" maxlength="2" name="start_h" value="<$ ZeroPad(start_h) $>" /> : <input type="text" size="2" maxlength="2" name="start_m" value="<$ ZeroPad(start_m) $>" /></td>
 					</tr>
 
 					<tr>
-						<td class="label leftcol"><div class="withmargin"><$ tr("Stop") $>:</div></td>
+						<td class="label leftcol"><div class="withmargin"><$ trVDR("Stop") $>:</div></td>
 						<td class="rightcol"><input type="text" size="2" maxlength="2" name="end_h" value="<$ ZeroPad(end_h) $>" /> : <input type="text" size="2" maxlength="2" name="end_m" value="<$ ZeroPad(end_m) $>" /></td>
 					</tr>
 
@@ -222,12 +222,12 @@ cTimer* timer;
 					</tr>
 
 					<tr>
-						<td class="label leftcol"><div class="withmargin"><$ tr("Priority") $>:</div></td>
+						<td class="label leftcol"><div class="withmargin"><$ trVDR("Priority") $>:</div></td>
 						<td class="rightcol"><input type="text" size="2" maxlength="2" name="priority" value="<$ priority $>" /></td>
 					</tr>
 
 					<tr>
-						<td class="label leftcol"><div class="withmargin"><$ tr("Lifetime") $>:</div></td>
+						<td class="label leftcol"><div class="withmargin"><$ trVDR("Lifetime") $>:</div></td>
 						<td class="rightcol"><input type="text" size="2" maxlength="2" name="lifetime" value="<$ lifetime $>" /></td>
 					</tr>
 

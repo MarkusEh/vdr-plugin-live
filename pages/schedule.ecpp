@@ -28,7 +28,7 @@ bool logged_in(false);
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 </%cpp>
 <%cpp>
-	pageTitle = tr("Schedule");
+	pageTitle = trVDR("Schedule");
 
 	cSchedulesLock schedulesLock;
 	cSchedules const* schedules = cSchedules::Schedules( schedulesLock );

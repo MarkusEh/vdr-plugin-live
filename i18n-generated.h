@@ -19,7 +19,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "kanavat",
     "",
     "",
     "",
@@ -54,7 +54,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Kanavien käyttäminen epäonnistui! Yritä myöhemmin uudelleen.",
     "",
     "",
     "",
@@ -89,7 +89,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Hakuajastimia ei löydetä! Onko pyyntö oikein kirjoitettu?",
     "",
     "",
     "",
@@ -124,7 +124,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "mm/dd/yyyy",
     "",
     "",
     "",
@@ -790,41 +790,6 @@ const tI18nPhrase Phrases[] = {
     "Utiliser la chaîne",
     "",
     "Käytä kanavaa",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "no",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
     "",
     "",
     "",
@@ -1761,41 +1726,6 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "yes",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
   { "user defined",
     "benutzer-definiert",
     "",
@@ -1804,7 +1734,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "käyttäjän määrittelemä",
     "",
     "",
     "",
@@ -1839,7 +1769,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "alkaen",
     "",
     "",
     "",
@@ -1874,7 +1804,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "päättyen",
     "",
     "",
     "",
@@ -2426,146 +2356,6 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "Priority",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Lifetime",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Setup.Recording$Margin at start (min)",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Setup.Recording$Margin at stop (min)",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
   { "Use VPS",
     "VPS verwenden",
     "",
@@ -2609,7 +2399,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Poista automaattisesti hakuajastimet",
     "",
     "",
     "",
@@ -2644,7 +2434,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "... tallenteen jälkeen",
     "",
     "",
     "",
@@ -2679,7 +2469,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "... päivän jälkeen ensimmäisestä",
     "",
     "",
     "",
@@ -2986,181 +2776,6 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "Active",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Yes",
-    "Ja",
-    "",
-    "",
-    "",
-    "",
-    "Oui",
-    "",
-    "kyllä",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "No",
-    "Nein",
-    "",
-    "",
-    "",
-    "",
-    "Non",
-    "",
-    "ei",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Channel",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Day",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
   { "Weekday",
     "Wochentag",
     "",
@@ -3170,76 +2785,6 @@ const tI18nPhrase Phrases[] = {
     "Jour de la semaine",
     "",
     "Viikonpäivä",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Start",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Stop",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
     "",
     "",
     "",
@@ -3309,7 +2854,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Väärä kanavan tunniste",
     "",
     "",
     "",
@@ -3344,7 +2889,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Kanavalla ei ole ohjelmatietoja",
     "",
     "",
     "",
@@ -3379,7 +2924,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Väärä tapahtuman tunniste",
     "",
     "",
     "",
@@ -3449,7 +2994,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Tallennetta ei löydy tai yhtään tallennetta ei ole saatavilla.",
     "",
     "",
     "",
@@ -3484,7 +3029,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Ohjelmatietojen lukitus epäonnistui!",
     "",
     "",
     "",
@@ -3519,7 +3064,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Ohjelmatietojen haku epäonnistui!",
     "",
     "",
     "",
@@ -3694,7 +3239,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Vapaat",
     "",
     "",
     "",
@@ -3799,7 +3344,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Ensisijaisen DVB-sovittimen käyttäminen epäonnistui!",
     "",
     "",
     "",
@@ -3834,7 +3379,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Kuvan kaappaus ensisijaiselta DVB-sovittimelta epäonnistui!",
     "",
     "",
     "",
@@ -4071,146 +3616,6 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "Status",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Stop updates",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "previous channel",
-    "Sender zurück",
-    "",
-    "",
-    "",
-    "",
-    "chaîne précédent",
-    "",
-    "Edellinen kanava",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "next channel",
-    "Sender vor",
-    "",
-    "",
-    "",
-    "",
-    "Chaîne suivante",
-    "",
-    "Seuraava kanava",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
   { "Wrong username or password",
     "Falscher Benutzername oder Passwort",
     "",
@@ -4421,76 +3826,6 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "Schedule",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Timers",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
   { "Search",
     "Suchen",
     "",
@@ -4605,41 +3940,6 @@ const tI18nPhrase Phrases[] = {
     "Télécommande",
     "",
     "Kauko-ohjain",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Setup",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
     "",
     "",
     "",
@@ -4946,6 +4246,76 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
+  { "previous channel",
+    "Sender zurück",
+    "",
+    "",
+    "",
+    "",
+    "chaîne précédent",
+    "",
+    "Edellinen kanava",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "next channel",
+    "Sender vor",
+    "",
+    "",
+    "",
+    "",
+    "Chaîne suivante",
+    "",
+    "Seuraava kanava",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
   { "No server response!",
     "Der Server antwortet nicht!",
     "",
@@ -5094,7 +4464,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "ladataan tietója",
+    "ladataan tietoja",
     "",
     "",
     "",
@@ -5164,7 +4534,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Pyynto onnistui!",
     "",
     "",
     "",
@@ -5199,7 +4569,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Pyyntö epäonnistui!",
     "",
     "",
     "",
@@ -5234,7 +4604,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Huhtikuu",
     "",
     "",
     "",
@@ -5269,7 +4639,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Elokuu",
     "",
     "",
     "",
@@ -5304,7 +4674,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Joulukuu",
     "",
     "",
     "",
@@ -5339,7 +4709,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Helmikuu",
     "",
     "",
     "",
@@ -5374,7 +4744,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Tammikuu",
     "",
     "",
     "",
@@ -5409,7 +4779,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Heinäkuu",
     "",
     "",
     "",
@@ -5444,7 +4814,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Kesäkuu",
     "",
     "",
     "",
@@ -5479,7 +4849,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Maaliskuu",
     "",
     "",
     "",
@@ -5514,7 +4884,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Toukokuu",
     "",
     "",
     "",
@@ -5549,7 +4919,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Marraskuu",
     "",
     "",
     "",
@@ -5584,7 +4954,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Lokakuu",
     "",
     "",
     "",
@@ -5619,7 +4989,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Syyskuu",
     "",
     "",
     "",
@@ -6661,6 +6031,41 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
+  { "no",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "ei",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
   { "Search results",
     "Suchergebnisse",
     "",
@@ -6740,6 +6145,41 @@ const tI18nPhrase Phrases[] = {
     "Expression de recherche",
     "",
     "Hakutermi",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Channel",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "Kanava",
     "",
     "",
     "",
@@ -7046,6 +6486,41 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
+  { "No",
+    "Nein",
+    "",
+    "",
+    "",
+    "",
+    "Non",
+    "",
+    "ei",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
   { "Use authentication",
     "Authentifizierung nutzen",
     "",
@@ -7055,6 +6530,41 @@ const tI18nPhrase Phrases[] = {
     "Utiliser l'authentification",
     "",
     "Käytä autentikointia",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Yes",
+    "Ja",
+    "",
+    "",
+    "",
+    "",
+    "Oui",
+    "",
+    "kyllä",
     "",
     "",
     "",
@@ -7195,6 +6705,41 @@ const tI18nPhrase Phrases[] = {
     "Paramètre sauvegardé",
     "",
     "Asetukset tallennettu.",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Setup",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "Asetukset",
     "",
     "",
     "",
@@ -7474,7 +7019,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Menossa nyt?",
     "",
     "",
     "",
@@ -7509,7 +7054,77 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
+    "Tulossa seuraavaksi?",
     "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Schedule",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "Ohjelmisto",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Timers",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "Ajastimet",
     "",
     "",
     "",
@@ -7579,7 +7194,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Kanavaa ei löydy tai yhtään kanavaa ei ole saatavilla.",
     "",
     "",
     "",
@@ -7614,7 +7229,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Kanavan valinta epäonnistui.",
     "",
     "",
     "",
@@ -7649,7 +7264,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Tallennetta ei löydy tai yhtään tallennetta ei ole saatavilla.",
     "",
     "",
     "",
@@ -7684,7 +7299,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Toiston hallinta epäonnistui!",
     "",
     "",
     "",
@@ -7719,7 +7334,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Tallennetta ei toisteta.",
     "",
     "",
     "",
@@ -7754,497 +7369,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Theme development",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "An input field",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Example value",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "A radio box",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "A check box",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "not valid",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Multiple check boxes",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "A dropdown box",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "blue",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "red",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "green",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "yellow",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "black",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "white",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
+    "Pyydettyä tallennetta ei toisteta.",
     "",
     "",
     "",
@@ -8314,7 +7439,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Ajastimen asetukset virheelliset",
     "",
     "",
     "",
@@ -8349,7 +7474,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Ajastin jo määritelty",
     "",
     "",
     "",
@@ -8384,7 +7509,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Ajastimia muokataan - yritä uudelleen myöhemmin",
     "",
     "",
     "",
@@ -8419,7 +7544,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Ajastinta ei ole määritelty",
     "",
     "",
     "",
@@ -8481,6 +7606,76 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
+  { "Start",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "Aloitus",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Stop",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "Lopetus",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
   { "File",
     "",
     "",
@@ -8489,7 +7684,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Tiedosto",
     "",
     "",
     "",

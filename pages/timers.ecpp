@@ -24,7 +24,7 @@ using namespace vdrlive;
 <%cpp>
 	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
-	pageTitle = tr("Timers");
+	pageTitle = trVDR("Timers");
 
 	cMutexLock timersLock( &LiveTimerManager() );
 	SortedTimers& timers = LiveTimerManager().GetTimers();

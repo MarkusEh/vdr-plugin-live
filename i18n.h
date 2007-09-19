@@ -23,8 +23,13 @@ class I18n
 
 I18n& LiveI18n();
 
-#if VDRVERSNUM < 10507
+#if APIVERSNUM < 10507
 extern const tI18nPhrase Phrases[];
+#define trNOOP(s) (s)
+#endif
+
+#if APIVERSNUM < 10509
+#define trVDR(s) tr(s)
 #endif
 
 } // namespace vdrlive

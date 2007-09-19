@@ -588,7 +588,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 							<td class="label leftcol"><div class="withmargin"><$ tr("Use channel" ) $>:</div></td>
 							<td class="rightcol">
 								<select onchange="changedchannelmode(this)" name="usechannel" size="1" id="channel_mode">
-									<option value="0" <{ SELECTIF(usechannel == 0) }> ><$ tr("no") $></option>
+									<option value="0" <{ SELECTIF(usechannel == 0) }> ><$ trVDR("no") $></option>
 									<option value="1" <{ SELECTIF(usechannel == 1) }> ><$ tr("interval") $></option>
 									<option value="2" <{ SELECTIF(usechannel == 2) }> ><$ tr("channel group") $></option>
 									<option value="3" <{ SELECTIF(usechannel == 3) }> ><$ tr("only FTA") $></option>
@@ -688,7 +688,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 							<td class="label leftcol"><div class="withmargin"><$ tr("Use blacklists" ) $>:</div></td>
 							<td class="rightcol">
 								<select onchange="changedblacklistmode(this)" name="blacklistmode" size="1" id="blacklistmode">
-									<option value="0" <{ SELECTIF(blacklistmode == 0) }> ><$ tr("no") $></option>
+									<option value="0" <{ SELECTIF(blacklistmode == 0) }> ><$ trVDR("no") $></option>
 									<option value="1" <{ SELECTIF(blacklistmode == 1) }> ><$ tr("Selection") $></option>
 									<option value="2" <{ SELECTIF(blacklistmode == 2) }> ><$ tr("all") $></option>
 								</select>
@@ -716,8 +716,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 							<td class="rightcol">
 								<div>
 									<select onchange="changeduseassearchtimer(this)" name="useassearchtimer" size="1" id="useassearchtimer">
-										<option value="0" <{ SELECTIF(useassearchtimer == 0) }> ><$ tr("no") $></option>
-										<option value="1" <{ SELECTIF(useassearchtimer == 1) }> ><$ tr("yes") $></option>
+										<option value="0" <{ SELECTIF(useassearchtimer == 0) }> ><$ trVDR("no") $></option>
+										<option value="1" <{ SELECTIF(useassearchtimer == 1) }> ><$ trVDR("yes") $></option>
 										<option value="2" <{ SELECTIF(useassearchtimer == 2) }> ><$ tr("user defined") $></option>
 									</select>
 								</div>
@@ -814,22 +814,22 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 										</tr>
 
 										<tr>
-											<td class="label"><div class="withmargin"><$ tr("Priority") $>:</div></td>
+											<td class="label"><div class="withmargin"><$ trVDR("Priority") $>:</div></td>
 											<td><input type="text" name="priority" size="2" value="<$ priority $>"/></td>
 										</tr>
 
 										<tr>
-											<td class="label"><div class="withmargin"><$ tr("Lifetime") $>:</div></td>
+											<td class="label"><div class="withmargin"><$ trVDR("Lifetime") $>:</div></td>
 											<td><input type="text" name="lifetime" size="2" value="<$ lifetime $>"/></td>
 										</tr>
 
 										<tr>
-											<td class="label"><div class="withmargin"><$ tr("Setup.Recording$Margin at start (min)") $>:</div></td>
+											<td class="label"><div class="withmargin"><$ trVDR("Setup.Recording$Margin at start (min)") $>:</div></td>
 											<td><input type="text" name="marginstart" size="2" value="<$ marginstart $>"/></td>
 										</tr>
 
 										<tr>
-											<td class="label"><div class="withmargin"><$ tr("Setup.Recording$Margin at stop (min)") $>:</div></td>
+											<td class="label"><div class="withmargin"><$ trVDR("Setup.Recording$Margin at stop (min)") $>:</div></td>
 											<td><input type="text" name="marginstop" size="2" value="<$ marginstop $>"/></td>
 										</tr>
 
