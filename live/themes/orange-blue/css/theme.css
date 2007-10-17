@@ -2,7 +2,8 @@
    #  Globals
    ######################
 */
-body {
+
+html, body {
 	background-color: #081966;
 	color: white;
 }
