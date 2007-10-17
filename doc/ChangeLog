@@ -1,3 +1,11 @@
+2007-10-17  Dieter Hametner  <dh+vdr at gekrumbel dot de>
+
+	* css/styles.css
+	* live/themes/orange-blue/css/theme.css
+	  Fix missing background color settings for browsers that don't
+	  have white as default background. Thanks to zirias.
+	  See: http://www.vdr-portal.de/board/thread.php?postid=659497#post659497
+
 2007-09-18  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
 	- Eliminated 'images' directory. The images are now not longer
