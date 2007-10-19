@@ -781,6 +781,76 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
+  { "Ignore missing EPG info",
+    "Ignoriere fehlende EPG Info",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "When active this can cause very many timers. So please always first test this search before using it as search timer!",
+    "Diese Einstellung kann bei Aktivierung sehr viele Timer erzeugen. Also bitte immer zuerst die Suche testen, bevor sie als Suchtimer verwendet wird!",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
   { "Use channel",
     "Verw. Kanal",
     "",
@@ -2672,7 +2742,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Please set a title for the timer!",
-    "Bitte einen Titel für den Timer angeben!",
+    "Bitte einen Titel fï¿½r den Timer angeben!",
     "",
     "",
     "",
@@ -7011,146 +7081,6 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "What's on now?",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "Menossa nyt?",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "What's on next?",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "Tulossa seuraavaksi?",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Schedule",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "Ohjelmisto",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Timers",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "Ajastimet",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
   { "Theme",
     "Thema",
     "",
@@ -7606,111 +7536,6 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "Start",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "Aloitus",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Stop",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "Lopetus",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "File",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "Tiedosto",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
   { "Toggle timer active/inactive",
     "Timer aktiv/inaktiv schalten",
     "",
@@ -7790,6 +7615,41 @@ const tI18nPhrase Phrases[] = {
     "Qu'y a t'il au programme vers",
     "",
     "Menossa kello",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "What's on next?",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "Tulossa seuraavaksi?",
     "",
     "",
     "",

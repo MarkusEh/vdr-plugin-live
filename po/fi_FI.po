@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2007-10-19 19:04+0200\n"
+"POT-Creation-Date: 2007-10-19 19:22+0200\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Rolf Ahrenberg <rahrenbe@cc.hut.fi>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -750,7 +750,7 @@ msgstr "Ei hakutuloksia"
 msgid "Expression"
 msgstr "Hakutermi"
 
-#: searchtimers.ecpp:56 timers.ecpp:92
+#: searchtimers.ecpp:56
 msgid "Channel"
 msgstr "Kanava"
 
@@ -900,18 +900,6 @@ msgstr "Ajastinta ei ole m‰‰ritelty"
 msgid "No timer defined"
 msgstr "Ajastinta ei ole m‰‰ritelty"
 
-#: timers.ecpp:93
-msgid "Start"
-msgstr "Aloitus"
-
-#: timers.ecpp:94
-msgid "Stop"
-msgstr "Lopetus"
-
-#: timers.ecpp:95
-msgid "File"
-msgstr "Tiedosto"
-
 #: timers.ecpp:114
 msgid "Toggle timer active/inactive"
 msgstr "Aseta ajastin p‰‰lle/pois"
@@ -964,11 +952,4 @@ msgstr "Ruudukkon‰kym‰"
 msgid "List view"
 msgstr "Listan‰kym‰"
 
-#~ msgid "Timers"
-#~ msgstr "Ajastimet"
 
-#~ msgid "Schedule"
-#~ msgstr "Ohjelmisto"
-
-#~ msgid "What's on now?"
-#~ msgstr "Menossa nyt?"
