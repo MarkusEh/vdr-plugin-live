@@ -133,6 +133,8 @@ public:
 	void SetUseAsSearchTimerFrom(std::string const& datestring, std::string const& format);
 	std::string UseAsSearchTimerTil(std::string const& format);
 	void SetUseAsSearchTimerTil(std::string const& datestring, std::string const& format);
+	bool IgnoreMissingEPGCats() const { return m_ignoreMissingEPGCats; }
+	void SetIgnoreMissingEPGCats(bool ignoreMissingEPGCats) { m_ignoreMissingEPGCats = ignoreMissingEPGCats; }
 	
 private:
 	int m_id;
@@ -186,6 +188,7 @@ private:
 	int m_delAfterDaysOfFirstRec;
 	time_t m_useAsSearchTimerFrom;
 	time_t m_useAsSearchTimerTil;
+	bool m_ignoreMissingEPGCats;
 
 	void ParseChannel( std::string const& data );
 	void ParseChannelIDs( std::string const& data );

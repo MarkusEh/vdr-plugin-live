@@ -81,6 +81,7 @@ using namespace vdrlive;
 	string blacklistids_internal;
 	string useassearchtimerfrom;
 	string useassearchtimerto;
+	bool ignoreMissingEPGCats = false;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -133,6 +134,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			infos.push_back(os.str());
 			}
 			searchtimer.SetExtEPGInfo(infos);
+			searchtimer.SetIgnoreMissingEPGCats(ignoreMissingEPGCats);
 		}
 		searchtimer.SetUseChannel((SearchTimer::eUseChannel)usechannel);
 		if (usechannel == SearchTimer::Interval)
@@ -314,6 +316,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			else
 			extepgvalues.push_back("");
 		}
+		ignoreMissingEPGCats = searchtimer->IgnoreMissingEPGCats();
 		avoidrepeats = searchtimer->AvoidRepeats();
 		allowedrepeats =  searchtimer->AllowedRepeats();
 		repeatswithindays = searchtimer->RepeatsWithinDays();
@@ -577,6 +580,16 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 										</tr>
 %                                       }
 %                                   }
+									<!-- Ignore missing EPG categories -->
+									<tr>
+										<td>
+											<div class="dotted">
+												<input type="checkbox" name="ignoreMissingEPGCats" value="1" <{ CHECKIF(ignoreMissingEPGCats) }> />
+												<label for="ignoreMissingEPGCats"><$ tr("Ignore missing EPG info") $> </label>
+												<& tooltip.help text=(tr("When active this can cause very many timers. So please always first test this search before using it as search timer!")) &>
+											</div>
+										</td>
+									</tr>
 									</table>
 								</div>
 							</td>

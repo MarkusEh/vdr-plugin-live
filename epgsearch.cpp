@@ -87,6 +87,7 @@ void SearchTimer::Init()
 	m_useAsSearchTimerFrom = 0;
 	m_useAsSearchTimerTil = 0;	
 	m_catvaluesAvoidRepeat = 0;
+	m_ignoreMissingEPGCats = false;
 }
 
 SearchTimer::SearchTimer( string const& data )
@@ -146,6 +147,7 @@ SearchTimer::SearchTimer( string const& data )
 			case 46: m_delAfterDaysOfFirstRec = lexical_cast< int >( *part ); break;
 			case 47: m_useAsSearchTimerFrom = lexical_cast< time_t >( *part ); break;
 			case 48: m_useAsSearchTimerTil = lexical_cast< time_t >( *part ); break;
+			case 49: m_ignoreMissingEPGCats = lexical_cast< bool >( *part ); break;
 			}
 		}
 	} catch ( bad_lexical_cast const& ex ) {
@@ -261,7 +263,8 @@ std::string SearchTimer::ToText()
       << m_delAfterCountRecs << ":"
       << m_delAfterDaysOfFirstRec << ":"
       << (long) m_useAsSearchTimerFrom << ":"
-      << (long) m_useAsSearchTimerTil;
+      << (long) m_useAsSearchTimerTil << ":"
+      << m_ignoreMissingEPGCats;
 
    return os.str();
 }
