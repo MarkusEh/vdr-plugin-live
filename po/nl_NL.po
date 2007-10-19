@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2007-10-19 18:12+0200\n"
+"POT-Creation-Date: 2007-10-19 19:04+0200\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Maarten Wisse <Maarten.Wisse@urz.uni-hd.de>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -487,7 +487,7 @@ msgstr ""
 msgid "Searchtimers"
 msgstr ""
 
-#: menu.ecpp:43 recordings.ecpp:28 setup.ecpp:177
+#: menu.ecpp:43 recordings.ecpp:28
 msgid "Recordings"
 msgstr ""
 
@@ -846,22 +846,6 @@ msgstr ""
 msgid "Start page"
 msgstr ""
 
-#: setup.ecpp:174
-msgid "What's on now?"
-msgstr ""
-
-#: setup.ecpp:175 whats_on.ecpp:60
-msgid "What's on next?"
-msgstr ""
-
-#: setup.ecpp:176
-msgid "Schedule"
-msgstr ""
-
-#: setup.ecpp:178
-msgid "Timers"
-msgstr ""
-
 #: setup.ecpp:182
 msgid "Theme"
 msgstr ""
@@ -937,6 +921,10 @@ msgstr ""
 
 #: whats_on.ecpp:58 whats_on.ecpp:71
 msgid "What's running at"
+msgstr ""
+
+#: whats_on.ecpp:60
+msgid "What's on next?"
 msgstr ""
 
 #: whats_on.ecpp:71

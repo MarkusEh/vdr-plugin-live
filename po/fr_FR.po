@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2007-10-19 18:12+0200\n"
+"POT-Creation-Date: 2007-10-19 19:04+0200\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Nicolas Huillard <nhuillard@e-dition.fr>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -488,7 +488,7 @@ msgstr "Recherche"
 msgid "Searchtimers"
 msgstr "Recherche"
 
-#: menu.ecpp:43 recordings.ecpp:28 setup.ecpp:177
+#: menu.ecpp:43 recordings.ecpp:28
 msgid "Recordings"
 msgstr "Enregistrements"
 
@@ -847,22 +847,6 @@ msgstr "Le format est HH:MM . Plusieurs périodes séparées avec un point-virgule"
 msgid "Start page"
 msgstr "Page de départ"
 
-#: setup.ecpp:174
-msgid "What's on now?"
-msgstr ""
-
-#: setup.ecpp:175 whats_on.ecpp:60
-msgid "What's on next?"
-msgstr ""
-
-#: setup.ecpp:176
-msgid "Schedule"
-msgstr ""
-
-#: setup.ecpp:178
-msgid "Timers"
-msgstr ""
-
 #: setup.ecpp:182
 msgid "Theme"
 msgstr "Thème"
@@ -939,6 +923,10 @@ msgstr "Effacer la programmation"
 #: whats_on.ecpp:58 whats_on.ecpp:71
 msgid "What's running at"
 msgstr "Qu'y a t'il au programme vers"
+
+#: whats_on.ecpp:60
+msgid "What's on next?"
+msgstr ""
 
 #: whats_on.ecpp:71
 msgid "%a, %b %d"

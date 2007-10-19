@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2007-10-19 18:12+0200\n"
+"POT-Creation-Date: 2007-10-19 19:04+0200\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Rolf Ahrenberg <rahrenbe@cc.hut.fi>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -488,7 +488,7 @@ msgstr "Etsi"
 msgid "Searchtimers"
 msgstr "Hakuajastimet"
 
-#: menu.ecpp:43 recordings.ecpp:28 setup.ecpp:177
+#: menu.ecpp:43 recordings.ecpp:28
 msgid "Recordings"
 msgstr "Tallenteet"
 
@@ -847,22 +847,6 @@ msgstr "Käytä HH:MM formaattia ja erota ajankohdat puolipisteellä"
 msgid "Start page"
 msgstr "Aloitussivu"
 
-#: setup.ecpp:174
-msgid "What's on now?"
-msgstr "Menossa nyt?"
-
-#: setup.ecpp:175 whats_on.ecpp:60
-msgid "What's on next?"
-msgstr "Tulossa seuraavaksi?"
-
-#: setup.ecpp:176
-msgid "Schedule"
-msgstr "Ohjelmisto"
-
-#: setup.ecpp:178
-msgid "Timers"
-msgstr "Ajastimet"
-
 #: setup.ecpp:182
 msgid "Theme"
 msgstr "Ulkoasu"
@@ -940,6 +924,10 @@ msgstr "Poista ajastin"
 msgid "What's running at"
 msgstr "Menossa kello"
 
+#: whats_on.ecpp:60
+msgid "What's on next?"
+msgstr "Tulossa seuraavaksi?"
+
 #: whats_on.ecpp:71
 msgid "%a, %b %d"
 msgstr "%a, %d.%m."
@@ -975,3 +963,12 @@ msgstr "Ruudukkonäkymä"
 #: whats_on.ecpp:226
 msgid "List view"
 msgstr "Listanäkymä"
+
+#~ msgid "Timers"
+#~ msgstr "Ajastimet"
+
+#~ msgid "Schedule"
+#~ msgstr "Ohjelmisto"
+
+#~ msgid "What's on now?"
+#~ msgstr "Menossa nyt?"
