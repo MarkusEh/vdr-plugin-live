@@ -3,6 +3,7 @@
 #include <vdr/tools.h>
 #include "setup.h"
 #include "tools.h"
+#include "i18n.h"
 
 using namespace vdrlive;
 using namespace std;
