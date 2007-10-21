@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2007-10-19 19:14+0200\n"
+"POT-Creation-Date: 2007-10-21 16:25+0200\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Nicolas Huillard <nhuillard@e-dition.fr>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -18,936 +18,687 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: channels.ecpp:12
-msgid "channels"
-msgstr ""
-
-#: channels_widget.ecpp:25 schedule.ecpp:39
-msgid "Couldn't aquire access to channels, please try again later."
-msgstr ""
-
-#: edit_searchtimer.ecpp:114 edit_searchtimer.ecpp:232
-msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
-msgstr ""
-
-#: edit_searchtimer.ecpp:177 edit_searchtimer.ecpp:178
-#: edit_searchtimer.ecpp:296 edit_searchtimer.ecpp:297 pageelems.ecpp:164
-msgid "mm/dd/yyyy"
-msgstr ""
-
-#: edit_searchtimer.ecpp:227 edit_searchtimer.ecpp:360
-#: edit_searchtimer.ecpp:501 searchtimers.ecpp:72
-msgid "Edit search timer"
-msgstr "Editer l'expression de recherche"
-
-#: edit_searchtimer.ecpp:227 edit_searchtimer.ecpp:360
-#: edit_searchtimer.ecpp:501 searchtimers.ecpp:88
-msgid "New search timer"
-msgstr "Créer nouvelle programmation de recherche"
-
-#: edit_searchtimer.ecpp:385 searchepg.ecpp:173
-msgid "Search text too short - use anyway?"
-msgstr "Texte de recherche est trop court - l'utiliser quand même?"
-
-#: edit_searchtimer.ecpp:506 searchepg.ecpp:263
-msgid "Search term"
-msgstr "Mot clé"
-
-#: edit_searchtimer.ecpp:512 searchepg.ecpp:274
-msgid "Search mode"
-msgstr "Mode de recherche"
-
-#: edit_searchtimer.ecpp:516 searchepg.ecpp:278
-msgid "phrase"
-msgstr "Phrase"
-
-#: edit_searchtimer.ecpp:517 searchepg.ecpp:279
-msgid "all words"
-msgstr "tout les mots"
-
-#: edit_searchtimer.ecpp:518 searchepg.ecpp:280
-msgid "at least one word"
-msgstr "un mot"
-
-#: edit_searchtimer.ecpp:519 searchepg.ecpp:281
-msgid "match exactly"
-msgstr "correspond exactement"
-
-#: edit_searchtimer.ecpp:520 searchepg.ecpp:282
-msgid "regular expression"
-msgstr "expression réguliere"
-
-#: edit_searchtimer.ecpp:521 searchepg.ecpp:283
-msgid "fuzzy"
-msgstr "imprécis"
-
-#: edit_searchtimer.ecpp:525 searchepg.ecpp:287
-msgid "Tolerance"
-msgstr "Tolérance"
-
-#: edit_searchtimer.ecpp:533 searchepg.ecpp:295
-msgid "Match case"
-msgstr "Maj/Minuscule"
-
-#: edit_searchtimer.ecpp:539 searchepg.ecpp:301
-msgid "Search in"
-msgstr "Recherche dans"
-
-#: edit_searchtimer.ecpp:543 edit_timer.ecpp:167 searchepg.ecpp:305
-msgid "Title"
-msgstr "Titre"
-
-#: edit_searchtimer.ecpp:547 searchepg.ecpp:310
-msgid "Episode"
-msgstr "Épisode"
-
-#: edit_searchtimer.ecpp:551 searchepg.ecpp:315
-msgid "Description"
-msgstr "Description"
-
-#: edit_searchtimer.ecpp:559 searchepg.ecpp:323
-msgid "Use extended EPG info"
-msgstr "Utiliser les infos EPG avancées"
-
-#: edit_searchtimer.ecpp:588
-msgid "Ignore missing EPG info"
-msgstr ""
-
-#: edit_searchtimer.ecpp:589
-msgid "When active this can cause very many timers. So please always first test this search before using it as search timer!"
-msgstr ""
-
-#: edit_searchtimer.ecpp:602 searchepg.ecpp:358
-msgid "Use channel"
-msgstr "Utiliser la chaîne"
-
-#: edit_searchtimer.ecpp:606 searchepg.ecpp:363
-msgid "interval"
-msgstr "intervalle"
-
-#: edit_searchtimer.ecpp:607 searchepg.ecpp:364
-msgid "channel group"
-msgstr "Groupe de chaînes"
-
-#: edit_searchtimer.ecpp:608 searchepg.ecpp:365
-msgid "only FTA"
-msgstr "sans TV-Payante"
-
-#: edit_searchtimer.ecpp:614 searchepg.ecpp:371
-msgid "from channel"
-msgstr "de la chaîne"
-
-#: edit_searchtimer.ecpp:618 searchepg.ecpp:375
-msgid "to channel"
-msgstr "à la chaîne"
-
-#: edit_searchtimer.ecpp:638 searchepg.ecpp:395
-msgid "Use time"
-msgstr "Utiliser l'heure"
-
-#: edit_searchtimer.ecpp:644 searchepg.ecpp:401
-msgid "Start after"
-msgstr "Départ après"
-
-#: edit_searchtimer.ecpp:647 searchepg.ecpp:404
-msgid "The time the show may start at the earliest"
-msgstr "L'heure lorsque l'émission doit commencer au plus tôt"
-
-#: edit_searchtimer.ecpp:651 searchepg.ecpp:408
-msgid "Start before"
-msgstr "Départ avant"
-
-#: edit_searchtimer.ecpp:654 searchepg.ecpp:411
-msgid "The time the show may start at the latest"
-msgstr "L'heure lorsque l'émission doit commencer au plus tard"
-
-#: edit_searchtimer.ecpp:664 searchepg.ecpp:421
-msgid "Use duration"
-msgstr "Durée d'utilisation"
-
-#: edit_searchtimer.ecpp:670 searchepg.ecpp:427
-msgid "Min. duration"
-msgstr "Durée min."
-
-#: edit_searchtimer.ecpp:674 searchepg.ecpp:431
-msgid "Max. duration"
-msgstr "Durée max."
-
-#: edit_searchtimer.ecpp:684 searchepg.ecpp:441
-msgid "Use day of week"
-msgstr "Utiliser les jours de la semaine"
-
-#: edit_searchtimer.ecpp:688 edit_timer.ecpp:181 pageelems.ecpp:164
-#: searchepg.ecpp:445
-msgid "Monday"
-msgstr "Lundi"
-
-#: edit_searchtimer.ecpp:689 edit_timer.ecpp:185 pageelems.ecpp:164
-#: searchepg.ecpp:446
-msgid "Tuesday"
-msgstr "Mardi"
-
-#: edit_searchtimer.ecpp:690 edit_timer.ecpp:189 pageelems.ecpp:164
-#: searchepg.ecpp:447
-msgid "Wednesday"
-msgstr "Mercredi"
-
-#: edit_searchtimer.ecpp:691 edit_timer.ecpp:193 pageelems.ecpp:164
-#: searchepg.ecpp:448
-msgid "Thursday"
-msgstr "Jeudi"
-
-#: edit_searchtimer.ecpp:692 edit_timer.ecpp:197 pageelems.ecpp:164
-#: searchepg.ecpp:449
-msgid "Friday"
-msgstr "Vendredi"
-
-#: edit_searchtimer.ecpp:693 edit_timer.ecpp:201 pageelems.ecpp:164
-#: searchepg.ecpp:450
-msgid "Saturday"
-msgstr "Samedi"
-
-#: edit_searchtimer.ecpp:694 edit_timer.ecpp:205 pageelems.ecpp:164
-#: searchepg.ecpp:451
-msgid "Sunday"
-msgstr "Dimanche"
-
-#: edit_searchtimer.ecpp:702 searchepg.ecpp:459
-msgid "Use blacklists"
-msgstr "Utiliser la liste des exclus"
-
-#: edit_searchtimer.ecpp:706 searchepg.ecpp:463
-msgid "Selection"
-msgstr "Selection"
-
-#: edit_searchtimer.ecpp:707 searchepg.ecpp:464
-msgid "all"
-msgstr "tous"
-
-#: edit_searchtimer.ecpp:723
-msgid "Use in favorites menu"
-msgstr "Utiliser dans le menu favoris"
-
-#: edit_searchtimer.ecpp:729
-msgid "Use as search timer"
-msgstr "Utiliser la recherche"
-
-#: edit_searchtimer.ecpp:735
-msgid "user defined"
-msgstr ""
-
-#: edit_searchtimer.ecpp:741
-msgid "from date"
-msgstr ""
-
-#: edit_searchtimer.ecpp:745
-msgid "to date"
-msgstr ""
-
-#: edit_searchtimer.ecpp:752
-msgid "Record"
-msgstr "Enregistre"
-
-#: edit_searchtimer.ecpp:753
-msgid "Announce only"
-msgstr "Annoncer seulement le début de l'émission"
-
-#: edit_searchtimer.ecpp:754
-msgid "Switch only"
-msgstr "Seulement changer de chaine"
-
-#: edit_searchtimer.ecpp:760
-msgid "Series recording"
-msgstr "Enregistrement de série"
-
-#: edit_searchtimer.ecpp:765
-msgid "Directory"
-msgstr "Dossier"
-
-#: edit_searchtimer.ecpp:777
-msgid "Delete recordings after ... days"
-msgstr "Effacer l'enregistrement après ... jours"
-
-#: edit_searchtimer.ecpp:780
-msgid "Keep ... recordings"
-msgstr "Garder .... les enregistrements"
-
-#: edit_searchtimer.ecpp:786
-msgid "Pause when ... recordings exist"
-msgstr "Pause, lorsque ... l'enregistrement existe."
-
-#: edit_searchtimer.ecpp:791
-msgid "Avoid repeats"
-msgstr "Eviter les répétitions"
-
-#: edit_searchtimer.ecpp:796
-msgid "Allowed repeats"
-msgstr "Répétitions autorisées"
-
-#: edit_searchtimer.ecpp:798
-msgid "Only repeats within ... days"
-msgstr "Que répétition, pendant ... jours"
-
-#: edit_searchtimer.ecpp:803
-msgid "Compare title"
-msgstr "Comparer titres"
-
-#: edit_searchtimer.ecpp:808
-msgid "Compare subtitle"
-msgstr "Comparer les sous-titres"
-
-#: edit_searchtimer.ecpp:813
-msgid "Compare summary"
-msgstr "Comparer les descriptions"
-
-#: edit_searchtimer.ecpp:820
-msgid "Compare"
-msgstr "Comparer"
-
-#: edit_searchtimer.ecpp:851 edit_timer.ecpp:221
-msgid "Use VPS"
-msgstr "Utiliser VPS"
-
-#: edit_searchtimer.ecpp:855
-msgid "Auto-delete search timer"
-msgstr ""
-
-#: edit_searchtimer.ecpp:860
-msgid "after ... recordings"
-msgstr ""
-
-#: edit_searchtimer.ecpp:866
-msgid "after ... days after first rec."
-msgstr ""
-
-#: edit_searchtimer.ecpp:881
-msgid "Switch ... minutes before start"
-msgstr "Changer ... minutes avant le début"
-
-#: edit_searchtimer.ecpp:892
-msgid "Test"
-msgstr "Tester"
-
-#: edit_searchtimer.ecpp:893 edit_timer.ecpp:238 setup.ecpp:216
-msgid "Save"
-msgstr "Sauvegarde"
-
-#: edit_searchtimer.ecpp:894 edit_timer.ecpp:239
-msgid "Cancel"
-msgstr "Interrompre"
-
-#: edit_timer.ecpp:65 timers.ecpp:37
-msgid "Couldn't find timer. Maybe you mistyped your request?"
-msgstr "N'a pas pu trouver la programmation. Peut-être vous avez une erreur dans votre requête?"
-
-#: edit_timer.ecpp:77
-msgid "Please set a title for the timer!"
-msgstr "Veuillez indiquer un titre pour la programmation!"
-
-#: edit_timer.ecpp:131 edit_timer.ecpp:144 timers.ecpp:115
-msgid "Edit timer"
-msgstr "Editer la programmation"
-
-#: edit_timer.ecpp:131 edit_timer.ecpp:144 timers.ecpp:129
-msgid "New timer"
-msgstr "Nouvelle programmation"
-
-#: edit_timer.ecpp:177
-msgid "Weekday"
-msgstr "Jour de la semaine"
-
-#: epg_events.cpp:243
-msgid "Epg error"
-msgstr ""
-
-#: epg_events.cpp:252
-msgid "Wrong channel id"
-msgstr ""
-
-#: epg_events.cpp:256
-msgid "Channel has no schedule"
-msgstr ""
-
-#: epg_events.cpp:260
-msgid "Wrong event id"
-msgstr ""
-
-#: epginfo.ecpp:47
-msgid "Electronic program guide information"
-msgstr ""
-
-#: epginfo.ecpp:70
-msgid "Couldn't find recording or no recordings available"
-msgstr ""
-
-#: epginfo.ecpp:78
-msgid "Error aquiring schedules lock"
-msgstr ""
-
-#: epginfo.ecpp:82
-msgid "Error aquiring schedules"
-msgstr ""
-
-#: epginfo.ecpp:118 recordings.ecpp:162
-msgid "%b %d %y"
-msgstr "%d.%m.%y"
-
-#: epginfo.ecpp:119 epgsearch.cpp:314 epgsearch.cpp:320 ibox.ecpp:113
-#: ibox.ecpp:118 ibox.ecpp:123 ibox.ecpp:128 infobox.ecpp:120 infobox.ecpp:125
-#: infobox.ecpp:130 infobox.ecpp:135 recordings.ecpp:163 schedule.ecpp:93
-#: schedule.ecpp:94 searchresults.ecpp:66 searchresults.ecpp:67
-#: timers.ecpp:111 timers.ecpp:112 whats_on.ecpp:58 whats_on.ecpp:71
-#: whats_on.ecpp:148 whats_on.ecpp:171
-msgid "%I:%M %p"
-msgstr "%H:%M"
-
-#: epgsearch.cpp:33
-msgid "Required minimum version of epgsearch: "
-msgstr "Version minimum requise d'epgsearch: "
-
-#: epgsearch.cpp:275
-msgid "All"
-msgstr "Tout"
-
-#: epgsearch.cpp:278
-msgid "FTA"
-msgstr ""
-
-#: epgsearch.cpp:380 epgsearch.cpp:393 epgsearch.cpp:433 epgsearch.cpp:445
-#: epgsearch.cpp:502 epgsearch.cpp:526 epgsearch.cpp:551 epgsearch.cpp:589
-#: epgsearch.cpp:600 epgsearch.cpp:636 epgsearch.cpp:645 epgsearch.cpp:654
-msgid "EPGSearch version outdated! Please update."
-msgstr "Version EPGSearch périmée! Mettre à jour Svp."
-
-#: error.ecpp:72
-msgid "Page error"
-msgstr "Erreur de page"
-
-#: grab.cpp:49
-msgid "Couldn't aquire primary device"
-msgstr ""
-
-#: grab.cpp:56
-msgid "Couldn't grab image from primary device"
-msgstr ""
-
-#: ibox.ecpp:50
-msgid "playing recording"
-msgstr "Lire l'enregistrement"
-
-#: ibox.ecpp:81 infobox.ecpp:71
-msgid "no epg info for current event!"
-msgstr "Pas d'infos pour l'émission!"
-
-#: ibox.ecpp:88 infobox.ecpp:82
-msgid "no epg info for current channel!"
-msgstr "Cette chaîne n'a pas d'EPG!"
-
-#: ibox.ecpp:95 ibox.ecpp:104 infobox.ecpp:93 infobox.ecpp:106
-msgid "no current channel!"
-msgstr "pas de chaîne trouvé!"
-
-#: ibox.ecpp:103 infobox.ecpp:105
-msgid "error retrieving status info!"
-msgstr "erreur: pas d'information d'état!"
-
-#: ibox.ecpp:113 ibox.ecpp:118 ibox.ecpp:123 ibox.ecpp:128 infobox.ecpp:120
-#: infobox.ecpp:125 infobox.ecpp:130 infobox.ecpp:135
-msgid "%I:%M:%S %p"
-msgstr "%H:%M:%S"
-
-#: login.ecpp:25
-msgid "Wrong username or password"
-msgstr "Nom de l'utilisateur ou mot de passei sont erroné"
-
-#: login.ecpp:39 login.ecpp:59
-msgid "Login"
-msgstr "Session"
-
-#: login.ecpp:45
-msgid "VDR Live Login"
-msgstr "Session VDR Live"
-
-#: login.ecpp:52
-msgid "User"
-msgstr "Utilisateur"
-
-#: login.ecpp:57
-msgid "Password"
-msgstr "Mot de passe"
-
-#: menu.ecpp:36
-msgid "What's on?"
-msgstr "Actuellement?"
-
-#: menu.ecpp:40 searchepg.ecpp:142 searchepg.ecpp:153 searchepg.ecpp:484
-msgid "Search"
-msgstr "Recherche"
-
-#: menu.ecpp:41 searchtimers.ecpp:25
-msgid "Searchtimers"
-msgstr "Recherche"
-
-#: menu.ecpp:43 recordings.ecpp:28
-msgid "Recordings"
-msgstr "Enregistrements"
-
-#: menu.ecpp:44 remote.ecpp:21
-msgid "Remote Control"
-msgstr "Télécommande"
-
-#: menu.ecpp:50
-msgid "Logout"
-msgstr "Fin de la session"
-
-#: pageelems.ecpp:66
-msgid "retrieving status ..."
-msgstr "mise à jours de l'état"
-
-#: pageelems.ecpp:75
-msgid "Toggle updates on/off."
-msgstr "Activer/Désactiver l'update du status"
-
-#: pageelems.ecpp:78
-msgid "stop playback"
-msgstr "arrêter la lecture"
-
-#: pageelems.ecpp:79
-msgid "resume playback"
-msgstr "continuer"
-
-#: pageelems.ecpp:80
-msgid "pause playback"
-msgstr "pause"
-
-#: pageelems.ecpp:81
-msgid "fast rewind"
-msgstr "retour rapide"
-
-#: pageelems.ecpp:82
-msgid "fast forward"
-msgstr "avance rapide"
-
-#: pageelems.ecpp:85
-msgid "previous channel"
-msgstr "chaîne précédent"
-
-#: pageelems.ecpp:86
-msgid "next channel"
-msgstr "Chaîne suivante"
-
-#: pageelems.ecpp:94
-msgid "No server response!"
-msgstr ""
-
-#: pageelems.ecpp:95
-msgid "Failed to update infobox!"
-msgstr ""
-
-#: pageelems.ecpp:133
-msgid "Edit this"
-msgstr "Changer cette programmation"
-
-#: pageelems.ecpp:136
-msgid "Record this"
-msgstr "Enregistrer cette émission"
-
-#: pageelems.ecpp:157
-msgid "loading data"
-msgstr ""
-
-#: pageelems.ecpp:158
-msgid "an error occured!"
-msgstr ""
-
-#: pageelems.ecpp:161
-msgid "Request succeeded!"
-msgstr ""
-
-#: pageelems.ecpp:162
-msgid "Request failed!"
-msgstr ""
-
-#: pageelems.ecpp:164
-msgid "April"
-msgstr ""
-
-#: pageelems.ecpp:164
-msgid "August"
-msgstr ""
-
-#: pageelems.ecpp:164
-msgid "December"
-msgstr ""
-
-#: pageelems.ecpp:164
-msgid "February"
-msgstr ""
-
-#: pageelems.ecpp:164
-msgid "January"
-msgstr ""
-
-#: pageelems.ecpp:164
-msgid "July"
-msgstr ""
-
-#: pageelems.ecpp:164
-msgid "June"
-msgstr ""
-
-#: pageelems.ecpp:164
-msgid "March"
-msgstr ""
-
-#: pageelems.ecpp:164
-msgid "May"
-msgstr ""
-
-#: pageelems.ecpp:164
-msgid "November"
-msgstr ""
-
-#: pageelems.ecpp:164
-msgid "October"
-msgstr ""
-
-#: pageelems.ecpp:164
-msgid "September"
-msgstr ""
-
-#: pageelems.ecpp:225 pageelems.ecpp:240
-msgid "Switch to this channel."
-msgstr "Changer vers cette chaîne. "
-
-#: pageelems.ecpp:230 pageelems.ecpp:241 schedule.ecpp:130
-msgid "Search for repeats."
-msgstr "Recherche de répétitions."
-
-#: pageelems.ecpp:234 pageelems.ecpp:242 schedule.ecpp:131
-msgid "Find more at the Internet Movie Database."
-msgstr "Trouver plus d'information du film dans la base de données film IMDB."
-
-#: pageelems.ecpp:306
-msgid "Authors"
-msgstr "Auteur"
-
-#: pageelems.ecpp:307
-msgid "Project leader"
-msgstr "Chef de projet"
-
-#: pageelems.ecpp:309
-msgid "Webserver"
-msgstr "Serveur Web"
-
-#: pageelems.ecpp:311 pageelems.ecpp:313
-msgid "Content"
-msgstr "Contenu"
-
-#: pageelems.ecpp:315
-msgid "Graphics"
-msgstr "Graphiques"
-
-#: pageelems.ecpp:317
-msgid "Information"
-msgstr "Information"
-
-#: pageelems.ecpp:318
-msgid "LIVE version"
-msgstr "Version LIVE"
-
-#: pageelems.ecpp:320
-msgid "VDR version"
-msgstr "Version VDR"
-
-#: pageelems.ecpp:322
-msgid "Features"
-msgstr "Soutien des plugins"
-
-#: pageelems.ecpp:329
-msgid "active"
-msgstr "actif"
-
-#: pageelems.ecpp:331
-msgid "required"
-msgstr "requis"
-
-#: pageelems.ecpp:333
-msgid "Homepage"
-msgstr "Page d'accueil"
-
-#: pageelems.ecpp:335
-msgid "Bugs and suggestions"
-msgstr "Bogues et suggestions"
-
-#: pageelems.ecpp:336
-msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
-msgstr "Si vous rencontrez n'importe quels bogue ou voudriez suggérer de nouveaux dispositifs, employer notre bugtracker svp"
-
-#: recordings.cpp:85
-msgid "On archive DVD No."
-msgstr "Sur le DVD archive no°"
-
-#: recordings.ecpp:42
-msgid "List of recordings"
-msgstr "Liste des enregistrements"
-
-#: recordings.ecpp:44
-msgid "No recordings found"
-msgstr "Pas d'enregistrement"
-
-#: recordings.ecpp:97 schedule.ecpp:133 searchresults.ecpp:99
-#: whats_on.ecpp:134
-msgid "Click to view details."
-msgstr "Clic pour voire les détails."
-
-#: recordings.ecpp:114 recordings.ecpp:170
-msgid "play this recording."
-msgstr "lire cette enregistrement."
-
-#: remote.ecpp:130
-msgid "Interval"
-msgstr "Intervalle"
-
-#: schedule.ecpp:54
-msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
-msgstr "N'a pas pu trouver la chaîne. Votre requête est t'elle corrête? "
-
-#: schedule.ecpp:72
-msgid "No schedules available for this channel"
-msgstr ""
-
-#: schedule.ecpp:95 schedule.ecpp:107 searchresults.ecpp:68
-#: searchresults.ecpp:79
-msgid "%A, %b %d %Y"
-msgstr "%A, %d.%m.%Y"
-
-#: schedule.ecpp:148
-msgid "Show schedule of channel"
-msgstr "Montrer le programme de la chaîne"
-
-#: searchepg.ecpp:258
-msgid "Search settings"
-msgstr "Règlages de recherche"
-
-#: searchepg.ecpp:267
-msgid "Extended search"
-msgstr "Recherche étendue"
-
-#: searchepg.ecpp:362 searchepg.ecpp:462
-msgid "no"
-msgstr ""
-
-#: searchresults.ecpp:27
-msgid "Search results"
-msgstr "Résultats"
-
-#: searchresults.ecpp:57
-msgid "No search results"
-msgstr "pas de résultat de recherche"
-
-#: searchtimers.ecpp:55
-msgid "Expression"
-msgstr "Expression de recherche"
-
-#: searchtimers.ecpp:56
-msgid "Channel"
-msgstr ""
-
-#: searchtimers.ecpp:57
-msgid "Starts between"
-msgstr "Départ entre"
-
-#: searchtimers.ecpp:70
-msgid "Toggle search timer actions (in)active"
-msgstr "Actions de la programmation de recherche (in)actives"
-
-#: searchtimers.ecpp:71
-msgid "Browse search timer results"
-msgstr "Passer en revue les résultats de programmation de recherche"
-
-#: searchtimers.ecpp:73
-msgid "Delete search timer"
-msgstr "Effacer la programmation de recherche"
-
-#: searchtimers.ecpp:73
-msgid "Delete this search timer?"
-msgstr "Effacer cette programmation de recherche?"
-
-#: searchtimers.ecpp:90
-msgid "Trigger search timer update"
-msgstr "Mise à jour des recherches de programmation maintenant"
-
-#: setup.cpp:255 setup.ecpp:121
 msgid "Last channel to display"
 msgstr "Dernière chaîne affichée"
 
-#: setup.cpp:255
 msgid "No limit"
 msgstr "Afficher tout"
 
-#: setup.cpp:257
-msgid "No"
-msgstr "Non"
-
-#: setup.cpp:257 setup.ecpp:125
 msgid "Use authentication"
 msgstr "Utiliser l'authentification"
 
-#: setup.cpp:257
+msgid "No"
+msgstr "Non"
+
 msgid "Yes"
 msgstr "Oui"
 
-#: setup.cpp:258 setup.ecpp:131
 msgid "Admin login"
 msgstr "Ouverture Admin"
 
-#: setup.cpp:259 setup.cpp:293 setup.cpp:294 setup.cpp:300 setup.cpp:301
-#: setup.ecpp:135
 msgid "Admin password"
 msgstr "Mot de passe de l'Admin"
 
-#: setup.ecpp:39
-msgid "Please set login and password!"
-msgstr "Entrée le nom d'utilisateur et le mot de passe svp!"
-
-#: setup.ecpp:60
-msgid "Setup saved."
-msgstr "Paramètre sauvegardé"
-
-#: setup.ecpp:63 setup.ecpp:118
-msgid "Setup"
-msgstr ""
-
-#: setup.ecpp:139
-msgid "Local net (no login required)"
-msgstr "Réseau local (non requis)"
-
-#: setup.ecpp:147
-msgid "Show live logo image"
-msgstr ""
-
-#: setup.ecpp:153
-msgid "Use ajax technology"
-msgstr ""
-
-#: setup.ecpp:159
-msgid "Show dynamic VDR information box"
-msgstr ""
-
-#: setup.ecpp:167
-msgid "additional fixed times in 'What's on?'"
-msgstr "périodes fixes additionnelles dans 'actuellement?'"
-
-#: setup.ecpp:169
-msgid "Format is HH:MM. Separate multiple times with a semicolon"
-msgstr "Le format est HH:MM . Plusieurs périodes séparées avec un point-virgule"
-
-#: setup.ecpp:172
-msgid "Start page"
-msgstr "Page de départ"
-
-#: setup.ecpp:182
-msgid "Theme"
-msgstr "Thème"
-
-#: tasks.cpp:42
-msgid "Couldn't find channel or no channels available."
-msgstr ""
-
-#: tasks.cpp:47
-msgid "Couldn't switch to channel."
-msgstr ""
-
-#: tasks.cpp:55 tasks.cpp:83 tasks.cpp:113 tasks.cpp:132 tasks.cpp:162
-msgid "Couldn't find recording or no recordings available."
-msgstr ""
-
-#: tasks.cpp:70 tasks.cpp:101 tasks.cpp:150 tasks.cpp:180
-msgid "Cannot control playback!"
-msgstr ""
-
-#: tasks.cpp:89 tasks.cpp:119 tasks.cpp:138 tasks.cpp:168
-msgid "Not playing a recording."
-msgstr ""
-
-#: tasks.cpp:95 tasks.cpp:144 tasks.cpp:174
-msgid "Not playing the same recording as from request."
-msgstr ""
-
-#: timers.cpp:86
 #, c-format
 msgid "%A, %x"
 msgstr "%A, %x"
 
-#: timers.cpp:180 timers.cpp:211
 msgid "Error in timer settings"
 msgstr ""
 
-#: timers.cpp:186
 msgid "Timer already defined"
 msgstr ""
 
-#: timers.cpp:199 timers.cpp:223 timers.cpp:246
 msgid "Timers are being edited - try again later"
 msgstr ""
 
-#: timers.cpp:205 timers.cpp:229 timers.cpp:252
 msgid "Timer not defined"
 msgstr ""
 
-#: timers.ecpp:58
+msgid "On archive DVD No."
+msgstr "Sur le DVD archive no°"
+
+msgid "Couldn't find channel or no channels available."
+msgstr ""
+
+msgid "Couldn't switch to channel."
+msgstr ""
+
+msgid "Couldn't find recording or no recordings available."
+msgstr ""
+
+msgid "Cannot control playback!"
+msgstr ""
+
+msgid "Not playing a recording."
+msgstr ""
+
+msgid "Not playing the same recording as from request."
+msgstr ""
+
+msgid "Epg error"
+msgstr ""
+
+msgid "Wrong channel id"
+msgstr ""
+
+msgid "Channel has no schedule"
+msgstr ""
+
+msgid "Wrong event id"
+msgstr ""
+
+msgid "Required minimum version of epgsearch: "
+msgstr "Version minimum requise d'epgsearch: "
+
+msgid "All"
+msgstr "Tout"
+
+msgid "FTA"
+msgstr ""
+
+msgid "%I:%M %p"
+msgstr "%H:%M"
+
+msgid "EPGSearch version outdated! Please update."
+msgstr "Version EPGSearch périmée! Mettre à jour Svp."
+
+msgid "Couldn't aquire primary device"
+msgstr ""
+
+msgid "Couldn't grab image from primary device"
+msgstr ""
+
+msgid "channels"
+msgstr ""
+
+msgid "Couldn't aquire access to channels, please try again later."
+msgstr ""
+
+msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
+msgstr ""
+
+msgid "mm/dd/yyyy"
+msgstr ""
+
+msgid "Edit search timer"
+msgstr "Editer l'expression de recherche"
+
+msgid "New search timer"
+msgstr "Créer nouvelle programmation de recherche"
+
+msgid "Search text too short - use anyway?"
+msgstr "Texte de recherche est trop court - l'utiliser quand même?"
+
+msgid "Search term"
+msgstr "Mot clé"
+
+msgid "Search mode"
+msgstr "Mode de recherche"
+
+msgid "phrase"
+msgstr "Phrase"
+
+msgid "all words"
+msgstr "tout les mots"
+
+msgid "at least one word"
+msgstr "un mot"
+
+msgid "match exactly"
+msgstr "correspond exactement"
+
+msgid "regular expression"
+msgstr "expression réguliere"
+
+msgid "fuzzy"
+msgstr "imprécis"
+
+msgid "Tolerance"
+msgstr "Tolérance"
+
+msgid "Match case"
+msgstr "Maj/Minuscule"
+
+msgid "Search in"
+msgstr "Recherche dans"
+
+msgid "Title"
+msgstr "Titre"
+
+msgid "Episode"
+msgstr "Épisode"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Use extended EPG info"
+msgstr "Utiliser les infos EPG avancées"
+
+msgid "Ignore missing EPG info"
+msgstr ""
+
+msgid "When active this can cause very many timers. So please always first test this search before using it as search timer!"
+msgstr ""
+
+msgid "Use channel"
+msgstr "Utiliser la chaîne"
+
+msgid "interval"
+msgstr "intervalle"
+
+msgid "channel group"
+msgstr "Groupe de chaînes"
+
+msgid "only FTA"
+msgstr "sans TV-Payante"
+
+msgid "from channel"
+msgstr "de la chaîne"
+
+msgid "to channel"
+msgstr "à la chaîne"
+
+msgid "Use time"
+msgstr "Utiliser l'heure"
+
+msgid "Start after"
+msgstr "Départ après"
+
+msgid "The time the show may start at the earliest"
+msgstr "L'heure lorsque l'émission doit commencer au plus tôt"
+
+msgid "Start before"
+msgstr "Départ avant"
+
+msgid "The time the show may start at the latest"
+msgstr "L'heure lorsque l'émission doit commencer au plus tard"
+
+msgid "Use duration"
+msgstr "Durée d'utilisation"
+
+msgid "Min. duration"
+msgstr "Durée min."
+
+msgid "Max. duration"
+msgstr "Durée max."
+
+msgid "Use day of week"
+msgstr "Utiliser les jours de la semaine"
+
+msgid "Monday"
+msgstr "Lundi"
+
+msgid "Tuesday"
+msgstr "Mardi"
+
+msgid "Wednesday"
+msgstr "Mercredi"
+
+msgid "Thursday"
+msgstr "Jeudi"
+
+msgid "Friday"
+msgstr "Vendredi"
+
+msgid "Saturday"
+msgstr "Samedi"
+
+msgid "Sunday"
+msgstr "Dimanche"
+
+msgid "Use blacklists"
+msgstr "Utiliser la liste des exclus"
+
+msgid "Selection"
+msgstr "Selection"
+
+msgid "all"
+msgstr "tous"
+
+msgid "Use in favorites menu"
+msgstr "Utiliser dans le menu favoris"
+
+msgid "Use as search timer"
+msgstr "Utiliser la recherche"
+
+msgid "user defined"
+msgstr ""
+
+msgid "from date"
+msgstr ""
+
+msgid "to date"
+msgstr ""
+
+msgid "Record"
+msgstr "Enregistre"
+
+msgid "Announce only"
+msgstr "Annoncer seulement le début de l'émission"
+
+msgid "Switch only"
+msgstr "Seulement changer de chaine"
+
+msgid "Series recording"
+msgstr "Enregistrement de série"
+
+msgid "Directory"
+msgstr "Dossier"
+
+msgid "Delete recordings after ... days"
+msgstr "Effacer l'enregistrement après ... jours"
+
+msgid "Keep ... recordings"
+msgstr "Garder .... les enregistrements"
+
+msgid "Pause when ... recordings exist"
+msgstr "Pause, lorsque ... l'enregistrement existe."
+
+msgid "Avoid repeats"
+msgstr "Eviter les répétitions"
+
+msgid "Allowed repeats"
+msgstr "Répétitions autorisées"
+
+msgid "Only repeats within ... days"
+msgstr "Que répétition, pendant ... jours"
+
+msgid "Compare title"
+msgstr "Comparer titres"
+
+msgid "Compare subtitle"
+msgstr "Comparer les sous-titres"
+
+msgid "Compare summary"
+msgstr "Comparer les descriptions"
+
+msgid "Compare"
+msgstr "Comparer"
+
+msgid "Use VPS"
+msgstr "Utiliser VPS"
+
+msgid "Auto-delete search timer"
+msgstr ""
+
+msgid "after ... recordings"
+msgstr ""
+
+msgid "after ... days after first rec."
+msgstr ""
+
+msgid "Switch ... minutes before start"
+msgstr "Changer ... minutes avant le début"
+
+msgid "Test"
+msgstr "Tester"
+
+msgid "Save"
+msgstr "Sauvegarde"
+
+msgid "Cancel"
+msgstr "Interrompre"
+
+msgid "Couldn't find timer. Maybe you mistyped your request?"
+msgstr "N'a pas pu trouver la programmation. Peut-être vous avez une erreur dans votre requête?"
+
+msgid "Please set a title for the timer!"
+msgstr "Veuillez indiquer un titre pour la programmation!"
+
+msgid "Edit timer"
+msgstr "Editer la programmation"
+
+msgid "New timer"
+msgstr "Nouvelle programmation"
+
+msgid "Weekday"
+msgstr "Jour de la semaine"
+
+msgid "Electronic program guide information"
+msgstr ""
+
+msgid "Couldn't find recording or no recordings available"
+msgstr ""
+
+msgid "Error aquiring schedules lock"
+msgstr ""
+
+msgid "Error aquiring schedules"
+msgstr ""
+
+msgid "%b %d %y"
+msgstr "%d.%m.%y"
+
+msgid "Page error"
+msgstr "Erreur de page"
+
+msgid "playing recording"
+msgstr "Lire l'enregistrement"
+
+msgid "no epg info for current event!"
+msgstr "Pas d'infos pour l'émission!"
+
+msgid "no epg info for current channel!"
+msgstr "Cette chaîne n'a pas d'EPG!"
+
+msgid "no current channel!"
+msgstr "pas de chaîne trouvé!"
+
+msgid "error retrieving status info!"
+msgstr "erreur: pas d'information d'état!"
+
+msgid "%I:%M:%S %p"
+msgstr "%H:%M:%S"
+
+msgid "Wrong username or password"
+msgstr "Nom de l'utilisateur ou mot de passei sont erroné"
+
+msgid "Login"
+msgstr "Session"
+
+msgid "VDR Live Login"
+msgstr "Session VDR Live"
+
+msgid "User"
+msgstr "Utilisateur"
+
+msgid "Password"
+msgstr "Mot de passe"
+
+msgid "What's on?"
+msgstr "Actuellement?"
+
+msgid "Search"
+msgstr "Recherche"
+
+msgid "Searchtimers"
+msgstr "Recherche"
+
+msgid "Recordings"
+msgstr "Enregistrements"
+
+msgid "Remote Control"
+msgstr "Télécommande"
+
+msgid "Logout"
+msgstr "Fin de la session"
+
+msgid "retrieving status ..."
+msgstr "mise à jours de l'état"
+
+msgid "Toggle updates on/off."
+msgstr "Activer/Désactiver l'update du status"
+
+msgid "stop playback"
+msgstr "arrêter la lecture"
+
+msgid "resume playback"
+msgstr "continuer"
+
+msgid "pause playback"
+msgstr "pause"
+
+msgid "fast rewind"
+msgstr "retour rapide"
+
+msgid "fast forward"
+msgstr "avance rapide"
+
+msgid "previous channel"
+msgstr "chaîne précédent"
+
+msgid "next channel"
+msgstr "Chaîne suivante"
+
+msgid "No server response!"
+msgstr ""
+
+msgid "Failed to update infobox!"
+msgstr ""
+
+msgid "Edit this"
+msgstr "Changer cette programmation"
+
+msgid "Record this"
+msgstr "Enregistrer cette émission"
+
+msgid "loading data"
+msgstr ""
+
+msgid "an error occured!"
+msgstr ""
+
+msgid "Request succeeded!"
+msgstr ""
+
+msgid "Request failed!"
+msgstr ""
+
+msgid "January"
+msgstr ""
+
+msgid "February"
+msgstr ""
+
+msgid "March"
+msgstr ""
+
+msgid "April"
+msgstr ""
+
+msgid "May"
+msgstr ""
+
+msgid "June"
+msgstr ""
+
+msgid "July"
+msgstr ""
+
+msgid "August"
+msgstr ""
+
+msgid "September"
+msgstr ""
+
+msgid "October"
+msgstr ""
+
+msgid "November"
+msgstr ""
+
+msgid "December"
+msgstr ""
+
+msgid "Switch to this channel."
+msgstr "Changer vers cette chaîne. "
+
+msgid "Search for repeats."
+msgstr "Recherche de répétitions."
+
+msgid "Find more at the Internet Movie Database."
+msgstr "Trouver plus d'information du film dans la base de données film IMDB."
+
+msgid "Authors"
+msgstr "Auteur"
+
+msgid "Project leader"
+msgstr "Chef de projet"
+
+msgid "Webserver"
+msgstr "Serveur Web"
+
+msgid "Content"
+msgstr "Contenu"
+
+msgid "Graphics"
+msgstr "Graphiques"
+
+msgid "Information"
+msgstr "Information"
+
+msgid "LIVE version"
+msgstr "Version LIVE"
+
+msgid "VDR version"
+msgstr "Version VDR"
+
+msgid "Features"
+msgstr "Soutien des plugins"
+
+msgid "active"
+msgstr "actif"
+
+msgid "required"
+msgstr "requis"
+
+msgid "Homepage"
+msgstr "Page d'accueil"
+
+msgid "Bugs and suggestions"
+msgstr "Bogues et suggestions"
+
+msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
+msgstr "Si vous rencontrez n'importe quels bogue ou voudriez suggérer de nouveaux dispositifs, employer notre bugtracker svp"
+
+msgid "List of recordings"
+msgstr "Liste des enregistrements"
+
+msgid "No recordings found"
+msgstr "Pas d'enregistrement"
+
+msgid "Click to view details."
+msgstr "Clic pour voire les détails."
+
+msgid "play this recording."
+msgstr "lire cette enregistrement."
+
+msgid "Interval"
+msgstr "Intervalle"
+
+msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
+msgstr "N'a pas pu trouver la chaîne. Votre requête est t'elle corrête? "
+
+msgid "No schedules available for this channel"
+msgstr ""
+
+msgid "%A, %b %d %Y"
+msgstr "%A, %d.%m.%Y"
+
+msgid "Show schedule of channel"
+msgstr "Montrer le programme de la chaîne"
+
+msgid "Search settings"
+msgstr "Règlages de recherche"
+
+msgid "Extended search"
+msgstr "Recherche étendue"
+
+msgid "no"
+msgstr ""
+
+msgid "Search results"
+msgstr "Résultats"
+
+msgid "No search results"
+msgstr "pas de résultat de recherche"
+
+msgid "Expression"
+msgstr "Expression de recherche"
+
+msgid "Channel"
+msgstr ""
+
+msgid "Starts between"
+msgstr "Départ entre"
+
+msgid "Toggle search timer actions (in)active"
+msgstr "Actions de la programmation de recherche (in)actives"
+
+msgid "Browse search timer results"
+msgstr "Passer en revue les résultats de programmation de recherche"
+
+msgid "Delete this search timer?"
+msgstr "Effacer cette programmation de recherche?"
+
+msgid "Delete search timer"
+msgstr "Effacer la programmation de recherche"
+
+msgid "Trigger search timer update"
+msgstr "Mise à jour des recherches de programmation maintenant"
+
+msgid "Please set login and password!"
+msgstr "Entrée le nom d'utilisateur et le mot de passe svp!"
+
+msgid "Setup saved."
+msgstr "Paramètre sauvegardé"
+
+msgid "Setup"
+msgstr ""
+
+msgid "Local net (no login required)"
+msgstr "Réseau local (non requis)"
+
+msgid "Show live logo image"
+msgstr ""
+
+msgid "Use ajax technology"
+msgstr ""
+
+msgid "Show dynamic VDR information box"
+msgstr ""
+
+msgid "additional fixed times in 'What's on?'"
+msgstr "périodes fixes additionnelles dans 'actuellement?'"
+
+msgid "Format is HH:MM. Separate multiple times with a semicolon"
+msgstr "Le format est HH:MM . Plusieurs périodes séparées avec un point-virgule"
+
+msgid "Start page"
+msgstr "Page de départ"
+
+msgid "Theme"
+msgstr "Thème"
+
 msgid "No timer defined"
 msgstr "Aucune programmation définie"
 
-#: timers.ecpp:114
 msgid "Toggle timer active/inactive"
 msgstr "Programmation basculer actif/inactif"
 
-#: timers.ecpp:116
 msgid "Delete timer"
 msgstr "Effacer la programmation"
 
-#: whats_on.ecpp:58 whats_on.ecpp:71
 msgid "What's running at"
 msgstr "Qu'y a t'il au programme vers"
 
-#: whats_on.ecpp:60
 msgid "What's on next?"
 msgstr ""
 
-#: whats_on.ecpp:71
 msgid "%a, %b %d"
 msgstr "%a, %d.%m."
 
-#: whats_on.ecpp:141 whats_on.ecpp:184
 msgid "View the schedule of this channel"
 msgstr "Regarder le programme de cette chaîne"
 
-#: whats_on.ecpp:156
 msgid "more"
 msgstr "plus"
 
-#: whats_on.ecpp:202
 msgid "Now"
 msgstr "maintenant"
 
-#: whats_on.ecpp:204
 msgid "Next"
 msgstr "prochainement"
 
-#: whats_on.ecpp:206
 msgid "What's on"
 msgstr "Actuellement"
 
-#: whats_on.ecpp:214 whats_on.ecpp:220
 msgid "at"
 msgstr "à"
 
-#: whats_on.ecpp:224
 msgid "Details view"
 msgstr "Vue détailée"
 
-#: whats_on.ecpp:226
 msgid "List view"
 msgstr "Vue en liste"

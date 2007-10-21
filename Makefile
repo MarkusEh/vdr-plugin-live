@@ -1,7 +1,7 @@
 #
 # Makefile for a Video Disk Recorder plugin
 #
-# $Id: Makefile,v 1.50 2007/09/17 22:23:40 tadi Exp $
+# $Id: Makefile,v 1.51 2007/10/21 14:26:09 winni Exp $
 
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.
@@ -104,10 +104,10 @@ endif
 	msgfmt -c -o $@ $<
 
 $(I18Npot): PAGES $(PLUGINOBJS:%.o=%.cpp)
-	xgettext -C -cTRANSLATORS --no-wrap -F -k -ktr -ktrNOOP --msgid-bugs-address='<cwieninger@gmx.de>' -o $@ $(PLUGINOBJS:%.o=%.cpp) pages/*.cpp
+	xgettext -C -cTRANSLATORS --no-wrap --no-location -k -ktr -ktrNOOP --msgid-bugs-address='<cwieninger@gmx.de>' -o $@ $(PLUGINOBJS:%.o=%.cpp) pages/*.cpp
 
 $(I18Npo): $(I18Npot)
-	msgmerge -U --no-wrap -F --backup=none -q $@ $<
+	msgmerge -U --no-wrap --no-location --backup=none -q $@ $<
 
 i18n: $(I18Nmo)
 	@mkdir -p $(LOCALEDIR)
