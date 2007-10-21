@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "Last channel to display"
-msgstr "Letzer angezeigter Kanal"
+msgstr "EPG-Anzeige bis Kanal"
 
 msgid "No limit"
 msgstr "Alle zeigen"
