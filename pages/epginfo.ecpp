@@ -7,7 +7,7 @@
 #include "setup.h"
 #include "tools.h"
 #include "epg_events.h"
-#include "recordings.h"
+#include "recman.h"
 
 namespace vdrlive {
 	class SchedulesLock

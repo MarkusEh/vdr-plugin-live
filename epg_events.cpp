@@ -2,7 +2,7 @@
 #include <glob.h>
 
 #include "tools.h"
-#include "recordings.h"
+#include "recman.h"
 
 #include "epg_events.h"
 #include "setup.h"

@@ -3,11 +3,13 @@
 #include <vdr/i18n.h>
 #include <vdr/menu.h>
 #include <vdr/recording.h>
-#include "exception.h"
-#include "recordings.h"
+
 #include "stdext.h"
-#include "tasks.h"
+#include "exception.h"
+#include "recman.h"
 #include "tools.h"
+
+#include "tasks.h"
 
 namespace vdrlive {
 

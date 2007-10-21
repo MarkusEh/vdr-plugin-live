@@ -1,3 +1,10 @@
+2007-10-21  Dieter Hametner  <dh+vdr at gekrumbel dot de>
+
+	- Renamed recordings.h/cpp files to recman.h/cpp. Adapted
+	  files that included them.
+	- recman.h have extended functionality for recordings. It is not used
+	  yet.
+
 2007-10-17  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
 	* css/styles.css

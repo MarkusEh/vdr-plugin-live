@@ -6,7 +6,7 @@
 #include "tools.h"
 #include "epg_events.h"
 
-#include "recordings.h"
+#include "recman.h"
 #include "setup.h"
 
 using namespace vdrlive;
@@ -19,7 +19,7 @@ using namespace std;
 	bool logged_in(false);
 </%session>
 <%request scope="page">
-RecordingsTree recordingsTree(LiveRecordingsManager());
+	RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
@@ -62,11 +62,11 @@ RecordingsTree recordingsTree(LiveRecordingsManager());
 	int level = 0;
 </%args>
 <%cpp>
-RecordingsTree::Map::iterator iter;
-RecordingsTree::Map::iterator end = recordingsTree.end(path);
+RecordingsMap::iterator iter;
+RecordingsMap::iterator end = recordingsTree->end(path);
 
-for (iter = recordingsTree.begin(path); iter != end; ++iter) {
-	RecordingsTree::RecordingsItemPtr recItem = iter->second;
+for (iter = recordingsTree->begin(path); iter != end; ++iter) {
+	RecordingsItemPtr recItem = iter->second;
 	string folderimg("folder_closed.png");
 	string collapseimg("plus.png");
 	if (recItem->IsDir()) {
@@ -88,8 +88,8 @@ for (iter = recordingsTree.begin(path); iter != end; ++iter) {
 %	}
 %}
 <%cpp>
-for (iter = recordingsTree.begin(path); iter != end; ++iter) {
-	RecordingsTree::RecordingsItemPtr recItem = iter->second;
+for (iter = recordingsTree->begin(path); iter != end; ++iter) {
+	RecordingsItemPtr recItem = iter->second;
     if (!recItem->IsDir()) {
 		string day(FormatDateTime("%a,", recItem->StartTime()));
 		string dayLen(lexical_cast<string, int>(day.length() - 1) + ".25em;");
