@@ -95,13 +95,16 @@ string SortedTimers::GetTimerInfo(cTimer const& timer)
 	info << trVDR("Lifetime") << ": " << timer.Lifetime() << endl;
 	info << trVDR("VPS") << ": " << (timer.HasFlags(tfVps)?trVDR("yes"):trVDR("no")) << endl;
 
-	string epgsearchinfo = GetXMLValue(timer.Aux(), "epgsearch");
-	if (!epgsearchinfo.empty())
+	if (timer.Aux())
 	{
-		string searchtimer = GetXMLValue(epgsearchinfo, "searchtimer");
-		if (!searchtimer.empty())
-			info << tr("Searchtimer") << ": " << searchtimer << endl;
-	}	
+		string epgsearchinfo = GetXMLValue(timer.Aux(), "epgsearch");
+		if (!epgsearchinfo.empty())
+		{
+			string searchtimer = GetXMLValue(epgsearchinfo, "searchtimer");
+			if (!searchtimer.empty())
+				info << tr("Searchtimer") << ": " << searchtimer << endl;
+		}	
+	}
 	return info.str();
 }
 
