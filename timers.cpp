@@ -4,6 +4,7 @@
 #include "exception.h"
 #include "timers.h"
 #include "tools.h"
+#include "i18n.h"
 
 static bool operator<( cTimer const& left, cTimer const& right )
 {
