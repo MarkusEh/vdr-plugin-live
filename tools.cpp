@@ -230,4 +230,16 @@ string StringUrlEncode( string const& input )
 	return ostr.str();
 }
 
+// returns the content of <element>...</element>
+string GetXMLValue( std::string const& xml, std::string const& element )
+{
+	string start = "<" + element + ">";
+	string end = "</" + element + ">";
+	string::size_type startPos = xml.find(start);
+	if (startPos == string::npos) return "";
+	string::size_type endPos = xml.find(end);
+	if (endPos == string::npos) return "";
+	return xml.substr(startPos + start.size(), endPos - startPos - start.size());
+}
+
 } // namespace vdrlive

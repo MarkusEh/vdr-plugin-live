@@ -87,6 +87,23 @@ string SortedTimers::GetTimerDays(cTimer const& timer)
 	return currentDay;
 }
 
+string SortedTimers::GetTimerInfo(cTimer const& timer)
+{
+	ostringstream info;
+	info << trVDR("Priority") << ": " << timer.Priority() << endl;
+	info << trVDR("Lifetime") << ": " << timer.Lifetime() << endl;
+	info << trVDR("VPS") << ": " << (timer.HasFlags(tfVps)?trVDR("yes"):trVDR("no")) << endl;
+
+	string epgsearchinfo = GetXMLValue(timer.Aux(), "epgsearch");
+	if (!epgsearchinfo.empty())
+	{
+		string searchtimer = GetXMLValue(epgsearchinfo, "searchtimer");
+		if (!searchtimer.empty())
+			info << tr("Searchtimer") << ": " << searchtimer << endl;
+	}	
+	return info.str();
+}
+
 TimerManager::TimerManager()
 {
 }

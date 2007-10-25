@@ -71,7 +71,8 @@ static const size_t maximumDescriptionLength = 300;
 					if (timer->Event())
 					{
 						epgEvent = EpgEvents::CreateEpgInfo(timer->Channel(), timer->Event());
-						longDescription = StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), maximumDescriptionLength))
+						longDescription = StringEscapeAndBreak(SortedTimers::GetTimerInfo(*timer)) + "<hr>"
+											+ StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), maximumDescriptionLength))
 											+ "<br/><br/>" + tr("Click to view details.");
 					}	
 					string currentDay = SortedTimers::GetTimerDays(*timer);

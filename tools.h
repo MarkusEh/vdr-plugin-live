@@ -37,6 +37,7 @@ std::string MD5Hash(std::string const& str);
 time_t GetTimeT(std::string timestring);
 std::string ExpandTimeString(std::string timestring);
 std::string StringUrlEncode( std::string const& input );
+std::string GetXMLValue( std::string const& xml, std::string const& element );
 
 struct bad_lexical_cast: std::runtime_error 
 {

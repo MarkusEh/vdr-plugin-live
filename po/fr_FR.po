@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2007-10-21 16:25+0200\n"
+"POT-Creation-Date: 2007-10-25 18:35+0200\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Nicolas Huillard <nhuillard@e-dition.fr>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -42,6 +42,10 @@ msgstr "Mot de passe de l'Admin"
 #, c-format
 msgid "%A, %x"
 msgstr "%A, %x"
+
+#, fuzzy
+msgid "Searchtimer"
+msgstr "Recherche"
 
 msgid "Error in timer settings"
 msgstr ""

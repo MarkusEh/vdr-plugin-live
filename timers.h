@@ -20,8 +20,8 @@ public:
 	cTimer* GetByTimerId( std::string const& timerid );
 
 	bool Modified() { return Timers.Modified( m_state ); }
-
 	static std::string GetTimerDays(cTimer const& timer);
+	static std::string GetTimerInfo(cTimer const& timer);
 
 private:
 	SortedTimers();
