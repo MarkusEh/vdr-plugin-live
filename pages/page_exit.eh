@@ -5,7 +5,11 @@
 <%cpp>
 	spoint.commit();
 } catch ( vdrlive::HtmlError const& ex ) {
+#ifdef TNTVERS7
+	tnt::QueryParams param = qparam;
+#else
 	cxxtools::QueryParams param = qparam;
+#endif
 	param.add( "pageTitle", pageTitle );
 	param.add( "errorMessage", ex.what() );
 	callComp( "error", request, reply, param );

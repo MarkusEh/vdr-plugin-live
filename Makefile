@@ -1,7 +1,7 @@
 #
 # Makefile for a Video Disk Recorder plugin
 #
-# $Id: Makefile,v 1.52 2007/10/21 15:56:00 tadi Exp $
+# $Id: Makefile,v 1.53 2007/12/01 16:35:48 tadi Exp $
 
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.
@@ -42,6 +42,7 @@ TMPDIR	 ?= /tmp
 
 APIVERSION = $(shell sed -ne '/define APIVERSION/s/^.*"\(.*\)".*$$/\1/p' $(VDRDIR)/config.h)
 I18NTARG   = $(shell if [ `echo $(APIVERSION) | tr [.] [0]` -ge "10507" ]; then echo "i18n"; fi)
+TNTVERS7   = $(shell if [ `tntnet-config --version | sed -e's/\.//g'` -ge "1606" ]; then echo "yes"; fi)
 
 ### The name of the distribution archive:
 
@@ -50,14 +51,22 @@ PACKAGE = vdr-$(ARCHIVE)
 
 ### Includes and Defines (add further entries here):
 
-INCLUDES += -I$(VDRDIR)/include -Ihttpd
+INCLUDES += -I$(VDRDIR)/include
+ifneq ($(TNTVERS7),yes)
+	INCLUDES += -Ihttpd
+	LIBS	 += httpd/libhttpd.a
+endif
 
 DEFINES	 += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"'
+ifeq ($(TNTVERS7),yes)
+	DEFINES += -DTNTVERS7
+endif
 export DEFINES
 
-LIBS	 += httpd/libhttpd.a
-
-SUBDIRS	  = httpd pages css javascript
+SUBDIRS	  = pages css javascript
+ifneq ($(TNTVERS7),yes)
+	SUBDIRS += httpd
+endif
 
 ### The object files (add further files here):
 
@@ -132,6 +141,28 @@ PAGES:
 libvdr-$(PLUGIN).so: SUBDIRS $(PLUGINOBJS)
 	$(CXX) $(LDFLAGS) -shared -o $@	 $(PLUGINOBJS) -Wl,--whole-archive $(WEBLIBS) -Wl,--no-whole-archive $(LIBS)
 	@cp --remove-destination $@ $(LIBDIR)/$@.$(APIVERSION)
+ifneq ($(TNTVERS7),yes)
+	@echo ""
+	@echo "If LIVE was built successfully and you can try to use it!"
+	@echo ""
+	@echo ""
+	@echo ""
+	@echo ""
+	@echo "IMPORTANT INFORMATION:"
+	@echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+	@echo "+ This is one of the *last* CVS versions of LIVE which will   +"
+	@echo "+ work with versions of tntnet *less* than 1.6.0.6!           +"
+	@echo "+                                                             +"
+	@echo "+ This version of LIVE already supports tntnet >= 1.6.0.6.    +"
+	@echo "+                                                             +"
+	@echo "+ Please upgrade tntnet to at least version 1.6.0.6 soon, if  +"
+	@echo "+ you want to keep track of beeding edge LIVE development.    +"
+	@echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+	@echo ""
+	@echo ""
+	@echo ""
+	@echo ""
+endif
 
 dist: clean
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)

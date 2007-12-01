@@ -74,7 +74,11 @@ for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 	<li class="recording">
 		<& rec_item_dir name=(recItem->Name()) level=(level) &>
 <%cpp>
+#ifdef TNTVERS7
+		tnt::QueryParams recItemParams(qparam, false);
+#else
 		cxxtools::QueryParams recItemParams(qparam, false);
+#endif
 		for (path_type::const_iterator i = path.begin(); i != path.end(); ++i) {
 			recItemParams.add("path", *i);
 		}

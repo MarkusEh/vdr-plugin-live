@@ -14,6 +14,28 @@ Latest version available at: either http://live.vdr-developer.org
 See the file COPYING for license information.
 
 
+IMPORTANT:
+==========
+
+This is one of the last developer snapshot versions of LIVE which will
+work with Tntnet < 1.6.0.6. In fact only versions of Tntnet up to
+1.6.0.1 have been used during development of LIVE and can be used for
+shure until today.
+
+Since Nov 17 version 1.6.0.6 of Tntnet has been released with new
+features and binary incompatible changes. This version of LIVE works
+with that version and still maintains backwards compatibilty to older
+versions of Tntnet.
+
+Future versions of LIVE will start to use the new Tntnet
+features. This means that backwards compatibility can not be
+maintained from that point in time onwards.
+
+We therefor strongly suggest you upgrade to Tntnet with at least
+version 1.6.0.6. This new Tntnet version is supported by the current
+version of LIVE. Just update Tntnet and recompile LIVE from scratch.
+
+
 Description:
 ============
 
