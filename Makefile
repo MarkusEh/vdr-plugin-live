@@ -1,7 +1,7 @@
 #
 # Makefile for a Video Disk Recorder plugin
 #
-# $Id: Makefile,v 1.53 2007/12/01 16:35:48 tadi Exp $
+# $Id: Makefile,v 1.54 2007/12/02 19:29:35 winni Exp $
 
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.
@@ -156,7 +156,7 @@ ifneq ($(TNTVERS7),yes)
 	@echo "+ This version of LIVE already supports tntnet >= 1.6.0.6.    +"
 	@echo "+                                                             +"
 	@echo "+ Please upgrade tntnet to at least version 1.6.0.6 soon, if  +"
-	@echo "+ you want to keep track of beeding edge LIVE development.    +"
+	@echo "+ you want to keep track of bleeding edge LIVE development.   +"
 	@echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 	@echo ""
 	@echo ""
