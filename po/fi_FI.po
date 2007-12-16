@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2007-10-25 18:35+0200\n"
+"POT-Creation-Date: 2007-12-16 23:49+0100\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Rolf Ahrenberg <rahrenbe@cc.hut.fi>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -520,6 +520,9 @@ msgstr "Vaihda kanavalle"
 msgid "Search for repeats."
 msgstr "Etsi toistuvat"
 
+msgid "Stream this channel into browser."
+msgstr ""
+
 msgid "Find more at the Internet Movie Database."
 msgstr "Hae IMDB:st‰"
 
@@ -564,6 +567,9 @@ msgstr "Virheraportoinnit ja parannusehdotukset"
 
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
 msgstr "Voit raportoida sek‰ virheet ett‰ parannusehdotukset suoraan havaintotietokantaan"
+
+msgid "RecDate"
+msgstr ""
 
 msgid "List of recordings"
 msgstr "Tallennelistaus"
@@ -652,6 +658,13 @@ msgstr "K‰yt‰ AJAX-tekniikkaa"
 msgid "Show dynamic VDR information box"
 msgstr "N‰yt‰ dynaaminen VDR:n infolaatikko"
 
+#, fuzzy
+msgid "Allow video streaming"
+msgstr "N‰yt‰ Live-logo"
+
+msgid "streamdev server port"
+msgstr ""
+
 msgid "additional fixed times in 'What's on?'"
 msgstr "Lis‰ajankohdat 'Menossa?'-sivulle"
 
@@ -672,6 +685,9 @@ msgstr "Aseta ajastin p‰‰lle/pois"
 
 msgid "Delete timer"
 msgstr "Poista ajastin"
+
+msgid "VLC: live video stream"
+msgstr ""
 
 msgid "What's running at"
 msgstr "Menossa kello"
@@ -705,3 +721,7 @@ msgstr "Ruudukkon‰kym‰"
 
 msgid "List view"
 msgstr "Listan‰kym‰"
+
+#, fuzzy
+#~ msgid "Watch channel"
+#~ msgstr "Kanavaan"

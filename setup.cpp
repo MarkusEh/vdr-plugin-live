@@ -32,7 +32,9 @@ Setup::Setup():
 		m_tntnetloglevel("INFO"),
 		m_showLogo(1),
 		m_useAjax(1),
-		m_showInfoBox(1)
+		m_showInfoBox(1),
+		m_useStreamdev(1),
+		m_streamdevPort(3000)
 {
 	m_adminPasswordMD5 = "4:" + MD5Hash("live");
 	liveplugin = cPluginManager::GetPlugin("live");
@@ -94,6 +96,8 @@ bool Setup::ParseSetupEntry( char const* name, char const* value )
 	else if ( strcmp( name, "ShowLogo" ) == 0 ) { m_showLogo = atoi(value); }
 	else if ( strcmp( name, "UseAjax" ) == 0 ) { m_useAjax = atoi(value); }
 	else if ( strcmp( name, "ShowInfoBox" ) == 0 ) { m_showInfoBox = atoi(value); }
+	else if ( strcmp( name, "UseStreamdev" ) == 0 ) { m_useStreamdev = atoi(value); }
+	else if ( strcmp( name, "StreamdevPort" ) == 0 ) { m_streamdevPort = atoi(value); }
 	else if ( strcmp( name, "ScreenShotInterval" ) == 0 ) { m_screenshotInterval = atoi(value); }
 	else return false;
 	return true;
@@ -221,6 +225,8 @@ bool Setup::SaveSetup()
 	liveplugin->SetupStore("ShowLogo", m_showLogo);
 	liveplugin->SetupStore("UseAjax", m_useAjax);
 	liveplugin->SetupStore("ShowInfoBox", m_showInfoBox);
+	liveplugin->SetupStore("UseStreamdev", m_useStreamdev);
+	liveplugin->SetupStore("StreamdevPort", m_streamdevPort);
 	liveplugin->SetupStore("ScreenShotInterval", m_screenshotInterval);
 
 	return true;

@@ -12,6 +12,10 @@ var PageEnhance = new Class({
 	  options: {
 		  epgLinkSelector: 'a[href^="epginfo.html?epgid"]',
 		  actionLinkSelector: 'a[href^="vdr_request/"]',
+		  vlcLinkSelector: 'a[href^="vlc.html?channel"]',
+		  vlcWinOptions: {
+			  size: { width: 420, height: 370 }
+			},
 		  hintTipSelector: '*[title]',
 		  hintClassName: 'hint',
 		  infoWinOptions: {
@@ -40,6 +44,7 @@ var PageEnhance = new Class({
 			$$(this.options.epgLinkSelector).each(this.epgPopup.bind(this));
 			this.addHintTips($$(this.options.hintTipSelector));
 			$$(this.options.actionLinkSelector).each(this.vdrRequest.bind(this));
+			$$(this.options.vlcLinkSelector).each(this.vlcRequest.bind(this));
 			$$(this.options.datePickerSelector).each(this.datePicker.bind(this));
 		},
 
@@ -55,6 +60,7 @@ var PageEnhance = new Class({
 			elems = $$(sel);
 			this.addHintTips(elems);
 			$$('#' + id + ' ' + this.options.actionLinkSelector).each(this.vdrRequest.bind(this));
+			$$('#' + id + ' ' + this.options.vlcLinkSelector).each(this.vlcRequest.bind(this));
 		},
 
 	  // Epg Popup function. Apply to all elements that should
@@ -99,6 +105,20 @@ var PageEnhance = new Class({
 								}.bind(this)
 							});
 						req.request('async=1');
+						event.stop();
+						return false;
+					}
+					return true;
+				}.bindWithEvent(this, el));
+		},
+
+	  // function that opens a window for streaming of tv data.
+	  vlcRequest: function(el){
+			el.addEvent('click', function(event, element){
+					var href = $pick(element.href, "");
+					if (href != "") {
+						href += "&async=1";
+						var bw = new BrowserWin("vlcstream", href, this.options.vlcWinOptions);
 						event.stop();
 						return false;
 					}

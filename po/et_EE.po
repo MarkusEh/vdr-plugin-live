@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2007-10-25 18:35+0200\n"
+"POT-Creation-Date: 2007-12-16 23:49+0100\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Arthur Konovalov <kasjas@hot.ee>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -517,6 +517,9 @@ msgstr ""
 msgid "Search for repeats."
 msgstr ""
 
+msgid "Stream this channel into browser."
+msgstr ""
+
 msgid "Find more at the Internet Movie Database."
 msgstr ""
 
@@ -560,6 +563,9 @@ msgid "Bugs and suggestions"
 msgstr ""
 
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
+msgstr ""
+
+msgid "RecDate"
 msgstr ""
 
 msgid "List of recordings"
@@ -649,6 +655,12 @@ msgstr ""
 msgid "Show dynamic VDR information box"
 msgstr ""
 
+msgid "Allow video streaming"
+msgstr ""
+
+msgid "streamdev server port"
+msgstr ""
+
 msgid "additional fixed times in 'What's on?'"
 msgstr ""
 
@@ -668,6 +680,9 @@ msgid "Toggle timer active/inactive"
 msgstr ""
 
 msgid "Delete timer"
+msgstr ""
+
+msgid "VLC: live video stream"
 msgstr ""
 
 msgid "What's running at"

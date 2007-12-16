@@ -1,0 +1,87 @@
+<%pre>
+#include <vdr/channels.h>
+#include <vdr/i18n.h>
+#include <vdr/keys.h>
+#include "setup.h"
+#include "tools.h"
+
+using namespace std;
+using namespace vdrlive;
+
+</%pre>
+<%args>
+	tChannelID channel;
+	string async;
+</%args>
+<%session scope="global">
+	bool logged_in(false);
+</%session>
+<%request scope="page">
+	cChannel* Channel;
+</%request>
+<%include>page_init.eh</%include>
+<%cpp>
+	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+
+	pageTitle = tr("VLC: live video stream");
+
+	bool asyncReq = !async.empty() && (lexical_cast<int>(async) != 0);
+
+	ReadLock channelsLock(Channels);
+
+	if (!channelsLock) {
+		throw HtmlError(tr("Couldn't aquire access to channels, please try again later."));
+	}
+	Channel = Channels.GetByChannelID(channel);
+	if (Channel == 0) {
+		throw HtmlError( tr("Couldn't find channel or no channels available. Maybe you mistyped your request?") );
+	}
+</%cpp>
+<& pageelems.doc_type &>
+<html>
+	<head>
+		<title>VDR-Live - <$ pageTitle $></title>
+<%cpp>
+	if (!asyncReq) {
+</%cpp>
+		<& pageelems.stylesheets &>
+		<& pageelems.ajax_js &>
+<%cpp>
+	}
+</%cpp>
+	</head>
+	<body>
+<%cpp>
+	if (!asyncReq) {
+</%cpp>
+		<& pageelems.logo &>
+		<& menu active="vlc" &>
+<%cpp>
+	}
+</%cpp>
+		<div class="inhalt">
+<%cpp>
+		if ( Channel != 0 ) {
+			int streamdevPort = LiveSetup().GetStreamdevPort();
+			string videourl = string("http://") + request.getServerIp() + ":" + lexical_cast<string,int>(streamdevPort) + "/" + *Channel->GetChannelID().ToString();
+</%cpp>
+			<embed type="application/x-vlc-plugin" name="video1" autoplay="no" loop="yes" width="400" height="300" target="<$ videourl $>" />
+	   		<& vlc.channel_selection &>
+<%cpp>
+		}
+</%cpp>
+		</div>
+	</body>
+</html>
+<%include>page_exit.eh</%include>
+
+<%def channel_selection>
+<div>
+<input type="button" value="Play" onclick="document.video1.play();" />
+<input type="button" value="Pause" onclick="document.video1.pause();" />
+<input type="button" value="Stop" onclick="document.video1.stop();" />
+<input type="button" value="Mute" onclick="document.video1.mute();" />
+<input type="button" value="Fullscreen"  onclick="document.video1.fullscreen();" />
+</div>
+</%def>
+

@@ -286,7 +286,7 @@ document.head = document.getElementsByTagName('head')[0];
 /*
 Class: window
 	Some properties are attached to the window object by the browser detection.
-	
+
 Note:
 	browser detection is entirely object-based. We dont sniff.
 
@@ -1355,7 +1355,7 @@ Array.extend({
 
 });
 
-/* 
+/*
 Script: Function.js
 	Contains Function prototypes and utility functions .
 
@@ -1389,11 +1389,11 @@ Function.extend({
 				If set to a class name, the function will receive a new instance of this class (with the event passed as argument's constructor) as first argument.
 				Default is false.
 		arguments - A single argument or array of arguments that will be passed to the function when called.
-		
+
 					If both the event and arguments options are set, the event is passed as first argument and the arguments array will follow.
-					
+
 					Default is no custom arguments, the function will receive the standard arguments when called.
-					
+
 		delay - Numeric value: if set, the returned function will delay the actual execution by this amount of milliseconds and return a timer handle when called.
 				Default is no delay.
 		periodical - Numeric value: if set, the returned function will periodically perform the actual execution with this specified interval and return a timer handle when called.
@@ -3030,56 +3030,56 @@ Class: Elements
 */
 
 Elements.extend({
-	
+
 	/*
 	Property: filterByTag
 		Filters the collection by a specified tag name.
 		Returns a new Elements collection, while the original remains untouched.
 	*/
-	
+
 	filterByTag: function(tag){
 		return new Elements(this.filter(function(el){
 			return (Element.getTag(el) == tag);
 		}));
 	},
-	
+
 	/*
 	Property: filterByClass
 		Filters the collection by a specified class name.
 		Returns a new Elements collection, while the original remains untouched.
 	*/
-	
+
 	filterByClass: function(className, nocash){
 		var elements = this.filter(function(el){
 			return (el.className && el.className.contains(className, ' '));
 		});
 		return (nocash) ? elements : new Elements(elements);
 	},
-	
+
 	/*
 	Property: filterById
 		Filters the collection by a specified ID.
 		Returns a new Elements collection, while the original remains untouched.
 	*/
-	
+
 	filterById: function(id, nocash){
 		var elements = this.filter(function(el){
 			return (el.id == id);
 		});
 		return (nocash) ? elements : new Elements(elements);
 	},
-	
+
 	/*
 	Property: filterByAttribute
 		Filters the collection by a specified attribute.
 		Returns a new Elements collection, while the original remains untouched.
-		
+
 	Arguments:
 		name - the attribute name.
 		operator - optional, the attribute operator.
 		value - optional, the attribute value, only valid if the operator is specified.
 	*/
-	
+
 	filterByAttribute: function(name, operator, value, nocash){
 		var elements = this.filter(function(el){
 			var current = Element.getProperty(el, name);
@@ -3155,7 +3155,7 @@ function $ES(selector, filter){
 $$.shared = {
 
 	'regexp': /^(\w*|\*)(?:#([\w-]+)|\.([\w-]+))?(?:\[(\w+)(?:([!*^$]?=)["']?([^"'\]]*)["']?)?])?$/,
-	
+
 	'xpath': {
 
 		getParam: function(items, context, param, i){
@@ -3178,7 +3178,7 @@ $$.shared = {
 			items.push(temp.join(''));
 			return items;
 		},
-		
+
 		getItems: function(items, context, nocash){
 			var elements = [];
 			var xpath = document.evaluate('.//' + items.join('//'), context, $$.shared.resolver, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
@@ -3187,9 +3187,9 @@ $$.shared = {
 		}
 
 	},
-	
+
 	'normal': {
-		
+
 		getParam: function(items, context, param, i){
 			if (i == 0){
 				if (param[2]){
@@ -3323,11 +3323,11 @@ Element.extend({
 		}
 		return el;
 	}/*compatibility*/,
-	
-	getElementsByClassName: function(className){ 
-		return this.getElements('.' + className); 
+
+	getElementsByClassName: function(className){
+		return this.getElements('.' + className);
 	}
-	
+
 	/*end compatibility*/
 
 });
@@ -3626,8 +3626,8 @@ Element.Events.domready = {
 
 /*compatibility*/
 
-window.onDomReady = function(fn){ 
-	return this.addEvent('domready', fn); 
+window.onDomReady = function(fn){
+	return this.addEvent('domready', fn);
 };
 
 /*end compatibility*/
@@ -3635,7 +3635,7 @@ window.onDomReady = function(fn){
 /*
 Script: Window.Size.js
 	Window cross-browser dimensions methods.
-	
+
 Note:
 	The Functions in this script require an XHTML doctype.
 
@@ -3758,7 +3758,7 @@ var Drag = {};
 /*
 Class: Drag.Base
 	Modify two css properties of an element based on the position of the mouse.
-	
+
 Note:
 	Drag.Base requires an XHTML doctype.
 
@@ -3780,7 +3780,7 @@ Options:
 	limit:
 		x - array with start and end limit relative to modifiers.x
 		y - array with start and end limit relative to modifiers.y
-		
+
 Events:
 	onStart - optional, function to execute when the user starts to drag (on mousedown);
 	onComplete - optional, function to execute when the user completes the drag.
@@ -4060,7 +4060,7 @@ Options:
 	encoding - the encoding, defaults to utf-8.
 	autoCancel - cancels the already running request if another one is sent. defaults to false.
 	headers - accepts an object, that will be set to request headers.
-	
+
 Events:
 	onRequest - function to execute when the XHR request is fired.
 	onSuccess - function to execute when the XHR request completes.
@@ -4225,7 +4225,7 @@ Options:
 	update - $(element) to insert the response text of the XHR into, upon completion of the request.
 	evalScripts - boolean; default is false. Execute scripts in the response text onComplete. When the response is javascript the whole response is evaluated.
 	evalResponse - boolean; default is false. Force global evalulation of the whole response, no matter what content-type it is.
-	
+
 Events:
 	onComplete - function to execute when the ajax request completes.
 
@@ -4446,6 +4446,198 @@ var Json = {
 };
 
 /*
+Script: Hash.js
+	Contains the class Hash.
+
+License:
+	MIT-style license.
+*/
+
+/*
+Class: Hash
+	It wraps an object that it uses internally as a map. The user must use set(), get(), and remove() to add/change, retrieve and remove values, it must not access the internal object directly. null/undefined values are allowed.
+
+Note:
+	Each hash instance has the length property.
+
+Arguments:
+	obj - an object to convert into a Hash instance.
+
+Example:
+	(start code)
+	var hash = new Hash({a: 'hi', b: 'world', c: 'howdy'});
+	hash.remove('b'); // b is removed.
+	hash.set('c', 'hello');
+	hash.get('c'); // returns 'hello'
+	hash.length // returns 2 (a and c)
+	(end)
+*/
+
+var Hash = new Class({
+
+	length: 0,
+
+	initialize: function(object){
+		this.obj = object || {};
+		this.setLength();
+	},
+
+	/*
+	Property: get
+		Retrieves a value from the hash.
+
+	Arguments:
+		key - The key
+
+	Returns:
+		The value
+	*/
+
+	get: function(key){
+		return (this.hasKey(key)) ? this.obj[key] : null;
+	},
+
+	/*
+	Property: hasKey
+		Check the presence of a specified key-value pair in the hash.
+
+	Arguments:
+		key - The key
+
+	Returns:
+		True if the Hash contains a value for the specified key, otherwise false
+	*/
+
+	hasKey: function(key){
+		return (key in this.obj);
+	},
+
+	/*
+	Property: set
+		Adds a key-value pair to the hash or replaces a previous value associated with the key.
+
+	Arguments:
+		key - The key
+		value - The value
+	*/
+
+	set: function(key, value){
+		if (!this.hasKey(key)) this.length++;
+		this.obj[key] = value;
+		return this;
+	},
+
+	setLength: function(){
+		this.length = 0;
+		for (var p in this.obj) this.length++;
+		return this;
+	},
+
+	/*
+	Property: remove
+		Removes a key-value pair from the hash.
+
+	Arguments:
+		key - The key
+	*/
+
+	remove: function(key){
+		if (this.hasKey(key)){
+			delete this.obj[key];
+			this.length--;
+		}
+		return this;
+	},
+
+	/*
+	Property: each
+		Calls a function for each key-value pair. The first argument passed to the function will be the value, the second one will be the key, like $each.
+
+	Arguments:
+		fn - The function to call for each key-value pair
+		bind - Optional, the object that will be referred to as "this" in the function
+	*/
+
+	each: function(fn, bind){
+		$each(this.obj, fn, bind);
+	},
+
+	/*
+	Property: extend
+		Extends the current hash with an object containing key-value pairs. Values for duplicate keys will be replaced by the new ones.
+
+	Arguments:
+		obj - An object containing key-value pairs
+	*/
+
+	extend: function(obj){
+		$extend(this.obj, obj);
+		return this.setLength();
+	},
+
+	/*
+	Property: merge
+		Merges the current hash with multiple objects.
+	*/
+
+	merge: function(){
+		this.obj = $merge.apply(null, [this.obj].extend(arguments));
+		return this.setLength();
+	},
+
+	/*
+	Property: empty
+		Empties all hash values properties and values.
+	*/
+
+	empty: function(){
+		this.obj = {};
+		this.length = 0;
+		return this;
+	},
+
+	/*
+	Property: keys
+		Returns an array containing all the keys, in the same order as the values returned by <Hash.values>.
+
+	Returns:
+		An array containing all the keys of the hash
+	*/
+
+	keys: function(){
+		var keys = [];
+		for (var property in this.obj) keys.push(property);
+		return keys;
+	},
+
+	/*
+	Property: values
+		Returns an array containing all the values, in the same order as the keys returned by <Hash.keys>.
+
+	Returns:
+		An array containing all the values of the hash
+	*/
+
+	values: function(){
+		var values = [];
+		for (var property in this.obj) values.push(this.obj[property]);
+		return values;
+	}
+
+});
+
+/* Section: Utility Functions */
+
+/*
+Function: $H
+	Shortcut to create a Hash from an Object.
+*/
+
+function $H(obj){
+	return new Hash(obj);
+};
+
+/*
 Script: Tips.js
 	Tooltips, BubbleTips, whatever they are, they will appear on mouseover
 
@@ -4482,7 +4674,7 @@ Options:
 
 	offsets - the distance of your tooltip from the mouse. an Object with x/y properties.
 	fixed - if set to true, the toolTip will not follow the mouse.
-	
+
 Events:
 	onShow - optionally you can alter the default onShow behaviour with this option (like displaying a fade in effect);
 	onHide - optionally you can alter the default onHide behaviour with this option (like displaying a fade out effect);

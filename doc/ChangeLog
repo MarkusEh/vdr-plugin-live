@@ -1,8 +1,17 @@
+2007-12-17  Dieter Hametner  <dh+vdr at gekrumbel dot de>
+
+	- Adapted Rolf Ahrenbergs patch for VLC plugin streaming to the
+	  browser window using streamdev-server plugin on VDR.  See
+	  Bug-Entry #343.  You can stream current running program from the
+	  "whats_on now" schedules page into an extra browser window if
+	  javascript is active.  Otherwise you get redirected onto a
+	  dedicated new live streaming page.
+
 2007-10-21  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
 	- Renamed recordings.h/cpp files to recman.h/cpp. Adapted
 	  files that included them.
-	- recman.h have extended functionality for recordings. It is not used
+	- recman.h has extended functionality for recordings. It is not used
 	  yet.
 
 2007-10-17  Dieter Hametner  <dh+vdr at gekrumbel dot de>

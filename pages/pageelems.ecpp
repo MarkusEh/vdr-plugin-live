@@ -149,6 +149,7 @@ int update_status(1);
 	<script type="text/javascript" src="js/live/liveajax.js"></script>
 	<script type="text/javascript" src="js/live/infowin.js"></script>
 	<script type="text/javascript" src="js/live/hinttips.js"></script>
+	<script type="text/javascript" src="js/live/browserwin.js"></script>
 	<script type="text/javascript" src="js/live/pageenhance.js"></script>
 	<script type="text/javascript"><!--
 		var liveEnhanced = new PageEnhance({
@@ -230,6 +231,11 @@ int update_status(1);
 	<a href="searchresults.html?searchplain=<$ StringEscapeAndBreak(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a>
 <%cpp>
 		}
+		if (LiveSetup().GetUseStreamdev() && elapsed > 0 && LiveFeatures<features::streamdev_server>().Loaded()) {
+</%cpp>
+	<a href="vlc.html?channel=<$ channelId $>"><img src="<$ LiveSetup().GetThemedLink("img", "play.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into browser.")) &>></img></a>
+<%cpp>
+		}
 </%cpp>
 	<a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a>
 <%cpp>
@@ -239,6 +245,7 @@ int update_status(1);
 		<td class="action leftcol <? lastCurrentChanel ? "bottomrow"?>"><& pageelems.event_timer epgid=(epgid) &></td>
 		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><%cpp>if (elapsed > 0) { </%cpp><& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channelId) image="zap.png" alt="" &><%cpp> } </%cpp></td>
 		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><%cpp>if (LiveFeatures<features::epgsearch>().Recent()) { </%cpp><a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a><%cpp> } else { </%cpp><img src="transparent.png" width="16" height="16"><%cpp> } </%cpp></td>
+		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><%cpp>if (LiveSetup().GetUseStreamdev() && elapsed > 0 && LiveFeatures<features::streamdev_server>().Loaded()) { </%cpp><a href="vlc.html?channel=<$ channelId $>"><img src="<$ LiveSetup().GetThemedLink("img", "play.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into browser.")) &>></img></a><%cpp> } else { </%cpp><img src="transparent.png" width="16" height="16"><%cpp> } </%cpp></td>
 		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a></td>
 <%cpp>
 	}
@@ -319,18 +326,44 @@ int update_status(1);
 				<div class="about_right"><$ LIVEVERSION $></div>
 				<div class="about_left"><$ tr("VDR version") $>:</div>
 				<div class="about_right"><$ VDRVERSION $></div>
-				<div class="about_left"><$ tr("Features") $>:</div>
+				<div class="about_head"><div><div><$ tr("Features") $></div></div></div>
+				<div class="about_left">EPGsearch:</div>
 				<div class="about_right">
-<{
+<%cpp>
 					Features< features::epgsearch >& epgsearch = LiveFeatures< features::epgsearch >();
-}>
-					<img align="center" src="<$ LiveSetup().GetThemedLink("img", epgsearch.Recent() ? "active.png" : "inactive.png") $>"/> EPGsearch
-%					if ( epgsearch.Recent() ) {
-						(<$ tr("active") $>: <$ epgsearch.Version() $>)
-%					} else {
-						(<$ tr("required") $>: <$ epgsearch.MinVersion() $>)
-%					}
+</%cpp>
+					<img align="center" src="<$ LiveSetup().GetThemedLink("img", epgsearch.Recent() ? "active.png" : "inactive.png") $>"/>
+<%cpp>
+					if ( epgsearch.Recent() ) {
+</%cpp>
+						<$ tr("active") $>: <$ epgsearch.Version() $>
+<%cpp>
+					} else {
+</%cpp>
+						<$ tr("required") $>: <$ epgsearch.MinVersion() $>
+<%cpp>
+					}
+</%cpp>
 					(<a href="http://winni.vdr-developer.org/epgsearch/index.html" target="_blank"><$ tr("Homepage") $></a>)<br/>
+				</div>
+				<div class="about_left">Streamdev server:</div>
+				<div class="about_right">
+<%cpp>
+					Features< features::streamdev_server >& streamdev = LiveFeatures< features::streamdev_server >();
+</%cpp>
+					<img align="center" src="<$ LiveSetup().GetThemedLink("img", streamdev.Loaded() ? "active.png" : "inactive.png") $>"/>
+<%cpp>
+					if ( streamdev.Loaded() ) {
+</%cpp>
+						<$ tr("active") $>: <$ streamdev.Version() $>
+<%cpp>
+					} else {
+</%cpp>
+						<$ tr("required") $>: <$ streamdev.MinVersion() $>
+<%cpp>
+					}
+</%cpp>
+					(<a href="http://streamdev.vdr-developer.org/" target="_blank"><$ tr("Homepage") $></a>)<br/>
 				</div>
 				<div class="about_head"><div><div><$ tr("Bugs and suggestions") $></div></div></div>
 				<div class="about_line"><$ tr("If you encounter any bugs or would like to suggest new features, please use our bugtracker") $>:<br/>

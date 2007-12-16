@@ -48,6 +48,8 @@ class Setup
 		bool GetShowLogo() const { return m_showLogo != 0; }
 		bool GetUseAjax() const { return m_useAjax != 0; }
 		bool GetShowInfoBox() const { return m_showInfoBox != 0; }
+		bool GetUseStreamdev() const { return m_useStreamdev != 0; }
+		int GetStreamdevPort() const { return m_streamdevPort; }
 		std::string GetEpgImageDir() { return m_epgimagedir; }
 
 		void SetLastChannel(int lastChannel) { m_lastChannel = lastChannel; }
@@ -64,6 +66,8 @@ class Setup
 		void SetShowLogo(bool show) { m_showLogo = show ? 1 : 0; }
 		void SetUseAjax(bool use) { m_useAjax = use ? 1 : 0; }
 		void SetShowInfoBox(bool show) { m_showInfoBox = show ? 1 : 0; }
+		void SetUseStreamdev(bool use) { m_useStreamdev = use ? 1 : 0; }
+		void SetStreamdevPort(int port) { m_streamdevPort = port; }
 
 		bool SaveSetup();
 
@@ -72,8 +76,8 @@ class Setup
 
 		bool ParseSetupEntry( char const* name, char const* value );
 
-		bool HaveEPGSearch(void);
 		bool CheckLocalNet(const std::string& ip);
+
 
 	private:
 		Setup();
@@ -105,6 +109,8 @@ class Setup
 		int m_showLogo;
 		int m_useAjax;
 		int m_showInfoBox;
+		int m_useStreamdev;
+		int m_streamdevPort;
 
 		bool CheckServerPort();
 		bool CheckServerIps();

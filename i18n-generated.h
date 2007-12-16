@@ -327,7 +327,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Error in timer settings",
-    "",
+    "Fehler in den Timer Einstellungen",
     "",
     "",
     "",
@@ -362,7 +362,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Timer already defined",
-    "",
+    "Timer ist bereits vorhanden",
     "",
     "",
     "",
@@ -397,7 +397,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Timers are being edited - try again later",
-    "",
+    "Timer werden bearbeitet - später nochmal versuchen",
     "",
     "",
     "",
@@ -432,7 +432,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Timer not defined",
-    "",
+    "Timer wurde nicht erstellt",
     "",
     "",
     "",
@@ -747,7 +747,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Wrong channel id",
-    "",
+    "Fehlerhafte Kanal Id",
     "",
     "",
     "",
@@ -782,7 +782,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Channel has no schedule",
-    "",
+    "Kanal hat keine Programminfos",
     "",
     "",
     "",
@@ -922,7 +922,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "FTA",
-    "",
+    "FTA",
     "",
     "",
     "",
@@ -1097,7 +1097,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "channels",
-    "",
+    "Kanäle",
     "",
     "",
     "",
@@ -5856,6 +5856,41 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
+  { "Stream this channel into browser.",
+    "Sendung im Browser anzeigen.",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
   { "Find more at the Internet Movie Database.",
     "Weitere Informationen in der Internet Movie Database.",
     "",
@@ -6381,6 +6416,41 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
+  { "RecDate",
+    "Aufnahmedatum",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
   { "List of recordings",
     "Liste der Aufnahmen",
     "",
@@ -6767,7 +6837,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "no",
-    "",
+    "nein",
     "",
     "",
     "",
@@ -6907,7 +6977,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Channel",
-    "",
+    "Kanal",
     "",
     "",
     "",
@@ -7222,7 +7292,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Setup",
-    "",
+    "Einstellungen",
     "",
     "",
     "",
@@ -7370,6 +7440,76 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "Näytä dynaaminen VDR:n infolaatikko",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Allow video streaming",
+    "Erlaube Videoanzeige im Browser",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "Näytä Live-logo",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "streamdev server port",
+    "Streamdev Server Port",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
     "",
     "",
     "",
@@ -7641,6 +7781,41 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
+  { "VLC: live video stream",
+    "VLC: Video Stream",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
   { "What's running at",
     "Was läuft um",
     "",
@@ -7677,7 +7852,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "What's on next?",
-    "",
+    "Was läuft als nächstes?",
     "",
     "",
     "",

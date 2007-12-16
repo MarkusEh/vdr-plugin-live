@@ -21,6 +21,8 @@ using namespace std;
 	string showLogo;
 	string useAjax;
 	string showInfoBox;
+	string useStreamdev;
+	string streamdevport;
 	int authchanged = 0;
 </%args>
 <%session scope="global">
@@ -57,6 +59,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			if (LiveSetup().GetUseAjax()) {
 				LiveSetup().SetShowInfoBox(!showInfoBox.empty());
 			}
+			LiveSetup().SetUseStreamdev(!useStreamdev.empty());
+			LiveSetup().SetStreamdevPort(streamdevport.empty() ? 3000 : lexical_cast<int>(streamdevport));
 			LiveSetup().SaveSetup();
 			message = tr("Setup saved.");
 		}
@@ -77,6 +81,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	showLogo = LiveSetup().GetShowLogo() ? "1" : "";
 	useAjax = LiveSetup().GetUseAjax() ? "1" : "";
 	showInfoBox = LiveSetup().GetShowInfoBox() ? "1" : "";
+	useStreamdev = LiveSetup().GetUseStreamdev() ? "1" : "";
+	streamdevport = lexical_cast<std::string, int>(LiveSetup().GetStreamdevPort());
 
 </%cpp>
 <& pageelems.doc_type &>
@@ -90,6 +96,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		{
 			changeduseauth(document.getElementById("useauth"));
 			changeduseajax(document.getElementById("useAjax"));
+			changedusestreamdev(document.getElementById("useStreamdev"));
 			if (document.getElementById("message").value != "")
 				alert(document.getElementById("message").value);
 		}
@@ -104,6 +111,10 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		function changeduseajax(selection)
 		{
 			document.getElementById("ajaxsection").style.display = (selection.checked ? "block" : "none");
+		}
+		function changedusestreamdev(selection)
+		{
+			document.getElementById("streamdevsection").style.display = (selection.checked ? "block" : "none");
 		}
 		//--></script>
 	</head>
@@ -159,6 +170,20 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 							<tr>
 								<td class="label"><div class="withmargin"><$ tr("Show dynamic VDR information box") $>:</div></td>
 								<td><input type="checkbox" name="showInfoBox" id="showInfoBox" value="1" <%cpp> CHECKIF(!showInfoBox.empty()); </%cpp>/></td>
+							</tr>
+							</table>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Allow video streaming") $>:</div></td>
+						<td class="rightcol">
+							<input type="checkbox" name="useStreamdev" id="useStreamdev" value="1" <%cpp> CHECKIF(!useStreamdev.empty()); </%cpp> onclick="changedusestreamdev(this)"/>
+							<div id="streamdevsection" style="display: none">
+							<table border="0" cellpadding="0" cellspacing="0" class="dependent">
+							<tr>
+								<td class="label"><div class="withmargin"><$ tr("streamdev server port") $>:</div></td>
+								<td><input type="text" name="streamdevport" id="streamdevport" value="<$ streamdevport $>" /></td>
 							</tr>
 							</table>
 							</div>

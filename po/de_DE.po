@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2007-10-25 18:35+0200\n"
+"POT-Creation-Date: 2007-12-16 23:49+0100\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Klaus Schmidinger <kls@cadsoft.de>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -44,16 +44,16 @@ msgid "Searchtimer"
 msgstr "Suchtimer"
 
 msgid "Error in timer settings"
-msgstr ""
+msgstr "Fehler in den Timer Einstellungen"
 
 msgid "Timer already defined"
-msgstr ""
+msgstr "Timer ist bereits vorhanden"
 
 msgid "Timers are being edited - try again later"
-msgstr ""
+msgstr "Timer werden bearbeitet - später nochmal versuchen"
 
 msgid "Timer not defined"
-msgstr ""
+msgstr "Timer wurde nicht erstellt"
 
 msgid "On archive DVD No."
 msgstr "Auf Archiv-DVD Nr."
@@ -80,10 +80,10 @@ msgid "Epg error"
 msgstr "EPG Fehler"
 
 msgid "Wrong channel id"
-msgstr ""
+msgstr "Fehlerhafte Kanal Id"
 
 msgid "Channel has no schedule"
-msgstr ""
+msgstr "Kanal hat keine Programminfos"
 
 msgid "Wrong event id"
 msgstr ""
@@ -95,7 +95,7 @@ msgid "All"
 msgstr "Alle"
 
 msgid "FTA"
-msgstr ""
+msgstr "FTA"
 
 msgid "%I:%M %p"
 msgstr "%H:%M Uhr"
@@ -110,7 +110,7 @@ msgid "Couldn't grab image from primary device"
 msgstr ""
 
 msgid "channels"
-msgstr ""
+msgstr "Kanäle"
 
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr ""
@@ -517,6 +517,9 @@ msgstr "Zu diesem Kanal umschalten."
 msgid "Search for repeats."
 msgstr "Nach Wiederholungen suchen."
 
+msgid "Stream this channel into browser."
+msgstr "Sendung im Browser anzeigen."
+
 msgid "Find more at the Internet Movie Database."
 msgstr "Weitere Informationen in der Internet Movie Database."
 
@@ -562,6 +565,9 @@ msgstr "Fehlerberichte und Vorschläge"
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
 msgstr "Für Fehler oder Verbesserungsvorschläge steht unser Bugtracker bereit"
 
+msgid "RecDate"
+msgstr "Aufnahmedatum"
+
 msgid "List of recordings"
 msgstr "Liste der Aufnahmen"
 
@@ -596,7 +602,7 @@ msgid "Extended search"
 msgstr "Erweiterte Suche"
 
 msgid "no"
-msgstr ""
+msgstr "nein"
 
 msgid "Search results"
 msgstr "Suchergebnisse"
@@ -608,7 +614,7 @@ msgid "Expression"
 msgstr "Suchbegriff"
 
 msgid "Channel"
-msgstr ""
+msgstr "Kanal"
 
 msgid "Starts between"
 msgstr "Beginnt zwischen"
@@ -635,7 +641,7 @@ msgid "Setup saved."
 msgstr "Einstellungen gespeichert."
 
 msgid "Setup"
-msgstr ""
+msgstr "Einstellungen"
 
 msgid "Local net (no login required)"
 msgstr "Lokales Netz (keine Anmeldung notwendig)"
@@ -648,6 +654,12 @@ msgstr "Verwende AJAX Technologie"
 
 msgid "Show dynamic VDR information box"
 msgstr "Zeige dynamische VDR Status Box"
+
+msgid "Allow video streaming"
+msgstr "Erlaube Videoanzeige im Browser"
+
+msgid "streamdev server port"
+msgstr "Streamdev Server Port"
 
 msgid "additional fixed times in 'What's on?'"
 msgstr "zusätzliche Zeitpunkte in 'Was läuft?'"
@@ -670,11 +682,14 @@ msgstr "Timer aktiv/inaktiv schalten"
 msgid "Delete timer"
 msgstr "Timer löschen"
 
+msgid "VLC: live video stream"
+msgstr "VLC: Video Stream"
+
 msgid "What's running at"
 msgstr "Was läuft um"
 
 msgid "What's on next?"
-msgstr ""
+msgstr "Was läuft als nächstes?"
 
 msgid "%a, %b %d"
 msgstr "%a, %d.%m."
@@ -702,3 +717,7 @@ msgstr "Ausführliche Ansicht"
 
 msgid "List view"
 msgstr "Listenansicht"
+
+#, fuzzy
+#~ msgid "Watch channel"
+#~ msgstr "bis Kanal"

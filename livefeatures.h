@@ -63,6 +63,11 @@ namespace features
 		static const char* MinVersion() { return "0.9.23.beta10"; }
 	};
 
+	struct streamdev_server
+	{
+		static const char* Plugin() { return "streamdev-server"; }
+		static const char* MinVersion() { return "none"; }
+	};
 } // namespace features
 
 } // namespace vdrlive
