@@ -1,7 +1,7 @@
 #
 # Makefile for a Video Disk Recorder plugin
 #
-# $Id: Makefile,v 1.55 2007/12/17 21:24:33 tadi Exp $
+# $Id: Makefile,v 1.56 2007/12/17 21:57:29 tadi Exp $
 
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.
