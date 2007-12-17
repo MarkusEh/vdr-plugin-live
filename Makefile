@@ -1,7 +1,7 @@
 #
 # Makefile for a Video Disk Recorder plugin
 #
-# $Id: Makefile,v 1.54 2007/12/02 19:29:35 winni Exp $
+# $Id: Makefile,v 1.55 2007/12/17 21:24:33 tadi Exp $
 
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.
@@ -42,7 +42,7 @@ TMPDIR	 ?= /tmp
 
 APIVERSION = $(shell sed -ne '/define APIVERSION/s/^.*"\(.*\)".*$$/\1/p' $(VDRDIR)/config.h)
 I18NTARG   = $(shell if [ `echo $(APIVERSION) | tr [.] [0]` -ge "10507" ]; then echo "i18n"; fi)
-TNTVERS7   = $(shell if [ `tntnet-config --version | sed -e's/\.//g'` -ge "1606" ]; then echo "yes"; fi)
+TNTVERS7   = $(shell ver=`tntnet-config --version | sed -e's/\.//g'`; ver=$$(($$ver<100?$$ver*100:($$ver<1000?$$ver*10:$$ver))); if [ $$ver -ge "1606" ]; then echo "yes"; fi)
 
 ### The name of the distribution archive:
 
