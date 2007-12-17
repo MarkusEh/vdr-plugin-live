@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2007-12-16 23:49+0100\n"
+"POT-Creation-Date: 2007-12-17 23:42+0100\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Nicolas Huillard <nhuillard@e-dition.fr>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -679,6 +679,13 @@ msgstr "Thème"
 
 msgid "No timer defined"
 msgstr "Aucune programmation définie"
+
+#, fuzzy
+msgid "Timer is recording."
+msgstr "Enregistrement de série"
+
+msgid "Timer is active."
+msgstr ""
 
 msgid "Toggle timer active/inactive"
 msgstr "Programmation basculer actif/inactif"
