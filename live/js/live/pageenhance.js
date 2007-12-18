@@ -14,7 +14,7 @@ var PageEnhance = new Class({
 		  actionLinkSelector: 'a[href^="vdr_request/"]',
 		  vlcLinkSelector: 'a[href^="vlc.html?channel"]',
 		  vlcWinOptions: {
-			  size: { width: 420, height: 370 }
+			  size: { width: 740, height: 640 }
 			},
 		  hintTipSelector: '*[title]',
 		  hintClassName: 'hint',

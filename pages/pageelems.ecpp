@@ -59,46 +59,6 @@ int update_status(1);
 
 <# ---------------------------------------------------------------------- #>
 
-<%def infobox>
-<div id="infobox">
-	<div class="statuscontent">
-		<div class="st_header">
-			<div id="infobox_caption" class="caption"><$ tr("retrieving status ...") $></div>
-			<div id="infobox_timenow" class="now">--:--</div>
-		</div>
-		<div class="st_content">
-			<div id="infobox_name" class="name"></div>
-			<div id="infobox_duration" class="duration">--:--</div>
-		</div>
-		<div class="st_controls">
-			<div class="st_update">
-				<a href="javascript:InfoBox.toggleUpdate()" <& tooltip.hint text=(tr("Toggle updates on/off.")) &>><img id="statusReloadBtn" src="<$ LiveSetup().GetThemedLink("img", "stop_update.png") $>" alt="" /></a>
-			</div>
-			<div id="infobox_recording_buttons" style="display: none">
-				<& ajax_action_href action=("stop_recording") id=("infobox_stop") image=("stop.png") tip=(tr("stop playback")) &>
-				<& ajax_action_href action=("play_recording") id=("infobox_play") image=("play.png") tip=(tr("resume playback")) &>
-				<& ajax_action_href action=("pause_recording") id=("infobox_pause") image=("pause.png") tip=(tr("pause playback")) &>
-				<& ajax_action_href action=("rwd_recording") id=("infobox_rwd") image=("rwd.png") tip=(tr("fast rewind")) &>
-				<& ajax_action_href action=("ffw_recording") id=("infobox_ffw") image=("ffw.png") tip=(tr("fast forward")) &>
-			</div>
-			<div id="infobox_channel_buttons">
-				<& ajax_action_href action=("switch_channel") id=("infobox_prevchan") image=("one_downarrow.png") tip=(tr("previous channel")) &>
-				<& ajax_action_href action=("switch_channel") id=("infobox_nextchan") image=("one_uparrow.png") tip=(tr("next channel")) &>
-			</div>
-			<div class="st_pbar">
-				<& progressbar id=("infobox_elapsed") &>
-			</div>
-		</div>
-	</div>
-	<div style="display: none;">
-		<span id="__infobox_request_err"><$ tr("No server response!") $></span>
-		<span id="__infobox_update_err"><$ tr("Failed to update infobox!") $></span>
-	</div>
-</div>
-</%def>
-
-<# ---------------------------------------------------------------------- #>
-
 <%def hide_element>
 <%args>
 	bool hide = true;
@@ -114,6 +74,29 @@ int update_status(1);
 	string id;
 </%args>
 <div class="__progress"><div class="__elapsed" <%cpp> if (!id.empty()) { </%cpp>id="<$ id $>"<%cpp> } </%cpp> style="width: <$ progress $>px"></div></div>
+</%def>
+
+<# ---------------------------------------------------------------------- #>
+
+<%def ajax_action_href>
+<%args>
+	string action;
+	string tip;
+	string param;
+	string image;
+	string alt;
+	string id;
+</%args>
+<%cpp> { </%cpp> <a <%cpp> if (!id.empty()) { </%cpp> id="<$ id $>" <%cpp> } </%cpp><& hide_element hide=(!id.empty()) &> href="vdr_request/<$ action $>?param=<$ param $>" <%cpp>if (!tip.empty()) { </%cpp><& tooltip.hint text=(tip) &> <%cpp> } </%cpp>><img src="<$ LiveSetup().GetThemedLink("img", image) $>" alt="<$ alt $>"></img></a> <%cpp> } </%cpp>
+</%def>
+
+<# ---------------------------------------------------------------------- #>
+
+<%def imdb_info_href>
+<%args>
+	string title;
+</%args>
+<%cpp> { </%cpp> <a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(title) $>" target="_blank"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a> <%cpp> } </%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -188,16 +171,42 @@ int update_status(1);
 
 <# ---------------------------------------------------------------------- #>
 
-<%def ajax_action_href>
-<%args>
-	string action;
-	string tip;
-	string param;
-	string image;
-	string alt;
-	string id;
-</%args>
-<%cpp> { </%cpp> <a <%cpp> if (!id.empty()) { </%cpp> id="<$ id $>" <%cpp> } </%cpp><& hide_element hide=(!id.empty()) &> href="vdr_request/<$ action $>?param=<$ param $>" <%cpp>if (!tip.empty()) { </%cpp><& tooltip.hint text=(tip) &> <%cpp> } </%cpp>><img src="<$ LiveSetup().GetThemedLink("img", image) $>" alt="<$ alt $>"></img></a> <%cpp> } </%cpp>
+<%def infobox>
+<div id="infobox">
+	<div class="statuscontent">
+		<div class="st_header">
+			<div id="infobox_caption" class="caption"><$ tr("retrieving status ...") $></div>
+			<div id="infobox_timenow" class="now">--:--</div>
+		</div>
+		<div class="st_content">
+			<div id="infobox_name" class="name"></div>
+			<div id="infobox_duration" class="duration">--:--</div>
+		</div>
+		<div class="st_controls">
+			<div class="st_update">
+				<a href="javascript:InfoBox.toggleUpdate()" <& tooltip.hint text=(tr("Toggle updates on/off.")) &>><img id="statusReloadBtn" src="<$ LiveSetup().GetThemedLink("img", "stop_update.png") $>" alt="" /></a>
+			</div>
+			<div id="infobox_recording_buttons" style="display: none">
+				<& ajax_action_href action=("stop_recording") id=("infobox_stop") image=("stop.png") tip=(tr("stop playback")) &>
+				<& ajax_action_href action=("play_recording") id=("infobox_play") image=("play.png") tip=(tr("resume playback")) &>
+				<& ajax_action_href action=("pause_recording") id=("infobox_pause") image=("pause.png") tip=(tr("pause playback")) &>
+				<& ajax_action_href action=("rwd_recording") id=("infobox_rwd") image=("rwd.png") tip=(tr("fast rewind")) &>
+				<& ajax_action_href action=("ffw_recording") id=("infobox_ffw") image=("ffw.png") tip=(tr("fast forward")) &>
+			</div>
+			<div id="infobox_channel_buttons">
+				<& ajax_action_href action=("switch_channel") id=("infobox_prevchan") image=("one_downarrow.png") tip=(tr("previous channel")) &>
+				<& ajax_action_href action=("switch_channel") id=("infobox_nextchan") image=("one_uparrow.png") tip=(tr("next channel")) &>
+			</div>
+			<div class="st_pbar">
+				<& progressbar id=("infobox_elapsed") &>
+			</div>
+		</div>
+	</div>
+	<div style="display: none;">
+		<span id="__infobox_request_err"><$ tr("No server response!") $></span>
+		<span id="__infobox_update_err"><$ tr("Failed to update infobox!") $></span>
+	</div>
+</div>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -237,7 +246,7 @@ int update_status(1);
 <%cpp>
 		}
 </%cpp>
-	<a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a>
+	<& pageelems.imdb_info_href title=(title) &>
 <%cpp>
 	}
 	else { // table output
@@ -246,7 +255,7 @@ int update_status(1);
 		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><%cpp>if (elapsed > 0) { </%cpp><& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channelId) image="zap.png" alt="" &><%cpp> } </%cpp></td>
 		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><%cpp>if (LiveFeatures<features::epgsearch>().Recent()) { </%cpp><a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a><%cpp> } else { </%cpp><img src="transparent.png" width="16" height="16"><%cpp> } </%cpp></td>
 		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><%cpp>if (LiveSetup().GetUseStreamdev() && elapsed > 0 && LiveFeatures<features::streamdev_server>().Loaded()) { </%cpp><a href="vlc.html?channel=<$ channelId $>"><img src="<$ LiveSetup().GetThemedLink("img", "play.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into browser.")) &>></img></a><%cpp> } else { </%cpp><img src="transparent.png" width="16" height="16"><%cpp> } </%cpp></td>
-		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a></td>
+		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><& pageelems.imdb_info_href title=(title) &></td>
 <%cpp>
 	}
 </%cpp>
@@ -272,7 +281,7 @@ int update_status(1);
 		</div>
 		<div class="epg_content">
 			<div class="epg_tools">
-				<& (tools_comp) id=(boxId) archived=(archived) detail=(1) &>
+				<& (tools_comp) id=(boxId) archived=(archived) detail=(1) title=(title) &>
 			</div>
 		 	<div class="epg_info">
 				<div class="info"><%cpp> if (!archived.empty()) { </%cpp><span class="bold"><$ (archived + " ") $></span><%cpp> } </%cpp><$ (time) $></div>
@@ -302,6 +311,8 @@ int update_status(1);
 		</div>
 	</div>
 </%def>
+
+<# ---------------------------------------------------------------------- #>
 
 <%def about_tt_box>
 	<div class="epg_description" id="aboutBox">

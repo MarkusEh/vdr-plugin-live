@@ -114,8 +114,10 @@ for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 <%def rec_tools>
 <%args>
 	string id;
+	string title;
 </%args>
 <& pageelems.ajax_action_href action="play_recording" param=(id) tip=(tr("play this recording.")) image="play.png" alt="" &>
+<& pageelems.imdb_info_href title=(title) &>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -123,8 +125,10 @@ for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 <%def archived_disc>
 <%args>
 	string archived;
+	string title;
 </%args>
 <img src="<$ LiveSetup().GetThemedLink("img", "on_dvd.png") $>" alt="on_dvd" <& tooltip.hint text=(archived) &> />
+<& pageelems.imdb_info_href title=(title) &>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -171,7 +175,7 @@ for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 <%cpp>
 		if (archived.empty()) {
 </%cpp>
-		<& pageelems.ajax_action_href action="play_recording" param=(id) tip=(tr("play this recording.")) image="play.png" alt="" &>
+		<& recordings.rec_tools id=(id) title=(name)&>
 <%cpp>
 	    }
 		else {
@@ -180,8 +184,10 @@ for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 <%cpp>
 		}
 </%cpp>
+		<!-- not supported yet ...
 		<img src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="" />
 		<img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" />
+        -->
 	</div>
 <%cpp>
 	if (! archived.empty()) {

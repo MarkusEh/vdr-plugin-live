@@ -145,7 +145,8 @@ using namespace std;
 <%def epgTools>
 <%args>
 string id;
+string title;
 int detail;
 </%args>
-<& pageelems.epg_tool_box detail=(detail) epgid=(id) title=(epgEvent->Title()) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) &>
+<& pageelems.epg_tool_box detail=(detail) epgid=(id) title=(title) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) &>
 </%def>

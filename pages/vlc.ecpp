@@ -41,10 +41,10 @@ using namespace vdrlive;
 <html>
 	<head>
 		<title>VDR-Live - <$ pageTitle $></title>
+		<& pageelems.stylesheets &>
 <%cpp>
 	if (!asyncReq) {
 </%cpp>
-		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
 <%cpp>
 	}
@@ -63,10 +63,12 @@ using namespace vdrlive;
 <%cpp>
 		if ( Channel != 0 ) {
 			int streamdevPort = LiveSetup().GetStreamdevPort();
-			string videourl = string("http://") + request.getServerIp() + ":" + lexical_cast<string,int>(streamdevPort) + "/" + *Channel->GetChannelID().ToString();
+			// string videourl = string("http://") + "192.168.96.30" + ":" + lexical_cast<string,int>(streamdevPort) + "/TS/" + *Channel->GetChannelID().ToString();
+			string videourl = string("http://") + request.getServerIp() + ":" + lexical_cast<string,int>(streamdevPort) + "/TS/" + *Channel->GetChannelID().ToString();
 </%cpp>
 			<embed type="application/x-vlc-plugin" name="video1" autoplay="yes" loop="yes" width="720" height="576" target="<$ videourl $>" />
 	   		<& vlc.channel_selection &>
+			<!-- <p><$ videourl $></p> -->
 <%cpp>
 		}
 </%cpp>

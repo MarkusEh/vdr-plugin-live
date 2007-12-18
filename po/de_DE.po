@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2007-12-18 23:41+0100\n"
+"POT-Creation-Date: 2007-12-19 00:28+0100\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Klaus Schmidinger <kls@cadsoft.de>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -50,7 +50,7 @@ msgid "Timer already defined"
 msgstr "Timer ist bereits vorhanden"
 
 msgid "Timers are being edited - try again later"
-msgstr "Timer werden bearbeitet - später nochmal versuchen"
+msgstr "Timer werden bearbeitet - spï¿½ter nochmal versuchen"
 
 msgid "Timer not defined"
 msgstr "Timer wurde nicht erstellt"
@@ -89,7 +89,7 @@ msgid "Wrong event id"
 msgstr ""
 
 msgid "Required minimum version of epgsearch: "
-msgstr "Benötigte Mindestversion von epgsearch: "
+msgstr "Benï¿½tigte Mindestversion von epgsearch: "
 
 msgid "All"
 msgstr "Alle"
@@ -110,7 +110,7 @@ msgid "Couldn't grab image from primary device"
 msgstr ""
 
 msgid "channels"
-msgstr "Kanäle"
+msgstr "Kanï¿½le"
 
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr ""
@@ -149,7 +149,7 @@ msgid "match exactly"
 msgstr "exakt"
 
 msgid "regular expression"
-msgstr "regulärer Ausdruck"
+msgstr "regulï¿½rer Ausdruck"
 
 msgid "fuzzy"
 msgstr "unscharf"
@@ -158,7 +158,7 @@ msgid "Tolerance"
 msgstr "Toleranz"
 
 msgid "Match case"
-msgstr "Groß/klein"
+msgstr "Groï¿½/klein"
 
 msgid "Search in"
 msgstr "Suche in"
@@ -206,13 +206,13 @@ msgid "Start after"
 msgstr "Start nach"
 
 msgid "The time the show may start at the earliest"
-msgstr "Die Zeit, zu der die Sendung frühestens anfangen darf"
+msgstr "Die Zeit, zu der die Sendung frï¿½hestens anfangen darf"
 
 msgid "Start before"
 msgstr "Start vor"
 
 msgid "The time the show may start at the latest"
-msgstr "Die Zeit, zu der die Sendung spätestens angefangen haben muss"
+msgstr "Die Zeit, zu der die Sendung spï¿½testens angefangen haben muss"
 
 msgid "Use duration"
 msgstr "Verw. Dauer"
@@ -257,7 +257,7 @@ msgid "all"
 msgstr "alle"
 
 msgid "Use in favorites menu"
-msgstr "In Favoritenmenü verw."
+msgstr "In Favoritenmenï¿½ verw."
 
 msgid "Use as search timer"
 msgstr "Als Suchtimer verwenden"
@@ -275,7 +275,7 @@ msgid "Record"
 msgstr "Aufnehmen"
 
 msgid "Announce only"
-msgstr "Nur ankündigen"
+msgstr "Nur ankï¿½ndigen"
 
 msgid "Switch only"
 msgstr "Nur umschalten"
@@ -287,7 +287,7 @@ msgid "Directory"
 msgstr "Verzeichnis"
 
 msgid "Delete recordings after ... days"
-msgstr "Aufn. nach ... Tagen löschen"
+msgstr "Aufn. nach ... Tagen lï¿½schen"
 
 msgid "Keep ... recordings"
 msgstr "Behalte ... Aufnahmen"
@@ -320,7 +320,7 @@ msgid "Use VPS"
 msgstr "VPS verwenden"
 
 msgid "Auto-delete search timer"
-msgstr "Suchtimer automatisch löschen"
+msgstr "Suchtimer automatisch lï¿½schen"
 
 msgid "after ... recordings"
 msgstr "nach ... Aufnahmen"
@@ -386,7 +386,7 @@ msgid "no current channel!"
 msgstr "Keinen Kanal gefunden!"
 
 msgid "error retrieving status info!"
-msgstr "Fehler: Status nicht verfügbar!"
+msgstr "Fehler: Status nicht verfï¿½gbar!"
 
 msgid "%I:%M:%S %p"
 msgstr "%H:%M:%S Uhr"
@@ -407,7 +407,7 @@ msgid "Password"
 msgstr "Passwort"
 
 msgid "What's on?"
-msgstr "Was läuft?"
+msgstr "Was lï¿½uft?"
 
 msgid "Search"
 msgstr "Suchen"
@@ -424,38 +424,8 @@ msgstr "Fernbedienung"
 msgid "Logout"
 msgstr "Abmelden"
 
-msgid "retrieving status ..."
-msgstr "Hole Status ..."
-
-msgid "Toggle updates on/off."
-msgstr "Statusabfrage ein- oder ausschalten."
-
-msgid "stop playback"
-msgstr "Anhalten"
-
-msgid "resume playback"
-msgstr "Fortsetzen"
-
-msgid "pause playback"
-msgstr "Pause"
-
-msgid "fast rewind"
-msgstr "Suchlauf rückwärts"
-
-msgid "fast forward"
-msgstr "Suchlauf vorwärts"
-
-msgid "previous channel"
-msgstr "Sender zurück"
-
-msgid "next channel"
-msgstr "Sender vor"
-
-msgid "No server response!"
-msgstr "Der Server antwortet nicht!"
-
-msgid "Failed to update infobox!"
-msgstr "Kann Infobox nicht aktualisieren!"
+msgid "Find more at the Internet Movie Database."
+msgstr "Weitere Informationen in der Internet Movie Database."
 
 msgid "Edit this"
 msgstr "Timer editieren"
@@ -470,7 +440,7 @@ msgid "an error occured!"
 msgstr "Es ist ein Fehler aufgetreten!"
 
 msgid "Request succeeded!"
-msgstr "Aktion durchgeführt!"
+msgstr "Aktion durchgefï¿½hrt!"
 
 msgid "Request failed!"
 msgstr "Aktion fehlgeschlagen!"
@@ -482,7 +452,7 @@ msgid "February"
 msgstr "Februar"
 
 msgid "March"
-msgstr "März"
+msgstr "Mï¿½rz"
 
 msgid "April"
 msgstr "April"
@@ -511,6 +481,39 @@ msgstr "November"
 msgid "December"
 msgstr "Dezember"
 
+msgid "retrieving status ..."
+msgstr "Hole Status ..."
+
+msgid "Toggle updates on/off."
+msgstr "Statusabfrage ein- oder ausschalten."
+
+msgid "stop playback"
+msgstr "Anhalten"
+
+msgid "resume playback"
+msgstr "Fortsetzen"
+
+msgid "pause playback"
+msgstr "Pause"
+
+msgid "fast rewind"
+msgstr "Suchlauf rï¿½ckwï¿½rts"
+
+msgid "fast forward"
+msgstr "Suchlauf vorwï¿½rts"
+
+msgid "previous channel"
+msgstr "Sender zurï¿½ck"
+
+msgid "next channel"
+msgstr "Sender vor"
+
+msgid "No server response!"
+msgstr "Der Server antwortet nicht!"
+
+msgid "Failed to update infobox!"
+msgstr "Kann Infobox nicht aktualisieren!"
+
 msgid "Switch to this channel."
 msgstr "Zu diesem Kanal umschalten."
 
@@ -519,9 +522,6 @@ msgstr "Nach Wiederholungen suchen."
 
 msgid "Stream this channel into browser."
 msgstr "Sendung im Browser anzeigen."
-
-msgid "Find more at the Internet Movie Database."
-msgstr "Weitere Informationen in der Internet Movie Database."
 
 msgid "Authors"
 msgstr "Autoren"
@@ -548,7 +548,7 @@ msgid "VDR version"
 msgstr "VDR Version"
 
 msgid "Features"
-msgstr "Unterstütze Plugins"
+msgstr "Unterstï¿½tze Plugins"
 
 msgid "active"
 msgstr "aktiv"
@@ -560,10 +560,13 @@ msgid "Homepage"
 msgstr "Homepage"
 
 msgid "Bugs and suggestions"
-msgstr "Fehlerberichte und Vorschläge"
+msgstr "Fehlerberichte und Vorschlï¿½ge"
 
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
-msgstr "Für Fehler oder Verbesserungsvorschläge steht unser Bugtracker bereit"
+msgstr "Fï¿½r Fehler oder Verbesserungsvorschlï¿½ge steht unser Bugtracker bereit"
+
+msgid "RecDate"
+msgstr "Aufnahmedatum"
 
 msgid "List of recordings"
 msgstr "Liste der Aufnahmen"
@@ -572,7 +575,7 @@ msgid "No recordings found"
 msgstr "Keine Aufnahmen vorhanden"
 
 msgid "Click to view details."
-msgstr "Für Details klicken."
+msgstr "Fï¿½r Details klicken."
 
 msgid "play this recording."
 msgstr "Diese Aufnahme abspielen."
@@ -581,10 +584,10 @@ msgid "Interval"
 msgstr "Intervall"
 
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
-msgstr "Konnte Kanal nicht finden oder keine Kanäle verfügbar. Ist die Anfrage korrekt?"
+msgstr "Konnte Kanal nicht finden oder keine Kanï¿½le verfï¿½gbar. Ist die Anfrage korrekt?"
 
 msgid "No schedules available for this channel"
-msgstr "Für diesen Kanal liegen keine EPG-Informationen vor"
+msgstr "Fï¿½r diesen Kanal liegen keine EPG-Informationen vor"
 
 msgid "%A, %b %d %Y"
 msgstr "%A, %d.%m.%Y"
@@ -623,10 +626,10 @@ msgid "Browse search timer results"
 msgstr "Suchtimerergebnisse betrachten"
 
 msgid "Delete this search timer?"
-msgstr "Diesen Suchtimer löschen?"
+msgstr "Diesen Suchtimer lï¿½schen?"
 
 msgid "Delete search timer"
-msgstr "Suchtimer löschen"
+msgstr "Suchtimer lï¿½schen"
 
 msgid "Trigger search timer update"
 msgstr "Suchtimer-Update starten"
@@ -659,7 +662,7 @@ msgid "streamdev server port"
 msgstr "Streamdev Server Port"
 
 msgid "additional fixed times in 'What's on?'"
-msgstr "zusätzliche Zeitpunkte in 'Was läuft?'"
+msgstr "zusï¿½tzliche Zeitpunkte in 'Was lï¿½uft?'"
 
 msgid "Format is HH:MM. Separate multiple times with a semicolon"
 msgstr "Format ist HH:MM. Mehrere Zeiten durch Semikolon trennen"
@@ -683,16 +686,16 @@ msgid "Toggle timer active/inactive"
 msgstr "Timer aktiv/inaktiv schalten"
 
 msgid "Delete timer"
-msgstr "Timer löschen"
+msgstr "Timer lï¿½schen"
 
 msgid "VLC: live video stream"
 msgstr "VLC: Video Stream"
 
 msgid "What's running at"
-msgstr "Was läuft um"
+msgstr "Was lï¿½uft um"
 
 msgid "What's on next?"
-msgstr "Was läuft als nächstes?"
+msgstr "Was lï¿½uft als nï¿½chstes?"
 
 msgid "%a, %b %d"
 msgstr "%a, %d.%m."
@@ -707,22 +710,19 @@ msgid "Now"
 msgstr "Jetzt"
 
 msgid "Next"
-msgstr "als Nächstes"
+msgstr "als Nï¿½chstes"
 
 msgid "What's on"
-msgstr "Was läuft"
+msgstr "Was lï¿½uft"
 
 msgid "at"
 msgstr "um"
 
 msgid "Details view"
-msgstr "Ausführliche Ansicht"
+msgstr "Ausfï¿½hrliche Ansicht"
 
 msgid "List view"
 msgstr "Listenansicht"
-
-#~ msgid "RecDate"
-#~ msgstr "Aufnahmedatum"
 
 #, fuzzy
 #~ msgid "Watch channel"

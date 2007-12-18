@@ -1,14 +1,14 @@
 # VDR plugin language source file.
 # Copyright (C) 2007 Klaus Schmidinger <kls@cadsoft.de>
 # This file is distributed under the same license as the VDR-LIVE package.
-# Jørgen Tvedt <pjtvedt@online.no>, 2001
+# Jï¿½rgen Tvedt <pjtvedt@online.no>, 2001
 # Truls Slevigen <truls@slevigen.no>, 2002
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2007-12-18 23:41+0100\n"
+"POT-Creation-Date: 2007-12-19 00:28+0100\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Truls Slevigen <truls@slevigen.no>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -425,37 +425,7 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
-msgid "retrieving status ..."
-msgstr ""
-
-msgid "Toggle updates on/off."
-msgstr ""
-
-msgid "stop playback"
-msgstr ""
-
-msgid "resume playback"
-msgstr ""
-
-msgid "pause playback"
-msgstr ""
-
-msgid "fast rewind"
-msgstr ""
-
-msgid "fast forward"
-msgstr ""
-
-msgid "previous channel"
-msgstr ""
-
-msgid "next channel"
-msgstr ""
-
-msgid "No server response!"
-msgstr ""
-
-msgid "Failed to update infobox!"
+msgid "Find more at the Internet Movie Database."
 msgstr ""
 
 msgid "Edit this"
@@ -512,6 +482,39 @@ msgstr ""
 msgid "December"
 msgstr ""
 
+msgid "retrieving status ..."
+msgstr ""
+
+msgid "Toggle updates on/off."
+msgstr ""
+
+msgid "stop playback"
+msgstr ""
+
+msgid "resume playback"
+msgstr ""
+
+msgid "pause playback"
+msgstr ""
+
+msgid "fast rewind"
+msgstr ""
+
+msgid "fast forward"
+msgstr ""
+
+msgid "previous channel"
+msgstr ""
+
+msgid "next channel"
+msgstr ""
+
+msgid "No server response!"
+msgstr ""
+
+msgid "Failed to update infobox!"
+msgstr ""
+
 msgid "Switch to this channel."
 msgstr ""
 
@@ -519,9 +522,6 @@ msgid "Search for repeats."
 msgstr ""
 
 msgid "Stream this channel into browser."
-msgstr ""
-
-msgid "Find more at the Internet Movie Database."
 msgstr ""
 
 msgid "Authors"
@@ -564,6 +564,9 @@ msgid "Bugs and suggestions"
 msgstr ""
 
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
+msgstr ""
+
+msgid "RecDate"
 msgstr ""
 
 msgid "List of recordings"
