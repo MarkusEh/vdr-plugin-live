@@ -1,3 +1,10 @@
+2007-12-18  Dieter Hametner  <dh+vdr at gekrumbel dot de>
+
+	- Integrated a new patch Rolf Ahrenberg sent to me privately
+	  The patch updates finish translations.
+	  Autoplay and the 'standard' video size is used in the playback
+	  window.
+
 2007-12-17  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
 	- Adapted Rolf Ahrenbergs patch for VLC plugin streaming to the

@@ -1,16 +1,13 @@
 # VDR plugin language source file.
 # Copyright (C) 2007 Klaus Schmidinger <kls@cadsoft.de>
 # This file is distributed under the same license as the VDR-LIVE package.
-# Hannu Savolainen <hannu@opensound.com>, 2002
-# Jaakko Hyvätti <jaakko@hyvatti.iki.fi>, 2002
-# Niko Tarnanen <niko.tarnanen@hut.fi>, 2003
-# Rolf Ahrenberg <rahrenbe@cc.hut.fi>, 2003
+# Rolf Ahrenberg <rahrenbe@cc.hut.fi>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2007-12-17 23:42+0100\n"
+"POT-Creation-Date: 2007-12-18 23:41+0100\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Rolf Ahrenberg <rahrenbe@cc.hut.fi>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -179,10 +176,10 @@ msgid "Use extended EPG info"
 msgstr "Käytä laajennettua ohjelmaopasta"
 
 msgid "Ignore missing EPG info"
-msgstr ""
+msgstr "Jätä puuttuvat ohjelmatiedot huomioimatta"
 
 msgid "When active this can cause very many timers. So please always first test this search before using it as search timer!"
-msgstr ""
+msgstr "Asetuksen ottaminen käyttöön saattaa luoda lukemattomia ajastimia. Testaa haku ennenkuin teet siitä hakuajastimen!"
 
 msgid "Use channel"
 msgstr "Käytä kanavaa"
@@ -473,7 +470,7 @@ msgid "an error occured!"
 msgstr "virhe havaittu!"
 
 msgid "Request succeeded!"
-msgstr "Pyynto onnistui!"
+msgstr "Pyyntö onnistui!"
 
 msgid "Request failed!"
 msgstr "Pyyntö epäonnistui!"
@@ -521,7 +518,7 @@ msgid "Search for repeats."
 msgstr "Etsi toistuvat"
 
 msgid "Stream this channel into browser."
-msgstr ""
+msgstr "Aloita suoratoisto"
 
 msgid "Find more at the Internet Movie Database."
 msgstr "Hae IMDB:stä"
@@ -567,9 +564,6 @@ msgstr "Virheraportoinnit ja parannusehdotukset"
 
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
 msgstr "Voit raportoida sekä virheet että parannusehdotukset suoraan havaintotietokantaan"
-
-msgid "RecDate"
-msgstr ""
 
 msgid "List of recordings"
 msgstr "Tallennelistaus"
@@ -658,12 +652,11 @@ msgstr "Käytä AJAX-tekniikkaa"
 msgid "Show dynamic VDR information box"
 msgstr "Näytä dynaaminen VDR:n infolaatikko"
 
-#, fuzzy
 msgid "Allow video streaming"
-msgstr "Näytä Live-logo"
+msgstr "Salli lähetyksen suoratoisto"
 
 msgid "streamdev server port"
-msgstr ""
+msgstr "Streamdev-palvelimen portti"
 
 msgid "additional fixed times in 'What's on?'"
 msgstr "Lisäajankohdat 'Menossa?'-sivulle"
@@ -680,12 +673,11 @@ msgstr "Ulkoasu"
 msgid "No timer defined"
 msgstr "Ajastinta ei ole määritelty"
 
-#, fuzzy
 msgid "Timer is recording."
-msgstr "Sarjatallennus"
+msgstr "Ajastinta tallennetaan"
 
 msgid "Timer is active."
-msgstr ""
+msgstr "Aktiivinen ajastin"
 
 msgid "Toggle timer active/inactive"
 msgstr "Aseta ajastin päälle/pois"
@@ -694,7 +686,7 @@ msgid "Delete timer"
 msgstr "Poista ajastin"
 
 msgid "VLC: live video stream"
-msgstr ""
+msgstr "VLC: live-lähetyksen suoratoisto"
 
 msgid "What's running at"
 msgstr "Menossa kello"
@@ -728,6 +720,9 @@ msgstr "Ruudukkonäkymä"
 
 msgid "List view"
 msgstr "Listanäkymä"
+
+#~ msgid "RecDate"
+#~ msgstr "Tallenteen päiväys"
 
 #, fuzzy
 #~ msgid "Watch channel"
