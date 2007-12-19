@@ -31,43 +31,45 @@ class Setup
 		// vdr-setup
 		int GetLastChannel() const { return m_lastChannel == 0 ? std::numeric_limits< int >::max() : m_lastChannel; }
 		int GetScreenshotInterval() const { return m_screenshotInterval; }
-		std::string GetAdminLogin() const { return m_adminLogin; }
-		std::string GetMD5HashAdminPassword() const;
+		std::string const GetAdminLogin() const { return m_adminLogin; }
+		std::string const GetMD5HashAdminPassword() const;
 		int GetAdminPasswordLength() const;
 		bool GetUseAuth() const { return m_useAuth; }
 		bool UseAuth() const;
-		std::string GetTimes() const { return m_times; }
-		std::string GetStartScreen() const { return m_startscreen; }
-		std::string GetStartScreenLink() const;
-		std::string GetTheme() const { return m_theme; }
-		std::string GetThemedLink(const std::string& type, const std::string& name) const { return "themes/" + GetTheme() + "/" + type + "/" + name; }
-		std::string GetLocalNetMask() const { return m_localnetmask; };
+		std::string const GetTimes() const { return m_times; }
+		std::string const GetStartScreen() const { return m_startscreen; }
+		std::string const GetStartScreenLink() const;
+		std::string const GetTheme() const { return m_theme; }
+		std::string const GetThemedLink(std::string const & type, const std::string& name) const { return "themes/" + GetTheme() + "/" + type + "/" + name; }
+		std::string const GetLocalNetMask() const { return m_localnetmask; };
 		bool GetIsLocalNet() const { return m_islocalnet; };
-		std::string GetLastWhatsOnListMode() const { return m_lastwhatsonlistmode; }
-		std::string GetTntnetLogLevel() const { return m_tntnetloglevel; }
+		std::string const GetLastWhatsOnListMode() const { return m_lastwhatsonlistmode; }
+		std::string const GetTntnetLogLevel() const { return m_tntnetloglevel; }
 		bool GetShowLogo() const { return m_showLogo != 0; }
 		bool GetUseAjax() const { return m_useAjax != 0; }
 		bool GetShowInfoBox() const { return m_showInfoBox != 0; }
 		bool GetUseStreamdev() const { return m_useStreamdev != 0; }
 		int GetStreamdevPort() const { return m_streamdevPort; }
-		std::string GetEpgImageDir() { return m_epgimagedir; }
+		std::string const GetStreamdevType() const { return m_streamdevType; }
+		std::string const GetEpgImageDir() { return m_epgimagedir; }
 
 		void SetLastChannel(int lastChannel) { m_lastChannel = lastChannel; }
-		void SetAdminLogin(std::string login) { m_adminLogin = login; }
+		void SetAdminLogin(std::string const & login) { m_adminLogin = login; }
 		std::string SetAdminPassword(std::string password);
 		void SetUseAuth(int auth) { m_useAuth = auth; }
 		void SetScreenshotInterval(int interval) { m_screenshotInterval = interval; }
-		void SetTimes(std::string times) { m_times = times; }
-		void SetStartScreen(std::string startscreen) { m_startscreen = startscreen; }
-		void SetTheme(std::string theme) { m_theme = theme; }
-		void SetLocalNetMask(std::string localnetmask) { m_localnetmask = localnetmask; }
+		void SetTimes(std::string const & times) { m_times = times; }
+		void SetStartScreen(std::string const & startscreen) { m_startscreen = startscreen; }
+		void SetTheme(std::string const & theme) { m_theme = theme; }
+		void SetLocalNetMask(std::string const & localnetmask) { m_localnetmask = localnetmask; }
 		void SetIsLocalNet(bool islocalnet) { m_islocalnet = islocalnet; }
-		void SetLastWhatsOnListMode(std::string mode) { m_lastwhatsonlistmode = mode; SaveSetup(); }
+		void SetLastWhatsOnListMode(std::string const & mode) { m_lastwhatsonlistmode = mode; SaveSetup(); }
 		void SetShowLogo(bool show) { m_showLogo = show ? 1 : 0; }
 		void SetUseAjax(bool use) { m_useAjax = use ? 1 : 0; }
 		void SetShowInfoBox(bool show) { m_showInfoBox = show ? 1 : 0; }
 		void SetUseStreamdev(bool use) { m_useStreamdev = use ? 1 : 0; }
 		void SetStreamdevPort(int port) { m_streamdevPort = port; }
+		void SetStreamdevType(std::string const & type) { m_streamdevType = type; }
 
 		bool SaveSetup();
 
@@ -76,7 +78,7 @@ class Setup
 
 		bool ParseSetupEntry( char const* name, char const* value );
 
-		bool CheckLocalNet(const std::string& ip);
+		bool CheckLocalNet(std::string const & ip);
 
 
 	private:
@@ -111,6 +113,7 @@ class Setup
 		int m_showInfoBox;
 		int m_useStreamdev;
 		int m_streamdevPort;
+		std::string m_streamdevType;
 
 		bool CheckServerPort();
 		bool CheckServerIps();

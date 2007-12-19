@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2007-12-19 22:05+0100\n"
+"POT-Creation-Date: 2007-12-19 23:35+0100\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Nicolas Huillard <nhuillard@e-dition.fr>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -569,6 +569,9 @@ msgstr "Bogues et suggestions"
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
 msgstr "Si vous rencontrez n'importe quels bogue ou voudriez suggérer de nouveaux dispositifs, employer notre bugtracker svp"
 
+msgid "RecDate"
+msgstr ""
+
 msgid "List of recordings"
 msgstr "Liste des enregistrements"
 
@@ -659,7 +662,10 @@ msgstr ""
 msgid "Allow video streaming"
 msgstr ""
 
-msgid "streamdev server port"
+msgid "Streamdev server port"
+msgstr ""
+
+msgid "Streamdev stream type"
 msgstr ""
 
 msgid "additional fixed times in 'What's on?'"

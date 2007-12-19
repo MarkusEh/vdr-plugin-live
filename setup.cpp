@@ -34,7 +34,8 @@ Setup::Setup():
 		m_useAjax(1),
 		m_showInfoBox(1),
 		m_useStreamdev(1),
-		m_streamdevPort(3000)
+		m_streamdevPort(3000),
+		m_streamdevType()
 {
 	m_adminPasswordMD5 = "4:" + MD5Hash("live");
 	liveplugin = cPluginManager::GetPlugin("live");
@@ -98,6 +99,7 @@ bool Setup::ParseSetupEntry( char const* name, char const* value )
 	else if ( strcmp( name, "ShowInfoBox" ) == 0 ) { m_showInfoBox = atoi(value); }
 	else if ( strcmp( name, "UseStreamdev" ) == 0 ) { m_useStreamdev = atoi(value); }
 	else if ( strcmp( name, "StreamdevPort" ) == 0 ) { m_streamdevPort = atoi(value); }
+	else if ( strcmp( name, "StreamdevType" ) == 0 ) { m_streamdevType = value; }
 	else if ( strcmp( name, "ScreenShotInterval" ) == 0 ) { m_screenshotInterval = atoi(value); }
 	else return false;
 	return true;
@@ -130,7 +132,7 @@ bool Setup::CheckServerIps()
 	return true;
 }
 
-std::string Setup::GetMD5HashAdminPassword() const
+std::string const Setup::GetMD5HashAdminPassword() const
 {
 	// format is <length>:<md5-hash of password>
 	vector< string > parts = StringSplit( m_adminPasswordMD5, ':' );
@@ -152,7 +154,7 @@ std::string Setup::SetAdminPassword(std::string password)
 	return m_adminPasswordMD5;
 }
 
-std::string Setup::GetStartScreenLink() const
+std::string const Setup::GetStartScreenLink() const
 {
 	if (m_startscreen == "whatsonnext")
 		return "whats_on.html?type=next";
@@ -227,6 +229,7 @@ bool Setup::SaveSetup()
 	liveplugin->SetupStore("ShowInfoBox", m_showInfoBox);
 	liveplugin->SetupStore("UseStreamdev", m_useStreamdev);
 	liveplugin->SetupStore("StreamdevPort", m_streamdevPort);
+	liveplugin->SetupStore("StreamdevType", m_streamdevType.c_str());
 	liveplugin->SetupStore("ScreenShotInterval", m_screenshotInterval);
 
 	return true;
