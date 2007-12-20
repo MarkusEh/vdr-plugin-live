@@ -64,7 +64,9 @@ using namespace vdrlive;
 		if ( Channel != 0 ) {
 			int streamdevPort = LiveSetup().GetStreamdevPort();
 			// string videourl = string("http://") + "192.168.96.30" + ":" + lexical_cast<string,int>(streamdevPort) + + "/" + LiveSetup().GetStreamdevType() + "/" + *Channel->GetChannelID().ToString();
-			string videourl = string("http://") + request.getServerIp() + ":" + lexical_cast<string,int>(streamdevPort) + "/" + LiveSetup().GetStreamdevType() + "/" + *Channel->GetChannelID().ToString();
+			string server = request.getHost();
+			server = server.substr(0, server.rfind(':'));
+			string videourl = string("http://") + server + ":" + lexical_cast<string,int>(streamdevPort) + "/" + LiveSetup().GetStreamdevType() + "/" + *Channel->GetChannelID().ToString();
 </%cpp>
 			<embed type="application/x-vlc-plugin" name="video1" autoplay="yes" loop="yes" width="720" height="576" target="<$ videourl $>" />
 	   		<& vlc.channel_selection &>
