@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2007-12-19 23:35+0100\n"
+"POT-Creation-Date: 2007-12-21 20:24+0100\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Rolf Ahrenberg <rahrenbe@cc.hut.fi>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -565,9 +565,6 @@ msgstr "Virheraportoinnit ja parannusehdotukset"
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
 msgstr "Voit raportoida sekä virheet että parannusehdotukset suoraan havaintotietokantaan"
 
-msgid "RecDate"
-msgstr "Tallenteen päiväys"
-
 msgid "List of recordings"
 msgstr "Tallennelistaus"
 
@@ -658,13 +655,11 @@ msgstr "Näytä dynaaminen VDR:n infolaatikko"
 msgid "Allow video streaming"
 msgstr "Salli lähetyksen suoratoisto"
 
-#, fuzzy
 msgid "Streamdev server port"
 msgstr "Streamdev-palvelimen portti"
 
-#, fuzzy
 msgid "Streamdev stream type"
-msgstr "Streamdev-palvelimen portti"
+msgstr "Streamdev-lähetteen tyyppi"
 
 msgid "additional fixed times in 'What's on?'"
 msgstr "Lisäajankohdat 'Menossa?'-sivulle"
@@ -728,6 +723,9 @@ msgstr "Ruudukkonäkymä"
 
 msgid "List view"
 msgstr "Listanäkymä"
+
+#~ msgid "RecDate"
+#~ msgstr "Tallenteen päiväys"
 
 #, fuzzy
 #~ msgid "Watch channel"

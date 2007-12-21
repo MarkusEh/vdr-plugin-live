@@ -6416,41 +6416,6 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "RecDate",
-    "Aufnahmedatum",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "Tallenteen päiväys",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
   { "List of recordings",
     "Liste der Aufnahmen",
     "",
@@ -7544,7 +7509,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "Streamdev-palvelimen portti",
+    "Streamdev-lähetteen tyyppi",
     "",
     "",
     "",
