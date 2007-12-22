@@ -444,30 +444,6 @@ div.pagemenu a.active {
 	font-weight: bold;
 }
 
-/* check if still needed
-
-div.pagemenu span {
-	text-decoration: none;
-	color: black;
-	font-weight: bold;
-	padding: 5px;
-}
-
-div.pagemenu span.active {
-	text-decoration: none;
-	color: blue;
-	font-weight: bold;
-	padding: 5px;
-}
-
-div.pagemenu span.sep {
-	text-decoration: none;
-	color: #C0C1DA;
-	font-weight: lighter;
-	padding: 5px;
-}
-*/
-
 /* #######################
    #  Info Box (near logo)
    #######################
@@ -550,7 +526,8 @@ div#infobox div.st_controls div#infobox_channel_buttons {
    # Buttons
    #################################
 */
-button.green {
+
+button {
 	width: 100px;
 	height: 20px;
 	background-color: inherit;
@@ -565,34 +542,20 @@ button.green {
 	padding-bottom: 3px;
 }
 
+button.green {
+	background-image: url(img/button_green.png);
+}
+
 button.red {
-	width: 100px;
-	height: 20px;
-	background-color: inherit;
 	background-image: url(img/button_red.png);
-	background-repeat: no-repeat;
-	color: #FFFFFF;
-	font-size: 11px;
-	border: 0px;
-	vertical-align: middle;
-	text-align: center;
-	cursor: pointer;
-	padding-bottom: 3px;
 }
 
 button.blue {
-	width: 100px;
-	height: 20px;
-	background-color: inherit;
 	background-image: url(img/button_blue.png);
-	background-repeat: no-repeat;
-	color: #FFFFFF;
-	font-size: 11px;
-	border: 0px;
-	vertical-align: middle;
-	text-align: center;
-	cursor: pointer;
-	padding-bottom: 3px;
+}
+
+button.yellow {
+	background-image: url(img/button_yellow.png);
 }
 
 
@@ -1102,36 +1065,6 @@ table.login tr td {
    ##############################
 */
 
-/*
-div.about_box {
-	border: none;
-}
-
-div.about_box a {
-	text-decoration: none;
-	color: black;
-	font-weight: bold;
-}
-
-div.about_box a:hover {
-	text-decoration: underline;
-}
-
-.info-win div.about_content {
-	padding: 0;
-	margin: 0;
-
-	border-left: 1px solid #000000;
-	border-right: 1px solid #000000;
-	border-bottom: 1px solid #000000;
-}
-
-.info-win div.epg_content div {
-	background-color: white;
-	padding-bottom: 6px;
-}
-*/
-
 .info-win div.epg_content div.about_left {
 	text-align: right;
 	float: left;
@@ -1163,3 +1096,14 @@ div.about_box a:hover {
 	border-top: 1px solid #C0C1DA;
 	border-bottom: 1px solid #C0C1DA;
 }
+
+/* ##############################
+   # VLC page
+   ##############################
+*/
+
+div#vlcControls {
+	padding-top: 5px;
+	text-align: center;
+}
+

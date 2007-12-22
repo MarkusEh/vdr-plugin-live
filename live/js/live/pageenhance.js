@@ -4,7 +4,7 @@
  * PageEnhance class.
  *
  * This class applies several functions to the page based on
- * selectors. This class is quite project dependent and not a general
+ * selectors. This class is project dependent and not a general
  * purpose class.
  */
 
@@ -14,7 +14,7 @@ var PageEnhance = new Class({
 		  actionLinkSelector: 'a[href^="vdr_request/"]',
 		  vlcLinkSelector: 'a[href^="vlc.html?channel"]',
 		  vlcWinOptions: {
-			  size: { width: 740, height: 640 }
+			  size: { width: 720, height: 640 }
 			},
 		  hintTipSelector: '*[title]',
 		  hintClassName: 'hint',

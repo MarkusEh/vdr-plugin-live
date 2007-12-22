@@ -20,11 +20,11 @@ Note:
 */
 var BrowserWin = new Class({
 	  options: {
-		  size: { width: 300, height: 200 },
+		  size: { width: 720, height: 640 },
 		  toolbar: false,
 		  location: false,
 		  directories: false,
-		  status: false,
+		  statusbar: false,
 		  menubar: false,
 		  scrollbar: false,
 		  resizable: true,
@@ -44,7 +44,7 @@ var BrowserWin = new Class({
 			winOpts += ",toolbar=" + this.options.toolbar;
 			winOpts += ",location=" + this.options.toolbar;
 			winOpts += ",directories=" + this.options.directories;
-			winOpts += ",status=" + this.options.status;
+			winOpts += ",statusbar=" + this.options.statusbar;
 			winOpts += ",menubar=" + this.options.menubar;
 			winOpts += ",scrollbars=" + this.options.scrollbars;
 			winOpts += ",resizable=" + this.options.resizable;

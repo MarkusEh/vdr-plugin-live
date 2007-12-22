@@ -48,7 +48,31 @@ using namespace vdrlive;
 		<& pageelems.ajax_js &>
 <%cpp>
 	}
+	else {
 </%cpp>
+		<script type="text/javascript" src="js/mootools/mootools.v1.11.js"></script>
+<%cpp>
+	}
+</%cpp>
+		<script type="text/javascript" src="js/live/vlc.js"></script>
+		<script type="text/javascript"><!--
+			var vlcControl = new VLC("video1", {
+					<? !asyncReq ? "autoresize: false" ?>
+				});
+			vlcControl.addEvent('toggle', function(id, state){
+					var text = null;
+					switch (id) {
+					case "TogglePlay":
+						text = state ? "<$ tr("Stop") $>" : "<$ tr("Play") $>";
+						break;
+					case "ToggleMute":
+						text = state ? "<$ tr("Sound on") $>" : "<$ tr("Sound off") $>";
+						break;
+					}
+					if (text)
+						$(id).setHTML(text);
+				});
+		--></script>
 	</head>
 	<body>
 <%cpp>
@@ -56,36 +80,48 @@ using namespace vdrlive;
 </%cpp>
 		<& pageelems.logo &>
 		<& menu active="vlc" &>
+		<div class="inhalt">
 <%cpp>
 	}
 </%cpp>
-		<div class="inhalt">
 <%cpp>
-		if ( Channel != 0 ) {
-			int streamdevPort = LiveSetup().GetStreamdevPort();
-			// string videourl = string("http://") + "192.168.96.30" + ":" + lexical_cast<string,int>(streamdevPort) + + "/" + LiveSetup().GetStreamdevType() + "/" + *Channel->GetChannelID().ToString();
-			string server = request.getHost();
-			server = server.substr(0, server.rfind(':'));
-			string videourl = string("http://") + server + ":" + lexical_cast<string,int>(streamdevPort) + "/" + LiveSetup().GetStreamdevType() + "/" + *Channel->GetChannelID().ToString();
+	if ( Channel != 0 ) {
+		int streamdevPort = LiveSetup().GetStreamdevPort();
+		string server = request.getHost();
+		server = server.substr(0, server.rfind(':'));
+		string videourl = string("http://") + server + ":" + lexical_cast<string,int>(streamdevPort) + "/" + LiveSetup().GetStreamdevType() + "/" + *Channel->GetChannelID().ToString();
 </%cpp>
-			<embed type="application/x-vlc-plugin" name="video1" autoplay="yes" loop="yes" width="720" height="576" target="<$ videourl $>" />
-	   		<& vlc.channel_selection &>
-			<!-- --> <p><$ videourl $></p><!-- -->
+			<embed type="application/x-vlc-plugin" id="video1" name="video1" autoplay="yes" loop="no" width="720" height="576" target="<$ videourl $>" />
+	   		<& vlc.controls videourl=(videourl) asyncReq=(asyncReq) &>
 <%cpp>
-		}
+	}
+	if (!asyncReq) {
 </%cpp>
 		</div>
+<%cpp>
+	}
+</%cpp>
 	</body>
 </html>
 <%include>page_exit.eh</%include>
 
-<%def channel_selection>
-<div>
-<input type="button" value="Play" onclick="document.video1.play();" />
-<input type="button" value="Pause" onclick="document.video1.pause();" />
-<input type="button" value="Stop" onclick="document.video1.stop();" />
-<input type="button" value="Mute" onclick="document.video1.mute();" />
-<input type="button" value="Fullscreen"  onclick="document.video1.fullscreen();" />
+<%def controls>
+<%args>
+	string videourl;
+	bool asyncReq;
+</%args>
+<div id="vlcControls">
+	<button id="TogglePlay" type="button" class="green"><$ tr("Stop") $></button>
+	<button id="ToggleMute" type="button" class="red"><$ tr("Sound off") $></button>
+	<button id="FullScreen" type="button" class="blue"><$ tr("Fullscreen") $></button>
+<%cpp>
+	if (asyncReq) {
+</%cpp>
+	<button id="Close" type="button" class="yellow"><$ tr("Close") $></button>
+<%cpp>
+	}
+</%cpp>
+	<!-- --><p><$ videourl $></p><!-- -->
 </div>
 </%def>
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2007-12-21 20:24+0100\n"
+"POT-Creation-Date: 2007-12-22 18:49+0100\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Klaus Schmidinger <kls@cadsoft.de>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -565,6 +565,9 @@ msgstr "Fehlerberichte und Vorschläge"
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
 msgstr "Für Fehler oder Verbesserungsvorschläge steht unser Bugtracker bereit"
 
+msgid "RecDate"
+msgstr "Aufnahmedatum"
+
 msgid "List of recordings"
 msgstr "Liste der Aufnahmen"
 
@@ -691,6 +694,24 @@ msgstr "Timer löschen"
 msgid "VLC: live video stream"
 msgstr "VLC: Video Stream"
 
+msgid "Stop"
+msgstr "Stopp"
+
+msgid "Play"
+msgstr "Wiedergabe"
+
+msgid "Sound on"
+msgstr "Ton an"
+
+msgid "Sound off"
+msgstr "Ton aus"
+
+msgid "Fullscreen"
+msgstr "Vollbild"
+
+msgid "Close"
+msgstr "Schließen"
+
 msgid "What's running at"
 msgstr "Was läuft um"
 
@@ -723,9 +744,6 @@ msgstr "Ausführliche Ansicht"
 
 msgid "List view"
 msgstr "Listenansicht"
-
-#~ msgid "RecDate"
-#~ msgstr "Aufnahmedatum"
 
 #, fuzzy
 #~ msgid "Watch channel"

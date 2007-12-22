@@ -1,3 +1,17 @@
+2007-12-22  Dieter Hametner  <dh+vdr at gekrumbel dot de>
+
+	* live/js/live/vlc.js
+	  Added an own mootools based implementation of a controlling
+	  class for the vlc plugin as proposed by Rolf Ahrenberg.
+	  Features currently supported are:
+	    - start/stop play (pause is left out because it provides no
+	      timeshift functionality).
+	    - mute sound. (Use this instead of pause)
+	    - switch to full screen mode.
+	    - close the popup window.
+	  The class is customizable and you can see in vlc.ecpp how
+	  customization for the changed button strings has been done.
+
 2007-12-18  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
 	- Integrated a new patch Rolf Ahrenberg sent to me privately
