@@ -1,3 +1,15 @@
+2007-12-23  Dieter Hametner  <dh+vdr at gekrumbel dot de>
+
+	* po/*.po
+	  Modified headers in the .po files and updated copyright
+	  information to be more LIVE plugin aware.
+        * Makefile
+	  Changed top level Makefile to not create headers in live.pot
+	  file. This prevents creation of new date header in .po file at
+	  fresh translations after updates from CVS and should avoid
+	  continous conflicts at every cvs update even if no changes took
+	  place in the local files.
+
 2007-12-22  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
 	* live/js/live/vlc.js

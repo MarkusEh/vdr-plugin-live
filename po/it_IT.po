@@ -1,5 +1,5 @@
-# VDR plugin language source file.
-# Copyright (C) 2007 Klaus Schmidinger <kls@cadsoft.de>
+# VDR LIVE plugin language source file.
+# Copyright (C) 2007 LIVE Development team. See http://live.vdr-developer.org
 # This file is distributed under the same license as the VDR-LIVE package.
 # Alberto Carraro <bertocar@tin.it>, 2001
 # Antonio Ospite <ospite@studenti.unina.it>, 2003
@@ -9,10 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2007-12-22 18:49+0100\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Sean Carlos <seanc@libero.it>\n"
-"Language-Team: <vdr@linuxtv.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -714,6 +712,9 @@ msgid "Fullscreen"
 msgstr ""
 
 msgid "Close"
+msgstr ""
+
+msgid "VLC media URL"
 msgstr ""
 
 msgid "What's running at"
