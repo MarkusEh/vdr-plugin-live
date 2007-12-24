@@ -87,8 +87,12 @@ using namespace vdrlive;
 <%cpp>
 	if ( Channel != 0 ) {
 		int streamdevPort = LiveSetup().GetStreamdevPort();
+#ifdef TNTVERS7
 		string server = request.getHost();
 		server = server.substr(0, server.rfind(':'));
+#else
+		string server = request.getServerIp();
+#endif
 		string videourl = string("http://") + server + ":" + lexical_cast<string,int>(streamdevPort) + "/" + LiveSetup().GetStreamdevType() + "/" + *Channel->GetChannelID().ToString();
 </%cpp>
 			<embed type="application/x-vlc-plugin" id="video1" name="video1" autoplay="yes" loop="no" width="720" height="576" target="<$ videourl $>" />
