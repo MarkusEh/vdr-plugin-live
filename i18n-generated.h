@@ -7571,6 +7571,41 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
+  { "Add links to IMDb",
+    "Füge Links zur IMDb hinzu",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
   { "additional fixed times in 'What's on?'",
     "zusätzliche Zeitpunkte in 'Was läuft?'",
     "",

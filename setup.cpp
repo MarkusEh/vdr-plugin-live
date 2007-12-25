@@ -35,7 +35,8 @@ Setup::Setup():
 		m_showInfoBox(1),
 		m_useStreamdev(1),
 		m_streamdevPort(3000),
-		m_streamdevType()
+		m_streamdevType(),
+		m_showIMDb(1)
 {
 	m_adminPasswordMD5 = "4:" + MD5Hash("live");
 	liveplugin = cPluginManager::GetPlugin("live");
@@ -101,6 +102,7 @@ bool Setup::ParseSetupEntry( char const* name, char const* value )
 	else if ( strcmp( name, "StreamdevPort" ) == 0 ) { m_streamdevPort = atoi(value); }
 	else if ( strcmp( name, "StreamdevType" ) == 0 ) { m_streamdevType = value; }
 	else if ( strcmp( name, "ScreenShotInterval" ) == 0 ) { m_screenshotInterval = atoi(value); }
+	else if ( strcmp( name, "ShowIMDb" ) == 0 ) { m_showIMDb = atoi(value); }
 	else return false;
 	return true;
 }
@@ -231,6 +233,7 @@ bool Setup::SaveSetup()
 	liveplugin->SetupStore("StreamdevPort", m_streamdevPort);
 	liveplugin->SetupStore("StreamdevType", m_streamdevType.c_str());
 	liveplugin->SetupStore("ScreenShotInterval", m_screenshotInterval);
+	liveplugin->SetupStore("ShowIMDb", m_showIMDb);
 
 	return true;
 }

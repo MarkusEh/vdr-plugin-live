@@ -662,6 +662,9 @@ msgstr "Streamdev-palvelimen portti"
 msgid "Streamdev stream type"
 msgstr "Streamdev-lähetteen tyyppi"
 
+msgid "Add links to IMDb"
+msgstr ""
+
 msgid "additional fixed times in 'What's on?'"
 msgstr "Lisäajankohdat 'Menossa?'-sivulle"
 

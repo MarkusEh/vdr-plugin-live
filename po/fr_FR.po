@@ -666,6 +666,9 @@ msgstr ""
 msgid "Streamdev stream type"
 msgstr ""
 
+msgid "Add links to IMDb"
+msgstr ""
+
 msgid "additional fixed times in 'What's on?'"
 msgstr "périodes fixes additionnelles dans 'actuellement?'"
 

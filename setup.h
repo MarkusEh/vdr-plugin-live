@@ -51,6 +51,7 @@ class Setup
 		bool GetUseStreamdev() const { return m_useStreamdev != 0; }
 		int GetStreamdevPort() const { return m_streamdevPort; }
 		std::string const GetStreamdevType() const { return m_streamdevType; }
+		bool GetShowIMDb() const { return m_showIMDb != 0; }
 		std::string const GetEpgImageDir() { return m_epgimagedir; }
 
 		void SetLastChannel(int lastChannel) { m_lastChannel = lastChannel; }
@@ -70,6 +71,7 @@ class Setup
 		void SetUseStreamdev(bool use) { m_useStreamdev = use ? 1 : 0; }
 		void SetStreamdevPort(int port) { m_streamdevPort = port; }
 		void SetStreamdevType(std::string const & type) { m_streamdevType = type; }
+		void SetShowIMDb(bool show) { m_showIMDb = show ? 1 : 0; }
 
 		bool SaveSetup();
 
@@ -114,6 +116,7 @@ class Setup
 		int m_useStreamdev;
 		int m_streamdevPort;
 		std::string m_streamdevType;
+		int m_showIMDb;
 
 		bool CheckServerPort();
 		bool CheckServerIps();

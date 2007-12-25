@@ -1,3 +1,10 @@
+2007-12-25  Dieter Hametner  <dh+vdr at gekrumbel dot de>
+
+	- Added configuration option to disable the creation of IMDb URLs
+	  in the epg-info sections. This was done upon of feature
+	  reqest (Bug #401).
+	  Some minor fixes for the IMDb URLs in recordings.
+
 2007-12-23  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
 	* po/*.po

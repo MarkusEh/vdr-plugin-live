@@ -39,7 +39,7 @@ var BrowserWin = new Class({
 		},
 
 	  create: function(url){
-			winOpts = "height=" + this.options.size.height;
+			winOpts =  "height=" + this.options.size.height;
 			winOpts += ",width=" + this.options.size.width;
 			winOpts += ",toolbar=" + this.options.toolbar;
 			winOpts += ",location=" + this.options.toolbar;
@@ -55,6 +55,10 @@ var BrowserWin = new Class({
 				winOpts += ",left=" + this.options.left;
 			}
 			this.$winRef = window.open(url, this.id, winOpts);
+		},
+
+	  close: function(){
+			this.wm.unregister(this);
 		}
 	});
 
@@ -75,8 +79,8 @@ BrowserWin.Manager = new Class({
 			this.unregister(browserWin);
 
 			browserWin.create(url);
-			this.fireEvent('onRegister', [browserWin]);
 			this.hashTab.set(browserWin.id, browserWin);
+			this.fireEvent('onRegister', [browserWin]);
 		},
 
 	  unregister: function(browserWin){
@@ -84,8 +88,8 @@ BrowserWin.Manager = new Class({
 				winRef = this.hashTab.get(browserWin.id);
 				winRef.$winRef.close();
 				this.fireEvent('onUnregister', [winRef]);
+				this.hashTab.remove(browserWin.id);
 			}
-			this.hashTab.remove(browserWin.id);
 		}
 	});
 

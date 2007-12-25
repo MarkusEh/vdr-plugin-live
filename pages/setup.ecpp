@@ -22,6 +22,7 @@ using namespace std;
 	string useAjax;
 	string showInfoBox;
 	string useStreamdev;
+	string showIMDb;
 	string streamdevport;
 	string streamdevtype;
 	int authchanged = 0;
@@ -63,6 +64,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			LiveSetup().SetUseStreamdev(!useStreamdev.empty());
 			LiveSetup().SetStreamdevPort(streamdevport.empty() ? 3000 : lexical_cast<int>(streamdevport));
 			LiveSetup().SetStreamdevType(streamdevtype.empty() ? "PES" : streamdevtype);
+			LiveSetup().SetShowIMDb(!showIMDb.empty());
 			LiveSetup().SaveSetup();
 			message = tr("Setup saved.");
 		}
@@ -86,6 +88,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	useStreamdev = LiveSetup().GetUseStreamdev() ? "1" : "";
 	streamdevport = lexical_cast<std::string, int>(LiveSetup().GetStreamdevPort());
 	streamdevtype = LiveSetup().GetStreamdevType();
+	showIMDb = LiveSetup().GetShowIMDb() ? "1" : "";
 
 </%cpp>
 <& pageelems.doc_type &>
@@ -200,6 +203,12 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 							</tr>
 							</table>
 							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Add links to IMDb") $>:</div></td>
+						<td class="rightcol">
+							<input type="checkbox" name="showIMDb" id="showIMDb" value="1" <%cpp> CHECKIF(!showIMDb.empty()); </%cpp>/>
 						</td>
 					</tr>
 					<tr>
