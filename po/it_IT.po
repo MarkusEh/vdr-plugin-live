@@ -11,11 +11,10 @@ msgstr ""
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
 "PO-Revision-Date: 2008-01-03 20:28+0100\n"
 "Last-Translator: Gringo <vdr-italian@tiscali.it>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: \n"
-"Language-Team: \n"
 
 msgid "Last channel to display"
 msgstr "Ultimo canale visualizzato"
@@ -567,9 +566,6 @@ msgstr "Rapporto errori e proposte"
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
 msgstr "Se riscontri degli errori o vuoi chiedere nuove funzioni utilizza il nostro bugtracker"
 
-msgid "RecDate"
-msgstr "Data reg."
-
 msgid "List of recordings"
 msgstr "Lista registrazioni"
 
@@ -753,7 +749,9 @@ msgstr "Vedi come dettagli"
 msgid "List view"
 msgstr "Vedi come elenco"
 
+#~ msgid "RecDate"
+#~ msgstr "Data reg."
+
 #, fuzzy
 #~ msgid "Watch channel"
 #~ msgstr "a canale"
-
