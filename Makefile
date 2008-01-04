@@ -1,7 +1,12 @@
 #
 # Makefile for a Video Disk Recorder plugin
 #
-# $Id: Makefile,v 1.58 2007/12/23 15:31:51 tadi Exp $
+# $Id: Makefile,v 1.59 2008/01/04 11:34:16 tadi Exp $
+
+# Because of shell features used in this Makefile that are provided
+# only by bash we set the shell to bash
+
+SHELL = /bin/bash
 
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.

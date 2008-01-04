@@ -60,6 +60,9 @@ boost >= 1.32.0		- http://www.boost.org
 Tntnet >= 1.5.3		- http://www.tntnet.org/download.hms
 Cxxtools >= 1.4.3	- http://www.tntnet.org/download.hms
 
+The LIVE Makefile makes use of bash features. So you need to have /bin/bash
+installed on your system (It needs not to bee the default shell).
+
 Tntnet provides basic webserver functions for live and needs cxxtools.
 Boost provides some data structures we need. While currently relying on the
 full blown package we might provide a stripped down version in the future.
