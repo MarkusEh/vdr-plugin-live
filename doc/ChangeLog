@@ -3,6 +3,8 @@
 	* Makefile: Thanks to user 'ernie' in vdr-portal.de, who pointed
 	  out that the Makefile uses a bashism without setting SHELL to
 	  bash.
+	  UPDATE: User 'Keef' pointed out a way to omit bash arithmetic
+	  expressions. So the dependency on bash could be dropped again.
 
 2007-12-25  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
