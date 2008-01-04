@@ -9,133 +9,134 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"PO-Revision-Date: 2007-08-19 20:15+0200\n"
-"Last-Translator: Sean Carlos <seanc@libero.it>\n"
+"PO-Revision-Date: 2008-01-03 20:28+0100\n"
+"Last-Translator: Gringo <vdr-italian@tiscali.it>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
 "Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: \n"
+"Language-Team: \n"
 
 msgid "Last channel to display"
-msgstr ""
+msgstr "Ultimo canale visualizzato"
 
 msgid "No limit"
-msgstr ""
+msgstr "Mostra tutti"
 
 msgid "Use authentication"
-msgstr ""
+msgstr "Utilizza autenticazione"
 
 msgid "No"
-msgstr ""
+msgstr "No"
 
 msgid "Yes"
-msgstr ""
+msgstr "Sì"
 
 msgid "Admin login"
-msgstr ""
+msgstr "Login amministratore"
 
 msgid "Admin password"
-msgstr ""
+msgstr "Password amministratore"
 
 #, c-format
 msgid "%A, %x"
-msgstr ""
+msgstr "%A, %x"
 
-#, fuzzy
 msgid "Searchtimer"
-msgstr "Utilizzare come timer di ricerca"
+msgstr "Cerca timer"
 
 msgid "Error in timer settings"
-msgstr ""
+msgstr "Errore nelle impostazioni timer"
 
 msgid "Timer already defined"
-msgstr ""
+msgstr "Timer già definito"
 
 msgid "Timers are being edited - try again later"
-msgstr ""
+msgstr "I sono stati modificati - prova più tardi"
 
 msgid "Timer not defined"
-msgstr ""
+msgstr "Timer non definito"
 
 msgid "On archive DVD No."
-msgstr ""
+msgstr "In archivio DVD No."
 
 msgid "Couldn't find channel or no channels available."
-msgstr ""
+msgstr "Impossibile trovare canale o canali disponibili."
 
 msgid "Couldn't switch to channel."
-msgstr ""
+msgstr "Impossibile cambiare canale."
 
 msgid "Couldn't find recording or no recordings available."
-msgstr ""
+msgstr "Impossibile trovare registrazione o registrazioni non disponibili."
 
 msgid "Cannot control playback!"
-msgstr ""
+msgstr "Impossibile controllare riproduzione!"
 
 msgid "Not playing a recording."
-msgstr ""
+msgstr "Nessuna registrazione in riproduzione."
 
 msgid "Not playing the same recording as from request."
-msgstr ""
+msgstr "Riproduzione di una registrazione diversa da quella richiesta."
 
 msgid "Epg error"
-msgstr ""
+msgstr "Errore EPG"
 
 msgid "Wrong channel id"
-msgstr ""
+msgstr "ID canale errato"
 
 msgid "Channel has no schedule"
-msgstr ""
+msgstr "Il canale non ha programmi"
 
 msgid "Wrong event id"
-msgstr ""
+msgstr "ID evento errato"
 
 msgid "Required minimum version of epgsearch: "
-msgstr ""
+msgstr "Versione minima richiesta di epgsearch:"
 
 msgid "All"
-msgstr ""
+msgstr "Tutti"
 
 msgid "FTA"
-msgstr ""
+msgstr "gratuiti"
 
 msgid "%I:%M %p"
-msgstr ""
+msgstr "%I:%M %p"
 
 msgid "EPGSearch version outdated! Please update."
-msgstr ""
+msgstr "Versione di EPGSearch troppo vecchia! Per favore aggiornarla."
 
 msgid "Couldn't aquire primary device"
-msgstr ""
+msgstr "Impossibile identificare scheda primaria"
 
 msgid "Couldn't grab image from primary device"
-msgstr ""
+msgstr "Impossibile ottenere immagine da scheda primaria"
 
 msgid "channels"
-msgstr ""
+msgstr "canali"
 
 msgid "Couldn't aquire access to channels, please try again later."
-msgstr ""
+msgstr "Impossibile avere accesso ai canali, per favore riprova più tardi."
 
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
-msgstr ""
+msgstr "Impossibile trovare timer di ricerca. Hai digitato correttamente la richiesta?"
 
 msgid "mm/dd/yyyy"
-msgstr ""
+msgstr "mm/gg/aaaa"
 
 msgid "Edit search timer"
-msgstr ""
+msgstr "Modifica ricerca timer"
 
 msgid "New search timer"
-msgstr ""
+msgstr "Nuova ricerca timer"
 
 msgid "Search text too short - use anyway?"
-msgstr "Il testo da cercare è troppo corto.  Continuare lo stesso?"
+msgstr "Testo da cercare troppo corto - continuare lo stesso?"
 
 msgid "Search term"
-msgstr ""
+msgstr "Cerca termine"
 
 msgid "Search mode"
-msgstr ""
+msgstr "Mod. ricerca"
 
 msgid "phrase"
 msgstr "frase"
@@ -153,37 +154,37 @@ msgid "regular expression"
 msgstr "espressione regolare"
 
 msgid "fuzzy"
-msgstr ""
+msgstr "non definita"
 
 msgid "Tolerance"
-msgstr ""
+msgstr "Tolleranza"
 
 msgid "Match case"
-msgstr "Mai    uscolo/Minuscolo"
+msgstr "Maiuscolo/Minuscolo"
 
 msgid "Search in"
-msgstr ""
+msgstr "Cerca in"
 
 msgid "Title"
-msgstr ""
+msgstr "Titolo"
 
 msgid "Episode"
-msgstr ""
+msgstr "Episodio"
 
 msgid "Description"
-msgstr ""
+msgstr "Descrizione"
 
 msgid "Use extended EPG info"
-msgstr "Utilizzare informazioni EPG estesa"
+msgstr "Utilizza informazioni EPG estesa"
 
 msgid "Ignore missing EPG info"
-msgstr ""
+msgstr "Ignora info EPG mancante"
 
 msgid "When active this can cause very many timers. So please always first test this search before using it as search timer!"
-msgstr ""
+msgstr "L'attivazione di questo può creare molti timer. Quindi per favore prova sempre questa ricerca prima di usarla come ricerca timer!"
 
 msgid "Use channel"
-msgstr "Utilizzare canale"
+msgstr "Utilizza canale"
 
 msgid "interval"
 msgstr "intervallo"
@@ -192,7 +193,7 @@ msgid "channel group"
 msgstr "gruppo canali"
 
 msgid "only FTA"
-msgstr "solo FTA"
+msgstr "solo gratuiti"
 
 msgid "from channel"
 msgstr "da canale"
@@ -201,558 +202,558 @@ msgid "to channel"
 msgstr "a canale"
 
 msgid "Use time"
-msgstr "Utilizzare l'orario"
+msgstr "Utilizza orario"
 
 msgid "Start after"
-msgstr "Comincia dopo"
+msgstr "Inizia dopo"
 
 msgid "The time the show may start at the earliest"
-msgstr ""
+msgstr "L'ora precedente più vicina per l'inizio evento"
 
 msgid "Start before"
-msgstr "Comincia prima"
+msgstr "Inizia prima"
 
 msgid "The time the show may start at the latest"
-msgstr ""
+msgstr "L'ora successiva più tardi per l'inizio evento"
 
 msgid "Use duration"
-msgstr "Utilizzare durata"
+msgstr "Utilizza durata"
 
 msgid "Min. duration"
-msgstr "Durata Minima"
+msgstr "Durata minima"
 
 msgid "Max. duration"
 msgstr "Durata Massima"
 
 msgid "Use day of week"
-msgstr "Utilizzare giorno della settimana"
+msgstr "Utilizza giorno della settimana"
 
 msgid "Monday"
-msgstr ""
+msgstr "Lunedì"
 
 msgid "Tuesday"
-msgstr ""
+msgstr "Martedì"
 
 msgid "Wednesday"
-msgstr ""
+msgstr "Mercoledì"
 
 msgid "Thursday"
-msgstr ""
+msgstr "Giovedì"
 
 msgid "Friday"
-msgstr ""
+msgstr "Venerdì"
 
 msgid "Saturday"
-msgstr ""
+msgstr "Sabato"
 
 msgid "Sunday"
-msgstr ""
+msgstr "Domenica"
 
 msgid "Use blacklists"
-msgstr ""
+msgstr "Utilizza la lista esclusioni"
 
 msgid "Selection"
-msgstr ""
+msgstr "Selezione"
 
 msgid "all"
-msgstr ""
+msgstr "tutti"
 
 msgid "Use in favorites menu"
-msgstr ""
+msgstr "Utilizza nel menu Preferiti"
 
 msgid "Use as search timer"
-msgstr "Utilizzare come timer di ricerca"
+msgstr "Utilizza come timer di ricerca"
 
 msgid "user defined"
-msgstr ""
+msgstr "definito dall'utente"
 
 msgid "from date"
-msgstr ""
+msgstr "da data"
 
 msgid "to date"
-msgstr ""
+msgstr "a data"
 
 msgid "Record"
 msgstr "Registra"
 
 msgid "Announce only"
-msgstr "Solo annuncio (niente timer)"
+msgstr "Solo annuncio"
 
 msgid "Switch only"
-msgstr ""
+msgstr "Solo cambio canale"
 
 msgid "Series recording"
 msgstr "Registrazione serie"
 
 msgid "Directory"
-msgstr "Cartella"
+msgstr "Directory"
 
 msgid "Delete recordings after ... days"
-msgstr ""
+msgstr "Cancella registrazione dopo ... giorni"
 
 msgid "Keep ... recordings"
-msgstr ""
+msgstr "Mantieni ... registrazioni"
 
 msgid "Pause when ... recordings exist"
-msgstr ""
+msgstr "Pausa se ... registrazioni esistenti"
 
 msgid "Avoid repeats"
-msgstr ""
+msgstr "Evita repliche"
 
 msgid "Allowed repeats"
-msgstr ""
+msgstr "Repliche autorizzate"
 
 msgid "Only repeats within ... days"
-msgstr ""
+msgstr "Solo repliche durante ... giorni"
 
 msgid "Compare title"
-msgstr ""
+msgstr "Confronta titoli"
 
 msgid "Compare subtitle"
-msgstr ""
+msgstr "Confronta sottotitoli"
 
 msgid "Compare summary"
-msgstr ""
+msgstr "Confronta descrizione"
 
 msgid "Compare"
-msgstr ""
+msgstr "Confronta"
 
 msgid "Use VPS"
-msgstr ""
+msgstr "Utilizza VPS"
 
 msgid "Auto-delete search timer"
-msgstr ""
+msgstr "Cancellazione automatica ricerca timer"
 
 msgid "after ... recordings"
-msgstr ""
+msgstr "dopo ... registrazioni"
 
 msgid "after ... days after first rec."
-msgstr ""
+msgstr "dopo ... giorni dopo la prima reg."
 
 msgid "Switch ... minutes before start"
-msgstr ""
+msgstr "Cambia ... minuti prima dell'avvio"
 
 msgid "Test"
-msgstr ""
+msgstr "Prova"
 
 msgid "Save"
-msgstr ""
+msgstr "Salva"
 
 msgid "Cancel"
-msgstr ""
+msgstr "Annulla"
 
 msgid "Couldn't find timer. Maybe you mistyped your request?"
-msgstr ""
+msgstr "Impossibile trovare timer. Hai digitato correttamente la richiesta?"
 
 msgid "Please set a title for the timer!"
-msgstr ""
+msgstr "Per favore imposta il titolo del timer!"
 
 msgid "Edit timer"
-msgstr ""
+msgstr "Modifica timer"
 
 msgid "New timer"
-msgstr ""
+msgstr "Nuovo timer"
 
 msgid "Weekday"
-msgstr ""
+msgstr "Giorno settimanale"
 
 msgid "Electronic program guide information"
-msgstr ""
+msgstr "Informazione Guida Elettronica Programmi (EPG)"
 
 msgid "Couldn't find recording or no recordings available"
-msgstr ""
+msgstr "Impossibile trovare registrazioni o nessuna registrazione disponibile"
 
 msgid "Error aquiring schedules lock"
-msgstr ""
+msgstr "Errore acquisizione blocco programmi"
 
 msgid "Error aquiring schedules"
-msgstr ""
+msgstr "Errore acquisizione programmi"
 
 msgid "%b %d %y"
-msgstr ""
+msgstr "%b %d %y"
 
 msgid "Page error"
-msgstr ""
+msgstr "Errore pagina"
 
 msgid "playing recording"
-msgstr ""
+msgstr "riproduzione registrazione"
 
 msgid "no epg info for current event!"
-msgstr ""
+msgstr "Nessuna informazione sull'evento!"
 
 msgid "no epg info for current channel!"
-msgstr ""
+msgstr "Questo canale non trasmette info EPG!"
 
 msgid "no current channel!"
-msgstr ""
+msgstr "Canale non trovato!"
 
 msgid "error retrieving status info!"
-msgstr ""
+msgstr "Errore: stato non disponibile!"
 
 msgid "%I:%M:%S %p"
-msgstr ""
+msgstr "%I:%M:%S %p"
 
 msgid "Wrong username or password"
-msgstr ""
+msgstr "Nome utente o password errata"
 
 msgid "Login"
-msgstr ""
+msgstr "Entra"
 
 msgid "VDR Live Login"
-msgstr ""
+msgstr "VDR Live Login"
 
 msgid "User"
-msgstr ""
+msgstr "Utente"
 
 msgid "Password"
-msgstr ""
+msgstr "Password"
 
 msgid "What's on?"
-msgstr ""
+msgstr "Cosa c'è adesso?"
 
 msgid "Search"
-msgstr ""
+msgstr "Cerca"
 
 msgid "Searchtimers"
-msgstr ""
+msgstr "Cerca timer"
 
 msgid "Recordings"
-msgstr ""
+msgstr "Registrazioni"
 
 msgid "Remote Control"
-msgstr ""
+msgstr "Telecomando"
 
 msgid "Logout"
-msgstr ""
+msgstr "Esci"
 
 msgid "Find more at the Internet Movie Database."
-msgstr ""
+msgstr "Cerca ulteriori informazioni nel database internet (IMDB)"
 
 msgid "Edit this"
-msgstr ""
+msgstr "Modifica timer"
 
 msgid "Record this"
-msgstr ""
+msgstr "Registra questa trasmissione"
 
 msgid "loading data"
-msgstr ""
+msgstr "caricamento dati"
 
 msgid "an error occured!"
-msgstr ""
+msgstr "errore rilevato!"
 
 msgid "Request succeeded!"
-msgstr ""
+msgstr "Richiesta con successo!"
 
 msgid "Request failed!"
-msgstr ""
+msgstr "Richiesta fallita!"
 
 msgid "January"
-msgstr ""
+msgstr "Gennaio"
 
 msgid "February"
-msgstr ""
+msgstr "Febbraio"
 
 msgid "March"
-msgstr ""
+msgstr "Marzo"
 
 msgid "April"
-msgstr ""
+msgstr "Aprile"
 
 msgid "May"
-msgstr ""
+msgstr "Maggio"
 
 msgid "June"
-msgstr ""
+msgstr "Giugno"
 
 msgid "July"
-msgstr ""
+msgstr "Luglio"
 
 msgid "August"
-msgstr ""
+msgstr "Agosto"
 
 msgid "September"
-msgstr ""
+msgstr "Settembre"
 
 msgid "October"
-msgstr ""
+msgstr "Ottobre"
 
 msgid "November"
-msgstr ""
+msgstr "Novembre"
 
 msgid "December"
-msgstr ""
+msgstr "Dicembre"
 
 msgid "retrieving status ..."
-msgstr ""
+msgstr "Rilevamento stato ..."
 
 msgid "Toggle updates on/off."
-msgstr ""
+msgstr "Attiva/disattiva aggiornamenti."
 
 msgid "stop playback"
-msgstr ""
+msgstr "Ferma"
 
 msgid "resume playback"
-msgstr ""
+msgstr "Continua"
 
 msgid "pause playback"
-msgstr ""
+msgstr "Pausa"
 
 msgid "fast rewind"
-msgstr ""
+msgstr "Riavvolgi"
 
 msgid "fast forward"
-msgstr ""
+msgstr "Avanzamento"
 
 msgid "previous channel"
-msgstr ""
+msgstr "Canale precedente"
 
 msgid "next channel"
-msgstr ""
+msgstr "Canale successivo"
 
 msgid "No server response!"
-msgstr ""
+msgstr "Nessuna risposta dal server!"
 
 msgid "Failed to update infobox!"
-msgstr ""
+msgstr "Aggiornamento casella info fallita!"
 
 msgid "Switch to this channel."
-msgstr ""
+msgstr "Sintonizza questo canale."
 
 msgid "Search for repeats."
-msgstr ""
+msgstr "Ricerca repliche."
 
 msgid "Stream this channel into browser."
-msgstr ""
+msgstr "Trasmetti questo canale nel browser."
 
 msgid "Authors"
-msgstr ""
+msgstr "Autori"
 
 msgid "Project leader"
-msgstr ""
+msgstr "Capo progetto"
 
 msgid "Webserver"
-msgstr ""
+msgstr "Server web"
 
 msgid "Content"
-msgstr ""
+msgstr "Contenuti"
 
 msgid "Graphics"
-msgstr ""
+msgstr "Grafiche"
 
 msgid "Information"
-msgstr ""
+msgstr "Informazioni"
 
 msgid "LIVE version"
-msgstr ""
+msgstr "Informazione su LIVE"
 
 msgid "VDR version"
-msgstr ""
+msgstr "Versione VDR"
 
 msgid "Features"
-msgstr ""
+msgstr "Funzioni"
 
 msgid "active"
-msgstr ""
+msgstr "attivo"
 
 msgid "required"
-msgstr ""
+msgstr "richiesto"
 
 msgid "Homepage"
-msgstr ""
+msgstr "Pagina principale"
 
 msgid "Bugs and suggestions"
-msgstr ""
+msgstr "Rapporto errori e proposte"
 
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
-msgstr ""
+msgstr "Se riscontri degli errori o vuoi chiedere nuove funzioni utilizza il nostro bugtracker"
 
 msgid "RecDate"
-msgstr ""
+msgstr "Data reg."
 
 msgid "List of recordings"
-msgstr ""
+msgstr "Lista registrazioni"
 
 msgid "No recordings found"
-msgstr ""
+msgstr "Nessuna registrazione"
 
 msgid "Click to view details."
-msgstr ""
+msgstr "Clicca per vedere i dettagli."
 
 msgid "play this recording."
-msgstr ""
+msgstr "Riproduci questa registrazione."
 
 msgid "Interval"
-msgstr ""
+msgstr "intervallo"
 
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
-msgstr ""
+msgstr "Impossibile trovare canale o canali disponibili. Hai digitato correttamente la richiesta?"
 
 msgid "No schedules available for this channel"
-msgstr ""
+msgstr "Nessun programma disponibile per questo canale"
 
 msgid "%A, %b %d %Y"
-msgstr ""
+msgstr "%A, %b %d %Y"
 
 msgid "Show schedule of channel"
-msgstr ""
+msgstr "Visualizza scheda programmi canale"
 
 msgid "Search settings"
-msgstr ""
+msgstr "Impostazioni ricerca"
 
 msgid "Extended search"
-msgstr ""
+msgstr "Ricerca avanzata"
 
 msgid "no"
-msgstr ""
+msgstr "no"
 
 msgid "Search results"
-msgstr ""
+msgstr "Risultati ricerca"
 
 msgid "No search results"
-msgstr ""
+msgstr "Nessun risultato ricerca"
 
 msgid "Expression"
-msgstr ""
+msgstr "Termine ricerca"
 
 msgid "Channel"
-msgstr ""
+msgstr "Canale"
 
 msgid "Starts between"
-msgstr ""
+msgstr "Inizia tra"
 
 msgid "Toggle search timer actions (in)active"
-msgstr ""
+msgstr "Attiva/disattiva azioni ricerca timer"
 
 msgid "Browse search timer results"
-msgstr ""
+msgstr "Visualizza risultati ricerca"
 
 msgid "Delete this search timer?"
-msgstr ""
+msgstr "Cancellare questa ricerca timer?"
 
 msgid "Delete search timer"
-msgstr ""
+msgstr "Cancella ricerca timer"
 
 msgid "Trigger search timer update"
-msgstr ""
+msgstr "Avvia aggiornamento timer ricerca"
 
 msgid "Please set login and password!"
-msgstr ""
+msgstr "Per favore digita nome utente e password!"
 
 msgid "Setup saved."
-msgstr ""
+msgstr "Opzioni salvate."
 
 msgid "Setup"
-msgstr ""
+msgstr "Opzioni"
 
 msgid "Local net (no login required)"
-msgstr ""
+msgstr "Rete locale (nessun login richiesto)"
 
 msgid "Show live logo image"
-msgstr ""
+msgstr "Mostra logo immagine Live"
 
 msgid "Use ajax technology"
-msgstr ""
+msgstr "Utilizza tecnologia Ajax"
 
 msgid "Show dynamic VDR information box"
-msgstr ""
+msgstr "Mostra casella informazione dinamica VDR"
 
 msgid "Allow video streaming"
-msgstr ""
+msgstr "Permetti trasmissione video"
 
 msgid "Streamdev server port"
-msgstr ""
+msgstr "Porta server Streamdev"
 
 msgid "Streamdev stream type"
-msgstr ""
+msgstr "Tipo flusso Streamdev"
 
 msgid "Add links to IMDb"
-msgstr ""
+msgstr "Aggiungi collegamenti a IMDb"
 
 msgid "additional fixed times in 'What's on?'"
-msgstr ""
+msgstr "Volte addizionali fisse in 'Cosa c'è adesso?'"
 
 msgid "Format is HH:MM. Separate multiple times with a semicolon"
-msgstr ""
+msgstr "Il formato è HH:MM. separa ore multiple con punto e virgola"
 
 msgid "Start page"
-msgstr ""
+msgstr "Pagina iniziale"
 
 msgid "Theme"
-msgstr ""
+msgstr "Tema"
 
 msgid "No timer defined"
-msgstr ""
+msgstr "Nessun timer definito"
 
-#, fuzzy
 msgid "Timer is recording."
-msgstr "Registrazione serie"
+msgstr "Timer in registrazione."
 
 msgid "Timer is active."
-msgstr ""
+msgstr "Timer attivo."
 
 msgid "Toggle timer active/inactive"
-msgstr ""
+msgstr "Attiva/disattiva timer"
 
 msgid "Delete timer"
-msgstr ""
+msgstr "Cancella timer"
 
 msgid "VLC: live video stream"
-msgstr ""
+msgstr "VLC: trasmissione video Live"
 
 msgid "Stop"
-msgstr ""
+msgstr "Ferma"
 
 msgid "Play"
-msgstr ""
+msgstr "Riproduci"
 
 msgid "Sound on"
-msgstr ""
+msgstr "Suono attivo"
 
 msgid "Sound off"
-msgstr ""
+msgstr "Suono disattivo"
 
 msgid "Fullscreen"
-msgstr ""
+msgstr "Schermo interno"
 
 msgid "Close"
-msgstr ""
+msgstr "Chiudi"
 
 msgid "VLC media URL"
-msgstr ""
+msgstr "URL media di VLC"
 
 msgid "What's running at"
-msgstr ""
+msgstr "Cosa c'è alle"
 
 msgid "What's on next?"
-msgstr ""
+msgstr "Cosa c'è dopo?"
 
 msgid "%a, %b %d"
-msgstr ""
+msgstr "%a, %b %d"
 
 msgid "View the schedule of this channel"
-msgstr ""
+msgstr "Visualizza scheda programmi del canale"
 
 msgid "more"
-msgstr ""
+msgstr "altro"
 
 msgid "Now"
-msgstr ""
+msgstr "Adesso"
 
 msgid "Next"
-msgstr ""
+msgstr "Dopo"
 
 msgid "What's on"
-msgstr ""
+msgstr "Cosa c'è adesso?"
 
 msgid "at"
-msgstr ""
+msgstr "alle"
 
 msgid "Details view"
-msgstr ""
+msgstr "Vedi come dettagli"
 
 msgid "List view"
-msgstr ""
+msgstr "Vedi come elenco"
 
 #, fuzzy
 #~ msgid "Watch channel"
 #~ msgstr "a canale"
+
