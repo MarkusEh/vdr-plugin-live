@@ -1,3 +1,9 @@
+2008-01-04  Dieter Hametner  <dh+vdr at gekrumbel dot de>
+
+	* Makefile: Thanks to user 'ernie' in vdr-portal.de, who pointed
+	  out that the Makefile uses a bashism without setting SHELL to
+	  bash.
+
 2007-12-25  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
 	- Added configuration option to disable the creation of IMDb URLs
