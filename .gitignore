@@ -1,0 +1,13 @@
+CVS
+.#*
+*~
+*.o
+*.a
+*.so
+pages/*.cpp
+po/*.mo
+po/live.pot
+.dependencies
+.cvsignore
+.libs
+locale

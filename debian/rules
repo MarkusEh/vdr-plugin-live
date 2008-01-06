@@ -1,0 +1,94 @@
+#! /bin/sh /usr/share/vdr-dev/make-special-vdr.sh
+# Sample debian/rules that uses debhelper.
+# GNU copyright 1997 to 1999 by Joey Hess.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
+	CFLAGS += -g
+endif
+ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
+	INSTALL_PROGRAM += -s
+endif
+
+# To use dpatch uncomment the following line and set Build-Depends to dpatch
+DPATCH=yes
+
+ifdef DPATCH
+include /usr/share/dpatch/dpatch.make
+else
+patch:
+patch-stamp:
+unpatch:
+endif
+
+MAKE_OPTIONS = DVBDIR=/usr VDRDIR=/usr/include/vdr LIBDIR=.
+
+configure: configure-stamp
+configure-stamp: patch-stamp
+	dh_testdir
+	touch configure-stamp
+
+build: build-stamp
+build-stamp: configure-stamp
+	dh_testdir
+	$(MAKE) all $(MAKE_OPTIONS)
+	touch build-stamp
+
+clean: clean-patched unpatch
+clean-patched:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp configure-stamp
+	-$(MAKE) -o .dependencies clean $(MAKE_OPTIONS)
+	rm -f libvdr-*.so.*
+	rm -rf locale
+	dh_clean
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+	dh_install
+
+# Build architecture-independent files here.
+binary-indep: build install
+# We have nothing to do by default.
+
+# Build architecture-dependent files here.
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+#	dh_installdebconf
+	dh_installdocs
+	dh_installexamples
+#	dh_installmenu
+#	dh_installlogrotate
+#	dh_installemacsen
+#	dh_installpam
+#	dh_installmime
+#	dh_installinit
+#	dh_installcron
+#	dh_installman
+#	dh_installinfo
+#	dh_undocumented
+	dh_installchangelogs HISTORY
+	dh_link
+	dh_strip
+	dh_compress
+	dh_fixperms
+#	dh_makeshlibs
+	dh_installdeb
+#	dh_perl
+	dh_shlibdeps
+	sh /usr/share/vdr-dev/patchlevel.sh subst
+	sh /usr/share/vdr-dev/dependencies.sh
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install configure \
+        clean-patched patch unpatch

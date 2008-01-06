@@ -1,0 +1,4 @@
+usr/share/vdr-plugin-live/css		var/lib/vdr/plugins/live/css
+usr/share/vdr-plugin-live/img		var/lib/vdr/plugins/live/img
+usr/share/vdr-plugin-live/js		var/lib/vdr/plugins/live/js
+usr/share/vdr-plugin-live/themes	var/lib/vdr/plugins/live/themes
