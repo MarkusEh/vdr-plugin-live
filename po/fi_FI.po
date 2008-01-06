@@ -563,6 +563,9 @@ msgstr "Virheraportoinnit ja parannusehdotukset"
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
 msgstr "Voit raportoida sekä virheet että parannusehdotukset suoraan havaintotietokantaan"
 
+msgid "RecDate"
+msgstr "Tallenteen päiväys"
+
 msgid "List of recordings"
 msgstr "Tallennelistaus"
 
@@ -746,9 +749,6 @@ msgstr "Ruudukkonäkymä"
 
 msgid "List view"
 msgstr "Listanäkymä"
-
-#~ msgid "RecDate"
-#~ msgstr "Tallenteen päiväys"
 
 #, fuzzy
 #~ msgid "Watch channel"
