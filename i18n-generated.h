@@ -6416,6 +6416,41 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
+  { "RecDate",
+    "Aufnahmedatum",
+    "",
+    "Data reg.",
+    "",
+    "",
+    "",
+    "",
+    "Tallenteen päiväys",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
   { "List of recordings",
     "Liste der Aufnahmen",
     "",
@@ -7544,7 +7579,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Lisää linkit IMDb:hen",
     "",
     "",
     "",
@@ -7929,7 +7964,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "Asetukset",
+    "Pysäytä",
     "",
     "",
     "",
@@ -7964,7 +7999,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Toista",
     "",
     "",
     "",
@@ -7999,7 +8034,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Poista mykistys",
     "",
     "",
     "",
@@ -8034,7 +8069,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Mykistä",
     "",
     "",
     "",
@@ -8069,7 +8104,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Kokonäyttö",
     "",
     "",
     "",
@@ -8104,7 +8139,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Sulje",
     "",
     "",
     "",
@@ -8139,7 +8174,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "VLC:n URL",
     "",
     "",
     "",

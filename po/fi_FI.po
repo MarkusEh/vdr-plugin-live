@@ -663,7 +663,7 @@ msgid "Streamdev stream type"
 msgstr "Streamdev-lähetteen tyyppi"
 
 msgid "Add links to IMDb"
-msgstr ""
+msgstr "Lisää linkit IMDb:hen"
 
 msgid "additional fixed times in 'What's on?'"
 msgstr "Lisäajankohdat 'Menossa?'-sivulle"
@@ -695,27 +695,26 @@ msgstr "Poista ajastin"
 msgid "VLC: live video stream"
 msgstr "VLC: live-lähetyksen suoratoisto"
 
-#, fuzzy
 msgid "Stop"
-msgstr "Asetukset"
+msgstr "Pysäytä"
 
 msgid "Play"
-msgstr ""
+msgstr "Toista"
 
 msgid "Sound on"
-msgstr ""
+msgstr "Poista mykistys"
 
 msgid "Sound off"
-msgstr ""
+msgstr "Mykistä"
 
 msgid "Fullscreen"
-msgstr ""
+msgstr "Kokonäyttö"
 
 msgid "Close"
-msgstr ""
+msgstr "Sulje"
 
 msgid "VLC media URL"
-msgstr ""
+msgstr "VLC:n URL"
 
 msgid "What's running at"
 msgstr "Menossa kello"
@@ -752,4 +751,4 @@ msgstr "Listanäkymä"
 
 #, fuzzy
 #~ msgid "Watch channel"
-#~ msgstr "Kanavaan"
+#~ msgstr "Katso kanavaa"
