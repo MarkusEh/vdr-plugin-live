@@ -562,6 +562,9 @@ msgstr ""
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
 msgstr ""
 
+msgid "RecDate"
+msgstr ""
+
 msgid "List of recordings"
 msgstr ""
 

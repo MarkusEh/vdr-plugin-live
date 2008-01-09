@@ -564,6 +564,9 @@ msgstr "Bogues et suggestions"
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
 msgstr "Si vous rencontrez n'importe quels bogue ou voudriez suggérer de nouveaux dispositifs, employer notre bugtracker svp"
 
+msgid "RecDate"
+msgstr ""
+
 msgid "List of recordings"
 msgstr "Liste des enregistrements"
 
