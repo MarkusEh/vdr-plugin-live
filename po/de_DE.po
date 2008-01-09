@@ -109,9 +109,6 @@ msgstr ""
 msgid "Couldn't grab image from primary device"
 msgstr ""
 
-msgid "channels"
-msgstr "Kanäle"
-
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr ""
 
@@ -724,6 +721,9 @@ msgstr "Was läuft als nächstes?"
 msgid "%a, %b %d"
 msgstr "%a, %d.%m."
 
+msgid "Favorites"
+msgstr "Favoriten"
+
 msgid "View the schedule of this channel"
 msgstr "Zeige Programm dieses Kanals"
 
@@ -747,6 +747,9 @@ msgstr "Ausführliche Ansicht"
 
 msgid "List view"
 msgstr "Listenansicht"
+
+#~ msgid "channels"
+#~ msgstr "Kanäle"
 
 #~ msgid "RecDate"
 #~ msgstr "Aufnahmedatum"

@@ -110,9 +110,6 @@ msgstr ""
 msgid "Couldn't grab image from primary device"
 msgstr ""
 
-msgid "channels"
-msgstr ""
-
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr ""
 
@@ -724,6 +721,9 @@ msgid "What's on next?"
 msgstr ""
 
 msgid "%a, %b %d"
+msgstr ""
+
+msgid "Favorites"
 msgstr ""
 
 msgid "View the schedule of this channel"

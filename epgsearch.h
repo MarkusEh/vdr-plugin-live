@@ -375,6 +375,7 @@ public:
 	iterator end() { return m_list.end(); }
 	const_iterator end() const { return m_list.end(); }
 
+	void merge(SearchResults& r) {m_list.merge(r.m_list); m_list.sort();}
 	static std::string AddQuery(std::string const& query);
 	static std::string PopQuery(std::string const& md5);
 private:

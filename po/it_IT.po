@@ -110,9 +110,6 @@ msgstr "Impossibile identificare scheda primaria"
 msgid "Couldn't grab image from primary device"
 msgstr "Impossibile ottenere immagine da scheda primaria"
 
-msgid "channels"
-msgstr "canali"
-
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr "Impossibile avere accesso ai canali, per favore riprova più tardi."
 
@@ -725,6 +722,9 @@ msgstr "Cosa c'è dopo?"
 msgid "%a, %b %d"
 msgstr "%a, %b %d"
 
+msgid "Favorites"
+msgstr ""
+
 msgid "View the schedule of this channel"
 msgstr "Visualizza scheda programmi del canale"
 
@@ -748,6 +748,9 @@ msgstr "Vedi come dettagli"
 
 msgid "List view"
 msgstr "Vedi come elenco"
+
+#~ msgid "channels"
+#~ msgstr "canali"
 
 #~ msgid "RecDate"
 #~ msgstr "Data reg."
