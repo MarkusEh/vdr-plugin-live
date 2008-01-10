@@ -107,9 +107,6 @@ msgstr "Ensisijaisen DVB-sovittimen käyttäminen epäonnistui!"
 msgid "Couldn't grab image from primary device"
 msgstr "Kuvan kaappaus ensisijaiselta DVB-sovittimelta epäonnistui!"
 
-msgid "channels"
-msgstr "kanavat"
-
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr "Kanavien käyttäminen epäonnistui! Yritä myöhemmin uudelleen."
 
@@ -563,6 +560,9 @@ msgstr "Virheraportoinnit ja parannusehdotukset"
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
 msgstr "Voit raportoida sekä virheet että parannusehdotukset suoraan havaintotietokantaan"
 
+msgid "RecDate"
+msgstr "Tallenteen päiväys"
+
 msgid "List of recordings"
 msgstr "Tallennelistaus"
 
@@ -660,7 +660,7 @@ msgid "Streamdev stream type"
 msgstr "Streamdev-lähetteen tyyppi"
 
 msgid "Add links to IMDb"
-msgstr ""
+msgstr "Lisää linkit IMDb:hen"
 
 msgid "additional fixed times in 'What's on?'"
 msgstr "Lisäajankohdat 'Menossa?'-sivulle"
@@ -692,27 +692,26 @@ msgstr "Poista ajastin"
 msgid "VLC: live video stream"
 msgstr "VLC: live-lähetyksen suoratoisto"
 
-#, fuzzy
 msgid "Stop"
-msgstr "Asetukset"
+msgstr "Pysäytä"
 
 msgid "Play"
-msgstr ""
+msgstr "Toista"
 
 msgid "Sound on"
-msgstr ""
+msgstr "Poista mykistys"
 
 msgid "Sound off"
-msgstr ""
+msgstr "Mykistä"
 
 msgid "Fullscreen"
-msgstr ""
+msgstr "Kokonäyttö"
 
 msgid "Close"
-msgstr ""
+msgstr "Sulje"
 
 msgid "VLC media URL"
-msgstr ""
+msgstr "VLC:n URL"
 
 msgid "What's running at"
 msgstr "Menossa kello"
@@ -722,6 +721,9 @@ msgstr "Tulossa seuraavaksi?"
 
 msgid "%a, %b %d"
 msgstr "%a, %d.%m."
+
+msgid "Favorites"
+msgstr ""
 
 msgid "View the schedule of this channel"
 msgstr "Näytä ohjelmisto kanavalta"
@@ -747,9 +749,4 @@ msgstr "Ruudukkonäkymä"
 msgid "List view"
 msgstr "Listanäkymä"
 
-#~ msgid "RecDate"
-#~ msgstr "Tallenteen päiväys"
 
-#, fuzzy
-#~ msgid "Watch channel"
-#~ msgstr "Kanavaan"
