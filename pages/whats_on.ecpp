@@ -279,8 +279,10 @@ if (type == "now") {
 <span class="<? current_type == "at" && current_fixtime == "" ? "active" ?>"><$ tr("at") $></span>
 <input type="text" size="6" name="spectime" id="spectime" value = "<? current_attime != "" ? current_displaytime ?>" onchange="showspectime(this)"/>
 <span class="sep">|</span>
+% if ( LiveFeatures< features::epgsearch >().Recent() ) {
 <a class="<? current_type == "favs" ? "active" ?>" href="whats_on.html?type=favs&amp;mode=<$ current_mode $>"><$ tr("Favorites") $></a>
 <span class="sep">|</span>
+% }
 % if ( current_mode == "list" ) {
 <a href="whats_on.html?mode=detail&amp;type=<$ current_type $>&amp;attime=<$ current_attime $>&amp;fixtime=<$ current_fixtime $>"><$ tr("Details view") $></a>
 % } else {
