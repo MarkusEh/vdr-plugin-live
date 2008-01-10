@@ -2,6 +2,7 @@
 #define VDR_LIVE_SETUP_H
 
 #include <list>
+#include <limits>
 #include <numeric>
 #include <string>
 #include "live.h"
