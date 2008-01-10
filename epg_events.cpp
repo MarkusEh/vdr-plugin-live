@@ -1,5 +1,6 @@
 #include <time.h>
 #include <glob.h>
+#include <algorithm>
 
 #include "tools.h"
 #include "recman.h"
