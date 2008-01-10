@@ -563,9 +563,6 @@ msgstr "Rapporto errori e proposte"
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
 msgstr "Se riscontri degli errori o vuoi chiedere nuove funzioni utilizza il nostro bugtracker"
 
-msgid "RecDate"
-msgstr "Data reg."
-
 msgid "List of recordings"
 msgstr "Lista registrazioni"
 
@@ -734,6 +731,19 @@ msgstr "Visualizza scheda programmi del canale"
 msgid "more"
 msgstr "altro"
 
+msgid "in"
+msgstr ""
+
+msgid "since"
+msgstr ""
+
+#, fuzzy
+msgid "hours"
+msgstr "Autori"
+
+msgid "minutes"
+msgstr ""
+
 msgid "Now"
 msgstr "Adesso"
 
@@ -752,3 +762,5 @@ msgstr "Vedi come dettagli"
 msgid "List view"
 msgstr "Vedi come elenco"
 
+#~ msgid "RecDate"
+#~ msgstr "Data reg."

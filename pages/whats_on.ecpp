@@ -202,7 +202,18 @@ if (type == "now") {
 			curresults.GetByID(timer->Id());
 			results.merge(curresults);
 		}
+		time_t now = time(NULL);
 		for (SearchResults::iterator result = results.begin(); result != results.end(); ++result) {
+			long diff = result->StartTime() - now;
+			long absdiff = labs(diff);
+			if (absdiff >= 24*60*60) continue; // skip broadcasts more than a day away
+
+			string diffstring = string((diff > 0) ? tr("in") : tr("since")) + " ";
+			if (absdiff >= (60 * 60))
+				diffstring += lexical_cast<std::string>(long(absdiff / (60*60))) + " " + tr("hours");
+			else
+				diffstring += lexical_cast<std::string>(long(absdiff / 60)) + " " + tr("minutes");	
+
 			string epgId = EpgEvents::EncodeDomId(result->Channel(), result->EventId());	
 			string channelname = Channels.GetByChannelID(result->Channel())->Name();
 			int channelnr = Channels.GetByChannelID(result->Channel())->Number();
@@ -212,31 +223,15 @@ if (type == "now") {
 				+ "<br/><br/>" + tr("Click to view details.");
 
 			// last result?
-			bool bottom = false; 
 			SearchResults::iterator nextres = result;
-			nextres++;
-			if (nextres == results.end()) bottom = true;
-			
-			time_t now = time(NULL);
-			long diff = result->StartTime() - now;
-			long absdiff = labs(diff);
-			if (absdiff >= 24*60*60) continue; // skip broadcasts more than a day away
-			string diffstring;
-			if (absdiff >= (60 * 60))
-				diffstring = lexical_cast<std::string>(long(absdiff / (60*60))) + " hours";
-			else
-				diffstring = lexical_cast<std::string>(long(absdiff / 60)) + " minutes";	
-			if (diff > 0)
-				diffstring = "in " + diffstring;
-			else
-				diffstring = "since " + diffstring; 			
+			bool bottom = (++nextres == results.end());
 </%cpp>
 			<tr>
 				<& pageelems.epg_tool_box detail=(0) epgid=(epgId) title=(result->Title()) startTime=(result->StartTime()) endTime=(result->StopTime()) lastCurrentChanel=(bottom ? 1 : 0) &>
 				<td class="topaligned <? bottom ? "bottomrow"?>">
 					<div class="withmargin">
 						<div class="nomargin"><$ (FormatDateTime(tr("%I:%M %p"), result->StartTime())) $> - <$ (FormatDateTime(tr("%I:%M %p"), result->StopTime())) $></div>
-						<$ diffstring $> minutes
+						<$ diffstring $>
 						</div>
 						</td>
 						<td class="topaligned <? bottom ? "bottomrow"?>">
