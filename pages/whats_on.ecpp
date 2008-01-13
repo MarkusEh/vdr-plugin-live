@@ -132,13 +132,13 @@ if (type == "now") {
 				if (!Event) {
 					continue;
 				}
-	
+
 				EpgInfoPtr epgEvent = EpgEvents::CreateEpgInfo(Channel, Event);
 				eventList.push_back(epgEvent);
 			}
 		}
-	} 
-	else // get favorite broadcasts from epgsearch 
+	}
+	else // get favorite broadcasts from epgsearch
 	{
 		SearchResults results;
 		SearchTimers timers;

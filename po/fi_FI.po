@@ -107,6 +107,10 @@ msgstr "Ensisijaisen DVB-sovittimen käyttäminen epäonnistui!"
 msgid "Couldn't grab image from primary device"
 msgstr "Kuvan kaappaus ensisijaiselta DVB-sovittimelta epäonnistui!"
 
+#, fuzzy
+msgid "channels"
+msgstr "Kanava"
+
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr "Kanavien käyttäminen epäonnistui! Yritä myöhemmin uudelleen."
 
@@ -560,6 +564,9 @@ msgstr "Virheraportoinnit ja parannusehdotukset"
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
 msgstr "Voit raportoida sekä virheet että parannusehdotukset suoraan havaintotietokantaan"
 
+msgid "RecDate"
+msgstr "Tallenteen päiväys"
+
 msgid "List of recordings"
 msgstr "Tallennelistaus"
 
@@ -749,6 +756,3 @@ msgstr "Listanäkymä"
 #, fuzzy
 #~ msgid "hours"
 #~ msgstr "Tekijät"
-
-#~ msgid "RecDate"
-#~ msgstr "Tallenteen päiväys"
