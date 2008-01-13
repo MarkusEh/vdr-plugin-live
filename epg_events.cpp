@@ -98,6 +98,11 @@ namespace vdrlive
 		return "";
 	}
 
+	const cChannel* EpgString::Channel() const
+	{
+		return NULL;
+	}
+
 	// virtual const std::string Archived() const { return std::string(); }
 
 	time_t EpgString::GetStartTime() const
@@ -162,6 +167,11 @@ namespace vdrlive
 	{
 		const cRecordingInfo* info = m_recording ? m_recording->Info() : 0;
 		return (info && info->Description()) ? info->Description() : "";
+	}
+
+	const cChannel* EpgRecording::Channel() const
+	{
+		return NULL;
 	}
 
 	const string EpgRecording::Archived() const

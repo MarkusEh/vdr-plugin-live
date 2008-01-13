@@ -557,10 +557,10 @@ Blacklists::Blacklists()
 
 SearchResult::SearchResult( string const& data )
 {
-   vector< string > parts = StringSplit( data, ':' );
-   try {
-      vector< string >::const_iterator part = parts.begin();
-      for ( int i = 0; part != parts.end(); ++i, ++part ) {
+	vector< string > parts = StringSplit( data, ':' );
+	try {
+		vector< string >::const_iterator part = parts.begin();
+		for ( int i = 0; part != parts.end(); ++i, ++part ) {
 			switch ( i ) {
 			case  0: m_searchId = lexical_cast< int >( *part ); break;
 			case  1: m_eventId = lexical_cast< u_int32_t >( *part ); break;
@@ -578,6 +578,18 @@ SearchResult::SearchResult( string const& data )
 		}
 	} catch ( bad_lexical_cast const& ex ) {
 	}
+}
+
+const cEvent* SearchResult::GetEvent()
+{
+	cSchedulesLock schedulesLock;
+	const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
+	if (!Schedules) return NULL;
+	const cChannel *Channel = GetChannel();
+	if (!Channel) return NULL;
+	const cSchedule *Schedule = Schedules->GetSchedule(Channel);
+	if (!Schedule) return NULL;
+	return Schedule->GetEvent(m_eventId);	
 }
 
 std::set<std::string> SearchResults::querySet;

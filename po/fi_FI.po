@@ -728,19 +728,6 @@ msgstr "Näytä ohjelmisto kanavalta"
 msgid "more"
 msgstr "lisätietoja"
 
-msgid "in"
-msgstr ""
-
-msgid "since"
-msgstr ""
-
-#, fuzzy
-msgid "hours"
-msgstr "Tekijät"
-
-msgid "minutes"
-msgstr ""
-
 msgid "Now"
 msgstr "Nyt"
 
@@ -758,6 +745,10 @@ msgstr "Ruudukkonäkymä"
 
 msgid "List view"
 msgstr "Listanäkymä"
+
+#, fuzzy
+#~ msgid "hours"
+#~ msgstr "Tekijät"
 
 #~ msgid "RecDate"
 #~ msgstr "Tallenteen päiväys"

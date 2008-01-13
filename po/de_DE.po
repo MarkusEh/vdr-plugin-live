@@ -730,18 +730,6 @@ msgstr "Zeige Programm dieses Kanals"
 msgid "more"
 msgstr "mehr"
 
-msgid "in"
-msgstr "in"
-
-msgid "since"
-msgstr "seit"
-
-msgid "hours"
-msgstr "Stunden"
-
-msgid "minutes"
-msgstr "Minuten"
-
 msgid "Now"
 msgstr "Jetzt"
 
@@ -760,5 +748,4 @@ msgstr "Ausführliche Ansicht"
 msgid "List view"
 msgstr "Listenansicht"
 
-#~ msgid "RecDate"
-#~ msgstr "Aufnahmedatum"
+

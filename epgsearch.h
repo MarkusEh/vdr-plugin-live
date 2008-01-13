@@ -339,6 +339,8 @@ public:
 	time_t TimerStopTime() const { return m_timerstop; }
 	int TimerMode() const { return m_timerMode; }
 	bool operator<( SearchResult const& other ) const { return m_starttime <  other.m_starttime; }
+	const cEvent* GetEvent();
+	const cChannel* GetChannel() { return Channels.GetByChannelID(m_channel); }
 
 private:
 	int m_searchId;

@@ -729,18 +729,6 @@ msgstr ""
 msgid "more"
 msgstr ""
 
-msgid "in"
-msgstr ""
-
-msgid "since"
-msgstr ""
-
-msgid "hours"
-msgstr ""
-
-msgid "minutes"
-msgstr ""
-
 msgid "Now"
 msgstr ""
 

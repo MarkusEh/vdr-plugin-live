@@ -733,19 +733,6 @@ msgstr "Regarder le programme de cette chaîne"
 msgid "more"
 msgstr "plus"
 
-msgid "in"
-msgstr ""
-
-msgid "since"
-msgstr ""
-
-#, fuzzy
-msgid "hours"
-msgstr "Auteur"
-
-msgid "minutes"
-msgstr ""
-
 msgid "Now"
 msgstr "maintenant"
 
@@ -763,6 +750,10 @@ msgstr "Vue détailée"
 
 msgid "List view"
 msgstr "Vue en liste"
+
+#, fuzzy
+#~ msgid "hours"
+#~ msgstr "Auteur"
 
 #, fuzzy
 #~ msgid "Watch channel"

@@ -35,6 +35,8 @@ namespace vdrlive
 
 			virtual std::string const LongDescr() const = 0;
 
+			virtual const cChannel* Channel() const = 0;
+
 			virtual std::string const Archived() const { return ""; }
 
 			virtual std::string const StartTime(const char* format) const;
@@ -82,6 +84,8 @@ namespace vdrlive
 
 			virtual time_t GetEndTime() const;
 
+			virtual const cChannel* Channel() const;
+
 		private:
 			const std::string m_info;
 	};
@@ -95,7 +99,7 @@ namespace vdrlive
 		protected:
 			EpgEvent(std::string const &id,
 					 cEvent const *event,
-					 char const *channelName = "");
+					 const char* channelName);
 
 		public:
 			virtual ~EpgEvent();
@@ -109,6 +113,8 @@ namespace vdrlive
 			virtual time_t GetStartTime() const { return m_event->StartTime(); }
 
 			virtual time_t GetEndTime() const { return m_event->EndTime(); }
+
+			virtual const cChannel* Channel() const { return Channels.GetByChannelID(m_event->ChannelID());}
 
 		private:
 			const cEvent* m_event;
@@ -143,6 +149,8 @@ namespace vdrlive
 			virtual time_t GetStartTime() const;
 
 			virtual time_t GetEndTime() const;
+
+			virtual const cChannel* Channel() const;
 
 		private:
 			const cRecording* m_recording;

@@ -731,19 +731,6 @@ msgstr "Visualizza scheda programmi del canale"
 msgid "more"
 msgstr "altro"
 
-msgid "in"
-msgstr ""
-
-msgid "since"
-msgstr ""
-
-#, fuzzy
-msgid "hours"
-msgstr "Autori"
-
-msgid "minutes"
-msgstr ""
-
 msgid "Now"
 msgstr "Adesso"
 
@@ -761,6 +748,10 @@ msgstr "Vedi come dettagli"
 
 msgid "List view"
 msgstr "Vedi come elenco"
+
+#, fuzzy
+#~ msgid "hours"
+#~ msgstr "Autori"
 
 #~ msgid "RecDate"
 #~ msgstr "Data reg."
