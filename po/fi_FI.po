@@ -107,8 +107,9 @@ msgstr "Ensisijaisen DVB-sovittimen käyttäminen epäonnistui!"
 msgid "Couldn't grab image from primary device"
 msgstr "Kuvan kaappaus ensisijaiselta DVB-sovittimelta epäonnistui!"
 
+#, fuzzy
 msgid "channels"
-msgstr "kanavat"
+msgstr "Kanava"
 
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr "Kanavien käyttäminen epäonnistui! Yritä myöhemmin uudelleen."
@@ -725,6 +726,9 @@ msgstr "Tulossa seuraavaksi?"
 msgid "%a, %b %d"
 msgstr "%a, %d.%m."
 
+msgid "Favorites"
+msgstr ""
+
 msgid "View the schedule of this channel"
 msgstr "Näytä ohjelmisto kanavalta"
 
@@ -750,5 +754,5 @@ msgid "List view"
 msgstr "Listanäkymä"
 
 #, fuzzy
-#~ msgid "Watch channel"
-#~ msgstr "Katso kanavaa"
+#~ msgid "hours"
+#~ msgstr "Tekijät"

@@ -111,8 +111,9 @@ msgstr ""
 msgid "Couldn't grab image from primary device"
 msgstr ""
 
+#, fuzzy
 msgid "channels"
-msgstr ""
+msgstr "à la chaîne"
 
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr ""
@@ -730,6 +731,9 @@ msgstr ""
 msgid "%a, %b %d"
 msgstr "%a, %d.%m."
 
+msgid "Favorites"
+msgstr ""
+
 msgid "View the schedule of this channel"
 msgstr "Regarder le programme de cette chaîne"
 
@@ -753,6 +757,10 @@ msgstr "Vue détailée"
 
 msgid "List view"
 msgstr "Vue en liste"
+
+#, fuzzy
+#~ msgid "hours"
+#~ msgstr "Auteur"
 
 #, fuzzy
 #~ msgid "Watch channel"

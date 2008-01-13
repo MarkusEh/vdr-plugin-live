@@ -4,6 +4,7 @@
 #include <sstream>
 #include <fstream>
 #include <stack>
+#include <algorithm>
 
 #include "stdext.h"
 #include "tools.h"

@@ -725,6 +725,9 @@ msgstr ""
 msgid "%a, %b %d"
 msgstr ""
 
+msgid "Favorites"
+msgstr ""
+
 msgid "View the schedule of this channel"
 msgstr ""
 

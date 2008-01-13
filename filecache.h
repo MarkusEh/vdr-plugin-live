@@ -1,6 +1,7 @@
 #ifndef VDR_LIVE_FILECACHE_H
 #define VDR_LIVE_FILECACHE_H
 
+#include <limits>
 #include <numeric>
 #include <string>
 #include <vector>

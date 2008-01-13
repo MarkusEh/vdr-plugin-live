@@ -339,6 +339,8 @@ public:
 	time_t TimerStopTime() const { return m_timerstop; }
 	int TimerMode() const { return m_timerMode; }
 	bool operator<( SearchResult const& other ) const { return m_starttime <  other.m_starttime; }
+	const cEvent* GetEvent();
+	const cChannel* GetChannel() { return Channels.GetByChannelID(m_channel); }
 
 private:
 	int m_searchId;
@@ -375,6 +377,7 @@ public:
 	iterator end() { return m_list.end(); }
 	const_iterator end() const { return m_list.end(); }
 
+	void merge(SearchResults& r) {m_list.merge(r.m_list); m_list.sort();}
 	static std::string AddQuery(std::string const& query);
 	static std::string PopQuery(std::string const& md5);
 private:

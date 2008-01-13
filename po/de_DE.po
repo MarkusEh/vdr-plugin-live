@@ -109,8 +109,9 @@ msgstr ""
 msgid "Couldn't grab image from primary device"
 msgstr ""
 
+#, fuzzy
 msgid "channels"
-msgstr "Kanäle"
+msgstr "Kanal"
 
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr ""
@@ -566,7 +567,7 @@ msgid "If you encounter any bugs or would like to suggest new features, please u
 msgstr "Für Fehler oder Verbesserungsvorschläge steht unser Bugtracker bereit"
 
 msgid "RecDate"
-msgstr "Aufnahmedatum"
+msgstr ""
 
 msgid "List of recordings"
 msgstr "Liste der Aufnahmen"
@@ -727,6 +728,9 @@ msgstr "Was läuft als nächstes?"
 msgid "%a, %b %d"
 msgstr "%a, %d.%m."
 
+msgid "Favorites"
+msgstr "Favoriten"
+
 msgid "View the schedule of this channel"
 msgstr "Zeige Programm dieses Kanals"
 
@@ -750,7 +754,3 @@ msgstr "Ausführliche Ansicht"
 
 msgid "List view"
 msgstr "Listenansicht"
-
-#, fuzzy
-#~ msgid "Watch channel"
-#~ msgstr "bis Kanal"
