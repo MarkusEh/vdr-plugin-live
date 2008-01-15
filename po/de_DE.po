@@ -111,6 +111,10 @@ msgstr ""
 msgid "Couldn't grab image from primary device"
 msgstr ""
 
+#, fuzzy
+msgid "channels"
+msgstr "Kanal"
+
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr ""
 
@@ -563,6 +567,9 @@ msgstr "Fehlerberichte und Vorschläge"
 
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
 msgstr "Für Fehler oder Verbesserungsvorschläge steht unser Bugtracker bereit"
+
+msgid "RecDate"
+msgstr ""
 
 msgid "List of recordings"
 msgstr "Liste der Aufnahmen"
