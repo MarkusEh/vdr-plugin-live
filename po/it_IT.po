@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2008-01-15 18:47+0100\n"
+"POT-Creation-Date: 2008-01-15 19:12+0100\n"
 "PO-Revision-Date: 2008-01-03 20:28+0100\n"
 "Last-Translator: Gringo <vdr-italian@tiscali.it>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -110,10 +110,6 @@ msgstr "Impossibile identificare scheda primaria"
 
 msgid "Couldn't grab image from primary device"
 msgstr "Impossibile ottenere immagine da scheda primaria"
-
-#, fuzzy
-msgid "channels"
-msgstr "Canale"
 
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr "Impossibile avere accesso ai canali, per favore riprova più tardi."
@@ -568,9 +564,6 @@ msgstr "Rapporto errori e proposte"
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
 msgstr "Se riscontri degli errori o vuoi chiedere nuove funzioni utilizza il nostro bugtracker"
 
-msgid "RecDate"
-msgstr "Data reg."
-
 msgid "List of recordings"
 msgstr "Lista registrazioni"
 
@@ -757,6 +750,4 @@ msgstr "Vedi come dettagli"
 msgid "List view"
 msgstr "Vedi come elenco"
 
-#, fuzzy
-#~ msgid "hours"
-#~ msgstr "Autori"
+

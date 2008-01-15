@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: 2008-01-15 18:47+0100\n"
+"POT-Creation-Date: 2008-01-15 19:12+0100\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Maarten Wisse <Maarten.Wisse@urz.uni-hd.de>\n"
 "Language-Team: <vdr@linuxtv.org>\n"
@@ -111,10 +111,6 @@ msgstr ""
 
 msgid "Couldn't grab image from primary device"
 msgstr ""
-
-#, fuzzy
-msgid "channels"
-msgstr "tot kanaal"
 
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr ""
@@ -569,9 +565,6 @@ msgstr ""
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
 msgstr ""
 
-msgid "RecDate"
-msgstr ""
-
 msgid "List of recordings"
 msgstr ""
 
@@ -759,6 +752,3 @@ msgstr ""
 msgid "List view"
 msgstr ""
 
-#, fuzzy
-#~ msgid "Watch channel"
-#~ msgstr "tot kanaal"
