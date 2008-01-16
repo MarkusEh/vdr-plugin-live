@@ -320,17 +320,6 @@ string SearchTimer::StopTimeFormatted()
 	return FormatDateTime(tr("%I:%M %p"), stop);
 }
 
-// format is in datepicker format ('mm' for month, 'dd' for day, 'yyyy' for year)
-string DatePickerToC(time_t date, string const& format)
-{
-	if (date == 0) return "";
-	string cformat = format;
-	cformat = StringReplace(cformat, "mm", "%m");
-	cformat = StringReplace(cformat, "dd", "%d");
-	cformat = StringReplace(cformat, "yyyy", "%Y");
-	return FormatDateTime(cformat.c_str(), date);
-}
-
 string SearchTimer::UseAsSearchTimerFrom(string const& format)
 {
 	return DatePickerToC(m_useAsSearchTimerFrom, format);
@@ -339,22 +328,6 @@ string SearchTimer::UseAsSearchTimerFrom(string const& format)
 string SearchTimer::UseAsSearchTimerTil(string const& format)
 {
 	return DatePickerToC(m_useAsSearchTimerTil, format);
-}
-
-time_t GetDateFromDatePicker(std::string const& datestring, std::string const& format)
-{
-	if (datestring.empty()) 
-		return 0;
-	int year = lexical_cast< int >(datestring.substr(format.find("yyyy"), 4));
-	int month = lexical_cast< int >(datestring.substr(format.find("mm"), 2));
-	int day = lexical_cast< int >(datestring.substr(format.find("dd"), 2));
-	struct tm tm_r;
-	tm_r.tm_year = year - 1900;
-	tm_r.tm_mon = month -1;
-	tm_r.tm_mday = day;
-	tm_r.tm_hour = tm_r.tm_min = tm_r.tm_sec = 0;
-	tm_r.tm_isdst = -1; // makes sure mktime() will determine the correct DST setting
-	return mktime(&tm_r);
 }
 
 void SearchTimer::SetUseAsSearchTimerFrom(std::string const& datestring, std::string const& format)

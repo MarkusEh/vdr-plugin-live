@@ -242,4 +242,33 @@ string GetXMLValue( std::string const& xml, std::string const& element )
 	return xml.substr(startPos + start.size(), endPos - startPos - start.size());
 }
 
+// return the time value as time_t from <datestring> formatted with <format>
+time_t GetDateFromDatePicker(std::string const& datestring, std::string const& format)
+{
+	if (datestring.empty()) 
+		return 0;
+	int year = lexical_cast< int >(datestring.substr(format.find("yyyy"), 4));
+	int month = lexical_cast< int >(datestring.substr(format.find("mm"), 2));
+	int day = lexical_cast< int >(datestring.substr(format.find("dd"), 2));
+	struct tm tm_r;
+	tm_r.tm_year = year - 1900;
+	tm_r.tm_mon = month -1;
+	tm_r.tm_mday = day;
+	tm_r.tm_hour = tm_r.tm_min = tm_r.tm_sec = 0;
+	tm_r.tm_isdst = -1; // makes sure mktime() will determine the correct DST setting
+	return mktime(&tm_r);
+}
+
+// format is in datepicker format ('mm' for month, 'dd' for day, 'yyyy' for year)
+std::string DatePickerToC(time_t date, std::string const& format)
+{
+	if (date == 0) return "";
+	std::string cformat = format;
+	cformat = StringReplace(cformat, "mm", "%m");
+	cformat = StringReplace(cformat, "dd", "%d");
+	cformat = StringReplace(cformat, "yyyy", "%Y");
+	return FormatDateTime(cformat.c_str(), date);
+}
+
+
 } // namespace vdrlive

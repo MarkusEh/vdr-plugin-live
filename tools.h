@@ -38,6 +38,8 @@ time_t GetTimeT(std::string timestring);
 std::string ExpandTimeString(std::string timestring);
 std::string StringUrlEncode( std::string const& input );
 std::string GetXMLValue( std::string const& xml, std::string const& element );
+time_t GetDateFromDatePicker(std::string const& datestring, std::string const& format);
+ std::string DatePickerToC(time_t date, std::string const& format);
 
 struct bad_lexical_cast: std::runtime_error 
 {
