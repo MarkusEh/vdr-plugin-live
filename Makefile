@@ -182,6 +182,7 @@ dist: clean
 clean: $(SUBDIRS)
 	@-rm -f $(PODIR)/*.mo $(PODIR)/*.pot
 	@-rm -f $(PLUGINOBJS) $(DEPFILE) *.so *.tgz core* *~
+	@-rm -f $(VERSIONSUFFIX)
 
 .PRECIOUS: $(I18Npo)
 

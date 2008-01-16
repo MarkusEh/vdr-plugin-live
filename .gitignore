@@ -4,6 +4,7 @@ CVS
 *.o
 *.a
 *.so
+gen_version_suffix.h
 pages/*.cpp
 po/*.mo
 po/live.pot

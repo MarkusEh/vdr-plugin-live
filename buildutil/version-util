@@ -22,7 +22,7 @@ cat <<EOF
  */
 #ifndef GEN_VERSION_SUFFIX_H
 #define GEN_VERSION_SUFFIX_H
-#define VERSION_SUFFIX $1
+#define VERSION_SUFFIX "$1"
 #endif
 EOF
 }
@@ -60,7 +60,9 @@ function checkVers ()
     else
 	v=`grep '^#define VERSION_SUFFIX' ${VERS_FILE} \
 	    | awk '{print $3}'`
-	if [ "$v" != "$s" ]; then
+	echo "s: $s"
+	echo "v: $v"
+	if [ "$v" != "\"$s\"" ]; then
 	    echo "$VERS_FILE is being recreated!"
 	    createVers $s > ${VERS_FILE}
 	fi
