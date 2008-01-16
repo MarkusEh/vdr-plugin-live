@@ -14,7 +14,6 @@ PLUGIN = live
 ### The version number of this plugin (taken from the main source file):
 
 VERSION = $(shell grep '\#define LIVEVERSION ' setup.h | awk '{ print $$3 }' | sed -e 's/[";]//g')
-VERSINFO= $(shell ./buildutil/version-util)
 
 ### The C++ compiler and options:
 
@@ -58,7 +57,7 @@ ifneq ($(TNTVERS7),yes)
 	LIBS	 += httpd/libhttpd.a
 endif
 
-DEFINES	 += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"' -DVERSION_SUFFIX='"$(VERSINFO)"'
+DEFINES	 += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"'
 ifeq ($(TNTVERS7),yes)
 	DEFINES += -DTNTVERS7
 endif
@@ -68,6 +67,8 @@ SUBDIRS	  = pages css javascript
 ifneq ($(TNTVERS7),yes)
 	SUBDIRS += httpd
 endif
+
+VERSIONSUFFIX = gen_version_suffix.h
 
 ### The object files (add further files here):
 
@@ -79,9 +80,9 @@ WEBLIBS	   = pages/libpages.a css/libcss.a javascript/libjavascript.a
 
 ### Default rules:
 
-.PHONY: all dist clean SUBDIRS
-
 all: libvdr-$(PLUGIN).so $(I18NTARG)
+
+.PHONY: all dist clean subdirs $(SUBDIRS) PAGES
 
 ### Implicit rules:
 
@@ -95,7 +96,9 @@ DEPFILE = .dependencies
 $(DEPFILE): Makefile
 	@$(MAKEDEP) $(DEFINES) $(INCLUDES) $(PLUGINOBJS:%.o=%.cpp) > $@
 
+ifneq ($(MAKECMDGOALS),clean)
 -include $(DEPFILE)
+endif
 
 ### Internationalization (I18N):
 
@@ -131,15 +134,18 @@ generate-i18n: i18n-template.h $(I18Npot) $(I18Npo) buildutil/pot2i18n.pl
 
 ### Targets:
 
-SUBDIRS:
-	@for dir in $(SUBDIRS); do \
-		make -C $$dir CXX="$(CXX)" CXXFLAGS="$(CXXFLAGS)" || exit 1; \
-	done
+subdirs: $(SUBDIRS)
+
+$(SUBDIRS):
+	$(MAKE) -C $@ CXX="$(CXX)" CXXFLAGS="$(CXXFLAGS)" $(MAKECMDGOALS)
 
 PAGES:
-	make -C pages CXX="$(CXX)" CXXFLAGS="$(CXXFLAGS)" .dependencies || exit 1;
+	$(MAKE) -C pages CXX="$(CXX)" CXXFLAGS="$(CXXFLAGS)" .dependencies
 
-libvdr-$(PLUGIN).so: SUBDIRS $(PLUGINOBJS)
+$(VERSIONSUFFIX): FORCE
+	./buildutil/version-util $(VERSIONSUFFIX)
+
+libvdr-$(PLUGIN).so: $(VERSIONSUFFIX) $(SUBDIRS) $(PLUGINOBJS)
 	$(CXX) $(LDFLAGS) -shared -o $@	 $(PLUGINOBJS) -Wl,--whole-archive $(WEBLIBS) -Wl,--no-whole-archive $(LIBS)
 	@cp --remove-destination $@ $(LIBDIR)/$@.$(APIVERSION)
 ifneq ($(TNTVERS7),yes)
@@ -173,11 +179,11 @@ dist: clean
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
 	@echo Distribution package created as $(PACKAGE).tgz
 
-clean:
+clean: $(SUBDIRS)
 	@-rm -f $(PODIR)/*.mo $(PODIR)/*.pot
 	@-rm -f $(PLUGINOBJS) $(DEPFILE) *.so *.tgz core* *~
-	@for dir in $(SUBDIRS); do \
-		make -C $$dir clean ; \
-	done
+	@-rm -f $(VERSIONSUFFIX)
 
 .PRECIOUS: $(I18Npo)
+
+FORCE:
