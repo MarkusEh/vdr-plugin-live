@@ -1,3 +1,10 @@
+2008-01-15   Christian Wieninger <cwieninger at gmx dot de>
+	* whats_on.ecpp: added listing 'Favorites', that lists all search 
+	  results of search timers with setting 'Use in favorites menu'
+	* Makefile: reversed Makefile changes that avoided commit conflicts,
+	  but caused compile time problems
+	* po/*.po: added "translation team" since msgfmt complains about that
+	
 2008-01-04  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
 	* Makefile: Thanks to user 'ernie' in vdr-portal.de, who pointed
