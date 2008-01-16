@@ -2,5 +2,6 @@
 .gitignore
 .libs
 .dependencies
+gen_version_suffix.h
 debian
 locale
