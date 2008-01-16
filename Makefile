@@ -14,6 +14,7 @@ PLUGIN = live
 ### The version number of this plugin (taken from the main source file):
 
 VERSION = $(shell grep '\#define LIVEVERSION ' setup.h | awk '{ print $$3 }' | sed -e 's/[";]//g')
+VERSINFO= $(shell ./buildutil/version-util)
 
 ### The C++ compiler and options:
 
@@ -57,7 +58,7 @@ ifneq ($(TNTVERS7),yes)
 	LIBS	 += httpd/libhttpd.a
 endif
 
-DEFINES	 += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"'
+DEFINES	 += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"' -DVERSION_SUFFIX='"$(VERSINFO)"'
 ifeq ($(TNTVERS7),yes)
 	DEFINES += -DTNTVERS7
 endif
