@@ -1,10 +1,23 @@
+2008-01-18  Dieter Hametner  <dh+vdr at gekrumbel dot de>
+
+	* buildutil/version-util*: Added a shell and an awk script to
+	  calculate a version suffix string out of CVS current working dir
+	  status. This was a request bei jo01 and helps distinguish if
+	  newer versions are awailable. It should not break builds if
+	  something goes wrong in the script. At least it was my intention.
+	  The script also support git repositories. But it has not been
+	  tested if it determines the correct git commit id based on
+	  current workdir contents.
+	  The caluculated version suffix is appended to the LIVE version
+	  string visible in the about box (?-Menu entry).
+
 2008-01-15   Christian Wieninger <cwieninger at gmx dot de>
-	* whats_on.ecpp: added listing 'Favorites', that lists all search 
+	* whats_on.ecpp: added listing 'Favorites', that lists all search
 	  results of search timers with setting 'Use in favorites menu'
 	* Makefile: reversed Makefile changes that avoided commit conflicts,
 	  but caused compile time problems
 	* po/*.po: added "translation team" since msgfmt complains about that
-	
+
 2008-01-04  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
 	* Makefile: Thanks to user 'ernie' in vdr-portal.de, who pointed
