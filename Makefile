@@ -143,7 +143,7 @@ PAGES:
 	$(MAKE) -C pages CXX="$(CXX)" CXXFLAGS="$(CXXFLAGS)" .dependencies
 
 $(VERSIONSUFFIX): FORCE
-	./buildutil/version-util $(VERSIONSUFFIX)
+	./buildutil/version-util $(VERSIONSUFFIX) || ./buildutil/version-util -F $(VERSIONSUFFIX)
 
 libvdr-$(PLUGIN).so: $(VERSIONSUFFIX) $(SUBDIRS) $(PLUGINOBJS)
 	$(CXX) $(LDFLAGS) -shared -o $@	 $(PLUGINOBJS) -Wl,--whole-archive $(WEBLIBS) -Wl,--no-whole-archive $(LIBS)
