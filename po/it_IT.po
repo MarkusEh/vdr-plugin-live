@@ -77,6 +77,9 @@ msgstr "Nessuna registrazione in riproduzione."
 msgid "Not playing the same recording as from request."
 msgstr "Riproduzione di una registrazione diversa da quella richiesta."
 
+msgid "Attempt to delete recording currently in playback."
+msgstr ""
+
 msgid "Epg error"
 msgstr "Errore EPG"
 
@@ -563,6 +566,13 @@ msgstr "Rapporto errori e proposte"
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
 msgstr "Se riscontri degli errori o vuoi chiedere nuove funzioni utilizza il nostro bugtracker"
 
+msgid "ERROR:"
+msgstr ""
+
+#, fuzzy
+msgid "Deleted recording:"
+msgstr "Registrazione serie"
+
 msgid "List of recordings"
 msgstr "Lista registrazioni"
 
@@ -571,6 +581,10 @@ msgstr "Nessuna registrazione"
 
 msgid "Click to view details."
 msgstr "Clicca per vedere i dettagli."
+
+#, fuzzy
+msgid "Delete this recording from hard disc!"
+msgstr "Cancella registrazione dopo ... giorni"
 
 msgid "play this recording."
 msgstr "Riproduci questa registrazione."
@@ -748,5 +762,3 @@ msgstr "Vedi come dettagli"
 
 msgid "List view"
 msgstr "Vedi come elenco"
-
-

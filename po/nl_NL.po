@@ -78,6 +78,9 @@ msgstr ""
 msgid "Not playing the same recording as from request."
 msgstr ""
 
+msgid "Attempt to delete recording currently in playback."
+msgstr ""
+
 msgid "Epg error"
 msgstr ""
 
@@ -564,6 +567,13 @@ msgstr ""
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
 msgstr ""
 
+msgid "ERROR:"
+msgstr ""
+
+#, fuzzy
+msgid "Deleted recording:"
+msgstr "Serie's opnemen"
+
 msgid "List of recordings"
 msgstr ""
 
@@ -571,6 +581,9 @@ msgid "No recordings found"
 msgstr ""
 
 msgid "Click to view details."
+msgstr ""
+
+msgid "Delete this recording from hard disc!"
 msgstr ""
 
 msgid "play this recording."
@@ -750,4 +763,3 @@ msgstr ""
 
 msgid "List view"
 msgstr ""
-

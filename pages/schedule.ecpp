@@ -64,7 +64,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	</head>
 	<body>
 		<& pageelems.logo &>
-		<& menu active=("schedule") component=("schedule.channel_selection")>
+		<& menu active=("schedule") component=("schedule.channel_selection") &>
 		<div class="inhalt">
 <%cpp>
 	if ( Schedule == 0 ) {

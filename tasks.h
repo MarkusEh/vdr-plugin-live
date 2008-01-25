@@ -139,6 +139,21 @@ public:
 	virtual void Action();
 };
 
+class RemoveRecordingTask: public RecordingTask
+{
+public:
+	explicit RemoveRecordingTask( std::string const& recording )
+		: RecordingTask(recording)
+	{}
+
+	virtual void Action();
+
+	std::string const & RecName() const { return m_recName; }
+
+private:
+	std::string m_recName;
+};
+
 
 TaskManager& LiveTaskManager();
 

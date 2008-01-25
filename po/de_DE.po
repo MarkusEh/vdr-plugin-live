@@ -60,22 +60,25 @@ msgid "On archive DVD No."
 msgstr "Auf Archiv-DVD Nr."
 
 msgid "Couldn't find channel or no channels available."
-msgstr ""
+msgstr "Kann das Programm nicht finden oder keine vorhanden."
 
 msgid "Couldn't switch to channel."
-msgstr ""
+msgstr "Kann nicht zu dem Programm umschalten."
 
 msgid "Couldn't find recording or no recordings available."
-msgstr ""
+msgstr "Kann die Aufnahme nicht finden oder keine Aufnahmen vorhanden."
 
 msgid "Cannot control playback!"
-msgstr ""
+msgstr "Kann die Wiedergabe nicht steuern."
 
 msgid "Not playing a recording."
-msgstr ""
+msgstr "Es wird keine Aufnahme abgespielt."
 
 msgid "Not playing the same recording as from request."
-msgstr ""
+msgstr "Es wird nicht die selbe Aufnahme abgespielt."
+
+msgid "Attempt to delete recording currently in playback."
+msgstr "Versuch die gerade abgepielte Aufnahme zu löschen."
 
 msgid "Epg error"
 msgstr "EPG Fehler"
@@ -87,7 +90,7 @@ msgid "Channel has no schedule"
 msgstr "Kanal hat keine Programminfos"
 
 msgid "Wrong event id"
-msgstr ""
+msgstr "Fehlerhafte Sendungs Id"
 
 msgid "Required minimum version of epgsearch: "
 msgstr "Benötigte Mindestversion von epgsearch: "
@@ -563,6 +566,12 @@ msgstr "Fehlerberichte und Vorschläge"
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
 msgstr "Für Fehler oder Verbesserungsvorschläge steht unser Bugtracker bereit"
 
+msgid "ERROR:"
+msgstr "FEHLER:"
+
+msgid "Deleted recording:"
+msgstr "Gelöschte Aufnahme:"
+
 msgid "List of recordings"
 msgstr "Liste der Aufnahmen"
 
@@ -571,6 +580,9 @@ msgstr "Keine Aufnahmen vorhanden"
 
 msgid "Click to view details."
 msgstr "Für Details klicken."
+
+msgid "Delete this recording from hard disc!"
+msgstr "Diese Aufnahme von der Festplatte löschen!"
 
 msgid "play this recording."
 msgstr "Diese Aufnahme abspielen."
@@ -748,5 +760,3 @@ msgstr "Ausführliche Ansicht"
 
 msgid "List view"
 msgstr "Listenansicht"
-
-

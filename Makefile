@@ -1,7 +1,6 @@
 #
 # Makefile for a Video Disk Recorder plugin
 #
-# $Id: Makefile,v 1.60 2008/01/04 12:18:08 tadi Exp $
 
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.
@@ -68,6 +67,8 @@ ifneq ($(TNTVERS7),yes)
 	SUBDIRS += httpd
 endif
 
+VERSIONSUFFIX = gen_version_suffix.h
+
 ### The object files (add further files here):
 
 PLUGINOBJS = $(PLUGIN).o thread.o tntconfig.o setup.o i18n.o timers.o \
@@ -78,9 +79,9 @@ WEBLIBS	   = pages/libpages.a css/libcss.a javascript/libjavascript.a
 
 ### Default rules:
 
-.PHONY: all dist clean SUBDIRS
-
 all: libvdr-$(PLUGIN).so $(I18NTARG)
+
+.PHONY: all dist clean subdirs $(SUBDIRS) PAGES
 
 ### Implicit rules:
 
@@ -94,7 +95,9 @@ DEPFILE = .dependencies
 $(DEPFILE): Makefile
 	@$(MAKEDEP) $(DEFINES) $(INCLUDES) $(PLUGINOBJS:%.o=%.cpp) > $@
 
+ifneq ($(MAKECMDGOALS),clean)
 -include $(DEPFILE)
+endif
 
 ### Internationalization (I18N):
 
@@ -130,15 +133,18 @@ generate-i18n: i18n-template.h $(I18Npot) $(I18Npo) buildutil/pot2i18n.pl
 
 ### Targets:
 
-SUBDIRS:
-	@for dir in $(SUBDIRS); do \
-		make -C $$dir CXX="$(CXX)" CXXFLAGS="$(CXXFLAGS)" || exit 1; \
-	done
+subdirs: $(SUBDIRS)
+
+$(SUBDIRS):
+	$(MAKE) -C $@ CXX="$(CXX)" CXXFLAGS="$(CXXFLAGS)" $(MAKECMDGOALS)
 
 PAGES:
-	make -C pages CXX="$(CXX)" CXXFLAGS="$(CXXFLAGS)" .dependencies || exit 1;
+	$(MAKE) -C pages CXX="$(CXX)" CXXFLAGS="$(CXXFLAGS)" .dependencies
 
-libvdr-$(PLUGIN).so: SUBDIRS $(PLUGINOBJS)
+$(VERSIONSUFFIX): FORCE
+	./buildutil/version-util $(VERSIONSUFFIX) || ./buildutil/version-util -F $(VERSIONSUFFIX)
+
+libvdr-$(PLUGIN).so: $(VERSIONSUFFIX) $(SUBDIRS) $(PLUGINOBJS)
 	$(CXX) $(LDFLAGS) -shared -o $@	 $(PLUGINOBJS) -Wl,--whole-archive $(WEBLIBS) -Wl,--no-whole-archive $(LIBS)
 	@cp --remove-destination $@ $(LIBDIR)/$@.$(APIVERSION)
 ifneq ($(TNTVERS7),yes)
@@ -172,11 +178,11 @@ dist: clean
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
 	@echo Distribution package created as $(PACKAGE).tgz
 
-clean:
+clean: $(SUBDIRS)
 	@-rm -f $(PODIR)/*.mo $(PODIR)/*.pot
 	@-rm -f $(PLUGINOBJS) $(DEPFILE) *.so *.tgz core* *~
-	@for dir in $(SUBDIRS); do \
-		make -C $$dir clean ; \
-	done
+	@-rm -f $(VERSIONSUFFIX)
 
 .PRECIOUS: $(I18Npo)
+
+FORCE:

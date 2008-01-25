@@ -90,6 +90,16 @@ namespace vdrlive {
 		return 0;
 	}
 
+	void RecordingsManager::DeleteRecording(cRecording const * recording) const
+	{
+		if (!recording)
+			return;
+
+		string name(recording->FileName());
+		const_cast<cRecording *>(recording)->Delete();
+		Recordings.DelByName(name.c_str());
+	}
+
 	bool RecordingsManager::IsArchived(cRecording const * recording)
 	{
 		string filename = recording->FileName();
@@ -151,7 +161,7 @@ namespace vdrlive {
 		// StateChanged must be executed every time, so not part of
 		// the short cut evaluation in the if statement below.
 		bool stateChanged = Recordings.StateChanged(m_recordingsState);
-		if ((!m_recTree) || (!m_recList) || stateChanged) {
+		if (stateChanged || (!m_recTree) || (!m_recList)) {
 			if (stateChanged) {
 				m_recTree.reset();
 				m_recList.reset();
@@ -197,12 +207,12 @@ namespace vdrlive {
 		RecordingsItem(name, parent),
 		m_level(level)
 	{
-		esyslog("REC: C: dir %s -> %s", name.c_str(), parent ? parent->Name().c_str() : "ROOT");
+		// dsyslog("REC: C: dir %s -> %s", name.c_str(), parent ? parent->Name().c_str() : "ROOT");
 	}
 
 	RecordingsItemDir::~RecordingsItemDir()
 	{
-		esyslog("REC: D: dir %s", Name().c_str());
+		// dsyslog("REC: D: dir %s", Name().c_str());
 	}
 
 
@@ -214,12 +224,12 @@ namespace vdrlive {
 		m_recording(recording),
 		m_id(id)
 	{
-		esyslog("REC: C: rec %s -> %s", name.c_str(), parent->Name().c_str());
+		// dsyslog("REC: C: rec %s -> %s", name.c_str(), parent->Name().c_str());
 	}
 
 	RecordingsItemRec::~RecordingsItemRec()
 	{
-		esyslog("REC: D: rec %s", Name().c_str());
+		// dsyslog("REC: D: rec %s", Name().c_str());
 	}
 
 	time_t RecordingsItemRec::StartTime() const
@@ -340,6 +350,12 @@ namespace vdrlive {
 	/**
 	 *  Implementation of class RecordingsTreePtr:
 	 */
+	RecordingsTreePtr::RecordingsTreePtr() :
+		shared_ptr<RecordingsTree>(),
+		m_recManPtr()
+	{
+	}
+
 	RecordingsTreePtr::RecordingsTreePtr(RecordingsManagerPtr recManPtr, std::tr1::shared_ptr< RecordingsTree > recTree) :
 		shared_ptr<RecordingsTree>(recTree),
 		m_recManPtr(recManPtr)
