@@ -161,7 +161,7 @@ void BackwardRecordingTask::Action()
 	RecordingsManagerPtr recordings = LiveRecordingsManager();
 	cRecording const* recording = recordings->GetByMd5Hash( m_recording );
 	if ( recording == 0 ) {
-		SetError( tr("Couldn't find recording or no recordings available.") );
+		SetError(tr("Couldn't find recording or no recordings available."));
 		return;
 	}
 
@@ -184,6 +184,27 @@ void BackwardRecordingTask::Action()
 	}
 
 	replayControl->Backward();
+}
+
+
+void RemoveRecordingTask::Action()
+{
+	RecordingsManagerPtr recordings = LiveRecordingsManager();
+	cRecording const * recording = recordings->GetByMd5Hash( m_recording );
+	if ( recording == 0 ) {
+		SetError( tr("Couldn't find recording or no recordings available.") );
+		return;
+	}
+
+	m_recName = recording->Name();
+
+	const char *current = NowReplaying();
+	if (current && (0 == strcmp(current, recording->FileName()))) {
+		SetError(tr("Attempt to delete recording currently in playback."));
+		return;
+	}
+
+	recordings->DeleteRecording(recording);
 }
 
 TaskManager::TaskManager()

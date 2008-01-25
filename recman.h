@@ -25,7 +25,7 @@ namespace vdrlive {
 
 	typedef std::tr1::shared_ptr< RecordingsManager > RecordingsManagerPtr;
 	typedef std::tr1::shared_ptr< RecordingsItem > RecordingsItemPtr;
-	// typedef std::tr1::weak_ptr< RecordingsItem > RecordingsItemWeakPtr;
+	typedef std::tr1::weak_ptr< RecordingsItem > RecordingsItemWeakPtr;
 	typedef std::multimap< std::string, RecordingsItemPtr > RecordingsMap;
 
 
@@ -67,6 +67,12 @@ namespace vdrlive {
 			 *  NULL if recording was not found
 			 */
 			cRecording const* GetByMd5Hash(std::string const & hash) const;
+
+			/**
+			 *  Delete a recording with the given hash according to
+			 *  VDRs recording deletion mechanisms.
+			 */
+			void DeleteRecording(cRecording const * recording) const;
 
 			/**
 			 *	Determine wether the recording has been archived on
@@ -127,7 +133,7 @@ namespace vdrlive {
 		private:
 			std::string m_name;
 			RecordingsMap m_entries;
-			RecordingsItemPtr m_parent;
+			RecordingsItemWeakPtr m_parent;
 	};
 
 
@@ -217,6 +223,7 @@ namespace vdrlive {
 			RecordingsTreePtr(RecordingsManagerPtr recManPtr, std::tr1::shared_ptr< RecordingsTree > recTree);
 
 		public:
+			RecordingsTreePtr();
 			virtual ~RecordingsTreePtr();
 
 		private:

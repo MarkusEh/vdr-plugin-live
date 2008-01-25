@@ -75,6 +75,9 @@ msgstr "Tallennetta ei toisteta."
 msgid "Not playing the same recording as from request."
 msgstr "Pyydettyä tallennetta ei toisteta."
 
+msgid "Attempt to delete recording currently in playback."
+msgstr ""
+
 msgid "Epg error"
 msgstr "Ohjelmaoppaan virhe"
 
@@ -561,6 +564,13 @@ msgstr "Virheraportoinnit ja parannusehdotukset"
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
 msgstr "Voit raportoida sekä virheet että parannusehdotukset suoraan havaintotietokantaan"
 
+msgid "ERROR:"
+msgstr ""
+
+#, fuzzy
+msgid "deleted recording"
+msgstr "Sarjatallennus"
+
 msgid "List of recordings"
 msgstr "Tallennelistaus"
 
@@ -569,6 +579,10 @@ msgstr "Tallenteita ei löydy"
 
 msgid "Click to view details."
 msgstr "Napsauta katsoaksesi lisätietoja."
+
+#, fuzzy
+msgid "Delete this recording from hard disc!"
+msgstr "Poista tallenteet ... päivän jälkeen"
 
 msgid "play this recording."
 msgstr "Toista tallenne"
@@ -746,4 +760,3 @@ msgstr "Ruudukkonäkymä"
 
 msgid "List view"
 msgstr "Listanäkymä"
-

@@ -1,4 +1,6 @@
 <%pre>
+#include <string>
+
 #include <vdr/plugin.h>
 #include <vdr/config.h>
 
@@ -6,26 +8,38 @@
 #include "tools.h"
 #include "epg_events.h"
 
-#include "recman.h"
 #include "setup.h"
+#include "tasks.h"
+
+#include "recman.h"
 
 using namespace vdrlive;
 using namespace std;
 
 </%pre>
 <%args>
+	string todel;
 </%args>
 <%session scope="global">
 	bool logged_in(false);
 </%session>
 <%request scope="page">
-	RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
+	string deleteResult;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
-	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
-	pageTitle = tr("Recordings");
+pageTitle = tr("Recordings");
+
+if (!todel.empty()) {
+	RemoveRecordingTask task(todel);
+	LiveTaskManager().Execute(task);
+	if (!task.Result())
+		deleteResult = string() + tr("ERROR:") + " " + task.Error();
+	else
+		deleteResult = string() + tr("deleted recording") + ": " + task.RecName();
+}
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -37,18 +51,34 @@ using namespace std;
 	</head>
 	<body>
 		<& pageelems.logo &>
+<%cpp>
+if (! deleteResult.empty()) {
+</%cpp>
+		<& menu active=("recordings") component=("recordings.delete_error") &>
+<%cpp>
+} else {
+</%cpp>
 		<& menu active=("recordings") &>
+<%cpp>
+}
+</%cpp>
 		<div class="inhalt">
 			<div class="boxheader"><div><div><$ tr("List of recordings") $></div></div></div>
-%			if (Recordings.Count() == 0) {
+<%cpp>
+			if (Recordings.Count() == 0) {
+</%cpp>
 			<$ tr("No recordings found") $>
-%			} else {
+<%cpp>
+			} else {
+</%cpp>
 			<div class="recordings">
 			<ul class="recordingslist" style="display: block;">
 <& recordings.recordings_item &>
 			</ul>
 			</div>
-%			}
+<%cpp>
+			}
+</%cpp>
 		</div>
 	</body>
 </html>
@@ -62,6 +92,7 @@ using namespace std;
 	int level = 0;
 </%args>
 <%cpp>
+RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
 RecordingsMap::iterator iter;
 RecordingsMap::iterator end = recordingsTree->end(path);
 
@@ -113,6 +144,15 @@ for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 
 <# ---------------------------------------------------------------------- #>
 
+<%def del_rec>
+<%args>
+	string id;
+</%args>
+<%cpp> { </%cpp><a href="recordings.html?todel=<$ id $>" <& tooltip.hint text=(tr("Delete this recording from hard disc!")) &>><img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" /></a><%cpp> } </%cpp>
+</%def>
+
+<# ---------------------------------------------------------------------- #>
+
 <%def rec_tools>
 <%args>
 	string id;
@@ -120,6 +160,7 @@ for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 </%args>
 <& pageelems.ajax_action_href action="play_recording" param=(id) tip=(tr("play this recording.")) image="play.png" alt="" &>
 <& pageelems.imdb_info_href title=(title) &>
+<& recordings.del_rec id=(id) &>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -189,7 +230,6 @@ for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 </%cpp>
 		<!-- not supported yet ...
 		<img src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="" />
-		<img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" />
         -->
 	</div>
 <%cpp>
@@ -200,4 +240,10 @@ for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 	}
 </%cpp>
 	</div>
+</%def>
+
+<# ---------------------------------------------------------------------- #>
+
+<%def delete_error>
+<%cpp> { </%cpp><$ deleteResult $><%cpp> } </%cpp>
 </%def>
