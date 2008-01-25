@@ -111,9 +111,6 @@ msgstr "Ensisijaisen DVB-sovittimen käyttäminen epäonnistui!"
 msgid "Couldn't grab image from primary device"
 msgstr "Kuvan kaappaus ensisijaiselta DVB-sovittimelta epäonnistui!"
 
-msgid "channels"
-msgstr "kanavat"
-
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr "Kanavien käyttäminen epäonnistui! Yritä myöhemmin uudelleen."
 
@@ -571,7 +568,7 @@ msgid "ERROR:"
 msgstr ""
 
 #, fuzzy
-msgid "deleted recording"
+msgid "Deleted recording:"
 msgstr "Sarjatallennus"
 
 msgid "List of recordings"
@@ -763,3 +760,6 @@ msgstr "Ruudukkonäkymä"
 
 msgid "List view"
 msgstr "Listanäkymä"
+
+#~ msgid "channels"
+#~ msgstr "kanavat"

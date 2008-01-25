@@ -569,7 +569,7 @@ msgstr ""
 msgid "ERROR:"
 msgstr ""
 
-msgid "deleted recording"
+msgid "Deleted recording:"
 msgstr ""
 
 msgid "List of recordings"

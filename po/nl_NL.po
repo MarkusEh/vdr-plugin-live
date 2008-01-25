@@ -571,7 +571,7 @@ msgid "ERROR:"
 msgstr ""
 
 #, fuzzy
-msgid "deleted recording"
+msgid "Deleted recording:"
 msgstr "Serie's opnemen"
 
 msgid "List of recordings"

@@ -10,6 +10,7 @@
 
 #include "setup.h"
 #include "tasks.h"
+#include "tools.h"
 
 #include "recman.h"
 
@@ -38,7 +39,7 @@ if (!todel.empty()) {
 	if (!task.Result())
 		deleteResult = string() + tr("ERROR:") + " " + task.Error();
 	else
-		deleteResult = string() + tr("deleted recording") + ": " + task.RecName();
+		deleteResult = string() + tr("Deleted recording:") + " " + StringReplace(task.RecName(), "~", "/");
 }
 </%cpp>
 <& pageelems.doc_type &>

@@ -569,8 +569,8 @@ msgstr "Für Fehler oder Verbesserungsvorschläge steht unser Bugtracker bereit"
 msgid "ERROR:"
 msgstr "FEHLER:"
 
-msgid "deleted recording"
-msgstr "Gelöschte Aufnahme"
+msgid "Deleted recording:"
+msgstr "Gelöschte Aufnahme:"
 
 msgid "List of recordings"
 msgstr "Liste der Aufnahmen"

@@ -502,7 +502,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Couldn't find channel or no channels available.",
-    "",
+    "Kann das Programm nicht finden oder keine vorhanden.",
     "",
     "Impossibile trovare canale o canali disponibili.",
     "",
@@ -537,7 +537,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Couldn't switch to channel.",
-    "",
+    "Kann nicht zu dem Programm umschalten.",
     "",
     "Impossibile cambiare canale.",
     "",
@@ -572,7 +572,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Couldn't find recording or no recordings available.",
-    "",
+    "Kann die Aufnahme nicht finden oder keine Aufnahmen vorhanden.",
     "",
     "Impossibile trovare registrazione o registrazioni non disponibili.",
     "",
@@ -607,7 +607,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Cannot control playback!",
-    "",
+    "Kann die Wiedergabe nicht steuern.",
     "",
     "Impossibile controllare riproduzione!",
     "",
@@ -642,7 +642,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Not playing a recording.",
-    "",
+    "Es wird keine Aufnahme abgespielt.",
     "",
     "Nessuna registrazione in riproduzione.",
     "",
@@ -677,7 +677,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Not playing the same recording as from request.",
-    "",
+    "Es wird nicht die selbe Aufnahme abgespielt.",
     "",
     "Riproduzione di una registrazione diversa da quella richiesta.",
     "",
@@ -685,6 +685,41 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "Pyydettyä tallennetta ei toisteta.",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Attempt to delete recording currently in playback.",
+    "Versuch die gerade abgepielte Aufnahme zu löschen.",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
     "",
     "",
     "",
@@ -817,7 +852,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Wrong event id",
-    "",
+    "Fehlerhafte Sendungs Id",
     "",
     "ID evento errato",
     "",
@@ -6381,6 +6416,76 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
+  { "ERROR:",
+    "FEHLER:",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Deleted recording:",
+    "Gelöschte Aufnahme:",
+    "",
+    "Registrazione serie",
+    "Serie's opnemen",
+    "",
+    "Enregistrement de série",
+    "",
+    "Sarjatallennus",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
   { "List of recordings",
     "Liste der Aufnahmen",
     "",
@@ -6460,6 +6565,41 @@ const tI18nPhrase Phrases[] = {
     "Clic pour voire les détails.",
     "",
     "Napsauta katsoaksesi lisätietoja.",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Delete this recording from hard disc!",
+    "Diese Aufnahme von der Festplatte löschen!",
+    "",
+    "Cancella registrazione dopo ... giorni",
+    "",
+    "",
+    "Effacer l'enregistrement après ... jours",
+    "",
+    "Poista tallenteet ... päivän jälkeen",
     "",
     "",
     "",
@@ -8244,7 +8384,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Suosikit",
     "",
     "",
     "",
