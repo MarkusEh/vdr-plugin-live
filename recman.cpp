@@ -207,12 +207,12 @@ namespace vdrlive {
 		RecordingsItem(name, parent),
 		m_level(level)
 	{
-		dsyslog("REC: C: dir %s -> %s", name.c_str(), parent ? parent->Name().c_str() : "ROOT");
+		// dsyslog("REC: C: dir %s -> %s", name.c_str(), parent ? parent->Name().c_str() : "ROOT");
 	}
 
 	RecordingsItemDir::~RecordingsItemDir()
 	{
-		dsyslog("REC: D: dir %s", Name().c_str());
+		// dsyslog("REC: D: dir %s", Name().c_str());
 	}
 
 
@@ -224,12 +224,12 @@ namespace vdrlive {
 		m_recording(recording),
 		m_id(id)
 	{
-		dsyslog("REC: C: rec %s -> %s", name.c_str(), parent->Name().c_str());
+		// dsyslog("REC: C: rec %s -> %s", name.c_str(), parent->Name().c_str());
 	}
 
 	RecordingsItemRec::~RecordingsItemRec()
 	{
-		dsyslog("REC: D: rec %s", Name().c_str());
+		// dsyslog("REC: D: rec %s", Name().c_str());
 	}
 
 	time_t RecordingsItemRec::StartTime() const

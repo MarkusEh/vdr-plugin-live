@@ -1,15 +1,31 @@
+2008-01-25  Dieter Hametner  <dh+vdr at gekrumbel dot de>
+
+	* recman.cpp: Fixed memory leak, which resulted through the use of
+	  circular references by using tr1::shared_ptr, where a
+	  tr1::weak_ptr would have been needed.
+
+	* pages/recordings.ecpp: Added button to delete that single
+	  recording. This feature is somehow limited in usability and
+	  should be used only for occasional deletion of recordings,
+	  because the page reloads when a recording is
+	  deleted. Unfortunately there is currently no way to remember the
+	  position to where the user navigated before he hit the delete
+	  button. In order to delete an other recording in the same
+	  subdirectory he will need to navigate there again after the page
+	  reloaded.
+
 2008-01-18  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
 	* buildutil/version-util*: Added a shell and an awk script to
 	  calculate a version suffix string out of CVS current working dir
 	  status. This was a request bei jo01 and helps distinguish if
 	  newer versions are awailable. It should not break builds if
-	  something goes wrong in the script. At least it was my intention.
-	  The script also support git repositories. But it has not been
-	  tested if it determines the correct git commit id based on
-	  current workdir contents.
-	  The caluculated version suffix is appended to the LIVE version
-	  string visible in the about box (?-Menu entry).
+	  something goes wrong in the script. At least it was my
+	  intention.  The script also supports git repositories. But it
+	  has not been tested if it determines the correct git commit id
+	  based on current workdir contents.  The caluculated version
+	  suffix is appended to the LIVE version string visible in the
+	  about box (?-Menu entry).
 
 2008-01-15   Christian Wieninger <cwieninger at gmx dot de>
 	* whats_on.ecpp: added listing 'Favorites', that lists all search
