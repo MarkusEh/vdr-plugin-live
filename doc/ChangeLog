@@ -1,3 +1,9 @@
+2008-02-06  Dieter Hametner  <dh+vdr at gekrumbel dot de>
+
+	* buildutil/version-util: Function definitions in shell should not
+	  have whitespaces between the name and the parentheses.
+	* i18n-generated.h: updated with latest translation contributions.
+
 2008-01-25  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
 	* recman.cpp: Fixed memory leak, which resulted through the use of
@@ -27,7 +33,7 @@
 	  suffix is appended to the LIVE version string visible in the
 	  about box (?-Menu entry).
 
-2008-01-15   Christian Wieninger <cwieninger at gmx dot de>
+2008-01-15  Christian Wieninger <cwieninger at gmx dot de>
 	* whats_on.ecpp: added listing 'Favorites', that lists all search
 	  results of search timers with setting 'Use in favorites menu'
 	* Makefile: reversed Makefile changes that avoided commit conflicts,
