@@ -1,3 +1,7 @@
+2008-02-07  Dieter Hametner  <dh+vdr at gekrumbel dot de>
+
+	* buildutil/version-util: Further posix-ified the script.
+
 2008-02-06  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
 	* buildutil/version-util: Function definitions in shell should not
