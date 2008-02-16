@@ -416,6 +416,9 @@ msgstr "Suchen"
 msgid "Searchtimers"
 msgstr "Suchtimer"
 
+msgid "Timer conflicts"
+msgstr "Timer-Konflikte"
+
 msgid "Recordings"
 msgstr "Aufnahmen"
 
@@ -686,11 +689,8 @@ msgstr "Startseite"
 msgid "Theme"
 msgstr "Thema"
 
-msgid "No timer defined"
-msgstr "Keine Timer vorhanden"
-
-msgid "Timer is recording."
-msgstr "Timer zeichnet auf."
+msgid "Timer has a conflict."
+msgstr "Timer hat einen Konflikt."
 
 msgid "Timer is active."
 msgstr "Timer ist aktiv."
@@ -700,6 +700,12 @@ msgstr "Timer aktiv/inaktiv schalten"
 
 msgid "Delete timer"
 msgstr "Timer löschen"
+
+msgid "No timer defined"
+msgstr "Keine Timer vorhanden"
+
+msgid "Timer is recording."
+msgstr "Timer zeichnet auf."
 
 msgid "VLC: live video stream"
 msgstr "VLC: Video Stream"
@@ -760,3 +766,4 @@ msgstr "Ausführliche Ansicht"
 
 msgid "List view"
 msgstr "Listenansicht"
+

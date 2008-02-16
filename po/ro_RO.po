@@ -415,6 +415,9 @@ msgstr ""
 msgid "Searchtimers"
 msgstr ""
 
+msgid "Timer conflicts"
+msgstr ""
+
 msgid "Recordings"
 msgstr ""
 
@@ -685,10 +688,7 @@ msgstr ""
 msgid "Theme"
 msgstr ""
 
-msgid "No timer defined"
-msgstr ""
-
-msgid "Timer is recording."
+msgid "Timer has a conflict."
 msgstr ""
 
 msgid "Timer is active."
@@ -698,6 +698,12 @@ msgid "Toggle timer active/inactive"
 msgstr ""
 
 msgid "Delete timer"
+msgstr ""
+
+msgid "No timer defined"
+msgstr ""
+
+msgid "Timer is recording."
 msgstr ""
 
 msgid "VLC: live video stream"

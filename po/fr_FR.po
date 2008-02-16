@@ -417,6 +417,10 @@ msgstr "Recherche"
 msgid "Searchtimers"
 msgstr "Recherche de programmation"
 
+#, fuzzy
+msgid "Timer conflicts"
+msgstr "Programmation est active."
+
 msgid "Recordings"
 msgstr "Enregistrements"
 
@@ -687,11 +691,9 @@ msgstr "Page de départ"
 msgid "Theme"
 msgstr "Thème"
 
-msgid "No timer defined"
-msgstr "Aucune programmation définie"
-
-msgid "Timer is recording."
-msgstr "Enregistrement de série"
+#, fuzzy
+msgid "Timer has a conflict."
+msgstr "Programmation est active."
 
 msgid "Timer is active."
 msgstr "Programmation est active."
@@ -701,6 +703,12 @@ msgstr "Programmation basculer actif/inactif"
 
 msgid "Delete timer"
 msgstr "Effacer la programmation"
+
+msgid "No timer defined"
+msgstr "Aucune programmation définie"
+
+msgid "Timer is recording."
+msgstr "Enregistrement de série"
 
 msgid "VLC: live video stream"
 msgstr "VLC: live vidéo stream"
@@ -761,3 +769,7 @@ msgstr "Vue détailée"
 
 msgid "List view"
 msgstr "Vue en liste"
+
+#, fuzzy
+#~ msgid "%A, %B %d %Y"
+#~ msgstr "%A, %d.%m.%Y"

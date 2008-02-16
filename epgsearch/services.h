@@ -129,6 +129,8 @@ class cServiceHandler
    virtual std::string ReadSetupValue(const std::string& entry) = 0;
    // Write a setup value
    virtual bool WriteSetupValue(const std::string& entry, const std::string& value) = 0;
+   // Get timer conflicts
+   virtual std::list<std::string> TimerConflictList(bool relOnly=false) = 0;    
 };
 
 struct Epgsearch_services_v1_0

@@ -417,6 +417,10 @@ msgstr ""
 msgid "Searchtimers"
 msgstr ""
 
+#, fuzzy
+msgid "Timer conflicts"
+msgstr "Serie's opnemen"
+
 msgid "Recordings"
 msgstr ""
 
@@ -688,11 +692,8 @@ msgstr ""
 msgid "Theme"
 msgstr ""
 
-msgid "No timer defined"
-msgstr ""
-
 #, fuzzy
-msgid "Timer is recording."
+msgid "Timer has a conflict."
 msgstr "Serie's opnemen"
 
 msgid "Timer is active."
@@ -703,6 +704,13 @@ msgstr ""
 
 msgid "Delete timer"
 msgstr ""
+
+msgid "No timer defined"
+msgstr ""
+
+#, fuzzy
+msgid "Timer is recording."
+msgstr "Serie's opnemen"
 
 msgid "VLC: live video stream"
 msgstr ""

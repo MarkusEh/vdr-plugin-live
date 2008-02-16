@@ -414,6 +414,10 @@ msgstr "Etsi"
 msgid "Searchtimers"
 msgstr "Hakuajastimet"
 
+#, fuzzy
+msgid "Timer conflicts"
+msgstr "Aktiivinen ajastin"
+
 msgid "Recordings"
 msgstr "Tallenteet"
 
@@ -686,11 +690,9 @@ msgstr "Aloitussivu"
 msgid "Theme"
 msgstr "Ulkoasu"
 
-msgid "No timer defined"
-msgstr "Ajastinta ei ole m‰‰ritelty"
-
-msgid "Timer is recording."
-msgstr "Ajastinta tallennetaan"
+#, fuzzy
+msgid "Timer has a conflict."
+msgstr "Aktiivinen ajastin"
 
 msgid "Timer is active."
 msgstr "Aktiivinen ajastin"
@@ -700,6 +702,12 @@ msgstr "Aseta ajastin p‰‰lle/pois"
 
 msgid "Delete timer"
 msgstr "Poista ajastin"
+
+msgid "No timer defined"
+msgstr "Ajastinta ei ole m‰‰ritelty"
+
+msgid "Timer is recording."
+msgstr "Ajastinta tallennetaan"
 
 msgid "VLC: live video stream"
 msgstr "VLC: live-l‰hetyksen suoratoisto"
@@ -760,6 +768,10 @@ msgstr "Ruudukkon‰kym‰"
 
 msgid "List view"
 msgstr "Listan‰kym‰"
+
+#, fuzzy
+#~ msgid "%A, %B %d %Y"
+#~ msgstr "%A, %d.%m.%Y"
 
 #~ msgid "channels"
 #~ msgstr "kanavat"

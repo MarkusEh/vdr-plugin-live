@@ -416,6 +416,10 @@ msgstr "Cerca"
 msgid "Searchtimers"
 msgstr "Cerca timer"
 
+#, fuzzy
+msgid "Timer conflicts"
+msgstr "Timer attivo."
+
 msgid "Recordings"
 msgstr "Registrazioni"
 
@@ -688,11 +692,9 @@ msgstr "Pagina iniziale"
 msgid "Theme"
 msgstr "Tema"
 
-msgid "No timer defined"
-msgstr "Nessun timer definito"
-
-msgid "Timer is recording."
-msgstr "Timer in registrazione."
+#, fuzzy
+msgid "Timer has a conflict."
+msgstr "Timer attivo."
 
 msgid "Timer is active."
 msgstr "Timer attivo."
@@ -702,6 +704,12 @@ msgstr "Attiva/disattiva timer"
 
 msgid "Delete timer"
 msgstr "Cancella timer"
+
+msgid "No timer defined"
+msgstr "Nessun timer definito"
+
+msgid "Timer is recording."
+msgstr "Timer in registrazione."
 
 msgid "VLC: live video stream"
 msgstr "VLC: trasmissione video Live"
@@ -762,3 +770,7 @@ msgstr "Vedi come dettagli"
 
 msgid "List view"
 msgstr "Vedi come elenco"
+
+#, fuzzy
+#~ msgid "%A, %B %d %Y"
+#~ msgstr "%A, %b %d %Y"
