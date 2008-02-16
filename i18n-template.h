@@ -1,7 +1,7 @@
 /*
-  	WARNING: automaticaly generated content. Changes will get lost!
+  	WARNING: automatically generated content. Changes will get lost!
 
-    If this file is 'i18n-generated.h' then it *realy* is automaticaly
+    If this file is 'i18n-generated.h' then it *really* is automaticaly
 	generated.
     If this file is 'i18n-template.h' then it is the base for the
     autogeneration of the other file.
