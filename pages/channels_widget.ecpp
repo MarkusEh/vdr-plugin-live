@@ -23,11 +23,9 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	ReadLock channelsLock( Channels );
 	if ( !channelsLock )
 		throw HtmlError( tr("Couldn't aquire access to channels, please try again later.") );
-
-	int lastChannel = LiveSetup().GetLastChannel();
 </%cpp>
 <select name="<$ name $>" id="<$ name $>" <{ reply.out() << ( !onchange.empty() ? "onchange=\""+onchange+"\"" : "" ); }>>
-%	for ( cChannel *listChannel = Channels.First(); listChannel && listChannel->Number() <= lastChannel; listChannel = Channels.Next( listChannel ) ) {
+%	for ( cChannel *listChannel = Channels.First(); listChannel; listChannel = Channels.Next( listChannel ) ) {
 %		if ( listChannel->GroupSep() || *listChannel->Name() == '\0' )
 %			continue;
 %
