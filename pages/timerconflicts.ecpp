@@ -40,6 +40,9 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		<& pageelems.logo &>
 		<& menu active=("timersconflicts")>
 		<div class="inhalt">
+%			if (timerConflicts.size() == 0) {
+				<$ tr("No timer conflicts") $>
+%			} else {
 			<table class="listing" cellspacing="0" cellpadding="0">
 <%cpp>
 				for (TimerConflicts::iterator conflict = timerConflicts.begin(); conflict != timerConflicts.end(); ++conflict) {
@@ -119,6 +122,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 				}
 </%cpp>
 			</table>
+%			}
 		</div>
 	</body>
 </html>

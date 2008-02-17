@@ -687,6 +687,9 @@ msgstr ""
 msgid "Timer conflicts"
 msgstr ""
 
+msgid "No timer conflicts"
+msgstr ""
+
 msgid "Timer has a conflict."
 msgstr ""
 

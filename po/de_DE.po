@@ -689,6 +689,9 @@ msgstr "Thema"
 msgid "Timer conflicts"
 msgstr "Timer-Konflikte"
 
+msgid "No timer conflicts"
+msgstr "Keine Timer-Konflikte"
+
 msgid "Timer has a conflict."
 msgstr "Timer hat einen Konflikt."
 

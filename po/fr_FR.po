@@ -692,6 +692,10 @@ msgid "Timer conflicts"
 msgstr "Programmation est active."
 
 #, fuzzy
+msgid "No timer conflicts"
+msgstr "Programmation est active."
+
+#, fuzzy
 msgid "Timer has a conflict."
 msgstr "Programmation est active."
 

@@ -693,6 +693,10 @@ msgid "Timer conflicts"
 msgstr "Timer attivo."
 
 #, fuzzy
+msgid "No timer conflicts"
+msgstr "Timer attivo."
+
+#, fuzzy
 msgid "Timer has a conflict."
 msgstr "Timer attivo."
 

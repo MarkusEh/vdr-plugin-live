@@ -693,6 +693,10 @@ msgid "Timer conflicts"
 msgstr "Serie's opnemen"
 
 #, fuzzy
+msgid "No timer conflicts"
+msgstr "Serie's opnemen"
+
+#, fuzzy
 msgid "Timer has a conflict."
 msgstr "Serie's opnemen"
 

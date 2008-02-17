@@ -691,6 +691,10 @@ msgid "Timer conflicts"
 msgstr "Aktiivinen ajastin"
 
 #, fuzzy
+msgid "No timer conflicts"
+msgstr "Aktiivinen ajastin"
+
+#, fuzzy
 msgid "Timer has a conflict."
 msgstr "Aktiivinen ajastin"
 
