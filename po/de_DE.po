@@ -416,9 +416,6 @@ msgstr "Suchen"
 msgid "Searchtimers"
 msgstr "Suchtimer"
 
-msgid "Timer conflicts"
-msgstr "Timer-Konflikte"
-
 msgid "Recordings"
 msgstr "Aufnahmen"
 
@@ -689,6 +686,9 @@ msgstr "Startseite"
 msgid "Theme"
 msgstr "Thema"
 
+msgid "Timer conflicts"
+msgstr "Timer-Konflikte"
+
 msgid "Timer has a conflict."
 msgstr "Timer hat einen Konflikt."
 
@@ -766,4 +766,3 @@ msgstr "Ausführliche Ansicht"
 
 msgid "List view"
 msgstr "Listenansicht"
-

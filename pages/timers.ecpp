@@ -6,6 +6,7 @@
 #include "setup.h"
 #include "i18n.h"
 #include "epg_events.h"
+#include "livefeatures.h"
 
 using namespace std;
 using namespace vdrlive;
@@ -152,4 +153,8 @@ static const size_t maximumDescriptionLength = 300;
 
 <%def timer_actions>
 <a href="edit_timer.html"><$ tr("New timer") $></a>
+% if ( LiveFeatures< features::epgsearch >().Recent() ) {
+<span class="sep">|</span>
+<a href="timerconflicts.html"><$ tr("Timer conflicts") $></a>
+% }
 </%def>

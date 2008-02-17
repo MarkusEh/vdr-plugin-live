@@ -414,9 +414,6 @@ msgstr ""
 msgid "Searchtimers"
 msgstr ""
 
-msgid "Timer conflicts"
-msgstr ""
-
 msgid "Recordings"
 msgstr ""
 
@@ -685,6 +682,9 @@ msgid "Start page"
 msgstr ""
 
 msgid "Theme"
+msgstr ""
+
+msgid "Timer conflicts"
 msgstr ""
 
 msgid "Timer has a conflict."

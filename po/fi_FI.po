@@ -414,10 +414,6 @@ msgstr "Etsi"
 msgid "Searchtimers"
 msgstr "Hakuajastimet"
 
-#, fuzzy
-msgid "Timer conflicts"
-msgstr "Aktiivinen ajastin"
-
 msgid "Recordings"
 msgstr "Tallenteet"
 
@@ -689,6 +685,10 @@ msgstr "Aloitussivu"
 
 msgid "Theme"
 msgstr "Ulkoasu"
+
+#, fuzzy
+msgid "Timer conflicts"
+msgstr "Aktiivinen ajastin"
 
 #, fuzzy
 msgid "Timer has a conflict."

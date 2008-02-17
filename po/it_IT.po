@@ -416,10 +416,6 @@ msgstr "Cerca"
 msgid "Searchtimers"
 msgstr "Cerca timer"
 
-#, fuzzy
-msgid "Timer conflicts"
-msgstr "Timer attivo."
-
 msgid "Recordings"
 msgstr "Registrazioni"
 
@@ -691,6 +687,10 @@ msgstr "Pagina iniziale"
 
 msgid "Theme"
 msgstr "Tema"
+
+#, fuzzy
+msgid "Timer conflicts"
+msgstr "Timer attivo."
 
 #, fuzzy
 msgid "Timer has a conflict."

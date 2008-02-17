@@ -417,10 +417,6 @@ msgstr ""
 msgid "Searchtimers"
 msgstr ""
 
-#, fuzzy
-msgid "Timer conflicts"
-msgstr "Serie's opnemen"
-
 msgid "Recordings"
 msgstr ""
 
@@ -691,6 +687,10 @@ msgstr ""
 
 msgid "Theme"
 msgstr ""
+
+#, fuzzy
+msgid "Timer conflicts"
+msgstr "Serie's opnemen"
 
 #, fuzzy
 msgid "Timer has a conflict."

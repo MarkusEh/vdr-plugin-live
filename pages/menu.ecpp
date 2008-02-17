@@ -39,7 +39,6 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 % if ( LiveFeatures< features::epgsearch >().Recent() ) {
 	| <a href="searchepg.html" <& menu.setactive current=("searchepg") &>><$ tr("Search") $></a>
 	| <a href="searchtimers.html" <& menu.setactive current=("searchtimers") &>><$ tr("Searchtimers") $></a>
-	| <a href="timerconflicts.html" <& menu.setactive current=("timerconflicts") &>><$ tr("Timer conflicts") $></a>
 % }
 	| <a href="recordings.html" <& menu.setactive current=("recordings") &>><$ tr("Recordings") $></a>
 	| <a href="remote.html" <& menu.setactive current=("remote") &>><$ tr("Remote Control") $></a>

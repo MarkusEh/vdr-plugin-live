@@ -417,10 +417,6 @@ msgstr "Recherche"
 msgid "Searchtimers"
 msgstr "Recherche de programmation"
 
-#, fuzzy
-msgid "Timer conflicts"
-msgstr "Programmation est active."
-
 msgid "Recordings"
 msgstr "Enregistrements"
 
@@ -690,6 +686,10 @@ msgstr "Page de départ"
 
 msgid "Theme"
 msgstr "Thème"
+
+#, fuzzy
+msgid "Timer conflicts"
+msgstr "Programmation est active."
 
 #, fuzzy
 msgid "Timer has a conflict."
