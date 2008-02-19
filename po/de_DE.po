@@ -692,16 +692,14 @@ msgstr "Timer-Konflikte"
 msgid "No timer conflicts"
 msgstr "Keine Timer-Konflikte"
 
-#, fuzzy
 msgid "Start"
-msgstr "Startseite"
+msgstr "Start"
 
 msgid "Stop"
 msgstr "Stopp"
 
-#, fuzzy
 msgid "File"
-msgstr "Titel"
+msgstr "Datei"
 
 msgid "Timer has a conflict."
 msgstr "Timer hat einen Konflikt."

@@ -7887,7 +7887,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Start",
-    "Startseite",
+    "Start",
     "",
     "Pagina iniziale",
     "Start na",
@@ -7957,7 +7957,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "File",
-    "Titel",
+    "Datei",
     "",
     "Titolo",
     "",
