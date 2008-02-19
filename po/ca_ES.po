@@ -692,6 +692,15 @@ msgstr ""
 msgid "No timer conflicts"
 msgstr ""
 
+msgid "Start"
+msgstr ""
+
+msgid "Stop"
+msgstr ""
+
+msgid "File"
+msgstr ""
+
 msgid "Timer has a conflict."
 msgstr ""
 
@@ -711,9 +720,6 @@ msgid "Timer is recording."
 msgstr ""
 
 msgid "VLC: live video stream"
-msgstr ""
-
-msgid "Stop"
 msgstr ""
 
 msgid "Play"

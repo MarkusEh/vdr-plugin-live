@@ -692,6 +692,17 @@ msgstr "Timer-Konflikte"
 msgid "No timer conflicts"
 msgstr "Keine Timer-Konflikte"
 
+#, fuzzy
+msgid "Start"
+msgstr "Startseite"
+
+msgid "Stop"
+msgstr "Stopp"
+
+#, fuzzy
+msgid "File"
+msgstr "Titel"
+
 msgid "Timer has a conflict."
 msgstr "Timer hat einen Konflikt."
 
@@ -712,9 +723,6 @@ msgstr "Timer zeichnet auf."
 
 msgid "VLC: live video stream"
 msgstr "VLC: Video Stream"
-
-msgid "Stop"
-msgstr "Stopp"
 
 msgid "Play"
 msgstr "Wiedergabe"

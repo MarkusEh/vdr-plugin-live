@@ -695,6 +695,17 @@ msgid "No timer conflicts"
 msgstr "Aktiivinen ajastin"
 
 #, fuzzy
+msgid "Start"
+msgstr "Aloitussivu"
+
+msgid "Stop"
+msgstr "Pysäytä"
+
+#, fuzzy
+msgid "File"
+msgstr "Otsikko"
+
+#, fuzzy
 msgid "Timer has a conflict."
 msgstr "Aktiivinen ajastin"
 
@@ -715,9 +726,6 @@ msgstr "Ajastinta tallennetaan"
 
 msgid "VLC: live video stream"
 msgstr "VLC: live-lähetyksen suoratoisto"
-
-msgid "Stop"
-msgstr "Pysäytä"
 
 msgid "Play"
 msgstr "Toista"

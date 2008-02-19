@@ -697,6 +697,16 @@ msgid "No timer conflicts"
 msgstr "Serie's opnemen"
 
 #, fuzzy
+msgid "Start"
+msgstr "Start na"
+
+msgid "Stop"
+msgstr ""
+
+msgid "File"
+msgstr ""
+
+#, fuzzy
 msgid "Timer has a conflict."
 msgstr "Serie's opnemen"
 
@@ -717,9 +727,6 @@ msgid "Timer is recording."
 msgstr "Serie's opnemen"
 
 msgid "VLC: live video stream"
-msgstr ""
-
-msgid "Stop"
 msgstr ""
 
 msgid "Play"

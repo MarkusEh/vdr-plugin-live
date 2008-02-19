@@ -696,6 +696,17 @@ msgid "No timer conflicts"
 msgstr "Programmation est active."
 
 #, fuzzy
+msgid "Start"
+msgstr "Page de départ"
+
+msgid "Stop"
+msgstr "Stop"
+
+#, fuzzy
+msgid "File"
+msgstr "Titre"
+
+#, fuzzy
 msgid "Timer has a conflict."
 msgstr "Programmation est active."
 
@@ -716,9 +727,6 @@ msgstr "Enregistrement de série"
 
 msgid "VLC: live video stream"
 msgstr "VLC: live vidéo stream"
-
-msgid "Stop"
-msgstr "Stop"
 
 msgid "Play"
 msgstr "Lecture"

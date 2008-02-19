@@ -1,7 +1,7 @@
 /*
-  	WARNING: automaticaly generated content. Changes will get lost!
+  	WARNING: automatically generated content. Changes will get lost!
 
-    If this file is 'i18n-generated.h' then it *realy* is automaticaly
+    If this file is 'i18n-generated.h' then it *really* is automatically
 	generated.
     If this file is 'i18n-template.h' then it is the base for the
     autogeneration of the other file.
@@ -7816,15 +7816,15 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "No timer defined",
-    "Keine Timer vorhanden",
+  { "Timer conflicts",
+    "Timer-Konflikte",
     "",
-    "Nessun timer definito",
+    "Timer attivo.",
+    "Serie's opnemen",
     "",
+    "Programmation est active.",
     "",
-    "Aucune programmation définie",
-    "",
-    "Ajastinta ei ole määritelty",
+    "Aktiivinen ajastin",
     "",
     "",
     "",
@@ -7851,15 +7851,155 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "Timer is recording.",
-    "Timer zeichnet auf.",
+  { "No timer conflicts",
+    "Keine Timer-Konflikte",
     "",
-    "Timer in registrazione.",
+    "Timer attivo.",
     "Serie's opnemen",
     "",
-    "Enregistrement de série",
+    "Programmation est active.",
     "",
-    "Ajastinta tallennetaan",
+    "Aktiivinen ajastin",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Start",
+    "Startseite",
+    "",
+    "Pagina iniziale",
+    "Start na",
+    "",
+    "Page de départ",
+    "",
+    "Aloitussivu",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Stop",
+    "Stopp",
+    "",
+    "Ferma",
+    "",
+    "",
+    "Stop",
+    "",
+    "Pysäytä",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "File",
+    "Titel",
+    "",
+    "Titolo",
+    "",
+    "",
+    "Titre",
+    "",
+    "Otsikko",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Timer has a conflict.",
+    "Timer hat einen Konflikt.",
+    "",
+    "Timer attivo.",
+    "Serie's opnemen",
+    "",
+    "Programmation est active.",
+    "",
+    "Aktiivinen ajastin",
     "",
     "",
     "",
@@ -7991,15 +8131,15 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "VLC: live video stream",
-    "VLC: Video Stream",
+  { "No timer defined",
+    "Keine Timer vorhanden",
     "",
-    "VLC: trasmissione video Live",
+    "Nessun timer definito",
     "",
     "",
-    "VLC: live vidéo stream",
+    "Aucune programmation définie",
     "",
-    "VLC: live-lähetyksen suoratoisto",
+    "Ajastinta ei ole määritelty",
     "",
     "",
     "",
@@ -8026,15 +8166,50 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "Stop",
-    "Stopp",
+  { "Timer is recording.",
+    "Timer zeichnet auf.",
     "",
-    "Ferma",
+    "Timer in registrazione.",
+    "Serie's opnemen",
+    "",
+    "Enregistrement de série",
+    "",
+    "Ajastinta tallennetaan",
     "",
     "",
-    "Stop",
     "",
-    "Pysäytä",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "VLC: live video stream",
+    "VLC: Video Stream",
+    "",
+    "VLC: trasmissione video Live",
+    "",
+    "",
+    "VLC: live vidéo stream",
+    "",
+    "VLC: live-lähetyksen suoratoisto",
     "",
     "",
     "",
