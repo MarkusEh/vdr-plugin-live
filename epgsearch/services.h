@@ -131,6 +131,8 @@ class cServiceHandler
    virtual bool WriteSetupValue(const std::string& entry, const std::string& value) = 0;
    // Get timer conflicts
    virtual std::list<std::string> TimerConflictList(bool relOnly=false) = 0;    
+   // Check if a conflict check is advised
+   virtual bool IsConflictCheckAdvised() = 0;    
 };
 
 struct Epgsearch_services_v1_0

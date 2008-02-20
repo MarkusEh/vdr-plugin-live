@@ -6,6 +6,7 @@
 #include "setup.h"
 #include "epg_events.h"
 #include "timers.h"
+#include "i18n.h"
 
 using namespace vdrlive;
 using namespace std;
