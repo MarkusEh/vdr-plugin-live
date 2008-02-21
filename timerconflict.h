@@ -14,8 +14,8 @@ public:
 	int timerIndex; 							// it's index in VDR
 	int percentage;								// percentage of recording
 	std::list<int> concurrentTimerIndices;		// concurrent timer indices
-	
-	TimerInConflict(int TimerIndex=-1, int Percentage=0) : timerIndex(TimerIndex), percentage(Percentage) {} 
+
+	TimerInConflict(int TimerIndex=-1, int Percentage=0) : timerIndex(TimerIndex), percentage(Percentage) {}
 };
 
 class TimerConflict;
@@ -29,11 +29,11 @@ class TimerConflict
 	std::list< TimerInConflict > conflictingTimers; // conflicting timers at this time
 public:
 	friend bool operator<( TimerConflict const& left, TimerConflict const& right );
-	
+
 	TimerConflict( std::string const& data );
 	TimerConflict();
 	void Init();
-	
+
 	time_t ConflictTime() { return conflictTime; }
 	const std::list< TimerInConflict >& ConflictingTimers() { return conflictingTimers; }
 };

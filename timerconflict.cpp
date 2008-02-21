@@ -53,8 +53,8 @@ TimerConflict::TimerConflict( string const& data )
 							timer.concurrentTimerIndices.push_back(lexical_cast< int >( *conctimerpart ));
 						break;
 						}
-					}				
-				conflictingTimers.push_back(timer);     
+					}
+				conflictingTimers.push_back(timer);
 			}
 		}
 	}
@@ -67,7 +67,7 @@ TimerConflicts::TimerConflicts()
 	Epgsearch_services_v1_0 service;
 	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
 		throw HtmlError( tr("EPGSearch version outdated! Please update.") );
-	
+
 	list< string > conflicts = service.handler->TimerConflictList();
 	m_conflicts.assign( conflicts.begin(), conflicts.end() );
 	m_conflicts.sort();
