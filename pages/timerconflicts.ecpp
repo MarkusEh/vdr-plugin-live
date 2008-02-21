@@ -1,7 +1,7 @@
 <%pre>
 #include <vdr/channels.h>
 #include <vdr/i18n.h>
-#include "epgsearch.h"
+#include "timerconflict.h"
 #include "tools.h"
 #include "setup.h"
 #include "epg_events.h"

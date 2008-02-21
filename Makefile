@@ -73,7 +73,7 @@ VERSIONSUFFIX = gen_version_suffix.h
 
 PLUGINOBJS = $(PLUGIN).o thread.o tntconfig.o setup.o i18n.o timers.o \
 	     tools.o recman.o tasks.o status.o epg_events.o epgsearch.o \
-	     grab.o md5.o filecache.o livefeatures.o preload.o
+	     grab.o md5.o filecache.o livefeatures.o preload.o timerconflict.o
 
 WEBLIBS	   = pages/libpages.a css/libcss.a javascript/libjavascript.a
 
