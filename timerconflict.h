@@ -54,7 +54,7 @@ public:
 	iterator end() { return m_conflicts.end(); }
 	const_iterator end() const { return m_conflicts.end(); }
 
-	bool CheckAdvised();
+	static bool CheckAdvised();
 private:
 	ConflictList m_conflicts;
 };
