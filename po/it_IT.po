@@ -700,17 +700,6 @@ msgid "No timer conflicts"
 msgstr "Timer attivo."
 
 #, fuzzy
-msgid "Start"
-msgstr "Pagina iniziale"
-
-msgid "Stop"
-msgstr "Ferma"
-
-#, fuzzy
-msgid "File"
-msgstr "Titolo"
-
-#, fuzzy
 msgid "Timer has a conflict."
 msgstr "Timer attivo."
 
@@ -731,6 +720,9 @@ msgstr "Timer in registrazione."
 
 msgid "VLC: live video stream"
 msgstr "VLC: trasmissione video Live"
+
+msgid "Stop"
+msgstr "Ferma"
 
 msgid "Play"
 msgstr "Riproduci"
@@ -785,6 +777,14 @@ msgstr "Vedi come dettagli"
 
 msgid "List view"
 msgstr "Vedi come elenco"
+
+#, fuzzy
+#~ msgid "Start"
+#~ msgstr "Pagina iniziale"
+
+#, fuzzy
+#~ msgid "File"
+#~ msgstr "Titolo"
 
 #, fuzzy
 #~ msgid "%A, %B %d %Y"

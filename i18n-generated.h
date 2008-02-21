@@ -1131,8 +1131,43 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "Couldn't aquire access to channels, please try again later.",
+  { "Timer conflicts detected! You should check the conflicting timers.",
+    "Timer Konflikte entdeckt! Sie sollten die entsprechenden Timer prüfen.",
     "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Couldn't aquire access to channels, please try again later.",
+    "Zugriff auf die Kanäle wurde verweigert. Bitte später versuchen.",
     "",
     "Impossibile avere accesso ai canali, per favore riprova più tardi.",
     "",
@@ -1167,7 +1202,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Couldn't find searchtimer. Maybe you mistyped your request?",
-    "",
+    "Keinen Suchtimer gefunden. Möglicherweise ein Tippfehler in der Anfrage?",
     "",
     "Impossibile trovare timer di ricerca. Hai digitato correttamente la richiesta?",
     "",
@@ -7886,111 +7921,6 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "Start",
-    "Start",
-    "",
-    "Pagina iniziale",
-    "Start na",
-    "",
-    "Page de départ",
-    "",
-    "Aloitussivu",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Stop",
-    "Stopp",
-    "",
-    "Ferma",
-    "",
-    "",
-    "Stop",
-    "",
-    "Pysäytä",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "File",
-    "Datei",
-    "",
-    "Titolo",
-    "",
-    "",
-    "Titre",
-    "",
-    "Otsikko",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
   { "Timer has a conflict.",
     "Timer hat einen Konflikt.",
     "",
@@ -8210,6 +8140,41 @@ const tI18nPhrase Phrases[] = {
     "VLC: live vidéo stream",
     "",
     "VLC: live-lähetyksen suoratoisto",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Stop",
+    "Stopp",
+    "",
+    "Ferma",
+    "",
+    "",
+    "Stop",
+    "",
+    "Pysäytä",
     "",
     "",
     "",
