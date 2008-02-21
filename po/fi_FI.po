@@ -111,6 +111,9 @@ msgstr "Ensisijaisen DVB-sovittimen käyttäminen epäonnistui!"
 msgid "Couldn't grab image from primary device"
 msgstr "Kuvan kaappaus ensisijaiselta DVB-sovittimelta epäonnistui!"
 
+msgid "Timer conflicts detected! You should check the conflicting timers."
+msgstr ""
+
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr "Kanavien käyttäminen epäonnistui! Yritä myöhemmin uudelleen."
 

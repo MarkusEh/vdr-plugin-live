@@ -105,6 +105,9 @@ a:active {
 	margin: 0px;
 }
 
+.notpresent {
+	display: none;
+}
 
 /* ######################
    # Tooltip style for hints
@@ -417,7 +420,7 @@ div.pagemenu {
 }
 
 div.pagemenu div {
-	/* padding-bottom: 6px; */
+	padding-bottom: 6px;
 	background: #FFFFFF url(img/bg_line_top.png) bottom repeat-x;
 }
 
@@ -434,6 +437,10 @@ div.pagemenu div div div {
 	margin: 0;
 }
 
+div.pagemenu form {
+	display: inline;
+}
+
 div.pagemenu a {
 	color: black;
 	font-weight: bold;
@@ -442,6 +449,19 @@ div.pagemenu a {
 div.pagemenu a.active {
 	color: blue;
 	font-weight: bold;
+}
+
+div.pagemenu #pmmessage {
+	border-bottom: 0px;
+        text-align: center;
+}
+
+div.pagemenu #pmmessage span {
+	padding: 0em 2em 0em 2em;
+        background: red;
+}
+
+div.pagemenu #pmcontent {
 }
 
 /* #######################

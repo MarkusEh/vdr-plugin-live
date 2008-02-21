@@ -112,6 +112,9 @@ msgstr ""
 msgid "Couldn't grab image from primary device"
 msgstr ""
 
+msgid "Timer conflicts detected! You should check the conflicting timers."
+msgstr ""
+
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr ""
 

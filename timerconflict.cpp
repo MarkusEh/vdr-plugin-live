@@ -1,10 +1,15 @@
+#include <time.h>
+
 #include <vector>
-#include "timerconflict.h"
+
+#include <vdr/plugin.h>
+
 #include "tools.h"
-#include "epgsearch/services.h"
 #include "exception.h"
 #include "epgsearch.h"
-#include <vdr/plugin.h>
+#include "epgsearch/services.h"
+
+#include "timerconflict.h"
 
 namespace vdrlive {
 
@@ -78,6 +83,35 @@ namespace vdrlive {
 		if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
 			throw HtmlError( tr("EPGSearch version outdated! Please update.") );
 		return service.handler->IsConflictCheckAdvised();
+	}
+
+	TimerConflictNotifier::TimerConflictNotifier()
+		: lastCheck(0)
+		, conflicts()
+	{
+	}
+
+	TimerConflictNotifier::~TimerConflictNotifier()
+	{
+	}
+
+	bool TimerConflictNotifier::ShouldNotify()
+	{
+		time_t now = time(0);
+		bool reCheckAdvised((now - lastCheck) > CHECKINTERVAL);
+
+		if (reCheckAdvised && TimerConflicts::CheckAdvised()) {
+			lastCheck = now;
+			conflicts.reset(new TimerConflicts());
+			return conflicts->size() > 0;
+		}
+		return false;
+	}
+
+	std::string TimerConflictNotifier::Message() const
+	{
+		int count = conflicts ? conflicts->size() : 0;
+		return count > 0 ? tr("Timer conflicts detected! You should check the conflicting timers.") : "";
 	}
 
 } // namespace vdrlive

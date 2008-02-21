@@ -114,6 +114,9 @@ msgstr "Impossible d'acquérir périphérique primaire"
 msgid "Couldn't grab image from primary device"
 msgstr "Impossible de récupérer l'image du périphérique primaire"
 
+msgid "Timer conflicts detected! You should check the conflicting timers."
+msgstr ""
+
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr "Impossible d'avoir accès à des chaînes, réessayer ultérieurement."
 

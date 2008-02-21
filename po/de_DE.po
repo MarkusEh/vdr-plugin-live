@@ -113,11 +113,14 @@ msgstr ""
 msgid "Couldn't grab image from primary device"
 msgstr ""
 
+msgid "Timer conflicts detected! You should check the conflicting timers."
+msgstr "Timer Konflikte entdeckt! Sie sollten die entsprechenden Timer prüfen."
+
 msgid "Couldn't aquire access to channels, please try again later."
-msgstr ""
+msgstr "Zugriff auf die Kanäle wurde verweigert. Bitte später versuchen."
 
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
-msgstr ""
+msgstr "Keinen Suchtimer gefunden. Möglicherweise ein Tippfehler in der Anfrage?"
 
 msgid "mm/dd/yyyy"
 msgstr "dd.mm.yyyy"

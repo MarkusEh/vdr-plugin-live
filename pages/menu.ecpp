@@ -2,9 +2,11 @@
 #include <string>
 #include <vdr/plugin.h>
 #include <vdr/config.h>
+
 #include "livefeatures.h"
 #include "setup.h"
 #include "i18n.h"
+#include "timerconflict.h"
 
 using namespace std;
 using namespace vdrlive;
@@ -16,69 +18,82 @@ component;
 </%args>
 <%session scope="global">
 bool logged_in(false);
+TimerConflictNotifier timerNotifier();
 </%session>
 <%request scope="page">
 std::string set_active;
 std::string set_component;
 </%request>
-<{
+<%cpp>
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
-}>
-<{
 
-	using namespace vdrlive;
+bool hasComp(!component.empty());
+bool hasMesg(timerNotifier.ShouldNotify());
 
-	set_active = active;
-	if (!component.empty())
-		set_component = component;
-}>
+set_active = active;
+if (hasComp) {
+	set_component = component;
+}
+
+</%cpp>
 <div class="menu">
 	  <a href="whats_on.html?type=now" <& menu.setactive current=("whats_on") &>><$ tr("What's on?") $></a>
 	| <a href="schedule.html" <& menu.setactive current=("schedule") &>><$ trVDR("Schedule") $></a>
 	| <a href="timers.html" <& menu.setactive current=("timers") &>><$ trVDR("Timers") $></a>
-% if ( LiveFeatures< features::epgsearch >().Recent() ) {
+<%cpp>
+if ( LiveFeatures< features::epgsearch >().Recent() ) {
+</%cpp>
 	| <a href="searchepg.html" <& menu.setactive current=("searchepg") &>><$ tr("Search") $></a>
 	| <a href="searchtimers.html" <& menu.setactive current=("searchtimers") &>><$ tr("Searchtimers") $></a>
-% }
+<%cpp>
+}
+</%cpp>
 	| <a href="recordings.html" <& menu.setactive current=("recordings") &>><$ tr("Recordings") $></a>
 	| <a href="remote.html" <& menu.setactive current=("remote") &>><$ tr("Remote Control") $></a>
 	| <a href="setup.html" <& menu.setactive current=("setup") &>><$ trVDR("Setup") $></a>
 <# --- Used by D.H. to test infobox (not part of the released version)
 	| <a href="ibox_status.html" <& menu.setactive current=("status") &>><$ tr("Status Test") $></a>
 --- #>
-% if (LiveSetup().UseAuth()) {
+<%cpp>
+if (LiveSetup().UseAuth()) {
+</%cpp>
 	| <a id="login" href="login.html?action=logout"><$ tr("Logout") $></a>
-% }
+<%cpp>
+}
+</%cpp>
 	| <a <& tooltip.display domId=("aboutBox") &>>?</a>
 </div>
-% if (!component.empty()) {
-<div class="pagemenu">
- <div> <!-- outer -->
-  <div> <!-- inner -->
-	<& menu.component current=("whats_on") &>
-	<& menu.component current=("schedule") &>
-	<& menu.component current=("timers") &>
-% if ( LiveFeatures< features::epgsearch >().Recent() ) {
-	<& menu.component current=("search") &>
-	<& menu.component current=("searchtimers") &>
-% }
-	<& menu.component current=("recordings") &>
-	<& menu.component current=("remote") &>
+<div class="pagemenu <? (!hasComp && !hasMesg) ? "notpresent" ?>">
+  <div> <!-- outer -->
+	<div id="pmmessage" class="<? (!hasMesg) ? "notpresent" ?>"><span><$ timerNotifier.Message() $></span></div>
+    <div id="pmcontent" class="<? (!hasComp) ? "notpresent" ?>"> <!-- inner -->
+	  <& menu.component current=("whats_on") &>
+	  <& menu.component current=("schedule") &>
+	  <& menu.component current=("timers") &>
+<%cpp>
+	if ( LiveFeatures< features::epgsearch >().Recent() ) {
+</%cpp>
+	  <& menu.component current=("search") &>
+	  <& menu.component current=("searchtimers") &>
+<%cpp>
+	}
+</%cpp>
+	  <& menu.component current=("recordings") &>
+	  <& menu.component current=("remote") &>
+    </div>
   </div>
- </div>
 </div>
-% }
 
 <%def setactive>
 <%args>
 current;
 </%args>
-<%cpp> if (current== set_active) { </%cpp>class="active"<%cpp> } </%cpp>
+<%cpp> if (current == set_active) { </%cpp>class="active"<%cpp> } </%cpp>
 </%def>
 
 <%def component>
 <%args>
 current;
 </%args>
-<%cpp> if ((current== set_active) && (!set_component.empty())) { </%cpp><& (set_component) &><%cpp> } </%cpp>
+<%cpp> if ((current == set_active) && (!set_component.empty())) { </%cpp><& (set_component) &><%cpp> } </%cpp>
 </%def>

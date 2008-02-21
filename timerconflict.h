@@ -3,6 +3,8 @@
 
 #include <list>
 
+#include "stdext.h"
+
 namespace vdrlive {
 
 // classes for timer conflict interface
@@ -63,11 +65,21 @@ namespace vdrlive {
 	class TimerConflictNotifier
 	{
 		public:
-			TimerConflictNotifier(time_t lastCheck = 0);
+			typedef std::tr1::shared_ptr<TimerConflicts> TimerConflictsPtr;
 
-			bool ShouldNotify() const;
+			TimerConflictNotifier();
+			virtual ~TimerConflictNotifier();
+
+			bool ShouldNotify();
 			std::string Message() const;
 
+			TimerConflictsPtr const CurrentConflicts() const { return conflicts; }
+
+			static int const CHECKINTERVAL = 30; // recheck value in seconds.
+
+		private:
+			time_t lastCheck;
+			TimerConflictsPtr conflicts;
 	}; // class TimerConflictNotifier
 
 }
