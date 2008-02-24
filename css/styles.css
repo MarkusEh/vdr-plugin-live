@@ -413,6 +413,8 @@ div.inhalt {
 	padding: 10px;
 }
 
+/* styles for pagemenu */
+
 div#pagemenu {
 	margin-top: 2px;
 	padding-top: 6px;
@@ -448,6 +450,50 @@ div#pagemenu a {
 
 div#pagemenu a.active {
 	color: blue;
+	font-weight: bold;
+}
+
+/* styles for messagebar */
+
+div#messagebar {
+	margin-top: 8px;
+	margin-bottom: 2px;
+	line-height: 20px;
+        min-height: 27px;
+	vertical-align: middle;
+	background: #7CAD3F url(img/msgbar_line_bg.png) top repeat-x;
+	border-top: 1px solid #2B6B00;
+	border-bottom: 1px solid #2B6B00;
+}
+
+div#messagebar div {
+	color: black;
+}
+
+div#messagebar div div {
+	padding-left: 10px;
+	background: transparent;
+}
+
+div#messagebar div div div {
+	border: 0;
+	padding: 0;
+	margin: 0;
+}
+
+div#messagebar a {
+	color: black;
+	font-weight: bold;
+}
+
+div#messagebar a.active {
+	color: blue;
+	font-weight: bold;
+}
+
+div#messagebar span#mbmessage {
+	padding: 0em 1em 0em 1em;
+	color: #A14040;
 	font-weight: bold;
 }
 

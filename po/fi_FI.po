@@ -111,8 +111,17 @@ msgstr "Ensisijaisen DVB-sovittimen käyttäminen epäonnistui!"
 msgid "Couldn't grab image from primary device"
 msgstr "Kuvan kaappaus ensisijaiselta DVB-sovittimelta epäonnistui!"
 
-msgid "Timer conflicts detected! You should check the conflicting timers."
-msgstr ""
+#, fuzzy
+msgid "Timer conflict check detected "
+msgstr "Aktiivinen ajastin"
+
+#, fuzzy
+msgid " conflict"
+msgstr "Aktiivinen ajastin"
+
+#, fuzzy
+msgid " conflicts"
+msgstr "Aktiivinen ajastin"
 
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr "Kanavien käyttäminen epäonnistui! Yritä myöhemmin uudelleen."
@@ -425,6 +434,15 @@ msgstr "Kauko-ohjain"
 
 msgid "Logout"
 msgstr "Kirjaudu ulos"
+
+msgid "Your attention is required"
+msgstr ""
+
+msgid "React"
+msgstr ""
+
+msgid "Dismiss"
+msgstr ""
 
 msgid "Find more at the Internet Movie Database."
 msgstr "Hae IMDB:stä"

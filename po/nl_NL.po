@@ -114,8 +114,17 @@ msgstr ""
 msgid "Couldn't grab image from primary device"
 msgstr ""
 
-msgid "Timer conflicts detected! You should check the conflicting timers."
-msgstr ""
+#, fuzzy
+msgid "Timer conflict check detected "
+msgstr "Serie's opnemen"
+
+#, fuzzy
+msgid " conflict"
+msgstr "Serie's opnemen"
+
+#, fuzzy
+msgid " conflicts"
+msgstr "Serie's opnemen"
 
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr ""
@@ -427,6 +436,15 @@ msgid "Remote Control"
 msgstr ""
 
 msgid "Logout"
+msgstr ""
+
+msgid "Your attention is required"
+msgstr ""
+
+msgid "React"
+msgstr ""
+
+msgid "Dismiss"
 msgstr ""
 
 msgid "Find more at the Internet Movie Database."

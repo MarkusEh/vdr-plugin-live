@@ -114,8 +114,17 @@ msgstr "Impossible d'acquérir périphérique primaire"
 msgid "Couldn't grab image from primary device"
 msgstr "Impossible de récupérer l'image du périphérique primaire"
 
-msgid "Timer conflicts detected! You should check the conflicting timers."
-msgstr ""
+#, fuzzy
+msgid "Timer conflict check detected "
+msgstr "Programmation est active."
+
+#, fuzzy
+msgid " conflict"
+msgstr "Programmation est active."
+
+#, fuzzy
+msgid " conflicts"
+msgstr "Programmation est active."
 
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr "Impossible d'avoir accès à des chaînes, réessayer ultérieurement."
@@ -428,6 +437,15 @@ msgstr "Télécommande du VDR"
 
 msgid "Logout"
 msgstr "Fin de session"
+
+msgid "Your attention is required"
+msgstr ""
+
+msgid "React"
+msgstr ""
+
+msgid "Dismiss"
+msgstr ""
 
 msgid "Find more at the Internet Movie Database."
 msgstr "Trouver plus d'information du film dans la base de données film IMDB."

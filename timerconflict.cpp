@@ -111,7 +111,18 @@ namespace vdrlive {
 	std::string TimerConflictNotifier::Message() const
 	{
 		int count = conflicts ? conflicts->size() : 0;
-		return count > 0 ? tr("Timer conflicts detected! You should check the conflicting timers.") : "";
+		std::string msg = tr("Timer conflict check detected ");
+		if (count == 1)
+			msg += ConvertToString(count) + tr(" conflict");
+		else
+			msg += ConvertToString(count) + tr(" conflicts");
+		return count > 0 ? msg : "";
 	}
+
+	std::string TimerConflictNotifier::Url() const
+	{
+		return "timerconflicts.html";
+	}
+
 
 } // namespace vdrlive

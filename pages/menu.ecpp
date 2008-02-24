@@ -60,6 +60,23 @@ if (LiveSetup().UseAuth()) {
 </%cpp>
 	| <a <& tooltip.display domId=("aboutBox") &>>?</a>
 </div>
+<div id="messagebar" class="<? !timerNotifier.ShouldNotify() ? "notpresent" ?>">
+  <div> <!-- outer -->
+	<div><!-- inner -->
+	  <$ tr("Your attention is required") $>:
+	  <span id="mbmessage"><$ timerNotifier.Message() $></span>
+	  <a id="mbreact" href="<$ timerNotifier.Url() $>"><$ tr("React") $></a>
+<%cpp>
+if (LiveSetup().GetUseAjax()) {
+</%cpp>
+      <span id="mbdelimiter" class="<? timerNotifier.Url().empty() ? "notpresent" ?>">|</span>
+	  <span id="mbdismiss"><a href="" onclick="$('messagebar').addClass('notpresent'); return false"><$ tr("Dismiss") $></a></span>
+<%cpp>
+}
+</%cpp>
+    </div>
+  </div>
+</div>
 <%cpp>
 if (!component.empty()) {
 </%cpp>

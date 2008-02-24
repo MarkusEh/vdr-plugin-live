@@ -28,51 +28,13 @@ var LiveVdrInfo = Ajax.extend({
 	  showInfo: function(text, xmldoc)
 	  {
 		  try {
-			  var infoType = xmldoc.getElementsByTagName('type').item(0);
+			  this.selectInfoElems(xmldoc);
 
-			  var channel = $(this.boxId + '_channel_buttons');
-			  var playback = $(this.boxId + '_recording_buttons');
+			  this.setEpgInfo(xmldoc);
 
-			  if (infoType.firstChild.nodeValue != "channel") {
-				  channel.style.display = 'none';
-				  playback.style.display = 'block';
-				  this.setTextContent('pause', infoType.firstChild.nodeValue);
-				  this.setTextContent('play', infoType.firstChild.nodeValue);
-				  this.setTextContent('rwd', infoType.firstChild.nodeValue);
-				  this.setTextContent('ffw', infoType.firstChild.nodeValue);
-				  this.setTextContent('stop', infoType.firstChild.nodeValue);
-			  }
-			  else {
-				  playback.style.display = 'none';
-				  channel.style.display = 'block';
-			  }
+			  this.setInfoMessage(xmldoc);
 
-			  var epgInfo = xmldoc.getElementsByTagName('epginfo').item(0);
-
-			  for (var i = 0; i < epgInfo.childNodes.length; i++) {
-				  var node = epgInfo.childNodes.item(i);
-				  if (node.nodeType == 1) {
-					  var textContent = "";
-					  if (node.firstChild != null)
-						  textContent = node.firstChild.nodeValue;
-					  this.setTextContent(node.nodeName, textContent);
-				  }
-			  }
-
-			  /* check if we still need to update the status */
-			  var upd = xmldoc.getElementsByTagName('update').item(0);
-			  var rel = (upd.firstChild.nodeValue == "1");
-
-			  if (rel != this.reload) {
-				  this.reload = rel;
-				  var img = $('statusReloadBtn');
-				  if (img != null) {
-					  // change image according to state.
-					  img.src = this.reload ? 'img/stop_update.png' : 'img/reload.png';
-				  }
-			  }
-			  if (this.reload)
-				  this.timer = this.request.delay(1000, this, true);
+			  this.setUpdate(xmldoc);
 		  }
 		  catch (e) {
 			  this.reportError(null);
@@ -92,6 +54,75 @@ var LiveVdrInfo = Ajax.extend({
 		  this.setTextContent('name', message);
 	  },
 
+	  // private function to switch visibility of controls.
+	  selectInfoElems: function(xmldoc)
+	  {
+		  var infoType = xmldoc.getElementsByTagName('type').item(0);
+
+		  var channel = $(this.boxId + '_channel_buttons');
+		  var playback = $(this.boxId + '_recording_buttons');
+
+		  if (infoType.firstChild.nodeValue != "channel") {
+			  channel.style.display = 'none';
+			  playback.style.display = 'block';
+			  this.setTextContent('pause', infoType.firstChild.nodeValue);
+			  this.setTextContent('play', infoType.firstChild.nodeValue);
+			  this.setTextContent('rwd', infoType.firstChild.nodeValue);
+			  this.setTextContent('ffw', infoType.firstChild.nodeValue);
+			  this.setTextContent('stop', infoType.firstChild.nodeValue);
+		  }
+		  else {
+			  playback.style.display = 'none';
+			  channel.style.display = 'block';
+		  }
+	  },
+
+	  // private function to activate the info message display if the
+	  // corresponding element is found in the current page.
+	  setInfoMessage: function(xmldoc)
+	  {
+		  var info = xmldoc.getElementsByTagName('info').item(0);
+		  if (! $defined(info))
+			  return;
+
+		  var messagebar = $('messagebar');
+		  if (! $defined(messagebar))
+			  return;
+
+		  var message = xmldoc.getElementsByTagName('message').item(0);
+		  var url = xmldoc.getElementsByTagName('url').item(0);
+
+		  if (message.firstChild.nodeValue != "") {
+			  $('mbmessage').setText(message.firstChild.nodeValue);
+			  if ($defined(url.firstChild)) {
+				  $('mbdelimiter').removeClass('notpresent');
+				  $('mbreact').setProperty('href', url.firstChild.nodeValue);
+			  }
+			  else {
+				  $('mbdelimiter').addClass('notpresent');
+				  $('mbreact').addClass('notpresent');
+			  }
+			  messagebar.removeClass('notpresent');
+		  }
+	  },
+
+	  // private function to display information from epg info.
+	  setEpgInfo: function(xmldoc)
+	  {
+		  var epgInfo = xmldoc.getElementsByTagName('epginfo').item(0);
+
+		  for (var i = 0; i < epgInfo.childNodes.length; i++) {
+			  var node = epgInfo.childNodes.item(i);
+			  if (node.nodeType == 1) {
+				  var textContent = "";
+				  if (node.firstChild != null)
+					  textContent = node.firstChild.nodeValue;
+				  this.setTextContent(node.nodeName, textContent);
+			  }
+		  }
+	  },
+
+	  // private function to update text contents.
 	  setTextContent: function(nodeName, textContent)
 	  {
 		  var docNode = $(this.boxId + '_' + nodeName);
@@ -146,6 +177,26 @@ var LiveVdrInfo = Ajax.extend({
 				  break;
 			  }
 		  }
+	  },
+
+	  // private function to determine update status and to trigger
+	  // the next update.
+	  setUpdate: function(xmldoc)
+	  {
+		  /* check if we still need to update the status */
+		  var upd = xmldoc.getElementsByTagName('update').item(0);
+		  var rel = (upd.firstChild.nodeValue == "1");
+
+		  if (rel != this.reload) {
+			  this.reload = rel;
+			  var img = $('statusReloadBtn');
+			  if (img != null) {
+				  // change image according to state.
+				  img.src = this.reload ? 'img/stop_update.png' : 'img/reload.png';
+			  }
+		  }
+		  if (this.reload)
+			  this.timer = this.request.delay(1000, this, true);
 	  },
 
 	  toggleUpdate: function()

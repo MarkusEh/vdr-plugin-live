@@ -71,11 +71,13 @@ namespace vdrlive {
 			virtual ~TimerConflictNotifier();
 
 			bool ShouldNotify();
+
 			std::string Message() const;
+			std::string Url() const;
 
 			TimerConflictsPtr const CurrentConflicts() const { return conflicts; }
 
-			static int const CHECKINTERVAL = 30; // recheck value in seconds.
+			static int const CHECKINTERVAL = 5; // recheck value in seconds.
 
 		private:
 			time_t lastCheck;

@@ -42,6 +42,8 @@ string const XMLHEADER = "<?xml version=\"1.0\" encoding=\"" + LiveI18n().Charac
 	int elapsed;
 	string prev_chan;
 	string next_chan;
+	string infoMsg;
+	string infoUrl;
 </%args>
 <$$ XMLHEADER $>
 <service>
@@ -63,5 +65,15 @@ string const XMLHEADER = "<?xml version=\"1.0\" encoding=\"" + LiveI18n().Charac
 	  <prevchan><$ prev_chan $></prevchan>
 	</epginfo>
   </values>
+<%cpp>
+if (!infoMsg.empty()) {
+</%cpp>
+  <info>
+	<message><$ infoMsg $></message>
+    <url><$ infoUrl $></url>
+  </info>
+<%cpp>
+}
+</%cpp>
 </service>
 </%def>

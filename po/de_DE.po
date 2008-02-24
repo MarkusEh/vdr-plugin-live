@@ -113,8 +113,14 @@ msgstr ""
 msgid "Couldn't grab image from primary device"
 msgstr ""
 
-msgid "Timer conflicts detected! You should check the conflicting timers."
-msgstr "Timer Konflikte entdeckt! Sie sollten die entsprechenden Timer prüfen."
+msgid "Timer conflict check detected "
+msgstr "Die Timer Konflikt Überprüfung hat "
+
+msgid " conflict"
+msgstr "Timerkonflikt entdeckt"
+
+msgid " conflicts"
+msgstr "Timerkonflikte entdeckt"
 
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr "Zugriff auf die Kanäle wurde verweigert. Bitte später versuchen."
@@ -427,6 +433,15 @@ msgstr "Fernbedienung"
 
 msgid "Logout"
 msgstr "Abmelden"
+
+msgid "Your attention is required"
+msgstr "Ihre Aufmerksamkeit ist erforderlich"
+
+msgid "React"
+msgstr "Reagieren"
+
+msgid "Dismiss"
+msgstr "Verwerfen"
 
 msgid "Find more at the Internet Movie Database."
 msgstr "Weitere Informationen in der Internet Movie Database."
@@ -772,6 +787,9 @@ msgstr "Ausführliche Ansicht"
 
 msgid "List view"
 msgstr "Listenansicht"
+
+#~ msgid "Timer conflicts detected! You should check the conflicting timers."
+#~ msgstr "Timer Konflikte entdeckt! Sie sollten die entsprechenden Timer prüfen."
 
 #~ msgid "Start"
 #~ msgstr "Start"
