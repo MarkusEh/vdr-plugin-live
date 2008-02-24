@@ -116,33 +116,33 @@ div.menu a.active {
 	color: #122DBA;
 }
 
-div.pagemenu {
+div#pagemenu {
 	background: #FFFFFF url(../img/bg_line.png) top repeat-x;
 }
 
-div.pagemenu div {
+div#pagemenu div {
 	background: #FFFFFF url(../img/bg_line_top.png) bottom repeat-x;
 }
 
-div.pagemenu div div {
+div#pagemenu div div {
 	background: #122DBA;
 	border-top: 1px solid #C0C0FF;
 	border-bottom: 1px solid #C0C0FF;
 }
 
-div.pagemenu a {
+div#pagemenu a {
 	color: #FCBC40;
 }
 
-div.pagemenu a.active {
+div#pagemenu a.active {
 	color: #FFFDDD;
 }
 
-div.pagemenu span {
+div#pagemenu span {
 	color: #FCBC40;
 }
 
-div.pagemenu span.sep {
+div#pagemenu span.sep {
 	color: #FCBC40;
 }
 

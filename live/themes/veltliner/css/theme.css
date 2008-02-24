@@ -75,29 +75,29 @@ div.menu {
 	color: #005E00;
 }
 
-div.pagemenu {
+div#pagemenu {
 	background: #00F0F0 url(../img/bg_line.png) top repeat-x;
 }
 
-div.pagemenu div {
+div#pagemenu div {
 	background: #00F0F0 url(../img/bg_line_top.png) bottom repeat-x;
 }
 
-div.pagemenu div div {
+div#pagemenu div div {
 	background: #00AE00;
 	border-top: 1px solid #006300;
 	border-bottom: 1px solid #005E00;
 }
 
-div.pagemenu a.active {
+div#pagemenu a.active {
 	color: #E03000;
 }
 
-div.pagemenu span.sep {
+div#pagemenu span.sep {
 	color: #001E00;
 }
 
-div.pagemenu span.active {
+div#pagemenu span.active {
 	color: #E03000;
 }
 

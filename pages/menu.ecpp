@@ -27,11 +27,8 @@ std::string set_component;
 <%cpp>
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
-bool hasComp(!component.empty());
-bool hasMesg(timerNotifier.ShouldNotify());
-
 set_active = active;
-if (hasComp) {
+if (!component.empty()) {
 	set_component = component;
 }
 
@@ -63,15 +60,17 @@ if (LiveSetup().UseAuth()) {
 </%cpp>
 	| <a <& tooltip.display domId=("aboutBox") &>>?</a>
 </div>
-<div class="pagemenu <? (!hasComp && !hasMesg) ? "notpresent" ?>">
+<%cpp>
+if (!component.empty()) {
+</%cpp>
+<div id="pagemenu">
   <div> <!-- outer -->
-	<div id="pmmessage" class="<? (!hasMesg) ? "notpresent" ?>"><span><$ timerNotifier.Message() $></span></div>
-    <div id="pmcontent" class="<? (!hasComp) ? "notpresent" ?>"> <!-- inner -->
+    <div> <!-- inner -->
 	  <& menu.component current=("whats_on") &>
 	  <& menu.component current=("schedule") &>
 	  <& menu.component current=("timers") &>
 <%cpp>
-	if ( LiveFeatures< features::epgsearch >().Recent() ) {
+	if (LiveFeatures< features::epgsearch >().Recent()) {
 </%cpp>
 	  <& menu.component current=("search") &>
 	  <& menu.component current=("searchtimers") &>
@@ -83,6 +82,9 @@ if (LiveSetup().UseAuth()) {
     </div>
   </div>
 </div>
+<%cpp>
+}
+</%cpp>
 
 <%def setactive>
 <%args>
