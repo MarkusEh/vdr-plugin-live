@@ -115,10 +115,10 @@ msgstr ""
 msgid "Timer conflict check detected "
 msgstr ""
 
-msgid " conflict"
+msgid "conflict"
 msgstr ""
 
-msgid " conflicts"
+msgid "conflicts"
 msgstr ""
 
 msgid "Couldn't aquire access to channels, please try again later."

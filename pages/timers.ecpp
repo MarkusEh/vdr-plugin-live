@@ -6,6 +6,7 @@
 #include "setup.h"
 #include "i18n.h"
 #include "epg_events.h"
+#include "timerconflict.h"
 #include "livefeatures.h"
 
 using namespace std;

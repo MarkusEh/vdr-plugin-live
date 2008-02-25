@@ -116,10 +116,10 @@ msgstr ""
 msgid "Timer conflict check detected "
 msgstr "Die Timer Konflikt Überprüfung hat "
 
-msgid " conflict"
+msgid "conflict"
 msgstr "Timerkonflikt entdeckt"
 
-msgid " conflicts"
+msgid "conflicts"
 msgstr "Timerkonflikte entdeckt"
 
 msgid "Couldn't aquire access to channels, please try again later."

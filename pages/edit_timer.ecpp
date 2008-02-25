@@ -9,6 +9,7 @@
 #include "timers.h"
 #include "setup.h"
 #include "epg_events.h"
+#include "timerconflict.h"
 #include "i18n.h"
 
 using namespace std;
@@ -43,6 +44,7 @@ using namespace vdrlive;
 <%session scope="global">
 bool logged_in(false);
 string edit_timerreferer;
+TimerConflictNotifier timerNotifier;
 </%session>
 <%request scope="page">
 cTimer* timer;
@@ -80,6 +82,7 @@ cTimer* timer;
 			time_t tdate = GetDateFromDatePicker(date, tr("mm/dd/yyyy"));
 			string sdate = DatePickerToC(tdate, "yyyy-mm-dd");
 			LiveTimerManager().UpdateTimer( timer, flags, channel, weekdays, sdate, start, stop, priority, lifetime, title, aux );
+			timerNotifier.SetTimerModification();
 			return reply.redirect(!edit_timerreferer.empty()?edit_timerreferer:"timers.html");
 		}
 	}

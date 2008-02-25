@@ -1131,8 +1131,15 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "Timer conflicts detected! You should check the conflicting timers.",
-    "Timer Konflikte entdeckt! Sie sollten die entsprechenden Timer prüfen.",
+  { "Timer conflict check detected ",
+    "Die Timer Konflikt Überprüfung hat ",
+    "",
+    "Timer attivo.",
+    "Serie's opnemen",
+    "",
+    "Programmation est active.",
+    "",
+    "Aktiivinen ajastin",
     "",
     "",
     "",
@@ -1140,6 +1147,69 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "conflict",
+    "Timerkonflikt entdeckt",
+    "",
+    "Timer attivo.",
+    "Serie's opnemen",
+    "",
+    "Programmation est active.",
+    "",
+    "Aktiivinen ajastin",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "conflicts",
+    "Timerkonflikte entdeckt",
+    "",
+    "Timer attivo.",
+    "Serie's opnemen",
+    "",
+    "Programmation est active.",
+    "",
+    "Aktiivinen ajastin",
     "",
     "",
     "",
@@ -4780,6 +4850,111 @@ const tI18nPhrase Phrases[] = {
     "Fin de session",
     "",
     "Kirjaudu ulos",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Your attention is required",
+    "Ihre Aufmerksamkeit ist erforderlich",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "React",
+    "Reagieren",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Dismiss",
+    "Verwerfen",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
     "",
     "",
     "",

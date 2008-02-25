@@ -87,6 +87,7 @@ namespace vdrlive {
 
 	TimerConflictNotifier::TimerConflictNotifier()
 		: lastCheck(0)
+		, lastTimerModification(0)
 		, conflicts()
 	{
 	}
@@ -99,8 +100,9 @@ namespace vdrlive {
 	{
 		time_t now = time(0);
 		bool reCheckAdvised((now - lastCheck) > CHECKINTERVAL);
+		bool recentTimerChange((now - lastTimerModification) <= CHECKINTERVAL);
 
-		if (reCheckAdvised && TimerConflicts::CheckAdvised()) {
+		if (recentTimerChange || (reCheckAdvised && TimerConflicts::CheckAdvised())) {
 			lastCheck = now;
 			conflicts.reset(new TimerConflicts());
 			return conflicts->size() > 0;
@@ -108,15 +110,22 @@ namespace vdrlive {
 		return false;
 	}
 
+	void TimerConflictNotifier::SetTimerModification()
+	{
+		lastTimerModification = time(0);
+	}
+
 	std::string TimerConflictNotifier::Message() const
 	{
 		int count = conflicts ? conflicts->size() : 0;
 		std::string msg = tr("Timer conflict check detected ");
+		msg += ConvertToString(count) + " ";
 		if (count == 1)
-			msg += ConvertToString(count) + tr(" conflict");
+			msg += tr("conflict");
 		else
-			msg += ConvertToString(count) + tr(" conflicts");
-		return count > 0 ? msg : "";
+			msg += tr("conflicts");
+
+		return count > 0 ? msg + "!" : "";
 	}
 
 	std::string TimerConflictNotifier::Url() const

@@ -119,11 +119,11 @@ msgid "Timer conflict check detected "
 msgstr "Programmation est active."
 
 #, fuzzy
-msgid " conflict"
+msgid "conflict"
 msgstr "Programmation est active."
 
 #, fuzzy
-msgid " conflicts"
+msgid "conflicts"
 msgstr "Programmation est active."
 
 msgid "Couldn't aquire access to channels, please try again later."

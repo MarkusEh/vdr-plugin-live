@@ -116,11 +116,11 @@ msgid "Timer conflict check detected "
 msgstr "Aktiivinen ajastin"
 
 #, fuzzy
-msgid " conflict"
+msgid "conflict"
 msgstr "Aktiivinen ajastin"
 
 #, fuzzy
-msgid " conflicts"
+msgid "conflicts"
 msgstr "Aktiivinen ajastin"
 
 msgid "Couldn't aquire access to channels, please try again later."

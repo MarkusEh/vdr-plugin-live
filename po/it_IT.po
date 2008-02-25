@@ -118,11 +118,11 @@ msgid "Timer conflict check detected "
 msgstr "Timer attivo."
 
 #, fuzzy
-msgid " conflict"
+msgid "conflict"
 msgstr "Timer attivo."
 
 #, fuzzy
-msgid " conflicts"
+msgid "conflicts"
 msgstr "Timer attivo."
 
 msgid "Couldn't aquire access to channels, please try again later."

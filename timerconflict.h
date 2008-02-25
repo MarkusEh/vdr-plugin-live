@@ -72,6 +72,8 @@ namespace vdrlive {
 
 			bool ShouldNotify();
 
+			void SetTimerModification();
+
 			std::string Message() const;
 			std::string Url() const;
 
@@ -81,6 +83,7 @@ namespace vdrlive {
 
 		private:
 			time_t lastCheck;
+			time_t lastTimerModification;
 			TimerConflictsPtr conflicts;
 	}; // class TimerConflictNotifier
 
