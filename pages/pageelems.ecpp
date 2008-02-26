@@ -102,6 +102,17 @@ int update_status(1);
 
 <# ---------------------------------------------------------------------- #>
 
+<%def vlc_stream_channel>
+<%args>
+	tChannelID channelId;
+	string linkText;
+</%args>
+<%cpp> if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded()) { </%cpp><a href="vlc.html?channel=<$ channelId $>"><img src="<$ LiveSetup().GetThemedLink("img", "play.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into browser.")) &>></img> <$ linkText $></a><%cpp> } </%cpp>
+</%def>
+
+
+<# ---------------------------------------------------------------------- #>
+
 <%def event_timer>
 <%args>
 	string epgid;
@@ -241,9 +252,9 @@ int update_status(1);
 	<a href="searchresults.html?searchplain=<$ StringEscapeAndBreak(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a>
 <%cpp>
 		}
-		if (LiveSetup().GetUseStreamdev() && elapsed > 0 && LiveFeatures<features::streamdev_server>().Loaded()) {
+		if (elapsed > 0) {
 </%cpp>
-	<a href="vlc.html?channel=<$ channelId $>"><img src="<$ LiveSetup().GetThemedLink("img", "play.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into browser.")) &>></img></a>
+	<& pageelems.vlc_stream_channel channelId=(channelId) &>
 <%cpp>
 		}
 </%cpp>

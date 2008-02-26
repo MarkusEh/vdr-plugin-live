@@ -446,6 +446,9 @@ msgstr "Verwerfen"
 msgid "Find more at the Internet Movie Database."
 msgstr "Weitere Informationen in der Internet Movie Database."
 
+msgid "Stream this channel into browser."
+msgstr "Sendung im Browser anzeigen."
+
 msgid "Edit this"
 msgstr "Timer editieren"
 
@@ -539,9 +542,6 @@ msgstr "Zu diesem Kanal umschalten."
 msgid "Search for repeats."
 msgstr "Nach Wiederholungen suchen."
 
-msgid "Stream this channel into browser."
-msgstr "Sendung im Browser anzeigen."
-
 msgid "Authors"
 msgstr "Autoren"
 
@@ -619,6 +619,9 @@ msgstr "%A, %d.%m.%Y"
 
 msgid "Show schedule of channel"
 msgstr "Zeige Programm dieses Kanals"
+
+msgid "Stream into browser"
+msgstr "Im Browser anzeigen"
 
 msgid "Search settings"
 msgstr "Einstellungen zur Suche"

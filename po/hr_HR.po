@@ -445,6 +445,9 @@ msgstr ""
 msgid "Find more at the Internet Movie Database."
 msgstr ""
 
+msgid "Stream this channel into browser."
+msgstr ""
+
 msgid "Edit this"
 msgstr ""
 
@@ -538,9 +541,6 @@ msgstr ""
 msgid "Search for repeats."
 msgstr ""
 
-msgid "Stream this channel into browser."
-msgstr ""
-
 msgid "Authors"
 msgstr ""
 
@@ -617,6 +617,9 @@ msgid "%A, %b %d %Y"
 msgstr ""
 
 msgid "Show schedule of channel"
+msgstr ""
+
+msgid "Stream into browser"
 msgstr ""
 
 msgid "Search settings"

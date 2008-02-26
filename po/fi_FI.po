@@ -447,6 +447,9 @@ msgstr ""
 msgid "Find more at the Internet Movie Database."
 msgstr "Hae IMDB:stä"
 
+msgid "Stream this channel into browser."
+msgstr "Aloita suoratoisto"
+
 msgid "Edit this"
 msgstr "Muokkaa ajastinta"
 
@@ -540,9 +543,6 @@ msgstr "Vaihda kanavalle"
 msgid "Search for repeats."
 msgstr "Etsi toistuvat"
 
-msgid "Stream this channel into browser."
-msgstr "Aloita suoratoisto"
-
 msgid "Authors"
 msgstr "Tekijät"
 
@@ -622,6 +622,10 @@ msgstr "%A, %d.%m.%Y"
 
 msgid "Show schedule of channel"
 msgstr "Näytä kanavan ohjelmisto"
+
+#, fuzzy
+msgid "Stream into browser"
+msgstr "Aloita suoratoisto"
 
 msgid "Search settings"
 msgstr "Hakuasetukset"

@@ -145,5 +145,5 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <%include>page_exit.eh</%include>
 
 <%def channel_selection>
-<form action="schedule.html" method="get" id="channels"><span><label for="channel"><$ tr("Show schedule of channel") $>: </label><& channels_widget name=("channel") selected=(Channel ? *Channel->GetChannelID().ToString() : "") onchange=("document.forms.channels.submit()") &></span></form>
+<form action="schedule.html" method="get" id="channels"><span><label for="channel"><$ tr("Show schedule of channel") $>: </label><& channels_widget name=("channel") selected=(Channel ? *Channel->GetChannelID().ToString() : "") onchange=("document.forms.channels.submit()") &> <& pageelems.vlc_stream_channel channelId=(Channel->GetChannelID()) linkText=(tr("Stream into browser")) &></span></form>
 </%def>

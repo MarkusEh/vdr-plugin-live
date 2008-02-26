@@ -453,6 +453,15 @@ div#pagemenu a.active {
 	font-weight: bold;
 }
 
+div#pagemenu form a {
+	margin-left: 1em;
+}
+
+div#pagemenu form a img {
+        vertical-align: middle;
+	margin-top: -5px;
+}
+
 /* styles for messagebar */
 
 div#messagebar {
