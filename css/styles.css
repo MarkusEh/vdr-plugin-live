@@ -219,17 +219,16 @@ a:active {
 }
 
 
+/* ######################
+   # Style for negative notification popup
+   ######################
+*/
+
 .err-info {
 	margin: 0px auto;
  	max-width: 480px; /* depends on the tip backround image width */
  	color: #fff;
 }
-
-
-/* ######################
-   # Style for negative notification popup
-   ######################
-*/
 
 .err-info .err-info-top .err-info-c,
 .err-info .err-info-bot .err-info-c {
