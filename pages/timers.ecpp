@@ -25,6 +25,7 @@ static const size_t maximumDescriptionLength = 300;
 </%session>
 <%request scope="page">
 	cTimer* timer;
+	TimerConflictNotifier timerNotifier;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
@@ -40,10 +41,14 @@ static const size_t maximumDescriptionLength = 300;
 		timer = timers.GetByTimerId( timerid );
 		if ( timer == 0 )
 			throw HtmlError( tr("Couldn't find timer. Maybe you mistyped your request?") );
-		if (action == "delete")
+		if (action == "delete") {
 			LiveTimerManager().DelTimer(timer);
-		if (action == "toggle")
+			timerNotifier.SetTimerModification();
+		}
+		if (action == "toggle") {
 			LiveTimerManager().ToggleTimerActive(timer);
+			timerNotifier.SetTimerModification();
+		}
 	}
 
 	string previousDay = "";
