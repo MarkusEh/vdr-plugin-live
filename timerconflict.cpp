@@ -69,27 +69,31 @@ namespace vdrlive {
 	TimerConflicts::TimerConflicts()
 	{
 		Epgsearch_services_v1_1 service;
-		if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
-			throw HtmlError( tr("EPGSearch version outdated! Please update.") );
-		cServiceHandler_v1_1* handler = dynamic_cast<cServiceHandler_v1_1*>(service.handler.get());
-		if (handler) 
+		if ( CheckEpgsearchVersion() && cPluginManager::CallFirstService(ServiceInterface, &service))
 		  {
-		    list< string > conflicts = service.handler->TimerConflictList();
-		    m_conflicts.assign( conflicts.begin(), conflicts.end() );
-		    m_conflicts.sort();
+		    cServiceHandler_v1_1* handler = dynamic_cast<cServiceHandler_v1_1*>(service.handler.get());
+		    if (handler) 
+		      {
+			list< string > conflicts = service.handler->TimerConflictList();
+			m_conflicts.assign( conflicts.begin(), conflicts.end() );
+			m_conflicts.sort();
+		      }
 		  }
 	}
 
 	bool TimerConflicts::CheckAdvised()
 	{
 		Epgsearch_services_v1_1 service;
-		if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
-			throw HtmlError( tr("EPGSearch version outdated! Please update.") );
-		cServiceHandler_v1_1* handler = dynamic_cast<cServiceHandler_v1_1*>(service.handler.get());
-		if (!handler) 
+		if (CheckEpgsearchVersion() && cPluginManager::CallFirstService(ServiceInterface, &service))
+		  {
+		    cServiceHandler_v1_1* handler = dynamic_cast<cServiceHandler_v1_1*>(service.handler.get());
+		    if (!handler) 
+		      return false;
+		    else
+		      return handler->IsConflictCheckAdvised();
+		  }
+		else 
 		  return false;
-		else
-		  return handler->IsConflictCheckAdvised();
 	}
 
 	TimerConflictNotifier::TimerConflictNotifier()
