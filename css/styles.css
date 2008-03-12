@@ -1119,6 +1119,7 @@ span.epg_images img.epg_image {
 	margin-left: 0px;
 }
 */
+
 .info-win div.boxheader {
 	display: none;
 }
@@ -1128,36 +1129,36 @@ span.epg_images img.epg_image {
 }
 
 /* ##############################
-   # About box
+   # Style adaptions for About box
    ##############################
 */
 
-.info-win div.epg_content div.about_left {
+div.epg_content div.about_left {
 	text-align: right;
 	float: left;
 	width: 175px;
 }
 
-.info-win div.epg_content div.about_right {
+div.epg_content div.about_right {
 	padding-left: 200px;
 }
 
-.info-win div.epg_content div.about_line {
+div.epg_content div.about_line {
 	padding-left: 0px;
 }
 
-.info-win div.epg_content div.about_head {
+div.epg_content div.about_head {
 	font-weight: bold;
 	margin-left: -9px;
 	padding-top: 6px;
 }
 
-.info-win div.epg_content div.about_head div {
+div.epg_content div.about_head div {
 	padding-bottom: 6px;
 	margin-left: 0px;
 }
 
-.info-win div.epg_content div.about_head div div {
+div.epg_content div.about_head div div {
 	padding: 2px 0px 2px 10px;
 	background: #E9EFFF;
 	border-top: 1px solid #C0C1DA;
