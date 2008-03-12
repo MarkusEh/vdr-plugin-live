@@ -24,5 +24,61 @@ table {
 	width: 120px;
 }
 
+/*
+  ##############################
+  #  Infowin support styles for EPG-Boxes
+  ##############################
+*/
 
+div.caption {
+	padding: 2px 0px 0px 5px;
+}
 
+div.epg_content {
+	padding: 0px 0px 7px 0px;
+	margin: 0px 0px 0px 0px;
+        background: transparent url(../img/bg_tools.png) top left repeat-y;
+        border: 1px solid black;
+	overflow: hidden;
+}
+
+div.epg_content div {
+	margin-left: 35px;
+}
+
+div.epg_content div.epg_tools {
+	float: left;
+	width: 26px;
+	margin: 0;
+	padding: 0;
+	padding-top: 3px;
+
+	text-align: center;
+	vertical-align: top;
+}
+
+div.epg_content div div {
+	margin-left: 0px;
+}
+
+/*
+.info-win div.epg_content div div.progress div {
+	margin-left: 0px;
+}
+*/
+
+div.epg_content div.epg_tools img {
+	margin: 2px 5px;
+}
+
+span.epg_images img.epg_image {
+	width: 100%;
+}
+
+.info-win div.boxheader {
+	display: none;
+}
+
+.info-win div.epg_content {
+        border: 0px;
+}
