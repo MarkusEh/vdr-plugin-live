@@ -1069,27 +1069,27 @@ table.login tr td {
 
 /*
   ##############################
-  #  Infowin support styles for EPG-Boxes
+  #  Styles for EPG-Boxes
   ##############################
 */
-/*
-.info-win div.caption {
+
+div.caption {
 	padding: 2px 0px 0px 5px;
 }
 
-.info-win div.epg_content {
+div.epg_content {
 	padding: 0px 0px 7px 0px;
 	margin: 0px 0px 0px 0px;
         background: transparent url(img/bg_tools.png) top left repeat-y;
-        border: 0px;
+        border: 1px solid black;
 	overflow: hidden;
 }
 
-.info-win div.epg_content div {
+div.epg_content div {
 	margin-left: 35px;
 }
 
-.info-win div.epg_content div.epg_tools {
+div.epg_content div.epg_tools {
 	float: left;
 	width: 26px;
 	margin: 0;
@@ -1100,28 +1100,32 @@ table.login tr td {
 	vertical-align: top;
 }
 
-.info-win div.epg_content div div {
+div.epg_content div div {
 	margin-left: 0px;
 }
-*/
+
+div.epg_content div.epg_tools img {
+	margin: 2px 5px;
+}
+
+span.epg_images img.epg_image {
+	width: 100%;
+}
+
+/* some adaptions when shown in info-win subwindow */
+
 /*
 .info-win div.epg_content div div.progress div {
 	margin-left: 0px;
 }
 */
-/*
-.info-win div.epg_content div.epg_tools img {
-	margin: 2px 5px;
-}
-
-.info-win span.epg_images img.epg_image {
-	width: 100%;
-}
-
 .info-win div.boxheader {
 	display: none;
 }
-*/
+
+.info-win div.epg_content {
+        border: 0px;
+}
 
 /* ##############################
    # About box
