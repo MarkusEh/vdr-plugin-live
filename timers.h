@@ -11,69 +11,69 @@
 
 namespace vdrlive {
 
-class SortedTimers: public std::list< cTimer >
-{
-	friend class TimerManager;
+	class SortedTimers: public std::list< cTimer >
+	{
+		friend class TimerManager;
 
-public:
-	std::string GetTimerId( cTimer const& timer );
-	cTimer* GetByTimerId( std::string const& timerid );
+		public:
+			std::string GetTimerId( cTimer const& timer );
+			cTimer* GetByTimerId( std::string const& timerid );
 
-	bool Modified() { return Timers.Modified( m_state ); }
-	static std::string GetTimerDays(cTimer const& timer);
-	static std::string GetTimerInfo(cTimer const& timer);
+			bool Modified() { return Timers.Modified( m_state ); }
+			static std::string GetTimerDays(cTimer const& timer);
+			static std::string GetTimerInfo(cTimer const& timer);
 
-private:
-	SortedTimers();
-	SortedTimers( SortedTimers const& );
+		private:
+			SortedTimers();
+			SortedTimers( SortedTimers const& );
 
-	int m_state;
+			int m_state;
 
-	void ReloadTimers( bool initial = false );
-};
+			void ReloadTimers( bool initial = false );
+	};
 
-class TimerManager: public cMutex
-{
-	friend TimerManager& LiveTimerManager();
+	class TimerManager: public cMutex
+	{
+		friend TimerManager& LiveTimerManager();
 
-public:
-	SortedTimers& GetTimers() { return m_timers; }
+		public:
+			SortedTimers& GetTimers() { return m_timers; }
 
-	void UpdateTimer( cTimer* timer, int flags, tChannelID& channel, std::string const& weekdays, std::string const& day,
-					  int start, int stop, int priority, int lifetime, std::string const& title, std::string const& aux );
+			void UpdateTimer( cTimer* timer, int flags, tChannelID& channel, std::string const& weekdays, std::string const& day,
+							  int start, int stop, int priority, int lifetime, std::string const& title, std::string const& aux );
 
-	void DelTimer( cTimer* timer);
-	void ToggleTimerActive( cTimer* timer);
-	// may only be called from Plugin::MainThreadHook
-	void DoPendingWork();
-	void DoReloadTimers() { m_timers.ReloadTimers(); }
-	const cTimer* GetTimer(tEventID eventid, tChannelID channelid);
+			void DelTimer( cTimer* timer);
+			void ToggleTimerActive( cTimer* timer);
+			// may only be called from Plugin::MainThreadHook
+			void DoPendingWork();
+			void DoReloadTimers() { m_timers.ReloadTimers(); }
+			const cTimer* GetTimer(tEventID eventid, tChannelID channelid);
 
-private:
-	typedef std::pair< cTimer*, std::string > TimerPair;
-	typedef std::pair< TimerPair, std::string > ErrorPair;
-	typedef std::list< TimerPair > TimerList;
-	typedef std::list< ErrorPair > ErrorList;
+		private:
+			typedef std::pair< cTimer*, std::string > TimerPair;
+			typedef std::pair< TimerPair, std::string > ErrorPair;
+			typedef std::list< TimerPair > TimerList;
+			typedef std::list< ErrorPair > ErrorList;
 
-	TimerManager();
-	TimerManager( TimerManager const& );
+			TimerManager();
+			TimerManager( TimerManager const& );
 
-	SortedTimers m_timers;
-	TimerList m_updateTimers;
-	ErrorList m_failedUpdates;
-	cCondVar m_updateWait;
+			SortedTimers m_timers;
+			TimerList m_updateTimers;
+			ErrorList m_failedUpdates;
+			cCondVar m_updateWait;
 
-	void DoUpdateTimers();
-	void DoInsertTimer( TimerPair& timerData );
-	void DoUpdateTimer( TimerPair& timerData );
-	void DoDeleteTimer( TimerPair& timerData );
-	void DoToggleTimer( TimerPair& timerData );
+			void DoUpdateTimers();
+			void DoInsertTimer( TimerPair& timerData );
+			void DoUpdateTimer( TimerPair& timerData );
+			void DoDeleteTimer( TimerPair& timerData );
+			void DoToggleTimer( TimerPair& timerData );
 
-	void StoreError( TimerPair const& timerData, std::string const& error );
-	std::string GetError( TimerPair const& timerData );
-};
+			void StoreError( TimerPair const& timerData, std::string const& error );
+			std::string GetError( TimerPair const& timerData );
+	};
 
-TimerManager& LiveTimerManager();
+	TimerManager& LiveTimerManager();
 
 } // namespace vdrlive
 
