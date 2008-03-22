@@ -17,12 +17,35 @@ using namespace tnt;
 
 istream& operator>>( istream& is, tChannelID& ret )
 {
-	if ( is.rdbuf()->in_avail() > 0 ) {
-		string line;
-		if ( !getline( is, line ) || ( !line.empty() && !( ret = tChannelID::FromString( line.c_str() ) ).Valid() ) )
-			is.setstate( ios::badbit );
-	}
-	return is;
+  /* alternativ implementation
+  string line;
+  if ( !getline( is, line ) ) {    
+    if ( !is.eof() )
+      is.setstate( ios::badbit );
+    else
+      is.clear();
+    return is;
+  }
+  if ( !line.empty() && !( ret = tChannelID::FromString( line.c_str() ) ).Valid() )
+    is.setstate( ios::badbit );
+  return is;
+  */
+
+  string line;
+  if (!getline( is, line ) ) {
+    if (0 == is.gcount()) {
+      is.clear(is.rdstate() & ~ios::failbit);
+      return is;
+    }
+    if (!is.eof()) {
+      is.setstate( ios::badbit );
+      return is;
+    }
+  }
+  
+  if ( !line.empty() && !( ret = tChannelID::FromString( line.c_str() ) ).Valid() )
+    is.setstate( ios::badbit );
+  return is;
 }
 
 namespace vdrlive {

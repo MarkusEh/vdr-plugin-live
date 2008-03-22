@@ -61,8 +61,10 @@ bool logged_in(false);
 				string current_day = "";
 
 				for (SearchResults::iterator result = results.begin(); result != results.end(); ++result) {
-					string channelname = Channels.GetByChannelID(result->Channel())->Name();
-					int channelnr = Channels.GetByChannelID(result->Channel())->Number();
+				        cChannel* channel = Channels.GetByChannelID(result->Channel());
+					if (!channel) continue;
+					string channelname = channel->Name();
+					int channelnr = channel->Number();
 					string start(result->StartTime() ? FormatDateTime(tr("%I:%M %p"), result->StartTime()) : "");
 					string end(result->StopTime() ? FormatDateTime(tr("%I:%M %p"), result->StopTime()) : "");
 					string day(result->StartTime() ? FormatDateTime(tr("%A, %b %d %Y"), result->StartTime()) : "");
