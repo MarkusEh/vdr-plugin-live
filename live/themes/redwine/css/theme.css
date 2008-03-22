@@ -11,6 +11,40 @@ select {
 	border: 1px solid #963B5F;
 }
 
+/* ######################
+   # Tooltip style for hints
+   ######################
+*/
+
+.hint-tip {
+	color: white;
+}
+
+.hint-tip .hint-tip-top {
+	background: transparent url(/img/rounded-box-redwine-tl.png) no-repeat 0px 0px;
+}
+
+.hint-tip .hint-tip-top .hint-tip-c {
+	background: transparent url(/img/rounded-box-redwine-tr.png) no-repeat right 0px;
+}
+
+.hint-tip .hint-tip-bdy {
+	background: transparent url(/img/rounded-box-redwine-ml.png) repeat-y 0px 0px;
+}
+
+.hint-tip .hint-tip-bdy .hint-tip-c {
+	background: transparent url(/img/rounded-box-redwine-mr.png) repeat-y right 0px;
+}
+
+.hint-tip .hint-tip-bot {
+	background: transparent url(/img/rounded-box-redwine-bl.png) no-repeat 0px 0px;
+}
+
+.hint-tip .hint-tip-bot .hint-tip-c {
+	background: transparent url(/img/rounded-box-redwine-br.png) no-repeat right 0px;
+}
+
+
 /* ##############################
    # Tooltip style for epg infos
    ##############################
