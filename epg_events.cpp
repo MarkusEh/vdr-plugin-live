@@ -214,8 +214,9 @@ namespace vdrlive
 		string channelId(chanId.ToString());
 		string eventId("event_");
 
-		replace(channelId.begin(), channelId.end(), '.', 'p');
-		replace(channelId.begin(), channelId.end(), '-', 'm');
+		channelId = vdrlive::EncodeDomId(channelId, ".-", "pm");
+		// replace(channelId.begin(), channelId.end(), '.', 'p');
+		// replace(channelId.begin(), channelId.end(), '-', 'm');
 
 		eventId += channelId;
 		eventId += '_';
@@ -230,8 +231,9 @@ namespace vdrlive
 		size_t delimPos = epgid.find_last_of('_');
 		string cIdStr = epgid.substr(eventStr.length(), delimPos - eventStr.length());
 
-		replace(cIdStr.begin(), cIdStr.end(), 'm', '-');
-		replace(cIdStr.begin(), cIdStr.end(), 'p', '.');
+		cIdStr = vdrlive::DecodeDomId(cIdStr, "mp", "-.");
+		// replace(cIdStr.begin(), cIdStr.end(), 'm', '-');
+		// replace(cIdStr.begin(), cIdStr.end(), 'p', '.');
 
 		string const eIdStr = epgid.substr(delimPos+1);
 

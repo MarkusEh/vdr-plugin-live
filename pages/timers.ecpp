@@ -38,7 +38,9 @@ static const size_t maximumDescriptionLength = 300;
 
 	timer = 0;
 	if ( !timerid.empty() ) {
-		timer = timers.GetByTimerId( timerid );
+		string tId = SortedTimers::DecodeDomId(timerid);
+		dsyslog("DEBUG: TIMER: tId = %s", tId.c_str());
+		timer = timers.GetByTimerId(tId);
 		if ( timer == 0 )
 			throw HtmlError( tr("Couldn't find timer. Maybe you mistyped your request?") );
 		if (action == "delete") {
@@ -143,9 +145,9 @@ static const size_t maximumDescriptionLength = 300;
 %					}
 						><$ timer->File() $></a></div>
 					</td>
-					<td class="action <? bottom ? "bottomrow" ?>"><a href="timers.html?timerid=<$ timers.GetTimerId(*timer) $>&action=toggle"><img src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &>></img></a></td>
-					<td class="action <? bottom ? "bottomrow" ?>"><a href="edit_timer.html?timerid=<$ timers.GetTimerId(*timer) $>"><img src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="" <& tooltip.hint text=(tr("Edit timer")) &>></img></a></td>
-					<td class="action rightcol <? bottom ? "bottomrow" ?>"><a href="timers.html?timerid=<$ timers.GetTimerId(*timer) $>&action=delete"><img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint text=(tr("Delete timer")) &>></img></a></td>
+					<td class="action <? bottom ? "bottomrow" ?>"><a href="timers.html?timerid=<$ SortedTimers::EncodeDomId(timers.GetTimerId(*timer)) $>&action=toggle"><img src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &>></img></a></td>
+					<td class="action <? bottom ? "bottomrow" ?>"><a href="edit_timer.html?timerid=<$ SortedTimers::EncodeDomId(timers.GetTimerId(*timer)) $>"><img src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="" <& tooltip.hint text=(tr("Edit timer")) &>></img></a></td>
+					<td class="action rightcol <? bottom ? "bottomrow" ?>"><a href="timers.html?timerid=<$ SortedTimers::EncodeDomId(timers.GetTimerId(*timer)) $>&action=delete"><img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint text=(tr("Delete timer")) &>></img></a></td>
 				</tr>
 <%cpp>
 				}

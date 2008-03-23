@@ -16,10 +16,15 @@ namespace vdrlive {
 		friend class TimerManager;
 
 		public:
-			std::string GetTimerId( cTimer const& timer );
-			cTimer* GetByTimerId( std::string const& timerid );
+			static std::string GetTimerId(cTimer const& timer);
+			cTimer* GetByTimerId(std::string const& timerid);
 
-			bool Modified() { return Timers.Modified( m_state ); }
+			// en- or decodes a timer into an id usable for DOM Ids.
+			static std::string EncodeDomId(std::string const& timerid);
+			static std::string DecodeDomId(std::string const &timerDomId);
+
+			bool Modified() { return Timers.Modified(m_state); }
+
 			static std::string GetTimerDays(cTimer const& timer);
 			static std::string GetTimerInfo(cTimer const& timer);
 

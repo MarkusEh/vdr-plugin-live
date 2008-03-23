@@ -20,6 +20,7 @@ using namespace vdrlive;
 	// input parameters
 	string timerid;
 	string epgid;
+	string async;
 	// form parameters
 	tChannelID channel;
 	bool active = true;
@@ -53,6 +54,8 @@ cTimer* timer;
 <%cpp>
 	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
+	bool ajaxReq = !async.empty() && (lexical_cast<int>(async) != 0);
+
 	tChannelID channelid = tChannelID();
 	tEventID eventid = tEventID();
 
@@ -62,7 +65,9 @@ cTimer* timer;
 
 	timer = 0;
 	if ( !timerid.empty() ) {
-		timer = timers.GetByTimerId( timerid );
+		string tId = SortedTimers::DecodeDomId(timerid);
+		dsyslog("DEBUG: TIMER: tId = %s", tId.c_str());
+		timer = timers.GetByTimerId(tId);
 		if ( timer == 0 )
 			throw HtmlError( tr("Couldn't find timer. Maybe you mistyped your request?") );
 	}
@@ -134,19 +139,31 @@ cTimer* timer;
 <html>
 	<head>
 		<title>VDR Live - <$ timer ? tr("Edit timer") : tr("New timer") $></title>
+<%cpp>
+	if (!ajaxReq) {
+</%cpp>
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
+<%cpp>
+	}
+</%cpp>
 	</head>
 	<body>
+<%cpp>
+	if (!ajaxReq) {
+</%cpp>
 		<& pageelems.logo &>
 		<& menu active=("timers") &>
+<%cpp>
+	}
+</%cpp>
 		<div class="inhalt">
-			<form method="post" name="edit_timer" action="edit_timer.ecpp">
+			<form method="post" name="edit_timer" id="<$ timerid $>" action="edit_timer.ecpp">
 				<input type="hidden" name="timerid" value="<$ timerid $>"/>
 				<input type="hidden" name="aux" value="<$ aux $>"/>
 				<table class="formular" cellpadding="0" cellspacing="0">
 					<tr class="head">
-						<td class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div><div><$ timer ? tr("Edit timer") : tr("New timer") $></div></div></div></td>
+						<td class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div><div class="caption"><$ timer ? tr("Edit timer") : tr("New timer") $></div></div></div></td>
 					</tr>
 
 					<tr>

@@ -65,6 +65,24 @@ namespace vdrlive {
 		return 0;
 	}
 
+
+	string SortedTimers::EncodeDomId(string const& timerid)
+	{
+		string tId("timer_");
+		tId += vdrlive::EncodeDomId(timerid, ".-:", "pmc");
+		return tId;
+	}
+
+	string SortedTimers::DecodeDomId(string const &timerDomId)
+	{
+		string const timerStr("timer_");
+
+		string tId = timerDomId.substr(timerStr.length());
+
+		return vdrlive::DecodeDomId(tId, "pmc", ".-:");
+	}
+
+
 	void SortedTimers::ReloadTimers( bool initial )
 	{
 		dsyslog("live reloading timers");

@@ -33,7 +33,6 @@ namespace vdrlive {
 	std::string StringRepeat(int times, const std::string& input);
 
 	std::string StringWordTruncate(const std::string& input, size_t maxLen, bool& truncated);
-
 	inline std::string StringWordTruncate(const std::string& input, size_t maxLen) { bool dummy; return StringWordTruncate(input, maxLen, dummy); }
 
 	std::string StringEscapeAndBreak( std::string const& input );
@@ -41,13 +40,11 @@ namespace vdrlive {
 	std::string StringFormatBreak(std::string const& input);
 
 	std::string StringTrim(const std::string& str);
-
 	std::string ZeroPad(int number);
 
 	std::string MD5Hash(std::string const& str);
 
 	time_t GetTimeT(std::string timestring);
-
 	std::string ExpandTimeString(std::string timestring);
 
 	std::string StringUrlEncode( std::string const& input );
@@ -55,8 +52,10 @@ namespace vdrlive {
 	std::string GetXMLValue( std::string const& xml, std::string const& element );
 
 	time_t GetDateFromDatePicker(std::string const& datestring, std::string const& format);
-
 	std::string DatePickerToC(time_t date, std::string const& format);
+
+	std::string EncodeDomId(std::string const & toEncode, char const * from = ".-:", char const * to = "pmc");
+	std::string DecodeDomId(std::string const & toDecode, char const * from = "pmc", char const * to = ".-:");
 
 	struct bad_lexical_cast: std::runtime_error
 	{

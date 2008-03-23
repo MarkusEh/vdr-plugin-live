@@ -16,6 +16,7 @@ var PageEnhance = new Class({
 		  vlcWinOptions: {
 			  size: { width: 720, height: 640 }
 			},
+		  editTimerSelector: 'a[href^="edit_timer.html?timerid"]',
 		  hintTipSelector: '*[title]',
 		  hintClassName: 'hint',
 		  infoWinOptions: {
@@ -46,6 +47,9 @@ var PageEnhance = new Class({
 			$$(this.options.actionLinkSelector).each(this.vdrRequest.bind(this));
 			$$(this.options.vlcLinkSelector).each(this.vlcRequest.bind(this));
 			$$(this.options.datePickerSelector).each(this.datePicker.bind(this));
+			// the following line activates timer editing in popup window.
+			// but it does not yet work like expected. So we leave it deactivated currently.
+			// $$(this.options.editTimerSelector).each(this.editTimer.bind(this));
 		},
 
 	  // actions applied on mouse down.
@@ -76,6 +80,30 @@ var PageEnhance = new Class({
 					el.addEvent('click', function(event){
 							var event = new Event(event);
 							new InfoWin.Ajax(epgid, href, $merge(this.options.infoWinOptions, {
+									  onDomExtend: this.domExtend.bind(this)
+											})).show(event);
+							event.stop();
+							return false;
+						}.bind(this));
+				}
+			}
+		},
+
+	  // Edit Timer Popup function. Apply to all elements that should
+	  // pop up a timer edit windows based on InfoWin window.
+	  editTimer: function(el){
+			var href = el.href;
+			var timerid = $pick(href, "");
+			if (timerid != "") {
+				var extractId = /timerid=(.+)/;
+				var found = extractId.exec(timerid);
+				if ($defined(found) && found.length > 1) {
+					timerid = found[1];
+					el.addEvent('click', function(event){
+							var event = new Event(event);
+							new InfoWin.Ajax(timerid, href, $merge(this.options.infoWinOptions, {
+									  bodyselect: '',
+									  modal: true,
 									  onDomExtend: this.domExtend.bind(this)
 											})).show(event);
 							event.stop();

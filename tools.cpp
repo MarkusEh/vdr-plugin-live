@@ -293,5 +293,23 @@ namespace vdrlive {
 		return FormatDateTime(cformat.c_str(), date);
 	}
 
+	std::string EncodeDomId(std::string const & toEncode, char const * from, char const * to)
+	{
+		std::string encoded = toEncode;
+		for (; *from && *to; from++, to++) {
+			replace(encoded.begin(), encoded.end(), *from, *to);
+		}
+		return encoded;
+	}
+
+	std::string DecodeDomId(std::string const & toDecode, char const * from, char const * to)
+	{
+		std::string decoded = toDecode;
+		for (; *from && *to; from++, to++) {
+			replace(decoded.begin(), decoded.end(), *from, *to);
+		}
+		return decoded;
+	}
+
 
 } // namespace vdrlive
