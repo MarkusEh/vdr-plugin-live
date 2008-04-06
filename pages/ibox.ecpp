@@ -121,7 +121,7 @@ TimerConflictNotifier timerNotifier();
 		if (prev_chan.Valid() && next_chan.Valid())
 		{
 </%cpp>
-				<& xmlresponse.ibox update=(update_status) type=(epgEvent->Id()) caption=(epgEvent->Caption()) currentTime=(epgEvent->CurrentTime(tr("%I:%M:%S %p"))) duration=(epgEvent->StartTime(tr("%I:%M %p")) + string(" - ") + epgEvent->EndTime(tr("%I:%M %p"))) title=(epgEvent->Title()) elapsed=(epgEvent->Elapsed()) prev_chan=(prev_chan) next_chan=(next_chan) infoMsg=(infoMsg) infoUrl=(infoUrl) &>
+<& xmlresponse.ibox update=(update_status) type=(epgEvent->Id()) caption=(epgEvent->Caption()) currentTime=(epgEvent->CurrentTime(tr("%I:%M:%S %p"))) duration=(epgEvent->StartTime(tr("%I:%M %p")) + string(" - ") + epgEvent->EndTime(tr("%I:%M %p"))) title=(epgEvent->Title()) elapsed=(epgEvent->Elapsed()) prev_chan=(prev_chan) next_chan=(next_chan) infoMsg=(infoMsg) infoUrl=(infoUrl) &>
 <%cpp>
 		}
 		else if (prev_chan.Valid()) {
