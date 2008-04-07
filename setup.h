@@ -10,7 +10,7 @@
 
 #define LIVEVERSION "0.1.0"
 #define LIVEVERSNUM 100
-#define LIVESUMMARY "Live Interactive VDR Environment"
+#define LIVESUMMARY trNOOP("Live Interactive VDR Environment")
 
 namespace vdrlive {
 
