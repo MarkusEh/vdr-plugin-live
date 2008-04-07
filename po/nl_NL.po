@@ -800,6 +800,9 @@ msgstr ""
 msgid "List view"
 msgstr ""
 
+msgid "Live Interactive VDR Environment"
+msgstr ""
+
 #, fuzzy
 #~ msgid "Start"
 #~ msgstr "Start na"

@@ -791,6 +791,9 @@ msgstr "Ausführliche Ansicht"
 msgid "List view"
 msgstr "Listenansicht"
 
+msgid "Live Interactive VDR Environment"
+msgstr ""
+
 #~ msgid "Timer conflicts detected! You should check the conflicting timers."
 #~ msgstr "Timer Konflikte entdeckt! Sie sollten die entsprechenden Timer prüfen."
 

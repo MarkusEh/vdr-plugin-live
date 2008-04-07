@@ -799,6 +799,9 @@ msgstr "Vue détailée"
 msgid "List view"
 msgstr "Vue en liste"
 
+msgid "Live Interactive VDR Environment"
+msgstr ""
+
 #, fuzzy
 #~ msgid "Start"
 #~ msgstr "Page de départ"

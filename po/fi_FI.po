@@ -76,7 +76,7 @@ msgid "Not playing the same recording as from request."
 msgstr "Pyydettyä tallennetta ei toisteta."
 
 msgid "Attempt to delete recording currently in playback."
-msgstr ""
+msgstr "Yritetään poistaa toistettavaa tallennetta."
 
 msgid "Epg error"
 msgstr "Ohjelmaoppaan virhe"
@@ -111,17 +111,14 @@ msgstr "Ensisijaisen DVB-sovittimen käyttäminen epäonnistui!"
 msgid "Couldn't grab image from primary device"
 msgstr "Kuvan kaappaus ensisijaiselta DVB-sovittimelta epäonnistui!"
 
-#, fuzzy
 msgid "Timer conflict check detected "
-msgstr "Aktiivinen ajastin"
+msgstr ""
 
-#, fuzzy
 msgid "conflict"
-msgstr "Aktiivinen ajastin"
+msgstr ""
 
-#, fuzzy
 msgid "conflicts"
-msgstr "Aktiivinen ajastin"
+msgstr ""
 
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr "Kanavien käyttäminen epäonnistui! Yritä myöhemmin uudelleen."
@@ -586,11 +583,10 @@ msgid "If you encounter any bugs or would like to suggest new features, please u
 msgstr "Voit raportoida sekä virheet että parannusehdotukset suoraan havaintotietokantaan"
 
 msgid "ERROR:"
-msgstr ""
+msgstr "VIRHE:"
 
-#, fuzzy
 msgid "Deleted recording:"
-msgstr "Sarjatallennus"
+msgstr "Poistettu tallenne:"
 
 msgid "List of recordings"
 msgstr "Tallennelistaus"
@@ -601,9 +597,8 @@ msgstr "Tallenteita ei löydy"
 msgid "Click to view details."
 msgstr "Napsauta katsoaksesi lisätietoja."
 
-#, fuzzy
 msgid "Delete this recording from hard disc!"
-msgstr "Poista tallenteet ... päivän jälkeen"
+msgstr "Poista tallenne kovalevyltä!"
 
 msgid "play this recording."
 msgstr "Toista tallenne"
@@ -623,9 +618,8 @@ msgstr "%A, %d.%m.%Y"
 msgid "Show schedule of channel"
 msgstr "Näytä kanavan ohjelmisto"
 
-#, fuzzy
 msgid "Stream into browser"
-msgstr "Aloita suoratoisto"
+msgstr "Suoratoista selaimeen"
 
 msgid "Search settings"
 msgstr "Hakuasetukset"
@@ -711,17 +705,14 @@ msgstr "Aloitussivu"
 msgid "Theme"
 msgstr "Ulkoasu"
 
-#, fuzzy
 msgid "Timer conflicts"
-msgstr "Aktiivinen ajastin"
+msgstr "Päällekkäisiä ajastimia"
 
-#, fuzzy
 msgid "No timer conflicts"
-msgstr "Aktiivinen ajastin"
+msgstr "Ei päällekkäisiä ajastimia"
 
-#, fuzzy
 msgid "Timer has a conflict."
-msgstr "Aktiivinen ajastin"
+msgstr "Päällekkäinen ajastin"
 
 msgid "Timer is active."
 msgstr "Aktiivinen ajastin"
@@ -798,6 +789,12 @@ msgstr "Ruudukkonäkymä"
 msgid "List view"
 msgstr "Listanäkymä"
 
+msgid "Live Interactive VDR Environment"
+msgstr "Interaktiivinen VDR-ympäristö"
+
+#~ msgid "channels"
+#~ msgstr "kanavat"
+
 #, fuzzy
 #~ msgid "Start"
 #~ msgstr "Aloitussivu"
@@ -809,6 +806,3 @@ msgstr "Listanäkymä"
 #, fuzzy
 #~ msgid "%A, %B %d %Y"
 #~ msgstr "%A, %d.%m.%Y"
-
-#~ msgid "channels"
-#~ msgstr "kanavat"

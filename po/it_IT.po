@@ -800,6 +800,9 @@ msgstr "Vedi come dettagli"
 msgid "List view"
 msgstr "Vedi come elenco"
 
+msgid "Live Interactive VDR Environment"
+msgstr ""
+
 #, fuzzy
 #~ msgid "Start"
 #~ msgstr "Pagina iniziale"

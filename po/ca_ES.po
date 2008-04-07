@@ -790,3 +790,6 @@ msgstr ""
 
 msgid "List view"
 msgstr ""
+
+msgid "Live Interactive VDR Environment"
+msgstr ""
