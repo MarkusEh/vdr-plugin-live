@@ -66,7 +66,7 @@ namespace features
 	struct streamdev_server
 	{
 		static const char* Plugin() { return "streamdev-server"; }
-		static const char* MinVersion() { return "none"; }
+		static const char* MinVersion() { return "?"; }
 	};
 } // namespace features
 
