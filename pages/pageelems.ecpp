@@ -343,7 +343,7 @@ int update_status(1);
 				<div class="about_left"><$ tr("Content") $>:</div>
 				<div class="about_right">Christian Wieninger (winni)</div>
 				<div class="about_left"><$ tr("Graphics") $>:</div>
-				<div class="about_right">Michael Brückner (skiller2k1)</div>
+				<div class="about_right">Michael Br&uuml;ckner (skiller2k1)</div>
 				<div class="about_head"><div><div><$ tr("Information") $></div></div></div>
 				<div class="about_left"><$ tr("LIVE version") $>:</div>
 				<div class="about_right"><$ LIVEVERSION $><$ VERSION_SUFFIX $></div>
