@@ -131,11 +131,12 @@ for (iter = recordingsTree->begin(path); iter != end; ++iter) {
     if (!recItem->IsDir()) {
 		string day(FormatDateTime("%a,", recItem->StartTime()));
 		string dayLen(lexical_cast<string, int>(day.length() - 1) + ".25em;");
+		string duration(lexical_cast<string, int>(recItem->Duration()) + "'");
 		string shortDescr(recItem->RecInfo()->ShortText() ? recItem->RecInfo()->ShortText() : "");
 		string hint(tr("Click to view details.")); if (!shortDescr.empty()) hint = shortDescr + "<br />" + hint;
 </%cpp>
 	<li class="recording">
-	   <& rec_item_file name=(recItem->Name()) level=(level) id=(recItem->Id()) day=(day) dayLen=(dayLen) startTime=(recItem->StartTime()) hint=(hint) shortDescr=(shortDescr) archived=(RecordingsManager::GetArchiveDescr(recItem->Recording())) &>
+	   <& rec_item_file name=(recItem->Name()) level=(level) id=(recItem->Id()) day=(day) dayLen=(dayLen) startTime=(recItem->StartTime()) duration=(duration) hint=(hint) shortDescr=(shortDescr) archived=(RecordingsManager::GetArchiveDescr(recItem->Recording())) &>
     </li>
 <%cpp>
 	}
@@ -203,6 +204,7 @@ for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 	string day;
 	string dayLen;
 	time_t startTime;
+	string duration;
 	string hint;
 	string shortDescr;
 	string archived;
@@ -213,6 +215,7 @@ for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 		<div class="recording_day" style="width: <$ dayLen $>"><$ day $></div>
 		<div class="recording_date"><$ FormatDateTime(tr("%b %d %y"), startTime) $></div>
 		<div class="recording_time"><$ FormatDateTime(tr("%I:%M %p"), startTime) $></div>
+		<div class="recording_duration"><$ duration $></div>
 		<div class="recording_name"><a <& tooltip.hint text=(hint) &><& tooltip.display domId=(id) &>><$ name $><br /><%cpp>if ((name != shortDescr) && (!shortDescr.empty())) {</%cpp><span><$ shortDescr $></span><%cpp> } else { </%cpp><span>&nbsp;</span><%cpp> } </%cpp></a></div>
 	</div>
 	<div class="recording_actions">

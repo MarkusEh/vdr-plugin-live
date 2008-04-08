@@ -121,6 +121,7 @@ namespace vdrlive {
 
 			virtual time_t StartTime() const = 0;
 			virtual bool IsDir() const = 0;
+			virtual long Duration() const = 0;
 			virtual const std::string& Name() const { return m_name; }
 			virtual const std::string Id() const = 0;
 
@@ -149,6 +150,7 @@ namespace vdrlive {
 			virtual ~RecordingsItemDir();
 
 			virtual time_t StartTime() const { return 0; }
+			virtual long Duration() const { return 0; }
 			virtual bool IsDir() const { return true; }
 			virtual std::string const Id() const { return ""; }
 
@@ -170,6 +172,7 @@ namespace vdrlive {
 			virtual ~RecordingsItemRec();
 
 			virtual time_t StartTime() const;
+			virtual long Duration() const;
 			virtual bool IsDir() const { return false; }
 			virtual const std::string Id() const { return m_id; }
 

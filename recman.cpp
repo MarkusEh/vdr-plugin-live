@@ -12,6 +12,7 @@
 #include "epg_events.h"
 #include "recman.h"
 
+#define INDEXFILESUFFIX   "/index.vdr"
 
 using namespace std::tr1;
 using namespace std;
@@ -237,6 +238,27 @@ namespace vdrlive {
 		return m_recording->start;
 	}
 
+	long RecordingsItemRec::Duration() const
+	{
+	  long RecLength = 0;
+	  if (!m_recording->FileName()) return 0;
+	  cString filename = cString::sprintf("%s%s", m_recording->FileName(), INDEXFILESUFFIX);
+	  if (*filename) {
+	    if (access(filename, R_OK) == 0) {
+	      struct stat buf;
+	      if (stat(filename, &buf) == 0) {
+		struct tIndex { int offset; uchar type; uchar number; short reserved; };
+		int delta = buf.st_size % sizeof(tIndex);
+		if (delta) {
+		  delta = sizeof(tIndex) - delta;
+		  esyslog("ERROR: invalid file size (%ld) in '%s'", buf.st_size, *filename);
+		}
+		RecLength = (buf.st_size + delta) / sizeof(tIndex) / SecondsToFrames(60);
+	      }
+	    }
+	  }
+	  return RecLength;
+	}
 
 	/**
 	 *  Implementation of class RecordingsTree:

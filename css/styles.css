@@ -921,6 +921,10 @@ div.recording_item {
 	width: 5.75em;
 }
 
+.recording_item div.recording_duration {
+	width: 2.5em;
+}
+
 .recording_item div.recording_name {
 	font-weight: bold;
 	cursor: pointer;
