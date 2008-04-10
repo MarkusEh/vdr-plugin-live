@@ -85,7 +85,7 @@ namespace vdrlive {
 
 	void SortedTimers::ReloadTimers( bool initial )
 	{
-		dsyslog("live reloading timers");
+		// dsyslog("live reloading timers");
 
 		clear();
 		for ( cTimer* timer = Timers.First(); timer != 0; timer = Timers.Next( timer ) ) {
@@ -139,15 +139,15 @@ namespace vdrlive {
 		builder << flags << ":" << channel << ":" << ( weekdays != "-------" ? weekdays : "" )
 				<< ( weekdays == "-------" || day.empty() ? "" : "@" ) << day << ":" << start << ":" << stop << ":"
 				<< priority << ":" << lifetime << ":" << title << ":" << aux;
-		dsyslog("%s", builder.str().c_str());
+		// dsyslog("%s", builder.str().c_str());
 
 		TimerPair timerData( timer, builder.str() );
 
-		dsyslog("SV: in UpdateTimer");
+		// dsyslog("SV: in UpdateTimer");
 		m_updateTimers.push_back( timerData );
-		dsyslog("SV: wait for update");
+		// dsyslog("SV: wait for update");
 		m_updateWait.Wait( *this );
-		dsyslog("SV: update done");
+		// dsyslog("SV: update done");
 
 		string error = GetError( timerData );
 		if ( !error.empty() )
@@ -192,13 +192,13 @@ namespace vdrlive {
 			DoUpdateTimers();
 		}
 		DoReloadTimers();
-		dsyslog("SV: signalling waiters");
+		// dsyslog("SV: signalling waiters");
 		m_updateWait.Broadcast();
 	}
 
 	void TimerManager::DoUpdateTimers()
 	{
-		dsyslog("SV: updating timers");
+		// dsyslog("SV: updating timers");
 		for ( TimerList::iterator timer = m_updateTimers.begin(); timer != m_updateTimers.end(); ++timer ) {
 			if ( timer->first == 0 ) // new timer
 				DoInsertTimer( *timer );

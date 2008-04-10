@@ -39,7 +39,7 @@ static const size_t maximumDescriptionLength = 300;
 	timer = 0;
 	if ( !timerid.empty() ) {
 		string tId = SortedTimers::DecodeDomId(timerid);
-		dsyslog("DEBUG: TIMER: tId = %s", tId.c_str());
+		// dsyslog("DEBUG: TIMER: tId = %s", tId.c_str());
 		timer = timers.GetByTimerId(tId);
 		if ( timer == 0 )
 			throw HtmlError( tr("Couldn't find timer. Maybe you mistyped your request?") );
