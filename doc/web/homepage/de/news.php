@@ -5,7 +5,10 @@
     <?php include ("../html-header.inc") ?>
   </head>
   <body>
-    <?php include ("settings-de.inc"); ?>
+    <?php
+       include ("../page-php-classes.inc");
+       include ("settings-de.inc");
+    ?>
     <div class="page_header">
       <?php include ("../page-header.inc"); ?>
     </div>

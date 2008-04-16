@@ -7,6 +7,12 @@
 	      <td><div class="withmargin">URL</div></td>
 	    </tr>
             <tr>
+	      <td><div class="withmargin">VDR</td>
+	      <td><div class="withmargin">1.4.3</td>
+	      <td><div class="withmargin">&lt;= 1.5.7</td>
+	      <td><div class="withmargin"><a href="http://www.cadsoft.de/vdr/download.htm">http://www.cadsoft.de/vdr/download.htm</a></div></td>
+	    </tr>
+            <tr>
 	      <td><div class="withmargin">Tntnet</div></td>
 	      <td><div class="withmargin">1.5.3</div></td>
 	      <td><div class="withmargin">&gt;= 1.5.3</div></td>
@@ -17,12 +23,6 @@
 	      <td><div class="withmargin">1.4.3</div></td>
 	      <td><div class="withmargin">&gt;= 1.4.3</div></td>
 	      <td><div class="withmargin"><a href="http://www.tntnet.org/download.html">http://www.tntnet.org/download.html</a></div></td>
-	    </tr>
-            <tr>
-	      <td><div class="withmargin">VDR</td>
-	      <td><div class="withmargin">1.4.3</td>
-	      <td><div class="withmargin">&gt;= 1.4.7</td>
-	      <td><div class="withmargin"><a href="http://www.cadsoft.de/vdr/download.htm">http://www.cadsoft.de/vdr/download.htm</a></div></td>
 	    </tr>
             <tr>
 	      <td><div class="withmargin">boost</div></td>

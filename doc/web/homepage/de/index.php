@@ -5,7 +5,10 @@
     <?php include ("../html-header.inc") ?>
   </head>
   <body>
-    <?php include ("settings-de.inc"); ?>
+    <?php
+       include ("../page-php-classes.inc");
+       include ("settings-de.inc");
+    ?>
     <div class="page_header">
       <?php include ("../page-header.inc"); ?>
     </div>
@@ -19,6 +22,7 @@
 	<a name="about"></a>
 	<div class="boxheader"><div><div>&Uuml;ber LIVE</div></div></div>
 	<div style="border: 1px solid black; padding: 0px 10px">
+	  <div class="screenshots" style="float: right; border: 0; padding-top: 15px"><?php $screenshots->RandomImg(); ?></div>
           <p>
             LIVE, das <strong><em>LIVE Interactive VDR Environment</em></strong>, ermöglicht
             die komfortable Bedienung des VDR und mancher seiner Plugins

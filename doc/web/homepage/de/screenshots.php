@@ -5,7 +5,10 @@
     <?php include ("../html-header.inc") ?>
   </head>
   <body>
-    <?php include ("settings-de.inc"); ?>
+    <?php
+       include ("../page-php-classes.inc");
+       include ("settings-de.inc");
+    ?>
     <div class="page_header">
       <?php include ("../page-header.inc"); ?>
     </div>
@@ -16,9 +19,17 @@
     <div class="inhalt">
 
       <div style="width: 800px; margin-top: 15px">
-	<a name="screenshots"></a>
 	<div class="boxheader"><div><div>Screenshots</div></div></div>
 	<div class="screenshots">
+	  <?php
+	     if (isset($_GET["img"])) {
+	     	$screenshots->FullImage($_GET["img"]);
+	     }
+	     else {
+	        $screenshots->AllImg();
+             }
+	  ?>
+<!--
           <a href="img/whatson.jpg"><img src="img/whatson_thumb.jpg" alt="whats on"></img></a>
           <a href="img/schedule.jpg"><img src="img/schedule_thumb.jpg" alt="whats on"></img></a>
           <a href="img/timers.jpg"><img src="img/timers_thumb.jpg" alt="whats on"></img></a>
@@ -27,6 +38,7 @@
           <a href="img/recordings.jpg"><img src="img/recordings_thumb.jpg" alt="whats on"></img></a>
           <a href="img/remote.jpg"><img src="img/remote_thumb.jpg" alt="whats on"></img></a>
           <a href="img/setup.jpg"><img src="img/setup_thumb.jpg" alt="whats on"></img></a>
+-->
 	</div>
       </div>
 

@@ -1,24 +1,23 @@
-    <?php
-       // Settings for german version:
-class Status {
-	var $title = "LIVE Plugin Status";
-	var $vers_string = "Aktuelle stabile Version";
-	var $vers_number = "0.2.0";
-        var $datefmt = "d.m.Y";
-}
+<?php
+  // Settings for german version:
+$status = new Status("LIVE Plugin Status",
+					 "Aktuelle stabile Version",
+					 "0.2.0",
+					 "d.m.Y");
 
-$status = new Status;
+$menu = new Menu(array("index.php" => "&Uuml;ber Live",
+					   "news.php" => "Neuerungen",
+					   "download.php" => "Download",
+					   "screenshots.php" => "Screenshots",
+					   "index.php#links" => "Links und Kontakt"
+					 ));
 
-class Menu {
-	var $urls = array(
-		"index.php" => "&Uuml;ber Live",
-		"news.php" => "Neuerungen",
-		"download.php" => "Download",
-		"screenshots.php" => "Screenshots",
-		"index.php#links" => "Links und Kontakt"
-		);
-}
-
-$menu = new Menu;
-
-       ?>
+$screenshots = new Screenshots(array("whatson",
+									 "schedule",
+									 "timers",
+									 "searchepg",
+									 "edit_searchtimer",
+									 "recordings",
+									 "remote",
+									 "setup"));
+?>
