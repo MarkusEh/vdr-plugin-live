@@ -41,7 +41,12 @@
 	  <p>
 	    <b>Akuteller CVS-Snapshot</b>
             <ul>
-              <li>Download: <a href="http://www.vdr-developer.org/cgi-bin/cvsweb.cgi/live/live.tar.gz?tarball=1">http://www.vdr-developer.org/cgi-bin/cvsweb.cgi/live/</a></li>
+	      <li>
+		Download: <a href="http://www.vdr-developer.org/cgi-bin/cvsweb.cgi/live/live.tar.gz?tarball=1">http://www.vdr-developer.org/cgi-bin/cvsweb.cgi/live/</a>
+	        <p>
+		  <strong>WICHTIG:</strong> unbedingt auch immer die Datei README in LIVE Quellen-Verzeichnis beachten!
+		</p>
+	      </li>
             </ul>
 	  </p>
 	  <p>

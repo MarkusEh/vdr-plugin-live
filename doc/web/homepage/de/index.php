@@ -73,7 +73,12 @@
 	  <p>
 	    <b>Version <?php echo $status->vers_number; ?></b>
             <ul>
-	      <li>Download: <?php echo "<a href=\"http://live.vdr-developer.org/downloads/vdr-live-" . $status->vers_number . ".tar.gz\">" . "http://live.vdr-developer.org/downloads/vdr-live-" . $status->vers_number . ".tar.gz</a>"; ?></li>
+	      <li>
+		Download: <?php echo "<a href=\"http://live.vdr-developer.org/downloads/vdr-live-" . $status->vers_number . ".tar.gz\">" . "http://live.vdr-developer.org/downloads/vdr-live-" . $status->vers_number . ".tar.gz</a>"; ?>
+	        <p>
+		  <strong>WICHTIG:</strong> unbedingt auch immer die Datei README in LIVE Quellen-Verzeichnis beachten!
+		</p>
+	      </li>
             </ul>
 	  </p>
 	  <p>

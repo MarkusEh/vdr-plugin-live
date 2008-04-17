@@ -3,7 +3,7 @@
             <tr class="description">
 	      <td><div class="withmargin">Software</div></td>
 	      <td><div class="withmargin">Mindestversion</div></td>
-	      <td><div class="withmargin">Empfohlenen</div></td>
+	      <td><div class="withmargin">Empfohlen</div></td>
 	      <td><div class="withmargin">URL</div></td>
 	    </tr>
             <tr>
@@ -45,14 +45,14 @@
             <tr>
 	      <td><div class="withmargin">epgsearch</div></td>
 	      <td><div class="withmargin">0.9.22</div></td>
-	      <td><div class="withmargin">&gt;= 0.9.25</div></td>
+	      <td><div class="withmargin">&gt;= 0.9.24</div></td>
 	      <td><div class="withmargin"><a href="http://winni.vdr-developer.org/epgsearch/index.html#download">http://winni.vdr-developer.org/epgsearch/index.html#download</a></div></td>
 	    </tr>
             <tr>
 	      <td><div class="withmargin">streamdev</div></td>
 	      <td><div class="withmargin">0.3.3</div></td>
-	      <td><div class="withmargin">&gt; 0.3.3</div></td>
-	      <td><div class="withmargin"><a href="http://winni.vdr-developer.org/epgsearch/index.html#download">http://winni.vdr-developer.org/epgsearch/index.html#download</a></div></td>
+	      <td><div class="withmargin">&gt;= 0.3.4</div></td>
+	      <td><div class="withmargin"><a href="http://streamdev.vdr-developer.org/">http://streamdev.vdr-developer.org</a></div></td>
 	    </tr>
           </table>
 	</div>
@@ -60,4 +60,4 @@
           Tntnet stellt grundlegende Webserver-Funktionen für LIVE zur
           Verfügung.  Cxxtools wird von Tntnet benötigt.<br />  Boost
           stellt TR1 C++-Erweiterungen bereit und wird nur von GCC
-          <= 4.1 benötigt.
+          &lt; 4.1 benötigt.

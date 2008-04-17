@@ -3,7 +3,7 @@
             <tr class="description">
 	      <td><div class="withmargin">Software</div></td>
 	      <td><div class="withmargin">Mindestversion</div></td>
-	      <td><div class="withmargin">Empfohlenen</div></td>
+	      <td><div class="withmargin">Empfohlen</div></td>
 	      <td><div class="withmargin">URL</div></td>
 	    </tr>
             <tr>
