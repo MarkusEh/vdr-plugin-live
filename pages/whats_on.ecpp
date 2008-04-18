@@ -165,7 +165,6 @@ if (type == "now") {
 		string truncDescription = StringWordTruncate(epgEvent->LongDescr(), maximumTooltipHintLength, truncated);
 		string longDescription = StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), maximumDescriptionLength))
 			+ "<br/><br/>" + tr("Click to view details.");
-		bool lastCurrentChanel = true;
 		const cChannel* Channel = epgEvent->Channel();
 		if (!Channel) continue;
 		int chNumber = Channel->Number();
@@ -196,7 +195,8 @@ if (type == "now") {
 			</div>
 <%cpp>
 		} else { // mode == "list"
-			lastCurrentChanel = ((chNumber == LiveSetup().GetLastChannel()) || (!Channels.Next(Channel)));
+			std::list<EpgInfoPtr>::iterator last = i;
+			bool lastCurrentChanel = (++last == eventList.end());
 </%cpp>
 			<tr>
 				<& pageelems.epg_tool_box detail=(0) epgid=(epgEvent->Id()) title=(epgEvent->Title()) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) lastCurrentChanel=(lastCurrentChanel ? 1 : 0) &>
