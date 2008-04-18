@@ -334,11 +334,11 @@ int update_status(1);
 		<div class="epg_content">
 		 	<div>
 				<div class="about_head"><div><div><$ tr("Authors") $></div></div></div>
-				<div class="about_left"><$ tr("Project leader") $>:</div>
+				<div class="about_left"><$ tr("Project Idea") $>:</div>
 				<div class="about_right">Thomas Keil (Thomas)</div>
 				<div class="about_left"><$ tr("Webserver") $>:</div>
 				<div class="about_right">Sascha Volkenandt (LordJaxom)</div>
-				<div class="about_left"><$ tr("Content") $>:</div>
+				<div class="about_left"><$ tr("Project leader") $>:</div>
 				<div class="about_right">Dieter Hametner (tadi)</div>
 				<div class="about_left"><$ tr("Content") $>:</div>
 				<div class="about_right">Christian Wieninger (winni)</div>

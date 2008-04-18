@@ -543,11 +543,15 @@ msgstr "Etsi toistuvat"
 msgid "Authors"
 msgstr "Tekijät"
 
-msgid "Project leader"
+#, fuzzy
+msgid "Project Idea"
 msgstr "Projektipäällikkö"
 
 msgid "Webserver"
 msgstr "HTTP-palvelin"
+
+msgid "Project leader"
+msgstr "Projektipäällikkö"
 
 msgid "Content"
 msgstr "Sisältö"

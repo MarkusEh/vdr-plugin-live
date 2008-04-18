@@ -545,11 +545,14 @@ msgstr "Nach Wiederholungen suchen."
 msgid "Authors"
 msgstr "Autoren"
 
-msgid "Project leader"
-msgstr "Projektleiter"
+msgid "Project Idea"
+msgstr "Projekt Idee"
 
 msgid "Webserver"
 msgstr "Webserver"
+
+msgid "Project leader"
+msgstr "Projektleiter"
 
 msgid "Content"
 msgstr "Inhalte"

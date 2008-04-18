@@ -545,10 +545,13 @@ msgstr ""
 msgid "Authors"
 msgstr ""
 
-msgid "Project leader"
+msgid "Project Idea"
 msgstr ""
 
 msgid "Webserver"
+msgstr ""
+
+msgid "Project leader"
 msgstr ""
 
 msgid "Content"

@@ -6171,8 +6171,8 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "Project leader",
-    "Projektleiter",
+  { "Project Idea",
+    "Projekt Idee",
     "",
     "Capo progetto",
     "",
@@ -6215,6 +6215,41 @@ const tI18nPhrase Phrases[] = {
     "Serveur Web",
     "",
     "HTTP-palvelin",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Project leader",
+    "Projektleiter",
+    "",
+    "Capo progetto",
+    "",
+    "",
+    "Chef de projet",
+    "",
+    "Projektipäällikkö",
     "",
     "",
     "",

@@ -549,11 +549,15 @@ msgstr "Recherche de répétitions."
 msgid "Authors"
 msgstr "Auteur"
 
-msgid "Project leader"
+#, fuzzy
+msgid "Project Idea"
 msgstr "Chef de projet"
 
 msgid "Webserver"
 msgstr "Serveur Web"
+
+msgid "Project leader"
+msgstr "Chef de projet"
 
 msgid "Content"
 msgstr "Contenu"
