@@ -107,7 +107,7 @@ int update_status(1);
 	tChannelID channelId;
 	string linkText;
 </%args>
-<%cpp> if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded()) { </%cpp><a href="vlc.html?channel=<$ channelId $>"><img src="<$ LiveSetup().GetThemedLink("img", "play.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into browser.")) &>></img> <$ linkText $></a><%cpp> } </%cpp>
+<%cpp> if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded()) { </%cpp><a href="vlc.html?channel=<$ channelId $>"><img src="<$ LiveSetup().GetThemedLink("img", "stream_button.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into browser.")) &>></img> <$ linkText $></a><%cpp> } </%cpp>
 </%def>
 
 
@@ -266,7 +266,7 @@ int update_status(1);
 		<td class="action leftcol <? lastCurrentChanel ? "bottomrow"?>"><& pageelems.event_timer epgid=(epgid) &></td>
 		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><%cpp>if (elapsed > 0) { </%cpp><& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channelId) image="zap.png" alt="" &><%cpp> } </%cpp></td>
 		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><%cpp>if (LiveFeatures<features::epgsearch>().Recent()) { </%cpp><a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a><%cpp> } else { </%cpp><img src="transparent.png" width="16" height="16"><%cpp> } </%cpp></td>
-		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><%cpp>if (LiveSetup().GetUseStreamdev() && elapsed > 0 && LiveFeatures<features::streamdev_server>().Loaded()) { </%cpp><a href="vlc.html?channel=<$ channelId $>"><img src="<$ LiveSetup().GetThemedLink("img", "play.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into browser.")) &>></img></a><%cpp> } else { </%cpp><img src="transparent.png" width="16" height="16"><%cpp> } </%cpp></td>
+		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><%cpp>if (LiveSetup().GetUseStreamdev() && elapsed > 0 && LiveFeatures<features::streamdev_server>().Loaded()) { </%cpp><a href="vlc.html?channel=<$ channelId $>"><img src="<$ LiveSetup().GetThemedLink("img", "stream_button.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into browser.")) &>></img></a><%cpp> } else { </%cpp><img src="transparent.png" width="16" height="16"><%cpp> } </%cpp></td>
 		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><& pageelems.imdb_info_href title=(title) &></td>
 <%cpp>
 	}

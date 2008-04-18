@@ -539,6 +539,7 @@ div#infobox div.st_header div.caption {
 	float: left;
 	overflow: hidden;
 	font-weight: bold;
+	padding-left: 0px;
 }
 
 div#infobox div.st_content {
