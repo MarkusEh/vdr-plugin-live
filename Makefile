@@ -18,14 +18,16 @@ VERSION = $(shell grep '\#define LIVEVERSION ' setup.h | awk '{ print $$3 }' | s
 
 CXX	 ?= g++
 
-### tntnet produces some compiler warnings, so we add -Wno-unused-variable -Wno-non-virtual-dtor for nice output ;)
-CXXFLAGS ?= -fPIC -O2 -Wall -Woverloaded-virtual -Wno-unused-variable -Wno-non-virtual-dtor
+### This variable is overriden in pages/Makefile because we don't want the
+### extra warnings in the tntnet generated files. So if you change here
+### something be sure to check pages/Makefile too.
+CXXFLAGS ?= -fPIC -O2 -Wall
 LDFLAGS	 ?= -fPIC -g
 
 ECPPC	 ?= ecppc
 CXXFLAGS += `tntnet-config --cxxflags`
 
-LIBS  += $(shell tntnet-config --libs)
+LIBS	 += $(shell tntnet-config --libs)
 
 ### The directory environment:
 
@@ -85,8 +87,9 @@ all: libvdr-$(PLUGIN).so $(I18NTARG)
 
 ### Implicit rules:
 
+### all source compiled here shall warn about overloaded virtuals
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $(DEFINES) $(INCLUDES) $<
+	$(CXX) $(CXXFLAGS) -Woverloaded-virtual -c $(DEFINES) $(INCLUDES) $<
 
 # Dependencies:
 

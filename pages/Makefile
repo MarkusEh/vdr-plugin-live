@@ -2,11 +2,6 @@ CXX      ?= g++
 AR       ?= ar
 ECPPC    ?= ecppc
 
-CXXFLAGS ?= -O2 -Woverloaded-virtual -Wall -fPIC
-
-CXXFLAGS += `tntnet-config --cxxflags`
-LDFLAGS  += `tntnet-config --libs`
-
 INCLUDES += -I.. -I$(VDRDIR)/include
 
 ### The directory environment:
@@ -31,8 +26,10 @@ all: libpages.a
 
 ### Implicit rules:
 
+### tntnet produces some compiler warnings,
+### so we add -Wno-unused-variable -Wno-non-virtual-dtor for nice output ;)
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $(DEFINES) $(INCLUDES) $<
+	$(CXX) $(CXXFLAGS) -Wno-unused-variable -Wno-non-virtual-dtor -c $(DEFINES) $(INCLUDES) $<
 
 %.cpp: %.ecpp
 	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CPP) $<
