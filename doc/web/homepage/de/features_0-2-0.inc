@@ -98,6 +98,11 @@
 	      auszuw&auml;hlen.
 	    </li>
 	    <li>
+	      Unterst&uuml;tzung f&uuml;r https Datentransfer zwischen
+	      LIVE und dem Browser
+	      via <strong>SSL-Unterst&uuml;tzung</strong> in tntnet.
+	    </li>
+	    <li>
 	      Weiterhin gibt es viele <strong>kleine
 	      Neuerungen</strong> wie z.B. die Anzeige der
 	      Aufnahmenl&auml;nge in Minuten, die zu entdecken sich

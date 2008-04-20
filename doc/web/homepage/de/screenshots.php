@@ -18,8 +18,17 @@
 
     <div class="inhalt">
 
-      <div style="width: 800px; margin-top: 15px">
-	<div class="boxheader"><div><div>Screenshots</div></div></div>
+      <div style="width: 840px; margin-top: 15px">
+	<div class="boxheader"><div><div>
+	  <?php
+	     if (isset($_GET["img"])) {
+	     	echo "Screenshot: " . $screenshots->ImageDescr($_GET["img"], "Unbekanntes Bild");
+	     }
+	     else {
+	     	echo "Screenshots: &Uuml;bersicht";
+	     }
+	  ?>
+	</div></div></div>
 	<div class="screenshots">
 	  <?php
 	     if (isset($_GET["img"])) {

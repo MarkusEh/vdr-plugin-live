@@ -5,13 +5,15 @@ class Status
 	var $vers_string;
 	var $vers_number;
 	var $datefmt;
+	var $language;
 
-	function Status($title, $vname, $vnum, $datefmt)
+	function Status($title, $vname, $vnum, $datefmt, $lang)
 	{
 		$this->title = $title;
 		$this->vers_string = $vname;
 		$this->vers_number = $vnum;
 		$this->datefmt = $datefmt;
+		$this->language = $lang;
 	}
 }
 
@@ -39,14 +41,14 @@ class Screenshots
 	function RandomImg()
 	{
 		$idx = array_rand($this->images);
-		$this->MakeAnchor($this->images[$idx]);
+		$this->MakeAnchor($idx);
 	}
 
 
 	function AllImg()
 	{
-		foreach($this->images as $img) {
-			$this->MakeAnchor($img);
+		foreach($this->images as $idx => $descr) {
+			$this->MakeAnchor($idx);
 		}
 	}
 
@@ -58,7 +60,16 @@ class Screenshots
 	function FullImage($img)
 	{
 		$img = basename($img);
-		echo "<a href=\"screenshots.php\"><img src=\"img/${img}.jpg\" alt=\"img/${img}.jpg\"/ style=\"width: 770px\"></a>\n";
+		echo "<a href=\"screenshots.php\"><img src=\"img/${img}.jpg\" alt=\"img/${img}.jpg\"/ style=\"width: 810px\"></a>\n";
+	}
+
+	function ImageDescr($img, $error)
+	{
+		$img = basename($img);
+		if (isset($this->images[$img]))
+			return $this->images[$img];
+		else
+			return $error;
 	}
 }
 ?>

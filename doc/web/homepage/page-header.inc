@@ -10,9 +10,10 @@
 	    <div id="infobox_duration" class="duration"><?php echo $status->vers_number; ?></div>
 	  </div>
 	  <div class="st_controls">
-	    <div id="infobox_channel_buttons">
-	      <a id="infobox_prevchan" href="vdr_request/switch_channel?param=" title="Sender zurück"><img src="../img/one_downarrow.png" alt=""></img></a>
-	      <a id="infobox_nextchan" href="vdr_request/switch_channel?param=" title="Sender vor"><img src="../img/one_uparrow.png" alt=""></img></a>
+	    <div>
+	      <div style="padding-right: 5px"><?php echo $status->language; ?></div>
+	      <a href="../en/index.php" ><img src="../img/english.png" alt=""></img></a>
+	      <a href="../de/index.php" ><img src="../img/german.png" alt=""></img></a>
 	    </div>
 	  </div>
 	</div>

@@ -3,7 +3,8 @@
 $status = new Status("LIVE Plugin Status",
 					 "Aktuelle stabile Version",
 					 "0.2.0",
-					 "d.m.Y");
+					 "d.m.Y",
+					 "Sprache: ");
 
 $menu = new Menu(array("index.php" => "&Uuml;ber Live",
 					   "news.php" => "Neuerungen",
@@ -12,12 +13,17 @@ $menu = new Menu(array("index.php" => "&Uuml;ber Live",
 					   "index.php#links" => "Links und Kontakt"
 					 ));
 
-$screenshots = new Screenshots(array("whatson",
-									 "schedule",
-									 "timers",
-									 "searchepg",
-									 "edit_searchtimer",
-									 "recordings",
-									 "remote",
-									 "setup"));
+$screenshots = new Screenshots(array("whatson" => "Was l&auml;uft (Ausf&uuml;hrliche Ansicht)",
+									 "whatsonlist" => "Was l&auml;uft (Listenansicht)",
+									 "schedule" => "Programm eines Kanals f&uuml;r die n&auml;chsten Tage",
+									 "edittimer" => "Timer editieren",
+									 "search" => "Suche in den EPG Daten",
+									 "searchtimer" => "Suchtimer",
+									 "editsearchtimer" => "Suchtimer editieren",
+									 "timerconflict" => "Timer Konflikt Anzeige",
+									 "edittimer" => "Timer editieren",
+									 "recordings" => "Aufnahmen",
+									 "remote" => "Fernbedienung",
+									 "setup" => "LIVE Einstellungen",
+								     "favourites" => "Was l&auml;uft (Favoritenansicht)"));
 ?>
