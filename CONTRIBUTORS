@@ -9,5 +9,13 @@ Michael Brueckner <vdr@gekrumbel.de>
 Rolf Ahrenberg
  for lots of finish translations and the initial implementation of
  streaming of live tv via streamdev into a browser window using the
- vlc plugin for firefox.
+ vlc plugin for firefox. And a lot of usefull hints about the features
+ of the vlc plugins, some of which still need to be added to LIVE.
 
+Patrice Staudt
+  for the french translations.
+
+Matthias Kortstiege
+ for a patch that activates the SSL support in tntnet. LIVE can then be
+ used over https too. This works only with tntnet versions above 1.6.0.6.
+ Recomended is tntnet version 1.6.3 and higher.
