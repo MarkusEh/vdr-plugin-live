@@ -6,7 +6,7 @@ $status = new Status("LIVE Plugin Status",
 					 "d.m.Y",
 					 "Sprache: ");
 
-$menu = new Menu(array("index.php" => "&Uuml;ber Live",
+$menu = new Menu(array("index.php" => "&Uuml;ber LIVE",
 					   "news.php" => "Neuerungen",
 					   "download.php" => "Download",
 					   "screenshots.php" => "Screenshots",
@@ -21,7 +21,6 @@ $screenshots = new Screenshots(array("whatson" => "Was l&auml;uft (Ausf&uuml;hrl
 									 "searchtimer" => "Suchtimer",
 									 "editsearchtimer" => "Suchtimer editieren",
 									 "timerconflict" => "Timer Konflikt Anzeige",
-									 "edittimer" => "Timer editieren",
 									 "recordings" => "Aufnahmen",
 									 "remote" => "Fernbedienung",
 									 "setup" => "LIVE Einstellungen",

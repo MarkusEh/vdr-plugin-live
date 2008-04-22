@@ -7,7 +7,7 @@
   <body>
     <?php
        include ("../page-php-classes.inc");
-       include ("settings-de.inc");
+       include ("settings-en.inc");
     ?>
     <div class="page_header">
       <?php include ("../page-header.inc"); ?>
