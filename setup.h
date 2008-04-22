@@ -28,6 +28,10 @@ class Setup
 
 		// commandline
 		int GetServerPort() const { return m_serverPort; }
+#ifdef TNTVERS7
+		int GetServerSslPort() const { return m_serverSslPort; }
+		std::string GetServerSslCert() const { return m_serverSslCert; }
+#endif
 		IpList const& GetServerIps() const { return m_serverIps; }
 		// vdr-setup
 		int GetLastChannel() const { return m_lastChannel == 0 ? std::numeric_limits< int >::max() : m_lastChannel; }
@@ -94,6 +98,11 @@ class Setup
 		mutable std::string m_helpString;
 		// commandline options
 		int m_serverPort;
+#ifdef TNTVERS7
+		int m_serverSslPort;
+		std::string m_serverSslCert;
+		static std::string m_configDirectory;
+#endif
 		IpList m_serverIps;
 		std::string m_epgimagedir;
 
@@ -121,6 +130,9 @@ class Setup
 
 		bool CheckServerPort();
 		bool CheckServerIps();
+#ifdef TNTVERS7
+		bool CheckServerSslPort();
+#endif
 };
 
 Setup& LiveSetup();

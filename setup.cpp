@@ -23,6 +23,10 @@ using namespace std;
 
 Setup::Setup():
 		m_serverPort( 8008 ),
+#ifdef TNTVERS7
+		m_serverSslPort( 8443 ),
+		m_serverSslCert(),
+#endif
 		m_lastChannel( 0 ),
 		m_screenshotInterval( 1000 ),
 		m_useAuth( 1 ),
@@ -49,21 +53,32 @@ bool Setup::ParseCommandLine( int argc, char* argv[] )
 			{ "ip",   required_argument, NULL, 'i' },
 			{ "log",  required_argument, NULL, 'l' },
 			{ "epgimages",  required_argument, NULL, 'e' },
+#ifdef TNTVERS7
+			{ "sslport", required_argument, NULL, 's' },
+			{ "cert", required_argument, NULL, 'c' },
+#endif
 			{ 0 }
 	};
 
 	int optchar, optind = 0;
-	while ( ( optchar = getopt_long( argc, argv, "p:i:l:e:", opts, &optind ) ) != -1 ) {
+	while ( ( optchar = getopt_long( argc, argv, "p:i:l:e:s:c:", opts, &optind ) ) != -1 ) {
 		switch ( optchar ) {
 		case 'p': m_serverPort = atoi( optarg ); break;
 		case 'i': m_serverIps.push_back( optarg ); break;
 		case 'l': m_tntnetloglevel = optarg; break;
 		case 'e': m_epgimagedir = optarg; break;
+#ifdef TNTVERS7
+		case 's': m_serverSslPort = atoi( optarg ); break;
+		case 'c': m_serverSslCert = optarg; break;
+#endif
 		default:  return false;
 		}
 	}
 
 	return CheckServerPort() &&
+#ifdef TNTVERS7
+		   CheckServerSslPort() &&
+#endif
 		   CheckServerIps();
 }
 
@@ -76,6 +91,11 @@ char const* Setup::CommandLineHelp() const
 				<< "  -i IP,    --ip=IP            bind server only to specified IP, may appear\n"
 				   "                               multiple times\n"
 				   "                               (default: 0.0.0.0)\n"
+#ifdef TNTVERS7
+				<< "  -s PORT,  --sslport=PORT     use PORT to listen for incoming ssl connections\n"
+				   "                               (default: " << m_serverSslPort << ")\n"
+				<< "  -c CERT,  --cert=CERT        full path to a custom ssl certificate file\n"
+#endif
 				<< "  -l level, --log=level        log level for tntnet (values: INFO, DEBUG,...)\n"
 				<< "  -e <dir>, --epgimages=<dir>  directory for epgimages\n";
 		m_helpString = builder.str();
@@ -116,6 +136,18 @@ bool Setup::CheckServerPort()
 	}
 	return true;
 }
+
+#ifdef TNTVERS7
+bool Setup::CheckServerSslPort()
+{
+	if ( m_serverSslPort <= 0 || m_serverSslPort > numeric_limits< uint16_t >::max() ) {
+		esyslog( "ERROR: live server ssl  port %d is not a valid port number", m_serverSslPort );
+		cerr << "ERROR: live server ssl port " << m_serverSslPort << " is not a valid port number" << endl;
+		return false;
+	}
+	return true;
+}
+#endif
 
 bool Setup::CheckServerIps()
 {

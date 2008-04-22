@@ -121,6 +121,24 @@ void TntConfig::WriteConfig()
 	for ( Setup::IpList::const_iterator ip = ips.begin(); ip != ips.end(); ++ip ) {
 		file << "Listen " << *ip << " " << port << endl;
 	}
+
+#ifdef TNTVERS7
+	int s_port = LiveSetup().GetServerSslPort();
+	string s_cert = LiveSetup().GetServerSslCert();
+
+	if (s_cert.empty()) {
+		s_cert = configDir + "/live.pem";
+	}
+
+	if ( ifstream( s_cert.c_str() ) ) {
+		for ( Setup::IpList::const_iterator ip = ips.begin(); ip != ips.end(); ++ip ) {
+			file << "SslListen " << *ip << " " << s_port << " " << s_cert << endl;
+		}
+	}
+	else {
+		esyslog( "ERROR: %s: %s", s_cert.c_str(), strerror( errno ) );
+	}
+#endif
 }
 
 void TntConfig::WriteProperties()

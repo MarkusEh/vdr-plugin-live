@@ -17,12 +17,10 @@ See the file COPYING for license information.
 IMPORTANT:
 ==========
 
-This is one of the last developer snapshot versions of LIVE which will
-work with Tntnet < 1.6.0.6. In fact only versions of Tntnet up to
-1.6.0.1 have been used during development of LIVE and can be used for
-shure until today.
+This is the last version of LIVE which will work with Tntnet <
+1.6.0.6.
 
-Since Nov 17 version 1.6.0.6 of Tntnet has been released with new
+Since Nov 17 2007 version 1.6.0.6 of Tntnet has been released with new
 features and binary incompatible changes. This version of LIVE works
 with that version and still maintains backwards compatibilty to older
 versions of Tntnet.
@@ -79,7 +77,7 @@ How to get Locale::PO
 - Check if your distribution provides the package.
   (e.g. in Debian the package name is liblocale-po-perl)
 
-If you added new translations in your language specific .mo file and
+If you added new translations in your language specific .po file and
 still want to use an VDR older than version 1.5.7 you must regenerate
 i18n-generated.h by calling make with the target generate-i18n. Only
 in this case you need to have Locale::PO installed on your system.
@@ -119,6 +117,9 @@ You can also specifiy this parameter via commandline:
                             multiple times
                             (default: 0.0.0.0)
 
+Additional SSL options are available now. See "How to make LIVE listen
+for ssl connections" section below on hints how to setup SSL.
+
 The rest of the parameters can be adjusted in VDR's OSD or in the web
 interface.
 
@@ -131,17 +132,72 @@ during scanning (which can after a few months be well more than 3000
 channels) won't be displayed.
 
 
-So how does it work?
-====================
-Basically, Live itself is a Tntnet webserver integrated into the plugin
-structure VDR needs.
-This webserver, running in VDR's environment, is provided with all public data
-structures VDR provides for plugins and thus has very fast access to
-information like the EPG, timers or recordings.
+How to make LIVE listen for ssl connections
+===========================================
 
-Live's "pages" are written in "ecpp", a language integrating C++ and HTML in
-one file, very much like e.g. PHP or ASP weave functionality and "static"
-content information together.
+To make LIVE listen for incoming ssl connections you`ll have to use a
+Tntnet version > 1.6.0.6. By default it will listen on port 8443.
+
+	* Example: https://localhost:8443
+
+In order to start the SslListener LIVE requires a SSL certificate. If
+no SSL certificate is specified via commandline option, LIVE will try
+to use the default certificate location
+'$VDRDIR/plugins/live/live.pem'.
+
+If neither the default nor the custom certificate (given by the
+commandline option) could be found, LIVE will only start the default
+HTTP Listener (default: 8008)
+
+Note: Since the gnutls SslListener was broken in Tntnet versions prior
+to SVN revision 1035 you will have to recompile Tntnet with
+"./configure --with-ssl=openssl" to make it work. Alternatively
+install version 1.6.2 of tntnet on your system.
+
+
+SSL Commandline options
+=======================
+
+  -s PORT,  --sslport=PORT     use PORT to listen for incoming ssl connections
+                               (default: 8443)
+  -c CERT,  --cert=CERT        path to a custom ssl certificate
+  			       (default: $CONFIGDIR/live.pem)
+
+
+Creating a self-signed SSL server certificate
+=============================================
+
+To create a self-signed certificate file you`ll have to run this litte
+command.
+
+  $> cd /put/your/path/here/vdr/plugins/live
+  $> openssl req -new -x509 -keyout server.pem -out live.pem -days 365 -nodes
+
+While generating the certifcate you`ll be asked to answer a couple of
+questions.  When it prompts to enter the "Common Name" you`ll have to
+specify the full qualified dns server name of the machine LIVE is
+running on (eg. vdr.example.com).  If your vdr doesn`t have a full
+qualified dns name, you should use the ip LIVE is listening on.
+
+Note: This is just a quick'n dirty way to create a SSL self-signed
+certicate.  Recent browsers (like Firefox 3) will complain about it
+because the certificate wasn´t signed by a known Certificate Authority
+(CA).
+
+
+So how does LIVE work?
+======================
+
+Basically, Live itself is a Tntnet webserver integrated into the
+plugin structure VDR needs.
+
+This webserver, running in VDR's environment, is provided with all
+public data structures VDR provides for plugins and thus has very fast
+access to information like the EPG, timers or recordings.
+
+Live's "pages" are written in "ecpp", a language integrating C++ and
+HTML in one file, very much like e.g. PHP or ASP weave functionality
+and "static" content information together.
 
 
 Contribute!
@@ -179,13 +235,12 @@ module Locale::PO installed on your system.
 Security consideratios
 ======================
 
-Live uses the tntnet MapUrl mechanism to map different request urls
-to tntnet components. One component 'content.ecpp' delivers files
-found in the file system. When given the wrong 'path' it could
-retrieve any file from the server where live runs on.  Therefore
-content.ecpp needs to be enhanced to check the paths before returning
-files.  A second measure against missuse is to limit the mappings from
-MapUrl to only valid files. In the current version this approach has
-been taken. But due to the 'dificulty' to fully understand regular
-expressions, this might get spoiled again by 'unchecked' code
-contribution.
+Live uses the tntnet MapUrl mechanism to map different request urls to
+tntnet components. One component 'content.ecpp' delivers files found
+in the file system. When given the wrong 'path' it could retrieve any
+file from the server where live runs on.  Therefore content.ecpp has
+beem enhanced to check the paths before returning files.  A second
+measure against missuse is to limit the mappings from MapUrl to only
+valid files. In the current version this approach has been taken. But
+due to the 'difficulty' to fully understand regular expressions, this
+might get spoiled again by 'unchecked' code contribution.
