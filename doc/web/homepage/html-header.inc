@@ -24,5 +24,8 @@ table.listing a {
   color: blue;
 }
 
+div.inhalt p {
+  padding-left: 1em;
+}
 	-->
     </style>

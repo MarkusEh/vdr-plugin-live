@@ -19,7 +19,7 @@
     <div class="inhalt">
 
       <div style="width: 800px; margin-top: 15px">
-	<div class="boxheader"><div><div>Stabile Version:</div></div></div>
+	<div class="boxheader"><div><div>Stable version:</div></div></div>
 	<div style="border: 1px solid black; padding: 0px 10px">
 	  <p>
 	    <b>Version 0.2.0</b>
@@ -28,7 +28,7 @@
             </ul>
 	  </p>
 	  <p>
-	    <b>Vorausetzungen f&uuml;r die Installation:</b>
+	    <b>Installation prerequisites:</b>
 	    <?php include ("install_0-2-0.inc"); ?>
 	  </p>
           <p></p>
@@ -36,21 +36,23 @@
       </div>
 
       <div style="width: 800px; margin-top: 15px">
-	<div class="boxheader"><div><div>Entwickler Version:</div></div></div>
+	<div class="boxheader"><div><div>Development version:</div></div></div>
 	<div style="border: 1px solid black; padding: 0px 10px">
 	  <p>
-	    <b>Akuteller CVS-Snapshot</b>
+	    <b>Current CVS snapshot</b>
             <ul>
 	      <li>
 		Download: <a href="http://www.vdr-developer.org/cgi-bin/cvsweb.cgi/live/live.tar.gz?tarball=1">http://www.vdr-developer.org/cgi-bin/cvsweb.cgi/live/</a>
 	        <p>
-		  <strong>WICHTIG:</strong> unbedingt auch immer die Datei README in LIVE Quellen-Verzeichnis beachten!
+		  <strong>IMPORTANT:</strong> when using this version
+		  please always check the README file in the LIVE
+		  source directory.
 		</p>
 	      </li>
             </ul>
 	  </p>
 	  <p>
-	    <b>Vorausetzungen f&uuml;r die Installation:</b>
+	    <b>Installation prerequisites:</b>
 	    <?php include ("install_devel.inc"); ?>
 	  </p>
           <p></p>
@@ -58,7 +60,7 @@
       </div>
 
       <div style="width: 800px; margin-top: 15px">
-	<div class="boxheader"><div><div>&Auml;ltere Version:</div></div></div>
+	<div class="boxheader"><div><div>Old version:</div></div></div>
 	<div style="border: 1px solid black; padding: 0px 10px">
 	  <p>
 	    <b>Version 0.1.0</b>
@@ -67,7 +69,7 @@
             </ul>
 	  </p>
 	  <p>
-	    <b>Vorausetzungen f&uuml;r die Installation:</b>
+	    <b>Installation prerequisites:</b>
 	    <?php include ("install_0-1-0.inc"); ?>
 	  </p>
           <p></p>

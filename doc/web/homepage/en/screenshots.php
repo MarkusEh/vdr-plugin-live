@@ -25,7 +25,7 @@
 	     	echo "Screenshot: " . $screenshots->ImageDescr($_GET["img"], "Unbekanntes Bild");
 	     }
 	     else {
-	     	echo "Screenshots: &Uuml;bersicht";
+	     	echo "Screenshots: Overview";
 	     }
 	  ?>
 	</div></div></div>

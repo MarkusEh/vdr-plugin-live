@@ -23,6 +23,9 @@
 	<div class="boxheader"><div><div>&Uuml;ber LIVE</div></div></div>
 	<div style="border: 1px solid black; padding: 0px 10px">
 	  <div class="screenshots" style="float: right; border: 0; padding-top: 15px"><?php $screenshots->RandomImg(); ?></div>
+	  <p>
+	    <b>LIVE</b>
+	  </p>
           <p>
             LIVE, das <strong><em>LIVE Interactive VDR Environment</em></strong>, ermöglicht
             die komfortable Bedienung des VDR und mancher seiner Plugins
@@ -51,6 +54,17 @@
 	    Einen ersten optischen Eindruck von LIVE kann man sich auf
 	    der <a href="screenshots.php"><?php echo
 	    $menu->urls["screenshots.php"]; ?>-Seite</a> verschaffen.
+	  </p>
+	  <p>
+	    <b>Lizenz</b>
+	  </p>
+	  <p>
+	    LIVE wird unter
+	    der <a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GNU
+	    General Public License, Version 2</a> (GPLv2)
+	    ver&ouml;ffentlicht.  Nähere Informationen erhalten Sie
+	    durch verfolgen des Links und/oder in der
+	    Datei <tt>COPYING</tt> im Quellcode Verzeichnis von LIVE.
 	  </p>
 	</div>
       </div>

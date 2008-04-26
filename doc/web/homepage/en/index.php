@@ -23,14 +23,17 @@
 	<div class="boxheader"><div><div>About LIVE</div></div></div>
 	<div style="border: 1px solid black; padding: 0px 10px">
 	  <div class="screenshots" style="float: right; border: 0; padding-top: 15px"><?php $screenshots->RandomImg(); ?></div>
+	  <p>
+	    <b>LIVE</b>
+	  </p>
           <p>
             LIVE, the <strong><em>LIVE Interactive VDR
             Environment</em></strong>, allows a comfortable operation
-            of VDR and some of his plugins trough a web interface.
+            of VDR and some of its plugins trough a web interface.
 	  </p>
           <p>
 	    Unlike external programs, which communicate with VDR and
-	    his plugins through the SVDRP interface, LIVE has direct
+	    its plugins through the SVDRP interface, LIVE has direct
 	    access to the internal data structures of VDR. This makes
 	    LIVE very fast.
 	  </p>
@@ -53,6 +56,16 @@
 	    You can get a first optical impression of LIVE on the <a href="screenshots.php"><?php echo
 	    $menu->urls["screenshots.php"]; ?> page</a>
 	  </p>
+	  <p>
+	    <b>License</b>
+	  </p>
+	  <p>
+	    LIVE is distributed under
+	    the <a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GNU
+	    General Public License, version 2</a>(GPLv2). For more
+	    information follow the Link and/or see the file <tt>COPYING</tt> in
+	    the LIVE source code directory.
+	  </p>
 	</div>
       </div>
 
@@ -61,9 +74,10 @@
 	<div style="border: 1px solid black; padding: 0px 10px">
 	  <?php include ("features_0-2-0.inc"); ?>
 	  <p>
-	    Alle bisherigen &Auml;nderungen an LIVE sind auf der Seite
-	    mit den <a href="news.php"><?php echo
-	    $menu->urls["news.php"];?></a> aufgelistet.
+	    All feature additions or changes of LIVE can be found on
+	    the
+	    <a href="news.php">page with the <?php echo
+	    $menu->urls["news.php"];?></a>.
 	  </p>
 	</div>
       </div>
@@ -83,14 +97,13 @@
             </ul>
 	  </p>
 	  <p>
-	    <b>Vorausetzungen f&uuml;r die Installation:</b>
+	    <b>Installation prerequisites:</b>
 	    <?php include ("install_0-2-0.inc"); ?>
 	  </p>
           <p>
-	    Andere Versionen von LIVE k&ouml;nnen von
-	    der <a href="download.php"><?php echo
-	    $menu->urls["download.php"]; ?>-Seite</a> herunter geladen
-	    werden.
+	    Different versions of LIVE can be downloaded from the
+	    <a href="download.php"><?php echo
+	    $menu->urls["download.php"]; ?> page</a>.
 	  </p>
         </div>
       </div>
