@@ -38,18 +38,18 @@
 	    LIVE very fast.
 	  </p>
           <p>
-	    Additionaly LIVE introduces an interface which allows the
+	    Additionally LIVE introduces an interface which allows the
 	    direct integration of user interfaces for VDR
 	    plugins.<br/>  Currently this interface was implemented
 	    for
 	    the <a href="http://winni.vdr-developer.org/epgsearch/index.html">EPGSearch</a>
-	    plugin. A substancial part of the LIVE web interface is
+	    plugin. A substantial part of the LIVE web interface is
 	    based on this implementation. There exist plans to extend
 	    other plugins (like taste, burn, femon and others) with
 	    this interface too.<br/>  LIVE works even when these
 	    plugins are missing. LIVE detects the available plugins
 	    and adapts its user interface accordingly. Therefor it can
-	    happen, that certain functions apear and can be used only
+	    happen, that certain functions appear and can be used only
 	    when the appropriate plugin is activated in VDR.
           </p>
           <p>
@@ -74,10 +74,10 @@
 	<div style="border: 1px solid black; padding: 0px 10px">
 	  <?php include ("features_0-2-0.inc"); ?>
 	  <p>
-	    All feature additions or changes of LIVE can be found on
+	    All past feature additions or changes of LIVE can be found on
 	    the
-	    <a href="news.php">page with the <?php echo
-	    $menu->urls["news.php"];?></a>.
+	    <a href="news.php"><?php echo
+	    $menu->urls["news.php"];?> archive page</a>.
 	  </p>
 	</div>
       </div>
@@ -91,7 +91,7 @@
 	      <li>
 		Download: <?php echo "<a href=\"http://live.vdr-developer.org/downloads/vdr-live-" . $status->vers_number . ".tar.gz\">" . "http://live.vdr-developer.org/downloads/vdr-live-" . $status->vers_number . ".tar.gz</a>"; ?>
 	        <p>
-		  <strong>WICHTIG:</strong> unbedingt auch immer die Datei README in LIVE Quellen-Verzeichnis beachten!
+		  <strong>IMPORTANT:</strong> please allways have a look at the <tt>README</tt> file in the LIVE source code directory!
 		</p>
 	      </li>
             </ul>

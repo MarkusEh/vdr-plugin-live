@@ -48,7 +48,7 @@
 	    </li>
 	    <li>
 	      Mit der entsprechenden Version vom Epgsearch-Plugin (ab
-	      epgsearch-0.9.25) gibt es bei Timer nun auch einen
+	      epgsearch-0.9.24) gibt es bei Timer nun auch einen
 	      Men&uuml;punkt: <strong>&bdquo;Timerkonflikte&rdquo;</strong>.
 	      Dieser Men&uuml;punkt wertet aus, welche programmierte
 	      Timer nicht funktionieren k&ouml;nnen, weil z.B. keine

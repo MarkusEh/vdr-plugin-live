@@ -1,111 +1,98 @@
 	  <p>
-	    Die folgende Liste enth&auml;lt die wichtigsten f&uuml;r
-	    den Benutzer sichtbaren &Auml;nderungen an LIVE seit der
-	    letzten stabilen Version. Daneben wurde auch unter der
-	    Haube einiges ver&auml;ndert. Z.B. wurde auf das
-	    Javascript
-	    Framework <a href="http://www.mootools.net/">Mootools</a>
-	    umgestellt.
+	    The following list contains the most important user
+	    visible changes in LIVE since the release of the last
+	    stable version.  Underneath the visible parts changes took
+	    place too: e.g. the used Javascript is now based in large
+	    parts on
+	    the <a href="http://www.mootools.net/">Mootools</a>
+	    framework.
 	  </p>
           <ul>
 	    <li>
-	      Die <strong>Infobox ist noch
-	      &bdquo;intelligenter&rdquo;</strong>
-	      geworden. Hier&uuml;ber kann z.B. eine Aufnahme
-	      vorgespult werden, welche &uuml;ber die VDR TV Ausgabe
-	      abgespielt werden. Auch kann man hier&uuml;ber die
-	      Programme direkt am TV umschalten.
+
+	      The <strong>InfoBox</strong> has
+	      become <strong>&ldquo;more intelligent&rdquo;</strong>,
+	      e.g. a recording can be fast-forwarded, while playing it
+	      over VDR TV out. And channels of the primary output
+	      device can be switched with the controls in the InfoBox.
 	    </li>
 	    <li>
-	      Unter &bdquo;Was l&auml;uft?&rdquo; gibt es nun eine
-	      <strong>Favoritenliste</strong>. Hier werden die
-	      Sendungen dargestellt, die man via
-	      &bdquo;Suchtimer&rdquo; suchen l&auml;sst und hier
-	      dargestellt haben will. Ein Beispiel: Beim
-	      &bdquo;Suchtimer-Anlegen&rdquo; gebe ich den Suchbegriff
-	      &bdquo;Volksmusik&rdquo; ein und setze den Haken bei
-	      &bdquo;Im Favoritenmen&uuml; verwenden&rdquo;. Bei
-	      &bdquo;Was l&auml;uft?&rdquo; &rarr;
-	      &bdquo;Favoriten&rdquo; werden dann alle Sendungen mit
-	      Volksmusik in der Beschreibung angezeigt. Auch neu unter
-	      &bdquo;Was l&auml;uft?&rdquo; ist
-	      die <strong>Listenansicht</strong>.
+	      A <strong>favorite list</strong> found place under
+	      &ldquo;whats on?&rdquo;. It is populated by
+	      &ldquo;search timers&rdquo; with set option &ldquo;use
+	      in favorite menu&rdquo; while creating the timer. Also
+	      new is an option to display the &ldquo;whats on?&rdquo;
+	      entries in a list.
 	    </li>
 	    <li>
-	      Bei den einzelnen Sendungen (also nur bei Sendungen
-	      f&uuml;r die EPG-Daten vorliegen) gibt es jetzt einen
-	      Knopf <strong>&bdquo;Sendung im Browser
-	      anzeigen&rdquo;</strong>: Dieser Knopf ruft das
-	      VLC-Plugin auf und erlaubt das Streamen von LiveTV.
+	      Each schedules entry (only those with EPG data) owns a
+	      button
+	      <strong>&ldquo;show in browser&rdquo;</strong>: This
+	      button calls the VLC plugin and shows a liveTV
+	      stream. This does not work for recordings.
 	    </li>
 	    <li>
-	      Bei dem Men&uuml; &bdquo;Programm&rdquo; gibt es bei der
-	      Programmauswahl den Knopf <strong>&rdquo;Im Browser
-	      anzeigen&rdquo;</strong>.  Hier k&ouml;nnen auch Sender
-	      ausgew&auml;hlt werden, die keine EPG-Daten liefern,
-	      aber in der channels.conf vorhanden sind. Zum Beispiel
-	      kleinere TV-Sender oder Radio Stationen.
+	      On &ldquo;schedule&rdquo; page, there is a
+	      button <strong>&ldquo;show in browser&rdquo;</strong>.
+	      All channels can be selected here, also those without
+	      EPG data but which are present in the
+	      channels.conf. Smaller TV providers or radio stations
+	      are affected by this from time to time.
 	    </li>
 	    <li>
-	      Mit der entsprechenden Version vom Epgsearch-Plugin (ab
-	      epgsearch-0.9.25) gibt es bei Timer nun auch einen
-	      Men&uuml;punkt: <strong>&bdquo;Timerkonflikte&rdquo;</strong>.
-	      Dieser Men&uuml;punkt wertet aus, welche programmierte
-	      Timer nicht funktionieren k&ouml;nnen, weil z.B. keine
-	      Karte mehr frei ist. Wenn die Infobox aktiv ist, wird
-	      eine entsprechende Einblendung angezeigt, wenn Epgsearch
-	      eine &Auml;nderung an den Timerkonflikten festgestellt
-	      hat.
+	      With newer versions of the Epgsearch plugin (starting from
+	      epgsearch-0.9.24) there is a menu option for timers:
+	      <strong>&ldquo;timer conflicts&rdquo;</strong>. This
+	      option evaluates, which programmed timers could not be
+	      recorded, because there are no more free DVB devices
+	      available, or similar reasons. When the InfoBox is
+	      switched active, a message is displayed on the current
+	      page if Epgsearch detected a change of the timer
+	      conflicts.
 	    </li>
 	    <li>
-	      Im Men&uuml;punkt &bdquo;Suchtimer&rdquo; gibt es jetzt
-	      die M&ouml;glichkeit direkt ein <strong>manuelles
-	      Suchtimer-Update</strong> anzusto&szlig;en. So kann man
-	      direkt das Epgsearch-Plugin dazu zwingen,
-	      unverz&uuml;glich ein Update durchzuf&uuml;hren.
+	      On the &ldquo;search timers&rdquo; page it is now
+	      possible to start direct <strong>manual search timer
+	      updates</strong>. Use it and Epgsearch plugin will
+	      immediately update all search timers.
 	    </li>
 	    <li>
-	      Bei &bdquo;Neuen Suchtimer anlegen&rdquo; gibt es nun
-	      unter &bdquo;Als Suchtimer verwenden:&rdquo; die
-	      M&ouml;glichkeit eine <strong>Benutzer-definierte
-	      Suche</strong> durchzuf&uuml;hren. Hier bestimmt der
-	      Benutzer, ab welchem Datum und bis zu welchem Datum
-	      Epgsearch im Hintergrund seiner T&auml;tigkeit nachgehen
-	      soll. Somit kann man z.B. Suchtimer bauen, die z.B. nur
-	      einen Zeitraum der Herbstfolgen einer Serie durchsuchen.
+	      Within the &ldquo;edit search timers&rdquo; page the new
+	      option &ldquo;use as search timer&rdquo; provides a
+	      <strong>user-defined search</strong>. Here the user
+	      determines start and stop date for Epgsearch in the
+	      background. So you are able to build search timers,
+	      which scan for example only during the period of the
+	      autumn all transmissions of a series.
 	    </li>
 	    <li>
-	      Beim
-	      Men&uuml;punkt <strong>&bdquo;Aufnahmen&rdquo;</strong>
-	      gibt es jetzt
-	      den <strong>&bdquo;L&ouml;schen&rdquo;&ndash;Knopf</strong>
-	      neben dem Namen einer Aufnahme. Die Aufnahme wird via
-	      VDR als gel&ouml;scht markiert. D.h. die Aufnahme wird
-	      in &bdquo;.del&rdquo; umbenannt und beim n&auml;chsten
-	      Aufr&auml;umen des VDR entsorgt.
+	      In <strong>&ldquo;recordings&rdquo;</strong> now you
+	      will find a
+	      button <strong>&ldquo;delete&rdquo;</strong>.  The
+	      recording will be marked with VDRs methods as
+	      deleted. That means the recording will be renamed with
+	      the suffix &ldquo;.del&rdquo; and removed at the next
+	      time when VDR cleans up deleted recordings.
 	    </li>
 	    <li>
-	      Die &bdquo;Einstellungen&rdquo; sollte man nach einem
-	      Update von live 0.1.0 auf 0.2.0 direkt aufsuchen. Dort
-	      gibt es <strong>Einstellungen f&uuml;r die neuen
-	      Funktionen</strong>, die man &uuml;berpr&uuml;fen
-	      sollte.
+	      You should visit &ldquo;setup&rdquo; directly after
+	      updating live 0.1.0 to 0.2.0. There might
+	      be <strong>settings</strong> for the new functions,
+	      which you would like to <strong>examine</strong>.
 	    </li>
 	    <li>
-	      &Uuml;berarbeitet ist auch die M&ouml;glichkeit sich ein
-	      passendes <strong>&bdquo;Thema&rdquo;</strong>
-	      auszusuchen, sprich farblich unterschiedliche Designs
-	      auszuw&auml;hlen.
+	      Revised is the possibility to selected a suitable
+	      <strong>&ldquo;theme&rdquo;</strong>, a small set of
+	      different colored designs to select.
 	    </li>
 	    <li>
-	      Unterst&uuml;tzung f&uuml;r https Datentransfer zwischen
-	      LIVE und dem Browser
-	      via <strong>SSL-Unterst&uuml;tzung</strong> in tntnet.
+	      Support for https data transfer between LIVE and the
+	      browser due to <strong>SSL support</strong> in Tntnet.
 	    </li>
 	    <li>
-	      Weiterhin gibt es viele <strong>kleine
-	      Neuerungen</strong> wie z.B. die Anzeige der
-	      Aufnahmenl&auml;nge in Minuten, die zu entdecken sich
-	      lohnt :).
+	      Further there are many <strong>small
+	      innovations</strong> like the length of recordings in
+	      minutes ', but we are sure you will discover them by
+	      yourself.
 	    </li>
           </ul>

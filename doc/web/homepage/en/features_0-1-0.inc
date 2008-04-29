@@ -1,3 +1,3 @@
           <ul>
-            <li>Initiale Version :)</li>
+            <li>Initial version :)</li>
           </ul>

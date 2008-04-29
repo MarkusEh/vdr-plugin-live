@@ -75,7 +75,7 @@
 	  <?php include ("features_0-2-0.inc"); ?>
 	  <p>
 	    Alle bisherigen &Auml;nderungen an LIVE sind auf der Seite
-	    mit den <a href="news.php"><?php echo
+	    mit den <a href="news.php">archivierten <?php echo
 	    $menu->urls["news.php"];?></a> aufgelistet.
 	  </p>
 	</div>
