@@ -27,27 +27,29 @@
 	    <b>LIVE</b>
 	  </p>
           <p>
-            LIVE, das <strong><em>LIVE Interactive VDR Environment</em></strong>, ermöglicht
-            die komfortable Bedienung des VDR und mancher seiner Plugins
-            über ein Webinterface.</p>
+            LIVE, das <strong><em>LIVE Interactive VDR
+            Environment</em></strong>, erm&ouml;glicht die komfortable
+            Bedienung des VDR und mancher seiner Plugins &uuml;ber ein
+            Webinterface.</p>
 
           <p>Anders als externe Programme, die mit VDR und seinen
-            Plugins über die SVDRP-Schnittstelle kommunizieren, hat
-            LIVE einen direkten Zugriff auf die internen
+            Plugins &uuml;ber die SVDRP-Schnittstelle kommunizieren,
+            hat LIVE einen direkten Zugriff auf die internen
             Datenstrukturen und ist dadurch sehr schnell.</p>
 
-          <p>Zudem wurde eine Schnittstelle eingeführt, die eine
-            direkte Integration einer Bedienoberfläche für VDR Plugins in
-            LIVE ermöglicht.<br/>  Gegenwärtig wurde dies
-            für <a href="http://winni.vdr-developer.org/epgsearch/index.html">EPGSearch</a>
+          <p>Zudem wurde eine Schnittstelle eingef&uuml;hrt, die eine
+            direkte Integration einer Bedienoberfl&auml;che f&uuml;r
+            VDR Plugins in LIVE erm&ouml;glicht.<br/>
+            Gegenw&auml;rtig wurde dies
+            f&uuml;r <a href="http://winni.vdr-developer.org/epgsearch/index.html">EPGSearch</a>
             realisiert, welches einen erheblichen Teil des
-            Funktionsumfangs der Weboberfläche zur Verfügung
-            stellt. Langfristig ist das für andere Plugins, wie
-            zum Beispiel taste, burn, femon und viele andere geplant.<br/>
-            LIVE funktioniert aber auch ohne diese(s) Plugin(s). LIVE
-            erkennt das Fehlen eines Plugins und passt seine
-            Oberfläche entsprechend an. Daher kann es sein, dass
-            bestimmte Funktionen erst bei Aktivierung der Plugins
+            Funktionsumfangs der Weboberfl&auml;che zur Verf&uuml;gung
+            stellt. Langfristig ist das f&uuml;r andere Plugins, wie
+            zum Beispiel taste, burn, femon und viele andere
+            geplant.<br/>  LIVE funktioniert aber auch ohne diese(s)
+            Plugin(s). LIVE erkennt das Fehlen eines Plugins und passt
+            seine Oberfl&auml;che entsprechend an. Daher kann es sein,
+            dass bestimmte Funktionen erst bei Aktivierung der Plugins
             sicht- und verwendbar werden.
           </p>
           <p>
@@ -62,8 +64,8 @@
 	    LIVE wird unter
 	    der <a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GNU
 	    General Public License, Version 2</a> (GPLv2)
-	    ver&ouml;ffentlicht.  Nähere Informationen erhalten Sie
-	    durch verfolgen des Links und/oder in der
+	    ver&ouml;ffentlicht.  N&auml;here Informationen erhalten
+	    Sie durch verfolgen des Links und/oder in der
 	    Datei <tt>COPYING</tt> im Quellcode Verzeichnis von LIVE.
 	  </p>
 	</div>
@@ -115,7 +117,7 @@
           <p>
             <b>Web:</b>
             <ul>
-              <li><a href="http://www.vdr-developer.org/mantisbt/main_page.php">Bugtracker</a> - Bugs und Featurewünsche</li>
+              <li><a href="http://www.vdr-developer.org/mantisbt/main_page.php">Bugtracker</a> - Bugs und Featurew&uuml;nsche</li>
               <li><a href="http://www.cadsoft.de/vdr/">Video Disk Recorder - VDR</a></li>
               <li><a href="http://winni.vdr-developer.org/epgsearch/index.html">EPGSearch Plugin</a></li>
               <br />
