@@ -112,13 +112,13 @@ msgid "Couldn't grab image from primary device"
 msgstr "Kuvan kaappaus ensisijaiselta DVB-sovittimelta epäonnistui!"
 
 msgid "Timer conflict check detected "
-msgstr ""
+msgstr "Tarkistuksessa löydettiin "
 
 msgid "conflict"
-msgstr ""
+msgstr "päällekkäinen ajastin"
 
 msgid "conflicts"
-msgstr ""
+msgstr "päällekkäistä ajastinta"
 
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr "Kanavien käyttäminen epäonnistui! Yritä myöhemmin uudelleen."
@@ -433,13 +433,13 @@ msgid "Logout"
 msgstr "Kirjaudu ulos"
 
 msgid "Your attention is required"
-msgstr ""
+msgstr "Huomiotasi tarvitaan"
 
 msgid "React"
-msgstr ""
+msgstr "Reagoi"
 
 msgid "Dismiss"
-msgstr ""
+msgstr "Ohita"
 
 msgid "Find more at the Internet Movie Database."
 msgstr "Hae IMDB:stä"
@@ -543,9 +543,8 @@ msgstr "Etsi toistuvat"
 msgid "Authors"
 msgstr "Tekijät"
 
-#, fuzzy
 msgid "Project Idea"
-msgstr "Projektipäällikkö"
+msgstr "Projektin idea"
 
 msgid "Webserver"
 msgstr "HTTP-palvelin"
@@ -623,7 +622,7 @@ msgid "Show schedule of channel"
 msgstr "Näytä kanavan ohjelmisto"
 
 msgid "Stream into browser"
-msgstr "Suoratoista selaimeen"
+msgstr "Suoratoisto selaimeen"
 
 msgid "Search settings"
 msgstr "Hakuasetukset"
@@ -710,7 +709,7 @@ msgid "Theme"
 msgstr "Ulkoasu"
 
 msgid "Timer conflicts"
-msgstr "Päällekkäisiä ajastimia"
+msgstr "Päällekkäiset ajastimet"
 
 msgid "No timer conflicts"
 msgstr "Ei päällekkäisiä ajastimia"
@@ -798,15 +797,3 @@ msgstr "Interaktiivinen VDR-ympäristö"
 
 #~ msgid "channels"
 #~ msgstr "kanavat"
-
-#, fuzzy
-#~ msgid "Start"
-#~ msgstr "Aloitussivu"
-
-#, fuzzy
-#~ msgid "File"
-#~ msgstr "Otsikko"
-
-#, fuzzy
-#~ msgid "%A, %B %d %Y"
-#~ msgstr "%A, %d.%m.%Y"
