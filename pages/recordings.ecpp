@@ -3,6 +3,7 @@
 
 #include <vdr/plugin.h>
 #include <vdr/config.h>
+#include <vdr/videodir.h>
 
 #include "exception.h"
 #include "tools.h"
@@ -14,12 +15,15 @@
 
 #include "recman.h"
 
+#define MB_PER_MINUTE 25.75 // this is just an estimate!
+
 using namespace vdrlive;
 using namespace std;
 
 </%pre>
 <%args>
 	string todel;
+	string diskinfo;
 </%args>
 <%session scope="global">
 	bool logged_in(false);
@@ -41,6 +45,12 @@ if (!todel.empty()) {
 	else
 		deleteResult = string() + tr("Deleted recording:") + " " + StringReplace(task.RecName(), "~", "/");
 }
+int FreeMB, UsedMB;
+int Percent = VideoDiskSpace(&FreeMB, &UsedMB);
+int Minutes = int(double(FreeMB) / MB_PER_MINUTE);
+int Hours = Minutes / 60;
+Minutes %= 60;
+diskinfo = cString::sprintf("%s %d%%  -  %2d:%02d %s", trVDR("Disk"), Percent, Hours, Minutes, trVDR("free"));
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -64,7 +74,7 @@ if (! deleteResult.empty()) {
 }
 </%cpp>
 		<div class="inhalt">
-			<div class="boxheader"><div><div><$ tr("List of recordings") $></div></div></div>
+			<div class="boxheader"><div><div><$ string(tr("List of recordings")) + " (" + diskinfo + ")" $></div></div></div>
 <%cpp>
 			if (Recordings.Count() == 0) {
 </%cpp>
