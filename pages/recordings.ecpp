@@ -6,12 +6,12 @@
 #include <vdr/videodir.h>
 
 #include "exception.h"
-#include "tools.h"
 #include "epg_events.h"
 
 #include "setup.h"
 #include "tasks.h"
 #include "tools.h"
+#include "i18n.h"
 
 #include "recman.h"
 
