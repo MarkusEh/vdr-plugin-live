@@ -453,9 +453,6 @@ msgstr "Trouver plus d'information du film dans la base de données film IMDB."
 msgid "Stream this channel into browser."
 msgstr "Diffusez cette chaîne vers le navigateur."
 
-msgid "Edit this"
-msgstr "Changer cette programmation"
-
 msgid "Record this"
 msgstr "Enregistrer cette émission"
 
@@ -805,6 +802,9 @@ msgstr "Vue en liste"
 
 msgid "Live Interactive VDR Environment"
 msgstr ""
+
+#~ msgid "Edit this"
+#~ msgstr "Changer cette programmation"
 
 #, fuzzy
 #~ msgid "Start"

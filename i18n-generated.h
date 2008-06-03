@@ -5051,41 +5051,6 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "Edit this",
-    "Timer editieren",
-    "",
-    "Modifica timer",
-    "",
-    "",
-    "Changer cette programmation",
-    "",
-    "Muokkaa ajastinta",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
   { "Record this",
     "Diese Sendung aufnehmen",
     "",

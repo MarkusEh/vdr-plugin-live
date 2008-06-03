@@ -447,9 +447,6 @@ msgstr "Hae IMDB:stä"
 msgid "Stream this channel into browser."
 msgstr "Aloita suoratoisto"
 
-msgid "Edit this"
-msgstr "Muokkaa ajastinta"
-
 msgid "Record this"
 msgstr "Tallenna ohjelma"
 
@@ -794,6 +791,9 @@ msgstr "Listanäkymä"
 
 msgid "Live Interactive VDR Environment"
 msgstr "Interaktiivinen VDR-ympäristö"
+
+#~ msgid "Edit this"
+#~ msgstr "Muokkaa ajastinta"
 
 #~ msgid "channels"
 #~ msgstr "kanavat"

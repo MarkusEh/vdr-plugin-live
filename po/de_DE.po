@@ -449,9 +449,6 @@ msgstr "Weitere Informationen in der Internet Movie Database."
 msgid "Stream this channel into browser."
 msgstr "Sendung im Browser anzeigen."
 
-msgid "Edit this"
-msgstr "Timer editieren"
-
 msgid "Record this"
 msgstr "Diese Sendung aufnehmen"
 
@@ -796,6 +793,9 @@ msgstr "Listenansicht"
 
 msgid "Live Interactive VDR Environment"
 msgstr ""
+
+#~ msgid "Edit this"
+#~ msgstr "Timer editieren"
 
 #~ msgid "Timer conflicts detected! You should check the conflicting timers."
 #~ msgstr "Timer Konflikte entdeckt! Sie sollten die entsprechenden Timer prüfen."

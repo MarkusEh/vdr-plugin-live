@@ -449,9 +449,6 @@ msgstr ""
 msgid "Stream this channel into browser."
 msgstr ""
 
-msgid "Edit this"
-msgstr ""
-
 msgid "Record this"
 msgstr ""
 

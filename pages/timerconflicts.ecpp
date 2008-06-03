@@ -112,7 +112,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 								><$ timer->File() $></a></div></td>
 								<td class="action <? bottom ? "bottomrow" ?>"><a href="searchresults.html?searchplain=<$ StringEscapeAndBreak(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a></td>
 								<td class="action <? bottom ? "bottomrow" ?>"><a href="timers.html?timerid=<$ SortedTimers::EncodeDomId(timers.GetTimerId(*timer)) $>&action=toggle"><img src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &>></img></a></td>
-								<td class="action <? bottom ? "bottomrow" ?>"><a href="edit_timer.html?timerid=<$ SortedTimers::EncodeDomId(timers.GetTimerId(*timer)) $>"><img src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="" <& tooltip.hint text=(tr("Edit timer")) &>></img></a></td>
+								<td class="action <? bottom ? "bottomrow" ?>"><& pageelems.edit_timer timerId=(timers.GetTimerId(*timer)) &></td>
 								<td class="action rightcol <? bottom ? "bottomrow" ?>"><a href="timers.html?timerid=<$ SortedTimers::EncodeDomId(timers.GetTimerId(*timer)) $>&action=delete"><img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint text=(tr("Delete timer")) &>></img></a></td>
 							</tr>
 %						}

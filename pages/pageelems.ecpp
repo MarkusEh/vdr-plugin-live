@@ -124,14 +124,27 @@ int update_status(1);
 	const cTimer* timer = LiveTimerManager().GetTimer(eventid, channelid);
 	if (timer) {
 </%cpp>
-	<a href="edit_timer.html?timerid=<$ LiveTimerManager().GetTimers().GetTimerId(*timer) $>">
-		<img src="<$ LiveSetup().GetThemedLink("img", "record_timer.png") $>" alt="" <& tooltip.hint text=(tr("Edit this")) &> />
-<%cpp> } else { </%cpp>
-	<a href="edit_timer.html?epgid=<$ epgid $>">
-		<img src="<$ LiveSetup().GetThemedLink("img", "record.png") $>" alt="" <& tooltip.hint text=(tr("Record this")) &> />
-<%cpp> } </%cpp>
-	</a>
+		<& pageelems.edit_timer timerId=(LiveTimerManager().GetTimers().GetTimerId(*timer)) imgName=("record_timer.png") &>
+<%cpp>
+	}
+	else {
+</%cpp>
+		<a href="edit_timer.html?epgid=<$ epgid $>"><img src="<$ LiveSetup().GetThemedLink("img", "record.png") $>" alt="" <& tooltip.hint text=(tr("Record this")) &> /></a>
+<%cpp>
+	}
+</%cpp>
 </%def>
+
+<# ---------------------------------------------------------------------- #>
+
+<%def edit_timer>
+<%args>
+	string timerId;
+	string imgName = "edit.png";
+</%args>
+	<a href="edit_timer.html?timerid=<$ SortedTimers::EncodeDomId(timerId) $>"><img src="<$ LiveSetup().GetThemedLink("img", imgName) $>" alt="" <& tooltip.hint text=(tr("Edit timer")) &> /></a>
+</%def>
+
 
 <# ---------------------------------------------------------------------- #>
 
