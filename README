@@ -2,6 +2,7 @@ This is a "plugin" for the Video Disk Recorder (VDR).
 
 Written by:                  Thomas Keil <tkeil@datacrystal.de>
                              Sascha Volkenandt <sascha@akv-soft.de>
+Currently maintained by:
                              Dieter Hametner <dh+vdr@gekrumbel.de>
                              Christian Wieninger <cwieninger@gmx.de>
 
@@ -29,7 +30,7 @@ Future versions of LIVE will start to use the new Tntnet
 features. This means that backwards compatibility can not be
 maintained from that point in time onwards.
 
-We therefor strongly suggest you upgrade to Tntnet with at least
+We therefore strongly suggest you upgrade to Tntnet with at least
 version 1.6.0.6. This new Tntnet version is supported by the current
 version of LIVE. Just update Tntnet and recompile LIVE from scratch.
 

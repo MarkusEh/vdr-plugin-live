@@ -132,6 +132,12 @@
               <li>Channel: #live</li>
             </ul>
           </p>
+          <p>
+            <b>Sonstiges</b>
+            <ul>
+              <li>Zus&auml;tzliche Kontaktinfos finden Sie am Anfang der README Datei im LIVE Quellcode.</li>
+            </ul>
+          </p>
 	</div>
       </div>
 

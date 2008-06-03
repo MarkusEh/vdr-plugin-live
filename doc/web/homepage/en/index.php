@@ -130,6 +130,12 @@
               <li>Channel: #live</li>
             </ul>
           </p>
+          <p>
+            <b>Other:</b>
+            <ul>
+              <li>Traditional contact information can be found at the top of the README file in the LIVE source distribution.</li>
+            </ul>
+          </p>
 	</div>
       </div>
 
