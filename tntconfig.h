@@ -2,26 +2,41 @@
 #define VDR_LIVE_TNTCONFIG_H
 
 #include <string>
+#include <tnt/tntnet.h>
 
 namespace vdrlive {
 
-class TntConfig
-{
-public:
-	static TntConfig const& Get();
+#if TNTVERSION >= 1606
+	class TntConfig
+	{
+		public:
+			static TntConfig const& Get();
 
-	std::string const& GetConfigPath() const { return m_configPath; }
+			void Configure(tnt::Tntnet& app) const;
 
-private:
-	std::string m_propertiesPath;
-	std::string m_configPath;
+		private:
+			TntConfig();
+			TntConfig( TntConfig const& );
+	};
+#else
+	class TntConfig
+	{
+		public:
+			static TntConfig const& Get();
 
-	TntConfig();
-	TntConfig( TntConfig const& );
+			std::string const& GetConfigPath() const { return m_configPath; }
 
-	void WriteProperties();
-	void WriteConfig();
-};
+		private:
+			std::string m_propertiesPath;
+			std::string m_configPath;
+
+			TntConfig();
+			TntConfig( TntConfig const& );
+
+			void WriteProperties();
+			void WriteConfig();
+	};
+#endif
 
 } // namespace vdrlive
 

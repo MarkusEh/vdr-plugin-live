@@ -5,7 +5,7 @@
 <%cpp>
 	spoint.commit();
 } catch ( vdrlive::HtmlError const& ex ) {
-#ifdef TNTVERS7
+#if TNTVERSION >= 1606
 	tnt::QueryParams param = qparam;
 #else
 	cxxtools::QueryParams param = qparam;

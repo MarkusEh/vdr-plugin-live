@@ -43,7 +43,8 @@ TMPDIR	 ?= /tmp
 
 APIVERSION = $(shell sed -ne '/define APIVERSION/s/^.*"\(.*\)".*$$/\1/p' $(VDRDIR)/config.h)
 I18NTARG   = $(shell if [ `echo $(APIVERSION) | tr [.] [0]` -ge "10507" ]; then echo "i18n"; fi)
-TNTVERS7   = $(shell ver=`tntnet-config --version | sed -e's/\.//g' | awk '/^..$$/ { print $$1."00"} /^...$$/ { print $$1."0"} /^....$$/ { print $$1 }'`; if [ $$ver -ge "1606" ]; then echo "yes"; fi)
+TNTVERSION = $(shell tntnet-config --version | sed -e's/\.//g' | awk '/^..$$/ { print $$1."00"} /^...$$/ { print $$1."0"} /^....$$/ { print $$1 }')
+TNTVERS7   = $(shell ver=$(TNTVERSION); if [ $$ver -ge "1606" ]; then echo "yes"; fi)
 
 ### The name of the distribution archive:
 
@@ -58,10 +59,7 @@ ifneq ($(TNTVERS7),yes)
 	LIBS	 += httpd/libhttpd.a
 endif
 
-DEFINES	 += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"'
-ifeq ($(TNTVERS7),yes)
-	DEFINES += -DTNTVERS7
-endif
+DEFINES	 += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"' -DTNTVERSION=$(TNTVERSION)
 export DEFINES
 
 SUBDIRS	  = pages css javascript

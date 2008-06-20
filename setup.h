@@ -14,6 +14,9 @@
 
 namespace vdrlive {
 
+// SSL-Support works from tntnet version 1.6.1 onwards.
+#define TNTSSLSUPPORT	TNTVERSION >= 1610
+
 // forward declaration, see below
 class cMenuSetupLive;
 
@@ -28,7 +31,7 @@ class Setup
 
 		// commandline
 		int GetServerPort() const { return m_serverPort; }
-#ifdef TNTVERS7
+#if TNTSSLSUPPORT
 		int GetServerSslPort() const { return m_serverSslPort; }
 		std::string GetServerSslCert() const { return m_serverSslCert; }
 #endif
@@ -98,7 +101,7 @@ class Setup
 		mutable std::string m_helpString;
 		// commandline options
 		int m_serverPort;
-#ifdef TNTVERS7
+#if TNTSSLSUPPORT
 		int m_serverSslPort;
 		std::string m_serverSslCert;
 		static std::string m_configDirectory;
@@ -130,7 +133,7 @@ class Setup
 
 		bool CheckServerPort();
 		bool CheckServerIps();
-#ifdef TNTVERS7
+#if TNTSSLSUPPORT
 		bool CheckServerSslPort();
 #endif
 };

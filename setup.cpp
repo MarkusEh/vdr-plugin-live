@@ -23,7 +23,7 @@ using namespace std;
 
 Setup::Setup():
 		m_serverPort( 8008 ),
-#ifdef TNTVERS7
+#if TNTSSLSUPPORT
 		m_serverSslPort( 8443 ),
 		m_serverSslCert(),
 #endif
@@ -53,7 +53,7 @@ bool Setup::ParseCommandLine( int argc, char* argv[] )
 			{ "ip",   required_argument, NULL, 'i' },
 			{ "log",  required_argument, NULL, 'l' },
 			{ "epgimages",  required_argument, NULL, 'e' },
-#ifdef TNTVERS7
+#if TNTSSLSUPPORT
 			{ "sslport", required_argument, NULL, 's' },
 			{ "cert", required_argument, NULL, 'c' },
 #endif
@@ -67,7 +67,7 @@ bool Setup::ParseCommandLine( int argc, char* argv[] )
 		case 'i': m_serverIps.push_back( optarg ); break;
 		case 'l': m_tntnetloglevel = optarg; break;
 		case 'e': m_epgimagedir = optarg; break;
-#ifdef TNTVERS7
+#if TNTSSLSUPPORT
 		case 's': m_serverSslPort = atoi( optarg ); break;
 		case 'c': m_serverSslCert = optarg; break;
 #endif
@@ -76,7 +76,7 @@ bool Setup::ParseCommandLine( int argc, char* argv[] )
 	}
 
 	return CheckServerPort() &&
-#ifdef TNTVERS7
+#if TNTSSLSUPPORT
 		   CheckServerSslPort() &&
 #endif
 		   CheckServerIps();
@@ -91,7 +91,7 @@ char const* Setup::CommandLineHelp() const
 				<< "  -i IP,    --ip=IP            bind server only to specified IP, may appear\n"
 				   "                               multiple times\n"
 				   "                               (default: 0.0.0.0)\n"
-#ifdef TNTVERS7
+#if TNTSSLSUPPORT
 				<< "  -s PORT,  --sslport=PORT     use PORT to listen for incoming ssl connections\n"
 				   "                               (default: " << m_serverSslPort << ")\n"
 				<< "  -c CERT,  --cert=CERT        full path to a custom ssl certificate file\n"
@@ -137,7 +137,7 @@ bool Setup::CheckServerPort()
 	return true;
 }
 
-#ifdef TNTVERS7
+#if TNTSSLSUPPORT
 bool Setup::CheckServerSslPort()
 {
 	if ( m_serverSslPort <= 0 || m_serverSslPort > numeric_limits< uint16_t >::max() ) {
