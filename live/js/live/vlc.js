@@ -54,7 +54,8 @@ var VLC = new Class({
 			  id: "Close",
 			  classes: { on: "yellow", off: "yellow" }},
 		  ],
-		  offset: 5
+		  offset: 5,
+		  playRecording: false
 	  },
 
 	  initialize: function(id, options){
@@ -65,6 +66,11 @@ var VLC = new Class({
 
 	  playerSetup: function(){
 			this.vlc = $(this.id);
+			this.newVlcApi = (this.vlc.VersionInfo != null);
+			if (this.newVlcApi) {
+				// disable logging.
+				this.vlc.log.verbosity = -1;
+			}
 			// add here new actions these class might support:
 			var actions = {
 			  play: { check: this.isPlaying, toggle: this.togglePlay },
@@ -104,32 +110,53 @@ var VLC = new Class({
 		},
 
 	  isPlaying: function(){
-			// return this.vlc.playlist && this.vlc.playlist.isPlaying;
-			return this.vlc.isplaying();
+			if (this.newVlcApi)
+				return this.vlc.playlist && this.vlc.playlist.isPlaying;
+			else
+				return this.vlc.isplaying();
 		},
 
 	  isMuted: function(){
-			// return this.vlc.audio && this.vlc.audio.mute;
-			var res = this.vlc.get_volume();
-			return 0 == res;
+			if (this.newVlcApi)
+				return this.vlc.audio && this.vlc.audio.mute;
+			else {
+				var res = this.vlc.get_volume();
+				return 0 == res;
+			}
 		},
 
 	  togglePlay: function(){
-			// this.vlc.playlist.togglePause();
-			if (this.isPlaying())
-				this.vlc.stop();
-			else
-				this.vlc.play();
+			if (this.newVlcApi)
+				if (!this.options.playRecording)
+					this.vlc.playlist.togglePause();
+				else {
+					if (this.vlc.playlist.isPlaying)
+						this.vlc.playlist.stop();
+					else
+						this.vlc.playlist.play();
+				}
+			else {
+				if (this.isPlaying())
+					this.vlc.stop();
+				else
+					this.vlc.play();
+			}
 			this.setStates();
 		},
 
 	  toggleMute: function(){
-			this.vlc.mute();
+			if (this.newVlcApi)
+				this.vlc.audio.toggleMute();
+			else
+				this.vlc.mute();
 			this.setStates();
 		},
 
 	  toggleScreen: function(){
-			this.vlc.fullscreen();
+			if (this.newVlcApi)
+				this.vlc.video.toggleFullscreen();
+			else
+				this.vlc.fullscreen();
 			this.setStates();
 		},
 

@@ -113,6 +113,17 @@ int update_status(1);
 
 <# ---------------------------------------------------------------------- #>
 
+<%def vlc_stream_recording>
+<%args>
+	string recid;
+	string linkText;
+</%args>
+<%cpp> { </%cpp><a href="vlc.html?recid=<$ recid $>"><img src="<$ LiveSetup().GetThemedLink("img", "stream_button.png") $>" alt="" <& tooltip.hint text=(tr("Stream this recording into browser.")) &>></img> <$ linkText $></a><%cpp> } </%cpp>
+</%def>
+
+
+<# ---------------------------------------------------------------------- #>
+
 <%def event_timer>
 <%args>
 	string epgid;

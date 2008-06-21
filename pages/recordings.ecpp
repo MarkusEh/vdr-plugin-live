@@ -171,6 +171,7 @@ for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 	string title;
 </%args>
 <& pageelems.ajax_action_href action="play_recording" param=(id) tip=(tr("play this recording.")) image="play.png" alt="" &>
+<& pageelems.vlc_stream_recording recid=(id) &>
 <& pageelems.imdb_info_href title=(title) &>
 <& recordings.del_rec id=(id) &>
 </%def>

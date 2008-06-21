@@ -453,6 +453,9 @@ msgstr ""
 msgid "Stream this channel into browser."
 msgstr ""
 
+msgid "Stream this recording into browser."
+msgstr ""
+
 msgid "Record this"
 msgstr ""
 
@@ -741,6 +744,9 @@ msgid "Timer is recording."
 msgstr "Serie's opnemen"
 
 msgid "VLC: live video stream"
+msgstr ""
+
+msgid "VLC: play recording"
 msgstr ""
 
 msgid "Stop"

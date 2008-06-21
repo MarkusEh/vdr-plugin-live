@@ -16,7 +16,8 @@ OBJS	= menu.o recordings.o schedule.o screenshot.o timers.o		\
           vlc.o searchtimers.o edit_searchtimer.o searchresults.o	\
           searchepg.o login.o ibox.o xmlresponse.o play_recording.o	\
           pause_recording.o stop_recording.o ffw_recording.o		\
-          rwd_recording.o setup.o content.o epginfo.o timerconflicts.o
+          rwd_recording.o setup.o content.o epginfo.o timerconflicts.o  \
+	  recstream.o
 
 ### Default rules:
 

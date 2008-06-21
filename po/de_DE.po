@@ -449,6 +449,9 @@ msgstr "Weitere Informationen in der Internet Movie Database."
 msgid "Stream this channel into browser."
 msgstr "Sendung im Browser anzeigen."
 
+msgid "Stream this recording into browser."
+msgstr "Aufnahme im Browser anzeigen."
+
 msgid "Record this"
 msgstr "Diese Sendung aufnehmen"
 
@@ -733,6 +736,9 @@ msgstr "Timer zeichnet auf."
 
 msgid "VLC: live video stream"
 msgstr "VLC: Video Stream"
+
+msgid "VLC: play recording"
+msgstr "VLC: Aufnahme abspielen"
 
 msgid "Stop"
 msgstr "Stopp"

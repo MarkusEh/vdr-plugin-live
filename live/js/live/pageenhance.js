@@ -12,7 +12,7 @@ var PageEnhance = new Class({
 	  options: {
 		  epgLinkSelector: 'a[href^="epginfo.html?epgid"]',
 		  actionLinkSelector: 'a[href^="vdr_request/"]',
-		  vlcLinkSelector: 'a[href^="vlc.html?channel"]',
+		  vlcLinkSelector: 'a[href^="vlc.html?"]',
 		  vlcWinOptions: {
 			  size: { width: 720, height: 640 }
 			},

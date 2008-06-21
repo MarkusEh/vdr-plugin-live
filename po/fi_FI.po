@@ -447,6 +447,10 @@ msgstr "Hae IMDB:stä"
 msgid "Stream this channel into browser."
 msgstr "Aloita suoratoisto"
 
+#, fuzzy
+msgid "Stream this recording into browser."
+msgstr "Aloita suoratoisto"
+
 msgid "Record this"
 msgstr "Tallenna ohjelma"
 
@@ -731,6 +735,10 @@ msgstr "Ajastinta tallennetaan"
 
 msgid "VLC: live video stream"
 msgstr "VLC: live-lähetyksen suoratoisto"
+
+#, fuzzy
+msgid "VLC: play recording"
+msgstr "Toistetaan tallennetta"
 
 msgid "Stop"
 msgstr "Pysäytä"

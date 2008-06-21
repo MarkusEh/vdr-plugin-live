@@ -5051,6 +5051,41 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
+  { "Stream this recording into browser.",
+    "Aufnahme im Browser anzeigen.",
+    "",
+    "Trasmetti questo canale nel browser.",
+    "",
+    "",
+    "Diffusez cette chaîne vers le navigateur.",
+    "",
+    "Aloita suoratoisto",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
   { "Record this",
     "Diese Sendung aufnehmen",
     "",
@@ -8350,6 +8385,41 @@ const tI18nPhrase Phrases[] = {
     "VLC: live vidéo stream",
     "",
     "VLC: live-lähetyksen suoratoisto",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "VLC: play recording",
+    "Wiedergabe",
+    "",
+    "riproduzione registrazione",
+    "",
+    "",
+    "Lire l'enregistrement",
+    "",
+    "Toistetaan tallennetta",
     "",
     "",
     "",

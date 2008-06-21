@@ -452,6 +452,10 @@ msgstr "Cerca ulteriori informazioni nel database internet (IMDB)"
 msgid "Stream this channel into browser."
 msgstr "Trasmetti questo canale nel browser."
 
+#, fuzzy
+msgid "Stream this recording into browser."
+msgstr "Trasmetti questo canale nel browser."
+
 msgid "Record this"
 msgstr "Registra questa trasmissione"
 
@@ -743,6 +747,10 @@ msgstr "Timer in registrazione."
 
 msgid "VLC: live video stream"
 msgstr "VLC: trasmissione video Live"
+
+#, fuzzy
+msgid "VLC: play recording"
+msgstr "riproduzione registrazione"
 
 msgid "Stop"
 msgstr "Ferma"

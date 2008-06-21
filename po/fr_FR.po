@@ -453,6 +453,10 @@ msgstr "Trouver plus d'information du film dans la base de données film IMDB."
 msgid "Stream this channel into browser."
 msgstr "Diffusez cette chaîne vers le navigateur."
 
+#, fuzzy
+msgid "Stream this recording into browser."
+msgstr "Diffusez cette chaîne vers le navigateur."
+
 msgid "Record this"
 msgstr "Enregistrer cette émission"
 
@@ -742,6 +746,10 @@ msgstr "Enregistrement de série"
 
 msgid "VLC: live video stream"
 msgstr "VLC: live vidéo stream"
+
+#, fuzzy
+msgid "VLC: play recording"
+msgstr "Lire l'enregistrement"
 
 msgid "Stop"
 msgstr "Stop"
