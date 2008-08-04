@@ -19,3 +19,6 @@ Matthias Kortstiege
  for a patch that activates the SSL support in tntnet. LIVE can then be
  used over https too. This works only with tntnet versions above 1.6.0.6.
  Recomended is tntnet version 1.6.2 and higher.
+
+Diego Pierotto
+ for the italian translations.
