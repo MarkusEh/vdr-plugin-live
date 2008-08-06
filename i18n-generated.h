@@ -9114,7 +9114,7 @@ const tI18nPhrase Phrases[] = {
   { "Live Interactive VDR Environment",
     "",
     "",
-    "Live Interactive VDR Environment",
+    "Ambiente interattivo LIVE per VDR",
     "",
     "",
     "",
