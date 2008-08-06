@@ -33,7 +33,7 @@ Setup::Setup():
 		m_adminLogin("admin"),
 		m_theme("marine"),
 		m_lastwhatsonlistmode("detail"),
-		m_tntnetloglevel("INFO"),
+		m_tntnetloglevel("WARN"),
 		m_showLogo(1),
 		m_useAjax(1),
 		m_showInfoBox(1),
