@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-08-04 01:19+0100\n"
+"PO-Revision-Date: 2008-08-06 02:50+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: see developers in README\n"
 "MIME-Version: 1.0\n"
@@ -129,8 +129,9 @@ msgstr "Impossibile avere accesso ai canali, riprova più tardi."
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
 msgstr "Impossibile trovare timer ricerca. Hai digitato correttamente la richiesta?"
 
+#. TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
 msgid "mm/dd/yyyy"
-msgstr "mm/gg/aaaa"
+msgstr "mm/dd/yyyy"
 
 msgid "Edit search timer"
 msgstr "Modifica timer ricerca"
@@ -196,7 +197,7 @@ msgid "Use channel"
 msgstr "Utilizza canale"
 
 msgid "interval"
-msgstr "intervallo"
+msgstr "Intervallo"
 
 msgid "channel group"
 msgstr "gruppo canali"
@@ -229,7 +230,7 @@ msgid "Use duration"
 msgstr "Utilizza durata"
 
 msgid "Min. duration"
-msgstr "Durata minima"
+msgstr "Durata Minima"
 
 msgid "Max. duration"
 msgstr "Durata Massima"
@@ -262,7 +263,7 @@ msgid "Use blacklists"
 msgstr "Utilizza lista esclusioni"
 
 msgid "Selection"
-msgstr "Selezione"
+msgstr "selezione"
 
 msgid "all"
 msgstr "tutti"
@@ -421,7 +422,7 @@ msgid "What's on?"
 msgstr "In programmazione"
 
 msgid "Search"
-msgstr "Cerca"
+msgstr "Ricerca"
 
 msgid "Searchtimers"
 msgstr "Timer ricerca"
@@ -448,11 +449,11 @@ msgid "Find more at the Internet Movie Database."
 msgstr "Cerca ulteriori informazioni nel database internet (IMDB)"
 
 msgid "Stream this channel into browser."
-msgstr "Trasmetti questo canale nel browser."
+msgstr "Trasmetti questo canale nel browser"
 
 #, fuzzy
 msgid "Stream this recording into browser."
-msgstr "Trasmetti questo canale nel browser."
+msgstr "Trasmetti questo canale nel browser"
 
 msgid "Record this"
 msgstr "Registra questa trasmissione"
@@ -509,7 +510,7 @@ msgid "retrieving status ..."
 msgstr "Rilevamento stato ..."
 
 msgid "Toggle updates on/off."
-msgstr "Attiva/disattiva aggiornamenti."
+msgstr "Attiva/disattiva aggiornamenti"
 
 msgid "stop playback"
 msgstr "Ferma"
@@ -539,10 +540,10 @@ msgid "Failed to update infobox!"
 msgstr "Aggiornamento tabella info fallita!"
 
 msgid "Switch to this channel."
-msgstr "Sintonizza questo canale."
+msgstr "Sintonizza questo canale"
 
 msgid "Search for repeats."
-msgstr "Cerca repliche."
+msgstr "Cerca repliche"
 
 msgid "Authors"
 msgstr "Autori"
@@ -602,13 +603,13 @@ msgid "No recordings found"
 msgstr "Nessuna registrazione trovata"
 
 msgid "Click to view details."
-msgstr "Clicca per vedere i dettagli."
+msgstr "Clicca per vedere i dettagli"
 
 msgid "Delete this recording from hard disc!"
 msgstr "Elimina questa registrazione dal disco fisso!"
 
 msgid "play this recording."
-msgstr "Riproduci questa registrazione."
+msgstr "Riproduci questa registrazione"
 
 msgid "Interval"
 msgstr "intervallo"
@@ -677,7 +678,7 @@ msgid "Setup"
 msgstr "Opzioni"
 
 msgid "Local net (no login required)"
-msgstr "Rete locale (nessun login richiesto)"
+msgstr "Rete locale (nessun accesso richiesto)"
 
 msgid "Show live logo image"
 msgstr "Mostra logo immagine Live"
@@ -698,13 +699,13 @@ msgid "Streamdev stream type"
 msgstr "Tipo trasmissione Streamdev"
 
 msgid "Add links to IMDb"
-msgstr "Aggiungi collegamenti a IMDb"
+msgstr "Aggiungi collegamenti a IMDB"
 
 msgid "additional fixed times in 'What's on?'"
 msgstr "Ore aggiuntive fisse menu \"In programmazione\""
 
 msgid "Format is HH:MM. Separate multiple times with a semicolon"
-msgstr "Il formato è HH:MM. separa ore multiple con punto e virgola"
+msgstr "Il formato è HH:MM. Separa le ore multiple con un punto e virgola"
 
 msgid "Start page"
 msgstr "Pagina iniziale"
@@ -750,10 +751,10 @@ msgid "Play"
 msgstr "Riproduci"
 
 msgid "Sound on"
-msgstr "Suono ON"
+msgstr "Volume"
 
 msgid "Sound off"
-msgstr "Suono OFF"
+msgstr "Muto"
 
 msgid "Fullscreen"
 msgstr "Ingrandisci"

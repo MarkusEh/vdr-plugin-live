@@ -128,6 +128,7 @@ msgstr "Zugriff auf die Kanäle wurde verweigert. Bitte später versuchen."
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
 msgstr "Keinen Suchtimer gefunden. Möglicherweise ein Tippfehler in der Anfrage?"
 
+#. TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
 msgid "mm/dd/yyyy"
 msgstr "dd.mm.yyyy"
 

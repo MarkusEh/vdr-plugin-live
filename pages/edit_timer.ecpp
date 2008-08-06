@@ -84,6 +84,7 @@ cTimer* timer;
 			message = tr("Please set a title for the timer!");
 		else
 		{
+			// TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
 			time_t tdate = GetDateFromDatePicker(date, tr("mm/dd/yyyy"));
 			string sdate = DatePickerToC(tdate, "yyyy-mm-dd");
 			LiveTimerManager().UpdateTimer( timer, flags, channel, weekdays, sdate, start, stop, priority, lifetime, title, aux );
@@ -117,6 +118,7 @@ cTimer* timer;
 		active = timer->Flags() & tfActive;
 		channel = timer->Channel()->GetChannelID();
 		title = timer->File() ? timer->File() : "";
+		// TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's	 
 		date = timer->Day() ? DatePickerToC(timer->Day(), tr("mm/dd/yyyy")) : "";
 		wday_mon = timer->WeekDays() & 0x01;
 		wday_tue = timer->WeekDays() & 0x02;

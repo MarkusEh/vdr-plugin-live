@@ -126,6 +126,7 @@ msgstr ""
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
 msgstr ""
 
+#. TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
 msgid "mm/dd/yyyy"
 msgstr ""
 

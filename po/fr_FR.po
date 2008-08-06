@@ -132,6 +132,7 @@ msgstr "Impossible d'avoir accès à des chaînes, réessayer ultérieurement."
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
 msgstr "Impossible de trouver la programmation de recherche. Peut-être que votre demande de fautes de frappe?"
 
+#. TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
 msgid "mm/dd/yyyy"
 msgstr "mm/dd/yyyy"
 

@@ -174,7 +174,9 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		searchtimer.SetUseAsSearchTimer(useassearchtimer);
 		if (useassearchtimer == 2)
 		{
+			// TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
 			searchtimer.SetUseAsSearchTimerFrom(useassearchtimerfrom, tr("mm/dd/yyyy"));
+			// TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
 			searchtimer.SetUseAsSearchTimerTil(useassearchtimerto, tr("mm/dd/yyyy"));
 		}
 		searchtimer.SetSearchTimerAction(searchtimeraction);
