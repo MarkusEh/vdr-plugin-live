@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-08-06 19:13+0100\n"
+"PO-Revision-Date: 2008-08-10 01:32+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: see developers in README\n"
 "MIME-Version: 1.0\n"
@@ -115,7 +115,7 @@ msgid "Couldn't grab image from primary device"
 msgstr "Impossibile ottenere immagine da scheda primaria"
 
 msgid "Timer conflict check detected "
-msgstr "Verifica conflitti timer rilevata"
+msgstr "La verifica conflitti timer ha rilevato "
 
 msgid "conflict"
 msgstr "conflitto"
@@ -197,7 +197,7 @@ msgid "Use channel"
 msgstr "Utilizza canale"
 
 msgid "interval"
-msgstr "Intervallo"
+msgstr "intervallo"
 
 msgid "channel group"
 msgstr "gruppo canali"
@@ -437,13 +437,13 @@ msgid "Logout"
 msgstr "Esci"
 
 msgid "Your attention is required"
-msgstr "E' richiesta la tua attenzione"
+msgstr "ATTENZIONE"
 
 msgid "React"
-msgstr "Reagisci"
+msgstr "Risolvi"
 
 msgid "Dismiss"
-msgstr "Scarta"
+msgstr "Ignora"
 
 msgid "Find more at the Internet Movie Database."
 msgstr "Cerca ulteriori informazioni nel database internet (IMDB)"
@@ -525,7 +525,7 @@ msgid "fast rewind"
 msgstr "Riavvolgi"
 
 msgid "fast forward"
-msgstr "Avanzamento"
+msgstr "Avanza"
 
 msgid "previous channel"
 msgstr "Canale precedente"
@@ -603,7 +603,7 @@ msgid "No recordings found"
 msgstr "Nessuna registrazione trovata"
 
 msgid "Click to view details."
-msgstr "Clicca per vedere i dettagli"
+msgstr "Fai click per vedere i dettagli"
 
 msgid "Delete this recording from hard disc!"
 msgstr "Elimina questa registrazione dal disco fisso!"
@@ -612,7 +612,7 @@ msgid "play this recording."
 msgstr "Riproduci questa registrazione"
 
 msgid "Interval"
-msgstr "intervallo"
+msgstr "Intervallo"
 
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "Impossibile trovare canale o canali disponibili. Hai digitato correttamente la richiesta?"
@@ -763,7 +763,7 @@ msgid "Close"
 msgstr "Chiudi"
 
 msgid "VLC media URL"
-msgstr "URL media di VLC"
+msgstr "Collegamento multimediale di VLC"
 
 msgid "What's running at"
 msgstr "In programmazione alle"
