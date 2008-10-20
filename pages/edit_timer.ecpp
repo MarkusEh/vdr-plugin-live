@@ -11,6 +11,8 @@
 #include "epg_events.h"
 #include "timerconflict.h"
 #include "i18n.h"
+#include "livefeatures.h"
+#include "epgsearch.h"
 
 using namespace std;
 using namespace vdrlive;
@@ -41,6 +43,7 @@ using namespace vdrlive;
 	int priority = 0;
 	int lifetime = 0;
 	string aux = "";
+        string directory = "";
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -79,6 +82,9 @@ cTimer* timer;
 							  + ( wday_sun ? "S" : "-" );
 		int start = start_h * 100 + start_m;
 		int stop = end_h * 100 + end_m;
+
+		if (!directory.empty())
+		   title = directory + "~" + title;
 
 		if (title.empty())
 			message = tr("Please set a title for the timer!");
@@ -123,6 +129,14 @@ cTimer* timer;
 		active = timer->Flags() & tfActive;
 		channel = timer->Channel()->GetChannelID();
 		title = timer->File() ? timer->File() : "";
+		if ( LiveFeatures< features::epgsearch >().Recent() ) {
+		   vector< string > directories = StringSplit( title, '~' );
+		   if (directories.size() > 0)
+		   {
+		      directory = directories[0];
+		      title = title.substr(directory.size()+1);
+		   }
+		}
 		// TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's	 
 		date = timer->Day() ? DatePickerToC(timer->Day(), tr("mm/dd/yyyy")) : "";
 		wday_mon = timer->WeekDays() & 0x01;
@@ -196,6 +210,27 @@ cTimer* timer;
 						<td class="label leftcol"><div class="withmargin"><$ tr("Title" ) $>:</div></td>
 						<td class="rightcol"><input type="text" name="title" value="<$ title $>" size="80" /></td>
 					</tr>
+<%cpp>
+					if ( LiveFeatures< features::epgsearch >().Recent() ) {
+					        RecordingDirs recordingdirs;
+</%cpp>
+					<tr>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Directory" ) $>:</div></td>
+						<td class="rightcol"><select onchange="changeddirselection(this)" name="directory" size="1" id="directory" style="margin-top: 5px">
+						     <option/>
+%					             for (RecordingDirs::iterator rdir = recordingdirs.begin(); rdir != recordingdirs.end(); ++rdir) {
+		    					<option value="<$ *rdir $>" 
+%							if (*rdir == directory) {
+							selected="selected"
+%							}
+							><$ *rdir $></option>
+%						}
+						   </select>
+						</td>
+					</tr>
+<%cpp>
+					}
+</%cpp>
 
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ trVDR("Day") $>:</div></td>
