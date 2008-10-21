@@ -1,3 +1,9 @@
+2008-10-21  Christian Wieninger  <cwieninger at gmx dot de>
+	* edit_timer.ecpp: new menu entry to select a recording directory.
+	  requires epgsearch plugin.
+	* epgsearch.h/cpp: read the directory list via epgsearch's
+	  service interface version 1.2
+	
 2008-08-04  Christian Wieninger  <cwieninger at gmx dot de>
 	
 	* italian translation update, thanks to Diego Pierotto

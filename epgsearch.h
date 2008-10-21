@@ -393,7 +393,7 @@ public:
 	typedef recordingdirs::iterator iterator;
 	typedef recordingdirs::const_iterator const_iterator;
 	
-	RecordingDirs();
+	RecordingDirs(bool shortList=false);
 
 	iterator begin() { return m_set.begin(); }
 	const_iterator begin() const { return m_set.begin(); }
@@ -409,6 +409,12 @@ class EPGSearchSetupValues
 public:
 	static std::string ReadValue(const std::string& entry);	
 	static bool WriteValue(const std::string& entry, const std::string& value);	
+};
+
+class EPGSearchExpr
+{
+public:
+  static std::string EvaluateExpr(const std::string& expr, const cEvent* event);
 };
 
 }

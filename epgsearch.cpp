@@ -614,13 +614,24 @@ std::string SearchResults::PopQuery(std::string const& md5)
 	return query;
 }
 
-RecordingDirs::RecordingDirs()
+RecordingDirs::RecordingDirs(bool shortList)
 {
-	Epgsearch_services_v1_0 service;
-	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
-		throw HtmlError( tr("EPGSearch version outdated! Please update.") );
-
-	m_set = service.handler->DirectoryList();
+  if (shortList)
+    {
+      Epgsearch_services_v1_2 service;
+      if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
+	throw HtmlError( tr("EPGSearch version outdated! Please update.") );
+      
+      m_set = service.handler->ShortDirectoryList();
+    }
+  else
+    {	
+      Epgsearch_services_v1_0 service;
+      if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
+	throw HtmlError( tr("EPGSearch version outdated! Please update.") );
+      
+      m_set = service.handler->DirectoryList();
+    }
 }
 
 std::string EPGSearchSetupValues::ReadValue(const std::string& entry)
@@ -640,5 +651,15 @@ bool EPGSearchSetupValues::WriteValue(const std::string& entry, const std::strin
 
 	return service.handler->WriteSetupValue(entry, value);
 }
+
+std::string EPGSearchExpr::EvaluateExpr(const std::string& expr, const cEvent* event)
+{
+	Epgsearch_services_v1_2 service;
+	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
+		throw HtmlError( tr("EPGSearch version outdated! Please update.") );
+
+	return service.handler->Evaluate(expr, event);
+}
+
 
 } // namespace vdrlive

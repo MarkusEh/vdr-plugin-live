@@ -131,7 +131,7 @@ cTimer* timer;
 		title = timer->File() ? timer->File() : "";
 		if ( LiveFeatures< features::epgsearch >().Recent() ) {
 		   vector< string > directories = StringSplit( title, '~' );
-		   if (directories.size() > 0)
+		   if (directories.size() > 1)
 		   {
 		      directory = directories[0];
 		      title = title.substr(directory.size()+1);
@@ -212,18 +212,21 @@ cTimer* timer;
 					</tr>
 <%cpp>
 					if ( LiveFeatures< features::epgsearch >().Recent() ) {
-					        RecordingDirs recordingdirs;
+					        RecordingDirs recordingdirs(true);
 </%cpp>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Directory" ) $>:</div></td>
-						<td class="rightcol"><select onchange="changeddirselection(this)" name="directory" size="1" id="directory" style="margin-top: 5px">
+						<td class="rightcol"><select name="directory" size="1" id="directory" style="margin-top: 5px">
 						     <option/>
-%					             for (RecordingDirs::iterator rdir = recordingdirs.begin(); rdir != recordingdirs.end(); ++rdir) {
-		    					<option value="<$ *rdir $>" 
+<%cpp>
+					             for (RecordingDirs::iterator rdir = recordingdirs.begin(); rdir != recordingdirs.end(); ++rdir) {
+						        std::string dir = *rdir;
+</%cpp>
+		    					<option value="<$ dir $>" 
 %							if (*rdir == directory) {
 							selected="selected"
 %							}
-							><$ *rdir $></option>
+							><$ dir $></option>
 %						}
 						   </select>
 						</td>
