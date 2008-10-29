@@ -7081,41 +7081,6 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "Stream into browser",
-    "Im Browser anzeigen",
-    "",
-    "Trasmetti nel browser",
-    "",
-    "",
-    "Diffusez cette chaîne vers le navigateur.",
-    "",
-    "Suoratoisto selaimeen",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
   { "Search settings",
     "Einstellungen zur Suche",
     "",

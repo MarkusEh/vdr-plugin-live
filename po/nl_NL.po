@@ -629,9 +629,6 @@ msgstr ""
 msgid "Show schedule of channel"
 msgstr ""
 
-msgid "Stream into browser"
-msgstr ""
-
 msgid "Search settings"
 msgstr ""
 

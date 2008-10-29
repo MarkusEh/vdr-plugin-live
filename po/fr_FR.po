@@ -630,10 +630,6 @@ msgstr "%A, %d.%m.%Y"
 msgid "Show schedule of channel"
 msgstr "Montrer le programme de la chaîne"
 
-#, fuzzy
-msgid "Stream into browser"
-msgstr "Diffusez cette chaîne vers le navigateur."
-
 msgid "Search settings"
 msgstr "Règlages de recherche"
 
@@ -811,6 +807,10 @@ msgstr "Vue en liste"
 
 msgid "Live Interactive VDR Environment"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Stream into browser"
+#~ msgstr "Diffusez cette chaîne vers le navigateur."
 
 #~ msgid "Edit this"
 #~ msgstr "Changer cette programmation"

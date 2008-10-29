@@ -105,9 +105,8 @@ int update_status(1);
 <%def vlc_stream_channel>
 <%args>
 	tChannelID channelId;
-	string linkText;
 </%args>
-<%cpp> if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded()) { </%cpp><a href="vlc.html?channel=<$ channelId $>"><img src="<$ LiveSetup().GetThemedLink("img", "stream_button.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into browser.")) &>></img> <$ linkText $></a><%cpp> } </%cpp>
+<%cpp> if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded()) { </%cpp><a href="vlc.html?channel=<$ channelId $>"><img src="<$ LiveSetup().GetThemedLink("img", "stream_button.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into browser.")) &>></img></a><%cpp> } </%cpp>
 </%def>
 
 

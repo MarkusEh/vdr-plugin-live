@@ -623,9 +623,6 @@ msgstr "%A, %d.%m.%Y"
 msgid "Show schedule of channel"
 msgstr "Näytä kanavan ohjelmisto"
 
-msgid "Stream into browser"
-msgstr "Suoratoisto selaimeen"
-
 msgid "Search settings"
 msgstr "Hakuasetukset"
 
@@ -800,6 +797,9 @@ msgstr "Listanäkymä"
 
 msgid "Live Interactive VDR Environment"
 msgstr "Interaktiivinen VDR-ympäristö"
+
+#~ msgid "Stream into browser"
+#~ msgstr "Suoratoisto selaimeen"
 
 #~ msgid "Edit this"
 #~ msgstr "Muokkaa ajastinta"

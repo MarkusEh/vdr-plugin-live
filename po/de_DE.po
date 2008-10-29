@@ -624,9 +624,6 @@ msgstr "%A, %d.%m.%Y"
 msgid "Show schedule of channel"
 msgstr "Zeige Programm dieses Kanals"
 
-msgid "Stream into browser"
-msgstr "Im Browser anzeigen"
-
 msgid "Search settings"
 msgstr "Einstellungen zur Suche"
 
@@ -800,6 +797,9 @@ msgstr "Listenansicht"
 
 msgid "Live Interactive VDR Environment"
 msgstr ""
+
+#~ msgid "Stream into browser"
+#~ msgstr "Im Browser anzeigen"
 
 #~ msgid "Edit this"
 #~ msgstr "Timer editieren"
