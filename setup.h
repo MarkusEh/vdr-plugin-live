@@ -61,6 +61,7 @@ class Setup
 		std::string const GetStreamdevType() const { return m_streamdevType; }
 		bool GetShowIMDb() const { return m_showIMDb != 0; }
 		std::string const GetEpgImageDir() { return m_epgimagedir; }
+		bool GetShowChannelsWithoutEPG() const { return m_showChannelsWithoutEPG != 0; }
 
 		void SetLastChannel(int lastChannel) { m_lastChannel = lastChannel; }
 		void SetAdminLogin(std::string const & login) { m_adminLogin = login; }
@@ -80,6 +81,7 @@ class Setup
 		void SetStreamdevPort(int port) { m_streamdevPort = port; }
 		void SetStreamdevType(std::string const & type) { m_streamdevType = type; }
 		void SetShowIMDb(bool show) { m_showIMDb = show ? 1 : 0; }
+		void SetShowChannelsWithoutEPG(bool show) { m_showChannelsWithoutEPG = show ? 1 : 0; }
 
 		bool SaveSetup();
 
@@ -130,6 +132,7 @@ class Setup
 		int m_streamdevPort;
 		std::string m_streamdevType;
 		int m_showIMDb;
+		int m_showChannelsWithoutEPG;
 
 		bool CheckServerPort();
 		bool CheckServerIps();

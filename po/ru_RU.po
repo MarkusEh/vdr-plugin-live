@@ -700,6 +700,9 @@ msgstr ""
 msgid "Format is HH:MM. Separate multiple times with a semicolon"
 msgstr ""
 
+msgid "Show channels without EPG"
+msgstr ""
+
 msgid "Start page"
 msgstr ""
 
@@ -794,4 +797,7 @@ msgid "List view"
 msgstr ""
 
 msgid "Live Interactive VDR Environment"
+msgstr ""
+
+msgid "no EPG available"
 msgstr ""

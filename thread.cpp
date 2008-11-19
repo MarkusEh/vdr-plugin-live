@@ -46,7 +46,7 @@ void ServerThread::Action()
 {
 	try {
 #if TNTVERSION >= 1606
-		// tnt::Tntconfig tntconfig;
+	        // tnt::Tntconfig tntconfig;
 		// tntconfig.load(TntConfig::Get().GetConfigPath().c_str());
 		m_server.reset(new Tntnet());
 		//m_server->init(tntconfig);

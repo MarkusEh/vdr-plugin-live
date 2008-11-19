@@ -702,6 +702,9 @@ msgstr "zusätzliche Zeitpunkte in 'Was läuft?'"
 msgid "Format is HH:MM. Separate multiple times with a semicolon"
 msgstr "Format ist HH:MM. Mehrere Zeiten durch Semikolon trennen"
 
+msgid "Show channels without EPG"
+msgstr "Zeige Kanäle ohne EPG"
+
 msgid "Start page"
 msgstr "Startseite"
 
@@ -798,17 +801,5 @@ msgstr "Listenansicht"
 msgid "Live Interactive VDR Environment"
 msgstr ""
 
-#~ msgid "Stream into browser"
-#~ msgstr "Im Browser anzeigen"
-
-#~ msgid "Edit this"
-#~ msgstr "Timer editieren"
-
-#~ msgid "Timer conflicts detected! You should check the conflicting timers."
-#~ msgstr "Timer Konflikte entdeckt! Sie sollten die entsprechenden Timer prüfen."
-
-#~ msgid "Start"
-#~ msgstr "Start"
-
-#~ msgid "File"
-#~ msgstr "Datei"
+msgid "no EPG available"
+msgstr "kein EPG verfügbar"

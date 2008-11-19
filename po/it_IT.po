@@ -704,6 +704,9 @@ msgstr "Ore aggiuntive fisse menu \"In programmazione\""
 msgid "Format is HH:MM. Separate multiple times with a semicolon"
 msgstr "Il formato è HH:MM. Separa le ore multiple con un punto e virgola"
 
+msgid "Show channels without EPG"
+msgstr ""
+
 msgid "Start page"
 msgstr "Pagina iniziale"
 
@@ -800,6 +803,9 @@ msgstr "Vedi come elenco"
 
 msgid "Live Interactive VDR Environment"
 msgstr "Ambiente interattivo LIVE per VDR"
+
+msgid "no EPG available"
+msgstr ""
 
 #~ msgid "Stream into browser"
 #~ msgstr "Trasmetti nel browser"

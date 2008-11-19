@@ -197,6 +197,22 @@ namespace vdrlive
 
 	/*
 	 * -------------------------------------------------------------------------
+	 * EmptyEvent
+	 * -------------------------------------------------------------------------
+	 */
+
+        EmptyEvent::EmptyEvent(std::string const &id, tChannelID const &channelID, const char* channelName) :
+	  EpgInfo(id, channelName),
+	  m_channelID(channelID)
+	{
+	}
+
+	EmptyEvent::~EmptyEvent()
+	{
+	}
+
+	/*
+	 * -------------------------------------------------------------------------
 	 * EpgEvents
 	 * -------------------------------------------------------------------------
 	 */
@@ -267,8 +283,16 @@ namespace vdrlive
 
 	EpgInfoPtr EpgEvents::CreateEpgInfo(cChannel const *chan, cEvent const *event, char const *idOverride)
 	{
-		string domId(idOverride ? idOverride : EncodeDomId(chan->GetChannelID(), event->EventID()));
-		return EpgInfoPtr(new EpgEvent(domId, event, chan->Name()));
+	  if (event)
+	    {
+	      string domId(idOverride ? idOverride : EncodeDomId(chan->GetChannelID(), event->EventID()));
+	      return EpgInfoPtr(new EpgEvent(domId, event, chan->Name()));
+	    }
+	  else if (LiveSetup().GetShowChannelsWithoutEPG())
+	    {
+	      string domId(idOverride ? idOverride : EncodeDomId(chan->GetChannelID(), 0));
+	      return EpgInfoPtr(new EmptyEvent(domId, chan->GetChannelID(), chan->Name()));
+	    }
 	}
 
 	EpgInfoPtr EpgEvents::CreateEpgInfo(string const &recid, cRecording const *recording, char const *caption)

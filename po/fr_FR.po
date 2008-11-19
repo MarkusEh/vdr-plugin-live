@@ -708,6 +708,9 @@ msgstr "périodes fixes additionnelles dans 'actuellement?'"
 msgid "Format is HH:MM. Separate multiple times with a semicolon"
 msgstr "Le format est HH:MM . Plusieurs périodes séparées avec un point-virgule"
 
+msgid "Show channels without EPG"
+msgstr ""
+
 msgid "Start page"
 msgstr "Page de départ"
 
@@ -806,6 +809,9 @@ msgid "List view"
 msgstr "Vue en liste"
 
 msgid "Live Interactive VDR Environment"
+msgstr ""
+
+msgid "no EPG available"
 msgstr ""
 
 #, fuzzy

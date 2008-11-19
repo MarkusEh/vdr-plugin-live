@@ -120,6 +120,34 @@ namespace vdrlive
 
 	// -------------------------------------------------------------------------
 
+	class EmptyEvent : public EpgInfo
+	{
+		friend class EpgEvents;
+
+		protected:
+			EmptyEvent(std::string const &id, tChannelID const &channelID, const char* channelName);
+
+		public:
+			virtual ~EmptyEvent();
+
+			virtual std::string const Title() const { return tr("no EPG available"); }
+
+			virtual std::string const ShortDescr() const { return ""; }
+
+			virtual std::string const LongDescr() const { return ""; }
+
+			virtual time_t GetStartTime() const { return 0; }
+
+			virtual time_t GetEndTime() const { return 0; }
+
+			virtual cChannel const * Channel() const { return Channels.GetByChannelID(m_channelID);}
+
+		private:
+			tChannelID m_channelID;
+	};
+
+	// -------------------------------------------------------------------------
+
 	class EpgRecording : public EpgInfo
 	{
 		friend class EpgEvents;

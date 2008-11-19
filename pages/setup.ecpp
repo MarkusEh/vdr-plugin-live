@@ -23,6 +23,7 @@ using namespace std;
 	string showInfoBox;
 	string useStreamdev;
 	string showIMDb;
+	string showChannelsWithoutEPG;
 	string streamdevport;
 	string streamdevtype;
 	int authchanged = 0;
@@ -65,6 +66,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			LiveSetup().SetStreamdevPort(streamdevport.empty() ? 3000 : lexical_cast<int>(streamdevport));
 			LiveSetup().SetStreamdevType(streamdevtype.empty() ? "PES" : streamdevtype);
 			LiveSetup().SetShowIMDb(!showIMDb.empty());
+			LiveSetup().SetShowChannelsWithoutEPG(!showChannelsWithoutEPG.empty());
 			LiveSetup().SaveSetup();
 			message = tr("Setup saved.");
 		}
@@ -89,7 +91,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	streamdevport = lexical_cast<std::string, int>(LiveSetup().GetStreamdevPort());
 	streamdevtype = LiveSetup().GetStreamdevType();
 	showIMDb = LiveSetup().GetShowIMDb() ? "1" : "";
-
+	showChannelsWithoutEPG = LiveSetup().GetShowChannelsWithoutEPG() ? "1" : "";
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -134,10 +136,6 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 				<table class="formular" cellpadding="0" cellspacing="0">
 					<tr class="head">
 						<td  class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div><div><$ tr("Setup") $></div></div></div></td>
-					</tr>
-					<tr>
-						<td class="label leftcol"><div class="withmargin"><$ tr("Last channel to display") $>:</div></td>
-						<td class="rightcol"><input type="text" name="lastchannel" value="<$ lastchannel $>" id="lastchannel" /></td>
 					</tr>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Use authentication") $>:</div></td>
@@ -212,10 +210,21 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 						</td>
 					</tr>
 					<tr>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Last channel to display") $>:</div></td>
+						<td class="rightcol"><input type="text" name="lastchannel" value="<$ lastchannel $>" id="lastchannel" /></td>
+					</tr>
+					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("additional fixed times in 'What's on?'") $>:</div></td>
 						<td class="rightcol"><input type="text" name="times" value="<$ times $>" id="times" />
 							<& tooltip.help text=(tr("Format is HH:MM. Separate multiple times with a semicolon")) &></td>
 					</tr>
+					<tr>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Show channels without EPG") $>:</div></td>
+						<td class="rightcol">
+							<input type="checkbox" name="showChannelsWithoutEPG" id="showChannelsWithoutEPG" value="1" <%cpp> CHECKIF(!showChannelsWithoutEPG.empty()); </%cpp>/>
+						</td>
+					</tr>
+
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Start page") $>:</div></td>
 						<td class="rightcol"><select name="startscreen" size="1" id="startscreen">

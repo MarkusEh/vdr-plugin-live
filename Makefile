@@ -117,7 +117,7 @@ endif
 	msgfmt -c -o $@ $<
 
 $(I18Npot): PAGES $(PLUGINOBJS:%.o=%.cpp)
-	xgettext -C -cTRANSLATORS --no-wrap --no-location -k -ktr -ktrNOOP --omit-header -o $@ $(PLUGINOBJS:%.o=%.cpp) pages/*.cpp setup.h
+	xgettext -C -cTRANSLATORS --no-wrap --no-location -k -ktr -ktrNOOP --omit-header -o $@ $(PLUGINOBJS:%.o=%.cpp) pages/*.cpp setup.h epg_events.h
 
 $(I18Npo): $(I18Npot)
 	msgmerge -U --no-wrap --no-location --backup=none -q $@ $<

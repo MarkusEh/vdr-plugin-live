@@ -129,9 +129,8 @@ if (type == "now") {
 					Event = Schedule->GetFollowingEvent();
 				else if (type == "at")
 					Event = Schedule->GetEventAround(seektime);
-				if (!Event) {
-					continue;
-				}
+
+				if (!Event && !LiveSetup().GetShowChannelsWithoutEPG()) continue;
 
 				EpgInfoPtr epgEvent = EpgEvents::CreateEpgInfo(Channel, Event);
 				eventList.push_back(epgEvent);
@@ -197,6 +196,9 @@ if (type == "now") {
 		} else { // mode == "list"
 			std::list<EpgInfoPtr>::iterator last = i;
 			bool lastCurrentChanel = (++last == eventList.end());
+			tChannelID chanId;
+			tEventID eventId;	       
+			EpgEvents::DecodeDomId(epgEvent->Id(), chanId, eventId);
 </%cpp>
 			<tr>
 				<& pageelems.epg_tool_box detail=(0) epgid=(epgEvent->Id()) title=(epgEvent->Title()) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) lastCurrentChanel=(lastCurrentChanel ? 1 : 0) &>
@@ -209,11 +211,16 @@ if (type == "now") {
 					</div>
 				</td>
 				<td class="topaligned <? lastCurrentChanel ? "bottomrow"?>">
-					<div class="more withmargin"><a
+					<div class="more withmargin">
+%					if (eventId != 0) {
+					     <a
 % 						if (!longDescription.empty()) {
 						<& tooltip.hint text=(longDescription) &><& tooltip.display domId=(epgEvent->Id()) &>
 %						}
 						><span class="title"><$ (epgEvent->Title()) $></span><br /><span class="short"><$ (epgEvent->ShortDescr()) $></span></a>
+%						} else {
+						<span class="title"><$ (epgEvent->Title()) $></span>   
+%						}
 					</div>
 				</td>
 				<td class="topaligned rightcol <? lastCurrentChanel ? "bottomrow"?>"><div class="station withmargin"><a 		href="schedule.html?channel=<$ chNumber $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ (epgEvent->Caption()) $></a></div>

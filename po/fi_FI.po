@@ -701,6 +701,9 @@ msgstr "Lisäajankohdat 'Menossa?'-sivulle"
 msgid "Format is HH:MM. Separate multiple times with a semicolon"
 msgstr "Käytä HH:MM formaattia ja erota ajankohdat puolipisteellä"
 
+msgid "Show channels without EPG"
+msgstr ""
+
 msgid "Start page"
 msgstr "Aloitussivu"
 
@@ -797,6 +800,9 @@ msgstr "Listanäkymä"
 
 msgid "Live Interactive VDR Environment"
 msgstr "Interaktiivinen VDR-ympäristö"
+
+msgid "no EPG available"
+msgstr ""
 
 #~ msgid "Stream into browser"
 #~ msgstr "Suoratoisto selaimeen"
