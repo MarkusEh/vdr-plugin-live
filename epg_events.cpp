@@ -331,6 +331,7 @@ namespace vdrlive
 
 	int EpgEvents::ElapsedTime(time_t const startTime, time_t const endTime)
 	{
+	  if (startTime == 0 && endTime == 0) return 0;
 		if (endTime > startTime) {
 			time_t now = time(0);
 			if ((startTime <= now) && (now <= endTime)) {
