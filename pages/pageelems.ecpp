@@ -290,13 +290,13 @@ int update_status(1);
 		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><%cpp>if (LiveSetup().GetUseStreamdev() && elapsed > 0 && LiveFeatures<features::streamdev_server>().Loaded()) { </%cpp><a href="vlc.html?channel=<$ channelId $>"><img src="<$ LiveSetup().GetThemedLink("img", "stream_button.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into browser.")) &>></img></a><%cpp> } else { </%cpp><img src="transparent.png" width="16" height="16"><%cpp> } </%cpp></td>
 		<td class="action <? lastCurrentChanel ? "bottomrow"?>">
 <%cpp>
-			if (eventId != 0) { 
+			if (eventId != 0) {
 </%cpp>
 			<& pageelems.imdb_info_href title=(title) &>
 <%cpp>
 			}
 </%cpp>		</td>
-<%cpp>		
+<%cpp>
 	}
 </%cpp>
 </%def>

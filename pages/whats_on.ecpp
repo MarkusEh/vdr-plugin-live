@@ -44,6 +44,7 @@ const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
 string head;
 time_t seektime = 0;
 string displaytime;
+string headTime;
 
 if (mode.empty())
 	mode = LiveSetup().GetLastWhatsOnListMode();
@@ -56,8 +57,10 @@ current_attime = attime;
 current_fixtime = fixtime;
 
 if (type == "now") {
-	head = tr("What's running at")+string(" ")+FormatDateTime(tr("%I:%M %p"), time(0));
+	headTime = FormatDateTime(tr("%I:%M %p"), time(0));
+	head = tr("What's running at")+string(" ") + headTime;
 } else if (type == "next") {
+	headTime = FormatDateTime(tr("%I:%M %p"), time(0) + 3600);
 	head = tr("What's on next?");
 } else if (type == "at") {
 	if (attime != "")
@@ -69,7 +72,8 @@ if (type == "now") {
 	seektime = GetTimeT(displaytime);
 	if (seektime - time(0) + 3600 < 0) // if wanted time is past more then 1h, then use tomorrow
 		seektime += SECSINDAY;
-	head = tr("What's running at") + string(" ") + FormatDateTime(tr("%I:%M %p"), seektime) +string(" (") +FormatDateTime(tr("%a, %b %d"), seektime) + string(")");
+	headTime = FormatDateTime(tr("%I:%M %p"), seektime) + " (" + FormatDateTime(tr("%a, %b %d"), seektime) + ")";
+	head = tr("What's running at") + string(" ") + headTime;
 } else if (type == "favs") {
 	head = tr("Favorites");
 }
@@ -168,6 +172,13 @@ if (type == "now") {
 		if (!Channel) continue;
 		int chNumber = Channel->Number();
 
+		string startTime(epgEvent->StartTime(tr("%I:%M %p")));
+		string endTime(epgEvent->EndTime(tr("%I:%M %p")));
+
+		string timeSpan(mode=="detail" ? headTime : string());
+		if (!startTime.empty() || !endTime.empty())
+			timeSpan = startTime + " - " + endTime;
+
 		if (mode == "detail") {
 </%cpp>
 			<div class="event">
@@ -179,7 +190,7 @@ if (type == "now") {
 						<& pageelems.epg_tool_box detail=(1) epgid=(epgEvent->Id()) title=(epgEvent->Title()) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) &>
 					</div>
 					<div>
-						<div class="info"><$ (epgEvent->StartTime(tr("%I:%M %p"))) $> - <$ (epgEvent->EndTime(tr("%I:%M %p"))) $></div>
+						<div class="info"><$ (timeSpan) $></div>
 %						if (epgEvent->Elapsed() >= 0) {
 							<div class="progress"><div><& pageelems.progressbar progress=(epgEvent->Elapsed()) &></div></div>
 %						}
@@ -197,14 +208,14 @@ if (type == "now") {
 			std::list<EpgInfoPtr>::iterator last = i;
 			bool lastCurrentChanel = (++last == eventList.end());
 			tChannelID chanId;
-			tEventID eventId;	       
+			tEventID eventId;
 			EpgEvents::DecodeDomId(epgEvent->Id(), chanId, eventId);
 </%cpp>
 			<tr>
 				<& pageelems.epg_tool_box detail=(0) epgid=(epgEvent->Id()) title=(epgEvent->Title()) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) lastCurrentChanel=(lastCurrentChanel ? 1 : 0) &>
 				<td class="topaligned <? lastCurrentChanel ? "bottomrow"?>">
 					<div class="withmargin">
-						<div class="nomargin"><$ (epgEvent->StartTime(tr("%I:%M %p"))) $> - <$ (epgEvent->EndTime(tr("%I:%M %p"))) $></div>
+						<div class="nomargin"><$ (timeSpan) $></div>
 %						if (epgEvent->Elapsed() >= 0) {
 							<div class="progress"><div><& pageelems.progressbar progress=(epgEvent->Elapsed()) &></div></div>
 %						}
@@ -219,7 +230,7 @@ if (type == "now") {
 %						}
 						><span class="title"><$ (epgEvent->Title()) $></span><br /><span class="short"><$ (epgEvent->ShortDescr()) $></span></a>
 %						} else {
-						<span class="title"><$ (epgEvent->Title()) $></span>   
+						<span class="title"><$ (epgEvent->Title()) $></span>
 %						}
 					</div>
 				</td>
