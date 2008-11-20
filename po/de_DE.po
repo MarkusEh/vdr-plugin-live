@@ -801,5 +801,5 @@ msgstr "Listenansicht"
 msgid "Live Interactive VDR Environment"
 msgstr ""
 
-msgid "no EPG available"
-msgstr "kein EPG verfügbar"
+msgid "No EPG information available"
+msgstr "Keine EPG Daten vorhanden"

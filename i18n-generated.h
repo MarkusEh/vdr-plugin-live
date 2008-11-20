@@ -9146,8 +9146,8 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "no EPG available",
-    "kein EPG verfügbar",
+  { "No EPG information available",
+    "Keine EPG Daten vorhanden",
     "",
     "",
     "",

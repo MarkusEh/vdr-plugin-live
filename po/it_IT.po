@@ -804,7 +804,7 @@ msgstr "Vedi come elenco"
 msgid "Live Interactive VDR Environment"
 msgstr "Ambiente interattivo LIVE per VDR"
 
-msgid "no EPG available"
+msgid "No EPG information available"
 msgstr ""
 
 #~ msgid "Stream into browser"

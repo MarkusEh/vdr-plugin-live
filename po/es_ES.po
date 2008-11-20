@@ -799,5 +799,5 @@ msgstr ""
 msgid "Live Interactive VDR Environment"
 msgstr ""
 
-msgid "no EPG available"
+msgid "No EPG information available"
 msgstr ""

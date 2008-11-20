@@ -130,7 +130,7 @@ namespace vdrlive
 		public:
 			virtual ~EmptyEvent();
 
-			virtual std::string const Title() const { return tr("no EPG available"); }
+			virtual std::string const Title() const { return tr("No EPG information available"); }
 
 			virtual std::string const ShortDescr() const { return ""; }
 
