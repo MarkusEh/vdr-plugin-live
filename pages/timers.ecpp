@@ -71,7 +71,6 @@ static const size_t maximumDescriptionLength = 300;
 %			} else {
 			<table class="listing" cellspacing="0" cellpadding="0">
 <%cpp>
-				EpgEvents epgEvents;
 				// output of the timer list:
 				for (SortedTimers::iterator timer = timers.begin(); timer != timers.end(); ++timer) {
 				    EpgInfoPtr epgEvent;

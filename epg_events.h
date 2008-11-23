@@ -16,6 +16,64 @@
 namespace vdrlive
 {
 
+	class EpgInfo;
+
+	typedef std::tr1::shared_ptr<EpgInfo> EpgInfoPtr;
+
+	// -------------------------------------------------------------------------
+
+	namespace EpgEvents {
+
+		std::string EncodeDomId(tChannelID const &chanId, tEventID const &eventId);
+		void DecodeDomId(std::string const &epgid, tChannelID &chanId, tEventID &eventId);
+
+		/**
+		 *	Allocate and initalize an epgEvent instance with the
+		 *	passed channel and event information.
+		 */
+		EpgInfoPtr CreateEpgInfo(cChannel const *chan, cEvent const *event, char const *idOverride = 0);
+
+		/**
+		 *  This is the inverse creator for epgInfos to the creator above.
+		 */
+		EpgInfoPtr CreateEpgInfo(std::string const &epgid, cSchedules const *schedules);
+
+		/**
+		 *	Allocate and initalize an epgEvent instance with the
+		 *	passed recording information.
+		 */
+		EpgInfoPtr CreateEpgInfo(std::string const &recid, cRecording const *recording, char const *caption = 0);
+
+		/**
+		 *	Allocate and initalize an epgEvent instance with the
+		 *	passed string informations
+		 */
+		EpgInfoPtr CreateEpgInfo(std::string const &id, std::string const &caption, std::string const &info);
+
+		/**
+		 *  Return a list of EpgImage paths for a given epgid.
+		 */
+		std::list<std::string> EpgImages(std::string const &epgid);
+
+		/**
+		 *  Calculate the duration. A duration can be zero or
+		 *  negative. Negative durations are considered invalid by
+		 *  LIVE.
+		 */
+		int Duration(time_t const startTime, time_t const endTime);
+
+		/**
+		 *  Calculate the elapsed time of a positive duration. This
+		 *  takes into account the startTime and the current time. If
+		 *  the current time is not in the interval startTime <=
+		 *  currTime <= endTime the return value is -1.
+		 */
+		int ElapsedTime(time_t const startTime, time_t const endTime);
+
+	} // namespace EpgEvents
+
+	// -------------------------------------------------------------------------
+
 	class EpgInfo
 	{
 		protected:
@@ -45,6 +103,8 @@ namespace vdrlive
 
 			virtual std::string const CurrentTime(const char* format) const;
 
+			virtual int Duration() const;
+
 			virtual int Elapsed() const;
 
 			// virtual const cTimer* GetTimer() const = 0;
@@ -58,13 +118,11 @@ namespace vdrlive
 			std::string m_caption;
 	};
 
-	typedef std::tr1::shared_ptr<EpgInfo> EpgInfoPtr;
-
 	// -------------------------------------------------------------------------
 
 	class EpgString : public EpgInfo
 	{
-		friend class EpgEvents;
+		friend EpgInfoPtr EpgEvents::CreateEpgInfo(std::string const &, std::string const &, std::string const &);
 
 		protected:
 			EpgString(std::string const &id,
@@ -92,7 +150,7 @@ namespace vdrlive
 
 	class EpgEvent : public EpgInfo
 	{
-		friend class EpgEvents;
+		friend EpgInfoPtr EpgEvents::CreateEpgInfo(cChannel const *, cEvent const *, char const *);
 
 		protected:
 			EpgEvent(std::string const &id,
@@ -122,7 +180,7 @@ namespace vdrlive
 
 	class EmptyEvent : public EpgInfo
 	{
-		friend class EpgEvents;
+		friend EpgInfoPtr EpgEvents::CreateEpgInfo(cChannel const *, cEvent const *, char const *);
 
 		protected:
 			EmptyEvent(std::string const &id, tChannelID const &channelID, const char* channelName);
@@ -150,7 +208,7 @@ namespace vdrlive
 
 	class EpgRecording : public EpgInfo
 	{
-		friend class EpgEvents;
+		friend EpgInfoPtr EpgEvents::CreateEpgInfo(std::string const &, cRecording const *, char const *);
 
 		protected:
 			EpgRecording(std::string const &recid,
@@ -183,45 +241,6 @@ namespace vdrlive
 			mutable std::string m_archived;
 	};
 
-	// -------------------------------------------------------------------------
-
-	class EpgEvents {
-		public:
-			EpgEvents();
-			virtual ~EpgEvents();
-
-			static std::string EncodeDomId(tChannelID const &chanId, tEventID const &eventId);
-			static void DecodeDomId(std::string const &epgid, tChannelID &chanId, tEventID &eventId);
-
-			/**
-			 *	Allocate and initalize an epgEvent instance with the
-			 *	passed channel and event information.
-			 */
-			static EpgInfoPtr CreateEpgInfo(cChannel const *chan, cEvent const *event, char const *idOverride = 0);
-
-			/**
-			 *  This is the inverse creator for epgInfos to the creator above.
-			 */
-			static EpgInfoPtr CreateEpgInfo(std::string const &epgid, cSchedules const *schedules);
-
-			/**
-			 *	Allocate and initalize an epgEvent instance with the
-			 *	passed recording information.
-			 */
-			static EpgInfoPtr CreateEpgInfo(std::string const &recid, cRecording const *recording, char const *caption = 0);
-
-			/**
-			 *	Allocate and initalize an epgEvent instance with the
-			 *	passed string informations
-			 */
-			static EpgInfoPtr CreateEpgInfo(std::string const &id, std::string const &caption, std::string const &info);
-
-			static std::list<std::string> EpgImages(std::string const &epgid);
-
-			static int ElapsedTime(time_t const startTime, time_t const endTime);
-
-		private:
-	};
 }; // namespace vdrlive
 
 #endif // VDR_LIVE_WHATS_ON_H

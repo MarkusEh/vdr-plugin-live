@@ -51,6 +51,11 @@ namespace vdrlive
 		return EpgEvents::ElapsedTime(GetStartTime(), GetEndTime());
 	}
 
+	int EpgInfo::Duration() const
+	{
+		return EpgEvents::Duration(GetStartTime(), GetEndTime());
+	}
+
 	/*
 	 * -------------------------------------------------------------------------
 	 * EpgEvent
@@ -201,9 +206,9 @@ namespace vdrlive
 	 * -------------------------------------------------------------------------
 	 */
 
-        EmptyEvent::EmptyEvent(std::string const &id, tChannelID const &channelID, const char* channelName) :
-	  EpgInfo(id, channelName),
-	  m_channelID(channelID)
+	EmptyEvent::EmptyEvent(std::string const &id, tChannelID const &channelID, const char* channelName) :
+		EpgInfo(id, channelName),
+		m_channelID(channelID)
 	{
 	}
 
@@ -216,128 +221,122 @@ namespace vdrlive
 	 * EpgEvents
 	 * -------------------------------------------------------------------------
 	 */
-
-	EpgEvents::EpgEvents()
-	{
-	}
-
-	EpgEvents::~EpgEvents()
-	{
-	}
-
-	string EpgEvents::EncodeDomId(tChannelID const &chanId, tEventID const &eId)
-	{
-		string channelId(chanId.ToString());
-		string eventId("event_");
-
-		channelId = vdrlive::EncodeDomId(channelId, ".-", "pm");
-		// replace(channelId.begin(), channelId.end(), '.', 'p');
-		// replace(channelId.begin(), channelId.end(), '-', 'm');
-
-		eventId += channelId;
-		eventId += '_';
-		eventId += lexical_cast<std::string>(eId);
-		return eventId;
-	}
-
-	void EpgEvents::DecodeDomId(string const &epgid, tChannelID& channelId, tEventID& eventId)
-	{
-		string const eventStr("event_");
-
-		size_t delimPos = epgid.find_last_of('_');
-		string cIdStr = epgid.substr(eventStr.length(), delimPos - eventStr.length());
-
-		cIdStr = vdrlive::DecodeDomId(cIdStr, "mp", "-.");
-		// replace(cIdStr.begin(), cIdStr.end(), 'm', '-');
-		// replace(cIdStr.begin(), cIdStr.end(), 'p', '.');
-
-		string const eIdStr = epgid.substr(delimPos+1);
-
-		channelId = tChannelID::FromString(cIdStr.c_str());
-		eventId = lexical_cast<tEventID>(eIdStr);
-	}
-
-	EpgInfoPtr EpgEvents::CreateEpgInfo(string const &epgid, cSchedules const *schedules)
-	{
-		string const errorInfo(tr("Epg error"));
-		cSchedulesLock schedulesLock;
-
-		tEventID eventId = tEventID();
-		tChannelID channelId = tChannelID();
-
-		DecodeDomId(epgid, channelId, eventId);
-		cChannel const *channel = Channels.GetByChannelID(channelId);
-		if (!channel) {
-			return CreateEpgInfo(epgid, errorInfo, tr("Wrong channel id"));
-		}
-		cSchedule const *schedule = schedules->GetSchedule(channel);
-		if (!schedule) {
-			return CreateEpgInfo(epgid, errorInfo, tr("Channel has no schedule"));
-		}
-		cEvent const *event = schedule->GetEvent(eventId);
-		if (!event) {
-			return CreateEpgInfo(epgid, errorInfo, tr("Wrong event id"));
-		}
-		return CreateEpgInfo(channel, event, epgid.c_str());
-	}
-
-	EpgInfoPtr EpgEvents::CreateEpgInfo(cChannel const *chan, cEvent const *event, char const *idOverride)
-	{
-	  if (event)
-	    {
-	      string domId(idOverride ? idOverride : EncodeDomId(chan->GetChannelID(), event->EventID()));
-	      return EpgInfoPtr(new EpgEvent(domId, event, chan->Name()));
-	    }
-	  else if (LiveSetup().GetShowChannelsWithoutEPG())
-	    {
-	      string domId(idOverride ? idOverride : EncodeDomId(chan->GetChannelID(), 0));
-	      return EpgInfoPtr(new EmptyEvent(domId, chan->GetChannelID(), chan->Name()));
-	    }
-	}
-
-	EpgInfoPtr EpgEvents::CreateEpgInfo(string const &recid, cRecording const *recording, char const *caption)
-	{
-		return EpgInfoPtr(new EpgRecording(recid, recording, caption));
-	}
-
-	EpgInfoPtr EpgEvents::CreateEpgInfo(string const &id, string const &caption, string const &info)
-	{
-		return EpgInfoPtr(new EpgString(id, caption, info));
-	}
-
-	list<string> EpgEvents::EpgImages(string const &epgid)
-	{
-		list<string> images;
-
-		size_t delimPos = epgid.find_last_of('_');
-		string imageId = epgid.substr(delimPos+1);
-		imageId = imageId.substr(0, imageId.size()-1); // tvm2vdr seems always to use one digit less
-
-		const string filemask(LiveSetup().GetEpgImageDir() + "/" + imageId + "*.*");
-		glob_t globbuf;
-		globbuf.gl_offs = 0;
-		if (!LiveSetup().GetEpgImageDir().empty() && glob(filemask.c_str(), GLOB_DOOFFS, NULL, &globbuf) == 0)
+	namespace EpgEvents {
+		string EncodeDomId(tChannelID const &chanId, tEventID const &eId)
 		{
-			for(int i=0; i<(int)globbuf.gl_pathc; i++)
-			{
-				const string imagefile(globbuf.gl_pathv[i]);
-				size_t delimPos = imagefile.find_last_of('/');
-				images.push_back(imagefile.substr(delimPos+1));
-			}
-			globfree(&globbuf);
-		}
-		return images;
-	}
+			string channelId(chanId.ToString());
+			string eventId("event_");
 
-	int EpgEvents::ElapsedTime(time_t const startTime, time_t const endTime)
-	{
-	  if (startTime == 0 && endTime == 0) return 0;
-		if (endTime > startTime) {
-			time_t now = time(0);
-			if ((startTime <= now) && (now <= endTime)) {
-				return 100 * (now - startTime) / (endTime - startTime);
+			channelId = vdrlive::EncodeDomId(channelId, ".-", "pm");
+
+			eventId += channelId;
+			eventId += '_';
+			eventId += lexical_cast<std::string>(eId);
+			return eventId;
+		}
+
+		void DecodeDomId(string const &epgid, tChannelID& channelId, tEventID& eventId)
+		{
+			string const eventStr("event_");
+
+			size_t delimPos = epgid.find_last_of('_');
+			string cIdStr = epgid.substr(eventStr.length(), delimPos - eventStr.length());
+
+			cIdStr = vdrlive::DecodeDomId(cIdStr, "mp", "-.");
+
+			string const eIdStr = epgid.substr(delimPos+1);
+
+			channelId = tChannelID::FromString(cIdStr.c_str());
+			eventId = lexical_cast<tEventID>(eIdStr);
+		}
+
+		EpgInfoPtr CreateEpgInfo(string const &epgid, cSchedules const *schedules)
+		{
+			string const errorInfo(tr("Epg error"));
+			cSchedulesLock schedulesLock;
+
+			tEventID eventId = tEventID();
+			tChannelID channelId = tChannelID();
+
+			DecodeDomId(epgid, channelId, eventId);
+			cChannel const *channel = Channels.GetByChannelID(channelId);
+			if (!channel) {
+				return CreateEpgInfo(epgid, errorInfo, tr("Wrong channel id"));
+			}
+			cSchedule const *schedule = schedules->GetSchedule(channel);
+			if (!schedule) {
+				return CreateEpgInfo(epgid, errorInfo, tr("Channel has no schedule"));
+			}
+			cEvent const *event = schedule->GetEvent(eventId);
+			if (!event) {
+				return CreateEpgInfo(epgid, errorInfo, tr("Wrong event id"));
+			}
+			return CreateEpgInfo(channel, event, epgid.c_str());
+		}
+
+		EpgInfoPtr CreateEpgInfo(cChannel const *chan, cEvent const *event, char const *idOverride)
+		{
+			if (event) {
+				string domId(idOverride ? idOverride : EncodeDomId(chan->GetChannelID(), event->EventID()));
+				return EpgInfoPtr(new EpgEvent(domId, event, chan->Name()));
+			}
+			else if (LiveSetup().GetShowChannelsWithoutEPG()) {
+				string domId(idOverride ? idOverride : EncodeDomId(chan->GetChannelID(), 0));
+				return EpgInfoPtr(new EmptyEvent(domId, chan->GetChannelID(), chan->Name()));
 			}
 		}
-		return -1;
-	}
+
+		EpgInfoPtr CreateEpgInfo(string const &recid, cRecording const *recording, char const *caption)
+		{
+			return EpgInfoPtr(new EpgRecording(recid, recording, caption));
+		}
+
+		EpgInfoPtr CreateEpgInfo(string const &id, string const &caption, string const &info)
+		{
+			return EpgInfoPtr(new EpgString(id, caption, info));
+		}
+
+		list<string> EpgImages(string const &epgid)
+		{
+			list<string> images;
+
+			size_t delimPos = epgid.find_last_of('_');
+			string imageId = epgid.substr(delimPos+1);
+			imageId = imageId.substr(0, imageId.size()-1); // tvm2vdr seems always to use one digit less
+
+			const string filemask(LiveSetup().GetEpgImageDir() + "/" + imageId + "*.*");
+			glob_t globbuf;
+			globbuf.gl_offs = 0;
+			if (!LiveSetup().GetEpgImageDir().empty() && glob(filemask.c_str(), GLOB_DOOFFS, NULL, &globbuf) == 0) {
+				for(int i=0; i<(int)globbuf.gl_pathc; i++) {
+					const string imagefile(globbuf.gl_pathv[i]);
+					size_t delimPos = imagefile.find_last_of('/');
+					images.push_back(imagefile.substr(delimPos+1));
+				}
+				globfree(&globbuf);
+			}
+			return images;
+		}
+
+		int ElapsedTime(time_t const startTime, time_t const endTime)
+		{
+			// Elapsed time is only meaningful when there is a non zero
+			// duration (e.g. startTime != endTime and endTime > startTime)
+			int duration = Duration(startTime, endTime);
+			if (duration > 0) {
+				time_t now = time(0);
+				if ((startTime <= now) && (now <= endTime)) {
+					return 100 * (now - startTime) / duration;
+				}
+			}
+			return -1;
+		}
+
+		int Duration(time_t const startTime, time_t const endTime)
+		{
+			return endTime - startTime;
+		}
+
+	} // namespace EpgEvents
+
 }; // namespace vdrlive

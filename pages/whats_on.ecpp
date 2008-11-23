@@ -109,7 +109,6 @@ if (type == "now") {
 				</tr>
 %	    }
 <%cpp>
-	EpgEvents epgEvents;
 	std::list<EpgInfoPtr> eventList;
 
 	// collect the broadcasts
