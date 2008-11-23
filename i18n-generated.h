@@ -992,7 +992,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "%I:%M %p",
-    "%H:%M Uhr",
+    "%H:%M",
     "",
     "%I:%M %p",
     "",
@@ -4457,7 +4457,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "%I:%M:%S %p",
-    "%H:%M:%S Uhr",
+    "%H:%M:%S",
     "",
     "%I:%M:%S %p",
     "",
