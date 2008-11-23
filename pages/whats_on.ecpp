@@ -190,9 +190,7 @@ if (type == "now") {
 					</div>
 					<div>
 						<div class="info"><$ (timeSpan) $></div>
-%						if (epgEvent->Elapsed() >= 0) {
-							<div class="progress"><div><& pageelems.progressbar progress=(epgEvent->Elapsed()) &></div></div>
-%						}
+						<div class="progress"><div><& pageelems.progressbar progress=(epgEvent->Elapsed()) duration=(epgEvent->Duration()) &></div></div>
 						<div class="title withmargin"><$ (epgEvent->Title()) $></div>
 						<div class="short withmargin"><$ (epgEvent->ShortDescr()) $></div>
 						<div class="description withmargin"><$ truncDescription $></div>
@@ -215,15 +213,13 @@ if (type == "now") {
 				<td class="topaligned <? lastCurrentChanel ? "bottomrow"?>">
 					<div class="withmargin">
 						<div class="nomargin"><$ (timeSpan) $></div>
-%						if (epgEvent->Elapsed() >= 0) {
-							<div class="progress"><div><& pageelems.progressbar progress=(epgEvent->Elapsed()) &></div></div>
-%						}
+						<div class="progress"><div><& pageelems.progressbar progress=(epgEvent->Elapsed()) duration=(epgEvent->Duration()) &></div></div>
 					</div>
 				</td>
 				<td class="topaligned <? lastCurrentChanel ? "bottomrow"?>">
 					<div class="more withmargin">
 %					if (eventId != 0) {
-					     <a
+					    <a
 % 						if (!longDescription.empty()) {
 						<& tooltip.hint text=(longDescription) &><& tooltip.display domId=(epgEvent->Id()) &>
 %						}

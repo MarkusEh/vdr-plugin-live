@@ -786,6 +786,13 @@ div.__progress {
 	border: 1px solid #C0C1DA;
 }
 
+div.__progress_invisible {
+	overflow: hidden;
+	width: 100px;
+	height: 10px;
+	border: 0px none transparent;
+}
+
 div.__progress div.__elapsed {
 	float: left;
 	height: 8px;
