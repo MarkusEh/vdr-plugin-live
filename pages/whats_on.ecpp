@@ -45,6 +45,7 @@ string head;
 time_t seektime = 0;
 string displaytime;
 string headTime;
+string headDate;
 
 if (mode.empty())
 	mode = LiveSetup().GetLastWhatsOnListMode();
@@ -56,11 +57,19 @@ current_mode = mode;
 current_attime = attime;
 current_fixtime = fixtime;
 
+char const * timeFormat = tr("%I:%M %p");
+char const * dateFormat = tr("%A, %x");
+if (mode == "detail") {
+	dateFormat = tr("%a, %x");
+}
+
 if (type == "now") {
-	headTime = FormatDateTime(tr("%I:%M %p"), time(0));
-	head = tr("What's running at")+string(" ") + headTime;
+	headTime = FormatDateTime(timeFormat, time(0));
+	headDate = FormatDateTime(dateFormat, time(0));
+	head = string(tr("What's running on")) + " " + headDate + " " + tr("at") + " " + headTime;
 } else if (type == "next") {
-	headTime = FormatDateTime(tr("%I:%M %p"), time(0) + 3600);
+	headTime = FormatDateTime(timeFormat, time(0) + 3600);
+	headDate = FormatDateTime(dateFormat, time(0) + 3600);
 	head = tr("What's on next?");
 } else if (type == "at") {
 	if (attime != "")
@@ -72,8 +81,9 @@ if (type == "now") {
 	seektime = GetTimeT(displaytime);
 	if (seektime - time(0) + 3600 < 0) // if wanted time is past more then 1h, then use tomorrow
 		seektime += SECSINDAY;
-	headTime = FormatDateTime(tr("%I:%M %p"), seektime) + " (" + FormatDateTime(tr("%a, %b %d"), seektime) + ")";
-	head = tr("What's running at") + string(" ") + headTime;
+	headTime = FormatDateTime(timeFormat, seektime);
+	headDate = FormatDateTime(dateFormat, seektime);
+	head = string(tr("What's running on")) + " " + headDate + " " + tr("at") + string(" ") + headTime;
 } else if (type == "favs") {
 	head = tr("Favorites");
 }
@@ -173,11 +183,14 @@ if (type == "now") {
 
 		string startTime(epgEvent->StartTime(tr("%I:%M %p")));
 		string endTime(epgEvent->EndTime(tr("%I:%M %p")));
+		string startDate(epgEvent->StartTime(tr("%a, %x")));
 
-		string timeSpan(mode=="detail" ? headTime : string());
-		if (!startTime.empty() || !endTime.empty())
-			timeSpan = startTime + " - " + endTime;
+		string timeSpan(startTime + " - " + endTime);
 
+		if (startTime.empty() && endTime.empty()) {
+			timeSpan = mode=="detail" ? headTime : string();
+			startDate = headDate;
+		}
 		if (mode == "detail") {
 </%cpp>
 			<div class="event">
@@ -189,7 +202,7 @@ if (type == "now") {
 						<& pageelems.epg_tool_box detail=(1) epgid=(epgEvent->Id()) title=(epgEvent->Title()) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) &>
 					</div>
 					<div>
-						<div class="info nowrap"><$ (timeSpan) $></div>
+						<div class="info nowrap"><div class="date"><$ (startDate) $></div><div class="time"><$ (timeSpan) $></div></div>
 						<div class="progress"><div><& pageelems.progressbar progress=(epgEvent->Elapsed()) duration=(epgEvent->Duration()) &></div></div>
 						<div class="title withmargin"><$ (epgEvent->Title()) $></div>
 						<div class="short withmargin"><$ (epgEvent->ShortDescr()) $></div>

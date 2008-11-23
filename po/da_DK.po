@@ -760,13 +760,17 @@ msgstr ""
 msgid "VLC media URL"
 msgstr ""
 
-msgid "What's running at"
+#, c-format
+msgid "%a, %x"
+msgstr ""
+
+msgid "What's running on"
+msgstr ""
+
+msgid "at"
 msgstr ""
 
 msgid "What's on next?"
-msgstr ""
-
-msgid "%a, %b %d"
 msgstr ""
 
 msgid "Favorites"
@@ -785,9 +789,6 @@ msgid "Next"
 msgstr ""
 
 msgid "What's on"
-msgstr ""
-
-msgid "at"
 msgstr ""
 
 msgid "Details view"

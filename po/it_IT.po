@@ -765,14 +765,19 @@ msgstr "Chiudi"
 msgid "VLC media URL"
 msgstr "Collegamento multimediale di VLC"
 
-msgid "What's running at"
+#, fuzzy, c-format
+msgid "%a, %x"
+msgstr "%A, %x"
+
+#, fuzzy
+msgid "What's running on"
 msgstr "In programmazione alle"
+
+msgid "at"
+msgstr "alle"
 
 msgid "What's on next?"
 msgstr "In programmazione dopo"
-
-msgid "%a, %b %d"
-msgstr "%a, %b %d"
 
 msgid "Favorites"
 msgstr "Preferiti"
@@ -792,9 +797,6 @@ msgstr "Prossimi"
 msgid "What's on"
 msgstr "In programmazione"
 
-msgid "at"
-msgstr "alle"
-
 msgid "Details view"
 msgstr "Vedi come dettagli"
 
@@ -806,6 +808,9 @@ msgstr "Ambiente interattivo LIVE per VDR"
 
 msgid "No EPG information available"
 msgstr ""
+
+#~ msgid "%a, %b %d"
+#~ msgstr "%a, %b %d"
 
 #~ msgid "Stream into browser"
 #~ msgstr "Trasmetti nel browser"

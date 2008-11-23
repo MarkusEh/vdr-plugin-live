@@ -762,14 +762,19 @@ msgstr "Sulje"
 msgid "VLC media URL"
 msgstr "VLC:n URL"
 
-msgid "What's running at"
+#, fuzzy, c-format
+msgid "%a, %x"
+msgstr "%A, %x"
+
+#, fuzzy
+msgid "What's running on"
 msgstr "Menossa kello"
+
+msgid "at"
+msgstr "kello"
 
 msgid "What's on next?"
 msgstr "Tulossa seuraavaksi?"
-
-msgid "%a, %b %d"
-msgstr "%a, %d.%m."
 
 msgid "Favorites"
 msgstr "Suosikit"
@@ -789,9 +794,6 @@ msgstr "Seuraavaksi"
 msgid "What's on"
 msgstr "Menossa"
 
-msgid "at"
-msgstr "kello"
-
 msgid "Details view"
 msgstr "Ruudukkonäkymä"
 
@@ -803,6 +805,9 @@ msgstr "Interaktiivinen VDR-ympäristö"
 
 msgid "No EPG information available"
 msgstr ""
+
+#~ msgid "%a, %b %d"
+#~ msgstr "%a, %d.%m."
 
 #~ msgid "Stream into browser"
 #~ msgstr "Suoratoisto selaimeen"

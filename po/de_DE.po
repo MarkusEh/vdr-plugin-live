@@ -762,14 +762,18 @@ msgstr "Schließen"
 msgid "VLC media URL"
 msgstr "VLC Medien URL"
 
-msgid "What's running at"
-msgstr "Was läuft um"
+#, c-format
+msgid "%a, %x"
+msgstr "%a, %x"
+
+msgid "What's running on"
+msgstr "Was läuft am"
+
+msgid "at"
+msgstr "um"
 
 msgid "What's on next?"
 msgstr "Was läuft als nächstes?"
-
-msgid "%a, %b %d"
-msgstr "%a, %d.%m."
 
 msgid "Favorites"
 msgstr "Favoriten"
@@ -789,9 +793,6 @@ msgstr "als Nächstes"
 msgid "What's on"
 msgstr "Was läuft"
 
-msgid "at"
-msgstr "um"
-
 msgid "Details view"
 msgstr "Ausführliche Ansicht"
 
@@ -803,3 +804,6 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr "Keine EPG Daten vorhanden"
+
+#~ msgid "%a, %b %d"
+#~ msgstr "%a, %d.%m."

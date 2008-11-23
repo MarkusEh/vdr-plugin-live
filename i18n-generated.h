@@ -8691,8 +8691,43 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "What's running at",
-    "Was läuft um",
+  { "%a, %x",
+    "%a, %x",
+    "",
+    "%A, %x",
+    "",
+    "",
+    "%A, %x",
+    "",
+    "%A, %x",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "What's running on",
+    "Was läuft am",
     "",
     "In programmazione alle",
     "",
@@ -8700,6 +8735,41 @@ const tI18nPhrase Phrases[] = {
     "Qu'y a t'il au programme vers",
     "",
     "Menossa kello",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "at",
+    "um",
+    "",
+    "alle",
+    "",
+    "",
+    "à",
+    "",
+    "kello",
     "",
     "",
     "",
@@ -8735,41 +8805,6 @@ const tI18nPhrase Phrases[] = {
     "Quoi faire ensuite?",
     "",
     "Tulossa seuraavaksi?",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "%a, %b %d",
-    "%a, %d.%m.",
-    "",
-    "%a, %b %d",
-    "",
-    "",
-    "%a, %d.%m.",
-    "",
-    "%a, %d.%m.",
     "",
     "",
     "",
@@ -8980,41 +9015,6 @@ const tI18nPhrase Phrases[] = {
     "Actuellement",
     "",
     "Menossa",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "at",
-    "um",
-    "",
-    "alle",
-    "",
-    "",
-    "à",
-    "",
-    "kello",
     "",
     "",
     "",
