@@ -109,6 +109,10 @@ a:active {
 	display: none;
 }
 
+.nowrap {
+	white-space: nowrap;
+}
+
 /* ######################
    # Tooltip style for hints
    ######################

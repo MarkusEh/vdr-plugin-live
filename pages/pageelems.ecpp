@@ -331,7 +331,7 @@ int update_status(1);
 				<& (tools_comp) id=(boxId) archived=(archived) detail=(1) title=(title) &>
 			</div>
 		 	<div class="epg_info">
-				<div class="info"><%cpp> if (!archived.empty()) { </%cpp><span class="bold"><$ (archived + " ") $></span><%cpp> } </%cpp><$ (time) $></div>
+				<div class="info nowrap"><%cpp> if (!archived.empty()) { </%cpp><span class="bold"><$ (archived + " ") $></span><%cpp> } </%cpp><$ (time) $></div>
 <%cpp>
 	if (elapsed >= 0) {
 </%cpp>

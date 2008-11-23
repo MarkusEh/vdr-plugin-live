@@ -97,7 +97,7 @@ bool logged_in(false);
                     <tr>
 						<td class="action leftcol <? bottom ? "bottomrow"?>"><& pageelems.event_timer epgid=(epgid) &></td>
 						<td class="topaligned <? bottom ? "bottomrow"?>"><div class="withmargin"><a href="schedule.html?channel=<$ channelnr $>"><$ channelname $></a></div></td>
-						<td class="topaligned <? bottom ? "bottomrow"?>"><div class="withmargin"><$ start $> - <$ end $></div></td>
+						<td class="topaligned <? bottom ? "bottomrow"?>"><div class="withmargin nowrap"><$ start $> - <$ end $></div></td>
 						<td class="topaligned rightcol <? bottom ? "bottomrow"?>"><div class="more withmargin"><a <& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(description, 300, truncated)) + "<br />" + tr("Click to view details.")) &><& tooltip.display domId=(epgid) &>><span class="title"><$ result->Title() $></span><br /><span class="short"><%cpp>if (result->ShortText().empty()) { </%cpp>&nbsp;<%cpp> } </%cpp><$ result->ShortText() $></span></a></div></td>
 					</tr>
 %				}

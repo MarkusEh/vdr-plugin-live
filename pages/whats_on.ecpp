@@ -189,7 +189,7 @@ if (type == "now") {
 						<& pageelems.epg_tool_box detail=(1) epgid=(epgEvent->Id()) title=(epgEvent->Title()) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) &>
 					</div>
 					<div>
-						<div class="info"><$ (timeSpan) $></div>
+						<div class="info nowrap"><$ (timeSpan) $></div>
 						<div class="progress"><div><& pageelems.progressbar progress=(epgEvent->Elapsed()) duration=(epgEvent->Duration()) &></div></div>
 						<div class="title withmargin"><$ (epgEvent->Title()) $></div>
 						<div class="short withmargin"><$ (epgEvent->ShortDescr()) $></div>
@@ -212,7 +212,7 @@ if (type == "now") {
 				<& pageelems.epg_tool_box detail=(0) epgid=(epgEvent->Id()) title=(epgEvent->Title()) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) lastCurrentChanel=(lastCurrentChanel ? 1 : 0) &>
 				<td class="topaligned <? lastCurrentChanel ? "bottomrow"?>">
 					<div class="withmargin">
-						<div class="nomargin"><$ (timeSpan) $></div>
+						<div class="nomargin nowrap"><$ (timeSpan) $></div>
 						<div class="progress"><div><& pageelems.progressbar progress=(epgEvent->Elapsed()) duration=(epgEvent->Duration()) &></div></div>
 					</div>
 				</td>

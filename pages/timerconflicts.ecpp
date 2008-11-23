@@ -102,8 +102,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 							<tr>
 								<td class="leftcol <? bottom ? "bottomrow" ?>"><img src="<$ LiveSetup().GetThemedLink("img", timerStateImg) $>" alt="" <%cpp> if (!timerStateHint.empty()) { </%cpp><& tooltip.hint text=(timerStateHint) &><%cpp> } </%cpp>></img></td>
 								<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><a href="schedule.html?channel=<$ timer->Channel()->Number()$>"><$ timer->Channel()->Name() $></a></div></td>
-								<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><$ FormatDateTime(tr("%I:%M %p"), timer->StartTime()) $></div></td>
-								<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><$ FormatDateTime(tr("%I:%M %p"), timer->StopTime()) $></div></td>
+								<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin nowrap"><$ FormatDateTime(tr("%I:%M %p"), timer->StartTime()) $></div></td>
+								<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin nowrap"><$ FormatDateTime(tr("%I:%M %p"), timer->StopTime()) $></div></td>
 								<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><$ timer->Priority() $></div></td>
 								<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><a
 %								if (!longDescription.empty()) {

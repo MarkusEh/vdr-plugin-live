@@ -102,7 +102,7 @@ msgid "FTA"
 msgstr "FTA"
 
 msgid "%I:%M %p"
-msgstr "%H:%M Uhr"
+msgstr "%H:%M"
 
 msgid "EPGSearch version outdated! Please update."
 msgstr "EPGSearch-Version zu alt, bitte updaten!"
@@ -400,7 +400,7 @@ msgid "error retrieving status info!"
 msgstr "Fehler: Status nicht verfügbar!"
 
 msgid "%I:%M:%S %p"
-msgstr "%H:%M:%S Uhr"
+msgstr "%H:%M:%S"
 
 msgid "Wrong username or password"
 msgstr "Falscher Benutzername oder Passwort"
