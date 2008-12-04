@@ -67,7 +67,7 @@ using namespace vdrlive;
 	int allowedrepeats = 0;
 	int repeatswithindays = 0;
 	bool comparetitle = false;
-	bool comparesubtitle = false;
+	int comparesubtitle = 0;
 	bool comparesummary = false;
 	unsigned avoidrepeatscatselected[];
 	int priority = 0;
@@ -808,7 +808,10 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 														<tr>
 															<td class="label"><div class="withmargin"><$ tr("Compare subtitle" ) $>:</div></td>
-															<td><input type="checkbox" name="comparesubtitle" value="1" <{ CHECKIF(comparesubtitle) }>/>
+															<td><select name="comparesubtitle" size="1" id="comparesubtitle">
+										<option value="0" <{ SELECTIF(comparesubtitle == 0) }> ><$ trVDR("no") $></option>
+										<option value="1" <{ SELECTIF(comparesubtitle == 1) }> ><$ trVDR("yes") $></option>
+										<option value="2" <{ SELECTIF(comparesubtitle == 2) }> ><$ tr("if present") $></option></select>
 														</tr>
 
 														<tr>

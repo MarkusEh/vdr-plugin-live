@@ -319,6 +319,9 @@ msgstr "Vertaa nimeä"
 msgid "Compare subtitle"
 msgstr "Vertaa jakson nimeä"
 
+msgid "if present"
+msgstr "jos olemassa"
+
 msgid "Compare summary"
 msgstr "Vertaa kuvausta"
 

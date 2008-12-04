@@ -321,6 +321,9 @@ msgstr "Vergleiche Titel"
 msgid "Compare subtitle"
 msgstr "Vergleiche Untertitel"
 
+msgid "if present"
+msgstr "wenn vorhanden"
+
 msgid "Compare summary"
 msgstr "Vergleiche Beschreibung"
 
