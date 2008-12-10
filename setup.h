@@ -34,6 +34,7 @@ class Setup
 #if TNTSSLSUPPORT
 		int GetServerSslPort() const { return m_serverSslPort; }
 		std::string GetServerSslCert() const { return m_serverSslCert; }
+		std::string GetServerSslKey() const { return m_serverSslKey; }
 #endif
 		IpList const& GetServerIps() const { return m_serverIps; }
 		// vdr-setup
@@ -106,6 +107,7 @@ class Setup
 #if TNTSSLSUPPORT
 		int m_serverSslPort;
 		std::string m_serverSslCert;
+		std::string m_serverSslKey;
 		static std::string m_configDirectory;
 #endif
 		IpList m_serverIps;

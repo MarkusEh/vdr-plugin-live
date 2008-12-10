@@ -128,24 +128,6 @@ namespace vdrlive {
 		for ( Setup::IpList::const_iterator ip = ips.begin(); ip != ips.end(); ++ip ) {
 			file << "Listen " << *ip << " " << port << endl;
 		}
-
-// not used any more see below: #ifdef TNTVERS7
-// not used any more see below: 		int s_port = LiveSetup().GetServerSslPort();
-// not used any more see below: 		string s_cert = LiveSetup().GetServerSslCert();
-// not used any more see below: 
-// not used any more see below: 		if (s_cert.empty()) {
-// not used any more see below: 			s_cert = configDir + "/live.pem";
-// not used any more see below: 		}
-// not used any more see below: 
-// not used any more see below: 		if ( ifstream( s_cert.c_str() ) ) {
-// not used any more see below: 			for ( Setup::IpList::const_iterator ip = ips.begin(); ip != ips.end(); ++ip ) {
-// not used any more see below: 				file << "SslListen " << *ip << " " << s_port << " " << s_cert << endl;
-// not used any more see below: 			}
-// not used any more see below: 		}
-// not used any more see below: 		else {
-// not used any more see below: 			esyslog( "ERROR: %s: %s", s_cert.c_str(), strerror( errno ) );
-// not used any more see below: 		}
-// not used any more see below: #endif
 	}
 #endif
 
@@ -277,18 +259,23 @@ namespace vdrlive {
 #if TNTSSLSUPPORT
 		int s_port = LiveSetup().GetServerSslPort();
 		string s_cert = LiveSetup().GetServerSslCert();
+		string s_key = LiveSetup().GetServerSslKey();
 
 		if (s_cert.empty()) {
 			s_cert = configDir + "/live.pem";
 		}
 
-		if ( ifstream( s_cert.c_str() ) ) {
+		if (s_key.empty()) {
+			s_key = configDir + "/live-key.pem";
+		}
+
+		if ( ifstream( s_cert.c_str() ) && ifstream( s_key.c_str() ) ) {
 			for ( Setup::IpList::const_iterator ip = ips.begin(); ip != ips.end(); ++ip ) {
-				app.sslListen(s_cert, s_cert, *ip, s_port);
+				app.sslListen(s_cert, s_key, *ip, s_port);
 			}
 		}
 		else {
-			esyslog( "ERROR: %s: %s", s_cert.c_str(), strerror( errno ) );
+			esyslog( "ERROR: Unable to load cert/key (%s/%s): %s", s_cert.c_str(), s_key.c_str(), strerror( errno ) );
 		}
 #endif // TNTSSLSUPPORT
 
