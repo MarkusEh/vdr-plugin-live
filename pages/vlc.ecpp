@@ -96,7 +96,9 @@ using namespace vdrlive;
 <%cpp>
 #if TNTVERSION >= 1606
 	string server = request.getHost();
-	server = server.substr(0, server.rfind(':'));
+	if (Channel != 0) {
+		server = server.substr(0, server.rfind(':'));
+	}
 #else
 	string server = request.getServerIp();
 #endif
@@ -106,7 +108,12 @@ using namespace vdrlive;
 		videourl = string("http://") + server + ":" + lexical_cast<string,int>(streamdevPort) + "/" + LiveSetup().GetStreamdevType() + "/" + *Channel->GetChannelID().ToString();
 	}
 	else {
-		videourl = string("http://") + server + ":" + lexical_cast<string,int>(LiveSetup().GetServerPort()) + "/recstream.html?recid=" + recid;
+#if TNTVERSION >= 1606
+#  define SERVER_AND_PORT server
+#else
+#  define SERVER_AND_PORT server + ":" + lexical_cast<string,int>(LiveSetup().GetServerPort());
+#endif
+		videourl = string("http://") + SERVER_AND_PORT + "/recstream.html?recid=" + recid;
 	}
 </%cpp>
 			<embed type="application/x-vlc-plugin" pluginspage="http://www.videolan.org/" version="VideoLAN.VLCPlugin.2" id="video1" name="video1" autoplay="yes" loop="no" width="720" height="576" target="<$ videourl $>" />
