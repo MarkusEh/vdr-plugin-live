@@ -26,6 +26,7 @@ Setup::Setup():
 #if TNTSSLSUPPORT
 		m_serverSslPort( 8443 ),
 		m_serverSslCert(),
+		m_serverSslKey(),
 #endif
 		m_lastChannel( 0 ),
 		m_screenshotInterval( 1000 ),
@@ -57,6 +58,7 @@ bool Setup::ParseCommandLine( int argc, char* argv[] )
 #if TNTSSLSUPPORT
 			{ "sslport", required_argument, NULL, 's' },
 			{ "cert", required_argument, NULL, 'c' },
+			{ "key", required_argument, NULL, 'k' },
 #endif
 			{ 0 }
 	};
@@ -71,6 +73,7 @@ bool Setup::ParseCommandLine( int argc, char* argv[] )
 #if TNTSSLSUPPORT
 		case 's': m_serverSslPort = atoi( optarg ); break;
 		case 'c': m_serverSslCert = optarg; break;
+		case 'k': m_serverSslKey = optarg; break;
 #endif
 		default:  return false;
 		}
@@ -96,6 +99,7 @@ char const* Setup::CommandLineHelp() const
 				<< "  -s PORT,  --sslport=PORT     use PORT to listen for incoming ssl connections\n"
 				   "                               (default: " << m_serverSslPort << ")\n"
 				<< "  -c CERT,  --cert=CERT        full path to a custom ssl certificate file\n"
+				<< "  -k KEY,  --key=KEY           full path to a custom ssl certificate key file\n"
 #endif
 				<< "  -l level, --log=level        log level for tntnet (values: INFO, DEBUG,...)\n"
 				<< "  -e <dir>, --epgimages=<dir>  directory for epgimages\n";
@@ -153,16 +157,20 @@ bool Setup::CheckServerSslPort()
 
 bool Setup::CheckServerIps()
 {
+	struct in6_addr buf;
+
 	if ( m_serverIps.empty() ) {
-		m_serverIps.push_back( "0.0.0.0" );
+		m_serverIps.push_back( "::" );
 		return true;
 	}
 
 	for ( IpList::const_iterator ip = m_serverIps.begin(); ip != m_serverIps.end(); ++ip ) {
 		if ( inet_addr( ip->c_str() ) == static_cast< in_addr_t >( -1 ) ) {
-			esyslog( "ERROR: live server ip %s is not a valid ip address", ip->c_str() );
-			cerr << "ERROR: live server ip " << *ip << " is not a valid ip address" << endl;
-			return false;
+			if ( ! inet_pton( AF_INET6, ip->c_str(), &buf ) ) {
+				esyslog( "ERROR: live server ip %s is not a valid ip address", ip->c_str() );
+				cerr << "ERROR: live server ip " << *ip << " is not a valid ip address" << endl;
+				return false;
+			}
 		}
 	}
 	return true;

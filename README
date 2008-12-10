@@ -161,8 +161,10 @@ SSL Commandline options
 
   -s PORT,  --sslport=PORT     use PORT to listen for incoming ssl connections
                                (default: 8443)
-  -c CERT,  --cert=CERT        path to a custom ssl certificate
+  -c CERT,  --cert=CERT        path to a custom ssl certificate file
   			       (default: $CONFIGDIR/live.pem)
+  -k KEY,   --cert=CERT        path to a custom ssl certificate key file
+			       (default: $CONFIGDIR/live-key.pem)
 
 
 Creating a self-signed SSL server certificate
@@ -172,7 +174,7 @@ To create a self-signed certificate file you`ll have to run this litte
 command.
 
   $> cd /put/your/path/here/vdr/plugins/live
-  $> openssl req -new -x509 -keyout server.pem -out live.pem -days 365 -nodes
+  $> openssl req -new -x509 -keyout live-key.pem -out live.pem -days 365 -nodes
 
 While generating the certifcate you`ll be asked to answer a couple of
 questions.  When it prompts to enter the "Common Name" you`ll have to
