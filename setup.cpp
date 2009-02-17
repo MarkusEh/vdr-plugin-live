@@ -155,25 +155,40 @@ bool Setup::CheckServerSslPort()
 }
 #endif
 
+namespace {
+	struct IpValidator
+	{
+		bool operator() (string const & ip)
+		{
+			struct in6_addr buf;
+			struct in_addr buf4;
+
+			bool valid = inet_aton(ip.c_str(), &buf4) || inet_pton(AF_INET6, ip.c_str(), &buf);
+
+			if (!valid) {
+				esyslog( "ERROR: live server ip %s is not a valid ip address", ip.c_str());
+				cerr << "ERROR: live server ip '" << ip << "' is not a valid ip address" << endl;
+			}
+			return valid;
+		}
+	};
+}
+
 bool Setup::CheckServerIps()
 {
-	struct in6_addr buf;
-
 	if ( m_serverIps.empty() ) {
+		// add a default IPv4 listener address
+		m_serverIps.push_back( "0.0.0.0" );
+		// and be prepared for IPv6 only hosts.
 		m_serverIps.push_back( "::" );
+		// we assume these are ok :)
 		return true;
 	}
 
-	for ( IpList::const_iterator ip = m_serverIps.begin(); ip != m_serverIps.end(); ++ip ) {
-		if ( inet_addr( ip->c_str() ) == static_cast< in_addr_t >( -1 ) ) {
-			if ( ! inet_pton( AF_INET6, ip->c_str(), &buf ) ) {
-				esyslog( "ERROR: live server ip %s is not a valid ip address", ip->c_str() );
-				cerr << "ERROR: live server ip " << *ip << " is not a valid ip address" << endl;
-				return false;
-			}
-		}
-	}
-	return true;
+	IpList::iterator i = partition(m_serverIps.begin(), m_serverIps.end(), IpValidator());
+	m_serverIps.erase(i, m_serverIps.end());
+
+	return !m_serverIps.empty();
 }
 
 std::string const Setup::GetMD5HashAdminPassword() const
