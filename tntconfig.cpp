@@ -252,8 +252,19 @@ namespace vdrlive {
 
 		Setup::IpList const& ips = LiveSetup().GetServerIps();
 		int port = LiveSetup().GetServerPort();
+		size_t listenFailures = 0;
 		for ( Setup::IpList::const_iterator ip = ips.begin(); ip != ips.end(); ++ip ) {
-			app.listen(*ip, port);
+			try {
+				app.listen(*ip, port);
+			}
+			catch (exception const & ex) {
+				esyslog("ERROR: live ip = %s is invalid: exception = %s", ip->c_str(), ex.what());
+				if (++listenFailures == ips.size()) {
+					// if no listener was initialized we throw at
+					// least the last exception to the next layer.
+					throw;
+				}
+			}
 		}
 
 #if TNTSSLSUPPORT
