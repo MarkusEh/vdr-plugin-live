@@ -176,40 +176,19 @@ namespace {
 
 bool Setup::CheckServerIps()
 {
-	struct in6_addr buf;
-
 	if ( m_serverIps.empty() ) {
-<<<<<<< HEAD:setup.cpp
-=======
 		// add a default IPv4 listener address
 		m_serverIps.push_back( "0.0.0.0" );
 		// and be prepared for IPv6 only hosts.
->>>>>>> tadi/master:setup.cpp
 		m_serverIps.push_back( "::" );
-<<<<<<< HEAD:setup.cpp
-=======
 		// we assume these are ok :)
->>>>>>> tadi/master:setup.cpp
 		return true;
 	}
 
-<<<<<<< HEAD:setup.cpp
-	for ( IpList::const_iterator ip = m_serverIps.begin(); ip != m_serverIps.end(); ++ip ) {
-		if ( inet_addr( ip->c_str() ) == static_cast< in_addr_t >( -1 ) ) {
-			if ( ! inet_pton( AF_INET6, ip->c_str(), &buf ) ) {
-				esyslog( "ERROR: live server ip %s is not a valid ip address", ip->c_str() );
-				cerr << "ERROR: live server ip " << *ip << " is not a valid ip address" << endl;
-				return false;
-			}
-		}
-	}
-	return true;
-=======
 	IpList::iterator i = partition(m_serverIps.begin(), m_serverIps.end(), IpValidator());
 	m_serverIps.erase(i, m_serverIps.end());
 
 	return !m_serverIps.empty();
->>>>>>> tadi/master:setup.cpp
 }
 
 std::string const Setup::GetMD5HashAdminPassword() const
