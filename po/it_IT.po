@@ -614,11 +614,12 @@ msgstr "Elimina questa registrazione dal disco fisso!"
 msgid "play this recording."
 msgstr "Riproduci questa registrazione"
 
-msgid "Interval"
-msgstr "Intervallo"
-
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "Impossibile trovare canale o canali disponibili. Hai digitato correttamente la richiesta?"
+
+#, fuzzy
+msgid "Snapshot interval"
+msgstr "intervallo"
 
 msgid "No schedules available for this channel"
 msgstr "Nessun programma disponibile per questo canale"
@@ -626,8 +627,8 @@ msgstr "Nessun programma disponibile per questo canale"
 msgid "%A, %b %d %Y"
 msgstr "%A, %b %d %Y"
 
-msgid "Show schedule of channel"
-msgstr "Mostra scheda programmi canale"
+msgid "Channel"
+msgstr "Canale"
 
 msgid "Search settings"
 msgstr "Impostazioni ricerca"
@@ -646,9 +647,6 @@ msgstr "Nessun risultato ricerca"
 
 msgid "Expression"
 msgstr "Termine ricerca"
-
-msgid "Channel"
-msgstr "Canale"
 
 msgid "Starts between"
 msgstr "Inizia tra"
@@ -788,6 +786,9 @@ msgstr "Preferiti"
 msgid "View the schedule of this channel"
 msgstr "Visualizza scheda programmi del canale"
 
+msgid " - "
+msgstr ""
+
 msgid "more"
 msgstr "altro"
 
@@ -811,6 +812,12 @@ msgstr "Ambiente interattivo LIVE per VDR"
 
 msgid "No EPG information available"
 msgstr ""
+
+#~ msgid "Interval"
+#~ msgstr "Intervallo"
+
+#~ msgid "Show schedule of channel"
+#~ msgstr "Mostra scheda programmi canale"
 
 #~ msgid "%a, %b %d"
 #~ msgstr "%a, %b %d"

@@ -2,6 +2,7 @@
 #include <locale>
 #include <vdr/i18n.h>
 #include <vdr/keys.h>
+#include <vdr/device.h>
 #include "grab.h"
 #include "setup.h"
 #include "tools.h"
@@ -10,15 +11,40 @@ using namespace std;
 using namespace vdrlive;
 
 </%pre>
+<%args>
+	int channel = -1;
+</%args>
 <%session scope="global">
 bool logged_in(false);
 </%session>
+<%request scope="page">
+	cChannel* Channel;
+</%request>
 <%include>page_init.eh</%include>
 <{
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 }>
 <%cpp>
 	pageTitle = tr("Remote Control");
+
+	ReadLock channelsLock( Channels );
+	if ( !channelsLock )
+		throw HtmlError( tr("Couldn't aquire access to channels, please try again later.") );
+
+	// cChannel* Channel; (see %request above)
+	if ( channel > 0 ) {
+		Channel = Channels.GetByNumber( channel );
+	}
+	else {
+		if (cDevice::CurrentChannel()) {
+			Channel = Channels.GetByNumber(cDevice::CurrentChannel());
+		}
+		else {
+			Channel = Channels.Get( Channels.GetNextNormal( -1 ) );
+		}
+	}
+	if ( Channel == 0 )
+		throw HtmlError( tr("Couldn't find channel or no channels available. Maybe you mistyped your request?") );
 
 </%cpp>
 <& pageelems.doc_type &>
@@ -127,5 +153,5 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <%include>page_exit.eh</%include>
 
 <%def remote_actions>
-<$ tr("Interval") $>: <select name="interval" onchange="ChangeInterval()"></select>
+<$ tr("Snapshot interval") $>: <select name="interval" onchange="ChangeInterval()"></select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<& pageelems.vlc_stream_channel channelId=(Channel->GetChannelID()) &>
 </%def>

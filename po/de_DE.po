@@ -612,11 +612,12 @@ msgstr "Diese Aufnahme von der Festplatte löschen!"
 msgid "play this recording."
 msgstr "Diese Aufnahme abspielen."
 
-msgid "Interval"
-msgstr "Intervall"
-
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "Konnte Kanal nicht finden oder keine Kanäle verfügbar. Ist die Anfrage korrekt?"
+
+#, fuzzy
+msgid "Snapshot interval"
+msgstr "Bereich"
 
 msgid "No schedules available for this channel"
 msgstr "Für diesen Kanal liegen keine EPG-Informationen vor"
@@ -624,8 +625,8 @@ msgstr "Für diesen Kanal liegen keine EPG-Informationen vor"
 msgid "%A, %b %d %Y"
 msgstr "%A, %d.%m.%Y"
 
-msgid "Show schedule of channel"
-msgstr "Zeige Programm dieses Kanals"
+msgid "Channel"
+msgstr "Kanal"
 
 msgid "Search settings"
 msgstr "Einstellungen zur Suche"
@@ -644,9 +645,6 @@ msgstr "keine Suchergebnisse"
 
 msgid "Expression"
 msgstr "Suchbegriff"
-
-msgid "Channel"
-msgstr "Kanal"
 
 msgid "Starts between"
 msgstr "Beginnt zwischen"
@@ -784,6 +782,9 @@ msgstr "Favoriten"
 msgid "View the schedule of this channel"
 msgstr "Zeige Programm dieses Kanals"
 
+msgid " - "
+msgstr ""
+
 msgid "more"
 msgstr "mehr"
 
@@ -807,6 +808,12 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr "Keine EPG Daten vorhanden"
+
+#~ msgid "Interval"
+#~ msgstr "Intervall"
+
+#~ msgid "Show schedule of channel"
+#~ msgstr "Zeige Programm dieses Kanals"
 
 #~ msgid "%a, %b %d"
 #~ msgstr "%a, %d.%m."

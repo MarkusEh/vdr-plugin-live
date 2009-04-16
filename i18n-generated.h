@@ -6941,15 +6941,15 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "Interval",
-    "Intervall",
+  { "Couldn't find channel or no channels available. Maybe you mistyped your request?",
+    "Konnte Kanal nicht finden oder keine Kanäle verfügbar. Ist die Anfrage korrekt?",
     "",
-    "Intervallo",
+    "Impossibile trovare canale o canali disponibili. Hai digitato correttamente la richiesta?",
     "",
     "",
-    "Intervalle",
+    "N'a pas pu trouver la chaîne. Votre requête est t'elle corrête? ",
     "",
-    "Päivitysväli",
+    "Kanavaa ei löydy. Kirjoititko varmasti oikein?",
     "",
     "",
     "",
@@ -6976,15 +6976,15 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "Couldn't find channel or no channels available. Maybe you mistyped your request?",
-    "Konnte Kanal nicht finden oder keine Kanäle verfügbar. Ist die Anfrage korrekt?",
+  { "Snapshot interval",
+    "Bereich",
     "",
-    "Impossibile trovare canale o canali disponibili. Hai digitato correttamente la richiesta?",
+    "intervallo",
+    "interval",
     "",
+    "intervalle",
     "",
-    "N'a pas pu trouver la chaîne. Votre requête est t'elle corrête? ",
-    "",
-    "Kanavaa ei löydy. Kirjoititko varmasti oikein?",
+    "kyllä",
     "",
     "",
     "",
@@ -7081,15 +7081,15 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "Show schedule of channel",
-    "Zeige Programm dieses Kanals",
+  { "Channel",
+    "Kanal",
     "",
-    "Mostra scheda programmi canale",
+    "Canale",
     "",
     "",
-    "Montrer le programme de la chaîne",
+    "Chaîne",
     "",
-    "Näytä kanavan ohjelmisto",
+    "Kanava",
     "",
     "",
     "",
@@ -7300,41 +7300,6 @@ const tI18nPhrase Phrases[] = {
     "Expression de recherche",
     "",
     "Hakutermi",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Channel",
-    "Kanal",
-    "",
-    "Canale",
-    "",
-    "",
-    "Chaîne",
-    "",
-    "Kanava",
     "",
     "",
     "",
@@ -8910,6 +8875,41 @@ const tI18nPhrase Phrases[] = {
     "Regarder le programme de cette chaîne",
     "",
     "Näytä ohjelmisto kanavalta",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { " - ",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
     "",
     "",
     "",
