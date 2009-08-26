@@ -138,7 +138,7 @@ using namespace vdrlive;
 <%cpp>
 	}
 </%cpp>
-<!-- --><p><$ tr("VLC media URL") $>: <$ videourl $></p><!-- -->
+<!-- --><p><$ tr("VLC media URL") $>: <span class="bold"><a href="<$ videourl $>"><$ videourl $></a></span></p><!-- -->
 </div>
 </%def>
 

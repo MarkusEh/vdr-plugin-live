@@ -618,11 +618,12 @@ msgstr ""
 msgid "play this recording."
 msgstr "lire cette enregistrement."
 
-msgid "Interval"
-msgstr "Intervalle"
-
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "N'a pas pu trouver la chaîne. Votre requête est t'elle corrête? "
+
+#, fuzzy
+msgid "Snapshot interval"
+msgstr "intervalle"
 
 msgid "No schedules available for this channel"
 msgstr "Aucune programmation disponible pour cette chaîne"
@@ -630,8 +631,8 @@ msgstr "Aucune programmation disponible pour cette chaîne"
 msgid "%A, %b %d %Y"
 msgstr "%A, %d.%m.%Y"
 
-msgid "Show schedule of channel"
-msgstr "Montrer le programme de la chaîne"
+msgid "Channel"
+msgstr "Chaîne"
 
 msgid "Search settings"
 msgstr "Règlages de recherche"
@@ -650,9 +651,6 @@ msgstr "pas de résultat de recherche"
 
 msgid "Expression"
 msgstr "Expression de recherche"
-
-msgid "Channel"
-msgstr "Chaîne"
 
 msgid "Starts between"
 msgstr "Départ entre"
@@ -795,6 +793,9 @@ msgstr "Favoris"
 msgid "View the schedule of this channel"
 msgstr "Regarder le programme de cette chaîne"
 
+msgid " - "
+msgstr ""
+
 msgid "more"
 msgstr "plus"
 
@@ -818,6 +819,12 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr ""
+
+#~ msgid "Interval"
+#~ msgstr "Intervalle"
+
+#~ msgid "Show schedule of channel"
+#~ msgstr "Montrer le programme de la chaîne"
 
 #~ msgid "%a, %b %d"
 #~ msgstr "%a, %d.%m."

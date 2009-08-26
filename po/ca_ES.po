@@ -612,10 +612,10 @@ msgstr ""
 msgid "play this recording."
 msgstr ""
 
-msgid "Interval"
+msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr ""
 
-msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
+msgid "Snapshot interval"
 msgstr ""
 
 msgid "No schedules available for this channel"
@@ -624,7 +624,7 @@ msgstr ""
 msgid "%A, %b %d %Y"
 msgstr ""
 
-msgid "Show schedule of channel"
+msgid "Channel"
 msgstr ""
 
 msgid "Search settings"
@@ -643,9 +643,6 @@ msgid "No search results"
 msgstr ""
 
 msgid "Expression"
-msgstr ""
-
-msgid "Channel"
 msgstr ""
 
 msgid "Starts between"
@@ -782,6 +779,9 @@ msgid "Favorites"
 msgstr ""
 
 msgid "View the schedule of this channel"
+msgstr ""
+
+msgid " - "
 msgstr ""
 
 msgid "more"

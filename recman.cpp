@@ -242,6 +242,7 @@ namespace vdrlive {
 	{
 		long RecLength = 0;
 		if (!m_recording->FileName()) return 0;
+#if VDRVERSNUM < 10704
 		cString filename = cString::sprintf("%s%s", m_recording->FileName(), INDEXFILESUFFIX);
 		if (*filename) {
 			if (access(filename, R_OK) == 0) {
@@ -257,6 +258,14 @@ namespace vdrlive {
 				}
 			}
 		}
+#else
+		// open index file for reading only
+		cIndexFile *index = new cIndexFile(m_recording->FileName(), false, m_recording->IsPesRecording());
+		if (index && index->Ok()) {
+			RecLength = (int) (index->Last() / SecondsToFrames(60, m_recording->FramesPerSecond()));
+		}
+		delete index;
+#endif
 		return RecLength;
 	}
 

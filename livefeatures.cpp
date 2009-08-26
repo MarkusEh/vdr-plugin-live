@@ -9,7 +9,7 @@ SplitVersion::SplitVersion( string version )
 	: m_version( 0 )
 {
 	static const int factors[] = { 100000000, 1000000, 1000, 1 };
-	
+
 	size_t pos = version.find('-');
 	if ( pos != string::npos ) {
 		m_suffix = version.substr( pos + 1 );
@@ -24,8 +24,9 @@ SplitVersion::SplitVersion( string version )
 bool SplitVersion::operator<( const SplitVersion& right ) const
 {
 	if ( m_version == right.m_version ) {
-		if ( m_suffix.empty() ) return false;
-		if ( right.m_suffix.empty() ) return true;
+		if (right.m_suffix.empty()) {
+			return false;
+		}
 		return m_suffix < right.m_suffix;
 	}
 	return m_version < right.m_version;
