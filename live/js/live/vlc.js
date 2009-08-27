@@ -67,10 +67,6 @@ var VLC = new Class({
 	  playerSetup: function(){
 			this.vlc = $(this.id);
 			this.newVlcApi = (this.vlc.VersionInfo != null);
-			if (this.newVlcApi) {
-				// disable logging.
-				this.vlc.log.verbosity = -1;
-			}
 			// add here new actions these class might support:
 			var actions = {
 			  play: { check: this.isPlaying, toggle: this.togglePlay },
