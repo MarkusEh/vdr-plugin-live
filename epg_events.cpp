@@ -280,10 +280,11 @@ namespace vdrlive
 				string domId(idOverride ? idOverride : EncodeDomId(chan->GetChannelID(), event->EventID()));
 				return EpgInfoPtr(new EpgEvent(domId, event, chan->Name()));
 			}
-			else if (LiveSetup().GetShowChannelsWithoutEPG()) {
+			if (LiveSetup().GetShowChannelsWithoutEPG()) {
 				string domId(idOverride ? idOverride : EncodeDomId(chan->GetChannelID(), 0));
 				return EpgInfoPtr(new EmptyEvent(domId, chan->GetChannelID(), chan->Name()));
 			}
+			return EpgInfoPtr();
 		}
 
 		EpgInfoPtr CreateEpgInfo(string const &recid, cRecording const *recording, char const *caption)
@@ -296,14 +297,10 @@ namespace vdrlive
 			return EpgInfoPtr(new EpgString(id, caption, info));
 		}
 
-		list<string> EpgImages(string const &epgid)
+
+		bool ScanForEpgImages(string const & imageId, list<string> & images)
 		{
-			list<string> images;
-
-			size_t delimPos = epgid.find_last_of('_');
-			string imageId = epgid.substr(delimPos+1);
-			imageId = imageId.substr(0, imageId.size()-1); // tvm2vdr seems always to use one digit less
-
+			bool found = false;
 			const string filemask(LiveSetup().GetEpgImageDir() + "/" + imageId + "*.*");
 			glob_t globbuf;
 			globbuf.gl_offs = 0;
@@ -312,8 +309,32 @@ namespace vdrlive
 					const string imagefile(globbuf.gl_pathv[i]);
 					size_t delimPos = imagefile.find_last_of('/');
 					images.push_back(imagefile.substr(delimPos+1));
+					found = true;
 				}
 				globfree(&globbuf);
+			}
+			return found;
+		}
+
+		list<string> EpgImages(string const &epgid)
+		{
+			size_t delimPos = epgid.find_last_of('_');
+			string imageId = epgid.substr(delimPos+1);
+
+			list<string> images;
+			if (! ScanForEpgImages(imageId, images))
+			{
+				// if we didn't get images try to work arround a bug
+				// in tvm2vdr.  tvm2vdr seems always to use one digit
+				// less, which leads in some rare cases to the bug in
+				// LIVE, that unrelated and to many images are
+				// displayed.  But without this 'fix' no images would
+				// be visible at all. The bug should be fixed in
+				// tvm2vdr.pl (Perl version of tvm2vdr).  There exists
+				// a plugin - also called tvm2vdr - which might not
+				// have that bug.
+				imageId = imageId.substr(0, imageId.size()-1);
+				ScanForEpgImages(imageId, images);
 			}
 			return images;
 		}
