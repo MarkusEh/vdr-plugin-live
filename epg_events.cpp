@@ -298,14 +298,14 @@ namespace vdrlive
 		}
 
 
-		bool ScanForEpgImages(string const & imageId, list<string> & images)
+		bool ScanForEpgImages(string const & imageId, string const & wildcard, list<string> & images)
 		{
 			bool found = false;
-			const string filemask(LiveSetup().GetEpgImageDir() + "/" + imageId + "*.*");
+			const string filemask(LiveSetup().GetEpgImageDir() + "/" + imageId + wildcard);
 			glob_t globbuf;
 			globbuf.gl_offs = 0;
 			if (!LiveSetup().GetEpgImageDir().empty() && glob(filemask.c_str(), GLOB_DOOFFS, NULL, &globbuf) == 0) {
-				for(int i=0; i<(int)globbuf.gl_pathc; i++) {
+				for(size_t i = 0; i < globbuf.gl_pathc; i++) {
 					const string imagefile(globbuf.gl_pathv[i]);
 					size_t delimPos = imagefile.find_last_of('/');
 					images.push_back(imagefile.substr(delimPos+1));
@@ -322,19 +322,38 @@ namespace vdrlive
 			string imageId = epgid.substr(delimPos+1);
 
 			list<string> images;
-			if (! ScanForEpgImages(imageId, images))
+
+			// Initially we scan for images that follow the scheme
+			// '<epgid>_<distinction>.*' where distincition is any
+			// character sequence.  Usually distinction will be used
+			// to assign more than one image to an epg event. Thus it
+			// will be a digit or number.  The sorting of the images
+			// will depend on the 'distinction' lexical sorting
+			// (similar to what ls does).
+			// Example:
+			//   112123_0.jpg		first epg image for event id 112123
+			//   112123_1.png		second epg image for event id 112123
+			if (! ScanForEpgImages(imageId, "_*.*", images))
 			{
-				// if we didn't get images try to work arround a bug
-				// in tvm2vdr.  tvm2vdr seems always to use one digit
-				// less, which leads in some rare cases to the bug in
-				// LIVE, that unrelated and to many images are
-				// displayed.  But without this 'fix' no images would
-				// be visible at all. The bug should be fixed in
-				// tvm2vdr.pl (Perl version of tvm2vdr).  There exists
-				// a plugin - also called tvm2vdr - which might not
-				// have that bug.
-				imageId = imageId.substr(0, imageId.size()-1);
-				ScanForEpgImages(imageId, images);
+				// if we didn't find images that follow the scheme
+				// above we try to find images that contain only the
+				// event id as file name without extension:
+				if (! ScanForEpgImages(imageId, ".*", images))
+				{
+#if TVM2VDR_PL_WORKAROUND
+					// if we didn't get images try to work arround a
+					// bug in tvm2vdr.  tvm2vdr seems always to use
+					// one digit less, which leads in some rare cases
+					// to the bug in LIVE, that unrelated and to many
+					// images are displayed.  But without this 'fix'
+					// no images would be visible at all. The bug
+					// should be fixed in tvm2vdr.pl (Perl version of
+					// tvm2vdr).  There exists a plugin - also called
+					// tvm2vdr - which does not have that bug.
+					imageId = imageId.substr(0, imageId.size()-1);
+					ScanForEpgImages(imageId, "*.*", images);
+#endif
+				}
 			}
 			return images;
 		}
