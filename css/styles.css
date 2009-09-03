@@ -768,7 +768,7 @@ div.short {
 }
 
 div.info {
-	padding: 5px;
+	padding: 5px 5px 5px 0px;
         overflow: hidden;
 }
 
