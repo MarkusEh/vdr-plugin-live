@@ -4,6 +4,7 @@
 #include "epgsearch.h"
 #include "tools.h"
 #include "setup.h"
+#include "users.h"
 
 using namespace vdrlive;
 using namespace std;
@@ -27,8 +28,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	if ( !searchtimerid.empty() ) {
 		if (action == "toggle")
 			timers.ToggleActive(searchtimerid);
-		if (action == "delete")
+		if (action == "delete") {
+			if (!cUser::CurrentUserHasRightTo(UR_DELSTIMERS))
+				throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
 			timers.Delete(searchtimerid);
+		}
 	}
 	if (action == "update")
 		timers.TriggerUpdate();

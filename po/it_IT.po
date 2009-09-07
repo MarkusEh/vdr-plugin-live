@@ -126,6 +126,9 @@ msgstr "conflitti"
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr "Impossibile avere accesso ai canali, riprova più tardi."
 
+msgid "Sorry, no permission. Please contact your administrator!"
+msgstr ""
+
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
 msgstr "Impossibile trovare timer ricerca. Hai digitato correttamente la richiesta?"
 
@@ -370,6 +373,67 @@ msgstr "Nuovo timer"
 msgid "Weekday"
 msgstr "Giorno della settimana"
 
+#, fuzzy
+msgid "Couldn't find user. Maybe you mistyped your request?"
+msgstr "Impossibile trovare timer. Hai digitato correttamente la richiesta?"
+
+msgid "This user name is already in use!"
+msgstr ""
+
+#, fuzzy
+msgid "Edit user"
+msgstr "Modifica timer"
+
+#, fuzzy
+msgid "New user"
+msgstr "Nuovo timer"
+
+msgid "Name"
+msgstr ""
+
+msgid "Password"
+msgstr "Password"
+
+#, fuzzy
+msgid "User rights"
+msgstr "Utente"
+
+#, fuzzy
+msgid "Edit setup"
+msgstr "Modifica timer"
+
+#, fuzzy
+msgid "Add or edit timers"
+msgstr "Modifica timer"
+
+#, fuzzy
+msgid "Delete timers"
+msgstr "Elimina timer"
+
+#, fuzzy
+msgid "Delete recordings"
+msgstr "Registrazione eliminata:"
+
+#, fuzzy
+msgid "Use remote menu"
+msgstr "Utilizza nel menu Preferiti"
+
+#, fuzzy
+msgid "Start replay"
+msgstr "Pagina iniziale"
+
+#, fuzzy
+msgid "Switch channel"
+msgstr "Sintonizza questo canale"
+
+#, fuzzy
+msgid "Add or edit search timers"
+msgstr "Modifica timer ricerca"
+
+#, fuzzy
+msgid "Delete search timers"
+msgstr "Elimina timer ricerca"
+
 msgid "Electronic program guide information"
 msgstr "Info Guida Elettronica Programmi (EPG)"
 
@@ -417,9 +481,6 @@ msgstr "Accesso VDR Live"
 
 msgid "User"
 msgstr "Utente"
-
-msgid "Password"
-msgstr "Password"
 
 msgid "What's on?"
 msgstr "In programmazione"
@@ -675,6 +736,9 @@ msgstr "Opzioni salvate."
 msgid "Setup"
 msgstr "Opzioni"
 
+msgid "User management"
+msgstr ""
+
 msgid "Local net (no login required)"
 msgstr "Rete locale (nessun accesso richiesto)"
 
@@ -737,6 +801,14 @@ msgstr "Nessun timer definito"
 
 msgid "Timer is recording."
 msgstr "Timer in registrazione."
+
+#, fuzzy
+msgid "Users"
+msgstr "Utente"
+
+#, fuzzy
+msgid "Delete user"
+msgstr "Elimina timer"
 
 msgid "VLC: live video stream"
 msgstr "VLC: trasmissione video Live"
@@ -812,6 +884,10 @@ msgstr "Ambiente interattivo LIVE per VDR"
 
 msgid "No EPG information available"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Please set a name and password for the user!"
+#~ msgstr "Digita un nome utente e password!"
 
 #~ msgid "Interval"
 #~ msgstr "Intervallo"

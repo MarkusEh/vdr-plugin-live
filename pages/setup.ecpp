@@ -3,6 +3,7 @@
 #include <vdr/tools.h>
 #include "setup.h"
 #include "tools.h"
+#include "users.h"
 #include "i18n.h"
 
 using namespace vdrlive;
@@ -33,7 +34,9 @@ using namespace std;
 </%session>
 <%include>page_init.eh</%include>
 <%cpp>
-if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+if (!logged_in && LiveSetup().UseAuth() ) return reply.redirect("login.html");
+if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
+		throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
 
 #define SELECTIF(x) reply.out() << ( (x) ? "selected=\"selected\"" : "" );
 #define CHECKIF(x) reply.out() << ( (x) ? "checked=\"checked\"" : "" );
@@ -150,6 +153,10 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 							<tr>
 								<td class="label"><div class="withmargin"><$ tr("Admin password") $>:</div></td>
 								<td><input  type="password" name="pass" value="<$ pass $>" id="pass" onchange="setauthchanged(this)" /></td>
+							</tr>
+							<tr>
+								<td class="label"><div class="withmargin"><a href="users.html"><$ tr("User management") $></a></div></td>
+								<td/>
 							</tr>
 							<tr>
 								<td class="label"><div class="withmargin"><$ tr("Local net (no login required)") $>:</div></td>
@@ -281,5 +288,4 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 </html>
 
 <%include>page_exit.eh</%include>
-
 

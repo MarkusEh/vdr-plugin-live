@@ -123,6 +123,9 @@ msgstr "päällekkäistä ajastinta"
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr "Kanavien käyttäminen epäonnistui! Yritä myöhemmin uudelleen."
 
+msgid "Sorry, no permission. Please contact your administrator!"
+msgstr ""
+
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
 msgstr "Hakuajastimia ei löydetä! Onko pyyntö oikein kirjoitettu?"
 
@@ -367,6 +370,67 @@ msgstr "Luo uusi ajastin"
 msgid "Weekday"
 msgstr "Viikonpäivä"
 
+#, fuzzy
+msgid "Couldn't find user. Maybe you mistyped your request?"
+msgstr "Ajastinta ei löydy. Kirjoititko varmasti oikein?"
+
+msgid "This user name is already in use!"
+msgstr ""
+
+#, fuzzy
+msgid "Edit user"
+msgstr "Muokkaa ajastinta"
+
+#, fuzzy
+msgid "New user"
+msgstr "Luo uusi ajastin"
+
+msgid "Name"
+msgstr ""
+
+msgid "Password"
+msgstr "Salasana"
+
+#, fuzzy
+msgid "User rights"
+msgstr "Käyttäjä"
+
+#, fuzzy
+msgid "Edit setup"
+msgstr "Muokkaa ajastinta"
+
+#, fuzzy
+msgid "Add or edit timers"
+msgstr "Muokkaa ajastinta"
+
+#, fuzzy
+msgid "Delete timers"
+msgstr "Poista ajastin"
+
+#, fuzzy
+msgid "Delete recordings"
+msgstr "Poistettu tallenne:"
+
+#, fuzzy
+msgid "Use remote menu"
+msgstr "Käytä suosikkina"
+
+#, fuzzy
+msgid "Start replay"
+msgstr "Aloitussivu"
+
+#, fuzzy
+msgid "Switch channel"
+msgstr "Vaihda kanavalle"
+
+#, fuzzy
+msgid "Add or edit search timers"
+msgstr "Muokkaa hakuajastinta"
+
+#, fuzzy
+msgid "Delete search timers"
+msgstr "Poista hakuajastin"
+
 msgid "Electronic program guide information"
 msgstr "Ohjelmaoppaan tiedot"
 
@@ -414,9 +478,6 @@ msgstr "VDR Live - sisäänkirjautuminen"
 
 msgid "User"
 msgstr "Käyttäjä"
-
-msgid "Password"
-msgstr "Salasana"
 
 msgid "What's on?"
 msgstr "Menossa?"
@@ -672,6 +733,9 @@ msgstr "Asetukset tallennettu."
 msgid "Setup"
 msgstr "Asetukset"
 
+msgid "User management"
+msgstr ""
+
 msgid "Local net (no login required)"
 msgstr "Paikallinen verkko (ei autentikointia)"
 
@@ -734,6 +798,14 @@ msgstr "Ajastinta ei ole määritelty"
 
 msgid "Timer is recording."
 msgstr "Ajastinta tallennetaan"
+
+#, fuzzy
+msgid "Users"
+msgstr "Käyttäjä"
+
+#, fuzzy
+msgid "Delete user"
+msgstr "Poista ajastin"
 
 msgid "VLC: live video stream"
 msgstr "VLC: live-lähetyksen suoratoisto"
@@ -809,6 +881,10 @@ msgstr "Interaktiivinen VDR-ympäristö"
 
 msgid "No EPG information available"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Please set a name and password for the user!"
+#~ msgstr "Aseta käyttäjätunnus sekä salasana!"
 
 #~ msgid "Interval"
 #~ msgstr "Päivitysväli"

@@ -5,6 +5,7 @@
 #include "setup.h"
 #include "tasks.h"
 #include "tools.h"
+#include "users.h"
 
 using namespace std;
 using namespace vdrlive;
@@ -18,6 +19,8 @@ using namespace vdrlive;
 </%session>
 <%cpp>
 	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+	if (!cUser::CurrentUserHasRightTo(UR_STARTREPLAY))
+		throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
 	reply.setContentType( "application/xml" );
 
 	PlayRecordingTask task( param );

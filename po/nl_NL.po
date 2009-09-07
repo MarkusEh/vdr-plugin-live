@@ -129,6 +129,9 @@ msgstr "Serie's opnemen"
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr ""
 
+msgid "Sorry, no permission. Please contact your administrator!"
+msgstr ""
+
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
 msgstr ""
 
@@ -373,6 +376,64 @@ msgstr ""
 msgid "Weekday"
 msgstr ""
 
+msgid "Couldn't find user. Maybe you mistyped your request?"
+msgstr ""
+
+msgid "This user name is already in use!"
+msgstr ""
+
+#, fuzzy
+msgid "Edit user"
+msgstr "Serie's opnemen"
+
+msgid "New user"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
+msgid "User rights"
+msgstr ""
+
+#, fuzzy
+msgid "Edit setup"
+msgstr "Serie's opnemen"
+
+#, fuzzy
+msgid "Add or edit timers"
+msgstr "Gebruik als zoek timer"
+
+#, fuzzy
+msgid "Delete timers"
+msgstr "Serie's opnemen"
+
+#, fuzzy
+msgid "Delete recordings"
+msgstr "Serie's opnemen"
+
+#, fuzzy
+msgid "Use remote menu"
+msgstr "Gebruik tijd"
+
+#, fuzzy
+msgid "Start replay"
+msgstr "Start voor"
+
+#, fuzzy
+msgid "Switch channel"
+msgstr "tot kanaal"
+
+#, fuzzy
+msgid "Add or edit search timers"
+msgstr "Gebruik als zoek timer"
+
+#, fuzzy
+msgid "Delete search timers"
+msgstr "Serie's opnemen"
+
 msgid "Electronic program guide information"
 msgstr ""
 
@@ -419,9 +480,6 @@ msgid "VDR Live Login"
 msgstr ""
 
 msgid "User"
-msgstr ""
-
-msgid "Password"
 msgstr ""
 
 msgid "What's on?"
@@ -678,6 +736,9 @@ msgstr ""
 msgid "Setup"
 msgstr ""
 
+msgid "User management"
+msgstr ""
+
 msgid "Local net (no login required)"
 msgstr ""
 
@@ -743,6 +804,13 @@ msgstr ""
 
 #, fuzzy
 msgid "Timer is recording."
+msgstr "Serie's opnemen"
+
+msgid "Users"
+msgstr ""
+
+#, fuzzy
+msgid "Delete user"
 msgstr "Serie's opnemen"
 
 msgid "VLC: live video stream"

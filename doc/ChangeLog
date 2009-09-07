@@ -1,3 +1,7 @@
+2009-09-07  Christian Wieninger  <cwieninger at gmx dot de>
+	* new user management within setup that also handles different
+	  user rights
+
 2008-11-19  Christian Wieninger  <cwieninger at gmx dot de>
 	* new setup option to display channels without EPG
 	

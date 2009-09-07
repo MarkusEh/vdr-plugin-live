@@ -4,6 +4,7 @@
 #include <vdr/keys.h>
 #include "setup.h"
 #include "tools.h"
+#include "users.h"
 
 using namespace std;
 using namespace vdrlive;
@@ -23,6 +24,8 @@ using namespace vdrlive;
 <%include>page_init.eh</%include>
 <%cpp>
 	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+	if (!cUser::CurrentUserHasRightTo(UR_STARTREPLAY))
+		throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
 
 	bool asyncReq = !async.empty() && (lexical_cast<int>(async) != 0);
 

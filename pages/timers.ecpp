@@ -8,6 +8,7 @@
 #include "epg_events.h"
 #include "timerconflict.h"
 #include "livefeatures.h"
+#include "users.h"
 
 using namespace std;
 using namespace vdrlive;
@@ -44,6 +45,8 @@ static const size_t maximumDescriptionLength = 300;
 		if ( timer == 0 )
 			throw HtmlError( tr("Couldn't find timer. Maybe you mistyped your request?") );
 		if (action == "delete") {
+			if (!cUser::CurrentUserHasRightTo(UR_DELTIMERS))
+				throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
 			LiveTimerManager().DelTimer(timer);
 			timerNotifier.SetTimerModification();
 		}

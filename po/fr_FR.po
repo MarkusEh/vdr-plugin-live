@@ -129,6 +129,9 @@ msgstr "Programmation est active."
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr "Impossible d'avoir accès à des chaînes, réessayer ultérieurement."
 
+msgid "Sorry, no permission. Please contact your administrator!"
+msgstr ""
+
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
 msgstr "Impossible de trouver la programmation de recherche. Peut-être que votre demande de fautes de frappe?"
 
@@ -373,6 +376,67 @@ msgstr "Nouvelle programmation"
 msgid "Weekday"
 msgstr "Jour de la semaine"
 
+#, fuzzy
+msgid "Couldn't find user. Maybe you mistyped your request?"
+msgstr "N'a pas pu trouver la programmation. Peut-être vous avez une erreur dans votre requête?"
+
+msgid "This user name is already in use!"
+msgstr ""
+
+#, fuzzy
+msgid "Edit user"
+msgstr "Editer la programmation"
+
+#, fuzzy
+msgid "New user"
+msgstr "Nouvelle programmation"
+
+msgid "Name"
+msgstr ""
+
+msgid "Password"
+msgstr "Mot de passe"
+
+#, fuzzy
+msgid "User rights"
+msgstr "Utilisateur"
+
+#, fuzzy
+msgid "Edit setup"
+msgstr "Editer la programmation"
+
+#, fuzzy
+msgid "Add or edit timers"
+msgstr "Editer la programmation"
+
+#, fuzzy
+msgid "Delete timers"
+msgstr "Effacer la programmation"
+
+#, fuzzy
+msgid "Delete recordings"
+msgstr "Enregistrement de série"
+
+#, fuzzy
+msgid "Use remote menu"
+msgstr "Utiliser dans le menu favoris"
+
+#, fuzzy
+msgid "Start replay"
+msgstr "Page de départ"
+
+#, fuzzy
+msgid "Switch channel"
+msgstr "Changer vers cette chaîne. "
+
+#, fuzzy
+msgid "Add or edit search timers"
+msgstr "Editer l'expression de recherche"
+
+#, fuzzy
+msgid "Delete search timers"
+msgstr "Effacer la programmation de recherche"
+
 msgid "Electronic program guide information"
 msgstr "Guide électronique d'information des programmes EPG"
 
@@ -420,9 +484,6 @@ msgstr "Session VDR Live"
 
 msgid "User"
 msgstr "Utilisateur"
-
-msgid "Password"
-msgstr "Mot de passe"
 
 msgid "What's on?"
 msgstr "Actuellement?"
@@ -679,6 +740,9 @@ msgstr "Paramètre sauvegardé"
 msgid "Setup"
 msgstr "Configuration"
 
+msgid "User management"
+msgstr ""
+
 msgid "Local net (no login required)"
 msgstr "Réseau local (non requis)"
 
@@ -744,6 +808,14 @@ msgstr "Aucune programmation définie"
 
 msgid "Timer is recording."
 msgstr "Enregistrement de série"
+
+#, fuzzy
+msgid "Users"
+msgstr "Utilisateur"
+
+#, fuzzy
+msgid "Delete user"
+msgstr "Effacer la programmation"
 
 msgid "VLC: live video stream"
 msgstr "VLC: live vidéo stream"
@@ -819,6 +891,10 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Please set a name and password for the user!"
+#~ msgstr "Entrée le nom d'utilisateur et le mot de passe svp!"
 
 #~ msgid "Interval"
 #~ msgstr "Intervalle"

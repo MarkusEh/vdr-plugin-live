@@ -3,6 +3,7 @@
 #include "exception.h"
 #include "tasks.h"
 #include "tools.h"
+#include "users.h"
 
 using namespace std;
 using namespace vdrlive;
@@ -15,6 +16,9 @@ using namespace vdrlive;
 <%cpp>
 	bool ajaxReq = !async.empty() && (lexical_cast<int>(async) != 0);
 	string referrer;
+
+	if (!cUser::CurrentUserHasRightTo(UR_SWITCHCHNL))
+		throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
 
 	if (ajaxReq) {
 		reply.setContentType( "application/xml" );

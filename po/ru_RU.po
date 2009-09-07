@@ -123,6 +123,9 @@ msgstr ""
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr ""
 
+msgid "Sorry, no permission. Please contact your administrator!"
+msgstr ""
+
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
 msgstr ""
 
@@ -367,6 +370,54 @@ msgstr ""
 msgid "Weekday"
 msgstr ""
 
+msgid "Couldn't find user. Maybe you mistyped your request?"
+msgstr ""
+
+msgid "This user name is already in use!"
+msgstr ""
+
+msgid "Edit user"
+msgstr ""
+
+msgid "New user"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
+msgid "User rights"
+msgstr ""
+
+msgid "Edit setup"
+msgstr ""
+
+msgid "Add or edit timers"
+msgstr ""
+
+msgid "Delete timers"
+msgstr ""
+
+msgid "Delete recordings"
+msgstr ""
+
+msgid "Use remote menu"
+msgstr ""
+
+msgid "Start replay"
+msgstr ""
+
+msgid "Switch channel"
+msgstr ""
+
+msgid "Add or edit search timers"
+msgstr ""
+
+msgid "Delete search timers"
+msgstr ""
+
 msgid "Electronic program guide information"
 msgstr ""
 
@@ -413,9 +464,6 @@ msgid "VDR Live Login"
 msgstr ""
 
 msgid "User"
-msgstr ""
-
-msgid "Password"
 msgstr ""
 
 msgid "What's on?"
@@ -670,6 +718,9 @@ msgstr ""
 msgid "Setup"
 msgstr ""
 
+msgid "User management"
+msgstr ""
+
 msgid "Local net (no login required)"
 msgstr ""
 
@@ -731,6 +782,12 @@ msgid "No timer defined"
 msgstr ""
 
 msgid "Timer is recording."
+msgstr ""
+
+msgid "Users"
+msgstr ""
+
+msgid "Delete user"
 msgstr ""
 
 msgid "VLC: live video stream"
