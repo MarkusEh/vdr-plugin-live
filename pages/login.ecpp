@@ -1,6 +1,7 @@
 <%pre>
 #include "tools.h"
 #include "setup.h"
+#include "users.h"
 
 using namespace std;
 using namespace vdrlive;
@@ -19,13 +20,15 @@ bool logged_in(false);
 std::string message;
 
 if (action == "login") {
-	if ((login == LiveSetup().GetAdminLogin()) && (MD5Hash(password) == LiveSetup().GetMD5HashAdminPassword())) {
+	if (Users.ValidLogin(login, password)) {
 		logged_in = true;
+		cUsers::logged_in_user = login;
 	} else {
 		message = tr("Wrong username or password");
 	}
 } else if (action == "logout") {
 	logged_in = false;
+	cUsers::logged_in_user = "";
 }
 
 LiveSetup().CheckLocalNet(request.getPeerIp());

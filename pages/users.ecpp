@@ -1,0 +1,80 @@
+<%pre>
+#include <vdr/channels.h>
+#include <vdr/i18n.h>
+#include "users.h"
+#include "setup.h"
+
+using namespace vdrlive;
+using namespace std;
+
+</%pre>
+<%args>
+	// input parameters
+	string userid;
+	string action;
+</%args>
+<%session scope="global">
+bool logged_in(false);
+</%session>
+<%include>page_init.eh</%include>
+<%cpp>
+if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+</%cpp>
+<%cpp>
+	pageTitle = tr("Users");
+	if ( !userid.empty() ) {
+		if (action == "delete")
+		{
+			Users.Del(Users.GetByUserId( userid ));
+			Users.Save();
+		}
+	}
+</%cpp>
+<& pageelems.doc_type &>
+<html>
+	<head>
+		<title>VDR-Live - <$ pageTitle $></title>
+		<& pageelems.stylesheets &>
+		<& pageelems.ajax_js &>
+	</head>
+	<body>
+		<& pageelems.logo &>
+		<& menu active=("users") component=("users.user_actions")>
+		<div class="inhalt">
+			<table class="listing" cellspacing="0" cellpadding="0">
+				<tr class="head">
+					<td colspan="3">
+						<div class="boxheader"><div><div><$ pageTitle $></div></div></div>
+					</td>
+				</tr>
+				<tr class="description">
+					<td class="action leftcol"><div class="leftcol"><$ tr("Name") $></div></td>
+					<td class="rightcol" colspan="8"/>
+				</tr>
+<%cpp>
+				cUser* user = Users.First();
+				while (user) 
+    				{
+					bool bottom = (Users.Next(user) == NULL);
+				    if (user) 
+				    {
+</%cpp>
+					<tr class="description">
+						<td class="action leftcol <? bottom ? "bottomrow" ?>"><div class="withmargin"><$ user->Name() $></div></td>	
+						<td class="<? bottom ? "bottomrow" ?>"><a href="edit_user.html?userid=<$ user->Id() $>"><img src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="" <& tooltip.hint text=(tr("Edit user")) &>></img></a></td>					
+						<td class="action rightcol <? bottom ? "bottomrow" ?>"><a href="users.html?userid=<$ user->Id() $>&action=delete"><img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint text=(tr("Delete user")) &>></img></a></td>
+					</tr>
+<%cpp>
+				    }
+				    user = Users.Next(user);
+				}
+</%cpp>
+			</table>
+		</div>
+	</body>
+</html>
+<%include>page_exit.eh</%include>
+
+<%def user_actions>
+<a href="edit_user.html"><$ tr("New user") $></a>
+</%def>

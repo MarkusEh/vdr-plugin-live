@@ -6,6 +6,7 @@
 #include "grab.h"
 #include "setup.h"
 #include "tools.h"
+#include "users.h"
 
 using namespace std;
 using namespace vdrlive;
@@ -25,6 +26,9 @@ bool logged_in(false);
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 }>
 <%cpp>
+	if (!cUser::CurrentUserHasRightTo(UR_USEREMOTE))
+		throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
+
 	pageTitle = tr("Remote Control");
 
 	ReadLock channelsLock( Channels );

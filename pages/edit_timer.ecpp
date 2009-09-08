@@ -13,6 +13,7 @@
 #include "i18n.h"
 #include "livefeatures.h"
 #include "epgsearch.h"
+#include "users.h"
 
 using namespace std;
 using namespace vdrlive;
@@ -56,6 +57,9 @@ cTimer* timer;
 <%include>page_init.eh</%include>
 <%cpp>
 	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+
+	if (!cUser::CurrentUserHasRightTo(UR_EDITTIMERS))
+		throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
 
 	bool ajaxReq = !async.empty() && (lexical_cast<int>(async) != 0);
 

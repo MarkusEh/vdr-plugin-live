@@ -10,6 +10,7 @@
 #include "epgsearch.h"
 #include "setup.h"
 #include "i18n.h"
+#include "users.h"
 
 using namespace std;
 using namespace vdrlive;
@@ -98,6 +99,9 @@ SearchTimer* editsearchtimer;
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 }>
 <%cpp>
+
+	if (!cUser::CurrentUserHasRightTo(UR_EDITSTIMERS))
+		throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
 
 #define SELECTIF(x) reply.out() << ( (x) ? "selected=\"selected\"" : "" );
 #define CHECKIF(x) reply.out() << ( (x) ? "checked=\"checked\"" : "" );

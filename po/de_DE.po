@@ -125,6 +125,9 @@ msgstr "Timerkonflikte entdeckt"
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr "Zugriff auf die Kanäle wurde verweigert. Bitte später versuchen."
 
+msgid "Sorry, no permission. Please contact your administrator!"
+msgstr "Leider nicht erlaubt. Bitte kontaktieren Sie Ihren Administrator!"
+
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
 msgstr "Keinen Suchtimer gefunden. Möglicherweise ein Tippfehler in der Anfrage?"
 
@@ -369,6 +372,54 @@ msgstr "Neuen Timer anlegen"
 msgid "Weekday"
 msgstr "Wochentag"
 
+msgid "Couldn't find user. Maybe you mistyped your request?"
+msgstr "Konnte Benutzer nicht finden. Evtl. fehlerhafte Anforderung?"
+
+msgid "This user name is already in use!"
+msgstr "Dieser Benutzername wird bereits verwendet!"
+
+msgid "Edit user"
+msgstr "Benutzer bearbeiten"
+
+msgid "New user"
+msgstr "Neuen Benutzer anlegen"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Password"
+msgstr "Passwort"
+
+msgid "User rights"
+msgstr "Benutzerrechte"
+
+msgid "Edit setup"
+msgstr "Einstellungen bearbeiten"
+
+msgid "Add or edit timers"
+msgstr "Timer hinzufügen oder ändern"
+
+msgid "Delete timers"
+msgstr "Timer löschen"
+
+msgid "Delete recordings"
+msgstr "Aufnahmen löschen"
+
+msgid "Use remote menu"
+msgstr "Menü Fernbedienung nutzen"
+
+msgid "Start replay"
+msgstr "Wiedergabe starten"
+
+msgid "Switch channel"
+msgstr "Zu diesem Kanal umschalten."
+
+msgid "Add or edit search timers"
+msgstr "Suchtimer hinzufügen oder ändern"
+
+msgid "Delete search timers"
+msgstr "Suchtimer löschen"
+
 msgid "Electronic program guide information"
 msgstr "Elektronische Programminformation"
 
@@ -416,9 +467,6 @@ msgstr "VDR Live Login"
 
 msgid "User"
 msgstr "Benutzer"
-
-msgid "Password"
-msgstr "Passwort"
 
 msgid "What's on?"
 msgstr "Was läuft?"
@@ -615,9 +663,8 @@ msgstr "Diese Aufnahme abspielen."
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "Konnte Kanal nicht finden oder keine Kanäle verfügbar. Ist die Anfrage korrekt?"
 
-#, fuzzy
 msgid "Snapshot interval"
-msgstr "Bereich"
+msgstr "Snapshot-Intervall"
 
 msgid "No schedules available for this channel"
 msgstr "Für diesen Kanal liegen keine EPG-Informationen vor"
@@ -672,6 +719,9 @@ msgstr "Einstellungen gespeichert."
 
 msgid "Setup"
 msgstr "Einstellungen"
+
+msgid "User management"
+msgstr "Benutzerverwaltung"
 
 msgid "Local net (no login required)"
 msgstr "Lokales Netz (keine Anmeldung notwendig)"
@@ -735,6 +785,12 @@ msgstr "Keine Timer vorhanden"
 
 msgid "Timer is recording."
 msgstr "Timer zeichnet auf."
+
+msgid "Users"
+msgstr "Benutzer"
+
+msgid "Delete user"
+msgstr "Benutzer löschen"
 
 msgid "VLC: live video stream"
 msgstr "VLC: Video Stream"
@@ -808,6 +864,10 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr "Keine EPG Daten vorhanden"
+
+#, fuzzy
+#~ msgid "Please set a name and password for the user!"
+#~ msgstr "Bitte Login und Passwort angeben!"
 
 #~ msgid "Interval"
 #~ msgstr "Intervall"

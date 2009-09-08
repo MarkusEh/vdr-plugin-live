@@ -96,6 +96,7 @@ if (!component.empty()) {
 </%cpp>
 	  <& menu.component current=("recordings") &>
 	  <& menu.component current=("remote") &>
+	  <& menu.component current=("users") &>
     </div>
   </div>
 </div>
