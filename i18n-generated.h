@@ -19,7 +19,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "DerniËre chaÓne affichÈe",
     "",
-    "N‰yt‰ viimeisen‰ kanava",
+    "N√§yt√§ viimeisen√§ kanava",
     "",
     "",
     "",
@@ -89,7 +89,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Utiliser l'authentification",
     "",
-    "K‰yt‰ autentikointia",
+    "K√§yt√§ autentikointia",
     "",
     "",
     "",
@@ -159,7 +159,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Oui",
     "",
-    "kyll‰",
+    "kyll√§",
     "",
     "",
     "",
@@ -194,7 +194,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Ouverture Admin",
     "",
-    "Yll‰pidon k‰ytt‰j‰tunnus",
+    "Yll√§pidon k√§ytt√§j√§tunnus",
     "",
     "",
     "",
@@ -229,7 +229,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Mot de passe de l'Admin",
     "",
-    "Yll‰pidon salasana",
+    "Yll√§pidon salasana",
     "",
     "",
     "",
@@ -369,7 +369,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Programmation dÈj‡ dÈfinit",
     "",
-    "Ajastin jo m‰‰ritelty",
+    "Ajastin jo m√§√§ritelty",
     "",
     "",
     "",
@@ -404,7 +404,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Programmation sont en cours d'Èdition - essayer plus tard",
     "",
-    "Ajastimia muokataan - yrit‰ uudelleen myˆhemmin",
+    "Ajastimia muokataan - yrit√§ uudelleen my√∂hemmin",
     "",
     "",
     "",
@@ -439,7 +439,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Programmation non dÈfinit",
     "",
-    "Ajastinta ei ole m‰‰ritelty",
+    "Ajastinta ei ole m√§√§ritelty",
     "",
     "",
     "",
@@ -474,7 +474,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Sur le DVD archive no∞",
     "",
-    "Arkistointi-DVD:ll‰ numero",
+    "Arkistointi-DVD:ll√§ numero",
     "",
     "",
     "",
@@ -509,7 +509,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Impossible de trouver la chaÓne ou pas de chaÓnes disponibles.",
     "",
-    "Kanavaa ei lˆydy tai yht‰‰n kanavaa ei ole saatavilla.",
+    "Kanavaa ei l√∂ydy tai yht√§√§n kanavaa ei ole saatavilla.",
     "",
     "",
     "",
@@ -544,7 +544,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Impossible de passer ‡ la chaÓne.",
     "",
-    "Kanavan valinta ep‰onnistui.",
+    "Kanavan valinta ep√§onnistui.",
     "",
     "",
     "",
@@ -579,7 +579,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Impossible de trouver l'enregistrement ou aucun enregistrements disponibles.",
     "",
-    "Tallennetta ei lˆydy tai yht‰‰n tallennetta ei ole saatavilla.",
+    "Tallennetta ei l√∂ydy tai yht√§√§n tallennetta ei ole saatavilla.",
     "",
     "",
     "",
@@ -614,7 +614,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Ne peut pas contrÙler la lecture!",
     "",
-    "Toiston hallinta ep‰onnistui!",
+    "Toiston hallinta ep√§onnistui!",
     "",
     "",
     "",
@@ -684,7 +684,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "Pyydetty‰ tallennetta ei toisteta.",
+    "Pyydetty√§ tallennetta ei toisteta.",
     "",
     "",
     "",
@@ -719,7 +719,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Tentative d'effacer l'enregistrement en cours de lecture.",
     "",
-    "Yritet‰‰n poistaa toistettavaa tallennetta.",
+    "Yritet√§√§n poistaa toistettavaa tallennetta.",
     "",
     "",
     "",
@@ -789,7 +789,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Faux ID de chaÓne",
     "",
-    "V‰‰r‰ kanavan tunniste",
+    "V√§√§r√§ kanavan tunniste",
     "",
     "",
     "",
@@ -859,7 +859,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Faux ID d'ÈvÈnement",
     "",
-    "V‰‰r‰ tapahtuman tunniste",
+    "V√§√§r√§ tapahtuman tunniste",
     "",
     "",
     "",
@@ -1034,7 +1034,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Version EPGSearch pÈrimÈe! Mettre ‡ jour Svp.",
     "",
-    "EPGSearch-laajennos pit‰isi p‰ivitt‰‰!",
+    "EPGSearch-laajennos pit√§isi p√§ivitt√§√§!",
     "",
     "",
     "",
@@ -1069,7 +1069,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Impossible d'acquÈrir pÈriphÈrique primaire",
     "",
-    "Ensisijaisen DVB-sovittimen k‰ytt‰minen ep‰onnistui!",
+    "Ensisijaisen DVB-sovittimen k√§ytt√§minen ep√§onnistui!",
     "",
     "",
     "",
@@ -1104,7 +1104,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Impossible de rÈcupÈrer l'image du pÈriphÈrique primaire",
     "",
-    "Kuvan kaappaus ensisijaiselta DVB-sovittimelta ep‰onnistui!",
+    "Kuvan kaappaus ensisijaiselta DVB-sovittimelta ep√§onnistui!",
     "",
     "",
     "",
@@ -1139,7 +1139,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Programmation est active.",
     "",
-    "Tarkistuksessa lˆydettiin ",
+    "Tarkistuksessa l√∂ydettiin ",
     "",
     "",
     "",
@@ -1174,7 +1174,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Programmation est active.",
     "",
-    "p‰‰llekk‰inen ajastin",
+    "p√§√§llekk√§inen ajastin",
     "",
     "",
     "",
@@ -1209,7 +1209,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Programmation est active.",
     "",
-    "p‰‰llekk‰ist‰ ajastinta",
+    "p√§√§llekk√§ist√§ ajastinta",
     "",
     "",
     "",
@@ -1244,7 +1244,42 @@ const tI18nPhrase Phrases[] = {
     "",
     "Impossible d'avoir accËs ‡ des chaÓnes, rÈessayer ultÈrieurement.",
     "",
-    "Kanavien k‰ytt‰minen ep‰onnistui! Yrit‰ myˆhemmin uudelleen.",
+    "Kanavien k√§ytt√§minen ep√§onnistui! Yrit√§ my√∂hemmin uudelleen.",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Sorry, no permission. Please contact your administrator!",
+    "Leider nicht erlaubt. Bitte kontaktieren Sie Ihren Administrator!",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "Ei k√§ytt√∂oikeutta. Ota yhteytt√§ yll√§pit√§j√§√§n!",
     "",
     "",
     "",
@@ -1279,7 +1314,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Impossible de trouver la programmation de recherche. Peut-Ítre que votre demande de fautes de frappe?",
     "",
-    "Hakuajastimia ei lˆydet‰! Onko pyyntˆ oikein kirjoitettu?",
+    "Hakuajastimia ei l√∂ydet√§! Onko pyynt√∂ oikein kirjoitettu?",
     "",
     "",
     "",
@@ -1419,7 +1454,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Texte de recherche est trop court - l'utiliser quand mÍme?",
     "",
-    "Liian suppea hakuehto - etsit‰‰nkˆ silti?",
+    "Liian suppea hakuehto - etsit√§√§nk√∂ silti?",
     "",
     "",
     "",
@@ -1629,7 +1664,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "correspond exactement",
     "",
-    "t‰sm‰llinen",
+    "t√§sm√§llinen",
     "",
     "",
     "",
@@ -1664,7 +1699,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "expression rÈguliere",
     "",
-    "s‰‰nnˆllinen lauseke",
+    "s√§√§nn√∂llinen lauseke",
     "",
     "",
     "",
@@ -1804,7 +1839,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Recherche dans",
     "",
-    "Hae kentist‰",
+    "Hae kentist√§",
     "",
     "",
     "",
@@ -1944,7 +1979,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Utiliser les infos EPG avancÈes",
     "",
-    "K‰yt‰ laajennettua ohjelmaopasta",
+    "K√§yt√§ laajennettua ohjelmaopasta",
     "",
     "",
     "",
@@ -1979,7 +2014,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Ignorez EPG info manquante",
     "",
-    "J‰t‰ puuttuvat ohjelmatiedot huomioimatta",
+    "J√§t√§ puuttuvat ohjelmatiedot huomioimatta",
     "",
     "",
     "",
@@ -2014,7 +2049,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Lorsqu'elle est active, cela peut provoquer de trËs nombreuses programmations. Donc søil vous plaÓt toujours d'abord tester cette recherche avant de l'utiliser comme progammation de recherche!",
     "",
-    "Asetuksen ottaminen k‰yttˆˆn saattaa luoda lukemattomia ajastimia. Testaa haku ennenkuin teet siit‰ hakuajastimen!",
+    "Asetuksen ottaminen k√§ytt√∂√∂n saattaa luoda lukemattomia ajastimia. Testaa haku ennenkuin teet siit√§ hakuajastimen!",
     "",
     "",
     "",
@@ -2049,7 +2084,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Utiliser la chaÓne",
     "",
-    "K‰yt‰ kanavaa",
+    "K√§yt√§ kanavaa",
     "",
     "",
     "",
@@ -2084,7 +2119,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "intervalle",
     "",
-    "kyll‰",
+    "kyll√§",
     "",
     "",
     "",
@@ -2119,7 +2154,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Groupe de chaÓnes",
     "",
-    "kanavaryhm‰",
+    "kanavaryhm√§",
     "",
     "",
     "",
@@ -2259,7 +2294,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Utiliser l'heure",
     "",
-    "K‰yt‰ aloitusaikaa",
+    "K√§yt√§ aloitusaikaa",
     "",
     "",
     "",
@@ -2329,7 +2364,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "L'heure lorsque l'Èmission doit commencer au plus tÙt",
     "",
-    "L‰hetyksen aloitusaika aikaisintaan",
+    "L√§hetyksen aloitusaika aikaisintaan",
     "",
     "",
     "",
@@ -2364,7 +2399,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "DÈpart avant",
     "",
-    "Aloitusaika viimeist‰‰n",
+    "Aloitusaika viimeist√§√§n",
     "",
     "",
     "",
@@ -2399,7 +2434,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "L'heure lorsque l'Èmission doit commencer au plus tard",
     "",
-    "L‰hetyksen aloitusaika viimeist‰‰n",
+    "L√§hetyksen aloitusaika viimeist√§√§n",
     "",
     "",
     "",
@@ -2434,7 +2469,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "DurÈe d'utilisation",
     "",
-    "K‰yt‰ kestoaikaa",
+    "K√§yt√§ kestoaikaa",
     "",
     "",
     "",
@@ -2469,7 +2504,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "DurÈe min.",
     "",
-    "Kestoaika v‰hint‰‰n",
+    "Kestoaika v√§hint√§√§n",
     "",
     "",
     "",
@@ -2504,7 +2539,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "DurÈe max.",
     "",
-    "Kestoaika enint‰‰n",
+    "Kestoaika enint√§√§n",
     "",
     "",
     "",
@@ -2539,7 +2574,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Utiliser les jours de la semaine",
     "",
-    "K‰yt‰ viikonp‰iv‰‰",
+    "K√§yt√§ viikonp√§iv√§√§",
     "",
     "",
     "",
@@ -2819,7 +2854,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Utiliser la liste des exclus",
     "",
-    "K‰yt‰ mustia listoja",
+    "K√§yt√§ mustia listoja",
     "",
     "",
     "",
@@ -2924,7 +2959,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Utiliser dans le menu favoris",
     "",
-    "K‰yt‰ suosikkina",
+    "K√§yt√§ suosikkina",
     "",
     "",
     "",
@@ -2959,7 +2994,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Utiliser la recherche",
     "",
-    "K‰yt‰ hakuajastimena",
+    "K√§yt√§ hakuajastimena",
     "",
     "",
     "",
@@ -2994,7 +3029,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "DÈfinis par l'utilisateur",
     "",
-    "k‰ytt‰j‰n m‰‰rittelem‰",
+    "k√§ytt√§j√§n m√§√§rittelem√§",
     "",
     "",
     "",
@@ -3064,7 +3099,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "‡ ce jour",
     "",
-    "p‰‰ttyen",
+    "p√§√§ttyen",
     "",
     "",
     "",
@@ -3274,7 +3309,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Effacer l'enregistrement aprËs ... jours",
     "",
-    "Poista tallenteet ... p‰iv‰n j‰lkeen",
+    "Poista tallenteet ... p√§iv√§n j√§lkeen",
     "",
     "",
     "",
@@ -3309,7 +3344,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Garder .... les enregistrements",
     "",
-    "S‰ilyt‰ ... tallennetta",
+    "S√§ilyt√§ ... tallennetta",
     "",
     "",
     "",
@@ -3344,7 +3379,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Pause, lorsque ... l'enregistrement existe.",
     "",
-    "Keskeyt‰ ... tallenteen j‰lkeen",
+    "Keskeyt√§ ... tallenteen j√§lkeen",
     "",
     "",
     "",
@@ -3379,7 +3414,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Eviter les rÈpÈtitions",
     "",
-    "Est‰ uusinnat",
+    "Est√§ uusinnat",
     "",
     "",
     "",
@@ -3414,7 +3449,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "RÈpÈtitions autorisÈes",
     "",
-    "Sallittujen uusintojen lukum‰‰r‰",
+    "Sallittujen uusintojen lukum√§√§r√§",
     "",
     "",
     "",
@@ -3449,7 +3484,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Que rÈpÈtition, pendant ... jours",
     "",
-    "Vain uusinnat ... p‰iv‰n sis‰ll‰",
+    "Vain uusinnat ... p√§iv√§n sis√§ll√§",
     "",
     "",
     "",
@@ -3484,7 +3519,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Comparer titres",
     "",
-    "Vertaa nime‰",
+    "Vertaa nime√§",
     "",
     "",
     "",
@@ -3519,7 +3554,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Comparer les sous-titres",
     "",
-    "Vertaa jakson nime‰",
+    "Vertaa jakson nime√§",
     "",
     "",
     "",
@@ -3659,7 +3694,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Utiliser VPS",
     "",
-    "K‰yt‰ VPS-toimintoa",
+    "K√§yt√§ VPS-toimintoa",
     "",
     "",
     "",
@@ -3729,7 +3764,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "aprËs ... enregistrements",
     "",
-    "... tallenteen j‰lkeen",
+    "... tallenteen j√§lkeen",
     "",
     "",
     "",
@@ -3764,7 +3799,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "aprËs ... jours aprËs le premier enregistrement",
     "",
-    "... p‰iv‰n j‰lkeen ensimm‰isest‰",
+    "... p√§iv√§n j√§lkeen ensimm√§isest√§",
     "",
     "",
     "",
@@ -3939,7 +3974,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "N'a pas pu trouver la programmation. Peut-Ítre vous avez une erreur dans votre requÍte?",
     "",
-    "Ajastinta ei lˆydy. Kirjoititko varmasti oikein?",
+    "Ajastinta ei l√∂ydy. Kirjoititko varmasti oikein?",
     "",
     "",
     "",
@@ -4079,7 +4114,567 @@ const tI18nPhrase Phrases[] = {
     "",
     "Jour de la semaine",
     "",
-    "Viikonp‰iv‰",
+    "Viikonp√§iv√§",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Couldn't find user. Maybe you mistyped your request?",
+    "Konnte Benutzer nicht finden. Evtl. fehlerhafte Anforderung?",
+    "",
+    "Impossibile trovare timer. Hai digitato correttamente la richiesta?",
+    "",
+    "",
+    "N'a pas pu trouver la programmation. Peut-Ítre vous avez une erreur dans votre requÍte?",
+    "",
+    "Ajastinta ei l√∂ydy. Kirjoititko varmasti oikein?",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "This user name is already in use!",
+    "Dieser Benutzername wird bereits verwendet!",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Edit user",
+    "Benutzer bearbeiten",
+    "",
+    "Modifica timer",
+    "Serie's opnemen",
+    "",
+    "Editer la programmation",
+    "",
+    "Muokkaa k√§ytt√§j√§√§",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "New user",
+    "Neuen Benutzer anlegen",
+    "",
+    "Nuovo timer",
+    "",
+    "",
+    "Nouvelle programmation",
+    "",
+    "Luo uusi k√§ytt√§j√§",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Name",
+    "Name",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "Nimi",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Password",
+    "Passwort",
+    "",
+    "Password",
+    "",
+    "",
+    "Mot de passe",
+    "",
+    "Salasana",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "User rights",
+    "Benutzerrechte",
+    "",
+    "Utente",
+    "",
+    "",
+    "Utilisateur",
+    "",
+    "K√§ytt√∂oikeudet",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Edit setup",
+    "Einstellungen bearbeiten",
+    "",
+    "Modifica timer",
+    "Serie's opnemen",
+    "",
+    "Editer la programmation",
+    "",
+    "Muokkaa asetuksia",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Add or edit timers",
+    "Timer hinzuf¸gen oder ‰ndern",
+    "",
+    "Modifica timer",
+    "Gebruik als zoek timer",
+    "",
+    "Editer la programmation",
+    "",
+    "Lis√§√§/muokkaa ajastimia",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Delete timers",
+    "Timer lˆschen",
+    "",
+    "Elimina timer",
+    "Serie's opnemen",
+    "",
+    "Effacer la programmation",
+    "",
+    "Poista ajastimia",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Delete recordings",
+    "Aufnahmen lˆschen",
+    "",
+    "Registrazione eliminata:",
+    "Serie's opnemen",
+    "",
+    "Enregistrement de sÈrie",
+    "",
+    "Poista tallenteita",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Use remote menu",
+    "Men¸ Fernbedienung nutzen",
+    "",
+    "Utilizza nel menu Preferiti",
+    "Gebruik tijd",
+    "",
+    "Utiliser dans le menu favoris",
+    "",
+    "K√§yt√§ kauko-ohjainta",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Start replay",
+    "Wiedergabe starten",
+    "",
+    "Pagina iniziale",
+    "Start voor",
+    "",
+    "Page de dÈpart",
+    "",
+    "Aloita toisto",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Switch channel",
+    "Zu diesem Kanal umschalten.",
+    "",
+    "Sintonizza questo canale",
+    "tot kanaal",
+    "",
+    "Changer vers cette chaÓne. ",
+    "",
+    "Vaihda kanavaa",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Add or edit search timers",
+    "Suchtimer hinzuf¸gen oder ‰ndern",
+    "",
+    "Modifica timer ricerca",
+    "Gebruik als zoek timer",
+    "",
+    "Editer l'expression de recherche",
+    "",
+    "Lis√§√§/muokkaa hakuajastimia",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Delete search timers",
+    "Suchtimer lˆschen",
+    "",
+    "Elimina timer ricerca",
+    "Serie's opnemen",
+    "",
+    "Effacer la programmation de recherche",
+    "",
+    "Poista hakuajastimia",
     "",
     "",
     "",
@@ -4149,7 +4744,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Impossible de trouver un enregistrement ou aucun enregistrements disponibles",
     "",
-    "Tallennetta ei lˆydy tai yht‰‰n tallennetta ei ole saatavilla.",
+    "Tallennetta ei l√∂ydy tai yht√§√§n tallennetta ei ole saatavilla.",
     "",
     "",
     "",
@@ -4184,7 +4779,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Erreur lors de l'acquisition du verrouillage de programmation de recherche",
     "",
-    "Ohjelmatietojen lukitus ep‰onnistui!",
+    "Ohjelmatietojen lukitus ep√§onnistui!",
     "",
     "",
     "",
@@ -4219,7 +4814,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Erreur lors de l'acquisition de programmation",
     "",
-    "Ohjelmatietojen haku ep‰onnistui!",
+    "Ohjelmatietojen haku ep√§onnistui!",
     "",
     "",
     "",
@@ -4359,7 +4954,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Pas d'infos pour l'Èmission!",
     "",
-    "L‰hetyksell‰ ei ole ohjelmatietoja!",
+    "L√§hetyksell√§ ei ole ohjelmatietoja!",
     "",
     "",
     "",
@@ -4429,7 +5024,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "pas de chaÓne trouvÈ!",
     "",
-    "Kanavaa ei lˆydy!",
+    "Kanavaa ei l√∂ydy!",
     "",
     "",
     "",
@@ -4534,7 +5129,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Nom de l'utilisateur ou mot de passei sont erronÈ",
     "",
-    "V‰‰r‰ k‰ytt‰j‰tunnus tai salasana",
+    "V√§√§r√§ k√§ytt√§j√§tunnus tai salasana",
     "",
     "",
     "",
@@ -4569,7 +5164,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Session",
     "",
-    "Kirjaudu sis‰‰n",
+    "Kirjaudu sis√§√§n",
     "",
     "",
     "",
@@ -4604,7 +5199,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Session VDR Live",
     "",
-    "VDR Live - sis‰‰nkirjautuminen",
+    "VDR Live - sis√§√§nkirjautuminen",
     "",
     "",
     "",
@@ -4639,42 +5234,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Utilisateur",
     "",
-    "K‰ytt‰j‰",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Password",
-    "Passwort",
-    "",
-    "Password",
-    "",
-    "",
-    "Mot de passe",
-    "",
-    "Salasana",
+    "K√§ytt√§j√§",
     "",
     "",
     "",
@@ -5024,7 +5584,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Trouver plus d'information du film dans la base de donnÈes film IMDB.",
     "",
-    "Hae IMDB:st‰",
+    "Hae IMDB:st√§",
     "",
     "",
     "",
@@ -5059,7 +5619,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Diffusez cette chaÓne vers le navigateur.",
     "",
-    "Aloita suoratoisto",
+    "Aloita kanavan suoratoisto",
     "",
     "",
     "",
@@ -5094,7 +5654,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Diffusez cette chaÓne vers le navigateur.",
     "",
-    "Aloita suoratoisto",
+    "Aloita tallenteen suoratoisto",
     "",
     "",
     "",
@@ -5234,7 +5794,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Demande rÈussi!",
     "",
-    "Pyyntˆ onnistui!",
+    "Pyynt√∂ onnistui!",
     "",
     "",
     "",
@@ -5269,7 +5829,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "…chec de la requÍte!",
     "",
-    "Pyyntˆ ep‰onnistui!",
+    "Pyynt√∂ ep√§onnistui!",
     "",
     "",
     "",
@@ -5479,7 +6039,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Juin",
     "",
-    "Kes‰kuu",
+    "Kes√§kuu",
     "",
     "",
     "",
@@ -5514,7 +6074,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Juillet",
     "",
-    "Hein‰kuu",
+    "Hein√§kuu",
     "",
     "",
     "",
@@ -5759,7 +6319,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Activer/DÈsactiver l'update du status",
     "",
-    "Aseta tilannekysely p‰‰lle/pois",
+    "Aseta tilannekysely p√§√§lle/pois",
     "",
     "",
     "",
@@ -5864,7 +6424,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "pause",
     "",
-    "Pys‰yt‰ toisto",
+    "Pys√§yt√§ toisto",
     "",
     "",
     "",
@@ -5899,7 +6459,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "retour rapide",
     "",
-    "Pikakelaus taaksep‰in",
+    "Pikakelaus taaksep√§in",
     "",
     "",
     "",
@@ -5934,7 +6494,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "avance rapide",
     "",
-    "Pikakelaus eteenp‰in",
+    "Pikakelaus eteenp√§in",
     "",
     "",
     "",
@@ -6074,7 +6634,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "…chec de la mise ‡ jour infobox!",
     "",
-    "Infolaatikon p‰ivitys ep‰onnistui!",
+    "Infolaatikon p√§ivitys ep√§onnistui!",
     "",
     "",
     "",
@@ -6179,7 +6739,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Auteur",
     "",
-    "Tekij‰t",
+    "Tekij√§t",
     "",
     "",
     "",
@@ -6284,7 +6844,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Chef de projet",
     "",
-    "Projektip‰‰llikkˆ",
+    "Projektip√§√§llikk√∂",
     "",
     "",
     "",
@@ -6319,7 +6879,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Contenu",
     "",
-    "Sis‰ltˆ",
+    "Sis√§lt√∂",
     "",
     "",
     "",
@@ -6529,7 +7089,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "actif",
     "",
-    "k‰ytˆss‰",
+    "k√§yt√∂ss√§",
     "",
     "",
     "",
@@ -6669,7 +7229,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Si vous rencontrez n'importe quels bogue ou voudriez suggÈrer de nouveaux dispositifs, employer notre bugtracker svp",
     "",
-    "Voit raportoida sek‰ virheet ett‰ parannusehdotukset suoraan havaintotietokantaan",
+    "Voit raportoida sek√§ virheet ett√§ parannusehdotukset suoraan havaintotietokantaan",
     "",
     "",
     "",
@@ -6809,7 +7369,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Pas d'enregistrement",
     "",
-    "Tallenteita ei lˆydy",
+    "Tallenteita ei l√∂ydy",
     "",
     "",
     "",
@@ -6844,7 +7404,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Clic pour voire les dÈtails.",
     "",
-    "Napsauta katsoaksesi lis‰tietoja.",
+    "Napsauta katsoaksesi lis√§tietoja.",
     "",
     "",
     "",
@@ -6879,7 +7439,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "Poista tallenne kovalevylt‰!",
+    "Poista tallenne kovalevylt√§!",
     "",
     "",
     "",
@@ -6949,7 +7509,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "N'a pas pu trouver la chaÓne. Votre requÍte est t'elle corrÍte? ",
     "",
-    "Kanavaa ei lˆydy. Kirjoititko varmasti oikein?",
+    "Kanavaa ei l√∂ydy. Kirjoititko varmasti oikein?",
     "",
     "",
     "",
@@ -6977,14 +7537,14 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Snapshot interval",
-    "Bereich",
+    "Snapshot-Intervall",
     "",
     "intervallo",
     "interval",
     "",
     "intervalle",
     "",
-    "kyll‰",
+    "Kuvien p√§ivitysv√§li",
     "",
     "",
     "",
@@ -7019,7 +7579,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Aucune programmation disponible pour cette chaÓne",
     "",
-    "T‰lle kanavalle ei ole saatavilla ohjelmistoa",
+    "T√§lle kanavalle ei ole saatavilla ohjelmistoa",
     "",
     "",
     "",
@@ -7334,7 +7894,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "DÈpart entre",
     "",
-    "Alkaa v‰lill‰",
+    "Alkaa v√§lill√§",
     "",
     "",
     "",
@@ -7369,7 +7929,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Actions de la programmation de recherche (in)actives",
     "",
-    "Aseta hakuajastin p‰‰lle/pois",
+    "Aseta hakuajastin p√§√§lle/pois",
     "",
     "",
     "",
@@ -7439,7 +7999,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Effacer cette programmation de recherche?",
     "",
-    "Poistetaanko t‰m‰ hakuajastin?",
+    "Poistetaanko t√§m√§ hakuajastin?",
     "",
     "",
     "",
@@ -7509,7 +8069,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Mise ‡ jour des recherches de programmation maintenant",
     "",
-    "P‰ivit‰ hakuajastimet",
+    "P√§ivit√§ hakuajastimet",
     "",
     "",
     "",
@@ -7544,7 +8104,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "EntrÈe le nom d'utilisateur et le mot de passe svp!",
     "",
-    "Aseta k‰ytt‰j‰tunnus sek‰ salasana!",
+    "Aseta k√§ytt√§j√§tunnus sek√§ salasana!",
     "",
     "",
     "",
@@ -7641,6 +8201,41 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
+  { "User management",
+    "Benutzerverwaltung",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "K√§ytt√§j√§hallinta",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
   { "Local net (no login required)",
     "Lokales Netz (keine Anmeldung notwendig)",
     "",
@@ -7684,7 +8279,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Afficher l'image du logo de live",
     "",
-    "N‰yt‰ Live-logo",
+    "N√§yt√§ Live-logo",
     "",
     "",
     "",
@@ -7719,7 +8314,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Utilisez la technologie Ajax",
     "",
-    "K‰yt‰ AJAX-tekniikkaa",
+    "K√§yt√§ AJAX-tekniikkaa",
     "",
     "",
     "",
@@ -7754,7 +8349,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Voir la boÓte d'information dynamique VDR",
     "",
-    "N‰yt‰ dynaaminen VDR:n infolaatikko",
+    "N√§yt√§ dynaaminen VDR:n infolaatikko",
     "",
     "",
     "",
@@ -7789,7 +8384,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Permettez-streaming vidÈo",
     "",
-    "Salli l‰hetyksen suoratoisto",
+    "Salli l√§hetyksen suoratoisto",
     "",
     "",
     "",
@@ -7859,7 +8454,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Type du serveur streamdev",
     "",
-    "Streamdev-l‰hetteen tyyppi",
+    "Streamdev-l√§hetteen tyyppi",
     "",
     "",
     "",
@@ -7894,7 +8489,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Ajouter des liens vers IMDb",
     "",
-    "Lis‰‰ linkit IMDb:hen",
+    "Lis√§√§ linkit IMDb:hen",
     "",
     "",
     "",
@@ -7929,7 +8524,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "pÈriodes fixes additionnelles dans 'actuellement?'",
     "",
-    "Lis‰ajankohdat 'Menossa?'-sivulle",
+    "Lis√§ajankohdat 'Menossa?'-sivulle",
     "",
     "",
     "",
@@ -7964,7 +8559,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Le format est HH:MM . Plusieurs pÈriodes sÈparÈes avec un point-virgule",
     "",
-    "K‰yt‰ HH:MM formaattia ja erota ajankohdat puolipisteell‰",
+    "K√§yt√§ HH:MM formaattia ja erota ajankohdat puolipisteell√§",
     "",
     "",
     "",
@@ -7999,7 +8594,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "N√§yt√§ ohjelmaoppaattomat kanavat",
     "",
     "",
     "",
@@ -8104,7 +8699,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Programmation est active.",
     "",
-    "P‰‰llekk‰iset ajastimet",
+    "P√§√§llekk√§iset ajastimet",
     "",
     "",
     "",
@@ -8139,7 +8734,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Programmation est active.",
     "",
-    "Ei p‰‰llekk‰isi‰ ajastimia",
+    "Ei p√§√§llekk√§isi√§ ajastimia",
     "",
     "",
     "",
@@ -8174,7 +8769,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Programmation est active.",
     "",
-    "P‰‰llekk‰inen ajastin",
+    "P√§√§llekk√§inen ajastin",
     "",
     "",
     "",
@@ -8244,7 +8839,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Programmation basculer actif/inactif",
     "",
-    "Aseta ajastin p‰‰lle/pois",
+    "Aseta ajastin p√§√§lle/pois",
     "",
     "",
     "",
@@ -8314,7 +8909,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Aucune programmation dÈfinie",
     "",
-    "Ajastinta ei ole m‰‰ritelty",
+    "Ajastinta ei ole m√§√§ritelty",
     "",
     "",
     "",
@@ -8376,6 +8971,76 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
+  { "Users",
+    "Benutzer",
+    "",
+    "Utente",
+    "",
+    "",
+    "Utilisateur",
+    "",
+    "K√§ytt√§j√§t",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Delete user",
+    "Benutzer lˆschen",
+    "",
+    "Elimina timer",
+    "Serie's opnemen",
+    "",
+    "Effacer la programmation",
+    "",
+    "Poista k√§ytt√§j√§",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
   { "VLC: live video stream",
     "VLC: Video Stream",
     "",
@@ -8384,7 +9049,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "VLC: live vidÈo stream",
     "",
-    "VLC: live-l‰hetyksen suoratoisto",
+    "VLC: live-l√§hetyksen suoratoisto",
     "",
     "",
     "",
@@ -8419,7 +9084,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Lire l'enregistrement",
     "",
-    "Toistetaan tallennetta",
+    "VLC: toista tallenne",
     "",
     "",
     "",
@@ -8454,7 +9119,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Stop",
     "",
-    "Pys‰yt‰",
+    "Pys√§yt√§",
     "",
     "",
     "",
@@ -8559,7 +9224,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Coupure du son",
     "",
-    "Mykist‰",
+    "Mykist√§",
     "",
     "",
     "",
@@ -8594,7 +9259,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Plein Ècran",
     "",
-    "Kokon‰yttˆ",
+    "Kokon√§ytt√∂",
     "",
     "",
     "",
@@ -8699,7 +9364,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "%A, %x",
     "",
-    "%A, %x",
+    "%a, %x",
     "",
     "",
     "",
@@ -8874,7 +9539,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Regarder le programme de cette chaÓne",
     "",
-    "N‰yt‰ ohjelmisto kanavalta",
+    "N√§yt√§ ohjelmisto kanavalta",
     "",
     "",
     "",
@@ -8944,7 +9609,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "plus",
     "",
-    "lis‰tietoja",
+    "lis√§tietoja",
     "",
     "",
     "",
@@ -9084,7 +9749,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Vue dÈtailÈe",
     "",
-    "Ruudukkon‰kym‰",
+    "Ruudukkon√§kym√§",
     "",
     "",
     "",
@@ -9119,7 +9784,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Vue en liste",
     "",
-    "Listan‰kym‰",
+    "Listan√§kym√§",
     "",
     "",
     "",
@@ -9154,7 +9819,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "Interaktiivinen VDR-ymp‰ristˆ",
+    "Interaktiivinen VDR-ymp√§rist√∂",
     "",
     "",
     "",
@@ -9189,7 +9854,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Ohjelmatietoja ei saatavilla",
     "",
     "",
     "",
