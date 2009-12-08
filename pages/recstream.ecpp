@@ -58,6 +58,9 @@ if (recording) {
 			if (!reply.out()) {
 				return HTTP_GONE;
 			}
+#if TNTVERSION >= 1700
+			request.touch(); // retrigger the watchdog.
+#endif
 		}
 		// dsyslog("LIVE: bytesRead = %zd", bytesRead);
 		if (bytesRead < 0) {

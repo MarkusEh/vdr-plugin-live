@@ -123,7 +123,14 @@ int update_status(1);
 	string recid;
 	string linkText;
 </%args>
-<%cpp> { </%cpp><a href="vlc.html?recid=<$ recid $>"><img src="<$ LiveSetup().GetThemedLink("img", "stream_button.png") $>" alt="" <& tooltip.hint text=(tr("Stream this recording into browser.")) &>></img> <$ linkText $></a><%cpp> } </%cpp>
+<%cpp>
+#if TNTVERSION >= 1700
+{
+</%cpp><a href="vlc.html?recid=<$ recid $>"><img src="<$ LiveSetup().GetThemedLink("img", "stream_button.png") $>" alt="" <& tooltip.hint text=(tr("Stream this recording into browser.")) &>></img> <$ linkText $></a>
+<%cpp>
+}
+#endif
+</%cpp>
 </%def>
 
 
