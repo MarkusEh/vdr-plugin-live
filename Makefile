@@ -35,6 +35,11 @@ VDRDIR	 ?= ../../..
 LIBDIR	 ?= ../../lib
 TMPDIR	 ?= /tmp
 
+### Make sure that necessary options are included:
+
+-include $(VDRDIR)/Make.global
+
+
 ### Allow user defined options to overwrite defaults:
 
 -include $(VDRDIR)/Make.config
