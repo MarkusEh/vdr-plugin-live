@@ -10,12 +10,15 @@ msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-08-10 01:32+0100\n"
+"PO-Revision-Date: 2010-02-22 00:19+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: see developers in README\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-15\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Italian\n"
+"X-Poedit-Country: ITALY\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
 msgid "Last channel to display"
 msgstr "Ultimo canale da visualizzare"
@@ -30,7 +33,7 @@ msgid "No"
 msgstr "no"
 
 msgid "Yes"
-msgstr "sì"
+msgstr "sÃ¬"
 
 msgid "Admin login"
 msgstr "Nome amministratore"
@@ -49,10 +52,10 @@ msgid "Error in timer settings"
 msgstr "Errore nelle impostazioni timer"
 
 msgid "Timer already defined"
-msgstr "Timer già definito"
+msgstr "Timer giÃ  definito"
 
 msgid "Timers are being edited - try again later"
-msgstr "I timer sono stati modificati - riprova più tardi"
+msgstr "I timer sono stati modificati - riprova piÃ¹ tardi"
 
 msgid "Timer not defined"
 msgstr "Timer non definito"
@@ -124,10 +127,10 @@ msgid "conflicts"
 msgstr "conflitti"
 
 msgid "Couldn't aquire access to channels, please try again later."
-msgstr "Impossibile avere accesso ai canali, riprova più tardi."
+msgstr "Impossibile avere accesso ai canali, riprova piÃ¹ tardi."
 
 msgid "Sorry, no permission. Please contact your administrator!"
-msgstr ""
+msgstr "Spiacenti, senza permessi. Per favore contatta l'amministratore!"
 
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
 msgstr "Impossibile trovare timer ricerca. Hai digitato correttamente la richiesta?"
@@ -149,7 +152,7 @@ msgid "Search term"
 msgstr "Termine ricerca"
 
 msgid "Search mode"
-msgstr "Modalità ricerca"
+msgstr "ModalitÃ  ricerca"
 
 msgid "phrase"
 msgstr "frase"
@@ -194,7 +197,7 @@ msgid "Ignore missing EPG info"
 msgstr "Ignora info EPG mancante"
 
 msgid "When active this can cause very many timers. So please always first test this search before using it as search timer!"
-msgstr "L'attivazione di questo può creare molti timer. Quindi prova sempre questa ricerca prima di usarla come timer ricerca!"
+msgstr "L'attivazione di questo puÃ² creare molti timer. Quindi prova sempre questa ricerca prima di usarla come timer ricerca!"
 
 msgid "Use channel"
 msgstr "Utilizza canale"
@@ -221,13 +224,13 @@ msgid "Start after"
 msgstr "Inizio dopo"
 
 msgid "The time the show may start at the earliest"
-msgstr "L'ora precedente più vicina per l'inizio evento"
+msgstr "L'ora precedente piÃ¹ vicina per l'inizio evento"
 
 msgid "Start before"
 msgstr "Inizio prima"
 
 msgid "The time the show may start at the latest"
-msgstr "L'ora successiva più tardi per l'inizio evento"
+msgstr "L'ora successiva piÃ¹ tardi per l'inizio evento"
 
 msgid "Use duration"
 msgstr "Utilizza durata"
@@ -242,19 +245,19 @@ msgid "Use day of week"
 msgstr "Utilizza giorno della settimana"
 
 msgid "Monday"
-msgstr "Lunedì"
+msgstr "LunedÃ¬"
 
 msgid "Tuesday"
-msgstr "Martedì"
+msgstr "MartedÃ¬"
 
 msgid "Wednesday"
-msgstr "Mercoledì"
+msgstr "MercoledÃ¬"
 
 msgid "Thursday"
-msgstr "Giovedì"
+msgstr "GiovedÃ¬"
 
 msgid "Friday"
-msgstr "Venerdì"
+msgstr "VenerdÃ¬"
 
 msgid "Saturday"
 msgstr "Sabato"
@@ -326,7 +329,7 @@ msgid "Compare subtitle"
 msgstr "Confronta sottotitoli"
 
 msgid "if present"
-msgstr ""
+msgstr "se presente"
 
 msgid "Compare summary"
 msgstr "Confronta descrizione"
@@ -373,66 +376,53 @@ msgstr "Nuovo timer"
 msgid "Weekday"
 msgstr "Giorno della settimana"
 
-#, fuzzy
 msgid "Couldn't find user. Maybe you mistyped your request?"
-msgstr "Impossibile trovare timer. Hai digitato correttamente la richiesta?"
+msgstr "Impossibile trovare l'utente. Hai digitato correttamente la richiesta?"
 
 msgid "This user name is already in use!"
-msgstr ""
+msgstr "Questo nome utente Ã¨ giÃ  in uso!"
 
-#, fuzzy
 msgid "Edit user"
-msgstr "Modifica timer"
+msgstr "Modifica utente"
 
-#, fuzzy
 msgid "New user"
-msgstr "Nuovo timer"
+msgstr "Nuovo utente"
 
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 msgid "Password"
 msgstr "Password"
 
-#, fuzzy
 msgid "User rights"
-msgstr "Utente"
+msgstr "Permessi utente"
 
-#, fuzzy
 msgid "Edit setup"
-msgstr "Modifica timer"
+msgstr "Modifica opzioni"
 
-#, fuzzy
 msgid "Add or edit timers"
-msgstr "Modifica timer"
+msgstr "Aggiungi o modifica timer"
 
-#, fuzzy
 msgid "Delete timers"
 msgstr "Elimina timer"
 
-#, fuzzy
 msgid "Delete recordings"
-msgstr "Registrazione eliminata:"
+msgstr "Elimina registrazioni"
 
-#, fuzzy
 msgid "Use remote menu"
-msgstr "Utilizza nel menu Preferiti"
+msgstr "Utilizza menu remoto"
 
-#, fuzzy
 msgid "Start replay"
-msgstr "Pagina iniziale"
+msgstr "Avvia riproduzione"
 
-#, fuzzy
 msgid "Switch channel"
-msgstr "Sintonizza questo canale"
+msgstr "Cambia canale"
 
-#, fuzzy
 msgid "Add or edit search timers"
-msgstr "Modifica timer ricerca"
+msgstr "Aggiungi o modifica timer di ricerca"
 
-#, fuzzy
 msgid "Delete search timers"
-msgstr "Elimina timer ricerca"
+msgstr "Elimina timer di ricerca"
 
 msgid "Electronic program guide information"
 msgstr "Info Guida Elettronica Programmi (EPG)"
@@ -515,9 +505,8 @@ msgstr "Cerca ulteriori informazioni nel database internet (IMDB)"
 msgid "Stream this channel into browser."
 msgstr "Trasmetti questo canale nel browser"
 
-#, fuzzy
 msgid "Stream this recording into browser."
-msgstr "Trasmetti questo canale nel browser"
+msgstr "Trasmetti questa registrazione nel browser."
 
 msgid "Record this"
 msgstr "Registra questa trasmissione"
@@ -678,9 +667,8 @@ msgstr "Riproduci questa registrazione"
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "Impossibile trovare canale o canali disponibili. Hai digitato correttamente la richiesta?"
 
-#, fuzzy
 msgid "Snapshot interval"
-msgstr "intervallo"
+msgstr "Intervallo schermata"
 
 msgid "No schedules available for this channel"
 msgstr "Nessun programma disponibile per questo canale"
@@ -737,7 +725,7 @@ msgid "Setup"
 msgstr "Opzioni"
 
 msgid "User management"
-msgstr ""
+msgstr "Gestione utenti"
 
 msgid "Local net (no login required)"
 msgstr "Rete locale (nessun accesso richiesto)"
@@ -767,10 +755,10 @@ msgid "additional fixed times in 'What's on?'"
 msgstr "Ore aggiuntive fisse menu \"In programmazione\""
 
 msgid "Format is HH:MM. Separate multiple times with a semicolon"
-msgstr "Il formato è HH:MM. Separa le ore multiple con un punto e virgola"
+msgstr "Il formato Ã¨ HH:MM. Separa le ore multiple con un punto e virgola"
 
 msgid "Show channels without EPG"
-msgstr ""
+msgstr "Mostra canali senza EPG"
 
 msgid "Start page"
 msgstr "Pagina iniziale"
@@ -802,20 +790,17 @@ msgstr "Nessun timer definito"
 msgid "Timer is recording."
 msgstr "Timer in registrazione."
 
-#, fuzzy
 msgid "Users"
-msgstr "Utente"
+msgstr "Utenti"
 
-#, fuzzy
 msgid "Delete user"
-msgstr "Elimina timer"
+msgstr "Elimina utente"
 
 msgid "VLC: live video stream"
 msgstr "VLC: trasmissione video Live"
 
-#, fuzzy
 msgid "VLC: play recording"
-msgstr "riproduzione registrazione"
+msgstr "VLC: riproduci registrazione"
 
 msgid "Stop"
 msgstr "Ferma"
@@ -838,11 +823,10 @@ msgstr "Chiudi"
 msgid "VLC media URL"
 msgstr "Collegamento multimediale di VLC"
 
-#, fuzzy, c-format
+#, c-format
 msgid "%a, %x"
-msgstr "%A, %x"
+msgstr "%a, %x"
 
-#, fuzzy
 msgid "What's running on"
 msgstr "In programmazione alle"
 
@@ -859,7 +843,7 @@ msgid "View the schedule of this channel"
 msgstr "Visualizza scheda programmi del canale"
 
 msgid " - "
-msgstr ""
+msgstr " - "
 
 msgid "more"
 msgstr "altro"
@@ -883,24 +867,19 @@ msgid "Live Interactive VDR Environment"
 msgstr "Ambiente interattivo LIVE per VDR"
 
 msgid "No EPG information available"
-msgstr ""
+msgstr "Nessuna informazione EPG disponibile"
 
 #, fuzzy
 #~ msgid "Please set a name and password for the user!"
 #~ msgstr "Digita un nome utente e password!"
-
 #~ msgid "Interval"
 #~ msgstr "Intervallo"
-
 #~ msgid "Show schedule of channel"
 #~ msgstr "Mostra scheda programmi canale"
-
 #~ msgid "%a, %b %d"
 #~ msgstr "%a, %b %d"
-
 #~ msgid "Stream into browser"
 #~ msgstr "Trasmetti nel browser"
-
 #~ msgid "Edit this"
 #~ msgstr "Modifica timer"
 
@@ -915,3 +894,4 @@ msgstr ""
 #, fuzzy
 #~ msgid "%A, %B %d %Y"
 #~ msgstr "%A, %b %d %Y"
+
