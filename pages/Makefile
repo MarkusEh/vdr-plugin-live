@@ -1,8 +1,11 @@
-CXX      ?= g++
+CXX      ?= g++ -v
 AR       ?= ar
 ECPPC    ?= ecppc
 
-INCLUDES += -I.. -I$(VDRDIR)/include
+-include $(VDRDIR)/Make.global
+-include $(VDRDIR)/Make.config
+
+INCLUDES += -I.. -I$(VDRDIR)/include 
 
 ### The directory environment:
 

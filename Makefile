@@ -143,10 +143,10 @@ generate-i18n: i18n-template.h $(I18Npot) $(I18Npo) buildutil/pot2i18n.pl
 subdirs: $(SUBDIRS)
 
 $(SUBDIRS):
-	$(MAKE) -C $@ CXX="$(CXX)" CXXFLAGS="$(CXXFLAGS)" $(MAKECMDGOALS)
+	$(MAKE) -C $@ CXX="$(CXX)" CXXFLAGS="$(CXXFLAGS)" VDRDIR="../$(VDRDIR)" $(MAKECMDGOALS)
 
 PAGES:
-	$(MAKE) -C pages CXX="$(CXX)" CXXFLAGS="$(CXXFLAGS)" .dependencies
+	$(MAKE) -C pages CXX="$(CXX)" CXXFLAGS="$(CXXFLAGS)" VDRDIR="../$(VDRDIR)" .dependencies
 
 $(VERSIONSUFFIX): FORCE
 	./buildutil/version-util $(VERSIONSUFFIX) || ./buildutil/version-util -F $(VERSIONSUFFIX)
