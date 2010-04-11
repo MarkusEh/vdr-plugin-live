@@ -1,9 +1,7 @@
 /*
- * users.cpp: A plugin for the Video Disk Recorder
+ * users.cpp: User specific rights for the LIVE plugin.
  *
  * See the README file for copyright information and how to reach the author.
- *
- * $Id: users.cpp,v 1.0 2009/08/27 13:00:00 winni Exp $
  */
 
 #include "users.h"

@@ -2,8 +2,6 @@
  * live.cpp: A plugin for the Video Disk Recorder
  *
  * See the README file for copyright information and how to reach the author.
- *
- * $Id: live.cpp,v 1.17 2007/09/17 22:23:40 tadi Exp $
  */
 
 #include <vdr/plugin.h>
