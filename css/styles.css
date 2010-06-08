@@ -933,6 +933,7 @@ div.recording_item {
 }
 
 .recording_item div.recording_day {
+	width: 13em;
 }
 
 .recording_item div.recording_date {
@@ -944,7 +945,7 @@ div.recording_item {
 }
 
 .recording_item div.recording_duration {
-	width: 2.5em;
+	width: 4em;
 }
 
 .recording_item div.recording_name {
