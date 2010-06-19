@@ -12,6 +12,7 @@ msgstr ""
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Dieter Hametner <dh+vdr@gekrumbel.de>\n"
 "Language-Team: see developers in README\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -660,6 +661,11 @@ msgstr "Diese Aufnahme von der Festplatte löschen!"
 msgid "play this recording."
 msgstr "Diese Aufnahme abspielen."
 
+#. TRANSLATORS: strftime format string for recording start info: day, date, hour.
+#, no-c-format
+msgid "%a %x %X"
+msgstr "%a, %d.%m.%Y %H:%M"
+
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "Konnte Kanal nicht finden oder keine Kanäle verfügbar. Ist die Anfrage korrekt?"
 
@@ -864,6 +870,10 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr "Keine EPG Daten vorhanden"
+
+#, fuzzy
+#~ msgid "GGGGGGGGGG"
+#~ msgstr "%a, %d.%m.%Y %H:%M Uhr"
 
 #, fuzzy
 #~ msgid "Please set a name and password for the user!"

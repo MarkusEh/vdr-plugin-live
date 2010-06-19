@@ -10,6 +10,7 @@ msgstr ""
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Paulo Lopes <pmml@netvita.pt>\n"
 "Language-Team: see developers in README\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -656,6 +657,11 @@ msgid "Delete this recording from hard disc!"
 msgstr ""
 
 msgid "play this recording."
+msgstr ""
+
+#. TRANSLATORS: strftime format string for recording start info: day, date, hour.
+#, no-c-format
+msgid "%a %x %X"
 msgstr ""
 
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"

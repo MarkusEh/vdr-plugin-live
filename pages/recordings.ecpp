@@ -220,10 +220,15 @@ for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 	string shortDescr;
 	string archived;
 </%args>
+<%cpp>
+	// TRANSLATORS: strftime format string for recording start info: day, date, hour.
+	// xgettext:no-c-format
+	char const * recFormatStr( tr("%a %x %X") );
+</%cpp>
 	<div class="recording_item">
 	<div class="recording_imgs"><%cpp> reply.out() << StringRepeat(level + 1, "<img src=\"img/transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />"); </%cpp><%cpp> if (!archived.empty()) { </%cpp><img src="<$ LiveSetup().GetThemedLink("img", "on_dvd.png") $>" alt="on_dvd" <& tooltip.hint text=(archived) &> /><%cpp> } else { </%cpp><img src="<$ LiveSetup().GetThemedLink("img", "movie.png") $>" alt="movie" /><%cpp> } </%cpp></div>
 	<div class="recording_spec">
-		<div class="recording_day"><$ FormatDateTime(tr("%a %x %X"), startTime) $></div>
+		<div class="recording_day"><$ FormatDateTime(recFormatStr, startTime) $></div>
 		<div class="recording_duration">(<$ duration $>)</div>
 		<div class="recording_name"><a <& tooltip.hint text=(hint) &><& tooltip.display domId=(id) &>><$ name $><br /><%cpp>if ((name != shortDescr) && (!shortDescr.empty())) {</%cpp><span><$ shortDescr $></span><%cpp> } else { </%cpp><span>&nbsp;</span><%cpp> } </%cpp></a></div>
 	</div>
@@ -233,7 +238,7 @@ for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 </%cpp>
 		<& recordings.rec_tools id=(id) title=(name)&>
 <%cpp>
-	    }
+		}
 		else {
 </%cpp>
 		<img src="img/transparent.png" alt="" width="16px" height="16px" />

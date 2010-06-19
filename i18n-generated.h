@@ -7501,6 +7501,41 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
+  { "%a %x %X",
+    "%a, %d.%m.%Y %H:%M",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
   { "Couldn't find channel or no channels available. Maybe you mistyped your request?",
     "Konnte Kanal nicht finden oder keine Kanäle verfügbar. Ist die Anfrage korrekt?",
     "",

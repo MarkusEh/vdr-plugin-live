@@ -19,7 +19,7 @@ istream& operator>>( istream& is, tChannelID& ret )
 {
   /* alternativ implementation
   string line;
-  if ( !getline( is, line ) ) {    
+  if ( !getline( is, line ) ) {
     if ( !is.eof() )
       is.setstate( ios::badbit );
     else
@@ -42,7 +42,7 @@ istream& operator>>( istream& is, tChannelID& ret )
       return is;
     }
   }
-  
+
   if ( !line.empty() && !( ret = tChannelID::FromString( line.c_str() ) ).Valid() )
     is.setstate( ios::badbit );
   return is;
