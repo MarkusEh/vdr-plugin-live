@@ -4,6 +4,7 @@
 #include <vdr/epg.h>
 #include "exception.h"
 #include "livefeatures.h"
+#include "tntfeatures.h"
 #include "i18n.h"
 #include "setup.h"
 #include "timers.h"
@@ -124,7 +125,7 @@ int update_status(1);
 	string linkText;
 </%args>
 <%cpp>
-#if TNTVERSION >= 1700
+#if TNT_WATCHDOG_SILENCE
 {
 </%cpp><a href="vlc.html?recid=<$ recid $>"><img src="<$ LiveSetup().GetThemedLink("img", "stream_button.png") $>" alt="" <& tooltip.hint text=(tr("Stream this recording into browser.")) &>></img> <$ linkText $></a>
 <%cpp>

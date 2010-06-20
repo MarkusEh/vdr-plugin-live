@@ -6,6 +6,7 @@
 #include <tnt/httperror.h>
 #include <tnt/httpheader.h>
 #include <vdr/recording.h>
+#include "tntfeatures.h"
 #include "setup.h"
 #include "recman.h"
 
@@ -58,7 +59,7 @@ if (recording) {
 			if (!reply.out()) {
 				return HTTP_GONE;
 			}
-#if TNTVERSION >= 1700
+#if TNT_WATCHDOG_SILENCE
 			request.touch(); // retrigger the watchdog.
 #endif
 		}

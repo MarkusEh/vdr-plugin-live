@@ -11,7 +11,7 @@ namespace vdrlive {
 using namespace std;
 using namespace tnt;
 
-#if TNTVERSION < 1606
+#if ! TNT_CONFIG_INTERNAL
 class ProtectedCString
 {
 public:
@@ -23,7 +23,7 @@ public:
 private:
 	char* m_string;
 };
-#endif // TNTVERSION < 1606
+#endif // ! TNT_CONFIG_INTERNAL
 
 ServerThread::ServerThread()
 {
@@ -45,11 +45,8 @@ void ServerThread::Stop()
 void ServerThread::Action()
 {
 	try {
-#if TNTVERSION >= 1606
-	        // tnt::Tntconfig tntconfig;
-		// tntconfig.load(TntConfig::Get().GetConfigPath().c_str());
+#if TNT_CONFIG_INTERNAL
 		m_server.reset(new Tntnet());
-		//m_server->init(tntconfig);
 		TntConfig::Get().Configure(*m_server);
 #else
 		ProtectedCString configPath(TntConfig::Get().GetConfigPath().c_str());
@@ -58,7 +55,7 @@ void ServerThread::Action()
 		int argc = sizeof( argv ) / sizeof( argv[0] );
 
 		m_server.reset(new Tntnet( argc, argv ));
-#endif // TNTVERSION
+#endif // TNT_CONFIG_INTERNAL
 		m_server->run();
 		m_server.reset(0);
 	} catch (exception const& ex) {

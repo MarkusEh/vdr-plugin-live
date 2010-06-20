@@ -6,6 +6,7 @@
 #include <numeric>
 #include <string>
 #include "live.h"
+#include "tntfeatures.h"
 #include <vdr/menuitems.h>
 
 #define LIVEVERSION "0.2.0"
@@ -13,9 +14,6 @@
 #define LIVESUMMARY trNOOP("Live Interactive VDR Environment")
 
 namespace vdrlive {
-
-// SSL-Support works from tntnet version 1.6.1 onwards.
-#define TNTSSLSUPPORT	TNTVERSION >= 1610
 
 // forward declaration, see below
 class cMenuSetupLive;
@@ -31,7 +29,7 @@ class Setup
 
 		// commandline
 		int GetServerPort() const { return m_serverPort; }
-#if TNTSSLSUPPORT
+#if TNT_SSL_SUPPORT
 		int GetServerSslPort() const { return m_serverSslPort; }
 		std::string GetServerSslCert() const { return m_serverSslCert; }
 		std::string GetServerSslKey() const { return m_serverSslKey; }
@@ -104,7 +102,7 @@ class Setup
 		mutable std::string m_helpString;
 		// commandline options
 		int m_serverPort;
-#if TNTSSLSUPPORT
+#if TNT_SSL_SUPPORT
 		int m_serverSslPort;
 		std::string m_serverSslCert;
 		std::string m_serverSslKey;
@@ -138,7 +136,7 @@ class Setup
 
 		bool CheckServerPort();
 		bool CheckServerIps();
-#if TNTSSLSUPPORT
+#if TNT_SSL_SUPPORT
 		bool CheckServerSslPort();
 #endif
 };

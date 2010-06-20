@@ -3,10 +3,11 @@
 
 #include <string>
 #include <tnt/tntnet.h>
+#include "tntfeatures.h"
 
 namespace vdrlive {
 
-#if TNTVERSION >= 1606
+#if TNT_CONFIG_INTERNAL
 	class TntConfig
 	{
 		public:
@@ -36,7 +37,7 @@ namespace vdrlive {
 			void WriteProperties();
 			void WriteConfig();
 	};
-#endif
+#endif // TNT_CONFIG_INTERNAL
 
 } // namespace vdrlive
 

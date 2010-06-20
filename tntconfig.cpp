@@ -20,12 +20,12 @@ namespace vdrlive {
 
 	TntConfig::TntConfig()
 	{
-#if TNTVERSION < 1606
+#if ! TNT_CONFIG_INTERNAL
 		WriteConfig();
 #endif
 	}
 
-#if TNTVERSION < 1606
+#if ! TNT_CONFIG_INTERNAL
 	void TntConfig::WriteConfig()
 	{
 		WriteProperties();
@@ -131,7 +131,7 @@ namespace vdrlive {
 	}
 #endif
 
-#if TNTVERSION < 1606
+#if ! TNT_CONFIG_INTERNAL
 	void TntConfig::WriteProperties()
 	{
 		ostringstream builder;
@@ -151,7 +151,7 @@ namespace vdrlive {
 	}
 #endif
 
-#if TNTVERSION >= 1606
+#if TNT_CONFIG_INTERNAL
 	void TntConfig::Configure(tnt::Tntnet& app) const
 	{
 		string const configDir(Plugin::GetConfigDirectory());
@@ -267,7 +267,7 @@ namespace vdrlive {
 			}
 		}
 
-#if TNTSSLSUPPORT
+#if TNT_SSL_SUPPORT
 		int s_port = LiveSetup().GetServerSslPort();
 		string s_cert = LiveSetup().GetServerSslCert();
 		string s_key = LiveSetup().GetServerSslKey();
@@ -288,7 +288,7 @@ namespace vdrlive {
 		else {
 			esyslog( "ERROR: Unable to load cert/key (%s/%s): %s", s_cert.c_str(), s_key.c_str(), strerror( errno ) );
 		}
-#endif // TNTSSLSUPPORT
+#endif // TNT_SSL_SUPPORT
 
 		std::istringstream logConf(
 			"rootLogger=" + LiveSetup().GetTntnetLogLevel() + "\n"

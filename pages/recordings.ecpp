@@ -116,7 +116,7 @@ for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 	<li class="recording">
 		<& rec_item_dir name=(recItem->Name()) level=(level) &>
 <%cpp>
-#if TNTVERSION >= 1606
+#if TNT_HAS_QUERYPARAMS
 		tnt::QueryParams recItemParams(qparam, false);
 #else
 		cxxtools::QueryParams recItemParams(qparam, false);

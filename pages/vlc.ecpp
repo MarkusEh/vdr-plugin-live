@@ -5,6 +5,7 @@
 #include "setup.h"
 #include "tools.h"
 #include "users.h"
+#include "tntfeatures.h"
 
 using namespace std;
 using namespace vdrlive;
@@ -97,7 +98,7 @@ using namespace vdrlive;
 	}
 </%cpp>
 <%cpp>
-#if TNTVERSION >= 1606
+#if TNT_HAS_GETHOST
 	string server = request.getHost();
 	server = server.substr(0, server.rfind(':'));
 #else
