@@ -136,10 +136,25 @@ namespace vdrlive {
 		cMutexLock lock( this );
 
 		ostringstream builder;
-		builder << flags << ":" << channel << ":" << ( weekdays != "-------" ? weekdays : "" )
-				<< ( weekdays == "-------" || day.empty() ? "" : "@" ) << day << ":" << start << ":" << stop << ":"
-				<< priority << ":" << lifetime << ":" << title << ":" << aux;
-		// dsyslog("%s", builder.str().c_str());
+		builder << flags << ":"
+				<< channel << ":"
+				<< ( weekdays != "-------" ? weekdays : "" )
+				<< ( weekdays == "-------" || day.empty() ? "" : "@" ) << day << ":"
+				<< start << ":"
+				<< stop << ":"
+                << priority << ":"
+				<< lifetime << ":"
+				<< StringReplace(title, ":", "|" ) << ":"
+				<< StringReplace(aux, ":", "|" );
+		// Use StringReplace here because if ':' are characters in the
+		// title or aux string it breaks parsing of timer definition
+		// in VDRs cTimer::Parse method.  The '|' will be replaced
+		// back to ':' by the cTimer::Parse() method.
+
+		// Fix was submitted by rofafor: see
+		// http://www.vdr-portal.de/board/thread.php?threadid=100398
+
+ 		// dsyslog("%s", builder.str().c_str());
 
 		TimerPair timerData( timer, builder.str() );
 
