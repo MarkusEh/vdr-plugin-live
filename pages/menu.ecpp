@@ -36,6 +36,7 @@ if (!component.empty()) {
 <div class="menu">
 	  <a href="whats_on.html?type=now" <& menu.setactive current=("whats_on") &>><$ tr("What's on?") $></a>
 	| <a href="schedule.html" <& menu.setactive current=("schedule") &>><$ trVDR("Schedule") $></a>
+	| <a href="multischedule.html" <& menu.setactive current=("multischedule") &>><$ trVDR("MultiSchedule") $></a>
 	| <a href="timers.html" <& menu.setactive current=("timers") &>><$ trVDR("Timers") $></a>
 <%cpp>
 if ( LiveFeatures< features::epgsearch >().Recent() ) {
