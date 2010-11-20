@@ -86,6 +86,7 @@ if (!component.empty()) {
     <div> <!-- inner -->
 	  <& menu.component current=("whats_on") &>
 	  <& menu.component current=("schedule") &>
+	  <& menu.component current=("multischedule") &>
 	  <& menu.component current=("timers") &>
 <%cpp>
 	if (LiveFeatures< features::epgsearch >().Recent()) {

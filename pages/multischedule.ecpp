@@ -18,17 +18,19 @@ struct SchedEntry {
 	string title;
 	string short_description;
 	string description;
+	string description_trunc;
 	string start;
 	string end;
 	string day;
 	string epgid;
+        bool truncated;
 	int start_row;
 	int row_count;
 };
 
 </%pre>
 <%args>
-	int channel = -1;
+	int channel = 1;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -39,33 +41,10 @@ bool logged_in(false);
 <%include>page_init.eh</%include>
 <%cpp>
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
-</%cpp>
-<%cpp>
-	pageTitle = trVDR("Schedule");
-
-	cSchedulesLock schedulesLock;
-	cSchedules const* schedules = cSchedules::Schedules( schedulesLock );
-
-	ReadLock channelsLock( Channels );
-	if ( !channelsLock )
-		throw HtmlError( tr("Couldn't aquire access to channels, please try again later.") );
-
-	// cChannel* Channel; (see %request above)
-	if ( channel > 0 ) {
-		Channel = Channels.GetByNumber( channel );
-	}
-	else {
-		if (cDevice::CurrentChannel()) {
-			Channel = Channels.GetByNumber(cDevice::CurrentChannel());
-		}
-		else {
-			Channel = Channels.Get( Channels.GetNextNormal( -1 ) );
-		}
-	}
-	if ( Channel == 0 )
-		throw HtmlError( tr("Couldn't find channel or no channels available. Maybe you mistyped your request?") );
-
-	cSchedule const* Schedule = schedules->GetSchedule( Channel );
+pageTitle = trVDR("Schedule");
+                Channel = Channels.GetByNumber( channel );
+                if (!Channel)
+                     throw HtmlError( tr("Error didn't find the channel") );
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -76,32 +55,64 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	</head>
 	<body>
 		<& pageelems.logo &>
-		<& menu active=("multischedule") component=("schedule.channel_selection") &>
+		<& menu active=("multischedule") component=("multischedule.channel_selection") &>
 		<div class="inhalt">
 <%cpp>
-	if ( Schedule == 0 ) {
-</%cpp>
-			<$ tr("No schedules available for this channel") $>.
-<%cpp>
-	}
-	else {
+
+	cSchedulesLock schedulesLock;
+	cSchedules const* schedules = cSchedules::Schedules( schedulesLock );
+
+	ReadLock channelsLock( Channels );
+	if ( !channelsLock )
+		throw HtmlError( tr("Couldn't aquire access to channels, please try again later.") );
+{
 		time_t now = time(NULL) - ::Setup.EPGLinger * 60;
 		time_t sched_start = 3600 * (now / 3600); // start at a full hour
 		// tChannelID channel_id(Channel->GetChannelID());
 		// int evntNr = 0;
-#define MAX_CHANNELS 5
+#define MAX_CHANNELS 3
 #define MAX_EVENTS 200
-#define MINUTES_PER_ROW 6
+#define MINUTES_PER_ROW 5
+#define CHARACTERS_PER_ROW 30
 		SchedEntry table[MAX_CHANNELS][MAX_EVENTS];
+                int chan = 0;
+		int count[ MAX_CHANNELS ];
+                string channel_names[ MAX_CHANNELS];
+        for ( chan = 0; chan<MAX_CHANNELS; chan++)
+        {
 		int prev_row = -1;
-		int count = 0;
-		for (const cEvent *Event = Schedule->Events()->First(); Event && count < MAX_EVENTS; 
+                count[ chan ] = 0;
+
+                Channel = Channels.GetByNumber( channel+chan );
+                if ( ! Channel )
+                        continue;
+                if ( Channel->GroupSep() || Channel->Name() == '\0' )
+			continue;
+                channel_names[ chan ] = Channel->Name();
+
+                cSchedule const* Schedule = schedules->GetSchedule( Channel );
+                if ( ! Schedule )
+                        continue;
+		for (const cEvent *Event = Schedule->Events()->First(); Event && count[chan] < MAX_EVENTS; 
 				Event = Schedule->Events()->Next(Event)) {
 			if (Event->EndTime() <= sched_start )
 				continue;
 
 			EpgInfoPtr epgEvent = EpgEvents::CreateEpgInfo(Channel, Event);
-			SchedEntry &en=table[0][count];
+                        if ( prev_row < 0 && Event->StartTime() > sched_start + MINUTES_PER_ROW )
+                        {
+                          // insert dummy event at start
+                          SchedEntry &en=table[chan][count[chan]];
+                          int event_start_row = (Event->StartTime() - sched_start) / 60 / MINUTES_PER_ROW;
+                          en.start_row = 0;
+                          en.row_count = event_start_row;
+                          // no title and no start time = dummy event
+                          en.title = "";
+                          en.start = "";
+                          prev_row = en.start_row + en.row_count;
+                          count[chan]++;
+                        }
+			SchedEntry &en=table[chan][count[chan]];
 
 			en.title = epgEvent->Title();
 			en.short_description = epgEvent->ShortDescr();
@@ -113,31 +124,71 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			// string strEventID = lexical_cast<string>(Event->EventID();
 
 			en.start_row = prev_row > 0 ? prev_row : 0;
-			prev_row = en.start_row;
 			int end_time = Schedule->Events()->Next(Event) ? 
 				Schedule->Events()->Next(Event)->StartTime() :
 				Event->EndTime();
 			int next_event_start_row = (end_time - sched_start) / 60 / MINUTES_PER_ROW;
 			en.row_count = next_event_start_row - en.start_row;
-			if ( en.row_count < 2 )
-				en.row_count = 2;
+			if ( en.row_count < 1 )
+				en.row_count = 1;
 			prev_row = en.start_row + en.row_count;
-			count++;
-		};
+                        
+                        // truncate description if too long
+                        en.truncated=false;
+                        en.description_trunc=StringWordTruncate( en.description,
+                                                                 CHARACTERS_PER_ROW*(en.row_count-2),
+                                                                 en.truncated );
+
+
+
+			count[chan]++;
+		};        
+        }
 </%cpp>
-		<table class="listing" cellspacing="0" cellpadding="0">
+		<table class="mschedule" cellspacing="0" cellpadding="0">
 <%cpp>
 		time_t sched_end = sched_start + 60 * 60 * 12; // 12 hr
 		int sched_end_row = ( sched_end - sched_start ) / 60 / MINUTES_PER_ROW;
-		int cur_event = 0;
-		for (int row = 0 ; row < sched_end_row; row++ )
+		int cur_event[ MAX_CHANNELS ];
+                for (int i=0;i<MAX_CHANNELS;i++)
+                        cur_event[i]=0;
+</%cpp>
+	       <tr class=" topaligned ">
+	       <td > <div class="boxheader"> <div><div><$ tr("Time") $></div></div> </div></td>
+	       <td class="time spacer"> &nbsp; </td>
+<%cpp>
+                for ( int channel = 0; channel< MAX_CHANNELS ; channel++)
+                {
+</%cpp>
+	       <td> <div class="boxheader"> <div> <div><$ channel_names[channel] $> </div></div> </div></td>
+	       <td class="time spacer"> &nbsp; </td>
+<%cpp>
+                }
+</%cpp>
+	       </tr>
+<%cpp>
+                bool odd=true;
+                for (int row = 0 ; row < sched_end_row; row++ )
 		{
+                       int minutes= ( (sched_start +  row * 60 * MINUTES_PER_ROW ) % 3600 ) / 60;
+                       string row_class;
+                       if ( minutes == 0 )
+                       {
+                         // full hour, swap odd/even
+                         odd = !odd;
+                       };
+                       if (  (sched_start +  row * 60 * MINUTES_PER_ROW ) <= now &&
+                             (sched_start +  (row+1) * 60 * MINUTES_PER_ROW ) > now )
+                       {
+                         row_class +=" current_row ";
+                       }
+                       row_class += odd ? " odd " : " even ";
 
 </%cpp>
-		       <tr class=" topaligned ">
-		       <td>
+		       <tr class=" <$ row_class $>">
+		       <td class=" time leftcol ">
 <%cpp>
-			if ( (sched_start +  row * 60 * MINUTES_PER_ROW ) % 3600 == 0 )
+			if (  minutes == 0 )
 			{
 </%cpp>
 		       <$ FormatDateTime( tr("%I:%M %p"), sched_start +  row * 60 * MINUTES_PER_ROW )  $>
@@ -148,20 +199,80 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 </%cpp>
 			 &nbsp;
 <%cpp>
-			}
+		        }	
 </%cpp>
 		       </td>
 <%cpp>
-			if ( table[0][cur_event].start_row == row )
-			{
-				SchedEntry &en=table[0][cur_event];
-				bool truncated = false;
+                        for ( int channel = 0; channel< MAX_CHANNELS ; channel++)
+                        {
+                                // output spacer column
 </%cpp>
-			<td class="topaligned leftcol rightcol" rowspan="<$ en.row_count $>">
-			  <div class="more withmargin"><a <& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(en.description, 300, truncated)) + "<br />" + tr("Click to view details.")) &>><span class="title"><$ en.title $></span><br /><span class="short"><$ en.short_description.empty() ? "&nbsp;" : en.short_description $></span></a><$ en.start + "-" + en.end $></div></td>
+		                <td class = " time spacer " > &nbsp; </td>
 <%cpp>
-				cur_event++;
-			}
+                                if ( table[channel][cur_event[channel]].start_row != row )
+                                  // no new event in this channel, skip it
+                                  continue;
+                                
+                                SchedEntry &en=table[channel][cur_event[channel]];
+                                if (en.title.empty() && en.start.empty() )
+                                {
+                                  // empty dummy event
+</%cpp>
+			<td class="event topaligned leftcol rightcol" rowspan="<$ en.row_count $>">
+                        </td>
+<%cpp>
+				  cur_event[channel]++;
+                                  continue;
+                                        
+                                }
+                                // output an event cell
+</%cpp>
+			<td class="event topaligned leftcol rightcol" rowspan="<$ en.row_count $>">
+                        <div class=" content1 " >
+                        <div class=" tools1 " >
+                          <& pageelems.event_timer epgid=(en.epgid) &>
+<%cpp>
+                           if (LiveFeatures<features::epgsearch>().Recent() ) { 
+</%cpp>
+                          <a href="searchresults.html?searchplain=<$ StringUrlEncode(en.title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a>
+<%cpp> 
+                           } else { 
+                             </%cpp><img src="img/transparent.png" width="16" height="16"><%cpp> 
+                           }
+</%cpp>
+                          <& pageelems.imdb_info_href title=(en.title) &>
+                         </div><div class= "start withmargin"><$ en.start $></div>
+			  <div class="title withmargin"><a <& tooltip.hint text=(StringEscapeAndBreak(tr("Click to view details."))) &><& tooltip.display domId=en.epgid &>><$ en.title $></a></div>
+<%cpp>
+                         if ( en.row_count>2 && !en.short_description.empty() ) 
+                         {
+</%cpp>
+                          <div class="short withmargin"><$ en.short_description.empty() ? "&nbsp;" : en.short_description $></div>
+<%cpp>
+                         }
+                         if ( en.row_count>3 && ! en.description_trunc.empty() )
+                         {
+</%cpp>
+                          <div class="description withmargin"><$en.description_trunc$>...
+<%cpp>
+                           if ( en.truncated )
+                           {
+</%cpp>
+                           <a <& tooltip.hint text=(StringEscapeAndBreak(tr("Click to view details."))) &><& tooltip.display domId=en.epgid &>> <$ tr("more") $></a>
+<%cpp>
+                           }
+</%cpp>
+                    </div></div>
+<%cpp>
+
+                         }
+</%cpp>
+                          </div>
+                          </td>
+<%cpp>
+                          // move to next event for this channel
+                          cur_event[channel]++;
+                        }
 </%cpp>
 		       </tr>
 <%cpp>

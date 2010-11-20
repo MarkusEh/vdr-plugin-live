@@ -867,6 +867,76 @@ table.listing a {
 	font-weight: bold;
 }
 
+/* ##################################
+   # table schedule
+   # (this is used for the MultiSchedule)
+   ##################################
+*/
+
+table.mschedule {
+	padding: 0px;
+	margin: 0px;
+}
+
+table.mschedule tr {
+        height: 12px;
+}
+
+table.mschedule tr td.event {
+	background: transparent url(img/bg_line.png) bottom repeat-x;
+	border-bottom: 1px solid #C0C1DA;
+}
+
+table.mschedule tr.odd td.time {
+        background-color: #D0D0ff;
+}
+
+table.mschedule tr.even td.time {
+        background-color: #ffffff;
+}
+
+table.mschedule tr.current_row td.time {
+        background-color: #ffB0B0; 
+}
+
+table.mschedule tr td.leftcol {
+	padding-left: 7px;
+	padding-right: 5px;
+}
+
+table.mschedule div.content1 {
+        min-width: 20em;
+        max-width: 30em;
+}
+
+table.mschedule div.tools1 {
+        float: right;
+}
+
+table.mschedule div.start {
+        float: left;
+}
+
+table.mschedule tr td div.title {
+        padding: 3px;
+        clear: both;
+}
+
+table.mschedule tr td div.short {
+        clear: both;
+        overflow: hidden;
+}
+
+table.mschedule tr td div.description {
+        overflow: hidden;
+        clear: both;
+}
+
+table.mschedule a {
+	color: black;
+	font-weight: bold;
+}
+
 /*
   ##############################
   #  Blue Background Thingy

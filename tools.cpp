@@ -114,6 +114,7 @@ namespace vdrlive {
 	{
 		if (input.length() <= maxLen)
 		{
+                        truncated = false;
 			return input;
 		}
 		truncated = true;
