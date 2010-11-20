@@ -1,4 +1,5 @@
 <%pre>
+#include <list>
 #include <vdr/plugin.h>
 #include <vdr/channels.h>
 #include <vdr/epg.h>
@@ -65,93 +66,86 @@ pageTitle = trVDR("Schedule");
 	ReadLock channelsLock( Channels );
 	if ( !channelsLock )
 		throw HtmlError( tr("Couldn't aquire access to channels, please try again later.") );
-{
-		time_t now = time(NULL) - ::Setup.EPGLinger * 60;
-		time_t sched_start = 3600 * (now / 3600); // start at a full hour
-		// tChannelID channel_id(Channel->GetChannelID());
-		// int evntNr = 0;
+        
+        time_t now = time(NULL) - ::Setup.EPGLinger * 60;
+        time_t sched_start = 3600 * (now / 3600); // start at a full hour
+        time_t sched_end = sched_start + 60 * 60 * 12; // 12 hr
 #define MAX_CHANNELS 3
-#define MAX_EVENTS 200
 #define MINUTES_PER_ROW 5
 #define CHARACTERS_PER_ROW 30
-		SchedEntry table[MAX_CHANNELS][MAX_EVENTS];
-                int chan = 0;
-		int count[ MAX_CHANNELS ];
-                string channel_names[ MAX_CHANNELS];
-        for ( chan = 0; chan<MAX_CHANNELS; chan++)
+        std::list<SchedEntry> table[MAX_CHANNELS];
+        string channel_names[ MAX_CHANNELS];
+        for ( int chan = 0; chan<MAX_CHANNELS; chan++)
         {
-		int prev_row = -1;
-                count[ chan ] = 0;
+          int prev_row = -1;
 
-                Channel = Channels.GetByNumber( channel+chan );
-                if ( ! Channel )
-                        continue;
-                if ( Channel->GroupSep() || Channel->Name() == '\0' )
-			continue;
-                channel_names[ chan ] = Channel->Name();
+          Channel = Channels.GetByNumber( channel+chan );
+          if ( ! Channel )
+            continue;
+          if ( Channel->GroupSep() || Channel->Name() == '\0' )
+            continue;
+          channel_names[ chan ] = Channel->Name();
 
-                cSchedule const* Schedule = schedules->GetSchedule( Channel );
-                if ( ! Schedule )
-                        continue;
-		for (const cEvent *Event = Schedule->Events()->First(); Event && count[chan] < MAX_EVENTS; 
-				Event = Schedule->Events()->Next(Event)) {
-			if (Event->EndTime() <= sched_start )
-				continue;
+          cSchedule const* Schedule = schedules->GetSchedule( Channel );
+          if ( ! Schedule )
+            continue;
+          for (const cEvent *Event = Schedule->Events()->First(); Event  ; 
+               Event = Schedule->Events()->Next(Event)) 
+          {
+            if (Event->EndTime() <= sched_start )
+              continue;
+            if (Event->StartTime() >= sched_end )
+              break;
 
-			EpgInfoPtr epgEvent = EpgEvents::CreateEpgInfo(Channel, Event);
-                        if ( prev_row < 0 && Event->StartTime() > sched_start + MINUTES_PER_ROW )
-                        {
-                          // insert dummy event at start
-                          SchedEntry &en=table[chan][count[chan]];
-                          int event_start_row = (Event->StartTime() - sched_start) / 60 / MINUTES_PER_ROW;
-                          en.start_row = 0;
-                          en.row_count = event_start_row;
-                          // no title and no start time = dummy event
-                          en.title = "";
-                          en.start = "";
-                          prev_row = en.start_row + en.row_count;
-                          count[chan]++;
-                        }
-			SchedEntry &en=table[chan][count[chan]];
+            EpgInfoPtr epgEvent = EpgEvents::CreateEpgInfo(Channel, Event);
+            if ( prev_row < 0 && Event->StartTime() > sched_start + MINUTES_PER_ROW )
+            {
+              // insert dummy event at start
+              table[ chan ].push_back( SchedEntry() );
+              SchedEntry &en=table[ chan ].back();
+              int event_start_row = (Event->StartTime() - sched_start) / 60 / MINUTES_PER_ROW;
+              en.start_row = 0;
+              en.row_count = event_start_row;
+              // no title and no start time = dummy event
+              en.title = "";
+              en.start = "";
+              prev_row = en.start_row + en.row_count;
+            }
+            table[ chan ].push_back( SchedEntry() );
+            SchedEntry &en=table[chan].back();
 
-			en.title = epgEvent->Title();
-			en.short_description = epgEvent->ShortDescr();
-			en.description = epgEvent->LongDescr();
-			en.start = epgEvent->StartTime(tr("%I:%M %p"));
-			en.end = epgEvent->EndTime(tr("%I:%M %p"));
-			en.day = epgEvent->StartTime(tr("%A, %b %d %Y"));
-			en.epgid = EpgEvents::EncodeDomId(Channel->GetChannelID(), Event->EventID());
-			// string strEventID = lexical_cast<string>(Event->EventID();
+            en.title = epgEvent->Title();
+            en.short_description = epgEvent->ShortDescr();
+            en.description = epgEvent->LongDescr();
+            en.start = epgEvent->StartTime(tr("%I:%M %p"));
+            en.end = epgEvent->EndTime(tr("%I:%M %p"));
+            en.day = epgEvent->StartTime(tr("%A, %b %d %Y"));
+            en.epgid = EpgEvents::EncodeDomId(Channel->GetChannelID(), Event->EventID());
+            // string strEventID = lexical_cast<string>(Event->EventID();
 
-			en.start_row = prev_row > 0 ? prev_row : 0;
-			int end_time = Schedule->Events()->Next(Event) ? 
-				Schedule->Events()->Next(Event)->StartTime() :
-				Event->EndTime();
-			int next_event_start_row = (end_time - sched_start) / 60 / MINUTES_PER_ROW;
-			en.row_count = next_event_start_row - en.start_row;
-			if ( en.row_count < 1 )
-				en.row_count = 1;
-			prev_row = en.start_row + en.row_count;
-                        
-                        // truncate description if too long
-                        en.truncated=false;
-                        en.description_trunc=StringWordTruncate( en.description,
-                                                                 CHARACTERS_PER_ROW*(en.row_count-2),
-                                                                 en.truncated );
+            en.start_row = prev_row > 0 ? prev_row : 0;
+            int end_time = Schedule->Events()->Next(Event) ? 
+              Schedule->Events()->Next(Event)->StartTime() :
+              Event->EndTime();
+            int next_event_start_row = (end_time - sched_start) / 60 / MINUTES_PER_ROW;
+            en.row_count = next_event_start_row - en.start_row;
+            if ( en.row_count < 1 )
+              en.row_count = 1;
+            prev_row = en.start_row + en.row_count;
+
+            // truncate description if too long
+            en.truncated=false;
+            en.description_trunc=StringWordTruncate( en.description,
+                                                     CHARACTERS_PER_ROW*(en.row_count-2),
+                                                     en.truncated );
 
 
 
-			count[chan]++;
-		};        
+          };        
         }
 </%cpp>
 		<table class="mschedule" cellspacing="0" cellpadding="0">
 <%cpp>
-		time_t sched_end = sched_start + 60 * 60 * 12; // 12 hr
-		int sched_end_row = ( sched_end - sched_start ) / 60 / MINUTES_PER_ROW;
-		int cur_event[ MAX_CHANNELS ];
-                for (int i=0;i<MAX_CHANNELS;i++)
-                        cur_event[i]=0;
 </%cpp>
 	       <tr class=" topaligned ">
 	       <td > <div class="boxheader"> <div><div><$ tr("Time") $></div></div> </div></td>
@@ -168,6 +162,10 @@ pageTitle = trVDR("Schedule");
 	       </tr>
 <%cpp>
                 bool odd=true;
+		int sched_end_row = ( sched_end - sched_start ) / 60 / MINUTES_PER_ROW;
+                std::list<SchedEntry>::iterator  cur_event[ MAX_CHANNELS ];
+                for (int i=0;i<MAX_CHANNELS;i++)
+                        cur_event[i]=table[i].begin();
                 for (int row = 0 ; row < sched_end_row; row++ )
 		{
                        int minutes= ( (sched_start +  row * 60 * MINUTES_PER_ROW ) % 3600 ) / 60;
@@ -209,11 +207,12 @@ pageTitle = trVDR("Schedule");
 </%cpp>
 		                <td class = " time spacer " > &nbsp; </td>
 <%cpp>
-                                if ( table[channel][cur_event[channel]].start_row != row )
+                                if ( cur_event[channel] != table[channel].end() 
+                                     && cur_event[channel]->start_row != row )
                                   // no new event in this channel, skip it
                                   continue;
                                 
-                                SchedEntry &en=table[channel][cur_event[channel]];
+                                SchedEntry &en=*cur_event[channel];
                                 if (en.title.empty() && en.start.empty() )
                                 {
                                   // empty dummy event
@@ -221,7 +220,7 @@ pageTitle = trVDR("Schedule");
 			<td class="event topaligned leftcol rightcol" rowspan="<$ en.row_count $>">
                         </td>
 <%cpp>
-				  cur_event[channel]++;
+				  ++cur_event[channel];
                                   continue;
                                         
                                 }
@@ -271,7 +270,7 @@ pageTitle = trVDR("Schedule");
                           </td>
 <%cpp>
                           // move to next event for this channel
-                          cur_event[channel]++;
+                          ++cur_event[channel];
                         }
 </%cpp>
 		       </tr>
@@ -279,9 +278,6 @@ pageTitle = trVDR("Schedule");
 		}
 </%cpp>
 			</table>
-<%cpp>
-	}
-</%cpp>
 		</div>
 	</body>
 </html>
