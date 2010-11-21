@@ -9,6 +9,7 @@
 #include "livefeatures.h"
 #include "setup.h"
 #include "tools.h"
+#include "timers.h"
 #include "epg_events.h"
 #include "i18n.h"
 
@@ -25,10 +26,12 @@ struct SchedEntry {
 	string day;
 	string epgid;
         bool truncated;
+        bool has_timer;
 	int start_row;
 	int row_count;
 };
 
+        std::vector<std::string> channel_groups_names;
 </%pre>
 <%args>
 	int channel = 1;
@@ -37,15 +40,50 @@ struct SchedEntry {
 bool logged_in(false);
 </%session>
 <%request scope="page">
-	cChannel* Channel;
+        int channel_group=0;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 pageTitle = trVDR("Schedule");
-                Channel = Channels.GetByNumber( channel );
-                if (!Channel)
-                     throw HtmlError( tr("Error didn't find the channel") );
+
+        ReadLock channelsLock( Channels );
+	if ( !channelsLock )
+		throw HtmlError( tr("Couldn't aquire access to channels, please try again later.") );
+
+#define MAX_CHANNELS 5 
+#define MINUTES_PER_ROW 5
+#define CHARACTERS_PER_ROW 30
+
+        // build the groups of channels to display
+        std::vector< std::vector<int> > channel_groups_numbers;
+        channel_groups_names.clear();
+        int cur_group_count=0;
+	for ( cChannel *listChannel = Channels.First(); listChannel; listChannel = Channels.Next( listChannel ) ) 
+        {
+		if ( listChannel->GroupSep() || *listChannel->Name() == '\0' )
+			continue;
+
+                if ( cur_group_count==0 )
+                {
+                  // first entry in this group
+                  channel_groups_names.push_back( std::string() );
+                  channel_groups_numbers.push_back( std::vector<int>( MAX_CHANNELS) );
+                }
+                else channel_groups_names.back() += " - ";
+
+                channel_groups_names.back() += std::string( listChannel->Name() );
+                channel_groups_numbers.back()[ cur_group_count ] = listChannel->Number();
+
+                cur_group_count++;
+                if ( cur_group_count >= MAX_CHANNELS )
+                  // we need a new group next round
+                  cur_group_count = 0;
+	}
+        if ( channel >= channel_groups_numbers.size() )
+          channel = channel_groups_numbers.size()-1;
+        channel_group = channel;
+
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -59,50 +97,53 @@ pageTitle = trVDR("Schedule");
 		<& menu active=("multischedule") component=("multischedule.channel_selection") &>
 		<div class="inhalt">
 <%cpp>
-
 	cSchedulesLock schedulesLock;
 	cSchedules const* schedules = cSchedules::Schedules( schedulesLock );
-
+#if 0
 	ReadLock channelsLock( Channels );
 	if ( !channelsLock )
 		throw HtmlError( tr("Couldn't aquire access to channels, please try again later.") );
-        
+#endif
         time_t now = time(NULL) - ::Setup.EPGLinger * 60;
         time_t sched_start = 3600 * (now / 3600); // start at a full hour
-        time_t sched_end = sched_start + 60 * 60 * 12; // 12 hr
-#define MAX_CHANNELS 3
-#define MINUTES_PER_ROW 5
-#define CHARACTERS_PER_ROW 30
+        time_t sched_end = sched_start + 60 * 60 * 24; // 12 hr
+        int sched_end_row = ( sched_end - sched_start ) / 60 / MINUTES_PER_ROW;
         std::list<SchedEntry> table[MAX_CHANNELS];
         string channel_names[ MAX_CHANNELS];
-        for ( int chan = 0; chan<MAX_CHANNELS; chan++)
+        if ( channel >= channel_groups_numbers.size() )
+          channel = channel_groups_numbers.size()-1;
+        //for ( int chan = 0; chan<MAX_CHANNELS; chan++)
+        for ( int j = 0; j<MAX_CHANNELS; j++)
         {
           int prev_row = -1;
 
-          Channel = Channels.GetByNumber( channel+chan );
+
+          int chan = channel_groups_numbers[ channel ][ j ];
+
+          cChannel* Channel = Channels.GetByNumber( chan );
           if ( ! Channel )
             continue;
           if ( Channel->GroupSep() || Channel->Name() == '\0' )
             continue;
-          channel_names[ chan ] = Channel->Name();
+          channel_names[ j ] = Channel->Name();
 
           cSchedule const* Schedule = schedules->GetSchedule( Channel );
           if ( ! Schedule )
             continue;
-          for (const cEvent *Event = Schedule->Events()->First(); Event  ; 
-               Event = Schedule->Events()->Next(Event)) 
+          for (const cEvent *Event = Schedule->Events()->First(); Event; 
+               Event = Schedule->Events()->Next(Event) ) 
           {
             if (Event->EndTime() <= sched_start )
               continue;
             if (Event->StartTime() >= sched_end )
-              break;
+              continue;
 
             EpgInfoPtr epgEvent = EpgEvents::CreateEpgInfo(Channel, Event);
             if ( prev_row < 0 && Event->StartTime() > sched_start + MINUTES_PER_ROW )
             {
               // insert dummy event at start
-              table[ chan ].push_back( SchedEntry() );
-              SchedEntry &en=table[ chan ].back();
+              table[ j ].push_back( SchedEntry() );
+              SchedEntry &en=table[ j ].back();
               int event_start_row = (Event->StartTime() - sched_start) / 60 / MINUTES_PER_ROW;
               en.start_row = 0;
               en.row_count = event_start_row;
@@ -111,8 +152,8 @@ pageTitle = trVDR("Schedule");
               en.start = "";
               prev_row = en.start_row + en.row_count;
             }
-            table[ chan ].push_back( SchedEntry() );
-            SchedEntry &en=table[chan].back();
+            table[ j ].push_back( SchedEntry() );
+            SchedEntry &en=table[j].back();
 
             en.title = epgEvent->Title();
             en.short_description = epgEvent->ShortDescr();
@@ -121,7 +162,7 @@ pageTitle = trVDR("Schedule");
             en.end = epgEvent->EndTime(tr("%I:%M %p"));
             en.day = epgEvent->StartTime(tr("%A, %b %d %Y"));
             en.epgid = EpgEvents::EncodeDomId(Channel->GetChannelID(), Event->EventID());
-            // string strEventID = lexical_cast<string>(Event->EventID();
+            en.has_timer = LiveTimerManager().GetTimer(Event->EventID(), Channel->GetChannelID() ) != 0;
 
             en.start_row = prev_row > 0 ? prev_row : 0;
             int end_time = Schedule->Events()->Next(Event) ? 
@@ -141,7 +182,18 @@ pageTitle = trVDR("Schedule");
 
 
 
-          };        
+          };
+          if ( table[ j ].begin() == table[ j ].end() )
+          {
+            // no entries... create a single dummy entry       
+            table[ j ].push_back( SchedEntry() );
+            SchedEntry &en=table[ j ].back();
+            en.start_row = 0;
+            en.row_count = sched_end_row;
+            // no title and no start time = dummy event
+            en.title = "";
+            en.start = "";
+          }
         }
 </%cpp>
 		<table class="mschedule" cellspacing="0" cellpadding="0">
@@ -154,7 +206,7 @@ pageTitle = trVDR("Schedule");
                 for ( int channel = 0; channel< MAX_CHANNELS ; channel++)
                 {
 </%cpp>
-	       <td> <div class="boxheader"> <div> <div><$ channel_names[channel] $> </div></div> </div></td>
+	       <td> <div class="boxheader"> <div> <div><$ StringEscapeAndBreak(channel_names[channel]) $> </div></div> </div></td>
 	       <td class="time spacer"> &nbsp; </td>
 <%cpp>
                 }
@@ -162,7 +214,6 @@ pageTitle = trVDR("Schedule");
 	       </tr>
 <%cpp>
                 bool odd=true;
-		int sched_end_row = ( sched_end - sched_start ) / 60 / MINUTES_PER_ROW;
                 std::list<SchedEntry>::iterator  cur_event[ MAX_CHANNELS ];
                 for (int i=0;i<MAX_CHANNELS;i++)
                         cur_event[i]=table[i].begin();
@@ -207,8 +258,8 @@ pageTitle = trVDR("Schedule");
 </%cpp>
 		                <td class = " time spacer " > &nbsp; </td>
 <%cpp>
-                                if ( cur_event[channel] != table[channel].end() 
-                                     && cur_event[channel]->start_row != row )
+                                if ( cur_event[channel] == table[channel].end() 
+                                     || cur_event[channel]->start_row != row )
                                   // no new event in this channel, skip it
                                   continue;
                                 
@@ -226,7 +277,7 @@ pageTitle = trVDR("Schedule");
                                 }
                                 // output an event cell
 </%cpp>
-			<td class="event topaligned leftcol rightcol" rowspan="<$ en.row_count $>">
+			<td class="event topaligned leftcol rightcol <$ en.has_timer ? "has_timer" : "" $>" rowspan="<$ en.row_count $>">
                         <div class=" content1 " >
                         <div class=" tools1 " >
                           <& pageelems.event_timer epgid=(en.epgid) &>
@@ -261,12 +312,11 @@ pageTitle = trVDR("Schedule");
 <%cpp>
                            }
 </%cpp>
-                    </div></div>
+                           </div>
 <%cpp>
-
                          }
 </%cpp>
-                          </div>
+                          </div></div>
                           </td>
 <%cpp>
                           // move to next event for this channel
@@ -286,10 +336,20 @@ pageTitle = trVDR("Schedule");
 <%def channel_selection>
 <form action="multischedule.html" method="get" id="channels">
    <span>
-     <label for="channel"><$ tr("Channel") $>:&nbsp;<span class="bold"><$ Channel->Number() $></span></label>
-     <& channels_widget name=("channel") selected=(Channel ? *Channel->GetChannelID().ToString() : "") onchange=("document.forms.channels.submit()") &>
-     <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(Channel->GetChannelID()) image="zap.png" alt="" &>
-     <& pageelems.vlc_stream_channel channelId=(Channel->GetChannelID()) &>
+     <label for="channel"><$ tr("Channel") $>:&nbsp;<span class="bold"></span></label>
+     <select name="channel" id="channel"  onchange="document.forms.channels.submit()" >
+%	for ( int i = 0; i < channel_groups_names.size(); ++i ) {
+%
+		<option value="<$ i $>"
+%                      if ( i == channel_group )
+%                      {
+			selected="selected"
+%                      }
+                        ><$ channel_groups_names[i] $></option>
+%	}
+     </select>
+% //     <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(Channel->GetChannelID()) image="zap.png" alt="" &>
+% //     <& pageelems.vlc_stream_channel channelId=(Channel->GetChannelID()) &>
    </span>
 </form>
 </%def>
