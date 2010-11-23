@@ -10,6 +10,10 @@
 #include <stdint.h>
 #include <unistd.h>
 #include <string>
+#ifdef __FreeBSD__
+#include <sys/socket.h>
+#include <netinet/in.h>
+#endif
 #include <arpa/inet.h>
 #include <vdr/tools.h>
 #include <vdr/menuitems.h>
