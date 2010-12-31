@@ -32,15 +32,19 @@ struct SchedEntry {
 };
 
         std::vector<std::string> channel_groups_names;
+        std::vector<std::string> times_names;
+        std::vector<time_t>      times_start;
 </%pre>
 <%args>
-	int channel = 1;
+	unsigned int channel = 0;
+	unsigned int time_para = 0;
 </%args>
 <%session scope="global">
 bool logged_in(false);
 </%session>
 <%request scope="page">
-        int channel_group=0;
+        unsigned int channel_group=0;
+        unsigned int time_selected=0;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
@@ -52,6 +56,8 @@ pageTitle = trVDR("Schedule");
 		throw HtmlError( tr("Couldn't aquire access to channels, please try again later.") );
 
 #define MAX_CHANNELS 5 
+#define MAX_DAYS 3
+#define MAX_HOURS 8
 #define MINUTES_PER_ROW 5
 #define CHARACTERS_PER_ROW 30
 
@@ -83,7 +89,45 @@ pageTitle = trVDR("Schedule");
         if ( channel >= channel_groups_numbers.size() )
           channel = channel_groups_numbers.size()-1;
         channel_group = channel;
+{
+    // build time list
+    times_names.clear();
+    times_start.clear();
+    
+    // calculate time of midnight (localtime) and convert back to GMT
+    time_t now = time(NULL);
+    time_t now_local = time(NULL);
+    struct tm tm_r;
+    if ( localtime_r( &now_local, &tm_r ) == 0 ) {
+        ostringstream builder;
+        builder << "cannot represent timestamp " << now_local << " as local time";
+        throw runtime_error( builder.str() );
+    }
+    tm_r.tm_hour=0;
+    tm_r.tm_min=0;
+    tm_r.tm_sec=0;
+    time_t midnight = mktime( &tm_r );
 
+    // default is now rounded to full hour
+    times_names.push_back( tr("Now") );
+    times_start.push_back( 3600 * ( now /3600 ) );
+
+    int i =0;
+    // skip allready passed times
+    while ( now>midnight+MAX_HOURS*3600*i)
+        i++;
+
+    for (; i<4*MAX_DAYS ; i++ )
+    {
+        times_names.push_back(FormatDateTime( tr("%A, %x"), midnight + MAX_HOURS*3600*i)
+                              +std::string(" ")+ FormatDateTime( tr("%I:%M %p"), midnight + MAX_HOURS*3600*i) );
+        //times_names.push_back("today 0:00");
+        times_start.push_back( midnight + MAX_HOURS*3600*i );
+    }
+    if ( time_para >= times_names.size() )
+        time_para = times_names.size()-1;
+    time_selected=time_para;
+}
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -99,14 +143,12 @@ pageTitle = trVDR("Schedule");
 <%cpp>
 	cSchedulesLock schedulesLock;
 	cSchedules const* schedules = cSchedules::Schedules( schedulesLock );
-#if 0
-	ReadLock channelsLock( Channels );
-	if ( !channelsLock )
-		throw HtmlError( tr("Couldn't aquire access to channels, please try again later.") );
-#endif
-        time_t now = time(NULL) - ::Setup.EPGLinger * 60;
-        time_t sched_start = 3600 * (now / 3600); // start at a full hour
-        time_t sched_end = sched_start + 60 * 60 * 24; // 12 hr
+       
+        time_t now = time(NULL);
+        if ( time_para >= times_start.size() )
+            time_para = times_start.size()-1;
+        time_t sched_start = times_start[ time_para ]; 
+        time_t sched_end = sched_start + 60 * 60 * MAX_HOURS;
         int sched_end_row = ( sched_end - sched_start ) / 60 / MINUTES_PER_ROW;
         std::list<SchedEntry> table[MAX_CHANNELS];
         string channel_names[ MAX_CHANNELS];
@@ -338,7 +380,7 @@ pageTitle = trVDR("Schedule");
    <span>
      <label for="channel"><$ tr("Channel") $>:&nbsp;<span class="bold"></span></label>
      <select name="channel" id="channel"  onchange="document.forms.channels.submit()" >
-%	for ( int i = 0; i < channel_groups_names.size(); ++i ) {
+%	for ( unsigned int i = 0; i < channel_groups_names.size(); ++i ) {
 %
 		<option value="<$ i $>"
 %                      if ( i == channel_group )
@@ -346,6 +388,18 @@ pageTitle = trVDR("Schedule");
 			selected="selected"
 %                      }
                         ><$ channel_groups_names[i] $></option>
+%	}
+     </select>
+     <label for="time_para"><$ tr("Time") $>:&nbsp;<span class="bold"></span></label>
+     <select name="time_para" id="time_para"  onchange="document.forms.channels.submit()" >
+%	for ( unsigned int i = 0; i < times_names.size(); ++i ) {
+%
+		<option value="<$ i $>"
+%                      if ( i == time_selected )
+%                      {
+			selected="selected"
+%                      }
+                        ><$ times_names[i] $></option>
 %	}
      </select>
 % //     <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(Channel->GetChannelID()) image="zap.png" alt="" &>
