@@ -1,7 +1,7 @@
 Grams of suggestions, bugreports, patches and other contributions have been
 provided by the people on the VDR-Portal and VDR-Portal chatrooms.
 Special thanks go to the following individuals (if your name is missing here,
-please send an email to tkeil@datacrystal.de):
+please send an email to dh+vdr@gekrumbel.de):
 
 Michael Brueckner <vdr@gekrumbel.de>
  for icons and images and parts of the overall visual design.
@@ -25,3 +25,6 @@ Diego Pierotto
 
 John Germs, Chavonbravo from CaptiveWorks (http://captiveworks.org)
  for the addition of channel numbers on the live pages.
+
+Martin Wache
+ contributed the MultiSchedule view.
