@@ -496,6 +496,27 @@ msgstr "Reagieren"
 msgid "Dismiss"
 msgstr "Verwerfen"
 
+msgid "Now"
+msgstr "Jetzt"
+
+msgid "%A, %b %d %Y"
+msgstr "%A, %d.%m.%Y"
+
+msgid "Time"
+msgstr ""
+
+msgid "Search for repeats."
+msgstr "Nach Wiederholungen suchen."
+
+msgid "Click to view details."
+msgstr "Für Details klicken."
+
+msgid "more"
+msgstr "mehr"
+
+msgid "Channel"
+msgstr "Kanal"
+
 msgid "Find more at the Internet Movie Database."
 msgstr "Weitere Informationen in der Internet Movie Database."
 
@@ -592,9 +613,6 @@ msgstr "Kann Infobox nicht aktualisieren!"
 msgid "Switch to this channel."
 msgstr "Zu diesem Kanal umschalten."
 
-msgid "Search for repeats."
-msgstr "Nach Wiederholungen suchen."
-
 msgid "Authors"
 msgstr "Autoren"
 
@@ -652,9 +670,6 @@ msgstr "Liste der Aufnahmen"
 msgid "No recordings found"
 msgstr "Keine Aufnahmen vorhanden"
 
-msgid "Click to view details."
-msgstr "Für Details klicken."
-
 msgid "Delete this recording from hard disc!"
 msgstr "Diese Aufnahme von der Festplatte löschen!"
 
@@ -674,12 +689,6 @@ msgstr "Snapshot-Intervall"
 
 msgid "No schedules available for this channel"
 msgstr "Für diesen Kanal liegen keine EPG-Informationen vor"
-
-msgid "%A, %b %d %Y"
-msgstr "%A, %d.%m.%Y"
-
-msgid "Channel"
-msgstr "Kanal"
 
 msgid "Search settings"
 msgstr "Einstellungen zur Suche"
@@ -846,12 +855,6 @@ msgstr "Zeige Programm dieses Kanals"
 
 msgid " - "
 msgstr ""
-
-msgid "more"
-msgstr "mehr"
-
-msgid "Now"
-msgstr "Jetzt"
 
 msgid "Next"
 msgstr "als Nächstes"

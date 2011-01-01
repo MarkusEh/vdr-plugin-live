@@ -494,6 +494,27 @@ msgstr ""
 msgid "Dismiss"
 msgstr ""
 
+msgid "Now"
+msgstr ""
+
+msgid "%A, %b %d %Y"
+msgstr ""
+
+msgid "Time"
+msgstr ""
+
+msgid "Search for repeats."
+msgstr ""
+
+msgid "Click to view details."
+msgstr ""
+
+msgid "more"
+msgstr ""
+
+msgid "Channel"
+msgstr ""
+
 msgid "Find more at the Internet Movie Database."
 msgstr ""
 
@@ -590,9 +611,6 @@ msgstr ""
 msgid "Switch to this channel."
 msgstr ""
 
-msgid "Search for repeats."
-msgstr ""
-
 msgid "Authors"
 msgstr ""
 
@@ -650,9 +668,6 @@ msgstr ""
 msgid "No recordings found"
 msgstr ""
 
-msgid "Click to view details."
-msgstr ""
-
 msgid "Delete this recording from hard disc!"
 msgstr ""
 
@@ -671,12 +686,6 @@ msgid "Snapshot interval"
 msgstr ""
 
 msgid "No schedules available for this channel"
-msgstr ""
-
-msgid "%A, %b %d %Y"
-msgstr ""
-
-msgid "Channel"
 msgstr ""
 
 msgid "Search settings"
@@ -843,12 +852,6 @@ msgid "View the schedule of this channel"
 msgstr ""
 
 msgid " - "
-msgstr ""
-
-msgid "more"
-msgstr ""
-
-msgid "Now"
 msgstr ""
 
 msgid "Next"

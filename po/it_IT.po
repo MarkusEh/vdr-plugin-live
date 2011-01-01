@@ -500,6 +500,27 @@ msgstr "Risolvi"
 msgid "Dismiss"
 msgstr "Ignora"
 
+msgid "Now"
+msgstr "Adesso"
+
+msgid "%A, %b %d %Y"
+msgstr "%A, %b %d %Y"
+
+msgid "Time"
+msgstr ""
+
+msgid "Search for repeats."
+msgstr "Cerca repliche"
+
+msgid "Click to view details."
+msgstr "Fai click per vedere i dettagli"
+
+msgid "more"
+msgstr "altro"
+
+msgid "Channel"
+msgstr "Canale"
+
 msgid "Find more at the Internet Movie Database."
 msgstr "Cerca ulteriori informazioni nel database internet (IMDB)"
 
@@ -596,9 +617,6 @@ msgstr "Aggiornamento tabella info fallita!"
 msgid "Switch to this channel."
 msgstr "Sintonizza questo canale"
 
-msgid "Search for repeats."
-msgstr "Cerca repliche"
-
 msgid "Authors"
 msgstr "Autori"
 
@@ -656,9 +674,6 @@ msgstr "Elenco registrazioni"
 msgid "No recordings found"
 msgstr "Nessuna registrazione trovata"
 
-msgid "Click to view details."
-msgstr "Fai click per vedere i dettagli"
-
 msgid "Delete this recording from hard disc!"
 msgstr "Elimina questa registrazione dal disco fisso!"
 
@@ -678,12 +693,6 @@ msgstr "Intervallo schermata"
 
 msgid "No schedules available for this channel"
 msgstr "Nessun programma disponibile per questo canale"
-
-msgid "%A, %b %d %Y"
-msgstr "%A, %b %d %Y"
-
-msgid "Channel"
-msgstr "Canale"
 
 msgid "Search settings"
 msgstr "Impostazioni ricerca"
@@ -850,12 +859,6 @@ msgstr "Visualizza scheda programmi del canale"
 
 msgid " - "
 msgstr " - "
-
-msgid "more"
-msgstr "altro"
-
-msgid "Now"
-msgstr "Adesso"
 
 msgid "Next"
 msgstr "Prossimi"

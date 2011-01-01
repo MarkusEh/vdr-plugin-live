@@ -494,6 +494,27 @@ msgstr "Reguoti"
 msgid "Dismiss"
 msgstr "Atmesti"
 
+msgid "Now"
+msgstr "Dabar"
+
+msgid "%A, %b %d %Y"
+msgstr "%A, %b %d %Y"
+
+msgid "Time"
+msgstr ""
+
+msgid "Search for repeats."
+msgstr "Ieškoti pasikartojimų."
+
+msgid "Click to view details."
+msgstr "Spustelkit kad gautumėt daugiau informacijos."
+
+msgid "more"
+msgstr "daugiau"
+
+msgid "Channel"
+msgstr "Kanalas"
+
 msgid "Find more at the Internet Movie Database."
 msgstr "Gauti daugiau informacijos iš IMDb."
 
@@ -590,9 +611,6 @@ msgstr "Negali atnaujinti infolentelės!"
 msgid "Switch to this channel."
 msgstr "Pereiti į šį kanalą."
 
-msgid "Search for repeats."
-msgstr "Ieškoti pasikartojimų."
-
 msgid "Authors"
 msgstr "Autoriai"
 
@@ -650,9 +668,6 @@ msgstr "Įrašų sąrašas"
 msgid "No recordings found"
 msgstr "Įrašų nėra"
 
-msgid "Click to view details."
-msgstr "Spustelkit kad gautumėt daugiau informacijos."
-
 msgid "Delete this recording from hard disc!"
 msgstr "Ištrinti šį įrašą iš disko!"
 
@@ -672,12 +687,6 @@ msgstr "Momentinių nuotraukų intervalas"
 
 msgid "No schedules available for this channel"
 msgstr "Šis kanalas neturi programos"
-
-msgid "%A, %b %d %Y"
-msgstr "%A, %b %d %Y"
-
-msgid "Channel"
-msgstr "Kanalas"
 
 msgid "Search settings"
 msgstr "Paieškos nustatymai"
@@ -844,12 +853,6 @@ msgstr "Žiūrėti šio kanalo programą"
 
 msgid " - "
 msgstr " - "
-
-msgid "more"
-msgstr "daugiau"
-
-msgid "Now"
-msgstr "Dabar"
 
 msgid "Next"
 msgstr "Sekantis"

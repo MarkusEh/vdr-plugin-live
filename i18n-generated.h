@@ -5576,6 +5576,251 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
+  { "Now",
+    "Jetzt",
+    "",
+    "Adesso",
+    "",
+    "",
+    "maintenant",
+    "",
+    "Nyt",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "%A, %b %d %Y",
+    "%A, %d.%m.%Y",
+    "",
+    "%A, %b %d %Y",
+    "",
+    "",
+    "%A, %d.%m.%Y",
+    "",
+    "%A, %d.%m.%Y",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Time",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Search for repeats.",
+    "Nach Wiederholungen suchen.",
+    "",
+    "Cerca repliche",
+    "",
+    "",
+    "Recherche de répétitions.",
+    "",
+    "Etsi toistuvat",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Click to view details.",
+    "Für Details klicken.",
+    "",
+    "Fai click per vedere i dettagli",
+    "",
+    "",
+    "Clic pour voire les détails.",
+    "",
+    "Napsauta katsoaksesi lisÃ¤tietoja.",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "more",
+    "mehr",
+    "",
+    "altro",
+    "",
+    "",
+    "plus",
+    "",
+    "lisÃ¤tietoja",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Channel",
+    "Kanal",
+    "",
+    "Canale",
+    "",
+    "",
+    "Chaîne",
+    "",
+    "Kanava",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
   { "Find more at the Internet Movie Database.",
     "Weitere Informationen in der Internet Movie Database.",
     "",
@@ -6696,41 +6941,6 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "Search for repeats.",
-    "Nach Wiederholungen suchen.",
-    "",
-    "Cerca repliche",
-    "",
-    "",
-    "Recherche de répétitions.",
-    "",
-    "Etsi toistuvat",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
   { "Authors",
     "Autoren",
     "",
@@ -7396,41 +7606,6 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "Click to view details.",
-    "Für Details klicken.",
-    "",
-    "Fai click per vedere i dettagli",
-    "",
-    "",
-    "Clic pour voire les détails.",
-    "",
-    "Napsauta katsoaksesi lisÃ¤tietoja.",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
   { "Delete this recording from hard disc!",
     "Diese Aufnahme von der Festplatte löschen!",
     "",
@@ -7615,76 +7790,6 @@ const tI18nPhrase Phrases[] = {
     "Aucune programmation disponible pour cette chaîne",
     "",
     "TÃ¤lle kanavalle ei ole saatavilla ohjelmistoa",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "%A, %b %d %Y",
-    "%A, %d.%m.%Y",
-    "",
-    "%A, %b %d %Y",
-    "",
-    "",
-    "%A, %d.%m.%Y",
-    "",
-    "%A, %d.%m.%Y",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Channel",
-    "Kanal",
-    "",
-    "Canale",
-    "",
-    "",
-    "Chaîne",
-    "",
-    "Kanava",
     "",
     "",
     "",
@@ -9610,76 +9715,6 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "more",
-    "mehr",
-    "",
-    "altro",
-    "",
-    "",
-    "plus",
-    "",
-    "lisÃ¤tietoja",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Now",
-    "Jetzt",
-    "",
-    "Adesso",
-    "",
-    "",
-    "maintenant",
-    "",
-    "Nyt",
     "",
     "",
     "",

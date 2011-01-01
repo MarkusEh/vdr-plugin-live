@@ -495,6 +495,27 @@ msgstr "Reagoi"
 msgid "Dismiss"
 msgstr "Ohita"
 
+msgid "Now"
+msgstr "Nyt"
+
+msgid "%A, %b %d %Y"
+msgstr "%A, %d.%m.%Y"
+
+msgid "Time"
+msgstr ""
+
+msgid "Search for repeats."
+msgstr "Etsi toistuvat"
+
+msgid "Click to view details."
+msgstr "Napsauta katsoaksesi lisätietoja."
+
+msgid "more"
+msgstr "lisätietoja"
+
+msgid "Channel"
+msgstr "Kanava"
+
 msgid "Find more at the Internet Movie Database."
 msgstr "Hae IMDB:stä"
 
@@ -591,9 +612,6 @@ msgstr "Infolaatikon päivitys epäonnistui!"
 msgid "Switch to this channel."
 msgstr "Vaihda kanavalle"
 
-msgid "Search for repeats."
-msgstr "Etsi toistuvat"
-
 msgid "Authors"
 msgstr "Tekijät"
 
@@ -651,9 +669,6 @@ msgstr "Tallennelistaus"
 msgid "No recordings found"
 msgstr "Tallenteita ei löydy"
 
-msgid "Click to view details."
-msgstr "Napsauta katsoaksesi lisätietoja."
-
 msgid "Delete this recording from hard disc!"
 msgstr "Poista tallenne kovalevyltä!"
 
@@ -673,12 +688,6 @@ msgstr "Kuvien päivitysväli"
 
 msgid "No schedules available for this channel"
 msgstr "Tälle kanavalle ei ole saatavilla ohjelmistoa"
-
-msgid "%A, %b %d %Y"
-msgstr "%A, %d.%m.%Y"
-
-msgid "Channel"
-msgstr "Kanava"
 
 msgid "Search settings"
 msgstr "Hakuasetukset"
@@ -845,12 +854,6 @@ msgstr "Näytä ohjelmisto kanavalta"
 
 msgid " - "
 msgstr ""
-
-msgid "more"
-msgstr "lisätietoja"
-
-msgid "Now"
-msgstr "Nyt"
 
 msgid "Next"
 msgstr "Seuraavaksi"
