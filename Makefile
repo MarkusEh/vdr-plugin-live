@@ -154,6 +154,7 @@ $(VERSIONSUFFIX): FORCE
 libvdr-$(PLUGIN).so: $(VERSIONSUFFIX) $(SUBDIRS) $(PLUGINOBJS)
 	$(CXX) $(LDFLAGS) -shared -o $@	 $(PLUGINOBJS) -Wl,--whole-archive $(WEBLIBS) -Wl,--no-whole-archive $(LIBS)
 	@cp --remove-destination $@ $(LIBDIR)/$@.$(APIVERSION)
+
 ifneq ($(TNTVERS7),yes)
 	@echo ""
 	@echo "If LIVE was built successfully and you can try to use it!"
