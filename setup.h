@@ -44,6 +44,7 @@ class Setup
 		bool GetUseAuth() const { return m_useAuth; }
 		bool UseAuth() const;
 		std::string const GetTimes() const { return m_times; }
+		std::string const GetChannelGroups() const { return m_channelGroups; }
 		std::string const GetStartScreen() const { return m_startscreen; }
 		std::string const GetStartScreenLink() const;
 		std::string const GetTheme() const { return m_theme; }
@@ -68,6 +69,7 @@ class Setup
 		void SetUseAuth(int auth) { m_useAuth = auth; }
 		void SetScreenshotInterval(int interval) { m_screenshotInterval = interval; }
 		void SetTimes(std::string const & times) { m_times = times; }
+		void SetChannelGroups(std::string const & channelGroups) { m_channelGroups = channelGroups; }
 		void SetStartScreen(std::string const & startscreen) { m_startscreen = startscreen; }
 		void SetTheme(std::string const & theme) { m_theme = theme; }
 		void SetLocalNetMask(std::string const & localnetmask) { m_localnetmask = localnetmask; }
@@ -119,6 +121,7 @@ class Setup
 		std::string m_adminLogin;
 		std::string m_adminPasswordMD5;
 		std::string m_times;
+		std::string m_channelGroups;
 		std::string m_startscreen;
 		std::string m_theme;
 		std::string m_localnetmask;

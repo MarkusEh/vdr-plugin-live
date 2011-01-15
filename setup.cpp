@@ -120,6 +120,7 @@ bool Setup::ParseSetupEntry( char const* name, char const* value )
 	else if ( strcmp( name, "AdminLogin" ) == 0 ) m_adminLogin = value;
 	else if ( strcmp( name, "AdminPasswordMD5" ) == 0 ) m_adminPasswordMD5 = value;
 	else if ( strcmp( name, "UserdefTimes" ) == 0 ) m_times = value;
+	else if ( strcmp( name, "ChannelGroups" ) == 0 ) m_channelGroups = value;
 	else if ( strcmp( name, "StartPage" ) == 0 ) m_startscreen = value;
 	else if ( strcmp( name, "Theme" ) == 0 ) m_theme = value;
 	else if ( strcmp( name, "LocalNetMask" ) == 0 ) { m_localnetmask = value; }
@@ -284,6 +285,7 @@ bool Setup::SaveSetup()
 		liveplugin->SetupStore("LocalNetMask",  m_localnetmask.c_str());
 	}
 	liveplugin->SetupStore("UserdefTimes",  m_times.c_str());
+	liveplugin->SetupStore("ChannelGroups",  m_channelGroups.c_str());
 	liveplugin->SetupStore("StartPage",  m_startscreen.c_str());
 	liveplugin->SetupStore("Theme", m_theme.c_str());
 	liveplugin->SetupStore("LastWhatsOnListMode", m_lastwhatsonlistmode.c_str());

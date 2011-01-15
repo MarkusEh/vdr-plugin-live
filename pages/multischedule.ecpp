@@ -32,6 +32,7 @@ struct SchedEntry {
 };
 
         std::vector<std::string> channel_groups_names;
+        std::vector< std::vector<int> > channel_groups_numbers;
         std::vector<std::string> times_names;
         std::vector<time_t>      times_start;
 </%pre>
@@ -55,39 +56,89 @@ pageTitle = trVDR("Schedule");
 	if ( !channelsLock )
 		throw HtmlError( tr("Couldn't aquire access to channels, please try again later.") );
 
-#define MAX_CHANNELS 5 
+#define MAX_CHANNELS 10 
 #define MAX_DAYS 3
 #define MAX_HOURS 8
 #define MINUTES_PER_ROW 5
 #define CHARACTERS_PER_ROW 30
 
+    if ( channel_groups_numbers.size() == 0 )
+    {
         // build the groups of channels to display
-        std::vector< std::vector<int> > channel_groups_numbers;
-        channel_groups_names.clear();
-        int cur_group_count=0;
-	for ( cChannel *listChannel = Channels.First(); listChannel; listChannel = Channels.Next( listChannel ) ) 
+        std::string channelGroups=LiveSetup().GetChannelGroups();
+        if ( channelGroups.empty() )
         {
-		if ( listChannel->GroupSep() || *listChannel->Name() == '\0' )
-			continue;
+            // setup default channel groups
+           int lastChannel = LiveSetup().GetLastChannel();
+           if ( lastChannel == 0 )
+               lastChannel = Channels.MaxNumber();
+           std::stringstream groups;
+           for ( int i = 1; i<= lastChannel; i++)
+           {
+               groups << i;
+               if ( (i % 5) == 0 )
+                   groups << ";";
+               else
+                   groups << ",";
+           }
+           channelGroups = groups.str();
+           LiveSetup().SetChannelGroups( channelGroups );
+        }
+        size_t groupSep;
+        std::string thisGroup = "";
+        while ( ! channelGroups.empty() )
+        {
+            groupSep = channelGroups.find(';');
+            thisGroup = channelGroups.substr(0, groupSep );
+            if ( groupSep != channelGroups.npos )
+                channelGroups.erase(0, groupSep+1 );
+            else
+                channelGroups="";
 
-                if ( cur_group_count==0 )
-                {
-                  // first entry in this group
-                  channel_groups_names.push_back( std::string() );
-                  channel_groups_numbers.push_back( std::vector<int>( MAX_CHANNELS) );
+            int cur_group_count=0;
+            channel_groups_names.push_back( std::string() );
+            channel_groups_numbers.push_back( std::vector<int>() );
+            while ( !thisGroup.empty() )
+            {
+                std::string thisChannel;
+                try {
+                    if ( cur_group_count != 0 )
+                        channel_groups_names.back() += std::string( " - " );
+                    size_t channelSep = thisGroup.find(',');
+                    thisChannel = thisGroup.substr(0, channelSep );
+                    if ( channelSep != thisGroup.npos )
+                        thisGroup.erase( 0, channelSep+1 );
+                    else 
+                        thisGroup = "";
+                    int channel_no = lexical_cast< int > (thisChannel);
+                    cChannel* Channel = Channels.GetByNumber( channel_no );
+                    if ( !Channel )
+                    {
+                        esyslog("Live: could not find channel no '%s'.", thisChannel.c_str() );
+                        continue;
+                    }
+                    channel_groups_names.back() += std::string( Channel->Name() );
+                    channel_groups_numbers.back().push_back( Channel->Number() );
+                    cur_group_count++;
+                    if ( cur_group_count>=MAX_CHANNELS )
+                    {
+                        // start new group if group gets too large
+                        cur_group_count=0;
+                        channel_groups_names.push_back( std::string() );
+                        channel_groups_numbers.push_back( std::vector<int>() );
+                    }
                 }
-                else channel_groups_names.back() += " - ";
+                catch ( const bad_lexical_cast & )
+                {
+                    esyslog("Live: could not convert '%s' into a channel number", thisChannel.c_str());
+                    continue;
+                }
+            }
+        }
+    }
 
-                channel_groups_names.back() += std::string( listChannel->Name() );
-                channel_groups_numbers.back()[ cur_group_count ] = listChannel->Number();
-
-                cur_group_count++;
-                if ( cur_group_count >= MAX_CHANNELS )
-                  // we need a new group next round
-                  cur_group_count = 0;
-	}
         if ( channel >= channel_groups_numbers.size() )
-          channel = channel_groups_numbers.size()-1;
+          channel = 0;
         channel_group = channel;
 {
     // build time list
@@ -151,11 +202,11 @@ pageTitle = trVDR("Schedule");
         time_t sched_end = sched_start + 60 * 60 * MAX_HOURS;
         int sched_end_row = ( sched_end - sched_start ) / 60 / MINUTES_PER_ROW;
         std::list<SchedEntry> table[MAX_CHANNELS];
-        string channel_names[ MAX_CHANNELS];
+        std::vector<std::string> channel_names(channel_groups_numbers[ channel ].size() );
         if ( channel >= channel_groups_numbers.size() )
           channel = channel_groups_numbers.size()-1;
         //for ( int chan = 0; chan<MAX_CHANNELS; chan++)
-        for ( int j = 0; j<MAX_CHANNELS; j++)
+        for ( unsigned int j = 0; j<channel_groups_numbers[ channel ].size(); j++)
         {
           int prev_row = -1;
 
@@ -245,7 +296,7 @@ pageTitle = trVDR("Schedule");
 	       <td > <div class="boxheader"> <div><div><$ tr("Time") $></div></div> </div></td>
 	       <td class="time spacer"> &nbsp; </td>
 <%cpp>
-                for ( int channel = 0; channel< MAX_CHANNELS ; channel++)
+                for ( unsigned int channel = 0; channel< channel_names.size() ; channel++)
                 {
 </%cpp>
 	       <td> <div class="boxheader"> <div> <div><$ StringEscapeAndBreak(channel_names[channel]) $> </div></div> </div></td>

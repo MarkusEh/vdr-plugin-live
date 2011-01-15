@@ -16,6 +16,7 @@ using namespace std;
 	string login;
 	string pass;
 	string times;
+	string channelGroups;
 	string startscreen;
 	string theme;
 	string localnetmask;
@@ -58,6 +59,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 				LiveSetup().CheckLocalNet(request.getPeerIp());
 			}
 			LiveSetup().SetTimes(times);
+			LiveSetup().SetChannelGroups(channelGroups);
 			LiveSetup().SetStartScreen(startscreen);
 			LiveSetup().SetTheme(theme);
 			LiveSetup().SetShowLogo(!showLogo.empty());
@@ -85,6 +87,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 	login = LiveSetup().GetAdminLogin();
 	useauth = LiveSetup().GetUseAuth();
 	times = LiveSetup().GetTimes();
+	channelGroups = LiveSetup().GetChannelGroups();
 	startscreen = LiveSetup().GetStartScreen();
 	theme = LiveSetup().GetTheme();
 	localnetmask = LiveSetup().GetLocalNetMask();
@@ -225,6 +228,11 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 						<td class="label leftcol"><div class="withmargin"><$ tr("additional fixed times in 'What's on?'") $>:</div></td>
 						<td class="rightcol"><input type="text" name="times" value="<$ times $>" id="times" />
 							<& tooltip.help text=(tr("Format is HH:MM. Separate multiple times with a semicolon")) &></td>
+					</tr>
+					<tr>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Channel groups for MultiSchedule") $>:</div></td>
+						<td class="rightcol"><input type="text" name="channelGroups" value="<$ channelGroups $>" id="channelGroups" />
+							<& tooltip.help text=(tr("Separate channels with a comma ',', separate groups with a semi-colon ';'")) &></td>
 					</tr>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Show channels without EPG") $>:</div></td>
