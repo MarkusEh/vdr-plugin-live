@@ -182,21 +182,58 @@ pageTitle = trVDR("Schedule");
     tm_r.tm_sec=0;
     time_t midnight = mktime( &tm_r );
 
-    // default is now rounded to full hour
-    times_names.push_back( tr("Now") );
-    times_start.push_back( 3600 * ( now /3600 ) );
-
-    int i =0;
-    // skip allready passed times
-    while ( now>midnight+MAX_HOURS*3600*i)
-        i++;
-
-    for (; i<4*MAX_DAYS ; i++ )
+    // add four 8h steps per day to the time list
+    for (int i=0; i<4*MAX_DAYS ; i++ )
     {
-        times_names.push_back(FormatDateTime( tr("%A, %x"), midnight + MAX_HOURS*3600*i)
-                              +std::string(" ")+ FormatDateTime( tr("%I:%M %p"), midnight + MAX_HOURS*3600*i) );
         times_start.push_back( midnight + MAX_HOURS*3600*i );
     }
+    vector< string > parts = StringSplit( LiveSetup().GetTimes(), ';' );
+    vector< time_t > offsets;
+    vector< string >::const_iterator part = parts.begin();
+    for ( ; part != parts.end(); ++part ) 
+    {
+        try {
+            unsigned int sep = (*part).find(':');
+            std::string hour = (*part).substr(0, sep );
+            if ( sep == (*part).npos )
+            {
+                esyslog("Live: Error parsing time '%s'", (*part).c_str() );
+                continue;
+            }
+            std::string min = (*part).substr(sep+1, (*part).npos );
+            offsets.push_back( lexical_cast<time_t>( hour )*60*60 + lexical_cast<time_t>( min ) *60 );
+        }
+        catch ( const bad_lexical_cast & ) {
+            esyslog("Live: Error parsing time '%s'", part->c_str() );
+        };
+    };
+    // add the time of the farourites to the time list
+    for (int i=0; i< MAX_DAYS ; i++ )
+    {
+        vector< time_t >::const_iterator offset = offsets.begin();
+        for ( ; offset != offsets.end(); ++offset ) 
+        {
+            times_start.push_back( midnight + 24*3600*i + *offset );
+        }
+    }
+    // add now
+    times_start.push_back( 3600 * ( now /3600 ) );
+    // sort the times
+    std::sort( times_start.begin(), times_start.end() );
+    // delete every time which has already passed
+    while ( *times_start.begin()< now )
+        times_start.erase(times_start.begin() );
+
+    // build the corresponding names
+    for ( vector< time_t >::const_iterator start = times_start.begin();
+          start != times_start.end(); ++start ) 
+    {
+        times_names.push_back(FormatDateTime( tr("%A, %x"), *start)
+                              +std::string(" ")+ FormatDateTime( tr("%I:%M %p"), *start) );
+    }
+    // the first time is now
+    times_names[0]=tr("Now");
+
     if ( time_para >= times_names.size() )
         time_para = times_names.size()-1;
     time_selected=time_para;
@@ -220,7 +257,7 @@ pageTitle = trVDR("Schedule");
         time_t now = time(NULL);
         if ( time_para >= times_start.size() )
             time_para = times_start.size()-1;
-        time_t sched_start = times_start[ time_para ]; 
+        time_t sched_start = (times_start[ time_para ]/3600)*3600; 
         time_t max_hours;
         try {
           max_hours = lexical_cast<time_t>( LiveSetup().GetScheduleDuration() );
