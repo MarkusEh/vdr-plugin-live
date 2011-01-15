@@ -37,7 +37,7 @@ struct SchedEntry {
         std::vector<time_t>      times_start;
 </%pre>
 <%args>
-	unsigned int channel = 0;
+	int channel = -1;
 	unsigned int time_para = 0;
 </%args>
 <%session scope="global">
@@ -136,6 +136,29 @@ pageTitle = trVDR("Schedule");
             }
         }
     }
+	if ( channel < 0 ) {
+		if (cDevice::CurrentChannel()) {
+            // find group corresponding to current channel
+            int curGroup =0;
+			int curChannel = cDevice::CurrentChannel();
+            for ( std::vector< std::vector<int> >::iterator grIt = channel_groups_numbers.begin();
+                  grIt != channel_groups_numbers.end() && channel < 0; ++grIt, ++curGroup )
+            {
+                for ( std::vector<int>::iterator chIt = (*grIt).begin();
+                       chIt != (*grIt).end() && channel < 0; ++ chIt )
+                {
+                    if ( *chIt == curChannel )
+                        channel_group = channel = curGroup;
+                }
+            }
+            // if nothing is found, fall back to group 0
+            if ( channel < 0 )
+                channel = 0;
+		}
+		else {
+            channel_group = channel;
+		}
+	}
 
         if ( channel >= channel_groups_numbers.size() )
           channel = 0;
@@ -172,7 +195,6 @@ pageTitle = trVDR("Schedule");
     {
         times_names.push_back(FormatDateTime( tr("%A, %x"), midnight + MAX_HOURS*3600*i)
                               +std::string(" ")+ FormatDateTime( tr("%I:%M %p"), midnight + MAX_HOURS*3600*i) );
-        //times_names.push_back("today 0:00");
         times_start.push_back( midnight + MAX_HOURS*3600*i );
     }
     if ( time_para >= times_names.size() )
@@ -199,10 +221,23 @@ pageTitle = trVDR("Schedule");
         if ( time_para >= times_start.size() )
             time_para = times_start.size()-1;
         time_t sched_start = times_start[ time_para ]; 
-        time_t sched_end = sched_start + 60 * 60 * MAX_HOURS;
+        time_t max_hours;
+        try {
+          max_hours = lexical_cast<time_t>( LiveSetup().GetScheduleDuration() );
+        }
+        catch ( const bad_lexical_cast & )
+        {
+          esyslog("Live: could not convert '%s' into a schedule duration", LiveSetup().GetScheduleDuration().c_str());
+          max_hours = 8;
+        };
+        if (max_hours > 48)
+            max_hours = 48;
+
+        time_t sched_end = sched_start + 60 * 60 * max_hours;
         int sched_end_row = ( sched_end - sched_start ) / 60 / MINUTES_PER_ROW;
         std::list<SchedEntry> table[MAX_CHANNELS];
         std::vector<std::string> channel_names(channel_groups_numbers[ channel ].size() );
+        std::vector<tChannelID> channel_IDs(channel_groups_numbers[ channel ].size() );
         if ( channel >= channel_groups_numbers.size() )
           channel = channel_groups_numbers.size()-1;
         //for ( int chan = 0; chan<MAX_CHANNELS; chan++)
@@ -219,6 +254,7 @@ pageTitle = trVDR("Schedule");
           if ( Channel->GroupSep() || Channel->Name() == '\0' )
             continue;
           channel_names[ j ] = Channel->Name();
+          channel_IDs[ j ] = Channel->GetChannelID();
 
           cSchedule const* Schedule = schedules->GetSchedule( Channel );
           if ( ! Schedule )
@@ -299,7 +335,10 @@ pageTitle = trVDR("Schedule");
                 for ( unsigned int channel = 0; channel< channel_names.size() ; channel++)
                 {
 </%cpp>
-	       <td> <div class="boxheader"> <div> <div><$ StringEscapeAndBreak(channel_names[channel]) $> </div></div> </div></td>
+	       <td> <div class="boxheader"> <div> <div><$ StringEscapeAndBreak(channel_names[channel]) $>
+            <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channel_IDs[channel]) image="zap.png" alt="" &>
+            <& pageelems.vlc_stream_channel channelId=(channel_IDs[channel]) &>
+            </div></div> </div></td>
 	       <td class="time spacer"> &nbsp; </td>
 <%cpp>
                 }

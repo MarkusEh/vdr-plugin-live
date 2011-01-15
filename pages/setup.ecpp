@@ -17,6 +17,7 @@ using namespace std;
 	string pass;
 	string times;
 	string channelGroups;
+	string scheduleDuration;
 	string startscreen;
 	string theme;
 	string localnetmask;
@@ -60,6 +61,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 			}
 			LiveSetup().SetTimes(times);
 			LiveSetup().SetChannelGroups(channelGroups);
+			LiveSetup().SetScheduleDuration(scheduleDuration);
 			LiveSetup().SetStartScreen(startscreen);
 			LiveSetup().SetTheme(theme);
 			LiveSetup().SetShowLogo(!showLogo.empty());
@@ -88,6 +90,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 	useauth = LiveSetup().GetUseAuth();
 	times = LiveSetup().GetTimes();
 	channelGroups = LiveSetup().GetChannelGroups();
+	scheduleDuration = LiveSetup().GetScheduleDuration();
 	startscreen = LiveSetup().GetStartScreen();
 	theme = LiveSetup().GetTheme();
 	localnetmask = LiveSetup().GetLocalNetMask();
@@ -235,6 +238,11 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 							<& tooltip.help text=(tr("Separate channels with a comma ',', separate groups with a semi-colon ';'")) &></td>
 					</tr>
 					<tr>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Duration of MultiSchedule in hours") $>:</div></td>
+						<td class="rightcol"><input type="text" name="scheduleDuration" value="<$ scheduleDuration $>" id="scheduleDuration" />
+							</td>
+					</tr>
+					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Show channels without EPG") $>:</div></td>
 						<td class="rightcol">
 							<input type="checkbox" name="showChannelsWithoutEPG" id="showChannelsWithoutEPG" value="1" <%cpp> CHECKIF(!showChannelsWithoutEPG.empty()); </%cpp>/>
@@ -247,6 +255,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 							<option value="whatsonnow" <%cpp> SELECTIF(startscreen == "whatsonnow") </%cpp>><$ trVDR("What's on now?") $></option>
 							<option value="whatsonnext" <%cpp> SELECTIF(startscreen == "whatsonnext") </%cpp>><$ trVDR("What's on next?") $></option>
 							<option value="schedule" <%cpp> SELECTIF(startscreen == "schedule") </%cpp>><$ trVDR("Schedule") $></option>
+							<option value="multischedule" <%cpp> SELECTIF(startscreen == "multischedule") </%cpp>><$ trVDR("MultiSchedule") $></option>
 							<option value="recordings" <%cpp> SELECTIF(startscreen == "recordings") </%cpp>><$ trVDR("Recordings") $></option>
 							<option value="timers" <%cpp> SELECTIF(startscreen == "timers") </%cpp>><$ trVDR("Timers") $></option>
 						</select></td>

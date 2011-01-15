@@ -36,6 +36,8 @@ Setup::Setup():
 		m_screenshotInterval( 1000 ),
 		m_useAuth( 1 ),
 		m_adminLogin("admin"),
+        m_channelGroups( "" ),
+        m_scheduleDuration( "8" ),
 		m_theme("marine"),
 		m_lastwhatsonlistmode("detail"),
 		m_tntnetloglevel("WARN"),
@@ -121,6 +123,7 @@ bool Setup::ParseSetupEntry( char const* name, char const* value )
 	else if ( strcmp( name, "AdminPasswordMD5" ) == 0 ) m_adminPasswordMD5 = value;
 	else if ( strcmp( name, "UserdefTimes" ) == 0 ) m_times = value;
 	else if ( strcmp( name, "ChannelGroups" ) == 0 ) m_channelGroups = value;
+	else if ( strcmp( name, "ScheduleDuration" ) == 0 ) m_scheduleDuration = value;
 	else if ( strcmp( name, "StartPage" ) == 0 ) m_startscreen = value;
 	else if ( strcmp( name, "Theme" ) == 0 ) m_theme = value;
 	else if ( strcmp( name, "LocalNetMask" ) == 0 ) { m_localnetmask = value; }
@@ -224,6 +227,8 @@ std::string const Setup::GetStartScreenLink() const
 		return "whats_on.html?type=next";
 	else if (m_startscreen == "schedule")
 		return "schedule.html";
+	else if (m_startscreen == "multischedule")
+		return "multischedule.html";
 	else if (m_startscreen == "timers")
 		return "timers.html";
 	else if (m_startscreen == "recordings")
@@ -286,6 +291,7 @@ bool Setup::SaveSetup()
 	}
 	liveplugin->SetupStore("UserdefTimes",  m_times.c_str());
 	liveplugin->SetupStore("ChannelGroups",  m_channelGroups.c_str());
+	liveplugin->SetupStore("ScheduleDuration",  m_scheduleDuration.c_str());
 	liveplugin->SetupStore("StartPage",  m_startscreen.c_str());
 	liveplugin->SetupStore("Theme", m_theme.c_str());
 	liveplugin->SetupStore("LastWhatsOnListMode", m_lastwhatsonlistmode.c_str());
