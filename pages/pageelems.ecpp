@@ -63,7 +63,7 @@ int update_status(1);
 
 <%def hide_element>
 <%args>
-	bool hide = true;
+	int hide = 1;
 </%args>
 <%cpp> if (hide) { </%cpp>style="visibility: hidden"<%cpp> } </%cpp>
 </%def>
