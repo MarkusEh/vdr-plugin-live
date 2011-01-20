@@ -204,7 +204,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 									<option value="PES" <%cpp> SELECTIF(streamdevtype == "PES") </%cpp>>PES</option>
 									<option value="PS" <%cpp> SELECTIF(streamdevtype == "PS") </%cpp>>PS</option>
 									<option value="ES" <%cpp> SELECTIF(streamdevtype == "ES") </%cpp>>ES</option>
-									<option value="Extern" <%cpp> SELECTIF(streamdevtype == "Extern") </%cpp>>Extern</option>
+									<option value="EXT" <%cpp> SELECTIF(streamdevtype == "EXT") </%cpp>>Extern</option>
 								</select></td>
 							</tr>
 							</table>
