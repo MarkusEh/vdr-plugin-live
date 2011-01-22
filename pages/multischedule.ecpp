@@ -257,7 +257,7 @@ pageTitle = trVDR("Schedule");
         time_t now = time(NULL);
         if ( time_para >= times_start.size() )
             time_para = times_start.size()-1;
-        time_t sched_start = (times_start[ time_para ]/3600)*3600; 
+        time_t sched_start = (times_start[ time_para ]/300)*300; 
         time_t max_hours;
         try {
           max_hours = lexical_cast<time_t>( LiveSetup().GetScheduleDuration() );
@@ -334,6 +334,8 @@ pageTitle = trVDR("Schedule");
             int end_time = Schedule->Events()->Next(Event) ? 
               Schedule->Events()->Next(Event)->StartTime() :
               Event->EndTime();
+            if (end_time > sched_end)
+                end_time = sched_end;
             int next_event_start_row = (end_time - sched_start) / 60 / MINUTES_PER_ROW;
             en.row_count = next_event_start_row - en.start_row;
             if ( en.row_count < 1 )
@@ -390,7 +392,7 @@ pageTitle = trVDR("Schedule");
 		{
                        int minutes= ( (sched_start +  row * 60 * MINUTES_PER_ROW ) % 3600 ) / 60;
                        string row_class;
-                       if ( minutes == 0 )
+                       if ( minutes < MINUTES_PER_ROW )
                        {
                          // full hour, swap odd/even
                          odd = !odd;
@@ -406,7 +408,7 @@ pageTitle = trVDR("Schedule");
 		       <tr class=" <$ row_class $>">
 		       <td class=" time leftcol ">
 <%cpp>
-			if (  minutes == 0 )
+			if (  minutes < MINUTES_PER_ROW )
 			{
 </%cpp>
 		       <$ FormatDateTime( tr("%I:%M %p"), sched_start +  row * 60 * MINUTES_PER_ROW )  $>
