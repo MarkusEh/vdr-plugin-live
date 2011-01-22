@@ -505,6 +505,9 @@ msgstr ""
 msgid "Time"
 msgstr ""
 
+msgid "Switch to this channel."
+msgstr ""
+
 msgid "Search for repeats."
 msgstr ""
 
@@ -608,9 +611,6 @@ msgid "No server response!"
 msgstr ""
 
 msgid "Failed to update infobox!"
-msgstr ""
-
-msgid "Switch to this channel."
 msgstr ""
 
 msgid "Authors"
@@ -766,6 +766,15 @@ msgid "additional fixed times in 'What's on?'"
 msgstr ""
 
 msgid "Format is HH:MM. Separate multiple times with a semicolon"
+msgstr ""
+
+msgid "Channel groups for MultiSchedule"
+msgstr ""
+
+msgid "Separate channels with a comma ',', separate groups with a semi-colon ';'"
+msgstr ""
+
+msgid "Duration of MultiSchedule in hours"
 msgstr ""
 
 msgid "Show channels without EPG"

@@ -505,6 +505,9 @@ msgstr "%A, %d.%m.%Y"
 msgid "Time"
 msgstr ""
 
+msgid "Switch to this channel."
+msgstr "Zu diesem Kanal umschalten."
+
 msgid "Search for repeats."
 msgstr "Nach Wiederholungen suchen."
 
@@ -609,9 +612,6 @@ msgstr "Der Server antwortet nicht!"
 
 msgid "Failed to update infobox!"
 msgstr "Kann Infobox nicht aktualisieren!"
-
-msgid "Switch to this channel."
-msgstr "Zu diesem Kanal umschalten."
 
 msgid "Authors"
 msgstr "Autoren"
@@ -767,6 +767,16 @@ msgstr "zusätzliche Zeitpunkte in 'Was läuft?'"
 
 msgid "Format is HH:MM. Separate multiple times with a semicolon"
 msgstr "Format ist HH:MM. Mehrere Zeiten durch Semikolon trennen"
+
+#, fuzzy
+msgid "Channel groups for MultiSchedule"
+msgstr "Kanal hat keine Programminfos"
+
+msgid "Separate channels with a comma ',', separate groups with a semi-colon ';'"
+msgstr ""
+
+msgid "Duration of MultiSchedule in hours"
+msgstr ""
 
 msgid "Show channels without EPG"
 msgstr "Zeige Kanäle ohne EPG"

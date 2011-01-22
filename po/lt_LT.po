@@ -503,6 +503,9 @@ msgstr "%A, %b %d %Y"
 msgid "Time"
 msgstr ""
 
+msgid "Switch to this channel."
+msgstr "Pereiti į šį kanalą."
+
 msgid "Search for repeats."
 msgstr "Ieškoti pasikartojimų."
 
@@ -607,9 +610,6 @@ msgstr "Serveris neatsako!"
 
 msgid "Failed to update infobox!"
 msgstr "Negali atnaujinti infolentelės!"
-
-msgid "Switch to this channel."
-msgstr "Pereiti į šį kanalą."
 
 msgid "Authors"
 msgstr "Autoriai"
@@ -765,6 +765,16 @@ msgstr "papildomi nustatyti laikai 'Kas šio metu rodoma?' skiltyje"
 
 msgid "Format is HH:MM. Separate multiple times with a semicolon"
 msgstr "Laiko formatas yra HH:MM. Jei naudosite keletą laikų, atskirkite juos naudodami kabliataškį"
+
+#, fuzzy
+msgid "Channel groups for MultiSchedule"
+msgstr "Kainalas neturi programos aprašo"
+
+msgid "Separate channels with a comma ',', separate groups with a semi-colon ';'"
+msgstr ""
+
+msgid "Duration of MultiSchedule in hours"
+msgstr ""
 
 msgid "Show channels without EPG"
 msgstr "Rodyti EPG neturinčius kanalis"

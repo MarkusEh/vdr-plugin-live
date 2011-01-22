@@ -5681,6 +5681,41 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
+  { "Switch to this channel.",
+    "Zu diesem Kanal umschalten.",
+    "",
+    "Sintonizza questo canale",
+    "",
+    "",
+    "Changer vers cette chaîne. ",
+    "",
+    "Vaihda kanavalle",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
   { "Search for repeats.",
     "Nach Wiederholungen suchen.",
     "",
@@ -6880,41 +6915,6 @@ const tI18nPhrase Phrases[] = {
     "Échec de la mise à jour infobox!",
     "",
     "Infolaatikon pÃ¤ivitys epÃ¤onnistui!",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Switch to this channel.",
-    "Zu diesem Kanal umschalten.",
-    "",
-    "Sintonizza questo canale",
-    "",
-    "",
-    "Changer vers cette chaîne. ",
-    "",
-    "Vaihda kanavalle",
     "",
     "",
     "",
@@ -8700,6 +8700,111 @@ const tI18nPhrase Phrases[] = {
     "Le format est HH:MM . Plusieurs périodes séparées avec un point-virgule",
     "",
     "KÃ¤ytÃ¤ HH:MM formaattia ja erota ajankohdat puolipisteellÃ¤",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Channel groups for MultiSchedule",
+    "Kanal hat keine Programminfos",
+    "",
+    "Il canale non ha programmi",
+    "",
+    "",
+    "La chaîne n'a pas de programmation",
+    "",
+    "Kanavalla ei ole ohjelmatietoja",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Separate channels with a comma ',', separate groups with a semi-colon ';'",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Duration of MultiSchedule in hours",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
     "",
     "",
     "",

@@ -504,6 +504,9 @@ msgstr "%A, %d.%m.%Y"
 msgid "Time"
 msgstr ""
 
+msgid "Switch to this channel."
+msgstr "Vaihda kanavalle"
+
 msgid "Search for repeats."
 msgstr "Etsi toistuvat"
 
@@ -608,9 +611,6 @@ msgstr "Palvelin ei vastaa!"
 
 msgid "Failed to update infobox!"
 msgstr "Infolaatikon päivitys epäonnistui!"
-
-msgid "Switch to this channel."
-msgstr "Vaihda kanavalle"
 
 msgid "Authors"
 msgstr "Tekijät"
@@ -766,6 +766,16 @@ msgstr "Lisäajankohdat 'Menossa?'-sivulle"
 
 msgid "Format is HH:MM. Separate multiple times with a semicolon"
 msgstr "Käytä HH:MM formaattia ja erota ajankohdat puolipisteellä"
+
+#, fuzzy
+msgid "Channel groups for MultiSchedule"
+msgstr "Kanavalla ei ole ohjelmatietoja"
+
+msgid "Separate channels with a comma ',', separate groups with a semi-colon ';'"
+msgstr ""
+
+msgid "Duration of MultiSchedule in hours"
+msgstr ""
 
 msgid "Show channels without EPG"
 msgstr "Näytä ohjelmaoppaattomat kanavat"

@@ -509,6 +509,9 @@ msgstr "%A, %b %d %Y"
 msgid "Time"
 msgstr ""
 
+msgid "Switch to this channel."
+msgstr "Sintonizza questo canale"
+
 msgid "Search for repeats."
 msgstr "Cerca repliche"
 
@@ -613,9 +616,6 @@ msgstr "Nessuna risposta dal server!"
 
 msgid "Failed to update infobox!"
 msgstr "Aggiornamento tabella info fallita!"
-
-msgid "Switch to this channel."
-msgstr "Sintonizza questo canale"
 
 msgid "Authors"
 msgstr "Autori"
@@ -771,6 +771,16 @@ msgstr "Ore aggiuntive fisse menu \"In programmazione\""
 
 msgid "Format is HH:MM. Separate multiple times with a semicolon"
 msgstr "Il formato è HH:MM. Separa le ore multiple con un punto e virgola"
+
+#, fuzzy
+msgid "Channel groups for MultiSchedule"
+msgstr "Il canale non ha programmi"
+
+msgid "Separate channels with a comma ',', separate groups with a semi-colon ';'"
+msgstr ""
+
+msgid "Duration of MultiSchedule in hours"
+msgstr ""
 
 msgid "Show channels without EPG"
 msgstr "Mostra canali senza EPG"
