@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Rolf Ahrenberg <rahrenbe@cc.hut.fi>\n"
 "Language-Team: see developers in README\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fi\n"
 
 msgid "Last channel to display"
 msgstr "Näytä viimeisenä kanava"
@@ -371,12 +371,11 @@ msgstr "Luo uusi ajastin"
 msgid "Weekday"
 msgstr "Viikonpäivä"
 
-#, fuzzy
 msgid "Couldn't find user. Maybe you mistyped your request?"
-msgstr "Ajastinta ei löydy. Kirjoititko varmasti oikein?"
+msgstr "Käyttäjää ei löydy. Kirjoititko varmasti oikein?"
 
 msgid "This user name is already in use!"
-msgstr ""
+msgstr "Käyttäjänimi on jo käytössä!"
 
 msgid "Edit user"
 msgstr "Muokkaa käyttäjää"
@@ -471,6 +470,9 @@ msgstr "Käyttäjä"
 msgid "What's on?"
 msgstr "Menossa?"
 
+msgid "MultiSchedule"
+msgstr "Ohjelmistot"
+
 msgid "Search"
 msgstr "Etsi"
 
@@ -502,7 +504,7 @@ msgid "%A, %b %d %Y"
 msgstr "%A, %d.%m.%Y"
 
 msgid "Time"
-msgstr ""
+msgstr "Ajankohta"
 
 msgid "Switch to this channel."
 msgstr "Vaihda kanavalle"
@@ -678,7 +680,7 @@ msgstr "Toista tallenne"
 #. TRANSLATORS: strftime format string for recording start info: day, date, hour.
 #, no-c-format
 msgid "%a %x %X"
-msgstr ""
+msgstr "%a %x %X"
 
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "Kanavaa ei löydy. Kirjoititko varmasti oikein?"
@@ -767,15 +769,14 @@ msgstr "Lisäajankohdat 'Menossa?'-sivulle"
 msgid "Format is HH:MM. Separate multiple times with a semicolon"
 msgstr "Käytä HH:MM formaattia ja erota ajankohdat puolipisteellä"
 
-#, fuzzy
 msgid "Channel groups for MultiSchedule"
-msgstr "Kanavalla ei ole ohjelmatietoja"
+msgstr "Kanavaryhmät 'Ohjelmistot'-sivulle"
 
 msgid "Separate channels with a comma ',', separate groups with a semi-colon ';'"
-msgstr ""
+msgstr "Käytä pilkkua erottimena kanaville ja puolipistettä kanavaryhmille"
 
 msgid "Duration of MultiSchedule in hours"
-msgstr ""
+msgstr "'Ohjelmistot'-sivun kesto tunteina"
 
 msgid "Show channels without EPG"
 msgstr "Näytä ohjelmaoppaattomat kanavat"
@@ -848,7 +849,7 @@ msgid "%a, %x"
 msgstr "%a, %x"
 
 msgid "What's running on"
-msgstr "Menossa kello"
+msgstr "Menossa"
 
 msgid "at"
 msgstr "kello"

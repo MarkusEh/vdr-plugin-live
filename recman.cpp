@@ -83,7 +83,7 @@ namespace vdrlive {
 	cRecording const * RecordingsManager::GetByMd5Hash(string const & hash) const
 	{
 		if (!hash.empty()) {
-			for (cRecording* rec = Recordings.First(); rec != 0; rec = Recordings.Next(rec)) {
+			for (cRecording* rec = Recordings.First(); rec; rec = Recordings.Next(rec)) {
 				if (hash == Md5Hash(rec))
 					return rec;
 			}
@@ -277,7 +277,7 @@ namespace vdrlive {
 		m_root(new RecordingsItemDir("", 0, RecordingsItemPtr()))
 	{
 		// esyslog("DH: ****** RecordingsTree::RecordingsTree() ********");
-		for (cRecording* recording = Recordings.First(); recording != 0; recording = Recordings.Next(recording)) {
+		for (cRecording* recording = Recordings.First(); recording; recording = Recordings.Next(recording)) {
 			if (m_maxLevel < recording->HierarchyLevels()) {
 				m_maxLevel = recording->HierarchyLevels();
 			}

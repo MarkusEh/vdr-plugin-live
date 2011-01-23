@@ -88,7 +88,7 @@ namespace vdrlive {
 		// dsyslog("live reloading timers");
 
 		clear();
-		for ( cTimer* timer = Timers.First(); timer != 0; timer = Timers.Next( timer ) ) {
+		for ( cTimer* timer = Timers.First(); timer; timer = Timers.Next( timer ) ) {
 			push_back( *timer );
 		}
 		sort();
@@ -236,7 +236,7 @@ namespace vdrlive {
 		}
 
 		cTimer* checkTimer = Timers.GetTimer( newTimer.get() );
-		if ( checkTimer != 0 ) {
+		if ( checkTimer ) {
 			StoreError( timerData, tr("Timer already defined") );
 			return;
 		}

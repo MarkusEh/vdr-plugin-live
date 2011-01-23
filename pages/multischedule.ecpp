@@ -207,7 +207,7 @@ pageTitle = trVDR("Schedule");
             esyslog("Live: Error parsing time '%s'", part->c_str() );
         };
     };
-    // add the time of the farourites to the time list
+    // add the time of the favourites to the time list
     for (int i=0; i< MAX_DAYS ; i++ )
     {
         vector< time_t >::const_iterator offset = offsets.begin();
