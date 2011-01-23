@@ -4149,7 +4149,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "N'a pas pu trouver la programmation. Peut-�tre vous avez une erreur dans votre requ�te?",
     "",
-    "Ajastinta ei löydy. Kirjoititko varmasti oikein?",
+    "Käyttäjää ei löydy. Kirjoititko varmasti oikein?",
     "",
     "",
     "",
@@ -4184,7 +4184,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Käyttäjänimi on jo käytössä!",
     "",
     "",
     "",
@@ -5296,6 +5296,41 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
+  { "MultiSchedule",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "Ohjelmistot",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
   { "Search",
     "Suchen",
     "",
@@ -5654,7 +5689,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Ajankohta",
     "",
     "",
     "",
@@ -7684,7 +7719,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "%a %x %X",
     "",
     "",
     "",
@@ -8734,7 +8769,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "La cha�ne n'a pas de programmation",
     "",
-    "Kanavalla ei ole ohjelmatietoja",
+    "Kanavaryhmät 'Ohjelmistot'-sivulle",
     "",
     "",
     "",
@@ -8769,7 +8804,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "Käytä pilkkua erottimena kanaville ja puolipistettä kanavaryhmille",
     "",
     "",
     "",
@@ -8804,7 +8839,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "",
+    "'Ohjelmistot'-sivun kesto tunteina",
     "",
     "",
     "",
@@ -9644,7 +9679,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Qu'y a t'il au programme vers",
     "",
-    "Menossa kello",
+    "Menossa",
     "",
     "",
     "",
