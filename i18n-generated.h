@@ -5689,7 +5689,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "Ajankohta",
+    "Kellonaika",
     "",
     "",
     "",
