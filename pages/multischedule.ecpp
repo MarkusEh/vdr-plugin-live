@@ -73,10 +73,13 @@ pageTitle = trVDR("Schedule");
            if ( lastChannel == 0 )
                lastChannel = Channels.MaxNumber();
            std::stringstream groups;
-           for ( int i = 1; i<= lastChannel; i++)
+           int i = 0;
+           for (cChannel *channel = Channels.First(); channel && (channel->Number() <= lastChannel); channel = Channels.Next(channel))
            {
-               groups << i;
-               if ( (i % 5) == 0 )
+               if (channel->GroupSep())
+                   continue;
+               groups << channel->Number();
+               if ( (++i % 5) == 0 )
                    groups << ";";
                else
                    groups << ",";

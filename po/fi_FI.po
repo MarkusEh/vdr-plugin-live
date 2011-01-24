@@ -504,7 +504,7 @@ msgid "%A, %b %d %Y"
 msgstr "%A, %d.%m.%Y"
 
 msgid "Time"
-msgstr "Ajankohta"
+msgstr "Kellonaika"
 
 msgid "Switch to this channel."
 msgstr "Vaihda kanavalle"
