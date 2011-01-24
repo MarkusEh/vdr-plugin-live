@@ -58,6 +58,9 @@ msgstr "Ajastinta ei ole määritelty"
 msgid "On archive DVD No."
 msgstr "Arkistointi-DVD:llä numero"
 
+msgid "On archive HDD No."
+msgstr "Arkistointi-HDD:llä numero"
+
 msgid "Couldn't find channel or no channels available."
 msgstr "Kanavaa ei löydy tai yhtään kanavaa ei ole saatavilla."
 

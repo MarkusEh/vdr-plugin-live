@@ -78,14 +78,14 @@ namespace vdrlive {
 			 *	Determine wether the recording has been archived on
 			 *	removable media (e.g. DVD-ROM)
 			 */
-			static bool IsArchived(cRecording const * recording);
+			static int GetArchiveType(cRecording const * recording);
 
 			/**
 			 *	Provide an identification of the removable media
 			 *	(e.g. DVD-ROM Number or Name) where the recording has
 			 *	been archived.
 			 */
-			static std::string const GetArchiveId(cRecording const * recording);
+			static std::string const GetArchiveId(cRecording const * recording, int archiveType);
 
 			static std::string const GetArchiveDescr(cRecording const * recording);
 

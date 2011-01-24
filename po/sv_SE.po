@@ -59,6 +59,9 @@ msgstr ""
 msgid "On archive DVD No."
 msgstr ""
 
+msgid "On archive HDD No."
+msgstr ""
+
 msgid "Couldn't find channel or no channels available."
 msgstr ""
 

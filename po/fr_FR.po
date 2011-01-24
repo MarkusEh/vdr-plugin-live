@@ -61,6 +61,9 @@ msgstr "Programmation non définit"
 msgid "On archive DVD No."
 msgstr "Sur le DVD archive no°"
 
+msgid "On archive HDD No."
+msgstr "Sur le HDD archive noÃ¤"
+
 msgid "Couldn't find channel or no channels available."
 msgstr "Impossible de trouver la chaîne ou pas de chaînes disponibles."
 

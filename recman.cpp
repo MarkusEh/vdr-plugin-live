@@ -1,5 +1,4 @@
 #include <unistd.h>
-#include <cstring>
 #include <string>
 #include <sstream>
 #include <fstream>
@@ -13,6 +12,7 @@
 #include "recman.h"
 
 #define INDEXFILESUFFIX   "/index.vdr"
+#define LENGTHFILESUFFIX  "/length.vdr"
 
 using namespace std::tr1;
 using namespace std;
@@ -101,24 +101,28 @@ namespace vdrlive {
 		Recordings.DelByName(name.c_str());
 	}
 
-	bool RecordingsManager::IsArchived(cRecording const * recording)
+	int RecordingsManager::GetArchiveType(cRecording const * recording)
 	{
 		string filename = recording->FileName();
 
-		string vdrFile = filename + "/001.vdr";
-		if (0 == access(vdrFile.c_str(), R_OK))
-			return false;
-
-		filename += "/dvd.vdr";
-		return (0 == access(filename.c_str(), R_OK));
+		string dvdFile = filename + "/dvd.vdr";
+		if (0 == access(dvdFile.c_str(), R_OK)) {
+			return 1;
+		}
+		string hddFile = filename + "/hdd.vdr";
+		if (0 == access(hddFile.c_str(), R_OK)) {
+			return 2;
+		}
+		return 0;
 	}
 
-	string const RecordingsManager::GetArchiveId(cRecording const * recording)
+	string const RecordingsManager::GetArchiveId(cRecording const * recording, int archiveType)
 	{
 		string filename = recording->FileName();
 
-		filename += "/dvd.vdr";
-		ifstream dvd(filename.c_str());
+		if (archiveType==1) {
+			string dvdFile = filename + "/dvd.vdr";
+			ifstream dvd(dvdFile.c_str());
 
 		if (dvd) {
 			string archiveDisc;
@@ -130,17 +134,35 @@ namespace vdrlive {
 			}
 			return archiveDisc;
 		}
+		} else if(archiveType==2) {
+			string hddFile = filename + "/hdd.vdr";
+			ifstream hdd(hddFile.c_str());
+
+			if (hdd) {
+				string archiveDisc;
+				hdd >> archiveDisc;
+				return archiveDisc;
+			}
+		}
 		return "";
 	}
 
 	string const RecordingsManager::GetArchiveDescr(cRecording const * recording)
 	{
+		int archiveType;
 		string archived;
-		if (IsArchived(recording)) {
+		archiveType = GetArchiveType(recording);
+		if (archiveType==1) {
 			archived += " [";
 			archived += tr("On archive DVD No.");
 			archived += ": ";
-			archived += GetArchiveId(recording);
+			archived += GetArchiveId(recording, archiveType);
+			archived += "]";
+		} else if (archiveType==2) {
+			archived += " [";
+			archived += tr("On archive HDD No.");
+			archived += ": ";
+			archived += GetArchiveId(recording, archiveType);
 			archived += "]";
 		}
 		return archived;
@@ -266,6 +288,13 @@ namespace vdrlive {
 		}
 		delete index;
 #endif
+		if (RecLength == 0) {
+			cString lengthFile = cString::sprintf("%s%s", m_recording->FileName(), LENGTHFILESUFFIX);
+			ifstream length(*lengthFile);
+			if(length)
+				length >> RecLength;
+		}
+		
 		return RecLength;
 	}
 

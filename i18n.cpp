@@ -3564,12 +3564,34 @@ const tI18nPhrase Phrases[] = {
     { "On archive DVD No.", // English
       "Auf Archiv-DVD Nr.", // Deutsch
       "", // Slovenski
-      "", // Italiano
+      "In archivio DVD No.", // Italiano
       "", // Nederlands
       "", // Português
       "Sur le DVD archive no°", // Français
       "", // Norsk
       "Arkistointi-DVD:llä numero",
+      "", // Polski
+      "", // Español
+      "", // Greek
+      "", // Svenska
+      "", // Românã
+      "", // Magyar
+      "", // Català
+      "", // Russian
+      "", // Hrvatski
+      "", // Eesti
+      "", // Dansk
+      "", // Czech
+    },
+    { "On archive HDD No.", // English
+      "Auf Archiv-HDD Nr.", // Deutsch
+      "", // Slovenski
+      "In archivio HDD No.", // Italiano
+      "", // Nederlands
+      "", // Português
+      "Sur le HDD archive no°", // Français
+      "", // Norsk
+      "Arkistointi-HDD:llä numero",
       "", // Polski
       "", // Español
       "", // Greek

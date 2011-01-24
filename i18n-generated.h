@@ -501,6 +501,41 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
+  { "On archive HDD No.",
+    "Auf Archiv-HDD Nr.",
+    "",
+    "In archivio HDD No.",
+    "",
+    "",
+    "Sur le HDD archive noä",
+    "",
+    "Arkistointi-HDD:llä numero",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
   { "Couldn't find channel or no channels available.",
     "Kann das Programm nicht finden oder keine vorhanden.",
     "",

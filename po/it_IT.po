@@ -64,6 +64,9 @@ msgstr "Timer non definito"
 msgid "On archive DVD No."
 msgstr "In archivio DVD No."
 
+msgid "On archive HDD No."
+msgstr "In archivio HDD No."
+
 msgid "Couldn't find channel or no channels available."
 msgstr "Impossibile trovare canale o canali disponibili."
 

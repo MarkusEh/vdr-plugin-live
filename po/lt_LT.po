@@ -58,6 +58,10 @@ msgstr "Laikmatis nenustatytas"
 msgid "On archive DVD No."
 msgstr "DVB Nr."
 
+#, fuzzy
+msgid "On archive HDD No."
+msgstr "DVB Nr."
+
 msgid "Couldn't find channel or no channels available."
 msgstr "Nerastas arba neegzistuojantis kanalas."
 

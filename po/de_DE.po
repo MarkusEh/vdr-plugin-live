@@ -60,6 +60,9 @@ msgstr "Timer wurde nicht erstellt"
 msgid "On archive DVD No."
 msgstr "Auf Archiv-DVD Nr."
 
+msgid "On archive HDD No."
+msgstr "Auf Archiv-HDD Nr."
+
 msgid "Couldn't find channel or no channels available."
 msgstr "Kann das Programm nicht finden oder keine vorhanden."
 
