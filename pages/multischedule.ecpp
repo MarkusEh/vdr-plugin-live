@@ -31,6 +31,7 @@ struct SchedEntry {
 	int row_count;
 };
 
+        std::string channel_groups_setting;
         std::vector<std::string> channel_groups_names;
         std::vector< std::vector<int> > channel_groups_numbers;
         std::vector<std::string> times_names;
@@ -62,7 +63,7 @@ pageTitle = trVDR("Schedule");
 #define MINUTES_PER_ROW 5
 #define CHARACTERS_PER_ROW 30
 
-    if ( channel_groups_numbers.size() == 0 )
+    if ( ( channel_groups_setting.compare(LiveSetup().GetChannelGroups()) != 0 ) || ( channel_groups_numbers.size() == 0 ) )
     {
         // build the groups of channels to display
         std::string channelGroups=LiveSetup().GetChannelGroups();
@@ -87,6 +88,9 @@ pageTitle = trVDR("Schedule");
            channelGroups = groups.str();
            LiveSetup().SetChannelGroups( channelGroups );
         }
+        channel_groups_names.clear();
+        channel_groups_numbers.clear();
+        channel_groups_setting = channelGroups;
         size_t groupSep;
         std::string thisGroup = "";
         while ( ! channelGroups.empty() )
