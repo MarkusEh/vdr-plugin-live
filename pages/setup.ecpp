@@ -205,12 +205,12 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 							</tr>
 							<tr>
 								<td class="label"><div class="withmargin"><$ tr("Streamdev stream type") $>:</div></td>
-								<td class="rightcol"><select name="streamdevtype" size="1" id="streamdevtype">
+								<td><select name="streamdevtype" size="1" id="streamdevtype">
 									<option value="TS" <%cpp> SELECTIF(streamdevtype == "TS") </%cpp>>TS</option>
 									<option value="PES" <%cpp> SELECTIF(streamdevtype == "PES") </%cpp>>PES</option>
 									<option value="PS" <%cpp> SELECTIF(streamdevtype == "PS") </%cpp>>PS</option>
 									<option value="ES" <%cpp> SELECTIF(streamdevtype == "ES") </%cpp>>ES</option>
-									<option value="EXT" <%cpp> SELECTIF(streamdevtype == "EXT") </%cpp>>Extern</option>
+									<option value="EXT" <%cpp> SELECTIF(streamdevtype == "EXT") </%cpp>>EXT</option>
 								</select></td>
 							</tr>
 							</table>
@@ -255,7 +255,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 							<option value="whatsonnow" <%cpp> SELECTIF(startscreen == "whatsonnow") </%cpp>><$ trVDR("What's on now?") $></option>
 							<option value="whatsonnext" <%cpp> SELECTIF(startscreen == "whatsonnext") </%cpp>><$ trVDR("What's on next?") $></option>
 							<option value="schedule" <%cpp> SELECTIF(startscreen == "schedule") </%cpp>><$ trVDR("Schedule") $></option>
-							<option value="multischedule" <%cpp> SELECTIF(startscreen == "multischedule") </%cpp>><$ trVDR("MultiSchedule") $></option>
+							<option value="multischedule" <%cpp> SELECTIF(startscreen == "multischedule") </%cpp>><$ tr("MultiSchedule") $></option>
 							<option value="recordings" <%cpp> SELECTIF(startscreen == "recordings") </%cpp>><$ trVDR("Recordings") $></option>
 							<option value="timers" <%cpp> SELECTIF(startscreen == "timers") </%cpp>><$ trVDR("Timers") $></option>
 						</select></td>

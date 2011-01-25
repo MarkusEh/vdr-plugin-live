@@ -51,7 +51,7 @@ bool logged_in(false);
 <%include>page_init.eh</%include>
 <%cpp>
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
-pageTitle = trVDR("Schedule");
+pageTitle = tr("MultiSchedule");
 
         ReadLock channelsLock( Channels );
 	if ( !channelsLock )
@@ -412,8 +412,8 @@ pageTitle = trVDR("Schedule");
                        row_class += odd ? " odd " : " even ";
 
 </%cpp>
-		       <tr class=" <$ row_class $>">
-		       <td class=" time leftcol ">
+		       <tr>
+		       <td class=" time leftcol rightcol <$ row_class $>">
 <%cpp>
 			if (  minutes < MINUTES_PER_ROW )
 			{
