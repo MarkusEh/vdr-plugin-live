@@ -8,8 +8,8 @@ using namespace vdrlive;
 </%pre>
 <%args>
 int quality = 80;
-int width = 320;
-int height = 240;
+int width = 569;
+int height = 320;
 </%args>
 <%session scope="global">
 bool logged_in(false);

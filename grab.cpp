@@ -13,7 +13,7 @@ const unsigned int GrabPauseIntervalMs = GrabMinIntervalMs * 20;
 class GrabImageTask: public StickyTask
 {
 public:
-	explicit GrabImageTask( int quality = 80, int width = 320, int height = 240 )
+	explicit GrabImageTask( int quality = 80, int width = 729, int height = 480 )
 		: m_firstTime( 0 )
 		, m_lastTime( 0 )
 		, m_quality( quality )

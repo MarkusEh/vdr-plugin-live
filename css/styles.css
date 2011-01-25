@@ -1053,16 +1053,16 @@ div.recording_item {
 div.screenshot {
 	background-image: url(img/tv.jpg);
 	background-repeat: no-repeat;
-	height: 240px;
-	width: 320px;
+	height: 320px;
+	width: 569px;
 	float: left;
 	padding: 20px 20px 98px 21px;
 	margin-right: 20px;
 }
 
 div.screenshot img {
-	width: 320px;
-	height: 240px;
+	width: 569px;
+	height: 320px;
 }
 
 /*
