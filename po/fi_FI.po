@@ -474,7 +474,7 @@ msgid "What's on?"
 msgstr "Menossa?"
 
 msgid "MultiSchedule"
-msgstr "Ohjelmistot"
+msgstr "Ohjelmaopas"
 
 msgid "Search"
 msgstr "Etsi"
@@ -507,7 +507,7 @@ msgid "%A, %b %d %Y"
 msgstr "%A, %d.%m.%Y"
 
 msgid "Time"
-msgstr "Kellonaika"
+msgstr "Ajankohta"
 
 msgid "Switch to this channel."
 msgstr "Vaihda kanavalle"
@@ -773,13 +773,13 @@ msgid "Format is HH:MM. Separate multiple times with a semicolon"
 msgstr "Käytä HH:MM formaattia ja erota ajankohdat puolipisteellä"
 
 msgid "Channel groups for MultiSchedule"
-msgstr "Kanavaryhmät 'Ohjelmistot'-sivulle"
+msgstr "Kanavaryhmät 'Ohjelmaopas'-sivulle"
 
 msgid "Separate channels with a comma ',', separate groups with a semi-colon ';'"
 msgstr "Käytä pilkkua erottimena kanaville ja puolipistettä kanavaryhmille"
 
 msgid "Duration of MultiSchedule in hours"
-msgstr "'Ohjelmistot'-sivun kesto tunteina"
+msgstr "'Ohjelmaopas'-sivun kesto tunteina"
 
 msgid "Show channels without EPG"
 msgstr "Näytä ohjelmaoppaattomat kanavat"

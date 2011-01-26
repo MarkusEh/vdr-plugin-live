@@ -111,6 +111,6 @@ namespace vdrlive {
 			}
 			i++;
 		}
-		isyslog("LIVE: initial file cache has %d entries and needs %d bytes of data!", fc.count(), fc.weight());
+		isyslog("LIVE: initial file cache has %zu entries and needs %zu bytes of data!", fc.count(), fc.weight());
 	}
 }

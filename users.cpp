@@ -100,7 +100,8 @@ bool cUser::Parse(const char *s)
 const char *cUser::ToText(void)
 {
     char* buffer = NULL;
-    asprintf(&buffer, "%d:%s:%s:%d", m_ID, m_Name.c_str(), m_PasswordMD5.c_str(), m_Userrights);
+    if (asprintf(&buffer, "%d:%s:%s:%d", m_ID, m_Name.c_str(), m_PasswordMD5.c_str(), m_Userrights) < 0)
+        return NULL;
     return buffer;
 }
 
