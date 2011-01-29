@@ -112,10 +112,10 @@ msgid "EPGSearch version outdated! Please update."
 msgstr "EPGSearch-Version zu alt, bitte updaten!"
 
 msgid "Couldn't aquire primary device"
-msgstr ""
+msgstr "Konnte auf das 'primary device' nicht zugreifen"
 
 msgid "Couldn't grab image from primary device"
-msgstr ""
+msgstr "Konnte kein Bild vom 'primary device' bekommen"
 
 msgid "Timer conflict check detected "
 msgstr "Die Timer Konflikt Überprüfung hat "
@@ -428,13 +428,13 @@ msgid "Electronic program guide information"
 msgstr "Elektronische Programminformation"
 
 msgid "Couldn't find recording or no recordings available"
-msgstr ""
+msgstr "Die Aufnahme nicht finden oder keine Aufnahmen vorhanden"
 
 msgid "Error aquiring schedules lock"
 msgstr ""
 
 msgid "Error aquiring schedules"
-msgstr ""
+msgstr "Fehler beim Zugriff auf Programinfos"
 
 msgid "%b %d %y"
 msgstr "%d.%m.%y"
@@ -476,7 +476,7 @@ msgid "What's on?"
 msgstr "Was läuft?"
 
 msgid "MultiSchedule"
-msgstr ""
+msgstr "Zeitleiste"
 
 msgid "Search"
 msgstr "Suchen"
@@ -509,7 +509,7 @@ msgid "%A, %b %d %Y"
 msgstr "%A, %d.%m.%Y"
 
 msgid "Time"
-msgstr ""
+msgstr "Zeit"
 
 msgid "Switch to this channel."
 msgstr "Zu diesem Kanal umschalten."
@@ -751,7 +751,7 @@ msgid "Show live logo image"
 msgstr "Zeige das Live Logo"
 
 msgid "Show duration in 'Recordings'"
-msgstr ""
+msgstr "Aufnahmedauer bei 'Aufnamen' anzeigen"
 
 msgid "Use ajax technology"
 msgstr "Verwende AJAX Technologie"
@@ -777,15 +777,14 @@ msgstr "zusätzliche Zeitpunkte in 'Was läuft?'"
 msgid "Format is HH:MM. Separate multiple times with a semicolon"
 msgstr "Format ist HH:MM. Mehrere Zeiten durch Semikolon trennen"
 
-#, fuzzy
 msgid "Channel groups for MultiSchedule"
-msgstr "Kanal hat keine Programminfos"
+msgstr "Kanalgruppen für die Zeitleiste"
 
 msgid "Separate channels with a comma ',', separate groups with a semi-colon ';'"
-msgstr ""
+msgstr "Trenne Kanäle mit Komma ',', trenne Kanalgruppen mit Semikolon ';'"
 
 msgid "Duration of MultiSchedule in hours"
-msgstr ""
+msgstr "Dauer der Zeitleiste in Stunden"
 
 msgid "Show channels without EPG"
 msgstr "Zeige Kanäle ohne EPG"
@@ -873,7 +872,7 @@ msgid "View the schedule of this channel"
 msgstr "Zeige Programm dieses Kanals"
 
 msgid " - "
-msgstr ""
+msgstr " - "
 
 msgid "Next"
 msgstr "als Nächstes"
@@ -893,19 +892,3 @@ msgstr ""
 msgid "No EPG information available"
 msgstr "Keine EPG Daten vorhanden"
 
-#, fuzzy
-#~ msgid "GGGGGGGGGG"
-#~ msgstr "%a, %d.%m.%Y %H:%M Uhr"
-
-#, fuzzy
-#~ msgid "Please set a name and password for the user!"
-#~ msgstr "Bitte Login und Passwort angeben!"
-
-#~ msgid "Interval"
-#~ msgstr "Intervall"
-
-#~ msgid "Show schedule of channel"
-#~ msgstr "Zeige Programm dieses Kanals"
-
-#~ msgid "%a, %b %d"
-#~ msgstr "%a, %d.%m."

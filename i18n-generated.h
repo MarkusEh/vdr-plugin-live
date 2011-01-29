@@ -1097,7 +1097,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Couldn't aquire primary device",
-    "",
+    "Konnte auf das 'primary device' nicht zugreifen",
     "",
     "Impossibile identificare scheda primaria",
     "",
@@ -1132,7 +1132,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Couldn't grab image from primary device",
-    "",
+    "Konnte kein Bild vom 'primary device' bekommen",
     "",
     "Impossibile ottenere immagine da scheda primaria",
     "",
@@ -4772,7 +4772,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Couldn't find recording or no recordings available",
-    "",
+    "Die Aufnahme nicht finden oder keine Aufnahmen vorhanden",
     "",
     "Impossibile trovare registrazioni o nessuna registrazione disponibile",
     "",
@@ -4842,7 +4842,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Error aquiring schedules",
-    "",
+    "Fehler beim Zugriff auf Programinfos",
     "",
     "Errore acquisizione programmi",
     "",
@@ -5332,14 +5332,14 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "MultiSchedule",
+    "Zeitleiste",
     "",
     "",
     "",
     "",
     "",
     "",
-    "",
-    "Ohjelmistot",
+    "Ohjelmaopas",
     "",
     "",
     "",
@@ -5717,14 +5717,14 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Time",
+    "Zeit",
     "",
     "",
     "",
     "",
     "",
     "",
-    "",
-    "Kellonaika",
+    "Ajankohta",
     "",
     "",
     "",
@@ -8516,6 +8516,41 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
+  { "Show duration in 'Recordings'",
+    "Aufnahmedauer bei 'Aufnamen' anzeigen",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "NÃ¤ytÃ¤ kestoajat 'Tallenteet'-sivulla",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
   { "Use ajax technology",
     "Verwende AJAX Technologie",
     "",
@@ -8797,14 +8832,14 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Channel groups for MultiSchedule",
-    "Kanal hat keine Programminfos",
+    "Kanalgruppen für die Zeitleiste",
     "",
     "Il canale non ha programmi",
     "",
     "",
     "La chaîne n'a pas de programmation",
     "",
-    "KanavaryhmÃ¤t 'Ohjelmistot'-sivulle",
+    "KanavaryhmÃ¤t 'Ohjelmaopas'-sivulle",
     "",
     "",
     "",
@@ -8832,7 +8867,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Separate channels with a comma ',', separate groups with a semi-colon ';'",
-    "",
+    "Trenne Kanäle mit Komma ',', trenne Kanalgruppen mit Semikolon ';'",
     "",
     "",
     "",
@@ -8867,14 +8902,14 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Duration of MultiSchedule in hours",
+    "Dauer der Zeitleiste in Stunden",
     "",
     "",
     "",
     "",
     "",
     "",
-    "",
-    "'Ohjelmistot'-sivun kesto tunteina",
+    "'Ohjelmaopas'-sivun kesto tunteina",
     "",
     "",
     "",
@@ -9882,7 +9917,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { " - ",
-    "",
+    " - ",
     "",
     " - ",
     "",
