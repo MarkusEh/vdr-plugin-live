@@ -76,7 +76,7 @@ if (! deleteResult.empty()) {
 		<div class="inhalt">
 			<div class="boxheader"><div><div><$ string(tr("List of recordings")) + " (" + diskinfo + ")" $></div></div></div>
 <%cpp>
-			if (Recordings.Count() == 0) {
+			if (Recordings.Count() == 0) { // Access VDRs global cRecordings Recordings instance.
 </%cpp>
 			<$ tr("No recordings found") $>
 <%cpp>
