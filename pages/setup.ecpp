@@ -21,6 +21,7 @@ using namespace std;
 	string startscreen;
 	string theme;
 	string localnetmask;
+	string showRecDuration;
 	string showLogo;
 	string useAjax;
 	string showInfoBox;
@@ -64,6 +65,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 			LiveSetup().SetScheduleDuration(scheduleDuration);
 			LiveSetup().SetStartScreen(startscreen);
 			LiveSetup().SetTheme(theme);
+			LiveSetup().SetShowRecDuration(!showRecDuration.empty());
 			LiveSetup().SetShowLogo(!showLogo.empty());
 			LiveSetup().SetUseAjax(!useAjax.empty());
 			if (LiveSetup().GetUseAjax()) {
@@ -94,6 +96,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 	startscreen = LiveSetup().GetStartScreen();
 	theme = LiveSetup().GetTheme();
 	localnetmask = LiveSetup().GetLocalNetMask();
+	showRecDuration = LiveSetup().GetShowRecDuration() ? "1" : "";
 	showLogo = LiveSetup().GetShowLogo() ? "1" : "";
 	useAjax = LiveSetup().GetUseAjax() ? "1" : "";
 	showInfoBox = LiveSetup().GetShowInfoBox() ? "1" : "";
@@ -177,6 +180,12 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 						<td class="label leftcol"><div class="withmargin"><$ tr("Show live logo image") $>:</div></td>
 						<td class="rightcol">
 							<input type="checkbox" name="showLogo" id="showLogo" value="1" <%cpp> CHECKIF(!showLogo.empty()); </%cpp>/>
+						</td>
+					</tr>
+					<tr>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Show duration in 'Recordings'") $>:</div></td>
+						<td class="rightcol">
+							<input type="checkbox" name="showRecDuration" id="showRecDuration" value="1" <%cpp> CHECKIF(!showRecDuration.empty()); </%cpp>/>
 						</td>
 					</tr>
 					<tr>

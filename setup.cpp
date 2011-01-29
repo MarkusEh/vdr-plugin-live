@@ -41,6 +41,7 @@ Setup::Setup():
 		m_theme("marine"),
 		m_lastwhatsonlistmode("detail"),
 		m_tntnetloglevel("WARN"),
+		m_showRecDuration(1),
 		m_showLogo(1),
 		m_useAjax(1),
 		m_showInfoBox(1),
@@ -128,6 +129,7 @@ bool Setup::ParseSetupEntry( char const* name, char const* value )
 	else if ( strcmp( name, "Theme" ) == 0 ) m_theme = value;
 	else if ( strcmp( name, "LocalNetMask" ) == 0 ) { m_localnetmask = value; }
 	else if ( strcmp( name, "LastWhatsOnListMode" ) == 0 ) { m_lastwhatsonlistmode = value; }
+	else if ( strcmp( name, "ShowRecDuration" ) == 0 ) { m_showRecDuration = atoi(value); }
 	else if ( strcmp( name, "ShowLogo" ) == 0 ) { m_showLogo = atoi(value); }
 	else if ( strcmp( name, "UseAjax" ) == 0 ) { m_useAjax = atoi(value); }
 	else if ( strcmp( name, "ShowInfoBox" ) == 0 ) { m_showInfoBox = atoi(value); }
@@ -295,6 +297,7 @@ bool Setup::SaveSetup()
 	liveplugin->SetupStore("StartPage",  m_startscreen.c_str());
 	liveplugin->SetupStore("Theme", m_theme.c_str());
 	liveplugin->SetupStore("LastWhatsOnListMode", m_lastwhatsonlistmode.c_str());
+	liveplugin->SetupStore("ShowRecDuration", m_showRecDuration);
 	liveplugin->SetupStore("ShowLogo", m_showLogo);
 	liveplugin->SetupStore("UseAjax", m_useAjax);
 	liveplugin->SetupStore("ShowInfoBox", m_showInfoBox);

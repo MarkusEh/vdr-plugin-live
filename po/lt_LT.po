@@ -749,6 +749,9 @@ msgstr "Vietinis tinklas (nereikalingas prisijungimas)"
 msgid "Show live logo image"
 msgstr "Rodyti live įskiepo logotipą"
 
+msgid "Show duration in 'Recordings'"
+msgstr ""
+
 msgid "Use ajax technology"
 msgstr "Naudoti AJAX"
 

@@ -141,7 +141,7 @@ for (iter = recordingsTree->begin(path); iter != end; ++iter) {
     if (!recItem->IsDir()) {
 		string day(FormatDateTime("%a,", recItem->StartTime()));
 		string dayLen(lexical_cast<string, int>(day.length() - 1) + ".25em;");
-		string duration(lexical_cast<string, int>(recItem->Duration()) + "'");
+		string duration(LiveSetup().GetShowRecDuration() ? "(" + lexical_cast<string, int>(recItem->Duration()) + "')" : "");
 		string shortDescr(recItem->RecInfo()->ShortText() ? recItem->RecInfo()->ShortText() : "");
 		string hint(tr("Click to view details.")); if (!shortDescr.empty()) hint = shortDescr + "<br />" + hint;
 </%cpp>
@@ -229,7 +229,7 @@ for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 	<div class="recording_imgs"><%cpp> reply.out() << StringRepeat(level + 1, "<img src=\"img/transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />"); </%cpp><%cpp> if (!archived.empty()) { </%cpp><img src="<$ LiveSetup().GetThemedLink("img", "on_dvd.png") $>" alt="on_dvd" <& tooltip.hint text=(archived) &> /><%cpp> } else { </%cpp><img src="<$ LiveSetup().GetThemedLink("img", "movie.png") $>" alt="movie" /><%cpp> } </%cpp></div>
 	<div class="recording_spec">
 		<div class="recording_day"><$ FormatDateTime(recFormatStr, startTime) $></div>
-		<div class="recording_duration">(<$ duration $>)</div>
+		<div class="recording_duration"><$ duration $></div>
 		<div class="recording_name"><a <& tooltip.hint text=(hint) &><& tooltip.display domId=(id) &>><$ name $><br /><%cpp>if ((name != shortDescr) && (!shortDescr.empty())) {</%cpp><span><$ shortDescr $></span><%cpp> } else { </%cpp><span>&nbsp;</span><%cpp> } </%cpp></a></div>
 	</div>
 	<div class="recording_actions">

@@ -748,6 +748,9 @@ msgstr "Paikallinen verkko (ei autentikointia)"
 msgid "Show live logo image"
 msgstr "Näytä Live-logo"
 
+msgid "Show duration in 'Recordings'"
+msgstr "Näytä kestoajat 'Tallenteet'-sivulla"
+
 msgid "Use ajax technology"
 msgstr "Käytä AJAX-tekniikkaa"
 

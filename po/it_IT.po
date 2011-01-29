@@ -754,6 +754,9 @@ msgstr "Rete locale (nessun accesso richiesto)"
 msgid "Show live logo image"
 msgstr "Mostra logo immagine Live"
 
+msgid "Show duration in 'Recordings'"
+msgstr ""
+
 msgid "Use ajax technology"
 msgstr "Utilizza tecnologia Ajax"
 
