@@ -42,7 +42,7 @@ Setup::Setup():
 		m_lastwhatsonlistmode("detail"),
 		m_lastsortingmode("nameasc"),
 		m_tntnetloglevel("WARN"),
-		m_showRecDuration(1),
+		m_showRecDuration(0),
 		m_showLogo(1),
 		m_useAjax(1),
 		m_showInfoBox(1),
