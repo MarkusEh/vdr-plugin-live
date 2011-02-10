@@ -1342,7 +1342,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Couldn't find recording. Maybe you mistyped your request?",
-    "",
+    "Konnte die Aufnahme nicht finden.  Möglicherweise ein Tippfehler in der Anfrage?",
     "",
     "",
     "",
@@ -1377,7 +1377,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Please set a name for the recording!",
-    "",
+    "Bitte einen Namen für die Aufnahme setzen!",
     "",
     "",
     "",
@@ -1412,7 +1412,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Cannot rename or move the recording.",
-    "",
+    "Konnte die Aufnahme nicht umbenennen oder verschieben.",
     "",
     "",
     "",
@@ -1447,7 +1447,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Edit recording",
-    "",
+    "Aufnahme editieren",
     "",
     "",
     "",
@@ -1552,7 +1552,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Delete resume information",
-    "",
+    "Wiedergabeposition löschen",
     "",
     "",
     "",
@@ -1587,7 +1587,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Delete marks information",
-    "",
+    "Schnittmarken löschen",
     "",
     "",
     "",
@@ -4947,7 +4947,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Edit recordings",
-    "",
+    "Aufnamen editieren",
     "",
     "",
     "",
@@ -5052,7 +5052,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Error aquiring schedules lock",
-    "",
+    "Fehler beim Zugriffschutz für die Programminfos",
     "",
     "Errore acquisizione blocco programmi",
     "",
@@ -7922,7 +7922,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Delete selected",
-    "",
+    "Ausgewähle löschen",
     "",
     "",
     "",
@@ -7957,7 +7957,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Sort by name",
-    "",
+    "Sortiere nach Name",
     "",
     "",
     "",
@@ -7992,7 +7992,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Sort by date",
-    "",
+    "Sortiere nach Datum",
     "",
     "",
     "",

@@ -133,16 +133,16 @@ msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Leider nicht erlaubt. Bitte kontaktieren Sie Ihren Administrator!"
 
 msgid "Couldn't find recording. Maybe you mistyped your request?"
-msgstr ""
+msgstr "Konnte die Aufnahme nicht finden.  Möglicherweise ein Tippfehler in der Anfrage?"
 
 msgid "Please set a name for the recording!"
-msgstr ""
+msgstr "Bitte einen Namen für die Aufnahme setzen!"
 
 msgid "Cannot rename or move the recording."
-msgstr ""
+msgstr "Konnte die Aufnahme nicht umbenennen oder verschieben."
 
 msgid "Edit recording"
-msgstr ""
+msgstr "Aufnahme editieren"
 
 msgid "Name"
 msgstr "Name"
@@ -151,10 +151,10 @@ msgid "Directory"
 msgstr "Verzeichnis"
 
 msgid "Delete resume information"
-msgstr ""
+msgstr "Wiedergabeposition löschen"
 
 msgid "Delete marks information"
-msgstr ""
+msgstr "Schnittmarken löschen"
 
 msgid "Save"
 msgstr "Speichern"
@@ -443,7 +443,7 @@ msgid "Delete search timers"
 msgstr "Suchtimer löschen"
 
 msgid "Edit recordings"
-msgstr ""
+msgstr "Aufnamen editieren"
 
 msgid "Electronic program guide information"
 msgstr "Elektronische Programminformation"
@@ -452,7 +452,7 @@ msgid "Couldn't find recording or no recordings available"
 msgstr "Die Aufnahme nicht finden oder keine Aufnahmen vorhanden"
 
 msgid "Error aquiring schedules lock"
-msgstr ""
+msgstr "Fehler beim Zugriffschutz für die Programminfos"
 
 msgid "Error aquiring schedules"
 msgstr "Fehler beim Zugriff auf Programinfos"
@@ -698,13 +698,13 @@ msgid "No recordings found"
 msgstr "Keine Aufnahmen vorhanden"
 
 msgid "Delete selected"
-msgstr ""
+msgstr "Ausgewähle löschen"
 
 msgid "Sort by name"
-msgstr ""
+msgstr "Sortiere nach Name"
 
 msgid "Sort by date"
-msgstr ""
+msgstr "Sortiere nach Datum"
 
 msgid "Delete this recording from hard disc!"
 msgstr "Diese Aufnahme von der Festplatte löschen!"
