@@ -132,7 +132,11 @@ namespace vdrlive {
 			return;
 
 		//dsyslog("[LIVE]: deleting resume '%s'", recording->Name());
+#if VDRVERSNUM < 10704
+		cResumeFile ResumeFile(recording->FileName());
+#else
 		cResumeFile ResumeFile(recording->FileName(), recording->IsPesRecording());
+#endif
 		ResumeFile.Delete();
 	}
 
