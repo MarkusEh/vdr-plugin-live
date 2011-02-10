@@ -96,6 +96,18 @@ var VLC = new Class({
 			}
 		},
 
+	  enableDeinterlace: function(){
+			if (this.newVlcApi) {
+				this.vlc.video.deinterlace.enable("yadif");
+			}
+		},
+
+	  disableDeinterlace: function(){
+			if (this.newVlcApi) {
+				this.vlc.video.deinterlace.disable();
+			}
+		},
+
 	  playerResize: function(el){
 			var winwidth = window.getWidth();
 			var winheight = window.getHeight();
@@ -126,10 +138,14 @@ var VLC = new Class({
 				if (!this.options.playRecording)
 					this.vlc.playlist.togglePause();
 				else {
-					if (this.vlc.playlist.isPlaying)
+					if (this.vlc.playlist.isPlaying) {
+						clearTimeout(this.deint);
+						this.disableDeinterlace();
 						this.vlc.playlist.stop();
-					else
+					else {
 						this.vlc.playlist.play();
+						this.deint = setTimeout(this.enableDeinterlace, 500);
+					}
 				}
 			else {
 				if (this.isPlaying())
