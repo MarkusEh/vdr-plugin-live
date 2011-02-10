@@ -22,6 +22,7 @@ using namespace std;
 
 </%pre>
 <%args>
+	string sort;
 	string todel;
 	string diskinfo;
 	string deletions[];
@@ -30,11 +31,21 @@ using namespace std;
 	bool logged_in(false);
 </%session>
 <%request scope="page">
+	string currentSort;
 	string deleteResult;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+
+currentSort = LiveSetup().GetLastSortingMode();
+if (!sort.empty()) {
+	if (sort == "date")
+		currentSort = (currentSort == "dateasc") ? "datedesc" : "dateasc";
+	else if (sort == "name")
+		currentSort = (currentSort == "nameasc") ? "namedesc" : "nameasc";
+	LiveSetup().SetLastSortingMode(currentSort);
+}
 
 pageTitle = tr("Recordings");
 
@@ -70,13 +81,13 @@ diskinfo = cString::sprintf("%s %d%%  -  %2d:%02d %s", trVDR("Disk"), Percent, H
 	<body>
 		<& pageelems.logo &>
 <%cpp>
-if (! deleteResult.empty()) {
+if (!deleteResult.empty()) {
 </%cpp>
 		<& menu active=("recordings") component=("recordings.delete_error") &>
 <%cpp>
 } else {
 </%cpp>
-		<& menu active=("recordings") &>
+		<& menu active=("recordings") component=("recordings.sort_options") &>
 <%cpp>
 }
 </%cpp>
@@ -116,12 +127,21 @@ if (! deleteResult.empty()) {
 RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
 RecordingsMap::iterator iter;
 RecordingsMap::iterator end = recordingsTree->end(path);
+list<RecordingsItemPtr> recItems;
+list<RecordingsItemPtr>::iterator recIter;
 
 for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 	RecordingsItemPtr recItem = iter->second;
-	string folderimg("folder_closed.png");
-	string collapseimg("plus.png");
 	if (recItem->IsDir()) {
+		recItems.push_back(recItem);
+	}
+}
+if (currentSort == "namedesc")
+	recItems.sort(RecordingsItemPtrCompare::ByDescendingName);
+else
+	recItems.sort(RecordingsItemPtrCompare::ByAscendingName);
+for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
+	RecordingsItemPtr recItem = *recIter;
 </%cpp>
 	<li class="recording">
 		<& rec_item_dir name=(recItem->Name()) level=(level) &>
@@ -141,14 +161,27 @@ for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 <%cpp>
 		callComp("recordings.recordings_item", request, reply, recItemParams);
 </%cpp>
-    	</ul>
+		</ul>
 	</li>
 <%cpp>
-	}
 }
+recItems.clear();
 for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 	RecordingsItemPtr recItem = iter->second;
-    if (!recItem->IsDir()) {
+	if (!recItem->IsDir()) {
+		recItems.push_back(recItem);
+	}
+}
+if (currentSort == "dateasc")
+	recItems.sort(RecordingsItemPtrCompare::ByAscendingDate);
+else if (currentSort == "datedesc")
+	recItems.sort(RecordingsItemPtrCompare::ByDescendingDate);
+else if (currentSort == "namedesc")
+	recItems.sort(RecordingsItemPtrCompare::ByDescendingName);
+else
+	recItems.sort(RecordingsItemPtrCompare::ByAscendingName);
+for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
+		RecordingsItemPtr recItem = *recIter;
 		string day(FormatDateTime("%a,", recItem->StartTime()));
 		string dayLen(lexical_cast<string, int>(day.length() - 1) + ".25em;");
 		string duration(LiveSetup().GetShowRecDuration() ? "(" + lexical_cast<string, int>(recItem->Duration()) + "')" : "");
@@ -157,11 +190,21 @@ for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 </%cpp>
 	<li class="recording">
 	   <& rec_item_file name=(recItem->Name()) level=(level) id=(recItem->Id()) day=(day) dayLen=(dayLen) startTime=(recItem->StartTime()) duration=(duration) hint=(hint) shortDescr=(shortDescr) archived=(RecordingsManager::GetArchiveDescr(recItem->Recording())) &>
-    </li>
+	</li>
 <%cpp>
-	}
 }
 </%cpp>
+</%def>
+
+<# ---------------------------------------------------------------------- #>
+
+<%def sort_options>
+<%cpp> { </%cpp>
+<a href="recordings.html?sort=name" alt="" /><$ tr("Sort by name") $></a>
+<span class="sep">|</span>
+<a href="recordings.html?sort=date" alt="" /><$ tr("Sort by date") $></a>
+<br/>
+<%cpp> } </%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -281,5 +324,6 @@ for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 <# ---------------------------------------------------------------------- #>
 
 <%def delete_error>
+<& recordings.sort_options &>
 <%cpp> { reply.out() << deleteResult; } </%cpp>
 </%def>

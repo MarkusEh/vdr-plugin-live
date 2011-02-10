@@ -130,6 +130,17 @@ namespace vdrlive {
 			cThreadLock m_recordingsLock;
 	};
 
+	/**
+	 * Class containing possible recordings compare functions
+	 */
+	class RecordingsItemPtrCompare
+	{
+		public:
+			static bool ByAscendingDate(RecordingsItemPtr & first, RecordingsItemPtr & second);
+			static bool ByDescendingDate(RecordingsItemPtr & first, RecordingsItemPtr & second);
+			static bool ByAscendingName(RecordingsItemPtr & first, RecordingsItemPtr & second);
+			static bool ByDescendingName(RecordingsItemPtr & first, RecordingsItemPtr & second);
+	};
 
 	/**
 	 *  Base class for entries in recordings tree and recordings list.

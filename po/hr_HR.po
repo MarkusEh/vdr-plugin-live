@@ -699,6 +699,12 @@ msgstr ""
 msgid "Delete selected"
 msgstr ""
 
+msgid "Sort by name"
+msgstr ""
+
+msgid "Sort by date"
+msgstr ""
+
 msgid "Delete this recording from hard disc!"
 msgstr ""
 

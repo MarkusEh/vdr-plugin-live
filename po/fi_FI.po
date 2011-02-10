@@ -698,6 +698,12 @@ msgstr "Tallenteita ei löydy"
 msgid "Delete selected"
 msgstr "Poista valitut"
 
+msgid "Sort by name"
+msgstr "Järjestä nimen mukaan"
+
+msgid "Sort by date"
+msgstr "Järjestä päivämäärän mukaan"
+
 msgid "Delete this recording from hard disc!"
 msgstr "Poista tallenne kovalevyltä!"
 

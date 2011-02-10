@@ -282,6 +282,54 @@ namespace vdrlive {
 
 
 	/**
+	 * Implemetation of class RecordingsItemPtrCompare
+	 */
+	bool RecordingsItemPtrCompare::ByAscendingDate(RecordingsItemPtr & first, RecordingsItemPtr & second)
+	{
+		if (first->StartTime() < second->StartTime())
+			return true;
+		return false;
+	}
+
+	bool RecordingsItemPtrCompare::ByDescendingDate(RecordingsItemPtr & first, RecordingsItemPtr & second)
+	{
+		if (first->StartTime() < second->StartTime())
+			return false;
+		return true;
+	}
+
+	bool RecordingsItemPtrCompare::ByAscendingName(RecordingsItemPtr & first, RecordingsItemPtr & second)
+	{
+		unsigned int i = 0;
+		while (i < first->Name().length() && i < second->Name().length()) {
+			if (tolower((first->Name())[i]) < tolower((second->Name())[i]))
+				return true;
+			else if (tolower((first->Name())[i]) > tolower((second->Name())[i]))
+				return false;
+			++i;
+		}
+		if (first->Name().length() < second->Name().length())
+			return true;
+		return false;
+	}
+
+	bool RecordingsItemPtrCompare::ByDescendingName(RecordingsItemPtr & first, RecordingsItemPtr & second)
+	{
+		unsigned int i = 0;
+		while (i < first->Name().length() && i < second->Name().length()) {
+			if (tolower((second->Name())[i]) < tolower((first->Name())[i]))
+				return true;
+			else if (tolower((second->Name())[i]) > tolower((first->Name())[i]))
+				return false;
+			++i;
+		}
+		if (second->Name().length() < first->Name().length())
+			return true;
+		return false;
+	}
+
+
+	/**
 	 *  Implementation of class RecordingsItem:
 	 */
 	RecordingsItem::RecordingsItem(string const & name, RecordingsItemPtr parent) :
