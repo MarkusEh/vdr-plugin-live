@@ -430,7 +430,7 @@ pageTitle = tr("MultiSchedule");
 </%cpp>
 		       </td>
 <%cpp>
-                        for ( int channel = 0; channel< MAX_CHANNELS ; channel++)
+                        for ( unsigned int channel = 0; channel< channel_names.size() ; channel++)
                         {
                                 // output spacer column
 </%cpp>
@@ -505,6 +505,17 @@ pageTitle = tr("MultiSchedule");
 <%cpp>
 		}
 </%cpp>
+			<tr>
+<%cpp>
+			for ( unsigned int channel = 0; channel <= channel_names.size() ; channel++)
+			{
+</%cpp>
+			<td class = " event leftcol rightcol bottomrow " > &nbsp; </td>
+			<td class = " time spacer " > &nbsp; </td>
+<%cpp>
+			}
+</%cpp>
+			</tr>
 			</table>
 		</div>
 	</body>
