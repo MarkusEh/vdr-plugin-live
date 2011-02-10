@@ -17,17 +17,13 @@ VERSION = $(shell grep '\#define LIVEVERSION ' setup.h | awk '{ print $$3 }' | s
 ### The C++ compiler and options:
 
 CXX	 ?= g++
+ECPPC	 ?= ecppc
 
 ### This variable is overriden in pages/Makefile because we don't want the
 ### extra warnings in the tntnet generated files. So if you change here
 ### something be sure to check pages/Makefile too.
 CXXFLAGS ?= -fPIC -O2 -Wall
 LDFLAGS	 ?= -fPIC -g
-
-ECPPC	 ?= ecppc
-CXXFLAGS += `tntnet-config --cxxflags`
-
-LIBS	 += $(shell tntnet-config --libs)
 
 ### The directory environment:
 
@@ -39,7 +35,6 @@ TMPDIR	 ?= /tmp
 
 -include $(VDRDIR)/Make.global
 
-
 ### Allow user defined options to overwrite defaults:
 
 -include $(VDRDIR)/Make.config
@@ -50,6 +45,9 @@ APIVERSION = $(shell sed -ne '/define APIVERSION/s/^.*"\(.*\)".*$$/\1/p' $(VDRDI
 I18NTARG   = $(shell if [ `echo $(APIVERSION) | tr [.] [0]` -ge "10507" ]; then echo "i18n"; fi)
 TNTVERSION = $(shell tntnet-config --version | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
 TNTVERS7   = $(shell ver=$(TNTVERSION); if [ $$ver -ge "1606" ]; then echo "yes"; fi)
+
+CXXFLAGS  += $(shell tntnet-config --cxxflags)
+LIBS      += $(shell tntnet-config --libs)
 
 ### The name of the distribution archive:
 
@@ -65,7 +63,6 @@ ifneq ($(TNTVERS7),yes)
 endif
 
 DEFINES	 += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"' -DTNTVERSION=$(TNTVERSION)
-export DEFINES
 
 SUBDIRS	  = pages css javascript
 ifneq ($(TNTVERS7),yes)
@@ -91,9 +88,8 @@ all: libvdr-$(PLUGIN).so $(I18NTARG)
 
 ### Implicit rules:
 
-### all source compiled here shall warn about overloaded virtuals
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -Woverloaded-virtual -c $(DEFINES) $(INCLUDES) $<
+	$(CXX) $(CXXFLAGS) -c $(DEFINES) $(INCLUDES) $<
 
 # Dependencies:
 
@@ -143,10 +139,10 @@ generate-i18n: i18n-template.h $(I18Npot) $(I18Npo) buildutil/pot2i18n.pl
 subdirs: $(SUBDIRS)
 
 $(SUBDIRS):
-	$(MAKE) -C $@ CXX="$(CXX)" CXXFLAGS="$(CXXFLAGS)" VDRDIR="../$(VDRDIR)" $(MAKECMDGOALS)
+	$(MAKE) -C $@ $(MAKECMDGOALS)
 
 PAGES:
-	$(MAKE) -C pages CXX="$(CXX)" CXXFLAGS="$(CXXFLAGS)" VDRDIR="../$(VDRDIR)" .dependencies
+	$(MAKE) -C pages .dependencies
 
 $(VERSIONSUFFIX): FORCE
 	./buildutil/version-util $(VERSIONSUFFIX) || ./buildutil/version-util -F $(VERSIONSUFFIX)

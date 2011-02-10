@@ -1,15 +1,35 @@
-CXX      ?= g++ -v
+# The official name of this plugin.
+
+PLUGIN = live
+
+### Additional options to silence TNTNET warnings
+TNTFLAGS   ?= -Wno-overloaded-virtual -Wno-unused-variable
+TNTVERSION ?= $(shell tntnet-config --version | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
+
+### The C++ compiler and options:
+
+CXX      ?= g++
 AR       ?= ar
 ECPPC    ?= ecppc
 
--include $(VDRDIR)/Make.global
--include $(VDRDIR)/Make.config
-
-INCLUDES += -I.. -I$(VDRDIR)/include 
+CXXFLAGS ?= -O2 -Woverloaded-virtual -Wall -fPIC
+DEFINES  ?= -DPLUGIN_NAME_I18N='"$(PLUGIN)"' -DTNTVERSION=$(TNTVERSION)
 
 ### The directory environment:
 
 VDRDIR   ?= ../../../..
+
+### Make sure that necessary options are included:
+
+-include $(VDRDIR)/Make.global
+
+### Allow user defined options to overwrite defaults:
+
+-include $(VDRDIR)/Make.config
+
+### Includes and Defines (add further entries here):
+
+INCLUDES += -I$(VDRDIR)/include -I..
 
 ### The object files (add further files here):
 
@@ -30,11 +50,8 @@ all: libpages.a
 
 ### Implicit rules:
 
-### tntnet produces some compiler warnings,
-### so we add -Wno-unused-variable -Wno-non-virtual-dtor for nice output ;)
-#	$(CXX) $(CXXFLAGS) -Wno-unused-variable -Wno-non-virtual-dtor -c $(DEFINES) $(INCLUDES) $<
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -Wno-unused-variable -c $(DEFINES) $(INCLUDES) $<
+	$(CXX) $(CXXFLAGS) $(TNTFLAGS) -c $(DEFINES) $(INCLUDES) $<
 
 %.cpp: %.ecpp
 	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CPP) $<
