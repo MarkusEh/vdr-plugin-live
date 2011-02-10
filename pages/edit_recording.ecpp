@@ -1,0 +1,162 @@
+<%pre>
+#include <vdr/recording.h>
+#include <vdr/config.h>
+#include <vdr/i18n.h>
+#include "exception.h"
+#include "tools.h"
+#include "epg_events.h"
+#include "recman.h"
+#include "setup.h"
+#include "i18n.h"
+#include "livefeatures.h"
+#include "users.h"
+
+using namespace std;
+using namespace vdrlive;
+
+</%pre>
+<%args>
+	// input parameters
+	string recid;
+	string async;
+	// form parameters
+	string name = "";
+	string directory = "";
+	string deletions[];
+</%args>
+<%session scope="global">
+bool logged_in(false);
+string edit_rec_referer;
+</%session>
+<%request scope="page">
+const cRecording* recording;
+</%request>
+<%include>page_init.eh</%include>
+<%cpp>
+	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+
+	if (!cUser::CurrentUserHasRightTo(UR_EDITRECS))
+		throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
+
+	bool ajaxReq = !async.empty() && (lexical_cast<int>(async) != 0);
+
+	string message;
+
+	recording = NULL;
+	if (!recid.empty()) {
+		recording = LiveRecordingsManager()->GetByMd5Hash(recid);
+		if (!recording)
+			throw HtmlError(tr("Couldn't find recording. Maybe you mistyped your request?"));
+	}
+
+	if (request.getMethod() == "POST") {
+		if (name.empty())
+			message = tr("Please set a name for the recording!");
+		else if (recording) {
+			for (deletions_type::const_iterator it = deletions.begin(); it != deletions.end(); ++it) {
+				if (*it == "resume")
+					LiveRecordingsManager()->DeleteResume(recording);
+				else if (*it == "marks")
+					LiveRecordingsManager()->DeleteMarks(recording);
+			}
+			deletions.clear();
+			string filename =  directory.empty() ? name : StringReplace(directory, "/", "~") + "~" + name;
+			if (LiveRecordingsManager()->RenameRecording(recording, FileSystemExchangeChars(filename, true)))
+				return reply.redirect(!edit_rec_referer.empty() ? edit_rec_referer : "recordings.html");
+			else
+				message = tr("Cannot rename or move the recording.");
+		}
+	}
+
+	if (message.empty())
+		edit_rec_referer = request.getHeader("Referer:", "recordings.html");
+
+	if (recording) {
+		string path = recording->Name();
+		size_t found = path.find_last_of("~");
+
+		if (found != string::npos) {
+			directory = StringReplace(path.substr(0, found), "~", "/");
+			name = path.substr(found + 1);
+		}
+		else {
+			directory = "";
+			name = path;
+		}
+	}
+</%cpp>
+<& pageelems.doc_type &>
+<html>
+	<head>
+		<title>VDR Live - <$ tr("Edit recording") $></title>
+<%cpp>
+	if (!ajaxReq) {
+</%cpp>
+		<& pageelems.stylesheets &>
+		<& pageelems.ajax_js &>
+<%cpp>
+	}
+</%cpp>
+	</head>
+	<body>
+<%cpp>
+	if (!ajaxReq) {
+</%cpp>
+		<& pageelems.logo &>
+		<& menu active=("recordings") &>
+<%cpp>
+	}
+</%cpp>
+		<div class="inhalt">
+			<form method="post" name="edit_recording" id="<$ recid $>" action="edit_recording.ecpp">
+				<input type="hidden" name="recid" value="<$ recid $>"/>
+				<table class="formular" cellpadding="0" cellspacing="0">
+					<tr class="head">
+						<td class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div><div class="caption"><$ tr("Edit recording") $></div></div></div></td>
+					</tr>
+					<tr>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Name") $>:</div></td>
+						<td class="rightcol"><input type="text" name="name" value="<$ name $>" size="80"/></td>
+					</tr>
+					<tr>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Directory") $>:</div></td>
+						<td class="rightcol">
+							<select name="directory" size="1" id="directory" style="margin-top: 5px">
+<%cpp>
+	DirectoryListPtr dirList(LiveRecordingsManager()->GetDirectoryList());
+	DirectoryList::DirVecType::const_iterator dir;
+
+	for (dir = dirList->begin(); dir != dirList->end(); ++dir) {
+</%cpp>
+								<option value="<$ *dir $>"<$ (*dir == directory) ? "selected=\"selected\"" : "" $>><$ *dir $></option>
+<%cpp>
+	}
+</%cpp>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Delete resume information") $>:</div></td>
+						<td class="rightcol"><input type="checkbox" name="deletions" value="resume"/></td>
+					</tr>
+					<tr>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Delete marks information") $>:</div></td>
+						<td class="rightcol"><input type="checkbox" name="deletions" value="marks"/></td>
+					</tr>
+					<tr>
+						<td class="buttonpanel leftcol rightcol bottomrow" colspan="2">
+							<div class="withmargin">
+							<button class="green" type="submit"><$ tr("Save") $></button>
+							<button class="red" type="button" onclick="history.back()"><$ tr("Cancel") $></button>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<div style="color: red; margin: 0 auto;">
+				<$ message $>
+			</div>
+		</div>
+	</body>
+</html>
+<%include>page_exit.eh</%include>

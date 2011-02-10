@@ -19,7 +19,8 @@ enum eUserRights
 	UR_STARTREPLAY,
 	UR_SWITCHCHNL,
 	UR_EDITSTIMERS,
-	UR_DELSTIMERS
+	UR_DELSTIMERS,
+	UR_EDITRECS
 };
 
 // --- cUser --------------------------------------------------------

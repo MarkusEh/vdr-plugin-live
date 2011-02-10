@@ -24,6 +24,7 @@ using namespace vdrlive;
 	bool ur_switchchnl = false;
 	bool ur_addstimers = false;
 	bool ur_delstimers = false;
+	bool ur_editrecs = false;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -65,6 +66,7 @@ cUser* editUser;
 		if (ur_switchchnl) editUser->SetRight(UR_SWITCHCHNL);
 		if (ur_addstimers) editUser->SetRight(UR_EDITSTIMERS);
 		if (ur_delstimers) editUser->SetRight(UR_DELSTIMERS);
+		if (ur_editrecs) editUser->SetRight(UR_EDITRECS);
 
 		Users.Save();
 
@@ -89,6 +91,7 @@ cUser* editUser;
 		ur_switchchnl = User->HasRightTo(UR_SWITCHCHNL);
 		ur_addstimers = User->HasRightTo(UR_EDITSTIMERS);
 		ur_delstimers = User->HasRightTo(UR_DELSTIMERS);
+		ur_editrecs = User->HasRightTo(UR_EDITRECS);
 		editUser = User;
 	}
 	else
@@ -102,6 +105,7 @@ cUser* editUser;
 		ur_switchchnl = true;
 		ur_addstimers = true;
 		ur_delstimers = true;
+		ur_editrecs = true;
 	}
 </%cpp>
 <& pageelems.doc_type &>
@@ -158,6 +162,8 @@ cUser* editUser;
 <%cpp>
 							}
 </%cpp>
+							<input type="checkbox" name="ur_editrecs" value="1" <{ CHECKIF(ur_editrecs) }> />
+							<label for="ur_editrecs"><$ tr("Edit recordings") $></label><br>
 						</td>
 					</tr>
 					<tr>

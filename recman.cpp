@@ -25,6 +25,7 @@ namespace vdrlive {
 	weak_ptr< RecordingsManager > RecordingsManager::m_recMan;
 	shared_ptr< RecordingsTree > RecordingsManager::m_recTree;
 	shared_ptr< RecordingsList > RecordingsManager::m_recList;
+	shared_ptr< DirectoryList > RecordingsManager::m_recDirs;
 	int RecordingsManager::m_recordingsState = 0;
 
 	// The RecordingsManager holds a VDR lock on the
@@ -75,6 +76,15 @@ namespace vdrlive {
 		return RecordingsListPtr(recMan, shared_ptr< RecordingsList >(new RecordingsList(m_recList, ascending)));
 	}
 
+	DirectoryListPtr RecordingsManager::GetDirectoryList() const
+	{
+		RecordingsManagerPtr recMan = EnsureValidData();
+		if (!recMan) {
+			return DirectoryListPtr(recMan, shared_ptr< DirectoryList >());
+		}
+		return DirectoryListPtr(recMan, m_recDirs);
+	}
+
 	string RecordingsManager::Md5Hash(cRecording const * recording) const
 	{
 		return "recording_" + MD5Hash(recording->FileName());
@@ -89,6 +99,60 @@ namespace vdrlive {
 			}
 		}
 		return 0;
+	}
+
+	bool RecordingsManager::RenameRecording(cRecording const * recording, string const & name) const
+	{
+		if (!recording)
+			return false;
+
+		string oldname = recording->FileName();
+		size_t found = oldname.find_last_of("/");
+
+		if (found == string::npos)
+			return false;
+
+		string newname = string(VideoDirectory) + "/" + name + oldname.substr(found);
+
+		if (!MoveDirectory(oldname.c_str(), newname.c_str())) {
+			esyslog("[LIVE]: renaming failed from '%s' to '%s'", oldname.c_str(), newname.c_str());
+			return false;
+		}
+
+		Recordings.DelByName(oldname.c_str());
+		Recordings.AddByName(newname.c_str());
+		cRecordingUserCommand::InvokeCommand(*cString::sprintf("rename \"%s\"", *strescape(oldname.c_str(), "\\\"$'")), newname.c_str());
+
+		return true;
+	}
+
+	void RecordingsManager::DeleteResume(cRecording const * recording) const
+	{
+		if (!recording)
+			return;
+
+		//dsyslog("[LIVE]: deleting resume '%s'", recording->Name());
+		cResumeFile ResumeFile(recording->FileName(), recording->IsPesRecording());
+		ResumeFile.Delete();
+	}
+
+	void RecordingsManager::DeleteMarks(cRecording const * recording) const
+	{
+		if (!recording)
+			return;
+
+		//dsyslog("[LIVE]: deleting marks '%s'", recording->Name());
+		cMarks marks;
+		marks.Load(recording->FileName());
+		if (marks.Count()) {
+			cMark *mark = marks.First();
+			while (mark) {
+				cMark *nextmark = marks.Next(mark);
+				marks.Del(mark);
+				mark = nextmark;
+			}
+			marks.Save();
+		}
 	}
 
 	void RecordingsManager::DeleteRecording(cRecording const * recording) const
@@ -184,10 +248,11 @@ namespace vdrlive {
 		// StateChanged must be executed every time, so not part of
 		// the short cut evaluation in the if statement below.
 		bool stateChanged = Recordings.StateChanged(m_recordingsState);
-		if (stateChanged || (!m_recTree) || (!m_recList)) {
+		if (stateChanged || (!m_recTree) || (!m_recList) || (!m_recDirs)) {
 			if (stateChanged) {
 				m_recTree.reset();
 				m_recList.reset();
+				m_recDirs.reset();
 			}
 			if (stateChanged || !m_recTree) {
 				m_recTree = shared_ptr< RecordingsTree >(new RecordingsTree(recMan));
@@ -203,6 +268,14 @@ namespace vdrlive {
 				esyslog("[LIVE]: creation of recordings list failed!");
 				return RecordingsManagerPtr();
 			}
+			if (stateChanged || !m_recDirs) {
+				m_recDirs = shared_ptr< DirectoryList >(new DirectoryList(recMan));
+			}
+			if (!m_recDirs) {
+				esyslog("[LIVE]: creation of directory list failed!");
+				return RecordingsManagerPtr();
+			}
+
 		}
 		return recMan;
 	}
@@ -518,6 +591,75 @@ namespace vdrlive {
 	}
 
 	RecordingsListPtr::~RecordingsListPtr()
+	{
+	}
+
+
+	/**
+	 *  Implementation of class DirectoryList:
+	 */
+	DirectoryList::DirectoryList(RecordingsManagerPtr recManPtr) :
+		m_pDirVec(new DirVecType())
+	{
+		if (!m_pDirVec) {
+			return;
+		}
+
+		m_pDirVec->push_back(""); // always add root directory
+#if APIVERSNUM >= 10712
+		for (cNestedItem* item = Folders.First(); item; item = Folders.Next(item)) { // add folders.conf entries
+			InjectFoldersConf(item);
+		}
+#endif
+		for (cRecording* recording = Recordings.First(); recording; recording = Recordings.Next(recording)) {
+			string name = recording->Name();
+			size_t found = name.find_last_of("~");
+
+			if (found != string::npos) {
+				m_pDirVec->push_back(StringReplace(name.substr(0, found), "~", "/"));
+			}
+		}
+		m_pDirVec->sort();
+		m_pDirVec->unique();
+	}
+
+	DirectoryList::~DirectoryList()
+	{
+		if (m_pDirVec) {
+			delete m_pDirVec, m_pDirVec = 0;
+		}
+	}
+
+#if APIVERSNUM >= 10712
+	void DirectoryList::InjectFoldersConf(cNestedItem * folder, string parent)
+	{
+		if (!folder) {
+			return;
+		}
+
+		string dir = string((parent.size() == 0) ? "" : parent + "/") + folder->Text();
+		m_pDirVec->push_back(StringReplace(dir, "_", " "));
+
+		if (!folder->SubItems()) {
+			return;
+		}
+
+		for(cNestedItem* item = folder->SubItems()->First(); item; item = folder->SubItems()->Next(item)) {
+			InjectFoldersConf(item, dir);
+		}
+	}
+#endif
+
+	/**
+	 *  Implementation of class DirectoryListPtr:
+	 */
+	DirectoryListPtr::DirectoryListPtr(RecordingsManagerPtr recManPtr, shared_ptr< DirectoryList > recDirs) :
+		shared_ptr< DirectoryList >(recDirs),
+		m_recManPtr(recManPtr)
+	{
+	}
+
+	DirectoryListPtr::~DirectoryListPtr()
 	{
 	}
 

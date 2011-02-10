@@ -131,6 +131,36 @@ msgstr ""
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr ""
 
+msgid "Couldn't find recording. Maybe you mistyped your request?"
+msgstr ""
+
+msgid "Please set a name for the recording!"
+msgstr ""
+
+msgid "Cannot rename or move the recording."
+msgstr ""
+
+msgid "Edit recording"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Directory"
+msgstr ""
+
+msgid "Delete resume information"
+msgstr ""
+
+msgid "Delete marks information"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
 msgstr ""
 
@@ -300,9 +330,6 @@ msgstr ""
 msgid "Series recording"
 msgstr ""
 
-msgid "Directory"
-msgstr ""
-
 msgid "Delete recordings after ... days"
 msgstr ""
 
@@ -354,12 +381,6 @@ msgstr ""
 msgid "Test"
 msgstr ""
 
-msgid "Save"
-msgstr ""
-
-msgid "Cancel"
-msgstr ""
-
 msgid "Couldn't find timer. Maybe you mistyped your request?"
 msgstr ""
 
@@ -385,9 +406,6 @@ msgid "Edit user"
 msgstr ""
 
 msgid "New user"
-msgstr ""
-
-msgid "Name"
 msgstr ""
 
 msgid "Password"
@@ -421,6 +439,9 @@ msgid "Add or edit search timers"
 msgstr ""
 
 msgid "Delete search timers"
+msgstr ""
+
+msgid "Edit recordings"
 msgstr ""
 
 msgid "Electronic program guide information"
@@ -673,6 +694,9 @@ msgid "List of recordings"
 msgstr ""
 
 msgid "No recordings found"
+msgstr ""
+
+msgid "Delete selected"
 msgstr ""
 
 msgid "Delete this recording from hard disc!"

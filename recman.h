@@ -4,6 +4,7 @@
 #include <ctime>
 #include <map>
 #include <vector>
+#include <list>
 #include <vdr/recording.h>
 #include "stdext.h"
 
@@ -21,6 +22,8 @@ namespace vdrlive {
 	class RecordingsTreePtr;
 	class RecordingsList;
 	class RecordingsListPtr;
+	class DirectoryList;
+	class DirectoryListPtr;
 	class RecordingsItem;
 
 	typedef std::tr1::shared_ptr< RecordingsManager > RecordingsManagerPtr;
@@ -57,6 +60,12 @@ namespace vdrlive {
 			RecordingsListPtr GetRecordingsList(time_t begin, time_t end, bool ascending = true) const;
 
 			/**
+			 *  Returns a shared pointer to a fully populated
+			 *  directory list.
+			 */
+			DirectoryListPtr GetDirectoryList() const;
+
+			/**
 			 *	generates a Md5 hash from a cRecording entry. It can be used
 			 *  to reidentify a recording.
 			 */
@@ -67,6 +76,24 @@ namespace vdrlive {
 			 *  NULL if recording was not found
 			 */
 			cRecording const* GetByMd5Hash(std::string const & hash) const;
+
+			/**
+			 *  Rename a recording with the given hash according to
+			 *  VDRs recording mechanisms.
+			 */
+			bool RenameRecording(cRecording const * recording, std::string const & name) const;
+
+			/**
+			 *  Delete recording resume with the given hash according to
+			 *  VDRs recording mechanisms.
+			 */
+			void DeleteResume(cRecording const * recording) const;
+
+			/**
+			 *  Delete recording marks with the given hash according to
+			 *  VDRs recording mechanisms.
+			 */
+			void DeleteMarks(cRecording const * recording) const;
 
 			/**
 			 *  Delete a recording with the given hash according to
@@ -97,6 +124,7 @@ namespace vdrlive {
 			static std::tr1::weak_ptr< RecordingsManager > m_recMan;
 			static std::tr1::shared_ptr< RecordingsTree > m_recTree;
 			static std::tr1::shared_ptr< RecordingsList > m_recList;
+			static std::tr1::shared_ptr< DirectoryList > m_recDirs;
 			static int m_recordingsState;
 
 			cThreadLock m_recordingsLock;
@@ -303,6 +331,51 @@ namespace vdrlive {
 
 		public:
 			virtual ~RecordingsListPtr();
+
+		private:
+			RecordingsManagerPtr m_recManPtr;
+	};
+
+
+	/**
+	 *  The recording directory list contains all real directory entries.
+	 */
+	class DirectoryList
+	{
+		friend class RecordingsManager;
+
+		private:
+			DirectoryList(RecordingsManagerPtr recManPtr);
+#if APIVERSNUM >= 10712
+			void InjectFoldersConf(cNestedItem * folder, std::string parent = "");
+#endif
+		public:
+			typedef std::list< std::string > DirVecType;
+
+			virtual ~DirectoryList();
+
+			DirVecType::const_iterator begin() const { return m_pDirVec->begin(); }
+			DirVecType::const_iterator end() const { return m_pDirVec->end(); }
+			DirVecType::size_type size() const { return m_pDirVec->size(); }
+
+		private:
+			DirVecType *m_pDirVec;
+	};
+
+
+	/**
+	 *  A smart pointer to a directory list. As long as an instance of this
+	 *  exists the recordings are locked in the vdr.
+	 */
+	class DirectoryListPtr : public std::tr1::shared_ptr< DirectoryList >
+	{
+		friend class RecordingsManager;
+
+		private:
+			DirectoryListPtr(RecordingsManagerPtr recManPtr, std::tr1::shared_ptr< DirectoryList > recDirs);
+
+		public:
+			virtual ~DirectoryListPtr();
 
 		private:
 			RecordingsManagerPtr m_recManPtr;

@@ -136,6 +136,36 @@ msgstr "Impossible d'avoir accès à des chaînes, réessayer ultérieurement."
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr ""
 
+msgid "Couldn't find recording. Maybe you mistyped your request?"
+msgstr ""
+
+msgid "Please set a name for the recording!"
+msgstr ""
+
+msgid "Cannot rename or move the recording."
+msgstr ""
+
+msgid "Edit recording"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Directory"
+msgstr "Dossier"
+
+msgid "Delete resume information"
+msgstr ""
+
+msgid "Delete marks information"
+msgstr ""
+
+msgid "Save"
+msgstr "Sauvegarde"
+
+msgid "Cancel"
+msgstr "Interrompre"
+
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
 msgstr "Impossible de trouver la programmation de recherche. Peut-être que votre demande de fautes de frappe?"
 
@@ -305,9 +335,6 @@ msgstr "Seulement changer de chaine"
 msgid "Series recording"
 msgstr "Enregistrement de série"
 
-msgid "Directory"
-msgstr "Dossier"
-
 msgid "Delete recordings after ... days"
 msgstr "Effacer l'enregistrement après ... jours"
 
@@ -359,12 +386,6 @@ msgstr "Changer ... minutes avant le début"
 msgid "Test"
 msgstr "Tester"
 
-msgid "Save"
-msgstr "Sauvegarde"
-
-msgid "Cancel"
-msgstr "Interrompre"
-
 msgid "Couldn't find timer. Maybe you mistyped your request?"
 msgstr "N'a pas pu trouver la programmation. Peut-être vous avez une erreur dans votre requête?"
 
@@ -394,9 +415,6 @@ msgstr "Editer la programmation"
 #, fuzzy
 msgid "New user"
 msgstr "Nouvelle programmation"
-
-msgid "Name"
-msgstr ""
 
 msgid "Password"
 msgstr "Mot de passe"
@@ -440,6 +458,9 @@ msgstr "Editer l'expression de recherche"
 #, fuzzy
 msgid "Delete search timers"
 msgstr "Effacer la programmation de recherche"
+
+msgid "Edit recordings"
+msgstr ""
 
 msgid "Electronic program guide information"
 msgstr "Guide électronique d'information des programmes EPG"
@@ -694,6 +715,9 @@ msgstr "Liste des enregistrements"
 
 msgid "No recordings found"
 msgstr "Pas d'enregistrement"
+
+msgid "Delete selected"
+msgstr ""
 
 msgid "Delete this recording from hard disc!"
 msgstr ""

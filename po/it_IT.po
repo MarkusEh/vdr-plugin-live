@@ -136,6 +136,36 @@ msgstr "Impossibile avere accesso ai canali, riprova più tardi."
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Spiacenti, senza permessi. Per favore contatta l'amministratore!"
 
+msgid "Couldn't find recording. Maybe you mistyped your request?"
+msgstr ""
+
+msgid "Please set a name for the recording!"
+msgstr ""
+
+msgid "Cannot rename or move the recording."
+msgstr ""
+
+msgid "Edit recording"
+msgstr ""
+
+msgid "Name"
+msgstr "Nome"
+
+msgid "Directory"
+msgstr "Directory"
+
+msgid "Delete resume information"
+msgstr ""
+
+msgid "Delete marks information"
+msgstr ""
+
+msgid "Save"
+msgstr "Salva"
+
+msgid "Cancel"
+msgstr "Annulla"
+
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
 msgstr "Impossibile trovare timer ricerca. Hai digitato correttamente la richiesta?"
 
@@ -305,9 +335,6 @@ msgstr "Cambia soltanto"
 msgid "Series recording"
 msgstr "Registrazione serie"
 
-msgid "Directory"
-msgstr "Directory"
-
 msgid "Delete recordings after ... days"
 msgstr "Elimina registrazioni dopo ... giorni"
 
@@ -359,12 +386,6 @@ msgstr "Cambia ... minuti prima dell'inizio"
 msgid "Test"
 msgstr "Prova"
 
-msgid "Save"
-msgstr "Salva"
-
-msgid "Cancel"
-msgstr "Annulla"
-
 msgid "Couldn't find timer. Maybe you mistyped your request?"
 msgstr "Impossibile trovare timer. Hai digitato correttamente la richiesta?"
 
@@ -391,9 +412,6 @@ msgstr "Modifica utente"
 
 msgid "New user"
 msgstr "Nuovo utente"
-
-msgid "Name"
-msgstr "Nome"
 
 msgid "Password"
 msgstr "Password"
@@ -427,6 +445,9 @@ msgstr "Aggiungi o modifica timer di ricerca"
 
 msgid "Delete search timers"
 msgstr "Elimina timer di ricerca"
+
+msgid "Edit recordings"
+msgstr ""
 
 msgid "Electronic program guide information"
 msgstr "Info Guida Elettronica Programmi (EPG)"
@@ -679,6 +700,9 @@ msgstr "Elenco registrazioni"
 
 msgid "No recordings found"
 msgstr "Nessuna registrazione trovata"
+
+msgid "Delete selected"
+msgstr ""
 
 msgid "Delete this recording from hard disc!"
 msgstr "Elimina questa registrazione dal disco fisso!"

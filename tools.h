@@ -11,6 +11,8 @@
 #include <vector>
 #include <vdr/channels.h>
 #include <vdr/thread.h>
+#include <vdr/videodir.h>
+#include <vdr/tools.h>
 
 std::istream& operator>>( std::istream& is, tChannelID& ret );
 
@@ -56,6 +58,10 @@ namespace vdrlive {
 
 	std::string EncodeDomId(std::string const & toEncode, char const * from = ".-:", char const * to = "pmc");
 	std::string DecodeDomId(std::string const & toDecode, char const * from = "pmc", char const * to = ".-:");
+
+	std::string FileSystemExchangeChars(std::string const & s, bool ToFileSystem);
+
+	bool MoveDirectory(std::string const & sourceDir, std::string const & targetDir);
 
 	struct bad_lexical_cast: std::runtime_error
 	{

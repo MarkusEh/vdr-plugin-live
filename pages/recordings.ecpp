@@ -24,6 +24,7 @@ using namespace std;
 <%args>
 	string todel;
 	string diskinfo;
+	string deletions[];
 </%args>
 <%session scope="global">
 	bool logged_in(false);
@@ -37,14 +38,20 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 pageTitle = tr("Recordings");
 
+deleteResult = "";
 if (!todel.empty()) {
-	RemoveRecordingTask task(todel);
+	deletions.push_back(todel);
+}
+for (deletions_type::const_iterator it = deletions.begin(); it != deletions.end(); ++it) {
+	RemoveRecordingTask task(*it);
 	LiveTaskManager().Execute(task);
 	if (!task.Result())
-		deleteResult = string() + tr("ERROR:") + " " + task.Error();
+		deleteResult += string() + tr("ERROR:") + " " + task.Error() + "<br/>";
 	else
-		deleteResult = string() + tr("Deleted recording:") + " " + StringReplace(task.RecName(), "~", "/");
+		deleteResult += string() + tr("Deleted recording:") + " " + StringReplace(task.RecName(), "~", "/") + "<br/>";
 }
+deletions.clear();
+
 int FreeMB, UsedMB;
 int Percent = VideoDiskSpace(&FreeMB, &UsedMB);
 int Minutes = int(double(FreeMB) / MB_PER_MINUTE);
@@ -82,11 +89,14 @@ if (! deleteResult.empty()) {
 <%cpp>
 			} else {
 </%cpp>
+			<form method="post" name="recordings" action="recordings.ecpp">
 			<div class="recordings">
 			<ul class="recordingslist" style="display: block;">
 <& recordings.recordings_item &>
 			</ul>
 			</div>
+			<div class="withmargin"><button class="red" type="submit"><$ tr("Delete selected") $></button></div>
+			</form>
 <%cpp>
 			}
 </%cpp>
@@ -165,6 +175,16 @@ for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 
 <# ---------------------------------------------------------------------- #>
 
+<%def edit_rec>
+<%args>
+	string id;
+</%args>
+<%cpp> { </%cpp><a href="edit_recording.html?recid=<$ id $>"><img src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="" <& tooltip.hint text=(tr("Edit recording")) &> /></a><%cpp> } </%cpp>
+</%def>
+
+<# ---------------------------------------------------------------------- #>
+
+
 <%def rec_tools>
 <%args>
 	string id;
@@ -173,6 +193,7 @@ for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 <& pageelems.ajax_action_href action="play_recording" param=(id) tip=(tr("play this recording.")) image="play.png" alt="" &>
 <& pageelems.vlc_stream_recording recid=(id) &>
 <& pageelems.imdb_info_href title=(title) &>
+<& recordings.edit_rec id=(id) &>
 <& recordings.del_rec id=(id) &>
 </%def>
 
@@ -226,7 +247,7 @@ for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 	char const * recFormatStr( tr("%a %x %X") );
 </%cpp>
 	<div class="recording_item">
-	<div class="recording_imgs"><%cpp> reply.out() << StringRepeat(level + 1, "<img src=\"img/transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />"); </%cpp><%cpp> if (!archived.empty()) { </%cpp><img src="<$ LiveSetup().GetThemedLink("img", "on_dvd.png") $>" alt="on_dvd" <& tooltip.hint text=(archived) &> /><%cpp> } else { </%cpp><img src="<$ LiveSetup().GetThemedLink("img", "movie.png") $>" alt="movie" /><%cpp> } </%cpp></div>
+	<div class="recording_imgs"><%cpp> reply.out() << StringRepeat(level + 1, "<img src=\"img/transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />"); </%cpp><%cpp> if (!archived.empty()) { </%cpp><img src="<$ LiveSetup().GetThemedLink("img", "on_dvd.png") $>" alt="on_dvd" <& tooltip.hint text=(archived) &> /><%cpp> } else { </%cpp><input type="checkbox" name="deletions" value="<$ id $>" /><%cpp> } </%cpp></div>
 	<div class="recording_spec">
 		<div class="recording_day"><$ FormatDateTime(recFormatStr, startTime) $></div>
 		<div class="recording_duration"><$ duration $></div>
@@ -246,9 +267,6 @@ for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 <%cpp>
 		}
 </%cpp>
-		<!-- not supported yet ...
-		<img src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="" />
-        -->
 	</div>
 <%cpp>
 	if (! archived.empty()) {
@@ -263,5 +281,5 @@ for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 <# ---------------------------------------------------------------------- #>
 
 <%def delete_error>
-<%cpp> { </%cpp><$ deleteResult $><%cpp> } </%cpp>
+<%cpp> { reply.out() << deleteResult; } </%cpp>
 </%def>

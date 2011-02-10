@@ -132,6 +132,36 @@ msgstr "Zugriff auf die Kanäle wurde verweigert. Bitte später versuchen."
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Leider nicht erlaubt. Bitte kontaktieren Sie Ihren Administrator!"
 
+msgid "Couldn't find recording. Maybe you mistyped your request?"
+msgstr ""
+
+msgid "Please set a name for the recording!"
+msgstr ""
+
+msgid "Cannot rename or move the recording."
+msgstr ""
+
+msgid "Edit recording"
+msgstr ""
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Directory"
+msgstr "Verzeichnis"
+
+msgid "Delete resume information"
+msgstr ""
+
+msgid "Delete marks information"
+msgstr ""
+
+msgid "Save"
+msgstr "Speichern"
+
+msgid "Cancel"
+msgstr "Abbrechen"
+
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
 msgstr "Keinen Suchtimer gefunden. Möglicherweise ein Tippfehler in der Anfrage?"
 
@@ -301,9 +331,6 @@ msgstr "Nur umschalten"
 msgid "Series recording"
 msgstr "Serienaufnahme"
 
-msgid "Directory"
-msgstr "Verzeichnis"
-
 msgid "Delete recordings after ... days"
 msgstr "Aufn. nach ... Tagen löschen"
 
@@ -355,12 +382,6 @@ msgstr "Umschalten ... Minuten vor Start"
 msgid "Test"
 msgstr "Testen"
 
-msgid "Save"
-msgstr "Speichern"
-
-msgid "Cancel"
-msgstr "Abbrechen"
-
 msgid "Couldn't find timer. Maybe you mistyped your request?"
 msgstr "Konnte Timer nicht finden. Evtl. fehlerhafte Anforderung?"
 
@@ -387,9 +408,6 @@ msgstr "Benutzer bearbeiten"
 
 msgid "New user"
 msgstr "Neuen Benutzer anlegen"
-
-msgid "Name"
-msgstr "Name"
 
 msgid "Password"
 msgstr "Passwort"
@@ -423,6 +441,9 @@ msgstr "Suchtimer hinzufügen oder ändern"
 
 msgid "Delete search timers"
 msgstr "Suchtimer löschen"
+
+msgid "Edit recordings"
+msgstr ""
 
 msgid "Electronic program guide information"
 msgstr "Elektronische Programminformation"
@@ -676,6 +697,9 @@ msgstr "Liste der Aufnahmen"
 msgid "No recordings found"
 msgstr "Keine Aufnahmen vorhanden"
 
+msgid "Delete selected"
+msgstr ""
+
 msgid "Delete this recording from hard disc!"
 msgstr "Diese Aufnahme von der Festplatte löschen!"
 
@@ -891,4 +915,3 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr "Keine EPG Daten vorhanden"
-
