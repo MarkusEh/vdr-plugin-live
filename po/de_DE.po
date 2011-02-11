@@ -457,10 +457,6 @@ msgstr "Fehler beim Zugriffschutz für die Programminfos"
 msgid "Error aquiring schedules"
 msgstr "Fehler beim Zugriff auf Programinfos"
 
-#, no-c-format
-msgid "%a,"
-msgstr "%a,"
-
 msgid "%b %d %y"
 msgstr "%d.%m.%y"
 
@@ -704,10 +700,14 @@ msgstr "Keine Aufnahmen vorhanden"
 msgid "Delete selected"
 msgstr "Ausgewähle löschen"
 
+#, no-c-format
+msgid "%a,"
+msgstr "%a,"
+
 #. TRANSLATORS: recording duration format
 #, c-format
 msgid "(%d')"
-msgstr ""
+msgstr "%d'"
 
 msgid "Sort by name"
 msgstr "Sortiere nach Name"

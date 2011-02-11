@@ -456,10 +456,6 @@ msgstr "Negali gauti programų užrakto"
 msgid "Error aquiring schedules"
 msgstr "Negauna programų aprašų"
 
-#, no-c-format
-msgid "%a,"
-msgstr "%a,"
-
 msgid "%b %d %y"
 msgstr "%b %d %y"
 
@@ -702,6 +698,10 @@ msgstr "Įrašų nėra"
 
 msgid "Delete selected"
 msgstr ""
+
+#, no-c-format
+msgid "%a,"
+msgstr "%a,"
 
 #. TRANSLATORS: recording duration format
 #, c-format

@@ -455,10 +455,6 @@ msgstr "Ohjelmatietojen lukitus epäonnistui!"
 msgid "Error aquiring schedules"
 msgstr "Ohjelmatietojen haku epäonnistui!"
 
-#, no-c-format
-msgid "%a,"
-msgstr "%a"
-
 msgid "%b %d %y"
 msgstr "%d.%m.%y"
 
@@ -701,6 +697,10 @@ msgstr "Tallenteita ei löydy"
 
 msgid "Delete selected"
 msgstr "Poista valitut"
+
+#, no-c-format
+msgid "%a,"
+msgstr "%a"
 
 #. TRANSLATORS: recording duration format
 #, c-format

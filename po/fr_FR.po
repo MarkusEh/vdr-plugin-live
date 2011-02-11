@@ -474,10 +474,6 @@ msgstr "Erreur lors de l'acquisition du verrouillage de programmation de recherc
 msgid "Error aquiring schedules"
 msgstr "Erreur lors de l'acquisition de programmation"
 
-#, no-c-format
-msgid "%a,"
-msgstr "%a,"
-
 msgid "%b %d %y"
 msgstr "%d.%m.%y"
 
@@ -722,6 +718,10 @@ msgstr "Pas d'enregistrement"
 
 msgid "Delete selected"
 msgstr ""
+
+#, no-c-format
+msgid "%a,"
+msgstr "%a,"
 
 #. TRANSLATORS: recording duration format
 #, c-format

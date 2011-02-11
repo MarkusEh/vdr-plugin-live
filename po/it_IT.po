@@ -461,10 +461,6 @@ msgstr "Errore acquisizione blocco programmi"
 msgid "Error aquiring schedules"
 msgstr "Errore acquisizione programmi"
 
-#, no-c-format
-msgid "%a,"
-msgstr "%a,"
-
 msgid "%b %d %y"
 msgstr "%b %d %y"
 
@@ -707,6 +703,10 @@ msgstr "Nessuna registrazione trovata"
 
 msgid "Delete selected"
 msgstr ""
+
+#, no-c-format
+msgid "%a,"
+msgstr "%a,"
 
 #. TRANSLATORS: recording duration format
 #, c-format

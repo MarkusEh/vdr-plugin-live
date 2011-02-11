@@ -455,10 +455,6 @@ msgstr ""
 msgid "Error aquiring schedules"
 msgstr ""
 
-#, no-c-format
-msgid "%a,"
-msgstr ""
-
 msgid "%b %d %y"
 msgstr ""
 
@@ -700,6 +696,10 @@ msgid "No recordings found"
 msgstr ""
 
 msgid "Delete selected"
+msgstr ""
+
+#, no-c-format
+msgid "%a,"
 msgstr ""
 
 #. TRANSLATORS: recording duration format
