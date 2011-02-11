@@ -42,7 +42,7 @@ bool Plugin::ProcessArgs(int argc, char *argv[])
 
 bool Plugin::Start(void)
 {
-	m_configDirectory = cPlugin::ConfigDirectory( PLUGIN_NAME_I18N );
+	m_configDirectory = canonicalize_file_name(cPlugin::ConfigDirectory( PLUGIN_NAME_I18N ));
 
 #if VDRVERSNUM < 10507
 	RegisterI18n( vdrlive::Phrases );
