@@ -461,6 +461,10 @@ msgstr "Errore acquisizione blocco programmi"
 msgid "Error aquiring schedules"
 msgstr "Errore acquisizione programmi"
 
+#, no-c-format
+msgid "%a,"
+msgstr "%a,"
+
 msgid "%b %d %y"
 msgstr "%b %d %y"
 
@@ -704,6 +708,11 @@ msgstr "Nessuna registrazione trovata"
 msgid "Delete selected"
 msgstr ""
 
+#. TRANSLATORS: recording duration format
+#, c-format
+msgid "(%d')"
+msgstr ""
+
 msgid "Sort by name"
 msgstr ""
 
@@ -715,11 +724,6 @@ msgstr "Elimina questa registrazione dal disco fisso!"
 
 msgid "play this recording."
 msgstr "Riproduci questa registrazione"
-
-#. TRANSLATORS: strftime format string for recording start info: day, date, hour.
-#, no-c-format
-msgid "%a %x %X"
-msgstr ""
 
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "Impossibile trovare canale o canali disponibili. Hai digitato correttamente la richiesta?"

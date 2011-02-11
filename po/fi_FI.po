@@ -38,7 +38,7 @@ msgstr "Ylläpidon salasana"
 
 #, c-format
 msgid "%A, %x"
-msgstr "%A, %x"
+msgstr "%A %x"
 
 msgid "Searchtimer"
 msgstr "Hakuajastimet"
@@ -455,6 +455,10 @@ msgstr "Ohjelmatietojen lukitus epäonnistui!"
 msgid "Error aquiring schedules"
 msgstr "Ohjelmatietojen haku epäonnistui!"
 
+#, no-c-format
+msgid "%a,"
+msgstr "%a"
+
 msgid "%b %d %y"
 msgstr "%d.%m.%y"
 
@@ -525,7 +529,7 @@ msgid "Now"
 msgstr "Nyt"
 
 msgid "%A, %b %d %Y"
-msgstr "%A, %d.%m.%Y"
+msgstr "%A %d.%m.%Y"
 
 msgid "Time"
 msgstr "Ajankohta"
@@ -698,6 +702,11 @@ msgstr "Tallenteita ei löydy"
 msgid "Delete selected"
 msgstr "Poista valitut"
 
+#. TRANSLATORS: recording duration format
+#, c-format
+msgid "(%d')"
+msgstr "%d'"
+
 msgid "Sort by name"
 msgstr "Järjestä nimen mukaan"
 
@@ -709,11 +718,6 @@ msgstr "Poista tallenne kovalevyltä!"
 
 msgid "play this recording."
 msgstr "Toista tallenne"
-
-#. TRANSLATORS: strftime format string for recording start info: day, date, hour.
-#, no-c-format
-msgid "%a %x %X"
-msgstr "%a %x %X"
 
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "Kanavaa ei löydy. Kirjoititko varmasti oikein?"
@@ -882,7 +886,7 @@ msgstr "VLC:n URL"
 
 #, c-format
 msgid "%a, %x"
-msgstr "%a, %x"
+msgstr "%a %x"
 
 msgid "What's running on"
 msgstr "Menossa"

@@ -474,6 +474,10 @@ msgstr "Erreur lors de l'acquisition du verrouillage de programmation de recherc
 msgid "Error aquiring schedules"
 msgstr "Erreur lors de l'acquisition de programmation"
 
+#, no-c-format
+msgid "%a,"
+msgstr "%a,"
+
 msgid "%b %d %y"
 msgstr "%d.%m.%y"
 
@@ -719,6 +723,11 @@ msgstr "Pas d'enregistrement"
 msgid "Delete selected"
 msgstr ""
 
+#. TRANSLATORS: recording duration format
+#, c-format
+msgid "(%d')"
+msgstr ""
+
 msgid "Sort by name"
 msgstr ""
 
@@ -730,11 +739,6 @@ msgstr ""
 
 msgid "play this recording."
 msgstr "lire cette enregistrement."
-
-#. TRANSLATORS: strftime format string for recording start info: day, date, hour.
-#, no-c-format
-msgid "%a %x %X"
-msgstr ""
 
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "N'a pas pu trouver la chaîne. Votre requête est t'elle corrête? "
@@ -977,7 +981,3 @@ msgstr ""
 #, fuzzy
 #~ msgid "File"
 #~ msgstr "Titre"
-
-#, fuzzy
-#~ msgid "%A, %B %d %Y"
-#~ msgstr "%A, %d.%m.%Y"

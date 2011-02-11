@@ -264,7 +264,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "%A, %x",
     "",
-    "%A, %x",
+    "%A %x",
     "",
     "",
     "",
@@ -5121,6 +5121,41 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
+  { "%a,",
+    "%a,",
+    "",
+    "%a,",
+    "",
+    "",
+    "%a,",
+    "",
+    "%a",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
   { "%b %d %y",
     "%d.%m.%y",
     "",
@@ -5934,7 +5969,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "%A, %d.%m.%Y",
     "",
-    "%A, %d.%m.%Y",
+    "%A %d.%m.%Y",
     "",
     "",
     "",
@@ -7956,6 +7991,41 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
+  { "(%d')",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "%d'",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
   { "Sort by name",
     "Sortiere nach Name",
     "",
@@ -8070,41 +8140,6 @@ const tI18nPhrase Phrases[] = {
     "lire cette enregistrement.",
     "",
     "Toista tallenne",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "%a %x %X",
-    "%a, %d.%m.%Y %H:%M",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "%a %x %X",
     "",
     "",
     "",
@@ -10064,7 +10099,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "%A, %x",
     "",
-    "%a, %x",
+    "%a %x",
     "",
     "",
     "",

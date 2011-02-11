@@ -51,6 +51,17 @@ istream& operator>>( istream& is, tChannelID& ret )
 
 namespace vdrlive {
 
+	string FormatDuration( char const* format, int duration )
+	{
+		char result[ 32 ];
+		if ( snprintf(result, sizeof(result), format, duration) < 0 ) {
+			ostringstream builder;
+			builder << "cannot represent duration " << duration << " as requested";
+			throw runtime_error( builder.str() );
+		}
+		return result;
+	}
+
 	string FormatDateTime( char const* format, time_t time )
 	{
 		struct tm tm_r;

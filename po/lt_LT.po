@@ -456,6 +456,10 @@ msgstr "Negali gauti programų užrakto"
 msgid "Error aquiring schedules"
 msgstr "Negauna programų aprašų"
 
+#, no-c-format
+msgid "%a,"
+msgstr "%a,"
+
 msgid "%b %d %y"
 msgstr "%b %d %y"
 
@@ -699,6 +703,11 @@ msgstr "Įrašų nėra"
 msgid "Delete selected"
 msgstr ""
 
+#. TRANSLATORS: recording duration format
+#, c-format
+msgid "(%d')"
+msgstr ""
+
 msgid "Sort by name"
 msgstr ""
 
@@ -710,11 +719,6 @@ msgstr "Ištrinti šį įrašą iš disko!"
 
 msgid "play this recording."
 msgstr "groti šį įrašą."
-
-#. TRANSLATORS: strftime format string for recording start info: day, date, hour.
-#, no-c-format
-msgid "%a %x %X"
-msgstr ""
 
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "Kanalas nerastas arba jo iš vis nėra. Gal klaidingai įvedėte paieškos frazę?"

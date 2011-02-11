@@ -457,6 +457,10 @@ msgstr "Fehler beim Zugriffschutz für die Programminfos"
 msgid "Error aquiring schedules"
 msgstr "Fehler beim Zugriff auf Programinfos"
 
+#, no-c-format
+msgid "%a,"
+msgstr "%a,"
+
 msgid "%b %d %y"
 msgstr "%d.%m.%y"
 
@@ -700,6 +704,11 @@ msgstr "Keine Aufnahmen vorhanden"
 msgid "Delete selected"
 msgstr "Ausgewähle löschen"
 
+#. TRANSLATORS: recording duration format
+#, c-format
+msgid "(%d')"
+msgstr ""
+
 msgid "Sort by name"
 msgstr "Sortiere nach Name"
 
@@ -711,11 +720,6 @@ msgstr "Diese Aufnahme von der Festplatte löschen!"
 
 msgid "play this recording."
 msgstr "Diese Aufnahme abspielen."
-
-#. TRANSLATORS: strftime format string for recording start info: day, date, hour.
-#, no-c-format
-msgid "%a %x %X"
-msgstr "%a, %d.%m.%Y %H:%M"
 
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "Konnte Kanal nicht finden oder keine Kanäle verfügbar. Ist die Anfrage korrekt?"
