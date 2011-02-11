@@ -5121,41 +5121,6 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "%a,",
-    "%a,",
-    "",
-    "%a,",
-    "",
-    "",
-    "%a,",
-    "",
-    "%a",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
   { "%b %d %y",
     "%d.%m.%y",
     "",
@@ -7991,8 +7956,43 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "(%d')",
+  { "%a,",
+    "%a,",
     "",
+    "%a,",
+    "",
+    "",
+    "%a,",
+    "",
+    "%a",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "(%d')",
+    "%d'",
     "",
     "",
     "",
