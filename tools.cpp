@@ -335,7 +335,7 @@ namespace vdrlive {
 		return data;
 	}
 
-	bool MoveDirectory(std::string const & sourceDir, std::string const & targetDir)
+	bool MoveDirectory(std::string const & sourceDir, std::string const & targetDir, bool copy)
 	{
 		const char* delim = "/";
 		std::string source = sourceDir;
@@ -364,7 +364,7 @@ namespace vdrlive {
 			struct stat st1, st2;
 			stat(source.c_str(), &st1);
 			stat(target.c_str(),&st2);
-			if (st1.st_dev == st2.st_dev) {
+			if (!copy && (st1.st_dev == st2.st_dev)) {
 				if (!RenameVideoFile(source.c_str(), target.c_str())) {
 					esyslog("[LIVE]: rename failed from %s to %s", source.c_str(), target.c_str());
 					return false;
@@ -451,27 +451,29 @@ namespace vdrlive {
 						esyslog("[LIVE]: copying failed");
 						return false;
 					}
-					else if (!RemoveFileOrDir(source.c_str(), true)) { // delete source files
+					else if (!copy && !RemoveFileOrDir(source.c_str(), true)) { // delete source files
 						esyslog("[LIVE]: cannot remove source directory %s", source.c_str());
 						return false;
 					}
 
 					// delete all empty source directories
-					size_t found = source.find_last_of(delim);
-					if (found != std::string::npos) {
-						source = source.substr(0, found);
-						while (source != VideoDirectory) {
-							found = source.find_last_of(delim);
-							if (found == std::string::npos)
-								break;
+					if (!copy) {
+						size_t found = source.find_last_of(delim);
+						if (found != std::string::npos) {
 							source = source.substr(0, found);
-							if (!RemoveEmptyDirectories(source.c_str(), true))
-								break;
+							while (source != VideoDirectory) {
+								found = source.find_last_of(delim);
+								if (found == std::string::npos)
+									break;
+								source = source.substr(0, found);
+								if (!RemoveEmptyDirectories(source.c_str(), true))
+									break;
+							}
 						}
 					}
 				}
 				else {
-					esyslog("[LIVE]: renaming requires %dMB - only %dMB available", required, available);
+					esyslog("[LIVE]: %s requires %dMB - only %dMB available", copy ? "moving" : "copying", required, available);
 					// delete all created empty target directories
 					size_t found = target.find_last_of(delim);
 					if (found != std::string::npos) {

@@ -63,7 +63,7 @@ namespace vdrlive {
 
 	std::string FileSystemExchangeChars(std::string const & s, bool ToFileSystem);
 
-	bool MoveDirectory(std::string const & sourceDir, std::string const & targetDir);
+	bool MoveDirectory(std::string const & sourceDir, std::string const & targetDir, bool copy = false);
 
 	struct bad_lexical_cast: std::runtime_error
 	{

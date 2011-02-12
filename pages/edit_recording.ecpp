@@ -22,7 +22,7 @@ using namespace vdrlive;
 	// form parameters
 	string name = "";
 	string directory = "";
-	string deletions[];
+	string options[];
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -53,18 +53,21 @@ const cRecording* recording;
 		if (name.empty())
 			message = tr("Please set a name for the recording!");
 		else if (recording) {
-			for (deletions_type::const_iterator it = deletions.begin(); it != deletions.end(); ++it) {
-				if (*it == "resume")
+			bool copy_only = false;
+			for (options_type::const_iterator it = options.begin(); it != options.end(); ++it) {
+				if (*it == "delresume")
 					LiveRecordingsManager()->DeleteResume(recording);
-				else if (*it == "marks")
+				else if (*it == "delmarks")
 					LiveRecordingsManager()->DeleteMarks(recording);
+				else if (*it == "copy")
+					copy_only = true;
 			}
-			deletions.clear();
+			options.clear();
 			string filename =  directory.empty() ? name : StringReplace(directory, "/", "~") + "~" + name;
-			if (LiveRecordingsManager()->RenameRecording(recording, FileSystemExchangeChars(filename, true)))
+			if (LiveRecordingsManager()->MoveRecording(recording, FileSystemExchangeChars(filename, true), copy_only))
 				return reply.redirect(!edit_rec_referer.empty() ? edit_rec_referer : "recordings.html");
 			else
-				message = tr("Cannot rename or move the recording.");
+				message = tr("Cannot copy, rename or move the recording.");
 		}
 	}
 
@@ -137,11 +140,15 @@ const cRecording* recording;
 					</tr>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Delete resume information") $>:</div></td>
-						<td class="rightcol"><input type="checkbox" name="deletions" value="resume"/></td>
+						<td class="rightcol"><input type="checkbox" name="options" value="delresume"/></td>
 					</tr>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Delete marks information") $>:</div></td>
-						<td class="rightcol"><input type="checkbox" name="deletions" value="marks"/></td>
+						<td class="rightcol"><input type="checkbox" name="options" value="delmarks"/></td>
+					</tr>
+					<tr>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Copy only") $>:</div></td>
+						<td class="rightcol"><input type="checkbox" name="options" value="copy"/></td>
 					</tr>
 					<tr>
 						<td class="buttonpanel leftcol rightcol bottomrow" colspan="2">

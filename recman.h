@@ -78,10 +78,10 @@ namespace vdrlive {
 			cRecording const* GetByMd5Hash(std::string const & hash) const;
 
 			/**
-			 *  Rename a recording with the given hash according to
+			 *  Move a recording with the given hash according to
 			 *  VDRs recording mechanisms.
 			 */
-			bool RenameRecording(cRecording const * recording, std::string const & name) const;
+			bool MoveRecording(cRecording const * recording, std::string const & name, bool copy = false) const;
 
 			/**
 			 *  Delete recording resume with the given hash according to

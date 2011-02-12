@@ -142,7 +142,7 @@ msgstr ""
 msgid "Please set a name for the recording!"
 msgstr ""
 
-msgid "Cannot rename or move the recording."
+msgid "Cannot copy, rename or move the recording."
 msgstr ""
 
 msgid "Edit recording"
@@ -158,6 +158,9 @@ msgid "Delete resume information"
 msgstr ""
 
 msgid "Delete marks information"
+msgstr ""
+
+msgid "Copy only"
 msgstr ""
 
 msgid "Save"

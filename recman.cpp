@@ -101,7 +101,7 @@ namespace vdrlive {
 		return 0;
 	}
 
-	bool RecordingsManager::RenameRecording(cRecording const * recording, string const & name) const
+	bool RecordingsManager::MoveRecording(cRecording const * recording, string const & name, bool copy) const
 	{
 		if (!recording)
 			return false;
@@ -114,12 +114,13 @@ namespace vdrlive {
 
 		string newname = string(VideoDirectory) + "/" + name + oldname.substr(found);
 
-		if (!MoveDirectory(oldname.c_str(), newname.c_str())) {
+		if (!MoveDirectory(oldname.c_str(), newname.c_str(), copy)) {
 			esyslog("[LIVE]: renaming failed from '%s' to '%s'", oldname.c_str(), newname.c_str());
 			return false;
 		}
 
-		Recordings.DelByName(oldname.c_str());
+		if (!copy)
+			Recordings.DelByName(oldname.c_str());
 		Recordings.AddByName(newname.c_str());
 		cRecordingUserCommand::InvokeCommand(*cString::sprintf("rename \"%s\"", *strescape(oldname.c_str(), "\\\"$'")), newname.c_str());
 

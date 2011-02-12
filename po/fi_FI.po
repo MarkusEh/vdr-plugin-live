@@ -136,8 +136,8 @@ msgstr "Tallennetta ei löydy. Kirjoititko varmasti oikein?"
 msgid "Please set a name for the recording!"
 msgstr "Aseta nimi tallenteelle!"
 
-msgid "Cannot rename or move the recording."
-msgstr "Tallenteen uudelleen nimeäminen tai siirto epäonnistui!"
+msgid "Cannot copy, rename or move the recording."
+msgstr "Tallenteen kopioiminen, uudelleen nimeäminen tai siirto epäonnistui!"
 
 msgid "Edit recording"
 msgstr "Muokkaa tallennetta"
@@ -153,6 +153,9 @@ msgstr "Poista paluutiedot"
 
 msgid "Delete marks information"
 msgstr "Poista merkinnät"
+
+msgid "Copy only"
+msgstr "Kopioi ainoastaan"
 
 msgid "Save"
 msgstr "Tallenna"
