@@ -830,7 +830,7 @@ msgstr ""
 msgid "Add links to IMDb"
 msgstr ""
 
-msgid "additional fixed times in 'What's on?'"
+msgid "Additional fixed times in 'What's on?'"
 msgstr ""
 
 msgid "Format is HH:MM. Separate multiple times with a semicolon"

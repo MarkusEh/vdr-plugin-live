@@ -812,7 +812,7 @@ msgstr "Streamdev-lähetteen tyyppi"
 msgid "Add links to IMDb"
 msgstr "Lisää linkit IMDb:hen"
 
-msgid "additional fixed times in 'What's on?'"
+msgid "Additional fixed times in 'What's on?'"
 msgstr "Lisäajankohdat 'Menossa?'-sivulle"
 
 msgid "Format is HH:MM. Separate multiple times with a semicolon"

@@ -819,7 +819,7 @@ msgstr "Tipo trasmissione Streamdev"
 msgid "Add links to IMDb"
 msgstr "Aggiungi collegamenti a IMDB"
 
-msgid "additional fixed times in 'What's on?'"
+msgid "Additional fixed times in 'What's on?'"
 msgstr "Ore aggiuntive fisse menu \"In programmazione\""
 
 msgid "Format is HH:MM. Separate multiple times with a semicolon"

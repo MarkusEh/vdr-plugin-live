@@ -237,7 +237,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 						<td class="rightcol"><input type="text" name="lastchannel" value="<$ lastchannel $>" id="lastchannel" /></td>
 					</tr>
 					<tr>
-						<td class="label leftcol"><div class="withmargin"><$ tr("additional fixed times in 'What's on?'") $>:</div></td>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Additional fixed times in 'What's on?'") $>:</div></td>
 						<td class="rightcol"><input type="text" name="times" value="<$ times $>" id="times" />
 							<& tooltip.help text=(tr("Format is HH:MM. Separate multiple times with a semicolon")) &></td>
 					</tr>

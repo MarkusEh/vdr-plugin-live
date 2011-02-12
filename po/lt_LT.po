@@ -814,7 +814,7 @@ msgstr "Streamdev serverio tipas"
 msgid "Add links to IMDb"
 msgstr "Pridėti nuorodas į IMDb"
 
-msgid "additional fixed times in 'What's on?'"
+msgid "Additional fixed times in 'What's on?'"
 msgstr "papildomi nustatyti laikai 'Kas šio metu rodoma?' skiltyje"
 
 msgid "Format is HH:MM. Separate multiple times with a semicolon"

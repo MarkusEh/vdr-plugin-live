@@ -835,7 +835,7 @@ msgstr "Type du serveur streamdev"
 msgid "Add links to IMDb"
 msgstr "Ajouter des liens vers IMDb"
 
-msgid "additional fixed times in 'What's on?'"
+msgid "Additional fixed times in 'What's on?'"
 msgstr "périodes fixes additionnelles dans 'actuellement?'"
 
 msgid "Format is HH:MM. Separate multiple times with a semicolon"
