@@ -175,6 +175,8 @@ namespace {
 			struct in6_addr buf;
 			struct in_addr buf4;
 
+			esyslog( "INFO: validating live server ip '%s'", ip.c_str());
+			cerr << "INFO: validating server ip '" << ip << "'" << endl;
 			bool valid = inet_aton(ip.c_str(), &buf4) || inet_pton(AF_INET6, ip.c_str(), &buf);
 
 			if (!valid) {
