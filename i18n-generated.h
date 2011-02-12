@@ -1411,7 +1411,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "Cannot rename or move the recording.",
+  { "Cannot copy, rename or move the recording.",
     "Konnte die Aufnahme nicht umbenennen oder verschieben.",
     "",
     "",
@@ -1419,7 +1419,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "",
-    "Tallenteen uudelleen nimeÃ¤minen tai siirto epÃ¤onnistui!",
+    "Tallenteen kopioiminen, uudelleen nimeÃ¤minen tai siirto epÃ¤onnistui!",
     "",
     "",
     "",
@@ -1595,6 +1595,146 @@ const tI18nPhrase Phrases[] = {
     "",
     "",
     "Poista merkinnÃ¤t",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Copy only",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "Kopioi ainoastaan",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Short description",
+    "Beschreibung",
+    "",
+    "Descrizione",
+    "",
+    "",
+    "Description",
+    "",
+    "Lyhyt kuvaus",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Description",
+    "Beschreibung",
+    "",
+    "Descrizione",
+    "",
+    "",
+    "Description",
+    "",
+    "Kuvaus",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Auxiliary info",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "LisÃ¤tiedot",
     "",
     "",
     "",
@@ -2295,41 +2435,6 @@ const tI18nPhrase Phrases[] = {
     "Épisode",
     "",
     "Jakson nimi",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Description",
-    "Beschreibung",
-    "",
-    "Descrizione",
-    "",
-    "",
-    "Description",
-    "",
-    "Kuvaus",
     "",
     "",
     "",
@@ -7922,7 +8027,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Delete selected",
-    "Ausgewähle löschen",
+    "Löschen",
     "",
     "",
     "",

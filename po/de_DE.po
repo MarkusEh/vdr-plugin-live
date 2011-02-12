@@ -708,7 +708,7 @@ msgid "No recordings found"
 msgstr "Keine Aufnahmen vorhanden"
 
 msgid "Delete selected"
-msgstr "Ausgewähle löschen"
+msgstr "Löschen"
 
 #, no-c-format
 msgid "%a,"
