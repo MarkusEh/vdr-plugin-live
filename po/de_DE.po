@@ -159,6 +159,16 @@ msgstr "Schnittmarken löschen"
 msgid "Copy only"
 msgstr ""
 
+#, fuzzy
+msgid "Short description"
+msgstr "Beschreibung"
+
+msgid "Description"
+msgstr "Beschreibung"
+
+msgid "Auxiliary info"
+msgstr ""
+
 msgid "Save"
 msgstr "Speichern"
 
@@ -219,9 +229,6 @@ msgstr "Titel"
 
 msgid "Episode"
 msgstr "Episode"
-
-msgid "Description"
-msgstr "Beschreibung"
 
 msgid "Use extended EPG info"
 msgstr "Verw. erweiterte EPG Info"
@@ -928,3 +935,7 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr "Keine EPG Daten vorhanden"
+
+#, fuzzy
+#~ msgid "Subtitle"
+#~ msgstr "Titel"

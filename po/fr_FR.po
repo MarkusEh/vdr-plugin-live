@@ -163,6 +163,16 @@ msgstr ""
 msgid "Copy only"
 msgstr ""
 
+#, fuzzy
+msgid "Short description"
+msgstr "Description"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Auxiliary info"
+msgstr ""
+
 msgid "Save"
 msgstr "Sauvegarde"
 
@@ -223,9 +233,6 @@ msgstr "Titre"
 
 msgid "Episode"
 msgstr "Épisode"
-
-msgid "Description"
-msgstr "Description"
 
 msgid "Use extended EPG info"
 msgstr "Utiliser les infos EPG avancées"
@@ -956,6 +963,10 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Subtitle"
+#~ msgstr "Titre"
 
 #, fuzzy
 #~ msgid "Please set a name and password for the user!"

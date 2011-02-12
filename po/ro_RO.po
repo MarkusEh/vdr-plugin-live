@@ -158,6 +158,15 @@ msgstr ""
 msgid "Copy only"
 msgstr ""
 
+msgid "Short description"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "Auxiliary info"
+msgstr ""
+
 msgid "Save"
 msgstr ""
 
@@ -217,9 +226,6 @@ msgid "Title"
 msgstr ""
 
 msgid "Episode"
-msgstr ""
-
-msgid "Description"
 msgstr ""
 
 msgid "Use extended EPG info"

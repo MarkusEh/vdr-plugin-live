@@ -158,6 +158,16 @@ msgstr ""
 msgid "Copy only"
 msgstr ""
 
+#, fuzzy
+msgid "Short description"
+msgstr "Aprašymas"
+
+msgid "Description"
+msgstr "Aprašymas"
+
+msgid "Auxiliary info"
+msgstr ""
+
 msgid "Save"
 msgstr "Išsaugoti"
 
@@ -218,9 +228,6 @@ msgstr "Pavadinimas"
 
 msgid "Episode"
 msgstr "Epizodas"
-
-msgid "Description"
-msgstr "Aprašymas"
 
 msgid "Use extended EPG info"
 msgstr "Naudoti išplėstą EPG informaciją"
@@ -928,3 +935,7 @@ msgstr "Live interaktyvioji VDR aplinka"
 
 msgid "No EPG information available"
 msgstr "Nėra EPG informacijos"
+
+#, fuzzy
+#~ msgid "Subtitle"
+#~ msgstr "Pavadinimas"

@@ -150,6 +150,32 @@ const cRecording* recording;
 						<td class="label leftcol"><div class="withmargin"><$ tr("Copy only") $>:</div></td>
 						<td class="rightcol"><input type="checkbox" name="options" value="copy"/></td>
 					</tr>
+<%cpp>
+if (recording && recording->Info()->ShortText()) {
+</%cpp>
+					<tr>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Short description") $>:</div></td>
+						<td class="rightcol"><$ recording->Info()->ShortText() $></td>
+					</tr>
+<%cpp>
+}
+if (recording && recording->Info()->Description()) {
+</%cpp>
+					<tr>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Description") $>:</div></td>
+						<td class="rightcol"><$ recording->Info()->Description() $></td>
+					</tr>
+<%cpp>
+}
+if (recording && recording->Info()->Aux()) {
+</%cpp>
+					<tr>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Auxiliary info") $>:</div></td>
+						<td class="rightcol"><$ recording->Info()->Aux() $></td>
+					</tr>
+<%cpp>
+}
+</%cpp>
 					<tr>
 						<td class="buttonpanel leftcol rightcol bottomrow" colspan="2">
 							<div class="withmargin">

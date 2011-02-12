@@ -157,6 +157,15 @@ msgstr "Poista merkinnät"
 msgid "Copy only"
 msgstr "Kopioi ainoastaan"
 
+msgid "Short description"
+msgstr "Lyhyt kuvaus"
+
+msgid "Description"
+msgstr "Kuvaus"
+
+msgid "Auxiliary info"
+msgstr "Lisätiedot"
+
 msgid "Save"
 msgstr "Tallenna"
 
@@ -217,9 +226,6 @@ msgstr "Otsikko"
 
 msgid "Episode"
 msgstr "Jakson nimi"
-
-msgid "Description"
-msgstr "Kuvaus"
 
 msgid "Use extended EPG info"
 msgstr "Käytä laajennettua ohjelmaopasta"
@@ -926,3 +932,6 @@ msgstr "Interaktiivinen VDR-ympäristö"
 
 msgid "No EPG information available"
 msgstr "Ohjelmatietoja ei saatavilla"
+
+#~ msgid "Subtitle"
+#~ msgstr "Lyhyt kuvaus"

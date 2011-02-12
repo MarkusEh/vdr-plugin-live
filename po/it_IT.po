@@ -163,6 +163,16 @@ msgstr ""
 msgid "Copy only"
 msgstr ""
 
+#, fuzzy
+msgid "Short description"
+msgstr "Descrizione"
+
+msgid "Description"
+msgstr "Descrizione"
+
+msgid "Auxiliary info"
+msgstr ""
+
 msgid "Save"
 msgstr "Salva"
 
@@ -223,9 +233,6 @@ msgstr "Titolo"
 
 msgid "Episode"
 msgstr "Episodio"
-
-msgid "Description"
-msgstr "Descrizione"
 
 msgid "Use extended EPG info"
 msgstr "Utilizza informazioni EPG estesa"
@@ -933,6 +940,10 @@ msgstr "Ambiente interattivo LIVE per VDR"
 
 msgid "No EPG information available"
 msgstr "Nessuna informazione EPG disponibile"
+
+#, fuzzy
+#~ msgid "Subtitle"
+#~ msgstr "Titolo"
 
 #, fuzzy
 #~ msgid "Please set a name and password for the user!"
