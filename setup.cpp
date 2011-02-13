@@ -148,7 +148,7 @@ bool Setup::ParseSetupEntry( char const* name, char const* value )
 bool Setup::CheckServerPort()
 {
 	if ( m_serverPort <= 0 || m_serverPort > numeric_limits< uint16_t >::max() ) {
-		esyslog( "ERROR: live server port %d is not a valid port number", m_serverPort );
+		esyslog( "[live] ERROR: server port %d is not a valid port number", m_serverPort );
 		cerr << "ERROR: live server port " << m_serverPort << " is not a valid port number" << endl;
 		return false;
 	}
@@ -159,7 +159,7 @@ bool Setup::CheckServerPort()
 bool Setup::CheckServerSslPort()
 {
 	if ( m_serverSslPort <= 0 || m_serverSslPort > numeric_limits< uint16_t >::max() ) {
-		esyslog( "ERROR: live server ssl  port %d is not a valid port number", m_serverSslPort );
+		esyslog( "[live] ERROR: server ssl port %d is not a valid port number", m_serverSslPort );
 		cerr << "ERROR: live server ssl port " << m_serverSslPort << " is not a valid port number" << endl;
 		return false;
 	}
@@ -175,12 +175,12 @@ namespace {
 			struct in6_addr buf;
 			struct in_addr buf4;
 
-			esyslog( "INFO: validating live server ip '%s'", ip.c_str());
-			cerr << "INFO: validating server ip '" << ip << "'" << endl;
+			esyslog( "[live] INFO: validating server ip '%s'", ip.c_str());
+			cerr << "INFO: validating live server ip '" << ip << "'" << endl;
 			bool valid = inet_aton(ip.c_str(), &buf4) || inet_pton(AF_INET6, ip.c_str(), &buf);
 
 			if (!valid) {
-				esyslog( "ERROR: live server ip %s is not a valid ip address", ip.c_str());
+				esyslog( "[live] ERROR: server ip %s is not a valid ip address", ip.c_str());
 				cerr << "ERROR: live server ip '" << ip << "' is not a valid ip address" << endl;
 			}
 			return valid;
