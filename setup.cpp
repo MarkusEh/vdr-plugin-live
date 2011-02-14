@@ -109,7 +109,7 @@ char const* Setup::CommandLineHelp() const
 				<< "  -c CERT,  --cert=CERT        full path to a custom ssl certificate file\n"
 				<< "  -k KEY,  --key=KEY           full path to a custom ssl certificate key file\n"
 #endif
-				<< "  -l level, --log=level        log level for tntnet (values: INFO, DEBUG,...)\n"
+				<< "  -l level, --log=level        log level for tntnet (values: WARN, ERROR, INFO, DEBUG, TRACE)\n"
 				<< "  -e <dir>, --epgimages=<dir>  directory for epgimages\n";
 		m_helpString = builder.str();
 	}

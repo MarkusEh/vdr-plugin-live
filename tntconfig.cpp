@@ -148,6 +148,7 @@ namespace vdrlive {
 		// XXX modularize
 		file << "rootLogger=" << LiveSetup().GetTntnetLogLevel() << endl;
 		file << "logger.tntnet=" << LiveSetup().GetTntnetLogLevel() << endl;
+		file << "logger.cxxtools=" << LiveSetup().GetTntnetLogLevel() << endl;
 	}
 #endif
 
@@ -155,6 +156,13 @@ namespace vdrlive {
 	void TntConfig::Configure(tnt::Tntnet& app) const
 	{
 		string const configDir(Plugin::GetConfigDirectory());
+
+		std::istringstream logConf(
+			"rootLogger=" + LiveSetup().GetTntnetLogLevel() + "\n"
+			"logger.tntnet=" + LiveSetup().GetTntnetLogLevel() + "\n"
+			"logger.cxxtools=" + LiveSetup().GetTntnetLogLevel() + "\n"
+			);
+		log_init(logConf);
 
 		// +++ CAUTION +++ CAUTION +++ CAUTION +++ CAUTION +++ CAUTION +++
 		// ------------------------------------------------------------------------
@@ -290,13 +298,6 @@ namespace vdrlive {
 			esyslog( "[live] ERROR: Unable to load cert/key (%s/%s): %s", s_cert.c_str(), s_key.c_str(), strerror( errno ) );
 		}
 #endif // TNT_SSL_SUPPORT
-
-		std::istringstream logConf(
-			"rootLogger=" + LiveSetup().GetTntnetLogLevel() + "\n"
-			// "logger.tntnet.static=DEBUG\n"
-			// "logger.cxxtools.net.tcp=DEBUG\n"
-			);
-		log_init(logConf);
 	}
 #endif
 
