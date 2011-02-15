@@ -261,7 +261,7 @@ namespace vdrlive {
 		Setup::IpList const& ips = LiveSetup().GetServerIps();
 		int port = LiveSetup().GetServerPort();
 		size_t listenFailures = 0;
-		for ( Setup::IpList::const_iterator ip = ips.begin(); ip != ips.end(); ++ip ) {
+		for (Setup::IpList::const_iterator ip = ips.begin(); ip != ips.end(); ++ip) {
 			try {
 				esyslog("[live] INFO: attempt to listen on ip = '%s'", ip->c_str());
 				app.listen(*ip, port);

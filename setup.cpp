@@ -203,7 +203,8 @@ bool Setup::CheckServerIps()
 		}
 		esyslog( "[live] INFO: bindv6only=%d", bindv6only);
 		cerr << "INFO: bindv6only=" << bindv6only << endl;
-		// add a default IPv4 listener address if default IPv6 one will be binded only to v6
+		// add a default IPv4 listener address if default IPv6 one
+		// will be binded only to v6
 		if (bindv6only)
 			m_serverIps.push_back( "0.0.0.0" );
 		m_serverIps.push_back( "::" );

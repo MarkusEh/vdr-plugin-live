@@ -816,7 +816,7 @@ msgid "Add links to IMDb"
 msgstr "Füge Links zur IMDb hinzu"
 
 msgid "Additional fixed times in 'What's on?'"
-msgstr "zusätzliche Zeitpunkte in 'Was läuft?'"
+msgstr "Zusätzliche Zeitpunkte in 'Was läuft?'"
 
 msgid "Format is HH:MM. Separate multiple times with a semicolon"
 msgstr "Format ist HH:MM. Mehrere Zeiten durch Semikolon trennen"
@@ -935,7 +935,3 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr "Keine EPG Daten vorhanden"
-
-#, fuzzy
-#~ msgid "Subtitle"
-#~ msgstr "Titel"

@@ -9251,8 +9251,8 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "additional fixed times in 'What's on?'",
-    "zusätzliche Zeitpunkte in 'Was läuft?'",
+  { "Additional fixed times in 'What's on?'",
+    "Zusätzliche Zeitpunkte in 'Was läuft?'",
     "",
     "Ore aggiuntive fisse menu \"In programmazione\"",
     "",
