@@ -119,7 +119,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <{				}											}>
 			</div>
 			<div>
-			<img src="<$ LiveSetup().GetThemedLink("img", "remotecontrol.jpg") $>" width="162" height="363" border="0" usemap="#remote" alt="" />
+			<img src="<$ LiveSetup().GetThemedLink("img", "remotecontrol.jpg") $>" width="162" height="378" border="0" usemap="#remote" alt="" />
 			     <map name="remote">
 			     	  <area href="#" shape="circle" coords="37,36,10" alt="Power" onclick="KeyPress(<$ kPower $>)" nohref="nohref" alt="" />
 				  <area href="#" shape="rect" coords="27,60,59,75" alt="1" onclick="KeyPress(<$ k1 $>)" nohref="nohref" alt="" />
@@ -140,15 +140,17 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 				  <area href="#" shape="circle" coords="81,202,11" alt="Record" onclick="KeyPress(<$ kRecord $>)" nohref="nohref" alt="" />
 				  <area href="#" shape="poly" coords="39,215,29,227,30,235,39,236,51,222,49,215,43,213" alt="Menu" onclick="KeyPress(<$ kMenu $>)" nohref="nohref" alt="" />
 				  <area href="#" shape="poly" coords="119,213,127,219,135,230,132,235,127,236,119,231,114,223,113,215" alt="Exit" onclick="KeyPress(<$ kBack $>)" nohref="nohref" alt="" />
+				  <area href="#" shape="poly" coords="33,289,31,298,43,310,51,308,54,300,41,287" alt="Subtitles" onclick="KeyPress(<$ kSubtitles $>)" nohref="nohref" alt="" />
+				  <area href="#" shape="poly" coords="131,289,133,298,122,310,112,308,110,300,122,287" alt="Audio" onclick="KeyPress(<$ kAudio $>)" nohref="nohref" alt="" />
 				  <area href="#" shape="poly" coords="58,230,70,223,82,223,91,223,105,231,96,240,87,237,78,236,69,240,66,241,58,232" alt="Up" onclick="KeyPress(<$ kUp $>)" nohref="nohref" alt="" />
 				  <area href="#" shape="poly" coords="111,237,119,249,121,259,119,275,113,285,109,284,101,276,104,270,107,260,106,253,101,245" alt="Right" onclick="KeyPress(<$ kRight $>)" nohref="nohref" alt="" />
 				  <area href="#" shape="poly" coords="66,281,75,285,86,285,95,281,106,291,100,295,87,300,73,300,58,291,57,289,58,289" alt="Down" onclick="KeyPress(<$ kDown $>)" nohref="nohref" alt="" />
 				  <area href="#" shape="poly" coords="51,236,61,245,56,256,57,266,61,277,52,285,47,278,42,264,43,252,49,240" alt="Left" onclick="KeyPress(<$ kLeft $>)" nohref="nohref" alt="" />
 				  <area href="#" shape="circle" coords="81,261,17" alt="Ok" onclick="KeyPress(<$ kOk $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="rect" coords="25,309,52,324" alt="Red" onclick="KeyPress(<$ kRed $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="rect" coords="53,309,81,324" alt="Green" onclick="KeyPress(<$ kGreen $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="rect" coords="83,309,109,324" alt="Yellow" onclick="KeyPress(<$ kYellow $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="rect" coords="110,310,137,323" alt="Blue" onclick="KeyPress(<$ kBlue $>)" nohref="nohref" alt="" />
+				  <area href="#" shape="rect" coords="25,324,52,339" alt="Red" onclick="KeyPress(<$ kRed $>)" nohref="nohref" alt="" />
+				  <area href="#" shape="rect" coords="53,324,81,339" alt="Green" onclick="KeyPress(<$ kGreen $>)" nohref="nohref" alt="" />
+				  <area href="#" shape="rect" coords="83,324,109,339" alt="Yellow" onclick="KeyPress(<$ kYellow $>)" nohref="nohref" alt="" />
+				  <area href="#" shape="rect" coords="110,324,137,339" alt="Blue" onclick="KeyPress(<$ kBlue $>)" nohref="nohref" alt="" />
 			     </map>
 			</div>
 		</div>
