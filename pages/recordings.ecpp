@@ -1,5 +1,6 @@
 <%pre>
 #include <string>
+#include <pcrecpp.h>
 
 #include <vdr/plugin.h>
 #include <vdr/config.h>
@@ -25,6 +26,7 @@ using namespace std;
 	string sort;
 	string todel;
 	string diskinfo;
+	string filter;
 	string deletions[];
 </%args>
 <%session scope="global">
@@ -103,10 +105,13 @@ if (!deleteResult.empty()) {
 			<form method="post" name="recordings" action="recordings.ecpp">
 			<div class="recordings">
 			<ul class="recordingslist" style="display: block;">
-<& recordings.recordings_item &>
+<& recordings.recordings_item filter=(filter) &>
 			</ul>
 			</div>
-			<div class="withmargin"><button class="red" type="submit"><$ tr("Delete selected") $></button></div>
+			<div class="withmargin">
+				<button class="red" type="submit"><$ tr("Delete selected") $></button>
+				<input class="withmargin" type="text" name="filter" value="<$ filter $>" id="filter"/>
+			</div>
 			</form>
 <%cpp>
 			}
@@ -120,6 +125,7 @@ if (!deleteResult.empty()) {
 
 <%def recordings_item>
 <%args>
+	filter;
 	path[];
 	int level = 0;
 </%args>
@@ -156,6 +162,7 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 		}
 		recItemParams.add("path", recItem->Name());
 		recItemParams.add("level", lexical_cast<string, int>(level + 1));
+		recItemParams.add("filter", filter);
 </%cpp>
 		<ul class="recordingslist" style="display: none;">
 <%cpp>
@@ -189,11 +196,13 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 		string duration(LiveSetup().GetShowRecDuration() ? FormatDuration(tr("(%d')"), recItem->Duration()) : "");
 		string shortDescr(recItem->RecInfo()->ShortText() ? recItem->RecInfo()->ShortText() : "");
 		string hint(tr("Click to view details.")); if (!shortDescr.empty()) hint = shortDescr + "<br />" + hint;
+		if (filter.empty() || pcrecpp::RE(filter.c_str(), pcrecpp::UTF8()).PartialMatch(recItem->Name()) || pcrecpp::RE(filter.c_str(), pcrecpp::UTF8()).PartialMatch(shortDescr)) {
 </%cpp>
 	<li class="recording">
 	   <& rec_item_file name=(recItem->Name()) level=(level) id=(recItem->Id()) day=(day) dayLen=(dayLen) startTime=(recItem->StartTime()) duration=(duration) hint=(hint) shortDescr=(shortDescr) archived=(RecordingsManager::GetArchiveDescr(recItem->Recording())) &>
 	</li>
 <%cpp>
+		}
 }
 </%cpp>
 </%def>
