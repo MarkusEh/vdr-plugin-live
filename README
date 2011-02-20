@@ -164,11 +164,7 @@ SSL Commandline options
   -c CERT,  --cert=CERT        path to a custom ssl certificate file
   			       (default: $CONFIGDIR/live.pem)
   -k KEY,   --cert=CERT        path to a custom ssl certificate key file
-<<<<<<< HEAD:README
   			       (default: $CONFIGDIR/live-key.pem)
-=======
-			       (default: $CONFIGDIR/live-key.pem)
->>>>>>> tadi/master:README
 
 
 Creating a self-signed SSL server certificate
