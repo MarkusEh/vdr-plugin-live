@@ -222,7 +222,7 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 <span class="sep">|</span>
 <a href="recordings.html?sort=date&filter=<? currentFilter != "" ? currentFilter ?>" alt="" /><$ tr("Sort by date") $></a>
 <span class="sep">|</span>
-<span class="label"><$ tr("Filter") $>:&nbsp;<input type="text" name="filter" value="<$ currentFilter $>" id="filter" onchange="filterRecordings(this)" />&nbsp;<& tooltip.help text=(tr("Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE).")) &></span>
+<span class="label bold"><$ tr("Filter") $>:&nbsp;<input type="text" name="filter" value="<$ currentFilter $>" id="filter" onchange="filterRecordings(this)" />&nbsp;<& tooltip.help text=(tr("Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE).")) &></span>
 <%cpp> } </%cpp>
 </%def>
 
