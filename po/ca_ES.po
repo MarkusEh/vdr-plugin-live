@@ -724,7 +724,7 @@ msgstr ""
 msgid "Sort by date"
 msgstr ""
 
-msgid "Filter:"
+msgid "Filter"
 msgstr ""
 
 msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
