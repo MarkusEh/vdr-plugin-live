@@ -84,8 +84,7 @@ diskinfo = cString::sprintf("%s %d%%  -  %2d:%02d %s", trVDR("Disk"), Percent, H
 		<script type="text/javascript"><!--
 		function filterRecordings(filter)
 		{
-			if (filter.value != "")
-				window.location.href = "recordings.html?sort=<$ currentSort $>&filter=" + encodeURIComponent(filter.value);
+			window.location.href = "recordings.html?sort=<$ currentSort $>&filter=" + encodeURIComponent(filter.value);
 		}
 		//--></script>
 	</head>
