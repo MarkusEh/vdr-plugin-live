@@ -49,7 +49,7 @@ TNTVERS7   = $(shell ver=$(TNTVERSION); if [ $$ver -ge "1606" ]; then echo "yes"
 CXXFLAGS  += $(shell tntnet-config --cxxflags)
 LIBS      += $(shell tntnet-config --libs)
 CXXFLAGS  += $(shell pcre-config --cflags)
-LIBS      += $(shell pcre-config --libs-cpp)
+LIBS      += $(shell pcre-config --libs) -lpcrecpp
 
 ### The name of the distribution archive:
 
