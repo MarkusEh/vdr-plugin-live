@@ -725,6 +725,12 @@ msgstr "Sortiere nach Name"
 msgid "Sort by date"
 msgstr "Sortiere nach Datum"
 
+msgid "Filter:"
+msgstr "Filter:"
+
+msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
+msgstr "Suche in Aufname-Titel und Untertitel nach dem angegebenen Wort und zeige nur die zutreffenden an. Es sind auch Perl kompatible Reguläre Ausdrücke (PCRE) erlaubt."
+
 msgid "Delete this recording from hard disc!"
 msgstr "Diese Aufnahme von der Festplatte löschen!"
 

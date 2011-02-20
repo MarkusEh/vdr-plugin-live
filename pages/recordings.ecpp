@@ -35,6 +35,7 @@ using namespace std;
 <%request scope="page">
 	string currentSort;
 	string deleteResult;
+	string currentFilter;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
@@ -48,6 +49,7 @@ if (!sort.empty()) {
 		currentSort = (currentSort == "nameasc") ? "namedesc" : "nameasc";
 	LiveSetup().SetLastSortingMode(currentSort);
 }
+currentFilter = filter;
 
 pageTitle = tr("Recordings");
 
@@ -79,6 +81,13 @@ diskinfo = cString::sprintf("%s %d%%  -  %2d:%02d %s", trVDR("Disk"), Percent, H
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
 		<script type="text/javascript" src="treeview.js"></script>
+		<script type="text/javascript"><!--
+		function filterRecordings(filter)
+		{
+			if (filter.value != "")
+				window.location.href = "recordings.html?sort=<$ currentSort $>&filter=" + encodeURIComponent(filter.value);
+		}
+		//--></script>
 	</head>
 	<body>
 		<& pageelems.logo &>
@@ -105,12 +114,11 @@ if (!deleteResult.empty()) {
 			<form method="post" name="recordings" action="recordings.ecpp">
 			<div class="recordings">
 			<ul class="recordingslist" style="display: block;">
-<& recordings.recordings_item filter=(filter) &>
+<& recordings.recordings_item filter=(currentFilter) &>
 			</ul>
 			</div>
 			<div class="withmargin">
 				<button class="red" type="submit"><$ tr("Delete selected") $></button>
-				<input class="withmargin" type="text" name="filter" value="<$ filter $>" id="filter"/>
 			</div>
 			</form>
 <%cpp>
@@ -211,10 +219,12 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 
 <%def sort_options>
 <%cpp> { </%cpp>
-<a href="recordings.html?sort=name" alt="" /><$ tr("Sort by name") $></a>
+<a href="recordings.html?sort=name&filter=<? currentFilter != "" ? currentFilter ?>" alt="" /><$ tr("Sort by name") $></a>
 <span class="sep">|</span>
-<a href="recordings.html?sort=date" alt="" /><$ tr("Sort by date") $></a>
-<br/>
+<a href="recordings.html?sort=date&filter=<? currentFilter != "" ? currentFilter ?>" alt="" /><$ tr("Sort by date") $></a>
+<span class="sep">|</span>
+<$ tr("Filter:") $>&nbsp;
+<input type="text" name="filter" value="<$ currentFilter $>" id="filter" onchange="filterRecordings(this)" />&nbsp;<& tooltip.help text=(tr("Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE).")) &>
 <%cpp> } </%cpp>
 </%def>
 
