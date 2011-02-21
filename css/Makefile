@@ -44,7 +44,7 @@ all: libcss.a
 ### Implicit rules:
 
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) $(TNTFLAGS) -c $(DEFINES) $(INCLUDES) $<
+	$(CXX) $(CXXFLAGS) $(TNTFLAGS) -c $(DEFINES) $(FEATURES) $(INCLUDES) $<
 
 %.cpp: %.css
 	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CSS) -b -m "text/css" $<

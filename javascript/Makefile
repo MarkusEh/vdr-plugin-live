@@ -44,7 +44,7 @@ all: libjavascript.a
 ### Implicit rules:
 
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) $(TNTFLAGS) -c $(DEFINES) $(INCLUDES) $<
+	$(CXX) $(CXXFLAGS) $(TNTFLAGS) -c $(DEFINES) $(FEATURES) $(INCLUDES) $<
 
 %.cpp: %.js
 	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_JS) -b -m "text/javascript" $<

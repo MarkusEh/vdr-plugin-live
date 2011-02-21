@@ -25,6 +25,9 @@ ECPPC	 ?= ecppc
 CXXFLAGS ?= -fPIC -O2 -Wall
 LDFLAGS	 ?= -fPIC -g
 
+### Check for libpcre c++ wrapper
+HAVE_LIBPCRECPP = $(shell pcre-config --libs-cpp)
+
 ### The directory environment:
 
 VDRDIR	 ?= ../../..
@@ -48,8 +51,12 @@ TNTVERS7   = $(shell ver=$(TNTVERSION); if [ $$ver -ge "1606" ]; then echo "yes"
 
 CXXFLAGS  += $(shell tntnet-config --cxxflags)
 LIBS      += $(shell tntnet-config --libs)
-CXXFLAGS  += $(shell pcre-config --cflags)
-LIBS      += $(shell pcre-config --libs) -lpcrecpp
+
+ifneq ($(HAVE_LIBPCRECPP),)
+	FEATURES  += -DHAVE_LIBPCRECPP
+	CXXFLAGS  += $(shell pcre-config --cflags)
+	LIBS      += $(HAVE_LIBPCRECPP)
+endif
 
 ### The name of the distribution archive:
 
@@ -91,14 +98,14 @@ all: libvdr-$(PLUGIN).so $(I18NTARG)
 ### Implicit rules:
 
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $(DEFINES) $(INCLUDES) $<
+	$(CXX) $(CXXFLAGS) -c $(DEFINES) $(FEATURES) $(INCLUDES) $<
 
 # Dependencies:
 
 MAKEDEP = $(CXX) -MM -MG
 DEPFILE = .dependencies
 $(DEPFILE): Makefile
-	@$(MAKEDEP) $(DEFINES) $(INCLUDES) $(PLUGINOBJS:%.o=%.cpp) > $@
+	@$(MAKEDEP) $(DEFINES) $(FEATURES) $(INCLUDES) $(PLUGINOBJS:%.o=%.cpp) > $@
 
 ifneq ($(MAKECMDGOALS),clean)
 -include $(DEPFILE)
@@ -141,10 +148,10 @@ generate-i18n: i18n-template.h $(I18Npot) $(I18Npo) buildutil/pot2i18n.pl
 subdirs: $(SUBDIRS)
 
 $(SUBDIRS):
-	$(MAKE) -C $@ $(MAKECMDGOALS)
+	@$(MAKE) -C $@ $(MAKECMDGOALS) FEATURES="$(FEATURES)"
 
 PAGES:
-	$(MAKE) -C pages .dependencies
+	@$(MAKE) -C pages FEATURES="$(FEATURES)" .dependencies
 
 $(VERSIONSUFFIX): FORCE
 	./buildutil/version-util $(VERSIONSUFFIX) || ./buildutil/version-util -F $(VERSIONSUFFIX)

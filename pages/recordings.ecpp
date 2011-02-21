@@ -203,7 +203,10 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 		string duration(LiveSetup().GetShowRecDuration() ? FormatDuration(tr("(%d')"), recItem->Duration()) : "");
 		string shortDescr(recItem->RecInfo()->ShortText() ? recItem->RecInfo()->ShortText() : "");
 		string hint(tr("Click to view details.")); if (!shortDescr.empty()) hint = shortDescr + "<br />" + hint;
-		if (filter.empty() || pcrecpp::RE(filter.c_str(), pcrecpp::UTF8()).PartialMatch(recItem->Name()) || pcrecpp::RE(filter.c_str(), pcrecpp::UTF8()).PartialMatch(shortDescr)) {
+#ifdef HAVE_LIBPCRECPP
+		if (filter.empty() || pcrecpp::RE(filter.c_str(), pcrecpp::UTF8()).PartialMatch(recItem->Name()) || pcrecpp::RE(filter.c_str(), pcrecpp::UTF8()).PartialMatch(shortDescr))
+#endif
+		{
 </%cpp>
 	<li class="recording">
 	   <& rec_item_file name=(recItem->Name()) level=(level) id=(recItem->Id()) day=(day) dayLen=(dayLen) startTime=(recItem->StartTime()) duration=(duration) hint=(hint) shortDescr=(shortDescr) archived=(RecordingsManager::GetArchiveDescr(recItem->Recording())) &>
@@ -221,8 +224,14 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 <a href="recordings.html?sort=name&filter=<? currentFilter != "" ? currentFilter ?>" alt="" /><$ tr("Sort by name") $></a>
 <span class="sep">|</span>
 <a href="recordings.html?sort=date&filter=<? currentFilter != "" ? currentFilter ?>" alt="" /><$ tr("Sort by date") $></a>
+<%cpp>
+#ifdef HAVE_LIBPCRECPP
+</%cpp>
 <span class="sep">|</span>
 <span class="label bold"><$ tr("Filter") $>:&nbsp;<input type="text" name="filter" value="<$ currentFilter $>" id="filter" onchange="filterRecordings(this)" />&nbsp;<& tooltip.help text=(tr("Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE).")) &></span>
+<%cpp>
+#endif
+</%cpp>
 <%cpp> } </%cpp>
 </%def>
 

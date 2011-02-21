@@ -55,13 +55,20 @@ VDR >= 1.4.0-2
 gcc >= 3.1
 if gcc < 4.0:
 boost >= 1.32.0		- http://www.boost.org
-PCRE >= 8.0     	- http://www.pcre.org/
+PCRE >= 8.0.2     	- http://www.pcre.org/
 Tntnet >= 1.5.3		- http://www.tntnet.org/download.hms
 Cxxtools >= 1.4.3	- http://www.tntnet.org/download.hms
 
 Tntnet provides basic webserver functions for live and needs cxxtools.
 Boost provides some data structures we need. While currently relying on the
 full blown package we might provide a stripped down version in the future.
+
+PCRE provides filtering for recordings. Some older versions pcre-config tool
+doesn't contain C++ wrapper option, but filtering support can be forced via
+commandline:
+
+make HAVE_LIBPCRECPP="-lpcrecpp -lpcre"
+
 
 If you optionaly want to regenerate the i18n-generated.h header file
 for backward compatible i18n (VDR version prior to 1.5.7) you also
