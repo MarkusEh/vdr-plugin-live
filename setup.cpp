@@ -191,23 +191,24 @@ namespace {
 bool Setup::CheckServerIps()
 {
 	if ( m_serverIps.empty() ) {
-		bool bindv6only = false;
 		FILE* f = fopen("/proc/sys/net/ipv6/bindv6only", "r");
 		if (f) {
+			bool bindv6only = false;
 			int c = fgetc(f);
 			if (c != EOF) {
 				bindv6only = c - '0';
 			}
 			fclose(f);
 			f = NULL;
+			esyslog( "[live] INFO: bindv6only=%d", bindv6only);
+			// add a default IPv6 listener address
+			m_serverIps.push_back( "::" );
+			// skip the default IPv4 listener address if IPv6 one will be binded also to v4
+			if (!bindv6only)
+				return true;
 		}
-		esyslog( "[live] INFO: bindv6only=%d", bindv6only);
-		cerr << "INFO: bindv6only=" << bindv6only << endl;
-		// add a default IPv4 listener address if default IPv6 one
-		// will be binded only to v6
-		if (bindv6only)
-			m_serverIps.push_back( "0.0.0.0" );
-		m_serverIps.push_back( "::" );
+		// add a default IPv4 listener address
+		m_serverIps.push_back( "0.0.0.0" );
 		// we assume these are ok :)
 		return true;
 	}
