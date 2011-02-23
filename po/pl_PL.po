@@ -722,6 +722,12 @@ msgstr "Sortuj wed³ug nazwy"
 msgid "Sort by date"
 msgstr "Sortuj wed³ug daty"
 
+msgid "Filter"
+msgstr ""
+
+msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
+msgstr ""
+
 msgid "Delete this recording from hard disc!"
 msgstr "Usuñ to nagranie z twardego dysku!"
 
