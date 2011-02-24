@@ -47,7 +47,7 @@ msgid "Error in timer settings"
 msgstr "B³±d w ustawieniach timera"
 
 msgid "Timer already defined"
-msgstr "Timer ju¿ definiowany"
+msgstr "Timer zosta³ ju¿ zdefiniowany"
 
 msgid "Timers are being edited - try again later"
 msgstr "Timery s± edytowane - spróbuj ponownie pó¼niej"
@@ -77,7 +77,7 @@ msgid "Not playing a recording."
 msgstr "Nie mo¿na odtworzyæ nagrania."
 
 msgid "Not playing the same recording as from request."
-msgstr ""
+msgstr "Nie mo¿na odtworzyæ ¿±danego nagrania."
 
 msgid "Attempt to delete recording currently in playback."
 msgstr "Próba usuniêcia aktualnie odtwarzanego nagrania."
@@ -155,7 +155,7 @@ msgid "Delete marks information"
 msgstr "Usuñ informacjê o znacznikach"
 
 msgid "Copy only"
-msgstr ""
+msgstr "Skopiuj do katalogu"
 
 msgid "Short description"
 msgstr "Krótki opis"
@@ -195,28 +195,28 @@ msgid "Search mode"
 msgstr "Tryb wyszukiwania"
 
 msgid "phrase"
-msgstr "pojedyncze s³owo"
+msgstr "wyra¿enie"
 
 msgid "all words"
 msgstr "wszystkie s³owa"
 
 msgid "at least one word"
-msgstr "conajmniej jedno s³owo"
+msgstr "dowolne s³owo"
 
 msgid "match exactly"
-msgstr "dok³adnie powy¿sza fraza"
+msgstr "dok³adnie ca³e wyra¿enie"
 
 msgid "regular expression"
 msgstr "wyra¿enie regularne"
 
 msgid "fuzzy"
-msgstr ""
+msgstr "niedoprecyzowane"
 
 msgid "Tolerance"
 msgstr "Tolerancja"
 
 msgid "Match case"
-msgstr "Wielko¶æ liter"
+msgstr "Uwzglêdnij wielko¶æ liter"
 
 msgid "Search in"
 msgstr "Szukaj w"
@@ -429,7 +429,7 @@ msgid "Add or edit timers"
 msgstr "Dodawanie i edycja timerów"
 
 msgid "Delete timers"
-msgstr "usuwanie timerów"
+msgstr "Usuwanie timerów"
 
 msgid "Delete recordings"
 msgstr "Usuwanie niagrañ"
@@ -456,10 +456,10 @@ msgid "Electronic program guide information"
 msgstr "Informacje EPG"
 
 msgid "Couldn't find recording or no recordings available"
-msgstr "Nie mo¿na odnale¼æ nagrania."
+msgstr "Nie mo¿na odnale¼æ nagrania"
 
 msgid "Error aquiring schedules lock"
-msgstr ""
+msgstr "B³±d podczas próby blokady programu"
 
 msgid "Error aquiring schedules"
 msgstr "B³±d podczas ¶ci±gania programu"
@@ -471,7 +471,7 @@ msgid "Page error"
 msgstr "B³±d strony"
 
 msgid "playing recording"
-msgstr "odtwarzanie nagrania"
+msgstr "Odtwarzanie nagrania"
 
 msgid "no epg info for current event!"
 msgstr "brak informacji o audycji!"
@@ -648,7 +648,7 @@ msgid "Failed to update infobox!"
 msgstr "B³±d poczas aktualizacji panela!"
 
 msgid "Authors"
-msgstr ""
+msgstr "Autorzy"
 
 msgid "Project Idea"
 msgstr ""
@@ -666,31 +666,31 @@ msgid "Graphics"
 msgstr ""
 
 msgid "Information"
-msgstr ""
+msgstr "Informacje"
 
 msgid "LIVE version"
-msgstr ""
+msgstr "Wersja LIVE"
 
 msgid "VDR version"
-msgstr ""
+msgstr "Wersja VDR"
 
 msgid "Features"
-msgstr ""
+msgstr "Dodatki"
 
 msgid "active"
-msgstr ""
+msgstr "aktywny"
 
 msgid "required"
-msgstr ""
+msgstr "wymagany"
 
 msgid "Homepage"
-msgstr ""
+msgstr "Strona domowa"
 
 msgid "Bugs and suggestions"
-msgstr ""
+msgstr "B³êdy i sugestie"
 
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
-msgstr ""
+msgstr "Je¶li znajdziesz jakie¶ b³êdy lub chcia³by¶ zasugerowaæ nowe funkcje, skorzystaj z naszego bugtrackera"
 
 msgid "ERROR:"
 msgstr "B£¡D:"
@@ -723,22 +723,22 @@ msgid "Sort by date"
 msgstr "Sortuj wed³ug daty"
 
 msgid "Filter"
-msgstr ""
+msgstr "Filtr"
 
 msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
-msgstr ""
+msgstr "Poka¿ nagrania zgodne z wpisanym wyra¿eniem (mo¿na u¿ywaæ tak¿e wyra¿eñ regularnych typu PERL)."
 
 msgid "Delete this recording from hard disc!"
 msgstr "Usuñ to nagranie z twardego dysku!"
 
 msgid "play this recording."
-msgstr "odtwórz to nagranie"
+msgstr "Odtwórz nagranie"
 
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "Nie mo¿na odnale¶æ kana³u lub kana³y nie s± dostêpne."
 
 msgid "Snapshot interval"
-msgstr "Okres miêdzy migawkami"
+msgstr "Okres pomiêdzy migawkami"
 
 msgid "No schedules available for this channel"
 msgstr "Brak listy audycji dla tego kana³u"
@@ -913,7 +913,7 @@ msgid "What's on next?"
 msgstr "Nastepnie"
 
 msgid "Favorites"
-msgstr "ulubione"
+msgstr "Ulubione"
 
 msgid "View the schedule of this channel"
 msgstr "Wy¶wietl program dla tego kana³u"
