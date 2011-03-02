@@ -232,6 +232,7 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 <%cpp>
 #endif
 </%cpp>
+<br />
 <%cpp> } </%cpp>
 </%def>
 
