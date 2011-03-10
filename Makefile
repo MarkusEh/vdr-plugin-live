@@ -52,10 +52,12 @@ TNTVERS7   = $(shell ver=$(TNTVERSION); if [ $$ver -ge "1606" ]; then echo "yes"
 CXXFLAGS  += $(shell tntnet-config --cxxflags)
 LIBS      += $(shell tntnet-config --libs)
 
+### Optional configuration features
+PLUGINFEATURES =
 ifneq ($(HAVE_LIBPCRECPP),)
-	FEATURES  += -DHAVE_LIBPCRECPP
-	CXXFLAGS  += $(shell pcre-config --cflags)
-	LIBS      += $(HAVE_LIBPCRECPP)
+	PLUGINFEATURES += -DHAVE_LIBPCRECPP
+	CXXFLAGS       += $(shell pcre-config --cflags)
+	LIBS           += $(HAVE_LIBPCRECPP)
 endif
 
 ### The name of the distribution archive:
@@ -98,14 +100,14 @@ all: libvdr-$(PLUGIN).so $(I18NTARG)
 ### Implicit rules:
 
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $(DEFINES) $(FEATURES) $(INCLUDES) $<
+	$(CXX) $(CXXFLAGS) -c $(DEFINES) $(PLUGINFEATURES) $(INCLUDES) $<
 
 # Dependencies:
 
 MAKEDEP = $(CXX) -MM -MG
 DEPFILE = .dependencies
 $(DEPFILE): Makefile
-	@$(MAKEDEP) $(DEFINES) $(FEATURES) $(INCLUDES) $(PLUGINOBJS:%.o=%.cpp) > $@
+	@$(MAKEDEP) $(DEFINES) $(PLUGINFEATURES) $(INCLUDES) $(PLUGINOBJS:%.o=%.cpp) > $@
 
 ifneq ($(MAKECMDGOALS),clean)
 -include $(DEPFILE)
@@ -148,10 +150,10 @@ generate-i18n: i18n-template.h $(I18Npot) $(I18Npo) buildutil/pot2i18n.pl
 subdirs: $(SUBDIRS)
 
 $(SUBDIRS):
-	@$(MAKE) -C $@ $(MAKECMDGOALS) FEATURES="$(FEATURES)"
+	@$(MAKE) -C $@ $(MAKECMDGOALS) PLUGINFEATURES="$(PLUGINFEATURES)"
 
 PAGES:
-	@$(MAKE) -C pages FEATURES="$(FEATURES)" .dependencies
+	@$(MAKE) -C pages PLUGINFEATURES="$(PLUGINFEATURES)" .dependencies
 
 $(VERSIONSUFFIX): FORCE
 	./buildutil/version-util $(VERSIONSUFFIX) || ./buildutil/version-util -F $(VERSIONSUFFIX)

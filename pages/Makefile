@@ -51,7 +51,7 @@ all: libpages.a
 ### Implicit rules:
 
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) $(TNTFLAGS) -c $(DEFINES) $(FEATURES) $(INCLUDES) $<
+	$(CXX) $(CXXFLAGS) $(TNTFLAGS) -c $(DEFINES) $(PLUGINFEATURES) $(INCLUDES) $<
 
 %.cpp: %.ecpp
 	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CPP) $<
@@ -61,7 +61,7 @@ all: libpages.a
 MAKEDEP = $(CXX) -MM -MG
 DEPFILE = .dependencies
 $(DEPFILE): Makefile $(OBJS:%.o=%.cpp) $(OBJS:%.o=%.ecpp)
-	@$(MAKEDEP) $(DEFINES) $(FEATURES) $(INCLUDES) $(OBJS:%.o=%.cpp) > $@
+	@$(MAKEDEP) $(DEFINES) $(PLUGINFEATURES) $(INCLUDES) $(OBJS:%.o=%.cpp) > $@
 
 ifneq ($(MAKECMDGOALS),clean)
 -include $(DEPFILE)
