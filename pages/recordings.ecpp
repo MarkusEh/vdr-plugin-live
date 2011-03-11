@@ -236,9 +236,13 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 		// TRANSLATORS: recording duration format
 		string duration(LiveSetup().GetShowRecDuration() ? FormatDuration(tr("(%d')"), recItem->Duration()) : "");
 		string shortDescr(recItem->RecInfo()->ShortText() ? recItem->RecInfo()->ShortText() : "");
-		string hint(tr("Click to view details.")); if (!shortDescr.empty()) hint = shortDescr + "<br />" + hint;
+		string description(recItem->RecInfo()->Description() ? recItem->RecInfo()->Description() : "");
+		string hint(tr("Click to view details."));
+		if (!shortDescr.empty()) hint = shortDescr + "<br />" + hint;
+		else if (!description.empty()) hint = description + "<br />" + hint;
 #ifdef HAVE_LIBPCRECPP
-		if (filter.empty() || pcrecpp::RE(filter.c_str(), pcrecpp::UTF8()).PartialMatch(recItem->Name()) || pcrecpp::RE(filter.c_str(), pcrecpp::UTF8()).PartialMatch(shortDescr))
+		pcrecpp::RE re(filter.c_str(), pcrecpp::UTF8());
+		if (filter.empty() || re.PartialMatch(recItem->Name()) || re.PartialMatch(shortDescr) || re.PartialMatch(description))
 #endif
 		{
 </%cpp>
