@@ -86,6 +86,40 @@ diskinfo = cString::sprintf("%s %d%%  -  %2d:%02d %s", trVDR("Disk"), Percent, H
 		{
 			window.location.href = "recordings.html?sort=<$ currentSort $>&filter=" + encodeURIComponent(filter.value);
 		}
+		function ExpandAll()
+		{
+			recordingNodes = window.document.getElementsBySelector("ul.recordingslist");
+			for (idx = 0; idx < recordingNodes.length; idx++) {
+				if (recordingNodes[idx].parentNode.className != 'recordings') {
+					recordingNodes[idx].style.display = 'block';
+				}
+			}
+			expandNodes = window.document.getElementsBySelector("img.recording_expander");
+			for (idx = 0; idx < expandNodes.length; idx++) {
+				expandNodes[idx].src = "img/minus.png";
+			}
+			folderNodes = window.document.getElementsBySelector("img.recording_folder");
+			for (idx = 0; idx < folderNodes.length; idx++) {
+				folderNodes[idx].src = "img/folder_open.png";
+			}
+		}
+		function CollapseAll()
+		{
+			recordingNodes = window.document.getElementsBySelector("ul.recordingslist");
+			for (idx = 0; idx < recordingNodes.length; idx++) {
+				if (recordingNodes[idx].parentNode.className != 'recordings') {
+					recordingNodes[idx].style.display = 'none';
+				}
+			}
+			expandNodes = window.document.getElementsBySelector("img.recording_expander");
+			for (idx = 0; idx < expandNodes.length; idx++) {
+				expandNodes[idx].src = "img/plus.png";
+			}
+			folderNodes = window.document.getElementsBySelector("img.recording_folder");
+			for (idx = 0; idx < folderNodes.length; idx++) {
+				folderNodes[idx].src = "img/folder_closed.png";
+			}
+		}
 		//--></script>
 	</head>
 	<body>
@@ -232,6 +266,9 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 <%cpp>
 #endif
 </%cpp>
+<span class="sep">|</span>
+<img onclick="ExpandAll()" src="<$ LiveSetup().GetThemedLink("img", "plus.png") $>" alt="" <& tooltip.hint text=(tr("Expand all folders")) &>/>
+<img onclick="CollapseAll()" src="<$ LiveSetup().GetThemedLink("img", "minus.png") $>" alt="" <& tooltip.hint text=(tr("Collapse all folders")) &>/>
 <br />
 <%cpp> } </%cpp>
 </%def>

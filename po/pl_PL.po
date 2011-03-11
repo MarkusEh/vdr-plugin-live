@@ -728,6 +728,12 @@ msgstr "Filtr"
 msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
 msgstr "Poka¿ nagrania zgodne z wpisanym wyra¿eniem (mo¿na u¿ywaæ tak¿e wyra¿eñ regularnych typu PERL)."
 
+msgid "Expand all folders"
+msgstr ""
+
+msgid "Collapse all folders"
+msgstr ""
+
 msgid "Delete this recording from hard disc!"
 msgstr "Usuñ to nagranie z twardego dysku!"
 

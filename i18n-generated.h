@@ -8271,6 +8271,76 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
+  { "Expand all folders",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "Avaa kaikki kansiot",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
+  { "Collapse all folders",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "Sulje kaikki kansiot",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+#if VDRVERSNUM >= 10302
+    "",
+#endif
+#if VDRVERSNUM >= 10307
+    "",
+#endif
+#if VDRVERSNUM >= 10313
+    "",
+#endif
+#if VDRVERSNUM >= 10316
+    "",
+#endif
+#if VDRVERSNUM >= 10342
+    "",
+#endif
+#if VDRVERSNUM >= 10502
+    "",
+#endif
+  },
   { "Delete this recording from hard disc!",
     "Diese Aufnahme von der Festplatte löschen!",
     "",
