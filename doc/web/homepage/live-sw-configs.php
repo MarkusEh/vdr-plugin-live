@@ -8,9 +8,24 @@ $LiveSWConfigs = array(
 		array()
 		),
 */
+	'0.3.0' => new LiveSWConfig(
+		array(
+			new SoftwareComponent('VDR', '1.4.0', '&gt;= 1.6.0', 'http://www.tvdr.de/download.htm'),
+			new SoftwareComponent('Tntnet', '1.6.3', '&gt;= 2.0', 'http://www.tntnet.org/download.html'),
+			new SoftwareComponent('Cxxtools', '1.4.8', '&gt;= 2.0', 'http://www.tntnet.org/download.html'),
+			new SoftwareComponent('PCRE', '7.6', '&gt;= 8.02', 'http://www.pcre.org/')
+			),
+		array(
+			new SoftwareComponent('boost', '1.32.0', 'GCC &lt; 4.1<sup><small>*</small></sup>', 'http://www.boost.org')
+			),
+		array(
+			new SoftwareComponent('epgsearch', '0.9.22', '&gt;= 0.9.25', 'http://winni.vdr-developer.org/epgsearch/index.html#download'),
+			new SoftwareComponent('streamdev', '0.3.3', '&gt;= 0.3.4', 'http://streamdev.vdr-developer.org/')
+			)
+		),
 	'0.2.0' => new LiveSWConfig(
 		array(
-			new SoftwareComponent('VDR', '1.4.0', '&gt;= 1.4.7', 'http://www.cadsoft.de/vdr/download.htm'),
+			new SoftwareComponent('VDR', '1.4.0', '&gt;= 1.4.7', 'http://www.tvdr.de/download.htm'),
 			new SoftwareComponent('Tntnet', '1.5.3', '&gt;= 1.6.1', 'http://www.tntnet.org/download.html'),
 			new SoftwareComponent('Cxxtools', '1.4.3', '&gt;= 1.4.7', 'http://www.tntnet.org/download.html')
 			),
@@ -24,7 +39,7 @@ $LiveSWConfigs = array(
 		),
 	'0.1.0' => new LiveSWConfig(
 		array(
-			new SoftwareComponent('VDR', '1.4.0', '&lt;= 1.5.7', 'http://www.cadsoft.de/vdr/download.htm'),
+			new SoftwareComponent('VDR', '1.4.0', '&lt;= 1.5.7', 'http://www.tvdr.de/download.htm'),
 			new SoftwareComponent('Tntnet', '1.5.3', '&gt;= 1.5.3', 'http://www.tntnet.org/download.html'),
 			new SoftwareComponent('Cxxtools', '1.4.3', '&gt;= 1.4.3', 'http://www.tntnet.org/download.html'),
 			new SoftwareComponent('boost<sup><small>*</small></sup>', '1.32.0', '', 'http://www.boost.org')
@@ -36,7 +51,7 @@ $LiveSWConfigs = array(
 		)
 	);
 
-$LiveSWConfigs['devel'] = $LiveSWConfigs['0.2.0'];
+$LiveSWConfigs['devel'] = $LiveSWConfigs['0.3.0'];
 
 function SWConfTableRow($sc)
 {

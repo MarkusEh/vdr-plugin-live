@@ -19,17 +19,24 @@
     <div class="inhalt">
 
       <div style="width: 800px; margin-top: 15px">
-	<div class="boxheader"><div><div>Features von LIVE 0.2.0</div></div></div>
-	<div style="border: 1px solid black; padding: 0px 10px">
-	  <?php include ("features_0-2-0.inc"); ?>
-	</div>
+        <div class="boxheader"><div><div>Features von LIVE 0.3.0</div></div></div>
+        <div style="border: 1px solid black; padding: 0px 10px">
+          <?php include ("features_0-3-0.inc"); ?>
+        </div>
       </div>
 
       <div style="width: 800px; margin-top: 15px">
-	<div class="boxheader"><div><div>Features von LIVE 0.1.0</div></div></div>
-	<div style="border: 1px solid black; padding: 0px 10px">
-	  <?php include ("features_0-1-0.inc"); ?>
-	</div>
+        <div class="boxheader"><div><div>Features von LIVE 0.2.0</div></div></div>
+        <div style="border: 1px solid black; padding: 0px 10px">
+          <?php include ("features_0-2-0.inc"); ?>
+        </div>
+      </div>
+
+      <div style="width: 800px; margin-top: 15px">
+        <div class="boxheader"><div><div>Features von LIVE 0.1.0</div></div></div>
+        <div style="border: 1px solid black; padding: 0px 10px">
+          <?php include ("features_0-1-0.inc"); ?>
+        </div>
       </div>
 
     </div>

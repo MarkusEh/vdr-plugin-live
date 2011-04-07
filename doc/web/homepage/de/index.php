@@ -19,13 +19,13 @@
     <div class="inhalt">
 
       <div style="width: 800px; margin-top: 15px">
-	<a name="about"></a>
-	<div class="boxheader"><div><div>&Uuml;ber LIVE</div></div></div>
-	<div style="border: 1px solid black; padding: 0px 10px">
-	  <div class="screenshots" style="float: right; border: 0; padding-top: 15px"><?php $screenshots->RandomImg(); ?></div>
-	  <p>
-	    <b>LIVE</b>
-	  </p>
+        <a name="about"></a>
+        <div class="boxheader"><div><div>&Uuml;ber LIVE</div></div></div>
+        <div style="border: 1px solid black; padding: 0px 10px">
+          <div class="screenshots" style="float: right; border: 0; padding-top: 15px"><?php $screenshots->RandomImg(); ?></div>
+          <p>
+            <b>LIVE</b>
+          </p>
           <p>
             LIVE, das <strong><em>LIVE Interactive VDR
             Environment</em></strong>, erm&ouml;glicht die komfortable
@@ -53,72 +53,73 @@
             sicht- und verwendbar werden.
           </p>
           <p>
-	    Einen ersten optischen Eindruck von LIVE kann man sich auf
-	    der <a href="screenshots.php"><?php echo
-	    $menu->urls["screenshots.php"]; ?>-Seite</a> verschaffen.
-	  </p>
-	  <p>
-	    <b>Lizenz</b>
-	  </p>
-	  <p>
-	    LIVE wird unter
-	    der <a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GNU
-	    General Public License, Version 2</a> (GPLv2)
-	    ver&ouml;ffentlicht.  N&auml;here Informationen erhalten
-	    Sie durch verfolgen des Links und/oder in der
-	    Datei <tt>COPYING</tt> im Quellcode Verzeichnis von LIVE.
-	  </p>
-	</div>
-      </div>
-
-      <div style="width: 800px; margin-top: 15px">
-	<div class="boxheader"><div><div>Neue Features von LIVE <?php echo $status->vers_number; ?></div></div></div>
-	<div style="border: 1px solid black; padding: 0px 10px">
-	  <?php include ("features_0-2-0.inc"); ?>
-	  <p>
-	    Alle bisherigen &Auml;nderungen an LIVE sind auf der Seite
-	    mit den <a href="news.php">archivierten <?php echo
-	    $menu->urls["news.php"];?></a> aufgelistet.
-	  </p>
-	</div>
-      </div>
-
-      <div style="width: 800px; margin-top: 15px">
-	<div class="boxheader"><div><div>Direkter Download von LIVE <?php echo $status->vers_number; ?></div></div></div>
-	<div style="border: 1px solid black; padding: 0px 10px">
-	  <p>
-	    <b>Version <?php echo $status->vers_number; ?></b>
-            <ul>
-	      <li>
-		Download: <?php echo "<a href=\"http://live.vdr-developer.org/downloads/vdr-live-" . $status->vers_number . ".tar.gz\">" . "http://live.vdr-developer.org/downloads/vdr-live-" . $status->vers_number . ".tar.gz</a>"; ?>
-	        <p>
-		  <strong>WICHTIG:</strong> unbedingt auch immer die Datei README in LIVE Quellen-Verzeichnis beachten!
-		</p>
-	      </li>
-            </ul>
-	  </p>
-	  <p>
-	    <b>Vorausetzungen f&uuml;r die Installation:</b>
-	    <?php include ("install_0-2-0.inc"); ?>
-	  </p>
+            Einen ersten optischen Eindruck von LIVE kann man sich auf
+            der <a href="screenshots.php"><?php echo
+            $menu->urls["screenshots.php"]; ?>-Seite</a> verschaffen.
+          </p>
           <p>
-	    Andere Versionen von LIVE k&ouml;nnen von
-	    der <a href="download.php"><?php echo
-	    $menu->urls["download.php"]; ?>-Seite</a> herunter geladen
-	    werden.
-	  </p>
+            <b>Lizenz</b>
+          </p>
+          <p>
+            LIVE wird unter
+            der <a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GNU
+            General Public License, Version 2</a> (GPLv2)
+            ver&ouml;ffentlicht.  N&auml;here Informationen erhalten
+            Sie durch verfolgen des Links und/oder in der
+            Datei <tt>COPYING</tt> im Quellcode Verzeichnis von LIVE.
+          </p>
         </div>
       </div>
 
       <div style="width: 800px; margin-top: 15px">
-	<a name="links"></a>
-	<div class="boxheader"><div><div>Links</div></div></div>
-	<div style="border: 1px solid black; padding: 0px 10px">
+        <div class="boxheader"><div><div>Neue Features von LIVE <?php echo $status->vers_number; ?></div></div></div>
+        <div style="border: 1px solid black; padding: 0px 10px">
+          <?php include ("features_0-3-0.inc"); ?>
+          <p>
+            Alle bisherigen &Auml;nderungen an LIVE sind auf der Seite
+            mit den <a href="news.php">archivierten <?php echo
+            $menu->urls["news.php"];?></a> aufgelistet.
+          </p>
+        </div>
+      </div>
+
+      <div style="width: 800px; margin-top: 15px">
+        <div class="boxheader"><div><div>Direkter Download von LIVE <?php echo $status->vers_number; ?></div></div></div>
+        <div style="border: 1px solid black; padding: 0px 10px">
+          <p>
+            <b>Version <?php echo $status->vers_number; ?></b>
+            <ul>
+              <li>
+                Download: <?php echo "<a href=\"http://live.vdr-developer.org/downloads/vdr-live-" . $status->vers_number . ".tar.gz\">" . "http://live.vdr-developer.org/downloads/vdr-live-" . $status->vers_number . ".tar.gz</a>"; ?>
+                <p>
+                  <strong>WICHTIG:</strong> unbedingt auch immer die Datei README in LIVE Quellen-Verzeichnis beachten!
+                </p>
+              </li>
+            </ul>
+          </p>
+          <p>
+            <b>Vorausetzungen f&uuml;r die Installation:</b>
+            <?php include ("install_0-3-0.inc"); ?>
+          </p>
+          <p>
+            Andere Versionen von LIVE k&ouml;nnen von
+            der <a href="download.php"><?php echo
+            $menu->urls["download.php"]; ?>-Seite</a> herunter geladen
+            werden.
+          </p>
+        </div>
+      </div>
+
+      <div style="width: 800px; margin-top: 15px">
+        <a name="links"></a>
+        <div class="boxheader"><div><div>Links</div></div></div>
+        <div style="border: 1px solid black; padding: 0px 10px">
           <p>
             <b>Web:</b>
             <ul>
-              <li><a href="http://www.vdr-developer.org/mantisbt/main_page.php">Bugtracker</a> - Bugs und Featurew&uuml;nsche</li>
-              <li><a href="http://www.cadsoft.de/vdr/">Video Disk Recorder - VDR</a></li>
+	      <li><a href="http://projects.vdr-developer.org/projects/plg-live">Project Tracker</a></li>
+	      <li><a href="http://projects.vdr-developer.org/git/?p=vdr-plugin-live.git">LIVE Git</a></li>
+              <li><a href="http://www.tvdr.de/">Video Disk Recorder - VDR</a></li>
               <li><a href="http://winni.vdr-developer.org/epgsearch/index.html">EPGSearch Plugin</a></li>
               <br />
               <li><a href="http://www.vdr-portal.de">VDR-Portal</a></li>
@@ -138,7 +139,7 @@
               <li>Zus&auml;tzliche Kontaktinfos finden Sie am Anfang der README Datei im LIVE Quellcode.</li>
             </ul>
           </p>
-	</div>
+        </div>
       </div>
 
     </div>
