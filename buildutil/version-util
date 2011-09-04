@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # -----------------------------------------------------------------------------
 # Shell script to determine the last commit version of the project It
 # checks for CVS and .git repositories.  The output is a string that
