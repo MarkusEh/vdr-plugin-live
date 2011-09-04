@@ -13,6 +13,7 @@
 #include "tasks.h"
 #include "tools.h"
 #include "i18n.h"
+#include "users.h"
 
 #include "recman.h"
 
@@ -55,6 +56,8 @@ pageTitle = tr("Recordings");
 
 deleteResult = "";
 if (!todel.empty()) {
+	if (!cUser::CurrentUserHasRightTo(UR_DELRECS))
+		throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
 	deletions.push_back(todel);
 }
 for (deletions_type::const_iterator it = deletions.begin(); it != deletions.end(); ++it) {
