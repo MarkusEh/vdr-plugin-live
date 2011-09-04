@@ -40,7 +40,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Poslední zobrazovaný kanál",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -75,7 +75,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Bez limitu",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -110,7 +110,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Použít autentifikaci",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -145,7 +145,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Ne",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -180,7 +180,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Ano",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -250,7 +250,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Admin heslo",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -320,7 +320,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nahrávání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -355,7 +355,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Chyba v nastavení nahrávání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -390,7 +390,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nahrávaní již nastaveno",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -425,7 +425,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nahrávaní někdo mění - zkuste později",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -460,7 +460,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nahrávaní není nastaveno",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -565,7 +565,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Kanál neexistuje, nebo je nedostupný.",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -600,7 +600,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nelze přepnout na kanál.",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -635,7 +635,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nelze nalézt nahrávky, nebo žádné neexistují",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -670,7 +670,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Přehrávaní nelze ovládat!",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -705,7 +705,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nepřehrává se nahrávka.",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -740,7 +740,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nepřehrává se požadovaná nahrávka.",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -775,7 +775,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Pokus o smazání sledované nahrávky",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -810,7 +810,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Chyba EPG",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -845,7 +845,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Špatné číslo kanálu",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -880,7 +880,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Kanál nemá žádný program",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -915,7 +915,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Chybné id pořadu",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -950,7 +950,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Potřebná minimální verze epgsearch: ",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -985,7 +985,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Vše",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -1020,7 +1020,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "FTA",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -1055,7 +1055,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "%H:%M",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -1090,7 +1090,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Verze EPGSearch je zastaralá! Použijte novější.",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -1125,7 +1125,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nelze otevřít primární zarízení",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -1160,7 +1160,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nelze získat obrázek z primárního zařízení",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -1230,7 +1230,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nahrávání bez kolize",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -1265,7 +1265,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nahrávání bez kolize",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -1300,7 +1300,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nelze získat přístup k programům, zkuste později.",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -1335,7 +1335,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Bohužel chybějící oprávnění. Zeptejte se svého administrátora!",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -1370,7 +1370,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nelze nalézt zadaného uživatele. Byl zadán správně?",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -1405,7 +1405,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Prosím nastavte název nahrávání!",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -1475,7 +1475,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Seznam nahrávek",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -1510,7 +1510,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Jméno",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -1545,7 +1545,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Složka",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -1580,7 +1580,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Elektronický průvodce programem (EPG)",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -1685,7 +1685,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Popis",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -1720,7 +1720,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Popis",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -1790,7 +1790,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Uložit",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -1825,7 +1825,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Zrušit",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -1860,7 +1860,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nelze najít Automatické nahrávání. Byl požadavek správně zadán?",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -1895,7 +1895,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "dd.mm.yyyy",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -1930,7 +1930,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Změna automatického nahrávaní",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -1965,7 +1965,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nové automatické nahrávání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -2000,7 +2000,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Zadaný text je krátký - opravdu použít?",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -2035,7 +2035,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Vyhledej",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -2070,7 +2070,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Vyhledávací režim",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -2105,7 +2105,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "slovní spojení",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -2140,7 +2140,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "všechna slova",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -2175,7 +2175,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "alespoň jedno slovo",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -2210,7 +2210,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "přesný výraz",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -2245,7 +2245,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "regulární výraz",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -2315,7 +2315,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Tolerance",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -2350,7 +2350,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Velikost písmen",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -2385,7 +2385,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Vyhledávat v",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -2420,7 +2420,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Název",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -2455,7 +2455,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Epizoda",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -2490,7 +2490,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Použít rozšířené EPG",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -2525,7 +2525,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Ignorovat chybějící EPG",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -2560,7 +2560,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Toto nastavení vytvoří mnoho požadavků na nahrávání. Před uložením oveřte chování pomocí Testu!",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -2595,7 +2595,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Použij kanál",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -2665,7 +2665,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "skupina kanálů",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -2700,7 +2700,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Pouze FTA",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -2735,7 +2735,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "od kanálu",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -2770,7 +2770,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "do kanálu",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -2805,7 +2805,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Použij čas",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -2840,7 +2840,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Začíná po",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -2875,7 +2875,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Čas, kdy může začít nejdříve.",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -2910,7 +2910,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Začíná před",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -2945,7 +2945,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Čas, kdy může začít nejpozději",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -2980,7 +2980,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Použij délku",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -3015,7 +3015,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "délka min.",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -3050,7 +3050,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "délka max.",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -3085,7 +3085,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Použij den v týdnu",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -3120,7 +3120,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Pondělí",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -3155,7 +3155,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Úterý",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -3190,7 +3190,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Středa",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -3225,7 +3225,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Čtvrtek",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -3260,7 +3260,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Pátek",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -3295,7 +3295,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Sobota",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -3330,7 +3330,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Neděle",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -3365,7 +3365,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Použít blacklist",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -3400,7 +3400,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "výběr",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -3435,7 +3435,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "vše",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -3470,7 +3470,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Přidat do Oblíbených",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -3505,7 +3505,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Další podmínky vyhledávání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -3540,7 +3540,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "ano - dočasný",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -3575,7 +3575,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "od data",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -3610,7 +3610,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "do data",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -3645,7 +3645,7 @@ const tI18nPhrase Phrases[] = {
     "Optag",
 #endif
 #if VDRVERSNUM >= 10342
-    "Nahr�t",
+    "Nahrát",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -3680,7 +3680,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Pouze upozornit",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -3715,7 +3715,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Přepnout",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -3750,7 +3750,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nahrávání seriálu",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -3785,7 +3785,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Vymazat nahrávky po ... dnech",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -3820,7 +3820,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Ponechat ... nahrávek",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -3855,7 +3855,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Vynechat pokud existuje ... nahrávek",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -3890,7 +3890,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Vynechávat reprízy",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -3925,7 +3925,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Povolit reprízy",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -3960,7 +3960,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Reprízy po ... dnech",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -3995,7 +3995,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Porovnávat název",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -4030,7 +4030,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Porovnávat popis",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -4065,7 +4065,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "pokud existuje",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -4100,7 +4100,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Porovnávat popis",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -4135,7 +4135,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Porovnat",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -4170,7 +4170,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Použít VPS",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -4205,7 +4205,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Smazání automatického nahrávání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -4240,7 +4240,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "po ... nahrávkách",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -4275,7 +4275,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "po ... dnech po první nahrávce",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -4310,7 +4310,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Přepnout ... minut před začátkem",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -4380,7 +4380,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nelze najít nahrávaní. Je správně zadáno?",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -4415,7 +4415,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Prosím nastavte název nahrávání!",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -4450,7 +4450,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Změna nahrávání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -4485,7 +4485,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nové nahrávání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -4520,7 +4520,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Den v týdnu",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -4555,7 +4555,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nelze nalézt zadaného uživatele. Byl zadán správně?",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -4590,7 +4590,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Toto jméno již použito!",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -4625,7 +4625,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Změna uživatele",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -4660,7 +4660,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nový uživatel",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -4695,7 +4695,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Heslo",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -4730,7 +4730,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Oprávnění",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -4765,7 +4765,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Měnit nastavení",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -4800,7 +4800,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nastavení nahrávání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -4835,7 +4835,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Rušení nahrávání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -4870,7 +4870,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Mazání nahrávek",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -4905,7 +4905,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Menu dálkového ovládání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -4940,7 +4940,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Přehrávání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -4975,7 +4975,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Přepínání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -5010,7 +5010,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nastavení aut. nahrávání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -5045,7 +5045,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Mazání aut. nahrávání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -5080,7 +5080,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Seznam nahrávek",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -5115,7 +5115,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Elektronický průvodce programem (EPG)",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -5150,7 +5150,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nelze nalézt nahrávky, nebo žádné neexistují",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -5185,7 +5185,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Chyba při vytváření zámku pro nahrávky",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -5220,7 +5220,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Chyba při plánování",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -5255,7 +5255,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "%d.%m.",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -5290,7 +5290,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Chyba stránky",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -5325,7 +5325,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "sledování nahrávky",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -5360,7 +5360,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "chybí detaily pro tento pořad",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -5395,7 +5395,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "chybí program pro tento kanál",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -5430,7 +5430,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "není zvolen žádný kanál",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -5465,7 +5465,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "chyba při zjišťování statusu!",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -5500,7 +5500,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "%H:%M:%S",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -5535,7 +5535,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Chybné jméno, nebo heslo",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -5570,7 +5570,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "přihlásit",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -5605,7 +5605,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "VDR Live autorizace",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -5640,7 +5640,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Uživatel",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -5675,7 +5675,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Právě se vysílá",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -5745,7 +5745,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Vyhledej",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -5780,7 +5780,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Automatické nahrávání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -5815,7 +5815,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nahrávky",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -5850,7 +5850,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Dálkové ovládání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -5885,7 +5885,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Odhlášení",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -5920,7 +5920,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nutná reakce",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -5955,7 +5955,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "řešit",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -5990,7 +5990,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "neřešit",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -6025,7 +6025,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nyní",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -6060,7 +6060,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "%a, %d.%m. ",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -6130,7 +6130,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Přepnout",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -6165,7 +6165,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Vyhledat reprízy",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -6200,7 +6200,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Detaily",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -6235,7 +6235,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "více",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -6270,7 +6270,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Kanál",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -6305,7 +6305,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Vyhledej více na Internet Movie Database.",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -6340,7 +6340,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Přehrávej v prohlížeči",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -6375,7 +6375,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Přehrávej tuto nahrávku v prohlížeči.",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -6410,7 +6410,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nahrát",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -6445,7 +6445,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "aktualizace údajů",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -6480,7 +6480,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "problém!",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -6515,7 +6515,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Požadevek úspěšný.",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -6550,7 +6550,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Požadavek selhal!",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -6585,7 +6585,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "leden",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -6620,7 +6620,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "únor",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -6655,7 +6655,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "březen",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -6690,7 +6690,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "duben",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -6725,7 +6725,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "květen",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -6760,7 +6760,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "červen",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -6795,7 +6795,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "červenec",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -6830,7 +6830,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "srpen",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -6865,7 +6865,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "září",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -6900,7 +6900,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "říjen",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -6935,7 +6935,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "listopad",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -6970,7 +6970,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "prosinec",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -7005,7 +7005,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "zjišťování stavu...",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -7040,7 +7040,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "aktualizovat změny ano/ne.",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -7075,7 +7075,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "ukončit přehrávání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -7110,7 +7110,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "pokračovat v přehrávání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -7145,7 +7145,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "přerušit přehrávání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -7180,7 +7180,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "rychle zpět",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -7215,7 +7215,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "rychle vpřed",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -7250,7 +7250,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "předchozí kanál",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -7285,7 +7285,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "další kanál",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -7320,7 +7320,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Server neodpovídá!",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -7355,7 +7355,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Aktualizace infookna selhala!",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -7390,7 +7390,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Autoři",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -7425,7 +7425,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "nápad",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -7460,7 +7460,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "web server",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -7495,7 +7495,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "vedoucí týmu",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -7530,7 +7530,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "obsah",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -7565,7 +7565,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "grafika",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -7600,7 +7600,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Informace",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -7635,7 +7635,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "LIVE verze",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -7670,7 +7670,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "VDR verze",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -7705,7 +7705,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Moduly",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -7740,7 +7740,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "aktivní",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -7775,7 +7775,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "vyżadováno",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -7810,7 +7810,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Domovská stránka",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -7845,7 +7845,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Chyby a připomínky",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -7880,7 +7880,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Pokud odhalíte nějaké chyby, příp. si přejete nové vlastnosti, použijte prosím bugtracker",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -7915,7 +7915,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "CHYBA:",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -7950,7 +7950,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Smazaná nahrávka:",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -7985,7 +7985,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Seznam nahrávek",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -8020,7 +8020,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "žádné nahrávky",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -8055,7 +8055,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Smazat automatické nahrávání?",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -8090,7 +8090,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "%a, %x",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -8195,7 +8195,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "do data",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -8370,7 +8370,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Smazat nahrávku!",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -8405,7 +8405,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Přehrát nahrávku",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -8440,7 +8440,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Kanál je nedostupný, nebo neexistuje. Zkontrolujte zadání.",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -8475,7 +8475,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Interval snímků obrazovky",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -8510,7 +8510,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Pro kanál není dostupný program",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -8545,7 +8545,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nastavení hledání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -8580,7 +8580,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Rozšířené hledání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -8615,7 +8615,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "ne",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -8650,7 +8650,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Výsledky vyhledávání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -8685,7 +8685,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "žádné výsledky vyhledávání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -8720,7 +8720,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Výraz",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -8755,7 +8755,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Začíná mezi",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -8790,7 +8790,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "(De)Aktivace automatického nahrávání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -8825,7 +8825,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Listování výsledky vyhledávání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -8860,7 +8860,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Smazat automatické nahrávání?",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -8895,7 +8895,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Smazat automatické nahrávání?",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -8930,7 +8930,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Aktualizovat položky nahrávání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -8965,7 +8965,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nastavte uživatele a heslo!",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -9000,7 +9000,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nastavení uloženo.",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -9035,7 +9035,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nastavení",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -9105,7 +9105,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Lokální síť (bez přilášení)",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -9140,7 +9140,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Zobrazit logo",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -9210,7 +9210,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Používat dynamické stránky (ajax)",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -9245,7 +9245,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Použít dynamický blok informací",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -9280,7 +9280,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Povolit streamování videa",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -9350,7 +9350,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Streamdev typ streamu",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -9385,7 +9385,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Přidat odkazy k IMDb",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -9420,7 +9420,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Přidat časy pro zobrazení v \"Právě se vysílá\"",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -9455,7 +9455,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Formát je HH:MM. Oddělte více časů středníkem",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -9490,7 +9490,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Kanál nemá žádný program",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -9630,7 +9630,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Startovací stránka",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -9665,7 +9665,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Téma",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -9700,7 +9700,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nahrávání bez kolize",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -9735,7 +9735,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nahrávání bez kolize",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -9770,7 +9770,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Kolize v nastavení nahrávání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -9805,7 +9805,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nahrávaní povoleno",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -9840,7 +9840,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Povolit/zrušit nahrávání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -9875,7 +9875,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Zrušit nahrávání!",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -9910,7 +9910,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nahrávání není nastaveno",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -9945,7 +9945,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Probíhá nahrávání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -9980,7 +9980,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Uživatelé",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -10015,7 +10015,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Smazat uživatele",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -10050,7 +10050,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "VLC: stream běžícího vysílání",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -10085,7 +10085,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "VLC: streamování nahrávky",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -10155,7 +10155,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Přehrávat",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -10190,7 +10190,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Se zvukem",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -10225,7 +10225,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Bez zvuku",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -10260,7 +10260,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Celá obrazovka",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -10295,7 +10295,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Zavřít",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -10330,7 +10330,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "VLC adresa",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -10365,7 +10365,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "%a, %x",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -10400,7 +10400,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Co právě bězí v ",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -10435,7 +10435,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    " ",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -10470,7 +10470,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Co běží potom?",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -10505,7 +10505,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Oblíbené",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -10540,7 +10540,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Zobraz program kanálu",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -10610,7 +10610,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Další",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -10645,7 +10645,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Co poběží v",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -10680,7 +10680,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Detailní pohled",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -10715,7 +10715,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Souhrný pohled",
 #endif
 #if VDRVERSNUM >= 10502
     "",
@@ -10785,7 +10785,7 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
 #if VDRVERSNUM >= 10342
-    "",
+    "Nejsou dostupné informace o programu",
 #endif
 #if VDRVERSNUM >= 10502
     "",
