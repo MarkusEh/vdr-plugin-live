@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-02-22 00:19+0100\n"
+"PO-Revision-Date: 2011-07-09 18:34+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: see developers in README\n"
 "Language: \n"
@@ -31,10 +31,10 @@ msgid "Use authentication"
 msgstr "Utilizza autenticazione"
 
 msgid "No"
-msgstr "no"
+msgstr "No"
 
 msgid "Yes"
-msgstr "sì"
+msgstr "Sì"
 
 msgid "Admin login"
 msgstr "Nome amministratore"
@@ -47,7 +47,7 @@ msgid "%A, %x"
 msgstr "%A, %x"
 
 msgid "Searchtimer"
-msgstr "Timer ricerca"
+msgstr "Timer di ricerca"
 
 msgid "Error in timer settings"
 msgstr "Errore nelle impostazioni timer"
@@ -77,7 +77,7 @@ msgid "Couldn't find recording or no recordings available."
 msgstr "Impossibile trovare registrazione o registrazioni disponibili."
 
 msgid "Cannot control playback!"
-msgstr "Impossibile controllare riproduzione!"
+msgstr "Impossibile controllare la riproduzione!"
 
 msgid "Not playing a recording."
 msgstr "Nessuna registrazione in riproduzione."
@@ -95,7 +95,7 @@ msgid "Wrong channel id"
 msgstr "ID canale errato"
 
 msgid "Channel has no schedule"
-msgstr "Il canale non ha programmi"
+msgstr "Il canale non ha programmazione"
 
 msgid "Wrong event id"
 msgstr "ID evento errato"
@@ -116,13 +116,13 @@ msgid "EPGSearch version outdated! Please update."
 msgstr "Versione di EPGSearch troppo vecchia! Devi aggiornarla."
 
 msgid "Couldn't aquire primary device"
-msgstr "Impossibile identificare scheda primaria"
+msgstr "Impossibile identificare la scheda primaria"
 
 msgid "Couldn't grab image from primary device"
-msgstr "Impossibile ottenere immagine da scheda primaria"
+msgstr "Impossibile ottenere immagini dalla scheda primaria"
 
 msgid "Timer conflict check detected "
-msgstr "La verifica conflitti timer ha rilevato "
+msgstr "Verifica conflitti timer rilevati"
 
 msgid "conflict"
 msgstr "conflitto"
@@ -137,16 +137,16 @@ msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Spiacenti, senza permessi. Per favore contatta l'amministratore!"
 
 msgid "Couldn't find recording. Maybe you mistyped your request?"
-msgstr ""
+msgstr "Impossibile trovare la registrazione. Hai digitato correttamente la richiesta?"
 
 msgid "Please set a name for the recording!"
-msgstr ""
+msgstr "Imposta un nome alla registrazione!"
 
 msgid "Cannot copy, rename or move the recording."
-msgstr ""
+msgstr "Impossibile copiare, rinominare o spostare la registrazione."
 
 msgid "Edit recording"
-msgstr ""
+msgstr "Modifica registrazione"
 
 msgid "Name"
 msgstr "Nome"
@@ -155,23 +155,22 @@ msgid "Directory"
 msgstr "Directory"
 
 msgid "Delete resume information"
-msgstr ""
+msgstr "Elimina informazione ripristino"
 
 msgid "Delete marks information"
-msgstr ""
+msgstr "Elimina informazione marcatori"
 
 msgid "Copy only"
-msgstr ""
+msgstr "Solo copia"
 
-#, fuzzy
 msgid "Short description"
-msgstr "Descrizione"
+msgstr "Descrizione breve"
 
 msgid "Description"
 msgstr "Descrizione"
 
 msgid "Auxiliary info"
-msgstr ""
+msgstr "Informazioni ausiliarie"
 
 msgid "Save"
 msgstr "Salva"
@@ -180,17 +179,17 @@ msgid "Cancel"
 msgstr "Annulla"
 
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
-msgstr "Impossibile trovare timer ricerca. Hai digitato correttamente la richiesta?"
+msgstr "Impossibile trovare timer di ricerca. Hai digitato correttamente la richiesta?"
 
 #. TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
 msgid "mm/dd/yyyy"
 msgstr "mm/dd/yyyy"
 
 msgid "Edit search timer"
-msgstr "Modifica timer ricerca"
+msgstr "Modifica timer di ricerca"
 
 msgid "New search timer"
-msgstr "Nuovo timer ricerca"
+msgstr "Nuovo timer di ricerca"
 
 msgid "Search text too short - use anyway?"
 msgstr "Testo da cercare troppo breve - continuare lo stesso?"
@@ -241,7 +240,7 @@ msgid "Ignore missing EPG info"
 msgstr "Ignora info EPG mancante"
 
 msgid "When active this can cause very many timers. So please always first test this search before using it as search timer!"
-msgstr "L'attivazione di questo può creare molti timer. Quindi prova sempre questa ricerca prima di usarla come timer ricerca!"
+msgstr "Attivare questa opzione può creare molti timer. Quindi prova sempre questa ricerca prima di usarla come timer di ricerca!"
 
 msgid "Use channel"
 msgstr "Utilizza canale"
@@ -313,7 +312,7 @@ msgid "Use blacklists"
 msgstr "Utilizza lista esclusioni"
 
 msgid "Selection"
-msgstr "selezione"
+msgstr "Selezione"
 
 msgid "all"
 msgstr "tutti"
@@ -340,10 +339,10 @@ msgid "Announce only"
 msgstr "Solo annuncio"
 
 msgid "Switch only"
-msgstr "Cambia soltanto"
+msgstr "Solo cambio canale"
 
 msgid "Series recording"
-msgstr "Registrazione serie"
+msgstr "Registrazioni in serie"
 
 msgid "Delete recordings after ... days"
 msgstr "Elimina registrazioni dopo ... giorni"
@@ -382,7 +381,7 @@ msgid "Use VPS"
 msgstr "Utilizza VPS"
 
 msgid "Auto-delete search timer"
-msgstr "Eliminazione automatica timer ricerca"
+msgstr "Eliminazione automatica timer di ricerca"
 
 msgid "after ... recordings"
 msgstr "dopo ... registrazioni"
@@ -397,7 +396,7 @@ msgid "Test"
 msgstr "Prova"
 
 msgid "Couldn't find timer. Maybe you mistyped your request?"
-msgstr "Impossibile trovare timer. Hai digitato correttamente la richiesta?"
+msgstr "Impossibile trovare il timer. Hai digitato correttamente la richiesta?"
 
 msgid "Please set a title for the timer!"
 msgstr "Imposta il titolo del timer!"
@@ -457,7 +456,7 @@ msgid "Delete search timers"
 msgstr "Elimina timer di ricerca"
 
 msgid "Edit recordings"
-msgstr ""
+msgstr "Modifica registrazioni"
 
 msgid "Electronic program guide information"
 msgstr "Info Guida Elettronica Programmi (EPG)"
@@ -478,13 +477,13 @@ msgid "Page error"
 msgstr "Errore pagina"
 
 msgid "playing recording"
-msgstr "riproduzione registrazione"
+msgstr "Riproduzione registrazione"
 
 msgid "no epg info for current event!"
-msgstr "Evento senza info EPG!"
+msgstr "Evento attuale senza info EPG!"
 
 msgid "no epg info for current channel!"
-msgstr "Canale senza info EPG!"
+msgstr "Canale attuale senza info EPG!"
 
 msgid "no current channel!"
 msgstr "Canale non trovato!"
@@ -511,13 +510,13 @@ msgid "What's on?"
 msgstr "In programmazione"
 
 msgid "MultiSchedule"
-msgstr ""
+msgstr "Multi Programmazione"
 
 msgid "Search"
 msgstr "Ricerca"
 
 msgid "Searchtimers"
-msgstr "Timer ricerca"
+msgstr "Timer di ricerca"
 
 msgid "Recordings"
 msgstr "Registrazioni"
@@ -544,7 +543,7 @@ msgid "%A, %b %d %Y"
 msgstr "%A, %b %d %Y"
 
 msgid "Time"
-msgstr ""
+msgstr "Ora"
 
 msgid "Switch to this channel."
 msgstr "Sintonizza questo canale"
@@ -556,7 +555,7 @@ msgid "Click to view details."
 msgstr "Fai click per vedere i dettagli"
 
 msgid "more"
-msgstr "altro"
+msgstr "Altro"
 
 msgid "Channel"
 msgstr "Canale"
@@ -568,7 +567,7 @@ msgid "Stream this channel into browser."
 msgstr "Trasmetti questo canale nel browser"
 
 msgid "Stream this recording into browser."
-msgstr "Trasmetti questa registrazione nel browser."
+msgstr "Trasmetti questa registrazione nel browser"
 
 msgid "Record this"
 msgstr "Registra questa trasmissione"
@@ -577,7 +576,7 @@ msgid "loading data"
 msgstr "caricamento dati"
 
 msgid "an error occured!"
-msgstr "errore rilevato!"
+msgstr "Errore rilevato!"
 
 msgid "Request succeeded!"
 msgstr "Richiesta completata!"
@@ -712,7 +711,7 @@ msgid "No recordings found"
 msgstr "Nessuna registrazione trovata"
 
 msgid "Delete selected"
-msgstr ""
+msgstr "Elimina selezionati"
 
 #, no-c-format
 msgid "%a,"
@@ -721,25 +720,25 @@ msgstr "%a,"
 #. TRANSLATORS: recording duration format
 #, c-format
 msgid "(%d')"
-msgstr ""
+msgstr "(%d')"
 
 msgid "Sort by name"
-msgstr ""
+msgstr "Ordina per nome"
 
 msgid "Sort by date"
-msgstr ""
+msgstr "Ordina per data"
 
 msgid "Filter"
-msgstr ""
+msgstr "Filtro"
 
 msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
-msgstr ""
+msgstr "Cerca nei titoli e sottotitoli delle registrazioni determinati valori e mostra solo quelli attinenti. Puoi anche usare espressioni regolari compatibili perl (PCRE)"
 
 msgid "Expand all folders"
-msgstr ""
+msgstr "Espandi tutte le cartelle"
 
 msgid "Collapse all folders"
-msgstr ""
+msgstr "Comprimi tutte le cartelle"
 
 msgid "Delete this recording from hard disc!"
 msgstr "Elimina questa registrazione dal disco fisso!"
@@ -748,7 +747,7 @@ msgid "play this recording."
 msgstr "Riproduci questa registrazione"
 
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
-msgstr "Impossibile trovare canale o canali disponibili. Hai digitato correttamente la richiesta?"
+msgstr "Impossibile trovare il canale o i canali disponibili. Hai digitato correttamente la richiesta?"
 
 msgid "Snapshot interval"
 msgstr "Intervallo schermata"
@@ -784,13 +783,13 @@ msgid "Browse search timer results"
 msgstr "Visualizza risultati ricerca"
 
 msgid "Delete this search timer?"
-msgstr "Eliminare questo timer ricerca?"
+msgstr "Eliminare questo timer di ricerca?"
 
 msgid "Delete search timer"
-msgstr "Elimina timer ricerca"
+msgstr "Elimina timer di ricerca"
 
 msgid "Trigger search timer update"
-msgstr "Avvia aggiornamento timer ricerca"
+msgstr "Avvia aggiornamento timer di ricerca"
 
 msgid "Please set login and password!"
 msgstr "Digita un nome utente e password!"
@@ -811,7 +810,7 @@ msgid "Show live logo image"
 msgstr "Mostra logo immagine Live"
 
 msgid "Show duration in 'Recordings'"
-msgstr ""
+msgstr "Mostra durata in 'Registrazioni'"
 
 msgid "Use ajax technology"
 msgstr "Utilizza tecnologia Ajax"
@@ -837,15 +836,14 @@ msgstr "Ore aggiuntive fisse menu \"In programmazione\""
 msgid "Format is HH:MM. Separate multiple times with a semicolon"
 msgstr "Il formato è HH:MM. Separa le ore multiple con un punto e virgola"
 
-#, fuzzy
 msgid "Channel groups for MultiSchedule"
-msgstr "Il canale non ha programmi"
+msgstr "Gruppi canali per Multi Programmazione"
 
 msgid "Separate channels with a comma ',', separate groups with a semi-colon ';'"
-msgstr ""
+msgstr "Separa canali con una virgola ',', separa gruppi con un punto e virgola ';'"
 
 msgid "Duration of MultiSchedule in hours"
-msgstr ""
+msgstr "Durata Multi Programmazione (in ore)"
 
 msgid "Show channels without EPG"
 msgstr "Mostra canali senza EPG"
