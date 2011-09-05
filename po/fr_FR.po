@@ -733,9 +733,9 @@ msgstr ""
 msgid "%a,"
 msgstr "%a,"
 
-#. TRANSLATORS: recording duration format
+#. TRANSLATORS: recording duration format HH:MM
 #, c-format
-msgid "(%d')"
+msgid "(%d:%02d)"
 msgstr ""
 
 msgid "Sort by name"
@@ -825,9 +825,6 @@ msgstr "Réseau local (non requis)"
 
 msgid "Show live logo image"
 msgstr "Afficher l'image du logo de live"
-
-msgid "Show duration in 'Recordings'"
-msgstr ""
 
 msgid "Use ajax technology"
 msgstr "Utilisez la technologie Ajax"

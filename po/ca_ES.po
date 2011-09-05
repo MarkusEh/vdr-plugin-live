@@ -713,9 +713,9 @@ msgstr ""
 msgid "%a,"
 msgstr ""
 
-#. TRANSLATORS: recording duration format
+#. TRANSLATORS: recording duration format HH:MM
 #, c-format
-msgid "(%d')"
+msgid "(%d:%02d)"
 msgstr ""
 
 msgid "Sort by name"
@@ -803,9 +803,6 @@ msgid "Local net (no login required)"
 msgstr ""
 
 msgid "Show live logo image"
-msgstr ""
-
-msgid "Show duration in 'Recordings'"
 msgstr ""
 
 msgid "Use ajax technology"

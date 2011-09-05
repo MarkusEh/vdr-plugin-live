@@ -713,9 +713,9 @@ msgstr ""
 msgid "%a,"
 msgstr "%a,"
 
-#. TRANSLATORS: recording duration format
+#. TRANSLATORS: recording duration format HH:MM
 #, c-format
-msgid "(%d')"
+msgid "(%d:%02d)"
 msgstr ""
 
 msgid "Sort by name"
@@ -804,9 +804,6 @@ msgstr "Vietinis tinklas (nereikalingas prisijungimas)"
 
 msgid "Show live logo image"
 msgstr "Rodyti live įskiepo logotipą"
-
-msgid "Show duration in 'Recordings'"
-msgstr ""
 
 msgid "Use ajax technology"
 msgstr "Naudoti AJAX"

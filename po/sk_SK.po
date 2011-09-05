@@ -712,10 +712,10 @@ msgstr "Vymaza» vybrané"
 msgid "%a,"
 msgstr "%a,"
 
-#. TRANSLATORS: recording duration format
+#. TRANSLATORS: recording duration format HH:MM
 #, c-format
-msgid "(%d')"
-msgstr "(%d')"
+msgid "(%d:%02d)"
+msgstr ""
 
 msgid "Sort by name"
 msgstr "Zotriedi» podla mena"
@@ -803,9 +803,6 @@ msgstr "Miestna sie» (nevy¾aduje prihlásenie)"
 
 msgid "Show live logo image"
 msgstr "Zobrazi» obrázok live loga"
-
-msgid "Show duration in 'Recordings'"
-msgstr "Zobrazi» då¾ku v  'Nahrávkach'"
 
 msgid "Use ajax technology"
 msgstr "Pou¾i» ajax technológiu"
@@ -945,3 +942,9 @@ msgstr "®ivé interaktívne VDR prostredie"
 
 msgid "No EPG information available"
 msgstr "EPG informácie sú nedostupné"
+
+#~ msgid "(%d')"
+#~ msgstr "(%d')"
+
+#~ msgid "Show duration in 'Recordings'"
+#~ msgstr "Zobrazi» då¾ku v  'Nahrávkach'"

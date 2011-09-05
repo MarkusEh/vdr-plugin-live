@@ -406,13 +406,15 @@ namespace vdrlive {
 				}
 			}
 		}
-#else
+#elseif VDRVERSNUM < 10721
 		// open index file for reading only
 		cIndexFile *index = new cIndexFile(m_recording->FileName(), false, m_recording->IsPesRecording());
 		if (index && index->Ok()) {
 			RecLength = (int) (index->Last() / SecondsToFrames(60, m_recording->FramesPerSecond()));
 		}
 		delete index;
+#else
+		return m_recording->LengthInSeconds() / 60;
 #endif
 		if (RecLength == 0) {
 			cString lengthFile = cString::sprintf("%s%s", m_recording->FileName(), LENGTHFILESUFFIX);

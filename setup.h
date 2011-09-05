@@ -55,7 +55,6 @@ class Setup
 		std::string const GetLastWhatsOnListMode() const { return m_lastwhatsonlistmode; }
 		std::string const GetLastSortingMode() const { return m_lastsortingmode; }
 		std::string const GetTntnetLogLevel() const { return m_tntnetloglevel; }
-		bool GetShowRecDuration() const { return m_showRecDuration != 0; }
 		bool GetShowLogo() const { return m_showLogo != 0; }
 		bool GetUseAjax() const { return m_useAjax != 0; }
 		bool GetShowInfoBox() const { return m_showInfoBox != 0; }
@@ -80,7 +79,6 @@ class Setup
 		void SetIsLocalNet(bool islocalnet) { m_islocalnet = islocalnet; }
 		void SetLastWhatsOnListMode(std::string const & mode) { m_lastwhatsonlistmode = mode; SaveSetup(); }
 		void SetLastSortingMode(std::string const & mode) { m_lastsortingmode = mode; SaveSetup(); }
-		void SetShowRecDuration(bool show) { m_showRecDuration = show ? 1 : 0; }
 		void SetShowLogo(bool show) { m_showLogo = show ? 1 : 0; }
 		void SetUseAjax(bool use) { m_useAjax = use ? 1 : 0; }
 		void SetShowInfoBox(bool show) { m_showInfoBox = show ? 1 : 0; }
@@ -136,7 +134,6 @@ class Setup
 		std::string m_lastwhatsonlistmode;
 		std::string m_lastsortingmode;
 		std::string m_tntnetloglevel;
-		int m_showRecDuration;
 		int m_showLogo;
 		int m_useAjax;
 		int m_showInfoBox;

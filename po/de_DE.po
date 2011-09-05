@@ -714,10 +714,10 @@ msgstr "Löschen"
 msgid "%a,"
 msgstr "%a,"
 
-#. TRANSLATORS: recording duration format
+#. TRANSLATORS: recording duration format HH:MM
 #, c-format
-msgid "(%d')"
-msgstr "%d'"
+msgid "(%d:%02d)"
+msgstr ""
 
 msgid "Sort by name"
 msgstr "Sortiere nach Name"
@@ -805,9 +805,6 @@ msgstr "Lokales Netz (keine Anmeldung notwendig)"
 
 msgid "Show live logo image"
 msgstr "Zeige das Live Logo"
-
-msgid "Show duration in 'Recordings'"
-msgstr "Aufnahmedauer bei 'Aufnamen' anzeigen"
 
 msgid "Use ajax technology"
 msgstr "Verwende AJAX Technologie"
@@ -947,3 +944,9 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr "Keine EPG Daten vorhanden"
+
+#~ msgid "(%d')"
+#~ msgstr "%d'"
+
+#~ msgid "Show duration in 'Recordings'"
+#~ msgstr "Aufnahmedauer bei 'Aufnamen' anzeigen"

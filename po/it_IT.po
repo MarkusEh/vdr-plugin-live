@@ -717,10 +717,10 @@ msgstr "Elimina selezionati"
 msgid "%a,"
 msgstr "%a,"
 
-#. TRANSLATORS: recording duration format
+#. TRANSLATORS: recording duration format HH:MM
 #, c-format
-msgid "(%d')"
-msgstr "(%d')"
+msgid "(%d:%02d)"
+msgstr ""
 
 msgid "Sort by name"
 msgstr "Ordina per nome"
@@ -808,9 +808,6 @@ msgstr "Rete locale (nessun accesso richiesto)"
 
 msgid "Show live logo image"
 msgstr "Mostra logo immagine Live"
-
-msgid "Show duration in 'Recordings'"
-msgstr "Mostra durata in 'Registrazioni'"
 
 msgid "Use ajax technology"
 msgstr "Utilizza tecnologia Ajax"
@@ -950,6 +947,12 @@ msgstr "Ambiente interattivo LIVE per VDR"
 
 msgid "No EPG information available"
 msgstr "Nessuna informazione EPG disponibile"
+
+#~ msgid "(%d')"
+#~ msgstr "(%d')"
+
+#~ msgid "Show duration in 'Recordings'"
+#~ msgstr "Mostra durata in 'Registrazioni'"
 
 #, fuzzy
 #~ msgid "Subtitle"

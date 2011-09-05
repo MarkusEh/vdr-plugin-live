@@ -24,7 +24,7 @@ std::ostream& operator<<( std::ostream& os, tChannelID const& id )
 
 namespace vdrlive {
 
-	std::string FormatDuration( char const* format, int duration );
+	std::string FormatDuration( char const* format, int hours, int minutes );
 
 	std::string FormatDateTime( char const* format, time_t time );
 

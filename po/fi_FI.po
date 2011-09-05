@@ -711,10 +711,10 @@ msgstr "Poista valitut"
 msgid "%a,"
 msgstr "%a"
 
-#. TRANSLATORS: recording duration format
+#. TRANSLATORS: recording duration format HH:MM
 #, c-format
-msgid "(%d')"
-msgstr "%d'"
+msgid "(%d:%02d)"
+msgstr ""
 
 msgid "Sort by name"
 msgstr "Järjestä nimen mukaan"
@@ -802,9 +802,6 @@ msgstr "Paikallinen verkko (ei autentikointia)"
 
 msgid "Show live logo image"
 msgstr "Näytä Live-logo"
-
-msgid "Show duration in 'Recordings'"
-msgstr "Näytä kestoajat 'Tallenteet'-sivulla"
 
 msgid "Use ajax technology"
 msgstr "Käytä AJAX-tekniikkaa"
@@ -944,6 +941,12 @@ msgstr "Interaktiivinen VDR-ympäristö"
 
 msgid "No EPG information available"
 msgstr "Ohjelmatietoja ei saatavilla"
+
+#~ msgid "(%d')"
+#~ msgstr "%d'"
+
+#~ msgid "Show duration in 'Recordings'"
+#~ msgstr "Näytä kestoajat 'Tallenteet'-sivulla"
 
 #~ msgid "Subtitle"
 #~ msgstr "Lyhyt kuvaus"

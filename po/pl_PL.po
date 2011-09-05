@@ -711,9 +711,9 @@ msgstr "Usuñ zaznaczone"
 msgid "%a,"
 msgstr ""
 
-#. TRANSLATORS: recording duration format
+#. TRANSLATORS: recording duration format HH:MM
 #, c-format
-msgid "(%d')"
+msgid "(%d:%02d)"
 msgstr ""
 
 msgid "Sort by name"
@@ -802,9 +802,6 @@ msgstr "Sieæ lokalna (logowanie nie wymagane)"
 
 msgid "Show live logo image"
 msgstr "Pokazuj logo VDR-Live"
-
-msgid "Show duration in 'Recordings'"
-msgstr "Pokazuj czas trwania nagrañ"
 
 msgid "Use ajax technology"
 msgstr "U¿ywaj technologii ajax"
@@ -944,3 +941,6 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr "Brak informacji EPG"
+
+#~ msgid "Show duration in 'Recordings'"
+#~ msgstr "Pokazuj czas trwania nagrañ"

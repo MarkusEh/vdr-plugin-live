@@ -8096,17 +8096,17 @@ const tI18nPhrase Phrases[] = {
     "",
 #endif
   },
-  { "(%d')",
-    "%d'",
-    "",
-    "(%d')",
+  { "(%d:%02d)",
     "",
     "",
     "",
     "",
-    "%d'",
     "",
-    "(%d')",
+    "",
+    "",
+    "",
+    "",
+    "",
     "",
     "",
     "",
@@ -9141,41 +9141,6 @@ const tI18nPhrase Phrases[] = {
 #endif
 #if VDRVERSNUM >= 10342
     "Zobrazit logo",
-#endif
-#if VDRVERSNUM >= 10502
-    "",
-#endif
-  },
-  { "Show duration in 'Recordings'",
-    "Aufnahmedauer bei 'Aufnamen' anzeigen",
-    "",
-    "Mostra durata in 'Registrazioni'",
-    "",
-    "",
-    "",
-    "",
-    "NÃ¤ytÃ¤ kestoajat 'Tallenteet'-sivulla",
-    "Pokazuj czas trwania nagrañ",
-    "Duración del programa en 'Grabaciones'",
-    "",
-    "",
-    "",
-    "",
-    "",
-#if VDRVERSNUM >= 10302
-    "",
-#endif
-#if VDRVERSNUM >= 10307
-    "",
-#endif
-#if VDRVERSNUM >= 10313
-    "",
-#endif
-#if VDRVERSNUM >= 10316
-    "",
-#endif
-#if VDRVERSNUM >= 10342
-    "",
 #endif
 #if VDRVERSNUM >= 10502
     "",
