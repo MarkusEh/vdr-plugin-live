@@ -264,7 +264,7 @@ msgid "The time the show may start at the earliest"
 msgstr "La hora del programa puede comenzar antes de"
 
 msgid "Start before"
-msgstr "Iniciar después de"
+msgstr "Iniciar antes de"
 
 msgid "The time the show may start at the latest"
 msgstr "La hora del programa puede comenzar después de"

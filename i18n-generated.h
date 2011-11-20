@@ -2891,7 +2891,7 @@ const tI18nPhrase Phrases[] = {
     "",
     "Aloitusaika viimeistÃ¤Ã¤n",
     "Rozpoczêcie przed",
-    "Iniciar después de",
+    "Iniciar antes de",
     "",
     "",
     "",
