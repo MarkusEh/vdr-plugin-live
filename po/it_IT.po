@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-07-09 18:34+0100\n"
+"PO-Revision-Date: 2011-12-25 23:22+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: see developers in README\n"
 "Language: \n"
@@ -720,7 +720,7 @@ msgstr "%a,"
 #. TRANSLATORS: recording duration format HH:MM
 #, c-format
 msgid "(%d:%02d)"
-msgstr ""
+msgstr "(%d:%02d)"
 
 msgid "Sort by name"
 msgstr "Ordina per nome"
