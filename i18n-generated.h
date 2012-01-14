@@ -397,7 +397,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Timers are being edited - try again later",
-    "Timer werden bearbeitet - später nochmal versuchen",
+    "Timer werden bearbeitet - spÃ¤ter nochmal versuchen",
     "",
     "I timer sono stati modificati - riprova piÃ¹ tardi",
     "",
@@ -747,7 +747,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Attempt to delete recording currently in playback.",
-    "Versuch die gerade abgepielte Aufnahme zu löschen.",
+    "Versuch die gerade abgepielte Aufnahme zu lÃ¶schen.",
     "",
     "Tentativo di eliminare una registrazione in corso.",
     "",
@@ -922,7 +922,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Required minimum version of epgsearch: ",
-    "Benötigte Mindestversion von epgsearch: ",
+    "BenÃ¶tigte Mindestversion von epgsearch: ",
     "",
     "Versione minima richiesta di EPGSearch:",
     "",
@@ -1167,7 +1167,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Timer conflict check detected ",
-    "Die Timer Konflikt Überprüfung hat ",
+    "Die Timer Konflikt ÃœberprÃ¼fung hat ",
     "",
     "Verifica conflitti timer rilevati",
     "Serie's opnemen",
@@ -1272,7 +1272,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Couldn't aquire access to channels, please try again later.",
-    "Zugriff auf die Kanäle wurde verweigert. Bitte später versuchen.",
+    "Zugriff auf die KanÃ¤le wurde verweigert. Bitte spÃ¤ter versuchen.",
     "",
     "Impossibile avere accesso ai canali, riprova piÃ¹ tardi.",
     "",
@@ -1342,7 +1342,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Couldn't find recording. Maybe you mistyped your request?",
-    "Konnte die Aufnahme nicht finden.  Möglicherweise ein Tippfehler in der Anfrage?",
+    "Konnte die Aufnahme nicht finden.  MÃ¶glicherweise ein Tippfehler in der Anfrage?",
     "",
     "Impossibile trovare la registrazione. Hai digitato correttamente la richiesta?",
     "",
@@ -1377,7 +1377,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Please set a name for the recording!",
-    "Bitte einen Namen für die Aufnahme setzen!",
+    "Bitte einen Namen fÃ¼r die Aufnahme setzen!",
     "",
     "Imposta un nome alla registrazione!",
     "",
@@ -1552,7 +1552,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Delete resume information",
-    "Wiedergabeposition löschen",
+    "Wiedergabeposition lÃ¶schen",
     "",
     "Elimina informazione ripristino",
     "",
@@ -1587,7 +1587,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Delete marks information",
-    "Schnittmarken löschen",
+    "Schnittmarken lÃ¶schen",
     "",
     "Elimina informazione marcatori",
     "",
@@ -1622,7 +1622,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Copy only",
-    "",
+    "Nur kopieren",
     "",
     "Solo copia",
     "",
@@ -1657,7 +1657,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Short description",
-    "Beschreibung",
+    "Kurzbeschreibung",
     "",
     "Descrizione breve",
     "",
@@ -1727,7 +1727,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Auxiliary info",
-    "",
+    "ZusÃ¤tzliche Infos",
     "",
     "Informazioni ausiliarie",
     "",
@@ -1832,7 +1832,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Couldn't find searchtimer. Maybe you mistyped your request?",
-    "Keinen Suchtimer gefunden. Möglicherweise ein Tippfehler in der Anfrage?",
+    "Keinen Suchtimer gefunden. MÃ¶glicherweise ein Tippfehler in der Anfrage?",
     "",
     "Impossibile trovare timer di ricerca. Hai digitato correttamente la richiesta?",
     "",
@@ -2217,7 +2217,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "regular expression",
-    "regulärer Ausdruck",
+    "regulÃ¤rer Ausdruck",
     "",
     "espressione regolare",
     "reguliere uitdruk  king",
@@ -2322,7 +2322,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Match case",
-    "Groß/klein",
+    "GroÃŸ/klein",
     "",
     "Maiuscolo/Minuscolo",
     "Idem case",
@@ -2847,7 +2847,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "The time the show may start at the earliest",
-    "Die Zeit, zu der die Sendung frühestens anfangen darf",
+    "Die Zeit, zu der die Sendung frÃ¼hestens anfangen darf",
     "",
     "L'ora precedente piÃ¹ vicina per l'inizio evento",
     "",
@@ -2917,7 +2917,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "The time the show may start at the latest",
-    "Die Zeit, zu der die Sendung spätestens angefangen haben muss",
+    "Die Zeit, zu der die Sendung spÃ¤testens angefangen haben muss",
     "",
     "L'ora successiva piÃ¹ tardi per l'inizio evento",
     "",
@@ -3442,7 +3442,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Use in favorites menu",
-    "In Favoritenmenü verw.",
+    "In FavoritenmenÃ¼ verw.",
     "",
     "Utilizza nel menu Preferiti",
     "",
@@ -3652,7 +3652,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Announce only",
-    "Nur ankündigen",
+    "Nur ankÃ¼ndigen",
     "",
     "Solo annuncio",
     "Alleen aankondigen (geen timer)",
@@ -3757,7 +3757,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Delete recordings after ... days",
-    "Aufn. nach ... Tagen löschen",
+    "Aufn. nach ... Tagen lÃ¶schen",
     "",
     "Elimina registrazioni dopo ... giorni",
     "",
@@ -4177,7 +4177,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Auto-delete search timer",
-    "Suchtimer automatisch löschen",
+    "Suchtimer automatisch lÃ¶schen",
     "",
     "Eliminazione automatica timer di ricerca",
     "",
@@ -4387,7 +4387,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Please set a title for the timer!",
-    "Bitte einen Titel fï¿½r den Timer angeben!",
+    "Bitte einen Titel fÃ¯Â¿Å“r den Timer angeben!",
     "",
     "Imposta il titolo del timer!",
     "",
@@ -4772,7 +4772,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Add or edit timers",
-    "Timer hinzufügen oder ändern",
+    "Timer hinzufÃ¼gen oder Ã¤ndern",
     "",
     "Aggiungi o modifica timer",
     "Gebruik als zoek timer",
@@ -4807,7 +4807,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Delete timers",
-    "Timer löschen",
+    "Timer lÃ¶schen",
     "",
     "Elimina timer",
     "Serie's opnemen",
@@ -4842,7 +4842,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Delete recordings",
-    "Aufnahmen löschen",
+    "Aufnahmen lÃ¶schen",
     "",
     "Elimina registrazioni",
     "Serie's opnemen",
@@ -4877,7 +4877,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Use remote menu",
-    "Menü Fernbedienung nutzen",
+    "MenÃ¼ Fernbedienung nutzen",
     "",
     "Utilizza menu remoto",
     "Gebruik tijd",
@@ -4982,7 +4982,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Add or edit search timers",
-    "Suchtimer hinzufügen oder ändern",
+    "Suchtimer hinzufÃ¼gen oder Ã¤ndern",
     "",
     "Aggiungi o modifica timer di ricerca",
     "Gebruik als zoek timer",
@@ -5017,7 +5017,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Delete search timers",
-    "Suchtimer löschen",
+    "Suchtimer lÃ¶schen",
     "",
     "Elimina timer di ricerca",
     "Serie's opnemen",
@@ -5052,7 +5052,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Edit recordings",
-    "Aufnamen editieren",
+    "Aufnahmen editieren",
     "",
     "Modifica registrazioni",
     "",
@@ -5157,7 +5157,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Error aquiring schedules lock",
-    "Fehler beim Zugriffschutz für die Programminfos",
+    "Fehler beim Zugriffschutz fÃ¼r die Programminfos",
     "",
     "Errore acquisizione blocco programmi",
     "",
@@ -5437,7 +5437,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "error retrieving status info!",
-    "Fehler: Status nicht verfügbar!",
+    "Fehler: Status nicht verfÃ¼gbar!",
     "",
     "Errore: stato non disponibile!",
     "",
@@ -5647,7 +5647,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "What's on?",
-    "Was läuft?",
+    "Was lÃ¤uft?",
     "",
     "In programmazione",
     "",
@@ -6172,7 +6172,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Click to view details.",
-    "Für Details klicken.",
+    "FÃ¼r Details klicken.",
     "",
     "Fai click per vedere i dettagli",
     "",
@@ -6487,7 +6487,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Request succeeded!",
-    "Aktion durchgeführt!",
+    "Aktion durchgefÃ¼hrt!",
     "",
     "Richiesta completata!",
     "",
@@ -6627,7 +6627,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "March",
-    "März",
+    "MÃ¤rz",
     "",
     "Marzo",
     "",
@@ -7152,7 +7152,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "fast rewind",
-    "Suchlauf rückwärts",
+    "Suchlauf rÃ¼ckwÃ¤rts",
     "",
     "Riavvolgi",
     "",
@@ -7187,7 +7187,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "fast forward",
-    "Suchlauf vorwärts",
+    "Suchlauf vorwÃ¤rts",
     "",
     "Avanza",
     "",
@@ -7222,7 +7222,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "previous channel",
-    "Sender zurück",
+    "Sender zurÃ¼ck",
     "",
     "Canale precedente",
     "",
@@ -7677,7 +7677,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Features",
-    "Unterstütze Plugins",
+    "UnterstÃ¼tze Plugins",
     "",
     "Funzioni",
     "",
@@ -7817,7 +7817,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Bugs and suggestions",
-    "Fehlerberichte und Vorschläge",
+    "Fehlerberichte und VorschlÃ¤ge",
     "",
     "Rapporto errori e proposte",
     "",
@@ -7852,7 +7852,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "If you encounter any bugs or would like to suggest new features, please use our bugtracker",
-    "Für Fehler oder Verbesserungsvorschläge steht unser Bugtracker bereit",
+    "FÃ¼r Fehler oder VerbesserungsvorschlÃ¤ge steht unser Bugtracker bereit",
     "",
     "Se riscontri degli errori o vuoi chiedere nuove funzioni utilizza il nostro bugtracker",
     "",
@@ -7922,7 +7922,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Deleted recording:",
-    "Gelöschte Aufnahme:",
+    "GelÃ¶schte Aufnahme:",
     "",
     "Registrazione eliminata:",
     "Serie's opnemen",
@@ -8027,7 +8027,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Delete selected",
-    "Löschen",
+    "LÃ¶schen",
     "",
     "Elimina selezionati",
     "",
@@ -8097,7 +8097,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "(%d:%02d)",
-    "",
+    "(%d:%02d)",
     "",
     "",
     "",
@@ -8237,7 +8237,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE).",
-    "Suche in Aufname-Titel und Untertitel nach dem angegebenen Wort und zeige nur die zutreffenden an. Es sind auch Perl kompatible Reguläre Ausdrücke (PCRE) erlaubt.",
+    "Suche in Aufnahme-Titel und Untertitel nach dem angegebenen Wort und zeige nur die zutreffenden an. Es sind auch Perl kompatible regulÃ¤re AusdrÃ¼cke (PCRE) erlaubt.",
     "",
     "Cerca nei titoli e sottotitoli delle registrazioni determinati valori e mostra solo quelli attinenti. Puoi anche usare espressioni regolari compatibili perl (PCRE)",
     "",
@@ -8272,7 +8272,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Expand all folders",
-    "",
+    "Alle Ordner aufklappen",
     "",
     "Espandi tutte le cartelle",
     "",
@@ -8307,7 +8307,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Collapse all folders",
-    "",
+    "Alle Ordner einklappen",
     "",
     "Comprimi tutte le cartelle",
     "",
@@ -8342,7 +8342,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Delete this recording from hard disc!",
-    "Diese Aufnahme von der Festplatte löschen!",
+    "Diese Aufnahme von der Festplatte lÃ¶schen!",
     "",
     "Elimina questa registrazione dal disco fisso!",
     "",
@@ -8412,7 +8412,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Couldn't find channel or no channels available. Maybe you mistyped your request?",
-    "Konnte Kanal nicht finden oder keine Kanäle verfügbar. Ist die Anfrage korrekt?",
+    "Konnte Kanal nicht finden oder keine KanÃ¤le verfÃ¼gbar. Ist die Anfrage korrekt?",
     "",
     "Impossibile trovare il canale o i canali disponibili. Hai digitato correttamente la richiesta?",
     "",
@@ -8482,7 +8482,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "No schedules available for this channel",
-    "Für diesen Kanal liegen keine EPG-Informationen vor",
+    "FÃ¼r diesen Kanal liegen keine EPG-Informationen vor",
     "",
     "Nessun programma disponibile per questo canale",
     "",
@@ -8832,7 +8832,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Delete this search timer?",
-    "Diesen Suchtimer löschen?",
+    "Diesen Suchtimer lÃ¶schen?",
     "",
     "Eliminare questo timer di ricerca?",
     "",
@@ -8867,7 +8867,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Delete search timer",
-    "Suchtimer löschen",
+    "Suchtimer lÃ¶schen",
     "",
     "Elimina timer di ricerca",
     "",
@@ -9322,7 +9322,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Add links to IMDb",
-    "Füge Links zur IMDb hinzu",
+    "FÃ¼ge Links zur IMDb hinzu",
     "",
     "Aggiungi collegamenti a IMDB",
     "",
@@ -9357,7 +9357,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Additional fixed times in 'What's on?'",
-    "Zusätzliche Zeitpunkte in 'Was läuft?'",
+    "ZusÃ¤tzliche Zeitpunkte in 'Was lÃ¤uft?'",
     "",
     "Ore aggiuntive fisse menu \"In programmazione\"",
     "",
@@ -9427,7 +9427,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Channel groups for MultiSchedule",
-    "Kanalgruppen für die Zeitleiste",
+    "Kanalgruppen fÃ¼r die Zeitleiste",
     "",
     "Gruppi canali per Multi Programmazione",
     "",
@@ -9462,7 +9462,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Separate channels with a comma ',', separate groups with a semi-colon ';'",
-    "Trenne Kanäle mit Komma ',', trenne Kanalgruppen mit Semikolon ';'",
+    "Trenne KanÃ¤le mit Komma ',', trenne Kanalgruppen mit Semikolon ';'",
     "",
     "Separa canali con una virgola ',', separa gruppi con un punto e virgola ';'",
     "",
@@ -9532,7 +9532,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Show channels without EPG",
-    "Zeige Kanäle ohne EPG",
+    "Zeige KanÃ¤le ohne EPG",
     "",
     "Mostra canali senza EPG",
     "",
@@ -9812,7 +9812,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Delete timer",
-    "Timer löschen",
+    "Timer lÃ¶schen",
     "",
     "Elimina timer",
     "",
@@ -9952,7 +9952,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Delete user",
-    "Benutzer löschen",
+    "Benutzer lÃ¶schen",
     "",
     "Elimina utente",
     "Serie's opnemen",
@@ -10232,7 +10232,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Close",
-    "Schließen",
+    "SchlieÃŸen",
     "",
     "Chiudi",
     "",
@@ -10337,7 +10337,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "What's running on",
-    "Was läuft am",
+    "Was lÃ¤uft am",
     "",
     "In programmazione alle",
     "",
@@ -10407,7 +10407,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "What's on next?",
-    "Was läuft als nächstes?",
+    "Was lÃ¤uft als nÃ¤chstes?",
     "",
     "In programmazione dopo",
     "",
@@ -10547,7 +10547,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Next",
-    "als Nächstes",
+    "als NÃ¤chstes",
     "",
     "Prossimi",
     "",
@@ -10582,7 +10582,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "What's on",
-    "Was läuft",
+    "Was lÃ¤uft",
     "",
     "In programmazione",
     "",
@@ -10617,7 +10617,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Details view",
-    "Ausführliche Ansicht",
+    "AusfÃ¼hrliche Ansicht",
     "",
     "Vedi come dettagli",
     "",
@@ -10687,7 +10687,7 @@ const tI18nPhrase Phrases[] = {
 #endif
   },
   { "Live Interactive VDR Environment",
-    "",
+    "Live Interactive VDR Environment",
     "",
     "Ambiente interattivo LIVE per VDR",
     "",
