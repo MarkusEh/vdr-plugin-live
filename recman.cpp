@@ -406,7 +406,7 @@ namespace vdrlive {
 				}
 			}
 		}
-#elseif VDRVERSNUM < 10721
+#elif VDRVERSNUM < 10721
 		// open index file for reading only
 		cIndexFile *index = new cIndexFile(m_recording->FileName(), false, m_recording->IsPesRecording());
 		if (index && index->Ok()) {
@@ -422,7 +422,7 @@ namespace vdrlive {
 			if(length)
 				length >> RecLength;
 		}
-		
+
 		return RecLength;
 	}
 
