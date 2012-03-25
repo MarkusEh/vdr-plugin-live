@@ -383,7 +383,11 @@ namespace vdrlive {
 
 	time_t RecordingsItemRec::StartTime() const
 	{
+#if VDRVERSNUM < 10726
 		return m_recording->start;
+#else
+		return m_recording->Start();
+#endif
 	}
 
 	long RecordingsItemRec::Duration() const

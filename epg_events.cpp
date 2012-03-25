@@ -182,12 +182,20 @@ namespace vdrlive
 
 	time_t EpgRecording::GetStartTime() const
 	{
+#if VDRVERSNUM < 10726
 		return m_recording ? m_recording->start : 0;
+#else
+		return m_recording ? m_recording->Start() : 0;
+#endif
 	}
 
 	time_t EpgRecording::GetEndTime() const
 	{
+#if VDRVERSNUM < 10726
 		return m_recording ? m_recording->start : 0;
+#else
+		return m_recording ? m_recording->Start() : 0;
+#endif
 	}
 
 	const string EpgRecording::Name() const
