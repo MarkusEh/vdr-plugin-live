@@ -1,6 +1,9 @@
 <%pre>
 #include <string>
+
+#ifdef HAVE_LIBPCRECPP
 #include <pcrecpp.h>
+#endif
 
 #include <vdr/plugin.h>
 #include <vdr/config.h>
