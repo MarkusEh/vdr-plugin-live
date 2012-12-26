@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2011-03-02 20:44+0100\n"
+"PO-Revision-Date: 2012-12-03 21:41+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: Slovak <hrala.milan@gmail.com>\n"
 "Language: \n"
@@ -105,7 +105,7 @@ msgid "FTA"
 msgstr "Voµné"
 
 msgid "%I:%M %p"
-msgstr "%I:%M %p"
+msgstr "%H:%M"
 
 msgid "EPGSearch version outdated! Please update."
 msgstr "Zastaralá verzia EPGSearch! Prosím aktualizujte ju."
@@ -487,7 +487,7 @@ msgid "error retrieving status info!"
 msgstr "Chyba pri naèítaní informácií o stave!"
 
 msgid "%I:%M:%S %p"
-msgstr "%I:%M:%S %p"
+msgstr "%H:%M:%S"
 
 msgid "Wrong username or password"
 msgstr "Chybné u¾ívateµské meno alebo heslo"
@@ -715,7 +715,7 @@ msgstr "%a,"
 #. TRANSLATORS: recording duration format HH:MM
 #, c-format
 msgid "(%d:%02d)"
-msgstr ""
+msgstr "(%d:%02d)"
 
 msgid "Sort by name"
 msgstr "Zotriedi» podla mena"
@@ -730,10 +730,10 @@ msgid "Look in recordings titles and subtitles for the given string and display 
 msgstr "Pozrite sa na nahrávky titulov a titulky pre daný re»azec a zobrazi» iba tie vyhovujúce. Mô¾ete  pou¾i» kompatibilné perl regulárne výrazy (PCRE)."
 
 msgid "Expand all folders"
-msgstr ""
+msgstr "Rozbali» v¹etky zlo¾ky"
 
 msgid "Collapse all folders"
-msgstr ""
+msgstr "Zbali» v¹etky zlo¾ky"
 
 msgid "Delete this recording from hard disc!"
 msgstr "Vymaza» nahrávku z HDD"
