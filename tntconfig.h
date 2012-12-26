@@ -3,6 +3,7 @@
 
 #include <string>
 #include <tnt/tntnet.h>
+#include <vdr/config.h>
 #include "tntfeatures.h"
 
 namespace vdrlive {
@@ -26,10 +27,16 @@ namespace vdrlive {
 			static TntConfig const& Get();
 
 			std::string const& GetConfigPath() const { return m_configPath; }
+#if APIVERSNUM > 10729
+			std::string const& GetResourcePath() const { return m_resourcePath; }
+#endif
 
 		private:
 			std::string m_propertiesPath;
 			std::string m_configPath;
+#if APIVERSNUM > 10729
+			std::string m_resourcePath;
+#endif
 
 			TntConfig();
 			TntConfig( TntConfig const& );

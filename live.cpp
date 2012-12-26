@@ -4,6 +4,7 @@
  * See the README file for copyright information and how to reach the author.
  */
 
+#include <vdr/config.h>
 #include <vdr/plugin.h>
 #include "i18n.h"
 #include "live.h"
@@ -23,6 +24,9 @@ const char *Plugin::VERSION        = LIVEVERSION;
 const char *Plugin::DESCRIPTION    = LIVESUMMARY;
 
 std::string Plugin::m_configDirectory;
+#if APIVERSNUM > 10729
+std::string Plugin::m_resourceDirectory;
+#endif
 
 cUsers Users;
 
@@ -43,6 +47,9 @@ bool Plugin::ProcessArgs(int argc, char *argv[])
 bool Plugin::Start(void)
 {
 	m_configDirectory = canonicalize_file_name(cPlugin::ConfigDirectory( PLUGIN_NAME_I18N ));
+#if APIVERSNUM > 10729
+	m_resourceDirectory = canonicalize_file_name(cPlugin::ResourceDirectory( PLUGIN_NAME_I18N ));
+#endif
 
 #if VDRVERSNUM < 10507
 	RegisterI18n( vdrlive::Phrases );
@@ -51,7 +58,11 @@ bool Plugin::Start(void)
 	LiveStatusMonitor();
 
 	// preload files into file Cache
+#if APIVERSNUM > 10729
+	PreLoadFileCache(m_resourceDirectory);
+#else
 	PreLoadFileCache(m_configDirectory);
+#endif
 
 	// load users
 	Users.Load(AddDirectory(m_configDirectory.c_str(), "users.conf"), true);
