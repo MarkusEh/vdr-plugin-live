@@ -187,6 +187,19 @@ table td.rightcol {
 
 
 /* ################
+   #  Mulitschedule
+   ################
+*/
+
+table.mschedule tr td.even {
+	background-color: #081999;
+}
+
+table.mschedule tr td.odd {
+	background-color: #081966;
+}
+
+/* ################
    #  Event
    ################
 */
