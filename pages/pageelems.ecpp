@@ -433,7 +433,7 @@ int update_status(1);
 				</div>
 				<div class="about_head"><div><div><$ tr("Bugs and suggestions") $></div></div></div>
 				<div class="about_line"><$ tr("If you encounter any bugs or would like to suggest new features, please use our bugtracker") $>:<br/>
-					<a target="_blank" href="http://www.vdr-developer.org/mantisbt">http://www.vdr-developer.org/mantisbt</a></div>
+					<a target="_blank" href="http://projects.vdr-developer.org/projects/plg-live">http://projects.vdr-developer.org/projects/plg-live</a></div>
 				<div class="about_head"><div><div>&nbsp;</div></div></div>
 			</div>
 		</div>
