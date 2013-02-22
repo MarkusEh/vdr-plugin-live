@@ -1,7 +1,7 @@
 <?php
 $LiveSWConfigs = array(
 /*
- *  devel currently same as '0.2.0'. See below!
+ *  devel currently same as '0.3.0'. See below!
 	'devel' => new LiveSWConfig(
 		array(),
 		array(),
@@ -10,7 +10,7 @@ $LiveSWConfigs = array(
 */
 	'0.3.0' => new LiveSWConfig(
 		array(
-			new SoftwareComponent('VDR', '1.4.0', '&gt;= 1.6.0', 'http://www.tvdr.de/download.htm'),
+			new SoftwareComponent('VDR', '1.4.0', '&gt;= 1.7.36', 'http://www.tvdr.de/download.htm'),
 			new SoftwareComponent('Tntnet', '1.6.3', '&gt;= 2.0', 'http://www.tntnet.org/download.html'),
 			new SoftwareComponent('Cxxtools', '1.4.8', '&gt;= 2.0', 'http://www.tntnet.org/download.html'),
 			new SoftwareComponent('PCRE', '7.6', '&gt;= 8.02', 'http://www.pcre.org/')

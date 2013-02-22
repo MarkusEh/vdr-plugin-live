@@ -4,23 +4,21 @@
             letzten stabilen Version.
           </p>
           <p>
-
-	    Die größeren neuen Features wurden dieses mal von
-	    LIVE-Anwendern bereit gestellt. Wir freuen uns über die
-	    Beteiligung und <strong>danken allen</strong> die dazu
-	    beigetragen haben, dass LIVE besser wird von ganzem
-	    Herzen.
-
+	    Die gr&ouml;&szlig;eren neuen Features wurden dieses mal
+	    von LIVE-Anwendern bereit gestellt. Wir freuen uns
+	    &uuml;ber die Beteiligung und <strong>danken
+	    allen</strong> die dazu beigetragen haben, dass LIVE
+	    besser wird von ganzem Herzen.
           </p>
           <p>
-	    Die Namen der Entwickler, können in der Versions-Historie
+	    Die Namen der Entwickler, k&ouml;nnen in der Versions-Historie
 	    im LIVE-Git nachgelesen werden.
           </p>
           <ul>
             <li>
-	      Es gibt eine neue <strong>Programübersicht mehrerer
-	      Kanäle</strong> gleichzeitig. Die Programme können nach
-	      eigenen Vorlieben gruppiert werden und es können
+	      Es gibt eine neue <strong>Program&uuml;bersicht mehrerer
+	      Kan&auml;le</strong> gleichzeitig. Die Programme k&ouml;nnen nach
+	      eigenen Vorlieben gruppiert werden und es k&ouml;nnen
 	      Zeitpunkt wie Primetime, Nachmittagsprogramm,
 	      Nachtprogram etc. definiert werden.
             </li>
@@ -31,74 +29,61 @@
 	      <ul>
 	        <li>
 		  <strong>HTTP streaming von Aufnahmen</strong> wenn
-		  tntnet > 1.7.0 verfügbar ist.  In dem Browser muss
+		  tntnet > 1.7.0 verf&uuml;gbar ist.  In dem Browser muss
 		  allerding das mozilla-vlc Plugin laufen.
 		</li>
 	        <li>
-
-		  Es können nun mehrere <strong>Aufnahmen gleichzeitig
-		  gelöscht</strong> werden.
-
+		  Es k&ouml;nnen nun mehrere <strong>Aufnahmen gleichzeitig
+		  gel&ouml;scht</strong> werden.
 		</li>
 	        <li>
-
-                  Mehrere Aufnahmen können an einen <strong>anderen
+                  Mehrere Aufnahmen k&ouml;nnen an einen <strong>anderen
                   Ort verschoben oder kopiert</strong> werden.
-
 		</li>
 	        <li>
-
                   Die Liste der Aufnahmen kann mit normalen Strings
-                  oder mit Regulären Ausdrücken
+                  oder mit Regul&auml;ren Ausdr&uuml;cken
                   <strong>gefiltert</strong> werden.
-
-
 		</li>
 	        <li>
-
-                  Es können alle <strong>Aufnahmen-Ordner</strong> auf
+                  Es k&ouml;nnen alle <strong>Aufnahmen-Ordner</strong> auf
                   einmal <strong>aufgeklappt und zugeklappt</strong>
                   werden. Das ist besonders hilfreich, wenn gefiltert
                   wurde.
-
 		</li>
 	      </ul>
 	    </li>
             <li>
-
-	      Funktioniert auch mit VDR Entwicklerversionen
-	      (1.7.x). Unterstützt das neue
+	      Funktioniert auch mit VDR Entwicklerversionen (1.7.x)
+	      und ist f&uuml;r das angek&uuml;ndigte VDR 2.0 Release
+	      vorbereitet.
+	    </li>
+            <li>
+	      Unterst&uuml;tzt das neue
 	      <strong>TS-Aufnahmeformat</strong>.
-
 	    </li>
             <li>
-
-	      Die Kanäle haben jetzt auch <strong>Nummeren</strong>.
-
+	      Die Kan&auml;le haben jetzt auch
+	      <strong>Nummern</strong>.
 	    </li>
             <li>
-
-	      Support für <strong>IPv6</strong>.
-
+	      Support f&uuml;r <strong>IPv6</strong>.
 	    </li>
             <li>
-
 	      LIVE kann jetzt auch via <strong>SSL
 	      angesprochen</strong> werden.
-
 	    </li>
             <li>
-
-	      Verbesserter Support für <strong>EPG-Bilder</strong> die
-	      von externen Tools (tvm2vdr.pl) bereit gestellt werden
-	      können.
-
+	      Verbesserter Support f&uuml;r
+	      <strong>EPG-Bilder</strong> die von externen Tools
+	      (tvm2vdr.pl) bereit gestellt werden k&ouml;nnen.
 	    </li>
             <li>
-	      Übersetzungen für Italienisch, Finnisch, Polnisch,
-	      Spanisch und Slowakisch
+	      &Uuml;bersetzungen f&uuml;r Italienisch, Finnisch,
+	      Polnisch, Spanisch und Slowakisch
 	    </li>
             <li>
-	      Zahlreiche kleine Bug-Fixes.
+	      Zahlreiche kleine Bug-Fixes (und vieleich auch neue
+	      Bugs).
 	    </li>
           </ul>

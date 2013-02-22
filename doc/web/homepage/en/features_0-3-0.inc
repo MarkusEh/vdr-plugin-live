@@ -3,12 +3,10 @@
 	    visible changes on LIVE since the last stable version.
           </p>
           <p>
-
 	    The major new features have been contributed by LIVE
 	    users.  We are are very happy to embrace the contributions
 	    and <strong>thank everybody</strong> who helped in
 	    improving LIVE.
-
           </p>
           <p>
 	    The names of the developers are listed in the version
@@ -23,83 +21,62 @@
 	      i.E. prime time.
             </li>
             <li>
-
 	      The <strong>recordings page has been lifted</strong> and
 	      got some new features:
-
 	      <ul>
 	        <li>
-
 		  <strong>HTTP streaming of recordings</strong> if a
 		  version of tntnet > 1.7.0 is available. You browser
 		  still requires the mozilla-vlc plugin.
-
 		</li>
 	        <li>
-
 		  More than <strong>one recording can be deleted at
 		  once</strong>.
-
 		</li>
 	        <li>
-
 		  More than one recording can be <strong>moved or
 		  copied</strong> to a <strong>new location at
 		  once</strong>.
-
 		</li>
 	        <li>
-
 		  The list of recordings can
 		  be <strong>filtered</strong> either for names or
 		  with <strong>regual expressions</strong>.
-
 		</li>
 	        <li>
-
 		  All <strong>recordings folders</strong> can
 		  be <strong>expanded or collapsed at
 		  once</strong>. The main benefit of this feature
 		  unfolds in combination with the filtering feature.
-
 		</li>
 	      </ul>
 	    </li>
             <li>
-
-	      Funktioniert auch mit VDR Entwicklerversionen
-	      (1.7.x). Unterstützt das neue
-	      <strong>TS-Aufnahmeformat</strong>.
+	      Works with the VDR developer versions (1.7.x) and is
+	      prepared for the upcoming VDR 2.0 release.
 
 	    </li>
             <li>
-
-	      Die Kanäle haben jetzt auch <strong>Nummeren</strong>.
-
+	      Supports the new <strong>TS recording format</strong>.
 	    </li>
             <li>
-
-	      Support für <strong>IPv6</strong>.
-
+	      The channels got <strong>numbers</strong>.
 	    </li>
             <li>
-
-	      LIVE kann jetzt auch via <strong>SSL
-	      angesprochen</strong> werden.
-
+	      Added support for <strong>IPv6</strong>.
 	    </li>
             <li>
-
-	      Verbesserter Support für <strong>EPG-Bilder</strong> die
-	      von externen Tools (tvm2vdr.pl) bereit gestellt werden
-	      können.
-
+	      You can connect to LIVE via <strong>SSL</strong>.
 	    </li>
             <li>
-	      Übersetzungen für Italienisch, Finnisch, Polnisch,
-	      Spanisch und Slowakisch
+	      Enhanced support for <strong>EPG images</strong> which
+	      are supplied by external tools (e.g. tvm2vdr.pl).
 	    </li>
             <li>
-	      Zahlreiche kleine Bug-Fixes.
+	      Translations for Italian, Finnish, Polish,
+	      Spanish and Slovakia
+	    </li>
+            <li>
+	      Lots of little bug fixes (and perhabs new bugs).
 	    </li>
           </ul>

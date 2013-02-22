@@ -24,7 +24,7 @@
         <div style="border: 1px solid black; padding: 0px 10px">
           <div class="screenshots" style="float: right; border: 0; padding-top: 15px"><?php $screenshots->RandomImg(); ?></div>
           <p>
-            <b>LIVE</b>
+            <strong>LIVE</strong>
           </p>
           <p>
             LIVE, das <strong><em>LIVE Interactive VDR
@@ -58,7 +58,7 @@
             $menu->urls["screenshots.php"]; ?>-Seite</a> verschaffen.
           </p>
           <p>
-            <b>Lizenz</b>
+            <strong>Lizenz</strong>
           </p>
           <p>
             LIVE wird unter
@@ -87,7 +87,7 @@
         <div class="boxheader"><div><div>Direkter Download von LIVE <?php echo $status->vers_number; ?></div></div></div>
         <div style="border: 1px solid black; padding: 0px 10px">
           <p>
-            <b>Version <?php echo $status->vers_number; ?></b>
+            <strong>Version <?php echo $status->vers_number; ?></strong>
             <ul>
               <li>
                 Download: <?php echo "<a href=\"http://live.vdr-developer.org/downloads/vdr-live-" . $status->vers_number . ".tar.gz\">" . "http://live.vdr-developer.org/downloads/vdr-live-" . $status->vers_number . ".tar.gz</a>"; ?>
@@ -98,7 +98,7 @@
             </ul>
           </p>
           <p>
-            <b>Vorausetzungen f&uuml;r die Installation:</b>
+            <strong>Vorausetzungen f&uuml;r die Installation:</strong>
             <?php include ("install_0-3-0.inc"); ?>
           </p>
           <p>
@@ -115,10 +115,10 @@
         <div class="boxheader"><div><div>Links</div></div></div>
         <div style="border: 1px solid black; padding: 0px 10px">
           <p>
-            <b>Web:</b>
+            <strong>Web:</strong>
             <ul>
 	      <li><a href="http://projects.vdr-developer.org/projects/plg-live">Project Tracker</a></li>
-	      <li><a href="http://projects.vdr-developer.org/git/?p=vdr-plugin-live.git">LIVE Git</a></li>
+	      <li><a href="http://projects.vdr-developer.org/git/vdr-plugin-live.git/">LIVE Git</a></li>
               <li><a href="http://www.tvdr.de/">Video Disk Recorder - VDR</a></li>
               <li><a href="http://winni.vdr-developer.org/epgsearch/index.html">EPGSearch Plugin</a></li>
               <br />
@@ -127,14 +127,7 @@
             </ul>
           </p>
           <p>
-            <b>IRC:</b>
-            <ul>
-              <li>Server: irc://www.vdr-portal.de</li>
-              <li>Channel: #live</li>
-            </ul>
-          </p>
-          <p>
-            <b>Sonstiges</b>
+            <strong>Sonstiges</strong>
             <ul>
               <li>Zus&auml;tzliche Kontaktinfos finden Sie am Anfang der README Datei im LIVE Quellcode.</li>
             </ul>

@@ -2,7 +2,7 @@
   // Settings for german version:
 $status = new Status("LIVE Plugin State",
 					 "Current stable version",
-					 "0.2.0",
+					 "0.3.0",
 					 "m/d/Y",
 					 "Language: ");
 

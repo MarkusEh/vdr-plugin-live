@@ -22,13 +22,13 @@
         <div class="boxheader"><div><div>Stabile Version:</div></div></div>
         <div style="border: 1px solid black; padding: 0px 10px">
           <p>
-            <b>Version 0.3.0</b>
+            <strong>Version 0.3.0</strong>
             <ul>
               <li>Download: <a href="http://live.vdr-developer.org/downloads/vdr-live-0.3.0.tar.gz">http://live.vdr-developer.org/downloads/vdr-live-0.3.0.tar.gz</a></li>
             </ul>
           </p>
           <p>
-            <b>Vorausetzungen f&uuml;r die Installation:</b>
+            <strong>Vorausetzungen f&uuml;r die Installation:</strong>
             <?php include ("install_0-3-0.inc"); ?>
           </p>
           <p></p>
@@ -39,18 +39,24 @@
         <div class="boxheader"><div><div>Entwickler Version:</div></div></div>
         <div style="border: 1px solid black; padding: 0px 10px">
           <p>
-            <b>Akuteller CVS-Snapshot</b>
+            <strong>Aktueller GIT-Snapshot</strong>
+
+	    <br/>Da LIVE zur Zeit nur noch gepflegt wird und keine
+	    gravierenden &Auml;nderungen zu erwarten sind, kann auch
+	    die Entwicklerversion als stabil angesehen werden.
+
             <ul>
               <li>
-                Download: <a href="http://www.vdr-developer.org/cgi-bin/cvsweb.cgi/live/live.tar.gz?tarball=1">http://www.vdr-developer.org/cgi-bin/cvsweb.cgi/live/</a>
+                GIT Repository: <a href="http://projects.vdr-developer.org/git/vdr-plugin-live.git/">http://projects.vdr-developer.org/git/vdr-plugin-live.git/</a>
                 <p>
-                  <strong>WICHTIG:</strong> unbedingt auch immer die Datei README in LIVE Quellen-Verzeichnis beachten!
+                  <strong>WICHTIG:</strong> unbedingt auch immer die
+                  Datei README in LIVE Quellen-Verzeichnis beachten!
                 </p>
               </li>
             </ul>
           </p>
           <p>
-            <b>Vorausetzungen f&uuml;r die Installation:</b>
+            <strong>Vorausetzungen f&uuml;r die Installation:</strong>
             <?php include ("install_devel.inc"); ?>
           </p>
           <p></p>
@@ -61,24 +67,24 @@
         <div class="boxheader"><div><div>&Auml;ltere Versionen:</div></div></div>
         <div style="border: 1px solid black; padding: 0px 10px">
           <p>
-            <b>Version 0.2.0</b>
+            <strong>Version 0.2.0</strong>
             <ul>
               <li>Download: <a href="http://live.vdr-developer.org/downloads/vdr-live-0.2.0.tar.gz">http://live.vdr-developer.org/downloads/vdr-live-0.2.0.tar.gz</a></li>
             </ul>
           </p>
           <p>
-            <b>Vorausetzungen f&uuml;r die Installation:</b>
+            <strong>Vorausetzungen f&uuml;r die Installation:</strong>
             <?php include ("install_0-2-0.inc"); ?>
           </p>
           <p><hr/></p>
           <p>
-            <b>Version 0.1.0</b>
+            <strong>Version 0.1.0</strong>
             <ul>
               <li>Download: <a href="http://live.vdr-developer.org/downloads/vdr-live-0.1.0.tar.gz">http://live.vdr-developer.org/downloads/vdr-live-0.1.0.tar.gz</a></li>
             </ul>
           </p>
           <p>
-            <b>Vorausetzungen f&uuml;r die Installation:</b>
+            <strong>Vorausetzungen f&uuml;r die Installation:</strong>
             <?php include ("install_0-1-0.inc"); ?>
           </p>
           <p></p>

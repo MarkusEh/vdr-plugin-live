@@ -24,7 +24,7 @@
 	<div style="border: 1px solid black; padding: 0px 10px">
 	  <div class="screenshots" style="float: right; border: 0; padding-top: 15px"><?php $screenshots->RandomImg(); ?></div>
 	  <p>
-	    <b>LIVE</b>
+	    <strong>LIVE</strong>
 	  </p>
           <p>
             LIVE, the <strong><em>LIVE Interactive VDR
@@ -57,7 +57,7 @@
 	    $menu->urls["screenshots.php"]; ?> page</a>
 	  </p>
 	  <p>
-	    <b>License</b>
+	    <strong>License</strong>
 	  </p>
 	  <p>
 	    LIVE is distributed under
@@ -72,7 +72,7 @@
       <div style="width: 800px; margin-top: 15px">
 	<div class="boxheader"><div><div>New features in LIVE <?php echo $status->vers_number; ?></div></div></div>
 	<div style="border: 1px solid black; padding: 0px 10px">
-	  <?php include ("features_0-2-0.inc"); ?>
+	  <?php include ("features_0-3-0.inc"); ?>
 	  <p>
 	    All past feature additions or changes of LIVE can be found on
 	    the
@@ -86,7 +86,7 @@
 	<div class="boxheader"><div><div>Direct download of LIVE <?php echo $status->vers_number; ?></div></div></div>
 	<div style="border: 1px solid black; padding: 0px 10px">
 	  <p>
-	    <b>Version <?php echo $status->vers_number; ?></b>
+	    <strong>Version <?php echo $status->vers_number; ?></strong>
             <ul>
 	      <li>
 		Download: <?php echo "<a href=\"http://live.vdr-developer.org/downloads/vdr-live-" . $status->vers_number . ".tar.gz\">" . "http://live.vdr-developer.org/downloads/vdr-live-" . $status->vers_number . ".tar.gz</a>"; ?>
@@ -97,8 +97,8 @@
             </ul>
 	  </p>
 	  <p>
-	    <b>Installation prerequisites:</b>
-	    <?php include ("install_0-2-0.inc"); ?>
+	    <strong>Installation prerequisites:</strong>
+	    <?php include ("install_0-3-0.inc"); ?>
 	  </p>
           <p>
 	    Different versions of LIVE can be downloaded from the
@@ -113,27 +113,21 @@
 	<div class="boxheader"><div><div>Links</div></div></div>
 	<div style="border: 1px solid black; padding: 0px 10px">
           <p>
-            <b>Web:</b>
+            <strong>Web:</strong>
             <ul>
-              <li><a href="http://www.vdr-developer.org/mantisbt/main_page.php">Bugtracker</a> - for bugs and feature requests</li>
-              <li><a href="http://www.cadsoft.de/vdr/">Video Disk Recorder - VDR</a></li>
+	      <li><a href="http://projects.vdr-developer.org/projects/plg-live">Project Tracker</a></li>
+	      <li><a href="http://projects.vdr-developer.org/git/vdr-plugin-live.git/">LIVE Git</a></li>
+              <li><a href="http://www.tvdr.de">Video Disc Recorder - VDR</a></li>
               <li><a href="http://winni.vdr-developer.org/epgsearch/index.html">EPGSearch Plugin</a></li>
               <br />
-              <li><a href="http://www.vdr-portal.de">VDR-Portal</a></li>
-              <li><a href="http://www.vdr-wiki.de">VDR-Wiki</a></li>
+              <li><a href="http://www.vdr-portal.de">VDR-Portal (mostly german)</a></li>
+              <li><a href="http://www.vdr-wiki.de">VDR-Wiki (mostly german)</a></li>
             </ul>
           </p>
           <p>
-            <b>IRC:</b>
+            <strong>Other:</strong>
             <ul>
-              <li>Server: irc://www.vdr-portal.de</li>
-              <li>Channel: #live</li>
-            </ul>
-          </p>
-          <p>
-            <b>Other:</b>
-            <ul>
-              <li>Traditional contact information can be found at the top of the README file in the LIVE source distribution.</li>
+              <li>Additional contact information can be found at the top of the README file in the LIVE source distribution.</li>
             </ul>
           </p>
 	</div>
