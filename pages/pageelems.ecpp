@@ -104,7 +104,7 @@ int update_status(1);
 <%args>
 	string title;
 </%args>
-<%cpp> if (LiveSetup().GetShowIMDb()) { </%cpp> <a href="http://akas.imdb.com/Tsearch?title=<$ StringUrlEncode(title) $>" target="_blank"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a> <%cpp> } </%cpp>
+<%cpp> if (LiveSetup().GetShowIMDb()) { </%cpp> <a href="http://www.imdb.com/find?s=all&q=<$ StringUrlEncode(title) $>" target="_blank"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a> <%cpp> } </%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
