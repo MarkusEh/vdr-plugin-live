@@ -40,4 +40,7 @@ libhttpd.a: $(OBJS)
 	$(AR) r $@ $^
 
 clean:
-	@rm -f *.o core* libhttpd.a proctest $(DEPFILE)
+	@rm -f *~ *.o core* libhttpd.a proctest $(DEPFILE)
+
+dist: clean
+	@echo "Nothing to do for distribution here ..."

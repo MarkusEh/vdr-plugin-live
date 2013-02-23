@@ -74,3 +74,6 @@ libpages.a: $(OBJS)
 
 clean:
 	@rm -f *~ *.o core* libpages.a $(OBJS:%.o=%.cpp) $(DEPFILE)
+
+dist: clean
+	@echo "Nothing to do for distribution here ..."

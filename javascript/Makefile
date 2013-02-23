@@ -56,3 +56,6 @@ libjavascript.a: $(OBJS)
 
 clean:
 	@rm -f *~ *.o core* libjavascript.a $(OBJS:%.o=%.cpp)
+
+dist: clean
+	@echo "Nothing to do for distribution here ..."

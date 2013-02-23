@@ -164,7 +164,7 @@ libvdr-$(PLUGIN).so: $(VERSIONSUFFIX) $(SUBDIRS) $(PLUGINOBJS)
 
 ifneq ($(TNTVERS7),yes)
 	@echo ""
-	@echo "If LIVE was built successfully and you can try to use it!"
+	@echo "LIVE was built successfully and you can try to use it!"
 	@echo ""
 	@echo ""
 	@echo ""
@@ -189,9 +189,9 @@ dist: clean
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
 	@mkdir $(TMPDIR)/$(ARCHIVE)
 	@cp -a * $(TMPDIR)/$(ARCHIVE)
-	@tar czf $(PACKAGE).tgz -C $(TMPDIR) $(ARCHIVE)
+	@tar czf $(TMPDIR)/$(PACKAGE).tar.gz -C $(TMPDIR) $(ARCHIVE)
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
-	@echo Distribution package created as $(PACKAGE).tgz
+	@echo Distribution package created as $(TMPDIR)/$(PACKAGE).tar.gz
 
 clean: $(SUBDIRS)
 	@-rm -f $(PODIR)/*.mo $(PODIR)/*.pot
