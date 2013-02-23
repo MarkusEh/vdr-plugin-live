@@ -9,8 +9,8 @@
 #include "tntfeatures.h"
 #include <vdr/menuitems.h>
 
-#define LIVEVERSION "0.2.0"
-#define LIVEVERSNUM 200
+#define LIVEVERSION "0.3.0"
+#define LIVEVERSNUM 300
 #define LIVESUMMARY trNOOP("Live Interactive VDR Environment")
 
 namespace vdrlive {
