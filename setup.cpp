@@ -189,26 +189,31 @@ namespace {
 bool Setup::CheckServerIps()
 {
 	if ( m_serverIps.empty() ) {
+#if TNT_IPV6_V6ONLY
+			m_serverIps.push_back("");
+			return true;
+#else
 		FILE* f = fopen("/proc/sys/net/ipv6/bindv6only", "r");
 		if (f) {
 			bool bindv6only = false;
 			int c = fgetc(f);
 			if (c != EOF) {
-				bindv6only = c - '0';
+				bindv6only = ((c - '0') != 0);
 			}
 			fclose(f);
 			f = NULL;
 			esyslog( "[live] INFO: bindv6only=%d", bindv6only);
 			// add a default IPv6 listener address
-			m_serverIps.push_back( "::" );
-			// skip the default IPv4 listener address if IPv6 one will be binded also to v4
+			m_serverIps.push_back("::");
+			// skip the default IPv4 listener address if the IPv6 one will be bound also to v4
 			if (!bindv6only)
 				return true;
 		}
 		// add a default IPv4 listener address
-		m_serverIps.push_back( "0.0.0.0" );
+		m_serverIps.push_back("0.0.0.0");
 		// we assume these are ok :)
 		return true;
+#endif // TNT_IPV6_V6ONLY
 	}
 
 	IpList::iterator i = partition(m_serverIps.begin(), m_serverIps.end(), IpValidator());

@@ -5,6 +5,7 @@ PLUGIN = live
 ### Additional options to silence TNTNET warnings
 TNTFLAGS   ?= -Wno-overloaded-virtual -Wno-unused-variable
 TNTVERSION ?= $(shell tntnet-config --version | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
+CXXTOOLVER ?= $(shell cxxtools-config --version | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
 
 ### The C++ compiler and options:
 
@@ -13,7 +14,7 @@ AR       ?= ar
 ECPPC    ?= ecppc
 
 CXXFLAGS ?= -O2 -Woverloaded-virtual -Wall -fPIC
-DEFINES  ?= -DPLUGIN_NAME_I18N='"$(PLUGIN)"' -DTNTVERSION=$(TNTVERSION)
+DEFINES  ?= -DPLUGIN_NAME_I18N='"$(PLUGIN)"' -DTNTVERSION=$(TNTVERSION) -DCXXTOOLVER=$(CXXTOOLVER)
 
 ### The directory environment:
 

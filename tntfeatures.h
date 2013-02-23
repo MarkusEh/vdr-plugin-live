@@ -23,5 +23,7 @@
 // new version of TNTNET allow the request watchdog to be silenced.
 #define TNT_WATCHDOG_SILENCE	(TNTVERSION >= 16900)
 
+// version of TNTNET that binds ipv6 addresses with IPV6_V6ONLY flag set to true
+#define TNT_IPV6_V6ONLY	  	    (CXXTOOLVER >= 21000)
 
 #endif // VDR_LIVE_TNTFEATURES_H
