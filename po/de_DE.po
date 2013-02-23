@@ -159,7 +159,6 @@ msgstr "Schnittmarken löschen"
 msgid "Copy only"
 msgstr "Nur kopieren"
 
-#, fuzzy
 msgid "Short description"
 msgstr "Kurzbeschreibung"
 
