@@ -25,7 +25,7 @@ public:
 		Group = 2,
 		FTAOnly = 3
 	};
-	
+
 	SearchTimer();
 	SearchTimer( std::string const& data );
 	void Init();
@@ -98,8 +98,8 @@ public:
 	void SetSwitchMinBefore(int switchMinBefore) { m_switchMinBefore = switchMinBefore; }
 	bool UseExtEPGInfo() const { return m_useExtEPGInfo; }
 	void SetUseExtEPGInfo(bool useExtEPGInfo) { m_useExtEPGInfo = useExtEPGInfo; }
-	std::vector< std::string > ExtEPGInfo() const { return m_ExtEPGInfo; } 
-	void SetExtEPGInfo(std::vector< std::string > ExtEPGInfo) { m_ExtEPGInfo = ExtEPGInfo; } 
+	std::vector< std::string > ExtEPGInfo() const { return m_ExtEPGInfo; }
+	void SetExtEPGInfo(std::vector< std::string > ExtEPGInfo) { m_ExtEPGInfo = ExtEPGInfo; }
 	bool AvoidRepeats() const { return m_avoidrepeats; }
 	void SetAvoidRepeats(bool avoidrepeats) { m_avoidrepeats = avoidrepeats; }
 	int AllowedRepeats() const { return m_allowedrepeats; }
@@ -136,7 +136,7 @@ public:
 	void SetUseAsSearchTimerTil(std::string const& datestring, std::string const& format);
 	bool IgnoreMissingEPGCats() const { return m_ignoreMissingEPGCats; }
 	void SetIgnoreMissingEPGCats(bool ignoreMissingEPGCats) { m_ignoreMissingEPGCats = ignoreMissingEPGCats; }
-	
+
 private:
 	int m_id;
 	std::string m_search;
@@ -392,7 +392,7 @@ public:
 	typedef recordingdirs::size_type size_type;
 	typedef recordingdirs::iterator iterator;
 	typedef recordingdirs::const_iterator const_iterator;
-	
+
 	RecordingDirs(bool shortList=false);
 
 	iterator begin() { return m_set.begin(); }
@@ -407,8 +407,8 @@ private:
 class EPGSearchSetupValues
 {
 public:
-	static std::string ReadValue(const std::string& entry);	
-	static bool WriteValue(const std::string& entry, const std::string& value);	
+	static std::string ReadValue(const std::string& entry);
+	static bool WriteValue(const std::string& entry, const std::string& value);
 };
 
 class EPGSearchExpr

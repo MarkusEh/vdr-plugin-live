@@ -85,7 +85,7 @@ void SearchTimer::Init()
 	m_delAfterCountRecs = 0;
 	m_delAfterDaysOfFirstRec = 0;
 	m_useAsSearchTimerFrom = 0;
-	m_useAsSearchTimerTil = 0;	
+	m_useAsSearchTimerTil = 0;
 	m_catvaluesAvoidRepeat = 0;
 	m_ignoreMissingEPGCats = false;
 }
@@ -204,7 +204,7 @@ std::string SearchTimer::ToText()
    if (m_useExtEPGInfo)
    {
       for(unsigned int i=0; i<m_ExtEPGInfo.size(); i++)
-         tmp_catvalues += (tmp_catvalues != ""?"|":"") + 
+         tmp_catvalues += (tmp_catvalues != ""?"|":"") +
             StringReplace(StringReplace(m_ExtEPGInfo[i], ":", "!^colon^!"), "|", "!^pipe^!");
    }
 
@@ -381,11 +381,11 @@ bool SearchTimers::Save(SearchTimer* searchtimer)
 
 SearchTimer* SearchTimers::GetByTimerId( std::string const& id )
 {
-   for (SearchTimers::iterator timer = m_timers.begin(); timer != m_timers.end(); ++timer) 
-      if (timer->Id() == lexical_cast< int >(id)) 
+   for (SearchTimers::iterator timer = m_timers.begin(); timer != m_timers.end(); ++timer)
+      if (timer->Id() == lexical_cast< int >(id))
          return &*timer;
    return NULL;
-      
+
 }
 
 bool SearchTimers::ToggleActive(std::string const& id)
@@ -419,10 +419,10 @@ void SearchTimers::TriggerUpdate()
 }
 
 bool SearchTimer::BlacklistSelected(int id) const
-{ 
-   for(unsigned int i=0; i<m_blacklistIDs.size(); i++) 
-      if (StringToInt(m_blacklistIDs[i]) == id) return true; 
-   return false; 
+{
+   for(unsigned int i=0; i<m_blacklistIDs.size(); i++)
+      if (StringToInt(m_blacklistIDs[i]) == id) return true;
+   return false;
 }
 
 ExtEPGInfo::ExtEPGInfo( string const& data )
@@ -458,13 +458,13 @@ bool ExtEPGInfo::Selected(unsigned int index, std::string const& values)
 
    vector< string > parts;
    parts = StringSplit( values, ',' );
-   for(unsigned int i=0; i<parts.size(); i++) if (StringTrim(parts[i]) == extepgvalue) return true; 
+   for(unsigned int i=0; i<parts.size(); i++) if (StringTrim(parts[i]) == extepgvalue) return true;
    parts = StringSplit( values, ';' );
-   for(unsigned int i=0; i<parts.size(); i++) if (StringTrim(parts[i]) == extepgvalue) return true; 
+   for(unsigned int i=0; i<parts.size(); i++) if (StringTrim(parts[i]) == extepgvalue) return true;
    parts = StringSplit( values, '|' );
-   for(unsigned int i=0; i<parts.size(); i++) if (StringTrim(parts[i]) == extepgvalue) return true; 
+   for(unsigned int i=0; i<parts.size(); i++) if (StringTrim(parts[i]) == extepgvalue) return true;
    parts = StringSplit( values, '~' );
-   for(unsigned int i=0; i<parts.size(); i++) if (StringTrim(parts[i]) == extepgvalue) return true; 
+   for(unsigned int i=0; i<parts.size(); i++) if (StringTrim(parts[i]) == extepgvalue) return true;
    return false;
 }
 
@@ -562,7 +562,7 @@ const cEvent* SearchResult::GetEvent()
 	if (!Channel) return NULL;
 	const cSchedule *Schedule = Schedules->GetSchedule(Channel);
 	if (!Schedule) return NULL;
-	return Schedule->GetEvent(m_eventId);	
+	return Schedule->GetEvent(m_eventId);
 }
 
 std::set<std::string> SearchResults::querySet;
@@ -598,10 +598,10 @@ std::string SearchResults::AddQuery(std::string const& query)
 std::string SearchResults::PopQuery(std::string const& md5)
 {
 	std::string query;
-	if (!md5.empty()) 
+	if (!md5.empty())
 	{
 		std::set<std::string>::iterator it;
-		for (it = querySet.begin(); it != querySet.end(); it++) 
+		for (it = querySet.begin(); it != querySet.end(); it++)
 		{
 			if (md5 == MD5Hash(*it))
 			{
@@ -616,21 +616,21 @@ std::string SearchResults::PopQuery(std::string const& md5)
 
 RecordingDirs::RecordingDirs(bool shortList)
 {
-  if (shortList)
+	if (shortList)
     {
-      Epgsearch_services_v1_2 service;
-      if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
-	throw HtmlError( tr("EPGSearch version outdated! Please update.") );
-      
-      m_set = service.handler->ShortDirectoryList();
+		Epgsearch_services_v1_2 service;
+		if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
+			throw HtmlError( tr("EPGSearch version outdated! Please update.") );
+
+		m_set = service.handler->ShortDirectoryList();
     }
-  else
-    {	
-      Epgsearch_services_v1_0 service;
-      if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
-	throw HtmlError( tr("EPGSearch version outdated! Please update.") );
-      
-      m_set = service.handler->DirectoryList();
+	else
+    {
+		Epgsearch_services_v1_0 service;
+		if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
+			throw HtmlError( tr("EPGSearch version outdated! Please update.") );
+
+		m_set = service.handler->DirectoryList();
     }
 }
 

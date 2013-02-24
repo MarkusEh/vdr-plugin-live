@@ -42,7 +42,7 @@ private:
 	SplitVersion m_version;
 	SplitVersion m_minVersion;
 
-	Features() 
+	Features()
 		: m_plugin( cPluginManager::GetPlugin( Feat::Plugin() ) )
 		, m_version( Version() )
 		, m_minVersion( Feat::MinVersion() ) {}
