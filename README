@@ -8,9 +8,7 @@ Currently maintained by:
 
 Project's homepage:          http://live.vdr-developer.org
 
-Latest version available at: either http://live.vdr-developer.org
-                             or the current cvs version at
-                             http://www.vdr-developer.org/cgi-bin/cvsweb.cgi/live/live.tar.gz?tarball=1
+Latest version available at: http://live.vdr-developer.org
 
 See the file COPYING for license information.
 
@@ -76,8 +74,8 @@ need: (See also the Internationalization section below)
 
 Locale::PO 		- perl module from CPAN www.cpan.org
 
-The default i18n-generated.h header (provided via CVS) contains all
-translations from CVS. Users that just want to stay on bleeding development
+The default i18n-generated.h header contains all
+translations from GIT. Users that just want to stay on bleeding development
 edge of live do not need Locale::PO installed.
 
 How to get Locale::PO

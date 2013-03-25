@@ -18,6 +18,3 @@ This is a list of ideas and TODO-Items for live plugin.
 - Provide a way to get the infos on extra 'static' pages.
 
 
-For Features regarding functionality and user suggestions please take
-a look to the bugtracker: http://www.vdr-developer.org/mantisbt/
-
