@@ -1,3 +1,8 @@
+2013-04-04  Dieter Hametner  <dh+vdr at gekrumbel dot de>
+	* This file is discontinued. To get an overview of the
+	  changes please consult the git history found on
+	  http://projects.vdr-developer.org/git/vdr-plugin-live.git/
+
 2009-09-07  Christian Wieninger  <cwieninger at gmx dot de>
 	* new user management within setup that also handles different
 	  user rights
