@@ -64,12 +64,17 @@ if (!todel.empty()) {
 	deletions.push_back(todel);
 }
 for (deletions_type::const_iterator it = deletions.begin(); it != deletions.end(); ++it) {
-	RemoveRecordingTask task(*it);
-	LiveTaskManager().Execute(task);
-	if (!task.Result())
-		deleteResult += string() + tr("ERROR:") + " " + task.Error() + "<br/>";
-	else
-		deleteResult += string() + tr("Deleted recording:") + " " + StringReplace(task.RecName(), "~", "/") + "<br/>";
+	if (cUser::CurrentUserHasRightTo(UR_DELRECS)) {
+		RemoveRecordingTask task(*it);
+		LiveTaskManager().Execute(task);
+		if (!task.Result())
+			deleteResult += string() + tr("ERROR:") + " " + task.Error() + "<br/>";
+		else
+			deleteResult += string() + tr("Deleted recording:") + " " + StringReplace(task.RecName(), "~", "/") + "<br/>";
+	}
+	else {
+		throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
+	}
 }
 deletions.clear();
 
