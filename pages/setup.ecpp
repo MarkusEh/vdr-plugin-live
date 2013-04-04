@@ -265,7 +265,11 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 						<td class="rightcol"><select name="theme" size="1" id="theme">
 <%cpp>
 {
+#if APIVERSNUM > 10729
+	const string dirPath(Plugin::GetResourceDirectory() + "/themes");
+#else
 	const string dirPath(Plugin::GetConfigDirectory() + "/themes");
+#endif
 	cReadDir d(dirPath.c_str());
 	struct dirent* e;
 	string parent("..");
