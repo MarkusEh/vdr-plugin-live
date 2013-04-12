@@ -26,7 +26,7 @@ using namespace vdrlive;
 	string async;
 	// form parameters
 	tChannelID channel;
-	bool active = true;
+	int active = 1;
 	string title = "";
 	string date = "";
 	bool wday_mon = false;
@@ -44,7 +44,7 @@ using namespace vdrlive;
 	int priority = 0;
 	int lifetime = 0;
 	string aux = "";
-        string directory = "";
+	string directory = "";
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -141,7 +141,7 @@ cTimer* timer;
 		      title = title.substr(directory.size()+1);
 		   }
 		}
-		// TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's	 
+		// TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
 		date = timer->Day() ? DatePickerToC(timer->Day(), tr("mm/dd/yyyy")) : "";
 		wday_mon = timer->WeekDays() & 0x01;
 		wday_tue = timer->WeekDays() & 0x02;
@@ -226,7 +226,7 @@ cTimer* timer;
 					             for (RecordingDirs::iterator rdir = recordingdirs.begin(); rdir != recordingdirs.end(); ++rdir) {
 						        std::string dir = *rdir;
 </%cpp>
-		    					<option value="<$ dir $>" 
+		    					<option value="<$ dir $>"
 %							if (*rdir == directory) {
 							selected="selected"
 %							}

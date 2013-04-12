@@ -49,10 +49,12 @@ static const size_t maximumDescriptionLength = 300;
 				throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
 			LiveTimerManager().DelTimer(timer);
 			timerNotifier.SetTimerModification();
+			return reply.redirect("timers.html");
 		}
 		if (action == "toggle") {
 			LiveTimerManager().ToggleTimerActive(timer);
 			timerNotifier.SetTimerModification();
+			return reply.redirect("timers.html");
 		}
 	}
 
