@@ -25,39 +25,39 @@ struct SchedEntry {
 	string end;
 	string day;
 	string epgid;
-        bool truncated;
-        bool has_timer;
+	bool truncated;
+	bool has_timer;
 	int start_row;
 	int row_count;
 };
 
-        std::string channel_groups_setting;
-        std::vector<std::string> channel_groups_names;
-        std::vector< std::vector<int> > channel_groups_numbers;
-        std::vector<std::string> times_names;
-        std::vector<time_t>      times_start;
+std::string 					channel_groups_setting;
+std::vector<std::string>		channel_groups_names;
+std::vector< std::vector<int> > channel_groups_numbers;
+std::vector<std::string>		times_names;
+std::vector<time_t>      		times_start;
 </%pre>
 <%args>
 	int channel = -1;
 	unsigned int time_para = 0;
 </%args>
 <%session scope="global">
-bool logged_in(false);
+	bool logged_in(false);
 </%session>
 <%request scope="page">
-        unsigned int channel_group=0;
-        unsigned int time_selected=0;
+	unsigned int channel_group=0;
+	unsigned int time_selected=0;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
-if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
-pageTitle = tr("MultiSchedule");
+	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+	pageTitle = tr("MultiSchedule");
 
-        ReadLock channelsLock( Channels );
+	ReadLock channelsLock( Channels );
 	if ( !channelsLock )
 		throw HtmlError( tr("Couldn't aquire access to channels, please try again later.") );
 
-#define MAX_CHANNELS 10 
+#define MAX_CHANNELS 10
 #define MAX_DAYS 3
 #define MAX_HOURS 8
 #define MINUTES_PER_ROW 5
@@ -115,7 +115,7 @@ pageTitle = tr("MultiSchedule");
                     thisChannel = thisGroup.substr(0, channelSep );
                     if ( channelSep != thisGroup.npos )
                         thisGroup.erase( 0, channelSep+1 );
-                    else 
+                    else
                         thisGroup = "";
                     int channel_no = lexical_cast< int > (thisChannel);
                     cChannel* Channel = Channels.GetByNumber( channel_no );
@@ -143,8 +143,11 @@ pageTitle = tr("MultiSchedule");
             }
         }
     }
-	if ( channel < 0 ) {
-		if (cDevice::CurrentChannel()) {
+
+	if ( channel < 0 )
+	{
+		if (cDevice::CurrentChannel())
+		{
             // find group corresponding to current channel
             int curGroup =0;
 			int curChannel = cDevice::CurrentChannel();
@@ -162,89 +165,90 @@ pageTitle = tr("MultiSchedule");
             if ( channel < 0 )
                 channel = 0;
 		}
-		else {
+		else
+		{
             channel_group = channel;
 		}
 	}
 
-        if ( channel >= (int)channel_groups_numbers.size() )
-          channel = 0;
-        channel_group = channel;
-{
-    // build time list
-    times_names.clear();
-    times_start.clear();
-    
-    // calculate time of midnight (localtime) and convert back to GMT
-    time_t now = (time(NULL)/3600)*3600;
-    time_t now_local = time(NULL);
-    struct tm tm_r;
-    if ( localtime_r( &now_local, &tm_r ) == 0 ) {
-        ostringstream builder;
-        builder << "cannot represent timestamp " << now_local << " as local time";
-        throw runtime_error( builder.str() );
-    }
-    tm_r.tm_hour=0;
-    tm_r.tm_min=0;
-    tm_r.tm_sec=0;
-    time_t midnight = mktime( &tm_r );
+	if ( channel >= (int)channel_groups_numbers.size() )
+		channel = 0;
+	channel_group = channel;
+	{
+		// build time list
+		times_names.clear();
+		times_start.clear();
 
-    // add four 8h steps per day to the time list
-    for (int i=0; i<4*MAX_DAYS ; i++ )
-    {
-        times_start.push_back( midnight + MAX_HOURS*3600*i );
-    }
-    vector< string > parts = StringSplit( LiveSetup().GetTimes(), ';' );
-    vector< time_t > offsets;
-    vector< string >::const_iterator part = parts.begin();
-    for ( ; part != parts.end(); ++part ) 
-    {
-        try {
-            unsigned int sep = (*part).find(':');
-            std::string hour = (*part).substr(0, sep );
-            if ( sep == (*part).npos )
-            {
-                esyslog("Live: Error parsing time '%s'", (*part).c_str() );
-                continue;
-            }
-            std::string min = (*part).substr(sep+1, (*part).npos );
-            offsets.push_back( lexical_cast<time_t>( hour )*60*60 + lexical_cast<time_t>( min ) *60 );
-        }
-        catch ( const bad_lexical_cast & ) {
-            esyslog("Live: Error parsing time '%s'", part->c_str() );
-        };
-    };
-    // add the time of the favourites to the time list
-    for (int i=0; i< MAX_DAYS ; i++ )
-    {
-        vector< time_t >::const_iterator offset = offsets.begin();
-        for ( ; offset != offsets.end(); ++offset ) 
-        {
-            times_start.push_back( midnight + 24*3600*i + *offset );
-        }
-    }
-    // add now
-    times_start.push_back( now );
-    // sort the times
-    std::sort( times_start.begin(), times_start.end() );
-    // delete every time which has already passed
-    while ( *times_start.begin()< now )
-        times_start.erase(times_start.begin() );
+		// calculate time of midnight (localtime) and convert back to GMT
+		time_t now = (time(NULL)/3600)*3600;
+		time_t now_local = time(NULL);
+		struct tm tm_r;
+		if ( localtime_r( &now_local, &tm_r ) == 0 ) {
+			ostringstream builder;
+			builder << "cannot represent timestamp " << now_local << " as local time";
+			throw runtime_error( builder.str() );
+		}
+		tm_r.tm_hour=0;
+		tm_r.tm_min=0;
+		tm_r.tm_sec=0;
+		time_t midnight = mktime( &tm_r );
 
-    // build the corresponding names
-    for ( vector< time_t >::const_iterator start = times_start.begin();
-          start != times_start.end(); ++start ) 
-    {
-        times_names.push_back(FormatDateTime( tr("%A, %x"), *start)
-                              +std::string(" ")+ FormatDateTime( tr("%I:%M %p"), *start) );
-    }
-    // the first time is now
-    times_names[0]=tr("Now");
+		// add four 8h steps per day to the time list
+		for (int i=0; i<4*MAX_DAYS ; i++ )
+		{
+			times_start.push_back( midnight + MAX_HOURS*3600*i );
+		}
+		vector< string > parts = StringSplit( LiveSetup().GetTimes(), ';' );
+		vector< time_t > offsets;
+		vector< string >::const_iterator part = parts.begin();
+		for ( ; part != parts.end(); ++part )
+		{
+			try {
+				unsigned int sep = (*part).find(':');
+				std::string hour = (*part).substr(0, sep );
+				if ( sep == (*part).npos )
+				{
+					esyslog("Live: Error parsing time '%s'", (*part).c_str() );
+					continue;
+				}
+				std::string min = (*part).substr(sep+1, (*part).npos );
+				offsets.push_back( lexical_cast<time_t>( hour )*60*60 + lexical_cast<time_t>( min ) *60 );
+			}
+			catch ( const bad_lexical_cast & ) {
+				esyslog("Live: Error parsing time '%s'", part->c_str() );
+			};
+		};
+		// add the time of the favourites to the time list
+		for (int i=0; i< MAX_DAYS ; i++ )
+		{
+			vector< time_t >::const_iterator offset = offsets.begin();
+			for ( ; offset != offsets.end(); ++offset )
+			{
+				times_start.push_back( midnight + 24*3600*i + *offset );
+			}
+		}
+		// add now
+		times_start.push_back( now );
+		// sort the times
+		std::sort( times_start.begin(), times_start.end() );
+		// delete every time which has already passed
+		while ( *times_start.begin()< now )
+			times_start.erase(times_start.begin() );
 
-    if ( time_para >= times_names.size() )
-        time_para = times_names.size()-1;
-    time_selected=time_para;
-}
+		// build the corresponding names
+		for ( vector< time_t >::const_iterator start = times_start.begin();
+			  start != times_start.end(); ++start )
+		{
+			times_names.push_back(FormatDateTime( tr("%A, %x"), *start)
+								  +std::string(" ")+ FormatDateTime( tr("%I:%M %p"), *start) );
+		}
+		// the first time is now
+		times_names[0]=tr("Now");
+
+		if ( time_para >= times_names.size() )
+			time_para = times_names.size()-1;
+		time_selected=time_para;
+	}
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -260,116 +264,116 @@ pageTitle = tr("MultiSchedule");
 <%cpp>
 	cSchedulesLock schedulesLock;
 	cSchedules const* schedules = cSchedules::Schedules( schedulesLock );
-       
-        time_t now = time(NULL);
-        if ( time_para >= times_start.size() )
-            time_para = times_start.size()-1;
-        time_t sched_start = (times_start[ time_para ]/300)*300; 
-        time_t max_hours;
-        try {
-          max_hours = lexical_cast<time_t>( LiveSetup().GetScheduleDuration() );
-        }
-        catch ( const bad_lexical_cast & )
-        {
-          esyslog("Live: could not convert '%s' into a schedule duration", LiveSetup().GetScheduleDuration().c_str());
-          max_hours = 8;
-        };
-        if (max_hours > 48)
-            max_hours = 48;
 
-        time_t sched_end = sched_start + 60 * 60 * max_hours;
-        int sched_end_row = ( sched_end - sched_start ) / 60 / MINUTES_PER_ROW;
-        std::list<SchedEntry> table[MAX_CHANNELS];
-        std::vector<std::string> channel_names(channel_groups_numbers[ channel ].size() );
-        std::vector<tChannelID> channel_IDs(channel_groups_numbers[ channel ].size() );
-        if ( channel >= (int)channel_groups_numbers.size() )
-          channel = channel_groups_numbers.size()-1;
-        //for ( int chan = 0; chan<MAX_CHANNELS; chan++)
-        for ( unsigned int j = 0; j<channel_groups_numbers[ channel ].size(); j++)
-        {
-          int prev_row = -1;
+	time_t now = time(NULL);
+	if ( time_para >= times_start.size() )
+	    time_para = times_start.size()-1;
+	time_t sched_start = (times_start[ time_para ]/300)*300;
+	time_t max_hours;
+	try {
+		max_hours = lexical_cast<time_t>( LiveSetup().GetScheduleDuration() );
+	}
+	catch ( const bad_lexical_cast & )
+	{
+		esyslog("Live: could not convert '%s' into a schedule duration", LiveSetup().GetScheduleDuration().c_str());
+		max_hours = 8;
+	};
+	if (max_hours > 48)
+	    max_hours = 48;
 
-
-          int chan = channel_groups_numbers[ channel ][ j ];
-
-          cChannel* Channel = Channels.GetByNumber( chan );
-          if ( ! Channel )
-            continue;
-          if ( Channel->GroupSep() || Channel->Name() == '\0' )
-            continue;
-          channel_names[ j ] = Channel->Name();
-          channel_IDs[ j ] = Channel->GetChannelID();
-
-          cSchedule const* Schedule = schedules->GetSchedule( Channel );
-          if ( ! Schedule )
-            continue;
-          for (const cEvent *Event = Schedule->Events()->First(); Event; 
-               Event = Schedule->Events()->Next(Event) ) 
-          {
-            if (Event->EndTime() <= sched_start )
-              continue;
-            if (Event->StartTime() >= sched_end )
-              continue;
-
-            EpgInfoPtr epgEvent = EpgEvents::CreateEpgInfo(Channel, Event);
-            if ( prev_row < 0 && Event->StartTime() > sched_start + MINUTES_PER_ROW )
-            {
-              // insert dummy event at start
-              table[ j ].push_back( SchedEntry() );
-              SchedEntry &en=table[ j ].back();
-              int event_start_row = (Event->StartTime() - sched_start) / 60 / MINUTES_PER_ROW;
-              en.start_row = 0;
-              en.row_count = event_start_row;
-              // no title and no start time = dummy event
-              en.title = "";
-              en.start = "";
-              prev_row = en.start_row + en.row_count;
-            }
-            table[ j ].push_back( SchedEntry() );
-            SchedEntry &en=table[j].back();
-
-            en.title = epgEvent->Title();
-            en.short_description = epgEvent->ShortDescr();
-            en.description = epgEvent->LongDescr();
-            en.start = epgEvent->StartTime(tr("%I:%M %p"));
-            en.end = epgEvent->EndTime(tr("%I:%M %p"));
-            en.day = epgEvent->StartTime(tr("%A, %b %d %Y"));
-            en.epgid = EpgEvents::EncodeDomId(Channel->GetChannelID(), Event->EventID());
-            en.has_timer = LiveTimerManager().GetTimer(Event->EventID(), Channel->GetChannelID() ) != 0;
-
-            en.start_row = prev_row > 0 ? prev_row : 0;
-            int end_time = Schedule->Events()->Next(Event) ? 
-              Schedule->Events()->Next(Event)->StartTime() :
-              Event->EndTime();
-            if (end_time > sched_end)
-                end_time = sched_end;
-            int next_event_start_row = (end_time - sched_start) / 60 / MINUTES_PER_ROW;
-            en.row_count = next_event_start_row - en.start_row;
-            if ( en.row_count < 1 )
-              en.row_count = 1;
-            prev_row = en.start_row + en.row_count;
-
-            // truncate description if too long
-            en.truncated=false;
-            en.description_trunc=StringWordTruncate( en.description,
-                                                     CHARACTERS_PER_ROW*(en.row_count-2),
-                                                     en.truncated );
+	time_t sched_end = sched_start + 60 * 60 * max_hours;
+	int sched_end_row = ( sched_end - sched_start ) / 60 / MINUTES_PER_ROW;
+	std::list<SchedEntry> table[MAX_CHANNELS];
+	std::vector<std::string> channel_names(channel_groups_numbers[ channel ].size() );
+	std::vector<tChannelID> channel_IDs(channel_groups_numbers[ channel ].size() );
+	if ( channel >= (int)channel_groups_numbers.size() )
+		channel = channel_groups_numbers.size()-1;
+	//for ( int chan = 0; chan<MAX_CHANNELS; chan++)
+	for ( unsigned int j = 0; j<channel_groups_numbers[ channel ].size(); j++)
+	{
+		int prev_row = -1;
 
 
+		int chan = channel_groups_numbers[ channel ][ j ];
 
-          };
-          if ( table[ j ].begin() == table[ j ].end() )
-          {
-            // no entries... create a single dummy entry       
-            table[ j ].push_back( SchedEntry() );
-            SchedEntry &en=table[ j ].back();
-            en.start_row = 0;
-            en.row_count = sched_end_row;
-            // no title and no start time = dummy event
-            en.title = "";
-            en.start = "";
-          }
-        }
+		cChannel* Channel = Channels.GetByNumber( chan );
+		if ( ! Channel )
+			continue;
+		if ( Channel->GroupSep() || Channel->Name() == '\0' )
+			continue;
+		channel_names[ j ] = Channel->Name();
+		channel_IDs[ j ] = Channel->GetChannelID();
+
+		cSchedule const* Schedule = schedules->GetSchedule( Channel );
+		if ( ! Schedule )
+			continue;
+		for (const cEvent *Event = Schedule->Events()->First(); Event;
+			 Event = Schedule->Events()->Next(Event) )
+		{
+			if (Event->EndTime() <= sched_start )
+				continue;
+			if (Event->StartTime() >= sched_end )
+				continue;
+
+			EpgInfoPtr epgEvent = EpgEvents::CreateEpgInfo(Channel, Event);
+			if ( prev_row < 0 && Event->StartTime() > sched_start + MINUTES_PER_ROW )
+			{
+				// insert dummy event at start
+				table[ j ].push_back( SchedEntry() );
+				SchedEntry &en=table[ j ].back();
+				int event_start_row = (Event->StartTime() - sched_start) / 60 / MINUTES_PER_ROW;
+				en.start_row = 0;
+				en.row_count = event_start_row;
+				// no title and no start time = dummy event
+				en.title = "";
+				en.start = "";
+				prev_row = en.start_row + en.row_count;
+			}
+			table[ j ].push_back( SchedEntry() );
+			SchedEntry &en=table[j].back();
+
+			en.title = epgEvent->Title();
+			en.short_description = epgEvent->ShortDescr();
+			en.description = epgEvent->LongDescr();
+			en.start = epgEvent->StartTime(tr("%I:%M %p"));
+			en.end = epgEvent->EndTime(tr("%I:%M %p"));
+			en.day = epgEvent->StartTime(tr("%A, %b %d %Y"));
+			en.epgid = EpgEvents::EncodeDomId(Channel->GetChannelID(), Event->EventID());
+			en.has_timer = LiveTimerManager().GetTimer(Event->EventID(), Channel->GetChannelID() ) != 0;
+
+			en.start_row = prev_row > 0 ? prev_row : 0;
+			int end_time = Schedule->Events()->Next(Event) ?
+				Schedule->Events()->Next(Event)->StartTime() :
+				Event->EndTime();
+			if (end_time > sched_end)
+				end_time = sched_end;
+			int next_event_start_row = (end_time - sched_start) / 60 / MINUTES_PER_ROW;
+			en.row_count = next_event_start_row - en.start_row;
+			if ( en.row_count < 1 )
+				en.row_count = 1;
+			prev_row = en.start_row + en.row_count;
+
+			// truncate description if too long
+			en.truncated=false;
+			en.description_trunc=StringWordTruncate( en.description,
+													 CHARACTERS_PER_ROW*(en.row_count-2),
+													 en.truncated );
+
+
+
+		};
+		if ( table[ j ].begin() == table[ j ].end() )
+		{
+			// no entries... create a single dummy entry
+			table[ j ].push_back( SchedEntry() );
+			SchedEntry &en=table[ j ].back();
+			en.start_row = 0;
+			en.row_count = sched_end_row;
+			// no title and no start time = dummy event
+			en.title = "";
+			en.start = "";
+		}
+	}
 </%cpp>
 		<table class="mschedule" cellspacing="0" cellpadding="0">
 <%cpp>
@@ -426,7 +430,7 @@ pageTitle = tr("MultiSchedule");
 </%cpp>
 			 &nbsp;
 <%cpp>
-		        }	
+		        }
 </%cpp>
 		       </td>
 <%cpp>
@@ -436,11 +440,11 @@ pageTitle = tr("MultiSchedule");
 </%cpp>
 		                <td class = " time spacer " > &nbsp; </td>
 <%cpp>
-                                if ( cur_event[channel] == table[channel].end() 
+                                if ( cur_event[channel] == table[channel].end()
                                      || cur_event[channel]->start_row != row )
                                   // no new event in this channel, skip it
                                   continue;
-                                
+
                                 SchedEntry &en=*cur_event[channel];
                                 if (en.title.empty() && en.start.empty() )
                                 {
@@ -451,7 +455,7 @@ pageTitle = tr("MultiSchedule");
 <%cpp>
 				  ++cur_event[channel];
                                   continue;
-                                        
+
                                 }
                                 // output an event cell
 </%cpp>
@@ -460,19 +464,19 @@ pageTitle = tr("MultiSchedule");
                         <div class=" tools1 " >
                           <& pageelems.event_timer epgid=(en.epgid) &>
 <%cpp>
-                           if (LiveFeatures<features::epgsearch>().Recent() ) { 
+                           if (LiveFeatures<features::epgsearch>().Recent() ) {
 </%cpp>
                           <a href="searchresults.html?searchplain=<$ StringUrlEncode(en.title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a>
-<%cpp> 
-                           } else { 
-                             </%cpp><img src="img/transparent.png" width="16" height="16"><%cpp> 
+<%cpp>
+                           } else {
+                             </%cpp><img src="img/transparent.png" width="16" height="16"><%cpp>
                            }
 </%cpp>
                           <& pageelems.imdb_info_href title=(en.title) &>
                          </div><div class= "start withmargin"><$ en.start $></div>
 			  <div class="title withmargin"><a <& tooltip.hint text=(StringEscapeAndBreak(tr("Click to view details."))) &><& tooltip.display domId=en.epgid &>><$ en.title $></a></div>
 <%cpp>
-                         if ( en.row_count>2 && !en.short_description.empty() ) 
+                         if ( en.row_count>2 && !en.short_description.empty() )
                          {
 </%cpp>
                           <div class="short withmargin"><$ en.short_description.empty() ? "&nbsp;" : en.short_description $></div>
