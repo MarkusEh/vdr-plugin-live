@@ -205,7 +205,11 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 		<& rec_item_dir name=(recItem->Name()) level=(level) &>
 <%cpp>
 #if TNT_HAS_QUERYPARAMS
+#if TNT_QUERYPARAMS_NO_BOOL
+		tnt::QueryParams recItemParams(qparam);
+#else
 		tnt::QueryParams recItemParams(qparam, false);
+#endif
 #else
 		cxxtools::QueryParams recItemParams(qparam, false);
 #endif

@@ -3,7 +3,13 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
+#include "tntfeatures.h"
+#if TNT_LOG_SERINFO
+#include <cxxtools/log.h>
+#include <cxxtools/xml/xmldeserializer.h>
+#else
 #include <cxxtools/loginit.h>
+#endif
 #include <tnt/sessionscope.h>
 #include <tnt/httpreply.h>
 #include <vdr/config.h>
@@ -181,19 +187,67 @@ namespace vdrlive {
 #endif
 
 #if TNT_CONFIG_INTERNAL
+	namespace {
+		std::string GetResourcePath()
+		{
+#if APIVERSNUM > 10729
+			string resourceDir(Plugin::GetResourceDirectory());
+			return resourceDir;
+#else
+			string configDir(Plugin::GetConfigDirectory());
+			return configDir;
+#endif
+		}
+
+		void MapUrl(tnt::Tntnet & app, const char *rule, const char * component, std::string const & instPath, const char * pathInfo, const char * mime_type)
+		{
+#if TNT_MAPURL_NAMED_ARGS
+			tnt::Mapping::args_type argMap;
+			argMap.insert(std::make_pair("mime-type", mime_type));
+#endif
+			app.mapUrl(rule, component)
+				.setPathInfo(instPath + pathInfo)
+#if TNT_MAPURL_NAMED_ARGS
+				.setArgs(argMap);
+#else
+				.pushArg(mime_type);
+#endif
+		}
+	}
+
 	void TntConfig::Configure(tnt::Tntnet& app) const
 	{
 		string const configDir(Plugin::GetConfigDirectory());
-#if APIVERSNUM > 10729
-		string const resourceDir(Plugin::GetResourceDirectory());
-#endif
 
+#if TNT_LOG_SERINFO
+		cxxtools::SerializationInfo si;
+		std::istringstream logXmlConf(
+			"<logging>\n"
+			"  <rootlogger>" + LiveSetup().GetTntnetLogLevel() + "</rootlogger>\n"
+			"  <loggers>\n"
+			"    <logger>\n"
+			"      <category>cxxtools</category>\n"
+			"      <level>" + LiveSetup().GetTntnetLogLevel() + "</level>\n"
+			"    </logger>\n"
+			"    <logger>\n"
+			"      <category>tntnet</category>\n"
+			"      <level>" + LiveSetup().GetTntnetLogLevel() + "</level>\n"
+			"    </logger>\n"
+			"  </loggers>\n"
+			"</logging>\n"
+			);
+		cxxtools::xml::XmlDeserializer d(logXmlConf);
+		d.deserialize(si);
+		log_init(si);
+#else
 		std::istringstream logConf(
 			"rootLogger=" + LiveSetup().GetTntnetLogLevel() + "\n"
 			"logger.tntnet=" + LiveSetup().GetTntnetLogLevel() + "\n"
 			"logger.cxxtools=" + LiveSetup().GetTntnetLogLevel() + "\n"
 			);
+
 		log_init(logConf);
+#endif
 
 		// +++ CAUTION +++ CAUTION +++ CAUTION +++ CAUTION +++ CAUTION +++
 		// ------------------------------------------------------------------------
@@ -229,13 +283,12 @@ namespace vdrlive {
 
 		// the following selects the theme specific 'theme.css' file
 		// inserted by 'tadi' -- verified with above, but not counterchecked yet!
-		app.mapUrl("^/themes/([^/]*)/css.*/(.+\\.css)", "content")
-#if APIVERSNUM > 10729
-			.setPathInfo(resourceDir + "/themes/$1/css/$2")
-#else
-			.setPathInfo(configDir + "/themes/$1/css/$2")
-#endif
-			.pushArg("text/css");
+		MapUrl(app,
+			   "^/themes/([^/]*)/css.*/(.+\\.css)",
+			   "content",
+			   GetResourcePath(),
+			   "/themes/$1/css/$2",
+			   "text/css");
 
 		// the following rules provide a search scheme for images. The first
 		// rule where a image is found, terminates the search.
@@ -243,79 +296,82 @@ namespace vdrlive {
 		// 2. /img/<imgname>.<ext>
 		// deprecated: 3. <imgname>.<ext> (builtin images)
 		// inserted by 'tadi' -- verified with above, but not counterchecked yet!
-		app.mapUrl("^/themes/([^/]*)/img.*/(.+)\\.(.+)", "content")
-#if APIVERSNUM > 10729
-			.setPathInfo(resourceDir + "/themes/$1/img/$2.$3")
-#else
-			.setPathInfo(configDir + "/themes/$1/img/$2.$3")
-#endif
-			.pushArg("image/$3");
-		app.mapUrl("^/themes/([^/]*)/img.*/(.+)\\.(.+)", "content")
-#if APIVERSNUM > 10729
-			.setPathInfo(resourceDir + "/img/$2.$3")
-#else
-			.setPathInfo(configDir + "/img/$2.$3")
-#endif
-			.pushArg("image/$3");
+		MapUrl(app,
+			   "^/themes/([^/]*)/img.*/(.+)\\.(.+)",
+			   "content",
+			   GetResourcePath(),
+			   "/themes/$1/img/$2.$3",
+			   "image/$3");
+
+		MapUrl(app,
+			   "^/themes/([^/]*)/img.*/(.+)\\.(.+)",
+			   "content",
+			   GetResourcePath(),
+			   "/img/$2.$3",
+			   "image/$3");
 		// deprecated: file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) $2@" << endl;
 
 		// Epg images
 		string const epgImgPath(LiveSetup().GetEpgImageDir());
 		if (!epgImgPath.empty()) {
 			// inserted by 'tadi' -- verified with above, but not counterchecked yet!
-			app.mapUrl("^/epgimages/([^/]*)\\.([^./]+)", "content")
-				.setPathInfo(epgImgPath + "/$1.$2")
-				.pushArg("image/$2");
+			MapUrl(app,
+				   "^/epgimages/([^/]*)\\.([^./]+)",
+				   "content",
+				   epgImgPath,
+				   "/$1.$2",
+				   "image/$2");
 		}
 
 		// select additional (not build in) javascript.
 		// WARNING: no path components with '.' in the name are allowed. Only
 		// the basename may contain dots and must end with '.js'
 		// inserted by 'tadi' -- verified with above, but not counterchecked yet!
-		app.mapUrl("^/js(/[^.]*)([^/]*\\.js)", "content")
-#if APIVERSNUM > 10729
-			.setPathInfo(resourceDir + "/js$1$2")
-#else
-			.setPathInfo(configDir + "/js$1$2")
-#endif
-			.pushArg("text/javascript");
+		MapUrl(app,
+			   "^/js(/[^.]*)([^/]*\\.js)",
+			   "content",
+			   GetResourcePath(),
+			   "/js$1$2",
+			   "text/javascript");
 
 		// map to 'css/basename(uri)'
 		// inserted by 'tadi' -- verified with above, but not counterchecked yet!
-		app.mapUrl("^/css.*/(.+)", "content")
-#if APIVERSNUM > 10729
-			.setPathInfo(resourceDir + "/css/$1")
-#else
-			.setPathInfo(configDir + "/css/$1")
-#endif
-			.pushArg("text/css");
+		MapUrl(app,
+			   "^/css.*/(.+)",
+			   "content",
+			   GetResourcePath(),
+			   "/css/$1",
+			   "text/css");
 
 		// map to 'img/basename(uri)'
 		// inserted by 'tadi' -- verified with above, but not counterchecked yet!
-		app.mapUrl("^/img.*/(.+)\\.([^.]+)", "content")
-#if APIVERSNUM > 10729
-			.setPathInfo(resourceDir + "/img/$1.$2")
-#else
-			.setPathInfo(configDir + "/img/$1.$2")
-#endif
-			.pushArg("image/$2");
+		MapUrl(app,
+			   "^/img.*/(.+)\\.([^.]+)",
+			   "content",
+			   GetResourcePath(),
+			   "/img/$1.$2",
+			   "image/$2");
 
 		// Map favicon.ico into img directory
-		app.mapUrl("^/favicon.ico$", "content")
-#if APIVERSNUM > 10729
-			.setPathInfo(resourceDir + "/img/favicon.ico")
-#else
-			.setPathInfo(configDir + "/img/favicon.ico")
-#endif
-			.pushArg("image/x-icon");
+		MapUrl(app,
+			   "^/favicon.ico$",
+			   "content",
+			   GetResourcePath(),
+			   "/img/favicon.ico",
+			   "image/x-icon");
 
 		// takes first path components without 'extension' when it does not
 		// contain '.'
 		// modified by 'tadi' -- verified with above, but not counterchecked yet!
 		app.mapUrl("^/([^./]+)(.*)?", "$1");
 
+#if TNT_GLOBAL_TNTCONFIG
+		tnt::TntConfig::it().sessionTimeout = 86400;
+		tnt::TntConfig::it().defaultContentType = string("text/html; charset=") + LiveI18n().CharacterEncoding();
+#else
 		tnt::Sessionscope::setDefaultTimeout(86400);
 		tnt::HttpReply::setDefaultContentType(string("text/html; charset=") + LiveI18n().CharacterEncoding());
+#endif
 
 		Setup::IpList const& ips = LiveSetup().GetServerIps();
 		int port = LiveSetup().GetServerPort();

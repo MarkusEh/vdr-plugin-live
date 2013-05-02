@@ -17,6 +17,9 @@
 // Query params are now in tntnet and not in cxxtools
 #define TNT_HAS_QUERYPARAMS		(TNTVERSION >= 16060)
 
+// Query params without boolean parameter
+#define TNT_QUERYPARAMS_NO_BOOL (TNTVERSION >= 22000)
+
 // One can request the host part of the request url
 #define TNT_HAS_GETHOST			(TNTVERSION >= 16060)
 
@@ -25,5 +28,14 @@
 
 // version of TNTNET that binds ipv6 addresses with IPV6_V6ONLY flag set to true
 #define TNT_IPV6_V6ONLY	  	    (CXXTOOLVER >= 21000)
+
+// version of TNTNET with properties deserializer for logger configuration args.
+#define TNT_LOG_SERINFO			(CXXTOOLVER >= 22000)
+
+// version of TNTNET wich expects name, value mappings for Url-Mapper arguments.
+#define TNT_MAPURL_NAMED_ARGS	(TNTVERSION >= 22000)
+
+// version of TNTNET where configuration is global
+#define TNT_GLOBAL_TNTCONFIG	(TNTVERSION >= 22000)
 
 #endif // VDR_LIVE_TNTFEATURES_H
