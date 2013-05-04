@@ -17,7 +17,11 @@ bool logged_in(false);
 
 string mime("image/png");
 if (request.getArgsCount() > 0) {
+#if TNT_MAPURL_NAMED_ARGS
+	mime = request.getArg("mime-type");
+#else
 	mime = request.getArg(0);
+#endif
 	// dsyslog("vdrlive::content found mime arg (%s)", mime.c_str());
 }
 reply.setContentType(mime);
