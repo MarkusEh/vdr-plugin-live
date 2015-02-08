@@ -16,21 +16,14 @@ See the file COPYING for license information.
 IMPORTANT:
 ==========
 
-This is the last version of LIVE which will work with Tntnet <
-1.6.0.6.
+This version of LIVE does not support VDR versions older than 2.0.0
+any more (maybe still some older VDR devel versions leading to VDR
+2.0.0 but that is not tested).
 
-Since Nov 17 2007 version 1.6.0.6 of Tntnet has been released with new
-features and binary incompatible changes. This version of LIVE works
-with that version and still maintains backwards compatibilty to older
-versions of Tntnet.
-
-Future versions of LIVE will start to use the new Tntnet
-features. This means that backwards compatibility can not be
-maintained from that point in time onwards.
-
-We therefore strongly suggest you upgrade to Tntnet with at least
-version 1.6.0.6. This new Tntnet version is supported by the current
-version of LIVE. Just update Tntnet and recompile LIVE from scratch.
+If you can not update your VDR the Version 0.3.x of LIVE is still 'up
+to date' enough and works with very old VDR versions and with old
+versions of Tntnet.  The LIVE version 0.4.x adds only compatibility
+changes for newer VDR versions.
 
 
 Description:
@@ -48,7 +41,7 @@ fast.
 Requirements:
 =============
 
-VDR >= 1.4.0-2
+VDR >= 2.0.0
 
 gcc >= 3.1
 if gcc < 4.0:
@@ -98,11 +91,11 @@ are expected.
 
 In order to work correctly you must copy the subdirectory 'live' from
 the source distribution to the directory where the vdr plugins look
-for their configuration files. The pure VDR default for this config
+for their resource files. The pure VDR default for this config
 directory is: /video/plugins, but this depends also from the
 parameters -c or -v (see 'vdr --help' for details).
 
-cp -a <live-src-dir>/live <plugin-config-dir>/plugins
+cp -a <live-src-dir>/live <vdr-resource-dir>/plugins
 
 
 Setup
@@ -121,7 +114,7 @@ You can also specifiy this parameter via commandline:
                             (default: 8008)
   -i IP,    --ip=IP         bind server only to specified IP, may appear
                             multiple times
-                            (default: 0.0.0.0)
+                            (default: 0.0.0.0, ::0)
 
 Additional SSL options are available now. See "How to make LIVE listen
 for ssl connections" section below on hints how to setup SSL.
@@ -158,7 +151,7 @@ HTTP Listener (default: 8008)
 Note: Since the gnutls SslListener was broken in Tntnet versions prior
 to SVN revision 1035 you will have to recompile Tntnet with
 "./configure --with-ssl=openssl" to make it work. Alternatively
-install version 1.6.2 of tntnet on your system.
+install version 1.6.2 or higher of tntnet on your system.
 
 
 SSL Commandline options
@@ -217,27 +210,12 @@ and doc/TODO.txt.
 Internationalization (i18n)
 ===========================
 
-Since the release of VDR 1.5.7 the way how VDR (and its plugins) are
-localized changed dramatically. The system now uses GNU gettext. This
-has the advantage that more languages can be supported. Also the
-translations are now local to a language specific message file. So
-simultaneous translations of different languages are much better
-supported. Message files are located in the po subdirectory.
+LIVE uses the same i18n support like VDR does since version 1.5.7.
+This version of LIVE can not support i18n compatible with VDR versions
+older than 1.5.7.
 
-The downside to this is that, in order to provide new live-plugin
-versions for VDR versions less than 1.5.7, it means one has to
-maintain old i18n.c file and the new message files. Since this would
-be an ongoing source of complications we decided to actively support
-only the new internationalization scheme from VDR 1.5.7 and above.
-
-To be able to support versions of VDR prior to 1.5.7 we generate a
-backward compatible i18n-generated.h file from the new message
-files. This generation step is *not* done automatically on every
-build. It is only neccessary if the localized strings have changed or
-if translations have been added. So if one of above is true you can
-regenerate i18n-generated.h with the make target 'generate-i18n' prior
-to creating the live plugin. In this case you need the CPAN perl
-module Locale::PO installed on your system.
+All localization files are found in the po subdirectory of the LIVE
+plugin source.
 
 
 Security consideratios
