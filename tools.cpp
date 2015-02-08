@@ -365,7 +365,11 @@ namespace vdrlive {
 			stat(source.c_str(), &st1);
 			stat(target.c_str(),&st2);
 			if (!copy && (st1.st_dev == st2.st_dev)) {
+#if APIVERSNUM > 20101
+				if (!cVideoDirectory::RenameVideoFile(source.c_str(), target.c_str())) {
+#else
 				if (!RenameVideoFile(source.c_str(), target.c_str())) {
+#endif
 					esyslog("[LIVE]: rename failed from %s to %s", source.c_str(), target.c_str());
 					return false;
 				}
@@ -461,7 +465,11 @@ namespace vdrlive {
 						size_t found = source.find_last_of(delim);
 						if (found != std::string::npos) {
 							source = source.substr(0, found);
+#if APIVERSNUM > 20101
+							while (source != cVideoDirectory::Name()) {
+#else
 							while (source != VideoDirectory) {
+#endif
 								found = source.find_last_of(delim);
 								if (found == std::string::npos)
 									break;
@@ -478,7 +486,11 @@ namespace vdrlive {
 					size_t found = target.find_last_of(delim);
 					if (found != std::string::npos) {
 						target = target.substr(0, found);
+#if APIVERSNUM > 20101
+						while (target != cVideoDirectory::Name()) {
+#else
 						while (target != VideoDirectory) {
+#endif
 							found = target.find_last_of(delim);
 							if (found == std::string::npos)
 								break;

@@ -112,7 +112,11 @@ namespace vdrlive {
 		if (found == string::npos)
 			return false;
 
+#if APIVERSNUM > 20101
+		string newname = string(cVideoDirectory::Name()) + "/" + name + oldname.substr(found);
+#else
 		string newname = string(VideoDirectory) + "/" + name + oldname.substr(found);
+#endif
 
 		if (!MoveDirectory(oldname.c_str(), newname.c_str(), copy)) {
 			esyslog("[LIVE]: renaming failed from '%s' to '%s'", oldname.c_str(), newname.c_str());
