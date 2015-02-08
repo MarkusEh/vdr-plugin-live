@@ -67,7 +67,7 @@ namespace vdrlive {
 
 	struct bad_lexical_cast: std::runtime_error
 	{
-			bad_lexical_cast(): std::runtime_error( "bad lexical cast" ) {}
+		bad_lexical_cast(): std::runtime_error( "bad lexical cast" ) {}
 	};
 
 	template< typename To, typename From >
@@ -93,18 +93,36 @@ namespace vdrlive {
 
 	class ReadLock
 	{
-		public:
-			ReadLock( cRwLock& lock, int timeout = 100 ): m_lock( lock ), m_locked( false ) { if ( m_lock.Lock( false, timeout ) ) m_locked = true; }
-			~ReadLock() { if ( m_locked ) m_lock.Unlock(); }
+		private:
+			typedef void (ReadLock::*safe_bool)() const;
 
-			operator bool() { return m_locked; }
-			bool operator!() { return !m_locked; }
+		public:
+            ReadLock(cRwLock& lock, int timeout = 100)
+                : m_lock(lock)
+                , m_locked(false)
+            {
+                if (m_lock.Lock( false, timeout ))
+                    m_locked = true;
+            }
+
+			~ReadLock()
+			{
+				if (m_locked)
+					m_lock.Unlock();
+			}
+
+			operator safe_bool() const
+			{
+				return m_locked ? &ReadLock::safe_bool_idiom : 0;
+			}
 
 		private:
-			ReadLock( ReadLock const& );
+			ReadLock(ReadLock const&);
 
 			cRwLock& m_lock;
 			bool m_locked;
+
+			void safe_bool_idiom() const {}
 	};
 
 } // namespace vdrlive
