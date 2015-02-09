@@ -1,23 +1,14 @@
-CXX      ?= g++
-AR       ?= ar
-
-CXXFLAGS ?= -O2 -Woverloaded-virtual -Wall -fPIC
-
-CXXFLAGS += `tntnet-config --cxxflags`
+### The official name of this plugin.
+PLUGIN = live
 
 ### Includes and Defines (add further entries here):
-
 INCLUDES += -I.
 
 ### The object files (add further files here):
-
 OBJS = dispatcher.o  job.o       regex.o   worker.o \
        listener.o    poller.o    tntnet.o
 
-### Default rules:
-
-.PHONY: all clean
-
+### The main target:
 all: libhttpd.a
 
 ### Implicit rules:
@@ -25,8 +16,7 @@ all: libhttpd.a
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $(DEFINES) $(INCLUDES) -o $@ $<
 
-# Dependencies:
-
+### Dependencies:
 MAKEDEP = $(CXX) -MM -MG
 DEPFILE = .dependencies
 $(DEPFILE): Makefile
@@ -35,7 +25,6 @@ $(DEPFILE): Makefile
 -include $(DEPFILE)
 
 ### Targets:
-
 libhttpd.a: $(OBJS)
 	$(AR) r $@ $^
 

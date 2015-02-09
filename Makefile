@@ -5,47 +5,36 @@
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.
 # By default the main source file also carries this name.
-# IPORTANT: the presence of this macro is important for the Make.config
-# file. So it must be defined, even if it is not used here!
-#
 PLUGIN = live
 
 ### The version number of this plugin (taken from the main source file):
-
 VERSION = $(shell grep '\#define LIVEVERSION ' setup.h | awk '{ print $$3 }' | sed -e 's/[";]//g')
-
-### The C++ compiler and options:
-
-CXX	 ?= g++
-ECPPC	 ?= ecppc
-
-### This variable is overriden in pages/Makefile because we don't want the
-### extra warnings in the tntnet generated files. So if you change here
-### something be sure to check pages/Makefile too.
-CXXFLAGS ?= -fPIC -O2 -Wall
-LDFLAGS	 ?= -fPIC -g
 
 ### Check for libpcre c++ wrapper
 HAVE_LIBPCRECPP = $(shell pcre-config --libs-cpp)
 
 ### The directory environment:
+# Use package data if installed...otherwise assume we're under the VDR source directory:
+PKGCFG = $(if $(VDRDIR),$(shell pkg-config --variable=$(1) $(VDRDIR)/vdr.pc),$(shell pkg-config --variable=$(1) vdr || pkg-config --variable=$(1) ../../../vdr.pc))
+LIBDIR = $(call PKGCFG,libdir)
+LOCDIR = $(call PKGCFG,locdir)
+PLGCFG = $(call PKGCFG,plgcfg)
+#
+TMPDIR ?= /tmp
 
-VDRDIR	 ?= ../../..
-LIBDIR	 ?= ../../lib
-TMPDIR	 ?= /tmp
+### The compiler options:
+export CFLAGS   = $(call PKGCFG,cflags)
+export CXXFLAGS = $(call PKGCFG,cxxflags)
 
-### Make sure that necessary options are included:
+ECPPC ?= ecppc
 
--include $(VDRDIR)/Make.global
+### The version number of VDR's plugin API:
+APIVERSION = $(call PKGCFG,apiversion)
 
 ### Allow user defined options to overwrite defaults:
+-include $(PLGCFG)
 
--include $(VDRDIR)/Make.config
-
-### The version number of VDR's plugin API (taken from VDR's "config.h"):
-
-APIVERSION = $(shell sed -ne '/define APIVERSION/s/^.*"\(.*\)".*$$/\1/p' $(VDRDIR)/config.h)
-I18NTARG   = $(shell if [ `echo $(APIVERSION) | tr [.] [0]` -ge "10507" ]; then echo "i18n"; fi)
+### Determine tntnet and cxxtools versions:
 TNTVERSION = $(shell tntnet-config --version | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
 CXXTOOLVER = $(shell cxxtools-config --version | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
 TNTVERS7   = $(shell ver=$(TNTVERSION); if [ $$ver -ge "1606" ]; then echo "yes"; fi)
@@ -61,14 +50,20 @@ ifneq ($(HAVE_LIBPCRECPP),)
 	LIBS           += $(HAVE_LIBPCRECPP)
 endif
 
-### The name of the distribution archive:
+### export all vars for sub-makes, using absolute paths
+LIBDIR := $(shell cd $(LIBDIR) >/dev/null 2>&1 && pwd)
+LOCDIR := $(shell cd $(LOCDIR) >/dev/null 2>&1 && pwd)
+export
+unexport PLUGIN
 
+### The name of the distribution archive:
 ARCHIVE = $(PLUGIN)-$(VERSION)
 PACKAGE = vdr-$(ARCHIVE)
 
-### Includes and Defines (add further entries here):
+### The name of the shared object file:
+SOFILE = libvdr-$(PLUGIN).so
 
-INCLUDES += -I$(VDRDIR)/include
+### Includes and Defines (add further entries here):
 ifneq ($(TNTVERS7),yes)
 	INCLUDES += -Ihttpd
 	LIBS	 += httpd/libhttpd.a
@@ -84,7 +79,6 @@ endif
 VERSIONSUFFIX = gen_version_suffix.h
 
 ### The object files (add further files here):
-
 PLUGINOBJS = $(PLUGIN).o thread.o tntconfig.o setup.o i18n.o timers.o \
 	     tools.o recman.o tasks.o status.o epg_events.o epgsearch.o \
 	     grab.o md5.o filecache.o livefeatures.o preload.o timerconflict.o \
@@ -92,40 +86,29 @@ PLUGINOBJS = $(PLUGIN).o thread.o tntconfig.o setup.o i18n.o timers.o \
 
 WEBLIBS	   = pages/libpages.a css/libcss.a javascript/libjavascript.a
 
-### Default rules:
-
-all: libvdr-$(PLUGIN).so $(I18NTARG)
-
-.PHONY: all dist clean subdirs $(SUBDIRS) PAGES
+### The main target:
+all: $(SOFILE) i18n
 
 ### Implicit rules:
-
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $(DEFINES) $(PLUGINFEATURES) $(INCLUDES) $<
 
-# Dependencies:
-
+### Dependencies:
 MAKEDEP = $(CXX) -MM -MG
 DEPFILE = .dependencies
 $(DEPFILE): Makefile
-	@$(MAKEDEP) $(DEFINES) $(PLUGINFEATURES) $(INCLUDES) $(PLUGINOBJS:%.o=%.cpp) > $@
+	@$(MAKEDEP) $(CXXFLAGS) $(DEFINES) $(PLUGINFEATURES) $(INCLUDES) $(PLUGINOBJS:%.o=%.cpp) > $@
 
 ifneq ($(MAKECMDGOALS),clean)
 -include $(DEPFILE)
 endif
 
 ### Internationalization (I18N):
-
-PODIR	  = po
-LOCALEDIR = $(VDRDIR)/locale
-I18Npo	  = $(wildcard $(PODIR)/*.po)
-I18Nmo	  = $(addsuffix .mo, $(foreach file, $(I18Npo), $(basename $(file))))
-I18Ndirs  = $(notdir $(foreach file, $(I18Npo), $(basename $(file))))
-I18Npot	  = $(PODIR)/$(PLUGIN).pot
-I18Nvdrmo = vdr-$(PLUGIN).mo
-ifeq ($(strip $(APIVERSION)),1.5.7)
-  I18Nvdrmo = $(PLUGIN).mo
-endif
+PODIR     = po
+I18Npo    = $(wildcard $(PODIR)/*.po)
+I18Nmo    = $(addsuffix .mo, $(foreach file, $(I18Npo), $(basename $(file))))
+I18Nmsgs  = $(addprefix $(DESTDIR)$(LOCDIR)/, $(addsuffix /LC_MESSAGES/vdr-$(PLUGIN).mo, $(notdir $(foreach file, $(I18Npo), $(basename $(file))))))
+I18Npot   = $(PODIR)/$(PLUGIN).pot
 
 %.mo: %.po
 	msgfmt -c -o $@ $<
@@ -133,35 +116,38 @@ endif
 $(I18Npot): PAGES $(PLUGINOBJS:%.o=%.cpp)
 	xgettext -C -cTRANSLATORS --no-wrap --no-location -k -ktr -ktrNOOP --omit-header -o $@ $(PLUGINOBJS:%.o=%.cpp) pages/*.cpp setup.h epg_events.h
 
-$(I18Npo): $(I18Npot)
-	msgmerge -U --no-wrap --no-location --backup=none -q $@ $<
+%.po: $(I18Npot)
+	msgmerge -U --no-wrap --no-location --backup=none -q -N $@ $<
+	@touch $@
 
-i18n: $(I18Nmo)
-	@mkdir -p $(LOCALEDIR)
-	for i in $(I18Ndirs); do\
-	    mkdir -p $(LOCALEDIR)/$$i/LC_MESSAGES;\
-	    cp $(PODIR)/$$i.mo $(LOCALEDIR)/$$i/LC_MESSAGES/$(I18Nvdrmo);\
-	    done
+$(I18Nmsgs): $(DESTDIR)$(LOCDIR)/%/LC_MESSAGES/vdr-$(PLUGIN).mo: $(PODIR)/%.mo
+	install -D -m644 $< $@
 
-generate-i18n: i18n-template.h $(I18Npot) $(I18Npo) buildutil/pot2i18n.pl
-	buildutil/pot2i18n.pl $(I18Npot) i18n-template.h > i18n-generated.h
+.PHONY: i18n
+i18n: $(I18Nmo) $(I18Npot)
+
+install-i18n: $(I18Nmsgs)
+
+#generate-i18n: i18n-template.h $(I18Npot) $(I18Npo) buildutil/pot2i18n.pl
+#	buildutil/pot2i18n.pl $(I18Npot) i18n-template.h > i18n-generated.h
 
 ### Targets:
-
-subdirs: $(SUBDIRS)
-
-$(SUBDIRS):
-	@$(MAKE) -C $@ $(MAKECMDGOALS) PLUGINFEATURES="$(PLUGINFEATURES)"
-
 PAGES:
-	@$(MAKE) -C pages PLUGINFEATURES="$(PLUGINFEATURES)" .dependencies
+	$(MAKE) -C pages PLUGINFEATURES="$(PLUGINFEATURES)" .dependencies
 
 $(VERSIONSUFFIX): FORCE
 	./buildutil/version-util $(VERSIONSUFFIX) || ./buildutil/version-util -F $(VERSIONSUFFIX)
 
-libvdr-$(PLUGIN).so: $(VERSIONSUFFIX) $(SUBDIRS) $(PLUGINOBJS)
-	$(CXX) $(LDFLAGS) -shared -o $@	 $(PLUGINOBJS) -Wl,--whole-archive $(WEBLIBS) -Wl,--no-whole-archive $(LIBS)
-	@cp --remove-destination $@ $(LIBDIR)/$@.$(APIVERSION)
+$(SOFILE): $(VERSIONSUFFIX) $(SUBDIRS) $(PLUGINOBJS)
+	for SUBDIR in $(SUBDIRS); \
+		do $(MAKE) -C $${SUBDIR} PLUGINFEATURES="$(PLUGINFEATURES)" all; \
+	done
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared $(PLUGINOBJS) -Wl,--whole-archive $(WEBLIBS) -Wl,--no-whole-archive $(LIBS) -o $@ 
+
+install-lib: $(SOFILE)
+	install -D $^ $(DESTDIR)$(LIBDIR)/$^.$(APIVERSION)
+
+install: install-lib install-i18n
 
 ifneq ($(TNTVERS7),yes)
 	@echo ""
@@ -186,7 +172,7 @@ ifneq ($(TNTVERS7),yes)
 	@echo ""
 endif
 
-dist: clean
+dist: $(I18Npo) clean
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
 	@mkdir $(TMPDIR)/$(ARCHIVE)
 	@cp -a * $(TMPDIR)/$(ARCHIVE)

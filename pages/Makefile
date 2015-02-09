@@ -1,5 +1,4 @@
-# The official name of this plugin.
-
+### The official name of this plugin.
 PLUGIN = live
 
 ### Additional options to silence TNTNET warnings
@@ -7,33 +6,11 @@ TNTFLAGS   ?= -Wno-overloaded-virtual -Wno-unused-variable
 TNTVERSION ?= $(shell tntnet-config --version | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
 CXXTOOLVER ?= $(shell cxxtools-config --version | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
 
-### The C++ compiler and options:
-
-CXX      ?= g++
-AR       ?= ar
-ECPPC    ?= ecppc
-
-CXXFLAGS ?= -O2 -Woverloaded-virtual -Wall -fPIC
-DEFINES  ?= -DPLUGIN_NAME_I18N='"$(PLUGIN)"' -DTNTVERSION=$(TNTVERSION) -DCXXTOOLVER=$(CXXTOOLVER)
-
-### The directory environment:
-
-VDRDIR   ?= ../../../..
-
-### Make sure that necessary options are included:
-
--include $(VDRDIR)/Make.global
-
-### Allow user defined options to overwrite defaults:
-
--include $(VDRDIR)/Make.config
 
 ### Includes and Defines (add further entries here):
-
 INCLUDES += -I$(VDRDIR)/include -I..
 
 ### The object files (add further files here):
-
 OBJS	= menu.o recordings.o schedule.o multischedule.o screenshot.o   \
           timers.o whats_on.o switch_channel.o keypress.o remote.o	\
           channels_widget.o edit_timer.o error.o pageelems.o tooltip.o	\
@@ -43,10 +20,7 @@ OBJS	= menu.o recordings.o schedule.o multischedule.o screenshot.o   \
           rwd_recording.o setup.o content.o epginfo.o timerconflicts.o  \
           recstream.o users.o edit_user.o edit_recording.o
 
-### Default rules:
-
-.PHONY: all clean
-
+### The main target:
 all: libpages.a
 
 ### Implicit rules:
@@ -57,8 +31,7 @@ all: libpages.a
 %.cpp: %.ecpp
 	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CPP) $<
 
-# Dependencies:
-
+### Dependencies:
 MAKEDEP = $(CXX) -MM -MG
 DEPFILE = .dependencies
 $(DEPFILE): Makefile $(OBJS:%.o=%.cpp) $(OBJS:%.o=%.ecpp)
@@ -69,7 +42,6 @@ ifneq ($(MAKECMDGOALS),clean)
 endif
 
 ### Targets:
-
 libpages.a: $(OBJS)
 	$(AR) r $@ $^
 
