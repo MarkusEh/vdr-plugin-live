@@ -1,5 +1,5 @@
 #
-# Makefile for a Video Disk Recorder plugin
+# Makefile for the 'LIVE' Video Disk Recorder plugin
 #
 
 # The official name of this plugin.
@@ -64,18 +64,8 @@ PACKAGE = vdr-$(ARCHIVE)
 SOFILE = libvdr-$(PLUGIN).so
 
 ### Includes and Defines (add further entries here):
-ifneq ($(TNTVERS7),yes)
-	INCLUDES += -Ihttpd
-	LIBS	 += httpd/libhttpd.a
-endif
-
 DEFINES	 += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"' -DTNTVERSION=$(TNTVERSION) -DCXXTOOLVER=$(CXXTOOLVER)
-
 SUBDIRS	  = pages css javascript
-ifneq ($(TNTVERS7),yes)
-	SUBDIRS += httpd
-endif
-
 VERSIONSUFFIX = gen_version_suffix.h
 
 ### The object files (add further files here):
@@ -142,35 +132,12 @@ $(SOFILE): $(VERSIONSUFFIX) $(SUBDIRS) $(PLUGINOBJS)
 	for SUBDIR in $(SUBDIRS); \
 		do $(MAKE) -C $${SUBDIR} PLUGINFEATURES="$(PLUGINFEATURES)" all; \
 	done
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared $(PLUGINOBJS) -Wl,--whole-archive $(WEBLIBS) -Wl,--no-whole-archive $(LIBS) -o $@ 
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared $(PLUGINOBJS) -Wl,--whole-archive $(WEBLIBS) -Wl,--no-whole-archive $(LIBS) -o $@
 
 install-lib: $(SOFILE)
 	install -D $^ $(DESTDIR)$(LIBDIR)/$^.$(APIVERSION)
 
 install: install-lib install-i18n
-
-ifneq ($(TNTVERS7),yes)
-	@echo ""
-	@echo "LIVE was built successfully and you can try to use it!"
-	@echo ""
-	@echo ""
-	@echo ""
-	@echo ""
-	@echo "IMPORTANT INFORMATION:"
-	@echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-	@echo "+ This is one of the *last* CVS versions of LIVE which will   +"
-	@echo "+ work with versions of tntnet *less* than 1.6.0.6!           +"
-	@echo "+                                                             +"
-	@echo "+ This version of LIVE already supports tntnet >= 1.6.0.6.    +"
-	@echo "+                                                             +"
-	@echo "+ Please upgrade tntnet to at least version 1.6.0.6 soon, if  +"
-	@echo "+ you want to keep track of bleeding edge LIVE development.   +"
-	@echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-	@echo ""
-	@echo ""
-	@echo ""
-	@echo ""
-endif
 
 dist: $(I18Npo) clean
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
