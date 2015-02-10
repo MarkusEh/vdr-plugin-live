@@ -7,9 +7,6 @@
 // an other change in the structure of the version string was needed then only
 // this file needs to be adapted.
 
-// SSL-Support works from tntnet version 1.6.1 onwards.
-#define TNT_SSL_SUPPORT			(TNTVERSION >= 16100)
-
 // Query params without boolean parameter
 #define TNT_QUERYPARAMS_NO_BOOL (TNTVERSION >= 22000)
 

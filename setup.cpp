@@ -27,11 +27,9 @@ using namespace std;
 
 Setup::Setup():
 		m_serverPort( 8008 ),
-#if TNT_SSL_SUPPORT
 		m_serverSslPort( 8443 ),
 		m_serverSslCert(),
 		m_serverSslKey(),
-#endif
 		m_lastChannel( 0 ),
 		m_screenshotInterval( 1000 ),
 		m_useAuth( 1 ),
@@ -62,11 +60,9 @@ bool Setup::ParseCommandLine( int argc, char* argv[] )
 			{ "ip",   required_argument, NULL, 'i' },
 			{ "log",  required_argument, NULL, 'l' },
 			{ "epgimages",  required_argument, NULL, 'e' },
-#if TNT_SSL_SUPPORT
 			{ "sslport", required_argument, NULL, 's' },
 			{ "cert", required_argument, NULL, 'c' },
 			{ "key", required_argument, NULL, 'k' },
-#endif
 			{ 0 }
 	};
 
@@ -77,19 +73,15 @@ bool Setup::ParseCommandLine( int argc, char* argv[] )
 		case 'i': m_serverIps.push_back( optarg ); break;
 		case 'l': m_tntnetloglevel = optarg; break;
 		case 'e': m_epgimagedir = optarg; break;
-#if TNT_SSL_SUPPORT
 		case 's': m_serverSslPort = atoi( optarg ); break;
 		case 'c': m_serverSslCert = optarg; break;
 		case 'k': m_serverSslKey = optarg; break;
-#endif
 		default:  return false;
 		}
 	}
 
 	return CheckServerPort() &&
-#if TNT_SSL_SUPPORT
 		   CheckServerSslPort() &&
-#endif
 		   CheckServerIps();
 }
 
@@ -97,17 +89,15 @@ char const* Setup::CommandLineHelp() const
 {
 	if ( m_helpString.empty() ) {
 		ostringstream builder;
-		builder         << "  -p PORT,  --port=PORT        use PORT to listen for incoming connections\n"
+		builder << "  -p PORT,  --port=PORT        use PORT to listen for incoming connections\n"
 				   "                               (default: " << m_serverPort << ")\n"
 				<< "  -i IP,    --ip=IP            bind server only to specified IP, may appear\n"
 				   "                               multiple times\n"
 				   "                               (default: 0.0.0.0)\n"
-#if TNT_SSL_SUPPORT
 				<< "  -s PORT,  --sslport=PORT     use PORT to listen for incoming ssl connections\n"
 				   "                               (default: " << m_serverSslPort << ")\n"
 				<< "  -c CERT,  --cert=CERT        full path to a custom ssl certificate file\n"
 				<< "  -k KEY,  --key=KEY           full path to a custom ssl certificate key file\n"
-#endif
 				<< "  -l level, --log=level        log level for tntnet (values: WARN, ERROR, INFO, DEBUG, TRACE)\n"
 				<< "  -e <dir>, --epgimages=<dir>  directory for epgimages\n";
 		m_helpString = builder.str();
@@ -153,7 +143,6 @@ bool Setup::CheckServerPort()
 	return true;
 }
 
-#if TNT_SSL_SUPPORT
 bool Setup::CheckServerSslPort()
 {
 	if ( m_serverSslPort <= 0 || m_serverSslPort > numeric_limits< uint16_t >::max() ) {
@@ -163,7 +152,6 @@ bool Setup::CheckServerSslPort()
 	}
 	return true;
 }
-#endif
 
 namespace {
 	struct IpValidator

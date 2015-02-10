@@ -232,7 +232,6 @@ namespace vdrlive {
 			}
 		}
 
-#if TNT_SSL_SUPPORT
 		int s_port = LiveSetup().GetServerSslPort();
 		string s_cert = LiveSetup().GetServerSslCert();
 		string s_key = LiveSetup().GetServerSslKey();
@@ -253,7 +252,6 @@ namespace vdrlive {
 		else {
 			esyslog( "[live] ERROR: Unable to load cert/key (%s/%s): %s", s_cert.c_str(), s_key.c_str(), strerror( errno ) );
 		}
-#endif // TNT_SSL_SUPPORT
 	}
 
 	TntConfig const& TntConfig::Get()
