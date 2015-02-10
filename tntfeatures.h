@@ -10,9 +10,6 @@
 // SSL-Support works from tntnet version 1.6.1 onwards.
 #define TNT_SSL_SUPPORT			(TNTVERSION >= 16100)
 
-// Query params are now in tntnet and not in cxxtools
-#define TNT_HAS_QUERYPARAMS		(TNTVERSION >= 16060)
-
 // Query params without boolean parameter
 #define TNT_QUERYPARAMS_NO_BOOL (TNTVERSION >= 22000)
 
