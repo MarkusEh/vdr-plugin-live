@@ -13,9 +13,6 @@
 // Query params without boolean parameter
 #define TNT_QUERYPARAMS_NO_BOOL (TNTVERSION >= 22000)
 
-// One can request the host part of the request url
-#define TNT_HAS_GETHOST			(TNTVERSION >= 16060)
-
 // new version of TNTNET allow the request watchdog to be silenced.
 #define TNT_WATCHDOG_SILENCE	(TNTVERSION >= 16900)
 

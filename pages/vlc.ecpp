@@ -98,12 +98,8 @@ using namespace vdrlive;
 	}
 </%cpp>
 <%cpp>
-#if TNT_HAS_GETHOST
 	string server = request.getHost();
 	server = server.substr(0, server.rfind(':'));
-#else
-	string server = request.getServerIp();
-#endif
 	string videourl;
 	if (Channel != 0) {
 		int streamdevPort = LiveSetup().GetStreamdevPort();
