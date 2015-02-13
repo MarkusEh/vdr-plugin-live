@@ -234,6 +234,8 @@ namespace vdrlive
 
 			virtual time_t GetEndTime() const;
 
+			virtual int Elapsed() const;
+
 		private:
 			const cRecording* m_recording;
 			bool m_ownCaption;
