@@ -144,6 +144,9 @@ dist: $(I18Npo) clean
 	@echo Distribution package created as $(TMPDIR)/$(PACKAGE).tar.gz
 
 clean: $(SUBDIRS)
+	for SUBDIR in $(SUBDIRS); \
+		do $(MAKE) -C $${SUBDIR} clean; \
+	done
 	@-rm -f $(PODIR)/*.mo $(PODIR)/*.pot
 	@-rm -f $(PLUGINOBJS) $(DEPFILE) *.so *.tgz core* *~
 	@-rm -f $(VERSIONSUFFIX)
