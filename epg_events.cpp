@@ -183,18 +183,11 @@ namespace vdrlive
 
 	time_t EpgRecording::GetStartTime() const
 	{
-#if VDRVERSNUM < 10726
-		return m_recording ? m_recording->start : 0;
-#else
 		return m_recording ? m_recording->Start() : 0;
-#endif
 	}
 
 	time_t EpgRecording::GetEndTime() const
 	{
-#if VDRVERSNUM < 10726
-		return m_recording ? m_recording->start : 0;
-#else
 		time_t endTime = 0;
 		if (m_recording)
 		{
@@ -204,12 +197,10 @@ namespace vdrlive
 			endTime = (length < 0) ? startTime : startTime + length;
 		}
 		return endTime;
-#endif
 	}
 
 	int EpgRecording::Elapsed() const
 	{
-#if VDRVERSNUM >= 10726
 		cControl* pControl = cControl::Control();
 		if (pControl)
 		{
@@ -222,7 +213,6 @@ namespace vdrlive
 				}
 			}
 		}
-#endif
 		return 0;
 	}
 

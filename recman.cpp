@@ -137,11 +137,7 @@ namespace vdrlive {
 			return;
 
 		//dsyslog("[LIVE]: deleting resume '%s'", recording->Name());
-#if VDRVERSNUM < 10704
-		cResumeFile ResumeFile(recording->FileName());
-#else
 		cResumeFile ResumeFile(recording->FileName(), recording->IsPesRecording());
-#endif
 		ResumeFile.Delete();
 	}
 
@@ -387,43 +383,14 @@ namespace vdrlive {
 
 	time_t RecordingsItemRec::StartTime() const
 	{
-#if VDRVERSNUM < 10726
-		return m_recording->start;
-#else
 		return m_recording->Start();
-#endif
 	}
 
 	long RecordingsItemRec::Duration() const
 	{
 		long RecLength = 0;
 		if (!m_recording->FileName()) return 0;
-#if VDRVERSNUM < 10704
-		cString filename = cString::sprintf("%s%s", m_recording->FileName(), INDEXFILESUFFIX);
-		if (*filename) {
-			if (access(filename, R_OK) == 0) {
-				struct stat buf;
-				if (stat(filename, &buf) == 0) {
-					struct tIndex { int offset; uchar type; uchar number; short reserved; };
-					int delta = buf.st_size % sizeof(tIndex);
-					if (delta) {
-						delta = sizeof(tIndex) - delta;
-						esyslog("ERROR: invalid file size (%ld) in '%s'", buf.st_size, *filename);
-					}
-					RecLength = (buf.st_size + delta) / sizeof(tIndex) / SecondsToFrames(60);
-				}
-			}
-		}
-#elif VDRVERSNUM < 10721
-		// open index file for reading only
-		cIndexFile *index = new cIndexFile(m_recording->FileName(), false, m_recording->IsPesRecording());
-		if (index && index->Ok()) {
-			RecLength = (int) (index->Last() / SecondsToFrames(60, m_recording->FramesPerSecond()));
-		}
-		delete index;
-#else
 		return m_recording->LengthInSeconds() / 60;
-#endif
 		if (RecLength == 0) {
 			cString lengthFile = cString::sprintf("%s%s", m_recording->FileName(), LENGTHFILESUFFIX);
 			ifstream length(*lengthFile);

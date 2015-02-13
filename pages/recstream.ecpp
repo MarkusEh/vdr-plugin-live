@@ -15,11 +15,7 @@ using namespace vdrlive;
 
 off_t RecSize(cRecording const * recording)
 {
-#if VDRVERSNUM < 10704
-    cFileName recFile(recording->FileName(), false, false);
-#else
     cFileName recFile(recording->FileName(), false, false, recording->IsPesRecording());
-#endif
     off_t recSize = 0;
     for (cUnbufferedFile *recData = recFile.Open(); recData; recData = recFile.NextFile()) {
         struct stat buf;
@@ -52,11 +48,7 @@ if (recording) {
     reply.setContentLengthHeader(RecSize(recording));
     reply.setDirectMode();
 
-#if VDRVERSNUM < 10704
-    cFileName recFile(recording->FileName(), false, false);
-#else
     cFileName recFile(recording->FileName(), false, false, recording->IsPesRecording());
-#endif
     // dsyslog("LIVE: start send video data.");
     for (cUnbufferedFile *recData = recFile.Open(); recData; recData = recFile.NextFile()) {
         char buffer[KILOBYTE(16)];

@@ -44,11 +44,7 @@ TimerConflictNotifier timerNotifier();
 		infoUrl = "timerconflicts.html";
 	}
 
-#if VDRVERSNUM >= 10403
 	const char* NowReplaying = cReplayControl::NowReplaying();
-#else
-	const char* NowReplaying = cControl::Control()?cReplayControl::LastReplayed():NULL;
-#endif
 
 	EpgInfoPtr epgEvent;
 
