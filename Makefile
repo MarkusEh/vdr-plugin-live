@@ -117,9 +117,6 @@ i18n: $(I18Nmo) $(I18Npot)
 
 install-i18n: $(I18Nmsgs)
 
-#generate-i18n: i18n-template.h $(I18Npot) $(I18Npo) buildutil/pot2i18n.pl
-#	buildutil/pot2i18n.pl $(I18Npot) i18n-template.h > i18n-generated.h
-
 ### Targets:
 PAGES:
 	$(MAKE) -C pages PLUGINFEATURES="$(PLUGINFEATURES)" .dependencies
