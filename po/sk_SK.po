@@ -336,6 +336,9 @@ msgstr "Len oznamova»"
 msgid "Switch only"
 msgstr "Iba prepína»"
 
+msgid "Announce via email"
+msgstr ""
+
 msgid "Series recording"
 msgstr "Sériové nahrávky"
 

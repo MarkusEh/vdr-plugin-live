@@ -341,7 +341,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		usevps = searchtimer->UseVPS();
 		delmode = searchtimer->DelMode();
 		delaftercountrecs = searchtimer->DelAfterCountRecs();
-		delafterdaysoffirstrec = searchtimer->DelAfterDaysOfFirstRec();		
+		delafterdaysoffirstrec = searchtimer->DelAfterDaysOfFirstRec();
 
 		editsearchtimer = searchtimer;
 	}
@@ -364,7 +364,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <html>
 	<head>
 		<title>VDR Live - <$ editsearchtimer ? tr("Edit search timer") : tr("New search timer") $></title>
-		
+
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
 
@@ -377,9 +377,9 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			changeduseduration(document.getElementById("useduration"));
 			changeduseweekday(document.getElementById("useweekday"));
 			changeduseassearchtimer(document.getElementById("useassearchtimer"));
-%	if (extEPGInfos.size() > 0) {
+%		if (extEPGInfos.size() > 0) {
 			changeduseextepginfo(document.getElementById("useextepginfo"));
-%	}
+%		}
 			changedavoidrepeats(document.getElementById("avoidrepeats"));
 			changedblacklistmode(document.getElementById("blacklistmode"));
 			changeddelmode(document.getElementById("delmode"));
@@ -420,9 +420,9 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 		function changeduseassearchtimer(selection)
 		{
-			document.getElementById("searchtimermodesettings").style.display = 
+			document.getElementById("searchtimermodesettings").style.display =
 				(selection.options[selection.selectedIndex].value > 0) ? "block" : "none";
-			document.getElementById("useassearchtimeruserdef").style.display = 
+			document.getElementById("useassearchtimeruserdef").style.display =
 				(selection.options[selection.selectedIndex].value == 2) ? "block" : "none";
 			changedsearchtimermode(document.getElementById("searchtimer_mode"));
 		}
@@ -431,11 +431,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		{
 			document.getElementById("searchtimermode1settings").style.display =
 				(selection.options[selection.selectedIndex].value == 0 &
-				document.getElementById("useassearchtimer").options[document.getElementById("useassearchtimer").selectedIndex].value > 0) ? 
+				document.getElementById("useassearchtimer").options[document.getElementById("useassearchtimer").selectedIndex].value > 0) ?
 				"block" : "none";
 			document.getElementById("searchtimermode3settings").style.display =
-				(selection.options[selection.selectedIndex].value == 2 & 
-				document.getElementById("useassearchtimer").options[document.getElementById("useassearchtimer").selectedIndex].value > 0) ? 
+				(selection.options[selection.selectedIndex].value == 2 &
+				document.getElementById("useassearchtimer").options[document.getElementById("useassearchtimer").selectedIndex].value > 0) ?
 				"block" : "none";
 		}
 
@@ -758,6 +758,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 										<option value="0" <{ SELECTIF(searchtimeraction == 0) }> ><$ tr("Record") $></option>
 										<option value="1" <{ SELECTIF(searchtimeraction == 1) }> ><$ tr("Announce only") $></option>
 										<option value="2" <{ SELECTIF(searchtimeraction == 2) }> ><$ tr("Switch only") $></option>
+										<option value="4" <{ SELECTIF(searchtimeraction == 4) }> ><$ tr("Announce via email") $></option>
 									</select>
 								</div>
 								<div id="searchtimermode1settings" style="display: none">

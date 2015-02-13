@@ -343,6 +343,9 @@ msgstr "Pouze upozornit"
 msgid "Switch only"
 msgstr "Přepnout"
 
+msgid "Announce via email"
+msgstr ""
+
 msgid "Series recording"
 msgstr "Nahrávání seriálu"
 

@@ -335,6 +335,9 @@ msgstr "Muistutus"
 msgid "Switch only"
 msgstr "Kanavanvaihto"
 
+msgid "Announce via email"
+msgstr ""
+
 msgid "Series recording"
 msgstr "Sarjatallennus"
 

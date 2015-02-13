@@ -337,6 +337,9 @@ msgstr ""
 msgid "Switch only"
 msgstr ""
 
+msgid "Announce via email"
+msgstr ""
+
 msgid "Series recording"
 msgstr ""
 

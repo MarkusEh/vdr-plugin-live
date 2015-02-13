@@ -335,6 +335,9 @@ msgstr "Tylko powiadomienie"
 msgid "Switch only"
 msgstr "Tylko prze³±cz"
 
+msgid "Announce via email"
+msgstr ""
+
 msgid "Series recording"
 msgstr "Nagrywanie serii"
 

@@ -341,6 +341,9 @@ msgstr "Alleen aankondigen (geen timer)"
 msgid "Switch only"
 msgstr ""
 
+msgid "Announce via email"
+msgstr ""
+
 msgid "Series recording"
 msgstr "Serie's opnemen"
 
