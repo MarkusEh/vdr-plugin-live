@@ -24,18 +24,14 @@ public:
 	virtual bool SetupParse(const char *Name, const char *Value);
 
 	static std::string const& GetConfigDirectory() { return m_configDirectory; }
-#if APIVERSNUM > 10729
 	static std::string const& GetResourceDirectory() { return m_resourceDirectory; }
-#endif
 
 private:
 	static const char *VERSION;
 	static const char *DESCRIPTION;
 
 	static std::string m_configDirectory;
-#if APIVERSNUM > 10729
 	static std::string m_resourceDirectory;
-#endif
 
 	std::auto_ptr< ServerThread > m_thread;
 };

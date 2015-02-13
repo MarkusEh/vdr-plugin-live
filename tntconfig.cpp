@@ -31,13 +31,8 @@ namespace vdrlive {
 	namespace {
 		std::string GetResourcePath()
 		{
-#if APIVERSNUM > 10729
 			string resourceDir(Plugin::GetResourceDirectory());
 			return resourceDir;
-#else
-			string configDir(Plugin::GetConfigDirectory());
-			return configDir;
-#endif
 		}
 
 		void MapUrl(tnt::Tntnet & app, const char *rule, const char * component, std::string const & instPath, const char * pathInfo, const char * mime_type)

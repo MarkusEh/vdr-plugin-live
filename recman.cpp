@@ -669,11 +669,9 @@ namespace vdrlive {
 		}
 
 		m_pDirVec->push_back(""); // always add root directory
-#if APIVERSNUM >= 10712
 		for (cNestedItem* item = Folders.First(); item; item = Folders.Next(item)) { // add folders.conf entries
 			InjectFoldersConf(item);
 		}
-#endif
 		for (cRecording* recording = Recordings.First(); recording; recording = Recordings.Next(recording)) {
 			string name = recording->Name();
 			size_t found = name.find_last_of("~");
@@ -693,7 +691,6 @@ namespace vdrlive {
 		}
 	}
 
-#if APIVERSNUM >= 10712
 	void DirectoryList::InjectFoldersConf(cNestedItem * folder, string parent)
 	{
 		if (!folder) {
@@ -711,7 +708,6 @@ namespace vdrlive {
 			InjectFoldersConf(item, dir);
 		}
 	}
-#endif
 
 	/**
 	 *  Implementation of class DirectoryListPtr:
