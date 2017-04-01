@@ -341,7 +341,11 @@ public:
 	int TimerMode() const { return m_timerMode; }
 	bool operator<( SearchResult const& other ) const { return m_starttime <  other.m_starttime; }
 	const cEvent* GetEvent();
+#if VDRVERSNUM >= 20301
+	const cChannel* GetChannel() { LOCK_CHANNELS_READ; return Channels->GetByChannelID(m_channel); }
+#else
 	const cChannel* GetChannel() { return Channels.GetByChannelID(m_channel); }
+#endif
 
 private:
 	int m_searchId;

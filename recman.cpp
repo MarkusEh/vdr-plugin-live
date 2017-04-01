@@ -44,8 +44,12 @@ namespace vdrlive {
 	// themselfs. This way the use of LIVE::recordings is straight
 	// forward and does hide the locking needs from the user.
 
+#if VDRVERSNUM >= 20301
+	RecordingsManager::RecordingsManager()
+#else
 	RecordingsManager::RecordingsManager() :
 		m_recordingsLock(&Recordings)
+#endif
 	{
 	}
 
@@ -93,7 +97,12 @@ namespace vdrlive {
 	cRecording const * RecordingsManager::GetByMd5Hash(string const & hash) const
 	{
 		if (!hash.empty()) {
+#if VDRVERSNUM >= 20301
+			LOCK_RECORDINGS_READ;
+			for (cRecording* rec = (cRecording *)Recordings->First(); rec; rec = (cRecording *)Recordings->Next(rec)) {
+#else
 			for (cRecording* rec = Recordings.First(); rec; rec = Recordings.Next(rec)) {
+#endif
 				if (hash == Md5Hash(rec))
 					return rec;
 			}
@@ -123,9 +132,16 @@ namespace vdrlive {
 			return false;
 		}
 
+#if VDRVERSNUM >= 20301
+		LOCK_RECORDINGS_WRITE;
+		if (!copy)
+			Recordings->DelByName(oldname.c_str());
+		Recordings->AddByName(newname.c_str());
+#else
 		if (!copy)
 			Recordings.DelByName(oldname.c_str());
 		Recordings.AddByName(newname.c_str());
+#endif
 		cRecordingUserCommand::InvokeCommand(*cString::sprintf("rename \"%s\"", *strescape(oldname.c_str(), "\\\"$'")), newname.c_str());
 
 		return true;
@@ -167,7 +183,12 @@ namespace vdrlive {
 
 		string name(recording->FileName());
 		const_cast<cRecording *>(recording)->Delete();
+#if VDRVERSNUM >= 20301
+		LOCK_RECORDINGS_WRITE;
+		Recordings->DelByName(name.c_str());
+#else
 		Recordings.DelByName(name.c_str());
+#endif
 	}
 
 	int RecordingsManager::GetArchiveType(cRecording const * recording)
@@ -252,7 +273,11 @@ namespace vdrlive {
 
 		// StateChanged must be executed every time, so not part of
 		// the short cut evaluation in the if statement below.
+#if VDRVERSNUM >= 20301
+		bool stateChanged = true;
+#else
 		bool stateChanged = Recordings.StateChanged(m_recordingsState);
+#endif
 		if (stateChanged || (!m_recTree) || (!m_recList) || (!m_recDirs)) {
 			if (stateChanged) {
 				m_recTree.reset();
@@ -409,7 +434,12 @@ namespace vdrlive {
 		m_root(new RecordingsItemDir("", 0, RecordingsItemPtr()))
 	{
 		// esyslog("DH: ****** RecordingsTree::RecordingsTree() ********");
+#if VDRVERSNUM >= 20301
+		LOCK_RECORDINGS_READ;
+		for (cRecording* recording = (cRecording *)Recordings->First(); recording; recording = (cRecording *)Recordings->Next(recording)) {
+#else
 		for (cRecording* recording = Recordings.First(); recording; recording = Recordings.Next(recording)) {
+#endif
 			if (m_maxLevel < recording->HierarchyLevels()) {
 				m_maxLevel = recording->HierarchyLevels();
 			}
@@ -639,7 +669,12 @@ namespace vdrlive {
 		for (cNestedItem* item = Folders.First(); item; item = Folders.Next(item)) { // add folders.conf entries
 			InjectFoldersConf(item);
 		}
+#if VDRVERSNUM >= 20301
+		LOCK_RECORDINGS_READ;
+		for (cRecording* recording = (cRecording *)Recordings->First(); recording; recording = (cRecording*)Recordings->Next(recording)) {
+#else
 		for (cRecording* recording = Recordings.First(); recording; recording = Recordings.Next(recording)) {
+#endif
 			string name = recording->Name();
 			size_t found = name.find_last_of("~");
 

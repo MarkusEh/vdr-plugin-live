@@ -60,8 +60,15 @@ bool logged_in(false);
 <%cpp>
 				string current_day = "";
 
+#if VDRVERSNUM >= 20301
+				LOCK_CHANNELS_READ;
+#endif
 				for (SearchResults::iterator result = results.begin(); result != results.end(); ++result) {
+#if VDRVERSNUM >= 20301
+				        cChannel* channel = (cChannel *)Channels->GetByChannelID(result->Channel());
+#else
 				        cChannel* channel = Channels.GetByChannelID(result->Channel());
+#endif
 					if (!channel) continue;
 					string channelname = channel->Name();
 					int channelnr = channel->Number();

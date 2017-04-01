@@ -73,6 +73,10 @@ using namespace std;
 		}
 		// check for event:
 		else if (epgid.compare(0, event.length(), event) == 0) {
+#if VDRVERSNUM >= 20301
+			LOCK_SCHEDULES_READ;
+			epgEvent = EpgEvents::CreateEpgInfo(epgid, Schedules);
+#else
 			schedulesLockPtr = SchedulesLockPtr(new SchedulesLock);
 			if (!schedulesLockPtr) {
 				throw HtmlError(tr("Error aquiring schedules lock"));
@@ -82,6 +86,7 @@ using namespace std;
 				throw HtmlError(tr("Error aquiring schedules"));
 			}
 			epgEvent = EpgEvents::CreateEpgInfo(epgid, schedules);
+#endif
 		}
 		// check for aboutbox:
 		else if (epgid.compare(0, aboutbox.length(), aboutbox) == 0) {

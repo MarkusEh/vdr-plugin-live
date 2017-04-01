@@ -112,8 +112,13 @@ cTimer* timer;
 		if ( channelid.Valid() && eventid != 0 ) {
 			cerr << "grabbing event" << endl << endl;
 			cSchedulesLock schedLock;
+#if VDRVERSNUM >= 20301
+			LOCK_SCHEDULES_READ;
+			cSchedule const* schedule = Schedules->GetSchedule( channelid );
+#else
 			cSchedules const* schedules = cSchedules::Schedules( schedLock );
 			cSchedule const* schedule = schedules->GetSchedule( channelid );
+#endif
 
 			eventTimer.reset( new cTimer( schedule->GetEvent( eventid ) ) );
 		} else {

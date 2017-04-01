@@ -285,7 +285,12 @@ namespace vdrlive
 			tChannelID channelId = tChannelID();
 
 			DecodeDomId(epgid, channelId, eventId);
+#if VDRVERSNUM >= 20301
+			LOCK_CHANNELS_READ;
+			cChannel const *channel = Channels->GetByChannelID(channelId);
+#else
 			cChannel const *channel = Channels.GetByChannelID(channelId);
+#endif
 			if (!channel) {
 				return CreateEpgInfo(epgid, errorInfo, tr("Wrong channel id"));
 			}

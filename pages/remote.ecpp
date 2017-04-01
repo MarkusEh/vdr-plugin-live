@@ -31,20 +31,36 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 	pageTitle = tr("Remote Control");
 
+#if VDRVERSNUM >= 20301
+	LOCK_CHANNELS_READ;
+#else
 	ReadLock channelsLock( Channels );
 	if ( !channelsLock )
 		throw HtmlError( tr("Couldn't aquire access to channels, please try again later.") );
+#endif
 
 	// cChannel* Channel; (see %request above)
 	if ( channel > 0 ) {
+#if VDRVERSNUM >= 20301
+		Channel = (cChannel *)Channels->GetByNumber( channel );
+#else
 		Channel = Channels.GetByNumber( channel );
+#endif
 	}
 	else {
 		if (cDevice::CurrentChannel()) {
+#if VDRVERSNUM >= 20301
+			Channel = (cChannel *)Channels->GetByNumber(cDevice::CurrentChannel());
+#else
 			Channel = Channels.GetByNumber(cDevice::CurrentChannel());
+#endif
 		}
 		else {
+#if VDRVERSNUM >= 20301
+			Channel = (cChannel *)Channels->Get( Channels->GetNextNormal( -1 ) );
+#else
 			Channel = Channels.Get( Channels.GetNextNormal( -1 ) );
+#endif
 		}
 	}
 	if ( Channel == 0 )

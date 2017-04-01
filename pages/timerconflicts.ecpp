@@ -46,6 +46,10 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 %			} else {
 			<table class="listing" cellspacing="0" cellpadding="0">
 <%cpp>
+#if VDRVERSNUM >= 20301
+				LOCK_TIMERS_READ;
+				LOCK_SCHEDULES_READ;
+#endif
 				for (TimerConflicts::iterator conflict = timerConflicts.begin(); conflict != timerConflicts.end(); ++conflict) {
 					const std::list< TimerInConflict >& conflTimers = conflict->ConflictingTimers();
 					for (std::list< TimerInConflict >::const_iterator confltimer = conflTimers.begin(); confltimer != conflTimers.end(); ++confltimer) {
@@ -69,7 +73,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 						</tr>
 <%cpp>
 						for (std::list<int>::const_iterator timerIndex = confltimer->concurrentTimerIndices.begin(); timerIndex != confltimer->concurrentTimerIndices.end(); ++timerIndex) {
+#if VDRVERSNUM >= 20301
+							cTimer* timer = (cTimer *)Timers->Get(*timerIndex-1);
+#else
 							cTimer* timer = Timers.Get(*timerIndex-1);
+#endif
 							if (!timer) continue;
 
 							std::list< int >::const_iterator nexttimerIndex = timerIndex;
@@ -90,7 +98,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	        		        EpgInfoPtr epgEvent;
 							string longDescription;
 							string title;
+#if VDRVERSNUM >= 20301
+							if (!timer->Event()) timer->SetEventFromSchedule(Schedules);
+#else
 							if (!timer->Event()) timer->SetEventFromSchedule();
+#endif
 							if (timer->Event()) {
 								epgEvent = EpgEvents::CreateEpgInfo(timer->Channel(), timer->Event());
 								longDescription = StringEscapeAndBreak(SortedTimers::GetTimerInfo(*timer)) + "<hr>"

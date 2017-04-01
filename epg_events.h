@@ -170,7 +170,11 @@ namespace vdrlive
 
 			virtual time_t GetEndTime() const { return m_event->EndTime(); }
 
+#if VDRVERSNUM >= 20301
+			virtual cChannel const * Channel() const { LOCK_CHANNELS_READ; return Channels->GetByChannelID(m_event->ChannelID());}
+#else
 			virtual cChannel const * Channel() const { return Channels.GetByChannelID(m_event->ChannelID());}
+#endif
 
 		private:
 			cEvent const * m_event;
@@ -198,7 +202,11 @@ namespace vdrlive
 
 			virtual time_t GetEndTime() const { return 0; }
 
+#if VDRVERSNUM >= 20301
+			virtual cChannel const * Channel() const { LOCK_CHANNELS_READ; return Channels->GetByChannelID(m_channelID);}
+#else
 			virtual cChannel const * Channel() const { return Channels.GetByChannelID(m_channelID);}
+#endif
 
 		private:
 			tChannelID m_channelID;

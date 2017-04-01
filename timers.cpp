@@ -41,7 +41,12 @@ namespace vdrlive {
 			return 0;
 		}
 
+#if VDRVERSNUM >= 20301
+		LOCK_CHANNELS_READ;
+		cChannel* channel = (cChannel *)Channels->GetByChannelID( tChannelID::FromString( parts[0].c_str() ) );
+#else
 		cChannel* channel = Channels.GetByChannelID( tChannelID::FromString( parts[0].c_str() ) );
+#endif
 		if ( channel == 0 ) {
 			esyslog("GetByTimerId: no channel %s", parts[0].c_str() );
 			return 0;
@@ -88,9 +93,18 @@ namespace vdrlive {
 		// dsyslog("live reloading timers");
 
 		clear();
+#if VDRVERSNUM >= 20301
+		{
+			LOCK_TIMERS_READ;
+			for ( cTimer* timer = (cTimer *)Timers->First(); timer; timer = (cTimer *)Timers->Next( timer ) ) {
+				push_back( *timer );
+			}
+		}
+#else
 		for ( cTimer* timer = Timers.First(); timer; timer = Timers.Next( timer ) ) {
 			push_back( *timer );
 		}
+#endif
 		sort();
 	}
 
@@ -231,26 +245,43 @@ namespace vdrlive {
 			return;
 		}
 
+#if VDRVERSNUM >= 20301
+		LOCK_TIMERS_WRITE;
+		const cTimer *checkTimer = Timers->GetTimer( newTimer.get() );
+#else
 		cTimer* checkTimer = Timers.GetTimer( newTimer.get() );
+#endif
 		if ( checkTimer ) {
 			StoreError( timerData, tr("Timer already defined") );
 			return;
 		}
 
+#if VDRVERSNUM >= 20301
+		Timers->Add( newTimer.get() );
+		Timers->SetModified();
+#else
 		Timers.Add( newTimer.get() );
 		Timers.SetModified();
+#endif
 		isyslog( "live timer %s added", *newTimer->ToDescr() );
 		newTimer.release();
 	}
 
 	void TimerManager::DoUpdateTimer( TimerPair& timerData )
 	{
+#if VDRVERSNUM < 20301
 		if ( Timers.BeingEdited() ) {
 			StoreError( timerData, tr("Timers are being edited - try again later") );
 			return;
 		}
+#endif
 
+#if VDRVERSNUM >= 20301
+		LOCK_TIMERS_WRITE;
+		cTimer* oldTimer = (cTimer *)Timers->GetTimer( timerData.first );
+#else
 		cTimer* oldTimer = Timers.GetTimer( timerData.first );
+#endif
 		if ( oldTimer == 0 ) {
 			StoreError( timerData, tr("Timer not defined") );
 			return;
@@ -263,18 +294,29 @@ namespace vdrlive {
 		}
 
 		*oldTimer = copy;
+#if VDRVERSNUM >= 20301
+		Timers->SetModified();
+#else
 		Timers.SetModified();
+#endif
 		isyslog("live timer %s modified (%s)", *oldTimer->ToDescr(), oldTimer->HasFlags(tfActive) ? "active" : "inactive");
 	}
 
 	void TimerManager::DoDeleteTimer( TimerPair& timerData )
 	{
+#if VDRVERSNUM < 20301
 		if ( Timers.BeingEdited() ) {
 			StoreError( timerData, tr("Timers are being edited - try again later") );
 			return;
 		}
+#endif
 
+#if VDRVERSNUM >= 20301
+		LOCK_TIMERS_WRITE;
+		cTimer* oldTimer = (cTimer *)Timers->GetTimer( timerData.first );
+#else
 		cTimer* oldTimer = Timers.GetTimer( timerData.first );
+#endif
 		if ( oldTimer == 0 ) {
 			StoreError( timerData, tr("Timer not defined") );
 			return;
@@ -283,28 +325,49 @@ namespace vdrlive {
 		cTimer copy = *oldTimer;
 		if ( oldTimer->Recording() ) {
 			oldTimer->Skip();
+#if VDRVERSNUM >= 20301
+			cRecordControls::Process( Timers, time( 0 ) );
+#else
 			cRecordControls::Process( time( 0 ) );
+#endif
 		}
+#if VDRVERSNUM >= 20301
+		Timers->Del( oldTimer );
+		Timers->SetModified();
+#else
 		Timers.Del( oldTimer );
 		Timers.SetModified();
+#endif
 		isyslog("live timer %s deleted", *copy.ToDescr());
 	}
 
 	void TimerManager::DoToggleTimer( TimerPair& timerData )
 	{
+#if VDRVERSNUM < 20301
 		if ( Timers.BeingEdited() ) {
 			StoreError( timerData, tr("Timers are being edited - try again later") );
 			return;
 		}
+#endif
 
+#if VDRVERSNUM >= 20301
+		LOCK_TIMERS_WRITE;
+		cTimer* toggleTimer = (cTimer *)Timers->GetTimer( timerData.first );
+#else
 		cTimer* toggleTimer = Timers.GetTimer( timerData.first );
+#endif
 		if ( toggleTimer == 0 ) {
 			StoreError( timerData, tr("Timer not defined") );
 			return;
 		}
 
+#if VDRVERSNUM >= 20301
+		toggleTimer->OnOff();
+		Timers->SetModified();
+#else
 		toggleTimer->OnOff();
 		Timers.SetModified();
+#endif
 		isyslog("live timer %s toggled %s", *toggleTimer->ToDescr(), toggleTimer->HasFlags(tfActive) ? "on" : "off");
 	}
 
@@ -333,7 +396,12 @@ namespace vdrlive {
 		for ( SortedTimers::iterator timer = timers.begin(); timer != timers.end(); ++timer )
 			if (timer->Channel() && timer->Channel()->GetChannelID() == channelid)
 			{
+#if VDRVERSNUM >= 20301
+				LOCK_SCHEDULES_READ;
+				if (!timer->Event()) timer->SetEventFromSchedule(Schedules);
+#else
 				if (!timer->Event()) timer->SetEventFromSchedule();
+#endif
 				if (timer->Event() && timer->Event()->EventID() == eventid)
 					return &*timer;
 			}

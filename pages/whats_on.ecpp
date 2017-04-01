@@ -38,8 +38,12 @@ string current_displaytime;
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 
+#if VDRVERSNUM >= 20301
+LOCK_SCHEDULES_READ;
+#else
 cSchedulesLock schedulesLock;
 const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
+#endif
 
 string head;
 time_t seektime = 0;
@@ -124,10 +128,19 @@ if (type == "now") {
 	// collect the broadcasts
 	if (type != "favs")
 	{
+#if VDRVERSNUM >= 20301
+                LOCK_CHANNELS_READ;
+                if (true) {
+#else
 		ReadLock channelsLock( Channels );
 		if (channelsLock) {
+#endif
 			// int evntNr = 0;
+#if VDRVERSNUM >= 20301
+			for (cChannel *Channel = (cChannel *)Channels->First(); Channel && Channel->Number() <= LiveSetup().GetLastChannel(); Channel = (cChannel *)Channels->Next(Channel)) {
+#else
 			for (cChannel *Channel = Channels.First(); Channel && Channel->Number() <= LiveSetup().GetLastChannel(); Channel = Channels.Next(Channel)) {
+#endif
 				if (Channel->GroupSep()) {
 					continue;
 				}

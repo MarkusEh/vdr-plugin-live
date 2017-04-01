@@ -53,9 +53,13 @@ std::vector<time_t>      		times_start;
 	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	pageTitle = tr("MultiSchedule");
 
+#if VDRVERSNUM >= 20301
+	LOCK_CHANNELS_READ;
+#else
 	ReadLock channelsLock( Channels );
 	if ( !channelsLock )
 		throw HtmlError( tr("Couldn't aquire access to channels, please try again later.") );
+#endif
 
 #define MAX_CHANNELS 10
 #define MAX_DAYS 3
@@ -72,10 +76,18 @@ std::vector<time_t>      		times_start;
             // setup default channel groups
            int lastChannel = LiveSetup().GetLastChannel();
            if ( lastChannel == 0 )
+#if VDRVERSNUM >= 20301
+               lastChannel = Channels->MaxNumber();
+#else
                lastChannel = Channels.MaxNumber();
+#endif
            std::stringstream groups;
            int i = 0;
+#if VDRVERSNUM >= 20301
+           for (cChannel *channel = (cChannel *)Channels->First(); channel && (channel->Number() <= lastChannel); channel = (cChannel *)Channels->Next(channel))
+#else
            for (cChannel *channel = Channels.First(); channel && (channel->Number() <= lastChannel); channel = Channels.Next(channel))
+#endif
            {
                if (channel->GroupSep())
                    continue;
@@ -118,7 +130,11 @@ std::vector<time_t>      		times_start;
                     else
                         thisGroup = "";
                     int channel_no = lexical_cast< int > (thisChannel);
+#if VDRVERSNUM >= 20301
+                    cChannel* Channel = (cChannel *)Channels->GetByNumber( channel_no );
+#else
                     cChannel* Channel = Channels.GetByNumber( channel_no );
+#endif
                     if ( !Channel )
                     {
                         esyslog("Live: could not find channel no '%s'.", thisChannel.c_str() );
@@ -262,8 +278,12 @@ std::vector<time_t>      		times_start;
 		<& menu active=("multischedule") component=("multischedule.channel_selection") &>
 		<div class="inhalt">
 <%cpp>
+#if VDRVERSNUM >= 20301
+	LOCK_SCHEDULES_READ;
+#else
 	cSchedulesLock schedulesLock;
 	cSchedules const* schedules = cSchedules::Schedules( schedulesLock );
+#endif
 
 	time_t now = time(NULL);
 	if ( time_para >= times_start.size() )
@@ -296,7 +316,11 @@ std::vector<time_t>      		times_start;
 
 		int chan = channel_groups_numbers[ channel ][ j ];
 
+#if VDRVERSNUM >= 20301
+		cChannel* Channel = (cChannel *)Channels->GetByNumber( chan );
+#else
 		cChannel* Channel = Channels.GetByNumber( chan );
+#endif
 		if ( ! Channel )
 			continue;
 		if ( Channel->GroupSep() || Channel->Name() == '\0' )
@@ -304,7 +328,11 @@ std::vector<time_t>      		times_start;
 		channel_names[ j ] = Channel->Name();
 		channel_IDs[ j ] = Channel->GetChannelID();
 
+#if VDRVERSNUM >= 20301
+		cSchedule const* Schedule = Schedules->GetSchedule( (cChannel *)Channel );
+#else
 		cSchedule const* Schedule = schedules->GetSchedule( Channel );
+#endif
 		if ( ! Schedule )
 			continue;
 		for (const cEvent *Event = Schedule->Events()->First(); Event;
