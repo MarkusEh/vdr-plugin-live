@@ -147,15 +147,15 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <%cpp>
 				}
 </%cpp>
-	   			<tr class="head">
-	   				<td colspan="5"><div class="boxheader"><div><div><$ day $></div></div></div></td>
+				<tr class="head">
+					<td colspan="5"><div class="boxheader"><div><div><$ day $></div></div></div></td>
 				</tr>
 <%cpp>
-	   			current_day = day;
+				current_day = day;
 			}
 </%cpp>
 				<tr>
-	   				<td class="action leftcol <? lastEventCurrentDay ? "bottomrow" ?>"><& pageelems.event_timer epgid=(epgid) &></td>
+					<td class="action leftcol <? lastEventCurrentDay ? "bottomrow" ?>"><& pageelems.event_timer epgid=(epgid) &></td>
 					<td class="action <? lastEventCurrentDay ? "bottomrow" ?>"><%cpp>if (LiveFeatures<features::epgsearch>().Recent() ) { </%cpp><a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a><%cpp> } else { </%cpp><img src="img/transparent.png" width="16" height="16"><%cpp> } </%cpp></td>
 					<td class="action <? lastEventCurrentDay ? "bottomrow" ?>"><& pageelems.imdb_info_href title=(title) &></td>
 					<td class="topaligned <? lastEventCurrentDay ? "bottomrow" ?>"><div class="withmargin nowrap"><$ start $> - <$ end $></div></td>

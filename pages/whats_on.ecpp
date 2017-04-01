@@ -246,7 +246,7 @@ if (type == "now") {
 					<div class="more withmargin">
 %					if (eventId != 0) {
 					    <a
-% 						if (!longDescription.empty()) {
+%						if (!longDescription.empty()) {
 						<& tooltip.hint text=(longDescription) &><& tooltip.display domId=(epgEvent->Id()) &>
 %						}
 						><span class="title"><$ (epgEvent->Title()) $></span><br /><span class="short"><$ (epgEvent->ShortDescr()) $></span></a>
@@ -255,10 +255,10 @@ if (type == "now") {
 %						}
 					</div>
 				</td>
-				<td class="topaligned rightcol <? lastCurrentChanel ? "bottomrow"?>"><div class="station withmargin"><a 		href="schedule.html?channel=<$ chNumber $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ chNumber $><$ tr(" - ") $><$ (epgEvent->Caption()) $></a></div>
+				<td class="topaligned rightcol <? lastCurrentChanel ? "bottomrow"?>"><div class="station withmargin"><a	href="schedule.html?channel=<$ chNumber $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ chNumber $><$ tr(" - ") $><$ (epgEvent->Caption()) $></a></div>
 				</td>
 			</tr>
-%   	}
+%	}
 <%cpp>
 	}
 </%cpp>
@@ -285,7 +285,7 @@ if (type == "now") {
 	vector< string >::const_iterator part = parts.begin();
 	for ( int i = 0; part != parts.end(); ++i, ++part ) {
 </%cpp>
-	<option <%cpp> reply.out() << ( (current_fixtime != "" && *part == current_displaytime) ? "selected=\"selected\"" : "" ); </%cpp> value="<$ *part $>"> <$ tr("at") + string(" ") + *part $></option>
+	<option <%cpp> reply.out() << ( (current_fixtime != "" && *part == current_displaytime) ? "selected=\"selected\"" : "" ); </%cpp>value="<$ *part $>"> <$ tr("at") + string(" ") + *part $></option>
 <%cpp>
 	}
 </%cpp>

@@ -31,11 +31,11 @@ struct SchedEntry {
 	int row_count;
 };
 
-std::string 					channel_groups_setting;
+std::string				channel_groups_setting;
 std::vector<std::string>		channel_groups_names;
-std::vector< std::vector<int> > channel_groups_numbers;
+std::vector< std::vector<int> >		channel_groups_numbers;
 std::vector<std::string>		times_names;
-std::vector<time_t>      		times_start;
+std::vector<time_t>			times_start;
 </%pre>
 <%args>
 	int channel = -1;

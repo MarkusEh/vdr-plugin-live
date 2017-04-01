@@ -231,7 +231,7 @@ cTimer* timer;
 					             for (RecordingDirs::iterator rdir = recordingdirs.begin(); rdir != recordingdirs.end(); ++rdir) {
 						        std::string dir = *rdir;
 </%cpp>
-		    					<option value="<$ dir $>"
+							<option value="<$ dir $>"
 %							if (*rdir == directory) {
 							selected="selected"
 %							}

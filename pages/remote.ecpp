@@ -137,7 +137,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			<div>
 			<img src="<$ LiveSetup().GetThemedLink("img", "remotecontrol.jpg") $>" width="162" height="378" border="0" usemap="#remote" alt="" />
 			     <map name="remote">
-			     	  <area href="#" shape="circle" coords="37,36,10" alt="Power" onclick="KeyPress(<$ kPower $>)" nohref="nohref" alt="" />
+				  <area href="#" shape="circle" coords="37,36,10" alt="Power" onclick="KeyPress(<$ kPower $>)" nohref="nohref" alt="" />
 				  <area href="#" shape="rect" coords="27,60,59,75" alt="1" onclick="KeyPress(<$ k1 $>)" nohref="nohref" alt="" />
 				  <area href="#" shape="rect" coords="64,59,98,75" alt="2" onclick="KeyPress(<$ k2 $>)" nohref="nohref" alt="" />
 				  <area href="#" shape="rect" coords="103,59,137,75" alt="3" onclick="KeyPress(<$ k3 $>)" nohref="nohref" alt="" />

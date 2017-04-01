@@ -54,7 +54,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <%cpp>
 				cUser* user = Users.First();
 				while (user) 
-    				{
+				{
 					bool bottom = (Users.Next(user) == NULL);
 				    if (user) 
 				    {

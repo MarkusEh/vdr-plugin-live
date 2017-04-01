@@ -115,7 +115,7 @@ using namespace vdrlive;
 	}
 </%cpp>
 			<embed type="application/x-vlc-plugin" pluginspage="http://www.videolan.org/" version="VideoLAN.VLCPlugin.2" id="video1" name="video1" autoplay="yes" loop="no" width="720" height="576" target="<$ videourl $>" />
-	   		<& vlc.controls videourl=(videourl) asyncReq=(asyncReq) &>
+			<& vlc.controls videourl=(videourl) asyncReq=(asyncReq) &>
 <%cpp>
 	if (!asyncReq) {
 </%cpp>

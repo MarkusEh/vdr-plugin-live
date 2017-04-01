@@ -95,7 +95,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 								timerStateHint = tr("Timer is active.");
 							}
 
-	        		        EpgInfoPtr epgEvent;
+						        EpgInfoPtr epgEvent;
 							string longDescription;
 							string title;
 #if VDRVERSNUM >= 20301
