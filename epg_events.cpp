@@ -104,8 +104,6 @@ namespace vdrlive
 		return "";
 	}
 
-	// virtual const std::string Archived() const { return std::string(); }
-
 	time_t EpgString::GetStartTime() const
 	{
 		return time(0);
