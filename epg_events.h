@@ -107,8 +107,6 @@ namespace vdrlive
 
 			virtual int Elapsed() const;
 
-			// virtual const cTimer* GetTimer() const = 0;
-
 			virtual time_t GetStartTime() const = 0;
 
 			virtual time_t GetEndTime() const = 0;
