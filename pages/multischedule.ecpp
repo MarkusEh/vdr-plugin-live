@@ -193,10 +193,20 @@ std::vector<time_t>      		times_start;
 		tm_r.tm_sec=0;
 		time_t midnight = mktime( &tm_r );
 
-		// add four 8h steps per day to the time list
-		for (int i=0; i<4*MAX_DAYS ; i++ )
+		// add steps to the time list
+		time_t max_hours;
+		try {
+			max_hours = lexical_cast<time_t>( LiveSetup().GetScheduleDuration() );
+		}
+		catch ( const bad_lexical_cast & )
 		{
-			times_start.push_back( midnight + MAX_HOURS*3600*i );
+			esyslog("Live: could not convert '%s' into a schedule duration", LiveSetup().GetScheduleDuration().c_str());
+			max_hours = 8;
+		};
+		
+		for (int i=0; i<24*MAX_DAYS/max_hours ; i++ )
+		{
+			times_start.push_back( midnight + max_hours*3600*i );
 		}
 		vector< string > parts = StringSplit( LiveSetup().GetTimes(), ';' );
 		vector< time_t > offsets;
