@@ -14,7 +14,6 @@ static bool operator<( cTimer const& left, cTimer const& right )
 namespace vdrlive {
 
 	using namespace std;
-	using namespace vdrlive;
 
 	static char const* const TIMER_DELETE = "DELETE";
 	static char const* const TIMER_TOGGLE = "TOGGLE";
@@ -152,7 +151,7 @@ namespace vdrlive {
 				<< ( weekdays == "-------" || day.empty() ? "" : "@" ) << day << ":"
 				<< start << ":"
 				<< stop << ":"
-                << priority << ":"
+				<< priority << ":"
 				<< lifetime << ":"
 				<< StringReplace(title, ":", "|" ) << ":"
 				<< StringReplace(aux, ":", "|" );
@@ -164,7 +163,7 @@ namespace vdrlive {
 		// Fix was submitted by rofafor: see
 		// http://www.vdr-portal.de/board/thread.php?threadid=100398
 
- 		// dsyslog("%s", builder.str().c_str());
+		// dsyslog("%s", builder.str().c_str());
 
 		TimerPair timerData( timer, builder.str() );
 

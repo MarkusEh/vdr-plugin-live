@@ -170,11 +170,9 @@ namespace vdrlive
 
 	const string EpgRecording::Archived() const
 	{
-		if (!m_checkedArchived) {
-			if (m_recording) {
-				m_archived = RecordingsManager::GetArchiveDescr(m_recording);
-				m_checkedArchived = true;
-			}
+		if (!m_checkedArchived && m_recording) {
+			m_archived = RecordingsManager::GetArchiveDescr(m_recording);
+			m_checkedArchived = true;
 		}
 		return m_archived;
 	}

@@ -100,8 +100,6 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		string current_day = "";
 		const cEvent* PresentEvent = Schedule->GetPresentEvent();
 		time_t now = time(NULL) - ::Setup.EPGLinger * 60;
-		// tChannelID channel_id(Channel->GetChannelID());
-		// int evntNr = 0;
 #if VDRVERSNUM >= 20301
 		for (const cEvent *Event = (cEvent *)Schedule->Events()->First(); Event; Event = (cEvent *)Schedule->Events()->Next(Event)) {
 #else
@@ -119,7 +117,6 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			string end(epgEvent->EndTime(tr("%I:%M %p")));
 			string day(epgEvent->StartTime(tr("%A, %b %d %Y")));
 			string epgid = EpgEvents::EncodeDomId(Channel->GetChannelID(), Event->EventID());
-			// string strEventID = lexical_cast<string>(Event->EventID());
 
 			bool truncated = false;
 			bool lastEventCurrentDay = false;

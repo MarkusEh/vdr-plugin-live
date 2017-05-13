@@ -243,11 +243,6 @@ void TaskManager::DoScheduledTasks()
 		return;
 
 	cMutexLock lock( this );
-	/*while ( !m_taskQueue.empty() ) {
-		Task* current = m_taskQueue.front();
-		current->Action();
-		m_taskQueue.pop_front();
-	}*/
 	for_each( m_taskQueue.begin(), m_taskQueue.end(), bind( &Task::Action, _1 ) );
 	for_each( m_stickyTasks.begin(), m_stickyTasks.end(), bind( &Task::Action, _1 ) );
 	m_taskQueue.clear();

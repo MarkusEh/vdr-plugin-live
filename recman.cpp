@@ -152,7 +152,6 @@ namespace vdrlive {
 		if (!recording)
 			return;
 
-		//dsyslog("[LIVE]: deleting resume '%s'", recording->Name());
 		cResumeFile ResumeFile(recording->FileName(), recording->IsPesRecording());
 		ResumeFile.Delete();
 	}
@@ -162,7 +161,6 @@ namespace vdrlive {
 		if (!recording)
 			return;
 
-		//dsyslog("[LIVE]: deleting marks '%s'", recording->Name());
 		cMarks marks;
 		marks.Load(recording->FileName());
 		if (marks.Count()) {
@@ -413,17 +411,8 @@ namespace vdrlive {
 
 	long RecordingsItemRec::Duration() const
 	{
-		long RecLength = 0;
 		if (!m_recording->FileName()) return 0;
 		return m_recording->LengthInSeconds() / 60;
-		if (RecLength == 0) {
-			cString lengthFile = cString::sprintf("%s%s", m_recording->FileName(), LENGTHFILESUFFIX);
-			ifstream length(*lengthFile);
-			if(length)
-				length >> RecLength;
-		}
-
-		return RecLength;
 	}
 
 	/**
@@ -461,12 +450,14 @@ namespace vdrlive {
 						RecordingsItemPtr recPtr (new RecordingsItemDir(dirName, level, dir));
 						dir->m_entries.insert(pair< string, RecordingsItemPtr > (dirName, recPtr));
 						i = findDir(dir, dirName);
+#if 0
 						if (i != dir->m_entries.end()) {
 							// esyslog("DH: added dir: '%s'", dirName.c_str());
 						}
 						else {
 							// esyslog("DH: panic: didn't found inserted dir: '%s'", dirName.c_str());
 						}
+#endif
 					}
 					dir = i->second;
 					// esyslog("DH: current dir: '%s'", dir->Name().c_str());

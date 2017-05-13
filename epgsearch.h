@@ -421,8 +421,6 @@ public:
   static std::string EvaluateExpr(const std::string& expr, const cEvent* event);
 };
 
-}
-
- // namespace vdrlive
+} // namespace vdrlive
 
 #endif // VDR_LIVE_EPGSEARCH_H
