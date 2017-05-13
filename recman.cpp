@@ -314,16 +314,12 @@ namespace vdrlive {
 	 */
 	bool RecordingsItemPtrCompare::ByAscendingDate(RecordingsItemPtr & first, RecordingsItemPtr & second)
 	{
-		if (first->StartTime() < second->StartTime())
-			return true;
-		return false;
+		return (first->StartTime() < second->StartTime());
 	}
 
 	bool RecordingsItemPtrCompare::ByDescendingDate(RecordingsItemPtr & first, RecordingsItemPtr & second)
 	{
-		if (first->StartTime() < second->StartTime())
-			return false;
-		return true;
+		return (first->StartTime() >= second->StartTime());
 	}
 
 	bool RecordingsItemPtrCompare::ByAscendingName(RecordingsItemPtr & first, RecordingsItemPtr & second)
