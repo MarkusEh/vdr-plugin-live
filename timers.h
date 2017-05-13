@@ -24,7 +24,7 @@ namespace vdrlive {
 			static std::string DecodeDomId(std::string const &timerDomId);
 
 #if VDRVERSNUM >= 20301
-			bool Modified() { return true; }
+			bool Modified();
 #else
 			bool Modified() { return Timers.Modified(m_state); }
 #endif

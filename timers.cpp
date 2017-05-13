@@ -135,6 +135,40 @@ namespace vdrlive {
 		return info.str();
 	}
 
+	bool SortedTimers::Modified()
+	{
+		// the global(!) list of known timers
+		static vector<cTimer> knownTimers;
+
+		bool modified = false;
+
+		LOCK_TIMERS_READ;
+		for ( const cTimer* timer = Timers->First(); timer; timer = Timers->Next( timer ) ) {
+			bool known_id = false;
+			for (vector<cTimer>::iterator it = knownTimers.begin(); it != knownTimers.end(); ++it) {
+				if (timer->Id() == it->Id()) {
+					known_id = true;
+					string timer_txt = *timer->ToText (true);
+					string known_txt = *it->ToText (true);
+					modified = timer_txt != known_txt;
+					break;
+				}
+			}
+			if (!known_id) {
+				modified = true;
+				break;
+			}
+		}
+		if (modified) {
+			knownTimers.clear();
+			for (const cTimer* Timer = Timers->First(); Timer; Timer = Timers->Next (Timer)) {
+				knownTimers.push_back (*Timer);
+			}
+		}
+
+		return modified;
+	}
+
 	TimerManager::TimerManager()
 	{
 	}
