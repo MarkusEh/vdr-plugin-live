@@ -32,6 +32,9 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	pageTitle = trVDR("Schedule");
 
 #if VDRVERSNUM >= 20301
+        /* JJJ: Order wrong! Better get first the channel and with unlocked
+         *      channels lock read the schedules
+         */
         LOCK_SCHEDULES_READ;
         LOCK_CHANNELS_READ;
 #else

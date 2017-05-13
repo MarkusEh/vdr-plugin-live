@@ -39,6 +39,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 
 #if VDRVERSNUM >= 20301
+/* JJJ: Lock this later and in the right order */
 LOCK_SCHEDULES_READ;
 #else
 cSchedulesLock schedulesLock;

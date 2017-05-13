@@ -578,10 +578,13 @@ SearchResult::SearchResult( string const& data )
 
 const cEvent* SearchResult::GetEvent()
 {
-	cSchedulesLock schedulesLock;
+	/* JJJ: Lock order wrong, fix if function is still used
+	 * Needs to be Timers, Channels, Recordings Schedules in this sequence
+	 */
 #if VDRVERSNUM >= 20301
 	LOCK_SCHEDULES_READ;
 #else
+	cSchedulesLock schedulesLock;
 	const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
 #endif
 	if (!Schedules) return NULL;

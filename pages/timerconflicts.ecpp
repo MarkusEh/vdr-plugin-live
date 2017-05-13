@@ -47,6 +47,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			<table class="listing" cellspacing="0" cellpadding="0">
 <%cpp>
 #if VDRVERSNUM >= 20301
+				/* JJJ: Lock this later when it is realy used */
 				LOCK_TIMERS_READ;
 				LOCK_SCHEDULES_READ;
 #endif

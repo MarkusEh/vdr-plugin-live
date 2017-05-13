@@ -328,6 +328,7 @@ namespace vdrlive {
 
 		*oldTimer = copy;
 #if VDRVERSNUM >= 20301
+		// JJJ: Warum das?
 		Timers->SetModified();
 #else
 		Timers.SetModified();
@@ -366,6 +367,7 @@ namespace vdrlive {
 		}
 #if VDRVERSNUM >= 20301
 		Timers->Del( oldTimer );
+		// JJJ: Warum das?
 		Timers->SetModified();
 #else
 		Timers.Del( oldTimer );
@@ -396,6 +398,7 @@ namespace vdrlive {
 
 #if VDRVERSNUM >= 20301
 		toggleTimer->OnOff();
+		// JJJ: Warum das?
 		Timers->SetModified();
 #else
 		toggleTimer->OnOff();
