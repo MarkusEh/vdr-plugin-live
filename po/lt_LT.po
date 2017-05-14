@@ -751,6 +751,9 @@ msgstr "Kanalas nerastas arba jo iš vis nėra. Gal klaidingai įvedėte paiešk
 msgid "Snapshot interval"
 msgstr "Momentinių nuotraukų intervalas"
 
+msgid "Stop"
+msgstr "Sustapdyti"
+
 msgid "No schedules available for this channel"
 msgstr "Šis kanalas neturi programos"
 
@@ -886,9 +889,6 @@ msgstr "VLC: gyvas srautas"
 
 msgid "VLC: play recording"
 msgstr "VLC: groti įrašą"
-
-msgid "Stop"
-msgstr "Sustapdyti"
 
 msgid "Play"
 msgstr "Groti"

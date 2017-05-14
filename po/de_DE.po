@@ -751,6 +751,9 @@ msgstr "Konnte Kanal nicht finden oder keine Kanäle verfügbar. Ist die Anfrage
 msgid "Snapshot interval"
 msgstr "Snapshot-Intervall"
 
+msgid "Stop"
+msgstr "Stopp"
+
 msgid "No schedules available for this channel"
 msgstr "Für diesen Kanal liegen keine EPG-Informationen vor"
 
@@ -885,9 +888,6 @@ msgstr "VLC: Video Stream"
 
 msgid "VLC: play recording"
 msgstr "VLC: Aufnahme abspielen"
-
-msgid "Stop"
-msgstr "Stopp"
 
 msgid "Play"
 msgstr "Wiedergabe"

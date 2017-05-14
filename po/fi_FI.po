@@ -749,6 +749,9 @@ msgstr "Kanavaa ei löydy. Kirjoititko varmasti oikein?"
 msgid "Snapshot interval"
 msgstr "Kuvien päivitysväli"
 
+msgid "Stop"
+msgstr "Pysäytä"
+
 msgid "No schedules available for this channel"
 msgstr "Tälle kanavalle ei ole saatavilla ohjelmistoa"
 
@@ -883,9 +886,6 @@ msgstr "VLC: live-lähetyksen suoratoisto"
 
 msgid "VLC: play recording"
 msgstr "VLC: toista tallenne"
-
-msgid "Stop"
-msgstr "Pysäytä"
 
 msgid "Play"
 msgstr "Toista"

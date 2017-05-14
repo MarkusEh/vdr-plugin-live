@@ -750,6 +750,9 @@ msgstr "Nena¹iel sa ¾iadny kanál alebo kanály nie sú k dispozícii. Mo¾no ste zle
 msgid "Snapshot interval"
 msgstr "Interval snímkovania"
 
+msgid "Stop"
+msgstr "Zastavi»"
+
 msgid "No schedules available for this channel"
 msgstr "Pre tento kanál sa nena¹iel ¾iadny televízny program."
 
@@ -884,9 +887,6 @@ msgstr "VLC: ¾ivé vysielanie"
 
 msgid "VLC: play recording"
 msgstr "VLC: Prehrávaný záznam"
-
-msgid "Stop"
-msgstr "Zastavi»"
 
 msgid "Play"
 msgstr "Prehra»"

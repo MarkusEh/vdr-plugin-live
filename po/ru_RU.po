@@ -749,6 +749,9 @@ msgstr "Канал не найден или недоступен. Проверь
 msgid "Snapshot interval"
 msgstr "Интервал между снимками"
 
+msgid "Stop"
+msgstr "Стоп"
+
 msgid "No schedules available for this channel"
 msgstr "Расписание для данного канала недоступно"
 
@@ -883,9 +886,6 @@ msgstr "VLC: live видео стриминг"
 
 msgid "VLC: play recording"
 msgstr "VLC: проиграть запись"
-
-msgid "Stop"
-msgstr "Стоп"
 
 msgid "Play"
 msgstr "Воспроизведение"

@@ -755,6 +755,9 @@ msgstr "Impossibile trovare il canale o i canali disponibili. Hai digitato corre
 msgid "Snapshot interval"
 msgstr "Intervallo schermata"
 
+msgid "Stop"
+msgstr "Ferma"
+
 msgid "No schedules available for this channel"
 msgstr "Nessun programma disponibile per questo canale"
 
@@ -889,9 +892,6 @@ msgstr "VLC: trasmissione video Live"
 
 msgid "VLC: play recording"
 msgstr "VLC: riproduci registrazione"
-
-msgid "Stop"
-msgstr "Ferma"
 
 msgid "Play"
 msgstr "Riproduci"

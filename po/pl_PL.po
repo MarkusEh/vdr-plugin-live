@@ -749,6 +749,9 @@ msgstr "Nie mo¿na odnale¶æ kana³u lub kana³y nie s± dostêpne."
 msgid "Snapshot interval"
 msgstr "Okres pomiêdzy migawkami"
 
+msgid "Stop"
+msgstr "Stop"
+
 msgid "No schedules available for this channel"
 msgstr "Brak listy audycji dla tego kana³u"
 
@@ -883,9 +886,6 @@ msgstr "VLC: streamuj video"
 
 msgid "VLC: play recording"
 msgstr "VLC: odtwarzaj nagranie"
-
-msgid "Stop"
-msgstr "Stop"
 
 msgid "Play"
 msgstr "Play"

@@ -772,6 +772,9 @@ msgstr "N'a pas pu trouver la chaîne. Votre requête est t'elle corrête? "
 msgid "Snapshot interval"
 msgstr "intervalle"
 
+msgid "Stop"
+msgstr "Stop"
+
 msgid "No schedules available for this channel"
 msgstr "Aucune programmation disponible pour cette chaîne"
 
@@ -913,9 +916,6 @@ msgstr "VLC: live vidéo stream"
 #, fuzzy
 msgid "VLC: play recording"
 msgstr "Lire l'enregistrement"
-
-msgid "Stop"
-msgstr "Stop"
 
 msgid "Play"
 msgstr "Lecture"

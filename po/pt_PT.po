@@ -749,6 +749,9 @@ msgstr ""
 msgid "Snapshot interval"
 msgstr ""
 
+msgid "Stop"
+msgstr ""
+
 msgid "No schedules available for this channel"
 msgstr ""
 
@@ -882,9 +885,6 @@ msgid "VLC: live video stream"
 msgstr ""
 
 msgid "VLC: play recording"
-msgstr ""
-
-msgid "Stop"
 msgstr ""
 
 msgid "Play"

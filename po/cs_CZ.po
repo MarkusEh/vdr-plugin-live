@@ -760,6 +760,9 @@ msgstr "Kanál je nedostupný, nebo neexistuje. Zkontrolujte zadání."
 msgid "Snapshot interval"
 msgstr "Interval snímků obrazovky"
 
+msgid "Stop"
+msgstr ""
+
 msgid "No schedules available for this channel"
 msgstr "Pro kanál není dostupný program"
 
@@ -897,9 +900,6 @@ msgstr "VLC: stream běžícího vysílání"
 
 msgid "VLC: play recording"
 msgstr "VLC: streamování nahrávky"
-
-msgid "Stop"
-msgstr ""
 
 msgid "Play"
 msgstr "Přehrávat"
