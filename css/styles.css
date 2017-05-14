@@ -1065,6 +1065,68 @@ div.screenshot img {
 	height: 320px;
 }
 
+
+/* ##############################
+   # Remote page - OSD
+   ##############################
+*/
+
+#osd { 
+	background-color:black;
+	color:white;
+	height: 320px;
+	width: 569px;
+}
+.osd { 
+	padding: 5px 0px 5px 10px;
+	position:relative;
+}
+.osd div {
+	margin:0px;
+	tab-size:4;
+	font-family: "Courier New", Courier, monospace;
+}
+.osdMessage {
+	position:absolute;
+    overflow:auto;
+	top:250px;
+	max-height: 100px;
+	min-height:20px;
+	width: 510px;
+    background-color:yellow;
+    color:black;
+    padding:10px;
+    border:2px solid red;
+}
+.osdText, .osdItems {
+	overflow:auto;
+	overflow-x:hidden;
+	height: 267px;
+	width: 555px;
+	margin:5px 0px !important;
+}
+.osdItem, .osdTitle {
+	cursor:pointer;
+	white-space: nowrap;
+}
+.osdItem.selected { 
+	background-color:#cccccc;
+	color:#000000;
+}
+.osdButtons {}
+.osdButtons div {
+	float:left; 
+	margin-right:5px;
+	padding:2px;
+	width:130px;
+	text-align: center;
+	cursor:pointer;
+}
+.osdButtonGreen {background-color:green}
+.osdButtonYellow {background-color:yellow;color:black}
+.osdButtonBlue {background-color:blue}
+.osdButtonRed {background-color:red}
+
 /*
   ##############################
   #  Error widget
