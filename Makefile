@@ -5,13 +5,13 @@
 # The official name of this plugin.
 # This name will be used in the '-P...' option of VDR to load the plugin.
 # By default the main source file also carries this name.
-PLUGIN = live
+PLUGIN := live
 
 ### The version number of this plugin (taken from the main source file):
-VERSION = $(shell grep '\#define LIVEVERSION ' setup.h | awk '{ print $$3 }' | sed -e 's/[";]//g')
+VERSION := $(shell grep '\#define LIVEVERSION ' setup.h | awk '{ print $$3 }' | sed -e 's/[";]//g')
 
 ### Check for libpcre c++ wrapper
-HAVE_LIBPCRECPP = $(shell pcre-config --libs-cpp)
+HAVE_LIBPCRECPP := $(shell pcre-config --libs-cpp)
 
 ### The directory environment:
 # Use package data if installed...otherwise assume we're under the VDR source directory:
@@ -29,7 +29,7 @@ export CXXFLAGS = $(call PKGCFG,cxxflags)
 ECPPC ?= ecppc
 
 ### The version number of VDR's plugin API:
-APIVERSION = $(call PKGCFG,apiversion)
+APIVERSION := $(call PKGCFG,apiversion)
 
 ### Allow user defined options to overwrite defaults:
 -include $(PLGCFG)
@@ -42,7 +42,7 @@ CXXFLAGS  += $(shell tntnet-config --cxxflags)
 LIBS      += $(shell tntnet-config --libs)
 
 ### Optional configuration features
-PLUGINFEATURES =
+PLUGINFEATURES :=
 ifneq ($(HAVE_LIBPCRECPP),)
 	PLUGINFEATURES += -DHAVE_LIBPCRECPP
 	CXXFLAGS       += $(shell pcre-config --cflags)
@@ -56,27 +56,43 @@ export
 unexport PLUGIN
 
 ### The name of the distribution archive:
-ARCHIVE = $(PLUGIN)-$(VERSION)
-PACKAGE = vdr-$(ARCHIVE)
+ARCHIVE := $(PLUGIN)-$(VERSION)
+PACKAGE := vdr-$(ARCHIVE)
 
 ### The name of the shared object file:
-SOFILE = libvdr-$(PLUGIN).so
+SOFILE := libvdr-$(PLUGIN).so
+
+### Installed shared object file:
+SOINST := $(DESTDIR)$(LIBDIR)/$(SOFILE).$(APIVERSION)
 
 ### Includes and Defines (add further entries here):
-DEFINES	 += -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"' -DTNTVERSION=$(TNTVERSION) -DCXXTOOLVER=$(CXXTOOLVER)
-SUBDIRS	  = pages css javascript
+DEFINES	+= -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"' -DTNTVERSION=$(TNTVERSION) -DCXXTOOLVER=$(CXXTOOLVER)
 VERSIONSUFFIX = gen_version_suffix.h
 
 ### The object files (add further files here):
-PLUGINOBJS = $(PLUGIN).o thread.o tntconfig.o setup.o i18n.o timers.o \
-	     tools.o recman.o tasks.o status.o epg_events.o epgsearch.o \
-	     grab.o md5.o filecache.o livefeatures.o preload.o timerconflict.o \
-	     users.o
+PLUGINOBJS := $(PLUGIN).o thread.o tntconfig.o setup.o i18n.o timers.o \
+              tools.o recman.o tasks.o status.o epg_events.o epgsearch.o \
+              grab.o md5.o filecache.o livefeatures.o preload.o timerconflict.o \
+              users.o
+PLUGINSRCS := $(patsubst %.o,%.cpp,$(PLUGINOBJS))
 
-WEBLIBS	   = pages/libpages.a css/libcss.a javascript/libjavascript.a
+WEB_LIB_PAGES := libpages.a
+WEB_DIR_PAGES := pages
+WEB_PAGES     := $(WEB_DIR_PAGES)/$(WEB_LIB_PAGES)
+
+WEB_LIB_CSS := libcss.a
+WEB_DIR_CSS := css
+WEB_CSS     := $(WEB_DIR_CSS)/$(WEB_LIB_CSS)
+
+WEB_LIB_JAVA := libjavascript.a
+WEB_DIR_JAVA := javascript
+WEB_JAVA     := $(WEB_DIR_JAVA)/$(WEB_LIB_JAVA)
+
+WEBLIBS := $(WEB_PAGES) $(WEB_CSS) $(WEB_JAVA)
+SUBDIRS := $(WEB_DIR_PAGES) $(WEB_DIR_CSS) $(WEB_DIR_JAVA)
 
 ### The main target:
-all: $(SOFILE) i18n
+all: lib i18n
 
 ### Implicit rules:
 %.o: %.cpp
@@ -86,24 +102,25 @@ all: $(SOFILE) i18n
 MAKEDEP = $(CXX) -MM -MG
 DEPFILE = .dependencies
 $(DEPFILE): Makefile
-	@$(MAKEDEP) $(CXXFLAGS) $(DEFINES) $(PLUGINFEATURES) $(INCLUDES) $(PLUGINOBJS:%.o=%.cpp) > $@
+	@$(MAKEDEP) $(CXXFLAGS) $(DEFINES) $(PLUGINFEATURES) $(INCLUDES) $(PLUGINSRCS) > $@
 
 ifneq ($(MAKECMDGOALS),clean)
 -include $(DEPFILE)
 endif
 
 ### Internationalization (I18N):
-PODIR     = po
-I18Npo    = $(wildcard $(PODIR)/*.po)
-I18Nmo    = $(addsuffix .mo, $(foreach file, $(I18Npo), $(basename $(file))))
-I18Nmsgs  = $(addprefix $(DESTDIR)$(LOCDIR)/, $(addsuffix /LC_MESSAGES/vdr-$(PLUGIN).mo, $(notdir $(foreach file, $(I18Npo), $(basename $(file))))))
-I18Npot   = $(PODIR)/$(PLUGIN).pot
+PODIR    := po
+I18Npo   := $(wildcard $(PODIR)/*.po)
+I18Nmo   := $(addsuffix .mo, $(foreach file, $(I18Npo), $(basename $(file))))
+I18Nmsgs := $(addprefix $(DESTDIR)$(LOCDIR)/, $(addsuffix /LC_MESSAGES/vdr-$(PLUGIN).mo, $(notdir $(foreach file, $(I18Npo), $(basename $(file))))))
+I18Npot  := $(PODIR)/$(PLUGIN).pot
+I18Npot_deps := $(PLUGINSRCS) $(wildcard $(WEB_DIR_PAGES)/*.cpp) setup.h epg_events.h
 
 %.mo: %.po
 	msgfmt -c -o $@ $<
 
-$(I18Npot): PAGES $(PLUGINOBJS:%.o=%.cpp)
-	xgettext -C -cTRANSLATORS --no-wrap --no-location -k -ktr -ktrNOOP --omit-header -o $@ $(PLUGINOBJS:%.o=%.cpp) pages/*.cpp setup.h epg_events.h
+$(I18Npot): $(I18Npot_deps)
+	xgettext -C -cTRANSLATORS --no-wrap --no-location -k -ktr -ktrNOOP --omit-header -o $@ $^
 
 %.po: $(I18Npot)
 	msgmerge -U --no-wrap --no-location --backup=none -q -N $@ $<
@@ -115,27 +132,48 @@ $(I18Nmsgs): $(DESTDIR)$(LOCDIR)/%/LC_MESSAGES/vdr-$(PLUGIN).mo: $(PODIR)/%.mo
 .PHONY: i18n
 i18n: $(I18Nmo) $(I18Npot)
 
+.PHONY: install-i18n
 install-i18n: $(I18Nmsgs)
 
 ### Targets:
-PAGES:
-	$(MAKE) -C pages PLUGINFEATURES="$(PLUGINFEATURES)" .dependencies
 
 $(VERSIONSUFFIX): FORCE
 	./buildutil/version-util $(VERSIONSUFFIX) || ./buildutil/version-util -F $(VERSIONSUFFIX)
 
-$(SOFILE): $(VERSIONSUFFIX) $(SUBDIRS) $(PLUGINOBJS)
-	for SUBDIR in $(SUBDIRS); \
-		do $(MAKE) -C $${SUBDIR} PLUGINFEATURES="$(PLUGINFEATURES)" all; \
-	done
+.PHONY: subdirs $(SUBDIRS)
+subdirs: $(SUBDIRS)
+
+$(SUBDIRS):
+ifneq ($(MAKECMDGOALS),clean)
+	$(MAKE) -C $@ PLUGINFEATURES="$(PLUGINFEATURES)" all
+else
+	$(MAKE) -C $@ clean
+endif
+
+#$(WEB_PAGES): $(WEB_DIR_PAGES)
+
+#$(WEB_CSS): $(WEB_DIR_CSS)
+
+#$(WEB_JAVA): $(WEB_DIR_JAVA)
+
+$(SOFILE): $(PLUGINOBJS) $(WEBLIBS)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared $(PLUGINOBJS) -Wl,--whole-archive $(WEBLIBS) -Wl,--no-whole-archive $(LIBS) -o $@
 
-install-lib: $(SOFILE)
-	install -D $^ $(DESTDIR)$(LIBDIR)/$^.$(APIVERSION)
+.PHONY: lib
+lib: $(VERSIONSUFFIX) subdirs $(SOFILE)
 
+$(SOINST): $(SOFILE)
+	install -D $< $@
+
+.PHONY: install-lib
+install-lib: lib $(SOINST)
+
+.PHONY: install
 install: install-lib install-i18n
 
-dist: $(I18Npo) clean
+.PHONY: dist
+dist: $(I18Npo)
+	$(MAKE) clean
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
 	@mkdir $(TMPDIR)/$(ARCHIVE)
 	@cp -a * $(TMPDIR)/$(ARCHIVE)
@@ -143,14 +181,13 @@ dist: $(I18Npo) clean
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
 	@echo Distribution package created as $(TMPDIR)/$(PACKAGE).tar.gz
 
-clean: $(SUBDIRS)
-	for SUBDIR in $(SUBDIRS); \
-		do $(MAKE) -C $${SUBDIR} clean; \
-	done
-	@-rm -f $(PODIR)/*.mo $(PODIR)/*.pot
+.PHONY: clean
+clean: subdirs
+	@-rm -f $(I18Nmo) $(I18Npot)
 	@-rm -f $(PLUGINOBJS) $(DEPFILE) *.so *.tgz core* *~
 	@-rm -f $(VERSIONSUFFIX)
 
 .PRECIOUS: $(I18Npo)
 
 FORCE:
+

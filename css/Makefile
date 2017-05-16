@@ -1,14 +1,15 @@
 ### The official name of this plugin.
-PLUGIN = live
+PLUGIN := live
 
 ### Additional options to silence TNTNET warnings
-TNTFLAGS   ?= -Wno-overloaded-virtual -Wno-unused-function
+TNTFLAGS ?= -Wno-overloaded-virtual -Wno-unused-function
 
 ### Includes and Defines (add further entries here):
 INCLUDES += -I$(VDRDIR)/include -I..
 
 ### The object files (add further files here):
-OBJS	= styles.o
+OBJS := styles.o
+SRCS := $(patsubst %.o,%.cpp,$(OBJS))
 
 ### The main target:
 all: libcss.a
@@ -25,7 +26,7 @@ libcss.a: $(OBJS)
 	$(AR) r $@ $^
 
 clean:
-	@rm -f *~ *.o core* libcss.a $(OBJS:%.o=%.cpp)
+	@rm -f *~ *.o core* libcss.a $(SRCS)
 
 dist: clean
 	@echo "Nothing to do for distribution here ..."

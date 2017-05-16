@@ -1,14 +1,15 @@
 ### The official name of this plugin.
-PLUGIN = live
+PLUGIN := live
 
 ### Additional options to silence TNTNET warnings
-TNTFLAGS   ?= -Wno-overloaded-virtual -Wno-unused-function
+TNTFLAGS ?= -Wno-overloaded-virtual -Wno-unused-function
 
 ### Includes and Defines (add further entries here):
 INCLUDES += -I$(VDRDIR)/include -I..
 
 ### The object files (add further files here):
-OBJS	= treeview.o
+OBJS := treeview.o
+SRCS := $(patsubst %.o,%.cpp,$(OBJS))
 
 ### The main target:
 all: libjavascript.a
@@ -25,7 +26,7 @@ libjavascript.a: $(OBJS)
 	$(AR) r $@ $^
 
 clean:
-	@rm -f *~ *.o core* libjavascript.a $(OBJS:%.o=%.cpp)
+	@rm -f *~ *.o core* libjavascript.a $(SRCS)
 
 dist: clean
 	@echo "Nothing to do for distribution here ..."
