@@ -280,6 +280,7 @@ namespace vdrlive {
 
 #if VDRVERSNUM >= 20301
 		LOCK_TIMERS_WRITE;
+		Timers->SetExplicitModify();
 		const cTimer *checkTimer = Timers->GetTimer( newTimer.get() );
 #else
 		cTimer* checkTimer = Timers.GetTimer( newTimer.get() );
@@ -311,6 +312,7 @@ namespace vdrlive {
 
 #if VDRVERSNUM >= 20301
 		LOCK_TIMERS_WRITE;
+		Timers->SetExplicitModify();
 		cTimer* oldTimer = (cTimer *)Timers->GetTimer( timerData.first );
 #else
 		cTimer* oldTimer = Timers.GetTimer( timerData.first );
@@ -328,7 +330,6 @@ namespace vdrlive {
 
 		*oldTimer = copy;
 #if VDRVERSNUM >= 20301
-		// JJJ: Warum das?
 		Timers->SetModified();
 #else
 		Timers.SetModified();
@@ -347,6 +348,7 @@ namespace vdrlive {
 
 #if VDRVERSNUM >= 20301
 		LOCK_TIMERS_WRITE;
+		Timers->SetExplicitModify();
 		cTimer* oldTimer = (cTimer *)Timers->GetTimer( timerData.first );
 #else
 		cTimer* oldTimer = Timers.GetTimer( timerData.first );
@@ -367,7 +369,6 @@ namespace vdrlive {
 		}
 #if VDRVERSNUM >= 20301
 		Timers->Del( oldTimer );
-		// JJJ: Warum das?
 		Timers->SetModified();
 #else
 		Timers.Del( oldTimer );
@@ -387,6 +388,7 @@ namespace vdrlive {
 
 #if VDRVERSNUM >= 20301
 		LOCK_TIMERS_WRITE;
+		Timers->SetExplicitModify();
 		cTimer* toggleTimer = (cTimer *)Timers->GetTimer( timerData.first );
 #else
 		cTimer* toggleTimer = Timers.GetTimer( timerData.first );
@@ -398,7 +400,6 @@ namespace vdrlive {
 
 #if VDRVERSNUM >= 20301
 		toggleTimer->OnOff();
-		// JJJ: Warum das?
 		Timers->SetModified();
 #else
 		toggleTimer->OnOff();
