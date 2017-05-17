@@ -114,13 +114,18 @@ I18Npo   := $(wildcard $(PODIR)/*.po)
 I18Nmo   := $(addsuffix .mo, $(foreach file, $(I18Npo), $(basename $(file))))
 I18Nmsgs := $(addprefix $(DESTDIR)$(LOCDIR)/, $(addsuffix /LC_MESSAGES/vdr-$(PLUGIN).mo, $(notdir $(foreach file, $(I18Npo), $(basename $(file))))))
 I18Npot  := $(PODIR)/$(PLUGIN).pot
-I18Npot_deps := $(PLUGINSRCS) $(wildcard $(WEB_DIR_PAGES)/*.cpp) setup.h epg_events.h
+I18Npot_deps = $(PLUGINSRCS) $(wildcard $(WEB_DIR_PAGES)/*.cpp) setup.h epg_events.h
+
+$(I18Npot): $(I18Npot_deps)
+	xgettext -C -cTRANSLATORS --no-wrap --no-location -k -ktr -ktrNOOP --omit-header -o $@ $(I18Npot_deps)
+
+# Need a recursive target here to get I18Npot_deps with the correct list of files (wildcard ...)
+.PHONY: make_I18Npot
+make_I18Npot:
+	$(MAKE) $(I18Npot)
 
 %.mo: %.po
 	msgfmt -c -o $@ $<
-
-$(I18Npot): $(I18Npot_deps)
-	xgettext -C -cTRANSLATORS --no-wrap --no-location -k -ktr -ktrNOOP --omit-header -o $@ $^
 
 %.po: $(I18Npot)
 	msgmerge -U --no-wrap --no-location --backup=none -q -N $@ $<
@@ -130,10 +135,10 @@ $(I18Nmsgs): $(DESTDIR)$(LOCDIR)/%/LC_MESSAGES/vdr-$(PLUGIN).mo: $(PODIR)/%.mo
 	install -D -m644 $< $@
 
 .PHONY: i18n
-i18n: $(I18Nmo) $(I18Npot)
+i18n: subdirs make_I18Npot $(I18Nmo) 
 
 .PHONY: install-i18n
-install-i18n: $(I18Nmsgs)
+install-i18n: i18n $(I18Nmsgs)
 
 ### Targets:
 
