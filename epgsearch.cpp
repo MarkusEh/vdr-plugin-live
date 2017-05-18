@@ -576,20 +576,18 @@ SearchResult::SearchResult( string const& data )
 	}
 }
 
-const cEvent* SearchResult::GetEvent()
+const cEvent* SearchResult::GetEvent(const cChannel* Channel)
 {
-	/* JJJ: Lock order wrong, fix if function is still used
-	 * Needs to be Timers, Channels, Recordings Schedules in this sequence
-	 */
+	if (!Channel) return NULL;
+
 #if VDRVERSNUM >= 20301
 	LOCK_SCHEDULES_READ;
 #else
 	cSchedulesLock schedulesLock;
 	const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
-#endif
 	if (!Schedules) return NULL;
-	const cChannel *Channel = GetChannel();
-	if (!Channel) return NULL;
+#endif
+
 	const cSchedule *Schedule = Schedules->GetSchedule(Channel);
 	if (!Schedule) return NULL;
 	return Schedule->GetEvent(m_eventId);

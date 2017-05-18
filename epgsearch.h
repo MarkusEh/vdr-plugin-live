@@ -340,12 +340,12 @@ public:
 	time_t TimerStopTime() const { return m_timerstop; }
 	int TimerMode() const { return m_timerMode; }
 	bool operator<( SearchResult const& other ) const { return m_starttime <  other.m_starttime; }
-	const cEvent* GetEvent();
+	const cEvent* GetEvent(const cChannel* Channel);
 
-	/* JJJ: Should be done with a "Channels" argument to be sure the Lock order
-	 * is correct; or find a better way to do this
-	 */
 #if VDRVERSNUM >= 20301
+	/* Be careful when calling this function concerning the lock order:
+	 *   Timers, Channels, Recordings Schedules
+	 */
 	const cChannel* GetChannel() { LOCK_CHANNELS_READ; return Channels->GetByChannelID(m_channel); }
 #else
 	const cChannel* GetChannel() { return Channels.GetByChannelID(m_channel); }
