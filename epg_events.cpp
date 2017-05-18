@@ -1,6 +1,7 @@
 #include <time.h>
 #include <glob.h>
 #include <algorithm>
+#include <assert.h>
 #include <vdr/player.h>
 
 #include "tools.h"
@@ -303,6 +304,8 @@ namespace vdrlive
 
 		EpgInfoPtr CreateEpgInfo(cChannel const *chan, cEvent const *event, char const *idOverride)
 		{
+			assert(chan);
+
 			if (event) {
 				string domId(idOverride ? idOverride : EncodeDomId(chan->GetChannelID(), event->EventID()));
 				return EpgInfoPtr(new EpgEvent(domId, event, chan->Name()));

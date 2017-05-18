@@ -30,6 +30,7 @@ namespace vdrlive
 		/**
 		 *	Allocate and initalize an epgEvent instance with the
 		 *	passed channel and event information.
+		 *	Never call this function with a NULL chan pointer
 		 */
 		EpgInfoPtr CreateEpgInfo(cChannel const *chan, cEvent const *event, char const *idOverride = 0);
 
