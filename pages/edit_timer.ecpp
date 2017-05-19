@@ -1,4 +1,8 @@
 <%pre>
+
+// To get rid of the swap definition in vdr/tools.h
+#define __STL_CONFIG_H
+
 #include <memory>
 #include <vdr/channels.h>
 #include <vdr/config.h>
@@ -14,6 +18,7 @@
 #include "livefeatures.h"
 #include "epgsearch.h"
 #include "users.h"
+#include "autoptr.h"
 
 using namespace std;
 using namespace vdrlive;
@@ -106,7 +111,7 @@ cTimer* timer;
 	if (message.empty())
 		edit_timerreferer = request.getHeader("Referer:", "timers.html");
 
-	auto_ptr< cTimer > eventTimer;
+	AUTO_PTR< cTimer > eventTimer;
 	if ( timer == 0 && !epgid.empty()) {
 		EpgEvents::DecodeDomId(epgid, channelid, eventid);
 		if ( channelid.Valid() && eventid != 0 ) {

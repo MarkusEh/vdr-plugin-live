@@ -29,6 +29,7 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #include <memory>
 #include <set>
 #include <vdr/osdbase.h>
+#include "../autoptr.h"
 
 // Data structure for service "Epgsearch-search-v1.0"
 struct Epgsearch_search_v1_0
@@ -157,7 +158,7 @@ class cServiceHandler
 struct Epgsearch_services_v1_0
 {
 // in/out
-      std::auto_ptr<cServiceHandler> handler;
+      AUTO_PTR<cServiceHandler> handler;
 };
 
 // Data structures for service "Epgsearch-services-v1.1"
@@ -173,7 +174,7 @@ class cServiceHandler_v1_1 : public cServiceHandler
 struct Epgsearch_services_v1_1
 {
 // in/out
-      std::auto_ptr<cServiceHandler_v1_1> handler;
+      AUTO_PTR<cServiceHandler_v1_1> handler;
 };
 
 // Data structures for service "Epgsearch-services-v1.2"
@@ -189,7 +190,7 @@ class cServiceHandler_v1_2 : public cServiceHandler_v1_1
 struct Epgsearch_services_v1_2
 {
 // in/out
-      std::auto_ptr<cServiceHandler_v1_2> handler;
+      AUTO_PTR<cServiceHandler_v1_2> handler;
 };
 
 #endif

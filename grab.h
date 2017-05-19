@@ -3,6 +3,7 @@
 
 #include "stdext.h"
 #include "tasks.h"
+#include "autoptr.h"
 
 namespace vdrlive {
 
@@ -28,7 +29,7 @@ private:
 
 	void PutImage( char* image, int size );
 
-	std::auto_ptr< GrabImageTask > m_task;
+	AUTO_PTR< GrabImageTask > m_task;
 	GrabImagePtr m_image;
 	int m_size;
 };

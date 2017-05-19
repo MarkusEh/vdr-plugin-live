@@ -4,6 +4,9 @@
  * See the README file for copyright information and how to reach the author.
  */
 
+// To get rid of the swap definition in vdr/tools.h
+#define __STL_CONFIG_H
+
 #include <vdr/config.h>
 #include <vdr/plugin.h>
 #include "i18n.h"
@@ -17,8 +20,6 @@
 #include "users.h"
 
 namespace vdrlive {
-
-using namespace std;
 
 const char *Plugin::VERSION        = LIVEVERSION;
 const char *Plugin::DESCRIPTION    = LIVESUMMARY;

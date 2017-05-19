@@ -3,6 +3,8 @@
 
 #include <memory>
 #include <vdr/thread.h>
+#include "autoptr.h"
+
 
 namespace tnt { class Tntnet; }
 
@@ -19,7 +21,7 @@ protected:
 	virtual void Action();
 
 private:
-	std::auto_ptr< tnt::Tntnet > m_server;
+	AUTO_PTR< tnt::Tntnet > m_server;
 };
 
 } // namespace vdrlive

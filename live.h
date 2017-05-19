@@ -6,6 +6,7 @@
 #include <vdr/config.h>
 #include <vdr/plugin.h>
 #include "thread.h"
+#include "autoptr.h"
 
 namespace vdrlive {
 
@@ -33,7 +34,7 @@ private:
 	static std::string m_configDirectory;
 	static std::string m_resourceDirectory;
 
-	std::auto_ptr< ServerThread > m_thread;
+	AUTO_PTR< ServerThread > m_thread;
 };
 
 } // namespace vdrlive

@@ -13,8 +13,8 @@
 
 namespace vdrlive {
 
-using namespace std;
-using namespace std::tr1;
+using std::for_each;
+using std::tr1::bind;
 using namespace std::tr1::placeholders;
 
 const char* NowReplaying()

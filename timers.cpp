@@ -5,6 +5,7 @@
 #include "timers.h"
 #include "tools.h"
 #include "i18n.h"
+#include "autoptr.h"
 
 static bool operator<( cTimer const& left, cTimer const& right )
 {
@@ -272,7 +273,7 @@ namespace vdrlive {
 
 	void TimerManager::DoInsertTimer( TimerPair& timerData )
 	{
-		auto_ptr< cTimer > newTimer( new cTimer );
+		AUTO_PTR< cTimer > newTimer( new cTimer );
 		if ( !newTimer->Parse( timerData.second.c_str() ) ) {
 			StoreError( timerData, tr("Error in timer settings") );
 			return;
