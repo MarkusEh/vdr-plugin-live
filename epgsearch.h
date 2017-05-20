@@ -1,13 +1,15 @@
 #ifndef VDR_LIVE_EPGSEARCH_H
 #define VDR_LIVE_EPGSEARCH_H
 
+// STL headers need to be before VDR tools.h (included by <vdr/channels.h>)
 #include <vector>
 #include <list>
 #include <set>
 #include <string>
+#include <algorithm>
+
 #include <vdr/channels.h>
 #include <vdr/epg.h>
-#include "tools.h"
 
 namespace vdrlive {
 

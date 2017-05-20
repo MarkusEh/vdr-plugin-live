@@ -1,10 +1,9 @@
-#include <cstdlib>
-#include <iostream>
-#include <stdexcept>
-#include <vdr/tools.h>
-#include <tnt/tntnet.h>
+
 #include "thread.h"
+
 #include "tntconfig.h"
+
+#include <vdr/tools.h>
 
 namespace vdrlive {
 

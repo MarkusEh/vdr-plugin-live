@@ -1,6 +1,6 @@
 <%pre>
-#include <vdr/i18n.h>
-#include "setup.h"
+
+#include <setup.h>
 
 using namespace vdrlive;
 

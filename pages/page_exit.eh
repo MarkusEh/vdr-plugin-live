@@ -1,6 +1,6 @@
 <# do not add to Makefile #>
 <%pre>
-#include "exception.h"
+#include <exception.h>
 </%pre>
 <%cpp>
 	spoint.commit();

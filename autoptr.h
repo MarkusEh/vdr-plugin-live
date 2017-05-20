@@ -5,6 +5,8 @@
                      + __GNUC_MINOR__ * 100 \
                      + __GNUC_PATCHLEVEL__)
 
+# include <memory>
+
 #if GCC_VERSION > 50000
 # define AUTO_PTR  std::unique_ptr
 #else

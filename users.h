@@ -1,11 +1,11 @@
 #ifndef VDR_LIVE_USERS_H
 #define VDR_LIVE_USERS_H
 
+// STL headers need to be before VDR tools.h (included by <vdr/channels.h>)
 #include <string>
-#include <vdr/plugin.h>
+
 #include <vdr/tools.h>
-#include <iostream>
-#include <sstream>
+#include <vdr/config.h>
 
 namespace vdrlive {
 

@@ -1,17 +1,16 @@
-#include <algorithm>
-#include <stdexcept>
-#include <iomanip>
-#include <tnt/ecpp.h>
-#include <tnt/htmlescostream.h>
-#include <tnt/httprequest.h>
-#include <tnt/httpreply.h>
-#include <vdr/recording.h>
-#include "exception.h"
-#include "live.h"
-#include "setup.h"
+
 #include "tools.h"
+
 #include "md5.h"
 
+#include <tnt/ecpp.h>
+#include <tnt/htmlescostream.h>
+
+// STL headers need to be before VDR tools.h (included by <vdr/recording.h>)
+#include <iomanip>
+
+#include <vdr/recording.h>
+#include <vdr/videodir.h>
 
 using namespace std;
 using namespace tnt;

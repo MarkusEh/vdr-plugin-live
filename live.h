@@ -1,12 +1,16 @@
 #ifndef VDR_LIVE_LIVE_H
 #define VDR_LIVE_LIVE_H
 
-#include <memory>
-#include <string>
-#include <vdr/config.h>
-#include <vdr/plugin.h>
 #include "thread.h"
-#include "autoptr.h"
+
+// STL headers need to be before VDR tools.h (included by <vdr/plugin.h>)
+#include <string>
+
+#ifndef __STL_CONFIG_H
+// To get rid of the swap definition in vdr/tools.h
+# define __STL_CONFIG_H
+#endif
+#include <vdr/plugin.h>
 
 namespace vdrlive {
 

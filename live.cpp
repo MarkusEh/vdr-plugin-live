@@ -4,17 +4,11 @@
  * See the README file for copyright information and how to reach the author.
  */
 
-// To get rid of the swap definition in vdr/tools.h
-#define __STL_CONFIG_H
-
-#include <vdr/config.h>
-#include <vdr/plugin.h>
-#include "i18n.h"
 #include "live.h"
+
 #include "setup.h"
 #include "status.h"
 #include "tasks.h"
-#include "thread.h"
 #include "timers.h"
 #include "preload.h"
 #include "users.h"

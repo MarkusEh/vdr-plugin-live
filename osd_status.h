@@ -1,9 +1,11 @@
 #ifndef VDR_LIVE_OSD_STATUS_H
 #define VDR_LIVE_OSD_STATUS_H
 
+// STL headers need to be before VDR tools.h (included by <vdr/status.h>)
 #include <string>
+
 #include <vdr/status.h>
-#include <time.h>
+
 
 namespace vdrlive {
 

@@ -1,24 +1,16 @@
-#include <cerrno>
-#include <cstring>
-#include <fstream>
-#include <sstream>
-#include <stdexcept>
-#include "tntfeatures.h"
+
+#include "tntconfig.h"
+
+#include "i18n.h"
+#include "live.h"
+#include "setup.h"
+
 #if TNT_LOG_SERINFO
 #include <cxxtools/log.h>
 #include <cxxtools/xml/xmldeserializer.h>
 #else
 #include <cxxtools/loginit.h>
 #endif
-#include <tnt/sessionscope.h>
-#include <tnt/httpreply.h>
-#include <vdr/config.h>
-#include <vdr/plugin.h>
-#include <vdr/videodir.h>
-#include "i18n.h"
-#include "live.h"
-#include "setup.h"
-#include "tntconfig.h"
 
 namespace vdrlive {
 

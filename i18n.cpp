@@ -7,6 +7,8 @@
 
 #include "i18n.h"
 
+#include <vdr/tools.h>
+
 namespace vdrlive
 {
 

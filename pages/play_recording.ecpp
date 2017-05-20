@@ -1,11 +1,9 @@
 <%pre>
-#include <string>
-#include <vdr/recording.h>
-#include "exception.h"
-#include "setup.h"
-#include "tasks.h"
-#include "tools.h"
-#include "users.h"
+
+#include <setup.h>
+#include <tasks.h>
+#include <users.h>
+#include <exception.h>
 
 using namespace std;
 using namespace vdrlive;

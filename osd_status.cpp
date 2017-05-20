@@ -1,6 +1,7 @@
-#include <string>
-#include <sstream>
+
 #include "osd_status.h"
+
+#include <sstream>
 
 namespace vdrlive {
 

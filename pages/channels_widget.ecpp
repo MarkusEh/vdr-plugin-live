@@ -1,8 +1,7 @@
 <%pre>
-#include <vdr/channels.h>
-#include "exception.h"
-#include "setup.h"
-#include "tools.h"
+
+#include <exception.h>
+#include <setup.h>
 
 using namespace vdrlive;
 

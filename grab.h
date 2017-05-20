@@ -2,7 +2,6 @@
 #define VDR_LIVE_GRAB_H
 
 #include "stdext.h"
-#include "tasks.h"
 #include "autoptr.h"
 
 namespace vdrlive {

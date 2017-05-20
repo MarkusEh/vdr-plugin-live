@@ -1,10 +1,8 @@
 #ifndef VDR_LIVE_THREAD_H
 #define VDR_LIVE_THREAD_H
 
-#include <memory>
-#include <vdr/thread.h>
 #include "autoptr.h"
-
+#include <vdr/thread.h>
 
 namespace tnt { class Tntnet; }
 

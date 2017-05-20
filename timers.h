@@ -1,13 +1,11 @@
 #ifndef VDR_LIVE_TIMERS_H
 #define VDR_LIVE_TIMERS_H
 
+// STL headers need to be before VDR tools.h (included by <vdr/timers.h>)
 #include <list>
 #include <string>
-#include <vdr/channels.h>
-#include <vdr/menu.h>
+
 #include <vdr/timers.h>
-#include <vdr/thread.h>
-#include "live.h"
 
 namespace vdrlive {
 

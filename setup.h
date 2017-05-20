@@ -1,12 +1,11 @@
 #ifndef VDR_LIVE_SETUP_H
 #define VDR_LIVE_SETUP_H
 
+// STL headers need to be before VDR tools.h (included by <vdr/menuitems.h>)
 #include <list>
 #include <limits>
-#include <numeric>
 #include <string>
-#include "live.h"
-#include "tntfeatures.h"
+
 #include <vdr/menuitems.h>
 
 #define LIVEVERSION "2.3.1"

@@ -1,7 +1,7 @@
 <%pre>
-#include <vdr/config.h>
-#include "setup.h"
-#include "grab.h"
+
+#include <setup.h>
+#include <grab.h>
 
 using namespace vdrlive;
 

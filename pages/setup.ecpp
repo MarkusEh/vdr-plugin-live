@@ -1,10 +1,9 @@
 <%pre>
-#include <sys/stat.h>
-#include <vdr/tools.h>
-#include "setup.h"
-#include "tools.h"
-#include "users.h"
-#include "i18n.h"
+
+#include <setup.h>
+#include <tools.h>
+#include <users.h>
+#include <live.h>
 
 using namespace vdrlive;
 using namespace std;

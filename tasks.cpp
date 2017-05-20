@@ -1,15 +1,13 @@
-#include <algorithm>
-#include <vdr/channels.h>
-#include <vdr/i18n.h>
-#include <vdr/menu.h>
-#include <vdr/recording.h>
-
-#include "stdext.h"
-#include "exception.h"
-#include "recman.h"
-#include "tools.h"
 
 #include "tasks.h"
+
+#include "stdext.h"
+#include "recman.h"
+
+// STL headers need to be before VDR tools.h (included by <vdr/menu.h>)
+#include <algorithm>
+
+#include <vdr/menu.h>
 
 namespace vdrlive {
 

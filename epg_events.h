@@ -1,17 +1,15 @@
-#ifndef VDR_LIVE_WHATS_ON_H
-#define VDR_LIVE_WHATS_ON_H
+#ifndef VDR_LIVE_EPG_EVENTS_H
+#define VDR_LIVE_EPG_EVENTS_H
 
-#include <ctime>
+#include "stdext.h"
+
+// STL headers need to be before VDR tools.h (included by <vdr/channels.h>)
+#include <string>
 #include <list>
 
-#include <vdr/plugin.h>
 #include <vdr/channels.h>
 #include <vdr/epg.h>
-#include <vdr/config.h>
-#include <vdr/i18n.h>
-
-#include "live.h"
-#include "stdext.h"
+#include <vdr/recording.h>
 
 namespace vdrlive
 {
@@ -252,5 +250,4 @@ namespace vdrlive
 
 }; // namespace vdrlive
 
-#endif // VDR_LIVE_WHATS_ON_H
-
+#endif // VDR_LIVE_EPG_EVENTS_H

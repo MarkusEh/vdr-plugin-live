@@ -1,11 +1,8 @@
 <%pre>
-#include <vdr/channels.h>
-#include <vdr/i18n.h>
-#include <vdr/keys.h>
-#include "setup.h"
-#include "tools.h"
-#include "users.h"
-#include "tntfeatures.h"
+
+#include <setup.h>
+#include <tools.h>
+#include <users.h>
 
 using namespace std;
 using namespace vdrlive;

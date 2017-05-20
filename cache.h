@@ -1,14 +1,11 @@
 #ifndef VGSTOOLS_CACHE_H
 #define VGSTOOLS_CACHE_H
 
+#include "stdext.h"
+
 #include <cassert>
-#include <algorithm>
-#include <ctime>
-#include <functional>
 #include <list>
 #include <map>
-#include <utility>
-#include "stdext.h"
 
 /*  Interface for TValue:
  *  size_t weight() 

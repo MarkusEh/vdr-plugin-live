@@ -1,12 +1,9 @@
 <%pre>
-#include <locale>
-#include <vdr/i18n.h>
-#include <vdr/keys.h>
-#include <vdr/device.h>
-#include "grab.h"
-#include "setup.h"
-#include "tools.h"
-#include "users.h"
+
+#include <grab.h>
+#include <setup.h>
+#include <tools.h>
+#include <users.h>
 
 using namespace std;
 using namespace vdrlive;

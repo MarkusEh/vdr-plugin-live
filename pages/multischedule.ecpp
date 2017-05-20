@@ -1,17 +1,10 @@
 <%pre>
-#include <list>
-#include <vdr/plugin.h>
-#include <vdr/channels.h>
-#include <vdr/epg.h>
-#include <vdr/config.h>
-#include <vdr/device.h>
-#include "exception.h"
-#include "livefeatures.h"
-#include "setup.h"
-#include "tools.h"
-#include "timers.h"
-#include "epg_events.h"
-#include "i18n.h"
+
+#include <livefeatures.h>
+#include <setup.h>
+#include <tools.h>
+#include <timers.h>
+#include <epg_events.h>
 
 using namespace std;
 using namespace vdrlive;

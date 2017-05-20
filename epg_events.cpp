@@ -1,14 +1,15 @@
-#include <time.h>
-#include <glob.h>
-#include <algorithm>
-#include <assert.h>
-#include <vdr/player.h>
+
+#include "epg_events.h"
 
 #include "tools.h"
 #include "recman.h"
-
-#include "epg_events.h"
 #include "setup.h"
+
+// STL headers need to be before VDR tools.h (included by <vdr/player.h>)
+#include <glob.h>
+#include <cassert>
+
+#include <vdr/player.h>
 
 using namespace std;
 

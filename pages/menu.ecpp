@@ -1,12 +1,8 @@
 <%pre>
-#include <string>
-#include <vdr/plugin.h>
-#include <vdr/config.h>
 
-#include "livefeatures.h"
-#include "setup.h"
-#include "i18n.h"
-#include "timerconflict.h"
+#include <livefeatures.h>
+#include <setup.h>
+#include <timerconflict.h>
 
 using namespace std;
 using namespace vdrlive;

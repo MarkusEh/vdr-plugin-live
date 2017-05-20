@@ -1,24 +1,16 @@
 <%pre>
 
-// To get rid of the swap definition in vdr/tools.h
-#define __STL_CONFIG_H
+#include <tools.h>
+#include <timers.h>
+#include <setup.h>
+#include <epg_events.h>
+#include <timerconflict.h>
+#include <livefeatures.h>
+#include <epgsearch.h>
+#include <users.h>
+#include <autoptr.h>
 
-#include <memory>
-#include <vdr/channels.h>
-#include <vdr/config.h>
-#include <vdr/epg.h>
-#include <vdr/i18n.h>
-#include "exception.h"
-#include "tools.h"
-#include "timers.h"
-#include "setup.h"
-#include "epg_events.h"
-#include "timerconflict.h"
-#include "i18n.h"
-#include "livefeatures.h"
-#include "epgsearch.h"
-#include "users.h"
-#include "autoptr.h"
+#include <vdr/timers.h>
 
 using namespace std;
 using namespace vdrlive;
@@ -226,15 +218,15 @@ cTimer* timer;
 					</tr>
 <%cpp>
 					if ( LiveFeatures< features::epgsearch >().Recent() ) {
-					        RecordingDirs recordingdirs(true);
+						RecordingDirs recordingdirs(true);
 </%cpp>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Directory" ) $>:</div></td>
 						<td class="rightcol"><select name="directory" size="1" id="directory" style="margin-top: 5px">
 						     <option/>
 <%cpp>
-					             for (RecordingDirs::iterator rdir = recordingdirs.begin(); rdir != recordingdirs.end(); ++rdir) {
-						        std::string dir = *rdir;
+						for (RecordingDirs::iterator rdir = recordingdirs.begin(); rdir != recordingdirs.end(); ++rdir) {
+							std::string dir = *rdir;
 </%cpp>
 							<option value="<$ dir $>"
 %							if (*rdir == directory) {

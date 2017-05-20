@@ -1,15 +1,14 @@
-#include <unistd.h>
-#include <string>
-#include <sstream>
+
+#include "recman.h"
+
+#include "tools.h"
+
+// STL headers need to be before VDR tools.h (included by <vdr/videodir.h>)
 #include <fstream>
 #include <stack>
 #include <algorithm>
 
-#include "stdext.h"
-#include "tools.h"
-
-#include "epg_events.h"
-#include "recman.h"
+#include <vdr/videodir.h>
 
 #define INDEXFILESUFFIX   "/index.vdr"
 #define LENGTHFILESUFFIX  "/length.vdr"

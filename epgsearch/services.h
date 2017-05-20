@@ -24,12 +24,15 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #ifndef EPGSEARCHSERVICES_INC
 #define EPGSEARCHSERVICES_INC
 
+#include "../autoptr.h"
+
+// STL headers need to be before VDR tools.h (included by <vdr/channels.h>)
 #include <string>
 #include <list>
-#include <memory>
 #include <set>
+
 #include <vdr/osdbase.h>
-#include "../autoptr.h"
+
 
 // Data structure for service "Epgsearch-search-v1.0"
 struct Epgsearch_search_v1_0

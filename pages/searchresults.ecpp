@@ -1,11 +1,9 @@
 <%pre>
-#include <vdr/channels.h>
-#include <vdr/i18n.h>
-#include <vdr/epg.h>
-#include "epgsearch.h"
-#include "tools.h"
-#include "setup.h"
-#include "epg_events.h"
+
+#include <epgsearch.h>
+#include <tools.h>
+#include <setup.h>
+#include <epg_events.h>
 
 using namespace vdrlive;
 using namespace std;

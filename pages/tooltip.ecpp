@@ -1,5 +1,6 @@
 <%pre>
-#include "setup.h"
+
+#include <setup.h>
 
 using namespace vdrlive;
 

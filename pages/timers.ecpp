@@ -1,14 +1,12 @@
 <%pre>
-#include <set>
-#include <vdr/i18n.h>
-#include "timers.h"
-#include "tools.h"
-#include "setup.h"
-#include "i18n.h"
-#include "epg_events.h"
-#include "timerconflict.h"
-#include "livefeatures.h"
-#include "users.h"
+
+#include <timers.h>
+#include <tools.h>
+#include <setup.h>
+#include <epg_events.h>
+#include <timerconflict.h>
+#include <livefeatures.h>
+#include <users.h>
 
 using namespace std;
 using namespace vdrlive;

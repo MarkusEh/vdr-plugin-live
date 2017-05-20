@@ -1,15 +1,13 @@
-#include <time.h>
 
+#include "timerconflict.h"
+
+#include "tools.h"
+#include "epgsearch/services.h"
+
+// STL headers need to be before VDR tools.h (included by <vdr/plugin.h>)
 #include <vector>
 
 #include <vdr/plugin.h>
-
-#include "tools.h"
-#include "exception.h"
-#include "epgsearch.h"
-#include "epgsearch/services.h"
-
-#include "timerconflict.h"
 
 namespace vdrlive {
 

@@ -1,7 +1,9 @@
-#include <cstdlib>
-#include <vdr/device.h>
-#include <vdr/tools.h>
+
 #include "grab.h"
+
+#include "tasks.h"
+
+#include <vdr/device.h>
 
 namespace vdrlive {
 

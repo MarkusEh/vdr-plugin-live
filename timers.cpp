@@ -1,11 +1,15 @@
-#include <memory>
-#include <sstream>
-#include <vector>
-#include "exception.h"
+
 #include "timers.h"
+
+#include "exception.h"
 #include "tools.h"
-#include "i18n.h"
 #include "autoptr.h"
+
+// STL headers need to be before VDR tools.h (included by <vdr/plugin.h>)
+#include <sstream>
+
+#include <vdr/plugin.h>
+#include <vdr/menu.h>
 
 static bool operator<( cTimer const& left, cTimer const& right )
 {

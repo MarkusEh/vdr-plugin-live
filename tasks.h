@@ -1,9 +1,10 @@
 #ifndef VDR_LIVE_TASKS_H
 #define VDR_LIVE_TASKS_H
 
-#include <memory>
+// STL headers need to be before VDR tools.h (included by <vdr/channels.h>)
 #include <string>
 #include <vector>
+
 #include <vdr/channels.h>
 #include <vdr/thread.h>
 

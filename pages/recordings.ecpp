@@ -1,24 +1,17 @@
 <%pre>
-#include <string>
+
+#include <setup.h>
+#include <tasks.h>
+#include <tools.h>
+#include <users.h>
+#include <recman.h>
+#include <tntconfig.h>
 
 #ifdef HAVE_LIBPCRECPP
 #include <pcrecpp.h>
 #endif
 
-#include <vdr/plugin.h>
-#include <vdr/config.h>
 #include <vdr/videodir.h>
-
-#include "exception.h"
-#include "epg_events.h"
-
-#include "setup.h"
-#include "tasks.h"
-#include "tools.h"
-#include "i18n.h"
-#include "users.h"
-
-#include "recman.h"
 
 #define MB_PER_MINUTE 25.75 // this is just an estimate!
 

@@ -1,12 +1,15 @@
 #ifndef VDR_LIVE_RECORDINGS_H
 #define VDR_LIVE_RECORDINGS_H
 
-#include <ctime>
+#include "stdext.h"
+
+// STL headers need to be before VDR tools.h (included by <vdr/recording.h>)
 #include <map>
+#include <string>
 #include <vector>
 #include <list>
+
 #include <vdr/recording.h>
-#include "stdext.h"
 
 namespace vdrlive {
 

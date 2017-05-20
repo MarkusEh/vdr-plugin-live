@@ -1,13 +1,12 @@
-#include <vector>
-#include <algorithm>
-#include <vdr/channels.h>
-#include <vdr/plugin.h>
-#include <iomanip>
-#include "epgsearch/services.h"
+
 #include "epgsearch.h"
+
+#include "epgsearch/services.h"
 #include "exception.h"
 #include "livefeatures.h"
 #include "tools.h"
+
+#include <iomanip>
 
 namespace vdrlive {
 

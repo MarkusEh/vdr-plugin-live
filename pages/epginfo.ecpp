@@ -1,13 +1,11 @@
 <%pre>
-#include <sys/stat.h>
-#include <vdr/tools.h>
 
-#include "stdext.h"
-#include "exception.h"
-#include "setup.h"
-#include "tools.h"
-#include "epg_events.h"
-#include "recman.h"
+#include <stdext.h>
+#include <exception.h>
+#include <setup.h>
+#include <tools.h>
+#include <epg_events.h>
+#include <recman.h>
 
 namespace vdrlive {
 	class SchedulesLock

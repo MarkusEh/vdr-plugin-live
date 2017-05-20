@@ -33,12 +33,11 @@
 // documentation and/or software.
 /////////////////////////////////////////////////////////////////////////
 
+#include "md5.h"
+
 #include <assert.h>
 #include <memory.h>
 #include <stdio.h>
-#include <string.h>
-#include "md5.h"
-
 
 static unsigned char PADDING[64] =
 {
