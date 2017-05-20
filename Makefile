@@ -95,6 +95,15 @@ SUBDIRS := $(WEB_DIR_PAGES) $(WEB_DIR_CSS) $(WEB_DIR_JAVA)
 all: lib i18n
 
 ### Implicit rules:
+$(WEB_DIR_PAGES)/%.o: $(WEB_DIR_PAGES)/%.cpp $(WEB_DIR_PAGES)/%.ecpp
+	$(MAKE) -C $(WEB_DIR_PAGES) PLUGINFEATURES="$(PLUGINFEATURES)" $(notdir $@)
+
+$(WEB_DIR_CSS)/%.o:
+	$(MAKE) -C $(WEB_DIR_CSS) PLUGINFEATURES="$(PLUGINFEATURES)" $(notdir $@)
+
+$(WEB_DIR_JAVA)/%.o:
+	$(MAKE) -C $(WEB_DIR_JAVA) PLUGINFEATURES="$(PLUGINFEATURES)" $(notdir $@)
+
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $(DEFINES) $(PLUGINFEATURES) $(INCLUDES) $<
 
@@ -194,5 +203,6 @@ clean: subdirs
 
 .PRECIOUS: $(I18Npo)
 
+.PHONY: FORCE
 FORCE:
 

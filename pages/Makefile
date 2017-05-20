@@ -18,6 +18,7 @@ OBJS := menu.o recordings.o schedule.o multischedule.o screenshot.o   \
         recstream.o users.o edit_user.o edit_recording.o osd.o
 SRCS := $(patsubst %.o,%.cpp,$(OBJS))
 ESRCS := $(patsubst %.o,%.ecpp,$(OBJS))
+ESRCS_DEPS := $(patsubst %.o,.%.edep,$(OBJS))
 
 ### The main target:
 all: libpages.a
@@ -30,6 +31,9 @@ all: libpages.a
 %.cpp: %.ecpp
 	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CPP) $<
 
+.%.edep: %.ecpp
+	@$(ECPPC) -M $(ECPPFLAGS) $(ECPPFLAGS_CPP) $< > $@
+
 ### Dependencies:
 MAKEDEP := $(CXX) -MM -MG
 DEPFILE := .dependencies
@@ -38,6 +42,7 @@ $(DEPFILE): Makefile $(SRCS) $(ESRCS)
 
 ifneq ($(MAKECMDGOALS),clean)
 -include $(DEPFILE)
+-include $(ESRCS_DEPS)
 endif
 
 ### Targets:
@@ -45,7 +50,9 @@ libpages.a: $(OBJS)
 	$(AR) r $@ $^
 
 clean:
-	@rm -f *~ *.o core* libpages.a $(SRCS) $(DEPFILE)
+	@rm -f *~ *.o core* libpages.a $(SRCS) $(DEPFILE) $(ESRCS_DEPS)
 
 dist: clean
 	@echo "Nothing to do for distribution here ..."
+
+.PRECIOUS: $(SRCS)

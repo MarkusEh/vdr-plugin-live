@@ -12,3 +12,4 @@ po/live.pot
 .cvsignore
 .libs
 locale
+.*.edep
