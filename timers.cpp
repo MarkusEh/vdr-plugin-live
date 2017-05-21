@@ -140,6 +140,7 @@ namespace vdrlive {
 		return info.str();
 	}
 
+#if VDRVERSNUM >= 20301
 	bool SortedTimers::Modified()
 	{
 		// the global(!) list of known timers
@@ -173,6 +174,7 @@ namespace vdrlive {
 
 		return modified;
 	}
+#endif
 
 	TimerManager::TimerManager()
 	{

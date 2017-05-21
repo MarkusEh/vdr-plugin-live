@@ -4,6 +4,10 @@
 #include "stdext.h"
 #include "recman.h"
 
+#if VDRVERSNUM < 20300
+#include "tools.h"  // ReadLock
+#endif
+
 // STL headers need to be before VDR tools.h (included by <vdr/menu.h>)
 #include <algorithm>
 

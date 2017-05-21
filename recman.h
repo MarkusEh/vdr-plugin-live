@@ -122,15 +122,21 @@ namespace vdrlive {
 		private:
 			RecordingsManager();
 
+#if VDRVERSNUM >= 20301
 			static bool StateChanged (time_t& tm);
+#endif
 			static RecordingsManagerPtr EnsureValidData();
 
 			static std::tr1::weak_ptr< RecordingsManager > m_recMan;
 			static std::tr1::shared_ptr< RecordingsTree > m_recTree;
 			static std::tr1::shared_ptr< RecordingsList > m_recList;
 			static std::tr1::shared_ptr< DirectoryList > m_recDirs;
+#if VDRVERSNUM >= 20301
 			static time_t m_recordingsState;
 			static std::string m_UpdateFileName;
+#else
+			static int m_recordingsState;
+#endif
 
 			cThreadLock m_recordingsLock;
 	};

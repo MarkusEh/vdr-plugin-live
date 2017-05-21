@@ -26,8 +26,12 @@ namespace vdrlive {
 	std::tr1::shared_ptr< RecordingsTree > RecordingsManager::m_recTree;
 	std::tr1::shared_ptr< RecordingsList > RecordingsManager::m_recList;
 	std::tr1::shared_ptr< DirectoryList > RecordingsManager::m_recDirs;
+#if VDRVERSNUM >= 20301
 	time_t RecordingsManager::m_recordingsState = 0;
 	string RecordingsManager::m_UpdateFileName;
+#else
+	int RecordingsManager::m_recordingsState = 0;
+#endif
 
 	// The RecordingsManager holds a VDR lock on the
 	// Recordings. Additionally the singleton instance of

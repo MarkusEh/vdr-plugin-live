@@ -3,6 +3,10 @@
 #include <exception.h>
 #include <setup.h>
 
+#if VDRVERSNUM < 20300
+#include <tools.h>  // ReadLock
+#endif
+
 using namespace vdrlive;
 
 </%pre>
