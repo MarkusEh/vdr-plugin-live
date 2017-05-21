@@ -49,6 +49,8 @@ ifneq ($(HAVE_LIBPCRECPP),)
 	LIBS           += $(HAVE_LIBPCRECPP)
 endif
 
+CXXFLAGS += -std=c++11 -Wfatal-errors -Wall # -Werror
+
 ### export all vars for sub-makes, using absolute paths
 LIBDIR := $(shell cd $(LIBDIR) >/dev/null 2>&1 && pwd)
 LOCDIR := $(shell cd $(LOCDIR) >/dev/null 2>&1 && pwd)

@@ -3,10 +3,10 @@
 
 #include "exception.h"
 #include "tools.h"
-#include "autoptr.h"
 
 // STL headers need to be before VDR tools.h (included by <vdr/plugin.h>)
 #include <sstream>
+#include <memory>
 
 #include <vdr/plugin.h>
 #include <vdr/menu.h>
@@ -279,7 +279,7 @@ namespace vdrlive {
 
 	void TimerManager::DoInsertTimer( TimerPair& timerData )
 	{
-		AUTO_PTR< cTimer > newTimer( new cTimer );
+		std::unique_ptr< cTimer > newTimer( new cTimer );
 		if ( !newTimer->Parse( timerData.second.c_str() ) ) {
 			StoreError( timerData, tr("Error in timer settings") );
 			return;

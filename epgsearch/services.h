@@ -24,12 +24,11 @@ The project's page is at http://winni.vdr-developer.org/epgsearch
 #ifndef EPGSEARCHSERVICES_INC
 #define EPGSEARCHSERVICES_INC
 
-#include "../autoptr.h"
-
-// STL headers need to be before VDR tools.h (included by <vdr/channels.h>)
+// STL headers need to be before VDR tools.h (included by <vdr/osdbase.h>)
 #include <string>
 #include <list>
 #include <set>
+#include <memory>
 
 #include <vdr/osdbase.h>
 
@@ -161,7 +160,7 @@ class cServiceHandler
 struct Epgsearch_services_v1_0
 {
 // in/out
-      AUTO_PTR<cServiceHandler> handler;
+   std::auto_ptr<cServiceHandler> handler;
 };
 
 // Data structures for service "Epgsearch-services-v1.1"
@@ -177,7 +176,7 @@ class cServiceHandler_v1_1 : public cServiceHandler
 struct Epgsearch_services_v1_1
 {
 // in/out
-      AUTO_PTR<cServiceHandler_v1_1> handler;
+   std::auto_ptr<cServiceHandler_v1_1> handler;
 };
 
 // Data structures for service "Epgsearch-services-v1.2"
@@ -193,7 +192,7 @@ class cServiceHandler_v1_2 : public cServiceHandler_v1_1
 struct Epgsearch_services_v1_2
 {
 // in/out
-      AUTO_PTR<cServiceHandler_v1_2> handler;
+   std::auto_ptr<cServiceHandler_v1_2> handler;
 };
 
 #endif

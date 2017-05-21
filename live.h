@@ -38,7 +38,7 @@ private:
 	static std::string m_configDirectory;
 	static std::string m_resourceDirectory;
 
-	AUTO_PTR< ServerThread > m_thread;
+	std::unique_ptr< ServerThread > m_thread;
 };
 
 } // namespace vdrlive

@@ -1,8 +1,9 @@
 #ifndef VDR_LIVE_THREAD_H
 #define VDR_LIVE_THREAD_H
 
-#include "autoptr.h"
 #include <vdr/thread.h>
+
+#include <memory>
 
 namespace tnt { class Tntnet; }
 
@@ -19,7 +20,7 @@ protected:
 	virtual void Action();
 
 private:
-	AUTO_PTR< tnt::Tntnet > m_server;
+	std::unique_ptr< tnt::Tntnet > m_server;
 };
 
 } // namespace vdrlive

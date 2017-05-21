@@ -8,7 +8,6 @@
 #include <livefeatures.h>
 #include <epgsearch.h>
 #include <users.h>
-#include <autoptr.h>
 
 #include <vdr/timers.h>
 
@@ -103,7 +102,7 @@ cTimer* timer;
 	if (message.empty())
 		edit_timerreferer = request.getHeader("Referer:", "timers.html");
 
-	AUTO_PTR< cTimer > eventTimer;
+	std::unique_ptr< cTimer > eventTimer;
 	if ( timer == 0 && !epgid.empty()) {
 		EpgEvents::DecodeDomId(epgid, channelid, eventid);
 		if ( channelid.Valid() && eventid != 0 ) {
