@@ -94,17 +94,18 @@ WEBLIBS := $(WEB_PAGES) $(WEB_CSS) $(WEB_JAVA)
 SUBDIRS := $(WEB_DIR_PAGES) $(WEB_DIR_CSS) $(WEB_DIR_JAVA)
 
 ### The main target:
+.PHONY: all
 all: lib i18n
 
 ### Implicit rules:
 $(WEB_DIR_PAGES)/%.o: $(WEB_DIR_PAGES)/%.cpp $(WEB_DIR_PAGES)/%.ecpp
-	$(MAKE) -C $(WEB_DIR_PAGES) PLUGINFEATURES="$(PLUGINFEATURES)" $(notdir $@)
+	@$(MAKE) -C $(WEB_DIR_PAGES) PLUGINFEATURES="$(PLUGINFEATURES)" $(notdir $@)
 
 $(WEB_DIR_CSS)/%.o:
-	$(MAKE) -C $(WEB_DIR_CSS) PLUGINFEATURES="$(PLUGINFEATURES)" $(notdir $@)
+	@$(MAKE) -C $(WEB_DIR_CSS) PLUGINFEATURES="$(PLUGINFEATURES)" $(notdir $@)
 
 $(WEB_DIR_JAVA)/%.o:
-	$(MAKE) -C $(WEB_DIR_JAVA) PLUGINFEATURES="$(PLUGINFEATURES)" $(notdir $@)
+	@$(MAKE) -C $(WEB_DIR_JAVA) PLUGINFEATURES="$(PLUGINFEATURES)" $(notdir $@)
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $(DEFINES) $(PLUGINFEATURES) $(INCLUDES) $<
@@ -119,6 +120,11 @@ ifneq ($(MAKECMDGOALS),clean)
 -include $(DEPFILE)
 endif
 
+### For all recursive Targets:
+
+recursive-%:
+	@$(MAKE) $*
+
 ### Internationalization (I18N):
 PODIR    := po
 I18Npo   := $(wildcard $(PODIR)/*.po)
@@ -130,59 +136,81 @@ I18Npot_deps = $(PLUGINSRCS) $(wildcard $(WEB_DIR_PAGES)/*.cpp) setup.h epg_even
 $(I18Npot): $(I18Npot_deps)
 	xgettext -C -cTRANSLATORS --no-wrap --no-location -k -ktr -ktrNOOP --omit-header -o $@ $(I18Npot_deps)
 
-# Need a recursive target here to get I18Npot_deps with the correct list of files (wildcard ...)
-.PHONY: make_I18Npot
-make_I18Npot:
-	$(MAKE) $(I18Npot)
+.PHONY: I18Nmo
+I18Nmo: $(I18Nmo)
 
 %.mo: %.po
-	msgfmt -c -o $@ $<
+	$(if $(DISABLE_I18Nmo_txt),,@echo "Creating *.mo")
+	@msgfmt -c -o $@ $<
+	$(eval DISABLE_I18Nmo_txt := 1)
 
 %.po: $(I18Npot)
-	msgmerge -U --no-wrap --no-location --backup=none -q -N $@ $<
+	$(if $(DISABLE_I18Npo_txt),,@echo "Creating *.po")
+	@msgmerge -U --no-wrap --no-location --backup=none -q -N $@ $<
 	@touch $@
+	$(eval DISABLE_I18Npo_txt := 1)
 
 $(I18Nmsgs): $(DESTDIR)$(LOCDIR)/%/LC_MESSAGES/vdr-$(PLUGIN).mo: $(PODIR)/%.mo
-	install -D -m644 $< $@
+	$(if $(DISABLE_I18Nmoinst_txt),,@echo "Installing *.mo")
+	@install -D -m644 $< $@
+	$(eval DISABLE_I18Nmoinst_txt := 1)
+
+.PHONY: inst_I18Nmsg
+inst_I18Nmsg: $(I18Nmsgs)
+
+# When building in parallel, this will tell make to keep an order in the steps
+recursive-I18Nmo: subdirs
+recursive-inst_I18Nmsg: recursive-I18Nmo
 
 .PHONY: i18n
-i18n: subdirs make_I18Npot $(I18Nmo) 
+i18n: subdirs recursive-I18Nmo
 
 .PHONY: install-i18n
-install-i18n: i18n $(I18Nmsgs)
+install-i18n: i18n recursive-inst_I18Nmsg
 
 ### Targets:
 
 $(VERSIONSUFFIX): FORCE
+ifneq ($(MAKECMDGOALS),clean)
+ifeq ($(MAKELEVEL),0)
 	./buildutil/version-util $(VERSIONSUFFIX) || ./buildutil/version-util -F $(VERSIONSUFFIX)
+endif
+endif
 
 .PHONY: subdirs $(SUBDIRS)
 subdirs: $(SUBDIRS)
 
 $(SUBDIRS):
 ifneq ($(MAKECMDGOALS),clean)
-	$(MAKE) -C $@ PLUGINFEATURES="$(PLUGINFEATURES)" all
+	@$(MAKE) -C $@ PLUGINFEATURES="$(PLUGINFEATURES)" all
 else
-	$(MAKE) -C $@ clean
+	@$(MAKE) -C $@ clean
 endif
-
-#$(WEB_PAGES): $(WEB_DIR_PAGES)
-
-#$(WEB_CSS): $(WEB_DIR_CSS)
-
-#$(WEB_JAVA): $(WEB_DIR_JAVA)
 
 $(SOFILE): $(PLUGINOBJS) $(WEBLIBS)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared $(PLUGINOBJS) -Wl,--whole-archive $(WEBLIBS) -Wl,--no-whole-archive $(LIBS) -o $@
 
+.PHONY: sofile
+sofile: $(SOFILE)
+
+# When building in parallel, this will tell make to keep an order in the steps
+recursive-sofile: subdirs
+recursive-soinst: recursive-sofile
+
+# When building in parallel, this will tell make to build VERSIONSUFFIX as first
+subdirs $(PLUGINOBJS): $(VERSIONSUFFIX)
+
 .PHONY: lib
-lib: $(VERSIONSUFFIX) subdirs $(SOFILE)
+lib: $(VERSIONSUFFIX) subdirs $(PLUGINOBJS) recursive-sofile
+
+.PHONY: soinst
+soinst: $(SOINST)
 
 $(SOINST): $(SOFILE)
 	install -D $< $@
 
 .PHONY: install-lib
-install-lib: lib $(SOINST)
+install-lib: lib recursive-soinst
 
 .PHONY: install
 install: install-lib install-i18n
