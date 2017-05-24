@@ -172,7 +172,7 @@ install-i18n: i18n recursive-inst_I18Nmsg
 
 $(VERSIONSUFFIX): FORCE
 ifneq ($(MAKECMDGOALS),clean)
-ifeq ($(MAKELEVEL),0)
+ifeq ($(MAKELEVEL),$(filter $(MAKELEVEL),0 1))
 	./buildutil/version-util $(VERSIONSUFFIX) || ./buildutil/version-util -F $(VERSIONSUFFIX)
 endif
 endif
