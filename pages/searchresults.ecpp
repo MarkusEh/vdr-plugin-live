@@ -51,9 +51,9 @@ bool logged_in(false);
 		<& pageelems.logo &>
 		<& menu active=("searchepg") &>
 		<div class="inhalt">
-%           if (results.size() == 0) {
-                <$ tr("No search results") $>
-%           }
+%			if (results.size() == 0) {
+				<$ tr("No search results") $>
+%			}
 			<table class="listing" cellspacing="0" cellpadding="0">
 <%cpp>
 				string current_day = "";
@@ -63,9 +63,9 @@ bool logged_in(false);
 #endif
 				for (SearchResults::iterator result = results.begin(); result != results.end(); ++result) {
 #if VDRVERSNUM >= 20301
-				        cChannel* channel = (cChannel *)Channels->GetByChannelID(result->Channel());
+					cChannel* channel = (cChannel *)Channels->GetByChannelID(result->Channel());
 #else
-				        cChannel* channel = Channels.GetByChannelID(result->Channel());
+					cChannel* channel = Channels.GetByChannelID(result->Channel());
 #endif
 					if (!channel) continue;
 					string channelname = channel->Name();
@@ -99,7 +99,7 @@ bool logged_in(false);
 					</tr>
 %						current_day = day;
 %					}
-                    <tr>
+					<tr>
 						<td class="action leftcol <? bottom ? "bottomrow"?>"><& pageelems.event_timer epgid=(epgid) &></td>
 						<td class="topaligned <? bottom ? "bottomrow"?>"><div class="withmargin"><a href="schedule.html?channel=<$ channelnr $>"><$ channelname $></a></div></td>
 						<td class="topaligned <? bottom ? "bottomrow"?>"><div class="withmargin nowrap"><$ start $> - <$ end $></div></td>

@@ -72,6 +72,9 @@ using namespace std;
 		// check for event:
 		else if (epgid.compare(0, event.length(), event) == 0) {
 #if VDRVERSNUM >= 20301
+			/* Need to lock here channels also, because CreateEpgInfo will lock
+			 * it also and this will result in a wrong lock order */
+			LOCK_CHANNELS_READ;
 			LOCK_SCHEDULES_READ;
 			epgEvent = EpgEvents::CreateEpgInfo(epgid, Schedules);
 #else

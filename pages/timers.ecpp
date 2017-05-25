@@ -75,15 +75,14 @@ static const size_t maximumDescriptionLength = 300;
 			<table class="listing" cellspacing="0" cellpadding="0">
 <%cpp>
 				// output of the timer list:
-#if VDRVERSNUM >= 20301
-				/* JJJ: Lock this inside the loop */
-				LOCK_SCHEDULES_READ;
-#endif
 				for (SortedTimers::iterator timer = timers.begin(); timer != timers.end(); ++timer) {
 				    EpgInfoPtr epgEvent;
 					string longDescription;
 #if VDRVERSNUM >= 20301
-					if (!timer->Event()) timer->SetEventFromSchedule(Schedules);
+					if (!timer->Event()) {
+						LOCK_SCHEDULES_READ;
+						timer->SetEventFromSchedule(Schedules);
+					}
 #else
 					if (!timer->Event()) timer->SetEventFromSchedule();
 #endif

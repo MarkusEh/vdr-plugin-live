@@ -147,8 +147,12 @@ if (!deleteResult.empty()) {
 			<div class="boxheader"><div><div><$ string(tr("List of recordings")) + " (" + diskinfo + ")" $></div></div></div>
 <%cpp>
 #if VDRVERSNUM >= 20301
-			LOCK_RECORDINGS_READ;
-			if (Recordings->Count() == 0) { // Access VDRs global cRecordings Recordings instance.
+			int rec_cnt;
+			{
+				LOCK_RECORDINGS_READ;
+				rec_cnt = Recordings->Count();  // Access VDRs global cRecordings Recordings instance.
+			}
+			if (rec_cnt == 0) {
 #else
 			if (Recordings.Count() == 0) { // Access VDRs global cRecordings Recordings instance.
 #endif

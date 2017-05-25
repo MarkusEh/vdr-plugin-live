@@ -46,6 +46,7 @@ TimerConflictNotifier timerNotifier();
 	if (NowReplaying) {
 		RecordingsManagerPtr recManager = LiveRecordingsManager();
 #if VDRVERSNUM >= 20301
+		// is is OK to lock here, because CreateEpgInfo will *not* lock other lists
 		LOCK_RECORDINGS_READ;
 		cRecording *recording = (cRecording *)Recordings->GetByName(NowReplaying);
 #else
