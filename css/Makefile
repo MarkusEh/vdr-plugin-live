@@ -11,22 +11,31 @@ INCLUDES += -I$(VDRDIR)/include -I..
 OBJS := styles.o
 SRCS := $(patsubst %.o,%.cpp,$(OBJS))
 
+include ../global.mk
+
 ### The main target:
 all: libcss.a
+	@true
 
 ### Implicit rules:
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) $(TNTFLAGS) -c $(DEFINES) $(PLUGINFEATURES) $(INCLUDES) $<
+	$(call PRETTY_PRINT,"CC css/" $@)
+	$(Q)$(CXX) $(CXXFLAGS) $(TNTFLAGS) -c $(DEFINES) $(PLUGINFEATURES) $(INCLUDES) $<
 
 %.cpp: %.css
-	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CSS) -b -m "text/css" $<
+	$(call PRETTY_PRINT,"ECPP css/" $@)
+	$(Q)$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CSS) -b -m "text/css" $<
 
 ### Targets:
 libcss.a: $(OBJS)
-	$(AR) r $@ $^
+	$(call PRETTY_PRINT,"AR css/" $@)
+	$(Q)$(AR) r $@ $^ $(AR_NUL)
 
 clean:
+	$(call PRETTY_PRINT,"CLN css/")
 	@rm -f *~ *.o core* libcss.a $(SRCS)
 
 dist: clean
 	@echo "Nothing to do for distribution here ..."
+
+.PRECIOUS: $(SRCS)

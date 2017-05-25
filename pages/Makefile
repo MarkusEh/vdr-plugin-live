@@ -20,16 +20,21 @@ SRCS := $(patsubst %.o,%.cpp,$(OBJS))
 ESRCS := $(patsubst %.o,%.ecpp,$(OBJS))
 ESRCS_DEPS := $(patsubst %.o,.%.edep,$(OBJS))
 
+include ../global.mk
+
 ### The main target:
 all: libpages.a
+	@true
 
 ### Implicit rules:
 
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) $(TNTFLAGS) -c $(DEFINES) $(PLUGINFEATURES) $(INCLUDES) $<
+	$(call PRETTY_PRINT,"CC pages/" $@)
+	$(Q)$(CXX) $(CXXFLAGS) $(TNTFLAGS) -c $(DEFINES) $(PLUGINFEATURES) $(INCLUDES) $<
 
 %.cpp: %.ecpp
-	$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CPP) $<
+	$(call PRETTY_PRINT,"ECPP pages/" $@)
+	$(Q)$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CPP) $<
 
 .%.edep: %.ecpp
 	@$(ECPPC) -M $(ECPPFLAGS) $(ECPPFLAGS_CPP) $< > $@
@@ -47,9 +52,11 @@ endif
 
 ### Targets:
 libpages.a: $(OBJS)
-	$(AR) r $@ $^
+	$(call PRETTY_PRINT,"AR pages/" $@)
+	$(Q)$(AR) r $@ $^ $(AR_NUL)
 
 clean:
+	$(call PRETTY_PRINT,"CLN pages/")
 	@rm -f *~ *.o core* libpages.a $(SRCS) $(DEPFILE) $(ESRCS_DEPS)
 
 dist: clean

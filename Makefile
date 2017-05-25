@@ -34,6 +34,8 @@ APIVERSION := $(call PKGCFG,apiversion)
 ### Allow user defined options to overwrite defaults:
 -include $(PLGCFG)
 
+include global.mk
+
 ### Determine tntnet and cxxtools versions:
 TNTVERSION = $(shell tntnet-config --version | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
 CXXTOOLVER = $(shell cxxtools-config --version | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
@@ -96,19 +98,21 @@ SUBDIRS := $(WEB_DIR_PAGES) $(WEB_DIR_CSS) $(WEB_DIR_JAVA)
 ### The main target:
 .PHONY: all
 all: lib i18n
+	@true
 
 ### Implicit rules:
 $(WEB_DIR_PAGES)/%.o: $(WEB_DIR_PAGES)/%.cpp $(WEB_DIR_PAGES)/%.ecpp
-	@$(MAKE) -C $(WEB_DIR_PAGES) PLUGINFEATURES="$(PLUGINFEATURES)" $(notdir $@)
+	@$(MAKE) -C $(WEB_DIR_PAGES) --no-print-directory PLUGINFEATURES="$(PLUGINFEATURES)" $(notdir $@)
 
 $(WEB_DIR_CSS)/%.o:
-	@$(MAKE) -C $(WEB_DIR_CSS) PLUGINFEATURES="$(PLUGINFEATURES)" $(notdir $@)
+	@$(MAKE) -C $(WEB_DIR_CSS) --no-print-directory PLUGINFEATURES="$(PLUGINFEATURES)" $(notdir $@)
 
 $(WEB_DIR_JAVA)/%.o:
-	@$(MAKE) -C $(WEB_DIR_JAVA) PLUGINFEATURES="$(PLUGINFEATURES)" $(notdir $@)
+	@$(MAKE) -C $(WEB_DIR_JAVA) --no-print-directory PLUGINFEATURES="$(PLUGINFEATURES)" $(notdir $@)
 
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $(DEFINES) $(PLUGINFEATURES) $(INCLUDES) $<
+	$(call PRETTY_PRINT,"CC" $@)
+	$(Q)$(CXX) $(CXXFLAGS) -c $(DEFINES) $(PLUGINFEATURES) $(INCLUDES) $<
 
 ### Dependencies:
 MAKEDEP = $(CXX) -MM -MG
@@ -123,7 +127,7 @@ endif
 ### For all recursive Targets:
 
 recursive-%:
-	@$(MAKE) $*
+	@$(MAKE) --no-print-directory $*
 
 ### Internationalization (I18N):
 PODIR    := po
@@ -134,10 +138,12 @@ I18Npot  := $(PODIR)/$(PLUGIN).pot
 I18Npot_deps = $(PLUGINSRCS) $(wildcard $(WEB_DIR_PAGES)/*.cpp) setup.h epg_events.h
 
 $(I18Npot): $(I18Npot_deps)
-	xgettext -C -cTRANSLATORS --no-wrap --no-location -k -ktr -ktrNOOP --omit-header -o $@ $(I18Npot_deps)
+	$(call PRETTY_PRINT,"GT" $@)
+	$(Q)xgettext -C -cTRANSLATORS --no-wrap --no-location -k -ktr -ktrNOOP --omit-header -o $@ $(I18Npot_deps)
 
 .PHONY: I18Nmo
 I18Nmo: $(I18Nmo)
+	@true
 
 %.mo: %.po
 	$(if $(DISABLE_I18Nmo_txt),,@echo "Creating *.mo")
@@ -157,6 +163,7 @@ $(I18Nmsgs): $(DESTDIR)$(LOCDIR)/%/LC_MESSAGES/vdr-$(PLUGIN).mo: $(PODIR)/%.mo
 
 .PHONY: inst_I18Nmsg
 inst_I18Nmsg: $(I18Nmsgs)
+	@true
 
 # When building in parallel, this will tell make to keep an order in the steps
 recursive-I18Nmo: subdirs
@@ -172,9 +179,7 @@ install-i18n: i18n recursive-inst_I18Nmsg
 
 $(VERSIONSUFFIX): FORCE
 ifneq ($(MAKECMDGOALS),clean)
-ifeq ($(MAKELEVEL),$(filter $(MAKELEVEL),0 1))
-	./buildutil/version-util $(VERSIONSUFFIX) || ./buildutil/version-util -F $(VERSIONSUFFIX)
-endif
+	@./buildutil/version-util $(VERSIONSUFFIX) || ./buildutil/version-util -F $(VERSIONSUFFIX)
 endif
 
 .PHONY: subdirs $(SUBDIRS)
@@ -182,16 +187,18 @@ subdirs: $(SUBDIRS)
 
 $(SUBDIRS):
 ifneq ($(MAKECMDGOALS),clean)
-	@$(MAKE) -C $@ PLUGINFEATURES="$(PLUGINFEATURES)" all
+	@$(MAKE) -C $@ --no-print-directory PLUGINFEATURES="$(PLUGINFEATURES)" all
 else
-	@$(MAKE) -C $@ clean
+	@$(MAKE) -C $@ --no-print-directory clean
 endif
 
 $(SOFILE): $(PLUGINOBJS) $(WEBLIBS)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared $(PLUGINOBJS) -Wl,--whole-archive $(WEBLIBS) -Wl,--no-whole-archive $(LIBS) -o $@
+	$(call PRETTY_PRINT,"LD" $@)
+	$(Q)$(CXX) $(CXXFLAGS) $(LDFLAGS) -shared $(PLUGINOBJS) -Wl,--whole-archive $(WEBLIBS) -Wl,--no-whole-archive $(LIBS) -o $@
 
 .PHONY: sofile
 sofile: $(SOFILE)
+	@true
 
 # When building in parallel, this will tell make to keep an order in the steps
 recursive-sofile: subdirs
@@ -207,7 +214,8 @@ lib: $(VERSIONSUFFIX) subdirs $(PLUGINOBJS) recursive-sofile
 soinst: $(SOINST)
 
 $(SOINST): $(SOFILE)
-	install -D $< $@
+	$(call PRETTY_PRINT,"Installing" $<)
+	$(Q)install -D $< $@
 
 .PHONY: install-lib
 install-lib: lib recursive-soinst
@@ -217,7 +225,7 @@ install: install-lib install-i18n
 
 .PHONY: dist
 dist: $(I18Npo)
-	$(MAKE) clean
+	$(MAKE) --no-print-directory clean
 	@-rm -rf $(TMPDIR)/$(ARCHIVE)
 	@mkdir $(TMPDIR)/$(ARCHIVE)
 	@cp -a * $(TMPDIR)/$(ARCHIVE)
@@ -227,6 +235,7 @@ dist: $(I18Npo)
 
 .PHONY: clean
 clean: subdirs
+	$(call PRETTY_PRINT,"CLN top")
 	@-rm -f $(I18Nmo) $(I18Npot)
 	@-rm -f $(PLUGINOBJS) $(DEPFILE) *.so *.tgz core* *~
 	@-rm -f $(VERSIONSUFFIX)
