@@ -3,7 +3,7 @@
 # This might be added to VDR main directory in the future
 
 # build mode (0 - non-verbose, 1 - verbose)
-VERBOSE      ?= 0
+VERBOSE ?= 0
 
 # Desplay percentage (0 - no percentage, 1 - print xxx% (not 100% accurate!))
 #WITH_PERCENT ?= 0
@@ -21,18 +21,16 @@ ifeq ($(WITH_PERCENT),1)
 	ECHO = echo "[$(shell expr "  $(shell echo $$((${TARGET_COUNTER} * 100 / ${TOTAL_TARGETS})))" : '.*\(...\)$$')%]"
   endif
 else
-	ECHO = echo
+	ECHO := echo
 endif
 
 ifeq ($(VERBOSE),0)
-    # Have a look to the VDR Makefile hw to use these macros in Plugins.
-
-	Q = @
+	override Q := @
 	PRETTY_PRINT = @$(ECHO) $(1)
-	AR_NUL = > /dev/null 2>&1
+	AR_NUL := > /dev/null 2>&1
 else
-	Q =
-	PRETTY_PRINT =
-	AR_NUL =
+	override Q :=
+	PRETTY_PRINT :=
+	AR_NUL :=
 endif
 
