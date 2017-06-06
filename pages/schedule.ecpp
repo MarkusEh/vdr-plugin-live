@@ -25,10 +25,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <%cpp>
 	pageTitle = trVDR("Schedule");
 
-#if VDRVERSNUM >= 20301
-	// we lock here only the channels on purpose
-	LOCK_CHANNELS_READ;
-#else
+#if VDRVERSNUM < 20301
 	cSchedulesLock schedulesLock;
 	cSchedules const* schedules = cSchedules::Schedules( schedulesLock );
 
@@ -40,12 +37,16 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	// cChannel* Channel; (see %request above)
 	if ( channel > 0 ) {
 #if VDRVERSNUM >= 20301
+		LOCK_CHANNELS_READ;
 		Channel = (cChannel *)Channels->GetByNumber( channel );
 #else
 		Channel = Channels.GetByNumber( channel );
 #endif
 	}
 	else {
+#if VDRVERSNUM >= 20301
+		LOCK_CHANNELS_READ;
+#endif
 		if (cDevice::CurrentChannel()) {
 #if VDRVERSNUM >= 20301
 			Channel = (cChannel *)Channels->GetByNumber(cDevice::CurrentChannel());
@@ -64,11 +65,14 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	if ( Channel == 0 )
 		throw HtmlError( tr("Couldn't find channel or no channels available. Maybe you mistyped your request?") );
 
+	cSchedule const* Schedule;
 #if VDRVERSNUM >= 20301
-	LOCK_SCHEDULES_READ;
-	cSchedule const* Schedule = Schedules->GetSchedule( (const cChannel *)Channel );
+	{
+		LOCK_SCHEDULES_READ;
+		Schedule = Schedules->GetSchedule( (const cChannel *)Channel );
+	}
 #else
-	cSchedule const* Schedule = schedules->GetSchedule( Channel );
+	Schedule = schedules->GetSchedule( Channel );
 #endif
 </%cpp>
 <& pageelems.doc_type &>
