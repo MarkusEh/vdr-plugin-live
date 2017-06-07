@@ -11,6 +11,10 @@
 
 #include <vdr/player.h>
 
+#ifndef TVM2VDR_PL_WORKAROUND
+#define TVM2VDR_PL_WORKAROUND  0
+#endif
+
 using namespace std;
 
 namespace vdrlive

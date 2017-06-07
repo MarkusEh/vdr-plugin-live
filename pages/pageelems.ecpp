@@ -6,7 +6,8 @@
 #include <tools.h>
 #include <epg_events.h>
 #include <gen_version_suffix.h>
-//
+#include <tntfeatures.h>
+
 using namespace std;
 using namespace vdrlive;
 

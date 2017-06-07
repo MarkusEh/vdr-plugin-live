@@ -2,6 +2,7 @@
 #include "setup.h"
 
 #include "tools.h"
+#include "tntfeatures.h"
 
 // STL headers need to be before VDR tools.h (included by <vdr/plugin.h>)
 #include <getopt.h>

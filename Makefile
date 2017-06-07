@@ -51,7 +51,7 @@ ifneq ($(HAVE_LIBPCRECPP),)
 	LIBS           += $(HAVE_LIBPCRECPP)
 endif
 
-CXXFLAGS += -std=c++11 -Wfatal-errors
+CXXFLAGS += -std=c++11 -Wfatal-errors -Wundef
 
 ### export all vars for sub-makes, using absolute paths
 LIBDIRABS = $(abspath $(LIBDIR))

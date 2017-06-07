@@ -1,6 +1,7 @@
 <%pre>
 
 #include <recman.h>
+#include <tntfeatures.h>
 
 using namespace std;
 using namespace vdrlive;
