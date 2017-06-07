@@ -54,8 +54,8 @@ endif
 CXXFLAGS += -std=c++11 -Wfatal-errors -Wundef
 
 ### export all vars for sub-makes, using absolute paths
-LIBDIRABS = $(abspath $(LIBDIR))
-LOCDIRABS = $(abspath $(LOCDIR))
+LIBDIR := $(abspath $(LIBDIR))
+LOCDIR := $(abspath $(LOCDIR))
 export
 unexport PLUGIN
 
@@ -67,7 +67,7 @@ PACKAGE := vdr-$(ARCHIVE)
 SOFILE := libvdr-$(PLUGIN).so
 
 ### Installed shared object file:
-SOINST = $(DESTDIR)$(LIBDIRABS)/$(SOFILE).$(APIVERSION)
+SOINST = $(DESTDIR)$(LIBDIR)/$(SOFILE).$(APIVERSION)
 
 ### Includes and Defines (add further entries here):
 DEFINES	+= -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"' -DTNTVERSION=$(TNTVERSION) -DCXXTOOLVER=$(CXXTOOLVER)
@@ -133,7 +133,7 @@ recursive-%:
 PODIR    := po
 I18Npo   := $(wildcard $(PODIR)/*.po)
 I18Nmo   := $(addsuffix .mo, $(foreach file, $(I18Npo), $(basename $(file))))
-I18Nmsgs := $(addprefix $(DESTDIR)$(LOCDIRABS)/, $(addsuffix /LC_MESSAGES/vdr-$(PLUGIN).mo, $(notdir $(foreach file, $(I18Npo), $(basename $(file))))))
+I18Nmsgs := $(addprefix $(DESTDIR)$(LOCDIR)/, $(addsuffix /LC_MESSAGES/vdr-$(PLUGIN).mo, $(notdir $(foreach file, $(I18Npo), $(basename $(file))))))
 I18Npot  := $(PODIR)/$(PLUGIN).pot
 I18Npot_deps = $(PLUGINSRCS) $(wildcard $(WEB_DIR_PAGES)/*.cpp) setup.h epg_events.h
 
@@ -156,7 +156,7 @@ I18Nmo: $(I18Nmo)
 	@touch $@
 	$(eval DISABLE_I18Npo_txt := 1)
 
-$(I18Nmsgs): $(DESTDIR)$(LOCDIRABS)/%/LC_MESSAGES/vdr-$(PLUGIN).mo: $(PODIR)/%.mo
+$(I18Nmsgs): $(DESTDIR)$(LOCDIR)/%/LC_MESSAGES/vdr-$(PLUGIN).mo: $(PODIR)/%.mo
 	$(if $(DISABLE_I18Nmoinst_txt),,@echo "Installing *.mo")
 	@install -D -m644 $< $@
 	$(eval DISABLE_I18Nmoinst_txt := 1)
