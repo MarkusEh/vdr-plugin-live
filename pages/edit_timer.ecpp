@@ -107,13 +107,16 @@ cTimer* timer;
 		EpgEvents::DecodeDomId(epgid, channelid, eventid);
 		if ( channelid.Valid() && eventid != 0 ) {
 			cerr << "grabbing event" << endl << endl;
-			cSchedulesLock schedLock;
+			cSchedule const* schedule;
 #if VDRVERSNUM >= 20301
-			LOCK_SCHEDULES_READ;
-			cSchedule const* schedule = Schedules->GetSchedule( channelid );
+			{
+				LOCK_SCHEDULES_READ;
+				schedule = Schedules->GetSchedule( channelid );
+			}
 #else
+			cSchedulesLock schedLock;
 			cSchedules const* schedules = cSchedules::Schedules( schedLock );
-			cSchedule const* schedule = schedules->GetSchedule( channelid );
+			schedule = schedules->GetSchedule( channelid );
 #endif
 
 			eventTimer.reset( new cTimer( schedule->GetEvent( eventid ) ) );
