@@ -335,7 +335,13 @@ msgstr "Только объявлять"
 msgid "Switch only"
 msgstr "Только переключать"
 
+msgid "Announce and Switch"
+msgstr ""
+
 msgid "Announce via email"
+msgstr ""
+
+msgid "Inactive Record"
 msgstr ""
 
 msgid "Series recording"

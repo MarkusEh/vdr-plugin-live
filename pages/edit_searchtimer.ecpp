@@ -427,7 +427,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 				document.getElementById("useassearchtimer").options[document.getElementById("useassearchtimer").selectedIndex].value > 0) ?
 				"block" : "none";
 			document.getElementById("searchtimermode3settings").style.display =
-				(selection.options[selection.selectedIndex].value == 2 &
+				((selection.options[selection.selectedIndex].value == 2 ||
+				  selection.options[selection.selectedIndex].value == 3) &
 				document.getElementById("useassearchtimer").options[document.getElementById("useassearchtimer").selectedIndex].value > 0) ?
 				"block" : "none";
 		}
@@ -751,7 +752,9 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 										<option value="0" <{ SELECTIF(searchtimeraction == 0) }> ><$ tr("Record") $></option>
 										<option value="1" <{ SELECTIF(searchtimeraction == 1) }> ><$ tr("Announce only") $></option>
 										<option value="2" <{ SELECTIF(searchtimeraction == 2) }> ><$ tr("Switch only") $></option>
+										<option value="3" <{ SELECTIF(searchtimeraction == 3) }> ><$ tr("Announce and Switch") $></option>
 										<option value="4" <{ SELECTIF(searchtimeraction == 4) }> ><$ tr("Announce via email") $></option>
+										<option value="5" <{ SELECTIF(searchtimeraction == 5) }> ><$ tr("Inactive Record") $></option>
 									</select>
 								</div>
 								<div id="searchtimermode1settings" style="display: none">

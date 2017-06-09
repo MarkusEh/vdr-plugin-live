@@ -336,7 +336,13 @@ msgstr "Len oznamova»"
 msgid "Switch only"
 msgstr "Iba prepína»"
 
+msgid "Announce and Switch"
+msgstr ""
+
 msgid "Announce via email"
+msgstr ""
+
+msgid "Inactive Record"
 msgstr ""
 
 msgid "Series recording"

@@ -337,7 +337,13 @@ msgstr "Tik pristato"
 msgid "Switch only"
 msgstr "Tik pereina"
 
+msgid "Announce and Switch"
+msgstr ""
+
 msgid "Announce via email"
+msgstr ""
+
+msgid "Inactive Record"
 msgstr ""
 
 msgid "Series recording"

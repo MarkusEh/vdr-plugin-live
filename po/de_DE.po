@@ -337,8 +337,14 @@ msgstr "Nur ankündigen"
 msgid "Switch only"
 msgstr "Nur umschalten"
 
+msgid "Announce and Switch"
+msgstr "Ankündigen und umschalten"
+
 msgid "Announce via email"
 msgstr "Mit E-Mail ankündigen"
+
+msgid "Inactive Record"
+msgstr "Deaktiviert"
 
 msgid "Series recording"
 msgstr "Serienaufnahme"

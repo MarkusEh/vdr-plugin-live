@@ -341,7 +341,13 @@ msgstr "Solo annuncio"
 msgid "Switch only"
 msgstr "Solo cambio canale"
 
+msgid "Announce and Switch"
+msgstr ""
+
 msgid "Announce via email"
+msgstr ""
+
+msgid "Inactive Record"
 msgstr ""
 
 msgid "Series recording"

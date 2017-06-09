@@ -343,7 +343,13 @@ msgstr "Pouze upozornit"
 msgid "Switch only"
 msgstr "Přepnout"
 
+msgid "Announce and Switch"
+msgstr ""
+
 msgid "Announce via email"
+msgstr ""
+
+msgid "Inactive Record"
 msgstr ""
 
 msgid "Series recording"

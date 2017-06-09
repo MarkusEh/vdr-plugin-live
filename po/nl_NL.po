@@ -341,7 +341,13 @@ msgstr "Alleen aankondigen (geen timer)"
 msgid "Switch only"
 msgstr ""
 
+msgid "Announce and Switch"
+msgstr ""
+
 msgid "Announce via email"
+msgstr ""
+
+msgid "Inactive Record"
 msgstr ""
 
 msgid "Series recording"

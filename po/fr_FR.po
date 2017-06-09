@@ -342,7 +342,13 @@ msgstr "Annoncer seulement le début de l'émission"
 msgid "Switch only"
 msgstr "Seulement changer de chaine"
 
+msgid "Announce and Switch"
+msgstr ""
+
 msgid "Announce via email"
+msgstr ""
+
+msgid "Inactive Record"
 msgstr ""
 
 msgid "Series recording"
