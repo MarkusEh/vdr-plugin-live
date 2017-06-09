@@ -249,7 +249,7 @@ namespace vdrlive {
 
 	void TimerManager::DoPendingWork()
 	{
-		if ( m_updateTimers.size() == 0 && !m_timers.Modified() )
+		if ( m_updateTimers.size() == 0 && !m_timers.Modified() && !m_reloadTimers )
 			return;
 
 		cMutexLock lock( this );

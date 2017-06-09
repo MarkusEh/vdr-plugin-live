@@ -53,8 +53,9 @@ namespace vdrlive {
 			void ToggleTimerActive( cTimer* timer);
 			// may only be called from Plugin::MainThreadHook
 			void DoPendingWork();
-			void DoReloadTimers() { m_timers.ReloadTimers(); }
+			void DoReloadTimers() { m_timers.ReloadTimers(); m_reloadTimers = false; }
 			const cTimer* GetTimer(tEventID eventid, tChannelID channelid);
+			void SetReloadTimers() { m_reloadTimers = true; }
 
 		private:
 			typedef std::pair< cTimer*, std::string > TimerPair;
@@ -69,6 +70,7 @@ namespace vdrlive {
 			TimerList m_updateTimers;
 			ErrorList m_failedUpdates;
 			cCondVar m_updateWait;
+			bool m_reloadTimers;
 
 			void DoUpdateTimers();
 			void DoInsertTimer( TimerPair& timerData );
