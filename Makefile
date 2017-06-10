@@ -51,7 +51,8 @@ ifneq ($(HAVE_LIBPCRECPP),)
 	LIBS           += $(HAVE_LIBPCRECPP)
 endif
 
-CXXFLAGS += -std=c++11 -Wfatal-errors -Wundef
+# -Wno-deprecated-declarations .. get rid of warning: ‘template<class> class std::auto_ptr’ is deprecated
+CXXFLAGS += -std=c++11 -Wfatal-errors -Wundef -Wno-deprecated-declarations
 
 ### export all vars for sub-makes, using absolute paths
 LIBDIR := $(abspath $(LIBDIR))

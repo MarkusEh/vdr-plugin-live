@@ -317,7 +317,7 @@ std::vector<time_t>			times_start;
 #endif
 		if ( ! Channel )
 			continue;
-		if ( Channel->GroupSep() || Channel->Name() == '\0' )
+		if ( Channel->GroupSep() || !Channel->Name() || !*Channel->Name() )
 			continue;
 		channel_names[ j ] = Channel->Name();
 		channel_IDs[ j ] = Channel->GetChannelID();
