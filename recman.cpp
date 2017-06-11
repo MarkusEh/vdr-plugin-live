@@ -27,8 +27,7 @@ namespace vdrlive {
 	std::tr1::shared_ptr< RecordingsList > RecordingsManager::m_recList;
 	std::tr1::shared_ptr< DirectoryList > RecordingsManager::m_recDirs;
 #if VDRVERSNUM >= 20301
-	time_t RecordingsManager::m_recordingsState = 0;
-	string RecordingsManager::m_UpdateFileName;
+	cStateKey RecordingsManager::m_recordingsStateKey;
 #else
 	int RecordingsManager::m_recordingsState = 0;
 #endif
@@ -262,15 +261,16 @@ namespace vdrlive {
 	}
 
 #if VDRVERSNUM >= 20301
-	bool RecordingsManager::StateChanged (time_t& tm)
+	bool RecordingsManager::StateChanged ()
 	{
-		if (m_UpdateFileName.empty()) {
-			m_UpdateFileName = AddDirectory (cVideoDirectory::Name(), ".update");
+		bool result = false;
+
+		// will return != 0 only, if the Recordings List has been changed since last read
+		if (cRecordings::GetRecordingsRead(m_recordingsStateKey)) {
+			result = true;
+			m_recordingsStateKey.Remove();
 		}
-		LOCK_RECORDINGS_READ;
-		time_t lastmod = LastModifiedTime (m_UpdateFileName.c_str());
-		bool result = tm != lastmod;
-		tm = lastmod;
+
 		return result;
 	}
 #endif
@@ -291,7 +291,7 @@ namespace vdrlive {
 		// StateChanged must be executed every time, so not part of
 		// the short cut evaluation in the if statement below.
 #if VDRVERSNUM >= 20301
-		bool stateChanged = StateChanged (m_recordingsState);
+		bool stateChanged = StateChanged();
 #else
 		bool stateChanged = Recordings.StateChanged(m_recordingsState);
 #endif
