@@ -7,6 +7,7 @@
 #include <epg_events.h>
 #include <recman.h>
 
+#if VDRVERSNUM < 20301
 namespace vdrlive {
 	class SchedulesLock
 	{
@@ -23,6 +24,7 @@ namespace vdrlive {
 
 	typedef std::tr1::shared_ptr<SchedulesLock> SchedulesLockPtr;
 }
+#endif
 
 using namespace vdrlive;
 using namespace std;
@@ -48,10 +50,12 @@ using namespace std;
 
 	bool aboutBox = false;
 
+#if VDRVERSNUM < 20301
 	// One of these get initialized when needed. When freed by getting
 	// out of scope they will release (if initialized) important
 	// Semaphores/Locks.
 	SchedulesLockPtr schedulesLockPtr;
+#endif
 	RecordingsManagerPtr recordings;
 
 	if (!epgid.empty()) {
@@ -127,9 +131,11 @@ using namespace std;
 		if (recordings) {
 			tools_component = epgEvent->Archived().empty() ? "recordings.rec_tools" : "recordings.archived_disc" ;
 		}
+#if VDRVERSNUM < 20301
 		if (schedulesLockPtr) {
 			tools_component = "epginfo.epgTools";
 		}
+#endif
 </%cpp>
 		<& pageelems.epg_tt_box boxId=(epgEvent->Id()) caption=(epgEvent->Caption()) tools_comp=(tools_component) time=(start) title=(epgEvent->Title()) short_descr=(epgEvent->ShortDescr()) long_descr=(epgEvent->LongDescr()) archived=(epgEvent->Archived()) elapsed=(epgEvent->Elapsed()) &>
 <%cpp>

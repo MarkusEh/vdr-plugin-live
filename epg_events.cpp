@@ -281,7 +281,6 @@ namespace vdrlive
 		EpgInfoPtr CreateEpgInfo(string const &epgid, cSchedules const *schedules)
 		{
 			string const errorInfo(tr("Epg error"));
-			cSchedulesLock schedulesLock;
 
 			tEventID eventId = tEventID();
 			tChannelID channelId = tChannelID();
