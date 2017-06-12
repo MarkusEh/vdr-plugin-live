@@ -208,7 +208,7 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 	RecordingsItemPtr recItem = *recIter;
 </%cpp>
 	<li class="recording">
-		<& rec_item_dir name=(recItem->Name()) level=(level) &>
+		<& rec_item_dir name=(recItem->Name()) level=(recItem->Level()) &>
 <%cpp>
 #if TNT_QUERYPARAMS_NO_BOOL
 		tnt::QueryParams recItemParams(qparam);
@@ -264,7 +264,7 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 		{
 </%cpp>
 	<li class="recording">
-	   <& rec_item_file name=(recItem->Name()) level=(level) id=(recItem->Id()) day=(day) dayLen=(dayLen) startTime=(recItem->StartTime()) duration=(duration) hint=(hint) shortDescr=(shortDescr) archived=(RecordingsManager::GetArchiveDescr(recItem->Recording())) &>
+	   <& rec_item_file name=(recItem->Name()) level=(recItem->Level()) id=(recItem->Id()) day=(day) dayLen=(dayLen) startTime=(recItem->StartTime()) duration=(duration) hint=(hint) shortDescr=(shortDescr) archived=(RecordingsManager::GetArchiveDescr(recItem->Recording())) &>
 	</li>
 <%cpp>
 		}
@@ -348,7 +348,7 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 	string folderimg = "folder_closed.png";
 </%args>
 	<div class="recording_item" onclick="Toggle(this)">
-		<div class="recording_imgs"><%cpp> reply.out() << StringRepeat(level, "<img src=\"img/transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />"); </%cpp><img class="recording_expander" src="<$ LiveSetup().GetThemedLink("img", collapseimg) $>" alt="" /><img class="recording_folder" src="<$ LiveSetup().GetThemedLink("img", folderimg) $>" alt="" /></div>
+		<div class="recording_imgs"><%cpp> reply.out() << StringRepeat(level - 1, "<img src=\"img/transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />"); </%cpp><img class="recording_expander" src="<$ LiveSetup().GetThemedLink("img", collapseimg) $>" alt="" /><img class="recording_folder" src="<$ LiveSetup().GetThemedLink("img", folderimg) $>" alt="" /></div>
 		<div class="recording_spec">
 			<div class="recording_name"><$ name $></div>
 	    </div>
@@ -372,7 +372,7 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 	string archived;
 </%args>
 	<div class="recording_item">
-	<div class="recording_imgs"><%cpp> reply.out() << StringRepeat(level + 1, "<img src=\"img/transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />"); </%cpp><%cpp> if (!archived.empty()) { </%cpp><img src="<$ LiveSetup().GetThemedLink("img", "on_dvd.png") $>" alt="on_dvd" <& tooltip.hint text=(archived) &> /><%cpp> } else { </%cpp><input type="checkbox" name="deletions" value="<$ id $>" /><%cpp> } </%cpp></div>
+	<div class="recording_imgs"><%cpp> reply.out() << StringRepeat(level, "<img src=\"img/transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />"); </%cpp><%cpp> if (!archived.empty()) { </%cpp><img src="<$ LiveSetup().GetThemedLink("img", "on_dvd.png") $>" alt="on_dvd" <& tooltip.hint text=(archived) &> /><%cpp> } else { </%cpp><input type="checkbox" name="deletions" value="<$ id $>" /><%cpp> } </%cpp></div>
 	<div class="recording_spec">
 		<div class="recording_day"><$ FormatDateTime(tr("%a,"), startTime) + string(" ") + FormatDateTime(tr("%b %d %y"), startTime) + string(" ") + FormatDateTime(tr("%I:%M %p"), startTime) $></div>
 		<div class="recording_duration"><$ duration $></div>

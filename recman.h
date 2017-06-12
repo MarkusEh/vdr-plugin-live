@@ -179,8 +179,10 @@ namespace vdrlive {
 
 			RecordingsMap::const_iterator begin() const { return m_entries.begin(); }
 			RecordingsMap::const_iterator end() const { return m_entries.end(); }
+			int Level() { return m_level; }
 
 		private:
+			int m_level;
 			std::string m_name;
 			RecordingsMap m_entries;
 			RecordingsItemWeakPtr m_parent;

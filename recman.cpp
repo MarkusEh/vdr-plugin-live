@@ -376,6 +376,7 @@ namespace vdrlive {
 	 *  Implementation of class RecordingsItem:
 	 */
 	RecordingsItem::RecordingsItem(string const & name, RecordingsItemPtr parent) :
+		m_level((parent != NULL) ? parent->Level() + 1 : 0),
 		m_name(name),
 		m_entries(),
 		m_parent(parent)
