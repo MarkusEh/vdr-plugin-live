@@ -96,10 +96,12 @@ diskinfo = cString::sprintf("%s %d%%  -  %2d:%02d %s", trVDR("Disk"), Percent, H
 		}
 		function ExpandAll()
 		{
+			var openNodes = "";
 			recordingNodes = window.document.getElementsBySelector("ul.recordingslist");
 			for (idx = 0; idx < recordingNodes.length; idx++) {
 				if (recordingNodes[idx].parentNode.className != 'recordings') {
 					recordingNodes[idx].style.display = 'block';
+					openNodes += recordingNodes[idx].id + ","; 
 				}
 			}
 			expandNodes = window.document.getElementsBySelector("img.recording_expander");
@@ -110,6 +112,7 @@ diskinfo = cString::sprintf("%s %d%%  -  %2d:%02d %s", trVDR("Disk"), Percent, H
 			for (idx = 0; idx < folderNodes.length; idx++) {
 				folderNodes[idx].src = "img/folder_open.png";
 			}
+			createCookie( cookieNameRec, openNodes, 14 );
 		}
 		function CollapseAll()
 		{
@@ -127,6 +130,7 @@ diskinfo = cString::sprintf("%s %d%%  -  %2d:%02d %s", trVDR("Disk"), Percent, H
 			for (idx = 0; idx < folderNodes.length; idx++) {
 				folderNodes[idx].src = "img/folder_closed.png";
 			}
+			eraseCookie( cookieNameRec );
 		}
 		//--></script>
 	</head>
@@ -186,6 +190,8 @@ if (!deleteResult.empty()) {
 	filter;
 	path[];
 	int level = 0;
+	int counter = 0;
+	string idHash = "";
 </%args>
 <%cpp>
 RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
@@ -206,6 +212,7 @@ else
 	recItems.sort(RecordingsItemPtrCompare::ByAscendingName);
 for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 	RecordingsItemPtr recItem = *recIter;
+	counter++;
 </%cpp>
 	<li class="recording">
 		<& rec_item_dir name=(recItem->Name()) level=(recItem->Level()) &>
@@ -221,8 +228,11 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 		recItemParams.add("path", recItem->Name());
 		recItemParams.add("level", lexical_cast<string, int>(level + 1));
 		recItemParams.add("filter", filter);
+		string combinedId = recItem->Name() + "_";
+		combinedId += counter + "_" + level;
+		idHash = MD5Hash(combinedId);
 </%cpp>
-		<ul class="recordingslist" style="display: none;">
+		<ul id="fldr_<$ idHash $>" class="recordingslist" style="display: none;">
 <%cpp>
 		callComp("recordings.recordings_item", request, reply, recItemParams);
 </%cpp>
