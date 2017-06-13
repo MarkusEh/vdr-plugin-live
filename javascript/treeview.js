@@ -1,8 +1,10 @@
 // ---------------------------------------------
 // --- Name:    Easy DHTML Treeview           --
 // --- Author:  D.D. de Kerf                  --
-// --- Adapted: Dieter Hametner		      --
-// --- Version: 0.2          Date: 13-6-2001  --
+// --- Adapted: Jasmin Jessich                --
+// --- Adapted: hepi (via patch)              --
+// --- Adapted: Dieter Hametner               --
+// --- Version: 0.3          Date: 14-6-2017  --
 // ---------------------------------------------
 
 function findSibling(node, name)
@@ -84,7 +86,8 @@ function Toggle(node)
 	}
 }
 
-function updateCookieOnExpand( id ){
+function updateCookieOnExpand( id )
+{
 	var openNodes = readCookie( cookieNameRec );
 	if (openNodes == null || openNodes == "")
 		openNodes = id;
@@ -93,14 +96,15 @@ function updateCookieOnExpand( id ){
 	createCookie( cookieNameRec, openNodes, 14 );
 }
 
-function updateCookieOnCollapse( id ){
+function updateCookieOnCollapse( id )
+{
 	var openNodes = readCookie( cookieNameRec );
 	if (openNodes != null)
 		openNodes = openNodes.split(",");
 	else
 		openNodes = [];
 	for (var z=0; z<openNodes.length; z++){
-		if (openNodes[z] === sibling.id){
+		if (openNodes[z] === id){
 			openNodes.splice(z,1);
 			break;
 		}
@@ -109,17 +113,17 @@ function updateCookieOnCollapse( id ){
 	createCookie( cookieNameRec, openNodes, 14 );
 }
 
-function openNodesOnPageLoad(){
+function openNodesOnPageLoad()
+{
 	var openNodes = readCookie( cookieNameRec );
 	if (openNodes != null && openNodes !== "")
-		openNodes = openNodes.split(",.,");
+		openNodes = openNodes.split(",");
 	else
 		openNodes = [];
 	for (var z=0; z<openNodes.length; z++){
 		var ul = document.getElementById(openNodes[z]);
 		if (ul){
 			ul.style.display = 'block';
-			//var imgChild = findChildNode(ul.parentNode, "recording_imgs");
 			var imgChild = ul.parentNode.children[0].children[0];
 			if (imgChild != null)
 				setImages(imgChild, "img/minus.png", "img/folder_open.png");
@@ -129,14 +133,16 @@ function openNodesOnPageLoad(){
 
 var cookieNameRec = "VDR-Live-Recordings-Tree-Open-Nodes";
 
-window.addEvent('domready', function(){
+window.addEvent('domready', function()
+{
 	openNodesOnPageLoad();
 }); 
 
 
 //The following cookie functions are taken from http://www.quirksmode.org/js/cookies.html
 
-function createCookie(name,value,days) {
+function createCookie(name,value,days)
+{
 	if (days) {
 		var date = new Date();
 		date.setTime(date.getTime()+(days*24*60*60*1000));
@@ -146,7 +152,8 @@ function createCookie(name,value,days) {
 	document.cookie = name+"="+value+expires+"; path=/";
 }
 
-function readCookie(name) {
+function readCookie(name)
+{
 	var nameEQ = name + "=";
 	var ca = document.cookie.split(';');
 	for(var i=0;i < ca.length;i++) {
@@ -157,6 +164,7 @@ function readCookie(name) {
 	return null;
 }
 
-function eraseCookie(name) {
+function eraseCookie(name)
+{
 	createCookie(name,"",-1);
 }
