@@ -132,10 +132,13 @@ using namespace std;
 			tools_component = epgEvent->Archived().empty() ? "recordings.rec_tools" : "recordings.archived_disc" ;
 		}
 #if VDRVERSNUM < 20301
-		if (schedulesLockPtr) {
-			tools_component = "epginfo.epgTools";
-		}
+		if (schedulesLockPtr)
+#else
+		// for VDR 2.3.x we don't need to check something, because we can be sure
+		// we got the Schedule lock above
 #endif
+			tools_component = "epginfo.epgTools";
+
 </%cpp>
 		<& pageelems.epg_tt_box boxId=(epgEvent->Id()) caption=(epgEvent->Caption()) tools_comp=(tools_component) time=(start) title=(epgEvent->Title()) short_descr=(epgEvent->ShortDescr()) long_descr=(epgEvent->LongDescr()) archived=(epgEvent->Archived()) elapsed=(epgEvent->Elapsed()) &>
 <%cpp>
