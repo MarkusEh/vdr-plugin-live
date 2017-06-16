@@ -665,6 +665,9 @@ msgstr "Идея проекта"
 msgid "Webserver"
 msgstr "WEB сервер"
 
+msgid "Current Maintainer"
+msgstr ""
+
 msgid "Project leader"
 msgstr "Ведущий проекта"
 

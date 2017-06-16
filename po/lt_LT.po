@@ -667,6 +667,9 @@ msgstr "Projekto idėja"
 msgid "Webserver"
 msgstr "Web serveris"
 
+msgid "Current Maintainer"
+msgstr ""
+
 msgid "Project leader"
 msgstr "Projekto vadovas"
 

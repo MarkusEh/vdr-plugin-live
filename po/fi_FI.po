@@ -665,6 +665,9 @@ msgstr "Projektin idea"
 msgid "Webserver"
 msgstr "HTTP-palvelin"
 
+msgid "Current Maintainer"
+msgstr ""
+
 msgid "Project leader"
 msgstr "Projektipäällikkö"
 

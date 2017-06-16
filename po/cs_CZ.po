@@ -674,6 +674,9 @@ msgstr "nápad"
 msgid "Webserver"
 msgstr "web server"
 
+msgid "Current Maintainer"
+msgstr ""
+
 msgid "Project leader"
 msgstr "vedoucí týmu"
 

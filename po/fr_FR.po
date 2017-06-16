@@ -687,6 +687,9 @@ msgstr "Chef de projet"
 msgid "Webserver"
 msgstr "Serveur Web"
 
+msgid "Current Maintainer"
+msgstr ""
+
 msgid "Project leader"
 msgstr "Chef de projet"
 

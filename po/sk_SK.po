@@ -666,6 +666,9 @@ msgstr "My¹lienka projektu"
 msgid "Webserver"
 msgstr "Webový server"
 
+msgid "Current Maintainer"
+msgstr ""
+
 msgid "Project leader"
 msgstr "Vedúci projektu"
 

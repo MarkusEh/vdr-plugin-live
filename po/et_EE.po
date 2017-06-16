@@ -665,6 +665,9 @@ msgstr ""
 msgid "Webserver"
 msgstr ""
 
+msgid "Current Maintainer"
+msgstr ""
+
 msgid "Project leader"
 msgstr ""
 
