@@ -50,7 +50,9 @@ using namespace std;
 
 	bool aboutBox = false;
 
-#if VDRVERSNUM < 20301
+#if VDRVERSNUM >= 20301
+	bool isEvent = false;
+#else
 	// One of these get initialized when needed. When freed by getting
 	// out of scope they will release (if initialized) important
 	// Semaphores/Locks.
@@ -81,6 +83,7 @@ using namespace std;
 			LOCK_CHANNELS_READ;
 			LOCK_SCHEDULES_READ;
 			epgEvent = EpgEvents::CreateEpgInfo(epgid, Schedules);
+			isEvent = true;
 #else
 			schedulesLockPtr = SchedulesLockPtr(new SchedulesLock);
 			if (!schedulesLockPtr) {
@@ -131,11 +134,10 @@ using namespace std;
 		if (recordings) {
 			tools_component = epgEvent->Archived().empty() ? "recordings.rec_tools" : "recordings.archived_disc" ;
 		}
-#if VDRVERSNUM < 20301
-		if (schedulesLockPtr)
+#if VDRVERSNUM >= 20301
+		if (isEvent)
 #else
-		// for VDR 2.3.x we don't need to check something, because we can be sure
-		// we got the Schedule lock above
+		if (schedulesLockPtr)
 #endif
 			tools_component = "epginfo.epgTools";
 
