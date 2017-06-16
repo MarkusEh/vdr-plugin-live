@@ -423,7 +423,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		function changedsearchtimermode(selection)
 		{
 			document.getElementById("searchtimermode1settings").style.display =
-				(selection.options[selection.selectedIndex].value == 0 &
+				((selection.options[selection.selectedIndex].value == 0 ||
+				  selection.options[selection.selectedIndex].value == 5) &
 				document.getElementById("useassearchtimer").options[document.getElementById("useassearchtimer").selectedIndex].value > 0) ?
 				"block" : "none";
 			document.getElementById("searchtimermode3settings").style.display =
