@@ -127,8 +127,9 @@ cTimer* timer;
 	}
 	if (timer == 0)
 	{
-	   timer = new cTimer();
-	   timer->SetFlags(tfActive);
+		eventTimer.reset( new cTimer() );
+		eventTimer->SetFlags( tfActive );
+		timer = eventTimer.get();
 	}
 
 	if ( timer != 0 ) {
@@ -136,12 +137,11 @@ cTimer* timer;
 		channel = timer->Channel()->GetChannelID();
 		title = timer->File() ? timer->File() : "";
 		if ( LiveFeatures< features::epgsearch >().Recent() ) {
-		   vector< string > directories = StringSplit( title, '~' );
-		   if (directories.size() > 1)
-		   {
-		      directory = directories[0];
-		      title = title.substr(directory.size()+1);
-		   }
+			vector< string > directories = StringSplit( title, '~' );
+			if (directories.size() > 1) {
+				directory = directories[0];
+				title = title.substr(directory.size()+1);
+			}
 		}
 		// TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
 		date = timer->Day() ? DatePickerToC(timer->Day(), tr("mm/dd/yyyy")) : "";
