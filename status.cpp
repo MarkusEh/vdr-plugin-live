@@ -11,14 +11,12 @@ StatusMonitor::StatusMonitor()
 
 void StatusMonitor::TimerChange(const cTimer *Timer, eTimerChange Change)
 {
-	cMutexLock timersLock( &LiveTimerManager() );
 	LiveTimerManager().SetReloadTimers();
 }
 
 void StatusMonitor::Recording( cDevice const*, char const*, char const*, bool )
 {
-	cMutexLock timersLock( &LiveTimerManager() );
-	LiveTimerManager().DoReloadTimers();
+	LiveTimerManager().SetReloadTimers();
 }
 
 StatusMonitor& LiveStatusMonitor()
