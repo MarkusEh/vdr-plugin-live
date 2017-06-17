@@ -140,6 +140,22 @@ namespace vdrlive {
 		return info.str();
 	}
 
+	string SortedTimers::SearchTimerName(cTimer const& timer)
+	{
+		ostringstream info;
+		if (timer.Aux())
+		{
+			string epgsearchinfo = GetXMLValue(timer.Aux(), "epgsearch");
+			if (!epgsearchinfo.empty())
+			{
+				string searchtimer = GetXMLValue(epgsearchinfo, "searchtimer");
+				if (!searchtimer.empty())
+					info << searchtimer;
+			}
+		}
+		return info.str();
+	}
+
 #if VDRVERSNUM >= 20301
 	bool SortedTimers::Modified()
 	{

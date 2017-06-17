@@ -78,6 +78,7 @@ static const size_t maximumDescriptionLength = 300;
 				for (SortedTimers::iterator timer = timers.begin(); timer != timers.end(); ++timer) {
 				    EpgInfoPtr epgEvent;
 					string longDescription;
+					string searchTimName;
 #if VDRVERSNUM >= 20301
 					if (!timer->Event()) {
 						LOCK_SCHEDULES_READ;
@@ -92,6 +93,7 @@ static const size_t maximumDescriptionLength = 300;
 						longDescription = StringEscapeAndBreak(SortedTimers::GetTimerInfo(*timer)) + "<hr>"
 											+ StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), maximumDescriptionLength))
 											+ "<br/><br/>" + tr("Click to view details.");
+						searchTimName = SortedTimers::SearchTimerName(*timer);
 					}
 					string currentDay = SortedTimers::GetTimerDays(*timer);
 					SortedTimers::iterator nextTimer = timer; ++nextTimer;
@@ -113,7 +115,7 @@ static const size_t maximumDescriptionLength = 300;
 						previousDay = currentDay;
 </%cpp>
 				<tr class="head">
-					<td colspan="8">
+					<td colspan="9">
 						<div class="boxheader"><div><div>
 							<$ currentDay $>
 						</div></div></div>
@@ -125,6 +127,7 @@ static const size_t maximumDescriptionLength = 300;
 					<td><div class="withmargin"><$ trVDR("Start") $></div></td>
 					<td><div class="withmargin"><$ trVDR("Stop") $></div></td>
 					<td><div class="withmargin"><$ trVDR("File") $></div></td>
+					<td><div class="withmargin"><$ tr("Searchtimer") $></div></td>
 					<td class="action"><img src="img/transparent.png" alt="" width="16px" height="16px" /></td>
 					<td class="action"><img src="img/transparent.png" alt="" width="16px" height="16px" /></td>
 					<td class="action rightcol"><img src="img/transparent.png" alt="" width="16px" height="16px" /></td>
@@ -149,11 +152,12 @@ static const size_t maximumDescriptionLength = 300;
 					<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin nowrap"><$ FormatDateTime(tr("%I:%M %p"), timer->StartTime()) $></div></td>
 					<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin nowrap"><$ FormatDateTime(tr("%I:%M %p"), timer->StopTime()) $></div></td>
 					<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><a
-%						if (!longDescription.empty()) {
+%					if (!longDescription.empty()) {
 						<& tooltip.hint text=(longDescription) &><& tooltip.display domId=(epgEvent->Id()) &>
 %					}
 						><$ timer->File() $></a></div>
 					</td>
+					<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin nowrap"><$ searchTimName $></div></td>
 					<td class="action <? bottom ? "bottomrow" ?>"><a href="timers.html?timerid=<$ SortedTimers::EncodeDomId(timers.GetTimerId(*timer)) $>&action=toggle"><img src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &>></img></a></td>
 					<td class="action <? bottom ? "bottomrow" ?>"><& pageelems.edit_timer timerId=(timers.GetTimerId(*timer)) &></td>
 					<td class="action rightcol <? bottom ? "bottomrow" ?>"><a href="timers.html?timerid=<$ SortedTimers::EncodeDomId(timers.GetTimerId(*timer)) $>&action=delete"><img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint text=(tr("Delete timer")) &>></img></a></td>

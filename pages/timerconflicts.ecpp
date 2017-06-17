@@ -49,7 +49,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					for (std::list< TimerInConflict >::const_iterator confltimer = conflTimers.begin(); confltimer != conflTimers.end(); ++confltimer) {
 </%cpp>
 						<tr class="head">
-							<td colspan="10">
+							<td colspan="11">
 								<div class="boxheader"><div><div><$ FormatDateTime(tr("%A, %x"), conflict->ConflictTime()) + " " + FormatDateTime(tr("%I:%M %p"), conflict->ConflictTime()) + " - " + lexical_cast<string, int>(confltimer->percentage) + "%" $></div></div></div>
 							</td>
 						</tr>
@@ -60,6 +60,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 							<td><div class="withmargin"><$ trVDR("Stop") $></div></td>
 							<td><div class="withmargin"><$ trVDR("Priority") $></div></td>
 							<td><div class="withmargin"><$ trVDR("File") $></div></td>
+							<td><div class="withmargin"><$ tr("Searchtimer") $></div></td>
 							<td class="action"><img src="img/transparent.png" alt="" width="16px" height="16px" /></td>
 							<td class="action"><img src="img/transparent.png" alt="" width="16px" height="16px" /></td>
 							<td class="action"><img src="img/transparent.png" alt="" width="16px" height="16px" /></td>
@@ -92,6 +93,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 							EpgInfoPtr epgEvent;
 							string longDescription;
+							string searchTimName;
 							string title;
 #if VDRVERSNUM >= 20301
 							if (!timer->Event()) {
@@ -106,6 +108,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 								longDescription = StringEscapeAndBreak(SortedTimers::GetTimerInfo(*timer)) + "<hr>"
 													+ StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), maximumDescriptionLength))
 													+ "<br/><br/>" + tr("Click to view details.");
+								searchTimName = SortedTimers::SearchTimerName(*timer);
 								title = epgEvent->Title();
 							}
 </%cpp>
@@ -120,6 +123,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 									<& tooltip.hint text=(longDescription) &><& tooltip.display domId=(epgEvent->Id()) &>
 %								}
 								><$ timer->File() $></a></div></td>
+								<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin nowrap"><$ searchTimName $></div></td>
 								<td class="action <? bottom ? "bottomrow" ?>"><a href="searchresults.html?searchplain=<$ StringEscapeAndBreak(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a></td>
 								<td class="action <? bottom ? "bottomrow" ?>"><a href="timers.html?timerid=<$ SortedTimers::EncodeDomId(timers.GetTimerId(*timer)) $>&action=toggle"><img src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &>></img></a></td>
 								<td class="action <? bottom ? "bottomrow" ?>"><& pageelems.edit_timer timerId=(timers.GetTimerId(*timer)) &></td>
