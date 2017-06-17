@@ -24,7 +24,7 @@ This version of LIVE does not support VDR versions older than 2.0.0
 any more (maybe still some older VDR devel versions leading to VDR
 2.0.0 but that is not tested).
 
-The stable_0-3-0 tag is the last commit by Dieter Hametner. It is was
+The release_0-3-1 tag is the last commit by Dieter Hametner. It is was
 the live version used by many distributions.
 
 
