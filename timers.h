@@ -35,9 +35,15 @@ namespace vdrlive {
 			SortedTimers();
 			SortedTimers( SortedTimers const& );
 
-			int m_state;
+			cMutex m_mutex;
 
-			void ReloadTimers( bool initial = false );
+#if VDRVERSNUM >= 20301
+			cStateKey m_TimersStateKey;
+#else
+			int m_state;
+#endif
+
+			void ReloadTimers();
 	};
 
 	class TimerManager: public cMutex

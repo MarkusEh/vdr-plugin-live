@@ -23,10 +23,12 @@ namespace vdrlive {
 	static char const* const TIMER_DELETE = "DELETE";
 	static char const* const TIMER_TOGGLE = "TOGGLE";
 
-	SortedTimers::SortedTimers():
-		m_state( 0 )
+	SortedTimers::SortedTimers()
+#if VDRVERSNUM < 20301
+	: m_state( 0 )
+#endif
 	{
-		ReloadTimers( true );
+		ReloadTimers();
 	}
 
 	string SortedTimers::GetTimerId( cTimer const& timer )
@@ -62,6 +64,8 @@ namespace vdrlive {
 			int start = lexical_cast< int >( parts[3] );
 			int stop = lexical_cast< int >( parts[4] );
 
+			cMutexLock MutexLock(&m_mutex);
+
 			for ( SortedTimers::iterator timer = begin(); timer != end(); ++timer ) {
 				if ( timer->Channel() == channel &&
 					 ( ( weekdays != 0 && timer->WeekDays() == weekdays ) || ( weekdays == 0 && timer->Day() == day ) ) &&
@@ -92,9 +96,11 @@ namespace vdrlive {
 	}
 
 
-	void SortedTimers::ReloadTimers( bool initial )
+	void SortedTimers::ReloadTimers()
 	{
 		// dsyslog("live reloading timers");
+
+		cMutexLock MutexLock(&m_mutex);
 
 		clear();
 #if VDRVERSNUM >= 20301
@@ -159,33 +165,12 @@ namespace vdrlive {
 #if VDRVERSNUM >= 20301
 	bool SortedTimers::Modified()
 	{
-		// the global(!) list of known timers
-		static vector<cTimer> knownTimers;
-
 		bool modified = false;
 
-		LOCK_TIMERS_READ;
-		for ( const cTimer* timer = Timers->First(); timer; timer = Timers->Next( timer ) ) {
-			bool known_id = false;
-			for (vector<cTimer>::iterator it = knownTimers.begin(); it != knownTimers.end(); ++it) {
-				if (timer->Id() == it->Id()) {
-					known_id = true;
-					string timer_txt = *timer->ToText (true);
-					string known_txt = *it->ToText (true);
-					modified = timer_txt != known_txt;
-					break;
-				}
-			}
-			if (!known_id) {
-				modified = true;
-				break;
-			}
-		}
-		if (modified) {
-			knownTimers.clear();
-			for (const cTimer* Timer = Timers->First(); Timer; Timer = Timers->Next (Timer)) {
-				knownTimers.push_back (*Timer);
-			}
+		// will return != 0 only, if the Timers List has been changed since last read
+		if (cTimers::GetTimersRead(m_TimersStateKey)) {
+			modified = true;
+			m_TimersStateKey.Remove();
 		}
 
 		return modified;
