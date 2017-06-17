@@ -106,7 +106,6 @@ cTimer* timer;
 	if ( timer == 0 && !epgid.empty()) {
 		EpgEvents::DecodeDomId(epgid, channelid, eventid);
 		if ( channelid.Valid() && eventid != 0 ) {
-			cerr << "grabbing event" << endl << endl;
 			cSchedule const* schedule;
 #if VDRVERSNUM >= 20301
 			{
@@ -121,7 +120,6 @@ cTimer* timer;
 
 			eventTimer.reset( new cTimer( schedule->GetEvent( eventid ) ) );
 		} else {
-			cerr << "grabbing new timer" << endl << endl;
 			eventTimer.reset( new cTimer() );
 			eventTimer->SetFlags( tfActive );
 		}
