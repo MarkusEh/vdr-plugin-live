@@ -291,7 +291,7 @@ namespace vdrlive {
 		Timers->SetExplicitModify();
 		const cTimer *checkTimer = Timers->GetTimer( newTimer.get() );
 #else
-		cTimer* checkTimer = Timers.GetTimer( newTimer.get() );
+		const cTimer* checkTimer = Timers.GetTimer( newTimer.get() );
 #endif
 		if ( checkTimer ) {
 			StoreError( timerData, tr("Timer already defined") );
@@ -321,9 +321,9 @@ namespace vdrlive {
 #if VDRVERSNUM >= 20301
 		LOCK_TIMERS_WRITE;
 		Timers->SetExplicitModify();
-		cTimer* oldTimer = (cTimer *)Timers->GetTimer( timerData.first );
+		cTimer* oldTimer = Timers->GetTimer( timerData.first );
 #else
-		cTimer* oldTimer = Timers.GetTimer( timerData.first );
+		cTimer* oldTimer = Timers.GetTimer( const_cast<cTimer*>(timerData.first) );
 #endif
 		if ( oldTimer == 0 ) {
 			StoreError( timerData, tr("Timer not defined") );
@@ -357,9 +357,9 @@ namespace vdrlive {
 #if VDRVERSNUM >= 20301
 		LOCK_TIMERS_WRITE;
 		Timers->SetExplicitModify();
-		cTimer* oldTimer = (cTimer *)Timers->GetTimer( timerData.first );
+		cTimer* oldTimer = Timers->GetTimer( timerData.first );
 #else
-		cTimer* oldTimer = Timers.GetTimer( timerData.first );
+		cTimer* oldTimer = Timers.GetTimer( const_cast<cTimer*>(timerData.first) );
 #endif
 		if ( oldTimer == 0 ) {
 			StoreError( timerData, tr("Timer not defined") );
@@ -397,9 +397,9 @@ namespace vdrlive {
 #if VDRVERSNUM >= 20301
 		LOCK_TIMERS_WRITE;
 		Timers->SetExplicitModify();
-		cTimer* toggleTimer = (cTimer *)Timers->GetTimer( timerData.first );
+		cTimer* toggleTimer = Timers->GetTimer( timerData.first );
 #else
-		cTimer* toggleTimer = Timers.GetTimer( timerData.first );
+		cTimer* toggleTimer = Timers.GetTimer( const_cast<cTimer*>(timerData.first) );
 #endif
 		if ( toggleTimer == 0 ) {
 			StoreError( timerData, tr("Timer not defined") );
