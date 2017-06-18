@@ -39,7 +39,7 @@ namespace vdrlive {
 		return builder.str();
 	}
 
-	cTimer* SortedTimers::GetByTimerId( string const& timerid )
+	const cTimer* SortedTimers::GetByTimerId( string const& timerid )
 	{
 		vector< string > parts = StringSplit( timerid, ':' );
 		if ( parts.size() < 5 ) {
@@ -181,7 +181,7 @@ namespace vdrlive {
 	{
 	}
 
-	void TimerManager::UpdateTimer( cTimer* timer, int flags, tChannelID& channel, string const& weekdays, string const& day,
+	void TimerManager::UpdateTimer( const cTimer* timer, int flags, tChannelID& channel, string const& weekdays, string const& day,
 									int start, int stop, int priority, int lifetime, string const& title, string const& aux )
 	{
 		cMutexLock lock( this );
@@ -220,7 +220,7 @@ namespace vdrlive {
 			throw HtmlError( error );
 	}
 
-	void TimerManager::DelTimer( cTimer* timer )
+	void TimerManager::DelTimer( const cTimer* timer )
 	{
 		cMutexLock lock( this );
 
@@ -234,7 +234,7 @@ namespace vdrlive {
 			throw HtmlError( error );
 	}
 
-	void TimerManager::ToggleTimerActive( cTimer* timer)
+	void TimerManager::ToggleTimerActive( const cTimer* timer)
 	{
 		cMutexLock lock( this );
 

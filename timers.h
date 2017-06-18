@@ -15,7 +15,7 @@ namespace vdrlive {
 
 		public:
 			static std::string GetTimerId(cTimer const& timer);
-			cTimer* GetByTimerId(std::string const& timerid);
+			const cTimer* GetByTimerId(std::string const& timerid);
 
 			// en- or decodes a timer into an id usable for DOM Ids.
 			static std::string EncodeDomId(std::string const& timerid);
@@ -53,11 +53,11 @@ namespace vdrlive {
 		public:
 			SortedTimers& GetTimers() { return m_timers; }
 
-			void UpdateTimer( cTimer* timer, int flags, tChannelID& channel, std::string const& weekdays, std::string const& day,
+			void UpdateTimer( const cTimer* timer, int flags, tChannelID& channel, std::string const& weekdays, std::string const& day,
 							  int start, int stop, int priority, int lifetime, std::string const& title, std::string const& aux );
 
-			void DelTimer( cTimer* timer);
-			void ToggleTimerActive( cTimer* timer);
+			void DelTimer( const cTimer* timer);
+			void ToggleTimerActive( const cTimer* timer);
 			// may only be called from Plugin::MainThreadHook
 			void DoPendingWork();
 			void DoReloadTimers() { m_timers.ReloadTimers(); m_reloadTimers = false; }
@@ -65,7 +65,7 @@ namespace vdrlive {
 			void SetReloadTimers() { m_reloadTimers = true; }
 
 		private:
-			typedef std::pair< cTimer*, std::string > TimerPair;
+			typedef std::pair< const cTimer*, std::string > TimerPair;
 			typedef std::pair< TimerPair, std::string > ErrorPair;
 			typedef std::list< TimerPair > TimerList;
 			typedef std::list< ErrorPair > ErrorList;

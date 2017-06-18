@@ -23,7 +23,7 @@ static const size_t maximumDescriptionLength = 300;
 	bool logged_in(false);
 </%session>
 <%request scope="page">
-	cTimer* timer;
+	const cTimer* timer;
 	TimerConflictNotifier timerNotifier;
 </%request>
 <%include>page_init.eh</%include>

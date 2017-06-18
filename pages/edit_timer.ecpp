@@ -48,7 +48,7 @@ string edit_timerreferer;
 TimerConflictNotifier timerNotifier;
 </%session>
 <%request scope="page">
-cTimer* timer;
+const cTimer* timer;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
