@@ -22,6 +22,16 @@ struct SchedEntry {
 	bool has_timer;
 	int start_row;
 	int row_count;
+	
+	static SchedEntry DummyEntry(int start_row, int row_count) {
+		SchedEntry en;
+		en.start_row = start_row;
+		en.row_count = row_count;
+		// no title and no start time = dummy event
+		en.title = "";
+		en.start = "";
+		return en;
+	}
 };
 
 std::string				channel_groups_setting;
@@ -355,15 +365,9 @@ std::vector<time_t>			times_start;
 			if ( prev_row < 0 && Event->StartTime() > sched_start + MINUTES_PER_ROW )
 			{
 				// insert dummy event at start
-				table[ j ].push_back( SchedEntry() );
-				SchedEntry &en=table[ j ].back();
-				int event_start_row = (Event->StartTime() - sched_start) / 60 / MINUTES_PER_ROW;
-				en.start_row = 0;
-				en.row_count = event_start_row;
-				// no title and no start time = dummy event
-				en.title = "";
-				en.start = "";
-				prev_row = en.start_row + en.row_count;
+				int row_count = (Event->StartTime() - sched_start) / 60 / MINUTES_PER_ROW;
+				table[ j ].push_back( SchedEntry::DummyEntry(0 , row_count));
+				prev_row = row_count;
 			}
 			table[ j ].push_back( SchedEntry() );
 			SchedEntry &en=table[j].back();
@@ -395,19 +399,17 @@ std::vector<time_t>			times_start;
 													 CHARACTERS_PER_ROW*(en.row_count-2),
 													 en.truncated );
 
-
+			if (!Schedule->Events()->Next(Event) && end_time < sched_end){
+				// insert dummy event at end
+				int row_count = (sched_end - end_time) / 60 / MINUTES_PER_ROW;
+				table[ j ].push_back( SchedEntry::DummyEntry(next_event_start_row , row_count));
+			}
 
 		};
 		if ( table[ j ].begin() == table[ j ].end() )
 		{
 			// no entries... create a single dummy entry
-			table[ j ].push_back( SchedEntry() );
-			SchedEntry &en=table[ j ].back();
-			en.start_row = 0;
-			en.row_count = sched_end_row;
-			// no title and no start time = dummy event
-			en.title = "";
-			en.start = "";
+			table[ j ].push_back( SchedEntry::DummyEntry(0 , sched_end_row));
 		}
 	}
 </%cpp>
