@@ -11,6 +11,10 @@
 #else
 #include <cxxtools/loginit.h>
 #endif
+#if !TNT_GLOBAL_TNTCONFIG
+#include <tnt/sessionscope.h>
+#include <tnt/httpreply.h>
+#endif
 
 namespace vdrlive {
 
