@@ -342,7 +342,13 @@ msgstr "Annoncer seulement le début de l'émission"
 msgid "Switch only"
 msgstr "Seulement changer de chaine"
 
+msgid "Announce and Switch"
+msgstr ""
+
 msgid "Announce via email"
+msgstr ""
+
+msgid "Inactive Record"
 msgstr ""
 
 msgid "Series recording"
@@ -681,6 +687,9 @@ msgstr "Chef de projet"
 msgid "Webserver"
 msgstr "Serveur Web"
 
+msgid "Current Maintainer"
+msgstr ""
+
 msgid "Project leader"
 msgstr "Chef de projet"
 
@@ -771,6 +780,9 @@ msgstr "N'a pas pu trouver la chaîne. Votre requête est t'elle corrête? "
 #, fuzzy
 msgid "Snapshot interval"
 msgstr "intervalle"
+
+msgid "Stop"
+msgstr "Stop"
 
 msgid "No schedules available for this channel"
 msgstr "Aucune programmation disponible pour cette chaîne"
@@ -913,9 +925,6 @@ msgstr "VLC: live vidéo stream"
 #, fuzzy
 msgid "VLC: play recording"
 msgstr "Lire l'enregistrement"
-
-msgid "Stop"
-msgstr "Stop"
 
 msgid "Play"
 msgstr "Lecture"

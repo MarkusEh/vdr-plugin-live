@@ -1,25 +1,22 @@
-#include <cerrno>
-#include <cstdlib>
-#include <cstring>
-#include <algorithm>
-#include <functional>
-#include <iostream>
-#include <sstream>
-#include <bitset>
+
+#include "setup.h"
+
+#include "tools.h"
+#include "tntfeatures.h"
+
+// STL headers need to be before VDR tools.h (included by <vdr/plugin.h>)
 #include <getopt.h>
-#include <stdint.h>
-#include <unistd.h>
-#include <string>
+#include <algorithm>
+#include <iostream>
+#include <bitset>
+
+#include <vdr/plugin.h>
+
 #ifdef __FreeBSD__
 #include <sys/socket.h>
 #include <netinet/in.h>
 #endif
 #include <arpa/inet.h>
-#include <vdr/tools.h>
-#include <vdr/menuitems.h>
-#include <vdr/plugin.h>
-#include "setup.h"
-#include "tools.h"
 
 namespace vdrlive {
 

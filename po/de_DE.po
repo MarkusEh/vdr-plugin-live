@@ -337,8 +337,14 @@ msgstr "Nur ankündigen"
 msgid "Switch only"
 msgstr "Nur umschalten"
 
+msgid "Announce and Switch"
+msgstr "Ankündigen und umschalten"
+
 msgid "Announce via email"
 msgstr "Mit E-Mail ankündigen"
+
+msgid "Inactive Record"
+msgstr "Deaktiviert"
 
 msgid "Series recording"
 msgstr "Serienaufnahme"
@@ -661,6 +667,9 @@ msgstr "Projekt Idee"
 msgid "Webserver"
 msgstr "Webserver"
 
+msgid "Current Maintainer"
+msgstr "Derzeitiger Entwickler"
+
 msgid "Project leader"
 msgstr "Projektleiter"
 
@@ -750,6 +759,9 @@ msgstr "Konnte Kanal nicht finden oder keine Kanäle verfügbar. Ist die Anfrage
 
 msgid "Snapshot interval"
 msgstr "Snapshot-Intervall"
+
+msgid "Stop"
+msgstr "Stopp"
 
 msgid "No schedules available for this channel"
 msgstr "Für diesen Kanal liegen keine EPG-Informationen vor"
@@ -885,9 +897,6 @@ msgstr "VLC: Video Stream"
 
 msgid "VLC: play recording"
 msgstr "VLC: Aufnahme abspielen"
-
-msgid "Stop"
-msgstr "Stopp"
 
 msgid "Play"
 msgstr "Wiedergabe"

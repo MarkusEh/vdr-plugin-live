@@ -1,10 +1,9 @@
 #ifndef VDR_LIVE_TNTCONFIG_H
 #define VDR_LIVE_TNTCONFIG_H
 
-#include <string>
-#include <tnt/tntnet.h>
-#include <vdr/config.h>
 #include "tntfeatures.h"
+
+#include <tnt/tntnet.h>
 
 namespace vdrlive {
 

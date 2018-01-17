@@ -1,6 +1,8 @@
 <%pre>
+
+#include <setup.h>
+
 #include <vdr/remote.h>
-#include "setup.h"
 
 using namespace vdrlive;
 

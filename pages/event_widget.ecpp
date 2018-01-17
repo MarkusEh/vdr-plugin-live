@@ -1,10 +1,6 @@
 <%pre>
-#include <vdr/plugin.h>
-#include <vdr/channels.h>
-#include <vdr/epg.h>
-#include <vdr/config.h>
-#include <vdr/i18n.h>
-#include "tools.h"
+
+#include <setup.h>
 
 using namespace vdrlive;
 

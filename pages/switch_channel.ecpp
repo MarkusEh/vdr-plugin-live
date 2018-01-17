@@ -1,9 +1,9 @@
 <%pre>
-#include <vdr/channels.h>
-#include "exception.h"
-#include "tasks.h"
-#include "tools.h"
-#include "users.h"
+
+#include <exception.h>
+#include <tasks.h>
+#include <tools.h>
+#include <users.h>
 
 using namespace std;
 using namespace vdrlive;

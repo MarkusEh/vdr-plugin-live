@@ -335,7 +335,13 @@ msgstr "Только объявлять"
 msgid "Switch only"
 msgstr "Только переключать"
 
+msgid "Announce and Switch"
+msgstr ""
+
 msgid "Announce via email"
+msgstr ""
+
+msgid "Inactive Record"
 msgstr ""
 
 msgid "Series recording"
@@ -659,6 +665,9 @@ msgstr "Идея проекта"
 msgid "Webserver"
 msgstr "WEB сервер"
 
+msgid "Current Maintainer"
+msgstr ""
+
 msgid "Project leader"
 msgstr "Ведущий проекта"
 
@@ -748,6 +757,9 @@ msgstr "Канал не найден или недоступен. Проверь
 
 msgid "Snapshot interval"
 msgstr "Интервал между снимками"
+
+msgid "Stop"
+msgstr "Стоп"
 
 msgid "No schedules available for this channel"
 msgstr "Расписание для данного канала недоступно"
@@ -883,9 +895,6 @@ msgstr "VLC: live видео стриминг"
 
 msgid "VLC: play recording"
 msgstr "VLC: проиграть запись"
-
-msgid "Stop"
-msgstr "Стоп"
 
 msgid "Play"
 msgstr "Воспроизведение"

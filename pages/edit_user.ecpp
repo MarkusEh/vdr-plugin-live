@@ -1,9 +1,8 @@
 <%pre>
-#include "exception.h"
-#include "tools.h"
-#include "users.h"
-#include "livefeatures.h"
-#include "setup.h"
+
+#include <users.h>
+#include <livefeatures.h>
+#include <setup.h>
 
 using namespace std;
 using namespace vdrlive;

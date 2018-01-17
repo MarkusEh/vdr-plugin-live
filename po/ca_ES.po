@@ -337,7 +337,13 @@ msgstr ""
 msgid "Switch only"
 msgstr ""
 
+msgid "Announce and Switch"
+msgstr ""
+
 msgid "Announce via email"
+msgstr ""
+
+msgid "Inactive Record"
 msgstr ""
 
 msgid "Series recording"
@@ -661,6 +667,9 @@ msgstr ""
 msgid "Webserver"
 msgstr ""
 
+msgid "Current Maintainer"
+msgstr ""
+
 msgid "Project leader"
 msgstr ""
 
@@ -749,6 +758,9 @@ msgid "Couldn't find channel or no channels available. Maybe you mistyped your r
 msgstr ""
 
 msgid "Snapshot interval"
+msgstr ""
+
+msgid "Stop"
 msgstr ""
 
 msgid "No schedules available for this channel"
@@ -884,9 +896,6 @@ msgid "VLC: live video stream"
 msgstr ""
 
 msgid "VLC: play recording"
-msgstr ""
-
-msgid "Stop"
 msgstr ""
 
 msgid "Play"

@@ -1,18 +1,17 @@
 #ifndef VDR_LIVE_TOOLS_H
 #define VDR_LIVE_TOOLS_H
 
-#include <ctime>
+// STL headers need to be before VDR tools.h (included by <vdr/channels.h>)
 #include <istream>
-#include <locale>
-#include <ostream>
 #include <sstream>
 #include <stdexcept>
-#include <string>
 #include <vector>
+
+#ifndef __STL_CONFIG_H
+// To get rid of the swap definition in vdr/tools.h
+# define __STL_CONFIG_H
+#endif
 #include <vdr/channels.h>
-#include <vdr/thread.h>
-#include <vdr/videodir.h>
-#include <vdr/tools.h>
 
 std::istream& operator>>( std::istream& is, tChannelID& ret );
 

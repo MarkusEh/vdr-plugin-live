@@ -1,14 +1,7 @@
 <%pre>
-#include <string>
-#include <iostream>
-#include <fstream>
-#include <algorithm>
-#include <tnt/httperror.h>
-#include <tnt/httpheader.h>
-#include <vdr/recording.h>
-#include "tntfeatures.h"
-#include "setup.h"
-#include "recman.h"
+
+#include <recman.h>
+#include <tntfeatures.h>
 
 using namespace std;
 using namespace vdrlive;

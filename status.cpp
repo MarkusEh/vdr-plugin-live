@@ -1,4 +1,6 @@
+
 #include "status.h"
+
 #include "timers.h"
 
 namespace vdrlive {
@@ -6,10 +8,15 @@ namespace vdrlive {
 StatusMonitor::StatusMonitor()
 {
 }
-	
+
+void StatusMonitor::TimerChange(const cTimer *Timer, eTimerChange Change)
+{
+	LiveTimerManager().SetReloadTimers();
+}
+
 void StatusMonitor::Recording( cDevice const*, char const*, char const*, bool )
 {
-	LiveTimerManager().DoReloadTimers();
+	LiveTimerManager().SetReloadTimers();
 }
 
 StatusMonitor& LiveStatusMonitor()

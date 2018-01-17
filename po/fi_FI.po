@@ -335,7 +335,13 @@ msgstr "Muistutus"
 msgid "Switch only"
 msgstr "Kanavanvaihto"
 
+msgid "Announce and Switch"
+msgstr ""
+
 msgid "Announce via email"
+msgstr ""
+
+msgid "Inactive Record"
 msgstr ""
 
 msgid "Series recording"
@@ -659,6 +665,9 @@ msgstr "Projektin idea"
 msgid "Webserver"
 msgstr "HTTP-palvelin"
 
+msgid "Current Maintainer"
+msgstr ""
+
 msgid "Project leader"
 msgstr "Projektipäällikkö"
 
@@ -748,6 +757,9 @@ msgstr "Kanavaa ei löydy. Kirjoititko varmasti oikein?"
 
 msgid "Snapshot interval"
 msgstr "Kuvien päivitysväli"
+
+msgid "Stop"
+msgstr "Pysäytä"
 
 msgid "No schedules available for this channel"
 msgstr "Tälle kanavalle ei ole saatavilla ohjelmistoa"
@@ -883,9 +895,6 @@ msgstr "VLC: live-lähetyksen suoratoisto"
 
 msgid "VLC: play recording"
 msgstr "VLC: toista tallenne"
-
-msgid "Stop"
-msgstr "Pysäytä"
 
 msgid "Play"
 msgstr "Toista"

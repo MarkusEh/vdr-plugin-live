@@ -335,7 +335,13 @@ msgstr "Tylko powiadomienie"
 msgid "Switch only"
 msgstr "Tylko prze³±cz"
 
+msgid "Announce and Switch"
+msgstr ""
+
 msgid "Announce via email"
+msgstr ""
+
+msgid "Inactive Record"
 msgstr ""
 
 msgid "Series recording"
@@ -659,6 +665,9 @@ msgstr ""
 msgid "Webserver"
 msgstr ""
 
+msgid "Current Maintainer"
+msgstr ""
+
 msgid "Project leader"
 msgstr ""
 
@@ -748,6 +757,9 @@ msgstr "Nie mo¿na odnale¶æ kana³u lub kana³y nie s± dostêpne."
 
 msgid "Snapshot interval"
 msgstr "Okres pomiêdzy migawkami"
+
+msgid "Stop"
+msgstr "Stop"
 
 msgid "No schedules available for this channel"
 msgstr "Brak listy audycji dla tego kana³u"
@@ -883,9 +895,6 @@ msgstr "VLC: streamuj video"
 
 msgid "VLC: play recording"
 msgstr "VLC: odtwarzaj nagranie"
-
-msgid "Stop"
-msgstr "Stop"
 
 msgid "Play"
 msgstr "Play"

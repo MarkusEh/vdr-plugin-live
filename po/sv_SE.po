@@ -47,7 +47,7 @@ msgid "Error in timer settings"
 msgstr "Fel i timer-inställning"
 
 msgid "Timer already defined"
-msgstr "Timer redan satt" 
+msgstr "Timer redan satt"
 
 msgid "Timers are being edited - try again later"
 msgstr "Timers redigieras - försök igen senare"
@@ -335,7 +335,13 @@ msgstr "Publicera endast"
 msgid "Switch only"
 msgstr "Byt endast"
 
+msgid "Announce and Switch"
+msgstr ""
+
 msgid "Announce via email"
+msgstr ""
+
+msgid "Inactive Record"
 msgstr ""
 
 msgid "Series recording"
@@ -659,6 +665,9 @@ msgstr "Projekt-idé"
 msgid "Webserver"
 msgstr "Webserver"
 
+msgid "Current Maintainer"
+msgstr ""
+
 msgid "Project leader"
 msgstr "Projektledare"
 
@@ -729,7 +738,7 @@ msgid "Filter"
 msgstr ""
 
 msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
-msgstr "Titta efter given sträng i inspelningarnas titlar och undertitlar och visa endast de som matchar. Du kan också använda PERL-kompatibla reguljära uttryck. (PCRE)" 
+msgstr "Titta efter given sträng i inspelningarnas titlar och undertitlar och visa endast de som matchar. Du kan också använda PERL-kompatibla reguljära uttryck. (PCRE)"
 
 msgid "Expand all folders"
 msgstr "Utöka alla bibliotek"
@@ -748,6 +757,9 @@ msgstr "Kan inte hitta kanal eller inga kanaler är tillgängliga. Kontrollera s
 
 msgid "Snapshot interval"
 msgstr ""
+
+msgid "Stop"
+msgstr "Stop"
 
 msgid "No schedules available for this channel"
 msgstr "Inga scheman för denna kanal!"
@@ -883,9 +895,6 @@ msgstr "VLC: live videoström"
 
 msgid "VLC: play recording"
 msgstr "VLC: Spela inspelning"
-
-msgid "Stop"
-msgstr "Stop"
 
 msgid "Play"
 msgstr ""

@@ -343,7 +343,13 @@ msgstr "Pouze upozornit"
 msgid "Switch only"
 msgstr "Přepnout"
 
+msgid "Announce and Switch"
+msgstr ""
+
 msgid "Announce via email"
+msgstr ""
+
+msgid "Inactive Record"
 msgstr ""
 
 msgid "Series recording"
@@ -668,6 +674,9 @@ msgstr "nápad"
 msgid "Webserver"
 msgstr "web server"
 
+msgid "Current Maintainer"
+msgstr ""
+
 msgid "Project leader"
 msgstr "vedoucí týmu"
 
@@ -759,6 +768,9 @@ msgstr "Kanál je nedostupný, nebo neexistuje. Zkontrolujte zadání."
 
 msgid "Snapshot interval"
 msgstr "Interval snímků obrazovky"
+
+msgid "Stop"
+msgstr ""
 
 msgid "No schedules available for this channel"
 msgstr "Pro kanál není dostupný program"
@@ -897,9 +909,6 @@ msgstr "VLC: stream běžícího vysílání"
 
 msgid "VLC: play recording"
 msgstr "VLC: streamování nahrávky"
-
-msgid "Stop"
-msgstr ""
 
 msgid "Play"
 msgstr "Přehrávat"

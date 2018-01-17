@@ -1,15 +1,9 @@
 <%pre>
-#include <vdr/plugin.h>
-#include <vdr/channels.h>
-#include <vdr/epg.h>
-#include <vdr/config.h>
-#include <vdr/device.h>
-#include "exception.h"
-#include "livefeatures.h"
-#include "setup.h"
-#include "tools.h"
-#include "epg_events.h"
-#include "i18n.h"
+
+#include <livefeatures.h>
+#include <setup.h>
+#include <tools.h>
+#include <epg_events.h>
 
 using namespace std;
 using namespace vdrlive;
@@ -31,29 +25,55 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <%cpp>
 	pageTitle = trVDR("Schedule");
 
+#if VDRVERSNUM < 20301
 	cSchedulesLock schedulesLock;
 	cSchedules const* schedules = cSchedules::Schedules( schedulesLock );
 
 	ReadLock channelsLock( Channels );
 	if ( !channelsLock )
 		throw HtmlError( tr("Couldn't aquire access to channels, please try again later.") );
+#endif
 
 	// cChannel* Channel; (see %request above)
 	if ( channel > 0 ) {
+#if VDRVERSNUM >= 20301
+		LOCK_CHANNELS_READ;
+		Channel = (cChannel *)Channels->GetByNumber( channel );
+#else
 		Channel = Channels.GetByNumber( channel );
+#endif
 	}
 	else {
+#if VDRVERSNUM >= 20301
+		LOCK_CHANNELS_READ;
+#endif
 		if (cDevice::CurrentChannel()) {
+#if VDRVERSNUM >= 20301
+			Channel = (cChannel *)Channels->GetByNumber(cDevice::CurrentChannel());
+#else
 			Channel = Channels.GetByNumber(cDevice::CurrentChannel());
+#endif
 		}
 		else {
+#if VDRVERSNUM >= 20301
+			Channel = (cChannel *)Channels->Get( Channels->GetNextNormal( -1 ) );
+#else
 			Channel = Channels.Get( Channels.GetNextNormal( -1 ) );
+#endif
 		}
 	}
 	if ( Channel == 0 )
 		throw HtmlError( tr("Couldn't find channel or no channels available. Maybe you mistyped your request?") );
 
-	cSchedule const* Schedule = schedules->GetSchedule( Channel );
+	cSchedule const* Schedule;
+#if VDRVERSNUM >= 20301
+	{
+		LOCK_SCHEDULES_READ;
+		Schedule = Schedules->GetSchedule( (const cChannel *)Channel );
+	}
+#else
+	Schedule = schedules->GetSchedule( Channel );
+#endif
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -79,9 +99,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		string current_day = "";
 		const cEvent* PresentEvent = Schedule->GetPresentEvent();
 		time_t now = time(NULL) - ::Setup.EPGLinger * 60;
-		// tChannelID channel_id(Channel->GetChannelID());
-		// int evntNr = 0;
+#if VDRVERSNUM >= 20301
+		for (const cEvent *Event = (cEvent *)Schedule->Events()->First(); Event; Event = (cEvent *)Schedule->Events()->Next(Event)) {
+#else
 		for (const cEvent *Event = Schedule->Events()->First(); Event; Event = Schedule->Events()->Next(Event)) {
+#endif
 			if (Event->EndTime() <= now && Event != PresentEvent)
 				continue;
 
@@ -94,12 +116,15 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			string end(epgEvent->EndTime(tr("%I:%M %p")));
 			string day(epgEvent->StartTime(tr("%A, %b %d %Y")));
 			string epgid = EpgEvents::EncodeDomId(Channel->GetChannelID(), Event->EventID());
-			// string strEventID = lexical_cast<string>(Event->EventID());
 
 			bool truncated = false;
 			bool lastEventCurrentDay = false;
 			{
+#if VDRVERSNUM >= 20301
+				cEvent* NextEvent = (cEvent *)Schedule->Events()->Next(Event);
+#else
 				cEvent* NextEvent = Schedule->Events()->Next(Event);
+#endif
 				if (!NextEvent) {
 					lastEventCurrentDay = true;
 				}
@@ -118,15 +143,15 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <%cpp>
 				}
 </%cpp>
-	   			<tr class="head">
-	   				<td colspan="5"><div class="boxheader"><div><div><$ day $></div></div></div></td>
+				<tr class="head">
+					<td colspan="5"><div class="boxheader"><div><div><$ day $></div></div></div></td>
 				</tr>
 <%cpp>
-	   			current_day = day;
+				current_day = day;
 			}
 </%cpp>
 				<tr>
-	   				<td class="action leftcol <? lastEventCurrentDay ? "bottomrow" ?>"><& pageelems.event_timer epgid=(epgid) &></td>
+					<td class="action leftcol <? lastEventCurrentDay ? "bottomrow" ?>"><& pageelems.event_timer epgid=(epgid) &></td>
 					<td class="action <? lastEventCurrentDay ? "bottomrow" ?>"><%cpp>if (LiveFeatures<features::epgsearch>().Recent() ) { </%cpp><a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a><%cpp> } else { </%cpp><img src="img/transparent.png" width="16" height="16"><%cpp> } </%cpp></td>
 					<td class="action <? lastEventCurrentDay ? "bottomrow" ?>"><& pageelems.imdb_info_href title=(title) &></td>
 					<td class="topaligned <? lastEventCurrentDay ? "bottomrow" ?>"><div class="withmargin nowrap"><$ start $> - <$ end $></div></td>

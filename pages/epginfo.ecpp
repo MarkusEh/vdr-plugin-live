@@ -1,14 +1,13 @@
 <%pre>
-#include <sys/stat.h>
-#include <vdr/tools.h>
 
-#include "stdext.h"
-#include "exception.h"
-#include "setup.h"
-#include "tools.h"
-#include "epg_events.h"
-#include "recman.h"
+#include <stdext.h>
+#include <exception.h>
+#include <setup.h>
+#include <tools.h>
+#include <epg_events.h>
+#include <recman.h>
 
+#if VDRVERSNUM < 20301
 namespace vdrlive {
 	class SchedulesLock
 	{
@@ -25,6 +24,7 @@ namespace vdrlive {
 
 	typedef std::tr1::shared_ptr<SchedulesLock> SchedulesLockPtr;
 }
+#endif
 
 using namespace vdrlive;
 using namespace std;
@@ -50,10 +50,14 @@ using namespace std;
 
 	bool aboutBox = false;
 
+#if VDRVERSNUM >= 20301
+	bool isEvent = false;
+#else
 	// One of these get initialized when needed. When freed by getting
 	// out of scope they will release (if initialized) important
 	// Semaphores/Locks.
 	SchedulesLockPtr schedulesLockPtr;
+#endif
 	RecordingsManagerPtr recordings;
 
 	if (!epgid.empty()) {
@@ -73,6 +77,14 @@ using namespace std;
 		}
 		// check for event:
 		else if (epgid.compare(0, event.length(), event) == 0) {
+#if VDRVERSNUM >= 20301
+			/* Need to lock here channels also, because CreateEpgInfo will lock
+			 * it also and this will result in a wrong lock order */
+			LOCK_CHANNELS_READ;
+			LOCK_SCHEDULES_READ;
+			epgEvent = EpgEvents::CreateEpgInfo(epgid, Schedules);
+			isEvent = true;
+#else
 			schedulesLockPtr = SchedulesLockPtr(new SchedulesLock);
 			if (!schedulesLockPtr) {
 				throw HtmlError(tr("Error aquiring schedules lock"));
@@ -82,6 +94,7 @@ using namespace std;
 				throw HtmlError(tr("Error aquiring schedules"));
 			}
 			epgEvent = EpgEvents::CreateEpgInfo(epgid, schedules);
+#endif
 		}
 		// check for aboutbox:
 		else if (epgid.compare(0, aboutbox.length(), aboutbox) == 0) {
@@ -121,9 +134,13 @@ using namespace std;
 		if (recordings) {
 			tools_component = epgEvent->Archived().empty() ? "recordings.rec_tools" : "recordings.archived_disc" ;
 		}
-		if (schedulesLockPtr) {
+#if VDRVERSNUM >= 20301
+		if (isEvent)
+#else
+		if (schedulesLockPtr)
+#endif
 			tools_component = "epginfo.epgTools";
-		}
+
 </%cpp>
 		<& pageelems.epg_tt_box boxId=(epgEvent->Id()) caption=(epgEvent->Caption()) tools_comp=(tools_component) time=(start) title=(epgEvent->Title()) short_descr=(epgEvent->ShortDescr()) long_descr=(epgEvent->LongDescr()) archived=(epgEvent->Archived()) elapsed=(epgEvent->Elapsed()) &>
 <%cpp>

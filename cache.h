@@ -1,14 +1,11 @@
 #ifndef VGSTOOLS_CACHE_H
 #define VGSTOOLS_CACHE_H
 
+#include "stdext.h"
+
 #include <cassert>
-#include <algorithm>
-#include <ctime>
-#include <functional>
 #include <list>
 #include <map>
-#include <utility>
-#include "stdext.h"
 
 /*  Interface for TValue:
  *  size_t weight() 
@@ -28,16 +25,6 @@ public:
 	typedef std::tr1::shared_ptr< mapped_type > ptr_type;
 
 private:
-	/*struct Value
-	{
-		key_type key_;
-		ptr_type value_;
-
-		Value( key_type const& key, ptr_type const& value )
-			: key_( key )
-			, value_( value ) {}
-	};*/
-
 	typedef std::pair< key_type, ptr_type > value_type;
 
 	typedef std::list< value_type > ValueList;
@@ -69,7 +56,6 @@ public:
 
 			m_currentWeight -= result->weight();
 			m_values.erase( it->second );
-			//m_lookup.erase( it );
 		}
 
 		if ( !result->load() ) {
@@ -97,35 +83,6 @@ public:
 		}
 
 		return result;
-#if 0	
-		
-		typename KeyMap::iterator it = m_lookup.find( key );
-		if ( it == m_lookup.end() ) {
-			typename ValueList::iterator element = m_values.insert( m_values.begin(), Value( key ) );
-			std::pair< typename KeyMap::iterator, bool > result = m_lookup.insert( std::make_pair( key, element ) );
-			it = result.first;
-		}
-
-		Value* value = &*it->second;
-		std::time_t now = std::time( 0 );
-		if ( value->creation == 0 || !value->value->is_current() ) {
-			m_currentWeight -= value->value->weight();
-			if ( !value->value->load() ) {
-				m_values.erase( it->second );
-				m_lookup.erase( it );
-				return ptr_type();
-			}
-			m_currentWeight += value->value->weight();
-			value->creation = now;
-		}
-		if ( it->second != m_values.begin() ) {
-			typename ValueList::iterator element = m_values.insert( m_values.begin(), *it->second );
-			m_values.erase( it->second );
-			it->second = element;
-			value = &*element;
-		}
-		return value->value;
-#endif
 	}
 
 private:

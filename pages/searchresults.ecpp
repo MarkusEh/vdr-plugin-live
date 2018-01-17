@@ -1,11 +1,9 @@
 <%pre>
-#include <vdr/channels.h>
-#include <vdr/i18n.h>
-#include <vdr/epg.h>
-#include "epgsearch.h"
-#include "tools.h"
-#include "setup.h"
-#include "epg_events.h"
+
+#include <epgsearch.h>
+#include <tools.h>
+#include <setup.h>
+#include <epg_events.h>
 
 using namespace vdrlive;
 using namespace std;
@@ -53,15 +51,22 @@ bool logged_in(false);
 		<& pageelems.logo &>
 		<& menu active=("searchepg") &>
 		<div class="inhalt">
-%           if (results.size() == 0) {
-                <$ tr("No search results") $>
-%           }
+%			if (results.size() == 0) {
+				<$ tr("No search results") $>
+%			}
 			<table class="listing" cellspacing="0" cellpadding="0">
 <%cpp>
 				string current_day = "";
 
+#if VDRVERSNUM >= 20301
+				LOCK_CHANNELS_READ;
+#endif
 				for (SearchResults::iterator result = results.begin(); result != results.end(); ++result) {
-				        cChannel* channel = Channels.GetByChannelID(result->Channel());
+#if VDRVERSNUM >= 20301
+					cChannel* channel = (cChannel *)Channels->GetByChannelID(result->Channel());
+#else
+					cChannel* channel = Channels.GetByChannelID(result->Channel());
+#endif
 					if (!channel) continue;
 					string channelname = channel->Name();
 					int channelnr = channel->Number();
@@ -94,7 +99,7 @@ bool logged_in(false);
 					</tr>
 %						current_day = day;
 %					}
-                    <tr>
+					<tr>
 						<td class="action leftcol <? bottom ? "bottomrow"?>"><& pageelems.event_timer epgid=(epgid) &></td>
 						<td class="topaligned <? bottom ? "bottomrow"?>"><div class="withmargin"><a href="schedule.html?channel=<$ channelnr $>"><$ channelname $></a></div></td>
 						<td class="topaligned <? bottom ? "bottomrow"?>"><div class="withmargin nowrap"><$ start $> - <$ end $></div></td>

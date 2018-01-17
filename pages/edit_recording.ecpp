@@ -1,15 +1,11 @@
 <%pre>
+
+#include <tools.h>
+#include <recman.h>
+#include <setup.h>
+#include <users.h>
+
 #include <vdr/recording.h>
-#include <vdr/config.h>
-#include <vdr/i18n.h>
-#include "exception.h"
-#include "tools.h"
-#include "epg_events.h"
-#include "recman.h"
-#include "setup.h"
-#include "i18n.h"
-#include "livefeatures.h"
-#include "users.h"
 
 using namespace std;
 using namespace vdrlive;

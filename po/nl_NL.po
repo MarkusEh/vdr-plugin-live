@@ -341,7 +341,13 @@ msgstr "Alleen aankondigen (geen timer)"
 msgid "Switch only"
 msgstr ""
 
+msgid "Announce and Switch"
+msgstr ""
+
 msgid "Announce via email"
+msgstr ""
+
+msgid "Inactive Record"
 msgstr ""
 
 msgid "Series recording"
@@ -675,6 +681,9 @@ msgstr ""
 msgid "Webserver"
 msgstr ""
 
+msgid "Current Maintainer"
+msgstr ""
+
 msgid "Project leader"
 msgstr ""
 
@@ -766,6 +775,9 @@ msgstr ""
 #, fuzzy
 msgid "Snapshot interval"
 msgstr "interval"
+
+msgid "Stop"
+msgstr ""
 
 msgid "No schedules available for this channel"
 msgstr ""
@@ -905,9 +917,6 @@ msgid "VLC: live video stream"
 msgstr ""
 
 msgid "VLC: play recording"
-msgstr ""
-
-msgid "Stop"
 msgstr ""
 
 msgid "Play"

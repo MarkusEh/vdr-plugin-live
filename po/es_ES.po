@@ -335,7 +335,13 @@ msgstr "Únicamente avisar"
 msgid "Switch only"
 msgstr "Únicamente cambiar"
 
+msgid "Announce and Switch"
+msgstr ""
+
 msgid "Announce via email"
+msgstr ""
+
+msgid "Inactive Record"
 msgstr ""
 
 msgid "Series recording"
@@ -659,6 +665,9 @@ msgstr "Idea del proyecto"
 msgid "Webserver"
 msgstr "Servidor Web"
 
+msgid "Current Maintainer"
+msgstr ""
+
 msgid "Project leader"
 msgstr "Jefe del proyecto"
 
@@ -748,6 +757,9 @@ msgstr "No se puede encontrar el canal o no hay canales disponibles. ¿Puede que 
 
 msgid "Snapshot interval"
 msgstr "Intervalo de visionado"
+
+msgid "Stop"
+msgstr "Detener"
 
 msgid "No schedules available for this channel"
 msgstr "No hay programaciones disponibles para este canal"
@@ -883,9 +895,6 @@ msgstr "VLC: reproducción de vídeo en vivo"
 
 msgid "VLC: play recording"
 msgstr "VLC: reproducir grabación"
-
-msgid "Stop"
-msgstr "Detener"
 
 msgid "Play"
 msgstr "Reproducir"

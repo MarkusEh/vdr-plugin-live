@@ -1,10 +1,15 @@
-#include <memory>
-#include <sstream>
-#include <vector>
-#include "exception.h"
+
 #include "timers.h"
+
+#include "exception.h"
 #include "tools.h"
-#include "i18n.h"
+
+// STL headers need to be before VDR tools.h (included by <vdr/plugin.h>)
+#include <sstream>
+#include <memory>
+
+#include <vdr/plugin.h>
+#include <vdr/menu.h>
 
 static bool operator<( cTimer const& left, cTimer const& right )
 {
@@ -14,15 +19,16 @@ static bool operator<( cTimer const& left, cTimer const& right )
 namespace vdrlive {
 
 	using namespace std;
-	using namespace vdrlive;
 
 	static char const* const TIMER_DELETE = "DELETE";
 	static char const* const TIMER_TOGGLE = "TOGGLE";
 
-	SortedTimers::SortedTimers():
-		m_state( 0 )
+	SortedTimers::SortedTimers()
+#if VDRVERSNUM < 20301
+	: m_state( 0 )
+#endif
 	{
-		ReloadTimers( true );
+		ReloadTimers();
 	}
 
 	string SortedTimers::GetTimerId( cTimer const& timer )
@@ -33,7 +39,7 @@ namespace vdrlive {
 		return builder.str();
 	}
 
-	cTimer* SortedTimers::GetByTimerId( string const& timerid )
+	const cTimer* SortedTimers::GetByTimerId( string const& timerid )
 	{
 		vector< string > parts = StringSplit( timerid, ':' );
 		if ( parts.size() < 5 ) {
@@ -41,7 +47,12 @@ namespace vdrlive {
 			return 0;
 		}
 
+#if VDRVERSNUM >= 20301
+		LOCK_CHANNELS_READ;
+		cChannel* channel = (cChannel *)Channels->GetByChannelID( tChannelID::FromString( parts[0].c_str() ) );
+#else
 		cChannel* channel = Channels.GetByChannelID( tChannelID::FromString( parts[0].c_str() ) );
+#endif
 		if ( channel == 0 ) {
 			esyslog("GetByTimerId: no channel %s", parts[0].c_str() );
 			return 0;
@@ -52,6 +63,8 @@ namespace vdrlive {
 			time_t day = lexical_cast< time_t >( parts[2] );
 			int start = lexical_cast< int >( parts[3] );
 			int stop = lexical_cast< int >( parts[4] );
+
+			cMutexLock MutexLock(&m_mutex);
 
 			for ( SortedTimers::iterator timer = begin(); timer != end(); ++timer ) {
 				if ( timer->Channel() == channel &&
@@ -83,14 +96,25 @@ namespace vdrlive {
 	}
 
 
-	void SortedTimers::ReloadTimers( bool initial )
+	void SortedTimers::ReloadTimers()
 	{
 		// dsyslog("live reloading timers");
 
+		cMutexLock MutexLock(&m_mutex);
+
 		clear();
+#if VDRVERSNUM >= 20301
+		{
+			LOCK_TIMERS_READ;
+			for ( cTimer* timer = (cTimer *)Timers->First(); timer; timer = (cTimer *)Timers->Next( timer ) ) {
+				push_back( *timer );
+			}
+		}
+#else
 		for ( cTimer* timer = Timers.First(); timer; timer = Timers.Next( timer ) ) {
 			push_back( *timer );
 		}
+#endif
 		sort();
 	}
 
@@ -122,11 +146,42 @@ namespace vdrlive {
 		return info.str();
 	}
 
+	string SortedTimers::SearchTimerName(cTimer const& timer)
+	{
+		ostringstream info;
+		if (timer.Aux())
+		{
+			string epgsearchinfo = GetXMLValue(timer.Aux(), "epgsearch");
+			if (!epgsearchinfo.empty())
+			{
+				string searchtimer = GetXMLValue(epgsearchinfo, "searchtimer");
+				if (!searchtimer.empty())
+					info << searchtimer;
+			}
+		}
+		return info.str();
+	}
+
+#if VDRVERSNUM >= 20301
+	bool SortedTimers::Modified()
+	{
+		bool modified = false;
+
+		// will return != 0 only, if the Timers List has been changed since last read
+		if (cTimers::GetTimersRead(m_TimersStateKey)) {
+			modified = true;
+			m_TimersStateKey.Remove();
+		}
+
+		return modified;
+	}
+#endif
+
 	TimerManager::TimerManager()
 	{
 	}
 
-	void TimerManager::UpdateTimer( cTimer* timer, int flags, tChannelID& channel, string const& weekdays, string const& day,
+	void TimerManager::UpdateTimer( const cTimer* timer, int flags, tChannelID& channel, string const& weekdays, string const& day,
 									int start, int stop, int priority, int lifetime, string const& title, string const& aux )
 	{
 		cMutexLock lock( this );
@@ -138,7 +193,7 @@ namespace vdrlive {
 				<< ( weekdays == "-------" || day.empty() ? "" : "@" ) << day << ":"
 				<< start << ":"
 				<< stop << ":"
-                << priority << ":"
+				<< priority << ":"
 				<< lifetime << ":"
 				<< StringReplace(title, ":", "|" ) << ":"
 				<< StringReplace(aux, ":", "|" );
@@ -150,7 +205,7 @@ namespace vdrlive {
 		// Fix was submitted by rofafor: see
 		// http://www.vdr-portal.de/board/thread.php?threadid=100398
 
- 		// dsyslog("%s", builder.str().c_str());
+		// dsyslog("%s", builder.str().c_str());
 
 		TimerPair timerData( timer, builder.str() );
 
@@ -165,7 +220,7 @@ namespace vdrlive {
 			throw HtmlError( error );
 	}
 
-	void TimerManager::DelTimer( cTimer* timer )
+	void TimerManager::DelTimer( const cTimer* timer )
 	{
 		cMutexLock lock( this );
 
@@ -179,7 +234,7 @@ namespace vdrlive {
 			throw HtmlError( error );
 	}
 
-	void TimerManager::ToggleTimerActive( cTimer* timer)
+	void TimerManager::ToggleTimerActive( const cTimer* timer)
 	{
 		cMutexLock lock( this );
 
@@ -195,7 +250,7 @@ namespace vdrlive {
 
 	void TimerManager::DoPendingWork()
 	{
-		if ( m_updateTimers.size() == 0 && !m_timers.Modified() )
+		if ( m_updateTimers.size() == 0 && !m_timers.Modified() && !m_reloadTimers )
 			return;
 
 		cMutexLock lock( this );
@@ -225,32 +280,51 @@ namespace vdrlive {
 
 	void TimerManager::DoInsertTimer( TimerPair& timerData )
 	{
-		auto_ptr< cTimer > newTimer( new cTimer );
+		std::unique_ptr< cTimer > newTimer( new cTimer );
 		if ( !newTimer->Parse( timerData.second.c_str() ) ) {
 			StoreError( timerData, tr("Error in timer settings") );
 			return;
 		}
 
-		cTimer* checkTimer = Timers.GetTimer( newTimer.get() );
+#if VDRVERSNUM >= 20301
+		LOCK_TIMERS_WRITE;
+		Timers->SetExplicitModify();
+		const cTimer *checkTimer = Timers->GetTimer( newTimer.get() );
+#else
+		const cTimer* checkTimer = Timers.GetTimer( newTimer.get() );
+#endif
 		if ( checkTimer ) {
 			StoreError( timerData, tr("Timer already defined") );
 			return;
 		}
 
+#if VDRVERSNUM >= 20301
+		Timers->Add( newTimer.get() );
+		Timers->SetModified();
+#else
 		Timers.Add( newTimer.get() );
 		Timers.SetModified();
+#endif
 		isyslog( "live timer %s added", *newTimer->ToDescr() );
 		newTimer.release();
 	}
 
 	void TimerManager::DoUpdateTimer( TimerPair& timerData )
 	{
+#if VDRVERSNUM < 20301
 		if ( Timers.BeingEdited() ) {
 			StoreError( timerData, tr("Timers are being edited - try again later") );
 			return;
 		}
+#endif
 
-		cTimer* oldTimer = Timers.GetTimer( timerData.first );
+#if VDRVERSNUM >= 20301
+		LOCK_TIMERS_WRITE;
+		Timers->SetExplicitModify();
+		cTimer* oldTimer = Timers->GetTimer( timerData.first );
+#else
+		cTimer* oldTimer = Timers.GetTimer( const_cast<cTimer*>(timerData.first) );
+#endif
 		if ( oldTimer == 0 ) {
 			StoreError( timerData, tr("Timer not defined") );
 			return;
@@ -263,18 +337,30 @@ namespace vdrlive {
 		}
 
 		*oldTimer = copy;
+#if VDRVERSNUM >= 20301
+		Timers->SetModified();
+#else
 		Timers.SetModified();
+#endif
 		isyslog("live timer %s modified (%s)", *oldTimer->ToDescr(), oldTimer->HasFlags(tfActive) ? "active" : "inactive");
 	}
 
 	void TimerManager::DoDeleteTimer( TimerPair& timerData )
 	{
+#if VDRVERSNUM < 20301
 		if ( Timers.BeingEdited() ) {
 			StoreError( timerData, tr("Timers are being edited - try again later") );
 			return;
 		}
+#endif
 
-		cTimer* oldTimer = Timers.GetTimer( timerData.first );
+#if VDRVERSNUM >= 20301
+		LOCK_TIMERS_WRITE;
+		Timers->SetExplicitModify();
+		cTimer* oldTimer = Timers->GetTimer( timerData.first );
+#else
+		cTimer* oldTimer = Timers.GetTimer( const_cast<cTimer*>(timerData.first) );
+#endif
 		if ( oldTimer == 0 ) {
 			StoreError( timerData, tr("Timer not defined") );
 			return;
@@ -283,28 +369,50 @@ namespace vdrlive {
 		cTimer copy = *oldTimer;
 		if ( oldTimer->Recording() ) {
 			oldTimer->Skip();
+#if VDRVERSNUM >= 20301
+			cRecordControls::Process( Timers, time( 0 ) );
+#else
 			cRecordControls::Process( time( 0 ) );
+#endif
 		}
+#if VDRVERSNUM >= 20301
+		Timers->Del( oldTimer );
+		Timers->SetModified();
+#else
 		Timers.Del( oldTimer );
 		Timers.SetModified();
+#endif
 		isyslog("live timer %s deleted", *copy.ToDescr());
 	}
 
 	void TimerManager::DoToggleTimer( TimerPair& timerData )
 	{
+#if VDRVERSNUM < 20301
 		if ( Timers.BeingEdited() ) {
 			StoreError( timerData, tr("Timers are being edited - try again later") );
 			return;
 		}
+#endif
 
-		cTimer* toggleTimer = Timers.GetTimer( timerData.first );
+#if VDRVERSNUM >= 20301
+		LOCK_TIMERS_WRITE;
+		Timers->SetExplicitModify();
+		cTimer* toggleTimer = Timers->GetTimer( timerData.first );
+#else
+		cTimer* toggleTimer = Timers.GetTimer( const_cast<cTimer*>(timerData.first) );
+#endif
 		if ( toggleTimer == 0 ) {
 			StoreError( timerData, tr("Timer not defined") );
 			return;
 		}
 
+#if VDRVERSNUM >= 20301
+		toggleTimer->OnOff();
+		Timers->SetModified();
+#else
 		toggleTimer->OnOff();
 		Timers.SetModified();
+#endif
 		isyslog("live timer %s toggled %s", *toggleTimer->ToDescr(), toggleTimer->HasFlags(tfActive) ? "on" : "off");
 	}
 
@@ -333,7 +441,12 @@ namespace vdrlive {
 		for ( SortedTimers::iterator timer = timers.begin(); timer != timers.end(); ++timer )
 			if (timer->Channel() && timer->Channel()->GetChannelID() == channelid)
 			{
+#if VDRVERSNUM >= 20301
+				LOCK_SCHEDULES_READ;
+				if (!timer->Event()) timer->SetEventFromSchedule(Schedules);
+#else
 				if (!timer->Event()) timer->SetEventFromSchedule();
+#endif
 				if (timer->Event() && timer->Event()->EventID() == eventid)
 					return &*timer;
 			}

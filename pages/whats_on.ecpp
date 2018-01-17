@@ -1,14 +1,10 @@
 <%pre>
-#include <vdr/plugin.h>
-#include <vdr/channels.h>
-#include <vdr/epg.h>
-#include <vdr/config.h>
-#include <vdr/i18n.h>
-#include "livefeatures.h"
-#include "setup.h"
-#include "tools.h"
-#include "epg_events.h"
-#include "epgsearch.h"
+
+#include <livefeatures.h>
+#include <setup.h>
+#include <tools.h>
+#include <epg_events.h>
+#include <epgsearch.h>
 
 using namespace std;
 using namespace vdrlive;
@@ -37,9 +33,6 @@ string current_displaytime;
 <%cpp>
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
-
-cSchedulesLock schedulesLock;
-const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
 
 string head;
 time_t seektime = 0;
@@ -124,14 +117,33 @@ if (type == "now") {
 	// collect the broadcasts
 	if (type != "favs")
 	{
+#if VDRVERSNUM >= 20301
+		LOCK_CHANNELS_READ;
+		{
+#else
 		ReadLock channelsLock( Channels );
 		if (channelsLock) {
-			// int evntNr = 0;
+#endif
+#if VDRVERSNUM >= 20301
+			for (cChannel *Channel = (cChannel *)Channels->First(); Channel && Channel->Number() <= LiveSetup().GetLastChannel(); Channel = (cChannel *)Channels->Next(Channel)) {
+#else
 			for (cChannel *Channel = Channels.First(); Channel && Channel->Number() <= LiveSetup().GetLastChannel(); Channel = Channels.Next(Channel)) {
+#endif
 				if (Channel->GroupSep()) {
 					continue;
 				}
-				const cSchedule *Schedule = Schedules->GetSchedule(Channel);
+				const cSchedule *Schedule;
+				{
+#if VDRVERSNUM >= 20301
+
+					LOCK_SCHEDULES_READ;
+#else
+					cSchedulesLock schedulesLock;
+					const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
+#endif
+
+					Schedule = Schedules->GetSchedule(Channel);
+				}
 				if (!Schedule) {
 					continue;
 				}
@@ -163,8 +175,10 @@ if (type == "now") {
 		time_t now = time(NULL);
 		for (SearchResults::iterator result = results.begin(); result != results.end(); ++result) {
 			long diff = result->StartTime() - now;
-            if (labs(diff) >= 24*60*60) continue; // skip broadcasts more than a day away
-			EpgInfoPtr epgEvent = EpgEvents::CreateEpgInfo(result->GetChannel(), result->GetEvent());
+			if (labs(diff) >= 24*60*60) continue; // skip broadcasts more than a day away
+			const cChannel* Channel = result->GetChannel();
+			if (!Channel) continue;
+			EpgInfoPtr epgEvent = EpgEvents::CreateEpgInfo(Channel, result->GetEvent(Channel));
 			eventList.push_back(epgEvent);
 		}
 	}
@@ -233,7 +247,7 @@ if (type == "now") {
 					<div class="more withmargin">
 %					if (eventId != 0) {
 					    <a
-% 						if (!longDescription.empty()) {
+%						if (!longDescription.empty()) {
 						<& tooltip.hint text=(longDescription) &><& tooltip.display domId=(epgEvent->Id()) &>
 %						}
 						><span class="title"><$ (epgEvent->Title()) $></span><br /><span class="short"><$ (epgEvent->ShortDescr()) $></span></a>
@@ -242,10 +256,10 @@ if (type == "now") {
 %						}
 					</div>
 				</td>
-				<td class="topaligned rightcol <? lastCurrentChanel ? "bottomrow"?>"><div class="station withmargin"><a 		href="schedule.html?channel=<$ chNumber $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ chNumber $><$ tr(" - ") $><$ (epgEvent->Caption()) $></a></div>
+				<td class="topaligned rightcol <? lastCurrentChanel ? "bottomrow"?>"><div class="station withmargin"><a	href="schedule.html?channel=<$ chNumber $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ chNumber $><$ tr(" - ") $><$ (epgEvent->Caption()) $></a></div>
 				</td>
 			</tr>
-%   	}
+%	}
 <%cpp>
 	}
 </%cpp>
@@ -272,7 +286,7 @@ if (type == "now") {
 	vector< string >::const_iterator part = parts.begin();
 	for ( int i = 0; part != parts.end(); ++i, ++part ) {
 </%cpp>
-	<option <%cpp> reply.out() << ( (current_fixtime != "" && *part == current_displaytime) ? "selected=\"selected\"" : "" ); </%cpp> value="<$ *part $>"> <$ tr("at") + string(" ") + *part $></option>
+	<option <%cpp> reply.out() << ( (current_fixtime != "" && *part == current_displaytime) ? "selected=\"selected\"" : "" ); </%cpp>value="<$ *part $>"> <$ tr("at") + string(" ") + *part $></option>
 <%cpp>
 	}
 </%cpp>

@@ -1,12 +1,9 @@
 <%pre>
-#include <locale>
-#include <vdr/i18n.h>
-#include <vdr/keys.h>
-#include <vdr/device.h>
-#include "grab.h"
-#include "setup.h"
-#include "tools.h"
-#include "users.h"
+
+#include <grab.h>
+#include <setup.h>
+#include <tools.h>
+#include <users.h>
 
 using namespace std;
 using namespace vdrlive;
@@ -31,20 +28,37 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 	pageTitle = tr("Remote Control");
 
+#if VDRVERSNUM < 20301
 	ReadLock channelsLock( Channels );
 	if ( !channelsLock )
 		throw HtmlError( tr("Couldn't aquire access to channels, please try again later.") );
+#endif
 
 	// cChannel* Channel; (see %request above)
 	if ( channel > 0 ) {
+#if VDRVERSNUM >= 20301
+		LOCK_CHANNELS_READ;
+		Channel = (cChannel *)Channels->GetByNumber( channel );
+#else
 		Channel = Channels.GetByNumber( channel );
+#endif
 	}
 	else {
 		if (cDevice::CurrentChannel()) {
+#if VDRVERSNUM >= 20301
+			LOCK_CHANNELS_READ;
+			Channel = (cChannel *)Channels->GetByNumber(cDevice::CurrentChannel());
+#else
 			Channel = Channels.GetByNumber(cDevice::CurrentChannel());
+#endif
 		}
 		else {
+#if VDRVERSNUM >= 20301
+			LOCK_CHANNELS_READ;
+			Channel = (cChannel *)Channels->Get( Channels->GetNextNormal( -1 ) );
+#else
 			Channel = Channels.Get( Channels.GetNextNormal( -1 ) );
+#endif
 		}
 	}
 	if ( Channel == 0 )
@@ -58,12 +72,60 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
 		<script type="text/javascript"><!--
-		var newImg = new Image();
+		var newImg = null;
 		var imgsrc = "";
+		var osdAjax = null;
+		var osdTimeout = -1;
 		var interval = -1;
+		var clkTimer;
+
+		function changeScreenContent(){
+			var screenCon= document.getElementsByName('screenCon');
+			for ( var i=0; i < screenCon.length; i++){
+				if (screenCon[i].id == 'screenCon_grab'){
+					if (screenCon[i].checked){
+						newImg = new Image();
+						StreamLoad();
+						ChangeInterval();
+						StreamLoad();
+						document.images.vdrlive.style.display= '';
+					} else {
+						window.clearInterval(interval);
+						document.images.vdrlive.style.display= 'none';
+						newImg = null;
+					}
+				} else if (screenCon[i].id == 'screenCon_osd'){
+					if (screenCon[i].checked){
+						osdAjax= new Ajax('osd.xml', {method: 'get'});
+						osdAjax.lastUpd= -1;
+						osdAjax.addEvent('onComplete', function(text,xmlDoc){
+							try{
+								var upd= parseInt(xmlDoc.firstChild.getAttribute("data-time"),10);
+								if ( osdAjax.lastUpd != upd ){
+									$('osd').empty().setHTML(text);
+									osdAjax.lastUpd = upd;
+									$$('#screenshot .osdItems')[0].scrollTop= $$('#screenshot .selected')[0].offsetTop - 40;
+								}
+							} catch (e) {}
+							window.clearInterval(osdTimeout);
+							osdTimeout= window.setTimeout("OSDLoad()",1000);
+						});
+						$('osd').style.display= '';
+
+						OSDLoad()
+					} else {
+						$('osd').style.display= 'none';
+						osdAjax= null;
+					}
+				}
+			}
+
+		}
 
 		function StreamLoad()
 		{
+			if (!newImg)
+				return;
 			uniq = new Date();
 			uniq = uniq.getTime();
 			document.images.vdrlive.src=newImg.src;
@@ -72,11 +134,24 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 		function StreamInit()
 		{
-			imgsrc = document.images.vdrlive.src;
-			uniq = new Date();
-			uniq = uniq.getTime();
-			newImg.src=imgsrc+"?"+uniq;
-			interval = window.setInterval("StreamLoad()", 1000);
+			document.getElementsByName('screenCon')[0].checked= true;
+			if (document.images.vdrlive)
+				imgsrc = document.images.vdrlive.src;
+			FillIntervals();
+			changeScreenContent();
+			$('osd').addEvents({
+			    'click': function(ev){
+			        $clear(clkTimer);
+			        clkTimer = (function(){
+			        	handleOSD(ev.target, false);
+			        }).delay(200, this);
+			    },
+			    'dblclick': function(ev){
+			        $clear(clkTimer);
+			        handleOSD(ev.target, true);
+			    }
+			});
+
 		}
 
 		function ChangeInterval()
@@ -87,14 +162,66 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			interval = window.setInterval("StreamLoad()", timeout);
 		}
 
-		function KeyPress(keycode)
+		function OSDLoad(){
+			if (osdAjax)
+				osdAjax.request();
+		}
+		function handleOSD(elem, doEnter){
+			switch (elem.className){
+			case 'osdButtonRed':
+				return KeyPress(<$ kRed $>);
+			case 'osdButtonGreen':
+				return KeyPress(<$ kGreen $>);
+			case 'osdButtonYellow':
+				return KeyPress(<$ kYellow $>);
+			case 'osdButtonBlue':
+				return KeyPress(<$ kBlue $>);
+			case 'osdTitle':
+				return KeyPress(<$ kBack $>);
+			case 'osdItem':
+				var hits= 0,
+					cur= elem,
+					keycode= <$ kDown $>;
+				while (cur && cur.className.indexOf('selected') == -1 ){
+					cur= cur.previousSibling;
+					hits++;
+				};
+				if ( !cur){
+					hits= 0;
+					cur= elem;
+					keycode= <$ kUp $>;
+					while (cur && cur.className.indexOf('selected') == -1 ){
+						cur= cur.nextSibling;
+						hits++;
+					};
+				}
+				for(;hits > 0; hits--)
+					KeyPress(keycode, true);
+				if ( !doEnter){
+					OSDLoad();
+					return false;
+				}
+			case 'osdItem selected':
+				return KeyPress(<$ kOk $>);
+			}
+			return true;
+		}
+
+		function KeyPress(keycode,DonotLoadOSD)
 		{
-			LiveSimpleAjaxRequest('keypress.xml', 'keycode', keycode);
+//			LiveSimpleAjaxRequest('keypress.xml', 'keycode', keycode);
+			var req = new Ajax('keypress.xml', { method : 'post'});
+			if (!DonotLoadOSD && osdAjax)
+				req.addEvent('onComplete', OSDLoad);
+			req.request('keycode=' + keycode + '&async=1');
+			return false;
 		}
 
 		function FillIntervals()
 		{
 			var element = document.getElementsByName('interval').item(0);
+			if (!element)
+				return;
 			var items = new Array(1000, 2000, 5000);
 			element.options.length = items.length;
 			for (i = 0; i < items.length; ++i) {
@@ -107,50 +234,49 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		//--></script>
 % reply.sout().imbue(locale());
 	</head>
-	<body onload="StreamInit(); FillIntervals();">
+	<body onload="StreamInit();">
 		<& pageelems.logo &>
 		<& menu active="remote" component=("remote.remote_actions")>
 		<div class="inhalt">
-			<div class="screenshot">
-<{				if (!LiveGrabImageManager().CanGrab()) {	}>
-					bloek
-<{				} else {									}>
-					<img src="screenshot.jpg" name="vdrlive" /><br />
+			<div class="screenshot" id="screenshot">
+<{				if (LiveGrabImageManager().CanGrab()) {	}>
+					<img src="screenshot.jpg" name="vdrlive" />
 <{				}											}>
+				<div id="osd"></div>
 			</div>
 			<div>
 			<img src="<$ LiveSetup().GetThemedLink("img", "remotecontrol.jpg") $>" width="162" height="378" border="0" usemap="#remote" alt="" />
 			     <map name="remote">
-			     	  <area href="#" shape="circle" coords="37,36,10" alt="Power" onclick="KeyPress(<$ kPower $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="rect" coords="27,60,59,75" alt="1" onclick="KeyPress(<$ k1 $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="rect" coords="64,59,98,75" alt="2" onclick="KeyPress(<$ k2 $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="rect" coords="103,59,137,75" alt="3" onclick="KeyPress(<$ k3 $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="rect" coords="25,82,60,98" alt="4" onclick="KeyPress(<$ k4 $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="rect" coords="65,82,98,99" alt="5" onclick="KeyPress(<$ k5 $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="rect" coords="103,83,137,99" alt="6" onclick="KeyPress(<$ k6 $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="rect" coords="26,106,60,121" alt="7"  onclick="KeyPress(<$ k7 $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="rect" coords="65,105,97,121" alt="8" onclick="KeyPress(<$ k8 $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="rect" coords="104,106,137,122" alt="9" onclick="KeyPress(<$ k9 $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="rect" coords="66,128,98,144" alt="0" onclick="KeyPress(<$ k0 $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="circle" coords="37,157,13" alt="Vol+" onclick="KeyPress(<$ kVolUp $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="circle" coords="37,190,13" alt="Vol-" onclick="KeyPress(<$ kVolDn $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="circle" coords="125,157,13" alt="P+" onclick="KeyPress(<$ kChanUp $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="circle" coords="125,190,13" alt="P-" onclick="KeyPress(<$ kChanDn $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="circle" coords="81,174,8" alt="Mute" onclick="KeyPress(<$ kMute $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="circle" coords="81,202,11" alt="Record" onclick="KeyPress(<$ kRecord $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="poly" coords="39,215,29,227,30,235,39,236,51,222,49,215,43,213" alt="Menu" onclick="KeyPress(<$ kMenu $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="poly" coords="119,213,127,219,135,230,132,235,127,236,119,231,114,223,113,215" alt="Exit" onclick="KeyPress(<$ kBack $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="poly" coords="33,289,31,298,43,310,51,308,54,300,41,287" alt="Subtitles" onclick="KeyPress(<$ kSubtitles $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="poly" coords="131,289,133,298,122,310,112,308,110,300,122,287" alt="Audio" onclick="KeyPress(<$ kAudio $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="poly" coords="58,230,70,223,82,223,91,223,105,231,96,240,87,237,78,236,69,240,66,241,58,232" alt="Up" onclick="KeyPress(<$ kUp $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="poly" coords="111,237,119,249,121,259,119,275,113,285,109,284,101,276,104,270,107,260,106,253,101,245" alt="Right" onclick="KeyPress(<$ kRight $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="poly" coords="66,281,75,285,86,285,95,281,106,291,100,295,87,300,73,300,58,291,57,289,58,289" alt="Down" onclick="KeyPress(<$ kDown $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="poly" coords="51,236,61,245,56,256,57,266,61,277,52,285,47,278,42,264,43,252,49,240" alt="Left" onclick="KeyPress(<$ kLeft $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="circle" coords="81,261,17" alt="Ok" onclick="KeyPress(<$ kOk $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="rect" coords="25,324,52,339" alt="Red" onclick="KeyPress(<$ kRed $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="rect" coords="53,324,81,339" alt="Green" onclick="KeyPress(<$ kGreen $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="rect" coords="83,324,109,339" alt="Yellow" onclick="KeyPress(<$ kYellow $>)" nohref="nohref" alt="" />
-				  <area href="#" shape="rect" coords="110,324,137,339" alt="Blue" onclick="KeyPress(<$ kBlue $>)" nohref="nohref" alt="" />
+				  <area href="#" shape="circle" coords="37,36,10" alt="Power" onclick="return KeyPress(<$ kPower $>)" />
+				  <area href="#" shape="rect" coords="27,60,59,75" alt="1" onclick="return KeyPress(<$ k1 $>)" />
+				  <area href="#" shape="rect" coords="64,59,98,75" alt="2" onclick="return KeyPress(<$ k2 $>)" />
+				  <area href="#" shape="rect" coords="103,59,137,75" alt="3" onclick="return KeyPress(<$ k3 $>)" />
+				  <area href="#" shape="rect" coords="25,82,60,98" alt="4" onclick="return KeyPress(<$ k4 $>)" />
+				  <area href="#" shape="rect" coords="65,82,98,99" alt="5" onclick="return KeyPress(<$ k5 $>)" />
+				  <area href="#" shape="rect" coords="103,83,137,99" alt="6" onclick="return KeyPress(<$ k6 $>)" />
+				  <area href="#" shape="rect" coords="26,106,60,121" alt="7"  onclick="return KeyPress(<$ k7 $>)" />
+				  <area href="#" shape="rect" coords="65,105,97,121" alt="8" onclick="return KeyPress(<$ k8 $>)" />
+				  <area href="#" shape="rect" coords="104,106,137,122" alt="9" onclick="return KeyPress(<$ k9 $>)" />
+				  <area href="#" shape="rect" coords="66,128,98,144" alt="0" onclick="return KeyPress(<$ k0 $>)" />
+				  <area href="#" shape="circle" coords="37,157,13" alt="Vol+" onclick="return KeyPress(<$ kVolUp $>)" />
+				  <area href="#" shape="circle" coords="37,190,13" alt="Vol-" onclick="return KeyPress(<$ kVolDn $>)" />
+				  <area href="#" shape="circle" coords="125,157,13" alt="P+" onclick="return KeyPress(<$ kChanUp $>)" />
+				  <area href="#" shape="circle" coords="125,190,13" alt="P-" onclick="return KeyPress(<$ kChanDn $>)" />
+				  <area href="#" shape="circle" coords="81,174,8" alt="Mute" onclick="return KeyPress(<$ kMute $>)" />
+				  <area href="#" shape="circle" coords="81,202,11" alt="Record" onclick="return KeyPress(<$ kRecord $>)" />
+				  <area href="#" shape="poly" coords="39,215,29,227,30,235,39,236,51,222,49,215,43,213" alt="Menu" onclick="return KeyPress(<$ kMenu $>)" />
+				  <area href="#" shape="poly" coords="119,213,127,219,135,230,132,235,127,236,119,231,114,223,113,215" alt="Exit" onclick="return KeyPress(<$ kBack $>)" />
+				  <area href="#" shape="poly" coords="33,289,31,298,43,310,51,308,54,300,41,287" alt="Subtitles" onclick="return KeyPress(<$ kSubtitles $>)" />
+				  <area href="#" shape="poly" coords="131,289,133,298,122,310,112,308,110,300,122,287" alt="Audio" onclick="return KeyPress(<$ kAudio $>)" />
+				  <area href="#" shape="poly" coords="58,230,70,223,82,223,91,223,105,231,96,240,87,237,78,236,69,240,66,241,58,232" alt="Up" onclick="return KeyPress(<$ kUp $>)" />
+				  <area href="#" shape="poly" coords="111,237,119,249,121,259,119,275,113,285,109,284,101,276,104,270,107,260,106,253,101,245" alt="Right" onclick="return KeyPress(<$ kRight $>)" />
+				  <area href="#" shape="poly" coords="66,281,75,285,86,285,95,281,106,291,100,295,87,300,73,300,58,291,57,289,58,289" alt="Down" onclick="return KeyPress(<$ kDown $>)" />
+				  <area href="#" shape="poly" coords="51,236,61,245,56,256,57,266,61,277,52,285,47,278,42,264,43,252,49,240" alt="Left" onclick="return KeyPress(<$ kLeft $>)" />
+				  <area href="#" shape="circle" coords="81,261,17" alt="Ok" onclick="return KeyPress(<$ kOk $>)" />
+				  <area href="#" shape="rect" coords="25,324,52,339" alt="Red" onclick="return KeyPress(<$ kRed $>)" />
+				  <area href="#" shape="rect" coords="53,324,81,339" alt="Green" onclick="return KeyPress(<$ kGreen $>)" />
+				  <area href="#" shape="rect" coords="83,324,109,339" alt="Yellow" onclick="return KeyPress(<$ kYellow $>)" />
+				  <area href="#" shape="rect" coords="110,324,137,339" alt="Blue" onclick="return KeyPress(<$ kBlue $>)" />
 			     </map>
 			</div>
 		</div>
@@ -159,5 +285,10 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <%include>page_exit.eh</%include>
 
 <%def remote_actions>
-<$ tr("Snapshot interval") $>: <select name="interval" onchange="ChangeInterval()"></select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<& pageelems.vlc_stream_channel channelId=(Channel->GetChannelID()) &>
+<b><$ tr("Selection") $></b>:&nbsp;
+<{	if ( LiveGrabImageManager().CanGrab()) {			}>
+	 <input type="radio" name="screenCon" id="screenCon_grab" onchange="changeScreenContent()"/>&nbsp;<label for="screenCon_grab"><$ tr("Snapshot interval") $>:</label> <select name="interval" onchange="ChangeInterval()"></select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<& pageelems.vlc_stream_channel channelId=(Channel->GetChannelID()) &> -
+<{	} 				}>
+ <input type="radio" name="screenCon" id="screenCon_osd" onchange="changeScreenContent()" />&nbsp;<label for="screenCon_osd">OSD</label> -
+ <input type="radio" name="screenCon" id="screenCon_none" onchange="changeScreenContent()" />&nbsp;<label for="screenCon_osd"><$ tr("Stop") $></label>
 </%def>

@@ -4,21 +4,16 @@
  * See the README file for copyright information and how to reach the author.
  */
 
-#include <vdr/config.h>
-#include <vdr/plugin.h>
-#include "i18n.h"
 #include "live.h"
+
 #include "setup.h"
 #include "status.h"
 #include "tasks.h"
-#include "thread.h"
 #include "timers.h"
 #include "preload.h"
 #include "users.h"
 
 namespace vdrlive {
-
-using namespace std;
 
 const char *Plugin::VERSION        = LIVEVERSION;
 const char *Plugin::DESCRIPTION    = LIVESUMMARY;

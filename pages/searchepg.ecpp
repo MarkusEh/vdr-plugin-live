@@ -1,14 +1,8 @@
 <%pre>
-#include <memory>
-#include <vdr/channels.h>
-#include <vdr/config.h>
-#include <vdr/epg.h>
-#include <vdr/i18n.h>
-#include <iomanip>
-#include "exception.h"
-#include "tools.h"
-#include "epgsearch.h"
-#include "setup.h"
+
+#include <tools.h>
+#include <epgsearch.h>
+#include <setup.h>
 
 using namespace std;
 using namespace vdrlive;
@@ -27,9 +21,7 @@ using namespace vdrlive;
 	bool usesubtitle = false;
 	bool usedescr = false;
 	int usechannel = SearchTimer::NoChannel;
-	tChannelID channelidfrom;
 	tChannelID channelfrom;
-	tChannelID channelidto;
 	tChannelID channelto;
 	string changrpsel = "";
 	bool usetime = false;

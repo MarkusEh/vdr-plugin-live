@@ -1,20 +1,22 @@
-#include <algorithm>
-#include <vdr/channels.h>
-#include <vdr/i18n.h>
-#include <vdr/menu.h>
-#include <vdr/recording.h>
-
-#include "stdext.h"
-#include "exception.h"
-#include "recman.h"
-#include "tools.h"
 
 #include "tasks.h"
 
+#include "stdext.h"
+#include "recman.h"
+
+#if VDRVERSNUM < 20300
+#include "tools.h"  // ReadLock
+#endif
+
+// STL headers need to be before VDR tools.h (included by <vdr/menu.h>)
+#include <algorithm>
+
+#include <vdr/menu.h>
+
 namespace vdrlive {
 
-using namespace std;
-using namespace std::tr1;
+using std::for_each;
+using std::tr1::bind;
 using namespace std::tr1::placeholders;
 
 const char* NowReplaying()
@@ -34,14 +36,23 @@ StickyTask::~StickyTask()
 
 void SwitchChannelTask::Action()
 {
+#if VDRVERSNUM >= 20301
+	LOCK_CHANNELS_READ;
+	cChannel* channel = (cChannel *)Channels->GetByChannelID( m_channel );
+#else
 	ReadLock lock( Channels );
 	cChannel* channel = Channels.GetByChannelID( m_channel );
+#endif
 	if ( channel == 0 ) {
 		SetError( tr("Couldn't find channel or no channels available.") );
 		return;
 	}
 
+#if VDRVERSNUM >= 20301
+	if ( !Channels->SwitchTo( channel->Number() ) )
+#else
 	if ( !Channels.SwitchTo( channel->Number() ) )
+#endif
 		SetError( tr("Couldn't switch to channel.") );
 }
 
@@ -234,11 +245,6 @@ void TaskManager::DoScheduledTasks()
 		return;
 
 	cMutexLock lock( this );
-	/*while ( !m_taskQueue.empty() ) {
-		Task* current = m_taskQueue.front();
-		current->Action();
-		m_taskQueue.pop_front();
-	}*/
 	for_each( m_taskQueue.begin(), m_taskQueue.end(), bind( &Task::Action, _1 ) );
 	for_each( m_stickyTasks.begin(), m_stickyTasks.end(), bind( &Task::Action, _1 ) );
 	m_taskQueue.clear();

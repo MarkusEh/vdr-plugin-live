@@ -2,8 +2,6 @@
 #define VDR_LIVE_I18N_H
 
 #include <string>
-#include <vdr/config.h>
-#include <vdr/i18n.h>
 
 namespace vdrlive {
 

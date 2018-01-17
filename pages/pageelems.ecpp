@@ -1,16 +1,12 @@
 <%pre>
-#include <string>
-#include <vdr/menu.h>
-#include <vdr/epg.h>
-#include "exception.h"
-#include "livefeatures.h"
-#include "tntfeatures.h"
-#include "i18n.h"
-#include "setup.h"
-#include "timers.h"
-#include "tools.h"
-#include "epg_events.h"
-#include "gen_version_suffix.h"
+
+#include <livefeatures.h>
+#include <setup.h>
+#include <timers.h>
+#include <tools.h>
+#include <epg_events.h>
+#include <gen_version_suffix.h>
+#include <tntfeatures.h>
 
 using namespace std;
 using namespace vdrlive;
@@ -81,7 +77,7 @@ int update_status(1);
 	if ((duration >= 0) && ((progress < 0) || (duration == 0)))
 		cls +="_invisible";
 </%cpp>
-<div class="<$ cls $>"><div class="__elapsed" <%cpp> if (!id.empty()) { </%cpp>id="<$ id $>"<%cpp> } </%cpp> style="width: <$ progress $>px"></div></div>
+<div class="<$ cls $>"><div class="__elapsed" <%cpp> if (!id.empty()) { </%cpp>id="<$ id $>"<%cpp> } </%cpp>style="width: <$ progress $>px"></div></div>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -95,7 +91,7 @@ int update_status(1);
 	string alt;
 	string id;
 </%args>
-<%cpp> { </%cpp> <a <%cpp> if (!id.empty()) { </%cpp> id="<$ id $>" <%cpp> } </%cpp><& hide_element hide=(id.empty()? 0 : 1) &> href="vdr_request/<$ action $>?param=<$ param $>" <%cpp>if (!tip.empty()) { </%cpp><& tooltip.hint text=(tip) &> <%cpp> } </%cpp>><img src="<$ LiveSetup().GetThemedLink("img", image) $>" alt="<$ alt $>"></img></a> <%cpp> } </%cpp>
+<%cpp> { </%cpp><a <%cpp> if (!id.empty()) { </%cpp>id="<$ id $>" <%cpp> } </%cpp><& hide_element hide=(id.empty()? 0 : 1) &> href="vdr_request/<$ action $>?param=<$ param $>" <%cpp>if (!tip.empty()) { </%cpp><& tooltip.hint text=(tip) &> <%cpp> } </%cpp>><img src="<$ LiveSetup().GetThemedLink("img", image) $>" alt="<$ alt $>"></img></a> <%cpp> } </%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -104,7 +100,7 @@ int update_status(1);
 <%args>
 	string title;
 </%args>
-<%cpp> if (LiveSetup().GetShowIMDb()) { </%cpp> <a href="http://www.imdb.com/find?s=all&q=<$ StringUrlEncode(title) $>" target="_blank"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a> <%cpp> } </%cpp>
+<%cpp> if (LiveSetup().GetShowIMDb()) { </%cpp><a href="http://www.imdb.com/find?s=all&q=<$ StringUrlEncode(title) $>" target="_blank"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a> <%cpp> } </%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -186,7 +182,7 @@ int update_status(1);
 	<script type="text/javascript"><!--
 		var liveEnhanced = new PageEnhance({
 				infoWinOptions: {
-			  		buttonimg: 'img/transparent.png',
+					buttonimg: 'img/transparent.png',
 					loadingMsg: '<$ tr("loading data") $>',
 					errorMsg: '<$ tr("an error occured!") $>'
 				},
@@ -310,7 +306,8 @@ int update_status(1);
 			<& pageelems.imdb_info_href title=(title) &>
 <%cpp>
 			}
-</%cpp>		</td>
+</%cpp>
+		</td>
 <%cpp>
 	}
 </%cpp>
@@ -338,7 +335,7 @@ int update_status(1);
 			<div class="epg_tools">
 				<& (tools_comp) id=(boxId) archived=(archived) detail=(1) title=(title) &>
 			</div>
-		 	<div class="epg_info">
+			<div class="epg_info">
 				<div class="info nowrap"><%cpp> if (!archived.empty()) { </%cpp><span class="bold"><$ (archived + " ") $></span><%cpp> } </%cpp><$ (time) $></div>
 <%cpp>
 	if (elapsed >= 0) {
@@ -347,7 +344,7 @@ int update_status(1);
 <%cpp>
 	}
 </%cpp>
-		 		<div class="title"><$ (title) $></div>
+				<div class="title"><$ (title) $></div>
 				<div class="short"><$ (short_descr) $></div>
 				<div class="description">
 					<span class="epg_images">
@@ -375,12 +372,14 @@ int update_status(1);
 			<div class="boxheader"><div><div class="caption"><$ tr(LIVESUMMARY) $></div></div></div>
 		</div>
 		<div class="epg_content">
-		 	<div>
+			<div>
 				<div class="about_head"><div><div><$ tr("Authors") $></div></div></div>
 				<div class="about_left"><$ tr("Project Idea") $>:</div>
 				<div class="about_right">Thomas Keil (Thomas)</div>
 				<div class="about_left"><$ tr("Webserver") $>:</div>
 				<div class="about_right">Sascha Volkenandt (LordJaxom)</div>
+				<div class="about_left"><$ tr("Current Maintainer") $>:</div>
+				<div class="about_right">Jasmin Jessich (jasminj)</div>
 				<div class="about_left"><$ tr("Project leader") $>:</div>
 				<div class="about_right">Dieter Hametner (tadi)</div>
 				<div class="about_left"><$ tr("Content") $>:</div>

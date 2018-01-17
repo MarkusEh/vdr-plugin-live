@@ -6,9 +6,12 @@ CVS
 *.so
 gen_version_suffix.h
 pages/*.cpp
+css/*.cpp
+javascript/*.cpp
 po/*.mo
 po/live.pot
 .dependencies
 .cvsignore
 .libs
 locale
+.*.edep

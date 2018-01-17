@@ -1,12 +1,15 @@
 #ifndef VDR_LIVE_RECORDINGS_H
 #define VDR_LIVE_RECORDINGS_H
 
-#include <ctime>
+#include "stdext.h"
+
+// STL headers need to be before VDR tools.h (included by <vdr/recording.h>)
 #include <map>
+#include <string>
 #include <vector>
 #include <list>
+
 #include <vdr/recording.h>
-#include "stdext.h"
 
 namespace vdrlive {
 
@@ -119,13 +122,20 @@ namespace vdrlive {
 		private:
 			RecordingsManager();
 
+#if VDRVERSNUM >= 20301
+			static bool StateChanged();
+#endif
 			static RecordingsManagerPtr EnsureValidData();
 
 			static std::tr1::weak_ptr< RecordingsManager > m_recMan;
 			static std::tr1::shared_ptr< RecordingsTree > m_recTree;
 			static std::tr1::shared_ptr< RecordingsList > m_recList;
 			static std::tr1::shared_ptr< DirectoryList > m_recDirs;
+#if VDRVERSNUM >= 20301
+			static cStateKey m_recordingsStateKey;
+#else
 			static int m_recordingsState;
+#endif
 
 			cThreadLock m_recordingsLock;
 	};
@@ -169,8 +179,10 @@ namespace vdrlive {
 
 			RecordingsMap::const_iterator begin() const { return m_entries.begin(); }
 			RecordingsMap::const_iterator end() const { return m_entries.end(); }
+			int Level() { return m_level; }
 
 		private:
+			int m_level;
 			std::string m_name;
 			RecordingsMap m_entries;
 			RecordingsItemWeakPtr m_parent;

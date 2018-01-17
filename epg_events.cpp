@@ -1,13 +1,19 @@
-#include <time.h>
-#include <glob.h>
-#include <algorithm>
-#include <vdr/player.h>
+
+#include "epg_events.h"
 
 #include "tools.h"
 #include "recman.h"
-
-#include "epg_events.h"
 #include "setup.h"
+
+// STL headers need to be before VDR tools.h (included by <vdr/player.h>)
+#include <glob.h>
+#include <cassert>
+
+#include <vdr/player.h>
+
+#ifndef TVM2VDR_PL_WORKAROUND
+#define TVM2VDR_PL_WORKAROUND  0
+#endif
 
 using namespace std;
 
@@ -104,8 +110,6 @@ namespace vdrlive
 		return "";
 	}
 
-	// virtual const std::string Archived() const { return std::string(); }
-
 	time_t EpgString::GetStartTime() const
 	{
 		return time(0);
@@ -172,11 +176,9 @@ namespace vdrlive
 
 	const string EpgRecording::Archived() const
 	{
-		if (!m_checkedArchived) {
-			if (m_recording) {
-				m_archived = RecordingsManager::GetArchiveDescr(m_recording);
-				m_checkedArchived = true;
-			}
+		if (!m_checkedArchived && m_recording) {
+			m_archived = RecordingsManager::GetArchiveDescr(m_recording);
+			m_checkedArchived = true;
 		}
 		return m_archived;
 	}
@@ -279,13 +281,17 @@ namespace vdrlive
 		EpgInfoPtr CreateEpgInfo(string const &epgid, cSchedules const *schedules)
 		{
 			string const errorInfo(tr("Epg error"));
-			cSchedulesLock schedulesLock;
 
 			tEventID eventId = tEventID();
 			tChannelID channelId = tChannelID();
 
 			DecodeDomId(epgid, channelId, eventId);
+#if VDRVERSNUM >= 20301
+			LOCK_CHANNELS_READ;
+			cChannel const *channel = Channels->GetByChannelID(channelId);
+#else
 			cChannel const *channel = Channels.GetByChannelID(channelId);
+#endif
 			if (!channel) {
 				return CreateEpgInfo(epgid, errorInfo, tr("Wrong channel id"));
 			}
@@ -302,6 +308,8 @@ namespace vdrlive
 
 		EpgInfoPtr CreateEpgInfo(cChannel const *chan, cEvent const *event, char const *idOverride)
 		{
+			assert(chan);
+
 			if (event) {
 				string domId(idOverride ? idOverride : EncodeDomId(chan->GetChannelID(), event->EventID()));
 				return EpgInfoPtr(new EpgEvent(domId, event, chan->Name()));

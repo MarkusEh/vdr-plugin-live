@@ -2,7 +2,11 @@ This is a "plugin" for the Video Disk Recorder (VDR).
 
 Written by:                  Thomas Keil <tkeil@datacrystal.de>
                              Sascha Volkenandt <sascha@akv-soft.de>
+
 Currently maintained by:
+                             Jasmin Jessich <jasmin@anw.at>
+
+Previously Maintained by:
                              Dieter Hametner <dh+vdr@gekrumbel.de>
                              Christian Wieninger <cwieninger@gmx.de>
 
@@ -20,10 +24,8 @@ This version of LIVE does not support VDR versions older than 2.0.0
 any more (maybe still some older VDR devel versions leading to VDR
 2.0.0 but that is not tested).
 
-If you can not update your VDR the Version 0.3.x of LIVE is still 'up
-to date' enough and works with very old VDR versions and with old
-versions of Tntnet.  The LIVE version 0.4.x adds only compatibility
-changes for newer VDR versions.
+The release_0-3-1 tag is the last commit by Dieter Hametner. It is was
+the live version used by many distributions.
 
 
 Description:
@@ -230,3 +232,4 @@ measure against missuse is to limit the mappings from MapUrl to only
 valid files. In the current version this approach has been taken. But
 due to the 'difficulty' to fully understand regular expressions, this
 might get spoiled again by 'unchecked' code contribution.
+

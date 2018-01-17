@@ -1,6 +1,6 @@
 <%pre>
-#include <string>
-#include "i18n.h"
+
+#include <i18n.h>
 
 using namespace std;
 using namespace vdrlive;

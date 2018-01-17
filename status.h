@@ -12,7 +12,8 @@ class StatusMonitor: public cStatus
 private:
 	StatusMonitor();
 	StatusMonitor( StatusMonitor const& );
- 
+
+	virtual void TimerChange(const cTimer *Timer, eTimerChange Change);
 	virtual void Recording( cDevice const* Device, char const* Name, char const* FileName, bool On );
 };
 

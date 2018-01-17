@@ -1,13 +1,15 @@
 #ifndef VDR_LIVE_FILECACHE_H
 #define VDR_LIVE_FILECACHE_H
 
-#include <limits>
-#include <numeric>
-#include <string>
-#include <vector>
-#include <vdr/thread.h>
-#include <vdr/tools.h>
 #include "cache.h"
+
+// STL headers need to be before VDR tools.h (included by <vdr/tools.h>)
+#include <limits>
+#include <string>
+#include <ctime>
+#include <vector>
+
+#include <vdr/thread.h>
 
 namespace vdrlive {
 

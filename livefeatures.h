@@ -1,12 +1,12 @@
 #ifndef VDR_LIVE_FEATURES_H
 #define VDR_LIVE_FEATURES_H
 
+// STL headers need to be before VDR tools.h (included by <vdr/channels.h>)
 #include <string>
+
 #include <vdr/plugin.h>
 
 namespace vdrlive {
-
-//LiveFeatures<EpgsearchFeature>().Available();
 
 class SplitVersion
 {

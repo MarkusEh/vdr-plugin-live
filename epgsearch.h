@@ -1,13 +1,15 @@
 #ifndef VDR_LIVE_EPGSEARCH_H
 #define VDR_LIVE_EPGSEARCH_H
 
+// STL headers need to be before VDR tools.h (included by <vdr/channels.h>)
 #include <vector>
 #include <list>
 #include <set>
 #include <string>
+#include <algorithm>
+
 #include <vdr/channels.h>
 #include <vdr/epg.h>
-#include "tools.h"
 
 namespace vdrlive {
 
@@ -340,8 +342,16 @@ public:
 	time_t TimerStopTime() const { return m_timerstop; }
 	int TimerMode() const { return m_timerMode; }
 	bool operator<( SearchResult const& other ) const { return m_starttime <  other.m_starttime; }
-	const cEvent* GetEvent();
+	const cEvent* GetEvent(const cChannel* Channel);
+
+#if VDRVERSNUM >= 20301
+	/* Be careful when calling this function concerning the lock order:
+	 *   Timers, Channels, Recordings Schedules
+	 */
+	const cChannel* GetChannel() { LOCK_CHANNELS_READ; return Channels->GetByChannelID(m_channel); }
+#else
 	const cChannel* GetChannel() { return Channels.GetByChannelID(m_channel); }
+#endif
 
 private:
 	int m_searchId;
@@ -417,8 +427,6 @@ public:
   static std::string EvaluateExpr(const std::string& expr, const cEvent* event);
 };
 
-}
-
- // namespace vdrlive
+} // namespace vdrlive
 
 #endif // VDR_LIVE_EPGSEARCH_H

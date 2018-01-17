@@ -1,8 +1,11 @@
 <%pre>
-#include <vdr/channels.h>
-#include "exception.h"
-#include "setup.h"
-#include "tools.h"
+
+#include <exception.h>
+#include <setup.h>
+
+#if VDRVERSNUM < 20300
+#include <tools.h>  // ReadLock
+#endif
 
 using namespace vdrlive;
 
@@ -20,12 +23,20 @@ bool logged_in(false);
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 }>
 <%cpp>
+#if VDRVERSNUM >= 20301
+	LOCK_CHANNELS_READ;
+#else
 	ReadLock channelsLock( Channels );
 	if ( !channelsLock )
 		throw HtmlError( tr("Couldn't aquire access to channels, please try again later.") );
+#endif
 </%cpp>
 <select name="<$ name $>" id="<$ name $>" <{ reply.out() << ( !onchange.empty() ? "onchange=\""+onchange+"\"" : "" ); }>>
+%#if VDRVERSNUM >= 20301
+%	for ( cChannel *listChannel = (cChannel *)Channels->First(); listChannel; listChannel = (cChannel *)Channels->Next( listChannel ) ) {
+%#else
 %	for ( cChannel *listChannel = Channels.First(); listChannel; listChannel = Channels.Next( listChannel ) ) {
+%#endif
 %		if ( listChannel->GroupSep() || *listChannel->Name() == '\0' )
 %			continue;
 %

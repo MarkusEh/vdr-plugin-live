@@ -1,8 +1,7 @@
 <%pre>
-#include <vdr/channels.h>
-#include <vdr/i18n.h>
-#include "users.h"
-#include "setup.h"
+
+#include <users.h>
+#include <setup.h>
 
 using namespace vdrlive;
 using namespace std;
@@ -54,7 +53,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <%cpp>
 				cUser* user = Users.First();
 				while (user) 
-    				{
+				{
 					bool bottom = (Users.Next(user) == NULL);
 				    if (user) 
 				    {

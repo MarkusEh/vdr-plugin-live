@@ -1,9 +1,11 @@
 #ifndef VDR_LIVE_TIMERCONFLICT_H
 #define VDR_LIVE_TIMERCONFLICT_H
 
-#include <list>
-
 #include "stdext.h"
+
+#include <list>
+#include <string>
+#include <time.h>
 
 namespace vdrlive {
 

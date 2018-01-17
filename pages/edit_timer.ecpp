@@ -1,19 +1,15 @@
 <%pre>
-#include <memory>
-#include <vdr/channels.h>
-#include <vdr/config.h>
-#include <vdr/epg.h>
-#include <vdr/i18n.h>
-#include "exception.h"
-#include "tools.h"
-#include "timers.h"
-#include "setup.h"
-#include "epg_events.h"
-#include "timerconflict.h"
-#include "i18n.h"
-#include "livefeatures.h"
-#include "epgsearch.h"
-#include "users.h"
+
+#include <tools.h>
+#include <timers.h>
+#include <setup.h>
+#include <epg_events.h>
+#include <timerconflict.h>
+#include <livefeatures.h>
+#include <epgsearch.h>
+#include <users.h>
+
+#include <vdr/timers.h>
 
 using namespace std;
 using namespace vdrlive;
@@ -52,7 +48,7 @@ string edit_timerreferer;
 TimerConflictNotifier timerNotifier;
 </%session>
 <%request scope="page">
-cTimer* timer;
+const cTimer* timer;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
@@ -106,18 +102,24 @@ cTimer* timer;
 	if (message.empty())
 		edit_timerreferer = request.getHeader("Referer:", "timers.html");
 
-	auto_ptr< cTimer > eventTimer;
+	std::unique_ptr< cTimer > eventTimer;
 	if ( timer == 0 && !epgid.empty()) {
 		EpgEvents::DecodeDomId(epgid, channelid, eventid);
 		if ( channelid.Valid() && eventid != 0 ) {
-			cerr << "grabbing event" << endl << endl;
+			cSchedule const* schedule;
+#if VDRVERSNUM >= 20301
+			{
+				LOCK_SCHEDULES_READ;
+				schedule = Schedules->GetSchedule( channelid );
+			}
+#else
 			cSchedulesLock schedLock;
 			cSchedules const* schedules = cSchedules::Schedules( schedLock );
-			cSchedule const* schedule = schedules->GetSchedule( channelid );
+			schedule = schedules->GetSchedule( channelid );
+#endif
 
 			eventTimer.reset( new cTimer( schedule->GetEvent( eventid ) ) );
 		} else {
-			cerr << "grabbing new timer" << endl << endl;
 			eventTimer.reset( new cTimer() );
 			eventTimer->SetFlags( tfActive );
 		}
@@ -125,8 +127,9 @@ cTimer* timer;
 	}
 	if (timer == 0)
 	{
-	   timer = new cTimer();
-	   timer->SetFlags(tfActive);
+		eventTimer.reset( new cTimer() );
+		eventTimer->SetFlags( tfActive );
+		timer = eventTimer.get();
 	}
 
 	if ( timer != 0 ) {
@@ -134,12 +137,11 @@ cTimer* timer;
 		channel = timer->Channel()->GetChannelID();
 		title = timer->File() ? timer->File() : "";
 		if ( LiveFeatures< features::epgsearch >().Recent() ) {
-		   vector< string > directories = StringSplit( title, '~' );
-		   if (directories.size() > 1)
-		   {
-		      directory = directories[0];
-		      title = title.substr(directory.size()+1);
-		   }
+			vector< string > directories = StringSplit( title, '~' );
+			if (directories.size() > 1) {
+				directory = directories[0];
+				title = title.substr(directory.size()+1);
+			}
 		}
 		// TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
 		date = timer->Day() ? DatePickerToC(timer->Day(), tr("mm/dd/yyyy")) : "";
@@ -216,17 +218,17 @@ cTimer* timer;
 					</tr>
 <%cpp>
 					if ( LiveFeatures< features::epgsearch >().Recent() ) {
-					        RecordingDirs recordingdirs(true);
+						RecordingDirs recordingdirs(true);
 </%cpp>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Directory" ) $>:</div></td>
 						<td class="rightcol"><select name="directory" size="1" id="directory" style="margin-top: 5px">
 						     <option/>
 <%cpp>
-					             for (RecordingDirs::iterator rdir = recordingdirs.begin(); rdir != recordingdirs.end(); ++rdir) {
-						        std::string dir = *rdir;
+						for (RecordingDirs::iterator rdir = recordingdirs.begin(); rdir != recordingdirs.end(); ++rdir) {
+							std::string dir = *rdir;
 </%cpp>
-		    					<option value="<$ dir $>"
+							<option value="<$ dir $>"
 %							if (*rdir == directory) {
 							selected="selected"
 %							}

@@ -1,0 +1,20 @@
+<%pre>
+
+#include <setup.h>
+#include <osd_status.h>
+
+using namespace std;
+using namespace vdrlive;
+
+</%pre><?xml version="1.0" encoding="utf-8"?> 
+<%session scope="global">
+bool logged_in(false);
+</%session>
+<%request scope="page">
+</%request>
+<%cpp>
+if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+reply.setContentType( "application/xml" );
+
+reply.out() << LiveOsdStatusMonitor().GetHtml();
+</%cpp>

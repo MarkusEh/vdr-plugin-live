@@ -2,7 +2,8 @@
 #define VDR_LIVE_GRAB_H
 
 #include "stdext.h"
-#include "tasks.h"
+
+#include <memory>
 
 namespace vdrlive {
 
@@ -28,7 +29,7 @@ private:
 
 	void PutImage( char* image, int size );
 
-	std::auto_ptr< GrabImageTask > m_task;
+	std::unique_ptr< GrabImageTask > m_task;
 	GrabImagePtr m_image;
 	int m_size;
 };

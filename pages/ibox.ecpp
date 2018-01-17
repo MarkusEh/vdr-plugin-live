@@ -1,17 +1,12 @@
 <%pre>
-#include <vdr/plugin.h>
-#include <vdr/config.h>
-#include <vdr/recording.h>
-#include <vdr/channels.h>
-#include <vdr/menu.h>
-#include <vdr/device.h>
 
-#include "exception.h"
-#include "setup.h"
-#include "tools.h"
-#include "epg_events.h"
-#include "recman.h"
-#include "timerconflict.h"
+#include <setup.h>
+#include <tools.h>
+#include <epg_events.h>
+#include <recman.h>
+#include <timerconflict.h>
+
+#include <vdr/menu.h>
 
 using namespace vdrlive;
 using namespace std;
@@ -50,7 +45,13 @@ TimerConflictNotifier timerNotifier();
 
 	if (NowReplaying) {
 		RecordingsManagerPtr recManager = LiveRecordingsManager();
+#if VDRVERSNUM >= 20301
+		// is is OK to lock here, because CreateEpgInfo will *not* lock other lists
+		LOCK_RECORDINGS_READ;
+		cRecording *recording = (cRecording *)Recordings->GetByName(NowReplaying);
+#else
 		cRecording *recording = Recordings.GetByName(NowReplaying);
+#endif
 		if (recording) {
 			epgEvent = EpgEvents::CreateEpgInfo(recManager->Md5Hash(recording),
 												recording,
@@ -59,22 +60,40 @@ TimerConflictNotifier timerNotifier();
 	}
 	else {
 		string CHANNEL_STR("channel");
+#if VDRVERSNUM >= 20301
+		LOCK_CHANNELS_READ;
+#else
 		ReadLock channelsLock( Channels );
+#endif
 
 		if (cDevice::CurrentChannel()) {
 			const int SKIP_GAP = 1;
+#if VDRVERSNUM >= 20301
+			cChannel* Channel = (cChannel *)Channels->GetByNumber(cDevice::CurrentChannel());
+
+			cChannel* tmp = (cChannel *)Channels->GetByNumber(Channels->GetPrevNormal(cDevice::CurrentChannel()), -SKIP_GAP);
+#else
 			cChannel* Channel = Channels.GetByNumber(cDevice::CurrentChannel());
 
 			cChannel* tmp = Channels.GetByNumber(Channels.GetPrevNormal(cDevice::CurrentChannel()), -SKIP_GAP);
+#endif
 			if (tmp)
 				prev_chan = tmp->GetChannelID();
+#if VDRVERSNUM >= 20301
+			tmp = (cChannel *)Channels->GetByNumber(Channels->GetNextNormal(cDevice::CurrentChannel()), SKIP_GAP);
+#else
 			tmp = Channels.GetByNumber(Channels.GetNextNormal(cDevice::CurrentChannel()), SKIP_GAP);
+#endif
 			if (tmp)
 				next_chan = tmp->GetChannelID();
 
 			const string chanName(Channel->Name());
+#if VDRVERSNUM >= 20301
+			LOCK_SCHEDULES_READ;
+#else
 			cSchedulesLock schedulesLock;
 			const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
+#endif
 			const cSchedule *Schedule = Schedules->GetSchedule(Channel);
 
 			if (Schedule) {

@@ -1,17 +1,15 @@
-#ifndef VDR_LIVE_WHATS_ON_H
-#define VDR_LIVE_WHATS_ON_H
+#ifndef VDR_LIVE_EPG_EVENTS_H
+#define VDR_LIVE_EPG_EVENTS_H
 
-#include <ctime>
+#include "stdext.h"
+
+// STL headers need to be before VDR tools.h (included by <vdr/channels.h>)
+#include <string>
 #include <list>
 
-#include <vdr/plugin.h>
 #include <vdr/channels.h>
 #include <vdr/epg.h>
-#include <vdr/config.h>
-#include <vdr/i18n.h>
-
-#include "live.h"
-#include "stdext.h"
+#include <vdr/recording.h>
 
 namespace vdrlive
 {
@@ -30,6 +28,7 @@ namespace vdrlive
 		/**
 		 *	Allocate and initalize an epgEvent instance with the
 		 *	passed channel and event information.
+		 *	Never call this function with a NULL chan pointer
 		 */
 		EpgInfoPtr CreateEpgInfo(cChannel const *chan, cEvent const *event, char const *idOverride = 0);
 
@@ -107,8 +106,6 @@ namespace vdrlive
 
 			virtual int Elapsed() const;
 
-			// virtual const cTimer* GetTimer() const = 0;
-
 			virtual time_t GetStartTime() const = 0;
 
 			virtual time_t GetEndTime() const = 0;
@@ -170,7 +167,11 @@ namespace vdrlive
 
 			virtual time_t GetEndTime() const { return m_event->EndTime(); }
 
+#if VDRVERSNUM >= 20301
+			virtual cChannel const * Channel() const { LOCK_CHANNELS_READ; return Channels->GetByChannelID(m_event->ChannelID());}
+#else
 			virtual cChannel const * Channel() const { return Channels.GetByChannelID(m_event->ChannelID());}
+#endif
 
 		private:
 			cEvent const * m_event;
@@ -198,7 +199,11 @@ namespace vdrlive
 
 			virtual time_t GetEndTime() const { return 0; }
 
+#if VDRVERSNUM >= 20301
+			virtual cChannel const * Channel() const { LOCK_CHANNELS_READ; return Channels->GetByChannelID(m_channelID);}
+#else
 			virtual cChannel const * Channel() const { return Channels.GetByChannelID(m_channelID);}
+#endif
 
 		private:
 			tChannelID m_channelID;
@@ -245,5 +250,4 @@ namespace vdrlive
 
 }; // namespace vdrlive
 
-#endif // VDR_LIVE_WHATS_ON_H
-
+#endif // VDR_LIVE_EPG_EVENTS_H
