@@ -268,7 +268,7 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 		if (!shortDescr.empty()) hint = shortDescr + "<br />" + hint;
 		else if (!description.empty()) hint = description + "<br />" + hint;
 #ifdef HAVE_LIBPCRECPP
-		pcrecpp::RE re(filter.c_str(), pcrecpp::UTF8());
+		pcrecpp::RE re(filter.c_str(), pcrecpp::RE_Options().set_utf8(true).set_caseless(true));
 		if (filter.empty() || re.PartialMatch(recItem->Name()) || re.PartialMatch(shortDescr) || re.PartialMatch(description))
 #endif
 		{
