@@ -969,7 +969,8 @@ div.boxheader div div {
 	color: white;
 	font-weight: bold;
 	height: 21px;
-        line-height: 20px;
+	line-height: 20px;
+	white-space: nowrap;
 }
 
 /*
