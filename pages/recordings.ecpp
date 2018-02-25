@@ -386,7 +386,7 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 	<div class="recording_spec">
 		<div class="recording_day"><$ FormatDateTime(tr("%a,"), startTime) + string(" ") + FormatDateTime(tr("%b %d %y"), startTime) + string(" ") + FormatDateTime(tr("%I:%M %p"), startTime) $></div>
 		<div class="recording_duration"><$ duration $></div>
-		<div class="recording_name"><a <& tooltip.hint text=(hint) &><& tooltip.display domId=(id) &>><$ name $><br /><%cpp>if ((name != shortDescr) && (!shortDescr.empty())) {</%cpp><span><$ shortDescr $></span><%cpp> } else { </%cpp><span>&nbsp;</span><%cpp> } </%cpp></a></div>
+		<div class="recording_name"><a <& tooltip.hint text=(hint) &><& tooltip.display domId=(id) &>><$ name $><br /><%cpp>if ((name != shortDescr) && (!shortDescr.empty())) {</%cpp><span><$ shortDescr $></span><%cpp> } else { </%cpp><span></span><%cpp> } </%cpp></a></div>
 	</div>
 	<div class="recording_actions">
 <%cpp>

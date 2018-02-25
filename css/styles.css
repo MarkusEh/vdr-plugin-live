@@ -460,9 +460,8 @@ div#pagemenu form a {
 	margin-left: 1em;
 }
 
-div#pagemenu form a img {
-        vertical-align: middle;
-	margin-top: -5px;
+div#pagemenu img {
+	vertical-align: text-bottom;
 }
 
 /* styles for messagebar */
@@ -915,6 +914,7 @@ table.mschedule div.content1 {
 
 table.mschedule div.tools1 {
         float: right;
+        padding-top: 5px;
 }
 
 table.mschedule div.start {
@@ -939,6 +939,10 @@ table.mschedule tr td div.description {
 table.mschedule a {
 	color: black;
 	font-weight: bold;
+}
+
+table.mschedule a>img {
+	vertical-align: text-bottom;
 }
 
 /*
@@ -999,8 +1003,12 @@ div.recording_item {
 	float: left;
 }
 
-.recording_item div.recording_imgs{
+.recording_item div.recording_imgs {
 	margin-right: 0.5em;
+}
+
+.recording_item div.recording_imgs input {
+	margin-top: 2px;
 }
 
 .recording_item div.recording_spec {
@@ -1043,6 +1051,7 @@ div.recording_item {
 .recording_item div.recording_actions {
 	float: right;
 	padding-right: 0.5em;
+	padding-top: 0.5ex;
 }
 
 /*
