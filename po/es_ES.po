@@ -755,6 +755,66 @@ msgstr "reproducir esta grabación"
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "No se puede encontrar el canal o no hay canales disponibles. ¿Puede que lo haya escrito de forma errónea?"
 
+msgid "Power (Ctrl X)"
+msgstr ""
+
+msgid "Vol+ (+)"
+msgstr ""
+
+msgid "Vol- (-)"
+msgstr ""
+
+msgid "P+ (Page Up)"
+msgstr ""
+
+msgid "P- (Page Down)"
+msgstr ""
+
+msgid "Mute (_)"
+msgstr ""
+
+msgid "Record (Ctrl R)"
+msgstr ""
+
+msgid "Menu (M)"
+msgstr ""
+
+msgid "Exit (Backspace, Q)"
+msgstr ""
+
+msgid "Subtitles (S)"
+msgstr ""
+
+msgid "Audio (A)"
+msgstr ""
+
+msgid "Up"
+msgstr ""
+
+msgid "Right"
+msgstr ""
+
+msgid "Down"
+msgstr ""
+
+msgid "Left"
+msgstr ""
+
+msgid "Ok (Enter)"
+msgstr ""
+
+msgid "Red (F1, R)"
+msgstr ""
+
+msgid "Green (F2, G)"
+msgstr ""
+
+msgid "Yellow (F3, Y)"
+msgstr ""
+
+msgid "Blue (F4, B)"
+msgstr ""
+
 msgid "Snapshot interval"
 msgstr "Intervalo de visionado"
 
