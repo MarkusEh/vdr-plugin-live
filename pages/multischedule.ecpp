@@ -462,7 +462,7 @@ std::vector<time_t>			times_start;
 
 </%cpp>
 		       <tr>
-		       <td class=" time leftcol rightcol <$ row_class $>">
+		       <td class=" time leftcol rightcol <$ row_class $><$ row == sched_end_row - 1 ? " bottomrow" : "" $>">
 <%cpp>
 			if (  minutes < MINUTES_PER_ROW )
 			{
@@ -491,20 +491,13 @@ std::vector<time_t>			times_start;
                                   continue;
 
                                 SchedEntry &en=*cur_event[channel];
-                                if (en.title.empty() && en.start.empty() )
-                                {
-                                  // empty dummy event
 </%cpp>
-			<td class="event topaligned leftcol rightcol" rowspan="<$ en.row_count $>">
-                        </td>
+			<td class="event topaligned leftcol rightcol<$ en.has_timer ? " has_timer" : "" $><$ en.start_row + en.row_count >= sched_end_row ? " bottomrow" : "" $>" rowspan="<$ en.row_count $>" >
 <%cpp>
-				  ++cur_event[channel];
-                                  continue;
-
-                                }
-                                // output an event cell
+                                if (!en.title.empty() || !en.start.empty() )
+                                {
+                                  // output an event cell
 </%cpp>
-			<td class="event topaligned leftcol rightcol <$ en.has_timer ? "has_timer" : "" $>" rowspan="<$ en.row_count $>">
                         <div class=" content1 " >
                         <div class=" tools1 " >
                           <& pageelems.event_timer epgid=(en.epgid) &>
@@ -544,6 +537,9 @@ std::vector<time_t>			times_start;
                          }
 </%cpp>
                           </div></div>
+<%cpp>
+                         }
+</%cpp>
                           </td>
 <%cpp>
                           // move to next event for this channel
@@ -554,17 +550,6 @@ std::vector<time_t>			times_start;
 <%cpp>
 		}
 </%cpp>
-			<tr>
-<%cpp>
-			for ( unsigned int channel = 0; channel <= channel_names.size() ; channel++)
-			{
-</%cpp>
-			<td class = " event leftcol rightcol bottomrow " > &nbsp; </td>
-			<td class = " time spacer " > &nbsp; </td>
-<%cpp>
-			}
-</%cpp>
-			</tr>
 			</table>
 		</div>
 	</body>
