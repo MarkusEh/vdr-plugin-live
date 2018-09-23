@@ -763,7 +763,7 @@ div.short {
 }
 
 div.info {
-	padding: 5px 5px 5px 0px;
+	margin: 5px 5px 5px 0px;
         overflow: hidden;
 }
 
@@ -779,8 +779,7 @@ div.info div.date {
 
 div.progress {
 	overflow: hidden;
-	padding: 4px;
-	margin: 4px 0px 0px 0px;
+	margin: 3px 5px;
 	float: right;
 }
 
@@ -873,7 +872,13 @@ table.mschedule tr {
         height: 12px;
 }
 
+table.mschedule td.time {
+	vertical-align: top;
+	padding: 5px;
+}
+
 table.mschedule tr td.event {
+	vertical-align: top;
 	background: transparent url(img/bg_line.png) bottom repeat-x;
 	border-bottom: 1px solid #C0C1DA;
 }
@@ -894,19 +899,17 @@ table.mschedule tr td.current_row {
         background-color: #ffB0B0;
 }
 
-table.mschedule tr td.leftcol {
-	padding-left: 7px;
-	padding-right: 5px;
-}
-
 table.mschedule div.content1 {
         min-width: 10em;
         max-width: 30em;
 }
 
+table.mschedule div.content1>div {
+        margin: 5px 5px 5px 7px;
+}
+
 table.mschedule div.tools1 {
         float: right;
-        padding-top: 5px;
 }
 
 table.mschedule div.start {
@@ -914,7 +917,6 @@ table.mschedule div.start {
 }
 
 table.mschedule tr td div.title {
-        padding: 3px;
         clear: both;
 }
 
@@ -949,12 +951,12 @@ div.boxheader	 {
 	background: url(img/bg_box_l.png) top left no-repeat;
 }
 
-div.boxheader div {
+div.boxheader > div {
 	margin: 0px;
 	background: url(img/bg_box_r.png) top right no-repeat;
 }
 
-div.boxheader div div {
+div.boxheader > div > div {
 	background: url(img/bg_box_h.png) repeat-x;
 	vertical-align: middle;
 	text-align: left;
@@ -1250,23 +1252,14 @@ div.epg_content {
 	overflow: hidden;
 }
 
-div.epg_content div {
-	margin-left: 35px;
-}
-
 div.epg_content div.epg_tools {
 	float: left;
 	width: 26px;
-	margin: 0;
+	margin: 0 9px 0 0;
 	padding: 0;
 	padding-top: 3px;
-
 	text-align: center;
 	vertical-align: top;
-}
-
-div.epg_content div div {
-	margin-left: 0px;
 }
 
 div.epg_content div.epg_tools img {
