@@ -36,6 +36,11 @@ namespace vdrlive
 	{
 	}
 
+	const string EpgInfo::ChannelName() const
+	{	const cChannel* channel = Channel();
+		return channel ? channel->Name() : "";
+	}
+
 	const string EpgInfo::CurrentTime(const char* format) const
 	{
 		return FormatDateTime(format, time(0));
@@ -172,6 +177,12 @@ namespace vdrlive
 	{
 		const cRecordingInfo* info = m_recording ? m_recording->Info() : 0;
 		return (info && info->Description()) ? info->Description() : "";
+	}
+
+	const string EpgRecording::ChannelName() const
+	{
+		const cRecordingInfo* info = m_recording ? m_recording->Info() : 0;
+		return info && info->ChannelName() ? info->ChannelName(): "";
 	}
 
 	const string EpgRecording::Archived() const

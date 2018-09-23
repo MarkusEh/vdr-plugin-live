@@ -320,6 +320,7 @@ int update_status(1);
 	string caption;
 	string tools_comp;
 	string time;
+	string channel;
 	string title;
 	string short_descr;
 	string long_descr;
@@ -342,7 +343,7 @@ int update_status(1);
 <%cpp>
 	}
 </%cpp>
-				<div class="info nowrap"><%cpp> if (!archived.empty()) { </%cpp><span class="bold"><$ (archived + " ") $></span><%cpp> } </%cpp><$ (time) $></div>
+				<div class="info"><%cpp> if (!archived.empty()) { </%cpp><span class="bold"><$ (archived + " ") $></span><%cpp> } </%cpp><$ (time) $> <$ (channel) $></div>
 				<div class="title"><$ (title) $></div>
 				<div class="short"><$ (short_descr) $></div>
 				<div class="description">
