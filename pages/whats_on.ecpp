@@ -189,8 +189,7 @@ if (type == "now") {
 
 		bool truncated = false;
 		string truncDescription = StringWordTruncate(epgEvent->LongDescr(), maximumTooltipHintLength, truncated);
-		string longDescription = StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), maximumDescriptionLength))
-			+ "<br/><br/>" + tr("Click to view details.");
+		string longDescription = StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), maximumDescriptionLength));
 		const cChannel* Channel = epgEvent->Channel();
 		if (!Channel) continue;
 		int chNumber = Channel->Number();
@@ -218,11 +217,12 @@ if (type == "now") {
 					<div>
 						<div class="info nowrap"><div class="date"><$ (startDate) $></div><div class="time"><$ (timeSpan) $></div></div>
 						<div class="progress"><& pageelems.progressbar progress=(epgEvent->Elapsed()) duration=(epgEvent->Duration()) &></div>
-						<div class="title withmargin"><$ (epgEvent->Title()) $></div>
+						<div class="title withmargin"><a <& tooltip.hint text=(tr("Click to view details.")) &><& tooltip.display domId=(epgEvent->Id()) &>><$ (epgEvent->Title()) $></a></div>
 						<div class="short withmargin"><$ (epgEvent->ShortDescr()) $></div>
-						<div class="description withmargin"><$ truncDescription $></div>
 %						if (truncated) {
-							<div class="more withmargin"><a <& tooltip.hint text=(longDescription) &><& tooltip.display domId=(epgEvent->Id()) &>><$ 	tr("more") $> ...</a></div>
+							<div class="description withmargin" <& tooltip.hint text=(longDescription) &>><$ truncDescription $> ...</div>
+%						} else {
+							<div class="description withmargin"><$ truncDescription $></div>
 %						}
 					</div>
 				</div>
