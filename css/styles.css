@@ -783,13 +783,9 @@ div.info div.date {
 
 div.progress {
 	overflow: hidden;
-	padding-right: 4px;
-	margin: 0px;
-}
-
-div.progress div {
+	padding: 4px;
+	margin: 4px 0px 0px 0px;
 	float: right;
-	padding: 0px;
 }
 
 div.__progress {

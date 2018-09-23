@@ -49,7 +49,6 @@ int update_status(1);
 </%cpp>
 <%cpp>if (LiveSetup().GetUseAjax() && LiveSetup().GetShowInfoBox()) { </%cpp><& infobox &><%cpp> } </%cpp>
 </div>
-<div style="clear: both"></div>
 <%cpp>
 	}
 </%cpp>
@@ -336,14 +335,14 @@ int update_status(1);
 				<& (tools_comp) id=(boxId) archived=(archived) detail=(1) title=(title) &>
 			</div>
 			<div class="epg_info">
-				<div class="info nowrap"><%cpp> if (!archived.empty()) { </%cpp><span class="bold"><$ (archived + " ") $></span><%cpp> } </%cpp><$ (time) $></div>
 <%cpp>
 	if (elapsed >= 0) {
 </%cpp>
-				<div class="progress"><div><& pageelems.progressbar progress=(elapsed) &></div></div>
+				<div class="progress"><& pageelems.progressbar progress=(elapsed) &></div>
 <%cpp>
 	}
 </%cpp>
+				<div class="info nowrap"><%cpp> if (!archived.empty()) { </%cpp><span class="bold"><$ (archived + " ") $></span><%cpp> } </%cpp><$ (time) $></div>
 				<div class="title"><$ (title) $></div>
 				<div class="short"><$ (short_descr) $></div>
 				<div class="description">

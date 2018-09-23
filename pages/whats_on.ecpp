@@ -217,7 +217,7 @@ if (type == "now") {
 					</div>
 					<div>
 						<div class="info nowrap"><div class="date"><$ (startDate) $></div><div class="time"><$ (timeSpan) $></div></div>
-						<div class="progress"><div><& pageelems.progressbar progress=(epgEvent->Elapsed()) duration=(epgEvent->Duration()) &></div></div>
+						<div class="progress"><& pageelems.progressbar progress=(epgEvent->Elapsed()) duration=(epgEvent->Duration()) &></div>
 						<div class="title withmargin"><$ (epgEvent->Title()) $></div>
 						<div class="short withmargin"><$ (epgEvent->ShortDescr()) $></div>
 						<div class="description withmargin"><$ truncDescription $></div>
@@ -240,7 +240,7 @@ if (type == "now") {
 				<td class="topaligned <? lastCurrentChanel ? "bottomrow"?>">
 					<div class="withmargin">
 						<div class="nomargin nowrap"><$ (timeSpan) $></div>
-						<div class="progress"><div><& pageelems.progressbar progress=(epgEvent->Elapsed()) duration=(epgEvent->Duration()) &></div></div>
+						<div class="progress"><& pageelems.progressbar progress=(epgEvent->Elapsed()) duration=(epgEvent->Duration()) &></div>
 					</div>
 				</td>
 				<td class="topaligned <? lastCurrentChanel ? "bottomrow"?>">
