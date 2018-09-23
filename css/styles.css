@@ -857,6 +857,10 @@ table.listing a {
 	font-weight: bold;
 }
 
+table.listing div.progress {
+	margin: 0;
+}
+
 /* ##################################
    # table schedule
    # (this is used for the MultiSchedule)
