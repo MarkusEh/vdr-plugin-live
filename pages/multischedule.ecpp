@@ -127,7 +127,7 @@ std::vector<time_t>			times_start;
                 std::string thisChannel;
                 try {
                     if ( cur_group_count != 0 )
-                        channel_groups_names.back() += std::string( " - " );
+                        channel_groups_names.back() += std::string( " | " );
                     size_t channelSep = thisGroup.find(',');
                     thisChannel = thisGroup.substr(0, channelSep );
                     if ( channelSep != thisGroup.npos )
