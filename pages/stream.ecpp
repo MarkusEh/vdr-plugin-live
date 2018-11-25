@@ -1,0 +1,97 @@
+<%pre>
+
+#include <livefeatures.h>
+#include <setup.h>
+#include <ffmpeg.h>
+#include <tools.h>
+
+using namespace std;
+using namespace vdrlive;
+
+</%pre>
+<%args>
+	int channel = 1;
+</%args>
+<%session scope="global">
+	bool logged_in(false);
+	FFmpegThread *f_worker = NULL;
+</%session>
+<%request scope="page">
+	cChannel* Channel;
+</%request>
+<%include>page_init.eh</%include>
+<%cpp>
+	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+
+	dsyslog("vdrlive::stream_data::f_worker(%p)", f_worker);
+	if ( !f_worker) {
+		f_worker = new FFmpegThread();
+	}
+	f_worker->StartFFmpeg(channel);
+
+	pageTitle = trVDR("Stream");
+
+#if VDRVERSNUM < 20301
+	ReadLock channelsLock( Channels );
+	if ( !channelsLock )
+		throw HtmlError( tr("Couldn't aquire access to channels, please try again later.") );
+#endif
+
+	if ( channel > 0 ) {
+#if VDRVERSNUM >= 20301
+		LOCK_CHANNELS_READ;
+		Channel = (cChannel *)Channels->GetByNumber( channel );
+#else
+		Channel = Channels.GetByNumber( channel );
+#endif
+	}
+	if ( Channel == 0 )
+		throw HtmlError( tr("Couldn't find channel or no channels available. Maybe you mistyped your request?") );
+
+</%cpp>
+<# <& pageelems.doc_type &> #>
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>VDR Live - <$ pageTitle $></title>
+		<& pageelems.stylesheets &>
+		<& pageelems.ajax_js &>
+	</head>
+	<body>
+		<& pageelems.logo &>
+		<& menu active=("stream") component=("stream.channel_selection") &>
+		<div class="inhalt">
+			<div id="player">
+
+				<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+				<script>
+				var player = new Clappr.Player({
+					source: "/media/master_<$ channel $>.m3u8",
+					parentId: "#player",
+					width: 1280, height: 720,
+					autoPlay: "true",
+					liveSyncDurationCount: 2,
+					playback: {
+						hlsjsConfig: {
+							maxBufferLength: 5,
+							liveMaxBackBufferLength: 60,
+						}
+					}
+				});
+				</script>
+
+			</div>
+		</div>
+	</body>
+</html>
+<%include>page_exit.eh</%include>
+
+<%def channel_selection>
+<form action="stream.html" method="get" id="channels">
+  <span>
+    <label for="channel"><$ tr("Channel") $>:&nbsp;<span class="bold"><$ Channel->Number() $></span></label>
+    <& channels_widget name=("channel") selected=(Channel ? *Channel->GetChannelID().ToString() : "") onchange=("document.forms.channels.submit()") &>
+    <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(Channel->GetChannelID()) image="zap.png" alt="" &>
+  </span>
+</form>
+</%def>

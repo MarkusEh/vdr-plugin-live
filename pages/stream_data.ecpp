@@ -1,0 +1,107 @@
+<%pre>
+
+#include <filecache.h>
+#include <tntfeatures.h>
+#include <ffmpeg.h>
+#include <fstream>
+#include <tnt/mimedb.h>
+
+#include <vdr/tools.h>
+
+using namespace std;
+using namespace vdrlive;
+
+</%pre>
+<%session scope="global">
+bool logged_in(false);
+FFmpegThread *f_worker = NULL;
+</%session>
+<%cpp>
+dsyslog("vdrlive::stream_data::f_worker(%p)", f_worker);
+
+reply.setHeader("Expires", "Mon, 26 Jul 1997 05:00:00 GMT");
+
+// assign Mime type to repply
+tnt::MimeDb mimeDb("/etc/mime.types");
+string mime = mimeDb.getMimetype(request.getPathInfo());
+reply.setContentType(mime);
+dsyslog("vdrlive::stream_data::mimetype(%s)", mime.c_str());
+
+// check for session cookie. TODO: handle secure cookie for ssl
+if (request.hasCookie("tntnet")) {
+	string session = request.getCookie("tntnet");
+	dsyslog("vdrlive::stream_data::session(%s)", session.c_str());
+}
+else
+	dsyslog("vdrlive::stream_data::session(null)");
+
+// forge target path from requested path. TODO: include session directory
+string path(request.getPathInfo());
+if (path.substr(0, 7) == "/media/") {
+	path.replace(0, 7, "/tmp/live-hls-buffer/");
+}
+else return DECLINED;
+dsyslog("vdrlive::stream_data::path(%s)", path.c_str());
+
+// try to open the target file
+uint8_t retry;
+if (mime == "application/x-mpegURL") retry = 50;
+else retry = 2;
+std::ifstream f;
+do {
+	f.open ( path.c_str(), std::ios::binary | std::ios::ate );
+	if (!f.is_open()) {
+		dsyslog("vdrlive::stream_data::is_open(false) %2d %s", retry, path.c_str());
+		usleep(200e3);
+	}
+} while (!f.is_open() && --retry);
+
+// fail if file did not appear after max 5 sec
+if (!f.is_open()) {
+	dsyslog("vdrlive::stream_data: DECLINED");
+	return DECLINED;
+}
+
+usleep(100e3);
+f.seekg( 0, std::ios::end );
+streamsize size = f.tellg();
+f.seekg( 0, std::ios::beg );
+dsyslog("vdrlive::stream_data::size(%d)", size);
+
+unsigned httpReturn = HTTP_OK;
+string range = request.getHeader(tnt::httpheader::range);
+dsyslog("vdrlive::stream_data::range(%s)", range.c_str());
+off_t offset = 0, stop = size-1;
+if (!range.empty()) {
+	range.erase(0,6);
+	stringstream ss(range);
+	char tmp;
+	ss >> offset >> tmp >> stop;
+	dsyslog("vdrlive::stream_data::range(%d to %d)", offset, stop);
+	if (offset > size) return HTTP_RANGE_NOT_SATISFIABLE;
+	if ((stop+1) > size) stop = size - 1;
+	httpReturn = HTTP_PARTIAL_CONTENT;
+	ostringstream contentRange;
+	contentRange << offset << ('-') << stop << ('/') << size;
+	reply.setHeader(tnt::httpheader::contentRange, contentRange.str());
+	f.seekg( offset, std::ios::beg );
+}
+
+char buffer[KILOBYTE(64)];
+streamsize r, c = stop - offset+ 1;
+while (r = f.readsome(buffer, (c < sizeof(buffer))?c:sizeof(buffer))) {
+	reply.out().write(buffer, r);
+	c -= r;
+	if (!reply.out()) {
+		return HTTP_GONE;
+	}
+#if TNT_WATCHDOG_SILENCE
+	request.touch(); // retrigger the watchdog.
+#endif
+}
+
+// dsyslog("vdrlive::stream_data: send %d bytes of data", f->size());
+reply.out() << std::flush;
+if(f_worker) f_worker->Touch();
+return httpReturn;
+</%cpp>
