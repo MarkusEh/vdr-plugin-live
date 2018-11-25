@@ -44,6 +44,7 @@ if ( LiveFeatures< features::epgsearch >().Recent() ) {
 </%cpp>
 	| <a href="recordings.html" <& menu.setactive current=("recordings") &>><$ tr("Recordings") $></a>
 	| <a href="remote.html" <& menu.setactive current=("remote") &>><$ tr("Remote Control") $></a>
+	| <a href="stream.html" <& menu.setactive current=("stream") &>><$ tr("Web-Streaming") $></a>
 	| <a href="setup.html" <& menu.setactive current=("setup") &>><$ trVDR("Setup") $></a>
 <# --- Used by D.H. to test infobox (not part of the released version)
 	| <a href="ibox_status.html" <& menu.setactive current=("status") &>><$ tr("Status Test") $></a>
@@ -95,6 +96,7 @@ if (!component.empty()) {
 </%cpp>
 	  <& menu.component current=("recordings") &>
 	  <& menu.component current=("remote") &>
+	  <& menu.component current=("stream") &>
 	  <& menu.component current=("users") &>
     </div>
   </div>

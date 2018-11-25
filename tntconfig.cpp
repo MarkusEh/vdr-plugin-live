@@ -196,6 +196,9 @@ namespace vdrlive {
 			   "/img/favicon.ico",
 			   "image/x-icon");
 
+		// Map HLS streaming data folder. Module stream_data.ecpp is used to serve content.
+		app.mapUrl("^/media/(.+)", "stream_data");
+
 		// takes first path components without 'extension' when it does not
 		// contain '.'
 		// modified by 'tadi' -- verified with above, but not counterchecked yet!
