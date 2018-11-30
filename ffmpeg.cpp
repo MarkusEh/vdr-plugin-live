@@ -3,6 +3,7 @@
 
 #include <exception>
 #include <unistd.h>
+#include <sys/wait.h>
 
 #include <vdr/tools.h>
 #include <tnt/tntnet.h>
@@ -13,7 +14,7 @@ using namespace std;
 
 
 FFmpegThread::FFmpegThread()
-:cThread("stream utility handler")
+	:cThread("stream utility handler")
 {
 	targetChannel = -1;
 	dsyslog("Live: FFmpegTread() created");
@@ -56,10 +57,11 @@ void FFmpegThread::Action()
 		int count = 0;
 		do {
 			stringstream ss;
+			ss.str("");
 			ss << "mkdir -p /tmp/live-hls-buffer && "
 				"cd /tmp/live-hls-buffer && "
 				"rm -rf * && "
-				"/tmp/ffmpeg -loglevel warning "
+				"exec /tmp/ffmpeg -loglevel warning "
 				"-analyzeduration 2M -probesize 1M "
 				"-i \"http://localhost:3000/";
 			ss << targetChannel;
@@ -74,7 +76,7 @@ void FFmpegThread::Action()
 			bool ret = pp.Open(ss.str().c_str(), "w"); // start ffmpeg
 
 			dsyslog("Live: FFmpegTread::Action::Open(%d) ffmpeg started", ret);
-			
+
 			ss.str("");
 			ss << "/tmp/live-hls-buffer/master_";
 			ss << targetChannel;
@@ -84,17 +86,20 @@ void FFmpegThread::Action()
 			do {
 				cw.Wait(1000);
 				ifstream f(ss.str().c_str());
-				if (f.good()) break;
+				if (f.good()) break; // check if ffmpeg starts to generate output
 				dsyslog("Live: FFmpegTread::Action() ffmpeg starting... %d", count);
 			} while (Running() && ++count < 10);
-			dsyslog("Live: FFmpegTread::Action() ffmpeg running %d", count);
 
-			if (count < 10) break;
-			else {
+			if (count < 10) {
+				dsyslog("Live: FFmpegTread::Action() ffmpeg running %d", count);
+				break;
+			}
+			else {  // ffmpeg did not start properly
 				fwrite("q", 1, 1, pp); fflush(pp); // send quit commmand to ffmpeg
-				usleep(500e3);
+				usleep(200e3);
 				int r = pp.Close();
 				dsyslog("Live: FFmpegTread::Action::Close(%d) disabled ffmpeg", r);
+				usleep(500e3);
 			}
 		} while (retry++ < 1 && Running());
 		if (retry > 1) return;
