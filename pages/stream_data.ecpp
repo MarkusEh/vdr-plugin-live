@@ -45,7 +45,7 @@ dsyslog("vdrlive::stream_data::path(%s)", path.c_str());
 
 // try to open the target file
 uint8_t retry;
-if (mime == "application/x-mpegURL") retry = 50;
+if (path.rfind(".m3u8") != string::npos && path.find("master_") != string::npos) retry = 50;
 else retry = 2;
 std::ifstream f;
 do {

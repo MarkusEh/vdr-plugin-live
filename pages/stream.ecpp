@@ -63,7 +63,7 @@ using namespace vdrlive;
 		<div class="inhalt">
 			<div id="player">
 
-				<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+				<script type="text/javascript" src="https://cdn.jsdelivr.net/clappr/latest/clappr.min.js"></script>
 				<script>
 				var player = new Clappr.Player({
 					source: "/media/master_<$ channel $>.m3u8",
