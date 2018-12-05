@@ -49,7 +49,7 @@ if (path.rfind(".m3u8") != string::npos && path.find("master_") != string::npos)
 else retry = 2;
 std::ifstream f;
 do {
-	f.open ( path.c_str(), std::ios::binary | std::ios::ate );
+	f.open ( path.c_str(), std::ios::binary );
 	if (!f.is_open()) {
 		dsyslog("vdrlive::stream_data::is_open(false) %2d %s", retry, path.c_str());
 		usleep(200e3);
@@ -60,6 +60,26 @@ do {
 if (!f.is_open()) {
 	dsyslog("vdrlive::stream_data: DECLINED");
 	return DECLINED;
+}
+
+// wait until TARGETDURATION in playlist is != 0
+if (path.rfind(".m3u8") != string::npos && path.find("ffmpeg_") != string::npos) {
+	string line;
+	bool td = false;
+	int count = 20;
+	while(getline(f, line) && count) {
+		if (string::npos != line.find("#EXT-X-TARGETDURATION:")) {
+			if (atoi(line.erase(0, 22).c_str())) td = true;
+			else {
+				count--;
+				f.close();
+				usleep(100e3);
+				f.open( path.c_str(), std::ios::binary );
+			}
+		}
+	}
+	f.clear(); // unset eof flag
+	dsyslog("vdrlive::stream_data: EXT-X-TARGETDURATION: %d", td);
 }
 
 usleep(100e3);
