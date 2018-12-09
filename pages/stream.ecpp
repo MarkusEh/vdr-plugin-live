@@ -74,7 +74,7 @@ using namespace vdrlive;
 					playback: {
 						hlsjsConfig: {
 							maxBufferLength: 5,
-							liveMaxBackBufferLength: 60,
+							liveMaxBackBufferLength: 10,
 						}
 					}
 				});

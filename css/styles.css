@@ -597,9 +597,6 @@ div#infobox div.st_controls div#infobox_channel_buttons {
 button {
 	width: 100px;
 	height: 20px;
-	background-color: inherit;
-	background-image: url(img/button_green.png);
-	background-repeat: no-repeat;
 	color: #FFFFFF;
 	font-size: 11px;
 	border: 0px;
