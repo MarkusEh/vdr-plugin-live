@@ -52,6 +52,11 @@ void FFmpegThread::Touch()
 void FFmpegThread::Action()
 {
 	cPipe2 pp;
+	string packerCmd = LiveSetup().GetStreamPacketizer();
+	if (packerCmd.empty()) {
+		packerCmd = "ffmpeg";
+		LiveSetup().SetStreamPacketizer(packerCmd);
+	}
 	dsyslog("Live: FFmpegTread::Action() started channel = %d", targetChannel);
 	try {
 		int retry = 0;
