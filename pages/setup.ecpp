@@ -29,6 +29,7 @@ using namespace std;
 	string showChannelsWithoutEPG;
 	string streamdevport;
 	string streamdevtype;
+	string streamPacketizer;
 	int authchanged = 0;
 </%args>
 <%session scope="global">
@@ -73,6 +74,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 			LiveSetup().SetStreamdevPort(streamdevport.empty() ? 3000 : lexical_cast<int>(streamdevport));
 			LiveSetup().SetStreamdevType(streamdevtype.empty() ? "PES" : streamdevtype);
 			LiveSetup().SetMarkNewRec(!markNewRec.empty());
+			LiveSetup().SetStreamPacketizer(streamPacketizer.empty() ? "PES" : streamPacketizer);
 			LiveSetup().SetShowIMDb(!showIMDb.empty());
 			LiveSetup().SetShowChannelsWithoutEPG(!showChannelsWithoutEPG.empty());
 			LiveSetup().SaveSetup();
@@ -102,6 +104,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 	streamdevport = lexical_cast<std::string, int>(LiveSetup().GetStreamdevPort());
 	streamdevtype = LiveSetup().GetStreamdevType();
 	markNewRec = LiveSetup().GetMarkNewRec() ? "1" : "";
+	streamPacketizer = LiveSetup().GetStreamPacketizer();
 	showIMDb = LiveSetup().GetShowIMDb() ? "1" : "";
 	showChannelsWithoutEPG = LiveSetup().GetShowChannelsWithoutEPG() ? "1" : "";
 </%cpp>
@@ -201,6 +204,10 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 							<input type="checkbox" name="useStreamdev" id="useStreamdev" value="1" <%cpp> CHECKIF(!useStreamdev.empty()); </%cpp>onclick="changedusestreamdev(this)"/>
 							<div id="streamdevsection" style="display: none">
 							<table border="0" cellpadding="0" cellspacing="0" class="dependent">
+							<tr>
+								<td class="label"><div class="withmargin"><$ tr("Web-Streaming packetizer command") $>:</div></td>
+								<td><input type="text" name="streamPacketizer" id="streamPacketizer" value="<$ streamPacketizer $>" /></td>
+							</tr>
 							<tr>
 								<td class="label"><div class="withmargin"><$ tr("Streamdev server port") $>:</div></td>
 								<td><input type="text" name="streamdevport" id="streamdevport" value="<$ streamdevport $>" /></td>

@@ -1,8 +1,6 @@
 #ifndef VDR_LIVE_THREAD_H
 #define VDR_LIVE_THREAD_H
 
-#include <atomic>
-
 #include <vdr/thread.h>
 
 namespace vdrlive {
@@ -23,6 +21,21 @@ private:
 	cCondWait cw;
 	bool touch;
 	int targetChannel;
+};
+
+// cPipe2 implements a pipe that closes all unnecessary file descriptors in
+// the child process. This is an improved variant of the vdr::cPipe
+
+class cPipe2 {
+private:
+	pid_t pid;
+	FILE *f;
+public:
+	cPipe2(void);
+	~cPipe2();
+	operator FILE* () { return f; }
+	bool Open(const char *Command, const char *Mode);
+	int Close(void);
 };
 
 } // namespace vdrlive

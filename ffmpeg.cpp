@@ -1,5 +1,6 @@
 
 #include "ffmpeg.h"
+#include "setup.h"
 
 #include <exception>
 #include <unistd.h>
@@ -50,7 +51,7 @@ void FFmpegThread::Touch()
 
 void FFmpegThread::Action()
 {
-	cPipe pp;
+	cPipe2 pp;
 	dsyslog("Live: FFmpegTread::Action() started channel = %d", targetChannel);
 	try {
 		int retry = 0;
@@ -59,13 +60,9 @@ void FFmpegThread::Action()
 			stringstream ss;
 			ss.str("");
 			ss << "mkdir -p /tmp/live-hls-buffer && "
-				"cd /tmp/live-hls-buffer && "
-				"rm -rf * && "
-				"exec /tmp/ffmpeg -loglevel warning "
-				"-analyzeduration 2M -probesize 1M "
-				"-i \"http://localhost:3000/";
-			ss << targetChannel;
-			ss << "\" "
+				"cd /tmp/live-hls-buffer && rm -rf * && "
+				"exec " << LiveSetup().GetStreamPacketizer() << " -analyzeduration 2M -probesize 1M "
+				"-i \"http://localhost:" << LiveSetup().GetStreamdevPort() << "/" << targetChannel << "\" "
 				"-map 0:v -map 0:a:0 -c:v copy -c:a aac "
 				"-f hls -hls_time 1 -hls_start_number_source datetime -hls_allow_cache 0 -hls_flags delete_segments "
 				"-master_pl_name master_";
@@ -123,6 +120,119 @@ void FFmpegThread::Action()
 		esyslog("ERROR: live FFmpegTread::Action() failed: %s", ex.what());
 	}
 	dsyslog("Live: FFmpegTread::Action() finished");
+}
+
+// --- cPipe2 -----------------------------------------------------------------
+ 
+// cPipe2::Open() and cPipe2::Close() are based on code originally received from
+// Andreas Vitting <Andreas@huji.de>
+ 
+cPipe2::cPipe2(void)
+{
+	pid = -1;
+	f = NULL;
+}
+ 
+cPipe2::~cPipe2()
+{
+	Close();
+}
+
+bool cPipe2::Open(const char *Command, const char *Mode)
+{
+	int fd[2];
+
+	if (pipe(fd) < 0) {
+		LOG_ERROR;
+		return false;
+	}
+	if ((pid = fork()) < 0) { // fork failed
+		LOG_ERROR;
+		close(fd[0]);
+		close(fd[1]);
+		return false;
+	}
+
+	const char *mode = "w";
+	int iopipe = 0;
+
+	if (pid > 0) { // parent process
+		if (strcmp(Mode, "r") == 0) {
+			mode = "r";
+			iopipe = 1;
+		}
+		close(fd[iopipe]);
+		if ((f = fdopen(fd[1 - iopipe], mode)) == NULL) {
+			LOG_ERROR;
+			close(fd[1 - iopipe]);
+		}
+		return f != NULL;
+	}
+	else { // child process
+		int iofd = STDOUT_FILENO;
+		if (strcmp(Mode, "w") == 0) {
+			iopipe = 1;
+			iofd = STDIN_FILENO;
+		}
+		close(fd[iopipe]);
+		if (dup2(fd[1 - iopipe], iofd) == -1) { // now redirect
+			LOG_ERROR;
+			close(fd[1 - iopipe]);
+			_exit(-1);
+		}
+		else {
+			int MaxPossibleFileDescriptors = getdtablesize();
+			for (int i = STDERR_FILENO + 1; i < MaxPossibleFileDescriptors; i++)
+				close(i); //close all dup'ed filedescriptors
+			if (execl("/bin/sh", "sh", "-c", Command, NULL) == -1) {
+				LOG_ERROR_STR(Command);
+				close(fd[1 - iopipe]);
+				_exit(-1);
+			}
+		}
+		_exit(0);
+	}
+}
+
+int cPipe2::Close(void)
+{
+	int ret = -1;
+
+	if (f) {
+		fclose(f);
+		f = NULL;
+	}
+
+	if (pid > 0) {
+		int status = 0;
+		int i = 5;
+		while (i > 0) {
+			ret = waitpid(pid, &status, WNOHANG);
+			if (ret < 0) {
+				if (errno != EINTR && errno != ECHILD) {
+					LOG_ERROR;
+					break;
+				}
+			}
+			else if (ret == pid)
+				break;
+			i--;
+			cCondWait::SleepMs(100);
+		}
+		if (!i) {
+			kill(pid, SIGINT);
+			cCondWait::SleepMs(100);
+			ret = waitpid(pid, &status, WNOHANG);
+			kill(pid, SIGKILL);
+			cCondWait::SleepMs(100);
+			ret = waitpid(pid, &status, WNOHANG);
+		}
+		else if (ret == -1 || !WIFEXITED(status))
+			ret = -1;
+		pid = -1;
+	}
+
+	return ret;
 }
 
 } // namespace vdrlive

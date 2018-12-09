@@ -44,6 +44,7 @@ Setup::Setup():
 		m_streamdevPort(3000),
 		m_streamdevType(),
 		m_markNewRec(1),
+		m_streamPacketizer(),
 		m_showIMDb(1),
 		m_showChannelsWithoutEPG(0)
 {
@@ -124,6 +125,7 @@ bool Setup::ParseSetupEntry( char const* name, char const* value )
 	else if ( strcmp( name, "UseStreamdev" ) == 0 ) { m_useStreamdev = atoi(value); }
 	else if ( strcmp( name, "StreamdevPort" ) == 0 ) { m_streamdevPort = atoi(value); }
 	else if ( strcmp( name, "StreamdevType" ) == 0 ) { m_streamdevType = value; }
+	else if ( strcmp( name, "StreamPacketizer" ) == 0 ) { m_streamPacketizer = value; }
 	else if ( strcmp( name, "ScreenShotInterval" ) == 0 ) { m_screenshotInterval = atoi(value); }
 	else if ( strcmp( name, "MarkNewRec" ) == 0 ) { m_markNewRec = atoi(value); }
 	else if ( strcmp( name, "ShowIMDb" ) == 0 ) { m_showIMDb = atoi(value); }
@@ -312,6 +314,7 @@ bool Setup::SaveSetup()
 	liveplugin->SetupStore("UseStreamdev", m_useStreamdev);
 	liveplugin->SetupStore("StreamdevPort", m_streamdevPort);
 	liveplugin->SetupStore("StreamdevType", m_streamdevType.c_str());
+	liveplugin->SetupStore("StreamPacketizer", m_streamPacketizer.c_str());
 	liveplugin->SetupStore("ScreenShotInterval", m_screenshotInterval);
 	liveplugin->SetupStore("MarkNewRec", m_markNewRec);
 	liveplugin->SetupStore("ShowIMDb", m_showIMDb);
