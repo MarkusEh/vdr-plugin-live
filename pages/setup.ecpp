@@ -76,6 +76,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 			LiveSetup().SetMarkNewRec(!markNewRec.empty());
 			LiveSetup().SetStreamPacketizer(streamPacketizer.empty() ? "PES" : streamPacketizer);
 			LiveSetup().SetStreamPacketizer(streamPacketizer.empty() ? "ffmpeg" : streamPacketizer);
+			LiveSetup().SetStreamPacketizer(streamPacketizer.empty() ? "ffmpeg -loglevel warning" : streamPacketizer);
 			LiveSetup().SetShowIMDb(!showIMDb.empty());
 			LiveSetup().SetShowChannelsWithoutEPG(!showChannelsWithoutEPG.empty());
 			LiveSetup().SaveSetup();

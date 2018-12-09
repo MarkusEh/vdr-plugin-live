@@ -54,7 +54,7 @@ void FFmpegThread::Action()
 	cPipe2 pp;
 	string packerCmd = LiveSetup().GetStreamPacketizer();
 	if (packerCmd.empty()) {
-		packerCmd = "ffmpeg";
+		packerCmd = "ffmpeg -loglevel warning";
 		LiveSetup().SetStreamPacketizer(packerCmd);
 	}
 	dsyslog("Live: FFmpegTread::Action() started channel = %d", targetChannel);
@@ -66,7 +66,7 @@ void FFmpegThread::Action()
 			ss.str("");
 			ss << "mkdir -p /tmp/live-hls-buffer && "
 				"cd /tmp/live-hls-buffer && rm -rf * && "
-				"exec " << LiveSetup().GetStreamPacketizer() << " -analyzeduration 2M -probesize 1M "
+				"exec " << packerCmd << " -analyzeduration 2M -probesize 1M "
 				"-i \"http://localhost:" << LiveSetup().GetStreamdevPort() << "/" << targetChannel << "\" "
 				"-map 0:v -map 0:a:0 -c:v copy -c:a aac "
 				"-f hls -hls_time 1 -hls_start_number_source datetime -hls_allow_cache 0 -hls_flags delete_segments "
