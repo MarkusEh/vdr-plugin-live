@@ -724,6 +724,9 @@ msgstr "Zeige dynamische VDR Status Box"
 msgid "Allow video streaming"
 msgstr "Erlaube Videoanzeige im Browser"
 
+msgid "Web-Streaming packetizer command"
+msgstr "Web-Streaming - Pfad zu FFmpeg"
+
 msgid "Streamdev server port"
 msgstr "Streamdev Server Port"
 

@@ -108,12 +108,12 @@ void FFmpegThread::Action()
 
 		touch = false;
 		count = 0;
-		while (Running() && count++ < 20) {
+		while (Running() && count++ < 60) {
 			if (touch) {
 				touch = false;
 				count = 0;
 			}
-			if (count) dsyslog("Live: FFmpegTread::Action() waiting: %2d/20", count);
+			if (count) dsyslog("Live: FFmpegTread::Action() waiting: %2d/60", count);
 			cw.Wait(1000);
 		}
 		fwrite("q", 1, 1, pp); fflush(pp); // send quit commmand to ffmpeg

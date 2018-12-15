@@ -4,6 +4,7 @@
 #include <setup.h>
 #include <ffmpeg.h>
 #include <tools.h>
+#include <epg_events.h>
 
 using namespace std;
 using namespace vdrlive;
@@ -18,6 +19,7 @@ using namespace vdrlive;
 </%session>
 <%request scope="page">
 	cChannel* Channel;
+	EpgInfoPtr epgEvent;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
@@ -79,8 +81,74 @@ using namespace vdrlive;
 					}
 				});
 				</script>
-
 			</div>
+<%cpp>
+const cSchedule *Schedule = NULL;
+{
+#if VDRVERSNUM >= 20301
+
+	LOCK_SCHEDULES_READ;
+#else
+	cSchedulesLock schedulesLock;
+	const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
+#endif
+
+	Schedule = Schedules->GetSchedule(Channel);
+}
+const cEvent *Event = NULL;
+if (Schedule)
+	Event = Schedule->GetPresentEvent();
+
+if (Event)
+	epgEvent = EpgEvents::CreateEpgInfo(Channel, Event);
+
+	tChannelID chanId;
+	tEventID eventId;
+	EpgEvents::DecodeDomId(epgEvent->Id(), chanId, eventId);
+	char const * timeFormat = tr("%I:%M %p");
+	char const * dateFormat = tr("%A, %x");
+	string headTime = FormatDateTime(timeFormat, time(0));
+	string headDate = FormatDateTime(dateFormat, time(0));
+	string startTime(epgEvent->StartTime(tr("%I:%M %p")));
+	string endTime(epgEvent->EndTime(tr("%I:%M %p")));
+	string startDate(epgEvent->StartTime(tr("%a, %x")));
+
+	string timeSpan(startTime + " - " + endTime);
+
+	if (startTime.empty() && endTime.empty()) {
+		timeSpan = headTime;
+		startDate = headDate;
+	}
+static const size_t maximumDescriptionLength = 300;
+string longDescription = StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), maximumDescriptionLength))
+	+ "<br/><br/>" + tr("Click to view details.");
+	</%cpp>
+			<table class="listing" cellspacing="0" cellpadding="0">
+				<tr>
+					<& pageelems.epg_tool_box detail=(0) epgid=(epgEvent->Id()) title=(epgEvent->Title()) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) lastCurrentChanel=(1) &>
+					<td class="topaligned bottomrow">
+						<div class="withmargin">
+							<div class="nomargin nowrap"><$ (timeSpan) $></div>
+							<div class="progress"><div><& pageelems.progressbar progress=(epgEvent->Elapsed()) duration=(epgEvent->Duration()) &></div></div>
+						</div>
+					</td>
+					<td class="topaligned bottomrow" style="width: 787px">
+						<div class="more withmargin">
+%						if (eventId != 0) {
+						    <a
+%							if (!longDescription.empty()) {
+							<& tooltip.hint text=(longDescription) &><& tooltip.display domId=(epgEvent->Id()) &>
+%							}
+							><span class="title"><$ (epgEvent->Title()) $></span><br /><span class="short"><$ (epgEvent->ShortDescr()) $></span></a>
+%							} else {
+							<span class="title"><$ (epgEvent->Title()) $></span>
+%							}
+						</div>
+					</td>
+					<td class="topaligned rightcol bottomrow" style="width: 250px"><div class="station withmargin"><a	href="schedule.html?channel=<$ std::to_string(channel) $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ std::to_string(channel) $><$ tr(" - ") $><$ (epgEvent->Caption()) $></a></div>
+					</td>
+				</tr>
+			</table>
 		</div>
 	</body>
 </html>
