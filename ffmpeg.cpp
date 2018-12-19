@@ -30,10 +30,12 @@ FFmpegThread::~FFmpegThread()
 void FFmpegThread::StartFFmpeg(int channel)
 {
 	if (targetChannel != channel) {
+		dsyslog("Live: FFmpegTread::StartFFmpeg() change channel %d -> %d", targetChannel, channel);
 		if ( Active() ) Stop();
+		targetChannel = channel;
 	}
-	targetChannel = channel;
 	Start();
+	dsyslog("Live: FFmpegTread::StartFFmpeg() completed");
 }
 
 void FFmpegThread::Stop()
@@ -66,10 +68,10 @@ void FFmpegThread::Action()
 			ss.str("");
 			ss << "mkdir -p /tmp/live-hls-buffer && "
 				"cd /tmp/live-hls-buffer && rm -rf * && "
-				"exec " << packerCmd << " -analyzeduration 2M -probesize 1M "
+				"exec " << packerCmd << " -analyzeduration 2M -probesize 5M "
 				"-i \"http://localhost:" << LiveSetup().GetStreamdevPort() << "/" << targetChannel << "\" "
-				"-map 0:v -map 0:a:0 -c:v copy -c:a aac "
-				"-f hls -hls_time 1 -hls_start_number_source datetime -hls_allow_cache 0 -hls_flags delete_segments "
+				"-map 0:v -map 0:a:0 -c:v copy -c:a aac -ac 2 "
+				"-f hls -hls_time 1 -hls_start_number_source datetime -hls_flags delete_segments "
 				"-master_pl_name master_";
 			ss << targetChannel;
 			ss << ".m3u8 ffmpeg_";

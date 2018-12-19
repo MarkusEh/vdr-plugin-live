@@ -19,17 +19,18 @@ using namespace vdrlive;
 </%session>
 <%request scope="page">
 	cChannel* Channel;
-	EpgInfoPtr epgEvent;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
 	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
-	dsyslog("vdrlive::stream_data::f_worker(%p)", f_worker);
+	dsyslog("vdrlive::stream::f_worker(%p)", f_worker);
 	if ( !f_worker) {
 		f_worker = new FFmpegThread();
+		dsyslog("vdrlive::stream: new FFmpegThread created");
 	}
 	f_worker->StartFFmpeg(channel);
+	dsyslog("vdrlive::stream::StartFFmpeg(%d)", channel);
 
 	pageTitle = trVDR("Stream");
 
@@ -83,6 +84,7 @@ using namespace vdrlive;
 				</script>
 			</div>
 <%cpp>
+dsyslog("vdrlive::stream: generating EPG info");
 const cSchedule *Schedule = NULL;
 {
 #if VDRVERSNUM >= 20301
@@ -99,7 +101,8 @@ const cEvent *Event = NULL;
 if (Schedule)
 	Event = Schedule->GetPresentEvent();
 
-if (Event)
+EpgInfoPtr epgEvent;
+if (Event) {
 	epgEvent = EpgEvents::CreateEpgInfo(Channel, Event);
 
 	tChannelID chanId;
@@ -132,7 +135,7 @@ string longDescription = StringEscapeAndBreak(StringWordTruncate(epgEvent->LongD
 							<div class="progress"><div><& pageelems.progressbar progress=(epgEvent->Elapsed()) duration=(epgEvent->Duration()) &></div></div>
 						</div>
 					</td>
-					<td class="topaligned bottomrow" style="width: 787px">
+					<td class="topaligned bottomrow" style="width: 788px">
 						<div class="more withmargin">
 %						if (eventId != 0) {
 						    <a
@@ -149,6 +152,7 @@ string longDescription = StringEscapeAndBreak(StringWordTruncate(epgEvent->LongD
 					</td>
 				</tr>
 			</table>
+%} // if (Event)
 		</div>
 	</body>
 </html>
