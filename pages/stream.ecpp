@@ -36,7 +36,7 @@ using namespace vdrlive;
 	if ( qparam.has("channelid") ) {
 #if VDRVERSNUM >= 20301
 		LOCK_CHANNELS_READ;
-		cChannel *c = (cChannel *)Channels->GetByChannelID(channel);
+		cChannel *c = (cChannel *)Channels->GetByChannelID( channelid );
 #else
 		cChannel *c = Channels.GetByChannelID( channelid );
 #endif
