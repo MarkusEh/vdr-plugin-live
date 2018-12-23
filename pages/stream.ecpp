@@ -11,6 +11,7 @@ using namespace vdrlive;
 
 </%pre>
 <%args>
+	tChannelID channelid;
 	int channel = 1;
 </%args>
 <%session scope="global">
@@ -24,14 +25,6 @@ using namespace vdrlive;
 <%cpp>
 	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
-	dsyslog("vdrlive::stream::f_worker(%p)", f_worker);
-	if ( !f_worker) {
-		f_worker = new FFmpegThread();
-		dsyslog("vdrlive::stream: new FFmpegThread created");
-	}
-	f_worker->StartFFmpeg(channel);
-	dsyslog("vdrlive::stream::StartFFmpeg(%d)", channel);
-
 	pageTitle = trVDR("Stream");
 
 #if VDRVERSNUM < 20301
@@ -39,6 +32,16 @@ using namespace vdrlive;
 	if ( !channelsLock )
 		throw HtmlError( tr("Couldn't aquire access to channels, please try again later.") );
 #endif
+
+	if ( qparam.has("channelid") ) {
+#if VDRVERSNUM >= 20301
+		LOCK_CHANNELS_READ;
+		cChannel *c = (cChannel *)Channels->GetByChannelID(channel);
+#else
+		cChannel *c = Channels.GetByChannelID( channelid );
+#endif
+		if ( c ) channel = c->Number();
+	}
 
 	if ( channel > 0 ) {
 #if VDRVERSNUM >= 20301
@@ -50,6 +53,14 @@ using namespace vdrlive;
 	}
 	if ( Channel == 0 )
 		throw HtmlError( tr("Couldn't find channel or no channels available. Maybe you mistyped your request?") );
+
+	dsyslog("vdrlive::stream::f_worker(%p)", f_worker);
+	if ( !f_worker) {
+		f_worker = new FFmpegThread();
+		dsyslog("vdrlive::stream: new FFmpegThread created");
+	}
+	f_worker->StartFFmpeg(channel);
+	dsyslog("vdrlive::stream::StartFFmpeg(%d)", channel);
 
 </%cpp>
 <# <& pageelems.doc_type &> #>
@@ -66,19 +77,16 @@ using namespace vdrlive;
 		<div class="inhalt">
 			<div id="player">
 
-				<script src="https://cdn.jsdelivr.net/npm/clappr@0.3.1/dist/clappr.min.js"></script>
+				<script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
 				<script>
 				var player = new Clappr.Player({
 					source: "/media/master_<$ std::to_string(channel) $>.m3u8",
 					parentId: "#player",
 					width: 1280, height: 720,
 					autoPlay: "true",
-					liveSyncDurationCount: 2,
-					playback: {
-						hlsjsConfig: {
-							maxBufferLength: 5,
-							liveMaxBackBufferLength: 10,
-						}
+					events: {
+						onError: function(error) { console.log('Calppr.Player error: ', error); },
+						onEnded: function() { console.log('Clappr.Player ended'); player.play(); },
 					}
 				});
 				</script>
@@ -162,8 +170,12 @@ string longDescription = StringEscapeAndBreak(StringWordTruncate(epgEvent->LongD
 <form action="stream.html" method="get" id="channels">
   <span>
     <label for="channel"><$ tr("Channel") $>:&nbsp;<span class="bold"><$ std::to_string(Channel->Number()) $></span></label>
-    <& channels_widget name=("channel") selected=(Channel ? *Channel->GetChannelID().ToString() : "") onchange=("document.forms.channels.submit()") &>
+    <& channels_widget name=("channel") selected=(Channel ? *Channel->GetChannelID().ToString() : "") onchange=("player.stop(); document.forms.channels.submit()") &>
     <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(Channel->GetChannelID()) image="zap.png" alt="" &>
   </span>
 </form>
+<span class="sep">|</span>
+<a href="stream.html?channel=<$ std::max(0, ((int)Channel->Number() - 1)) $>">« Prev</a>
+<span class="sep">|</span>
+<a href="stream.html?channel=<$ (Channel->Number() + 1) $>">Next »</a>
 </%def>

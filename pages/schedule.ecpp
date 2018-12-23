@@ -178,4 +178,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
      <& pageelems.m3u_playlist_channel channelId=(Channel->GetChannelID()) &>
    </span>
 </form>
+<span class="sep">|</span>
+<a href="schedule.html?channel=<$ std::max(0, ((int)Channel->Number() - 1)) $>">« Prev</a>
+<span class="sep">|</span>
+<a href="schedule.html?channel=<$ (Channel->Number() + 1) $>">Next »</a>
 </%def>

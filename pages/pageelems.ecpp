@@ -109,7 +109,7 @@ int update_status(1);
 <%args>
 	tChannelID channelId;
 </%args>
-<%cpp> if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded()) { </%cpp><a href="playlist.m3u?channel=<$ channelId $>"><img src="<$ LiveSetup().GetThemedLink("img", "stream_button.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into media player.")) &>></img></a><%cpp> } </%cpp>
+<%cpp> if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded()) { </%cpp><a href="stream.html?channelid=<$ channelId $>"><img src="<$ LiveSetup().GetThemedLink("img", "stream_button.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into browser.")) &>></img></a><%cpp> } </%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
