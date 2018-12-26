@@ -10,7 +10,7 @@ public:
 	FFmpegThread();
 	~FFmpegThread();
 
-	void StartFFmpeg(int channel);
+	void StartFFmpeg(int channel, int vopt);
 	void Stop();
 	void Touch();
 
@@ -21,6 +21,7 @@ private:
 	cCondWait cw;
 	bool touch;
 	int targetChannel;
+	int vOption;
 };
 
 // cPipe2 implements a pipe that closes all unnecessary file descriptors in

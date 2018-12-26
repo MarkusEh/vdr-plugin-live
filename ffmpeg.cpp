@@ -27,12 +27,13 @@ FFmpegThread::~FFmpegThread()
 	dsyslog("Live: FFmpegTread() destructed");
 }
 
-void FFmpegThread::StartFFmpeg(int channel)
+void FFmpegThread::StartFFmpeg(int channel, int vopt)
 {
-	if (targetChannel != channel) {
+	if (targetChannel != channel || vOption != vopt) {
 		dsyslog("Live: FFmpegTread::StartFFmpeg() change channel %d -> %d", targetChannel, channel);
 		if ( Active() ) Stop();
 		targetChannel = channel;
+		vOption = vopt;
 	}
 	Start();
 	dsyslog("Live: FFmpegTread::StartFFmpeg() completed");
@@ -60,6 +61,15 @@ void FFmpegThread::Action()
 		LiveSetup().SetStreamPacketizer(packerCmd);
 	}
 	dsyslog("Live: FFmpegTread::Action() started channel = %d", targetChannel);
+	vector<string> vopts = {
+		"copy",
+		"libx264 -preset veryfast -crf 18 -tune zerolatency -g 25 -r 25",
+		"libx264 -preset veryfast -crf 18 -tune zerolatency -g 25 -r 25",
+		"libx264 -preset veryfast -crf 18 -tune zerolatency -g 25 -r 25",
+		"libx264 -preset veryfast -crf 18 -tune zerolatency -g 25 -r 25",
+	};
+
+
 	try {
 		int retry = 0;
 		int count = 0;
@@ -68,9 +78,9 @@ void FFmpegThread::Action()
 			ss.str("");
 			ss << "mkdir -p /tmp/live-hls-buffer && "
 				"cd /tmp/live-hls-buffer && rm -rf * && "
-				"exec " << packerCmd << " -analyzeduration 2M -probesize 5M "
+				"exec " << packerCmd << " -analyzeduration 1.2M -probesize 5M "
 				"-i \"http://localhost:" << LiveSetup().GetStreamdevPort() << "/" << targetChannel << "\" "
-				"-map 0:v -map 0:a:0 -c:v copy -c:a aac -ac 2 "
+				"-map 0:v -map 0:a:0 -c:v " << vopts[vOption] << " -c:a aac -ac 2 "
 				"-f hls -hls_time 1 -hls_start_number_source datetime -hls_flags delete_segments "
 				"-master_pl_name master_";
 			ss << targetChannel;

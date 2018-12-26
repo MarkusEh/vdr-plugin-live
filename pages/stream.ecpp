@@ -54,12 +54,13 @@ using namespace vdrlive;
 	if ( Channel == 0 )
 		throw HtmlError( tr("Couldn't find channel or no channels available. Maybe you mistyped your request?") );
 
+	dsyslog("vdrlive::stream::vtype(%d)", Channel->Vtype());
 	dsyslog("vdrlive::stream::f_worker(%p)", f_worker);
 	if ( !f_worker) {
 		f_worker = new FFmpegThread();
 		dsyslog("vdrlive::stream: new FFmpegThread created");
 	}
-	f_worker->StartFFmpeg(channel);
+	f_worker->StartFFmpeg(channel, Channel->Vtype() == 27 ? 0 : 1);
 	dsyslog("vdrlive::stream::StartFFmpeg(%d)", channel);
 
 </%cpp>
@@ -70,6 +71,7 @@ using namespace vdrlive;
 		<title>VDR Live - <$ pageTitle $></title>
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
+		<script> window.onbeforeunload = function() { player.stop(); } </script>
 	</head>
 	<body>
 		<& pageelems.logo &>
