@@ -80,9 +80,9 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 			LiveSetup().SetStreamPacketizer(streamPacketizer.empty() ? "PES" : streamPacketizer);
 			LiveSetup().SetStreamPacketizer(streamPacketizer.empty() ? "ffmpeg" : streamPacketizer);
 			LiveSetup().SetStreamPacketizer(streamPacketizer.empty() ? "ffmpeg -loglevel warning" : streamPacketizer);
-			LiveSetup().SetStreamPacketizer(streamVideoOpt0.empty() ? "copy" : streamVideoOpt0);
-			LiveSetup().SetStreamPacketizer(streamVideoOpt1.empty() ? "copy" : streamVideoOpt1);
-			LiveSetup().SetStreamPacketizer(streamVideoOpt2.empty() ? "copy" : streamVideoOpt2);
+			LiveSetup().SetStreamVideoOpt0(streamVideoOpt0.empty() ? "copy" : streamVideoOpt0);
+			LiveSetup().SetStreamVideoOpt1(streamVideoOpt1.empty() ? "copy" : streamVideoOpt1);
+			LiveSetup().SetStreamVideoOpt2(streamVideoOpt2.empty() ? "copy" : streamVideoOpt2);
 			LiveSetup().SetShowIMDb(!showIMDb.empty());
 			LiveSetup().SetShowChannelsWithoutEPG(!showChannelsWithoutEPG.empty());
 			LiveSetup().SaveSetup();
