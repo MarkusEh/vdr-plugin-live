@@ -60,7 +60,20 @@ using namespace vdrlive;
 		f_worker = new FFmpegThread();
 		dsyslog("vdrlive::stream: new FFmpegThread created");
 	}
-	f_worker->StartFFmpeg(channel, Channel->Vtype() == 27 ? 0 : 1);
+
+	switch( Channel->Vtype() ) {
+		case 27:
+			f_worker->StartFFmpeg(channel, 0);
+			break;
+		case 2:
+			f_worker->StartFFmpeg(channel, 1);
+			break;
+		case 36:
+			f_worker->StartFFmpeg(channel, 2);
+			break;
+		default:
+			f_worker->StartFFmpeg(channel, 2);
+	}
 	dsyslog("vdrlive::stream::StartFFmpeg(%d)", channel);
 
 </%cpp>

@@ -54,21 +54,33 @@ void FFmpegThread::Touch()
 
 void FFmpegThread::Action()
 {
+	dsyslog("Live: FFmpegTread::Action() started channel = %d", targetChannel);
+
 	cPipe2 pp;
+
 	string packerCmd = LiveSetup().GetStreamPacketizer();
 	if (packerCmd.empty()) {
 		packerCmd = "ffmpeg -loglevel warning";
 		LiveSetup().SetStreamPacketizer(packerCmd);
 	}
-	dsyslog("Live: FFmpegTread::Action() started channel = %d", targetChannel);
-	vector<string> vopts = {
-		"copy",
-		"libx264 -preset veryfast -crf 18 -tune zerolatency -g 25 -r 25",
-		"libx264 -preset veryfast -crf 18 -tune zerolatency -g 25 -r 25",
-		"libx264 -preset veryfast -crf 18 -tune zerolatency -g 25 -r 25",
-		"libx264 -preset veryfast -crf 18 -tune zerolatency -g 25 -r 25",
-	};
 
+	vector<string> vopts;
+	vopts.push_back( LiveSetup().GetStreamVideoOpt0() );
+	vopts.push_back( LiveSetup().GetStreamVideoOpt1() );
+	vopts.push_back( LiveSetup().GetStreamVideoOpt2() );
+
+	if (vopts[0].empty()) {
+		vopts[0] = "copy";
+		LiveSetup().SetStreamVideoOpt0(vopts[0]);
+	}
+	if (vopts[1].empty()) {
+		vopts[1] = "libx264 -preset ultrafast -crf 23 -tune zerolatency -g 25 -r 25";
+		LiveSetup().SetStreamVideoOpt1(vopts[1]);
+	}
+	if (vopts[2].empty()) {
+		vopts[2] = "libx264 -preset ultrafast -crf 23 -tune zerolatency -g 25 -r 25 -s hd720";
+		LiveSetup().SetStreamVideoOpt2(vopts[2]);
+	}
 
 	try {
 		int retry = 0;
