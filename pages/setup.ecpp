@@ -29,10 +29,10 @@ using namespace std;
 	string showChannelsWithoutEPG;
 	string streamdevport;
 	string streamdevtype;
-	string streamPacketizer;
 	string streamVideoOpt0;
 	string streamVideoOpt1;
 	string streamVideoOpt2;
+	string streamVideoOpt3;
 	int authchanged = 0;
 </%args>
 <%session scope="global">
@@ -77,12 +77,14 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 			LiveSetup().SetStreamdevPort(streamdevport.empty() ? 3000 : lexical_cast<int>(streamdevport));
 			LiveSetup().SetStreamdevType(streamdevtype.empty() ? "PES" : streamdevtype);
 			LiveSetup().SetMarkNewRec(!markNewRec.empty());
-			LiveSetup().SetStreamPacketizer(streamPacketizer.empty() ? "PES" : streamPacketizer);
-			LiveSetup().SetStreamPacketizer(streamPacketizer.empty() ? "ffmpeg" : streamPacketizer);
-			LiveSetup().SetStreamPacketizer(streamPacketizer.empty() ? "ffmpeg -loglevel warning" : streamPacketizer);
-			LiveSetup().SetStreamVideoOpt0(streamVideoOpt0.empty() ? "copy" : streamVideoOpt0);
-			LiveSetup().SetStreamVideoOpt1(streamVideoOpt1.empty() ? "copy" : streamVideoOpt1);
-			LiveSetup().SetStreamVideoOpt2(streamVideoOpt2.empty() ? "copy" : streamVideoOpt2);
+
+			std::string def = "ffmpeg -loglevel warning -f mpegts -analyzeduration 1.2M -probesize 5M "
+				"-i <input> -map 0:v -map 0:a:0 -c:v copy -c:a aac -ac 2";
+			LiveSetup().SetStreamVideoOpt0(streamVideoOpt0.empty() ? def : streamVideoOpt0);
+			LiveSetup().SetStreamVideoOpt1(streamVideoOpt1.empty() ? def : streamVideoOpt1);
+			LiveSetup().SetStreamVideoOpt2(streamVideoOpt2.empty() ? def : streamVideoOpt2);
+			LiveSetup().SetStreamVideoOpt3(streamVideoOpt3.empty() ? def : streamVideoOpt3);
+
 			LiveSetup().SetShowIMDb(!showIMDb.empty());
 			LiveSetup().SetShowChannelsWithoutEPG(!showChannelsWithoutEPG.empty());
 			LiveSetup().SaveSetup();
@@ -112,10 +114,10 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 	streamdevport = lexical_cast<std::string, int>(LiveSetup().GetStreamdevPort());
 	streamdevtype = LiveSetup().GetStreamdevType();
 	markNewRec = LiveSetup().GetMarkNewRec() ? "1" : "";
-	streamPacketizer = LiveSetup().GetStreamPacketizer();
 	streamVideoOpt0 = LiveSetup().GetStreamVideoOpt0();
 	streamVideoOpt1 = LiveSetup().GetStreamVideoOpt1();
 	streamVideoOpt2 = LiveSetup().GetStreamVideoOpt2();
+	streamVideoOpt3 = LiveSetup().GetStreamVideoOpt3();
 	showIMDb = LiveSetup().GetShowIMDb() ? "1" : "";
 	showChannelsWithoutEPG = LiveSetup().GetShowChannelsWithoutEPG() ? "1" : "";
 </%cpp>
@@ -216,20 +218,20 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 							<div id="streamdevsection" style="display: none">
 							<table border="0" cellpadding="0" cellspacing="0" class="dependent">
 							<tr>
-								<td class="label"><div class="withmargin"><$ tr("Web-Streaming packetizer command") $>:</div></td>
-								<td><input type="text" name="streamPacketizer" id="streamPacketizer" value="<$ streamPacketizer $>" /></td>
+								<td class="label"><div class="withmargin"><$ tr("Web-Streaming h264") $>:</div></td>
+								<td><input type="text" name="streamVideoOpt0" id="streamVideoOpt0" size="100" value="<$ streamVideoOpt0 $>" /></td>
 							</tr>
 							<tr>
-								<td class="label"><div class="withmargin"><$ tr("Web-Streaming h264") $>:</div></td>
-								<td><input type="text" name="streamVideoOpt0" id="streamVideoOpt0" value="<$ streamVideoOpt0 $>" /></td>
+								<td class="label"><div class="withmargin"><$ tr("Web-Streaming h265") $>:</div></td>
+								<td><input type="text" name="streamVideoOpt1" id="streamVideoOpt1" size="100" value="<$ streamVideoOpt1 $>" /></td>
 							</tr>
 							<tr>
 								<td class="label"><div class="withmargin"><$ tr("Web-Streaming mpeg2") $>:</div></td>
-								<td><input type="text" name="streamVideoOpt1" id="streamVideoOpt1" value="<$ streamVideoOpt1 $>" /></td>
+								<td><input type="text" name="streamVideoOpt2" id="streamVideoOpt2" size="100" value="<$ streamVideoOpt2 $>" /></td>
 							</tr>
 							<tr>
-								<td class="label"><div class="withmargin"><$ tr("Web-Streaming h265/others") $>:</div></td>
-								<td><input type="text" name="streamVideoOpt2" id="streamVideoOpt2" value="<$ streamVideoOpt2 $>" /></td>
+								<td class="label"><div class="withmargin"><$ tr("Web-Streaming others") $>:</div></td>
+								<td><input type="text" name="streamVideoOpt3" id="streamVideoOpt3" size="100" value="<$ streamVideoOpt3 $>" /></td>
 							</tr>
 							<tr>
 								<td class="label"><div class="withmargin"><$ tr("Streamdev server port") $>:</div></td>

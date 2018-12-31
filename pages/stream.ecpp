@@ -62,17 +62,17 @@ using namespace vdrlive;
 	}
 
 	switch( Channel->Vtype() ) {
-		case 27:
+		case 27: // h264
 			f_worker->StartFFmpeg(channel, 0);
 			break;
-		case 2:
+		case 36: // h265
 			f_worker->StartFFmpeg(channel, 1);
 			break;
-		case 36:
+		case 2: // mpeg2
 			f_worker->StartFFmpeg(channel, 2);
 			break;
-		default:
-			f_worker->StartFFmpeg(channel, 2);
+		default: // others
+			f_worker->StartFFmpeg(channel, 3);
 	}
 	dsyslog("vdrlive::stream::StartFFmpeg(%d)", channel);
 

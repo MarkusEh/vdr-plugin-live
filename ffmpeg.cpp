@@ -58,41 +58,46 @@ void FFmpegThread::Action()
 
 	cPipe2 pp;
 
-	string packerCmd = LiveSetup().GetStreamPacketizer();
-	if (packerCmd.empty()) {
-		packerCmd = "ffmpeg -loglevel warning";
-		LiveSetup().SetStreamPacketizer(packerCmd);
-	}
-
+	std::string def = "ffmpeg -loglevel warning -f mpegts -analyzeduration 1.2M -probesize 5M "
+		"-i <input> -map 0:v -map 0:a:0 -c:v copy -c:a aac -ac 2";
 	vector<string> vopts;
 	vopts.push_back( LiveSetup().GetStreamVideoOpt0() );
 	vopts.push_back( LiveSetup().GetStreamVideoOpt1() );
 	vopts.push_back( LiveSetup().GetStreamVideoOpt2() );
+	vopts.push_back( LiveSetup().GetStreamVideoOpt3() );
 
-	if (vopts[0].empty()) {
-		vopts[0] = "copy";
+	if (vopts[0].empty() || vopts[0].find("<input>") == string::npos) { // h264
+		vopts[0] = def;
 		LiveSetup().SetStreamVideoOpt0(vopts[0]);
 	}
-	if (vopts[1].empty()) {
-		vopts[1] = "libx264 -preset ultrafast -crf 23 -tune zerolatency -g 25 -r 25";
+	if (vopts[1].empty() || vopts[1].find("<input>") == string::npos) { // h265
+		vopts[1] = def;
 		LiveSetup().SetStreamVideoOpt1(vopts[1]);
 	}
-	if (vopts[2].empty()) {
-		vopts[2] = "libx264 -preset ultrafast -crf 23 -tune zerolatency -g 25 -r 25 -s hd720";
+	if (vopts[2].empty() || vopts[2].find("<input>") == string::npos) { // mpeg2
+		vopts[2] = def;
 		LiveSetup().SetStreamVideoOpt2(vopts[2]);
 	}
+	if (vopts[3].empty() || vopts[3].find("<input>") == string::npos) { // others
+		vopts[3] = def;
+		LiveSetup().SetStreamVideoOpt3(vopts[3]);
+	}
+
+	string packerCmd(vopts[vOption]);
+	stringstream ss;
+	ss.str("");
+	ss << "\"http://localhost:" << LiveSetup().GetStreamdevPort() << "/" << targetChannel << "\"";
+	packerCmd.replace(packerCmd.find("<input>"), 7, ss.str());
+	dsyslog("Live: FFmpegTread::Action packetizer cmd: %s", packerCmd.c_str());
 
 	try {
 		int retry = 0;
 		int count = 0;
 		do {
-			stringstream ss;
 			ss.str("");
 			ss << "mkdir -p /tmp/live-hls-buffer && "
 				"cd /tmp/live-hls-buffer && rm -rf * && "
-				"exec " << packerCmd << " -analyzeduration 1.2M -probesize 5M "
-				"-i \"http://localhost:" << LiveSetup().GetStreamdevPort() << "/" << targetChannel << "\" "
-				"-map 0:v -map 0:a:0 -c:v " << vopts[vOption] << " -c:a aac -ac 2 "
+				"exec " << packerCmd << " "
 				"-f hls -hls_time 1 -hls_start_number_source datetime -hls_flags delete_segments "
 				"-master_pl_name master_";
 			ss << targetChannel;
