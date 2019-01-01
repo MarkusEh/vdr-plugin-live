@@ -95,7 +95,7 @@ using namespace vdrlive;
 				<script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
 				<script>
 				var player = new Clappr.Player({
-					source: "/media/master_<$ std::to_string(channel) $>.m3u8",
+					source: "media/master_<$ std::to_string(channel) $>.m3u8",
 					parentId: "#player",
 					width: 1280, height: 720,
 					autoPlay: "true",

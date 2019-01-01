@@ -45,8 +45,8 @@ dsyslog("vdrlive::stream_data::path(%s)", path.c_str());
 
 // try to open the target file
 uint8_t retry;
-if (path.rfind(".m3u8") != string::npos && path.find("master_") != string::npos) retry = 50;
-else retry = 2;
+if (path.rfind(".m3u8") != string::npos && path.find("master_") != string::npos) retry = 100;
+else retry = 5;
 std::ifstream f;
 do {
 	f.open ( path.c_str(), std::ios::binary );
@@ -56,7 +56,7 @@ do {
 	}
 } while (!f.is_open() && --retry);
 
-// fail if file did not appear after max 5 sec
+// fail if file did not appear
 if (!f.is_open()) {
 	dsyslog("vdrlive::stream_data: DECLINED");
 	return DECLINED;

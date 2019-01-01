@@ -222,11 +222,11 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 								<td><input type="text" name="streamVideoOpt0" id="streamVideoOpt0" size="100" value="<$ streamVideoOpt0 $>" /></td>
 							</tr>
 							<tr>
-								<td class="label"><div class="withmargin"><$ tr("Web-Streaming h265") $>:</div></td>
+								<td class="label"><div class="withmargin"><$ tr("Web-Streaming HEVC") $>:</div></td>
 								<td><input type="text" name="streamVideoOpt1" id="streamVideoOpt1" size="100" value="<$ streamVideoOpt1 $>" /></td>
 							</tr>
 							<tr>
-								<td class="label"><div class="withmargin"><$ tr("Web-Streaming mpeg2") $>:</div></td>
+								<td class="label"><div class="withmargin"><$ tr("Web-Streaming MPEG2") $>:</div></td>
 								<td><input type="text" name="streamVideoOpt2" id="streamVideoOpt2" size="100" value="<$ streamVideoOpt2 $>" /></td>
 							</tr>
 							<tr>
