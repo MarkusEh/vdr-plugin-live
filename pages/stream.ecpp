@@ -27,6 +27,17 @@ using namespace vdrlive;
 
 	pageTitle = trVDR("Stream");
 
+	// check for session cookie.
+	string session;
+	if (request.hasCookie("tntnet")) {
+		session = request.getCookie("tntnet");
+		dsyslog("vdrlive::stream::session(%s)", session.c_str());
+	}
+	else {
+		esyslog("vdrlive::stream: no session cookie found");
+		return reply.redirect("");
+	}
+
 #if VDRVERSNUM < 20301
 	ReadLock channelsLock( Channels );
 	if ( !channelsLock )
@@ -63,16 +74,16 @@ using namespace vdrlive;
 
 	switch( Channel->Vtype() ) {
 		case 27: // h264
-			f_worker->StartFFmpeg(channel, 0);
+			f_worker->StartFFmpeg(session, channel, 0);
 			break;
 		case 36: // h265
-			f_worker->StartFFmpeg(channel, 1);
+			f_worker->StartFFmpeg(session, channel, 1);
 			break;
 		case 2: // mpeg2
-			f_worker->StartFFmpeg(channel, 2);
+			f_worker->StartFFmpeg(session, channel, 2);
 			break;
 		default: // others
-			f_worker->StartFFmpeg(channel, 3);
+			f_worker->StartFFmpeg(session, channel, 3);
 	}
 	dsyslog("vdrlive::stream::StartFFmpeg(%d)", channel);
 
@@ -95,7 +106,7 @@ using namespace vdrlive;
 				<script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
 				<script>
 				var player = new Clappr.Player({
-					source: "media/master_<$ std::to_string(channel) $>.m3u8",
+					source: "media/<$ session $>/master_<$ std::to_string(channel) $>.m3u8",
 					parentId: "#player",
 					width: 1280, height: 720,
 					autoPlay: "true",

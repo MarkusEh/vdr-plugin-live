@@ -2,6 +2,7 @@
 #define VDR_LIVE_THREAD_H
 
 #include <vdr/thread.h>
+#include <string>
 
 namespace vdrlive {
 
@@ -10,7 +11,7 @@ public:
 	FFmpegThread();
 	~FFmpegThread();
 
-	void StartFFmpeg(int channel, int vopt);
+	void StartFFmpeg(std::string s, int channel, int vopt);
 	void Stop();
 	void Touch();
 
@@ -22,6 +23,7 @@ private:
 	bool touch;
 	int targetChannel;
 	int vOption;
+	std::string session;
 };
 
 // cPipe2 implements a pipe that closes all unnecessary file descriptors in

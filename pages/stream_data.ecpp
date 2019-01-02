@@ -28,17 +28,18 @@ reply.setContentType(mime);
 dsyslog("vdrlive::stream_data::mimetype(%s)", mime.c_str());
 
 // check for session cookie. TODO: handle secure cookie for ssl
+string session;
 if (request.hasCookie("tntnet")) {
-	string session = request.getCookie("tntnet");
+	session = request.getCookie("tntnet");
 	dsyslog("vdrlive::stream_data::session(%s)", session.c_str());
 }
 else
 	dsyslog("vdrlive::stream_data::session(null)");
 
-// forge target path from requested path. TODO: include session directory
+// forge target path from requested path.
 string path(request.getPathInfo());
 if (path.substr(0, 7) == "/media/") {
-	path.replace(0, 7, "/tmp/live-hls-buffer/");
+	path.replace(0, 7, "/tmp/live-hls-buffer/" + session + "/");
 }
 else return DECLINED;
 dsyslog("vdrlive::stream_data::path(%s)", path.c_str());

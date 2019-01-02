@@ -27,7 +27,7 @@ FFmpegThread::~FFmpegThread()
 	dsyslog("Live: FFmpegTread() destructed");
 }
 
-void FFmpegThread::StartFFmpeg(int channel, int vopt)
+void FFmpegThread::StartFFmpeg(std::string s, int channel, int vopt)
 {
 	if (targetChannel != channel || vOption != vopt) {
 		dsyslog("Live: FFmpegTread::StartFFmpeg() change channel %d -> %d", targetChannel, channel);
@@ -35,6 +35,7 @@ void FFmpegThread::StartFFmpeg(int channel, int vopt)
 		targetChannel = channel;
 		vOption = vopt;
 	}
+	session = s;
 	Start();
 	dsyslog("Live: FFmpegTread::StartFFmpeg() completed");
 }
@@ -95,8 +96,8 @@ void FFmpegThread::Action()
 		int count = 0;
 		do {
 			ss.str("");
-			ss << "mkdir -p /tmp/live-hls-buffer && "
-				"cd /tmp/live-hls-buffer && rm -rf * && "
+			ss << "mkdir -p /tmp/live-hls-buffer/" << session << " && "
+				"cd /tmp/live-hls-buffer/" << session << " && rm -rf * && "
 				"exec " << packerCmd << " "
 				"-f hls -hls_time 1 -hls_start_number_source datetime -hls_flags delete_segments "
 				"-master_pl_name master_";
@@ -109,7 +110,7 @@ void FFmpegThread::Action()
 			dsyslog("Live: FFmpegTread::Action::Open(%d) ffmpeg started", ret);
 
 			ss.str("");
-			ss << "/tmp/live-hls-buffer/master_";
+			ss << "/tmp/live-hls-buffer/" << session << "/master_";
 			ss << targetChannel;
 			ss << ".m3u8";
 
@@ -119,7 +120,7 @@ void FFmpegThread::Action()
 				ifstream f(ss.str().c_str());
 				if (f.good()) break; // check if ffmpeg starts to generate output
 				dsyslog("Live: FFmpegTread::Action() ffmpeg starting... %d", count);
-			} while (Running() && ++count < 10);
+			} while (Running() && ++count < 6);
 
 			if (count < 10) {
 				dsyslog("Live: FFmpegTread::Action() ffmpeg running %d", count);
