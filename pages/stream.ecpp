@@ -105,13 +105,14 @@ using namespace vdrlive;
 
 				<script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
 				<script>
+				Clappr.Log.setLevel(Clappr.Log.LEVEL_INFO);
 				var player = new Clappr.Player({
 					source: "media/<$ session $>/master_<$ std::to_string(channel) $>.m3u8",
 					parentId: "#player",
 					width: 1280, height: 720,
 					autoPlay: "true",
 					events: {
-						onError: function(error) { console.log('Calppr.Player error: ', error); },
+						onError: function(error) { console.log('Calppr.Player error: ', error); player.play(); },
 						onEnded: function() { console.log('Clappr.Player ended'); player.play(); },
 					}
 				});

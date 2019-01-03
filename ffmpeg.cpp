@@ -133,7 +133,7 @@ void FFmpegThread::Action()
 				dsyslog("Live: FFmpegTread::Action::Close(%d) disabled ffmpeg", r);
 				usleep(500e3);
 			}
-		} while (retry++ < 1 && Running());
+		} while (retry++ < 2 && Running());
 		if (retry > 1) return;
 
 		touch = false;

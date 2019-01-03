@@ -39,14 +39,14 @@ else
 // forge target path from requested path.
 string path(request.getPathInfo());
 if (path.substr(0, 7) == "/media/") {
-	path.replace(0, 7, "/tmp/live-hls-buffer/" + session + "/");
+	path.replace(0, 7, "/tmp/live-hls-buffer/");
 }
 else return DECLINED;
 dsyslog("vdrlive::stream_data::path(%s)", path.c_str());
 
 // try to open the target file
 uint8_t retry;
-if (path.rfind(".m3u8") != string::npos && path.find("master_") != string::npos) retry = 100;
+if (path.rfind(".m3u8") != string::npos && path.find("master_") != string::npos) retry = 25;
 else retry = 5;
 std::ifstream f;
 do {
