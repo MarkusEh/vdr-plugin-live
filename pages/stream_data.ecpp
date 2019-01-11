@@ -5,6 +5,7 @@
 #include <ffmpeg.h>
 #include <fstream>
 #include <tnt/mimedb.h>
+#include <tnt/sessionunlocker.h>
 
 #include <vdr/tools.h>
 
@@ -18,6 +19,8 @@ FFmpegThread *f_worker = NULL;
 </%session>
 <%cpp>
 dsyslog("vdrlive::stream_data::f_worker(%p)", f_worker);
+if(f_worker) f_worker->Touch();
+tnt::SessionUnlocker unlck = tnt::SessionUnlocker(request, true);
 
 reply.setHeader("Expires", "Mon, 26 Jul 1997 05:00:00 GMT");
 
@@ -46,7 +49,7 @@ dsyslog("vdrlive::stream_data::path(%s)", path.c_str());
 
 // try to open the target file
 uint8_t retry;
-if (path.rfind(".m3u8") != string::npos && path.find("master_") != string::npos) retry = 25;
+if (path.rfind(".m3u8") != string::npos && path.find("master_") != string::npos) retry = 100;
 else retry = 5;
 std::ifstream f;
 do {
@@ -123,6 +126,5 @@ while (r = f.readsome(buffer, (c < sizeof(buffer))?c:sizeof(buffer))) {
 
 // dsyslog("vdrlive::stream_data: send %d bytes of data", f->size());
 reply.out() << std::flush;
-if(f_worker) f_worker->Touch();
 return httpReturn;
 </%cpp>

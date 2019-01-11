@@ -32,12 +32,14 @@ private:
 class cPipe2 {
 private:
 	pid_t pid;
+	bool terminated;
 	FILE *f;
 public:
 	cPipe2(void);
 	~cPipe2();
 	operator FILE* () { return f; }
 	bool Open(const char *Command, const char *Mode);
+	int Check(void);
 	int Close(void);
 };
 

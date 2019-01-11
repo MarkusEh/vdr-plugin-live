@@ -120,9 +120,10 @@ void FFmpegThread::Action()
 				ifstream f(ss.str().c_str());
 				if (f.good()) break; // check if ffmpeg starts to generate output
 				dsyslog("Live: FFmpegTread::Action() ffmpeg starting... %d", count);
-			} while (Running() && ++count < 6);
+			} while (Running() && pp.Check() == 0 && ++count < 6);
+			if (pp.Check() < 0) continue;
 
-			if (count < 10) {
+			if (count < 6) {
 				dsyslog("Live: FFmpegTread::Action() ffmpeg running %d", count);
 				break;
 			}
@@ -138,7 +139,7 @@ void FFmpegThread::Action()
 
 		touch = false;
 		count = 0;
-		while (Running() && count++ < 60) {
+		while (Running() && pp.Check() == 0 && count++ < 60) {
 			if (touch) {
 				touch = false;
 				count = 0;
@@ -192,6 +193,7 @@ bool cPipe2::Open(const char *Command, const char *Mode)
 	int iopipe = 0;
 
 	if (pid > 0) { // parent process
+		terminated = false;
 		if (strcmp(Mode, "r") == 0) {
 			mode = "r";
 			iopipe = 1;
@@ -227,6 +229,27 @@ bool cPipe2::Open(const char *Command, const char *Mode)
 		}
 		_exit(0);
 	}
+}
+
+int cPipe2::Check(void)
+{
+	int ret = -1;
+
+	if (terminated) return -1;
+	if (pid > 0) {
+		int status = 0;
+		ret = waitpid(pid, &status, WNOHANG);;
+		if (ret < 0) {
+			if (errno != EINTR && errno != ECHILD) {
+				LOG_ERROR;
+				return ret;
+			}
+		}
+		if (ret > 0) terminated = true;
+
+	}
+
+	return ret;
 }
 
 int cPipe2::Close(void)
