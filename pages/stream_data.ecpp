@@ -8,6 +8,7 @@
 #include <tnt/sessionunlocker.h>
 
 #include <vdr/tools.h>
+#include <unistd.h>
 
 using namespace std;
 using namespace vdrlive;
