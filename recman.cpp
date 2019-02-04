@@ -343,32 +343,26 @@ namespace vdrlive {
 
 	bool RecordingsItemPtrCompare::ByAscendingName(RecordingsItemPtr & first, RecordingsItemPtr & second)
 	{
-		unsigned int i = 0;
-		while (i < first->Name().length() && i < second->Name().length()) {
-			if (tolower((first->Name())[i]) < tolower((second->Name())[i]))
-				return true;
-			else if (tolower((first->Name())[i]) > tolower((second->Name())[i]))
-				return false;
-			++i;
-		}
-		if (first->Name().length() < second->Name().length())
-			return true;
-		return false;
+		const char* sp1 = first->Name().c_str();
+		const char* sp2 = second->Name().c_str();
+		if (*sp1 == '%') ++sp1;
+		if (*sp2 == '%') ++sp2;
+		int r;
+		do	r = tolower(*sp1++) - tolower(*sp2++);
+		while (!r && *sp1);
+		return r < 0;
 	}
 
 	bool RecordingsItemPtrCompare::ByDescendingName(RecordingsItemPtr & first, RecordingsItemPtr & second)
 	{
-		unsigned int i = 0;
-		while (i < first->Name().length() && i < second->Name().length()) {
-			if (tolower((second->Name())[i]) < tolower((first->Name())[i]))
-				return true;
-			else if (tolower((second->Name())[i]) > tolower((first->Name())[i]))
-				return false;
-			++i;
-		}
-		if (second->Name().length() < first->Name().length())
-			return true;
-		return false;
+		const char* sp1 = first->Name().c_str();
+		const char* sp2 = second->Name().c_str();
+		if (*sp1 == '%') ++sp1;
+		if (*sp2 == '%') ++sp2;
+		int r;
+		do	r = tolower(*sp1++) - tolower(*sp2++);
+		while (!r && *sp1);
+		return r > 0;
 	}
 
 
