@@ -286,9 +286,9 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 
 <%def sort_options>
 <%cpp> { </%cpp>
-<a href="recordings.html?sort=name&filter=<? currentFilter != "" ? currentFilter ?>" alt="" /><$ tr("Sort by name") $></a>
+<a href="recordings.html?sort=name&filter=<? currentFilter != "" ? currentFilter ?>" class="<? currentSort.compare(0, 4, "name") == 0 ? "active" ?>" ><$ tr("Sort by name") $></a>
 <span class="sep">|</span>
-<a href="recordings.html?sort=date&filter=<? currentFilter != "" ? currentFilter ?>" alt="" /><$ tr("Sort by date") $></a>
+<a href="recordings.html?sort=date&filter=<? currentFilter != "" ? currentFilter ?>" class="<? currentSort.compare(0, 4, "date") == 0 ? "active" ?>" ><$ tr("Sort by date") $></a>
 <%cpp>
 #ifdef HAVE_LIBPCRECPP
 </%cpp>
