@@ -518,6 +518,12 @@ msgstr "Přehrávej v prohlížeči"
 msgid "Stream this recording into browser."
 msgstr "Přehrávej tuto nahrávku v prohlížeči."
 
+msgid "Stream this channel into media player."
+msgstr ""
+
+msgid "Stream this recording into media player."
+msgstr ""
+
 msgid "Record this"
 msgstr "Nahrát"
 

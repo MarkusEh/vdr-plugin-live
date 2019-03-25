@@ -514,6 +514,12 @@ msgstr "Sendung im Browser anzeigen."
 msgid "Stream this recording into browser."
 msgstr "Aufnahme im Browser anzeigen."
 
+msgid "Stream this channel into media player."
+msgstr ""
+
+msgid "Stream this recording into media player."
+msgstr ""
+
 msgid "Record this"
 msgstr "Diese Sendung aufnehmen"
 

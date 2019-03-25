@@ -513,6 +513,12 @@ msgstr "Oglądaj kanał w przeglądarce"
 msgid "Stream this recording into browser."
 msgstr "Oglądaj nagranie w przeglądarce"
 
+msgid "Stream this channel into media player."
+msgstr "Oglądaj kanał w odtwarzaczu multimediów"
+
+msgid "Stream this recording into media player."
+msgstr "Oglądaj nagranie w odtwarzaczu multimediów"
+
 msgid "Record this"
 msgstr "Nagraj"
 

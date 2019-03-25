@@ -513,6 +513,12 @@ msgstr "Prezera» tento kanál v prehliadaèi."
 msgid "Stream this recording into browser."
 msgstr "Prezera» túto nahrávku v prehliadaèi."
 
+msgid "Stream this channel into media player."
+msgstr ""
+
+msgid "Stream this recording into media player."
+msgstr ""
+
 msgid "Record this"
 msgstr "Nahra»"
 

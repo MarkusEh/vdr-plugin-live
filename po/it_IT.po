@@ -518,6 +518,12 @@ msgstr "Trasmetti questo canale nel browser"
 msgid "Stream this recording into browser."
 msgstr "Trasmetti questa registrazione nel browser"
 
+msgid "Stream this channel into media player."
+msgstr ""
+
+msgid "Stream this recording into media player."
+msgstr ""
+
 msgid "Record this"
 msgstr "Registra questa trasmissione"
 

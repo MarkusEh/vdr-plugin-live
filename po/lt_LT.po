@@ -513,6 +513,12 @@ msgstr "Transliuoti šį kanalą į naršyklę."
 msgid "Stream this recording into browser."
 msgstr "Transliuoti šį įrašą į naršyklę."
 
+msgid "Stream this channel into media player."
+msgstr ""
+
+msgid "Stream this recording into media player."
+msgstr ""
+
 msgid "Record this"
 msgstr "Įrašyti"
 

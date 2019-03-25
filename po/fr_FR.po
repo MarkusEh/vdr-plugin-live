@@ -523,6 +523,12 @@ msgstr "Diffusez cette chaîne vers le navigateur."
 msgid "Stream this recording into browser."
 msgstr "Diffusez cette chaîne vers le navigateur."
 
+msgid "Stream this channel into media player."
+msgstr ""
+
+msgid "Stream this recording into media player."
+msgstr ""
+
 msgid "Record this"
 msgstr "Enregistrer cette émission"
 

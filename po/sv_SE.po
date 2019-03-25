@@ -512,6 +512,12 @@ msgstr "Strömma denna kanal till webläsaren"
 msgid "Stream this recording into browser."
 msgstr "Strömma denna inspelning till webläsaren."
 
+msgid "Stream this channel into media player."
+msgstr ""
+
+msgid "Stream this recording into media player."
+msgstr ""
+
 msgid "Record this"
 msgstr "Spela in detta."
 
