@@ -1,28 +1,29 @@
 # VDR LIVE plugin language source file.
 # Copyright (C) 2007 LIVE Development team. See http://live.vdr-developer.org
 # This file is distributed under the same license as the VDR-LIVE package.
-# Michael Rakowski <mrak@gmx.de>, 2002
+# Robert Polak <herpoi2006@gmail.com>, 2011
+# Tomasz Maciej Nowak <tomek_n@o2.pl>, 2019
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"PO-Revision-Date: 2007-08-19 20:15+0200\n"
-"Last-Translator: Michael Rakowski <mrak@gmx.de>\n"
+"PO-Revision-Date: 2019-03-25 16:12+0100\n"
+"Last-Translator: Tomasz Maciej Nowak <tomek_n@o2.pl>\n"
 "Language-Team: see developers in README\n"
 "Language: pl_PL\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-2\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "Last channel to display"
-msgstr "Ostatni kana³ na li¶cie"
+msgstr "Ostatni kanaÅ‚ na liÅ›cie"
 
 msgid "No limit"
 msgstr "Bez limitu"
 
 msgid "Use authentication"
-msgstr "U¿yj autoryzacji"
+msgstr "UÅ¼yj autoryzacji"
 
 msgid "No"
 msgstr "Nie"
@@ -34,7 +35,7 @@ msgid "Admin login"
 msgstr "Login Admina"
 
 msgid "Admin password"
-msgstr "Has³o Admina"
+msgstr "HasÅ‚o Admina"
 
 #, c-format
 msgid "%A, %x"
@@ -44,13 +45,13 @@ msgid "Searchtimer"
 msgstr "Timer wyszukiwania"
 
 msgid "Error in timer settings"
-msgstr "B³±d w ustawieniach timera"
+msgstr "BÅ‚Ä…d w ustawieniach timera"
 
 msgid "Timer already defined"
-msgstr "Timer zosta³ ju¿ zdefiniowany"
+msgstr "Timer zostaÅ‚ juÅ¼ zdefiniowany"
 
 msgid "Timers are being edited - try again later"
-msgstr "Timery s± edytowane - spróbuj ponownie pó¼niej"
+msgstr "Timery sÄ… edytowane - sprÃ³buj ponownie pÃ³Åºniej"
 
 msgid "Timer not defined"
 msgstr "Timer nie zdefiniowany"
@@ -62,37 +63,37 @@ msgid "On archive HDD No."
 msgstr "W archiwum HDD nr"
 
 msgid "Couldn't find channel or no channels available."
-msgstr "Nie mo¿na odnale¶æ kana³u lub kana³y nie s± dostêpne."
+msgstr "Nie moÅ¼na odnaleÅ›Ä‡ kanaÅ‚u lub kanaÅ‚y nie sÄ… dostÄ™pne."
 
 msgid "Couldn't switch to channel."
-msgstr "Nie mo¿na prze³±czyæ kana³u."
+msgstr "Nie moÅ¼na przeÅ‚Ä…czyÄ‡ kanaÅ‚u."
 
 msgid "Couldn't find recording or no recordings available."
-msgstr "Nie mo¿na odnale¼æ nagrania lub nagranie nie jest dostêpne."
+msgstr "Nie moÅ¼na odnaleÅºÄ‡ nagrania lub nagranie nie jest dostÄ™pne."
 
 msgid "Cannot control playback!"
-msgstr "Nie mo¿na kontrolowaæ odtwarzania!"
+msgstr "Nie moÅ¼na kontrolowaÄ‡ odtwarzania!"
 
 msgid "Not playing a recording."
-msgstr "Nie mo¿na odtworzyæ nagrania."
+msgstr "Nie moÅ¼na odtworzyÄ‡ nagrania."
 
 msgid "Not playing the same recording as from request."
-msgstr "Nie mo¿na odtworzyæ ¿±danego nagrania."
+msgstr "Nie moÅ¼na odtworzyÄ‡ Å¼Ä…danego nagrania."
 
 msgid "Attempt to delete recording currently in playback."
-msgstr "Próba usuniêcia aktualnie odtwarzanego nagrania."
+msgstr "PrÃ³ba usuniÄ™cia aktualnie odtwarzanego nagrania."
 
 msgid "Epg error"
-msgstr "B³±d EPG"
+msgstr "BÅ‚Ä…d EPG"
 
 msgid "Wrong channel id"
-msgstr "B³êdny id kana³u"
+msgstr "BÅ‚Ä™dny id kanaÅ‚u"
 
 msgid "Channel has no schedule"
-msgstr "Brak programu dla wybranego kana³u"
+msgstr "Brak programu dla wybranego kanaÅ‚u"
 
 msgid "Wrong event id"
-msgstr "B³êdny id audycji"
+msgstr "BÅ‚Ä™dny id audycji"
 
 msgid "Required minimum version of epgsearch: "
 msgstr "Wymagana wersja epgsearch (minimum):"
@@ -107,25 +108,25 @@ msgid "%I:%M %p"
 msgstr "%H:%M"
 
 msgid "EPGSearch version outdated! Please update."
-msgstr "Plugin EPGSearch jest nieaktualny! Proszê zaktualizowaæ."
+msgstr "Plugin EPGSearch jest nieaktualny! ProszÄ™ zaktualizowaÄ‡."
 
 msgid "Couldn't aquire primary device"
-msgstr "Nie mozna uzyskaæ dostêpu do pierwszego interfejsu DVB"
+msgstr "Nie mozna uzyskaÄ‡ dostÄ™pu do pierwszego interfejsu DVB"
 
 msgid "Couldn't grab image from primary device"
-msgstr "Nie mo¿na pobraæ obrazu z pierwszego interfejsu DVB"
+msgstr "Nie moÅ¼na pobraÄ‡ obrazu z pierwszego interfejsu DVB"
 
 msgid "Timer conflict check detected "
-msgstr "Wykryto kolizje timerów "
+msgstr "Wykryto kolizje timerÃ³w "
 
 msgid "conflict"
-msgstr "kolizjê"
+msgstr "kolizjÄ™"
 
 msgid "conflicts"
 msgstr "kolizje"
 
 msgid "Wrong username or password"
-msgstr "B³êdna nazwa lub has³o u¿ytkownika"
+msgstr "BÅ‚Ä™dna nazwa lub hasÅ‚o uÅ¼ytkownika"
 
 msgid "Login"
 msgstr "Nazwa"
@@ -134,31 +135,31 @@ msgid "VDR Live Login"
 msgstr "Login VDR Live"
 
 msgid "User"
-msgstr "U¿ytkownik"
+msgstr "UÅ¼ytkownik"
 
 msgid "Password"
-msgstr "Has³o"
+msgstr "HasÅ‚o"
 
 msgid "Sorry, no permission. Please contact your administrator!"
-msgstr "Brak uprawenieñ. Skontaktuj siê ze swoim administratorem!"
+msgstr "Brak uprawenieÅ„. Skontaktuj siÄ™ ze swoim administratorem!"
 
 msgid "Couldn't aquire access to channels, please try again later."
-msgstr "Nie mo¿na uzyskaæ dostêpu do kana³ów, spróbój pó¼niej."
+msgstr "Nie moÅ¼na uzyskaÄ‡ dostÄ™pu do kanaÅ‚Ã³w, sprÃ³bÃ³j pÃ³Åºniej."
 
 msgid "Users"
-msgstr "U¿ytkownicy"
+msgstr "UÅ¼ytkownicy"
 
 msgid "Name"
 msgstr "Nazwa"
 
 msgid "Edit user"
-msgstr "Edycja u¿ytkownia"
+msgstr "Edycja uÅ¼ytkownia"
 
 msgid "Delete user"
-msgstr "Usuñ u¿ytkownika"
+msgstr "UsuÅ„ uÅ¼ytkownika"
 
 msgid "New user"
-msgstr "Nowy u¿ytkownik"
+msgstr "Nowy uÅ¼ytkownik"
 
 msgid "Search results"
 msgstr "Wyniki wyszykiwania"
@@ -170,13 +171,13 @@ msgid "%A, %b %d %Y"
 msgstr ""
 
 msgid "Click to view details."
-msgstr "Kliknij aby zobaczyæ szczegó³y"
+msgstr "Kliknij aby zobaczyÄ‡ szczegÃ³Å‚y"
 
 msgid "Couldn't find timer. Maybe you mistyped your request?"
-msgstr "Nie mo¿na odnale¼æ timera."
+msgstr "Nie moÅ¼na odnaleÅºÄ‡ timera."
 
 msgid "Please set a title for the timer!"
-msgstr "Proszê podaæ tytu³ dla timera!"
+msgstr "ProszÄ™ podaÄ‡ tytuÅ‚ dla timera!"
 
 #. TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
 msgid "mm/dd/yyyy"
@@ -189,28 +190,28 @@ msgid "New timer"
 msgstr "Nowy timer"
 
 msgid "Title"
-msgstr "Tytu³"
+msgstr "TytuÅ‚"
 
 msgid "Directory"
 msgstr "Katalog"
 
 msgid "Weekday"
-msgstr "Dzieñ"
+msgstr "DzieÅ„"
 
 msgid "Monday"
-msgstr "Poniedzia³ek"
+msgstr "PoniedziaÅ‚ek"
 
 msgid "Tuesday"
 msgstr "Wtorek"
 
 msgid "Wednesday"
-msgstr "¦roda"
+msgstr "Åšroda"
 
 msgid "Thursday"
 msgstr "Czwartek"
 
 msgid "Friday"
-msgstr "Pi±tek"
+msgstr "PiÄ…tek"
 
 msgid "Saturday"
 msgstr "Sobota"
@@ -219,7 +220,7 @@ msgid "Sunday"
 msgstr "Niedziela"
 
 msgid "Use VPS"
-msgstr "U¿yj VPS"
+msgstr "UÅ¼yj VPS"
 
 msgid "Save"
 msgstr "Zapisz"
@@ -237,34 +238,34 @@ msgid "Time"
 msgstr "Czas"
 
 msgid "Switch to this channel."
-msgstr "Prze³±cz na ten kana³"
+msgstr "PrzeÅ‚Ä…cz na ten kanaÅ‚"
 
 msgid "Search for repeats."
-msgstr "Szukaj powtórek"
+msgstr "Szukaj powtÃ³rek"
 
 msgid "more"
-msgstr "wiêcej"
+msgstr "wiÄ™cej"
 
 msgid "Channel"
-msgstr "Kana³"
+msgstr "KanaÅ‚"
 
 msgid "Recordings"
 msgstr "Nagrania"
 
 msgid "ERROR:"
-msgstr "B£¡D:"
+msgstr "BÅÄ„D:"
 
 msgid "Deleted recording:"
-msgstr "Usuniêto nagranie:"
+msgstr "UsuniÄ™to nagranie:"
 
 msgid "List of recordings"
-msgstr "Lista nagrañ"
+msgstr "Lista nagraÅ„"
 
 msgid "No recordings found"
-msgstr "Nie znaleziono nagrañ"
+msgstr "Nie znaleziono nagraÅ„"
 
 msgid "Delete selected"
-msgstr "Usuñ zaznaczone"
+msgstr "UsuÅ„ zaznaczone"
 
 #, no-c-format
 msgid "%a,"
@@ -276,37 +277,37 @@ msgid "(%d:%02d)"
 msgstr ""
 
 msgid "Sort by name"
-msgstr "Sortuj wed³ug nazwy"
+msgstr "Sortuj wedÅ‚ug nazwy"
 
 msgid "Sort by date"
-msgstr "Sortuj wed³ug daty"
+msgstr "Sortuj wedÅ‚ug daty"
 
 msgid "Filter"
 msgstr "Filtr"
 
 msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
-msgstr "Poka¿ nagrania zgodne z wpisanym wyra¿eniem (mo¿na u¿ywaæ tak¿e wyra¿eñ regularnych typu PERL)."
+msgstr "PokaÅ¼ nagrania zgodne z wpisanym wyraÅ¼eniem (moÅ¼na uÅ¼ywaÄ‡ takÅ¼e wyraÅ¼eÅ„ regularnych typu PERL)."
 
 msgid "Expand all folders"
-msgstr ""
+msgstr "RozwiÅ„ wszystkie katalogi"
 
 msgid "Collapse all folders"
-msgstr ""
+msgstr "ZwiÅ„ wszystkie katalogi"
 
 msgid "Delete this recording from hard disc!"
-msgstr "Usuñ to nagranie z twardego dysku!"
+msgstr "UsuÅ„ to nagranie z twardego dysku!"
 
 msgid "Edit recording"
 msgstr "Edycja nagrania"
 
 msgid "play this recording."
-msgstr "Odtwórz nagranie"
+msgstr "OdtwÃ³rz nagranie"
 
 msgid "%b %d %y"
 msgstr ""
 
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
-msgstr "Nie mo¿na odnale¼æ timera wyszukiwania."
+msgstr "Nie moÅ¼na odnaleÅºÄ‡ timera wyszukiwania."
 
 msgid "Edit search timer"
 msgstr "Edycja timera wyszukiwania"
@@ -315,7 +316,7 @@ msgid "New search timer"
 msgstr "Nowy timer wyszukiwania"
 
 msgid "Search text too short - use anyway?"
-msgstr "Wyszukiwany tekst jest za krótki - czy napewno kontynuowaæ?"
+msgstr "Wyszukiwany tekst jest za krÃ³tki - czy napewno kontynuowaÄ‡?"
 
 msgid "Search term"
 msgstr "Szukany tekst"
@@ -324,19 +325,19 @@ msgid "Search mode"
 msgstr "Tryb wyszukiwania"
 
 msgid "phrase"
-msgstr "wyra¿enie"
+msgstr "wyraÅ¼enie"
 
 msgid "all words"
-msgstr "wszystkie s³owa"
+msgstr "wszystkie sÅ‚owa"
 
 msgid "at least one word"
-msgstr "dowolne s³owo"
+msgstr "dowolne sÅ‚owo"
 
 msgid "match exactly"
-msgstr "dok³adnie ca³e wyra¿enie"
+msgstr "dokÅ‚adnie caÅ‚e wyraÅ¼enie"
 
 msgid "regular expression"
-msgstr "wyra¿enie regularne"
+msgstr "wyraÅ¼enie regularne"
 
 msgid "fuzzy"
 msgstr "niedoprecyzowane"
@@ -345,7 +346,7 @@ msgid "Tolerance"
 msgstr "Tolerancja"
 
 msgid "Match case"
-msgstr "Uwzglêdnij wielko¶æ liter"
+msgstr "UwzglÄ™dnij wielkoÅ›Ä‡ liter"
 
 msgid "Search in"
 msgstr "Szukaj w"
@@ -357,46 +358,46 @@ msgid "Description"
 msgstr "Opis"
 
 msgid "Use extended EPG info"
-msgstr "U¿yj rozszerzonej informacji EPG"
+msgstr "UÅ¼yj rozszerzonej informacji EPG"
 
 msgid "Ignore missing EPG info"
-msgstr "Ignoruj brakuj±ce informacje EPG"
+msgstr "Ignoruj brakujÄ…ce informacje EPG"
 
 msgid "When active this can cause very many timers. So please always first test this search before using it as search timer!"
-msgstr "Aktywacja timera wyszukiwania mo¿e spowodowaæ dodanie wielu niepotrzebnych timerów, wiêc przed zapisem najpiew przetestuj dzia³anie wyszukiwania!"
+msgstr "Aktywacja timera wyszukiwania moÅ¼e spowodowaÄ‡ dodanie wielu niepotrzebnych timerÃ³w, wiÄ™c przed zapisem najpiew przetestuj dziaÅ‚anie wyszukiwania!"
 
 msgid "Use channel"
-msgstr "Kana³"
+msgstr "KanaÅ‚"
 
 msgid "interval"
 msgstr "zakres"
 
 msgid "channel group"
-msgstr "grupa kana³ów"
+msgstr "grupa kanaÅ‚Ã³w"
 
 msgid "only FTA"
 msgstr "tylko niekodowane"
 
 msgid "from channel"
-msgstr "od kana³u"
+msgstr "od kanaÅ‚u"
 
 msgid "to channel"
-msgstr "do kana³u"
+msgstr "do kanaÅ‚u"
 
 msgid "Use time"
 msgstr "Czas"
 
 msgid "Start after"
-msgstr "Rozpoczêcie po"
+msgstr "RozpoczÄ™cie po"
 
 msgid "The time the show may start at the earliest"
-msgstr "Wyszukiwana audycja mo¿e rozpocz±æ siê najwcze¶niej o ..."
+msgstr "Wyszukiwana audycja moÅ¼e rozpoczÄ…Ä‡ siÄ™ najwczeÅ›niej o ..."
 
 msgid "Start before"
-msgstr "Rozpoczêcie przed"
+msgstr "RozpoczÄ™cie przed"
 
 msgid "The time the show may start at the latest"
-msgstr "Wyszukiwana audycja mo¿e rozpocz±æ siê najpó¼niej o ..."
+msgstr "Wyszukiwana audycja moÅ¼e rozpoczÄ…Ä‡ siÄ™ najpÃ³Åºniej o ..."
 
 msgid "Use duration"
 msgstr "Czas trwania"
@@ -408,7 +409,7 @@ msgid "Max. duration"
 msgstr "Max. czas trwania"
 
 msgid "Use day of week"
-msgstr "Dzieñ"
+msgstr "DzieÅ„"
 
 msgid "Use blacklists"
 msgstr "Czarna lista"
@@ -420,7 +421,7 @@ msgid "all"
 msgstr "wszystkie"
 
 msgid "Use in favorites menu"
-msgstr "U¿yj ulubionych"
+msgstr "UÅ¼yj ulubionych"
 
 msgid "Use as search timer"
 msgstr "Aktywuj timer"
@@ -441,55 +442,55 @@ msgid "Announce only"
 msgstr "Tylko powiadomienie"
 
 msgid "Switch only"
-msgstr "Tylko prze³±cz"
+msgstr "Tylko przeÅ‚Ä…cz"
 
 msgid "Announce and Switch"
-msgstr ""
+msgstr "OgÅ‚oÅ› i przeÅ‚Ä…cz"
 
 msgid "Announce via email"
-msgstr ""
+msgstr "OÅ‚oÅ› via email"
 
 msgid "Inactive Record"
-msgstr ""
+msgstr "Nieaktywne nagranie"
 
 msgid "Series recording"
 msgstr "Nagrywanie serii"
 
 msgid "Delete recordings after ... days"
-msgstr "Usuñ nagranie po ... dniach:"
+msgstr "UsuÅ„ nagranie po ... dniach:"
 
 msgid "Keep ... recordings"
-msgstr "Zatrzymaj ... nagrañ:"
+msgstr "Zatrzymaj ... nagraÅ„:"
 
 msgid "Pause when ... recordings exist"
-msgstr "Zatrzymaj gdy istnieje ... nagrañ"
+msgstr "Zatrzymaj gdy istnieje ... nagraÅ„"
 
 msgid "Avoid repeats"
-msgstr "Opcje powtórek"
+msgstr "Opcje powtÃ³rek"
 
 msgid "Allowed repeats"
-msgstr "Liczba powtórek"
+msgstr "Liczba powtÃ³rek"
 
 msgid "Only repeats within ... days"
-msgstr "Nagrywaj powtórki przez ... dni"
+msgstr "Nagrywaj powtÃ³rki przez ... dni"
 
 msgid "Compare title"
-msgstr "Porównaj tytu³y"
+msgstr "PorÃ³wnaj tytuÅ‚y"
 
 msgid "Compare subtitle"
-msgstr "Porównaj podtytu³y"
+msgstr "PorÃ³wnaj podtytuÅ‚y"
 
 msgid "if present"
-msgstr "je¿eli isteniej±"
+msgstr "jeÅ¼eli isteniejÄ…"
 
 msgid "Compare summary"
-msgstr "Podsumowanie porównania"
+msgstr "Podsumowanie porÃ³wnania"
 
 msgid "Compare"
-msgstr "Porównaj"
+msgstr "PorÃ³wnaj"
 
 msgid "Auto-delete search timer"
-msgstr "Automatycznie usuñ timer"
+msgstr "Automatycznie usuÅ„ timer"
 
 msgid "after ... recordings"
 msgstr "po ... nagraniach"
@@ -498,7 +499,7 @@ msgid "after ... days after first rec."
 msgstr "po ... dniach nagrywania"
 
 msgid "Switch ... minutes before start"
-msgstr "Prze³±cz na ... minut przed rozpoczêcziem"
+msgstr "PrzeÅ‚Ä…cz na ... minut przed rozpoczÄ™cziem"
 
 msgid "Test"
 msgstr "Testuj"
@@ -507,28 +508,28 @@ msgid "Find more at the Internet Movie Database."
 msgstr "Szukaj w IMDb.com"
 
 msgid "Stream this channel into browser."
-msgstr "Ogl±daj kana³ w przegl±darce"
+msgstr "OglÄ…daj kanaÅ‚ w przeglÄ…darce"
 
 msgid "Stream this recording into browser."
-msgstr "Ogl±daj nagranie w przegl±darce"
+msgstr "OglÄ…daj nagranie w przeglÄ…darce"
 
 msgid "Record this"
 msgstr "Nagraj"
 
 msgid "loading data"
-msgstr "³adujê ..."
+msgstr "Å‚adujÄ™ ..."
 
 msgid "an error occured!"
-msgstr "wyst±pi³ b³±d!"
+msgstr "wystÄ…piÅ‚ bÅ‚Ä…d!"
 
 msgid "Request succeeded!"
-msgstr "Zakoñczono powodzeniem!"
+msgstr "ZakoÅ„czono powodzeniem!"
 
 msgid "Request failed!"
-msgstr "Zakoñczono niepowodzeniem!"
+msgstr "ZakoÅ„czono niepowodzeniem!"
 
 msgid "January"
-msgstr "Styczeñ"
+msgstr "StyczeÅ„"
 
 msgid "February"
 msgstr "Luty"
@@ -537,7 +538,7 @@ msgid "March"
 msgstr "Marzec"
 
 msgid "April"
-msgstr "Kwiecieñ"
+msgstr "KwiecieÅ„"
 
 msgid "May"
 msgstr "Maj"
@@ -549,73 +550,73 @@ msgid "July"
 msgstr "Lipiec"
 
 msgid "August"
-msgstr "Sierpieñ"
+msgstr "SierpieÅ„"
 
 msgid "September"
-msgstr "Wrzesieñ"
+msgstr "WrzesieÅ„"
 
 msgid "October"
-msgstr "Pa¼dziernik"
+msgstr "PaÅºdziernik"
 
 msgid "November"
 msgstr "Listopad"
 
 msgid "December"
-msgstr "Grudzieñ"
+msgstr "GrudzieÅ„"
 
 msgid "retrieving status ..."
 msgstr "odczytywanie stanu ..."
 
 msgid "Toggle updates on/off."
-msgstr "W³±cz/wy³±cz aktualizacjê stanu."
+msgstr "WÅ‚Ä…cz/wyÅ‚Ä…cz aktualizacjÄ™ stanu."
 
 msgid "stop playback"
 msgstr "zatrzymaj odtwarzanie"
 
 msgid "resume playback"
-msgstr "wznów odtwarzanie"
+msgstr "wznÃ³w odtwarzanie"
 
 msgid "pause playback"
 msgstr "pauzuj odtwarzanie"
 
 msgid "fast rewind"
-msgstr "przewiñ do ty³u"
+msgstr "przewiÅ„ do tyÅ‚u"
 
 msgid "fast forward"
-msgstr "przewiñ do przodu"
+msgstr "przewiÅ„ do przodu"
 
 msgid "previous channel"
-msgstr "poprzeni kana³"
+msgstr "poprzeni kanaÅ‚"
 
 msgid "next channel"
-msgstr "nastêpny kana³"
+msgstr "nastÄ™pny kanaÅ‚"
 
 msgid "No server response!"
 msgstr "Serwer nie odpowiada!"
 
 msgid "Failed to update infobox!"
-msgstr "B³±d poczas aktualizacji panela!"
+msgstr "BÅ‚Ä…d poczas aktualizacji panela!"
 
 msgid "Authors"
 msgstr "Autorzy"
 
 msgid "Project Idea"
-msgstr ""
+msgstr "PomysÅ‚ projektu"
 
 msgid "Webserver"
 msgstr ""
 
 msgid "Current Maintainer"
-msgstr ""
+msgstr "Obecny opiekun"
 
 msgid "Project leader"
-msgstr ""
+msgstr "Lider projektu"
 
 msgid "Content"
-msgstr ""
+msgstr "ZawrtoÅ›Ä‡"
 
 msgid "Graphics"
-msgstr ""
+msgstr "Grafika"
 
 msgid "Information"
 msgstr "Informacje"
@@ -639,13 +640,13 @@ msgid "Homepage"
 msgstr "Strona domowa"
 
 msgid "Bugs and suggestions"
-msgstr "B³êdy i sugestie"
+msgstr "BÅ‚Ä™dy i sugestie"
 
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
-msgstr "Je¶li znajdziesz jakie¶ b³êdy lub chcia³by¶ zasugerowaæ nowe funkcje, skorzystaj z naszego bugtrackera"
+msgstr "JeÅ›li znajdziesz jakieÅ› bÅ‚Ä™dy lub chciaÅ‚byÅ› zasugerowaÄ‡ nowe funkcje, skorzystaj z naszego bugtrackera"
 
 msgid "No timer defined"
-msgstr "Brak zdefiniowanych timerów."
+msgstr "Brak zdefiniowanych timerÃ³w."
 
 msgid "Timer is recording."
 msgstr "Trwa nagranie timera."
@@ -657,58 +658,58 @@ msgid "Toggle timer active/inactive"
 msgstr "Aktywuj/deaktywuj timer."
 
 msgid "Delete timer"
-msgstr "Usuñ timer"
+msgstr "UsuÅ„ timer"
 
 msgid "Timer conflicts"
-msgstr "Kolizje timerów"
+msgstr "Kolizje timerÃ³w"
 
 msgid "Couldn't find user. Maybe you mistyped your request?"
-msgstr "Nie mo¿na odnale¼æ u¿ytkownika."
+msgstr "Nie moÅ¼na odnaleÅºÄ‡ uÅ¼ytkownika."
 
 msgid "This user name is already in use!"
-msgstr "Nazwa u¿ytkownika jest ju¿ u¿ywana!"
+msgstr "Nazwa uÅ¼ytkownika jest juÅ¼ uÅ¼ywana!"
 
 msgid "User rights"
 msgstr "Uprawnienia"
 
 msgid "Edit setup"
-msgstr "Edycja ustawieñ"
+msgstr "Edycja ustawieÅ„"
 
 msgid "Add or edit timers"
-msgstr "Dodawanie i edycja timerów"
+msgstr "Dodawanie i edycja timerÃ³w"
 
 msgid "Delete timers"
-msgstr "Usuwanie timerów"
+msgstr "Usuwanie timerÃ³w"
 
 msgid "Delete recordings"
-msgstr "Usuwanie niagrañ"
+msgstr "Usuwanie niagraÅ„"
 
 msgid "Use remote menu"
-msgstr "U¿ywanie pilota"
+msgstr "UÅ¼ywanie pilota"
 
 msgid "Start replay"
 msgstr "Startowane odtwarzania"
 
 msgid "Switch channel"
-msgstr "Prze³±czanie kana³ów"
+msgstr "PrzeÅ‚Ä…czanie kanaÅ‚Ã³w"
 
 msgid "Add or edit search timers"
-msgstr "Dodawanie i edycja timerów wyszukiwania"
+msgstr "Dodawanie i edycja timerÃ³w wyszukiwania"
 
 msgid "Delete search timers"
-msgstr "Usuwanie timerów wyszukiwania"
+msgstr "Usuwanie timerÃ³w wyszukiwania"
 
 msgid "Edit recordings"
-msgstr "Edycja nagrañ"
+msgstr "Edycja nagraÅ„"
 
 msgid "No timer conflicts"
-msgstr "Brak kolizji timerów"
+msgstr "Brak kolizji timerÃ³w"
 
 msgid "Timer has a conflict."
 msgstr "Timer jest w kolizji."
 
 msgid "Please set login and password!"
-msgstr "Proszê wpisaæ login i has³o!"
+msgstr "ProszÄ™ wpisaÄ‡ login i hasÅ‚o!"
 
 msgid "Setup saved."
 msgstr "Zapisano ustawienia."
@@ -717,22 +718,22 @@ msgid "Setup"
 msgstr "Ustawienia"
 
 msgid "User management"
-msgstr "Zarz±dzanie u¿ytkownikami"
+msgstr "ZarzÄ…dzanie uÅ¼ytkownikami"
 
 msgid "Local net (no login required)"
-msgstr "Sieæ lokalna (logowanie nie wymagane)"
+msgstr "SieÄ‡ lokalna (logowanie nie wymagane)"
 
 msgid "Show live logo image"
 msgstr "Pokazuj logo VDR-Live"
 
 msgid "Use ajax technology"
-msgstr "U¿ywaj technologii ajax"
+msgstr "UÅ¼ywaj technologii ajax"
 
 msgid "Show dynamic VDR information box"
 msgstr "Pokazuj panel informacyjny"
 
 msgid "Allow video streaming"
-msgstr "Zezwól na streamowanie strumienia video"
+msgstr "ZezwÃ³l na streamowanie strumienia video"
 
 msgid "Streamdev server port"
 msgstr "Port serwera Streamdev"
@@ -741,52 +742,52 @@ msgid "Streamdev stream type"
 msgstr "Typ strumienia Streamdev"
 
 msgid "Add links to IMDb"
-msgstr "Pokazuj odno¶niki do IMDb"
+msgstr "Pokazuj odnoÅ›niki do IMDb"
 
 msgid "Additional fixed times in 'What's on?'"
-msgstr "Lista wyboru godzin w zak³adce 'Teraz w TV'"
+msgstr "Lista wyboru godzin w zakÅ‚adce 'Teraz w TV'"
 
 msgid "Format is HH:MM. Separate multiple times with a semicolon"
-msgstr "Wpisz czasy, które maj± byæ wy¶wietlane na li¶cie wyboru w formacie GG:MM. Oddzielaj poszczególne wpisy ¶rednikiem."
+msgstr "Wpisz czasy, ktÃ³re majÄ… byÄ‡ wyÅ›wietlane na liÅ›cie wyboru w formacie GG:MM. Oddzielaj poszczegÃ³lne wpisy Å›rednikiem."
 
 msgid "Channel groups for MultiSchedule"
-msgstr "Grypy kana³ów w 'Multipzewodniku'"
+msgstr "Grypy kanaÅ‚Ã³w w 'Multipzewodniku'"
 
 msgid "Separate channels with a comma ',', separate groups with a semi-colon ';'"
-msgstr "Kana³y oddzielaj przecinkiem, grypu kana³ów oddzielaj ¶rednikiem (np. 1,2,7,3,11;4,5,6;21,22,23,40"
+msgstr "KanaÅ‚y oddzielaj przecinkiem, grypu kanaÅ‚Ã³w oddzielaj Å›rednikiem (np. 1,2,7,3,11;4,5,6;21,22,23,40"
 
 msgid "Duration of MultiSchedule in hours"
-msgstr "Czas jaki ma obejmowaæ Multiprzewodnik (w godzinach) "
+msgstr "Czas jaki ma obejmowaÄ‡ Multiprzewodnik (w godzinach) "
 
 msgid "Show channels without EPG"
-msgstr "Pokazuj kana³y bez EPG"
+msgstr "Pokazuj kanaÅ‚y bez EPG"
 
 msgid "Start page"
 msgstr "Strona startowa"
 
 msgid "Theme"
-msgstr "Skórka"
+msgstr "SkÃ³rka"
 
 msgid "Couldn't find recording. Maybe you mistyped your request?"
-msgstr "Nie mo¿na odnale¼æ nagrania."
+msgstr "Nie moÅ¼na odnaleÅºÄ‡ nagrania."
 
 msgid "Please set a name for the recording!"
-msgstr "Proszê podaæ nazwê nagrania!"
+msgstr "ProszÄ™ podaÄ‡ nazwÄ™ nagrania!"
 
 msgid "Cannot copy, rename or move the recording."
-msgstr "Nie mo¿na skopiowaæ, przenie¶æ ani zmieniæ nazwy nagrania."
+msgstr "Nie moÅ¼na skopiowaÄ‡, przenieÅ›Ä‡ ani zmieniÄ‡ nazwy nagrania."
 
 msgid "Delete resume information"
-msgstr "Usuñ informacjê o wznowieniu"
+msgstr "UsuÅ„ informacjÄ™ o wznowieniu"
 
 msgid "Delete marks information"
-msgstr "Usuñ informacjê o znacznikach"
+msgstr "UsuÅ„ informacjÄ™ o znacznikach"
 
 msgid "Copy only"
 msgstr "Skopiuj do katalogu"
 
 msgid "Short description"
-msgstr "Krótki opis"
+msgstr "KrÃ³tki opis"
 
 msgid "Auxiliary info"
 msgstr "Dodatkowe informacje"
@@ -807,7 +808,7 @@ msgid "VLC: live video stream"
 msgstr "VLC: streamuj video"
 
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
-msgstr "Nie mo¿na odnale¶æ kana³u lub kana³y nie s± dostêpne."
+msgstr "Nie moÅ¼na odnaleÅ›Ä‡ kanaÅ‚u lub kanaÅ‚y nie sÄ… dostÄ™pne."
 
 msgid "VLC: play recording"
 msgstr "VLC: odtwarzaj nagranie"
@@ -819,13 +820,13 @@ msgid "Play"
 msgstr "Play"
 
 msgid "Sound on"
-msgstr "W³±cz g³os"
+msgstr "WÅ‚Ä…cz gÅ‚os"
 
 msgid "Sound off"
-msgstr "Wycisz g³os"
+msgstr "Wycisz gÅ‚os"
 
 msgid "Fullscreen"
-msgstr "Pe³ny ekran"
+msgstr "PeÅ‚ny ekran"
 
 msgid "Close"
 msgstr "Zamknij"
@@ -840,13 +841,13 @@ msgid "no epg info for current event!"
 msgstr "brak informacji o audycji!"
 
 msgid "no epg info for current channel!"
-msgstr "brak informacji epg dla kana³u!"
+msgstr "brak informacji epg dla kanaÅ‚u!"
 
 msgid "no current channel!"
 msgstr "brak informacji o kanale!"
 
 msgid "error retrieving status info!"
-msgstr "b³±d podczas odczytu stanu"
+msgstr "bÅ‚Ä…d podczas odczytu stanu"
 
 msgid "%I:%M:%S %p"
 msgstr "%H:%M:%S"
@@ -855,22 +856,22 @@ msgid "Searchtimers"
 msgstr "Timery wyszukiwania"
 
 msgid "Expression"
-msgstr "Wyra¿enie"
+msgstr "WyraÅ¼enie"
 
 msgid "Starts between"
-msgstr "Pocz±tek miêdzy"
+msgstr "PoczÄ…tek miÄ™dzy"
 
 msgid "Toggle search timer actions (in)active"
 msgstr "Aktywuj/deaktywuj timer wyszukiwania"
 
 msgid "Browse search timer results"
-msgstr "Przegl±daj wyniki timera wyszukiwania"
+msgstr "PrzeglÄ…daj wyniki timera wyszukiwania"
 
 msgid "Delete this search timer?"
-msgstr "Usun±æ ten timer wyszukiwania?"
+msgstr "UsunÄ…Ä‡ ten timer wyszukiwania?"
 
 msgid "Delete search timer"
-msgstr "Usuñ timer wyszukiwania"
+msgstr "UsuÅ„ timer wyszukiwania"
 
 msgid "Trigger search timer update"
 msgstr "Zaprogramuj aktywne timery wyszukiwania"
@@ -892,34 +893,34 @@ msgid "Favorites"
 msgstr "Ulubione"
 
 msgid "View the schedule of this channel"
-msgstr "Wy¶wietl program dla tego kana³u"
+msgstr "WyÅ›wietl program dla tego kanaÅ‚u"
 
 msgid " - "
 msgstr ""
 
 msgid "Next"
-msgstr "Nastêpnie"
+msgstr "NastÄ™pnie"
 
 msgid "What's on"
 msgstr "Audycje"
 
 msgid "Details view"
-msgstr "Widek szczegó³owy"
+msgstr "Widek szczegÃ³Å‚owy"
 
 msgid "List view"
 msgstr "Widok listy"
 
 msgid "No schedules available for this channel"
-msgstr "Brak listy audycji dla tego kana³u"
+msgstr "Brak listy audycji dla tego kanaÅ‚u"
 
 msgid "Remote Control"
 msgstr "Pilot"
 
 msgid "Snapshot interval"
-msgstr "Okres pomiêdzy migawkami"
+msgstr "Okres pomiÄ™dzy migawkami"
 
 msgid "Page error"
-msgstr "B³±d strony"
+msgstr "BÅ‚Ä…d strony"
 
 msgid "What's on?"
 msgstr "Teraz w TV"
@@ -928,10 +929,10 @@ msgid "Logout"
 msgstr "Wyloguj"
 
 msgid "Your attention is required"
-msgstr "Uwaga, co¶ nie gra  "
+msgstr "Uwaga, coÅ› nie gra  "
 
 msgid "React"
-msgstr "Sprawd¼"
+msgstr "SprawdÅº"
 
 msgid "Dismiss"
 msgstr "Anuluj"
@@ -940,19 +941,16 @@ msgid "Electronic program guide information"
 msgstr "Informacje EPG"
 
 msgid "Couldn't find recording or no recordings available"
-msgstr "Nie mo¿na odnale¼æ nagrania"
+msgstr "Nie moÅ¼na odnaleÅºÄ‡ nagrania"
 
 msgid "Error aquiring schedules lock"
-msgstr "B³±d podczas próby blokady programu"
+msgstr "BÅ‚Ä…d podczas prÃ³by blokady programu"
 
 msgid "Error aquiring schedules"
-msgstr "B³±d podczas ¶ci±gania programu"
+msgstr "BÅ‚Ä…d podczas Å›ciÄ…gania programu"
 
 msgid "Live Interactive VDR Environment"
 msgstr ""
 
 msgid "No EPG information available"
 msgstr "Brak informacji EPG"
-
-#~ msgid "Show duration in 'Recordings'"
-#~ msgstr "Pokazuj czas trwania nagrañ"
