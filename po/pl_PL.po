@@ -124,47 +124,102 @@ msgstr "kolizjê"
 msgid "conflicts"
 msgstr "kolizje"
 
-msgid "Couldn't aquire access to channels, please try again later."
-msgstr "Nie mo¿na uzyskaæ dostêpu do kana³ów, spróbój pó¼niej."
+msgid "Wrong username or password"
+msgstr "B³êdna nazwa lub has³o u¿ytkownika"
+
+msgid "Login"
+msgstr "Nazwa"
+
+msgid "VDR Live Login"
+msgstr "Login VDR Live"
+
+msgid "User"
+msgstr "U¿ytkownik"
+
+msgid "Password"
+msgstr "Has³o"
 
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Brak uprawenieñ. Skontaktuj siê ze swoim administratorem!"
 
-msgid "Couldn't find recording. Maybe you mistyped your request?"
-msgstr "Nie mo¿na odnale¼æ nagrania."
+msgid "Couldn't aquire access to channels, please try again later."
+msgstr "Nie mo¿na uzyskaæ dostêpu do kana³ów, spróbój pó¼niej."
 
-msgid "Please set a name for the recording!"
-msgstr "Proszê podaæ nazwê nagrania!"
-
-msgid "Cannot copy, rename or move the recording."
-msgstr "Nie mo¿na skopiowaæ, przenie¶æ ani zmieniæ nazwy nagrania."
-
-msgid "Edit recording"
-msgstr "Edycja nagrania"
+msgid "Users"
+msgstr "U¿ytkownicy"
 
 msgid "Name"
 msgstr "Nazwa"
 
+msgid "Edit user"
+msgstr "Edycja u¿ytkownia"
+
+msgid "Delete user"
+msgstr "Usuñ u¿ytkownika"
+
+msgid "New user"
+msgstr "Nowy u¿ytkownik"
+
+msgid "Search results"
+msgstr "Wyniki wyszykiwania"
+
+msgid "No search results"
+msgstr "Nic nie znaleziono"
+
+msgid "%A, %b %d %Y"
+msgstr ""
+
+msgid "Click to view details."
+msgstr "Kliknij aby zobaczyæ szczegó³y"
+
+msgid "Couldn't find timer. Maybe you mistyped your request?"
+msgstr "Nie mo¿na odnale¼æ timera."
+
+msgid "Please set a title for the timer!"
+msgstr "Proszê podaæ tytu³ dla timera!"
+
+#. TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
+msgid "mm/dd/yyyy"
+msgstr "dd/mm/yyyy"
+
+msgid "Edit timer"
+msgstr "Edycja timera"
+
+msgid "New timer"
+msgstr "Nowy timer"
+
+msgid "Title"
+msgstr "Tytu³"
+
 msgid "Directory"
 msgstr "Katalog"
 
-msgid "Delete resume information"
-msgstr "Usuñ informacjê o wznowieniu"
+msgid "Weekday"
+msgstr "Dzieñ"
 
-msgid "Delete marks information"
-msgstr "Usuñ informacjê o znacznikach"
+msgid "Monday"
+msgstr "Poniedzia³ek"
 
-msgid "Copy only"
-msgstr "Skopiuj do katalogu"
+msgid "Tuesday"
+msgstr "Wtorek"
 
-msgid "Short description"
-msgstr "Krótki opis"
+msgid "Wednesday"
+msgstr "¦roda"
 
-msgid "Description"
-msgstr "Opis"
+msgid "Thursday"
+msgstr "Czwartek"
 
-msgid "Auxiliary info"
-msgstr "Dodatkowe informacje"
+msgid "Friday"
+msgstr "Pi±tek"
+
+msgid "Saturday"
+msgstr "Sobota"
+
+msgid "Sunday"
+msgstr "Niedziela"
+
+msgid "Use VPS"
+msgstr "U¿yj VPS"
 
 msgid "Save"
 msgstr "Zapisz"
@@ -172,12 +227,86 @@ msgstr "Zapisz"
 msgid "Cancel"
 msgstr "Anuluj"
 
+msgid "MultiSchedule"
+msgstr "Multiprzewodnik"
+
+msgid "Now"
+msgstr "Teraz"
+
+msgid "Time"
+msgstr "Czas"
+
+msgid "Switch to this channel."
+msgstr "Prze³±cz na ten kana³"
+
+msgid "Search for repeats."
+msgstr "Szukaj powtórek"
+
+msgid "more"
+msgstr "wiêcej"
+
+msgid "Channel"
+msgstr "Kana³"
+
+msgid "Recordings"
+msgstr "Nagrania"
+
+msgid "ERROR:"
+msgstr "B£¡D:"
+
+msgid "Deleted recording:"
+msgstr "Usuniêto nagranie:"
+
+msgid "List of recordings"
+msgstr "Lista nagrañ"
+
+msgid "No recordings found"
+msgstr "Nie znaleziono nagrañ"
+
+msgid "Delete selected"
+msgstr "Usuñ zaznaczone"
+
+#, no-c-format
+msgid "%a,"
+msgstr ""
+
+#. TRANSLATORS: recording duration format HH:MM
+#, c-format
+msgid "(%d:%02d)"
+msgstr ""
+
+msgid "Sort by name"
+msgstr "Sortuj wed³ug nazwy"
+
+msgid "Sort by date"
+msgstr "Sortuj wed³ug daty"
+
+msgid "Filter"
+msgstr "Filtr"
+
+msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
+msgstr "Poka¿ nagrania zgodne z wpisanym wyra¿eniem (mo¿na u¿ywaæ tak¿e wyra¿eñ regularnych typu PERL)."
+
+msgid "Expand all folders"
+msgstr ""
+
+msgid "Collapse all folders"
+msgstr ""
+
+msgid "Delete this recording from hard disc!"
+msgstr "Usuñ to nagranie z twardego dysku!"
+
+msgid "Edit recording"
+msgstr "Edycja nagrania"
+
+msgid "play this recording."
+msgstr "Odtwórz nagranie"
+
+msgid "%b %d %y"
+msgstr ""
+
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
 msgstr "Nie mo¿na odnale¼æ timera wyszukiwania."
-
-#. TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
-msgid "mm/dd/yyyy"
-msgstr "dd/mm/yyyy"
 
 msgid "Edit search timer"
 msgstr "Edycja timera wyszukiwania"
@@ -221,11 +350,11 @@ msgstr "Uwzglêdnij wielko¶æ liter"
 msgid "Search in"
 msgstr "Szukaj w"
 
-msgid "Title"
-msgstr "Tytu³"
-
 msgid "Episode"
 msgstr "Epizod"
+
+msgid "Description"
+msgstr "Opis"
 
 msgid "Use extended EPG info"
 msgstr "U¿yj rozszerzonej informacji EPG"
@@ -280,27 +409,6 @@ msgstr "Max. czas trwania"
 
 msgid "Use day of week"
 msgstr "Dzieñ"
-
-msgid "Monday"
-msgstr "Poniedzia³ek"
-
-msgid "Tuesday"
-msgstr "Wtorek"
-
-msgid "Wednesday"
-msgstr "¦roda"
-
-msgid "Thursday"
-msgstr "Czwartek"
-
-msgid "Friday"
-msgstr "Pi±tek"
-
-msgid "Saturday"
-msgstr "Sobota"
-
-msgid "Sunday"
-msgstr "Niedziela"
 
 msgid "Use blacklists"
 msgstr "Czarna lista"
@@ -380,9 +488,6 @@ msgstr "Podsumowanie porównania"
 msgid "Compare"
 msgstr "Porównaj"
 
-msgid "Use VPS"
-msgstr "U¿yj VPS"
-
 msgid "Auto-delete search timer"
 msgstr "Automatycznie usuñ timer"
 
@@ -397,171 +502,6 @@ msgstr "Prze³±cz na ... minut przed rozpoczêcziem"
 
 msgid "Test"
 msgstr "Testuj"
-
-msgid "Couldn't find timer. Maybe you mistyped your request?"
-msgstr "Nie mo¿na odnale¼æ timera."
-
-msgid "Please set a title for the timer!"
-msgstr "Proszê podaæ tytu³ dla timera!"
-
-msgid "Edit timer"
-msgstr "Edycja timera"
-
-msgid "New timer"
-msgstr "Nowy timer"
-
-msgid "Weekday"
-msgstr "Dzieñ"
-
-msgid "Couldn't find user. Maybe you mistyped your request?"
-msgstr "Nie mo¿na odnale¼æ u¿ytkownika."
-
-msgid "This user name is already in use!"
-msgstr "Nazwa u¿ytkownika jest ju¿ u¿ywana!"
-
-msgid "Edit user"
-msgstr "Edycja u¿ytkownia"
-
-msgid "New user"
-msgstr "Nowy u¿ytkownik"
-
-msgid "Password"
-msgstr "Has³o"
-
-msgid "User rights"
-msgstr "Uprawnienia"
-
-msgid "Edit setup"
-msgstr "Edycja ustawieñ"
-
-msgid "Add or edit timers"
-msgstr "Dodawanie i edycja timerów"
-
-msgid "Delete timers"
-msgstr "Usuwanie timerów"
-
-msgid "Delete recordings"
-msgstr "Usuwanie niagrañ"
-
-msgid "Use remote menu"
-msgstr "U¿ywanie pilota"
-
-msgid "Start replay"
-msgstr "Startowane odtwarzania"
-
-msgid "Switch channel"
-msgstr "Prze³±czanie kana³ów"
-
-msgid "Add or edit search timers"
-msgstr "Dodawanie i edycja timerów wyszukiwania"
-
-msgid "Delete search timers"
-msgstr "Usuwanie timerów wyszukiwania"
-
-msgid "Edit recordings"
-msgstr "Edycja nagrañ"
-
-msgid "Electronic program guide information"
-msgstr "Informacje EPG"
-
-msgid "Couldn't find recording or no recordings available"
-msgstr "Nie mo¿na odnale¼æ nagrania"
-
-msgid "Error aquiring schedules lock"
-msgstr "B³±d podczas próby blokady programu"
-
-msgid "Error aquiring schedules"
-msgstr "B³±d podczas ¶ci±gania programu"
-
-msgid "%b %d %y"
-msgstr ""
-
-msgid "Page error"
-msgstr "B³±d strony"
-
-msgid "playing recording"
-msgstr "Odtwarzanie nagrania"
-
-msgid "no epg info for current event!"
-msgstr "brak informacji o audycji!"
-
-msgid "no epg info for current channel!"
-msgstr "brak informacji epg dla kana³u!"
-
-msgid "no current channel!"
-msgstr "brak informacji o kanale!"
-
-msgid "error retrieving status info!"
-msgstr "b³±d podczas odczytu stanu"
-
-msgid "%I:%M:%S %p"
-msgstr "%H:%M:%S"
-
-msgid "Wrong username or password"
-msgstr "B³êdna nazwa lub has³o u¿ytkownika"
-
-msgid "Login"
-msgstr "Nazwa"
-
-msgid "VDR Live Login"
-msgstr "Login VDR Live"
-
-msgid "User"
-msgstr "U¿ytkownik"
-
-msgid "What's on?"
-msgstr "Teraz w TV"
-
-msgid "MultiSchedule"
-msgstr "Multiprzewodnik"
-
-msgid "Search"
-msgstr "Szukaj"
-
-msgid "Searchtimers"
-msgstr "Timery wyszukiwania"
-
-msgid "Recordings"
-msgstr "Nagrania"
-
-msgid "Remote Control"
-msgstr "Pilot"
-
-msgid "Logout"
-msgstr "Wyloguj"
-
-msgid "Your attention is required"
-msgstr "Uwaga, co¶ nie gra  "
-
-msgid "React"
-msgstr "Sprawd¼"
-
-msgid "Dismiss"
-msgstr "Anuluj"
-
-msgid "Now"
-msgstr "Teraz"
-
-msgid "%A, %b %d %Y"
-msgstr ""
-
-msgid "Time"
-msgstr "Czas"
-
-msgid "Switch to this channel."
-msgstr "Prze³±cz na ten kana³"
-
-msgid "Search for repeats."
-msgstr "Szukaj powtórek"
-
-msgid "Click to view details."
-msgstr "Kliknij aby zobaczyæ szczegó³y"
-
-msgid "more"
-msgstr "wiêcej"
-
-msgid "Channel"
-msgstr "Kana³"
 
 msgid "Find more at the Internet Movie Database."
 msgstr "Szukaj w IMDb.com"
@@ -704,101 +644,68 @@ msgstr "B³êdy i sugestie"
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
 msgstr "Je¶li znajdziesz jakie¶ b³êdy lub chcia³by¶ zasugerowaæ nowe funkcje, skorzystaj z naszego bugtrackera"
 
-msgid "ERROR:"
-msgstr "B£¡D:"
+msgid "No timer defined"
+msgstr "Brak zdefiniowanych timerów."
 
-msgid "Deleted recording:"
-msgstr "Usuniêto nagranie:"
+msgid "Timer is recording."
+msgstr "Trwa nagranie timera."
 
-msgid "List of recordings"
-msgstr "Lista nagrañ"
+msgid "Timer is active."
+msgstr "Timer jest aktywny."
 
-msgid "No recordings found"
-msgstr "Nie znaleziono nagrañ"
+msgid "Toggle timer active/inactive"
+msgstr "Aktywuj/deaktywuj timer."
 
-msgid "Delete selected"
-msgstr "Usuñ zaznaczone"
+msgid "Delete timer"
+msgstr "Usuñ timer"
 
-#, no-c-format
-msgid "%a,"
-msgstr ""
+msgid "Timer conflicts"
+msgstr "Kolizje timerów"
 
-#. TRANSLATORS: recording duration format HH:MM
-#, c-format
-msgid "(%d:%02d)"
-msgstr ""
+msgid "Couldn't find user. Maybe you mistyped your request?"
+msgstr "Nie mo¿na odnale¼æ u¿ytkownika."
 
-msgid "Sort by name"
-msgstr "Sortuj wed³ug nazwy"
+msgid "This user name is already in use!"
+msgstr "Nazwa u¿ytkownika jest ju¿ u¿ywana!"
 
-msgid "Sort by date"
-msgstr "Sortuj wed³ug daty"
+msgid "User rights"
+msgstr "Uprawnienia"
 
-msgid "Filter"
-msgstr "Filtr"
+msgid "Edit setup"
+msgstr "Edycja ustawieñ"
 
-msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
-msgstr "Poka¿ nagrania zgodne z wpisanym wyra¿eniem (mo¿na u¿ywaæ tak¿e wyra¿eñ regularnych typu PERL)."
+msgid "Add or edit timers"
+msgstr "Dodawanie i edycja timerów"
 
-msgid "Expand all folders"
-msgstr ""
+msgid "Delete timers"
+msgstr "Usuwanie timerów"
 
-msgid "Collapse all folders"
-msgstr ""
+msgid "Delete recordings"
+msgstr "Usuwanie niagrañ"
 
-msgid "Delete this recording from hard disc!"
-msgstr "Usuñ to nagranie z twardego dysku!"
+msgid "Use remote menu"
+msgstr "U¿ywanie pilota"
 
-msgid "play this recording."
-msgstr "Odtwórz nagranie"
+msgid "Start replay"
+msgstr "Startowane odtwarzania"
 
-msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
-msgstr "Nie mo¿na odnale¶æ kana³u lub kana³y nie s± dostêpne."
+msgid "Switch channel"
+msgstr "Prze³±czanie kana³ów"
 
-msgid "Snapshot interval"
-msgstr "Okres pomiêdzy migawkami"
+msgid "Add or edit search timers"
+msgstr "Dodawanie i edycja timerów wyszukiwania"
 
-msgid "Stop"
-msgstr "Stop"
+msgid "Delete search timers"
+msgstr "Usuwanie timerów wyszukiwania"
 
-msgid "No schedules available for this channel"
-msgstr "Brak listy audycji dla tego kana³u"
+msgid "Edit recordings"
+msgstr "Edycja nagrañ"
 
-msgid "Search settings"
-msgstr "Ustawienia wyszukiwania"
+msgid "No timer conflicts"
+msgstr "Brak kolizji timerów"
 
-msgid "Extended search"
-msgstr "Wyszukiwanie zaawansowane"
-
-msgid "no"
-msgstr "nie"
-
-msgid "Search results"
-msgstr "Wyniki wyszykiwania"
-
-msgid "No search results"
-msgstr "Nic nie znaleziono"
-
-msgid "Expression"
-msgstr "Wyra¿enie"
-
-msgid "Starts between"
-msgstr "Pocz±tek miêdzy"
-
-msgid "Toggle search timer actions (in)active"
-msgstr "Aktywuj/deaktywuj timer wyszukiwania"
-
-msgid "Browse search timer results"
-msgstr "Przegl±daj wyniki timera wyszukiwania"
-
-msgid "Delete this search timer?"
-msgstr "Usun±æ ten timer wyszukiwania?"
-
-msgid "Delete search timer"
-msgstr "Usuñ timer wyszukiwania"
-
-msgid "Trigger search timer update"
-msgstr "Zaprogramuj aktywne timery wyszukiwania"
+msgid "Timer has a conflict."
+msgstr "Timer jest w kolizji."
 
 msgid "Please set login and password!"
 msgstr "Proszê wpisaæ login i has³o!"
@@ -860,41 +767,53 @@ msgstr "Strona startowa"
 msgid "Theme"
 msgstr "Skórka"
 
-msgid "Timer conflicts"
-msgstr "Kolizje timerów"
+msgid "Couldn't find recording. Maybe you mistyped your request?"
+msgstr "Nie mo¿na odnale¼æ nagrania."
 
-msgid "No timer conflicts"
-msgstr "Brak kolizji timerów"
+msgid "Please set a name for the recording!"
+msgstr "Proszê podaæ nazwê nagrania!"
 
-msgid "Timer has a conflict."
-msgstr "Timer jest w kolizji."
+msgid "Cannot copy, rename or move the recording."
+msgstr "Nie mo¿na skopiowaæ, przenie¶æ ani zmieniæ nazwy nagrania."
 
-msgid "Timer is active."
-msgstr "Timer jest aktywny."
+msgid "Delete resume information"
+msgstr "Usuñ informacjê o wznowieniu"
 
-msgid "Toggle timer active/inactive"
-msgstr "Aktywuj/deaktywuj timer."
+msgid "Delete marks information"
+msgstr "Usuñ informacjê o znacznikach"
 
-msgid "Delete timer"
-msgstr "Usuñ timer"
+msgid "Copy only"
+msgstr "Skopiuj do katalogu"
 
-msgid "No timer defined"
-msgstr "Brak zdefiniowanych timerów."
+msgid "Short description"
+msgstr "Krótki opis"
 
-msgid "Timer is recording."
-msgstr "Trwa nagranie timera."
+msgid "Auxiliary info"
+msgstr "Dodatkowe informacje"
 
-msgid "Users"
-msgstr "U¿ytkownicy"
+msgid "Search"
+msgstr "Szukaj"
 
-msgid "Delete user"
-msgstr "Usuñ u¿ytkownika"
+msgid "Search settings"
+msgstr "Ustawienia wyszukiwania"
+
+msgid "Extended search"
+msgstr "Wyszukiwanie zaawansowane"
+
+msgid "no"
+msgstr "nie"
 
 msgid "VLC: live video stream"
 msgstr "VLC: streamuj video"
 
+msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
+msgstr "Nie mo¿na odnale¶æ kana³u lub kana³y nie s± dostêpne."
+
 msgid "VLC: play recording"
 msgstr "VLC: odtwarzaj nagranie"
+
+msgid "Stop"
+msgstr "Stop"
 
 msgid "Play"
 msgstr "Play"
@@ -913,6 +832,48 @@ msgstr "Zamknij"
 
 msgid "VLC media URL"
 msgstr ""
+
+msgid "playing recording"
+msgstr "Odtwarzanie nagrania"
+
+msgid "no epg info for current event!"
+msgstr "brak informacji o audycji!"
+
+msgid "no epg info for current channel!"
+msgstr "brak informacji epg dla kana³u!"
+
+msgid "no current channel!"
+msgstr "brak informacji o kanale!"
+
+msgid "error retrieving status info!"
+msgstr "b³±d podczas odczytu stanu"
+
+msgid "%I:%M:%S %p"
+msgstr "%H:%M:%S"
+
+msgid "Searchtimers"
+msgstr "Timery wyszukiwania"
+
+msgid "Expression"
+msgstr "Wyra¿enie"
+
+msgid "Starts between"
+msgstr "Pocz±tek miêdzy"
+
+msgid "Toggle search timer actions (in)active"
+msgstr "Aktywuj/deaktywuj timer wyszukiwania"
+
+msgid "Browse search timer results"
+msgstr "Przegl±daj wyniki timera wyszukiwania"
+
+msgid "Delete this search timer?"
+msgstr "Usun±æ ten timer wyszukiwania?"
+
+msgid "Delete search timer"
+msgstr "Usuñ timer wyszukiwania"
+
+msgid "Trigger search timer update"
+msgstr "Zaprogramuj aktywne timery wyszukiwania"
 
 #, c-format
 msgid "%a, %x"
@@ -947,6 +908,45 @@ msgstr "Widek szczegó³owy"
 
 msgid "List view"
 msgstr "Widok listy"
+
+msgid "No schedules available for this channel"
+msgstr "Brak listy audycji dla tego kana³u"
+
+msgid "Remote Control"
+msgstr "Pilot"
+
+msgid "Snapshot interval"
+msgstr "Okres pomiêdzy migawkami"
+
+msgid "Page error"
+msgstr "B³±d strony"
+
+msgid "What's on?"
+msgstr "Teraz w TV"
+
+msgid "Logout"
+msgstr "Wyloguj"
+
+msgid "Your attention is required"
+msgstr "Uwaga, co¶ nie gra  "
+
+msgid "React"
+msgstr "Sprawd¼"
+
+msgid "Dismiss"
+msgstr "Anuluj"
+
+msgid "Electronic program guide information"
+msgstr "Informacje EPG"
+
+msgid "Couldn't find recording or no recordings available"
+msgstr "Nie mo¿na odnale¼æ nagrania"
+
+msgid "Error aquiring schedules lock"
+msgstr "B³±d podczas próby blokady programu"
+
+msgid "Error aquiring schedules"
+msgstr "B³±d podczas ¶ci±gania programu"
 
 msgid "Live Interactive VDR Environment"
 msgstr ""
