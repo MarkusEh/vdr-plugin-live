@@ -12,10 +12,6 @@ var PageEnhance = new Class({
 	  options: {
 		  epgLinkSelector: 'a[href^="epginfo.html?epgid"]',
 		  actionLinkSelector: 'a[href^="vdr_request/"]',
-		  vlcLinkSelector: 'a[href^="vlc.html?"]',
-		  vlcWinOptions: {
-			  size: { width: 720, height: 640 }
-			},
 		  editTimerSelector: 'a[href^="edit_timer.html?timerid"]',
 		  hintTipSelector: '*[title]',
 		  hintClassName: 'hint',
@@ -45,7 +41,6 @@ var PageEnhance = new Class({
 			$$(this.options.epgLinkSelector).each(this.epgPopup.bind(this));
 			this.addHintTips($$(this.options.hintTipSelector));
 			$$(this.options.actionLinkSelector).each(this.vdrRequest.bind(this));
-			$$(this.options.vlcLinkSelector).each(this.vlcRequest.bind(this));
 			$$(this.options.datePickerSelector).each(this.datePicker.bind(this));
 			// the following line activates timer editing in popup window.
 			// but it does not yet work like expected. So we leave it deactivated currently.
@@ -64,7 +59,6 @@ var PageEnhance = new Class({
 			elems = $$(sel);
 			this.addHintTips(elems);
 			$$('#' + id + ' ' + this.options.actionLinkSelector).each(this.vdrRequest.bind(this));
-			$$('#' + id + ' ' + this.options.vlcLinkSelector).each(this.vlcRequest.bind(this));
 		},
 
 	  // Epg Popup function. Apply to all elements that should
@@ -133,20 +127,6 @@ var PageEnhance = new Class({
 								}.bind(this)
 							});
 						req.request('async=1');
-						event.stop();
-						return false;
-					}
-					return true;
-				}.bindWithEvent(this, el));
-		},
-
-	  // function that opens a window for streaming of tv data.
-	  vlcRequest: function(el){
-			el.addEvent('click', function(event, element){
-					var href = $pick(element.href, "");
-					if (href != "") {
-						href += "&async=1";
-						var bw = new BrowserWin("vlcstream", href, this.options.vlcWinOptions);
 						event.stop();
 						return false;
 					}

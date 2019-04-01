@@ -160,42 +160,35 @@ msgstr "Удалить пользователя"
 msgid "New user"
 msgstr "Новый пользователь"
 
-msgid "Search results"
-msgstr "Результат поиска"
+msgid "Find more at the Internet Movie Database."
+msgstr "Найти на Kinopoisk.ru."
 
-msgid "No search results"
-msgstr "Нет результатов поиска"
+msgid "Stream this channel into media player."
+msgstr ""
 
-msgid "%A, %b %d %Y"
-msgstr "%A, %d.%m.%Y"
+msgid "Stream this recording into media player."
+msgstr ""
 
-msgid "Click to view details."
-msgstr "Нажмите чтобы узнать больше."
-
-msgid "Couldn't find timer. Maybe you mistyped your request?"
-msgstr "Таймер не найден. Проверьте правильность запроса."
-
-msgid "Please set a title for the timer!"
-msgstr "Введите название таймера"
-
-#. TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
-msgid "mm/dd/yyyy"
-msgstr "dd/mm/yyyy"
+msgid "Record this"
+msgstr "Запись."
 
 msgid "Edit timer"
 msgstr "Изменить таймер"
 
-msgid "New timer"
-msgstr "Новый таймер"
+msgid "loading data"
+msgstr "загрузка данных"
 
-msgid "Title"
-msgstr "Название"
+msgid "an error occured!"
+msgstr "обнаружена ошибка!"
 
-msgid "Directory"
-msgstr "Каталог"
+msgid "Request succeeded!"
+msgstr "Запрос выполнен!"
 
-msgid "Weekday"
-msgstr "День недели"
+msgid "Request failed!"
+msgstr "Запрос не выполнен!"
+
+msgid "Sunday"
+msgstr "Воскресенье"
 
 msgid "Monday"
 msgstr "Понедельник"
@@ -215,8 +208,162 @@ msgstr "Пятница"
 msgid "Saturday"
 msgstr "Суббота"
 
-msgid "Sunday"
-msgstr "Воскресенье"
+#. TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
+msgid "mm/dd/yyyy"
+msgstr "dd/mm/yyyy"
+
+msgid "January"
+msgstr "Январь"
+
+msgid "February"
+msgstr "Февраль"
+
+msgid "March"
+msgstr "Март"
+
+msgid "April"
+msgstr "Апрель"
+
+msgid "May"
+msgstr "Май"
+
+msgid "June"
+msgstr "Июнь"
+
+msgid "July"
+msgstr "Июль"
+
+msgid "August"
+msgstr "Август"
+
+msgid "September"
+msgstr "Сентябрь"
+
+msgid "October"
+msgstr "Октябрь"
+
+msgid "November"
+msgstr "Ноябрь"
+
+msgid "December"
+msgstr "Декабрь"
+
+msgid "retrieving status ..."
+msgstr "получение статуса … "
+
+msgid "Toggle updates on/off."
+msgstr "Включить обновления on/off."
+
+msgid "stop playback"
+msgstr "остановить воспроизведение"
+
+msgid "resume playback"
+msgstr "продолжить воспроизведение"
+
+msgid "pause playback"
+msgstr "пауза"
+
+msgid "fast rewind"
+msgstr "перемотка вперед"
+
+msgid "fast forward"
+msgstr "перемотка назад"
+
+msgid "previous channel"
+msgstr "предыдущий канал"
+
+msgid "next channel"
+msgstr "следующий канал"
+
+msgid "No server response!"
+msgstr "Сервер не отвечает!"
+
+msgid "Failed to update infobox!"
+msgstr "Ошибка обновления infobox!"
+
+msgid "Switch to this channel."
+msgstr "Переключиться на этот канал."
+
+msgid "Search for repeats."
+msgstr "Найти повторы."
+
+msgid "Authors"
+msgstr "Авторы"
+
+msgid "Project Idea"
+msgstr "Идея проекта"
+
+msgid "Webserver"
+msgstr "WEB сервер"
+
+msgid "Current Maintainer"
+msgstr ""
+
+msgid "Project leader"
+msgstr "Ведущий проекта"
+
+msgid "Content"
+msgstr "Содержание"
+
+msgid "Graphics"
+msgstr "Графика"
+
+msgid "Information"
+msgstr "Информация"
+
+msgid "LIVE version"
+msgstr "Версия LIVE"
+
+msgid "VDR version"
+msgstr "Версия VDR"
+
+msgid "Features"
+msgstr "Опции"
+
+msgid "active"
+msgstr "активный"
+
+msgid "required"
+msgstr "требуется"
+
+msgid "Homepage"
+msgstr "Домашняя страница"
+
+msgid "Bugs and suggestions"
+msgstr "Ошибки и пожелания"
+
+msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
+msgstr "Если у вас возникнут ошибки или Вы хотите расширить функции LIVE, пожалуйста, воспользуйтесь bugtracker"
+
+msgid "Search results"
+msgstr "Результат поиска"
+
+msgid "No search results"
+msgstr "Нет результатов поиска"
+
+msgid "%A, %b %d %Y"
+msgstr "%A, %d.%m.%Y"
+
+msgid "Click to view details."
+msgstr "Нажмите чтобы узнать больше."
+
+msgid "Couldn't find timer. Maybe you mistyped your request?"
+msgstr "Таймер не найден. Проверьте правильность запроса."
+
+msgid "Please set a title for the timer!"
+msgstr "Введите название таймера"
+
+msgid "New timer"
+msgstr "Новый таймер"
+
+msgid "Title"
+msgstr "Название"
+
+msgid "Directory"
+msgstr "Каталог"
+
+msgid "Weekday"
+msgstr "День недели"
 
 msgid "Use VPS"
 msgstr "VPS"
@@ -236,17 +383,29 @@ msgstr "Сейчас"
 msgid "Time"
 msgstr "Время"
 
-msgid "Switch to this channel."
-msgstr "Переключиться на этот канал."
-
-msgid "Search for repeats."
-msgstr "Найти повторы."
-
 msgid "more"
 msgstr "еще"
 
 msgid "Channel"
 msgstr "Канал"
+
+msgid "playing recording"
+msgstr "воспроизведение записи"
+
+msgid "no epg info for current event!"
+msgstr "нет информации телегида о текущем событии!"
+
+msgid "no epg info for current channel!"
+msgstr "нет информации телегида на данном канале!"
+
+msgid "no current channel!"
+msgstr "нет канала!"
+
+msgid "error retrieving status info!"
+msgstr "ошибка при получении статуса"
+
+msgid "%I:%M:%S %p"
+msgstr "%H:%M:%S"
 
 msgid "Recordings"
 msgstr "Записи"
@@ -503,153 +662,6 @@ msgstr "Переключаться за … минут до начала"
 msgid "Test"
 msgstr "Тест"
 
-msgid "Find more at the Internet Movie Database."
-msgstr "Найти на Kinopoisk.ru."
-
-msgid "Stream this channel into browser."
-msgstr "Стриминг этого канала в браузер."
-
-msgid "Stream this recording into browser."
-msgstr "Стриминг этой записи в браузер."
-
-msgid "Stream this channel into media player."
-msgstr ""
-
-msgid "Stream this recording into media player."
-msgstr ""
-
-msgid "Record this"
-msgstr "Запись."
-
-msgid "loading data"
-msgstr "загрузка данных"
-
-msgid "an error occured!"
-msgstr "обнаружена ошибка!"
-
-msgid "Request succeeded!"
-msgstr "Запрос выполнен!"
-
-msgid "Request failed!"
-msgstr "Запрос не выполнен!"
-
-msgid "January"
-msgstr "Январь"
-
-msgid "February"
-msgstr "Февраль"
-
-msgid "March"
-msgstr "Март"
-
-msgid "April"
-msgstr "Апрель"
-
-msgid "May"
-msgstr "Май"
-
-msgid "June"
-msgstr "Июнь"
-
-msgid "July"
-msgstr "Июль"
-
-msgid "August"
-msgstr "Август"
-
-msgid "September"
-msgstr "Сентябрь"
-
-msgid "October"
-msgstr "Октябрь"
-
-msgid "November"
-msgstr "Ноябрь"
-
-msgid "December"
-msgstr "Декабрь"
-
-msgid "retrieving status ..."
-msgstr "получение статуса … "
-
-msgid "Toggle updates on/off."
-msgstr "Включить обновления on/off."
-
-msgid "stop playback"
-msgstr "остановить воспроизведение"
-
-msgid "resume playback"
-msgstr "продолжить воспроизведение"
-
-msgid "pause playback"
-msgstr "пауза"
-
-msgid "fast rewind"
-msgstr "перемотка вперед"
-
-msgid "fast forward"
-msgstr "перемотка назад"
-
-msgid "previous channel"
-msgstr "предыдущий канал"
-
-msgid "next channel"
-msgstr "следующий канал"
-
-msgid "No server response!"
-msgstr "Сервер не отвечает!"
-
-msgid "Failed to update infobox!"
-msgstr "Ошибка обновления infobox!"
-
-msgid "Authors"
-msgstr "Авторы"
-
-msgid "Project Idea"
-msgstr "Идея проекта"
-
-msgid "Webserver"
-msgstr "WEB сервер"
-
-msgid "Current Maintainer"
-msgstr ""
-
-msgid "Project leader"
-msgstr "Ведущий проекта"
-
-msgid "Content"
-msgstr "Содержание"
-
-msgid "Graphics"
-msgstr "Графика"
-
-msgid "Information"
-msgstr "Информация"
-
-msgid "LIVE version"
-msgstr "Версия LIVE"
-
-msgid "VDR version"
-msgstr "Версия VDR"
-
-msgid "Features"
-msgstr "Опции"
-
-msgid "active"
-msgstr "активный"
-
-msgid "required"
-msgstr "требуется"
-
-msgid "Homepage"
-msgstr "Домашняя страница"
-
-msgid "Bugs and suggestions"
-msgstr "Ошибки и пожелания"
-
-msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
-msgstr "Если у вас возникнут ошибки или Вы хотите расширить функции LIVE, пожалуйста, воспользуйтесь bugtracker"
-
 msgid "No timer defined"
 msgstr "Таймер не установлен"
 
@@ -809,54 +821,6 @@ msgstr "Расширенный поиск"
 msgid "no"
 msgstr "нет"
 
-msgid "VLC: live video stream"
-msgstr "VLC: live видео стриминг"
-
-msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
-msgstr "Канал не найден или недоступен. Проверьте правильность запроса."
-
-msgid "VLC: play recording"
-msgstr "VLC: проиграть запись"
-
-msgid "Stop"
-msgstr "Стоп"
-
-msgid "Play"
-msgstr "Воспроизведение"
-
-msgid "Sound on"
-msgstr "Включить звук"
-
-msgid "Sound off"
-msgstr "Выключить звук"
-
-msgid "Fullscreen"
-msgstr "Полный экран"
-
-msgid "Close"
-msgstr "Закрыть"
-
-msgid "VLC media URL"
-msgstr "VLC медиа URL"
-
-msgid "playing recording"
-msgstr "воспроизведение записи"
-
-msgid "no epg info for current event!"
-msgstr "нет информации телегида о текущем событии!"
-
-msgid "no epg info for current channel!"
-msgstr "нет информации телегида на данном канале!"
-
-msgid "no current channel!"
-msgstr "нет канала!"
-
-msgid "error retrieving status info!"
-msgstr "ошибка при получении статуса"
-
-msgid "%I:%M:%S %p"
-msgstr "%H:%M:%S"
-
 msgid "Searchtimers"
 msgstr "Поисковый таймер"
 
@@ -915,6 +879,9 @@ msgstr "Подробно"
 msgid "List view"
 msgstr "Список"
 
+msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
+msgstr "Канал не найден или недоступен. Проверьте правильность запроса."
+
 msgid "No schedules available for this channel"
 msgstr "Расписание для данного канала недоступно"
 
@@ -923,6 +890,9 @@ msgstr "Удаленное управление"
 
 msgid "Snapshot interval"
 msgstr "Интервал между снимками"
+
+msgid "Stop"
+msgstr "Стоп"
 
 msgid "Page error"
 msgstr "Ошибка страницы"
@@ -959,6 +929,9 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr "EPG информация недоступна"
+
+#~ msgid "VLC media URL"
+#~ msgstr "VLC медиа URL"
 
 #~ msgid "ERROR"
 #~ msgstr "ОШИБКА"

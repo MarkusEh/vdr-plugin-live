@@ -162,42 +162,35 @@ msgstr "Benutzer löschen"
 msgid "New user"
 msgstr "Neuen Benutzer anlegen"
 
-msgid "Search results"
-msgstr "Suchergebnisse"
+msgid "Find more at the Internet Movie Database."
+msgstr "Weitere Informationen in der Internet Movie Database."
 
-msgid "No search results"
-msgstr "keine Suchergebnisse"
+msgid "Stream this channel into media player."
+msgstr ""
 
-msgid "%A, %b %d %Y"
-msgstr "%A, %d.%m.%Y"
+msgid "Stream this recording into media player."
+msgstr ""
 
-msgid "Click to view details."
-msgstr "Für Details klicken."
-
-msgid "Couldn't find timer. Maybe you mistyped your request?"
-msgstr "Konnte Timer nicht finden. Evtl. fehlerhafte Anforderung?"
-
-msgid "Please set a title for the timer!"
-msgstr "Bitte einen Titel fï¿œr den Timer angeben!"
-
-#. TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
-msgid "mm/dd/yyyy"
-msgstr "dd.mm.yyyy"
+msgid "Record this"
+msgstr "Diese Sendung aufnehmen"
 
 msgid "Edit timer"
 msgstr "Timer bearbeiten"
 
-msgid "New timer"
-msgstr "Neuen Timer anlegen"
+msgid "loading data"
+msgstr "Daten nachladen"
 
-msgid "Title"
-msgstr "Titel"
+msgid "an error occured!"
+msgstr "Es ist ein Fehler aufgetreten!"
 
-msgid "Directory"
-msgstr "Verzeichnis"
+msgid "Request succeeded!"
+msgstr "Aktion durchgeführt!"
 
-msgid "Weekday"
-msgstr "Wochentag"
+msgid "Request failed!"
+msgstr "Aktion fehlgeschlagen!"
+
+msgid "Sunday"
+msgstr "Sonntag"
 
 msgid "Monday"
 msgstr "Montag"
@@ -217,8 +210,162 @@ msgstr "Freitag"
 msgid "Saturday"
 msgstr "Samstag"
 
-msgid "Sunday"
-msgstr "Sonntag"
+#. TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
+msgid "mm/dd/yyyy"
+msgstr "dd.mm.yyyy"
+
+msgid "January"
+msgstr "Januar"
+
+msgid "February"
+msgstr "Februar"
+
+msgid "March"
+msgstr "März"
+
+msgid "April"
+msgstr "April"
+
+msgid "May"
+msgstr "Mai"
+
+msgid "June"
+msgstr "Juni"
+
+msgid "July"
+msgstr "Juli"
+
+msgid "August"
+msgstr "August"
+
+msgid "September"
+msgstr "September"
+
+msgid "October"
+msgstr "Oktober"
+
+msgid "November"
+msgstr "November"
+
+msgid "December"
+msgstr "Dezember"
+
+msgid "retrieving status ..."
+msgstr "Hole Status ..."
+
+msgid "Toggle updates on/off."
+msgstr "Statusabfrage ein- oder ausschalten."
+
+msgid "stop playback"
+msgstr "Anhalten"
+
+msgid "resume playback"
+msgstr "Fortsetzen"
+
+msgid "pause playback"
+msgstr "Pause"
+
+msgid "fast rewind"
+msgstr "Suchlauf rückwärts"
+
+msgid "fast forward"
+msgstr "Suchlauf vorwärts"
+
+msgid "previous channel"
+msgstr "Sender zurück"
+
+msgid "next channel"
+msgstr "Sender vor"
+
+msgid "No server response!"
+msgstr "Der Server antwortet nicht!"
+
+msgid "Failed to update infobox!"
+msgstr "Kann Infobox nicht aktualisieren!"
+
+msgid "Switch to this channel."
+msgstr "Zu diesem Kanal umschalten."
+
+msgid "Search for repeats."
+msgstr "Nach Wiederholungen suchen."
+
+msgid "Authors"
+msgstr "Autoren"
+
+msgid "Project Idea"
+msgstr "Projekt Idee"
+
+msgid "Webserver"
+msgstr "Webserver"
+
+msgid "Current Maintainer"
+msgstr "Derzeitiger Entwickler"
+
+msgid "Project leader"
+msgstr "Projektleiter"
+
+msgid "Content"
+msgstr "Inhalte"
+
+msgid "Graphics"
+msgstr "Grafiken"
+
+msgid "Information"
+msgstr "Informationen"
+
+msgid "LIVE version"
+msgstr "LIVE Version"
+
+msgid "VDR version"
+msgstr "VDR Version"
+
+msgid "Features"
+msgstr "Unterstütze Plugins"
+
+msgid "active"
+msgstr "aktiv"
+
+msgid "required"
+msgstr "erforderlich"
+
+msgid "Homepage"
+msgstr "Homepage"
+
+msgid "Bugs and suggestions"
+msgstr "Fehlerberichte und Vorschläge"
+
+msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
+msgstr "Für Fehler oder Verbesserungsvorschläge steht unser Bugtracker bereit"
+
+msgid "Search results"
+msgstr "Suchergebnisse"
+
+msgid "No search results"
+msgstr "keine Suchergebnisse"
+
+msgid "%A, %b %d %Y"
+msgstr "%A, %d.%m.%Y"
+
+msgid "Click to view details."
+msgstr "Für Details klicken."
+
+msgid "Couldn't find timer. Maybe you mistyped your request?"
+msgstr "Konnte Timer nicht finden. Evtl. fehlerhafte Anforderung?"
+
+msgid "Please set a title for the timer!"
+msgstr "Bitte einen Titel fï¿œr den Timer angeben!"
+
+msgid "New timer"
+msgstr "Neuen Timer anlegen"
+
+msgid "Title"
+msgstr "Titel"
+
+msgid "Directory"
+msgstr "Verzeichnis"
+
+msgid "Weekday"
+msgstr "Wochentag"
 
 msgid "Use VPS"
 msgstr "VPS verwenden"
@@ -238,17 +385,29 @@ msgstr "Jetzt"
 msgid "Time"
 msgstr "Zeit"
 
-msgid "Switch to this channel."
-msgstr "Zu diesem Kanal umschalten."
-
-msgid "Search for repeats."
-msgstr "Nach Wiederholungen suchen."
-
 msgid "more"
 msgstr "mehr"
 
 msgid "Channel"
 msgstr "Kanal"
+
+msgid "playing recording"
+msgstr "Wiedergabe"
+
+msgid "no epg info for current event!"
+msgstr "Keine Infos zur Sendung!"
+
+msgid "no epg info for current channel!"
+msgstr "Dieser Kanal hat kein EPG!"
+
+msgid "no current channel!"
+msgstr "Keinen Kanal gefunden!"
+
+msgid "error retrieving status info!"
+msgstr "Fehler: Status nicht verfügbar!"
+
+msgid "%I:%M:%S %p"
+msgstr "%H:%M:%S"
 
 msgid "Recordings"
 msgstr "Aufnahmen"
@@ -505,153 +664,6 @@ msgstr "Umschalten ... Minuten vor Start"
 msgid "Test"
 msgstr "Testen"
 
-msgid "Find more at the Internet Movie Database."
-msgstr "Weitere Informationen in der Internet Movie Database."
-
-msgid "Stream this channel into browser."
-msgstr "Sendung im Browser anzeigen."
-
-msgid "Stream this recording into browser."
-msgstr "Aufnahme im Browser anzeigen."
-
-msgid "Stream this channel into media player."
-msgstr ""
-
-msgid "Stream this recording into media player."
-msgstr ""
-
-msgid "Record this"
-msgstr "Diese Sendung aufnehmen"
-
-msgid "loading data"
-msgstr "Daten nachladen"
-
-msgid "an error occured!"
-msgstr "Es ist ein Fehler aufgetreten!"
-
-msgid "Request succeeded!"
-msgstr "Aktion durchgeführt!"
-
-msgid "Request failed!"
-msgstr "Aktion fehlgeschlagen!"
-
-msgid "January"
-msgstr "Januar"
-
-msgid "February"
-msgstr "Februar"
-
-msgid "March"
-msgstr "März"
-
-msgid "April"
-msgstr "April"
-
-msgid "May"
-msgstr "Mai"
-
-msgid "June"
-msgstr "Juni"
-
-msgid "July"
-msgstr "Juli"
-
-msgid "August"
-msgstr "August"
-
-msgid "September"
-msgstr "September"
-
-msgid "October"
-msgstr "Oktober"
-
-msgid "November"
-msgstr "November"
-
-msgid "December"
-msgstr "Dezember"
-
-msgid "retrieving status ..."
-msgstr "Hole Status ..."
-
-msgid "Toggle updates on/off."
-msgstr "Statusabfrage ein- oder ausschalten."
-
-msgid "stop playback"
-msgstr "Anhalten"
-
-msgid "resume playback"
-msgstr "Fortsetzen"
-
-msgid "pause playback"
-msgstr "Pause"
-
-msgid "fast rewind"
-msgstr "Suchlauf rückwärts"
-
-msgid "fast forward"
-msgstr "Suchlauf vorwärts"
-
-msgid "previous channel"
-msgstr "Sender zurück"
-
-msgid "next channel"
-msgstr "Sender vor"
-
-msgid "No server response!"
-msgstr "Der Server antwortet nicht!"
-
-msgid "Failed to update infobox!"
-msgstr "Kann Infobox nicht aktualisieren!"
-
-msgid "Authors"
-msgstr "Autoren"
-
-msgid "Project Idea"
-msgstr "Projekt Idee"
-
-msgid "Webserver"
-msgstr "Webserver"
-
-msgid "Current Maintainer"
-msgstr "Derzeitiger Entwickler"
-
-msgid "Project leader"
-msgstr "Projektleiter"
-
-msgid "Content"
-msgstr "Inhalte"
-
-msgid "Graphics"
-msgstr "Grafiken"
-
-msgid "Information"
-msgstr "Informationen"
-
-msgid "LIVE version"
-msgstr "LIVE Version"
-
-msgid "VDR version"
-msgstr "VDR Version"
-
-msgid "Features"
-msgstr "Unterstütze Plugins"
-
-msgid "active"
-msgstr "aktiv"
-
-msgid "required"
-msgstr "erforderlich"
-
-msgid "Homepage"
-msgstr "Homepage"
-
-msgid "Bugs and suggestions"
-msgstr "Fehlerberichte und Vorschläge"
-
-msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
-msgstr "Für Fehler oder Verbesserungsvorschläge steht unser Bugtracker bereit"
-
 msgid "No timer defined"
 msgstr "Keine Timer vorhanden"
 
@@ -811,54 +823,6 @@ msgstr "Erweiterte Suche"
 msgid "no"
 msgstr "nein"
 
-msgid "VLC: live video stream"
-msgstr "VLC: Video Stream"
-
-msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
-msgstr "Konnte Kanal nicht finden oder keine Kanäle verfügbar. Ist die Anfrage korrekt?"
-
-msgid "VLC: play recording"
-msgstr "VLC: Aufnahme abspielen"
-
-msgid "Stop"
-msgstr "Stopp"
-
-msgid "Play"
-msgstr "Wiedergabe"
-
-msgid "Sound on"
-msgstr "Ton an"
-
-msgid "Sound off"
-msgstr "Ton aus"
-
-msgid "Fullscreen"
-msgstr "Vollbild"
-
-msgid "Close"
-msgstr "Schließen"
-
-msgid "VLC media URL"
-msgstr "VLC Medien URL"
-
-msgid "playing recording"
-msgstr "Wiedergabe"
-
-msgid "no epg info for current event!"
-msgstr "Keine Infos zur Sendung!"
-
-msgid "no epg info for current channel!"
-msgstr "Dieser Kanal hat kein EPG!"
-
-msgid "no current channel!"
-msgstr "Keinen Kanal gefunden!"
-
-msgid "error retrieving status info!"
-msgstr "Fehler: Status nicht verfügbar!"
-
-msgid "%I:%M:%S %p"
-msgstr "%H:%M:%S"
-
 msgid "Searchtimers"
 msgstr "Suchtimer"
 
@@ -917,6 +881,9 @@ msgstr "Ausführliche Ansicht"
 msgid "List view"
 msgstr "Listenansicht"
 
+msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
+msgstr "Konnte Kanal nicht finden oder keine Kanäle verfügbar. Ist die Anfrage korrekt?"
+
 msgid "No schedules available for this channel"
 msgstr "Für diesen Kanal liegen keine EPG-Informationen vor"
 
@@ -925,6 +892,9 @@ msgstr "Fernbedienung"
 
 msgid "Snapshot interval"
 msgstr "Snapshot-Intervall"
+
+msgid "Stop"
+msgstr "Stopp"
 
 msgid "Page error"
 msgstr "Seitenfehler"
@@ -961,6 +931,9 @@ msgstr "Live Interactive VDR Environment"
 
 msgid "No EPG information available"
 msgstr "Keine EPG Daten vorhanden"
+
+#~ msgid "VLC media URL"
+#~ msgstr "VLC Medien URL"
 
 #~ msgid "(%d')"
 #~ msgstr "%d'"

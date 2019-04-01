@@ -160,42 +160,35 @@ msgstr "Radera användare"
 msgid "New user"
 msgstr "Ny användare"
 
-msgid "Search results"
-msgstr "Sökresultat"
+msgid "Find more at the Internet Movie Database."
+msgstr "Hitta mera på IMDB"
 
-msgid "No search results"
-msgstr "Inga sökresultat"
+msgid "Stream this channel into media player."
+msgstr ""
 
-msgid "%A, %b %d %Y"
-msgstr "%A, %d.%m.%Y"
+msgid "Stream this recording into media player."
+msgstr ""
 
-msgid "Click to view details."
-msgstr "Klicka för detaljer"
-
-msgid "Couldn't find timer. Maybe you mistyped your request?"
-msgstr "Kan inte hitta timer. Kontrollera stavningen?"
-
-msgid "Please set a title for the timer!"
-msgstr "Sätt ett namn på timern!"
-
-#. TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
-msgid "mm/dd/yyyy"
-msgstr "dd/mm/yyyy"
+msgid "Record this"
+msgstr "Spela in detta."
 
 msgid "Edit timer"
 msgstr "Redigera timer"
 
-msgid "New timer"
-msgstr "Ny timer"
+msgid "loading data"
+msgstr "Laddar data"
 
-msgid "Title"
-msgstr "Titel"
+msgid "an error occured!"
+msgstr "Ett fel inträffade!"
 
-msgid "Directory"
-msgstr "Bibliotek"
+msgid "Request succeeded!"
+msgstr "Begäran lyckades!"
 
-msgid "Weekday"
-msgstr "Veckodag"
+msgid "Request failed!"
+msgstr "Begäran misslyckades!"
+
+msgid "Sunday"
+msgstr "Söndag"
 
 msgid "Monday"
 msgstr "Måndag"
@@ -215,8 +208,162 @@ msgstr "Fredag"
 msgid "Saturday"
 msgstr "Lördag"
 
-msgid "Sunday"
-msgstr "Söndag"
+#. TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
+msgid "mm/dd/yyyy"
+msgstr "dd/mm/yyyy"
+
+msgid "January"
+msgstr "Januari"
+
+msgid "February"
+msgstr "Februari"
+
+msgid "March"
+msgstr "Mars"
+
+msgid "April"
+msgstr "April"
+
+msgid "May"
+msgstr "Maj"
+
+msgid "June"
+msgstr "Juni"
+
+msgid "July"
+msgstr "Juli"
+
+msgid "August"
+msgstr "Augusti"
+
+msgid "September"
+msgstr "September"
+
+msgid "October"
+msgstr "Oktober"
+
+msgid "November"
+msgstr "November"
+
+msgid "December"
+msgstr "December"
+
+msgid "retrieving status ..."
+msgstr "Hämtar status ..."
+
+msgid "Toggle updates on/off."
+msgstr "Uppdateringar på/av."
+
+msgid "stop playback"
+msgstr "stoppa uppspelning"
+
+msgid "resume playback"
+msgstr "återuppta uppspelning"
+
+msgid "pause playback"
+msgstr "pausa uppspelning"
+
+msgid "fast rewind"
+msgstr "spola bakåt"
+
+msgid "fast forward"
+msgstr "spola framåt"
+
+msgid "previous channel"
+msgstr "förra kanalen"
+
+msgid "next channel"
+msgstr "nästa kanal"
+
+msgid "No server response!"
+msgstr "Inget svar från servern!"
+
+msgid "Failed to update infobox!"
+msgstr "Misslyckades att uppdatera info-rutan!"
+
+msgid "Switch to this channel."
+msgstr "Byt till denna kanal."
+
+msgid "Search for repeats."
+msgstr "Sök efter upprepningar."
+
+msgid "Authors"
+msgstr "Författare"
+
+msgid "Project Idea"
+msgstr "Projekt-idé"
+
+msgid "Webserver"
+msgstr "Webserver"
+
+msgid "Current Maintainer"
+msgstr ""
+
+msgid "Project leader"
+msgstr "Projektledare"
+
+msgid "Content"
+msgstr "Innehåll"
+
+msgid "Graphics"
+msgstr "Grafik"
+
+msgid "Information"
+msgstr ""
+
+msgid "LIVE version"
+msgstr "Version av LIVE"
+
+msgid "VDR version"
+msgstr "Version av VDR"
+
+msgid "Features"
+msgstr ""
+
+msgid "active"
+msgstr "aktiv"
+
+msgid "required"
+msgstr "krävs"
+
+msgid "Homepage"
+msgstr "Hemsida"
+
+msgid "Bugs and suggestions"
+msgstr "Felrapporter och förslag"
+
+msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
+msgstr "Om du hittar några fel eller vill föreslå nya funktioner, vänligen använd vår bugg-tracker"
+
+msgid "Search results"
+msgstr "Sökresultat"
+
+msgid "No search results"
+msgstr "Inga sökresultat"
+
+msgid "%A, %b %d %Y"
+msgstr "%A, %d.%m.%Y"
+
+msgid "Click to view details."
+msgstr "Klicka för detaljer"
+
+msgid "Couldn't find timer. Maybe you mistyped your request?"
+msgstr "Kan inte hitta timer. Kontrollera stavningen?"
+
+msgid "Please set a title for the timer!"
+msgstr "Sätt ett namn på timern!"
+
+msgid "New timer"
+msgstr "Ny timer"
+
+msgid "Title"
+msgstr "Titel"
+
+msgid "Directory"
+msgstr "Bibliotek"
+
+msgid "Weekday"
+msgstr "Veckodag"
 
 msgid "Use VPS"
 msgstr "VPS"
@@ -236,17 +383,29 @@ msgstr "Nu"
 msgid "Time"
 msgstr "Tid"
 
-msgid "Switch to this channel."
-msgstr "Byt till denna kanal."
-
-msgid "Search for repeats."
-msgstr "Sök efter upprepningar."
-
 msgid "more"
 msgstr "mera"
 
 msgid "Channel"
 msgstr "Kanal"
+
+msgid "playing recording"
+msgstr "Spelar upp inspelning"
+
+msgid "no epg info for current event!"
+msgstr "Ingen epg-info för nuvarande händelse!"
+
+msgid "no epg info for current channel!"
+msgstr "Ingen epg-info för nuvarande kanal!"
+
+msgid "no current channel!"
+msgstr "Ingen nuvarande kanal!"
+
+msgid "error retrieving status info!"
+msgstr "fel vid hämtning av statusinfo!"
+
+msgid "%I:%M:%S %p"
+msgstr "%H:%M:%S"
 
 msgid "Recordings"
 msgstr "Inspelningar"
@@ -503,153 +662,6 @@ msgstr "Byt ... minuter innan start"
 msgid "Test"
 msgstr "Test"
 
-msgid "Find more at the Internet Movie Database."
-msgstr "Hitta mera på IMDB"
-
-msgid "Stream this channel into browser."
-msgstr "Strömma denna kanal till webläsaren"
-
-msgid "Stream this recording into browser."
-msgstr "Strömma denna inspelning till webläsaren."
-
-msgid "Stream this channel into media player."
-msgstr ""
-
-msgid "Stream this recording into media player."
-msgstr ""
-
-msgid "Record this"
-msgstr "Spela in detta."
-
-msgid "loading data"
-msgstr "Laddar data"
-
-msgid "an error occured!"
-msgstr "Ett fel inträffade!"
-
-msgid "Request succeeded!"
-msgstr "Begäran lyckades!"
-
-msgid "Request failed!"
-msgstr "Begäran misslyckades!"
-
-msgid "January"
-msgstr "Januari"
-
-msgid "February"
-msgstr "Februari"
-
-msgid "March"
-msgstr "Mars"
-
-msgid "April"
-msgstr "April"
-
-msgid "May"
-msgstr "Maj"
-
-msgid "June"
-msgstr "Juni"
-
-msgid "July"
-msgstr "Juli"
-
-msgid "August"
-msgstr "Augusti"
-
-msgid "September"
-msgstr "September"
-
-msgid "October"
-msgstr "Oktober"
-
-msgid "November"
-msgstr "November"
-
-msgid "December"
-msgstr "December"
-
-msgid "retrieving status ..."
-msgstr "Hämtar status ..."
-
-msgid "Toggle updates on/off."
-msgstr "Uppdateringar på/av."
-
-msgid "stop playback"
-msgstr "stoppa uppspelning"
-
-msgid "resume playback"
-msgstr "återuppta uppspelning"
-
-msgid "pause playback"
-msgstr "pausa uppspelning"
-
-msgid "fast rewind"
-msgstr "spola bakåt"
-
-msgid "fast forward"
-msgstr "spola framåt"
-
-msgid "previous channel"
-msgstr "förra kanalen"
-
-msgid "next channel"
-msgstr "nästa kanal"
-
-msgid "No server response!"
-msgstr "Inget svar från servern!"
-
-msgid "Failed to update infobox!"
-msgstr "Misslyckades att uppdatera info-rutan!"
-
-msgid "Authors"
-msgstr "Författare"
-
-msgid "Project Idea"
-msgstr "Projekt-idé"
-
-msgid "Webserver"
-msgstr "Webserver"
-
-msgid "Current Maintainer"
-msgstr ""
-
-msgid "Project leader"
-msgstr "Projektledare"
-
-msgid "Content"
-msgstr "Innehåll"
-
-msgid "Graphics"
-msgstr "Grafik"
-
-msgid "Information"
-msgstr ""
-
-msgid "LIVE version"
-msgstr "Version av LIVE"
-
-msgid "VDR version"
-msgstr "Version av VDR"
-
-msgid "Features"
-msgstr ""
-
-msgid "active"
-msgstr "aktiv"
-
-msgid "required"
-msgstr "krävs"
-
-msgid "Homepage"
-msgstr "Hemsida"
-
-msgid "Bugs and suggestions"
-msgstr "Felrapporter och förslag"
-
-msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
-msgstr "Om du hittar några fel eller vill föreslå nya funktioner, vänligen använd vår bugg-tracker"
-
 msgid "No timer defined"
 msgstr "Ingen timer definierad"
 
@@ -809,54 +821,6 @@ msgstr "Utökad sökning"
 msgid "no"
 msgstr "nej"
 
-msgid "VLC: live video stream"
-msgstr "VLC: live videoström"
-
-msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
-msgstr "Kan inte hitta kanal eller inga kanaler är tillgängliga. Kontrollera stavningen?"
-
-msgid "VLC: play recording"
-msgstr "VLC: Spela inspelning"
-
-msgid "Stop"
-msgstr "Stop"
-
-msgid "Play"
-msgstr ""
-
-msgid "Sound on"
-msgstr "Ljud på"
-
-msgid "Sound off"
-msgstr "Ljud av"
-
-msgid "Fullscreen"
-msgstr "Helskärm"
-
-msgid "Close"
-msgstr "Stäng"
-
-msgid "VLC media URL"
-msgstr "VLC media-URL"
-
-msgid "playing recording"
-msgstr "Spelar upp inspelning"
-
-msgid "no epg info for current event!"
-msgstr "Ingen epg-info för nuvarande händelse!"
-
-msgid "no epg info for current channel!"
-msgstr "Ingen epg-info för nuvarande kanal!"
-
-msgid "no current channel!"
-msgstr "Ingen nuvarande kanal!"
-
-msgid "error retrieving status info!"
-msgstr "fel vid hämtning av statusinfo!"
-
-msgid "%I:%M:%S %p"
-msgstr "%H:%M:%S"
-
 msgid "Searchtimers"
 msgstr "Sök-timers"
 
@@ -915,6 +879,9 @@ msgstr "Detaljvy"
 msgid "List view"
 msgstr "Listvy"
 
+msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
+msgstr "Kan inte hitta kanal eller inga kanaler är tillgängliga. Kontrollera stavningen?"
+
 msgid "No schedules available for this channel"
 msgstr "Inga scheman för denna kanal!"
 
@@ -923,6 +890,9 @@ msgstr "Fjärrkontroll"
 
 msgid "Snapshot interval"
 msgstr ""
+
+msgid "Stop"
+msgstr "Stop"
 
 msgid "Page error"
 msgstr "Fel på sidan"
@@ -959,6 +929,9 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr "EPG-information saknas"
+
+#~ msgid "VLC media URL"
+#~ msgstr "VLC media-URL"
 
 #~ msgid "ERROR"
 #~ msgstr "FEL"

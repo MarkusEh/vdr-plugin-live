@@ -1327,14 +1327,3 @@ div.epg_content div.about_head div div {
 	border-top: 1px solid #C0C1DA;
 	border-bottom: 1px solid #C0C1DA;
 }
-
-/* ##############################
-   # VLC page
-   ##############################
-*/
-
-div#vlcControls {
-	padding-top: 5px;
-	text-align: center;
-}
-

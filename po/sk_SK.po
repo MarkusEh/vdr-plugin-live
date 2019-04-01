@@ -161,42 +161,35 @@ msgstr "Vymaza» u¾ívateµa"
 msgid "New user"
 msgstr "Nový u¾ívateµ"
 
-msgid "Search results"
-msgstr "Výsledky vyhµadávania"
+msgid "Find more at the Internet Movie Database."
+msgstr "Viac na Internet Movie Database."
 
-msgid "No search results"
-msgstr "Hµadanie bez výsledku"
+msgid "Stream this channel into media player."
+msgstr ""
 
-msgid "%A, %b %d %Y"
-msgstr "%A, %b %d %Y"
+msgid "Stream this recording into media player."
+msgstr ""
 
-msgid "Click to view details."
-msgstr "Podrobnosti získate kliknutím."
-
-msgid "Couldn't find timer. Maybe you mistyped your request?"
-msgstr "Nena¹iel sa plán nahrávania. Je mo¾né, ¾e ste zle napísali va¹u po¾iadavku."
-
-msgid "Please set a title for the timer!"
-msgstr "Prosím nastavte titul pre plán nahrávania!"
-
-#. TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
-msgid "mm/dd/yyyy"
-msgstr "mm/dd/yyyy"
+msgid "Record this"
+msgstr "Nahra»"
 
 msgid "Edit timer"
 msgstr "Upravi» plán"
 
-msgid "New timer"
-msgstr "Nový plán"
+msgid "loading data"
+msgstr "naèítanie dát"
 
-msgid "Title"
-msgstr "V názve"
+msgid "an error occured!"
+msgstr "do¹lo k chybe!"
 
-msgid "Directory"
-msgstr "Adresár"
+msgid "Request succeeded!"
+msgstr "Vyhovelo ¾iadosti!"
 
-msgid "Weekday"
-msgstr "Pracovný deò"
+msgid "Request failed!"
+msgstr "Chyba ¾iadosti!"
+
+msgid "Sunday"
+msgstr "Nedeµa"
 
 msgid "Monday"
 msgstr "Pondelok"
@@ -216,8 +209,162 @@ msgstr "Piatok"
 msgid "Saturday"
 msgstr "Sobota"
 
-msgid "Sunday"
-msgstr "Nedeµa"
+#. TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
+msgid "mm/dd/yyyy"
+msgstr "mm/dd/yyyy"
+
+msgid "January"
+msgstr "Január"
+
+msgid "February"
+msgstr "február"
+
+msgid "March"
+msgstr "Marec"
+
+msgid "April"
+msgstr "Apríl"
+
+msgid "May"
+msgstr "Máj"
+
+msgid "June"
+msgstr "Jún"
+
+msgid "July"
+msgstr "Júl"
+
+msgid "August"
+msgstr "August"
+
+msgid "September"
+msgstr "September"
+
+msgid "October"
+msgstr "Október"
+
+msgid "November"
+msgstr "November"
+
+msgid "December"
+msgstr "December"
+
+msgid "retrieving status ..."
+msgstr "naèítavanie stavu"
+
+msgid "Toggle updates on/off."
+msgstr "Prepínaè aktualizácii zapnú»/vypnú»."
+
+msgid "stop playback"
+msgstr "zastavenie prehrávania"
+
+msgid "resume playback"
+msgstr "obnovi» prehrávanie"
+
+msgid "pause playback"
+msgstr "pozastavenie prehrávania"
+
+msgid "fast rewind"
+msgstr "rýchlo pretoèi»"
+
+msgid "fast forward"
+msgstr "rýchlo vpred"
+
+msgid "previous channel"
+msgstr "predchádzajúci kanál"
+
+msgid "next channel"
+msgstr "ïal¹í kanál"
+
+msgid "No server response!"
+msgstr "Server neodpovedá!"
+
+msgid "Failed to update infobox!"
+msgstr "Nepodarilo sa aktualizova» infobox!"
+
+msgid "Switch to this channel."
+msgstr "Prepnú» na tento kanál."
+
+msgid "Search for repeats."
+msgstr "Vyhµada» reprízy."
+
+msgid "Authors"
+msgstr "Autori"
+
+msgid "Project Idea"
+msgstr "My¹lienka projektu"
+
+msgid "Webserver"
+msgstr "Webový server"
+
+msgid "Current Maintainer"
+msgstr ""
+
+msgid "Project leader"
+msgstr "Vedúci projektu"
+
+msgid "Content"
+msgstr "Obsah"
+
+msgid "Graphics"
+msgstr "Grafika"
+
+msgid "Information"
+msgstr "Informácie"
+
+msgid "LIVE version"
+msgstr "LIVE verzia"
+
+msgid "VDR version"
+msgstr "VDR verzia"
+
+msgid "Features"
+msgstr "Charakteristika"
+
+msgid "active"
+msgstr "aktívny"
+
+msgid "required"
+msgstr "po¾adované"
+
+msgid "Homepage"
+msgstr "Domovská stránka"
+
+msgid "Bugs and suggestions"
+msgstr "Chyby a podnety"
+
+msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
+msgstr "Ak narazíte na akúkoµvek chybu, alebo ak chcete navrhnú» nové funkcie, pou¾ite prosím ná¹ BUGTRACKER."
+
+msgid "Search results"
+msgstr "Výsledky vyhµadávania"
+
+msgid "No search results"
+msgstr "Hµadanie bez výsledku"
+
+msgid "%A, %b %d %Y"
+msgstr "%A, %b %d %Y"
+
+msgid "Click to view details."
+msgstr "Podrobnosti získate kliknutím."
+
+msgid "Couldn't find timer. Maybe you mistyped your request?"
+msgstr "Nena¹iel sa plán nahrávania. Je mo¾né, ¾e ste zle napísali va¹u po¾iadavku."
+
+msgid "Please set a title for the timer!"
+msgstr "Prosím nastavte titul pre plán nahrávania!"
+
+msgid "New timer"
+msgstr "Nový plán"
+
+msgid "Title"
+msgstr "V názve"
+
+msgid "Directory"
+msgstr "Adresár"
+
+msgid "Weekday"
+msgstr "Pracovný deò"
 
 msgid "Use VPS"
 msgstr "Pou¾i» VPS"
@@ -237,17 +384,29 @@ msgstr "Teraz ide"
 msgid "Time"
 msgstr "Èas"
 
-msgid "Switch to this channel."
-msgstr "Prepnú» na tento kanál."
-
-msgid "Search for repeats."
-msgstr "Vyhµada» reprízy."
-
 msgid "more"
 msgstr "viac"
 
 msgid "Channel"
 msgstr "Kanál"
+
+msgid "playing recording"
+msgstr "Prehrávanie záznamu"
+
+msgid "no epg info for current event!"
+msgstr "¾iadne EPG informácie na aktuálnu udalos»!"
+
+msgid "no epg info for current channel!"
+msgstr "®iadne epg pre vybraný kanál!"
+
+msgid "no current channel!"
+msgstr "®iadny vybraný kanál!"
+
+msgid "error retrieving status info!"
+msgstr "Chyba pri naèítaní informácií o stave!"
+
+msgid "%I:%M:%S %p"
+msgstr "%H:%M:%S"
 
 msgid "Recordings"
 msgstr "Nahrávky"
@@ -504,153 +663,6 @@ msgstr "Prepnú» ... minút pred zaèiatkom"
 msgid "Test"
 msgstr "Testova»"
 
-msgid "Find more at the Internet Movie Database."
-msgstr "Viac na Internet Movie Database."
-
-msgid "Stream this channel into browser."
-msgstr "Prezera» tento kanál v prehliadaèi."
-
-msgid "Stream this recording into browser."
-msgstr "Prezera» túto nahrávku v prehliadaèi."
-
-msgid "Stream this channel into media player."
-msgstr ""
-
-msgid "Stream this recording into media player."
-msgstr ""
-
-msgid "Record this"
-msgstr "Nahra»"
-
-msgid "loading data"
-msgstr "naèítanie dát"
-
-msgid "an error occured!"
-msgstr "do¹lo k chybe!"
-
-msgid "Request succeeded!"
-msgstr "Vyhovelo ¾iadosti!"
-
-msgid "Request failed!"
-msgstr "Chyba ¾iadosti!"
-
-msgid "January"
-msgstr "Január"
-
-msgid "February"
-msgstr "február"
-
-msgid "March"
-msgstr "Marec"
-
-msgid "April"
-msgstr "Apríl"
-
-msgid "May"
-msgstr "Máj"
-
-msgid "June"
-msgstr "Jún"
-
-msgid "July"
-msgstr "Júl"
-
-msgid "August"
-msgstr "August"
-
-msgid "September"
-msgstr "September"
-
-msgid "October"
-msgstr "Október"
-
-msgid "November"
-msgstr "November"
-
-msgid "December"
-msgstr "December"
-
-msgid "retrieving status ..."
-msgstr "naèítavanie stavu"
-
-msgid "Toggle updates on/off."
-msgstr "Prepínaè aktualizácii zapnú»/vypnú»."
-
-msgid "stop playback"
-msgstr "zastavenie prehrávania"
-
-msgid "resume playback"
-msgstr "obnovi» prehrávanie"
-
-msgid "pause playback"
-msgstr "pozastavenie prehrávania"
-
-msgid "fast rewind"
-msgstr "rýchlo pretoèi»"
-
-msgid "fast forward"
-msgstr "rýchlo vpred"
-
-msgid "previous channel"
-msgstr "predchádzajúci kanál"
-
-msgid "next channel"
-msgstr "ïal¹í kanál"
-
-msgid "No server response!"
-msgstr "Server neodpovedá!"
-
-msgid "Failed to update infobox!"
-msgstr "Nepodarilo sa aktualizova» infobox!"
-
-msgid "Authors"
-msgstr "Autori"
-
-msgid "Project Idea"
-msgstr "My¹lienka projektu"
-
-msgid "Webserver"
-msgstr "Webový server"
-
-msgid "Current Maintainer"
-msgstr ""
-
-msgid "Project leader"
-msgstr "Vedúci projektu"
-
-msgid "Content"
-msgstr "Obsah"
-
-msgid "Graphics"
-msgstr "Grafika"
-
-msgid "Information"
-msgstr "Informácie"
-
-msgid "LIVE version"
-msgstr "LIVE verzia"
-
-msgid "VDR version"
-msgstr "VDR verzia"
-
-msgid "Features"
-msgstr "Charakteristika"
-
-msgid "active"
-msgstr "aktívny"
-
-msgid "required"
-msgstr "po¾adované"
-
-msgid "Homepage"
-msgstr "Domovská stránka"
-
-msgid "Bugs and suggestions"
-msgstr "Chyby a podnety"
-
-msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
-msgstr "Ak narazíte na akúkoµvek chybu, alebo ak chcete navrhnú» nové funkcie, pou¾ite prosím ná¹ BUGTRACKER."
-
 msgid "No timer defined"
 msgstr "®iadny plán nahrávania nie je stanovený"
 
@@ -810,54 +822,6 @@ msgstr "Roz¹írené vyhµadávanie"
 msgid "no"
 msgstr "nie"
 
-msgid "VLC: live video stream"
-msgstr "VLC: ¾ivé vysielanie"
-
-msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
-msgstr "Nena¹iel sa ¾iadny kanál alebo kanály nie sú k dispozícii. Mo¾no ste zle napísali va¹u po¾iadavku?"
-
-msgid "VLC: play recording"
-msgstr "VLC: Prehrávaný záznam"
-
-msgid "Stop"
-msgstr "Zastavi»"
-
-msgid "Play"
-msgstr "Prehra»"
-
-msgid "Sound on"
-msgstr "Zapnú» zvuk"
-
-msgid "Sound off"
-msgstr "Vypnú» zvuk"
-
-msgid "Fullscreen"
-msgstr "<Obrazovka>"
-
-msgid "Close"
-msgstr "Zavrie»"
-
-msgid "VLC media URL"
-msgstr "VLC média URL"
-
-msgid "playing recording"
-msgstr "Prehrávanie záznamu"
-
-msgid "no epg info for current event!"
-msgstr "¾iadne EPG informácie na aktuálnu udalos»!"
-
-msgid "no epg info for current channel!"
-msgstr "®iadne epg pre vybraný kanál!"
-
-msgid "no current channel!"
-msgstr "®iadny vybraný kanál!"
-
-msgid "error retrieving status info!"
-msgstr "Chyba pri naèítaní informácií o stave!"
-
-msgid "%I:%M:%S %p"
-msgstr "%H:%M:%S"
-
 msgid "Searchtimers"
 msgstr "Vyhµadávaè vysielacieho èasu"
 
@@ -916,6 +880,9 @@ msgstr "Zobrazi» podrobnosti"
 msgid "List view"
 msgstr "Zobrazi» ako zoznam"
 
+msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
+msgstr "Nena¹iel sa ¾iadny kanál alebo kanály nie sú k dispozícii. Mo¾no ste zle napísali va¹u po¾iadavku?"
+
 msgid "No schedules available for this channel"
 msgstr "Pre tento kanál sa nena¹iel ¾iadny televízny program."
 
@@ -924,6 +891,9 @@ msgstr "Diaµkové ovládanie"
 
 msgid "Snapshot interval"
 msgstr "Interval snímkovania"
+
+msgid "Stop"
+msgstr "Zastavi»"
 
 msgid "Page error"
 msgstr "Chyba stránky"
@@ -960,6 +930,9 @@ msgstr "®ivé interaktívne VDR prostredie"
 
 msgid "No EPG information available"
 msgstr "EPG informácie sú nedostupné"
+
+#~ msgid "VLC media URL"
+#~ msgstr "VLC média URL"
 
 #~ msgid "(%d')"
 #~ msgstr "(%d')"

@@ -161,42 +161,35 @@ msgstr "Ištrinti vartotoją"
 msgid "New user"
 msgstr "Naujas vartotojas"
 
-msgid "Search results"
-msgstr "Paieškos rezultatai"
+msgid "Find more at the Internet Movie Database."
+msgstr "Gauti daugiau informacijos iš IMDb."
 
-msgid "No search results"
-msgstr "Nėra paieškos rezultatų"
+msgid "Stream this channel into media player."
+msgstr ""
 
-msgid "%A, %b %d %Y"
-msgstr "%A, %b %d %Y"
+msgid "Stream this recording into media player."
+msgstr ""
 
-msgid "Click to view details."
-msgstr "Spustelkit kad gautumėt daugiau informacijos."
-
-msgid "Couldn't find timer. Maybe you mistyped your request?"
-msgstr "Toks laikmatis nerastas. Gal įvedėte klaidingą paieškos frazę?"
-
-msgid "Please set a title for the timer!"
-msgstr "Laikmačiui būtina įvesti pavadinimą!"
-
-#. TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
-msgid "mm/dd/yyyy"
-msgstr "yyyy-mm-dd"
+msgid "Record this"
+msgstr "Įrašyti"
 
 msgid "Edit timer"
 msgstr "Koreguoti laikmatį"
 
-msgid "New timer"
-msgstr "Naujas laikmatis"
+msgid "loading data"
+msgstr "duomenys kraunami"
 
-msgid "Title"
-msgstr "Pavadinimas"
+msgid "an error occured!"
+msgstr "klaida!"
 
-msgid "Directory"
-msgstr "Katalogas"
+msgid "Request succeeded!"
+msgstr "Užklausa pavyko!"
 
-msgid "Weekday"
-msgstr "Savaitės diena"
+msgid "Request failed!"
+msgstr "Užklausa nepavyko!"
+
+msgid "Sunday"
+msgstr "Sekmadienis"
 
 msgid "Monday"
 msgstr "Pirmadienis"
@@ -216,8 +209,162 @@ msgstr "Penktadienis"
 msgid "Saturday"
 msgstr "Šeštadienis"
 
-msgid "Sunday"
-msgstr "Sekmadienis"
+#. TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
+msgid "mm/dd/yyyy"
+msgstr "yyyy-mm-dd"
+
+msgid "January"
+msgstr "Sausis"
+
+msgid "February"
+msgstr "Vasaris"
+
+msgid "March"
+msgstr "Kovas"
+
+msgid "April"
+msgstr "Balandis"
+
+msgid "May"
+msgstr "Gegužė"
+
+msgid "June"
+msgstr "Birželis"
+
+msgid "July"
+msgstr "Liepa"
+
+msgid "August"
+msgstr "Rugpjūtis"
+
+msgid "September"
+msgstr "Rugsėjis"
+
+msgid "October"
+msgstr "Spalis"
+
+msgid "November"
+msgstr "Lapkritis"
+
+msgid "December"
+msgstr "Gruodis"
+
+msgid "retrieving status ..."
+msgstr "užklausos būklė ..."
+
+msgid "Toggle updates on/off."
+msgstr "Įjungti/Išjunti atnaujinimus"
+
+msgid "stop playback"
+msgstr "sustapdyti grojimą"
+
+msgid "resume playback"
+msgstr "paleisti grojimą iš naujo"
+
+msgid "pause playback"
+msgstr "pristapdyti grojimą"
+
+msgid "fast rewind"
+msgstr "greitas atsukimas atgal"
+
+msgid "fast forward"
+msgstr "greitas prasukimas pirmyn"
+
+msgid "previous channel"
+msgstr "prieš tai buvęs kanalas"
+
+msgid "next channel"
+msgstr "sekantis kanalas"
+
+msgid "No server response!"
+msgstr "Serveris neatsako!"
+
+msgid "Failed to update infobox!"
+msgstr "Negali atnaujinti infolentelės!"
+
+msgid "Switch to this channel."
+msgstr "Pereiti į šį kanalą."
+
+msgid "Search for repeats."
+msgstr "Ieškoti pasikartojimų."
+
+msgid "Authors"
+msgstr "Autoriai"
+
+msgid "Project Idea"
+msgstr "Projekto idėja"
+
+msgid "Webserver"
+msgstr "Web serveris"
+
+msgid "Current Maintainer"
+msgstr ""
+
+msgid "Project leader"
+msgstr "Projekto vadovas"
+
+msgid "Content"
+msgstr "Turinys"
+
+msgid "Graphics"
+msgstr "Grafika"
+
+msgid "Information"
+msgstr "Informacija"
+
+msgid "LIVE version"
+msgstr "LIVE versija"
+
+msgid "VDR version"
+msgstr "VDR versija"
+
+msgid "Features"
+msgstr "Savybės"
+
+msgid "active"
+msgstr "aktyvus"
+
+msgid "required"
+msgstr "reikalingas"
+
+msgid "Homepage"
+msgstr "Pradžia"
+
+msgid "Bugs and suggestions"
+msgstr "Klaidos ir pasiūlymai"
+
+msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
+msgstr "Jei radote klaidų ar norėtumėte pasiūlyti naujų savybių, rašykit į mūsų bugtrakerį"
+
+msgid "Search results"
+msgstr "Paieškos rezultatai"
+
+msgid "No search results"
+msgstr "Nėra paieškos rezultatų"
+
+msgid "%A, %b %d %Y"
+msgstr "%A, %b %d %Y"
+
+msgid "Click to view details."
+msgstr "Spustelkit kad gautumėt daugiau informacijos."
+
+msgid "Couldn't find timer. Maybe you mistyped your request?"
+msgstr "Toks laikmatis nerastas. Gal įvedėte klaidingą paieškos frazę?"
+
+msgid "Please set a title for the timer!"
+msgstr "Laikmačiui būtina įvesti pavadinimą!"
+
+msgid "New timer"
+msgstr "Naujas laikmatis"
+
+msgid "Title"
+msgstr "Pavadinimas"
+
+msgid "Directory"
+msgstr "Katalogas"
+
+msgid "Weekday"
+msgstr "Savaitės diena"
 
 msgid "Use VPS"
 msgstr "Naudoti VPS"
@@ -237,17 +384,29 @@ msgstr "Dabar"
 msgid "Time"
 msgstr ""
 
-msgid "Switch to this channel."
-msgstr "Pereiti į šį kanalą."
-
-msgid "Search for repeats."
-msgstr "Ieškoti pasikartojimų."
-
 msgid "more"
 msgstr "daugiau"
 
 msgid "Channel"
 msgstr "Kanalas"
+
+msgid "playing recording"
+msgstr "grojamas įrašas"
+
+msgid "no epg info for current event!"
+msgstr "šis įvykis neturi epg įrašo!"
+
+msgid "no epg info for current channel!"
+msgstr "šis kanalas neturi epg įrašo!"
+
+msgid "no current channel!"
+msgstr "nėra šito kanalo!"
+
+msgid "error retrieving status info!"
+msgstr "negali gauti informacijos apie būklę!"
+
+msgid "%I:%M:%S %p"
+msgstr "%I:%M:%S %p"
 
 msgid "Recordings"
 msgstr "Įrašai"
@@ -504,153 +663,6 @@ msgstr "Įjungti ... minutėmis anksčiau prieš pradedant įrašą"
 msgid "Test"
 msgstr "Pabandyti"
 
-msgid "Find more at the Internet Movie Database."
-msgstr "Gauti daugiau informacijos iš IMDb."
-
-msgid "Stream this channel into browser."
-msgstr "Transliuoti šį kanalą į naršyklę."
-
-msgid "Stream this recording into browser."
-msgstr "Transliuoti šį įrašą į naršyklę."
-
-msgid "Stream this channel into media player."
-msgstr ""
-
-msgid "Stream this recording into media player."
-msgstr ""
-
-msgid "Record this"
-msgstr "Įrašyti"
-
-msgid "loading data"
-msgstr "duomenys kraunami"
-
-msgid "an error occured!"
-msgstr "klaida!"
-
-msgid "Request succeeded!"
-msgstr "Užklausa pavyko!"
-
-msgid "Request failed!"
-msgstr "Užklausa nepavyko!"
-
-msgid "January"
-msgstr "Sausis"
-
-msgid "February"
-msgstr "Vasaris"
-
-msgid "March"
-msgstr "Kovas"
-
-msgid "April"
-msgstr "Balandis"
-
-msgid "May"
-msgstr "Gegužė"
-
-msgid "June"
-msgstr "Birželis"
-
-msgid "July"
-msgstr "Liepa"
-
-msgid "August"
-msgstr "Rugpjūtis"
-
-msgid "September"
-msgstr "Rugsėjis"
-
-msgid "October"
-msgstr "Spalis"
-
-msgid "November"
-msgstr "Lapkritis"
-
-msgid "December"
-msgstr "Gruodis"
-
-msgid "retrieving status ..."
-msgstr "užklausos būklė ..."
-
-msgid "Toggle updates on/off."
-msgstr "Įjungti/Išjunti atnaujinimus"
-
-msgid "stop playback"
-msgstr "sustapdyti grojimą"
-
-msgid "resume playback"
-msgstr "paleisti grojimą iš naujo"
-
-msgid "pause playback"
-msgstr "pristapdyti grojimą"
-
-msgid "fast rewind"
-msgstr "greitas atsukimas atgal"
-
-msgid "fast forward"
-msgstr "greitas prasukimas pirmyn"
-
-msgid "previous channel"
-msgstr "prieš tai buvęs kanalas"
-
-msgid "next channel"
-msgstr "sekantis kanalas"
-
-msgid "No server response!"
-msgstr "Serveris neatsako!"
-
-msgid "Failed to update infobox!"
-msgstr "Negali atnaujinti infolentelės!"
-
-msgid "Authors"
-msgstr "Autoriai"
-
-msgid "Project Idea"
-msgstr "Projekto idėja"
-
-msgid "Webserver"
-msgstr "Web serveris"
-
-msgid "Current Maintainer"
-msgstr ""
-
-msgid "Project leader"
-msgstr "Projekto vadovas"
-
-msgid "Content"
-msgstr "Turinys"
-
-msgid "Graphics"
-msgstr "Grafika"
-
-msgid "Information"
-msgstr "Informacija"
-
-msgid "LIVE version"
-msgstr "LIVE versija"
-
-msgid "VDR version"
-msgstr "VDR versija"
-
-msgid "Features"
-msgstr "Savybės"
-
-msgid "active"
-msgstr "aktyvus"
-
-msgid "required"
-msgstr "reikalingas"
-
-msgid "Homepage"
-msgstr "Pradžia"
-
-msgid "Bugs and suggestions"
-msgstr "Klaidos ir pasiūlymai"
-
-msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
-msgstr "Jei radote klaidų ar norėtumėte pasiūlyti naujų savybių, rašykit į mūsų bugtrakerį"
-
 msgid "No timer defined"
 msgstr "Nenustatytas laikmatis"
 
@@ -812,54 +824,6 @@ msgstr "Išplėstinė paieška"
 msgid "no"
 msgstr "ne"
 
-msgid "VLC: live video stream"
-msgstr "VLC: gyvas srautas"
-
-msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
-msgstr "Kanalas nerastas arba jo iš vis nėra. Gal klaidingai įvedėte paieškos frazę?"
-
-msgid "VLC: play recording"
-msgstr "VLC: groti įrašą"
-
-msgid "Stop"
-msgstr "Sustapdyti"
-
-msgid "Play"
-msgstr "Groti"
-
-msgid "Sound on"
-msgstr "Įjungti garsą"
-
-msgid "Sound off"
-msgstr "Išjungti garsą"
-
-msgid "Fullscreen"
-msgstr "Per visą ekraną"
-
-msgid "Close"
-msgstr "Uždaryti"
-
-msgid "VLC media URL"
-msgstr "Adresas VLC grotuvui"
-
-msgid "playing recording"
-msgstr "grojamas įrašas"
-
-msgid "no epg info for current event!"
-msgstr "šis įvykis neturi epg įrašo!"
-
-msgid "no epg info for current channel!"
-msgstr "šis kanalas neturi epg įrašo!"
-
-msgid "no current channel!"
-msgstr "nėra šito kanalo!"
-
-msgid "error retrieving status info!"
-msgstr "negali gauti informacijos apie būklę!"
-
-msgid "%I:%M:%S %p"
-msgstr "%I:%M:%S %p"
-
 msgid "Searchtimers"
 msgstr "Paieškos laikmačiai"
 
@@ -918,6 +882,9 @@ msgstr "Detalus sąrašas"
 msgid "List view"
 msgstr "Sąrašas"
 
+msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
+msgstr "Kanalas nerastas arba jo iš vis nėra. Gal klaidingai įvedėte paieškos frazę?"
+
 msgid "No schedules available for this channel"
 msgstr "Šis kanalas neturi programos"
 
@@ -926,6 +893,9 @@ msgstr "Distancinis pultas"
 
 msgid "Snapshot interval"
 msgstr "Momentinių nuotraukų intervalas"
+
+msgid "Stop"
+msgstr "Sustapdyti"
 
 msgid "Page error"
 msgstr "Puslapio klaida"
@@ -962,6 +932,9 @@ msgstr "Live interaktyvioji VDR aplinka"
 
 msgid "No EPG information available"
 msgstr "Nėra EPG informacijos"
+
+#~ msgid "VLC media URL"
+#~ msgstr "Adresas VLC grotuvui"
 
 #, fuzzy
 #~ msgid "Subtitle"

@@ -24,11 +24,6 @@ table {
 	width: 120px;
 }
 
-
-div#vlcControls {
-	text-align: center;
-}
-
 .notify-win {
 	margin: 0px auto;
  	max-width: 480px; /* depends on the tip backround image width */
