@@ -19,7 +19,6 @@ bool logged_in(false);
 FFmpegThread *f_worker = NULL;
 </%session>
 <%cpp>
-dsyslog("vdrlive::stream_data::f_worker(%p)", f_worker);
 if(f_worker) f_worker->Touch();
 tnt::SessionUnlocker unlck = tnt::SessionUnlocker(request, true);
 
@@ -29,16 +28,12 @@ reply.setHeader("Expires", "Mon, 26 Jul 1997 05:00:00 GMT");
 tnt::MimeDb mimeDb("/etc/mime.types");
 string mime = mimeDb.getMimetype(request.getPathInfo());
 reply.setContentType(mime);
-dsyslog("vdrlive::stream_data::mimetype(%s)", mime.c_str());
 
 // check for session cookie. TODO: handle secure cookie for ssl
 string session;
 if (request.hasCookie("tntnet")) {
 	session = request.getCookie("tntnet");
-	dsyslog("vdrlive::stream_data::session(%s)", session.c_str());
 }
-else
-	dsyslog("vdrlive::stream_data::session(null)");
 
 // forge target path from requested path.
 string path(request.getPathInfo());
@@ -46,7 +41,6 @@ if (path.substr(0, 7) == "/media/") {
 	path.replace(0, 7, "/tmp/live-hls-buffer/");
 }
 else return DECLINED;
-dsyslog("vdrlive::stream_data::path(%s)", path.c_str());
 
 // try to open the target file
 uint8_t retry;
@@ -56,7 +50,6 @@ std::ifstream f;
 do {
 	f.open ( path.c_str(), std::ios::binary );
 	if (!f.is_open()) {
-		dsyslog("vdrlive::stream_data::is_open(false) %2d %s", retry, path.c_str());
 		usleep(200e3);
 	}
 } while (!f.is_open() && --retry);
@@ -84,18 +77,15 @@ if (path.rfind(".m3u8") != string::npos && path.find("ffmpeg_") != string::npos)
 		}
 	}
 	f.clear(); // unset eof flag
-	dsyslog("vdrlive::stream_data: EXT-X-TARGETDURATION: %d", td);
 }
 
 usleep(100e3);
 f.seekg( 0, std::ios::end );
 streamsize size = f.tellg();
 f.seekg( 0, std::ios::beg );
-dsyslog("vdrlive::stream_data::size(%d)", size);
 
 unsigned httpReturn = HTTP_OK;
 string range = request.getHeader(tnt::httpheader::range);
-dsyslog("vdrlive::stream_data::range(%s)", range.c_str());
 off_t offset = 0, stop = size-1;
 if (!range.empty()) {
 	range.erase(0,6);
@@ -125,7 +115,6 @@ while (r = f.readsome(buffer, (c < sizeof(buffer))?c:sizeof(buffer))) {
 #endif
 }
 
-// dsyslog("vdrlive::stream_data: send %d bytes of data", f->size());
 reply.out() << std::flush;
 return httpReturn;
 </%cpp>
