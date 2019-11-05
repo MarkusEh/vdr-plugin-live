@@ -351,6 +351,8 @@ std::vector<time_t>			times_start;
 				int event_start_row = (Event->StartTime() - sched_start) / 60 / MINUTES_PER_ROW;
 				en.start_row = 0;
 				en.row_count = event_start_row;
+				if ( en.row_count < 1 )
+					en.row_count = 1;
 				// no title and no start time = dummy event
 				en.title = "";
 				en.start = "";
@@ -469,8 +471,20 @@ std::vector<time_t>			times_start;
 <%cpp>
                                 if ( cur_event[channel] == table[channel].end()
                                      || cur_event[channel]->start_row != row )
+				{
                                   // no new event in this channel, skip it
+					SchedEntry &en=*(--table[channel].end());
+					if ( row == 0 || en.start_row + en.row_count == row) {
+</%cpp>
+			<td class="event topaligned leftcol rightcol" rowspan="<$ sched_end_row - row $>">
+                        <div class=" content1 " >
+                         <div class= "start withmargin"><? row == 0 ? "No EPG available" ?><? row != 0 ? "EPG end" ?></div>
+                        </div>
+			</td>
+<%cpp>
+					}
                                   continue;
+				}
 
                                 SchedEntry &en=*cur_event[channel];
                                 if (en.title.empty() && en.start.empty() )
@@ -478,6 +492,9 @@ std::vector<time_t>			times_start;
                                   // empty dummy event
 </%cpp>
 			<td class="event topaligned leftcol rightcol" rowspan="<$ en.row_count $>">
+                        <div class=" content1 " >
+                         <div class= "start withmargin"><? en.row_count == sched_end_row ? "EPG empty" ?></div>
+                        </div>
                         </td>
 <%cpp>
 				  ++cur_event[channel];
