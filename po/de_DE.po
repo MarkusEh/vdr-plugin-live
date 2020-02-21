@@ -166,10 +166,10 @@ msgid "Find more at the Internet Movie Database."
 msgstr "Weitere Informationen in der Internet Movie Database."
 
 msgid "Stream this channel into media player."
-msgstr ""
+msgstr "Sender in Mediaplayer abspielen."
 
 msgid "Stream this recording into media player."
-msgstr ""
+msgstr "Aufnahme in Mediaplayer abspielen."
 
 msgid "Record this"
 msgstr "Diese Sendung aufnehmen"
