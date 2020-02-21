@@ -70,7 +70,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 						for (std::list<int>::const_iterator timerIndex = confltimer->concurrentTimerIndices.begin(); timerIndex != confltimer->concurrentTimerIndices.end(); ++timerIndex) {
 #if VDRVERSNUM >= 20301
 							LOCK_TIMERS_READ;
-							cTimer* timer = (cTimer *)Timers->Get(*timerIndex-1);
+							cTimer* timer = (cTimer *)Timers->GetById(*timerIndex);
 #else
 							cTimer* timer = Timers.Get(*timerIndex-1);
 #endif
