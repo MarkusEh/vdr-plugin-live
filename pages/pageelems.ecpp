@@ -324,6 +324,7 @@ int update_status(1);
 	string title;
 	string short_descr;
 	string long_descr;
+	string filename;
 	string archived;
 	int elapsed = -1;
 </%args>
@@ -353,6 +354,16 @@ int update_status(1);
 	for(std::list<std::string>::iterator it = images.begin(); it != images.end(); ++it ) {
 </%cpp>
 						<img src="/epgimages/<$ *it $>" class="epg_image"/>
+<%cpp>
+	}
+
+	list<string> images1 = EpgEvents::RecImages(boxId, filename);
+	size_t delimPos = boxId.find_last_of('_');
+	string recId = (delimPos)?boxId.substr(delimPos+1):boxId;
+
+	for(std::list<std::string>::iterator it = images1.begin(); it != images1.end(); ++it ) {
+</%cpp>
+						<img src="/recimages/<$ recId $>/<$ *it $>" class="epg_image"/>
 <%cpp>
 	}
 </%cpp>

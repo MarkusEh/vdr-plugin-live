@@ -151,6 +151,14 @@ namespace vdrlive {
 				   "image/$2");
 		}
 
+		// rec images
+		MapUrl(app,
+			   "^/recimages/([^/]*)/([^/]*)\\.([^./]+)",
+			   "content",
+			   "",
+			   "/tmp/$1_$2.$3",
+			   "image/$3");
+
 		// select additional (not build in) javascript.
 		// WARNING: no path components with '.' in the name are allowed. Only
 		// the basename may contain dots and must end with '.js'

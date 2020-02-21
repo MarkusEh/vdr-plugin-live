@@ -55,6 +55,11 @@ namespace vdrlive
 		std::list<std::string> EpgImages(std::string const &epgid);
 
 		/**
+		 *  Return a list of RecImages in the given folder.
+		 */
+		std::list<std::string> RecImages(std::string const &epgid, std::string const &recfolder);
+
+		/**
 		 *  Calculate the duration. A duration can be zero or
 		 *  negative. Negative durations are considered invalid by
 		 *  LIVE.
@@ -95,6 +100,8 @@ namespace vdrlive
 			virtual cChannel const * Channel() const { return 0; }
 
 			virtual std::string const Archived() const { return ""; }
+
+			virtual std::string const FileName() const { return ""; }
 
 			virtual std::string const StartTime(const char* format) const;
 
@@ -139,6 +146,8 @@ namespace vdrlive
 
 			virtual time_t GetEndTime() const;
 
+			virtual std::string const FileName() const { return ""; }
+
 		private:
 			const std::string m_info;
 	};
@@ -173,6 +182,8 @@ namespace vdrlive
 			virtual cChannel const * Channel() const { return Channels.GetByChannelID(m_event->ChannelID());}
 #endif
 
+			virtual std::string const FileName() const { return ""; }
+
 		private:
 			cEvent const * m_event;
 	};
@@ -205,6 +216,8 @@ namespace vdrlive
 			virtual cChannel const * Channel() const { return Channels.GetByChannelID(m_channelID);}
 #endif
 
+			virtual std::string const FileName() const { return ""; }
+
 		private:
 			tChannelID m_channelID;
 	};
@@ -234,6 +247,8 @@ namespace vdrlive
 			virtual std::string const LongDescr() const;
 
 			virtual std::string const Archived() const;
+
+			virtual std::string const FileName() const;
 
 			virtual time_t GetStartTime() const;
 
