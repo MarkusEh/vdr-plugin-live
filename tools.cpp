@@ -351,12 +351,12 @@ namespace vdrlive {
 		if (source != target) {
 			// validate target directory
 			if (target.find(source) != std::string::npos) {
-				esyslog("[LIVE]: cannot move under sub-directory\n");
+				esyslog("live: cannot move under sub-directory\n");
 				return false;
 			}
 			RemoveFileOrDir(target.c_str());
 			if (!MakeDirs(target.c_str(), true)) {
-				esyslog("[LIVE]: cannot create directory %s", target.c_str());
+				esyslog("live: cannot create directory %s", target.c_str());
 				return false;
 			}
 
@@ -369,7 +369,7 @@ namespace vdrlive {
 #else
 				if (!RenameVideoFile(source.c_str(), target.c_str())) {
 #endif
-					esyslog("[LIVE]: rename failed from %s to %s", source.c_str(), target.c_str());
+					esyslog("live: rename failed from %s to %s", source.c_str(), target.c_str());
 					return false;
 				}
 			}
@@ -387,7 +387,7 @@ namespace vdrlive {
 					const int len = 1024 * 1024;
 					char *buffer = MALLOC(char, len);
 					if (!buffer) {
-						esyslog("[LIVE]: cannot allocate renaming buffer");
+						esyslog("live: cannot allocate renaming buffer");
 						return false;
 					}
 
@@ -406,13 +406,13 @@ namespace vdrlive {
 
 								// validate files
 								if (!inputFile || !outputFile) {
-									esyslog("[LIVE]: cannot open file %s or %s", sourceFile.c_str(), targetFile.c_str());
+									esyslog("live: cannot open file %s or %s", sourceFile.c_str(), targetFile.c_str());
 									success = false;
 									break;
 								}
 
 								// do actual copy
-								dsyslog("[LIVE]: copying %s to %s", sourceFile.c_str(), targetFile.c_str());
+								dsyslog("live: copying %s to %s", sourceFile.c_str(), targetFile.c_str());
 								do {
 									r = inputFile->Read(buffer, len);
 									if (r > 0)
@@ -442,20 +442,20 @@ namespace vdrlive {
 							target = target.substr(0, found);
 						}
 						if (!RemoveFileOrDir(target.c_str(), true)) {
-							esyslog("[LIVE]: cannot remove target %s", target.c_str());
+							esyslog("live: cannot remove target %s", target.c_str());
 						}
 						found = target.find_last_of(delim);
 						if (found != std::string::npos) {
 							target = target.substr(0, found);
 						}
 						if (!RemoveEmptyDirectories(target.c_str(), true)) {
-							esyslog("[LIVE]: cannot remove target directory %s", target.c_str());
+							esyslog("live: cannot remove target directory %s", target.c_str());
 						}
-						esyslog("[LIVE]: copying failed");
+						esyslog("live: copying failed");
 						return false;
 					}
 					else if (!copy && !RemoveFileOrDir(source.c_str(), true)) { // delete source files
-						esyslog("[LIVE]: cannot remove source directory %s", source.c_str());
+						esyslog("live: cannot remove source directory %s", source.c_str());
 						return false;
 					}
 
@@ -480,7 +480,7 @@ namespace vdrlive {
 					}
 				}
 				else {
-					esyslog("[LIVE]: %s requires %dMB - only %dMB available", copy ? "moving" : "copying", required, available);
+					esyslog("live: %s requires %dMB - only %dMB available", copy ? "moving" : "copying", required, available);
 					// delete all created empty target directories
 					size_t found = target.find_last_of(delim);
 					if (found != std::string::npos) {

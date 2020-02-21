@@ -10,6 +10,7 @@
 #include <users.h>
 
 #include <vdr/timers.h>
+#include <vdr/svdrp.h>
 
 using namespace std;
 using namespace vdrlive;
@@ -24,6 +25,7 @@ using namespace vdrlive;
 	tChannelID channel;
 	int active = 1;
 	string title = "";
+	string remoteServerName = "";
 	string date = "";
 	bool wday_mon = false;
 	bool wday_tue = false;
@@ -67,15 +69,24 @@ const cTimer* timer;
 	SortedTimers& timers = LiveTimerManager().GetTimers();
 
 	timer = 0;
+        int timerId = 0;
 	if ( !timerid.empty() ) {
 		string tId = SortedTimers::DecodeDomId(timerid);
-		// dsyslog("DEBUG: TIMER: tId = %s", tId.c_str());
+//		dsyslog("live: DEBUG: TIMER: timerid = %s", timerid);
+//		dsyslog("live: DEBUG: TIMER: tId = %s", tId.c_str());
 		timer = timers.GetByTimerId(tId);
 		if ( timer == 0 )
 			throw HtmlError( tr("Couldn't find timer. Maybe you mistyped your request?") );
+                else 
+                   	timerId = timer->Id();
 	}
 
 	if ( request.getMethod() == "POST" ) {
+		const char* oldRemote = NULL;
+		if ( timer != 0 ) {
+			oldRemote = timer->Remote();
+//			dsyslog("live: found valid timer on server '%s'", oldRemote);
+                }
 		uint flags = ( active ? tfActive : 0 ) | ( vps ? tfVps : 0 );
 		string weekdays = string( wday_mon ? "M" : "-" ) + ( wday_tue ? "T" : "-" ) + ( wday_wed ? "W" : "-" )
 							  + ( wday_thu ? "T" : "-" ) + ( wday_fri ? "F" : "-" ) + ( wday_sat ? "S" : "-" )
@@ -93,7 +104,9 @@ const cTimer* timer;
 			// TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
 			time_t tdate = GetDateFromDatePicker(date, tr("mm/dd/yyyy"));
 			string sdate = DatePickerToC(tdate, "yyyy-mm-dd");
-			LiveTimerManager().UpdateTimer( timer, flags, channel, weekdays, sdate, start, stop, priority, lifetime, title, aux );
+                        const char* remote = ( remoteServerName == "") ? NULL : remoteServerName.c_str();
+//                        dsyslog("live: remote '%s'", remote);
+			LiveTimerManager().UpdateTimer( timerId, remote, oldRemote, flags, channel, weekdays, sdate, start, stop, priority, lifetime, title, aux );
 			timerNotifier.SetTimerModification();
 			return reply.redirect(!edit_timerreferer.empty()?edit_timerreferer:"timers.html");
 		}
@@ -136,6 +149,8 @@ const cTimer* timer;
 		active = timer->Flags() & tfActive;
 		channel = timer->Channel()->GetChannelID();
 		title = timer->File() ? timer->File() : "";
+		remoteServerName = timer->Remote() ? timer->Remote() : "";
+//                dsyslog("live: remoteServerName '%s'", remoteServerName.c_str());
 		if ( LiveFeatures< features::epgsearch >().Recent() ) {
 			vector< string > directories = StringSplit( title, '~' );
 			if (directories.size() > 1) {
@@ -216,6 +231,34 @@ const cTimer* timer;
 						<td class="label leftcol"><div class="withmargin"><$ tr("Title" ) $>:</div></td>
 						<td class="rightcol"><input type="text" name="title" value="<$ title $>" size="80" /></td>
 					</tr>
+<%cpp>
+                                        cStringList svdrpServerNames;
+                                        if (GetSVDRPServerNames(&svdrpServerNames)) {
+                                           svdrpServerNames.Sort(true);
+</%cpp>
+                                           <tr>
+                                                <td class="label leftcol"><div class="withmargin"><$ tr("Server" ) $>:</div></td>
+                                                <td class="rightcol"><select name="remoteServerName" size="1" id="remoteServerName" style="margin-top: 5px">
+                                                         <option/>
+<%cpp>
+                                                         for (int i = 0; i < svdrpServerNames.Size(); i++) {
+                                                              std::string rsrv = svdrpServerNames[i];
+</%cpp>
+							      <option
+%							      if (rsrv == remoteServerName) {
+							      selected="selected"
+%							      }
+							      ><$ rsrv $></option>
+<%cpp>
+                                                         }
+</%cpp>
+                                                  </select>
+                                                </td>
+                                           </tr>
+<%cpp>
+                                        svdrpServerNames.Clear();
+                                        }
+</%cpp>
 <%cpp>
 					if ( LiveFeatures< features::epgsearch >().Recent() ) {
 						RecordingDirs recordingdirs(true);

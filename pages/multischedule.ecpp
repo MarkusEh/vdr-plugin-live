@@ -115,10 +115,12 @@ std::vector<time_t>			times_start;
             {
                 std::string thisChannel;
                 try {
-                    if ( cur_group_count != 0 )
-                        channel_groups_names.back() += std::string( " - " );
                     size_t channelSep = thisGroup.find(',');
                     thisChannel = thisGroup.substr(0, channelSep );
+                    if ( cur_group_count++ != 0 )
+                        channel_groups_names.back() += std::string( " - " );
+		    else
+			channel_groups_names.back() += thisChannel += std::string( ": " );
                     if ( channelSep != thisGroup.npos )
                         thisGroup.erase( 0, channelSep+1 );
                     else
@@ -131,12 +133,11 @@ std::vector<time_t>			times_start;
 #endif
                     if ( !Channel )
                     {
-                        esyslog("Live: could not find channel no '%s'.", thisChannel.c_str() );
+                        esyslog("live: could not find channel no '%s'.", thisChannel.c_str() );
                         continue;
                     }
                     channel_groups_names.back() += std::string( Channel->Name() );
                     channel_groups_numbers.back().push_back( Channel->Number() );
-                    cur_group_count++;
                     if ( cur_group_count>=MAX_CHANNELS )
                     {
                         // start new group if group gets too large
@@ -147,7 +148,7 @@ std::vector<time_t>			times_start;
                 }
                 catch ( const bad_lexical_cast & )
                 {
-                    esyslog("Live: could not convert '%s' into a channel number", thisChannel.c_str());
+                    esyslog("live: could not convert '%s' into a channel number", thisChannel.c_str());
                     continue;
                 }
             }
@@ -218,14 +219,14 @@ std::vector<time_t>			times_start;
 				std::string hour = (*part).substr(0, sep );
 				if ( sep == (*part).npos )
 				{
-					esyslog("Live: Error parsing time '%s'", (*part).c_str() );
+					esyslog("live: Error parsing time '%s'", (*part).c_str() );
 					continue;
 				}
 				std::string min = (*part).substr(sep+1, (*part).npos );
 				offsets.push_back( lexical_cast<time_t>( hour )*60*60 + lexical_cast<time_t>( min ) *60 );
 			}
 			catch ( const bad_lexical_cast & ) {
-				esyslog("Live: Error parsing time '%s'", part->c_str() );
+				esyslog("live: Error parsing time '%s'", part->c_str() );
 			};
 		};
 		// add the time of the favourites to the time list
@@ -287,7 +288,7 @@ std::vector<time_t>			times_start;
 	}
 	catch ( const bad_lexical_cast & )
 	{
-		esyslog("Live: could not convert '%s' into a schedule duration", LiveSetup().GetScheduleDuration().c_str());
+		esyslog("live: could not convert '%s' into a schedule duration", LiveSetup().GetScheduleDuration().c_str());
 		max_hours = 8;
 	};
 	if (max_hours > 48)
@@ -582,4 +583,8 @@ std::vector<time_t>			times_start;
 % //     <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(Channel->GetChannelID()) image="zap.png" alt="" &>
    </span>
 </form>
+<span class="sep">|</span>
+<a href="multischedule.html?time_para=<$ time_selected $>&channel=<$ std::max(0, ((int)channel_group - 1)) $>">« Prev</a>
+<span class="sep">|</span>
+<a href="multischedule.html?time_para=<$ time_selected $>&channel=<$ (channel_group + 1) $>">Next »</a>
 </%def>

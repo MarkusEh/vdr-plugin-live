@@ -37,7 +37,7 @@ void ServerThread::Action()
 		m_server.reset(0);
 	} catch (exception const& ex) {
 		// XXX move initial error handling to live.cpp
-		esyslog("ERROR: live httpd server crashed: %s", ex.what());
+		esyslog("live: ERROR: live httpd server crashed: %s", ex.what());
 		cerr << "HTTPD FATAL ERROR: " << ex.what() << endl;
 		//cThread::EmergencyExit(true);
 	}

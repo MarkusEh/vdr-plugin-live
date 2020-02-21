@@ -1032,6 +1032,20 @@ div.recording_item {
 	cursor: pointer;
 }
 
+.recording_item div.recording_name_new {
+	font-weight: bold;
+	color: orangered;
+	cursor: pointer;
+}
+
+.recording_item div.recording_name_new a {
+       color: orangered;
+}
+
+.recording_item div.recording_name_new span {
+       font-weight: normal;
+}
+
 .recording_item div.recording_arch {
 	float: right;
 	padding-top: 0.5ex;

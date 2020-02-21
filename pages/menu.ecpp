@@ -88,6 +88,7 @@ if (!component.empty()) {
 	if (LiveFeatures< features::epgsearch >().Recent()) {
 </%cpp>
 	  <& menu.component current=("search") &>
+	  <& menu.component current=("searchepg") &>
 	  <& menu.component current=("searchtimers") &>
 <%cpp>
 	}

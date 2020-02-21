@@ -18,6 +18,23 @@
 using namespace vdrlive;
 using namespace std;
 
+bool checkNew(RecordingsTreePtr recordingsTree, vector<string> p) {
+	bool newR = false;
+	RecordingsMap::iterator iter;
+	for (iter = recordingsTree->begin(p); iter != recordingsTree->end(p); iter++) {
+		RecordingsItemPtr recItem = iter->second;
+		if(!recItem->IsDir())
+			newR |= recItem->Recording()->GetResume() <= 0;
+		else {
+			vector<string> pp(p);
+			pp.push_back(recItem->Name());
+			newR |= checkNew(recordingsTree, pp);
+		}
+	}
+	return newR;
+}
+
+
 </%pre>
 <%args>
 	string sort;
@@ -213,9 +230,17 @@ else
 for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 	RecordingsItemPtr recItem = *recIter;
 	counter++;
+
+	/* search trough directory for new recordings */
+        bool newR = false;
+	if ( LiveSetup().GetMarkNewRec() ) {
+           vector<string> p(path); 
+	   p.push_back(recItem->Name()); 
+	   newR = checkNew(recordingsTree, p);; 
+        }
 </%cpp>
 	<li class="recording">
-		<& rec_item_dir name=(recItem->Name()) level=(recItem->Level()) &>
+		<& rec_item_dir name=(recItem->Name()) level=(recItem->Level()) newR=(newR ? "_new" : "") &>
 <%cpp>
 #if TNT_QUERYPARAMS_NO_BOOL
 		tnt::QueryParams recItemParams(qparam);
@@ -262,19 +287,23 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 		string dayLen(lexical_cast<string, int>(day.length() - 1) + ".25em;");
 		// TRANSLATORS: recording duration format HH:MM
 		string duration(recItem->Duration() < 0 ? "" : FormatDuration(tr("(%d:%02d)"), recItem->Duration() / 60, recItem->Duration() % 60));
+		string newR = "";
+                if ( LiveSetup().GetMarkNewRec() ) {
+		   newR = (recItem->Recording()->GetResume() <= 0 ? "_new" : "");
+                }
 		string shortDescr(recItem->RecInfo()->ShortText() ? recItem->RecInfo()->ShortText() : "");
 		string description(recItem->RecInfo()->Description() ? recItem->RecInfo()->Description() : "");
 		string hint(tr("Click to view details."));
 		if (!shortDescr.empty()) hint = shortDescr + "<br />" + hint;
 		else if (!description.empty()) hint = description + "<br />" + hint;
 #ifdef HAVE_LIBPCRECPP
-		pcrecpp::RE re(filter.c_str(), pcrecpp::UTF8());
+		pcrecpp::RE re(filter.c_str(), pcrecpp::UTF8().set_caseless(true));
 		if (filter.empty() || re.PartialMatch(recItem->Name()) || re.PartialMatch(shortDescr) || re.PartialMatch(description))
 #endif
 		{
 </%cpp>
 	<li class="recording">
-	   <& rec_item_file name=(recItem->Name()) level=(recItem->Level()) id=(recItem->Id()) day=(day) dayLen=(dayLen) startTime=(recItem->StartTime()) duration=(duration) hint=(hint) shortDescr=(shortDescr) archived=(RecordingsManager::GetArchiveDescr(recItem->Recording())) &>
+	   <& rec_item_file name=(recItem->Name()) level=(recItem->Level()) id=(recItem->Id()) day=(day) dayLen=(dayLen) startTime=(recItem->StartTime()) duration=(duration) newR=(newR) hint=(hint) shortDescr=(shortDescr) archived=(RecordingsManager::GetArchiveDescr(recItem->Recording())) &>
 	</li>
 <%cpp>
 		}
@@ -354,13 +383,14 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 <%args>
 	string name;
 	int level;
+	string newR;
 	string collapseimg = "plus.png";
 	string folderimg = "folder_closed.png";
 </%args>
 	<div class="recording_item" onclick="Toggle(this)">
 		<div class="recording_imgs"><%cpp> reply.out() << StringRepeat(level - 1, "<img src=\"img/transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />"); </%cpp><img class="recording_expander" src="<$ LiveSetup().GetThemedLink("img", collapseimg) $>" alt="" /><img class="recording_folder" src="<$ LiveSetup().GetThemedLink("img", folderimg) $>" alt="" /></div>
 		<div class="recording_spec">
-			<div class="recording_name"><$ name $></div>
+			<div class="recording_name<$ newR $>"><$ name $></div>
 	    </div>
 		<div class="recording_actions">&nbsp;</div>
 	</div>
@@ -379,6 +409,7 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 	string duration;
 	string hint;
 	string shortDescr;
+	string newR;
 	string archived;
 </%args>
 	<div class="recording_item">
@@ -386,7 +417,7 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 	<div class="recording_spec">
 		<div class="recording_day"><$ FormatDateTime(tr("%a,"), startTime) + string(" ") + FormatDateTime(tr("%b %d %y"), startTime) + string(" ") + FormatDateTime(tr("%I:%M %p"), startTime) $></div>
 		<div class="recording_duration"><$ duration $></div>
-		<div class="recording_name"><a <& tooltip.hint text=(hint) &><& tooltip.display domId=(id) &>><$ name $><br /><%cpp>if ((name != shortDescr) && (!shortDescr.empty())) {</%cpp><span><$ shortDescr $></span><%cpp> } else { </%cpp><span>&nbsp;</span><%cpp> } </%cpp></a></div>
+		<div class="recording_name<$ newR $>"><a <& tooltip.hint text=(hint) &><& tooltip.display domId=(id) &>><$ name $><br /><%cpp>if ((name != shortDescr) && (!shortDescr.empty())) {</%cpp><span><$ shortDescr $></span><%cpp> } else { </%cpp><span>&nbsp;</span><%cpp> } </%cpp></a></div>
 	</div>
 	<div class="recording_actions">
 <%cpp>

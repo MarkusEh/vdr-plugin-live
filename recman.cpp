@@ -132,7 +132,7 @@ namespace vdrlive {
 #endif
 
 		if (!MoveDirectory(oldname.c_str(), newname.c_str(), copy)) {
-			esyslog("[LIVE]: renaming failed from '%s' to '%s'", oldname.c_str(), newname.c_str());
+			esyslog("live: renaming failed from '%s' to '%s'", oldname.c_str(), newname.c_str());
 			return false;
 		}
 
@@ -284,7 +284,7 @@ namespace vdrlive {
 		RecordingsManagerPtr recMan = LiveRecordingsManager();
 		if (! recMan) {
 			// theoretically this code is never reached ...
-			esyslog("[LIVE]: lost RecordingsManager instance while using it!");
+			esyslog("live: lost RecordingsManager instance while using it!");
 			return RecordingsManagerPtr();
 		}
 
@@ -305,21 +305,21 @@ namespace vdrlive {
 				m_recTree = std::tr1::shared_ptr< RecordingsTree >(new RecordingsTree(recMan));
 			}
 			if (!m_recTree) {
-				esyslog("[LIVE]: creation of recordings tree failed!");
+				esyslog("live: creation of recordings tree failed!");
 				return RecordingsManagerPtr();
 			}
 			if (stateChanged || !m_recList) {
 				m_recList = std::tr1::shared_ptr< RecordingsList >(new RecordingsList(RecordingsTreePtr(recMan, m_recTree)));
 			}
 			if (!m_recList) {
-				esyslog("[LIVE]: creation of recordings list failed!");
+				esyslog("live: creation of recordings list failed!");
 				return RecordingsManagerPtr();
 			}
 			if (stateChanged || !m_recDirs) {
 				m_recDirs = std::tr1::shared_ptr< DirectoryList >(new DirectoryList(recMan));
 			}
 			if (!m_recDirs) {
-				esyslog("[LIVE]: creation of directory list failed!");
+				esyslog("live: creation of directory list failed!");
 				return RecordingsManagerPtr();
 			}
 
@@ -343,32 +343,58 @@ namespace vdrlive {
 
 	bool RecordingsItemPtrCompare::ByAscendingName(RecordingsItemPtr & first, RecordingsItemPtr & second)
 	{
+		unsigned int flen = first->Name().length();
+		unsigned int fstart = 0;
+		while( flen > 0 && ispunct( (first->Name())[ fstart ] ) ) {
+			fstart++;
+			flen--;
+		}
+		// eliminate starting punctuation characters of second string
+		unsigned int slen = second->Name().length();
+		unsigned int sstart = 0;
+		while( slen > 0 && ispunct( (second->Name())[ sstart ] ) ) {
+			sstart++;
+			slen--;
+		}
+		// check whether strings are ascending
 		unsigned int i = 0;
-		while (i < first->Name().length() && i < second->Name().length()) {
-			if (tolower((first->Name())[i]) < tolower((second->Name())[i]))
+		while( fstart + i < first->Name().length() && sstart + i < second->Name().length() ) {
+			if( tolower( (first->Name())[ fstart + i ] ) < tolower( (second->Name())[ sstart + i] ) ) {
 				return true;
-			else if (tolower((first->Name())[i]) > tolower((second->Name())[i]))
+			} else if( tolower( (first->Name())[ fstart + i] ) > tolower( (second->Name())[ sstart + i ] ) ) {
 				return false;
+			}
 			++i;
 		}
-		if (first->Name().length() < second->Name().length())
-			return true;
-		return false;
+		return( flen < slen );
 	}
 
 	bool RecordingsItemPtrCompare::ByDescendingName(RecordingsItemPtr & first, RecordingsItemPtr & second)
 	{
+		unsigned int flen = first->Name().length();
+		unsigned int fstart = 0;
+		while( flen > 0 && ispunct( (first->Name())[ fstart ] ) ) {
+			fstart++;
+			flen--;
+		}
+		// eliminate starting punctuation characters of second string
+		unsigned int slen = second->Name().length();
+		unsigned int sstart = 0;
+		while( slen > 0 && ispunct( (second->Name())[ sstart ] ) ) {
+			sstart++;
+			slen--;
+		}
+		// check whether strings are decending
 		unsigned int i = 0;
-		while (i < first->Name().length() && i < second->Name().length()) {
-			if (tolower((second->Name())[i]) < tolower((first->Name())[i]))
+		while( fstart + i < first->Name().length() && sstart + i < second->Name().length() ) {
+			if( tolower( (first->Name())[ fstart + i ] ) > tolower( (second->Name())[ sstart + i] ) ) {
 				return true;
-			else if (tolower((second->Name())[i]) > tolower((first->Name())[i]))
+			} else if( tolower( (first->Name())[ fstart + i] ) < tolower( (second->Name())[ sstart + i ] ) ) {
 				return false;
+			}
 			++i;
 		}
-		if (second->Name().length() < first->Name().length())
-			return true;
-		return false;
+		return( flen > slen );
 	}
 
 
@@ -395,12 +421,12 @@ namespace vdrlive {
 		RecordingsItem(name, parent),
 		m_level(level)
 	{
-		// dsyslog("REC: C: dir %s -> %s", name.c_str(), parent ? parent->Name().c_str() : "ROOT");
+		// dsyslog("live: REC: C: dir %s -> %s", name.c_str(), parent ? parent->Name().c_str() : "ROOT");
 	}
 
 	RecordingsItemDir::~RecordingsItemDir()
 	{
-		// dsyslog("REC: D: dir %s", Name().c_str());
+		// dsyslog("live: REC: D: dir %s", Name().c_str());
 	}
 
 
@@ -412,12 +438,12 @@ namespace vdrlive {
 		m_recording(recording),
 		m_id(id)
 	{
-		// dsyslog("REC: C: rec %s -> %s", name.c_str(), parent->Name().c_str());
+		// dsyslog("live: REC: C: rec %s -> %s", name.c_str(), parent->Name().c_str());
 	}
 
 	RecordingsItemRec::~RecordingsItemRec()
 	{
-		// dsyslog("REC: D: rec %s", Name().c_str());
+		// dsyslog("live: REC: D: rec %s", Name().c_str());
 	}
 
 	time_t RecordingsItemRec::StartTime() const
@@ -438,7 +464,7 @@ namespace vdrlive {
 		m_maxLevel(0),
 		m_root(new RecordingsItemDir("", 0, RecordingsItemPtr()))
 	{
-		// esyslog("DH: ****** RecordingsTree::RecordingsTree() ********");
+		// esyslog("live: DH: ****** RecordingsTree::RecordingsTree() ********");
 #if VDRVERSNUM >= 20301
 		LOCK_RECORDINGS_READ;
 		for (cRecording* recording = (cRecording *)Recordings->First(); recording; recording = (cRecording *)Recordings->Next(recording)) {
@@ -452,7 +478,7 @@ namespace vdrlive {
 			RecordingsItemPtr dir = m_root;
 			string name(recording->Name());
 
-			// esyslog("DH: recName = '%s'", recording->Name());
+			// esyslog("live: DH: recName = '%s'", recording->Name());
 			int level = 0;
 			size_t index = 0;
 			size_t pos = 0;
@@ -468,31 +494,31 @@ namespace vdrlive {
 						i = findDir(dir, dirName);
 #if 0
 						if (i != dir->m_entries.end()) {
-							// esyslog("DH: added dir: '%s'", dirName.c_str());
+							// esyslog("live: DH: added dir: '%s'", dirName.c_str());
 						}
 						else {
-							// esyslog("DH: panic: didn't found inserted dir: '%s'", dirName.c_str());
+							// esyslog("live: DH: panic: didn't found inserted dir: '%s'", dirName.c_str());
 						}
 #endif
 					}
 					dir = i->second;
-					// esyslog("DH: current dir: '%s'", dir->Name().c_str());
+					// esyslog("live: DH: current dir: '%s'", dir->Name().c_str());
 					level++;
 				}
 				else {
 					string recName(name.substr(index, name.length() - index));
 					RecordingsItemPtr recPtr (new RecordingsItemRec(recMan->Md5Hash(recording), recName, recording, dir));
 					dir->m_entries.insert(pair< string, RecordingsItemPtr > (recName, recPtr));
-					// esyslog("DH: added rec: '%s'", recName.c_str());
+					// esyslog("live: DH: added rec: '%s'", recName.c_str());
 				}
 			} while (pos != string::npos);
 		}
-		// esyslog("DH: ------ RecordingsTree::RecordingsTree() --------");
+		// esyslog("live: DH: ------ RecordingsTree::RecordingsTree() --------");
 	}
 
 	RecordingsTree::~RecordingsTree()
 	{
-		// esyslog("DH: ****** RecordingsTree::~RecordingsTree() ********");
+		// esyslog("live: DH: ****** RecordingsTree::~RecordingsTree() ********");
 	}
 
 	RecordingsMap::iterator RecordingsTree::begin(const vector< string >& path)

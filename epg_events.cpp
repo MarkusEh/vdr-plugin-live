@@ -362,7 +362,7 @@ namespace vdrlive
 			int size = sizeof(filetypes)/sizeof(filetypes[0]);
 
 			if (recfolder.empty()) {
-				// dsyslog( "LIVE: ScanForRecImages: recFolder empty for %s", imageId.c_str());
+				// dsyslog( "live: ScanForRecImages: recFolder empty for %s", imageId.c_str());
 				return found;
 			}
 
@@ -387,7 +387,7 @@ namespace vdrlive
 						sprintf(cmdBuff,"ln -s \"%s\" \"%s\"",imagefile.c_str(),tmpfile.c_str());
 						int s = system(cmdBuff);
 						if (s < 0)
-							esyslog("[live] ERROR: Couldn't execute command %s", cmdBuff);
+							esyslog("live: ERROR: Couldn't execute command %s", cmdBuff);
 						found = true;
 					}
 					globfree(&globbuf);

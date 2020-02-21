@@ -38,19 +38,21 @@ static const size_t maximumDescriptionLength = 300;
 	timer = 0;
 	if ( !timerid.empty() ) {
 		string tId = SortedTimers::DecodeDomId(timerid);
-		// dsyslog("DEBUG: TIMER: tId = %s", tId.c_str());
+		// dsyslog("live: DEBUG: TIMER: tId = %s", tId.c_str());
 		timer = timers.GetByTimerId(tId);
 		if ( timer == 0 )
 			throw HtmlError( tr("Couldn't find timer. Maybe you mistyped your request?") );
 		if (action == "delete") {
 			if (!cUser::CurrentUserHasRightTo(UR_DELTIMERS))
 				throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
-			LiveTimerManager().DelTimer(timer);
+//                        dsyslog("live: timers.ecpp timer->Id() %d", timer->Id());
+//                        dsyslog("live: timers.ecpp timer->Remote() %s", timer->Remote());
+			LiveTimerManager().DelTimer(timer->Id(), timer->Remote());
 			timerNotifier.SetTimerModification();
 			return reply.redirect("timers.html");
 		}
 		if (action == "toggle") {
-			LiveTimerManager().ToggleTimerActive(timer);
+			LiveTimerManager().ToggleTimerActive(timer->Id(), timer->Remote());
 			timerNotifier.SetTimerModification();
 			return reply.redirect("timers.html");
 		}
@@ -79,6 +81,7 @@ static const size_t maximumDescriptionLength = 300;
 				    EpgInfoPtr epgEvent;
 					string longDescription;
 					string searchTimName;
+					string searchTimId;
 #if VDRVERSNUM >= 20301
 					if (!timer->Event()) {
 						LOCK_SCHEDULES_READ;
@@ -93,7 +96,8 @@ static const size_t maximumDescriptionLength = 300;
 						longDescription = StringEscapeAndBreak(SortedTimers::GetTimerInfo(*timer)) + "<hr>"
 											+ StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), maximumDescriptionLength))
 											+ "<br/><br/>" + tr("Click to view details.");
-						searchTimName = SortedTimers::SearchTimerName(*timer);
+						searchTimName = SortedTimers::SearchTimerInfo(*timer, "searchtimer");
+						searchTimId = SortedTimers::SearchTimerInfo(*timer, "s-id");
 					}
 					string currentDay = SortedTimers::GetTimerDays(*timer);
 					SortedTimers::iterator nextTimer = timer; ++nextTimer;
@@ -115,7 +119,7 @@ static const size_t maximumDescriptionLength = 300;
 						previousDay = currentDay;
 </%cpp>
 				<tr class="head">
-					<td colspan="9">
+					<td colspan="10">
 						<div class="boxheader"><div><div>
 							<$ currentDay $>
 						</div></div></div>
@@ -127,6 +131,7 @@ static const size_t maximumDescriptionLength = 300;
 					<td><div class="withmargin"><$ trVDR("Start") $></div></td>
 					<td><div class="withmargin"><$ trVDR("Stop") $></div></td>
 					<td><div class="withmargin"><$ trVDR("File") $></div></td>
+					<td><div class="withmargin"><$ trVDR("Record on") $></div></td>
 					<td><div class="withmargin"><$ tr("Searchtimer") $></div></td>
 					<td class="action"><img src="img/transparent.png" alt="" width="16px" height="16px" /></td>
 					<td class="action"><img src="img/transparent.png" alt="" width="16px" height="16px" /></td>
@@ -157,10 +162,16 @@ static const size_t maximumDescriptionLength = 300;
 %					}
 						><$ timer->File() $></a></div>
 					</td>
-					<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><$ searchTimName $></div></td>
-					<td class="action <? bottom ? "bottomrow" ?>"><a href="timers.html?timerid=<$ SortedTimers::EncodeDomId(timers.GetTimerId(*timer)) $>&action=toggle"><img src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &>></img></a></td>
-					<td class="action <? bottom ? "bottomrow" ?>"><& pageelems.edit_timer timerId=(timers.GetTimerId(*timer)) &></td>
-					<td class="action rightcol <? bottom ? "bottomrow" ?>"><a href="timers.html?timerid=<$ SortedTimers::EncodeDomId(timers.GetTimerId(*timer)) $>&action=delete"><img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint text=(tr("Delete timer")) &>></img></a></td>
+					<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><$ timer->Local()?trVDR(" "):timer->Remote() $></div></td>
+                                        <td class="<? bottom ? "bottomrow" ?>"><div class="withmargin">
+%					if ( !timer->Local()) {
+                                        <$ searchTimName $></div></td>
+%					} else {
+					<a href="edit_searchtimer.html?searchtimerid=<$ searchTimId $>"><$ searchTimName $></a></div></td>
+%					}
+				        <td class="action <? bottom ? "bottomrow" ?>"><a href="timers.html?timerid=<$ SortedTimers::EncodeDomId(timers.GetTimerId(*timer)) $>&action=toggle"><img src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &>></img></a></td>
+			                <td class="action <? bottom ? "bottomrow" ?>"><& pageelems.edit_timer timerId=(timers.GetTimerId(*timer)) &></td>
+				        <td class="action rightcol <? bottom ? "bottomrow" ?>"><a href="timers.html?timerid=<$ SortedTimers::EncodeDomId(timers.GetTimerId(*timer)) $>&action=delete"><img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint text=(tr("Delete timer")) &>></img></a></td>
 				</tr>
 <%cpp>
 				}

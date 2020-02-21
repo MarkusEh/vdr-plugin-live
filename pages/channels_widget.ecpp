@@ -42,6 +42,6 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 %
 %		std::string listChannelId = *listChannel->GetChannelID().ToString();
 		<option value="<? channelid ? *listChannel->GetChannelID().ToString() ?><? !channelid ? listChannel->Number() ?>" 
-			<{ reply.out() << ( listChannelId == selected ? "selected=\"selected\"" : "" ); }>><$ listChannel->Name() $></option>
+			<{ reply.out() << ( listChannelId == selected ? "selected=\"selected\"" : "" ); }>><$ listChannel->Number() $>: <$ listChannel->Name() $></option>
 %	}
 </select>

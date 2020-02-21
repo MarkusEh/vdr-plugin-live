@@ -18,6 +18,9 @@ using namespace std;
 <%session scope="global">
 bool logged_in(false);
 </%session>
+<%request scope="page">
+	string searchterm="";
+</%request>
 <%include>page_init.eh</%include>
 <%cpp>
 	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
@@ -38,6 +41,8 @@ bool logged_in(false);
 		s.SetUseSubtitle(false);
 		s.SetUseDescription(false);
 		results.GetByQuery(s.ToText());
+
+		searchterm = searchplain;
 	}
 </%cpp>
 <& pageelems.doc_type &>
@@ -49,7 +54,7 @@ bool logged_in(false);
 	</head>
 	<body>
 		<& pageelems.logo &>
-		<& menu active=("searchepg") &>
+		<& menu active=("searchepg") component=("searchresults.searchresults_actions") &>
 		<div class="inhalt">
 %			if (results.size() == 0) {
 				<$ tr("No search results") $>
@@ -114,3 +119,6 @@ bool logged_in(false);
 <%include>page_exit.eh</%include>
 
 
+<%def searchresults_actions>
+<a href="edit_searchtimer.html?search=<$ searchterm $>"><$ tr("New search timer") $></a>
+</%def>

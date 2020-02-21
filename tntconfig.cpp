@@ -214,11 +214,11 @@ namespace vdrlive {
 		size_t listenFailures = 0;
 		for (Setup::IpList::const_iterator ip = ips.begin(); ip != ips.end(); ++ip) {
 			try {
-				esyslog("[live] INFO: attempt to listen on ip = '%s'", ip->c_str());
+				esyslog("live: INFO: attempt to listen on ip = '%s'", ip->c_str());
 				app.listen(*ip, port);
 			}
 			catch (exception const & ex) {
-				esyslog("[live] ERROR: ip = %s is invalid: exception = %s", ip->c_str(), ex.what());
+				esyslog("live: ERROR: ip = %s is invalid: exception = %s", ip->c_str(), ex.what());
 				if (++listenFailures == ips.size()) {
 					// if no listener was initialized we throw at
 					// least the last exception to the next layer.
@@ -245,7 +245,7 @@ namespace vdrlive {
 			}
 		}
 		else {
-			esyslog( "[live] ERROR: Unable to load cert/key (%s/%s): %s", s_cert.c_str(), s_key.c_str(), strerror( errno ) );
+			esyslog( "live: ERROR: Unable to load cert/key (%s/%s): %s", s_cert.c_str(), s_key.c_str(), strerror( errno ) );
 		}
 	}
 

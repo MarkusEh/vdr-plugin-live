@@ -24,6 +24,7 @@ using namespace std;
 	string useAjax;
 	string showInfoBox;
 	string useStreamdev;
+	string markNewRec;
 	string showIMDb;
 	string showChannelsWithoutEPG;
 	string streamdevport;
@@ -71,6 +72,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 			LiveSetup().SetUseStreamdev(!useStreamdev.empty());
 			LiveSetup().SetStreamdevPort(streamdevport.empty() ? 3000 : lexical_cast<int>(streamdevport));
 			LiveSetup().SetStreamdevType(streamdevtype.empty() ? "PES" : streamdevtype);
+			LiveSetup().SetMarkNewRec(!markNewRec.empty());
 			LiveSetup().SetShowIMDb(!showIMDb.empty());
 			LiveSetup().SetShowChannelsWithoutEPG(!showChannelsWithoutEPG.empty());
 			LiveSetup().SaveSetup();
@@ -99,6 +101,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 	useStreamdev = LiveSetup().GetUseStreamdev() ? "1" : "";
 	streamdevport = lexical_cast<std::string, int>(LiveSetup().GetStreamdevPort());
 	streamdevtype = LiveSetup().GetStreamdevType();
+	markNewRec = LiveSetup().GetMarkNewRec() ? "1" : "";
 	showIMDb = LiveSetup().GetShowIMDb() ? "1" : "";
 	showChannelsWithoutEPG = LiveSetup().GetShowChannelsWithoutEPG() ? "1" : "";
 </%cpp>
@@ -216,6 +219,12 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 							</div>
 						</td>
 					</tr>
+                                        <tr>
+                                                <td class="label leftcol"><div class="withmargin"><$ tr("mark new recordings") $>:</div></td>
+                                                <td class="rightcol">
+                                                        <input type="checkbox" name="markNewRec" id="markNewRec" value="1" <%cpp> CHECKIF(!markNewRec.empty()); </%cpp>/>
+                                                </td>
+                                        </tr>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Add links to IMDb") $>:</div></td>
 						<td class="rightcol">

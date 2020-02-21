@@ -106,10 +106,10 @@ namespace vdrlive {
 		while (preloadFiles[i]) {
 			FileCache::ptr_type f = fc.get(configDir + "/" + preloadFiles[i]);
 			if (0 == f.get()) {
-				isyslog("LIVE: can't preload %s/%s! Generated pages might be degraded!", configDir.c_str(), preloadFiles[i]);
+				isyslog("live: can't preload %s/%s! Generated pages might be degraded!", configDir.c_str(), preloadFiles[i]);
 			}
 			i++;
 		}
-		isyslog("LIVE: initial file cache has %zu entries and needs %zu bytes of data!", fc.count(), fc.weight());
+		isyslog("live: initial file cache has %zu entries and needs %zu bytes of data!", fc.count(), fc.weight());
 	}
 }

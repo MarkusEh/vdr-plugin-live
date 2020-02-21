@@ -16,6 +16,7 @@ namespace vdrlive {
 	{
 		public:
 			int timerIndex; 							// it's index in VDR
+			std::string remote = "";
 			int percentage;								// percentage of recording
 			std::list<int> concurrentTimerIndices;		// concurrent timer indices
 
@@ -61,6 +62,7 @@ namespace vdrlive {
 
 			static bool CheckAdvised();
 		private:
+			void GetRemote(std::list<std::string> & conflicts);
 			ConflictList m_conflicts;
 	};
 

@@ -69,7 +69,7 @@ bool cUser::Parse(const char *s)
         valuelen = pos_next - pos + 1;
         if (valuelen > MAXVALUELEN) 
 		{
-			esyslog("entry '%s' is too long. Will be truncated!", pos);  
+			esyslog("live: entry '%s' is too long. Will be truncated!", pos);  
 	    	valuelen = MAXVALUELEN;
 		}
         strn0cpy(value, pos, valuelen);
@@ -125,9 +125,9 @@ bool cUser::CurrentUserHasRightTo(eUserRights right)
 
 void cUser::SetRight(eUserRights right)
 {
-	isyslog("set right '%d' in '%d'", right, m_Userrights);
+	isyslog("live: set right '%d' in '%d'", right, m_Userrights);
 	m_Userrights |= (1 << (right-1));
-	isyslog("now rights are '%d'", m_Userrights);
+	isyslog("live: now rights are '%d'", m_Userrights);
 }
 
 bool cUsers::Delete(const std::string& Name)
