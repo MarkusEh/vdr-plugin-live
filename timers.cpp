@@ -374,13 +374,15 @@ namespace vdrlive {
 					esyslog("live: svdr command on remote server %s failed", timerData.remote);
 				}
 				else {
+					bool responseOK = true;
 					for (int i = 0; i < response.Size(); i++) {
 						int code = SVDRPCode(response[i]);
 						if (code != 250) {
 							esyslog("live: DoInsertTimer() svdrp respone: %s", response[i]);
+							responseOK = false;
 						}
 					}
-					if ( svdrpOK ) {
+					if ( responseOK ) {
 						isyslog("live: remote timer '%s' on server '%s' updated", command.c_str(), timerData.remote);
 					}
 					else {
