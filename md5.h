@@ -88,8 +88,8 @@ private:
 private:
 	uint4		m_State[4];
 	uint4		m_Count[2];
-	uchar		m_Buffer[64];
-	uchar		m_Digest[16];
-	uchar		m_Finalized;
+	uchar		m_Buffer[64] = {0};
+	uchar		m_Digest[16] = {0};
+	uchar		m_Finalized = 0;
 
 };

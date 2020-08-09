@@ -20,9 +20,9 @@ protected:
 
 private:
 	cCondWait cw;
-	bool touch;
+	bool touch = false;
 	int targetChannel;
-	int vOption;
+	int vOption = 0;
 	std::string session;
 };
 
@@ -32,7 +32,7 @@ private:
 class cPipe2 {
 private:
 	pid_t pid;
-	bool terminated;
+	bool terminated = false;
 	FILE *f;
 public:
 	cPipe2(void);

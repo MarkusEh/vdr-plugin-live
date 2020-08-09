@@ -84,7 +84,7 @@ namespace vdrlive {
 			TimerList m_updateTimers;
 			ErrorList m_failedUpdates;
 			cCondVar m_updateWait;
-			bool m_reloadTimers;
+			bool m_reloadTimers = false;
 
 			void DoUpdateTimers();
 			void DoInsertTimer( timerStruct& timerData );
