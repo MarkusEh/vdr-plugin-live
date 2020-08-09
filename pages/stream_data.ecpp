@@ -63,12 +63,10 @@ if (!f.is_open()) {
 // wait until TARGETDURATION in playlist is != 0
 if (path.rfind(".m3u8") != string::npos && path.find("ffmpeg_") != string::npos) {
 	string line;
-	bool td = false;
 	int count = 20;
 	while(getline(f, line) && count) {
 		if (string::npos != line.find("#EXT-X-TARGETDURATION:")) {
-			if (atoi(line.erase(0, 22).c_str())) td = true;
-			else {
+			if (! (atoi(line.erase(0, 22).c_str()))) {
 				count--;
 				f.close();
 				usleep(100e3);
