@@ -8,7 +8,7 @@
 #include <map>
 
 /*  Interface for TValue:
- *  size_t weight() 
+ *  size_t weight()
  *  bool is_newer( time_t )
  *  bool load()
  *

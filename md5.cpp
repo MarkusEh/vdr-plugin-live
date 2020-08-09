@@ -78,7 +78,7 @@ char* PrintMD5(uchar md5Digest[16])
 	{
 		sprintf(chEach, "%02x", md5Digest[nCount]);
 //		strncat(chBuffer, chEach, sizeof(chEach));                       // compiler warning with gcc V9
-	 	strncat(chBuffer, chEach, sizeof(chBuffer)-strlen(chBuffer)-1);  // no need to limit to the size of chEach, 
+	 	strncat(chBuffer, chEach, sizeof(chBuffer)-strlen(chBuffer)-1);  // no need to limit to the size of chEach,
 		                                                                 // because it will only append up to the 0 byte of chEach,
                                                                                  // but dont overflow chBuffer and let room the terminating 0
 	}

@@ -36,7 +36,7 @@ namespace vdrlive {
 	TimerConflict::TimerConflict( string const& data )
 	{
 		Init();
-//		dsyslog("live: TimerConflict() data '%s'", data.c_str()); 
+//		dsyslog("live: TimerConflict() data '%s'", data.c_str());
 		vector< string > parts = StringSplit( data, ':' );
 		try {
 			vector< string >::const_iterator part = parts.begin();
@@ -77,13 +77,13 @@ namespace vdrlive {
 		if ( CheckEpgsearchVersion() && cPluginManager::CallFirstService(ServiceInterface, &service))
 		{
 		    	cServiceHandler_v1_1* handler = dynamic_cast<cServiceHandler_v1_1*>(service.handler.get());
-		    	if (handler) 
+		    	if (handler)
 		      	{
 				list< string > conflicts = service.handler->TimerConflictList();
 //				for(std::list<std::string>::const_iterator i = conflicts.begin(); i != conflicts.end(); ++i) {
 //					dsyslog("live: TimerConflicts::TimerConflicts() conflicts '%s'",i->c_str());
 //				}
-				GetRemote(conflicts);			// add remote VDR conflicts 
+				GetRemote(conflicts);			// add remote VDR conflicts
 				m_conflicts.assign( conflicts.begin(), conflicts.end() );
 				m_conflicts.sort();
 					}
@@ -123,7 +123,7 @@ namespace vdrlive {
 //					dsyslog("live: GetRemote() response[i] '%s'", response[i]);
 					switch ( code ) {
                                         	case 900: {
-							string rConflict = response[i]; 
+							string rConflict = response[i];
 							string remConflict = rConflict.substr(4);
 							remConflict.append("|");
 							remConflict.append(remoteServer);
@@ -159,12 +159,12 @@ namespace vdrlive {
 		if (CheckEpgsearchVersion() && cPluginManager::CallFirstService(ServiceInterface, &service))
 		  {
 		    cServiceHandler_v1_1* handler = dynamic_cast<cServiceHandler_v1_1*>(service.handler.get());
-		    if (!handler) 
+		    if (!handler)
 		      return false;
 		    else
 		      return handler->IsConflictCheckAdvised();
 		  }
-		else 
+		else
 		  return false;
 	}
 

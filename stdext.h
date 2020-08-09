@@ -24,7 +24,7 @@
 #		include <boost/shared_ptr.hpp>
 #		include <boost/weak_ptr.hpp>
 
-namespace std { 
+namespace std {
 namespace tr1 {
 
 	using boost::bind;

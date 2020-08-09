@@ -158,16 +158,16 @@ void FFmpegThread::Action()
 }
 
 // --- cPipe2 -----------------------------------------------------------------
- 
+
 // cPipe2::Open() and cPipe2::Close() are based on code originally received from
 // Andreas Vitting <Andreas@huji.de>
- 
+
 cPipe2::cPipe2(void)
 {
 	pid = -1;
 	f = NULL;
 }
- 
+
 cPipe2::~cPipe2()
 {
 	Close();

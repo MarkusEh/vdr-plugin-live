@@ -34,7 +34,7 @@ public:
 	cUser(int ID, const std::string& Name, const std::string& Password);
 	int Id() const { return m_ID; }
 	std::string Name() const { return m_Name; }
-	std::string PasswordMD5() const { return m_PasswordMD5; } 
+	std::string PasswordMD5() const { return m_PasswordMD5; }
 	int Userrights() const { return m_Userrights; }
 	int GetPasswordLength() const;
 	std::string const GetMD5HashPassword() const;

@@ -30,7 +30,7 @@ public:
 private:
 	OsdStatusMonitor();
 	OsdStatusMonitor( OsdStatusMonitor const& );
- 
+
 	std::string title;
 	std::string message;
 	std::string red;
@@ -42,12 +42,12 @@ private:
 	cList<cLiveOsdItem>	items;
 	unsigned short tabs[MaxTabs];
 	clock_t lastUpdate;
- 
+
 protected:
 //	static void append(char *&tail, char type, const char *src, int max);
 public:	
 
-	std::string const GetTitle() const {return title;} 
+	std::string const GetTitle() const {return title;}
 	std::string const GetMessage() const {return message;}
 	std::string const GetRed() const {return red;}
 	std::string const GetGreen() const {return green;}

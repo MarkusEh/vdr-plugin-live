@@ -188,7 +188,7 @@ namespace vdrlive {
 	{
 	}
 
-	void TimerManager::UpdateTimer( int timerId, const char* remote, const char* oldRemote, int flags, const tChannelID& channel, string const& weekdays, 
+	void TimerManager::UpdateTimer( int timerId, const char* remote, const char* oldRemote, int flags, const tChannelID& channel, string const& weekdays,
 			                string const& day, int start, int stop, int priority, int lifetime, string const& title, string const& aux )
 	{
 		cMutexLock lock( this );
@@ -237,7 +237,7 @@ namespace vdrlive {
 		dsyslog("live: DelTimer() timerId '%d'", timerId);
 		dsyslog("live: DelTimer() remote '%s'", remote);
 
-		timerStruct timerData{ .id=timerId, .remote=remote, .oldRemote=remote, .builder=TIMER_DELETE };  
+		timerStruct timerData{ .id=timerId, .remote=remote, .oldRemote=remote, .builder=TIMER_DELETE };
 
 		m_updateTimers.push_back( timerData );
 		m_updateWait.Wait( *this );
@@ -251,7 +251,7 @@ namespace vdrlive {
 	{
 		cMutexLock lock( this );
 
-		timerStruct timerData{ .id=timerId, .remote=remote, .oldRemote=remote, .builder=TIMER_TOGGLE }; 
+		timerStruct timerData{ .id=timerId, .remote=remote, .oldRemote=remote, .builder=TIMER_TOGGLE };
 
 		m_updateTimers.push_back( timerData );
 		m_updateWait.Wait( *this );
@@ -305,7 +305,7 @@ namespace vdrlive {
 			bool svdrpOK = ExecSVDRPCommand(timerData.remote, command.c_str(), &response);
 			if ( !svdrpOK ) {
 				esyslog("live: svdrp command on remote server %s failed", timerData.remote);
-			}   
+			}
                         else {
 			   	for (int i = 0; i < response.Size(); i++) {
                                         int code = SVDRPCode(response[i]);

@@ -9,7 +9,7 @@ namespace vdrlive {
 
 using namespace std;
 
-const unsigned int GrabMinIntervalMs = 500; 
+const unsigned int GrabMinIntervalMs = 500;
 const unsigned int GrabPauseIntervalMs = GrabMinIntervalMs * 20;
 
 class GrabImageTask: public StickyTask
@@ -38,7 +38,7 @@ private:
 	virtual void Action();
 };
 
-bool GrabImageTask::IsActive() 
+bool GrabImageTask::IsActive()
 {
 	cMutexLock lock( &LiveTaskManager() );
 	return GrabImage();
@@ -85,14 +85,14 @@ GrabImageManager::GrabImageManager()
 {
 }
 
-GrabImageInfo GrabImageManager::GetImage() const 
+GrabImageInfo GrabImageManager::GetImage() const
 {
 	cMutexLock lock( &LiveTaskManager() );
 	m_task->Activate();
 	return make_pair( m_image, m_size );
 }
 
-bool GrabImageManager::CanGrab() const 
+bool GrabImageManager::CanGrab() const
 {
 	return m_task->IsActive();
 }
@@ -103,7 +103,7 @@ void GrabImageManager::PutImage( char* image, int size )
 	m_size = size;
 }
 
-GrabImageManager& LiveGrabImageManager() 
+GrabImageManager& LiveGrabImageManager()
 {
 	static GrabImageManager instance;
 	return instance;

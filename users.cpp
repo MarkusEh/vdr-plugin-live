@@ -18,13 +18,13 @@ using namespace std;
 std::string cUsers::logged_in_user;
 
 // -- cUser -----------------------------------------------------------------
-cUser::cUser(int ID, const std::string& Name, const std::string& Password) 
-  : m_ID(ID), m_Name(Name) 
+cUser::cUser(int ID, const std::string& Name, const std::string& Password)
+  : m_ID(ID), m_Name(Name)
 {
 	SetPassword(Password);
 }
 
-void cUser::SetPassword(const std::string& Password) 
+void cUser::SetPassword(const std::string& Password)
 {
 	ostringstream passwordStr;
 	passwordStr << Password.size() << "|" << MD5Hash(Password);
@@ -67,9 +67,9 @@ bool cUser::Parse(const char *s)
         if (!pos_next)
           pos_next = pos + strlen(pos);
         valuelen = pos_next - pos + 1;
-        if (valuelen > MAXVALUELEN) 
+        if (valuelen > MAXVALUELEN)
 		{
-			esyslog("live: entry '%s' is too long. Will be truncated!", pos);  
+			esyslog("live: entry '%s' is too long. Will be truncated!", pos);
 	    	valuelen = MAXVALUELEN;
 		}
         strn0cpy(value, pos, valuelen);
@@ -82,7 +82,7 @@ bool cUser::Parse(const char *s)
 			break;
 		case 3: m_PasswordMD5 = value;
 			break;
-		case 4: 
+		case 4:
 			m_Userrights = lexical_cast< int >(value);
 			break;
 		default:
@@ -93,7 +93,7 @@ bool cUser::Parse(const char *s)
     }
     if (*pos) pos++;
   } //while
-  
+
   free(line);
   return (parameter >= 4) ? true : false;
 }
@@ -111,16 +111,16 @@ bool cUser::Save(FILE *f)
     return fprintf(f, "%s\n", ToText()) > 0;
 }
 
-bool cUser::HasRightTo(eUserRights right) 
-{ 
+bool cUser::HasRightTo(eUserRights right)
+{
 	return ((m_Userrights & (1 << (right-1))) != 0);
 }
 
-bool cUser::CurrentUserHasRightTo(eUserRights right) 
-{ 
+bool cUser::CurrentUserHasRightTo(eUserRights right)
+{
 	if (!LiveSetup().UseAuth()) return true;
 	cUser* user = cUsers::GetByUserName(cUsers::logged_in_user);
-	return (cUsers::logged_in_user == LiveSetup().GetAdminLogin() || (user && (user->m_Userrights & (1 << (right-1))) != 0)); 
+	return (cUsers::logged_in_user == LiveSetup().GetAdminLogin() || (user && (user->m_Userrights & (1 << (right-1))) != 0));
 }
 
 void cUser::SetRight(eUserRights right)
@@ -133,7 +133,7 @@ void cUser::SetRight(eUserRights right)
 bool cUsers::Delete(const std::string& Name)
 {
   cUser* user = Users.First();
-  while (user) 
+  while (user)
     {
       if (user->Name() == Name)
 	{
@@ -149,7 +149,7 @@ bool cUsers::Delete(const std::string& Name)
 cUser* cUsers::GetByUserId(const std::string& Id)
 {
 	cUser* user = Users.First();
-	while (user) 
+	while (user)
 	{
 		if (user->Id() == atoi(Id.c_str()))
 			return user;
@@ -161,7 +161,7 @@ cUser* cUsers::GetByUserId(const std::string& Id)
 cUser* cUsers::GetByUserName(const std::string& Name)
 {
 	cUser* user = Users.First();
-	while (user) 
+	while (user)
 	{
 		if (user->Name() == Name)
 			return user;
@@ -174,7 +174,7 @@ int cUsers::GetNewId()
 {
 	int iMaxId = -1;
 	cUser* user = Users.First();
-	while (user) 
+	while (user)
 	{
 		if (iMaxId < user->Id())
 			iMaxId = user->Id();
