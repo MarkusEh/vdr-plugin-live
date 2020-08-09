@@ -49,11 +49,11 @@ msgstr "Fel i timer-inställning"
 msgid "Timer already defined"
 msgstr "Timer redan satt"
 
-msgid "Timers are being edited - try again later"
-msgstr "Timers redigieras - försök igen senare"
-
 msgid "Timer not defined"
 msgstr "Timer ej definierad"
+
+msgid "Timers are being edited - try again later"
+msgstr "Timers redigieras - försök igen senare"
 
 msgid "On archive DVD No."
 msgstr "På arkiv-dvd nr."
@@ -124,6 +124,57 @@ msgstr "konflikt"
 msgid "conflicts"
 msgstr "konflikter"
 
+msgid "Electronic program guide information"
+msgstr "EPG-information"
+
+msgid "Couldn't find recording or no recordings available"
+msgstr "Kunde inte hitta inspelning eller inga inspelningar tillgängliga"
+
+msgid "Error aquiring schedules lock"
+msgstr "Fil vid låsning av scheman"
+
+msgid "Error aquiring schedules"
+msgstr "Fel vid hämtning av scheman"
+
+msgid "%b %d %y"
+msgstr ""
+
+msgid "Searchtimers"
+msgstr "Sök-timers"
+
+msgid "Sorry, no permission. Please contact your administrator!"
+msgstr "Inte tillåtet för dig. Kontakta din administratör!"
+
+msgid "Expression"
+msgstr "Uttryck"
+
+msgid "Channel"
+msgstr "Kanal"
+
+msgid "Starts between"
+msgstr "Börjar mellan"
+
+msgid "Toggle search timer actions (in)active"
+msgstr ""
+
+msgid "Browse search timer results"
+msgstr "Visa söktimer-resultat"
+
+msgid "Edit search timer"
+msgstr "Redigera sök-timer"
+
+msgid "Delete this search timer?"
+msgstr "Ta bort denna sök-timer?"
+
+msgid "Delete search timer"
+msgstr "Ta bort sök-timer"
+
+msgid "New search timer"
+msgstr "Ny sök-timer"
+
+msgid "Trigger search timer update"
+msgstr "Tvinga sök-timer uppdatering"
+
 msgid "Wrong username or password"
 msgstr "Fel användarnamn eller lösenord"
 
@@ -139,31 +190,71 @@ msgstr "Användare"
 msgid "Password"
 msgstr "Lösenord"
 
-msgid "Sorry, no permission. Please contact your administrator!"
-msgstr "Inte tillåtet för dig. Kontakta din administratör!"
+msgid "Remote Control"
+msgstr "Fjärrkontroll"
 
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr "Kunde inte få tillgång till kanaler, försök igen senare"
 
-msgid "Users"
-msgstr "Användare"
+msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
+msgstr "Kan inte hitta kanal eller inga kanaler är tillgängliga. Kontrollera stavningen?"
 
-msgid "Name"
-msgstr "Namn"
+msgid "Selection"
+msgstr "Val"
 
-msgid "Edit user"
-msgstr "Redigera användare"
+msgid "Snapshot interval"
+msgstr ""
 
-msgid "Delete user"
-msgstr "Radera användare"
+msgid "Stop"
+msgstr "Stop"
 
-msgid "New user"
-msgstr "Ny användare"
+#, c-format
+msgid "%a, %x"
+msgstr ""
+
+msgid "What's running on"
+msgstr "Vad körs på"
+
+msgid "at"
+msgstr "kl"
+
+msgid "What's on next?"
+msgstr "Vad är nästa program?"
+
+msgid "Favorites"
+msgstr "Favoriter"
+
+msgid "Click to view details."
+msgstr "Klicka för detaljer"
+
+msgid "View the schedule of this channel"
+msgstr "Visa schemat för denna kanal"
+
+msgid " - "
+msgstr ""
+
+msgid "more"
+msgstr "mera"
+
+msgid "Now"
+msgstr "Nu"
+
+msgid "Next"
+msgstr "Nästa"
+
+msgid "What's on"
+msgstr "Vad är på?"
+
+msgid "Details view"
+msgstr "Detaljvy"
+
+msgid "List view"
+msgstr "Listvy"
 
 msgid "Find more at the Internet Movie Database."
 msgstr "Hitta mera på IMDB"
 
-msgid "Stream this channel into media player."
+msgid "Stream this channel into browser."
 msgstr ""
 
 msgid "Stream this recording into media player."
@@ -335,6 +426,87 @@ msgstr "Felrapporter och förslag"
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
 msgstr "Om du hittar några fel eller vill föreslå nya funktioner, vänligen använd vår bugg-tracker"
 
+msgid "What's on?"
+msgstr "Vad spelas?"
+
+msgid "MultiSchedule"
+msgstr "MultiSchema"
+
+msgid "Search"
+msgstr "Sök"
+
+msgid "Recordings"
+msgstr "Inspelningar"
+
+msgid "Web-Streaming"
+msgstr ""
+
+msgid "Logout"
+msgstr "Logga ut"
+
+msgid "Your attention is required"
+msgstr "Din uppmärksamhet krävs"
+
+msgid "React"
+msgstr "Reagera"
+
+msgid "Dismiss"
+msgstr "Avfärda"
+
+msgid "Couldn't find user. Maybe you mistyped your request?"
+msgstr "Kan inte hitta användare. Kontrollera stavningen?"
+
+msgid "This user name is already in use!"
+msgstr "Användarnamnet används redan!"
+
+msgid "Edit user"
+msgstr "Redigera användare"
+
+msgid "New user"
+msgstr "Ny användare"
+
+msgid "Name"
+msgstr "Namn"
+
+msgid "User rights"
+msgstr "Användarrättigheter"
+
+msgid "Edit setup"
+msgstr "Redigera inställningar"
+
+msgid "Add or edit timers"
+msgstr "Lägg till eller ta bort timers"
+
+msgid "Delete timers"
+msgstr "Radera timers"
+
+msgid "Delete recordings"
+msgstr "Radera inspelningar"
+
+msgid "Use remote menu"
+msgstr "Använd fjärrmeny"
+
+msgid "Start replay"
+msgstr "Påbörja repetetionsuppspelning"
+
+msgid "Switch channel"
+msgstr "Byt kanal"
+
+msgid "Add or edit search timers"
+msgstr "Lägg till eller redigera sök-timers"
+
+msgid "Delete search timers"
+msgstr "Radera sök-timers"
+
+msgid "Edit recordings"
+msgstr "Redigera inspelningar"
+
+msgid "Save"
+msgstr "Spara"
+
+msgid "Cancel"
+msgstr "Avbryt"
+
 msgid "Search results"
 msgstr "Sökresultat"
 
@@ -343,9 +515,6 @@ msgstr "Inga sökresultat"
 
 msgid "%A, %b %d %Y"
 msgstr "%A, %d.%m.%Y"
-
-msgid "Click to view details."
-msgstr "Klicka för detaljer"
 
 msgid "Couldn't find timer. Maybe you mistyped your request?"
 msgstr "Kan inte hitta timer. Kontrollera stavningen?"
@@ -359,6 +528,9 @@ msgstr "Ny timer"
 msgid "Title"
 msgstr "Titel"
 
+msgid "Server"
+msgstr ""
+
 msgid "Directory"
 msgstr "Bibliotek"
 
@@ -367,48 +539,6 @@ msgstr "Veckodag"
 
 msgid "Use VPS"
 msgstr "VPS"
-
-msgid "Save"
-msgstr "Spara"
-
-msgid "Cancel"
-msgstr "Avbryt"
-
-msgid "MultiSchedule"
-msgstr "MultiSchema"
-
-msgid "Now"
-msgstr "Nu"
-
-msgid "Time"
-msgstr "Tid"
-
-msgid "more"
-msgstr "mera"
-
-msgid "Channel"
-msgstr "Kanal"
-
-msgid "playing recording"
-msgstr "Spelar upp inspelning"
-
-msgid "no epg info for current event!"
-msgstr "Ingen epg-info för nuvarande händelse!"
-
-msgid "no epg info for current channel!"
-msgstr "Ingen epg-info för nuvarande kanal!"
-
-msgid "no current channel!"
-msgstr "Ingen nuvarande kanal!"
-
-msgid "error retrieving status info!"
-msgstr "fel vid hämtning av statusinfo!"
-
-msgid "%I:%M:%S %p"
-msgstr "%H:%M:%S"
-
-msgid "Recordings"
-msgstr "Inspelningar"
 
 msgid "ERROR:"
 msgstr "FEL:"
@@ -461,17 +591,11 @@ msgstr "Redigera inspelningen"
 msgid "play this recording."
 msgstr "Spela upp denna inspelning"
 
-msgid "%b %d %y"
-msgstr ""
+msgid "No schedules available for this channel"
+msgstr "Inga scheman för denna kanal!"
 
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
 msgstr "Kunde inte hitta sök-timer. Kontrollera stavningen?"
-
-msgid "Edit search timer"
-msgstr "Redigera sök-timer"
-
-msgid "New search timer"
-msgstr "Ny sök-timer"
 
 msgid "Search text too short - use anyway?"
 msgstr "Sök-timerns text är för kort. Använd ändå?"
@@ -571,9 +695,6 @@ msgstr "Använd veckodag"
 
 msgid "Use blacklists"
 msgstr "Använd svartlista"
-
-msgid "Selection"
-msgstr "Val"
 
 msgid "all"
 msgstr "alla"
@@ -680,51 +801,6 @@ msgstr "Ta bort timer"
 msgid "Timer conflicts"
 msgstr "Timerkonflikter"
 
-msgid "Couldn't find user. Maybe you mistyped your request?"
-msgstr "Kan inte hitta användare. Kontrollera stavningen?"
-
-msgid "This user name is already in use!"
-msgstr "Användarnamnet används redan!"
-
-msgid "User rights"
-msgstr "Användarrättigheter"
-
-msgid "Edit setup"
-msgstr "Redigera inställningar"
-
-msgid "Add or edit timers"
-msgstr "Lägg till eller ta bort timers"
-
-msgid "Delete timers"
-msgstr "Radera timers"
-
-msgid "Delete recordings"
-msgstr "Radera inspelningar"
-
-msgid "Use remote menu"
-msgstr "Använd fjärrmeny"
-
-msgid "Start replay"
-msgstr "Påbörja repetetionsuppspelning"
-
-msgid "Switch channel"
-msgstr "Byt kanal"
-
-msgid "Add or edit search timers"
-msgstr "Lägg till eller redigera sök-timers"
-
-msgid "Delete search timers"
-msgstr "Radera sök-timers"
-
-msgid "Edit recordings"
-msgstr "Redigera inspelningar"
-
-msgid "No timer conflicts"
-msgstr "Inga timerkonflikter"
-
-msgid "Timer has a conflict."
-msgstr "Upptäckt konflikt för timern"
-
 msgid "Please set login and password!"
 msgstr "Vänligen sätt login och lösenord!"
 
@@ -752,11 +828,26 @@ msgstr "Visa dynamisk VDR-informationsruta"
 msgid "Allow video streaming"
 msgstr "Tillåt videoströmmning"
 
+msgid "Web-Streaming h264"
+msgstr ""
+
+msgid "Web-Streaming HEVC"
+msgstr ""
+
+msgid "Web-Streaming MPEG2"
+msgstr ""
+
+msgid "Web-Streaming others"
+msgstr ""
+
 msgid "Streamdev server port"
 msgstr "Streamdev serverns port"
 
 msgid "Streamdev stream type"
 msgstr "Streamdev strömtyp"
+
+msgid "mark new recordings"
+msgstr ""
 
 msgid "Add links to IMDb"
 msgstr "Lägg till länkar till IMDb"
@@ -785,6 +876,24 @@ msgstr "Startsida"
 msgid "Theme"
 msgstr "Tema"
 
+msgid "playing recording"
+msgstr "Spelar upp inspelning"
+
+msgid "no epg info for current event!"
+msgstr "Ingen epg-info för nuvarande händelse!"
+
+msgid "no epg info for current channel!"
+msgstr "Ingen epg-info för nuvarande kanal!"
+
+msgid "no current channel!"
+msgstr "Ingen nuvarande kanal!"
+
+msgid "error retrieving status info!"
+msgstr "fel vid hämtning av statusinfo!"
+
+msgid "%I:%M:%S %p"
+msgstr "%H:%M:%S"
+
 msgid "Couldn't find recording. Maybe you mistyped your request?"
 msgstr "Kunde inte hitta inspelningen. Kolla stavningen?"
 
@@ -809,9 +918,6 @@ msgstr "Kort beskrivning"
 msgid "Auxiliary info"
 msgstr "Ytterligare information"
 
-msgid "Search"
-msgstr "Sök"
-
 msgid "Search settings"
 msgstr "Sök inställningar"
 
@@ -821,108 +927,26 @@ msgstr "Utökad sökning"
 msgid "no"
 msgstr "nej"
 
-msgid "Searchtimers"
-msgstr "Sök-timers"
+msgid "Time"
+msgstr "Tid"
 
-msgid "Expression"
-msgstr "Uttryck"
+msgid "Users"
+msgstr "Användare"
 
-msgid "Starts between"
-msgstr "Börjar mellan"
-
-msgid "Toggle search timer actions (in)active"
-msgstr ""
-
-msgid "Browse search timer results"
-msgstr "Visa söktimer-resultat"
-
-msgid "Delete this search timer?"
-msgstr "Ta bort denna sök-timer?"
-
-msgid "Delete search timer"
-msgstr "Ta bort sök-timer"
-
-msgid "Trigger search timer update"
-msgstr "Tvinga sök-timer uppdatering"
-
-#, c-format
-msgid "%a, %x"
-msgstr ""
-
-msgid "What's running on"
-msgstr "Vad körs på"
-
-msgid "at"
-msgstr "kl"
-
-msgid "What's on next?"
-msgstr "Vad är nästa program?"
-
-msgid "Favorites"
-msgstr "Favoriter"
-
-msgid "View the schedule of this channel"
-msgstr "Visa schemat för denna kanal"
-
-msgid " - "
-msgstr ""
-
-msgid "Next"
-msgstr "Nästa"
-
-msgid "What's on"
-msgstr "Vad är på?"
-
-msgid "Details view"
-msgstr "Detaljvy"
-
-msgid "List view"
-msgstr "Listvy"
-
-msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
-msgstr "Kan inte hitta kanal eller inga kanaler är tillgängliga. Kontrollera stavningen?"
-
-msgid "No schedules available for this channel"
-msgstr "Inga scheman för denna kanal!"
-
-msgid "Remote Control"
-msgstr "Fjärrkontroll"
-
-msgid "Snapshot interval"
-msgstr ""
-
-msgid "Stop"
-msgstr "Stop"
+msgid "Delete user"
+msgstr "Radera användare"
 
 msgid "Page error"
 msgstr "Fel på sidan"
 
-msgid "What's on?"
-msgstr "Vad spelas?"
+msgid "No timer conflicts"
+msgstr "Inga timerkonflikter"
 
-msgid "Logout"
-msgstr "Logga ut"
+msgid "local"
+msgstr ""
 
-msgid "Your attention is required"
-msgstr "Din uppmärksamhet krävs"
-
-msgid "React"
-msgstr "Reagera"
-
-msgid "Dismiss"
-msgstr "Avfärda"
-
-msgid "Electronic program guide information"
-msgstr "EPG-information"
-
-msgid "Couldn't find recording or no recordings available"
-msgstr "Kunde inte hitta inspelning eller inga inspelningar tillgängliga"
-
-msgid "Error aquiring schedules lock"
-msgstr "Fil vid låsning av scheman"
-
-msgid "Error aquiring schedules"
-msgstr "Fel vid hämtning av scheman"
+msgid "Timer has a conflict."
+msgstr "Upptäckt konflikt för timern"
 
 msgid "Live Interactive VDR Environment"
 msgstr ""

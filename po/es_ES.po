@@ -49,11 +49,11 @@ msgstr "Error en la configuración de la programación"
 msgid "Timer already defined"
 msgstr "Programación ya definida"
 
-msgid "Timers are being edited - try again later"
-msgstr "Las programaciones están siendo editadas - inténtelo de nuevo más tarde"
-
 msgid "Timer not defined"
 msgstr "Programación no definida"
+
+msgid "Timers are being edited - try again later"
+msgstr "Las programaciones están siendo editadas - inténtelo de nuevo más tarde"
 
 msgid "On archive DVD No."
 msgstr "En archivo DVD número"
@@ -124,6 +124,57 @@ msgstr "conflicto"
 msgid "conflicts"
 msgstr "conflictos"
 
+msgid "Electronic program guide information"
+msgstr "Información de la Guía Electrónica de Programación (EPG)"
+
+msgid "Couldn't find recording or no recordings available"
+msgstr "No se puede encontrar la grabación o no hay programaciones disponibles"
+
+msgid "Error aquiring schedules lock"
+msgstr "Error adquiriendo el bloqueo de las programaciones"
+
+msgid "Error aquiring schedules"
+msgstr "Error adquiriendo programaciones"
+
+msgid "%b %d %y"
+msgstr "%b %d %y"
+
+msgid "Searchtimers"
+msgstr "Programadores de búsqueda"
+
+msgid "Sorry, no permission. Please contact your administrator!"
+msgstr "Lo siento, no tiene permiso. ¡Por favor contacte con su administrador!"
+
+msgid "Expression"
+msgstr "Expresión"
+
+msgid "Channel"
+msgstr "Canal"
+
+msgid "Starts between"
+msgstr "Iniciar entre"
+
+msgid "Toggle search timer actions (in)active"
+msgstr "Cambiar acciones de la programación de búsqueda (in)activo"
+
+msgid "Browse search timer results"
+msgstr "Navegar por los resultados de la búsqueda"
+
+msgid "Edit search timer"
+msgstr "Editar la programación de búsqueda"
+
+msgid "Delete this search timer?"
+msgstr "Borrar este programador de búsqueda"
+
+msgid "Delete search timer"
+msgstr "Borrar programador de búsqueda"
+
+msgid "New search timer"
+msgstr "Nueva programación de búsqueda"
+
+msgid "Trigger search timer update"
+msgstr "Actualizar las programaciones"
+
 msgid "Wrong username or password"
 msgstr "Usuario o contraseña erróneos"
 
@@ -139,31 +190,71 @@ msgstr "Usuario"
 msgid "Password"
 msgstr "Contraseña"
 
-msgid "Sorry, no permission. Please contact your administrator!"
-msgstr "Lo siento, no tiene permiso. ¡Por favor contacte con su administrador!"
+msgid "Remote Control"
+msgstr "Mando a distancia"
 
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr "No se puede tener acceso a los canales, por favor inténtelo más tarde"
 
-msgid "Users"
-msgstr "Usuarios"
+msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
+msgstr "No se puede encontrar el canal o no hay canales disponibles. ¿Puede que lo haya escrito de forma errónea?"
 
-msgid "Name"
-msgstr "Nombre"
+msgid "Selection"
+msgstr "Selección"
 
-msgid "Edit user"
-msgstr "Editar usuario"
+msgid "Snapshot interval"
+msgstr "Intervalo de visionado"
 
-msgid "Delete user"
-msgstr "Borrar usuario"
+msgid "Stop"
+msgstr "Detener"
 
-msgid "New user"
-msgstr "Nuevo usuario"
+#, c-format
+msgid "%a, %x"
+msgstr "%a, %x"
+
+msgid "What's running on"
+msgstr "¿Qué se está reproduciendo?"
+
+msgid "at"
+msgstr "a las"
+
+msgid "What's on next?"
+msgstr "¿Qué hay a continuación?"
+
+msgid "Favorites"
+msgstr "Favoritos"
+
+msgid "Click to view details."
+msgstr "Pulsar para ver detalles"
+
+msgid "View the schedule of this channel"
+msgstr "Ver la programación de este canal"
+
+msgid " - "
+msgstr " - "
+
+msgid "more"
+msgstr "más"
+
+msgid "Now"
+msgstr "Ahora"
+
+msgid "Next"
+msgstr "Siguiente"
+
+msgid "What's on"
+msgstr "¿Qué hay ahora?"
+
+msgid "Details view"
+msgstr "Ver detalles"
+
+msgid "List view"
+msgstr "Ver lista"
 
 msgid "Find more at the Internet Movie Database."
 msgstr "Encontrar más en la Base de Datos de Películas de Internet"
 
-msgid "Stream this channel into media player."
+msgid "Stream this channel into browser."
 msgstr ""
 
 msgid "Stream this recording into media player."
@@ -335,6 +426,87 @@ msgstr "Sugerencias y bugs"
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
 msgstr "Si encuentra algún bug o le gustaría sugerir nuevas características, por favor use nuestro bugtracker"
 
+msgid "What's on?"
+msgstr "¿Qué se emite ahora?"
+
+msgid "MultiSchedule"
+msgstr "Multi programación"
+
+msgid "Search"
+msgstr "Buscar"
+
+msgid "Recordings"
+msgstr "Grabaciones"
+
+msgid "Web-Streaming"
+msgstr ""
+
+msgid "Logout"
+msgstr "Salir"
+
+msgid "Your attention is required"
+msgstr "Se requiere su atención"
+
+msgid "React"
+msgstr "Resolver"
+
+msgid "Dismiss"
+msgstr "Ignorar"
+
+msgid "Couldn't find user. Maybe you mistyped your request?"
+msgstr "No se puede encontrar el usuario. ¿Puede que lo haya escrito erróneamente?"
+
+msgid "This user name is already in use!"
+msgstr "¡Este nombre de usuario ya se está usando!"
+
+msgid "Edit user"
+msgstr "Editar usuario"
+
+msgid "New user"
+msgstr "Nuevo usuario"
+
+msgid "Name"
+msgstr "Nombre"
+
+msgid "User rights"
+msgstr "Derechos de usuario"
+
+msgid "Edit setup"
+msgstr "Editar configuración"
+
+msgid "Add or edit timers"
+msgstr "Añadir o editar programaciones"
+
+msgid "Delete timers"
+msgstr "Borrar programaciones"
+
+msgid "Delete recordings"
+msgstr "Borrar grabaciones"
+
+msgid "Use remote menu"
+msgstr "Usar menú remoto"
+
+msgid "Start replay"
+msgstr "Iniciar de nuevo la reproducción"
+
+msgid "Switch channel"
+msgstr "Cambiar canal"
+
+msgid "Add or edit search timers"
+msgstr "Añadir o editar programaciones de búsqueda"
+
+msgid "Delete search timers"
+msgstr "Borrar programaciones de búsqueda"
+
+msgid "Edit recordings"
+msgstr "Editar grabaciones"
+
+msgid "Save"
+msgstr "Grabar"
+
+msgid "Cancel"
+msgstr "Cancelar"
+
 msgid "Search results"
 msgstr "Resultados de la búsqueda"
 
@@ -343,9 +515,6 @@ msgstr "Búsqueda sin resultados"
 
 msgid "%A, %b %d %Y"
 msgstr "%A, %b %d %Y"
-
-msgid "Click to view details."
-msgstr "Pulsar para ver detalles"
 
 msgid "Couldn't find timer. Maybe you mistyped your request?"
 msgstr "No se puede encontrar la programación. ¿Puede que la haya escrito erróneamente?"
@@ -359,6 +528,9 @@ msgstr "Nueva programación"
 msgid "Title"
 msgstr "Título"
 
+msgid "Server"
+msgstr ""
+
 msgid "Directory"
 msgstr "Directorio"
 
@@ -367,48 +539,6 @@ msgstr "Día de la semana"
 
 msgid "Use VPS"
 msgstr "Usar VPS"
-
-msgid "Save"
-msgstr "Grabar"
-
-msgid "Cancel"
-msgstr "Cancelar"
-
-msgid "MultiSchedule"
-msgstr "Multi programación"
-
-msgid "Now"
-msgstr "Ahora"
-
-msgid "Time"
-msgstr "Hora"
-
-msgid "more"
-msgstr "más"
-
-msgid "Channel"
-msgstr "Canal"
-
-msgid "playing recording"
-msgstr "reproduciendo grabación"
-
-msgid "no epg info for current event!"
-msgstr "¡No hay información de epg para este programa!"
-
-msgid "no epg info for current channel!"
-msgstr "¡no hay información de epg para el canal actual!"
-
-msgid "no current channel!"
-msgstr "¡no canal actual!"
-
-msgid "error retrieving status info!"
-msgstr "error recibiendo la información de estado"
-
-msgid "%I:%M:%S %p"
-msgstr "%H:%M:%S"
-
-msgid "Recordings"
-msgstr "Grabaciones"
 
 msgid "ERROR:"
 msgstr "ERROR"
@@ -461,17 +591,11 @@ msgstr "Editar grabación"
 msgid "play this recording."
 msgstr "reproducir esta grabación"
 
-msgid "%b %d %y"
-msgstr "%b %d %y"
+msgid "No schedules available for this channel"
+msgstr "No hay programaciones disponibles para este canal"
 
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
 msgstr "No se puede encontrar la programación. ¿Puede que la haya escrito erróneamente?"
-
-msgid "Edit search timer"
-msgstr "Editar la programación de búsqueda"
-
-msgid "New search timer"
-msgstr "Nueva programación de búsqueda"
 
 msgid "Search text too short - use anyway?"
 msgstr "Texto a buscar demasiado corto - ¿usar de todos modos?"
@@ -571,9 +695,6 @@ msgstr "Usar día de la semana"
 
 msgid "Use blacklists"
 msgstr "Usar lista negra"
-
-msgid "Selection"
-msgstr "Selección"
 
 msgid "all"
 msgstr "Todo"
@@ -680,51 +801,6 @@ msgstr "Borrar programación"
 msgid "Timer conflicts"
 msgstr "Conflictos de programaciones"
 
-msgid "Couldn't find user. Maybe you mistyped your request?"
-msgstr "No se puede encontrar el usuario. ¿Puede que lo haya escrito erróneamente?"
-
-msgid "This user name is already in use!"
-msgstr "¡Este nombre de usuario ya se está usando!"
-
-msgid "User rights"
-msgstr "Derechos de usuario"
-
-msgid "Edit setup"
-msgstr "Editar configuración"
-
-msgid "Add or edit timers"
-msgstr "Añadir o editar programaciones"
-
-msgid "Delete timers"
-msgstr "Borrar programaciones"
-
-msgid "Delete recordings"
-msgstr "Borrar grabaciones"
-
-msgid "Use remote menu"
-msgstr "Usar menú remoto"
-
-msgid "Start replay"
-msgstr "Iniciar de nuevo la reproducción"
-
-msgid "Switch channel"
-msgstr "Cambiar canal"
-
-msgid "Add or edit search timers"
-msgstr "Añadir o editar programaciones de búsqueda"
-
-msgid "Delete search timers"
-msgstr "Borrar programaciones de búsqueda"
-
-msgid "Edit recordings"
-msgstr "Editar grabaciones"
-
-msgid "No timer conflicts"
-msgstr "No hay conflictos de programaciones"
-
-msgid "Timer has a conflict."
-msgstr "La programación tiene un conflicto"
-
 msgid "Please set login and password!"
 msgstr "Por favor introduzca nombre de usuario y contraseña"
 
@@ -752,11 +828,26 @@ msgstr "Mostrar información dinámica de VDR box"
 msgid "Allow video streaming"
 msgstr "Permitir streaming de vídeo"
 
+msgid "Web-Streaming h264"
+msgstr ""
+
+msgid "Web-Streaming HEVC"
+msgstr ""
+
+msgid "Web-Streaming MPEG2"
+msgstr ""
+
+msgid "Web-Streaming others"
+msgstr ""
+
 msgid "Streamdev server port"
 msgstr "Puerto del servidor streamdev"
 
 msgid "Streamdev stream type"
 msgstr "Tipo de stream de streamdev"
+
+msgid "mark new recordings"
+msgstr ""
 
 msgid "Add links to IMDb"
 msgstr "Añadir enlaces a IMDb"
@@ -785,6 +876,24 @@ msgstr "Página de inicio"
 msgid "Theme"
 msgstr "Tema"
 
+msgid "playing recording"
+msgstr "reproduciendo grabación"
+
+msgid "no epg info for current event!"
+msgstr "¡No hay información de epg para este programa!"
+
+msgid "no epg info for current channel!"
+msgstr "¡no hay información de epg para el canal actual!"
+
+msgid "no current channel!"
+msgstr "¡no canal actual!"
+
+msgid "error retrieving status info!"
+msgstr "error recibiendo la información de estado"
+
+msgid "%I:%M:%S %p"
+msgstr "%H:%M:%S"
+
 msgid "Couldn't find recording. Maybe you mistyped your request?"
 msgstr "No se puede encontrar la grabación. ¿Puede haberla escrito erróneamente?"
 
@@ -809,9 +918,6 @@ msgstr "Descripción corta"
 msgid "Auxiliary info"
 msgstr "Información auxiliar"
 
-msgid "Search"
-msgstr "Buscar"
-
 msgid "Search settings"
 msgstr "Configuración de búsquedas"
 
@@ -821,108 +927,26 @@ msgstr "Búsqueda extendida"
 msgid "no"
 msgstr "no"
 
-msgid "Searchtimers"
-msgstr "Programadores de búsqueda"
+msgid "Time"
+msgstr "Hora"
 
-msgid "Expression"
-msgstr "Expresión"
+msgid "Users"
+msgstr "Usuarios"
 
-msgid "Starts between"
-msgstr "Iniciar entre"
-
-msgid "Toggle search timer actions (in)active"
-msgstr "Cambiar acciones de la programación de búsqueda (in)activo"
-
-msgid "Browse search timer results"
-msgstr "Navegar por los resultados de la búsqueda"
-
-msgid "Delete this search timer?"
-msgstr "Borrar este programador de búsqueda"
-
-msgid "Delete search timer"
-msgstr "Borrar programador de búsqueda"
-
-msgid "Trigger search timer update"
-msgstr "Actualizar las programaciones"
-
-#, c-format
-msgid "%a, %x"
-msgstr "%a, %x"
-
-msgid "What's running on"
-msgstr "¿Qué se está reproduciendo?"
-
-msgid "at"
-msgstr "a las"
-
-msgid "What's on next?"
-msgstr "¿Qué hay a continuación?"
-
-msgid "Favorites"
-msgstr "Favoritos"
-
-msgid "View the schedule of this channel"
-msgstr "Ver la programación de este canal"
-
-msgid " - "
-msgstr " - "
-
-msgid "Next"
-msgstr "Siguiente"
-
-msgid "What's on"
-msgstr "¿Qué hay ahora?"
-
-msgid "Details view"
-msgstr "Ver detalles"
-
-msgid "List view"
-msgstr "Ver lista"
-
-msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
-msgstr "No se puede encontrar el canal o no hay canales disponibles. ¿Puede que lo haya escrito de forma errónea?"
-
-msgid "No schedules available for this channel"
-msgstr "No hay programaciones disponibles para este canal"
-
-msgid "Remote Control"
-msgstr "Mando a distancia"
-
-msgid "Snapshot interval"
-msgstr "Intervalo de visionado"
-
-msgid "Stop"
-msgstr "Detener"
+msgid "Delete user"
+msgstr "Borrar usuario"
 
 msgid "Page error"
 msgstr "Error en la página"
 
-msgid "What's on?"
-msgstr "¿Qué se emite ahora?"
+msgid "No timer conflicts"
+msgstr "No hay conflictos de programaciones"
 
-msgid "Logout"
-msgstr "Salir"
+msgid "local"
+msgstr ""
 
-msgid "Your attention is required"
-msgstr "Se requiere su atención"
-
-msgid "React"
-msgstr "Resolver"
-
-msgid "Dismiss"
-msgstr "Ignorar"
-
-msgid "Electronic program guide information"
-msgstr "Información de la Guía Electrónica de Programación (EPG)"
-
-msgid "Couldn't find recording or no recordings available"
-msgstr "No se puede encontrar la grabación o no hay programaciones disponibles"
-
-msgid "Error aquiring schedules lock"
-msgstr "Error adquiriendo el bloqueo de las programaciones"
-
-msgid "Error aquiring schedules"
-msgstr "Error adquiriendo programaciones"
+msgid "Timer has a conflict."
+msgstr "La programación tiene un conflicto"
 
 msgid "Live Interactive VDR Environment"
 msgstr "Entorno interactivo de Live VDR"
