@@ -232,7 +232,7 @@ namespace vdrlive {
 	{
 			ostream& ostr_;
 
-			urlencoder( ostream& ostr ): ostr_( ostr ) {}
+			explicit urlencoder( ostream& ostr ): ostr_( ostr ) {}
 
 			void operator()( char ch )
 			{

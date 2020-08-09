@@ -96,7 +96,7 @@ namespace vdrlive {
 			typedef void (ReadLock::*safe_bool)() const;
 
 		public:
-            ReadLock(cRwLock& lock, int timeout = 100)
+            explicit ReadLock(cRwLock& lock, int timeout = 100)
                 : m_lock(lock)
                 , m_locked(false)
             {

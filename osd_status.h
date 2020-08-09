@@ -18,7 +18,7 @@ class cLiveOsdItem: public cListObject {
 		int	isSelected() const {return selected;}
 		void Select(const bool doSelect) { selected= doSelect; };
 		void Update(const char* Text) { text = Text ? Text : ""; };
-		cLiveOsdItem(const char* Text):text(),selected(false) { text = Text ? Text : ""; };
+		explicit cLiveOsdItem(const char* Text):text(),selected(false) { text = Text ? Text : ""; };
 		~cLiveOsdItem() { }
 };
 

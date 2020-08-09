@@ -107,7 +107,7 @@ struct Epgsearch_searchresults_v1_0
       {
         public:
          const cEvent* event;
-         cServiceSearchResult(const cEvent* Event) : event(Event) {}
+         explicit cServiceSearchResult(const cEvent* Event) : event(Event) {}
       };
 
       cList<cServiceSearchResult>* pResultList;   // pointer to the results
