@@ -77,7 +77,7 @@ public:
 private:
 	tChannelID m_channel;
 
-	virtual void Action();
+	virtual void Action() override;
 };
 
 class RecordingTask: public Task
@@ -97,7 +97,7 @@ public:
 		: RecordingTask(recording)
 	{}
 
-	virtual void Action();
+	virtual void Action() override;
 };
 
 class PauseRecordingTask: public RecordingTask
@@ -107,7 +107,7 @@ public:
 		: RecordingTask(recording)
 	{}
 
-	virtual void Action();
+	virtual void Action() override;
 };
 
 class StopRecordingTask: public RecordingTask
@@ -117,7 +117,7 @@ public:
 		: RecordingTask(recording)
 	{}
 
-	virtual void Action();
+	virtual void Action() override;
 };
 
 class ForwardRecordingTask: public RecordingTask
@@ -127,7 +127,7 @@ public:
 		: RecordingTask(recording)
 	{}
 
-	virtual void Action();
+	virtual void Action() override;
 };
 
 class BackwardRecordingTask: public RecordingTask
@@ -137,7 +137,7 @@ public:
 		: RecordingTask(recording)
 	{}
 
-	virtual void Action();
+	virtual void Action() override;
 };
 
 class RemoveRecordingTask: public RecordingTask
@@ -147,7 +147,7 @@ public:
 		: RecordingTask(recording)
 	{}
 
-	virtual void Action();
+	virtual void Action() override;
 
 	std::string const & RecName() const { return m_recName; }
 
