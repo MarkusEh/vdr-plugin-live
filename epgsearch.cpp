@@ -26,7 +26,7 @@ bool operator<( SearchTimer const& left, SearchTimer const& right )
 bool CheckEpgsearchVersion()
 {
 	/* @winni: Falls Du an der Versionsnummer Anpassungen vornehmen willst, mach das bitte in livefeatures.h ganz unten. Danke */
-	Features< features::epgsearch >& f = LiveFeatures< features::epgsearch >();
+	const Features< features::epgsearch >& f = LiveFeatures< features::epgsearch >();
 	if ( f.Loaded() ) {
 		if ( !f.Recent() )
 			throw HtmlError( tr("Required minimum version of epgsearch: ") + string( f.MinVersion() ));

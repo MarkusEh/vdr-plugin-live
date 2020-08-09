@@ -188,7 +188,7 @@ namespace vdrlive {
 	{
 	}
 
-	void TimerManager::UpdateTimer( int timerId, const char* remote, const char* oldRemote, int flags, tChannelID& channel, string const& weekdays, 
+	void TimerManager::UpdateTimer( int timerId, const char* remote, const char* oldRemote, int flags, const tChannelID& channel, string const& weekdays, 
 			                string const& day, int start, int stop, int priority, int lifetime, string const& title, string const& aux )
 	{
 		cMutexLock lock( this );
