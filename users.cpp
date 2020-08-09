@@ -24,7 +24,7 @@ cUser::cUser(int ID, const std::string& Name, const std::string& Password)
 	SetPassword(Password);
 }
 
-void cUser::SetPassword(const std::string Password) 
+void cUser::SetPassword(const std::string& Password) 
 {
 	ostringstream passwordStr;
 	passwordStr << Password.size() << "|" << MD5Hash(Password);

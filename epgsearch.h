@@ -65,7 +65,7 @@ public:
 	tChannelID ChannelMax() const { return m_channelMax; }
 	void SetChannelMax(tChannelID channelMax) { m_channelMax = channelMax; }
 	std::string ChannelText() const { return m_channels; }
-	void SetChannelText(std::string channels) { m_channels = channels; }
+	void SetChannelText(const std::string& channels) { m_channels = channels; }
 	int UseAsSearchTimer() const { return m_useAsSearchtimer; }
 	void SetUseAsSearchTimer(int useAsSearchtimer) { m_useAsSearchtimer = useAsSearchtimer; }
 	bool UseDuration() const { return m_useDuration; }
@@ -101,7 +101,7 @@ public:
 	bool UseExtEPGInfo() const { return m_useExtEPGInfo; }
 	void SetUseExtEPGInfo(bool useExtEPGInfo) { m_useExtEPGInfo = useExtEPGInfo; }
 	std::vector< std::string > ExtEPGInfo() const { return m_ExtEPGInfo; }
-	void SetExtEPGInfo(std::vector< std::string > ExtEPGInfo) { m_ExtEPGInfo = ExtEPGInfo; }
+	void SetExtEPGInfo(const std::vector< std::string >& ExtEPGInfo) { m_ExtEPGInfo = ExtEPGInfo; }
 	bool AvoidRepeats() const { return m_avoidrepeats; }
 	void SetAvoidRepeats(bool avoidrepeats) { m_avoidrepeats = avoidrepeats; }
 	int AllowedRepeats() const { return m_allowedrepeats; }

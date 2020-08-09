@@ -39,8 +39,8 @@ public:
 	int GetPasswordLength() const;
 	std::string const GetMD5HashPassword() const;
 	void SetId(int Id) { m_ID = Id; }
-	void SetName(const std::string Name) { m_Name = Name; }
-	void SetPassword(const std::string Password);
+	void SetName(const std::string& Name) { m_Name = Name; }
+	void SetPassword(const std::string& Password);
 	void SetUserrights(int Userrights) { m_Userrights = Userrights; }
 	bool HasRightTo(eUserRights right);
 	static bool CurrentUserHasRightTo(eUserRights right);
