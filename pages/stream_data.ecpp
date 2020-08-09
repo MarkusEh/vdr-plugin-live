@@ -90,7 +90,7 @@ if (!range.empty()) {
 	stringstream ss(range);
 	char tmp;
 	ss >> offset >> tmp >> stop;
-	dsyslog("vdrlive::stream_data::range(%d to %d)", offset, stop);
+	dsyslog("vdrlive::stream_data::range(%ld to %ld)", offset, stop);
 	if (offset > size) return HTTP_RANGE_NOT_SATISFIABLE;
 	if ((stop+1) > size) stop = size - 1;
 	httpReturn = HTTP_PARTIAL_CONTENT;
@@ -102,7 +102,7 @@ if (!range.empty()) {
 
 char buffer[KILOBYTE(64)];
 streamsize r, c = stop - offset+ 1;
-while (r = f.readsome(buffer, (c < sizeof(buffer))?c:sizeof(buffer))) {
+while (r = f.readsome(buffer, (c < (long int) sizeof(buffer))?c:sizeof(buffer))) {
 	reply.out().write(buffer, r);
 	c -= r;
 	if (!reply.out()) {
