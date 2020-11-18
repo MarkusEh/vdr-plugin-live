@@ -101,6 +101,7 @@ using namespace vdrlive;
 		<& pageelems.logo &>
 		<& menu active=("stream") component=("stream.channel_selection") &>
 		<div class="inhalt">
+            <center>
 			<div id="player">
 
 				<script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
@@ -118,6 +119,7 @@ using namespace vdrlive;
 				});
 				</script>
 			</div>
+            </center>			
 <%cpp>
 dsyslog("vdrlive::stream: generating EPG info");
 const cSchedule *Schedule = NULL;
