@@ -46,11 +46,14 @@ bool checkNew(RecordingsTreePtr recordingsTree, vector<string> p) {
 <%session scope="global">
 	bool logged_in(false);
 </%session>
-<%request scope="page">
+
+<# scope="page" should be enough but does not work with tntnet 3.0 #>
+<%request scope="global">
 	string currentSort;
 	string deleteResult;
 	string currentFilter;
 </%request>
+
 <%include>page_init.eh</%include>
 <%cpp>
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");

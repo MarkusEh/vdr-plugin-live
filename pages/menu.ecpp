@@ -16,10 +16,13 @@ component;
 bool logged_in(false);
 TimerConflictNotifier timerNotifier();
 </%session>
-<%request scope="page">
+
+<# scope="page" should be enough but does not work with tntnet 3.0 #>
+<%request scope="global">
 std::string set_active;
 std::string set_component;
 </%request>
+
 <%cpp>
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
