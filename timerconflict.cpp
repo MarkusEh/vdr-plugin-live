@@ -36,16 +36,20 @@ namespace vdrlive {
 	{
 		Init();
 		vector< string > parts = StringSplit( data, ':' );
-		try {
+		try
+		{
 			vector< string >::const_iterator part = parts.begin();
-			if (parts.size() > 0) {
+			if (parts.size() > 0)
+			{
 				conflictTime = lexical_cast< time_t >( *part++ );
-				for ( int i = 1; part != parts.end(); ++i, ++part ) {
+				for ( int i = 1; part != parts.end(); ++i, ++part )
+				{
 					vector< string > timerparts = StringSplit( *part, '|' );
 					vector< string >::const_iterator timerpart = timerparts.begin();
 					TimerInConflict timer;
 					for ( int j = 0; timerpart != timerparts.end(); ++j, ++timerpart )
-						switch (j) {
+						switch (j)
+						{
 						case 0: timer.timerIndex = lexical_cast< int >( *timerpart ); break;
 						case 1: timer.percentage = lexical_cast< int >( *timerpart ); break;
 						case 2: {
@@ -55,7 +59,7 @@ namespace vdrlive {
 								timer.concurrentTimerIndices.push_back(lexical_cast< int >( *conctimerpart ));
 							break;
 						}
-						}
+					}
 					conflictingTimers.push_back(timer);
 				}
 			}
@@ -68,28 +72,37 @@ namespace vdrlive {
 	{
 		Epgsearch_services_v1_1 service;
 		if ( CheckEpgsearchVersion() && cPluginManager::CallFirstService(ServiceInterface, &service))
-		  {
-		    cServiceHandler_v1_1* handler = dynamic_cast<cServiceHandler_v1_1*>(service.handler.get());
-		    if (handler) 
-		      {
-			list< string > conflicts = service.handler->TimerConflictList();
-			m_conflicts.assign( conflicts.begin(), conflicts.end() );
-			m_conflicts.sort();
-		      }
-		  }
+		{
+			cServiceHandler_v1_1* handler = dynamic_cast<cServiceHandler_v1_1*>(service.handler.get());
+			if (handler)
+			{
+				list< string > conflicts = service.handler->TimerConflictList();
+				m_conflicts.assign( conflicts.begin(), conflicts.end() );
+				m_conflicts.sort();
+			}
+		}
+	}
+
+	bool TimerConflicts::HasConflict(const cTimer& timer)
+	{
+		for (const auto& conflict : *this)
+			for (const auto& tic : conflict.ConflictingTimers())
+				if (tic.timerIndex == timer.Id())
+					return true;
+		return false;
 	}
 
 	bool TimerConflicts::CheckAdvised()
 	{
 		Epgsearch_services_v1_1 service;
 		if (CheckEpgsearchVersion() && cPluginManager::CallFirstService(ServiceInterface, &service))
-		  {
-		    cServiceHandler_v1_1* handler = dynamic_cast<cServiceHandler_v1_1*>(service.handler.get());
-		    if (!handler) 
-		      return false;
-		    else
-		      return handler->IsConflictCheckAdvised();
-		  }
+		{
+			cServiceHandler_v1_1* handler = dynamic_cast<cServiceHandler_v1_1*>(service.handler.get());
+			if (!handler)
+				return false;
+			else
+				return handler->IsConflictCheckAdvised();
+		}
 		else 
 		  return false;
 	}
@@ -111,7 +124,8 @@ namespace vdrlive {
 		bool reCheckAdvised((now - lastCheck) > CHECKINTERVAL);
 		bool recentTimerChange((now - lastTimerModification) <= CHECKINTERVAL);
 
-		if (recentTimerChange || (reCheckAdvised && TimerConflicts::CheckAdvised())) {
+		if (recentTimerChange || (reCheckAdvised && TimerConflicts::CheckAdvised()))
+		{
 			lastCheck = now;
 			conflicts.reset(new TimerConflicts());
 			return conflicts->size() > 0;

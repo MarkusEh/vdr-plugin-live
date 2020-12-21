@@ -7,6 +7,8 @@
 #include <string>
 #include <time.h>
 
+#include <vdr/timers.h>
+
 namespace vdrlive {
 
 // classes for timer conflict interface
@@ -40,7 +42,7 @@ namespace vdrlive {
 			void Init();
 
 			time_t ConflictTime() { return conflictTime; }
-			const std::list< TimerInConflict >& ConflictingTimers() { return conflictingTimers; }
+			const std::list< TimerInConflict >& ConflictingTimers() const { return conflictingTimers; }
 	};
 
 	class TimerConflicts
@@ -58,6 +60,8 @@ namespace vdrlive {
 			const_iterator begin() const { return m_conflicts.begin(); }
 			iterator end() { return m_conflicts.end(); }
 			const_iterator end() const { return m_conflicts.end(); }
+
+			bool HasConflict(const cTimer& timer);
 
 			static bool CheckAdvised();
 		private:
@@ -89,9 +93,7 @@ namespace vdrlive {
 			TimerConflictsPtr conflicts;
 	}; // class TimerConflictNotifier
 
-}
-
- // namespace vdrlive
+} // namespace vdrlive
 
 #endif // VDR_LIVE_TIMERCONFLICT_H
 

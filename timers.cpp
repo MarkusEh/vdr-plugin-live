@@ -178,6 +178,7 @@ namespace vdrlive {
 #endif
 
 	TimerManager::TimerManager()
+	:	m_reloadTimers(true)
 	{
 	}
 
