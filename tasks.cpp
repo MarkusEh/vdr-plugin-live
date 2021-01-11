@@ -10,14 +10,20 @@
 
 // STL headers need to be before VDR tools.h (included by <vdr/menu.h>)
 #include <algorithm>
+#include <functional>
 
 #include <vdr/menu.h>
 
 namespace vdrlive {
 
 using std::for_each;
+#if __cplusplus >= 201103L
+using std::bind;
+using namespace std::placeholders;
+#else
 using std::tr1::bind;
 using namespace std::tr1::placeholders;
+#endif
 
 const char* NowReplaying()
 {
