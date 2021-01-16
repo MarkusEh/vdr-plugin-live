@@ -343,59 +343,47 @@ namespace vdrlive {
 
 	bool RecordingsItemPtrCompare::ByAscendingName(RecordingsItemPtr & first, RecordingsItemPtr & second)
 	{
-		unsigned int flen = first->Name().length();
-		unsigned int fstart = 0;
-		while( flen > 0 && ispunct( (first->Name())[ fstart ] ) ) {
-			fstart++;
-			flen--;
-		}
-		// eliminate starting punctuation characters of second string
-		unsigned int slen = second->Name().length();
-		unsigned int sstart = 0;
-		while( slen > 0 && ispunct( (second->Name())[ sstart ] ) ) {
-			sstart++;
-			slen--;
-		}
-		// check whether strings are ascending
-		unsigned int i = 0;
-		while( fstart + i < first->Name().length() && sstart + i < second->Name().length() ) {
-			if( tolower( (first->Name())[ fstart + i ] ) < tolower( (second->Name())[ sstart + i] ) ) {
-				return true;
-			} else if( tolower( (first->Name())[ fstart + i] ) > tolower( (second->Name())[ sstart + i ] ) ) {
-				return false;
-			}
-			++i;
-		}
-		return( flen < slen );
+                int i = first->NameForCompare().compare(second->NameForCompare() );
+                if (i < 0) return true;
+                if (i > 0) return false;
+                if (! second->RecInfo()->ShortText() ) return false;
+                if (!  first->RecInfo()->ShortText() ) return true;
+                return RecordingsItemPtrCompare::compareLC(first->RecInfo()->ShortText(), second->RecInfo()->ShortText() ) < 0;
 	}
 
 	bool RecordingsItemPtrCompare::ByDescendingName(RecordingsItemPtr & first, RecordingsItemPtr & second)
 	{
-		unsigned int flen = first->Name().length();
-		unsigned int fstart = 0;
-		while( flen > 0 && ispunct( (first->Name())[ fstart ] ) ) {
-			fstart++;
-			flen--;
-		}
-		// eliminate starting punctuation characters of second string
-		unsigned int slen = second->Name().length();
-		unsigned int sstart = 0;
-		while( slen > 0 && ispunct( (second->Name())[ sstart ] ) ) {
-			sstart++;
-			slen--;
-		}
-		// check whether strings are decending
-		unsigned int i = 0;
-		while( fstart + i < first->Name().length() && sstart + i < second->Name().length() ) {
-			if( tolower( (first->Name())[ fstart + i ] ) > tolower( (second->Name())[ sstart + i] ) ) {
-				return true;
-			} else if( tolower( (first->Name())[ fstart + i] ) < tolower( (second->Name())[ sstart + i ] ) ) {
-				return false;
-			}
-			++i;
-		}
-		return( flen > slen );
+                int i = first->NameForCompare().compare(second->NameForCompare() );
+                if (i > 0) return true;
+                if (i < 0) return false;
+                if (!  first->RecInfo()->ShortText() ) return false;
+                if (! second->RecInfo()->ShortText() ) return true;
+                return RecordingsItemPtrCompare::compareLC(first->RecInfo()->ShortText(), second->RecInfo()->ShortText() ) > 0;
 	}
+        void RecordingsItemPtrCompare::getNameForCompare(string &NameForCompare, const string &Name){
+// remove punctuation characters at the beginning of the string
+            unsigned int start;
+            for(start = 0; start < Name.length() && ispunct( Name[ start ] ); start++ );
+            NameForCompare = Name;
+            NameForCompare.erase(0, start);
+// convert to lower case
+            transform(NameForCompare.begin(), NameForCompare.end(), NameForCompare.begin(), ::tolower);
+        }
+
+        int RecordingsItemPtrCompare::compareLC(const string &first, const string &second){
+// compare strings case-insensitive
+          unsigned int flen = first.length();
+          unsigned int slen = second.length();
+          for(unsigned int i = 0; i < flen && i < slen; ++i) {
+            int flc = tolower(first[i]);
+            int slc = tolower(second[i]);
+            if ( flc < slc ) return -1;
+            if ( flc > slc ) return  1;
+          }
+          if (flen < slen ) return -1;
+          if (flen > slen ) return  1;
+          return 0;
+        }
 
 
 	/**
@@ -407,6 +395,7 @@ namespace vdrlive {
 		m_entries(),
 		m_parent(parent)
 	{
+                RecordingsItemPtrCompare::getNameForCompare(m_name_for_compare, name);
 	}
 
 	RecordingsItem::~RecordingsItem()

@@ -878,6 +878,9 @@ msgstr "Startseite"
 msgid "Theme"
 msgstr "Thema"
 
+msgid "Existing Recording:"
+msgstr "Vorhandene Aufnahme:"
+
 msgid "playing recording"
 msgstr "Wiedergabe"
 

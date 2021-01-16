@@ -4,9 +4,64 @@
 #include <setup.h>
 #include <tools.h>
 #include <epg_events.h>
+#include <recman.h>
+
 
 using namespace std;
 using namespace vdrlive;
+
+void addAllRecordings(list<RecordingsItemPtr> &RecItems, RecordingsTreePtr &RecordingsTree, vector<string> &P){
+  for (RecordingsMap::iterator iter = RecordingsTree->begin(P); iter != RecordingsTree->end(P);  ++iter) {
+        RecordingsItemPtr recItem = iter->second;
+        if (!recItem->IsDir()) {
+                RecItems.push_back(recItem);
+        } else {
+                vector<string> pp(P);
+                pp.push_back(recItem->Name());
+                addAllRecordings(RecItems, RecordingsTree, pp);
+        }
+  }
+  // RecItems.sort(RecordingsItemPtrCompare::ByAscendingName);
+  RecItems.sort(RecordingsItemPtrCompare::ByAscendingName);
+}
+
+// compare functions for std::lower_bound / std::upper_bound
+bool compRecItemDescrL(const RecordingsItemPtr &RecItem, const string &Description) {
+  if (! RecItem->RecInfo()->ShortText() ) return true;
+  return RecordingsItemPtrCompare::compareLC(RecItem->RecInfo()->ShortText(), Description ) < 0;
+}
+
+bool compRecItemL(const RecordingsItemPtr &recItem, const string &NameForCompare) {
+  return recItem->NameForCompare().compare(NameForCompare) < 0;
+}
+
+bool compRecItemU(const string &NameForCompare, const RecordingsItemPtr &recItem) {
+  return recItem->NameForCompare().compare(NameForCompare) > 0;
+}
+
+bool searchNameDesc(RecordingsItemPtr &RecItem, list<RecordingsItemPtr> &RecItems, const string &Name, const string &Description) {
+  string nameForCompare;
+  RecordingsItemPtrCompare::getNameForCompare(nameForCompare, Name);
+
+  const list<RecordingsItemPtr>::iterator end = RecItems.end();
+
+  list<RecordingsItemPtr>::iterator recIterLow = std::lower_bound (RecItems.begin(), RecItems.end(), nameForCompare, compRecItemL);
+  if (recIterLow == end ) return false;
+  if ((*recIterLow)->NameForCompare().compare(nameForCompare) != 0  ) return false;
+  RecItem = *recIterLow;
+  list<RecordingsItemPtr>::iterator recIter = recIterLow;
+  ++recIter;
+  if (recIter == end ) return true;
+  if ((*recIter)->NameForCompare().compare(nameForCompare) != 0  ) return true;
+
+  list<RecordingsItemPtr>::iterator recIterUp = std::upper_bound (recIterLow, RecItems.end(), nameForCompare, compRecItemU);
+
+  recIter = std::lower_bound (recIterLow, recIterUp, Description, compRecItemDescrL);
+  if(recIter == recIterUp) --recIter;
+  RecItem = *recIter;
+  return true;
+}
+
 
 </%pre>
 <%args>
@@ -24,6 +79,13 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 </%cpp>
 <%cpp>
 	pageTitle = trVDR("Schedule");
+
+vector<string> path;
+list<RecordingsItemPtr> recItems;
+RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
+
+addAllRecordings(recItems, recordingsTree, path);
+
 
 #if VDRVERSNUM < 20301
 	cSchedulesLock schedulesLock;
@@ -99,6 +161,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		string current_day = "";
 		const cEvent* PresentEvent = Schedule->GetPresentEvent();
 		time_t now = time(NULL) - ::Setup.EPGLinger * 60;
+                RecordingsItemPtr recItem;
+                bool recItemFound;
 #if VDRVERSNUM >= 20301
 		for (const cEvent *Event = (cEvent *)Schedule->Events()->First(); Event; Event = (cEvent *)Schedule->Events()->Next(Event)) {
 #else
@@ -119,6 +183,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 			bool truncated = false;
 			bool lastEventCurrentDay = false;
+
+                        recItemFound = searchNameDesc(recItem, recItems, title, short_description);
 			{
 #if VDRVERSNUM >= 20301
 				cEvent* NextEvent = (cEvent *)Schedule->Events()->Next(Event);
@@ -151,12 +217,31 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			}
 </%cpp>
 				<tr>
-					<td class="action leftcol <? lastEventCurrentDay ? "bottomrow" ?>"><& pageelems.event_timer epgid=(epgid) &></td>
-					<td class="action <? lastEventCurrentDay ? "bottomrow" ?>"><%cpp>if (LiveFeatures<features::epgsearch>().Recent() ) { </%cpp><a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a><%cpp> } else { </%cpp><img src="img/transparent.png" width="16" height="16"><%cpp> } </%cpp></td>
-					<td class="action <? lastEventCurrentDay ? "bottomrow" ?>"><& pageelems.imdb_info_href title=(title) &></td>
-					<td class="topaligned <? lastEventCurrentDay ? "bottomrow" ?>"><div class="withmargin nowrap"><$ start $> - <$ end $></div></td>
-					<td class="<? (Event == PresentEvent) ? "current" ?> topaligned rightcol <? lastEventCurrentDay ? "bottomrow" ?>"><div class="more withmargin"><a <& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(description, 300, truncated)) + "<br />" + tr("Click to view details.")) &><& tooltip.display domId=(epgEvent->Id()) &>><span class="title"><$ title $></span><br /><span class="short"><%cpp>if (short_description.empty()) { </%cpp>&nbsp;<%cpp> } </%cpp><$ short_description $></span></a></div></td>
+					<td class="action leftcol <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><& pageelems.event_timer epgid=(epgid) &></td>
+					<td class="action <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><%cpp>if (LiveFeatures<features::epgsearch>().Recent() ) { </%cpp><a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a><%cpp> } else { </%cpp><img src="img/transparent.png" width="16" height="16"><%cpp> } </%cpp></td>
+					<td class="action <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><& pageelems.imdb_info_href title=(title) &></td>
+					<td class="topaligned <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><div class="withmargin nowrap"><$ start $> - <$ end $></div></td>
+					<td class="<? (Event == PresentEvent) ? "current" ?> topaligned rightcol <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><div class="more withmargin"><a <& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(description, 300, truncated)) + "<br />" + tr("Click to view details.")) &><& tooltip.display domId=(epgEvent->Id()) &>><span class="title"><$ title $></span><br /><span class="short"><%cpp>if (short_description.empty()) { </%cpp>&nbsp;<%cpp> } </%cpp><$ short_description $></span></a></div></td>
+
 				</tr>
+<%cpp>
+if(recItemFound) {
+                  string r_day(FormatDateTime(tr("%a,"), recItem->StartTime()));
+                  string dayLen(lexical_cast<string, int>(r_day.length() - 1) + ".25em;");
+                  string duration(recItem->Duration() < 0 ? "" : FormatDuration(tr("(%d:%02d)"), recItem->Duration() / 60, recItem->Duration() % 60));
+                  string shortDescr(recItem->RecInfo()->ShortText() ? recItem->RecInfo()->ShortText() : "");
+                  string r_description(recItem->RecInfo()->Description() ? recItem->RecInfo()->Description() : "");
+                  string hint(tr("Click to view details."));
+                  if (!shortDescr.empty()) hint = shortDescr + "<br />" + hint;
+                  else if (!r_description.empty()) hint = r_description + "<br />" + hint;
+</%cpp>
+<tr>
+ <& rec_item_file name=(recItem->Name()) level=(recItem->Level()) id=(recItem->Id()) day=(r_day) dayLen=(dayLen) startTime=(recItem->StartTime()) duration=(duration) hint=(hint) shortDescr=(shortDescr) archived=(RecordingsManager::GetArchiveDescr(recItem->Recording())) lastEventCurrentDay=(lastEventCurrentDay) &>
+</tr>
+<%cpp>
+}
+</%cpp>
+
 <%cpp>
 		}
 </%cpp>
@@ -183,3 +268,37 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <span class="sep">|</span>
 <a href="schedule.html?channel=<$ (Channel->Number() + 1) $>">Next »</a>
 </%def>
+
+<# ---------------------------------------------------------------------- #>
+
+<%def rec_item_file>
+<%args>
+        string name;
+        int level;
+        string id;
+        string day;
+        string dayLen;
+        time_t startTime;
+        string duration;
+        string hint;
+        string shortDescr;
+        string archived;
+        bool lastEventCurrentDay;
+</%args>
+<%cpp> if (!archived.empty()) { </%cpp>
+<td colspan="2" style="word-wrap: break-word;min-width: 10px;max-width: 20px;" class="leftcol <? lastEventCurrentDay ? "bottomrow" ?>"> <$ tr("Existing Recording:") $>  </td>
+<td class="action <? lastEventCurrentDay ? "bottomrow" ?>"> <img src="<$ LiveSetup().GetThemedLink("img", "on_dvd.png") $>" alt="on_dvd" <& tooltip.hint text=(archived) &> /> </td>
+
+<%cpp> } else { </%cpp>
+<td colspan="3" style="word-wrap: break-word;min-width: 10px;max-width: 20px;" class="leftcol <? lastEventCurrentDay ? "bottomrow" ?>"> <$ tr("Existing Recording:") $> </td>
+<%cpp> } </%cpp>
+
+<td class="topaligned <? lastEventCurrentDay ? "bottomrow" ?>"><div class="withmargin"><$ FormatDateTime(tr("%a,"), startTime) + string(" ") + FormatDateTime(tr("%b %d %y"), startTime) + string(" ") + FormatDateTime(tr("%I:%M %p"), startTime) $><br /><$ duration $></div></td>
+
+<td class="topaligned rightcol <? lastEventCurrentDay ? "bottomrow" ?>"><div class="more withmargin"><a <& tooltip.hint text=(hint) &><& tooltip.display domId=(id) &>><span class="title"><$ name $></span><br /><span class="short"><%cpp>if (shortDescr.empty()) { </%cpp>&nbsp;<%cpp> } </%cpp><$ shortDescr $></span></a></div></td>
+
+</%def>
+
+<# ---------------------------------------------------------------------- #>
+<# <div style="width: 400 px; word-wrap: break-word;"> <$ tr("Existing Recording:") $> </div>  #>
+<# word-break:break-all;  #>

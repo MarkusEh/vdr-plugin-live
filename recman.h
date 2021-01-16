@@ -150,6 +150,9 @@ namespace vdrlive {
 			static bool ByDescendingDate(RecordingsItemPtr & first, RecordingsItemPtr & second);
 			static bool ByAscendingName(RecordingsItemPtr & first, RecordingsItemPtr & second);
 			static bool ByDescendingName(RecordingsItemPtr & first, RecordingsItemPtr & second);
+			static void getNameForCompare(std::string &NameForCompare, const std::string &Name);
+                        static int compareLC(const std::string &first, const std::string &second); // as std::compare, but compare lower case
+
 	};
 
 	/**
@@ -172,6 +175,7 @@ namespace vdrlive {
 			virtual bool IsDir() const = 0;
 			virtual long Duration() const = 0;
 			virtual const std::string& Name() const { return m_name; }
+			virtual const std::string& NameForCompare() const { return m_name_for_compare; }
 			virtual const std::string Id() const = 0;
 
 			virtual const cRecording* Recording() const { return 0; }
@@ -184,6 +188,7 @@ namespace vdrlive {
 		private:
 			int m_level;
 			std::string m_name;
+			std::string m_name_for_compare;
 			RecordingsMap m_entries;
 			RecordingsItemWeakPtr m_parent;
 	};
