@@ -28,3 +28,8 @@ VDR Plugin 'live' Revision History
 
 - This version is compatible with VDR 2.2.0 and 2.3.x and will be released
   soon.
+
+2021-01-16: Version 3.0.0
+
+- Adjusted for VDR 2.4
+- Include several patches from https://www.vdr-portal.de
