@@ -286,11 +286,11 @@ if(recItemFound) {
         bool lastEventCurrentDay;
 </%args>
 <%cpp> if (!archived.empty()) { </%cpp>
-<td colspan="2" style="word-wrap: break-word;min-width: 10px;max-width: 20px;" class="leftcol <? lastEventCurrentDay ? "bottomrow" ?>"> <$ tr("Existing Recording:") $>  </td>
+<td colspan="2" style="word-wrap: normal;min-width: 10px;max-width: 70px;" class="leftcol <? lastEventCurrentDay ? "bottomrow" ?>"> <$ tr("Existing Recording:") $>  </td>
 <td class="action <? lastEventCurrentDay ? "bottomrow" ?>"> <img src="<$ LiveSetup().GetThemedLink("img", "on_dvd.png") $>" alt="on_dvd" <& tooltip.hint text=(archived) &> /> </td>
 
 <%cpp> } else { </%cpp>
-<td colspan="3" style="word-wrap: break-word;min-width: 10px;max-width: 20px;" class="leftcol <? lastEventCurrentDay ? "bottomrow" ?>"> <$ tr("Existing Recording:") $> </td>
+<td colspan="3" style="word-wrap: normal;min-width: 10px;max-width: 70px;" class="leftcol <? lastEventCurrentDay ? "bottomrow" ?>"> <$ tr("Existing Recording:") $> </td>
 <%cpp> } </%cpp>
 
 <td class="topaligned <? lastEventCurrentDay ? "bottomrow" ?>"><div class="withmargin"><$ FormatDateTime(tr("%a,"), startTime) + string(" ") + FormatDateTime(tr("%b %d %y"), startTime) + string(" ") + FormatDateTime(tr("%I:%M %p"), startTime) $><br /><$ duration $></div></td>
