@@ -331,35 +331,39 @@ namespace vdrlive {
 	/**
 	 * Implemetation of class RecordingsItemPtrCompare
 	 */
-	bool RecordingsItemPtrCompare::ByAscendingDate(RecordingsItemPtr & first, RecordingsItemPtr & second)
+	bool RecordingsItemPtrCompare::ByAscendingDate(const RecordingsItemPtr & first, const RecordingsItemPtr & second)
 	{
 		return (first->StartTime() < second->StartTime());
 	}
 
-	bool RecordingsItemPtrCompare::ByDescendingDate(RecordingsItemPtr & first, RecordingsItemPtr & second)
+	bool RecordingsItemPtrCompare::ByDescendingDate(const RecordingsItemPtr & first, const RecordingsItemPtr & second)
 	{
 		return (first->StartTime() >= second->StartTime());
 	}
 
-	bool RecordingsItemPtrCompare::ByAscendingName(RecordingsItemPtr & first, RecordingsItemPtr & second)
+	int RecordingsItemPtrCompare::Compare(int &numEqualChars, const RecordingsItemPtr &first, const RecordingsItemPtr &second)
 	{
+                numEqualChars = 0;
                 int i = first->NameForCompare().compare(second->NameForCompare() );
-                if (i < 0) return true;
-                if (i > 0) return false;
-                if (! second->RecInfo()->ShortText() ) return false;
-                if (!  first->RecInfo()->ShortText() ) return true;
-                return RecordingsItemPtrCompare::compareLC(first->RecInfo()->ShortText(), second->RecInfo()->ShortText() ) < 0;
+                if(i != 0) return i;
+             // name is identical, compare short text
+                i = RecordingsItemPtrCompare::compareLC(numEqualChars, first->ShortText(), second->ShortText() );
+                if(i != 0) return i;
+                i = RecordingsItemPtrCompare::compareLC(numEqualChars, first->Description(), second->Description() );
+                return i;
 	}
 
-	bool RecordingsItemPtrCompare::ByDescendingName(RecordingsItemPtr & first, RecordingsItemPtr & second)
+	bool RecordingsItemPtrCompare::ByAscendingName(const RecordingsItemPtr & first, const RecordingsItemPtr & second)  // return first < second
 	{
-                int i = first->NameForCompare().compare(second->NameForCompare() );
-                if (i > 0) return true;
-                if (i < 0) return false;
-                if (!  first->RecInfo()->ShortText() ) return false;
-                if (! second->RecInfo()->ShortText() ) return true;
-                return RecordingsItemPtrCompare::compareLC(first->RecInfo()->ShortText(), second->RecInfo()->ShortText() ) > 0;
+           int i = 0;
+           return RecordingsItemPtrCompare::Compare(i, first, second) < 0;
 	}
+
+	bool RecordingsItemPtrCompare::ByDescendingName(const RecordingsItemPtr & first, const RecordingsItemPtr & second)  // return first > second
+	{
+           return RecordingsItemPtrCompare::ByAscendingName(second, first);
+	}
+
         void RecordingsItemPtrCompare::getNameForCompare(string &NameForCompare, const string &Name){
 // remove punctuation characters at the beginning of the string
             unsigned int start;
@@ -370,18 +374,23 @@ namespace vdrlive {
             transform(NameForCompare.begin(), NameForCompare.end(), NameForCompare.begin(), ::tolower);
         }
 
-        int RecordingsItemPtrCompare::compareLC(const string &first, const string &second){
+        int RecordingsItemPtrCompare::compareLC(int &numEqualChars, const char *first, const char *second) {
+          bool fe = !first  || !first[0];    // is first  string empty string?
+          bool se = !second || !second[0];   // is second string empty string?
+          if (fe && se) return 0;
+          if (se) return  1;
+          if (fe) return -1;
 // compare strings case-insensitive
-          unsigned int flen = first.length();
-          unsigned int slen = second.length();
-          for(unsigned int i = 0; i < flen && i < slen; ++i) {
-            int flc = tolower(first[i]);
-            int slc = tolower(second[i]);
-            if ( flc < slc ) return -1;
-            if ( flc > slc ) return  1;
+          int len;
+          for(len = 0; first[len] && second[len] ; ++len) {
+            int flc = tolower(first[len]);
+            int slc = tolower(second[len]);
+            if ( flc < slc ) { numEqualChars += len; return -1; }
+            if ( flc > slc ) { numEqualChars += len; return  1; }
           }
-          if (flen < slen ) return -1;
-          if (flen > slen ) return  1;
+          numEqualChars += len;
+          if (second[len] ) return -1;
+          if (first [len] ) return  1;
           return 0;
         }
 
@@ -445,6 +454,16 @@ namespace vdrlive {
 		if (!m_recording->FileName()) return 0;
 		return m_recording->LengthInSeconds() / 60;
 	}
+
+	/**
+	 * Implemetation of class RecordingsItemDummy
+	 */
+        RecordingsItemDummy::RecordingsItemDummy(const std::string &Name, const std::string &ShortText, const std::string &Description, long Duration):
+                RecordingsItem(Name, RecordingsItemPtr() ),
+                m_short_text(ShortText.c_str() ),
+                m_description(Description.c_str() ),
+                m_duration( Duration / 60)
+                { }
 
 	/**
 	 *  Implementation of class RecordingsTree:

@@ -139,19 +139,19 @@ namespace vdrlive {
 
 			cThreadLock m_recordingsLock;
 	};
-
 	/**
 	 * Class containing possible recordings compare functions
 	 */
 	class RecordingsItemPtrCompare
 	{
 		public:
-			static bool ByAscendingDate(RecordingsItemPtr & first, RecordingsItemPtr & second);
-			static bool ByDescendingDate(RecordingsItemPtr & first, RecordingsItemPtr & second);
-			static bool ByAscendingName(RecordingsItemPtr & first, RecordingsItemPtr & second);
-			static bool ByDescendingName(RecordingsItemPtr & first, RecordingsItemPtr & second);
+			static bool ByAscendingDate(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
+			static bool ByDescendingDate(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
+			static bool ByAscendingName(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
+			static bool ByDescendingName(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
 			static void getNameForCompare(std::string &NameForCompare, const std::string &Name);
-                        static int compareLC(const std::string &first, const std::string &second); // as std::compare, but compare lower case
+                        static int compareLC(int &numEqualChars, const char *first, const char *second); // as std::compare, but compare lower case
+                        static int Compare(int &numEqualChars, const RecordingsItemPtr &first, const RecordingsItemPtr &second);
 
 	};
 
@@ -176,6 +176,8 @@ namespace vdrlive {
 			virtual long Duration() const = 0;
 			virtual const std::string& Name() const { return m_name; }
 			virtual const std::string& NameForCompare() const { return m_name_for_compare; }
+                        virtual const char * ShortText() const { return RecInfo()? RecInfo()->ShortText():0; }
+                        virtual const char * Description() const { return RecInfo()? RecInfo()->Description():0; }
 			virtual const std::string Id() const = 0;
 
 			virtual const cRecording* Recording() const { return 0; }
@@ -240,6 +242,29 @@ namespace vdrlive {
 			std::string m_id;
 	};
 
+	/**
+	 * Class containing recordings to compare or "dummy" recordings, i.e. data from EPG which can be compared with a recording
+	 */
+	class RecordingsItemDummy: public RecordingsItem
+	{
+		public:
+			RecordingsItemDummy(const std::string &Name, const std::string &ShortText, const std::string &Description, long Duration);
+
+			~RecordingsItemDummy() { };
+
+			const char * ShortText() const { return m_short_text; }
+			const char * Description() const { return m_description; }
+                        virtual time_t StartTime() const { return 0; }
+                        virtual long Duration() const { return m_duration; } // duration in minutes
+                        virtual bool IsDir() const { return false; }
+                        virtual std::string const Id() const { return ""; }
+
+
+		private:
+                        const char * m_short_text;
+                        const char * m_description;
+                        const long m_duration;
+        };
 
 	/**
 	 *  The recordings tree contains all recordings in a file system
