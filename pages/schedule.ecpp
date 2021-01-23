@@ -7,6 +7,7 @@
 #include <recman.h>
 
 
+#include <vdr/config.h>
 using namespace std;
 using namespace vdrlive;
 
@@ -24,80 +25,52 @@ void addAllRecordings(list<RecordingsItemPtr> &RecItems, RecordingsTreePtr &Reco
   RecItems.sort(RecordingsItemPtrCompare::ByAscendingName);
 }
 
-// compare functions for std::lower_bound / std::upper_bound
-bool compRecItemDescriptionL(const RecordingsItemPtr &RecItem, const string &Description) {
-  int i = 0;
-  return RecordingsItemPtrCompare::compareLC(i, RecItem->RecInfo()->Description(), Description.c_str() ) < 0;
-}
-
-bool compRecItemShortTextL(const RecordingsItemPtr &RecItem, const string &ShortText) {
-  int i = 0;
-  return RecordingsItemPtrCompare::compareLC(i, RecItem->RecInfo()->ShortText(), ShortText.c_str() ) < 0;
-}
-
-bool compRecItemShortTextU(const string &ShortText, const RecordingsItemPtr &RecItem) {
-  int i = 0;
-  return RecordingsItemPtrCompare::compareLC(i, RecItem->RecInfo()->ShortText(), ShortText.c_str() ) > 0;
-}
-
-bool compRecItemL(const RecordingsItemPtr &recItem, const string &NameForCompare) {
-  return recItem->NameForCompare().compare(NameForCompare) < 0;
-}
-
-bool compRecItemU(const string &NameForCompare, const RecordingsItemPtr &recItem) {
-  return recItem->NameForCompare().compare(NameForCompare) > 0;
+// compare function for std::lower_bound / std::upper_bound
+bool compRecItemName(const RecordingsItemPtr &first, const RecordingsItemPtr &second) {
+  return first->NameForCompare().compare(second->NameForCompare() ) < 0;
 }
 
 bool searchNameDesc(RecordingsItemPtr &RecItem, list<RecordingsItemPtr> &RecItems, const string &Name, const string &ShortText, const string &Description, long Duration) {
-  const list<RecordingsItemPtr>::iterator end = RecItems.end();
-  const list<RecordingsItemPtr>::iterator begin = RecItems.end();
   if(RecItems.begin() == RecItems.end() ) return false;  // there are no recordings
 
+// find all recordings with equal name
   RecordingsItemPtr dummy (new RecordingsItemDummy(Name, ShortText, Description, Duration));
-  list<RecordingsItemPtr>::iterator recIterLow = std::lower_bound (RecItems.begin(), RecItems.end(), dummy, RecordingsItemPtrCompare::ByAscendingName);
-  if ( recIterLow == end ) {  // dummy > all recordings. Check name of largest recording
-    --recIterLow;
-    RecItem = *recIterLow;
-    return RecItem->NameForCompare().compare(dummy->NameForCompare() ) == 0;
-  }
-  list<RecordingsItemPtr>::iterator recIterUp = std::upper_bound (recIterLow, RecItems.end(), dummy, RecordingsItemPtrCompare::ByAscendingName);
+  list<RecordingsItemPtr>::iterator recIterLowName = std::lower_bound (RecItems.begin(), RecItems.end(), dummy, compRecItemName);
+  list<RecordingsItemPtr>::iterator recIterUpName  = std::upper_bound (recIterLowName  , RecItems.end(), dummy, compRecItemName);
+  if ( recIterLowName == recIterUpName ) return false; // there is no recording with this name
+
+
+// find all recordings with matching short text / description
+  list<RecordingsItemPtr>::iterator recIterLow = std::lower_bound (recIterLowName, recIterUpName, dummy, RecordingsItemPtrCompare::ByAscendingName);
+  list<RecordingsItemPtr>::iterator recIterUp = std::upper_bound (recIterLow, recIterUpName, dummy, RecordingsItemPtrCompare::ByAscendingName);
 
   if(recIterLow != recIterUp) {   // exact match found
+    if (RecordingsItemPtrCompare::FindBestMatch(RecItem, recIterLow, recIterUp, dummy) > 0) return true;
     RecItem = *recIterLow;
     return true;
   }
-  if ( recIterLow == begin ) {
-    RecItem = *recIterLow;
-    return RecItem->NameForCompare().compare(dummy->NameForCompare() ) == 0;
-  }
-
-  --recIterLow;
-// two candidates left: recIterLow and recIterUp
-  bool namesMatchLow = (*recIterLow)->NameForCompare().compare(dummy->NameForCompare() ) == 0;
-  bool namesMatchUp  = (*recIterUp )->NameForCompare().compare(dummy->NameForCompare() ) == 0;
-  if( !namesMatchLow && !namesMatchUp ) return false; // no names match
-  if( !namesMatchLow &&  namesMatchUp ) {  // recIterUp matches, but not recIterLow
-    RecItem = *recIterUp;
-    return true;
-  }
-  if ( namesMatchLow && !namesMatchUp ) {  // recIterLow matches, but not recIterUp
-    RecItem = *recIterLow;
-    return true;
-  }
- // both names match
+// no exact match found, get recording with most matching characters
   int numEqualCharsLow = 0;
   int numEqualCharsUp  = 0;
 
-  RecordingsItemPtrCompare::Compare(numEqualCharsLow, *recIterLow, dummy);
-  RecordingsItemPtrCompare::Compare(numEqualCharsUp , *recIterUp , dummy);
+  if(recIterLow != recIterLowName) { 
+    --recIterLow;
+    RecordingsItemPtrCompare::Compare2(numEqualCharsLow, *recIterLow, dummy);
+  }
+  if(recIterUp != recIterUpName)
+    RecordingsItemPtrCompare::Compare2(numEqualCharsUp , *recIterUp , dummy);
 
   if ( numEqualCharsLow > numEqualCharsUp ) {
-    RecItem = *recIterLow;
+    if( numEqualCharsLow > 5 ) { RecItem = *recIterLow; return true; }
   } else {
-    RecItem = *recIterUp;
+    if( numEqualCharsUp  > 5 ) { RecItem = *recIterUp;  return true; }
   }
-  return true;
 
+
+// no exact match found, get best match
+  int num_match_rec = RecordingsItemPtrCompare::FindBestMatch(RecItem, recIterLowName, recIterUpName, dummy);
+  if(num_match_rec == 0 || num_match_rec > 5) return false; // no matching lenght or series (too many matching length)
+  return true;
 }
 
 

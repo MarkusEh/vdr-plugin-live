@@ -139,6 +139,22 @@ namespace vdrlive {
 
 			cThreadLock m_recordingsLock;
 	};
+
+        class ShortTextDescription
+        {
+              public:
+                   ShortTextDescription(const char * ShortText, const char * Description);
+                   char getNextChar();
+                   char getNextNonPunctChar();
+              private:
+                   char getNextCharShortText();
+                   char getNextCharDescription();
+                   const char * m_short_text;
+                   const char * m_description;
+                   bool m_in_short_text = true;
+                   int m_counter = 0;
+        };
+
 	/**
 	 * Class containing possible recordings compare functions
 	 */
@@ -152,6 +168,8 @@ namespace vdrlive {
 			static void getNameForCompare(std::string &NameForCompare, const std::string &Name);
                         static int compareLC(int &numEqualChars, const char *first, const char *second); // as std::compare, but compare lower case
                         static int Compare(int &numEqualChars, const RecordingsItemPtr &first, const RecordingsItemPtr &second);
+                        static int Compare2(int &numEqualChars, const RecordingsItemPtr &first, const RecordingsItemPtr &second);
+                        static int FindBestMatch(RecordingsItemPtr &BestMatch, const std::list<RecordingsItemPtr>::iterator & First, const std::list<RecordingsItemPtr>::iterator & Last, const RecordingsItemPtr & EPG_Entry);
 
 	};
 

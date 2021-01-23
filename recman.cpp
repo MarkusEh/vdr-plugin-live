@@ -328,6 +328,90 @@ namespace vdrlive {
 	}
 
 
+        ShortTextDescription::ShortTextDescription(const char * ShortText, const char * Description) :
+            m_short_text(ShortText),
+            m_description(Description)
+           {  }
+        char ShortTextDescription::getNextCharShortText() {
+          if (!m_short_text ||  !m_short_text[m_counter] ) {
+             m_in_short_text = false;
+             m_counter = 0;
+             return 0;
+          }
+          return m_short_text[m_counter ++];
+        }
+        char ShortTextDescription::getNextCharDescription() {
+          if (!m_description ||  !m_description[m_counter] ) return 0;
+          return m_description[m_counter ++];
+        }
+        char ShortTextDescription::getNextChar() {
+          char result;
+          if( m_in_short_text) result = getNextCharShortText();
+          if(!m_in_short_text) result = getNextCharDescription();
+          return result;
+        }
+        char ShortTextDescription::getNextNonPunctChar() {
+           char result;
+           do {
+              result = getNextChar();
+           } while (result && ispunct(result));
+           return tolower(result);
+        }
+
+
+        int RecordingsItemPtrCompare::Compare2(int &numEqualChars, const RecordingsItemPtr & first, const RecordingsItemPtr & second) {
+          numEqualChars = 0;
+          int i = first->NameForCompare().compare(second->NameForCompare() );
+          if(i != 0) return i;
+// compare short text & description
+          ShortTextDescription chfirst (first ->ShortText() , first ->Description() );
+          ShortTextDescription chsecond(second->ShortText() , second->Description() );
+          char flc;
+          char slc;
+          do {
+            flc = chfirst.getNextNonPunctChar();
+            slc = chsecond.getNextNonPunctChar();
+            if ( flc < slc ) return -1;
+            if ( flc > slc ) return  1;
+            ++numEqualChars;
+          } while ( flc && slc );
+          --numEqualChars;
+
+          if (slc ) return -1;
+          if (flc ) return  1;
+          return 0;
+        }
+
+  int RecordingsItemPtrCompare::FindBestMatch(RecordingsItemPtr & BestMatch, const std::list<RecordingsItemPtr>::iterator & First, const std::list<RecordingsItemPtr>::iterator & Last, const RecordingsItemPtr & EPG_Entry){
+// d: length of movie in minutes, without commercial breaks
+// Assumption: the maximum length of commercial breaks is cb% * d
+// Assumption: cb = 34%
+   const long cb = 34;
+// lengthLowerBound: minimum of d, if EPG_Entry->Duration() has commercial breaks
+   long lengthLowerBound = EPG_Entry->Duration() * 100 / ( 100 + cb) ;
+// lengthUpperBound: if EPG_Entry->Duration() is d (no commercial breaks), max length of recording with commercial breaks
+// Add VDR recording margins to this value
+   long lengthUpperBound = EPG_Entry->Duration() * (100 + cb) / 100;
+   lengthUpperBound += Setup.MarginStart + Setup.MarginStop;
+   if(EPG_Entry->Duration() >= 90 && lengthLowerBound < 70) lengthLowerBound = 70;
+
+   int numRecordings = 0;
+   int min_deviation = 100000;
+   std::list<RecordingsItemPtr>::iterator bestMatchIter;
+   for ( std::list<RecordingsItemPtr>::iterator iter = First; iter != Last; ++iter)
+     if ( (*iter)->Duration() >= lengthLowerBound && (*iter)->Duration() <= lengthUpperBound ) {
+        int deviation = abs( (*iter)->Duration() - EPG_Entry->Duration() );
+        if (deviation < min_deviation || numRecordings == 0) {
+          min_deviation = deviation;
+          bestMatchIter = iter;
+        }
+        ++numRecordings;
+   }
+   if (numRecordings > 0) BestMatch = *bestMatchIter;
+   return numRecordings;
+}
+
+
 	/**
 	 * Implemetation of class RecordingsItemPtrCompare
 	 */
@@ -356,7 +440,7 @@ namespace vdrlive {
 	bool RecordingsItemPtrCompare::ByAscendingName(const RecordingsItemPtr & first, const RecordingsItemPtr & second)  // return first < second
 	{
            int i = 0;
-           return RecordingsItemPtrCompare::Compare(i, first, second) < 0;
+           return RecordingsItemPtrCompare::Compare2(i, first, second) < 0;
 	}
 
 	bool RecordingsItemPtrCompare::ByDescendingName(const RecordingsItemPtr & first, const RecordingsItemPtr & second)  // return first > second
@@ -462,7 +546,7 @@ namespace vdrlive {
                 RecordingsItem(Name, RecordingsItemPtr() ),
                 m_short_text(ShortText.c_str() ),
                 m_description(Description.c_str() ),
-                m_duration( Duration / 60)
+                m_duration( Duration / 60 )
                 { }
 
 	/**
