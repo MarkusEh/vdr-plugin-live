@@ -16,7 +16,7 @@ namespace vdrlive
 
 	class EpgInfo;
 
-	typedef std::tr1::shared_ptr<EpgInfo> EpgInfoPtr;
+	typedef stdext::shared_ptr<EpgInfo> EpgInfoPtr;
 
 	// -------------------------------------------------------------------------
 

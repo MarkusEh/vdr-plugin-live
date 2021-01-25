@@ -22,7 +22,7 @@ namespace vdrlive {
 			cSchedulesLock m_schedulesLock;
 	};
 
-	typedef std::tr1::shared_ptr<SchedulesLock> SchedulesLockPtr;
+	typedef stdext::shared_ptr<SchedulesLock> SchedulesLockPtr;
 }
 #endif
 
