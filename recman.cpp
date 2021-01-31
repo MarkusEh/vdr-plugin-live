@@ -22,10 +22,10 @@ namespace vdrlive {
 	/**
 	 *  Implementation of class RecordingsManager:
 	 */
-	std::tr1::weak_ptr< RecordingsManager > RecordingsManager::m_recMan;
-	std::tr1::shared_ptr< RecordingsTree > RecordingsManager::m_recTree;
-	std::tr1::shared_ptr< RecordingsList > RecordingsManager::m_recList;
-	std::tr1::shared_ptr< DirectoryList > RecordingsManager::m_recDirs;
+	stdext::weak_ptr< RecordingsManager > RecordingsManager::m_recMan;
+	stdext::shared_ptr< RecordingsTree > RecordingsManager::m_recTree;
+	stdext::shared_ptr< RecordingsList > RecordingsManager::m_recList;
+	stdext::shared_ptr< DirectoryList > RecordingsManager::m_recDirs;
 #if VDRVERSNUM >= 20301
 	cStateKey RecordingsManager::m_recordingsStateKey;
 #else
@@ -38,7 +38,7 @@ namespace vdrlive {
 	// use any longer, it will be freed automaticaly, which leads to a
 	// release of the VDR recordings lock. Upon requesting access to
 	// the RecordingsManager via LiveRecordingsManger function, first
-	// the weak ptr is locked (obtaining a std::tr1::shared_ptr from an possible
+	// the weak ptr is locked (obtaining a stdext::shared_ptr from an possible
 	// existing instance) and if not successfull a new instance is
 	// created, which again locks the VDR Recordings.
 	//
@@ -61,7 +61,7 @@ namespace vdrlive {
 	{
 		RecordingsManagerPtr recMan = EnsureValidData();
 		if (! recMan) {
-			return RecordingsTreePtr(recMan, std::tr1::shared_ptr< RecordingsTree >());
+			return RecordingsTreePtr(recMan, stdext::shared_ptr< RecordingsTree >());
 		}
 		return RecordingsTreePtr(recMan, m_recTree);
 	}
@@ -70,25 +70,25 @@ namespace vdrlive {
 	{
 		RecordingsManagerPtr recMan = EnsureValidData();
 		if (! recMan) {
-			return RecordingsListPtr(recMan, std::tr1::shared_ptr< RecordingsList >());
+			return RecordingsListPtr(recMan, stdext::shared_ptr< RecordingsList >());
 		}
-		return RecordingsListPtr(recMan, std::tr1::shared_ptr< RecordingsList >(new RecordingsList(m_recList, ascending)));
+		return RecordingsListPtr(recMan, stdext::shared_ptr< RecordingsList >(new RecordingsList(m_recList, ascending)));
 	}
 
 	RecordingsListPtr RecordingsManager::GetRecordingsList(time_t begin, time_t end, bool ascending) const
 	{
 		RecordingsManagerPtr recMan = EnsureValidData();
 		if (! recMan) {
-			return RecordingsListPtr(recMan, std::tr1::shared_ptr< RecordingsList >());
+			return RecordingsListPtr(recMan, stdext::shared_ptr< RecordingsList >());
 		}
-		return RecordingsListPtr(recMan, std::tr1::shared_ptr< RecordingsList >(new RecordingsList(m_recList, ascending)));
+		return RecordingsListPtr(recMan, stdext::shared_ptr< RecordingsList >(new RecordingsList(m_recList, ascending)));
 	}
 
 	DirectoryListPtr RecordingsManager::GetDirectoryList() const
 	{
 		RecordingsManagerPtr recMan = EnsureValidData();
 		if (!recMan) {
-			return DirectoryListPtr(recMan, std::tr1::shared_ptr< DirectoryList >());
+			return DirectoryListPtr(recMan, stdext::shared_ptr< DirectoryList >());
 		}
 		return DirectoryListPtr(recMan, m_recDirs);
 	}
@@ -278,7 +278,7 @@ namespace vdrlive {
 	RecordingsManagerPtr RecordingsManager::EnsureValidData()
 	{
 		// Get singleton instance of RecordingsManager.  'this' is not
-		// an instance of std::tr1::shared_ptr of the singleton
+		// an instance of stdext::shared_ptr of the singleton
 		// RecordingsManager, so we obtain it in the overall
 		// recommended way.
 		RecordingsManagerPtr recMan = LiveRecordingsManager();
@@ -302,21 +302,21 @@ namespace vdrlive {
 				m_recDirs.reset();
 			}
 			if (stateChanged || !m_recTree) {
-				m_recTree = std::tr1::shared_ptr< RecordingsTree >(new RecordingsTree(recMan));
+				m_recTree = stdext::shared_ptr< RecordingsTree >(new RecordingsTree(recMan));
 			}
 			if (!m_recTree) {
 				esyslog("live: creation of recordings tree failed!");
 				return RecordingsManagerPtr();
 			}
 			if (stateChanged || !m_recList) {
-				m_recList = std::tr1::shared_ptr< RecordingsList >(new RecordingsList(RecordingsTreePtr(recMan, m_recTree)));
+				m_recList = stdext::shared_ptr< RecordingsList >(new RecordingsList(RecordingsTreePtr(recMan, m_recTree)));
 			}
 			if (!m_recList) {
 				esyslog("live: creation of recordings list failed!");
 				return RecordingsManagerPtr();
 			}
 			if (stateChanged || !m_recDirs) {
-				m_recDirs = std::tr1::shared_ptr< DirectoryList >(new DirectoryList(recMan));
+				m_recDirs = stdext::shared_ptr< DirectoryList >(new DirectoryList(recMan));
 			}
 			if (!m_recDirs) {
 				esyslog("live: creation of directory list failed!");
@@ -669,13 +669,13 @@ namespace vdrlive {
 	 *  Implementation of class RecordingsTreePtr:
 	 */
 	RecordingsTreePtr::RecordingsTreePtr() :
-		std::tr1::shared_ptr<RecordingsTree>(),
+		stdext::shared_ptr<RecordingsTree>(),
 		m_recManPtr()
 	{
 	}
 
-	RecordingsTreePtr::RecordingsTreePtr(RecordingsManagerPtr recManPtr, std::tr1::shared_ptr< RecordingsTree > recTree) :
-		std::tr1::shared_ptr<RecordingsTree>(recTree),
+	RecordingsTreePtr::RecordingsTreePtr(RecordingsManagerPtr recManPtr, stdext::shared_ptr< RecordingsTree > recTree) :
+		stdext::shared_ptr<RecordingsTree>(recTree),
 		m_recManPtr(recManPtr)
 	{
 	}
@@ -713,7 +713,7 @@ namespace vdrlive {
 		}
 	}
 
-	RecordingsList::RecordingsList(std::tr1::shared_ptr< RecordingsList > recList, bool ascending) :
+	RecordingsList::RecordingsList(stdext::shared_ptr< RecordingsList > recList, bool ascending) :
 		m_pRecVec(new RecVecType(recList->size()))
 	{
 		if (!m_pRecVec) {
@@ -727,7 +727,7 @@ namespace vdrlive {
 		}
 	}
 
-	RecordingsList::RecordingsList(std::tr1::shared_ptr< RecordingsList > recList, time_t begin, time_t end, bool ascending) :
+	RecordingsList::RecordingsList(stdext::shared_ptr< RecordingsList > recList, time_t begin, time_t end, bool ascending) :
 		m_pRecVec(new RecVecType())
 	{
 		if (end > begin) {
@@ -769,8 +769,8 @@ namespace vdrlive {
 	/**
 	 *  Implementation of class RecordingsList:
 	 */
-	RecordingsListPtr::RecordingsListPtr(RecordingsManagerPtr recManPtr, std::tr1::shared_ptr< RecordingsList > recList) :
-		std::tr1::shared_ptr< RecordingsList >(recList),
+	RecordingsListPtr::RecordingsListPtr(RecordingsManagerPtr recManPtr, stdext::shared_ptr< RecordingsList > recList) :
+		stdext::shared_ptr< RecordingsList >(recList),
 		m_recManPtr(recManPtr)
 	{
 	}
@@ -839,8 +839,8 @@ namespace vdrlive {
 	/**
 	 *  Implementation of class DirectoryListPtr:
 	 */
-	DirectoryListPtr::DirectoryListPtr(RecordingsManagerPtr recManPtr, std::tr1::shared_ptr< DirectoryList > recDirs) :
-		std::tr1::shared_ptr< DirectoryList >(recDirs),
+	DirectoryListPtr::DirectoryListPtr(RecordingsManagerPtr recManPtr, stdext::shared_ptr< DirectoryList > recDirs) :
+		stdext::shared_ptr< DirectoryList >(recDirs),
 		m_recManPtr(recManPtr)
 	{
 	}

@@ -22,7 +22,7 @@ class cache
 public:
 	typedef TKey key_type;
 	typedef TValue mapped_type;
-	typedef std::tr1::shared_ptr< mapped_type > ptr_type;
+	typedef stdext::shared_ptr< mapped_type > ptr_type;
 
 private:
 	typedef std::pair< key_type, ptr_type > value_type;

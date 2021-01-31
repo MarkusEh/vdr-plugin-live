@@ -1,10 +1,19 @@
 #ifndef VDR_LIVE_STDEXT_H
 #define VDR_LIVE_STDEXT_H
 
-#if __GNUC__ >= 4
+#if __cplusplus >= 201103L
+
+#	include <functional>
+#	include <memory>
+
+namespace stdext = std;
+
+#elif __GNUC__ >= 4
 
 #	include <tr1/functional>
 #	include <tr1/memory>
+
+namespace stdext = std::tr1;
 
 #else
 
@@ -24,8 +33,7 @@
 #		include <boost/shared_ptr.hpp>
 #		include <boost/weak_ptr.hpp>
 
-namespace std {
-namespace tr1 {
+namespace stdext {
 
 	using boost::bind;
 	using boost::shared_ptr;
@@ -43,8 +51,7 @@ namespace tr1 {
 		using ::_9;
 	}
 
-} // namespace std
-} // namespace tr1
+} // namespace stdext
 
 #	else
 
