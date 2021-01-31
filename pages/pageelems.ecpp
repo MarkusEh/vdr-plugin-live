@@ -388,6 +388,8 @@ int update_status(1);
 				<div class="about_left"><$ tr("Webserver") $>:</div>
 				<div class="about_right">Sascha Volkenandt (LordJaxom)</div>
 				<div class="about_left"><$ tr("Current Maintainer") $>:</div>
+				<div class="about_right">Markus Ehrnsperger (MarkusE @ <a href="https://www.vdr-portal.de">VDR Portal</a>)</div>
+				<div class="about_left"><$ tr("Previous Maintainer") $>:</div>
 				<div class="about_right">Jasmin Jessich (jasminj)</div>
 				<div class="about_left"><$ tr("Project leader") $>:</div>
 				<div class="about_right">Dieter Hametner (tadi)</div>
@@ -437,11 +439,11 @@ int update_status(1);
 <%cpp>
 					}
 </%cpp>
-					(<a href="http://streamdev.vdr-developer.org/" target="_blank"><$ tr("Homepage") $></a>)<br/>
+					(<a href="https://projects.vdr-developer.org/projects/plg-streamdev" target="_blank"><$ tr("Homepage") $></a>)<br/>
 				</div>
 				<div class="about_head"><div><div><$ tr("Bugs and suggestions") $></div></div></div>
 				<div class="about_line"><$ tr("If you encounter any bugs or would like to suggest new features, please use our bugtracker") $>:<br/>
-					<a target="_blank" href="http://projects.vdr-developer.org/projects/plg-live">http://projects.vdr-developer.org/projects/plg-live</a></div>
+					<a target="_blank" href="https://github.com/MarkusEh/vdr-plugin-live/issues">https://github.com/MarkusEh/vdr-plugin-live/issues</a></div>
 				<div class="about_head"><div><div>&nbsp;</div></div></div>
 			</div>
 		</div>

@@ -392,6 +392,9 @@ msgstr "Webserver"
 msgid "Current Maintainer"
 msgstr "Derzeitiger Entwickler"
 
+msgid "Previous Maintainer"
+msgstr "Bisheriger Entwickler"
+
 msgid "Project leader"
 msgstr "Projektleiter"
 

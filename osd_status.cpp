@@ -141,9 +141,7 @@ std::string const OsdStatusMonitor::EncodeHtml(const std::string& html) {
 	std::ostringstream result;
 	std::string::const_iterator i;
 	for (i = html.begin(); i != html.end(); ++i) {
-		if (*i >= 128)
-			result << "&#" << static_cast<int>(*i) << ";";
-		else if (*i == '<')
+		if (*i == '<')
 			result << "&lt;";
 		else if (*i == '>')
 			result << "&gt;";
