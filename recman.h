@@ -9,6 +9,10 @@
 #include <vector>
 #include <list>
 
+#if TNTVERSION >= 30000
+        #include <cxxtools/log.h>  // must be loaded before any vdr include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
+#endif
+
 #include <vdr/recording.h>
 
 namespace vdrlive {
