@@ -21,6 +21,23 @@ std::ostream& operator<<( std::ostream& os, tChannelID const& id )
 	return os << *id.ToString();
 }
 
+
+#if TNTVERSION >= 30000   // TODO: this is only the header, function has to be defined
+namespace cxxtools
+{
+	class SerializationInfo;
+
+	inline void operator<<= (cxxtools::SerializationInfo& si, const tChannelID& id)
+	{
+	}
+
+	inline void operator>>= (const cxxtools::SerializationInfo& si, tChannelID& id)
+	{
+	}
+}
+#endif
+
+
 namespace vdrlive {
 
 	std::string FormatDuration( char const* format, int hours, int minutes );
