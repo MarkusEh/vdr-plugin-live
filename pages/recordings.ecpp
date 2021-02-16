@@ -73,6 +73,9 @@ if (!todel.empty()) {
 		throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
 	deletions.push_back(todel);
 }
+#if TNTVERSION >= 30000
+typedef std::vector<string> deletions_type;
+#endif
 for (deletions_type::const_iterator it = deletions.begin(); it != deletions.end(); ++it) {
 	if (cUser::CurrentUserHasRightTo(UR_DELRECS)) {
 		RemoveRecordingTask task(*it);
@@ -246,6 +249,9 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 		tnt::QueryParams recItemParams(qparam);
 #else
 		tnt::QueryParams recItemParams(qparam, false);
+#endif
+#if TNTVERSION >= 30000
+                typedef std::vector<std::string> path_type;
 #endif
 		for (path_type::const_iterator i = path.begin(); i != path.end(); ++i) {
 			recItemParams.add("path", *i);
