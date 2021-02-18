@@ -259,7 +259,11 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 		for (path_type::const_iterator i = path.begin(); i != path.end(); ++i) {
 			recItemParams.add("path", *i);
 		}
+#if TNTVERSION >= 30000
+		recItemParams.add("path[]", recItem->Name());
+#else
 		recItemParams.add("path", recItem->Name());
+#endif
 		recItemParams.add("level", lexical_cast<string, int>(level + 1));
 		recItemParams.add("filter", filter);
 		string combinedId = recItem->Name() + "_";
