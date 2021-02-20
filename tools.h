@@ -43,6 +43,7 @@ namespace cxxtools
 
 
 namespace vdrlive {
+        std::string CorrectNonUTF8(std::string *str);
 
 	std::string FormatDuration( char const* format, int hours, int minutes );
 

@@ -306,6 +306,10 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
                 }
 		string shortDescr(recItem->RecInfo()->ShortText() ? recItem->RecInfo()->ShortText() : "");
 		string description(recItem->RecInfo()->Description() ? recItem->RecInfo()->Description() : "");
+#if TNTVERSION >= 30000
+                description = CorrectNonUTF8(&description); // cleanup invalid UTF-8 characters
+                                                            // Tntnet30 throw: tntnet.worker - http-Error: 500 character conversion failed
+#endif
 		string hint(tr("Click to view details."));
 		if (!shortDescr.empty()) hint = shortDescr + "<br />" + hint;
 		else if (!description.empty()) hint = description + "<br />" + hint;
