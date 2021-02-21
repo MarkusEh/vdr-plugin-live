@@ -37,7 +37,7 @@ using namespace std;
 <%session scope="global">
 	bool logged_in(false);
 </%session>
-<%request scope="page">
+<%request scope="global">
 	EpgInfoPtr epgEvent;
 </%request>
 <%include>page_init.eh</%include>
