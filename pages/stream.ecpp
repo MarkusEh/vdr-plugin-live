@@ -11,18 +11,20 @@ using namespace vdrlive;
 
 </%pre>
 <%args>
-	tChannelID channelid;
+	string channelid_str;
 	int channel = 1;
 </%args>
 <%session scope="global">
 	bool logged_in(false);
 	FFmpegThread *f_worker = NULL;
 </%session>
-<%request scope="page">
+<%request scope="global">
 	cChannel* Channel;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
+        tChannelID channelid;
+        channelid = channelid.FromString(channelid_str.c_str());
 	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 	pageTitle = trVDR("Stream");
@@ -44,7 +46,7 @@ using namespace vdrlive;
 		throw HtmlError( tr("Couldn't aquire access to channels, please try again later.") );
 #endif
 
-	if ( qparam.has("channelid") ) {
+	if ( qparam.has("channelid_str") ) {
 #if VDRVERSNUM >= 20301
 		LOCK_CHANNELS_READ;
 		cChannel *c = (cChannel *)Channels->GetByChannelID( channelid );
@@ -53,7 +55,6 @@ using namespace vdrlive;
 #endif
 		if ( c ) channel = c->Number();
 	}
-
 	if ( channel > 0 ) {
 #if VDRVERSNUM >= 20301
 		LOCK_CHANNELS_READ;
