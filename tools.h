@@ -9,6 +9,7 @@
 
 #if TNTVERSION >= 30000
         #include <cxxtools/log.h>  // must be loaded before any vdr include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
+        #include "cxxtools/serializationinfo.h"
 #endif
 
 #ifndef __STL_CONFIG_H
@@ -26,17 +27,19 @@ std::ostream& operator<<( std::ostream& os, tChannelID const& id )
 }
 
 
-#if TNTVERSION >= 30000   // TODO: this is only the header, function has to be defined
+#if TNTVERSION >= 30000
 namespace cxxtools
 {
 	class SerializationInfo;
 
 	inline void operator<<= (cxxtools::SerializationInfo& si, const tChannelID& id)
 	{
+//		dsyslog("live: operator<<= called");
 	}
 
 	inline void operator>>= (const cxxtools::SerializationInfo& si, tChannelID& id)
 	{
+//		dsyslog("live: operator>>= called");
 	}
 }
 #endif

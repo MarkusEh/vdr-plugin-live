@@ -215,6 +215,7 @@ namespace vdrlive {
 		dsyslog("live: UpdateTimer() timerId '%d'", timerId);
 		dsyslog("live: UpdateTimer() remote '%s'", remote);
 		dsyslog("live: UpdateTimer() oldRemote '%s'", oldRemote);
+		dsyslog("live: UpdateTimer() channel '%s'", *(channel.ToString()));
 		dsyslog("live: UpdateTimer() builder '%s'", builder.str().c_str());
 
                 timerStruct timerData = { .id = timerId, .remote=remote, .oldRemote=oldRemote, .builder=builder.str() };
@@ -318,6 +319,7 @@ namespace vdrlive {
 		                	isyslog("live: remote timer '%s' on server '%s' added", timerData.builder.c_str(), timerData.remote);
 				}
 				else {
+					dsyslog("live: TimerManager::DoInsertTimer(): error in settings for remote timer");
 			      		StoreError(timerData, tr("Error in timer settings"));
 				}
                         }
@@ -326,6 +328,7 @@ namespace vdrlive {
 		else {				// add local timer
 			std::unique_ptr< cTimer > newTimer( new cTimer );
 			if ( !newTimer->Parse( timerData.builder.c_str() ) ) {
+				dsyslog("live: TimerManager::DoInsertTimer(): error in settings for local timer");
 	       			StoreError( timerData, tr("Error in timer settings") );
                         	return;
                     }
