@@ -134,8 +134,13 @@ const cTimer* timer;
 			cSchedules const* schedules = cSchedules::Schedules( schedLock );
 			schedule = schedules->GetSchedule( channelid );
 #endif
-
-			eventTimer.reset( new cTimer( schedule->GetEvent( eventid ) ) );
+			const cEvent *event = schedule->GetEvent( eventid );
+			if (event) eventTimer.reset( new cTimer( event ) );
+			else {
+				esyslog("live: edit timer with eventid %d not valid", eventid);
+				eventTimer.reset( new cTimer() );
+				eventTimer->SetFlags( tfActive );
+                        }
 		} else {
 			eventTimer.reset( new cTimer() );
 			eventTimer->SetFlags( tfActive );
