@@ -37,11 +37,21 @@ APIVERSION := $(call PKGCFG,apiversion)
 include global.mk
 
 ### Determine tntnet and cxxtools versions:
+TNTNET-CONFIG := $(shell which tntnet-config)
+ifeq ($(TNTNET-CONFIG),)
+TNTVERSION = $(shell pkg-config --modversion tntnet | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
+CXXFLAGS  += $(shell pkg-config --cflags tntnet)
+LIBS      += $(shell pkg-config --libs tntnet)
+else
 TNTVERSION = $(shell tntnet-config --version | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
-CXXTOOLVER = $(shell cxxtools-config --version | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
-
 CXXFLAGS  += $(shell tntnet-config --cxxflags)
 LIBS      += $(shell tntnet-config --libs)
+endif
+
+# $(info $$TNTVERSION is [${TNTVERSION}])
+
+CXXTOOLVER = $(shell cxxtools-config --version | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
+
 
 ### Optional configuration features
 PLUGINFEATURES :=

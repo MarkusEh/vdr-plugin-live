@@ -22,7 +22,11 @@ all: libjavascript.a
 	$(call PRETTY_PRINT,"CC javascript/" $@)
 	$(Q)$(CXX) $(CXXFLAGS) $(TNTFLAGS) -c $(DEFINES) $(PLUGINFEATURES) $(INCLUDES) $<
 
+ifeq ($(shell test $(TNTVERSION) -ge 30000; echo $$?),0)
+%.cpp: %.ecpp
+else
 %.cpp: %.js
+endif
 	$(call PRETTY_PRINT,"ECPP javascript/" $@)
 	$(Q)$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_JS) -b -m "text/javascript" $<
 

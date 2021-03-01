@@ -50,6 +50,9 @@ const cRecording* recording;
 			message = tr("Please set a name for the recording!");
 		else if (recording) {
 			bool copy_only = false;
+#if TNTVERSION >= 30000
+                        typedef std::vector<string> options_type;
+#endif
 			for (options_type::const_iterator it = options.begin(); it != options.end(); ++it) {
 				if (*it == "delresume")
 					LiveRecordingsManager()->DeleteResume(recording);

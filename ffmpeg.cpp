@@ -5,6 +5,10 @@
 #include <exception>
 #include <unistd.h>
 #include <sys/wait.h>
+#if TNTVERSION >= 30000
+	#include <sstream>
+	#include <fstream>
+#endif
 
 #include <vdr/tools.h>
 #include <tnt/tntnet.h>

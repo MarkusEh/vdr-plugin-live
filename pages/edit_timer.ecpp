@@ -22,7 +22,8 @@ using namespace vdrlive;
 	string epgid;
 	string async;
 	// form parameters
-	tChannelID channel;
+	tChannelID channel;           // used with Tntnet20
+        string channel_string = "";   // used with Tntnet30
 	int active = 1;
 	string title = "";
 	string remoteServerName = "";
@@ -54,6 +55,9 @@ const cTimer* timer;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
+#if TNTVERSION >= 30000
+        channel = channel.FromString(channel_string.c_str());  // Tntnet30: get struct channel from parameter string
+#endif
 	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 	if (!cUser::CurrentUserHasRightTo(UR_EDITTIMERS))
@@ -130,8 +134,13 @@ const cTimer* timer;
 			cSchedules const* schedules = cSchedules::Schedules( schedLock );
 			schedule = schedules->GetSchedule( channelid );
 #endif
-
-			eventTimer.reset( new cTimer( schedule->GetEvent( eventid ) ) );
+			const cEvent *event = schedule->GetEvent( eventid );
+			if (event) eventTimer.reset( new cTimer( event ) );
+			else {
+				esyslog("live: edit timer with eventid %d not valid", eventid);
+				eventTimer.reset( new cTimer() );
+				eventTimer->SetFlags( tfActive );
+                        }
 		} else {
 			eventTimer.reset( new cTimer() );
 			eventTimer->SetFlags( tfActive );
@@ -224,7 +233,14 @@ const cTimer* timer;
 
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ trVDR("Channel") $>:</div></td>
-						<td class="rightcol"><div class="withmargin"><& channels_widget name=("channel") channelid=(true) selected=(channel) &></div></td>
+<%cpp>
+#if TNTVERSION >= 30000
+						std::string name = "channel_string";  // Tntnet30 does not work with parameter type tChannelID
+#else
+						std::string name = "channel";
+#endif
+</%cpp>
+						<td class="rightcol"><div class="withmargin"><& channels_widget name=(name) channelid=(true) selected=(channel) &></div></td>
 					</tr>
 
 					<tr>

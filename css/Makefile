@@ -22,7 +22,11 @@ all: libcss.a
 	$(call PRETTY_PRINT,"CC css/" $@)
 	$(Q)$(CXX) $(CXXFLAGS) $(TNTFLAGS) -c $(DEFINES) $(PLUGINFEATURES) $(INCLUDES) $<
 
+ifeq ($(shell test $(TNTVERSION) -ge 30000; echo $$?),0)
+%.cpp: %.ecpp
+else
 %.cpp: %.css
+endif
 	$(call PRETTY_PRINT,"ECPP css/" $@)
 	$(Q)$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CSS) -b -m "text/css" $<
 

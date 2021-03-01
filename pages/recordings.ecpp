@@ -46,11 +46,14 @@ bool checkNew(RecordingsTreePtr recordingsTree, vector<string> p) {
 <%session scope="global">
 	bool logged_in(false);
 </%session>
-<%request scope="page">
+
+<# scope="page" should be enough but does not work with tntnet 3.0 #>
+<%request scope="global">
 	string currentSort;
 	string deleteResult;
 	string currentFilter;
 </%request>
+
 <%include>page_init.eh</%include>
 <%cpp>
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
@@ -73,6 +76,9 @@ if (!todel.empty()) {
 		throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
 	deletions.push_back(todel);
 }
+#if TNTVERSION >= 30000
+typedef std::vector<string> deletions_type;
+#endif
 for (deletions_type::const_iterator it = deletions.begin(); it != deletions.end(); ++it) {
 	if (cUser::CurrentUserHasRightTo(UR_DELRECS)) {
 		RemoveRecordingTask task(*it);
@@ -247,10 +253,17 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 #else
 		tnt::QueryParams recItemParams(qparam, false);
 #endif
+#if TNTVERSION >= 30000
+                typedef std::vector<std::string> path_type;
+#endif
 		for (path_type::const_iterator i = path.begin(); i != path.end(); ++i) {
 			recItemParams.add("path", *i);
 		}
+#if TNTVERSION >= 30000
+		recItemParams.add("path[]", recItem->Name());
+#else
 		recItemParams.add("path", recItem->Name());
+#endif
 		recItemParams.add("level", lexical_cast<string, int>(level + 1));
 		recItemParams.add("filter", filter);
 		string combinedId = recItem->Name() + "_";
@@ -293,6 +306,10 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
                 }
 		string shortDescr(recItem->RecInfo()->ShortText() ? recItem->RecInfo()->ShortText() : "");
 		string description(recItem->RecInfo()->Description() ? recItem->RecInfo()->Description() : "");
+#if TNTVERSION >= 30000
+                description = CorrectNonUTF8(&description); // cleanup invalid UTF-8 characters
+                                                            // Tntnet30 throw: tntnet.worker - http-Error: 500 character conversion failed
+#endif
 		string hint(tr("Click to view details."));
 		if (!shortDescr.empty()) hint = shortDescr + "<br />" + hint;
 		else if (!description.empty()) hint = description + "<br />" + hint;

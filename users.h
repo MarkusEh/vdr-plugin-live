@@ -4,6 +4,10 @@
 // STL headers need to be before VDR tools.h (included by <vdr/channels.h>)
 #include <string>
 
+#if TNTVERSION >= 30000
+        #include <cxxtools/log.h>  // must be loaded before any vdr include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
+#endif
+
 #include <vdr/tools.h>
 #include <vdr/config.h>
 

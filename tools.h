@@ -7,6 +7,11 @@
 #include <stdexcept>
 #include <vector>
 
+#if TNTVERSION >= 30000
+        #include <cxxtools/log.h>  // must be loaded before any vdr include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
+        #include "cxxtools/serializationinfo.h"
+#endif
+
 #ifndef __STL_CONFIG_H
 // To get rid of the swap definition in vdr/tools.h
 # define __STL_CONFIG_H
@@ -21,7 +26,27 @@ std::ostream& operator<<( std::ostream& os, tChannelID const& id )
 	return os << *id.ToString();
 }
 
+
+#if TNTVERSION >= 30000
+namespace cxxtools
+{
+	class SerializationInfo;
+
+	inline void operator<<= (cxxtools::SerializationInfo& si, const tChannelID& id)
+	{
+//		dsyslog("live: operator<<= called");
+	}
+
+	inline void operator>>= (const cxxtools::SerializationInfo& si, tChannelID& id)
+	{
+//		dsyslog("live: operator>>= called");
+	}
+}
+#endif
+
+
 namespace vdrlive {
+        std::string CorrectNonUTF8(std::string *str);
 
 	std::string FormatDuration( char const* format, int hours, int minutes );
 

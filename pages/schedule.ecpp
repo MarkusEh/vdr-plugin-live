@@ -81,7 +81,9 @@ bool searchNameDesc(RecordingsItemPtr &RecItem, list<RecordingsItemPtr> &RecItem
 <%session scope="global">
 bool logged_in(false);
 </%session>
-<%request scope="page">
+
+<# scope="page" should be enough but does not work with tntnet 3.0 #>
+<%request scope="global">
 	cChannel* Channel;
 </%request>
 <%include>page_init.eh</%include>
