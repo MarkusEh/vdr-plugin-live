@@ -36,7 +36,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
 	</head>
-	<body>
+	<body onload="adjustHeader()" onresize="adjustHeader()">
 		<& pageelems.logo &>
 		<& menu active=("users") component=("users.user_actions")>
 		<div class="inhalt">

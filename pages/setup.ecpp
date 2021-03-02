@@ -154,7 +154,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 		}
 		//--></script>
 	</head>
-	<body onload="initform()">
+	<body onload="initform(); adjustHeader()" onresize="adjustHeader()">
 		<& pageelems.logo &>
 		<& menu active=("setup") &>
 		<div class="inhalt">

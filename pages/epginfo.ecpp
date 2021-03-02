@@ -115,7 +115,7 @@ using namespace std;
 	}
 </%cpp>
 	</head>
-	<body>
+	<body onload="adjustHeader()" onresize="adjustHeader()">
 <%cpp>
 	if (!ajaxReq) {
 </%cpp>

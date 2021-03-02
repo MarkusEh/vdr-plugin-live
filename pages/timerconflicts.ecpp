@@ -35,7 +35,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
 	</head>
-	<body>
+	<body onload="adjustHeader()" onresize="adjustHeader()">
 		<& pageelems.logo &>
 		<& menu active=("timersconflicts")>
 		<div class="inhalt">

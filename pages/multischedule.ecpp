@@ -268,7 +268,7 @@ std::vector<time_t>			times_start;
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
 	</head>
-	<body>
+	<body onload="adjustHeader()" onresize="adjustHeader()">
 		<& pageelems.logo &>
 		<& menu active=("multischedule") component=("multischedule.channel_selection") &>
 		<div class="inhalt">

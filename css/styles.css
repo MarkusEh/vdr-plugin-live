@@ -525,7 +525,7 @@ div#infobox {
 	float: left;
 	border: 1px solid #C0C1DA;
 	margin: 5px;
-	width: 320px;
+	min-width: 320px;
 }
 
 div#infobox div.st_header {
@@ -554,6 +554,7 @@ div#infobox div.st_content {
 
 div#infobox div.st_content div.duration {
 	float: right;
+	padding-left: 2em;
 }
 
 div#infobox div.st_content div.name {

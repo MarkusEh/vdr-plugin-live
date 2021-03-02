@@ -29,11 +29,17 @@ int update_status(1);
 <link rel="stylesheet" type="text/css" href="<$ LiveSetup().GetThemedLink("css", "theme.css") $>"/>
 <link rel="stylesheet" type="text/css" href="css/siteprefs.css"/>
 <link rel="stylesheet" type="text/css" href="css/DatePicker.css"/>
+<script type="text/javascript" src="js/live/header.js"></script>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
 
 <%def logo>
+<!-- start of fixed page header -->
+<div id="header" style="width: 100%; z-index: 1; background-color: white">
+<div id="padding" style="display: none"></div>
+<div id="content">
+<!-- header content follows -->
 <%cpp>
 	if (LiveSetup().GetShowLogo()
 		|| (LiveSetup().GetUseAjax() && LiveSetup().GetShowInfoBox())) {

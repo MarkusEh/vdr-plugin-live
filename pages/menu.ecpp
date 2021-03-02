@@ -113,6 +113,11 @@ if (!component.empty()) {
 <%cpp>
 }
 </%cpp>
+<!-- header ends here -->
+</div><!-- content -->
+</div><!-- header -->
+<div id="underlay" style="display: none"></div>
+<!-- end of fixed page header -->
 
 <%def setactive>
 <%args>

@@ -157,7 +157,7 @@ addAllRecordings(recItems, recordingsTree, path);
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
 	</head>
-	<body>
+	<body onload="adjustHeader()" onresize="adjustHeader()">
 		<& pageelems.logo &>
 		<& menu active=("schedule") component=("schedule.channel_selection") &>
 		<div class="inhalt">

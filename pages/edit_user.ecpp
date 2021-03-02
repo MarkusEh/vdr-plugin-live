@@ -114,7 +114,7 @@ cUser* editUser;
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
 	</head>
-	<body>
+	<body onload="adjustHeader()" onresize="adjustHeader()">
 		<& pageelems.logo &>
 		<& menu active=("users") &>
 		<div class="inhalt">

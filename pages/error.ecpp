@@ -22,7 +22,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		<title>VDR-Live - <$ pageTitle $></title>
 		<& pageelems.stylesheets &>
 	</head>
-	<body>
+	<body onload="adjustHeader()" onresize="adjustHeader()">
 		<& pageelems.logo &>
 		<& menu &>
 		<div class="inhalt">

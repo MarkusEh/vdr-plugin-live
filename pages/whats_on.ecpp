@@ -104,7 +104,7 @@ if (type == "now") {
 		}
 		//--></script>
 	</head>
-	<body>
+	<body onload="adjustHeader()" onresize="adjustHeader()">
 		<& pageelems.logo &>
 		<& menu active=("whats_on") component=("whats_on.whats_on_actions")>
 		<div class="inhalt">

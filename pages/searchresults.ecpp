@@ -52,7 +52,7 @@ bool logged_in(false);
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
 	</head>
-	<body>
+	<body onload="adjustHeader()" onresize="adjustHeader()">
 		<& pageelems.logo &>
 		<& menu active=("searchepg") component=("searchresults.searchresults_actions") &>
 		<div class="inhalt">

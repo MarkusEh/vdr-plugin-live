@@ -98,7 +98,7 @@ using namespace vdrlive;
 		<& pageelems.ajax_js &>
 		<script> window.onbeforeunload = function() { player.stop(); } </script>
 	</head>
-	<body>
+	<body onload="adjustHeader()" onresize="adjustHeader()">
 		<& pageelems.logo &>
 		<& menu active=("stream") component=("stream.channel_selection") &>
 		<div class="inhalt">

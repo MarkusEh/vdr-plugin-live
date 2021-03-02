@@ -67,7 +67,7 @@ static const size_t maximumDescriptionLength = 300;
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
 	</head>
-	<body>
+	<body onload="adjustHeader()" onresize="adjustHeader()">
 		<& pageelems.logo &>
 		<& menu active=("timers") component=("timers.timer_actions")>
 		<div class="inhalt">

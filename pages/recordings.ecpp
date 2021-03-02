@@ -157,7 +157,7 @@ diskinfo = cString::sprintf("%s %d%%  -  %2d:%02d %s", trVDR("Disk"), Percent, H
 		}
 		//--></script>
 	</head>
-	<body>
+	<body onload="adjustHeader()" onresize="adjustHeader()">
 		<& pageelems.logo &>
 <%cpp>
 if (!deleteResult.empty()) {
