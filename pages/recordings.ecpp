@@ -430,7 +430,14 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 	string archived;
 </%args>
 	<div class="recording_item">
-	<div class="recording_imgs"><%cpp> reply.out() << StringRepeat(level, "<img src=\"img/transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />"); </%cpp><%cpp> if (!archived.empty()) { </%cpp><img src="<$ LiveSetup().GetThemedLink("img", "on_dvd.png") $>" alt="on_dvd" <& tooltip.hint text=(archived) &> /><%cpp> } else { </%cpp><input type="checkbox" name="deletions" value="<$ id $>" /><%cpp> } </%cpp></div>
+	<div class="recording_imgs"><%cpp> reply.out() << StringRepeat(level, "<img src=\"img/transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />"); </%cpp>
+<%cpp> if (!archived.empty()) { </%cpp><img src="<$ LiveSetup().GetThemedLink("img", "on_dvd.png") $>" alt="on_dvd" <& tooltip.hint text=(archived) &> /><%cpp> } else {
+#if TNTVERSION >= 30000
+		string deletionsName = "deletions[]";
+#else
+		string deletionsName = "deletions";
+#endif
+</%cpp><input type="checkbox" name="<$ deletionsName $>" value="<$ id $>" /><%cpp> } </%cpp></div>
 	<div class="recording_spec">
 		<div class="recording_day"><$ FormatDateTime(tr("%a,"), startTime) + string(" ") + FormatDateTime(tr("%b %d %y"), startTime) + string(" ") + FormatDateTime(tr("%I:%M %p"), startTime) $></div>
 		<div class="recording_duration"><$ duration $></div>
