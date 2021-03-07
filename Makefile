@@ -19,6 +19,7 @@ PKGCFG = $(if $(VDRDIR),$(shell pkg-config --variable=$(1) $(VDRDIR)/vdr.pc),$(s
 LIBDIR = $(call PKGCFG,libdir)
 LOCDIR = $(call PKGCFG,locdir)
 PLGCFG = $(call PKGCFG,plgcfg)
+RESDIR = $(call PKGCFG,resdir)
 #
 TMPDIR ?= /tmp
 
@@ -231,8 +232,14 @@ $(SOINST): $(SOFILE)
 .PHONY: install-lib
 install-lib: lib recursive-soinst
 
+.PHONY: install-web
+install-web:
+	@mkdir -p $(DESTDIR)$(RESDIR)/plugins/$(PLUGIN)
+	@cp -a live/* $(DESTDIR)$(RESDIR)/plugins/$(PLUGIN)/
+
+
 .PHONY: install
-install: install-lib install-i18n
+install: install-lib install-i18n install-web
 
 .PHONY: dist
 dist: $(I18Npo)
