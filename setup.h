@@ -69,6 +69,7 @@ class Setup
 		bool GetShowIMDb() const { return m_showIMDb != 0; }
 		std::string const GetEpgImageDir() { return m_epgimagedir; }
 		bool GetShowChannelsWithoutEPG() const { return m_showChannelsWithoutEPG != 0; }
+		std::string const GetUrlPrefix() const { return m_urlPrefix; }
 
 		void SetLastChannel(int lastChannel) { m_lastChannel = lastChannel; }
 		void SetAdminLogin(std::string const & login) { m_adminLogin = login; }
@@ -97,6 +98,7 @@ class Setup
 		void SetStreamVideoOpt3(std::string const & opt) { m_streamVopt3 = opt; }
 		void SetShowIMDb(bool show) { m_showIMDb = show ? 1 : 0; }
 		void SetShowChannelsWithoutEPG(bool show) { m_showChannelsWithoutEPG = show ? 1 : 0; }
+		void SetUrlPrefix(std::string const & urlPrefix) { m_urlPrefix = urlPrefix; }
 
 		bool SaveSetup();
 
@@ -155,6 +157,7 @@ class Setup
 		std::string m_streamVopt3;
 		int m_showIMDb;
 		int m_showChannelsWithoutEPG;
+		std::string m_urlPrefix;
 
 		bool CheckServerPort();
 		bool CheckServerIps();
@@ -179,6 +182,7 @@ class cMenuSetupLive : public cMenuSetupPage {
 		char m_adminLogin[20];
 		char m_adminPassword[20];
 		char m_tmpPassword[20];
+		char m_urlPrefix[64];
 		std::string m_oldpasswordMD5;
 		std::string m_newpasswordMD5;
 

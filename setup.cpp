@@ -54,7 +54,8 @@ Setup::Setup():
 		m_streamVopt3("ffmpeg -loglevel warning -f mpegts -analyzeduration 1.2M -probesize 5M -i <input> -map 0:v -map 0:a:0 "
 				"-c:v libx264 -preset ultrafast -crf 23 -tune zerolatency -g 25 -r 25 -c:a aac -ac 2"),
 		m_showIMDb(1),
-		m_showChannelsWithoutEPG(0)
+		m_showChannelsWithoutEPG(0),
+		m_urlPrefix("vdr2live/")
 {
 	m_adminPasswordMD5 = "4:" + MD5Hash("live");
 	liveplugin = cPluginManager::GetPlugin("live");
@@ -352,6 +353,8 @@ cMenuSetupLive::cMenuSetupLive():
 
 	m_oldpasswordMD5 = m_newpasswordMD5 = vdrlive::LiveSetup().GetMD5HashAdminPassword();
 
+	strcpy(m_urlPrefix, vdrlive::LiveSetup().GetUrlPrefix().c_str());
+
 	string strHidden(vdrlive::LiveSetup().GetAdminPasswordLength(), '*');
 	strn0cpy(m_tmpPassword, strHidden.c_str(), sizeof(m_tmpPassword));
 	strcpy(m_adminPassword, "");
@@ -368,6 +371,7 @@ void cMenuSetupLive::Set(void)
 	Add(new cMenuEditBoolItem(tr("Use authentication"), &m_useAuth, tr("No"), tr("Yes")));
 	Add(new cMenuEditStrItem( tr("Admin login"), m_adminLogin, sizeof(m_adminLogin), tr(FileNameChars)));
 	Add(new cMenuEditStrItem( tr("Admin password"), m_tmpPassword, sizeof(m_tmpPassword), tr(FileNameChars)));
+	Add(new cMenuEditStrItem( tr("URL Prefix"), m_urlPrefix, sizeof(m_urlPrefix), tr(FileNameChars)));
 	SetCurrent(Get(current));
 	Display();
 }
@@ -379,6 +383,7 @@ void cMenuSetupLive::Store(void)
 	vdrlive::LiveSetup().SetAdminLogin(m_adminLogin);
 	if (m_oldpasswordMD5 != m_newpasswordMD5) // only save the password if needed
 		vdrlive::LiveSetup().SetAdminPassword(m_adminPassword);
+	vdrlive::LiveSetup().SetUrlPrefix(m_urlPrefix);
 	LiveSetup().SaveSetup();
 }
 

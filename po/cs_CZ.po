@@ -37,6 +37,9 @@ msgstr ""
 msgid "Admin password"
 msgstr "Admin heslo"
 
+msgid "URL Prefix"
+msgstr ""
+
 #, c-format
 msgid "%A, %x"
 msgstr ""
@@ -127,105 +130,15 @@ msgstr "Nahrávání bez kolize"
 msgid "conflicts"
 msgstr "Nahrávání bez kolize"
 
-msgid "Electronic program guide information"
-msgstr "Elektronický průvodce programem (EPG)"
-
-msgid "Couldn't find recording or no recordings available"
-msgstr "Nelze nalézt nahrávky, nebo žádné neexistují"
-
-msgid "Error aquiring schedules lock"
-msgstr "Chyba při vytváření zámku pro nahrávky"
-
-msgid "Error aquiring schedules"
-msgstr "Chyba při plánování"
-
-msgid "%b %d %y"
-msgstr "%d.%m."
-
-msgid "Searchtimers"
-msgstr "Automatické nahrávání"
-
-msgid "Sorry, no permission. Please contact your administrator!"
-msgstr "Bohužel chybějící oprávnění. Zeptejte se svého administrátora!"
-
-msgid "Expression"
-msgstr "Výraz"
-
-msgid "Channel"
-msgstr "Kanál"
-
-msgid "Starts between"
-msgstr "Začíná mezi"
-
-msgid "Toggle search timer actions (in)active"
-msgstr "(De)Aktivace automatického nahrávání"
-
-msgid "Browse search timer results"
-msgstr "Listování výsledky vyhledávání"
-
-msgid "Edit search timer"
-msgstr "Změna automatického nahrávaní"
-
-msgid "Delete this search timer?"
-msgstr "Smazat automatické nahrávání?"
-
-msgid "Delete search timer"
-msgstr "Smazat automatické nahrávání?"
-
-msgid "New search timer"
-msgstr "Nové automatické nahrávání"
-
-msgid "Trigger search timer update"
-msgstr "Aktualizovat položky nahrávání"
-
-msgid "Wrong username or password"
-msgstr "Chybné jméno, nebo heslo"
-
-msgid "Login"
-msgstr "přihlásit"
-
-msgid "VDR Live Login"
-msgstr "VDR Live autorizace"
-
-msgid "User"
-msgstr "Uživatel"
-
-msgid "Password"
-msgstr "Heslo"
-
-msgid "Remote Control"
-msgstr "Dálkové ovládání"
-
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr "Nelze získat přístup k programům, zkuste později."
 
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "Kanál je nedostupný, nebo neexistuje. Zkontrolujte zadání."
 
-msgid "Selection"
-msgstr "výběr"
-
-msgid "Snapshot interval"
-msgstr "Interval snímků obrazovky"
-
-msgid "Stop"
-msgstr ""
-
 #, c-format
 msgid "%a, %x"
 msgstr "%a, %x"
-
-msgid "What's running on"
-msgstr "Co právě bězí v "
-
-msgid "at"
-msgstr " "
-
-msgid "What's on next?"
-msgstr "Co běží potom?"
-
-msgid "Favorites"
-msgstr "Oblíbené"
 
 msgid "Click to view details."
 msgstr "Detaily"
@@ -236,53 +149,164 @@ msgstr "Zobraz program kanálu"
 msgid " - "
 msgstr ""
 
-msgid "more"
-msgstr "více"
+msgid "Channel"
+msgstr "Kanál"
 
-msgid "Now"
-msgstr "Nyní"
+msgid "Switch to this channel."
+msgstr "Přepnout"
 
-msgid "Next"
-msgstr "Další"
+msgid "Sorry, no permission. Please contact your administrator!"
+msgstr "Bohužel chybějící oprávnění. Zeptejte se svého administrátora!"
 
-msgid "What's on"
-msgstr "Co poběží v"
+msgid "Remote Control"
+msgstr "Dálkové ovládání"
 
-msgid "Details view"
-msgstr "Detailní pohled"
+msgid "Selection"
+msgstr "výběr"
 
-msgid "List view"
-msgstr "Souhrný pohled"
+msgid "Snapshot interval"
+msgstr "Interval snímků obrazovky"
 
-msgid "Find more at the Internet Movie Database."
-msgstr "Vyhledej více na Internet Movie Database."
-
-msgid "Stream this channel into browser."
+msgid "Stop"
 msgstr ""
 
-msgid "Stream this recording into media player."
+msgid "Users"
+msgstr "Uživatelé"
+
+msgid "Name"
+msgstr "Jméno"
+
+msgid "Edit user"
+msgstr "Změna uživatele"
+
+msgid "Delete user"
+msgstr "Smazat uživatele"
+
+msgid "New user"
+msgstr "Nový uživatel"
+
+msgid "Please set login and password!"
+msgstr "Nastavte uživatele a heslo!"
+
+msgid "Setup saved."
+msgstr "Nastavení uloženo."
+
+msgid "Setup"
+msgstr "Nastavení"
+
+msgid "User management"
 msgstr ""
 
-msgid "Record this"
-msgstr "Nahrát"
+msgid "Local net (no login required)"
+msgstr "Lokální síť (bez přilášení)"
+
+msgid "Show live logo image"
+msgstr "Zobrazit logo"
+
+msgid "Use ajax technology"
+msgstr "Používat dynamické stránky (ajax)"
+
+msgid "Show dynamic VDR information box"
+msgstr "Použít dynamický blok informací"
+
+msgid "Allow video streaming"
+msgstr "Povolit streamování videa"
+
+msgid "Web-Streaming h264"
+msgstr ""
+
+msgid "Web-Streaming HEVC"
+msgstr ""
+
+msgid "Web-Streaming MPEG2"
+msgstr ""
+
+msgid "Web-Streaming others"
+msgstr ""
+
+msgid "Streamdev server port"
+msgstr ""
+
+msgid "Streamdev stream type"
+msgstr "Streamdev typ streamu"
+
+msgid "mark new recordings"
+msgstr ""
+
+msgid "Add links to IMDb"
+msgstr "Přidat odkazy k IMDb"
+
+#, fuzzy
+msgid "Additional fixed times in 'What's on?'"
+msgstr "Přidat časy pro zobrazení v \"Právě se vysílá\""
+
+msgid "Format is HH:MM. Separate multiple times with a semicolon"
+msgstr "Formát je HH:MM. Oddělte více časů středníkem"
+
+#, fuzzy
+msgid "Channel groups for MultiSchedule"
+msgstr "Kanál nemá žádný program"
+
+msgid "Separate channels with a comma ',', separate groups with a semi-colon ';'"
+msgstr ""
+
+msgid "Duration of MultiSchedule in hours"
+msgstr ""
+
+msgid "Show channels without EPG"
+msgstr ""
+
+msgid "Start page"
+msgstr "Startovací stránka"
+
+msgid "MultiSchedule"
+msgstr ""
+
+msgid "Theme"
+msgstr "Téma"
+
+msgid "Save"
+msgstr "Uložit"
+
+msgid "Search results"
+msgstr "Výsledky vyhledávání"
+
+msgid "No search results"
+msgstr "žádné výsledky vyhledávání"
+
+msgid "%A, %b %d %Y"
+msgstr "%a, %d.%m. "
+
+msgid "New search timer"
+msgstr "Nové automatické nahrávání"
+
+msgid "Couldn't find timer. Maybe you mistyped your request?"
+msgstr "Nelze najít nahrávaní. Je správně zadáno?"
+
+msgid "Please set a title for the timer!"
+msgstr "Prosím nastavte název nahrávání!"
+
+#. TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
+msgid "mm/dd/yyyy"
+msgstr "dd.mm.yyyy"
 
 msgid "Edit timer"
 msgstr "Změna nahrávání"
 
-msgid "loading data"
-msgstr "aktualizace údajů"
+msgid "New timer"
+msgstr "Nové nahrávání"
 
-msgid "an error occured!"
-msgstr "problém!"
+msgid "Title"
+msgstr "Název"
 
-msgid "Request succeeded!"
-msgstr "Požadevek úspěšný."
+msgid "Server"
+msgstr ""
 
-msgid "Request failed!"
-msgstr "Požadavek selhal!"
+msgid "Directory"
+msgstr "Složka"
 
-msgid "Sunday"
-msgstr "Neděle"
+msgid "Weekday"
+msgstr "Den v týdnu"
 
 msgid "Monday"
 msgstr "Pondělí"
@@ -302,307 +326,32 @@ msgstr "Pátek"
 msgid "Saturday"
 msgstr "Sobota"
 
-#. TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
-msgid "mm/dd/yyyy"
-msgstr "dd.mm.yyyy"
-
-msgid "January"
-msgstr "leden"
-
-msgid "February"
-msgstr "únor"
-
-msgid "March"
-msgstr "březen"
-
-msgid "April"
-msgstr "duben"
-
-msgid "May"
-msgstr "květen"
-
-msgid "June"
-msgstr "červen"
-
-msgid "July"
-msgstr "červenec"
-
-msgid "August"
-msgstr "srpen"
-
-msgid "September"
-msgstr "září"
-
-msgid "October"
-msgstr "říjen"
-
-msgid "November"
-msgstr "listopad"
-
-msgid "December"
-msgstr "prosinec"
-
-msgid "retrieving status ..."
-msgstr "zjišťování stavu..."
-
-msgid "Toggle updates on/off."
-msgstr "aktualizovat změny ano/ne."
-
-msgid "stop playback"
-msgstr "ukončit přehrávání"
-
-msgid "resume playback"
-msgstr "pokračovat v přehrávání"
-
-msgid "pause playback"
-msgstr "přerušit přehrávání"
-
-msgid "fast rewind"
-msgstr "rychle zpět"
-
-msgid "fast forward"
-msgstr "rychle vpřed"
-
-msgid "previous channel"
-msgstr "předchozí kanál"
-
-msgid "next channel"
-msgstr "další kanál"
-
-msgid "No server response!"
-msgstr "Server neodpovídá!"
-
-msgid "Failed to update infobox!"
-msgstr "Aktualizace infookna selhala!"
-
-msgid "Switch to this channel."
-msgstr "Přepnout"
-
-msgid "Search for repeats."
-msgstr "Vyhledat reprízy"
-
-msgid "Authors"
-msgstr "Autoři"
-
-msgid "Project Idea"
-msgstr "nápad"
-
-msgid "Webserver"
-msgstr "web server"
-
-msgid "Current Maintainer"
-msgstr ""
-
-msgid "Project leader"
-msgstr "vedoucí týmu"
-
-msgid "Content"
-msgstr "obsah"
-
-msgid "Graphics"
-msgstr "grafika"
-
-msgid "Information"
-msgstr "Informace"
-
-msgid "LIVE version"
-msgstr "LIVE verze"
-
-msgid "VDR version"
-msgstr "VDR verze"
-
-msgid "Features"
-msgstr "Moduly"
-
-msgid "active"
-msgstr "aktivní"
-
-msgid "required"
-msgstr "vyżadováno"
-
-msgid "Homepage"
-msgstr "Domovská stránka"
-
-msgid "Bugs and suggestions"
-msgstr "Chyby a připomínky"
-
-msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
-msgstr "Pokud odhalíte nějaké chyby, příp. si přejete nové vlastnosti, použijte prosím bugtracker"
-
-msgid "What's on?"
-msgstr "Právě se vysílá"
-
-msgid "MultiSchedule"
-msgstr ""
-
-msgid "Search"
-msgstr "Vyhledej"
-
-msgid "Recordings"
-msgstr "Nahrávky"
-
-msgid "Web-Streaming"
-msgstr ""
-
-msgid "Logout"
-msgstr "Odhlášení"
-
-msgid "Your attention is required"
-msgstr "Nutná reakce"
-
-msgid "React"
-msgstr "řešit"
-
-msgid "Dismiss"
-msgstr "neřešit"
-
-msgid "Couldn't find user. Maybe you mistyped your request?"
-msgstr "Nelze nalézt zadaného uživatele. Byl zadán správně?"
-
-msgid "This user name is already in use!"
-msgstr "Toto jméno již použito!"
-
-msgid "Edit user"
-msgstr "Změna uživatele"
-
-msgid "New user"
-msgstr "Nový uživatel"
-
-msgid "Name"
-msgstr "Jméno"
-
-msgid "User rights"
-msgstr "Oprávnění"
-
-msgid "Edit setup"
-msgstr "Měnit nastavení"
-
-msgid "Add or edit timers"
-msgstr "Nastavení nahrávání"
-
-msgid "Delete timers"
-msgstr "Rušení nahrávání"
-
-msgid "Delete recordings"
-msgstr "Mazání nahrávek"
-
-msgid "Use remote menu"
-msgstr "Menu dálkového ovládání"
-
-msgid "Start replay"
-msgstr "Přehrávání"
-
-msgid "Switch channel"
-msgstr "Přepínání"
-
-msgid "Add or edit search timers"
-msgstr "Nastavení aut. nahrávání"
-
-msgid "Delete search timers"
-msgstr "Mazání aut. nahrávání"
-
-#, fuzzy
-msgid "Edit recordings"
-msgstr "Seznam nahrávek"
-
-msgid "Save"
-msgstr "Uložit"
-
-msgid "Cancel"
-msgstr "Zrušit"
-
-msgid "Search results"
-msgstr "Výsledky vyhledávání"
-
-msgid "No search results"
-msgstr "žádné výsledky vyhledávání"
-
-msgid "%A, %b %d %Y"
-msgstr "%a, %d.%m. "
-
-msgid "Couldn't find timer. Maybe you mistyped your request?"
-msgstr "Nelze najít nahrávaní. Je správně zadáno?"
-
-msgid "Please set a title for the timer!"
-msgstr "Prosím nastavte název nahrávání!"
-
-msgid "New timer"
-msgstr "Nové nahrávání"
-
-msgid "Title"
-msgstr "Název"
-
-msgid "Server"
-msgstr ""
-
-msgid "Directory"
-msgstr "Složka"
-
-msgid "Weekday"
-msgstr "Den v týdnu"
+msgid "Sunday"
+msgstr "Neděle"
 
 msgid "Use VPS"
 msgstr "Použít VPS"
 
-msgid "ERROR:"
-msgstr "CHYBA:"
+msgid "Cancel"
+msgstr "Zrušit"
 
-msgid "Deleted recording:"
-msgstr "Smazaná nahrávka:"
+msgid "Now"
+msgstr "Nyní"
 
-msgid "List of recordings"
-msgstr "Seznam nahrávek"
-
-msgid "No recordings found"
-msgstr "žádné nahrávky"
-
-#, fuzzy
-msgid "Delete selected"
-msgstr "Smazat automatické nahrávání?"
-
-#, fuzzy, no-c-format
-msgid "%a,"
-msgstr "%a, %x"
-
-#. TRANSLATORS: recording duration format HH:MM
-#, c-format
-msgid "(%d:%02d)"
+msgid "Time"
 msgstr ""
 
-msgid "Sort by name"
-msgstr ""
+msgid "Search for repeats."
+msgstr "Vyhledat reprízy"
 
-#, fuzzy
-msgid "Sort by date"
-msgstr "do data"
-
-msgid "Filter"
-msgstr ""
-
-msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
-msgstr ""
-
-msgid "Expand all folders"
-msgstr ""
-
-msgid "Collapse all folders"
-msgstr ""
-
-msgid "Delete this recording from hard disc!"
-msgstr "Smazat nahrávku!"
-
-#, fuzzy
-msgid "Edit recording"
-msgstr "Seznam nahrávek"
-
-msgid "play this recording."
-msgstr "Přehrát nahrávku"
-
-msgid "No schedules available for this channel"
-msgstr "Pro kanál není dostupný program"
+msgid "more"
+msgstr "více"
 
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
 msgstr "Nelze najít Automatické nahrávání. Byl požadavek správně zadán?"
+
+msgid "Edit search timer"
+msgstr "Změna automatického nahrávaní"
 
 msgid "Search text too short - use anyway?"
 msgstr "Zadaný text je krátký - opravdu použít?"
@@ -790,6 +539,150 @@ msgstr "Přepnout ... minut před začátkem"
 msgid "Test"
 msgstr ""
 
+msgid "Find more at the Internet Movie Database."
+msgstr "Vyhledej více na Internet Movie Database."
+
+msgid "Stream this channel into browser."
+msgstr ""
+
+msgid "Stream this recording into media player."
+msgstr ""
+
+msgid "Record this"
+msgstr "Nahrát"
+
+msgid "loading data"
+msgstr "aktualizace údajů"
+
+msgid "an error occured!"
+msgstr "problém!"
+
+msgid "Request succeeded!"
+msgstr "Požadevek úspěšný."
+
+msgid "Request failed!"
+msgstr "Požadavek selhal!"
+
+msgid "January"
+msgstr "leden"
+
+msgid "February"
+msgstr "únor"
+
+msgid "March"
+msgstr "březen"
+
+msgid "April"
+msgstr "duben"
+
+msgid "May"
+msgstr "květen"
+
+msgid "June"
+msgstr "červen"
+
+msgid "July"
+msgstr "červenec"
+
+msgid "August"
+msgstr "srpen"
+
+msgid "September"
+msgstr "září"
+
+msgid "October"
+msgstr "říjen"
+
+msgid "November"
+msgstr "listopad"
+
+msgid "December"
+msgstr "prosinec"
+
+msgid "retrieving status ..."
+msgstr "zjišťování stavu..."
+
+msgid "Toggle updates on/off."
+msgstr "aktualizovat změny ano/ne."
+
+msgid "stop playback"
+msgstr "ukončit přehrávání"
+
+msgid "resume playback"
+msgstr "pokračovat v přehrávání"
+
+msgid "pause playback"
+msgstr "přerušit přehrávání"
+
+msgid "fast rewind"
+msgstr "rychle zpět"
+
+msgid "fast forward"
+msgstr "rychle vpřed"
+
+msgid "previous channel"
+msgstr "předchozí kanál"
+
+msgid "next channel"
+msgstr "další kanál"
+
+msgid "No server response!"
+msgstr "Server neodpovídá!"
+
+msgid "Failed to update infobox!"
+msgstr "Aktualizace infookna selhala!"
+
+msgid "Authors"
+msgstr "Autoři"
+
+msgid "Project Idea"
+msgstr "nápad"
+
+msgid "Webserver"
+msgstr "web server"
+
+msgid "Current Maintainer"
+msgstr ""
+
+msgid "Previous Maintainer"
+msgstr ""
+
+msgid "Project leader"
+msgstr "vedoucí týmu"
+
+msgid "Content"
+msgstr "obsah"
+
+msgid "Graphics"
+msgstr "grafika"
+
+msgid "Information"
+msgstr "Informace"
+
+msgid "LIVE version"
+msgstr "LIVE verze"
+
+msgid "VDR version"
+msgstr "VDR verze"
+
+msgid "Features"
+msgstr "Moduly"
+
+msgid "active"
+msgstr "aktivní"
+
+msgid "required"
+msgstr "vyżadováno"
+
+msgid "Homepage"
+msgstr "Domovská stránka"
+
+msgid "Bugs and suggestions"
+msgstr "Chyby a připomínky"
+
+msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
+msgstr "Pokud odhalíte nějaké chyby, příp. si přejete nové vlastnosti, použijte prosím bugtracker"
+
 msgid "No timer defined"
 msgstr "Nahrávání není nastaveno"
 
@@ -809,82 +702,179 @@ msgstr "Zrušit nahrávání!"
 msgid "Timer conflicts"
 msgstr "Nahrávání bez kolize"
 
-msgid "Please set login and password!"
-msgstr "Nastavte uživatele a heslo!"
+msgid "Wrong username or password"
+msgstr "Chybné jméno, nebo heslo"
 
-msgid "Setup saved."
-msgstr "Nastavení uloženo."
+msgid "Login"
+msgstr "přihlásit"
 
-msgid "Setup"
-msgstr "Nastavení"
+msgid "VDR Live Login"
+msgstr "VDR Live autorizace"
 
-msgid "User management"
-msgstr ""
+msgid "User"
+msgstr "Uživatel"
 
-msgid "Local net (no login required)"
-msgstr "Lokální síť (bez přilášení)"
+msgid "Password"
+msgstr "Heslo"
 
-msgid "Show live logo image"
-msgstr "Zobrazit logo"
+msgid "Couldn't find user. Maybe you mistyped your request?"
+msgstr "Nelze nalézt zadaného uživatele. Byl zadán správně?"
 
-msgid "Use ajax technology"
-msgstr "Používat dynamické stránky (ajax)"
+msgid "This user name is already in use!"
+msgstr "Toto jméno již použito!"
 
-msgid "Show dynamic VDR information box"
-msgstr "Použít dynamický blok informací"
+msgid "User rights"
+msgstr "Oprávnění"
 
-msgid "Allow video streaming"
-msgstr "Povolit streamování videa"
+msgid "Edit setup"
+msgstr "Měnit nastavení"
 
-msgid "Web-Streaming h264"
-msgstr ""
+msgid "Add or edit timers"
+msgstr "Nastavení nahrávání"
 
-msgid "Web-Streaming HEVC"
-msgstr ""
+msgid "Delete timers"
+msgstr "Rušení nahrávání"
 
-msgid "Web-Streaming MPEG2"
-msgstr ""
+msgid "Delete recordings"
+msgstr "Mazání nahrávek"
 
-msgid "Web-Streaming others"
-msgstr ""
+msgid "Use remote menu"
+msgstr "Menu dálkového ovládání"
 
-msgid "Streamdev server port"
-msgstr ""
+msgid "Start replay"
+msgstr "Přehrávání"
 
-msgid "Streamdev stream type"
-msgstr "Streamdev typ streamu"
+msgid "Switch channel"
+msgstr "Přepínání"
 
-msgid "mark new recordings"
-msgstr ""
+msgid "Add or edit search timers"
+msgstr "Nastavení aut. nahrávání"
 
-msgid "Add links to IMDb"
-msgstr "Přidat odkazy k IMDb"
-
-#, fuzzy
-msgid "Additional fixed times in 'What's on?'"
-msgstr "Přidat časy pro zobrazení v \"Právě se vysílá\""
-
-msgid "Format is HH:MM. Separate multiple times with a semicolon"
-msgstr "Formát je HH:MM. Oddělte více časů středníkem"
+msgid "Delete search timers"
+msgstr "Mazání aut. nahrávání"
 
 #, fuzzy
-msgid "Channel groups for MultiSchedule"
-msgstr "Kanál nemá žádný program"
+msgid "Edit recordings"
+msgstr "Seznam nahrávek"
 
-msgid "Separate channels with a comma ',', separate groups with a semi-colon ';'"
+msgid "No timer conflicts"
+msgstr "Nahrávání bez kolize"
+
+msgid "local"
 msgstr ""
 
-msgid "Duration of MultiSchedule in hours"
+msgid "Timer has a conflict."
+msgstr "Kolize v nastavení nahrávání"
+
+msgid "Searchtimers"
+msgstr "Automatické nahrávání"
+
+msgid "Expression"
+msgstr "Výraz"
+
+msgid "Starts between"
+msgstr "Začíná mezi"
+
+msgid "Toggle search timer actions (in)active"
+msgstr "(De)Aktivace automatického nahrávání"
+
+msgid "Browse search timer results"
+msgstr "Listování výsledky vyhledávání"
+
+msgid "Delete this search timer?"
+msgstr "Smazat automatické nahrávání?"
+
+msgid "Delete search timer"
+msgstr "Smazat automatické nahrávání?"
+
+msgid "Trigger search timer update"
+msgstr "Aktualizovat položky nahrávání"
+
+msgid "Search"
+msgstr "Vyhledej"
+
+msgid "Search settings"
+msgstr "Nastavení hledání"
+
+msgid "Extended search"
+msgstr "Rozšířené hledání"
+
+msgid "no"
+msgstr "ne"
+
+#, fuzzy
+msgid "Couldn't find recording. Maybe you mistyped your request?"
+msgstr "Nelze nalézt zadaného uživatele. Byl zadán správně?"
+
+#, fuzzy
+msgid "Please set a name for the recording!"
+msgstr "Prosím nastavte název nahrávání!"
+
+msgid "Cannot copy, rename or move the recording."
 msgstr ""
 
-msgid "Show channels without EPG"
+#, fuzzy
+msgid "Edit recording"
+msgstr "Seznam nahrávek"
+
+#, fuzzy
+msgid "Delete resume information"
+msgstr "Elektronický průvodce programem (EPG)"
+
+msgid "Delete marks information"
 msgstr ""
 
-msgid "Start page"
-msgstr "Startovací stránka"
+msgid "Copy only"
+msgstr ""
 
-msgid "Theme"
-msgstr "Téma"
+#, fuzzy
+msgid "Short description"
+msgstr "Popis"
+
+msgid "Auxiliary info"
+msgstr ""
+
+msgid "No schedules available for this channel"
+msgstr "Pro kanál není dostupný program"
+
+#. TRANSLATORS: recording duration format HH:MM
+#, c-format
+msgid "(%d:%02d)"
+msgstr ""
+
+#, fuzzy, no-c-format
+msgid "%a,"
+msgstr "%a, %x"
+
+msgid "Existing Recording:"
+msgstr ""
+
+msgid "%b %d %y"
+msgstr "%d.%m."
+
+msgid "What's running on"
+msgstr "Co právě bězí v "
+
+msgid "at"
+msgstr " "
+
+msgid "What's on next?"
+msgstr "Co běží potom?"
+
+msgid "Favorites"
+msgstr "Oblíbené"
+
+msgid "Next"
+msgstr "Další"
+
+msgid "What's on"
+msgstr "Co poběží v"
+
+msgid "Details view"
+msgstr "Detailní pohled"
+
+msgid "List view"
+msgstr "Souhrný pohled"
 
 msgid "playing recording"
 msgstr "sledování nahrávky"
@@ -904,63 +894,82 @@ msgstr "chyba při zjišťování statusu!"
 msgid "%I:%M:%S %p"
 msgstr "%H:%M:%S"
 
-#, fuzzy
-msgid "Couldn't find recording. Maybe you mistyped your request?"
-msgstr "Nelze nalézt zadaného uživatele. Byl zadán správně?"
+msgid "Recordings"
+msgstr "Nahrávky"
+
+msgid "ERROR:"
+msgstr "CHYBA:"
+
+msgid "Deleted recording:"
+msgstr "Smazaná nahrávka:"
+
+msgid "List of recordings"
+msgstr "Seznam nahrávek"
+
+msgid "No recordings found"
+msgstr "žádné nahrávky"
 
 #, fuzzy
-msgid "Please set a name for the recording!"
-msgstr "Prosím nastavte název nahrávání!"
+msgid "Delete selected"
+msgstr "Smazat automatické nahrávání?"
 
-msgid "Cannot copy, rename or move the recording."
+msgid "Sort by name"
 msgstr ""
 
 #, fuzzy
-msgid "Delete resume information"
-msgstr "Elektronický průvodce programem (EPG)"
+msgid "Sort by date"
+msgstr "do data"
 
-msgid "Delete marks information"
+msgid "Filter"
 msgstr ""
 
-msgid "Copy only"
+msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
 msgstr ""
 
-#, fuzzy
-msgid "Short description"
-msgstr "Popis"
-
-msgid "Auxiliary info"
+msgid "Expand all folders"
 msgstr ""
 
-msgid "Search settings"
-msgstr "Nastavení hledání"
-
-msgid "Extended search"
-msgstr "Rozšířené hledání"
-
-msgid "no"
-msgstr "ne"
-
-msgid "Time"
+msgid "Collapse all folders"
 msgstr ""
 
-msgid "Users"
-msgstr "Uživatelé"
+msgid "Delete this recording from hard disc!"
+msgstr "Smazat nahrávku!"
 
-msgid "Delete user"
-msgstr "Smazat uživatele"
+msgid "play this recording."
+msgstr "Přehrát nahrávku"
 
 msgid "Page error"
 msgstr "Chyba stránky"
 
-msgid "No timer conflicts"
-msgstr "Nahrávání bez kolize"
+msgid "What's on?"
+msgstr "Právě se vysílá"
 
-msgid "local"
+msgid "Web-Streaming"
 msgstr ""
 
-msgid "Timer has a conflict."
-msgstr "Kolize v nastavení nahrávání"
+msgid "Logout"
+msgstr "Odhlášení"
+
+msgid "Your attention is required"
+msgstr "Nutná reakce"
+
+msgid "React"
+msgstr "řešit"
+
+msgid "Dismiss"
+msgstr "neřešit"
+
+msgid "Electronic program guide information"
+msgstr "Elektronický průvodce programem (EPG)"
+
+msgid "Couldn't find recording or no recordings available"
+msgstr "Nelze nalézt nahrávky, nebo žádné neexistují"
+
+msgid "Error aquiring schedules lock"
+msgstr "Chyba při vytváření zámku pro nahrávky"
+
+msgid "Error aquiring schedules"
+msgstr "Chyba při plánování"
 
 msgid "Live Interactive VDR Environment"
 msgstr ""

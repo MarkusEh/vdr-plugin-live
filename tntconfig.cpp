@@ -27,8 +27,13 @@ namespace vdrlive {
 			return resourceDir;
 		}
 
-		void MapUrl(tnt::Tntnet & app, const char *rule, const char * component, std::string const & instPath, const char * pathInfo, const char * mime_type)
+		void MapUrl(tnt::Tntnet & app, std::string const & rule, const char * component, std::string const & instPath, const char * pathInfo, const char * mime_type)
 		{
+//		    MapUrl(app, rule.c_str(), component, instPath, pathInfo, mime_type);
+//		}
+//
+//		void MapUrl(tnt::Tntnet & app, const char *rule, const char * component, std::string const & instPath, const char * pathInfo, const char * mime_type)
+//		{
 #if TNT_MAPURL_NAMED_ARGS
 			tnt::Mapping::args_type argMap;
 			argMap.insert(std::make_pair("mime-type", mime_type));
@@ -96,12 +101,12 @@ namespace vdrlive {
 		// ------------------------------------------------------------------------
 		// +++ CAUTION +++ CAUTION +++ CAUTION +++ CAUTION +++ CAUTION +++
 
-		app.mapUrl("^/$", "login");
+		app.mapUrl("^/" + LiveSetup().GetUrlPrefix() + "$", "login");
 
 		// the following redirects vdr_request URL to the component
 		// specified by the action parameter.
 		// inserted by 'tadi' -- verified with above, but not counterchecked yet!
-		app.mapUrl("^/vdr_request/([^.]+)", "$1");
+		app.mapUrl("^/" + LiveSetup().GetUrlPrefix() + "vdr_request/([^.]+)", "$1");
 
 		// the following redirects play_video URL to the content component.
 		// inserted by 'tadi' -- not verified, not counterchecked yet!
@@ -112,7 +117,7 @@ namespace vdrlive {
 		// the following selects the theme specific 'theme.css' file
 		// inserted by 'tadi' -- verified with above, but not counterchecked yet!
 		MapUrl(app,
-			   "^/themes/([^/]*)/css.*/(.+\\.css)",
+			   "^/" + LiveSetup().GetUrlPrefix() + "themes/([^/]*)/css.*/(.+\\.css)",
 			   "content",
 			   GetResourcePath(),
 			   "/themes/$1/css/$2",
@@ -125,14 +130,14 @@ namespace vdrlive {
 		// deprecated: 3. <imgname>.<ext> (builtin images)
 		// inserted by 'tadi' -- verified with above, but not counterchecked yet!
 		MapUrl(app,
-			   "^/themes/([^/]*)/img.*/(.+)\\.(.+)",
+			   "^/" + LiveSetup().GetUrlPrefix() + "themes/([^/]*)/img.*/(.+)\\.(.+)",
 			   "content",
 			   GetResourcePath(),
 			   "/themes/$1/img/$2.$3",
 			   "image/$3");
 
 		MapUrl(app,
-			   "^/themes/([^/]*)/img.*/(.+)\\.(.+)",
+			   "^/" + LiveSetup().GetUrlPrefix() + "themes/([^/]*)/img.*/(.+)\\.(.+)",
 			   "content",
 			   GetResourcePath(),
 			   "/img/$2.$3",
@@ -144,7 +149,7 @@ namespace vdrlive {
 		if (!epgImgPath.empty()) {
 			// inserted by 'tadi' -- verified with above, but not counterchecked yet!
 			MapUrl(app,
-				   "^/epgimages/([^/]*)\\.([^./]+)",
+				   "^/" + LiveSetup().GetUrlPrefix() + "epgimages/([^/]*)\\.([^./]+)",
 				   "content",
 				   epgImgPath,
 				   "/$1.$2",
@@ -164,7 +169,7 @@ namespace vdrlive {
 		// the basename may contain dots and must end with '.js'
 		// inserted by 'tadi' -- verified with above, but not counterchecked yet!
 		MapUrl(app,
-			   "^/js(/[^.]*)([^/]*\\.js)",
+			   "^/" + LiveSetup().GetUrlPrefix() + "js(/[^.]*)([^/]*\\.js)",
 			   "content",
 			   GetResourcePath(),
 			   "/js$1$2",
@@ -173,7 +178,7 @@ namespace vdrlive {
 		// map to 'css/basename(uri)'
 		// inserted by 'tadi' -- verified with above, but not counterchecked yet!
 		MapUrl(app,
-			   "^/css.*/(.+)",
+			   "^/" + LiveSetup().GetUrlPrefix() + "css.*/(.+)",
 			   "content",
 			   GetResourcePath(),
 			   "/css/$1",
@@ -182,7 +187,7 @@ namespace vdrlive {
 		// map to 'img/basename(uri)'
 		// inserted by 'tadi' -- verified with above, but not counterchecked yet!
 		MapUrl(app,
-			   "^/img.*/(.+)\\.([^.]+)",
+			   "^/" + LiveSetup().GetUrlPrefix() + "img.*/(.+)\\.([^.]+)",
 			   "content",
 			   GetResourcePath(),
 			   "/img/$1.$2",
@@ -190,7 +195,7 @@ namespace vdrlive {
 
 		// Map favicon.ico into img directory
 		MapUrl(app,
-			   "^/favicon.ico$",
+			   "^/" + LiveSetup().GetUrlPrefix() + "favicon.ico$",
 			   "content",
 			   GetResourcePath(),
 			   "/img/favicon.ico",
@@ -202,7 +207,7 @@ namespace vdrlive {
 		// takes first path components without 'extension' when it does not
 		// contain '.'
 		// modified by 'tadi' -- verified with above, but not counterchecked yet!
-		app.mapUrl("^/([^./]+)(.*)?", "$1");
+		app.mapUrl("^/" + LiveSetup().GetUrlPrefix() + "([^./]+)(.*)?", "$1");
 
 #if TNT_GLOBAL_TNTCONFIG
 		tnt::TntConfig::it().sessionTimeout = 86400;
