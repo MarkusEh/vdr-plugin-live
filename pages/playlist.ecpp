@@ -50,7 +50,7 @@ using namespace vdrlive;
 	string server = request.getHost();
 	server = server.substr(0, server.rfind(':'));
 	string videourl;
-	reply.setContentType("application/vnd.apple.mpegurl");
+	reply.setContentType("audio/x-mpegurl");
 	if (Channel != 0) {
 		string channelname = Channel->Name();
 		int streamdevPort = LiveSetup().GetStreamdevPort();
