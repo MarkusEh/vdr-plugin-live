@@ -10,6 +10,7 @@ using namespace vdrlive;
 </%pre>
 <%args>
 	tChannelID channel;
+	string channel_str;
 	string recid;
 </%args>
 <%session scope="global">
@@ -20,6 +21,10 @@ using namespace vdrlive;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
+#if TNTVERSION >= 30000
+	channel = channel.FromString(channel_str.c_str());  // Tntnet30: get struct channel from parameter string
+#endif
+
 	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	if (!cUser::CurrentUserHasRightTo(UR_STARTREPLAY))
 		throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
