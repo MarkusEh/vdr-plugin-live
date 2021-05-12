@@ -847,7 +847,7 @@ msgstr "Streamdev serverio prievadas"
 msgid "Streamdev stream type"
 msgstr "Streamdev serverio tipas"
 
-msgid "mark new recordings"
+msgid "Mark new recordings"
 msgstr ""
 
 msgid "Add links to IMDb"

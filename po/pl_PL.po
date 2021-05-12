@@ -847,7 +847,7 @@ msgstr "Port serwera Streamdev"
 msgid "Streamdev stream type"
 msgstr "Typ strumienia Streamdev"
 
-msgid "mark new recordings"
+msgid "Mark new recordings"
 msgstr ""
 
 msgid "Add links to IMDb"

@@ -851,8 +851,8 @@ msgstr "Streamdev Server Port"
 msgid "Streamdev stream type"
 msgstr "Streamdev Stream Typ"
 
-msgid "mark new recordings"
-msgstr "markiere neue Aufnahmen"
+msgid "Mark new recordings"
+msgstr "Markiere neue Aufnahmen"
 
 msgid "Add links to IMDb"
 msgstr "Füge Links zur IMDb hinzu"
