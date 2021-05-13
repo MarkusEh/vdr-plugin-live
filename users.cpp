@@ -13,8 +13,6 @@
 
 namespace vdrlive {
 
-using namespace std;
-
 std::string cUsers::logged_in_user;
 
 // -- cUser -----------------------------------------------------------------
@@ -26,7 +24,7 @@ cUser::cUser(int ID, const std::string& Name, const std::string& Password)
 
 void cUser::SetPassword(const std::string& Password)
 {
-	ostringstream passwordStr;
+	std::stringstream passwordStr;
 	passwordStr << Password.size() << "|" << MD5Hash(Password);
 	m_PasswordMD5 = passwordStr.str();
 }
@@ -34,14 +32,14 @@ void cUser::SetPassword(const std::string& Password)
 int cUser::GetPasswordLength() const
 {
 	// format is <length>:<md5-hash of password>
-	vector< string > parts = StringSplit( m_PasswordMD5, '|' );
+	std::vector<std::string> parts = StringSplit( m_PasswordMD5, '|' );
 	return (parts.size() > 0) ? lexical_cast< int >( parts[0] ) : 0;
 }
 
 std::string const cUser::GetMD5HashPassword() const
 {
 	// format is <length>:<md5-hash of password>
-	vector< string > parts = StringSplit( m_PasswordMD5, '|' );
+	std::vector<std::string> parts = StringSplit( m_PasswordMD5, '|' );
 	return (parts.size() > 1) ? parts[1] : "";
 }
 

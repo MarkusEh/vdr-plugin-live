@@ -15,8 +15,6 @@
 
 namespace vdrlive {
 
-using namespace std;
-
 
 FFmpegThread::FFmpegThread()
 	:cThread("stream utility handler")
@@ -65,31 +63,31 @@ void FFmpegThread::Action()
 
 	std::string def = "ffmpeg -loglevel warning -f mpegts -analyzeduration 1.2M -probesize 5M "
 		"-i <input> -map 0:v -map 0:a:0 -c:v copy -c:a aac -ac 2";
-	vector<string> vopts;
+	std::vector<std::string> vopts;
 	vopts.push_back( LiveSetup().GetStreamVideoOpt0() );
 	vopts.push_back( LiveSetup().GetStreamVideoOpt1() );
 	vopts.push_back( LiveSetup().GetStreamVideoOpt2() );
 	vopts.push_back( LiveSetup().GetStreamVideoOpt3() );
 
-	if (vopts[0].empty() || vopts[0].find("<input>") == string::npos) { // h264
+	if (vopts[0].empty() || vopts[0].find("<input>") == std::string::npos) { // h264
 		vopts[0] = def;
 		LiveSetup().SetStreamVideoOpt0(vopts[0]);
 	}
-	if (vopts[1].empty() || vopts[1].find("<input>") == string::npos) { // h265
+	if (vopts[1].empty() || vopts[1].find("<input>") == std::string::npos) { // h265
 		vopts[1] = def;
 		LiveSetup().SetStreamVideoOpt1(vopts[1]);
 	}
-	if (vopts[2].empty() || vopts[2].find("<input>") == string::npos) { // mpeg2
+	if (vopts[2].empty() || vopts[2].find("<input>") == std::string::npos) { // mpeg2
 		vopts[2] = def;
 		LiveSetup().SetStreamVideoOpt2(vopts[2]);
 	}
-	if (vopts[3].empty() || vopts[3].find("<input>") == string::npos) { // others
+	if (vopts[3].empty() || vopts[3].find("<input>") == std::string::npos) { // others
 		vopts[3] = def;
 		LiveSetup().SetStreamVideoOpt3(vopts[3]);
 	}
 
-	string packerCmd(vopts[vOption]);
-	stringstream ss;
+	std::string packerCmd(vopts[vOption]);
+	std::stringstream ss;
 	ss.str("");
 	ss << "\"http://localhost:" << LiveSetup().GetStreamdevPort() << "/" << targetChannel << "\"";
 	packerCmd.replace(packerCmd.find("<input>"), 7, ss.str());
@@ -121,7 +119,7 @@ void FFmpegThread::Action()
 			count = 0;
 			do {
 				cw.Wait(1000);
-				ifstream f(ss.str().c_str());
+				std::ifstream f(ss.str().c_str());
 				if (f.good()) break; // check if ffmpeg starts to generate output
 				dsyslog("Live: FFmpegTread::Action() ffmpeg starting... %d", count);
 			} while (Running() && pp.Check() == 0 && ++count < 6);
@@ -155,7 +153,7 @@ void FFmpegThread::Action()
 		int r = pp.Close();
 		dsyslog("Live: FFmpegTread::Action::Close(%d) disabled ffmpeg", r);
 
-	} catch (exception const& ex) {
+	} catch (std::exception const& ex) {
 		esyslog("ERROR: live FFmpegTread::Action() failed: %s", ex.what());
 	}
 	dsyslog("Live: FFmpegTread::Action() finished");

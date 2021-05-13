@@ -20,8 +20,6 @@
 
 namespace vdrlive {
 
-using namespace std;
-
 Setup::Setup():
 		m_serverPort( 8008 ),
 		m_serverSslPort( 8443 ),
@@ -95,7 +93,7 @@ bool Setup::ParseCommandLine( int argc, char* argv[] )
 char const* Setup::CommandLineHelp() const
 {
 	if ( m_helpString.empty() ) {
-		ostringstream builder;
+		std::stringstream builder;
 		builder << "  -p PORT,  --port=PORT        use PORT to listen for incoming connections\n"
 				   "                               (default: " << m_serverPort << ")\n"
 				<< "  -i IP,    --ip=IP            bind server only to specified IP, may appear\n"
@@ -147,9 +145,9 @@ bool Setup::ParseSetupEntry( char const* name, char const* value )
 
 bool Setup::CheckServerPort()
 {
-	if ( m_serverPort <= 0 || m_serverPort > numeric_limits< uint16_t >::max() ) {
+	if ( m_serverPort <= 0 || m_serverPort > std::numeric_limits<uint16_t>::max() ) {
 		esyslog( "live: ERROR: server port %d is not a valid port number", m_serverPort );
-		cerr << "ERROR: live server port " << m_serverPort << " is not a valid port number" << endl;
+		std::cerr << "ERROR: live server port " << m_serverPort << " is not a valid port number" << std::endl;
 		return false;
 	}
 	return true;
@@ -157,9 +155,9 @@ bool Setup::CheckServerPort()
 
 bool Setup::CheckServerSslPort()
 {
-	if ( m_serverSslPort <= 0 || m_serverSslPort > numeric_limits< uint16_t >::max() ) {
+	if ( m_serverSslPort <= 0 || m_serverSslPort > std::numeric_limits<uint16_t>::max() ) {
 		esyslog( "live: ERROR: server ssl port %d is not a valid port number", m_serverSslPort );
-		cerr << "ERROR: live server ssl port " << m_serverSslPort << " is not a valid port number" << endl;
+		std::cerr << "ERROR: live server ssl port " << m_serverSslPort << " is not a valid port number" << std::endl;
 		return false;
 	}
 	return true;
@@ -168,18 +166,18 @@ bool Setup::CheckServerSslPort()
 namespace {
 	struct IpValidator
 	{
-		bool operator() (string const & ip)
+		bool operator() (std::string const & ip)
 		{
 			struct in6_addr buf;
 			struct in_addr buf4;
 
 			esyslog( "live: INFO: validating server ip '%s'", ip.c_str());
-			cerr << "INFO: validating live server ip '" << ip << "'" << endl;
+			std::cerr << "INFO: validating live server ip '" << ip << "'" << std::endl;
 			bool valid = inet_aton(ip.c_str(), &buf4) || inet_pton(AF_INET6, ip.c_str(), &buf);
 
 			if (!valid) {
 				esyslog( "live: ERROR: server ip %s is not a valid ip address", ip.c_str());
-				cerr << "ERROR: live server ip '" << ip << "' is not a valid ip address" << endl;
+				std::cerr << "ERROR: live server ip '" << ip << "' is not a valid ip address" << std::endl;
 			}
 			return valid;
 		}
@@ -225,20 +223,20 @@ bool Setup::CheckServerIps()
 std::string const Setup::GetMD5HashAdminPassword() const
 {
 	// format is <length>:<md5-hash of password>
-	vector< string > parts = StringSplit( m_adminPasswordMD5, ':' );
+	std::vector<std::string> parts = StringSplit( m_adminPasswordMD5, ':' );
 	return (parts.size() > 1) ? parts[1] : "";
 }
 
 int Setup::GetAdminPasswordLength() const
 {
 	// format is <length>:<md5-hash of password>
-	vector< string > parts = StringSplit( m_adminPasswordMD5, ':' );
+	std::vector<std::string> parts = StringSplit( m_adminPasswordMD5, ':' );
 	return (parts.size() > 0) ? lexical_cast< int >( parts[0] ) : 0;
 }
 
 std::string Setup::SetAdminPassword(std::string password)
 {
-	ostringstream passwordStr;
+	std::stringstream passwordStr;
 	passwordStr << password.size() << ":" << MD5Hash(password);
 	m_adminPasswordMD5 = passwordStr.str();
 	return m_adminPasswordMD5;
@@ -268,34 +266,34 @@ bool Setup::UseAuth() const
 bool Setup::CheckLocalNet(const std::string& ip)
 {
 	// split local net mask in net and range
-	vector< string > parts = StringSplit( m_localnetmask, '/' );
+	std::vector<std::string> parts = StringSplit( m_localnetmask, '/' );
 	if (parts.size() != 2) return false;
-	string net = parts[0];
+	std::string net = parts[0];
 
-	int range = lexical_cast< int >(parts[1]);
+	int range = lexical_cast<int>(parts[1]);
 	// split net and ip addr in its 4 subcomponents
-	vector< string > netparts = StringSplit( net, '.' );
-	vector< string > addrparts = StringSplit( ip, '.' );
+	std::vector<std::string> netparts = StringSplit( net, '.' );
+	std::vector<std::string> addrparts = StringSplit( ip, '.' );
 	if (netparts.size() != 4 || addrparts.size() != 4) return false;
 
 	// to binary representation
-	ostringstream bin_netstream;
-	bin_netstream << bitset<8>(lexical_cast<long>(netparts[0]))
-		<< bitset<8>(lexical_cast<long>(netparts[1]))
-		<< bitset<8>(lexical_cast<long>(netparts[2]))
-		<< bitset<8>(lexical_cast<long>(netparts[3]));
+	std::stringstream bin_netstream;
+	bin_netstream << std::bitset<8>(lexical_cast<long>(netparts[0]))
+		<< std::bitset<8>(lexical_cast<long>(netparts[1]))
+		<< std::bitset<8>(lexical_cast<long>(netparts[2]))
+		<< std::bitset<8>(lexical_cast<long>(netparts[3]));
 
-	ostringstream bin_addrstream;
-	bin_addrstream << bitset<8>(lexical_cast<long>(addrparts[0]))
-		<< bitset<8>(lexical_cast<long>(addrparts[1]))
-		<< bitset<8>(lexical_cast<long>(addrparts[2]))
-		<< bitset<8>(lexical_cast<long>(addrparts[3]));
+	std::stringstream bin_addrstream;
+	bin_addrstream << std::bitset<8>(lexical_cast<long>(addrparts[0]))
+		<< std::bitset<8>(lexical_cast<long>(addrparts[1]))
+		<< std::bitset<8>(lexical_cast<long>(addrparts[2]))
+		<< std::bitset<8>(lexical_cast<long>(addrparts[3]));
 
 	// compare range
-	string bin_net = bin_netstream.str();
-	string bin_addr = bin_addrstream.str();
-	string bin_net_range(bin_net.begin(), bin_net.begin() + range);
-	string addr_net_range(bin_addr.begin(), bin_addr.begin() + range);
+	std::string bin_net = bin_netstream.str();
+	std::string bin_addr = bin_addrstream.str();
+	std::string bin_net_range(bin_net.begin(), bin_net.begin() + range);
+	std::string addr_net_range(bin_addr.begin(), bin_addr.begin() + range);
 	m_islocalnet = (bin_net_range == addr_net_range);
 
 	return m_islocalnet;
@@ -352,7 +350,7 @@ cMenuSetupLive::cMenuSetupLive():
 
 	m_oldpasswordMD5 = m_newpasswordMD5 = vdrlive::LiveSetup().GetMD5HashAdminPassword();
 
-	string strHidden(vdrlive::LiveSetup().GetAdminPasswordLength(), '*');
+	std::string strHidden(vdrlive::LiveSetup().GetAdminPasswordLength(), '*');
 	strn0cpy(m_tmpPassword, strHidden.c_str(), sizeof(m_tmpPassword));
 	strcpy(m_adminPassword, "");
 	Set();
@@ -415,7 +413,7 @@ eOSState cMenuSetupLive::ProcessKey(eKeys Key)
 	{
 		strcpy(m_adminPassword, m_tmpPassword);
 		m_newpasswordMD5 = MD5Hash(m_tmpPassword);
-		string strHidden(strlen(m_adminPassword), '*');
+		std::string strHidden(strlen(m_adminPassword), '*');
 		strcpy(m_tmpPassword, strHidden.c_str());
 		Set();
 		Display();

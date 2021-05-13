@@ -12,13 +12,12 @@
 #include <vdr/recording.h>
 #include <vdr/videodir.h>
 
-using namespace std;
 using namespace tnt;
 
-istream& operator>>( istream& is, tChannelID& ret )
+std::istream& operator>>( std::istream& is, tChannelID& ret )
 {
   /* alternativ implementation
-  string line;
+  std::string line;
   if ( !getline( is, line ) ) {
     if ( !is.eof() )
       is.setstate( ios::badbit );
@@ -31,31 +30,31 @@ istream& operator>>( istream& is, tChannelID& ret )
   return is;
   */
 
-  string line;
-  if (!getline( is, line ) ) {
+  std::string line;
+  if (!std::getline( is, line ) ) {
     if (0 == is.gcount()) {
-      is.clear(is.rdstate() & ~ios::failbit);
+      is.clear(is.rdstate() & ~std::ios::failbit);
       return is;
     }
     if (!is.eof()) {
-      is.setstate( ios::badbit );
+      is.setstate( std::ios::badbit );
       return is;
     }
   }
 
   if ( !line.empty() && !( ret = tChannelID::FromString( line.c_str() ) ).Valid() )
-    is.setstate( ios::badbit );
+    is.setstate( std::ios::badbit );
   return is;
 }
 
 namespace vdrlive {
 
-	string CorrectNonUTF8(string *str) // based on https://stackoverflow.com/questions/17316506/strip-invalid-utf8-from-string-in-c-c
+	std::string CorrectNonUTF8(std::string *str) // based on https://stackoverflow.com/questions/17316506/strip-invalid-utf8-from-string-in-c-c
 	{
 		int i, f_size = str->size();
 		unsigned char c, c3, c4;
 		unsigned char c2 = (unsigned char) 0;
-		string to;
+		std::string to;
 		to.reserve(f_size);
 
 		for(i = 0; i < f_size; i++) {
@@ -151,51 +150,51 @@ namespace vdrlive {
 		return to;
 	}
 
-	string FormatDuration( char const* format, int hours, int minutes )
+	std::string FormatDuration( char const* format, int hours, int minutes )
 	{
 		char result[ 32 ];
 		if ( snprintf(result, sizeof(result), format, hours, minutes) < 0 ) {
-			ostringstream builder;
+			std::stringstream builder;
 			builder << "cannot represent duration " << hours << ":" << minutes << " as requested";
-			throw runtime_error( builder.str() );
+			throw std::runtime_error( builder.str() );
 		}
 		return result;
 	}
 
-	string FormatDateTime( char const* format, time_t time )
+	std::string FormatDateTime( char const* format, time_t time )
 	{
 		struct tm tm_r;
 		if ( localtime_r( &time, &tm_r ) == 0 ) {
-			ostringstream builder;
+			std::stringstream builder;
 			builder << "cannot represent timestamp " << time << " as local time";
-			throw runtime_error( builder.str() );
+			throw std::runtime_error( builder.str() );
 		}
 
 		char result[ 256 ];
 		if ( strftime( result, sizeof( result ), format, &tm_r ) == 0 ) {
-			ostringstream builder;
+			std::stringstream builder;
 			builder << "representation of timestamp " << time << " exceeds " << sizeof( result ) << " bytes";
-			throw runtime_error( builder.str() );
+			throw std::runtime_error( builder.str() );
 		}
 		return result;
 	}
 
-	string StringReplace( string const& text, string const& substring, string const& replacement )
+	std::string StringReplace( std::string const& text, std::string const& substring, std::string const& replacement )
 	{
-		string result = text;
-		string::size_type pos = 0;
-		while ( ( pos = result.find( substring, pos ) ) != string::npos ) {
+		std::string result = text;
+		size_t pos = 0;
+		while ( ( pos = result.find( substring, pos ) ) != std::string::npos ) {
 			result.replace( pos, substring.length(), replacement );
 			pos += replacement.length();
 		}
 		return result;
 	}
 
-	vector< string > StringSplit( string const& text, char delimiter )
+	std::vector<std::string> StringSplit( std::string const& text, char delimiter )
 	{
-		vector< string > result;
-		string::size_type last = 0, pos;
-		while ( ( pos = text.find( delimiter, last ) ) != string::npos ) {
+		std::vector<std::string> result;
+		size_t last = 0, pos;
+		while ( ( pos = text.find( delimiter, last ) ) != std::string::npos ) {
 			result.push_back( text.substr( last, pos - last ) );
 			last = pos + 1;
 		}
@@ -213,16 +212,16 @@ namespace vdrlive {
 		return 0;
 	}
 
-	string StringRepeat(int times, const string& input)
+	std::string StringRepeat(int times, const std::string& input)
 	{
-		string result;
+		std::string result;
 		for (int i = 0; i < times; i++) {
 			result += input;
 		}
 		return result;
 	}
 
-	string StringWordTruncate(const string& input, size_t maxLen, bool& truncated)
+	std::string StringWordTruncate(const std::string& input, size_t maxLen, bool& truncated)
 	{
 		if (input.length() <= maxLen)
 		{
@@ -230,41 +229,41 @@ namespace vdrlive {
 			return input;
 		}
 		truncated = true;
-		string result = input.substr(0, maxLen);
+		std::string result = input.substr(0, maxLen);
 		size_t pos = result.find_last_of(" \t,;:.\n?!'\"/\\()[]{}*+-");
 		return result.substr(0, pos);
 	}
 
-	string StringFormatBreak(string const& input)
+	std::string StringFormatBreak(std::string const& input)
 	{
 		return StringReplace( input, "\n", "<br/>" );
 	}
 
-	string StringEscapeAndBreak( string const& input )
+	std::string StringEscapeAndBreak( std::string const& input )
 	{
-		stringstream plainBuilder;
+		std::stringstream plainBuilder;
 		HtmlEscOstream builder( plainBuilder );
 		builder << input;
 		return StringReplace( plainBuilder.str(), "\n", "<br/>" );
 	}
 
-	string StringTrim(string const& str)
+	std::string StringTrim(std::string const& str)
 	{
-		string res = str;
-		string::size_type pos = res.find_last_not_of(' ');
-		if(pos != string::npos) {
+		std::string res = str;
+		size_t pos = res.find_last_not_of(' ');
+		if(pos != std::string::npos) {
 			res.erase(pos + 1);
 			pos = res.find_first_not_of(' ');
-			if(pos != string::npos) res.erase(0, pos);
+			if(pos != std::string::npos) res.erase(0, pos);
 		}
 		else res.erase(res.begin(), res.end());
 		return res;
 	}
 
-	string ZeroPad(int number)
+	std::string ZeroPad(int number)
 	{
-		ostringstream os;
-		os << setw(2) << setfill('0') << number;
+		std::stringstream os;
+		os << std::setw(2) << std::setfill('0') << number;
 		return os.str();
 	}
 
@@ -273,14 +272,14 @@ namespace vdrlive {
 		char* szInput = strdup(str.c_str());
 		if (!szInput) return "";
 		char* szRes = MD5String(szInput);
-		string res = szRes;
+		std::string res = szRes;
 		free(szRes);
 		return res;
 
 /*	unsigned char md5[MD5_DIGEST_LENGTH];
 	MD5(reinterpret_cast<const unsigned char*>(str.c_str()), str.size(), md5);
 
-	ostringstream hashStr;
+	std::stringstream hashStr;
 	hashStr << hex;
 	for (size_t i = 0; i < MD5_DIGEST_LENGTH; i++)
 	hashStr << (0 + md5[i]);
@@ -294,24 +293,24 @@ namespace vdrlive {
 
 	std::string ExpandTimeString(std::string timestring)
 	{
-		string::size_type colonpos = timestring.find(":");
-		if (colonpos == string::npos)
+		size_t colonpos = timestring.find(":");
+		if (colonpos == std::string::npos)
 		{
 			if (timestring.size() == 1)
 				timestring = "0" + timestring + ":00";
 			else if (timestring.size() == 2)
 				timestring = timestring + ":00";
 			else if (timestring.size() == 3)
-				timestring = "0" + string(timestring.begin(), timestring.begin() + 1) + ":" + string(timestring.begin() + 1, timestring.end());
+				timestring = "0" + std::string(timestring.begin(), timestring.begin() + 1) + ":" + std::string(timestring.begin() + 1, timestring.end());
 			else
-				timestring = string(timestring.begin(), timestring.begin() + 2) + ":" + string(timestring.begin() + 2, timestring.end());
+				timestring = std::string(timestring.begin(), timestring.begin() + 2) + ":" + std::string(timestring.begin() + 2, timestring.end());
 		}
 		else
 		{
-			string hours = string(timestring.begin(), timestring.begin() + colonpos);
-			string mins = string(timestring.begin() + colonpos + 1, timestring.end());
-			hours = string(std::max(0,(int)(2 - hours.size())), '0') + hours;
-			mins = string(std::max(0,(int)(2 - mins.size())), '0') + mins;
+			std::string hours = std::string(timestring.begin(), timestring.begin() + colonpos);
+			std::string mins = std::string(timestring.begin() + colonpos + 1, timestring.end());
+			hours = std::string(std::max(0,(int)(2 - hours.size())), '0') + hours;
+			mins = std::string(std::max(0,(int)(2 - mins.size())), '0') + mins;
 			timestring = hours + ":" + mins;
 		}
 		return timestring;
@@ -331,9 +330,9 @@ namespace vdrlive {
 
 	struct urlencoder
 	{
-			ostream& ostr_;
+			std::ostream& ostr_;
 
-			explicit urlencoder( ostream& ostr ): ostr_( ostr ) {}
+			explicit urlencoder( std::ostream& ostr ): ostr_( ostr ) {}
 
 			void operator()( char ch )
 			{
@@ -353,28 +352,28 @@ namespace vdrlive {
 				if ( ch == ' ' )
 					ostr_ << '+';
 				else if ( static_cast< signed char >( ch ) < 0 || allowedChars[ size_t( ch ) ] == '_' )
-					ostr_ << '%' << setw( 2 ) << setfill( '0' ) << hex << int( static_cast< unsigned char >( ch ) );
+					ostr_ << '%' << std::setw( 2 ) << std::setfill( '0' ) << std::hex << int( static_cast< unsigned char >( ch ) );
 				else
 					ostr_ << ch;
 			}
 	};
 
-	string StringUrlEncode( string const& input )
+	std::string StringUrlEncode( std::string const& input )
 	{
-		ostringstream ostr;
+		std::stringstream ostr;
 		for_each( input.begin(), input.end(), urlencoder( ostr ) );
 		return ostr.str();
 	}
 
 // returns the content of <element>...</element>
-	string GetXMLValue( std::string const& xml, std::string const& element )
+	std::string GetXMLValue( std::string const& xml, std::string const& element )
 	{
-		string start = "<" + element + ">";
-		string end = "</" + element + ">";
-		string::size_type startPos = xml.find(start);
-		if (startPos == string::npos) return "";
-		string::size_type endPos = xml.find(end);
-		if (endPos == string::npos) return "";
+		std::string start = "<" + element + ">";
+		std::string end = "</" + element + ">";
+		size_t startPos = xml.find(start);
+		if (startPos == std::string::npos) return "";
+		size_t endPos = xml.find(end);
+		if (endPos == std::string::npos) return "";
 		return xml.substr(startPos + start.size(), endPos - startPos - start.size());
 	}
 
@@ -496,8 +495,8 @@ namespace vdrlive {
 					while ((e = d.Next()) != NULL) {
 						// skip generic entries
 						if (strcmp(e->d_name, ".") && strcmp(e->d_name, "..") && strcmp(e->d_name, "lost+found")) {
-							string sourceFile = source + e->d_name;
-							string targetFile = target + e->d_name;
+							std::string sourceFile = source + e->d_name;
+							std::string targetFile = target + e->d_name;
 
 							// copy only regular files
 							if (!stat(sourceFile.c_str(), &st1) && S_ISREG(st1.st_mode)) {

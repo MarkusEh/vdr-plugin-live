@@ -18,8 +18,6 @@ static bool operator<( cTimer const& left, cTimer const& right )
 
 namespace vdrlive {
 
-	using namespace std;
-
 	static char const* const TIMER_DELETE = "DELETE";
 	static char const* const TIMER_TOGGLE = "TOGGLE";
 
@@ -31,17 +29,17 @@ namespace vdrlive {
 		ReloadTimers();
 	}
 
-	string SortedTimers::GetTimerId( cTimer const& timer )
+	std::string SortedTimers::GetTimerId( cTimer const& timer )
 	{
-		ostringstream builder;
+		std::stringstream builder;
 		builder << timer.Channel()->GetChannelID() << ":" << timer.WeekDays() << ":"
 				<< timer.Day() << ":" << timer.Start() << ":" << timer.Stop();
 		return builder.str();
 	}
 
-	const cTimer* SortedTimers::GetByTimerId( string const& timerid )
+	const cTimer* SortedTimers::GetByTimerId( std::string const& timerid )
 	{
-		vector< string > parts = StringSplit( timerid, ':' );
+		std::vector<std::string> parts = StringSplit( timerid, ':' );
 		if ( parts.size() < 5 ) {
 			esyslog("live: GetByTimerId: invalid format %s", timerid.c_str() );
 			return 0;
@@ -79,18 +77,18 @@ namespace vdrlive {
 	}
 
 
-	string SortedTimers::EncodeDomId(string const& timerid)
+	std::string SortedTimers::EncodeDomId(std::string const& timerid)
 	{
-		string tId("timer_");
+		std::string tId("timer_");
 		tId += vdrlive::EncodeDomId(timerid, ".-:", "pmc");
 		return tId;
 	}
 
-	string SortedTimers::DecodeDomId(string const &timerDomId)
+	std::string SortedTimers::DecodeDomId(std::string const &timerDomId)
 	{
-		string const timerStr("timer_");
+		std::string const timerStr("timer_");
 
-		string tId = timerDomId.substr(timerStr.length());
+		std::string tId = timerDomId.substr(timerStr.length());
 
 		return vdrlive::DecodeDomId(tId, "pmc", ".-:");
 	}
@@ -118,50 +116,50 @@ namespace vdrlive {
 		sort();
 	}
 
-	string SortedTimers::GetTimerDays(cTimer const& timer)
+	std::string SortedTimers::GetTimerDays(cTimer const& timer)
 	{
-		string currentDay = timer.WeekDays() > 0 ?
+		std::string currentDay = timer.WeekDays() > 0 ?
 			*cTimer::PrintDay(0, timer.WeekDays(), true) :
 			FormatDateTime(tr("%A, %x"), timer.Day());
 		return currentDay;
 	}
 
-	string SortedTimers::GetTimerInfo(cTimer const& timer)
+	std::string SortedTimers::GetTimerInfo(cTimer const& timer)
 	{
-		ostringstream info;
-		info << trVDR("Priority") << ": " << timer.Priority() << endl;
-		info << trVDR("Lifetime") << ": " << timer.Lifetime() << endl;
-		info << trVDR("VPS") << ": " << (timer.HasFlags(tfVps)?trVDR("yes"):trVDR("no")) << endl;
+		std::stringstream info;
+		info << trVDR("Priority") << ": " << timer.Priority() << std::endl;
+		info << trVDR("Lifetime") << ": " << timer.Lifetime() << std::endl;
+		info << trVDR("VPS") << ": " << (timer.HasFlags(tfVps)?trVDR("yes"):trVDR("no")) << std::endl;
 
 		if (timer.Aux())
 		{
-			string epgsearchinfo = GetXMLValue(timer.Aux(), "epgsearch");
+			std::string epgsearchinfo = GetXMLValue(timer.Aux(), "epgsearch");
 			if (!epgsearchinfo.empty())
 			{
-				string searchtimer = GetXMLValue(epgsearchinfo, "searchtimer");
+				std::string searchtimer = GetXMLValue(epgsearchinfo, "searchtimer");
 				if (!searchtimer.empty())
-					info << tr("Searchtimer") << ": " << searchtimer << endl;
+					info << tr("Searchtimer") << ": " << searchtimer << std::endl;
 			}
 		}
 #if VDRVERSNUM >= 20400
                 if (timer.Local()) {
-                  info << trVDR("Record on") << ": " << trVDR(" ") << endl;
+                  info << trVDR("Record on") << ": " << trVDR(" ") << std::endl;
                 } else {
-                  info << trVDR("Record on") << ": " << timer.Remote() << endl;
+                  info << trVDR("Record on") << ": " << timer.Remote() << std::endl;
                 }
 #endif
 		return info.str();
 	}
 
-	string SortedTimers::SearchTimerInfo(cTimer const& timer, std::string const& value)
+	std::string SortedTimers::SearchTimerInfo(cTimer const& timer, std::string const& value)
 	{
-		ostringstream info;
+		std::stringstream info;
 		if (timer.Aux())
 		{
-			string epgsearchinfo = GetXMLValue(timer.Aux(), "epgsearch");
+			std::string epgsearchinfo = GetXMLValue(timer.Aux(), "epgsearch");
 			if (!epgsearchinfo.empty())
 			{
-				string data = GetXMLValue(epgsearchinfo, value);
+				std::string data = GetXMLValue(epgsearchinfo, value);
 				if (!data.empty())
 					info << data;
 			}
@@ -188,12 +186,12 @@ namespace vdrlive {
 	{
 	}
 
-	void TimerManager::UpdateTimer( int timerId, const char* remote, const char* oldRemote, int flags, const tChannelID& channel, string const& weekdays,
-			                string const& day, int start, int stop, int priority, int lifetime, string const& title, string const& aux )
+	void TimerManager::UpdateTimer( int timerId, const char* remote, const char* oldRemote, int flags, const tChannelID& channel, std::string const& weekdays,
+			                std::string const& day, int start, int stop, int priority, int lifetime, std::string const& title, std::string const& aux )
 	{
 		cMutexLock lock( this );
 
-		ostringstream builder;
+		std::stringstream builder;
 		builder << flags << ":"
 				<< channel << ":"
 				<< ( weekdays != "-------" ? weekdays : "" )
@@ -226,7 +224,7 @@ namespace vdrlive {
 		m_updateWait.Wait( *this );
 		// dsyslog("live: SV: update done");
 
-		string error = GetError( timerData );
+		std::string error = GetError( timerData );
 		if ( !error.empty() )
 			throw HtmlError( error );
 	}
@@ -243,7 +241,7 @@ namespace vdrlive {
 		m_updateTimers.push_back( timerData );
 		m_updateWait.Wait( *this );
 
-		string error = GetError( timerData );
+		std::string error = GetError( timerData );
 		if ( !error.empty() )
 			throw HtmlError( error );
 	}
@@ -257,7 +255,7 @@ namespace vdrlive {
 		m_updateTimers.push_back( timerData );
 		m_updateWait.Wait( *this );
 
-		string error = GetError( timerData );
+		std::string error = GetError( timerData );
 		if ( !error.empty() )
 			throw HtmlError( error );
 	}
@@ -300,7 +298,7 @@ namespace vdrlive {
 		if ( timerData.remote ) {	// add remote timer via svdrpsend
 			dsyslog("live: DoInsertTimer() add remote timer on server '%s'", timerData.remote);
 			cStringList response;
-			string command = "NEWT ";
+			std::string command = "NEWT ";
 			command.append(timerData.builder);
 			dsyslog("live: DoInsertTimer() svdrp command '%s'", command.c_str());
 			bool svdrpOK = ExecSVDRPCommand(timerData.remote, command.c_str(), &response);
@@ -367,7 +365,7 @@ namespace vdrlive {
 			if ( timerData.remote == timerData.oldRemote ) {  // timer stays on the same remote server
 				dsyslog("live: DoUptimer() update timer on remote server '%s'", timerData.remote);
 				cStringList response;
-				string command = "MODT ";
+				std::string command = "MODT ";
 				command.append(std::to_string(timerData.id));
 				command.append(" ");
 				command.append(timerData.builder);
@@ -463,7 +461,7 @@ namespace vdrlive {
 		if ( timerData.remote ) {		// delete remote timer via svdrpsend
 			dsyslog("live: DoDeleteTimer() delete remote timer id '%d' from server '%s'", timerData.id, timerData.remote);
 			cStringList response;
-			string command = "DELT ";
+			std::string command = "DELT ";
 			command.append(std::to_string(timerData.id));
 			bool svdrpOK = ExecSVDRPCommand(timerData.remote, command.c_str(), &response);
 			if ( !svdrpOK ) {
@@ -531,7 +529,7 @@ namespace vdrlive {
 		if ( timerData.remote ) {		// toggle remote timer via svdrpsend
 			LOCK_TIMERS_READ;
 			const cTimer* toggleTimer = Timers->GetById( timerData.id, timerData.remote );
-			string command = "MODT ";
+			std::string command = "MODT ";
 			command.append(std::to_string(timerData.id));
 			if (toggleTimer->HasFlags(tfActive)) {
 				dsyslog("live: DoToggleTimer() timer is active");
@@ -600,14 +598,14 @@ namespace vdrlive {
 		m_failedUpdates.push_back( ErrorPair( timerData, error ) );
 	}
 
-	string TimerManager::GetError( timerStruct const& timerData )
+	std::string TimerManager::GetError( timerStruct const& timerData )
 	{
 		for ( ErrorList::iterator error = m_failedUpdates.begin(); error != m_failedUpdates.end(); ++error ) {
 			if ( error->first.id == timerData.id &&
 			     error->first.remote == timerData.remote &&
 			     error->first.oldRemote == timerData.oldRemote &&
 			     error->first.builder == timerData.builder ) {
-				string message = error->second;
+				std::string message = error->second;
 				m_failedUpdates.erase( error );
 				return message;
 			}

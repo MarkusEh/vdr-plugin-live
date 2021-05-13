@@ -14,8 +14,6 @@
 
 namespace vdrlive {
 
-	using namespace std;
-
 	TntConfig::TntConfig()
 	{
 	}
@@ -23,7 +21,7 @@ namespace vdrlive {
 	namespace {
 		std::string GetResourcePath()
 		{
-			string resourceDir(Plugin::GetResourceDirectory());
+			std::string resourceDir(Plugin::GetResourceDirectory());
 			return resourceDir;
 		}
 
@@ -45,7 +43,7 @@ namespace vdrlive {
 
 	void TntConfig::Configure(tnt::Tntnet& app) const
 	{
-		string const configDir(Plugin::GetConfigDirectory());
+		std::string const configDir(Plugin::GetConfigDirectory());
 
 #if TNT_LOG_SERINFO
 		cxxtools::SerializationInfo si;
@@ -140,7 +138,7 @@ namespace vdrlive {
 		// deprecated: file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) $2@" << endl;
 
 		// Epg images
-		string const epgImgPath(LiveSetup().GetEpgImageDir());
+		std::string const epgImgPath(LiveSetup().GetEpgImageDir());
 		if (!epgImgPath.empty()) {
 			// inserted by 'tadi' -- verified with above, but not counterchecked yet!
 			MapUrl(app,
@@ -206,10 +204,10 @@ namespace vdrlive {
 
 #if TNT_GLOBAL_TNTCONFIG
 		tnt::TntConfig::it().sessionTimeout = 86400;
-		tnt::TntConfig::it().defaultContentType = string("text/html; charset=") + LiveI18n().CharacterEncoding();
+		tnt::TntConfig::it().defaultContentType = std::string("text/html; charset=") + LiveI18n().CharacterEncoding();
 #else
 		tnt::Sessionscope::setDefaultTimeout(86400);
-		tnt::HttpReply::setDefaultContentType(string("text/html; charset=") + LiveI18n().CharacterEncoding());
+		tnt::HttpReply::setDefaultContentType(std::string("text/html; charset=") + LiveI18n().CharacterEncoding());
 #endif
 
 		Setup::IpList const& ips = LiveSetup().GetServerIps();
@@ -220,7 +218,7 @@ namespace vdrlive {
 				esyslog("live: INFO: attempt to listen on ip = '%s'", ip->c_str());
 				app.listen(*ip, port);
 			}
-			catch (exception const & ex) {
+			catch (std::exception const & ex) {
 				esyslog("live: ERROR: ip = %s is invalid: exception = %s", ip->c_str(), ex.what());
 				if (++listenFailures == ips.size()) {
 					// if no listener was initialized we throw at
@@ -231,8 +229,8 @@ namespace vdrlive {
 		}
 
 		int s_port = LiveSetup().GetServerSslPort();
-		string s_cert = LiveSetup().GetServerSslCert();
-		string s_key = LiveSetup().GetServerSslKey();
+		std::string s_cert = LiveSetup().GetServerSslCert();
+		std::string s_key = LiveSetup().GetServerSslKey();
 
 		if (s_cert.empty()) {
 			s_cert = configDir + "/live.pem";
@@ -242,7 +240,7 @@ namespace vdrlive {
 			s_key = configDir + "/live-key.pem";
 		}
 
-		if ( ifstream( s_cert.c_str() ) && ifstream( s_key.c_str() ) ) {
+		if (std::ifstream( s_cert.c_str() ) && std::ifstream( s_key.c_str() ) ) {
 			for ( Setup::IpList::const_iterator ip = ips.begin(); ip != ips.end(); ++ip ) {
 				app.sslListen(s_cert, s_key, *ip, s_port);
 			}
