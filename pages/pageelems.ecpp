@@ -36,7 +36,7 @@ int update_status(1);
 
 <%def logo>
 <!-- start of fixed page header -->
-<div id="header" style="width: 100%; z-index: 1; background-color: white">
+<div id="header" style="width: 100%; z-index: 1; background-color: inherit">
 <div id="padding" style="display: none"></div>
 <div id="content">
 <!-- header content follows -->
