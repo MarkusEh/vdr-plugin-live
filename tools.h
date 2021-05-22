@@ -12,6 +12,10 @@
         #include "cxxtools/serializationinfo.h"
 #endif
 
+#ifndef DISABLE_TEMPLATES_COLLIDING_WITH_STL
+// To get rid of the swap definition in vdr/tools.h
+#define DISABLE_TEMPLATES_COLLIDING_WITH_STL
+#endif
 #include <vdr/channels.h>
 
 std::istream& operator>>( std::istream& is, tChannelID& ret );

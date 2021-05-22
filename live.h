@@ -10,6 +10,10 @@
         #include <cxxtools/log.h>  // must be loaded before any vdr include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
 #endif
 
+#ifndef DISABLE_TEMPLATES_COLLIDING_WITH_STL
+// To get rid of the swap definition in vdr/tools.h
+#define DISABLE_TEMPLATES_COLLIDING_WITH_STL
+#endif
 #include <vdr/plugin.h>
 
 namespace vdrlive {
