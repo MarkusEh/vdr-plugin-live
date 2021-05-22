@@ -1339,3 +1339,11 @@ div.epg_content div.about_head div div {
 	border-top: 1px solid #C0C1DA;
 	border-bottom: 1px solid #C0C1DA;
 }
+
+#infowin-opened {
+  z-index: 100000;
+  position: fixed;
+  top: 100px;
+  left: 0px;
+}
+
