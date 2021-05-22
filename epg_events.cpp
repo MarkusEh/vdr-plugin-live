@@ -15,7 +15,6 @@
 #define TVM2VDR_PL_WORKAROUND  0
 #endif
 
-using namespace std;
 
 namespace vdrlive
 {
@@ -36,18 +35,18 @@ namespace vdrlive
 	{
 	}
 
-	const string EpgInfo::CurrentTime(const char* format) const
+	const std::string EpgInfo::CurrentTime(const char* format) const
 	{
 		return FormatDateTime(format, time(0));
 	}
 
-	const string EpgInfo::StartTime(const char* format) const
+	const std::string EpgInfo::StartTime(const char* format) const
 	{
 		time_t start = GetStartTime();
 		return start ? FormatDateTime(format, start) : "";
 	}
 
-	const string EpgInfo::EndTime(const char* format) const
+	const std::string EpgInfo::EndTime(const char* format) const
 	{
 		time_t end = GetEndTime();
 		return end ? FormatDateTime(format, end) : "";
@@ -85,7 +84,7 @@ namespace vdrlive
 	 * -------------------------------------------------------------------------
 	 */
 
-	EpgString::EpgString(const string& id, const string& caption, const string& info) :
+	EpgString::EpgString(const std::string& id, const std::string& caption, const std::string& info) :
 		EpgInfo(id, caption),
 		m_info(info)
 	{
@@ -95,17 +94,17 @@ namespace vdrlive
 	{
 	}
 
-	const string EpgString::Title() const
+	const std::string EpgString::Title() const
 	{
 		return m_info;
 	}
 
-	const string EpgString::ShortDescr() const
+	const std::string EpgString::ShortDescr() const
 	{
 		return "";
 	}
 
-	const string EpgString::LongDescr() const
+	const std::string EpgString::LongDescr() const
 	{
 		return "";
 	}
@@ -126,7 +125,7 @@ namespace vdrlive
 	 * -------------------------------------------------------------------------
 	 */
 
-	EpgRecording::EpgRecording(const string& recid, const cRecording* recording, const char* caption) :
+	EpgRecording::EpgRecording(const std::string& recid, const cRecording* recording, const char* caption) :
 		EpgInfo(recid, (caption != 0) ? caption : ""),
 		m_recording(recording),
 		m_ownCaption(caption != 0),
@@ -140,7 +139,7 @@ namespace vdrlive
 		m_recording = 0;
 	}
 
-	const string EpgRecording::Caption() const
+	const std::string EpgRecording::Caption() const
 	{
 		if (m_ownCaption) {
 			return EpgInfo::Caption();
@@ -152,7 +151,7 @@ namespace vdrlive
 		return Name();
 	}
 
-	const string EpgRecording::Title() const
+	const std::string EpgRecording::Title() const
 	{
 		if (!m_recording) {
 			return "";
@@ -162,19 +161,19 @@ namespace vdrlive
 		return (info && info->Title()) ? info->Title() : Name();
 	}
 
-	const string EpgRecording::ShortDescr() const
+	const std::string EpgRecording::ShortDescr() const
 	{
 		const cRecordingInfo* info = m_recording ? m_recording->Info() : 0;
 		return (info && info->ShortText()) ? info->ShortText() : "";
 	}
 
-	const string EpgRecording::LongDescr() const
+	const std::string EpgRecording::LongDescr() const
 	{
 		const cRecordingInfo* info = m_recording ? m_recording->Info() : 0;
 		return (info && info->Description()) ? info->Description() : "";
 	}
 
-	const string EpgRecording::Archived() const
+	const std::string EpgRecording::Archived() const
 	{
 		if (!m_checkedArchived && m_recording) {
 			m_archived = RecordingsManager::GetArchiveDescr(m_recording);
@@ -183,7 +182,7 @@ namespace vdrlive
 		return m_archived;
 	}
 
-	const string EpgRecording::FileName() const
+	const std::string EpgRecording::FileName() const
 	{
 		return m_recording->FileName();
 	}
@@ -223,11 +222,11 @@ namespace vdrlive
 		return 0;
 	}
 
-	const string EpgRecording::Name() const
+	const std::string EpgRecording::Name() const
 	{
-		string name(m_recording->Name());
+		std::string name(m_recording->Name());
 		size_t index = name.find_last_of('~');
-		if (index != string::npos) {
+		if (index != std::string::npos) {
 			name = name.substr(index+1);
 		}
 		return name;
@@ -255,10 +254,10 @@ namespace vdrlive
 	 * -------------------------------------------------------------------------
 	 */
 	namespace EpgEvents {
-		string EncodeDomId(tChannelID const &chanId, tEventID const &eId)
+		std::string EncodeDomId(tChannelID const &chanId, tEventID const &eId)
 		{
-			string channelId(chanId.ToString());
-			string eventId("event_");
+			std::string channelId(chanId.ToString());
+			std::string eventId("event_");
 
 			channelId = vdrlive::EncodeDomId(channelId, ".-", "pm");
 
@@ -268,24 +267,24 @@ namespace vdrlive
 			return eventId;
 		}
 
-		void DecodeDomId(string const &epgid, tChannelID& channelId, tEventID& eventId)
+		void DecodeDomId(std::string const &epgid, tChannelID& channelId, tEventID& eventId)
 		{
-			string const eventStr("event_");
+			std::string const eventStr("event_");
 
 			size_t delimPos = epgid.find_last_of('_');
-			string cIdStr = epgid.substr(eventStr.length(), delimPos - eventStr.length());
+			std::string cIdStr = epgid.substr(eventStr.length(), delimPos - eventStr.length());
 
 			cIdStr = vdrlive::DecodeDomId(cIdStr, "mp", "-.");
 
-			string const eIdStr = epgid.substr(delimPos+1);
+			std::string const eIdStr = epgid.substr(delimPos+1);
 
 			channelId = tChannelID::FromString(cIdStr.c_str());
 			eventId = lexical_cast<tEventID>(eIdStr);
 		}
 
-		EpgInfoPtr CreateEpgInfo(string const &epgid, cSchedules const *schedules)
+		EpgInfoPtr CreateEpgInfo(std::string const &epgid, cSchedules const *schedules)
 		{
-			string const errorInfo(tr("Epg error"));
+			std::string const errorInfo(tr("Epg error"));
 
 			tEventID eventId = tEventID();
 			tChannelID channelId = tChannelID();
@@ -316,36 +315,36 @@ namespace vdrlive
 			assert(chan);
 
 			if (event) {
-				string domId(idOverride ? idOverride : EncodeDomId(chan->GetChannelID(), event->EventID()));
+				std::string domId(idOverride ? idOverride : EncodeDomId(chan->GetChannelID(), event->EventID()));
 				return EpgInfoPtr(new EpgEvent(domId, event, chan->Name()));
 			}
 			if (LiveSetup().GetShowChannelsWithoutEPG()) {
-				string domId(idOverride ? idOverride : EncodeDomId(chan->GetChannelID(), 0));
+				std::string domId(idOverride ? idOverride : EncodeDomId(chan->GetChannelID(), 0));
 				return EpgInfoPtr(new EmptyEvent(domId, chan->GetChannelID(), chan->Name()));
 			}
 			return EpgInfoPtr();
 		}
 
-		EpgInfoPtr CreateEpgInfo(string const &recid, cRecording const *recording, char const *caption)
+		EpgInfoPtr CreateEpgInfo(std::string const &recid, cRecording const *recording, char const *caption)
 		{
 			return EpgInfoPtr(new EpgRecording(recid, recording, caption));
 		}
 
-		EpgInfoPtr CreateEpgInfo(string const &id, string const &caption, string const &info)
+		EpgInfoPtr CreateEpgInfo(std::string const &id, std::string const &caption, std::string const &info)
 		{
 			return EpgInfoPtr(new EpgString(id, caption, info));
 		}
 
 
-		bool ScanForEpgImages(string const & imageId, string const & wildcard, list<string> & images)
+		bool ScanForEpgImages(std::string const & imageId, std::string const & wildcard, std::list<std::string> & images)
 		{
 			bool found = false;
-			const string filemask(LiveSetup().GetEpgImageDir() + "/" + imageId + wildcard);
+			const std::string filemask(LiveSetup().GetEpgImageDir() + "/" + imageId + wildcard);
 			glob_t globbuf;
 			globbuf.gl_offs = 0;
 			if (!LiveSetup().GetEpgImageDir().empty() && glob(filemask.c_str(), GLOB_DOOFFS, NULL, &globbuf) == 0) {
 				for(size_t i = 0; i < globbuf.gl_pathc; i++) {
-					const string imagefile(globbuf.gl_pathv[i]);
+					const std::string imagefile(globbuf.gl_pathv[i]);
 					size_t delimPos = imagefile.find_last_of('/');
 					images.push_back(imagefile.substr(delimPos+1));
 					found = true;
@@ -355,10 +354,10 @@ namespace vdrlive
 			return found;
 		}
 
-		bool ScanForRecImages(string const & imageId, string const & recfolder , list<string> & images)
+		bool ScanForRecImages(std::string const & imageId, std::string const & recfolder , std::list<std::string> & images)
 		{
 			bool found = false;
-			const string filetypes[] = {"png", "jpg", "PNG", "JPG"};
+			const std::string filetypes[] = {"png", "jpg", "PNG", "JPG"};
 			int size = sizeof(filetypes)/sizeof(filetypes[0]);
 
 			if (recfolder.empty()) {
@@ -368,20 +367,20 @@ namespace vdrlive
 
 			for (int j = 0;j < size;j++)
 			{
-				const string filemask(recfolder + "/*." + filetypes[j]);
+				const std::string filemask(recfolder + "/*." + filetypes[j]);
 				glob_t globbuf;
 				globbuf.gl_offs = 0;
 				if (glob(filemask.c_str(), GLOB_DOOFFS, NULL, &globbuf) == 0) {
 					for(size_t i = 0; i < globbuf.gl_pathc; i++) {
-						const string imagefile(globbuf.gl_pathv[i]);
-						const string imagecopy(imagefile);
+						const std::string imagefile(globbuf.gl_pathv[i]);
+						const std::string imagecopy(imagefile);
 
 						size_t delimPos = imagefile.find_last_of('/');
 						images.push_back(imagefile.substr(delimPos+1));
 
 						// create a temporary symlink of the image in /tmp
-						const string imagename(imagefile.substr(delimPos+1));
-						const string tmpfile("/tmp/" + imageId + "_" + imagename);
+						const std::string imagename(imagefile.substr(delimPos+1));
+						const std::string tmpfile("/tmp/" + imageId + "_" + imagename);
 
 						char cmdBuff[500];
 						sprintf(cmdBuff,"ln -s \"%s\" \"%s\"",imagefile.c_str(),tmpfile.c_str());
@@ -396,12 +395,12 @@ namespace vdrlive
 			return found;
 		}
 
-		list<string> EpgImages(string const &epgid)
+		std::list<std::string> EpgImages(std::string const &epgid)
 		{
 			size_t delimPos = epgid.find_last_of('_');
-			string imageId = epgid.substr(delimPos+1);
+			std::string imageId = epgid.substr(delimPos+1);
 
-			list<string> images;
+			std::list<std::string> images;
 
 			// Initially we scan for images that follow the scheme
 			// '<epgid>_<distinction>.*' where distincition is any
@@ -438,12 +437,12 @@ namespace vdrlive
 			return images;
 		}
 
-		list<string> RecImages(string const &epgid, string const &recfolder)
+		std::list<std::string> RecImages(std::string const &epgid, std::string const &recfolder)
 		{
 			size_t delimPos = epgid.find_last_of('_');
-			string imageId = epgid.substr(delimPos+1);
+			std::string imageId = epgid.substr(delimPos+1);
 
-			list<string> images;
+			std::list<std::string> images;
 			// Scan for all images in recording directory
 			ScanForRecImages(imageId, recfolder, images);
 			return images;

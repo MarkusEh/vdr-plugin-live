@@ -10,14 +10,12 @@
 
 namespace vdrlive {
 
-using namespace std;
-
 static char ServiceInterface[] = "Epgsearch-services-v1.0";
 
 bool operator<( SearchTimer const& left, SearchTimer const& right )
 {
-   string leftlower = left.m_search;
-   string rightlower = right.m_search;
+   std::string leftlower = left.m_search;
+   std::string rightlower = right.m_search;
    std::transform(leftlower.begin(), leftlower.end(), leftlower.begin(), (int(*)(int)) tolower);
    std::transform(rightlower.begin(), rightlower.end(), rightlower.begin(), (int(*)(int)) tolower);
    return leftlower < rightlower;
@@ -29,7 +27,7 @@ bool CheckEpgsearchVersion()
 	const Features< features::epgsearch >& f = LiveFeatures< features::epgsearch >();
 	if ( f.Loaded() ) {
 		if ( !f.Recent() )
-			throw HtmlError( tr("Required minimum version of epgsearch: ") + string( f.MinVersion() ));
+			throw HtmlError( tr("Required minimum version of epgsearch: ") + std::string( f.MinVersion() ));
 		return true;
 	}
 	return false;
@@ -89,12 +87,12 @@ void SearchTimer::Init()
 	m_ignoreMissingEPGCats = false;
 }
 
-SearchTimer::SearchTimer( string const& data )
+SearchTimer::SearchTimer( std::string const& data )
 {
    Init();
-   vector< string > parts = StringSplit( data, ':' );
+   std::vector<std::string> parts = StringSplit( data, ':' );
    try {
-      vector< string >::const_iterator part = parts.begin();
+      std::vector<std::string>::const_iterator part = parts.begin();
       for ( int i = 0; part != parts.end(); ++i, ++part ) {
 			switch ( i ) {
 			case  0: m_id = lexical_cast< int >( *part ); break;
@@ -170,20 +168,20 @@ std::string SearchTimer::ToText()
 
    if (m_useTime)
    {
-      ostringstream os;
-      os << setw(4) << setfill('0') << m_startTime;
+      std::stringstream os;
+      os << std::setw(4) << std::setfill('0') << m_startTime;
       tmp_Start = os.str();
       os.str("");
-      os << setw(4) << setfill('0') << m_stopTime;
+      os << std::setw(4) << std::setfill('0') << m_stopTime;
       tmp_Stop = os.str();
    }
    if (m_useDuration)
    {
-      ostringstream os;
-      os << setw(4) << setfill('0') << m_minDuration;
+      std::stringstream os;
+      os << std::setw(4) << std::setfill('0') << m_minDuration;
       tmp_minDuration = os.str();
       os.str("");
-      os << setw(4) << setfill('0') << m_maxDuration;
+      os << std::setw(4) << std::setfill('0') << m_maxDuration;
       tmp_maxDuration = os.str();
    }
 
@@ -219,7 +217,7 @@ std::string SearchTimer::ToText()
          tmp_blacklists += (tmp_blacklists != ""?"|":"") +  m_blacklistIDs[i];
    }
 
-   ostringstream os;
+   std::stringstream os;
    os << m_id << ":"
       << tmp_search << ":"
       << (m_useTime?1:0) << ":"
@@ -274,7 +272,7 @@ std::string SearchTimer::ToText()
    return os.str();
 }
 
-void SearchTimer::ParseChannel( string const& data )
+void SearchTimer::ParseChannel( std::string const& data )
 {
 	switch ( m_useChannel ) {
 	case NoChannel: m_channels = tr("All"); break;
@@ -284,9 +282,9 @@ void SearchTimer::ParseChannel( string const& data )
 	}
 }
 
-void SearchTimer::ParseChannelIDs( string const& data )
+void SearchTimer::ParseChannelIDs( std::string const& data )
 {
-	vector< string > parts = StringSplit( data, '|' );
+	std::vector<std::string> parts = StringSplit( data, '|' );
 	m_channelMin = lexical_cast< tChannelID >( parts[ 0 ] );
 
 #if VDRVERSNUM >= 20301
@@ -309,37 +307,37 @@ void SearchTimer::ParseChannelIDs( string const& data )
 	channel = Channels.GetByChannelID( m_channelMax );
 #endif
 	if ( channel != 0 )
-		m_channels += string( " - " ) + channel->Name();
+		m_channels += std::string( " - " ) + channel->Name();
 }
 
-void SearchTimer::ParseExtEPGInfo( string const& data )
+void SearchTimer::ParseExtEPGInfo( std::string const& data )
 {
    m_ExtEPGInfo = StringSplit( data, '|' );
 }
 
-void SearchTimer::ParseBlacklist( string const& data )
+void SearchTimer::ParseBlacklist( std::string const& data )
 {
    m_blacklistIDs = StringSplit( data, '|' );
 }
 
-string SearchTimer::StartTimeFormatted()
+std::string SearchTimer::StartTimeFormatted()
 {
 	time_t start = cTimer::SetTime(time(NULL), (((StartTime() / 100 ) % 100) * 60 * 60) + (StartTime() % 100 * 60));
 	return FormatDateTime(tr("%I:%M %p"), start);
 }
 
-string SearchTimer::StopTimeFormatted()
+std::string SearchTimer::StopTimeFormatted()
 {
 	time_t stop = cTimer::SetTime(time(NULL), (((StopTime() / 100 ) % 100) * 60 * 60) + (StopTime() % 100 * 60));
 	return FormatDateTime(tr("%I:%M %p"), stop);
 }
 
-string SearchTimer::UseAsSearchTimerFrom(string const& format)
+std::string SearchTimer::UseAsSearchTimerFrom(std::string const& format)
 {
 	return DatePickerToC(m_useAsSearchTimerFrom, format);
 }
 
-string SearchTimer::UseAsSearchTimerTil(string const& format)
+std::string SearchTimer::UseAsSearchTimerTil(std::string const& format)
 {
 	return DatePickerToC(m_useAsSearchTimerTil, format);
 }
@@ -371,7 +369,7 @@ bool SearchTimers::Reload()
 #else
 	ReadLock channelsLock( Channels, 0 );
 #endif
-	list< string > timers = service.handler->SearchTimerList();
+	std::list<std::string> timers = service.handler->SearchTimerList();
 	m_timers.assign( timers.begin(), timers.end() );
 	m_timers.sort();
 	return true;
@@ -447,14 +445,14 @@ bool SearchTimer::BlacklistSelected(int id) const
    return false;
 }
 
-ExtEPGInfo::ExtEPGInfo( string const& data )
+ExtEPGInfo::ExtEPGInfo( std::string const& data )
 {
    m_id = -1;
    m_searchmode = 0;
 
-   vector< string > parts = StringSplit( data, '|' );
+   std::vector<std::string> parts = StringSplit( data, '|' );
    try {
-      vector< string >::const_iterator part = parts.begin();
+      std::vector<std::string>::const_iterator part = parts.begin();
       for ( int i = 0; part != parts.end(); ++i, ++part ) {
          switch ( i ) {
 			case  0: m_id = lexical_cast< int >( *part ); break;
@@ -468,7 +466,7 @@ ExtEPGInfo::ExtEPGInfo( string const& data )
    }
 }
 
-void ExtEPGInfo::ParseValues( string const& data )
+void ExtEPGInfo::ParseValues( std::string const& data )
 {
    m_values = StringSplit( data, ',' );
 }
@@ -476,9 +474,9 @@ void ExtEPGInfo::ParseValues( string const& data )
 bool ExtEPGInfo::Selected(unsigned int index, std::string const& values)
 {
    if (index >= m_values.size()) return false;
-   string extepgvalue = StringTrim(m_values[index]);
+   std::string extepgvalue = StringTrim(m_values[index]);
 
-   vector< string > parts;
+   std::vector<std::string> parts;
    parts = StringSplit( values, ',' );
    for(unsigned int i=0; i<parts.size(); i++) if (StringTrim(parts[i]) == extepgvalue) return true;
    parts = StringSplit( values, ';' );
@@ -496,15 +494,15 @@ ExtEPGInfos::ExtEPGInfos()
 	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
 		throw HtmlError( tr("EPGSearch version outdated! Please update.") );
 
-	list< string > infos = service.handler->ExtEPGInfoList();
+	std::list<std::string> infos = service.handler->ExtEPGInfoList();
 	m_infos.assign( infos.begin(), infos.end() );
 }
 
-ChannelGroup::ChannelGroup( string const& data )
+ChannelGroup::ChannelGroup( std::string const& data )
 {
-   vector< string > parts = StringSplit( data, '|' );
+   std::vector<std::string> parts = StringSplit( data, '|' );
    try {
-      vector< string >::const_iterator part = parts.begin();
+      std::vector<std::string>::const_iterator part = parts.begin();
       for ( int i = 0; part != parts.end(); ++i, ++part ) {
          switch ( i ) {
 			case  0: m_name = *part; break;
@@ -520,15 +518,15 @@ ChannelGroups::ChannelGroups()
 	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
 		throw HtmlError( tr("EPGSearch version outdated! Please update.") );
 
-	list< string > list = service.handler->ChanGrpList();
+	std::list<std::string> list = service.handler->ChanGrpList();
 	m_list.assign( list.begin(), list.end() );
 }
 
-Blacklist::Blacklist( string const& data )
+Blacklist::Blacklist( std::string const& data )
 {
-   vector< string > parts = StringSplit( data, ':' );
+   std::vector<std::string> parts = StringSplit( data, ':' );
    try {
-      vector< string >::const_iterator part = parts.begin();
+      std::vector<std::string>::const_iterator part = parts.begin();
       for ( int i = 0; part != parts.end(); ++i, ++part ) {
 			switch ( i ) {
 			case  0: m_id = lexical_cast< int >( *part ); break;
@@ -545,16 +543,16 @@ Blacklists::Blacklists()
 	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
 		throw HtmlError( tr("EPGSearch version outdated! Please update.") );
 
-	list< string > list = service.handler->BlackList();
+	std::list<std::string> list = service.handler->BlackList();
 	m_list.assign( list.begin(), list.end() );
     m_list.sort();
 }
 
-SearchResult::SearchResult( string const& data )
+SearchResult::SearchResult( std::string const& data )
 {
-	vector< string > parts = StringSplit( data, ':' );
+	std::vector<std::string> parts = StringSplit( data, ':' );
 	try {
-		vector< string >::const_iterator part = parts.begin();
+		std::vector<std::string>::const_iterator part = parts.begin();
 		for ( int i = 0; part != parts.end(); ++i, ++part ) {
 			switch ( i ) {
 			case  0: m_searchId = lexical_cast< int >( *part ); break;
@@ -600,7 +598,7 @@ void SearchResults::GetByID(int id)
 	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
 		throw HtmlError( tr("EPGSearch version outdated! Please update.") );
 
-	list< string > list = service.handler->QuerySearchTimer(id);
+	std::list<std::string> list = service.handler->QuerySearchTimer(id);
 	m_list.assign( list.begin(), list.end() );
     m_list.sort();
 }
@@ -611,7 +609,7 @@ void SearchResults::GetByQuery(std::string const& query)
 	if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
 		throw HtmlError( tr("EPGSearch version outdated! Please update.") );
 
-	list< string > list = service.handler->QuerySearch(query);
+	std::list<std::string> list = service.handler->QuerySearch(query);
 	m_list.assign( list.begin(), list.end() );
 	m_list.sort();
 }

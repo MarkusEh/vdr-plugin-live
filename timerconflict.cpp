@@ -14,8 +14,6 @@ namespace vdrlive {
 
 	bool CheckEpgsearchVersion();
 
-	using namespace std;
-
 	static char ServiceInterface[] = "Epgsearch-services-v1.1";
 
 	bool operator<( TimerConflict const& left, TimerConflict const& right )
@@ -33,26 +31,26 @@ namespace vdrlive {
 		conflictTime = 0;
 	}
 
-	TimerConflict::TimerConflict( string const& data )
+	TimerConflict::TimerConflict( std::string const& data )
 	{
 		Init();
 //		dsyslog("live: TimerConflict() data '%s'", data.c_str());
-		vector< string > parts = StringSplit( data, ':' );
+		std::vector<std::string> parts = StringSplit( data, ':' );
 		try {
-			vector< string >::const_iterator part = parts.begin();
+			std::vector<std::string>::const_iterator part = parts.begin();
 			if (parts.size() > 0) {
 				conflictTime = lexical_cast< time_t >( *part++ );
 				for ( int i = 1; part != parts.end(); ++i, ++part ) {
-					vector< string > timerparts = StringSplit( *part, '|' );
-					vector< string >::const_iterator timerpart = timerparts.begin();
+					std::vector<std::string> timerparts = StringSplit( *part, '|' );
+					std::vector<std::string>::const_iterator timerpart = timerparts.begin();
 					TimerInConflict timer;
 					for ( int j = 0; timerpart != timerparts.end(); ++j, ++timerpart ) {
 						switch (j) {
 							case 0: timer.timerIndex = lexical_cast< int >( *timerpart ); break;
 							case 1: timer.percentage = lexical_cast< int >( *timerpart ); break;
 							case 2: {
-								vector< string > conctimerparts = StringSplit( *timerpart, '#' );
-								vector< string >::const_iterator conctimerpart = conctimerparts.begin();
+								std::vector<std::string> conctimerparts = StringSplit( *timerpart, '#' );
+								std::vector<std::string>::const_iterator conctimerpart = conctimerparts.begin();
 								for ( int k = 0; conctimerpart != conctimerparts.end(); ++k, ++conctimerpart )
 									timer.concurrentTimerIndices.push_back(lexical_cast< int >( *conctimerpart ));
 								break;
@@ -79,7 +77,7 @@ namespace vdrlive {
 		    	cServiceHandler_v1_1* handler = dynamic_cast<cServiceHandler_v1_1*>(service.handler.get());
 		    	if (handler)
 		      	{
-				list< string > conflicts = service.handler->TimerConflictList();
+				std::list<std::string> conflicts = service.handler->TimerConflictList();
 //				for(std::list<std::string>::const_iterator i = conflicts.begin(); i != conflicts.end(); ++i) {
 //					dsyslog("live: TimerConflicts::TimerConflicts() conflicts '%s'",i->c_str());
 //				}
@@ -101,7 +99,7 @@ namespace vdrlive {
 	}
 
 
-	void TimerConflicts::GetRemote(std::list< std::string > & conflicts )
+	void TimerConflicts::GetRemote(std::list<std::string> & conflicts )
 	{
 		cStringList svdrpServerNames;
 
@@ -112,7 +110,7 @@ namespace vdrlive {
 			std::string remoteServer = svdrpServerNames[i];
 //			dsyslog("live: TimerConflicts::GetRemote() found remote server '%s'", remoteServer.c_str());
 			cStringList response;
-                        string command = "PLUG epgsearch lscc";
+                        std::string command = "PLUG epgsearch lscc";
                         bool svdrpOK = ExecSVDRPCommand(remoteServer.c_str(), command.c_str(), &response);
                         if ( !svdrpOK ) {
                                 esyslog("live: TimerConflicts::GetRemote() svdrp command '%s' on remote server '%s'failed", command.c_str(), remoteServer.c_str());
@@ -123,8 +121,8 @@ namespace vdrlive {
 //					dsyslog("live: GetRemote() response[i] '%s'", response[i]);
 					switch ( code ) {
                                         	case 900: {
-							string rConflict = response[i];
-							string remConflict = rConflict.substr(4);
+							std::string rConflict = response[i];
+							std::string remConflict = rConflict.substr(4);
 							remConflict.append("|");
 							remConflict.append(remoteServer);
 //							dsyslog("live: TimerConflicts::GetRemote() found remote conflict '%s' ", remConflict.c_str());

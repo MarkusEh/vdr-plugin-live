@@ -5,7 +5,6 @@
 
 #include <vdr/tools.h>
 
-using namespace std;
 
 namespace vdrlive {
 
@@ -13,7 +12,7 @@ namespace vdrlive {
 // (cd live; find * -type f ! -wholename '*CVS*' ! -wholename '*themes*' ! -name '*~' ! -name '.*') | awk '{print "\"" $1 "\","}'}
 // and clean out unneeded entries.
 
-	void PreLoadFileCache(string const& configDir)
+	void PreLoadFileCache(std::string const& configDir)
 	{
 		static char const * const preloadFiles[] = {
 			"css/siteprefs.css",

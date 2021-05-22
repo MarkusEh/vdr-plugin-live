@@ -7,8 +7,6 @@
 
 namespace vdrlive {
 
-using namespace std;
-
 const unsigned int GrabMinIntervalMs = 500;
 const unsigned int GrabPauseIntervalMs = GrabMinIntervalMs * 20;
 
@@ -89,7 +87,7 @@ GrabImageInfo GrabImageManager::GetImage() const
 {
 	cMutexLock lock( &LiveTaskManager() );
 	m_task->Activate();
-	return make_pair( m_image, m_size );
+	return std::make_pair( m_image, m_size );
 }
 
 bool GrabImageManager::CanGrab() const
