@@ -111,7 +111,7 @@ if (type == "now") {
 %			if (mode == "list") {
 			<table class="listing" cellspacing="0" cellpadding="0">
 				<tr class="head">
-					<td colspan="8"><div class="boxheader"><div><div><$ head $></div></div></div></td>
+					<td colspan="9"><div class="boxheader"><div><div><$ head $></div></div></div></td>
 				</tr>
 %	    }
 <%cpp>

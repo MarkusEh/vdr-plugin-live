@@ -36,7 +36,7 @@ int update_status(1);
 
 <%def logo>
 <!-- start of fixed page header -->
-<div id="header" style="width: 100%; z-index: 1; background-color: white">
+<div id="header" style="width: 100%; z-index: 1; background-color: inherit">
 <div id="padding" style="display: none"></div>
 <div id="content">
 <!-- header content follows -->
@@ -111,7 +111,7 @@ int update_status(1);
 
 <# ---------------------------------------------------------------------- #>
 
-<%def m3u_playlist_channel>
+<%def hls_channel>
 <%args>
 	string channelId;
 </%args>
@@ -126,6 +126,27 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 
 <# ---------------------------------------------------------------------- #>
 
+<%def m3u_playlist_channel>
+<%args>
+	string channelId;
+</%args>
+<%cpp>
+if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded()) {
+#if TNTVERSION >= 30000
+</%cpp>
+<a href="playlist.m3u?channel_str=<$ channelId $>"><img src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into media player.")) &>></img></a>
+<%cpp>
+#else
+</%cpp>
+<a href="playlist.m3u?channel=<$ channelId $>"><img src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into media player.")) &>></img></a>
+<%cpp>
+#endif
+}
+</%cpp>
+</%def>
+
+<# ---------------------------------------------------------------------- #>
+
 <%def m3u_playlist_recording>
 <%args>
 	string recid;
@@ -134,7 +155,7 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 <%cpp>
 #if TNT_WATCHDOG_SILENCE
 {
-</%cpp><a href="playlist.m3u?recid=<$ recid $>"><img src="<$ LiveSetup().GetThemedLink("img", "stream_button.png") $>" alt="" <& tooltip.hint text=(tr("Stream this recording into media player.")) &>></img> <$ linkText $></a>
+</%cpp><a href="playlist.m3u?recid=<$ recid $>"><img src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint text=(tr("Stream this recording into media player.")) &>></img> <$ linkText $></a>
 <%cpp>
 }
 #endif
@@ -294,6 +315,7 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 		}
 		if ((duration == 0) || (elapsed >= 0)) {
 </%cpp>
+	<& pageelems.hls_channel channelId=(channelId) &>
 	<& pageelems.m3u_playlist_channel channelId=(channelId) &>
 <%cpp>
 		}
@@ -308,7 +330,8 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 		<td class="action leftcol <? lastCurrentChanel ? "bottomrow"?>"><& pageelems.event_timer epgid=(epgid) &></td>
 		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channelId) image="zap.png" alt="" &></td>
 		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><%cpp>if (LiveFeatures<features::epgsearch>().Recent() && eventId != 0) { </%cpp><a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a><%cpp> } else { </%cpp><img src="img/transparent.png" width="16" height="16"><%cpp> } </%cpp></td>
-        <td class="action <? lastCurrentChanel ? "bottomrow"?>"><%cpp>if ((duration == 0)  || (elapsed > 0)) { </%cpp><& pageelems.m3u_playlist_channel channelId=(channelId) &><%cpp> } else { </%cpp><img src="img/transparent.png" width="16" height="16"><%cpp> } </%cpp></td>
+		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><%cpp>if ((duration == 0) || (elapsed > 0)) { </%cpp><& pageelems.hls_channel channelId=(channelId) &><%cpp> } </%cpp></td>
+		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><%cpp>if ((duration == 0) || (elapsed > 0)) { </%cpp><& pageelems.m3u_playlist_channel channelId=(channelId) &><%cpp> } </%cpp></td>
 		<td class="action <? lastCurrentChanel ? "bottomrow"?>">
 <%cpp>
 			if (eventId != 0) {

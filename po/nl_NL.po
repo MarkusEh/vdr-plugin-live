@@ -866,7 +866,7 @@ msgstr ""
 msgid "Streamdev stream type"
 msgstr ""
 
-msgid "mark new recordings"
+msgid "Mark new recordings"
 msgstr ""
 
 msgid "Add links to IMDb"

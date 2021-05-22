@@ -252,7 +252,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 						</td>
 					</tr>
                                         <tr>
-                                                <td class="label leftcol"><div class="withmargin"><$ tr("mark new recordings") $>:</div></td>
+                                                <td class="label leftcol"><div class="withmargin"><$ tr("Mark new recordings") $>:</div></td>
                                                 <td class="rightcol">
                                                         <input type="checkbox" name="markNewRec" id="markNewRec" value="1" <%cpp> CHECKIF(!markNewRec.empty()); </%cpp>/>
                                                 </td>

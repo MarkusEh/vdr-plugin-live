@@ -2,13 +2,13 @@
 # Copyright (C) 2007 LIVE Development team. See http://live.vdr-developer.org
 # This file is distributed under the same license as the VDR-LIVE package.
 # Robert Polak <herpoi2006@gmail.com>, 2011
-# Tomasz Maciej Nowak <tomek_n@o2.pl>, 2019
+# Tomasz Maciej Nowak <tomek_n@o2.pl>, 2019 2021
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"PO-Revision-Date: 2019-03-25 16:12+0100\n"
+"PO-Revision-Date: 2021-05-12 19:42+0200\n"
 "Last-Translator: Tomasz Maciej Nowak <tomek_n@o2.pl>\n"
 "Language-Team: see developers in README\n"
 "Language: pl_PL\n"
@@ -180,7 +180,7 @@ msgid "Wrong username or password"
 msgstr "Błędna nazwa lub hasło użytkownika"
 
 msgid "Login"
-msgstr "Nazwa"
+msgstr "Logowanie"
 
 msgid "VDR Live Login"
 msgstr "Login VDR Live"
@@ -247,7 +247,7 @@ msgid "What's on"
 msgstr "Audycje"
 
 msgid "Details view"
-msgstr "Widek szczegółowy"
+msgstr "Widok szczegółowy"
 
 msgid "List view"
 msgstr "Widok listy"
@@ -256,7 +256,7 @@ msgid "Find more at the Internet Movie Database."
 msgstr "Szukaj w IMDb.com"
 
 msgid "Stream this channel into browser."
-msgstr ""
+msgstr "Oglądaj kanał w przeglądarce"
 
 msgid "Stream this recording into media player."
 msgstr "Oglądaj nagranie w odtwarzaczu multimediów"
@@ -386,16 +386,19 @@ msgid "Project Idea"
 msgstr "Pomysł projektu"
 
 msgid "Webserver"
-msgstr ""
+msgstr "Serwer HTTP"
 
 msgid "Current Maintainer"
 msgstr "Obecny opiekun"
+
+msgid "Previous Maintainer"
+msgstr "Poprzedni opiekun"
 
 msgid "Project leader"
 msgstr "Lider projektu"
 
 msgid "Content"
-msgstr "Zawrtość"
+msgstr "Zawartość"
 
 msgid "Graphics"
 msgstr "Grafika"
@@ -440,7 +443,7 @@ msgid "Recordings"
 msgstr "Nagrania"
 
 msgid "Web-Streaming"
-msgstr ""
+msgstr "Oglądanie"
 
 msgid "Logout"
 msgstr "Wyloguj"
@@ -530,7 +533,7 @@ msgid "Title"
 msgstr "Tytuł"
 
 msgid "Server"
-msgstr ""
+msgstr "Serwer"
 
 msgid "Directory"
 msgstr "Katalog"
@@ -794,7 +797,7 @@ msgid "Timer is active."
 msgstr "Timer jest aktywny."
 
 msgid "Toggle timer active/inactive"
-msgstr "Aktywuj/deaktywuj timer."
+msgstr "Aktywuj/deaktywuj timer"
 
 msgid "Delete timer"
 msgstr "Usuń timer"
@@ -830,16 +833,16 @@ msgid "Allow video streaming"
 msgstr "Zezwól na streamowanie strumienia video"
 
 msgid "Web-Streaming h264"
-msgstr ""
+msgstr "Parametry HLS dla AVC (H.264)"
 
 msgid "Web-Streaming HEVC"
-msgstr ""
+msgstr "Parametry HLS dla HEVC (H.265)"
 
 msgid "Web-Streaming MPEG2"
-msgstr ""
+msgstr "Parametry HLS dla MPEG2 (H.262)"
 
 msgid "Web-Streaming others"
-msgstr ""
+msgstr "Parametry HLS dla innych"
 
 msgid "Streamdev server port"
 msgstr "Port serwera Streamdev"
@@ -847,8 +850,8 @@ msgstr "Port serwera Streamdev"
 msgid "Streamdev stream type"
 msgstr "Typ strumienia Streamdev"
 
-msgid "mark new recordings"
-msgstr ""
+msgid "Mark new recordings"
+msgstr "Oznacz nowe nagrania"
 
 msgid "Add links to IMDb"
 msgstr "Pokazuj odnośniki do IMDb"
@@ -890,7 +893,7 @@ msgid "no current channel!"
 msgstr "brak informacji o kanale!"
 
 msgid "error retrieving status info!"
-msgstr "błąd podczas odczytu stanu"
+msgstr "błąd podczas odczytu stanu!"
 
 msgid "%I:%M:%S %p"
 msgstr "%H:%M:%S"
@@ -944,7 +947,7 @@ msgid "No timer conflicts"
 msgstr "Brak kolizji timerów"
 
 msgid "local"
-msgstr ""
+msgstr "lokalny"
 
 msgid "Timer has a conflict."
 msgstr "Timer jest w kolizji."
@@ -955,5 +958,5 @@ msgstr ""
 msgid "No EPG information available"
 msgstr "Brak informacji EPG"
 
-#~ msgid "Stream this channel into media player."
-#~ msgstr "Oglądaj kanał w odtwarzaczu multimediów"
+msgid "Stream this channel into media player."
+msgstr "Oglądaj kanał w odtwarzaczu multimediów"
