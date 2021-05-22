@@ -11,8 +11,8 @@
 #endif
 
 #ifndef __STL_CONFIG_H
-// To get rid of the swap definition in vdr/tools.h
-# define __STL_CONFIG_H
+  // To get rid of the swap definition in vdr/tools.h
+  #define __STL_CONFIG_H
 #endif
 #include <vdr/plugin.h>
 
@@ -42,7 +42,7 @@ private:
 	static std::string m_configDirectory;
 	static std::string m_resourceDirectory;
 
-	std::unique_ptr< ServerThread > m_thread;
+	std::unique_ptr<ServerThread> m_thread;
 };
 
 } // namespace vdrlive

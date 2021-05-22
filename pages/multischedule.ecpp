@@ -6,18 +6,17 @@
 #include <timers.h>
 #include <epg_events.h>
 
-using namespace std;
 using namespace vdrlive;
 
 struct SchedEntry {
-	string title;
-	string short_description;
-	string description;
-	string description_trunc;
-	string start;
-	string end;
-	string day;
-	string epgid;
+	std::string title;
+	std::string short_description;
+	std::string description;
+	std::string description_trunc;
+	std::string start;
+	std::string end;
+	std::string day;
+	std::string epgid;
 	bool truncated;
 	bool has_timer;
 	int start_row;
@@ -195,9 +194,9 @@ std::vector<time_t>			times_start;
 		time_t now_local = time(NULL);
 		struct tm tm_r;
 		if ( localtime_r( &now_local, &tm_r ) == 0 ) {
-			ostringstream builder;
+			std::stringstream builder;
 			builder << "cannot represent timestamp " << now_local << " as local time";
-			throw runtime_error( builder.str() );
+			throw std::runtime_error( builder.str() );
 		}
 		tm_r.tm_hour=0;
 		tm_r.tm_min=0;
@@ -209,9 +208,9 @@ std::vector<time_t>			times_start;
 		{
 			times_start.push_back( midnight + MAX_HOURS*3600*i );
 		}
-		vector< string > parts = StringSplit( LiveSetup().GetTimes(), ';' );
-		vector< time_t > offsets;
-		vector< string >::const_iterator part = parts.begin();
+		std::vector< std::string > parts = StringSplit( LiveSetup().GetTimes(), ';' );
+		std::vector< time_t > offsets;
+		std::vector< std::string >::const_iterator part = parts.begin();
 		for ( ; part != parts.end(); ++part )
 		{
 			try {
@@ -232,7 +231,7 @@ std::vector<time_t>			times_start;
 		// add the time of the favourites to the time list
 		for (int i=0; i< MAX_DAYS ; i++ )
 		{
-			vector< time_t >::const_iterator offset = offsets.begin();
+			std::vector< time_t >::const_iterator offset = offsets.begin();
 			for ( ; offset != offsets.end(); ++offset )
 			{
 				times_start.push_back( midnight + 24*3600*i + *offset );
@@ -247,7 +246,7 @@ std::vector<time_t>			times_start;
 			times_start.erase(times_start.begin() );
 
 		// build the corresponding names
-		for ( vector< time_t >::const_iterator start = times_start.begin();
+		for ( std::vector< time_t >::const_iterator start = times_start.begin();
 			  start != times_start.end(); ++start )
 		{
 			times_names.push_back(FormatDateTime( tr("%A, %x"), *start)
@@ -432,7 +431,7 @@ std::vector<time_t>			times_start;
                 for (int row = 0 ; row < sched_end_row; row++ )
 		{
                        int minutes= ( (sched_start +  row * 60 * MINUTES_PER_ROW ) % 3600 ) / 60;
-                       string row_class;
+                       std::string row_class;
                        if ( minutes < MINUTES_PER_ROW )
                        {
                          // full hour, swap odd/even

@@ -12,22 +12,21 @@
 #include <vdr/timers.h>
 #include <vdr/svdrp.h>
 
-using namespace std;
 using namespace vdrlive;
 
 </%pre>
 <%args>
 	// input parameters
-	string timerid;
-	string epgid;
-	string async;
+	std::string timerid;
+	std::string epgid;
+	std::string async;
 	// form parameters
 	tChannelID channel;           // used with Tntnet20
-        string channel_string = "";   // used with Tntnet30
+        std::string channel_string = "";   // used with Tntnet30
 	int active = 1;
-	string title = "";
-	string remoteServerName = "";
-	string date = "";
+	std::string title = "";
+	std::string remoteServerName = "";
+	std::string date = "";
 	bool wday_mon = false;
 	bool wday_tue = false;
 	bool wday_wed = false;
@@ -42,12 +41,12 @@ using namespace vdrlive;
 	bool vps = 0;
 	int priority = 0;
 	int lifetime = 0;
-	string aux = "";
-	string directory = "";
+	std::string aux = "";
+	std::string directory = "";
 </%args>
 <%session scope="global">
 bool logged_in(false);
-string edit_timerreferer;
+std::string edit_timerreferer;
 TimerConflictNotifier timerNotifier;
 </%session>
 <%request scope="page">
@@ -68,14 +67,14 @@ const cTimer* timer;
 	tChannelID channelid = tChannelID();
 	tEventID eventid = tEventID();
 
-	string message;
+	std::string message;
 	cMutexLock timersLock( &LiveTimerManager() );
 	SortedTimers& timers = LiveTimerManager().GetTimers();
 
 	timer = 0;
         int timerId = 0;
 	if ( !timerid.empty() ) {
-		string tId = SortedTimers::DecodeDomId(timerid);
+		std::string tId = SortedTimers::DecodeDomId(timerid);
 //		dsyslog("live: DEBUG: TIMER: timerid = %s", timerid);
 //		dsyslog("live: DEBUG: TIMER: tId = %s", tId.c_str());
 		timer = timers.GetByTimerId(tId);
@@ -92,7 +91,7 @@ const cTimer* timer;
 //			dsyslog("live: found valid timer on server '%s'", oldRemote);
                 }
 		uint flags = ( active ? tfActive : 0 ) | ( vps ? tfVps : 0 );
-		string weekdays = string( wday_mon ? "M" : "-" ) + ( wday_tue ? "T" : "-" ) + ( wday_wed ? "W" : "-" )
+		std::string weekdays = std::string( wday_mon ? "M" : "-" ) + ( wday_tue ? "T" : "-" ) + ( wday_wed ? "W" : "-" )
 							  + ( wday_thu ? "T" : "-" ) + ( wday_fri ? "F" : "-" ) + ( wday_sat ? "S" : "-" )
 							  + ( wday_sun ? "S" : "-" );
 		int start = start_h * 100 + start_m;
@@ -107,7 +106,7 @@ const cTimer* timer;
 		{
 			// TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
 			time_t tdate = GetDateFromDatePicker(date, tr("mm/dd/yyyy"));
-			string sdate = DatePickerToC(tdate, "yyyy-mm-dd");
+			std::string sdate = DatePickerToC(tdate, "yyyy-mm-dd");
                         const char* remote = ( remoteServerName == "") ? NULL : remoteServerName.c_str();
 //                        dsyslog("live: remote '%s'", remote);
 			LiveTimerManager().UpdateTimer( timerId, remote, oldRemote, flags, channel, weekdays, sdate, start, stop, priority, lifetime, title, aux );
@@ -119,7 +118,7 @@ const cTimer* timer;
 	if (message.empty())
 		edit_timerreferer = request.getHeader("Referer:", "timers.html");
 
-	std::unique_ptr< cTimer > eventTimer;
+	std::unique_ptr<cTimer> eventTimer;
 	if ( timer == 0 && !epgid.empty()) {
 		EpgEvents::DecodeDomId(epgid, channelid, eventid);
 		if ( channelid.Valid() && eventid != 0 ) {
@@ -160,8 +159,8 @@ const cTimer* timer;
 		title = timer->File() ? timer->File() : "";
 		remoteServerName = timer->Remote() ? timer->Remote() : "";
 //                dsyslog("live: remoteServerName '%s'", remoteServerName.c_str());
-		if ( LiveFeatures< features::epgsearch >().Recent() ) {
-			vector< string > directories = StringSplit( title, '~' );
+		if ( LiveFeatures<features::epgsearch>().Recent() ) {
+			std::vector<std::string> directories = StringSplit( title, '~' );
 			if (directories.size() > 1) {
 				directory = directories[0];
 				title = title.substr(directory.size()+1);
@@ -276,7 +275,7 @@ const cTimer* timer;
                                         }
 </%cpp>
 <%cpp>
-					if ( LiveFeatures< features::epgsearch >().Recent() ) {
+					if ( LiveFeatures<features::epgsearch>().Recent() ) {
 						RecordingDirs recordingdirs(true);
 </%cpp>
 					<tr>

@@ -5,19 +5,18 @@
 #include <tools.h>
 #include <users.h>
 
-using namespace std;
 using namespace vdrlive;
 
 </%pre>
 <%args>
-	string param;
-	string async;
+	std::string param;
+	std::string async;
 </%args>
 <%cpp>
 	tChannelID paramID;
         paramID = paramID.FromString(param.c_str());
 	bool ajaxReq = !async.empty() && (lexical_cast<int>(async) != 0);
-	string referrer;
+	std::string referrer;
 
 	if (!cUser::CurrentUserHasRightTo(UR_SWITCHCHNL))
 		throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );

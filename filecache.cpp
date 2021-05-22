@@ -25,7 +25,7 @@ bool FileObject::load()
 	std::streamsize size = ifs.tellg();
 	ifs.seekg( 0, std::ios::beg );
 
-	std::vector< char > data( size );
+	std::vector<char> data( size );
 	data.resize( size );
 	ifs.read( &data[0], size );
 	ifs.close();

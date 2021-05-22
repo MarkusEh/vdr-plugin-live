@@ -13,7 +13,7 @@
 
 namespace vdrlive {
 
-	class SortedTimers: public std::list< cTimer >
+	class SortedTimers: public std::list<cTimer>
 	{
 		friend class TimerManager;
 
@@ -77,9 +77,9 @@ namespace vdrlive {
 			  std::string builder;
                         } timerStruct;
 
-			typedef std::pair< timerStruct, std::string > ErrorPair;
-			typedef std::list< timerStruct > TimerList;
-			typedef std::list< ErrorPair > ErrorList;
+			typedef std::pair<timerStruct, std::string> ErrorPair;
+			typedef std::list<timerStruct> TimerList;
+			typedef std::list<ErrorPair> ErrorList;
 
 			TimerManager();
 			TimerManager( TimerManager const& );

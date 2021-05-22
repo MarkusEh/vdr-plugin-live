@@ -27,12 +27,11 @@ namespace vdrlive {
 #endif
 
 using namespace vdrlive;
-using namespace std;
 
 </%pre>
 <%args>
-	string epgid;
-	string async;
+	std::string epgid;
+	std::string async;
 </%args>
 <%session scope="global">
 	bool logged_in(false);
@@ -62,9 +61,9 @@ using namespace std;
 
 	if (!epgid.empty()) {
 
-		const string recording("recording_");
-		const string event("event_");
-		const string aboutbox("aboutBox");
+		const std::string recording("recording_");
+		const std::string event("event_");
+		const std::string aboutbox("aboutBox");
 
 		// check for recording:
 		if (epgid.compare(0, recording.length(), recording) == 0) {
@@ -127,10 +126,10 @@ using namespace std;
 		<div class="inhalt">
 <%cpp>
 	if (epgEvent) {
-		string start(epgEvent->StartTime("%a,") + string(" ")
-				+ epgEvent->StartTime(tr("%b %d %y")) + string(" ")
+		std::string start(epgEvent->StartTime("%a,") + std::string(" ")
+				+ epgEvent->StartTime(tr("%b %d %y")) + std::string(" ")
 				+ epgEvent->StartTime(tr("%I:%M %p")));
-		string tools_component;
+		std::string tools_component;
 		if (recordings) {
 			tools_component = epgEvent->Archived().empty() ? "recordings.rec_tools" : "recordings.archived_disc" ;
 		}
@@ -161,8 +160,8 @@ using namespace std;
 
 <%def epgTools>
 <%args>
-string id;
-string title;
+std::string id;
+std::string title;
 int detail;
 </%args>
 <& pageelems.epg_tool_box detail=(detail) epgid=(id) title=(title) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) &>

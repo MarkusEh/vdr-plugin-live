@@ -8,7 +8,6 @@
 #include <gen_version_suffix.h>
 #include <tntfeatures.h>
 
-using namespace std;
 using namespace vdrlive;
 
 </%pre>
@@ -75,11 +74,11 @@ int update_status(1);
 <%def progressbar>
 <%args>
 	int progress = 0;
-	string id;
+	std::string id;
 	int duration = -1; // invalid duration as default
 </%args>
 <%cpp>
-	string cls("__progress");
+	std::string cls("__progress");
 	if ((duration >= 0) && ((progress < 0) || (duration == 0)))
 		cls +="_invisible";
 </%cpp>
@@ -90,12 +89,12 @@ int update_status(1);
 
 <%def ajax_action_href>
 <%args>
-	string action;
-	string tip;
-	string param;
-	string image;
-	string alt;
-	string id;
+	std::string action;
+	std::string tip;
+	std::string param;
+	std::string image;
+	std::string alt;
+	std::string id;
 </%args>
 <%cpp> { </%cpp><a <%cpp> if (!id.empty()) { </%cpp>id="<$ id $>" <%cpp> } </%cpp><& hide_element hide=(id.empty()? 0 : 1) &> href="vdr_request/<$ action $>?param=<$ param $>" <%cpp>if (!tip.empty()) { </%cpp><& tooltip.hint text=(tip) &> <%cpp> } </%cpp>><img src="<$ LiveSetup().GetThemedLink("img", image) $>" alt="<$ alt $>"></img></a> <%cpp> } </%cpp>
 </%def>
@@ -104,7 +103,7 @@ int update_status(1);
 
 <%def imdb_info_href>
 <%args>
-	string title;
+	std::string title;
 </%args>
 <%cpp> if (LiveSetup().GetShowIMDb()) { </%cpp><a href="http://www.imdb.com/find?s=all&q=<$ StringUrlEncode(title) $>" target="_blank"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a> <%cpp> } </%cpp>
 </%def>
@@ -113,7 +112,7 @@ int update_status(1);
 
 <%def hls_channel>
 <%args>
-	string channelId;
+	std::string channelId;
 </%args>
 <%cpp>
 if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded()) {
@@ -128,7 +127,7 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 
 <%def m3u_playlist_channel>
 <%args>
-	string channelId;
+	std::string channelId;
 </%args>
 <%cpp>
 if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded()) {
@@ -149,8 +148,8 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 
 <%def m3u_playlist_recording>
 <%args>
-	string recid;
-	string linkText;
+	std::string recid;
+	std::string linkText;
 </%args>
 <%cpp>
 #if TNT_WATCHDOG_SILENCE
@@ -166,7 +165,7 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 
 <%def event_timer>
 <%args>
-	string epgid;
+	std::string epgid;
 </%args>
 <%cpp>
 	tChannelID channelid;
@@ -190,8 +189,8 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 
 <%def edit_timer>
 <%args>
-	string timerId;
-	string imgName = "edit.png";
+	std::string timerId;
+	std::string imgName = "edit.png";
 </%args>
 	<a href="edit_timer.html?timerid=<$ SortedTimers::EncodeDomId(timerId) $>"><img src="<$ LiveSetup().GetThemedLink("img", imgName) $>" alt="" <& tooltip.hint text=(tr("Edit timer")) &> /></a>
 </%def>
@@ -290,8 +289,8 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 <%def epg_tool_box>
 <%args>
 	int detail;
-	string epgid;
-	string title;
+	std::string epgid;
+	std::string title;
 	time_t startTime;
 	time_t endTime;
 	int lastCurrentChanel = int();
@@ -350,15 +349,15 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 
 <%def epg_tt_box>
 <%args>
-	string boxId;
-	string caption;
-	string tools_comp;
-	string time;
-	string title;
-	string short_descr;
-	string long_descr;
-	string filename;
-	string archived;
+	std::string boxId;
+	std::string caption;
+	std::string tools_comp;
+	std::string time;
+	std::string title;
+	std::string short_descr;
+	std::string long_descr;
+	std::string filename;
+	std::string archived;
 	int elapsed = -1;
 </%args>
 	<div class="epg_description" id="<$ (boxId) $>">
@@ -383,16 +382,16 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 				<div class="description">
 					<span class="epg_images">
 <%cpp>
-	list<string> images = EpgEvents::EpgImages(boxId);
+	std::list<std::string> images = EpgEvents::EpgImages(boxId);
 	for(std::list<std::string>::iterator it = images.begin(); it != images.end(); ++it ) {
 </%cpp>
 						<img src="/epgimages/<$ *it $>" class="epg_image"/>
 <%cpp>
 	}
 
-	list<string> images1 = EpgEvents::RecImages(boxId, filename);
+	std::list<std::string> images1 = EpgEvents::RecImages(boxId, filename);
 	size_t delimPos = boxId.find_last_of('_');
-	string recId = (delimPos)?boxId.substr(delimPos+1):boxId;
+	std::string recId = (delimPos)?boxId.substr(delimPos+1):boxId;
 
 	for(std::list<std::string>::iterator it = images1.begin(); it != images1.end(); ++it ) {
 </%cpp>

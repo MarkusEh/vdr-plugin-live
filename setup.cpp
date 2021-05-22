@@ -231,7 +231,7 @@ int Setup::GetAdminPasswordLength() const
 {
 	// format is <length>:<md5-hash of password>
 	std::vector<std::string> parts = StringSplit( m_adminPasswordMD5, ':' );
-	return (parts.size() > 0) ? lexical_cast< int >( parts[0] ) : 0;
+	return (parts.size() > 0) ? lexical_cast<int>( parts[0] ) : 0;
 }
 
 std::string Setup::SetAdminPassword(std::string password)

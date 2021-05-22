@@ -57,10 +57,10 @@ namespace vdrlive {
 		}
 
 		try {
-			int weekdays = lexical_cast< int >( parts[1] );
-			time_t day = lexical_cast< time_t >( parts[2] );
-			int start = lexical_cast< int >( parts[3] );
-			int stop = lexical_cast< int >( parts[4] );
+			int weekdays = lexical_cast<int>( parts[1] );
+			time_t day = lexical_cast<time_t>( parts[2] );
+			int start = lexical_cast<int>( parts[3] );
+			int stop = lexical_cast<int>( parts[4] );
 
 			cMutexLock MutexLock(&m_mutex);
 
@@ -324,7 +324,7 @@ namespace vdrlive {
                         response.Clear();
                 }
 		else {				// add local timer
-			std::unique_ptr< cTimer > newTimer( new cTimer );
+			std::unique_ptr<cTimer> newTimer( new cTimer );
 			if ( !newTimer->Parse( timerData.builder.c_str() ) ) {
 				dsyslog("live: TimerManager::DoInsertTimer(): error in settings for local timer");
 	       			StoreError( timerData, tr("Error in timer settings") );

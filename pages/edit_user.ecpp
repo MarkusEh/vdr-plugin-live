@@ -4,16 +4,15 @@
 #include <livefeatures.h>
 #include <setup.h>
 
-using namespace std;
 using namespace vdrlive;
 
 </%pre>
 <%args>
 	// input parameters
-	string userid;
+	std::string userid;
 	// form parameters
-	string username;
-	string password;
+	std::string username;
+	std::string password;
 	bool ur_editsetup = false;
 	bool ur_addtimers = false;
 	bool ur_deltimers = false;
@@ -152,7 +151,7 @@ cUser* editUser;
 							<input type="checkbox" name="ur_switchchnl" value="1" <{ CHECKIF(ur_switchchnl) }> />
 							<label for="ur_switchchnl"><$ tr("Switch channel") $></label><br>
 <%cpp>
-							if (LiveFeatures< features::epgsearch >().Recent()) {
+							if (LiveFeatures<features::epgsearch>().Recent()) {
 </%cpp>
 							<input type="checkbox" name="ur_addstimers" value="1" <{ CHECKIF(ur_addstimers) }> />
 							<label for="ur_addstimers"><$ tr("Add or edit search timers") $></label><br>

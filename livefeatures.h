@@ -24,16 +24,16 @@ private:
 	std::string m_suffix;
 };
 
-template< typename Feat >
+template<typename Feat>
 class Features;
 
-template< typename Feat >
-Features< Feat >& LiveFeatures();
+template<typename Feat>
+Features<Feat>& LiveFeatures();
 
-template< typename Feat >
+template<typename Feat>
 class Features
 {
-	friend Features< Feat >& LiveFeatures<>();
+	friend Features<Feat>& LiveFeatures<>();
 
 public:
 	bool Loaded() const { return m_plugin != 0; }
@@ -52,10 +52,10 @@ private:
 		, m_minVersion( Feat::MinVersion() ) {}
 };
 
-template< typename Feat >
-Features< Feat >& LiveFeatures()
+template<typename Feat>
+Features<Feat>& LiveFeatures()
 {
-	static Features< Feat > instance;
+	static Features<Feat> instance;
 	return instance;
 }
 

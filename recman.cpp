@@ -13,19 +13,16 @@
 #define INDEXFILESUFFIX   "/index.vdr"
 #define LENGTHFILESUFFIX  "/length.vdr"
 
-using std::string;
-using std::vector;
-using std::pair;
 
 namespace vdrlive {
 
 	/**
 	 *  Implementation of class RecordingsManager:
 	 */
-	stdext::weak_ptr< RecordingsManager > RecordingsManager::m_recMan;
-	stdext::shared_ptr< RecordingsTree > RecordingsManager::m_recTree;
-	stdext::shared_ptr< RecordingsList > RecordingsManager::m_recList;
-	stdext::shared_ptr< DirectoryList > RecordingsManager::m_recDirs;
+	stdext::weak_ptr<RecordingsManager> RecordingsManager::m_recMan;
+	stdext::shared_ptr<RecordingsTree> RecordingsManager::m_recTree;
+	stdext::shared_ptr<RecordingsList> RecordingsManager::m_recList;
+	stdext::shared_ptr<DirectoryList> RecordingsManager::m_recDirs;
 #if VDRVERSNUM >= 20301
 	cStateKey RecordingsManager::m_recordingsStateKey;
 #else
@@ -61,7 +58,7 @@ namespace vdrlive {
 	{
 		RecordingsManagerPtr recMan = EnsureValidData();
 		if (! recMan) {
-			return RecordingsTreePtr(recMan, stdext::shared_ptr< RecordingsTree >());
+			return RecordingsTreePtr(recMan, stdext::shared_ptr<RecordingsTree>());
 		}
 		return RecordingsTreePtr(recMan, m_recTree);
 	}
@@ -70,35 +67,35 @@ namespace vdrlive {
 	{
 		RecordingsManagerPtr recMan = EnsureValidData();
 		if (! recMan) {
-			return RecordingsListPtr(recMan, stdext::shared_ptr< RecordingsList >());
+			return RecordingsListPtr(recMan, stdext::shared_ptr<RecordingsList>());
 		}
-		return RecordingsListPtr(recMan, stdext::shared_ptr< RecordingsList >(new RecordingsList(m_recList, ascending)));
+		return RecordingsListPtr(recMan, stdext::shared_ptr<RecordingsList>(new RecordingsList(m_recList, ascending)));
 	}
 
 	RecordingsListPtr RecordingsManager::GetRecordingsList(time_t begin, time_t end, bool ascending) const
 	{
 		RecordingsManagerPtr recMan = EnsureValidData();
 		if (! recMan) {
-			return RecordingsListPtr(recMan, stdext::shared_ptr< RecordingsList >());
+			return RecordingsListPtr(recMan, stdext::shared_ptr<RecordingsList>());
 		}
-		return RecordingsListPtr(recMan, stdext::shared_ptr< RecordingsList >(new RecordingsList(m_recList, ascending)));
+		return RecordingsListPtr(recMan, stdext::shared_ptr<RecordingsList>(new RecordingsList(m_recList, ascending)));
 	}
 
 	DirectoryListPtr RecordingsManager::GetDirectoryList() const
 	{
 		RecordingsManagerPtr recMan = EnsureValidData();
 		if (!recMan) {
-			return DirectoryListPtr(recMan, stdext::shared_ptr< DirectoryList >());
+			return DirectoryListPtr(recMan, stdext::shared_ptr<DirectoryList>());
 		}
 		return DirectoryListPtr(recMan, m_recDirs);
 	}
 
-	string RecordingsManager::Md5Hash(cRecording const * recording) const
+	std::string RecordingsManager::Md5Hash(cRecording const * recording) const
 	{
 		return "recording_" + MD5Hash(recording->FileName());
 	}
 
-	cRecording const * RecordingsManager::GetByMd5Hash(string const & hash) const
+	cRecording const * RecordingsManager::GetByMd5Hash(std::string const & hash) const
 	{
 		if (!hash.empty()) {
 #if VDRVERSNUM >= 20301
@@ -114,21 +111,21 @@ namespace vdrlive {
 		return 0;
 	}
 
-	bool RecordingsManager::MoveRecording(cRecording const * recording, string const & name, bool copy) const
+	bool RecordingsManager::MoveRecording(cRecording const * recording, std::string const & name, bool copy) const
 	{
 		if (!recording)
 			return false;
 
-		string oldname = recording->FileName();
+		std::string oldname = recording->FileName();
 		size_t found = oldname.find_last_of("/");
 
-		if (found == string::npos)
+		if (found == std::string::npos)
 			return false;
 
 #if APIVERSNUM > 20101
-		string newname = string(cVideoDirectory::Name()) + "/" + name + oldname.substr(found);
+		std::string newname = std::string(cVideoDirectory::Name()) + "/" + name + oldname.substr(found);
 #else
-		string newname = string(VideoDirectory) + "/" + name + oldname.substr(found);
+		std::string newname = std::string(VideoDirectory) + "/" + name + oldname.substr(found);
 #endif
 
 		if (!MoveDirectory(oldname.c_str(), newname.c_str(), copy)) {
@@ -183,7 +180,7 @@ namespace vdrlive {
 		if (!recording)
 			return;
 
-		string name(recording->FileName());
+		std::string name(recording->FileName());
 		const_cast<cRecording *>(recording)->Delete();
 #if VDRVERSNUM >= 20301
 		LOCK_RECORDINGS_WRITE;
@@ -195,30 +192,30 @@ namespace vdrlive {
 
 	int RecordingsManager::GetArchiveType(cRecording const * recording)
 	{
-		string filename = recording->FileName();
+		std::string filename = recording->FileName();
 
-		string dvdFile = filename + "/dvd.vdr";
+		std::string dvdFile = filename + "/dvd.vdr";
 		if (0 == access(dvdFile.c_str(), R_OK)) {
 			return 1;
 		}
-		string hddFile = filename + "/hdd.vdr";
+		std::string hddFile = filename + "/hdd.vdr";
 		if (0 == access(hddFile.c_str(), R_OK)) {
 			return 2;
 		}
 		return 0;
 	}
 
-	string const RecordingsManager::GetArchiveId(cRecording const * recording, int archiveType)
+	std::string const RecordingsManager::GetArchiveId(cRecording const * recording, int archiveType)
 	{
-		string filename = recording->FileName();
+		std::string filename = recording->FileName();
 
 		if (archiveType==1) {
-			string dvdFile = filename + "/dvd.vdr";
+			std::string dvdFile = filename + "/dvd.vdr";
 			std::ifstream dvd(dvdFile.c_str());
 
 		if (dvd) {
-			string archiveDisc;
-			string videoDisc;
+			std::string archiveDisc;
+			std::string videoDisc;
 			dvd >> archiveDisc;
 			if ("0000" == archiveDisc) {
 				dvd >> videoDisc;
@@ -227,11 +224,11 @@ namespace vdrlive {
 			return archiveDisc;
 		}
 		} else if(archiveType==2) {
-			string hddFile = filename + "/hdd.vdr";
+			std::string hddFile = filename + "/hdd.vdr";
 			std::ifstream hdd(hddFile.c_str());
 
 			if (hdd) {
-				string archiveDisc;
+				std::string archiveDisc;
 				hdd >> archiveDisc;
 				return archiveDisc;
 			}
@@ -239,10 +236,10 @@ namespace vdrlive {
 		return "";
 	}
 
-	string const RecordingsManager::GetArchiveDescr(cRecording const * recording)
+	std::string const RecordingsManager::GetArchiveDescr(cRecording const * recording)
 	{
 		int archiveType;
-		string archived;
+		std::string archived;
 		archiveType = GetArchiveType(recording);
 		if (archiveType==1) {
 			archived += " [";
@@ -302,21 +299,21 @@ namespace vdrlive {
 				m_recDirs.reset();
 			}
 			if (stateChanged || !m_recTree) {
-				m_recTree = stdext::shared_ptr< RecordingsTree >(new RecordingsTree(recMan));
+				m_recTree = stdext::shared_ptr<RecordingsTree>(new RecordingsTree(recMan));
 			}
 			if (!m_recTree) {
 				esyslog("live: creation of recordings tree failed!");
 				return RecordingsManagerPtr();
 			}
 			if (stateChanged || !m_recList) {
-				m_recList = stdext::shared_ptr< RecordingsList >(new RecordingsList(RecordingsTreePtr(recMan, m_recTree)));
+				m_recList = stdext::shared_ptr<RecordingsList>(new RecordingsList(RecordingsTreePtr(recMan, m_recTree)));
 			}
 			if (!m_recList) {
 				esyslog("live: creation of recordings list failed!");
 				return RecordingsManagerPtr();
 			}
 			if (stateChanged || !m_recDirs) {
-				m_recDirs = stdext::shared_ptr< DirectoryList >(new DirectoryList(recMan));
+				m_recDirs = stdext::shared_ptr<DirectoryList>(new DirectoryList(recMan));
 			}
 			if (!m_recDirs) {
 				esyslog("live: creation of directory list failed!");
@@ -448,7 +445,7 @@ namespace vdrlive {
            return RecordingsItemPtrCompare::ByAscendingName(second, first);
 	}
 
-        void RecordingsItemPtrCompare::getNameForCompare(string &NameForCompare, const string &Name){
+        void RecordingsItemPtrCompare::getNameForCompare(std::string &NameForCompare, const std::string &Name){
 // remove punctuation characters at the beginning of the string
             unsigned int start;
             for(start = 0; start < Name.length() && ispunct( Name[ start ] ); start++ );
@@ -482,7 +479,7 @@ namespace vdrlive {
 	/**
 	 *  Implementation of class RecordingsItem:
 	 */
-	RecordingsItem::RecordingsItem(string const & name, RecordingsItemPtr parent) :
+	RecordingsItem::RecordingsItem(std::string const & name, RecordingsItemPtr parent) :
 		m_level((parent != NULL) ? parent->Level() + 1 : 0),
 		m_name(name),
 		m_entries(),
@@ -499,7 +496,7 @@ namespace vdrlive {
 	/**
 	 *  Implementation of class RecordingsItemDir:
 	 */
-	RecordingsItemDir::RecordingsItemDir(const string& name, int level, RecordingsItemPtr parent) :
+	RecordingsItemDir::RecordingsItemDir(const std::string& name, int level, RecordingsItemPtr parent) :
 		RecordingsItem(name, parent),
 		m_level(level)
 	{
@@ -515,7 +512,7 @@ namespace vdrlive {
 	/**
 	 *  Implementation of class RecordingsItemRec:
 	 */
-	RecordingsItemRec::RecordingsItemRec(const string& id, const string& name, const cRecording* recording, RecordingsItemPtr parent) :
+	RecordingsItemRec::RecordingsItemRec(const std::string& id, const std::string& name, const cRecording* recording, RecordingsItemPtr parent) :
 		RecordingsItem(name, parent),
 		m_recording(recording),
 		m_id(id)
@@ -568,7 +565,7 @@ namespace vdrlive {
 			}
 
 			RecordingsItemPtr dir = m_root;
-			string name(recording->Name());
+			std::string name(recording->Name());
 
 			// esyslog("live: DH: recName = '%s'", recording->Name());
 			int level = 0;
@@ -576,13 +573,13 @@ namespace vdrlive {
 			size_t pos = 0;
 			do {
 				pos = name.find('~', index);
-				if (pos != string::npos) {
-					string dirName(name.substr(index, pos - index));
+				if (pos != std::string::npos) {
+					std::string dirName(name.substr(index, pos - index));
 					index = pos + 1;
 					RecordingsMap::iterator i = findDir(dir, dirName);
 					if (i == dir->m_entries.end()) {
 						RecordingsItemPtr recPtr (new RecordingsItemDir(dirName, level, dir));
-						dir->m_entries.insert(pair< string, RecordingsItemPtr > (dirName, recPtr));
+						dir->m_entries.insert(std::pair<std::string, RecordingsItemPtr > (dirName, recPtr));
 						i = findDir(dir, dirName);
 #if 0
 						if (i != dir->m_entries.end()) {
@@ -598,12 +595,12 @@ namespace vdrlive {
 					level++;
 				}
 				else {
-					string recName(name.substr(index, name.length() - index));
+					std::string recName(name.substr(index, name.length() - index));
 					RecordingsItemPtr recPtr (new RecordingsItemRec(recMan->Md5Hash(recording), recName, recording, dir));
-					dir->m_entries.insert(pair< string, RecordingsItemPtr > (recName, recPtr));
+					dir->m_entries.insert(std::pair<std::string, RecordingsItemPtr> (recName, recPtr));
 					// esyslog("live: DH: added rec: '%s'", recName.c_str());
 				}
-			} while (pos != string::npos);
+			} while (pos != std::string::npos);
 		}
 		// esyslog("live: DH: ------ RecordingsTree::RecordingsTree() --------");
 	}
@@ -613,16 +610,16 @@ namespace vdrlive {
 		// esyslog("live: DH: ****** RecordingsTree::~RecordingsTree() ********");
 	}
 
-	RecordingsMap::iterator RecordingsTree::begin(const vector< string >& path)
+	RecordingsMap::iterator RecordingsTree::begin(const std::vector<std::string>& path)
 	{
 		if (path.empty()) {
 			return m_root->m_entries.begin();
 		}
 
 		RecordingsItemPtr recItem = m_root;
-		for (vector< string >::const_iterator i = path.begin(); i != path.end(); ++i)
+		for (std::vector<std::string>::const_iterator i = path.begin(); i != path.end(); ++i)
 		{
-			pair< RecordingsMap::iterator, RecordingsMap::iterator> range = recItem->m_entries.equal_range(*i);
+			std::pair<RecordingsMap::iterator, RecordingsMap::iterator> range = recItem->m_entries.equal_range(*i);
 			for (RecordingsMap::iterator iter = range.first; iter != range.second; ++iter) {
 				if (iter->second->IsDir()) {
 					recItem = iter->second;
@@ -633,16 +630,16 @@ namespace vdrlive {
 		return recItem->m_entries.begin();
 	}
 
-	RecordingsMap::iterator RecordingsTree::end(const vector< string >&path)
+	RecordingsMap::iterator RecordingsTree::end(const std::vector<std::string>&path)
 	{
 		if (path.empty()) {
 			return m_root->m_entries.end();
 		}
 
 		RecordingsItemPtr recItem = m_root;
-		for (vector< string >::const_iterator i = path.begin(); i != path.end(); ++i)
+		for (std::vector<std::string>::const_iterator i = path.begin(); i != path.end(); ++i)
 		{
-			pair< RecordingsMap::iterator, RecordingsMap::iterator> range = recItem->m_entries.equal_range(*i);
+			std::pair<RecordingsMap::iterator, RecordingsMap::iterator> range = recItem->m_entries.equal_range(*i);
 			for (RecordingsMap::iterator iter = range.first; iter != range.second; ++iter) {
 				if (iter->second->IsDir()) {
 					recItem = iter->second;
@@ -653,9 +650,9 @@ namespace vdrlive {
 		return recItem->m_entries.end();
 	}
 
-	RecordingsMap::iterator RecordingsTree::findDir(RecordingsItemPtr& dir, const string& dirName)
+	RecordingsMap::iterator RecordingsTree::findDir(RecordingsItemPtr& dir, const std::string& dirName)
 	{
-		pair< RecordingsMap::iterator, RecordingsMap::iterator > range = dir->m_entries.equal_range(dirName);
+		std::pair<RecordingsMap::iterator, RecordingsMap::iterator> range = dir->m_entries.equal_range(dirName);
 		for (RecordingsMap::iterator i = range.first; i != range.second; ++i) {
 			if (i->second->IsDir()) {
 				return i;
@@ -674,7 +671,7 @@ namespace vdrlive {
 	{
 	}
 
-	RecordingsTreePtr::RecordingsTreePtr(RecordingsManagerPtr recManPtr, stdext::shared_ptr< RecordingsTree > recTree) :
+	RecordingsTreePtr::RecordingsTreePtr(RecordingsManagerPtr recManPtr, stdext::shared_ptr<RecordingsTree> recTree) :
 		stdext::shared_ptr<RecordingsTree>(recTree),
 		m_recManPtr(recManPtr)
 	{
@@ -695,7 +692,7 @@ namespace vdrlive {
 			return;
 		}
 
-		std::stack< RecordingsItemPtr > treeStack;
+		std::stack<RecordingsItemPtr> treeStack;
 		treeStack.push(recTree->Root());
 
 		while (!treeStack.empty()) {
@@ -713,7 +710,7 @@ namespace vdrlive {
 		}
 	}
 
-	RecordingsList::RecordingsList(stdext::shared_ptr< RecordingsList > recList, bool ascending) :
+	RecordingsList::RecordingsList(stdext::shared_ptr<RecordingsList> recList, bool ascending) :
 		m_pRecVec(new RecVecType(recList->size()))
 	{
 		if (!m_pRecVec) {
@@ -727,7 +724,7 @@ namespace vdrlive {
 		}
 	}
 
-	RecordingsList::RecordingsList(stdext::shared_ptr< RecordingsList > recList, time_t begin, time_t end, bool ascending) :
+	RecordingsList::RecordingsList(stdext::shared_ptr<RecordingsList> recList, time_t begin, time_t end, bool ascending) :
 		m_pRecVec(new RecVecType())
 	{
 		if (end > begin) {
@@ -769,8 +766,8 @@ namespace vdrlive {
 	/**
 	 *  Implementation of class RecordingsList:
 	 */
-	RecordingsListPtr::RecordingsListPtr(RecordingsManagerPtr recManPtr, stdext::shared_ptr< RecordingsList > recList) :
-		stdext::shared_ptr< RecordingsList >(recList),
+	RecordingsListPtr::RecordingsListPtr(RecordingsManagerPtr recManPtr, stdext::shared_ptr<RecordingsList> recList) :
+		stdext::shared_ptr<RecordingsList>(recList),
 		m_recManPtr(recManPtr)
 	{
 	}
@@ -800,10 +797,10 @@ namespace vdrlive {
 #else
 		for (cRecording* recording = Recordings.First(); recording; recording = Recordings.Next(recording)) {
 #endif
-			string name = recording->Name();
+			std::string name = recording->Name();
 			size_t found = name.find_last_of("~");
 
-			if (found != string::npos) {
+			if (found != std::string::npos) {
 				m_pDirVec->push_back(StringReplace(name.substr(0, found), "~", "/"));
 			}
 		}
@@ -818,13 +815,13 @@ namespace vdrlive {
 		}
 	}
 
-	void DirectoryList::InjectFoldersConf(cNestedItem * folder, string parent)
+	void DirectoryList::InjectFoldersConf(cNestedItem * folder, std::string parent)
 	{
 		if (!folder) {
 			return;
 		}
 
-		string dir = string((parent.size() == 0) ? "" : parent + "/") + folder->Text();
+		std::string dir = std::string((parent.size() == 0) ? "" : parent + "/") + folder->Text();
 		m_pDirVec->push_back(StringReplace(dir, "_", " "));
 
 		if (!folder->SubItems()) {
@@ -839,8 +836,8 @@ namespace vdrlive {
 	/**
 	 *  Implementation of class DirectoryListPtr:
 	 */
-	DirectoryListPtr::DirectoryListPtr(RecordingsManagerPtr recManPtr, stdext::shared_ptr< DirectoryList > recDirs) :
-		stdext::shared_ptr< DirectoryList >(recDirs),
+	DirectoryListPtr::DirectoryListPtr(RecordingsManagerPtr recManPtr, stdext::shared_ptr<DirectoryList> recDirs) :
+		stdext::shared_ptr<DirectoryList>(recDirs),
 		m_recManPtr(recManPtr)
 	{
 	}

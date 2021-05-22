@@ -3,7 +3,6 @@
 #include <recman.h>
 #include <tntfeatures.h>
 
-using namespace std;
 using namespace vdrlive;
 
 off_t RecSize(cRecording const * recording)
@@ -26,7 +25,7 @@ off_t RecSize(cRecording const * recording)
 
 </%pre>
 <%args>
-    string recid;
+    std::string recid;
 </%args>
 <%session scope="global">
 bool logged_in(false);

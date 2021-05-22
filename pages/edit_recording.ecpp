@@ -7,22 +7,21 @@
 
 #include <vdr/recording.h>
 
-using namespace std;
 using namespace vdrlive;
 
 </%pre>
 <%args>
 	// input parameters
-	string recid;
-	string async;
+	std::string recid;
+	std::string async;
 	// form parameters
-	string name = "";
-	string directory = "";
-	string options[];
+	std::string name = "";
+	std::string directory = "";
+	std::string options[];
 </%args>
 <%session scope="global">
 bool logged_in(false);
-string edit_rec_referer;
+std::string edit_rec_referer;
 </%session>
 <%request scope="page">
 const cRecording* recording;
@@ -36,7 +35,7 @@ const cRecording* recording;
 
 	bool ajaxReq = !async.empty() && (lexical_cast<int>(async) != 0);
 
-	string message;
+	std::string message;
 
 	recording = NULL;
 	if (!recid.empty()) {
@@ -51,7 +50,7 @@ const cRecording* recording;
 		else if (recording) {
 			bool copy_only = false;
 #if TNTVERSION >= 30000
-                        typedef std::vector<string> options_type;
+                        typedef std::vector<std::string> options_type;
 #endif
 			for (options_type::const_iterator it = options.begin(); it != options.end(); ++it) {
 				if (*it == "delresume")
@@ -62,7 +61,7 @@ const cRecording* recording;
 					copy_only = true;
 			}
 			options.clear();
-			string filename =  directory.empty() ? name : StringReplace(directory, "/", "~") + "~" + name;
+			std::string filename =  directory.empty() ? name : StringReplace(directory, "/", "~") + "~" + name;
 			if (LiveRecordingsManager()->MoveRecording(recording, FileSystemExchangeChars(filename, true), copy_only))
 				return reply.redirect(!edit_rec_referer.empty() ? edit_rec_referer : "recordings.html");
 			else
@@ -74,10 +73,10 @@ const cRecording* recording;
 		edit_rec_referer = request.getHeader("Referer:", "recordings.html");
 
 	if (recording) {
-		string path = recording->Name();
+		std::string path = recording->Name();
 		size_t found = path.find_last_of("~");
 
-		if (found != string::npos) {
+		if (found != std::string::npos) {
 			directory = StringReplace(path.substr(0, found), "~", "/");
 			name = path.substr(found + 1);
 		}

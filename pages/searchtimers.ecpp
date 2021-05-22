@@ -5,13 +5,12 @@
 #include <users.h>
 
 using namespace vdrlive;
-using namespace std;
 
 </%pre>
 <%args>
 	// input parameters
-	string searchtimerid;
-	string action;
+	std::string searchtimerid;
+	std::string action;
 </%args>
 <%session scope="global">
 bool logged_in(false);
