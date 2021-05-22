@@ -135,7 +135,7 @@ namespace vdrlive {
 			   GetResourcePath(),
 			   "/img/$2.$3",
 			   "image/$3");
-		// deprecated: file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) $2@" << endl;
+		// deprecated: file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) $2@" << std::endl;
 
 		// Epg images
 		std::string const epgImgPath(LiveSetup().GetEpgImageDir());

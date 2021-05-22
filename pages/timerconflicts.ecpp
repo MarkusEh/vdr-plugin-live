@@ -7,7 +7,6 @@
 #include <timers.h>
 
 using namespace vdrlive;
-using namespace std;
 
 static const size_t maximumDescriptionLength = 300;
 
@@ -50,7 +49,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 </%cpp>
 						<tr class="head">
 							<td colspan="11">
-								 <div class="boxheader"><div><div><$ FormatDateTime(tr("%A, %x"), conflict->ConflictTime()) + " " + FormatDateTime(tr("%I:%M %p"), conflict->ConflictTime()) + " - " + lexical_cast<string, int>(confltimer->percentage) + "%" $><span style="float:right;"><diff><$ tr("Server")$>: <$ (confltimer->remote == "" ) ? tr("local") : confltimer->remote $> </diff></span></div></div></div>
+								 <div class="boxheader"><div><div><$ FormatDateTime(tr("%A, %x"), conflict->ConflictTime()) + " " + FormatDateTime(tr("%I:%M %p"), conflict->ConflictTime()) + " - " + lexical_cast<std::string, int>(confltimer->percentage) + "%" $><span style="float:right;"><diff><$ tr("Server")$>: <$ (confltimer->remote == "" ) ? tr("local") : confltimer->remote $> </diff></span></div></div></div>
 							</td>
 						</tr>
 						<tr class="description">
@@ -92,9 +91,9 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 							}
 
 							EpgInfoPtr epgEvent;
-							string longDescription;
-							string searchTimName;
-							string title;
+							std::string longDescription;
+							std::string searchTimName;
+							std::string title;
 #if VDRVERSNUM >= 20301
 							if (!timer->Event()) {
 								LOCK_SCHEDULES_READ;

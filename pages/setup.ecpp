@@ -6,33 +6,32 @@
 #include <live.h>
 
 using namespace vdrlive;
-using namespace std;
 
 </%pre>
 <%args>
-	string lastchannel;
+	std::string lastchannel;
 	bool useauth = false;
-	string login;
-	string pass;
-	string times;
-	string channelGroups;
-	string scheduleDuration;
-	string startscreen;
-	string theme;
-	string localnetmask;
-	string showLogo;
-	string useAjax;
-	string showInfoBox;
-	string useStreamdev;
-	string markNewRec;
-	string showIMDb;
-	string showChannelsWithoutEPG;
-	string streamdevport;
-	string streamdevtype;
-	string streamVideoOpt0;
-	string streamVideoOpt1;
-	string streamVideoOpt2;
-	string streamVideoOpt3;
+	std::string login;
+	std::string pass;
+	std::string times;
+	std::string channelGroups;
+	std::string scheduleDuration;
+	std::string startscreen;
+	std::string theme;
+	std::string localnetmask;
+	std::string showLogo;
+	std::string useAjax;
+	std::string showInfoBox;
+	std::string useStreamdev;
+	std::string markNewRec;
+	std::string showIMDb;
+	std::string showChannelsWithoutEPG;
+	std::string streamdevport;
+	std::string streamdevtype;
+	std::string streamVideoOpt0;
+	std::string streamVideoOpt1;
+	std::string streamVideoOpt2;
+	std::string streamVideoOpt3;
 	int authchanged = 0;
 </%args>
 <%session scope="global">
@@ -305,12 +304,12 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 						<td class="rightcol"><select name="theme" size="1" id="theme">
 <%cpp>
 {
-	const string dirPath(Plugin::GetResourceDirectory() + "/themes");
+	const std::string dirPath(Plugin::GetResourceDirectory() + "/themes");
 	cReadDir d(dirPath.c_str());
 	struct dirent* e;
-	string parent("..");
-	string current(".");
-	string cvsDir("CVS");
+	std::string parent("..");
+	std::string current(".");
+	std::string cvsDir("CVS");
 	while ((e = d.Next())) {
 		if ((current == e->d_name) || (parent == e->d_name) || (cvsDir == e->d_name)) {
 			continue;

@@ -33,10 +33,10 @@ namespace vdrlive {
 	class DirectoryListPtr;
 	class RecordingsItem;
 
-	typedef stdext::shared_ptr< RecordingsManager > RecordingsManagerPtr;
-	typedef stdext::shared_ptr< RecordingsItem > RecordingsItemPtr;
-	typedef stdext::weak_ptr< RecordingsItem > RecordingsItemWeakPtr;
-	typedef std::multimap< std::string, RecordingsItemPtr > RecordingsMap;
+	typedef stdext::shared_ptr<RecordingsManager> RecordingsManagerPtr;
+	typedef stdext::shared_ptr<RecordingsItem> RecordingsItemPtr;
+	typedef stdext::weak_ptr<RecordingsItem> RecordingsItemWeakPtr;
+	typedef std::multimap<std::string, RecordingsItemPtr> RecordingsMap;
 
 
 	/**
@@ -131,10 +131,10 @@ namespace vdrlive {
 #endif
 			static RecordingsManagerPtr EnsureValidData();
 
-			static stdext::weak_ptr< RecordingsManager > m_recMan;
-			static stdext::shared_ptr< RecordingsTree > m_recTree;
-			static stdext::shared_ptr< RecordingsList > m_recList;
-			static stdext::shared_ptr< DirectoryList > m_recDirs;
+			static stdext::weak_ptr<RecordingsManager> m_recMan;
+			static stdext::shared_ptr<RecordingsTree> m_recTree;
+			static stdext::shared_ptr<RecordingsList> m_recList;
+			static stdext::shared_ptr<DirectoryList> m_recDirs;
 #if VDRVERSNUM >= 20301
 			static cStateKey m_recordingsStateKey;
 #else
@@ -304,8 +304,8 @@ namespace vdrlive {
 
 			RecordingsItemPtr const & Root() const { return m_root; }
 
-			RecordingsMap::iterator begin(const std::vector< std::string >& path);
-			RecordingsMap::iterator end(const std::vector< std::string >&path);
+			RecordingsMap::iterator begin(const std::vector<std::string>& path);
+			RecordingsMap::iterator end(const std::vector<std::string>&path);
 
 			int MaxLevel() const { return m_maxLevel; }
 
@@ -321,12 +321,12 @@ namespace vdrlive {
 	 *  A smart pointer to a recordings tree. As long as an instance of this
 	 *  exists the recordings are locked in the vdr.
 	 */
-	class RecordingsTreePtr : public stdext::shared_ptr< RecordingsTree >
+	class RecordingsTreePtr : public stdext::shared_ptr<RecordingsTree>
 	{
 		friend class RecordingsManager;
 
 		private:
-			RecordingsTreePtr(RecordingsManagerPtr recManPtr, stdext::shared_ptr< RecordingsTree > recTree);
+			RecordingsTreePtr(RecordingsManagerPtr recManPtr, stdext::shared_ptr<RecordingsTree> recTree);
 
 		public:
 			RecordingsTreePtr();
@@ -350,11 +350,11 @@ namespace vdrlive {
 
 		private:
 			RecordingsList(RecordingsTreePtr recTree);
-			RecordingsList(stdext::shared_ptr< RecordingsList > recList, bool ascending);
-			RecordingsList(stdext::shared_ptr< RecordingsList > recList, time_t begin, time_t end, bool ascending);
+			RecordingsList(stdext::shared_ptr<RecordingsList> recList, bool ascending);
+			RecordingsList(stdext::shared_ptr<RecordingsList> recList, time_t begin, time_t end, bool ascending);
 
 		public:
-			typedef std::vector< RecordingsItemPtr > RecVecType;
+			typedef std::vector<RecordingsItemPtr> RecVecType;
 
 			virtual ~RecordingsList();
 
@@ -397,12 +397,12 @@ namespace vdrlive {
 	 *  A smart pointer to a recordings list. As long as an instance of this
 	 *  exists the recordings are locked in the vdr.
 	 */
-	class RecordingsListPtr : public stdext::shared_ptr< RecordingsList >
+	class RecordingsListPtr : public stdext::shared_ptr<RecordingsList>
 	{
 		friend class RecordingsManager;
 
 		private:
-			RecordingsListPtr(RecordingsManagerPtr recManPtr, stdext::shared_ptr< RecordingsList > recList);
+			RecordingsListPtr(RecordingsManagerPtr recManPtr, stdext::shared_ptr<RecordingsList> recList);
 
 		public:
 			virtual ~RecordingsListPtr();
@@ -424,7 +424,7 @@ namespace vdrlive {
 			void InjectFoldersConf(cNestedItem * folder, std::string parent = "");
 
 		public:
-			typedef std::list< std::string > DirVecType;
+			typedef std::list<std::string> DirVecType;
 
 			virtual ~DirectoryList();
 
@@ -441,12 +441,12 @@ namespace vdrlive {
 	 *  A smart pointer to a directory list. As long as an instance of this
 	 *  exists the recordings are locked in the vdr.
 	 */
-	class DirectoryListPtr : public stdext::shared_ptr< DirectoryList >
+	class DirectoryListPtr : public stdext::shared_ptr<DirectoryList>
 	{
 		friend class RecordingsManager;
 
 		private:
-			DirectoryListPtr(RecordingsManagerPtr recManPtr, stdext::shared_ptr< DirectoryList > recDirs);
+			DirectoryListPtr(RecordingsManagerPtr recManPtr, stdext::shared_ptr<DirectoryList> recDirs);
 
 		public:
 			virtual ~DirectoryListPtr();

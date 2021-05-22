@@ -21,7 +21,7 @@ class TaskManager: public cMutex
 	friend TaskManager& LiveTaskManager();
 	friend class StickyTask;
 
-	typedef std::vector< Task* > TaskList;
+	typedef std::vector<Task*> TaskList;
 
 public:
 	bool Execute( Task& task );

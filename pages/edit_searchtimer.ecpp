@@ -7,17 +7,16 @@
 
 #include <iomanip>
 
-using namespace std;
 using namespace vdrlive;
 
 </%pre>
 <%args>
 	// input parameters
-	string searchtimerid;
-	string test;
+	std::string searchtimerid;
+	std::string test;
 
 	// form parameters
-	string search = "";
+	std::string search = "";
 	int mode = 0;
 	bool matchcase = false;
 	int tolerance = 1;
@@ -27,12 +26,12 @@ using namespace vdrlive;
 	int usechannel = SearchTimer::NoChannel;
 	tChannelID channelfrom;
 	tChannelID channelto;
-	string changrpsel = "";
+	std::string changrpsel = "";
 	bool usetime = false;
-	string start_h = "00";
-	string start_m = "00";
-	string stop_h = "00";
-	string stop_m = "00";
+	std::string start_h = "00";
+	std::string start_m = "00";
+	std::string stop_h = "00";
+	std::string stop_m = "00";
 	bool useduration = false;
 	int durationmin = 0;
 	int durationmax = 90;
@@ -48,15 +47,15 @@ using namespace vdrlive;
 	int useassearchtimer = 0;
 	int searchtimeraction = 0;
 	bool seriesrecording = false;
-	string directory = "";
+	std::string directory = "";
 	int delrecafterdays = 0;
 	int keeprecs = 0;
 	int pauseonrecs = 0;
 	int blacklistmode = 0;
-	string blacklistids[];
+	std::string blacklistids[];
 	int switchminbefore = 0;
 	bool useextepginfo = false;
-	string extepgvalues[];
+	std::string extepgvalues[];
 	bool avoidrepeats = false;
 	int allowedrepeats = 0;
 	int repeatswithindays = 0;
@@ -72,9 +71,9 @@ using namespace vdrlive;
 	bool delmode = false;
 	int delaftercountrecs = 0;
 	int delafterdaysoffirstrec = 0;
-	string blacklistids_internal;
-	string useassearchtimerfrom;
-	string useassearchtimerto;
+	std::string blacklistids_internal;
+	std::string useassearchtimerfrom;
+	std::string useassearchtimerto;
 	bool ignoreMissingEPGCats = false;
 </%args>
 <%session scope="global">
@@ -122,11 +121,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		searchtimer.SetUseExtEPGInfo(useextepginfo);
 		if (useextepginfo)
 		{
-			vector< string > infos;
+			std::vector<std::string> infos;
 			unsigned int i=0;
 			for (ExtEPGInfos::iterator extinfo = extEPGInfos.begin(); extinfo != extEPGInfos.end(); ++extinfo, i++)
 			{
-			ostringstream os;
+			std::stringstream os;
 			os << extinfo->Id() << "#" << (i<extepgvalues.size()?extepgvalues[i]:"");
 			infos.push_back(os.str());
 			}
@@ -197,8 +196,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			searchtimer.SetCompareSummary(comparesummary);
 		}
 		unsigned long catsselected = 0;
-		for (unsigned int i=0; i< avoidrepeatscatselected.size(); i++)
-			catsselected |= (1<< (avoidrepeatscatselected[i]-1));
+		for (unsigned int i=0; i < avoidrepeatscatselected.size(); i++)
+			catsselected |= (1 << (avoidrepeatscatselected[i]-1));
 		searchtimer.SetCompareCategories(catsselected);
 		searchtimer.SetPriority(priority);
 		searchtimer.SetLifetime(lifetime);
@@ -219,7 +218,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		else
 		{
 			searchtimer.SetId(0);
-			string md5 = SearchResults::AddQuery(searchtimer.ToText());
+			std::string md5 = SearchResults::AddQuery(searchtimer.ToText());
 			return reply.redirect("searchresults.html?searchtimerquery=" + md5);
 		}
 	}
@@ -245,17 +244,17 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		if (usechannel == SearchTimer::Group)
 			changrpsel = searchtimer->ChannelText();
 		usetime = searchtimer->UseTime();
-		ostringstream os;
-		os << setw(2) << setfill('0') << ( searchtimer->StartTime() / 100 ) % 100;
+		std::stringstream os;
+		os << std::setw(2) << std::setfill('0') << ( searchtimer->StartTime() / 100 ) % 100;
 			start_h = os.str();
 		os.str("");
-		os << setw(2) << setfill('0') << searchtimer->StartTime() % 100;
+		os << std::setw(2) << std::setfill('0') << searchtimer->StartTime() % 100;
 			start_m = os.str();
 		os.str("");
-		os << setw(2) << setfill('0') << ( searchtimer->StopTime() / 100 ) % 100;
+		os << std::setw(2) << std::setfill('0') << ( searchtimer->StopTime() / 100 ) % 100;
 			stop_h = os.str();
 		os.str("");
-		os << setw(2) << setfill('0') << searchtimer->StopTime() % 100;
+		os << std::setw(2) << std::setfill('0') << searchtimer->StopTime() % 100;
 			stop_m = os.str();
 		useduration = searchtimer->UseDuration();
 		if (useduration)
@@ -304,12 +303,12 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		blacklistmode = searchtimer->BlacklistMode();
 		switchminbefore = searchtimer->SwitchMinBefore();
 		useextepginfo = searchtimer->UseExtEPGInfo();
-		vector< string > infos = searchtimer->ExtEPGInfo();
+		std::vector<std::string> infos = searchtimer->ExtEPGInfo();
 		for(unsigned int i=0; i<extEPGInfos.size(); i++)
 		{
 			if (i<infos.size())
 			{
-			vector< string > parts = StringSplit( infos[i], '#' );
+			std::vector<std::string> parts = StringSplit( infos[i], '#' );
 			extepgvalues.push_back(parts.size() > 1?parts[1]:"");
 			}
 			else
@@ -347,10 +346,10 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		usetitle = true;
 		usesubtitle = true;
 		usedescr = true;
-		priority = lexical_cast< int >(EPGSearchSetupValues::ReadValue("DefPriority"));
-		lifetime = lexical_cast< int >(EPGSearchSetupValues::ReadValue("DefLifetime"));
-		marginstart = lexical_cast< int >(EPGSearchSetupValues::ReadValue("DefMarginStart"));
-		marginstop = lexical_cast< int >(EPGSearchSetupValues::ReadValue("DefMarginStop"));
+		priority = lexical_cast<int>(EPGSearchSetupValues::ReadValue("DefPriority"));
+		lifetime = lexical_cast<int>(EPGSearchSetupValues::ReadValue("DefLifetime"));
+		marginstart = lexical_cast<int>(EPGSearchSetupValues::ReadValue("DefMarginStart"));
+		marginstop = lexical_cast<int>(EPGSearchSetupValues::ReadValue("DefMarginStop"));
 	}
 </%cpp>
 <& pageelems.doc_type &>

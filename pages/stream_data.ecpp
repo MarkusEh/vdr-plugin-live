@@ -10,7 +10,6 @@
 #include <vdr/tools.h>
 #include <unistd.h>
 
-using namespace std;
 using namespace vdrlive;
 
 </%pre>
@@ -26,17 +25,17 @@ reply.setHeader("Expires", "Mon, 26 Jul 1997 05:00:00 GMT");
 
 // assign Mime type to repply
 tnt::MimeDb mimeDb("/etc/mime.types");
-string mime = mimeDb.getMimetype(request.getPathInfo());
+std::string mime = mimeDb.getMimetype(request.getPathInfo());
 reply.setContentType(mime);
 
 // check for session cookie. TODO: handle secure cookie for ssl
-string session;
+std::string session;
 if (request.hasCookie("tntnet")) {
 	session = request.getCookie("tntnet");
 }
 
 // forge target path from requested path.
-string path(request.getPathInfo());
+std::string path(request.getPathInfo());
 if (path.substr(0, 7) == "/media/") {
 	path.replace(0, 7, "/tmp/live-hls-buffer/");
 }
@@ -44,7 +43,7 @@ else return DECLINED;
 
 // try to open the target file
 uint8_t retry;
-if (path.rfind(".m3u8") != string::npos && path.find("master_") != string::npos) retry = 100;
+if (path.rfind(".m3u8") != std::string::npos && path.find("master_") != std::string::npos) retry = 100;
 else retry = 5;
 std::ifstream f;
 do {
@@ -61,11 +60,11 @@ if (!f.is_open()) {
 }
 
 // wait until TARGETDURATION in playlist is != 0
-if (path.rfind(".m3u8") != string::npos && path.find("ffmpeg_") != string::npos) {
-	string line;
+if (path.rfind(".m3u8") != std::string::npos && path.find("ffmpeg_") != std::string::npos) {
+	std::string line;
 	int count = 20;
 	while(getline(f, line) && count) {
-		if (string::npos != line.find("#EXT-X-TARGETDURATION:")) {
+		if (line.find("#EXT-X-TARGETDURATION:") != std::string::npos) {
 			if (! (atoi(line.erase(0, 22).c_str()))) {
 				count--;
 				f.close();
@@ -79,29 +78,29 @@ if (path.rfind(".m3u8") != string::npos && path.find("ffmpeg_") != string::npos)
 
 usleep(100e3);
 f.seekg( 0, std::ios::end );
-streamsize size = f.tellg();
+std::streamsize size = f.tellg();
 f.seekg( 0, std::ios::beg );
 
 unsigned httpReturn = HTTP_OK;
-string range = request.getHeader(tnt::httpheader::range);
+std::string range = request.getHeader(tnt::httpheader::range);
 off_t offset = 0, stop = size-1;
 if (!range.empty()) {
 	range.erase(0,6);
-	stringstream ss(range);
+	std::stringstream ss(range);
 	char tmp;
 	ss >> offset >> tmp >> stop;
 	dsyslog("vdrlive::stream_data::range(%ld to %ld)", offset, stop);
 	if (offset > size) return HTTP_RANGE_NOT_SATISFIABLE;
 	if ((stop+1) > size) stop = size - 1;
 	httpReturn = HTTP_PARTIAL_CONTENT;
-	ostringstream contentRange;
+	std::stringstream contentRange;
 	contentRange << offset << ('-') << stop << ('/') << size;
 	reply.setHeader(tnt::httpheader::contentRange, contentRange.str());
 	f.seekg( offset, std::ios::beg );
 }
 
 char buffer[KILOBYTE(64)];
-streamsize r, c = stop - offset+ 1;
+size_t r, c = stop - offset+ 1;
 while (r = f.readsome(buffer, (c < (long int) sizeof(buffer))?c:sizeof(buffer))) {
 	reply.out().write(buffer, r);
 	c -= r;

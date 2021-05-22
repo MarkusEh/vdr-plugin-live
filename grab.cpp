@@ -57,7 +57,7 @@ bool GrabImageTask::GrabImage()
 		return false;
 	}
 
-	LiveGrabImageManager().PutImage( reinterpret_cast< char* >( image ), size );
+	LiveGrabImageManager().PutImage( reinterpret_cast<char*>( image ), size );
 	return true;
 }
 

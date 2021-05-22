@@ -27,7 +27,7 @@ class Setup
 								 // declaration, although gcc 3.3 claims so
 
 	public:
-		typedef std::list< std::string > IpList;
+		typedef std::list<std::string> IpList;
 
 		// commandline
 		int GetServerPort() const { return m_serverPort; }
@@ -36,7 +36,7 @@ class Setup
 		std::string GetServerSslKey() const { return m_serverSslKey; }
 		IpList const& GetServerIps() const { return m_serverIps; }
 		// vdr-setup
-		int GetLastChannel() const { return m_lastChannel == 0 ? std::numeric_limits< int >::max() : m_lastChannel; }
+		int GetLastChannel() const { return m_lastChannel == 0 ? std::numeric_limits<int>::max() : m_lastChannel; }
 		int GetScreenshotInterval() const { return m_screenshotInterval; }
 		std::string const GetAdminLogin() const { return m_adminLogin; }
 		std::string const GetMD5HashAdminPassword() const;

@@ -4,7 +4,6 @@
 #include <setup.h>
 #include <timerconflict.h>
 
-using namespace std;
 using namespace vdrlive;
 
 </%pre>
@@ -38,7 +37,7 @@ if (!component.empty()) {
 	| <a href="multischedule.html" <& menu.setactive current=("multischedule") &>><$ tr("MultiSchedule") $></a>
 	| <a href="timers.html" <& menu.setactive current=("timers") &>><$ trVDR("Timers") $></a>
 <%cpp>
-if ( LiveFeatures< features::epgsearch >().Recent() ) {
+if ( LiveFeatures<features::epgsearch>().Recent() ) {
 </%cpp>
 	| <a href="searchepg.html" <& menu.setactive current=("searchepg") &>><$ tr("Search") $></a>
 	| <a href="searchtimers.html" <& menu.setactive current=("searchtimers") &>><$ tr("Searchtimers") $></a>
@@ -95,7 +94,7 @@ if (!component.empty()) {
 	  <& menu.component current=("multischedule") &>
 	  <& menu.component current=("timers") &>
 <%cpp>
-	if (LiveFeatures< features::epgsearch >().Recent()) {
+	if (LiveFeatures<features::epgsearch>().Recent()) {
 </%cpp>
 	  <& menu.component current=("search") &>
 	  <& menu.component current=("searchepg") &>

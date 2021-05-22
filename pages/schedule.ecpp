@@ -8,16 +8,15 @@
 
 
 #include <vdr/config.h>
-using namespace std;
 using namespace vdrlive;
 
-void addAllRecordings(list<RecordingsItemPtr> &RecItems, RecordingsTreePtr &RecordingsTree, vector<string> &P){
+void addAllRecordings(std::list<RecordingsItemPtr> &RecItems, RecordingsTreePtr &RecordingsTree, std::vector<std::string> &P){
   for (RecordingsMap::iterator iter = RecordingsTree->begin(P); iter != RecordingsTree->end(P);  ++iter) {
         RecordingsItemPtr recItem = iter->second;
         if (!recItem->IsDir()) {
                 RecItems.push_back(recItem);
         } else {
-                vector<string> pp(P);
+                std::vector<std::string> pp(P);
                 pp.push_back(recItem->Name());
                 addAllRecordings(RecItems, RecordingsTree, pp);
         }
@@ -30,19 +29,19 @@ bool compRecItemName(const RecordingsItemPtr &first, const RecordingsItemPtr &se
   return first->NameForCompare().compare(second->NameForCompare() ) < 0;
 }
 
-bool searchNameDesc(RecordingsItemPtr &RecItem, list<RecordingsItemPtr> &RecItems, const string &Name, const string &ShortText, const string &Description, long Duration) {
+bool searchNameDesc(RecordingsItemPtr &RecItem, std::list<RecordingsItemPtr> &RecItems, const std::string &Name, const std::string &ShortText, const std::string &Description, long Duration) {
   if(RecItems.begin() == RecItems.end() ) return false;  // there are no recordings
 
 // find all recordings with equal name
   RecordingsItemPtr dummy (new RecordingsItemDummy(Name, ShortText, Description, Duration));
-  list<RecordingsItemPtr>::iterator recIterLowName = std::lower_bound (RecItems.begin(), RecItems.end(), dummy, compRecItemName);
-  list<RecordingsItemPtr>::iterator recIterUpName  = std::upper_bound (recIterLowName  , RecItems.end(), dummy, compRecItemName);
+  std::list<RecordingsItemPtr>::iterator recIterLowName = std::lower_bound (RecItems.begin(), RecItems.end(), dummy, compRecItemName);
+  std::list<RecordingsItemPtr>::iterator recIterUpName  = std::upper_bound (recIterLowName  , RecItems.end(), dummy, compRecItemName);
   if ( recIterLowName == recIterUpName ) return false; // there is no recording with this name
 
 
 // find all recordings with matching short text / description
-  list<RecordingsItemPtr>::iterator recIterLow = std::lower_bound (recIterLowName, recIterUpName, dummy, RecordingsItemPtrCompare::ByAscendingName);
-  list<RecordingsItemPtr>::iterator recIterUp = std::upper_bound (recIterLow, recIterUpName, dummy, RecordingsItemPtrCompare::ByAscendingName);
+  std::list<RecordingsItemPtr>::iterator recIterLow = std::lower_bound (recIterLowName, recIterUpName, dummy, RecordingsItemPtrCompare::ByAscendingName);
+  std::list<RecordingsItemPtr>::iterator recIterUp = std::upper_bound (recIterLow, recIterUpName, dummy, RecordingsItemPtrCompare::ByAscendingName);
 
   if(recIterLow != recIterUp) {   // exact match found
     if (RecordingsItemPtrCompare::FindBestMatch(RecItem, recIterLow, recIterUp, dummy) > 0) return true;
@@ -93,8 +92,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <%cpp>
 	pageTitle = trVDR("Schedule");
 
-vector<string> path;
-list<RecordingsItemPtr> recItems;
+std::vector<std::string> path;
+std::list<RecordingsItemPtr> recItems;
 RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
 
 addAllRecordings(recItems, recordingsTree, path);
@@ -171,7 +170,7 @@ addAllRecordings(recItems, recordingsTree, path);
 </%cpp>
 		<table class="listing" cellspacing="0" cellpadding="0">
 <%cpp>
-		string current_day = "";
+		std::string current_day = "";
 		const cEvent* PresentEvent = Schedule->GetPresentEvent();
 		time_t now = time(NULL) - ::Setup.EPGLinger * 60;
                 RecordingsItemPtr recItem;
@@ -186,15 +185,15 @@ addAllRecordings(recItems, recordingsTree, path);
 
 			EpgInfoPtr epgEvent = EpgEvents::CreateEpgInfo(Channel, Event);
 
-			string title(epgEvent->Title());
-			string short_description(epgEvent->ShortDescr());
-			string description(epgEvent->LongDescr());
-			string start(epgEvent->StartTime(tr("%I:%M %p")));
-			string end(epgEvent->EndTime(tr("%I:%M %p")));
+			std::string title(epgEvent->Title());
+			std::string short_description(epgEvent->ShortDescr());
+			std::string description(epgEvent->LongDescr());
+			std::string start(epgEvent->StartTime(tr("%I:%M %p")));
+			std::string end(epgEvent->EndTime(tr("%I:%M %p")));
                         int durationMinutes = epgEvent->Duration() / 60;
-                        string duration(durationMinutes < 0 ? "" : FormatDuration(tr("(%d:%02d)"), durationMinutes / 60, durationMinutes % 60));
-			string day(epgEvent->StartTime(tr("%A, %b %d %Y")));
-			string epgid = EpgEvents::EncodeDomId(Channel->GetChannelID(), Event->EventID());
+                        std::string duration(durationMinutes < 0 ? "" : FormatDuration(tr("(%d:%02d)"), durationMinutes / 60, durationMinutes % 60));
+			std::string day(epgEvent->StartTime(tr("%A, %b %d %Y")));
+			std::string epgid = EpgEvents::EncodeDomId(Channel->GetChannelID(), Event->EventID());
 
 			bool truncated = false;
 			bool lastEventCurrentDay = false;
@@ -210,7 +209,7 @@ addAllRecordings(recItems, recordingsTree, path);
 					lastEventCurrentDay = true;
 				}
 				else {
-					string nday(NextEvent->StartTime() ? FormatDateTime(tr("%A, %b %d %Y"), NextEvent->StartTime()) : "");
+					std::string nday(NextEvent->StartTime() ? FormatDateTime(tr("%A, %b %d %Y"), NextEvent->StartTime()) : "");
 					lastEventCurrentDay = (day != nday);
 				}
 			}
@@ -241,12 +240,12 @@ addAllRecordings(recItems, recordingsTree, path);
 				</tr>
 <%cpp>
 if(recItemFound) {
-                  string r_day(FormatDateTime(tr("%a,"), recItem->StartTime()));
-                  string dayLen(lexical_cast<string, int>(r_day.length() - 1) + ".25em;");
-                  string duration(recItem->Duration() < 0 ? "" : FormatDuration(tr("(%d:%02d)"), recItem->Duration() / 60, recItem->Duration() % 60));
-                  string shortDescr(recItem->RecInfo()->ShortText() ? recItem->RecInfo()->ShortText() : "");
-                  string r_description(recItem->RecInfo()->Description() ? recItem->RecInfo()->Description() : "");
-                  string hint(tr("Click to view details."));
+                  std::string r_day(FormatDateTime(tr("%a,"), recItem->StartTime()));
+                  std::string dayLen(lexical_cast<std::string, int>(r_day.length() - 1) + ".25em;");
+                  std::string duration(recItem->Duration() < 0 ? "" : FormatDuration(tr("(%d:%02d)"), recItem->Duration() / 60, recItem->Duration() % 60));
+                  std::string shortDescr(recItem->RecInfo()->ShortText() ? recItem->RecInfo()->ShortText() : "");
+                  std::string r_description(recItem->RecInfo()->Description() ? recItem->RecInfo()->Description() : "");
+                  std::string hint(tr("Click to view details."));
                   if (!shortDescr.empty()) hint = shortDescr + "<br />" + hint;
                   else if (!r_description.empty()) hint = r_description + "<br />" + hint;
 </%cpp>
@@ -289,16 +288,16 @@ if(recItemFound) {
 
 <%def rec_item_file>
 <%args>
-        string name;
+        std::string name;
         int level;
-        string id;
-        string day;
-        string dayLen;
+        std::string id;
+        std::string day;
+        std::string dayLen;
         time_t startTime;
-        string duration;
-        string hint;
-        string shortDescr;
-        string archived;
+        std::string duration;
+        std::string hint;
+        std::string shortDescr;
+        std::string archived;
         bool lastEventCurrentDay;
 </%args>
 <%cpp> if (!archived.empty()) { </%cpp>
@@ -309,7 +308,7 @@ if(recItemFound) {
 <td colspan="3" style="word-wrap: normal;min-width: 10px;max-width: 70px;" class="leftcol <? lastEventCurrentDay ? "bottomrow" ?>"> <$ tr("Existing Recording:") $> </td>
 <%cpp> } </%cpp>
 
-<td class="topaligned <? lastEventCurrentDay ? "bottomrow" ?>"><div class="withmargin"><$ FormatDateTime(tr("%a,"), startTime) + string(" ") + FormatDateTime(tr("%b %d %y"), startTime) + string(" ") + FormatDateTime(tr("%I:%M %p"), startTime) $><br /><$ duration $></div></td>
+<td class="topaligned <? lastEventCurrentDay ? "bottomrow" ?>"><div class="withmargin"><$ FormatDateTime(tr("%a,"), startTime) + std::string(" ") + FormatDateTime(tr("%b %d %y"), startTime) + std::string(" ") + FormatDateTime(tr("%I:%M %p"), startTime) $><br /><$ duration $></div></td>
 
 <td class="topaligned rightcol <? lastEventCurrentDay ? "bottomrow" ?>"><div class="more withmargin"><a <& tooltip.hint text=(hint) &><& tooltip.display domId=(id) &>><span class="title"><$ name $></span><br /><span class="short"><%cpp>if (shortDescr.empty()) { </%cpp>&nbsp;<%cpp> } </%cpp><$ shortDescr $></span></a></div></td>
 

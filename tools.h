@@ -12,9 +12,9 @@
         #include "cxxtools/serializationinfo.h"
 #endif
 
-#ifndef __STL_CONFIG_H
+#ifndef DISABLE_TEMPLATES_COLLIDING_WITH_STL
 // To get rid of the swap definition in vdr/tools.h
-# define __STL_CONFIG_H
+#define DISABLE_TEMPLATES_COLLIDING_WITH_STL
 #endif
 #include <vdr/channels.h>
 
@@ -54,7 +54,7 @@ namespace vdrlive {
 
 	std::string StringReplace( std::string const& text, std::string const& substring, std::string const& replacement );
 
-	std::vector< std::string > StringSplit( std::string const& text, char delimiter );
+	std::vector<std::string> StringSplit( std::string const& text, char delimiter );
 
 	int StringToInt( std::string const& string, int base = 10 );
 
@@ -94,7 +94,7 @@ namespace vdrlive {
 		bad_lexical_cast(): std::runtime_error( "bad lexical cast" ) {}
 	};
 
-	template< typename To, typename From >
+	template<typename To, typename From>
 	To lexical_cast( From const& from )
 	{
 		std::stringstream parser;
@@ -106,7 +106,7 @@ namespace vdrlive {
 		return result;
 	}
 
-	template< typename From >
+	template<typename From>
 	std::string ConvertToString( From const& from, std::locale const& loc = std::locale() )
 	{
 		std::ostringstream parser;

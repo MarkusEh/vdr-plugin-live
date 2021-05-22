@@ -39,20 +39,20 @@ namespace vdrlive {
 		try {
 			std::vector<std::string>::const_iterator part = parts.begin();
 			if (parts.size() > 0) {
-				conflictTime = lexical_cast< time_t >( *part++ );
+				conflictTime = lexical_cast<time_t>( *part++ );
 				for ( int i = 1; part != parts.end(); ++i, ++part ) {
 					std::vector<std::string> timerparts = StringSplit( *part, '|' );
 					std::vector<std::string>::const_iterator timerpart = timerparts.begin();
 					TimerInConflict timer;
 					for ( int j = 0; timerpart != timerparts.end(); ++j, ++timerpart ) {
 						switch (j) {
-							case 0: timer.timerIndex = lexical_cast< int >( *timerpart ); break;
-							case 1: timer.percentage = lexical_cast< int >( *timerpart ); break;
+							case 0: timer.timerIndex = lexical_cast<int>( *timerpart ); break;
+							case 1: timer.percentage = lexical_cast<int>( *timerpart ); break;
 							case 2: {
 								std::vector<std::string> conctimerparts = StringSplit( *timerpart, '#' );
 								std::vector<std::string>::const_iterator conctimerpart = conctimerparts.begin();
 								for ( int k = 0; conctimerpart != conctimerparts.end(); ++k, ++conctimerpart )
-									timer.concurrentTimerIndices.push_back(lexical_cast< int >( *conctimerpart ));
+									timer.concurrentTimerIndices.push_back(lexical_cast<int>( *conctimerpart ));
 								break;
 							}
 							case 3: {
@@ -87,8 +87,8 @@ namespace vdrlive {
 					}
 		}
 //		for (TimerConflicts::iterator conflict=m_conflicts.begin(); conflict!=m_conflicts.end(); conflict++) {
-//			const std::list< TimerInConflict >& conflTimers = conflict->ConflictingTimers();
-//				for (std::list< TimerInConflict >::const_iterator confltimer = conflTimers.begin(); confltimer != conflTimers.end(); ++confltimer) {
+//			const std::list<TimerInConflict>& conflTimers = conflict->ConflictingTimers();
+//				for (std::list<TimerInConflict>::const_iterator confltimer = conflTimers.begin(); confltimer != conflTimers.end(); ++confltimer) {
 //				dsyslog("live: TimerConflicts::TimerConflictsi() Timer ID with conflict '%d'", confltimer->timerIndex );
 //				dsyslog("live: TimerConflicts::TimerConflictsi() conflict on server '%s'", confltimer->remote.c_str() );
 //				for (std::list<int>::const_iterator timerIndex = confltimer->concurrentTimerIndices.begin(); timerIndex != confltimer->concurrentTimerIndices.end(); ++timerIndex) {

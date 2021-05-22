@@ -6,12 +6,11 @@
 #include <tools.h>
 #include <epg_events.h>
 
-using namespace std;
 using namespace vdrlive;
 
 </%pre>
 <%args>
-	string channelid_str;
+	std::string channelid_str;
 	int channel = 1;
 </%args>
 <%session scope="global">
@@ -30,7 +29,7 @@ using namespace vdrlive;
 	pageTitle = trVDR("Stream");
 
 	// check for session cookie.
-	string session;
+	std::string session;
 	if (request.hasCookie("tntnet")) {
 		session = request.getCookie("tntnet");
 		dsyslog("vdrlive::stream::session(%s)", session.c_str());
@@ -147,20 +146,20 @@ if (Event) {
 	EpgEvents::DecodeDomId(epgEvent->Id(), chanId, eventId);
 	char const * timeFormat = tr("%I:%M %p");
 	char const * dateFormat = tr("%A, %x");
-	string headTime = FormatDateTime(timeFormat, time(0));
-	string headDate = FormatDateTime(dateFormat, time(0));
-	string startTime(epgEvent->StartTime(tr("%I:%M %p")));
-	string endTime(epgEvent->EndTime(tr("%I:%M %p")));
-	string startDate(epgEvent->StartTime(tr("%a, %x")));
+	std::string headTime = FormatDateTime(timeFormat, time(0));
+	std::string headDate = FormatDateTime(dateFormat, time(0));
+	std::string startTime(epgEvent->StartTime(tr("%I:%M %p")));
+	std::string endTime(epgEvent->EndTime(tr("%I:%M %p")));
+	std::string startDate(epgEvent->StartTime(tr("%a, %x")));
 
-	string timeSpan(startTime + " - " + endTime);
+	std::string timeSpan(startTime + " - " + endTime);
 
 	if (startTime.empty() && endTime.empty()) {
 		timeSpan = headTime;
 		startDate = headDate;
 	}
 static const size_t maximumDescriptionLength = 300;
-string longDescription = StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), maximumDescriptionLength))
+std::string longDescription = StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), maximumDescriptionLength))
 	+ "<br/><br/>" + tr("Click to view details.");
 	</%cpp>
 			<table class="listing" cellspacing="0" cellpadding="0">

@@ -365,7 +365,7 @@ namespace vdrlive
 				return found;
 			}
 
-			for (int j = 0;j < size;j++)
+			for (int j = 0; j < size; j++)
 			{
 				const std::string filemask(recfolder + "/*." + filetypes[j]);
 				glob_t globbuf;

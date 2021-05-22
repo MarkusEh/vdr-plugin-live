@@ -132,27 +132,27 @@ std::string const OsdStatusMonitor::GetItemsHtml(void){
 	return !buffer.empty() ? "<div class=\"osdItems\">" + buffer + "</div>" : "";
 }
 std::string const OsdStatusMonitor::GetHtml(){
-	std::stringstream mystream;
-	mystream << lastUpdate;
-	return "<div class=\"osd\" data-time=\"" + mystream.str() + "\">" + GetTitleHtml() + GetItemsHtml() + GetTextHtml() + GetMessageHtml() + GetButtonsHtml() + "</div>";
+	std::stringstream ss;
+	ss << lastUpdate;
+	return "<div class=\"osd\" data-time=\"" + ss.str() + "\">" + GetTitleHtml() + GetItemsHtml() + GetTextHtml() + GetMessageHtml() + GetButtonsHtml() + "</div>";
 }
 
 std::string const OsdStatusMonitor::EncodeHtml(const std::string& html) {
-	std::ostringstream result;
+	std::stringstream ss;
 	std::string::const_iterator i;
 	for (i = html.begin(); i != html.end(); ++i) {
 		if (*i == '<')
-			result << "&lt;";
+			ss << "&lt;";
 		else if (*i == '>')
-			result << "&gt;";
+			ss << "&gt;";
 		else if (*i == '&')
-			result << "&amp;";
+			ss << "&amp;";
 		else if (*i == '"')
-			result << "&quot;";
+			ss << "&quot;";
 		else
-			result << static_cast<char>(*i); // Copy untranslated
+			ss << static_cast<char>(*i); // Copy untranslated
 	}
-	return result.str();
+	return ss.str();
 }
 
 

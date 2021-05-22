@@ -5,7 +5,6 @@
 #include <tools.h>
 #include <users.h>
 
-using namespace std;
 using namespace vdrlive;
 
 </%pre>
@@ -227,12 +226,12 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			for (i = 0; i < items.length; ++i) {
 				element.options[i].value = items[i];
 				element.options[i].text = (items[i] / 1000) + " s";
-				if (items[i] == <$ ConvertToString( LiveSetup().GetScreenshotInterval(), locale("C") ) $>)
+				if (items[i] == <$ ConvertToString( LiveSetup().GetScreenshotInterval(), std::locale("C") ) $>)
 					element.selectedIndex = i;
 			}
 		}
 		//--></script>
-% reply.sout().imbue(locale());
+% reply.sout().imbue(std::locale());
 	</head>
 	<body onload="StreamInit(); FillIntervals(); adjustHeader()" onresize="adjustHeader()">
 		<& pageelems.logo &>

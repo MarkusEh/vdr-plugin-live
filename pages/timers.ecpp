@@ -8,7 +8,6 @@
 #include <livefeatures.h>
 #include <users.h>
 
-using namespace std;
 using namespace vdrlive;
 
 static const size_t maximumDescriptionLength = 300;
@@ -16,8 +15,8 @@ static const size_t maximumDescriptionLength = 300;
 </%pre>
 <%args>
 	// input parameters
-	string timerid;
-	string action;
+	std::string timerid;
+	std::string action;
 </%args>
 <%session scope="global">
 	bool logged_in(false);
@@ -37,7 +36,7 @@ static const size_t maximumDescriptionLength = 300;
 
 	timer = 0;
 	if ( !timerid.empty() ) {
-		string tId = SortedTimers::DecodeDomId(timerid);
+		std::string tId = SortedTimers::DecodeDomId(timerid);
 		// dsyslog("live: DEBUG: TIMER: tId = %s", tId.c_str());
 		timer = timers.GetByTimerId(tId);
 		if ( timer == 0 )
@@ -58,7 +57,7 @@ static const size_t maximumDescriptionLength = 300;
 		}
 	}
 
-	string previousDay = "";
+	std::string previousDay = "";
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -79,9 +78,9 @@ static const size_t maximumDescriptionLength = 300;
 				// output of the timer list:
 				for (SortedTimers::iterator timer = timers.begin(); timer != timers.end(); ++timer) {
 				    EpgInfoPtr epgEvent;
-					string longDescription;
-					string searchTimName;
-					string searchTimId;
+					std::string longDescription;
+					std::string searchTimName;
+					std::string searchTimId;
 #if VDRVERSNUM >= 20301
 					if (!timer->Event()) {
 						LOCK_SCHEDULES_READ;
@@ -99,13 +98,13 @@ static const size_t maximumDescriptionLength = 300;
 						searchTimName = SortedTimers::SearchTimerInfo(*timer, "searchtimer");
 						searchTimId = SortedTimers::SearchTimerInfo(*timer, "s-id");
 					}
-					string currentDay = SortedTimers::GetTimerDays(*timer);
+					std::string currentDay = SortedTimers::GetTimerDays(*timer);
 					SortedTimers::iterator nextTimer = timer; ++nextTimer;
 					bool bottom = false;
 					if (nextTimer == timers.end())
 						bottom = true;
 					else {
-						string nextDay = SortedTimers::GetTimerDays(*nextTimer);
+						std::string nextDay = SortedTimers::GetTimerDays(*nextTimer);
 						bottom = (currentDay != nextDay);
 					}
 					if (previousDay != currentDay) {
