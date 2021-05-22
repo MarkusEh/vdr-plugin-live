@@ -12,10 +12,6 @@
         #include "cxxtools/serializationinfo.h"
 #endif
 
-#ifndef __STL_CONFIG_H
-// To get rid of the swap definition in vdr/tools.h
-# define __STL_CONFIG_H
-#endif
 #include <vdr/channels.h>
 
 std::istream& operator>>( std::istream& is, tChannelID& ret );
