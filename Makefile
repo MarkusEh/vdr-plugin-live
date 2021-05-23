@@ -83,6 +83,7 @@ SOINST = $(DESTDIR)$(LIBDIR)/$(SOFILE).$(APIVERSION)
 
 ### Includes and Defines (add further entries here):
 DEFINES	+= -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"' -DTNTVERSION=$(TNTVERSION) -DCXXTOOLVER=$(CXXTOOLVER)
+DEFINES	+= -DDISABLE_TEMPLATES_COLLIDING_WITH_STL
 VERSIONSUFFIX = gen_version_suffix.h
 
 ### The object files (add further files here):
