@@ -16,10 +16,6 @@
 
 namespace vdrlive {
 
-using std::for_each;
-using stdext::bind;
-using namespace stdext::placeholders;
-
 const char* NowReplaying()
 {
 	return cReplayControl::NowReplaying();
@@ -244,6 +240,10 @@ void TaskManager::DoScheduledTasks()
 {
 	if ( m_taskQueue.empty() && m_stickyTasks.empty() )
 		return;
+
+   using std::for_each;
+   using std::bind;
+   using namespace std::placeholders;
 
 	cMutexLock lock( this );
 	for_each( m_taskQueue.begin(), m_taskQueue.end(), bind( &Task::Action, _1 ) );

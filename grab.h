@@ -7,7 +7,7 @@
 
 namespace vdrlive {
 
-typedef stdext::shared_ptr<char> GrabImagePtr;
+typedef std::shared_ptr<char> GrabImagePtr;
 typedef std::pair<GrabImagePtr, int> GrabImageInfo;
 
 class GrabImageTask;

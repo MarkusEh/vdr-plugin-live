@@ -4,6 +4,8 @@ PLUGIN := live
 ### Additional options to silence TNTNET warnings
 TNTFLAGS ?= -Wno-overloaded-virtual -Wno-unused-variable
 
+DEFINES += -DDISABLE_TEMPLATES_COLLIDING_WITH_STL
+
 ### Includes and Defines (add further entries here):
 INCLUDES += -I$(VDRDIR)/include -I..
 

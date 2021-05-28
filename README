@@ -47,9 +47,7 @@ Requirements:
 
 VDR >= 2.0.0
 
-gcc >= 3.1
-if gcc < 4.0:
-boost >= 1.32.0		- http://www.boost.org
+gcc >= 4.8.1
 PCRE >= 8.0.2     	- http://www.pcre.org/
 Tntnet >= 1.5.3		- http://www.tntnet.org/download.hms
 Cxxtools >= 1.4.3	- http://www.tntnet.org/download.hms
