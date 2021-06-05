@@ -199,6 +199,14 @@ table.mschedule tr td.odd {
 	background-color: #081966;
 }
 
+table.mschedule tr td.current_row {
+	background-color: #FCB840;
+}
+
+table.mschedule a {
+	color: inherit;
+}
+
 /* ################
    #  Event
    ################
