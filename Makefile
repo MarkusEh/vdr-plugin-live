@@ -38,7 +38,7 @@ APIVERSION := $(call PKGCFG,apiversion)
 include global.mk
 
 ### Determine tntnet and cxxtools versions:
-TNTNET-CONFIG := $(shell which tntnet-config)
+TNTNET-CONFIG := $(shell which tntnet-config 2>/dev/null)
 ifeq ($(TNTNET-CONFIG),)
 TNTVERSION = $(shell pkg-config --modversion tntnet | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
 CXXFLAGS  += $(shell pkg-config --cflags tntnet)
