@@ -328,6 +328,7 @@ div.info-win {
 	margin-top: 14px;
 	margin-left: 15px;
 	float: left;
+        max-width: 490px;
 }
 
 .info-win .info-win-top .info-win-c .info-win-b {
