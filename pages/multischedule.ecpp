@@ -36,7 +36,7 @@ std::vector<time_t>			times_start;
 <%session scope="global">
 	bool logged_in(false);
 </%session>
-<%request scope="page">
+<%request scope="global">
 	unsigned int channel_group=0;
 	unsigned int time_selected=0;
 </%request>
