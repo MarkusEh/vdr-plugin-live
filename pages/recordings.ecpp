@@ -304,6 +304,11 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 		   newR = (recItem->Recording()->GetResume() <= 0 ? "_new" : "");
                 }
 		std::string shortDescr(recItem->RecInfo()->ShortText() ? recItem->RecInfo()->ShortText() : "");
+#if VDRVERSNUM >= 20505
+		int recordingErrors = recItem->RecInfo()->Errors();
+#else
+		int recordingErrors = -1;
+#endif
 		std::string description(recItem->RecInfo()->Description() ? recItem->RecInfo()->Description() : "");
 #if TNTVERSION >= 30000
                 shortDescr = CorrectNonUTF8(&shortDescr); // cleanup invalid UTF-8 characters
@@ -320,7 +325,7 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 		{
 </%cpp>
 	<li class="recording">
-	   <& rec_item_file name=(recItem->Name()) level=(recItem->Level()) id=(recItem->Id()) day=(day) dayLen=(dayLen) startTime=(recItem->StartTime()) duration=(duration) newR=(newR) hint=(hint) shortDescr=(shortDescr) archived=(RecordingsManager::GetArchiveDescr(recItem->Recording())) &>
+	   <& rec_item_file name=(recItem->Name()) level=(recItem->Level()) id=(recItem->Id()) day=(day) dayLen=(dayLen) startTime=(recItem->StartTime()) duration=(duration) newR=(newR) hint=(hint) shortDescr=(shortDescr) recordingErrors=(recordingErrors) archived=(RecordingsManager::GetArchiveDescr(recItem->Recording())) &>
 	</li>
 <%cpp>
 		}
@@ -426,6 +431,7 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 	std::string duration;
 	std::string hint;
 	std::string shortDescr;
+        int recordingErrors;
 	std::string newR;
 	std::string archived;
 </%args>
@@ -441,6 +447,33 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 	<div class="recording_spec">
 		<div class="recording_day"><$ FormatDateTime(tr("%a,"), startTime) + std::string(" ") + FormatDateTime(tr("%b %d %y"), startTime) + std::string(" ") + FormatDateTime(tr("%I:%M %p"), startTime) $></div>
 		<div class="recording_duration"><$ duration $></div>
+<%cpp>
+#if VDRVERSNUM >= 20505
+std::string recording_errors_icon;
+std::string recording_errors_class;
+std::string recordingErrorsStr;
+recording_errors_class = "recording_errors";
+
+if (recordingErrors == 0) {
+  recording_errors_icon = "NoRecordingErrors.png";
+  recordingErrorsStr = tr("No recording errors");
+}
+if (recordingErrors == -1) {
+  recording_errors_icon = "NotCheckedForRecordingErrors.png";
+  recordingErrorsStr = tr("Recording errors unknown") ;
+}
+if (recordingErrors >   0) {
+  recording_errors_icon = "RecordingErrors.png";
+  recordingErrorsStr = tr("Number of recording errors:");
+  recordingErrorsStr += " " + std::to_string(recordingErrors);
+}
+  // recording_errors_icon = "stop.png";
+</%cpp>
+		<div class="<$ recording_errors_class $>"><img src="<$ LiveSetup().GetThemedLink("img", recording_errors_icon) $>" width = "16px" alt="" <& tooltip.hint text=(recordingErrorsStr) &> /> </div>
+<%cpp>
+// <img src="img/transparent.png" alt="" width="10px" height="10px" />
+#endif
+</%cpp>
 		<div class="recording_name<$ newR $>"><a <& tooltip.hint text=(hint) &><& tooltip.display domId=(id) &>><$ name $><br /><%cpp>if ((name != shortDescr) && (!shortDescr.empty())) {</%cpp><span><$ shortDescr $></span><%cpp> } else { </%cpp><span>&nbsp;</span><%cpp> } </%cpp></a></div>
 	</div>
 	<div class="recording_actions">

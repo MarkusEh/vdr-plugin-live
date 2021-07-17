@@ -1045,6 +1045,10 @@ div.recording_item {
 	font-weight: normal;
 }
 
+.recording_item div.recording_errors {
+	width: 26px;
+}
+
 .recording_item div.recording_arch {
 	float: right;
 	padding-top: 0.5ex;
