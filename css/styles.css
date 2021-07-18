@@ -842,6 +842,11 @@ table.listing tr td.current {
 	color: blue;
 }
 
+table.listing tr td.noborder {
+  background: none;
+  border-style: none;
+}
+
 table.listing tr.head td {
 	color: white;
 	font-weight: bold;

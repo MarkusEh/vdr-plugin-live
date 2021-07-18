@@ -450,9 +450,7 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 <%cpp>
 #if VDRVERSNUM >= 20505
 std::string recording_errors_icon;
-std::string recording_errors_class;
 std::string recordingErrorsStr;
-recording_errors_class = "recording_errors";
 
 if (recordingErrors == 0) {
   recording_errors_icon = "NoRecordingErrors.png";
@@ -467,11 +465,9 @@ if (recordingErrors >   0) {
   recordingErrorsStr = tr("Number of recording errors:");
   recordingErrorsStr += " " + std::to_string(recordingErrors);
 }
-  // recording_errors_icon = "stop.png";
 </%cpp>
-		<div class="<$ recording_errors_class $>"><img src="<$ LiveSetup().GetThemedLink("img", recording_errors_icon) $>" width = "16px" alt="" <& tooltip.hint text=(recordingErrorsStr) &> /> </div>
+		<div class="recording_errors"><img src="<$ LiveSetup().GetThemedLink("img", recording_errors_icon) $>" width = "16px" alt="" <& tooltip.hint text=(recordingErrorsStr) &> /> </div>
 <%cpp>
-// <img src="img/transparent.png" alt="" width="10px" height="10px" />
 #endif
 </%cpp>
 		<div class="recording_name<$ newR $>"><a <& tooltip.hint text=(hint) &><& tooltip.display domId=(id) &>><$ name $><br /><%cpp>if ((name != shortDescr) && (!shortDescr.empty())) {</%cpp><span><$ shortDescr $></span><%cpp> } else { </%cpp><span>&nbsp;</span><%cpp> } </%cpp></a></div>
