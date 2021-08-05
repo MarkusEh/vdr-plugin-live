@@ -11,11 +11,6 @@
 #include <vdr/menu.h>
 #include <vdr/svdrp.h>
 
-static bool operator<( cTimer const& left, cTimer const& right )
-{
-	return left.Compare( right ) < 0;
-}
-
 namespace vdrlive {
 
 	static char const* const TIMER_DELETE = "DELETE";
@@ -26,7 +21,6 @@ namespace vdrlive {
 	: m_state( 0 )
 #endif
 	{
-		ReloadTimers();
 	}
 
 	std::string SortedTimers::GetTimerId( cTimer const& timer )
@@ -46,6 +40,11 @@ namespace vdrlive {
 		}
 
 #if VDRVERSNUM >= 20301
+	#ifdef DEBUG_LOCK
+		dsyslog("live: timers.cpp SortedTimers::GetByTimerId() LOCK_TIMERS_READ");
+		dsyslog("live: timers.cpp SortedTimers::GetByTimerId() LOCK_CHANNELS_READ");
+	#endif
+		LOCK_TIMERS_READ
 		LOCK_CHANNELS_READ;
 		cChannel* channel = (cChannel *)Channels->GetByChannelID( tChannelID::FromString( parts[0].c_str() ) );
 #else
@@ -64,7 +63,7 @@ namespace vdrlive {
 
 			cMutexLock MutexLock(&m_mutex);
 
-			for ( SortedTimers::iterator timer = begin(); timer != end(); ++timer ) {
+			for (cTimer* timer = (cTimer *)Timers->First(); timer; timer = (cTimer *)Timers->Next(timer)) {
 				if ( timer->Channel() == channel &&
 					 ( ( weekdays != 0 && timer->WeekDays() == weekdays ) || ( weekdays == 0 && timer->Day() == day ) ) &&
 					 timer->Start() == start && timer->Stop() == stop )
@@ -94,33 +93,12 @@ namespace vdrlive {
 	}
 
 
-	void SortedTimers::ReloadTimers()
+	std::string SortedTimers::GetTimerDays(cTimer const *timer)
 	{
-//		dsyslog("live: SortedTimers::ReloadTimers() reloading timers");
-
-		cMutexLock MutexLock(&m_mutex);
-
-		clear();
-#if VDRVERSNUM >= 20301
-		{
-			LOCK_TIMERS_READ;
-			for ( cTimer* timer = (cTimer *)Timers->First(); timer; timer = (cTimer *)Timers->Next( timer ) ) {
-				push_back( *timer );
-			}
-		}
-#else
-		for ( cTimer* timer = Timers.First(); timer; timer = Timers.Next( timer ) ) {
-			push_back( *timer );
-		}
-#endif
-		sort();
-	}
-
-	std::string SortedTimers::GetTimerDays(cTimer const& timer)
-	{
-		std::string currentDay = timer.WeekDays() > 0 ?
-			*cTimer::PrintDay(0, timer.WeekDays(), true) :
-			FormatDateTime(tr("%A, %x"), timer.Day());
+		if (!timer) return "";
+		std::string currentDay = timer->WeekDays() > 0 ?
+			*cTimer::PrintDay(0, timer->WeekDays(), true) :
+			FormatDateTime(tr("%A, %x"), timer->Day());
 		return currentDay;
 	}
 
@@ -269,7 +247,6 @@ namespace vdrlive {
 		if ( m_updateTimers.size() > 0 ) {
 			DoUpdateTimers();
 		}
-		DoReloadTimers();
 		// dsyslog("live: SV: signalling waiters");
 		m_updateWait.Broadcast();
 	}
@@ -332,6 +309,9 @@ namespace vdrlive {
                     }
 #if VDRVERSNUM >= 20301
 		    	dsyslog("live: DoInsertTimer() add local timer");
+	#ifdef DEBUG_LOCK
+                        dsyslog("live: timers.cpp TimerManager::DoInsertTimer() LOCK_TIMERS_WRITE");
+        #endif
 		    	LOCK_TIMERS_WRITE;
 		    	Timers->SetExplicitModify();
 		    	const cTimer *checkTimer = Timers->GetTimer( newTimer.get() );
@@ -418,6 +398,9 @@ namespace vdrlive {
 		else {				// old and new are local
 			dsyslog("live: DoUpdateTimer() old and new timer are local");
 #if VDRVERSNUM >= 20301
+	#ifdef DEBUG_LOCK
+                        dsyslog("live: timers.cpp TimerManager::DoUpdateTimer() LOCK_TIMERS_WRITE");
+	#endif
 			LOCK_TIMERS_WRITE;
 			Timers->SetExplicitModify();
 			cTimer* oldTimer = Timers->GetById( timerData.id, timerData.oldRemote );
@@ -494,6 +477,9 @@ namespace vdrlive {
 #endif
 
 #if VDRVERSNUM >= 20301
+	#ifdef DEBUG_LOCK
+                        dsyslog("live: timers.cpp TimerManager::DoDeleteTimer() LOCK_TIMERS_WRITE");
+        #endif
 			LOCK_TIMERS_WRITE;
 			Timers->SetExplicitModify();
 			cTimer* oldTimer = Timers->GetById( timerData.id,  timerData.remote );
@@ -527,6 +513,9 @@ namespace vdrlive {
 	void TimerManager::DoToggleTimer( timerStruct& timerData )
 	{
 		if ( timerData.remote ) {		// toggle remote timer via svdrpsend
+	#ifdef DEBUG_LOCK
+                        dsyslog("live: timers.cpp TimerManager::DoToggleTimer() LOCK_TIMERS_READ");
+        #endif
 			LOCK_TIMERS_READ;
 			const cTimer* toggleTimer = Timers->GetById( timerData.id, timerData.remote );
 			std::string command = "MODT ";
@@ -571,6 +560,9 @@ namespace vdrlive {
 #endif
 
 #if VDRVERSNUM >= 20301
+	#ifdef DEBUG_LOCK
+                        dsyslog("live: timers.cpp TimerManager::DoToggleTimer() LOCK_TIMERS_WRITE");
+	#endif
 			LOCK_TIMERS_WRITE;
 			Timers->SetExplicitModify();
 			cTimer* toggleTimer = Timers->GetById( timerData.id, timerData.remote );
@@ -616,20 +608,18 @@ namespace vdrlive {
 	const cTimer* TimerManager::GetTimer(tEventID eventid, tChannelID channelid)
 	{
 		cMutexLock timersLock( &LiveTimerManager() );
-		SortedTimers& timers = LiveTimerManager().GetTimers();
 
-		for ( SortedTimers::iterator timer = timers.begin(); timer != timers.end(); ++timer )
+	#ifdef DEBUG_LOCK
+                dsyslog("live: timers.cpp TimerManager::GetTimer() LOCK_TIMERS_READ");
+	#endif
+                LOCK_TIMERS_READ;
+		for (cTimer* timer = (cTimer *)Timers->First(); timer; timer = (cTimer *)Timers->Next(timer)) {
 			if (timer->Channel() && timer->Channel()->GetChannelID() == channelid)
 			{
-#if VDRVERSNUM >= 20301
-				LOCK_SCHEDULES_READ;
-				if (!timer->Event()) timer->SetEventFromSchedule(Schedules);
-#else
-				if (!timer->Event()) timer->SetEventFromSchedule();
-#endif
 				if (timer->Event() && timer->Event()->EventID() == eventid)
 					return &*timer;
 			}
+		}
 		return NULL;
 	}
 

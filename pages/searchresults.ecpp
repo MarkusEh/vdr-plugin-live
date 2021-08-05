@@ -62,53 +62,60 @@ bool logged_in(false);
 <%cpp>
 				std::string current_day = "";
 
-#if VDRVERSNUM >= 20301
-				LOCK_CHANNELS_READ;
-#endif
 				for (SearchResults::iterator result = results.begin(); result != results.end(); ++result) {
 #if VDRVERSNUM >= 20301
-					cChannel* channel = (cChannel *)Channels->GetByChannelID(result->Channel());
+                                       	cStateKey StateKey;
+                                      	if (const cChannels *Channels = cChannels::GetChannelsRead(StateKey)) {
+				#ifdef DEBUG_LOCK
+		                		dsyslog("live: pages/searchresults.ecpp LOCK_CHANNELS_READ");
+				#endif
+						cChannel* channel = (cChannel *)Channels->GetByChannelID(result->Channel());
 #else
 					cChannel* channel = Channels.GetByChannelID(result->Channel());
 #endif
-					if (!channel) continue;
-					std::string channelname = channel->Name();
-					int channelnr = channel->Number();
-					std::string start(result->StartTime() ? FormatDateTime(tr("%I:%M %p"), result->StartTime()) : "");
-					std::string end(result->StopTime() ? FormatDateTime(tr("%I:%M %p"), result->StopTime()) : "");
-					std::string day(result->StartTime() ? FormatDateTime(tr("%A, %b %d %Y"), result->StartTime()) : "");
-					std::string description = result->Description();
-					std::string epgid = EpgEvents::EncodeDomId(result->Channel(), result->EventId());
+						if (!channel) {
+         						StateKey.Remove();
+							continue;
+						}
+						std::string channelname = channel->Name();
+						int channelnr = channel->Number();
+						std::string start(result->StartTime() ? FormatDateTime(tr("%I:%M %p"), result->StartTime()) : "");
+						std::string end(result->StopTime() ? FormatDateTime(tr("%I:%M %p"), result->StopTime()) : "");
+						std::string day(result->StartTime() ? FormatDateTime(tr("%A, %b %d %Y"), result->StartTime()) : "");
+						std::string description = result->Description();
+						std::string epgid = EpgEvents::EncodeDomId(result->Channel(), result->EventId());
 
-					bool truncated = false;
+						bool truncated = false;
 
-					bool bottom = false;
-					SearchResults::iterator nextResult = result; ++nextResult;
-					if (nextResult == results.end())
-						bottom = true;
-					else {
-						std::string nextDay(nextResult->StartTime() ? FormatDateTime(tr("%A, %b %d %Y"), nextResult->StartTime()) : "");
-						bottom = (day != nextDay);
-					}
+						bool bottom = false;
+						SearchResults::iterator nextResult = result; ++nextResult;
+						if (nextResult == results.end())
+							bottom = true;
+						else {
+							std::string nextDay(nextResult->StartTime() ? FormatDateTime(tr("%A, %b %d %Y"), nextResult->StartTime()) : "");
+							bottom = (day != nextDay);
+						}
 
-					if (current_day != day) {
-						if (current_day != "") {
+						if (current_day != day) {
+							if (current_day != "") {
 </%cpp>
-					<tr class="spacer">
-						<td colspan="4"/>
-					</tr>
+						<tr class="spacer">
+							<td colspan="4"/>
+						</tr>
+%							}
+						<tr class="head">
+							<td colspan="4"><div class="boxheader"><div><div><$ day $></div></div></div></td>
+						</tr>
+%							current_day = day;
 %						}
-					<tr class="head">
-						<td colspan="4"><div class="boxheader"><div><div><$ day $></div></div></div></td>
-					</tr>
-%						current_day = day;
+%					        StateKey.Remove();  // release channels read lock before calling event_timer which make a timers read lock
+							<tr>
+							<td class="action leftcol <? bottom ? "bottomrow"?>"><& pageelems.event_timer epgid=(epgid) &></td>
+							<td class="topaligned <? bottom ? "bottomrow"?>"><div class="withmargin"><a href="schedule.html?channel=<$ channelnr $>"><$ channelname $></a></div></td>
+							<td class="topaligned <? bottom ? "bottomrow"?>"><div class="withmargin nowrap"><$ start $> - <$ end $></div></td>
+							<td class="topaligned rightcol <? bottom ? "bottomrow"?>"><div class="more withmargin"><a <& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(description, 300, truncated)) + "<br />" + tr("Click to view details.")) &><& tooltip.display domId=(epgid) &>><span class="title"><$ result->Title() $></span><br /><span class="short"><%cpp>if (result->ShortText().empty()) { </%cpp>&nbsp;<%cpp> } </%cpp><$ result->ShortText() $></span></a></div></td>
+						</tr>
 %					}
-					<tr>
-						<td class="action leftcol <? bottom ? "bottomrow"?>"><& pageelems.event_timer epgid=(epgid) &></td>
-						<td class="topaligned <? bottom ? "bottomrow"?>"><div class="withmargin"><a href="schedule.html?channel=<$ channelnr $>"><$ channelname $></a></div></td>
-						<td class="topaligned <? bottom ? "bottomrow"?>"><div class="withmargin nowrap"><$ start $> - <$ end $></div></td>
-						<td class="topaligned rightcol <? bottom ? "bottomrow"?>"><div class="more withmargin"><a <& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(description, 300, truncated)) + "<br />" + tr("Click to view details.")) &><& tooltip.display domId=(epgid) &>><span class="title"><$ result->Title() $></span><br /><span class="short"><%cpp>if (result->ShortText().empty()) { </%cpp>&nbsp;<%cpp> } </%cpp><$ result->ShortText() $></span></a></div></td>
-					</tr>
 %				}
 			</table>
 		</div>

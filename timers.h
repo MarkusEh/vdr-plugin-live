@@ -31,7 +31,7 @@ namespace vdrlive {
 			bool Modified() { return Timers.Modified(m_state); }
 #endif
 
-			static std::string GetTimerDays(cTimer const& timer);
+			static std::string GetTimerDays(cTimer const *timer);
 			static std::string GetTimerInfo(cTimer const& timer);
 			static std::string SearchTimerInfo(cTimer const& timer, std::string const& value);
 
@@ -47,7 +47,6 @@ namespace vdrlive {
 			int m_state;
 #endif
 
-			void ReloadTimers();
 	};
 
 	class TimerManager: public cMutex
@@ -64,7 +63,6 @@ namespace vdrlive {
 			void ToggleTimerActive( int timerId, const char* remote);
 			// may only be called from Plugin::MainThreadHook
 			void DoPendingWork();
-			void DoReloadTimers() { m_timers.ReloadTimers(); m_reloadTimers = false; }
 			const cTimer* GetTimer(tEventID eventid, tChannelID channelid);
 			void SetReloadTimers() { m_reloadTimers = true; }
 
