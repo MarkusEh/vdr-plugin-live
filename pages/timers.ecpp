@@ -37,7 +37,7 @@ static const size_t maximumDescriptionLength = 300;
 	timer = 0;
 	if ( !timerid.empty() ) {
 		std::string tId = SortedTimers::DecodeDomId(timerid);
-		// dsyslog("live: DEBUG: TIMER: tId = %s", tId.c_str());
+//		dsyslog("live: DEBUG: TIMER: tId = %s", tId.c_str());
 		timer = timers.GetByTimerId(tId);
 		if ( timer == 0 )
 			throw HtmlError( tr("Couldn't find timer. Maybe you mistyped your request?") );
@@ -70,25 +70,26 @@ static const size_t maximumDescriptionLength = 300;
 		<& pageelems.logo &>
 		<& menu active=("timers") component=("timers.timer_actions")>
 		<div class="inhalt">
-%			if (timers.size() == 0) {
+<%cpp>
+		#ifdef DEBUG_LOCK
+                        dsyslog("live: pages/timers.ecpp LOCK_TIMERS_READ");
+                #endif
+		        LOCK_TIMERS_READ;
+                        cSortedTimers sortedTimers(Timers);
+			if (sortedTimers.Size() == 0) {
+</%cpp>
 				<$ tr("No timer defined") $>
 %			} else {
 			<table class="listing" cellspacing="0" cellpadding="0">
 <%cpp>
 				// output of the timer list:
-				for (SortedTimers::iterator timer = timers.begin(); timer != timers.end(); ++timer) {
-				    EpgInfoPtr epgEvent;
+                                for (int i = 0; i < sortedTimers.Size(); i++) {
+                                        const cTimer *timer = sortedTimers[i];
+	                 		EpgInfoPtr epgEvent;
 					std::string longDescription;
 					std::string searchTimName;
 					std::string searchTimId;
-#if VDRVERSNUM >= 20301
-					if (!timer->Event()) {
-						LOCK_SCHEDULES_READ;
-						timer->SetEventFromSchedule(Schedules);
-					}
-#else
-					if (!timer->Event()) timer->SetEventFromSchedule();
-#endif
+
 					if (timer->Event())
 					{
 						epgEvent = EpgEvents::CreateEpgInfo(timer->Channel(), timer->Event());
@@ -98,13 +99,13 @@ static const size_t maximumDescriptionLength = 300;
 						searchTimName = SortedTimers::SearchTimerInfo(*timer, "searchtimer");
 						searchTimId = SortedTimers::SearchTimerInfo(*timer, "s-id");
 					}
-					std::string currentDay = SortedTimers::GetTimerDays(*timer);
-					SortedTimers::iterator nextTimer = timer; ++nextTimer;
+					std::string currentDay = SortedTimers::GetTimerDays(timer);
+                                        const cTimer *nextTimer =  NULL;
+                                        if (i < (sortedTimers.Size() - 1)) nextTimer = sortedTimers[i + 1];
 					bool bottom = false;
-					if (nextTimer == timers.end())
-						bottom = true;
+					if (i == sortedTimers.Size() - 1) bottom = true;
 					else {
-						std::string nextDay = SortedTimers::GetTimerDays(*nextTimer);
+						std::string nextDay = SortedTimers::GetTimerDays(nextTimer);
 						bottom = (currentDay != nextDay);
 					}
 					if (previousDay != currentDay) {

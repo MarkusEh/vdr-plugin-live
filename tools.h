@@ -1,6 +1,9 @@
 #ifndef VDR_LIVE_TOOLS_H
 #define VDR_LIVE_TOOLS_H
 
+// uncomment to debug lock sequence 
+// #define DEBUG_LOCK
+
 // STL headers need to be before VDR tools.h (included by <vdr/channels.h>)
 #include <istream>
 #include <sstream>
