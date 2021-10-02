@@ -246,7 +246,7 @@ namespace vdrlive {
 			}
 		}
 		else {
-			esyslog( "live: ERROR: Unable to load cert/key (%s/%s): %s", s_cert.c_str(), s_key.c_str(), strerror( errno ) );
+			esyslog( "live: ERROR: Unable to load cert/key (%s / %s): %s", s_cert.c_str(), s_key.c_str(), strerror( errno ) );
 		}
 	}
 
