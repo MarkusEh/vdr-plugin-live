@@ -249,13 +249,42 @@ if(recItemFound) {
 #else
                   int recordingErrors = -1;
 #endif
+                  std::string channelName(recItem->RecInfo()->ChannelName()  ? recItem->RecInfo()->ChannelName() : "");
+                  int video_aspect_ratio = 0;   // 0 is 4:3, 1 is 16:9, 2 is > 16:9
+                  int video_SD_HD = 0;   // 0 is SD, 1 is HD
+                  if(channelName.length() > 3 && channelName.substr( channelName.length() - 2 ) == "HD") video_SD_HD = 1;
+                  const cComponents *components = recItem->RecInfo()->Components();
+                  if(components) for( int ix = 0; ix < components->NumComponents(); ix++) {
+                    tComponent * component = components->Component(ix);
+                    if (component->stream == 1 || component->stream == 5) {
+                      switch (component->type) {
+                        case 1:
+                        case 5: video_SD_HD = 0; video_aspect_ratio = 0; break;
+                        case 2:
+                        case 3:
+                        case 6:
+                        case 7: video_SD_HD = 0; video_aspect_ratio = 1; break;
+                        case 4:
+                        case 8: video_SD_HD = 0; video_aspect_ratio = 2; break;
+                        case 9:
+                        case 13: video_SD_HD = 1; video_aspect_ratio = 0; break;
+                        case 10:
+                        case 11:
+                        case 14:
+                        case 15: video_SD_HD = 1; video_aspect_ratio = 1; break;
+                        case 12:
+                        case 16: video_SD_HD = 1; video_aspect_ratio = 2; break;
+                      }
+                    }
+                  }
+
                   std::string r_description(recItem->RecInfo()->Description() ? recItem->RecInfo()->Description() : "");
                   std::string hint(tr("Click to view details."));
                   if (!shortDescr.empty()) hint = shortDescr + "<br />" + hint;
                   else if (!r_description.empty()) hint = r_description + "<br />" + hint;
 </%cpp>
 <tr>
- <& rec_item_file name=(recItem->Name()) level=(recItem->Level()) id=(recItem->Id()) day=(r_day) dayLen=(dayLen) startTime=(recItem->StartTime()) duration=(duration) hint=(hint) shortDescr=(shortDescr) recordingErrors=(recordingErrors) archived=(RecordingsManager::GetArchiveDescr(recItem->Recording())) lastEventCurrentDay=(lastEventCurrentDay) &>
+ <& rec_item_file name=(recItem->Name()) level=(recItem->Level()) id=(recItem->Id()) day=(r_day) dayLen=(dayLen) startTime=(recItem->StartTime()) duration=(duration) hint=(hint) shortDescr=(shortDescr) recordingErrors=(recordingErrors) channelName=(channelName) video_SD_HD=(video_SD_HD) video_aspect_ratio=(video_aspect_ratio) archived=(RecordingsManager::GetArchiveDescr(recItem->Recording())) lastEventCurrentDay=(lastEventCurrentDay) &>
 </tr>
 <%cpp>
 }
@@ -303,6 +332,9 @@ if(recItemFound) {
         std::string hint;
         std::string shortDescr;
         int recordingErrors;
+        std::string channelName;
+        int video_SD_HD;
+        int video_aspect_ratio;
         std::string archived;
         bool lastEventCurrentDay;
 </%args>
@@ -318,6 +350,17 @@ if(recItemFound) {
 
 <td class="topaligned rightcol <? lastEventCurrentDay ? "bottomrow" ?>">
 <%cpp>
+std::string recording_SD_HD_icon;
+std::string recording_aspect_ratio_icon;
+if (video_SD_HD == 0)
+  recording_SD_HD_icon = "sd.png";
+else
+  recording_SD_HD_icon = "hd.png";
+switch(video_aspect_ratio) {
+      case 0: recording_aspect_ratio_icon = "43.png"; break;
+      case 1: recording_aspect_ratio_icon = "169.png"; break;
+      case 2: recording_aspect_ratio_icon = "221.png"; break;
+}
 #if VDRVERSNUM >= 20505
 std::string recording_errors_icon;
 std::string recordingErrorsStr;
@@ -339,6 +382,10 @@ if (recordingErrors >   0) {
 <table><tr><td class="noborder">
                 <div class="recording_errors"><img src="<$ LiveSetup().GetThemedLink("img", recording_errors_icon) $>" width = "16px" alt="" <& tooltip.hint text=(recordingErrorsStr) &> /> </div>
 </td>
+<td class="noborder">
+                <div class="recording_sd_hd"><img src="<$ LiveSetup().GetThemedLink("img", recording_SD_HD_icon) $>" width = "25px" alt="" <& tooltip.hint text=(channelName) &> /> </div>
+</td>
+
 <td class="noborder">
 <%cpp>
 #endif

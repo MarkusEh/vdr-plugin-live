@@ -1054,6 +1054,14 @@ div.recording_item {
 	width: 26px;
 }
 
+.recording_item div.recording_sd_hd {
+	width: 35px;
+}
+
+.recording_item div.recording_aspect_ratio {
+	width: 35px;
+}
+
 .recording_item div.recording_arch {
 	float: right;
 	padding-top: 0.5ex;
