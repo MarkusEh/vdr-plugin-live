@@ -11,8 +11,8 @@
 
 #include <vdr/menuitems.h>
 
-#define LIVEVERSION "3.0.12"
-#define LIVEVERSNUM 30012
+#define LIVEVERSION "3.1.0"
+#define LIVEVERSNUM 30100
 #define LIVESUMMARY trNOOP("Live Interactive VDR Environment")
 
 namespace vdrlive {
@@ -49,7 +49,9 @@ class Setup
 		std::string const GetStartScreen() const { return m_startscreen; }
 		std::string const GetStartScreenLink() const;
 		std::string const GetTheme() const { return m_theme; }
-		std::string const GetThemedLink(std::string const & type, const std::string& name) const { return "themes/" + GetTheme() + "/" + type + "/" + name; }
+		std::string const GetThemedLink(std::string const & type, const std::string& name) const { return GetThemedLinkPrefix() + type + "/" + name; }
+                std::string const GetThemedLinkPrefix() const { return m_themedLinkPrefix ; }
+                std::string const GetThemedLinkPrefixImg() const { return m_themedLinkPrefixImg ; }
 		std::string const GetLocalNetMask() const { return m_localnetmask; };
 		bool GetIsLocalNet() const { return m_islocalnet; };
 		std::string const GetLastWhatsOnListMode() const { return m_lastwhatsonlistmode; }
@@ -79,7 +81,7 @@ class Setup
 		void SetChannelGroups(std::string const & channelGroups) { m_channelGroups = channelGroups; }
 		void SetScheduleDuration(std::string const & scheduleDuration) { m_scheduleDuration = scheduleDuration; }
 		void SetStartScreen(std::string const & startscreen) { m_startscreen = startscreen; }
-		void SetTheme(std::string const & theme) { m_theme = theme; }
+		void SetTheme(std::string const & theme) { m_theme = theme; m_themedLinkPrefix = "themes/" + theme + "/"; m_themedLinkPrefixImg = m_themedLinkPrefix + "img/"; }
 		void SetLocalNetMask(std::string const & localnetmask) { m_localnetmask = localnetmask; }
 		void SetIsLocalNet(bool islocalnet) { m_islocalnet = islocalnet; }
 		void SetLastWhatsOnListMode(std::string const & mode) { m_lastwhatsonlistmode = mode; SaveSetup(); }
@@ -137,6 +139,8 @@ class Setup
 		std::string m_scheduleDuration;
 		std::string m_startscreen;
 		std::string m_theme;
+                std::string m_themedLinkPrefix;
+                std::string m_themedLinkPrefixImg;
 		std::string m_localnetmask;
 		bool m_islocalnet;
 		std::string m_lastwhatsonlistmode;

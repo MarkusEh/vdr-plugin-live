@@ -2,6 +2,8 @@
 #define VDR_LIVE_RECORDINGS_H
 
 #include "stdext.h"
+#include "setup.h"
+#include "tools.h"
 
 // STL headers need to be before VDR tools.h (included by <vdr/recording.h>)
 #include <map>
@@ -209,6 +211,23 @@ namespace vdrlive {
 			RecordingsMap::const_iterator end() const { return m_entries.end(); }
 			int Level() { return m_level; }
 
+           // To display the recuring on the UI
+                        virtual const int IsArchived() const { return 0 ; }
+                        virtual const std::string ArchiveDescr() const { return "" ; }
+                        virtual const std::string StartTimeUI() const { return "" ; }
+                        virtual const std::string DurationUI() const { return "" ; }
+                        virtual const std::string NewR() const { return "" ; }
+                        virtual const std::string ShortDescr() const { return "" ; }
+                        virtual const std::string DescriptionUI() const { return "" ; }
+                        virtual const std::string Hint() const { return "" ; }
+                        virtual const int RecordingErrors() const { return -1; }
+                        virtual const std::string RecordingErrorsIcon() const { return ""; }
+                        virtual const std::string RecordingErrorsStr() const { return ""; }
+                        virtual const std::string ChannelName() const { return ""; }
+                        virtual const int SD_HD() { return 0; }
+                        virtual const char *SD_HD_icon() { return ""; }
+                        virtual void AppendasHtml(std::string &target) { }
+
 		private:
 			int m_level;
 			std::string m_name;
@@ -251,17 +270,47 @@ namespace vdrlive {
 
 			virtual ~RecordingsItemRec();
 
-			virtual time_t StartTime() const;
-			virtual long Duration() const;
+			virtual time_t StartTime() const { return m_recording->Start(); }
+			virtual long Duration() const { return m_duration; }
 			virtual bool IsDir() const { return false; }
 			virtual const std::string Id() const { return m_id; }
 
 			virtual const cRecording* Recording() const { return m_recording; }
 			virtual const cRecordingInfo* RecInfo() const { return m_recording->Info(); }
 
+           // To display the recuring on the UI
+                        virtual const int IsArchived() const { return m_isArchived ; }
+                        virtual const std::string ArchiveDescr() const { return RecordingsManager::GetArchiveDescr(m_recording) ; }
+                        virtual const std::string StartTimeUI() const { return m_StartTimeUI; }
+                        virtual const std::string DurationUI() const { return m_durationUI; }
+                        virtual const std::string NewR() const { return LiveSetup().GetMarkNewRec() && (Recording()->GetResume() <= 0) ? "_new" : "" ; }
+                        virtual const std::string ShortDescr() const { return m_ShortDescr; }
+                        virtual const std::string DescriptionUI() const { return RecInfo()->Description() ? CorrectNonUTF8(RecInfo()->Description()) : "" ; }
+                        virtual const std::string Hint() const;
+#if VDRVERSNUM >= 20505
+                        virtual const int RecordingErrors() const { return RecInfo()->Errors(); }
+#else
+                        virtual const int RecordingErrors() const { return -1; }
+#endif
+                        virtual const std::string RecordingErrorsIcon() const;
+                        virtual const std::string RecordingErrorsStr() const;
+                        virtual const std::string ChannelName() const { return RecInfo()->ChannelName()  ? RecInfo()->ChannelName() : ""; }
+                        virtual const int SD_HD();
+                        virtual const char *SD_HD_icon() { return SD_HD() == 0 ? "sd.png": "hd.png"; }
+                        virtual void AppendasHtml(std::string &target);
+                        void AppendHint(std::string &target) const;
+                        void AppendIMDb(std::string &target) const;
+                        void AppendRecordingAction(std::string &target, const char *A, const char *Img, const char *Title);
+                     
 		private:
 			const cRecording *m_recording;
-			std::string m_id;
+			const std::string m_id;
+                        const int m_isArchived;
+                        const long m_duration; // duration in minutes
+                        const std::string m_durationUI;
+                        const std::string m_StartTimeUI;
+                        const std::string m_ShortDescr;
+                        int m_video_SD_HD = -1;  // 0 is SD, 1 is HD
 	};
 
 	/**

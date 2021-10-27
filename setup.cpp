@@ -32,6 +32,8 @@ Setup::Setup():
 		m_channelGroups( "" ),
 		m_scheduleDuration( "8" ),
 		m_theme("marine"),
+                m_themedLinkPrefix("themes/" + m_theme + "/"),
+                m_themedLinkPrefixImg("themes/marine/img/"),
 		m_lastwhatsonlistmode("detail"),
 		m_lastsortingmode("nameasc"),
 		m_tntnetloglevel("WARN"),
@@ -121,7 +123,7 @@ bool Setup::ParseSetupEntry( char const* name, char const* value )
 	else if ( strcmp( name, "ChannelGroups" ) == 0 ) m_channelGroups = value;
 	else if ( strcmp( name, "ScheduleDuration" ) == 0 ) m_scheduleDuration = value;
 	else if ( strcmp( name, "StartPage" ) == 0 ) m_startscreen = value;
-	else if ( strcmp( name, "Theme" ) == 0 ) m_theme = value;
+	else if ( strcmp( name, "Theme" ) == 0 ) SetTheme(value);
 	else if ( strcmp( name, "LocalNetMask" ) == 0 ) { m_localnetmask = value; }
 	else if ( strcmp( name, "LastWhatsOnListMode" ) == 0 ) { m_lastwhatsonlistmode = value; }
 	else if ( strcmp( name, "LastSortingMode" ) == 0 ) { m_lastsortingmode = value; }

@@ -49,7 +49,9 @@ namespace cxxtools
 
 
 namespace vdrlive {
-        std::string CorrectNonUTF8(std::string *str);
+        void AppendEscapedString(std::string &target, std::string const &s);
+
+        std::string CorrectNonUTF8(const char *str);
 
 	std::string FormatDuration( char const* format, int hours, int minutes );
 

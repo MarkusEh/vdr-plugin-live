@@ -49,16 +49,35 @@ std::istream& operator>>( std::istream& is, tChannelID& ret )
 
 namespace vdrlive {
 
-	std::string CorrectNonUTF8(std::string *str) // based on https://stackoverflow.com/questions/17316506/strip-invalid-utf8-from-string-in-c-c
+        void AppendEscapedString(std::string &target, std::string const &s){
+          int ins = 0;
+          for (size_t b=0,i=b; b < s.length(); b = i+1) {
+            ins = 0;
+            for (i=b; i<s.length(); ++i) {
+              ins = 0;
+              switch(s[i]) {
+                case '&':  target.append(s, b, i-b); target.append("&amp;");       break;
+                case '\"': target.append(s, b, i-b); target.append("&quot;");      break;
+                case '\'': target.append(s, b, i-b); target.append("&apos;");      break;
+                case '<':  target.append(s, b, i-b); target.append("&lt;");        break;
+                case '>':  target.append(s, b, i-b); target.append("&gt;");        break;
+                default:   ins = 1; break;
+                }
+                if (ins == 0) break;
+              }
+            if(ins == 1) target.append(s, b, i-b);
+          }
+        }
+	std::string CorrectNonUTF8(const char *str) // based on https://stackoverflow.com/questions/17316506/strip-invalid-utf8-from-string-in-c-c
 	{
-		int i, f_size = str->size();
+		int i, f_size = strlen(str);
 		unsigned char c, c3, c4;
 		unsigned char c2 = (unsigned char) 0;
 		std::string to;
 		to.reserve(f_size);
 
 		for(i = 0; i < f_size; i++) {
-			c = (unsigned char)(*str)[i];
+			c = (unsigned char)str[i];
 			if (c < 32) { // control char
 				if (c ==9 || c == 10 || c == 13){ // allow only \t \n \r
 					to.append(1, c);
@@ -97,7 +116,7 @@ namespace vdrlive {
 							}
 							else {
 								if (c < 224 && i+1 < f_size) { // possibly 2byte UTF8
-									c2 = (unsigned char)(*str)[i+1];
+									c2 = (unsigned char)str[i+1];
 									if (c2 > 127 && c2 < 192) { // valid 2byte UTF8
 										if (c == 194 && c2 < 160) { //control char, skipping
 											;
@@ -112,8 +131,8 @@ namespace vdrlive {
 								}
 								else {
 									if (c < 240 && i+2 < f_size){ // possibly 3byte UTF8
-										c2 = (unsigned char)(*str)[i+1];
-										c3 = (unsigned char)(*str)[i+2];
+										c2 = (unsigned char)str[i+1];
+										c3 = (unsigned char)str[i+2];
 										if (c2 > 127 && c2 < 192 && c3 > 127 && c3 < 192) { // valid 3byte UTF8
 											to.append(1, c);
 											to.append(1, c2);
@@ -124,9 +143,9 @@ namespace vdrlive {
 									}
 									else {
 										if (c < 245 && i+3 < f_size) { // possibly 4byte UTF8
-											c2 = (unsigned char)(*str)[i+1];
-											c3 = (unsigned char)(*str)[i+2];
-											c4 = (unsigned char)(*str)[i+3];
+											c2 = (unsigned char)str[i+1];
+											c3 = (unsigned char)str[i+2];
+											c4 = (unsigned char)str[i+3];
 											if (c2 > 127 && c2 < 192 && c3 > 127 && c3 < 192 && c4 > 127 && c4 < 192) { // valid 4byte UTF8
 												to.append(1, c);
 												to.append(1, c2);

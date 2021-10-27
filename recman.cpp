@@ -1,6 +1,5 @@
 
 #include "recman.h"
-
 #include "tools.h"
 
 // STL headers need to be before VDR tools.h (included by <vdr/videodir.h>)
@@ -389,7 +388,7 @@ namespace vdrlive {
 // lengthUpperBound: if EPG_Entry->Duration() is d (no commercial breaks), max length of recording with commercial breaks
 // Add VDR recording margins to this value
    long lengthUpperBound = EPG_Entry->Duration() * (100 + cb) / 100;
-   lengthUpperBound += Setup.MarginStart + Setup.MarginStop;
+   lengthUpperBound += ::Setup.MarginStart + ::Setup.MarginStop;
    if(EPG_Entry->Duration() >= 90 && lengthLowerBound < 70) lengthLowerBound = 70;
 
    int numRecordings = 0;
@@ -515,7 +514,13 @@ namespace vdrlive {
 	RecordingsItemRec::RecordingsItemRec(const std::string& id, const std::string& name, const cRecording* recording, RecordingsItemPtr parent) :
 		RecordingsItem(name, parent),
 		m_recording(recording),
-		m_id(id)
+		m_id(id),
+                m_isArchived(RecordingsManager::GetArchiveType(m_recording) ),
+                m_duration(m_recording->FileName() ? m_recording->LengthInSeconds() / 60 : 0),
+                m_durationUI(Duration() < 0 ? "" : FormatDuration(tr("(%d:%02d)"), Duration() / 60, Duration() % 60)),
+                m_StartTimeUI(FormatDateTime(tr("%a,"), StartTime()) + std::string(" ") + FormatDateTime(tr("%b %d %y"), StartTime()) + std::string(" ") + FormatDateTime(tr("%I:%M %p"), StartTime()) ),
+                m_ShortDescr(RecInfo()->ShortText() ? CorrectNonUTF8(RecInfo()->ShortText()) : "" )
+                     // Tntnet30 throw: tntnet.worker - http-Error: 500 character conversion failed
 	{
 		// dsyslog("live: REC: C: rec %s -> %s", name.c_str(), parent->Name().c_str());
 	}
@@ -525,16 +530,183 @@ namespace vdrlive {
 		// dsyslog("live: REC: D: rec %s", Name().c_str());
 	}
 
-	time_t RecordingsItemRec::StartTime() const
-	{
-		return m_recording->Start();
-	}
+        const std::string RecordingsItemRec::Hint() const
+        {
+           std::string result;
+           result.reserve(100);
+           AppendHint(result);
+           return result;
+        }
+        void RecordingsItemRec::AppendHint(std::string &target) const
+        {
+           if (RecInfo()->ShortText()   ) {
+             AppendEscapedString(target, ShortDescr() );
+             target.append("&lt;br /&gt;");
+           }
+           else if (RecInfo()->Description() ) {
+             AppendEscapedString(target, DescriptionUI()  );
+             target.append("&lt;br /&gt;");
+           }
+           AppendEscapedString(target, tr("Click to view details.")   );
+        }
+        const std::string RecordingsItemRec::RecordingErrorsIcon() const
+        {
+           if (RecordingErrors() == 0) return LiveSetup().GetThemedLinkPrefixImg() + "NoRecordingErrors.png";
+           if (RecordingErrors()  > 0) return LiveSetup().GetThemedLinkPrefixImg() + "RecordingErrors.png";
+           return LiveSetup().GetThemedLinkPrefixImg() + "NotCheckedForRecordingErrors.png";
+        }
+        const std::string RecordingsItemRec::RecordingErrorsStr() const
+        {
+           if (RecordingErrors() == 0) return tr("No recording errors");
+           if (RecordingErrors()  > 0) {
+              std::string recordingErrorsStr( tr("Number of recording errors:") );
+              return recordingErrorsStr + " " + std::to_string(RecordingErrors() );
+           }
+           return tr("Recording errors unknown") ;
+        }
+        const int RecordingsItemRec::SD_HD()
+        {
+           if ( m_video_SD_HD >= 0 ) return m_video_SD_HD;
+           int video_aspect_ratio = -1;   // 0 is 4:3, 1 is 16:9, 2 is > 16:9
+           const cComponents *components = RecInfo()->Components();
+           if(components) for( int ix = 0; ix < components->NumComponents(); ix++) {
+             tComponent * component = components->Component(ix);
+             if (component->stream == 1 || component->stream == 5) {
+               switch (component->type) {
+                 case 1:
+                 case 5: m_video_SD_HD = 0; video_aspect_ratio = 0; break;
+                 case 2:
+                 case 3:
+                 case 6:
+                 case 7: m_video_SD_HD = 0; video_aspect_ratio = 1; break;
+                 case 4:
+                 case 8: m_video_SD_HD = 0; video_aspect_ratio = 2; break;
+                 case 9:
+                 case 13: m_video_SD_HD = 1; video_aspect_ratio = 0; break;
+                 case 10:
+                 case 11:
+                 case 14:
+                 case 15: m_video_SD_HD = 1; video_aspect_ratio = 1; break;
+                 case 12:
+                 case 16: m_video_SD_HD = 1; video_aspect_ratio = 2; break;
+               }
+             }
+           }
+           if(m_video_SD_HD == -1)
+             {
+             m_video_SD_HD = 0;
+             if(ChannelName().length() > 3 && ChannelName().substr( ChannelName().length() - 2 ) == "HD") m_video_SD_HD = 1;
+             }
+          return m_video_SD_HD;
+        }
 
-	long RecordingsItemRec::Duration() const
-	{
-		if (!m_recording->FileName()) return 0;
-		return m_recording->LengthInSeconds() / 60;
-	}
+        void RecordingsItemRec::AppendIMDb(std::string &target) const {
+          if (LiveSetup().GetShowIMDb()) { 
+            target.append("<a href=\"http://www.imdb.com/find?s=all&q=");
+            AppendEscapedString( target, StringUrlEncode(Name() ) );
+            target.append("\" target=\"_blank\"><img src=\"");
+            target.append(LiveSetup().GetThemedLinkPrefixImg() );
+            target.append("imdb.png\" title=\"");
+            AppendEscapedString( target, tr("Find more at the Internet Movie Database.") );
+            target.append("\"/></a>\n");
+          }
+        }
+
+        void RecordingsItemRec::AppendRecordingAction(std::string &target, const char *A, const char *Img, const char *Title){
+          target.append("<a href=\"");
+          target.append(A);
+          target.append(Id() );
+          target.append("\" title=\"");
+          AppendEscapedString( target, tr(Title) );
+          target.append("\"><img src=\"");
+          target.append(LiveSetup().GetThemedLinkPrefixImg() );
+          target.append(Img);
+          target.append("\" /></a>\n");
+        }
+
+        void RecordingsItemRec::AppendasHtml(std::string &target){
+// list item, classes, space depending on level
+          target.append("<li class=\"recording\"><div class=\"recording_item\"><div class=\"recording_imgs\"><img src=\"img/transparent.png\" width=\"");
+          target.append( std::to_string(16 * Level() ) );
+          target.append("px\" height=\"16px\" />\n");
+          if (IsArchived() ) {
+            target.append("<img src=\"");
+            target.append(LiveSetup().GetThemedLinkPrefixImg() );
+            target.append("on_dvd.png\" alt=\"on_dvd\" title=\"");
+            AppendEscapedString(target, ArchiveDescr() );
+            target.append("/>");
+            } else {
+#if TNTVERSION >= 30000
+            target.append("<input type=\"checkbox\" name=\"deletions[]\" value=\"");
+#else
+            target.append("<input type=\"checkbox\" name=\"deletions\" value=\"");
+#endif
+            target.append(Id());
+            target.append("\" />" );
+            }
+// recording_spec: Day, time & duration
+          target.append("</div>\n<div class=\"recording_spec\"><div class=\"recording_day\">");
+          target.append(StartTimeUI());
+          target.append("</div><div class=\"recording_duration\">");
+          target.append(DurationUI());
+// RecordingErrors, Icon
+          target.append("</div><div class=\"recording_errors\"><img src=\"");
+          target.append(LiveSetup().GetThemedLinkPrefixImg() );
+          if (RecordingErrors() == 0) target.append("NoRecordingErrors.png");
+          if (RecordingErrors()  > 0) target.append("RecordingErrors.png");
+          if (RecordingErrors()  < 0) target.append("NotCheckedForRecordingErrors.png");
+          target.append("\" width = \"16px\" title=\"");
+// RecordingErrors, Tooltip
+          if (RecordingErrors() == 0) AppendEscapedString(target, tr("No recording errors"));
+          if (RecordingErrors()  > 0) {
+            AppendEscapedString(target, tr("Number of recording errors:"));
+            target.append(" ");
+            target.append(std::to_string(RecordingErrors() ));
+           }
+          if (RecordingErrors() < 0) AppendEscapedString(target, tr("Recording errors unknown"));
+
+// HD_SD, with channel name
+          target.append("\" /> </div> <div class=\"recording_sd_hd\"><img src=\"");
+          target.append(LiveSetup().GetThemedLinkPrefixImg() );
+          target.append( SD_HD_icon() );
+          target.append("\" width = \"25px\" title=\"");
+          AppendEscapedString(target, ChannelName() );
+// Recording name
+          target.append("\" /> </div>\n<div class=\"recording_name");
+          target.append(NewR() );
+          target.append("\"><a title=\"");
+          AppendHint(target);
+          target.append("\" href=\"epginfo.html?epgid=");
+          target.append(Id() );
+          target.append("\">" );
+          AppendEscapedString(target, Name() );
+          target.append("<br /><span>");
+// second line of recording name
+          if(RecInfo()->ShortText() && Name() != ShortDescr() ) 
+             AppendEscapedString( target, ShortDescr() );
+          else 
+             target.append("&nbsp;");
+// recording_actions
+          target.append("</span></a></div></div>\n<div class=\"recording_actions\">");
+          if (!IsArchived()) {
+            AppendRecordingAction(target, "vdr_request/play_recording?param=", "play.png", "play this recording");
+            AppendRecordingAction(target, "playlist.m3u?recid=", "playlist.png", "Stream this recording into media player.");
+            AppendIMDb(target);
+            AppendRecordingAction(target, "edit_recording.html?recid=", "edit.png", "Edit recording");
+            AppendRecordingAction(target, "recordings.html?todel=", "del.png", "Delete this recording from hard disc!");
+
+          } else {
+            target.append("<img src=\"img/transparent.png\" width=\"16px\" height=\"16px\" />");
+            AppendIMDb(target);
+          }
+          target.append("</div>");
+          if (IsArchived()) {
+            target.append("<div class=\"recording_arch\">");
+            AppendEscapedString(target,  ArchiveDescr() );
+            target.append("</div>");
+          }
+          target.append("</div></li>");
+        }
 
 	/**
 	 * Implemetation of class RecordingsItemDummy

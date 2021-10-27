@@ -14,6 +14,9 @@
 #include <vdr/videodir.h>
 
 #define MB_PER_MINUTE 25.75 // this is just an estimate!
+#include <string>
+std::string recoring_item;
+size_t max_length_recoring_item = 0;
 
 using namespace vdrlive;
 
@@ -216,6 +219,8 @@ if (!deleteResult.empty()) {
 	std::string idHash = "";
 </%args>
 <%cpp>
+recoring_item.reserve(6000);
+// Max Buffer used: 5.636 bytes
 RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
 RecordingsMap::iterator iter;
 RecordingsMap::iterator end = recordingsTree->end(path);
@@ -245,7 +250,7 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
         }
 </%cpp>
 	<li class="recording">
-		<& rec_item_dir name=(recItem->Name()) level=(recItem->Level()) newR=(newR ? "_new" : "") &>
+	<& rec_item_dir name=(recItem->Name()) level=(recItem->Level() ) newR=(newR ? "_new" : "") &>
 <%cpp>
 #if TNT_QUERYPARAMS_NO_BOOL
 		tnt::QueryParams recItemParams(qparam);
@@ -295,66 +300,18 @@ else
 for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 		RecordingsItemPtr recItem = *recIter;
 		// xgettext:no-c-format
-		std::string day(FormatDateTime(tr("%a,"), recItem->StartTime()));
-		std::string dayLen(lexical_cast<std::string, int>(day.length() - 1) + ".25em;");
-		// TRANSLATORS: recording duration format HH:MM
-		std::string duration(recItem->Duration() < 0 ? "" : FormatDuration(tr("(%d:%02d)"), recItem->Duration() / 60, recItem->Duration() % 60));
-		std::string newR = "";
-                if ( LiveSetup().GetMarkNewRec() ) {
-		   newR = (recItem->Recording()->GetResume() <= 0 ? "_new" : "");
-                }
-		std::string shortDescr(recItem->RecInfo()->ShortText() ? recItem->RecInfo()->ShortText() : "");
-#if VDRVERSNUM >= 20505
-		int recordingErrors = recItem->RecInfo()->Errors();
-#else
-		int recordingErrors = -1;
-#endif
-		std::string channelName(recItem->RecInfo()->ChannelName()  ? recItem->RecInfo()->ChannelName() : "");
-                int video_aspect_ratio = 0;   // 0 is 4:3, 1 is 16:9, 2 is > 16:9
-                int video_SD_HD = 0;   // 0 is SD, 1 is HD
-                if(channelName.length() > 3 && channelName.substr( channelName.length() - 2 ) == "HD") video_SD_HD = 1;
-                const cComponents *components = recItem->RecInfo()->Components();
-                if(components) for( int ix = 0; ix < components->NumComponents(); ix++) {
-                  tComponent * component = components->Component(ix);
-                  if (component->stream == 1 || component->stream == 5) {
-                    switch (component->type) {
-                      case 1:
-                      case 5: video_SD_HD = 0; video_aspect_ratio = 0; break;
-                      case 2:
-                      case 3:
-                      case 6:
-	              case 7: video_SD_HD = 0; video_aspect_ratio = 1; break;
-                      case 4:
-	              case 8: video_SD_HD = 0; video_aspect_ratio = 2; break;
-                      case 9:
-                      case 13: video_SD_HD = 1; video_aspect_ratio = 0; break;
-                      case 10:
-                      case 11:
-                      case 14:
-                      case 15: video_SD_HD = 1; video_aspect_ratio = 1; break;
-                      case 12:
-                      case 16: video_SD_HD = 1; video_aspect_ratio = 2; break;
-                    }
-                  }
-                }
-		std::string description(recItem->RecInfo()->Description() ? recItem->RecInfo()->Description() : "");
-#if TNTVERSION >= 30000
-                shortDescr = CorrectNonUTF8(&shortDescr); // cleanup invalid UTF-8 characters
-                description = CorrectNonUTF8(&description); // cleanup invalid UTF-8 characters
-                                                            // Tntnet30 throw: tntnet.worker - http-Error: 500 character conversion failed
-#endif
-		std::string hint(tr("Click to view details."));
-		if (!shortDescr.empty()) hint = shortDescr + "<br />" + hint;
-		else if (!description.empty()) hint = description + "<br />" + hint;
+recoring_item.clear();
+recItem->AppendasHtml(recoring_item);
+max_length_recoring_item = std::max(max_length_recoring_item, recoring_item.length() );
 #ifdef HAVE_LIBPCRECPP
 		pcrecpp::RE re(filter.c_str(), pcrecpp::UTF8().set_caseless(true));
-		if (filter.empty() || re.PartialMatch(recItem->Name()) || re.PartialMatch(shortDescr) || re.PartialMatch(description))
+		if (filter.empty() || re.PartialMatch(recItem->Name()) || re.PartialMatch(recItem->ShortDescr() ) || re.PartialMatch(recItem->DescriptionUI() ))
 #endif
 		{
 </%cpp>
-	<li class="recording">
-	   <& rec_item_file name=(recItem->Name()) level=(recItem->Level()) id=(recItem->Id()) day=(day) dayLen=(dayLen) startTime=(recItem->StartTime()) duration=(duration) newR=(newR) hint=(hint) shortDescr=(shortDescr) recordingErrors=(recordingErrors) channelName=(channelName) video_SD_HD=(video_SD_HD) video_aspect_ratio=(video_aspect_ratio) archived=(RecordingsManager::GetArchiveDescr(recItem->Recording())) &>
-	</li>
+<$$ recoring_item $>
+<# Buffer used: <$ recoring_item.length() $> bytes
+Max Buffer used: <$ max_length_recoring_item $> bytes #>
 <%cpp>
 		}
 }
@@ -431,114 +388,19 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 
 <%def rec_item_dir>
 <%args>
-	std::string name;
-	int level;
-	std::string newR;
-	std::string collapseimg = "plus.png";
-	std::string folderimg = "folder_closed.png";
+  std::string name;
+  int level;
+  std::string newR;
 </%args>
-	<div class="recording_item" onclick="Toggle(this)">
-		<div class="recording_imgs"><%cpp> reply.out() << StringRepeat(level - 1, "<img src=\"img/transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />"); </%cpp><img class="recording_expander" src="<$ LiveSetup().GetThemedLink("img", collapseimg) $>" alt="" /><img class="recording_folder" src="<$ LiveSetup().GetThemedLink("img", folderimg) $>" alt="" /></div>
-		<div class="recording_spec">
-			<div class="recording_name<$ newR $>"><$ name $></div>
-	    </div>
-		<div class="recording_actions">&nbsp;</div>
-	</div>
-</%def>
-
-<# ---------------------------------------------------------------------- #>
-
-<%def rec_item_file>
-<%args>
-	std::string name;
-	int level;
-	std::string id;
-	std::string day;
-	std::string dayLen;
-	time_t startTime;
-	std::string duration;
-	std::string hint;
-	std::string shortDescr;
-        int recordingErrors;
-        std::string channelName;
-        int video_SD_HD;
-        int video_aspect_ratio;
-	std::string newR;
-	std::string archived;
-</%args>
-	<div class="recording_item">
-	<div class="recording_imgs"><%cpp> reply.out() << StringRepeat(level, "<img src=\"img/transparent.png\" alt=\"\" width=\"16px\" height=\"16px\" />"); </%cpp>
-<%cpp> if (!archived.empty()) { </%cpp><img src="<$ LiveSetup().GetThemedLink("img", "on_dvd.png") $>" alt="on_dvd" <& tooltip.hint text=(archived) &> /><%cpp> } else {
-#if TNTVERSION >= 30000
-		std::string deletionsName = "deletions[]";
-#else
-		std::string deletionsName = "deletions";
-#endif
-</%cpp><input type="checkbox" name="<$ deletionsName $>" value="<$ id $>" /><%cpp> } </%cpp></div>
-	<div class="recording_spec">
-		<div class="recording_day"><$ FormatDateTime(tr("%a,"), startTime) + std::string(" ") + FormatDateTime(tr("%b %d %y"), startTime) + std::string(" ") + FormatDateTime(tr("%I:%M %p"), startTime) $></div>
-		<div class="recording_duration"><$ duration $></div>
-<%cpp>
-#if VDRVERSNUM >= 20505
-std::string recording_errors_icon;
-std::string recordingErrorsStr;
-
-if (recordingErrors == 0) {
-  recording_errors_icon = "NoRecordingErrors.png";
-  recordingErrorsStr = tr("No recording errors");
-}
-if (recordingErrors == -1) {
-  recording_errors_icon = "NotCheckedForRecordingErrors.png";
-  recordingErrorsStr = tr("Recording errors unknown") ;
-}
-if (recordingErrors >   0) {
-  recording_errors_icon = "RecordingErrors.png";
-  recordingErrorsStr = tr("Number of recording errors:");
-  recordingErrorsStr += " " + std::to_string(recordingErrors);
-}
-</%cpp>
-		<div class="recording_errors"><img src="<$ LiveSetup().GetThemedLink("img", recording_errors_icon) $>" width = "16px" alt="" <& tooltip.hint text=(recordingErrorsStr) &> /> </div>
-<%cpp>
-#endif
-std::string recording_SD_HD_icon;
-std::string recording_aspect_ratio_icon;
-if (video_SD_HD == 0)
-  recording_SD_HD_icon = "sd.png";
-else
-  recording_SD_HD_icon = "hd.png";
-switch(video_aspect_ratio) {
-      case 0: recording_aspect_ratio_icon = "43.png"; break;
-      case 1: recording_aspect_ratio_icon = "169.png"; break;
-      case 2: recording_aspect_ratio_icon = "221.png"; break;
-}
-</%cpp>
-<div class="recording_sd_hd"><img src="<$ LiveSetup().GetThemedLink("img", recording_SD_HD_icon) $>" width = "25px" alt="" <& tooltip.hint text=(channelName) &> /> </div>
-
-		<div class="recording_name<$ newR $>"><a <& tooltip.hint text=(hint) &><& tooltip.display domId=(id) &>><$ name $><br /><%cpp>if ((name != shortDescr) && (!shortDescr.empty())) {</%cpp><span><$ shortDescr $></span><%cpp> } else { </%cpp><span>&nbsp;</span><%cpp> } </%cpp></a></div>
-	</div>
-	<div class="recording_actions">
-<%cpp>
-		if (archived.empty()) {
-</%cpp>
-		<& recordings.rec_tools id=(id) title=(name)&>
-<%cpp>
-		}
-		else {
-</%cpp>
-		<img src="img/transparent.png" alt="" width="16px" height="16px" />
-		<& pageelems.imdb_info_href title=(name) &>
-<%cpp>
-		}
-</%cpp>
-	</div>
-<%cpp>
-	if (! archived.empty()) {
-</%cpp>
-	<div class="recording_arch"><$ archived $></div>
-<%cpp>
-	}
-</%cpp>
-	</div>
+  <div class="recording_item" onclick="Toggle(this)">
+    <div class="recording_imgs">
+      <{ if(level > 1) { }><img src="img/transparent.png" width="<$16*(level-1) $>px" height="16px" /> <{ } }>
+      <img class="recording_expander" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>plus.png" /><img class="recording_folder" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png" /></div>
+    <div class="recording_spec">
+      <div class="recording_name<$ newR $>"><$ name $></div>
+    </div>
+    <div class="recording_actions">&nbsp;</div>
+  </div>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
