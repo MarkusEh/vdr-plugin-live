@@ -170,7 +170,7 @@ namespace vdrlive {
 			static bool ByAscendingDate(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
 			static bool ByDescendingDate(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
 			static bool ByAscendingName(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
-			static bool ByAscendingShortText(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
+			static bool ByAscendingNameShortText(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
 			static bool ByAscendingNameDesc(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
 			static bool ByDescendingNameDesc(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
 			static bool ByDescendingRecordingErrors(const RecordingsItemPtr & first, const RecordingsItemPtr & second);

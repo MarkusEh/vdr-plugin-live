@@ -438,10 +438,13 @@ namespace vdrlive {
            return first->NameForCompare().compare(second->NameForCompare() ) < 0;
 	}
 
-	bool RecordingsItemPtrCompare::ByAscendingShortText(const RecordingsItemPtr & first, const RecordingsItemPtr & second)  // return first < second
+	bool RecordingsItemPtrCompare::ByAscendingNameShortText(const RecordingsItemPtr & first, const RecordingsItemPtr & second)  // return first < second
 	{
-           int numEqualChars = 0;
-           return RecordingsItemPtrCompare::compareLC(numEqualChars, first->ShortText(), second->ShortText() ) < 0;
+          int numEqualChars = 0;
+          int i = first->NameForCompare().compare(second->NameForCompare() );
+          if(i != 0) return i < 0;
+
+          return RecordingsItemPtrCompare::compareLC(numEqualChars, first->ShortText(), second->ShortText() ) < 0;
 	}
 
 	bool RecordingsItemPtrCompare::ByAscendingNameDesc(const RecordingsItemPtr & first, const RecordingsItemPtr & second)  // return first < second
@@ -1092,7 +1095,7 @@ void addAllDuplicateRecordings(std::list<RecordingsItemPtr> &DuplicateRecItems, 
   bool isSeries;
 
   addAllRecordings(recItems, RecordingsTree, path);
-  recItems.sort(RecordingsItemPtrCompare::ByAscendingNameDesc);
+  recItems.sort(RecordingsItemPtrCompare::ByAscendingNameShortText);
 
   for (currentRecItem = recItems.begin(); currentRecItem != recItems.end(); ){
     recIterLowName = currentRecItem;
@@ -1106,7 +1109,7 @@ void addAllDuplicateRecordings(std::list<RecordingsItemPtr> &DuplicateRecItems, 
     if (isSeries) {
       for (currentRecItem = recIterLowName; currentRecItem != recIterUpName;){
         recIterLowShortText = currentRecItem;
-        recIterUpShortText  = std::upper_bound (currentRecItem , recIterUpName, *currentRecItem, RecordingsItemPtrCompare::ByAscendingShortText);
+        recIterUpShortText  = std::upper_bound (currentRecItem , recIterUpName, *currentRecItem, RecordingsItemPtrCompare::ByAscendingNameShortText);
         currentRecItem++;
         if (currentRecItem == recIterUpShortText ) continue; // there is only one recording with this short text
         for(currentRecItem = recIterLowShortText; currentRecItem != recIterUpShortText; currentRecItem++)
