@@ -170,7 +170,10 @@ namespace vdrlive {
 			static bool ByAscendingDate(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
 			static bool ByDescendingDate(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
 			static bool ByAscendingName(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
-			static bool ByDescendingName(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
+			static bool ByAscendingShortText(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
+			static bool ByAscendingNameDesc(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
+			static bool ByDescendingNameDesc(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
+			static bool ByDescendingRecordingErrors(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
 			static void getNameForCompare(std::string &NameForCompare, const std::string &Name);
                         static int compareLC(int &numEqualChars, const char *first, const char *second); // as std::compare, but compare lower case
                         static int Compare(int &numEqualChars, const RecordingsItemPtr &first, const RecordingsItemPtr &second);
@@ -214,19 +217,14 @@ namespace vdrlive {
            // To display the recuring on the UI
                         virtual const int IsArchived() const { return 0 ; }
                         virtual const std::string ArchiveDescr() const { return "" ; }
-                        virtual const std::string StartTimeUI() const { return "" ; }
                         virtual const std::string DurationUI() const { return "" ; }
-                        virtual const std::string NewR() const { return "" ; }
-                        virtual const std::string ShortDescr() const { return "" ; }
-                        virtual const std::string DescriptionUI() const { return "" ; }
-                        virtual const std::string Hint() const { return "" ; }
+                        virtual const char *NewR() const { return "" ; }
                         virtual const int RecordingErrors() const { return -1; }
-                        virtual const std::string RecordingErrorsIcon() const { return ""; }
-                        virtual const std::string RecordingErrorsStr() const { return ""; }
-                        virtual const std::string ChannelName() const { return ""; }
+                        virtual const char *RecordingErrorsIcon() const { return ""; }
+                        virtual void AppendRecordingErrorsStr(std::string &target) const { };
                         virtual const int SD_HD() { return 0; }
                         virtual const char *SD_HD_icon() { return ""; }
-                        virtual void AppendasHtml(std::string &target) { }
+                        virtual void AppendasHtml(std::string &target, bool displayFolder, const std::string argList) { }
 
 		private:
 			int m_level;
@@ -281,35 +279,28 @@ namespace vdrlive {
            // To display the recuring on the UI
                         virtual const int IsArchived() const { return m_isArchived ; }
                         virtual const std::string ArchiveDescr() const { return RecordingsManager::GetArchiveDescr(m_recording) ; }
-                        virtual const std::string StartTimeUI() const { return m_StartTimeUI; }
-                        virtual const std::string DurationUI() const { return m_durationUI; }
-                        virtual const std::string NewR() const { return LiveSetup().GetMarkNewRec() && (Recording()->GetResume() <= 0) ? "_new" : "" ; }
-                        virtual const std::string ShortDescr() const { return m_ShortDescr; }
-                        virtual const std::string DescriptionUI() const { return RecInfo()->Description() ? CorrectNonUTF8(RecInfo()->Description()) : "" ; }
-                        virtual const std::string Hint() const;
+                        virtual const std::string DurationUI() const { return Duration() < 0 ? "" : FormatDuration(tr("(%d:%02d)"), Duration() / 60, Duration() % 60); }
+                        virtual const char *NewR() const { return LiveSetup().GetMarkNewRec() && (Recording()->GetResume() <= 0) ? "_new" : "" ; }
 #if VDRVERSNUM >= 20505
                         virtual const int RecordingErrors() const { return RecInfo()->Errors(); }
 #else
                         virtual const int RecordingErrors() const { return -1; }
 #endif
-                        virtual const std::string RecordingErrorsIcon() const;
-                        virtual const std::string RecordingErrorsStr() const;
-                        virtual const std::string ChannelName() const { return RecInfo()->ChannelName()  ? RecInfo()->ChannelName() : ""; }
+                        virtual const char *RecordingErrorsIcon() const;
+                        void AppendRecordingErrorsStr(std::string &target) const;
+
                         virtual const int SD_HD();
                         virtual const char *SD_HD_icon() { return SD_HD() == 0 ? "sd.png": "hd.png"; }
-                        virtual void AppendasHtml(std::string &target);
+                        virtual void AppendasHtml(std::string &target, bool displayFolder, const std::string argList);
                         void AppendHint(std::string &target) const;
                         void AppendIMDb(std::string &target) const;
-                        void AppendRecordingAction(std::string &target, const char *A, const char *Img, const char *Title);
+                        void AppendRecordingAction(std::string &target, const char *A, const char *Img, const char *Title, const std::string argList);
                      
 		private:
 			const cRecording *m_recording;
 			const std::string m_id;
                         const int m_isArchived;
                         const long m_duration; // duration in minutes
-                        const std::string m_durationUI;
-                        const std::string m_StartTimeUI;
-                        const std::string m_ShortDescr;
                         int m_video_SD_HD = -1;  // 0 is SD, 1 is HD
 	};
 
@@ -513,6 +504,21 @@ namespace vdrlive {
 	 *	kept alive as long references to it exist.
 	 */
 	RecordingsManagerPtr LiveRecordingsManager();
+
+bool checkNew(RecordingsTreePtr recordingsTree, std::vector<std::string> p);
+
+/**
+* Create a (flat) list of all recordings.
+* sample code to achieve this:
+* std::vector<std::string> path;
+* std::list<RecordingsItemPtr> recItems;
+* RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
+
+* addAllRecordings(recItems, recordingsTree, path);
+*/
+void addAllRecordings(std::list<RecordingsItemPtr> &RecItems, RecordingsTreePtr &RecordingsTree, std::vector<std::string> &P);
+
+void addAllDuplicateRecordings(std::list<RecordingsItemPtr> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree);
 
 } // namespace vdrlive
 

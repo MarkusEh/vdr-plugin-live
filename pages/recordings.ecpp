@@ -15,27 +15,11 @@
 
 #define MB_PER_MINUTE 25.75 // this is just an estimate!
 #include <string>
+std::string argList;
 std::string recoring_item;
 size_t max_length_recoring_item = 0;
 
 using namespace vdrlive;
-
-bool checkNew(RecordingsTreePtr recordingsTree, std::vector<std::string> p) {
-	bool newR = false;
-	RecordingsMap::iterator iter;
-	for (iter = recordingsTree->begin(p); iter != recordingsTree->end(p); iter++) {
-		RecordingsItemPtr recItem = iter->second;
-		if(!recItem->IsDir())
-			newR |= recItem->Recording()->GetResume() <= 0;
-		else {
-			std::vector<std::string> pp(p);
-			pp.push_back(recItem->Name());
-			newR |= checkNew(recordingsTree, pp);
-		}
-	}
-	return newR;
-}
-
 
 </%pre>
 <%args>
@@ -44,6 +28,7 @@ bool checkNew(RecordingsTreePtr recordingsTree, std::vector<std::string> p) {
 	std::string diskinfo;
 	std::string filter;
 	std::string deletions[];
+        std::string flat;
 </%args>
 <%session scope="global">
 	bool logged_in(false);
@@ -54,20 +39,32 @@ bool checkNew(RecordingsTreePtr recordingsTree, std::vector<std::string> p) {
 	std::string currentSort;
 	std::string deleteResult;
 	std::string currentFilter;
+	std::string currentFlat;
 </%request>
 
 <%include>page_init.eh</%include>
 <%cpp>
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
+// sort dpends on old sort, an sort parameter
 currentSort = LiveSetup().GetLastSortingMode();
+if (currentSort.empty() ) currentSort = "nameasc";
 if (!sort.empty()) {
 	if (sort == "date")
 		currentSort = (currentSort == "dateasc") ? "datedesc" : "dateasc";
 	else if (sort == "name")
 		currentSort = (currentSort == "nameasc") ? "namedesc" : "nameasc";
+	else if (sort == "errors")
+                currentSort = (currentSort == "errorsasc") ? "errorsdesc" : "errorsasc";
+	else if (sort == "duplicates")
+		currentSort = sort;
 	LiveSetup().SetLastSortingMode(currentSort);
 }
+// flat defaults from sort, but can we overwritten
+if (currentSort == "errorsasc" || currentSort == "errorsdesc" || currentSort == "duplicates") currentFlat = "true";
+  else currentFlat = "false";
+if (! flat.empty() ) currentFlat = flat;
+
 currentFilter = filter;
 
 pageTitle = tr("Recordings");
@@ -222,10 +219,11 @@ if (!deleteResult.empty()) {
 recoring_item.reserve(6000);
 // Max Buffer used: 5.636 bytes
 RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
-RecordingsMap::iterator iter;
-RecordingsMap::iterator end = recordingsTree->end(path);
 std::list<RecordingsItemPtr> recItems;
 std::list<RecordingsItemPtr>::iterator recIter;
+if( currentFlat != "true" ) {
+RecordingsMap::iterator iter;
+RecordingsMap::iterator end = recordingsTree->end(path);
 
 for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 	RecordingsItemPtr recItem = iter->second;
@@ -234,9 +232,9 @@ for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 	}
 }
 if (currentSort == "namedesc")
-	recItems.sort(RecordingsItemPtrCompare::ByDescendingName);
-else
-	recItems.sort(RecordingsItemPtrCompare::ByAscendingName);
+	recItems.sort(RecordingsItemPtrCompare::ByDescendingNameDesc);
+else if (currentSort == "nameasc")
+	recItems.sort(RecordingsItemPtrCompare::ByAscendingNameDesc);
 for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 	RecordingsItemPtr recItem = *recIter;
 	counter++;
@@ -289,29 +287,43 @@ for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 		recItems.push_back(recItem);
 	}
 }
+} else {
+if (currentSort == "duplicates") {
+  addAllDuplicateRecordings(recItems, recordingsTree);
+} else {
+  addAllRecordings(recItems, recordingsTree, path);
+}
+}
 if (currentSort == "dateasc")
 	recItems.sort(RecordingsItemPtrCompare::ByAscendingDate);
 else if (currentSort == "datedesc")
 	recItems.sort(RecordingsItemPtrCompare::ByDescendingDate);
 else if (currentSort == "namedesc")
-	recItems.sort(RecordingsItemPtrCompare::ByDescendingName);
-else
-	recItems.sort(RecordingsItemPtrCompare::ByAscendingName);
+	recItems.sort(RecordingsItemPtrCompare::ByDescendingNameDesc);
+else if (currentSort == "nameasc")
+	recItems.sort(RecordingsItemPtrCompare::ByAscendingNameDesc);
+else if (currentSort == "errorsasc" || currentSort == "errorsdesc")
+	recItems.sort(RecordingsItemPtrCompare::ByDescendingRecordingErrors);
+
+argList.clear();
+argList.append("&sort=");
+argList.append(currentSort);
+argList.append("&filter=");
+argList.append(currentFilter);
 for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 		RecordingsItemPtr recItem = *recIter;
-		// xgettext:no-c-format
-recoring_item.clear();
-recItem->AppendasHtml(recoring_item);
-max_length_recoring_item = std::max(max_length_recoring_item, recoring_item.length() );
+  recoring_item.clear();
+  recItem->AppendasHtml(recoring_item, currentFlat == "true", argList);
+  max_length_recoring_item = std::max(max_length_recoring_item, recoring_item.length() );
 #ifdef HAVE_LIBPCRECPP
 		pcrecpp::RE re(filter.c_str(), pcrecpp::UTF8().set_caseless(true));
-		if (filter.empty() || re.PartialMatch(recItem->Name()) || re.PartialMatch(recItem->ShortDescr() ) || re.PartialMatch(recItem->DescriptionUI() ))
+		if (filter.empty() || re.PartialMatch(recItem->Name()) || re.PartialMatch(recItem->ShortText()?recItem->ShortText() : "" ) || re.PartialMatch(recItem->Description()?recItem->Description() : ""))
 #endif
 		{
 </%cpp>
-<$$ recoring_item $>
-<# Buffer used: <$ recoring_item.length() $> bytes
-Max Buffer used: <$ max_length_recoring_item $> bytes #>
+  <$$ recoring_item $>
+  <# Buffer used: <$ recoring_item.length() $> bytes
+  Max Buffer used: <$ max_length_recoring_item $> bytes #>
 <%cpp>
 		}
 }
@@ -322,9 +334,13 @@ Max Buffer used: <$ max_length_recoring_item $> bytes #>
 
 <%def sort_options>
 <%cpp> { </%cpp>
-<a href="recordings.html?sort=name&filter=<? currentFilter != "" ? currentFilter ?>" alt="" /><$ tr("Sort by name") $></a>
+<a href="recordings.html?sort=name&filter=<? currentFilter != "" ? currentFilter ?>" /><$ tr("Sort by name") $></a>
 <span class="sep">|</span>
-<a href="recordings.html?sort=date&filter=<? currentFilter != "" ? currentFilter ?>" alt="" /><$ tr("Sort by date") $></a>
+<a href="recordings.html?sort=date&filter=<? currentFilter != "" ? currentFilter ?>" /><$ tr("Sort by date") $></a>
+<span class="sep">|</span>
+<a href="recordings.html?sort=duplicates&filter=<? currentFilter != "" ? currentFilter ?>" /><$ tr("Duplicates") $></a>
+<span class="sep">|</span>
+<a href="recordings.html?sort=errors&filter=<? currentFilter != "" ? currentFilter ?>" /><$ tr("Errors") $></a>
 <%cpp>
 #ifdef HAVE_LIBPCRECPP
 </%cpp>

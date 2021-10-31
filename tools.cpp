@@ -16,20 +16,6 @@ using namespace tnt;
 
 std::istream& operator>>( std::istream& is, tChannelID& ret )
 {
-  /* alternativ implementation
-  std::string line;
-  if ( !getline( is, line ) ) {
-    if ( !is.eof() )
-      is.setstate( ios::badbit );
-    else
-      is.clear();
-    return is;
-  }
-  if ( !line.empty() && !( ret = tChannelID::FromString( line.c_str() ) ).Valid() )
-    is.setstate( ios::badbit );
-  return is;
-  */
-
   std::string line;
   if (!std::getline( is, line ) ) {
     if (0 == is.gcount()) {
@@ -49,25 +35,132 @@ std::istream& operator>>( std::istream& is, tChannelID& ret )
 
 namespace vdrlive {
 
-        void AppendEscapedString(std::string &target, std::string const &s){
-          int ins = 0;
-          for (size_t b=0,i=b; b < s.length(); b = i+1) {
-            ins = 0;
-            for (i=b; i<s.length(); ++i) {
-              ins = 0;
-              switch(s[i]) {
-                case '&':  target.append(s, b, i-b); target.append("&amp;");       break;
-                case '\"': target.append(s, b, i-b); target.append("&quot;");      break;
-                case '\'': target.append(s, b, i-b); target.append("&apos;");      break;
-                case '<':  target.append(s, b, i-b); target.append("&lt;");        break;
-                case '>':  target.append(s, b, i-b); target.append("&gt;");        break;
-                default:   ins = 1; break;
-                }
-                if (ins == 0) break;
+        void AppendHtmlEscaped(std::string &target, const char* s){
+// apend c-string s to target, html escape some chsracters
+          if(!s) return;
+          size_t i = 0;
+          const char* notAppended = s;
+// moving forward, notAppended is the position of the first character which is not yet appended, in i the number of not yet appended chars
+          for (const char* current = s; *current; current++) {
+            switch(*current) {
+              case '&':  target.append(notAppended, i); target.append("&amp;");  notAppended = notAppended + i + 1; i = 0;   break;
+              case '\"': target.append(notAppended, i); target.append("&quot;"); notAppended = notAppended + i + 1; i = 0;   break;
+              case '\'': target.append(notAppended, i); target.append("&apos;"); notAppended = notAppended + i + 1; i = 0;   break;
+              case '<':  target.append(notAppended, i); target.append("&lt;");   notAppended = notAppended + i + 1; i = 0;   break;
+              case '>':  target.append(notAppended, i); target.append("&gt;");   notAppended = notAppended + i + 1; i = 0;   break;
+              default:   i++; break;
               }
-            if(ins == 1) target.append(s, b, i-b);
-          }
+            }
+          target.append(notAppended, i);
         }
+
+	void AppendHtmlEscapedAndCorrectNonUTF8(std::string &target, const char *str)
+// based on https://stackoverflow.com/questions/17316506/strip-invalid-utf8-from-string-in-c-c
+	{
+                if(!str) return;
+		int i, f_size = strlen(str);
+		unsigned char c, c3, c4;
+		unsigned char c2 = (unsigned char) 0;
+
+		for(i = 0; str[i]; i++) {
+			c = (unsigned char)str[i];
+			if (c < 32) { // control char
+				if (c ==9 || c == 10 || c == 13){ // allow only \t \n \r
+					target.append(1, c);
+				}
+				continue;
+			}
+			else {
+				if (c < 127) { // normal ASCII
+                                switch(c) {
+                                  case '&':  target.append("&amp;");  break;
+                                  case '\"': target.append("&quot;"); break;
+                                  case '\'': target.append("&apos;"); break;
+                                  case '<':  target.append("&lt;");   break;
+                                  case '>':  target.append("&gt;");   break;
+                                  default:   target.append(1, c);     break;
+                                  }
+				continue;
+				}
+				else {
+					if (c < 160) { // control char (nothing should be defined here either ASCI, ISO_8859-1 or UTF8, so skipping)
+						if (c2 == 128) { // fix microsoft mess, add euro
+							target.append(1, 226);
+							target.append(1, 130);
+							target.append(1, 172);
+						}
+						if (c2 == 133) { // fix IBM mess, add NEL = \n\r
+							target.append(1, 10);
+							target.append(1, 13);
+						}
+						continue;
+					}
+					else {
+						if (c < 192) { // invalid for UTF8, converting ASCII
+							target.append(1, (unsigned char)194);
+							target.append(1, c);
+							continue;
+						}
+						else {
+							if (c < 194) { // invalid for UTF8, converting ASCII
+								target.append(1, (unsigned char)195);
+								target.append(1, c - 64);
+								continue;
+							}
+							else {
+								if (c < 224 && i+1 < f_size) { // possibly 2byte UTF8
+									c2 = (unsigned char)str[i+1];
+									if (c2 > 127 && c2 < 192) { // valid 2byte UTF8
+										if (c == 194 && c2 < 160) { //control char, skipping
+											;
+										}
+										else {
+											target.append(1, c);
+											target.append(1, c2);
+										}
+										i++;
+										continue;
+									}
+								}
+								else {
+									if (c < 240 && i+2 < f_size){ // possibly 3byte UTF8
+										c2 = (unsigned char)str[i+1];
+										c3 = (unsigned char)str[i+2];
+										if (c2 > 127 && c2 < 192 && c3 > 127 && c3 < 192) { // valid 3byte UTF8
+											target.append(1, c);
+											target.append(1, c2);
+											target.append(1, c3);
+											i += 2;
+											continue;
+										}
+									}
+									else {
+										if (c < 245 && i+3 < f_size) { // possibly 4byte UTF8
+											c2 = (unsigned char)str[i+1];
+											c3 = (unsigned char)str[i+2];
+											c4 = (unsigned char)str[i+3];
+											if (c2 > 127 && c2 < 192 && c3 > 127 && c3 < 192 && c4 > 127 && c4 < 192) { // valid 4byte UTF8
+												target.append(1, c);
+												target.append(1, c2);
+												target.append(1, c3);
+												target.append(1, c4);
+												i += 3;
+												continue;
+											}
+										}
+										// invalid UTF8, converting ASCII (c>245 || string too short for multi-byte))
+										target.append(1, (unsigned char)195);
+										target.append(1, c - 64);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
 	std::string CorrectNonUTF8(const char *str) // based on https://stackoverflow.com/questions/17316506/strip-invalid-utf8-from-string-in-c-c
 	{
 		int i, f_size = strlen(str);

@@ -10,38 +10,19 @@
 #include <vdr/config.h>
 using namespace vdrlive;
 
-void addAllRecordings(std::list<RecordingsItemPtr> &RecItems, RecordingsTreePtr &RecordingsTree, std::vector<std::string> &P){
-  for (RecordingsMap::iterator iter = RecordingsTree->begin(P); iter != RecordingsTree->end(P);  ++iter) {
-        RecordingsItemPtr recItem = iter->second;
-        if (!recItem->IsDir()) {
-                RecItems.push_back(recItem);
-        } else {
-                std::vector<std::string> pp(P);
-                pp.push_back(recItem->Name());
-                addAllRecordings(RecItems, RecordingsTree, pp);
-        }
-  }
-  RecItems.sort(RecordingsItemPtrCompare::ByAscendingName);
-}
-
-// compare function for std::lower_bound / std::upper_bound
-bool compRecItemName(const RecordingsItemPtr &first, const RecordingsItemPtr &second) {
-  return first->NameForCompare().compare(second->NameForCompare() ) < 0;
-}
-
 bool searchNameDesc(RecordingsItemPtr &RecItem, std::list<RecordingsItemPtr> &RecItems, const std::string &Name, const std::string &ShortText, const std::string &Description, long Duration) {
   if(RecItems.begin() == RecItems.end() ) return false;  // there are no recordings
 
 // find all recordings with equal name
   RecordingsItemPtr dummy (new RecordingsItemDummy(Name, ShortText, Description, Duration));
-  std::list<RecordingsItemPtr>::iterator recIterLowName = std::lower_bound (RecItems.begin(), RecItems.end(), dummy, compRecItemName);
-  std::list<RecordingsItemPtr>::iterator recIterUpName  = std::upper_bound (recIterLowName  , RecItems.end(), dummy, compRecItemName);
+  std::list<RecordingsItemPtr>::iterator recIterLowName = std::lower_bound (RecItems.begin(), RecItems.end(), dummy, RecordingsItemPtrCompare::ByAscendingName);
+  std::list<RecordingsItemPtr>::iterator recIterUpName  = std::upper_bound (recIterLowName  , RecItems.end(), dummy, RecordingsItemPtrCompare::ByAscendingName);
   if ( recIterLowName == recIterUpName ) return false; // there is no recording with this name
 
 
 // find all recordings with matching short text / description
-  std::list<RecordingsItemPtr>::iterator recIterLow = std::lower_bound (recIterLowName, recIterUpName, dummy, RecordingsItemPtrCompare::ByAscendingName);
-  std::list<RecordingsItemPtr>::iterator recIterUp = std::upper_bound (recIterLow, recIterUpName, dummy, RecordingsItemPtrCompare::ByAscendingName);
+  std::list<RecordingsItemPtr>::iterator recIterLow = std::lower_bound (recIterLowName, recIterUpName, dummy, RecordingsItemPtrCompare::ByAscendingNameDesc);
+  std::list<RecordingsItemPtr>::iterator recIterUp = std::upper_bound (recIterLow, recIterUpName, dummy, RecordingsItemPtrCompare::ByAscendingNameDesc);
 
   if(recIterLow != recIterUp) {   // exact match found
     if (RecordingsItemPtrCompare::FindBestMatch(RecItem, recIterLow, recIterUp, dummy) > 0) return true;
@@ -97,6 +78,7 @@ std::list<RecordingsItemPtr> recItems;
 RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
 
 addAllRecordings(recItems, recordingsTree, path);
+recItems.sort(RecordingsItemPtrCompare::ByAscendingNameDesc);
 
 
 #if VDRVERSNUM < 20301
@@ -240,8 +222,6 @@ addAllRecordings(recItems, recordingsTree, path);
 				</tr>
 <%cpp>
 if(recItemFound) {
-                  std::string r_day(FormatDateTime(tr("%a,"), recItem->StartTime()));
-                  std::string dayLen(lexical_cast<std::string, int>(r_day.length() - 1) + ".25em;");
                   std::string duration(recItem->Duration() < 0 ? "" : FormatDuration(tr("(%d:%02d)"), recItem->Duration() / 60, recItem->Duration() % 60));
                   std::string shortDescr(recItem->RecInfo()->ShortText() ? recItem->RecInfo()->ShortText() : "");
 #if VDRVERSNUM >= 20505
@@ -250,41 +230,22 @@ if(recItemFound) {
                   int recordingErrors = -1;
 #endif
                   std::string channelName(recItem->RecInfo()->ChannelName()  ? recItem->RecInfo()->ChannelName() : "");
-                  int video_aspect_ratio = 0;   // 0 is 4:3, 1 is 16:9, 2 is > 16:9
-                  int video_SD_HD = 0;   // 0 is SD, 1 is HD
-                  if(channelName.length() > 3 && channelName.substr( channelName.length() - 2 ) == "HD") video_SD_HD = 1;
-                  const cComponents *components = recItem->RecInfo()->Components();
-                  if(components) for( int ix = 0; ix < components->NumComponents(); ix++) {
-                    tComponent * component = components->Component(ix);
-                    if (component->stream == 1 || component->stream == 5) {
-                      switch (component->type) {
-                        case 1:
-                        case 5: video_SD_HD = 0; video_aspect_ratio = 0; break;
-                        case 2:
-                        case 3:
-                        case 6:
-                        case 7: video_SD_HD = 0; video_aspect_ratio = 1; break;
-                        case 4:
-                        case 8: video_SD_HD = 0; video_aspect_ratio = 2; break;
-                        case 9:
-                        case 13: video_SD_HD = 1; video_aspect_ratio = 0; break;
-                        case 10:
-                        case 11:
-                        case 14:
-                        case 15: video_SD_HD = 1; video_aspect_ratio = 1; break;
-                        case 12:
-                        case 16: video_SD_HD = 1; video_aspect_ratio = 2; break;
-                      }
-                    }
-                  }
+                  const char *SD_HD_icon = recItem->SD_HD_icon();
 
                   std::string r_description(recItem->RecInfo()->Description() ? recItem->RecInfo()->Description() : "");
                   std::string hint(tr("Click to view details."));
                   if (!shortDescr.empty()) hint = shortDescr + "<br />" + hint;
                   else if (!r_description.empty()) hint = r_description + "<br />" + hint;
+          std::string name(recItem->Name());
+          if( *(const char *)recItem->Recording()->Folder() ) {
+             name.append(" (");
+             name.append( (const char *)recItem->Recording()->Folder() );
+             name.append(")");
+          }
+
 </%cpp>
 <tr>
- <& rec_item_file name=(recItem->Name()) level=(recItem->Level()) id=(recItem->Id()) day=(r_day) dayLen=(dayLen) startTime=(recItem->StartTime()) duration=(duration) hint=(hint) shortDescr=(shortDescr) recordingErrors=(recordingErrors) channelName=(channelName) video_SD_HD=(video_SD_HD) video_aspect_ratio=(video_aspect_ratio) archived=(RecordingsManager::GetArchiveDescr(recItem->Recording())) lastEventCurrentDay=(lastEventCurrentDay) &>
+ <& rec_item_file name=(name) level=(recItem->Level()) id=(recItem->Id()) startTime=(recItem->StartTime()) duration=(duration) hint=(hint) shortDescr=(shortDescr) recordingErrors=(recordingErrors) channelName=(channelName) SD_HD_icon=(SD_HD_icon) archived=(RecordingsManager::GetArchiveDescr(recItem->Recording())) lastEventCurrentDay=(lastEventCurrentDay) &>
 </tr>
 <%cpp>
 }
@@ -325,16 +286,13 @@ if(recItemFound) {
         std::string name;
         int level;
         std::string id;
-        std::string day;
-        std::string dayLen;
         time_t startTime;
         std::string duration;
         std::string hint;
         std::string shortDescr;
         int recordingErrors;
         std::string channelName;
-        int video_SD_HD;
-        int video_aspect_ratio;
+        std::string SD_HD_icon;
         std::string archived;
         bool lastEventCurrentDay;
 </%args>
@@ -346,21 +304,10 @@ if(recItemFound) {
 <td colspan="3" style="word-wrap: normal;min-width: 10px;max-width: 70px;" class="leftcol <? lastEventCurrentDay ? "bottomrow" ?>"> <$ tr("Existing Recording:") $> </td>
 <%cpp> } </%cpp>
 
-<td class="topaligned <? lastEventCurrentDay ? "bottomrow" ?>"><div class="withmargin"><$ FormatDateTime(tr("%a,"), startTime) + std::string(" ") + FormatDateTime(tr("%b %d %y"), startTime) + std::string(" ") + FormatDateTime(tr("%I:%M %p"), startTime) $><br /><$ duration $></div></td>
+<td class="topaligned <? lastEventCurrentDay ? "bottomrow" ?>"><div class="withmargin"><$ FormatDateTime(tr("%a,"), startTime) $> <$ FormatDateTime(tr("%b %d %y"), startTime) $> <$ FormatDateTime(tr("%I:%M %p"), startTime) $><br /><$ duration $></div></td>
 
 <td class="topaligned rightcol <? lastEventCurrentDay ? "bottomrow" ?>">
 <%cpp>
-std::string recording_SD_HD_icon;
-std::string recording_aspect_ratio_icon;
-if (video_SD_HD == 0)
-  recording_SD_HD_icon = "sd.png";
-else
-  recording_SD_HD_icon = "hd.png";
-switch(video_aspect_ratio) {
-      case 0: recording_aspect_ratio_icon = "43.png"; break;
-      case 1: recording_aspect_ratio_icon = "169.png"; break;
-      case 2: recording_aspect_ratio_icon = "221.png"; break;
-}
 #if VDRVERSNUM >= 20505
 std::string recording_errors_icon;
 std::string recordingErrorsStr;
@@ -383,7 +330,7 @@ if (recordingErrors >   0) {
                 <div class="recording_errors"><img src="<$ LiveSetup().GetThemedLink("img", recording_errors_icon) $>" width = "16px" alt="" <& tooltip.hint text=(recordingErrorsStr) &> /> </div>
 </td>
 <td class="noborder">
-                <div class="recording_sd_hd"><img src="<$ LiveSetup().GetThemedLink("img", recording_SD_HD_icon) $>" width = "25px" alt="" <& tooltip.hint text=(channelName) &> /> </div>
+                <div class="recording_sd_hd"><img src="<$ LiveSetup().GetThemedLink("img", SD_HD_icon) $>" width = "25px" alt="" <& tooltip.hint text=(channelName) &> /> </div>
 </td>
 
 <td class="noborder">

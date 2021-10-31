@@ -962,6 +962,12 @@ msgstr "Live Interactive VDR Environment"
 msgid "No EPG information available"
 msgstr "Keine EPG Daten vorhanden"
 
+msgid "Duplicates"
+msgstr "Suche mehrfache Aufnahmen"
+
+msgid "Errors"
+msgstr "Sortiere nach Zahl der Aufnahmefehler"
+
 #~ msgid "Stream this channel into media player."
 #~ msgstr "Sender in Mediaplayer abspielen."
 

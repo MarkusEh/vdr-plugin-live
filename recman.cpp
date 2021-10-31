@@ -435,14 +435,28 @@ namespace vdrlive {
 
 	bool RecordingsItemPtrCompare::ByAscendingName(const RecordingsItemPtr & first, const RecordingsItemPtr & second)  // return first < second
 	{
+           return first->NameForCompare().compare(second->NameForCompare() ) < 0;
+	}
+
+	bool RecordingsItemPtrCompare::ByAscendingShortText(const RecordingsItemPtr & first, const RecordingsItemPtr & second)  // return first < second
+	{
+           int numEqualChars = 0;
+           return RecordingsItemPtrCompare::compareLC(numEqualChars, first->ShortText(), second->ShortText() ) < 0;
+	}
+
+	bool RecordingsItemPtrCompare::ByAscendingNameDesc(const RecordingsItemPtr & first, const RecordingsItemPtr & second)  // return first < second
+	{
            int i = 0;
            return RecordingsItemPtrCompare::Compare2(i, first, second) < 0;
 	}
 
-	bool RecordingsItemPtrCompare::ByDescendingName(const RecordingsItemPtr & first, const RecordingsItemPtr & second)  // return first > second
+	bool RecordingsItemPtrCompare::ByDescendingNameDesc(const RecordingsItemPtr & first, const RecordingsItemPtr & second)  // return first > second
 	{
-           return RecordingsItemPtrCompare::ByAscendingName(second, first);
+           return RecordingsItemPtrCompare::ByAscendingNameDesc(second, first);
 	}
+        bool RecordingsItemPtrCompare::ByDescendingRecordingErrors(const RecordingsItemPtr & first, const RecordingsItemPtr & second){
+           return first->RecordingErrors() >= second->RecordingErrors();
+        }
 
         void RecordingsItemPtrCompare::getNameForCompare(std::string &NameForCompare, const std::string &Name){
 // remove punctuation characters at the beginning of the string
@@ -516,11 +530,7 @@ namespace vdrlive {
 		m_recording(recording),
 		m_id(id),
                 m_isArchived(RecordingsManager::GetArchiveType(m_recording) ),
-                m_duration(m_recording->FileName() ? m_recording->LengthInSeconds() / 60 : 0),
-                m_durationUI(Duration() < 0 ? "" : FormatDuration(tr("(%d:%02d)"), Duration() / 60, Duration() % 60)),
-                m_StartTimeUI(FormatDateTime(tr("%a,"), StartTime()) + std::string(" ") + FormatDateTime(tr("%b %d %y"), StartTime()) + std::string(" ") + FormatDateTime(tr("%I:%M %p"), StartTime()) ),
-                m_ShortDescr(RecInfo()->ShortText() ? CorrectNonUTF8(RecInfo()->ShortText()) : "" )
-                     // Tntnet30 throw: tntnet.worker - http-Error: 500 character conversion failed
+                m_duration(m_recording->FileName() ? m_recording->LengthInSeconds() / 60 : 0)
 	{
 		// dsyslog("live: REC: C: rec %s -> %s", name.c_str(), parent->Name().c_str());
 	}
@@ -530,40 +540,36 @@ namespace vdrlive {
 		// dsyslog("live: REC: D: rec %s", Name().c_str());
 	}
 
-        const std::string RecordingsItemRec::Hint() const
-        {
-           std::string result;
-           result.reserve(100);
-           AppendHint(result);
-           return result;
-        }
         void RecordingsItemRec::AppendHint(std::string &target) const
         {
            if (RecInfo()->ShortText()   ) {
-             AppendEscapedString(target, ShortDescr() );
+             AppendHtmlEscapedAndCorrectNonUTF8(target, RecInfo()->ShortText() );
              target.append("&lt;br /&gt;");
            }
            else if (RecInfo()->Description() ) {
-             AppendEscapedString(target, DescriptionUI()  );
+             AppendHtmlEscapedAndCorrectNonUTF8(target, RecInfo()->Description() );
              target.append("&lt;br /&gt;");
            }
-           AppendEscapedString(target, tr("Click to view details.")   );
+           AppendHtmlEscaped(target, tr("Click to view details.")   );
         }
-        const std::string RecordingsItemRec::RecordingErrorsIcon() const
+        const char *RecordingsItemRec::RecordingErrorsIcon() const
         {
-           if (RecordingErrors() == 0) return LiveSetup().GetThemedLinkPrefixImg() + "NoRecordingErrors.png";
-           if (RecordingErrors()  > 0) return LiveSetup().GetThemedLinkPrefixImg() + "RecordingErrors.png";
-           return LiveSetup().GetThemedLinkPrefixImg() + "NotCheckedForRecordingErrors.png";
+           if (RecordingErrors() == 0) return "NoRecordingErrors.png";
+           if (RecordingErrors()  > 0) return "RecordingErrors.png";
+           return "NotCheckedForRecordingErrors.png";
         }
-        const std::string RecordingsItemRec::RecordingErrorsStr() const
+
+        void RecordingsItemRec::AppendRecordingErrorsStr(std::string &target) const
         {
-           if (RecordingErrors() == 0) return tr("No recording errors");
-           if (RecordingErrors()  > 0) {
-              std::string recordingErrorsStr( tr("Number of recording errors:") );
-              return recordingErrorsStr + " " + std::to_string(RecordingErrors() );
+          if (RecordingErrors() == 0) AppendHtmlEscaped(target, tr("No recording errors"));
+          if (RecordingErrors()  > 0) {
+            AppendHtmlEscaped(target, tr("Number of recording errors:"));
+            target.append(" ");
+            target.append(std::to_string(RecordingErrors() ));
            }
-           return tr("Recording errors unknown") ;
+          if (RecordingErrors() < 0) AppendHtmlEscaped(target, tr("Recording errors unknown"));
         }
+
         const int RecordingsItemRec::SD_HD()
         {
            if ( m_video_SD_HD >= 0 ) return m_video_SD_HD;
@@ -595,7 +601,10 @@ namespace vdrlive {
            if(m_video_SD_HD == -1)
              {
              m_video_SD_HD = 0;
-             if(ChannelName().length() > 3 && ChannelName().substr( ChannelName().length() - 2 ) == "HD") m_video_SD_HD = 1;
+             if(RecInfo()->ChannelName() ) {
+               size_t l = strlen(RecInfo()->ChannelName() );
+               if( l > 3 && RecInfo()->ChannelName()[l-2] == 'H' && RecInfo()->ChannelName()[l-1] == 'D') m_video_SD_HD = 1;
+               }
              }
           return m_video_SD_HD;
         }
@@ -603,37 +612,42 @@ namespace vdrlive {
         void RecordingsItemRec::AppendIMDb(std::string &target) const {
           if (LiveSetup().GetShowIMDb()) { 
             target.append("<a href=\"http://www.imdb.com/find?s=all&q=");
-            AppendEscapedString( target, StringUrlEncode(Name() ) );
+            AppendHtmlEscaped( target, StringUrlEncode(Name() ).c_str() );
             target.append("\" target=\"_blank\"><img src=\"");
             target.append(LiveSetup().GetThemedLinkPrefixImg() );
             target.append("imdb.png\" title=\"");
-            AppendEscapedString( target, tr("Find more at the Internet Movie Database.") );
+            AppendHtmlEscaped( target, tr("Find more at the Internet Movie Database.") );
             target.append("\"/></a>\n");
           }
         }
 
-        void RecordingsItemRec::AppendRecordingAction(std::string &target, const char *A, const char *Img, const char *Title){
+        void RecordingsItemRec::AppendRecordingAction(std::string &target, const char *A, const char *Img, const char *Title, const std::string argList){
           target.append("<a href=\"");
           target.append(A);
           target.append(Id() );
+          target.append(argList);
           target.append("\" title=\"");
-          AppendEscapedString( target, tr(Title) );
+          AppendHtmlEscaped( target, tr(Title) );
           target.append("\"><img src=\"");
           target.append(LiveSetup().GetThemedLinkPrefixImg() );
           target.append(Img);
           target.append("\" /></a>\n");
         }
 
-        void RecordingsItemRec::AppendasHtml(std::string &target){
+        void RecordingsItemRec::AppendasHtml(std::string &target, bool displayFolder, const std::string argList){
 // list item, classes, space depending on level
-          target.append("<li class=\"recording\"><div class=\"recording_item\"><div class=\"recording_imgs\"><img src=\"img/transparent.png\" width=\"");
-          target.append( std::to_string(16 * Level() ) );
-          target.append("px\" height=\"16px\" />\n");
+          target.append("<li class=\"recording\"><div class=\"recording_item\"><div class=\"recording_imgs\">");
+          if(!displayFolder) {
+// add some space
+            target.append("<img src=\"img/transparent.png\" width=\"");
+            target.append( std::to_string(16 * Level() ) );
+            target.append("px\" height=\"16px\" />\n");
+          }
           if (IsArchived() ) {
             target.append("<img src=\"");
             target.append(LiveSetup().GetThemedLinkPrefixImg() );
             target.append("on_dvd.png\" alt=\"on_dvd\" title=\"");
-            AppendEscapedString(target, ArchiveDescr() );
+            AppendHtmlEscaped(target, ArchiveDescr().c_str() );
             target.append("/>");
             } else {
 #if TNTVERSION >= 30000
@@ -646,54 +660,60 @@ namespace vdrlive {
             }
 // recording_spec: Day, time & duration
           target.append("</div>\n<div class=\"recording_spec\"><div class=\"recording_day\">");
-          target.append(StartTimeUI());
+          target.append(FormatDateTime(tr("%a,"), StartTime()));  // day of week
+          target.append(" ");
+          target.append(FormatDateTime(tr("%b %d %y"), StartTime()) );  // date
+          target.append(" ");
+          target.append(FormatDateTime(tr("%I:%M %p"), StartTime()) );  // time
           target.append("</div><div class=\"recording_duration\">");
           target.append(DurationUI());
 // RecordingErrors, Icon
+#if VDRVERSNUM >= 20505
           target.append("</div><div class=\"recording_errors\"><img src=\"");
           target.append(LiveSetup().GetThemedLinkPrefixImg() );
-          if (RecordingErrors() == 0) target.append("NoRecordingErrors.png");
-          if (RecordingErrors()  > 0) target.append("RecordingErrors.png");
-          if (RecordingErrors()  < 0) target.append("NotCheckedForRecordingErrors.png");
+          target.append(RecordingErrorsIcon() );
           target.append("\" width = \"16px\" title=\"");
 // RecordingErrors, Tooltip
-          if (RecordingErrors() == 0) AppendEscapedString(target, tr("No recording errors"));
-          if (RecordingErrors()  > 0) {
-            AppendEscapedString(target, tr("Number of recording errors:"));
-            target.append(" ");
-            target.append(std::to_string(RecordingErrors() ));
-           }
-          if (RecordingErrors() < 0) AppendEscapedString(target, tr("Recording errors unknown"));
-
+          AppendRecordingErrorsStr(target);
+          target.append("\" /> </div>");
+#endif
 // HD_SD, with channel name
-          target.append("\" /> </div> <div class=\"recording_sd_hd\"><img src=\"");
+          target.append("<div class=\"recording_sd_hd\"><img src=\"");
           target.append(LiveSetup().GetThemedLinkPrefixImg() );
           target.append( SD_HD_icon() );
           target.append("\" width = \"25px\" title=\"");
-          AppendEscapedString(target, ChannelName() );
+          AppendHtmlEscapedAndCorrectNonUTF8(target, RecInfo()->ChannelName() );
+          target.append("\" /> </div>\n");
 // Recording name
-          target.append("\" /> </div>\n<div class=\"recording_name");
+          target.append("<div class=\"recording_name");
           target.append(NewR() );
           target.append("\"><a title=\"");
           AppendHint(target);
           target.append("\" href=\"epginfo.html?epgid=");
           target.append(Id() );
           target.append("\">" );
-          AppendEscapedString(target, Name() );
+          AppendHtmlEscaped(target, Name().c_str() );
+// Path / folder
+          if( *(const char *)Recording()->Folder() && displayFolder) {
+             target.append(" (");
+             AppendHtmlEscaped(target, (const char *)Recording()->Folder() );
+             target.append(")");
+          }
           target.append("<br /><span>");
 // second line of recording name
-          if(RecInfo()->ShortText() && Name() != ShortDescr() ) 
-             AppendEscapedString( target, ShortDescr() );
+          if(ShortText() && Name() != ShortText() ) 
+             AppendHtmlEscapedAndCorrectNonUTF8(target, ShortText() );
+                     // Tntnet30 throw: tntnet.worker - http-Error: 500 character conversion failed
           else 
              target.append("&nbsp;");
 // recording_actions
           target.append("</span></a></div></div>\n<div class=\"recording_actions\">");
           if (!IsArchived()) {
-            AppendRecordingAction(target, "vdr_request/play_recording?param=", "play.png", "play this recording");
-            AppendRecordingAction(target, "playlist.m3u?recid=", "playlist.png", "Stream this recording into media player.");
+            AppendRecordingAction(target, "vdr_request/play_recording?param=", "play.png", "play this recording", argList);
+            AppendRecordingAction(target, "playlist.m3u?recid=", "playlist.png", "Stream this recording into media player.", argList);
             AppendIMDb(target);
-            AppendRecordingAction(target, "edit_recording.html?recid=", "edit.png", "Edit recording");
-            AppendRecordingAction(target, "recordings.html?todel=", "del.png", "Delete this recording from hard disc!");
+            AppendRecordingAction(target, "edit_recording.html?recid=", "edit.png", "Edit recording", argList);
+            AppendRecordingAction(target, "recordings.html?todel=", "del.png", "Delete this recording from hard disc!", argList);
 
           } else {
             target.append("<img src=\"img/transparent.png\" width=\"16px\" height=\"16px\" />");
@@ -702,7 +722,7 @@ namespace vdrlive {
           target.append("</div>");
           if (IsArchived()) {
             target.append("<div class=\"recording_arch\">");
-            AppendEscapedString(target,  ArchiveDescr() );
+            AppendHtmlEscaped(target,  ArchiveDescr().c_str() );
             target.append("</div>");
           }
           target.append("</div></li>");
@@ -1034,5 +1054,69 @@ namespace vdrlive {
 			return n;
 		}
 	}
+
+bool checkNew(RecordingsTreePtr recordingsTree, std::vector<std::string> p) {
+        bool newR = false;
+        RecordingsMap::iterator iter;
+        for (iter = recordingsTree->begin(p); iter != recordingsTree->end(p); iter++) {
+                RecordingsItemPtr recItem = iter->second;
+                if(!recItem->IsDir())
+                        newR |= recItem->Recording()->GetResume() <= 0;
+                else {
+                        std::vector<std::string> pp(p);
+                        pp.push_back(recItem->Name());
+                        newR |= checkNew(recordingsTree, pp);
+                }
+        }
+        return newR;
+}
+
+void addAllRecordings(std::list<RecordingsItemPtr> &RecItems, RecordingsTreePtr &RecordingsTree, std::vector<std::string> &P){
+  for (RecordingsMap::iterator iter = RecordingsTree->begin(P); iter != RecordingsTree->end(P);  ++iter) {
+        RecordingsItemPtr recItem = iter->second;
+        if (!recItem->IsDir()) {
+                RecItems.push_back(recItem);
+        } else {
+                std::vector<std::string> pp(P);
+                pp.push_back(recItem->Name());
+                addAllRecordings(RecItems, RecordingsTree, pp);
+        }
+  }
+}
+
+void addAllDuplicateRecordings(std::list<RecordingsItemPtr> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree){
+  std::vector<std::string> path;
+  std::list<RecordingsItemPtr> recItems;
+  std::list<RecordingsItemPtr>::iterator currentRecItem, recIterUpName, recIterLowName, recIterUpShortText, recIterLowShortText;
+  int numberOfRecordingsWithThisName;
+  bool isSeries;
+
+  addAllRecordings(recItems, RecordingsTree, path);
+  recItems.sort(RecordingsItemPtrCompare::ByAscendingNameDesc);
+
+  for (currentRecItem = recItems.begin(); currentRecItem != recItems.end(); ){
+    recIterLowName = currentRecItem;
+    recIterUpName  = std::upper_bound (currentRecItem , recItems.end(), *currentRecItem, RecordingsItemPtrCompare::ByAscendingName);
+
+    currentRecItem++;
+    if (recIterLowName == recIterUpName ) continue; // there is no recording with this name (internal error)
+    if (currentRecItem == recIterUpName ) continue; // there is only one recording with this name
+    for( numberOfRecordingsWithThisName = 1; currentRecItem != recIterUpName; currentRecItem++, numberOfRecordingsWithThisName++);
+    if (numberOfRecordingsWithThisName > 5) isSeries = true; else isSeries = false;
+    if (isSeries) {
+      for (currentRecItem = recIterLowName; currentRecItem != recIterUpName;){
+        recIterLowShortText = currentRecItem;
+        recIterUpShortText  = std::upper_bound (currentRecItem , recIterUpName, *currentRecItem, RecordingsItemPtrCompare::ByAscendingShortText);
+        currentRecItem++;
+        if (currentRecItem == recIterUpShortText ) continue; // there is only one recording with this short text
+        for(currentRecItem = recIterLowShortText; currentRecItem != recIterUpShortText; currentRecItem++)
+          DuplicateRecItems.push_back(*currentRecItem);
+      }
+    } else { // not a series
+      for(currentRecItem = recIterLowName; currentRecItem != recIterUpName; currentRecItem++)
+        DuplicateRecItems.push_back(*currentRecItem);
+    }
+  }
+}
 
 } // namespace vdrlive
