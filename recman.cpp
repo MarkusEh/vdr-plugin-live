@@ -670,9 +670,10 @@ namespace vdrlive {
           target.append(FormatDateTime(tr("%I:%M %p"), StartTime()) );  // time
           target.append("</div><div class=\"recording_duration\">");
           target.append(DurationUI());
+          target.append("</div>");
 // RecordingErrors, Icon
 #if VDRVERSNUM >= 20505
-          target.append("</div><div class=\"recording_errors\"><img src=\"");
+          target.append("<div class=\"recording_errors\"><img src=\"");
           target.append(LiveSetup().GetThemedLinkPrefixImg() );
           target.append(RecordingErrorsIcon() );
           target.append("\" width = \"16px\" title=\"");

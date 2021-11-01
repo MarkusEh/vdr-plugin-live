@@ -339,9 +339,13 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 <a href="recordings.html?sort=date&filter=<? currentFilter != "" ? currentFilter ?>" /><$ tr("Sort by date") $></a>
 <span class="sep">|</span>
 <a href="recordings.html?sort=duplicates&filter=<? currentFilter != "" ? currentFilter ?>" /><$ tr("Duplicates") $></a>
+<%cpp>
+#if VDRVERSNUM >= 20505
+</%cpp>
 <span class="sep">|</span>
 <a href="recordings.html?sort=errors&filter=<? currentFilter != "" ? currentFilter ?>" /><$ tr("Errors") $></a>
 <%cpp>
+#endif
 #ifdef HAVE_LIBPCRECPP
 </%cpp>
 <span class="sep">|</span>
