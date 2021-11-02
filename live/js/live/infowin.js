@@ -132,7 +132,6 @@ var InfoWin = new Class({
 					'class': this.options.className + this.options.classSuffix,
 					'styles': {
 						'position': 'absolute',
-						'z-index': '100000',
 						'top': '0',
 						'left': '0'
 					}
