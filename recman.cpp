@@ -496,7 +496,6 @@ namespace vdrlive {
 	{
           std::string result;
           result.reserve(name.length());
-          int l;
           const char *name_c = name.c_str();
           while(*name_c) {
 	    wint_t codepoint = getNextUtfCodepoint(name_c);
@@ -693,9 +692,9 @@ namespace vdrlive {
           target.append(Id() );
           target.append("\">" );
           AppendHtmlEscaped(target, Name().c_str() );
-          target.append(" (" );
-          AppendHtmlEscaped(target, NameForSearch().c_str() );
-          target.append(")" );
+//          target.append(" (" );
+//          AppendHtmlEscaped(target, NameForSearch().c_str() );
+//          target.append(")" );
 // Path / folder
           if( *(const char *)Recording()->Folder() && displayFolder) {
              target.append(" (");
