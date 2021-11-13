@@ -9,7 +9,7 @@
 namespace vdrlive {
 
 // to get an updated list of these files do:
-// (cd live; find * -type f ! -wholename '*CVS*' ! -wholename '*themes*' ! -name '*~' ! -name '.*') | awk '{print "\"" $1 "\","}'}
+// (cd live; find * -type f ! -wholename '*CVS*' ! -wholename '*themes*' ! -name '*~' ! -name '.*') | awk '{print "\"" $1 "\","}'
 // and clean out unneeded entries.
 
 	void PreLoadFileCache(std::string const& configDir)
@@ -91,8 +91,12 @@ namespace vdrlive {
 			"img/tv.jpg",
 			"img/arrow_rec.gif",
 			"img/favicon.ico",
+			"img/sd.png",
+			"img/hd.png",
+			"img/RecordingErrors.png",
 			"js/live/vdr_status.js",
 			"js/live/infowin.js",
+			"js/live/header.js",
 			"js/live/liveajax.js",
 			"js/live/hinttips.js",
 			"js/live/pageenhance.js",

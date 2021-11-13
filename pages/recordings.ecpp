@@ -232,9 +232,9 @@ for (iter = recordingsTree->begin(path); iter != end; ++iter) {
 	}
 }
 if (currentSort == "namedesc")
-	recItems.sort(RecordingsItemPtrCompare::ByDescendingNameDesc);
+	recItems.sort(RecordingsItemPtrCompare::ByDescendingNameDescSort);
 else if (currentSort == "nameasc")
-	recItems.sort(RecordingsItemPtrCompare::ByAscendingNameDesc);
+	recItems.sort(RecordingsItemPtrCompare::ByAscendingNameDescSort);
 for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 	RecordingsItemPtr recItem = *recIter;
 	counter++;
@@ -299,9 +299,9 @@ if (currentSort == "dateasc")
 else if (currentSort == "datedesc")
 	recItems.sort(RecordingsItemPtrCompare::ByDescendingDate);
 else if (currentSort == "namedesc")
-	recItems.sort(RecordingsItemPtrCompare::ByDescendingNameDesc);
+	recItems.sort(RecordingsItemPtrCompare::ByDescendingNameDescSort);
 else if (currentSort == "nameasc")
-	recItems.sort(RecordingsItemPtrCompare::ByAscendingNameDesc);
+	recItems.sort(RecordingsItemPtrCompare::ByAscendingNameDescSort);
 else if (currentSort == "errorsasc" || currentSort == "errorsdesc")
 	recItems.sort(RecordingsItemPtrCompare::ByDescendingRecordingErrors);
 

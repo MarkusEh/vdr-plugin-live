@@ -49,13 +49,24 @@ namespace cxxtools
 
 
 namespace vdrlive {
+	extern const std::locale g_locale;
+	extern const std::collate<char>& g_collate_char;
+
         void AppendHtmlEscaped(std::string &target, const char* s);
         void AppendHtmlEscapedAndCorrectNonUTF8(std::string &target, const char *str);
+        void AppendCorrectNonUTF8(std::string &target, const char* s);
 
-        std::string CorrectNonUTF8(const char *str);
+        wint_t getNextUtfCodepoint(const char *&p);
+        int utf8CodepointIsValid(const char *p); // In case of invalid UTF8, return 0. Otherwise: Number of characters
+        wint_t Utf8ToUtf32(const char *&p, int len); // assumes, that uft8 validity checks have already been done. len must be provided. call utf8CodepointIsValid first
+	void AppendUtfCodepoint(std::string &target, wint_t codepoint);
 
+
+
+        void AppendDuration(std::string &target, char const* format, int hours, int minutes );
 	std::string FormatDuration( char const* format, int hours, int minutes );
 
+        void AppendDateTime(std::string &target, char const* format, time_t time );
 	std::string FormatDateTime( char const* format, time_t time );
 
 	std::string StringReplace( std::string const& text, std::string const& substring, std::string const& replacement );
@@ -113,7 +124,7 @@ namespace vdrlive {
 	}
 
 	template<typename From>
-	std::string ConvertToString( From const& from, std::locale const& loc = std::locale() )
+	std::string ConvertToString( From const& from, std::locale const& loc = g_locale )
 	{
 		std::ostringstream parser;
 		parser.imbue( loc );

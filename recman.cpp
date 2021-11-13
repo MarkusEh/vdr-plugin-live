@@ -328,42 +328,22 @@ namespace vdrlive {
             m_short_text(ShortText),
             m_description(Description)
            {  }
-        char ShortTextDescription::getNextCharShortText() {
-          if (!m_short_text ||  !m_short_text[m_counter] ) {
-             m_in_short_text = false;
-             m_counter = 0;
-             return 0;
-          }
-          return m_short_text[m_counter ++];
-        }
-        char ShortTextDescription::getNextCharDescription() {
-          if (!m_description ||  !m_description[m_counter] ) return 0;
-          return m_description[m_counter ++];
-        }
-        char ShortTextDescription::getNextChar() {
-          char result;
-          if( m_in_short_text) result = getNextCharShortText();
-          if(!m_in_short_text) result = getNextCharDescription();
-          return result;
-        }
-        char ShortTextDescription::getNextNonPunctChar() {
-           char result;
+        wint_t ShortTextDescription::getNextNonPunctChar() {
+           wint_t result;
            do {
-              result = getNextChar();
-           } while (result && ispunct(result));
-           return tolower(result);
+             if( m_short_text && *m_short_text ) result = getNextUtfCodepoint(m_short_text);
+				            else result = getNextUtfCodepoint(m_description);
+           } while (result && iswpunct(result));
+           return towlower(result);
         }
-
 
         int RecordingsItemPtrCompare::Compare2(int &numEqualChars, const RecordingsItemPtr & first, const RecordingsItemPtr & second) {
-          numEqualChars = 0;
-          int i = first->NameForCompare().compare(second->NameForCompare() );
-          if(i != 0) return i;
 // compare short text & description
+          numEqualChars = 0;
           ShortTextDescription chfirst (first ->ShortText() , first ->Description() );
           ShortTextDescription chsecond(second->ShortText() , second->Description() );
-          char flc;
-          char slc;
+          wint_t flc;
+          wint_t slc;
           do {
             flc = chfirst.getNextNonPunctChar();
             slc = chsecond.getNextNonPunctChar();
@@ -372,9 +352,6 @@ namespace vdrlive {
             ++numEqualChars;
           } while ( flc && slc );
           --numEqualChars;
-
-          if (slc ) return -1;
-          if (flc ) return  1;
           return 0;
         }
 
@@ -424,7 +401,7 @@ namespace vdrlive {
 	int RecordingsItemPtrCompare::Compare(int &numEqualChars, const RecordingsItemPtr &first, const RecordingsItemPtr &second)
 	{
                 numEqualChars = 0;
-                int i = first->NameForCompare().compare(second->NameForCompare() );
+                int i = first->NameForSearch().compare(second->NameForSearch() );
                 if(i != 0) return i;
              // name is identical, compare short text
                 i = RecordingsItemPtrCompare::compareLC(numEqualChars, first->ShortText(), second->ShortText() );
@@ -435,40 +412,46 @@ namespace vdrlive {
 
 	bool RecordingsItemPtrCompare::ByAscendingName(const RecordingsItemPtr & first, const RecordingsItemPtr & second)  // return first < second
 	{
-           return first->NameForCompare().compare(second->NameForCompare() ) < 0;
+           return first->NameForSearch().compare(second->NameForSearch() ) < 0;
 	}
 
 	bool RecordingsItemPtrCompare::ByAscendingNameShortText(const RecordingsItemPtr & first, const RecordingsItemPtr & second)  // return first < second
 	{
-          int numEqualChars = 0;
-          int i = first->NameForCompare().compare(second->NameForCompare() );
+          int i = first->NameForSearch().compare(second->NameForSearch() );
           if(i != 0) return i < 0;
 
-          return RecordingsItemPtrCompare::compareLC(numEqualChars, first->ShortText(), second->ShortText() ) < 0;
+          return RecordingsItemPtrCompare::compareLC(i, first->ShortText(), second->ShortText() ) < 0;
 	}
 
 	bool RecordingsItemPtrCompare::ByAscendingNameDesc(const RecordingsItemPtr & first, const RecordingsItemPtr & second)  // return first < second
 	{
-           int i = 0;
+           int i = first->NameForSearch().compare(second->NameForSearch() );
+           if(i != 0) return i < 0;
            return RecordingsItemPtrCompare::Compare2(i, first, second) < 0;
 	}
 
-	bool RecordingsItemPtrCompare::ByDescendingNameDesc(const RecordingsItemPtr & first, const RecordingsItemPtr & second)  // return first > second
+	bool RecordingsItemPtrCompare::ByAscendingNameDescSort(const RecordingsItemPtr & first, const RecordingsItemPtr & second)  // return first < second
+// used for sort
 	{
-           return RecordingsItemPtrCompare::ByAscendingNameDesc(second, first);
+           int i = first->NameForSort().compare(second->NameForSort() );
+           if(i != 0) return i < 0;
+           return RecordingsItemPtrCompare::Compare2(i, first, second) < 0;
+	}
+
+	bool RecordingsItemPtrCompare::ByDescendingNameDescSort(const RecordingsItemPtr & first, const RecordingsItemPtr & second)  // return first > second
+// used for sort
+	{
+           return RecordingsItemPtrCompare::ByAscendingNameDescSort(second, first);
 	}
         bool RecordingsItemPtrCompare::ByDescendingRecordingErrors(const RecordingsItemPtr & first, const RecordingsItemPtr & second){
            return first->RecordingErrors() >= second->RecordingErrors();
         }
 
-        void RecordingsItemPtrCompare::getNameForCompare(std::string &NameForCompare, const std::string &Name){
+        std::string RecordingsItemPtrCompare::getNameForSort(const std::string &Name){
 // remove punctuation characters at the beginning of the string
             unsigned int start;
             for(start = 0; start < Name.length() && ispunct( Name[ start ] ); start++ );
-            NameForCompare = Name;
-            NameForCompare.erase(0, start);
-// convert to lower case
-            transform(NameForCompare.begin(), NameForCompare.end(), NameForCompare.begin(), ::tolower);
+            return g_collate_char.transform(Name.data()+start, Name.data()+Name.length());
         }
 
         int RecordingsItemPtrCompare::compareLC(int &numEqualChars, const char *first, const char *second) {
@@ -478,16 +461,16 @@ namespace vdrlive {
           if (se) return  1;
           if (fe) return -1;
 // compare strings case-insensitive
-          int len;
-          for(len = 0; first[len] && second[len] ; ++len) {
-            int flc = tolower(first[len]);
-            int slc = tolower(second[len]);
-            if ( flc < slc ) { numEqualChars += len; return -1; }
-            if ( flc > slc ) { numEqualChars += len; return  1; }
+          for(; *first && *second; ) {
+//          if (*first == *second) { first++; second++; numEqualChars++; continue; }
+            wint_t  flc = towlower(getNextUtfCodepoint(first));
+            wint_t  slc = towlower(getNextUtfCodepoint(second));
+            if ( flc < slc ) return -1;
+            if ( flc > slc ) return  1;
+            numEqualChars++;
           }
-          numEqualChars += len;
-          if (second[len] ) return -1;
-          if (first [len] ) return  1;
+          if (*second ) return -1;
+          if (*first  ) return  1;
           return 0;
         }
 
@@ -498,14 +481,28 @@ namespace vdrlive {
 	RecordingsItem::RecordingsItem(std::string const & name, RecordingsItemPtr parent) :
 		m_level((parent != NULL) ? parent->Level() + 1 : 0),
 		m_name(name),
+                m_name_for_sort(RecordingsItemPtrCompare::getNameForSort(name)),
+                m_name_for_search(RecordingsItem::GetNameForSearch(name)),
 		m_entries(),
 		m_parent(parent)
 	{
-                RecordingsItemPtrCompare::getNameForCompare(m_name_for_compare, name);
 	}
 
 	RecordingsItem::~RecordingsItem()
 	{
+	}
+
+        std::string RecordingsItem::GetNameForSearch(std::string const & name)
+	{
+          std::string result;
+          result.reserve(name.length());
+          int l;
+          const char *name_c = name.c_str();
+          while(*name_c) {
+	    wint_t codepoint = getNextUtfCodepoint(name_c);
+            if(!iswpunct(codepoint) ) AppendUtfCodepoint(result, towlower(codepoint));
+          }
+          return result;
 	}
 
 
@@ -576,28 +573,27 @@ namespace vdrlive {
         const int RecordingsItemRec::SD_HD()
         {
            if ( m_video_SD_HD >= 0 ) return m_video_SD_HD;
-           int video_aspect_ratio = -1;   // 0 is 4:3, 1 is 16:9, 2 is > 16:9
            const cComponents *components = RecInfo()->Components();
            if(components) for( int ix = 0; ix < components->NumComponents(); ix++) {
              tComponent * component = components->Component(ix);
              if (component->stream == 1 || component->stream == 5) {
                switch (component->type) {
                  case 1:
-                 case 5: m_video_SD_HD = 0; video_aspect_ratio = 0; break;
+                 case 5: m_video_SD_HD = 0; break;
                  case 2:
                  case 3:
                  case 6:
-                 case 7: m_video_SD_HD = 0; video_aspect_ratio = 1; break;
+                 case 7: m_video_SD_HD = 0; break;
                  case 4:
-                 case 8: m_video_SD_HD = 0; video_aspect_ratio = 2; break;
+                 case 8: m_video_SD_HD = 0; break;
                  case 9:
-                 case 13: m_video_SD_HD = 1; video_aspect_ratio = 0; break;
+                 case 13: m_video_SD_HD = 1; break;
                  case 10:
                  case 11:
                  case 14:
-                 case 15: m_video_SD_HD = 1; video_aspect_ratio = 1; break;
+                 case 15: m_video_SD_HD = 1; break;
                  case 12:
-                 case 16: m_video_SD_HD = 1; video_aspect_ratio = 2; break;
+                 case 16: m_video_SD_HD = 1; break;
                }
              }
            }
@@ -663,13 +659,13 @@ namespace vdrlive {
             }
 // recording_spec: Day, time & duration
           target.append("</div>\n<div class=\"recording_spec\"><div class=\"recording_day\">");
-          target.append(FormatDateTime(tr("%a,"), StartTime()));  // day of week
+          AppendDateTime(target, tr("%a,"), StartTime());  // day of week
           target.append(" ");
-          target.append(FormatDateTime(tr("%b %d %y"), StartTime()) );  // date
+	  AppendDateTime(target, tr("%b %d %y"), StartTime());  // date
           target.append(" ");
-          target.append(FormatDateTime(tr("%I:%M %p"), StartTime()) );  // time
+	  AppendDateTime(target, tr("%I:%M %p"), StartTime() );  // time
           target.append("</div><div class=\"recording_duration\">");
-          target.append(DurationUI());
+          if(Duration() >= 0) AppendDuration(target, tr("(%d:%02d)"), Duration() / 60, Duration() % 60);
           target.append("</div>");
 // RecordingErrors, Icon
 #if VDRVERSNUM >= 20505
@@ -697,6 +693,9 @@ namespace vdrlive {
           target.append(Id() );
           target.append("\">" );
           AppendHtmlEscaped(target, Name().c_str() );
+          target.append(" (" );
+          AppendHtmlEscaped(target, NameForSearch().c_str() );
+          target.append(")" );
 // Path / folder
           if( *(const char *)Recording()->Folder() && displayFolder) {
              target.append(" (");

@@ -7,6 +7,7 @@
 #include "live.h"
 
 #include "setup.h"
+#include "tools.h"
 #include "status.h"
 #include "tasks.h"
 #include "timers.h"
@@ -20,6 +21,9 @@ const char *Plugin::DESCRIPTION    = LIVESUMMARY;
 
 std::string Plugin::m_configDirectory;
 std::string Plugin::m_resourceDirectory;
+
+const std::locale g_locale = std::locale("");
+const std::collate<char>& g_collate_char = std::use_facet<std::collate<char> >(g_locale);
 
 cUsers Users;
 

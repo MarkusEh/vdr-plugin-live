@@ -150,15 +150,10 @@ namespace vdrlive {
         {
               public:
                    ShortTextDescription(const char * ShortText, const char * Description);
-                   char getNextChar();
-                   char getNextNonPunctChar();
+                   wint_t getNextNonPunctChar();
               private:
-                   char getNextCharShortText();
-                   char getNextCharDescription();
                    const char * m_short_text;
                    const char * m_description;
-                   bool m_in_short_text = true;
-                   int m_counter = 0;
         };
 
 	/**
@@ -172,9 +167,10 @@ namespace vdrlive {
 			static bool ByAscendingName(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
 			static bool ByAscendingNameShortText(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
 			static bool ByAscendingNameDesc(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
-			static bool ByDescendingNameDesc(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
+			static bool ByAscendingNameDescSort(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
+			static bool ByDescendingNameDescSort(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
 			static bool ByDescendingRecordingErrors(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
-			static void getNameForCompare(std::string &NameForCompare, const std::string &Name);
+			static std::string getNameForSort(const std::string &Name);
                         static int compareLC(int &numEqualChars, const char *first, const char *second); // as std::compare, but compare lower case
                         static int Compare(int &numEqualChars, const RecordingsItemPtr &first, const RecordingsItemPtr &second);
                         static int Compare2(int &numEqualChars, const RecordingsItemPtr &first, const RecordingsItemPtr &second);
@@ -202,7 +198,8 @@ namespace vdrlive {
 			virtual bool IsDir() const = 0;
 			virtual long Duration() const = 0;
 			virtual const std::string& Name() const { return m_name; }
-			virtual const std::string& NameForCompare() const { return m_name_for_compare; }
+			virtual const std::string& NameForSort() const { return m_name_for_sort; }
+			virtual const std::string& NameForSearch() const { return m_name_for_search; }
                         virtual const char * ShortText() const { return RecInfo()? RecInfo()->ShortText():0; }
                         virtual const char * Description() const { return RecInfo()? RecInfo()->Description():0; }
 			virtual const std::string Id() const = 0;
@@ -217,7 +214,6 @@ namespace vdrlive {
            // To display the recuring on the UI
                         virtual const int IsArchived() const { return 0 ; }
                         virtual const std::string ArchiveDescr() const { return "" ; }
-                        virtual const std::string DurationUI() const { return "" ; }
                         virtual const char *NewR() const { return "" ; }
                         virtual const int RecordingErrors() const { return -1; }
                         virtual const char *RecordingErrorsIcon() const { return ""; }
@@ -227,9 +223,11 @@ namespace vdrlive {
                         virtual void AppendasHtml(std::string &target, bool displayFolder, const std::string argList) { }
 
 		private:
+			std::string GetNameForSearch(std::string const & name);
 			int m_level;
-			std::string m_name;
-			std::string m_name_for_compare;
+			const std::string m_name;
+			const std::string m_name_for_sort;
+			const std::string m_name_for_search;
 			RecordingsMap m_entries;
 			RecordingsItemWeakPtr m_parent;
 	};
@@ -279,7 +277,6 @@ namespace vdrlive {
            // To display the recuring on the UI
                         virtual const int IsArchived() const { return m_isArchived ; }
                         virtual const std::string ArchiveDescr() const { return RecordingsManager::GetArchiveDescr(m_recording) ; }
-                        virtual const std::string DurationUI() const { return Duration() < 0 ? "" : FormatDuration(tr("(%d:%02d)"), Duration() / 60, Duration() % 60); }
                         virtual const char *NewR() const { return LiveSetup().GetMarkNewRec() && (Recording()->GetResume() <= 0) ? "_new" : "" ; }
 #if VDRVERSNUM >= 20505
                         virtual const int RecordingErrors() const { return RecInfo()->Errors(); }
