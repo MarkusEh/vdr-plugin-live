@@ -121,6 +121,14 @@ You can also specifiy this parameter via commandline:
 Additional SSL options are available now. See "How to make LIVE listen
 for ssl connections" section below on hints how to setup SSL.
 
+To display images, you can use:
+
+  -e <...>  --epgimages=/path/to/epgimages		use EPG images created by plugins like tvm2vdr
+  -t <...>  --tvscraperimages=/path/to/tvscraperimages	use images created by tvscraper
+Example:
+  --tvscraperimages=/var/cache/vdr/plugins/tvscraper
+
+
 The rest of the parameters can be adjusted in VDR's OSD or in the web
 interface.
 
