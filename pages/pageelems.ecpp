@@ -358,6 +358,7 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 	std::string long_descr;
 	std::string filename;
 	std::string archived;
+ 	std::string epgImage;
 	int elapsed = -1;
 </%args>
 	<div class="epg_description" id="<$ (boxId) $>">
@@ -386,6 +387,11 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 	for(std::list<std::string>::iterator it = images.begin(); it != images.end(); ++it ) {
 </%cpp>
 						<img src="/epgimages/<$ *it $>" class="epg_image"/>
+<%cpp>
+	}
+        if(!epgImage.empty() ) {
+</%cpp>
+	 <img src="/tvscraper/<$ epgImage $>" class="epg_image"/>
 <%cpp>
 	}
 

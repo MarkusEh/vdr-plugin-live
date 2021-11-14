@@ -67,6 +67,7 @@ bool Setup::ParseCommandLine( int argc, char* argv[] )
 			{ "ip",   required_argument, NULL, 'i' },
 			{ "log",  required_argument, NULL, 'l' },
 			{ "epgimages",  required_argument, NULL, 'e' },
+			{ "tvscraperimages",  required_argument, NULL, 't' },
 			{ "sslport", required_argument, NULL, 's' },
 			{ "cert", required_argument, NULL, 'c' },
 			{ "key", required_argument, NULL, 'k' },
@@ -80,6 +81,9 @@ bool Setup::ParseCommandLine( int argc, char* argv[] )
 		case 'i': m_serverIps.push_back( optarg ); break;
 		case 'l': m_tntnetloglevel = optarg; break;
 		case 'e': m_epgimagedir = optarg; break;
+		case 't': m_tvscraperimagedir = optarg;
+			if(!m_tvscraperimagedir.empty() && m_tvscraperimagedir[m_tvscraperimagedir.length()-1] != '/') m_tvscraperimagedir += "/";
+		 	break;
 		case 's': m_serverSslPort = atoi( optarg ); break;
 		case 'c': m_serverSslCert = optarg; break;
 		case 'k': m_serverSslKey = optarg; break;
@@ -106,7 +110,8 @@ char const* Setup::CommandLineHelp() const
 				<< "  -c CERT,  --cert=CERT        full path to a custom ssl certificate file\n"
 				<< "  -k KEY,  --key=KEY           full path to a custom ssl certificate key file\n"
 				<< "  -l level, --log=level        log level for tntnet (values: WARN, ERROR, INFO, DEBUG, TRACE)\n"
-				<< "  -e <dir>, --epgimages=<dir>  directory for epgimages\n";
+				<< "  -e <dir>, --epgimages=<dir>  directory for epgimages\n"
+				<< "  -t <dir>, --tvscraperimages=<dir> directory for tvscraper images\n";
 		m_helpString = builder.str();
 	}
 	return m_helpString.c_str();

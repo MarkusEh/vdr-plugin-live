@@ -9,6 +9,7 @@
 #include <glob.h>
 #include <cassert>
 
+#include <vdr/plugin.h>
 #include <vdr/player.h>
 
 #ifndef TVM2VDR_PL_WORKAROUND
@@ -394,6 +395,37 @@ namespace vdrlive
 			}
 			return found;
 		}
+
+		class cTvMedia {
+		public:
+		    std::string path;
+		    int width;
+		    int height;
+		};
+		class ScraperGetPoster {
+		public:
+		// in
+		    const cEvent *event;             // check type for this event
+		    const cRecording *recording;     // or for this recording
+		//out
+		    cTvMedia poster;
+		};
+
+		std::string PosterTvscraper(const cEvent *event, const cRecording *recording)
+		{
+		  if (LiveSetup().GetTvscraperImageDir().empty() ) return "";
+		  static cPlugin *pTVScraper = cPluginManager::GetPlugin("tvscraper");
+		  if (pTVScraper) {
+		    ScraperGetPoster call;
+		    call.event = event;
+		    call.recording = recording;
+		    if (pTVScraper->Service("GetPoster", &call)) {
+                      if(call.poster.path.compare(0, LiveSetup().GetTvscraperImageDir().length(), LiveSetup().GetTvscraperImageDir()) == 0)
+			return call.poster.path.substr(LiveSetup().GetTvscraperImageDir().length());
+		    }
+		  }
+		  return "";
+                }
 
 		std::list<std::string> EpgImages(std::string const &epgid)
 		{

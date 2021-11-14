@@ -137,6 +137,23 @@ namespace vdrlive {
 			   "image/$3");
 		// deprecated: file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) $2@" << std::endl;
 
+		if (!LiveSetup().GetTvscraperImageDir().empty()) {
+		// Epg images from tvscrapper: Movies
+			MapUrl(app,
+				   "^/tvscraper/movies/([^/]*)\\.([^./]+)",
+				   "content",
+				   LiveSetup().GetTvscraperImageDir() + "movies",
+				   "/$1.$2",
+				   "image/$2");
+		// Epg images from tvscrapper: Series
+			MapUrl(app,
+				   "^/tvscraper/series/([^/]*)/([^/]*)\\.([^./]+)",
+				   "content",
+				   LiveSetup().GetTvscraperImageDir() + "series",
+				   "/$1/$2.$3",
+				   "image/$3");
+		}
+
 		// Epg images
 		std::string const epgImgPath(LiveSetup().GetEpgImageDir());
 		if (!epgImgPath.empty()) {

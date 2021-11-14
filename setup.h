@@ -11,8 +11,8 @@
 
 #include <vdr/menuitems.h>
 
-#define LIVEVERSION "3.1.2"
-#define LIVEVERSNUM 30102
+#define LIVEVERSION "3.1.3"
+#define LIVEVERSNUM 30103
 #define LIVESUMMARY trNOOP("Live Interactive VDR Environment")
 
 namespace vdrlive {
@@ -70,6 +70,7 @@ class Setup
 		std::string const GetStreamVideoOpt3() const { return m_streamVopt3; }
 		bool GetShowIMDb() const { return m_showIMDb != 0; }
 		std::string const GetEpgImageDir() { return m_epgimagedir; }
+		std::string const GetTvscraperImageDir() { return m_tvscraperimagedir; }
 		bool GetShowChannelsWithoutEPG() const { return m_showChannelsWithoutEPG != 0; }
 
 		void SetLastChannel(int lastChannel) { m_lastChannel = lastChannel; }
@@ -126,6 +127,7 @@ class Setup
 		static std::string m_configDirectory;
 		IpList m_serverIps;
 		std::string m_epgimagedir;
+		std::string m_tvscraperimagedir;
 
 		// setup options
 		int m_lastChannel;

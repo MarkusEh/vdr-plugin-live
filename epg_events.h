@@ -56,6 +56,8 @@ namespace vdrlive
 		/**
 		 *  Return a list of EpgImage paths for a given epgid.
 		 */
+
+                std::string PosterTvscraper(const cEvent *event, const cRecording *recording);
 		std::list<std::string> EpgImages(std::string const &epgid);
 
 		/**
@@ -121,6 +123,7 @@ namespace vdrlive
 
 			virtual time_t GetEndTime() const = 0;
 
+			virtual cEvent const *Event() const { return NULL; }
 		private:
 			std::string m_eventId;
 			std::string m_caption;
@@ -188,6 +191,7 @@ namespace vdrlive
 
 			virtual std::string const FileName() const { return ""; }
 
+			virtual cEvent const *Event() const { return m_event; }
 		private:
 			cEvent const * m_event;
 	};
