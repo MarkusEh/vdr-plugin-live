@@ -10,8 +10,8 @@ PLUGIN := live
 ### The version number of this plugin (taken from the main source file):
 VERSION := $(shell grep '\#define LIVEVERSION ' setup.h | awk '{ print $$3 }' | sed -e 's/[";]//g')
 
-### Check for libpcre c++ wrapper
-HAVE_LIBPCRECPP := $(shell pcre-config --libs-cpp)
+### Check for libpcre2
+HAVE_PCRE2 = $(shell if pkg-config --exists libpcre2-8; then echo "1"; else echo "0"; fi )
 
 ### The directory environment:
 # Use package data if installed...otherwise assume we're under the VDR source directory:
@@ -56,10 +56,10 @@ CXXTOOLVER = $(shell cxxtools-config --version | sed -e's/\.//g' | sed -e's/pre.
 
 ### Optional configuration features
 PLUGINFEATURES :=
-ifneq ($(HAVE_LIBPCRECPP),)
-	PLUGINFEATURES += -DHAVE_LIBPCRECPP
-	CXXFLAGS       += $(shell pcre-config --cflags)
-	LIBS           += $(HAVE_LIBPCRECPP)
+ifeq ($(HAVE_PCRE2),1)
+	PLUGINFEATURES += -DHAVE_PCRE2
+	CXXFLAGS       += $(shell pkg-config --cflags libpcre2-8)
+	LIBS           += $(shell pkg-config --libs   libpcre2-8)
 endif
 
 # -Wno-deprecated-declarations .. get rid of warning: ‘template<class> class std::auto_ptr’ is deprecated
@@ -90,7 +90,7 @@ VERSIONSUFFIX = gen_version_suffix.h
 PLUGINOBJS := $(PLUGIN).o thread.o tntconfig.o setup.o i18n.o timers.o \
               tools.o recman.o tasks.o status.o epg_events.o epgsearch.o \
               grab.o md5.o filecache.o livefeatures.o preload.o timerconflict.o \
-              users.o osd_status.o ffmpeg.o
+              users.o osd_status.o ffmpeg.o StringMatch.o
 PLUGINSRCS := $(patsubst %.o,%.cpp,$(PLUGINOBJS))
 
 WEB_LIB_PAGES := libpages.a
