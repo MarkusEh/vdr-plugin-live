@@ -91,7 +91,7 @@ namespace vdrlive {
 			"img/tv.jpg",
 			"img/arrow_rec.gif",
 			"img/favicon.ico",
-			"img/playlist.pn",
+			"img/playlist.png",
 			"img/sd.png",
 			"img/hd.png",
 			"img/RecordingErrors.png",
