@@ -522,11 +522,11 @@ namespace vdrlive {
 			command.append(std::to_string(timerData.id));
 			if (toggleTimer->HasFlags(tfActive)) {
 				dsyslog("live: DoToggleTimer() timer is active");
-				command.append("off ");
+				command.append(" off");
 			}
 			else {
 				dsyslog("live: DoToggleTimer() timer is not active");
-				command.append("on ");
+				command.append(" on");
 			}
 			cStringList response;
 			dsyslog("live: DoToggleTimer svdrp command '%s'", command.c_str());
