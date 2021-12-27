@@ -158,6 +158,9 @@ If neither the default nor the custom certificate (given by the
 commandline option) could be found, LIVE will only start the default
 HTTP Listener (default: 8008)
 
+If you want do disable the SslListener for any reason, specify ssl port
+number 0 with the commandline option.
+
 Note: Since the gnutls SslListener was broken in Tntnet versions prior
 to SVN revision 1035 you will have to recompile Tntnet with
 "./configure --with-ssl=openssl" to make it work. Alternatively
@@ -169,6 +172,7 @@ SSL Commandline options
 
   -s PORT,  --sslport=PORT     use PORT to listen for incoming ssl connections
                                (default: 8443)
+                               use PORT 0 to disable incoming ssl connections
   -c CERT,  --cert=CERT        path to a custom ssl certificate file
   			       (default: $CONFIGDIR/live.pem)
   -k KEY,   --cert=CERT        path to a custom ssl certificate key file

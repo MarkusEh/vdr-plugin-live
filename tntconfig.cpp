@@ -246,24 +246,29 @@ namespace vdrlive {
 		}
 
 		int s_port = LiveSetup().GetServerSslPort();
-		std::string s_cert = LiveSetup().GetServerSslCert();
-		std::string s_key = LiveSetup().GetServerSslKey();
+		if (s_port > 0) {
+			std::string s_cert = LiveSetup().GetServerSslCert();
+			std::string s_key = LiveSetup().GetServerSslKey();
 
-		if (s_cert.empty()) {
-			s_cert = configDir + "/live.pem";
-		}
+			if (s_cert.empty()) {
+				s_cert = configDir + "/live.pem";
+			}
 
-		if (s_key.empty()) {
-			s_key = configDir + "/live-key.pem";
-		}
+			if (s_key.empty()) {
+				s_key = configDir + "/live-key.pem";
+			}
 
-		if (std::ifstream( s_cert.c_str() ) && std::ifstream( s_key.c_str() ) ) {
-			for ( Setup::IpList::const_iterator ip = ips.begin(); ip != ips.end(); ++ip ) {
-				app.sslListen(s_cert, s_key, *ip, s_port);
+			if (std::ifstream( s_cert.c_str() ) && std::ifstream( s_key.c_str() ) ) {
+				for ( Setup::IpList::const_iterator ip = ips.begin(); ip != ips.end(); ++ip ) {
+					app.sslListen(s_cert, s_key, *ip, s_port);
+				}
+			}
+			else {
+				esyslog( "live: ERROR: Unable to load cert/key (%s / %s): %s", s_cert.c_str(), s_key.c_str(), strerror( errno ) );
 			}
 		}
 		else {
-			esyslog( "live: ERROR: Unable to load cert/key (%s / %s): %s", s_cert.c_str(), s_key.c_str(), strerror( errno ) );
+			isyslog( "live: INFO: ssl port %d specified, no ssl webserver will be started", s_port);
 		}
 	}
 

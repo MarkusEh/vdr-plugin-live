@@ -162,7 +162,7 @@ bool Setup::CheckServerPort()
 
 bool Setup::CheckServerSslPort()
 {
-	if ( m_serverSslPort <= 0 || m_serverSslPort > std::numeric_limits<uint16_t>::max() ) {
+	if ( m_serverSslPort < 0 || m_serverSslPort > std::numeric_limits<uint16_t>::max() ) {
 		esyslog( "live: ERROR: server ssl port %d is not a valid port number", m_serverSslPort );
 		std::cerr << "ERROR: live server ssl port " << m_serverSslPort << " is not a valid port number" << std::endl;
 		return false;
