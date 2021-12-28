@@ -6,11 +6,9 @@
 #include <users.h>
 #include <recman.h>
 #include <tntconfig.h>
-
-#ifdef HAVE_LIBPCRECPP
-#include <pcrecpp.h>
+#ifdef HAVE_PCRE2
+#include <StringMatch.h>
 #endif
-
 #include <vdr/videodir.h>
 
 #define MB_PER_MINUTE 25.75 // this is just an estimate!
@@ -315,9 +313,12 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
   recoring_item.clear();
   recItem->AppendasHtml(recoring_item, currentFlat == "true", argList);
   max_length_recoring_item = std::max(max_length_recoring_item, recoring_item.length() );
-#ifdef HAVE_LIBPCRECPP
-		pcrecpp::RE re(filter.c_str(), pcrecpp::UTF8().set_caseless(true));
-		if (filter.empty() || re.PartialMatch(recItem->Name()) || re.PartialMatch(recItem->ShortText()?recItem->ShortText() : "" ) || re.PartialMatch(recItem->Description()?recItem->Description() : ""))
+#ifdef HAVE_PCRE2
+  StringMatch sm(filter);
+  if (filter.empty() or
+      sm.Matches(recItem->Name()) or
+      sm.Matches(recItem->ShortText()?recItem->ShortText() : "" ) or
+      sm.Matches(recItem->Description()?recItem->Description() : ""))
 #endif
 		{
 </%cpp>
@@ -346,7 +347,7 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 <a href="recordings.html?sort=errors&filter=<? currentFilter != "" ? currentFilter ?>" /><$ tr("Errors") $></a>
 <%cpp>
 #endif
-#ifdef HAVE_LIBPCRECPP
+#ifdef HAVE_PCRE2
 </%cpp>
 <span class="sep">|</span>
 <span class="label bold"><$ tr("Filter") $>:&nbsp;<input type="text" name="filter" value="<$ currentFilter $>" id="filter" onchange="filterRecordings(this)" />&nbsp;<& tooltip.help text=(tr("Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE).")) &></span>
