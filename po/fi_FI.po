@@ -954,6 +954,12 @@ msgstr "Interaktiivinen VDR-ympäristö"
 msgid "No EPG information available"
 msgstr "Ohjelmatietoja ei saatavilla"
 
+msgid "Duplicates"
+msgstr "Kaksoiskappaleet"
+
+msgid "Errors"
+msgstr "Virheet"
+
 #~ msgid "VLC media URL"
 #~ msgstr "VLC:n URL"
 
