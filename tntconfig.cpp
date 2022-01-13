@@ -138,14 +138,35 @@ namespace vdrlive {
 		// deprecated: file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) $2@" << std::endl;
 
 		if (!LiveSetup().GetTvscraperImageDir().empty()) {
-		// Epg images from tvscrapper: Movies
+		// Epg images from tvscraper: Movies
 			MapUrl(app,
 				   "^/tvscraper/movies/([^/]*)\\.([^./]+)",
 				   "content",
 				   LiveSetup().GetTvscraperImageDir() + "movies",
 				   "/$1.$2",
 				   "image/$2");
-		// Epg images from tvscrapper: Series
+		// Epg images from tvscraper: tv
+			MapUrl(app,
+				   "^/tvscraper/movies/tv/([^/]*)/([^/]*)\\.([^./]+)",
+				   "content",
+				   LiveSetup().GetTvscraperImageDir() + "movies/tv",
+				   "/$1/$2.$3",
+				   "image/$3");
+		// Epg images from tvscraper: tv season
+			MapUrl(app,
+				   "^/tvscraper/movies/tv/([^/]*)/([^/]*)/([^/]*)\\.([^./]+)",
+				   "content",
+				   LiveSetup().GetTvscraperImageDir() + "movies/tv",
+				   "/$1/$2/$3.$4",
+				   "image/$4");
+		// Epg images from tvscraper: tv episode
+			MapUrl(app,
+				   "^/tvscraper/movies/tv/([^/]*)/([^/]*)/([^/]*)/([^/]*)\\.([^./]+)",
+				   "content",
+				   LiveSetup().GetTvscraperImageDir() + "movies/tv",
+				   "/$1/$2/$3/$4.$5",
+				   "image/$5");
+		// Epg images from tvscraper: Series
 			MapUrl(app,
 				   "^/tvscraper/series/([^/]*)/([^/]*)\\.([^./]+)",
 				   "content",

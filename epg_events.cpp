@@ -414,12 +414,15 @@ namespace vdrlive
 		std::string PosterTvscraper(const cEvent *event, const cRecording *recording)
 		{
 		  if (LiveSetup().GetTvscraperImageDir().empty() ) return "";
-		  static cPlugin *pTVScraper = cPluginManager::GetPlugin("tvscraper");
-		  if (pTVScraper) {
+                  static cPlugin *pScraper = cPluginManager::GetPlugin("scraper2vdr");
+                  if (!pScraper ) // if it doesn't exit, try tvscraper
+                    pScraper = cPluginManager::GetPlugin("tvscraper");
+
+		  if (pScraper) {
 		    ScraperGetPoster call;
 		    call.event = event;
 		    call.recording = recording;
-		    if (pTVScraper->Service("GetPoster", &call)) {
+		    if (pScraper->Service("GetPoster", &call)) {
                       if(call.poster.path.compare(0, LiveSetup().GetTvscraperImageDir().length(), LiveSetup().GetTvscraperImageDir()) == 0)
 			return call.poster.path.substr(LiveSetup().GetTvscraperImageDir().length());
 		    }

@@ -21,7 +21,8 @@ table {
  * You might also only change size.
  */
 .info-win span.epg_images {
-	width: 120px;
+/*	width: 120px;   */
+	max-width: 2000px;
 }
 
 .notify-win {

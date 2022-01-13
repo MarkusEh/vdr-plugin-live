@@ -393,7 +393,7 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 </%cpp>
 	 <img src="/tvscraper/<$ epgImage $>" class="epg_image"/>
 <%cpp>
-	}
+	} else {
 
 	std::list<std::string> images1 = EpgEvents::RecImages(boxId, filename);
 	size_t delimPos = boxId.find_last_of('_');
@@ -403,7 +403,7 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 </%cpp>
 						<img src="/recimages/<$ recId $>/<$ *it $>" class="epg_image"/>
 <%cpp>
-	}
+	}}
 </%cpp>
 					</span>
 					<%cpp> reply.out() << StringEscapeAndBreak(long_descr); </%cpp>
