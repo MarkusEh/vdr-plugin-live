@@ -632,7 +632,7 @@ namespace vdrlive {
           target.append("\" /></a>\n");
         }
 
-        void RecordingsItemRec::AppendasHtml(std::string &target, bool displayFolder, const std::string argList){
+        void RecordingsItemRec::AppendasHtml(std::string &target, bool displayFolder, const std::string argList, const std::vector<std::string> &path){
 // list item, classes, space depending on level
           target.append("<li class=\"recording\"><div class=\"recording_item\"><div class=\"recording_imgs\">");
           if(!displayFolder) {
@@ -701,6 +701,13 @@ namespace vdrlive {
              AppendHtmlEscaped(target, (const char *)Recording()->Folder() );
              target.append(")");
           }
+/*
+          target.append(" path:");
+          for (const std::string &path_elem : path) {
+             target.append(" element: ");
+             target.append(path_elem);
+          }
+*/
           target.append("<br /><span>");
 // second line of recording name
           if(ShortText() && Name() != ShortText() ) 
@@ -814,12 +821,15 @@ namespace vdrlive {
 		for (std::vector<std::string>::const_iterator i = path.begin(); i != path.end(); ++i)
 		{
 			std::pair<RecordingsMap::iterator, RecordingsMap::iterator> range = recItem->m_entries.equal_range(*i);
+                        bool found = false;
 			for (RecordingsMap::iterator iter = range.first; iter != range.second; ++iter) {
+                                found = true;
 				if (iter->second->IsDir()) {
 					recItem = iter->second;
 					break;
 				}
 			}
+                        if (!found) esyslog("live: ERROR path element not found, path[0]: '%s', element '%s' not found", path[0].c_str(), (*i).c_str() );
 		}
 		return recItem->m_entries.begin();
 	}

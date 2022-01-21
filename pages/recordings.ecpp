@@ -209,7 +209,6 @@ if (!deleteResult.empty()) {
 <%args>
 	filter;
 	path[];
-	int level = 0;
 	int counter = 0;
 	std::string idHash = "";
 </%args>
@@ -254,20 +253,12 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 		tnt::QueryParams recItemParams(qparam, false);
 #endif
 #if TNTVERSION >= 30000
-                typedef std::vector<std::string> path_type;
-#endif
-		for (path_type::const_iterator i = path.begin(); i != path.end(); ++i) {
-			recItemParams.add("path", *i);
-		}
-#if TNTVERSION >= 30000
 		recItemParams.add("path[]", recItem->Name());
 #else
 		recItemParams.add("path", recItem->Name());
 #endif
-		recItemParams.add("level", lexical_cast<std::string, int>(level + 1));
-		recItemParams.add("filter", filter);
 		std::string combinedId = recItem->Name() + "_";
-		combinedId += counter + "_" + level;
+		combinedId += counter + "_" + recItem->Level();
 		idHash = MD5Hash(combinedId);
 </%cpp>
 		<ul id="fldr_<$ idHash $>" class="recordingslist" style="display: none;">
@@ -311,7 +302,7 @@ argList.append(currentFilter);
 for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 		RecordingsItemPtr recItem = *recIter;
   recoring_item.clear();
-  recItem->AppendasHtml(recoring_item, currentFlat == "true", argList);
+  recItem->AppendasHtml(recoring_item, currentFlat == "true", argList, path);
   max_length_recoring_item = std::max(max_length_recoring_item, recoring_item.length() );
 #ifdef HAVE_PCRE2
   StringMatch sm(filter);
