@@ -133,7 +133,9 @@ using namespace vdrlive;
 	if (epgEvent) {
 		std::string start(epgEvent->StartTime("%a,") + std::string(" ")
 				+ epgEvent->StartTime(tr("%b %d %y")) + std::string(" ")
-				+ epgEvent->StartTime(tr("%I:%M %p")));
+                                + epgEvent->StartTime(tr("%I:%M %p")) + std::string(" - ")
+                                + epgEvent->EndTime(tr("%I:%M %p")));
+
 		std::string tools_component;
 		if (recordings) {
 			tools_component = epgEvent->Archived().empty() ? "recordings.rec_tools" : "recordings.archived_disc" ;
