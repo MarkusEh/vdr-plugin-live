@@ -63,6 +63,35 @@ msgstr "Auf Archiv-DVD Nr."
 msgid "On archive HDD No."
 msgstr "Auf Archiv-HDD Nr."
 
+msgid "Click to view details."
+msgstr "Für Details klicken."
+
+msgid "No recording errors"
+msgstr ""
+
+msgid "Number of recording errors:"
+msgstr ""
+
+msgid "Recording errors unknown"
+msgstr ""
+
+msgid "Find more at the Internet Movie Database."
+msgstr "Weitere Informationen in der Internet Movie Database."
+
+#, c-format
+msgid "%a,"
+msgstr "%a,"
+
+msgid "%b %d %y"
+msgstr "%d.%m.%y"
+
+msgid "%I:%M %p"
+msgstr "%H:%M"
+
+#, c-format
+msgid "(%d:%02d)"
+msgstr "(%d:%02d)"
+
 msgid "Couldn't find channel or no channels available."
 msgstr "Kann das Programm nicht finden oder keine vorhanden."
 
@@ -105,9 +134,6 @@ msgstr "Alle"
 msgid "FTA"
 msgstr "FTA"
 
-msgid "%I:%M %p"
-msgstr "%H:%M"
-
 msgid "EPGSearch version outdated! Please update."
 msgstr "EPGSearch-Version zu alt, bitte updaten!"
 
@@ -137,9 +163,6 @@ msgstr "Fehler beim Zugriffschutz für die Programminfos"
 
 msgid "Error aquiring schedules"
 msgstr "Fehler beim Zugriff auf Programinfos"
-
-msgid "%b %d %y"
-msgstr "%d.%m.%y"
 
 msgid "Searchtimers"
 msgstr "Suchtimer"
@@ -226,9 +249,6 @@ msgstr "Was läuft als nächstes?"
 msgid "Favorites"
 msgstr "Favoriten"
 
-msgid "Click to view details."
-msgstr "Für Details klicken."
-
 msgid "View the schedule of this channel"
 msgstr "Zeige Programm dieses Kanals"
 
@@ -253,11 +273,11 @@ msgstr "Ausführliche Ansicht"
 msgid "List view"
 msgstr "Listenansicht"
 
-msgid "Find more at the Internet Movie Database."
-msgstr "Weitere Informationen in der Internet Movie Database."
-
 msgid "Stream this channel into browser."
 msgstr ""
+
+msgid "Stream this channel into media player."
+msgstr "Sender in Mediaplayer abspielen."
 
 msgid "Stream this recording into media player."
 msgstr "Aufnahme in Mediaplayer abspielen."
@@ -560,20 +580,17 @@ msgstr "Keine Aufnahmen vorhanden"
 msgid "Delete selected"
 msgstr "Löschen"
 
-#, no-c-format
-msgid "%a,"
-msgstr "%a,"
-
-#. TRANSLATORS: recording duration format HH:MM
-#, c-format
-msgid "(%d:%02d)"
-msgstr "(%d:%02d)"
-
 msgid "Sort by name"
 msgstr "Sortiere nach Name"
 
 msgid "Sort by date"
 msgstr "Sortiere nach Datum"
+
+msgid "Duplicates"
+msgstr "Suche mehrfache Aufnahmen"
+
+msgid "Errors"
+msgstr "Sortiere nach Zahl der Aufnahmefehler"
 
 msgid "Filter"
 msgstr "Filter"
@@ -598,6 +615,9 @@ msgstr "Diese Aufnahme abspielen."
 
 msgid "No schedules available for this channel"
 msgstr "Für diesen Kanal liegen keine EPG-Informationen vor"
+
+msgid "Existing Recording:"
+msgstr "Vorhandene Aufnahme:"
 
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
 msgstr "Keinen Suchtimer gefunden. Möglicherweise ein Tippfehler in der Anfrage?"
@@ -881,9 +901,6 @@ msgstr "Startseite"
 msgid "Theme"
 msgstr "Thema"
 
-msgid "Existing Recording:"
-msgstr "Vorhandene Aufnahme:"
-
 msgid "playing recording"
 msgstr "Wiedergabe"
 
@@ -961,15 +978,6 @@ msgstr "Live Interactive VDR Environment"
 
 msgid "No EPG information available"
 msgstr "Keine EPG Daten vorhanden"
-
-msgid "Duplicates"
-msgstr "Suche mehrfache Aufnahmen"
-
-msgid "Errors"
-msgstr "Sortiere nach Zahl der Aufnahmefehler"
-
-#~ msgid "Stream this channel into media player."
-#~ msgstr "Sender in Mediaplayer abspielen."
 
 #~ msgid "Web-Streaming packetizer command"
 #~ msgstr "Web-Streaming - Pfad zu FFmpeg"

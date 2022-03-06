@@ -62,6 +62,35 @@ msgstr ""
 msgid "On archive HDD No."
 msgstr ""
 
+msgid "Click to view details."
+msgstr "Detaily"
+
+msgid "No recording errors"
+msgstr ""
+
+msgid "Number of recording errors:"
+msgstr ""
+
+msgid "Recording errors unknown"
+msgstr ""
+
+msgid "Find more at the Internet Movie Database."
+msgstr "Vyhledej více na Internet Movie Database."
+
+#, fuzzy, c-format
+msgid "%a,"
+msgstr "%a, %x"
+
+msgid "%b %d %y"
+msgstr "%d.%m."
+
+msgid "%I:%M %p"
+msgstr "%H:%M"
+
+#, c-format
+msgid "(%d:%02d)"
+msgstr ""
+
 msgid "Couldn't find channel or no channels available."
 msgstr "Kanál neexistuje, nebo je nedostupný."
 
@@ -104,9 +133,6 @@ msgstr "Vše"
 msgid "FTA"
 msgstr "FTA"
 
-msgid "%I:%M %p"
-msgstr "%H:%M"
-
 msgid "EPGSearch version outdated! Please update."
 msgstr "Verze EPGSearch je zastaralá! Použijte novější."
 
@@ -138,9 +164,6 @@ msgstr "Chyba při vytváření zámku pro nahrávky"
 
 msgid "Error aquiring schedules"
 msgstr "Chyba při plánování"
-
-msgid "%b %d %y"
-msgstr "%d.%m."
 
 msgid "Searchtimers"
 msgstr "Automatické nahrávání"
@@ -227,9 +250,6 @@ msgstr "Co běží potom?"
 msgid "Favorites"
 msgstr "Oblíbené"
 
-msgid "Click to view details."
-msgstr "Detaily"
-
 msgid "View the schedule of this channel"
 msgstr "Zobraz program kanálu"
 
@@ -254,10 +274,10 @@ msgstr "Detailní pohled"
 msgid "List view"
 msgstr "Souhrný pohled"
 
-msgid "Find more at the Internet Movie Database."
-msgstr "Vyhledej více na Internet Movie Database."
-
 msgid "Stream this channel into browser."
+msgstr ""
+
+msgid "Stream this channel into media player."
 msgstr ""
 
 msgid "Stream this recording into media player."
@@ -391,6 +411,9 @@ msgid "Webserver"
 msgstr "web server"
 
 msgid "Current Maintainer"
+msgstr ""
+
+msgid "Previous Maintainer"
 msgstr ""
 
 msgid "Project leader"
@@ -560,21 +583,18 @@ msgstr "žádné nahrávky"
 msgid "Delete selected"
 msgstr "Smazat automatické nahrávání?"
 
-#, fuzzy, no-c-format
-msgid "%a,"
-msgstr "%a, %x"
-
-#. TRANSLATORS: recording duration format HH:MM
-#, c-format
-msgid "(%d:%02d)"
-msgstr ""
-
 msgid "Sort by name"
 msgstr ""
 
 #, fuzzy
 msgid "Sort by date"
 msgstr "do data"
+
+msgid "Duplicates"
+msgstr ""
+
+msgid "Errors"
+msgstr ""
 
 msgid "Filter"
 msgstr ""
@@ -600,6 +620,9 @@ msgstr "Přehrát nahrávku"
 
 msgid "No schedules available for this channel"
 msgstr "Pro kanál není dostupný program"
+
+msgid "Existing Recording:"
+msgstr ""
 
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
 msgstr "Nelze najít Automatické nahrávání. Byl požadavek správně zadán?"
