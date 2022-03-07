@@ -61,6 +61,35 @@ msgstr "En archivo DVD número"
 msgid "On archive HDD No."
 msgstr "En archivo HDD número"
 
+msgid "Click to view details."
+msgstr "Pulsar para ver detalles"
+
+msgid "No recording errors"
+msgstr ""
+
+msgid "Number of recording errors:"
+msgstr ""
+
+msgid "Recording errors unknown"
+msgstr ""
+
+msgid "Find more at the Internet Movie Database."
+msgstr "Encontrar más en la Base de Datos de Películas de Internet"
+
+#, c-format
+msgid "%a,"
+msgstr "%a,"
+
+msgid "%b %d %y"
+msgstr "%b %d %y"
+
+msgid "%I:%M %p"
+msgstr "%H:%M"
+
+#, c-format
+msgid "(%d:%02d)"
+msgstr ""
+
 msgid "Couldn't find channel or no channels available."
 msgstr "No se puede encontrar el canal o canales no disponibles"
 
@@ -103,9 +132,6 @@ msgstr "Todo"
 msgid "FTA"
 msgstr "FTA"
 
-msgid "%I:%M %p"
-msgstr "%H:%M"
-
 msgid "EPGSearch version outdated! Please update."
 msgstr "¡Versión de EPGSearch antigua!. Por favor actualice"
 
@@ -135,9 +161,6 @@ msgstr "Error adquiriendo el bloqueo de las programaciones"
 
 msgid "Error aquiring schedules"
 msgstr "Error adquiriendo programaciones"
-
-msgid "%b %d %y"
-msgstr "%b %d %y"
 
 msgid "Searchtimers"
 msgstr "Programadores de búsqueda"
@@ -224,9 +247,6 @@ msgstr "¿Qué hay a continuación?"
 msgid "Favorites"
 msgstr "Favoritos"
 
-msgid "Click to view details."
-msgstr "Pulsar para ver detalles"
-
 msgid "View the schedule of this channel"
 msgstr "Ver la programación de este canal"
 
@@ -251,10 +271,10 @@ msgstr "Ver detalles"
 msgid "List view"
 msgstr "Ver lista"
 
-msgid "Find more at the Internet Movie Database."
-msgstr "Encontrar más en la Base de Datos de Películas de Internet"
-
 msgid "Stream this channel into browser."
+msgstr ""
+
+msgid "Stream this channel into media player."
 msgstr ""
 
 msgid "Stream this recording into media player."
@@ -388,6 +408,9 @@ msgid "Webserver"
 msgstr "Servidor Web"
 
 msgid "Current Maintainer"
+msgstr ""
+
+msgid "Previous Maintainer"
 msgstr ""
 
 msgid "Project leader"
@@ -555,20 +578,17 @@ msgstr "No se han encontrado grabaciones"
 msgid "Delete selected"
 msgstr "Borrar selección"
 
-#, no-c-format
-msgid "%a,"
-msgstr "%a,"
-
-#. TRANSLATORS: recording duration format HH:MM
-#, c-format
-msgid "(%d:%02d)"
-msgstr ""
-
 msgid "Sort by name"
 msgstr "Ordenar por nombre"
 
 msgid "Sort by date"
 msgstr "Ordenar por fecha"
+
+msgid "Duplicates"
+msgstr ""
+
+msgid "Errors"
+msgstr ""
 
 msgid "Filter"
 msgstr "Filtrar"
@@ -593,6 +613,9 @@ msgstr "reproducir esta grabación"
 
 msgid "No schedules available for this channel"
 msgstr "No hay programaciones disponibles para este canal"
+
+msgid "Existing Recording:"
+msgstr ""
 
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
 msgstr "No se puede encontrar la programación. ¿Puede que la haya escrito erróneamente?"

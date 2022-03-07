@@ -61,6 +61,35 @@ msgstr "Arkistointi-DVD:llä numero"
 msgid "On archive HDD No."
 msgstr "Arkistointi-HDD:llä numero"
 
+msgid "Click to view details."
+msgstr "Napsauta katsoaksesi lisätietoja."
+
+msgid "No recording errors"
+msgstr ""
+
+msgid "Number of recording errors:"
+msgstr ""
+
+msgid "Recording errors unknown"
+msgstr ""
+
+msgid "Find more at the Internet Movie Database."
+msgstr "Hae IMDB:stä"
+
+#, c-format
+msgid "%a,"
+msgstr "%a"
+
+msgid "%b %d %y"
+msgstr "%d.%m.%y"
+
+msgid "%I:%M %p"
+msgstr "%H:%M"
+
+#, c-format
+msgid "(%d:%02d)"
+msgstr ""
+
 msgid "Couldn't find channel or no channels available."
 msgstr "Kanavaa ei löydy tai yhtään kanavaa ei ole saatavilla."
 
@@ -103,9 +132,6 @@ msgstr "Kaikki"
 msgid "FTA"
 msgstr "Vapaat"
 
-msgid "%I:%M %p"
-msgstr "%H:%M"
-
 msgid "EPGSearch version outdated! Please update."
 msgstr "EPGSearch-laajennos pitäisi päivittää!"
 
@@ -135,9 +161,6 @@ msgstr "Ohjelmatietojen lukitus epäonnistui!"
 
 msgid "Error aquiring schedules"
 msgstr "Ohjelmatietojen haku epäonnistui!"
-
-msgid "%b %d %y"
-msgstr "%d.%m.%y"
 
 msgid "Searchtimers"
 msgstr "Hakuajastimet"
@@ -224,9 +247,6 @@ msgstr "Tulossa seuraavaksi?"
 msgid "Favorites"
 msgstr "Suosikit"
 
-msgid "Click to view details."
-msgstr "Napsauta katsoaksesi lisätietoja."
-
 msgid "View the schedule of this channel"
 msgstr "Näytä ohjelmisto kanavalta"
 
@@ -251,10 +271,10 @@ msgstr "Ruudukkonäkymä"
 msgid "List view"
 msgstr "Listanäkymä"
 
-msgid "Find more at the Internet Movie Database."
-msgstr "Hae IMDB:stä"
-
 msgid "Stream this channel into browser."
+msgstr ""
+
+msgid "Stream this channel into media player."
 msgstr ""
 
 msgid "Stream this recording into media player."
@@ -388,6 +408,9 @@ msgid "Webserver"
 msgstr "HTTP-palvelin"
 
 msgid "Current Maintainer"
+msgstr ""
+
+msgid "Previous Maintainer"
 msgstr ""
 
 msgid "Project leader"
@@ -555,20 +578,17 @@ msgstr "Tallenteita ei löydy"
 msgid "Delete selected"
 msgstr "Poista valitut"
 
-#, no-c-format
-msgid "%a,"
-msgstr "%a"
-
-#. TRANSLATORS: recording duration format HH:MM
-#, c-format
-msgid "(%d:%02d)"
-msgstr ""
-
 msgid "Sort by name"
 msgstr "Järjestä nimen mukaan"
 
 msgid "Sort by date"
 msgstr "Järjestä päivämäärän mukaan"
+
+msgid "Duplicates"
+msgstr "Kaksoiskappaleet"
+
+msgid "Errors"
+msgstr "Virheet"
 
 msgid "Filter"
 msgstr "Suodata"
@@ -593,6 +613,9 @@ msgstr "Toista tallenne"
 
 msgid "No schedules available for this channel"
 msgstr "Tälle kanavalle ei ole saatavilla ohjelmistoa"
+
+msgid "Existing Recording:"
+msgstr ""
 
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
 msgstr "Hakuajastimia ei löydetä! Onko pyyntö oikein kirjoitettu?"
@@ -953,12 +976,6 @@ msgstr "Interaktiivinen VDR-ympäristö"
 
 msgid "No EPG information available"
 msgstr "Ohjelmatietoja ei saatavilla"
-
-msgid "Duplicates"
-msgstr "Kaksoiskappaleet"
-
-msgid "Errors"
-msgstr "Virheet"
 
 #~ msgid "VLC media URL"
 #~ msgstr "VLC:n URL"
