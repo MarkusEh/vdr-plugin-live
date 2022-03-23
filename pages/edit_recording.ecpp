@@ -17,7 +17,9 @@ using namespace vdrlive;
 	// form parameters
 	std::string name = "";
 	std::string directory = "";
-	std::string options[];
+        std::string delresume = "";
+        std::string delmarks = "";
+        std::string copy = "";
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -49,18 +51,9 @@ const cRecording* recording;
 			message = tr("Please set a name for the recording!");
 		else if (recording) {
 			bool copy_only = false;
-#if TNTVERSION >= 30000
-                        typedef std::vector<std::string> options_type;
-#endif
-			for (options_type::const_iterator it = options.begin(); it != options.end(); ++it) {
-				if (*it == "delresume")
-					LiveRecordingsManager()->DeleteResume(recording);
-				else if (*it == "delmarks")
-					LiveRecordingsManager()->DeleteMarks(recording);
-				else if (*it == "copy")
-					copy_only = true;
-			}
-			options.clear();
+			if (delresume == "delresume") LiveRecordingsManager()->DeleteResume(recording);
+		        if (delmarks == "delmarks") LiveRecordingsManager()->DeleteMarks(recording);
+		        if (copy == "copy") copy_only = true;
 			std::string filename =  directory.empty() ? name : StringReplace(directory, "/", "~") + "~" + name;
 			if (LiveRecordingsManager()->MoveRecording(recording, FileSystemExchangeChars(filename, true), copy_only))
 				return reply.redirect(!edit_rec_referer.empty() ? edit_rec_referer : "recordings.html");
@@ -138,15 +131,15 @@ const cRecording* recording;
 					</tr>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Delete resume information") $>:</div></td>
-						<td class="rightcol"><input type="checkbox" name="options" value="delresume"/></td>
+						<td class="rightcol"><input type="checkbox" name="delresume" value="delresume"/></td>
 					</tr>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Delete marks information") $>:</div></td>
-						<td class="rightcol"><input type="checkbox" name="options" value="delmarks"/></td>
+						<td class="rightcol"><input type="checkbox" name="delmarks" value="delmarks"/></td>
 					</tr>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Copy only") $>:</div></td>
-						<td class="rightcol"><input type="checkbox" name="options" value="copy"/></td>
+						<td class="rightcol"><input type="checkbox" name="copy" value="copy"/></td>
 					</tr>
 <%cpp>
 if (recording && recording->Info()->ShortText()) {
