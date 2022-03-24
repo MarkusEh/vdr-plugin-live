@@ -62,8 +62,7 @@ const cRecording* recording;
 		}
 	}
 
-	if (message.empty())
-		edit_rec_referer = request.getHeader("Referer:", "recordings.html");
+//	if (message.empty()) edit_rec_referer = request.getHeader("Referer:", "recordings.html");
 
 	if (recording) {
 		std::string path = recording->Name();
