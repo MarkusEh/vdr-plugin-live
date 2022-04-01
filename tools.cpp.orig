@@ -479,6 +479,7 @@ namespace vdrlive {
 				esyslog("live: cannot move under sub-directory\n");
 				return false;
 			}
+			RemoveFileOrDir(target.c_str());
 			if (!MakeDirs(target.c_str(), true)) {
 				esyslog("live: cannot create directory %s", target.c_str());
 				return false;
