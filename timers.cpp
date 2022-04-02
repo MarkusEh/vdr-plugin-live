@@ -420,10 +420,13 @@ namespace vdrlive {
 			}
 #endif
 			cTimer copy = *oldTimer;
+			dsyslog("live: old timer flags: %u", copy.Flags());
 			if ( !copy.Parse( timerData.builder.c_str() ) ) {
 				StoreError( timerData, tr("Error in timer settings") );
 				return;
 			}
+			if (oldTimer->HasFlags(tfRecording)) copy.SetFlags(tfRecording);  // changed a running recording, restore flag "tfRecording"
+			dsyslog("live: new timer flags: %u", copy.Flags());
 			*oldTimer = copy;
 
 #if VDRVERSNUM >= 20301
