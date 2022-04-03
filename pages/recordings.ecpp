@@ -261,7 +261,7 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 		string day(FormatDateTime(tr("%a,"), recItem->StartTime()));
 		string dayLen(lexical_cast<string, int>(day.length() - 1) + ".25em;");
 		// TRANSLATORS: recording duration format HH:MM
-		string duration(recItem->Duration() < 0 ? "" : FormatDuration(tr("(%d:%02d)"), recItem->Duration() / 60, recItem->Duration() % 60));
+		string duration(recItem->Duration() < 0 ? "" : FormatDuration(tr("%d:%02d"), recItem->Duration()));
 		string shortDescr(recItem->RecInfo()->ShortText() ? recItem->RecInfo()->ShortText() : "");
 		string description(recItem->RecInfo()->Description() ? recItem->RecInfo()->Description() : "");
 		string hint(tr("Click to view details."));

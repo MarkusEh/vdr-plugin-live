@@ -49,7 +49,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					for (std::list< TimerInConflict >::const_iterator confltimer = conflTimers.begin(); confltimer != conflTimers.end(); ++confltimer) {
 </%cpp>
 						<tr class="head">
-							<td colspan="11">
+							<td colspan="12">
 								<div class="boxheader"><div><div><$ FormatDateTime(tr("%A, %x"), conflict->ConflictTime()) + " " + FormatDateTime(tr("%I:%M %p"), conflict->ConflictTime()) + " - " + lexical_cast<string, int>(confltimer->percentage) + "%" $></div></div></div>
 							</td>
 						</tr>
@@ -58,6 +58,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 							<td><div class="withmargin"><$ trVDR("Channel") $></div></td>
 							<td><div class="withmargin"><$ trVDR("Start") $></div></td>
 							<td><div class="withmargin"><$ trVDR("Stop") $></div></td>
+							<td><div class="withmargin"><$ tr("Duration") $></div></td>
 							<td><div class="withmargin"><$ trVDR("Priority") $></div></td>
 							<td><div class="withmargin"><$ trVDR("File") $></div></td>
 							<td><div class="withmargin"><$ tr("Searchtimer") $></div></td>
@@ -117,7 +118,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 								<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><a href="schedule.html?channel=<$ timer->Channel()->Number()$>"><$ timer->Channel()->Name() $></a></div></td>
 								<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin nowrap"><$ FormatDateTime(tr("%I:%M %p"), timer->StartTime()) $></div></td>
 								<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin nowrap"><$ FormatDateTime(tr("%I:%M %p"), timer->StopTime()) $></div></td>
-								<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><$ timer->Priority() $></div></td>
+								<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin nowrap"><$ FormatDuration(tr("%d:%02d"), timer->StopTime() - timer->StartTime()) $></div></td>
+								<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin nowrap"><$ timer->Priority() $></div></td>
 								<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><a
 %								if (!longDescription.empty()) {
 									<& tooltip.hint text=(longDescription) &><& tooltip.display domId=(epgEvent->Id()) &>
