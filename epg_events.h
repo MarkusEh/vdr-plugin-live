@@ -2,7 +2,6 @@
 #define VDR_LIVE_EPG_EVENTS_H
 
 #include "stdext.h"
-#include "services.h"
 
 // STL headers need to be before VDR tools.h (included by <vdr/channels.h>)
 #include <string>
@@ -12,6 +11,7 @@
         #include <cxxtools/log.h>  // must be loaded before any vdr include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
 #endif
 
+#include "services.h"
 #include <vdr/channels.h>
 #include <vdr/epg.h>
 #include <vdr/recording.h>
