@@ -396,21 +396,11 @@ namespace vdrlive
 			return found;
 		}
 
-		class cTvMedia {
-		public:
-		    std::string path;
-		    int width;
-		    int height;
-		};
-		class ScraperGetPoster {
-		public:
-		// in
-		    const cEvent *event;             // check type for this event
-		    const cRecording *recording;     // or for this recording
-		//out
-		    cTvMedia poster;
-		};
-
+		std::string TvscraperValidataPath(const std::string &path) {
+                  if(path.compare(0, LiveSetup().GetTvscraperImageDir().length(), LiveSetup().GetTvscraperImageDir()) == 0)
+		    return path.substr(LiveSetup().GetTvscraperImageDir().length());
+                  return "";
+                }
 		std::string PosterTvscraper(const cEvent *event, const cRecording *recording)
 		{
 		  if (LiveSetup().GetTvscraperImageDir().empty() ) return "";
@@ -428,6 +418,23 @@ namespace vdrlive
 		    }
 		  }
 		  return "";
+                }
+
+		bool tvscraper_avialabe() {
+                  static cPlugin *pScraper = cPluginManager::GetPlugin("tvscraper");
+		  if (!pScraper) return false;
+		  return pScraper->Service("GetScraperMovieOrTv", NULL);
+                }
+		bool tvscraper(cScraperMovieOrTv &scraperMovieOrTv, const cEvent *event, const cRecording *recording)
+		{
+		  scraperMovieOrTv.found = false;
+                  static cPlugin *pScraper = cPluginManager::GetPlugin("tvscraper");
+		  if (!pScraper) return false;
+  		  scraperMovieOrTv.event = event;
+		  scraperMovieOrTv.recording = recording;
+		  scraperMovieOrTv.httpImagePaths = false;
+		  scraperMovieOrTv.media = true;
+		  return pScraper->Service("GetScraperMovieOrTv", &scraperMovieOrTv);
                 }
 
 		std::list<std::string> EpgImages(std::string const &epgid)

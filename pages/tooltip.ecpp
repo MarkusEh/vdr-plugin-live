@@ -19,6 +19,13 @@ domId;
 href="epginfo.html?epgid=<$ domId $>"
 </%def>
 
+<%def display_scraper>
+<%args>
+domId;
+</%args>
+href="epginfo.html?epgid=<$ domId $>&tab=scraper"
+</%def>
+
 <%def help>
 <%args>
 text;

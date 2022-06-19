@@ -145,6 +145,13 @@ namespace vdrlive {
 				   LiveSetup().GetTvscraperImageDir() + "movies",
 				   "/$1.$2",
 				   "image/$2");
+		// Epg images from tvscraper: Movie actors
+			MapUrl(app,
+				   "^/tvscraper/movies/actors/([^/]*)\\.([^./]+)",
+				   "content",
+				   LiveSetup().GetTvscraperImageDir() + "movies/actors",
+				   "/$1.$2",
+				   "image/$2");
 		// Epg images from tvscraper: tv
 			MapUrl(app,
 				   "^/tvscraper/movies/tv/([^/]*)/([^/]*)\\.([^./]+)",
@@ -166,13 +173,20 @@ namespace vdrlive {
 				   LiveSetup().GetTvscraperImageDir() + "movies/tv",
 				   "/$1/$2/$3/$4.$5",
 				   "image/$5");
-		// Epg images from tvscraper: Series
+		// Epg images from tvscraper thetvdb: Series
 			MapUrl(app,
 				   "^/tvscraper/series/([^/]*)/([^/]*)\\.([^./]+)",
 				   "content",
 				   LiveSetup().GetTvscraperImageDir() + "series",
 				   "/$1/$2.$3",
 				   "image/$3");
+		// Epg images from tvscraper thetvdb: Series, episode images
+			MapUrl(app,
+				   "^/tvscraper/series/([^/]*)/([^/]*)/([^/]*)\\.([^./]+)",
+				   "content",
+				   LiveSetup().GetTvscraperImageDir() + "series",
+				   "/$1/$2/$3.$4",
+				   "image/$4");
 		}
 
 		// Epg images

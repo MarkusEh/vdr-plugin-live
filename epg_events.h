@@ -2,6 +2,7 @@
 #define VDR_LIVE_EPG_EVENTS_H
 
 #include "stdext.h"
+#include "services.h"
 
 // STL headers need to be before VDR tools.h (included by <vdr/channels.h>)
 #include <string>
@@ -57,7 +58,10 @@ namespace vdrlive
 		 *  Return a list of EpgImage paths for a given epgid.
 		 */
 
+                std::string TvscraperValidataPath(const std::string &path);
                 std::string PosterTvscraper(const cEvent *event, const cRecording *recording);
+                bool tvscraper_avialabe();
+                bool tvscraper(cScraperMovieOrTv &scraperMovieOrTv, const cEvent *event, const cRecording *recording);
 		std::list<std::string> EpgImages(std::string const &epgid);
 
 		/**

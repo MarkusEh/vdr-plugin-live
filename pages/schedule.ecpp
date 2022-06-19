@@ -73,6 +73,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <%cpp>
 	pageTitle = trVDR("Schedule");
 
+bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
 std::vector<std::string> path;
 std::list<RecordingsItemPtr> recItems;
 RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
@@ -204,9 +205,12 @@ recItems.sort(RecordingsItemPtrCompare::ByAscendingNameDesc);
 				</tr>
 <%cpp>
 				}
+int col_span;
+if (display_pictures) col_span = 6;
+  else col_span = 5;
 </%cpp>
 				<tr class="head">
-					<td colspan="5"><div class="boxheader"><div><div><$ day $></div></div></div></td>
+					<td colspan=<$col_span$>><div class="boxheader"><div><div><$ day $></div></div></div></td>
 				</tr>
 <%cpp>
 				current_day = day;
@@ -216,8 +220,30 @@ recItems.sort(RecordingsItemPtrCompare::ByAscendingNameDesc);
 					<td class="action leftcol <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><& pageelems.event_timer epgid=(epgid) &></td>
 					<td class="action <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><%cpp>if (LiveFeatures<features::epgsearch>().Recent() ) { </%cpp><a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a><%cpp> } else { </%cpp><img src="img/transparent.png" width="16" height="16"><%cpp> } </%cpp></td>
 					<td class="action <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><& pageelems.imdb_info_href title=(title) &></td>
-					<td class="topaligned <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><div class="withmargin"><$ start $> - <$ end $><br /><$ duration $></div></td>
-					<td class="<? (Event == PresentEvent) ? "current" ?> topaligned rightcol <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><div class="more withmargin"><a <& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(description, 300, truncated)) + "<br />" + tr("Click to view details.")) &><& tooltip.display domId=(epgEvent->Id()) &>><span class="title"><$ title $></span><br /><span class="short"><%cpp>if (short_description.empty()) { </%cpp>&nbsp;<%cpp> } </%cpp><$ short_description $></span></a></div></td>
+<%cpp>
+if (display_pictures) {
+std::string image = EpgEvents::PosterTvscraper(Event, NULL);
+if (image == "") {
+</%cpp>
+<td class="thumb <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"></td>
+<%cpp>
+} else {
+</%cpp>
+<td class="thumb <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>">
+  <a <& tooltip.display_scraper domId=(epgEvent->Id()) &>>
+    <img src="/tvscraper/<$ image $>" alt="" width="42px" height="63px" />
+  </a>
+</td>
+<%cpp>
+}}
+</%cpp>
+
+<td class="topaligned <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><div class="withmargin"><$ start $> - <$ end $><br /><$ duration $></div></td>
+<td class="<? (Event == PresentEvent) ? "current" ?> topaligned rightcol <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><div class="more withmargin">
+  <a <& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(description, 300, truncated)) + "<br />" + tr("Click to view details.")) &><& tooltip.display domId=(epgEvent->Id()) &>>
+     <span class="title"><$ title $></span><br /><span class="short"><%cpp>if (short_description.empty()) { </%cpp>&nbsp;<%cpp> } </%cpp><$ short_description $></span>
+  </a></div>
+</td>
 
 				</tr>
 <%cpp>
@@ -296,12 +322,16 @@ if(recItemFound) {
         std::string archived;
         bool lastEventCurrentDay;
 </%args>
-<%cpp> if (!archived.empty()) { </%cpp>
-<td colspan="2" style="word-wrap: normal;min-width: 10px;max-width: 70px;" class="leftcol <? lastEventCurrentDay ? "bottomrow" ?>"> <$ tr("Existing Recording:") $>  </td>
+<%cpp>
+int col_span1 = 3;
+bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
+if (display_pictures) col_span1++;
+ if (!archived.empty()) { col_span1 --; </%cpp>
+<td colspan=<$col_span1$> style="word-wrap: normal;min-width: 10px;max-width: 70px;" class="leftcol <? lastEventCurrentDay ? "bottomrow" ?>"> <$ tr("Existing Recording:") $>  </td>
 <td class="action <? lastEventCurrentDay ? "bottomrow" ?>"> <img src="<$ LiveSetup().GetThemedLink("img", "on_dvd.png") $>" alt="on_dvd" <& tooltip.hint text=(archived) &> /> </td>
 
 <%cpp> } else { </%cpp>
-<td colspan="3" style="word-wrap: normal;min-width: 10px;max-width: 70px;" class="leftcol <? lastEventCurrentDay ? "bottomrow" ?>"> <$ tr("Existing Recording:") $> </td>
+<td colspan=<$col_span1$> style="word-wrap: normal;min-width: 10px;max-width: 70px;" class="leftcol <? lastEventCurrentDay ? "bottomrow" ?>"> <$ tr("Existing Recording:") $> </td>
 <%cpp> } </%cpp>
 
 <td class="topaligned <? lastEventCurrentDay ? "bottomrow" ?>"><div class="withmargin"><$ FormatDateTime(tr("%a,"), startTime) $> <$ FormatDateTime(tr("%b %d %y"), startTime) $> <$ FormatDateTime(tr("%I:%M %p"), startTime) $><br /><$ duration $></div></td>
