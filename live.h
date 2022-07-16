@@ -26,6 +26,7 @@ public:
 	virtual const char *CommandLineHelp(void);
 	virtual bool ProcessArgs(int argc, char *argv[]);
 	virtual bool Start(void);
+	virtual bool Initialize(void);
 	virtual void Stop(void);
 	virtual void MainThreadHook(void);
 	virtual cString Active(void);

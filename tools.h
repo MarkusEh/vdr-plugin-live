@@ -166,6 +166,18 @@ namespace vdrlive {
 			void safe_bool_idiom() const {}
 	};
 
+// methods for scraper **************************************
+
+// tool for images returned by tvscraper or scraper2vdr:
+// convert path (valid in local file system) to path which can be used by live (in browser) to access the image
+// Note: final browser path is: "/tvscraper/" + ScraperImagePath2Live(...)
+        std::string ScraperImagePath2Live(const std::string &path);
+
+// call the service Id
+// return false if there is no scraper plugin, or if the serrvice does not exist
+// otherwise, return true
+// can be called with Data == Null to check is the service exits
+        bool ScraperCallService(const char *Id, void *Data);
 } // namespace vdrlive
 
 #endif // VDR_LIVE_TOOLS_H

@@ -71,6 +71,9 @@ class Setup
 		bool GetShowIMDb() const { return m_showIMDb != 0; }
 		std::string const GetEpgImageDir() { return m_epgimagedir; }
 		std::string const GetTvscraperImageDir() { return m_tvscraperimagedir; }
+                cPlugin *GetPluginTvscraper() { return m_p_tvscraper; } // tvscraper
+                cPlugin *GetPluginScraper() { return m_p_scraper; } // tvscraper. Or, if not available, scraper2vdr
+		void SetTvscraperImageDir(const std::string &dir);
 		bool GetShowChannelsWithoutEPG() const { return m_showChannelsWithoutEPG != 0; }
 
 		void SetLastChannel(int lastChannel) { m_lastChannel = lastChannel; }
@@ -104,6 +107,7 @@ class Setup
 		bool SaveSetup();
 
 		bool ParseCommandLine( int argc, char* argv[] );
+		bool Initialize( void );
 		char const* CommandLineHelp() const;
 
 		bool ParseSetupEntry( char const* name, char const* value );
@@ -128,6 +132,8 @@ class Setup
 		IpList m_serverIps;
 		std::string m_epgimagedir;
 		std::string m_tvscraperimagedir;
+                cPlugin *m_p_tvscraper;
+                cPlugin *m_p_scraper;
 
 		// setup options
 		int m_lastChannel;

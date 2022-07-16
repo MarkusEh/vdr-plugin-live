@@ -58,10 +58,7 @@ namespace vdrlive
 		 *  Return a list of EpgImage paths for a given epgid.
 		 */
 
-                std::string TvscraperValidataPath(const std::string &path);
-                std::string PosterTvscraper(const cEvent *event, const cRecording *recording);
-                bool tvscraper_avialabe();
-                bool tvscraper(cScraperMovieOrTv &scraperMovieOrTv, const cEvent *event, const cRecording *recording);
+                bool PosterTvscraper(cTvMedia &media, const cEvent *event, const cRecording *recording);
 		std::list<std::string> EpgImages(std::string const &epgid);
 
 		/**

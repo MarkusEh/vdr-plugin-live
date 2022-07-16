@@ -96,6 +96,16 @@ bool Setup::ParseCommandLine( int argc, char* argv[] )
 		   CheckServerIps();
 }
 
+bool Setup::Initialize( void )
+{
+  m_p_tvscraper = cPluginManager::GetPlugin("tvscraper");
+  if (m_p_tvscraper)
+    m_p_scraper = m_p_tvscraper;
+  else
+    m_p_scraper = cPluginManager::GetPlugin("scraper2vdr");
+  return true;
+}
+
 char const* Setup::CommandLineHelp() const
 {
 	if ( m_helpString.empty() ) {
@@ -268,6 +278,15 @@ std::string const Setup::GetStartScreenLink() const
 bool Setup::UseAuth() const
 {
 	return m_useAuth && !GetIsLocalNet();
+}
+
+void Setup::SetTvscraperImageDir(const std::string &dir) {
+  if (dir.empty()) {
+    m_tvscraperimagedir = dir;
+    return;
+  }
+  if (dir[dir.length()-1] != '/') m_tvscraperimagedir = dir + "/";
+  else m_tvscraperimagedir = dir;
 }
 
 bool Setup::CheckLocalNet(const std::string& ip)

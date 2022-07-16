@@ -41,6 +41,11 @@ bool Plugin::ProcessArgs(int argc, char *argv[])
 	return LiveSetup().ParseCommandLine( argc, argv );
 }
 
+bool Plugin::Initialize(void)
+{
+	return LiveSetup().Initialize();
+}
+
 bool Plugin::Start(void)
 {
 	m_configDirectory = canonicalize_file_name(cPlugin::ConfigDirectory( PLUGIN_NAME_I18N ));

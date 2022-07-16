@@ -16,6 +16,7 @@
 #endif
 
 #include <vdr/recording.h>
+#include "services.h"
 
 namespace vdrlive {
 
@@ -165,15 +166,14 @@ namespace vdrlive {
 			static bool ByAscendingDate(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
 			static bool ByDescendingDate(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
 			static bool ByAscendingName(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
-			static bool ByAscendingNameShortText(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
+			static bool ByDuplicatesName(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
+			static bool ByDuplicates(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
 			static bool ByAscendingNameDesc(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
 			static bool ByAscendingNameDescSort(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
 			static bool ByDescendingNameDescSort(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
 			static bool ByDescendingRecordingErrors(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
 			static std::string getNameForSort(const std::string &Name);
-                        static int compareLC(int &numEqualChars, const char *first, const char *second); // as std::compare, but compare lower case
-                        static int Compare(int &numEqualChars, const RecordingsItemPtr &first, const RecordingsItemPtr &second);
-                        static int Compare2(int &numEqualChars, const RecordingsItemPtr &first, const RecordingsItemPtr &second);
+                        static int compareLC(const char *first, const char *second, int *numEqualChars = NULL); // as std::compare, but compare lower case
                         static int FindBestMatch(RecordingsItemPtr &BestMatch, const std::list<RecordingsItemPtr>::iterator & First, const std::list<RecordingsItemPtr>::iterator & Last, const RecordingsItemPtr & EPG_Entry);
 
 	};
@@ -211,7 +211,11 @@ namespace vdrlive {
 			RecordingsMap::const_iterator end() const { return m_entries.end(); }
 			int Level() { return m_level; }
 
-           // To display the recuring on the UI
+                        bool scraperDataAvailable() const { return m_scraper_data_available; }
+                        int CompareTexts(const RecordingsItemPtr &second, int *numEqualChars=NULL) const;
+                        int CompareStD(const RecordingsItemPtr &second, int *numEqualChars=NULL) const;
+                        bool orderDuplicates(const RecordingsItemPtr &second, bool alwaysShortText) const;
+           // To display the recording on the UI
                         virtual const int IsArchived() const { return 0 ; }
                         virtual const std::string ArchiveDescr() const { return "" ; }
                         virtual const char *NewR() const { return "" ; }
@@ -225,11 +229,23 @@ namespace vdrlive {
 		private:
 			std::string GetNameForSearch(std::string const & name);
 			int m_level;
+			RecordingsMap m_entries;
+			RecordingsItemWeakPtr m_parent;
 			const std::string m_name;
 			const std::string m_name_for_sort;
 			const std::string m_name_for_search;
-			RecordingsMap m_entries;
-			RecordingsItemWeakPtr m_parent;
+                protected:
+                        bool m_scraper_data_available = false;
+                        bool m_s_movie = true;
+                        int m_s_dbid = 0;
+                        std::string m_s_title = "";
+                        std::string m_s_episode_name = "";
+                        std::string m_s_IMDB_ID = "";
+                        cTvMedia m_s_image;
+                        int m_s_runtime = 0;
+                        int m_s_collection_id = 0;
+                        int m_s_episode_number = 0;
+                        int m_s_season_number = 0;
 	};
 
 
@@ -274,7 +290,7 @@ namespace vdrlive {
 			virtual const cRecording* Recording() const { return m_recording; }
 			virtual const cRecordingInfo* RecInfo() const { return m_recording->Info(); }
 
-           // To display the recuring on the UI
+           // To display the recording on the UI
                         virtual const int IsArchived() const { return m_isArchived ; }
                         virtual const std::string ArchiveDescr() const { return RecordingsManager::GetArchiveDescr(m_recording) ; }
                         virtual const char *NewR() const { return LiveSetup().GetMarkNewRec() && (Recording()->GetResume() <= 0) ? "_new" : "" ; }
@@ -307,7 +323,7 @@ namespace vdrlive {
 	class RecordingsItemDummy: public RecordingsItem
 	{
 		public:
-			RecordingsItemDummy(const std::string &Name, const std::string &ShortText, const std::string &Description, long Duration);
+			RecordingsItemDummy(const std::string &Name, const std::string &ShortText, const std::string &Description, long Duration, cGetScraperOverview *scraperOverview = NULL);
 
 			~RecordingsItemDummy() { };
 

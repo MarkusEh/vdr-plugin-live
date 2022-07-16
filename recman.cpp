@@ -1,6 +1,9 @@
 
 #include "recman.h"
 #include "tools.h"
+#include "services.h"
+#include "epg_events.h"
+
 
 // STL headers need to be before VDR tools.h (included by <vdr/videodir.h>)
 #include <fstream>
@@ -337,24 +340,6 @@ namespace vdrlive {
            return towlower(result);
         }
 
-        int RecordingsItemPtrCompare::Compare2(int &numEqualChars, const RecordingsItemPtr & first, const RecordingsItemPtr & second) {
-// compare short text & description
-          numEqualChars = 0;
-          ShortTextDescription chfirst (first ->ShortText() , first ->Description() );
-          ShortTextDescription chsecond(second->ShortText() , second->Description() );
-          wint_t flc;
-          wint_t slc;
-          do {
-            flc = chfirst.getNextNonPunctChar();
-            slc = chsecond.getNextNonPunctChar();
-            if ( flc < slc ) return -1;
-            if ( flc > slc ) return  1;
-            ++numEqualChars;
-          } while ( flc && slc );
-          --numEqualChars;
-          return 0;
-        }
-
   int RecordingsItemPtrCompare::FindBestMatch(RecordingsItemPtr & BestMatch, const std::list<RecordingsItemPtr>::iterator & First, const std::list<RecordingsItemPtr>::iterator & Last, const RecordingsItemPtr & EPG_Entry){
 // d: length of movie in minutes, without commercial breaks
 // Assumption: the maximum length of commercial breaks is cb% * d
@@ -398,36 +383,26 @@ namespace vdrlive {
 		return (first->StartTime() >= second->StartTime());
 	}
 
-	int RecordingsItemPtrCompare::Compare(int &numEqualChars, const RecordingsItemPtr &first, const RecordingsItemPtr &second)
-	{
-                numEqualChars = 0;
-                int i = first->NameForSearch().compare(second->NameForSearch() );
-                if(i != 0) return i;
-             // name is identical, compare short text
-                i = RecordingsItemPtrCompare::compareLC(numEqualChars, first->ShortText(), second->ShortText() );
-                if(i != 0) return i;
-                i = RecordingsItemPtrCompare::compareLC(numEqualChars, first->Description(), second->Description() );
-                return i;
-	}
-
 	bool RecordingsItemPtrCompare::ByAscendingName(const RecordingsItemPtr & first, const RecordingsItemPtr & second)  // return first < second
 	{
            return first->NameForSearch().compare(second->NameForSearch() ) < 0;
 	}
 
-	bool RecordingsItemPtrCompare::ByAscendingNameShortText(const RecordingsItemPtr & first, const RecordingsItemPtr & second)  // return first < second
+	bool RecordingsItemPtrCompare::ByDuplicatesName(const RecordingsItemPtr & first, const RecordingsItemPtr & second)  // return first < second
 	{
-          int i = first->NameForSearch().compare(second->NameForSearch() );
-          if(i != 0) return i < 0;
+           return first->orderDuplicates(second, false);
+	}
 
-          return RecordingsItemPtrCompare::compareLC(i, first->ShortText(), second->ShortText() ) < 0;
+	bool RecordingsItemPtrCompare::ByDuplicates(const RecordingsItemPtr & first, const RecordingsItemPtr & second)  // return first < second
+	{
+          return first->orderDuplicates(second, true);
 	}
 
 	bool RecordingsItemPtrCompare::ByAscendingNameDesc(const RecordingsItemPtr & first, const RecordingsItemPtr & second)  // return first < second
 	{
            int i = first->NameForSearch().compare(second->NameForSearch() );
            if(i != 0) return i < 0;
-           return RecordingsItemPtrCompare::Compare2(i, first, second) < 0;
+           return first->CompareStD(second) < 0;
 	}
 
 	bool RecordingsItemPtrCompare::ByAscendingNameDescSort(const RecordingsItemPtr & first, const RecordingsItemPtr & second)  // return first < second
@@ -435,7 +410,7 @@ namespace vdrlive {
 	{
            int i = first->NameForSort().compare(second->NameForSort() );
            if(i != 0) return i < 0;
-           return RecordingsItemPtrCompare::Compare2(i, first, second) < 0;
+           return first->CompareStD(second) < 0;
 	}
 
 	bool RecordingsItemPtrCompare::ByDescendingNameDescSort(const RecordingsItemPtr & first, const RecordingsItemPtr & second)  // return first > second
@@ -454,7 +429,8 @@ namespace vdrlive {
             return g_collate_char.transform(Name.data()+start, Name.data()+Name.length());
         }
 
-        int RecordingsItemPtrCompare::compareLC(int &numEqualChars, const char *first, const char *second) {
+        int RecordingsItemPtrCompare::compareLC(const char *first, const char *second, int *numEqualChars) {
+// if numEqualChars != NULL: Add the number of equal characters to *numEqualChars
           bool fe = !first  || !first[0];    // is first  string empty string?
           bool se = !second || !second[0];   // is second string empty string?
           if (fe && se) return 0;
@@ -462,12 +438,11 @@ namespace vdrlive {
           if (fe) return -1;
 // compare strings case-insensitive
           for(; *first && *second; ) {
-//          if (*first == *second) { first++; second++; numEqualChars++; continue; }
             wint_t  flc = towlower(getNextUtfCodepoint(first));
             wint_t  slc = towlower(getNextUtfCodepoint(second));
             if ( flc < slc ) return -1;
             if ( flc > slc ) return  1;
-            numEqualChars++;
+            if (numEqualChars) (*numEqualChars)++;
           }
           if (*second ) return -1;
           if (*first  ) return  1;
@@ -480,11 +455,11 @@ namespace vdrlive {
 	 */
 	RecordingsItem::RecordingsItem(std::string const & name, RecordingsItemPtr parent) :
 		m_level((parent != NULL) ? parent->Level() + 1 : 0),
+		m_entries(),
+		m_parent(parent),
 		m_name(name),
                 m_name_for_sort(RecordingsItemPtrCompare::getNameForSort(name)),
-                m_name_for_search(RecordingsItem::GetNameForSearch(name)),
-		m_entries(),
-		m_parent(parent)
+                m_name_for_search(RecordingsItem::GetNameForSearch(name))
 	{
 	}
 
@@ -504,6 +479,61 @@ namespace vdrlive {
           return result;
 	}
 
+	int RecordingsItem::CompareTexts(const RecordingsItemPtr &second, int *numEqualChars) const
+// Compare NameForSearch + ShortText + Description
+// if numEqualChars != NULL: return namber of equal characters in ShortText + Description
+	{
+          if (numEqualChars) *numEqualChars = 0;
+          int i = NameForSearch().compare(second->NameForSearch() );
+          if(i != 0) return i;
+// name is identical, compare short text
+          i = RecordingsItemPtrCompare::compareLC(ShortText(), second->ShortText(), numEqualChars);
+          if(i != 0) return i;
+          i = RecordingsItemPtrCompare::compareLC(Description(), second->Description(), numEqualChars);
+          return i;
+	}
+
+        int RecordingsItem::CompareStD(const RecordingsItemPtr &second, int *numEqualChars) const
+        {
+// compare short text & description
+          if (numEqualChars) *numEqualChars = 0;
+          ShortTextDescription chfirst (        ShortText(),         Description() );
+          ShortTextDescription chsecond(second->ShortText(), second->Description() );
+          wint_t flc;
+          wint_t slc;
+          do {
+            flc = chfirst.getNextNonPunctChar();
+            slc = chsecond.getNextNonPunctChar();
+            if ( flc < slc ) return -1;
+            if ( flc > slc ) return  1;
+            if (numEqualChars) ++(*numEqualChars);
+          } while ( flc && slc );
+          if (numEqualChars) --(*numEqualChars);
+          return 0;
+        }
+
+        bool RecordingsItem::orderDuplicates(const RecordingsItemPtr &second, bool alwaysShortText) const {
+// this is a < operation. Return false in case of ==   !!!!!
+          if (m_scraper_data_available != second->m_scraper_data_available) return m_scraper_data_available < second->m_scraper_data_available;
+          if (m_scraper_data_available) {
+            if (m_s_movie != second->m_s_movie) return m_s_movie < second->m_s_movie;
+              if (m_s_movie) return m_s_dbid < second->m_s_dbid;
+              else {
+// both are TV Shows
+                if (m_s_dbid != second->m_s_dbid) return m_s_dbid < second->m_s_dbid;
+                if (m_s_season_number != second->m_s_season_number) return m_s_season_number < second->m_s_season_number;
+                if (m_s_episode_number != second->m_s_episode_number) return m_s_episode_number < second->m_s_episode_number;
+                if (m_s_season_number != 0 || m_s_episode_number != 0) return false;  // they are equal => < operator results in false ...
+                return CompareTexts(second) < 0;
+              }
+          } else {
+            int i = NameForSearch().compare(second->NameForSearch() );
+            if (i != 0) return i < 0;
+            if (!alwaysShortText) return false;
+
+            return RecordingsItemPtrCompare::compareLC(ShortText(), second->ShortText() ) < 0;
+          }
+        }
 
 	/**
 	 *  Implementation of class RecordingsItemDir:
@@ -532,6 +562,23 @@ namespace vdrlive {
                 m_duration(m_recording->FileName() ? m_recording->LengthInSeconds() / 60 : 0)
 	{
 		// dsyslog("live: REC: C: rec %s -> %s", name.c_str(), parent->Name().c_str());
+                cGetScraperOverview scraperOverview (NULL, recording, &m_s_title, &m_s_episode_name, &m_s_IMDB_ID, &m_s_image,
+                  cImageLevels(eImageLevel::episodeMovie, eImageLevel::seasonMovie, eImageLevel::tvShowCollection, eImageLevel::anySeasonCollection),
+                  cOrientations(eOrientation::landscape, eOrientation::portrait, eOrientation::banner));
+                if (scraperOverview.call(LiveSetup().GetPluginScraper()) ) {
+                  m_scraper_data_available = scraperOverview.m_found;
+                  if (!m_scraper_data_available) return;
+                  m_s_movie = scraperOverview.m_movie;
+                  m_s_dbid = scraperOverview.m_dbid;
+                  m_s_runtime = scraperOverview.m_runtime;
+                  m_s_collection_id = scraperOverview.m_collectionId;
+                  m_s_episode_number = scraperOverview.m_episodeNumber;
+                  m_s_season_number = scraperOverview.m_seasonNumber;
+                } else {
+// service "GetScraperOverview" is not available, just get the image
+                  m_scraper_data_available = false;
+                  EpgEvents::PosterTvscraper(m_s_image, NULL, recording);
+                }
 	}
 
 	RecordingsItemRec::~RecordingsItemRec()
@@ -609,8 +656,13 @@ namespace vdrlive {
 
         void RecordingsItemRec::AppendIMDb(std::string &target) const {
           if (LiveSetup().GetShowIMDb()) { 
-            target.append("<a href=\"http://www.imdb.com/find?s=all&q=");
-            AppendHtmlEscaped( target, StringUrlEncode(Name() ).c_str() );
+            if (m_s_IMDB_ID.empty() ) {
+              target.append("<a href=\"http://www.imdb.com/find?s=all&q=");
+              AppendHtmlEscaped( target, StringUrlEncode(Name() ).c_str() );
+            } else {
+              target.append("<a href=\"https://www.imdb.com/title/");
+              target.append(m_s_IMDB_ID);
+            }
             target.append("\" target=\"_blank\"><img src=\"");
             target.append(LiveSetup().GetThemedLinkPrefixImg() );
             target.append("imdb.png\" title=\"");
@@ -656,6 +708,38 @@ namespace vdrlive {
             target.append(Id());
             target.append("\" />" );
             }
+// scraper data
+          if (!LiveSetup().GetTvscraperImageDir().empty() ) {
+            target.append("</div>\n<div class=\"thumb\">");
+            target.append("<a class=\"thumb\" href=\"epginfo.html?epgid=");
+            target.append(Id() );
+            target.append("\"><img src=\"" );
+            if (!m_s_image.path.empty() ) {  
+              target.append("/tvscraper/");
+              target.append(m_s_image.path);
+              if (m_s_image.width > m_s_image.height) target.append("\" class=\"thumb");
+              else target.append("\" class=\"thumbpt");
+            } else {
+              target.append("img/transparent.png\" height=\"16px");
+            }
+            if (m_scraper_data_available) {
+              target.append("\" title=\"");
+              AppendHtmlEscapedAndCorrectNonUTF8(target, m_s_title.c_str() );
+              if (!m_s_movie && (m_s_episode_number != 0 || m_s_season_number != 0)) {
+                target.append("<br/>S");
+                target.append(std::to_string(m_s_season_number));
+                target.append("E");
+                target.append(std::to_string(m_s_episode_number));
+                target.append(" ");
+                AppendHtmlEscapedAndCorrectNonUTF8(target, m_s_episode_name.c_str() );
+              }
+              if (m_s_runtime) {
+                target.append("<br/>");
+                AppendDuration(target, tr("(%d:%02d)"), m_s_runtime / 60, m_s_runtime % 60);
+              }
+            }
+            target.append("\" /> </a>");
+          }
 // recording_spec: Day, time & duration
           target.append("</div>\n<div class=\"recording_spec\"><div class=\"recording_day\">");
           AppendDateTime(target, tr("%a,"), StartTime());  // day of week
@@ -663,8 +747,10 @@ namespace vdrlive {
 	  AppendDateTime(target, tr("%b %d %y"), StartTime());  // date
           target.append(" ");
 	  AppendDateTime(target, tr("%I:%M %p"), StartTime() );  // time
-          target.append("</div><div class=\"recording_duration\">");
-          if(Duration() >= 0) AppendDuration(target, tr("(%d:%02d)"), Duration() / 60, Duration() % 60);
+          if(Duration() >= 0) {
+            target.append("</br>");
+            AppendDuration(target, tr("(%d:%02d)"), Duration() / 60, Duration() % 60);
+          }
           target.append("</div>");
 // RecordingErrors, Icon
 #if VDRVERSNUM >= 20505
@@ -740,12 +826,22 @@ namespace vdrlive {
 	/**
 	 * Implemetation of class RecordingsItemDummy
 	 */
-        RecordingsItemDummy::RecordingsItemDummy(const std::string &Name, const std::string &ShortText, const std::string &Description, long Duration):
+        RecordingsItemDummy::RecordingsItemDummy(const std::string &Name, const std::string &ShortText, const std::string &Description, long Duration, cGetScraperOverview *scraperOverview):
                 RecordingsItem(Name, RecordingsItemPtr() ),
                 m_short_text(ShortText.c_str() ),
                 m_description(Description.c_str() ),
                 m_duration( Duration / 60 )
-                { }
+                {
+                  if (scraperOverview) {
+                    m_scraper_data_available = scraperOverview->m_found;
+                    m_s_movie = scraperOverview->m_movie;
+                    m_s_dbid = scraperOverview->m_dbid;
+                    m_s_episode_number = scraperOverview->m_episodeNumber;
+                    m_s_season_number = scraperOverview->m_seasonNumber;
+                  } else {
+                    m_scraper_data_available = false;
+                  }
+                }
 
 	/**
 	 *  Implementation of class RecordingsTree:
@@ -1104,21 +1200,25 @@ void addAllDuplicateRecordings(std::list<RecordingsItemPtr> &DuplicateRecItems, 
   bool isSeries;
 
   addAllRecordings(recItems, RecordingsTree, path);
-  recItems.sort(RecordingsItemPtrCompare::ByAscendingNameShortText);
+  recItems.sort(RecordingsItemPtrCompare::ByDuplicates);
 
-  for (currentRecItem = recItems.begin(); currentRecItem != recItems.end(); ){
+  for (currentRecItem = recItems.begin(); currentRecItem != recItems.end(); ) {
     recIterLowName = currentRecItem;
-    recIterUpName  = std::upper_bound (currentRecItem , recItems.end(), *currentRecItem, RecordingsItemPtrCompare::ByAscendingName);
+    recIterUpName  = std::upper_bound (currentRecItem , recItems.end(), *currentRecItem, RecordingsItemPtrCompare::ByDuplicatesName);
 
     currentRecItem++;
     if (recIterLowName == recIterUpName ) continue; // there is no recording with this name (internal error)
     if (currentRecItem == recIterUpName ) continue; // there is only one recording with this name
-    for( numberOfRecordingsWithThisName = 1; currentRecItem != recIterUpName; currentRecItem++, numberOfRecordingsWithThisName++);
-    if (numberOfRecordingsWithThisName > 5) isSeries = true; else isSeries = false;
+    if ( (*recIterLowName)->scraperDataAvailable() ) {
+      isSeries = false;  // no special for series required
+    } else {
+      for( numberOfRecordingsWithThisName = 1; currentRecItem != recIterUpName; currentRecItem++, numberOfRecordingsWithThisName++);
+      if (numberOfRecordingsWithThisName > 5) isSeries = true; else isSeries = false;
+    }
     if (isSeries) {
       for (currentRecItem = recIterLowName; currentRecItem != recIterUpName;){
         recIterLowShortText = currentRecItem;
-        recIterUpShortText  = std::upper_bound (currentRecItem , recIterUpName, *currentRecItem, RecordingsItemPtrCompare::ByAscendingNameShortText);
+        recIterUpShortText  = std::upper_bound (currentRecItem , recIterUpName, *currentRecItem, RecordingsItemPtrCompare::ByDuplicates);
         currentRecItem++;
         if (currentRecItem == recIterUpShortText ) continue; // there is only one recording with this short text
         for(currentRecItem = recIterLowShortText; currentRecItem != recIterUpShortText; currentRecItem++)

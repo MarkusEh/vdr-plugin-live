@@ -1,5 +1,7 @@
 
 #include "tools.h"
+#include "setup.h"
+
 
 #include "md5.h"
 
@@ -9,6 +11,7 @@
 // STL headers need to be before VDR tools.h (included by <vdr/recording.h>)
 #include <iomanip>
 
+#include <vdr/plugin.h>
 #include <vdr/recording.h>
 #include <vdr/videodir.h>
 
@@ -630,4 +633,17 @@ namespace vdrlive {
 		return true;
 	}
 
+  std::string ScraperImagePath2Live(const std::string &path){
+    int tvscraperImageDirLength = LiveSetup().GetTvscraperImageDir().length();
+    if (tvscraperImageDirLength == 0) return "";
+    if (path.compare(0, tvscraperImageDirLength, LiveSetup().GetTvscraperImageDir()) != 0) return "";
+    return path.substr(tvscraperImageDirLength);
+  }
+
+  bool ScraperCallService(const char *Id, void *Data) {
+    cPlugin *pScraper = LiveSetup().GetPluginScraper();
+    if (!pScraper) return false;
+    return pScraper->Service(Id, Data);
+  }
+ 
 } // namespace vdrlive

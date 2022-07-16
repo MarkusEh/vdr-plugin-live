@@ -11,6 +11,7 @@
 #else
 #include <cxxtools/loginit.h>
 #endif
+#include "services.h"
 
 namespace vdrlive {
 
@@ -41,6 +42,66 @@ namespace vdrlive {
 		}
 	}
 
+	void TntConfig::ConfigureTvscraper(tnt::Tntnet& app, const std::string &tvscraperImageDir) const
+        {
+// make the Tvscraper images available in the web server
+		// Images from tvscraper themoviedb: Movies
+			MapUrl(app,
+				   "^/tvscraper/movies/([^/]*)\\.([^./]+)",
+				   "content",
+				   tvscraperImageDir + "movies",
+				   "/$1.$2",
+				   "image/$2");
+		// Images from tvscraper themoviedb: Collections
+			MapUrl(app,
+				   "^/tvscraper/movies/collections/([^/]*)\\.([^./]+)",
+				   "content",
+				   tvscraperImageDir + "movies/collections",
+				   "/$1.$2",
+				   "image/$2");
+		// Images from tvscraper themoviedb: Actors
+			MapUrl(app,
+				   "^/tvscraper/movies/actors/([^/]*)\\.([^./]+)",
+				   "content",
+				   tvscraperImageDir + "movies/actors",
+				   "/$1.$2",
+				   "image/$2");
+		// Images from tvscraper themoviedb: tv shows
+			MapUrl(app,
+				   "^/tvscraper/movies/tv/([^/]*)/([^/]*)\\.([^./]+)",
+				   "content",
+				   tvscraperImageDir + "movies/tv",
+				   "/$1/$2.$3",
+				   "image/$3");
+		// Images from tvscraper themoviedb: tv shows, season
+			MapUrl(app,
+				   "^/tvscraper/movies/tv/([^/]*)/([^/]*)/([^/]*)\\.([^./]+)",
+				   "content",
+				   tvscraperImageDir + "movies/tv",
+				   "/$1/$2/$3.$4",
+				   "image/$4");
+		// Images from tvscraper themoviedb: tv shows, episode
+			MapUrl(app,
+				   "^/tvscraper/movies/tv/([^/]*)/([^/]*)/([^/]*)/([^/]*)\\.([^./]+)",
+				   "content",
+				   tvscraperImageDir + "movies/tv",
+				   "/$1/$2/$3/$4.$5",
+				   "image/$5");
+		// Images from tvscraper thetvdb: tv shows
+			MapUrl(app,
+				   "^/tvscraper/series/([^/]*)/([^/]*)\\.([^./]+)",
+				   "content",
+				   tvscraperImageDir + "series",
+				   "/$1/$2.$3",
+				   "image/$3");
+		// Images from tvscraper thetvdb: tv shows, episode images
+			MapUrl(app,
+				   "^/tvscraper/series/([^/]*)/([^/]*)/([^/]*)\\.([^./]+)",
+				   "content",
+				   LiveSetup().GetTvscraperImageDir() + "series",
+				   "/$1/$2/$3.$4",
+				   "image/$4");
+        }
 	void TntConfig::Configure(tnt::Tntnet& app) const
 	{
 		std::string const configDir(Plugin::GetConfigDirectory());
@@ -137,56 +198,18 @@ namespace vdrlive {
 			   "image/$3");
 		// deprecated: file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) $2@" << std::endl;
 
+// get image dir from plugin tvscraper
+                static cPlugin *pScraper = LiveSetup().GetPluginTvscraper();
+                if (pScraper) {
+// plugin tvscraper is available
+                  cGetScraperImageDir call;
+                  if (pScraper->Service("GetScraperImageDir", &call)) {
+// plugin tvscraper supports the service interface GetScraperImageDir (version 1.05 or newer)
+                    LiveSetup().SetTvscraperImageDir(call.scraperImageDir);
+                  }
+                }
 		if (!LiveSetup().GetTvscraperImageDir().empty()) {
-		// Epg images from tvscraper: Movies
-			MapUrl(app,
-				   "^/tvscraper/movies/([^/]*)\\.([^./]+)",
-				   "content",
-				   LiveSetup().GetTvscraperImageDir() + "movies",
-				   "/$1.$2",
-				   "image/$2");
-		// Epg images from tvscraper: Movie actors
-			MapUrl(app,
-				   "^/tvscraper/movies/actors/([^/]*)\\.([^./]+)",
-				   "content",
-				   LiveSetup().GetTvscraperImageDir() + "movies/actors",
-				   "/$1.$2",
-				   "image/$2");
-		// Epg images from tvscraper: tv
-			MapUrl(app,
-				   "^/tvscraper/movies/tv/([^/]*)/([^/]*)\\.([^./]+)",
-				   "content",
-				   LiveSetup().GetTvscraperImageDir() + "movies/tv",
-				   "/$1/$2.$3",
-				   "image/$3");
-		// Epg images from tvscraper: tv season
-			MapUrl(app,
-				   "^/tvscraper/movies/tv/([^/]*)/([^/]*)/([^/]*)\\.([^./]+)",
-				   "content",
-				   LiveSetup().GetTvscraperImageDir() + "movies/tv",
-				   "/$1/$2/$3.$4",
-				   "image/$4");
-		// Epg images from tvscraper: tv episode
-			MapUrl(app,
-				   "^/tvscraper/movies/tv/([^/]*)/([^/]*)/([^/]*)/([^/]*)\\.([^./]+)",
-				   "content",
-				   LiveSetup().GetTvscraperImageDir() + "movies/tv",
-				   "/$1/$2/$3/$4.$5",
-				   "image/$5");
-		// Epg images from tvscraper thetvdb: Series
-			MapUrl(app,
-				   "^/tvscraper/series/([^/]*)/([^/]*)\\.([^./]+)",
-				   "content",
-				   LiveSetup().GetTvscraperImageDir() + "series",
-				   "/$1/$2.$3",
-				   "image/$3");
-		// Epg images from tvscraper thetvdb: Series, episode images
-			MapUrl(app,
-				   "^/tvscraper/series/([^/]*)/([^/]*)/([^/]*)\\.([^./]+)",
-				   "content",
-				   LiveSetup().GetTvscraperImageDir() + "series",
-				   "/$1/$2/$3.$4",
-				   "image/$4");
+	          ConfigureTvscraper(app, LiveSetup().GetTvscraperImageDir());
 		}
 
 		// Epg images

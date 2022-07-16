@@ -10,19 +10,19 @@
 #include <vdr/config.h>
 using namespace vdrlive;
 
-bool searchNameDesc(RecordingsItemPtr &RecItem, std::list<RecordingsItemPtr> &RecItems, const std::string &Name, const std::string &ShortText, const std::string &Description, long Duration) {
+bool searchNameDesc(RecordingsItemPtr &RecItem, std::list<RecordingsItemPtr> &RecItems, const std::string &Name, const std::string &ShortText, const std::string &Description, long Duration, cGetScraperOverview *scraperOverview) {
   if(RecItems.begin() == RecItems.end() ) return false;  // there are no recordings
 
 // find all recordings with equal name
-  RecordingsItemPtr dummy (new RecordingsItemDummy(Name, ShortText, Description, Duration));
-  std::list<RecordingsItemPtr>::iterator recIterLowName = std::lower_bound (RecItems.begin(), RecItems.end(), dummy, RecordingsItemPtrCompare::ByAscendingName);
-  std::list<RecordingsItemPtr>::iterator recIterUpName  = std::upper_bound (recIterLowName  , RecItems.end(), dummy, RecordingsItemPtrCompare::ByAscendingName);
+  RecordingsItemPtr dummy (new RecordingsItemDummy(Name, ShortText, Description, Duration, scraperOverview));
+  std::list<RecordingsItemPtr>::iterator recIterLowName = std::lower_bound (RecItems.begin(), RecItems.end(), dummy, RecordingsItemPtrCompare::ByDuplicatesName);
+  std::list<RecordingsItemPtr>::iterator recIterUpName  = std::upper_bound (recIterLowName  , RecItems.end(), dummy, RecordingsItemPtrCompare::ByDuplicatesName);
   if ( recIterLowName == recIterUpName ) return false; // there is no recording with this name
 
 
 // find all recordings with matching short text / description
-  std::list<RecordingsItemPtr>::iterator recIterLow = std::lower_bound (recIterLowName, recIterUpName, dummy, RecordingsItemPtrCompare::ByAscendingNameDesc);
-  std::list<RecordingsItemPtr>::iterator recIterUp = std::upper_bound (recIterLow, recIterUpName, dummy, RecordingsItemPtrCompare::ByAscendingNameDesc);
+  std::list<RecordingsItemPtr>::iterator recIterLow = std::lower_bound (recIterLowName, recIterUpName, dummy, RecordingsItemPtrCompare::ByDuplicates);
+  std::list<RecordingsItemPtr>::iterator recIterUp = std::upper_bound (recIterLow, recIterUpName, dummy, RecordingsItemPtrCompare::ByDuplicates);
 
   if(recIterLow != recIterUp) {   // exact match found
     if (RecordingsItemPtrCompare::FindBestMatch(RecItem, recIterLow, recIterUp, dummy) > 0) return true;
@@ -35,10 +35,10 @@ bool searchNameDesc(RecordingsItemPtr &RecItem, std::list<RecordingsItemPtr> &Re
 
   if(recIterLow != recIterLowName) { 
     --recIterLow;
-    RecordingsItemPtrCompare::Compare2(numEqualCharsLow, *recIterLow, dummy);
+    (*recIterLow)->CompareStD(dummy, &numEqualCharsLow);
   }
   if(recIterUp != recIterUpName)
-    RecordingsItemPtrCompare::Compare2(numEqualCharsUp , *recIterUp , dummy);
+    (*recIterUp)->CompareStD(dummy, &numEqualCharsUp);
 
   if ( numEqualCharsLow > numEqualCharsUp ) {
     if( numEqualCharsLow > 5 ) { RecItem = *recIterLow; return true; }
@@ -79,7 +79,7 @@ std::list<RecordingsItemPtr> recItems;
 RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
 
 addAllRecordings(recItems, recordingsTree, path);
-recItems.sort(RecordingsItemPtrCompare::ByAscendingNameDesc);
+recItems.sort(RecordingsItemPtrCompare::ByDuplicates);
 
 
 #if VDRVERSNUM < 20301
@@ -180,8 +180,17 @@ recItems.sort(RecordingsItemPtrCompare::ByAscendingNameDesc);
 
 			bool truncated = false;
 			bool lastEventCurrentDay = false;
+// scraper data
+                        std::string s_title, s_episode_name, s_IMDB_ID;
+                        cTvMedia s_image;
+                        bool scraper_data_available = false;
+                        cGetScraperOverview scraperOverview (Event, NULL, &s_title, &s_episode_name, &s_IMDB_ID, &s_image,
+                          cImageLevels(eImageLevel::episodeMovie, eImageLevel::seasonMovie, eImageLevel::tvShowCollection, eImageLevel::anySeasonCollection),
+                          cOrientations(eOrientation::landscape, eOrientation::portrait, eOrientation::banner) );
+                        if (scraperOverview.call(LiveSetup().GetPluginScraper()) )
+                          scraper_data_available = scraperOverview.m_found;
 
-                        recItemFound = searchNameDesc(recItem, recItems, title, short_description, description, epgEvent->Duration() );
+                        recItemFound = searchNameDesc(recItem, recItems, title, short_description, description, epgEvent->Duration(), &scraperOverview);
 			{
 #if VDRVERSNUM >= 20301
 				cEvent* NextEvent = (cEvent *)Schedule->Events()->Next(Event);
@@ -219,23 +228,38 @@ if (display_pictures) col_span = 6;
 				<tr>
 					<td class="action leftcol <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><& pageelems.event_timer epgid=(epgid) &></td>
 					<td class="action <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><%cpp>if (LiveFeatures<features::epgsearch>().Recent() ) { </%cpp><a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a><%cpp> } else { </%cpp><img src="img/transparent.png" width="16" height="16"><%cpp> } </%cpp></td>
-					<td class="action <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><& pageelems.imdb_info_href title=(title) &></td>
+					<td class="action <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID) &></td>
 <%cpp>
 if (display_pictures) {
-std::string image = EpgEvents::PosterTvscraper(Event, NULL);
-if (image == "") {
+  bool episodeFound = scraperOverview.m_found && !scraperOverview.m_movie && (scraperOverview.m_episodeNumber != 0 || scraperOverview.m_seasonNumber != 0);
+  std::string anf = "\"";
+  std::string s_duration = "";
+  if (scraper_data_available) {
+    s_duration = FormatDuration(tr("(%d:%02d)"), scraperOverview.m_runtime / 60, scraperOverview.m_runtime % 60);
+  } else EpgEvents::PosterTvscraper(s_image, Event, NULL);
 </%cpp>
-<td class="thumb <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"></td>
-<%cpp>
-} else {
-</%cpp>
-<td class="thumb <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>">
-  <a <& tooltip.display_scraper domId=(epgEvent->Id()) &>>
-    <img src="/tvscraper/<$ image $>" alt="" width="42px" height="63px" />
-  </a>
+<td class="<? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>">
+<div class="thumb">
+<a class="thumb" <& tooltip.display_scraper domId=(epgEvent->Id()) &>>
+<%cpp>if (s_image.path == "") {</%cpp>
+  <img src="img/transparent.png" height="10px"
+<%cpp>} else {</%cpp>
+  <img class="thumb" src="/tvscraper/<$ s_image.path $>"
+<%cpp>} if (scraperOverview.m_found) {</%cpp>
+  title=<$$anf$><$s_title$>
+  <%cpp>if (episodeFound) {</%cpp>
+    <br/>S<$scraperOverview.m_seasonNumber$>E<$scraperOverview.m_episodeNumber$> <$s_episode_name$>
+  <%cpp>}if (scraperOverview.m_runtime) {</%cpp>
+    <br/><$s_duration$>
+  <%cpp> } </%cpp>
+<$$anf$>
+<%cpp> } </%cpp>
+  />
+</a>
+</div>
 </td>
 <%cpp>
-}}
+}
 </%cpp>
 
 <td class="topaligned <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><div class="withmargin"><$ start $> - <$ end $><br /><$ duration $></div></td>

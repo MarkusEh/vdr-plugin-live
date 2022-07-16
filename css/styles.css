@@ -1011,7 +1011,7 @@ div.recording_item {
 }
 
 .recording_item div.recording_day {
-	width: 13em;
+	width: 12em;
 }
 
 .recording_item div.recording_date {
@@ -1029,6 +1029,7 @@ div.recording_item {
 .recording_item div.recording_name {
 	font-weight: bold;
 	cursor: pointer;
+        max-width: 30em;
 }
 
 .recording_item div.recording_name span {
@@ -1040,6 +1041,7 @@ div.recording_item {
 	font-weight: bold;
 	color: orangered;
 	cursor: pointer;
+        max-width: 30em;
 }
 
 .recording_item div.recording_name_new a {
@@ -1055,10 +1057,6 @@ div.recording_item {
 }
 
 .recording_item div.recording_sd_hd {
-	width: 35px;
-}
-
-.recording_item div.recording_aspect_ratio {
 	width: 35px;
 }
 
@@ -1356,4 +1354,28 @@ div.epg_content div.about_head div div {
 	background: #E9EFFF;
 	border-top: 1px solid #C0C1DA;
 	border-bottom: 1px solid #C0C1DA;
+}
+
+div.thumb {
+  width: 80px;
+  max-height: 40px;
+  margin-right: 0.5em;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  text-align: center;
+  overflow: hidden;
+  float: left;
+}
+a.thumb {
+  float: left;
+}
+
+img.thumbpt {
+  width: 80px;
+  margin-top: -20px;
+
+}
+img.thumb {
+  width: 80px;
+  margin: 0 -100%;
 }

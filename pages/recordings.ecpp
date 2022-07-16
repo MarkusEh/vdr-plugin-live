@@ -377,10 +377,11 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 <%args>
 	std::string id;
 	std::string title;
+        std::string s_IMDB_ID;
 </%args>
 <& pageelems.ajax_action_href action="play_recording" param=(id) tip=(tr("play this recording.")) image="play.png" alt="" &>
 <& pageelems.m3u_playlist_recording recid=(id) &>
-<& pageelems.imdb_info_href title=(title) &>
+<& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID) &>
 <& recordings.edit_rec id=(id) &>
 <& recordings.del_rec id=(id) &>
 </%def>
@@ -391,9 +392,10 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 <%args>
 	std::string archived;
 	std::string title;
+        std::string s_IMDB_ID;
 </%args>
 <img src="<$ LiveSetup().GetThemedLink("img", "on_dvd.png") $>" alt="on_dvd" <& tooltip.hint text=(archived) &> />
-<& pageelems.imdb_info_href title=(title) &>
+<& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID)&>
 </%def>
 
 <# ---------------------------------------------------------------------- #>

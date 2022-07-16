@@ -81,7 +81,9 @@ using namespace vdrlive;
 				throw HtmlError(tr("Couldn't find recording or no recordings available"));
 			}
 			epgEvent = EpgEvents::CreateEpgInfo(epgid, recording);
-			epgImage = EpgEvents::PosterTvscraper(NULL, recording);
+                        cTvMedia image;
+			EpgEvents::PosterTvscraper(image, NULL, recording);
+			epgImage = image.path;
                         irecording = (uintptr_t)recording;
 		}
 		// check for event:
@@ -105,7 +107,9 @@ using namespace vdrlive;
 			epgEvent = EpgEvents::CreateEpgInfo(epgid, schedules);
 #endif
 			const cEvent* event = epgEvent->Event();
-			epgImage = EpgEvents::PosterTvscraper(event, NULL);
+                        cTvMedia image;
+			EpgEvents::PosterTvscraper(image, event, NULL);
+			epgImage = image.path;
                         i_event = (uintptr_t)event;
 		}
 		// check for aboutbox:
@@ -178,6 +182,7 @@ using namespace vdrlive;
 std::string id;
 std::string title;
 int detail;
+std::string s_IMDB_ID;
 </%args>
-<& pageelems.epg_tool_box detail=(detail) epgid=(id) title=(title) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) &>
+<& pageelems.epg_tool_box detail=(detail) epgid=(id) title=(title) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) s_IMDB_ID=(s_IMDB_ID) &>
 </%def>

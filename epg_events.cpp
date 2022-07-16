@@ -396,45 +396,21 @@ namespace vdrlive
 			return found;
 		}
 
-		std::string TvscraperValidataPath(const std::string &path) {
-                  if(path.compare(0, LiveSetup().GetTvscraperImageDir().length(), LiveSetup().GetTvscraperImageDir()) == 0)
-		    return path.substr(LiveSetup().GetTvscraperImageDir().length());
-                  return "";
-                }
-		std::string PosterTvscraper(const cEvent *event, const cRecording *recording)
+		bool PosterTvscraper(cTvMedia &media, const cEvent *event, const cRecording *recording)
 		{
-		  if (LiveSetup().GetTvscraperImageDir().empty() ) return "";
-                  static cPlugin *pScraper = cPluginManager::GetPlugin("scraper2vdr");
-                  if (!pScraper ) // if it doesn't exit, try tvscraper
-                    pScraper = cPluginManager::GetPlugin("tvscraper");
-
-		  if (pScraper) {
-		    ScraperGetPoster call;
-		    call.event = event;
-		    call.recording = recording;
-		    if (pScraper->Service("GetPoster", &call)) {
-                      if(call.poster.path.compare(0, LiveSetup().GetTvscraperImageDir().length(), LiveSetup().GetTvscraperImageDir()) == 0)
-			return call.poster.path.substr(LiveSetup().GetTvscraperImageDir().length());
-		    }
-		  }
-		  return "";
-                }
-
-		bool tvscraper_avialabe() {
-                  static cPlugin *pScraper = cPluginManager::GetPlugin("tvscraper");
-		  if (!pScraper) return false;
-		  return pScraper->Service("GetScraperMovieOrTv", NULL);
-                }
-		bool tvscraper(cScraperMovieOrTv &scraperMovieOrTv, const cEvent *event, const cRecording *recording)
-		{
-		  scraperMovieOrTv.found = false;
-                  static cPlugin *pScraper = cPluginManager::GetPlugin("tvscraper");
-		  if (!pScraper) return false;
-  		  scraperMovieOrTv.event = event;
-		  scraperMovieOrTv.recording = recording;
-		  scraperMovieOrTv.httpImagePaths = false;
-		  scraperMovieOrTv.media = true;
-		  return pScraper->Service("GetScraperMovieOrTv", &scraperMovieOrTv);
+                  media.path = "";
+                  media.width = media.height = 0;
+		  if (LiveSetup().GetTvscraperImageDir().empty() ) return false;
+                  ScraperGetPoster call;
+                  call.event = event;
+                  call.recording = recording;
+                  if (ScraperCallService("GetPoster", &call)) {
+                    media.path = ScraperImagePath2Live(call.poster.path);
+                    media.width = call.poster.width;
+                    media.height = call.poster.height;
+                    return true;
+                  }
+		  return false;
                 }
 
 		std::list<std::string> EpgImages(std::string const &epgid)
