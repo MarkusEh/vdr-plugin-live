@@ -44,7 +44,7 @@ using namespace vdrlive;
 <%cpp>
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
-// sort dpends on old sort, an sort parameter
+// sort depends on old sort, an sort parameter
 currentSort = LiveSetup().GetLastSortingMode();
 if (currentSort.empty() ) currentSort = "nameasc";
 if (!sort.empty()) {
@@ -55,6 +55,8 @@ if (!sort.empty()) {
 	else if (sort == "errors")
                 currentSort = (currentSort == "errorsasc") ? "errorsdesc" : "errorsasc";
 	else if (sort == "duplicates")
+		currentSort = sort;
+	else if (sort == "tvShowsMovies")
 		currentSort = sort;
 	LiveSetup().SetLastSortingMode(currentSort);
 }
@@ -208,91 +210,92 @@ if (!deleteResult.empty()) {
 <%def recordings_item>
 <%args>
 	filter;
-	path[];
 	int counter = 0;
-	std::string idHash = "";
+	uintptr_t iRecItem = 0;
 </%args>
 <%cpp>
 recoring_item.reserve(6000);
 // Max Buffer used: 5.636 bytes
 RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
+RecordingsItemPtr recItemThisDir;
+if (iRecItem != 0) {
+recItemThisDir = *(static_cast<RecordingsItemPtr *>((void *)iRecItem) );
+} else {
+recItemThisDir = recordingsTree->get(std::vector<std::string>() );
+}
 std::list<RecordingsItemPtr> recItems;
 std::list<RecordingsItemPtr>::iterator recIter;
+bool sorted = false;
+int level = 0;
 if( currentFlat != "true" ) {
-RecordingsMap::iterator iter;
-RecordingsMap::iterator end = recordingsTree->end(path);
-
-for (iter = recordingsTree->begin(path); iter != end; ++iter) {
-	RecordingsItemPtr recItem = iter->second;
-	if (recItem->IsDir()) {
-		recItems.push_back(recItem);
-	}
+sorted = recItemThisDir->addSubdirs(recItems);
+if (!sorted) {
+  if (currentSort == "namedesc")
+          recItems.sort(RecordingsItemPtrCompare::ByDescendingNameDescSort);
+  else if (currentSort == "nameasc")
+          recItems.sort(RecordingsItemPtrCompare::ByAscendingNameDescSort);
 }
-if (currentSort == "namedesc")
-	recItems.sort(RecordingsItemPtrCompare::ByDescendingNameDescSort);
-else if (currentSort == "nameasc")
-	recItems.sort(RecordingsItemPtrCompare::ByAscendingNameDescSort);
 for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 	RecordingsItemPtr recItem = *recIter;
 	counter++;
 
 	/* search trough directory for new recordings */
         bool newR = false;
-	if ( LiveSetup().GetMarkNewRec() ) {
-           std::vector<std::string> p(path); 
-	   p.push_back(recItem->Name()); 
-	   newR = checkNew(recordingsTree, p);; 
-        }
+	if ( LiveSetup().GetMarkNewRec() ) newR = recItem->checkNew();
+        level = recItem->Level();
 </%cpp>
 	<li class="recording">
-	<& rec_item_dir name=(recItem->Name()) level=(recItem->Level() ) newR=(newR ? "_new" : "") &>
+  <div class="recording_item" onclick="Toggle(this)">
+    <div class="recording_imgs">
+      <{ if(level > 1) { }><img src="img/transparent.png" width="<$16*(level-1) $>px" height="16px" /> <{ } }>
+      <img class="recording_expander" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>plus.png" /><img class="recording_folder" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png" /></div>
+      <{ if (!recItem->scraperImage().path.empty() ) { }>
+        <div class="thumb">
+        <img src="/tvscraper/<$ recItem->scraperImage().path $>"
+             <$$ recItem->scraperImage().width > recItem->scraperImage().height?"class=\"thumb\"":"class=\"thumbpt\"" $>
+        />
+        </div>
+       <{ } }>
+    <div class="recording_spec">
+      <div class="recording_name<$ (newR ? "_new" : "") $>"><$ recItem->Name() $></div>
+    </div>
+    <div class="recording_actions">&nbsp;</div>
+  </div>
+
 <%cpp>
-#if TNT_QUERYPARAMS_NO_BOOL
-		tnt::QueryParams recItemParams(qparam);
-#else
-		tnt::QueryParams recItemParams(qparam, false);
-#endif
-#if TNTVERSION >= 30000
-		recItemParams.add("path[]", recItem->Name());
-#else
-		recItemParams.add("path", recItem->Name());
-#endif
-		std::string combinedId = recItem->Name() + "_";
-		combinedId += counter + "_" + recItem->Level();
-		idHash = MD5Hash(combinedId);
+      std::string combinedId = recItem->Name() + "_";
+      combinedId += counter + "_" + recItem->Level();
+      std::string idHash(MD5Hash(combinedId));
+      iRecItem = (uintptr_t)&recItem;
 </%cpp>
-		<ul id="fldr_<$ idHash $>" class="recordingslist" style="display: none;">
-<%cpp>
-		callComp("recordings.recordings_item", request, reply, recItemParams);
-</%cpp>
+      <ul id="fldr_<$ idHash $>" class="recordingslist" style="display: none;">
+<& recordings.recordings_item filter=(filter) counter=(counter) iRecItem=(iRecItem) &>
 		</ul>
 	</li>
 <%cpp>
 }
 recItems.clear();
-for (iter = recordingsTree->begin(path); iter != end; ++iter) {
-	RecordingsItemPtr recItem = iter->second;
-	if (!recItem->IsDir()) {
-		recItems.push_back(recItem);
-	}
-}
+sorted = recItemThisDir->addRecordings(recItems);
+level = recItemThisDir->Level() + 1;
 } else {
 if (currentSort == "duplicates") {
   addAllDuplicateRecordings(recItems, recordingsTree);
 } else {
-  addAllRecordings(recItems, recordingsTree, path);
+  recordingsTree->addAllRecordings(recItems);
 }
 }
-if (currentSort == "dateasc")
-	recItems.sort(RecordingsItemPtrCompare::ByAscendingDate);
-else if (currentSort == "datedesc")
-	recItems.sort(RecordingsItemPtrCompare::ByDescendingDate);
-else if (currentSort == "namedesc")
-	recItems.sort(RecordingsItemPtrCompare::ByDescendingNameDescSort);
-else if (currentSort == "nameasc")
-	recItems.sort(RecordingsItemPtrCompare::ByAscendingNameDescSort);
-else if (currentSort == "errorsasc" || currentSort == "errorsdesc")
-	recItems.sort(RecordingsItemPtrCompare::ByDescendingRecordingErrors);
+if (!sorted) {
+  if (currentSort == "dateasc")
+          recItems.sort(RecordingsItemPtrCompare::ByAscendingDate);
+  else if (currentSort == "datedesc")
+          recItems.sort(RecordingsItemPtrCompare::ByDescendingDate);
+  else if (currentSort == "namedesc")
+          recItems.sort(RecordingsItemPtrCompare::ByDescendingNameDescSort);
+  else if (currentSort == "nameasc")
+          recItems.sort(RecordingsItemPtrCompare::ByAscendingNameDescSort);
+  else if (currentSort == "errorsasc" || currentSort == "errorsdesc")
+          recItems.sort(RecordingsItemPtrCompare::ByDescendingRecordingErrors);
+}
 
 argList.clear();
 argList.append("&sort=");
@@ -302,7 +305,7 @@ argList.append(currentFilter);
 for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 		RecordingsItemPtr recItem = *recIter;
   recoring_item.clear();
-  recItem->AppendasHtml(recoring_item, currentFlat == "true", argList, path);
+  recItem->AppendasHtml(recoring_item, currentFlat == "true", argList, level);
   max_length_recoring_item = std::max(max_length_recoring_item, recoring_item.length() );
 #ifdef HAVE_PCRE2
   StringMatch sm(filter);
@@ -326,9 +329,10 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 
 <%def sort_options>
 <%cpp> { </%cpp>
-<a href="recordings.html?sort=name&filter=<? currentFilter != "" ? currentFilter ?>" /><$ tr("Sort by name") $></a>
+<span class="label bold"><$ tr("Sort:") $> </span>
+<a href="recordings.html?sort=name&filter=<? currentFilter != "" ? currentFilter ?>" /><$ tr("Name") $></a>
 <span class="sep">|</span>
-<a href="recordings.html?sort=date&filter=<? currentFilter != "" ? currentFilter ?>" /><$ tr("Sort by date") $></a>
+<a href="recordings.html?sort=date&filter=<? currentFilter != "" ? currentFilter ?>" /><$ tr("Date") $></a>
 <span class="sep">|</span>
 <a href="recordings.html?sort=duplicates&filter=<? currentFilter != "" ? currentFilter ?>" /><$ tr("Duplicates") $></a>
 <%cpp>
@@ -399,23 +403,6 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 </%def>
 
 <# ---------------------------------------------------------------------- #>
-
-<%def rec_item_dir>
-<%args>
-  std::string name;
-  int level;
-  std::string newR;
-</%args>
-  <div class="recording_item" onclick="Toggle(this)">
-    <div class="recording_imgs">
-      <{ if(level > 1) { }><img src="img/transparent.png" width="<$16*(level-1) $>px" height="16px" /> <{ } }>
-      <img class="recording_expander" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>plus.png" /><img class="recording_folder" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png" /></div>
-    <div class="recording_spec">
-      <div class="recording_name<$ newR $>"><$ name $></div>
-    </div>
-    <div class="recording_actions">&nbsp;</div>
-  </div>
-</%def>
 
 <# ---------------------------------------------------------------------- #>
 

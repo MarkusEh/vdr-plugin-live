@@ -116,12 +116,10 @@ const cRecording* recording;
 						<td class="rightcol">
 							<select name="directory" size="1" id="directory" style="margin-top: 5px">
 <%cpp>
-	DirectoryListPtr dirList(LiveRecordingsManager()->GetDirectoryList());
-	DirectoryList::DirVecType::const_iterator dir;
-
-	for (dir = dirList->begin(); dir != dirList->end(); ++dir) {
+        RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
+	for (const auto &dir: recordingsTree->getAllDirs() ) {
 </%cpp>
-								<option value="<$ *dir $>"<$ (*dir == directory) ? "selected=\"selected\"" : "" $>><$ *dir $></option>
+								<option value="<$ dir $>"<$ (dir == directory) ? "selected=\"selected\"" : "" $>><$ dir $></option>
 <%cpp>
 	}
 </%cpp>

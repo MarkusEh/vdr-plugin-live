@@ -74,11 +74,10 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	pageTitle = trVDR("Schedule");
 
 bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
-std::vector<std::string> path;
 std::list<RecordingsItemPtr> recItems;
 RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
 
-addAllRecordings(recItems, recordingsTree, path);
+recordingsTree->addAllRecordings(recItems);
 recItems.sort(RecordingsItemPtrCompare::ByDuplicates);
 
 
@@ -188,7 +187,7 @@ recItems.sort(RecordingsItemPtrCompare::ByDuplicates);
                           cImageLevels(eImageLevel::episodeMovie, eImageLevel::seasonMovie, eImageLevel::tvShowCollection, eImageLevel::anySeasonCollection),
                           cOrientations(eOrientation::landscape, eOrientation::portrait, eOrientation::banner) );
                         if (scraperOverview.call(LiveSetup().GetPluginScraper()) )
-                          scraper_data_available = scraperOverview.m_found;
+                          scraper_data_available = scraperOverview.m_videoType == eVideoType::movie || scraperOverview.m_videoType == eVideoType::tvShow;
 
                         recItemFound = searchNameDesc(recItem, recItems, title, short_description, description, epgEvent->Duration(), &scraperOverview);
 			{
@@ -231,7 +230,7 @@ if (display_pictures) col_span = 6;
 					<td class="action <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID) &></td>
 <%cpp>
 if (display_pictures) {
-  bool episodeFound = scraperOverview.m_found && !scraperOverview.m_movie && (scraperOverview.m_episodeNumber != 0 || scraperOverview.m_seasonNumber != 0);
+  bool episodeFound = scraperOverview.m_videoType == eVideoType::tvShow && (scraperOverview.m_episodeNumber != 0 || scraperOverview.m_seasonNumber != 0);
   std::string anf = "\"";
   std::string s_duration = "";
   if (scraper_data_available) {
@@ -245,7 +244,7 @@ if (display_pictures) {
   <img src="img/transparent.png" height="10px"
 <%cpp>} else {</%cpp>
   <img class="thumb" src="/tvscraper/<$ s_image.path $>"
-<%cpp>} if (scraperOverview.m_found) {</%cpp>
+<%cpp>} if (scraperOverview.m_videoType == eVideoType::tvShow || scraperOverview.m_videoType == eVideoType::movie ) {</%cpp>
   title=<$$anf$><$s_title$>
   <%cpp>if (episodeFound) {</%cpp>
     <br/>S<$scraperOverview.m_seasonNumber$>E<$scraperOverview.m_episodeNumber$> <$s_episode_name$>

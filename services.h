@@ -15,6 +15,13 @@ enum tvType {
     tNone,
 };
 
+enum class eVideoType {
+  none = 0,
+  movie = 1,
+  tvShow = 2,
+  musicVideo = 3,
+};
+
 enum class eOrientation {
   none = 0,
   banner = 1,
@@ -325,15 +332,10 @@ public:
 //Data structure for live, overview information for each recording / event
 // to uniquely identify a recording/event:
 // movie + dbid + seasonNumber + episodeNumber (for movies, only dbid is required)
-// imageLevel: preferred level of image (if not found, a lower level image will be given)
-// 4: episode image (for TV show) / movie image
-// 3: season image for this season (for TV show) / collection image (movie)
-// 2: image of TV show (not used for movies)
-// 1: image of other season (not used for movies)
-
+// note: if nothing was found, m_videoType = videoType::none will be returned
 class cGetScraperOverview {
 public:
-  cGetScraperOverview (const cEvent *event = NULL, const cRecording *recording = NULL, std::string *title = NULL, std::string *episodeName = NULL, std::string *IMDB_ID = NULL, cTvMedia *image = NULL, cImageLevels imageLevels = cImageLevels(), cOrientations imageOrientations = cOrientations(), std::string *collectionName = NULL):
+  cGetScraperOverview (const cEvent *event = NULL, const cRecording *recording = NULL, std::string *title = NULL, std::string *episodeName = NULL, std::string *IMDB_ID = NULL, cTvMedia *image = NULL, cImageLevels imageLevels = cImageLevels(), cOrientations imageOrientations = cOrientations(), std::string *releaseDate = NULL, std::string *collectionName = NULL):
   m_event(event),
   m_recording(recording),
   m_title(title),
@@ -342,16 +344,13 @@ public:
   m_image(image),
   m_imageLevels(imageLevels),
   m_imageOrientations(imageOrientations),
+  m_releaseDate(releaseDate),
   m_collectionName(collectionName)
   {
   }
 
-  bool isServiceAvailable(cPlugin *pScraper) {
-    if (!pScraper) return false;
-    else return pScraper->Service("GetScraperOverview", NULL);
-  }
   bool call(cPlugin *pScraper) {
-    m_found = false;
+    m_videoType = eVideoType::none;
     if (!pScraper) return false;
     else return pScraper->Service("GetScraperOverview", this);
   }
@@ -364,11 +363,11 @@ public:
   cTvMedia *m_image;
   cImageLevels m_imageLevels;
   cOrientations m_imageOrientations;
+  std::string *m_releaseDate;
   std::string *m_collectionName;
 //OUT
 // Note: tvscraper will clear all output parameters, so you don't have to do this before calling tvscraper
-  bool m_found;
-  bool m_movie;
+  eVideoType m_videoType;
   int m_dbid;
   int m_runtime;
 // only for movies

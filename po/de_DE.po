@@ -79,6 +79,10 @@ msgid "Find more at the Internet Movie Database."
 msgstr "Weitere Informationen in der Internet Movie Database."
 
 #, c-format
+msgid "(%d:%02d)"
+msgstr "(%d:%02d)"
+
+#, c-format
 msgid "%a,"
 msgstr "%a,"
 
@@ -88,9 +92,14 @@ msgstr "%d.%m.%y"
 msgid "%I:%M %p"
 msgstr "%H:%M"
 
-#, c-format
-msgid "(%d:%02d)"
-msgstr "(%d:%02d)"
+msgid "TV shows"
+msgstr ""
+
+msgid "Movie collections"
+msgstr ""
+
+msgid "File system view"
+msgstr ""
 
 msgid "Couldn't find channel or no channels available."
 msgstr "Kann das Programm nicht finden oder keine vorhanden."
@@ -429,7 +438,7 @@ msgstr "Episode Bewertung: Durchschnitt/Anzahl:"
 
 msgid "Episode first aired:"
 msgstr "Episode erstmalig gesendet:"
-             
+
 msgid "Episode guest stars:"
 msgstr "Episode Gastschauspieler:"
 
@@ -976,17 +985,17 @@ msgstr "Keine Aufnahmen vorhanden"
 msgid "Delete selected"
 msgstr "Löschen"
 
-msgid "Sort by name"
-msgstr "Sortiere nach Name"
+msgid "Sort:"
+msgstr "Sortiere nach:"
 
-msgid "Sort by date"
-msgstr "Sortiere nach Datum"
+msgid "Date"
+msgstr "Datum"
 
 msgid "Duplicates"
-msgstr "Suche mehrfache Aufnahmen"
+msgstr "Duplikate"
 
 msgid "Errors"
-msgstr "Sortiere nach Zahl der Aufnahmefehler"
+msgstr "Aufnahmefehler"
 
 msgid "Filter"
 msgstr "Filter"
@@ -1065,6 +1074,12 @@ msgstr "Live Interactive VDR Environment"
 
 msgid "No EPG information available"
 msgstr "Keine EPG Daten vorhanden"
+
+#~ msgid "Sort by name"
+#~ msgstr "Sortiere nach Name"
+
+#~ msgid "Sort by date"
+#~ msgstr "Sortiere nach Datum"
 
 #~ msgid "Web-Streaming packetizer command"
 #~ msgstr "Web-Streaming - Pfad zu FFmpeg"
