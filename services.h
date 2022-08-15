@@ -377,4 +377,14 @@ public:
   int m_seasonNumber;
 };
 
+class cGetScraperUpdateTimes {
+public:
+  cGetScraperUpdateTimes() {}
+  time_t m_EPG_UpdateTime;
+  time_t m_recordingsUpdateTime;
+  bool call(cPlugin *pScraper) {
+    if (!pScraper) return false;
+    else return pScraper->Service("GetScraperUpdateTimes", this);
+  }
+};
 #endif // __TVSCRAPER_SERVICES_H

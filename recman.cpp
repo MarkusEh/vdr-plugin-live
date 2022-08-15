@@ -28,6 +28,7 @@ namespace vdrlive {
 #else
 	int RecordingsManager::m_recordingsState = 0;
 #endif
+        time_t scraperLastRecordingsUpdate;
 
 	// The RecordingsManager holds a VDR lock on the
 	// Recordings. Additionally the singleton instance of
@@ -235,7 +236,7 @@ namespace vdrlive {
 	{
 		bool result = false;
 
-		// will return != 0 only, if the Recordings List has been changed since last read
+		// will return true only, if the Recordings List has been changed since last read
 		if (cRecordings::GetRecordingsRead(m_recordingsStateKey)) {
 			result = true;
 			m_recordingsStateKey.Remove();
@@ -255,7 +256,7 @@ namespace vdrlive {
 		if (! recMan) {
 			// theoretically this code is never reached ...
 			esyslog("live: lost RecordingsManager instance while using it!");
-			return RecordingsManagerPtr();
+			recMan = RecordingsManagerPtr();
 		}
 
 		// StateChanged must be executed every time, so not part of
@@ -265,6 +266,14 @@ namespace vdrlive {
 #else
 		bool stateChanged = Recordings.StateChanged(m_recordingsState);
 #endif
+// check: changes on scraper data?
+                cGetScraperUpdateTimes scraperUpdateTimes;
+                if (scraperUpdateTimes.call(LiveSetup().GetPluginScraper()) ) {
+                  if (scraperUpdateTimes.m_recordingsUpdateTime > scraperLastRecordingsUpdate) {
+                    scraperLastRecordingsUpdate = scraperUpdateTimes.m_recordingsUpdateTime;
+                    stateChanged = true;
+                  }
+                }
 		if (stateChanged || (!m_recTree) ) {
 			if (stateChanged) {
 				m_recTree.reset();
@@ -903,11 +912,11 @@ namespace vdrlive {
                   }
                 }
 
-  bool RecordingsItemPtrLess (const RecordingsItemPtr &a, const RecordingsItemPtr &b) { return *a < b; }
-  bool RecordingsItemPtrLess (const std::string &a, const RecordingsItemPtr &b) { return *b > a; }
-  bool RecordingsItemPtrLess (const RecordingsItemPtr &a, const std::string &b) { return *a < b; }
-  bool RecordingsItemPtrLess (int a, const RecordingsItemPtr &b) { return *b > a; }
-  bool RecordingsItemPtrLess (const RecordingsItemPtr &a, int b) { return *a < b; }
+  bool operator< (const RecordingsItemPtr &a, const RecordingsItemPtr &b) { return *a < b; }
+  bool operator< (const std::string &a, const RecordingsItemPtr &b) { return a < b->Name(); }
+  bool operator< (const RecordingsItemPtr &a, const std::string &b) { return a->Name() < b; }
+  bool operator< (int a, const RecordingsItemPtr &b) { return a < b->scraperCollectionId(); }
+  bool operator< (const RecordingsItemPtr &a, int b) { return a->scraperCollectionId() < b; }
 
 	/**
 	 *  Implementation of class RecordingsTree:
@@ -981,7 +990,8 @@ namespace vdrlive {
                             }
                             dir->m_entries.insert(recPtr);
                             break;
-  //                      default:
+                          default:  // do nothing
+                            break;
                         }
                       }
                     }
@@ -1005,19 +1015,6 @@ namespace vdrlive {
 		// esyslog("live: DH: ****** RecordingsTree::~RecordingsTree() ********");
 	}
 
-	RecordingsItemPtr RecordingsTree::get(const std::vector<std::string>& path)
-	{
-          RecordingsItemPtr recItem = m_root;
-          for (std::vector<std::string>::const_iterator i = path.begin(); i != path.end(); ++i)
-          {
-            RecordingDirsMap::iterator iter = recItem->m_subdirs.find(*i);
-            if (iter == recItem->m_subdirs.end() )
-              esyslog("live: ERROR path element not found, path[0]: '%s', element '%s' not found", path[0].c_str(), (*i).c_str() );
-            else
-              recItem = *iter;
-          }
-          return recItem;
-	}
         void RecordingsTree::addAllRecordings(std::list<RecordingsItemPtr> &recList, RecordingsItemPtr dir)
 	{
 	  for (const auto &subdir:dir->m_subdirs) addAllRecordings(recList, subdir);

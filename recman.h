@@ -37,21 +37,13 @@ namespace vdrlive {
   typedef std::shared_ptr<RecordingsItem> RecordingsItemPtr;
   typedef std::weak_ptr<RecordingsItem> RecordingsItemWeakPtr;
 
-  bool RecordingsItemPtrLess (const RecordingsItemPtr &a, const RecordingsItemPtr &b);
-  bool RecordingsItemPtrLess (const std::string &a, const RecordingsItemPtr &b);
-  bool RecordingsItemPtrLess (const RecordingsItemPtr &a, const std::string &b);
-  bool RecordingsItemPtrLess (int a, const RecordingsItemPtr &b);
-  bool RecordingsItemPtrLess (const RecordingsItemPtr &a, int b);
-  struct cmpRecordingsItemPtr {
-    using is_transparent = void;
-    bool operator() (const RecordingsItemPtr &a, const RecordingsItemPtr &b) const { return RecordingsItemPtrLess(a, b); }
-    bool operator() (const std::string &a, const RecordingsItemPtr &b) const { return RecordingsItemPtrLess(a, b); }
-    bool operator() (const RecordingsItemPtr &a, const std::string &b) const { return RecordingsItemPtrLess(a, b); }
-    bool operator() (int a, const RecordingsItemPtr &b) const { return RecordingsItemPtrLess(a, b); }
-    bool operator() (const RecordingsItemPtr &a, int b) const { return RecordingsItemPtrLess(a, b); }
-  };
-  typedef std::multiset<RecordingsItemPtr, cmpRecordingsItemPtr> RecordingsMap;
-  typedef std::set<RecordingsItemPtr, cmpRecordingsItemPtr> RecordingDirsMap;
+  bool operator< (const RecordingsItemPtr &a, const RecordingsItemPtr &b);
+  bool operator< (const std::string &a, const RecordingsItemPtr &b);
+  bool operator< (const RecordingsItemPtr &a, const std::string &b);
+  bool operator< (int a, const RecordingsItemPtr &b);
+  bool operator< (const RecordingsItemPtr &a, int b);
+  typedef std::multiset<RecordingsItemPtr, std::less<>> RecordingsMap;
+  typedef std::set<RecordingsItemPtr, std::less<>> RecordingDirsMap;
 
   /**
    *  Class for managing recordings inside the live plugin. It
@@ -393,7 +385,7 @@ namespace vdrlive {
           public:
                   virtual ~RecordingsTree();
 
-                  RecordingsItemPtr get(const std::vector<std::string>& path);
+                  RecordingsItemPtr getRoot() const { return m_root; }
 		  void addAllRecordings(std::list<RecordingsItemPtr> &recList) { addAllRecordings(recList, m_rootFileSystem); }
 		  std::vector<std::string> getAllDirs() { std::vector<std::string> result; m_rootFileSystem->addDirList(result, ""); return result; }
 

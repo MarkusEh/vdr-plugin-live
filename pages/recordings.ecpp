@@ -221,7 +221,7 @@ RecordingsItemPtr recItemThisDir;
 if (iRecItem != 0) {
 recItemThisDir = *(static_cast<RecordingsItemPtr *>((void *)iRecItem) );
 } else {
-recItemThisDir = recordingsTree->get(std::vector<std::string>() );
+recItemThisDir = recordingsTree->getRoot();
 }
 std::list<RecordingsItemPtr> recItems;
 std::list<RecordingsItemPtr>::iterator recIter;
