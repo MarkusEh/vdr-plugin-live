@@ -98,6 +98,7 @@ static const size_t maximumDescriptionLength = 300;
 											+ "<br/><br/>" + tr("Click to view details.");
 						searchTimName = SortedTimers::SearchTimerInfo(*timer, "searchtimer");
 						searchTimId = SortedTimers::SearchTimerInfo(*timer, "s-id");
+						if (searchTimName.empty() && searchTimId.empty() ) searchTimName = SortedTimers::TvScraperTimerInfo(*timer);
 					}
 					std::string currentDay = SortedTimers::GetTimerDays(timer);
                                         const cTimer *nextTimer =  NULL;
@@ -164,7 +165,7 @@ static const size_t maximumDescriptionLength = 300;
 					</td>
 					<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><$ timer->Local()?trVDR(" "):timer->Remote() $></div></td>
                                         <td class="<? bottom ? "bottomrow" ?>"><div class="withmargin">
-%					if ( !timer->Local()) {
+%					if ( !timer->Local() || searchTimId.empty() ) {
                                         <$ searchTimName $></div></td>
 %					} else {
 					<a href="edit_searchtimer.html?searchtimerid=<$ searchTimId $>"><$ searchTimName $></a></div></td>

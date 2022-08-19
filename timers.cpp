@@ -129,6 +129,17 @@ namespace vdrlive {
 		return info.str();
 	}
 
+	std::string SortedTimers::TvScraperTimerInfo(cTimer const& timer) {
+		if (!timer.Aux()) return "";
+                std::string tvScraperInfo = GetXMLValue(timer.Aux(), "tvscraper");
+                if (tvScraperInfo.empty()) return "";
+                std::string data = GetXMLValue(tvScraperInfo, "reason");
+                if (data.empty() ) return "";
+                data.append(": ");
+                data.append(GetXMLValue(tvScraperInfo, "causedBy"));
+		return data;
+	}
+
 	std::string SortedTimers::SearchTimerInfo(cTimer const& timer, std::string const& value)
 	{
 		std::stringstream info;
