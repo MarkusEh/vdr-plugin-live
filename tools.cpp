@@ -51,6 +51,8 @@ namespace vdrlive {
               case '\'': target.append(notAppended, i); target.append("&apos;"); notAppended = notAppended + i + 1; i = 0;   break;
               case '<':  target.append(notAppended, i); target.append("&lt;");   notAppended = notAppended + i + 1; i = 0;   break;
               case '>':  target.append(notAppended, i); target.append("&gt;");   notAppended = notAppended + i + 1; i = 0;   break;
+              case 10:
+              case 13:  target.append(notAppended, i); target.append("&lt;br /&gt;");   notAppended = notAppended + i + 1; i = 0;   break;
               default:   i++; break;
               }
             }
@@ -74,6 +76,8 @@ namespace vdrlive {
                   case '\'': target.append(notAppended, i); target.append("&apos;"); notAppended = notAppended + i + 1; i = 0;   break;
                   case '<':  target.append(notAppended, i); target.append("&lt;");   notAppended = notAppended + i + 1; i = 0;   break;
                   case '>':  target.append(notAppended, i); target.append("&gt;");   notAppended = notAppended + i + 1; i = 0;   break;
+                  case 10:
+                  case 13:  target.append(notAppended, i); target.append("&lt;br /&gt;");   notAppended = notAppended + i + 1; i = 0;   break;
                   default:   i++; break;
                   }
                 break;

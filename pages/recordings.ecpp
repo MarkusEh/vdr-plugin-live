@@ -103,6 +103,12 @@ int Minutes = int(double(FreeMB) / MB_PER_MINUTE);
 int Hours = Minutes / 60;
 Minutes %= 60;
 diskinfo = cString::sprintf("%s %d%%  -  %2d:%02d %s", trVDR("Disk"), Percent, Hours, Minutes, trVDR("free"));
+#if TNTVERSION >= 30000                                                                                                                       
+std::string TNT_ARRAY  = "[]";
+#else                                                                                                                                         
+std::string TNT_ARRAY = "";
+#endif                                                                                                                                        
+                                                                                                                                              
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -110,6 +116,148 @@ diskinfo = cString::sprintf("%s %d%%  -  %2d:%02d %s", trVDR("Disk"), Percent, H
 		<title>VDR-Live - <$ pageTitle $></title>
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
+<script>
+function RecordingAction(id, A, Img, Title, argList) {
+  document.write('<a href=\"')
+  document.write(A)
+  document.write('recording_')
+  document.write(id)
+  document.write(argList)
+  document.write('\" title=\"')
+  document.write(Title)
+  document.write('\"><img src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>')
+  document.write(Img)
+  document.write('\" /></a>')
+}
+function IMDB(im_db, name) {
+  if (<$LiveSetup().GetShowIMDb()$> != 0) {
+    if (im_db == "") {
+      document.write('<a href=\"http://www.imdb.com/find?s=all&q=')
+      document.write(name)
+    } else {
+      document.write('<a href=\"https://www.imdb.com/title/')
+      document.write(im_db)
+    }
+    document.write(
+     '\" target=\"_blank\"><img src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>imdb.png\" title=\"<$tr("Find more at the Internet Movie Database.")$>\"/></a>')
+  }
+}
+// [0] : Level
+// [1] : ID (prefix "recording_" removed !!!)
+// [2] : Archived
+// [3] : image.path  (nach "/tvscraper/") 
+// [4] : "pt" if m_s_image.width <= m_s_image.height, otherwise= ""
+// [5] : title (scraper)
+// [6] : season / episode (scraper, for tv shows, if available. Otherwise: Empty)
+// [7] : runtime (scraper)
+// [8] : relase date (scraper)
+// [9] : recording_spec: Day, time & duration
+// [10] : Number of recording errors
+
+
+function Recordings(data) {
+  for (obj of data) {
+    document.write(
+      '<li class="recording"><div class="recording_item"><div class="recording_imgs">')
+    if (obj[0] > 0) document.write(
+      '<img src="img/transparent.png" width="' + String(16 * obj[0]) + 'px" height="16px" />')
+    if (obj[2] != "") document.write(obj[2])
+    else {
+      document.write('<input type="checkbox" name="deletions<$TNT_ARRAY$>" value="recording_');
+      document.write(obj[1])
+      document.write('" />')
+    }
+    if ("<$LiveSetup().GetTvscraperImageDir()$>" != "") {
+      document.write('</div><div class=\"thumb\"><a class=\"thumb\" href=\"epginfo.html?epgid=recording_')
+      document.write(obj[1])
+      document.write('\"><img src=\"')
+      if (obj[3] != "") {
+        document.write('/tvscraper/')
+        document.write(obj[3])
+        document.write('\" class=\"thumb')
+        document.write(obj[4])
+      } else document.write('img/transparent.png\" height=\"16px')
+      if (obj[5] != "" || obj[8] != "") {
+// scraper data available
+        document.write('\" title=\"')
+        document.write(obj[5])
+          if (obj[6] != "") {
+            document.write('<br/>S')
+            document.write(obj[6])
+          }
+          if (obj[7] != "") {
+            document.write('<br/>')
+            document.write(obj[7])
+          }
+          if (obj[8] != "") {
+            document.write('<br/>')
+            document.write(obj[8])
+          }
+        document.write('\"')
+      }
+      document.write('/> </a>')
+    }
+// end if (!LiveSetup().GetTvscraperImageDir().empty() )
+    document.write('</div><div class=\"recording_spec\"><div class=\"recording_day\">')
+    document.write(obj[9])
+    document.write('</div>')
+    if (obj[10] > -100) {
+      document.write('<div class=\"recording_errors\"><img src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>')
+      if (obj[10] == 0) document.write('NoRecordingErrors.png')
+      if (obj[10]  > 0) document.write('RecordingErrors.png')
+      if (obj[10]  < 0) document.write('NotCheckedForRecordingErrors.png')
+      document.write('\" width = \"16px\" title=\"')
+      if (obj[10] == 0) document.write('<$tr("No recording errors")$>')
+      if (obj[10]  > 0) document.write('<$tr("Number of recording errors:")$> ' + String(obj[10]))
+      if (obj[10]  < 0) document.write('<$tr("Recording errors unknown")$>')
+      document.write('\" /> </div>')
+    }
+    document.write('<div class=\"recording_sd_hd\"><img src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>')
+    document.write(obj[11])
+    document.write('d.png\" width = \"25px\" title=\"')
+    document.write(obj[12])
+    document.write('\" /> </div><div class=\"recording_name')
+    document.write(obj[13])
+    document.write('\"><a title=\"')
+    if (obj[14] != "") {
+      document.write(obj[14])
+      document.write('&lt;br /&gt;')
+    }
+    document.write('<$tr("Click to view details.")$>')
+    document.write('\" href=\"epginfo.html?epgid=recording_')
+    document.write(obj[1])
+    document.write('\">')
+    document.write(obj[15])
+    document.write(obj[16])
+    document.write('<br /><span>')
+    document.write(obj[14])
+    if (obj[14] == "") document.write('&nbsp;')
+    document.write('</span></a></div></div><div class=\"recording_actions\">')
+//function RecordingAction(id, A, Img, Title, argList)
+    if (obj[17] != "") {
+      RecordingAction(obj[1], "vdr_request/play_recording?param=", "play.png", "<$tr("play this recording")$>", obj[17])
+      RecordingAction(obj[1], "playlist.m3u?recid=", "playlist.png", "<$tr("Stream this recording into media player.")$>", obj[17])
+      IMDB(obj[18], obj[15])
+      RecordingAction(obj[1], "edit_recording.html?recid=", "edit.png", "<$tr("Edit recording")$>", obj[17])
+      RecordingAction(obj[1], "recordings.html?todel=", "del.png", "<$tr("Delete this recording from hard disc!")$>", obj[17])
+    } else {
+      document.write('<img src=\"img/transparent.png\" width=\"16px\" height=\"16px\" />')
+      IMDB(obj[18], obj[15])
+    }
+    document.write('</div>')
+    if (obj[19] != "") {
+      document.write('<div class=\"recording_arch\">')
+      document.write(obj[19])
+      document.write('</div>')
+    }
+    document.write('</div></li>')
+  }
+}
+</script>
+
+
+
+
 		<script type="text/javascript" src="treeview.js"></script>
 		<script type="text/javascript"><!--
 		function filterRecordings(filter)
@@ -302,10 +450,15 @@ argList.append("&sort=");
 argList.append(currentSort);
 argList.append("&filter=");
 argList.append(currentFilter);
+bool first = true;
+</%cpp>
+<script>Recordings([
+<%cpp>
 for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 		RecordingsItemPtr recItem = *recIter;
   recoring_item.clear();
-  recItem->AppendasHtml(recoring_item, currentFlat == "true", argList, level);
+//  recItem->AppendasHtml(recoring_item, currentFlat == "true", argList, level);
+  recItem->AppendasJSArray(recoring_item, currentFlat == "true", argList, level);
   max_length_recoring_item = std::max(max_length_recoring_item, recoring_item.length() );
 #ifdef HAVE_PCRE2
   StringMatch sm(filter);
@@ -315,6 +468,11 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
       sm.Matches(recItem->Description()?recItem->Description() : ""))
 #endif
 		{
+if (!first) {
+</%cpp>
+,
+<%cpp>
+} else first = false;
 </%cpp>
   <$$ recoring_item $>
   <# Buffer used: <$ recoring_item.length() $> bytes
@@ -323,6 +481,7 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 		}
 }
 </%cpp>
+])</script>
 </%def>
 
 <# ---------------------------------------------------------------------- #>

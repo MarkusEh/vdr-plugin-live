@@ -237,6 +237,7 @@ namespace vdrlive {
                   virtual const int SD_HD() { return 0; }
                   virtual const char *SD_HD_icon() { return ""; }
                   virtual void AppendasHtml(std::string &target, bool displayFolder, const std::string argList, int level) { }
+                  virtual void AppendasJSArray(std::string &target, bool displayFolder, const std::string argList, int level) { }
 
           private:
                   std::string GetNameForSearch(std::string const & name);
@@ -334,6 +335,8 @@ namespace vdrlive {
                   virtual const int SD_HD();
                   virtual const char *SD_HD_icon() { return SD_HD() == 0 ? "sd.png": "hd.png"; }
                   virtual void AppendasHtml(std::string &target, bool displayFolder, const std::string argList, int level);
+                  virtual void AppendasJSArray(std::string &target, bool displayFolder, const std::string argList, int level);
+                  void AppendShortTextOrDesc(std::string &target) const;
                   void AppendHint(std::string &target) const;
                   void AppendIMDb(std::string &target) const;
                   void AppendRecordingAction(std::string &target, const char *A, const char *Img, const char *Title, const std::string argList);

@@ -671,6 +671,22 @@ namespace vdrlive {
            }
            AppendHtmlEscaped(target, tr("Click to view details.")   );
         }
+
+        void RecordingsItemRec::AppendShortTextOrDesc(std::string &target) const
+        {
+          const char *text = ShortText();
+          if (!text || Name() == text ) text = RecInfo()->Description();
+// Spielfilm Italien / Großbritannien / USA 1965 (Doctor Zhivago)
+          if (!text) return;
+          if ((int)strlen(text) < 70)
+            AppendHtmlEscapedAndCorrectNonUTF8(target, text);
+          else {
+            const char *end = text + 69;
+            for (; *end && *end != ' '; end++);
+            AppendHtmlEscapedAndCorrectNonUTF8(target, std::string(text, end-text).c_str() );
+            target.append("...");
+          }
+        }
         const char *RecordingsItemRec::RecordingErrorsIcon() const
         {
            if (RecordingErrors() == 0) return "NoRecordingErrors.png";
@@ -755,6 +771,120 @@ namespace vdrlive {
           target.append(LiveSetup().GetThemedLinkPrefixImg() );
           target.append(Img);
           target.append("\" /></a>\n");
+        }
+
+        void RecordingsItemRec::AppendasJSArray(std::string &target, bool displayFolder, const std::string argList, int level){
+// list item, classes, space depending on level
+//          target.append("<script>Recordings([");
+          target.append("[");
+// [0] : Level
+          if(displayFolder) {
+            target.append("0,\"");
+          } else {
+// add some space
+            target.append( std::to_string(level) );
+            target.append(",\"");
+          }
+// [1] : ID
+          target.append(Id().c_str() + 10);
+          target.append("\",\"");
+// [2] : Archived
+          if (IsArchived() ) {
+            target.append("<img src=\"");
+            target.append(LiveSetup().GetThemedLinkPrefixImg() );
+            target.append("on_dvd.png\" alt=\"on_dvd\" title=\"");
+            AppendHtmlEscaped(target, ArchiveDescr().c_str() );
+            target.append("/>");
+          }
+          target.append("\", \"");
+// scraper data
+// [3] : image.path  (nach "/tvscraper/")
+          target.append(m_s_image.path);
+          target.append("\", \"");
+// [4] : "pt" if m_s_image.width <= m_s_image.height, otherwise= ""
+          if (m_s_image.width <= m_s_image.height) target.append("pt");
+          target.append("\", \"");
+          if (!scraperDataAvailable() ) {
+            m_s_title = "";
+            m_s_videoType = eVideoType::none;
+            m_s_runtime = 0;
+            m_s_release_date = "";
+          }
+// [5] : title (scraper)
+          AppendHtmlEscapedAndCorrectNonUTF8(target, m_s_title.c_str() );
+          target.append("\", \"");
+          if (m_s_videoType == eVideoType::tvShow && (m_s_episode_number != 0 || m_s_season_number != 0)) {
+// [6] : season/episode/episode name (scraper)
+            target.append(std::to_string(m_s_season_number));
+            target.append("E");
+            target.append(std::to_string(m_s_episode_number));
+            target.append(" ");
+            AppendHtmlEscapedAndCorrectNonUTF8(target, m_s_episode_name.c_str() );
+          }
+          target.append("\", \"");
+          if (m_s_runtime) {
+// [7] : runtime (scraper)
+            AppendDuration(target, tr("(%d:%02d)"), m_s_runtime / 60, m_s_runtime % 60);
+          }
+          target.append("\", \"");
+          if (!m_s_release_date.empty() ) {
+// [8] : relase date (scraper)
+            target.append(m_s_release_date);
+          }
+          target.append("\", \"");
+// recording_spec: Day, time & duration
+// [9] : recording_spec: Day, time & duration
+          AppendDateTime(target, tr("%a,"), StartTime());  // day of week
+          target.append(" ");
+	  AppendDateTime(target, tr("%b %d %y"), StartTime());  // date
+          target.append(" ");
+	  AppendDateTime(target, tr("%I:%M %p"), StartTime() );  // time
+          if(Duration() >= 0) {
+            target.append(" ");
+            AppendDuration(target, tr("(%d:%02d)"), Duration() / 60, Duration() % 60);
+          }
+          target.append("\", ");
+// RecordingErrors, Icon
+#if VDRVERSNUM >= 20505
+// [10] : Number of recording errors
+          target.append(std::to_string(RecordingErrors() ));
+#else
+          target.append("-100");
+#endif
+          target.append(", \"");
+// [11] HD_SD
+          target.append(SD_HD() == 0 ? "s": "h");
+          target.append("\", \"");
+// [12] channel name
+          AppendHtmlEscapedAndCorrectNonUTF8(target, RecInfo()->ChannelName() );
+          target.append("\", \"");
+// [13] NewR()
+          target.append(NewR() );
+          target.append("\", \"");
+// [14] Short text / descr
+          AppendShortTextOrDesc(target);
+          target.append("\", \"");
+// [15] Name
+          AppendHtmlEscaped(target, Name().c_str() );
+          target.append("\", \"");
+// [16] Path / folder
+          if( *(const char *)Recording()->Folder() && displayFolder) {
+             target.append(" (");
+             AppendHtmlEscaped(target, (const char *)Recording()->Folder() );
+             target.append(")");
+          }
+          target.append("\", \"");
+// recording_actions
+// [17] Arglist
+          if (!IsArchived()) target.append(argList);
+          target.append("\", \"");
+// [18]  IMDB ID
+          target.append(m_s_IMDB_ID);
+          target.append("\", \"");
+// [19] ArchiveDescr()
+          if (IsArchived()) AppendHtmlEscapedAndCorrectNonUTF8(target, ArchiveDescr().c_str() );
+          target.append("\"]");
+//          target.append("])</script>");
         }
 
         void RecordingsItemRec::AppendasHtml(std::string &target, bool displayFolder, const std::string argList, int level){
