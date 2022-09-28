@@ -53,7 +53,7 @@ namespace vdrlive {
 	extern const std::collate<char>& g_collate_char;
 
         void AppendHtmlEscaped(std::string &target, const char* s);
-        void AppendHtmlEscapedAndCorrectNonUTF8(std::string &target, const char *str);
+        void AppendHtmlEscapedAndCorrectNonUTF8(std::string &target, const char* s, const char *end = NULL);
         void AppendCorrectNonUTF8(std::string &target, const char* s);
 
         wint_t getNextUtfCodepoint(const char *&p);

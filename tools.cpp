@@ -59,14 +59,15 @@ namespace vdrlive {
           target.append(notAppended, i);
         }
 
-        void AppendHtmlEscapedAndCorrectNonUTF8(std::string &target, const char* s){
+        void AppendHtmlEscapedAndCorrectNonUTF8(std::string &target, const char* s, const char *end){
 // append c-string s to target, html escape some chsracters
 // replace invalid UTF8 characters with ?
           if(!s) return;
+          if (!end) end = s + strlen(s);
           int l = 0;                    // length of current utf8 codepoint
           size_t i = 0;                 // number of not yet appended chars
           const char* notAppended = s;  // position of the first character which is not yet appended
-          for (const char* current = s; *current; current+=l) {
+          for (const char* current = s; *current && current < end; current+=l) {
 	    l = utf8CodepointIsValid(current);
             switch(l) {
               case 1:

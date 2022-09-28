@@ -144,7 +144,7 @@ function IMDB(im_db, name) {
 }
 // [0] : Level
 // [1] : ID (prefix "recording_" removed !!!)
-// [2] : Archived
+// [2] : ArchiveDescr()
 // [3] : image.path  (nach "/tvscraper/") 
 // [4] : "pt" if m_s_image.width <= m_s_image.height, otherwise= ""
 // [5] : title (scraper)
@@ -161,8 +161,11 @@ function Recordings(data) {
       '<li class="recording"><div class="recording_item"><div class="recording_imgs">')
     if (obj[0] > 0) document.write(
       '<img src="img/transparent.png" width="' + String(16 * obj[0]) + 'px" height="16px" />')
-    if (obj[2] != "") document.write(obj[2])
-    else {
+    if (obj[2] != "") {
+      document.write('<img src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>on_dvd.png\" alt=\"on_dvd\" title=\"')
+      document.write(obj[2])
+      document.write('/>')
+    } else {
       document.write('<input type="checkbox" name="deletions<$TNT_ARRAY$>" value="recording_');
       document.write(obj[1])
       document.write('" />')
@@ -193,9 +196,8 @@ function Recordings(data) {
             document.write('<br/>')
             document.write(obj[8])
           }
-        document.write('\"')
       }
-      document.write('/> </a>')
+      document.write('\"/> </a>')
     }
 // end if (!LiveSetup().GetTvscraperImageDir().empty() )
     document.write('</div><div class=\"recording_spec\"><div class=\"recording_day\">')
@@ -233,8 +235,7 @@ function Recordings(data) {
     document.write(obj[14])
     if (obj[14] == "") document.write('&nbsp;')
     document.write('</span></a></div></div><div class=\"recording_actions\">')
-//function RecordingAction(id, A, Img, Title, argList)
-    if (obj[17] != "") {
+    if (obj[2] == "") {
       RecordingAction(obj[1], "vdr_request/play_recording?param=", "play.png", "<$tr("play this recording")$>", obj[17])
       RecordingAction(obj[1], "playlist.m3u?recid=", "playlist.png", "<$tr("Stream this recording into media player.")$>", obj[17])
       IMDB(obj[18], obj[15])
@@ -245,9 +246,9 @@ function Recordings(data) {
       IMDB(obj[18], obj[15])
     }
     document.write('</div>')
-    if (obj[19] != "") {
+    if (obj[2] != "") {
       document.write('<div class=\"recording_arch\">')
-      document.write(obj[19])
+      document.write(obj[2])
       document.write('</div>')
     }
     document.write('</div></li>')

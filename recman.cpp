@@ -672,19 +672,26 @@ namespace vdrlive {
            AppendHtmlEscaped(target, tr("Click to view details.")   );
         }
 
+// Spielfilm Thailand / Deutschland / Großbritannien 2015 (Rak ti Khon Kaen)
+#define MAX_LEN_ST 70
         void RecordingsItemRec::AppendShortTextOrDesc(std::string &target) const
         {
           const char *text = ShortText();
           if (!text || Name() == text ) text = RecInfo()->Description();
-// Spielfilm Italien / Großbritannien / USA 1965 (Doctor Zhivago)
           if (!text) return;
-          if ((int)strlen(text) < 70)
+          int len = strlen(text);
+          int lb = len;
+          for (const char *s = text; *s; s++) if (*s == 10 || *s == 13) { lb = s-text; break;}
+          if (len < MAX_LEN_ST && lb == len)
             AppendHtmlEscapedAndCorrectNonUTF8(target, text);
-          else {
-            const char *end = text + 69;
-            for (; *end && *end != ' '; end++);
-            AppendHtmlEscapedAndCorrectNonUTF8(target, std::string(text, end-text).c_str() );
+          else if (lb < MAX_LEN_ST) {
+            AppendHtmlEscapedAndCorrectNonUTF8(target, text, text + lb);
             target.append("...");
+          } else {
+            const char *end = text + MAX_LEN_ST;
+            for (; *end && *end != ' ' && *end != 10 && *end != 13; end++);
+            AppendHtmlEscapedAndCorrectNonUTF8(target, text, end);
+            if (*end) target.append("...");
           }
         }
         const char *RecordingsItemRec::RecordingErrorsIcon() const
@@ -788,14 +795,8 @@ namespace vdrlive {
 // [1] : ID
           target.append(Id().c_str() + 10);
           target.append("\",\"");
-// [2] : Archived
-          if (IsArchived() ) {
-            target.append("<img src=\"");
-            target.append(LiveSetup().GetThemedLinkPrefixImg() );
-            target.append("on_dvd.png\" alt=\"on_dvd\" title=\"");
-            AppendHtmlEscaped(target, ArchiveDescr().c_str() );
-            target.append("/>");
-          }
+// [2] : ArchiveDescr()
+          if (IsArchived()) AppendHtmlEscapedAndCorrectNonUTF8(target, ArchiveDescr().c_str() );
           target.append("\", \"");
 // scraper data
 // [3] : image.path  (nach "/tvscraper/")
@@ -822,15 +823,11 @@ namespace vdrlive {
             AppendHtmlEscapedAndCorrectNonUTF8(target, m_s_episode_name.c_str() );
           }
           target.append("\", \"");
-          if (m_s_runtime) {
 // [7] : runtime (scraper)
-            AppendDuration(target, tr("(%d:%02d)"), m_s_runtime / 60, m_s_runtime % 60);
-          }
+          if (m_s_runtime) AppendDuration(target, tr("(%d:%02d)"), m_s_runtime / 60, m_s_runtime % 60);
           target.append("\", \"");
-          if (!m_s_release_date.empty() ) {
 // [8] : relase date (scraper)
-            target.append(m_s_release_date);
-          }
+          if (!m_s_release_date.empty() ) target.append(m_s_release_date);
           target.append("\", \"");
 // recording_spec: Day, time & duration
 // [9] : recording_spec: Day, time & duration
@@ -880,9 +877,6 @@ namespace vdrlive {
           target.append("\", \"");
 // [18]  IMDB ID
           target.append(m_s_IMDB_ID);
-          target.append("\", \"");
-// [19] ArchiveDescr()
-          if (IsArchived()) AppendHtmlEscapedAndCorrectNonUTF8(target, ArchiveDescr().c_str() );
           target.append("\"]");
 //          target.append("])</script>");
         }
