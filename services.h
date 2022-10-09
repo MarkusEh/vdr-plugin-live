@@ -5,6 +5,7 @@
 #include <vdr/plugin.h>
 #include <string>
 #include <vector>
+#include <map>
 
 /*********************************************************************
 * Helper Structures
@@ -251,6 +252,23 @@ public:
     cTvMedia banner;
 };
 
+// Data structure for service "GetPosterBannerV2"
+class ScraperGetPosterBannerV2 {
+public:
+    ScraperGetPosterBannerV2(void) {
+        type = tNone;
+        event = NULL;
+        recording = NULL;
+    };
+// in
+    const cEvent *event;             // check type for this event
+    const cRecording *recording;     // check type for this recording
+//out
+    tvType type;                     //typeSeries or typeMovie
+    cTvMedia poster;
+    cTvMedia banner;
+};
+
 // Data structure for service "GetPoster"
 class ScraperGetPoster {
 public:
@@ -385,6 +403,37 @@ public:
   bool call(cPlugin *pScraper) {
     if (!pScraper) return false;
     else return pScraper->Service("GetScraperUpdateTimes", this);
+  }
+};
+
+inline bool operator< (const tChannelID &c1, const tChannelID &c2) {
+  if (c1.Source() != c2.Source() ) return c1.Source() < c2.Source();
+  if (c1.Nid() != c2.Nid() ) return c1.Nid() < c2.Nid();
+  if (c1.Tid() != c2.Tid() ) return c1.Tid() < c2.Tid();
+  if (c1.Sid() != c2.Sid() ) return c1.Sid() < c2.Sid();
+  return c1.Rid() < c2.Rid();
+}
+class cGetChannelLanguages {
+public:
+  cGetChannelLanguages() {}
+  std::map<tChannelID, int> m_channelLanguages; // if a channel is not in this map, it has the default language
+  int m_defaultLanguage;
+  std::map<int, std::string> m_channelNames;
+  bool call(cPlugin *pScraper) {
+    if (!pScraper) return false;
+    else return pScraper->Service("GetChannelLanguages", this);
+  }
+};
+
+class cGetChannelHD {
+public:
+  cGetChannelHD() {}
+  std::map<tChannelID, int> m_channelHD; // if a channel is not in this map, it is SD
+// currently, only 0 (SD) and 1 (HD) are supported. More might be added
+// note: if this map is empty, the SD/HD information was not maitained
+  bool call(cPlugin *pScraper) {
+    if (!pScraper) return false;
+    else return pScraper->Service("GetChannelHD", this);
   }
 };
 #endif // __TVSCRAPER_SERVICES_H

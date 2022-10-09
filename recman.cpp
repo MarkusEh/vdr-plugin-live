@@ -1,3 +1,6 @@
+#ifdef HAVE_PCRE2
+#include "StringMatch.h"
+#endif
 
 #include "recman.h"
 #include "tools.h"
@@ -362,6 +365,11 @@ namespace vdrlive {
           return first->orderDuplicates(second, true);
 	}
 
+	bool RecordingsItemPtrCompare::ByDuplicatesLanguage(const RecordingsItemPtr & first, const RecordingsItemPtr & second)  // return first < second
+	{
+          return first->orderDuplicates(second, true, true);
+	}
+
 	bool RecordingsItemPtrCompare::ByAscendingNameDesc(const RecordingsItemPtr & first, const RecordingsItemPtr & second)  // return first < second
 	{
            int i = first->NameForSearch().compare(second->NameForSearch() );
@@ -506,6 +514,17 @@ namespace vdrlive {
           return result;
 	}
 
+        bool RecordingsItem::matchesFilter(const std::string &filter) {
+          if (filter.empty() ) return true;
+#ifdef HAVE_PCRE2
+          StringMatch sm(filter);
+          return sm.Matches(Name()) or
+            sm.Matches(ShortText()?ShortText() : "" ) or
+            sm.Matches(Description()?Description() : "");
+#endif
+          return true;
+        }
+
         bool RecordingsItem::checkNew() {
 	  if (Recording() && Recording()->GetResume() <= 0) return true;
 	  for (const auto &rec:m_entries)
@@ -590,18 +609,26 @@ namespace vdrlive {
           return 0;
         }
 
-        bool RecordingsItem::orderDuplicates(const RecordingsItemPtr &second, bool alwaysShortText) const {
+        bool RecordingsItem::orderDuplicates(const RecordingsItemPtr &second, bool alwaysShortText, bool lang) const {
 // this is a < operation. Return false in case of ==   !!!!!
-          if (m_s_videoType != second->m_s_videoType) return (int)m_s_videoType < (int)second->m_s_videoType;
+          if (m_s_videoType != second->m_s_videoType) return (int)m_s_videoType > (int)second->m_s_videoType; // 0 if no scraper data. Move these to the end, by using >
           switch (m_s_videoType) {
             case eVideoType::movie:
-              return m_s_dbid < second->m_s_dbid;
+              if (m_s_dbid != second->m_s_dbid) return m_s_dbid < second->m_s_dbid;
+              if (!lang) return false;
+              return m_language < second->m_language;
             case eVideoType::tvShow:
               if (m_s_dbid != second->m_s_dbid) return m_s_dbid < second->m_s_dbid;
               if (m_s_season_number != second->m_s_season_number) return m_s_season_number < second->m_s_season_number;
               if (m_s_episode_number != second->m_s_episode_number) return m_s_episode_number < second->m_s_episode_number;
-              if (m_s_season_number != 0 || m_s_episode_number != 0) return false;  // they are equal => < operator results in false ...
-              return CompareTexts(second) < 0;
+              if (m_s_season_number != 0 || m_s_episode_number != 0) {
+                if (!lang) return false;  // they are equal => < operator results in false ...
+                return m_language < second->m_language;
+              }
+              if (!lang) return CompareTexts(second) < 0;
+              { int cmp = CompareTexts(second);
+                if (cmp != 0) return cmp < 0;}
+              return m_language < second->m_language;
             default:
 // no scraper data available
               int i = NameForSearch().compare(second->NameForSearch() );
@@ -642,7 +669,7 @@ namespace vdrlive {
 	/**
 	 *  Implementation of class RecordingsItemRec:
 	 */
-	RecordingsItemRec::RecordingsItemRec(const std::string& id, const std::string& name, const cRecording* recording) :
+	RecordingsItemRec::RecordingsItemRec(const std::string& id, const std::string& name, const cRecording* recording, int language, int sdHdUhd) :
 		RecordingsItem(name),
 		m_recording(recording),
 		m_id(id),
@@ -650,6 +677,8 @@ namespace vdrlive {
                 m_duration(m_recording->FileName() ? m_recording->LengthInSeconds() / 60 : 0)
 	{
           // dsyslog("live: REC: C: rec %s -> %s", name.c_str(), parent->Name().c_str());
+          m_language = language;
+          m_video_SD_HD = sdHdUhd;
           getScraperData(recording,
             cImageLevels(eImageLevel::episodeMovie, eImageLevel::seasonMovie, eImageLevel::tvShowCollection, eImageLevel::anySeasonCollection));
 	}
@@ -658,19 +687,6 @@ namespace vdrlive {
 	{
 		// dsyslog("live: REC: D: rec %s", Name().c_str());
 	}
-
-        void RecordingsItemRec::AppendHint(std::string &target) const
-        {
-           if (RecInfo()->ShortText()   ) {
-             AppendHtmlEscapedAndCorrectNonUTF8(target, RecInfo()->ShortText() );
-             target.append("&lt;br /&gt;");
-           }
-           else if (RecInfo()->Description() ) {
-             AppendHtmlEscapedAndCorrectNonUTF8(target, RecInfo()->Description() );
-             target.append("&lt;br /&gt;");
-           }
-           AppendHtmlEscaped(target, tr("Click to view details.")   );
-        }
 
 // Spielfilm Thailand / Deutschland / Großbritannien 2015 (Rak ti Khon Kaen)
 #define MAX_LEN_ST 70
@@ -693,23 +709,6 @@ namespace vdrlive {
             AppendHtmlEscapedAndCorrectNonUTF8(target, text, end);
             if (*end) target.append("...");
           }
-        }
-        const char *RecordingsItemRec::RecordingErrorsIcon() const
-        {
-           if (RecordingErrors() == 0) return "NoRecordingErrors.png";
-           if (RecordingErrors()  > 0) return "RecordingErrors.png";
-           return "NotCheckedForRecordingErrors.png";
-        }
-
-        void RecordingsItemRec::AppendRecordingErrorsStr(std::string &target) const
-        {
-          if (RecordingErrors() == 0) AppendHtmlEscaped(target, tr("No recording errors"));
-          if (RecordingErrors()  > 0) {
-            AppendHtmlEscaped(target, tr("Number of recording errors:"));
-            target.append(" ");
-            target.append(std::to_string(RecordingErrors() ));
-           }
-          if (RecordingErrors() < 0) AppendHtmlEscaped(target, tr("Recording errors unknown"));
         }
 
         const int RecordingsItemRec::SD_HD()
@@ -750,48 +749,11 @@ namespace vdrlive {
           return m_video_SD_HD;
         }
 
-        void RecordingsItemRec::AppendIMDb(std::string &target) const {
-          if (LiveSetup().GetShowIMDb()) { 
-            if (m_s_IMDB_ID.empty() ) {
-              target.append("<a href=\"http://www.imdb.com/find?s=all&q=");
-              AppendHtmlEscaped( target, StringUrlEncode(Name() ).c_str() );
-            } else {
-              target.append("<a href=\"https://www.imdb.com/title/");
-              target.append(m_s_IMDB_ID);
-            }
-            target.append("\" target=\"_blank\"><img src=\"");
-            target.append(LiveSetup().GetThemedLinkPrefixImg() );
-            target.append("imdb.png\" title=\"");
-            AppendHtmlEscaped( target, tr("Find more at the Internet Movie Database.") );
-            target.append("\"/></a>\n");
-          }
-        }
-
-        void RecordingsItemRec::AppendRecordingAction(std::string &target, const char *A, const char *Img, const char *Title, const std::string argList){
-          target.append("<a href=\"");
-          target.append(A);
-          target.append(Id() );
-          target.append(argList);
-          target.append("\" title=\"");
-          AppendHtmlEscaped( target, tr(Title) );
-          target.append("\"><img src=\"");
-          target.append(LiveSetup().GetThemedLinkPrefixImg() );
-          target.append(Img);
-          target.append("\" /></a>\n");
-        }
-
-        void RecordingsItemRec::AppendasJSArray(std::string &target, bool displayFolder, const std::string argList, int level){
-// list item, classes, space depending on level
-//          target.append("<script>Recordings([");
-          target.append("[");
-// [0] : Level
-          if(displayFolder) {
-            target.append("0,\"");
-          } else {
-// add some space
-            target.append( std::to_string(level) );
-            target.append(",\"");
-          }
+        void RecordingsItemRec::AppendAsJSArray(std::string &target, bool displayFolder){
+          target.append("[\"");
+// [0]  IMDB ID
+          target.append(m_s_IMDB_ID);
+          target.append("\", \"");
 // [1] : ID
           target.append(Id().c_str() + 10);
           target.append("\",\"");
@@ -850,7 +812,7 @@ namespace vdrlive {
 #endif
           target.append(", \"");
 // [11] HD_SD
-          target.append(SD_HD() == 0 ? "s": "h");
+          target.append(SD_HD() == 0 ? "s": SD_HD() == 1 ? "h": "u");
           target.append("\", \"");
 // [12] channel name
           AppendHtmlEscapedAndCorrectNonUTF8(target, RecInfo()->ChannelName() );
@@ -862,160 +824,24 @@ namespace vdrlive {
           AppendShortTextOrDesc(target);
           target.append("\", \"");
 // [15] Name
-          AppendHtmlEscaped(target, Name().c_str() );
-          target.append("\", \"");
+          AppendHtmlEscapedAndCorrectNonUTF8(target, Name().c_str() );
 // [16] Path / folder
-          if( *(const char *)Recording()->Folder() && displayFolder) {
-             target.append(" (");
-             AppendHtmlEscaped(target, (const char *)Recording()->Folder() );
-             target.append(")");
+          if(displayFolder) {
+            target.append("\", \"");
+            if( *(const char *)Recording()->Folder() ) AppendHtmlEscapedAndCorrectNonUTF8(target, (const char *)Recording()->Folder() );
           }
-          target.append("\", \"");
-// recording_actions
-// [17] Arglist
-          if (!IsArchived()) target.append(argList);
-          target.append("\", \"");
-// [18]  IMDB ID
-          target.append(m_s_IMDB_ID);
           target.append("\"]");
-//          target.append("])</script>");
         }
 
-        void RecordingsItemRec::AppendasHtml(std::string &target, bool displayFolder, const std::string argList, int level){
-// list item, classes, space depending on level
-          target.append("<li class=\"recording\"><div class=\"recording_item\"><div class=\"recording_imgs\">");
-          if(!displayFolder) {
-// add some space
-            target.append("<img src=\"img/transparent.png\" width=\"");
-            target.append( std::to_string(16 * level ) );
-            target.append("px\" height=\"16px\" />\n");
-          }
-          if (IsArchived() ) {
-            target.append("<img src=\"");
-            target.append(LiveSetup().GetThemedLinkPrefixImg() );
-            target.append("on_dvd.png\" alt=\"on_dvd\" title=\"");
-            AppendHtmlEscaped(target, ArchiveDescr().c_str() );
-            target.append("/>");
-          } else {
-#if TNTVERSION >= 30000
-            target.append("<input type=\"checkbox\" name=\"deletions[]\" value=\"");
-#else
-            target.append("<input type=\"checkbox\" name=\"deletions\" value=\"");
-#endif
-            target.append(Id());
-            target.append("\" />" );
-          }
-// scraper data
-          if (!LiveSetup().GetTvscraperImageDir().empty() ) {
-            target.append("</div>\n<div class=\"thumb\">");
-            target.append("<a class=\"thumb\" href=\"epginfo.html?epgid=");
-            target.append(Id() );
-            target.append("\"><img src=\"" );
-            if (!m_s_image.path.empty() ) {  
-              target.append("/tvscraper/");
-              target.append(m_s_image.path);
-              if (m_s_image.width > m_s_image.height) target.append("\" class=\"thumb");
-              else target.append("\" class=\"thumbpt");
-            } else {
-              target.append("img/transparent.png\" height=\"16px");
-            }
-            if (scraperDataAvailable() ) {
-              target.append("\" title=\"");
-              AppendHtmlEscapedAndCorrectNonUTF8(target, m_s_title.c_str() );
-              if (m_s_videoType == eVideoType::tvShow && (m_s_episode_number != 0 || m_s_season_number != 0)) {
-                target.append("<br/>S");
-                target.append(std::to_string(m_s_season_number));
-                target.append("E");
-                target.append(std::to_string(m_s_episode_number));
-                target.append(" ");
-                AppendHtmlEscapedAndCorrectNonUTF8(target, m_s_episode_name.c_str() );
-              }
-              if (m_s_runtime) {
-                target.append("<br/>");
-                AppendDuration(target, tr("(%d:%02d)"), m_s_runtime / 60, m_s_runtime % 60);
-              }
-              if (!m_s_release_date.empty() ) {
-                target.append("<br/>");
-                target.append(m_s_release_date);
-              }
-            }
-            target.append("\" /> </a>");
-          }
-// recording_spec: Day, time & duration
-          target.append("</div>\n<div class=\"recording_spec\"><div class=\"recording_day\">");
-          AppendDateTime(target, tr("%a,"), StartTime());  // day of week
-          target.append(" ");
-	  AppendDateTime(target, tr("%b %d %y"), StartTime());  // date
-          target.append(" ");
-	  AppendDateTime(target, tr("%I:%M %p"), StartTime() );  // time
-          if(Duration() >= 0) {
-            target.append(" ");
-            AppendDuration(target, tr("(%d:%02d)"), Duration() / 60, Duration() % 60);
-          }
-          target.append("</div>");
-// RecordingErrors, Icon
-#if VDRVERSNUM >= 20505
-          target.append("<div class=\"recording_errors\"><img src=\"");
-          target.append(LiveSetup().GetThemedLinkPrefixImg() );
-          target.append(RecordingErrorsIcon() );
-          target.append("\" width = \"16px\" title=\"");
-// RecordingErrors, Tooltip
-          AppendRecordingErrorsStr(target);
-          target.append("\" /> </div>");
-#endif
-// HD_SD, with channel name
-          target.append("<div class=\"recording_sd_hd\"><img src=\"");
-          target.append(LiveSetup().GetThemedLinkPrefixImg() );
-          target.append( SD_HD_icon() );
-          target.append("\" width = \"25px\" title=\"");
-          AppendHtmlEscapedAndCorrectNonUTF8(target, RecInfo()->ChannelName() );
-          target.append("\" /> </div>\n");
-// Recording name
-          target.append("<div class=\"recording_name");
-          target.append(NewR() );
-          target.append("\"><a title=\"");
-          AppendHint(target);
-          target.append("\" href=\"epginfo.html?epgid=");
-          target.append(Id() );
-          target.append("\">" );
-          AppendHtmlEscaped(target, Name().c_str() );
-//          target.append(" (" );
-//          AppendHtmlEscaped(target, NameForSearch().c_str() );
-//          target.append(")" );
-// Path / folder
-          if( *(const char *)Recording()->Folder() && displayFolder) {
-             target.append(" (");
-             AppendHtmlEscaped(target, (const char *)Recording()->Folder() );
-             target.append(")");
-          }
-          target.append("<br /><span>");
-// second line of recording name
-          if(ShortText() && Name() != ShortText() ) 
-             AppendHtmlEscapedAndCorrectNonUTF8(target, ShortText() );
-                     // Tntnet30 throw: tntnet.worker - http-Error: 500 character conversion failed
-          else 
-             target.append("&nbsp;");
-// recording_actions
-          target.append("</span></a></div></div>\n<div class=\"recording_actions\">");
-          if (!IsArchived()) {
-            AppendRecordingAction(target, "vdr_request/play_recording?param=", "play.png", "play this recording", argList);
-            AppendRecordingAction(target, "playlist.m3u?recid=", "playlist.png", "Stream this recording into media player.", argList);
-            AppendIMDb(target);
-            AppendRecordingAction(target, "edit_recording.html?recid=", "edit.png", "Edit recording", argList);
-            AppendRecordingAction(target, "recordings.html?todel=", "del.png", "Delete this recording from hard disc!", argList);
-
-          } else {
-            target.append("<img src=\"img/transparent.png\" width=\"16px\" height=\"16px\" />");
-            AppendIMDb(target);
-          }
-          target.append("</div>");
-          if (IsArchived()) {
-            target.append("<div class=\"recording_arch\">");
-            AppendHtmlEscaped(target,  ArchiveDescr().c_str() );
-            target.append("</div>");
-          }
-          target.append("</div></li>");
-        }
+void RecordingsItemRec::AppendAsJSArray(std::string &target, std::list<RecordingsItemPtr>::iterator recIterFirst, const std::list<RecordingsItemPtr>::iterator &recIterLast, bool &first, const std::string &filter, bool displayFolder) {
+  for (; recIterFirst != recIterLast; ++recIterFirst) {
+    RecordingsItemPtr recItem = *recIterFirst;
+    if (!recItem->matchesFilter(filter)) continue;
+    if (!first) target.append(",");
+    else first = false;
+    recItem->AppendAsJSArray(target, displayFolder);
+  }
+}
 
 	/**
 	 * Implemetation of class RecordingsItemDummy
@@ -1050,6 +876,14 @@ namespace vdrlive {
 		m_root(new RecordingsItemDir("", 0))
 	{
 		// esyslog("live: DH: ****** RecordingsTree::RecordingsTree() ********");
+// languages
+                cGetChannelLanguages channelLanguages;
+                channelLanguages.m_defaultLanguage = 0;
+                channelLanguages.call(LiveSetup().GetPluginScraper() );
+// sd / hd / uhd
+                cGetChannelHD channelHD;
+                channelHD.call(LiveSetup().GetPluginScraper() );
+                bool sdHdUhdAvailable = !channelHD.m_channelHD.empty();
 // check availability of scraper data
 		cGetScraperOverview scraperOverview;
 		bool scraperDataAvailable = scraperOverview.call(LiveSetup().GetPluginScraper());
@@ -1078,6 +912,16 @@ namespace vdrlive {
 #endif
                   if (scraperDataAvailable) m_maxLevel = std::max(m_maxLevel, recording->HierarchyLevels() + 1);
                   else m_maxLevel = std::max(m_maxLevel, recording->HierarchyLevels() );
+                  int language;
+                  auto lang_found = channelLanguages.m_channelLanguages.find(recording->Info()->ChannelID());
+                  if (lang_found == channelLanguages.m_channelLanguages.end() ) language = channelLanguages.m_defaultLanguage;
+                  else language = lang_found->second;
+                  int sdHdUhd = -1;
+                  if (sdHdUhdAvailable) {
+                    auto sdHdUhd_found = channelHD.m_channelHD.find(recording->Info()->ChannelID());
+                    if (sdHdUhd_found == channelHD.m_channelHD.end() ) sdHdUhd = 0;
+                    else sdHdUhd = sdHdUhd_found->second;
+                  }
 
                   RecordingsItemPtr dir = m_rootFileSystem;
                   std::string name(recording->Name());
@@ -1095,7 +939,7 @@ namespace vdrlive {
                     }
                     else {
                       std::string recName(name.substr(index, name.length() - index));
-                      RecordingsItemPtr recPtr (new RecordingsItemRec(recMan->Md5Hash(recording), recName, recording));
+                      RecordingsItemPtr recPtr (new RecordingsItemRec(recMan->Md5Hash(recording), recName, recording, language, sdHdUhd));
                       dir->m_entries.insert(recPtr);
                       // esyslog("live: DH: added rec: '%s'", recName.c_str());
                       if (scraperDataAvailable) {
@@ -1182,7 +1026,6 @@ namespace vdrlive {
 void addAllDuplicateRecordings(std::list<RecordingsItemPtr> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree){
   std::list<RecordingsItemPtr> recItems;
   std::list<RecordingsItemPtr>::iterator currentRecItem, recIterUpName, recIterLowName, recIterUpShortText, recIterLowShortText;
-  int numberOfRecordingsWithThisName;
   bool isSeries;
 
   RecordingsTree->addAllRecordings(recItems);
@@ -1198,6 +1041,7 @@ void addAllDuplicateRecordings(std::list<RecordingsItemPtr> &DuplicateRecItems, 
     if ( (*recIterLowName)->scraperDataAvailable() ) {
       isSeries = false;  // no special for series required
     } else {
+      int numberOfRecordingsWithThisName;
       for( numberOfRecordingsWithThisName = 1; currentRecItem != recIterUpName; currentRecItem++, numberOfRecordingsWithThisName++);
       if (numberOfRecordingsWithThisName > 5) isSeries = true; else isSeries = false;
     }
@@ -1216,5 +1060,92 @@ void addAllDuplicateRecordings(std::list<RecordingsItemPtr> &DuplicateRecItems, 
     }
   }
 }
+void addDuplicateRecordingsNoSd(std::list<RecordingsItemPtr> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree){
+// add duplicate recordings where NO scraper data are available.
+  std::list<RecordingsItemPtr> recItems;
+  std::list<RecordingsItemPtr>::iterator currentRecItem, recIterUpName, recIterLowName, recIterUpShortText, recIterLowShortText;
+  bool isSeries;
+
+  RecordingsTree->addAllRecordings(recItems);
+  recItems.sort(RecordingsItemPtrCompare::ByDuplicates);
+
+  for (currentRecItem = recItems.begin(); currentRecItem != recItems.end(); ) {
+    if ( (*currentRecItem)->scraperDataAvailable() ) { currentRecItem++; continue;}
+    recIterLowName = currentRecItem;
+    recIterUpName  = std::upper_bound (currentRecItem , recItems.end(), *currentRecItem, RecordingsItemPtrCompare::ByDuplicatesName);
+
+    currentRecItem++;
+    if (recIterLowName == recIterUpName ) continue; // there is no recording with this name (internal error)
+    if (currentRecItem == recIterUpName ) continue; // there is only one recording with this name
+    if ( (*recIterLowName)->scraperDataAvailable() ) {
+      isSeries = false;  // no special for series required
+    } else {
+      int numberOfRecordingsWithThisName;
+      for( numberOfRecordingsWithThisName = 1; currentRecItem != recIterUpName; currentRecItem++, numberOfRecordingsWithThisName++);
+      if (numberOfRecordingsWithThisName > 5) isSeries = true; else isSeries = false;
+    }
+    if (isSeries) {
+      for (currentRecItem = recIterLowName; currentRecItem != recIterUpName;){
+        recIterLowShortText = currentRecItem;
+        recIterUpShortText  = std::upper_bound (currentRecItem , recIterUpName, *currentRecItem, RecordingsItemPtrCompare::ByDuplicates);
+        currentRecItem++;
+        if (currentRecItem == recIterUpShortText ) continue; // there is only one recording with this short text
+        for(currentRecItem = recIterLowShortText; currentRecItem != recIterUpShortText; currentRecItem++)
+          DuplicateRecItems.push_back(*currentRecItem);
+      }
+    } else { // not a series
+      for(currentRecItem = recIterLowName; currentRecItem != recIterUpName; currentRecItem++)
+        DuplicateRecItems.push_back(*currentRecItem);
+    }
+  }
+}
+
+void addDuplicateRecordingsLang(std::list<RecordingsItemPtr> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree){
+// add duplicate recordings where scraper data are available.
+// add only recordings with different language
+  std::list<RecordingsItemPtr> recItems;
+  std::list<RecordingsItemPtr>::iterator currentRecItem, nextRecItem, recIterUpName, recIterLowName;
+
+  RecordingsTree->addAllRecordings(recItems);
+  recItems.sort(RecordingsItemPtrCompare::ByDuplicatesLanguage);
+
+  for (currentRecItem = recItems.begin(); currentRecItem != recItems.end(); currentRecItem++) {
+    if ( !(*currentRecItem)->scraperDataAvailable() ) break;
+    recIterLowName = currentRecItem;
+    recIterUpName  = std::upper_bound (currentRecItem , recItems.end(), *currentRecItem, RecordingsItemPtrCompare::ByDuplicatesName);
+
+    if (recIterLowName == recIterUpName ) continue; // there is no recording with this name (internal error)
+    nextRecItem = recIterLowName;
+    nextRecItem++;
+    if (nextRecItem == recIterUpName ) continue; // there is only one recording with this name
+    for(currentRecItem = recIterLowName; currentRecItem != recIterUpName && nextRecItem != recIterUpName; currentRecItem++, nextRecItem++)
+      if (RecordingsItemPtrCompare::ByDuplicatesLanguage(*currentRecItem, *nextRecItem) ) {
+        DuplicateRecItems.push_back(*currentRecItem);
+        DuplicateRecItems.push_back(*nextRecItem);
+      }
+  }
+}
+void addDuplicateRecordingsSd(std::list<RecordingsItemPtr> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree){
+// add duplicate recordings where scraper data are available.
+// recordings with different languages are NOT duplicates
+  std::list<RecordingsItemPtr> recItems;
+  std::list<RecordingsItemPtr>::iterator currentRecItem, recIterUpName, recIterLowName;
+
+  RecordingsTree->addAllRecordings(recItems);
+  recItems.sort(RecordingsItemPtrCompare::ByDuplicatesLanguage);
+
+  for (currentRecItem = recItems.begin(); currentRecItem != recItems.end(); ) {
+    if ( !(*currentRecItem)->scraperDataAvailable() ) break;
+    recIterLowName = currentRecItem;
+    recIterUpName  = std::upper_bound (currentRecItem , recItems.end(), *currentRecItem, RecordingsItemPtrCompare::ByDuplicatesLanguage);
+
+    currentRecItem++;
+    if (recIterLowName == recIterUpName ) continue; // there is no recording with this name (internal error)
+    if (currentRecItem == recIterUpName ) continue; // there is only one recording with this name
+    for(currentRecItem = recIterLowName; currentRecItem != recIterUpName; currentRecItem++)
+      DuplicateRecItems.push_back(*currentRecItem);
+  }
+}
+
 
 } // namespace vdrlive

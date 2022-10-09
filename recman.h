@@ -154,6 +154,7 @@ namespace vdrlive {
                   static bool ByAscendingName(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
                   static bool ByDuplicatesName(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
                   static bool ByDuplicates(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
+                  static bool ByDuplicatesLanguage(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
                   static bool ByAscendingNameDesc(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
                   static bool ByAscendingNameDescSort(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
                   static bool ByDescendingNameDescSort(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
@@ -185,7 +186,7 @@ namespace vdrlive {
 
                   virtual time_t StartTime() const = 0;
                   virtual bool IsDir() const = 0;
-                  virtual long Duration() const = 0;
+                  virtual int Duration() const = 0;
                   virtual const std::string& Name() const { return m_name; }
                   virtual const std::string& NameForSort() const { return m_name_for_sort; }
                   virtual const std::string& NameForSearch() const { return m_name_for_search; }
@@ -223,21 +224,20 @@ namespace vdrlive {
                   const std::string &scraperName() const { return m_s_title; }
                   const std::string &scraperReleaseDate() const { return m_s_release_date; }
                   const cTvMedia &scraperImage() const { return m_s_image; }
+                  int language() const { return m_language; }
                   virtual bool displayInOthers() const { return true; }
                   int CompareTexts(const RecordingsItemPtr &second, int *numEqualChars=NULL) const;
                   int CompareStD(const RecordingsItemPtr &second, int *numEqualChars=NULL) const;
-                  bool orderDuplicates(const RecordingsItemPtr &second, bool alwaysShortText) const;
+                  bool orderDuplicates(const RecordingsItemPtr &second, bool alwaysShortText, bool lang = false) const;
      // To display the recording on the UI
+                  bool matchesFilter(const std::string &filter);
                   virtual const int IsArchived() const { return 0 ; }
                   virtual const std::string ArchiveDescr() const { return "" ; }
                   virtual const char *NewR() const { return "" ; }
                   virtual const int RecordingErrors() const { return -1; }
-                  virtual const char *RecordingErrorsIcon() const { return ""; }
-                  virtual void AppendRecordingErrorsStr(std::string &target) const { };
                   virtual const int SD_HD() { return 0; }
                   virtual const char *SD_HD_icon() { return ""; }
-                  virtual void AppendasHtml(std::string &target, bool displayFolder, const std::string argList, int level) { }
-                  virtual void AppendasJSArray(std::string &target, bool displayFolder, const std::string argList, int level) { }
+                  virtual void AppendAsJSArray(std::string &target, bool displayFolder) { }
 
           private:
                   std::string GetNameForSearch(std::string const & name);
@@ -261,6 +261,7 @@ namespace vdrlive {
                   int m_s_collection_id = 0;
                   int m_s_episode_number = 0;
                   int m_s_season_number = 0;
+                  int m_language = 0;
   };
 
 
@@ -276,7 +277,7 @@ namespace vdrlive {
                   virtual ~RecordingsItemDir();
 
                   virtual time_t StartTime() const { return 0; }
-                  virtual long Duration() const { return 0; }
+                  virtual int Duration() const { return 0; }
                   virtual bool IsDir() const { return true; }
                   virtual std::string const Id() const { return ""; }
                   virtual int Level() { return m_level; }
@@ -308,12 +309,12 @@ namespace vdrlive {
   class RecordingsItemRec : public RecordingsItem
   {
           public:
-                  RecordingsItemRec(const std::string& id, const std::string& name, const cRecording* recording);
+                  RecordingsItemRec(const std::string& id, const std::string& name, const cRecording* recording, int language, int sdHdUhd);
 
                   virtual ~RecordingsItemRec();
 
                   virtual time_t StartTime() const { return m_recording->Start(); }
-                  virtual long Duration() const { return m_duration; }
+                  virtual int Duration() const { return m_duration; } // duration in minutes
                   virtual bool IsDir() const { return false; }
                   virtual const std::string Id() const { return m_id; }
 
@@ -329,24 +330,20 @@ namespace vdrlive {
 #else
                   virtual const int RecordingErrors() const { return -1; }
 #endif
-                  virtual const char *RecordingErrorsIcon() const;
                   void AppendRecordingErrorsStr(std::string &target) const;
 
                   virtual const int SD_HD();
-                  virtual const char *SD_HD_icon() { return SD_HD() == 0 ? "sd.png": "hd.png"; }
-                  virtual void AppendasHtml(std::string &target, bool displayFolder, const std::string argList, int level);
-                  virtual void AppendasJSArray(std::string &target, bool displayFolder, const std::string argList, int level);
+                  virtual const char *SD_HD_icon() { return SD_HD() == 0 ? "sd.png": SD_HD() == 1 ? "hd.png":"ud.png"; }
                   void AppendShortTextOrDesc(std::string &target) const;
-                  void AppendHint(std::string &target) const;
-                  void AppendIMDb(std::string &target) const;
-                  void AppendRecordingAction(std::string &target, const char *A, const char *Img, const char *Title, const std::string argList);
+                  virtual void AppendAsJSArray(std::string &target, bool displayFolder);
+                  static void AppendAsJSArray(std::string &target, std::list<RecordingsItemPtr>::iterator recIterFirst, const std::list<RecordingsItemPtr>::iterator &recIterLast, bool &first, const std::string &filter, bool displayFolder);
                
           private:
                   const cRecording *m_recording;
                   const std::string m_id;
                   const int m_isArchived;
-                  const long m_duration; // duration in minutes
-                  int m_video_SD_HD = -1;  // 0 is SD, 1 is HD
+                  const int m_duration; // duration in minutes
+                  int m_video_SD_HD = -1;  // 0 is SD, 1 is HD, 2 is UHD
   };
 
   /**
@@ -362,7 +359,7 @@ namespace vdrlive {
                   const char * ShortText() const { return m_short_text; }
                   const char * Description() const { return m_description; }
                   virtual time_t StartTime() const { return 0; }
-                  virtual long Duration() const { return m_duration; } // duration in minutes
+                  virtual int Duration() const { return m_duration; } // duration in minutes
                   virtual bool IsDir() const { return false; }
                   virtual std::string const Id() const { return ""; }
 
@@ -430,6 +427,9 @@ namespace vdrlive {
   RecordingsManagerPtr LiveRecordingsManager();
 
 void addAllDuplicateRecordings(std::list<RecordingsItemPtr> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree);
+void addDuplicateRecordingsNoSd(std::list<RecordingsItemPtr> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree);
+void addDuplicateRecordingsLang(std::list<RecordingsItemPtr> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree);
+void addDuplicateRecordingsSd(std::list<RecordingsItemPtr> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree);
 
 } // namespace vdrlive
 

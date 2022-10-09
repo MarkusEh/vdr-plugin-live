@@ -120,24 +120,38 @@ std::string const OsdStatusMonitor::GetButtonsHtml() {
 }
 
 std::string const OsdStatusMonitor::GetItemsHtml(void){
-	std::string buffer= "";
-	for (cLiveOsdItem *item = items.First(); item; item = items.Next(item)) {
-		buffer += "<div class=\"osdItem";
-		if (item->isSelected())
-			buffer +=  " selected";
-		buffer += "\">";
-		buffer += EncodeHtml(item->Text());
-		buffer += "</div>";
-	}
-	return !buffer.empty() ? "<div class=\"osdItems\">" + buffer + "</div>" : "";
+  std::string buffer= "";
+  for (cLiveOsdItem *item = items.First(); item; item = items.Next(item)) {
+    buffer += "<div class=\"osdItem";
+    if (item->isSelected()) buffer +=  " selected";
+    buffer += "\">";
+/*
+    if (tabs[0] > 0) {
+      buffer += EncodeHtml(item->Text(), true);
+      const char *tab = strchr(item->Text().c_str(), '\t');
+      if (tab && *(tab + 1) ) {
+        int charsT1 = tab - item->Text().c_str();
+        buffer.append(std::max(1, (int)tabs[0] - charsT1), ' ');
+        buffer += EncodeHtml(tab + 1);
+      }
+    } else {
+*/
+      buffer += EncodeHtml(item->Text());
+//    }
+    buffer += "</div>";
+  }
+  if (buffer.empty() ) return "";
+//  if (tabs[0] > 0) return std::string("<div class=\"osdItems\"><table>") + buffer + "</table></div>";
+  return std::string("<div class=\"osdItems\">") + buffer + "</div>";
 }
+
 std::string const OsdStatusMonitor::GetHtml(){
 	std::stringstream ss;
 	ss << lastUpdate;
 	return "<div class=\"osd\" data-time=\"" + ss.str() + "\">" + GetTitleHtml() + GetItemsHtml() + GetTextHtml() + GetMessageHtml() + GetButtonsHtml() + "</div>";
 }
 
-std::string const OsdStatusMonitor::EncodeHtml(const std::string& html) {
+std::string const OsdStatusMonitor::EncodeHtml(const std::string& html, bool stopAtTab) {
 	std::stringstream ss;
 	std::string::const_iterator i;
 	for (i = html.begin(); i != html.end(); ++i) {
@@ -149,6 +163,8 @@ std::string const OsdStatusMonitor::EncodeHtml(const std::string& html) {
 			ss << "&amp;";
 		else if (*i == '"')
 			ss << "&quot;";
+		else if (*i == '\t' && stopAtTab)
+			break;
 		else
 			ss << static_cast<char>(*i); // Copy untranslated
 	}

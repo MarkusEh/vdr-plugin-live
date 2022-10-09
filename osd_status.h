@@ -76,7 +76,7 @@ public:
 
 	virtual ~OsdStatusMonitor();
 
-	std::string const EncodeHtml(const std::string& html);
+	std::string const EncodeHtml(const std::string& html, bool stopAtTab = false);
 };
 
 OsdStatusMonitor& LiveOsdStatusMonitor();
