@@ -61,20 +61,9 @@ msgstr "Arkistointi-DVD:llä numero"
 msgid "On archive HDD No."
 msgstr "Arkistointi-HDD:llä numero"
 
-msgid "Click to view details."
-msgstr "Napsauta katsoaksesi lisätietoja."
-
-msgid "No recording errors"
+#, c-format
+msgid "(%d:%02d)"
 msgstr ""
-
-msgid "Number of recording errors:"
-msgstr ""
-
-msgid "Recording errors unknown"
-msgstr ""
-
-msgid "Find more at the Internet Movie Database."
-msgstr "Hae IMDB:stä"
 
 #, c-format
 msgid "%a,"
@@ -86,8 +75,13 @@ msgstr "%d.%m.%y"
 msgid "%I:%M %p"
 msgstr "%H:%M"
 
-#, c-format
-msgid "(%d:%02d)"
+msgid "TV shows"
+msgstr ""
+
+msgid "Movie collections"
+msgstr ""
+
+msgid "File system view"
 msgstr ""
 
 msgid "Couldn't find channel or no channels available."
@@ -150,379 +144,47 @@ msgstr "päällekkäinen ajastin"
 msgid "conflicts"
 msgstr "päällekkäistä ajastinta"
 
-msgid "Electronic program guide information"
-msgstr "Ohjelmaoppaan tiedot"
-
-msgid "Couldn't find recording or no recordings available"
-msgstr "Tallennetta ei löydy tai yhtään tallennetta ei ole saatavilla."
-
-msgid "Error aquiring schedules lock"
-msgstr "Ohjelmatietojen lukitus epäonnistui!"
-
-msgid "Error aquiring schedules"
-msgstr "Ohjelmatietojen haku epäonnistui!"
-
-msgid "Searchtimers"
-msgstr "Hakuajastimet"
+msgid "Couldn't aquire access to channels, please try again later."
+msgstr "Kanavien käyttäminen epäonnistui! Yritä myöhemmin uudelleen."
 
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Ei käyttöoikeutta. Ota yhteyttä ylläpitäjään!"
 
-msgid "Expression"
-msgstr "Hakutermi"
+msgid "Couldn't find recording. Maybe you mistyped your request?"
+msgstr "Tallennetta ei löydy. Kirjoititko varmasti oikein?"
 
-msgid "Channel"
-msgstr "Kanava"
+msgid "Please set a name for the recording!"
+msgstr "Aseta nimi tallenteelle!"
 
-msgid "Starts between"
-msgstr "Alkaa välillä"
+msgid "Cannot copy, rename or move the recording."
+msgstr "Tallenteen kopioiminen, uudelleen nimeäminen tai siirto epäonnistui!"
 
-msgid "Toggle search timer actions (in)active"
-msgstr "Aseta hakuajastin päälle/pois"
-
-msgid "Browse search timer results"
-msgstr "Selaa hakutuloksia"
-
-msgid "Edit search timer"
-msgstr "Muokkaa hakuajastinta"
-
-msgid "Delete this search timer?"
-msgstr "Poistetaanko tämä hakuajastin?"
-
-msgid "Delete search timer"
-msgstr "Poista hakuajastin"
-
-msgid "New search timer"
-msgstr "Luo uusi hakuajastin"
-
-msgid "Trigger search timer update"
-msgstr "Päivitä hakuajastimet"
-
-msgid "Wrong username or password"
-msgstr "Väärä käyttäjätunnus tai salasana"
-
-msgid "Login"
-msgstr "Kirjaudu sisään"
-
-msgid "VDR Live Login"
-msgstr "VDR Live - sisäänkirjautuminen"
-
-msgid "User"
-msgstr "Käyttäjä"
-
-msgid "Password"
-msgstr "Salasana"
-
-msgid "Remote Control"
-msgstr "Kauko-ohjain"
-
-msgid "Couldn't aquire access to channels, please try again later."
-msgstr "Kanavien käyttäminen epäonnistui! Yritä myöhemmin uudelleen."
-
-msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
-msgstr "Kanavaa ei löydy. Kirjoititko varmasti oikein?"
-
-msgid "Selection"
-msgstr "valittu"
-
-msgid "Snapshot interval"
-msgstr "Kuvien päivitysväli"
-
-msgid "Stop"
-msgstr "Pysäytä"
-
-#, c-format
-msgid "%a, %x"
-msgstr "%a %x"
-
-msgid "What's running on"
-msgstr "Menossa"
-
-msgid "at"
-msgstr "kello"
-
-msgid "What's on next?"
-msgstr "Tulossa seuraavaksi?"
-
-msgid "Favorites"
-msgstr "Suosikit"
-
-msgid "View the schedule of this channel"
-msgstr "Näytä ohjelmisto kanavalta"
-
-msgid " - "
-msgstr ""
-
-msgid "more"
-msgstr "lisätietoja"
-
-msgid "Now"
-msgstr "Nyt"
-
-msgid "Next"
-msgstr "Seuraavaksi"
-
-msgid "What's on"
-msgstr "Menossa"
-
-msgid "Details view"
-msgstr "Ruudukkonäkymä"
-
-msgid "List view"
-msgstr "Listanäkymä"
-
-msgid "Stream this channel into browser."
-msgstr ""
-
-msgid "Stream this channel into media player."
-msgstr ""
-
-msgid "Stream this recording into media player."
-msgstr ""
-
-msgid "Record this"
-msgstr "Tallenna ohjelma"
-
-msgid "Edit timer"
-msgstr "Muokkaa ajastinta"
-
-msgid "loading data"
-msgstr "ladataan tietoja"
-
-msgid "an error occured!"
-msgstr "virhe havaittu!"
-
-msgid "Request succeeded!"
-msgstr "Pyyntö onnistui!"
-
-msgid "Request failed!"
-msgstr "Pyyntö epäonnistui!"
-
-msgid "Sunday"
-msgstr "Sunnuntai"
-
-msgid "Monday"
-msgstr "Maanantai"
-
-msgid "Tuesday"
-msgstr "Tiistai"
-
-msgid "Wednesday"
-msgstr "Keskiviikko"
-
-msgid "Thursday"
-msgstr "Torstai"
-
-msgid "Friday"
-msgstr "Perjantai"
-
-msgid "Saturday"
-msgstr "Lauantai"
-
-#. TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
-msgid "mm/dd/yyyy"
-msgstr "mm/dd/yyyy"
-
-msgid "January"
-msgstr "Tammikuu"
-
-msgid "February"
-msgstr "Helmikuu"
-
-msgid "March"
-msgstr "Maaliskuu"
-
-msgid "April"
-msgstr "Huhtikuu"
-
-msgid "May"
-msgstr "Toukokuu"
-
-msgid "June"
-msgstr "Kesäkuu"
-
-msgid "July"
-msgstr "Heinäkuu"
-
-msgid "August"
-msgstr "Elokuu"
-
-msgid "September"
-msgstr "Syyskuu"
-
-msgid "October"
-msgstr "Lokakuu"
-
-msgid "November"
-msgstr "Marraskuu"
-
-msgid "December"
-msgstr "Joulukuu"
-
-msgid "retrieving status ..."
-msgstr "Haetaan tietoja ..."
-
-msgid "Toggle updates on/off."
-msgstr "Aseta tilannekysely päälle/pois"
-
-msgid "stop playback"
-msgstr "Lopeta toisto"
-
-msgid "resume playback"
-msgstr "Jatka toistoa"
-
-msgid "pause playback"
-msgstr "Pysäytä toisto"
-
-msgid "fast rewind"
-msgstr "Pikakelaus taaksepäin"
-
-msgid "fast forward"
-msgstr "Pikakelaus eteenpäin"
-
-msgid "previous channel"
-msgstr "Edellinen kanava"
-
-msgid "next channel"
-msgstr "Seuraava kanava"
-
-msgid "No server response!"
-msgstr "Palvelin ei vastaa!"
-
-msgid "Failed to update infobox!"
-msgstr "Infolaatikon päivitys epäonnistui!"
-
-msgid "Switch to this channel."
-msgstr "Vaihda kanavalle"
-
-msgid "Search for repeats."
-msgstr "Etsi toistuvat"
-
-msgid "Authors"
-msgstr "Tekijät"
-
-msgid "Project Idea"
-msgstr "Projektin idea"
-
-msgid "Webserver"
-msgstr "HTTP-palvelin"
-
-msgid "Current Maintainer"
-msgstr ""
-
-msgid "Previous Maintainer"
-msgstr ""
-
-msgid "Project leader"
-msgstr "Projektipäällikkö"
-
-msgid "Content"
-msgstr "Sisältö"
-
-msgid "Graphics"
-msgstr "Grafiikka"
-
-msgid "Information"
-msgstr "Tietoja"
-
-msgid "LIVE version"
-msgstr "LIVE-versio"
-
-msgid "VDR version"
-msgstr "VDR-versio"
-
-msgid "Features"
-msgstr "Tuetut laajennokset"
-
-msgid "active"
-msgstr "käytössä"
-
-msgid "required"
-msgstr "vaadittava"
-
-msgid "Homepage"
-msgstr "Kotisivu"
-
-msgid "Bugs and suggestions"
-msgstr "Virheraportoinnit ja parannusehdotukset"
-
-msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
-msgstr "Voit raportoida sekä virheet että parannusehdotukset suoraan havaintotietokantaan"
-
-msgid "What's on?"
-msgstr "Menossa?"
-
-msgid "MultiSchedule"
-msgstr "Ohjelmaopas"
-
-msgid "Search"
-msgstr "Etsi"
-
-msgid "Recordings"
-msgstr "Tallenteet"
-
-msgid "Web-Streaming"
-msgstr ""
-
-msgid "Logout"
-msgstr "Kirjaudu ulos"
-
-msgid "Your attention is required"
-msgstr "Huomiotasi tarvitaan"
-
-msgid "React"
-msgstr "Reagoi"
-
-msgid "Dismiss"
-msgstr "Ohita"
-
-msgid "Couldn't find user. Maybe you mistyped your request?"
-msgstr "Käyttäjää ei löydy. Kirjoititko varmasti oikein?"
-
-msgid "This user name is already in use!"
-msgstr "Käyttäjänimi on jo käytössä!"
-
-msgid "Edit user"
-msgstr "Muokkaa käyttäjää"
-
-msgid "New user"
-msgstr "Luo uusi käyttäjä"
+msgid "Edit recording"
+msgstr "Muokkaa tallennetta"
 
 msgid "Name"
 msgstr "Nimi"
 
-msgid "User rights"
-msgstr "Käyttöoikeudet"
+msgid "Directory"
+msgstr "Hakemisto"
 
-msgid "Edit setup"
-msgstr "Muokkaa asetuksia"
+msgid "Delete resume information"
+msgstr "Poista paluutiedot"
 
-msgid "Add or edit timers"
-msgstr "Lisää/muokkaa ajastimia"
+msgid "Delete marks information"
+msgstr "Poista merkinnät"
 
-msgid "Delete timers"
-msgstr "Poista ajastimia"
+msgid "Copy only"
+msgstr "Kopioi ainoastaan"
 
-msgid "Delete recordings"
-msgstr "Poista tallenteita"
+msgid "Short description"
+msgstr "Lyhyt kuvaus"
 
-msgid "Use remote menu"
-msgstr "Käytä kauko-ohjainta"
+msgid "Description"
+msgstr "Kuvaus"
 
-msgid "Start replay"
-msgstr "Aloita toisto"
-
-msgid "Switch channel"
-msgstr "Vaihda kanavaa"
-
-msgid "Add or edit search timers"
-msgstr "Lisää/muokkaa hakuajastimia"
-
-msgid "Delete search timers"
-msgstr "Poista hakuajastimia"
-
-msgid "Edit recordings"
-msgstr "Muokkaa tallenteita"
+msgid "Auxiliary info"
+msgstr "Lisätiedot"
 
 msgid "Save"
 msgstr "Tallenna"
@@ -530,95 +192,18 @@ msgstr "Tallenna"
 msgid "Cancel"
 msgstr "Peru"
 
-msgid "Search results"
-msgstr "Hakutulokset"
-
-msgid "No search results"
-msgstr "Ei hakutuloksia"
-
-msgid "%A, %b %d %Y"
-msgstr "%A %d.%m.%Y"
-
-msgid "Couldn't find timer. Maybe you mistyped your request?"
-msgstr "Ajastinta ei löydy. Kirjoititko varmasti oikein?"
-
-msgid "Please set a title for the timer!"
-msgstr "Aseta nimi ajastimelle!"
-
-msgid "New timer"
-msgstr "Luo uusi ajastin"
-
-msgid "Title"
-msgstr "Otsikko"
-
-msgid "Server"
-msgstr ""
-
-msgid "Directory"
-msgstr "Hakemisto"
-
-msgid "Weekday"
-msgstr "Viikonpäivä"
-
-msgid "Use VPS"
-msgstr "Käytä VPS-toimintoa"
-
-msgid "ERROR:"
-msgstr "VIRHE:"
-
-msgid "Deleted recording:"
-msgstr "Poistettu tallenne:"
-
-msgid "List of recordings"
-msgstr "Tallennelistaus"
-
-msgid "No recordings found"
-msgstr "Tallenteita ei löydy"
-
-msgid "Delete selected"
-msgstr "Poista valitut"
-
-msgid "Sort by name"
-msgstr "Järjestä nimen mukaan"
-
-msgid "Sort by date"
-msgstr "Järjestä päivämäärän mukaan"
-
-msgid "Duplicates"
-msgstr "Kaksoiskappaleet"
-
-msgid "Errors"
-msgstr "Virheet"
-
-msgid "Filter"
-msgstr "Suodata"
-
-msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
-msgstr "Suodata tallenteet nimi- ja kuvauskentistä hakusanan avulla. Voit käyttää myös Perl-yhteensopivia säännöllisiä lausekkeita (PCRE)."
-
-msgid "Expand all folders"
-msgstr "Avaa kaikki kansiot"
-
-msgid "Collapse all folders"
-msgstr "Sulje kaikki kansiot"
-
-msgid "Delete this recording from hard disc!"
-msgstr "Poista tallenne kovalevyltä!"
-
-msgid "Edit recording"
-msgstr "Muokkaa tallennetta"
-
-msgid "play this recording."
-msgstr "Toista tallenne"
-
-msgid "No schedules available for this channel"
-msgstr "Tälle kanavalle ei ole saatavilla ohjelmistoa"
-
-msgid "Existing Recording:"
-msgstr ""
-
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
 msgstr "Hakuajastimia ei löydetä! Onko pyyntö oikein kirjoitettu?"
+
+#. TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
+msgid "mm/dd/yyyy"
+msgstr "mm/dd/yyyy"
+
+msgid "Edit search timer"
+msgstr "Muokkaa hakuajastinta"
+
+msgid "New search timer"
+msgstr "Luo uusi hakuajastin"
 
 msgid "Search text too short - use anyway?"
 msgstr "Liian suppea hakuehto - etsitäänkö silti?"
@@ -656,11 +241,11 @@ msgstr "Huomioi kirjainkoko"
 msgid "Search in"
 msgstr "Hae kentistä"
 
+msgid "Title"
+msgstr "Otsikko"
+
 msgid "Episode"
 msgstr "Jakson nimi"
-
-msgid "Description"
-msgstr "Kuvaus"
 
 msgid "Use extended EPG info"
 msgstr "Käytä laajennettua ohjelmaopasta"
@@ -716,8 +301,32 @@ msgstr "Kestoaika enintään"
 msgid "Use day of week"
 msgstr "Käytä viikonpäivää"
 
+msgid "Monday"
+msgstr "Maanantai"
+
+msgid "Tuesday"
+msgstr "Tiistai"
+
+msgid "Wednesday"
+msgstr "Keskiviikko"
+
+msgid "Thursday"
+msgstr "Torstai"
+
+msgid "Friday"
+msgstr "Perjantai"
+
+msgid "Saturday"
+msgstr "Lauantai"
+
+msgid "Sunday"
+msgstr "Sunnuntai"
+
 msgid "Use blacklists"
 msgstr "Käytä mustia listoja"
+
+msgid "Selection"
+msgstr "valittu"
 
 msgid "all"
 msgstr "kaikki"
@@ -791,6 +400,9 @@ msgstr "Vertaa kuvausta"
 msgid "Compare"
 msgstr "Vertaa"
 
+msgid "Use VPS"
+msgstr "Käytä VPS-toimintoa"
+
 msgid "Auto-delete search timer"
 msgstr "Poista automaattisesti hakuajastimet"
 
@@ -806,23 +418,527 @@ msgstr "Vaihda ... minuuttia ennen alkua"
 msgid "Test"
 msgstr "Testaa"
 
-msgid "No timer defined"
-msgstr "Ajastinta ei ole määritelty"
+msgid "Couldn't find timer. Maybe you mistyped your request?"
+msgstr "Ajastinta ei löydy. Kirjoititko varmasti oikein?"
 
-msgid "Timer is recording."
-msgstr "Ajastinta tallennetaan"
+msgid "Please set a title for the timer!"
+msgstr "Aseta nimi ajastimelle!"
 
-msgid "Timer is active."
-msgstr "Aktiivinen ajastin"
+msgid "Edit timer"
+msgstr "Muokkaa ajastinta"
 
-msgid "Toggle timer active/inactive"
-msgstr "Aseta ajastin päälle/pois"
+msgid "New timer"
+msgstr "Luo uusi ajastin"
 
-msgid "Delete timer"
-msgstr "Poista ajastin"
+msgid "Server"
+msgstr ""
 
-msgid "Timer conflicts"
-msgstr "Päällekkäiset ajastimet"
+msgid "Weekday"
+msgstr "Viikonpäivä"
+
+msgid "Couldn't find user. Maybe you mistyped your request?"
+msgstr "Käyttäjää ei löydy. Kirjoititko varmasti oikein?"
+
+msgid "This user name is already in use!"
+msgstr "Käyttäjänimi on jo käytössä!"
+
+msgid "Edit user"
+msgstr "Muokkaa käyttäjää"
+
+msgid "New user"
+msgstr "Luo uusi käyttäjä"
+
+msgid "Password"
+msgstr "Salasana"
+
+msgid "User rights"
+msgstr "Käyttöoikeudet"
+
+msgid "Edit setup"
+msgstr "Muokkaa asetuksia"
+
+msgid "Add or edit timers"
+msgstr "Lisää/muokkaa ajastimia"
+
+msgid "Delete timers"
+msgstr "Poista ajastimia"
+
+msgid "Delete recordings"
+msgstr "Poista tallenteita"
+
+msgid "Use remote menu"
+msgstr "Käytä kauko-ohjainta"
+
+msgid "Start replay"
+msgstr "Aloita toisto"
+
+msgid "Switch channel"
+msgstr "Vaihda kanavaa"
+
+msgid "Add or edit search timers"
+msgstr "Lisää/muokkaa hakuajastimia"
+
+msgid "Delete search timers"
+msgstr "Poista hakuajastimia"
+
+msgid "Edit recordings"
+msgstr "Muokkaa tallenteita"
+
+msgid "Electronic program guide information"
+msgstr "Ohjelmaoppaan tiedot"
+
+msgid "Couldn't find recording or no recordings available"
+msgstr "Tallennetta ei löydy tai yhtään tallennetta ei ole saatavilla."
+
+msgid "Error aquiring schedules lock"
+msgstr "Ohjelmatietojen lukitus epäonnistui!"
+
+msgid "Error aquiring schedules"
+msgstr "Ohjelmatietojen haku epäonnistui!"
+
+msgid "Page error"
+msgstr "Sivuvirhe"
+
+msgid "playing recording"
+msgstr "Toistetaan tallennetta"
+
+msgid "no epg info for current event!"
+msgstr "Lähetyksellä ei ole ohjelmatietoja!"
+
+msgid "no epg info for current channel!"
+msgstr "Kanavalla ei ole ohjelmatietoja!"
+
+msgid "no current channel!"
+msgstr "Kanavaa ei löydy!"
+
+msgid "error retrieving status info!"
+msgstr "Virhe: tilannetietoja ei saatavilla!"
+
+msgid "%I:%M:%S %p"
+msgstr "%H:%M:%S"
+
+msgid "Wrong username or password"
+msgstr "Väärä käyttäjätunnus tai salasana"
+
+msgid "Login"
+msgstr "Kirjaudu sisään"
+
+msgid "VDR Live Login"
+msgstr "VDR Live - sisäänkirjautuminen"
+
+msgid "User"
+msgstr "Käyttäjä"
+
+msgid "What's on?"
+msgstr "Menossa?"
+
+msgid "MultiSchedule"
+msgstr "Ohjelmaopas"
+
+msgid "Search"
+msgstr "Etsi"
+
+msgid "Searchtimers"
+msgstr "Hakuajastimet"
+
+msgid "Recordings"
+msgstr "Tallenteet"
+
+msgid "Remote Control"
+msgstr "Kauko-ohjain"
+
+msgid "Web-Streaming"
+msgstr ""
+
+msgid "Logout"
+msgstr "Kirjaudu ulos"
+
+msgid "Your attention is required"
+msgstr "Huomiotasi tarvitaan"
+
+msgid "React"
+msgstr "Reagoi"
+
+msgid "Dismiss"
+msgstr "Ohita"
+
+msgid "Now"
+msgstr "Nyt"
+
+msgid "%A, %b %d %Y"
+msgstr "%A %d.%m.%Y"
+
+msgid "Time"
+msgstr "Ajankohta"
+
+msgid "Switch to this channel."
+msgstr "Vaihda kanavalle"
+
+msgid "Search for repeats."
+msgstr "Etsi toistuvat"
+
+msgid "Click to view details."
+msgstr "Napsauta katsoaksesi lisätietoja."
+
+msgid "more"
+msgstr "lisätietoja"
+
+msgid "Channel"
+msgstr "Kanava"
+
+msgid "Find more at the Internet Movie Database."
+msgstr "Hae IMDB:stä"
+
+msgid "Stream this channel into browser."
+msgstr ""
+
+msgid "Stream this channel into media player."
+msgstr ""
+
+msgid "Stream this recording into media player."
+msgstr ""
+
+msgid "Record this"
+msgstr "Tallenna ohjelma"
+
+msgid "loading data"
+msgstr "ladataan tietoja"
+
+msgid "an error occured!"
+msgstr "virhe havaittu!"
+
+msgid "Request succeeded!"
+msgstr "Pyyntö onnistui!"
+
+msgid "Request failed!"
+msgstr "Pyyntö epäonnistui!"
+
+msgid "January"
+msgstr "Tammikuu"
+
+msgid "February"
+msgstr "Helmikuu"
+
+msgid "March"
+msgstr "Maaliskuu"
+
+msgid "April"
+msgstr "Huhtikuu"
+
+msgid "May"
+msgstr "Toukokuu"
+
+msgid "June"
+msgstr "Kesäkuu"
+
+msgid "July"
+msgstr "Heinäkuu"
+
+msgid "August"
+msgstr "Elokuu"
+
+msgid "September"
+msgstr "Syyskuu"
+
+msgid "October"
+msgstr "Lokakuu"
+
+msgid "November"
+msgstr "Marraskuu"
+
+msgid "December"
+msgstr "Joulukuu"
+
+msgid "retrieving status ..."
+msgstr "Haetaan tietoja ..."
+
+msgid "Toggle updates on/off."
+msgstr "Aseta tilannekysely päälle/pois"
+
+msgid "stop playback"
+msgstr "Lopeta toisto"
+
+msgid "resume playback"
+msgstr "Jatka toistoa"
+
+msgid "pause playback"
+msgstr "Pysäytä toisto"
+
+msgid "fast rewind"
+msgstr "Pikakelaus taaksepäin"
+
+msgid "fast forward"
+msgstr "Pikakelaus eteenpäin"
+
+msgid "previous channel"
+msgstr "Edellinen kanava"
+
+msgid "next channel"
+msgstr "Seuraava kanava"
+
+msgid "No server response!"
+msgstr "Palvelin ei vastaa!"
+
+msgid "Failed to update infobox!"
+msgstr "Infolaatikon päivitys epäonnistui!"
+
+msgid "Scraper"
+msgstr ""
+
+msgid "Actors"
+msgstr ""
+
+msgid "Artwork"
+msgstr ""
+
+msgid "Title:"
+msgstr ""
+
+msgid "Original title:"
+msgstr ""
+
+msgid "Episode:"
+msgstr ""
+
+msgid "Episode overview:"
+msgstr ""
+
+msgid "Episode vote average/count:"
+msgstr ""
+
+msgid "Episode first aired:"
+msgstr ""
+
+msgid "Episode guest stars:"
+msgstr ""
+
+msgid "Episode director:"
+msgstr ""
+
+msgid "Episode writer:"
+msgstr ""
+
+msgid "IMDB episode"
+msgstr ""
+
+msgid "Tagline:"
+msgstr ""
+
+msgid "Overview:"
+msgstr ""
+
+msgid "Genres:"
+msgstr ""
+
+msgid "Homepage"
+msgstr "Kotisivu"
+
+msgid "Release date:"
+msgstr ""
+
+msgid "Runtimes:"
+msgstr ""
+
+msgid "Popularity:"
+msgstr ""
+
+msgid "Vote average/count:"
+msgstr ""
+
+msgid "Actors:"
+msgstr ""
+
+msgid "IMDB"
+msgstr ""
+
+msgid "Budget:"
+msgstr ""
+
+msgid "Revenue:"
+msgstr ""
+
+msgid "Collection name:"
+msgstr ""
+
+msgid "Director:"
+msgstr ""
+
+msgid "Writer:"
+msgstr ""
+
+msgid "Status:"
+msgstr ""
+
+msgid "Created by:"
+msgstr ""
+
+msgid "Authors"
+msgstr "Tekijät"
+
+msgid "Project Idea"
+msgstr "Projektin idea"
+
+msgid "Webserver"
+msgstr "HTTP-palvelin"
+
+msgid "Current Maintainer"
+msgstr ""
+
+msgid "Previous Maintainer"
+msgstr ""
+
+msgid "Project leader"
+msgstr "Projektipäällikkö"
+
+msgid "Content"
+msgstr "Sisältö"
+
+msgid "Graphics"
+msgstr "Grafiikka"
+
+msgid "Information"
+msgstr "Tietoja"
+
+msgid "LIVE version"
+msgstr "LIVE-versio"
+
+msgid "VDR version"
+msgstr "VDR-versio"
+
+msgid "Features"
+msgstr "Tuetut laajennokset"
+
+msgid "active"
+msgstr "käytössä"
+
+msgid "required"
+msgstr "vaadittava"
+
+msgid "Information providers"
+msgstr ""
+
+msgid "Bugs and suggestions"
+msgstr "Virheraportoinnit ja parannusehdotukset"
+
+msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
+msgstr "Voit raportoida sekä virheet että parannusehdotukset suoraan havaintotietokantaan"
+
+msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
+msgstr "Kanavaa ei löydy. Kirjoititko varmasti oikein?"
+
+msgid "ERROR:"
+msgstr "VIRHE:"
+
+msgid "Deleted recording:"
+msgstr "Poistettu tallenne:"
+
+msgid "No recording errors"
+msgstr ""
+
+msgid "Number of recording errors:"
+msgstr ""
+
+msgid "Recording errors unknown"
+msgstr ""
+
+msgid "play this recording"
+msgstr ""
+
+msgid "Delete this recording from hard disc!"
+msgstr "Poista tallenne kovalevyltä!"
+
+msgid "List of recordings"
+msgstr "Tallennelistaus"
+
+msgid "No recordings found"
+msgstr "Tallenteita ei löydy"
+
+msgid "Delete selected"
+msgstr "Poista valitut"
+
+msgid "Duplicates identified by tvscraper"
+msgstr ""
+
+msgid "Duplicates, with different languages"
+msgstr ""
+
+msgid "Duplicates not identified by tvscraper"
+msgstr ""
+
+msgid "Sort:"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Duplicates"
+msgstr "Kaksoiskappaleet"
+
+msgid "Errors"
+msgstr "Virheet"
+
+msgid "Filter"
+msgstr "Suodata"
+
+msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
+msgstr "Suodata tallenteet nimi- ja kuvauskentistä hakusanan avulla. Voit käyttää myös Perl-yhteensopivia säännöllisiä lausekkeita (PCRE)."
+
+msgid "Expand all folders"
+msgstr "Avaa kaikki kansiot"
+
+msgid "Collapse all folders"
+msgstr "Sulje kaikki kansiot"
+
+msgid "play this recording."
+msgstr "Toista tallenne"
+
+msgid "Snapshot interval"
+msgstr "Kuvien päivitysväli"
+
+msgid "Stop"
+msgstr "Pysäytä"
+
+msgid "No schedules available for this channel"
+msgstr "Tälle kanavalle ei ole saatavilla ohjelmistoa"
+
+msgid "Existing Recording:"
+msgstr ""
+
+msgid "Search settings"
+msgstr "Hakuasetukset"
+
+msgid "Extended search"
+msgstr "Laajennettu haku"
+
+msgid "no"
+msgstr "ei"
+
+msgid "Search results"
+msgstr "Hakutulokset"
+
+msgid "No search results"
+msgstr "Ei hakutuloksia"
+
+msgid "Expression"
+msgstr "Hakutermi"
+
+msgid "Starts between"
+msgstr "Alkaa välillä"
+
+msgid "Toggle search timer actions (in)active"
+msgstr "Aseta hakuajastin päälle/pois"
+
+msgid "Browse search timer results"
+msgstr "Selaa hakutuloksia"
+
+msgid "Delete this search timer?"
+msgstr "Poistetaanko tämä hakuajastin?"
+
+msgid "Delete search timer"
+msgstr "Poista hakuajastin"
+
+msgid "Trigger search timer update"
+msgstr "Päivitä hakuajastimet"
 
 msgid "Please set login and password!"
 msgstr "Aseta käyttäjätunnus sekä salasana!"
@@ -899,68 +1015,18 @@ msgstr "Aloitussivu"
 msgid "Theme"
 msgstr "Ulkoasu"
 
-msgid "playing recording"
-msgstr "Toistetaan tallennetta"
+#, c-format
+msgid "%a, %x"
+msgstr "%a %x"
 
-msgid "no epg info for current event!"
-msgstr "Lähetyksellä ei ole ohjelmatietoja!"
+msgid "View the schedule of this channel"
+msgstr "Näytä ohjelmisto kanavalta"
 
-msgid "no epg info for current channel!"
-msgstr "Kanavalla ei ole ohjelmatietoja!"
+msgid " - "
+msgstr ""
 
-msgid "no current channel!"
-msgstr "Kanavaa ei löydy!"
-
-msgid "error retrieving status info!"
-msgstr "Virhe: tilannetietoja ei saatavilla!"
-
-msgid "%I:%M:%S %p"
-msgstr "%H:%M:%S"
-
-msgid "Couldn't find recording. Maybe you mistyped your request?"
-msgstr "Tallennetta ei löydy. Kirjoititko varmasti oikein?"
-
-msgid "Please set a name for the recording!"
-msgstr "Aseta nimi tallenteelle!"
-
-msgid "Cannot copy, rename or move the recording."
-msgstr "Tallenteen kopioiminen, uudelleen nimeäminen tai siirto epäonnistui!"
-
-msgid "Delete resume information"
-msgstr "Poista paluutiedot"
-
-msgid "Delete marks information"
-msgstr "Poista merkinnät"
-
-msgid "Copy only"
-msgstr "Kopioi ainoastaan"
-
-msgid "Short description"
-msgstr "Lyhyt kuvaus"
-
-msgid "Auxiliary info"
-msgstr "Lisätiedot"
-
-msgid "Search settings"
-msgstr "Hakuasetukset"
-
-msgid "Extended search"
-msgstr "Laajennettu haku"
-
-msgid "no"
-msgstr "ei"
-
-msgid "Time"
-msgstr "Ajankohta"
-
-msgid "Users"
-msgstr "Käyttäjät"
-
-msgid "Delete user"
-msgstr "Poista käyttäjä"
-
-msgid "Page error"
-msgstr "Sivuvirhe"
+msgid "Timer conflicts"
+msgstr "Päällekkäiset ajastimet"
 
 msgid "No timer conflicts"
 msgstr "Ei päällekkäisiä ajastimia"
@@ -971,11 +1037,62 @@ msgstr ""
 msgid "Timer has a conflict."
 msgstr "Päällekkäinen ajastin"
 
+msgid "Timer is active."
+msgstr "Aktiivinen ajastin"
+
+msgid "Toggle timer active/inactive"
+msgstr "Aseta ajastin päälle/pois"
+
+msgid "Delete timer"
+msgstr "Poista ajastin"
+
+msgid "No timer defined"
+msgstr "Ajastinta ei ole määritelty"
+
+msgid "Timer is recording."
+msgstr "Ajastinta tallennetaan"
+
+msgid "Users"
+msgstr "Käyttäjät"
+
+msgid "Delete user"
+msgstr "Poista käyttäjä"
+
+msgid "What's running on"
+msgstr "Menossa"
+
+msgid "at"
+msgstr "kello"
+
+msgid "What's on next?"
+msgstr "Tulossa seuraavaksi?"
+
+msgid "Favorites"
+msgstr "Suosikit"
+
+msgid "Next"
+msgstr "Seuraavaksi"
+
+msgid "What's on"
+msgstr "Menossa"
+
+msgid "Details view"
+msgstr "Ruudukkonäkymä"
+
+msgid "List view"
+msgstr "Listanäkymä"
+
 msgid "Live Interactive VDR Environment"
 msgstr "Interaktiivinen VDR-ympäristö"
 
 msgid "No EPG information available"
 msgstr "Ohjelmatietoja ei saatavilla"
+
+#~ msgid "Sort by name"
+#~ msgstr "Järjestä nimen mukaan"
+
+#~ msgid "Sort by date"
+#~ msgstr "Järjestä päivämäärän mukaan"
 
 #~ msgid "VLC media URL"
 #~ msgstr "VLC:n URL"
