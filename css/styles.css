@@ -1032,6 +1032,12 @@ div.recording_item {
         max-width: 30em;
 }
 
+.recording_item div.recording_folder_name {
+	font-weight: bold;
+	cursor: pointer;
+        max-width: 50em;
+}
+
 .recording_item div.recording_name span {
 	font-weight: normal;
 	cursor: pointer;

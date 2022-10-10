@@ -412,7 +412,7 @@ if( currentFlat != "true" ) {
       </div>
      <{ } }>
     <div class="recording_spec">
-      <div class="recording_name<$ (newR ? "_new" : "") $>"><$ recItem->Name() $></div>
+      <div class="recording_folder_name<$ (newR ? "_new" : "") $>"><$ recItem->Name() $></div>
     </div>
     <div class="recording_actions">&nbsp;</div>
     </div>
@@ -491,7 +491,7 @@ if (currentSort != "duplicates") {
       <div class="recording_imgs">
       <img class="recording_expander" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>plus.png" /><img class="recording_folder" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png" /></div>
       <div class="recording_spec">
-        <div class="recording_name"><$ nodeName $></div>
+        <div class="recording_folder_name"><$ nodeName $></div>
       </div>
       <div class="recording_actions">&nbsp;</div>
       </div>
