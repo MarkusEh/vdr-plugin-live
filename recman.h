@@ -3,6 +3,7 @@
 
 #include "stdext.h"
 #include "setup.h"
+#include "largeString.h"
 #include "tools.h"
 
 // STL headers need to be before VDR tools.h (included by <vdr/recording.h>)
@@ -237,7 +238,7 @@ namespace vdrlive {
                   virtual const int RecordingErrors() const { return -1; }
                   virtual const int SD_HD() { return 0; }
                   virtual const char *SD_HD_icon() { return ""; }
-                  virtual void AppendAsJSArray(std::string &target, bool displayFolder) { }
+                  virtual void AppendAsJSArray(cLargeString &target, bool displayFolder) { }
 
           private:
                   std::string GetNameForSearch(std::string const & name);
@@ -334,9 +335,9 @@ namespace vdrlive {
 
                   virtual const int SD_HD();
                   virtual const char *SD_HD_icon() { return SD_HD() == 0 ? "sd.png": SD_HD() == 1 ? "hd.png":"ud.png"; }
-                  void AppendShortTextOrDesc(std::string &target) const;
-                  virtual void AppendAsJSArray(std::string &target, bool displayFolder);
-                  static void AppendAsJSArray(std::string &target, std::list<RecordingsItemPtr>::iterator recIterFirst, const std::list<RecordingsItemPtr>::iterator &recIterLast, bool &first, const std::string &filter, bool displayFolder);
+                  void AppendShortTextOrDesc(cLargeString &target) const;
+                  virtual void AppendAsJSArray(cLargeString &target, bool displayFolder);
+                  static void AppendAsJSArray(cLargeString &target, std::list<RecordingsItemPtr>::iterator recIterFirst, const std::list<RecordingsItemPtr>::iterator &recIterLast, bool &first, const std::string &filter, bool displayFolder);
                
           private:
                   const cRecording *m_recording;

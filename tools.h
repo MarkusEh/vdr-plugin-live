@@ -4,6 +4,7 @@
 // uncomment to debug lock sequence 
 // #define DEBUG_LOCK
 
+#include "largeString.h"
 // STL headers need to be before VDR tools.h (included by <vdr/channels.h>)
 #include <istream>
 #include <sstream>
@@ -53,7 +54,8 @@ namespace vdrlive {
 	extern const std::collate<char>& g_collate_char;
 
         void AppendHtmlEscaped(std::string &target, const char* s);
-        void AppendHtmlEscapedAndCorrectNonUTF8(std::string &target, const char* s, const char *end = NULL);
+template<class T>
+        void AppendHtmlEscapedAndCorrectNonUTF8(T &target, const char* s, const char *end = NULL);
         void AppendCorrectNonUTF8(std::string &target, const char* s);
 
         wint_t getNextUtfCodepoint(const char *&p);
@@ -63,9 +65,11 @@ namespace vdrlive {
 
 
 
+        void AppendDuration(cLargeString &target, char const* format, int hours, int minutes );
         void AppendDuration(std::string &target, char const* format, int hours, int minutes );
 	std::string FormatDuration( char const* format, int hours, int minutes );
 
+        void AppendDateTime(cLargeString &target, char const* format, time_t time );
         void AppendDateTime(std::string &target, char const* format, time_t time );
 	std::string FormatDateTime( char const* format, time_t time );
 

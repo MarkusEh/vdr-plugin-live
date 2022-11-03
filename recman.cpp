@@ -690,7 +690,7 @@ namespace vdrlive {
 
 // Spielfilm Thailand / Deutschland / Großbritannien 2015 (Rak ti Khon Kaen)
 #define MAX_LEN_ST 70
-        void RecordingsItemRec::AppendShortTextOrDesc(std::string &target) const
+        void RecordingsItemRec::AppendShortTextOrDesc(cLargeString &target) const
         {
           const char *text = ShortText();
           if (!text || Name() == text ) text = RecInfo()->Description();
@@ -749,7 +749,7 @@ namespace vdrlive {
           return m_video_SD_HD;
         }
 
-        void RecordingsItemRec::AppendAsJSArray(std::string &target, bool displayFolder){
+        void RecordingsItemRec::AppendAsJSArray(cLargeString &target, bool displayFolder){
           target.append("[\"");
 // [0]  IMDB ID
           target.append(m_s_IMDB_ID);
@@ -778,10 +778,10 @@ namespace vdrlive {
           target.append("\", \"");
           if (m_s_videoType == eVideoType::tvShow && (m_s_episode_number != 0 || m_s_season_number != 0)) {
 // [6] : season/episode/episode name (scraper)
-            target.append(std::to_string(m_s_season_number));
-            target.append("E");
-            target.append(std::to_string(m_s_episode_number));
-            target.append(" ");
+            target.append(m_s_season_number);
+            target.append('E');
+            target.append(m_s_episode_number);
+            target.append(' ');
             AppendHtmlEscapedAndCorrectNonUTF8(target, m_s_episode_name.c_str() );
           }
           target.append("\", \"");
@@ -794,25 +794,25 @@ namespace vdrlive {
 // recording_spec: Day, time & duration
 // [9] : recording_spec: Day, time & duration
           AppendDateTime(target, tr("%a,"), StartTime());  // day of week
-          target.append(" ");
+          target.append(' ');
 	  AppendDateTime(target, tr("%b %d %y"), StartTime());  // date
-          target.append(" ");
+          target.append(' ');
 	  AppendDateTime(target, tr("%I:%M %p"), StartTime() );  // time
           if(Duration() >= 0) {
-            target.append(" ");
+            target.append(' ');
             AppendDuration(target, tr("(%d:%02d)"), Duration() / 60, Duration() % 60);
           }
           target.append("\", ");
 // RecordingErrors, Icon
 #if VDRVERSNUM >= 20505
 // [10] : Number of recording errors
-          target.append(std::to_string(RecordingErrors() ));
+          target.append(RecordingErrors() );
 #else
           target.append("-100");
 #endif
           target.append(", \"");
 // [11] HD_SD
-          target.append(SD_HD() == 0 ? "s": SD_HD() == 1 ? "h": "u");
+          target.append(SD_HD() == 0 ? 's': SD_HD() == 1 ? 'h': 'u');
           target.append("\", \"");
 // [12] channel name
           AppendHtmlEscapedAndCorrectNonUTF8(target, RecInfo()->ChannelName() );
@@ -833,7 +833,7 @@ namespace vdrlive {
           target.append("\"]");
         }
 
-void RecordingsItemRec::AppendAsJSArray(std::string &target, std::list<RecordingsItemPtr>::iterator recIterFirst, const std::list<RecordingsItemPtr>::iterator &recIterLast, bool &first, const std::string &filter, bool displayFolder) {
+void RecordingsItemRec::AppendAsJSArray(cLargeString &target, std::list<RecordingsItemPtr>::iterator recIterFirst, const std::list<RecordingsItemPtr>::iterator &recIterLast, bool &first, const std::string &filter, bool displayFolder) {
   for (; recIterFirst != recIterLast; ++recIterFirst) {
     RecordingsItemPtr recItem = *recIterFirst;
     if (!recItem->matchesFilter(filter)) continue;

@@ -59,8 +59,9 @@ namespace vdrlive {
           target.append(notAppended, i);
         }
 
-        void AppendHtmlEscapedAndCorrectNonUTF8(std::string &target, const char* s, const char *end){
-// append c-string s to target, html escape some chsracters
+template<class T>
+        void AppendHtmlEscapedAndCorrectNonUTF8(T &target, const char* s, const char *end){
+// append c-string s to target, html escape some characters
 // replace invalid UTF8 characters with ?
           if(!s) return;
           if (!end) end = s + strlen(s);
@@ -98,6 +99,8 @@ namespace vdrlive {
             }
           target.append(notAppended, i);
         }
+template void AppendHtmlEscapedAndCorrectNonUTF8<std::string>(std::string &target, const char* s, const char *end);
+template void AppendHtmlEscapedAndCorrectNonUTF8<cLargeString>(cLargeString &target, const char* s, const char *end);
 
         void AppendCorrectNonUTF8(std::string &target, const char* s){
 // append c-string s to target
@@ -171,7 +174,18 @@ namespace vdrlive {
 	     return;
 	}
 
-	void AppendDuration( std::string &target, char const* format, int hours, int minutes )
+	void AppendDuration(cLargeString &target, char const* format, int hours, int minutes )
+	{
+                int numChars = snprintf(target.borrowEnd(32), 32, format, hours, minutes);
+		if (numChars < 0) {
+                        target.finishBorrow(0);
+			std::stringstream builder;
+			builder << "cannot represent duration " << hours << ":" << minutes << " as requested";
+			throw std::runtime_error( builder.str() );
+		}
+                target.finishBorrow(numChars);
+	}
+	void AppendDuration(std::string &target, char const* format, int hours, int minutes )
 	{
 		char result[ 32 ];
 		if ( snprintf(result, sizeof(result), format, hours, minutes) < 0 ) {
@@ -188,6 +202,23 @@ namespace vdrlive {
             return result;
         }
 
+	void AppendDateTime(cLargeString &target, char const* format, time_t time)
+	{
+		struct tm tm_r;
+		if ( localtime_r( &time, &tm_r ) == 0 ) {
+			std::stringstream builder;
+			builder << "cannot represent timestamp " << time << " as local time";
+			throw std::runtime_error( builder.str() );
+		}
+                size_t len = strftime(target.borrowEnd(80), 80, format, &tm_r); 
+		if ( len == 0 ) {
+                        target.finishBorrow(0);
+			std::stringstream builder;
+			builder << "representation of timestamp " << time << " exceeds " << 80 << " bytes";
+			throw std::runtime_error( builder.str() );
+		}
+                target.finishBorrow(len);
+	}
 	void AppendDateTime(std::string &target, char const* format, time_t time )
 	{
 		struct tm tm_r;
