@@ -330,9 +330,6 @@ if (!deleteResult.empty()) {
 			}
 </%cpp>
 		</div>
-<script>
-// imgLoad();
-</script>
 	</body>
 </html>
 <%include>page_exit.eh</%include>
@@ -380,9 +377,9 @@ if( currentFlat != "true" ) {
     if ( LiveSetup().GetMarkNewRec() ) newR = recItem->checkNew();
     level = recItem->Level();
 // calculate idHash: uniquely defines this node
-    std::string combinedId = parentIdHash + recItem->Name() + "_";
-    combinedId += counter + "_" + recItem->Level();
-    std::string idHash(MD5Hash(combinedId));
+    std::string combinedId = parentIdHash + recItem->Name();
+    combinedId += counter; // note: this will appand one character, basic_string& operator+=( CharT ch );
+    std::string idHash(xxHash32(combinedId));
     iRecItem = (uintptr_t)&recItem;
 </%cpp>
     <li class="recording">
@@ -475,7 +472,7 @@ document.write(rec_string_d(rec_ids["fldr_<$ parentIdHash $>"]))
       addDuplicateRecordingsNoSd(recItems, recordingsTree);
       nodeName = tr("Duplicates not identified by tvscraper");
     }
-    std::string idHash(MD5Hash(nodeName + "_1"));
+    std::string idHash(xxHash32(nodeName));
     if (!recItems.empty() ) {
   </%cpp>
       <li class="recording">

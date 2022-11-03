@@ -1,5 +1,6 @@
 
 #include "tools.h"
+#include "xxhash32.h"
 #include "setup.h"
 
 
@@ -350,6 +351,20 @@ template void AppendHtmlEscapedAndCorrectNonUTF8<cLargeString>(cLargeString &tar
 
 	return hashStr.str();
 */
+	}
+
+	std::string xxHash32(std::string const& str)
+	{
+	  char res[9];
+	  uint32_t result = XXHash32::hash(str.c_str(), str.length(), 20);
+	  res[8] = 0;
+          for (int i = 7; i >= 0; i--) {
+	    int dig = result % 16;
+            if (dig < 10) res[i] = dig + '0';
+            else          res[i] = dig - 10 + 'A';
+            result /= 16;
+          }
+          return res;
 	}
 
 #define HOURS(x) ((x)/100)

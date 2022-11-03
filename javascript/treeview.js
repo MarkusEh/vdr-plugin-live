@@ -246,15 +246,11 @@ document.addEventListener("DOMContentLoaded", function()
 	openNodesOnPageLoad();
 }); 
 
-//window.addEvent('domready', function()
-//{
-//	openNodesOnPageLoad();
-//});
-
 //The following cookie functions are taken from http://www.quirksmode.org/js/cookies.html
 
 function createCookie(name,value,days)
 {
+        if (value.length > 1000) return; // too large cookies result in too large http headers
 	if (days) {
 		var date = new Date();
 		date.setTime(date.getTime()+(days*24*60*60*1000));
