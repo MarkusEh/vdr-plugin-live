@@ -688,28 +688,17 @@ namespace vdrlive {
 		// dsyslog("live: REC: D: rec %s", Name().c_str());
 	}
 
-// Spielfilm Thailand / Deutschland / Großbritannien 2015 (Rak ti Khon Kaen)
-#define MAX_LEN_ST 70
-        void RecordingsItemRec::AppendShortTextOrDesc(cLargeString &target) const
+template<class T>
+        void RecordingsItem::AppendShortTextOrDesc(T &target) const
+// note: only up to nex line break, with limited length and html escaped, and UTF8 corrected
         {
+          if (! RecInfo() ) return;
           const char *text = ShortText();
           if (!text || Name() == text ) text = RecInfo()->Description();
-          if (!text) return;
-          int len = strlen(text);
-          int lb = len;
-          for (const char *s = text; *s; s++) if (*s == 10 || *s == 13) { lb = s-text; break;}
-          if (len < MAX_LEN_ST && lb == len)
-            AppendHtmlEscapedAndCorrectNonUTF8(target, text);
-          else if (lb < MAX_LEN_ST) {
-            AppendHtmlEscapedAndCorrectNonUTF8(target, text, text + lb);
-            target.append("...");
-          } else {
-            const char *end = text + MAX_LEN_ST;
-            for (; *end && *end != ' ' && *end != 10 && *end != 13; end++);
-            AppendHtmlEscapedAndCorrectNonUTF8(target, text, end);
-            if (*end) target.append("...");
-          }
+          AppendTextMaxLen(target, text);
         }
+template void RecordingsItem::AppendShortTextOrDesc<std::string>(std::string &target) const;
+template void RecordingsItem::AppendShortTextOrDesc<cLargeString>(cLargeString &target) const;
 
         const int RecordingsItemRec::SD_HD()
         {

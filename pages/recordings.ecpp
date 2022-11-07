@@ -46,9 +46,11 @@ using namespace vdrlive;
 <%cpp>
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
+if (! flat.empty() ) currentFlat = flat;
 // sort depends on old sort, an sort parameter
 currentSort = LiveSetup().GetLastSortingMode();
-if (currentSort.empty() ) currentSort = "nameasc";
+if (currentSort.compare(0, 6, "errors", 6) == 0 && currentFlat != "true") currentSort = "dateasc";
+if (currentSort.empty() ) currentFlat == "true"?currentSort = "errorsasc":currentSort = "dateasc";
 if (!sort.empty()) {
 	if (sort == "date")
 		currentSort = (currentSort == "dateasc") ? "datedesc" : "dateasc";
@@ -58,14 +60,8 @@ if (!sort.empty()) {
                 currentSort = (currentSort == "errorsasc") ? "errorsdesc" : "errorsasc";
 	else if (sort == "duplicates")
 		currentSort = sort;
-	else if (sort == "tvShowsMovies")
-		currentSort = sort;
 	LiveSetup().SetLastSortingMode(currentSort);
 }
-// flat defaults from sort, but can we overwritten
-if (currentSort == "errorsasc" || currentSort == "errorsdesc" || currentSort == "duplicates") currentFlat = "true";
-  else currentFlat = "false";
-if (! flat.empty() ) currentFlat = flat;
 
 currentFilter = filter;
 
@@ -107,10 +103,13 @@ Minutes %= 60;
 diskinfo = cString::sprintf("%s %d%%  -  %2d:%02d %s", trVDR("Disk"), Percent, Hours, Minutes, trVDR("free"));
 #if TNTVERSION >= 30000                                                                                                                       
 std::string TNT_ARRAY  = "[]";
-#else                                                                                                                                         
+#else
 std::string TNT_ARRAY = "";
-#endif                                                                                                                                        
-                                                                                                                                              
+#endif
+const char *lf;
+if (LiveSetup().GetUseAjax()) lf = "<br/>";
+else lf = "&#13;";
+
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -176,11 +175,10 @@ function RecordingsS(s, level, argList, displayFolder, data, data_src) {
       s.a += obj[1]
       s.a += '" />'
     }
-    if ("<$LiveSetup().GetTvscraperImageDir()$>" != "") {
-      s.a += '</div><div class=\"thumb\"><a class=\"thumb\" href=\"epginfo.html?epgid=recording_'
-      s.a += obj[1]
-      if (data_src == 0) s.a += '\"><img src=\"';
-      else s.a += '\"><img data-src=\"';
+    if ("<$LiveSetup().GetTvscraperImageDir()$>".length != 0) {
+      s.a += '</div><div class=\"thumb\">'
+      if (data_src == 0) s.a += '<img src=\"';
+      else s.a += '<img data-src=\"';
       if (obj[3] != "") {
         s.a += '/tvscraper/'
         s.a += obj[3]
@@ -192,19 +190,19 @@ function RecordingsS(s, level, argList, displayFolder, data, data_src) {
         s.a += '\" title=\"'
         s.a += obj[5]
           if (obj[6] != "") {
-            s.a += '<br/>S'
+            s.a += '<$$lf$>S'
             s.a += obj[6]
           }
           if (obj[7] != "") {
-            s.a += '<br/>'
+            s.a += '<$$lf$>'
             s.a += obj[7]
           }
           if (obj[8] != "") {
-            s.a += '<br/>'
+            s.a += '<$$lf$>'
             s.a += obj[8]
           }
       }
-      s.a += '\"/> </a>'
+      s.a += '\"/>'
     }
 // end if (!LiveSetup().GetTvscraperImageDir().empty() )
     s.a += '</div><div class=\"recording_spec\"><div class=\"recording_day\">'
@@ -227,13 +225,7 @@ function RecordingsS(s, level, argList, displayFolder, data, data_src) {
     s.a += obj[12]
     s.a += '\" /> </div><div class=\"recording_name'
     s.a += obj[13]
-    s.a += '\"><a title=\"'
-    if (obj[14] != "") {
-      s.a += obj[14]
-      s.a += '&lt;br /&gt;'
-    }
-    s.a += '<$tr("Click to view details.")$>'
-    s.a += '\" href=\"epginfo.html?epgid=recording_'
+    s.a += '\"><a href=\"epginfo.html?epgid=recording_'
     s.a += obj[1]
     s.a += '\">'
     s.a += obj[15]
@@ -288,13 +280,17 @@ function rec_string_d(rec_ids) {
 	<body onload="adjustHeader()" onresize="adjustHeader()">
 		<& pageelems.logo &>
 <%cpp>
+const char *active_r;
+if (flat == "true") active_r = "recordings_flat";
+else active_r = "recordings";
+
 if (!deleteResult.empty()) {
 </%cpp>
-		<& menu active=("recordings") component=("recordings.delete_error") &>
+		<& menu active=(active_r) component="recordings.delete_error" filter=(filter) &>
 <%cpp>
 } else {
 </%cpp>
-		<& menu active=("recordings") component=("recordings.sort_options") &>
+		<& menu active=(active_r) component="recordings.sort_options" filter=(filter) &>
 <%cpp>
 }
 </%cpp>
@@ -356,70 +352,77 @@ std::list<RecordingsItemPtr> recItems;
 std::list<RecordingsItemPtr>::iterator recIter;
 bool sorted = false;
 int level = 0;
-if( currentFlat != "true" ) {
+if (currentFlat != "true") {
+  if (currentSort != "duplicates") {
 // create list of subdirs, in "recItems"
-  sorted = recItemThisDir->addSubdirs(recItems);
-  if (!sorted) {
-    if (currentSort == "namedesc")
-      recItems.sort(RecordingsItemPtrCompare::ByDescendingNameDescSort);
-    else if (currentSort == "nameasc")
-      recItems.sort(RecordingsItemPtrCompare::ByAscendingNameDescSort);
-  }
-  for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
-// this is the loop over the subdirs
-// each subdir is a node, which can be expanded (or not)
-// each subdir has an identifier in <ul> tag: fldr_<$ idHash $>
-    RecordingsItemPtr recItem = *recIter;
-    counter++;
+    sorted = recItemThisDir->addSubdirs(recItems);
+    if (!sorted) {
+      if (currentSort == "namedesc")
+        recItems.sort(RecordingsItemPtrCompare::ByDescendingNameDescSort);
+      else if (currentSort == "nameasc")
+        recItems.sort(RecordingsItemPtrCompare::ByAscendingNameDescSort);
+    }
+    for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
+  // this is the loop over the subdirs
+  // each subdir is a node, which can be expanded (or not)
+  // each subdir has an identifier in <ul> tag: fldr_<$ idHash $>
+      RecordingsItemPtr recItem = *recIter;
+      counter++;
 
-    /* search trough directory for new recordings */
-    bool newR = false;
-    if ( LiveSetup().GetMarkNewRec() ) newR = recItem->checkNew();
-    level = recItem->Level();
-// calculate idHash: uniquely defines this node
-    std::string combinedId = parentIdHash + recItem->Name();
-    combinedId += counter; // note: this will appand one character, basic_string& operator+=( CharT ch );
-    std::string idHash(xxHash32(combinedId));
-    iRecItem = (uintptr_t)&recItem;
-</%cpp>
-    <li class="recording">
-    <div class="recording_item" onclick = "Toggle2(this, 'fldr_<$ idHash $>')">
-    <div class="recording_imgs">
-    <{ if(level > 1) { }><img src="img/transparent.png" width="<$16*(level-1) $>px" height="16px" /> <{ } }>
-    <img class="recording_expander" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>plus.png" /><img class="recording_folder" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png" /></div>
-    <{ if (!recItem->scraperImage().path.empty() ) { }>
-      <div class="thumb">
-      <img data-src="/tvscraper/<$ recItem->scraperImage().path $>"
-           <$$ recItem->scraperImage().width > recItem->scraperImage().height?"class=\"thumb\"":"class=\"thumbpt\"" $>
-      />
+      /* search trough directory for new recordings */
+      bool newR = false;
+      if ( LiveSetup().GetMarkNewRec() ) newR = recItem->checkNew();
+      level = recItem->Level();
+  // calculate idHash: uniquely defines this node
+      std::string combinedId = parentIdHash + recItem->Name();
+      combinedId += counter; // note: this will appand one character, basic_string& operator+=( CharT ch );
+      std::string idHash(xxHash32(combinedId));
+      iRecItem = (uintptr_t)&recItem;
+  </%cpp>
+      <li class="recording">
+      <div class="recording_item" onclick = "Toggle2(this, 'fldr_<$ idHash $>')">
+      <div class="recording_imgs">
+      <{ if(level > 1) { }><img src="img/transparent.png" width="<$16*(level-1) $>px" height="16px" /> <{ } }>
+      <img class="recording_expander" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>plus.png" /><img class="recording_folder" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png" /></div>
+      <{ if (!recItem->scraperImage().path.empty() ) { }>
+        <div class="thumb">
+        <img data-src="/tvscraper/<$ recItem->scraperImage().path $>"
+             <$$ recItem->scraperImage().width > recItem->scraperImage().height?"class=\"thumb\"":"class=\"thumbpt\"" $>
+        />
+        </div>
+       <{ } }>
+      <div class="recording_spec">
+        <div class="recording_folder_name<$ (newR ? "_new" : "") $>"><$ recItem->Name() $></div>
       </div>
-     <{ } }>
-    <div class="recording_spec">
-      <div class="recording_folder_name<$ (newR ? "_new" : "") $>"><$ recItem->Name() $></div>
-    </div>
-    <div class="recording_actions">&nbsp;</div>
-    </div>
+      <div class="recording_actions">&nbsp;</div>
+      </div>
 
-          <ul id="fldr_<$ idHash $>" class="recordingslist" style="display: none;">
-    <& recordings.recordings_item filter=(filter) counter=(counter) iRecItem=(iRecItem) parentIdHash=(idHash) &>
-                    </ul>
-            </li>
-    <%cpp>
-  } // end of loop over subdirs
-// now the items
-  recItems.clear();
-  sorted = recItemThisDir->addRecordings(recItems);
-  level = recItemThisDir->Level() + 1;
+            <ul id="fldr_<$ idHash $>" class="recordingslist" style="display: none;">
+      <& recordings.recordings_item filter=(filter) counter=(counter) iRecItem=(iRecItem) parentIdHash=(idHash) &>
+                      </ul>
+              </li>
+      <%cpp>
+    } // end of loop over subdirs
+  // now the items
+    recItems.clear();
+    sorted = recItemThisDir->addRecordings(recItems);
+    level = recItemThisDir->Level() + 1;
+  } // end if (currentSort != "duplicates")
 } else {
 // here we prepare the items in case of a flat list, no folders
   if (currentSort != "duplicates") recordingsTree->addAllRecordings(recItems);
+  else {
+    addDuplicateRecordingsSd(recItems, recordingsTree);
+    addDuplicateRecordingsLang(recItems, recordingsTree);
+    addDuplicateRecordingsNoSd(recItems, recordingsTree);
+  }
 }
 argList.clear();
 argList.append("&sort=");
 argList.append(currentSort);
 argList.append("&filter=");
 argList.append(currentFilter);
-if (currentSort != "duplicates") {
+if (currentSort != "duplicates" || currentFlat == "true") {
   if (!sorted) {
     if (currentSort == "dateasc")
             recItems.sort(RecordingsItemPtrCompare::ByAscendingDate);
@@ -494,15 +497,6 @@ document.write(rec_string_d(rec_ids["fldr_<$ parentIdHash $>"]))
       <div class="recording_actions">&nbsp;</div>
       </div>
         <ul id="fldr_<$ idHash $>" class="recordingslist" style="display: none;">
-<#
-          <script>Recordings(1, "<$argList$>", 1, [
-            <%cpp>
-            recoring_item.clear();
-            RecordingsItemRec::AppendAsJSArray(recoring_item, recItems.begin(), recItems.end(), first, filter, true);
-            </%cpp>
-            <$$ recoring_item.c_str() $>
-          ])</script>
-#>
         </ul>
       </li>
       <%cpp>
@@ -517,32 +511,46 @@ document.write(rec_string_d(rec_ids["fldr_<$ parentIdHash $>"]))
 <%def sort_options>
 <%cpp> { </%cpp>
 <span class="label bold"><$ tr("Sort:") $> </span>
-<a href="recordings.html?sort=name&filter=<? currentFilter != "" ? currentFilter ?>" /><$ tr("Name") $></a>
+<a href="recordings.html?sort=name&filter=<? currentFilter != "" ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="name" &> ><$ tr("Name") $></a>
 <span class="sep">|</span>
-<a href="recordings.html?sort=date&filter=<? currentFilter != "" ? currentFilter ?>" /><$ tr("Date") $></a>
+<a href="recordings.html?sort=date&filter=<? currentFilter != "" ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="date" &> ><$ tr("Date") $></a>
 <span class="sep">|</span>
-<a href="recordings.html?sort=duplicates&filter=<? currentFilter != "" ? currentFilter ?>" /><$ tr("Duplicates") $></a>
+<a href="recordings.html?sort=duplicates&filter=<? currentFilter != "" ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="duplicates" &> ><$ tr("Duplicates") $></a>
 <%cpp>
 #if VDRVERSNUM >= 20505
+if (currentFlat == "true") {
 </%cpp>
 <span class="sep">|</span>
-<a href="recordings.html?sort=errors&filter=<? currentFilter != "" ? currentFilter ?>" /><$ tr("Errors") $></a>
+<a href="recordings.html?sort=errors&filter=<? currentFilter != "" ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="errors" &>><$ tr("Errors") $></a>
 <%cpp>
+}
 #endif
 #ifdef HAVE_PCRE2
 </%cpp>
 <span class="sep">|</span>
-<span class="label bold"><$ tr("Filter") $>:&nbsp;<input type="text" name="filter" value="<$ currentFilter $>" id="filter" onchange="filterRecordings(this)" />&nbsp;<& tooltip.help text=(tr("Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE).")) &></span>
+<span class="label bold"><$ tr("Filter") $>:&nbsp;<input type="text" name="filter" value="<$ currentFilter $>" id="filter" onchange="filterRecordings(this, '<$ currentSort $>', '<$currentFlat$>')" />&nbsp;<& tooltip.help text=(tr("Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE).")) &></span>
 <%cpp>
 #endif
+if (currentFlat != "true") {
 </%cpp>
 <span class="sep">|</span>
 <img onclick="ExpandAll()" src="<$ LiveSetup().GetThemedLink("img", "plus.png") $>" alt="" <& tooltip.hint text=(tr("Expand all folders")) &>/>
 <img onclick="CollapseAll()" src="<$ LiveSetup().GetThemedLink("img", "minus.png") $>" alt="" <& tooltip.hint text=(tr("Collapse all folders")) &>/>
+<%cpp>
+}
+</%cpp>
 <br />
 <%cpp> } </%cpp>
 </%def>
 
+<# ---------------------------------------------------------------------- #>
+<%def setactive>
+<%args>
+std::string current;
+</%args>
+<%cpp>
+if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="active"<%cpp> } </%cpp>
+</%def>
 <# ---------------------------------------------------------------------- #>
 
 <%def del_rec>

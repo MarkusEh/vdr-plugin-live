@@ -546,6 +546,9 @@ msgstr "Suchtimer"
 msgid "Recordings"
 msgstr "Aufnahmen"
 
+msgid "Recordings (flat)"
+msgstr "Aufnahmen (flach)"
+
 msgid "Remote Control"
 msgstr "Fernbedienung"
 

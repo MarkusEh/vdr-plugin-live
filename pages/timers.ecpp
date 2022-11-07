@@ -74,6 +74,9 @@ static const size_t maximumDescriptionLength = 300;
 		#ifdef DEBUG_LOCK
                         dsyslog("live: pages/timers.ecpp LOCK_TIMERS_READ");
                 #endif
+                        const char *lf;
+                        if (LiveSetup().GetUseAjax()) lf = "<br/>";
+                        else lf = "&#13;";
 		        LOCK_TIMERS_READ;
                         cSortedTimers sortedTimers(Timers);
 			if (sortedTimers.Size() == 0) {
@@ -92,13 +95,15 @@ static const size_t maximumDescriptionLength = 300;
 
 					if (timer->Event())
 					{
-						epgEvent = EpgEvents::CreateEpgInfo(timer->Channel(), timer->Event());
-						longDescription = StringEscapeAndBreak(SortedTimers::GetTimerInfo(*timer)) + "<hr>"
-											+ StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), maximumDescriptionLength))
-											+ "<br/><br/>" + tr("Click to view details.");
-						searchTimName = SortedTimers::SearchTimerInfo(*timer, "searchtimer");
-						searchTimId = SortedTimers::SearchTimerInfo(*timer, "s-id");
-						if (searchTimName.empty() && searchTimId.empty() ) searchTimName = SortedTimers::TvScraperTimerInfo(*timer);
+                                          epgEvent = EpgEvents::CreateEpgInfo(timer->Channel(), timer->Event());
+                                          bool truncated = false;
+                                          longDescription  = StringEscapeAndBreak(SortedTimers::GetTimerInfo(*timer), lf);
+                                          longDescription += LiveSetup().GetUseAjax()?"<hr>":lf;
+					  longDescription += StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), maximumDescriptionLength, truncated), lf);
+					  if (truncated) longDescription += "...";
+                                          searchTimName = SortedTimers::SearchTimerInfo(*timer, "searchtimer");
+                                          searchTimId = SortedTimers::SearchTimerInfo(*timer, "s-id");
+                                          if (searchTimName.empty() && searchTimId.empty() ) searchTimName = SortedTimers::TvScraperTimerInfo(*timer);
 					}
 					std::string currentDay = SortedTimers::GetTimerDays(timer);
                                         const cTimer *nextTimer =  NULL;
@@ -155,11 +160,11 @@ static const size_t maximumDescriptionLength = 300;
 
 				<td class="leftcol <? bottom ? "bottomrow" ?>"><img src="<$ LiveSetup().GetThemedLink("img", timerStateImg) $>" alt="" <%cpp> if (!timerStateHint.empty()) { </%cpp><& tooltip.hint text=(timerStateHint) &><%cpp> } </%cpp>></img></td>
 					<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><a href="schedule.html?channel=<$ timer->Channel()->Number()$>"><$ timer->Channel()->Name() $></a></div></td>
-					<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin nowrap"><$ FormatDateTime(tr("%I:%M %p"), timer->StartTime()) $></div></td>
-					<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin nowrap"><$ FormatDateTime(tr("%I:%M %p"), timer->StopTime()) $></div></td>
+					<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin nowrap" title="<$$longDescription$>"><$ FormatDateTime(tr("%I:%M %p"), timer->StartTime()) $></div></td>
+					<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin nowrap" title="<$$longDescription$>"><$ FormatDateTime(tr("%I:%M %p"), timer->StopTime()) $></div></td>
 					<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><a
 %					if (!longDescription.empty()) {
-						<& tooltip.hint text=(longDescription) &><& tooltip.display domId=(epgEvent->Id()) &>
+						<& tooltip.display domId=(epgEvent->Id()) &>
 %					}
 						><$ timer->File() $></a></div>
 					</td>

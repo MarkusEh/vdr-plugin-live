@@ -187,9 +187,9 @@ function getElementsByNodeNameClassName(elementd, nodeName, className) {
   );
 }
 
-function filterRecordings(filter)
+function filterRecordings(filter, currentSort, currentFlat)
 {
-  window.location.href = "recordings.html?sort=<$ currentSort $>&filter=" + encodeURIComponent(filter.value);
+  window.location.href = "recordings.html?sort=" + currentSort + "&flat=" + currentFlat + "&filter=" + encodeURIComponent(filter.value);
 }
 function ExpandAll()
 {

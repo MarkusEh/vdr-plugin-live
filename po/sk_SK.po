@@ -545,6 +545,9 @@ msgstr "Vyhµadávaè vysielacieho èasu"
 msgid "Recordings"
 msgstr "Nahrávky"
 
+msgid "Recordings (flat)"
+msgstr ""
+
 msgid "Remote Control"
 msgstr "Diaµkové ovládanie"
 

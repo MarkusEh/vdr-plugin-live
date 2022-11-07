@@ -287,6 +287,7 @@ div.epg_content {
 span.epg_images {
 	float: right;
         margin-left: 5px;
+	width: 240px;
 }
 
 /* ##############################
@@ -699,6 +700,7 @@ div.station div div div {
 	padding-left: 5px;
 	padding-top: 2px;
 	font-weight: bold;
+	border-bottom: none;
 }
 
 div.station div div div a {

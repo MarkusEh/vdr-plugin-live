@@ -277,15 +277,6 @@ template void AppendHtmlEscapedAndCorrectNonUTF8<cLargeString>(cLargeString &tar
 		return 0;
 	}
 
-	std::string StringRepeat(int times, const std::string& input)
-	{
-		std::string result;
-		for (int i = 0; i < times; i++) {
-			result += input;
-		}
-		return result;
-	}
-
 	std::string StringWordTruncate(const std::string& input, size_t maxLen, bool& truncated)
 	{
 		if (input.length() <= maxLen)
@@ -304,12 +295,12 @@ template void AppendHtmlEscapedAndCorrectNonUTF8<cLargeString>(cLargeString &tar
 		return StringReplace( input, "\n", "<br/>" );
 	}
 
-	std::string StringEscapeAndBreak( std::string const& input )
+	std::string StringEscapeAndBreak(std::string const& input, const char* nl)
 	{
 		std::stringstream plainBuilder;
-		HtmlEscOstream builder( plainBuilder );
+		HtmlEscOstream builder(plainBuilder);
 		builder << input;
-		return StringReplace( plainBuilder.str(), "\n", "<br/>" );
+		return StringReplace(plainBuilder.str(), "\n", nl);
 	}
 
 	std::string StringTrim(std::string const& str)
@@ -324,6 +315,39 @@ template void AppendHtmlEscapedAndCorrectNonUTF8<cLargeString>(cLargeString &tar
 		else res.erase(res.begin(), res.end());
 		return res;
 	}
+
+
+        const char *getText(const char *shortText, const char *description) {
+          if (shortText && *shortText) return shortText;
+          return description;
+        }
+// Spielfilm Thailand / Deutschland / Großbritannien 2015 (Rak ti Khon Kaen)
+#define MAX_LEN_ST 70
+template<class T>
+        void AppendTextMaxLen(T &target, const char *text) {
+// append text to target, but
+//   stop at line break in text (10 || 13)
+//   only up to MAX_LEN_ST characters. If such truncation is required, truncate at ' '
+
+// escape html characters, and correct invalid utf8
+          if (!text || !*text ) return;
+          int len = strlen(text);
+          int lb = len;
+          for (const char *s = text; *s; s++) if (*s == 10 || *s == 13) { lb = s-text; break;}
+          if (len < MAX_LEN_ST && lb == len)
+            AppendHtmlEscapedAndCorrectNonUTF8(target, text);
+          else if (lb < MAX_LEN_ST) {
+            AppendHtmlEscapedAndCorrectNonUTF8(target, text, text + lb);
+            target.append("...");
+          } else {
+            const char *end = text + MAX_LEN_ST;
+            for (; *end && *end != ' ' && *end != 10 && *end != 13; end++);
+            AppendHtmlEscapedAndCorrectNonUTF8(target, text, end);
+            if (*end) target.append("...");
+          }
+        }
+template void AppendTextMaxLen<std::string>(std::string &target, const char *text);
+template void AppendTextMaxLen<cLargeString>(cLargeString &target, const char *text);
 
 	std::string ZeroPad(int number)
 	{
@@ -341,16 +365,6 @@ template void AppendHtmlEscapedAndCorrectNonUTF8<cLargeString>(cLargeString &tar
 		free(szRes);
 		return res;
 
-/*	unsigned char md5[MD5_DIGEST_LENGTH];
-	MD5(reinterpret_cast<const unsigned char*>(str.c_str()), str.size(), md5);
-
-	std::stringstream hashStr;
-	hashStr << std::hex;
-	for (size_t i = 0; i < MD5_DIGEST_LENGTH; i++)
-	hashStr << (0 + md5[i]);
-
-	return hashStr.str();
-*/
 	}
 
 	std::string xxHash32(std::string const& str)

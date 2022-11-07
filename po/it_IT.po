@@ -550,6 +550,9 @@ msgstr "Timer di ricerca"
 msgid "Recordings"
 msgstr "Registrazioni"
 
+msgid "Recordings (flat)"
+msgstr ""
+
 msgid "Remote Control"
 msgstr "Telecomando"
 

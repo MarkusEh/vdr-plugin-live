@@ -130,6 +130,9 @@ recItems.sort(RecordingsItemPtrCompare::ByDuplicates);
 #else
 	Schedule = schedules->GetSchedule( Channel );
 #endif
+const char *lf;
+if (LiveSetup().GetUseAjax()) lf = "<br/>";
+else lf = "&#13;";
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -231,6 +234,14 @@ if (display_pictures) col_span = 6;
 <%cpp>
 if (display_pictures) {
   bool episodeFound = scraperOverview.m_videoType == eVideoType::tvShow && (scraperOverview.m_episodeNumber != 0 || scraperOverview.m_seasonNumber != 0);
+  std::string episode_info;
+  if (episodeFound) {
+    episode_info =  lf;
+    episode_info += 'S';
+    episode_info += std::to_string(scraperOverview.m_seasonNumber);
+    episode_info += 'E';
+    episode_info += std::to_string(scraperOverview.m_episodeNumber);
+  }
   std::string anf = "\"";
   std::string s_duration = "";
   if (scraper_data_available) {
@@ -239,32 +250,30 @@ if (display_pictures) {
 </%cpp>
 <td class="<? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>">
 <div class="thumb">
-<a class="thumb" <& tooltip.display_scraper domId=(epgEvent->Id()) &>>
 <%cpp>if (s_image.path == "") {</%cpp>
   <img src="img/transparent.png" height="10px"
 <%cpp>} else {</%cpp>
   <img class="thumb" src="/tvscraper/<$ s_image.path $>"
 <%cpp>} if (scraperOverview.m_videoType == eVideoType::tvShow || scraperOverview.m_videoType == eVideoType::movie ) {</%cpp>
-  title=<$$anf$><$s_title$>
-  <%cpp>if (episodeFound) {</%cpp>
-    <br/>S<$scraperOverview.m_seasonNumber$>E<$scraperOverview.m_episodeNumber$> <$s_episode_name$>
-  <%cpp>}if (scraperOverview.m_runtime) {</%cpp>
-    <br/><$s_duration$>
-  <%cpp> } </%cpp>
-<$$anf$>
+  title=<$$anf$><$s_title$><$$ episode_info $> <? episodeFound ? s_episode_name ?><%cpp>
+    if (scraperOverview.m_runtime) {</%cpp>
+    <$$lf$><$s_duration$> <%cpp> } </%cpp>
+  <$$anf$>
 <%cpp> } </%cpp>
   />
-</a>
 </div>
 </td>
 <%cpp>
 }
+std::string secLine;
+AppendTextMaxLen(secLine, getText(Event->ShortText(), Event->Description() ));
 </%cpp>
 
 <td class="topaligned <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><div class="withmargin"><$ start $> - <$ end $><br /><$ duration $></div></td>
 <td class="<? (Event == PresentEvent) ? "current" ?> topaligned rightcol <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><div class="more withmargin">
-  <a <& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(description, 300, truncated)) + "<br />" + tr("Click to view details.")) &><& tooltip.display domId=(epgEvent->Id()) &>>
-     <span class="title"><$ title $></span><br /><span class="short"><%cpp>if (short_description.empty()) { </%cpp>&nbsp;<%cpp> } </%cpp><$ short_description $></span>
+  <a <& tooltip.display domId=(epgEvent->Id()) &>>
+     <span class="title"><$ title $></span><br />
+     <span class="short"> <$$ secLine $> <?? secLine.empty() ? "&nbsp;" ?> </span>
   </a></div>
 </td>
 
@@ -272,7 +281,8 @@ if (display_pictures) {
 <%cpp>
 if(recItemFound) {
                   std::string duration(recItem->Duration() < 0 ? "" : FormatDuration(tr("(%d:%02d)"), recItem->Duration() / 60, recItem->Duration() % 60));
-                  std::string shortDescr(recItem->RecInfo()->ShortText() ? recItem->RecInfo()->ShortText() : "");
+                  std::string shortDescr;
+                  recItem->AppendShortTextOrDesc(shortDescr);
 #if VDRVERSNUM >= 20505
                   int recordingErrors = recItem->RecInfo()->Errors();
 #else
@@ -281,10 +291,6 @@ if(recItemFound) {
                   std::string channelName(recItem->RecInfo()->ChannelName()  ? recItem->RecInfo()->ChannelName() : "");
                   const char *SD_HD_icon = recItem->SD_HD_icon();
 
-                  std::string r_description(recItem->RecInfo()->Description() ? recItem->RecInfo()->Description() : "");
-                  std::string hint(tr("Click to view details."));
-                  if (!shortDescr.empty()) hint = shortDescr + "<br />" + hint;
-                  else if (!r_description.empty()) hint = r_description + "<br />" + hint;
           std::string name(recItem->Name());
           if( *(const char *)recItem->Recording()->Folder() ) {
              name.append(" (");
@@ -294,7 +300,7 @@ if(recItemFound) {
 
 </%cpp>
 <tr>
- <& rec_item_file name=(name) level=(recItem->Level()) id=(recItem->Id()) startTime=(recItem->StartTime()) duration=(duration) hint=(hint) shortDescr=(shortDescr) recordingErrors=(recordingErrors) channelName=(channelName) SD_HD_icon=(SD_HD_icon) archived=(RecordingsManager::GetArchiveDescr(recItem->Recording())) lastEventCurrentDay=(lastEventCurrentDay) &>
+ <& rec_item_file name=(name) level=(recItem->Level()) id=(recItem->Id()) startTime=(recItem->StartTime()) duration=(duration) shortDescr=(shortDescr) recordingErrors=(recordingErrors) channelName=(channelName) SD_HD_icon=(SD_HD_icon) archived=(RecordingsManager::GetArchiveDescr(recItem->Recording())) lastEventCurrentDay=(lastEventCurrentDay) &>
 </tr>
 <%cpp>
 }
@@ -337,7 +343,6 @@ if(recItemFound) {
         std::string id;
         time_t startTime;
         std::string duration;
-        std::string hint;
         std::string shortDescr;
         int recordingErrors;
         std::string channelName;
@@ -391,7 +396,7 @@ if (recordingErrors >   0) {
 #endif
 </%cpp>
 
-<div class="more withmargin"><a <& tooltip.hint text=(hint) &><& tooltip.display domId=(id) &>><span class="title"><$ name $></span><br /><span class="short"><%cpp>if (shortDescr.empty()) { </%cpp>&nbsp;<%cpp> } </%cpp><$ shortDescr $></span></a></div>
+<div class="more withmargin"><a <& tooltip.display domId=(id) &>><span class="title"><$ name $></span><br /><span class="short"><%cpp>if (shortDescr.empty()) { </%cpp>&nbsp;<%cpp> } </%cpp><$ shortDescr $></span></a></div>
 
 <%cpp>
 #if VDRVERSNUM >= 20505

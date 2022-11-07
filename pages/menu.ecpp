@@ -10,6 +10,7 @@ using namespace vdrlive;
 <%args>
 active;
 component;
+filter;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -44,7 +45,8 @@ if ( LiveFeatures<features::epgsearch>().Recent() ) {
 <%cpp>
 }
 </%cpp>
-	| <a href="recordings.html" <& menu.setactive current=("recordings") &>><$ tr("Recordings") $></a>
+	| <a href="recordings.html?flat=false&filter=<$filter$>" <& menu.setactive current=("recordings") &>><$ tr("Recordings") $></a>
+	| <a href="recordings.html?flat=true&filter=<$filter$>" <& menu.setactive current=("recordings_flat") &>><$ tr("Recordings (flat)") $></a>
 	| <a href="remote.html" <& menu.setactive current=("remote") &>><$ tr("Remote Control") $></a>
 <%cpp>
 if (LiveSetup().GetUseStreamdev()) {
@@ -103,6 +105,7 @@ if (!component.empty()) {
 	}
 </%cpp>
 	  <& menu.component current=("recordings") &>
+	  <& menu.component current=("recordings_flat") &>
 	  <& menu.component current=("remote") &>
 	  <& menu.component current=("stream") &>
 	  <& menu.component current=("users") &>

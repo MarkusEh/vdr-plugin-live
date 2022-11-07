@@ -194,6 +194,8 @@ namespace vdrlive {
                   virtual const char * ShortText() const { return RecInfo()? RecInfo()->ShortText():0; }
                   virtual const char * Description() const { return RecInfo()? RecInfo()->Description():0; }
                   virtual const std::string Id() const = 0;
+template<class T>
+                  void AppendShortTextOrDesc(T &target) const;
 
                   virtual const cRecording* Recording() const { return 0; }
                   virtual const cRecordingInfo* RecInfo() const { return 0; }
@@ -335,7 +337,6 @@ namespace vdrlive {
 
                   virtual const int SD_HD();
                   virtual const char *SD_HD_icon() { return SD_HD() == 0 ? "sd.png": SD_HD() == 1 ? "hd.png":"ud.png"; }
-                  void AppendShortTextOrDesc(cLargeString &target) const;
                   virtual void AppendAsJSArray(cLargeString &target, bool displayFolder);
                   static void AppendAsJSArray(cLargeString &target, std::list<RecordingsItemPtr>::iterator recIterFirst, const std::list<RecordingsItemPtr>::iterator &recIterLast, bool &first, const std::string &filter, bool displayFolder);
                

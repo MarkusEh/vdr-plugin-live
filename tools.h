@@ -79,17 +79,19 @@ template<class T>
 
 	int StringToInt( std::string const& string, int base = 10 );
 
-	std::string StringRepeat(int times, const std::string& input);
-
 	std::string StringWordTruncate(const std::string& input, size_t maxLen, bool& truncated);
 	inline std::string StringWordTruncate(const std::string& input, size_t maxLen) { bool dummy; return StringWordTruncate(input, maxLen, dummy); }
 
-	std::string StringEscapeAndBreak( std::string const& input );
+        std::string StringEscapeAndBreak(std::string const& input, const char* nl = "<br/>");
 
 	std::string StringFormatBreak(std::string const& input);
 
 	std::string StringTrim(const std::string& str);
 	std::string ZeroPad(int number);
+
+	const char *getText(const char *shortText, const char *description);
+template<class T>
+        void AppendTextMaxLen(T &target, const char *text);
 
 	std::string MD5Hash(std::string const& str);
 	std::string xxHash32(std::string const& str);

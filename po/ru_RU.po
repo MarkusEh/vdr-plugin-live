@@ -544,6 +544,9 @@ msgstr "Поисковый таймер"
 msgid "Recordings"
 msgstr "Записи"
 
+msgid "Recordings (flat)"
+msgstr ""
+
 msgid "Remote Control"
 msgstr "Удаленное управление"
 
