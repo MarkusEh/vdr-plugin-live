@@ -20,10 +20,14 @@ using namespace vdrlive;
         std::string delresume = "";
         std::string delmarks = "";
         std::string copy = "";
+        std::string sort;
+        std::string filter;
+        std::string flat;
 </%args>
 <%session scope="global">
 bool logged_in(false);
 std::string edit_rec_referer;
+std::string active_r;
 </%session>
 <%request scope="page">
 const cRecording* recording;
@@ -93,10 +97,21 @@ const cRecording* recording;
 	</head>
 	<body onload="adjustHeader()" onresize="adjustHeader()">
 <%cpp>
+if (!flat.empty() ) {
+edit_rec_referer = "recordings.html?sort=";
+edit_rec_referer.append(sort);
+edit_rec_referer.append("&filter=");
+edit_rec_referer.append(filter);
+edit_rec_referer.append("&flat=");
+edit_rec_referer.append(flat);
+  if (flat == "true") {
+    active_r = "recordings_flat";
+  } else active_r = "recordings";
+}
 	if (!ajaxReq) {
 </%cpp>
 		<& pageelems.logo &>
-		<& menu active=("recordings") &>
+		<& menu active=(active_r) &>
 <%cpp>
 	}
 </%cpp>

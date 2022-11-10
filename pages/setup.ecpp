@@ -264,7 +264,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 					</tr>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Last channel to display") $>:</div></td>
-						<td class="rightcol"><input type="text" name="lastchannel" value="<$ lastchannel $>" id="lastchannel" /></td>
+						<td class="rightcol"><input type="number" min="0" name="lastchannel" value="<$ lastchannel $>" id="lastchannel" /></td>
 					</tr>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Additional fixed times in 'What's on?'") $>:</div></td>
@@ -278,7 +278,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 					</tr>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Duration of MultiSchedule in hours") $>:</div></td>
-						<td class="rightcol"><input type="text" name="scheduleDuration" value="<$ scheduleDuration $>" id="scheduleDuration" />
+						<td class="rightcol"><input type="number" min="1" max= "23" name="scheduleDuration" value="<$ scheduleDuration $>" id="scheduleDuration" />
 							</td>
 					</tr>
 					<tr>

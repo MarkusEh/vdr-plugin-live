@@ -203,7 +203,8 @@ template void AppendHtmlEscapedAndCorrectNonUTF8<cLargeString>(cLargeString &tar
             return result;
         }
 
-	void AppendDateTime(cLargeString &target, char const* format, time_t time)
+	size_t AppendDateTime(char *target, int target_size, char const* format, time_t time)
+// writes data to target, make sure that sizeof(target) >= target_size, before calling
 	{
 		struct tm tm_r;
 		if ( localtime_r( &time, &tm_r ) == 0 ) {
@@ -211,36 +212,29 @@ template void AppendHtmlEscapedAndCorrectNonUTF8<cLargeString>(cLargeString &tar
 			builder << "cannot represent timestamp " << time << " as local time";
 			throw std::runtime_error( builder.str() );
 		}
-                size_t len = strftime(target.borrowEnd(80), 80, format, &tm_r); 
+                size_t len = strftime(target, target_size, format, &tm_r); 
 		if ( len == 0 ) {
-                        target.finishBorrow(0);
 			std::stringstream builder;
-			builder << "representation of timestamp " << time << " exceeds " << 80 << " bytes";
+			builder << "representation of timestamp " << time << " exceeds " << (target_size - 1) << " bytes";
 			throw std::runtime_error( builder.str() );
 		}
+		return len;
+	}
+	void AppendDateTime(cLargeString &target, char const* format, time_t time)
+	{
+		int len = AppendDateTime(target.borrowEnd(80), 80, format, time);
                 target.finishBorrow(len);
 	}
 	void AppendDateTime(std::string &target, char const* format, time_t time )
 	{
-		struct tm tm_r;
-		if ( localtime_r( &time, &tm_r ) == 0 ) {
-			std::stringstream builder;
-			builder << "cannot represent timestamp " << time << " as local time";
-			throw std::runtime_error( builder.str() );
-		}
-
-		char result[ 256 ];
-		if ( strftime( result, sizeof( result ), format, &tm_r ) == 0 ) {
-			std::stringstream builder;
-			builder << "representation of timestamp " << time << " exceeds " << sizeof( result ) << " bytes";
-			throw std::runtime_error( builder.str() );
-		}
+		char result[80];
+		AppendDateTime(result, sizeof( result ), format, time);
                 target.append(result);
 	}
 	std::string FormatDateTime( char const* format, time_t time )
 	{
-            std::string result;
-            AppendDateTime(result, format, time );
+            char result[80];
+            AppendDateTime(result, sizeof( result ), format, time);
             return result;
 	}
 
@@ -497,6 +491,30 @@ template void AppendTextMaxLen<cLargeString>(cLargeString &target, const char *t
 		cformat = StringReplace(cformat, "yyyy", "%Y");
 		return FormatDateTime(cformat.c_str(), date);
 	}
+int timeStringToInt(const char *t) {
+// input: t in xx:xx format
+// output: time in epgsearch format (int, 100*h + min)
+  int h = 0, min = 0;
+  sscanf(t, "%2d:%2d", &h, &min);
+  return 100*h + min;
+}
+int timeStringToInt(const std::string &t) {
+  return timeStringToInt(t.c_str() );
+}
+void intToTimeString(char *t, int tm) {
+// sizeof (t) must be >= 6 "hh:mm", + ending 0
+// see int timeStringToInt(const char *t) for formats
+  unsigned int h = tm / 100;
+  unsigned int min = tm % 100;
+  snprintf(t, 6, "%.2u:%.2u", h%100u, min);
+}
+
+std::string intToTimeString(int tm) {
+// see int timeStringToInt(const char *t) for formats
+  char t[6];
+  intToTimeString(t, tm);
+  return t;
+}
 
 	std::string EncodeDomId(std::string const & toEncode, char const * from, char const * to)
 	{

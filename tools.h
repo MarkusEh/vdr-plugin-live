@@ -105,6 +105,9 @@ template<class T>
 
 	time_t GetDateFromDatePicker(std::string const& datestring, std::string const& format);
 	std::string DatePickerToC(time_t date, std::string const& format);
+	std::string intToTimeString(int tm);
+	int timeStringToInt(const char *t);
+	int timeStringToInt(const std::string &t);
 
 	std::string EncodeDomId(std::string const & toEncode, char const * from = ".-:", char const * to = "pmc");
 	std::string DecodeDomId(std::string const & toDecode, char const * from = "pmc", char const * to = ".-:");

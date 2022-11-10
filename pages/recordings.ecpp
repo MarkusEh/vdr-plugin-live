@@ -49,7 +49,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 if (! flat.empty() ) currentFlat = flat;
 // sort depends on old sort, an sort parameter
 currentSort = LiveSetup().GetLastSortingMode();
-if (currentSort.compare(0, 6, "errors", 6) == 0 && currentFlat != "true") currentSort = "dateasc";
+//  if (currentSort.compare(0, 6, "errors", 6) == 0 && currentFlat != "true") currentSort = "dateasc";
 if (currentSort.empty() ) currentFlat == "true"?currentSort = "errorsasc":currentSort = "dateasc";
 if (!sort.empty()) {
 	if (sort == "date")
@@ -422,6 +422,8 @@ argList.append("&sort=");
 argList.append(currentSort);
 argList.append("&filter=");
 argList.append(currentFilter);
+argList.append("&flat=");
+argList.append(currentFlat);
 if (currentSort != "duplicates" || currentFlat == "true") {
   if (!sorted) {
     if (currentSort == "dateasc")
@@ -518,12 +520,10 @@ document.write(rec_string_d(rec_ids["fldr_<$ parentIdHash $>"]))
 <a href="recordings.html?sort=duplicates&filter=<? currentFilter != "" ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="duplicates" &> ><$ tr("Duplicates") $></a>
 <%cpp>
 #if VDRVERSNUM >= 20505
-if (currentFlat == "true") {
 </%cpp>
 <span class="sep">|</span>
 <a href="recordings.html?sort=errors&filter=<? currentFilter != "" ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="errors" &>><$ tr("Errors") $></a>
 <%cpp>
-}
 #endif
 #ifdef HAVE_PCRE2
 </%cpp>
