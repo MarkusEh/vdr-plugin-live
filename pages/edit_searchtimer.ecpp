@@ -353,6 +353,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <& pageelems.doc_type &>
 <html>
 	<head>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>VDR Live - <$ editsearchtimer ? tr("Edit search timer") : tr("New search timer") $></title>
 
 		<& pageelems.stylesheets &>
@@ -502,7 +503,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 						<!-- Search term -->
 						<tr>
 							<td class="label leftcol"><div class="withmargin"><$ tr("Search term") $>:</div></td>
-							<td class="rightcol"><input type="text" name="search" value="<$ search $>" size="90" id="searchterm" /></td>
+							<td class="rightcol"><input type="text" name="search" value="<$ search $>"class="width99" size="55" id="searchterm" /></td>
 						</tr>
 
 						<!-- Search mode -->
@@ -772,7 +773,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 										<tr>
 											<td class="label"><div class="withmargin"><$ tr("Directory") $>:</div></td>
-											<td><input type="text" name="directory" id="directory" value="<$ directory $>" size="70" /><br>
+											<td><input type="text" name="directory" id="directory" value="<$ directory $>" class="width99" size="70" /><br>
 											<select onchange="changeddirselection(this)" name="recordingdirsselection" size="1" id="recordingdirsselection" style="margin-top: 5px">
 											<option/>
 %											for (RecordingDirs::iterator rdir = recordingdirs.begin(); rdir != recordingdirs.end(); ++rdir) {

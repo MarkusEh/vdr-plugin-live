@@ -141,6 +141,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <& pageelems.doc_type &>
 <html>
 	<head>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>VDR Live - <$ tr("Search") $></title>
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
@@ -252,7 +253,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					<!-- Search term -->
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Search term") $>:</div></td>
-						<td class="rightcol"><input type="text" name="search" value="<$ search $>" size="90" id="searchterm" /></td>
+						<td class="rightcol"><input type="text" name="search" value="<$ search $>" class="width99" size="55" id="searchterm" /></td>
 					</tr>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Extended search") $>:</div></td>

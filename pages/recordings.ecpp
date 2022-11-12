@@ -114,6 +114,7 @@ else lf = "&#13;";
 <& pageelems.doc_type &>
 <html>
 	<head>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>VDR-Live - <$ pageTitle $></title>
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
@@ -159,13 +160,14 @@ function IMDBS(s, im_db, name) {
 // [8] : relase date (scraper)
 // [9] : recording_spec: Day, time & duration
 // [10] : Number of recording errors
-
-function RecordingsS(s, level, argList, displayFolder, data, data_src) {
+function RecordingsSt(s, level, argList, displayFolder, data, data_src) {
+  s.a += '<li class="recording"><div>'
+  s.a += '<table width="100%" class="recordings">'
   for (obj of data) {
-    s.a += 
-      '<li class="recording"><div class="recording_item"><div class="recording_imgs">'
+    s.a += '<tr class="recording_item">'
     if (level > 0) s.a += 
-      '<img src="img/transparent.png" width="' + String(16 * level) + 'px" height="16px" />'
+      '<td class="recording_item"> <img src="img/transparent.png" width="' + String(16 * level) + 'px" height="16px" /></td>'
+    s.a += '<td class="recording_item"><div class="recording_imgs">'
     if (obj[2] != "") {
       s.a += '<img src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>on_dvd.png\" alt=\"on_dvd\" title=\"'
       s.a += obj[2]
@@ -175,8 +177,9 @@ function RecordingsS(s, level, argList, displayFolder, data, data_src) {
       s.a += obj[1]
       s.a += '" />'
     }
+    s.a += '</div></td>'  // end of recording_imgs
     if ("<$LiveSetup().GetTvscraperImageDir()$>".length != 0) {
-      s.a += '</div><div class=\"thumb\">'
+      s.a += '<td class="recording_item"><div class=\"thumb\">'
       if (data_src == 0) s.a += '<img src=\"';
       else s.a += '<img data-src=\"';
       if (obj[3] != "") {
@@ -203,11 +206,12 @@ function RecordingsS(s, level, argList, displayFolder, data, data_src) {
           }
       }
       s.a += '\"/>'
+      s.a += '</td>'
     }
 // end if (!LiveSetup().GetTvscraperImageDir().empty() )
-    s.a += '</div><div class=\"recording_spec\"><div class=\"recording_day\">'
+    s.a += '<td class="recording_item hidden-xs"><div class=\"recording_day\">'
     s.a += obj[9]
-    s.a += '</div>'
+    s.a += '</div></td><td class="recording_item">'
     if (obj[10] > -100) {
       s.a += '<div class=\"recording_errors\"><img src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>'
       if (obj[10] == 0) s.a += 'NoRecordingErrors.png'
@@ -223,7 +227,8 @@ function RecordingsS(s, level, argList, displayFolder, data, data_src) {
     s.a += obj[11]
     s.a += 'd.png\" width = \"25px\" title=\"'
     s.a += obj[12]
-    s.a += '\" /> </div><div class=\"recording_name'
+    s.a += '\" /></div></td>'  // end column with error / sd/hd image
+    s.a += '<td class="recording_item"><div class=\"recording_spec recording_name'
     s.a += obj[13]
     s.a += '\"><a href=\"epginfo.html?epgid=recording_'
     s.a += obj[1]
@@ -237,16 +242,25 @@ function RecordingsS(s, level, argList, displayFolder, data, data_src) {
     s.a += '<br /><span>'
     s.a += obj[14]
     if (obj[14] == "") s.a += '&nbsp;'
-    s.a += '</span></a></div></div><div class=\"recording_actions\">'
+    s.a += '</span></a></div></td>'  // end if recording_name / short description
+    s.a += '<td class="recording_item"><div class=\"recording_actions\">'
     if (obj[2] == "") {
+<%cpp> if (LiveSetup().GetUseStreamdev() ) { </%cpp>
       RecordingActionS(s, obj[1], "vdr_request/play_recording?param=", "play.png", "<$tr("play this recording")$>", argList)
+<%cpp> } </%cpp>
       RecordingActionS(s, obj[1], "playlist.m3u?recid=", "playlist.png", "<$tr("Stream this recording into media player.")$>", argList)
+<%cpp> if (LiveSetup().GetShowIMDb() ) { </%cpp>
       IMDBS(s, obj[0], obj[15])
+<%cpp> } </%cpp>
+      s.a += '<div class=\"hidden-xs\">'
       RecordingActionS(s, obj[1], "edit_recording.html?recid=", "edit.png", "<$tr("Edit recording")$>", argList)
+      s.a += '</div>'
       RecordingActionS(s, obj[1], "recordings.html?todel=", "del.png", "<$tr("Delete this recording from hard disc!")$>", argList)
     } else {
       s.a += '<img src=\"img/transparent.png\" width=\"16px\" height=\"16px\" />'
+<%cpp> if (LiveSetup().GetShowIMDb() ) { </%cpp>
       IMDBS(s, obj[0], obj[15])
+<%cpp> } </%cpp>
     }
     s.a += '</div>'
     if (obj[2] != "") {
@@ -254,22 +268,23 @@ function RecordingsS(s, level, argList, displayFolder, data, data_src) {
       s.a += obj[2]
       s.a += '</div>'
     }
-    s.a += '</div></li>'
+    s.a += '</td></tr>'
   }
+  s.a += '</table></div></li>'
 }
 
 function rec_string(rec_ids) {
 // use img src= ...
   const st = Object.create(null)
   st.a = ""
-  RecordingsS(st, rec_ids[0], rec_ids[1], rec_ids[2], rec_ids[3], 0)
+  RecordingsSt(st, rec_ids[0], rec_ids[1], rec_ids[2], rec_ids[3], 0)
   return st.a
 }
 function rec_string_d(rec_ids) {
 // use img data-src= ...
   const st = Object.create(null)
   st.a = ""
-  RecordingsS(st, rec_ids[0], rec_ids[1], rec_ids[2], rec_ids[3], 1)
+  RecordingsSt(st, rec_ids[0], rec_ids[1], rec_ids[2], rec_ids[3], 1)
   return st.a
 }
 
@@ -351,7 +366,7 @@ recItemThisDir = recordingsTree->getRoot();
 std::list<RecordingsItemPtr> recItems;
 std::list<RecordingsItemPtr>::iterator recIter;
 bool sorted = false;
-int level = 0;
+int level = recItemThisDir->Level();
 if (currentFlat != "true") {
   if (currentSort != "duplicates") {
 // create list of subdirs, in "recItems"
@@ -372,7 +387,6 @@ if (currentFlat != "true") {
       /* search trough directory for new recordings */
       bool newR = false;
       if ( LiveSetup().GetMarkNewRec() ) newR = recItem->checkNew();
-      level = recItem->Level();
   // calculate idHash: uniquely defines this node
       std::string combinedId = parentIdHash + recItem->Name();
       combinedId += counter; // note: this will appand one character, basic_string& operator+=( CharT ch );
@@ -382,7 +396,7 @@ if (currentFlat != "true") {
       <li class="recording">
       <div class="recording_item" onclick = "Toggle2(this, 'fldr_<$ idHash $>')">
       <div class="recording_imgs">
-      <{ if(level > 1) { }><img src="img/transparent.png" width="<$16*(level-1) $>px" height="16px" /> <{ } }>
+      <{ if(level > 0) { }><img src="img/transparent.png" width="<$ 16*level $>px" height="16px" /> <{ } }>
       <img class="recording_expander" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>plus.png" /><img class="recording_folder" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png" /></div>
       <{ if (!recItem->scraperImage().path.empty() ) { }>
         <div class="thumb">
@@ -406,7 +420,6 @@ if (currentFlat != "true") {
   // now the items
     recItems.clear();
     sorted = recItemThisDir->addRecordings(recItems);
-    level = recItemThisDir->Level() + 1;
   } // end if (currentSort != "duplicates")
 } else {
 // here we prepare the items in case of a flat list, no folders
@@ -455,7 +468,7 @@ if (currentSort != "duplicates" || currentFlat == "true") {
   ]]
   </script>
   <%cpp> }
-if( currentFlat == "true" && !recItems.empty()) {
+if( level == 0 && !recItems.empty()) {
 </%cpp>
 <script>
 document.write(rec_string_d(rec_ids["fldr_<$ parentIdHash $>"]))

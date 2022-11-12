@@ -38,6 +38,9 @@ input {
 	background: #FEFEFE;
 	margin: 0;
 }
+input.width99 {
+	width: 99%;
+}
 
 select {
 	border: 1px solid #6D96A9;
@@ -984,6 +987,11 @@ div.boxheader div div {
   ##############################
 */
 
+table.recordings {
+	border-spacing: 0px;
+	border: 0px;
+	border-collapse: collapse;
+}
 div.recordings {
 	border: 1px solid black;
 }
@@ -1000,6 +1008,20 @@ div.recording_item {
 	border-bottom: 1px solid #C0C1DA;
 }
 
+tr.recording_item {
+	overflow: hidden;
+	background: url(img/bg_line.png) bottom repeat-x;
+	border-bottom: 1px solid #C0C1DA;
+}
+tr.recording_item:last-child {
+	border-bottom: 2px solid #C0C1DA;
+}
+/*
+tr, td.recording_item {
+	background: url(img/bg_line.png) bottom repeat-x;
+	border-bottom: 1px solid #C0C1DA;
+}
+*/
 .recording_item div {
 	float: left;
 }
@@ -1012,9 +1034,9 @@ div.recording_item {
 	padding-top: 0.5ex;
 }
 
-.recording_item div.recording_day {
-	width: 10em;
-}
+# .recording_item div.recording_day {
+# 	width: 10em;
+# }
 
 .recording_item div.recording_date {
 	width: 5.25em;
@@ -1386,4 +1408,8 @@ img.thumbpt {
 img.thumb {
   width: 80px;
   margin: 0 -100%;
+}
+
+@media (max-width: 600px) {
+  .hidden-xs { display: none; }
 }

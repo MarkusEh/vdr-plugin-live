@@ -181,6 +181,7 @@ const cTimer* timer;
 <& pageelems.doc_type &>
 <html>
 	<head>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>VDR Live - <$ timer ? tr("Edit timer") : tr("New timer") $></title>
 <%cpp>
 	if (!ajaxReq) {
@@ -237,7 +238,7 @@ const cTimer* timer;
 
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Title" ) $>:</div></td>
-						<td class="rightcol"><input type="text" name="title" value="<$ title $>" size="80" /></td>
+						<td class="rightcol"><input type="text" name="title" value="<$ title $>" size="80" class="width99" /></td>
 					</tr>
 <%cpp>
                                         cStringList svdrpServerNames;

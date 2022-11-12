@@ -85,6 +85,7 @@ const cRecording* recording;
 <& pageelems.doc_type &>
 <html>
 	<head>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>VDR Live - <$ tr("Edit recording") $></title>
 <%cpp>
 	if (!ajaxReq) {
@@ -124,7 +125,7 @@ edit_rec_referer.append(flat);
 					</tr>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Name") $>:</div></td>
-						<td class="rightcol"><input type="text" name="name" value="<$ name $>" size="80"/></td>
+						<td class="rightcol"><input type="text" name="name" value="<$ name $>" size="55" class="width99" /></td>
 					</tr>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Directory") $>:</div></td>
