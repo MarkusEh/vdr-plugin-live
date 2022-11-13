@@ -1413,7 +1413,7 @@ div.info-win img.actor {
 }
 
 .hint-tip {
- 	max-width: 300px; /* depends on the tip backround image width */
+ 	max-width: 200px; /* depends on the tip backround image width */
 }
 
 }
