@@ -304,6 +304,12 @@ div.info-win {
 	border: none;
 	margin: 0px auto;
 }
+div.info-win img.actor {
+	width: 118px;
+}
+div.info-win img.artwork {
+	width: 480px;
+}
 
 .info-win .info-win-top .info-win-c {
 	/*font-size: 1px;*/ /* ensure minimum height */
@@ -1016,12 +1022,6 @@ tr.recording_item {
 tr.recording_item:last-child {
 	border-bottom: 2px solid #C0C1DA;
 }
-/*
-tr, td.recording_item {
-	background: url(img/bg_line.png) bottom repeat-x;
-	border-bottom: 1px solid #C0C1DA;
-}
-*/
 .recording_item div {
 	float: left;
 }
@@ -1034,30 +1034,19 @@ tr, td.recording_item {
 	padding-top: 0.5ex;
 }
 
-# .recording_item div.recording_day {
-# 	width: 10em;
-# }
-
-.recording_item div.recording_date {
-	width: 5.25em;
-}
-
-.recording_item div.recording_time {
-	width: 5.75em;
-}
-
-.recording_item div.recording_duration {
-	width: 4em;
-}
-
 .recording_item div.recording_name {
 	font-weight: bold;
 	cursor: pointer;
-        max-width: 30em;
 }
 
 .recording_item div.recording_folder_name {
 	font-weight: bold;
+	cursor: pointer;
+        max-width: 50em;
+}
+.recording_item div.recording_folder_name_new {
+	font-weight: bold;
+	color: orangered;
 	cursor: pointer;
         max-width: 50em;
 }
@@ -1071,7 +1060,6 @@ tr, td.recording_item {
 	font-weight: bold;
 	color: orangered;
 	cursor: pointer;
-        max-width: 30em;
 }
 
 .recording_item div.recording_name_new a {
@@ -1412,4 +1400,20 @@ img.thumb {
 
 @media (max-width: 600px) {
   .hidden-xs { display: none; }
+div.info-win {
+	width: 410px;
+}
+div.info-win img.artwork {
+/* info-win - 80 */
+	width: 330px;
+}
+div.info-win img.actor {
+/* artwork/4 - 2 */
+	width: 80px;
+}
+
+.hint-tip {
+ 	max-width: 300px; /* depends on the tip backround image width */
+}
+
 }

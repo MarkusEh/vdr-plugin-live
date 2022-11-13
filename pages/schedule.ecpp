@@ -272,7 +272,10 @@ AppendTextMaxLen(secLine, getText(Event->ShortText(), Event->Description() ));
 
 <td class="topaligned <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><div class="withmargin"><$ start $> - <$ end $><br /><$ duration $></div></td>
 <td class="<? (Event == PresentEvent) ? "current" ?> topaligned rightcol <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><div class="more withmargin">
-  <a <& tooltip.display domId=(epgEvent->Id()) &>>
+  <a <& tooltip.display domId=(epgEvent->Id()) &>
+     class="apopup"
+     title="<$$StringEscapeAndBreak(StringWordTruncate(description, 300, truncated))$><?truncated?"..."?><$$lf$><$tr("Click to view details.")$>"
+  >
      <span class="title"><$ title $></span><br />
      <span class="short"> <$$ secLine $> <?? secLine.empty() ? "&nbsp;" ?> </span>
   </a></div>

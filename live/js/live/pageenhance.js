@@ -136,15 +136,22 @@ var PageEnhance = new Class({
 
 	  // change normal 'title'-Attributes into enhanced hinttips
 	  // usesd by domExtend and domReadySetup functions.
-	  addHintTips: function(elems){
+	  addHintTips: function(elems) {
+			if (window.matchMedia("(hover: none)").matches) {
+			elems_use = elems.filter(
+				function(item, index){ return !item.hasClass('apopup'); }
+				);
+                        } else {
+                                elems_use = elems;
+                        }
 			if (!$defined(this.tips)) {
-				this.tips = new HintTips(elems, {
+				this.tips = new HintTips(elems_use, {
 					  maxTitleChars: 100,
 					  className: this.options.hintClassName
 					});
 			}
 			else {
-				$$(elems).each(this.tips.build, this.tips);
+				$$(elems_use).each(this.tips.build, this.tips);
 			}
 		},
 

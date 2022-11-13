@@ -89,7 +89,7 @@ static const size_t maximumDescriptionLength = 300;
 				// output of the timer list:
                                 for (int i = 0; i < sortedTimers.Size(); i++) {
                                         const cTimer *timer = sortedTimers[i];
-	                 		EpgInfoPtr epgEvent;
+	                 		EpgInfoPtr epgEvent = 0;
 					std::string longDescription;
 					std::string searchTimName;
 					std::string searchTimId;
@@ -164,9 +164,10 @@ static const size_t maximumDescriptionLength = 300;
 					<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin nowrap" title="<$$longDescription$>"><$ FormatDateTime(tr("%I:%M %p"), timer->StartTime()) $></div></td>
 					<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin nowrap" title="<$$longDescription$>"><$ FormatDateTime(tr("%I:%M %p"), timer->StopTime()) $></div></td>
 					<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><a
-%					if (!longDescription.empty()) {
+<%cpp> if(epgEvent) { </%cpp>
 						<& tooltip.display domId=(epgEvent->Id()) &>
-%					}
+<%cpp> } </%cpp>
+						class="apopup" title="<$$longDescription$>"
 						><$ timer->File() $></a></div>
 					</td>
 					<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><$ timer->Local()?trVDR(" "):timer->Remote() $></div></td>

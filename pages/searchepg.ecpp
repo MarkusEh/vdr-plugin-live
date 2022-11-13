@@ -199,7 +199,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 		function changeduseextepginfo(selection)
 		{
-			document.getElementById("use_extepg_settings").style.display = (selection.checked ? "block" : "none");
+			var doc = document.getElementById("use_extepg_settings");
+			if (doc) doc.style.display = (selection.checked ? "block" : "none");
 		}
 
 		function changedextepginfo(selection)

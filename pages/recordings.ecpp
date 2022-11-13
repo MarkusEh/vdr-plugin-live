@@ -137,18 +137,18 @@ function RecordingActionS(s, id, A, Img, Title, argList) {
 }
 
 function IMDBS(s, im_db, name) {
-  if (<$LiveSetup().GetShowIMDb()$> != 0) {
-    if (im_db == "") {
-      s.a += '<a href=\"http://www.imdb.com/find?s=all&q='
-      s.a += name
-    } else {
-      s.a += '<a href=\"https://www.imdb.com/title/'
-      s.a += im_db
-    }
-    s.a += 
-     '\" target=\"_blank\"><img src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>imdb.png\" title=\"<$tr("Find more at the Internet Movie Database.")$>\"/></a>'
+  if (im_db.length == 0) {
+    s.a += '<a href=\"http://www.imdb.com/find?s=all&q='
+    s.a += name
+  } else {
+    s.a += '<a href=\"https://www.imdb.com/title/'
+    s.a += im_db
   }
+  s.a += 
+   '\" target=\"_blank\"><img src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>imdb.png\" title=\"<$tr("Find more at the Internet Movie Database.")$>\"/></a>'
 }
+
+<#
 // [0] : IMDB ID
 // [1] : ID (prefix "recording_" removed !!!)
 // [2] : ArchiveDescr()
@@ -160,15 +160,22 @@ function IMDBS(s, im_db, name) {
 // [8] : relase date (scraper)
 // [9] : recording_spec: Day, time & duration
 // [10] : Number of recording errors
+// [11] : SD/HD/UHD s/h/u
+// [12] : SD/HD/UHD title
+// [13] : _new
+// [14] : Shorttext
+// [15] : Name
+// [16] : Folder (if displayFolder == true. Otherwise, this does not exist / out of range)
+#>
 function RecordingsSt(s, level, argList, displayFolder, data, data_src) {
   s.a += '<li class="recording"><div>'
   s.a += '<table width="100%" class="recordings">'
   for (obj of data) {
     s.a += '<tr class="recording_item">'
     if (level > 0) s.a += 
-      '<td class="recording_item"> <img src="img/transparent.png" width="' + String(16 * level) + 'px" height="16px" /></td>'
-    s.a += '<td class="recording_item"><div class="recording_imgs">'
-    if (obj[2] != "") {
+      '<td> <img src="img/transparent.png" width="' + String(16 * level) + 'px" height="16px" /></td>'
+    s.a += '<td><div class="recording_imgs">'
+    if (obj[2].length != 0) {
       s.a += '<img src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>on_dvd.png\" alt=\"on_dvd\" title=\"'
       s.a += obj[2]
       s.a += '/>'
@@ -179,28 +186,28 @@ function RecordingsSt(s, level, argList, displayFolder, data, data_src) {
     }
     s.a += '</div></td>'  // end of recording_imgs
     if ("<$LiveSetup().GetTvscraperImageDir()$>".length != 0) {
-      s.a += '<td class="recording_item"><div class=\"thumb\">'
+      s.a += '<td><div class=\"thumb\">'
       if (data_src == 0) s.a += '<img src=\"';
       else s.a += '<img data-src=\"';
-      if (obj[3] != "") {
+      if (obj[3].length != 0) {
         s.a += '/tvscraper/'
         s.a += obj[3]
         s.a += '\" class=\"thumb'
         s.a += obj[4]
       } else s.a += 'img/transparent.png\" height=\"16px'
-      if (obj[5] != "" || obj[8] != "") {
+      if (obj[5].length != 0 || obj[8].length != 0) {
 // scraper data available
         s.a += '\" title=\"'
         s.a += obj[5]
-          if (obj[6] != "") {
+          if (obj[6].length != 0) {
             s.a += '<$$lf$>S'
             s.a += obj[6]
           }
-          if (obj[7] != "") {
+          if (obj[7].length != 0) {
             s.a += '<$$lf$>'
             s.a += obj[7]
           }
-          if (obj[8] != "") {
+          if (obj[8].length != 0) {
             s.a += '<$$lf$>'
             s.a += obj[8]
           }
@@ -209,9 +216,9 @@ function RecordingsSt(s, level, argList, displayFolder, data, data_src) {
       s.a += '</td>'
     }
 // end if (!LiveSetup().GetTvscraperImageDir().empty() )
-    s.a += '<td class="recording_item hidden-xs"><div class=\"recording_day\">'
+    s.a += '<td class="hidden-xs"><div class=\"recording_day\">'
     s.a += obj[9]
-    s.a += '</div></td><td class="recording_item">'
+    s.a += '</div></td><td>'
     if (obj[10] > -100) {
       s.a += '<div class=\"recording_errors\"><img src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>'
       if (obj[10] == 0) s.a += 'NoRecordingErrors.png'
@@ -228,23 +235,29 @@ function RecordingsSt(s, level, argList, displayFolder, data, data_src) {
     s.a += 'd.png\" width = \"25px\" title=\"'
     s.a += obj[12]
     s.a += '\" /></div></td>'  // end column with error / sd/hd image
-    s.a += '<td class="recording_item"><div class=\"recording_spec recording_name'
+    s.a += '<td><div class=\"recording_spec recording_name'
     s.a += obj[13]
     s.a += '\"><a href=\"epginfo.html?epgid=recording_'
     s.a += obj[1]
+    s.a += '\" class="apopup" title=\"'
+    if (obj[14].length != 0) {
+      s.a += obj[14]
+      s.a += '<$$lf$>'
+    }
+    s.a += '<$tr("Click to view details.")$>'
     s.a += '\">'
     s.a += obj[15]
-    if (displayFolder == 1 && obj[16] != "") {
+    if (displayFolder == 1 && obj[16].length != 0) {
       s.a += ' ('
       s.a += obj[16]
       s.a += ')'
     }
     s.a += '<br /><span>'
     s.a += obj[14]
-    if (obj[14] == "") s.a += '&nbsp;'
+    if (obj[14].length == 0) s.a += '&nbsp;'
     s.a += '</span></a></div></td>'  // end if recording_name / short description
-    s.a += '<td class="recording_item"><div class=\"recording_actions\">'
-    if (obj[2] == "") {
+    s.a += '<td><div class=\"recording_actions\">'
+    if (obj[2].length == 0) {
 <%cpp> if (LiveSetup().GetUseStreamdev() ) { </%cpp>
       RecordingActionS(s, obj[1], "vdr_request/play_recording?param=", "play.png", "<$tr("play this recording")$>", argList)
 <%cpp> } </%cpp>
@@ -263,7 +276,7 @@ function RecordingsSt(s, level, argList, displayFolder, data, data_src) {
 <%cpp> } </%cpp>
     }
     s.a += '</div>'
-    if (obj[2] != "") {
+    if (obj[2].length != 0) {
       s.a += '<div class=\"recording_arch\">'
       s.a += obj[2]
       s.a += '</div>'
@@ -522,20 +535,19 @@ document.write(rec_string_d(rec_ids["fldr_<$ parentIdHash $>"]))
 </%def>
 
 <# ---------------------------------------------------------------------- #>
-
 <%def sort_options>
 <%cpp> { </%cpp>
 <span class="label bold"><$ tr("Sort:") $> </span>
-<a href="recordings.html?sort=name&filter=<? currentFilter != "" ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="name" &> ><$ tr("Name") $></a>
+<a href="recordings.html?sort=name&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="name" &> ><$ tr("Name") $></a>
 <span class="sep">|</span>
-<a href="recordings.html?sort=date&filter=<? currentFilter != "" ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="date" &> ><$ tr("Date") $></a>
+<a href="recordings.html?sort=date&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="date" &> ><$ tr("Date") $></a>
 <span class="sep">|</span>
-<a href="recordings.html?sort=duplicates&filter=<? currentFilter != "" ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="duplicates" &> ><$ tr("Duplicates") $></a>
+<a href="recordings.html?sort=duplicates&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="duplicates" &> ><$ tr("Duplicates") $></a>
 <%cpp>
 #if VDRVERSNUM >= 20505
 </%cpp>
 <span class="sep">|</span>
-<a href="recordings.html?sort=errors&filter=<? currentFilter != "" ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="errors" &>><$ tr("Errors") $></a>
+<a href="recordings.html?sort=errors&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="errors" &>><$ tr("Errors") $></a>
 <%cpp>
 #endif
 #ifdef HAVE_PCRE2
@@ -564,8 +576,8 @@ std::string current;
 <%cpp>
 if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="active"<%cpp> } </%cpp>
 </%def>
-<# ---------------------------------------------------------------------- #>
 
+<# ---------------------------------------------------------------------- #>
 <%def del_rec>
 <%args>
 	std::string id;
@@ -574,7 +586,6 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
 </%def>
 
 <# ---------------------------------------------------------------------- #>
-
 <%def edit_rec>
 <%args>
 	std::string id;
@@ -583,8 +594,6 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
 </%def>
 
 <# ---------------------------------------------------------------------- #>
-
-
 <%def rec_tools>
 <%args>
 	std::string id;
@@ -599,7 +608,6 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
 </%def>
 
 <# ---------------------------------------------------------------------- #>
-
 <%def archived_disc>
 <%args>
 	std::string archived;
@@ -611,9 +619,6 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
 </%def>
 
 <# ---------------------------------------------------------------------- #>
-
-<# ---------------------------------------------------------------------- #>
-
 <%def delete_error>
 <& recordings.sort_options &>
 <%cpp> { reply.out() << deleteResult; } </%cpp>

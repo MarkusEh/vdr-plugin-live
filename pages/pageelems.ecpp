@@ -714,7 +714,7 @@ if (scraperMovieOrTv.found) {
 </%cpp>
     <td>
       <a href="/tvscraper/<$ ScraperImagePath2Live(actor.actorThumb.path) $>" target="_blank">
-        <img src="/tvscraper/<$ ScraperImagePath2Live(actor.actorThumb.path) $>" alt="<$actor.name$>: <$actor.role$>" width = "118px">
+        <img src="/tvscraper/<$ ScraperImagePath2Live(actor.actorThumb.path) $>" alt="<$actor.name$>: <$actor.role$>" class="actor" width="118px">
         </img>
       </a>
     </td>
@@ -744,7 +744,7 @@ if (scraperMovieOrTv.found) {
 </%cpp>
     <td>
       <a href="/tvscraper/<$ ScraperImagePath2Live(actor.actorThumb.path) $>" target="_blank">
-        <img src="/tvscraper/<$ ScraperImagePath2Live(actor.actorThumb.path) $>" alt="<$actor.name$>: <$actor.role$>" width = "118px">
+        <img src="/tvscraper/<$ ScraperImagePath2Live(actor.actorThumb.path) $>" alt="<$actor.name$>: <$actor.role$>" class="actor" width="118px">
         </img>
       </a>
     </td>
@@ -806,7 +806,7 @@ const std::vector<cTvMedia> *media_v = static_cast<std::vector<cTvMedia> *>((voi
 for (const cTvMedia &media: *media_v) {
 </%cpp>
   <a href="/tvscraper/<$ ScraperImagePath2Live(media.path) $>" target="_blank">
-    <img src="/tvscraper/<$ ScraperImagePath2Live(media.path) $>" width = "480px">
+    <img src="/tvscraper/<$ ScraperImagePath2Live(media.path) $>" class="artwork" width="480px">
     </img>
   </a>
 <%cpp>
