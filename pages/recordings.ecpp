@@ -123,6 +123,19 @@ const rec_ids = Object.create(null)
 rec_ids["T"] = [1, 2]
 // rec_ids["fldr_0daccb266ca8fc495a4ca8e3ce41fc49"] = ... (ids to create list of recordings)
 
+function truncateOnWord(str, limit) {
+  var b = str.indexOf('&lt;br/&gt;');
+  if (b > 0 && b<= limit) return str.slice(0,b) + '...';
+  var r = str.indexOf('\r');
+  if (r > 0 && r<= limit) return str.slice(0,r) + '...';
+  var n = str.indexOf('\n');
+  if (n > 0 && n<= limit) return str.slice(0,n) + '...';
+  if (str.length <= limit) return str;
+  var l = str.lastIndexOf(' ', limit);
+  if (l <= 0) l = limit;
+  return str.slice(0,l) + '...';
+}
+
 function RecordingActionS(s, id, A, Img, Title, argList) {
   s.a += '<a href=\"'
   s.a += A
@@ -163,9 +176,10 @@ function IMDBS(s, im_db, name) {
 // [11] : SD/HD/UHD s/h/u
 // [12] : SD/HD/UHD title
 // [13] : _new
-// [14] : Shorttext
-// [15] : Name
-// [16] : Folder (if displayFolder == true. Otherwise, this does not exist / out of range)
+// [14] : Name
+// [15] : Shorttext
+// [16] : Description
+// [17] : Folder (if displayFolder == true. Otherwise, this does not exist / out of range)
 #>
 function RecordingsSt(s, level, argList, displayFolder, data, data_src) {
   s.a += '<li class="recording"><div>'
@@ -240,21 +254,24 @@ function RecordingsSt(s, level, argList, displayFolder, data, data_src) {
     s.a += '\"><a href=\"epginfo.html?epgid=recording_'
     s.a += obj[1]
     s.a += '\" class="apopup" title=\"'
-    if (obj[14].length != 0) {
-      s.a += obj[14]
+    if (obj[16].length != 0) {
+      s.a += obj[16]
       s.a += '<$$lf$>'
     }
     s.a += '<$tr("Click to view details.")$>'
     s.a += '\">'
-    s.a += obj[15]
-    if (displayFolder == 1 && obj[16].length != 0) {
+    s.a += obj[14]
+    if (displayFolder == 1 && obj[17].length != 0) {
       s.a += ' ('
-      s.a += obj[16]
+      s.a += obj[17]
       s.a += ')'
     }
     s.a += '<br /><span>'
-    s.a += obj[14]
-    if (obj[14].length == 0) s.a += '&nbsp;'
+    s.a += obj[15]
+    if (obj[15].length == 0) {
+      if (obj[16].length == 0) s.a += '&nbsp;';
+      else s.a += truncateOnWord(obj[16], 70);
+    }
     s.a += '</span></a></div></td>'  // end if recording_name / short description
     s.a += '<td><div class=\"recording_actions\">'
     if (obj[2].length == 0) {
@@ -263,7 +280,7 @@ function RecordingsSt(s, level, argList, displayFolder, data, data_src) {
 <%cpp> } </%cpp>
       RecordingActionS(s, obj[1], "playlist.m3u?recid=", "playlist.png", "<$tr("Stream this recording into media player.")$>", argList)
 <%cpp> if (LiveSetup().GetShowIMDb() ) { </%cpp>
-      IMDBS(s, obj[0], obj[15])
+      IMDBS(s, obj[0], obj[14])
 <%cpp> } </%cpp>
       s.a += '<div class=\"hidden-xs\">'
       RecordingActionS(s, obj[1], "edit_recording.html?recid=", "edit.png", "<$tr("Edit recording")$>", argList)
@@ -272,7 +289,7 @@ function RecordingsSt(s, level, argList, displayFolder, data, data_src) {
     } else {
       s.a += '<img src=\"img/transparent.png\" width=\"16px\" height=\"16px\" />'
 <%cpp> if (LiveSetup().GetShowIMDb() ) { </%cpp>
-      IMDBS(s, obj[0], obj[15])
+      IMDBS(s, obj[0], obj[14])
 <%cpp> } </%cpp>
     }
     s.a += '</div>'

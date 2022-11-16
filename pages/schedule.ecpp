@@ -359,16 +359,15 @@ int col_span1 = 3;
 bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
 if (display_pictures) col_span1++;
  if (!archived.empty()) { col_span1 --; </%cpp>
-<td colspan=<$col_span1$> style="word-wrap: normal;min-width: 10px;max-width: 70px;" class="leftcol <? lastEventCurrentDay ? "bottomrow" ?>"> <$ tr("Existing Recording:") $>  </td>
+<td colspan=<$col_span1$> style="word-wrap: normal;min-width: 10px;max-width: 70px;" class="leftcol <? lastEventCurrentDay ? "bottomrow" ?>"> <$ tr("Existing Recording:") $>
+
+
+  </td>
 <td class="action <? lastEventCurrentDay ? "bottomrow" ?>"> <img src="<$ LiveSetup().GetThemedLink("img", "on_dvd.png") $>" alt="on_dvd" <& tooltip.hint text=(archived) &> /> </td>
 
 <%cpp> } else { </%cpp>
-<td colspan=<$col_span1$> style="word-wrap: normal;min-width: 10px;max-width: 70px;" class="leftcol <? lastEventCurrentDay ? "bottomrow" ?>"> <$ tr("Existing Recording:") $> </td>
-<%cpp> } </%cpp>
+<td colspan=<$col_span1$> style="word-wrap: normal;min-width: 10px;max-width: 70px;" class="leftcol <? lastEventCurrentDay ? "bottomrow" ?>"> <$ tr("Existing Recording:") $>
 
-<td class="topaligned <? lastEventCurrentDay ? "bottomrow" ?>"><div class="withmargin"><$ FormatDateTime(tr("%a,"), startTime) $> <$ FormatDateTime(tr("%b %d %y"), startTime) $> <$ FormatDateTime(tr("%I:%M %p"), startTime) $><br /><$ duration $></div></td>
-
-<td class="topaligned rightcol <? lastEventCurrentDay ? "bottomrow" ?>">
 <%cpp>
 #if VDRVERSNUM >= 20505
 std::string recording_errors_icon;
@@ -388,6 +387,7 @@ if (recordingErrors >   0) {
   recordingErrorsStr += " " + std::to_string(recordingErrors);
 }
 </%cpp>
+<br/>
 <table><tr><td class="noborder">
                 <div class="recording_errors"><img src="<$ LiveSetup().GetThemedLink("img", recording_errors_icon) $>" width = "16px" alt="" <& tooltip.hint text=(recordingErrorsStr) &> /> </div>
 </td>
@@ -396,19 +396,20 @@ if (recordingErrors >   0) {
 </td>
 
 <td class="noborder">
-<%cpp>
-#endif
-</%cpp>
-
-<div class="more withmargin"><a <& tooltip.display domId=(id) &>><span class="title"><$ name $></span><br /><span class="short"><%cpp>if (shortDescr.empty()) { </%cpp>&nbsp;<%cpp> } </%cpp><$ shortDescr $></span></a></div>
-
-<%cpp>
-#if VDRVERSNUM >= 20505
-</%cpp>
 </td></tr></table>
 <%cpp>
 #endif
 </%cpp>
+ </td>
+<%cpp> } </%cpp>
+
+<td class="topaligned <? lastEventCurrentDay ? "bottomrow" ?>"><div class="withmargin"><$ FormatDateTime(tr("%a,"), startTime) $> <$ FormatDateTime(tr("%b %d %y"), startTime) $> <$ FormatDateTime(tr("%I:%M %p"), startTime) $><br /><$ duration $></div></td>
+
+<td class="topaligned rightcol <? lastEventCurrentDay ? "bottomrow" ?>">
+
+<div class="more withmargin"><a <& tooltip.display domId=(id) &>><span class="title"><$ name $></span><br /><span class="short">
+<?? shortDescr.empty() ? "&nbsp;" ?><$ shortDescr $></span></a></div>
+
 </td>
 </%def>
 

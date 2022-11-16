@@ -55,7 +55,9 @@ namespace vdrlive {
 
         void AppendHtmlEscaped(std::string &target, const char* s);
 template<class T>
-        void AppendHtmlEscapedAndCorrectNonUTF8(T &target, const char* s, const char *end = NULL);
+        void AppendHtmlEscapedAndCorrectNonUTF8(T &target, const char* s, const char *end = NULL, bool tooltip = false);
+template<class T>
+	void AppendTextTruncateOnWord(T &target, const char *text, int max_len, bool tooltip = false);
         void AppendCorrectNonUTF8(std::string &target, const char* s);
 
         wint_t getNextUtfCodepoint(const char *&p);

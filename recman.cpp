@@ -690,7 +690,7 @@ namespace vdrlive {
 
 template<class T>
         void RecordingsItem::AppendShortTextOrDesc(T &target) const
-// note: only up to nex line break, with limited length and html escaped, and UTF8 corrected
+// note: only up to next line break, with limited length and html escaped, and UTF8 corrected
         {
           if (! RecInfo() ) return;
           const char *text = ShortText();
@@ -809,12 +809,16 @@ template void RecordingsItem::AppendShortTextOrDesc<cLargeString>(cLargeString &
 // [13] NewR()
           target.append(NewR() );
           target.append("\", \"");
-// [14] Short text / descr
-          AppendShortTextOrDesc(target);
-          target.append("\", \"");
-// [15] Name
+// [14] Name
           AppendHtmlEscapedAndCorrectNonUTF8(target, Name().c_str() );
-// [16] Path / folder
+          target.append("\", \"");
+// [15] Short text
+          const char *text = ShortText();
+          if (text && Name() != text ) AppendHtmlEscapedAndCorrectNonUTF8(target, text);
+          target.append("\", \"");
+// [16] Description
+          AppendTextTruncateOnWord(target, RecInfo()->Description(), 3000, true);
+// [17] Path / folder
           if(displayFolder) {
             target.append("\", \"");
             if( *(const char *)Recording()->Folder() ) AppendHtmlEscapedAndCorrectNonUTF8(target, (const char *)Recording()->Folder() );

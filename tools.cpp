@@ -53,7 +53,7 @@ namespace vdrlive {
               case '<':  target.append(notAppended, i); target.append("&lt;");   notAppended = notAppended + i + 1; i = 0;   break;
               case '>':  target.append(notAppended, i); target.append("&gt;");   notAppended = notAppended + i + 1; i = 0;   break;
               case 10:
-              case 13:  target.append(notAppended, i); target.append("&lt;br /&gt;");   notAppended = notAppended + i + 1; i = 0;   break;
+              case 13:  target.append(notAppended, i); target.append("&lt;br/&gt;");   notAppended = notAppended + i + 1; i = 0;   break;
               default:   i++; break;
               }
             }
@@ -61,7 +61,7 @@ namespace vdrlive {
         }
 
 template<class T>
-        void AppendHtmlEscapedAndCorrectNonUTF8(T &target, const char* s, const char *end){
+        void AppendHtmlEscapedAndCorrectNonUTF8(T &target, const char* s, const char *end, bool tooltip){
 // append c-string s to target, html escape some characters
 // replace invalid UTF8 characters with ?
           if(!s) return;
@@ -80,7 +80,12 @@ template<class T>
                   case '<':  target.append(notAppended, i); target.append("&lt;");   notAppended = notAppended + i + 1; i = 0;   break;
                   case '>':  target.append(notAppended, i); target.append("&gt;");   notAppended = notAppended + i + 1; i = 0;   break;
                   case 10:
-                  case 13:  target.append(notAppended, i); target.append("&lt;br /&gt;");   notAppended = notAppended + i + 1; i = 0;   break;
+                  case 13:
+		    if (LiveSetup().GetUseAjax() || !tooltip) {
+		      target.append(notAppended, i); target.append("&lt;br/&gt;");   notAppended = notAppended + i + 1; i = 0;   break;
+		    } else {
+		      target.append(notAppended, i); target.append(*current==10?"\\n":"\\r");   notAppended = notAppended + i + 1; i = 0;   break;
+                    }
                   default:   i++; break;
                   }
                 break;
@@ -100,8 +105,8 @@ template<class T>
             }
           target.append(notAppended, i);
         }
-template void AppendHtmlEscapedAndCorrectNonUTF8<std::string>(std::string &target, const char* s, const char *end);
-template void AppendHtmlEscapedAndCorrectNonUTF8<cLargeString>(cLargeString &target, const char* s, const char *end);
+template void AppendHtmlEscapedAndCorrectNonUTF8<std::string>(std::string &target, const char* s, const char *end, bool tooltip);
+template void AppendHtmlEscapedAndCorrectNonUTF8<cLargeString>(cLargeString &target, const char* s, const char *end, bool tooltip);
 
         void AppendCorrectNonUTF8(std::string &target, const char* s){
 // append c-string s to target
@@ -342,6 +347,21 @@ template<class T>
         }
 template void AppendTextMaxLen<std::string>(std::string &target, const char *text);
 template void AppendTextMaxLen<cLargeString>(cLargeString &target, const char *text);
+
+template<class T>
+void AppendTextTruncateOnWord(T &target, const char *text, int max_len, bool tooltip) {
+// append text to target, but
+//   only up to max_len characters. If such truncation is required, truncate at ' '
+
+// escape html characters, and correct invalid utf8
+          if (!text || !*text ) return;
+          const char *end = text + std::min((int)strlen(text), max_len);
+          for (; *end && *end != ' '; end++);
+          AppendHtmlEscapedAndCorrectNonUTF8(target, text, end, tooltip);
+          if (*end) target.append("...");
+}
+template void AppendTextTruncateOnWord<std::string>(std::string &target, const char *text, int max_len, bool tooltip);
+template void AppendTextTruncateOnWord<cLargeString>(cLargeString &target, const char *text, int max_len, bool tooltip);
 
 	std::string ZeroPad(int number)
 	{
