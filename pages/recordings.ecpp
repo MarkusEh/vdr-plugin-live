@@ -126,9 +126,9 @@ rec_ids["T"] = [1, 2]
 function truncateOnWord(str, limit) {
   var b = str.indexOf('&lt;br/&gt;');
   if (b > 0 && b<= limit) return str.slice(0,b) + '...';
-  var r = str.indexOf('\r');
+  var r = str.indexOf('\\r');
   if (r > 0 && r<= limit) return str.slice(0,r) + '...';
-  var n = str.indexOf('\n');
+  var n = str.indexOf('\\n');
   if (n > 0 && n<= limit) return str.slice(0,n) + '...';
   if (str.length <= limit) return str;
   var l = str.lastIndexOf(' ', limit);
