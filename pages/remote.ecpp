@@ -163,6 +163,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			interval = window.setInterval("StreamLoad()", timeout);
 		}
 
+		function StreamEnd()
+		{
+			window.clearInterval(interval);
+		}
+
 		function OSDLoad(){
 			if (osdAjax)
 				osdAjax.request();
@@ -241,7 +246,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		//--></script>
 % reply.sout().imbue(std::locale());
 	</head>
-	<body onload="StreamInit(); FillIntervals(); adjustHeader()" onresize="adjustHeader()">
+	<body onload="StreamInit(); FillIntervals(); adjustHeader()" onresize="adjustHeader()" onunload="StreamEnd()">
 		<& pageelems.logo &>
 		<& menu active="remote" component=("remote.remote_actions")>
 		<div class="inhalt">

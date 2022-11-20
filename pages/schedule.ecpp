@@ -137,7 +137,7 @@ else lf = "&#13;";
 <& pageelems.doc_type &>
 <html>
 	<head>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>VDR Live - <$ pageTitle $></title>
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
