@@ -10,19 +10,19 @@
 #include <vdr/config.h>
 using namespace vdrlive;
 
-bool searchNameDesc(RecordingsItemPtr &RecItem, std::list<RecordingsItemPtr> &RecItems, const std::string &Name, const std::string &ShortText, const std::string &Description, long Duration, cGetScraperOverview *scraperOverview) {
+bool searchNameDesc(RecordingsItemPtr &RecItem, std::vector<RecordingsItemPtr> &RecItems, const std::string &Name, const std::string &ShortText, const std::string &Description, long Duration, cGetScraperOverview *scraperOverview) {
   if(RecItems.begin() == RecItems.end() ) return false;  // there are no recordings
 
 // find all recordings with equal name
   RecordingsItemPtr dummy (new RecordingsItemDummy(Name, ShortText, Description, Duration, scraperOverview));
-  std::list<RecordingsItemPtr>::iterator recIterLowName = std::lower_bound (RecItems.begin(), RecItems.end(), dummy, RecordingsItemPtrCompare::ByDuplicatesName);
-  std::list<RecordingsItemPtr>::iterator recIterUpName  = std::upper_bound (recIterLowName  , RecItems.end(), dummy, RecordingsItemPtrCompare::ByDuplicatesName);
+  std::vector<RecordingsItemPtr>::iterator recIterLowName = std::lower_bound (RecItems.begin(), RecItems.end(), dummy, RecordingsItemPtrCompare::ByDuplicatesName);
+  std::vector<RecordingsItemPtr>::iterator recIterUpName  = std::upper_bound (recIterLowName  , RecItems.end(), dummy, RecordingsItemPtrCompare::ByDuplicatesName);
   if ( recIterLowName == recIterUpName ) return false; // there is no recording with this name
 
 
 // find all recordings with matching short text / description
-  std::list<RecordingsItemPtr>::iterator recIterLow = std::lower_bound (recIterLowName, recIterUpName, dummy, RecordingsItemPtrCompare::ByDuplicates);
-  std::list<RecordingsItemPtr>::iterator recIterUp = std::upper_bound (recIterLow, recIterUpName, dummy, RecordingsItemPtrCompare::ByDuplicates);
+  std::vector<RecordingsItemPtr>::iterator recIterLow = std::lower_bound (recIterLowName, recIterUpName, dummy, RecordingsItemPtrCompare::ByDuplicates);
+  std::vector<RecordingsItemPtr>::iterator recIterUp = std::upper_bound (recIterLow, recIterUpName, dummy, RecordingsItemPtrCompare::ByDuplicates);
 
   if(recIterLow != recIterUp) {   // exact match found
     if (RecordingsItemPtrCompare::FindBestMatch(RecItem, recIterLow, recIterUp, dummy) > 0) return true;
@@ -74,11 +74,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	pageTitle = trVDR("Schedule");
 
 bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
-std::list<RecordingsItemPtr> recItems;
+std::vector<RecordingsItemPtr> recItems;
 RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
 
 recordingsTree->addAllRecordings(recItems);
-recItems.sort(RecordingsItemPtrCompare::ByDuplicates);
+std::sort(recItems.begin(), recItems.end(), RecordingsItemPtrCompare::ByDuplicates);
 
 
 #if VDRVERSNUM < 20301

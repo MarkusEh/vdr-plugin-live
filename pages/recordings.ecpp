@@ -114,7 +114,7 @@ else lf = "&#13;";
 <& pageelems.doc_type &>
 <html>
 	<head>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>VDR-Live - <$ pageTitle $></title>
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
@@ -389,12 +389,12 @@ if (!deleteResult.empty()) {
 RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
 RecordingsItemPtr recItemThisDir;
 if (iRecItem != 0) {
-recItemThisDir = *(static_cast<RecordingsItemPtr *>((void *)iRecItem) );
+  recItemThisDir = *(static_cast<RecordingsItemPtr *>((void *)iRecItem) );
 } else {
-recItemThisDir = recordingsTree->getRoot();
+  recItemThisDir = recordingsTree->getRoot();
 }
-std::list<RecordingsItemPtr> recItems;
-std::list<RecordingsItemPtr>::iterator recIter;
+std::vector<RecordingsItemPtr> recItems;
+std::vector<RecordingsItemPtr>::iterator recIter;
 bool sorted = false;
 int level = recItemThisDir->Level();
 if (currentFlat != "true") {
@@ -403,9 +403,9 @@ if (currentFlat != "true") {
     sorted = recItemThisDir->addSubdirs(recItems);
     if (!sorted) {
       if (currentSort == "namedesc")
-        recItems.sort(RecordingsItemPtrCompare::ByDescendingNameDescSort);
+        std::sort(recItems.begin(), recItems.end(), RecordingsItemPtrCompare::ByDescendingNameDescSort);
       else if (currentSort == "nameasc")
-        recItems.sort(RecordingsItemPtrCompare::ByAscendingNameDescSort);
+        std::sort(recItems.begin(), recItems.end(), RecordingsItemPtrCompare::ByAscendingNameDescSort);
     }
     for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
   // this is the loop over the subdirs
@@ -468,17 +468,23 @@ argList.append(currentFilter);
 argList.append("&flat=");
 argList.append(currentFlat);
 if (currentSort != "duplicates" || currentFlat == "true") {
-  if (!sorted) {
+  if (!sorted && !recItems.empty() ) {
     if (currentSort == "dateasc")
-            recItems.sort(RecordingsItemPtrCompare::ByAscendingDate);
+            std::sort(recItems.begin(), recItems.end(), RecordingsItemPtrCompare::ByAscendingDate);
     else if (currentSort == "datedesc")
-            recItems.sort(RecordingsItemPtrCompare::ByDescendingDate);
+            std::sort(recItems.begin(), recItems.end(), RecordingsItemPtrCompare::ByDescendingDate);
     else if (currentSort == "namedesc")
-            recItems.sort(RecordingsItemPtrCompare::ByDescendingNameDescSort);
+            std::sort(recItems.begin(), recItems.end(), RecordingsItemPtrCompare::ByDescendingNameDescSort);
     else if (currentSort == "nameasc")
-            recItems.sort(RecordingsItemPtrCompare::ByAscendingNameDescSort);
-    else if (currentSort == "errorsasc" || currentSort == "errorsdesc")
-            recItems.sort(RecordingsItemPtrCompare::ByDescendingRecordingErrors);
+            std::sort(recItems.begin(), recItems.end(), RecordingsItemPtrCompare::ByAscendingNameDescSort);
+    else if (currentSort == "errorsasc" || currentSort == "errorsdesc") {
+/*
+            std::cout << "\n\n";
+	    for (auto r=recItems.begin(); r!=recItems.end(); r++) std::cout << (*r)->Name() << "::";
+            std::cout << "\n\n";
+*/
+            std::sort(recItems.begin(), recItems.end(), RecordingsItemPtrCompare::ByDescendingRecordingErrors);
+    }
   }
 
   bool first = true;

@@ -1,6 +1,7 @@
 #ifndef VDR_LIVE_RECORDINGS_H
 #define VDR_LIVE_RECORDINGS_H
 
+#include <iostream>
 #include "stdext.h"
 #include "setup.h"
 #include "largeString.h"
@@ -165,7 +166,7 @@ namespace vdrlive {
                   static bool ByReleaseDate(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
                   static std::string getNameForSort(const std::string &Name);
                   static int compareLC(const char *first, const char *second, int *numEqualChars = NULL); // as std::compare, but compare lower case
-                  static int FindBestMatch(RecordingsItemPtr &BestMatch, const std::list<RecordingsItemPtr>::iterator & First, const std::list<RecordingsItemPtr>::iterator & Last, const RecordingsItemPtr & EPG_Entry);
+                  static int FindBestMatch(RecordingsItemPtr &BestMatch, const std::vector<RecordingsItemPtr>::iterator & First, const std::vector<RecordingsItemPtr>::iterator & Last, const RecordingsItemPtr & EPG_Entry);
 
   };
 
@@ -194,6 +195,7 @@ namespace vdrlive {
                   virtual const char * ShortText() const { return RecInfo()? RecInfo()->ShortText():0; }
                   virtual const char * Description() const { return RecInfo()? RecInfo()->Description():0; }
                   virtual const std::string Id() const = 0;
+//                  int IdI() const { return m_idI;}
 template<class T>
                   void AppendShortTextOrDesc(T &target) const;
 
@@ -209,10 +211,10 @@ template<class T>
                   int numberOfRecordings();
                   RecordingsItemPtr addDirIfNotExists(const std::string &dirName);
 		  RecordingsItemPtr addDirCollectionIfNotExists(int collectionId, const cRecording* recording);
-		  std::list<RecordingsItemPtr> getSubdirs(bool &sorted);
-		  std::list<RecordingsItemPtr> getRecordings(bool &sorted);
-                  bool addSubdirs(std::list<RecordingsItemPtr> &recList);
-                  bool addRecordings(std::list<RecordingsItemPtr> &recList);
+		  std::vector<RecordingsItemPtr> getSubdirs(bool &sorted);
+		  std::vector<RecordingsItemPtr> getRecordings(bool &sorted);
+                  bool addSubdirs(std::vector<RecordingsItemPtr> &recList);
+                  bool addRecordings(std::vector<RecordingsItemPtr> &recList);
 		  bool checkNew();
 		  void addDirList(std::vector<std::string> &dirs, const std::string &basePath);
 
@@ -245,6 +247,7 @@ template<class T>
           private:
                   std::string GetNameForSearch(std::string const & name);
           protected:
+//		  int m_idI = -1;
                   std::string m_name;
                   std::string m_name_for_sort;
                   const std::string m_name_for_search;
@@ -312,7 +315,7 @@ template<class T>
   class RecordingsItemRec : public RecordingsItem
   {
           public:
-                  RecordingsItemRec(const std::string& id, const std::string& name, const cRecording* recording, int language, int sdHdUhd);
+                  RecordingsItemRec(int idI, const std::string& id, const std::string& name, const cRecording* recording, int language, int sdHdUhd);
 
                   virtual ~RecordingsItemRec();
 
@@ -338,7 +341,7 @@ template<class T>
                   virtual const int SD_HD();
                   virtual const char *SD_HD_icon() { return SD_HD() == 0 ? "sd.png": SD_HD() == 1 ? "hd.png":"ud.png"; }
                   virtual void AppendAsJSArray(cLargeString &target, bool displayFolder);
-                  static void AppendAsJSArray(cLargeString &target, std::list<RecordingsItemPtr>::iterator recIterFirst, const std::list<RecordingsItemPtr>::iterator &recIterLast, bool &first, const std::string &filter, bool displayFolder);
+                  static void AppendAsJSArray(cLargeString &target, std::vector<RecordingsItemPtr>::iterator recIterFirst, const std::vector<RecordingsItemPtr>::iterator &recIterLast, bool &first, const std::string &filter, bool displayFolder);
                
           private:
                   const cRecording *m_recording;
@@ -382,14 +385,15 @@ template<class T>
 
           private:
                   RecordingsTree(RecordingsManagerPtr recManPtr);
-		  void addAllRecordings(std::list<RecordingsItemPtr> &recList, RecordingsItemPtr dir);
+		  void addAllRecordings(std::vector<RecordingsItemPtr> &recList, RecordingsItemPtr dir);
 
           public:
                   virtual ~RecordingsTree();
 
                   RecordingsItemPtr getRoot() const { return m_root; }
-		  void addAllRecordings(std::list<RecordingsItemPtr> &recList) { addAllRecordings(recList, m_rootFileSystem); }
+		  void addAllRecordings(std::vector<RecordingsItemPtr> &recList) { addAllRecordings(recList, m_rootFileSystem); }
 		  std::vector<std::string> getAllDirs() { std::vector<std::string> result; m_rootFileSystem->addDirList(result, ""); return result; }
+		  const std::vector<RecordingsItemPtr> &allRecordings() { return m_allRecordings;}
 
                   int MaxLevel() const { return m_maxLevel; }
 
@@ -397,6 +401,7 @@ template<class T>
                   int m_maxLevel;
                   RecordingsItemPtr m_root;
                   RecordingsItemPtr m_rootFileSystem;
+		  std::vector<RecordingsItemPtr> m_allRecordings; // sorted according to integer id (m_idI)
   };
 
 
@@ -428,10 +433,22 @@ template<class T>
    */
   RecordingsManagerPtr LiveRecordingsManager();
 
-void addAllDuplicateRecordings(std::list<RecordingsItemPtr> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree);
-void addDuplicateRecordingsNoSd(std::list<RecordingsItemPtr> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree);
-void addDuplicateRecordingsLang(std::list<RecordingsItemPtr> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree);
-void addDuplicateRecordingsSd(std::list<RecordingsItemPtr> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree);
+  inline void print(const char *t, const RecordingsItemPtr &a) {
+    std::cout << t << (a ? a->Name() : "nullptr");
+  }
+  inline void swap(RecordingsItemPtr &a, RecordingsItemPtr &b) {
+//    print("swap, first: ", a);
+//    print(" sec: ", b);
+    a.swap(b);
+//    print("nach swap, first: ", a);
+//    print(" sec: ", b);
+//    std::cout << "\n";
+  }
+
+void addAllDuplicateRecordings(std::vector<RecordingsItemPtr> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree);
+void addDuplicateRecordingsNoSd(std::vector<RecordingsItemPtr> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree);
+void addDuplicateRecordingsLang(std::vector<RecordingsItemPtr> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree);
+void addDuplicateRecordingsSd(std::vector<RecordingsItemPtr> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree);
 
 } // namespace vdrlive
 
