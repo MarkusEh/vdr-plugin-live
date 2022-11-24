@@ -44,8 +44,6 @@ namespace vdrlive {
   bool operator< (const RecordingsItemPtr &a, const std::string &b);
   bool operator< (int a, const RecordingsItemPtr &b);
   bool operator< (const RecordingsItemPtr &a, int b);
-  typedef std::multiset<RecordingsItemPtr, std::less<>> RecordingsMap;
-  typedef std::set<RecordingsItemPtr, std::less<>> RecordingDirsMap;
 
   /**
    *  Class for managing recordings inside the live plugin. It
@@ -148,31 +146,30 @@ namespace vdrlive {
   /**
    * Class containing possible recordings compare functions
    */
+  enum class eSortOrder { name, date, errors, duplicates, duplicatesLanguage };
+  typedef bool (*tCompRec)(const RecordingsItemPtr &a, const RecordingsItemPtr &b);
   class RecordingsItemPtrCompare
   {
-          public:
-                  static bool ByAscendingDate(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
-                  static bool ByDescendingDate(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
-                  static bool ByAscendingName(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
-                  static bool ByDuplicatesName(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
-                  static bool ByDuplicates(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
-                  static bool ByDuplicatesLanguage(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
-                  static bool ByAscendingNameDesc(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
-                  static bool ByAscendingNameDescSort(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
-                  static bool ByDescendingNameDescSort(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
-                  static bool ByDescendingRecordingErrors(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
-                  static bool ByEpisode(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
-                  static bool BySeason(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
-                  static bool ByReleaseDate(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
-                  static std::string getNameForSort(const std::string &Name);
-                  static int compareLC(const char *first, const char *second, int *numEqualChars = NULL); // as std::compare, but compare lower case
-                  static int FindBestMatch(RecordingsItemPtr &BestMatch, const std::vector<RecordingsItemPtr>::iterator & First, const std::vector<RecordingsItemPtr>::iterator & Last, const RecordingsItemPtr & EPG_Entry);
+    public:
+      static bool ByAscendingDate(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
+      static bool ByDuplicatesName(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
+      static bool ByDuplicates(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
+      static bool ByDuplicatesLanguage(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
+      static bool ByAscendingNameDescSort(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
+      static bool ByDescendingRecordingErrors(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
+      static bool ByEpisode(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
+      static bool BySeason(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
+      static bool ByReleaseDate(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
+      static std::string getNameForSort(const std::string &Name);
+      static int compareLC(const char *first, const char *second, int *numEqualChars = NULL); // as std::compare, but compare lower case
+      static int FindBestMatch(RecordingsItemPtr &BestMatch, const std::vector<RecordingsItemPtr>::const_iterator & First, const std::vector<RecordingsItemPtr>::const_iterator & Last, const RecordingsItemPtr & EPG_Entry);
 
+      static tCompRec getComp(eSortOrder sortOrder);
   };
 
   /**
    *  Base class for entries in recordings tree and recordings list.
-   *  All opeations possible on recordings are performed against
+   *  All operations possible on recordings are performed against
    *  pointers to instances of recordings items. The C++ polymorphy
    *  delegates them to the 'right' class.
    */
@@ -195,13 +192,15 @@ namespace vdrlive {
                   virtual const char * ShortText() const { return RecInfo()? RecInfo()->ShortText():0; }
                   virtual const char * Description() const { return RecInfo()? RecInfo()->Description():0; }
                   virtual const std::string Id() const = 0;
-//                  int IdI() const { return m_idI;}
+                  int IdI() const { return m_idI;}
 template<class T>
                   void AppendShortTextOrDesc(T &target) const;
 
                   virtual const cRecording* Recording() const { return 0; }
                   virtual const cRecordingInfo* RecInfo() const { return 0; }
 
+		  void finishRecordingsTree(); // sort recursively, Order: m_cmp_rec (if defined. Otherwise: no sort)
+					       // dirs: Order: m_cmp_dir (if defined. Otherwise: m_name_for_sort)
                   virtual bool operator< (const RecordingsItemPtr &sec) const { return m_name < sec->m_name; }
                   virtual bool operator< (const std::string &sec) const { return m_name < sec; }
                   virtual bool operator> (const std::string &sec) const { return m_name > sec; }
@@ -211,14 +210,12 @@ template<class T>
                   int numberOfRecordings();
                   RecordingsItemPtr addDirIfNotExists(const std::string &dirName);
 		  RecordingsItemPtr addDirCollectionIfNotExists(int collectionId, const cRecording* recording);
-		  std::vector<RecordingsItemPtr> getSubdirs(bool &sorted);
-		  std::vector<RecordingsItemPtr> getRecordings(bool &sorted);
-                  bool addSubdirs(std::vector<RecordingsItemPtr> &recList);
-                  bool addRecordings(std::vector<RecordingsItemPtr> &recList);
+		  RecordingsItemPtr addDirSeasonIfNotExists(int collectionId, const cRecording* recording);
+		  const std::vector<RecordingsItemPtr> *getRecordings(eSortOrder sortOrder);
+		  const std::vector<RecordingsItemPtr> *getDirs() { return &m_subdirs; }
 		  bool checkNew();
 		  void addDirList(std::vector<std::string> &dirs, const std::string &basePath);
 
-                  void setSeason(const cRecording* recording);
                   void setTvShow(const cRecording* recording);
 		  void getScraperData(const cRecording* recording, const cImageLevels &imageLevels, std::string *collectionName = NULL);
                   bool scraperDataAvailable() const { return m_s_videoType == eVideoType::movie || m_s_videoType == eVideoType::tvShow; }
@@ -230,7 +227,6 @@ template<class T>
                   const std::string &scraperReleaseDate() const { return m_s_release_date; }
                   const cTvMedia &scraperImage() const { return m_s_image; }
                   int language() const { return m_language; }
-                  virtual bool displayInOthers() const { return true; }
                   int CompareTexts(const RecordingsItemPtr &second, int *numEqualChars=NULL) const;
                   int CompareStD(const RecordingsItemPtr &second, int *numEqualChars=NULL) const;
                   bool orderDuplicates(const RecordingsItemPtr &second, bool alwaysShortText, bool lang = false) const;
@@ -243,16 +239,19 @@ template<class T>
                   virtual const int SD_HD() { return 0; }
                   virtual const char *SD_HD_icon() { return ""; }
                   virtual void AppendAsJSArray(cLargeString &target, bool displayFolder) { }
+ 		  bool recEntriesSorted() { return m_cmp_rec != NULL; }
+ 		  bool dirEntriesSorted() { return m_cmp_dir != NULL; }
 
           private:
                   std::string GetNameForSearch(std::string const & name);
           protected:
-//		  int m_idI = -1;
+		  int m_idI = -1;
                   std::string m_name;
                   std::string m_name_for_sort;
                   const std::string m_name_for_search;
-                  RecordingDirsMap m_subdirs;
-                  RecordingsMap m_entries;
+                  std::vector<RecordingsItemPtr> m_subdirs;
+                  std::vector<RecordingsItemPtr> m_entries;
+		  eSortOrder m_sortOrder = (eSortOrder)-1;
 		  bool (*m_cmp_dir)(const RecordingsItemPtr &itemPtr1, const RecordingsItemPtr &itemPtr2) = NULL;
 		  bool (*m_cmp_rec)(const RecordingsItemPtr &itemPtr1, const RecordingsItemPtr &itemPtr2) = NULL;
 // scraper data
@@ -290,6 +289,20 @@ template<class T>
 
           private:
                   int m_level;
+  };
+
+  class RecordingsItemDirSeason : public RecordingsItemDir
+  {
+          public:
+                  RecordingsItemDirSeason(int level, const cRecording* recording);
+                  virtual ~RecordingsItemDirSeason();
+
+                  virtual bool operator< (const RecordingsItemPtr &sec) const { return m_s_season_number < sec->scraperSeasonNumber(); }
+                  virtual bool operator< (const std::string &sec) const { return false; }
+                  virtual bool operator> (const std::string &sec) const { return false; }
+                  virtual bool operator< (int sec) const { return m_s_season_number < sec; }
+                  virtual bool operator> (int sec) const { return m_s_season_number > sec; }
+
   };
 
   class RecordingsItemDirCollection : public RecordingsItemDir
@@ -341,7 +354,7 @@ template<class T>
                   virtual const int SD_HD();
                   virtual const char *SD_HD_icon() { return SD_HD() == 0 ? "sd.png": SD_HD() == 1 ? "hd.png":"ud.png"; }
                   virtual void AppendAsJSArray(cLargeString &target, bool displayFolder);
-                  static void AppendAsJSArray(cLargeString &target, std::vector<RecordingsItemPtr>::iterator recIterFirst, const std::vector<RecordingsItemPtr>::iterator &recIterLast, bool &first, const std::string &filter, bool displayFolder);
+                  static void AppendAsJSArray(cLargeString &target, std::vector<RecordingsItemPtr>::const_iterator recIterFirst, std::vector<RecordingsItemPtr>::const_iterator recIterLast, bool &first, const std::string &filter, bool reverse);
                
           private:
                   const cRecording *m_recording;
@@ -385,15 +398,14 @@ template<class T>
 
           private:
                   RecordingsTree(RecordingsManagerPtr recManPtr);
-		  void addAllRecordings(std::vector<RecordingsItemPtr> &recList, RecordingsItemPtr dir);
 
           public:
                   virtual ~RecordingsTree();
 
                   RecordingsItemPtr getRoot() const { return m_root; }
-		  void addAllRecordings(std::vector<RecordingsItemPtr> &recList) { addAllRecordings(recList, m_rootFileSystem); }
 		  std::vector<std::string> getAllDirs() { std::vector<std::string> result; m_rootFileSystem->addDirList(result, ""); return result; }
-		  const std::vector<RecordingsItemPtr> &allRecordings() { return m_allRecordings;}
+		  const std::vector<RecordingsItemPtr> *allRecordings() { return &m_allRecordings;}
+		  const std::vector<RecordingsItemPtr> *allRecordings(eSortOrder sortOrder);
 
                   int MaxLevel() const { return m_maxLevel; }
 
@@ -401,7 +413,8 @@ template<class T>
                   int m_maxLevel;
                   RecordingsItemPtr m_root;
                   RecordingsItemPtr m_rootFileSystem;
-		  std::vector<RecordingsItemPtr> m_allRecordings; // sorted according to integer id (m_idI)
+		  std::vector<RecordingsItemPtr> m_allRecordings;
+		  eSortOrder m_sortOrder = (eSortOrder)-1;
   };
 
 
@@ -445,7 +458,6 @@ template<class T>
 //    std::cout << "\n";
   }
 
-void addAllDuplicateRecordings(std::vector<RecordingsItemPtr> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree);
 void addDuplicateRecordingsNoSd(std::vector<RecordingsItemPtr> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree);
 void addDuplicateRecordingsLang(std::vector<RecordingsItemPtr> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree);
 void addDuplicateRecordingsSd(std::vector<RecordingsItemPtr> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree);

@@ -15,9 +15,7 @@
 
 #define MB_PER_MINUTE 25.75 // this is just an estimate!
 #include <string>
-std::string argList;
-cLargeString recoring_item("recoring_item", 100000);
-size_t max_length_recoring_item = 0;
+cLargeString recoring_item("recoring_item", 25000);
 
 using namespace vdrlive;
 
@@ -46,48 +44,45 @@ using namespace vdrlive;
 <%cpp>
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
+// create the "current" values of the global request parameters, based on their old values and the current arguments
 if (! flat.empty() ) currentFlat = flat;
-// sort depends on old sort, an sort parameter
+// sort depends on old sort, and sort parameter
 currentSort = LiveSetup().GetLastSortingMode();
 //  if (currentSort.compare(0, 6, "errors", 6) == 0 && currentFlat != "true") currentSort = "dateasc";
 if (currentSort.empty() ) currentFlat == "true"?currentSort = "errorsasc":currentSort = "dateasc";
 if (!sort.empty()) {
-	if (sort == "date")
-		currentSort = (currentSort == "dateasc") ? "datedesc" : "dateasc";
-	else if (sort == "name")
-		currentSort = (currentSort == "nameasc") ? "namedesc" : "nameasc";
-	else if (sort == "errors")
-                currentSort = (currentSort == "errorsasc") ? "errorsdesc" : "errorsasc";
-	else if (sort == "duplicates")
-		currentSort = sort;
-	LiveSetup().SetLastSortingMode(currentSort);
+  if (sort == "date")
+    currentSort = (currentSort == "dateasc") ? "datedesc" : "dateasc";
+  else if (sort == "name")
+    currentSort = (currentSort == "nameasc") ? "namedesc" : "nameasc";
+  else if (sort == "errors")
+    currentSort = (currentSort == "errorsasc") ? "errorsdesc" : "errorsasc";
+  else if (sort == "duplicates")
+    currentSort = sort;
+  LiveSetup().SetLastSortingMode(currentSort);
 }
-
 currentFilter = filter;
 
 pageTitle = tr("Recordings");
 
 deleteResult = "";
 if (!todel.empty()) {
-	if (!cUser::CurrentUserHasRightTo(UR_DELRECS))
-		throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
-	deletions.push_back(todel);
+  if (!cUser::CurrentUserHasRightTo(UR_DELRECS))
+    throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
+  deletions.push_back(todel);
 }
-#if TNTVERSION >= 30000
-typedef std::vector<std::string> deletions_type;
-#endif
-for (deletions_type::const_iterator it = deletions.begin(); it != deletions.end(); ++it) {
-	if (cUser::CurrentUserHasRightTo(UR_DELRECS)) {
-		RemoveRecordingTask task(*it);
-		LiveTaskManager().Execute(task);
-		if (!task.Result())
-			deleteResult += std::string() + tr("ERROR:") + " " + task.Error() + "<br/>";
-		else
-			deleteResult += std::string() + tr("Deleted recording:") + " " + StringReplace(task.RecName(), "~", "/") + "<br/>";
-	}
-	else {
-		throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
-	}
+for (auto it = deletions.begin(); it != deletions.end(); ++it) {
+  if (cUser::CurrentUserHasRightTo(UR_DELRECS)) {
+    RemoveRecordingTask task(*it);
+    LiveTaskManager().Execute(task);
+    if (!task.Result())
+      deleteResult += std::string() + tr("ERROR:") + " " + task.Error() + "<br/>";
+    else
+      deleteResult += std::string() + tr("Deleted recording:") + " " + StringReplace(task.RecName(), "~", "/") + "<br/>";
+  }
+  else {
+    throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
+  }
 }
 deletions.clear();
 
@@ -101,27 +96,40 @@ int Minutes = int(double(FreeMB) / MB_PER_MINUTE);
 int Hours = Minutes / 60;
 Minutes %= 60;
 diskinfo = cString::sprintf("%s %d%%  -  %2d:%02d %s", trVDR("Disk"), Percent, Hours, Minutes, trVDR("free"));
-#if TNTVERSION >= 30000                                                                                                                       
-std::string TNT_ARRAY  = "[]";
+#if TNTVERSION >= 30000
+const char *TNT_ARRAY = "[]";
 #else
-std::string TNT_ARRAY = "";
+const char *TNT_ARRAY = "";
 #endif
 const char *lf;
 if (LiveSetup().GetUseAjax()) lf = "<br/>";
 else lf = "&#13;";
 
+
 </%cpp>
 <& pageelems.doc_type &>
 <html>
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>VDR-Live - <$ pageTitle $></title>
-		<& pageelems.stylesheets &>
-		<& pageelems.ajax_js &>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VDR-Live - <$ pageTitle $></title>
+    <& pageelems.stylesheets &>
+    <& pageelems.ajax_js &>
+
 <script>
+const recs = [];
+<%cpp>
+char buffer_i[20];
+RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
+for (const RecordingsItemPtr &rPtr: *recordingsTree->allRecordings()) {
+  recoring_item.clear();
+  rPtr->AppendAsJSArray(recoring_item, currentFlat == "true" || currentSort == "duplicates");
+</%cpp>
+  recs[<$intToChar(buffer_i, buffer_i+20, rPtr->IdI())$>]=<$$ recoring_item.c_str() $>
+<%cpp>
+}
+</%cpp>
 const rec_ids = Object.create(null)
 rec_ids["T"] = [1, 2]
-// rec_ids["fldr_0daccb266ca8fc495a4ca8e3ce41fc49"] = ... (ids to create list of recordings)
 
 function truncateOnWord(str, limit) {
   var b = str.indexOf('&lt;br/&gt;');
@@ -136,13 +144,12 @@ function truncateOnWord(str, limit) {
   return str.slice(0,l) + '...';
 }
 
-function RecordingActionS(s, id, A, Img, Title, argList) {
+function RecordingActionS(s, id, A, Img, Title) {
   s.a += '<a href=\"'
   s.a += A
   s.a += 'recording_'
   s.a += id
-  s.a += argList
-  s.a += '\" title=\"'
+  s.a += '&sort=<$currentSort$>&filter=<$currentFilter$>&flat=<$currentFlat$>\" title=\"'
   s.a += Title
   s.a += '\"><img src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>'
   s.a += Img
@@ -181,10 +188,11 @@ function IMDBS(s, im_db, name) {
 // [16] : Description
 // [17] : Folder (if displayFolder == true. Otherwise, this does not exist / out of range)
 #>
-function RecordingsSt(s, level, argList, displayFolder, data, data_src) {
+function RecordingsSt(s, level, displayFolder, data, data_src) {
   s.a += '<li class="recording"><div>'
   s.a += '<table width="100%" class="recordings">'
-  for (obj of data) {
+  for (obj_i of data) {
+    obj = recs[obj_i]
     s.a += '<tr class="recording_item">'
     if (level > 0) s.a += 
       '<td> <img src="img/transparent.png" width="' + String(16 * level) + 'px" height="16px" /></td>'
@@ -276,16 +284,16 @@ function RecordingsSt(s, level, argList, displayFolder, data, data_src) {
     s.a += '<td><div class=\"recording_actions\">'
     if (obj[2].length == 0) {
 <%cpp> if (LiveSetup().GetUseStreamdev() ) { </%cpp>
-      RecordingActionS(s, obj[1], "vdr_request/play_recording?param=", "play.png", "<$tr("play this recording")$>", argList)
+      RecordingActionS(s, obj[1], "vdr_request/play_recording?param=", "play.png", "<$tr("play this recording")$>")
 <%cpp> } </%cpp>
-      RecordingActionS(s, obj[1], "playlist.m3u?recid=", "playlist.png", "<$tr("Stream this recording into media player.")$>", argList)
+      RecordingActionS(s, obj[1], "playlist.m3u?recid=", "playlist.png", "<$tr("Stream this recording into media player.")$>")
 <%cpp> if (LiveSetup().GetShowIMDb() ) { </%cpp>
       IMDBS(s, obj[0], obj[14])
 <%cpp> } </%cpp>
       s.a += '<div class=\"hidden-xs\">'
-      RecordingActionS(s, obj[1], "edit_recording.html?recid=", "edit.png", "<$tr("Edit recording")$>", argList)
+      RecordingActionS(s, obj[1], "edit_recording.html?recid=", "edit.png", "<$tr("Edit recording")$>")
       s.a += '</div>'
-      RecordingActionS(s, obj[1], "recordings.html?todel=", "del.png", "<$tr("Delete this recording from hard disc!")$>", argList)
+      RecordingActionS(s, obj[1], "recordings.html?todel=", "del.png", "<$tr("Delete this recording from hard disc!")$>")
     } else {
       s.a += '<img src=\"img/transparent.png\" width=\"16px\" height=\"16px\" />'
 <%cpp> if (LiveSetup().GetShowIMDb() ) { </%cpp>
@@ -307,23 +315,23 @@ function rec_string(rec_ids) {
 // use img src= ...
   const st = Object.create(null)
   st.a = ""
-  RecordingsSt(st, rec_ids[0], rec_ids[1], rec_ids[2], rec_ids[3], 0)
+  RecordingsSt(st, rec_ids[0], rec_ids[1], rec_ids[2], 0)
   return st.a
 }
 function rec_string_d(rec_ids) {
 // use img data-src= ...
   const st = Object.create(null)
   st.a = ""
-  RecordingsSt(st, rec_ids[0], rec_ids[1], rec_ids[2], rec_ids[3], 1)
+  RecordingsSt(st, rec_ids[0], rec_ids[1], rec_ids[2], 1)
   return st.a
 }
 
 </script>
 
-<script type="text/javascript" src="treeview.js"></script>
-	</head>
-	<body onload="adjustHeader()" onresize="adjustHeader()">
-		<& pageelems.logo &>
+  <script type="text/javascript" src="treeview.js"></script>
+</head>
+<body onload="adjustHeader()" onresize="adjustHeader()">
+  <& pageelems.logo &>
 <%cpp>
 const char *active_r;
 if (flat == "true") active_r = "recordings_flat";
@@ -331,47 +339,47 @@ else active_r = "recordings";
 
 if (!deleteResult.empty()) {
 </%cpp>
-		<& menu active=(active_r) component="recordings.delete_error" filter=(filter) &>
+  <& menu active=(active_r) component="recordings.delete_error" filter=(filter) &>
 <%cpp>
 } else {
 </%cpp>
-		<& menu active=(active_r) component="recordings.sort_options" filter=(filter) &>
+  <& menu active=(active_r) component="recordings.sort_options" filter=(filter) &>
 <%cpp>
 }
 </%cpp>
-		<div class="inhalt">
-			<div class="boxheader"><div><div><$ std::string(tr("List of recordings")) + " (" + diskinfo + ")" $></div></div></div>
+  <div class="inhalt">
+    <div class="boxheader"><div><div><$ std::string(tr("List of recordings")) + " (" + diskinfo + ")" $></div></div></div>
 <%cpp>
+    int rec_cnt;
 #if VDRVERSNUM >= 20301
-			int rec_cnt;
-			{
-				LOCK_RECORDINGS_READ;
-				rec_cnt = Recordings->Count();  // Access VDRs global cRecordings Recordings instance.
-			}
-			if (rec_cnt == 0) {
+    {
+      LOCK_RECORDINGS_READ;
+      rec_cnt = Recordings->Count();  // Access VDRs global cRecordings Recordings instance.
+    }
 #else
-			if (Recordings.Count() == 0) { // Access VDRs global cRecordings Recordings instance.
+    rec_cnt = Recordings.Count(); // Access VDRs global cRecordings Recordings instance.
 #endif
+    if (rec_cnt == 0) {
 </%cpp>
-			<$ tr("No recordings found") $>
+      <$ tr("No recordings found") $>
 <%cpp>
-			} else {
+    } else {
 </%cpp>
-			<form method="post" name="recordings" action="recordings.ecpp">
-			<div class="recordings">
-			<ul class="recordingslist" style="display: block;">
-<& recordings.recordings_item filter=(currentFilter) &>
-			</ul>
-			</div>
-			<div class="withmargin">
-				<button class="red" type="submit"><$ tr("Delete selected") $></button>
-			</div>
-			</form>
+      <form method="post" name="recordings" action="recordings.ecpp">
+        <div class="recordings">
+          <ul class="recordingslist" style="display: block;">
+            <& recordings.recordings_item &>
+          </ul>
+        </div>
+        <div class="withmargin">
+          <button class="red" type="submit"><$ tr("Delete selected") $></button>
+        </div>
+      </form>
 <%cpp>
-			}
+    }
 </%cpp>
-		</div>
-	</body>
+  </div>
+</body>
 </html>
 <%include>page_exit.eh</%include>
 
@@ -379,13 +387,19 @@ if (!deleteResult.empty()) {
 
 <%def recordings_item>
 <%args>
-	filter;
-	int counter = 0;
 	uintptr_t iRecItem = 0;
 	std::string parentIdHash;
 </%args>
 <%cpp>
-// "
+// define sort order, and reverse (for recordings)
+// use current sort order and selected sort option for that
+bool reverse = false;
+eSortOrder sortOrder = eSortOrder::name; // default
+if (currentSort.compare(0, 4,  "date"  , 4) == 0) sortOrder = eSortOrder::date;
+if (currentSort.compare(0, 6,  "errors", 6) == 0) sortOrder = eSortOrder::errors;
+if (currentSort.compare(0, 10, "duplicates", 10) == 0) sortOrder = eSortOrder::duplicates;
+if (currentSort == "datedesc" || currentSort == "namedesc") reverse = true;
+// get rec item of this (current) dir
 RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
 RecordingsItemPtr recItemThisDir;
 if (iRecItem != 0) {
@@ -393,124 +407,104 @@ if (iRecItem != 0) {
 } else {
   recItemThisDir = recordingsTree->getRoot();
 }
-std::vector<RecordingsItemPtr> recItems;
-std::vector<RecordingsItemPtr>::iterator recIter;
-bool sorted = false;
 int level = recItemThisDir->Level();
+
+std::vector<RecordingsItemPtr> recItems;
+const std::vector<RecordingsItemPtr> *recItemsC = NULL;
+
+// data for dirs, an loop over dirs
+const std::vector<RecordingsItemPtr> *dirItems = recItemThisDir->getDirs();
+std::vector<RecordingsItemPtr>::const_iterator dirIterS, dirIterE, dirIter;
+int direction; // for dirs
 if (currentFlat != "true") {
   if (currentSort != "duplicates") {
-// create list of subdirs, in "recItems"
-    sorted = recItemThisDir->addSubdirs(recItems);
-    if (!sorted) {
-      if (currentSort == "namedesc")
-        std::sort(recItems.begin(), recItems.end(), RecordingsItemPtrCompare::ByDescendingNameDescSort);
-      else if (currentSort == "nameasc")
-        std::sort(recItems.begin(), recItems.end(), RecordingsItemPtrCompare::ByAscendingNameDescSort);
+// list of subdirs
+    if (!recItemThisDir->dirEntriesSorted() && currentSort == "namedesc") {
+// reverse loop over subdirs
+      dirIterS = dirItems->end();
+      dirIterE = dirItems->begin();
+      direction = 0;
+    } else {
+// forward loop over subdirs
+      dirIterS = dirItems->begin();
+      dirIterE = dirItems->end();
+      direction = 1;
     }
-    for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
-  // this is the loop over the subdirs
-  // each subdir is a node, which can be expanded (or not)
-  // each subdir has an identifier in <ul> tag: fldr_<$ idHash $>
-      RecordingsItemPtr recItem = *recIter;
-      counter++;
+    for (dirIter = dirIterS; dirIter != dirIterE; std::advance(dirIter, direction) ) {
+      if(direction == 0) dirIter--;
+// this is the loop over the subdirs
+// each subdir is a node, which can be expanded (or not)
+// each subdir has an identifier in <ul> tag: fldr_<$ idHash $>
+      RecordingsItemPtr recItem = *dirIter;
 
       /* search trough directory for new recordings */
       bool newR = false;
       if ( LiveSetup().GetMarkNewRec() ) newR = recItem->checkNew();
-  // calculate idHash: uniquely defines this node
-      std::string combinedId = parentIdHash + recItem->Name();
-      combinedId += counter; // note: this will appand one character, basic_string& operator+=( CharT ch );
-      std::string idHash(xxHash32(combinedId));
+// calculate idHash: uniquely defines this node
+      std::string idHash(xxHash32(parentIdHash + recItem->Name()));
       iRecItem = (uintptr_t)&recItem;
   </%cpp>
       <li class="recording">
-      <div class="recording_item" onclick = "Toggle2(this, 'fldr_<$ idHash $>')">
-      <div class="recording_imgs">
-      <{ if(level > 0) { }><img src="img/transparent.png" width="<$ 16*level $>px" height="16px" /> <{ } }>
-      <img class="recording_expander" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>plus.png" /><img class="recording_folder" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png" /></div>
-      <{ if (!recItem->scraperImage().path.empty() ) { }>
-        <div class="thumb">
-        <img data-src="/tvscraper/<$ recItem->scraperImage().path $>"
-             <$$ recItem->scraperImage().width > recItem->scraperImage().height?"class=\"thumb\"":"class=\"thumbpt\"" $>
-        />
+        <div class="recording_item" onclick = "Toggle2(this, 'fldr_<$ idHash $>')">
+          <div class="recording_imgs">
+            <{ if(level > 0) { }><img src="img/transparent.png" width="<$ 16*level $>px" height="16px" /> <{ } }>
+            <img class="recording_expander" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>plus.png" /><img class="recording_folder" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png" />
+            <{ if (!recItem->scraperImage().path.empty() ) { }>
+              <div class="thumb">
+                <img data-src="/tvscraper/<$ recItem->scraperImage().path $>"
+                  class="<$ recItem->scraperImage().width > recItem->scraperImage().height?"thumb":"thumbpt" $>"
+                />
+              </div>
+            <{ } }>
+          </div>
+          <div class="recording_spec">
+            <div class="recording_folder_name<$ (newR ? "_new" : "") $>"><$ recItem->Name() $></div>
+          </div>
+          <div class="recording_actions">&nbsp;</div>
         </div>
-       <{ } }>
-      <div class="recording_spec">
-        <div class="recording_folder_name<$ (newR ? "_new" : "") $>"><$ recItem->Name() $></div>
-      </div>
-      <div class="recording_actions">&nbsp;</div>
-      </div>
-
-            <ul id="fldr_<$ idHash $>" class="recordingslist" style="display: none;">
-      <& recordings.recordings_item filter=(filter) counter=(counter) iRecItem=(iRecItem) parentIdHash=(idHash) &>
-                      </ul>
-              </li>
+        <ul id="fldr_<$ idHash $>" class="recordingslist" style="display: none;">
+          <& recordings.recordings_item iRecItem=(iRecItem) parentIdHash=(idHash) &>
+        </ul>
+      </li>
       <%cpp>
     } // end of loop over subdirs
-  // now the items
-    recItems.clear();
-    sorted = recItemThisDir->addRecordings(recItems);
+// now the items
+    recItemsC = recItemThisDir->getRecordings(sortOrder);
+    if (recItemThisDir->recEntriesSorted() ) reverse = false;
   } // end if (currentSort != "duplicates")
 } else {
 // here we prepare the items in case of a flat list, no folders
-  if (currentSort != "duplicates") recordingsTree->addAllRecordings(recItems);
-  else {
+  if (currentSort != "duplicates") { 
+    recItemsC = recordingsTree->allRecordings(sortOrder);
+  } else {
+    recItems.clear();
     addDuplicateRecordingsSd(recItems, recordingsTree);
     addDuplicateRecordingsLang(recItems, recordingsTree);
     addDuplicateRecordingsNoSd(recItems, recordingsTree);
+    recItemsC = &recItems;
   }
 }
-argList.clear();
-argList.append("&sort=");
-argList.append(currentSort);
-argList.append("&filter=");
-argList.append(currentFilter);
-argList.append("&flat=");
-argList.append(currentFlat);
 if (currentSort != "duplicates" || currentFlat == "true") {
-  if (!sorted && !recItems.empty() ) {
-    if (currentSort == "dateasc")
-            std::sort(recItems.begin(), recItems.end(), RecordingsItemPtrCompare::ByAscendingDate);
-    else if (currentSort == "datedesc")
-            std::sort(recItems.begin(), recItems.end(), RecordingsItemPtrCompare::ByDescendingDate);
-    else if (currentSort == "namedesc")
-            std::sort(recItems.begin(), recItems.end(), RecordingsItemPtrCompare::ByDescendingNameDescSort);
-    else if (currentSort == "nameasc")
-            std::sort(recItems.begin(), recItems.end(), RecordingsItemPtrCompare::ByAscendingNameDescSort);
-    else if (currentSort == "errorsasc" || currentSort == "errorsdesc") {
-/*
-            std::cout << "\n\n";
-	    for (auto r=recItems.begin(); r!=recItems.end(); r++) std::cout << (*r)->Name() << "::";
-            std::cout << "\n\n";
-*/
-            std::sort(recItems.begin(), recItems.end(), RecordingsItemPtrCompare::ByDescendingRecordingErrors);
-    }
-  }
-
-  bool first = true;
-  bool displayFolder = currentFlat == "true";
-  if (recItems.empty() ) { </%cpp>
+  if (recItemsC->empty() ) { </%cpp>
     <script>
       rec_ids["fldr_<$ parentIdHash $>"] = []
     </script>
-  <%cpp> } else { </%cpp>
-  <script>
-    rec_ids["fldr_<$ parentIdHash $>"] = [<$level$>, "<$argList$>", <$displayFolder?1:0$>, [
-    <%cpp>
+  <%cpp> } else {
+    bool first = true;
+    const char *displayFolder = currentFlat == "true"?"1":"0";
     recoring_item.clear();
-    RecordingsItemRec::AppendAsJSArray(recoring_item, recItems.begin(), recItems.end(), first, filter, displayFolder);
-    </%cpp>
-    <$$ recoring_item.c_str() $>
-  ]]
-  </script>
-  <%cpp> }
-if( level == 0 && !recItems.empty()) {
-</%cpp>
-<script>
-document.write(rec_string_d(rec_ids["fldr_<$ parentIdHash $>"]))
-</script>
-<%cpp>
-} } else {
+    RecordingsItemRec::AppendAsJSArray(recoring_item, recItemsC->begin(), recItemsC->end(), first, currentFilter, reverse);
+    if (level == 0) { </%cpp>
+      <script>
+        document.write(rec_string_d([<$level$>, <$displayFolder$>, [ <$$ recoring_item.c_str() $> ]]))
+      </script>
+    <%cpp> } else { </%cpp>
+      <script>
+        rec_ids["fldr_<$ parentIdHash $>"] = [<$level$>, <$displayFolder$>, [ <$$ recoring_item.c_str() $> ]]
+      </script>
+    <%cpp> }
+  }
+} else {
 // duplicates
   for (int i = 0; i < 3; i++) {
     recItems.clear();
@@ -528,33 +522,33 @@ document.write(rec_string_d(rec_ids["fldr_<$ parentIdHash $>"]))
     }
     std::string idHash(xxHash32(nodeName));
     if (!recItems.empty() ) {
-  </%cpp>
+      </%cpp>
       <li class="recording">
-      <div class="recording_item" onclick = "Toggle2(this, 'fldr_<$ idHash $>')">
-      <script>
-            rec_ids["fldr_<$ idHash $>"] = [1, "<$argList$>", 1, [
-            <%cpp>
-            recoring_item.clear();
-            RecordingsItemRec::AppendAsJSArray(recoring_item, recItems.begin(), recItems.end(), first, filter, true);
-            </%cpp>
-            <$$ recoring_item.c_str() $>
-          ]]
-      </script>
-      <div class="recording_imgs">
-      <img class="recording_expander" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>plus.png" /><img class="recording_folder" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png" /></div>
-      <div class="recording_spec">
-        <div class="recording_folder_name"><$ nodeName $></div>
-      </div>
-      <div class="recording_actions">&nbsp;</div>
-      </div>
-        <ul id="fldr_<$ idHash $>" class="recordingslist" style="display: none;">
-        </ul>
+        <div class="recording_item" onclick = "Toggle2(this, 'fldr_<$ idHash $>')">
+          <script>
+            rec_ids["fldr_<$ idHash $>"] = [1, 1, [
+              <%cpp>
+              recoring_item.clear();
+              RecordingsItemRec::AppendAsJSArray(recoring_item, recItems.begin(), recItems.end(), first, currentFilter, false);
+              </%cpp>
+              <$$ recoring_item.c_str() $>
+            ]]
+          </script>
+          <div class="recording_imgs">
+            <img class="recording_expander" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>plus.png" /><img class="recording_folder" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png" />
+          </div>
+          <div class="recording_spec">
+            <div class="recording_folder_name"><$ nodeName $></div>
+          </div>
+          <div class="recording_actions">&nbsp;</div>
+        </div>
+        <ul id="fldr_<$ idHash $>" class="recordingslist" style="display: none;"> </ul>
       </li>
       <%cpp>
     }
   }
 }
-  </%cpp>
+</%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>

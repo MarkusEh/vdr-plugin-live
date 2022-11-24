@@ -736,6 +736,29 @@ std::string intToTimeString(int tm) {
 		return true;
 	}
 
+  const char *intToChar(char *buffer, char *buffer_end, int i) {
+// buffer_end = buffer + sizeof(buffer)
+// [buffer, buffer_end) is available
+// buffer length is note checked :( . Just use long enough buffer, like 20
+// I wrote this, because the standard tools make 1000 -> 1.000 :( :( :(
+    buffer_end--;
+    *buffer_end = 0;
+    if (i < 0) {
+      buffer_end--;
+      *buffer_end = '-';
+      i *= -1;
+    }
+    if (i < 10) {
+      buffer_end--;
+      *buffer_end = i + '0';
+      return buffer_end;
+    }
+    for (; i > 0; i = i/10) {
+      buffer_end--;
+      *buffer_end = (i%10) + '0';
+    }
+    return buffer_end;  
+  }
   std::string ScraperImagePath2Live(const std::string &path){
     int tvscraperImageDirLength = LiveSetup().GetTvscraperImageDir().length();
     if (tvscraperImageDirLength == 0) return "";

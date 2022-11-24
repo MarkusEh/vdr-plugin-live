@@ -117,6 +117,7 @@ template<class T>
 	std::string FileSystemExchangeChars(std::string const & s, bool ToFileSystem);
 
 	bool MoveDirectory(std::string const & sourceDir, std::string const & targetDir, bool copy = false);
+        const char *intToChar(char *buffer, char *buffer_end, int i);
 
 	struct bad_lexical_cast: std::runtime_error
 	{

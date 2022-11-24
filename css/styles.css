@@ -1382,7 +1382,7 @@ div.thumb {
   margin-bottom: 5px;
   text-align: center;
   overflow: hidden;
-  float: left;
+  float: right;
 }
 a.thumb {
   float: left;
