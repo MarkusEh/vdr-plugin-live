@@ -11,44 +11,41 @@
 using namespace vdrlive;
 
 bool searchNameDesc(RecordingsItemPtr &RecItem, const std::vector<RecordingsItemPtr> *RecItems, const std::string &Name, const std::string &ShortText, const std::string &Description, long Duration, cGetScraperOverview *scraperOverview) {
-  if(RecItems->begin() == RecItems->end() ) return false;  // there are no recordings
+  if(RecItems->empty() ) return false;  // there are no recordings
 
 // find all recordings with equal name
   RecordingsItemPtr dummy (new RecordingsItemDummy(Name, ShortText, Description, Duration, scraperOverview));
-  std::vector<RecordingsItemPtr>::const_iterator recIterLowName = std::lower_bound (RecItems->begin(), RecItems->end(), dummy, RecordingsItemPtrCompare::ByDuplicatesName);
-  std::vector<RecordingsItemPtr>::const_iterator recIterUpName  = std::upper_bound (recIterLowName  , RecItems->end(), dummy, RecordingsItemPtrCompare::ByDuplicatesName);
-  if ( recIterLowName == recIterUpName ) return false; // there is no recording with this name
-
+  const auto equalName = std::equal_range(RecItems->begin(), RecItems->end(), dummy, RecordingsItemPtrCompare::ByDuplicatesName);
+  if ( equalName.first == equalName.second ) return false; // there is no recording with this name
 
 // find all recordings with matching short text / description
-  std::vector<RecordingsItemPtr>::const_iterator recIterLow = std::lower_bound (recIterLowName, recIterUpName, dummy, RecordingsItemPtrCompare::ByDuplicates);
-  std::vector<RecordingsItemPtr>::const_iterator recIterUp = std::upper_bound (recIterLow, recIterUpName, dummy, RecordingsItemPtrCompare::ByDuplicates);
+  auto equalDuplicates = std::equal_range(equalName.first, equalName.second, dummy, RecordingsItemPtrCompare::ByDuplicates);
 
-  if(recIterLow != recIterUp) {   // exact match found
-    if (RecordingsItemPtrCompare::FindBestMatch(RecItem, recIterLow, recIterUp, dummy) > 0) return true;
-    RecItem = *recIterLow;
+  if(equalDuplicates.first != equalDuplicates.second) {   // exact match found
+    if (RecordingsItemPtrCompare::FindBestMatch(RecItem, equalDuplicates.first, equalDuplicates.second, dummy) > 0) return true;
+    RecItem = *equalDuplicates.first;
     return true;
   }
-// no exact match found, get recording with most matching characters
+// no exact match found, get recording with most matching characters in short text / description
   int numEqualCharsLow = 0;
   int numEqualCharsUp  = 0;
 
-  if(recIterLow != recIterLowName) { 
-    --recIterLow;
-    (*recIterLow)->CompareStD(dummy, &numEqualCharsLow);
+  if(equalDuplicates.first != equalName.first) { 
+    --equalDuplicates.first;
+    (*equalDuplicates.first)->CompareStD(dummy, &numEqualCharsLow);
   }
-  if(recIterUp != recIterUpName)
-    (*recIterUp)->CompareStD(dummy, &numEqualCharsUp);
+  if(equalDuplicates.second != equalName.second)
+    (*equalDuplicates.second)->CompareStD(dummy, &numEqualCharsUp);
 
   if ( numEqualCharsLow > numEqualCharsUp ) {
-    if( numEqualCharsLow > 5 ) { RecItem = *recIterLow; return true; }
+    if( numEqualCharsLow > 5 ) { RecItem = *equalDuplicates.first; return true; }
   } else {
-    if( numEqualCharsUp  > 5 ) { RecItem = *recIterUp;  return true; }
+    if( numEqualCharsUp  > 5 ) { RecItem = *equalDuplicates.second;  return true; }
   }
 
-
-// no exact match found, get best match
-  int num_match_rec = RecordingsItemPtrCompare::FindBestMatch(RecItem, recIterLowName, recIterUpName, dummy);
+// no sufficient match in short text / description
+// get best match from length of event match
+  int num_match_rec = RecordingsItemPtrCompare::FindBestMatch(RecItem, equalName.first, equalName.second, dummy);
   if(num_match_rec == 0 || num_match_rec > 5) return false; // no matching lenght or series (too many matching length)
   return true;
 }
@@ -75,7 +72,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
 RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
-const std::vector<RecordingsItemPtr> *recItems = recordingsTree->allRecordings(eSortOrder::duplicates);
+const std::vector<RecordingsItemPtr> *recItems = recordingsTree->allRecordings(eSortOrder::duplicatesLanguage);
 
 #if VDRVERSNUM < 20301
 	cSchedulesLock schedulesLock;

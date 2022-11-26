@@ -397,7 +397,7 @@ bool reverse = false;
 eSortOrder sortOrder = eSortOrder::name; // default
 if (currentSort.compare(0, 4,  "date"  , 4) == 0) sortOrder = eSortOrder::date;
 if (currentSort.compare(0, 6,  "errors", 6) == 0) sortOrder = eSortOrder::errors;
-if (currentSort.compare(0, 10, "duplicates", 10) == 0) sortOrder = eSortOrder::duplicates;
+if (currentSort.compare(0, 10, "duplicates", 10) == 0) sortOrder = eSortOrder::duplicatesLanguage;
 if (currentSort == "datedesc" || currentSort == "namedesc") reverse = true;
 // get rec item of this (current) dir
 RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());

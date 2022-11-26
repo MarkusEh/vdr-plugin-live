@@ -146,7 +146,7 @@ namespace vdrlive {
   /**
    * Class containing possible recordings compare functions
    */
-  enum class eSortOrder { name, date, errors, duplicates, duplicatesLanguage };
+  enum class eSortOrder { name, date, errors, duplicatesLanguage };
   typedef bool (*tCompRec)(const RecordingsItemPtr &a, const RecordingsItemPtr &b);
   class RecordingsItemPtrCompare
   {
@@ -160,7 +160,6 @@ namespace vdrlive {
       static bool ByEpisode(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
       static bool BySeason(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
       static bool ByReleaseDate(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
-      static std::string getNameForSort(const std::string &Name);
       static int compareLC(const char *first, const char *second, int *numEqualChars = NULL); // as std::compare, but compare lower case
       static int FindBestMatch(RecordingsItemPtr &BestMatch, const std::vector<RecordingsItemPtr>::const_iterator & First, const std::vector<RecordingsItemPtr>::const_iterator & Last, const RecordingsItemPtr & EPG_Entry);
 
@@ -187,7 +186,6 @@ namespace vdrlive {
                   virtual bool IsDir() const = 0;
                   virtual int Duration() const = 0;
                   virtual const std::string& Name() const { return m_name; }
-                  virtual const std::string& NameForSort() const { return m_name_for_sort; }
                   virtual const std::string& NameForSearch() const { return m_name_for_search; }
                   virtual const char * ShortText() const { return RecInfo()? RecInfo()->ShortText():0; }
                   virtual const char * Description() const { return RecInfo()? RecInfo()->Description():0; }
@@ -247,10 +245,11 @@ template<class T>
           protected:
 		  int m_idI = -1;
                   std::string m_name;
-                  std::string m_name_for_sort;
                   const std::string m_name_for_search;
                   std::vector<RecordingsItemPtr> m_subdirs;
                   std::vector<RecordingsItemPtr> m_entries;
+		  bool m_entriesSorted = false;
+                  std::vector<RecordingsItemPtr> m_entries_other_sort;
 		  eSortOrder m_sortOrder = (eSortOrder)-1;
 		  bool (*m_cmp_dir)(const RecordingsItemPtr &itemPtr1, const RecordingsItemPtr &itemPtr2) = NULL;
 		  bool (*m_cmp_rec)(const RecordingsItemPtr &itemPtr1, const RecordingsItemPtr &itemPtr2) = NULL;
@@ -414,6 +413,8 @@ template<class T>
                   RecordingsItemPtr m_root;
                   RecordingsItemPtr m_rootFileSystem;
 		  std::vector<RecordingsItemPtr> m_allRecordings;
+		  bool m_allRecordingsSorted = false;
+		  std::vector<RecordingsItemPtr> m_allRecordings_other_sort;
 		  eSortOrder m_sortOrder = (eSortOrder)-1;
   };
 

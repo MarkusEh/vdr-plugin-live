@@ -361,10 +361,20 @@ namespace vdrlive {
           return first->orderDuplicates(second, true, true);
 	}
 
+int firstNonPunct(const std::string &s) {
+// returns first non-punct char in s
+  unsigned int ret;
+  for (ret = 0; ret < s.length() && ispunct(s[ret]); ret++ );
+  return ret;
+}
 	bool RecordingsItemPtrCompare::ByAscendingNameDescSort(const RecordingsItemPtr & first, const RecordingsItemPtr & second)  // return first < second
 // used for sort
 	{
-           int i = first->NameForSort().compare(second->NameForSort() );
+           int start_f = firstNonPunct(first->Name() );
+           int start_s = firstNonPunct(second->Name() );
+           int i = g_collate_char.compare(&first->Name()[start_f], &first->Name()[0] + first->Name().size(),
+                                         &second->Name()[start_s], &second->Name()[0] + second->Name().size() );
+//           int i = first->NameForSort().compare(second->NameForSort() );
            if(i != 0) return i < 0;
            return first->CompareStD(second) < 0;
 	}
@@ -390,13 +400,6 @@ namespace vdrlive {
 	  return first->scraperReleaseDate() < second->scraperReleaseDate();
 	}
 
-        std::string RecordingsItemPtrCompare::getNameForSort(const std::string &Name){
-// remove punctuation characters at the beginning of the string
-            unsigned int start;
-            for(start = 0; start < Name.length() && ispunct( Name[ start ] ); start++ );
-            return g_collate_char.transform(Name.data()+start, Name.data()+Name.length());
-        }
-
         int RecordingsItemPtrCompare::compareLC(const char *first, const char *second, int *numEqualChars) {
 // if numEqualChars != NULL: Add the number of equal characters to *numEqualChars
           bool fe = !first  || !first[0];    // is first  string empty string?
@@ -421,7 +424,6 @@ namespace vdrlive {
 	    case eSortOrder::name: return &RecordingsItemPtrCompare::ByAscendingNameDescSort;
 	    case eSortOrder::date: return &RecordingsItemPtrCompare::ByAscendingDate;
 	    case eSortOrder::errors: return &RecordingsItemPtrCompare::ByDescendingRecordingErrors;
-	    case eSortOrder::duplicates: return &RecordingsItemPtrCompare::ByDuplicates;
 	    case eSortOrder::duplicatesLanguage: return &RecordingsItemPtrCompare::ByDuplicatesLanguage;
 	  }
 	  esyslog("live: ERROR, RecordingsItemPtrCompare::getComp, sortOrder %d unknown", (int)sortOrder);
@@ -434,7 +436,6 @@ namespace vdrlive {
 	 */
 	RecordingsItem::RecordingsItem(std::string const & name) :
 		m_name(name),
-                m_name_for_sort(RecordingsItemPtrCompare::getNameForSort(name)),
 		m_name_for_search(RecordingsItem::GetNameForSearch(name))
 	{
 	}
@@ -497,10 +498,19 @@ namespace vdrlive {
 
 	const std::vector<RecordingsItemPtr> *RecordingsItem::getRecordings(eSortOrder sortOrder)
 	{
-	  if (m_cmp_rec || m_sortOrder == sortOrder) return &m_entries;
-	  std::sort(m_entries.begin(), m_entries.end(), RecordingsItemPtrCompare::getComp(sortOrder));
+	  if (m_cmp_rec) return &m_entries;
+	  if (sortOrder == eSortOrder::name) {
+            if (!m_entriesSorted) {
+	      std::sort(m_entries.begin(), m_entries.end(), RecordingsItemPtrCompare::getComp(eSortOrder::name));
+              m_entriesSorted = true;
+	    }
+     	    return &m_entries;
+	  }
+	  if (m_sortOrder == sortOrder) return &m_entries_other_sort;
+          if (m_entries_other_sort.empty() ) m_entries_other_sort = m_entries;
+	  std::sort(m_entries_other_sort.begin(), m_entries_other_sort.end(), RecordingsItemPtrCompare::getComp(sortOrder));
 	  m_sortOrder = sortOrder;
-	  return &m_entries;
+	  return &m_entries_other_sort;
 	}
 
         bool RecordingsItem::matchesFilter(const std::string &filter) {
@@ -594,6 +604,7 @@ namespace vdrlive {
 
         bool RecordingsItem::orderDuplicates(const RecordingsItemPtr &second, bool alwaysShortText, bool lang) const {
 // this is a < operation. Return false in case of ==   !!!!!
+// lang is the last criterium. For sorting, you can always set lang == true
           if (m_s_videoType != second->m_s_videoType) return (int)m_s_videoType > (int)second->m_s_videoType; // 0 if no scraper data. Move these to the end, by using >
           switch (m_s_videoType) {
             case eVideoType::movie:
@@ -644,7 +655,6 @@ namespace vdrlive {
 	{
           m_cmp_rec = RecordingsItemPtrCompare::ByReleaseDate;
           getScraperData(recording, cImageLevels(eImageLevel::tvShowCollection, eImageLevel::seasonMovie), &m_name);
-          m_name_for_sort = RecordingsItemPtrCompare::getNameForSort(m_name);
 	}
 
 	RecordingsItemDirCollection::~RecordingsItemDirCollection() { }
@@ -658,7 +668,6 @@ namespace vdrlive {
           m_cmp_rec = RecordingsItemPtrCompare::ByEpisode;
           getScraperData(recording, cImageLevels(eImageLevel::seasonMovie, eImageLevel::tvShowCollection, eImageLevel::anySeasonCollection) );
 	  m_name = std::to_string(m_s_season_number);
-          m_name_for_sort = RecordingsItemPtrCompare::getNameForSort(m_name);
 	}
 	RecordingsItemDirSeason::~RecordingsItemDirSeason() { }
 
@@ -988,10 +997,18 @@ void RecordingsItemRec::AppendAsJSArray(cLargeString &target, std::vector<Record
 		// esyslog("live: DH: ****** RecordingsTree::~RecordingsTree() ********");
 	}
 	const std::vector<RecordingsItemPtr> *RecordingsTree::allRecordings(eSortOrder sortOrder) {
-	  if (sortOrder == m_sortOrder) return &m_allRecordings;
-	  std::sort(m_allRecordings.begin(), m_allRecordings.end(), RecordingsItemPtrCompare::getComp(sortOrder));
+	  if (sortOrder == m_sortOrder) return &m_allRecordings_other_sort;
+	  if (sortOrder == eSortOrder::name) {
+	    if (!m_allRecordingsSorted) {
+	      std::sort(m_allRecordings.begin(), m_allRecordings.end(), RecordingsItemPtrCompare::getComp(eSortOrder::name));
+	      m_allRecordingsSorted = true;
+	    }
+	    return &m_allRecordings;
+          }
+          if (m_allRecordings_other_sort.empty() ) m_allRecordings_other_sort = m_allRecordings;
+	  std::sort(m_allRecordings_other_sort.begin(), m_allRecordings_other_sort.end(), RecordingsItemPtrCompare::getComp(sortOrder));
           m_sortOrder = sortOrder;
-	  return &m_allRecordings;
+	  return &m_allRecordings_other_sort;
 	}
 
 	/**
@@ -1029,29 +1046,33 @@ void RecordingsItemRec::AppendAsJSArray(cLargeString &target, std::vector<Record
 		}
 	}
 
+// find duplicates
+bool ByScraperDataAvailable(const RecordingsItemPtr &first, int videoType) {
+  return (int)first->scraperVideoType() > videoType; // 0 if no scraper data. Move these to the end, by using >
+}
+
 void addDuplicateRecordingsNoSd(std::vector<RecordingsItemPtr> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree){
 // add duplicate recordings where NO scraper data are available.
-  const std::vector<RecordingsItemPtr> *recItems = RecordingsTree->allRecordings(eSortOrder::duplicates);
-  std::vector<RecordingsItemPtr>::const_iterator currentRecItem, recIterUpName, recIterLowName, recIterUpShortText, recIterLowShortText;
+  const std::vector<RecordingsItemPtr> *recItems = RecordingsTree->allRecordings(eSortOrder::duplicatesLanguage);
+// sorting for duplicatesLanguage is OK, even if language is not required here (language is ignored later)
+  std::vector<RecordingsItemPtr>::const_iterator currentRecItem, recIterUpName, recIterUpShortText, recIterLowShortText;
   bool isSeries;
 
-  for (currentRecItem = recItems->begin(); currentRecItem != recItems->end(); ) {
-    if ( (*currentRecItem)->scraperDataAvailable() ) { currentRecItem++; continue;}
-    recIterLowName = currentRecItem;
+// see https://www.fluentcpp.com/2017/08/01/overloaded-functions-stl/ 
+// static_cast<bool(*)(const RecordingsItemPtr &first, int videoType)>(f));
+// #define RETURNS(...) noexcept(noexcept(__VA_ARGS__)) -> decltype(__VA_ARGS__){ return __VA_ARGS__; }
+// #define LIFT(f) [](auto&&... xs) RETURNS(f(::std::forward<decltype(xs)>(xs)...))
+// std::for_each(begin(numbers), end(numbers), LIFT(f));
+  for (currentRecItem = std::lower_bound(recItems->begin(), recItems->end(), 0, ByScraperDataAvailable);
+        currentRecItem != recItems->end(); ) {
+//    if ( (*currentRecItem)->scraperDataAvailable() ) { currentRecItem++; continue;}
     recIterUpName  = std::upper_bound (currentRecItem , recItems->end(), *currentRecItem, RecordingsItemPtrCompare::ByDuplicatesName);
+    int numberOfRecordingsWithThisName = std::distance(currentRecItem, recIterUpName);
 
-    currentRecItem++;
-    if (recIterLowName == recIterUpName ) continue; // there is no recording with this name (internal error)
-    if (currentRecItem == recIterUpName ) continue; // there is only one recording with this name
-    if ( (*recIterLowName)->scraperDataAvailable() ) {
-      isSeries = false;  // no special for series required
-    } else {
-      int numberOfRecordingsWithThisName;
-      for( numberOfRecordingsWithThisName = 1; currentRecItem != recIterUpName; currentRecItem++, numberOfRecordingsWithThisName++);
-      if (numberOfRecordingsWithThisName > 5) isSeries = true; else isSeries = false;
-    }
+    if (numberOfRecordingsWithThisName < 2) { currentRecItem++; continue; } // there is only one recording with this name
+    if (numberOfRecordingsWithThisName > 5) isSeries = true; else isSeries = false;
     if (isSeries) {
-      for (currentRecItem = recIterLowName; currentRecItem != recIterUpName;){
+      for (; currentRecItem != recIterUpName;){
         recIterLowShortText = currentRecItem;
         recIterUpShortText  = std::upper_bound (currentRecItem , recIterUpName, *currentRecItem, RecordingsItemPtrCompare::ByDuplicates);
         currentRecItem++;
@@ -1060,7 +1081,7 @@ void addDuplicateRecordingsNoSd(std::vector<RecordingsItemPtr> &DuplicateRecItem
           DuplicateRecItems.push_back(*currentRecItem);
       }
     } else { // not a series
-      for(currentRecItem = recIterLowName; currentRecItem != recIterUpName; currentRecItem++)
+      for(; currentRecItem != recIterUpName; currentRecItem++)
         DuplicateRecItems.push_back(*currentRecItem);
     }
   }
