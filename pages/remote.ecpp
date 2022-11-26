@@ -104,7 +104,9 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 								if ( osdAjax.lastUpd != upd ){
 									$('osd').empty().setHTML(text);
 									osdAjax.lastUpd = upd;
-									$$('#screenshot .osdItems')[0].scrollTop= $$('#screenshot .selected')[0].offsetTop - 40;
+									var sOsdItems= $$('#screenshot .osdItems');
+									var sSelected= $$('#screenshot .selected');
+									if (sOsdItems.length > 0 && sSelected.length > 0) sOsdItems[0].scrollTop= sSelected[0].offsetTop - 40;
 								}
 							} catch (e) {}
 							window.clearInterval(osdTimeout);
@@ -117,7 +119,17 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 						document.getElementById('osd').style.display= 'none';
 						osdAjax= null;
 					}
-				}
+				} else if (screenCon[i].id == 'screenCon_none'){
+					if (screenCon[i].checked) {
+						document.getElementById('screenshot').style.display= 'none';
+						document.getElementById('remoteDiv').style.transform= 'scale(1.4)';
+						document.getElementById('remoteDiv').style.transformOrigin= 'left top';
+					} else {
+						document.getElementById('screenshot').style.display= '';
+						document.getElementById('remoteDiv').style.transform= '';
+						document.getElementById('remoteDiv').style.transformOrigin= '';
+					}
+                                }
 			}
 
 		}
@@ -249,7 +261,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	<body onload="StreamInit(); FillIntervals(); adjustHeader()" onresize="adjustHeader()" onunload="StreamEnd()">
 		<& pageelems.logo &>
 		<& menu active="remote" component=("remote.remote_actions")>
-		<div class="inhalt">
+		<div class="inhalt" id="remoteDiv">
 			<div class="screenshot" id="screenshot">
 <{				if (LiveGrabImageManager().CanGrab()) {	}>
 					<img src="screenshot.jpg" name="vdrlive" />

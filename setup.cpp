@@ -54,6 +54,7 @@ Setup::Setup():
 		m_streamVopt3("ffmpeg -loglevel warning -f mpegts -analyzeduration 1.2M -probesize 5M -i <input> -map 0:v -map 0:a:0 "
 				"-c:v libx264 -preset ultrafast -crf 23 -tune zerolatency -g 25 -r 25 -c:a aac -ac 2"),
 		m_showIMDb(1),
+		m_showPlayMediaplayer(1),
 		m_showChannelsWithoutEPG(0)
 {
 	m_adminPasswordMD5 = "4:" + MD5Hash("live");
@@ -155,6 +156,7 @@ bool Setup::ParseSetupEntry( char const* name, char const* value )
 	else if ( strcmp( name, "ScreenShotInterval" ) == 0 ) { m_screenshotInterval = atoi(value); }
 	else if ( strcmp( name, "MarkNewRec" ) == 0 ) { m_markNewRec = atoi(value); }
 	else if ( strcmp( name, "ShowIMDb" ) == 0 ) { m_showIMDb = atoi(value); }
+	else if ( strcmp( name, "ShowPlayMediaplayer" ) == 0 ) { m_showPlayMediaplayer = atoi(value); }
 	else if ( strcmp( name, "ShowChannelsWithoutEPG" ) == 0 ) { m_showChannelsWithoutEPG = atoi(value); }
 	else return false;
 	return true;
@@ -356,6 +358,7 @@ bool Setup::SaveSetup()
 	liveplugin->SetupStore("ScreenShotInterval", m_screenshotInterval);
 	liveplugin->SetupStore("MarkNewRec", m_markNewRec);
 	liveplugin->SetupStore("ShowIMDb", m_showIMDb);
+	liveplugin->SetupStore("ShowPlayMediaplayer", m_showPlayMediaplayer);
 	liveplugin->SetupStore("ShowChannelsWithoutEPG", m_showChannelsWithoutEPG);
 
 	return true;

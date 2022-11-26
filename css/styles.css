@@ -1399,6 +1399,7 @@ img.thumb {
 }
 
 @media (max-width: 600px) {
+/* very small display */
   .hidden-xs { display: none; }
 div.info-win {
 	width: 410px;
@@ -1416,4 +1417,8 @@ div.info-win img.actor {
  	max-width: 200px; /* depends on the tip backround image width */
 }
 
+}
+@media (hover: none) {
+/* touch screen display */
+  .hidden-ts { display: none; }
 }

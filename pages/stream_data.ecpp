@@ -89,7 +89,7 @@ if (!range.empty()) {
 	std::stringstream ss(range);
 	char tmp;
 	ss >> offset >> tmp >> stop;
-	dsyslog("vdrlive::stream_data::range(%ld to %ld)", offset, stop);
+	dsyslog("vdrlive::stream_data::range(%jd to %jd)", (intmax_t)offset, (intmax_t)stop);
 	if (offset > size) return HTTP_RANGE_NOT_SATISFIABLE;
 	if ((stop+1) > size) stop = size - 1;
 	httpReturn = HTTP_PARTIAL_CONTENT;

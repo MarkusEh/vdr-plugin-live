@@ -224,8 +224,10 @@ if (display_pictures) col_span = 6;
 				<tr>
 					<td class="action leftcol <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><& pageelems.event_timer epgid=(epgid) &></td>
 					<td class="action <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><%cpp>if (LiveFeatures<features::epgsearch>().Recent() ) { </%cpp><a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a><%cpp> } else { </%cpp><img src="img/transparent.png" width="16" height="16"><%cpp> } </%cpp></td>
+<%cpp> if (LiveSetup().GetShowIMDb() ) { </%cpp>
 					<td class="action <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID) &></td>
 <%cpp>
+ } // end if GetShowIMDb()
 if (display_pictures) {
   bool episodeFound = scraperOverview.m_videoType == eVideoType::tvShow && (scraperOverview.m_episodeNumber != 0 || scraperOverview.m_seasonNumber != 0);
   std::string episode_info;
@@ -348,9 +350,10 @@ if(recItemFound) {
         bool lastEventCurrentDay;
 </%args>
 <%cpp>
-int col_span1 = 3;
+int col_span1 = 2;
 bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
 if (display_pictures) col_span1++;
+if (LiveSetup().GetShowIMDb()) col_span1++;
  if (!archived.empty()) { col_span1 --; </%cpp>
 <td colspan=<$col_span1$> style="word-wrap: normal;min-width: 10px;max-width: 70px;" class="leftcol <? lastEventCurrentDay ? "bottomrow" ?>"> <$ tr("Existing Recording:") $>
 

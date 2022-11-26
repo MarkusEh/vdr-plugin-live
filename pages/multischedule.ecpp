@@ -516,8 +516,9 @@ std::vector<time_t>			times_start;
                            } else {
                              </%cpp><img src="img/transparent.png" width="16" height="16"><%cpp>
                            }
-</%cpp>
+			if (LiveSetup().GetShowIMDb() ) { </%cpp>
                           <& pageelems.imdb_info_href title=(en.title) &>
+			<%cpp> } </%cpp> 
                          </div><div class= "start withmargin"><$ en.start $></div>
 			  <div class="title withmargin"><a <& tooltip.hint text=(StringEscapeAndBreak(tr("Click to view details."))) &><& tooltip.display domId=en.epgid &>><$ en.title $></a></div>
 <%cpp>

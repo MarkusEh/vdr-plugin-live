@@ -69,6 +69,7 @@ class Setup
 		std::string const GetStreamVideoOpt2() const { return m_streamVopt2; }
 		std::string const GetStreamVideoOpt3() const { return m_streamVopt3; }
 		bool GetShowIMDb() const { return m_showIMDb != 0; }
+		bool GetShowPlayMediaplayer() const { return m_showPlayMediaplayer != 0; }
 		std::string const GetEpgImageDir() { return m_epgimagedir; }
 		std::string const GetTvscraperImageDir() { return m_tvscraperimagedir; }
                 cPlugin *GetPluginTvscraper() { return m_p_tvscraper; } // tvscraper
@@ -102,6 +103,7 @@ class Setup
 		void SetStreamVideoOpt2(std::string const & opt) { m_streamVopt2 = opt; }
 		void SetStreamVideoOpt3(std::string const & opt) { m_streamVopt3 = opt; }
 		void SetShowIMDb(bool show) { m_showIMDb = show ? 1 : 0; }
+		void SetShowPlayMediaplayer(bool show) { m_showPlayMediaplayer = show ? 1 : 0; }
 		void SetShowChannelsWithoutEPG(bool show) { m_showChannelsWithoutEPG = show ? 1 : 0; }
 
 		bool SaveSetup();
@@ -166,6 +168,7 @@ class Setup
 		std::string m_streamVopt2;
 		std::string m_streamVopt3;
 		int m_showIMDb;
+		int m_showPlayMediaplayer;
 		int m_showChannelsWithoutEPG;
 
 		bool CheckServerPort();
