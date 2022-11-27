@@ -109,6 +109,7 @@ cUser* editUser;
 <& pageelems.doc_type &>
 <html>
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>VDR Live - <$ pageTitle $></title>
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
@@ -126,11 +127,11 @@ cUser* editUser;
 
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Name" ) $>:</div></td>
-						<td class="rightcol"><input type="text" name="username" value="<$ username $>" size="80" /></td>
+						<td class="rightcol"><input type="text" name="username" value="<$ username $>" class="width99" size="55"/></td>
 					</tr>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Password" ) $>:</div></td>
-						<td class="rightcol"><input type="password" name="password" value="<$ password $>" size="80" /></td>
+						<td class="rightcol"><input type="password" name="password" value="<$ password $>" class="width99" size="55"/></td>
 					</tr>
 					<!-- user rights -->
 					<tr>

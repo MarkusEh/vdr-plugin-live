@@ -38,6 +38,7 @@ if (logged_in || !LiveSetup().UseAuth()) return reply.redirect(LiveSetup().GetSt
 <& pageelems.doc_type &>
 <html>
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>VDR-Live - <$ tr("Login") $></title>
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
