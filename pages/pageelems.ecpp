@@ -423,20 +423,24 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 </%cpp>
 		<td class="action leftcol <? lastCurrentChanel ? "bottomrow"?>"><& pageelems.event_timer epgid=(epgid) &></td>
 		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channelId) image="zap.png" alt="" &></td>
-		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><%cpp>if (LiveFeatures<features::epgsearch>().Recent() && eventId != 0) { </%cpp><a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a><%cpp> } else { </%cpp><img src="img/transparent.png" width="16" height="16"><%cpp> } </%cpp></td>
+                <%cpp>if (LiveFeatures<features::epgsearch>().Recent() && eventId != 0) { </%cpp>
+		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a></td>
+                <%cpp> } </%cpp>
 		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><%cpp>if ((duration == 0) || (elapsed > 0)) { </%cpp><& pageelems.hls_channel channelId=(channelId) &><%cpp> } </%cpp></td>
+		<%cpp> if (LiveSetup().GetShowPlayMediaplayer() ) { </%cpp>
 		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><%cpp>if ((duration == 0) || (elapsed > 0)) { </%cpp><& pageelems.m3u_playlist_channel channelId=(channelId) &><%cpp> } </%cpp></td>
+		<%cpp> } if (LiveSetup().GetShowIMDb() ) { </%cpp>
 		<td class="action <? lastCurrentChanel ? "bottomrow"?>">
 <%cpp>
 			if (eventId != 0) {
 </%cpp>
-			<& pageelems.imdb_info_href title=(title) &>
+			<& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID) &>
 <%cpp>
 			}
 </%cpp>
 		</td>
 <%cpp>
-	}
+	} }
 </%cpp>
 </%def>
 

@@ -507,7 +507,6 @@ if (currentSort != "duplicates" || currentFlat == "true") {
 // duplicates
   for (int i = 0; i < 3; i++) {
     recItems.clear();
-    bool first = true;
     std::string nodeName;
     if (i == 0) {
       addDuplicateRecordingsSd(recItems, recordingsTree);
@@ -519,20 +518,14 @@ if (currentSort != "duplicates" || currentFlat == "true") {
       addDuplicateRecordingsNoSd(recItems, recordingsTree);
       nodeName = tr("Duplicates not identified by tvscraper");
     }
-    std::string idHash(xxHash32(nodeName));
     if (!recItems.empty() ) {
+      std::string idHash(xxHash32(nodeName));
+      bool first = true;
+      recoring_item.clear();
+      RecordingsItemRec::AppendAsJSArray(recoring_item, recItems.begin(), recItems.end(), first, currentFilter, false);
       </%cpp>
       <li class="recording">
         <div class="recording_item" onclick = "Toggle2(this, 'fldr_<$ idHash $>')">
-          <script>
-            rec_ids["fldr_<$ idHash $>"] = [1, 1, [
-              <%cpp>
-              recoring_item.clear();
-              RecordingsItemRec::AppendAsJSArray(recoring_item, recItems.begin(), recItems.end(), first, currentFilter, false);
-              </%cpp>
-              <$$ recoring_item.c_str() $>
-            ]]
-          </script>
           <div class="recording_imgs">
             <img class="recording_expander" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>plus.png" /><img class="recording_folder" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png" />
           </div>
@@ -541,7 +534,11 @@ if (currentSort != "duplicates" || currentFlat == "true") {
           </div>
           <div class="recording_actions">&nbsp;</div>
         </div>
-        <ul id="fldr_<$ idHash $>" class="recordingslist" style="display: none;"> </ul>
+        <ul id="fldr_<$ idHash $>" class="recordingslist" style="display: none;">
+          <script>
+            rec_ids["fldr_<$ idHash $>"] = [1, 1, [ <$$ recoring_item.c_str() $> ]]
+          </script>
+        </ul>
       </li>
       <%cpp>
     }

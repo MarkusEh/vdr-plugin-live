@@ -165,8 +165,6 @@ function openNodesOnPageLoad()
 			ul.style.display = 'block';
                   	if (rec_ids[openNodes[z]] != null && rec_ids[openNodes[z]].length > 0) {
                           ul.insertAdjacentHTML("beforeend", rec_string_d(rec_ids[openNodes[z]]));
-//                          ul.innerHTML += rec_string(rec_ids[openNodes[z]]);
-//                          ul.set('html', ul.innerHTML + rec_string(rec_ids[openNodes[z]]))  // does not work with mootools 1.11
 	                  rec_ids[openNodes[z]] = [];
 			  domChanges = 1;
 		  	}
