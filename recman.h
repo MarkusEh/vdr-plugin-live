@@ -165,6 +165,8 @@ namespace vdrlive {
 
       static tCompRec getComp(eSortOrder sortOrder);
   };
+// search a recording matching an EPG entry. The EPG entry is given with Name, ShortText, Description, Duration, scraperOverview
+  bool searchNameDesc(RecordingsItemPtr &RecItem, const std::vector<RecordingsItemPtr> *RecItems, const cEvent *event, cGetScraperOverview *scraperOverview);
 
   /**
    *  Base class for entries in recordings tree and recordings list.
@@ -369,22 +371,17 @@ template<class T>
   class RecordingsItemDummy: public RecordingsItem
   {
           public:
-                  RecordingsItemDummy(const std::string &Name, const std::string &ShortText, const std::string &Description, long Duration, cGetScraperOverview *scraperOverview = NULL);
-
+                  RecordingsItemDummy(const cEvent *event, cGetScraperOverview *scraperOverview = NULL);
                   ~RecordingsItemDummy() { };
 
-                  const char * ShortText() const { return m_short_text; }
-                  const char * Description() const { return m_description; }
-                  virtual time_t StartTime() const { return 0; }
-                  virtual int Duration() const { return m_duration; } // duration in minutes
+                  virtual const char * ShortText() const { return m_event->ShortText(); }
+                  virtual const char * Description() const { return m_event->Description(); }
+                  virtual time_t StartTime() const { return m_event->StartTime(); }
+                  virtual int Duration() const { return m_event->Duration() / 60; } // duration in minutes
                   virtual bool IsDir() const { return false; }
                   virtual std::string const Id() const { return ""; }
-
-
           private:
-                  const char * m_short_text;
-                  const char * m_description;
-                  const long m_duration;
+		const cEvent *m_event;
   };
 
   /**
@@ -458,6 +455,11 @@ template<class T>
 //    print(" sec: ", b);
 //    std::cout << "\n";
   }
+
+void AppendScraperData(cLargeString &target, const cTvMedia &s_image, eVideoType s_videoType, const std::string &s_title, int s_season_number, int s_episode_number, const std::string &s_episode_name, int s_runtime, const std::string &s_release_date);
+
+std::string titleWithScraperData(const cGetScraperOverview &scraperOverview, const std::string &s_title, const std::string &s_episode_name);
+std::string recordingErrorsHtml(int recordingErrors);
 
 void addDuplicateRecordingsNoSd(std::vector<RecordingsItemPtr> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree);
 void addDuplicateRecordingsLang(std::vector<RecordingsItemPtr> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree);

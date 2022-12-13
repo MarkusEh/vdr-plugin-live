@@ -211,6 +211,7 @@ template void AppendHtmlEscapedAndCorrectNonUTF8<cLargeString>(cLargeString &tar
 	size_t AppendDateTime(char *target, int target_size, char const* format, time_t time)
 // writes data to target, make sure that sizeof(target) >= target_size, before calling
 	{
+		if (!time) return 0;
 		struct tm tm_r;
 		if ( localtime_r( &time, &tm_r ) == 0 ) {
 			std::stringstream builder;
@@ -534,6 +535,10 @@ std::string intToTimeString(int tm) {
   char t[6];
   intToTimeString(t, tm);
   return t;
+}
+std::string charToString(const char *s) {
+  if (!s) return "";
+  return s;
 }
 
 	std::string EncodeDomId(std::string const & toEncode, char const * from, char const * to)

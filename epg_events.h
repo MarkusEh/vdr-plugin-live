@@ -12,6 +12,7 @@
 #endif
 
 #include "services.h"
+#include "recman.h"
 #include <vdr/channels.h>
 #include <vdr/epg.h>
 #include <vdr/recording.h>
@@ -271,7 +272,7 @@ namespace vdrlive
 			mutable bool m_checkedArchived;
 			mutable std::string m_archived;
 	};
-
+bool appendEpgItem(cLargeString &epg_item, RecordingsItemPtr &recItem, const cEvent *Event, const cChannel *Channel, bool withChannel);
 }; // namespace vdrlive
 
 #endif // VDR_LIVE_EPG_EVENTS_H

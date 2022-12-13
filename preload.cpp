@@ -103,6 +103,7 @@ namespace vdrlive {
 			"js/live/liveajax.js",
 			"js/live/hinttips.js",
 			"js/live/pageenhance.js",
+			"js/live/createHtml.js",
 			"js/mootools/mootools.v1.11.js",
 			0
 		};

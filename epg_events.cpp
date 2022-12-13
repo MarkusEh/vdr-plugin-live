@@ -2,6 +2,7 @@
 #include "epg_events.h"
 
 #include "tools.h"
+#include "timers.h"
 #include "recman.h"
 #include "setup.h"
 
@@ -486,5 +487,51 @@ namespace vdrlive
 		}
 
 	} // namespace EpgEvents
+
+bool appendEpgItem(cLargeString &epg_item, RecordingsItemPtr &recItem, const cEvent *Event, const cChannel *Channel, bool withChannel) {
+  std::string s_title, s_episode_name, s_IMDB_ID, s_releaseDate;
+  cTvMedia s_image;
+  cGetScraperOverview scraperOverview (Event, NULL, &s_title, &s_episode_name, &s_IMDB_ID, &s_image,
+    cImageLevels(eImageLevel::episodeMovie, eImageLevel::seasonMovie, eImageLevel::tvShowCollection, eImageLevel::anySeasonCollection),
+    cOrientations(eOrientation::landscape, eOrientation::portrait, eOrientation::banner), &s_releaseDate );
+  scraperOverview.call(LiveSetup().GetPluginScraper());
+
+  RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
+  const std::vector<RecordingsItemPtr> *recItems = recordingsTree->allRecordings(eSortOrder::duplicatesLanguage);
+  bool recItemFound = searchNameDesc(recItem, recItems, Event, &scraperOverview);
+
+  epg_item.append("[\"");
+// [0] : EPG ID  (without event_)
+  epg_item.append(EpgEvents::EncodeDomId(Channel->GetChannelID(), Event->EventID()).c_str() + 6);
+  epg_item.append("\",\"");
+// [1] : Timer ID
+  const cTimer* timer = LiveTimerManager().GetTimer(Event->EventID(), Channel->GetChannelID() );
+  if (timer) epg_item.append(vdrlive::EncodeDomId(LiveTimerManager().GetTimers().GetTimerId(*timer), ".-:", "pmc"));
+  epg_item.append("\",\"");
+// [2] : Day, time & duration of event
+  AppendDateTime(epg_item, tr("%I:%M %p"), Event->StartTime() );
+  epg_item.append(" - ");
+  AppendDateTime(epg_item, tr("%I:%M %p"), Event->EndTime() );
+  epg_item.append(" ");
+  AppendDuration(epg_item, tr("(%d:%02d)"), Event->Duration() /60/60, Event->Duration()/60 % 60);
+  epg_item.append("\",");
+  AppendScraperData(epg_item, s_image, scraperOverview.m_videoType, s_title, scraperOverview.m_seasonNumber, scraperOverview.m_episodeNumber, s_episode_name, scraperOverview.m_runtime, s_releaseDate);
+  epg_item.append(",");
+  if (withChannel) {
+    epg_item.append(Channel->Number());
+    epg_item.append(",\"");
+    AppendHtmlEscapedAndCorrectNonUTF8(epg_item, Channel->Name() );
+  } else epg_item.append("0,\"");
+  epg_item.append("\",\"");
+  AppendHtmlEscapedAndCorrectNonUTF8(epg_item, Event->Title() );
+  epg_item.append("\",\"");
+  AppendHtmlEscapedAndCorrectNonUTF8(epg_item, Event->ShortText() );
+  epg_item.append("\",\"");
+  AppendTextTruncateOnWord(epg_item, Event->Description(), 500, true);
+  epg_item.append("\",\"");
+  epg_item.append(s_IMDB_ID);
+  epg_item.append("\"]");
+  return recItemFound;
+}
 
 }; // namespace vdrlive

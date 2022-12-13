@@ -44,7 +44,7 @@ std::string toString(const std::vector<cActor> &vec) {
   }
   return result;
 }
-  
+
 </%pre>
 <%session scope="global">
 int update_status(1);
@@ -57,6 +57,182 @@ int update_status(1);
 </%def>
 
 <# ---------------------------------------------------------------------- #>
+
+<%def create_html_js>
+<%cpp>
+const char *lf;
+if (LiveSetup().GetUseAjax()) lf = "<br/>";
+else lf = "&#13;";
+</%cpp>
+<script>
+function addErrorIcon(s, numErrors) {
+  if (numErrors <= -100) return
+  s.a += '<div class=\"recording_errors\"><img class=\"icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>'
+  if (numErrors == 0) s.a += 'NoRecordingErrors.png'
+  if (numErrors  > 0) s.a += 'RecordingErrors.png'
+  if (numErrors  < 0) s.a += 'NotCheckedForRecordingErrors.png'
+  s.a += '\" width = \"16px\" title=\"'
+  if (numErrors == 0) s.a += '<$tr("No recording errors")$>'
+  if (numErrors  > 0) s.a += '<$tr("Number of recording errors:")$> ' + String(numErrors)
+  if (numErrors  < 0) s.a += '<$tr("Recording errors unknown")$>'
+  s.a += '\" /> </div>'
+}
+
+function addHdSdIcon(s, hdsd, toolTip) {
+  s.a += '<div class=\"recording_sd_hd\"><img class=\"icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>'
+  s.a += hdsd
+  s.a += 'd.png\" width = \"25px\" title=\"'
+  s.a += toolTip
+  s.a += '\" /></div>'
+}
+
+function IMDBS(s, im_db, name) {
+  if (im_db.length == 0) {
+    s.a += '<a href=\"http://www.imdb.com/find?s=all&q='
+    s.a += name
+  } else {
+    s.a += '<a href=\"https://www.imdb.com/title/'
+    s.a += im_db
+  }
+  s.a += 
+   '\" target=\"_blank\"><img class=\"icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>imdb.png\" title=\"<$tr("Find more at the Internet Movie Database.")$>\"/></a>'
+}
+
+<#
+// [0] : EPG ID  (without event_)
+// [1] : Timer ID = SortedTimers::EncodeDomId(LiveTimerManager().GetTimers().GetTimerId(*timer))
+//               (without timer_)
+// [2] : Day, time & duration of event
+// [3] : image.path  (nach "/tvscraper/")
+// [4] : "pt" if m_s_image.width <= m_s_image.height, otherwise= ""
+// [5] : title (scraper)
+// [6] : season / episode (scraper, for tv shows, if available. Otherwise: Empty)
+// [7] : runtime (scraper)
+// [8] : relase date (scraper)
+// [9] : channelnr
+// [10] : channelname
+// [11] : Name
+// [12] : Shorttext
+// [13] : Description
+// [14] : scraper s_IMDB_ID
+#>
+function addEvent(s, bottomrow_i, obj) {
+// first column, timer /red or green, ...
+  let bottomrow = ''
+  if (bottomrow_i != 0) bottomrow = 'bottomrow'
+  s.a += `<tr><td class=\"action leftcol ${bottomrow}\">`
+  if (obj[1].length != 0) {
+    s.a += '<a href=\"edit_timer.html?timerid=timer_'
+    s.a += obj[1]
+    s.a += '\"><img class=\"icon\" src=\"<$ LiveSetup().GetThemedLink("img", "record_timer.png") $>\" title=\"<$tr("Edit timer")$>\" />'
+  } else {
+    s.a += '<a href=\"edit_timer.html?epgid=event_'
+    s.a += obj[0]
+    s.a += '\"><img class=\"icon\" src=\"<$ LiveSetup().GetThemedLink("img", "record.png") $>\" title=\"<$tr("Record this")$>\" />'
+  }
+  s.a += '</a>'
+<%cpp>if (LiveFeatures<features::epgsearch>().Recent() ) { </%cpp>
+  s.a += '<a href=\"searchresults.html?searchplain='
+  s.a += obj[11]
+  s.a += '\"><img class=\"icon\" src=\"<$ LiveSetup().GetThemedLink("img", "search.png") $>\" title=\"<$tr("Search for repeats.")$>\"/></a>'
+<%cpp> } if (LiveSetup().GetShowIMDb() ) { </%cpp>
+  IMDBS(s, obj[14], obj[11])
+<%cpp> } </%cpp>
+  s.a += '</td>'
+// second col, dependent on width: channel
+  if (obj[9] > 0) {
+    s.a += `<td class=\"td-hidden-xs ${bottomrow}\"><div class=\"hidden-xs withmargin\"><a href=\"schedule.html?channel=`
+    s.a += obj[9]
+    s.a += '\">'
+    s.a += obj[10]
+    s.a += '</a></div></td>'
+  }
+// third col: image
+<%cpp> if (!LiveSetup().GetTvscraperImageDir().empty() ) { </%cpp>
+    s.a += `<td class=\"enlarge-image ${bottomrow}\">`
+    addScraperImageTitle(s, obj[3], obj[4], obj[5], obj[6], obj[7], obj[8], '<$$lf$>');
+    s.a += '</td>'
+<%cpp> } </%cpp>
+  s.a += `<td class=\"td-hidden-xs ${bottomrow}\"><div class=\"hidden-xs withmargin\">`
+  s.a += obj[2]
+  s.a += '</div></td>'
+// col with times, channel, name, short text
+  s.a += `<td class=\"rightcol ${bottomrow}\"><div class=\"withmargin\">`
+// first line: link to channel, times, channel
+  s.a += '<div class=\"margin-bottom display-xs\">'
+  if (obj[9] > 0) {
+    s.a += '<a href=\"schedule.html?channel='
+    s.a += obj[9]
+    s.a += '\">'
+  }
+  s.a += '<span class=\"normal-font\">'
+  s.a += obj[2]
+  if (obj[9] > 0) {
+    s.a += ' '
+    s.a += obj[10]
+  }
+  s.a += '</span>'
+  if (obj[9] > 0) s.a += '</a>'
+  s.a += '</div>'
+// sec&third line: Link to event, event title, short text
+  addEventRec(s, 'event_', obj[0], obj[11], '', obj[12], obj[13], '<$$lf$>', '<$tr("Click to view details.")$>')
+  s.a += '</div></td></tr>'
+}
+function eventString(bottomrow, data) {
+  const s = Object.create(null)
+  s.a = ""
+  addEvent(s, bottomrow, data)
+  return s.a
+}
+
+// existing recording
+function existingRecordingSR(s, col_span1, bottomrow, imdb_id, id, archiveDescr, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, folder) {
+  if (archiveDescr.length != 0) col_span1--;
+  s.a += '<tr><td colspan='
+  s.a += col_span1.toString()
+  s.a += ' style=\"word-wrap: normal;min-width: 10px;max-width: 70px;\" class=\"leftcol '
+  s.a += bottomrow
+  s.a += '\"><$ tr("Existing Recording:") $>'
+  if (archiveDescr.length != 0) {
+    s.a += '</td><td class=\"action '
+    s.a += bottomrow
+    s.a += '\"> <img class=\"icon\" src=\"<$ LiveSetup().GetThemedLink("img", "on_dvd.png") $>\" alt=\"on dvd\" title=\" />'
+    s.a += archiveDescr
+    s.a += '/>'
+<%cpp>
+#if VDRVERSNUM >= 20505
+</%cpp>
+  } else {
+    s.a += '<br/><table><tr><td class=\"noborder\">'
+    addErrorIcon(s, errors)
+    s.a += '</td><td class=\"noborder\">'
+    addHdSdIcon(s, hd_sd, channel_name)
+    s.a += '</td></tr></table>'
+<%cpp>
+#endif
+</%cpp>
+  }
+  s.a += '</td><td class=\"td-hidden-xs '
+  s.a += bottomrow
+  s.a += '\"><div class=\"hidden-xs recording_day\">'
+  s.a += day_time_duration
+  s.a += '</div></td><td class=\"rightcol '
+  s.a += bottomrow
+  s.a += '\">'
+  addColEventRec(s, day_time_duration, 'recording_', id, name, folder, short_text, description, '<$$lf$>', '<$tr("Click to view details.")$>')
+  s.a += '</td></tr>'
+}
+function existingRecordingString(col_span, bottomrow, imdb_id, id, archiveDescr, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, folder) {
+  const s = Object.create(null)
+  s.a = ""
+  existingRecordingSR(s, col_span, bottomrow, imdb_id, id, archiveDescr, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, folder)
+  return s.a
+}
+
+
+</script>
+</%def>
+
 
 <%def stylesheets>
 <link rel="stylesheet" type="text/css" href="styles.css"/>
@@ -297,7 +473,6 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 	if (LiveSetup().GetUseAjax()) {
 </%cpp>
 	<script type="text/javascript" src="js/mootools/mootools.v1.11.js"></script>
-	<script type="text/javascript" src="js/mootools/DatePicker.js"></script>
 	<script type="text/javascript" src="js/live/liveajax.js"></script>
 	<script type="text/javascript" src="js/live/infowin.js"></script>
 	<script type="text/javascript" src="js/live/hinttips.js"></script>
@@ -313,8 +488,7 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 				notifyStrings: {
 					successMsg: '<img src="<$ LiveSetup().GetThemedLink("img", "active.png") $>" alt=""> <$ tr("Request succeeded!") $>',
 					errorMsg: '<img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt=""> <$ tr("Request failed!") $>'
-				},
-				datePickerOptions: '{ dayChars:2, dayNames: ["<$ tr("Sunday") $>", "<$ tr("Monday") $>", "<$ tr("Tuesday") $>","<$ tr("Wednesday") $>","<$ tr("Thursday") $>","<$ tr("Friday") $>","<$ tr("Saturday") $>"], format:"<$ tr("mm/dd/yyyy") $>", monthNames: ["<$ tr("January") $>","<$ tr("February") $>","<$ tr("March") $>","<$ tr("April") $>","<$ tr("May") $>","<$ tr("June") $>","<$ tr("July") $>","<$ tr("August") $>","<$ tr("September") $>","<$ tr("October") $>","<$ tr("November") $>","<$ tr("December") $>"],startDay:1}'
+				}
 			});
 	--></script>
 <%cpp>

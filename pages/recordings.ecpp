@@ -115,6 +115,8 @@ else lf = "&#13;";
     <& pageelems.stylesheets &>
     <& pageelems.ajax_js &>
 
+<script type="text/javascript" src="js/live/createHtml.js"></script>
+<& pageelems.create_html_js &>
 <script>
 const recs = [];
 <%cpp>
@@ -124,25 +126,12 @@ for (const RecordingsItemPtr &rPtr: *recordingsTree->allRecordings()) {
   recoring_item.clear();
   rPtr->AppendAsJSArray(recoring_item, currentFlat == "true" || currentSort == "duplicates");
 </%cpp>
-  recs[<$intToChar(buffer_i, buffer_i+20, rPtr->IdI())$>]=<$$ recoring_item.c_str() $>
+  recs[<$intToChar(buffer_i, buffer_i+20, rPtr->IdI())$>]=[<$$ recoring_item.c_str() $>]
 <%cpp>
 }
 </%cpp>
 const rec_ids = Object.create(null)
 rec_ids["T"] = [1, 2]
-
-function truncateOnWord(str, limit) {
-  var b = str.indexOf('&lt;br/&gt;');
-  if (b > 0 && b<= limit) return str.slice(0,b) + '...';
-  var r = str.indexOf('\\r');
-  if (r > 0 && r<= limit) return str.slice(0,r) + '...';
-  var n = str.indexOf('\\n');
-  if (n > 0 && n<= limit) return str.slice(0,n) + '...';
-  if (str.length <= limit) return str;
-  var l = str.lastIndexOf(' ', limit);
-  if (l <= 0) l = limit;
-  return str.slice(0,l) + '...';
-}
 
 function RecordingActionS(s, id, A, Img, Title) {
   s.a += '<a href=\"'
@@ -151,21 +140,9 @@ function RecordingActionS(s, id, A, Img, Title) {
   s.a += id
   s.a += '&sort=<$currentSort$>&filter=<$currentFilter$>&flat=<$currentFlat$>\" title=\"'
   s.a += Title
-  s.a += '\"><img src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>'
+  s.a += '\"><img class=\"icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>'
   s.a += Img
   s.a += '\" /></a>'
-}
-
-function IMDBS(s, im_db, name) {
-  if (im_db.length == 0) {
-    s.a += '<a href=\"http://www.imdb.com/find?s=all&q='
-    s.a += name
-  } else {
-    s.a += '<a href=\"https://www.imdb.com/title/'
-    s.a += im_db
-  }
-  s.a += 
-   '\" target=\"_blank\"><img src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>imdb.png\" title=\"<$tr("Find more at the Internet Movie Database.")$>\"/></a>'
 }
 
 <#
@@ -178,7 +155,7 @@ function IMDBS(s, im_db, name) {
 // [6] : season / episode (scraper, for tv shows, if available. Otherwise: Empty)
 // [7] : runtime (scraper)
 // [8] : relase date (scraper)
-// [9] : recording_spec: Day, time & duration
+// [9] : Day, time & duration
 // [10] : Number of recording errors
 // [11] : SD/HD/UHD s/h/u
 // [12] : SD/HD/UHD title
@@ -188,17 +165,17 @@ function IMDBS(s, im_db, name) {
 // [16] : Description
 // [17] : Folder (if displayFolder == true. Otherwise, this does not exist / out of range)
 #>
-function RecordingsSt(s, level, displayFolder, data, data_src) {
+function RecordingsSt(s, level, displayFolder, data) {
   s.a += '<li class="recording"><div>'
   s.a += '<table width="100%" class="recordings">'
   for (obj_i of data) {
     obj = recs[obj_i]
     s.a += '<tr class="recording_item">'
     if (level > 0) s.a += 
-      '<td> <img src="img/transparent.png" width="' + String(16 * level) + 'px" height="16px" /></td>'
-    s.a += '<td><div class="recording_imgs">'
+      '<td class="space"> <img src="img/transparent.png" width="' + String(16 * level) + 'px" height="16px" /></td>'
+    s.a += '<td class="td-hidden-xs"><div class="hidden-xs recording_imgs">'
     if (obj[2].length != 0) {
-      s.a += '<img src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>on_dvd.png\" alt=\"on_dvd\" title=\"'
+      s.a += '<img class=\"icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>on_dvd.png\" alt=\"on_dvd\" title=\"'
       s.a += obj[2]
       s.a += '/>'
     } else {
@@ -207,80 +184,25 @@ function RecordingsSt(s, level, displayFolder, data, data_src) {
       s.a += '" />'
     }
     s.a += '</div></td>'  // end of recording_imgs
-    if ("<$LiveSetup().GetTvscraperImageDir()$>".length != 0) {
-      s.a += '<td><div class=\"thumb\">'
-      if (data_src == 0) s.a += '<img src=\"';
-      else s.a += '<img data-src=\"';
-      if (obj[3].length != 0) {
-        s.a += '/tvscraper/'
-        s.a += obj[3]
-        s.a += '\" class=\"thumb'
-        s.a += obj[4]
-      } else s.a += 'img/transparent.png\" height=\"16px'
-      if (obj[5].length != 0 || obj[8].length != 0) {
-// scraper data available
-        s.a += '\" title=\"'
-        s.a += obj[5]
-          if (obj[6].length != 0) {
-            s.a += '<$$lf$>S'
-            s.a += obj[6]
-          }
-          if (obj[7].length != 0) {
-            s.a += '<$$lf$>'
-            s.a += obj[7]
-          }
-          if (obj[8].length != 0) {
-            s.a += '<$$lf$>'
-            s.a += obj[8]
-          }
-      }
-      s.a += '\"/>'
-      s.a += '</td>'
-    }
-// end if (!LiveSetup().GetTvscraperImageDir().empty() )
-    s.a += '<td class="hidden-xs"><div class=\"recording_day\">'
+<%cpp> if (!LiveSetup().GetTvscraperImageDir().empty() ) { </%cpp>
+    s.a += '<td class=\"space\">'
+      addScraperImageTitle(s, obj[3], obj[4], obj[5], obj[6], obj[7], obj[8], '<$$lf$>');
+    s.a += '</td>'
+<%cpp> } </%cpp>
+    s.a += '<td class="td-hidden-xs"><div class=\"hidden-xs recording_day\">'
     s.a += obj[9]
     s.a += '</div></td><td>'
-    if (obj[10] > -100) {
-      s.a += '<div class=\"recording_errors\"><img src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>'
-      if (obj[10] == 0) s.a += 'NoRecordingErrors.png'
-      if (obj[10]  > 0) s.a += 'RecordingErrors.png'
-      if (obj[10]  < 0) s.a += 'NotCheckedForRecordingErrors.png'
-      s.a += '\" width = \"16px\" title=\"'
-      if (obj[10] == 0) s.a += '<$tr("No recording errors")$>'
-      if (obj[10]  > 0) s.a += '<$tr("Number of recording errors:")$> ' + String(obj[10])
-      if (obj[10]  < 0) s.a += '<$tr("Recording errors unknown")$>'
-      s.a += '\" /> </div>'
-    }
-    s.a += '<div class=\"recording_sd_hd\"><img src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>'
-    s.a += obj[11]
-    s.a += 'd.png\" width = \"25px\" title=\"'
-    s.a += obj[12]
-    s.a += '\" /></div></td>'  // end column with error / sd/hd image
-    s.a += '<td><div class=\"recording_spec recording_name'
+    addErrorIcon(s, obj[10])
+    addHdSdIcon(s, obj[11], obj[12])
+    s.a += '</td>'  // end column with error / sd/hd image
+    s.a += '<td><div class=\"recording_name'
     s.a += obj[13]
-    s.a += '\"><a href=\"epginfo.html?epgid=recording_'
-    s.a += obj[1]
-    s.a += '\" class="apopup" title=\"'
-    if (obj[16].length != 0) {
-      s.a += obj[16]
-      s.a += '<$$lf$>'
-    }
-    s.a += '<$tr("Click to view details.")$>'
     s.a += '\">'
-    s.a += obj[14]
-    if (displayFolder == 1 && obj[17].length != 0) {
-      s.a += ' ('
-      s.a += obj[17]
-      s.a += ')'
-    }
-    s.a += '<br /><span>'
-    s.a += obj[15]
-    if (obj[15].length == 0) {
-      if (obj[16].length == 0) s.a += '&nbsp;';
-      else s.a += truncateOnWord(obj[16], 70);
-    }
-    s.a += '</span></a></div></td>'  // end if recording_name / short description
+    if (displayFolder == 1) folder = obj[17]
+    else folder = ''
+    s.a += '<div class="withmargin">'
+    addEventRec(s, 'recording_', obj[1], obj[14], folder, obj[15], obj[16], '<$$lf$>', '<$tr("Click to view details.")$>')
+    s.a += '</div></div></td>'  // end if recording_name / short description
     s.a += '<td><div class=\"recording_actions\">'
     if (obj[2].length == 0) {
       RecordingActionS(s, obj[1], "vdr_request/play_recording?param=", "play.png", "<$tr("play this recording")$>")
@@ -293,9 +215,8 @@ function RecordingsSt(s, level, displayFolder, data, data_src) {
       s.a += '<div class=\"hidden-ts\">'
       RecordingActionS(s, obj[1], "recordings.html?todel=", "del.png", "<$tr("Delete this recording from hard disc!")$>")
       s.a += '</div>'
-    } else {
-      s.a += '<img src=\"img/transparent.png\" width=\"16px\" height=\"16px\" />'
 <%cpp> if (LiveSetup().GetShowIMDb() ) { </%cpp>
+    } else {
       IMDBS(s, obj[0], obj[14])
 <%cpp> } </%cpp>
     }
@@ -310,18 +231,11 @@ function RecordingsSt(s, level, displayFolder, data, data_src) {
   s.a += '</table></div></li>'
 }
 
-function rec_string(rec_ids) {
-// use img src= ...
-  const st = Object.create(null)
-  st.a = ""
-  RecordingsSt(st, rec_ids[0], rec_ids[1], rec_ids[2], 0)
-  return st.a
-}
 function rec_string_d(rec_ids) {
 // use img data-src= ...
   const st = Object.create(null)
   st.a = ""
-  RecordingsSt(st, rec_ids[0], rec_ids[1], rec_ids[2], 1)
+  RecordingsSt(st, rec_ids[0], rec_ids[1], rec_ids[2])
   return st.a
 }
 
@@ -446,8 +360,8 @@ if (currentFlat != "true") {
       <li class="recording">
         <div class="recording_item" onclick = "Toggle2(this, 'fldr_<$ idHash $>')">
           <div class="recording_imgs">
-            <{ if(level > 0) { }><img src="img/transparent.png" width="<$ 16*level $>px" height="16px" /> <{ } }>
-            <img class="recording_expander" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>plus.png" /><img class="recording_folder" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png" />
+            <%cpp> if(level > 0) { </%cpp>
+	      <img src="img/transparent.png" width="<$ 16*level $>px" height="16px" /><%cpp> } </%cpp><img class="recording_expander" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>plus.png" /><img class="recording_folder" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png" />
             <{ if (!recItem->scraperImage().path.empty() ) { }>
               <div class="thumb">
                 <img data-src="/tvscraper/<$ recItem->scraperImage().path $>"
@@ -456,10 +370,7 @@ if (currentFlat != "true") {
               </div>
             <{ } }>
           </div>
-          <div class="recording_spec">
-            <div class="recording_folder_name<$ (newR ? "_new" : "") $>"><$ recItem->Name() $></div>
-          </div>
-          <div class="recording_actions">&nbsp;</div>
+          <div class="recording_folder_name<$ (newR ? "_new" : "") $>"><$ recItem->Name() $></div>
         </div>
         <ul id="fldr_<$ idHash $>" class="recordingslist" style="display: none;">
           <& recordings.recordings_item iRecItem=(iRecItem) parentIdHash=(idHash) &>
@@ -529,9 +440,7 @@ if (currentSort != "duplicates" || currentFlat == "true") {
           <div class="recording_imgs">
             <img class="recording_expander" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>plus.png" /><img class="recording_folder" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png" />
           </div>
-          <div class="recording_spec">
-            <div class="recording_folder_name"><$ nodeName $></div>
-          </div>
+          <div class="recording_folder_name"><$ nodeName $></div>
           <div class="recording_actions">&nbsp;</div>
         </div>
         <ul id="fldr_<$ idHash $>" class="recordingslist" style="display: none;">

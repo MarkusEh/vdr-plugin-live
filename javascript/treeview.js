@@ -98,9 +98,10 @@ function Toggle2(node, node_id)
 		if (imgChild != null)
 			setImages(imgChild, "img/minus.png", "img/folder_open.png");
                   if (rec_ids[node_id] != null && rec_ids[node_id].length > 0) {
-		    sibling.insertAdjacentHTML("beforeend", rec_string(rec_ids[node_id]));
+		    sibling.insertAdjacentHTML("beforeend", rec_string_d(rec_ids[node_id]));
                     rec_ids[node_id] = [];
                     if (typeof liveEnhanced !== 'undefined') liveEnhanced.domReadySetup();
+		    imgLoad();
 		  }
 		sibling.style.display = 'block';
 		updateCookieOnExpand( sibling.id );
@@ -140,15 +141,6 @@ function updateCookieOnCollapse( id )
 	}
 	openNodes = openNodes.join(",");
 	createCookie( cookieNameRec, openNodes, 14 );
-}
-
-function imgLoad() {
-var imgDefer = document.getElementsByTagName('img');
-  for (var i = 0; i < imgDefer.length; i++) {
-    if (imgDefer[i].getAttribute('data-src')) {
-      imgDefer[i].setAttribute('src',imgDefer[i].getAttribute('data-src'));
-    }
-  }
 }
 
 function openNodesOnPageLoad()
@@ -193,7 +185,6 @@ function ExpandAll()
 {
   var openNodes = "";
   var domChanges = 0;
-//			recordingNodes = window.document.getElementsBySelector("ul.recordingslist");
   recordingNodes = getElementsByNodeNameClassName(window.document, 'UL', "recordingslist");
   for (idx = 0; idx < recordingNodes.length; idx++) {
     if (recordingNodes[idx].parentNode.className != 'recordings') {

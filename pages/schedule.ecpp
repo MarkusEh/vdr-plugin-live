@@ -4,51 +4,16 @@
 #include <setup.h>
 #include <tools.h>
 #include <epg_events.h>
+#include <timers.h>
 #include <recman.h>
 
 
 #include <vdr/config.h>
+
+cLargeString epg_item("epg_item", 1000);
+
 using namespace vdrlive;
 
-bool searchNameDesc(RecordingsItemPtr &RecItem, const std::vector<RecordingsItemPtr> *RecItems, const std::string &Name, const std::string &ShortText, const std::string &Description, long Duration, cGetScraperOverview *scraperOverview) {
-  if(RecItems->empty() ) return false;  // there are no recordings
-
-// find all recordings with equal name
-  RecordingsItemPtr dummy (new RecordingsItemDummy(Name, ShortText, Description, Duration, scraperOverview));
-  const auto equalName = std::equal_range(RecItems->begin(), RecItems->end(), dummy, RecordingsItemPtrCompare::ByDuplicatesName);
-  if ( equalName.first == equalName.second ) return false; // there is no recording with this name
-
-// find all recordings with matching short text / description
-  auto equalDuplicates = std::equal_range(equalName.first, equalName.second, dummy, RecordingsItemPtrCompare::ByDuplicates);
-
-  if(equalDuplicates.first != equalDuplicates.second) {   // exact match found
-    if (RecordingsItemPtrCompare::FindBestMatch(RecItem, equalDuplicates.first, equalDuplicates.second, dummy) > 0) return true;
-    RecItem = *equalDuplicates.first;
-    return true;
-  }
-// no exact match found, get recording with most matching characters in short text / description
-  int numEqualCharsLow = 0;
-  int numEqualCharsUp  = 0;
-
-  if(equalDuplicates.first != equalName.first) { 
-    --equalDuplicates.first;
-    (*equalDuplicates.first)->CompareStD(dummy, &numEqualCharsLow);
-  }
-  if(equalDuplicates.second != equalName.second)
-    (*equalDuplicates.second)->CompareStD(dummy, &numEqualCharsUp);
-
-  if ( numEqualCharsLow > numEqualCharsUp ) {
-    if( numEqualCharsLow > 5 ) { RecItem = *equalDuplicates.first; return true; }
-  } else {
-    if( numEqualCharsUp  > 5 ) { RecItem = *equalDuplicates.second;  return true; }
-  }
-
-// no sufficient match in short text / description
-// get best match from length of event match
-  int num_match_rec = RecordingsItemPtrCompare::FindBestMatch(RecItem, equalName.first, equalName.second, dummy);
-  if(num_match_rec == 0 || num_match_rec > 5) return false; // no matching lenght or series (too many matching length)
-  return true;
-}
 
 
 </%pre>
@@ -71,8 +36,6 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	pageTitle = trVDR("Schedule");
 
 bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
-RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
-const std::vector<RecordingsItemPtr> *recItems = recordingsTree->allRecordings(eSortOrder::duplicatesLanguage);
 
 #if VDRVERSNUM < 20301
 	cSchedulesLock schedulesLock;
@@ -123,9 +86,6 @@ const std::vector<RecordingsItemPtr> *recItems = recordingsTree->allRecordings(e
 #else
 	Schedule = schedules->GetSchedule( Channel );
 #endif
-const char *lf;
-if (LiveSetup().GetUseAjax()) lf = "<br/>";
-else lf = "&#13;";
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -134,6 +94,8 @@ else lf = "&#13;";
 		<title>VDR Live - <$ pageTitle $></title>
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
+		<script type="text/javascript" src="js/live/createHtml.js"></script>
+		<& pageelems.create_html_js &>
 	</head>
 	<body onload="adjustHeader()" onresize="adjustHeader()">
 		<& pageelems.logo &>
@@ -159,34 +121,14 @@ else lf = "&#13;";
 #else
 		for (const cEvent *Event = Schedule->Events()->First(); Event; Event = Schedule->Events()->Next(Event)) {
 #endif
-			if (Event->EndTime() <= now && Event != PresentEvent)
-				continue;
+			if (Event->EndTime() <= now && Event != PresentEvent) continue;
 
+			epg_item.clear();
+			recItemFound = appendEpgItem(epg_item, recItem, Event, Channel, false);
 			EpgInfoPtr epgEvent = EpgEvents::CreateEpgInfo(Channel, Event);
-
-			std::string title(epgEvent->Title());
-			std::string short_description(epgEvent->ShortDescr());
-			std::string description(epgEvent->LongDescr());
-			std::string start(epgEvent->StartTime(tr("%I:%M %p")));
-			std::string end(epgEvent->EndTime(tr("%I:%M %p")));
-                        int durationMinutes = epgEvent->Duration() / 60;
-                        std::string duration(durationMinutes < 0 ? "" : FormatDuration(tr("(%d:%02d)"), durationMinutes / 60, durationMinutes % 60));
 			std::string day(epgEvent->StartTime(tr("%A, %b %d %Y")));
-			std::string epgid = EpgEvents::EncodeDomId(Channel->GetChannelID(), Event->EventID());
 
-			bool truncated = false;
 			bool lastEventCurrentDay = false;
-// scraper data
-                        std::string s_title, s_episode_name, s_IMDB_ID;
-                        cTvMedia s_image;
-                        bool scraper_data_available = false;
-                        cGetScraperOverview scraperOverview (Event, NULL, &s_title, &s_episode_name, &s_IMDB_ID, &s_image,
-                          cImageLevels(eImageLevel::episodeMovie, eImageLevel::seasonMovie, eImageLevel::tvShowCollection, eImageLevel::anySeasonCollection),
-                          cOrientations(eOrientation::landscape, eOrientation::portrait, eOrientation::banner) );
-                        if (scraperOverview.call(LiveSetup().GetPluginScraper()) )
-                          scraper_data_available = scraperOverview.m_videoType == eVideoType::movie || scraperOverview.m_videoType == eVideoType::tvShow;
-
-                        recItemFound = searchNameDesc(recItem, recItems, title, short_description, description, epgEvent->Duration(), &scraperOverview);
 			{
 #if VDRVERSNUM >= 20301
 				cEvent* NextEvent = (cEvent *)Schedule->Events()->Next(Event);
@@ -202,17 +144,16 @@ else lf = "&#13;";
 				}
 			}
 
+			int col_span = 3;
+			if (display_pictures) col_span++;
 			if (current_day != day) {
 				if (current_day != "") {
 </%cpp>
 				<tr class="spacer">
-					<td colspan="5"/>
+					<td colspan="<$col_span$>"/>
 				</tr>
 <%cpp>
 				}
-int col_span;
-if (display_pictures) col_span = 6;
-  else col_span = 5;
 </%cpp>
 				<tr class="head">
 					<td colspan=<$col_span$>><div class="boxheader"><div><div><$ day $></div></div></div></td>
@@ -221,92 +162,19 @@ if (display_pictures) col_span = 6;
 				current_day = day;
 			}
 </%cpp>
-				<tr>
-					<td class="action leftcol <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><& pageelems.event_timer epgid=(epgid) &></td>
-					<td class="action <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><%cpp>if (LiveFeatures<features::epgsearch>().Recent() ) { </%cpp><a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a><%cpp> } else { </%cpp><img src="img/transparent.png" width="16" height="16"><%cpp> } </%cpp></td>
-<%cpp> if (LiveSetup().GetShowIMDb() ) { </%cpp>
-					<td class="action <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID) &></td>
-<%cpp>
- } // end if GetShowIMDb()
-if (display_pictures) {
-  bool episodeFound = scraperOverview.m_videoType == eVideoType::tvShow && (scraperOverview.m_episodeNumber != 0 || scraperOverview.m_seasonNumber != 0);
-  std::string episode_info;
-  if (episodeFound) {
-    episode_info =  lf;
-    episode_info += 'S';
-    episode_info += std::to_string(scraperOverview.m_seasonNumber);
-    episode_info += 'E';
-    episode_info += std::to_string(scraperOverview.m_episodeNumber);
-  }
-  std::string anf = "\"";
-  std::string s_duration = "";
-  if (scraper_data_available) {
-    s_duration = FormatDuration(tr("(%d:%02d)"), scraperOverview.m_runtime / 60, scraperOverview.m_runtime % 60);
-  } else EpgEvents::PosterTvscraper(s_image, Event, NULL);
-</%cpp>
-<td class="<? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>">
-<div class="thumb">
-<%cpp>if (s_image.path == "") {</%cpp>
-  <img src="img/transparent.png" height="10px"
-<%cpp>} else {</%cpp>
-  <img class="thumb" src="/tvscraper/<$ s_image.path $>"
-<%cpp>} if (scraperOverview.m_videoType == eVideoType::tvShow || scraperOverview.m_videoType == eVideoType::movie ) {</%cpp>
-  title=<$$anf$><$s_title$><$$ episode_info $> <? episodeFound ? s_episode_name ?><%cpp>
-    if (scraperOverview.m_runtime) {</%cpp>
-    <$$lf$><$s_duration$> <%cpp> } </%cpp>
-  <$$anf$>
-<%cpp> } </%cpp>
-  />
-</div>
-</td>
-<%cpp>
-}
-std::string secLine;
-AppendTextMaxLen(secLine, getText(Event->ShortText(), Event->Description() ));
-</%cpp>
-
-<td class="topaligned <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><div class="withmargin"><$ start $> - <$ end $><br /><$ duration $></div></td>
-<td class="<? (Event == PresentEvent) ? "current" ?> topaligned rightcol <? lastEventCurrentDay && ! recItemFound ? "bottomrow" ?>"><div class="more withmargin">
-  <a <& tooltip.display domId=(epgEvent->Id()) &>
-     class="apopup"
-     title="<$$StringEscapeAndBreak(StringWordTruncate(description, 300, truncated))$><?truncated?"..."?><$$lf$><$tr("Click to view details.")$>"
-  >
-     <span class="title"><$ title $></span><br />
-     <span class="short"> <$$ secLine $> <?? secLine.empty() ? "&nbsp;" ?> </span>
-  </a></div>
-</td>
-
-				</tr>
+<script>
+  document.write(eventString(<$(lastEventCurrentDay && !recItemFound)?"1":"0"$>, <$$ epg_item.c_str() $>))
+</script>
 <%cpp>
 if(recItemFound) {
-                  std::string duration(recItem->Duration() < 0 ? "" : FormatDuration(tr("(%d:%02d)"), recItem->Duration() / 60, recItem->Duration() % 60));
-                  std::string shortDescr;
-                  recItem->AppendShortTextOrDesc(shortDescr);
-#if VDRVERSNUM >= 20505
-                  int recordingErrors = recItem->RecInfo()->Errors();
-#else
-                  int recordingErrors = -1;
-#endif
-                  std::string channelName(recItem->RecInfo()->ChannelName()  ? recItem->RecInfo()->ChannelName() : "");
-                  const char *SD_HD_icon = recItem->SD_HD_icon();
-
-          std::string name(recItem->Name());
-          if( *(const char *)recItem->Recording()->Folder() ) {
-             name.append(" (");
-             name.append( (const char *)recItem->Recording()->Folder() );
-             name.append(")");
-          }
-
+  epg_item.clear();
+  recItem->AppendAsJSArray(epg_item, true);
 </%cpp>
-<tr>
- <& rec_item_file name=(name) level=(recItem->Level()) id=(recItem->Id()) startTime=(recItem->StartTime()) duration=(duration) shortDescr=(shortDescr) recordingErrors=(recordingErrors) channelName=(channelName) SD_HD_icon=(SD_HD_icon) archived=(RecordingsManager::GetArchiveDescr(recItem->Recording())) lastEventCurrentDay=(lastEventCurrentDay) &>
-</tr>
-<%cpp>
-}
-</%cpp>
-
-<%cpp>
-		}
+  <script>
+    document.write(existingRecordingString(<$col_span - 2$>, \"<? lastEventCurrentDay ? "bottomrow" ?>\", <$$epg_item.c_str()$>))
+  </script>
+<%cpp> }  // if rec item found
+		}  // loop over all events
 </%cpp>
 			</table>
 <%cpp>
@@ -314,6 +182,7 @@ if(recItemFound) {
 </%cpp>
 		</div>
 	</body>
+<script>imgLoad()</script>
 </html>
 <%include>page_exit.eh</%include>
 
@@ -332,83 +201,3 @@ if(recItemFound) {
 <span class="sep">|</span>
 <a href="schedule.html?channel=<$ (Channel->Number() + 1) $>">Next »</a>
 </%def>
-
-<# ---------------------------------------------------------------------- #>
-
-<%def rec_item_file>
-<%args>
-        std::string name;
-        int level;
-        std::string id;
-        time_t startTime;
-        std::string duration;
-        std::string shortDescr;
-        int recordingErrors;
-        std::string channelName;
-        std::string SD_HD_icon;
-        std::string archived;
-        bool lastEventCurrentDay;
-</%args>
-<%cpp>
-int col_span1 = 2;
-bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
-if (display_pictures) col_span1++;
-if (LiveSetup().GetShowIMDb()) col_span1++;
- if (!archived.empty()) { col_span1 --; </%cpp>
-<td colspan=<$col_span1$> style="word-wrap: normal;min-width: 10px;max-width: 70px;" class="leftcol <? lastEventCurrentDay ? "bottomrow" ?>"> <$ tr("Existing Recording:") $>
-
-
-  </td>
-<td class="action <? lastEventCurrentDay ? "bottomrow" ?>"> <img src="<$ LiveSetup().GetThemedLink("img", "on_dvd.png") $>" alt="on_dvd" <& tooltip.hint text=(archived) &> /> </td>
-
-<%cpp> } else { </%cpp>
-<td colspan=<$col_span1$> style="word-wrap: normal;min-width: 10px;max-width: 70px;" class="leftcol <? lastEventCurrentDay ? "bottomrow" ?>"> <$ tr("Existing Recording:") $>
-
-<%cpp>
-#if VDRVERSNUM >= 20505
-std::string recording_errors_icon;
-std::string recordingErrorsStr;
-
-if (recordingErrors == 0) {
-  recording_errors_icon = "NoRecordingErrors.png";
-  recordingErrorsStr = tr("No recording errors");
-}
-if (recordingErrors == -1) {
-  recording_errors_icon = "NotCheckedForRecordingErrors.png";
-  recordingErrorsStr = tr("Recording errors unknown") ;
-}
-if (recordingErrors >   0) {
-  recording_errors_icon = "RecordingErrors.png";
-  recordingErrorsStr = tr("Number of recording errors:");
-  recordingErrorsStr += " " + std::to_string(recordingErrors);
-}
-</%cpp>
-<br/>
-<table><tr><td class="noborder">
-                <div class="recording_errors"><img src="<$ LiveSetup().GetThemedLink("img", recording_errors_icon) $>" width = "16px" alt="" <& tooltip.hint text=(recordingErrorsStr) &> /> </div>
-</td>
-<td class="noborder">
-                <div class="recording_sd_hd"><img src="<$ LiveSetup().GetThemedLink("img", SD_HD_icon) $>" width = "25px" alt="" <& tooltip.hint text=(channelName) &> /> </div>
-</td>
-
-<td class="noborder">
-</td></tr></table>
-<%cpp>
-#endif
-</%cpp>
- </td>
-<%cpp> } </%cpp>
-
-<td class="topaligned <? lastEventCurrentDay ? "bottomrow" ?>"><div class="withmargin"><$ FormatDateTime(tr("%a,"), startTime) $> <$ FormatDateTime(tr("%b %d %y"), startTime) $> <$ FormatDateTime(tr("%I:%M %p"), startTime) $><br /><$ duration $></div></td>
-
-<td class="topaligned rightcol <? lastEventCurrentDay ? "bottomrow" ?>">
-
-<div class="more withmargin"><a <& tooltip.display domId=(id) &>><span class="title"><$ name $></span><br /><span class="short">
-<?? shortDescr.empty() ? "&nbsp;" ?><$ shortDescr $></span></a></div>
-
-</td>
-</%def>
-
-<# ---------------------------------------------------------------------- #>
-<# <div style="width: 400 px; word-wrap: break-word;"> <$ tr("Existing Recording:") $> </div>  #>
-<# word-break:break-all;  #>

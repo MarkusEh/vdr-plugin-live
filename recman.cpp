@@ -431,6 +431,46 @@ int firstNonPunct(const std::string &s) {
         }
 
 
+bool searchNameDesc(RecordingsItemPtr &RecItem, const std::vector<RecordingsItemPtr> *RecItems, const cEvent *event, cGetScraperOverview *scraperOverview) {
+  if(RecItems->empty() ) return false;  // there are no recordings
+
+// find all recordings with equal name
+  RecordingsItemPtr dummy (new RecordingsItemDummy(event, scraperOverview));
+  const auto equalName = std::equal_range(RecItems->begin(), RecItems->end(), dummy, RecordingsItemPtrCompare::ByDuplicatesName);
+  if ( equalName.first == equalName.second ) return false; // there is no recording with this name
+
+// find all recordings with matching short text / description
+  auto equalDuplicates = std::equal_range(equalName.first, equalName.second, dummy, RecordingsItemPtrCompare::ByDuplicates);
+
+  if(equalDuplicates.first != equalDuplicates.second) {   // exact match found
+    if (RecordingsItemPtrCompare::FindBestMatch(RecItem, equalDuplicates.first, equalDuplicates.second, dummy) > 0) return true;
+    RecItem = *equalDuplicates.first;
+    return true;
+  }
+// no exact match found, get recording with most matching characters in short text / description
+  int numEqualCharsLow = 0;
+  int numEqualCharsUp  = 0;
+
+  if(equalDuplicates.first != equalName.first) {
+    --equalDuplicates.first;
+    (*equalDuplicates.first)->CompareStD(dummy, &numEqualCharsLow);
+  }
+  if(equalDuplicates.second != equalName.second)
+    (*equalDuplicates.second)->CompareStD(dummy, &numEqualCharsUp);
+
+  if ( numEqualCharsLow > numEqualCharsUp ) {
+    if( numEqualCharsLow > 5 ) { RecItem = *equalDuplicates.first; return true; }
+  } else {
+    if( numEqualCharsUp  > 5 ) { RecItem = *equalDuplicates.second;  return true; }
+  }
+
+// no sufficient match in short text / description
+// get best match from length of event match
+  int num_match_rec = RecordingsItemPtrCompare::FindBestMatch(RecItem, equalName.first, equalName.second, dummy);
+  if(num_match_rec == 0 || num_match_rec > 5) return false; // no matching lenght or series (too many matching length)
+  return true;
+}
+
 	/**
 	 *  Implementation of class RecordingsItem:
 	 */
@@ -744,8 +784,37 @@ template void RecordingsItem::AppendShortTextOrDesc<cLargeString>(cLargeString &
           return m_video_SD_HD;
         }
 
+void AppendScraperData(cLargeString &target, const cTvMedia &s_image, eVideoType s_videoType, const std::string &s_title, int s_season_number, int s_episode_number, const std::string &s_episode_name, int s_runtime, const std::string &s_release_date) {
+	  bool scraperDataAvailable = s_videoType == eVideoType::movie || s_videoType == eVideoType::tvShow;
+          target.append("\"");
+// [3] : image.path  (nach "/tvscraper/")
+          target.append(s_image.path);
+          target.append("\",\"");
+// [4] : "pt" if s_image.width <= s_image.height, otherwise= ""
+          if (s_image.width <= s_image.height) target.append("pt");
+          target.append("\",\"");
+// [5] : title (scraper)
+          if (scraperDataAvailable) AppendHtmlEscapedAndCorrectNonUTF8(target, s_title.c_str() );
+          target.append("\",\"");
+          if (s_videoType == eVideoType::tvShow && (s_episode_number != 0 || s_season_number != 0)) {
+// [6] : season/episode/episode name (scraper)
+            target.append(s_season_number);
+            target.append('E');
+            target.append(s_episode_number);
+            target.append(' ');
+            AppendHtmlEscapedAndCorrectNonUTF8(target, s_episode_name.c_str() );
+          }
+          target.append("\",\"");
+// [7] : runtime (scraper)
+          if (scraperDataAvailable && s_runtime) AppendDuration(target, tr("(%d:%02d)"), s_runtime / 60, s_runtime % 60);
+          target.append("\",\"");
+// [8] : relase date (scraper)
+          if (scraperDataAvailable && !s_release_date.empty() ) target.append(s_release_date);
+          target.append("\"");
+	}
+
         void RecordingsItemRec::AppendAsJSArray(cLargeString &target, bool displayFolder){
-          target.append("[\"");
+          target.append("\"");
 // [0]  IMDB ID
           target.append(m_s_IMDB_ID);
           target.append("\", \"");
@@ -754,40 +823,11 @@ template void RecordingsItem::AppendShortTextOrDesc<cLargeString>(cLargeString &
           target.append("\",\"");
 // [2] : ArchiveDescr()
           if (IsArchived()) AppendHtmlEscapedAndCorrectNonUTF8(target, ArchiveDescr().c_str() );
-          target.append("\", \"");
+          target.append("\",");
 // scraper data
-// [3] : image.path  (nach "/tvscraper/")
-          target.append(m_s_image.path);
-          target.append("\", \"");
-// [4] : "pt" if m_s_image.width <= m_s_image.height, otherwise= ""
-          if (m_s_image.width <= m_s_image.height) target.append("pt");
-          target.append("\", \"");
-          if (!scraperDataAvailable() ) {
-            m_s_title = "";
-            m_s_videoType = eVideoType::none;
-            m_s_runtime = 0;
-            m_s_release_date = "";
-          }
-// [5] : title (scraper)
-          AppendHtmlEscapedAndCorrectNonUTF8(target, m_s_title.c_str() );
-          target.append("\", \"");
-          if (m_s_videoType == eVideoType::tvShow && (m_s_episode_number != 0 || m_s_season_number != 0)) {
-// [6] : season/episode/episode name (scraper)
-            target.append(m_s_season_number);
-            target.append('E');
-            target.append(m_s_episode_number);
-            target.append(' ');
-            AppendHtmlEscapedAndCorrectNonUTF8(target, m_s_episode_name.c_str() );
-          }
-          target.append("\", \"");
-// [7] : runtime (scraper)
-          if (m_s_runtime) AppendDuration(target, tr("(%d:%02d)"), m_s_runtime / 60, m_s_runtime % 60);
-          target.append("\", \"");
-// [8] : relase date (scraper)
-          if (!m_s_release_date.empty() ) target.append(m_s_release_date);
-          target.append("\", \"");
-// recording_spec: Day, time & duration
-// [9] : recording_spec: Day, time & duration
+	  AppendScraperData(target, m_s_image, m_s_videoType, m_s_title, m_s_season_number, m_s_episode_number, m_s_episode_name, m_s_runtime, m_s_release_date);
+// [9] : Day, time & duration
+          target.append(",\"");
           AppendDateTime(target, tr("%a,"), StartTime());  // day of week
           target.append(' ');
 	  AppendDateTime(target, tr("%b %d %y"), StartTime());  // date
@@ -823,13 +863,13 @@ template void RecordingsItem::AppendShortTextOrDesc<cLargeString>(cLargeString &
           if (text && Name() != text ) AppendHtmlEscapedAndCorrectNonUTF8(target, text);
           target.append("\", \"");
 // [16] Description
-          AppendTextTruncateOnWord(target, RecInfo()->Description(), 3000, true);
+          AppendTextTruncateOnWord(target, RecInfo()->Description(), 500, true);
 // [17] Path / folder
           if(displayFolder) {
             target.append("\", \"");
             if( *(const char *)Recording()->Folder() ) AppendHtmlEscapedAndCorrectNonUTF8(target, (const char *)Recording()->Folder() );
           }
-          target.append("\"]");
+          target.append("\"");
         }
 
 void RecordingsItemRec::AppendAsJSArray(cLargeString &target, std::vector<RecordingsItemPtr>::const_iterator recIterFirst, std::vector<RecordingsItemPtr>::const_iterator recIterLast, bool &first, const std::string &filter, bool reverse) {
@@ -856,11 +896,9 @@ void RecordingsItemRec::AppendAsJSArray(cLargeString &target, std::vector<Record
 	/**
 	 * Implemetation of class RecordingsItemDummy
 	 */
-        RecordingsItemDummy::RecordingsItemDummy(const std::string &Name, const std::string &ShortText, const std::string &Description, long Duration, cGetScraperOverview *scraperOverview):
-                RecordingsItem(Name),
-                m_short_text(ShortText.c_str() ),
-                m_description(Description.c_str() ),
-                m_duration( Duration / 60 )
+        RecordingsItemDummy::RecordingsItemDummy(const cEvent *event, cGetScraperOverview *scraperOverview):
+                RecordingsItem(charToString(event->Title() )),
+                m_event(event)
                 {
                   if (scraperOverview) {
                     m_s_videoType = scraperOverview->m_videoType;
@@ -1045,6 +1083,59 @@ void RecordingsItemRec::AppendAsJSArray(cLargeString &target, std::vector<Record
 			return n;
 		}
 	}
+
+// tooltip for picture, with scraper data
+std::string titleWithScraperData(const cGetScraperOverview &scraperOverview, const std::string &s_title, const std::string &s_episode_name) {
+  if (scraperOverview.m_videoType != eVideoType::movie && scraperOverview.m_videoType != eVideoType::tvShow) return "";
+  const char *lf = LiveSetup().GetUseAjax()?"<br/>": "&#13;";
+  std::string result = "title=\"";
+  AppendHtmlEscapedAndCorrectNonUTF8(result, s_title.c_str() );
+  bool episodeFound = scraperOverview.m_videoType == eVideoType::tvShow && (scraperOverview.m_episodeNumber != 0 || scraperOverview.m_seasonNumber != 0);
+  if (episodeFound) {
+    result += lf;
+    result += 'S';
+    result += std::to_string(scraperOverview.m_seasonNumber);
+    result += 'E';
+    result += std::to_string(scraperOverview.m_episodeNumber);
+    AppendHtmlEscapedAndCorrectNonUTF8(result, s_episode_name.c_str() );
+  }
+  if (scraperOverview.m_runtime) {
+    result += lf;
+    result += FormatDuration(tr("(%d:%02d)"), scraperOverview.m_runtime / 60, scraperOverview.m_runtime % 60);
+  }
+  result += "\" ";
+  return result;
+}
+
+// icon with recording errors, and tooltip
+std::string recordingErrorsHtml(int recordingErrors) {
+#if VDRVERSNUM >= 20505
+  std::string result;
+  result.append("<div class=\"recording_errors\"><img src=\"");
+
+  if (recordingErrors == 0) {
+    result.append(LiveSetup().GetThemedLink("img", "NoRecordingErrors.png"));
+    result.append("\" title=\"");
+    result.append(tr("No recording errors"));
+  }
+  if (recordingErrors == -1) {
+    result.append(LiveSetup().GetThemedLink("img", "NotCheckedForRecordingErrors.png"));
+    result.append("\" title=\"");
+    result.append(tr("Recording errors unknown"));
+  }
+  if (recordingErrors >   0) {
+    result.append(LiveSetup().GetThemedLink("img", "RecordingErrors.png"));
+    result.append("\" title=\"");
+    result.append(tr("Number of recording errors:"));
+    result.append(" ");
+    result.append(std::to_string(recordingErrors));
+  }
+  result.append("\" width = \"16px\"/> </div>");
+  return result;
+#else
+  return "";
+#endif
+}
 
 // find duplicates
 bool ByScraperDataAvailable(const RecordingsItemPtr &first, int videoType) {

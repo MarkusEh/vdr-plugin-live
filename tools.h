@@ -110,6 +110,7 @@ template<class T>
 	std::string intToTimeString(int tm);
 	int timeStringToInt(const char *t);
 	int timeStringToInt(const std::string &t);
+	std::string charToString(const char *s);
 
 	std::string EncodeDomId(std::string const & toEncode, char const * from = ".-:", char const * to = "pmc");
 	std::string DecodeDomId(std::string const & toDecode, char const * from = "pmc", char const * to = ".-:");
