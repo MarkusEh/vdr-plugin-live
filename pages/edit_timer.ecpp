@@ -22,7 +22,7 @@ using namespace vdrlive;
 	std::string async;
 	// form parameters
 	tChannelID channel;           // used with Tntnet20
-        std::string channel_string = "";   // used with Tntnet30
+  std::string channel_string = "";   // used with Tntnet30
 	int active = 1;
 	std::string title = "";
 	std::string remoteServerName = "";
@@ -34,8 +34,8 @@ using namespace vdrlive;
 	bool wday_fri = false;
 	bool wday_sat = false;
 	bool wday_sun = false;
-        std::string start_s = "00:00";
-        std::string stop_s = "00:00";
+  std::string start_s = "00:00";
+  std::string stop_s = "00:00";
 	bool vps = 0;
 	int priority = 0;
 	int lifetime = 0;
@@ -53,7 +53,7 @@ const cTimer* timer;
 <%include>page_init.eh</%include>
 <%cpp>
 #if TNTVERSION >= 30000
-        channel = channel.FromString(channel_string.c_str());  // Tntnet30: get struct channel from parameter string
+	channel = channel.FromString(channel_string.c_str());  // Tntnet30: get struct channel from parameter string
 #endif
 	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
@@ -70,7 +70,7 @@ const cTimer* timer;
 	SortedTimers& timers = LiveTimerManager().GetTimers();
 
 	timer = 0;
-        int timerId = 0;
+	int timerId = 0;
 	if ( !timerid.empty() ) {
 		std::string tId = SortedTimers::DecodeDomId(timerid);
 //		dsyslog("live: DEBUG: TIMER: timerid = %s", timerid);
@@ -102,8 +102,8 @@ const cTimer* timer;
 			message = tr("Please set a title for the timer!");
 		else
 		{
-                        const char* remote = ( remoteServerName == "") ? NULL : remoteServerName.c_str();
-//                        dsyslog("live: remote '%s'", remote);
+			const char* remote = ( remoteServerName == "") ? NULL : remoteServerName.c_str();
+//		dsyslog("live: remote '%s'", remote);
 			LiveTimerManager().UpdateTimer( timerId, remote, oldRemote, flags, channel, weekdays, date, start, stop, priority, lifetime, title, aux );
 			timerNotifier.SetTimerModification();
 			return reply.redirect(!edit_timerreferer.empty()?edit_timerreferer:"timers.html");
@@ -238,35 +238,35 @@ const cTimer* timer;
 
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Title" ) $>:</div></td>
-						<td class="rightcol"><input type="text" name="title" value="<$ title $>" size="80" class="width99" /></td>
+						<td class="rightcol"><input type="text" name="title" value="<$ title $>" size="55" class="width99" /></td>
 					</tr>
 <%cpp>
-                                        cStringList svdrpServerNames;
-                                        if (GetSVDRPServerNames(&svdrpServerNames)) {
-                                           svdrpServerNames.Sort(true);
+					cStringList svdrpServerNames;
+					if (GetSVDRPServerNames(&svdrpServerNames)) {
+						svdrpServerNames.Sort(true);
 </%cpp>
-                                           <tr>
-                                                <td class="label leftcol"><div class="withmargin"><$ tr("Server" ) $>:</div></td>
-                                                <td class="rightcol"><select name="remoteServerName" size="1" id="remoteServerName" style="margin-top: 5px">
-                                                         <option/>
+					<tr>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Server" ) $>:</div></td>
+						<td class="rightcol"><select name="remoteServerName" size="1" id="remoteServerName" style="margin-top: 5px">
+							<option/>
 <%cpp>
-                                                         for (int i = 0; i < svdrpServerNames.Size(); i++) {
-                                                              std::string rsrv = svdrpServerNames[i];
+							for (int i = 0; i < svdrpServerNames.Size(); i++) {
+							std::string rsrv = svdrpServerNames[i];
 </%cpp>
-							      <option
-%							      if (rsrv == remoteServerName) {
-							      selected="selected"
-%							      }
-							      ><$ rsrv $></option>
+							<option
+%								if (rsrv == remoteServerName) {
+								selected="selected"
+%								}
+							><$ rsrv $></option>
 <%cpp>
-                                                         }
+							}
 </%cpp>
-                                                  </select>
-                                                </td>
-                                           </tr>
+							</select>
+						</td>
+					</tr>
 <%cpp>
-                                        svdrpServerNames.Clear();
-                                        }
+					svdrpServerNames.Clear();
+					}
 </%cpp>
 <%cpp>
 					if ( LiveFeatures<features::epgsearch>().Recent() ) {

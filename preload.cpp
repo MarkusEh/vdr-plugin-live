@@ -16,6 +16,7 @@ namespace vdrlive {
 	{
 		static char const * const preloadFiles[] = {
 			"css/siteprefs.css",
+			"css/styles.css",
 			"img/rounded-box-blue-bl.png",
 			"img/rounded-box-blue-br.png",
 			"img/rounded-box-blue-ml.png",
@@ -104,6 +105,8 @@ namespace vdrlive {
 			"js/live/hinttips.js",
 			"js/live/pageenhance.js",
 			"js/live/createHtml.js",
+			"js/live/epg_tt_box.js",
+			"js/live/treeview.js",
 			"js/mootools/mootools.v1.11.js",
 			0
 		};

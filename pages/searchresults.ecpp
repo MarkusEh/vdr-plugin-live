@@ -8,7 +8,6 @@
 #include <recman.h>
 #include <services.h>
 
-cLargeString epg_itemS("epg_itemS", 1000);
 
 using namespace vdrlive;
 
@@ -70,6 +69,7 @@ bool logged_in(false);
 <%cpp>
 				std::string current_day = "";
 				bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
+        cLargeString epg_itemS("epg_itemS", 1000);
 				RecordingsItemPtr recItem;
 				bool recItemFound;
 

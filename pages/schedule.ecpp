@@ -10,7 +10,6 @@
 
 #include <vdr/config.h>
 
-cLargeString epg_item("epg_item", 1000);
 
 using namespace vdrlive;
 
@@ -116,6 +115,7 @@ bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
 		time_t now = time(NULL) - ::Setup.EPGLinger * 60;
                 RecordingsItemPtr recItem;
                 bool recItemFound;
+    cLargeString epg_item("epg_item", 1000);
 #if VDRVERSNUM >= 20301
 		for (const cEvent *Event = (cEvent *)Schedule->Events()->First(); Event; Event = (cEvent *)Schedule->Events()->Next(Event)) {
 #else

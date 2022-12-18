@@ -146,37 +146,37 @@ a:active {
 }
 
 .hint-tip .hint-tip-top {
-	background: transparent url(img/rounded-box-blue-tl.png) no-repeat 0px 0px;
+	background: transparent url(../img/rounded-box-blue-tl.png) no-repeat 0px 0px;
 	margin-right: 17px; /* space for right corner */
 }
 
 .hint-tip .hint-tip-top .hint-tip-c {
-	background: transparent url(img/rounded-box-blue-tr.png) no-repeat right 0px;
+	background: transparent url(../img/rounded-box-blue-tr.png) no-repeat right 0px;
 	margin-right: -17px; /* pull right corner back over "empty" space (from above margin) */
 }
 
 .hint-tip .hint-tip-bdy {
-	background: transparent url(img/rounded-box-blue-ml.png) repeat-y 0px 0px;
+	background: transparent url(../img/rounded-box-blue-ml.png) repeat-y 0px 0px;
  	margin-right: 17px;
 }
 
 .hint-tip .hint-tip-bdy .hint-tip-c {
-	background: transparent url(img/rounded-box-blue-mr.png) repeat-y right 0px;
+	background: transparent url(../img/rounded-box-blue-mr.png) repeat-y right 0px;
 	margin-right: -17px;
 }
 
 .hint-tip .hint-tip-bdy .hint-tip-c .hint-tip-s { /* optional gradient overlay */
-	/* background: transparent url(img/rounded-box-blue-ms.jpg) repeat-x 0px 0px; */
+	/* background: transparent url(../img/rounded-box-blue-ms.jpg) repeat-x 0px 0px; */
 	padding: 0px 17px 0px 17px;
 }
 
 .hint-tip .hint-tip-bot {
-	background: transparent url(img/rounded-box-blue-bl.png) no-repeat 0px 0px;
+	background: transparent url(../img/rounded-box-blue-bl.png) no-repeat 0px 0px;
 	margin-right: 17px;
 }
 
 .hint-tip .hint-tip-bot .hint-tip-c {
-	background: transparent url(img/rounded-box-blue-br.png) no-repeat right 0px;
+	background: transparent url(../img/rounded-box-blue-br.png) no-repeat right 0px;
 	margin-right: -17px;
 }
 
@@ -203,37 +203,37 @@ a:active {
 }
 
 .ok-info .ok-info-top {
-	background: transparent url(/img/rounded-box-green-tl.png) no-repeat 0px 0px;
+	background: transparent url(../img/rounded-box-green-tl.png) no-repeat 0px 0px;
 	margin-right: 17px; /* space for right corner */
 }
 
 .ok-info .ok-info-top .ok-info-c {
-	background: transparent url(/img/rounded-box-green-tr.png) no-repeat right 0px;
+	background: transparent url(../img/rounded-box-green-tr.png) no-repeat right 0px;
 	margin-right: -17px; /* pull right corner back over "empty" space (from above margin) */
 }
 
 .ok-info .ok-info-body {
-	background: transparent url(/img/rounded-box-green-ml.png) repeat-y 0px 0px;
+	background: transparent url(../img/rounded-box-green-ml.png) repeat-y 0px 0px;
  	margin-right: 17px;
 }
 
 .ok-info .ok-info-body .ok-info-c {
-	background: transparent url(/img/rounded-box-green-mr.png) repeat-y right 0px;
+	background: transparent url(../img/rounded-box-green-mr.png) repeat-y right 0px;
 	margin-right: -17px;
 }
 
 .ok-info .ok-info-body .ok-info-c .ok-info-s { /* optional gradient overlay */
-	/* background: transparent url(/img/rounded-box-green-ms.jpg) repeat-x 0px 0px; */
+	/* background: transparent url(../img/rounded-box-green-ms.jpg) repeat-x 0px 0px; */
 	padding: 0px 17px 0px 17px;
 }
 
 .ok-info .ok-info-bot {
-	background: transparent url(/img/rounded-box-green-bl.png) no-repeat 0px 0px;
+	background: transparent url(../img/rounded-box-green-bl.png) no-repeat 0px 0px;
 	margin-right: 17px;
 }
 
 .ok-info .ok-info-bot .ok-info-c {
-	background: transparent url(/img/rounded-box-green-br.png) no-repeat right 0px;
+	background: transparent url(../img/rounded-box-green-br.png) no-repeat right 0px;
 	margin-right: -17px;
 }
 
@@ -256,37 +256,37 @@ a:active {
 }
 
 .err-info .err-info-top {
-	background: transparent url(/img/rounded-box-redwine-tl.png) no-repeat 0px 0px;
+	background: transparent url(../img/rounded-box-redwine-tl.png) no-repeat 0px 0px;
 	margin-right: 17px; /* space for right corner */
 }
 
 .err-info .err-info-top .err-info-c {
-	background: transparent url(/img/rounded-box-redwine-tr.png) no-repeat right 0px;
+	background: transparent url(../img/rounded-box-redwine-tr.png) no-repeat right 0px;
 	margin-right: -17px; /* pull right corner back over "empty" space (from above margin) */
 }
 
 .err-info .err-info-body {
-	background: transparent url(/img/rounded-box-redwine-ml.png) repeat-y 0px 0px;
+	background: transparent url(../img/rounded-box-redwine-ml.png) repeat-y 0px 0px;
  	margin-right: 17px;
 }
 
 .err-info .err-info-body .err-info-c {
-	background: transparent url(/img/rounded-box-redwine-mr.png) repeat-y right 0px;
+	background: transparent url(../img/rounded-box-redwine-mr.png) repeat-y right 0px;
 	margin-right: -17px;
 }
 
 .err-info .err-info-body .err-info-c .err-info-s { /* optional gradient overlay */
-	/* background: transparent url(/img/rounded-box-redwine-ms.jpg) repeat-x 0px 0px; */
+	/* background: transparent url(../img/rounded-box-redwine-ms.jpg) repeat-x 0px 0px; */
 	padding: 0px 17px 0px 17px;
 }
 
 .err-info .err-info-bot {
-	background: transparent url(/img/rounded-box-redwine-bl.png) no-repeat 0px 0px;
+	background: transparent url(../img/rounded-box-redwine-bl.png) no-repeat 0px 0px;
 	margin-right: 17px;
 }
 
 .err-info .err-info-bot .err-info-c {
-	background: transparent url(/img/rounded-box-redwine-br.png) no-repeat right 0px;
+	background: transparent url(../img/rounded-box-redwine-br.png) no-repeat right 0px;
 	margin-right: -17px;
 }
 
@@ -305,6 +305,12 @@ span.epg_images {
 	width: 240px;
 }
 
+img.actor {
+	width: 118px;
+}
+img.artwork {
+	width: 480px
+}
 /* ##############################
    # Infowin styles for epg infos
    ##############################
@@ -334,12 +340,12 @@ div.info-win img.artwork {
 }
 
 .info-win .info-win-top {
-	background: transparent url(img/info-win-t-l.png) no-repeat 0px 0px;
+	background: transparent url(../img/info-win-t-l.png) no-repeat 0px 0px;
 	margin-right: 26px; /* space for right corner */
 }
 
 .info-win .info-win-top .info-win-c {
-	background: transparent url(img/info-win-t-r.png) no-repeat right 0px;
+	background: transparent url(../img/info-win-t-r.png) no-repeat right 0px;
 	margin-right: -26px; /* pull right corner back over "empty" space (from above margin) */
 	overflow: hidden;
 }
@@ -362,22 +368,22 @@ div.info-win img.artwork {
 .info-win .info-win-top .info-win-c .info-win-b .close {
 	width: 16px;
 	height: 16px;
-	background: transparent url(img/close.png) no-repeat top right;
+	background: transparent url(../img/close.png) no-repeat top right;
 }
 
 .info-win .info-win-top .info-win-c .info-win-b .close:hover {
 	width: 16px;
 	height: 16px;
-	background: transparent url(img/close_red.png) no-repeat top right;
+	background: transparent url(../img/close_red.png) no-repeat top right;
 }
 
 .info-win .info-win-body {
-	background: transparent url(img/info-win-m-l.png) repeat-y 0px 0px;
+	background: transparent url(../img/info-win-m-l.png) repeat-y 0px 0px;
  	margin-right: 26px;
 }
 
 .info-win .info-win-body .info-win-c {
-	background: transparent url(img/info-win-m-r.png) repeat-y right 0px;
+	background: transparent url(../img/info-win-m-r.png) repeat-y right 0px;
 	margin-right: -26px;
 }
 
@@ -386,12 +392,12 @@ div.info-win img.artwork {
 }
 
 .info-win .info-win-bot {
-	background: transparent url(img/info-win-b-l.png) no-repeat 0px 0px;
+	background: transparent url(../img/info-win-b-l.png) no-repeat 0px 0px;
 	margin-right: 26px;
 }
 
 .info-win .info-win-bot .info-win-c {
-	background: transparent url(img/info-win-b-r.png) no-repeat right 0px;
+	background: transparent url(../img/info-win-b-r.png) no-repeat right 0px;
 	margin-right: -26px;
 }
 
@@ -405,7 +411,7 @@ div.info-win img.artwork {
 */
 
 div.menu {
-	background: #000057  url(img/menu_line_bg.png) repeat-x;
+	background: #000057  url(../img/menu_line_bg.png) repeat-x;
 	min-height: 27px;
 	margin: 0;
 	padding: 0 0 0 10px;
@@ -444,12 +450,12 @@ div.inhalt {
 div#pagemenu {
 	margin-top: 2px;
 	padding-top: 6px;
-	background: #FFFFFF url(img/bg_line.png) top repeat-x;
+	background: #FFFFFF url(../img/bg_line.png) top repeat-x;
 }
 
 div#pagemenu div {
 	padding-bottom: 6px;
-	background: #FFFFFF url(img/bg_line_top.png) bottom repeat-x;
+	background: #FFFFFF url(../img/bg_line_top.png) bottom repeat-x;
 }
 
 div#pagemenu div div {
@@ -496,7 +502,7 @@ div#messagebar {
 	line-height: 20px;
         min-height: 27px;
 	vertical-align: middle;
-	background: #7CAD3F url(img/msgbar_line_bg.png) top repeat-x;
+	background: #7CAD3F url(../img/msgbar_line_bg.png) top repeat-x;
 	border-top: 1px solid #2B6B00;
 	border-bottom: 1px solid #2B6B00;
 }
@@ -572,7 +578,7 @@ div#infobox div.st_header div.caption {
 div#infobox div.st_content {
 	overflow: hidden;
 	padding: 4px;
-	background: white url(img/bg_line_top.png) top left repeat-x;
+	background: white url(../img/bg_line_top.png) top left repeat-x;
 }
 
 div#infobox div.st_content div.duration {
@@ -631,19 +637,19 @@ button {
 }
 
 button.green {
-	background-image: url(img/button_green.png);
+	background-image: url(../img/button_green.png);
 }
 
 button.red {
-	background-image: url(img/button_red.png);
+	background-image: url(../img/button_red.png);
 }
 
 button.blue {
-	background-image: url(img/button_blue.png);
+	background-image: url(../img/button_blue.png);
 }
 
 button.yellow {
-	background-image: url(img/button_yellow.png);
+	background-image: url(../img/button_yellow.png);
 }
 
 
@@ -703,16 +709,16 @@ div.event div.station {
 div.station div {
 	margin: 0;
 	padding: 0;
-	background: url(img/bg_box_l.png) top left no-repeat;
+	background: url(../img/bg_box_l.png) top left no-repeat;
 	height: 23px;
 }
 
 div.station div div {
-	background: url(img/bg_box_r.png) top right no-repeat;
+	background: url(../img/bg_box_r.png) top right no-repeat;
 }
 
 div.station div div div {
-	background: url(img/bg_box_h.png) repeat-x;
+	background: url(../img/bg_box_h.png) repeat-x;
 	line-height: 20px;
 	vertical-align: middle;
 	text-align: left;
@@ -745,7 +751,7 @@ div.content {
 	margin: 0;
 	overflow: hidden;
 
-	background: white url(img/bg_tools.png) top left repeat-y;
+	background: white url(../img/bg_tools.png) top left repeat-y;
 	border-left: 1px solid #000000;
 	border-right: 1px solid #000000;
 	border-bottom: 1px solid #000000;
@@ -847,7 +853,7 @@ table.listing {
 }
 
 table.listing tr td {
-	background: transparent url(img/bg_line.png) bottom repeat-x;
+	background: transparent url(../img/bg_line.png) bottom repeat-x;
 	border-bottom: 1px solid #C0C1DA;
 }
 
@@ -910,7 +916,7 @@ table.mschedule tr {
 }
 
 table.mschedule tr td.event {
-	background: transparent url(img/bg_line.png) bottom repeat-x;
+	background: transparent url(../img/bg_line.png) bottom repeat-x;
 	border-bottom: 1px solid #C0C1DA;
 }
 
@@ -977,16 +983,16 @@ table.mschedule a {
 div.boxheader	 {
 	margin: 0px;
 	padding: 0px;
-	background: url(img/bg_box_l.png) top left no-repeat;
+	background: url(../img/bg_box_l.png) top left no-repeat;
 }
 
 div.boxheader div {
 	margin: 0px;
-	background: url(img/bg_box_r.png) top right no-repeat;
+	background: url(../img/bg_box_r.png) top right no-repeat;
 }
 
 div.boxheader div div {
-	background: url(img/bg_box_h.png) repeat-x;
+	background: url(../img/bg_box_h.png) repeat-x;
 	vertical-align: middle;
 	text-align: left;
 	margin-right: 3px;
@@ -1010,6 +1016,9 @@ table.recordings {
 	border: 0px;
 	border-collapse: collapse;
 }
+table.recordings a {
+        color: black;
+}
 div.recordings {
 	border: 1px solid black;
 }
@@ -1022,13 +1031,13 @@ div.recordings {
 
 div.recording_item {
 	overflow: hidden;
-	background: url(img/bg_line.png) bottom repeat-x;
+	background: url(../img/bg_line.png) bottom repeat-x;
 	border-bottom: 1px solid #C0C1DA;
 }
 
 tr.recording_item {
 	overflow: hidden;
-	background: url(img/bg_line.png) bottom repeat-x;
+	background: url(../img/bg_line.png) bottom repeat-x;
 	border-bottom: 1px solid #C0C1DA;
 }
 tr.recording_item:last-child {
@@ -1042,16 +1051,14 @@ tr.recording_item:last-child {
 	margin: 2px;
 }
 
-.recording_item div.recording_folder_name {
+.recording_item .recording_folder_name {
 	font-weight: bold;
 	cursor: pointer;
-        max-width: 50em;
 }
-.recording_item div.recording_folder_name_new {
+.recording_item .recording_folder_name_new {
 	font-weight: bold;
 	color: orangered;
 	cursor: pointer;
-        max-width: 50em;
 }
 
 .recording_item div.recording_name_new {
@@ -1088,7 +1095,7 @@ tr.recording_item:last-child {
 */
 
 div.screenshot {
-	background-image: url(img/tv.jpg);
+	background-image: url(../img/tv.jpg);
 	background-repeat: no-repeat;
 	height: 320px;
 	width: 569px;
@@ -1208,7 +1215,7 @@ table.formular {
 table.formular tr td {
 	vertical-align: top;
 	vertical-align: middle;
-	background: url(img/bg_line.png) bottom repeat-x;
+	background: url(../img/bg_line.png) bottom repeat-x;
 	border-bottom: 1px solid #C0C1DA;
 }
 
@@ -1280,7 +1287,7 @@ div.caption {
 div.epg_content {
 	padding: 0px 0px 7px 0px;
 	margin: 0px 0px 0px 0px;
-        background: transparent url(img/bg_tools.png) top left repeat-y;
+        background: transparent url(../img/bg_tools.png) top left repeat-y;
         border: 1px solid black;
 	overflow: hidden;
 }
@@ -1313,13 +1320,6 @@ span.epg_images img.epg_image {
 }
 
 /* some adaptions when shown in info-win subwindow */
-
-/*
-.info-win div.epg_content div div.progress div {
-	margin-left: 0px;
-}
-*/
-
 .info-win div.boxheader {
 	display: none;
 }
@@ -1408,19 +1408,27 @@ td.enlarge-image img.thumb {
 td.enlarge-image img.thumbpt {
   width: 100px;
 }
+span.epg_images {
+	width: 150px;
+}
 
 div.info-win {
 	width: 410px;
 }
 div.info-win img.artwork {
-/* info-win - 80 */
-	width: 330px;
+/* info-win - 95 */
+	width: 315px
+}
+img.artwork {
+	width: 315px
 }
 div.info-win img.actor {
-/* artwork/4 - 2 */
-	width: 80px;
+/* artwork/4 - 4 */
+	width: 73px;
 }
-
+img.actor {
+	width: 73px;
+}
 .hint-tip {
  	max-width: 200px; /* depends on the tip backround image width */
 }

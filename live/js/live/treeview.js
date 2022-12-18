@@ -1,6 +1,7 @@
 // ---------------------------------------------
 // --- Name:    Easy DHTML Treeview           --
 // --- Author:  D.D. de Kerf                  --
+// --- Adapted: Markus Ehrnsperger            --
 // --- Adapted: Jasmin Jessich                --
 // --- Adapted: hepi (via patch)              --
 // --- Adapted: Dieter Hametner               --
@@ -23,56 +24,39 @@ function findChildNode(node, className)
 {
 	for (idx = 0; idx < node.childNodes.length; idx++) {
 		n = node.childNodes.item(idx);
-		if (n.nodeType == Node.ELEMENT_NODE) {
-			attr = n.getAttributeNode("class");
-			if ((attr != null) && (attr.nodeValue == className)) {
-				return n;
-			}
-		}
-	}
-	return null;
-}
-
-function findImageNode(node, className)
-{
-	for (idx = 0; idx < node.childNodes.length; idx++) {
-		n = node.childNodes.item(idx);
-		if ((n.nodeType == Node.ELEMENT_NODE) && (n.nodeName == "IMG")) {
-			attr = n.getAttributeNode("class");
-			if ((attr != null) && (attr.nodeValue == className)) {
-				return n;
-			}
-		}
+		if (n.classList.contains(className)) return n;
 	}
 	return null;
 }
 
 function setImages(node, expand, folder)
 {
-	// Change the image (if there is an image)
-	if (node.childNodes.length > 0)
-	{
-		expandNode = findImageNode(node, "recording_expander");
-		if (expandNode != null)
-			expandNode.src = expand;
-		folderNode = findImageNode(node, "recording_folder");
-		if (folderNode != null)
-			folderNode.src = folder;
-	}
+// input: the div class = recording_item node
+// Change the images (if there is an image)
+        const expandNodes = node.getElementsByClassName("recording_expander");
+        if (expandNodes.length > 0)
+        	expandNodes[0].src = expand;
+        const folderNodes = node.getElementsByClassName("recording_folder");
+        if (folderNodes.length > 0)
+        	folderNodes[0].src = folder;
 }
 
-function Toggle(node)
+function Toggle(node, node_id)
 {
 	// Unfold the branch if it isn't visible
 	sibling = findSibling(node, "UL");
-	if (sibling == null)
-		return;
+	if (sibling == null) return;
 
-	imgChild = findChildNode(node, "recording_imgs");
+        
 	if (sibling.style.display == 'none')
 	{
-		if (imgChild != null)
-			setImages(imgChild, "img/minus.png", "img/folder_open.png");
+		setImages(node, "img/minus.png", "img/folder_open.png");
+                if (rec_ids[node_id] != null && rec_ids[node_id].length > 0) {
+		  sibling.insertAdjacentHTML("beforeend", rec_string_d(rec_ids[node_id]));
+                  rec_ids[node_id] = [];
+                  if (typeof liveEnhanced !== 'undefined') liveEnhanced.domReadySetup();
+		  imgLoad();
+		}
 		sibling.style.display = 'block';
 		updateCookieOnExpand( sibling.id );
 	}
@@ -80,38 +64,7 @@ function Toggle(node)
 	else
 	{
 		updateCookieOnCollapse( sibling.id );
-		if (imgChild != null)
-			setImages(imgChild, "img/plus.png", "img/folder_closed.png");
-		sibling.style.display = 'none';
-	}
-}
-function Toggle2(node, node_id)
-{
-	// Unfold the branch if it isn't visible
-	sibling = findSibling(node, "UL");
-	if (sibling == null)
-		return;
-
-	imgChild = findChildNode(node, "recording_imgs");
-	if (sibling.style.display == 'none')
-	{
-		if (imgChild != null)
-			setImages(imgChild, "img/minus.png", "img/folder_open.png");
-                  if (rec_ids[node_id] != null && rec_ids[node_id].length > 0) {
-		    sibling.insertAdjacentHTML("beforeend", rec_string_d(rec_ids[node_id]));
-                    rec_ids[node_id] = [];
-                    if (typeof liveEnhanced !== 'undefined') liveEnhanced.domReadySetup();
-		    imgLoad();
-		  }
-		sibling.style.display = 'block';
-		updateCookieOnExpand( sibling.id );
-	}
-	// Collapse the branch if it IS visible
-	else
-	{
-		updateCookieOnCollapse( sibling.id );
-		if (imgChild != null)
-			setImages(imgChild, "img/plus.png", "img/folder_closed.png");
+		setImages(node, "img/plus.png", "img/folder_closed.png");
 		sibling.style.display = 'none';
 	}
 }
@@ -160,9 +113,9 @@ function openNodesOnPageLoad()
 	                  rec_ids[openNodes[z]] = [];
 			  domChanges = 1;
 		  	}
-			var imgChild = ul.parentNode.children[0].children[0];
-			if (imgChild != null)
-				setImages(imgChild, "img/minus.png", "img/folder_open.png");
+			var divRecItem = ul.parentNode.children[0]
+			if (divRecItem != null)
+				setImages(divRecItem, "img/minus.png", "img/folder_open.png");
 		}
 	}
 	if (domChanges == 1 && typeof liveEnhanced !== 'undefined') liveEnhanced.domReadySetup();

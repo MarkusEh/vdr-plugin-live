@@ -15,7 +15,6 @@
 
 #define MB_PER_MINUTE 25.75 // this is just an estimate!
 #include <string>
-cLargeString recoring_item("recoring_item", 25000);
 
 using namespace vdrlive;
 
@@ -120,6 +119,7 @@ else lf = "&#13;";
 <script>
 const recs = [];
 <%cpp>
+cLargeString recoring_item("recoring_item", 25000);
 char buffer_i[20];
 RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
 for (const RecordingsItemPtr &rPtr: *recordingsTree->allRecordings()) {
@@ -241,7 +241,7 @@ function rec_string_d(rec_ids) {
 
 </script>
 
-  <script type="text/javascript" src="treeview.js"></script>
+  <script type="text/javascript" src="js/live/treeview.js"></script>
 </head>
 <body onload="adjustHeader()" onresize="adjustHeader()">
   <& pageelems.logo &>
@@ -277,14 +277,17 @@ if (!deleteResult.empty()) {
       <$ tr("No recordings found") $>
 <%cpp>
     } else {
+      uintptr_t irecoring_item = (uintptr_t)&recoring_item;
+      RecordingsItemPtr recItemRoot = recordingsTree->getRoot();
+      uintptr_t iRecItemRoot = (uintptr_t)&recItemRoot;
 </%cpp>
       <form method="post" name="recordings" action="recordings.ecpp">
         <div class="recordings">
           <ul class="recordingslist" style="display: block;">
-            <& recordings.recordings_item &>
+            <& recordings.recordings_item iRecItem=(iRecItemRoot) irecoring_item=(irecoring_item) &>
           </ul>
         </div>
-        <div class="withmargin">
+        <div class="withmargin hidden-xs">
           <button class="red" type="submit"><$ tr("Delete selected") $></button>
         </div>
       </form>
@@ -301,6 +304,7 @@ if (!deleteResult.empty()) {
 <%def recordings_item>
 <%args>
 	uintptr_t iRecItem = 0;
+	uintptr_t irecoring_item = 0;
 	std::string parentIdHash;
 </%args>
 <%cpp>
@@ -313,14 +317,9 @@ if (currentSort.compare(0, 6,  "errors", 6) == 0) sortOrder = eSortOrder::errors
 if (currentSort.compare(0, 10, "duplicates", 10) == 0) sortOrder = eSortOrder::duplicatesLanguage;
 if (currentSort == "datedesc" || currentSort == "namedesc") reverse = true;
 // get rec item of this (current) dir
-RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
-RecordingsItemPtr recItemThisDir;
-if (iRecItem != 0) {
-  recItemThisDir = *(static_cast<RecordingsItemPtr *>((void *)iRecItem) );
-} else {
-  recItemThisDir = recordingsTree->getRoot();
-}
+RecordingsItemPtr recItemThisDir = *(static_cast<RecordingsItemPtr *>((void *)iRecItem) );
 int level = recItemThisDir->Level();
+cLargeString *recoring_item = static_cast<cLargeString *>((void *)irecoring_item );
 
 std::vector<RecordingsItemPtr> recItems;
 const std::vector<RecordingsItemPtr> *recItemsC = NULL;
@@ -358,22 +357,33 @@ if (currentFlat != "true") {
       iRecItem = (uintptr_t)&recItem;
   </%cpp>
       <li class="recording">
-        <div class="recording_item" onclick = "Toggle2(this, 'fldr_<$ idHash $>')">
-          <div class="recording_imgs">
-            <%cpp> if(level > 0) { </%cpp>
-	      <img src="img/transparent.png" width="<$ 16*level $>px" height="16px" /><%cpp> } </%cpp><img class="recording_expander" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>plus.png" /><img class="recording_folder" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png" />
-            <{ if (!recItem->scraperImage().path.empty() ) { }>
+        <div class="recording_item" onclick = "Toggle(this, 'fldr_<$ idHash $>')">
+        <table><tr>
+          <%cpp> if(level > 0) { </%cpp>
+            <td class = "space">
+              <img src="img/transparent.png" width="<$ 16*level $>px" height="16px" />
+            </td>
+          <%cpp> } </%cpp>
+          <td class="space">
+            <img class="recording_expander" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>plus.png" />
+          </td><td class="space">
+            <img class="recording_folder" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png" />
+          </td>
+%         if (!recItem->scraperImage().path.empty() ) {
+            <td class = space>
               <div class="thumb">
                 <img data-src="/tvscraper/<$ recItem->scraperImage().path $>"
                   class="<$ recItem->scraperImage().width > recItem->scraperImage().height?"thumb":"thumbpt" $>"
                 />
               </div>
-            <{ } }>
-          </div>
-          <div class="recording_folder_name<$ (newR ? "_new" : "") $>"><$ recItem->Name() $></div>
+            </td>
+%         }
+        <td class="recording_folder_name<$ (newR ? "_new" : "") $>">
+          <$ recItem->Name() $>
+        </td></tr></table>
         </div>
         <ul id="fldr_<$ idHash $>" class="recordingslist" style="display: none;">
-          <& recordings.recordings_item iRecItem=(iRecItem) parentIdHash=(idHash) &>
+          <& recordings.recordings_item iRecItem=(iRecItem) irecoring_item=(irecoring_item) parentIdHash=(idHash) &>
         </ul>
       </li>
       <%cpp>
@@ -384,6 +394,7 @@ if (currentFlat != "true") {
   } // end if (currentSort != "duplicates")
 } else {
 // here we prepare the items in case of a flat list, no folders
+  RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
   if (currentSort != "duplicates") { 
     recItemsC = recordingsTree->allRecordings(sortOrder);
   } else {
@@ -402,20 +413,21 @@ if (currentSort != "duplicates" || currentFlat == "true") {
   <%cpp> } else {
     bool first = true;
     const char *displayFolder = currentFlat == "true"?"1":"0";
-    recoring_item.clear();
-    RecordingsItemRec::AppendAsJSArray(recoring_item, recItemsC->begin(), recItemsC->end(), first, currentFilter, reverse);
+    recoring_item->clear();
+    RecordingsItemRec::AppendAsJSArray(*recoring_item, recItemsC->begin(), recItemsC->end(), first, currentFilter, reverse);
     if (level == 0) { </%cpp>
       <script>
-        document.write(rec_string_d([<$level$>, <$displayFolder$>, [ <$$ recoring_item.c_str() $> ]]))
+        document.write(rec_string_d([<$level$>, <$displayFolder$>, [ <$$ recoring_item->c_str() $> ]]))
       </script>
     <%cpp> } else { </%cpp>
       <script>
-        rec_ids["fldr_<$ parentIdHash $>"] = [<$level$>, <$displayFolder$>, [ <$$ recoring_item.c_str() $> ]]
+        rec_ids["fldr_<$ parentIdHash $>"] = [<$level$>, <$displayFolder$>, [ <$$ recoring_item->c_str() $> ]]
       </script>
     <%cpp> }
   }
 } else {
 // duplicates
+  RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
   for (int i = 0; i < 3; i++) {
     recItems.clear();
     std::string nodeName;
@@ -432,20 +444,22 @@ if (currentSort != "duplicates" || currentFlat == "true") {
     if (!recItems.empty() ) {
       std::string idHash(xxHash32(nodeName));
       bool first = true;
-      recoring_item.clear();
-      RecordingsItemRec::AppendAsJSArray(recoring_item, recItems.begin(), recItems.end(), first, currentFilter, false);
+      recoring_item->clear();
+      RecordingsItemRec::AppendAsJSArray(*recoring_item, recItems.begin(), recItems.end(), first, currentFilter, false);
       </%cpp>
       <li class="recording">
-        <div class="recording_item" onclick = "Toggle2(this, 'fldr_<$ idHash $>')">
-          <div class="recording_imgs">
-            <img class="recording_expander" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>plus.png" /><img class="recording_folder" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png" />
-          </div>
-          <div class="recording_folder_name"><$ nodeName $></div>
-          <div class="recording_actions">&nbsp;</div>
+        <div class="recording_item" onclick = "Toggle(this, 'fldr_<$ idHash $>')">
+          <table><tr><td class="space">
+            <img class="recording_expander" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>plus.png" />
+          </td><td class="space">
+            <img class="recording_folder" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png" />
+          </td><td class="recording_folder_name">
+            <$ nodeName $>
+          </td></tr></table>
         </div>
         <ul id="fldr_<$ idHash $>" class="recordingslist" style="display: none;">
           <script>
-            rec_ids["fldr_<$ idHash $>"] = [1, 1, [ <$$ recoring_item.c_str() $> ]]
+            rec_ids["fldr_<$ idHash $>"] = [1, 1, [ <$$ recoring_item->c_str() $> ]]
           </script>
         </ul>
       </li>

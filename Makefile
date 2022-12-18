@@ -97,16 +97,8 @@ WEB_LIB_PAGES := libpages.a
 WEB_DIR_PAGES := pages
 WEB_PAGES     := $(WEB_DIR_PAGES)/$(WEB_LIB_PAGES)
 
-WEB_LIB_CSS := libcss.a
-WEB_DIR_CSS := css
-WEB_CSS     := $(WEB_DIR_CSS)/$(WEB_LIB_CSS)
-
-WEB_LIB_JAVA := libjavascript.a
-WEB_DIR_JAVA := javascript
-WEB_JAVA     := $(WEB_DIR_JAVA)/$(WEB_LIB_JAVA)
-
-WEBLIBS := $(WEB_PAGES) $(WEB_CSS) $(WEB_JAVA)
-SUBDIRS := $(WEB_DIR_PAGES) $(WEB_DIR_CSS) $(WEB_DIR_JAVA)
+WEBLIBS := $(WEB_PAGES)
+SUBDIRS := $(WEB_DIR_PAGES)
 
 ### The main target:
 .PHONY: all
@@ -116,12 +108,6 @@ all: lib i18n
 ### Implicit rules:
 $(WEB_DIR_PAGES)/%.o: $(WEB_DIR_PAGES)/%.cpp $(WEB_DIR_PAGES)/%.ecpp
 	@$(MAKE) -C $(WEB_DIR_PAGES) --no-print-directory PLUGINFEATURES="$(PLUGINFEATURES)" $(notdir $@)
-
-$(WEB_DIR_CSS)/%.o:
-	@$(MAKE) -C $(WEB_DIR_CSS) --no-print-directory PLUGINFEATURES="$(PLUGINFEATURES)" $(notdir $@)
-
-$(WEB_DIR_JAVA)/%.o:
-	@$(MAKE) -C $(WEB_DIR_JAVA) --no-print-directory PLUGINFEATURES="$(PLUGINFEATURES)" $(notdir $@)
 
 %.o: %.cpp
 	$(call PRETTY_PRINT,"CC" $@)

@@ -190,7 +190,7 @@ function existingRecordingSR(s, col_span1, bottomrow, imdb_id, id, archiveDescr,
   if (archiveDescr.length != 0) col_span1--;
   s.a += '<tr><td colspan='
   s.a += col_span1.toString()
-  s.a += ' style=\"word-wrap: normal;min-width: 10px;max-width: 70px;\" class=\"leftcol '
+  s.a += ' class=\"leftcol '
   s.a += bottomrow
   s.a += '\"><$ tr("Existing Recording:") $>'
   if (archiveDescr.length != 0) {
@@ -235,61 +235,11 @@ function existingRecordingString(col_span, bottomrow, imdb_id, id, archiveDescr,
 
 
 <%def stylesheets>
-<link rel="stylesheet" type="text/css" href="styles.css"/>
+<link rel="stylesheet" type="text/css" href="css/styles.css"/>
 <link rel="stylesheet" type="text/css" href="<$ LiveSetup().GetThemedLink("css", "theme.css") $>"/>
 <link rel="stylesheet" type="text/css" href="css/siteprefs.css"/>
-<link rel="stylesheet" type="text/css" href="css/DatePicker.css"/>
 <script type="text/javascript" src="js/live/header.js"></script>
-<script type="text/javascript">
-function classSetValue(element_id, value) {
-  if (document && document.getElementById(element_id) ) {
-    document.getElementById(element_id).setAttribute("class", value);
-  }
-}
-function removeAttributeHidden(element_id) {
-  if (document && document.getElementById(element_id) ) {
-    document.getElementById(element_id).removeAttribute("hidden");
-    classSetValue(element_id + "_m", "active");
-  }
-}
-function addAttributeHidden(element_id) {
-  if (document && document.getElementById(element_id) ) {
-    document.getElementById(element_id).hidden = true;
-    classSetValue(element_id + "_m", "inactive");
-  }
-}
-function displayOnOff(element_id_on, element_id_off) {
- removeAttributeHidden(element_id_on);
- addAttributeHidden(element_id_off);
-} 
-function displayOn2Off(element_id_on, element_id_off1, element_id_off2) {
- removeAttributeHidden(element_id_on);
- addAttributeHidden(element_id_off1);
- addAttributeHidden(element_id_off2);
-} 
-function displayOn3Off(element_id_on, element_id_off1, element_id_off2, element_id_off3) {
- removeAttributeHidden(element_id_on);
- addAttributeHidden(element_id_off1);
- addAttributeHidden(element_id_off2);
- addAttributeHidden(element_id_off3);
-} 
-function displayEPG(boxId) {
-  displayOn3Off(boxId + "_epg", boxId + "_scraper", boxId + "_actors", boxId + "_artwork");
-  removeAttributeHidden(boxId + "_epg_image");
-}
-function displayScraper(boxId) {
-  displayOn3Off(boxId + "_scraper", boxId + "_epg", boxId + "_actors", boxId + "_artwork");
-  removeAttributeHidden(boxId + "_epg_image");
-}
-function displayActors(boxId) {
-  displayOn3Off(boxId + "_actors", boxId + "_epg", boxId + "_scraper", boxId + "_artwork");
-  addAttributeHidden(boxId + "_epg_image");
-}
-function displayArtwork(boxId) {
-  displayOn3Off(boxId + "_artwork", boxId + "_actors", boxId + "_epg", boxId + "_scraper");
-  addAttributeHidden(boxId + "_epg_image");
-}
-</script>
+<script type="text/javascript" src="js/live/epg_tt_box.js"></script>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -892,7 +842,7 @@ if (scraperMovieOrTv.found) {
 </%cpp>
     <td>
       <a href="/tvscraper/<$ ScraperImagePath2Live(actor.actorThumb.path) $>" target="_blank">
-        <img src="/tvscraper/<$ ScraperImagePath2Live(actor.actorThumb.path) $>" alt="<$actor.name$>: <$actor.role$>" class="actor" width="118px">
+        <img src="/tvscraper/<$ ScraperImagePath2Live(actor.actorThumb.path) $>" alt="<$actor.name$>: <$actor.role$>" class="actor">
         </img>
       </a>
     </td>
@@ -922,7 +872,7 @@ if (scraperMovieOrTv.found) {
 </%cpp>
     <td>
       <a href="/tvscraper/<$ ScraperImagePath2Live(actor.actorThumb.path) $>" target="_blank">
-        <img src="/tvscraper/<$ ScraperImagePath2Live(actor.actorThumb.path) $>" alt="<$actor.name$>: <$actor.role$>" class="actor" width="118px">
+        <img src="/tvscraper/<$ ScraperImagePath2Live(actor.actorThumb.path) $>" alt="<$actor.name$>: <$actor.role$>" class="actor">
         </img>
       </a>
     </td>
@@ -984,7 +934,7 @@ const std::vector<cTvMedia> *media_v = static_cast<std::vector<cTvMedia> *>((voi
 for (const cTvMedia &media: *media_v) {
 </%cpp>
   <a href="/tvscraper/<$ ScraperImagePath2Live(media.path) $>" target="_blank">
-    <img src="/tvscraper/<$ ScraperImagePath2Live(media.path) $>" class="artwork" width="480px">
+    <img src="/tvscraper/<$ ScraperImagePath2Live(media.path) $>" class="artwork">
     </img>
   </a>
 <%cpp>
