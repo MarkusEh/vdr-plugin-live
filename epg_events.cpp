@@ -206,6 +206,12 @@ namespace vdrlive
 		}
 		return endTime;
 	}
+	int EpgRecording::EventDuration() const
+	{
+		const cRecordingInfo* info = m_recording ? m_recording->Info() : 0;
+    if (!info || !info->GetEvent() ) return 0;
+		return info->GetEvent()->Duration();
+	}
 
 	int EpgRecording::Elapsed() const
 	{

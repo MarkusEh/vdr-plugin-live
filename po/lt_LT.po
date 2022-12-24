@@ -85,6 +85,15 @@ msgstr ""
 msgid "File system view"
 msgstr ""
 
+msgid "No recording errors"
+msgstr ""
+
+msgid "Recording errors unknown"
+msgstr ""
+
+msgid "Number of recording errors:"
+msgstr ""
+
 msgid "Couldn't find channel or no channels available."
 msgstr "Nerastas arba neegzistuojantis kanalas."
 
@@ -145,99 +154,159 @@ msgstr "nesklandumas"
 msgid "conflicts"
 msgstr "nesklandumai"
 
-msgid "Wrong username or password"
-msgstr "Blogas prisijungimo vardas arba slapyvardis"
-
-msgid "Login"
-msgstr "Prisijungimas"
-
-msgid "VDR Live Login"
-msgstr "VDR Live prisijungimas"
-
-msgid "User"
-msgstr "Vartotojo vardas"
-
-msgid "Password"
-msgstr "Slapyvardis"
+msgid "Couldn't aquire access to channels, please try again later."
+msgstr "Neprieina prie kanalų, pabandykit vėliau."
 
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Atleiskit, bet jūs neturite užtektinai teisių. Susisiekite su sistemos administratoriumi!"
 
-msgid "Users"
-msgstr "Vartotojai"
+msgid "Couldn't find recording. Maybe you mistyped your request?"
+msgstr ""
+
+msgid "Please set a name for the recording!"
+msgstr ""
+
+msgid "Cannot copy, rename or move the recording."
+msgstr ""
+
+msgid "Edit recording"
+msgstr ""
 
 msgid "Name"
 msgstr "Vardas"
 
-msgid "Edit user"
-msgstr "Koreguoti vartotoją"
+msgid "Directory"
+msgstr "Katalogas"
 
-msgid "Delete user"
-msgstr "Ištrinti vartotoją"
+msgid "Delete resume information"
+msgstr ""
 
-msgid "New user"
-msgstr "Naujas vartotojas"
+msgid "Delete marks information"
+msgstr ""
 
-msgid "Couldn't aquire access to channels, please try again later."
-msgstr "Neprieina prie kanalų, pabandykit vėliau."
+msgid "Copy only"
+msgstr ""
 
-msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
-msgstr "Kanalas nerastas arba jo iš vis nėra. Gal klaidingai įvedėte paieškos frazę?"
+#, fuzzy
+msgid "Short description"
+msgstr "Aprašymas"
 
-#, c-format
-msgid "%a, %x"
-msgstr "%a, %x"
+msgid "Description"
+msgstr "Aprašymas"
 
-msgid "Click to view details."
-msgstr "Spustelkit kad gautumėt daugiau informacijos."
+msgid "Auxiliary info"
+msgstr ""
 
-msgid "View the schedule of this channel"
-msgstr "Žiūrėti šio kanalo programą"
+msgid "Save"
+msgstr "Išsaugoti"
 
-msgid " - "
-msgstr " - "
+msgid "Cancel"
+msgstr "Atmesti"
 
-msgid "Channel"
-msgstr "Kanalas"
+msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
+msgstr "Nerandamas paieškos laikmatis. Gal pateikėte netikslią užklausą?"
 
-msgid "Switch to this channel."
-msgstr "Pereiti į šį kanalą."
-
-msgid "Search results"
-msgstr "Paieškos rezultatai"
-
-msgid "No search results"
-msgstr "Nėra paieškos rezultatų"
-
-msgid "%A, %b %d %Y"
-msgstr "%A, %b %d %Y"
+msgid "Edit search timer"
+msgstr "Koreguoti paieškos laikmatį"
 
 msgid "New search timer"
 msgstr "Naujas paieškos laikmatis"
 
-msgid "Couldn't find timer. Maybe you mistyped your request?"
-msgstr "Toks laikmatis nerastas. Gal įvedėte klaidingą paieškos frazę?"
+msgid "Search text too short - use anyway?"
+msgstr "Ieškoma frazė per trumpa - vistiek ją naudoti?"
 
-msgid "Please set a title for the timer!"
-msgstr "Laikmačiui būtina įvesti pavadinimą!"
+msgid "Search term"
+msgstr "Paieškos frazė"
 
-msgid "Edit timer"
-msgstr "Koreguoti laikmatį"
+msgid "Search mode"
+msgstr "Paieškos ręžimas"
 
-msgid "New timer"
-msgstr "Naujas laikmatis"
+msgid "phrase"
+msgstr "frazė"
+
+msgid "all words"
+msgstr "visi žodžiai"
+
+msgid "at least one word"
+msgstr "bent vienas žodis"
+
+msgid "match exactly"
+msgstr "tikslus atitikmuo"
+
+msgid "regular expression"
+msgstr "reguliari išraiška"
+
+msgid "fuzzy"
+msgstr "neapibrėžta"
+
+msgid "Tolerance"
+msgstr "Tolerancija"
+
+msgid "Match case"
+msgstr "Kreiti dėmesį į raidžių registrą"
+
+msgid "Search in"
+msgstr "Ieškoti"
 
 msgid "Title"
 msgstr "Pavadinimas"
 
-msgid "Server"
-msgstr ""
+msgid "Episode"
+msgstr "Epizodas"
 
-msgid "Directory"
-msgstr "Katalogas"
+msgid "Use extended EPG info"
+msgstr "Naudoti išplėstą EPG informaciją"
 
-msgid "Weekday"
-msgstr "Savaitės diena"
+msgid "Ignore missing EPG info"
+msgstr "Ignoruoti trūkstamą EPG informaciją"
+
+msgid "When active this can cause very many timers. So please always first test this search before using it as search timer!"
+msgstr "Aktyvavus gali įjungti labai daug laikmačių. Taigi visalaik pirmiausia išbandykit šią paiesšką prieš naudodamiesi laikmačio paieška!"
+
+msgid "Use channel"
+msgstr "Naudoti kanalą"
+
+msgid "interval"
+msgstr "intervalas"
+
+msgid "channel group"
+msgstr "kanalo grupė"
+
+msgid "only FTA"
+msgstr "tik nekoduoti"
+
+msgid "from channel"
+msgstr "iš kanalo"
+
+msgid "to channel"
+msgstr "į kanalą"
+
+msgid "Use time"
+msgstr "Naudoti laiką"
+
+msgid "Start after"
+msgstr "Pradėti po to"
+
+msgid "The time the show may start at the earliest"
+msgstr "Laikas kada laida gali prasidėti anksčiausiai"
+
+msgid "Start before"
+msgstr "Pradėti prieš"
+
+msgid "The time the show may start at the latest"
+msgstr "Laikas kada laida gali prasidėti vėliausiai"
+
+msgid "Use duration"
+msgstr "Naudoti trukmę"
+
+msgid "Min. duration"
+msgstr "Min. trukmė"
+
+msgid "Max. duration"
+msgstr "Max. trukmė"
+
+msgid "Use day of week"
+msgstr "Naudoti savaitės dianą"
 
 msgid "Monday"
 msgstr "Pirmadienis"
@@ -260,29 +329,192 @@ msgstr "Šeštadienis"
 msgid "Sunday"
 msgstr "Sekmadienis"
 
+msgid "Use blacklists"
+msgstr "Naudoti juoduosius sąrašus"
+
+msgid "Selection"
+msgstr "Pasirinkimas"
+
+msgid "all"
+msgstr "visi"
+
+msgid "Use in favorites menu"
+msgstr "Naudoti mėgiamiausiųjų sąraše"
+
+msgid "Use as search timer"
+msgstr "Naudoti kaip paieškos laikmatį"
+
+msgid "user defined"
+msgstr "vartotojo pasirinktas"
+
+msgid "from date"
+msgstr "nuo"
+
+msgid "to date"
+msgstr "iki"
+
+msgid "Record"
+msgstr "Įrašyti"
+
+msgid "Announce only"
+msgstr "Tik pristato"
+
+msgid "Switch only"
+msgstr "Tik pereina"
+
+msgid "Announce and Switch"
+msgstr ""
+
+msgid "Announce via email"
+msgstr ""
+
+msgid "Inactive Record"
+msgstr ""
+
+msgid "Series recording"
+msgstr "Įrašai"
+
+msgid "Delete recordings after ... days"
+msgstr "Ištrinti įrašus po ... dienų"
+
+msgid "Keep ... recordings"
+msgstr "Laikyti ... įrašų"
+
+msgid "Pause when ... recordings exist"
+msgstr "Sustapdyti kai pasiekia ... įrašų ribą"
+
+msgid "Avoid repeats"
+msgstr "Išvengti pakartojimų"
+
+msgid "Allowed repeats"
+msgstr "Leisti pakartojimus"
+
+msgid "Only repeats within ... days"
+msgstr "Kartoti tik po ... dienų"
+
+msgid "Compare title"
+msgstr "Palyginti pavadinimus"
+
+msgid "Compare subtitle"
+msgstr "Palyginti aprašus"
+
+msgid "if present"
+msgstr "jei egzistuoja"
+
+msgid "Compare summary"
+msgstr "Palyginti santrauką"
+
+msgid "Compare"
+msgstr "Palyginti"
+
 msgid "Use VPS"
 msgstr "Naudoti VPS"
 
-msgid "Save"
-msgstr "Išsaugoti"
+msgid "Auto-delete search timer"
+msgstr "Automatiškai ištrinti paieškos laikmatį"
 
-msgid "Cancel"
-msgstr "Atmesti"
+msgid "after ... recordings"
+msgstr "po ... įrašų"
 
-msgid "MultiSchedule"
+msgid "after ... days after first rec."
+msgstr "po ... dienų kai buvo padarytas pirmas įrašas"
+
+msgid "Switch ... minutes before start"
+msgstr "Įjungti ... minutėmis anksčiau prieš pradedant įrašą"
+
+msgid "Test"
+msgstr "Pabandyti"
+
+msgid "Couldn't find timer. Maybe you mistyped your request?"
+msgstr "Toks laikmatis nerastas. Gal įvedėte klaidingą paieškos frazę?"
+
+msgid "Please set a title for the timer!"
+msgstr "Laikmačiui būtina įvesti pavadinimą!"
+
+msgid "Edit timer"
+msgstr "Koreguoti laikmatį"
+
+msgid "New timer"
+msgstr "Naujas laikmatis"
+
+msgid "Server"
 msgstr ""
 
-msgid "Now"
-msgstr "Dabar"
+msgid "Weekday"
+msgstr "Savaitės diena"
 
-msgid "Time"
+msgid "Couldn't find user. Maybe you mistyped your request?"
+msgstr "Toks vartotojas nerastas. Gal klaidingai įvedėte užklausos frazę?"
+
+msgid "This user name is already in use!"
+msgstr "Toks vartotojo vardas jau naudojamas!"
+
+msgid "Edit user"
+msgstr "Koreguoti vartotoją"
+
+msgid "New user"
+msgstr "Naujas vartotojas"
+
+msgid "Password"
+msgstr "Slapyvardis"
+
+msgid "User rights"
+msgstr "Vartotojo teisės"
+
+msgid "Edit setup"
+msgstr "Koreguoti nustatymus"
+
+msgid "Add or edit timers"
+msgstr "Pridėti arba koreguoti laikmačius"
+
+msgid "Delete timers"
+msgstr "Ištrinti laikmačius"
+
+msgid "Delete recordings"
+msgstr "Ištrinti įrašus"
+
+msgid "Use remote menu"
+msgstr "Naudoti nuotolinį meniu"
+
+msgid "Start replay"
+msgstr "Paleisti kartojimą"
+
+msgid "Switch channel"
+msgstr "Perjungti kanalą"
+
+msgid "Add or edit search timers"
+msgstr "Pridėti arba koreguoti paieškos laikmačius"
+
+msgid "Delete search timers"
+msgstr "Ištrinti paieškos laikmačius"
+
+msgid "Edit recordings"
 msgstr ""
 
-msgid "Search for repeats."
-msgstr "Ieškoti pasikartojimų."
+msgid "Electronic program guide information"
+msgstr "Elektroninis programų gidas"
 
-msgid "more"
-msgstr "daugiau"
+msgid "Couldn't find recording or no recordings available"
+msgstr "Negali rasti įrašo arba įrašų iš vis nėra"
+
+msgid "Error aquiring schedules lock"
+msgstr "Negali gauti programų užrakto"
+
+msgid "Error aquiring schedules"
+msgstr "Negauna programų aprašų"
+
+msgid "Recording length"
+msgstr ""
+
+#, c-format
+msgid "%d:%02d"
+msgstr ""
+
+msgid "Event duration"
+msgstr ""
+
+msgid "Page error"
+msgstr "Puslapio klaida"
 
 msgid "playing recording"
 msgstr "grojamas įrašas"
@@ -302,8 +534,92 @@ msgstr "negali gauti informacijos apie būklę!"
 msgid "%I:%M:%S %p"
 msgstr "%I:%M:%S %p"
 
+msgid "Wrong username or password"
+msgstr "Blogas prisijungimo vardas arba slapyvardis"
+
+msgid "Login"
+msgstr "Prisijungimas"
+
+msgid "VDR Live Login"
+msgstr "VDR Live prisijungimas"
+
+msgid "User"
+msgstr "Vartotojo vardas"
+
+msgid "What's on?"
+msgstr "Kas rodoma šiuo metu?"
+
+msgid "MultiSchedule"
+msgstr ""
+
+msgid "Search"
+msgstr "Paieška"
+
+msgid "Searchtimers"
+msgstr "Paieškos laikmačiai"
+
+msgid "Recordings"
+msgstr "Įrašai"
+
+msgid "Recordings (flat)"
+msgstr ""
+
+msgid "Remote Control"
+msgstr "Distancinis pultas"
+
+msgid "Web-Streaming"
+msgstr ""
+
+msgid "Logout"
+msgstr "Atsijungti"
+
+msgid "Your attention is required"
+msgstr "Dėmesio"
+
+msgid "React"
+msgstr "Reguoti"
+
+msgid "Dismiss"
+msgstr "Atmesti"
+
+msgid "Now"
+msgstr "Dabar"
+
+msgid "%A, %b %d %Y"
+msgstr "%A, %b %d %Y"
+
+msgid "Time"
+msgstr ""
+
+msgid "Switch to this channel."
+msgstr "Pereiti į šį kanalą."
+
+msgid "Search for repeats."
+msgstr "Ieškoti pasikartojimų."
+
+msgid "Click to view details."
+msgstr "Spustelkit kad gautumėt daugiau informacijos."
+
+msgid "more"
+msgstr "daugiau"
+
+msgid "Channel"
+msgstr "Kanalas"
+
+msgid "Duration deviation from event length"
+msgstr ""
+
+msgid "min"
+msgstr ""
+
 msgid "Find more at the Internet Movie Database."
 msgstr "Gauti daugiau informacijos iš IMDb."
+
+msgid "Record this"
+msgstr "Įrašyti"
+
+msgid "Existing Recording:"
+msgstr ""
 
 msgid "Stream this channel into browser."
 msgstr ""
@@ -313,9 +629,6 @@ msgstr ""
 
 msgid "Stream this recording into media player."
 msgstr ""
-
-msgid "Record this"
-msgstr "Įrašyti"
 
 msgid "loading data"
 msgstr "duomenys kraunami"
@@ -328,45 +641,6 @@ msgstr "Užklausa pavyko!"
 
 msgid "Request failed!"
 msgstr "Užklausa nepavyko!"
-
-msgid "mm/dd/yyyy"
-msgstr "yyyy-mm-dd"
-
-msgid "January"
-msgstr "Sausis"
-
-msgid "February"
-msgstr "Vasaris"
-
-msgid "March"
-msgstr "Kovas"
-
-msgid "April"
-msgstr "Balandis"
-
-msgid "May"
-msgstr "Gegužė"
-
-msgid "June"
-msgstr "Birželis"
-
-msgid "July"
-msgstr "Liepa"
-
-msgid "August"
-msgstr "Rugpjūtis"
-
-msgid "September"
-msgstr "Rugsėjis"
-
-msgid "October"
-msgstr "Spalis"
-
-msgid "November"
-msgstr "Lapkritis"
-
-msgid "December"
-msgstr "Gruodis"
 
 msgid "retrieving status ..."
 msgstr "užklausos būklė ..."
@@ -542,47 +816,89 @@ msgstr "Klaidos ir pasiūlymai"
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
 msgstr "Jei radote klaidų ar norėtumėte pasiūlyti naujų savybių, rašykit į mūsų bugtrakerį"
 
-msgid "What's running on"
-msgstr "Kas rodoma"
+msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
+msgstr "Kanalas nerastas arba jo iš vis nėra. Gal klaidingai įvedėte paieškos frazę?"
 
-msgid "at"
-msgstr " "
+msgid "ERROR:"
+msgstr "KLAIDA:"
 
-msgid "What's on next?"
-msgstr "Kas bus transliuojama po to?"
+msgid "Deleted recording:"
+msgstr "Ištrynė įrašą:"
 
-msgid "Favorites"
-msgstr "Mėgiamiausi"
+msgid "play this recording"
+msgstr ""
 
-msgid "Next"
-msgstr "Sekantis"
+msgid "Delete this recording from hard disc!"
+msgstr "Ištrinti šį įrašą iš disko!"
 
-msgid "What's on"
-msgstr "Kas rodoma šio metu"
+msgid "List of recordings"
+msgstr "Įrašų sąrašas"
 
-msgid "Details view"
-msgstr "Detalus sąrašas"
+msgid "No recordings found"
+msgstr "Įrašų nėra"
 
-msgid "List view"
-msgstr "Sąrašas"
+msgid "Delete selected"
+msgstr ""
+
+msgid "Duplicates identified by tvscraper"
+msgstr ""
+
+msgid "Duplicates, with different languages"
+msgstr ""
+
+msgid "Duplicates not identified by tvscraper"
+msgstr ""
+
+msgid "Sort:"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Duplicates"
+msgstr ""
+
+msgid "Errors"
+msgstr ""
+
+msgid "Filter"
+msgstr ""
+
+msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
+msgstr ""
+
+msgid "Expand all folders"
+msgstr ""
+
+msgid "Collapse all folders"
+msgstr ""
+
+msgid "play this recording."
+msgstr "groti šį įrašą."
+
+msgid "Snapshot interval"
+msgstr "Momentinių nuotraukų intervalas"
+
+msgid "Stop"
+msgstr "Sustapdyti"
 
 msgid "No schedules available for this channel"
 msgstr "Šis kanalas neturi programos"
 
-msgid "Existing Recording:"
-msgstr ""
+msgid "Search settings"
+msgstr "Paieškos nustatymai"
 
-msgid "No recording errors"
-msgstr ""
+msgid "Extended search"
+msgstr "Išplėstinė paieška"
 
-msgid "Recording errors unknown"
-msgstr ""
+msgid "no"
+msgstr "ne"
 
-msgid "Number of recording errors:"
-msgstr ""
+msgid "Search results"
+msgstr "Paieškos rezultatai"
 
-msgid "Searchtimers"
-msgstr "Paieškos laikmačiai"
+msgid "No search results"
+msgstr "Nėra paieškos rezultatų"
 
 msgid "Expression"
 msgstr "Išraiška"
@@ -596,9 +912,6 @@ msgstr "Įjungti/Išjungti paieškos laikmačio aktyvumą"
 msgid "Browse search timer results"
 msgstr "Naršyti po paieškos laikmačio rezultatus"
 
-msgid "Edit search timer"
-msgstr "Koreguoti paieškos laikmatį"
-
 msgid "Delete this search timer?"
 msgstr "Ištrinti šį paieškos laikmatį?"
 
@@ -607,255 +920,6 @@ msgstr "Ištrinti paieškos laikmatį"
 
 msgid "Trigger search timer update"
 msgstr "Įjungti paieškos laikmačio atnaujinimą"
-
-msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
-msgstr "Nerandamas paieškos laikmatis. Gal pateikėte netikslią užklausą?"
-
-msgid "Search text too short - use anyway?"
-msgstr "Ieškoma frazė per trumpa - vistiek ją naudoti?"
-
-msgid "Search term"
-msgstr "Paieškos frazė"
-
-msgid "Search mode"
-msgstr "Paieškos ręžimas"
-
-msgid "phrase"
-msgstr "frazė"
-
-msgid "all words"
-msgstr "visi žodžiai"
-
-msgid "at least one word"
-msgstr "bent vienas žodis"
-
-msgid "match exactly"
-msgstr "tikslus atitikmuo"
-
-msgid "regular expression"
-msgstr "reguliari išraiška"
-
-msgid "fuzzy"
-msgstr "neapibrėžta"
-
-msgid "Tolerance"
-msgstr "Tolerancija"
-
-msgid "Match case"
-msgstr "Kreiti dėmesį į raidžių registrą"
-
-msgid "Search in"
-msgstr "Ieškoti"
-
-msgid "Episode"
-msgstr "Epizodas"
-
-msgid "Description"
-msgstr "Aprašymas"
-
-msgid "Use extended EPG info"
-msgstr "Naudoti išplėstą EPG informaciją"
-
-msgid "Ignore missing EPG info"
-msgstr "Ignoruoti trūkstamą EPG informaciją"
-
-msgid "When active this can cause very many timers. So please always first test this search before using it as search timer!"
-msgstr "Aktyvavus gali įjungti labai daug laikmačių. Taigi visalaik pirmiausia išbandykit šią paiesšką prieš naudodamiesi laikmačio paieška!"
-
-msgid "Use channel"
-msgstr "Naudoti kanalą"
-
-msgid "interval"
-msgstr "intervalas"
-
-msgid "channel group"
-msgstr "kanalo grupė"
-
-msgid "only FTA"
-msgstr "tik nekoduoti"
-
-msgid "from channel"
-msgstr "iš kanalo"
-
-msgid "to channel"
-msgstr "į kanalą"
-
-msgid "Use time"
-msgstr "Naudoti laiką"
-
-msgid "Start after"
-msgstr "Pradėti po to"
-
-msgid "The time the show may start at the earliest"
-msgstr "Laikas kada laida gali prasidėti anksčiausiai"
-
-msgid "Start before"
-msgstr "Pradėti prieš"
-
-msgid "The time the show may start at the latest"
-msgstr "Laikas kada laida gali prasidėti vėliausiai"
-
-msgid "Use duration"
-msgstr "Naudoti trukmę"
-
-msgid "Min. duration"
-msgstr "Min. trukmė"
-
-msgid "Max. duration"
-msgstr "Max. trukmė"
-
-msgid "Use day of week"
-msgstr "Naudoti savaitės dianą"
-
-msgid "Use blacklists"
-msgstr "Naudoti juoduosius sąrašus"
-
-msgid "Selection"
-msgstr "Pasirinkimas"
-
-msgid "all"
-msgstr "visi"
-
-msgid "Use in favorites menu"
-msgstr "Naudoti mėgiamiausiųjų sąraše"
-
-msgid "Use as search timer"
-msgstr "Naudoti kaip paieškos laikmatį"
-
-msgid "user defined"
-msgstr "vartotojo pasirinktas"
-
-msgid "from date"
-msgstr "nuo"
-
-msgid "to date"
-msgstr "iki"
-
-msgid "Record"
-msgstr "Įrašyti"
-
-msgid "Announce only"
-msgstr "Tik pristato"
-
-msgid "Switch only"
-msgstr "Tik pereina"
-
-msgid "Announce and Switch"
-msgstr ""
-
-msgid "Announce via email"
-msgstr ""
-
-msgid "Inactive Record"
-msgstr ""
-
-msgid "Series recording"
-msgstr "Įrašai"
-
-msgid "Delete recordings after ... days"
-msgstr "Ištrinti įrašus po ... dienų"
-
-msgid "Keep ... recordings"
-msgstr "Laikyti ... įrašų"
-
-msgid "Pause when ... recordings exist"
-msgstr "Sustapdyti kai pasiekia ... įrašų ribą"
-
-msgid "Avoid repeats"
-msgstr "Išvengti pakartojimų"
-
-msgid "Allowed repeats"
-msgstr "Leisti pakartojimus"
-
-msgid "Only repeats within ... days"
-msgstr "Kartoti tik po ... dienų"
-
-msgid "Compare title"
-msgstr "Palyginti pavadinimus"
-
-msgid "Compare subtitle"
-msgstr "Palyginti aprašus"
-
-msgid "if present"
-msgstr "jei egzistuoja"
-
-msgid "Compare summary"
-msgstr "Palyginti santrauką"
-
-msgid "Compare"
-msgstr "Palyginti"
-
-msgid "Auto-delete search timer"
-msgstr "Automatiškai ištrinti paieškos laikmatį"
-
-msgid "after ... recordings"
-msgstr "po ... įrašų"
-
-msgid "after ... days after first rec."
-msgstr "po ... dienų kai buvo padarytas pirmas įrašas"
-
-msgid "Switch ... minutes before start"
-msgstr "Įjungti ... minutėmis anksčiau prieš pradedant įrašą"
-
-msgid "Test"
-msgstr "Pabandyti"
-
-msgid "No timer defined"
-msgstr "Nenustatytas laikmatis"
-
-msgid "Timer is recording."
-msgstr "Laikmatis įrašinėja."
-
-msgid "Timer is active."
-msgstr "Laikmatis įjungtas."
-
-msgid "Toggle timer active/inactive"
-msgstr "Perjungti laikmačio aktyvumo/neaktyvumo būseną"
-
-msgid "Delete timer"
-msgstr "Ištrinti laikmatį"
-
-msgid "Timer conflicts"
-msgstr "Laikmačio klaidos"
-
-msgid "What's on?"
-msgstr "Kas rodoma šiuo metu?"
-
-msgid "Search"
-msgstr "Paieška"
-
-msgid "Recordings"
-msgstr "Įrašai"
-
-msgid "Recordings (flat)"
-msgstr ""
-
-msgid "Remote Control"
-msgstr "Distancinis pultas"
-
-msgid "Web-Streaming"
-msgstr ""
-
-msgid "Logout"
-msgstr "Atsijungti"
-
-msgid "Your attention is required"
-msgstr "Dėmesio"
-
-msgid "React"
-msgstr "Reguoti"
-
-msgid "Dismiss"
-msgstr "Atmesti"
-
-msgid "No timer conflicts"
-msgstr "Nėra laikmačio klaidų"
-
-msgid "local"
-msgstr ""
-
-msgid "Timer has a conflict."
-msgstr "Laikmatis turi klaidų."
 
 msgid "Please set login and password!"
 msgstr "Nurodykite prisijungimo vardą ir slapyvardį!"
@@ -936,165 +1000,117 @@ msgstr "Pradinis puslapis"
 msgid "Theme"
 msgstr "Tema"
 
-msgid "Couldn't find recording. Maybe you mistyped your request?"
+#, c-format
+msgid "%a, %x"
+msgstr "%a, %x"
+
+msgid "View the schedule of this channel"
+msgstr "Žiūrėti šio kanalo programą"
+
+msgid " - "
+msgstr " - "
+
+msgid "Timer conflicts"
+msgstr "Laikmačio klaidos"
+
+msgid "No timer conflicts"
+msgstr "Nėra laikmačio klaidų"
+
+msgid "local"
 msgstr ""
 
-msgid "Please set a name for the recording!"
-msgstr ""
+msgid "Timer has a conflict."
+msgstr "Laikmatis turi klaidų."
 
-msgid "Cannot copy, rename or move the recording."
-msgstr ""
+msgid "Timer is active."
+msgstr "Laikmatis įjungtas."
 
-msgid "Edit recording"
-msgstr ""
+msgid "Toggle timer active/inactive"
+msgstr "Perjungti laikmačio aktyvumo/neaktyvumo būseną"
 
-msgid "Delete resume information"
-msgstr ""
+msgid "Delete timer"
+msgstr "Ištrinti laikmatį"
 
-msgid "Delete marks information"
-msgstr ""
+msgid "No timer defined"
+msgstr "Nenustatytas laikmatis"
 
-msgid "Copy only"
-msgstr ""
+msgid "Timer is recording."
+msgstr "Laikmatis įrašinėja."
 
-#, fuzzy
-msgid "Short description"
-msgstr "Aprašymas"
+msgid "Users"
+msgstr "Vartotojai"
 
-msgid "Auxiliary info"
-msgstr ""
+msgid "Delete user"
+msgstr "Ištrinti vartotoją"
 
-msgid "Search settings"
-msgstr "Paieškos nustatymai"
+msgid "What's running on"
+msgstr "Kas rodoma"
 
-msgid "Extended search"
-msgstr "Išplėstinė paieška"
+msgid "at"
+msgstr " "
 
-msgid "no"
-msgstr "ne"
+msgid "What's on next?"
+msgstr "Kas bus transliuojama po to?"
 
-msgid "Snapshot interval"
-msgstr "Momentinių nuotraukų intervalas"
+msgid "Favorites"
+msgstr "Mėgiamiausi"
 
-msgid "Stop"
-msgstr "Sustapdyti"
+msgid "Next"
+msgstr "Sekantis"
 
-msgid "ERROR:"
-msgstr "KLAIDA:"
+msgid "What's on"
+msgstr "Kas rodoma šio metu"
 
-msgid "Deleted recording:"
-msgstr "Ištrynė įrašą:"
+msgid "Details view"
+msgstr "Detalus sąrašas"
 
-msgid "play this recording"
-msgstr ""
-
-msgid "Delete this recording from hard disc!"
-msgstr "Ištrinti šį įrašą iš disko!"
-
-msgid "List of recordings"
-msgstr "Įrašų sąrašas"
-
-msgid "No recordings found"
-msgstr "Įrašų nėra"
-
-msgid "Delete selected"
-msgstr ""
-
-msgid "Duplicates identified by tvscraper"
-msgstr ""
-
-msgid "Duplicates, with different languages"
-msgstr ""
-
-msgid "Duplicates not identified by tvscraper"
-msgstr ""
-
-msgid "Sort:"
-msgstr ""
-
-msgid "Date"
-msgstr ""
-
-msgid "Duplicates"
-msgstr ""
-
-msgid "Errors"
-msgstr ""
-
-msgid "Filter"
-msgstr ""
-
-msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
-msgstr ""
-
-msgid "Expand all folders"
-msgstr ""
-
-msgid "Collapse all folders"
-msgstr ""
-
-msgid "play this recording."
-msgstr "groti šį įrašą."
-
-msgid "Page error"
-msgstr "Puslapio klaida"
-
-msgid "Couldn't find user. Maybe you mistyped your request?"
-msgstr "Toks vartotojas nerastas. Gal klaidingai įvedėte užklausos frazę?"
-
-msgid "This user name is already in use!"
-msgstr "Toks vartotojo vardas jau naudojamas!"
-
-msgid "User rights"
-msgstr "Vartotojo teisės"
-
-msgid "Edit setup"
-msgstr "Koreguoti nustatymus"
-
-msgid "Add or edit timers"
-msgstr "Pridėti arba koreguoti laikmačius"
-
-msgid "Delete timers"
-msgstr "Ištrinti laikmačius"
-
-msgid "Delete recordings"
-msgstr "Ištrinti įrašus"
-
-msgid "Use remote menu"
-msgstr "Naudoti nuotolinį meniu"
-
-msgid "Start replay"
-msgstr "Paleisti kartojimą"
-
-msgid "Switch channel"
-msgstr "Perjungti kanalą"
-
-msgid "Add or edit search timers"
-msgstr "Pridėti arba koreguoti paieškos laikmačius"
-
-msgid "Delete search timers"
-msgstr "Ištrinti paieškos laikmačius"
-
-msgid "Edit recordings"
-msgstr ""
-
-msgid "Electronic program guide information"
-msgstr "Elektroninis programų gidas"
-
-msgid "Couldn't find recording or no recordings available"
-msgstr "Negali rasti įrašo arba įrašų iš vis nėra"
-
-msgid "Error aquiring schedules lock"
-msgstr "Negali gauti programų užrakto"
-
-msgid "Error aquiring schedules"
-msgstr "Negauna programų aprašų"
+msgid "List view"
+msgstr "Sąrašas"
 
 msgid "Live Interactive VDR Environment"
 msgstr "Live interaktyvioji VDR aplinka"
 
 msgid "No EPG information available"
 msgstr "Nėra EPG informacijos"
+
+#~ msgid "mm/dd/yyyy"
+#~ msgstr "yyyy-mm-dd"
+
+#~ msgid "January"
+#~ msgstr "Sausis"
+
+#~ msgid "February"
+#~ msgstr "Vasaris"
+
+#~ msgid "March"
+#~ msgstr "Kovas"
+
+#~ msgid "April"
+#~ msgstr "Balandis"
+
+#~ msgid "May"
+#~ msgstr "Gegužė"
+
+#~ msgid "June"
+#~ msgstr "Birželis"
+
+#~ msgid "July"
+#~ msgstr "Liepa"
+
+#~ msgid "August"
+#~ msgstr "Rugpjūtis"
+
+#~ msgid "September"
+#~ msgstr "Rugsėjis"
+
+#~ msgid "October"
+#~ msgstr "Spalis"
+
+#~ msgid "November"
+#~ msgstr "Lapkritis"
+
+#~ msgid "December"
+#~ msgstr "Gruodis"
 
 #~ msgid "Add links to IMDb"
 #~ msgstr "Pridėti nuorodas į IMDb"

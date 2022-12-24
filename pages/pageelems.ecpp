@@ -65,16 +65,26 @@ if (LiveSetup().GetUseAjax()) lf = "<br/>";
 else lf = "&#13;";
 </%cpp>
 <script>
-function addErrorIcon(s, numErrors) {
+function addErrorIcon(s, numErrors, durationDeviation) {
   if (numErrors <= -100) return
   s.a += '<div class=\"recording_errors\"><img class=\"icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>'
-  if (numErrors == 0) s.a += 'NoRecordingErrors.png'
-  if (numErrors  > 0) s.a += 'RecordingErrors.png'
-  if (numErrors  < 0) s.a += 'NotCheckedForRecordingErrors.png'
+  if (durationDeviation > 300 || numErrors  > 0) s.a += 'RecordingErrors.png'
+  else if (durationDeviation > 180) s.a += 'NotCheckedForRecordingErrors.png'
+  else {
+    if (numErrors == 0) s.a += 'NoRecordingErrors.png'
+    if (numErrors  > 0) s.a += 'RecordingErrors.png'
+    if (numErrors  < 0) s.a += 'NotCheckedForRecordingErrors.png'
+  }
   s.a += '\" width = \"16px\" title=\"'
   if (numErrors == 0) s.a += '<$tr("No recording errors")$>'
   if (numErrors  > 0) s.a += '<$tr("Number of recording errors:")$> ' + String(numErrors)
   if (numErrors  < 0) s.a += '<$tr("Recording errors unknown")$>'
+  s.a += '<$$lf$>'
+  s.a += '<$tr("Duration deviation from event length")$>'
+  s.a += ': '
+  addTime(s, durationDeviation)
+  s.a += ' '
+  s.a += '<$tr("min")$>'
   s.a += '\" /> </div>'
 }
 
@@ -186,7 +196,7 @@ function eventString(bottomrow, data) {
 }
 
 // existing recording
-function existingRecordingSR(s, col_span1, bottomrow, imdb_id, id, archiveDescr, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, folder) {
+function existingRecordingSR(s, col_span1, bottomrow, imdb_id, id, archiveDescr, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, durationDeviation, folder) {
   if (archiveDescr.length != 0) col_span1--;
   s.a += '<tr><td colspan='
   s.a += col_span1.toString()
@@ -204,7 +214,7 @@ function existingRecordingSR(s, col_span1, bottomrow, imdb_id, id, archiveDescr,
 </%cpp>
   } else {
     s.a += '<br/><table><tr><td class=\"noborder\">'
-    addErrorIcon(s, errors)
+    addErrorIcon(s, errors, durationDeviation)
     s.a += '</td><td class=\"noborder\">'
     addHdSdIcon(s, hd_sd, channel_name)
     s.a += '</td></tr></table>'
@@ -222,10 +232,10 @@ function existingRecordingSR(s, col_span1, bottomrow, imdb_id, id, archiveDescr,
   addColEventRec(s, day_time_duration, 'recording_', id, name, folder, short_text, description, '<$$lf$>', '<$tr("Click to view details.")$>')
   s.a += '</td></tr>'
 }
-function existingRecordingString(col_span, bottomrow, imdb_id, id, archiveDescr, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, folder) {
+function existingRecordingString(col_span, bottomrow, imdb_id, id, archiveDescr, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, durationDeviation, folder) {
   const s = Object.create(null)
   s.a = ""
-  existingRecordingSR(s, col_span, bottomrow, imdb_id, id, archiveDescr, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, folder)
+  existingRecordingSR(s, col_span, bottomrow, imdb_id, id, archiveDescr, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, durationDeviation, folder)
   return s.a
 }
 
@@ -582,8 +592,8 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 	std::string filename;
 	std::string archived;
  	std::string epgImage;
-        uintptr_t ievent;
-        uintptr_t irecording;
+	uintptr_t ievent;
+	uintptr_t irecording;
 	int elapsed = -1;
 </%args>
 	<div class="epg_description" id="<$ (boxId) $>">

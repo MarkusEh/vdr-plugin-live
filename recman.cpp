@@ -15,6 +15,7 @@
 #include <algorithm>
 
 #include <vdr/videodir.h>
+#include <vdr/config.h>
 
 #define INDEXFILESUFFIX   "/index.vdr"
 #define LENGTHFILESUFFIX  "/length.vdr"
@@ -387,6 +388,9 @@ int firstNonPunct(const std::string &s) {
 */
            return first->RecordingErrors() > second->RecordingErrors();
         }
+        bool RecordingsItemPtrCompare::ByDescendingDurationDeviation(const RecordingsItemPtr & first, const RecordingsItemPtr & second) {
+          return first->DurationDeviation() > second->DurationDeviation();
+	      }
 
 	bool RecordingsItemPtrCompare::ByEpisode(const RecordingsItemPtr & first, const RecordingsItemPtr & second) {
 	  return first->scraperEpisodeNumber() < second->scraperEpisodeNumber();
@@ -424,6 +428,7 @@ int firstNonPunct(const std::string &s) {
 	    case eSortOrder::name: return &RecordingsItemPtrCompare::ByAscendingNameDescSort;
 	    case eSortOrder::date: return &RecordingsItemPtrCompare::ByAscendingDate;
 	    case eSortOrder::errors: return &RecordingsItemPtrCompare::ByDescendingRecordingErrors;
+	    case eSortOrder::durationDeviation: return &RecordingsItemPtrCompare::ByDescendingDurationDeviation;
 	    case eSortOrder::duplicatesLanguage: return &RecordingsItemPtrCompare::ByDuplicatesLanguage;
 	  }
 	  esyslog("live: ERROR, RecordingsItemPtrCompare::getComp, sortOrder %d unknown", (int)sortOrder);
@@ -718,15 +723,34 @@ bool searchNameDesc(RecordingsItemPtr &RecItem, const std::vector<RecordingsItem
 		RecordingsItem(name),
 		m_recording(recording),
 		m_id(id),
-                m_isArchived(RecordingsManager::GetArchiveType(m_recording) ),
-                m_duration(m_recording->FileName() ? m_recording->LengthInSeconds() / 60 : 0)
+		m_isArchived(RecordingsManager::GetArchiveType(m_recording) )
 	{
-          // dsyslog("live: REC: C: rec %s -> %s", name.c_str(), parent->Name().c_str());
-          m_idI = idI;
-          m_language = language;
-          m_video_SD_HD = sdHdUhd;
-          getScraperData(recording,
-            cImageLevels(eImageLevel::episodeMovie, eImageLevel::seasonMovie, eImageLevel::tvShowCollection, eImageLevel::anySeasonCollection));
+    // dsyslog("live: REC: C: rec %s -> %s", name.c_str(), parent->Name().c_str());
+    m_idI = idI;
+    m_language = language;
+    m_video_SD_HD = sdHdUhd;
+    getScraperData(recording,
+      cImageLevels(eImageLevel::episodeMovie, eImageLevel::seasonMovie, eImageLevel::tvShowCollection, eImageLevel::anySeasonCollection));
+// figure out m_duration_deviation: deviation between expected recording length (event+margin) and actual recording length
+    m_duration_deviation = 1000;  // "worst case", in case of no other information
+    if (m_recording->FileName() ) {
+      if (m_recording->IsEdited() ) m_duration_deviation = 0;  // we assume, who ever edited the recording checked for completeness
+      else if (m_recording->IsInUse()&&ruTimer == ruTimer) m_duration_deviation = 0;  // still recording => incomplete, this check is useless
+      else {
+				if (m_recording->Info() && m_recording->Info()->GetEvent() ) {
+					const cEvent *m_event = m_recording->Info()->GetEvent();
+					m_duration_deviation = std::max(0, m_event->Duration() + (::Setup.MarginStart + ::Setup.MarginStop) * 60 - m_recording->LengthInSeconds());
+					if (m_event->Vps() ) {
+// even if the event supports vps, vps can be used (or not) for the timer.
+						int i_vps = std::abs(m_event->Duration() - m_recording->LengthInSeconds());
+						if (i_vps < m_duration_deviation) {
+              if (m_recording->LengthInSeconds() >= m_event->Duration() ) m_duration_deviation = 0;
+							else m_duration_deviation = i_vps > 6*60?i_vps:0;  // we assume VPS was used, und report only huge deviations > 5min
+            }
+					}
+				}
+      }
+    }
 	}
 
 	RecordingsItemRec::~RecordingsItemRec()
@@ -864,12 +888,15 @@ void AppendScraperData(cLargeString &target, const cTvMedia &s_image, eVideoType
           target.append("\", \"");
 // [16] Description
           AppendTextTruncateOnWord(target, RecInfo()->Description(), 500, true);
-// [17] Path / folder
+// [17] recording length deviation
+          target.append("\",");
+          target.append(DurationDeviation());
+// [18] Path / folder
           if(displayFolder) {
-            target.append("\", \"");
+            target.append(",\"");
             if( *(const char *)Recording()->Folder() ) AppendHtmlEscapedAndCorrectNonUTF8(target, (const char *)Recording()->Folder() );
+            target.append("\"");
           }
-          target.append("\"");
         }
 
 void RecordingsItemRec::AppendAsJSArray(cLargeString &target, std::vector<RecordingsItemPtr>::const_iterator recIterFirst, std::vector<RecordingsItemPtr>::const_iterator recIterLast, bool &first, const std::string &filter, bool reverse) {

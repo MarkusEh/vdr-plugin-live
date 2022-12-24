@@ -24,6 +24,15 @@ function truncateOnWord(str, limit) {
   return str.slice(0,l) + '...'
 }
 
+function addTime(s, time) {
+// add time in seconds, in format minutes:ss
+  var d_sec = time%60
+  s.a += String((time-d_sec)/60)
+  s.a += ':'
+  var d_sec_ld = d_sec%10
+  s.a += String.fromCharCode(48+(d_sec-d_sec_ld)/10,48+(d_sec%10))
+}
+
 function addScraperImageTitle(s, image, pt, title, seasonEpisode, runtime, date, lf) {
 // pt: "pt" if m_s_image.width <= m_s_image.height, otherwise= ""
 // seasonEpisode: e.g. 3E8    (we will add the missing S ...)

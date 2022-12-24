@@ -146,8 +146,21 @@ using namespace vdrlive;
 	if (epgEvent) {
 		std::string start(epgEvent->StartTime("%a,") + std::string(" ")
 				+ epgEvent->StartTime(tr("%b %d %y")) + std::string(" ")
-                                + epgEvent->StartTime(tr("%I:%M %p")) + std::string(" - ")
-                                + epgEvent->EndTime(tr("%I:%M %p")));
+        + epgEvent->StartTime(tr("%I:%M %p")) );
+    if (epgEvent->EventDuration() < 0) {  // epg event, no recording
+      start += std::string(" - ") + epgEvent->EndTime(tr("%I:%M %p"));
+    	start += " ";
+			AppendDuration(start, tr("(%d:%02d)"), epgEvent->Duration()/60/60, epgEvent->Duration()/60 % 60);
+    } else { // recording
+    	start += ". ";
+      start += tr("Recording length");
+      start += ": ";
+			AppendDuration(start, tr("%d:%02d"), epgEvent->Duration()/60/60, epgEvent->Duration()/60 % 60);
+      start += ". ";
+      start += tr("Event duration");
+      start += ": ";
+		  AppendDuration(start, tr("%d:%02d"), epgEvent->EventDuration()/60/60, epgEvent->EventDuration()/60 % 60);
+    }
 
 		std::string tools_component;
 		if (recordings) {

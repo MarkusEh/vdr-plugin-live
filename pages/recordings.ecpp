@@ -48,14 +48,14 @@ if (! flat.empty() ) currentFlat = flat;
 // sort depends on old sort, and sort parameter
 currentSort = LiveSetup().GetLastSortingMode();
 //  if (currentSort.compare(0, 6, "errors", 6) == 0 && currentFlat != "true") currentSort = "dateasc";
-if (currentSort.empty() ) currentFlat == "true"?currentSort = "errorsasc":currentSort = "dateasc";
+if (currentSort.empty() ) currentFlat == "true"?currentSort = "errorsts":currentSort = "datedesc";
 if (!sort.empty()) {
   if (sort == "date")
-    currentSort = (currentSort == "dateasc") ? "datedesc" : "dateasc";
+    currentSort = (currentSort == "datedesc") ? "dateasc" : "datedesc";
   else if (sort == "name")
     currentSort = (currentSort == "nameasc") ? "namedesc" : "nameasc";
   else if (sort == "errors")
-    currentSort = (currentSort == "errorsasc") ? "errorsdesc" : "errorsasc";
+    currentSort = (currentSort == "errorsts") ? "errorsdur" : "errorsts";
   else if (sort == "duplicates")
     currentSort = sort;
   LiveSetup().SetLastSortingMode(currentSort);
@@ -163,7 +163,8 @@ function RecordingActionS(s, id, A, Img, Title) {
 // [14] : Name
 // [15] : Shorttext
 // [16] : Description
-// [17] : Folder (if displayFolder == true. Otherwise, this does not exist / out of range)
+// [17] : Recording Length deviation in seconds
+// [18] : Folder (if displayFolder == true. Otherwise, this does not exist / out of range)
 #>
 function RecordingsSt(s, level, displayFolder, data) {
   s.a += '<li class="recording"><div>'
@@ -191,14 +192,22 @@ function RecordingsSt(s, level, displayFolder, data) {
 <%cpp> } </%cpp>
     s.a += '<td class="td-hidden-xs"><div class=\"hidden-xs recording_day\">'
     s.a += obj[9]
+    if (obj[17] > 0) {
+      s.a += '<span title=\"'
+      s.a += '<$tr("Duration deviation from event length")$>'
+      s.a += '\"> ['
+      addTime(s, obj[17])
+      s.a += ']'
+      s.a += '</span>'
+    }
     s.a += '</div></td><td>'
-    addErrorIcon(s, obj[10])
+    addErrorIcon(s, obj[10], obj[17])
     addHdSdIcon(s, obj[11], obj[12])
     s.a += '</td>'  // end column with error / sd/hd image
     s.a += '<td><div class=\"recording_name'
     s.a += obj[13]
     s.a += '\">'
-    if (displayFolder == 1) folder = obj[17]
+    if (displayFolder == 1) folder = obj[18]
     else folder = ''
     s.a += '<div class="withmargin">'
     addEventRec(s, 'recording_', obj[1], obj[14], folder, obj[15], obj[16], '<$$lf$>', '<$tr("Click to view details.")$>')
@@ -314,6 +323,7 @@ bool reverse = false;
 eSortOrder sortOrder = eSortOrder::name; // default
 if (currentSort.compare(0, 4,  "date"  , 4) == 0) sortOrder = eSortOrder::date;
 if (currentSort.compare(0, 6,  "errors", 6) == 0) sortOrder = eSortOrder::errors;
+if (currentSort.compare(0, 8,  "errorsdur", 8) == 0) sortOrder = eSortOrder::durationDeviation;
 if (currentSort.compare(0, 10, "duplicates", 10) == 0) sortOrder = eSortOrder::duplicatesLanguage;
 if (currentSort == "datedesc" || currentSort == "namedesc") reverse = true;
 // get rec item of this (current) dir

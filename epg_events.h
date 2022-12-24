@@ -117,7 +117,8 @@ namespace vdrlive
 
 			virtual std::string const CurrentTime(const char* format) const;
 
-			virtual int Duration() const;
+			virtual int Duration() const;  // for recordings, this is the length of the recording
+			virtual int EventDuration() const { return -1; }; // this is always the event duration
 
 			virtual int Elapsed() const;
 
@@ -263,6 +264,7 @@ namespace vdrlive
 			virtual time_t GetStartTime() const;
 
 			virtual time_t GetEndTime() const;
+			virtual int EventDuration() const; // this is always the event duration
 
 			virtual int Elapsed() const;
 

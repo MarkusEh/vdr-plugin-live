@@ -146,7 +146,7 @@ namespace vdrlive {
   /**
    * Class containing possible recordings compare functions
    */
-  enum class eSortOrder { name, date, errors, duplicatesLanguage };
+  enum class eSortOrder { name, date, errors, durationDeviation, duplicatesLanguage };
   typedef bool (*tCompRec)(const RecordingsItemPtr &a, const RecordingsItemPtr &b);
   class RecordingsItemPtrCompare
   {
@@ -157,6 +157,7 @@ namespace vdrlive {
       static bool ByDuplicatesLanguage(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
       static bool ByAscendingNameDescSort(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
       static bool ByDescendingRecordingErrors(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
+      static bool ByDescendingDurationDeviation(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
       static bool ByEpisode(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
       static bool BySeason(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
       static bool ByReleaseDate(const RecordingsItemPtr & first, const RecordingsItemPtr & second);
@@ -187,6 +188,7 @@ namespace vdrlive {
                   virtual time_t StartTime() const = 0;
                   virtual bool IsDir() const = 0;
                   virtual int Duration() const = 0;
+      						virtual int DurationDeviation() const { return -1; } // duration deviation in seconds
                   virtual const std::string& Name() const { return m_name; }
                   virtual const std::string& NameForSearch() const { return m_name_for_search; }
                   virtual const char * ShortText() const { return RecInfo()? RecInfo()->ShortText():0; }
@@ -328,41 +330,42 @@ template<class T>
    */
   class RecordingsItemRec : public RecordingsItem
   {
-          public:
-                  RecordingsItemRec(int idI, const std::string& id, const std::string& name, const cRecording* recording, int language, int sdHdUhd);
+    public:
+      RecordingsItemRec(int idI, const std::string& id, const std::string& name, const cRecording* recording, int language, int sdHdUhd);
 
-                  virtual ~RecordingsItemRec();
+      virtual ~RecordingsItemRec();
 
-                  virtual time_t StartTime() const { return m_recording->Start(); }
-                  virtual int Duration() const { return m_duration; } // duration in minutes
-                  virtual bool IsDir() const { return false; }
-                  virtual const std::string Id() const { return m_id; }
+      virtual time_t StartTime() const { return m_recording->Start(); }
+      virtual int Duration() const { return m_recording->FileName() ? m_recording->LengthInSeconds() / 60 : 0; } // duration in minutes
+      virtual int DurationDeviation() const { return m_duration_deviation; } // duration deviation in seconds
+      virtual bool IsDir() const { return false; }
+      virtual const std::string Id() const { return m_id; }
 
-                  virtual const cRecording* Recording() const { return m_recording; }
-                  virtual const cRecordingInfo* RecInfo() const { return m_recording->Info(); }
+      virtual const cRecording* Recording() const { return m_recording; }
+      virtual const cRecordingInfo* RecInfo() const { return m_recording->Info(); }
 
-     // To display the recording on the UI
-                  virtual const int IsArchived() const { return m_isArchived ; }
-                  virtual const std::string ArchiveDescr() const { return RecordingsManager::GetArchiveDescr(m_recording) ; }
-                  virtual const char *NewR() const { return LiveSetup().GetMarkNewRec() && (Recording()->GetResume() <= 0) ? "_new" : "" ; }
+// To display the recording on the UI
+      virtual const int IsArchived() const { return m_isArchived ; }
+      virtual const std::string ArchiveDescr() const { return RecordingsManager::GetArchiveDescr(m_recording) ; }
+      virtual const char *NewR() const { return LiveSetup().GetMarkNewRec() && (Recording()->GetResume() <= 0) ? "_new" : "" ; }
 #if VDRVERSNUM >= 20505
-                  virtual const int RecordingErrors() const { return RecInfo()->Errors(); }
+      virtual const int RecordingErrors() const { return RecInfo()->Errors(); }
 #else
-                  virtual const int RecordingErrors() const { return -1; }
+      virtual const int RecordingErrors() const { return -1; }
 #endif
-                  void AppendRecordingErrorsStr(std::string &target) const;
+      void AppendRecordingErrorsStr(std::string &target) const;
 
-                  virtual const int SD_HD();
-                  virtual const char *SD_HD_icon() { return SD_HD() == 0 ? "sd.png": SD_HD() == 1 ? "hd.png":"ud.png"; }
-                  virtual void AppendAsJSArray(cLargeString &target, bool displayFolder);
-                  static void AppendAsJSArray(cLargeString &target, std::vector<RecordingsItemPtr>::const_iterator recIterFirst, std::vector<RecordingsItemPtr>::const_iterator recIterLast, bool &first, const std::string &filter, bool reverse);
-               
-          private:
-                  const cRecording *m_recording;
-                  const std::string m_id;
-                  const int m_isArchived;
-                  const int m_duration; // duration in minutes
-                  int m_video_SD_HD = -1;  // 0 is SD, 1 is HD, 2 is UHD
+      virtual const int SD_HD();
+      virtual const char *SD_HD_icon() { return SD_HD() == 0 ? "sd.png": SD_HD() == 1 ? "hd.png":"ud.png"; }
+      virtual void AppendAsJSArray(cLargeString &target, bool displayFolder);
+      static void AppendAsJSArray(cLargeString &target, std::vector<RecordingsItemPtr>::const_iterator recIterFirst, std::vector<RecordingsItemPtr>::const_iterator recIterLast, bool &first, const std::string &filter, bool reverse);
+
+    private:
+      const cRecording *m_recording;
+      const std::string m_id;
+      const int m_isArchived;
+      int m_duration_deviation; // between recording length and event length+margin
+      int m_video_SD_HD = -1;  // 0 is SD, 1 is HD, 2 is UHD
   };
 
   /**
