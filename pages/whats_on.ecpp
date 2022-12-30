@@ -8,8 +8,7 @@
 
 using namespace vdrlive;
 
-static const size_t maximumDescriptionLength = 300;
-static const size_t maximumTooltipHintLength = 150;
+static const size_t maximumTruncDescriptionLength = 150;  // characters for the description in the "boxes"
 
 </%pre>
 <%args>
@@ -191,8 +190,8 @@ if (type == "now") {
 		EpgInfoPtr epgEvent = *i;
 
 		bool truncated = false;
-		std::string truncDescription = StringWordTruncate(epgEvent->LongDescr(), maximumTooltipHintLength, truncated);
-		std::string longDescription = StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), maximumDescriptionLength))
+		std::string truncDescription = StringWordTruncate(epgEvent->LongDescr(), maximumTruncDescriptionLength, truncated);
+		std::string longDescription = StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), LiveSetup().GetMaxTooltipChars()))
 			+ "<br/><br/>" + tr("Click to view details.");
 		const cChannel* Channel = epgEvent->Channel();
 		if (!Channel) continue;

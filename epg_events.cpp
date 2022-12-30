@@ -533,7 +533,7 @@ bool appendEpgItem(cLargeString &epg_item, RecordingsItemPtr &recItem, const cEv
   epg_item.append("\",\"");
   AppendHtmlEscapedAndCorrectNonUTF8(epg_item, Event->ShortText() );
   epg_item.append("\",\"");
-  AppendTextTruncateOnWord(epg_item, Event->Description(), 500, true);
+  AppendTextTruncateOnWord(epg_item, Event->Description(), LiveSetup().GetMaxTooltipChars(), true);
   epg_item.append("\",\"");
   epg_item.append(s_IMDB_ID);
   epg_item.append("\"]");

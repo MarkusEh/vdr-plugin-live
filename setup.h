@@ -72,10 +72,11 @@ class Setup
 		bool GetShowPlayMediaplayer() const { return m_showPlayMediaplayer != 0; }
 		std::string const GetEpgImageDir() { return m_epgimagedir; }
 		std::string const GetTvscraperImageDir() { return m_tvscraperimagedir; }
-                cPlugin *GetPluginTvscraper() { return m_p_tvscraper; } // tvscraper
-                cPlugin *GetPluginScraper() { return m_p_scraper; } // tvscraper. Or, if not available, scraper2vdr
+		cPlugin *GetPluginTvscraper() { return m_p_tvscraper; } // tvscraper
+		cPlugin *GetPluginScraper() { return m_p_scraper; } // tvscraper. Or, if not available, scraper2vdr
 		void SetTvscraperImageDir(const std::string &dir);
 		bool GetShowChannelsWithoutEPG() const { return m_showChannelsWithoutEPG != 0; }
+		int GetMaxTooltipChars() const { return m_maxTooltipChars; }
 
 		void SetLastChannel(int lastChannel) { m_lastChannel = lastChannel; }
 		void SetAdminLogin(std::string const & login) { m_adminLogin = login; }
@@ -171,6 +172,7 @@ class Setup
 		int m_showPlayMediaplayer;
 		int m_showChannelsWithoutEPG;
 
+    const int m_maxTooltipChars = 300; // maximum number of characters to be displayed in Tooltips
 		bool CheckServerPort();
 		bool CheckServerIps();
 		bool CheckServerSslPort();

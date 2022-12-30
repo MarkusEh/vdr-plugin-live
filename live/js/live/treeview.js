@@ -33,98 +33,104 @@ function setImages(node, expand, folder)
 {
 // input: the div class = recording_item node
 // Change the images (if there is an image)
-        const expandNodes = node.getElementsByClassName("recording_expander");
-        if (expandNodes.length > 0)
-        	expandNodes[0].src = expand;
-        const folderNodes = node.getElementsByClassName("recording_folder");
-        if (folderNodes.length > 0)
-        	folderNodes[0].src = folder;
+  const expandNodes = node.getElementsByClassName("recording_expander");
+  if (expandNodes.length > 0)
+    expandNodes[0].src = expand;
+  const folderNodes = node.getElementsByClassName("recording_folder");
+  if (folderNodes.length > 0)
+    folderNodes[0].src = folder;
 }
 
-function Toggle(node, node_id)
-{
-	// Unfold the branch if it isn't visible
-	sibling = findSibling(node, "UL");
-	if (sibling == null) return;
+class Treeview {
+  constructor(minus, plus, folder_open, folder_closed) {
+    this.minus = minus;
+    this.plus = plus;
+    this.folder_open = folder_open;
+    this.folder_closed = folder_closed;
+  }
 
-        
-	if (sibling.style.display == 'none')
-	{
-		setImages(node, "img/minus.png", "img/folder_open.png");
-                if (rec_ids[node_id] != null && rec_ids[node_id].length > 0) {
-		  sibling.insertAdjacentHTML("beforeend", rec_string_d(rec_ids[node_id]));
-                  rec_ids[node_id] = [];
-                  if (typeof liveEnhanced !== 'undefined') liveEnhanced.domReadySetup();
-		  imgLoad();
-		}
-		sibling.style.display = 'block';
-		updateCookieOnExpand( sibling.id );
-	}
-	// Collapse the branch if it IS visible
-	else
-	{
-		updateCookieOnCollapse( sibling.id );
-		setImages(node, "img/plus.png", "img/folder_closed.png");
-		sibling.style.display = 'none';
-	}
+  Toggle(node, node_id) {
+// Unfold the branch if it isn't visible
+    const sibling = findSibling(node, "UL");
+    if (sibling == null) return;
+
+    if (sibling.style.display == 'none') {
+      setImages(node, this.minus, this.folder_open);
+      if (rec_ids[node_id] != null && rec_ids[node_id].length > 0) {
+        sibling.insertAdjacentHTML("beforeend", rec_string_d(rec_ids[node_id]));
+          rec_ids[node_id] = [];
+          if (typeof liveEnhanced !== 'undefined') liveEnhanced.domReadySetup();
+        imgLoad();
+      }
+      sibling.style.display = 'block';
+      updateCookieOnExpand( sibling.id );
+    }
+    else
+    {
+// Collapse the branch if it IS visible
+      updateCookieOnCollapse( sibling.id );
+      setImages(node, this.plus, this.folder_closed);
+      sibling.style.display = 'none';
+    }
+  }
 }
 
 function updateCookieOnExpand( id )
 {
-	var openNodes = readCookie( cookieNameRec );
-	if (openNodes == null || openNodes == "")
-		openNodes = id;
-	else
-		openNodes += "," + id;
-	createCookie( cookieNameRec, openNodes, 14 );
+  var openNodes = readCookie( cookieNameRec );
+  if (openNodes == null || openNodes == "")
+    openNodes = id;
+  else
+    openNodes += "," + id;
+  createCookie( cookieNameRec, openNodes, 14 );
 }
 
 function updateCookieOnCollapse( id )
 {
-	var openNodes = readCookie( cookieNameRec );
-	if (openNodes != null)
-		openNodes = openNodes.split(",");
-	else
-		openNodes = [];
-	for (var z=0; z<openNodes.length; z++){
-		if (openNodes[z] === id){
-			openNodes.splice(z,1);
-			break;
-		}
-	}
-	openNodes = openNodes.join(",");
-	createCookie( cookieNameRec, openNodes, 14 );
+var openNodes = readCookie( cookieNameRec );
+if (openNodes != null)
+  openNodes = openNodes.split(",");
+else
+  openNodes = [];
+for (var z=0; z<openNodes.length; z++){
+  if (openNodes[z] === id){
+    openNodes.splice(z,1);
+    break;
+  }
+}
+openNodes = openNodes.join(",");
+createCookie( cookieNameRec, openNodes, 14 );
 }
 
 function openNodesOnPageLoad()
 {
-	var openNodes = readCookie( cookieNameRec );
-  	var domChanges = 0;
-	if (openNodes != null && openNodes !== "")
-		openNodes = openNodes.split(",");
-	else
-		openNodes = [];
-	for (var z=0; z<openNodes.length; z++){
-		var ul = document.getElementById(openNodes[z]);
-		if (ul){
-			ul.style.display = 'block';
-                  	if (rec_ids[openNodes[z]] != null && rec_ids[openNodes[z]].length > 0) {
-                          ul.insertAdjacentHTML("beforeend", rec_string_d(rec_ids[openNodes[z]]));
-	                  rec_ids[openNodes[z]] = [];
-			  domChanges = 1;
-		  	}
-			var divRecItem = ul.parentNode.children[0]
-			if (divRecItem != null)
-				setImages(divRecItem, "img/minus.png", "img/folder_open.png");
-		}
-	}
-	if (domChanges == 1 && typeof liveEnhanced !== 'undefined') liveEnhanced.domReadySetup();
-	imgLoad();
+var openNodes = readCookie( cookieNameRec );
+  var domChanges = 0;
+if (openNodes != null && openNodes !== "")
+  openNodes = openNodes.split(",");
+else
+  openNodes = [];
+for (var z=0; z<openNodes.length; z++){
+  var ul = document.getElementById(openNodes[z]);
+  if (ul){
+    ul.style.display = 'block';
+                  if (rec_ids[openNodes[z]] != null && rec_ids[openNodes[z]].length > 0) {
+                        ul.insertAdjacentHTML("beforeend", rec_string_d(rec_ids[openNodes[z]]));
+                  rec_ids[openNodes[z]] = [];
+      domChanges = 1;
+      }
+    var divRecItem = ul.parentNode.children[0]
+    if (divRecItem != null)
+      setImages(divRecItem, "img/minus.png", "img/folder_open.png");
+  }
+}
+if (domChanges == 1 && typeof liveEnhanced !== 'undefined') liveEnhanced.domReadySetup();
+imgLoad();
 }
 
 function getElementsByNodeNameClassName(elementd, nodeName, className) {
 // example: getElementsByNodeNameClassName(window.document, 'DIV', 'test')
-  const classElements = elementd.getElementsByClassName(className);
+const classElements = elementd.getElementsByClassName(className);
   return Array.prototype.filter.call(
     classElements, (classElement) => classElement.nodeName === nodeName,
   );
@@ -192,14 +198,14 @@ document.addEventListener("DOMContentLoaded", function()
 
 function createCookie(name,value,days)
 {
-        if (value.length > 1000) return; // too large cookies result in too large http headers
+	if (value.length > 1000) return; // too large cookies result in too large http headers
 	if (days) {
 		var date = new Date();
 		date.setTime(date.getTime()+(days*24*60*60*1000));
 		var expires = "; expires="+date.toGMTString();
 	}
 	else var expires = "";
-	document.cookie = name+"="+value+expires+"; path=/";
+	document.cookie = name+"="+value+expires+";SameSite=Lax; path=/";
 }
 
 function readCookie(name)

@@ -251,6 +251,9 @@ function rec_string_d(rec_ids) {
 </script>
 
   <script type="text/javascript" src="js/live/treeview.js"></script>
+  <script>
+  const tv = new Treeview("<$ LiveSetup().GetThemedLinkPrefixImg()$>minus.png", "<$ LiveSetup().GetThemedLinkPrefixImg()$>plus.png", "<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_open.png", "<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png");
+  </script>
 </head>
 <body onload="adjustHeader()" onresize="adjustHeader()">
   <& pageelems.logo &>
@@ -367,7 +370,7 @@ if (currentFlat != "true") {
       iRecItem = (uintptr_t)&recItem;
   </%cpp>
       <li class="recording">
-        <div class="recording_item" onclick = "Toggle(this, 'fldr_<$ idHash $>')">
+        <div class="recording_item" onclick = "tv.Toggle(this, 'fldr_<$ idHash $>')">
         <table><tr>
           <%cpp> if(level > 0) { </%cpp>
             <td class = "space">
@@ -458,7 +461,7 @@ if (currentSort != "duplicates" || currentFlat == "true") {
       RecordingsItemRec::AppendAsJSArray(*recoring_item, recItems.begin(), recItems.end(), first, currentFilter, false);
       </%cpp>
       <li class="recording">
-        <div class="recording_item" onclick = "Toggle(this, 'fldr_<$ idHash $>')">
+        <div class="recording_item" onclick = "tv.Toggle(this, 'fldr_<$ idHash $>')">
           <table><tr><td class="space">
             <img class="recording_expander" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>plus.png" />
           </td><td class="space">
