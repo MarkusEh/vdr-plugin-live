@@ -8,7 +8,7 @@
 PLUGIN := live
 
 ### The version number of this plugin (taken from the main source file):
-VERSION := $(shell grep '\#define LIVEVERSION ' setup.h | awk '{ print $$3 }' | sed -e 's/[";]//g')
+VERSION := $(shell awk '/#define LIVEVERSION/ { print $$3 }' setup.h | sed -e 's/[";]//g')
 
 ### Check for libpcre2
 HAVE_PCRE2 = $(shell if pkg-config --exists libpcre2-8; then echo "1"; else echo "0"; fi )
