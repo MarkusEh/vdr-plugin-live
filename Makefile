@@ -11,21 +11,21 @@ PLUGIN := live
 VERSION := $(shell awk '/#define LIVEVERSION/ { print $$3 }' setup.h | sed -e 's/[";]//g')
 
 ### Check for libpcre2
-HAVE_PCRE2 = $(shell if pkg-config --exists libpcre2-8; then echo "1"; else echo "0"; fi )
+HAVE_PCRE2 := $(shell if pkg-config --exists libpcre2-8; then echo "1"; else echo "0"; fi )
 
 ### The directory environment:
 # Use package data if installed...otherwise assume we're under the VDR source directory:
 PKGCFG = $(if $(VDRDIR),$(shell pkg-config --variable=$(1) $(VDRDIR)/vdr.pc),$(shell PKG_CONFIG_PATH="$$PKG_CONFIG_PATH:../../.." pkg-config --variable=$(1) vdr))
-LIBDIR = $(call PKGCFG,libdir)
-LOCDIR = $(call PKGCFG,locdir)
-PLGCFG = $(call PKGCFG,plgcfg)
-RESDIR = $(call PKGCFG,resdir)
+LIBDIR := $(call PKGCFG,libdir)
+LOCDIR := $(call PKGCFG,locdir)
+PLGCFG := $(call PKGCFG,plgcfg)
+RESDIR := $(call PKGCFG,resdir)
 #
 TMPDIR ?= /tmp
 
 ### The compiler options:
-export CFLAGS   = $(call PKGCFG,cflags)
-export CXXFLAGS = $(call PKGCFG,cxxflags)
+export CFLAGS   := $(call PKGCFG,cflags)
+export CXXFLAGS := $(call PKGCFG,cxxflags)
 
 ECPPC ?= ecppc
 
@@ -40,7 +40,7 @@ include global.mk
 ### Determine tntnet and cxxtools versions:
 TNTNET-CONFIG := $(shell which tntnet-config 2>/dev/null)
 ifeq ($(TNTNET-CONFIG),)
-TNTVERSION = $(shell pkg-config --modversion tntnet | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
+TNTVERSION := $(shell pkg-config --modversion tntnet | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
 CXXFLAGS  += $(shell pkg-config --cflags tntnet)
 LIBS      += $(shell pkg-config --libs tntnet)
 else
@@ -51,7 +51,7 @@ endif
 
 # $(info $$TNTVERSION is [${TNTVERSION}])
 
-CXXTOOLVER = $(shell cxxtools-config --version | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
+CXXTOOLVER := $(shell cxxtools-config --version | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
 
 
 ### Optional configuration features
@@ -79,7 +79,7 @@ PACKAGE := vdr-$(ARCHIVE)
 SOFILE := libvdr-$(PLUGIN).so
 
 ### Installed shared object file:
-SOINST = $(DESTDIR)$(LIBDIR)/$(SOFILE).$(APIVERSION)
+SOINST := $(DESTDIR)$(LIBDIR)/$(SOFILE).$(APIVERSION)
 
 ### Includes and Defines (add further entries here):
 DEFINES	+= -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"' -DTNTVERSION=$(TNTVERSION) -DCXXTOOLVER=$(CXXTOOLVER)
@@ -114,8 +114,8 @@ $(WEB_DIR_PAGES)/%.o: $(WEB_DIR_PAGES)/%.cpp $(WEB_DIR_PAGES)/%.ecpp
 	$(Q)$(CXX) $(CXXFLAGS) -c $(DEFINES) $(PLUGINFEATURES) $(INCLUDES) $<
 
 ### Dependencies:
-MAKEDEP = $(CXX) -MM -MG
-DEPFILE = .dependencies
+MAKEDEP := $(CXX) -MM -MG
+DEPFILE := .dependencies
 $(DEPFILE): Makefile
 	@$(MAKEDEP) $(CXXFLAGS) $(DEFINES) $(PLUGINFEATURES) $(INCLUDES) $(PLUGINSRCS) > $@
 
@@ -134,7 +134,7 @@ I18Npo   := $(wildcard $(PODIR)/*.po)
 I18Nmo   := $(addsuffix .mo, $(foreach file, $(I18Npo), $(basename $(file))))
 I18Nmsgs := $(addprefix $(DESTDIR)$(LOCDIR)/, $(addsuffix /LC_MESSAGES/vdr-$(PLUGIN).mo, $(notdir $(foreach file, $(I18Npo), $(basename $(file))))))
 I18Npot  := $(PODIR)/$(PLUGIN).pot
-I18Npot_deps = $(PLUGINSRCS) $(wildcard $(WEB_DIR_PAGES)/*.cpp) setup.h epg_events.h
+I18Npot_deps := $(PLUGINSRCS) $(wildcard $(WEB_DIR_PAGES)/*.cpp) setup.h epg_events.h
 
 $(I18Npot): $(I18Npot_deps)
 	$(call PRETTY_PRINT,"GT" $@)
