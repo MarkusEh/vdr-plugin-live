@@ -501,11 +501,11 @@ msgstr "Ohjelmatietojen lukitus epäonnistui!"
 msgid "Error aquiring schedules"
 msgstr "Ohjelmatietojen haku epäonnistui!"
 
-msgid "Recording length"
-msgstr ""
-
 #, c-format
 msgid "%d:%02d"
+msgstr ""
+
+msgid "Recording length"
 msgstr ""
 
 msgid "Event duration"
@@ -700,16 +700,16 @@ msgstr ""
 msgid "Episode first aired:"
 msgstr ""
 
-msgid "Episode guest stars:"
-msgstr ""
-
-msgid "Episode director:"
-msgstr ""
-
-msgid "Episode writer:"
-msgstr ""
-
 msgid "IMDB episode"
+msgstr ""
+
+msgid "Guest stars and crew"
+msgstr ""
+
+msgid "Writer"
+msgstr ""
+
+msgid "Director"
 msgstr ""
 
 msgid "Tagline:"
@@ -727,16 +727,13 @@ msgstr "Kotisivu"
 msgid "Release date:"
 msgstr ""
 
-msgid "Runtimes:"
+msgid "Runtime:"
 msgstr ""
 
 msgid "Popularity:"
 msgstr ""
 
 msgid "Vote average/count:"
-msgstr ""
-
-msgid "Actors:"
 msgstr ""
 
 msgid "IMDB"
@@ -751,16 +748,10 @@ msgstr ""
 msgid "Collection name:"
 msgstr ""
 
-msgid "Director:"
-msgstr ""
-
-msgid "Writer:"
-msgstr ""
-
 msgid "Status:"
 msgstr ""
 
-msgid "Created by:"
+msgid "Cast and crew"
 msgstr ""
 
 msgid "Authors"

@@ -101,6 +101,13 @@ namespace vdrlive {
 				   LiveSetup().GetTvscraperImageDir() + "series",
 				   "/$1/$2/$3.$4",
 				   "image/$4");
+		// Images from tvscraper, from external EPG provider (start time, channel, image)
+			MapUrl(app,
+				   "^/tvscraper/epg/([^/]*)/([^/]*)/([^/]*)\\.([^./]+)",
+				   "content",
+				   LiveSetup().GetTvscraperImageDir() + "epg",
+				   "/$1/$2/$3.$4",
+				   "image/$4");
         }
 	void TntConfig::Configure(tnt::Tntnet& app) const
 	{

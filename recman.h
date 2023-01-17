@@ -168,7 +168,7 @@ namespace vdrlive {
       static tCompRec getComp(eSortOrder sortOrder);
   };
 // search a recording matching an EPG entry. The EPG entry is given with Name, ShortText, Description, Duration, scraperOverview
-  bool searchNameDesc(RecordingsItemPtr &RecItem, const std::vector<RecordingsItemPtr> *RecItems, const cEvent *event, cGetScraperOverview *scraperOverview);
+  bool searchNameDesc(RecordingsItemPtr &RecItem, const std::vector<RecordingsItemPtr> *RecItems, const cEvent *event, cScraperVideo *scraperVideo);
 
   /**
    *  Base class for entries in recordings tree and recordings list.
@@ -178,40 +178,40 @@ namespace vdrlive {
    */
   class RecordingsItem
   {
-          friend class RecordingsTree;
+    friend class RecordingsTree;
 
-          protected:
-                  RecordingsItem(const std::string& name);
+    protected:
+      RecordingsItem(const std::string& name);
 
-          public:
-                  virtual ~RecordingsItem();
+    public:
+      virtual ~RecordingsItem();
 
-                  virtual time_t StartTime() const = 0;
-                  virtual bool IsDir() const = 0;
-                  virtual int Duration() const = 0;
-      						virtual int DurationDeviation() const { return -1; } // duration deviation in seconds
-                  virtual const std::string& Name() const { return m_name; }
-                  virtual const std::string& NameForSearch() const { return m_name_for_search; }
-                  virtual const char * ShortText() const { return RecInfo()? RecInfo()->ShortText():0; }
-                  virtual const char * Description() const { return RecInfo()? RecInfo()->Description():0; }
-                  virtual const std::string Id() const = 0;
-                  int IdI() const { return m_idI;}
+      virtual time_t StartTime() const = 0;
+      virtual bool IsDir() const = 0;
+      virtual int Duration() const = 0;
+      virtual int DurationDeviation() const { return -1; } // duration deviation in seconds
+      virtual const std::string& Name() const { return m_name; }
+      virtual const std::string& NameForSearch() const { return m_name_for_search; }
+      virtual const char * ShortText() const { return RecInfo()? RecInfo()->ShortText():0; }
+      virtual const char * Description() const { return RecInfo()? RecInfo()->Description():0; }
+      virtual const std::string Id() const = 0;
+      int IdI() const { return m_idI;}
 template<class T>
-                  void AppendShortTextOrDesc(T &target) const;
+      void AppendShortTextOrDesc(T &target) const;
 
-                  virtual const cRecording* Recording() const { return 0; }
-                  virtual const cRecordingInfo* RecInfo() const { return 0; }
+      virtual const cRecording* Recording() const { return 0; }
+      virtual const cRecordingInfo* RecInfo() const { return 0; }
 
 		  void finishRecordingsTree(); // sort recursively, Order: m_cmp_rec (if defined. Otherwise: no sort)
-					       // dirs: Order: m_cmp_dir (if defined. Otherwise: m_name_for_sort)
-                  virtual bool operator< (const RecordingsItemPtr &sec) const { return m_name < sec->m_name; }
-                  virtual bool operator< (const std::string &sec) const { return m_name < sec; }
-                  virtual bool operator> (const std::string &sec) const { return m_name > sec; }
-                  virtual bool operator< (int sec) const { return false; }
-                  virtual bool operator> (int sec) const { return false; }
-                  virtual int Level() { return 0; }
-                  int numberOfRecordings();
-                  RecordingsItemPtr addDirIfNotExists(const std::string &dirName);
+     // dirs: Order: m_cmp_dir (if defined. Otherwise: m_name_for_sort)
+      virtual bool operator< (const RecordingsItemPtr &sec) const { return m_name < sec->m_name; }
+      virtual bool operator< (const std::string &sec) const { return m_name < sec; }
+      virtual bool operator> (const std::string &sec) const { return m_name > sec; }
+      virtual bool operator< (int sec) const { return false; }
+      virtual bool operator> (int sec) const { return false; }
+      virtual int Level() { return 0; }
+      int numberOfRecordings();
+      RecordingsItemPtr addDirIfNotExists(const std::string &dirName);
 		  RecordingsItemPtr addDirCollectionIfNotExists(int collectionId, const cRecording* recording);
 		  RecordingsItemPtr addDirSeasonIfNotExists(int collectionId, const cRecording* recording);
 		  const std::vector<RecordingsItemPtr> *getRecordings(eSortOrder sortOrder);
@@ -219,58 +219,60 @@ template<class T>
 		  bool checkNew();
 		  void addDirList(std::vector<std::string> &dirs, const std::string &basePath);
 
-                  void setTvShow(const cRecording* recording);
+      void setTvShow(const cRecording* recording);
 		  void getScraperData(const cRecording* recording, const cImageLevels &imageLevels, std::string *collectionName = NULL);
-                  bool scraperDataAvailable() const { return m_s_videoType == eVideoType::movie || m_s_videoType == eVideoType::tvShow; }
-                  eVideoType scraperVideoType() const { return m_s_videoType; }
-                  int scraperCollectionId() const { return m_s_collection_id; }
-                  int scraperEpisodeNumber() const { return m_s_episode_number; }
-                  int scraperSeasonNumber() const { return m_s_season_number; }
-                  const std::string &scraperName() const { return m_s_title; }
-                  const std::string &scraperReleaseDate() const { return m_s_release_date; }
-                  const cTvMedia &scraperImage() const { return m_s_image; }
-                  int language() const { return m_language; }
-                  int CompareTexts(const RecordingsItemPtr &second, int *numEqualChars=NULL) const;
-                  int CompareStD(const RecordingsItemPtr &second, int *numEqualChars=NULL) const;
-                  bool orderDuplicates(const RecordingsItemPtr &second, bool alwaysShortText, bool lang = false) const;
-     // To display the recording on the UI
-                  bool matchesFilter(const std::string &filter);
-                  virtual const int IsArchived() const { return 0 ; }
-                  virtual const std::string ArchiveDescr() const { return "" ; }
-                  virtual const char *NewR() const { return "" ; }
-                  virtual const int RecordingErrors() const { return -1; }
-                  virtual const int SD_HD() { return 0; }
-                  virtual const char *SD_HD_icon() { return ""; }
-                  virtual void AppendAsJSArray(cLargeString &target, bool displayFolder) { }
+      bool scraperDataAvailable() const { return m_s_videoType == tMovie || m_s_videoType == tSeries; }
+      tvType scraperVideoType() const { return m_s_videoType; }
+      int scraperCollectionId() const { return m_s_collection_id; }
+      int scraperEpisodeNumber() const { return m_s_episode_number; }
+      int scraperSeasonNumber() const { return m_s_season_number; }
+      const std::string &scraperName() const { return m_s_title; }
+      const std::string &scraperReleaseDate() const { return m_s_release_date; }
+      const cTvMedia &scraperImage() const { return m_s_image; }
+      int language() const { return m_language; }
+      int CompareTexts(const RecordingsItemPtr &second, int *numEqualChars=NULL) const;
+      int CompareStD(const RecordingsItemPtr &second, int *numEqualChars=NULL) const;
+      bool orderDuplicates(const RecordingsItemPtr &second, bool alwaysShortText, bool lang = false) const;
+// To display the recording on the UI
+      bool matchesFilter(const std::string &filter);
+      virtual const int IsArchived() const { return 0 ; }
+      virtual const std::string ArchiveDescr() const { return "" ; }
+      virtual const char *NewR() const { return "" ; }
+      virtual const int RecordingErrors() const { return -1; }
+      virtual int SD_HD() { return m_video_SD_HD; }
+      virtual const char *SD_HD_icon() { return ""; }
+      virtual void AppendAsJSArray(cLargeString &target, bool displayFolder) { }
  		  bool recEntriesSorted() { return m_cmp_rec != NULL; }
  		  bool dirEntriesSorted() { return m_cmp_dir != NULL; }
 
-          private:
-                  std::string GetNameForSearch(std::string const & name);
-          protected:
+    private:
+      std::string GetNameForSearch(std::string const & name);
+    protected:
 		  int m_idI = -1;
-                  std::string m_name;
-                  const std::string m_name_for_search;
-                  std::vector<RecordingsItemPtr> m_subdirs;
-                  std::vector<RecordingsItemPtr> m_entries;
+      std::string m_name;
+      const std::string m_name_for_search;
+      std::vector<RecordingsItemPtr> m_subdirs;
+      std::vector<RecordingsItemPtr> m_entries;
 		  bool m_entriesSorted = false;
-                  std::vector<RecordingsItemPtr> m_entries_other_sort;
+      std::vector<RecordingsItemPtr> m_entries_other_sort;
 		  eSortOrder m_sortOrder = (eSortOrder)-1;
 		  bool (*m_cmp_dir)(const RecordingsItemPtr &itemPtr1, const RecordingsItemPtr &itemPtr2) = NULL;
 		  bool (*m_cmp_rec)(const RecordingsItemPtr &itemPtr1, const RecordingsItemPtr &itemPtr2) = NULL;
 // scraper data
-                  eVideoType m_s_videoType = eVideoType::none;
-                  int m_s_dbid = 0;
-                  std::string m_s_title = "";
-                  std::string m_s_episode_name = "";
-                  std::string m_s_IMDB_ID = "";
-                  std::string m_s_release_date = "";
-                  cTvMedia m_s_image;
-                  int m_s_runtime = 0;
-                  int m_s_collection_id = 0;
-                  int m_s_episode_number = 0;
-                  int m_s_season_number = 0;
-                  int m_language = 0;
+      tvType m_s_videoType = tNone;
+      int m_s_dbid = 0;
+      std::string m_s_title = "";
+      std::string m_s_episode_name = "";
+      std::string m_s_IMDB_ID = "";
+      std::string m_s_release_date = "";
+      cTvMedia m_s_image;
+      int m_s_runtime = 0;
+      int m_s_collection_id = 0;
+      int m_s_episode_number = 0;
+      int m_s_season_number = 0;
+      int m_language = 0;
+      int m_video_SD_HD = -1;  // 0 is SD, 1 is HD, 2 is UHD
+      int m_duration_deviation = 0;
   };
 
 
@@ -332,7 +334,7 @@ template<class T>
   class RecordingsItemRec : public RecordingsItem
   {
     public:
-      RecordingsItemRec(int idI, const std::string& id, const std::string& name, const cRecording* recording, int language, int sdHdUhd);
+      RecordingsItemRec(int idI, const std::string& id, const std::string& name, const cRecording* recording);
 
       virtual ~RecordingsItemRec();
 
@@ -356,7 +358,7 @@ template<class T>
 #endif
       void AppendRecordingErrorsStr(std::string &target) const;
 
-      virtual const int SD_HD();
+      virtual int SD_HD();
       virtual const char *SD_HD_icon() { return SD_HD() == 0 ? "sd.png": SD_HD() == 1 ? "hd.png":"ud.png"; }
       virtual void AppendAsJSArray(cLargeString &target, bool displayFolder);
       static void AppendAsJSArray(cLargeString &target, std::vector<RecordingsItemPtr>::const_iterator recIterFirst, std::vector<RecordingsItemPtr>::const_iterator recIterLast, bool &first, const std::string &filter, bool reverse);
@@ -365,8 +367,6 @@ template<class T>
       const cRecording *m_recording;
       const std::string m_id;
       const int m_isArchived;
-      int m_duration_deviation; // between recording length and event length+margin
-      int m_video_SD_HD = -1;  // 0 is SD, 1 is HD, 2 is UHD
   };
 
   /**
@@ -374,18 +374,18 @@ template<class T>
    */
   class RecordingsItemDummy: public RecordingsItem
   {
-          public:
-                  RecordingsItemDummy(const cEvent *event, cGetScraperOverview *scraperOverview = NULL);
-                  ~RecordingsItemDummy() { };
+    public:
+      RecordingsItemDummy(const cEvent *event, cScraperVideo *scraperVideo);
+      ~RecordingsItemDummy() { };
 
-                  virtual const char * ShortText() const { return m_event->ShortText(); }
-                  virtual const char * Description() const { return m_event->Description(); }
-                  virtual time_t StartTime() const { return m_event->StartTime(); }
-                  virtual int Duration() const { return m_event->Duration() / 60; } // duration in minutes
-                  virtual bool IsDir() const { return false; }
-                  virtual std::string const Id() const { return ""; }
-          private:
-		const cEvent *m_event;
+      virtual const char * ShortText() const { return m_event->ShortText(); }
+      virtual const char * Description() const { return m_event->Description(); }
+      virtual time_t StartTime() const { return m_event->StartTime(); }
+      virtual int Duration() const { return m_event->Duration() / 60; } // duration in minutes
+      virtual bool IsDir() const { return false; }
+      virtual std::string const Id() const { return ""; }
+    private:
+      const cEvent *m_event;
   };
 
   /**
@@ -394,29 +394,29 @@ template<class T>
    */
   class RecordingsTree
   {
-          friend class RecordingsManager;
+    friend class RecordingsManager;
 
-          private:
-                  RecordingsTree(RecordingsManagerPtr recManPtr);
+    private:
+      RecordingsTree(RecordingsManagerPtr recManPtr);
 
-          public:
-                  virtual ~RecordingsTree();
+    public:
+      virtual ~RecordingsTree();
 
-                  RecordingsItemPtr getRoot() const { return m_root; }
-		  std::vector<std::string> getAllDirs() { std::vector<std::string> result; m_rootFileSystem->addDirList(result, ""); return result; }
-		  const std::vector<RecordingsItemPtr> *allRecordings() { return &m_allRecordings;}
-		  const std::vector<RecordingsItemPtr> *allRecordings(eSortOrder sortOrder);
+      RecordingsItemPtr getRoot() const { return m_root; }
+      std::vector<std::string> getAllDirs() { std::vector<std::string> result; m_rootFileSystem->addDirList(result, ""); return result; }
+      const std::vector<RecordingsItemPtr> *allRecordings() { return &m_allRecordings;}
+      const std::vector<RecordingsItemPtr> *allRecordings(eSortOrder sortOrder);
 
-                  int MaxLevel() const { return m_maxLevel; }
+      int MaxLevel() const { return m_maxLevel; }
 
-          private:
-                  int m_maxLevel;
-                  RecordingsItemPtr m_root;
-                  RecordingsItemPtr m_rootFileSystem;
-		  std::vector<RecordingsItemPtr> m_allRecordings;
-		  bool m_allRecordingsSorted = false;
-		  std::vector<RecordingsItemPtr> m_allRecordings_other_sort;
-		  eSortOrder m_sortOrder = (eSortOrder)-1;
+    private:
+      int m_maxLevel;
+      RecordingsItemPtr m_root;
+      RecordingsItemPtr m_rootFileSystem;
+      std::vector<RecordingsItemPtr> m_allRecordings;
+      bool m_allRecordingsSorted = false;
+      std::vector<RecordingsItemPtr> m_allRecordings_other_sort;
+      eSortOrder m_sortOrder = (eSortOrder)-1;
   };
 
 
@@ -452,17 +452,11 @@ template<class T>
     std::cout << t << (a ? a->Name() : "nullptr");
   }
   inline void swap(RecordingsItemPtr &a, RecordingsItemPtr &b) {
-//    print("swap, first: ", a);
-//    print(" sec: ", b);
     a.swap(b);
-//    print("nach swap, first: ", a);
-//    print(" sec: ", b);
-//    std::cout << "\n";
   }
 
-void AppendScraperData(cLargeString &target, const cTvMedia &s_image, eVideoType s_videoType, const std::string &s_title, int s_season_number, int s_episode_number, const std::string &s_episode_name, int s_runtime, const std::string &s_release_date);
+void AppendScraperData(cLargeString &target, const std::string &s_IMDB_ID, const cTvMedia &s_image, tvType s_videoType, const std::string &s_title, int s_season_number, int s_episode_number, const std::string &s_episode_name, int s_runtime, const std::string &s_release_date);
 
-std::string titleWithScraperData(const cGetScraperOverview &scraperOverview, const std::string &s_title, const std::string &s_episode_name);
 std::string recordingErrorsHtml(int recordingErrors);
 
 void addDuplicateRecordingsNoSd(std::vector<RecordingsItemPtr> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree);

@@ -72,6 +72,12 @@ namespace features
 		static const char* Plugin() { return "streamdev-server"; }
 		static const char* MinVersion() { return "?"; }
 	};
+
+	struct tvscraper
+	{
+		static const char* Plugin() { return "tvscraper"; }
+		static const char* MinVersion() { return "1.1.9"; }
+	};
 } // namespace features
 
 } // namespace vdrlive

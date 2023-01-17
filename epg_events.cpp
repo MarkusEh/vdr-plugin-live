@@ -405,20 +405,20 @@ namespace vdrlive
 
 		bool PosterTvscraper(cTvMedia &media, const cEvent *event, const cRecording *recording)
 		{
-                  media.path = "";
-                  media.width = media.height = 0;
+      media.path = "";
+      media.width = media.height = 0;
 		  if (LiveSetup().GetTvscraperImageDir().empty() ) return false;
-                  ScraperGetPoster call;
-                  call.event = event;
-                  call.recording = recording;
-                  if (ScraperCallService("GetPoster", &call)) {
-                    media.path = ScraperImagePath2Live(call.poster.path);
-                    media.width = call.poster.width;
-                    media.height = call.poster.height;
-                    return true;
-                  }
+      ScraperGetPoster call;
+      call.event = event;
+      call.recording = recording;
+      if (ScraperCallService("GetPoster", &call)) {
+        media.path = ScraperImagePath2Live(call.poster.path);
+        media.width = call.poster.width;
+        media.height = call.poster.height;
+        return true;
+      }
 		  return false;
-                }
+    }
 
 		std::list<std::string> EpgImages(std::string const &epgid)
 		{
@@ -494,17 +494,27 @@ namespace vdrlive
 
 	} // namespace EpgEvents
 
-bool appendEpgItem(cLargeString &epg_item, RecordingsItemPtr &recItem, const cEvent *Event, const cChannel *Channel, bool withChannel) {
-  std::string s_title, s_episode_name, s_IMDB_ID, s_releaseDate;
+void AppendScraperData(cLargeString &target, cScraperVideo *scraperVideo) {
   cTvMedia s_image;
-  cGetScraperOverview scraperOverview (Event, NULL, &s_title, &s_episode_name, &s_IMDB_ID, &s_image,
+  std::string s_title, s_episode_name, s_IMDB_ID, s_release_date;
+  if (scraperVideo == NULL) {
+    AppendScraperData(target, s_IMDB_ID, s_image, tNone, s_title, 0, 0, s_episode_name, 0, s_release_date);
+    return;
+  }
+  int s_runtime;
+  scraperVideo->getOverview(&s_title, &s_episode_name, &s_release_date, &s_runtime, &s_IMDB_ID, NULL);
+  s_image = scraperVideo->getImage(
     cImageLevels(eImageLevel::episodeMovie, eImageLevel::seasonMovie, eImageLevel::tvShowCollection, eImageLevel::anySeasonCollection),
-    cOrientations(eOrientation::landscape, eOrientation::portrait, eOrientation::banner), &s_releaseDate );
-  scraperOverview.call(LiveSetup().GetPluginScraper());
+    cOrientations(eOrientation::landscape, eOrientation::portrait, eOrientation::banner), false);
+  AppendScraperData(target, s_IMDB_ID, s_image, scraperVideo->getVideoType(), s_title, scraperVideo->getSeasonNumber(), scraperVideo->getEpisodeNumber(), s_episode_name, s_runtime, s_release_date);
+}
+bool appendEpgItem(cLargeString &epg_item, RecordingsItemPtr &recItem, const cEvent *Event, const cChannel *Channel, bool withChannel) {
+  cGetScraperVideo getScraperVideo(Event, NULL);
+  getScraperVideo.call(LiveSetup().GetPluginScraper());
 
   RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
   const std::vector<RecordingsItemPtr> *recItems = recordingsTree->allRecordings(eSortOrder::duplicatesLanguage);
-  bool recItemFound = searchNameDesc(recItem, recItems, Event, &scraperOverview);
+  bool recItemFound = searchNameDesc(recItem, recItems, Event, getScraperVideo.m_scraperVideo.get() );
 
   epg_item.append("[\"");
 // [0] : EPG ID  (without event_)
@@ -513,29 +523,33 @@ bool appendEpgItem(cLargeString &epg_item, RecordingsItemPtr &recItem, const cEv
 // [1] : Timer ID
   const cTimer* timer = LiveTimerManager().GetTimer(Event->EventID(), Channel->GetChannelID() );
   if (timer) epg_item.append(vdrlive::EncodeDomId(LiveTimerManager().GetTimers().GetTimerId(*timer), ".-:", "pmc"));
+  epg_item.append("\",");
+// scraper data
+  AppendScraperData(epg_item, getScraperVideo.m_scraperVideo.get() );
+  epg_item.append(",");
+// [9] : channelnr
+  if (withChannel) {
+    epg_item.append(Channel->Number());
+    epg_item.append(",\"");
+// [10] : channelname
+    AppendHtmlEscapedAndCorrectNonUTF8(epg_item, Channel->Name() );
+  } else epg_item.append("0,\"");
   epg_item.append("\",\"");
-// [2] : Day, time & duration of event
+// [11] : Name
+  AppendHtmlEscapedAndCorrectNonUTF8(epg_item, Event->Title() );
+  epg_item.append("\",\"");
+// [12] : Shorttext
+  AppendHtmlEscapedAndCorrectNonUTF8(epg_item, Event->ShortText() );
+  epg_item.append("\",\"");
+// [13] : Description
+  AppendTextTruncateOnWord(epg_item, Event->Description(), LiveSetup().GetMaxTooltipChars(), true);
+  epg_item.append("\",\"");
+// [14] : Day, time & duration of event
   AppendDateTime(epg_item, tr("%I:%M %p"), Event->StartTime() );
   epg_item.append(" - ");
   AppendDateTime(epg_item, tr("%I:%M %p"), Event->EndTime() );
   epg_item.append(" ");
   AppendDuration(epg_item, tr("(%d:%02d)"), Event->Duration() /60/60, Event->Duration()/60 % 60);
-  epg_item.append("\",");
-  AppendScraperData(epg_item, s_image, scraperOverview.m_videoType, s_title, scraperOverview.m_seasonNumber, scraperOverview.m_episodeNumber, s_episode_name, scraperOverview.m_runtime, s_releaseDate);
-  epg_item.append(",");
-  if (withChannel) {
-    epg_item.append(Channel->Number());
-    epg_item.append(",\"");
-    AppendHtmlEscapedAndCorrectNonUTF8(epg_item, Channel->Name() );
-  } else epg_item.append("0,\"");
-  epg_item.append("\",\"");
-  AppendHtmlEscapedAndCorrectNonUTF8(epg_item, Event->Title() );
-  epg_item.append("\",\"");
-  AppendHtmlEscapedAndCorrectNonUTF8(epg_item, Event->ShortText() );
-  epg_item.append("\",\"");
-  AppendTextTruncateOnWord(epg_item, Event->Description(), LiveSetup().GetMaxTooltipChars(), true);
-  epg_item.append("\",\"");
-  epg_item.append(s_IMDB_ID);
   epg_item.append("\"]");
   return recItemFound;
 }

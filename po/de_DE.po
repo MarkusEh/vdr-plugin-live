@@ -503,12 +503,12 @@ msgstr "Fehler beim Zugriffschutz für die Programminfos"
 msgid "Error aquiring schedules"
 msgstr "Fehler beim Zugriff auf Programinfos"
 
-msgid "Recording length"
-msgstr "Länge der Aufzeichnung"
-
 #, c-format
 msgid "%d:%02d"
 msgstr "%d:%02d"
+
+msgid "Recording length"
+msgstr "Länge der Aufzeichnung"
 
 msgid "Event duration"
 msgstr "Länge des EPG Eintrags"
@@ -702,17 +702,17 @@ msgstr "Episode Bewertung: Durchschnitt/Anzahl:"
 msgid "Episode first aired:"
 msgstr "Episode erstmalig gesendet:"
 
-msgid "Episode guest stars:"
-msgstr "Episode Gastschauspieler:"
-
-msgid "Episode director:"
-msgstr "Episode Regisseur:"
-
-msgid "Episode writer:"
-msgstr "Episode Autor:"
-
 msgid "IMDB episode"
 msgstr "Episode IMDB"
+
+msgid "Guest stars and crew"
+msgstr "Gastdarsteller und crew"
+
+msgid "Writer"
+msgstr "Autor"
+
+msgid "Director"
+msgstr "Regisseur"
 
 msgid "Tagline:"
 msgstr "Kurze Inhaltsangabe:"
@@ -729,17 +729,14 @@ msgstr "Homepage"
 msgid "Release date:"
 msgstr "Veröffentlicht am:"
 
-msgid "Runtimes:"
-msgstr "Laufzeiten:"
+msgid "Runtime:"
+msgstr "Länge:"
 
 msgid "Popularity:"
 msgstr "Beliebtheit:"
 
 msgid "Vote average/count:"
 msgstr "Bewertung: Durchschnitt/Anzahl:"
-
-msgid "Actors:"
-msgstr "Schauspieler:"
 
 msgid "IMDB"
 msgstr "IMDB"
@@ -753,18 +750,13 @@ msgstr "Einnahmen:"
 msgid "Collection name:"
 msgstr "Name der Sammlung:"
 
-msgid "Director:"
-msgstr "Regisseur:"
-
-msgid "Writer:"
-msgstr "Autor:"
-
 msgid "Status:"
 msgstr "Status:"
 
-msgid "Created by:"
-msgstr "Created by:"
+msgid "Cast and crew"
+msgstr "Besetzung und Crew"
 
+# msgstr "Schöpfer"
 msgid "Authors"
 msgstr "Autoren"
 
@@ -1071,6 +1063,30 @@ msgstr "Live Interactive VDR Environment"
 
 msgid "No EPG information available"
 msgstr "Keine EPG Daten vorhanden"
+
+#~ msgid "Episode guest stars:"
+#~ msgstr "Episode Gastdarsteller:"
+
+#~ msgid "Episode director:"
+#~ msgstr "Episode Regisseur:"
+
+#~ msgid "Episode writer:"
+#~ msgstr "Episode Autor:"
+
+#~ msgid "Director:"
+#~ msgstr "Regisseur:"
+
+#~ msgid "Writer:"
+#~ msgstr "Autor:"
+
+#~ msgid "Runtimes:"
+#~ msgstr "Laufzeiten:"
+
+#~ msgid "Actors:"
+#~ msgstr "Schauspieler:"
+
+#~ msgid "Created by:"
+#~ msgstr "Created by:"
 
 #~ msgid "mm/dd/yyyy"
 #~ msgstr "dd.mm.yyyy"

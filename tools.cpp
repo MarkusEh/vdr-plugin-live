@@ -1,4 +1,5 @@
-
+#include <iostream>
+#include <fstream>
 #include "tools.h"
 #include "xxhash32.h"
 #include "setup.h"
@@ -39,104 +40,103 @@ std::istream& operator>>( std::istream& is, tChannelID& ret )
 
 namespace vdrlive {
 
-        void AppendHtmlEscaped(std::string &target, const char* s){
+  void AppendHtmlEscaped(std::string &target, const char* s){
 // append c-string s to target, html escape some chsracters
-          if(!s) return;
-          size_t i = 0;
-          const char* notAppended = s;
+    if(!s) return;
+    size_t i = 0;
+    const char* notAppended = s;
 // moving forward, notAppended is the position of the first character which is not yet appended, in i the number of not yet appended chars
-          for (const char* current = s; *current; current++) {
-            switch(*current) {
-              case '&':  target.append(notAppended, i); target.append("&amp;");  notAppended = notAppended + i + 1; i = 0;   break;
-              case '\"': target.append(notAppended, i); target.append("&quot;"); notAppended = notAppended + i + 1; i = 0;   break;
-              case '\'': target.append(notAppended, i); target.append("&apos;"); notAppended = notAppended + i + 1; i = 0;   break;
-              case '<':  target.append(notAppended, i); target.append("&lt;");   notAppended = notAppended + i + 1; i = 0;   break;
-              case '>':  target.append(notAppended, i); target.append("&gt;");   notAppended = notAppended + i + 1; i = 0;   break;
-              case 10:
-              case 13:  target.append(notAppended, i); target.append("&lt;br/&gt;");   notAppended = notAppended + i + 1; i = 0;   break;
-              default:   i++; break;
-              }
-            }
-          target.append(notAppended, i);
+    for (const char* current = s; *current; current++) {
+      switch(*current) {
+        case '&':  target.append(notAppended, i); target.append("&amp;");  notAppended = notAppended + i + 1; i = 0;   break;
+        case '\"': target.append(notAppended, i); target.append("&quot;"); notAppended = notAppended + i + 1; i = 0;   break;
+        case '\'': target.append(notAppended, i); target.append("&apos;"); notAppended = notAppended + i + 1; i = 0;   break;
+        case '<':  target.append(notAppended, i); target.append("&lt;");   notAppended = notAppended + i + 1; i = 0;   break;
+        case '>':  target.append(notAppended, i); target.append("&gt;");   notAppended = notAppended + i + 1; i = 0;   break;
+        case 10:
+        case 13:  target.append(notAppended, i); target.append("&lt;br/&gt;");   notAppended = notAppended + i + 1; i = 0;   break;
+        default:   i++; break;
         }
+      }
+    target.append(notAppended, i);
+  }
 
 template<class T>
-        void AppendHtmlEscapedAndCorrectNonUTF8(T &target, const char* s, const char *end, bool tooltip){
+  void AppendHtmlEscapedAndCorrectNonUTF8(T &target, const char* s, const char *end, bool tooltip){
 // append c-string s to target, html escape some characters
 // replace invalid UTF8 characters with ?
-          if(!s) return;
-          if (!end) end = s + strlen(s);
-          int l = 0;                    // length of current utf8 codepoint
-          size_t i = 0;                 // number of not yet appended chars
-          const char* notAppended = s;  // position of the first character which is not yet appended
-          for (const char* current = s; *current && current < end; current+=l) {
-	    l = utf8CodepointIsValid(current);
-            switch(l) {
-              case 1:
-                switch(*current) {
-                  case '&':  target.append(notAppended, i); target.append("&amp;");  notAppended = notAppended + i + 1; i = 0;   break;
-                  case '\"': target.append(notAppended, i); target.append("&quot;"); notAppended = notAppended + i + 1; i = 0;   break;
-                  case '\'': target.append(notAppended, i); target.append("&apos;"); notAppended = notAppended + i + 1; i = 0;   break;
-                  case '<':  target.append(notAppended, i); target.append("&lt;");   notAppended = notAppended + i + 1; i = 0;   break;
-                  case '>':  target.append(notAppended, i); target.append("&gt;");   notAppended = notAppended + i + 1; i = 0;   break;
-                  case 10:
-                  case 13:
-		    if (LiveSetup().GetUseAjax() || !tooltip) {
-		      target.append(notAppended, i); target.append("&lt;br/&gt;");   notAppended = notAppended + i + 1; i = 0;   break;
-		    } else {
-		      target.append(notAppended, i); target.append(*current==10?"\\n":"\\r");   notAppended = notAppended + i + 1; i = 0;   break;
-                    }
-                  default:   i++; break;
-                  }
-                break;
-              case 2:
-              case 3:
-              case 4:
-                i += l;
-                break;
-              default:
-// invalid UTF8
-                target.append(notAppended, i);
-                target.append("?");
-                notAppended = notAppended + i + 1;
-	        i = 0;
-                l = 1;
-              }
+  if(!s) return;
+  if (!end) end = s + strlen(s);
+  int l = 0;                    // length of current utf8 codepoint
+  size_t i = 0;                 // number of not yet appended chars
+  const char* notAppended = s;  // position of the first character which is not yet appended
+  for (const char* current = s; *current && current < end; current+=l) {
+l = utf8CodepointIsValid(current);
+    switch(l) {
+      case 1:
+        switch(*current) {
+          case '&':  target.append(notAppended, i); target.append("&amp;");  notAppended = notAppended + i + 1; i = 0;   break;
+          case '\"': target.append(notAppended, i); target.append("&quot;"); notAppended = notAppended + i + 1; i = 0;   break;
+          case '\'': target.append(notAppended, i); target.append("&apos;"); notAppended = notAppended + i + 1; i = 0;   break;
+          case '<':  target.append(notAppended, i); target.append("&lt;");   notAppended = notAppended + i + 1; i = 0;   break;
+          case '>':  target.append(notAppended, i); target.append("&gt;");   notAppended = notAppended + i + 1; i = 0;   break;
+          case 10:
+          case 13:
+            if (LiveSetup().GetUseAjax() || !tooltip) {
+              target.append(notAppended, i); target.append("&lt;br/&gt;");   notAppended = notAppended + i + 1; i = 0;   break;
+            } else {
+              target.append(notAppended, i); target.append(*current==10?"\\n":"\\r");   notAppended = notAppended + i + 1; i = 0;   break;
             }
-          target.append(notAppended, i);
-        }
+          default:   i++; break;
+          }
+        break;
+      case 2:
+      case 3:
+      case 4:
+        i += l;
+        break;
+      default:
+// invalid UTF8
+        target.append(notAppended, i);
+        target.append("?");
+        notAppended = notAppended + i + 1;
+        i = 0;
+        l = 1;
+      }
+    }
+    target.append(notAppended, i);
+  }
 template void AppendHtmlEscapedAndCorrectNonUTF8<std::string>(std::string &target, const char* s, const char *end, bool tooltip);
 template void AppendHtmlEscapedAndCorrectNonUTF8<cLargeString>(cLargeString &target, const char* s, const char *end, bool tooltip);
 
-        void AppendCorrectNonUTF8(std::string &target, const char* s){
+  void AppendCorrectNonUTF8(std::string &target, const char* s){
 // append c-string s to target
 // replace invalid UTF8 characters with ?
-          if(!s) return;
-          int l = 0;                    // length of current utf8 codepoint
-          size_t i = 0;                 // number of not yet appended chars
-          const char* notAppended = s;  // position of the first character which is not yet appended
-          for (const char* current = s; *current; current+=l) {
-	    l = utf8CodepointIsValid(current);
-            if( l > 0) { i += l; continue; }
+    if(!s) return;
+    int l = 0;                    // length of current utf8 codepoint
+    size_t i = 0;                 // number of not yet appended chars
+    const char* notAppended = s;  // position of the first character which is not yet appended
+    for (const char* current = s; *current; current+=l) {
+      l = utf8CodepointIsValid(current);
+      if( l > 0) { i += l; continue; }
 // invalid UTF8
-            target.append(notAppended, i);
-            target.append("?");
-            notAppended = notAppended + i + 1;
-	    i = 0;
-            l = 1;
-            }
-          target.append(notAppended, i);
-        }
+      target.append(notAppended, i);
+      target.append("?");
+      notAppended = notAppended + i + 1;
+      i = 0;
+      l = 1;
+      }
+    target.append(notAppended, i);
+  }
 
-	wint_t getNextUtfCodepoint(const char *&p){
+  wint_t getNextUtfCodepoint(const char *&p) {
 // get next codepoint, and increment p
 // 0 is returned at end of string, and p will point to the end of the string (0)
-	  if(!p || !*p) return 0;
-//          do { l = utf8CodepointIsValid(p); } while ( l == 0 && *(++p));
-          int l = utf8CodepointIsValid(p);
-          if( l == 0 ) { p++; return '?'; }
-          return Utf8ToUtf32(p, l);
-	}
+    if(!p || !*p) return 0;
+    int l = utf8CodepointIsValid(p);
+    if( l == 0 ) { p++; return '?'; }
+    return Utf8ToUtf32(p, l);
+  }
 
 	int utf8CodepointIsValid(const char *p){
 // In case of invalid UTF8, return 0
@@ -148,48 +148,48 @@ template void AppendHtmlEscapedAndCorrectNonUTF8<cLargeString>(cLargeString &tar
 	  return len;
 	}
 
-	wint_t Utf8ToUtf32(const char *&p, int len){
-// assumes, that uft8 validity checks have already been done. len must be provided. call utf8CodepointIsValid first
-// change p to position of next codepoint (p = p + len)
-	  static const uint8_t FF_MSK[] = {0xFF >>0, 0xFF >>0, 0xFF >>3, 0xFF >>4, 0xFF >>5, 0xFF >>0, 0xFF >>0, 0xFF >>0};
-	  wint_t val = *p & FF_MSK[len];
-          const char *q = p + len;
-	  for (p++; p < q; p++) val = (val << 6) | (*p & 0x3F);
-	  return val;
-	}
+  wint_t Utf8ToUtf32(const char *&p, int len) {
+  // assumes, that uft8 validity checks have already been done. len must be provided. call utf8CodepointIsValid first
+  // change p to position of next codepoint (p = p + len)
+    static const uint8_t FF_MSK[] = {0xFF >>0, 0xFF >>0, 0xFF >>3, 0xFF >>4, 0xFF >>5, 0xFF >>0, 0xFF >>0, 0xFF >>0};
+    wint_t val = *p & FF_MSK[len];
+    const char *q = p + len;
+    for (p++; p < q; p++) val = (val << 6) | (*p & 0x3F);
+    return val;
+  }
 	void AppendUtfCodepoint(std::string &target, wint_t codepoint){
 	  if (codepoint <= 0x7F){
-	     target.push_back( (char) (codepoint) );
-	     return;
+	    target.push_back( (char) (codepoint) );
+	    return;
 	  }
 	  if (codepoint <= 0x07FF) {
-	     target.push_back( (char) (0xC0 | (codepoint >> 6 ) ) );
-	     target.push_back( (char) (0x80 | (codepoint & 0x3F)) );
-	     return;
+	    target.push_back( (char) (0xC0 | (codepoint >> 6 ) ) );
+	    target.push_back( (char) (0x80 | (codepoint & 0x3F)) );
+	    return;
 	  }
 	  if (codepoint <= 0xFFFF) {
-	     target.push_back( (char) (0xE0 | ( codepoint >> 12)) );
-	     target.push_back( (char) (0x80 | ((codepoint >>  6) & 0x3F)) );
-	     target.push_back( (char) (0x80 | ( codepoint & 0x3F)) );
-	     return;
+	    target.push_back( (char) (0xE0 | ( codepoint >> 12)) );
+	    target.push_back( (char) (0x80 | ((codepoint >>  6) & 0x3F)) );
+	    target.push_back( (char) (0x80 | ( codepoint & 0x3F)) );
+	    return;
 	  }
-	     target.push_back( (char) (0xF0 | ((codepoint >> 18) & 0x07)) );
-	     target.push_back( (char) (0x80 | ((codepoint >> 12) & 0x3F)) );
-	     target.push_back( (char) (0x80 | ((codepoint >>  6) & 0x3F)) );
-	     target.push_back( (char) (0x80 | ( codepoint & 0x3F)) );
-	     return;
+	    target.push_back( (char) (0xF0 | ((codepoint >> 18) & 0x07)) );
+	    target.push_back( (char) (0x80 | ((codepoint >> 12) & 0x3F)) );
+	    target.push_back( (char) (0x80 | ((codepoint >>  6) & 0x3F)) );
+	    target.push_back( (char) (0x80 | ( codepoint & 0x3F)) );
+	    return;
 	}
 
-	void AppendDuration(cLargeString &target, char const* format, int hours, int minutes )
+	void AppendDuration(cLargeString &target, char const* format, int hours, int minutes)
 	{
-                int numChars = snprintf(target.borrowEnd(32), 32, format, hours, minutes);
+    int numChars = snprintf(target.borrowEnd(32), 32, format, hours, minutes);
 		if (numChars < 0) {
-                        target.finishBorrow(0);
+      target.finishBorrow(0);
 			std::stringstream builder;
 			builder << "cannot represent duration " << hours << ":" << minutes << " as requested";
 			throw std::runtime_error( builder.str() );
 		}
-                target.finishBorrow(numChars);
+    target.finishBorrow(numChars);
 	}
 	void AppendDuration(std::string &target, char const* format, int hours, int minutes )
 	{
@@ -199,14 +199,14 @@ template void AppendHtmlEscapedAndCorrectNonUTF8<cLargeString>(cLargeString &tar
 			builder << "cannot represent duration " << hours << ":" << minutes << " as requested";
 			throw std::runtime_error( builder.str() );
 		}
-                target.append(result);
+    target.append(result);
 	}
 	std::string FormatDuration( char const* format, int hours, int minutes )
-        {
-            std::string result;
-            AppendDuration(result, format, hours, minutes );
-            return result;
-        }
+  {
+    std::string result;
+    AppendDuration(result, format, hours, minutes );
+    return result;
+  }
 
 	size_t AppendDateTime(char *target, int target_size, char const* format, time_t time)
 // writes data to target, make sure that sizeof(target) >= target_size, before calling
@@ -218,7 +218,7 @@ template void AppendHtmlEscapedAndCorrectNonUTF8<cLargeString>(cLargeString &tar
 			builder << "cannot represent timestamp " << time << " as local time";
 			throw std::runtime_error( builder.str() );
 		}
-                size_t len = strftime(target, target_size, format, &tm_r); 
+    size_t len = strftime(target, target_size, format, &tm_r);
 		if ( len == 0 ) {
 			std::stringstream builder;
 			builder << "representation of timestamp " << time << " exceeds " << (target_size - 1) << " bytes";
@@ -229,19 +229,19 @@ template void AppendHtmlEscapedAndCorrectNonUTF8<cLargeString>(cLargeString &tar
 	void AppendDateTime(cLargeString &target, char const* format, time_t time)
 	{
 		int len = AppendDateTime(target.borrowEnd(80), 80, format, time);
-                target.finishBorrow(len);
+    target.finishBorrow(len);
 	}
 	void AppendDateTime(std::string &target, char const* format, time_t time )
 	{
 		char result[80];
 		AppendDateTime(result, sizeof( result ), format, time);
-                target.append(result);
+    target.append(result);
 	}
 	std::string FormatDateTime( char const* format, time_t time )
 	{
-            char result[80];
-            AppendDateTime(result, sizeof( result ), format, time);
-            return result;
+    char result[80];
+    AppendDateTime(result, sizeof( result ), format, time);
+    return result;
 	}
 
 	std::string StringReplace( std::string const& text, std::string const& substring, std::string const& replacement )
@@ -281,7 +281,7 @@ template void AppendHtmlEscapedAndCorrectNonUTF8<cLargeString>(cLargeString &tar
 	{
 		if (input.length() <= maxLen)
 		{
-                        truncated = false;
+      truncated = false;
 			return input;
 		}
 		truncated = true;
@@ -317,50 +317,48 @@ template void AppendHtmlEscapedAndCorrectNonUTF8<cLargeString>(cLargeString &tar
 	}
 
 
-        const char *getText(const char *shortText, const char *description) {
-          if (shortText && *shortText) return shortText;
-          return description;
-        }
+const char *getText(const char *shortText, const char *description) {
+  if (shortText && *shortText) return shortText;
+  return description;
+}
 // Spielfilm Thailand / Deutschland / Großbritannien 2015 (Rak ti Khon Kaen)
 #define MAX_LEN_ST 70
 template<class T>
-        void AppendTextMaxLen(T &target, const char *text) {
+  void AppendTextMaxLen(T &target, const char *text) {
 // append text to target, but
 //   stop at line break in text (10 || 13)
 //   only up to MAX_LEN_ST characters. If such truncation is required, truncate at ' '
 
 // escape html characters, and correct invalid utf8
-          if (!text || !*text ) return;
-          int len = strlen(text);
-          int lb = len;
-          for (const char *s = text; *s; s++) if (*s == 10 || *s == 13) { lb = s-text; break;}
-          if (len < MAX_LEN_ST && lb == len)
-            AppendHtmlEscapedAndCorrectNonUTF8(target, text);
-          else if (lb < MAX_LEN_ST) {
-            AppendHtmlEscapedAndCorrectNonUTF8(target, text, text + lb);
-            target.append("...");
-          } else {
-            const char *end = text + MAX_LEN_ST;
-            for (; *end && *end != ' ' && *end != 10 && *end != 13; end++);
-            AppendHtmlEscapedAndCorrectNonUTF8(target, text, end);
-            if (*end) target.append("...");
-          }
-        }
+    if (!text || !*text ) return;
+    int len = strlen(text);
+    int lb = len;
+    for (const char *s = text; *s; s++) if (*s == 10 || *s == 13) { lb = s-text; break;}
+    if (len < MAX_LEN_ST && lb == len)
+      AppendHtmlEscapedAndCorrectNonUTF8(target, text);
+    else if (lb < MAX_LEN_ST) {
+      AppendHtmlEscapedAndCorrectNonUTF8(target, text, text + lb);
+      target.append("...");
+    } else {
+      const char *end = text + MAX_LEN_ST;
+      for (; *end && *end != ' ' && *end != 10 && *end != 13; end++);
+      AppendHtmlEscapedAndCorrectNonUTF8(target, text, end);
+      if (*end) target.append("...");
+    }
+  }
 template void AppendTextMaxLen<std::string>(std::string &target, const char *text);
 template void AppendTextMaxLen<cLargeString>(cLargeString &target, const char *text);
 
 template<class T>
-void AppendTextTruncateOnWord(T &target, const char *text, int max_len, bool tooltip) {
-// append text to target, but
-//   only up to max_len characters. If such truncation is required, truncate at ' '
-
+  void AppendTextTruncateOnWord(T &target, const char *text, int max_len, bool tooltip) {
+// append text to target, but only up to max_len characters. If such truncation is required, truncate at ' '
 // escape html characters, and correct invalid utf8
-          if (!text || !*text ) return;
-          const char *end = text + std::min((int)strlen(text), max_len);
-          for (; *end && *end != ' '; end++);
-          AppendHtmlEscapedAndCorrectNonUTF8(target, text, end, tooltip);
-          if (*end) target.append("...");
-}
+    if (!text || !*text ) return;
+    const char *end = text + std::min((int)strlen(text), max_len);
+    for (; *end && *end != ' '; end++);
+    AppendHtmlEscapedAndCorrectNonUTF8(target, text, end, tooltip);
+    if (*end) target.append("...");
+  }
 template void AppendTextTruncateOnWord<std::string>(std::string &target, const char *text, int max_len, bool tooltip);
 template void AppendTextTruncateOnWord<cLargeString>(cLargeString &target, const char *text, int max_len, bool tooltip);
 
@@ -387,13 +385,13 @@ template void AppendTextTruncateOnWord<cLargeString>(cLargeString &target, const
 	  char res[9];
 	  uint32_t result = XXHash32::hash(str.c_str(), str.length(), 20);
 	  res[8] = 0;
-          for (int i = 7; i >= 0; i--) {
+      for (int i = 7; i >= 0; i--) {
 	    int dig = result % 16;
-            if (dig < 10) res[i] = dig + '0';
-            else          res[i] = dig - 10 + 'A';
-            result /= 16;
-          }
-          return res;
+      if (dig < 10) res[i] = dig + '0';
+      else          res[i] = dig - 10 + 'A';
+      result /= 16;
+    }
+    return res;
 	}
 
 #define HOURS(x) ((x)/100)
@@ -438,32 +436,31 @@ template void AppendTextTruncateOnWord<cLargeString>(cLargeString &target, const
 
 	struct urlencoder
 	{
-			std::ostream& ostr_;
+    std::ostream& ostr_;
+    explicit urlencoder( std::ostream& ostr ): ostr_( ostr ) {}
 
-			explicit urlencoder( std::ostream& ostr ): ostr_( ostr ) {}
+    void operator()( char ch )
+    {
+      static const char allowedChars[] = {
+        //	  0 ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  A ,  B ,  C ,  D ,  E ,  F ,
+        '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_',	//00
+        '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_',	//10
+        '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', 0x2D,0x2E,0x2F,//20
+        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,'_', '_', '_', '_', '_', '_',	//30
+        '_', 0x41,0x42,0x43,0x44,0x45,0x46,0x47,0x48,0x49,0x4A,0x4B,0x4C,0x4D,0x4E,0x4F,//40
+        0x50,0x51,0x52,0x53,0x54,0x55,0x56,0x57,0x58,0x59,0x5A,'_', '_', '_', '_', '_',	//50
+        '_', 0x61,0x62,0x63,0x64,0x65,0x66,0x67,0x68,0x69,0x6A,0x6B,0x6C,0x6D,0x6E,0x6F,//60
+        0x70,0x71,0x72,0x73,0x74,0x75,0x76,0x77,0x78,0x79,0x7A,'_', '_', '_', '_', '_' 	//70
+        // everything above 127 (for signed char, below zero) is replaced with '_'
+      };
 
-			void operator()( char ch )
-			{
-				static const char allowedChars[] = {
-					//	  0 ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  A ,  B ,  C ,  D ,  E ,  F ,
-					'_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_',	//00
-					'_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_',	//10
-					'_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', 0x2D,0x2E,0x2F,	//20
-					0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,'_', '_', '_', '_', '_', '_',	//30
-					'_', 0x41,0x42,0x43,0x44,0x45,0x46,0x47,0x48,0x49,0x4A,0x4B,0x4C,0x4D,0x4E,0x4F,	//40
-					0x50,0x51,0x52,0x53,0x54,0x55,0x56,0x57,0x58,0x59,0x5A,'_', '_', '_', '_', '_',	//50
-					'_', 0x61,0x62,0x63,0x64,0x65,0x66,0x67,0x68,0x69,0x6A,0x6B,0x6C,0x6D,0x6E,0x6F,	//60
-					0x70,0x71,0x72,0x73,0x74,0x75,0x76,0x77,0x78,0x79,0x7A,'_', '_', '_', '_', '_' 	//70
-					// everything above 127 (for signed char, below zero) is replaced with '_'
-				};
-
-				if ( ch == ' ' )
-					ostr_ << '+';
-				else if ( static_cast<signed char>(ch) < 0 || allowedChars[ size_t( ch ) ] == '_' )
-					ostr_ << '%' << std::setw( 2 ) << std::setfill( '0' ) << std::hex << int( static_cast<unsigned char>(ch) );
-				else
-					ostr_ << ch;
-			}
+      if ( ch == ' ' )
+        ostr_ << '+';
+      else if ( static_cast<signed char>(ch) < 0 || allowedChars[ size_t( ch ) ] == '_' )
+        ostr_ << '%' << std::setw( 2 ) << std::setfill( '0' ) << std::hex << int( static_cast<unsigned char>(ch) );
+      else
+        ostr_ << ch;
+    }
 	};
 
 	std::string StringUrlEncode( std::string const& input )
@@ -471,18 +468,6 @@ template void AppendTextTruncateOnWord<cLargeString>(cLargeString &target, const
 		std::stringstream ostr;
 		for_each( input.begin(), input.end(), urlencoder( ostr ) );
 		return ostr.str();
-	}
-
-// returns the content of <element>...</element>
-	std::string GetXMLValue( std::string const& xml, std::string const& element )
-	{
-		std::string start = "<" + element + ">";
-		std::string end = "</" + element + ">";
-		size_t startPos = xml.find(start);
-		if (startPos == std::string::npos) return "";
-		size_t endPos = xml.find(end);
-		if (endPos == std::string::npos) return "";
-		return xml.substr(startPos + start.size(), endPos - startPos - start.size());
 	}
 
 // return the time value as time_t from <datestring> formatted with <format>
@@ -512,34 +497,34 @@ template void AppendTextTruncateOnWord<cLargeString>(cLargeString &target, const
 		cformat = StringReplace(cformat, "yyyy", "%Y");
 		return FormatDateTime(cformat.c_str(), date);
 	}
-int timeStringToInt(const char *t) {
-// input: t in xx:xx format
-// output: time in epgsearch format (int, 100*h + min)
-  int h = 0, min = 0;
-  sscanf(t, "%2d:%2d", &h, &min);
-  return 100*h + min;
-}
-int timeStringToInt(const std::string &t) {
-  return timeStringToInt(t.c_str() );
-}
-void intToTimeString(char *t, int tm) {
-// sizeof (t) must be >= 6 "hh:mm", + ending 0
-// see int timeStringToInt(const char *t) for formats
-  unsigned int h = tm / 100;
-  unsigned int min = tm % 100;
-  snprintf(t, 6, "%.2u:%.2u", h%100u, min);
-}
+  int timeStringToInt(const char *t) {
+  // input: t in xx:xx format
+  // output: time in epgsearch format (int, 100*h + min)
+    int h = 0, min = 0;
+    sscanf(t, "%2d:%2d", &h, &min);
+    return 100*h + min;
+  }
+  int timeStringToInt(const std::string &t) {
+    return timeStringToInt(t.c_str() );
+  }
+  void intToTimeString(char *t, int tm) {
+  // sizeof (t) must be >= 6 "hh:mm", + ending 0
+  // see int timeStringToInt(const char *t) for formats
+    unsigned int h = tm / 100;
+    unsigned int min = tm % 100;
+    snprintf(t, 6, "%.2u:%.2u", h%100u, min);
+  }
 
-std::string intToTimeString(int tm) {
-// see int timeStringToInt(const char *t) for formats
-  char t[6];
-  intToTimeString(t, tm);
-  return t;
-}
-std::string charToString(const char *s) {
-  if (!s) return "";
-  return s;
-}
+  std::string intToTimeString(int tm) {
+  // see int timeStringToInt(const char *t) for formats
+    char t[6];
+    intToTimeString(t, tm);
+    return t;
+  }
+  std::string charToString(const char *s) {
+    if (!s) return "";
+    return s;
+  }
 
 	std::string EncodeDomId(std::string const & toEncode, char const * from, char const * to)
 	{
@@ -762,12 +747,15 @@ std::string charToString(const char *s) {
       buffer_end--;
       *buffer_end = (i%10) + '0';
     }
-    return buffer_end;  
+    return buffer_end;
   }
   std::string ScraperImagePath2Live(const std::string &path){
     int tvscraperImageDirLength = LiveSetup().GetTvscraperImageDir().length();
     if (tvscraperImageDirLength == 0) return "";
-    if (path.compare(0, tvscraperImageDirLength, LiveSetup().GetTvscraperImageDir()) != 0) return "";
+    if (path.compare(0, tvscraperImageDirLength, LiveSetup().GetTvscraperImageDir()) != 0) {
+      esyslog("live: ERROR, image path %s does not start with %s", path.c_str(), LiveSetup().GetTvscraperImageDir().c_str());
+      return "";
+    }
     return path.substr(tvscraperImageDirLength);
   }
 
@@ -776,5 +764,18 @@ std::string charToString(const char *s) {
     if (!pScraper) return false;
     return pScraper->Service(Id, Data);
   }
- 
+// XML tools ********************************
+
+// returns the content of <element>...</element>
+	std::string GetXMLValue( std::string const& xml, std::string const& element )
+	{
+		std::string start = "<" + element + ">";
+		std::string end = "</" + element + ">";
+		size_t startPos = xml.find(start);
+		if (startPos == std::string::npos) return "";
+		size_t endPos = xml.find(end);
+		if (endPos == std::string::npos) return "";
+		return xml.substr(startPos + start.size(), endPos - startPos - start.size());
+	}
+
 } // namespace vdrlive

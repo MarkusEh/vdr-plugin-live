@@ -146,15 +146,17 @@ function RecordingActionS(s, id, A, Img, Title) {
 }
 
 <#
-// [0] : IMDB ID
-// [1] : ID (prefix "recording_" removed !!!)
-// [2] : ArchiveDescr()
+// [0] : ID (prefix "recording_" removed !!!)
+// [1] : ArchiveDescr()
+// scraper data
+// [2] : IMDB ID
 // [3] : image.path  (nach "/tvscraper/") 
 // [4] : "pt" if m_s_image.width <= m_s_image.height, otherwise= ""
 // [5] : title (scraper)
 // [6] : season / episode (scraper, for tv shows, if available. Otherwise: Empty)
 // [7] : runtime (scraper)
 // [8] : relase date (scraper)
+// end scraper data
 // [9] : Day, time & duration
 // [10] : Number of recording errors
 // [11] : SD/HD/UHD s/h/u
@@ -175,13 +177,13 @@ function RecordingsSt(s, level, displayFolder, data) {
     if (level > 0) s.a += 
       '<td class="space"> <img src="img/transparent.png" width="' + String(16 * level) + 'px" height="16px" /></td>'
     s.a += '<td class="td-hidden-xs"><div class="hidden-xs recording_imgs">'
-    if (obj[2].length != 0) {
+    if (obj[1].length != 0) {
       s.a += '<img class=\"icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>on_dvd.png\" alt=\"on_dvd\" title=\"'
-      s.a += obj[2]
+      s.a += obj[1]
       s.a += '/>'
     } else {
       s.a += '<input type="checkbox" name="deletions<$TNT_ARRAY$>" value="recording_'
-      s.a += obj[1]
+      s.a += obj[0]
       s.a += '" />'
     }
     s.a += '</div></td>'  // end of recording_imgs
@@ -210,29 +212,29 @@ function RecordingsSt(s, level, displayFolder, data) {
     if (displayFolder == 1) folder = obj[18]
     else folder = ''
     s.a += '<div class="withmargin">'
-    addEventRec(s, 'recording_', obj[1], obj[14], folder, obj[15], obj[16], '<$$lf$>', '<$tr("Click to view details.")$>')
+    addEventRec(s, 'recording_', obj[0], obj[14], folder, obj[15], obj[16], '<$$lf$>', '<$tr("Click to view details.")$>')
     s.a += '</div></div></td>'  // end if recording_name / short description
     s.a += '<td><div class=\"recording_actions\">'
-    if (obj[2].length == 0) {
-      RecordingActionS(s, obj[1], "vdr_request/play_recording?param=", "play.png", "<$tr("play this recording")$>")
+    if (obj[1].length == 0) {
+      RecordingActionS(s, obj[0], "vdr_request/play_recording?param=", "play.png", "<$tr("play this recording")$>")
 <%cpp> if (LiveSetup().GetShowPlayMediaplayer() ) { </%cpp>
-      RecordingActionS(s, obj[1], "playlist.m3u?recid=", "playlist.png", "<$tr("Stream this recording into media player.")$>")
+      RecordingActionS(s, obj[0], "playlist.m3u?recid=", "playlist.png", "<$tr("Stream this recording into media player.")$>")
 <%cpp> } if (LiveSetup().GetShowIMDb() ) { </%cpp>
-      IMDBS(s, obj[0], obj[14])
+      IMDBS(s, obj[2], obj[14])
 <%cpp> } </%cpp>
-      RecordingActionS(s, obj[1], "edit_recording.html?recid=", "edit.png", "<$tr("Edit recording")$>")
+      RecordingActionS(s, obj[0], "edit_recording.html?recid=", "edit.png", "<$tr("Edit recording")$>")
       s.a += '<div class=\"hidden-ts\">'
-      RecordingActionS(s, obj[1], "recordings.html?todel=", "del.png", "<$tr("Delete this recording from hard disc!")$>")
+      RecordingActionS(s, obj[0], "recordings.html?todel=", "del.png", "<$tr("Delete this recording from hard disc!")$>")
       s.a += '</div>'
 <%cpp> if (LiveSetup().GetShowIMDb() ) { </%cpp>
     } else {
-      IMDBS(s, obj[0], obj[14])
+      IMDBS(s, obj[2], obj[14])
 <%cpp> } </%cpp>
     }
     s.a += '</div>'
-    if (obj[2].length != 0) {
+    if (obj[1].length != 0) {
       s.a += '<div class=\"recording_arch\">'
-      s.a += obj[2]
+      s.a += obj[1]
       s.a += '</div>'
     }
     s.a += '</td></tr>'

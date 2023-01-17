@@ -81,10 +81,10 @@ using namespace vdrlive;
 				throw HtmlError(tr("Couldn't find recording or no recordings available"));
 			}
 			epgEvent = EpgEvents::CreateEpgInfo(epgid, recording);
-                        cTvMedia image;
+      cTvMedia image;
 			EpgEvents::PosterTvscraper(image, NULL, recording);
 			epgImage = image.path;
-                        irecording = (uintptr_t)recording;
+      irecording = (uintptr_t)recording;
 		}
 		// check for event:
 		else if (epgid.compare(0, event_s.length(), event_s) == 0) {
@@ -107,10 +107,10 @@ using namespace vdrlive;
 			epgEvent = EpgEvents::CreateEpgInfo(epgid, schedules);
 #endif
 			const cEvent* event = epgEvent->Event();
-                        cTvMedia image;
+      cTvMedia image;
 			EpgEvents::PosterTvscraper(image, event, NULL);
 			epgImage = image.path;
-                        i_event = (uintptr_t)event;
+      i_event = (uintptr_t)event;
 		}
 		// check for aboutbox:
 		else if (epgid.compare(0, aboutbox.length(), aboutbox) == 0) {
@@ -152,14 +152,15 @@ using namespace vdrlive;
     	start += " ";
 			AppendDuration(start, tr("(%d:%02d)"), epgEvent->Duration()/60/60, epgEvent->Duration()/60 % 60);
     } else { // recording
-    	start += ". ";
-      start += tr("Recording length");
-      start += ": ";
+    	start += " (";
 			AppendDuration(start, tr("%d:%02d"), epgEvent->Duration()/60/60, epgEvent->Duration()/60 % 60);
-      start += ". ";
-      start += tr("Event duration");
-      start += ": ";
+    	start += "/";
 		  AppendDuration(start, tr("%d:%02d"), epgEvent->EventDuration()/60/60, epgEvent->EventDuration()/60 % 60);
+    	start += ") (";
+      start += tr("Recording length");
+      start += "/";
+      start += tr("Event duration");
+      start += ")";
     }
 
 		std::string tools_component;

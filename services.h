@@ -5,7 +5,7 @@
 #include <vdr/plugin.h>
 #include <string>
 #include <vector>
-#include <map>
+#include <memory>
 
 /*********************************************************************
 * Helper Structures
@@ -16,62 +16,11 @@ enum tvType {
     tNone,
 };
 
-enum class eVideoType {
-  none = 0,
-  movie = 1,
-  tvShow = 2,
-  musicVideo = 3,
-};
-
-enum class eOrientation {
-  none = 0,
-  banner = 1,
-  landscape = 2,
-  portrait = 3,
-};
-
-class cOrientations {
-  public:
-    cOrientations(eOrientation first = eOrientation::none, eOrientation second = eOrientation::none, eOrientation third = eOrientation::none) {
-      m_orientations = (int)first | (int(second)<<3) | (int(third)<<6);
-    }
-  private:
-    friend class cOrientationsInt;
-    int m_orientations;
-};
- 
-
-// for movies: movie (itself) or collection
-// for TV Shows: episode, season, TV Show (itself), any season (fallback if on other image is available)
-// example: image for event/recording: first = episodeMovie, second = seasonMovie, third = TV_ShowCollection, forth = anySeasonCollection
-// if you don't want the episode still:
-// first = seasonMovie, second = TV_ShowCollection, third = anySeasonCollection
-// for a node with movies: TV_ShowCollection
-// for a node representing a single season: first = seasonMovie, second = TV_ShowCollection, third = anySeasonCollection
-enum class eImageLevel {
-  none = 0,
-  episodeMovie = 1,      // for TV Shows: episode. For movies: movie (itself)
-  seasonMovie  = 2,      // for TV Shows: season.  For movies: movie (itself)
-  tvShowCollection = 3, // for TV Shows: itself.  For movies: collection
-  anySeasonCollection = 4,
-};
-
-class cImageLevels {
-  public:
-    cImageLevels(eImageLevel first = eImageLevel::none, eImageLevel second = eImageLevel::none, eImageLevel third = eImageLevel::none, eImageLevel forth = eImageLevel::none){
-      m_imageLevels = (int)first | (int(second)<<3) | (int(third)<<6) | (int(forth)<<9);
-    }
-  private:
-    friend class cImageLevelsInt;
-    int m_imageLevels;
-};
- 
-
 class cTvMedia {
 public:
   cTvMedia(void) {
-	path = "";
-	width = height = 0;
+    path = "";
+    width = height = 0;
   };
   std::string path;
   int width;
@@ -80,15 +29,14 @@ public:
 
 class cActor {
 public:
-    cActor(void) {
-        name = "";
-        role = "";
-    };
-    std::string name;
-    std::string role;
-    cTvMedia actorThumb;
+  cActor(void) {
+    name = "";
+    role = "";
+  };
+  std::string name;
+  std::string role;
+  cTvMedia actorThumb;
 };
-
 
 class cEpisode {
 public:
@@ -111,42 +59,16 @@ public:
     cTvMedia episodeImage;
 };
 
-class cEpisode2 {
-public:
-    int number;
-    int season;
-    int absoluteNumber;
-    std::string name;
-    std::string firstAired;
-    std::vector<cActor> guestStars;
-    std::string overview;
-    float vote_average;
-    int vote_count;
-    cTvMedia episodeImage;
-    std::string episodeImageUrl;
-    std::vector<std::string> director;
-    std::vector<std::string> writer;
-    std::string IMDB_ID;
-};
-
 /*********************************************************************
 * Data Structures for Service Calls
 *********************************************************************/
-
-// Data structure for service "GetScraperImageDir"
-class cGetScraperImageDir {
-public:
-//in: nothing, no input required
-//out
-  std::string scraperImageDir;   // this was given to the plugin with --dir, or is the default cache directory for the plugin
-};
 
 // Data structure for service "GetEventType"
 class ScraperGetEventType {
 public:
 	ScraperGetEventType(void) {
 		event = NULL;
-        recording = NULL;
+		recording = NULL;
 		type = tNone;
 		movieId = 0;
 		seriesId = 0;
@@ -162,7 +84,8 @@ public:
     int episodeId;
 };
 
-//Data structure for full series and episode information
+// Data structures for full series and episode information
+//     service  "GetMovie"
 class cMovie {
 public:
     cMovie(void) {
@@ -205,7 +128,8 @@ public:
     std::vector<cActor> actors;
 };
 
-//Data structure for full series and episode information
+// Data structure for full series and episode information
+//     service  "GetSeries"
 class cSeries {
 public:
     cSeries(void) {
@@ -236,20 +160,6 @@ public:
     std::vector<cTvMedia> banners;
     std::vector<cTvMedia> fanarts;
     cTvMedia seasonPoster;
-};
-
-// Data structure for service "GetPosterBanner"
-class ScraperGetPosterBanner {
-public:
-	ScraperGetPosterBanner(void) {
-		type = tNone;
-	};
-// in
-    const cEvent *event;             // check type for this event 
-//out
-    tvType type;                	 //typeSeries or typeMovie
-    cTvMedia poster;
-    cTvMedia banner;
 };
 
 // Data structure for service "GetPosterBannerV2"
@@ -288,152 +198,165 @@ public:
 //out
     cTvMedia poster;
 };
-// Data structure for Kodi
-// see https://alwinesch.github.io/group__cpp__kodi__addon__pvr___defs__epg___p_v_r_e_p_g_tag.html
-// see https://alwinesch.github.io/group__cpp__kodi__addon__pvr___defs___recording___p_v_r_recording.html
-// Series link: If set for an epg-based timer rule, matching events will be found by checking strSeriesLink instead of strTitle (and bFullTextEpgSearch)  see https://github.com/xbmc/xbmc/pull/12609/files
-// tag.SetFlags(PVR_RECORDING_FLAG_IS_SERIES);
-// SetSeriesNumber (this is the season number)
 
-//Data structure for full information
-class cScraperMovieOrTv {
+// NEW interface, used by live =========================================================
+
+// Data structure for service "GetScraperImageDir"
+class cGetScraperImageDir {
 public:
-//IN
-    const cEvent *event;             // must be NULL for recordings ; provide data for this event 
-    const cRecording *recording;     // must be NULL for events     ; or for this recording
-    bool httpImagePaths;             // if true, provide http paths to images
-    bool media;                      // if true, provide local filenames for media
-//OUT
-// Note: tvscraper will clear all output parameters, so you don't have to do this before calling tvscraper
-    bool found;
-    bool movie;
-    std::string title;
-    std::string originalTitle;
-    std::string tagline;
-    std::string overview;
-    std::vector<std::string> genres;
-    std::string homepage;
-    std::string releaseDate;  // for TV shows: firstAired
-    bool adult;
-    std::vector<int> runtimes;
-    float popularity;
-    float voteAverage;
-    int voteCount;
-    std::vector<std::string> productionCountries;
-    std::vector<cActor> actors;
-    std::string IMDB_ID;
-    std::string posterUrl;   // only if httpImagePaths == true
-    std::string fanartUrl;   // only if httpImagePaths == true
-    std::vector<cTvMedia> posters;
-    std::vector<cTvMedia> banners;
-    std::vector<cTvMedia> fanarts;
-// only for movies
-    int budget;
-    int revenue;
-    int collectionId;
-    std::string collectionName;
-    cTvMedia collectionPoster;
-    cTvMedia collectionFanart;
-    std::vector<std::string> director;
-    std::vector<std::string> writer;
-// only for TV Shows
-    std::string status;
-    std::vector<std::string> networks;
-    std::vector<std::string> createdBy;
-// episode related
-    bool episodeFound;
-    cTvMedia seasonPoster;
-    cEpisode2 episode;
-};
-
-
-//Data structure for live, overview information for each recording / event
-// to uniquely identify a recording/event:
-// movie + dbid + seasonNumber + episodeNumber (for movies, only dbid is required)
-// note: if nothing was found, m_videoType = videoType::none will be returned
-class cGetScraperOverview {
-public:
-  cGetScraperOverview (const cEvent *event = NULL, const cRecording *recording = NULL, std::string *title = NULL, std::string *episodeName = NULL, std::string *IMDB_ID = NULL, cTvMedia *image = NULL, cImageLevels imageLevels = cImageLevels(), cOrientations imageOrientations = cOrientations(), std::string *releaseDate = NULL, std::string *collectionName = NULL):
-  m_event(event),
-  m_recording(recording),
-  m_title(title),
-  m_episodeName(episodeName),
-  m_IMDB_ID(IMDB_ID),
-  m_image(image),
-  m_imageLevels(imageLevels),
-  m_imageOrientations(imageOrientations),
-  m_releaseDate(releaseDate),
-  m_collectionName(collectionName)
-  {
-  }
-
+//in: nothing, no input required
+//out
+  std::string scraperImageDir;   // this was given to the plugin with --dir, or is the default cache directory for the plugin. It will always end with a '/'
   bool call(cPlugin *pScraper) {
-    m_videoType = eVideoType::none;
-    if (!pScraper) return false;
-    else return pScraper->Service("GetScraperOverview", this);
+    if (!pScraper) return cPluginManager::CallFirstService("GetScraperImageDir", this);
+    else return pScraper->Service("GetScraperImageDir", this);
   }
-//IN: Use constructor, setRequestedImageFormat and setRequestedImageLevel to set these values
-  const cEvent *m_event;             // must be NULL for recordings ; provide data for this event
-  const cRecording *m_recording;     // must be NULL for events     ; or for this recording
-  std::string *m_title;
-  std::string *m_episodeName;
-  std::string *m_IMDB_ID;
-  cTvMedia *m_image;
-  cImageLevels m_imageLevels;
-  cOrientations m_imageOrientations;
-  std::string *m_releaseDate;
-  std::string *m_collectionName;
-//OUT
-// Note: tvscraper will clear all output parameters, so you don't have to do this before calling tvscraper
-  eVideoType m_videoType;
-  int m_dbid;
-  int m_runtime;
-// only for movies
-  int m_collectionId;
-// only for TV shows
-  int m_episodeNumber;
-  int m_seasonNumber;
 };
 
+// Data structure for service "GetScraperUpdateTimes"
 class cGetScraperUpdateTimes {
 public:
-  cGetScraperUpdateTimes() {}
+//in: nothing, no input required
+//out
   time_t m_EPG_UpdateTime;
   time_t m_recordingsUpdateTime;
   bool call(cPlugin *pScraper) {
-    if (!pScraper) return false;
+    if (!pScraper) return cPluginManager::CallFirstService("GetScraperUpdateTimes", this);
     else return pScraper->Service("GetScraperUpdateTimes", this);
   }
 };
 
-inline bool operator< (const tChannelID &c1, const tChannelID &c2) {
-  if (c1.Source() != c2.Source() ) return c1.Source() < c2.Source();
-  if (c1.Nid() != c2.Nid() ) return c1.Nid() < c2.Nid();
-  if (c1.Tid() != c2.Tid() ) return c1.Tid() < c2.Tid();
-  if (c1.Sid() != c2.Sid() ) return c1.Sid() < c2.Sid();
-  return c1.Rid() < c2.Rid();
-}
-class cGetChannelLanguages {
-public:
-  cGetChannelLanguages() {}
-  std::map<tChannelID, int> m_channelLanguages; // if a channel is not in this map, it has the default language
-  int m_defaultLanguage;
-  std::map<int, std::string> m_channelNames;
-  bool call(cPlugin *pScraper) {
-    if (!pScraper) return false;
-    else return pScraper->Service("GetChannelLanguages", this);
-  }
+// ===========================================================================
+// the following enums & classes are for cScraperVideo (see below)
+// ===========================================================================
+
+enum class eCharacterType {
+  director = 1, // Regisseur
+  writer = 2,   // Autor
+  actor = 3,
+  guestStar = 4,
+  crew = 5,
+  creator = 6,
+  producer = 7,
+  showrunner = 8,
+  musicalGuest = 9,
+  host = 10,
+  executiveProducer = 11,
+  screenplay = 21,            // Drehbuchautor
+  originalMusicComposer = 31, // Komponist
+  others = 51,
 };
 
-class cGetChannelHD {
-public:
-  cGetChannelHD() {}
-  std::map<tChannelID, int> m_channelHD; // if a channel is not in this map, it is SD
-// currently, only 0 (SD) and 1 (HD) are supported. More might be added
-// note: if this map is empty, the SD/HD information was not maitained
-  bool call(cPlugin *pScraper) {
-    if (!pScraper) return false;
-    else return pScraper->Service("GetChannelHD", this);
-  }
+class cCharacter {
+  public:
+    virtual eCharacterType getType() = 0;
+    virtual const std::string &getPersonName() = 0;     // "real name" of the person
+    virtual const std::string &getCharacterName() = 0;  // name of character in video
+    virtual const cTvMedia &getImage() = 0;
+    virtual ~cCharacter() {}
 };
+
+// ===========================================================================
+// the following enums & classes are for cScraperVideo->getImage(...)  (see below)
+// you can use them to select the desired orientation and "image level" (see below) of the image returned
+// ===========================================================================
+
+enum class eOrientation {
+  none = 0,
+  banner = 1,
+  landscape = 2,
+  portrait = 3,
+};
+
+// class cOrientations: combine orientations, with priorities.
+// Example: You want a landscape, but, as fallback, also accept a banner. If none of these is available, even a portrait is better than no image:
+// cOrientations(eOrientation::landscape, eOrientation::banner, eOrientation::portrait);
+class cOrientations {
+  public:
+    cOrientations(eOrientation first = eOrientation::none, eOrientation second = eOrientation::none, eOrientation third = eOrientation::none) {
+      m_orientations = (int)first | (int(second)<<3) | (int(third)<<6);
+    }
+  private:
+    friend class cOrientationsInt;
+    int m_orientations;
+};
+
+enum class eImageLevel {
+  none = 0,
+  episodeMovie = 1,      // for TV Shows: episode. For movies: movie (itself)
+  seasonMovie  = 2,      // for TV Shows: season.  For movies: movie (itself)
+  tvShowCollection = 3,  // for TV Shows: itself.  For movies: collection
+  anySeasonCollection = 4, // for TV Shows: any season. For movies: collection
+};
+
+// class cImageLevels: combine image levels, with priorities.
+// example: image for event/recording:  cImageLevels(eImageLevel::episodeMovie, eImageLevel::seasonMovie, eImageLevel::TV_ShowCollection, eImageLevel::anySeasonCollection)
+// if you don't want the episode still: cImageLevels(eImageLevel::seasonMovie, eImageLevel::TV_ShowCollection, eImageLevel::anySeasonCollection)
+class cImageLevels {
+  public:
+    cImageLevels(eImageLevel first = eImageLevel::none, eImageLevel second = eImageLevel::none, eImageLevel third = eImageLevel::none, eImageLevel forth = eImageLevel::none){
+      m_imageLevels = (int)first | (int(second)<<3) | (int(third)<<6) | (int(forth)<<9);
+    }
+  private:
+    friend class cImageLevelsInt;
+    int m_imageLevels;
+};
+
+// The following class will be returned by the service handler method cGetScraperVideo
+// note: the event/recording object used to create an instance must be valid during all method calls.
+// VDR will grant such validity for about 5 seconds.
+
+// if you don't need a specific information, just pass NULL
+// parameter fullPath: If this is false, the image paths are relative to the path returned by "GetScraperImageDir"
+class cScraperVideo
+{
+  public:
+// during creation of this instance, a movie/series/episode is identified
+// with the following methods you can request the "IDs of the identified object"
+    virtual tvType getVideoType() = 0;  // if this is tNone, nothing was identified by scraper. Still, some information (image, duration deviation ...) might be available
+    virtual int getDbId() = 0;          // if > 0: TMDB (themoviedb) ID; if < 0: tvdb (thetvdb) ID
+    virtual int getEpisodeNumber() = 0; // return 0 if episode was not identified
+    virtual int getSeasonNumber() = 0;  // return 0 if episode was not identified
+
+// getOverview provides the "most important" attributes
+    virtual bool getOverview(std::string *title, std::string *episodeName, std::string *releaseDate, int *runtime, std::string *imdbId, int *collectionId, std::string *collectionName = NULL) = 0; // return false if no scraper data is available
+
+// "single image, or several images"
+    virtual cTvMedia getImage(cImageLevels imageLevels = cImageLevels(), cOrientations imageOrientations = cOrientations(), bool fullPath = true) = 0;
+    virtual std::vector<cTvMedia> getImages(eOrientation orientation, int maxImages = 3, bool fullPath = true) = 0;
+
+// "characters, including actors"
+    virtual std::vector<std::unique_ptr<cCharacter>> getCharacters(bool fullPath = true) = 0;
+
+// other attributes, available even if getVideoType() == tNone
+    virtual int getDurationDeviation() = 0;
+    virtual int getHD() = 0;  // 0: SD. 1: HD. 2: UHD
+    virtual int getLanguage() = 0;  // return -1 in case of errors
+
+// the other attributes of a movie or TV show:
+// note: runtime will be provided here only for movies. For tv shows, the runtime is provided with getEpisode
+    virtual bool getMovieOrTv(std::string *title, std::string *originalTitle, std::string *tagline, std::string *overview, std::vector<std::string> *genres, std::string *homepage, std::string *releaseDate, bool *adult, int *runtime, float *popularity, float *voteAverage, int *voteCount, std::vector<std::string> *productionCountries, std::string *imdbId, int *budget, int *revenue, int *collectionId, std::string *collectionName, std::string *status, std::vector<std::string> *networks, int *lastSeason) = 0;
+
+// episode attributes. return true if getVideoType() == tSeries && episode is identified
+    virtual bool getEpisode(std::string *name, std::string *overview, int *absoluteNumber, std::string *firstAired, int *runtime, float *voteAverage, int *voteCount, std::string *imdbId) = 0;
+    virtual ~cScraperVideo() {}
+};
+
+// service to return cScraperVideo instance
+class cGetScraperVideo {
+public:
+  cGetScraperVideo(const cEvent *event = NULL, const cRecording *recording = NULL):
+    m_event(event), m_recording(recording) { }
+
+  bool call(cPlugin *pScraper) {
+    if (!pScraper) return cPluginManager::CallFirstService("GetScraperVideo", this);
+    return pScraper->Service("GetScraperVideo", this);
+  }
+//IN: Use constructor to set these values
+  const cEvent *m_event;             // must be NULL for recordings ; provide data for this event
+  const cRecording *m_recording;     // must be NULL for events     ; or for this recording
+//OUT
+   std::unique_ptr<cScraperVideo> m_scraperVideo;
+};
+
 #endif // __TVSCRAPER_SERVICES_H

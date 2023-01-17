@@ -686,6 +686,11 @@ table td.topaligned {
 table td.padded {
 	padding: 3px 7px 3px 3px;
 }
+table td.cast_role {
+	text-align: left;
+	font-weight: bold;
+}
+
 
 /* ################
    #  Event (page: whats_on.html)
