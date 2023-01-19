@@ -207,9 +207,9 @@ public:
 //in: nothing, no input required
 //out
   std::string scraperImageDir;   // this was given to the plugin with --dir, or is the default cache directory for the plugin. It will always end with a '/'
-  bool call(cPlugin *pScraper) {
+  cPlugin *call(cPlugin *pScraper = NULL) {
     if (!pScraper) return cPluginManager::CallFirstService("GetScraperImageDir", this);
-    else return pScraper->Service("GetScraperImageDir", this);
+    else return pScraper->Service("GetScraperImageDir", this)?pScraper:NULL;
   }
 };
 
@@ -220,9 +220,9 @@ public:
 //out
   time_t m_EPG_UpdateTime;
   time_t m_recordingsUpdateTime;
-  bool call(cPlugin *pScraper) {
+  cPlugin *call(cPlugin *pScraper = NULL) {
     if (!pScraper) return cPluginManager::CallFirstService("GetScraperUpdateTimes", this);
-    else return pScraper->Service("GetScraperUpdateTimes", this);
+    else return pScraper->Service("GetScraperUpdateTimes", this)?pScraper:NULL;
   }
 };
 
@@ -348,9 +348,9 @@ public:
   cGetScraperVideo(const cEvent *event = NULL, const cRecording *recording = NULL):
     m_event(event), m_recording(recording) { }
 
-  bool call(cPlugin *pScraper) {
+  cPlugin *call(cPlugin *pScraper = NULL) {
     if (!pScraper) return cPluginManager::CallFirstService("GetScraperVideo", this);
-    return pScraper->Service("GetScraperVideo", this);
+    return pScraper->Service("GetScraperVideo", this)?pScraper:NULL;
   }
 //IN: Use constructor to set these values
   const cEvent *m_event;             // must be NULL for recordings ; provide data for this event

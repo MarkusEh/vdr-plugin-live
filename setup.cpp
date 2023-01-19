@@ -1,5 +1,6 @@
 
 #include "setup.h"
+#include "services.h"
 
 #include "tools.h"
 #include "tntfeatures.h"
@@ -99,6 +100,8 @@ bool Setup::ParseCommandLine( int argc, char* argv[] )
 
 bool Setup::Initialize( void )
 {
+//  cGetScraperImageDir getScraperImageDir;
+//  m_p_tvscraper = getScraperImageDir.call();
   m_p_tvscraper = cPluginManager::GetPlugin("tvscraper");
   if (m_p_tvscraper)
     m_p_scraper = m_p_tvscraper;

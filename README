@@ -19,17 +19,6 @@ Latest version available at: https://github.com/MarkusEh/vdr-plugin-live
 See the file COPYING for license information.
 
 
-IMPORTANT:
-==========
-
-This version of LIVE does not support VDR versions older than 2.0.0
-any more (maybe still some older VDR devel versions leading to VDR
-2.0.0 but that is not tested).
-
-The release_0-3-1 tag is the last commit by Dieter Hametner. It is was
-the live version used by many distributions.
-
-
 Description:
 ============
 
@@ -45,7 +34,7 @@ fast.
 Requirements:
 =============
 
-VDR >= 2.0.0
+VDR >= 2.4.0
 
 gcc >= 4.8.1, must support -std=c++14 
 PCRE2 >= 10.38     	- https://github.com/PhilipHazel/pcre2/releases

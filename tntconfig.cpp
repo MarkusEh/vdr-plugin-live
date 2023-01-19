@@ -209,10 +209,10 @@ namespace vdrlive {
                 static cPlugin *pScraper = LiveSetup().GetPluginTvscraper();
                 if (pScraper) {
 // plugin tvscraper is available
-                  cGetScraperImageDir call;
-                  if (pScraper->Service("GetScraperImageDir", &call)) {
+                  cGetScraperImageDir getScraperImageDir;
+                  if (getScraperImageDir.call(pScraper) ) {
 // plugin tvscraper supports the service interface GetScraperImageDir (version 1.05 or newer)
-                    LiveSetup().SetTvscraperImageDir(call.scraperImageDir);
+                    LiveSetup().SetTvscraperImageDir(getScraperImageDir.scraperImageDir);
                   }
                 }
 		if (!LiveSetup().GetTvscraperImageDir().empty()) {

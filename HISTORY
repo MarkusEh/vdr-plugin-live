@@ -33,3 +33,8 @@ VDR Plugin 'live' Revision History
 
 - Adjusted for VDR 2.4
 - Include several patches from https://www.vdr-portal.de
+
+
+2023-01-18: Version 3.1.11
+
+- Use new tvscraper service interface "class cScraperVideo"
