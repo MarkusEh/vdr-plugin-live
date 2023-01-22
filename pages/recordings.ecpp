@@ -25,7 +25,7 @@ using namespace vdrlive;
 	std::string diskinfo;
 	std::string filter;
 	std::string deletions[];
-        std::string flat;
+	std::string flat;
 </%args>
 <%session scope="global">
 	bool logged_in(false);
@@ -301,6 +301,9 @@ if (!deleteResult.empty()) {
             <& recordings.recordings_item iRecItem=(iRecItemRoot) irecoring_item=(irecoring_item) &>
           </ul>
         </div>
+				<input type="hidden" name="sort" value="<$ currentSort $>">
+				<input type="hidden" name="filter" value="<$ currentFilter $>">
+				<input type="hidden" name="flat" value="<$ currentFlat $>">
         <div class="withmargin hidden-xs">
           <button class="red" type="submit"><$ tr("Delete selected") $></button>
         </div>

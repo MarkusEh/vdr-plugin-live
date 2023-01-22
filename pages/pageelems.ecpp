@@ -727,7 +727,7 @@ if (scraperMovieOrTv.found) {
          </a>
 <%cpp>
 	}
-        if(!epgImage.empty() ) {
+	if(!epgImage.empty() ) {
 </%cpp>
          <a href="/tvscraper/<$ epgImage $>" target="_blank">
 	   <img src="/tvscraper/<$ epgImage $>" class="epg_image"/>

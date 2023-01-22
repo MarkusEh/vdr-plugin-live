@@ -108,6 +108,13 @@ namespace vdrlive {
 				   LiveSetup().GetTvscraperImageDir() + "epg",
 				   "/$1/$2/$3.$4",
 				   "image/$4");
+		// Images from tvscraper, from external EPG provider, in recordings (start time, channel, image)
+			MapUrl(app,
+				   "^/tvscraper/recordings/([^/]*)\\.([^./]+)",
+				   "content",
+				   LiveSetup().GetTvscraperImageDir() + "recordings",
+				   "/$1.$2",
+				   "image/$2");
         }
 	void TntConfig::Configure(tnt::Tntnet& app) const
 	{
@@ -203,20 +210,19 @@ namespace vdrlive {
 			   GetResourcePath(),
 			   "/img/$2.$3",
 			   "image/$3");
-		// deprecated: file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) $2@" << std::endl;
 
 // get image dir from plugin tvscraper
-                static cPlugin *pScraper = LiveSetup().GetPluginTvscraper();
-                if (pScraper) {
+		static cPlugin *pScraper = LiveSetup().GetPluginTvscraper();
+		if (pScraper) {
 // plugin tvscraper is available
-                  cGetScraperImageDir getScraperImageDir;
-                  if (getScraperImageDir.call(pScraper) ) {
+			cGetScraperImageDir getScraperImageDir;
+			if (getScraperImageDir.call(pScraper) ) {
 // plugin tvscraper supports the service interface GetScraperImageDir (version 1.05 or newer)
-                    LiveSetup().SetTvscraperImageDir(getScraperImageDir.scraperImageDir);
-                  }
-                }
+				LiveSetup().SetTvscraperImageDir(getScraperImageDir.scraperImageDir);
+			}
+		}
 		if (!LiveSetup().GetTvscraperImageDir().empty()) {
-	          ConfigureTvscraper(app, LiveSetup().GetTvscraperImageDir());
+			ConfigureTvscraper(app, LiveSetup().GetTvscraperImageDir());
 		}
 
 		// Epg images

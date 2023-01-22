@@ -411,7 +411,7 @@ namespace vdrlive
       ScraperGetPoster call;
       call.event = event;
       call.recording = recording;
-      if (ScraperCallService("GetPoster", &call)) {
+      if (ScraperCallService("GetPoster", &call) && ! call.poster.path.empty() ) {
         media.path = ScraperImagePath2Live(call.poster.path);
         media.width = call.poster.width;
         media.height = call.poster.height;
