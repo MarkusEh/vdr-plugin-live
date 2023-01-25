@@ -34,6 +34,8 @@ class Setup
 		int GetServerSslPort() const { return m_serverSslPort; }
 		std::string GetServerSslCert() const { return m_serverSslCert; }
 		std::string GetServerSslKey() const { return m_serverSslKey; }
+		const std::string &GetServerUrl() const { return m_serverUrl; }
+		const std::string &GetServerUrlImages() const { return m_serverUrlImages; }
 		IpList const& GetServerIps() const { return m_serverIps; }
 		// vdr-setup
 		int GetLastChannel() const { return m_lastChannel == 0 ? std::numeric_limits<int>::max() : m_lastChannel; }
@@ -71,7 +73,7 @@ class Setup
 		bool GetShowIMDb() const { return m_showIMDb != 0; }
 		bool GetShowPlayMediaplayer() const { return m_showPlayMediaplayer != 0; }
 		std::string const GetEpgImageDir() { return m_epgimagedir; }
-		std::string const GetTvscraperImageDir() { return m_tvscraperimagedir; }
+		const std::string &GetTvscraperImageDir() const { return m_tvscraperimagedir; }
 		cPlugin *GetPluginTvscraper() { return m_p_tvscraper; } // tvscraper
 		cPlugin *GetPluginScraper() { return m_p_scraper; } // tvscraper. Or, if not available, scraper2vdr
 		void SetTvscraperImageDir(const std::string &dir);
@@ -131,6 +133,8 @@ class Setup
 		int m_serverSslPort;
 		std::string m_serverSslCert;
 		std::string m_serverSslKey;
+		std::string m_serverUrl;
+		std::string m_serverUrlImages;
 		static std::string m_configDirectory;
 		IpList m_serverIps;
 		std::string m_epgimagedir;

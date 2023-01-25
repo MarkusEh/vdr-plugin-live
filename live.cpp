@@ -13,6 +13,7 @@
 #include "timers.h"
 #include "preload.h"
 #include "users.h"
+#include "services_live.h"
 
 namespace vdrlive {
 
@@ -92,6 +93,34 @@ bool Plugin::SetupParse(const char *Name, const char *Value)
 	return LiveSetup().ParseSetupEntry( Name, Value );
 }
 
+class cLiveImageProviderImp: public cLiveImageProvider {
+  public:
+    virtual std::string getImageUrl(const std::string &imagePath, bool fullPath = true) {
+      if (LiveSetup().GetTvscraperImageDir().empty() || LiveSetup().GetServerUrl().empty()) {
+        if (m_errorMessages) {
+          if (LiveSetup().GetTvscraperImageDir().empty() )
+            esyslog("live: ERROR please provide -t <dir>, --tvscraperimages=<dir>");
+          if (LiveSetup().GetServerUrl().empty() )
+            esyslog("live: ERROR please provide -u URL,  --url=URL");
+        }
+        m_errorMessages = false;
+        return fullPath?imagePath:LiveSetup().GetTvscraperImageDir() + imagePath;
+      }
+      return LiveSetup().GetServerUrlImages() + (fullPath?ScraperImagePath2Live(imagePath):imagePath);
+    }
+    virtual ~cLiveImageProviderImp() {}
+  private:
+    bool m_errorMessages = true;
+};
+bool Plugin::Service(const char *Id, void *Data) {
+  if (strcmp(Id, "GetLiveImageProvider") == 0) {
+    if (Data == NULL) return true;
+    cGetLiveImageProvider* call = (cGetLiveImageProvider*) Data;
+    call->m_liveImageProvider = std::make_unique<cLiveImageProviderImp>();
+    return true;
+  }
+  return false;
+}
 } // namespace vdrlive
 
 VDRPLUGINCREATOR(vdrlive::Plugin); // Don't touch this!

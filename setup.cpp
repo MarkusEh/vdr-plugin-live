@@ -65,6 +65,7 @@ Setup::Setup():
 bool Setup::ParseCommandLine( int argc, char* argv[] )
 {
 	static struct option opts[] = {
+			{ "url", required_argument, NULL, 'u' },
 			{ "port", required_argument, NULL, 'p' },
 			{ "ip",   required_argument, NULL, 'i' },
 			{ "log",  required_argument, NULL, 'l' },
@@ -76,9 +77,11 @@ bool Setup::ParseCommandLine( int argc, char* argv[] )
 			{ 0 }
 	};
 
+  m_serverUrl = "";
 	int optchar, optind = 0;
 	while ( ( optchar = getopt_long( argc, argv, "p:i:l:e:s:c:", opts, &optind ) ) != -1 ) {
 		switch ( optchar ) {
+		case 'u': m_serverUrl = optarg; break;
 		case 'p': m_serverPort = atoi( optarg ); break;
 		case 'i': m_serverIps.push_back( optarg ); break;
 		case 'l': m_tntnetloglevel = optarg; break;
@@ -92,6 +95,11 @@ bool Setup::ParseCommandLine( int argc, char* argv[] )
 		default:  return false;
 		}
 	}
+  if (!m_serverUrl.empty() ) {
+    m_serverUrlImages = m_serverUrl + ":";
+    m_serverUrlImages += std::to_string(m_serverPort);
+    m_serverUrlImages += "/tvscraper/";
+  } else m_serverUrlImages = "";
 
 	return CheckServerPort() &&
 		   CheckServerSslPort() &&
@@ -121,6 +129,8 @@ char const* Setup::CommandLineHelp() const
 				   "                               (default: 0.0.0.0)\n"
 				<< "  -s PORT,  --sslport=PORT     use PORT to listen for incoming ssl connections\n"
 				   "                               (default: " << m_serverSslPort << ")\n"
+				<< "  -u URL,  --url=URL           url to this live server, e.g. http://rpi.fritz.box\n"
+				   "                               only required if live is used as image server, e.g. for vnsi\n"
 				<< "  -c CERT,  --cert=CERT        full path to a custom ssl certificate file\n"
 				<< "  -k KEY,  --key=KEY           full path to a custom ssl certificate key file\n"
 				<< "  -l level, --log=level        log level for tntnet (values: WARN, ERROR, INFO, DEBUG, TRACE)\n"
