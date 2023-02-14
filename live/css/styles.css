@@ -857,14 +857,23 @@ table.listing {
 	margin: 0px;
 }
 
-table.listing tr td {
+table.listing>tbody>tr>td {
 	background: transparent url(../img/bg_line.png) bottom repeat-x;
 	border-bottom: 1px solid #C0C1DA;
 }
 
-table.listing tr td.action {
+table.listing tbody tr td.action {
 	padding-left: 3px;
 	padding-right: 5px;
+}
+.action-rightcol {
+	padding-right: 4px;
+  float: right;
+}
+.noborder {
+  border-collapse: collapse;
+  padding: 0; 
+  margin: 0;
 }
 
 table.listing tr td.leftcol {
@@ -881,7 +890,7 @@ table.listing tr td.noborder {
   border-style: none;
 }
 
-table.listing tr.head td {
+table.listing>tbody>tr.head>td {
 	color: white;
 	font-weight: bold;
 	margin: 0px;
@@ -1397,12 +1406,21 @@ img.thumb {
   width: 0px;
 }
 
+/* ######################
+   #  @media (max-width: 600px)
+   #  on end of stylesheet, as order of stylesheet
+   #  matters in conflicting cases
+   ######################
+*/
+
+.xs-nomargin { margin: 5px; }
 .display-xs { display: none; }
 @media (max-width: 600px) {
 /* very small display */
+  .xs-nomargin { margin: 0px !important; }
   .hidden-xs { display: none; }
-  .td-hidden-xs { width: 0px; padding: 0px;}
-  .display-xs { display: inherit; }
+  .td-hidden-xs { width: 0px !important; padding: 0px !important;}
+  .display-xs { display: inline; }
 td.enlarge-image div.thumb {
   width: 100px;
   max-height: 50px;

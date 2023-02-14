@@ -5,6 +5,13 @@
  *
  */
 
+function addIfWide(text) {
+ if (!window.matchMedia("(max-width: 600px)").matches) document.write(text);
+}
+function addIfSmall(text) {
+ if (window.matchMedia("(max-width: 600px)").matches) document.write(text);
+}
+
 function truncateOnWordIdx(str, limit) {
   var b = str.indexOf('&lt;br/&gt;')
   if (b >= 0 && b<= limit) return b
