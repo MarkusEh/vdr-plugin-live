@@ -1039,6 +1039,15 @@ div.recording_item {
 	cursor: pointer;
 }
 
+.recording_item div.recording_size {
+	float: right;
+	width: 5.75em;
+	text-align: right;
+	padding-top: 0.5ex;
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+}
+
 .recording_item div.recording_arch {
 	float: right;
 	padding-top: 0.5ex;

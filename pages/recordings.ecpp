@@ -274,7 +274,7 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 		{
 </%cpp>
 	<li class="recording">
-	   <& rec_item_file name=(recItem->Name()) level=(recItem->Level()) id=(recItem->Id()) day=(day) dayLen=(dayLen) startTime=(recItem->StartTime()) duration=(duration) hint=(hint) shortDescr=(shortDescr) archived=(RecordingsManager::GetArchiveDescr(recItem->Recording())) &>
+	   <& rec_item_file name=(recItem->Name()) level=(recItem->Level()) id=(recItem->Id()) day=(day) dayLen=(dayLen) startTime=(recItem->StartTime()) duration=(duration) hint=(hint) shortDescr=(shortDescr) size=(recItem->Recording()->FileSizeMB()) archived=(RecordingsManager::GetArchiveDescr(recItem->Recording())) &>
 	</li>
 <%cpp>
 		}
@@ -379,6 +379,7 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 	string duration;
 	string hint;
 	string shortDescr;
+	int size;
 	string archived;
 </%args>
 	<div class="recording_item">
@@ -410,6 +411,7 @@ for (recIter = recItems.begin(); recIter != recItems.end(); ++recIter) {
 <%cpp>
 	}
 </%cpp>
+	<div class="recording_size"><$ size < 0 ? "" : to_string(size) + " MB" $></div>
 	</div>
 </%def>
 
