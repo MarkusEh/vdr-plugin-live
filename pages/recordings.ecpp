@@ -112,10 +112,8 @@ else lf = "&#13;";
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>VDR-Live - <$ pageTitle $></title>
     <& pageelems.stylesheets &>
+    <& pageelems.create_html_js &>
     <& pageelems.ajax_js &>
-
-<script type="text/javascript" src="js/live/createHtml.js"></script>
-<& pageelems.create_html_js &>
 <script>
 const recs = [];
 <%cpp>
@@ -216,11 +214,13 @@ function RecordingsSt(s, level, displayFolder, data) {
     s.a += '</div></div></td>'  // end if recording_name / short description
     s.a += '<td><div class=\"recording_actions\">'
     if (obj[1].length == 0) {
-      RecordingActionS(s, obj[0], "vdr_request/play_recording?param=", "play.png", "<$tr("play this recording")$>")
+%     if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
+        RecordingActionS(s, obj[0], "vdr_request/play_recording?param=", "play.png", "<$tr("play this recording")$>")
+%     }
 <%cpp> if (LiveSetup().GetShowPlayMediaplayer() ) { </%cpp>
-      RecordingActionS(s, obj[0], "playlist.m3u?recid=", "playlist.png", "<$tr("Stream this recording into media player.")$>")
+        RecordingActionS(s, obj[0], "playlist.m3u?recid=", "playlist.png", "<$tr("Stream this recording into media player.")$>")
 <%cpp> } if (LiveSetup().GetShowIMDb() ) { </%cpp>
-      IMDBS(s, obj[2], obj[14])
+        IMDBS(s, obj[2], obj[14])
 <%cpp> } </%cpp>
       RecordingActionS(s, obj[0], "edit_recording.html?recid=", "edit.png", "<$tr("Edit recording")$>")
       s.a += '<div class=\"hidden-ts\">'
@@ -552,13 +552,46 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
 <%args>
 	std::string id;
 	std::string title;
-        std::string s_IMDB_ID;
+  std::string s_IMDB_ID;
 </%args>
-<& pageelems.ajax_action_href action="play_recording" param=(id) tip=(tr("play this recording.")) image="play.png" alt="" &>
+%   if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
+<& pageelems.ajax_action_href action="play_recording" param=(id) tip=(tr("play this recording")) image="play.png" alt="" &>
+%   }
 <& pageelems.m3u_playlist_recording recid=(id) &>
 <& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID) &>
 <& recordings.edit_rec id=(id) &>
 <& recordings.del_rec id=(id) &>
+<%cpp>
+const cRecording* recording = NULL;
+if (!id.empty()) recording = LiveRecordingsManager()->GetByMd5Hash(id);
+if (recording && recording->Info() ) {
+  int recordingErrors = -1;
+#if VDRVERSNUM >= 20505
+  recordingErrors = recording->Info()->Errors();
+#endif
+  cGetScraperVideo getScraperVideo(NULL, recording);
+  bool scraperDataAvailable = getScraperVideo.call(LiveSetup().GetPluginScraper());
+  if (scraperDataAvailable) {
+    int duration_deviation = getScraperVideo.m_scraperVideo->getDurationDeviation();
+    int video_SD_HD = getScraperVideo.m_scraperVideo->getHD();
+    char sdhd = video_SD_HD == 0 ? 's': video_SD_HD == 1 ? 'h': 'u';
+    char b_recordingErrors[20];
+    char b_duration_deviation[20];
+</%cpp>
+<img data-src="img/transparent.png" height="16px" />
+<span id="icons-<$id$>"></span>
+<script>
+  const s = Object.create(null);
+  s.a = "";
+  addErrorIcon(s, <$intToChar(b_recordingErrors, b_recordingErrors+20, recordingErrors)$>,
+                  <$intToChar(b_duration_deviation, b_duration_deviation+20, duration_deviation)$>);
+  addHdSdIcon(s,  \"<$sdhd$>\", \"<$recording->Info()->ChannelName()$>\");
+  document.getElementById("icons-<$id$>").innerHTML = s.a;
+</script>
+<%cpp>
+  }
+}
+</%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>

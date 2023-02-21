@@ -65,6 +65,7 @@ const char *lf;
 if (LiveSetup().GetUseAjax()) lf = "<br/>";
 else lf = "&#13;";
 </%cpp>
+<script type="text/javascript" src="js/live/createHtml.js"></script>
 <script>
 function addErrorIcon(s, numErrors, durationDeviation) {
   if (numErrors <= -100) return
@@ -535,9 +536,12 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 	if (detail) { // output for vertical toolbox
 </%cpp>
 	<& pageelems.event_timer epgid=(epgid) &>
-	<& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channelId) image="zap.png" alt="" &>
 <%cpp>
-		if (LiveFeatures<features::epgsearch>().Recent() && eventId != 0) {
+  if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
+</%cpp>
+	  <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channelId) image="zap.png" alt="" &>
+<%cpp>
+	} if (LiveFeatures<features::epgsearch>().Recent() && eventId != 0) {
 </%cpp>
 	<a href="searchresults.html?searchplain=<$ StringEscapeAndBreak(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a>
 <%cpp>
@@ -557,8 +561,11 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 	else { // table output
 </%cpp>
 		<td class="action leftcol <? lastCurrentChanel ? "bottomrow"?>"><& pageelems.event_timer epgid=(epgid) &></td>
-		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channelId) image="zap.png" alt="" &></td>
-                <%cpp>if (LiveFeatures<features::epgsearch>().Recent() && eventId != 0) { </%cpp>
+<%cpp>
+    if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
+</%cpp>
+		  <td class="action <? lastCurrentChanel ? "bottomrow"?>"><& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channelId) image="zap.png" alt="" &></td>
+      <%cpp> } if (LiveFeatures<features::epgsearch>().Recent() && eventId != 0) { </%cpp>
 		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a></td>
                 <%cpp> } </%cpp>
 		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><%cpp>if ((duration == 0) || (elapsed > 0)) { </%cpp><& pageelems.hls_channel channelId=(channelId) &><%cpp> } </%cpp></td>
@@ -595,6 +602,7 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
  	std::string epgImage;
 	uintptr_t ievent;
 	uintptr_t irecording;
+	uintptr_t iepgEvent;
 	int elapsed = -1;
 </%args>
 	<div class="epg_description" id="<$ (boxId) $>">
@@ -651,6 +659,10 @@ struct sScraperMovieOrTv {
     sEpisode2 episode;
 };
 
+EpgInfoPtr epgEvent;
+if (iepgEvent) epgEvent = *static_cast<EpgInfoPtr*>((void *)iepgEvent);
+
+
 sScraperMovieOrTv scraperMovieOrTv;
 cGetScraperVideo getScraperVideo(static_cast<cEvent *>((void *)ievent), static_cast<cRecording *>((void *)irecording));
 scraperMovieOrTv.found = getScraperVideo.call(LiveSetup().GetPluginScraper());
@@ -706,10 +718,16 @@ if (scraperMovieOrTv.found) {
 				<& (tools_comp) id=(boxId) archived=(archived) detail=(1) title=(title) s_IMDB_ID=(scraperMovieOrTv.IMDB_ID) &>
 			</div>
 			<div class="epg_info">
-				<div class="info nowrap"><%cpp> if (!archived.empty()) { </%cpp><span class="bold"><$ (archived + " ") $></span><%cpp> } </%cpp><$ (time) $></div>
-<%cpp>
-	if (elapsed >= 0) {
+				<div class="info nowrap"><%cpp> if (!archived.empty()) { </%cpp><span class="bold"><$ (archived + " ") $></span><%cpp> }
+
+if (epgEvent && epgEvent->EventDuration() >= 0) {  // recording
 </%cpp>
+<$ (time) $> (<span title="<$tr("Recording length")$>"><$ FormatDuration(tr("%d:%02d"), epgEvent->Duration()/60/60, epgEvent->Duration()/60 % 60)$></span>/<span title="<$tr("Event duration")$>"><$FormatDuration(tr("%d:%02d"), epgEvent->EventDuration()/60/60, epgEvent->EventDuration()/60 % 60)$></span>)
+</div>
+<%cpp> } else { </%cpp>
+<$ (time) $></div>
+
+<%cpp> } if (elapsed >= 0) { </%cpp>
 				<div class="progress"><div><& pageelems.progressbar progress=(elapsed) &></div></div>
 <%cpp>
 	}

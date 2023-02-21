@@ -200,7 +200,9 @@ if (Event) {
   <span>
     <label for="channel"><$ tr("Channel") $>:&nbsp;<span class="bold"><$ std::to_string(Channel->Number()) $></span></label>
     <& channels_widget name=("channel") selected=(Channel ? *Channel->GetChannelID().ToString() : "") onchange=("player.stop(); document.forms.channels.submit()") &>
-    <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(Channel->GetChannelID()) image="zap.png" alt="" &>
+%   if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
+      <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(Channel->GetChannelID()) image="zap.png" alt="" &>
+%   }
   </span>
 </form>
 <span class="sep">|</span>

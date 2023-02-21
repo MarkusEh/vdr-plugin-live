@@ -415,7 +415,9 @@ std::vector<time_t>			times_start;
                 {
 </%cpp>
 	       <td> <div class="boxheader"> <div> <div><$ channel_names[channel] $> <# reply.sout() automatically escapes special characters to html entities #>
-            <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channel_IDs[channel]) image="zap.png" alt="" &>
+%           if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
+              <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channel_IDs[channel]) image="zap.png" alt="" &>
+%           }
             <& pageelems.hls_channel channelId=(channel_IDs[channel]) &>
             <& pageelems.m3u_playlist_channel channelId=(channel_IDs[channel]) &>
             </div></div> </div></td>
@@ -599,7 +601,6 @@ std::vector<time_t>			times_start;
                         ><$ times_names[i] $></option>
 %	}
      </select>
-% //     <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(Channel->GetChannelID()) image="zap.png" alt="" &>
    </span>
 </form>
 <span class="sep">|</span>

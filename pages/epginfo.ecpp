@@ -40,9 +40,8 @@ using namespace vdrlive;
 <%request scope="global">
 	EpgInfoPtr epgEvent;
 	std::string epgImage;
-        uintptr_t i_event;
-        uintptr_t irecording;
-        
+  uintptr_t i_event;
+  uintptr_t irecording;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
@@ -127,6 +126,7 @@ using namespace vdrlive;
 	if (!ajaxReq) {
 </%cpp>
 		<& pageelems.stylesheets &>
+    <& pageelems.create_html_js &>
 		<& pageelems.ajax_js &>
 <%cpp>
 	}
@@ -143,7 +143,9 @@ using namespace vdrlive;
 </%cpp>
 		<div class="inhalt">
 <%cpp>
+  uintptr_t i_epgEvent = 0;
 	if (epgEvent) {
+    uintptr_t i_epgEvent = (uintptr_t)(&epgEvent);
 		std::string start(epgEvent->StartTime("%a,") + std::string(" ")
 				+ epgEvent->StartTime(tr("%b %d %y")) + std::string(" ")
         + epgEvent->StartTime(tr("%I:%M %p")) );
@@ -151,16 +153,6 @@ using namespace vdrlive;
       start += std::string(" - ") + epgEvent->EndTime(tr("%I:%M %p"));
     	start += " ";
 			AppendDuration(start, tr("(%d:%02d)"), epgEvent->Duration()/60/60, epgEvent->Duration()/60 % 60);
-    } else { // recording
-    	start += " (";
-			AppendDuration(start, tr("%d:%02d"), epgEvent->Duration()/60/60, epgEvent->Duration()/60 % 60);
-    	start += "/";
-		  AppendDuration(start, tr("%d:%02d"), epgEvent->EventDuration()/60/60, epgEvent->EventDuration()/60 % 60);
-    	start += ") (";
-      start += tr("Recording length");
-      start += "/";
-      start += tr("Event duration");
-      start += ")";
     }
 
 		std::string tools_component;
@@ -175,7 +167,7 @@ using namespace vdrlive;
 			tools_component = "epginfo.epgTools";
 
 </%cpp>
-		<& pageelems.epg_tt_box boxId=(epgEvent->Id()) caption=(epgEvent->Caption()) tools_comp=(tools_component) time=(start) title=(epgEvent->Title()) short_descr=(epgEvent->ShortDescr()) long_descr=(epgEvent->LongDescr()) archived=(epgEvent->Archived()) elapsed=(epgEvent->Elapsed()) filename=(epgEvent->FileName()) epgImage=(epgImage) irecording=(irecording) ievent=(i_event) &>
+		<& pageelems.epg_tt_box boxId=(epgEvent->Id()) caption=(epgEvent->Caption()) tools_comp=(tools_component) time=(start) title=(epgEvent->Title()) short_descr=(epgEvent->ShortDescr()) long_descr=(epgEvent->LongDescr()) archived=(epgEvent->Archived()) elapsed=(epgEvent->Elapsed()) filename=(epgEvent->FileName()) epgImage=(epgImage) irecording=(irecording) ievent=(i_event) iepgEvent=(i_epgEvent) &>
 <%cpp>
 	}
 	if (aboutBox) {

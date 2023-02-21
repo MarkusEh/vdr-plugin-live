@@ -184,107 +184,6 @@ namespace vdrlive {
 		return 0;
 	}
 
-  int parseMarkadVpsKeyword(std::ifstream &markad, const char *fname) {
-// return 0: EOF, or error
-// 1 start
-// 2 pause start
-// 3 pause stop
-// 4 stop
-    if (!markad) return 0;
-    std::string line;
-    markad >> line;
-    if (line.empty() ) return 0;
-    if (line.compare(0, 6,  "START:", 6) == 0) return 1;
-    if (line.compare(0, 5,  "STOP:", 5) == 0) return 4;
-    if (line.compare(0, 5,  "PAUSE"  , 5) != 0) {
-      esyslog("live: ERROR parsing markad.vps, line = %s, file = %s", line.c_str(), fname );
-      return 0;
-    }
-    line = "";
-    markad >> line;
-    if (line.empty() ) {
-      esyslog("live: ERROR parsing markad.vps, line empty after PAUSE, file = %s", fname);
-      return 0;
-    }
-    if (line.compare(0, 6,  "START:", 6) == 0) return 2;
-    if (line.compare(0, 5,  "STOP:", 5) == 0) return 3;
-    esyslog("live: ERROR parsing markad.vps, line after PAUSE = %s, file = %s", line.c_str(), fname );
-    return 0;
-  }
-  int parseMarkadVps(std::ifstream &markad, int &time, const char *fname) {
-// return 0: EOF, or error
-// 1 start
-// 2 pause start
-// 3 pause stop
-// 4 stop
-// time: timestamp in sec (since recording start)
-    time = -1;
-    int keyword = parseMarkadVpsKeyword(markad, fname);
-    if (keyword == 0) return 0;
-    if (!markad) {
-      esyslog("live: ERROR parsing markad.vps, EOF after keyword = %d, file = %s", keyword, fname);
-      return 0;
-    }
-    std::string line;
-    markad >> line;
-    if (line.empty() ) {
-      esyslog("live: ERROR parsing markad.vps, empty line after keyword = %d, file = %s", keyword, fname);
-      return 0;
-    }
-    if (!markad) {
-      esyslog("live: ERROR parsing markad.vps, EOF after keyword = %d and line %s, file = %s", keyword, line.c_str() , fname);
-      return 0;
-    }
-    markad >> time;
-    return keyword;
-  }
-	int RecordingsManager::GetVpsUsed(cRecording const * recording, int &length)
-	{
-// 0 : no information
-// 1 : VPS was used
-// 2 : VPS was NOT used
-    length = 0;
-		std::ifstream markad((std::string(recording->FileName()) + "/markad.vps").c_str());
-
-		if (!markad) return 0;
-    std::string l1;
-    markad >> l1;
-    if (l1 == "VPSTIMER=NO") return 2;
-    if (l1 != "VPSTIMER=YES") {
-      esyslog("live: ERROR: markad.vps, wrong format, first line=%s, path %s", l1.c_str(), recording->FileName());
-      return 0;
-    }
-		if (!markad) return 1;
-    int time_start_sequence, time_end_sequence, cur_length = 0;
-    int keyword = parseMarkadVps(markad, time_start_sequence, recording->FileName());
-    if (keyword == 0) return 1;
-    if (keyword != 1) {
-      esyslog("live: ERROR: markad.vps, first keyword = %d, path %s", keyword, recording->FileName());
-      return 1;
-    }
-    do {
-      keyword = parseMarkadVps(markad, time_end_sequence, recording->FileName());
-      if (keyword != 4 && keyword != 2) {
-        esyslog("live: ERROR: markad.vps, keyword %d after start sequence, path %s", keyword, recording->FileName());
-        return 1;
-      }
-      if (time_start_sequence >= time_end_sequence) {
-        esyslog("live: ERROR:time_start_sequence %d > time_end_sequence %d, keyword %d,  path %s", time_start_sequence, time_end_sequence, keyword, recording->FileName());
-        return 1;
-      }
-      cur_length += (time_end_sequence - time_start_sequence);
-      if (keyword == 4) {
-        length = cur_length;
-        return 1;
-      }
-      keyword = parseMarkadVps(markad, time_start_sequence, recording->FileName());
-      if (keyword != 3) {
-        esyslog("live: ERROR: markad.vps, keyword %d after pause start sequence, path %s", keyword, recording->FileName());
-        return 1;
-      }
-    } while (true);
-	}
-
 	std::string const RecordingsManager::GetArchiveId(cRecording const * recording, int archiveType)
 	{
 		std::string filename = recording->FileName();
@@ -474,9 +373,10 @@ int firstNonPunct(const std::string &s) {
 	{
            int start_f = firstNonPunct(first->Name() );
            int start_s = firstNonPunct(second->Name() );
+// see https://en.cppreference.com/w/cpp/locale/collate/compare
+// Compares the character sequence [low1, high1) to the character sequence [low2, high2)
            int i = g_collate_char.compare(&first->Name()[start_f], &first->Name()[0] + first->Name().size(),
                                          &second->Name()[start_s], &second->Name()[0] + second->Name().size() );
-//           int i = first->NameForSort().compare(second->NameForSort() );
            if(i != 0) return i < 0;
            return first->CompareStD(second) < 0;
 	}

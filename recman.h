@@ -99,7 +99,6 @@ namespace vdrlive {
                    */
                   void DeleteRecording(cRecording const * recording) const;
 
-									static int GetVpsUsed(cRecording const * recording, int &length);
                   /**
                    *	Determine wether the recording has been archived on
                    *	removable media (e.g. DVD-ROM)
