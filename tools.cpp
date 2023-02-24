@@ -726,29 +726,32 @@ template void AppendTextTruncateOnWord<cLargeString>(cLargeString &target, const
 		return true;
 	}
 
-  const char *intToChar(char *buffer, char *buffer_end, int i) {
-// buffer_end = buffer + sizeof(buffer)
-// [buffer, buffer_end) is available
-// buffer length is note checked :( . Just use long enough buffer, like 20
-// I wrote this, because the standard tools make 1000 -> 1.000 :( :( :(
-    buffer_end--;
-    *buffer_end = 0;
-    if (i < 0) {
-      buffer_end--;
-      *buffer_end = '-';
-      i *= -1;
-    }
-    if (i < 10) {
-      buffer_end--;
-      *buffer_end = i + '0';
-      return buffer_end;
-    }
-    for (; i > 0; i = i/10) {
-      buffer_end--;
-      *buffer_end = (i%10) + '0';
-    }
-    return buffer_end;
+  template<class T> int toCharsU(char *buffer, T i0) {
+// notes:
+//    i0 must be unsigned !!!!
+//    return number of characters written to buffer  (don't count 0 terminator)
+//    if buffer==NULL: don't write anything, just return the number
+//    sizeof(buffer) must be >= this return value + 1 !! This is not checked ....
+    int numChars;
+    int i = i0;
+    if (i < 10) numChars = 1;
+    else for (numChars = 0; i; i /= 10) numChars++;
+    if (!buffer) return numChars;
+    char *bufferEnd = buffer + numChars;
+    i = i0;
+    *bufferEnd = 0;
+    if (i < 10) *(--bufferEnd) = '0' + i;
+    else for (; i; i /= 10) *(--bufferEnd) = '0' + (i%10);
+    return numChars;
   }
+  template int toCharsU<unsigned int>(char *buffer, unsigned int i0);
+  template<class T> int toCharsI(char *buffer, T i) {
+    if (i >= 0) return toCharsU(buffer, i);
+    if (buffer) *(buffer++) = '-';
+    return toCharsU(buffer, -1*i) + 1;
+  }
+  template int toCharsI<int>(char *buffer, int i);
+
   std::string ScraperImagePath2Live(const std::string &path){
     int tvscraperImageDirLength = LiveSetup().GetTvscraperImageDir().length();
     if (tvscraperImageDirLength == 0) return "";

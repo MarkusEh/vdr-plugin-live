@@ -90,6 +90,7 @@ if (type == "now") {
 		<title>VDR-Live - <$ head $></title>
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
+    <& pageelems.create_html_js &>
 		<script type="text/javascript"><!--
 		function showtime(selection)
 		{

@@ -136,6 +136,22 @@ function addColEventRec(s, times, eventprefix, eventid, title, folder, shortText
   s.a += '</div>'
 }
 
+function injectHdSdIcon(elementId, sdhd, channelName) {
+  const s = Object.create(null);
+  s.a = "";
+  addHdSdIcon(s, sdhd, channelName);
+  document.getElementById(elementId).innerHTML = s.a;
+  if (typeof liveEnhanced !== 'undefined') liveEnhanced.domReadySetup();
+}
+
+function injectErrorHdSdIcon(elementId, numErrors, durationDeviation, sdhd, channelName) {
+  const s = Object.create(null);
+  s.a = "";
+  addErrorIcon(s, numErrors, durationDeviation);
+  addHdSdIcon(s, sdhd, channelName);
+  document.getElementById(elementId).innerHTML = s.a;
+  if (typeof liveEnhanced !== 'undefined') liveEnhanced.domReadySetup();
+}
 
 function imgLoad() {
 var imgDefer = document.getElementsByTagName('img');

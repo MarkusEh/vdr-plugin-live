@@ -267,6 +267,7 @@ std::vector<time_t>			times_start;
 		<title>VDR Live - <$ pageTitle $></title>
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
+    <& pageelems.create_html_js &>
 	</head>
 	<body onload="adjustHeader()" onresize="adjustHeader()">
 		<& pageelems.logo &>

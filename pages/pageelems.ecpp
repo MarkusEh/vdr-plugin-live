@@ -524,12 +524,12 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 	time_t startTime;
 	time_t endTime;
 	int lastCurrentChanel = int();
-        std::string s_IMDB_ID;
+  std::string s_IMDB_ID;
 </%args>
 <%cpp>
 	int duration = EpgEvents::Duration(startTime, endTime);
 	int elapsed = EpgEvents::ElapsedTime(startTime, endTime);
-    tEventID eventId = tEventID();
+  tEventID eventId = tEventID();
 	tChannelID channelId = tChannelID();
 
 	EpgEvents::DecodeDomId(epgid, channelId, eventId);
@@ -553,9 +553,33 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 <%cpp>
 		}
 	if (eventId != 0) {
+    /* Need to lock here channels also, because CreateEpgInfo will lock
+     * it also and this will result in a wrong lock order */
+    LOCK_CHANNELS_READ;
+    LOCK_SCHEDULES_READ;
+    EpgInfoPtr epgEvent = EpgEvents::CreateEpgInfo(epgid, Schedules);
+    const cEvent* event = epgEvent->Event();
+    const cChannel* channel = Channels->GetByChannelID(event->ChannelID());
+    cGetScraperVideo getScraperVideo(event, NULL);
+    bool scraperDataAvailable = getScraperVideo.call(LiveSetup().GetPluginScraper());
+    if (scraperDataAvailable) {
+      int video_SD_HD = getScraperVideo.m_scraperVideo->getHD();
+      char sdhd = video_SD_HD == 0 ? 's': video_SD_HD == 1 ? 'h': 'u';
+
 </%cpp>
 		<& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID) &>
+% if (detail > 1) {
+<img data-src="img/transparent.png" height="10px" />
+<span id="icons-<$epgid$>"></span>
+<#
+<img src="img/forceError.png" height="0.1px" onerror="injectHdSdIcon(&quot;icons-<$epgid$>&quot;, &quot;<$sdhd$>&quot;, &quot;<$(channel&&channel->Name())?channel->Name():""$>&quot;)"/>
+#>
+<script class="injectIcons">
+injectHdSdIcon(\"icons-<$epgid$>\", \"<$sdhd$>\", \"<$(channel&&channel->Name())?channel->Name():""$>\")
+</script>
 <%cpp>
+		  }
+		}
 		}
 	}
 	else { // table output
@@ -715,7 +739,7 @@ if (scraperMovieOrTv.found) {
 		</div>
 		<div class="epg_content">
 			<div class="epg_tools">
-				<& (tools_comp) id=(boxId) archived=(archived) detail=(1) title=(title) s_IMDB_ID=(scraperMovieOrTv.IMDB_ID) &>
+				<& (tools_comp) id=(boxId) archived=(archived) detail=(2) title=(title) s_IMDB_ID=(scraperMovieOrTv.IMDB_ID) &>
 			</div>
 			<div class="epg_info">
 				<div class="info nowrap"><%cpp> if (!archived.empty()) { </%cpp><span class="bold"><$ (archived + " ") $></span><%cpp> }

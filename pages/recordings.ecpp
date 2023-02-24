@@ -123,8 +123,9 @@ RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
 for (const RecordingsItemPtr &rPtr: *recordingsTree->allRecordings()) {
   recoring_item.clear();
   rPtr->AppendAsJSArray(recoring_item, currentFlat == "true" || currentSort == "duplicates");
+  toCharsI(buffer_i, rPtr->IdI());
 </%cpp>
-  recs[<$intToChar(buffer_i, buffer_i+20, rPtr->IdI())$>]=[<$$ recoring_item.c_str() $>]
+  recs[<$buffer_i$>]=[<$$ recoring_item.c_str() $>]
 <%cpp>
 }
 </%cpp>
@@ -575,18 +576,16 @@ if (recording && recording->Info() ) {
     int duration_deviation = getScraperVideo.m_scraperVideo->getDurationDeviation();
     int video_SD_HD = getScraperVideo.m_scraperVideo->getHD();
     char sdhd = video_SD_HD == 0 ? 's': video_SD_HD == 1 ? 'h': 'u';
-    char b_recordingErrors[20];
-    char b_duration_deviation[20];
+    CONVERT(b_recordingErrors, recordingErrors, toCharsI);
+    CONVERT(b_duration_deviation, duration_deviation, toCharsI);
 </%cpp>
-<img data-src="img/transparent.png" height="16px" />
+<img data-src="img/transparent.png" height="10px" />
 <span id="icons-<$id$>"></span>
-<script>
-  const s = Object.create(null);
-  s.a = "";
-  addErrorIcon(s, <$intToChar(b_recordingErrors, b_recordingErrors+20, recordingErrors)$>,
-                  <$intToChar(b_duration_deviation, b_duration_deviation+20, duration_deviation)$>);
-  addHdSdIcon(s,  \"<$sdhd$>\", \"<$recording->Info()->ChannelName()$>\");
-  document.getElementById("icons-<$id$>").innerHTML = s.a;
+<#
+<img src="img/forceError.png" height="0.1px" onerror="injectErrorHdSdIcon(&quot;icons-<$id$>&quot;, <$b_recordingErrors$>, <$b_duration_deviation$>, &quot;<$sdhd$>&quot;, &quot;<$recording->Info()->ChannelName()?recording->Info()->ChannelName():""$>&quot;)"/>
+#>
+<script class="injectIcons">
+injectErrorHdSdIcon(\"icons-<$id$>\", <$b_recordingErrors$>, <$b_duration_deviation$>, \"<$sdhd$>\", \"<$recording->Info()->ChannelName()?recording->Info()->ChannelName():""$>\")
 </script>
 <%cpp>
   }

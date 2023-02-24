@@ -22,6 +22,10 @@
 #endif
 #include <vdr/channels.h>
 
+#define CONVERT(result, from, fn) \
+char result[fn(NULL, from) + 1]; \
+fn(result, from);
+
 std::istream& operator>>( std::istream& is, tChannelID& ret );
 
 inline
@@ -118,7 +122,13 @@ template<class T>
 	std::string FileSystemExchangeChars(std::string const & s, bool ToFileSystem);
 
 	bool MoveDirectory(std::string const & sourceDir, std::string const & targetDir, bool copy = false);
-        const char *intToChar(char *buffer, char *buffer_end, int i);
+
+  template<class T> int toCharsU(char *buffer, T i);
+  template<class T> int toCharsI(char *buffer, T i);
+// notes:
+//    return number of characters written to buffer  (don't count 0 terminator)
+//    if buffer==NULL: don't write anything, just return the number
+//    sizeof(buffer) must be >= this return value + 1 !! This is not checked ....
 
 	struct bad_lexical_cast: std::runtime_error
 	{
