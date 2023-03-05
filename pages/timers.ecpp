@@ -95,15 +95,15 @@ using namespace vdrlive;
 
 					if (timer->Event())
 					{
-                                          epgEvent = EpgEvents::CreateEpgInfo(timer->Channel(), timer->Event());
-                                          bool truncated = false;
-                                          longDescription  = StringEscapeAndBreak(SortedTimers::GetTimerInfo(*timer), lf);
-                                          longDescription += LiveSetup().GetUseAjax()?"<hr>":lf;
+            epgEvent = EpgEvents::CreateEpgInfo(timer->Channel(), timer->Event());
+            bool truncated = false;
+            longDescription  = StringEscapeAndBreak(SortedTimers::GetTimerInfo(*timer), lf);
+            longDescription += LiveSetup().GetUseAjax()?"<hr>":lf;
 					  longDescription += StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), LiveSetup().GetMaxTooltipChars(), truncated), lf);
 					  if (truncated) longDescription += "...";
-                                          searchTimName = SortedTimers::SearchTimerInfo(*timer, "searchtimer");
-                                          searchTimId = SortedTimers::SearchTimerInfo(*timer, "s-id");
-                                          if (searchTimName.empty() && searchTimId.empty() ) searchTimName = SortedTimers::TvScraperTimerInfo(*timer);
+            AppendHtmlEscapedAndCorrectNonUTF8(searchTimName, SortedTimers::SearchTimerInfo(*timer, "searchtimer").c_str());
+            searchTimId = SortedTimers::SearchTimerInfo(*timer, "s-id");
+            if (searchTimName.empty() && searchTimId.empty() ) AppendHtmlEscapedAndCorrectNonUTF8(searchTimName, SortedTimers::TvScraperTimerInfo(*timer).c_str());
 					}
 					std::string currentDay = SortedTimers::GetTimerDays(timer);
                                         const cTimer *nextTimer =  NULL;
@@ -155,6 +155,8 @@ using namespace vdrlive;
 						timerStateImg = "arrow.png";
 						timerStateHint = tr("Timer is active.");
 					}
+          std::string timerFile;
+          AppendHtmlEscapedAndCorrectNonUTF8(timerFile, timer->File());
 </%cpp>
 				<tr>
 
@@ -171,14 +173,14 @@ using namespace vdrlive;
 						<& tooltip.display domId=(epgEvent->Id()) &>
 %         }
 						class="apopup" title="<$$longDescription$>"
-						><$ timer->File() $></a></div>
+						><$$ StringReplace(timerFile, "~", "~<wbr>") $></a></div>
 					</td>
 					<td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="xs-nomargin"><$ timer->Local()?trVDR(" "):timer->Remote() $></div></td>
           <td class="<? bottom ? "bottomrow" ?>"><div class="withmargin">
 %					if ( !timer->Local() || searchTimId.empty() ) {
-            <$ searchTimName $></div></td>
+            <$$ StringReplace(searchTimName, "~", "~<wbr>") $></div></td>
 %					} else {
-					  <a href="edit_searchtimer.html?searchtimerid=<$ searchTimId $>"><$ searchTimName $></a></div></td>
+					  <a href="edit_searchtimer.html?searchtimerid=<$ searchTimId $>"><$$ StringReplace(searchTimName, "~", "~<wbr>") $></a></div></td>
 %					}
             <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><a class="hidden-xs action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(timers.GetTimerId(*timer)) $>&action=toggle"><img src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &>></img></a></td>
             <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs action-rightcol"><& pageelems.edit_timer timerId=(timers.GetTimerId(*timer)) &></div></td>

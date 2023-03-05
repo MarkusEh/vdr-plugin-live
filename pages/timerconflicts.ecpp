@@ -108,11 +108,13 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 								longDescription = StringEscapeAndBreak(SortedTimers::GetTimerInfo(*timer)) + "<hr>"
 													+ StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), LiveSetup().GetMaxTooltipChars()))
 													+ "<br/><br/>" + tr("Click to view details.");
-								searchTimName = SortedTimers::SearchTimerInfo(*timer, "searchtimer");
+                AppendHtmlEscapedAndCorrectNonUTF8(searchTimName, SortedTimers::SearchTimerInfo(*timer, "searchtimer").c_str());
 								searchTimId = SortedTimers::SearchTimerInfo(*timer, "s-id");
-								if (searchTimName.empty() && searchTimId.empty() ) searchTimName = SortedTimers::TvScraperTimerInfo(*timer);
+								if (searchTimName.empty() && searchTimId.empty() ) AppendHtmlEscapedAndCorrectNonUTF8(searchTimName, SortedTimers::TvScraperTimerInfo(*timer).c_str());
 								title = epgEvent->Title();
 							}
+              std::string timerFile;
+              AppendHtmlEscapedAndCorrectNonUTF8(timerFile, timer->File());
 </%cpp>
 							<tr>
 								<td class="leftcol <? bottom ? "bottomrow" ?>"><img src="<$ LiveSetup().GetThemedLink("img", timerStateImg) $>" alt="" <%cpp> if (!timerStateHint.empty()) { </%cpp><& tooltip.hint text=(timerStateHint) &><%cpp> } </%cpp>></img></td>
@@ -129,13 +131,13 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			      			<& tooltip.display domId=(epgEvent->Id()) &>
 %               }
 						      class="apopup" title="<$$longDescription$>"
-								><$ timer->File() $></a></div></td>
+								><$$ StringReplace(timerFile, "~", "~<wbr>") $></a></div></td>
 
 								<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin">
 %								if ( !timer->Local() || searchTimId.empty() ) {
-								  <$ searchTimName $></div></td>
+								  <$$ StringReplace(searchTimName, "~", "~<wbr>") $></div></td>
 %								} else {
-								  <a href="edit_searchtimer.html?searchtimerid=<$ searchTimId $>"><$ searchTimName $></a></div></td>
+								  <a href="edit_searchtimer.html?searchtimerid=<$ searchTimId $>"><$$ StringReplace(searchTimName, "~", "~<wbr>") $></a></div></td>
 %								}
 								<td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><a class="hidden-xs action-rightcol" href="searchresults.html?searchplain=<$ StringEscapeAndBreak(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a></td>
 								<td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><a class="hidden-xs action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(timers.GetTimerId(*timer)) $>&action=toggle"><img src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &>></img></a></td>

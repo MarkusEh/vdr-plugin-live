@@ -118,7 +118,7 @@ function addEventRec(s, eventprefix, eventid, title, folder, shortText, descript
   s.a += title
   if (folder.length != 0) {
     s.a += '<span class="normal-font"> ('
-    s.a += folder
+    s.a += folder.replaceAll("~", "~<wbr>")
     s.a += ')</span>'
   }
   s.a += '</div>'                                                                                                                                 

@@ -424,7 +424,8 @@ int firstNonPunct(const std::string &s) {
           if (*first  ) return  1;
           return 0;
         }
-        tCompRec RecordingsItemPtrCompare::getComp(eSortOrder sortOrder) {
+
+  tCompRec RecordingsItemPtrCompare::getComp(eSortOrder sortOrder) {
 	  switch (sortOrder) {
 	    case eSortOrder::name: return &RecordingsItemPtrCompare::ByAscendingNameDescSort;
 	    case eSortOrder::date: return &RecordingsItemPtrCompare::ByAscendingDate;
@@ -434,21 +435,25 @@ int firstNonPunct(const std::string &s) {
 	  }
 	  esyslog("live: ERROR, RecordingsItemPtrCompare::getComp, sortOrder %d unknown", (int)sortOrder);
           return &RecordingsItemPtrCompare::ByAscendingNameDescSort;
-        }
+  }
 
 
 bool searchNameDesc(RecordingsItemPtr &RecItem, const std::vector<RecordingsItemPtr> *RecItems, const cEvent *event, cScraperVideo *scraperVideo) {
-  if(RecItems->empty() ) return false;  // there are no recordings
+  if (RecItems->empty() ) return false;  // there are no recordings
 
 // find all recordings with equal name
   RecordingsItemPtr dummy (new RecordingsItemDummy(event, scraperVideo));
   const auto equalName = std::equal_range(RecItems->begin(), RecItems->end(), dummy, RecordingsItemPtrCompare::ByDuplicatesName);
-  if ( equalName.first == equalName.second ) return false; // there is no recording with this name
+  if (equalName.first == equalName.second) return false; // there is no recording with this name
 
-// find all recordings with matching short text / description
-  auto equalDuplicates = std::equal_range(equalName.first, equalName.second, dummy, RecordingsItemPtrCompare::ByDuplicates);
+// find all recordings with matching short text / description / language
+  auto equalDuplicates = std::equal_range(equalName.first, equalName.second, dummy, RecordingsItemPtrCompare::ByDuplicatesLanguage);
 
-  if(equalDuplicates.first != equalDuplicates.second) {   // exact match found
+  if (equalDuplicates.first == equalDuplicates.second) {   // nothing found. Try again, and include other languages
+    equalDuplicates = std::equal_range(equalName.first, equalName.second, dummy, RecordingsItemPtrCompare::ByDuplicates);
+  }
+
+  if (equalDuplicates.first != equalDuplicates.second) {   // exact match found
     if (RecordingsItemPtrCompare::FindBestMatch(RecItem, equalDuplicates.first, equalDuplicates.second, dummy) > 0) return true;
     RecItem = *equalDuplicates.first;
     return true;
@@ -457,23 +462,23 @@ bool searchNameDesc(RecordingsItemPtr &RecItem, const std::vector<RecordingsItem
   int numEqualCharsLow = 0;
   int numEqualCharsUp  = 0;
 
-  if(equalDuplicates.first != equalName.first) {
+  if (equalDuplicates.first != equalName.first) {
     --equalDuplicates.first;
     (*equalDuplicates.first)->CompareStD(dummy, &numEqualCharsLow);
   }
-  if(equalDuplicates.second != equalName.second)
+  if (equalDuplicates.second != equalName.second)
     (*equalDuplicates.second)->CompareStD(dummy, &numEqualCharsUp);
 
-  if ( numEqualCharsLow > numEqualCharsUp ) {
-    if( numEqualCharsLow > 5 ) { RecItem = *equalDuplicates.first; return true; }
+  if (numEqualCharsLow > numEqualCharsUp ) {
+    if (numEqualCharsLow > 5) { RecItem = *equalDuplicates.first; return true; }
   } else {
-    if( numEqualCharsUp  > 5 ) { RecItem = *equalDuplicates.second;  return true; }
+    if (numEqualCharsUp  > 5) { RecItem = *equalDuplicates.second;  return true; }
   }
 
 // no sufficient match in short text / description
 // get best match from length of event match
   int num_match_rec = RecordingsItemPtrCompare::FindBestMatch(RecItem, equalName.first, equalName.second, dummy);
-  if(num_match_rec == 0 || num_match_rec > 5) return false; // no matching lenght or series (too many matching length)
+  if (num_match_rec == 0 || num_match_rec > 5) return false; // no matching lenght or series (too many matching length)
   return true;
 }
 
@@ -901,19 +906,21 @@ void RecordingsItemRec::AppendAsJSArray(cLargeString &target, std::vector<Record
 	/**
 	 * Implemetation of class RecordingsItemDummy
 	 */
-        RecordingsItemDummy::RecordingsItemDummy(const cEvent *event, cScraperVideo *scraperVideo):
-                RecordingsItem(charToString(event->Title() )),
-                m_event(event)
-                {
-                  if (scraperVideo) {
-                      m_s_videoType = scraperVideo->getVideoType();
-                      m_s_dbid = scraperVideo->getDbId();
-                      m_s_episode_number = scraperVideo->getEpisodeNumber();
-                      m_s_season_number = scraperVideo->getSeasonNumber();
-                  } else {
-                    m_s_videoType = tNone;
-                  }
-                }
+  RecordingsItemDummy::RecordingsItemDummy(const cEvent *event, cScraperVideo *scraperVideo):
+    RecordingsItem(charToString(event->Title() )),
+    m_event(event)
+    {
+      if (scraperVideo) {
+        m_s_videoType = scraperVideo->getVideoType();
+        m_s_dbid = scraperVideo->getDbId();
+        m_s_episode_number = scraperVideo->getEpisodeNumber();
+        m_s_season_number = scraperVideo->getSeasonNumber();
+        m_language = scraperVideo->getLanguage();
+        m_video_SD_HD = scraperVideo->getHD();
+      } else {
+        m_s_videoType = tNone;
+      }
+    }
 
   bool operator< (const RecordingsItemPtr &a, const RecordingsItemPtr &b) { return *a < b; }
   bool operator< (const std::string &a, const RecordingsItemPtr &b) { return a < b->Name(); }
@@ -1029,10 +1036,10 @@ void RecordingsItemRec::AppendAsJSArray(cLargeString &target, std::vector<Record
 	      m_allRecordingsSorted = true;
 	    }
 	    return &m_allRecordings;
-          }
-          if (m_allRecordings_other_sort.empty() ) m_allRecordings_other_sort = m_allRecordings;
+    }
+    if (m_allRecordings_other_sort.empty() ) m_allRecordings_other_sort = m_allRecordings;
 	  std::sort(m_allRecordings_other_sort.begin(), m_allRecordings_other_sort.end(), RecordingsItemPtrCompare::getComp(sortOrder));
-          m_sortOrder = sortOrder;
+    m_sortOrder = sortOrder;
 	  return &m_allRecordings_other_sort;
 	}
 
