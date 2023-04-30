@@ -7,7 +7,6 @@
 
 namespace vdrlive {
 
-using namespace std;
 using namespace tnt;
 
 
@@ -35,10 +34,10 @@ void ServerThread::Action()
 		TntConfig::Get().Configure(*m_server);
 		m_server->run();
 		m_server.reset(0);
-	} catch (exception const& ex) {
+	} catch (std::exception const& ex) {
 		// XXX move initial error handling to live.cpp
-		esyslog("ERROR: live httpd server crashed: %s", ex.what());
-		cerr << "HTTPD FATAL ERROR: " << ex.what() << endl;
+		esyslog("live: ERROR: live httpd server crashed: %s", ex.what());
+		std::cerr << "HTTPD FATAL ERROR: " << ex.what() << std::endl;
 		//cThread::EmergencyExit(true);
 	}
 }

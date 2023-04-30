@@ -4,6 +4,10 @@
 // STL headers need to be before VDR tools.h (included by <vdr/channels.h>)
 #include <string>
 
+#if TNTVERSION >= 30000
+        #include <cxxtools/log.h>  // must be loaded before any vdr include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
+#endif
+
 #include <vdr/plugin.h>
 
 namespace vdrlive {
@@ -20,16 +24,16 @@ private:
 	std::string m_suffix;
 };
 
-template< typename Feat >
+template<typename Feat>
 class Features;
 
-template< typename Feat >
-Features< Feat >& LiveFeatures();
+template<typename Feat>
+Features<Feat>& LiveFeatures();
 
-template< typename Feat >
+template<typename Feat>
 class Features
 {
-	friend Features< Feat >& LiveFeatures<>();
+	friend Features<Feat>& LiveFeatures<>();
 
 public:
 	bool Loaded() const { return m_plugin != 0; }
@@ -48,10 +52,10 @@ private:
 		, m_minVersion( Feat::MinVersion() ) {}
 };
 
-template< typename Feat >
-Features< Feat >& LiveFeatures()
+template<typename Feat>
+Features<Feat>& LiveFeatures()
 {
-	static Features< Feat > instance;
+	static Features<Feat> instance;
 	return instance;
 }
 
@@ -67,6 +71,12 @@ namespace features
 	{
 		static const char* Plugin() { return "streamdev-server"; }
 		static const char* MinVersion() { return "?"; }
+	};
+
+	struct tvscraper
+	{
+		static const char* Plugin() { return "tvscraper"; }
+		static const char* MinVersion() { return "1.1.9"; }
 	};
 } // namespace features
 

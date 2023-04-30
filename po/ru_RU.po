@@ -49,17 +49,57 @@ msgstr "Ошибка в настройках таймера"
 msgid "Timer already defined"
 msgstr "Таймер установлен"
 
-msgid "Timers are being edited - try again later"
-msgstr "Таймер редактируется - попробуйте позже"
-
 msgid "Timer not defined"
 msgstr "Таймер не установлен"
+
+msgid "Timers are being edited - try again later"
+msgstr "Таймер редактируется - попробуйте позже"
 
 msgid "On archive DVD No."
 msgstr "В архиве на DVD No."
 
 msgid "On archive HDD No."
 msgstr "В архиве на HDD No."
+
+#, c-format
+msgid "(%d:%02d)"
+msgstr ""
+
+#, c-format
+msgid "%a,"
+msgstr ""
+
+msgid "%b %d %y"
+msgstr ""
+
+msgid "%I:%M %p"
+msgstr "%H:%M"
+
+#, c-format
+msgid "%d:%02d"
+msgstr ""
+
+#, c-format
+msgid "%'d MB"
+msgstr ""
+
+msgid "TV shows"
+msgstr ""
+
+msgid "Movie collections"
+msgstr ""
+
+msgid "File system view"
+msgstr ""
+
+msgid "No recording errors"
+msgstr ""
+
+msgid "Recording errors unknown"
+msgstr ""
+
+msgid "Number of recording errors:"
+msgstr ""
 
 msgid "Couldn't find channel or no channels available."
 msgstr "Канал не найден или недоступен."
@@ -103,9 +143,6 @@ msgstr "Все"
 msgid "FTA"
 msgstr "Открытые"
 
-msgid "%I:%M %p"
-msgstr "%H:%M"
-
 msgid "EPGSearch version outdated! Please update."
 msgstr "Версия EPGSearch устарела! Пожалуйста обновите EPGSearch. "
 
@@ -124,51 +161,17 @@ msgstr "конфликт"
 msgid "conflicts"
 msgstr "конфликты"
 
-msgid "Sorry, no permission. Please contact your administrator!"
-msgstr "Нет доступа, обратитесь к администратору! "
+msgid "Electronic program guide information"
+msgstr "Информация телегида"
 
-#, c-format
-msgid "%a, %x"
-msgstr ""
+msgid "Couldn't find recording or no recordings available"
+msgstr "Запись не найдена или недоступна"
 
-msgid "What's running on"
-msgstr "Что идет сейчас?"
+msgid "Error aquiring schedules lock"
+msgstr "Ошибка во время получения расписания"
 
-msgid "at"
-msgstr "в"
-
-msgid "What's on next?"
-msgstr "Что даллее?"
-
-msgid "Favorites"
-msgstr "Избранные"
-
-msgid "View the schedule of this channel"
-msgstr "Просмотреть расписание на этом канале"
-
-msgid " - "
-msgstr ""
-
-msgid "Click to view details."
-msgstr "Нажмите чтобы узнать больше."
-
-msgid "Now"
-msgstr "Сейчас"
-
-msgid "Next"
-msgstr "Далее"
-
-msgid "What's on"
-msgstr "Сейчас"
-
-msgid "Details view"
-msgstr "Подробно"
-
-msgid "List view"
-msgstr "Список"
-
-msgid "Remote Control"
-msgstr "Удаленное управление"
+msgid "Error aquiring schedules"
+msgstr "Ошибка в расписании"
 
 msgid "Couldn't aquire access to channels, please try again later."
 msgstr "Нет доступа к каналу, попробуйте позже"
@@ -176,104 +179,72 @@ msgstr "Нет доступа к каналу, попробуйте позже"
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "Канал не найден или недоступен. Проверьте правильность запроса."
 
-msgid "Power (Ctrl X)"
+#, c-format
+msgid "%a, %x"
 msgstr ""
 
-msgid "Vol+ (+)"
+msgid "Click to view details."
+msgstr "Нажмите чтобы узнать больше."
+
+msgid "View the schedule of this channel"
+msgstr "Просмотреть расписание на этом канале"
+
+msgid " - "
 msgstr ""
 
-msgid "Vol- (-)"
-msgstr ""
+msgid "Channel"
+msgstr "Канал"
 
-msgid "P+ (Page Up)"
-msgstr ""
+msgid "Switch to this channel."
+msgstr "Переключиться на этот канал."
 
-msgid "P- (Page Down)"
-msgstr ""
+msgid "Wrong username or password"
+msgstr "Неправильное имя пользователя или пароль"
 
-msgid "Mute (_)"
-msgstr ""
+msgid "Login"
+msgstr "Вход"
 
-msgid "Record (Ctrl R)"
-msgstr ""
+msgid "VDR Live Login"
+msgstr "VDR Live Login"
 
-msgid "Menu (M)"
-msgstr ""
-
-msgid "Exit (Backspace, Q)"
-msgstr ""
-
-msgid "Subtitles (S)"
-msgstr ""
-
-msgid "Audio (A)"
-msgstr ""
-
-msgid "Up"
-msgstr ""
-
-msgid "Right"
-msgstr ""
-
-msgid "Down"
-msgstr ""
-
-msgid "Left"
-msgstr ""
-
-msgid "Ok (Enter)"
-msgstr ""
-
-msgid "Red (F1, R)"
-msgstr ""
-
-msgid "Green (F2, G)"
-msgstr ""
-
-msgid "Yellow (F3, Y)"
-msgstr ""
-
-msgid "Blue (F4, B)"
-msgstr ""
-
-msgid "Selection"
-msgstr "Выбор"
-
-msgid "Snapshot interval"
-msgstr "Интервал между снимками"
-
-msgid "Stop"
-msgstr "Стоп"
-
-msgid "Users"
+msgid "User"
 msgstr "Пользователь"
 
-msgid "Name"
-msgstr "Имя"
+msgid "Password"
+msgstr "Пароль"
 
-msgid "Edit user"
-msgstr "Изменить пользователя"
+msgid "Sorry, no permission. Please contact your administrator!"
+msgstr "Нет доступа, обратитесь к администратору! "
 
-msgid "Delete user"
-msgstr "Удалить пользователя"
+msgid "Duration deviation from event length"
+msgstr ""
 
-msgid "New user"
-msgstr "Новый пользователь"
+msgid "min"
+msgstr ""
 
 msgid "Find more at the Internet Movie Database."
 msgstr "Найти на Kinopoisk.ru."
 
-msgid "Stream this channel into browser."
-msgstr "Стриминг этого канала в браузер."
-
-msgid "Stream this recording into browser."
-msgstr "Стриминг этой записи в браузер."
+msgid "Edit timer"
+msgstr "Изменить таймер"
 
 msgid "Record this"
 msgstr "Запись."
 
-msgid "Edit timer"
-msgstr "Изменить таймер"
+msgid "Search for repeats."
+msgstr "Найти повторы."
+
+msgid "Existing Recording:"
+msgstr ""
+
+msgid "Stream this channel into browser."
+msgstr ""
+
+msgid "Stream this channel into media player."
+msgstr ""
+
+msgid "Stream this recording into media player."
+msgstr ""
 
 msgid "loading data"
 msgstr "загрузка данных"
@@ -286,67 +257,6 @@ msgstr "Запрос выполнен!"
 
 msgid "Request failed!"
 msgstr "Запрос не выполнен!"
-
-msgid "Sunday"
-msgstr "Воскресенье"
-
-msgid "Monday"
-msgstr "Понедельник"
-
-msgid "Tuesday"
-msgstr "Вторник"
-
-msgid "Wednesday"
-msgstr "Среда"
-
-msgid "Thursday"
-msgstr "Четверг"
-
-msgid "Friday"
-msgstr "Пятница"
-
-msgid "Saturday"
-msgstr "Суббота"
-
-#. TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
-msgid "mm/dd/yyyy"
-msgstr "dd/mm/yyyy"
-
-msgid "January"
-msgstr "Январь"
-
-msgid "February"
-msgstr "Февраль"
-
-msgid "March"
-msgstr "Март"
-
-msgid "April"
-msgstr "Апрель"
-
-msgid "May"
-msgstr "Май"
-
-msgid "June"
-msgstr "Июнь"
-
-msgid "July"
-msgstr "Июль"
-
-msgid "August"
-msgstr "Август"
-
-msgid "September"
-msgstr "Сентябрь"
-
-msgid "October"
-msgstr "Октябрь"
-
-msgid "November"
-msgstr "Ноябрь"
-
-msgid "December"
-msgstr "Декабрь"
 
 msgid "retrieving status ..."
 msgstr "получение статуса … "
@@ -381,11 +291,92 @@ msgstr "Сервер не отвечает!"
 msgid "Failed to update infobox!"
 msgstr "Ошибка обновления infobox!"
 
-msgid "Switch to this channel."
-msgstr "Переключиться на этот канал."
+msgid "Scraper"
+msgstr ""
 
-msgid "Search for repeats."
-msgstr "Найти повторы."
+msgid "Actors"
+msgstr ""
+
+msgid "Artwork"
+msgstr ""
+
+msgid "Recording length"
+msgstr ""
+
+msgid "Event duration"
+msgstr ""
+
+msgid "Title:"
+msgstr ""
+
+msgid "Original title:"
+msgstr ""
+
+msgid "Episode:"
+msgstr ""
+
+msgid "Episode overview:"
+msgstr ""
+
+msgid "Episode vote average/count:"
+msgstr ""
+
+msgid "Episode first aired:"
+msgstr ""
+
+msgid "IMDB episode"
+msgstr ""
+
+msgid "Guest stars and crew"
+msgstr ""
+
+msgid "Writer"
+msgstr ""
+
+msgid "Director"
+msgstr ""
+
+msgid "Tagline:"
+msgstr ""
+
+msgid "Overview:"
+msgstr ""
+
+msgid "Genres:"
+msgstr ""
+
+msgid "Homepage"
+msgstr "Домашняя страница"
+
+msgid "Release date:"
+msgstr ""
+
+msgid "Runtime:"
+msgstr ""
+
+msgid "Popularity:"
+msgstr ""
+
+msgid "Vote average/count:"
+msgstr ""
+
+msgid "IMDB"
+msgstr ""
+
+msgid "Budget:"
+msgstr ""
+
+msgid "Revenue:"
+msgstr ""
+
+msgid "Collection name:"
+msgstr ""
+
+msgid "Status:"
+msgstr ""
+
+msgid "Cast and crew"
+msgstr ""
 
 msgid "Authors"
 msgstr "Авторы"
@@ -397,6 +388,9 @@ msgid "Webserver"
 msgstr "WEB сервер"
 
 msgid "Current Maintainer"
+msgstr ""
+
+msgid "Previous Maintainer"
 msgstr ""
 
 msgid "Project leader"
@@ -426,8 +420,8 @@ msgstr "активный"
 msgid "required"
 msgstr "требуется"
 
-msgid "Homepage"
-msgstr "Домашняя страница"
+msgid "Information providers"
+msgstr ""
 
 msgid "Bugs and suggestions"
 msgstr "Ошибки и пожелания"
@@ -435,47 +429,17 @@ msgstr "Ошибки и пожелания"
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
 msgstr "Если у вас возникнут ошибки или Вы хотите расширить функции LIVE, пожалуйста, воспользуйтесь bugtracker"
 
-msgid "Electronic program guide information"
-msgstr "Информация телегида"
+msgid "Search results"
+msgstr "Результат поиска"
 
-msgid "Couldn't find recording or no recordings available"
-msgstr "Запись не найдена или недоступна"
+msgid "No search results"
+msgstr "Нет результатов поиска"
 
-msgid "Error aquiring schedules lock"
-msgstr "Ошибка во время получения расписания"
+msgid "%A, %b %d %Y"
+msgstr "%A, %d.%m.%Y"
 
-msgid "Error aquiring schedules"
-msgstr "Ошибка в расписании"
-
-msgid "%b %d %y"
-msgstr ""
-
-msgid "What's on?"
-msgstr "Сейчас"
-
-msgid "MultiSchedule"
-msgstr "Мультирасписание"
-
-msgid "Search"
-msgstr "Поиск"
-
-msgid "Searchtimers"
-msgstr "Поисковый таймер"
-
-msgid "Recordings"
-msgstr "Записи"
-
-msgid "Logout"
-msgstr "Выход"
-
-msgid "Your attention is required"
-msgstr "Требуется Ваше внимание"
-
-msgid "React"
-msgstr "Реагировать"
-
-msgid "Dismiss"
-msgstr "Освободить"
+msgid "New search timer"
+msgstr "Новый поисковый таймер"
 
 msgid "Couldn't find timer. Maybe you mistyped your request?"
 msgstr "Таймер не найден. Проверьте правильность запроса."
@@ -489,11 +453,35 @@ msgstr "Новый таймер"
 msgid "Title"
 msgstr "Название"
 
+msgid "Server"
+msgstr ""
+
 msgid "Directory"
 msgstr "Каталог"
 
 msgid "Weekday"
 msgstr "День недели"
+
+msgid "Monday"
+msgstr "Понедельник"
+
+msgid "Tuesday"
+msgstr "Вторник"
+
+msgid "Wednesday"
+msgstr "Среда"
+
+msgid "Thursday"
+msgstr "Четверг"
+
+msgid "Friday"
+msgstr "Пятница"
+
+msgid "Saturday"
+msgstr "Суббота"
+
+msgid "Sunday"
+msgstr "Воскресенье"
 
 msgid "Use VPS"
 msgstr "VPS"
@@ -504,43 +492,11 @@ msgstr "Сохранить"
 msgid "Cancel"
 msgstr "Отменить"
 
-msgid "Search results"
-msgstr "Результат поиска"
+msgid "MultiSchedule"
+msgstr "Мультирасписание"
 
-msgid "No search results"
-msgstr "Нет результатов поиска"
-
-msgid "%A, %b %d %Y"
-msgstr "%A, %d.%m.%Y"
-
-msgid "No timer defined"
-msgstr "Таймер не установлен"
-
-msgid "Duration"
-msgstr ""
-
-msgid "Timer is recording."
-msgstr "Таймер записывает."
-
-msgid "Timer has a conflict."
-msgstr "Есть конфликт таймеров"
-
-msgid "Timer is active."
-msgstr "Таймер активен"
-
-#. TRANSLATORS: recording duration format HH:MM
-#, c-format
-msgid "%d:%02d"
-msgstr ""
-
-msgid "Toggle timer active/inactive"
-msgstr "Переключить таймер активны/неактивный"
-
-msgid "Delete timer"
-msgstr "Удалить таймер"
-
-msgid "Timer conflicts"
-msgstr "Таймер конфликт"
+msgid "Now"
+msgstr "Сейчас"
 
 msgid "Time"
 msgstr "Время"
@@ -548,35 +504,47 @@ msgstr "Время"
 msgid "more"
 msgstr "еще"
 
-msgid "Channel"
-msgstr "Канал"
+msgid "What's on?"
+msgstr "Сейчас"
 
-msgid "playing recording"
-msgstr "воспроизведение записи"
+msgid "Search"
+msgstr "Поиск"
 
-msgid "no epg info for current event!"
-msgstr "нет информации телегида о текущем событии!"
+msgid "Searchtimers"
+msgstr "Поисковый таймер"
 
-msgid "no epg info for current channel!"
-msgstr "нет информации телегида на данном канале!"
+msgid "Recordings"
+msgstr "Записи"
 
-msgid "no current channel!"
-msgstr "нет канала!"
+msgid "Recordings (flat)"
+msgstr ""
 
-msgid "error retrieving status info!"
-msgstr "ошибка при получении статуса"
+msgid "Remote Control"
+msgstr "Удаленное управление"
 
-msgid "%I:%M:%S %p"
-msgstr "%H:%M:%S"
+msgid "Web-Streaming"
+msgstr ""
+
+msgid "Logout"
+msgstr "Выход"
+
+msgid "Your attention is required"
+msgstr "Требуется Ваше внимание"
+
+msgid "React"
+msgstr "Реагировать"
+
+msgid "Dismiss"
+msgstr "Освободить"
+
+msgid "No schedules available for this channel"
+msgstr "Расписание для данного канала недоступно"
 
 msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
 msgstr "Поисковый таймер не найден. Проверьте правильность запроса."
 
 msgid "Edit search timer"
 msgstr "Изменить поисковый таймер"
-
-msgid "New search timer"
-msgstr "Новый поисковый таймер"
 
 msgid "Search text too short - use anyway?"
 msgstr "Текст запроса слишком короткий, продолжить?"
@@ -677,6 +645,9 @@ msgstr "День недели"
 msgid "Use blacklists"
 msgstr "Черный список"
 
+msgid "Selection"
+msgstr "Выбор"
+
 msgid "all"
 msgstr "все"
 
@@ -764,20 +735,311 @@ msgstr "Переключаться за … минут до начала"
 msgid "Test"
 msgstr "Тест"
 
-msgid "Wrong username or password"
-msgstr "Неправильное имя пользователя или пароль"
+msgid "No timer defined"
+msgstr "Таймер не установлен"
 
-msgid "Login"
-msgstr "Вход"
+msgid "Duration"
+msgstr ""
 
-msgid "VDR Live Login"
-msgstr "VDR Live Login"
+msgid "Timer is recording."
+msgstr "Таймер записывает."
 
-msgid "User"
+msgid "Timer has a conflict."
+msgstr "Есть конфликт таймеров"
+
+msgid "Timer is active."
+msgstr "Таймер активен"
+
+msgid "Toggle timer active/inactive"
+msgstr "Переключить таймер активны/неактивный"
+
+msgid "Delete timer"
+msgstr "Удалить таймер"
+
+msgid "Timer conflicts"
+msgstr "Таймер конфликт"
+
+msgid "Snapshot interval"
+msgstr "Интервал между снимками"
+
+msgid "Stop"
+msgstr "Стоп"
+
+msgid "No timer conflicts"
+msgstr "Нет конфликта таймеров"
+
+msgid "local"
+msgstr ""
+
+msgid "Please set login and password!"
+msgstr "Пожалуйста установите логин и пароль!"
+
+msgid "Setup saved."
+msgstr "Настройки сохранены."
+
+msgid "Setup"
+msgstr "Настройка"
+
+msgid "User management"
+msgstr "Настройки пользователя"
+
+msgid "Local net (no login required)"
+msgstr "Локальная сеть (авторизация не требуется)"
+
+msgid "Show live logo image"
+msgstr "Показать логотип LIVE"
+
+msgid "Use ajax technology"
+msgstr "Использовать ajax"
+
+msgid "Show dynamic VDR information box"
+msgstr "Показывать инфо панель VDR"
+
+msgid "Allow video streaming"
+msgstr "Разрешить видео стриминг"
+
+msgid "Web-Streaming h264"
+msgstr ""
+
+msgid "Web-Streaming HEVC"
+msgstr ""
+
+msgid "Web-Streaming MPEG2"
+msgstr ""
+
+msgid "Web-Streaming others"
+msgstr ""
+
+msgid "Streamdev server port"
+msgstr "Streamdev порт"
+
+msgid "Streamdev stream type"
+msgstr "Streamdev тип стриминга"
+
+msgid "Mark new recordings"
+msgstr ""
+
+msgid "Show link to IMDb in list views"
+msgstr ""
+
+msgid "Show \"Play in Mediaplayer\" in list views"
+msgstr ""
+
+msgid "Additional fixed times in 'What's on?'"
+msgstr "Поправка времени в разделе 'Сейчас'"
+
+msgid "Format is HH:MM. Separate multiple times with a semicolon"
+msgstr "Формат HH:MM. Разделяется несколько раз при помощи запятой"
+
+msgid "Channel groups for MultiSchedule"
+msgstr "Группа каналов для мультирасписания"
+
+msgid "Separate channels with a comma ',', separate groups with a semi-colon ';'"
+msgstr "Разделить каналы при помощи ',', разделите группы при помощи ';'"
+
+msgid "Duration of MultiSchedule in hours"
+msgstr "Продолжительность мультирасписания в часах"
+
+msgid "Show channels without EPG"
+msgstr "Показывать каналы без EPG"
+
+msgid "Start page"
+msgstr "Стартовая страница"
+
+msgid "Theme"
+msgstr "Тема"
+
+msgid "playing recording"
+msgstr "воспроизведение записи"
+
+msgid "no epg info for current event!"
+msgstr "нет информации телегида о текущем событии!"
+
+msgid "no epg info for current channel!"
+msgstr "нет информации телегида на данном канале!"
+
+msgid "no current channel!"
+msgstr "нет канала!"
+
+msgid "error retrieving status info!"
+msgstr "ошибка при получении статуса"
+
+msgid "%I:%M:%S %p"
+msgstr "%H:%M:%S"
+
+msgid "Search settings"
+msgstr "Настройки поиска"
+
+msgid "Extended search"
+msgstr "Расширенный поиск"
+
+msgid "no"
+msgstr "нет"
+
+msgid "Couldn't find recording. Maybe you mistyped your request?"
+msgstr "Запись не найдена. Проверьте правильность запроса."
+
+msgid "Please set a name for the recording!"
+msgstr "Пожалуйста присвойте имя записи!"
+
+msgid "Cannot copy, rename or move the recording."
+msgstr "Копирование невозможно, переименуйте или переместите запись. "
+
+msgid "Edit recording"
+msgstr "Изменить запись."
+
+msgid "Name"
+msgstr "Имя"
+
+msgid "Delete resume information"
+msgstr "Удалить информацию о воспроизведении"
+
+msgid "Delete marks information"
+msgstr "Удалить маркеры"
+
+msgid "Copy only"
+msgstr "Копировать"
+
+msgid "Short description"
+msgstr "Краткое описание"
+
+msgid "Auxiliary info"
+msgstr "Другое"
+
+msgid "Expression"
+msgstr "Запрос"
+
+msgid "Starts between"
+msgstr "Начинать между"
+
+msgid "Toggle search timer actions (in)active"
+msgstr "Включить поисковый таймер"
+
+msgid "Browse search timer results"
+msgstr "Просмотреть результаты поискового таймера"
+
+msgid "Delete this search timer?"
+msgstr "Удалить этот поисковый таймер?"
+
+msgid "Delete search timer"
+msgstr "Удалить поисковый таймер"
+
+msgid "Trigger search timer update"
+msgstr "Обновить"
+
+msgid "What's running on"
+msgstr "Что идет сейчас?"
+
+msgid "at"
+msgstr "в"
+
+msgid "What's on next?"
+msgstr "Что даллее?"
+
+msgid "Favorites"
+msgstr "Избранные"
+
+msgid "Next"
+msgstr "Далее"
+
+msgid "What's on"
+msgstr "Сейчас"
+
+msgid "Details view"
+msgstr "Подробно"
+
+msgid "List view"
+msgstr "Список"
+
+msgid "Deleted recording:"
+msgstr "Удаленный записи:"
+
+msgid "play this recording"
+msgstr ""
+
+msgid "Delete this recording from hard disc!"
+msgstr "Удалить эту запись с жесткого диска!"
+
+msgid "List of recordings"
+msgstr "Список записей"
+
+msgid "No recordings found"
+msgstr "Записи не найдены"
+
+msgid "Delete selected"
+msgstr "Удалить выбранные"
+
+msgid "Duplicates identified by tvscraper"
+msgstr ""
+
+msgid "Duplicates, with different languages"
+msgstr ""
+
+msgid "Duplicates not identified by tvscraper"
+msgstr ""
+
+msgid "Sort:"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Duplicates"
+msgstr ""
+
+msgid "Errors"
+msgstr ""
+
+msgid "Filter"
+msgstr "Фильтр"
+
+msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
+msgstr "Искать только в названиях записей и субтитров в данной строке и отобразить совпадающие. Также вы можете использовать perl совместимые стандартные команды (PCRE)."
+
+msgid "Expand all folders"
+msgstr "Развернуть все папки"
+
+msgid "Collapse all folders"
+msgstr "Свернуть все папки"
+
+msgid "Users"
 msgstr "Пользователь"
 
-msgid "Password"
-msgstr "Пароль"
+msgid "Edit user"
+msgstr "Изменить пользователя"
+
+msgid "Delete user"
+msgstr "Удалить пользователя"
+
+msgid "New user"
+msgstr "Новый пользователь"
+
+msgid "Page error"
+msgstr "Ошибка страницы"
+
+msgid "VLC: live video stream"
+msgstr ""
+
+msgid "VLC: play recording"
+msgstr ""
+
+msgid "Play"
+msgstr ""
+
+msgid "Sound on"
+msgstr ""
+
+msgid "Sound off"
+msgstr ""
+
+msgid "Fullscreen"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "VLC media URL"
+msgstr "VLC медиа URL"
 
 msgid "Couldn't find user. Maybe you mistyped your request?"
 msgstr "Пользователь не найден. Проверьте правильность запроса."
@@ -818,204 +1080,65 @@ msgstr "Удалять поисковые таймеры"
 msgid "Edit recordings"
 msgstr "Изменять запись"
 
-msgid "Page error"
-msgstr "Ошибка страницы"
-
-msgid "No timer conflicts"
-msgstr "Нет конфликта таймеров"
-
-msgid "Please set login and password!"
-msgstr "Пожалуйста установите логин и пароль!"
-
-msgid "Setup saved."
-msgstr "Настройки сохранены."
-
-msgid "Setup"
-msgstr "Настройка"
-
-msgid "User management"
-msgstr "Настройки пользователя"
-
-msgid "Local net (no login required)"
-msgstr "Локальная сеть (авторизация не требуется)"
-
-msgid "Show live logo image"
-msgstr "Показать логотип LIVE"
-
-msgid "Use ajax technology"
-msgstr "Использовать ajax"
-
-msgid "Show dynamic VDR information box"
-msgstr "Показывать инфо панель VDR"
-
-msgid "Allow video streaming"
-msgstr "Разрешить видео стриминг"
-
-msgid "Streamdev server port"
-msgstr "Streamdev порт"
-
-msgid "Streamdev stream type"
-msgstr "Streamdev тип стриминга"
-
-msgid "Add links to IMDb"
-msgstr "Добавить ссылки на Kinopoisk.ru"
-
-msgid "Additional fixed times in 'What's on?'"
-msgstr "Поправка времени в разделе 'Сейчас'"
-
-msgid "Format is HH:MM. Separate multiple times with a semicolon"
-msgstr "Формат HH:MM. Разделяется несколько раз при помощи запятой"
-
-msgid "Channel groups for MultiSchedule"
-msgstr "Группа каналов для мультирасписания"
-
-msgid "Separate channels with a comma ',', separate groups with a semi-colon ';'"
-msgstr "Разделить каналы при помощи ',', разделите группы при помощи ';'"
-
-msgid "Duration of MultiSchedule in hours"
-msgstr "Продолжительность мультирасписания в часах"
-
-msgid "Show channels without EPG"
-msgstr "Показывать каналы без EPG"
-
-msgid "Start page"
-msgstr "Стартовая страница"
-
-msgid "Theme"
-msgstr "Тема"
-
-msgid "Search settings"
-msgstr "Настройки поиска"
-
-msgid "Extended search"
-msgstr "Расширенный поиск"
-
-msgid "no"
-msgstr "нет"
-
-msgid "Couldn't find recording. Maybe you mistyped your request?"
-msgstr "Запись не найдена. Проверьте правильность запроса."
-
-msgid "Please set a name for the recording!"
-msgstr "Пожалуйста присвойте имя записи!"
-
-msgid "Cannot copy, rename or move the recording."
-msgstr "Копирование невозможно, переименуйте или переместите запись. "
-
-msgid "Edit recording"
-msgstr "Изменить запись."
-
-msgid "Delete resume information"
-msgstr "Удалить информацию о воспроизведении"
-
-msgid "Delete marks information"
-msgstr "Удалить маркеры"
-
-msgid "Copy only"
-msgstr "Копировать"
-
-msgid "Short description"
-msgstr "Краткое описание"
-
-msgid "Auxiliary info"
-msgstr "Другое"
-
-msgid "VLC: live video stream"
-msgstr "VLC: live видео стриминг"
-
-msgid "VLC: play recording"
-msgstr "VLC: проиграть запись"
-
-msgid "Play"
-msgstr "Воспроизведение"
-
-msgid "Sound on"
-msgstr "Включить звук"
-
-msgid "Sound off"
-msgstr "Выключить звук"
-
-msgid "Fullscreen"
-msgstr "Полный экран"
-
-msgid "Close"
-msgstr "Закрыть"
-
-msgid "VLC media URL"
-msgstr "VLC медиа URL"
-
-msgid "Expression"
-msgstr "Запрос"
-
-msgid "Starts between"
-msgstr "Начинать между"
-
-msgid "Toggle search timer actions (in)active"
-msgstr "Включить поисковый таймер"
-
-msgid "Browse search timer results"
-msgstr "Просмотреть результаты поискового таймера"
-
-msgid "Delete this search timer?"
-msgstr "Удалить этот поисковый таймер?"
-
-msgid "Delete search timer"
-msgstr "Удалить поисковый таймер"
-
-msgid "Trigger search timer update"
-msgstr "Обновить"
-
-msgid "No schedules available for this channel"
-msgstr "Расписание для данного канала недоступно"
-
-msgid "ERROR:"
-msgstr "ОШИБКА:"
-
-msgid "Deleted recording:"
-msgstr "Удаленный записи:"
-
-msgid "List of recordings"
-msgstr "Список записей"
-
-msgid "No recordings found"
-msgstr "Записи не найдены"
-
-msgid "Delete selected"
-msgstr "Удалить выбранные"
-
-#, no-c-format
-msgid "%a,"
-msgstr ""
-
-msgid "Sort by name"
-msgstr "Название"
-
-msgid "Sort by date"
-msgstr "Дата"
-
-msgid "Filter"
-msgstr "Фильтр"
-
-msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
-msgstr "Искать только в названиях записей и субтитров в данной строке и отобразить совпадающие. Также вы можете использовать perl совместимые стандартные команды (PCRE)."
-
-msgid "Expand all folders"
-msgstr "Развернуть все папки"
-
-msgid "Collapse all folders"
-msgstr "Свернуть все папки"
-
-msgid "Delete this recording from hard disc!"
-msgstr "Удалить эту запись с жесткого диска!"
-
-msgid "play this recording."
-msgstr "Проиграть эту запись."
-
 msgid "Live Interactive VDR Environment"
 msgstr ""
 
 msgid "No EPG information available"
 msgstr "EPG информация недоступна"
+
+#~ msgid "ERROR:"
+#~ msgstr "ОШИБКА:"
+
+#~ msgid "play this recording."
+#~ msgstr "Проиграть эту запись."
+
+#~ msgid "mm/dd/yyyy"
+#~ msgstr "dd/mm/yyyy"
+
+#~ msgid "January"
+#~ msgstr "Январь"
+
+#~ msgid "February"
+#~ msgstr "Февраль"
+
+#~ msgid "March"
+#~ msgstr "Март"
+
+#~ msgid "April"
+#~ msgstr "Апрель"
+
+#~ msgid "May"
+#~ msgstr "Май"
+
+#~ msgid "June"
+#~ msgstr "Июнь"
+
+#~ msgid "July"
+#~ msgstr "Июль"
+
+#~ msgid "August"
+#~ msgstr "Август"
+
+#~ msgid "September"
+#~ msgstr "Сентябрь"
+
+#~ msgid "October"
+#~ msgstr "Октябрь"
+
+#~ msgid "November"
+#~ msgstr "Ноябрь"
+
+#~ msgid "December"
+#~ msgstr "Декабрь"
+
+#~ msgid "Add links to IMDb"
+#~ msgstr "Добавить ссылки на Kinopoisk.ru"
+
+#~ msgid "Sort by name"
+#~ msgstr "Название"
+
+#~ msgid "Sort by date"
+#~ msgstr "Дата"
 
 #~ msgid "ERROR"
 #~ msgstr "ОШИБКА"

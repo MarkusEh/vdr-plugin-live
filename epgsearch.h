@@ -8,6 +8,10 @@
 #include <string>
 #include <algorithm>
 
+#if TNTVERSION >= 30000
+        #include <cxxtools/log.h>  // must be loaded before any vdr include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
+#endif
+
 #include <vdr/channels.h>
 #include <vdr/epg.h>
 
@@ -58,14 +62,14 @@ public:
 	int StopTime() const { return m_stopTime; }
 	std::string StopTimeFormatted();
 	void SetStopTime(int stopTime) { m_stopTime = stopTime; }
-	eUseChannel UseChannel() const { return static_cast< eUseChannel >( m_useChannel ); }
+	eUseChannel UseChannel() const { return static_cast<eUseChannel>( m_useChannel ); }
 	void SetUseChannel(eUseChannel useChannel) { m_useChannel = useChannel; }
 	tChannelID ChannelMin() const { return m_channelMin; }
 	void SetChannelMin(tChannelID channelMin) { m_channelMin = channelMin; }
 	tChannelID ChannelMax() const { return m_channelMax; }
 	void SetChannelMax(tChannelID channelMax) { m_channelMax = channelMax; }
 	std::string ChannelText() const { return m_channels; }
-	void SetChannelText(std::string channels) { m_channels = channels; }
+	void SetChannelText(const std::string& channels) { m_channels = channels; }
 	int UseAsSearchTimer() const { return m_useAsSearchtimer; }
 	void SetUseAsSearchTimer(int useAsSearchtimer) { m_useAsSearchtimer = useAsSearchtimer; }
 	bool UseDuration() const { return m_useDuration; }
@@ -100,8 +104,8 @@ public:
 	void SetSwitchMinBefore(int switchMinBefore) { m_switchMinBefore = switchMinBefore; }
 	bool UseExtEPGInfo() const { return m_useExtEPGInfo; }
 	void SetUseExtEPGInfo(bool useExtEPGInfo) { m_useExtEPGInfo = useExtEPGInfo; }
-	std::vector< std::string > ExtEPGInfo() const { return m_ExtEPGInfo; }
-	void SetExtEPGInfo(std::vector< std::string > ExtEPGInfo) { m_ExtEPGInfo = ExtEPGInfo; }
+	std::vector<std::string> ExtEPGInfo() const { return m_ExtEPGInfo; }
+	void SetExtEPGInfo(const std::vector<std::string>& ExtEPGInfo) { m_ExtEPGInfo = ExtEPGInfo; }
 	bool AvoidRepeats() const { return m_avoidrepeats; }
 	void SetAvoidRepeats(bool avoidrepeats) { m_avoidrepeats = avoidrepeats; }
 	int AllowedRepeats() const { return m_allowedrepeats; }
@@ -175,7 +179,7 @@ private:
 	int m_marginstop;
 	bool m_useVPS;
 	bool m_useExtEPGInfo;
-	std::vector< std::string > m_ExtEPGInfo;
+	std::vector<std::string> m_ExtEPGInfo;
 	bool m_avoidrepeats;
 	int m_allowedrepeats;
 	bool m_compareTitle;
@@ -183,7 +187,7 @@ private:
 	bool m_compareSummary;
 	int m_repeatsWithinDays;
 	int m_blacklistmode;
-	std::vector< std::string > m_blacklistIDs;
+	std::vector<std::string> m_blacklistIDs;
 	int m_menuTemplate;
 	unsigned long m_catvaluesAvoidRepeat;
 	int m_delMode;
@@ -204,13 +208,13 @@ public:
 	ExtEPGInfo(std::string const& data );
 	int Id() const { return m_id; }
 	std::string Name() const { return m_menuname; }
-	std::vector< std::string > Values() const { return m_values; }
+	std::vector<std::string> Values() const { return m_values; }
 	bool Selected(unsigned int index, std::string const& values);
 private:
 	int m_id;
 	std::string m_name;
 	std::string m_menuname;
-	std::vector< std::string > m_values;
+	std::vector<std::string> m_values;
 	int m_searchmode;
 
 	void ParseValues( std::string const& data );
@@ -219,7 +223,7 @@ private:
 class ExtEPGInfos
 {
 public:
-	typedef std::list< ExtEPGInfo > ExtEPGInfoList;
+	typedef std::list<ExtEPGInfo> ExtEPGInfoList;
 	typedef ExtEPGInfoList::size_type size_type;
 	typedef ExtEPGInfoList::iterator iterator;
 	typedef ExtEPGInfoList::const_iterator const_iterator;
@@ -248,7 +252,7 @@ private:
 class ChannelGroups
 {
 public:
-	typedef std::list< ChannelGroup > ChannelGroupList;
+	typedef std::list<ChannelGroup> ChannelGroupList;
 	typedef ChannelGroupList::size_type size_type;
 	typedef ChannelGroupList::iterator iterator;
 	typedef ChannelGroupList::const_iterator const_iterator;
@@ -268,7 +272,7 @@ private:
 class SearchTimers
 {
 public:
-	typedef std::list< SearchTimer > TimerList;
+	typedef std::list<SearchTimer> TimerList;
 	typedef TimerList::size_type size_type;
 	typedef TimerList::iterator iterator;
 	typedef TimerList::const_iterator const_iterator;
@@ -308,7 +312,7 @@ private:
 class Blacklists
 {
 public:
-	typedef std::list< Blacklist > blacklist;
+	typedef std::list<Blacklist> blacklist;
 	typedef blacklist::size_type size_type;
 	typedef blacklist::iterator iterator;
 	typedef blacklist::const_iterator const_iterator;
@@ -341,7 +345,7 @@ public:
 	time_t TimerStartTime() const { return m_timerstart; }
 	time_t TimerStopTime() const { return m_timerstop; }
 	int TimerMode() const { return m_timerMode; }
-	bool operator<( SearchResult const& other ) const { return m_starttime <  other.m_starttime; }
+	bool operator<( SearchResult const& other ) const { return m_starttime < other.m_starttime; }
 	const cEvent* GetEvent(const cChannel* Channel);
 
 #if VDRVERSNUM >= 20301
@@ -372,7 +376,7 @@ class SearchResults
 {
 	static std::set<std::string> querySet;
 public:
-	typedef std::list< SearchResult > searchresults;
+	typedef std::list<SearchResult> searchresults;
 	typedef searchresults::size_type size_type;
 	typedef searchresults::iterator iterator;
 	typedef searchresults::const_iterator const_iterator;
@@ -398,7 +402,7 @@ private:
 class RecordingDirs
 {
 public:
-	typedef std::set< std::string > recordingdirs;
+	typedef std::set<std::string> recordingdirs;
 	typedef recordingdirs::size_type size_type;
 	typedef recordingdirs::iterator iterator;
 	typedef recordingdirs::const_iterator const_iterator;

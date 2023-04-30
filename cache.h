@@ -8,7 +8,7 @@
 #include <map>
 
 /*  Interface for TValue:
- *  size_t weight() 
+ *  size_t weight()
  *  bool is_newer( time_t )
  *  bool load()
  *
@@ -16,19 +16,19 @@
 
 namespace vgstools {
 
-template< typename TKey, typename TValue, typename KeyComp = std::less< TKey > >
+template<typename TKey, typename TValue, typename KeyComp = std::less<TKey>>
 class cache
 {
 public:
 	typedef TKey key_type;
 	typedef TValue mapped_type;
-	typedef std::tr1::shared_ptr< mapped_type > ptr_type;
+	typedef std::shared_ptr<mapped_type> ptr_type;
 
 private:
-	typedef std::pair< key_type, ptr_type > value_type;
+	typedef std::pair<key_type, ptr_type> value_type;
 
-	typedef std::list< value_type > ValueList;
-	typedef std::map< key_type, typename ValueList::iterator, KeyComp > KeyMap;
+	typedef std::list<value_type> ValueList;
+	typedef std::map<key_type, typename ValueList::iterator, KeyComp> KeyMap;
 
 public:
 	cache( size_t maxWeight )

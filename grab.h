@@ -7,8 +7,8 @@
 
 namespace vdrlive {
 
-typedef std::tr1::shared_ptr< char > GrabImagePtr;
-typedef std::pair< GrabImagePtr, int > GrabImageInfo;
+typedef std::shared_ptr<char> GrabImagePtr;
+typedef std::pair<GrabImagePtr, int> GrabImageInfo;
 
 class GrabImageTask;
 
@@ -29,7 +29,7 @@ private:
 
 	void PutImage( char* image, int size );
 
-	std::unique_ptr< GrabImageTask > m_task;
+	std::unique_ptr<GrabImageTask> m_task;
 	GrabImagePtr m_image;
 	int m_size;
 };

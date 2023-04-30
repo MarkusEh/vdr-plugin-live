@@ -18,7 +18,7 @@ class cLiveOsdItem: public cListObject {
 		int	isSelected() const {return selected;}
 		void Select(const bool doSelect) { selected= doSelect; };
 		void Update(const char* Text) { text = Text ? Text : ""; };
-		cLiveOsdItem(const char* Text):text(),selected(false) { text = Text ? Text : ""; };
+		explicit cLiveOsdItem(const char* Text):text(),selected(false) { text = Text ? Text : ""; };
 		~cLiveOsdItem() { }
 };
 
@@ -30,7 +30,7 @@ public:
 private:
 	OsdStatusMonitor();
 	OsdStatusMonitor( OsdStatusMonitor const& );
- 
+
 	std::string title;
 	std::string message;
 	std::string red;
@@ -42,12 +42,12 @@ private:
 	cList<cLiveOsdItem>	items;
 	unsigned short tabs[MaxTabs];
 	clock_t lastUpdate;
- 
+
 protected:
 //	static void append(char *&tail, char type, const char *src, int max);
 public:	
 
-	std::string const GetTitle() const {return title;} 
+	std::string const GetTitle() const {return title;}
 	std::string const GetMessage() const {return message;}
 	std::string const GetRed() const {return red;}
 	std::string const GetGreen() const {return green;}
@@ -76,7 +76,7 @@ public:
 
 	virtual ~OsdStatusMonitor();
 
-	std::string const EncodeHtml(const std::string& html);
+	std::string const EncodeHtml(const std::string& html, bool stopAtTab = false);
 };
 
 OsdStatusMonitor& LiveOsdStatusMonitor();

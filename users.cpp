@@ -13,20 +13,18 @@
 
 namespace vdrlive {
 
-using namespace std;
-
 std::string cUsers::logged_in_user;
 
 // -- cUser -----------------------------------------------------------------
-cUser::cUser(int ID, const std::string& Name, const std::string& Password) 
-  : m_ID(ID), m_Name(Name) 
+cUser::cUser(int ID, const std::string& Name, const std::string& Password)
+  : m_ID(ID), m_Name(Name)
 {
 	SetPassword(Password);
 }
 
-void cUser::SetPassword(const std::string Password) 
+void cUser::SetPassword(const std::string& Password)
 {
-	ostringstream passwordStr;
+	std::stringstream passwordStr;
 	passwordStr << Password.size() << "|" << MD5Hash(Password);
 	m_PasswordMD5 = passwordStr.str();
 }
@@ -34,14 +32,14 @@ void cUser::SetPassword(const std::string Password)
 int cUser::GetPasswordLength() const
 {
 	// format is <length>:<md5-hash of password>
-	vector< string > parts = StringSplit( m_PasswordMD5, '|' );
-	return (parts.size() > 0) ? lexical_cast< int >( parts[0] ) : 0;
+	std::vector<std::string> parts = StringSplit( m_PasswordMD5, '|' );
+	return (parts.size() > 0) ? lexical_cast<int>( parts[0] ) : 0;
 }
 
 std::string const cUser::GetMD5HashPassword() const
 {
 	// format is <length>:<md5-hash of password>
-	vector< string > parts = StringSplit( m_PasswordMD5, '|' );
+	std::vector<std::string> parts = StringSplit( m_PasswordMD5, '|' );
 	return (parts.size() > 1) ? parts[1] : "";
 }
 
@@ -67,23 +65,23 @@ bool cUser::Parse(const char *s)
         if (!pos_next)
           pos_next = pos + strlen(pos);
         valuelen = pos_next - pos + 1;
-        if (valuelen > MAXVALUELEN) 
+        if (valuelen > MAXVALUELEN)
 		{
-			esyslog("entry '%s' is too long. Will be truncated!", pos);  
+			esyslog("live: entry '%s' is too long. Will be truncated!", pos);
 	    	valuelen = MAXVALUELEN;
 		}
         strn0cpy(value, pos, valuelen);
         pos = pos_next;
 
 		switch (parameter) {
-		case 1: m_ID = lexical_cast< int >(value);
+		case 1: m_ID = lexical_cast<int>(value);
 			break;
 		case 2:  m_Name = value;
 			break;
 		case 3: m_PasswordMD5 = value;
 			break;
-		case 4: 
-			m_Userrights = lexical_cast< int >(value);
+		case 4:
+			m_Userrights = lexical_cast<int>(value);
 			break;
 		default:
 			break;
@@ -93,7 +91,7 @@ bool cUser::Parse(const char *s)
     }
     if (*pos) pos++;
   } //while
-  
+
   free(line);
   return (parameter >= 4) ? true : false;
 }
@@ -111,29 +109,29 @@ bool cUser::Save(FILE *f)
     return fprintf(f, "%s\n", ToText()) > 0;
 }
 
-bool cUser::HasRightTo(eUserRights right) 
-{ 
+bool cUser::HasRightTo(eUserRights right)
+{
 	return ((m_Userrights & (1 << (right-1))) != 0);
 }
 
-bool cUser::CurrentUserHasRightTo(eUserRights right) 
-{ 
+bool cUser::CurrentUserHasRightTo(eUserRights right)
+{
 	if (!LiveSetup().UseAuth()) return true;
 	cUser* user = cUsers::GetByUserName(cUsers::logged_in_user);
-	return (cUsers::logged_in_user == LiveSetup().GetAdminLogin() || (user && (user->m_Userrights & (1 << (right-1))) != 0)); 
+	return (cUsers::logged_in_user == LiveSetup().GetAdminLogin() || (user && (user->m_Userrights & (1 << (right-1))) != 0));
 }
 
 void cUser::SetRight(eUserRights right)
 {
-	isyslog("set right '%d' in '%d'", right, m_Userrights);
+	isyslog("live: set right '%d' in '%d'", right, m_Userrights);
 	m_Userrights |= (1 << (right-1));
-	isyslog("now rights are '%d'", m_Userrights);
+	isyslog("live: now rights are '%d'", m_Userrights);
 }
 
 bool cUsers::Delete(const std::string& Name)
 {
   cUser* user = Users.First();
-  while (user) 
+  while (user)
     {
       if (user->Name() == Name)
 	{
@@ -149,7 +147,7 @@ bool cUsers::Delete(const std::string& Name)
 cUser* cUsers::GetByUserId(const std::string& Id)
 {
 	cUser* user = Users.First();
-	while (user) 
+	while (user)
 	{
 		if (user->Id() == atoi(Id.c_str()))
 			return user;
@@ -161,7 +159,7 @@ cUser* cUsers::GetByUserId(const std::string& Id)
 cUser* cUsers::GetByUserName(const std::string& Name)
 {
 	cUser* user = Users.First();
-	while (user) 
+	while (user)
 	{
 		if (user->Name() == Name)
 			return user;
@@ -174,7 +172,7 @@ int cUsers::GetNewId()
 {
 	int iMaxId = -1;
 	cUser* user = Users.First();
-	while (user) 
+	while (user)
 	{
 		if (iMaxId < user->Id())
 			iMaxId = user->Id();

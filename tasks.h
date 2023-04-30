@@ -5,6 +5,10 @@
 #include <string>
 #include <vector>
 
+#if TNTVERSION >= 30000
+        #include <cxxtools/log.h>  // must be loaded before any vdr include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
+#endif
+
 #include <vdr/channels.h>
 #include <vdr/thread.h>
 
@@ -17,7 +21,7 @@ class TaskManager: public cMutex
 	friend TaskManager& LiveTaskManager();
 	friend class StickyTask;
 
-	typedef std::vector< Task* > TaskList;
+	typedef std::vector<Task*> TaskList;
 
 public:
 	bool Execute( Task& task );
@@ -77,7 +81,7 @@ public:
 private:
 	tChannelID m_channel;
 
-	virtual void Action();
+	virtual void Action() override;
 };
 
 class RecordingTask: public Task
@@ -97,7 +101,7 @@ public:
 		: RecordingTask(recording)
 	{}
 
-	virtual void Action();
+	virtual void Action() override;
 };
 
 class PauseRecordingTask: public RecordingTask
@@ -107,7 +111,7 @@ public:
 		: RecordingTask(recording)
 	{}
 
-	virtual void Action();
+	virtual void Action() override;
 };
 
 class StopRecordingTask: public RecordingTask
@@ -117,7 +121,7 @@ public:
 		: RecordingTask(recording)
 	{}
 
-	virtual void Action();
+	virtual void Action() override;
 };
 
 class ForwardRecordingTask: public RecordingTask
@@ -127,7 +131,7 @@ public:
 		: RecordingTask(recording)
 	{}
 
-	virtual void Action();
+	virtual void Action() override;
 };
 
 class BackwardRecordingTask: public RecordingTask
@@ -137,7 +141,7 @@ public:
 		: RecordingTask(recording)
 	{}
 
-	virtual void Action();
+	virtual void Action() override;
 };
 
 class RemoveRecordingTask: public RecordingTask
@@ -147,7 +151,7 @@ public:
 		: RecordingTask(recording)
 	{}
 
-	virtual void Action();
+	virtual void Action() override;
 
 	std::string const & RecName() const { return m_recName; }
 

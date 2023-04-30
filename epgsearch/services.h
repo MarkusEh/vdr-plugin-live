@@ -107,7 +107,7 @@ struct Epgsearch_searchresults_v1_0
       {
         public:
          const cEvent* event;
-         cServiceSearchResult(const cEvent* Event) : event(Event) {}
+         explicit cServiceSearchResult(const cEvent* Event) : event(Event) {}
       };
 
       cList<cServiceSearchResult>* pResultList;   // pointer to the results
@@ -160,7 +160,7 @@ class cServiceHandler
 struct Epgsearch_services_v1_0
 {
 // in/out
-   std::auto_ptr<cServiceHandler> handler;
+   std::unique_ptr<cServiceHandler> handler;
 };
 
 // Data structures for service "Epgsearch-services-v1.1"
@@ -176,7 +176,7 @@ class cServiceHandler_v1_1 : public cServiceHandler
 struct Epgsearch_services_v1_1
 {
 // in/out
-   std::auto_ptr<cServiceHandler_v1_1> handler;
+   std::unique_ptr<cServiceHandler_v1_1> handler;
 };
 
 // Data structures for service "Epgsearch-services-v1.2"
@@ -192,7 +192,7 @@ class cServiceHandler_v1_2 : public cServiceHandler_v1_1
 struct Epgsearch_services_v1_2
 {
 // in/out
-   std::auto_ptr<cServiceHandler_v1_2> handler;
+   std::unique_ptr<cServiceHandler_v1_2> handler;
 };
 
 #endif

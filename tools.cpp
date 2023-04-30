@@ -1,5 +1,9 @@
-
+#include <iostream>
+#include <fstream>
 #include "tools.h"
+#include "xxhash32.h"
+#include "setup.h"
+
 
 #include "md5.h"
 
@@ -9,92 +13,270 @@
 // STL headers need to be before VDR tools.h (included by <vdr/recording.h>)
 #include <iomanip>
 
+#include <vdr/plugin.h>
 #include <vdr/recording.h>
 #include <vdr/videodir.h>
 
-using namespace std;
 using namespace tnt;
 
-istream& operator>>( istream& is, tChannelID& ret )
+std::istream& operator>>( std::istream& is, tChannelID& ret )
 {
-  /* alternativ implementation
-  string line;
-  if ( !getline( is, line ) ) {
-    if ( !is.eof() )
-      is.setstate( ios::badbit );
-    else
-      is.clear();
-    return is;
-  }
-  if ( !line.empty() && !( ret = tChannelID::FromString( line.c_str() ) ).Valid() )
-    is.setstate( ios::badbit );
-  return is;
-  */
-
-  string line;
-  if (!getline( is, line ) ) {
+  std::string line;
+  if (!std::getline( is, line ) ) {
     if (0 == is.gcount()) {
-      is.clear(is.rdstate() & ~ios::failbit);
+      is.clear(is.rdstate() & ~std::ios::failbit);
       return is;
     }
     if (!is.eof()) {
-      is.setstate( ios::badbit );
+      is.setstate( std::ios::badbit );
       return is;
     }
   }
 
   if ( !line.empty() && !( ret = tChannelID::FromString( line.c_str() ) ).Valid() )
-    is.setstate( ios::badbit );
+    is.setstate( std::ios::badbit );
   return is;
 }
 
 namespace vdrlive {
 
-	string FormatDuration( char const* format, long minutes )
+  void AppendHtmlEscaped(std::string &target, const char* s){
+// append c-string s to target, html escape some chsracters
+    if(!s) return;
+    size_t i = 0;
+    const char* notAppended = s;
+// moving forward, notAppended is the position of the first character which is not yet appended, in i the number of not yet appended chars
+    for (const char* current = s; *current; current++) {
+      switch(*current) {
+        case '&':  target.append(notAppended, i); target.append("&amp;");  notAppended = notAppended + i + 1; i = 0;   break;
+        case '\"': target.append(notAppended, i); target.append("&quot;"); notAppended = notAppended + i + 1; i = 0;   break;
+        case '\'': target.append(notAppended, i); target.append("&apos;"); notAppended = notAppended + i + 1; i = 0;   break;
+        case '<':  target.append(notAppended, i); target.append("&lt;");   notAppended = notAppended + i + 1; i = 0;   break;
+        case '>':  target.append(notAppended, i); target.append("&gt;");   notAppended = notAppended + i + 1; i = 0;   break;
+        case 10:
+        case 13:  target.append(notAppended, i); target.append("&lt;br/&gt;");   notAppended = notAppended + i + 1; i = 0;   break;
+        default:   i++; break;
+        }
+      }
+    target.append(notAppended, i);
+  }
+
+template<class T>
+  void AppendHtmlEscapedAndCorrectNonUTF8(T &target, const char* s, const char *end, bool tooltip){
+// append c-string s to target, html escape some characters
+// replace invalid UTF8 characters with ?
+  if(!s) return;
+  if (!end) end = s + strlen(s);
+  int l = 0;                    // length of current utf8 codepoint
+  size_t i = 0;                 // number of not yet appended chars
+  const char* notAppended = s;  // position of the first character which is not yet appended
+  for (const char* current = s; *current && current < end; current+=l) {
+l = utf8CodepointIsValid(current);
+    switch(l) {
+      case 1:
+        switch(*current) {
+          case '&':  target.append(notAppended, i); target.append("&amp;");  notAppended = notAppended + i + 1; i = 0;   break;
+          case '\"': target.append(notAppended, i); target.append("&quot;"); notAppended = notAppended + i + 1; i = 0;   break;
+          case '\'': target.append(notAppended, i); target.append("&apos;"); notAppended = notAppended + i + 1; i = 0;   break;
+          case '<':  target.append(notAppended, i); target.append("&lt;");   notAppended = notAppended + i + 1; i = 0;   break;
+          case '>':  target.append(notAppended, i); target.append("&gt;");   notAppended = notAppended + i + 1; i = 0;   break;
+          case 10:
+          case 13:
+            if (LiveSetup().GetUseAjax() || !tooltip) {
+              target.append(notAppended, i); target.append("&lt;br/&gt;");   notAppended = notAppended + i + 1; i = 0;   break;
+            } else {
+              target.append(notAppended, i); target.append(*current==10?"\\n":"\\r");   notAppended = notAppended + i + 1; i = 0;   break;
+            }
+          default:   i++; break;
+          }
+        break;
+      case 2:
+      case 3:
+      case 4:
+        i += l;
+        break;
+      default:
+// invalid UTF8
+        target.append(notAppended, i);
+        target.append("?");
+        notAppended = notAppended + i + 1;
+        i = 0;
+        l = 1;
+      }
+    }
+    target.append(notAppended, i);
+  }
+template void AppendHtmlEscapedAndCorrectNonUTF8<std::string>(std::string &target, const char* s, const char *end, bool tooltip);
+template void AppendHtmlEscapedAndCorrectNonUTF8<cLargeString>(cLargeString &target, const char* s, const char *end, bool tooltip);
+
+  void AppendCorrectNonUTF8(std::string &target, const char* s){
+// append c-string s to target
+// replace invalid UTF8 characters with ?
+    if(!s) return;
+    int l = 0;                    // length of current utf8 codepoint
+    size_t i = 0;                 // number of not yet appended chars
+    const char* notAppended = s;  // position of the first character which is not yet appended
+    for (const char* current = s; *current; current+=l) {
+      l = utf8CodepointIsValid(current);
+      if( l > 0) { i += l; continue; }
+// invalid UTF8
+      target.append(notAppended, i);
+      target.append("?");
+      notAppended = notAppended + i + 1;
+      i = 0;
+      l = 1;
+      }
+    target.append(notAppended, i);
+  }
+
+  wint_t getNextUtfCodepoint(const char *&p) {
+// get next codepoint, and increment p
+// 0 is returned at end of string, and p will point to the end of the string (0)
+    if(!p || !*p) return 0;
+    int l = utf8CodepointIsValid(p);
+    if( l == 0 ) { p++; return '?'; }
+    return Utf8ToUtf32(p, l);
+  }
+
+	int utf8CodepointIsValid(const char *p){
+// In case of invalid UTF8, return 0
+// otherwise, return number of characters for this UTF codepoint
+	  static const uint8_t LEN[] = {2,2,2,2,3,3,4,0};
+
+	  int len = ((*p & 0xC0) == 0xC0) * LEN[(*p >> 3) & 7] + ((*p | 0x7F) == 0x7F);
+	  for (int k=1; k < len; k++) if ((p[k] & 0xC0) != 0x80) len = 0;
+	  return len;
+	}
+
+  wint_t Utf8ToUtf32(const char *&p, int len) {
+  // assumes, that uft8 validity checks have already been done. len must be provided. call utf8CodepointIsValid first
+  // change p to position of next codepoint (p = p + len)
+    static const uint8_t FF_MSK[] = {0xFF >>0, 0xFF >>0, 0xFF >>3, 0xFF >>4, 0xFF >>5, 0xFF >>0, 0xFF >>0, 0xFF >>0};
+    wint_t val = *p & FF_MSK[len];
+    const char *q = p + len;
+    for (p++; p < q; p++) val = (val << 6) | (*p & 0x3F);
+    return val;
+  }
+	void AppendUtfCodepoint(std::string &target, wint_t codepoint){
+	  if (codepoint <= 0x7F){
+	    target.push_back( (char) (codepoint) );
+	    return;
+	  }
+	  if (codepoint <= 0x07FF) {
+	    target.push_back( (char) (0xC0 | (codepoint >> 6 ) ) );
+	    target.push_back( (char) (0x80 | (codepoint & 0x3F)) );
+	    return;
+	  }
+	  if (codepoint <= 0xFFFF) {
+	    target.push_back( (char) (0xE0 | ( codepoint >> 12)) );
+	    target.push_back( (char) (0x80 | ((codepoint >>  6) & 0x3F)) );
+	    target.push_back( (char) (0x80 | ( codepoint & 0x3F)) );
+	    return;
+	  }
+	    target.push_back( (char) (0xF0 | ((codepoint >> 18) & 0x07)) );
+	    target.push_back( (char) (0x80 | ((codepoint >> 12) & 0x3F)) );
+	    target.push_back( (char) (0x80 | ((codepoint >>  6) & 0x3F)) );
+	    target.push_back( (char) (0x80 | ( codepoint & 0x3F)) );
+	    return;
+	}
+
+	void AppendDuration(cLargeString &target, char const* format, int duration)
 	{
-		char result[ 32 ];
-		if ( snprintf(result, sizeof(result), format, (int)(minutes/60), (int)(minutes%60)) < 0 ) {
-			ostringstream builder;
-			builder << "cannot represent duration " << minutes << " as requested";
-			throw runtime_error( builder.str() );
+		int minutes = (duration + 30) / 60;
+		int hours = minutes / 60;
+		minutes %= 60;
+		int numChars = snprintf(target.borrowEnd(32), 32, format, hours, minutes);
+		if (numChars < 0) {
+      target.finishBorrow(0);
+			std::stringstream builder;
+			builder << "cannot represent duration " << hours << ":" << minutes << " as requested";
+			throw std::runtime_error( builder.str() );
 		}
+    target.finishBorrow(numChars);
+	}
+	void AppendDuration(std::string &target, char const* format, int duration)
+	{
+		int minutes = (duration + 30) / 60;
+		int hours = minutes / 60;
+		minutes %= 60;
+		char result[ 32 ];
+		if ( snprintf(result, sizeof(result), format, hours, minutes) < 0 ) {
+			std::stringstream builder;
+			builder << "cannot represent duration " << hours << ":" << minutes << " as requested";
+			throw std::runtime_error( builder.str() );
+		}
+    target.append(result);
+	}
+	std::string FormatDuration( char const* format, int duration)
+	{
+		std::string result;
+		AppendDuration(result, format, duration);
 		return result;
 	}
 
-	string FormatDateTime( char const* format, time_t time )
+	size_t AppendDateTime(char *target, int target_size, char const* format, time_t time)
+// writes data to target, make sure that sizeof(target) >= target_size, before calling
 	{
+		if (!time) return 0;
 		struct tm tm_r;
 		if ( localtime_r( &time, &tm_r ) == 0 ) {
-			ostringstream builder;
+			std::stringstream builder;
 			builder << "cannot represent timestamp " << time << " as local time";
-			throw runtime_error( builder.str() );
+			throw std::runtime_error( builder.str() );
 		}
+    size_t len = strftime(target, target_size, format, &tm_r);
+		if ( len == 0 ) {
+			std::stringstream builder;
+			builder << "representation of timestamp " << time << " exceeds " << (target_size - 1) << " bytes";
+			throw std::runtime_error( builder.str() );
+		}
+		return len;
+	}
+	void AppendDateTime(cLargeString &target, char const* format, time_t time)
+	{
+		int len = AppendDateTime(target.borrowEnd(80), 80, format, time);
+    target.finishBorrow(len);
+	}
+	void AppendDateTime(std::string &target, char const* format, time_t time )
+	{
+		char result[80];
+		AppendDateTime(result, sizeof( result ), format, time);
+    target.append(result);
+	}
+	std::string FormatDateTime( char const* format, time_t time )
+	{
+    char result[80];
+    AppendDateTime(result, sizeof( result ), format, time);
+    return result;
+	}
 
-		char result[ 256 ];
-		if ( strftime( result, sizeof( result ), format, &tm_r ) == 0 ) {
-			ostringstream builder;
-			builder << "representation of timestamp " << time << " exceeds " << sizeof( result ) << " bytes";
-			throw runtime_error( builder.str() );
+	std::string FormatInt(char const* format, int size)
+	{
+		char result[16];
+		if ( snprintf(result, sizeof(result), format, size) < 0 ) {
+			std::stringstream builder;
+			builder << "cannot represent integer " << size << " as requested";
+			throw std::runtime_error( builder.str() );
 		}
 		return result;
 	}
 
-	string StringReplace( string const& text, string const& substring, string const& replacement )
+	std::string StringReplace( std::string const& text, std::string const& substring, std::string const& replacement )
 	{
-		string result = text;
-		string::size_type pos = 0;
-		while ( ( pos = result.find( substring, pos ) ) != string::npos ) {
+		std::string result = text;
+		size_t pos = 0;
+		while ( ( pos = result.find( substring, pos ) ) != std::string::npos ) {
 			result.replace( pos, substring.length(), replacement );
 			pos += replacement.length();
 		}
 		return result;
 	}
 
-	vector< string > StringSplit( string const& text, char delimiter )
+	std::vector<std::string> StringSplit( std::string const& text, char delimiter )
 	{
-		vector< string > result;
-		string::size_type last = 0, pos;
-		while ( ( pos = text.find( delimiter, last ) ) != string::npos ) {
+		std::vector<std::string> result;
+		size_t last = 0, pos;
+		while ( ( pos = text.find( delimiter, last ) ) != std::string::npos ) {
 			result.push_back( text.substr( last, pos - last ) );
 			last = pos + 1;
 		}
@@ -112,58 +294,95 @@ namespace vdrlive {
 		return 0;
 	}
 
-	string StringRepeat(int times, const string& input)
-	{
-		string result;
-		for (int i = 0; i < times; i++) {
-			result += input;
-		}
-		return result;
-	}
-
-	string StringWordTruncate(const string& input, size_t maxLen, bool& truncated)
+	std::string StringWordTruncate(const std::string& input, size_t maxLen, bool& truncated)
 	{
 		if (input.length() <= maxLen)
 		{
-                        truncated = false;
+      truncated = false;
 			return input;
 		}
 		truncated = true;
-		string result = input.substr(0, maxLen);
+		std::string result = input.substr(0, maxLen);
 		size_t pos = result.find_last_of(" \t,;:.\n?!'\"/\\()[]{}*+-");
 		return result.substr(0, pos);
 	}
 
-	string StringFormatBreak(string const& input)
+	std::string StringFormatBreak(std::string const& input)
 	{
 		return StringReplace( input, "\n", "<br/>" );
 	}
 
-	string StringEscapeAndBreak( string const& input )
+	std::string StringEscapeAndBreak(std::string const& input, const char* nl)
 	{
-		stringstream plainBuilder;
-		HtmlEscOstream builder( plainBuilder );
+		std::stringstream plainBuilder;
+		HtmlEscOstream builder(plainBuilder);
 		builder << input;
-		return StringReplace( plainBuilder.str(), "\n", "<br/>" );
+		return StringReplace(plainBuilder.str(), "\n", nl);
 	}
 
-	string StringTrim(string const& str)
+	std::string StringTrim(std::string const& str)
 	{
-		string res = str;
-		string::size_type pos = res.find_last_not_of(' ');
-		if(pos != string::npos) {
+		std::string res = str;
+		size_t pos = res.find_last_not_of(' ');
+		if(pos != std::string::npos) {
 			res.erase(pos + 1);
 			pos = res.find_first_not_of(' ');
-			if(pos != string::npos) res.erase(0, pos);
+			if(pos != std::string::npos) res.erase(0, pos);
 		}
 		else res.erase(res.begin(), res.end());
 		return res;
 	}
 
-	string ZeroPad(int number)
+
+const char *getText(const char *shortText, const char *description) {
+  if (shortText && *shortText) return shortText;
+  return description;
+}
+// Spielfilm Thailand / Deutschland / Großbritannien 2015 (Rak ti Khon Kaen)
+#define MAX_LEN_ST 70
+template<class T>
+  void AppendTextMaxLen(T &target, const char *text) {
+// append text to target, but
+//   stop at line break in text (10 || 13)
+//   only up to MAX_LEN_ST characters. If such truncation is required, truncate at ' '
+
+// escape html characters, and correct invalid utf8
+    if (!text || !*text ) return;
+    int len = strlen(text);
+    int lb = len;
+    for (const char *s = text; *s; s++) if (*s == 10 || *s == 13) { lb = s-text; break;}
+    if (len < MAX_LEN_ST && lb == len)
+      AppendHtmlEscapedAndCorrectNonUTF8(target, text);
+    else if (lb < MAX_LEN_ST) {
+      AppendHtmlEscapedAndCorrectNonUTF8(target, text, text + lb);
+      target.append("...");
+    } else {
+      const char *end = text + MAX_LEN_ST;
+      for (; *end && *end != ' ' && *end != 10 && *end != 13; end++);
+      AppendHtmlEscapedAndCorrectNonUTF8(target, text, end);
+      if (*end) target.append("...");
+    }
+  }
+template void AppendTextMaxLen<std::string>(std::string &target, const char *text);
+template void AppendTextMaxLen<cLargeString>(cLargeString &target, const char *text);
+
+template<class T>
+  void AppendTextTruncateOnWord(T &target, const char *text, int max_len, bool tooltip) {
+// append text to target, but only up to max_len characters. If such truncation is required, truncate at ' '
+// escape html characters, and correct invalid utf8
+    if (!text || !*text ) return;
+    const char *end = text + std::min((int)strlen(text), max_len);
+    for (; *end && *end != ' '; end++);
+    AppendHtmlEscapedAndCorrectNonUTF8(target, text, end, tooltip);
+    if (*end) target.append("...");
+  }
+template void AppendTextTruncateOnWord<std::string>(std::string &target, const char *text, int max_len, bool tooltip);
+template void AppendTextTruncateOnWord<cLargeString>(cLargeString &target, const char *text, int max_len, bool tooltip);
+
+	std::string ZeroPad(int number)
 	{
-		ostringstream os;
-		os << setw(2) << setfill('0') << number;
+		std::stringstream os;
+		os << std::setw(2) << std::setfill('0') << number;
 		return os.str();
 	}
 
@@ -172,20 +391,24 @@ namespace vdrlive {
 		char* szInput = strdup(str.c_str());
 		if (!szInput) return "";
 		char* szRes = MD5String(szInput);
-		string res = szRes;
+		std::string res = szRes;
 		free(szRes);
 		return res;
 
-/*	unsigned char md5[MD5_DIGEST_LENGTH];
-	MD5(reinterpret_cast<const unsigned char*>(str.c_str()), str.size(), md5);
+	}
 
-	ostringstream hashStr;
-	hashStr << hex;
-	for (size_t i = 0; i < MD5_DIGEST_LENGTH; i++)
-	hashStr << (0 + md5[i]);
-
-	return hashStr.str();
-*/
+	std::string xxHash32(std::string const& str)
+	{
+	  char res[9];
+	  uint32_t result = XXHash32::hash(str.c_str(), str.length(), 20);
+	  res[8] = 0;
+      for (int i = 7; i >= 0; i--) {
+	    int dig = result % 16;
+      if (dig < 10) res[i] = dig + '0';
+      else          res[i] = dig - 10 + 'A';
+      result /= 16;
+    }
+    return res;
 	}
 
 #define HOURS(x) ((x)/100)
@@ -193,24 +416,24 @@ namespace vdrlive {
 
 	std::string ExpandTimeString(std::string timestring)
 	{
-		string::size_type colonpos = timestring.find(":");
-		if (colonpos == string::npos)
+		size_t colonpos = timestring.find(":");
+		if (colonpos == std::string::npos)
 		{
 			if (timestring.size() == 1)
 				timestring = "0" + timestring + ":00";
 			else if (timestring.size() == 2)
 				timestring = timestring + ":00";
 			else if (timestring.size() == 3)
-				timestring = "0" + string(timestring.begin(), timestring.begin() + 1) + ":" + string(timestring.begin() + 1, timestring.end());
+				timestring = "0" + std::string(timestring.begin(), timestring.begin() + 1) + ":" + std::string(timestring.begin() + 1, timestring.end());
 			else
-				timestring = string(timestring.begin(), timestring.begin() + 2) + ":" + string(timestring.begin() + 2, timestring.end());
+				timestring = std::string(timestring.begin(), timestring.begin() + 2) + ":" + std::string(timestring.begin() + 2, timestring.end());
 		}
 		else
 		{
-			string hours = string(timestring.begin(), timestring.begin() + colonpos);
-			string mins = string(timestring.begin() + colonpos + 1, timestring.end());
-			hours = string(std::max(0,(int)(2 - hours.size())), '0') + hours;
-			mins = string(std::max(0,(int)(2 - mins.size())), '0') + mins;
+			std::string hours = std::string(timestring.begin(), timestring.begin() + colonpos);
+			std::string mins = std::string(timestring.begin() + colonpos + 1, timestring.end());
+			hours = std::string(std::max(0,(int)(2 - hours.size())), '0') + hours;
+			mins = std::string(std::max(0,(int)(2 - mins.size())), '0') + mins;
 			timestring = hours + ":" + mins;
 		}
 		return timestring;
@@ -219,7 +442,7 @@ namespace vdrlive {
 	time_t GetTimeT(std::string timestring) // timestring in HH:MM
 	{
 		timestring = StringReplace(timestring, ":", "");
-		int iTime = lexical_cast< int >( timestring );
+		int iTime = lexical_cast<int>( timestring );
 		struct tm tm_r;
 		time_t t = time(NULL);
 		tm* tmnow = localtime_r(&t, &tm_r);
@@ -230,51 +453,38 @@ namespace vdrlive {
 
 	struct urlencoder
 	{
-			ostream& ostr_;
+    std::ostream& ostr_;
+    explicit urlencoder( std::ostream& ostr ): ostr_( ostr ) {}
 
-			urlencoder( ostream& ostr ): ostr_( ostr ) {}
+    void operator()( char ch )
+    {
+      static const char allowedChars[] = {
+        //	  0 ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  A ,  B ,  C ,  D ,  E ,  F ,
+        '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_',	//00
+        '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_',	//10
+        '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', 0x2D,0x2E,0x2F,//20
+        0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,'_', '_', '_', '_', '_', '_',	//30
+        '_', 0x41,0x42,0x43,0x44,0x45,0x46,0x47,0x48,0x49,0x4A,0x4B,0x4C,0x4D,0x4E,0x4F,//40
+        0x50,0x51,0x52,0x53,0x54,0x55,0x56,0x57,0x58,0x59,0x5A,'_', '_', '_', '_', '_',	//50
+        '_', 0x61,0x62,0x63,0x64,0x65,0x66,0x67,0x68,0x69,0x6A,0x6B,0x6C,0x6D,0x6E,0x6F,//60
+        0x70,0x71,0x72,0x73,0x74,0x75,0x76,0x77,0x78,0x79,0x7A,'_', '_', '_', '_', '_' 	//70
+        // everything above 127 (for signed char, below zero) is replaced with '_'
+      };
 
-			void operator()( char ch )
-			{
-				static const char allowedChars[] = {
-					//	  0 ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 ,  A ,  B ,  C ,  D ,  E ,  F ,
-					'_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_',	//00
-					'_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_',	//10
-					'_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', 0x2D,0x2E,0x2F,	//20
-					0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,'_', '_', '_', '_', '_', '_',	//30
-					'_', 0x41,0x42,0x43,0x44,0x45,0x46,0x47,0x48,0x49,0x4A,0x4B,0x4C,0x4D,0x4E,0x4F,	//40
-					0x50,0x51,0x52,0x53,0x54,0x55,0x56,0x57,0x58,0x59,0x5A,'_', '_', '_', '_', '_',	//50
-					'_', 0x61,0x62,0x63,0x64,0x65,0x66,0x67,0x68,0x69,0x6A,0x6B,0x6C,0x6D,0x6E,0x6F,	//60
-					0x70,0x71,0x72,0x73,0x74,0x75,0x76,0x77,0x78,0x79,0x7A,'_', '_', '_', '_', '_' 	//70
-					// everything above 127 (for signed char, below zero) is replaced with '_'
-				};
-
-				if ( ch == ' ' )
-					ostr_ << '+';
-				else if ( static_cast< signed char >( ch ) < 0 || allowedChars[ size_t( ch ) ] == '_' )
-					ostr_ << '%' << setw( 2 ) << setfill( '0' ) << hex << int( static_cast< unsigned char >( ch ) );
-				else
-					ostr_ << ch;
-			}
+      if ( ch == ' ' )
+        ostr_ << '+';
+      else if ( static_cast<signed char>(ch) < 0 || allowedChars[ size_t( ch ) ] == '_' )
+        ostr_ << '%' << std::setw( 2 ) << std::setfill( '0' ) << std::hex << int( static_cast<unsigned char>(ch) );
+      else
+        ostr_ << ch;
+    }
 	};
 
-	string StringUrlEncode( string const& input )
+	std::string StringUrlEncode( std::string const& input )
 	{
-		ostringstream ostr;
+		std::stringstream ostr;
 		for_each( input.begin(), input.end(), urlencoder( ostr ) );
 		return ostr.str();
-	}
-
-// returns the content of <element>...</element>
-	string GetXMLValue( std::string const& xml, std::string const& element )
-	{
-		string start = "<" + element + ">";
-		string end = "</" + element + ">";
-		string::size_type startPos = xml.find(start);
-		if (startPos == string::npos) return "";
-		string::size_type endPos = xml.find(end);
-		if (endPos == string::npos) return "";
-		return xml.substr(startPos + start.size(), endPos - startPos - start.size());
 	}
 
 // return the time value as time_t from <datestring> formatted with <format>
@@ -282,9 +492,9 @@ namespace vdrlive {
 	{
 		if (datestring.empty())
 			return 0;
-		int year = lexical_cast< int >(datestring.substr(format.find("yyyy"), 4));
-		int month = lexical_cast< int >(datestring.substr(format.find("mm"), 2));
-		int day = lexical_cast< int >(datestring.substr(format.find("dd"), 2));
+		int year = lexical_cast<int>(datestring.substr(format.find("yyyy"), 4));
+		int month = lexical_cast<int>(datestring.substr(format.find("mm"), 2));
+		int day = lexical_cast<int>(datestring.substr(format.find("dd"), 2));
 		struct tm tm_r;
 		tm_r.tm_year = year - 1900;
 		tm_r.tm_mon = month -1;
@@ -304,6 +514,34 @@ namespace vdrlive {
 		cformat = StringReplace(cformat, "yyyy", "%Y");
 		return FormatDateTime(cformat.c_str(), date);
 	}
+  int timeStringToInt(const char *t) {
+  // input: t in xx:xx format
+  // output: time in epgsearch format (int, 100*h + min)
+    int h = 0, min = 0;
+    sscanf(t, "%2d:%2d", &h, &min);
+    return 100*h + min;
+  }
+  int timeStringToInt(const std::string &t) {
+    return timeStringToInt(t.c_str() );
+  }
+  void intToTimeString(char *t, int tm) {
+  // sizeof (t) must be >= 6 "hh:mm", + ending 0
+  // see int timeStringToInt(const char *t) for formats
+    unsigned int h = tm / 100;
+    unsigned int min = tm % 100;
+    snprintf(t, 6, "%.2u:%.2u", h%100u, min);
+  }
+
+  std::string intToTimeString(int tm) {
+  // see int timeStringToInt(const char *t) for formats
+    char t[6];
+    intToTimeString(t, tm);
+    return t;
+  }
+  std::string charToString(const char *s) {
+    if (!s) return "";
+    return s;
+  }
 
 	std::string EncodeDomId(std::string const & toEncode, char const * from, char const * to)
 	{
@@ -351,12 +589,11 @@ namespace vdrlive {
 		if (source != target) {
 			// validate target directory
 			if (target.find(source) != std::string::npos) {
-				esyslog("[LIVE]: cannot move under sub-directory\n");
+				esyslog("live: cannot move under sub-directory\n");
 				return false;
 			}
-			RemoveFileOrDir(target.c_str());
 			if (!MakeDirs(target.c_str(), true)) {
-				esyslog("[LIVE]: cannot create directory %s", target.c_str());
+				esyslog("live: cannot create directory %s", target.c_str());
 				return false;
 			}
 
@@ -369,7 +606,7 @@ namespace vdrlive {
 #else
 				if (!RenameVideoFile(source.c_str(), target.c_str())) {
 #endif
-					esyslog("[LIVE]: rename failed from %s to %s", source.c_str(), target.c_str());
+					esyslog("live: rename failed from %s to %s", source.c_str(), target.c_str());
 					return false;
 				}
 			}
@@ -387,7 +624,7 @@ namespace vdrlive {
 					const int len = 1024 * 1024;
 					char *buffer = MALLOC(char, len);
 					if (!buffer) {
-						esyslog("[LIVE]: cannot allocate renaming buffer");
+						esyslog("live: cannot allocate renaming buffer");
 						return false;
 					}
 
@@ -395,8 +632,8 @@ namespace vdrlive {
 					while ((e = d.Next()) != NULL) {
 						// skip generic entries
 						if (strcmp(e->d_name, ".") && strcmp(e->d_name, "..") && strcmp(e->d_name, "lost+found")) {
-							string sourceFile = source + e->d_name;
-							string targetFile = target + e->d_name;
+							std::string sourceFile = source + e->d_name;
+							std::string targetFile = target + e->d_name;
 
 							// copy only regular files
 							if (!stat(sourceFile.c_str(), &st1) && S_ISREG(st1.st_mode)) {
@@ -406,13 +643,13 @@ namespace vdrlive {
 
 								// validate files
 								if (!inputFile || !outputFile) {
-									esyslog("[LIVE]: cannot open file %s or %s", sourceFile.c_str(), targetFile.c_str());
+									esyslog("live: cannot open file %s or %s", sourceFile.c_str(), targetFile.c_str());
 									success = false;
 									break;
 								}
 
 								// do actual copy
-								dsyslog("[LIVE]: copying %s to %s", sourceFile.c_str(), targetFile.c_str());
+								dsyslog("live: copying %s to %s", sourceFile.c_str(), targetFile.c_str());
 								do {
 									r = inputFile->Read(buffer, len);
 									if (r > 0)
@@ -442,20 +679,20 @@ namespace vdrlive {
 							target = target.substr(0, found);
 						}
 						if (!RemoveFileOrDir(target.c_str(), true)) {
-							esyslog("[LIVE]: cannot remove target %s", target.c_str());
+							esyslog("live: cannot remove target %s", target.c_str());
 						}
 						found = target.find_last_of(delim);
 						if (found != std::string::npos) {
 							target = target.substr(0, found);
 						}
 						if (!RemoveEmptyDirectories(target.c_str(), true)) {
-							esyslog("[LIVE]: cannot remove target directory %s", target.c_str());
+							esyslog("live: cannot remove target directory %s", target.c_str());
 						}
-						esyslog("[LIVE]: copying failed");
+						esyslog("live: copying failed");
 						return false;
 					}
 					else if (!copy && !RemoveFileOrDir(source.c_str(), true)) { // delete source files
-						esyslog("[LIVE]: cannot remove source directory %s", source.c_str());
+						esyslog("live: cannot remove source directory %s", source.c_str());
 						return false;
 					}
 
@@ -480,7 +717,7 @@ namespace vdrlive {
 					}
 				}
 				else {
-					esyslog("[LIVE]: %s requires %dMB - only %dMB available", copy ? "moving" : "copying", required, available);
+					esyslog("live: %s requires %dMB - only %dMB available", copy ? "moving" : "copying", required, available);
 					// delete all created empty target directories
 					size_t found = target.find_last_of(delim);
 					if (found != std::string::npos) {
@@ -504,6 +741,61 @@ namespace vdrlive {
 		}
 
 		return true;
+	}
+
+  template<class T> int toCharsU(char *buffer, T i0) {
+// notes:
+//    i0 must be unsigned !!!!
+//    return number of characters written to buffer  (don't count 0 terminator)
+//    if buffer==NULL: don't write anything, just return the number
+//    sizeof(buffer) must be >= this return value + 1 !! This is not checked ....
+    int numChars;
+    int i = i0;
+    if (i < 10) numChars = 1;
+    else for (numChars = 0; i; i /= 10) numChars++;
+    if (!buffer) return numChars;
+    char *bufferEnd = buffer + numChars;
+    i = i0;
+    *bufferEnd = 0;
+    if (i < 10) *(--bufferEnd) = '0' + i;
+    else for (; i; i /= 10) *(--bufferEnd) = '0' + (i%10);
+    return numChars;
+  }
+  template int toCharsU<unsigned int>(char *buffer, unsigned int i0);
+  template<class T> int toCharsI(char *buffer, T i) {
+    if (i >= 0) return toCharsU(buffer, i);
+    if (buffer) *(buffer++) = '-';
+    return toCharsU(buffer, -1*i) + 1;
+  }
+  template int toCharsI<int>(char *buffer, int i);
+
+  std::string ScraperImagePath2Live(const std::string &path){
+    int tvscraperImageDirLength = LiveSetup().GetTvscraperImageDir().length();
+    if (tvscraperImageDirLength == 0) return "";
+    if (path.compare(0, tvscraperImageDirLength, LiveSetup().GetTvscraperImageDir()) != 0) {
+      esyslog("live: ERROR, image path %s does not start with %s", path.c_str(), LiveSetup().GetTvscraperImageDir().c_str());
+      return "";
+    }
+    return path.substr(tvscraperImageDirLength);
+  }
+
+  bool ScraperCallService(const char *Id, void *Data) {
+    cPlugin *pScraper = LiveSetup().GetPluginScraper();
+    if (!pScraper) return false;
+    return pScraper->Service(Id, Data);
+  }
+// XML tools ********************************
+
+// returns the content of <element>...</element>
+	std::string GetXMLValue( std::string const& xml, std::string const& element )
+	{
+		std::string start = "<" + element + ">";
+		std::string end = "</" + element + ">";
+		size_t startPos = xml.find(start);
+		if (startPos == std::string::npos) return "";
+		size_t endPos = xml.find(end);
+		if (endPos == std::string::npos) return "";
+		return xml.substr(startPos + start.size(), endPos - startPos - start.size());
 	}
 
 } // namespace vdrlive

@@ -4,13 +4,12 @@
 #include <setup.h>
 
 using namespace vdrlive;
-using namespace std;
 
 </%pre>
 <%args>
 	// input parameters
-	string userid;
-	string action;
+	std::string userid;
+	std::string action;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -32,11 +31,12 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <& pageelems.doc_type &>
 <html>
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>VDR-Live - <$ pageTitle $></title>
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
 	</head>
-	<body>
+	<body onload="adjustHeader()" onresize="adjustHeader()">
 		<& pageelems.logo &>
 		<& menu active=("users") component=("users.user_actions")>
 		<div class="inhalt">

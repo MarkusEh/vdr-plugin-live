@@ -17,7 +17,7 @@ class FileObject
 {
 public:
 	FileObject( std::string const& path )
-		: m_ctime( std::numeric_limits< std::time_t >::max()  )
+		: m_ctime( std::numeric_limits<std::time_t>::max()  )
 		, m_path( path ) {}
 
 	std::size_t size() const { return m_data.size(); }
@@ -32,12 +32,12 @@ private:
 
 	mutable std::time_t m_ctime;
 	std::string m_path;
-	std::vector< char > m_data;
+	std::vector<char> m_data;
 };
 
-class FileCache: public vgstools::cache< std::string, FileObject >
+class FileCache: public vgstools::cache<std::string, FileObject>
 {
-	typedef vgstools::cache< std::string, FileObject > base_type;
+	typedef vgstools::cache<std::string, FileObject> base_type;
 
 public:
 	FileCache( size_t maxWeight ): base_type( maxWeight ) {}
@@ -57,7 +57,7 @@ private:
 	cMutex m_mutex;
 };
 
-//typedef vgstools::cache< std::string, FileObject > FileCache;
+//typedef vgstools::cache<std::string, FileObject> FileCache;
 FileCache& LiveFileCache();
 
 } // namespace vdrlive

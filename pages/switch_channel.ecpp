@@ -5,17 +5,18 @@
 #include <tools.h>
 #include <users.h>
 
-using namespace std;
 using namespace vdrlive;
 
 </%pre>
 <%args>
-	tChannelID param;
-	string async;
+	std::string param;
+	std::string async;
 </%args>
 <%cpp>
+	tChannelID paramID;
+        paramID = paramID.FromString(param.c_str());
 	bool ajaxReq = !async.empty() && (lexical_cast<int>(async) != 0);
-	string referrer;
+	std::string referrer;
 
 	if (!cUser::CurrentUserHasRightTo(UR_SWITCHCHNL))
 		throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
@@ -27,7 +28,7 @@ using namespace vdrlive;
 		referrer = request.getHeader("Referer:");
 	}
 
-	SwitchChannelTask task( param );
+	SwitchChannelTask task( paramID );
 	LiveTaskManager().Execute( task );
 
 	if (!ajaxReq) {
@@ -36,7 +37,7 @@ using namespace vdrlive;
 		}
 </%cpp>
 Normale Seite:<br/>
-channel: <$ param $><br/>
+channel: <$ paramID $><br/>
 result: <$ (task.Result()) $><br/>
 error: <$ (task.Error()) $><br />
 Seitenende!
@@ -44,7 +45,7 @@ Seitenende!
 	}
 	else {
 </%cpp>
-<& xmlresponse.ajax name=("switch_channel") pname=("channel") value=(param) result=(task.Result()) error=(task.Error()) &>
+<& xmlresponse.ajax name=("switch_channel") pname=("channel") value=(paramID) result=(task.Result()) error=(task.Error()) &>
 <%cpp>
 	}
 </%cpp>

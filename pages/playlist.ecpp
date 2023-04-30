@@ -1,0 +1,70 @@
+<%pre>
+
+#include <setup.h>
+#include <tools.h>
+#include <users.h>
+
+using namespace vdrlive;
+
+</%pre>
+<%args>
+	tChannelID channel;
+	std::string channel_str;
+	std::string recid;
+</%args>
+<%session scope="global">
+	bool logged_in(false);
+</%session>
+<%request scope="page">
+	cChannel* Channel;
+</%request>
+<%include>page_init.eh</%include>
+<%cpp>
+#if TNTVERSION >= 30000
+	channel = channel.FromString(channel_str.c_str());  // Tntnet30: get struct channel from parameter string
+#endif
+
+	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+	if (!cUser::CurrentUserHasRightTo(UR_STARTREPLAY))
+		throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
+
+    // the availabilty of Channel signals that we will do live tv streaming.
+	Channel = 0;
+	if (recid.empty()) {
+#if VDRVERSNUM >= 20301
+		LOCK_CHANNELS_READ;
+		Channel = (cChannel *)Channels->GetByChannelID(channel);
+#else
+		ReadLock channelsLock(Channels);
+
+		if (!channelsLock) {
+			throw HtmlError(tr("Couldn't aquire access to channels, please try again later."));
+		}
+		Channel = Channels.GetByChannelID(channel);
+#endif
+		if (Channel == 0) {
+			throw HtmlError( tr("Couldn't find channel or no channels available. Maybe you mistyped your request?") );
+		}
+	}
+	std::string server = request.getHost();
+	server = server.substr(0, server.rfind(':'));
+	std::string videourl;
+	reply.setContentType("audio/x-mpegurl");
+	if (Channel != 0) {
+		std::string channelname = Channel->Name();
+		int streamdevPort = LiveSetup().GetStreamdevPort();
+		videourl = std::string("#EXTM3U\n#EXTINF:-1,") + channelname + "\nhttp://" + server + ":" + lexical_cast<std::string,int>(streamdevPort) + "/" + LiveSetup().GetStreamdevType() + "/" + *Channel->GetChannelID().ToString();
+	}
+	else {
+		videourl = std::string("#EXTM3U\n#EXTINF:-1\nhttp://") + server + ":" + lexical_cast<std::string,int>(LiveSetup().GetServerPort()) + "/recstream.html?recid=" + recid;
+	}
+</%cpp>
+<& playlist.m3u videourl=(videourl) &>
+<%include>page_exit.eh</%include>
+
+<%def m3u>
+<%args>
+	std::string videourl;
+</%args>
+<$ videourl $>
+</%def>

@@ -3,12 +3,11 @@
 #include <setup.h>
 #include <tasks.h>
 
-using namespace std;
 using namespace vdrlive;
 
 </%pre>
 <%args>
-	string param;
+	std::string param;
 </%args>
 <%session scope="global">
 	bool logged_in(false);

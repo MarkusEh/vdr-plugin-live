@@ -7,17 +7,15 @@
 
 #include <iomanip>
 
-using namespace std;
 using namespace vdrlive;
-
 </%pre>
 <%args>
 	// input parameters
-	string searchtimerid;
-	string test;
+	std::string searchtimerid;
+	std::string test;
 
 	// form parameters
-	string search = "";
+	std::string search = "";
 	int mode = 0;
 	bool matchcase = false;
 	int tolerance = 1;
@@ -25,17 +23,21 @@ using namespace vdrlive;
 	bool usesubtitle = false;
 	bool usedescr = false;
 	int usechannel = SearchTimer::NoChannel;
-	tChannelID channelfrom;
-	tChannelID channelto;
-	string changrpsel = "";
+
+	tChannelID  channelfrom;                // used with Tntnet20
+	std::string channelfrom_string = "";    // used with Tntnet30
+	tChannelID  channelto;                  // used with Tntnet20
+	std::string channelto_string = "";      // used with Tntnet30
+
+	std::string changrpsel = "";
 	bool usetime = false;
-	string start_h = "00";
-	string start_m = "00";
-	string stop_h = "00";
-	string stop_m = "00";
+	std::string start_s = "00:00";
+	std::string stop_s = "00:00";
 	bool useduration = false;
-	int durationmin = 0;
-	int durationmax = 90;
+	int durationmin_h = 0;
+	int durationmin_m = 0;
+	int durationmax_h = 1;
+	int durationmax_m = 30;
 	bool useweekday = false;
 	bool wday_mon = false;
 	bool wday_tue = false;
@@ -48,15 +50,15 @@ using namespace vdrlive;
 	int useassearchtimer = 0;
 	int searchtimeraction = 0;
 	bool seriesrecording = false;
-	string directory = "";
+	std::string directory = "";
 	int delrecafterdays = 0;
 	int keeprecs = 0;
 	int pauseonrecs = 0;
 	int blacklistmode = 0;
-	string blacklistids[];
+	std::string blacklistids[];
 	int switchminbefore = 0;
 	bool useextepginfo = false;
-	string extepgvalues[];
+	std::string extepgvalues[];
 	bool avoidrepeats = false;
 	int allowedrepeats = 0;
 	int repeatswithindays = 0;
@@ -72,9 +74,9 @@ using namespace vdrlive;
 	bool delmode = false;
 	int delaftercountrecs = 0;
 	int delafterdaysoffirstrec = 0;
-	string blacklistids_internal;
-	string useassearchtimerfrom;
-	string useassearchtimerto;
+	std::string blacklistids_internal;
+	std::string useassearchtimerfrom;
+	std::string useassearchtimerto;
 	bool ignoreMissingEPGCats = false;
 </%args>
 <%session scope="global">
@@ -103,6 +105,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	bool testmode = !test.empty();
 	editsearchtimer = NULL;
 
+#if TNTVERSION >= 30000
+        channelfrom = channelfrom.FromString(channelfrom_string.c_str());  // Tntnet30: get struct channel from parameter string
+        channelto   = channelto.FromString(channelto_string.c_str());      // Tntnet30: get struct channel from parameter string
+#endif
+
 	if ( request.getMethod() == "POST") {
 		SearchTimer searchtimer;
 		if ( !searchtimerid.empty() && !testmode) {
@@ -122,11 +129,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		searchtimer.SetUseExtEPGInfo(useextepginfo);
 		if (useextepginfo)
 		{
-			vector< string > infos;
+			std::vector<std::string> infos;
 			unsigned int i=0;
 			for (ExtEPGInfos::iterator extinfo = extEPGInfos.begin(); extinfo != extEPGInfos.end(); ++extinfo, i++)
 			{
-			ostringstream os;
+			std::stringstream os;
 			os << extinfo->Id() << "#" << (i<extepgvalues.size()?extepgvalues[i]:"");
 			infos.push_back(os.str());
 			}
@@ -145,14 +152,14 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		searchtimer.SetUseTime(usetime);
 		if (usetime)
 		{
-			searchtimer.SetStartTime(StringToInt(start_h) * 100 + StringToInt(start_m));
-			searchtimer.SetStopTime(StringToInt(stop_h) * 100 + StringToInt(stop_m));
+			searchtimer.SetStartTime(timeStringToInt(start_s.data() ));
+			searchtimer.SetStopTime(timeStringToInt(stop_s.data() ));
 		}
 		searchtimer.SetUseDuration(useduration);
 		if (useduration)
 		{
-			searchtimer.SetMinDuration(durationmin);
-			searchtimer.SetMaxDuration(durationmax);
+			searchtimer.SetMinDuration(durationmin_h * 100 + durationmin_m);
+			searchtimer.SetMaxDuration(durationmax_h * 100 + durationmax_m);
 		}
 		searchtimer.SetUseDayOfWeek(useweekday);
 		if (useweekday)
@@ -171,10 +178,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		searchtimer.SetUseAsSearchTimer(useassearchtimer);
 		if (useassearchtimer == 2)
 		{
-			// TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
-			searchtimer.SetUseAsSearchTimerFrom(useassearchtimerfrom, tr("mm/dd/yyyy"));
-			// TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
-			searchtimer.SetUseAsSearchTimerTil(useassearchtimerto, tr("mm/dd/yyyy"));
+			searchtimer.SetUseAsSearchTimerFrom(useassearchtimerfrom, "yyyy-mm-dd");
+			searchtimer.SetUseAsSearchTimerTil(useassearchtimerto, "yyyy-mm-dd");
 		}
 		searchtimer.SetSearchTimerAction(searchtimeraction);
 		searchtimer.SetUseSeriesRecording(seriesrecording);
@@ -197,8 +202,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			searchtimer.SetCompareSummary(comparesummary);
 		}
 		unsigned long catsselected = 0;
-		for (unsigned int i=0; i< avoidrepeatscatselected.size(); i++)
-			catsselected |= (1<< (avoidrepeatscatselected[i]-1));
+		for (unsigned int i=0; i < avoidrepeatscatselected.size(); i++)
+			catsselected |= (1 << (avoidrepeatscatselected[i]-1));
 		searchtimer.SetCompareCategories(catsselected);
 		searchtimer.SetPriority(priority);
 		searchtimer.SetLifetime(lifetime);
@@ -219,7 +224,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		else
 		{
 			searchtimer.SetId(0);
-			string md5 = SearchResults::AddQuery(searchtimer.ToText());
+			std::string md5 = SearchResults::AddQuery(searchtimer.ToText());
 			return reply.redirect("searchresults.html?searchtimerquery=" + md5);
 		}
 	}
@@ -245,23 +250,15 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		if (usechannel == SearchTimer::Group)
 			changrpsel = searchtimer->ChannelText();
 		usetime = searchtimer->UseTime();
-		ostringstream os;
-		os << setw(2) << setfill('0') << ( searchtimer->StartTime() / 100 ) % 100;
-			start_h = os.str();
-		os.str("");
-		os << setw(2) << setfill('0') << searchtimer->StartTime() % 100;
-			start_m = os.str();
-		os.str("");
-		os << setw(2) << setfill('0') << ( searchtimer->StopTime() / 100 ) % 100;
-			stop_h = os.str();
-		os.str("");
-		os << setw(2) << setfill('0') << searchtimer->StopTime() % 100;
-			stop_m = os.str();
+                start_s = intToTimeString(searchtimer->StartTime() );
+                stop_s  = intToTimeString(searchtimer->StopTime() );
 		useduration = searchtimer->UseDuration();
 		if (useduration)
 		{
-			durationmin = searchtimer->MinDuration();
-			durationmax = searchtimer->MaxDuration();
+			durationmin_m = searchtimer->MinDuration() % 100;
+			durationmin_h = searchtimer->MinDuration() / 100;
+			durationmax_m = searchtimer->MaxDuration() % 100;
+			durationmax_h = searchtimer->MaxDuration() / 100;
 		}
 		useweekday = searchtimer->UseDayOfWeek();
 		if (useweekday)
@@ -292,8 +289,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		useassearchtimer = searchtimer->UseAsSearchTimer();
 		if (useassearchtimer == 2)
 		{
-			useassearchtimerfrom = searchtimer->UseAsSearchTimerFrom(tr("mm/dd/yyyy"));
-			useassearchtimerto = searchtimer->UseAsSearchTimerTil(tr("mm/dd/yyyy"));
+			useassearchtimerfrom = searchtimer->UseAsSearchTimerFrom("yyyy-mm-dd");
+			useassearchtimerto = searchtimer->UseAsSearchTimerTil("yyyy-mm-dd");
 		}
 		searchtimeraction = searchtimer->SearchTimerAction();
 		seriesrecording = searchtimer->UseSeriesRecording();
@@ -304,12 +301,12 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		blacklistmode = searchtimer->BlacklistMode();
 		switchminbefore = searchtimer->SwitchMinBefore();
 		useextepginfo = searchtimer->UseExtEPGInfo();
-		vector< string > infos = searchtimer->ExtEPGInfo();
+		std::vector<std::string> infos = searchtimer->ExtEPGInfo();
 		for(unsigned int i=0; i<extEPGInfos.size(); i++)
 		{
 			if (i<infos.size())
 			{
-			vector< string > parts = StringSplit( infos[i], '#' );
+			std::vector<std::string> parts = StringSplit( infos[i], '#' );
 			extepgvalues.push_back(parts.size() > 1?parts[1]:"");
 			}
 			else
@@ -347,15 +344,16 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		usetitle = true;
 		usesubtitle = true;
 		usedescr = true;
-		priority = lexical_cast< int >(EPGSearchSetupValues::ReadValue("DefPriority"));
-		lifetime = lexical_cast< int >(EPGSearchSetupValues::ReadValue("DefLifetime"));
-		marginstart = lexical_cast< int >(EPGSearchSetupValues::ReadValue("DefMarginStart"));
-		marginstop = lexical_cast< int >(EPGSearchSetupValues::ReadValue("DefMarginStop"));
+		priority = lexical_cast<int>(EPGSearchSetupValues::ReadValue("DefPriority"));
+		lifetime = lexical_cast<int>(EPGSearchSetupValues::ReadValue("DefLifetime"));
+		marginstart = lexical_cast<int>(EPGSearchSetupValues::ReadValue("DefMarginStart"));
+		marginstop = lexical_cast<int>(EPGSearchSetupValues::ReadValue("DefMarginStop"));
 	}
 </%cpp>
 <& pageelems.doc_type &>
 <html>
 	<head>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>VDR Live - <$ editsearchtimer ? tr("Edit search timer") : tr("New search timer") $></title>
 
 		<& pageelems.stylesheets &>
@@ -490,7 +488,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		//--></script>
 
 	</head>
-	<body onload="initform()">
+	<body onload="initform(); adjustHeader()" onresize="adjustHeader()">
 		<& pageelems.logo &>
 		<& menu active=("searchtimers") &>
 			<div class="inhalt">
@@ -505,7 +503,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 						<!-- Search term -->
 						<tr>
 							<td class="label leftcol"><div class="withmargin"><$ tr("Search term") $>:</div></td>
-							<td class="rightcol"><input type="text" name="search" value="<$ search $>" size="90" id="searchterm" /></td>
+							<td class="rightcol"><input type="text" name="search" value="<$ search $>"class="width99" size="55" id="searchterm" /></td>
 						</tr>
 
 						<!-- Search mode -->
@@ -613,11 +611,20 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 									<table class="dependent" border="0" cellpadding="0" cellspacing="0" class="dependent">
 										<tr>
 											<td class="label"><div class="withmargin"><$ tr("from channel" ) $>:</div></td>
-											<td><& channels_widget name=("channelfrom") channelid=(true) selected=(channelfrom) &></td>
+<%cpp>
+#if TNTVERSION >= 30000
+						std::string namefrom = "channelfrom_string";  // Tntnet30 does not work with parameter type tChannelID
+						std::string nameto   = "channelto_string";    // Tntnet30 does not work with parameter type tChannelID
+#else
+						std::string namefrom = "channelfrom";
+						std::string nameto   = "channelto";
+#endif
+</%cpp>
+											<td><& channels_widget name=(namefrom) channelid=(true) selected=(channelfrom) &></td>
 										</tr>
 										<tr>
 											<td class="label"><div class="withmargin"><$ tr("to channel" ) $>:</div></td>
-											<td><& channels_widget name=("channelto") channelid=(true) selected=(channelto) &></td>
+											<td><& channels_widget name=(nameto) channelid=(true) selected=(channelto) &></td>
 										</tr>
 									</table>
 								</div>
@@ -633,7 +640,6 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 								</div>
 							</td>
 						</tr>
-
 						<!-- Use time -->
 						<tr>
 							<td class="label leftcol"><div class="withmargin"><$ tr("Use time") $>:</div></td>
@@ -644,14 +650,14 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 										<tr>
 											<td class="label"><div class="withmargin"><$ tr("Start after") $>:</div></td>
 											<td>
-												<input type="text" size="2" maxlength="2" name="start_h" value="<$ start_h $>" /> : <input type="text" size="2" maxlength="2" name="start_m" value="<$ start_m $>" />
+												<input type="time" name="start_s" value="<$ start_s $>" />
 												<& tooltip.help text=(tr("The time the show may start at the earliest")) &>
 											</td>
 										</tr>
 										<tr>
 											<td class="label"><div class="withmargin"><$ tr("Start before") $>:</div></td>
 											<td>
-												<input type="text" size="2" maxlength="2" name="stop_h" value="<$ stop_h $>" /> : <input type="text" size="2" maxlength="2" name="stop_m" value="<$ stop_m $>" />
+												<input type="time" name="stop_s" value="<$ stop_s $>" />
 												<& tooltip.help text=(tr("The time the show may start at the latest")) &>
 											</td>
 										</tr>
@@ -669,11 +675,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 									<table class="dependent" border="0" cellpadding="0" cellspacing="0">
 										<tr>
 											<td class="label"><div class="withmargin"><$ tr("Min. duration") $>:</div></td>
-											<td><input type="text" size="3" maxlength="3" name="durationmin" value="<$ durationmin $>" /> min</td>
+											<td><input type="number" min="0" max= "23" step="1" size="6" name="durationmin_h" value="<$ durationmin_h $>" /> : <input type="number" min="0" max= "59" step="1" size="6" name="durationmin_m" value="<$ durationmin_m $>" /> </td>
 										</tr>
 										<tr>
 											<td class="label"><div class="withmargin"><$ tr("Max. duration") $>:</div></td>
-											<td><input type="text" size="3" maxlength="3" name="durationmax" value="<$ durationmax $>" /> min</td>
+											<td><input type="number" min="0" max= "23" step="1" size="6" name="durationmax_h" value="<$ durationmax_h $>" /> : <input type="number" min="0" max= "59" step="1" size="6" name="durationmax_m" value="<$ durationmax_m $>" /> </td>
 										</tr>
 									</table>
 								</div>
@@ -740,11 +746,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 									<table class="dependent" border="0" cellpadding="0" cellspacing="0">
 										<tr>
 											<td class="label"><div class="withmargin"><$ tr("from date") $>:</div></td>
-											<td><input id="datefrom" name="useassearchtimerfrom" type="text" class="DatePicker" value="<$ useassearchtimerfrom $>" /></td>
+											<td><input id="datefrom" name="useassearchtimerfrom" type="date" value="<$ useassearchtimerfrom $>" /></td>
 										</tr>
 										<tr>
 											<td class="label"><div class="withmargin"><$ tr("to date") $>:</div></td>
-											<td><input id="dateto" name="useassearchtimerto" type="text" class="DatePicker" value="<$ useassearchtimerto $>" /></td>
+											<td><input id="dateto" name="useassearchtimerto" type="date" value="<$ useassearchtimerto $>" /></td>
 										</tr>
 									</table>
 								</div>
@@ -767,7 +773,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 										<tr>
 											<td class="label"><div class="withmargin"><$ tr("Directory") $>:</div></td>
-											<td><input type="text" name="directory" id="directory" value="<$ directory $>" size="70" /><br>
+											<td><input type="text" name="directory" id="directory" value="<$ directory $>" class="width99" size="70" /><br>
 											<select onchange="changeddirselection(this)" name="recordingdirsselection" size="1" id="recordingdirsselection" style="margin-top: 5px">
 											<option/>
 %											for (RecordingDirs::iterator rdir = recordingdirs.begin(); rdir != recordingdirs.end(); ++rdir) {
@@ -780,15 +786,15 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 										<tr>
 											<td class="label"><div class="withmargin"><$ tr("Delete recordings after ... days") $>:</div></td>
 											<td>
-												<input type="text" name="delrecafterdays" id="delrecafterdays" size="2" value="<$ delrecafterdays $>"/>&nbsp;&nbsp;
+												<input type="number" min="0" max="99" name="delrecafterdays" id="delrecafterdays" size="6" value="<$ delrecafterdays $>"/>&nbsp;&nbsp;
 												<$ tr("Keep ... recordings") $>:
-												<input type="text" name="keeprecs" size="2" value="<$ keeprecs $>"/>
+												<input type="number" min="0" max="10" name="keeprecs" size="6" value="<$ keeprecs $>"/>
 											</td>
 										</tr>
 
 										<tr>
 											<td class="label"><div class="withmargin"><$ tr("Pause when ... recordings exist") $>:</div></td>
-											<td><input type="text" name="pauseonrecs" id="pauseonrecs" size="2" value="<$ pauseonrecs $>"/></td>
+											<td><input type="number" min="0" max="99" name="pauseonrecs" id="pauseonrecs" size="6" value="<$ pauseonrecs $>"/></td>
 										</tr>
 
 										<tr>
@@ -799,7 +805,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 														<tr>
 															<td class="label"><div class="withmargin"><$ tr("Allowed repeats") $>:</div></td>
 															<td>
-																<input type="text" size="3" maxlength="3" name="allowedrepeats" value="<$ allowedrepeats $>" /><span class="withmargin"><$ tr("Only repeats within ... days") $>:</span><input type="text" size="3" maxlength="3" name="repeatswithindays" value="<$ repeatswithindays $>" />
+																<input type="number" min="0" max="10" size="6" name="allowedrepeats" value="<$ allowedrepeats $>" /><span class="withmargin"><$ tr("Only repeats within ... days") $>:</span><input type="number" min="0" max="999" size="6" name="repeatswithindays" value="<$ repeatswithindays $>" />
 															</td>
 														</tr>
 
@@ -836,22 +842,22 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 										<tr>
 											<td class="label"><div class="withmargin"><$ trVDR("Priority") $>:</div></td>
-											<td><input type="text" name="priority" size="2" value="<$ priority $>"/></td>
+											<td><input type="number" min="0" max="99" name="priority" size="6" value="<$ priority $>"/></td>
 										</tr>
 
 										<tr>
 											<td class="label"><div class="withmargin"><$ trVDR("Lifetime") $>:</div></td>
-											<td><input type="text" name="lifetime" size="2" value="<$ lifetime $>"/></td>
+											<td><input type="number" min="0" max="99" name="lifetime" size="6" value="<$ lifetime $>"/></td>
 										</tr>
 
 										<tr>
 											<td class="label"><div class="withmargin"><$ trVDR("Setup.Recording$Margin at start (min)") $>:</div></td>
-											<td><input type="text" name="marginstart" size="2" value="<$ marginstart $>"/></td>
+											<td><input type="number" min="0" max="30"  name="marginstart" size="6" value="<$ marginstart $>"/></td>
 										</tr>
 
 										<tr>
 											<td class="label"><div class="withmargin"><$ trVDR("Setup.Recording$Margin at stop (min)") $>:</div></td>
-											<td><input type="text" name="marginstop" size="2" value="<$ marginstop $>"/></td>
+											<td><input type="number" min="0" max="30"  name="marginstop" size="6" value="<$ marginstop $>"/></td>
 										</tr>
 
 										<tr>
@@ -866,13 +872,13 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 													<tr>
 														<td class="label"><div class="withmargin"><$ tr("after ... recordings") $>:</div></td>
 														<td>
-															<input type="text" size="3" maxlength="3" name="delaftercountrecs" value="<$ delaftercountrecs $>" />
+															<input type="number" min="0" max="999" size="6" name="delaftercountrecs" value="<$ delaftercountrecs $>" />
 														</td>
 													</tr>
 													<tr>
 														<td class="label"><div class="withmargin"><$ tr("after ... days after first rec.") $>:</div></td>
 														<td>
-															<input type="text" size="3" maxlength="3" name="delafterdaysoffirstrec" value="<$ delafterdaysoffirstrec $>" />
+															<input type="number" min="0" max="999" size="6" name="delafterdaysoffirstrec" value="<$ delafterdaysoffirstrec $>" />
 														</td>
 													</tr>
 												</table>
@@ -886,7 +892,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 									<table class="dependent" border="0" cellpadding="0" cellspacing="0">
 										<tr>
 											<td class="label"><div class="withmargin"><$ tr("Switch ... minutes before start") $>:</div></td>
-											<td><input type="text" name="switchminbefore" id="switchminbefore" size="2" value="<$ switchminbefore $>"/></td>
+											<td><input type="number" min="0" max="20"  name="switchminbefore" id="switchminbefore" size="6" value="<$ switchminbefore $>"/></td>
 										</tr>
 									</table>
 								</div>

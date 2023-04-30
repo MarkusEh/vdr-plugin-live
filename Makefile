@@ -8,23 +8,26 @@
 PLUGIN := live
 
 ### The version number of this plugin (taken from the main source file):
-VERSION := $(shell grep '\#define LIVEVERSION ' setup.h | awk '{ print $$3 }' | sed -e 's/[";]//g')
+HASH := \#
+VERSION := $(shell awk '/$(HASH)define LIVEVERSION/ { print $$3 }' setup.h | sed -e 's/[";]//g')
+# $(info $$VERSION is [${VERSION}])
 
-### Check for libpcre c++ wrapper
-HAVE_LIBPCRECPP := $(shell pcre-config --libs-cpp)
+### Check for libpcre2
+HAVE_PCRE2 := $(shell if pkg-config --exists libpcre2-8; then echo "1"; else echo "0"; fi )
 
 ### The directory environment:
 # Use package data if installed...otherwise assume we're under the VDR source directory:
 PKGCFG = $(if $(VDRDIR),$(shell pkg-config --variable=$(1) $(VDRDIR)/vdr.pc),$(shell PKG_CONFIG_PATH="$$PKG_CONFIG_PATH:../../.." pkg-config --variable=$(1) vdr))
-LIBDIR = $(call PKGCFG,libdir)
-LOCDIR = $(call PKGCFG,locdir)
-PLGCFG = $(call PKGCFG,plgcfg)
+LIBDIR := $(call PKGCFG,libdir)
+LOCDIR := $(call PKGCFG,locdir)
+PLGCFG := $(call PKGCFG,plgcfg)
+RESDIR := $(call PKGCFG,resdir)
 #
 TMPDIR ?= /tmp
 
 ### The compiler options:
-export CFLAGS   = $(call PKGCFG,cflags)
-export CXXFLAGS = $(call PKGCFG,cxxflags)
+export CFLAGS   := $(call PKGCFG,cflags)
+export CXXFLAGS := $(call PKGCFG,cxxflags)
 
 ECPPC ?= ecppc
 
@@ -37,22 +40,32 @@ APIVERSION := $(call PKGCFG,apiversion)
 include global.mk
 
 ### Determine tntnet and cxxtools versions:
+TNTNET-CONFIG := $(shell which tntnet-config 2>/dev/null)
+ifeq ($(TNTNET-CONFIG),)
+TNTVERSION := $(shell pkg-config --modversion tntnet | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
+CXXFLAGS  += $(shell pkg-config --cflags tntnet)
+LIBS      += $(shell pkg-config --libs tntnet)
+else
 TNTVERSION = $(shell tntnet-config --version | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
-CXXTOOLVER = $(shell cxxtools-config --version | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
-
 CXXFLAGS  += $(shell tntnet-config --cxxflags)
 LIBS      += $(shell tntnet-config --libs)
+endif
+
+# $(info $$TNTVERSION is [${TNTVERSION}])
+
+CXXTOOLVER := $(shell cxxtools-config --version | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
+
 
 ### Optional configuration features
 PLUGINFEATURES :=
-ifneq ($(HAVE_LIBPCRECPP),)
-	PLUGINFEATURES += -DHAVE_LIBPCRECPP
-	CXXFLAGS       += $(shell pcre-config --cflags)
-	LIBS           += $(HAVE_LIBPCRECPP)
+ifeq ($(HAVE_PCRE2),1)
+	PLUGINFEATURES += -DHAVE_PCRE2
+	CXXFLAGS       += $(shell pkg-config --cflags libpcre2-8)
+	LIBS           += $(shell pkg-config --libs   libpcre2-8)
 endif
 
 # -Wno-deprecated-declarations .. get rid of warning: ‘template<class> class std::auto_ptr’ is deprecated
-CXXFLAGS += -std=c++11 -Wfatal-errors -Wundef -Wno-deprecated-declarations
+CXXFLAGS += -std=c++14 -Wfatal-errors -Wundef -Wno-deprecated-declarations
 
 ### export all vars for sub-makes, using absolute paths
 LIBDIR := $(abspath $(LIBDIR))
@@ -68,33 +81,26 @@ PACKAGE := vdr-$(ARCHIVE)
 SOFILE := libvdr-$(PLUGIN).so
 
 ### Installed shared object file:
-SOINST = $(DESTDIR)$(LIBDIR)/$(SOFILE).$(APIVERSION)
+SOINST := $(DESTDIR)$(LIBDIR)/$(SOFILE).$(APIVERSION)
 
 ### Includes and Defines (add further entries here):
 DEFINES	+= -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"' -DTNTVERSION=$(TNTVERSION) -DCXXTOOLVER=$(CXXTOOLVER)
+DEFINES	+= -DDISABLE_TEMPLATES_COLLIDING_WITH_STL
 VERSIONSUFFIX = gen_version_suffix.h
 
 ### The object files (add further files here):
 PLUGINOBJS := $(PLUGIN).o thread.o tntconfig.o setup.o i18n.o timers.o \
               tools.o recman.o tasks.o status.o epg_events.o epgsearch.o \
               grab.o md5.o filecache.o livefeatures.o preload.o timerconflict.o \
-              users.o osd_status.o
+              users.o osd_status.o ffmpeg.o StringMatch.o largeString.o
 PLUGINSRCS := $(patsubst %.o,%.cpp,$(PLUGINOBJS))
 
 WEB_LIB_PAGES := libpages.a
 WEB_DIR_PAGES := pages
 WEB_PAGES     := $(WEB_DIR_PAGES)/$(WEB_LIB_PAGES)
 
-WEB_LIB_CSS := libcss.a
-WEB_DIR_CSS := css
-WEB_CSS     := $(WEB_DIR_CSS)/$(WEB_LIB_CSS)
-
-WEB_LIB_JAVA := libjavascript.a
-WEB_DIR_JAVA := javascript
-WEB_JAVA     := $(WEB_DIR_JAVA)/$(WEB_LIB_JAVA)
-
-WEBLIBS := $(WEB_PAGES) $(WEB_CSS) $(WEB_JAVA)
-SUBDIRS := $(WEB_DIR_PAGES) $(WEB_DIR_CSS) $(WEB_DIR_JAVA)
+WEBLIBS := $(WEB_PAGES)
+SUBDIRS := $(WEB_DIR_PAGES)
 
 ### The main target:
 .PHONY: all
@@ -105,19 +111,13 @@ all: lib i18n
 $(WEB_DIR_PAGES)/%.o: $(WEB_DIR_PAGES)/%.cpp $(WEB_DIR_PAGES)/%.ecpp
 	@$(MAKE) -C $(WEB_DIR_PAGES) --no-print-directory PLUGINFEATURES="$(PLUGINFEATURES)" $(notdir $@)
 
-$(WEB_DIR_CSS)/%.o:
-	@$(MAKE) -C $(WEB_DIR_CSS) --no-print-directory PLUGINFEATURES="$(PLUGINFEATURES)" $(notdir $@)
-
-$(WEB_DIR_JAVA)/%.o:
-	@$(MAKE) -C $(WEB_DIR_JAVA) --no-print-directory PLUGINFEATURES="$(PLUGINFEATURES)" $(notdir $@)
-
 %.o: %.cpp
 	$(call PRETTY_PRINT,"CC" $@)
 	$(Q)$(CXX) $(CXXFLAGS) -c $(DEFINES) $(PLUGINFEATURES) $(INCLUDES) $<
 
 ### Dependencies:
-MAKEDEP = $(CXX) -MM -MG
-DEPFILE = .dependencies
+MAKEDEP := $(CXX) -MM -MG
+DEPFILE := .dependencies
 $(DEPFILE): Makefile
 	@$(MAKEDEP) $(CXXFLAGS) $(DEFINES) $(PLUGINFEATURES) $(INCLUDES) $(PLUGINSRCS) > $@
 
@@ -136,7 +136,7 @@ I18Npo   := $(wildcard $(PODIR)/*.po)
 I18Nmo   := $(addsuffix .mo, $(foreach file, $(I18Npo), $(basename $(file))))
 I18Nmsgs := $(addprefix $(DESTDIR)$(LOCDIR)/, $(addsuffix /LC_MESSAGES/vdr-$(PLUGIN).mo, $(notdir $(foreach file, $(I18Npo), $(basename $(file))))))
 I18Npot  := $(PODIR)/$(PLUGIN).pot
-I18Npot_deps = $(PLUGINSRCS) $(wildcard $(WEB_DIR_PAGES)/*.cpp) setup.h epg_events.h
+I18Npot_deps := $(PLUGINSRCS) $(wildcard $(WEB_DIR_PAGES)/*.cpp) setup.h epg_events.h
 
 $(I18Npot): $(I18Npot_deps)
 	$(call PRETTY_PRINT,"GT" $@)
@@ -221,8 +221,14 @@ $(SOINST): $(SOFILE)
 .PHONY: install-lib
 install-lib: lib recursive-soinst
 
+.PHONY: install-web
+install-web:
+	@mkdir -p $(DESTDIR)$(RESDIR)/plugins/$(PLUGIN)
+	@cp -a live/* $(DESTDIR)$(RESDIR)/plugins/$(PLUGIN)/
+
+
 .PHONY: install
-install: install-lib install-i18n
+install: install-lib install-i18n install-web
 
 .PHONY: dist
 dist: $(I18Npo)

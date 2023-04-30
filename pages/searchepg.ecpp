@@ -4,7 +4,6 @@
 #include <epgsearch.h>
 #include <setup.h>
 
-using namespace std;
 using namespace vdrlive;
 
 </%pre>
@@ -13,7 +12,7 @@ using namespace vdrlive;
 
 	// form parameters
 	bool useextendedsearch = false;
-	string search = "";
+	std::string search = "";
 	int mode = 0;
 	bool matchcase = false;
 	int tolerance = 1;
@@ -23,12 +22,12 @@ using namespace vdrlive;
 	int usechannel = SearchTimer::NoChannel;
 	tChannelID channelfrom;
 	tChannelID channelto;
-	string changrpsel = "";
+	std::string changrpsel = "";
 	bool usetime = false;
-	string start_h = "00";
-	string start_m = "00";
-	string stop_h = "00";
-	string stop_m = "00";
+	std::string start_h = "00";
+	std::string start_m = "00";
+	std::string stop_h = "00";
+	std::string stop_m = "00";
 	bool useduration = false;
 	int durationmin = 0;
 	int durationmax = 90;
@@ -41,10 +40,10 @@ using namespace vdrlive;
 	bool wday_sat = false;
 	bool wday_sun = false;
 	int blacklistmode = 0;
-	string blacklistids[];
+	std::string blacklistids[];
 	bool useextepginfo = false;
-	string extepgvalues[];
-	string blacklistids_internal;
+	std::string extepgvalues[];
+	std::string blacklistids_internal;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -79,11 +78,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		searchtimer.SetUseExtEPGInfo(useextepginfo);
 		if (useextepginfo)
 		{
-			vector< string > infos;
+			std::vector< std::string > infos;
 			unsigned int i=0;
 			for (ExtEPGInfos::iterator extinfo = extEPGInfos.begin(); extinfo != extEPGInfos.end(); ++extinfo, i++)
 			{
-			ostringstream os;
+			std::stringstream os;
 			os << extinfo->Id() << "#" << (i<extepgvalues.size()?extepgvalues[i]:"");
 			infos.push_back(os.str());
 			}
@@ -128,7 +127,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			searchtimer.ParseBlacklist(blacklistids_internal);
 
 		searchtimer.SetId(0);
-		string md5 = SearchResults::AddQuery(searchtimer.ToText());
+		std::string md5 = SearchResults::AddQuery(searchtimer.ToText());
 		return reply.redirect("searchresults.html?searchtimerquery=" + md5);
 	}
 	pageTitle = tr("Search");
@@ -142,6 +141,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <& pageelems.doc_type &>
 <html>
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>VDR Live - <$ tr("Search") $></title>
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
@@ -199,7 +199,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 		function changeduseextepginfo(selection)
 		{
-			document.getElementById("use_extepg_settings").style.display = (selection.checked ? "block" : "none");
+			var doc = document.getElementById("use_extepg_settings");
+			if (doc) doc.style.display = (selection.checked ? "block" : "none");
 		}
 
 		function changedextepginfo(selection)
@@ -239,7 +240,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		}
 		//--></script>
 	</head>
-	<body onload="initform()">
+	<body onload="initform(); adjustHeader()" onresize="adjustHeader()">
 		<& pageelems.logo &>
 		<& menu active=("searchepg") &>
 		<div class="inhalt">
@@ -253,7 +254,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					<!-- Search term -->
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Search term") $>:</div></td>
-						<td class="rightcol"><input type="text" name="search" value="<$ search $>" size="90" id="searchterm" /></td>
+						<td class="rightcol"><input type="text" name="search" value="<$ search $>" class="width99" size="55" id="searchterm" /></td>
 					</tr>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Extended search") $>:</div></td>

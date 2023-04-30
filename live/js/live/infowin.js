@@ -166,8 +166,13 @@ var InfoWin = new Class({
 				this.winBody.empty();
 				this.fireEvent('onDomExtend', [id, bodyElems]);
 				this.winBody.adopt(bodyElems);
-				return true;
-			}
+        var firstScript = bodyElems.getElement('script.injectIcons');
+        if (firstScript) {
+          var js_m = new Element('div').adopt(firstScript).firstChild.textContent;
+          eval(js_m);
+        }
+        return true;
+      }
 			return false;
 		},
 

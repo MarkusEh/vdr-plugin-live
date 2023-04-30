@@ -6,28 +6,33 @@
 #include <live.h>
 
 using namespace vdrlive;
-using namespace std;
 
 </%pre>
 <%args>
-	string lastchannel;
+	std::string lastchannel;
 	bool useauth = false;
-	string login;
-	string pass;
-	string times;
-	string channelGroups;
-	string scheduleDuration;
-	string startscreen;
-	string theme;
-	string localnetmask;
-	string showLogo;
-	string useAjax;
-	string showInfoBox;
-	string useStreamdev;
-	string showIMDb;
-	string showChannelsWithoutEPG;
-	string streamdevport;
-	string streamdevtype;
+	std::string login;
+	std::string pass;
+	std::string times;
+	std::string channelGroups;
+	std::string scheduleDuration;
+	std::string startscreen;
+	std::string theme;
+	std::string localnetmask;
+	std::string showLogo;
+	std::string useAjax;
+	std::string showInfoBox;
+	std::string useStreamdev;
+	std::string markNewRec;
+	std::string showIMDb;
+	std::string showPlayMediaplayer;
+	std::string showChannelsWithoutEPG;
+	std::string streamdevport;
+	std::string streamdevtype;
+	std::string streamVideoOpt0;
+	std::string streamVideoOpt1;
+	std::string streamVideoOpt2;
+	std::string streamVideoOpt3;
 	int authchanged = 0;
 </%args>
 <%session scope="global">
@@ -71,7 +76,17 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 			LiveSetup().SetUseStreamdev(!useStreamdev.empty());
 			LiveSetup().SetStreamdevPort(streamdevport.empty() ? 3000 : lexical_cast<int>(streamdevport));
 			LiveSetup().SetStreamdevType(streamdevtype.empty() ? "PES" : streamdevtype);
+			LiveSetup().SetMarkNewRec(!markNewRec.empty());
+
+			std::string def = "ffmpeg -loglevel warning -f mpegts -analyzeduration 1.2M -probesize 5M "
+				"-i <input> -map 0:v -map 0:a:0 -c:v copy -c:a aac -ac 2";
+			LiveSetup().SetStreamVideoOpt0(streamVideoOpt0.empty() ? def : streamVideoOpt0);
+			LiveSetup().SetStreamVideoOpt1(streamVideoOpt1.empty() ? def : streamVideoOpt1);
+			LiveSetup().SetStreamVideoOpt2(streamVideoOpt2.empty() ? def : streamVideoOpt2);
+			LiveSetup().SetStreamVideoOpt3(streamVideoOpt3.empty() ? def : streamVideoOpt3);
+
 			LiveSetup().SetShowIMDb(!showIMDb.empty());
+			LiveSetup().SetShowPlayMediaplayer(!showPlayMediaplayer.empty());
 			LiveSetup().SetShowChannelsWithoutEPG(!showChannelsWithoutEPG.empty());
 			LiveSetup().SaveSetup();
 
@@ -99,12 +114,19 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 	useStreamdev = LiveSetup().GetUseStreamdev() ? "1" : "";
 	streamdevport = lexical_cast<std::string, int>(LiveSetup().GetStreamdevPort());
 	streamdevtype = LiveSetup().GetStreamdevType();
+	markNewRec = LiveSetup().GetMarkNewRec() ? "1" : "";
+	streamVideoOpt0 = LiveSetup().GetStreamVideoOpt0();
+	streamVideoOpt1 = LiveSetup().GetStreamVideoOpt1();
+	streamVideoOpt2 = LiveSetup().GetStreamVideoOpt2();
+	streamVideoOpt3 = LiveSetup().GetStreamVideoOpt3();
 	showIMDb = LiveSetup().GetShowIMDb() ? "1" : "";
+	showPlayMediaplayer = LiveSetup().GetShowPlayMediaplayer() ? "1" : "";
 	showChannelsWithoutEPG = LiveSetup().GetShowChannelsWithoutEPG() ? "1" : "";
 </%cpp>
 <& pageelems.doc_type &>
 <html>
 	<head>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>VDR-Live - <$ pageTitle $></title>
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
@@ -135,7 +157,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 		}
 		//--></script>
 	</head>
-	<body onload="initform()">
+	<body onload="initform(); adjustHeader()" onresize="adjustHeader()">
 		<& pageelems.logo &>
 		<& menu active=("setup") &>
 		<div class="inhalt">
@@ -199,6 +221,22 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 							<div id="streamdevsection" style="display: none">
 							<table border="0" cellpadding="0" cellspacing="0" class="dependent">
 							<tr>
+								<td class="label"><div class="withmargin"><$ tr("Web-Streaming h264") $>:</div></td>
+								<td><input type="text" name="streamVideoOpt0" id="streamVideoOpt0" size="100" value="<$ streamVideoOpt0 $>" /></td>
+							</tr>
+							<tr>
+								<td class="label"><div class="withmargin"><$ tr("Web-Streaming HEVC") $>:</div></td>
+								<td><input type="text" name="streamVideoOpt1" id="streamVideoOpt1" size="100" value="<$ streamVideoOpt1 $>" /></td>
+							</tr>
+							<tr>
+								<td class="label"><div class="withmargin"><$ tr("Web-Streaming MPEG2") $>:</div></td>
+								<td><input type="text" name="streamVideoOpt2" id="streamVideoOpt2" size="100" value="<$ streamVideoOpt2 $>" /></td>
+							</tr>
+							<tr>
+								<td class="label"><div class="withmargin"><$ tr("Web-Streaming others") $>:</div></td>
+								<td><input type="text" name="streamVideoOpt3" id="streamVideoOpt3" size="100" value="<$ streamVideoOpt3 $>" /></td>
+							</tr>
+							<tr>
 								<td class="label"><div class="withmargin"><$ tr("Streamdev server port") $>:</div></td>
 								<td><input type="text" name="streamdevport" id="streamdevport" value="<$ streamdevport $>" /></td>
 							</tr>
@@ -216,15 +254,27 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 							</div>
 						</td>
 					</tr>
+                                        <tr>
+                                                <td class="label leftcol"><div class="withmargin"><$ tr("Mark new recordings") $>:</div></td>
+                                                <td class="rightcol">
+                                                        <input type="checkbox" name="markNewRec" id="markNewRec" value="1" <%cpp> CHECKIF(!markNewRec.empty()); </%cpp>/>
+                                                </td>
+                                        </tr>
 					<tr>
-						<td class="label leftcol"><div class="withmargin"><$ tr("Add links to IMDb") $>:</div></td>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Show link to IMDb in list views") $>:</div></td>
 						<td class="rightcol">
 							<input type="checkbox" name="showIMDb" id="showIMDb" value="1" <%cpp> CHECKIF(!showIMDb.empty()); </%cpp>/>
 						</td>
 					</tr>
 					<tr>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Show \"Play in Mediaplayer\" in list views") $>:</div></td>
+						<td class="rightcol">
+							<input type="checkbox" name="showPlayMediaplayer" id="showPlayMediaplayer" value="1" <%cpp> CHECKIF(!showPlayMediaplayer.empty()); </%cpp>/>
+						</td>
+					</tr>
+					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Last channel to display") $>:</div></td>
-						<td class="rightcol"><input type="text" name="lastchannel" value="<$ lastchannel $>" id="lastchannel" /></td>
+						<td class="rightcol"><input type="number" min="0" name="lastchannel" value="<$ lastchannel $>" id="lastchannel" /></td>
 					</tr>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Additional fixed times in 'What's on?'") $>:</div></td>
@@ -238,7 +288,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 					</tr>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Duration of MultiSchedule in hours") $>:</div></td>
-						<td class="rightcol"><input type="text" name="scheduleDuration" value="<$ scheduleDuration $>" id="scheduleDuration" />
+						<td class="rightcol"><input type="number" min="1" max= "23" name="scheduleDuration" value="<$ scheduleDuration $>" id="scheduleDuration" />
 							</td>
 					</tr>
 					<tr>
@@ -264,12 +314,12 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 						<td class="rightcol"><select name="theme" size="1" id="theme">
 <%cpp>
 {
-	const string dirPath(Plugin::GetResourceDirectory() + "/themes");
+	const std::string dirPath(Plugin::GetResourceDirectory() + "/themes");
 	cReadDir d(dirPath.c_str());
 	struct dirent* e;
-	string parent("..");
-	string current(".");
-	string cvsDir("CVS");
+	std::string parent("..");
+	std::string current(".");
+	std::string cvsDir("CVS");
 	while ((e = d.Next())) {
 		if ((current == e->d_name) || (parent == e->d_name) || (cvsDir == e->d_name)) {
 			continue;

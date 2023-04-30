@@ -8,12 +8,11 @@
 #include <vector>
 
 #include <vdr/plugin.h>
+#include <vdr/svdrp.h>
 
 namespace vdrlive {
 
 	bool CheckEpgsearchVersion();
-
-	using namespace std;
 
 	static char ServiceInterface[] = "Epgsearch-services-v1.1";
 
@@ -32,32 +31,34 @@ namespace vdrlive {
 		conflictTime = 0;
 	}
 
-	TimerConflict::TimerConflict( string const& data )
+	TimerConflict::TimerConflict( std::string const& data )
 	{
 		Init();
-		vector< string > parts = StringSplit( data, ':' );
-		try
-		{
-			vector< string >::const_iterator part = parts.begin();
-			if (parts.size() > 0)
-			{
-				conflictTime = lexical_cast< time_t >( *part++ );
-				for ( int i = 1; part != parts.end(); ++i, ++part )
-				{
-					vector< string > timerparts = StringSplit( *part, '|' );
-					vector< string >::const_iterator timerpart = timerparts.begin();
+//		dsyslog("live: TimerConflict() data '%s'", data.c_str());
+		std::vector<std::string> parts = StringSplit( data, ':' );
+		try {
+			std::vector<std::string>::const_iterator part = parts.begin();
+			if (parts.size() > 0) {
+				conflictTime = lexical_cast<time_t>( *part++ );
+				for ( int i = 1; part != parts.end(); ++i, ++part ) {
+					std::vector<std::string> timerparts = StringSplit( *part, '|' );
+					std::vector<std::string>::const_iterator timerpart = timerparts.begin();
 					TimerInConflict timer;
-					for ( int j = 0; timerpart != timerparts.end(); ++j, ++timerpart )
-						switch (j)
-						{
-						case 0: timer.timerIndex = lexical_cast< int >( *timerpart ); break;
-						case 1: timer.percentage = lexical_cast< int >( *timerpart ); break;
-						case 2: {
-							vector< string > conctimerparts = StringSplit( *timerpart, '#' );
-							vector< string >::const_iterator conctimerpart = conctimerparts.begin();
-							for ( int k = 0; conctimerpart != conctimerparts.end(); ++k, ++conctimerpart )
-								timer.concurrentTimerIndices.push_back(lexical_cast< int >( *conctimerpart ));
-							break;
+					for ( int j = 0; timerpart != timerparts.end(); ++j, ++timerpart ) {
+						switch (j) {
+							case 0: timer.timerIndex = lexical_cast<int>( *timerpart ); break;
+							case 1: timer.percentage = lexical_cast<int>( *timerpart ); break;
+							case 2: {
+								std::vector<std::string> conctimerparts = StringSplit( *timerpart, '#' );
+								std::vector<std::string>::const_iterator conctimerpart = conctimerparts.begin();
+								for ( int k = 0; conctimerpart != conctimerparts.end(); ++k, ++conctimerpart )
+									timer.concurrentTimerIndices.push_back(lexical_cast<int>( *conctimerpart ));
+								break;
+							}
+							case 3: {
+								timer.remote = *timerpart;
+								break;
+							}
 						}
 					}
 					conflictingTimers.push_back(timer);
@@ -73,14 +74,79 @@ namespace vdrlive {
 		Epgsearch_services_v1_1 service;
 		if ( CheckEpgsearchVersion() && cPluginManager::CallFirstService(ServiceInterface, &service))
 		{
-			cServiceHandler_v1_1* handler = dynamic_cast<cServiceHandler_v1_1*>(service.handler.get());
-			if (handler)
-			{
-				list< string > conflicts = service.handler->TimerConflictList();
+		    	cServiceHandler_v1_1* handler = dynamic_cast<cServiceHandler_v1_1*>(service.handler.get());
+		    	if (handler)
+		      	{
+				std::list<std::string> conflicts = service.handler->TimerConflictList();
+//				for(std::list<std::string>::const_iterator i = conflicts.begin(); i != conflicts.end(); ++i) {
+//					dsyslog("live: TimerConflicts::TimerConflicts() conflicts '%s'",i->c_str());
+//				}
+				GetRemote(conflicts);			// add remote VDR conflicts
 				m_conflicts.assign( conflicts.begin(), conflicts.end() );
 				m_conflicts.sort();
-			}
+					}
 		}
+//		for (TimerConflicts::iterator conflict=m_conflicts.begin(); conflict!=m_conflicts.end(); conflict++) {
+//			const std::list<TimerInConflict>& conflTimers = conflict->ConflictingTimers();
+//				for (std::list<TimerInConflict>::const_iterator confltimer = conflTimers.begin(); confltimer != conflTimers.end(); ++confltimer) {
+//				dsyslog("live: TimerConflicts::TimerConflictsi() Timer ID with conflict '%d'", confltimer->timerIndex );
+//				dsyslog("live: TimerConflicts::TimerConflictsi() conflict on server '%s'", confltimer->remote.c_str() );
+//				for (std::list<int>::const_iterator timerIndex = confltimer->concurrentTimerIndices.begin(); timerIndex != confltimer->concurrentTimerIndices.end(); ++timerIndex) {
+//					dsyslog("live: TimerConflicts::TimerConflicts() concurrent Timer IDs '%d'", *timerIndex);
+//				}
+//			}
+//		}
+	}
+
+
+	void TimerConflicts::GetRemote(std::list<std::string> & conflicts )
+	{
+		cStringList svdrpServerNames;
+
+		if (GetSVDRPServerNames(&svdrpServerNames)) {
+			svdrpServerNames.Sort(true);
+		}
+		for (int i = 0; i < svdrpServerNames.Size(); i++) {
+			std::string remoteServer = svdrpServerNames[i];
+//			dsyslog("live: TimerConflicts::GetRemote() found remote server '%s'", remoteServer.c_str());
+			cStringList response;
+                        std::string command = "PLUG epgsearch lscc";
+                        bool svdrpOK = ExecSVDRPCommand(remoteServer.c_str(), command.c_str(), &response);
+                        if ( !svdrpOK ) {
+                                esyslog("live: TimerConflicts::GetRemote() svdrp command '%s' on remote server '%s'failed", command.c_str(), remoteServer.c_str());
+                        }
+                        else {
+                                for (int i = 0; i < response.Size(); i++) {
+                                        int code = SVDRPCode(response[i]);
+//					dsyslog("live: GetRemote() response[i] '%s'", response[i]);
+					switch ( code ) {
+                                        	case 900: {
+							std::string rConflict = response[i];
+							std::string remConflict = rConflict.substr(4);
+							remConflict.append("|");
+							remConflict.append(remoteServer);
+//							dsyslog("live: TimerConflicts::GetRemote() found remote conflict '%s' ", remConflict.c_str());
+							conflicts.push_back(remConflict);
+							break;
+						}
+						case 901: break; // no conflict found
+						default: {
+							esyslog("live: TimerConflicts::GetRemote() svdrp command '%s' failed, respone: %s", command.c_str(), response[i]);
+							svdrpOK = false;
+							break;
+						}
+					}
+				}
+                                if ( svdrpOK ) {
+//					dsyslog("live: TimerConflicts::GetRemote() on server '%s' successful", remoteServer.c_str());
+				}
+                                else {
+					esyslog("live: TimerConflicts::GetRemote() on server '%s' failed", remoteServer.c_str());
+				}
+			}
+			response.Clear();
+		}
+		svdrpServerNames.Clear();
 	}
 
 	bool TimerConflicts::HasConflict(const cTimer& timer)
@@ -124,8 +190,7 @@ namespace vdrlive {
 		bool reCheckAdvised((now - lastCheck) > CHECKINTERVAL);
 		bool recentTimerChange((now - lastTimerModification) <= CHECKINTERVAL);
 
-		if (recentTimerChange || (reCheckAdvised && TimerConflicts::CheckAdvised()))
-		{
+		if (recentTimerChange || (reCheckAdvised && TimerConflicts::CheckAdvised())) {
 			lastCheck = now;
 			conflicts.reset(new TimerConflicts());
 			return conflicts->size() > 0;

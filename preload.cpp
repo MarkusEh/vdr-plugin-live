@@ -5,18 +5,18 @@
 
 #include <vdr/tools.h>
 
-using namespace std;
 
 namespace vdrlive {
 
 // to get an updated list of these files do:
-// (cd live; find * -type f ! -wholename '*CVS*' ! -wholename '*themes*' ! -name '*~' ! -name '.*') | awk '{print "\"" $1 "\","}'}
+// (cd live; find * -type f ! -wholename '*CVS*' ! -wholename '*themes*' ! -name '*~' ! -name '.*') | awk '{print "\"" $1 "\","}'
 // and clean out unneeded entries.
 
-	void PreLoadFileCache(string const& configDir)
+	void PreLoadFileCache(std::string const& configDir)
 	{
 		static char const * const preloadFiles[] = {
 			"css/siteprefs.css",
+			"css/styles.css",
 			"img/rounded-box-blue-bl.png",
 			"img/rounded-box-blue-br.png",
 			"img/rounded-box-blue-ml.png",
@@ -92,11 +92,21 @@ namespace vdrlive {
 			"img/tv.jpg",
 			"img/arrow_rec.gif",
 			"img/favicon.ico",
+			"img/playlist.png",
+			"img/sd.png",
+			"img/hd.png",
+			"img/RecordingErrors.png",
+			"img/NoRecordingErrors.png",
+			"img/NotCheckedForRecordingErrors.png",
 			"js/live/vdr_status.js",
 			"js/live/infowin.js",
+			"js/live/header.js",
 			"js/live/liveajax.js",
 			"js/live/hinttips.js",
 			"js/live/pageenhance.js",
+			"js/live/createHtml.js",
+			"js/live/epg_tt_box.js",
+			"js/live/treeview.js",
 			"js/mootools/mootools.v1.11.js",
 			0
 		};
@@ -106,10 +116,10 @@ namespace vdrlive {
 		while (preloadFiles[i]) {
 			FileCache::ptr_type f = fc.get(configDir + "/" + preloadFiles[i]);
 			if (0 == f.get()) {
-				isyslog("LIVE: can't preload %s/%s! Generated pages might be degraded!", configDir.c_str(), preloadFiles[i]);
+				isyslog("live: can't preload %s/%s! Generated pages might be degraded!", configDir.c_str(), preloadFiles[i]);
 			}
 			i++;
 		}
-		isyslog("LIVE: initial file cache has %zu entries and needs %zu bytes of data!", fc.count(), fc.weight());
+		isyslog("live: initial file cache has %zu entries and needs %zu bytes of data!", fc.count(), fc.weight());
 	}
 }

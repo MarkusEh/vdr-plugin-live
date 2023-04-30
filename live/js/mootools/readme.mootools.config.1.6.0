@@ -1,0 +1,43 @@
+Don't move to 1.6 . Too much effort :(
+
+If you try, you need: core + more
+
+
+Changes:
+
+====== options  ===============================================
+For classes with options: {
+var PageEnhance = new Class({
+    Implements: [Options],
+    options: {
+
+====== pick  ===============================================
+var epgid = [href, ""].pick();
+
+====== $defined  ===============================================
+var $defined = function(obj){
+    return (obj != undefined);
+};
+
+// or just use it like this:
+if(obj != undefined){
+    // do something
+}
+
+
+====== Event ===============================================
+event.page[z] : does not work, use event.pageX & event.pageY
+event.stop(): not defined, try stopImmediatePropagation()   (guess)
+
+
+====== Tips ===============================================
+this.tips.build: not defined. Use
+        this.tips.attach(elems_use);
+
+completely re-write hinttips.js:
+this relies on the implementation of the Hints class, which completely changed
+Here I gave up: Too much effort, too little benefit ...
+
+
+====== info-win ===============================================
+Also larger changes required ...

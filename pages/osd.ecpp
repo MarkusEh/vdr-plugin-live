@@ -3,7 +3,6 @@
 #include <setup.h>
 #include <osd_status.h>
 
-using namespace std;
 using namespace vdrlive;
 
 </%pre><?xml version="1.0" encoding="utf-8"?> 

@@ -4,6 +4,10 @@
 // STL headers need to be before VDR tools.h (included by <vdr/channels.h>)
 #include <string>
 
+#if TNTVERSION >= 30000
+        #include <cxxtools/log.h>  // must be loaded before any vdr include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
+#endif
+
 #include <vdr/tools.h>
 #include <vdr/config.h>
 
@@ -34,13 +38,13 @@ public:
 	cUser(int ID, const std::string& Name, const std::string& Password);
 	int Id() const { return m_ID; }
 	std::string Name() const { return m_Name; }
-	std::string PasswordMD5() const { return m_PasswordMD5; } 
+	std::string PasswordMD5() const { return m_PasswordMD5; }
 	int Userrights() const { return m_Userrights; }
 	int GetPasswordLength() const;
 	std::string const GetMD5HashPassword() const;
 	void SetId(int Id) { m_ID = Id; }
-	void SetName(const std::string Name) { m_Name = Name; }
-	void SetPassword(const std::string Password);
+	void SetName(const std::string& Name) { m_Name = Name; }
+	void SetPassword(const std::string& Password);
 	void SetUserrights(int Userrights) { m_Userrights = Userrights; }
 	bool HasRightTo(eUserRights right);
 	static bool CurrentUserHasRightTo(eUserRights right);

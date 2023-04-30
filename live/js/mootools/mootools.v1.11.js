@@ -4169,7 +4169,11 @@ var XHR = new Class({
 		}
 		this.transport.open(this.options.method.toUpperCase(), url, this.options.async);
 		this.transport.onreadystatechange = this.onStateChange.bind(this);
+/*
 		if ((this.options.method == 'post') && this.transport.overrideMimeType) this.setHeader('Connection', 'close');
+see https://developer.mozilla.org/en-US/docs/Glossary/Forbidden_header_name
+Connection is forbidden
+*/
 		$extend(this.headers, this.options.headers);
 		for (var type in this.headers) try {this.transport.setRequestHeader(type, this.headers[type]);} catch(e){};
 		this.fireEvent('onRequest');

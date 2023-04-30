@@ -22,23 +22,26 @@ namespace vdrlive {
 			cSchedulesLock m_schedulesLock;
 	};
 
-	typedef std::tr1::shared_ptr<SchedulesLock> SchedulesLockPtr;
+	typedef stdext::shared_ptr<SchedulesLock> SchedulesLockPtr;
 }
 #endif
 
 using namespace vdrlive;
-using namespace std;
 
 </%pre>
 <%args>
-	string epgid;
-	string async;
+	std::string epgid;
+	std::string async;
+	std::string tab;
 </%args>
 <%session scope="global">
 	bool logged_in(false);
 </%session>
-<%request scope="page">
+<%request scope="global">
 	EpgInfoPtr epgEvent;
+	std::string epgImage;
+  uintptr_t i_event;
+  uintptr_t irecording;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
@@ -59,24 +62,31 @@ using namespace std;
 	SchedulesLockPtr schedulesLockPtr;
 #endif
 	RecordingsManagerPtr recordings;
+	epgImage.clear();
+        i_event = 0;
+        irecording = 0;
 
 	if (!epgid.empty()) {
 
-		const string recording("recording_");
-		const string event("event_");
-		const string aboutbox("aboutBox");
+		const std::string recording_s("recording_");
+		const std::string event_s("event_");
+		const std::string aboutbox("aboutBox");
 
 		// check for recording:
-		if (epgid.compare(0, recording.length(), recording) == 0) {
+		if (epgid.compare(0, recording_s.length(), recording_s) == 0) {
 			recordings = LiveRecordingsManager();
-			const cRecording* recording = recordings->GetByMd5Hash(epgid);
+			const cRecording *recording = recordings->GetByMd5Hash(epgid);
 			if (recording == 0) {
 				throw HtmlError(tr("Couldn't find recording or no recordings available"));
 			}
 			epgEvent = EpgEvents::CreateEpgInfo(epgid, recording);
+      cTvMedia image;
+			EpgEvents::PosterTvscraper(image, NULL, recording);
+			epgImage = image.path;
+      irecording = (uintptr_t)recording;
 		}
 		// check for event:
-		else if (epgid.compare(0, event.length(), event) == 0) {
+		else if (epgid.compare(0, event_s.length(), event_s) == 0) {
 #if VDRVERSNUM >= 20301
 			/* Need to lock here channels also, because CreateEpgInfo will lock
 			 * it also and this will result in a wrong lock order */
@@ -95,6 +105,11 @@ using namespace std;
 			}
 			epgEvent = EpgEvents::CreateEpgInfo(epgid, schedules);
 #endif
+			const cEvent* event = epgEvent->Event();
+      cTvMedia image;
+			EpgEvents::PosterTvscraper(image, event, NULL);
+			epgImage = image.path;
+      i_event = (uintptr_t)event;
 		}
 		// check for aboutbox:
 		else if (epgid.compare(0, aboutbox.length(), aboutbox) == 0) {
@@ -105,17 +120,19 @@ using namespace std;
 <& pageelems.doc_type &>
 <html>
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>VDR-Live - <$ pageTitle $></title>
 <%cpp>
 	if (!ajaxReq) {
 </%cpp>
 		<& pageelems.stylesheets &>
+    <& pageelems.create_html_js &>
 		<& pageelems.ajax_js &>
 <%cpp>
 	}
 </%cpp>
 	</head>
-	<body>
+	<body onload="adjustHeader()" onresize="adjustHeader()">
 <%cpp>
 	if (!ajaxReq) {
 </%cpp>
@@ -126,11 +143,19 @@ using namespace std;
 </%cpp>
 		<div class="inhalt">
 <%cpp>
+  uintptr_t i_epgEvent = 0;
 	if (epgEvent) {
-		string start(epgEvent->StartTime("%a,") + string(" ")
-				+ epgEvent->StartTime(tr("%b %d %y")) + string(" ")
-				+ epgEvent->StartTime(tr("%I:%M %p")));
-		string tools_component;
+    uintptr_t i_epgEvent = (uintptr_t)(&epgEvent);
+		std::string start(epgEvent->StartTime("%a,") + std::string(" ")
+				+ epgEvent->StartTime(tr("%b %d %y")) + std::string(" ")
+        + epgEvent->StartTime(tr("%I:%M %p")) );
+    if (epgEvent->EventDuration() < 0) {  // epg event, no recording
+      start += std::string(" - ") + epgEvent->EndTime(tr("%I:%M %p"));
+    	start += " ";
+			AppendDuration(start, tr("(%d:%02d)"), epgEvent->Duration());
+    }
+
+		std::string tools_component;
 		if (recordings) {
 			tools_component = epgEvent->Archived().empty() ? "recordings.rec_tools" : "recordings.archived_disc" ;
 		}
@@ -142,7 +167,7 @@ using namespace std;
 			tools_component = "epginfo.epgTools";
 
 </%cpp>
-		<& pageelems.epg_tt_box boxId=(epgEvent->Id()) caption=(epgEvent->Caption()) tools_comp=(tools_component) time=(start) title=(epgEvent->Title()) short_descr=(epgEvent->ShortDescr()) long_descr=(epgEvent->LongDescr()) archived=(epgEvent->Archived()) elapsed=(epgEvent->Elapsed()) channel=(epgEvent->ChannelName()) &>
+		<& pageelems.epg_tt_box boxId=(epgEvent->Id()) caption=(epgEvent->Caption()) tools_comp=(tools_component) time=(start) title=(epgEvent->Title()) short_descr=(epgEvent->ShortDescr()) long_descr=(epgEvent->LongDescr()) archived=(epgEvent->Archived()) elapsed=(epgEvent->Elapsed()) channel=(epgEvent->ChannelName()) filename=(epgEvent->FileName()) epgImage=(epgImage) irecording=(irecording) ievent=(i_event) iepgEvent=(i_epgEvent) &>
 <%cpp>
 	}
 	if (aboutBox) {
@@ -161,9 +186,10 @@ using namespace std;
 
 <%def epgTools>
 <%args>
-string id;
-string title;
+std::string id;
+std::string title;
 int detail;
+std::string s_IMDB_ID;
 </%args>
-<& pageelems.epg_tool_box detail=(detail) epgid=(id) title=(title) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) &>
+<& pageelems.epg_tool_box detail=(detail) epgid=(id) title=(title) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) s_IMDB_ID=(s_IMDB_ID) &>
 </%def>

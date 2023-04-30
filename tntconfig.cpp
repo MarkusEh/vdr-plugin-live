@@ -11,14 +11,9 @@
 #else
 #include <cxxtools/loginit.h>
 #endif
-#if !TNT_GLOBAL_TNTCONFIG
-#include <tnt/sessionscope.h>
-#include <tnt/httpreply.h>
-#endif
+#include "services.h"
 
 namespace vdrlive {
-
-	using namespace std;
 
 	TntConfig::TntConfig()
 	{
@@ -27,7 +22,7 @@ namespace vdrlive {
 	namespace {
 		std::string GetResourcePath()
 		{
-			string resourceDir(Plugin::GetResourceDirectory());
+			std::string resourceDir(Plugin::GetResourceDirectory());
 			return resourceDir;
 		}
 
@@ -47,9 +42,83 @@ namespace vdrlive {
 		}
 	}
 
+	void TntConfig::ConfigureTvscraper(tnt::Tntnet& app, const std::string &tvscraperImageDir) const
+        {
+// make the Tvscraper images available in the web server
+		// Images from tvscraper themoviedb: Movies
+			MapUrl(app,
+				   "^/tvscraper/movies/([^/]*)\\.([^./]+)",
+				   "content",
+				   tvscraperImageDir + "movies",
+				   "/$1.$2",
+				   "image/$2");
+		// Images from tvscraper themoviedb: Collections
+			MapUrl(app,
+				   "^/tvscraper/movies/collections/([^/]*)\\.([^./]+)",
+				   "content",
+				   tvscraperImageDir + "movies/collections",
+				   "/$1.$2",
+				   "image/$2");
+		// Images from tvscraper themoviedb: Actors
+			MapUrl(app,
+				   "^/tvscraper/movies/actors/([^/]*)\\.([^./]+)",
+				   "content",
+				   tvscraperImageDir + "movies/actors",
+				   "/$1.$2",
+				   "image/$2");
+		// Images from tvscraper themoviedb: tv shows
+			MapUrl(app,
+				   "^/tvscraper/movies/tv/([^/]*)/([^/]*)\\.([^./]+)",
+				   "content",
+				   tvscraperImageDir + "movies/tv",
+				   "/$1/$2.$3",
+				   "image/$3");
+		// Images from tvscraper themoviedb: tv shows, season
+			MapUrl(app,
+				   "^/tvscraper/movies/tv/([^/]*)/([^/]*)/([^/]*)\\.([^./]+)",
+				   "content",
+				   tvscraperImageDir + "movies/tv",
+				   "/$1/$2/$3.$4",
+				   "image/$4");
+		// Images from tvscraper themoviedb: tv shows, episode
+			MapUrl(app,
+				   "^/tvscraper/movies/tv/([^/]*)/([^/]*)/([^/]*)/([^/]*)\\.([^./]+)",
+				   "content",
+				   tvscraperImageDir + "movies/tv",
+				   "/$1/$2/$3/$4.$5",
+				   "image/$5");
+		// Images from tvscraper thetvdb: tv shows
+			MapUrl(app,
+				   "^/tvscraper/series/([^/]*)/([^/]*)\\.([^./]+)",
+				   "content",
+				   tvscraperImageDir + "series",
+				   "/$1/$2.$3",
+				   "image/$3");
+		// Images from tvscraper thetvdb: tv shows, episode images
+			MapUrl(app,
+				   "^/tvscraper/series/([^/]*)/([^/]*)/([^/]*)\\.([^./]+)",
+				   "content",
+				   LiveSetup().GetTvscraperImageDir() + "series",
+				   "/$1/$2/$3.$4",
+				   "image/$4");
+		// Images from tvscraper, from external EPG provider (start time, channel, image)
+			MapUrl(app,
+				   "^/tvscraper/epg/([^/]*)/([^/]*)/([^/]*)\\.([^./]+)",
+				   "content",
+				   LiveSetup().GetTvscraperImageDir() + "epg",
+				   "/$1/$2/$3.$4",
+				   "image/$4");
+		// Images from tvscraper, from external EPG provider, in recordings (start time, channel, image)
+			MapUrl(app,
+				   "^/tvscraper/recordings/([^/]*)\\.([^./]+)",
+				   "content",
+				   LiveSetup().GetTvscraperImageDir() + "recordings",
+				   "/$1.$2",
+				   "image/$2");
+        }
 	void TntConfig::Configure(tnt::Tntnet& app) const
 	{
-		string const configDir(Plugin::GetConfigDirectory());
+		std::string const configDir(Plugin::GetConfigDirectory());
 
 #if TNT_LOG_SERINFO
 		cxxtools::SerializationInfo si;
@@ -141,10 +210,23 @@ namespace vdrlive {
 			   GetResourcePath(),
 			   "/img/$2.$3",
 			   "image/$3");
-		// deprecated: file << "MapUrl ^/themes/([^/]*)/img.*/(.+)\\.(.+) $2@" << endl;
+
+// get image dir from plugin tvscraper
+		static cPlugin *pScraper = LiveSetup().GetPluginTvscraper();
+		if (pScraper) {
+// plugin tvscraper is available
+			cGetScraperImageDir getScraperImageDir;
+			if (getScraperImageDir.call(pScraper) ) {
+// plugin tvscraper supports the service interface GetScraperImageDir (version 1.05 or newer)
+				LiveSetup().SetTvscraperImageDir(getScraperImageDir.scraperImageDir);
+			}
+		}
+		if (!LiveSetup().GetTvscraperImageDir().empty()) {
+			ConfigureTvscraper(app, LiveSetup().GetTvscraperImageDir());
+		}
 
 		// Epg images
-		string const epgImgPath(LiveSetup().GetEpgImageDir());
+		std::string const epgImgPath(LiveSetup().GetEpgImageDir());
 		if (!epgImgPath.empty()) {
 			// inserted by 'tadi' -- verified with above, but not counterchecked yet!
 			MapUrl(app,
@@ -154,6 +236,14 @@ namespace vdrlive {
 				   "/$1.$2",
 				   "image/$2");
 		}
+
+		// rec images
+		MapUrl(app,
+			   "^/recimages/([^/]*)/([^/]*)\\.([^./]+)",
+			   "content",
+			   "",
+			   "/tmp/$1_$2.$3",
+			   "image/$3");
 
 		// select additional (not build in) javascript.
 		// WARNING: no path components with '.' in the name are allowed. Only
@@ -192,6 +282,9 @@ namespace vdrlive {
 			   "/img/favicon.ico",
 			   "image/x-icon");
 
+		// Map HLS streaming data folder. Module stream_data.ecpp is used to serve content.
+		app.mapUrl("^/media/(.+)", "stream_data");
+
 		// takes first path components without 'extension' when it does not
 		// contain '.'
 		// modified by 'tadi' -- verified with above, but not counterchecked yet!
@@ -199,10 +292,10 @@ namespace vdrlive {
 
 #if TNT_GLOBAL_TNTCONFIG
 		tnt::TntConfig::it().sessionTimeout = 86400;
-		tnt::TntConfig::it().defaultContentType = string("text/html; charset=") + LiveI18n().CharacterEncoding();
+		tnt::TntConfig::it().defaultContentType = std::string("text/html; charset=") + LiveI18n().CharacterEncoding();
 #else
 		tnt::Sessionscope::setDefaultTimeout(86400);
-		tnt::HttpReply::setDefaultContentType(string("text/html; charset=") + LiveI18n().CharacterEncoding());
+		tnt::HttpReply::setDefaultContentType(std::string("text/html; charset=") + LiveI18n().CharacterEncoding());
 #endif
 
 		Setup::IpList const& ips = LiveSetup().GetServerIps();
@@ -210,11 +303,11 @@ namespace vdrlive {
 		size_t listenFailures = 0;
 		for (Setup::IpList::const_iterator ip = ips.begin(); ip != ips.end(); ++ip) {
 			try {
-				esyslog("[live] INFO: attempt to listen on ip = '%s'", ip->c_str());
+				esyslog("live: INFO: attempt to listen on ip = '%s'", ip->c_str());
 				app.listen(*ip, port);
 			}
-			catch (exception const & ex) {
-				esyslog("[live] ERROR: ip = %s is invalid: exception = %s", ip->c_str(), ex.what());
+			catch (std::exception const & ex) {
+				esyslog("live: ERROR: ip = %s is invalid: exception = %s", ip->c_str(), ex.what());
 				if (++listenFailures == ips.size()) {
 					// if no listener was initialized we throw at
 					// least the last exception to the next layer.
@@ -224,24 +317,29 @@ namespace vdrlive {
 		}
 
 		int s_port = LiveSetup().GetServerSslPort();
-		string s_cert = LiveSetup().GetServerSslCert();
-		string s_key = LiveSetup().GetServerSslKey();
+		if (s_port > 0) {
+			std::string s_cert = LiveSetup().GetServerSslCert();
+			std::string s_key = LiveSetup().GetServerSslKey();
 
-		if (s_cert.empty()) {
-			s_cert = configDir + "/live.pem";
-		}
+			if (s_cert.empty()) {
+				s_cert = configDir + "/live.pem";
+			}
 
-		if (s_key.empty()) {
-			s_key = configDir + "/live-key.pem";
-		}
+			if (s_key.empty()) {
+				s_key = configDir + "/live-key.pem";
+			}
 
-		if ( ifstream( s_cert.c_str() ) && ifstream( s_key.c_str() ) ) {
-			for ( Setup::IpList::const_iterator ip = ips.begin(); ip != ips.end(); ++ip ) {
-				app.sslListen(s_cert, s_key, *ip, s_port);
+			if (std::ifstream( s_cert.c_str() ) && std::ifstream( s_key.c_str() ) ) {
+				for ( Setup::IpList::const_iterator ip = ips.begin(); ip != ips.end(); ++ip ) {
+					app.sslListen(s_cert, s_key, *ip, s_port);
+				}
+			}
+			else {
+				esyslog( "live: ERROR: Unable to load cert/key (%s / %s): %s", s_cert.c_str(), s_key.c_str(), strerror( errno ) );
 			}
 		}
 		else {
-			esyslog( "[live] ERROR: Unable to load cert/key (%s/%s): %s", s_cert.c_str(), s_key.c_str(), strerror( errno ) );
+			isyslog( "live: INFO: ssl port %d specified, no ssl webserver will be started", s_port);
 		}
 	}
 

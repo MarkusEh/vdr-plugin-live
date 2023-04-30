@@ -12,10 +12,6 @@ var PageEnhance = new Class({
 	  options: {
 		  epgLinkSelector: 'a[href^="epginfo.html?epgid"]',
 		  actionLinkSelector: 'a[href^="vdr_request/"]',
-		  vlcLinkSelector: 'a[href^="vlc.html?"]',
-		  vlcWinOptions: {
-			  size: { width: 720, height: 640 }
-			},
 		  editTimerSelector: 'a[href^="edit_timer.html?timerid"]',
 		  hintTipSelector: '*[title]',
 		  hintClassName: 'hint',
@@ -28,9 +24,7 @@ var PageEnhance = new Class({
 		  notifyStrings: {
 			  successMsg: '<img src="active.png" alt=""> Success!',
 			  errorMsg: '<img src="del.png" alt=""> failed!'
-		  },
-		  datePickerSelector: 'input.DatePicker',
-		  datePickerOptions: ''
+		  }
 	  },
 
 	  initialize: function(options){
@@ -45,8 +39,6 @@ var PageEnhance = new Class({
 			$$(this.options.epgLinkSelector).each(this.epgPopup.bind(this));
 			this.addHintTips($$(this.options.hintTipSelector));
 			$$(this.options.actionLinkSelector).each(this.vdrRequest.bind(this));
-			$$(this.options.vlcLinkSelector).each(this.vlcRequest.bind(this));
-			$$(this.options.datePickerSelector).each(this.datePicker.bind(this));
 			// the following line activates timer editing in popup window.
 			// but it does not yet work like expected. So we leave it deactivated currently.
 			// $$(this.options.editTimerSelector).each(this.editTimer.bind(this));
@@ -64,7 +56,6 @@ var PageEnhance = new Class({
 			elems = $$(sel);
 			this.addHintTips(elems);
 			$$('#' + id + ' ' + this.options.actionLinkSelector).each(this.vdrRequest.bind(this));
-			$$('#' + id + ' ' + this.options.vlcLinkSelector).each(this.vlcRequest.bind(this));
 		},
 
 	  // Epg Popup function. Apply to all elements that should
@@ -78,6 +69,10 @@ var PageEnhance = new Class({
 				if ($defined(found) && found.length > 1) {
 					epgid = found[1];
 					el.addEvent('click', function(event){
+							if (window.matchMedia("(max-width: 600px)").matches) {
+                location.replace(href);
+                return true;
+							}
 							var event = new Event(event);
 							new InfoWin.Ajax(epgid, href, $merge(this.options.infoWinOptions, {
 									  onDomExtend: this.domExtend.bind(this)
@@ -140,40 +135,26 @@ var PageEnhance = new Class({
 				}.bindWithEvent(this, el));
 		},
 
-	  // function that opens a window for streaming of tv data.
-	  vlcRequest: function(el){
-			el.addEvent('click', function(event, element){
-					var href = $pick(element.href, "");
-					if (href != "") {
-						href += "&async=1";
-						var bw = new BrowserWin("vlcstream", href, this.options.vlcWinOptions);
-						event.stop();
-						return false;
-					}
-					return true;
-				}.bindWithEvent(this, el));
-		},
-
 	  // change normal 'title'-Attributes into enhanced hinttips
 	  // usesd by domExtend and domReadySetup functions.
-	  addHintTips: function(elems){
+	  addHintTips: function(elems) {
+			if (window.matchMedia("(hover: none)").matches) {
+			elems_use = elems.filter(
+				function(item, index){ return !item.hasClass('apopup'); }
+				);
+        	} else {
+        		elems_use = elems;
+         	}
 			if (!$defined(this.tips)) {
-				this.tips = new HintTips(elems, {
+				this.tips = new HintTips(elems_use, {
 					  maxTitleChars: 100,
 					  className: this.options.hintClassName
 					});
 			}
 			else {
-				$$(elems).each(this.tips.build, this.tips);
+				$$(elems_use).each(this.tips.build, this.tips);
 			}
-		},
-
-	  // add datepicker to input element
-	  datePicker: function(el){
-			el.alt = this.options.datePickerOptions;
-			new DatePicker(el);
 		}
-
 	});
 
 PageEnhance.implement(new Events, new Options);

@@ -4,20 +4,26 @@
 #include <tools.h>
 #include <setup.h>
 #include <epg_events.h>
+#include <timers.h>
+#include <recman.h>
+#include <services.h>
+
 
 using namespace vdrlive;
-using namespace std;
 
 </%pre>
 <%args>
 	// input parameters
-	string searchtimerid;
-	string searchtimerquery;
-	string searchplain;
+	std::string searchtimerid;
+	std::string searchtimerquery;
+	std::string searchplain;
 </%args>
 <%session scope="global">
 bool logged_in(false);
 </%session>
+<%request scope="page">
+	std::string searchterm="";
+</%request>
 <%include>page_init.eh</%include>
 <%cpp>
 	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
@@ -38,79 +44,101 @@ bool logged_in(false);
 		s.SetUseSubtitle(false);
 		s.SetUseDescription(false);
 		results.GetByQuery(s.ToText());
+
+		searchterm = searchplain;
 	}
 </%cpp>
 <& pageelems.doc_type &>
 <html>
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>VDR-Live - <$ pageTitle $></title>
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
+    <& pageelems.create_html_js &>
 	</head>
-	<body>
+	<body onload="adjustHeader()" onresize="adjustHeader()">
 		<& pageelems.logo &>
-		<& menu active=("searchepg") &>
+		<& menu active=("searchepg") component=("searchresults.searchresults_actions") &>
 		<div class="inhalt">
 %			if (results.size() == 0) {
 				<$ tr("No search results") $>
 %			}
 			<table class="listing" cellspacing="0" cellpadding="0">
 <%cpp>
-				string current_day = "";
+				std::string current_day = "";
+				bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
+        cLargeString epg_itemS("epg_itemS", 1000);
+				RecordingsItemPtr recItem;
+				bool recItemFound;
 
-#if VDRVERSNUM >= 20301
-				LOCK_CHANNELS_READ;
-#endif
 				for (SearchResults::iterator result = results.begin(); result != results.end(); ++result) {
+					epg_itemS.clear();
 #if VDRVERSNUM >= 20301
-					cChannel* channel = (cChannel *)Channels->GetByChannelID(result->Channel());
-#else
-					cChannel* channel = Channels.GetByChannelID(result->Channel());
+                                       	cStateKey StateKey;
+                                      	if (const cChannels *Channels = cChannels::GetChannelsRead(StateKey)) {
+#ifdef DEBUG_LOCK
+		                		dsyslog("live: pages/searchresults.ecpp LOCK_CHANNELS_READ");
 #endif
-					if (!channel) continue;
-					string channelname = channel->Name();
-					int channelnr = channel->Number();
-					string start(result->StartTime() ? FormatDateTime(tr("%I:%M %p"), result->StartTime()) : "");
-					string end(result->StopTime() ? FormatDateTime(tr("%I:%M %p"), result->StopTime()) : "");
-					string day(result->StartTime() ? FormatDateTime(tr("%A, %b %d %Y"), result->StartTime()) : "");
-					string description = result->Description();
-					string epgid = EpgEvents::EncodeDomId(result->Channel(), result->EventId());
+						cChannel* channel = (cChannel *)Channels->GetByChannelID(result->Channel());
+#else
+						cChannel* channel = Channels.GetByChannelID(result->Channel());
+#endif
+						if (!channel) {
+         						StateKey.Remove();
+							continue;
+						}
+						const cEvent *event = result->GetEvent(channel);
+						std::string day(result->StartTime() ? FormatDateTime(tr("%A, %b %d %Y"), result->StartTime()) : "");
+						bool bottom = false;
+						SearchResults::iterator nextResult = result; ++nextResult;
+						if (nextResult == results.end())
+							bottom = true;
+						else {
+							std::string nextDay(nextResult->StartTime() ? FormatDateTime(tr("%A, %b %d %Y"), nextResult->StartTime()) : "");
+							bottom = (day != nextDay);
+						}
 
-					bool truncated = false;
+					        StateKey.Remove();  // release channels read lock before calling event_timer which make a timers read lock
+						recItemFound = appendEpgItem(epg_itemS, recItem, event, channel, true);
+						int col_span = 4;
+						if (display_pictures) col_span++;
+						if (current_day != day) {
+							if (current_day != "") {
 
-					bool bottom = false;
-					SearchResults::iterator nextResult = result; ++nextResult;
-					if (nextResult == results.end())
-						bottom = true;
-					else {
-						string nextDay(nextResult->StartTime() ? FormatDateTime(tr("%A, %b %d %Y"), nextResult->StartTime()) : "");
-						bottom = (day != nextDay);
-					}
-
-					if (current_day != day) {
-						if (current_day != "") {
 </%cpp>
-					<tr class="spacer">
-						<td colspan="4"/>
-					</tr>
+							<tr class="spacer">
+								<td colspan="<$col_span$>"/>
+							</tr>
+%							}
+						<tr class="head">
+							<td colspan="<$col_span$>"><div class="boxheader"><div><div><$ day $></div></div></div></td>
+						</tr>
+%							current_day = day;
 %						}
-					<tr class="head">
-						<td colspan="4"><div class="boxheader"><div><div><$ day $></div></div></div></td>
-					</tr>
-%						current_day = day;
+<script>
+  document.write(eventString(<$(bottom && !recItemFound)?"1":"0"$>, <$$ epg_itemS.c_str() $>))
+</script>
+<%cpp>
+if(recItemFound) {
+  epg_itemS.clear();
+  recItem->AppendAsJSArray(epg_itemS, true);
+</%cpp>
+  <script>  
+    document.write(existingRecordingString(<$col_span - 2$>, \"<? bottom ? "bottomrow" ?>\", <$$epg_itemS.c_str()$>))
+  </script>  
+<%cpp> } </%cpp>
 %					}
-					<tr>
-						<td class="action leftcol <? bottom ? "bottomrow"?>"><& pageelems.event_timer epgid=(epgid) &></td>
-						<td class="topaligned <? bottom ? "bottomrow"?>"><div class="withmargin"><a href="schedule.html?channel=<$ channelnr $>"><$ channelname $></a></div></td>
-						<td class="topaligned <? bottom ? "bottomrow"?>"><div class="withmargin nowrap"><$ start $> - <$ end $></div></td>
-						<td class="topaligned rightcol <? bottom ? "bottomrow"?>"><div class="more withmargin"><a <& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(description, 300, truncated)) + "<br />" + tr("Click to view details.")) &><& tooltip.display domId=(epgid) &>><span class="title"><$ result->Title() $></span><br /><span class="short"><%cpp>if (result->ShortText().empty()) { </%cpp>&nbsp;<%cpp> } </%cpp><$ result->ShortText() $></span></a></div></td>
-					</tr>
 %				}
 			</table>
 		</div>
 	</body>
+<script>imgLoad()</script>
 </html>
 
 <%include>page_exit.eh</%include>
 
 
+<%def searchresults_actions>
+<a href="edit_searchtimer.html?search=<$ searchterm $>"><$ tr("New search timer") $></a>
+</%def>

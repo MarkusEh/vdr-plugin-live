@@ -10,21 +10,23 @@
 #include <users.h>
 
 #include <vdr/timers.h>
+#include <vdr/svdrp.h>
 
-using namespace std;
 using namespace vdrlive;
 
 </%pre>
 <%args>
 	// input parameters
-	string timerid;
-	string epgid;
-	string async;
+	std::string timerid;
+	std::string epgid;
+	std::string async;
 	// form parameters
-	tChannelID channel;
+	tChannelID channel;           // used with Tntnet20
+  std::string channel_string = "";   // used with Tntnet30
 	int active = 1;
-	string title = "";
-	string date = "";
+	std::string title = "";
+	std::string remoteServerName = "";
+	std::string date = "";
 	bool wday_mon = false;
 	bool wday_tue = false;
 	bool wday_wed = false;
@@ -32,19 +34,17 @@ using namespace vdrlive;
 	bool wday_fri = false;
 	bool wday_sat = false;
 	bool wday_sun = false;
-	int start_h = 0;
-	int start_m = 0;
-	int end_h = 0;
-	int end_m = 0;
+  std::string start_s = "00:00";
+  std::string stop_s = "00:00";
 	bool vps = 0;
 	int priority = 0;
 	int lifetime = 0;
-	string aux = "";
-	string directory = "";
+	std::string aux = "";
+	std::string directory = "";
 </%args>
 <%session scope="global">
 bool logged_in(false);
-string edit_timerreferer;
+std::string edit_timerreferer;
 TimerConflictNotifier timerNotifier;
 </%session>
 <%request scope="page">
@@ -52,6 +52,9 @@ const cTimer* timer;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
+#if TNTVERSION >= 30000
+	channel = channel.FromString(channel_string.c_str());  // Tntnet30: get struct channel from parameter string
+#endif
 	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 	if (!cUser::CurrentUserHasRightTo(UR_EDITTIMERS))
@@ -62,26 +65,35 @@ const cTimer* timer;
 	tChannelID channelid = tChannelID();
 	tEventID eventid = tEventID();
 
-	string message;
+	std::string message;
 	cMutexLock timersLock( &LiveTimerManager() );
 	SortedTimers& timers = LiveTimerManager().GetTimers();
 
 	timer = 0;
+	int timerId = 0;
 	if ( !timerid.empty() ) {
-		string tId = SortedTimers::DecodeDomId(timerid);
-		// dsyslog("DEBUG: TIMER: tId = %s", tId.c_str());
+		std::string tId = SortedTimers::DecodeDomId(timerid);
+//		dsyslog("live: DEBUG: TIMER: timerid = %s", timerid);
+//		dsyslog("live: DEBUG: TIMER: tId = %s", tId.c_str());
 		timer = timers.GetByTimerId(tId);
 		if ( timer == 0 )
 			throw HtmlError( tr("Couldn't find timer. Maybe you mistyped your request?") );
+                else 
+                   	timerId = timer->Id();
 	}
 
 	if ( request.getMethod() == "POST" ) {
+		const char* oldRemote = NULL;
+		if ( timer != 0 ) {
+			oldRemote = timer->Remote();
+//			dsyslog("live: found valid timer on server '%s'", oldRemote);
+                }
 		uint flags = ( active ? tfActive : 0 ) | ( vps ? tfVps : 0 );
-		string weekdays = string( wday_mon ? "M" : "-" ) + ( wday_tue ? "T" : "-" ) + ( wday_wed ? "W" : "-" )
+		std::string weekdays = std::string( wday_mon ? "M" : "-" ) + ( wday_tue ? "T" : "-" ) + ( wday_wed ? "W" : "-" )
 							  + ( wday_thu ? "T" : "-" ) + ( wday_fri ? "F" : "-" ) + ( wday_sat ? "S" : "-" )
 							  + ( wday_sun ? "S" : "-" );
-		int start = start_h * 100 + start_m;
-		int stop = end_h * 100 + end_m;
+		int start = timeStringToInt(start_s);
+		int stop = timeStringToInt(stop_s);
 
 		if (!directory.empty())
 		   title = directory + "~" + title;
@@ -90,10 +102,9 @@ const cTimer* timer;
 			message = tr("Please set a title for the timer!");
 		else
 		{
-			// TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
-			time_t tdate = GetDateFromDatePicker(date, tr("mm/dd/yyyy"));
-			string sdate = DatePickerToC(tdate, "yyyy-mm-dd");
-			LiveTimerManager().UpdateTimer( timer, flags, channel, weekdays, sdate, start, stop, priority, lifetime, title, aux );
+			const char* remote = ( remoteServerName == "") ? NULL : remoteServerName.c_str();
+//		dsyslog("live: remote '%s'", remote);
+			LiveTimerManager().UpdateTimer( timerId, remote, oldRemote, flags, channel, weekdays, date, start, stop, priority, lifetime, title, aux );
 			timerNotifier.SetTimerModification();
 			return reply.redirect(!edit_timerreferer.empty()?edit_timerreferer:"timers.html");
 		}
@@ -102,7 +113,7 @@ const cTimer* timer;
 	if (message.empty())
 		edit_timerreferer = request.getHeader("Referer:", "timers.html");
 
-	std::unique_ptr< cTimer > eventTimer;
+	std::unique_ptr<cTimer> eventTimer;
 	if ( timer == 0 && !epgid.empty()) {
 		EpgEvents::DecodeDomId(epgid, channelid, eventid);
 		if ( channelid.Valid() && eventid != 0 ) {
@@ -117,8 +128,13 @@ const cTimer* timer;
 			cSchedules const* schedules = cSchedules::Schedules( schedLock );
 			schedule = schedules->GetSchedule( channelid );
 #endif
-
-			eventTimer.reset( new cTimer( schedule->GetEvent( eventid ) ) );
+			const cEvent *event = schedule->GetEvent( eventid );
+			if (event) eventTimer.reset( new cTimer( event ) );
+			else {
+				esyslog("live: edit timer with eventid %d not valid", eventid);
+				eventTimer.reset( new cTimer() );
+				eventTimer->SetFlags( tfActive );
+                        }
 		} else {
 			eventTimer.reset( new cTimer() );
 			eventTimer->SetFlags( tfActive );
@@ -136,15 +152,17 @@ const cTimer* timer;
 		active = timer->Flags() & tfActive;
 		channel = timer->Channel()->GetChannelID();
 		title = timer->File() ? timer->File() : "";
-		if ( LiveFeatures< features::epgsearch >().Recent() ) {
-			vector< string > directories = StringSplit( title, '~' );
+		remoteServerName = timer->Remote() ? timer->Remote() : "";
+//                dsyslog("live: remoteServerName '%s'", remoteServerName.c_str());
+		if ( LiveFeatures<features::epgsearch>().Recent() ) {
+			std::vector<std::string> directories = StringSplit( title, '~' );
 			if (directories.size() > 1) {
 				directory = directories[0];
 				title = title.substr(directory.size()+1);
 			}
 		}
 		// TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
-		date = timer->Day() ? DatePickerToC(timer->Day(), tr("mm/dd/yyyy")) : "";
+		date = timer->Day() ? DatePickerToC(timer->Day(), "yyyy-mm-dd") : "";
 		wday_mon = timer->WeekDays() & 0x01;
 		wday_tue = timer->WeekDays() & 0x02;
 		wday_wed = timer->WeekDays() & 0x04;
@@ -152,10 +170,8 @@ const cTimer* timer;
 		wday_fri = timer->WeekDays() & 0x10;
 		wday_sat = timer->WeekDays() & 0x20;
 		wday_sun = timer->WeekDays() & 0x40;
-		start_h = ( timer->Start() / 100 ) % 100;
-		start_m = timer->Start() % 100;
-		end_h = ( timer->Stop() / 100 ) % 100;
-		end_m = timer->Stop() % 100;
+                start_s = intToTimeString(timer->Start() );
+                stop_s = intToTimeString(timer->Stop() );
 		vps = timer->Flags() & tfVps;
 		priority = timer->Priority();
 		lifetime = timer->Lifetime();
@@ -165,6 +181,7 @@ const cTimer* timer;
 <& pageelems.doc_type &>
 <html>
 	<head>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>VDR Live - <$ timer ? tr("Edit timer") : tr("New timer") $></title>
 <%cpp>
 	if (!ajaxReq) {
@@ -175,7 +192,7 @@ const cTimer* timer;
 	}
 </%cpp>
 	</head>
-	<body>
+	<body onload="adjustHeader()" onresize="adjustHeader()">
 <%cpp>
 	if (!ajaxReq) {
 </%cpp>
@@ -209,15 +226,50 @@ const cTimer* timer;
 
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ trVDR("Channel") $>:</div></td>
-						<td class="rightcol"><div class="withmargin"><& channels_widget name=("channel") channelid=(true) selected=(channel) &></div></td>
+<%cpp>
+#if TNTVERSION >= 30000
+						std::string name = "channel_string";  // Tntnet30 does not work with parameter type tChannelID
+#else
+						std::string name = "channel";
+#endif
+</%cpp>
+						<td class="rightcol"><div class="withmargin"><& channels_widget name=(name) channelid=(true) selected=(channel) &></div></td>
 					</tr>
 
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Title" ) $>:</div></td>
-						<td class="rightcol"><input type="text" name="title" value="<$ title $>" size="80" /></td>
+						<td class="rightcol"><input type="text" name="title" value="<$ title $>" size="55" class="width99" /></td>
 					</tr>
 <%cpp>
-					if ( LiveFeatures< features::epgsearch >().Recent() ) {
+					cStringList svdrpServerNames;
+					if (GetSVDRPServerNames(&svdrpServerNames)) {
+						svdrpServerNames.Sort(true);
+</%cpp>
+					<tr>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Server" ) $>:</div></td>
+						<td class="rightcol"><select name="remoteServerName" size="1" id="remoteServerName" style="margin-top: 5px">
+							<option/>
+<%cpp>
+							for (int i = 0; i < svdrpServerNames.Size(); i++) {
+							std::string rsrv = svdrpServerNames[i];
+</%cpp>
+							<option
+%								if (rsrv == remoteServerName) {
+								selected="selected"
+%								}
+							><$ rsrv $></option>
+<%cpp>
+							}
+</%cpp>
+							</select>
+						</td>
+					</tr>
+<%cpp>
+					svdrpServerNames.Clear();
+					}
+</%cpp>
+<%cpp>
+					if ( LiveFeatures<features::epgsearch>().Recent() ) {
 						RecordingDirs recordingdirs(true);
 </%cpp>
 					<tr>
@@ -243,7 +295,7 @@ const cTimer* timer;
 
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ trVDR("Day") $>:</div></td>
-						<td class="rightcol"><input id="date" name="date" type="text" class="DatePicker" value="<$ date $>" /></td>
+						<td class="rightcol"><input id="date" name="date" type="date" value="<$ date $>" /></td>
 					</tr>
 
 					<tr>
@@ -282,12 +334,13 @@ const cTimer* timer;
 
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ trVDR("Start") $>:</div></td>
-						<td class="rightcol"><input type="text" size="2" maxlength="2" name="start_h" value="<$ ZeroPad(start_h) $>" /> : <input type="text" size="2" maxlength="2" name="start_m" value="<$ ZeroPad(start_m) $>" /></td>
+						<td class="rightcol"><input type="time" name="start_s" value="<$ start_s $>" /> </td>
 					</tr>
 
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ trVDR("Stop") $>:</div></td>
-						<td class="rightcol"><input type="text" size="2" maxlength="2" name="end_h" value="<$ ZeroPad(end_h) $>" /> : <input type="text" size="2" maxlength="2" name="end_m" value="<$ ZeroPad(end_m) $>" /></td>
+						<td class="rightcol"><input type="time" name="stop_s" value="<$ stop_s $>" />
+</td>
 					</tr>
 
 					<tr>
@@ -297,12 +350,12 @@ const cTimer* timer;
 
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ trVDR("Priority") $>:</div></td>
-						<td class="rightcol"><input type="text" size="2" maxlength="2" name="priority" value="<$ priority $>" /></td>
+						<td class="rightcol"><input type="number" size="6" min="0" max="99" name="priority" value="<$ priority $>" /></td>
 					</tr>
 
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ trVDR("Lifetime") $>:</div></td>
-						<td class="rightcol"><input type="text" size="2" maxlength="2" name="lifetime" value="<$ lifetime $>" /></td>
+						<td class="rightcol"><input type="number" size="6" min="0" max="99" name="lifetime" value="<$ lifetime $>" /></td>
 					</tr>
 
 					<tr>

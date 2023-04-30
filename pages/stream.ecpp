@@ -1,0 +1,212 @@
+<%pre>
+
+#include <livefeatures.h>
+#include <setup.h>
+#include <ffmpeg.h>
+#include <tools.h>
+#include <epg_events.h>
+
+using namespace vdrlive;
+
+</%pre>
+<%args>
+	std::string channelid_str;
+	int channel = 1;
+</%args>
+<%session scope="global">
+	bool logged_in(false);
+	FFmpegThread *f_worker = NULL;
+</%session>
+<%request scope="global">
+	cChannel* Channel;
+</%request>
+<%include>page_init.eh</%include>
+<%cpp>
+        tChannelID channelid;
+        channelid = channelid.FromString(channelid_str.c_str());
+	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+
+	pageTitle = trVDR("Stream");
+
+	// check for session cookie.
+	std::string session;
+	if (request.hasCookie("tntnet")) {
+		session = request.getCookie("tntnet");
+		dsyslog("vdrlive::stream::session(%s)", session.c_str());
+	}
+	else {
+		esyslog("vdrlive::stream: no session cookie found");
+		return reply.redirect("");
+	}
+
+#if VDRVERSNUM < 20301
+	ReadLock channelsLock( Channels );
+	if ( !channelsLock )
+		throw HtmlError( tr("Couldn't aquire access to channels, please try again later.") );
+#endif
+
+	if ( qparam.has("channelid_str") ) {
+#if VDRVERSNUM >= 20301
+		LOCK_CHANNELS_READ;
+		cChannel *c = (cChannel *)Channels->GetByChannelID( channelid );
+#else
+		cChannel *c = Channels.GetByChannelID( channelid );
+#endif
+		if ( c ) channel = c->Number();
+	}
+	if ( channel > 0 ) {
+#if VDRVERSNUM >= 20301
+		LOCK_CHANNELS_READ;
+		Channel = (cChannel *)Channels->GetByNumber( channel );
+#else
+		Channel = Channels.GetByNumber( channel );
+#endif
+	}
+	if ( Channel == 0 )
+		throw HtmlError( tr("Couldn't find channel or no channels available. Maybe you mistyped your request?") );
+
+	dsyslog("vdrlive::stream::vtype(%d)", Channel->Vtype());
+	dsyslog("vdrlive::stream::f_worker(%p)", f_worker);
+	if ( !f_worker) {
+		f_worker = new FFmpegThread();
+		dsyslog("vdrlive::stream: new FFmpegThread created");
+	}
+
+	switch( Channel->Vtype() ) {
+		case 27: // h264
+			f_worker->StartFFmpeg(session, channel, 0);
+			break;
+		case 36: // h265
+			f_worker->StartFFmpeg(session, channel, 1);
+			break;
+		case 2: // mpeg2
+			f_worker->StartFFmpeg(session, channel, 2);
+			break;
+		default: // others
+			f_worker->StartFFmpeg(session, channel, 3);
+	}
+	dsyslog("vdrlive::stream::StartFFmpeg(%d)", channel);
+
+</%cpp>
+<# <& pageelems.doc_type &> #>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>VDR Live - <$ pageTitle $></title>
+		<& pageelems.stylesheets &>
+		<& pageelems.ajax_js &>
+		<script> window.onbeforeunload = function() { player.stop(); } </script>
+	</head>
+	<body onload="adjustHeader()" onresize="adjustHeader()">
+		<& pageelems.logo &>
+		<& menu active=("stream") component=("stream.channel_selection") &>
+		<div class="inhalt">
+            <center>
+			<div id="player">
+
+				<script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+				<script>
+				Clappr.Log.setLevel(Clappr.Log.LEVEL_INFO);
+				var player = new Clappr.Player({
+					source: "media/<$ session $>/master_<$ std::to_string(channel) $>.m3u8",
+					parentId: "#player",
+					width: 1280, height: 720,
+					autoPlay: "true",
+					events: {
+						onError: function(error) { console.log('Calppr.Player error: ', error); player.play(); },
+						onEnded: function() { console.log('Clappr.Player ended'); player.play(); },
+					}
+				});
+				</script>
+			</div>
+<%cpp>
+dsyslog("vdrlive::stream: generating EPG info");
+const cSchedule *Schedule = NULL;
+{
+#if VDRVERSNUM >= 20301
+
+	LOCK_SCHEDULES_READ;
+#else
+	cSchedulesLock schedulesLock;
+	const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
+#endif
+
+	Schedule = Schedules->GetSchedule(Channel);
+}
+const cEvent *Event = NULL;
+if (Schedule)
+	Event = Schedule->GetPresentEvent();
+
+EpgInfoPtr epgEvent;
+if (Event) {
+	epgEvent = EpgEvents::CreateEpgInfo(Channel, Event);
+
+	tChannelID chanId;
+	tEventID eventId;
+	EpgEvents::DecodeDomId(epgEvent->Id(), chanId, eventId);
+	char const * timeFormat = tr("%I:%M %p");
+	char const * dateFormat = tr("%A, %x");
+	std::string headTime = FormatDateTime(timeFormat, time(0));
+	std::string headDate = FormatDateTime(dateFormat, time(0));
+	std::string startTime(epgEvent->StartTime(tr("%I:%M %p")));
+	std::string endTime(epgEvent->EndTime(tr("%I:%M %p")));
+	std::string startDate(epgEvent->StartTime(tr("%a, %x")));
+
+	std::string timeSpan(startTime + " - " + endTime);
+
+	if (startTime.empty() && endTime.empty()) {
+		timeSpan = headTime;
+		startDate = headDate;
+	}
+  std::string longDescription = StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), LiveSetup().GetMaxTooltipChars()))
+	  + "<br/><br/>" + tr("Click to view details.");
+	</%cpp>
+			<table class="listing" cellspacing="0" cellpadding="0">
+				<tr>
+					<& pageelems.epg_tool_box detail=(0) epgid=(epgEvent->Id()) title=(epgEvent->Title()) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) lastCurrentChanel=(1) &>
+					<td class="topaligned bottomrow">
+						<div class="withmargin">
+							<div class="nomargin nowrap"><$ (timeSpan) $></div>
+							<div class="progress"><div><& pageelems.progressbar progress=(epgEvent->Elapsed()) duration=(epgEvent->Duration()) &></div></div>
+						</div>
+					</td>
+					<td class="topaligned bottomrow" style="width: 788px">
+						<div class="more withmargin">
+%						if (eventId != 0) {
+						    <a
+%							if (!longDescription.empty()) {
+							<& tooltip.hint text=(longDescription) &><& tooltip.display domId=(epgEvent->Id()) &>
+%							}
+							><span class="title"><$ (epgEvent->Title()) $></span><br /><span class="short"><$ (epgEvent->ShortDescr()) $></span></a>
+%							} else {
+							<span class="title"><$ (epgEvent->Title()) $></span>
+%							}
+						</div>
+					</td>
+					<td class="topaligned rightcol bottomrow" style="width: 250px"><div class="station withmargin"><a	href="schedule.html?channel=<$ std::to_string(channel) $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ std::to_string(channel) $><$ tr(" - ") $><$ (epgEvent->Caption()) $></a></div>
+					</td>
+				</tr>
+			</table>
+			</center>
+%} // if (Event)
+		</div>
+	</body>
+</html>
+<%include>page_exit.eh</%include>
+
+<%def channel_selection>
+<form action="stream.html" method="get" id="channels">
+  <span>
+    <label for="channel"><$ tr("Channel") $>:&nbsp;<span class="bold"><$ std::to_string(Channel->Number()) $></span></label>
+    <& channels_widget name=("channel") selected=(Channel ? *Channel->GetChannelID().ToString() : "") onchange=("player.stop(); document.forms.channels.submit()") &>
+%   if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
+      <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(Channel->GetChannelID()) image="zap.png" alt="" &>
+%   }
+  </span>
+</form>
+<span class="sep">|</span>
+<a href="stream.html?channel=<$ std::max(0, ((int)Channel->Number() - 1)) $>">« Prev</a>
+<span class="sep">|</span>
+<a href="stream.html?channel=<$ (Channel->Number() + 1) $>">Next »</a>
+</%def>

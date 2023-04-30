@@ -6,39 +6,40 @@
 #include <epg_events.h>
 #include <epgsearch.h>
 
-using namespace std;
 using namespace vdrlive;
 
-static const size_t maximumDescriptionLength = 300;
-static const size_t maximumTooltipHintLength = 150;
+static const size_t maximumTruncDescriptionLength = 150;  // characters for the description in the "boxes"
 
 </%pre>
 <%args>
 type = "now";
-string mode;
-string attime;
-string fixtime;
+std::string mode;
+std::string attime;
+std::string fixtime;
 </%args>
 <%session scope="global">
 bool logged_in(false);
 </%session>
-<%request scope="page">
-string current_type;
-string current_mode;
-string current_attime;
-string current_fixtime;
-string current_displaytime;
+
+<# scope="page" should be enough but does not work with tntnet 3.0 #>
+<%request scope="global">
+std::string current_type;
+std::string current_mode;
+std::string current_attime;
+std::string current_fixtime;
+std::string current_displaytime;
 </%request>
+
 <%include>page_init.eh</%include>
 <%cpp>
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 
-string head;
+std::string head;
 time_t seektime = 0;
-string displaytime;
-string headTime;
-string headDate;
+std::string displaytime;
+std::string headTime;
+std::string headDate;
 
 if (mode.empty())
 	mode = LiveSetup().GetLastWhatsOnListMode();
@@ -59,7 +60,7 @@ if (mode == "detail") {
 if (type == "now") {
 	headTime = FormatDateTime(timeFormat, time(0));
 	headDate = FormatDateTime(dateFormat, time(0));
-	head = string(tr("What's running on")) + " " + headDate + " " + tr("at") + " " + headTime;
+	head = std::string(tr("What's running on")) + " " + headDate + " " + tr("at") + " " + headTime;
 } else if (type == "next") {
 	headTime = FormatDateTime(timeFormat, time(0) + 3600);
 	headDate = FormatDateTime(dateFormat, time(0) + 3600);
@@ -76,7 +77,7 @@ if (type == "now") {
 		seektime += SECSINDAY;
 	headTime = FormatDateTime(timeFormat, seektime);
 	headDate = FormatDateTime(dateFormat, seektime);
-	head = string(tr("What's running on")) + " " + headDate + " " + tr("at") + string(" ") + headTime;
+	head = std::string(tr("What's running on")) + " " + headDate + " " + tr("at") + std::string(" ") + headTime;
 } else if (type == "favs") {
 	head = tr("Favorites");
 }
@@ -85,9 +86,11 @@ if (type == "now") {
 <& pageelems.doc_type &>
 <html>
 	<head>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>VDR-Live - <$ head $></title>
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
+    <& pageelems.create_html_js &>
 		<script type="text/javascript"><!--
 		function showtime(selection)
 		{
@@ -101,14 +104,14 @@ if (type == "now") {
 		}
 		//--></script>
 	</head>
-	<body>
+	<body onload="adjustHeader()" onresize="adjustHeader()">
 		<& pageelems.logo &>
 		<& menu active=("whats_on") component=("whats_on.whats_on_actions")>
 		<div class="inhalt">
 %			if (mode == "list") {
 			<table class="listing" cellspacing="0" cellpadding="0">
 				<tr class="head">
-					<td colspan="8"><div class="boxheader"><div><div><$ head $></div></div></div></td>
+					<td colspan="9"><div class="boxheader"><div><div><$ head $></div></div></div></td>
 				</tr>
 %	    }
 <%cpp>
@@ -188,41 +191,40 @@ if (type == "now") {
 		EpgInfoPtr epgEvent = *i;
 
 		bool truncated = false;
-		string truncDescription = StringWordTruncate(epgEvent->LongDescr(), maximumTooltipHintLength, truncated);
-		string longDescription = StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), maximumDescriptionLength));
+		std::string truncDescription = StringWordTruncate(epgEvent->LongDescr(), maximumTruncDescriptionLength, truncated);
+		std::string longDescription = StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), LiveSetup().GetMaxTooltipChars()))
+			+ "<br/><br/>" + tr("Click to view details.");
 		const cChannel* Channel = epgEvent->Channel();
 		if (!Channel) continue;
 		int chNumber = Channel->Number();
 
-		string startTime(epgEvent->StartTime(tr("%I:%M %p")));
-		string endTime(epgEvent->EndTime(tr("%I:%M %p")));
-		string startDate(epgEvent->StartTime(tr("%a, %x")));
+		std::string startTime(epgEvent->StartTime(tr("%I:%M %p")));
+		std::string endTime(epgEvent->EndTime(tr("%I:%M %p")));
+		std::string startDate(epgEvent->StartTime(tr("%a, %x")));
 
-		string timeSpan(startTime + " - " + endTime);
+		std::string timeSpan(startTime + " - " + endTime);
 
 		if (startTime.empty() && endTime.empty()) {
-			timeSpan = mode=="detail" ? headTime : string();
+			timeSpan = mode=="detail" ? headTime : std::string();
 			startDate = headDate;
 		}
 		if (mode == "detail") {
 </%cpp>
 			<div class="event">
 				<div class="station">
-					<div><div><div><a href="schedule.html?channel=<$ chNumber $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ chNumber $><$ tr(" - ") $><$ (epgEvent->Caption()) $></a></div></div></div>
+					<div><div><div><a href="schedule.html?channel=<$ std::to_string(chNumber) $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ std::to_string(chNumber) $><$ tr(" - ") $><$ (epgEvent->Caption()) $></a></div></div></div>
 				</div>
 				<div class="content">
 					<div class="tools">
 						<& pageelems.epg_tool_box detail=(1) epgid=(epgEvent->Id()) title=(epgEvent->Title()) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) &>
 					</div>
 					<div>
-						<div class="info nowrap"><div class="date"><$ (startDate) $></div><div class="time"><$ (timeSpan) $></div></div>
-						<div class="progress"><& pageelems.progressbar progress=(epgEvent->Elapsed()) duration=(epgEvent->Duration()) &></div>
-						<div class="title withmargin"><a <& tooltip.hint text=(tr("Click to view details.")) &><& tooltip.display domId=(epgEvent->Id()) &>><$ (epgEvent->Title()) $></a></div>
+						<div class="progress"><& pageelems.progressbar progress=(epgEvent->Elapsed()) duration=(epgEvent->Duration()) &></div>						<div class="progress"><div><& pageelems.progressbar progress=(epgEvent->Elapsed()) duration=(epgEvent->Duration()) &></div></div>
+						<div class="title withmargin"><$ (epgEvent->Title()) $></div>
 						<div class="short withmargin"><$ (epgEvent->ShortDescr()) $></div>
+						<div class="description withmargin"><$ truncDescription $></div>
 %						if (truncated) {
-							<div class="description withmargin" <& tooltip.hint text=(longDescription) &>><$ truncDescription $> ...</div>
-%						} else {
-							<div class="description withmargin"><$ truncDescription $></div>
+							<div class="more withmargin"><a <& tooltip.hint text=(longDescription) &><& tooltip.display domId=(epgEvent->Id()) &>><$ 	tr("more") $> ...</a></div>
 %						}
 					</div>
 				</div>
@@ -256,7 +258,7 @@ if (type == "now") {
 %						}
 					</div>
 				</td>
-				<td class="topaligned rightcol <? lastCurrentChanel ? "bottomrow"?>"><div class="station withmargin"><a	href="schedule.html?channel=<$ chNumber $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ chNumber $><$ tr(" - ") $><$ (epgEvent->Caption()) $></a></div>
+				<td class="topaligned rightcol <? lastCurrentChanel ? "bottomrow"?>"><div class="station withmargin"><a	href="schedule.html?channel=<$ std::to_string(chNumber) $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ std::to_string(chNumber) $><$ tr(" - ") $><$ (epgEvent->Caption()) $></a></div>
 				</td>
 			</tr>
 %	}
@@ -282,11 +284,11 @@ if (type == "now") {
 <select name="userdeftimes" size="1" id="userdeftimes" onchange="showtime(this)">
 	<option value="0"/>
 <%cpp>
-	vector< string > parts = StringSplit( LiveSetup().GetTimes(), ';' );
-	vector< string >::const_iterator part = parts.begin();
+	std::vector< std::string > parts = StringSplit( LiveSetup().GetTimes(), ';' );
+	std::vector< std::string >::const_iterator part = parts.begin();
 	for ( int i = 0; part != parts.end(); ++i, ++part ) {
 </%cpp>
-	<option <%cpp> reply.out() << ( (current_fixtime != "" && *part == current_displaytime) ? "selected=\"selected\"" : "" ); </%cpp>value="<$ *part $>"> <$ tr("at") + string(" ") + *part $></option>
+	<option <%cpp> reply.out() << ( (current_fixtime != "" && *part == current_displaytime) ? "selected=\"selected\"" : "" ); </%cpp>value="<$ *part $>"> <$ tr("at") + std::string(" ") + *part $></option>
 <%cpp>
 	}
 </%cpp>

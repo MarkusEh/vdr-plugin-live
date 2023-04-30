@@ -3,7 +3,6 @@
 #include <recman.h>
 #include <tntfeatures.h>
 
-using namespace std;
 using namespace vdrlive;
 
 off_t RecSize(cRecording const * recording)
@@ -14,19 +13,19 @@ off_t RecSize(cRecording const * recording)
         struct stat buf;
         if (0 == stat(recFile.Name(), &buf)) {
             recSize += buf.st_size;
-            // dsyslog("LIVE: size of recording part %s is %ld", recFile.Name(), buf.st_size);
+            // dsyslog("live: size of recording part %s is %ld", recFile.Name(), buf.st_size);
         }
         else {
-            esyslog("LIVE: can't determine size of %s", recFile.Name());
+            esyslog("live: can't determine size of %s", recFile.Name());
         }
     }
-    // dsyslog("LIVE: total size of %s is %ld", recording->FileName(), recSize);
+    // dsyslog("live: total size of %s is %ld", recording->FileName(), recSize);
     return recSize;
 }
 
 </%pre>
 <%args>
-    string recid;
+    std::string recid;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -42,13 +41,13 @@ if (recording) {
     reply.setDirectMode();
 
     cFileName recFile(recording->FileName(), false, false, recording->IsPesRecording());
-    // dsyslog("LIVE: start send video data.");
+    // dsyslog("live: start send video data.");
     for (cUnbufferedFile *recData = recFile.Open(); recData; recData = recFile.NextFile()) {
         char buffer[KILOBYTE(16)];
         ssize_t bytesRead = 0;
-        // dsyslog("LIVE: send file %s", recFile->Name());
+        // dsyslog("live: send file %s", recFile->Name());
         while (0 < (bytesRead = recData->Read(buffer, sizeof(buffer)))) {
-            // dsyslog("LIVE: copy %zd bytes", bytesRead);
+            // dsyslog("live: copy %zd bytes", bytesRead);
             reply.out().write(buffer, bytesRead);
             if (!reply.out()) {
                 return HTTP_GONE;
@@ -57,12 +56,12 @@ if (recording) {
             request.touch(); // retrigger the watchdog.
 #endif
         }
-        // dsyslog("LIVE: bytesRead = %zd", bytesRead);
+        // dsyslog("live: bytesRead = %zd", bytesRead);
         if (bytesRead < 0) {
             return HTTP_PARTIAL_CONTENT;
         }
     }
-    // dsyslog("LIVE: finished send video data.");
+    // dsyslog("live: finished send video data.");
     reply.out() << std::flush;
     return HTTP_OK;
 }

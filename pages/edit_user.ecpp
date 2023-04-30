@@ -4,16 +4,15 @@
 #include <livefeatures.h>
 #include <setup.h>
 
-using namespace std;
 using namespace vdrlive;
 
 </%pre>
 <%args>
 	// input parameters
-	string userid;
+	std::string userid;
 	// form parameters
-	string username;
-	string password;
+	std::string username;
+	std::string password;
 	bool ur_editsetup = false;
 	bool ur_addtimers = false;
 	bool ur_deltimers = false;
@@ -110,11 +109,12 @@ cUser* editUser;
 <& pageelems.doc_type &>
 <html>
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>VDR Live - <$ pageTitle $></title>
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
 	</head>
-	<body>
+	<body onload="adjustHeader()" onresize="adjustHeader()">
 		<& pageelems.logo &>
 		<& menu active=("users") &>
 		<div class="inhalt">
@@ -127,11 +127,11 @@ cUser* editUser;
 
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Name" ) $>:</div></td>
-						<td class="rightcol"><input type="text" name="username" value="<$ username $>" size="80" /></td>
+						<td class="rightcol"><input type="text" name="username" value="<$ username $>" class="width99" size="55"/></td>
 					</tr>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Password" ) $>:</div></td>
-						<td class="rightcol"><input type="password" name="password" value="<$ password $>" size="80" /></td>
+						<td class="rightcol"><input type="password" name="password" value="<$ password $>" class="width99" size="55"/></td>
 					</tr>
 					<!-- user rights -->
 					<tr>
@@ -152,7 +152,7 @@ cUser* editUser;
 							<input type="checkbox" name="ur_switchchnl" value="1" <{ CHECKIF(ur_switchchnl) }> />
 							<label for="ur_switchchnl"><$ tr("Switch channel") $></label><br>
 <%cpp>
-							if (LiveFeatures< features::epgsearch >().Recent()) {
+							if (LiveFeatures<features::epgsearch>().Recent()) {
 </%cpp>
 							<input type="checkbox" name="ur_addstimers" value="1" <{ CHECKIF(ur_addstimers) }> />
 							<label for="ur_addstimers"><$ tr("Add or edit search timers") $></label><br>

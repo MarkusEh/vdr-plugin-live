@@ -4,9 +4,16 @@
 #include <setup.h>
 #include <tools.h>
 #include <epg_events.h>
+#include <timers.h>
+#include <recman.h>
 
-using namespace std;
+
+#include <vdr/config.h>
+
+
 using namespace vdrlive;
+
+
 
 </%pre>
 <%args>
@@ -15,7 +22,9 @@ using namespace vdrlive;
 <%session scope="global">
 bool logged_in(false);
 </%session>
-<%request scope="page">
+
+<# scope="page" should be enough but does not work with tntnet 3.0 #>
+<%request scope="global">
 	cChannel* Channel;
 </%request>
 <%include>page_init.eh</%include>
@@ -24,6 +33,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 </%cpp>
 <%cpp>
 	pageTitle = trVDR("Schedule");
+
+bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
 
 #if VDRVERSNUM < 20301
 	cSchedulesLock schedulesLock;
@@ -78,11 +89,13 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <& pageelems.doc_type &>
 <html>
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>VDR Live - <$ pageTitle $></title>
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
+		<& pageelems.create_html_js &>
 	</head>
-	<body>
+	<body onload="adjustHeader()" onresize="adjustHeader()">
 		<& pageelems.logo &>
 		<& menu active=("schedule") component=("schedule.channel_selection") &>
 		<div class="inhalt">
@@ -96,28 +109,24 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 </%cpp>
 		<table class="listing" cellspacing="0" cellpadding="0">
 <%cpp>
-		string current_day = "";
+		std::string current_day = "";
 		const cEvent* PresentEvent = Schedule->GetPresentEvent();
 		time_t now = time(NULL) - ::Setup.EPGLinger * 60;
+                RecordingsItemPtr recItem;
+                bool recItemFound;
+    cLargeString epg_item("epg_item", 1000);
 #if VDRVERSNUM >= 20301
 		for (const cEvent *Event = (cEvent *)Schedule->Events()->First(); Event; Event = (cEvent *)Schedule->Events()->Next(Event)) {
 #else
 		for (const cEvent *Event = Schedule->Events()->First(); Event; Event = Schedule->Events()->Next(Event)) {
 #endif
-			if (Event->EndTime() <= now && Event != PresentEvent)
-				continue;
+			if (Event->EndTime() <= now && Event != PresentEvent) continue;
 
+			epg_item.clear();
+			recItemFound = appendEpgItem(epg_item, recItem, Event, Channel, false);
 			EpgInfoPtr epgEvent = EpgEvents::CreateEpgInfo(Channel, Event);
+			std::string day(epgEvent->StartTime(tr("%A, %b %d %Y")));
 
-			string title(epgEvent->Title());
-			string short_description(epgEvent->ShortDescr());
-			string description(epgEvent->LongDescr());
-			string start(epgEvent->StartTime(tr("%I:%M %p")));
-			string end(epgEvent->EndTime(tr("%I:%M %p")));
-			string day(epgEvent->StartTime(tr("%A, %b %d %Y")));
-			string epgid = EpgEvents::EncodeDomId(Channel->GetChannelID(), Event->EventID());
-
-			bool truncated = false;
 			bool lastEventCurrentDay = false;
 			{
 #if VDRVERSNUM >= 20301
@@ -129,36 +138,42 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					lastEventCurrentDay = true;
 				}
 				else {
-					string nday(NextEvent->StartTime() ? FormatDateTime(tr("%A, %b %d %Y"), NextEvent->StartTime()) : "");
+					std::string nday(NextEvent->StartTime() ? FormatDateTime(tr("%A, %b %d %Y"), NextEvent->StartTime()) : "");
 					lastEventCurrentDay = (day != nday);
 				}
 			}
 
+			int col_span = 3;
+			if (display_pictures) col_span++;
 			if (current_day != day) {
 				if (current_day != "") {
 </%cpp>
 				<tr class="spacer">
-					<td colspan="5"/>
+					<td colspan="<$col_span$>"/>
 				</tr>
 <%cpp>
 				}
 </%cpp>
 				<tr class="head">
-					<td colspan="5"><div class="boxheader"><div><div><$ day $></div></div></div></td>
+					<td colspan=<$col_span$>><div class="boxheader"><div><div><$ day $></div></div></div></td>
 				</tr>
 <%cpp>
 				current_day = day;
 			}
 </%cpp>
-				<tr>
-					<td class="action leftcol <? lastEventCurrentDay ? "bottomrow" ?>"><& pageelems.event_timer epgid=(epgid) &></td>
-					<td class="action <? lastEventCurrentDay ? "bottomrow" ?>"><%cpp>if (LiveFeatures<features::epgsearch>().Recent() ) { </%cpp><a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a><%cpp> } else { </%cpp><img src="img/transparent.png" width="16" height="16"><%cpp> } </%cpp></td>
-					<td class="action <? lastEventCurrentDay ? "bottomrow" ?>"><& pageelems.imdb_info_href title=(title) &></td>
-					<td class="topaligned <? lastEventCurrentDay ? "bottomrow" ?>"><div class="withmargin nowrap"><$ start $> - <$ end $></div></td>
-					<td class="<? (Event == PresentEvent) ? "current" ?> topaligned rightcol <? lastEventCurrentDay ? "bottomrow" ?>"><div class="more withmargin"><a <& tooltip.hint text=(StringEscapeAndBreak(StringWordTruncate(description, 300, truncated)) + "<br />" + tr("Click to view details.")) &><& tooltip.display domId=(epgEvent->Id()) &>><span class="title"><$ title $></span><br /><span class="short"><%cpp>if (short_description.empty()) { </%cpp>&nbsp;<%cpp> } </%cpp><$ short_description $></span></a></div></td>
-				</tr>
+<script>
+  document.write(eventString(<$(lastEventCurrentDay && !recItemFound)?"1":"0"$>, <$$ epg_item.c_str() $>))
+</script>
 <%cpp>
-		}
+if(recItemFound) {
+  epg_item.clear();
+  recItem->AppendAsJSArray(epg_item, true);
+</%cpp>
+  <script>
+    document.write(existingRecordingString(<$col_span - 2$>, \"<? lastEventCurrentDay ? "bottomrow" ?>\", <$$epg_item.c_str()$>))
+  </script>
+<%cpp> }  // if rec item found
+		}  // loop over all events
 </%cpp>
 			</table>
 <%cpp>
@@ -166,16 +181,24 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 </%cpp>
 		</div>
 	</body>
+<script>imgLoad()</script>
 </html>
 <%include>page_exit.eh</%include>
 
 <%def channel_selection>
 <form action="schedule.html" method="get" id="channels">
    <span>
-     <label for="channel"><$ tr("Channel") $>:&nbsp;<span class="bold"><$ Channel->Number() $></span></label>
+     <label for="channel"><$ tr("Channel") $>:&nbsp;<span class="bold"><$ std::to_string(Channel->Number()) $></span></label>
      <& channels_widget name=("channel") selected=(Channel ? *Channel->GetChannelID().ToString() : "") onchange=("document.forms.channels.submit()") &>
-     <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(Channel->GetChannelID()) image="zap.png" alt="" &>
-     <& pageelems.vlc_stream_channel channelId=(Channel->GetChannelID()) &>
+%    if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
+       <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(Channel->GetChannelID()) image="zap.png" alt="" &>
+%    }
+     <& pageelems.hls_channel channelId=(Channel->GetChannelID()) &>
+     <& pageelems.m3u_playlist_channel channelId=(Channel->GetChannelID()) &>
    </span>
 </form>
+<span class="sep">|</span>
+<a href="schedule.html?channel=<$ std::max(0, ((int)Channel->Number() - 1)) $>">« Prev</a>
+<span class="sep">|</span>
+<a href="schedule.html?channel=<$ (Channel->Number() + 1) $>">Next »</a>
 </%def>

@@ -20,7 +20,7 @@ protected:
 	virtual void Action();
 
 private:
-	std::unique_ptr< tnt::Tntnet > m_server;
+	std::unique_ptr<tnt::Tntnet> m_server;
 };
 
 } // namespace vdrlive
