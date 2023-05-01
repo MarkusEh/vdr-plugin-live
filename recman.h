@@ -189,7 +189,7 @@ namespace vdrlive {
       virtual bool IsDir() const = 0;
       virtual int Duration() const = 0;
       virtual int DurationDeviation() const { return -1; } // duration deviation in seconds
-      virtual int FileSizeMB() const { return 0; }
+      virtual int FileSizeMB() const { return -1; }
       virtual const std::string& Name() const { return m_name; }
       virtual const std::string& NameForSearch() const { return m_name_for_search; }
       virtual const char * ShortText() const { return RecInfo()? RecInfo()->ShortText():0; }
@@ -240,7 +240,6 @@ template<class T>
       virtual const char *NewR() const { return "" ; }
       virtual const int RecordingErrors() const { return -1; }
       virtual int SD_HD() { return m_video_SD_HD; }
-      virtual const char *SD_HD_icon() { return ""; }
       virtual void AppendAsJSArray(cLargeString &target, bool displayFolder) { }
  		  bool recEntriesSorted() { return m_cmp_rec != NULL; }
  		  bool dirEntriesSorted() { return m_cmp_dir != NULL; }
@@ -271,7 +270,7 @@ template<class T>
       int m_s_episode_number = 0;
       int m_s_season_number = 0;
       int m_language = 0;
-      int m_video_SD_HD = -1;  // 0 is SD, 1 is HD, 2 is UHD
+      int m_video_SD_HD = -1;  // 0 is SD, 1 is HD, 2 is UHD, 9 is radio
       int m_duration_deviation = 0;
   };
 
@@ -288,7 +287,7 @@ template<class T>
                   virtual ~RecordingsItemDir();
 
                   virtual time_t StartTime() const { return 0; }
-                  virtual int Duration() const { return 0; }
+                  virtual int Duration() const { return -1; }
                   virtual bool IsDir() const { return true; }
                   virtual std::string const Id() const { return ""; }
                   virtual int Level() { return m_level; }
@@ -339,9 +338,9 @@ template<class T>
       virtual ~RecordingsItemRec();
 
       virtual time_t StartTime() const { return m_recording->Start(); }
-      virtual int Duration() const { return m_recording->FileName() ? m_recording->LengthInSeconds() / 60 : 0; } // duration in minutes
+      virtual int Duration() const { return m_recording->FileName() ? m_recording->LengthInSeconds() : -1; } // duration in seconds
       virtual int DurationDeviation() const { return m_duration_deviation; } // duration deviation in seconds
-      virtual int FileSizeMB() const { return m_recording->FileName() ? m_recording->FileSizeMB() : 0; } // file size in MB
+      virtual int FileSizeMB() const { return m_recording->FileName() ? m_recording->FileSizeMB() : -1; } // file size in MB
       virtual bool IsDir() const { return false; }
       virtual const std::string Id() const { return m_id; }
 
@@ -360,7 +359,6 @@ template<class T>
       void AppendRecordingErrorsStr(std::string &target) const;
 
       virtual int SD_HD();
-      virtual const char *SD_HD_icon() { return SD_HD() == 0 ? "sd.png": SD_HD() == 1 ? "hd.png":"ud.png"; }
       virtual void AppendAsJSArray(cLargeString &target, bool displayFolder);
       static void AppendAsJSArray(cLargeString &target, std::vector<RecordingsItemPtr>::const_iterator recIterFirst, std::vector<RecordingsItemPtr>::const_iterator recIterLast, bool &first, const std::string &filter, bool reverse);
 

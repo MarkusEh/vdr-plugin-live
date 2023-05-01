@@ -810,6 +810,11 @@ div.info div.date {
         padding: 0px;
 }
 
+div.info div.channel {
+	float: right;
+	padding: 0px;
+}
+
 div.progress {
 	overflow: hidden;
 	margin: 3px 5px;

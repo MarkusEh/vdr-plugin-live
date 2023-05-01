@@ -618,6 +618,7 @@ injectHdSdIcon(\"icons-<$epgid$>\", \"<$sdhd$>\", \"<$(channel&&channel->Name())
 	std::string caption;
 	std::string tools_comp;
 	std::string time;
+	std::string channel;
 	std::string title;
 	std::string short_descr;
 	std::string long_descr;
@@ -742,7 +743,9 @@ if (scraperMovieOrTv.found) {
 				<& (tools_comp) id=(boxId) archived=(archived) detail=(2) title=(title) s_IMDB_ID=(scraperMovieOrTv.IMDB_ID) &>
 			</div>
 			<div class="epg_info">
-				<div class="info nowrap"><%cpp> if (!archived.empty()) { </%cpp><span class="bold"><$ (archived + " ") $></span><%cpp> }
+				<div class="info nowrap"><%cpp>
+if (!channel.empty()) { </%cpp><div class="channel"><$ (channel) $></div><%cpp> }
+if (!archived.empty()) { </%cpp><span class="bold"><$ (archived + " ") $></span><%cpp> }
 
 if (epgEvent && epgEvent->EventDuration() >= 0) {  // recording
 </%cpp>

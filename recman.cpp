@@ -13,6 +13,7 @@
 #include <fstream>
 #include <stack>
 #include <algorithm>
+#include <limits>
 
 #include <vdr/videodir.h>
 #include <vdr/config.h>
@@ -323,11 +324,11 @@ namespace vdrlive {
 // lengthUpperBound: if EPG_Entry->Duration() is d (no commercial breaks), max length of recording with commercial breaks
 // Add VDR recording margins to this value
    long lengthUpperBound = EPG_Entry->Duration() * (100 + cb) / 100;
-   lengthUpperBound += ::Setup.MarginStart + ::Setup.MarginStop;
-   if(EPG_Entry->Duration() >= 90 && lengthLowerBound < 70) lengthLowerBound = 70;
+   lengthUpperBound += (::Setup.MarginStart + ::Setup.MarginStop) * 60;
+   if(EPG_Entry->Duration() >= 90*60 && lengthLowerBound < 70*60) lengthLowerBound = 70*60;
 
    int numRecordings = 0;
-   int min_deviation = 100000;
+   int min_deviation = std::numeric_limits<int>::max();
    std::vector<RecordingsItemPtr>::const_iterator bestMatchIter;
    for ( std::vector<RecordingsItemPtr>::const_iterator iter = First; iter != Last; ++iter)
      if ( (*iter)->Duration() >= lengthLowerBound && (*iter)->Duration() <= lengthUpperBound ) {
@@ -778,7 +779,8 @@ template void RecordingsItem::AppendShortTextOrDesc<cLargeString>(cLargeString &
                  case 12:
                  case 16: m_video_SD_HD = 1; break;
                }
-             }
+             } else if (m_video_SD_HD == -1)
+               m_video_SD_HD = 9; // audio
            }
            if(m_video_SD_HD == -1)
              {
@@ -850,7 +852,7 @@ void AppendScraperData(cLargeString &target, const std::string &s_IMDB_ID, const
 #endif
           target.append(", \"");
 // [11] HD_SD
-          target.append(SD_HD() == 0 ? 's': SD_HD() == 1 ? 'h': 'u');
+          target.append(SD_HD() == 0 ? 's': SD_HD() == 1 ? 'h': SD_HD() == 2 ? 'u': 'r');
           target.append("\", \"");
 // [12] channel name
           AppendHtmlEscapedAndCorrectNonUTF8(target, RecInfo()->ChannelName() );
@@ -877,14 +879,18 @@ void AppendScraperData(cLargeString &target, const std::string &s_IMDB_ID, const
             if( *(const char *)Recording()->Folder() ) AppendHtmlEscapedAndCorrectNonUTF8(target, (const char *)Recording()->Folder() );
             target.append("\"");
           }
-// [19] duration & size
+// [19] duration
           target.append(",\"");
-          if(Duration() >= 0) {
-            AppendDuration(target, tr("%d:%02d"), Duration() * 60);
-            target.append(" (");
+          if(Duration() >= 0)
+            AppendDuration(target, tr("%d:%02d"), Duration());
+          else
+            target.append("&nbsp;");
+          target.append("\",\"");
+// [20] size
+          if(FileSizeMB() >= 0)
             target.append(FormatInt(tr("%'d MB"), FileSizeMB()));
-            target.append(")");
-          }
+          else
+            target.append("&nbsp;");
           target.append("\"");
         }
 
