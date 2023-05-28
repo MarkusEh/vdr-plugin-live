@@ -489,8 +489,9 @@ div#pagemenu form a {
 	margin-left: 1em;
 }
 
-div#pagemenu img {
-	vertical-align: text-bottom;
+div#pagemenu form a img {
+	vertical-align: middle;
+	margin-top: -5px;
 }
 
 /* styles for messagebar */
@@ -698,7 +699,7 @@ table td.cast_role {
 
 div.event {
 	width: 255px;
-	height: 230px;
+	height: 255px;
 	padding: 0;
 	margin-right: 5px;
 	float: left;
@@ -754,7 +755,7 @@ td div.station a {
 
 div.content {
 	width: 253px;
-	height: 200px;
+	height: 220px;
 	padding: 0;
 	margin: 0;
 	overflow: hidden;
@@ -768,12 +769,10 @@ div.content {
 div.content div.tools {
 	float: left;
 	width: 26px;
-	height: 200px;
+	height: 220px;
 	margin: 0;
-	padding-left: 0;
-	padding-right: 9px;
+	padding: 0;
 	padding-top: 3px;
-	padding-bottom: 0;
 	text-align: center;
 	vertical-align: top;
 }
@@ -817,8 +816,13 @@ div.info div.channel {
 
 div.progress {
 	overflow: hidden;
-	margin: 3px 5px;
-	float: right;
+	padding-right: 4px;
+	margin: 0px;
+}
+
+div.progress div {
+ 	float: right;
+	padding: 0px;
 }
 
 div.__progress {
@@ -909,10 +913,6 @@ table.listing a {
 	font-weight: bold;
 }
 
-table.listing div.progress {
-	margin: 0;
-}
-
 /* ##################################
    # table schedule
    # (this is used for the MultiSchedule)
@@ -953,6 +953,11 @@ table.mschedule tr td.even {
 
 table.mschedule tr td.current_row {
         background-color: #ffB0B0;
+}
+
+table.mschedule tr td.leftcol {
+        padding-left: 7px;
+        padding-right: 5px;
 }
 
 table.mschedule div.content1 {
@@ -1073,14 +1078,6 @@ tr.recording_item:last-child {
 	margin: 2px;
 }
 
-.recording_item div.recording_imgs input {
-	margin-top: 2px;
-}
-
-.recording_item div.recording_spec {
-	padding-top: 0.5ex;
-}
-
 .recording_item .recording_folder_name {
 	font-weight: bold;
 	cursor: pointer;
@@ -1116,9 +1113,8 @@ tr.recording_item:last-child {
 
 .recording_item div.recording_actions {
 	float: right;
+	padding-left: 0.5em;
 	padding-right: 0.5em;
-	padding-top: 0.5ex;
-	padding-left: 5px;
 }
 
 /*
