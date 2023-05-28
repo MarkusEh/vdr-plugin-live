@@ -760,27 +760,51 @@ template void RecordingsItem::AppendShortTextOrDesc<cLargeString>(cLargeString &
            const cComponents *components = RecInfo()->Components();
            if(components) for( int ix = 0; ix < components->NumComponents(); ix++) {
              tComponent * component = components->Component(ix);
-             if (component->stream == 1 || component->stream == 5) {
+             switch (component->stream) {
+             case 1: // MPEG2
+             case 5: // H.264
                switch (component->type) {
                  case 1:
-                 case 5: m_video_SD_HD = 0; break;
+                 case 5: m_video_SD_HD = 0; break; // 4:3
                  case 2:
                  case 3:
                  case 6:
-                 case 7: m_video_SD_HD = 0; break;
+                 case 7: m_video_SD_HD = 0; break; // 16:9
                  case 4:
-                 case 8: m_video_SD_HD = 0; break;
+                 case 8: m_video_SD_HD = 0; break; // >16:9
                  case 9:
-                 case 13: m_video_SD_HD = 1; break;
+                 case 13: m_video_SD_HD = 1; break; // HD 4:3
                  case 10:
                  case 11:
                  case 14:
-                 case 15: m_video_SD_HD = 1; break;
+                 case 15: m_video_SD_HD = 1; break; // HD 16:9
                  case 12:
-                 case 16: m_video_SD_HD = 1; break;
+                 case 16: m_video_SD_HD = 1; break; // HD >16:9
                }
-             } else if (m_video_SD_HD == -1)
-               m_video_SD_HD = 9; // audio
+               break;
+             case 9: // HEVC
+               // stream_content_ext is missing from VDR info
+               // => use only the first HEVC entry for video, else probably audio track
+               if (m_video_SD_HD >= 1)
+                 goto audio;
+               switch (component->type) {
+                 case 0:
+                 case 1:
+                 case 2:
+                 case 3: m_video_SD_HD = 1; break; // HD
+                 case 4:
+                 case 5:
+                 case 6:
+                 case 7: m_video_SD_HD = 2; break; // UHD
+               }
+               break;
+             case 2: // MPEG2 Audio
+             case 4: // AC3 Audio
+             case 6: // HEAAC Audio
+             audio:
+               if (m_video_SD_HD == -1)
+                 m_video_SD_HD = 9;
+             }
            }
            if(m_video_SD_HD == -1)
              {
