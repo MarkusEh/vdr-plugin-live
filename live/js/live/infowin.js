@@ -167,7 +167,7 @@ var InfoWin = new Class({
 				this.fireEvent('onDomExtend', [id, bodyElems]);
 				this.winBody.adopt(bodyElems);
         var firstScript = bodyElems.getElement('script.injectIcons');
-        if (firstScript) {
+        if (firstScript && firstScript.length && firstScript[0]) {
           var js_m = new Element('div').adopt(firstScript).firstChild.textContent;
           eval(js_m);
         }
