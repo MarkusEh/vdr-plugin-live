@@ -49,6 +49,8 @@ std::vector<time_t>			times_start;
 <%request scope="global">
 	unsigned int channel_group=0;
 	unsigned int time_selected=0;
+	cString prev;
+	cString next;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
@@ -194,6 +196,7 @@ std::vector<time_t>			times_start;
 	if ( channel >= (int)channel_groups_numbers.size() )
 		channel = 0;
 	channel_group = channel;
+
 	{
 		// build time list
 		times_names.clear();
@@ -269,17 +272,44 @@ std::vector<time_t>			times_start;
 			time_para = times_names.size()-1;
 		time_selected=time_para;
 	}
+
+	if (channel_group > 0)
+		prev = cString::sprintf("href=\"multischedule.html?time_para=%i&channel=%i\"", time_selected, channel_group - 1);
+	if (channel_group < channel_groups_numbers.size() - 1)
+		next = cString::sprintf("href=\"multischedule.html?time_para=%i&channel=%i\"", time_selected, channel_group + 1);
 </%cpp>
 <& pageelems.doc_type &>
 <html>
 	<head>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>VDR Live - <$ pageTitle $></title>
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
-    <& pageelems.create_html_js &>
+		<& pageelems.create_html_js &>
+		<script type="text/javascript"><!--
+		function KeyboardInput(ev) {
+			if (ev.ctrlKey)
+				switch (ev.which) {
+				case 37: // left
+					<?? *prev ? "window.location." << *prev ?>
+					return false;
+				case 39: // right
+					<?? *next ? "window.location." << *next ?>
+					return false;
+				}
+				switch (ev.key) {
+				case '<':
+					<?? *prev ? "window.location." << *prev ?>
+					return false;
+				case '>':
+					<?? *next ? "window.location." << *next ?>
+					return false;
+				}
+			return true;
+		}
+		//--></script>
 	</head>
-	<body onload="adjustHeader()" onresize="adjustHeader()">
+	<body onload="adjustHeader()" onresize="adjustHeader()" onkeydown="return KeyboardInput(event);">
 		<& pageelems.logo &>
 		<& menu active=("multischedule") component=("multischedule.channel_selection") &>
 		<div class="inhalt">
@@ -620,7 +650,7 @@ std::vector<time_t>			times_start;
    </span>
 </form>
 <span class="sep">|</span>
-<a href="multischedule.html?time_para=<$ time_selected $>&channel=<$ std::max(0, ((int)channel_group - 1)) $>">« Prev</a>
+<?? *prev ? "<a " << *prev << ">"?>« Prev<?? *prev ? "</a>" ?>
 <span class="sep">|</span>
-<a href="multischedule.html?time_para=<$ time_selected $>&channel=<$ (channel_group + 1) $>">Next »</a>
+<?? *next ? "<a " << *next << ">"?>Next »<?? *next ? "</a>" ?>
 </%def>

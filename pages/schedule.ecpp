@@ -26,6 +26,8 @@ bool logged_in(false);
 <# scope="page" should be enough but does not work with tntnet 3.0 #>
 <%request scope="global">
 	cChannel* Channel;
+	cString prev;
+	cString next;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
@@ -46,35 +48,36 @@ bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
 #endif
 
 	// cChannel* Channel; (see %request above)
-	if ( channel > 0 ) {
+	{
 #if VDRVERSNUM >= 20301
 		LOCK_CHANNELS_READ;
-		Channel = (cChannel *)Channels->GetByNumber( channel );
-#else
-		Channel = Channels.GetByNumber( channel );
-#endif
-	}
-	else {
-#if VDRVERSNUM >= 20301
-		LOCK_CHANNELS_READ;
-#endif
-		if (cDevice::CurrentChannel()) {
-#if VDRVERSNUM >= 20301
+		if ( channel > 0 )
+			Channel = (cChannel *)Channels->GetByNumber( channel );
+		else if (cDevice::CurrentChannel())
 			Channel = (cChannel *)Channels->GetByNumber(cDevice::CurrentChannel());
-#else
-			Channel = Channels.GetByNumber(cDevice::CurrentChannel());
-#endif
-		}
-		else {
-#if VDRVERSNUM >= 20301
+		else
 			Channel = (cChannel *)Channels->Get( Channels->GetNextNormal( -1 ) );
+		if ( Channel == 0 )
+			throw HtmlError( tr("Couldn't find channel or no channels available. Maybe you mistyped your request?") );
+		if (Channel->Number() > 1)
+			prev = cString::sprintf("href=\"schedule.html?channel=%i\"", Channel->Number() - 1);
+		if (Channel->Number() < Channels->MaxNumber())
+			next = cString::sprintf("href=\"schedule.html?channel=%i\"", Channel->Number() + 1);
 #else
+		if ( channel > 0 )
+			Channel = Channels.GetByNumber( channel );
+		else if (cDevice::CurrentChannel())
+			Channel = Channels.GetByNumber(cDevice::CurrentChannel());
+		else
 			Channel = Channels.Get( Channels.GetNextNormal( -1 ) );
+		if ( Channel == 0 )
+			throw HtmlError( tr("Couldn't find channel or no channels available. Maybe you mistyped your request?") );
+		if (Channel->Number() > 1)
+			prev = cString::sprintf("href=\"schedule.html?channel=%i\"", Channel->Number() - 1);
+		if (Channel->Number() < Channels.MaxNumber())
+			next = cString::sprintf("href=\"schedule.html?channel=%i\"", Channel->Number() + 1);
 #endif
-		}
 	}
-	if ( Channel == 0 )
-		throw HtmlError( tr("Couldn't find channel or no channels available. Maybe you mistyped your request?") );
 
 	cSchedule const* Schedule;
 #if VDRVERSNUM >= 20301
@@ -85,6 +88,7 @@ bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
 #else
 	Schedule = schedules->GetSchedule( Channel );
 #endif
+
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -94,8 +98,30 @@ bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
 		<& pageelems.stylesheets &>
 		<& pageelems.ajax_js &>
 		<& pageelems.create_html_js &>
+		<script type="text/javascript"><!--
+		function KeyboardInput(ev) {
+			if (ev.ctrlKey)
+				switch (ev.which) {
+				case 37: // left
+					<?? *prev ? "window.location." << *prev ?>
+					return false;
+				case 39: // right
+					<?? *next ? "window.location." << *next ?>
+					return false;
+				}
+				switch (ev.key) {
+				case '<':
+					<?? *prev ? "window.location." << *prev ?>
+					return false;
+				case '>':
+					<?? *next ? "window.location." << *next ?>
+					return false;
+				}
+			return true;
+		}
+		//--></script>
 	</head>
-	<body onload="adjustHeader()" onresize="adjustHeader()">
+	<body onload="adjustHeader()" onresize="adjustHeader()" onkeydown="return KeyboardInput(event);">
 		<& pageelems.logo &>
 		<& menu active=("schedule") component=("schedule.channel_selection") &>
 		<div class="inhalt">
@@ -198,7 +224,7 @@ if(recItemFound) {
    </span>
 </form>
 <span class="sep">|</span>
-<a href="schedule.html?channel=<$ std::max(0, ((int)Channel->Number() - 1)) $>">« Prev</a>
+<?? *prev ? "<a " << *prev << ">"?>« Prev<?? *prev ? "</a>" ?>
 <span class="sep">|</span>
-<a href="schedule.html?channel=<$ (Channel->Number() + 1) $>">Next »</a>
+<?? *next ? "<a " << *next << ">"?>Next »<?? *next ? "</a>" ?>
 </%def>
