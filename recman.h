@@ -350,7 +350,7 @@ template<class T>
 // To display the recording on the UI
       virtual const int IsArchived() const { return m_isArchived ; }
       virtual const std::string ArchiveDescr() const { return RecordingsManager::GetArchiveDescr(m_recording) ; }
-      virtual const char *NewR() const { return LiveSetup().GetMarkNewRec() && (Recording()->GetResume() <= 0) ? "_new" : "" ; }
+      virtual const char *NewR() const { return LiveSetup().GetMarkNewRec() && (Recording()->GetResume() < 0) ? "_new" : "" ; }
 #if VDRVERSNUM >= 20505
       virtual const int RecordingErrors() const { return RecInfo()->Errors(); }
 #else
