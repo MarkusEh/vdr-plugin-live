@@ -226,19 +226,24 @@ namespace vdrlive
 
 	int EpgRecording::Elapsed() const
 	{
+		if (!m_recording)
+			return -1;
+		int current, total;
+		// try currently playing recording if any
 		cControl* pControl = cControl::Control();
 		if (pControl)
 		{
-			int current, total;
-			if (pControl->GetIndex(current,total))
-			{
-				if (total)
-				{
-					return (100 * current) / total;
-				}
-			}
+			const cRecording* playing = pControl->GetRecording();
+			if (playing && playing->Id() == m_recording->Id()
+				&& pControl->GetIndex(current,total) && total)
+				return (100 * current) / total;
 		}
-		return 0;
+		// Check for resume position next
+		current = m_recording->GetResume();
+		total= m_recording->NumFrames();
+		if (current > 0 && total > 0)
+			return (100 * current) / total;
+		return -1;
 	}
 
 	const std::string EpgRecording::Name() const

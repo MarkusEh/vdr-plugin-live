@@ -747,25 +747,37 @@ if (scraperMovieOrTv.found) {
 				<& (tools_comp) id=(boxId) archived=(archived) detail=(2) title=(title) s_IMDB_ID=(scraperMovieOrTv.IMDB_ID) &>
 			</div>
 			<div class="epg_info">
-				<div class="info nowrap"><%cpp>
-if (!channel.empty()) { </%cpp><div class="channel"><$ (channel) $></div><%cpp> }
-if (!archived.empty()) { </%cpp><span class="bold"><$ (archived + " ") $></span><%cpp> }
-
+				<div class="info">
+					<div class="duration">
+<%cpp>
 if (epgEvent && epgEvent->EventDuration() >= 0) {  // recording
 </%cpp>
-<$ (time) $> (<span title="<$tr("Recording length")$>"><$ FormatDuration(tr("%d:%02d"), epgEvent->Duration())$></span>/<span title="<$tr("Event duration")$>"><$FormatDuration(tr("%d:%02d"), epgEvent->EventDuration())$></span>)
-</div>
-<%cpp> } else { </%cpp>
-<$ (time) $></div>
-
-<%cpp> } if (elapsed >= 0) { </%cpp>
-				<div class="progress"><div><& pageelems.progressbar progress=(elapsed) &></div></div>
+						<span title="<$tr("Recording length")$>"><$ FormatDuration(tr("%d:%02d"), epgEvent->Duration())$></span> / <span title="<$tr("Event duration")$>"><$FormatDuration(tr("%d:%02d"), epgEvent->EventDuration())$></span>
 <%cpp>
-	}
+}
+if (elapsed >= 0) {
 </%cpp>
-				<div class="title"><$ (title) $></div>
-				<div class="short"><$ (short_descr) $></div>
-				<div class="description" id=<$ boxId $>_description>
+						<div class="progress"><div><& pageelems.progressbar progress=(elapsed) &></div></div>
+<%cpp>
+}
+</%cpp>
+					</div>
+					<div class="time">
+<%cpp>
+if (!archived.empty()) {
+</%cpp>
+						<span class="bold"><$ (archived + " ") $></span>
+<%cpp>
+}
+</%cpp>
+						<$ (time) $>
+<%cpp>
+if (!filename.empty() && !channel.empty()) { </%cpp><div class="channel"><$ (channel) $></div><%cpp> }
+</%cpp>
+					</div>
+					<div class="title"><$ (title) $></div>
+					<div class="short"><$ (short_descr) $></div>
+					<div class="description" id=<$ boxId $>_description>
 					<span id = "<$ boxId $>_epg_image" class="epg_images">
 <%cpp>
 	std::list<std::string> images = EpgEvents::EpgImages(boxId);
