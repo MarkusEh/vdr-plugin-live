@@ -31,6 +31,7 @@ using namespace vdrlive;
 
 	cMutexLock timersLock( &LiveTimerManager() );
 	SortedTimers& timers = LiveTimerManager().GetTimers();
+	TimerConflicts timerConflicts;
 
 	timer = 0;
 	if ( !timerid.empty() ) {
@@ -118,14 +119,14 @@ using namespace vdrlive;
 						if (!previousDay.empty()) {
 </%cpp>
 						<tr class="spacer">
-							<td colspan="10"/>
+							<td colspan="12"/>
 						</tr>
 <%cpp>
 						}
 						previousDay = currentDay;
 </%cpp>
 				<tr class="head">
-					<td colspan="10">
+					<td colspan="12">
 						<div class="boxheader"><div><div>
 							<$ currentDay $>
 						</div></div></div>
@@ -136,6 +137,8 @@ using namespace vdrlive;
 					<td><div class="withmargin"><$ trVDR("Channel") $></div></td>
           <td class="td-hidden-xs"><div class="withmargin hidden-xs"><$ trVDR("Start") $></div></td>
           <td class="td-hidden-xs"><div class="withmargin hidden-xs"><$ trVDR("Stop")  $></div></td>
+          <td class="td-hidden-xs"><div class="withmargin hidden-xs"><$ tr("Duration") $></div></td>
+          <td class="td-hidden-xs"><div class="withmargin hidden-xs"><$ trVDR("Priority") $></div></td>
 					<td><div class="withmargin"><$ trVDR("File") $></div></td>
 					<td class="td-hidden-xs"><div class="xs-nomargin hidden-xs"><$ trVDR("Record on") $></div></td>
 					<td><div class="withmargin"><$ tr("Searchtimer") $></div></td>
@@ -152,8 +155,14 @@ using namespace vdrlive;
 						timerStateHint = tr("Timer is recording.");
 					}
 					else if (timer->Flags() & tfActive) {
-						timerStateImg = "arrow.png";
-						timerStateHint = tr("Timer is active.");
+						if (timerConflicts.HasConflict(*timer)) {
+							timerStateImg = "timerconflict.gif";
+							timerStateHint = tr("Timer has a conflict.");
+						}
+						else {
+							timerStateImg = "arrow.png";
+							timerStateHint = tr("Timer is active.");
+						}
 					}
           std::string timerFile;
           AppendHtmlEscapedAndCorrectNonUTF8(timerFile, timer->File());
@@ -168,6 +177,8 @@ using namespace vdrlive;
           </div></td>
           <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin nowrap" title="<$$longDescription$>"><$ FormatDateTime(tr("%I:%M %p"), timer->StartTime()) $>  </div></td>
           <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin nowrap" title="<$$longDescription$>"><$ FormatDateTime(tr("%I:%M %p"), timer->StopTime()) $>  </div></td>
+          <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin nowrap" title="<$$longDescription$>"><$ FormatDuration(tr("%d:%02d"), timer->StopTime() - timer->StartTime()) $></div></td>
+          <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin nowrap" title="<$$longDescription$>"><$ timer->Priority() $></div></td>
 					<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><a
 %         if(epgEvent) {
 						<& tooltip.display domId=(epgEvent->Id()) &>

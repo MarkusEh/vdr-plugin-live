@@ -13,6 +13,7 @@
 #include <fstream>
 #include <stack>
 #include <algorithm>
+#include <limits>
 
 #include <vdr/videodir.h>
 #include <vdr/config.h>
@@ -323,11 +324,11 @@ namespace vdrlive {
 // lengthUpperBound: if EPG_Entry->Duration() is d (no commercial breaks), max length of recording with commercial breaks
 // Add VDR recording margins to this value
    long lengthUpperBound = EPG_Entry->Duration() * (100 + cb) / 100;
-   lengthUpperBound += ::Setup.MarginStart + ::Setup.MarginStop;
-   if(EPG_Entry->Duration() >= 90 && lengthLowerBound < 70) lengthLowerBound = 70;
+   lengthUpperBound += (::Setup.MarginStart + ::Setup.MarginStop) * 60;
+   if(EPG_Entry->Duration() >= 90*60 && lengthLowerBound < 70*60) lengthLowerBound = 70*60;
 
    int numRecordings = 0;
-   int min_deviation = 100000;
+   int min_deviation = std::numeric_limits<int>::max();
    std::vector<RecordingsItemPtr>::const_iterator bestMatchIter;
    for ( std::vector<RecordingsItemPtr>::const_iterator iter = First; iter != Last; ++iter)
      if ( (*iter)->Duration() >= lengthLowerBound && (*iter)->Duration() <= lengthUpperBound ) {
@@ -759,25 +760,50 @@ template void RecordingsItem::AppendShortTextOrDesc<cLargeString>(cLargeString &
            const cComponents *components = RecInfo()->Components();
            if(components) for( int ix = 0; ix < components->NumComponents(); ix++) {
              tComponent * component = components->Component(ix);
-             if (component->stream == 1 || component->stream == 5) {
+             switch (component->stream) {
+             case 1: // MPEG2
+             case 5: // H.264
                switch (component->type) {
                  case 1:
-                 case 5: m_video_SD_HD = 0; break;
+                 case 5: m_video_SD_HD = 0; break; // 4:3
                  case 2:
                  case 3:
                  case 6:
-                 case 7: m_video_SD_HD = 0; break;
+                 case 7: m_video_SD_HD = 0; break; // 16:9
                  case 4:
-                 case 8: m_video_SD_HD = 0; break;
+                 case 8: m_video_SD_HD = 0; break; // >16:9
                  case 9:
-                 case 13: m_video_SD_HD = 1; break;
+                 case 13: m_video_SD_HD = 1; break; // HD 4:3
                  case 10:
                  case 11:
                  case 14:
-                 case 15: m_video_SD_HD = 1; break;
+                 case 15: m_video_SD_HD = 1; break; // HD 16:9
                  case 12:
-                 case 16: m_video_SD_HD = 1; break;
+                 case 16: m_video_SD_HD = 1; break; // HD >16:9
                }
+               break;
+             case 9: // HEVC
+               // stream_content_ext is missing from VDR info
+               // => use only the first HEVC entry for video, else probably audio track
+               if (m_video_SD_HD >= 1)
+                 goto audio;
+               switch (component->type) {
+                 case 0:
+                 case 1:
+                 case 2:
+                 case 3: m_video_SD_HD = 1; break; // HD
+                 case 4:
+                 case 5:
+                 case 6:
+                 case 7: m_video_SD_HD = 2; break; // UHD
+               }
+               break;
+             case 2: // MPEG2 Audio
+             case 4: // AC3 Audio
+             case 6: // HEAAC Audio
+             audio:
+               if (m_video_SD_HD == -1)
+                 m_video_SD_HD = 9;
              }
            }
            if(m_video_SD_HD == -1)
@@ -816,7 +842,7 @@ void AppendScraperData(cLargeString &target, const std::string &s_IMDB_ID, const
           }
           target.append("\",\"");
 // [7] : runtime (scraper)
-          if (scraperDataAvailable && s_runtime) AppendDuration(target, tr("(%d:%02d)"), s_runtime / 60, s_runtime % 60);
+          if (scraperDataAvailable && s_runtime) AppendDuration(target, tr("(%d:%02d)"), s_runtime*60);
           target.append("\",\"");
 // [8] : relase date (scraper)
           if (scraperDataAvailable && !s_release_date.empty() ) target.append(s_release_date);
@@ -833,17 +859,13 @@ void AppendScraperData(cLargeString &target, const std::string &s_IMDB_ID, const
           target.append("\",");
 // scraper data
           AppendScraperData(target, m_s_IMDB_ID, m_s_image, m_s_videoType, m_s_title, m_s_season_number, m_s_episode_number, m_s_episode_name, m_s_runtime, m_s_release_date);
-// [9] : Day, time & duration
+// [9] : Day, time
           target.append(",\"");
           AppendDateTime(target, tr("%a,"), StartTime());  // day of week
           target.append(' ');
           AppendDateTime(target, tr("%b %d %y"), StartTime());  // date
           target.append(' ');
-          AppendDateTime(target, tr("%I:%M %p"), StartTime() );  // time
-          if(Duration() >= 0) {
-            target.append(' ');
-            AppendDuration(target, tr("(%d:%02d)"), Duration() / 60, Duration() % 60);
-          }
+          AppendDateTime(target, tr("%I:%M %p"), StartTime());  // time
           target.append("\", ");
 // RecordingErrors, Icon
 #if VDRVERSNUM >= 20505
@@ -854,7 +876,7 @@ void AppendScraperData(cLargeString &target, const std::string &s_IMDB_ID, const
 #endif
           target.append(", \"");
 // [11] HD_SD
-          target.append(SD_HD() == 0 ? 's': SD_HD() == 1 ? 'h': 'u');
+          target.append(SD_HD() == 0 ? 's': SD_HD() == 1 ? 'h': SD_HD() == 2 ? 'u': 'r');
           target.append("\", \"");
 // [12] channel name
           AppendHtmlEscapedAndCorrectNonUTF8(target, RecInfo()->ChannelName() );
@@ -875,11 +897,25 @@ void AppendScraperData(cLargeString &target, const std::string &s_IMDB_ID, const
           target.append("\",");
           target.append(DurationDeviation());
 // [18] Path / folder
+          target.append(",");
           if(displayFolder) {
-            target.append(",\"");
+            target.append("\"");
             if( *(const char *)Recording()->Folder() ) AppendHtmlEscapedAndCorrectNonUTF8(target, (const char *)Recording()->Folder() );
             target.append("\"");
           }
+// [19] duration
+          target.append(",\"");
+          if(Duration() >= 0)
+            AppendDuration(target, tr("%d:%02d"), Duration());
+          else
+            target.append("&nbsp;");
+          target.append("\",\"");
+// [20] size
+          if(FileSizeMB() >= 0)
+            target.append(FormatInt(tr("%'d MB"), FileSizeMB()));
+          else
+            target.append("&nbsp;");
+          target.append("\"");
         }
 
 void RecordingsItemRec::AppendAsJSArray(cLargeString &target, std::vector<RecordingsItemPtr>::const_iterator recIterFirst, std::vector<RecordingsItemPtr>::const_iterator recIterLast, bool &first, const std::string &filter, bool reverse) {

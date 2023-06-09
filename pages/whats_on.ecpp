@@ -247,16 +247,17 @@ if (type == "now") {
 					</div>
 				</td>
 				<td class="topaligned <? lastCurrentChanel ? "bottomrow"?>">
-					<div class="more withmargin">
 %					if (eventId != 0) {
-					    <a
+						<div class="more withmargin">
+						<a
 %						if (!longDescription.empty()) {
 						<& tooltip.hint text=(longDescription) &><& tooltip.display domId=(epgEvent->Id()) &>
 %						}
 						><span class="title"><$ (epgEvent->Title()) $></span><br /><span class="short"><$ (epgEvent->ShortDescr()) $></span></a>
-%						} else {
-						<span class="title"><$ (epgEvent->Title()) $></span>
-%						}
+%					} else {
+						<div class="withmargin">
+						<$ (epgEvent->Title()) $>
+%					}
 					</div>
 				</td>
 				<td class="topaligned rightcol <? lastCurrentChanel ? "bottomrow"?>"><div class="station withmargin"><a	href="schedule.html?channel=<$ std::to_string(chNumber) $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ std::to_string(chNumber) $><$ tr(" - ") $><$ (epgEvent->Caption()) $></a></div>

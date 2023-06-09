@@ -69,15 +69,15 @@ template<class T>
         wint_t Utf8ToUtf32(const char *&p, int len); // assumes, that uft8 validity checks have already been done. len must be provided. call utf8CodepointIsValid first
 	void AppendUtfCodepoint(std::string &target, wint_t codepoint);
 
-
-
-        void AppendDuration(cLargeString &target, char const* format, int hours, int minutes );
-        void AppendDuration(std::string &target, char const* format, int hours, int minutes );
-	std::string FormatDuration( char const* format, int hours, int minutes );
+	void AppendDuration(cLargeString &target, char const* format, int duration );
+	void AppendDuration(std::string &target, char const* format, int duration );
+	std::string FormatDuration( char const* format, int duration );
 
         void AppendDateTime(cLargeString &target, char const* format, time_t time );
         void AppendDateTime(std::string &target, char const* format, time_t time );
 	std::string FormatDateTime( char const* format, time_t time );
+
+	std::string FormatInt(char const* format, int size);
 
 	std::string StringReplace( std::string const& text, std::string const& substring, std::string const& replacement );
 

@@ -490,7 +490,7 @@ div#pagemenu form a {
 }
 
 div#pagemenu form a img {
-        vertical-align: middle;
+	vertical-align: middle;
 	margin-top: -5px;
 }
 
@@ -711,6 +711,10 @@ div.event div.station {
 	width: 255px;
 }
 
+div.event div.title a {
+	color: black;
+}
+
 div.station div {
 	margin: 0;
 	padding: 0;
@@ -769,22 +773,12 @@ div.content div.tools {
 	margin: 0;
 	padding: 0;
 	padding-top: 3px;
-
 	text-align: center;
 	vertical-align: top;
 }
 
 div.content div.tools img {
 	margin: 2px 5px;
-}
-
-div.content div {
-	padding-left: 0px;
-	margin-left: 35px;
-}
-
-div.content div div {
-	margin-left: 0px;
 }
 
 div.description {
@@ -801,13 +795,17 @@ div.short {
 }
 
 div.info {
-	padding: 5px 5px 5px 0px;
+	margin: 5px 5px 0px 0px;
         overflow: hidden;
 }
 
-div.info div.time {
+div.info div.duration {
 	float: right;
-        padding: 0px;
+	margin: 0px 5px 0px 5px;
+}
+
+div.info div.time {
+	margin: 0px 5px 0px 5px;
 }
 
 div.info div.date {
@@ -817,12 +815,12 @@ div.info div.date {
 
 div.progress {
 	overflow: hidden;
-	padding-right: 4px;
+	padding: 2px 0px;
 	margin: 0px;
 }
 
 div.progress div {
-	float: right;
+ 	float: right;
 	padding: 0px;
 }
 
@@ -929,7 +927,13 @@ table.mschedule tr {
         height: 12px;
 }
 
+table.mschedule td.time {
+	vertical-align: top;
+	padding: 5px;
+}
+
 table.mschedule tr td.event {
+	vertical-align: top;
 	background: transparent url(../img/bg_line.png) bottom repeat-x;
 	border-bottom: 1px solid #C0C1DA;
 }
@@ -951,13 +955,17 @@ table.mschedule tr td.current_row {
 }
 
 table.mschedule tr td.leftcol {
-	padding-left: 7px;
-	padding-right: 5px;
+        padding-left: 7px;
+        padding-right: 5px;
 }
 
 table.mschedule div.content1 {
         min-width: 10em;
         max-width: 30em;
+}
+
+table.mschedule div.content1>div {
+        margin: 5px 5px 5px 7px;
 }
 
 table.mschedule div.tools1 {
@@ -969,7 +977,6 @@ table.mschedule div.start {
 }
 
 table.mschedule tr td div.title {
-        padding: 3px;
         clear: both;
 }
 
@@ -988,6 +995,10 @@ table.mschedule a {
 	font-weight: bold;
 }
 
+table.mschedule a>img {
+	vertical-align: text-bottom;
+}
+
 /*
   ##############################
   #  Blue Background Thingy
@@ -1000,12 +1011,12 @@ div.boxheader	 {
 	background: url(../img/bg_box_l.png) top left no-repeat;
 }
 
-div.boxheader div {
+div.boxheader > div {
 	margin: 0px;
 	background: url(../img/bg_box_r.png) top right no-repeat;
 }
 
-div.boxheader div div {
+div.boxheader > div > div {
 	background: url(../img/bg_box_h.png) repeat-x;
 	vertical-align: middle;
 	text-align: left;
@@ -1016,7 +1027,8 @@ div.boxheader div div {
 	color: white;
 	font-weight: bold;
 	height: 21px;
-        line-height: 20px;
+	line-height: 20px;
+	white-space: nowrap;
 }
 
 /*
@@ -1061,7 +1073,7 @@ tr.recording_item:last-child {
 	float: left;
 }
 
-.recording_item div.recording_imgs{
+.recording_item div.recording_imgs {
 	margin: 2px;
 }
 
@@ -1099,7 +1111,9 @@ tr.recording_item:last-child {
 }
 
 .recording_item div.recording_actions {
-	padding-left: 5px;
+	float: right;
+	padding-left: 0.5em;
+	padding-right: 0.5em;
 }
 
 /*
@@ -1306,23 +1320,14 @@ div.epg_content {
 	overflow: hidden;
 }
 
-div.epg_content div {
-	margin-left: 35px;
-}
-
 div.epg_content div.epg_tools {
 	float: left;
 	width: 26px;
-	margin: 0;
+	margin: 0 9px 0 0;
 	padding: 0;
 	padding-top: 3px;
-
 	text-align: center;
 	vertical-align: top;
-}
-
-div.epg_content div div {
-	margin-left: 0px;
 }
 
 div.epg_content div.epg_tools img {
@@ -1358,7 +1363,7 @@ div.epg_content div.about_right {
 }
 
 div.epg_content div.about_line {
-	padding-left: 0px;
+	padding-left: 30px;
 }
 
 div.epg_content div.about_head {

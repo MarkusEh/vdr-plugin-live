@@ -255,10 +255,56 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					element.selectedIndex = i;
 			}
 		}
+
+		function KeyboardInput(ev)
+		{
+			switch (ev.which){
+			case 38: return KeyPress(<$ kUp $>);
+			case 40: return KeyPress(<$ kDown $>);
+			case 13: return KeyPress(<$ kOk $>);
+			case 8: return KeyPress(<$ kBack $>);
+			case 37: return KeyPress(<$ kLeft $>);
+			case 39: return KeyPress(<$ kRight $>);
+			case 112: return KeyPress(<$ kRed $>);
+			case 113: return KeyPress(<$ kGreen $>);
+			case 114: return KeyPress(<$ kYellow $>);
+			case 115: return KeyPress(<$ kBlue $>);
+			case 33: return KeyPress(<$ kChanUp $>);
+			case 34: return KeyPress(<$ kChanDn $>);
+			}
+			switch (ev.key){
+			case 'm': return KeyPress(<$ kMenu $>);
+			case 'q': return KeyPress(<$ kBack $>);
+			case 'r': return ev.ctrlKey ? KeyPress(<$ kRecord $>) : KeyPress(<$ kRed $>);
+			case 'g': return KeyPress(<$ kGreen $>);
+			case 'y': return KeyPress(<$ kYellow $>);
+			case 'b': return KeyPress(<$ kBlue $>);
+			case '0': return KeyPress(<$ k0 $>);
+			case '1': return KeyPress(<$ k1 $>);
+			case '2': return KeyPress(<$ k2 $>);
+			case '3': return KeyPress(<$ k3 $>);
+			case '4': return KeyPress(<$ k4 $>);
+			case '5': return KeyPress(<$ k5 $>);
+			case '6': return KeyPress(<$ k6 $>);
+			case '7': return KeyPress(<$ k7 $>);
+			case '8': return KeyPress(<$ k8 $>);
+			case '9': return KeyPress(<$ k9 $>);
+			case 'i': return KeyPress(<$ kInfo $>);
+			case 'x': return ev.ctrlKey && KeyPress(<$ kPower $>);
+			case '+': return KeyPress(<$ kVolUp $>);
+			case '-': return KeyPress(<$ kVolDn $>);
+			case '_': return KeyPress(<$ kMute $>);
+			case 'A': return KeyPress(<$ kAudio $>);
+			case 'S': return KeyPress(<$ kSubtitles $>);
+			case 'C': return KeyPress(<$ kChannels $>);
+			case 'T': return KeyPress(<$ kTimers $>);
+			}
+			return true;
+		}
 		//--></script>
 % reply.sout().imbue(std::locale());
 	</head>
-	<body onload="StreamInit(); FillIntervals(); adjustHeader()" onresize="adjustHeader()" onunload="StreamEnd()">
+	<body onload="StreamInit(); FillIntervals(); adjustHeader()" onresize="adjustHeader()" onunload="StreamEnd() onkeydown="return KeyboardInput(event);">
 		<& pageelems.logo &>
 		<& menu active="remote" component=("remote.remote_actions")>
 		<div class="inhalt" id="remoteDiv">

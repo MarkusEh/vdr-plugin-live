@@ -180,9 +180,12 @@ template void AppendHtmlEscapedAndCorrectNonUTF8<cLargeString>(cLargeString &tar
 	    return;
 	}
 
-	void AppendDuration(cLargeString &target, char const* format, int hours, int minutes)
+	void AppendDuration(cLargeString &target, char const* format, int duration)
 	{
-    int numChars = snprintf(target.borrowEnd(32), 32, format, hours, minutes);
+		int minutes = (duration + 30) / 60;
+		int hours = minutes / 60;
+		minutes %= 60;
+		int numChars = snprintf(target.borrowEnd(32), 32, format, hours, minutes);
 		if (numChars < 0) {
       target.finishBorrow(0);
 			std::stringstream builder;
@@ -191,8 +194,11 @@ template void AppendHtmlEscapedAndCorrectNonUTF8<cLargeString>(cLargeString &tar
 		}
     target.finishBorrow(numChars);
 	}
-	void AppendDuration(std::string &target, char const* format, int hours, int minutes )
+	void AppendDuration(std::string &target, char const* format, int duration)
 	{
+		int minutes = (duration + 30) / 60;
+		int hours = minutes / 60;
+		minutes %= 60;
 		char result[ 32 ];
 		if ( snprintf(result, sizeof(result), format, hours, minutes) < 0 ) {
 			std::stringstream builder;
@@ -201,12 +207,12 @@ template void AppendHtmlEscapedAndCorrectNonUTF8<cLargeString>(cLargeString &tar
 		}
     target.append(result);
 	}
-	std::string FormatDuration( char const* format, int hours, int minutes )
-  {
-    std::string result;
-    AppendDuration(result, format, hours, minutes );
-    return result;
-  }
+	std::string FormatDuration( char const* format, int duration)
+	{
+		std::string result;
+		AppendDuration(result, format, duration);
+		return result;
+	}
 
 	size_t AppendDateTime(char *target, int target_size, char const* format, time_t time)
 // writes data to target, make sure that sizeof(target) >= target_size, before calling
@@ -242,6 +248,17 @@ template void AppendHtmlEscapedAndCorrectNonUTF8<cLargeString>(cLargeString &tar
     char result[80];
     AppendDateTime(result, sizeof( result ), format, time);
     return result;
+	}
+
+	std::string FormatInt(char const* format, int size)
+	{
+		char result[16];
+		if ( snprintf(result, sizeof(result), format, size) < 0 ) {
+			std::stringstream builder;
+			builder << "cannot represent integer " << size << " as requested";
+			throw std::runtime_error( builder.str() );
+		}
+		return result;
 	}
 
 	std::string StringReplace( std::string const& text, std::string const& substring, std::string const& replacement )

@@ -149,19 +149,26 @@ namespace vdrlive {
 		svdrpServerNames.Clear();
 	}
 
-
+	bool TimerConflicts::HasConflict(const cTimer& timer)
+	{
+		for (const auto& conflict : *this)
+			for (const auto& tic : conflict.ConflictingTimers())
+				if (tic.timerIndex == timer.Id())
+					return true;
+		return false;
+	}
 
 	bool TimerConflicts::CheckAdvised()
 	{
 		Epgsearch_services_v1_1 service;
 		if (CheckEpgsearchVersion() && cPluginManager::CallFirstService(ServiceInterface, &service))
-		  {
-		    cServiceHandler_v1_1* handler = dynamic_cast<cServiceHandler_v1_1*>(service.handler.get());
-		    if (!handler)
-		      return false;
-		    else
-		      return handler->IsConflictCheckAdvised();
-		  }
+		{
+			cServiceHandler_v1_1* handler = dynamic_cast<cServiceHandler_v1_1*>(service.handler.get());
+			if (!handler)
+				return false;
+			else
+				return handler->IsConflictCheckAdvised();
+		}
 		else
 		  return false;
 	}

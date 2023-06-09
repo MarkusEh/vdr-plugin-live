@@ -159,16 +159,18 @@ function RecordingActionS(s, id, A, Img, Title) {
 // [7] : runtime (scraper)
 // [8] : relase date (scraper)
 // end scraper data
-// [9] : Day, time & duration
+// [9] : Day, time
 // [10] : Number of recording errors
-// [11] : SD/HD/UHD s/h/u
-// [12] : SD/HD/UHD title
+// [11] : audio/SD/HD/UHD r/s/h/u
+// [12] : channel name
 // [13] : _new
 // [14] : Name
 // [15] : Shorttext
 // [16] : Description
 // [17] : Recording Length deviation in seconds
 // [18] : Folder (if displayFolder == true. Otherwise, this does not exist / out of range)
+// [19] : duration
+// [20] : size
 #>
 function RecordingsSt(s, level, displayFolder, data) {
   s.a += '<li class="recording"><div>'
@@ -194,8 +196,12 @@ function RecordingsSt(s, level, displayFolder, data) {
       addScraperImageTitle(s, obj[3], obj[4], obj[5], obj[6], obj[7], obj[8], '<$$lf$>');
     s.a += '</td>'
 <%cpp> } </%cpp>
-    s.a += '<td class="td-hidden-xs"><div class=\"hidden-xs recording_day\">'
+    s.a += '<td class="td-hidden-xs"><div class="hidden-xs recording_day margin-bottom">'
     s.a += obj[9]
+    s.a += '</div><div class="hidden-xs recording_channel">'
+    s.a += obj[12]
+    s.a += '</div></td><td class="td-hidden-xs" style="text-align:right"><div class="hidden-xs recording_duration margin-bottom">'
+    s.a += obj[19]
     if (obj[17] > 0) {
       s.a += '<span title=\"'
       s.a += '<$tr("Duration deviation from event length")$>'
@@ -204,8 +210,10 @@ function RecordingsSt(s, level, displayFolder, data) {
       s.a += ']'
       s.a += '</span>'
     }
+    s.a += '</div><div class="hidden-xs recording_size">'
+    s.a += obj[20]
     s.a += '</div></td><td>'
-    addErrorIcon(s, obj[10], obj[17])
+    addErrorIcon(s, obj[10], obj[17], obj[19])
     addHdSdIcon(s, obj[11], obj[12])
     s.a += '</td>'  // end column with error / sd/hd image
     s.a += '<td><div class=\"recording_name'

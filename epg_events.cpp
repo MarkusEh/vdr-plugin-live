@@ -37,6 +37,11 @@ namespace vdrlive
 	{
 	}
 
+	const std::string EpgInfo::ChannelName() const
+	{	const cChannel* channel = Channel();
+		return channel ? channel->Name() : "";
+	}
+
 	const std::string EpgInfo::CurrentTime(const char* format) const
 	{
 		return FormatDateTime(format, time(0));
@@ -175,6 +180,12 @@ namespace vdrlive
 		return (info && info->Description()) ? info->Description() : "";
 	}
 
+	const std::string EpgRecording::ChannelName() const
+	{
+		const cRecordingInfo* info = m_recording ? m_recording->Info() : 0;
+		return info && info->ChannelName() ? info->ChannelName(): "";
+	}
+
 	const std::string EpgRecording::Archived() const
 	{
 		if (!m_checkedArchived && m_recording) {
@@ -215,19 +226,24 @@ namespace vdrlive
 
 	int EpgRecording::Elapsed() const
 	{
+		if (!m_recording)
+			return -1;
+		int current, total;
+		// try currently playing recording if any
 		cControl* pControl = cControl::Control();
 		if (pControl)
 		{
-			int current, total;
-			if (pControl->GetIndex(current,total))
-			{
-				if (total)
-				{
-					return (100 * current) / total;
-				}
-			}
+			const cRecording* playing = pControl->GetRecording();
+			if (playing && playing->Id() == m_recording->Id()
+				&& pControl->GetIndex(current,total) && total)
+				return (100 * current) / total;
 		}
-		return 0;
+		// Check for resume position next
+		current = m_recording->GetResume();
+		total= m_recording->NumFrames();
+		if (current > 0 && total > 0)
+			return (100 * current) / total;
+		return -1;
 	}
 
 	const std::string EpgRecording::Name() const
@@ -549,7 +565,7 @@ bool appendEpgItem(cLargeString &epg_item, RecordingsItemPtr &recItem, const cEv
   epg_item.append(" - ");
   AppendDateTime(epg_item, tr("%I:%M %p"), Event->EndTime() );
   epg_item.append(" ");
-  AppendDuration(epg_item, tr("(%d:%02d)"), Event->Duration() /60/60, Event->Duration()/60 % 60);
+  AppendDuration(epg_item, tr("(%d:%02d)"), Event->Duration());
   epg_item.append("\"]");
   return recItemFound;
 }

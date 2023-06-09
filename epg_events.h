@@ -107,6 +107,8 @@ namespace vdrlive
 
 			virtual cChannel const * Channel() const { return 0; }
 
+			virtual std::string const ChannelName() const;
+
 			virtual std::string const Archived() const { return ""; }
 
 			virtual std::string const FileName() const { return ""; }
@@ -256,6 +258,8 @@ namespace vdrlive
 			virtual std::string const ShortDescr() const;
 
 			virtual std::string const LongDescr() const;
+
+			virtual std::string const ChannelName() const;
 
 			virtual std::string const Archived() const;
 

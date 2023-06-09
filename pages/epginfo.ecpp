@@ -152,7 +152,7 @@ using namespace vdrlive;
     if (epgEvent->EventDuration() < 0) {  // epg event, no recording
       start += std::string(" - ") + epgEvent->EndTime(tr("%I:%M %p"));
     	start += " ";
-			AppendDuration(start, tr("(%d:%02d)"), epgEvent->Duration()/60/60, epgEvent->Duration()/60 % 60);
+			AppendDuration(start, tr("(%d:%02d)"), epgEvent->Duration());
     }
 
 		std::string tools_component;
@@ -167,7 +167,7 @@ using namespace vdrlive;
 			tools_component = "epginfo.epgTools";
 
 </%cpp>
-		<& pageelems.epg_tt_box boxId=(epgEvent->Id()) caption=(epgEvent->Caption()) tools_comp=(tools_component) time=(start) title=(epgEvent->Title()) short_descr=(epgEvent->ShortDescr()) long_descr=(epgEvent->LongDescr()) archived=(epgEvent->Archived()) elapsed=(epgEvent->Elapsed()) filename=(epgEvent->FileName()) epgImage=(epgImage) irecording=(irecording) ievent=(i_event) iepgEvent=(i_epgEvent) &>
+		<& pageelems.epg_tt_box boxId=(epgEvent->Id()) caption=(epgEvent->Caption()) tools_comp=(tools_component) time=(start) title=(epgEvent->Title()) short_descr=(epgEvent->ShortDescr()) long_descr=(epgEvent->LongDescr()) archived=(epgEvent->Archived()) elapsed=(epgEvent->Elapsed()) channel=(epgEvent->ChannelName()) filename=(epgEvent->FileName()) epgImage=(epgImage) irecording=(irecording) ievent=(i_event) iepgEvent=(i_epgEvent) &>
 <%cpp>
 	}
 	if (aboutBox) {

@@ -48,15 +48,16 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 					for (std::list< TimerInConflict >::const_iterator confltimer = conflTimers.begin(); confltimer != conflTimers.end(); ++confltimer) {
 </%cpp>
 						<tr class="head">
-							<td colspan="11">
-								 <div class="boxheader"><div><div><$ FormatDateTime(tr("%A, %x"), conflict->ConflictTime()) + " " + FormatDateTime(tr("%I:%M %p"), conflict->ConflictTime()) + " - " + lexical_cast<std::string, int>(confltimer->percentage) + "%" $><span style="float:right;"><diff><$ tr("Server")$>: <$ (confltimer->remote == "" ) ? tr("local") : confltimer->remote $> </diff></span></div></div></div>
+							<td colspan="12">
+								<div class="boxheader"><div><div><$ FormatDateTime(tr("%A, %x"), conflict->ConflictTime()) + " " + FormatDateTime(tr("%I:%M %p"), conflict->ConflictTime()) + " - " + lexical_cast<std::string, int>(confltimer->percentage) + "%" $><span style="float:right;"><diff><$ tr("Server")$>: <$ (confltimer->remote == "" ) ? tr("local") : confltimer->remote $> </diff></span></div></div></div>
 							</td>
 						</tr>
 						<tr class="description">
 							<td class="leftcol"><img src="img/transparent.png" alt="" width="16px" height="16px" /></td>
 							<td><div class="withmargin"><$ trVDR("Channel") $></div></td>
-					    <td class="td-hidden-xs"><div class="withmargin hidden-xs"><$ trVDR("Start") $></div></td>
-					    <td class="td-hidden-xs"><div class="withmargin hidden-xs"><$ trVDR("Stop")  $></div></td>
+							<td class="td-hidden-xs"><div class="withmargin hidden-xs"><$ trVDR("Start") $></div></td>
+							<td class="td-hidden-xs"><div class="withmargin hidden-xs"><$ trVDR("Stop")  $></div></td>
+							<td class="td-hidden-xs"><div class="withmargin hidden-xs"><$ trVDR("Duration")  $></div></td>
 							<td class="td-hidden-xs"><div class="withmargin hidden-xs"><$ trVDR("Priority") $></div></td>
 							<td><div class="withmargin"><$ trVDR("File") $></div></td>
 							<td><div class="withmargin"><$ tr("Searchtimer") $></div></td>
@@ -125,6 +126,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
                 </div></td>
 								<td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin nowrap" title="<$ trVDR("Start")$>"><$ FormatDateTime(tr("%I:%M %p"), timer->StartTime()) $>  </div></td>
 								<td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin nowrap" title="<$ trVDR("Stop")$>"><$ FormatDateTime(tr("%I:%M %p"), timer->StopTime()) $>  </div></td>
+								<td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin nowrap" title="<$ trVDR("Duration")$>"><$ FormatDuration(tr("%d:%02d"), timer->StopTime() - timer->StartTime()) $></div></td>
 								<td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin" title="<$ trVDR("Priority") $>"><$ timer->Priority() $></div></td>
 								<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><a
 %               if(epgEvent) {
