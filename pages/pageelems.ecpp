@@ -67,7 +67,7 @@ else lf = "&#13;";
 </%cpp>
 <script type="text/javascript" src="js/live/createHtml.js"></script>
 <script>
-function addErrorIcon(s, numErrors, durationDeviation) {
+function addErrorIcon(s, numErrors, durationDeviation, duration) {
   if (numErrors <= -100) return
   s.a += '<div class=\"recording_errors\"><img class=\"icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>'
   if (durationDeviation > 300 || numErrors  > 0) s.a += 'RecordingErrors.png'
@@ -85,6 +85,12 @@ function addErrorIcon(s, numErrors, durationDeviation) {
   s.a += '<$tr("Duration deviation from event length")$>'
   s.a += ': '
   addTime(s, durationDeviation)
+  s.a += ' '
+  s.a += '<$tr("min")$>'
+  s.a += '<$$lf$>'
+  s.a += '<$tr("Recording length")$>'
+  s.a += ': '
+  s.a += duration
   s.a += ' '
   s.a += '<$tr("min")$>'
   s.a += '\" /> </div>'
@@ -198,7 +204,7 @@ function eventString(bottomrow, data) {
 }
 
 // existing recording
-function existingRecordingSR(s, col_span1, bottomrow, imdb_id, id, archiveDescr, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, durationDeviation, folder) {
+function existingRecordingSR(s, col_span1, bottomrow, imdb_id, id, archiveDescr, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, durationDeviation, folder, duration) {
   if (archiveDescr.length != 0) col_span1--;
   s.a += '<tr><td colspan='
   s.a += col_span1.toString()
@@ -216,7 +222,7 @@ function existingRecordingSR(s, col_span1, bottomrow, imdb_id, id, archiveDescr,
 </%cpp>
   } else {
     s.a += '<br/><table><tr><td class=\"noborder\">'
-    addErrorIcon(s, errors, durationDeviation)
+    addErrorIcon(s, errors, durationDeviation, duration)
     s.a += '</td><td class=\"noborder\">'
     addHdSdIcon(s, hd_sd, channel_name)
     s.a += '</td></tr></table>'
@@ -234,10 +240,10 @@ function existingRecordingSR(s, col_span1, bottomrow, imdb_id, id, archiveDescr,
   addColEventRec(s, day_time_duration, 'recording_', id, name, folder, short_text, description, '<$$lf$>', '<$tr("Click to view details.")$>')
   s.a += '</td></tr>'
 }
-function existingRecordingString(col_span, bottomrow, id, archiveDescr, imdb_id, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, durationDeviation, folder) {
+function existingRecordingString(col_span, bottomrow, id, archiveDescr, imdb_id, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, durationDeviation, folder, duration) {
   const s = Object.create(null)
   s.a = ""
-  existingRecordingSR(s, col_span, bottomrow, imdb_id, id, archiveDescr, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, durationDeviation, folder)
+  existingRecordingSR(s, col_span, bottomrow, imdb_id, id, archiveDescr, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, durationDeviation, folder, duration)
   return s.a
 }
 
@@ -559,7 +565,7 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
     LOCK_SCHEDULES_READ;
     EpgInfoPtr epgEvent = EpgEvents::CreateEpgInfo(epgid, Schedules);
     const cEvent* event = epgEvent->Event();
-    const cChannel* channel = Channels->GetByChannelID(event->ChannelID());
+    const cChannel* channel = event?Channels->GetByChannelID(event->ChannelID()):nullptr;
     cGetScraperVideo getScraperVideo(event, NULL);
     bool scraperDataAvailable = getScraperVideo.call(LiveSetup().GetPluginScraper());
     if (scraperDataAvailable) {
@@ -1161,7 +1167,7 @@ for (const cTvMedia &media: *media_v) {
 					(<a href="https://github.com/MarkusEh/vdr-plugin-tvscraper" target="_blank"><$ tr("Homepage") $></a>)<br/>
 				</div>
 				<div class="about_head"><div><div><$ tr("Information providers") $></div></div></div>
-				<div class="about_line">Movie information provided by <a target="_blank" href="https://www.themoviedb.org/">TMDB</a></div>
+				<div class="about_line">Movie information provided by <a target="_blank" href="https://www.themoviedb.org/">TMDB</a>. This product uses the TMDB API but is not endorsed or certified by TMDB</div>
 				<div class="about_line">Information provided by TheTVDB.com. Please consider <a target="_blank" href="https://u10505776.ct.sendgrid.net/ls/click?upn=xMYYCP13hVd-2BZPpbVcMPHeLXfv-2BPRdIsKm2qSeirIHi7kH9am8IxD-2BavFbeqGqIXIcjH_INgc0CXRkIvGU-2BJ1W6HLAynNbR0UBoMb2tkpDdezO3QRj-2FQPQAMrtJKVcB0N7eSvbYpjQTDNOQBf2pb94uDgGr0-2BXyXFk7Oyfva30BASYCRLvtRQyi5eOCAbH8fon7UETlPydobeLA3Recu9OsXol8c7Ng4pDAsH6KsFF8CH7HQoVxivnpKrQW2v4ek7U-2BYlWmH31o9Koke3vq-2FDsQ0P-2BiKLECU3LgttsntUcN8fnUs-3D">supporting them</a></div>
 				<div class="about_head"><div><div><$ tr("Bugs and suggestions") $></div></div></div>
 				<div class="about_line"><$ tr("If you encounter any bugs or would like to suggest new features, please use our bugtracker") $>:<br/>

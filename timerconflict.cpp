@@ -169,7 +169,7 @@ namespace vdrlive {
 			else
 				return handler->IsConflictCheckAdvised();
 		}
-		else 
+		else
 		  return false;
 	}
 

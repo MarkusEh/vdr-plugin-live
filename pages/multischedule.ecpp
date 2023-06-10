@@ -21,7 +21,7 @@ struct SchedEntry {
 	bool has_timer;
 	int start_row;
 	int row_count;
-	
+
 	static SchedEntry DummyEntry(int start_row, int row_count) {
 		SchedEntry en;
 		en.start_row = start_row;
