@@ -900,6 +900,9 @@ msgstr "Seznam nahrávek"
 msgid "Name"
 msgstr "Jméno"
 
+msgid "Create new directory"
+msgstr ""
+
 #, fuzzy
 msgid "Delete resume information"
 msgstr "Elektronický průvodce programem (EPG)"

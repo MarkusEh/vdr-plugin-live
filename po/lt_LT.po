@@ -893,6 +893,9 @@ msgstr ""
 msgid "Name"
 msgstr "Vardas"
 
+msgid "Create new directory"
+msgstr ""
+
 msgid "Delete resume information"
 msgstr ""
 

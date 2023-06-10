@@ -892,6 +892,9 @@ msgstr "Edycja nagrania"
 msgid "Name"
 msgstr "Nazwa"
 
+msgid "Create new directory"
+msgstr ""
+
 msgid "Delete resume information"
 msgstr "Usuń informację o wznowieniu"
 

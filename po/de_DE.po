@@ -894,6 +894,9 @@ msgstr "Aufnahme editieren"
 msgid "Name"
 msgstr "Name"
 
+msgid "Create new directory"
+msgstr "Neues Verzeichnis erstellen"
+
 msgid "Delete resume information"
 msgstr "Wiedergabeposition löschen"
 

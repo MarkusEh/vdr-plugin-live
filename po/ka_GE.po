@@ -894,6 +894,9 @@ msgstr "ჩანაწერის ჩასწორება"
 msgid "Name"
 msgstr "სახელი"
 
+msgid "Create new directory"
+msgstr ""
+
 msgid "Delete resume information"
 msgstr "გაგრძელების ინფორმაციის წაშლა"
 

@@ -902,6 +902,9 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
+msgid "Create new directory"
+msgstr ""
+
 msgid "Delete resume information"
 msgstr ""
 

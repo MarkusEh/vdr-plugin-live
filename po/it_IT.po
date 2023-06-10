@@ -897,6 +897,9 @@ msgstr "Modifica registrazione"
 msgid "Name"
 msgstr "Nome"
 
+msgid "Create new directory"
+msgstr ""
+
 msgid "Delete resume information"
 msgstr "Elimina informazione ripristino"
 

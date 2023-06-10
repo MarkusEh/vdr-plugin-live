@@ -891,6 +891,9 @@ msgstr "Editar grabación"
 msgid "Name"
 msgstr "Nombre"
 
+msgid "Create new directory"
+msgstr ""
+
 msgid "Delete resume information"
 msgstr "Borrar marcador de continuación"
 
