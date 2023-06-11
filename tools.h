@@ -57,27 +57,54 @@ namespace vdrlive {
 	extern const std::locale g_locale;
 	extern const std::collate<char>& g_collate_char;
 
-        void AppendHtmlEscaped(std::string &target, const char* s);
+  void AppendHtmlEscaped(std::string &target, const char* s);
 template<class T>
-        void AppendHtmlEscapedAndCorrectNonUTF8(T &target, const char* s, const char *end = NULL, bool tooltip = false);
+  void AppendHtmlEscapedAndCorrectNonUTF8(T &target, const char* s, const char *end = NULL, bool tooltip = false);
 template<class T>
 	void AppendTextTruncateOnWord(T &target, const char *text, int max_len, bool tooltip = false);
-        void AppendCorrectNonUTF8(std::string &target, const char* s);
+  void AppendCorrectNonUTF8(std::string &target, const char* s);
 
-        wint_t getNextUtfCodepoint(const char *&p);
-        int utf8CodepointIsValid(const char *p); // In case of invalid UTF8, return 0. Otherwise: Number of characters
-        wint_t Utf8ToUtf32(const char *&p, int len); // assumes, that uft8 validity checks have already been done. len must be provided. call utf8CodepointIsValid first
+  wint_t getNextUtfCodepoint(const char *&p);
+  int utf8CodepointIsValid(const char *p); // In case of invalid UTF8, return 0. Otherwise: Number of characters
+  wint_t Utf8ToUtf32(const char *&p, int len); // assumes, that uft8 validity checks have already been done. len must be provided. call utf8CodepointIsValid first
 	void AppendUtfCodepoint(std::string &target, wint_t codepoint);
 
-	void AppendDuration(cLargeString &target, char const* format, int duration );
-	void AppendDuration(std::string &target, char const* format, int duration );
+  template<typename... Args> void AppendFormated(std::string &target, char const* format, Args&&... args) {
+    char result[30];
+    size_t numNeeded = snprintf(result, sizeof(result), format, std::forward<Args>(args)...);
+
+    if (numNeeded < sizeof(result)) {
+      target.append(result);
+    } else {
+      char buf2[numNeeded+1];
+      sprintf(buf2, format, std::forward<Args>(args)...);
+      target.append(buf2);
+    }
+  }
+  template<typename... Args> void AppendFormated(cLargeString &target, char const* format, Args&&... args) {
+    target.appendFormated(format, std::forward<Args>(args)...);
+/*
+    size_t numRes= 30;
+    size_t numNeeded = snprintf(target.borrowEnd(numRes), numRes, format, std::forward<Args>(args)...);
+    if (numNeeded >= numRes) {
+      target.finishBorrow(0);
+      sprintf(target.borrowEnd(numNeeded + 1), format, std::forward<Args>(args)...);
+    }
+    target.finishBorrow(numNeeded);
+*/
+  }
+  template<typename... Args> std::string Format(char const* format, Args&&... args) {
+    std::string result;
+    AppendFormated(result, format, std::forward<Args>(args)...);
+    return result;
+  }
+ 
+  template<typename T> void AppendDuration(T &target, char const* format, int duration);
 	std::string FormatDuration( char const* format, int duration );
 
-        void AppendDateTime(cLargeString &target, char const* format, time_t time );
-        void AppendDateTime(std::string &target, char const* format, time_t time );
+  void AppendDateTime(cLargeString &target, char const* format, time_t time );
+  void AppendDateTime(std::string &target, char const* format, time_t time );
 	std::string FormatDateTime( char const* format, time_t time );
-
-	std::string FormatInt(char const* format, int size);
 
 	std::string StringReplace( std::string const& text, std::string const& substring, std::string const& replacement );
 
@@ -88,7 +115,7 @@ template<class T>
 	std::string StringWordTruncate(const std::string& input, size_t maxLen, bool& truncated);
 	inline std::string StringWordTruncate(const std::string& input, size_t maxLen) { bool dummy; return StringWordTruncate(input, maxLen, dummy); }
 
-        std::string StringEscapeAndBreak(std::string const& input, const char* nl = "<br/>");
+  std::string StringEscapeAndBreak(std::string const& input, const char* nl = "<br/>");
 
 	std::string StringFormatBreak(std::string const& input);
 
@@ -97,7 +124,7 @@ template<class T>
 
 	const char *getText(const char *shortText, const char *description);
 template<class T>
-        void AppendTextMaxLen(T &target, const char *text);
+  void AppendTextMaxLen(T &target, const char *text);
 
 	std::string MD5Hash(std::string const& str);
 	std::string xxHash32(std::string const& str);

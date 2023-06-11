@@ -155,7 +155,7 @@ using namespace vdrlive;
 						timerStateHint = tr("Timer is recording.");
 					}
 					else if (timer->Flags() & tfActive) {
-						if (timerConflicts.HasConflict(*timer)) {
+						if (timerConflicts.HasConflict(timer->Id() )) {
 							timerStateImg = "timerconflict.gif";
 							timerStateHint = tr("Timer has a conflict.");
 						}

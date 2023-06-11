@@ -507,6 +507,10 @@ msgstr "Fehler beim Zugriff auf Programinfos"
 msgid "%d:%02d"
 msgstr "%d:%02d"
 
+#, c-format
+msgid "%'d MB"
+msgstr "%'d MB"
+
 msgid "Recording length"
 msgstr "Länge der Aufzeichnung"
 
@@ -1024,6 +1028,9 @@ msgstr "Timer löschen"
 
 msgid "No timer defined"
 msgstr "Keine Timer vorhanden"
+
+msgid "Duration"
+msgstr "Dauer"
 
 msgid "Timer is recording."
 msgstr "Timer zeichnet auf."
