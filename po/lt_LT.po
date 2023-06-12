@@ -76,6 +76,18 @@ msgstr "%b %d %y"
 msgid "%I:%M %p"
 msgstr "%I:%M %p"
 
+#, c-format
+msgid "%d:%02d"
+msgstr ""
+
+#, c-format
+msgid "%.1f GB"
+msgstr ""
+
+#, c-format
+msgid "%'d MB"
+msgstr ""
+
 msgid "TV shows"
 msgstr ""
 
@@ -503,16 +515,6 @@ msgstr "Negali gauti programų užrakto"
 msgid "Error aquiring schedules"
 msgstr "Negauna programų aprašų"
 
-#, c-format
-msgid "%d:%02d"
-msgstr ""
-
-msgid "Recording length"
-msgstr ""
-
-msgid "Event duration"
-msgstr ""
-
 msgid "Page error"
 msgstr "Puslapio klaida"
 
@@ -612,6 +614,9 @@ msgstr ""
 msgid "min"
 msgstr ""
 
+msgid "Recording length"
+msgstr ""
+
 msgid "Find more at the Internet Movie Database."
 msgstr "Gauti daugiau informacijos iš IMDb."
 
@@ -682,6 +687,9 @@ msgid "Actors"
 msgstr ""
 
 msgid "Artwork"
+msgstr ""
+
+msgid "Event duration"
 msgstr ""
 
 msgid "Title:"
@@ -810,9 +818,6 @@ msgstr "Jei radote klaidų ar norėtumėte pasiūlyti naujų savybių, rašykit 
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "Kanalas nerastas arba jo iš vis nėra. Gal klaidingai įvedėte paieškos frazę?"
 
-msgid "ERROR:"
-msgstr "KLAIDA:"
-
 msgid "Deleted recording:"
 msgstr "Ištrynė įrašą:"
 
@@ -863,9 +868,6 @@ msgstr ""
 
 msgid "Collapse all folders"
 msgstr ""
-
-msgid "play this recording."
-msgstr "groti šį įrašą."
 
 msgid "Snapshot interval"
 msgstr "Momentinių nuotraukų intervalas"
@@ -1025,6 +1027,9 @@ msgstr "Ištrinti laikmatį"
 msgid "No timer defined"
 msgstr "Nenustatytas laikmatis"
 
+msgid "Duration"
+msgstr ""
+
 msgid "Timer is recording."
 msgstr "Laikmatis įrašinėja."
 
@@ -1063,6 +1068,12 @@ msgstr "Live interaktyvioji VDR aplinka"
 
 msgid "No EPG information available"
 msgstr "Nėra EPG informacijos"
+
+#~ msgid "ERROR:"
+#~ msgstr "KLAIDA:"
+
+#~ msgid "play this recording."
+#~ msgstr "groti šį įrašą."
 
 #~ msgid "mm/dd/yyyy"
 #~ msgstr "yyyy-mm-dd"

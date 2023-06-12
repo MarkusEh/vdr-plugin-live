@@ -75,6 +75,18 @@ msgstr ""
 msgid "%I:%M %p"
 msgstr "%H:%M"
 
+#, c-format
+msgid "%d:%02d"
+msgstr ""
+
+#, c-format
+msgid "%.1f GB"
+msgstr ""
+
+#, c-format
+msgid "%'d MB"
+msgstr ""
+
 msgid "TV shows"
 msgstr ""
 
@@ -501,16 +513,6 @@ msgstr "Ошибка во время получения расписания"
 msgid "Error aquiring schedules"
 msgstr "Ошибка в расписании"
 
-#, c-format
-msgid "%d:%02d"
-msgstr ""
-
-msgid "Recording length"
-msgstr ""
-
-msgid "Event duration"
-msgstr ""
-
 msgid "Page error"
 msgstr "Ошибка страницы"
 
@@ -610,6 +612,9 @@ msgstr ""
 msgid "min"
 msgstr ""
 
+msgid "Recording length"
+msgstr ""
+
 msgid "Find more at the Internet Movie Database."
 msgstr "Найти на Kinopoisk.ru."
 
@@ -680,6 +685,9 @@ msgid "Actors"
 msgstr ""
 
 msgid "Artwork"
+msgstr ""
+
+msgid "Event duration"
 msgstr ""
 
 msgid "Title:"
@@ -808,9 +816,6 @@ msgstr "Если у вас возникнут ошибки или Вы хоти�
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "Канал не найден или недоступен. Проверьте правильность запроса."
 
-msgid "ERROR:"
-msgstr "ОШИБКА:"
-
 msgid "Deleted recording:"
 msgstr "Удаленный записи:"
 
@@ -861,9 +866,6 @@ msgstr "Развернуть все папки"
 
 msgid "Collapse all folders"
 msgstr "Свернуть все папки"
-
-msgid "play this recording."
-msgstr "Проиграть эту запись."
 
 msgid "Snapshot interval"
 msgstr "Интервал между снимками"
@@ -1022,6 +1024,9 @@ msgstr "Удалить таймер"
 msgid "No timer defined"
 msgstr "Таймер не установлен"
 
+msgid "Duration"
+msgstr ""
+
 msgid "Timer is recording."
 msgstr "Таймер записывает."
 
@@ -1060,6 +1065,12 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr "EPG информация недоступна"
+
+#~ msgid "ERROR:"
+#~ msgstr "ОШИБКА:"
+
+#~ msgid "play this recording."
+#~ msgstr "Проиграть эту запись."
 
 #~ msgid "mm/dd/yyyy"
 #~ msgstr "dd/mm/yyyy"

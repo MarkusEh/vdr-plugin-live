@@ -76,6 +76,18 @@ msgstr ""
 msgid "%I:%M %p"
 msgstr "%H:%M"
 
+#, c-format
+msgid "%d:%02d"
+msgstr ""
+
+#, c-format
+msgid "%.1f GB"
+msgstr ""
+
+#, c-format
+msgid "%'d MB"
+msgstr ""
+
 msgid "TV shows"
 msgstr ""
 
@@ -502,16 +514,6 @@ msgstr "Błąd podczas próby blokady programu"
 msgid "Error aquiring schedules"
 msgstr "Błąd podczas ściągania programu"
 
-#, c-format
-msgid "%d:%02d"
-msgstr ""
-
-msgid "Recording length"
-msgstr ""
-
-msgid "Event duration"
-msgstr ""
-
 msgid "Page error"
 msgstr "Błąd strony"
 
@@ -611,6 +613,9 @@ msgstr ""
 msgid "min"
 msgstr ""
 
+msgid "Recording length"
+msgstr ""
+
 msgid "Find more at the Internet Movie Database."
 msgstr "Szukaj w IMDb.com"
 
@@ -681,6 +686,9 @@ msgid "Actors"
 msgstr ""
 
 msgid "Artwork"
+msgstr ""
+
+msgid "Event duration"
 msgstr ""
 
 msgid "Title:"
@@ -809,9 +817,6 @@ msgstr "Jeśli znajdziesz jakieś błędy lub chciałbyś zasugerować nowe funk
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "Nie można odnaleść kanału lub kanały nie są dostępne."
 
-msgid "ERROR:"
-msgstr "BŁĄD:"
-
 msgid "Deleted recording:"
 msgstr "Usunięto nagranie:"
 
@@ -862,9 +867,6 @@ msgstr "Rozwiń wszystkie katalogi"
 
 msgid "Collapse all folders"
 msgstr "Zwiń wszystkie katalogi"
-
-msgid "play this recording."
-msgstr "Odtwórz nagranie"
 
 msgid "Snapshot interval"
 msgstr "Okres pomiędzy migawkami"
@@ -1023,6 +1025,9 @@ msgstr "Usuń timer"
 msgid "No timer defined"
 msgstr "Brak zdefiniowanych timerów."
 
+msgid "Duration"
+msgstr ""
+
 msgid "Timer is recording."
 msgstr "Trwa nagranie timera."
 
@@ -1061,6 +1066,12 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr "Brak informacji EPG"
+
+#~ msgid "ERROR:"
+#~ msgstr "BŁĄD:"
+
+#~ msgid "play this recording."
+#~ msgstr "Odtwórz nagranie"
 
 #~ msgid "mm/dd/yyyy"
 #~ msgstr "dd/mm/yyyy"

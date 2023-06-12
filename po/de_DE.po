@@ -77,6 +77,18 @@ msgstr "%d.%m.%y"
 msgid "%I:%M %p"
 msgstr "%H:%M"
 
+#, c-format
+msgid "%d:%02d"
+msgstr "%d:%02d"
+
+#, c-format
+msgid "%.1f GB"
+msgstr ""
+
+#, c-format
+msgid "%'d MB"
+msgstr "%'d MB"
+
 msgid "TV shows"
 msgstr "Serien"
 
@@ -503,20 +515,6 @@ msgstr "Fehler beim Zugriffschutz für die Programminfos"
 msgid "Error aquiring schedules"
 msgstr "Fehler beim Zugriff auf Programinfos"
 
-#, c-format
-msgid "%d:%02d"
-msgstr "%d:%02d"
-
-#, c-format
-msgid "%'d MB"
-msgstr "%'d MB"
-
-msgid "Recording length"
-msgstr "Länge der Aufzeichnung"
-
-msgid "Event duration"
-msgstr "Länge des EPG Eintrags"
-
 msgid "Page error"
 msgstr "Seitenfehler"
 
@@ -616,6 +614,9 @@ msgstr "Abweichung der Aufzeichnungslänge von der Länge des EPG Eintrags"
 msgid "min"
 msgstr "min"
 
+msgid "Recording length"
+msgstr "Länge der Aufzeichnung"
+
 msgid "Find more at the Internet Movie Database."
 msgstr "Weitere Informationen in der Internet Movie Database."
 
@@ -687,6 +688,9 @@ msgstr "Schauspieler"
 
 msgid "Artwork"
 msgstr "Bilder"
+
+msgid "Event duration"
+msgstr "Länge des EPG Eintrags"
 
 msgid "Title:"
 msgstr "Titel:"
@@ -815,9 +819,6 @@ msgstr "Für Fehler oder Verbesserungsvorschläge steht unser Bugtracker bereit"
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "Konnte Kanal nicht finden oder keine Kanäle verfügbar. Ist die Anfrage korrekt?"
 
-msgid "ERROR:"
-msgstr "FEHLER:"
-
 msgid "Deleted recording:"
 msgstr "Gelöschte Aufnahme:"
 
@@ -868,9 +869,6 @@ msgstr "Alle Ordner aufklappen"
 
 msgid "Collapse all folders"
 msgstr "Alle Ordner einklappen"
-
-msgid "play this recording."
-msgstr "Diese Aufnahme abspielen."
 
 msgid "Snapshot interval"
 msgstr "Snapshot-Intervall"
@@ -1070,6 +1068,12 @@ msgstr "Live Interactive VDR Environment"
 
 msgid "No EPG information available"
 msgstr "Keine EPG Daten vorhanden"
+
+#~ msgid "ERROR:"
+#~ msgstr "FEHLER:"
+
+#~ msgid "play this recording."
+#~ msgstr "Diese Aufnahme abspielen."
 
 #~ msgid "Episode guest stars:"
 #~ msgstr "Episode Gastdarsteller:"

@@ -76,6 +76,18 @@ msgstr "%d.%m."
 msgid "%I:%M %p"
 msgstr "%H:%M"
 
+#, c-format
+msgid "%d:%02d"
+msgstr ""
+
+#, c-format
+msgid "%.1f GB"
+msgstr ""
+
+#, c-format
+msgid "%'d MB"
+msgstr ""
+
 msgid "TV shows"
 msgstr ""
 
@@ -510,16 +522,6 @@ msgstr "Chyba při vytváření zámku pro nahrávky"
 msgid "Error aquiring schedules"
 msgstr "Chyba při plánování"
 
-#, c-format
-msgid "%d:%02d"
-msgstr ""
-
-msgid "Recording length"
-msgstr ""
-
-msgid "Event duration"
-msgstr ""
-
 msgid "Page error"
 msgstr "Chyba stránky"
 
@@ -619,6 +621,9 @@ msgstr ""
 msgid "min"
 msgstr ""
 
+msgid "Recording length"
+msgstr ""
+
 msgid "Find more at the Internet Movie Database."
 msgstr "Vyhledej více na Internet Movie Database."
 
@@ -689,6 +694,9 @@ msgid "Actors"
 msgstr ""
 
 msgid "Artwork"
+msgstr ""
+
+msgid "Event duration"
 msgstr ""
 
 msgid "Title:"
@@ -817,9 +825,6 @@ msgstr "Pokud odhalíte nějaké chyby, příp. si přejete nové vlastnosti, po
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "Kanál je nedostupný, nebo neexistuje. Zkontrolujte zadání."
 
-msgid "ERROR:"
-msgstr "CHYBA:"
-
 msgid "Deleted recording:"
 msgstr "Smazaná nahrávka:"
 
@@ -871,9 +876,6 @@ msgstr ""
 
 msgid "Collapse all folders"
 msgstr ""
-
-msgid "play this recording."
-msgstr "Přehrát nahrávku"
 
 msgid "Snapshot interval"
 msgstr "Interval snímků obrazovky"
@@ -1035,6 +1037,9 @@ msgstr "Zrušit nahrávání!"
 msgid "No timer defined"
 msgstr "Nahrávání není nastaveno"
 
+msgid "Duration"
+msgstr ""
+
 msgid "Timer is recording."
 msgstr "Probíhá nahrávání"
 
@@ -1073,6 +1078,12 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr "Nejsou dostupné informace o programu"
+
+#~ msgid "ERROR:"
+#~ msgstr "CHYBA:"
+
+#~ msgid "play this recording."
+#~ msgstr "Přehrát nahrávku"
 
 #~ msgid "mm/dd/yyyy"
 #~ msgstr "dd.mm.yyyy"

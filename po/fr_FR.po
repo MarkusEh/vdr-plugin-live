@@ -78,6 +78,18 @@ msgstr "%d.%m.%y"
 msgid "%I:%M %p"
 msgstr "%H:%M"
 
+#, c-format
+msgid "%d:%02d"
+msgstr ""
+
+#, c-format
+msgid "%.1f GB"
+msgstr ""
+
+#, c-format
+msgid "%'d MB"
+msgstr ""
+
 msgid "TV shows"
 msgstr ""
 
@@ -521,16 +533,6 @@ msgstr "Erreur lors de l'acquisition du verrouillage de programmation de recherc
 msgid "Error aquiring schedules"
 msgstr "Erreur lors de l'acquisition de programmation"
 
-#, c-format
-msgid "%d:%02d"
-msgstr ""
-
-msgid "Recording length"
-msgstr ""
-
-msgid "Event duration"
-msgstr ""
-
 msgid "Page error"
 msgstr "Erreur de paging"
 
@@ -630,6 +632,9 @@ msgstr ""
 msgid "min"
 msgstr ""
 
+msgid "Recording length"
+msgstr ""
+
 msgid "Find more at the Internet Movie Database."
 msgstr "Trouver plus d'information du film dans la base de données film IMDB."
 
@@ -700,6 +705,9 @@ msgid "Actors"
 msgstr ""
 
 msgid "Artwork"
+msgstr ""
+
+msgid "Event duration"
 msgstr ""
 
 msgid "Title:"
@@ -829,9 +837,6 @@ msgstr "Si vous rencontrez n'importe quels bogue ou voudriez suggérer de nouveau
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "N'a pas pu trouver la chaîne. Votre requête est t'elle corrête? "
 
-msgid "ERROR:"
-msgstr "ERREUR:"
-
 msgid "Deleted recording:"
 msgstr ""
 
@@ -882,9 +887,6 @@ msgstr ""
 
 msgid "Collapse all folders"
 msgstr ""
-
-msgid "play this recording."
-msgstr "lire cette enregistrement."
 
 #, fuzzy
 msgid "Snapshot interval"
@@ -1048,6 +1050,9 @@ msgstr "Effacer la programmation"
 msgid "No timer defined"
 msgstr "Aucune programmation définie"
 
+msgid "Duration"
+msgstr ""
+
 msgid "Timer is recording."
 msgstr "Enregistrement de série"
 
@@ -1089,6 +1094,12 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr ""
+
+#~ msgid "ERROR:"
+#~ msgstr "ERREUR:"
+
+#~ msgid "play this recording."
+#~ msgstr "lire cette enregistrement."
 
 #~ msgid "mm/dd/yyyy"
 #~ msgstr "mm/dd/yyyy"

@@ -76,6 +76,18 @@ msgstr "%b %d %y"
 msgid "%I:%M %p"
 msgstr "%H:%M"
 
+#, c-format
+msgid "%d:%02d"
+msgstr ""
+
+#, c-format
+msgid "%.1f GB"
+msgstr ""
+
+#, c-format
+msgid "%'d MB"
+msgstr ""
+
 msgid "TV shows"
 msgstr ""
 
@@ -502,16 +514,6 @@ msgstr "Uzamknuté získavanie televízneho programu"
 msgid "Error aquiring schedules"
 msgstr "Chyba pri získavaní televízneho programu"
 
-#, c-format
-msgid "%d:%02d"
-msgstr ""
-
-msgid "Recording length"
-msgstr ""
-
-msgid "Event duration"
-msgstr ""
-
 msgid "Page error"
 msgstr "Chyba stránky"
 
@@ -611,6 +613,9 @@ msgstr ""
 msgid "min"
 msgstr ""
 
+msgid "Recording length"
+msgstr ""
+
 msgid "Find more at the Internet Movie Database."
 msgstr "Viac na Internet Movie Database."
 
@@ -681,6 +686,9 @@ msgid "Actors"
 msgstr ""
 
 msgid "Artwork"
+msgstr ""
+
+msgid "Event duration"
 msgstr ""
 
 msgid "Title:"
@@ -809,9 +817,6 @@ msgstr "Ak narazíte na akúkoµvek chybu, alebo ak chcete navrhnú» nové funkcie, p
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "Nena¹iel sa ¾iadny kanál alebo kanály nie sú k dispozícii. Mo¾no ste zle napísali va¹u po¾iadavku?"
 
-msgid "ERROR:"
-msgstr "CHYBA:"
-
 msgid "Deleted recording:"
 msgstr "Vymazaný nahrávka:"
 
@@ -862,9 +867,6 @@ msgstr "Rozbali» v¹etky zlo¾ky"
 
 msgid "Collapse all folders"
 msgstr "Zbali» v¹etky zlo¾ky"
-
-msgid "play this recording."
-msgstr "Prehra» záznam."
 
 msgid "Snapshot interval"
 msgstr "Interval snímkovania"
@@ -1023,6 +1025,9 @@ msgstr "Vymaza» plán"
 msgid "No timer defined"
 msgstr "®iadny plán nahrávania nie je stanovený"
 
+msgid "Duration"
+msgstr ""
+
 msgid "Timer is recording."
 msgstr "Nahráva sa podµa plánu."
 
@@ -1061,6 +1066,12 @@ msgstr "®ivé interaktívne VDR prostredie"
 
 msgid "No EPG information available"
 msgstr "EPG informácie sú nedostupné"
+
+#~ msgid "ERROR:"
+#~ msgstr "CHYBA:"
+
+#~ msgid "play this recording."
+#~ msgstr "Prehra» záznam."
 
 #~ msgid "mm/dd/yyyy"
 #~ msgstr "mm/dd/yyyy"

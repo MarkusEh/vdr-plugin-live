@@ -75,6 +75,18 @@ msgstr ""
 msgid "%I:%M %p"
 msgstr "%H:%M"
 
+#, c-format
+msgid "%d:%02d"
+msgstr ""
+
+#, c-format
+msgid "%.1f GB"
+msgstr ""
+
+#, c-format
+msgid "%'d MB"
+msgstr ""
+
 msgid "TV shows"
 msgstr ""
 
@@ -501,16 +513,6 @@ msgstr "Fil vid låsning av scheman"
 msgid "Error aquiring schedules"
 msgstr "Fel vid hämtning av scheman"
 
-#, c-format
-msgid "%d:%02d"
-msgstr ""
-
-msgid "Recording length"
-msgstr ""
-
-msgid "Event duration"
-msgstr ""
-
 msgid "Page error"
 msgstr "Fel på sidan"
 
@@ -610,6 +612,9 @@ msgstr ""
 msgid "min"
 msgstr ""
 
+msgid "Recording length"
+msgstr ""
+
 msgid "Find more at the Internet Movie Database."
 msgstr "Hitta mera på IMDB"
 
@@ -680,6 +685,9 @@ msgid "Actors"
 msgstr ""
 
 msgid "Artwork"
+msgstr ""
+
+msgid "Event duration"
 msgstr ""
 
 msgid "Title:"
@@ -808,9 +816,6 @@ msgstr "Om du hittar några fel eller vill föreslå nya funktioner, vänligen a
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "Kan inte hitta kanal eller inga kanaler är tillgängliga. Kontrollera stavningen?"
 
-msgid "ERROR:"
-msgstr "FEL:"
-
 msgid "Deleted recording:"
 msgstr "Raderade inspelningar:"
 
@@ -861,9 +866,6 @@ msgstr "Utöka alla bibliotek"
 
 msgid "Collapse all folders"
 msgstr "Kollapsa alla bibliotek"
-
-msgid "play this recording."
-msgstr "Spela upp denna inspelning"
 
 msgid "Snapshot interval"
 msgstr ""
@@ -1022,6 +1024,9 @@ msgstr "Ta bort timer"
 msgid "No timer defined"
 msgstr "Ingen timer definierad"
 
+msgid "Duration"
+msgstr ""
+
 msgid "Timer is recording."
 msgstr "Timern spelar in."
 
@@ -1060,6 +1065,12 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr "EPG-information saknas"
+
+#~ msgid "ERROR:"
+#~ msgstr "FEL:"
+
+#~ msgid "play this recording."
+#~ msgstr "Spela upp denna inspelning"
 
 #~ msgid "mm/dd/yyyy"
 #~ msgstr "dd/mm/yyyy"

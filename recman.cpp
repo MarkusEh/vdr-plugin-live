@@ -759,14 +759,14 @@ template void RecordingsItem::AppendShortTextOrDesc<cLargeString>(cLargeString &
            if (m_video_SD_HD >= -1) return m_video_SD_HD; // < -1: not checked. -1: Radio. 0 is SD, 1 is HD, >1 is UHD or better
 // see ETSI EN 300 468, V1.15.1 (2016-03) or later, Chapter "6.2.8 Component Descriptor"
            const cComponents *components = RecInfo()->Components();
-           bool videoStreamFound = false;
-           bool audioStreamFound = false;
+//           bool videoStreamFound = false;
+//           bool audioStreamFound = false;
            if(components) for( int ix = 0; ix < components->NumComponents(); ix++) {
              tComponent * component = components->Component(ix);
              switch (component->stream) {
              case 1: // MPEG2
              case 5: // H.264
-               videoStreamFound = true;
+//               videoStreamFound = true;
                switch (component->type) {
                  case 1:
                  case 5: m_video_SD_HD = 0; break; // 4:3
@@ -791,7 +791,7 @@ template void RecordingsItem::AppendShortTextOrDesc<cLargeString>(cLargeString &
                // stream_content_ext == 0 -> video
                // stream_content_ext == 1 -> audio
                // we assume stream_content_ext == 0 (video). This might be wrong :( . On the other hand side, all this data might be wrong as broadcasters often ignore this standard
-               videoStreamFound = true;
+//               videoStreamFound = true;
                switch (component->type) {
                  case 0:  // stream_content_ext == 0 -> HD. stream_content_ext == 1 -> AC-4 main audio, mono
                  case 1:  // stream_content_ext == 0 -> HD. stream_content_ext == 1 -> AC-4 main audio, mono, dialogue enhancement enabled
@@ -807,17 +807,18 @@ template void RecordingsItem::AppendShortTextOrDesc<cLargeString>(cLargeString &
              case 4: // AC3 Audio
              case 6: // HE-AAC Audio
              case 7: // reserved for DTS audio modes
-               audioStreamFound = true;
+//               audioStreamFound = true;
                break;
              case 11:
-               videoStreamFound = true; // guess as stream_content_ext is missing, assume stream_content_ext = 0xF
+//               videoStreamFound = true; // guess as stream_content_ext is missing, assume stream_content_ext = 0xF
                break;
              }
            }
            if(m_video_SD_HD < -1)  // nothing known found
              {
-             if (!videoStreamFound && audioStreamFound) m_video_SD_HD = -1; // radio
-             else m_video_SD_HD = 0; // no information -> SD as default
+//             if (!videoStreamFound && audioStreamFound) m_video_SD_HD = -1; // radio
+//             else // disable radio, as this is not reliable
+             m_video_SD_HD = 0; // no information -> SD as default
              if(RecInfo()->ChannelName() ) {
                size_t l = strlen(RecInfo()->ChannelName() );
                if( l > 3 && RecInfo()->ChannelName()[l-2] == 'H' && RecInfo()->ChannelName()[l-1] == 'D') m_video_SD_HD = 1;

@@ -75,6 +75,18 @@ msgstr "%b %d %y"
 msgid "%I:%M %p"
 msgstr "%H:%M"
 
+#, c-format
+msgid "%d:%02d"
+msgstr ""
+
+#, c-format
+msgid "%.1f GB"
+msgstr ""
+
+#, c-format
+msgid "%'d MB"
+msgstr ""
+
 msgid "TV shows"
 msgstr ""
 
@@ -501,16 +513,6 @@ msgstr "Error adquiriendo el bloqueo de las programaciones"
 msgid "Error aquiring schedules"
 msgstr "Error adquiriendo programaciones"
 
-#, c-format
-msgid "%d:%02d"
-msgstr ""
-
-msgid "Recording length"
-msgstr ""
-
-msgid "Event duration"
-msgstr ""
-
 msgid "Page error"
 msgstr "Error en la página"
 
@@ -610,6 +612,9 @@ msgstr ""
 msgid "min"
 msgstr ""
 
+msgid "Recording length"
+msgstr ""
+
 msgid "Find more at the Internet Movie Database."
 msgstr "Encontrar más en la Base de Datos de Películas de Internet"
 
@@ -680,6 +685,9 @@ msgid "Actors"
 msgstr ""
 
 msgid "Artwork"
+msgstr ""
+
+msgid "Event duration"
 msgstr ""
 
 msgid "Title:"
@@ -808,9 +816,6 @@ msgstr "Si encuentra algún bug o le gustaría sugerir nuevas características, por
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "No se puede encontrar el canal o no hay canales disponibles. ¿Puede que lo haya escrito de forma errónea?"
 
-msgid "ERROR:"
-msgstr "ERROR"
-
 msgid "Deleted recording:"
 msgstr "Grabación borrada:"
 
@@ -861,9 +866,6 @@ msgstr ""
 
 msgid "Collapse all folders"
 msgstr ""
-
-msgid "play this recording."
-msgstr "reproducir esta grabación"
 
 msgid "Snapshot interval"
 msgstr "Intervalo de visionado"
@@ -1022,6 +1024,9 @@ msgstr "Borrar programación"
 msgid "No timer defined"
 msgstr "No hay definida programación"
 
+msgid "Duration"
+msgstr ""
+
 msgid "Timer is recording."
 msgstr "La programación se está grabando."
 
@@ -1060,6 +1065,12 @@ msgstr "Entorno interactivo de Live VDR"
 
 msgid "No EPG information available"
 msgstr "No hay información disponible de la EPG"
+
+#~ msgid "ERROR:"
+#~ msgstr "ERROR"
+
+#~ msgid "play this recording."
+#~ msgstr "reproducir esta grabación"
 
 #~ msgid "mm/dd/yyyy"
 #~ msgstr "dd/mm/yyyy"
