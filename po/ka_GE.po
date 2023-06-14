@@ -1,4 +1,4 @@
-#Georgian translation for VDR-live.
+# Georgian translation for VDR-live.
 # Copyright (C) 2023 LIVE Development team. See http://live.vdr-developer.org
 # This file is distributed under the same license as the VDR-LIVE package.
 # Temuri Doghonadze <temuri.doghonadze@gmail.com>, 2023
@@ -77,6 +77,18 @@ msgstr "%b %d %y"
 
 msgid "%I:%M %p"
 msgstr "%I:%M %p"
+
+#, c-format
+msgid "%d:%02d"
+msgstr "%d:%02d"
+
+#, c-format
+msgid "%.1f GB"
+msgstr ""
+
+#, c-format
+msgid "%'d MB"
+msgstr ""
 
 msgid "TV shows"
 msgstr "სერიალები"
@@ -504,16 +516,6 @@ msgstr "განრიგის ბლოკის მიღების შე
 msgid "Error aquiring schedules"
 msgstr "განრიგის მიღების შეცდომა"
 
-#, c-format
-msgid "%d:%02d"
-msgstr "%d:%02d"
-
-msgid "Recording length"
-msgstr "ჩანაწერის ხანგრძლივობა"
-
-msgid "Event duration"
-msgstr "მოვლენის ხანგრძლივობა"
-
 msgid "Page error"
 msgstr "გვერდის შეცდომა"
 
@@ -613,6 +615,9 @@ msgstr "ხანგრძლივობის აცდენა მოვლ�
 msgid "min"
 msgstr "წთ"
 
+msgid "Recording length"
+msgstr "ჩანაწერის ხანგრძლივობა"
+
 msgid "Find more at the Internet Movie Database."
 msgstr "მეტის პოვნა IMDB-ზე."
 
@@ -684,6 +689,9 @@ msgstr "მსახიობები"
 
 msgid "Artwork"
 msgstr "ნამუშევრები"
+
+msgid "Event duration"
+msgstr "მოვლენის ხანგრძლივობა"
 
 msgid "Title:"
 msgstr "სათაური:"
@@ -811,9 +819,6 @@ msgstr "თუ შეცდომას პოვით, ან გნება�
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "არხი ვერ ვიპოვე ან არხები მიუწვდომელია. შეიძლება, თქვენი მოთხოვნა არასწორია?"
 
-msgid "ERROR:"
-msgstr "შეცდომა:"
-
 msgid "Deleted recording:"
 msgstr "წაშლილია ჩანაწერი:"
 
@@ -864,9 +869,6 @@ msgstr "ყველა საქაღალდის ამოკეცვა"
 
 msgid "Collapse all folders"
 msgstr "ყველა საქაღალდის ჩაკეცვა"
-
-msgid "play this recording."
-msgstr "ამ ჩანაწერის დაკვრა."
 
 msgid "Snapshot interval"
 msgstr "სწრაფი ასლის ინტერვალი"
@@ -1025,6 +1027,9 @@ msgstr "ტაიმერის წაშლა"
 msgid "No timer defined"
 msgstr "ტაიმერ აღწერილი არაა"
 
+msgid "Duration"
+msgstr ""
+
 msgid "Timer is recording."
 msgstr "ტაიმერი ჩანაწერია."
 
@@ -1063,3 +1068,9 @@ msgstr "ცოცხალი ინტერაქტიური VDR გარ
 
 msgid "No EPG information available"
 msgstr "EPG-ის ინფორმაცია მიუწვდომელია"
+
+#~ msgid "ERROR:"
+#~ msgstr "შეცდომა:"
+
+#~ msgid "play this recording."
+#~ msgstr "ამ ჩანაწერის დაკვრა."
