@@ -710,6 +710,9 @@ msgstr "Episode Bewertung: Durchschnitt/Anzahl:"
 msgid "Episode first aired:"
 msgstr "Episode erstmalig gesendet:"
 
+msgid "Episode runtime:"
+msgstr "Episode Laufzeit:"
+
 msgid "IMDB episode"
 msgstr "Episode IMDB"
 
@@ -738,7 +741,7 @@ msgid "Release date:"
 msgstr "Veröffentlicht am:"
 
 msgid "Runtime:"
-msgstr "Länge:"
+msgstr "Laufzeit:"
 
 msgid "Popularity:"
 msgstr "Beliebtheit:"

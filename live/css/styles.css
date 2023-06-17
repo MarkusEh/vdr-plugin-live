@@ -127,6 +127,10 @@ a:active {
 .nowrap {
 	white-space: nowrap;
 }
+.scraper_list {
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
 
 /* ######################
    # Tooltip style for hints
@@ -301,7 +305,7 @@ div.epg_content {
 
 span.epg_images {
 	float: right;
-        margin-left: 5px;
+  margin-left: 5px;
 	width: 240px;
 }
 
@@ -1315,8 +1319,8 @@ div.caption {
 div.epg_content {
 	padding: 0px 0px 7px 0px;
 	margin: 0px 0px 0px 0px;
-        background: transparent url(../img/bg_tools.png) top left repeat-y;
-        border: 1px solid black;
+  background: transparent url(../img/bg_tools.png) top left repeat-y;
+  border: 1px solid black;
 	overflow: hidden;
 }
 

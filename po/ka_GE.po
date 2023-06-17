@@ -711,6 +711,9 @@ msgstr "ეპიზოდის ხმები საშუალოდ/სუ
 msgid "Episode first aired:"
 msgstr "ეპიზოდის პირველი ჩვენების დრო:"
 
+msgid "Episode runtime:"
+msgstr ""
+
 msgid "IMDB episode"
 msgstr "IMDB ეპიზოდი"
 

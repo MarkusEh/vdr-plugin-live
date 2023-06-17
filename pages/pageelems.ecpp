@@ -769,17 +769,13 @@ if (elapsed >= 0) {
 </%cpp>
 					</div>
 					<div class="time">
-<%cpp>
-if (!archived.empty()) {
-</%cpp>
-						<span class="bold"><$ (archived + " ") $></span>
-<%cpp>
-}
-</%cpp>
-						<$ (time) $>
-<%cpp>
-if (!filename.empty() && !channel.empty()) { </%cpp><div class="channel"><$ (channel) $></div><%cpp> }
-</%cpp>
+%           if (!archived.empty()) {
+              <span class="bold"><$ (archived + " ") $></span>
+%           }
+            <$ (time) $>
+%           if (!filename.empty() && !channel.empty()) {
+              <div class="channel"><$ (channel) $></div>
+%           }
 					</div>
 					<div class="title"><$ (title) $></div>
 					<div class="short"><$ (short_descr) $></div>
@@ -796,61 +792,60 @@ if (!filename.empty() && !channel.empty()) { </%cpp><div class="channel"><$ (cha
 	}
 	if(!epgImage.empty() ) {
 </%cpp>
-         <a href="/tvscraper/<$ epgImage $>" target="_blank">
-	   <img src="/tvscraper/<$ epgImage $>" class="epg_image"/>
-         </a>
+    <a href="/tvscraper/<$ epgImage $>" target="_blank">
+	    <img src="/tvscraper/<$ epgImage $>" class="epg_image"/>
+    </a>
+%   if (episodeFound && !scraperMovieOrTv.episode.episodeImage.path.empty() ) {
+      <a href="/tvscraper/<$ scraperMovieOrTv.episode.episodeImage.path $>" target="_blank">
+        <img src="/tvscraper/<$ scraperMovieOrTv.episode.episodeImage.path $>" class="epg_image"/>
+      </a>
 <%cpp>
-          if (episodeFound && !scraperMovieOrTv.episode.episodeImage.path.empty() ) {
-</%cpp>
-           <a href="/tvscraper/<$ scraperMovieOrTv.episode.episodeImage.path $>" target="_blank">
-             <img src="/tvscraper/<$ scraperMovieOrTv.episode.episodeImage.path $>" class="epg_image"/>
-           </a>
-<%cpp>
-          }
+    }  // episodeFound && !scraperMovieOrTv.episode.episodeImage.path.empty()
 	} else {
+    std::list<std::string> images1 = EpgEvents::RecImages(boxId, filename);
+    size_t delimPos = boxId.find_last_of('_');
+    std::string recId = (delimPos)?boxId.substr(delimPos+1):boxId;
 
-	std::list<std::string> images1 = EpgEvents::RecImages(boxId, filename);
-	size_t delimPos = boxId.find_last_of('_');
-	std::string recId = (delimPos)?boxId.substr(delimPos+1):boxId;
-
-	for(std::list<std::string>::iterator it = images1.begin(); it != images1.end(); ++it ) {
+    for(std::list<std::string>::iterator it = images1.begin(); it != images1.end(); ++it ) {
 </%cpp>
-         <a href="/recimages/<$ recId $>/<$ *it $>" target="_blank">
-						<img src="/recimages/<$ recId $>/<$ *it $>" class="epg_image"/>
-         </a>
+      <a href="/recimages/<$ recId $>/<$ *it $>" target="_blank">
+				<img src="/recimages/<$ recId $>/<$ *it $>" class="epg_image"/>
+      </a>
 <%cpp>
-	}}
+    }
+  }
 </%cpp>
-					</span>
+					</span> <# id = "<$ boxId $>_epg_image" class="epg_images"  #>
+
 <# -----------------  scraper data -----------------  #>
 <div id = '<$ boxId $>_scraper' hidden>
 <%cpp>
 if (scraperMovieOrTv.found) {
 </%cpp>
-<#
-  <div class="short">Content:        <$ (scraperMovieOrTv.movie?"Movie":"TV show" ) $></div>
-#>
-  <div class="short"><$ tr("Title:") $>         <$ (scraperMovieOrTv.title ) $></div>
+  <div class="scraper_list"><$ tr("Title:") $>         <$ (scraperMovieOrTv.title ) $></div>
 <%cpp>
   if (!scraperMovieOrTv.originalTitle.empty() ) {
 </%cpp>
-  <div class="short"><$ tr("Original title:") $> <$ (scraperMovieOrTv.originalTitle ) $></div>
+  <div class="scraper_list"><$ tr("Original title:") $> <$ (scraperMovieOrTv.originalTitle ) $></div>
 <%cpp>
   }
   if (episodeFound) {
 </%cpp>
-    <div class="short"><$ tr("Episode:") $> S<$ std::to_string(scraperMovieOrTv.episode.season ) $>E<$ (scraperMovieOrTv.episode.number ) $><$scraperMovieOrTv.episode.absoluteNumber?"A" + std::to_string(scraperMovieOrTv.episode.absoluteNumber):""$> <$ (scraperMovieOrTv.episode.name ) $></div>
-    <div class="short"><$ tr("Episode overview:") $>   <$ (scraperMovieOrTv.episode.overview ) $></div>
+    <div class="scraper_list"><$ tr("Episode:") $> S<$ std::to_string(scraperMovieOrTv.episode.season ) $>E<$ (scraperMovieOrTv.episode.number ) $><$scraperMovieOrTv.episode.absoluteNumber?"A" + std::to_string(scraperMovieOrTv.episode.absoluteNumber):""$> <$ (scraperMovieOrTv.episode.name ) $></div>
+    <div class="scraper_list"><$ tr("Episode overview:") $>   <$ (scraperMovieOrTv.episode.overview ) $></div>
 <%cpp>
     if (scraperMovieOrTv.episode.vote_average != 0 ) {
 </%cpp>
-      <div class="short"><$ tr("Episode vote average/count:") $> <$ (scraperMovieOrTv.episode.vote_average ) $> / <$ (scraperMovieOrTv.episode.vote_count ) $></div>
+      <div class="scraper_list"><$ tr("Episode vote average/count:") $> <$ (scraperMovieOrTv.episode.vote_average ) $> / <$ (scraperMovieOrTv.episode.vote_count ) $></div>
 <%cpp>
     }
 </%cpp>
-    <div class="short"><$ tr("Episode first aired:") $> <$ (scraperMovieOrTv.episode.firstAired ) $></div>
+    <div class="scraper_list"><$ tr("Episode first aired:") $> <$ (scraperMovieOrTv.episode.firstAired ) $></div>
+%   if (scraperMovieOrTv.episode.runtime > 0) {
+      <div class="scraper_list"><$ tr("Episode runtime:") $> <$ (scraperMovieOrTv.episode.runtime ) $></div>
+%   }
 <#
-    <div class="short">episode Image Url:  <$ (scraperMovieOrTv.episode.episodeImageUrl ) $></div>
+    <div class="scraper_list">episode Image Url:  <$ (scraperMovieOrTv.episode.episodeImageUrl ) $></div>
 #>
 %   if (!scraperMovieOrTv.episode.IMDB_ID.empty() ) {
       <a href="https://www.imdb.com/title/<$ (scraperMovieOrTv.episode.IMDB_ID ) $>" target="_blank"> <$ tr("IMDB episode") $> </a>
@@ -863,7 +858,7 @@ if (scraperMovieOrTv.found) {
           character->getType() == eCharacterType::director) { charFound = true; break; }
     if (charFound) {
 </%cpp>
-      <div class="short"><$ tr("Guest stars and crew") $></div>
+      <div class="scraper_list"><$ tr("Guest stars and crew") $></div>
       <table>
 %   for (const auto &character:scraperCharacters) {
 %     if (character->getType() != eCharacterType::guestStar) continue;
@@ -892,76 +887,74 @@ if (scraperMovieOrTv.found) {
   }  // end if episode found
   if (!scraperMovieOrTv.tagline.empty() ) {
 </%cpp>
-  <div class="short"><$ tr("Tagline:") $>        <$ (scraperMovieOrTv.tagline ) $></div>
+  <div class="scraper_list"><$ tr("Tagline:") $>        <$ (scraperMovieOrTv.tagline ) $></div>
 <%cpp>
   }
 </%cpp>
-  <div class="short"><$ tr("Overview:") $>       <$ (scraperMovieOrTv.overview ) $></div>
-  <div class="short"><$ tr("Genres:") $>         <$ toString(scraperMovieOrTv.genres ) $></div>
+  <div class="scraper_list"><$ tr("Overview:") $>       <$ (scraperMovieOrTv.overview ) $></div>
+  <div class="scraper_list"><$ tr("Genres:") $>         <$ toString(scraperMovieOrTv.genres ) $></div>
 <%cpp>
   if (!scraperMovieOrTv.homepage.empty() ) {
 </%cpp>
-  <div class="short"><a href ="<$ (scraperMovieOrTv.homepage) $>" target="_blank"><$ tr("Homepage") $></a></div>
+  <div class="scraper_list"><a href ="<$ (scraperMovieOrTv.homepage) $>" target="_blank"><$ tr("Homepage") $></a></div>
 <%cpp>
   }
 </%cpp>
-  <div class="short"><$ tr("Release date:") $>   <$ (scraperMovieOrTv.releaseDate ) $></div>
+  <div class="scraper_list"><$ tr("Release date:") $>   <$ (scraperMovieOrTv.releaseDate ) $></div>
 % if (scraperMovieOrTv.runtime > 0) {
-  <div class="short"><$ tr("Runtime:") $>        <$ std::to_string(scraperMovieOrTv.runtime) $></div>
+  <div class="scraper_list"><$ tr("Runtime:") $>        <$ std::to_string(scraperMovieOrTv.runtime) $></div>
 % }
 <%cpp>
   if (scraperMovieOrTv.popularity != 0) {
 </%cpp>
-  <div class="short"><$ tr("Popularity:") $>     <$ (scraperMovieOrTv.popularity ) $></div>
+  <div class="scraper_list"><$ tr("Popularity:") $>     <$ (scraperMovieOrTv.popularity ) $></div>
 <%cpp>
   }
   if (scraperMovieOrTv.voteAverage  != 0) {
 </%cpp>
-  <div class="short"><$ tr("Vote average/count:") $> <$ (scraperMovieOrTv.voteAverage ) $> / <$ (scraperMovieOrTv.voteCount ) $></div>
+  <div class="scraper_list"><$ tr("Vote average/count:") $> <$ (scraperMovieOrTv.voteAverage ) $> / <$ (scraperMovieOrTv.voteCount ) $></div>
 <%cpp>
   }
 </%cpp>
 <#
-  <div class="short">Production Countries: <$ toString(scraperMovieOrTv.productionCountries) $></div>
+  <div class="scraper_list">Production Countries: <$ toString(scraperMovieOrTv.productionCountries) $></div>
 #>
-<%cpp>
-  if (!scraperMovieOrTv.IMDB_ID.empty() ) {
-</%cpp>
-    <a href="https://www.imdb.com/title/<$ (scraperMovieOrTv.IMDB_ID ) $>" target="_blank"> <$ tr("IMDB") $> </a>
-<%cpp>
-  }
-</%cpp>
+% if (!scraperMovieOrTv.IMDB_ID.empty() ) {
+    <div class="scraper_list">
+      <a href="https://www.imdb.com/title/<$ (scraperMovieOrTv.IMDB_ID ) $>" target="_blank"> <$ tr("IMDB") $> </a>
+    </div>
+% }
 <#
-  <div class="short">Poster url:     <$ (scraperMovieOrTv.posterUrl ) $></div>
-  <div class="short">Fanart url:     <$ (scraperMovieOrTv.fanartUrl ) $></div>
+  <div class="scraper_list">Poster url:     <$ (scraperMovieOrTv.posterUrl ) $></div>
+  <div class="scraper_list">Fanart url:     <$ (scraperMovieOrTv.fanartUrl ) $></div>
 #>
 <%cpp>
   if (scraperMovieOrTv.movie) {
     if (scraperMovieOrTv.budget) {
 </%cpp>
-    <div class="short"><$ tr("Budget:") $>         <$ (scraperMovieOrTv.budget ) $></div>
+    <div class="scraper_list"><$ tr("Budget:") $>         <$ (scraperMovieOrTv.budget ) $></div>
 <%cpp>
     }
     if (scraperMovieOrTv.revenue) {
 </%cpp>
-    <div class="short"><$ tr("Revenue:") $>        <$ (scraperMovieOrTv.revenue) $></div>
+    <div class="scraper_list"><$ tr("Revenue:") $>        <$ (scraperMovieOrTv.revenue) $></div>
 <%cpp>
     }
 </%cpp>
 <#
-    <div class="short">collectionId:   <$ (scraperMovieOrTv.collectionId) $></div>
+    <div class="scraper_list">collectionId:   <$ (scraperMovieOrTv.collectionId) $></div>
 #>
 <%cpp>
     if (!scraperMovieOrTv.collectionName.empty() ) {
 </%cpp>
-    <div class="short"><$ tr("Collection name:") $> <$ (scraperMovieOrTv.collectionName) $></div>
+    <div class="scraper_list"><$ tr("Collection name:") $> <$ (scraperMovieOrTv.collectionName) $></div>
 <%cpp>
     }
   } else {  // TV show
 </%cpp>
-    <div class="short"><$ tr("Status:") $>         <$ (scraperMovieOrTv.status    ) $></div>
+    <div class="scraper_list"><$ tr("Status:") $>         <$ (scraperMovieOrTv.status    ) $></div>
 <#
-    <div class="short">Networks:       <$ toString(scraperMovieOrTv.networks) $></div>
+    <div class="scraper_list">Networks:       <$ toString(scraperMovieOrTv.networks) $></div>
 #>
 <%cpp>
   }
@@ -975,7 +968,7 @@ if (scraperMovieOrTv.found) {
   }
   if (charFound) {
 </%cpp>
-    <div class="short"><$ tr("Cast and crew") $></div>
+    <div class="scraper_list"><$ tr("Cast and crew") $></div>
     <table>
 %   for (const auto &character:scraperCharacters) {
 %     if (character->getType() != eCharacterType::actor) continue;

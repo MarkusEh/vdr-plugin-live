@@ -710,6 +710,9 @@ msgstr ""
 msgid "Episode first aired:"
 msgstr ""
 
+msgid "Episode runtime:"
+msgstr ""
+
 msgid "IMDB episode"
 msgstr ""
 
