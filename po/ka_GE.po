@@ -618,6 +618,9 @@ msgstr "წთ"
 msgid "Recording length"
 msgstr "ჩანაწერის ხანგრძლივობა"
 
+msgid "h"
+msgstr ""
+
 msgid "Find more at the Internet Movie Database."
 msgstr "მეტის პოვნა IMDB-ზე."
 

@@ -617,6 +617,9 @@ msgstr "min"
 msgid "Recording length"
 msgstr "Länge der Aufzeichnung"
 
+msgid "h"
+msgstr "h"
+
 msgid "Find more at the Internet Movie Database."
 msgstr "Weitere Informationen in der Internet Movie Database."
 

@@ -621,6 +621,9 @@ msgstr ""
 msgid "Recording length"
 msgstr ""
 
+msgid "h"
+msgstr ""
+
 msgid "Find more at the Internet Movie Database."
 msgstr "Cerca ulteriori informazioni nel database internet (IMDB)"
 

@@ -92,7 +92,7 @@ function addErrorIcon(s, numErrors, durationDeviation, duration) {
   s.a += ': '
   s.a += duration
   s.a += ' '
-  s.a += '<$tr("min")$>'
+  s.a += '<$tr("h")$>'
   s.a += '\" /> </div>'
 }
 
