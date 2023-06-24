@@ -806,7 +806,9 @@ template void RecordingsItem::AppendShortTextOrDesc<cLargeString>(cLargeString &
              case 4: // AC3 Audio
              case 6: // HEAAC Audio
              audio:
-               if (m_video_SD_HD == -1)
+               // Work around for channels with broken component descriptor, i.e. missing video component:
+               // => Require frame rate below 24, very likely for radio channels.
+               if (m_video_SD_HD == -1 && RecInfo()->FramesPerSecond() < 24)
                  m_video_SD_HD = 9;
              }
            }
