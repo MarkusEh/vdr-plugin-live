@@ -81,6 +81,10 @@ msgid "%d:%02d"
 msgstr ""
 
 #, c-format
+msgid "%.1f GB"
+msgstr ""
+
+#, c-format
 msgid "%'d MB"
 msgstr ""
 
@@ -217,10 +221,34 @@ msgstr "Heslo"
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Prepáète, nemáte oprávnenie. Prosím kontaktujte va¹eho administrátora!"
 
+msgid "playing recording"
+msgstr "Prehrávanie záznamu"
+
+msgid "no epg info for current event!"
+msgstr "¾iadne EPG informácie na aktuálnu udalos»!"
+
+msgid "no epg info for current channel!"
+msgstr "®iadne epg pre vybraný kanál!"
+
+msgid "no current channel!"
+msgstr "®iadny vybraný kanál!"
+
+msgid "error retrieving status info!"
+msgstr "Chyba pri naèítaní informácií o stave!"
+
+msgid "%I:%M:%S %p"
+msgstr "%H:%M:%S"
+
 msgid "Duration deviation from event length"
 msgstr ""
 
 msgid "min"
+msgstr ""
+
+msgid "Recording length"
+msgstr ""
+
+msgid "h"
 msgstr ""
 
 msgid "Find more at the Internet Movie Database."
@@ -301,9 +329,6 @@ msgstr ""
 msgid "Artwork"
 msgstr ""
 
-msgid "Recording length"
-msgstr ""
-
 msgid "Event duration"
 msgstr ""
 
@@ -323,6 +348,9 @@ msgid "Episode vote average/count:"
 msgstr ""
 
 msgid "Episode first aired:"
+msgstr ""
+
+msgid "Episode runtime:"
 msgstr ""
 
 msgid "IMDB episode"
@@ -766,12 +794,6 @@ msgstr "Interval snímkovania"
 msgid "Stop"
 msgstr "Zastavi»"
 
-msgid "No timer conflicts"
-msgstr "®iadne konflikty"
-
-msgid "local"
-msgstr ""
-
 msgid "Please set login and password!"
 msgstr "Prosím nastavte u¾ívateµské meno a heslo!"
 
@@ -849,24 +871,6 @@ msgstr "©tartovacia stránka"
 
 msgid "Theme"
 msgstr "Vzhµad"
-
-msgid "playing recording"
-msgstr "Prehrávanie záznamu"
-
-msgid "no epg info for current event!"
-msgstr "¾iadne EPG informácie na aktuálnu udalos»!"
-
-msgid "no epg info for current channel!"
-msgstr "®iadne epg pre vybraný kanál!"
-
-msgid "no current channel!"
-msgstr "®iadny vybraný kanál!"
-
-msgid "error retrieving status info!"
-msgstr "Chyba pri naèítaní informácií o stave!"
-
-msgid "%I:%M:%S %p"
-msgstr "%H:%M:%S"
 
 msgid "Search settings"
 msgstr "Nastavenie hµadania"
@@ -1021,30 +1025,6 @@ msgstr "Nový u¾ívateµ"
 msgid "Page error"
 msgstr "Chyba stránky"
 
-msgid "VLC: live video stream"
-msgstr ""
-
-msgid "VLC: play recording"
-msgstr ""
-
-msgid "Play"
-msgstr ""
-
-msgid "Sound on"
-msgstr ""
-
-msgid "Sound off"
-msgstr ""
-
-msgid "Fullscreen"
-msgstr ""
-
-msgid "Close"
-msgstr ""
-
-msgid "VLC media URL"
-msgstr "VLC média URL"
-
 msgid "Couldn't find user. Maybe you mistyped your request?"
 msgstr "Nepodarilo sa nájs» u¾ívateµa. Mo¾no ste preklepli va¹u po¾iadavku?"
 
@@ -1083,6 +1063,36 @@ msgstr "Vymaza» vyhµadávaè plánov"
 
 msgid "Edit recordings"
 msgstr "Upravi» nahrávky"
+
+msgid "VLC: live video stream"
+msgstr ""
+
+msgid "VLC: play recording"
+msgstr ""
+
+msgid "Play"
+msgstr ""
+
+msgid "Sound on"
+msgstr ""
+
+msgid "Sound off"
+msgstr ""
+
+msgid "Fullscreen"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "VLC media URL"
+msgstr "VLC média URL"
+
+msgid "No timer conflicts"
+msgstr "®iadne konflikty"
+
+msgid "local"
+msgstr ""
 
 msgid "Live Interactive VDR Environment"
 msgstr "®ivé interaktívne VDR prostredie"

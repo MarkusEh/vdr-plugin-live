@@ -760,13 +760,17 @@ template void RecordingsItem::AppendShortTextOrDesc<cLargeString>(cLargeString &
 
         int RecordingsItemRec::SD_HD()
         {
-           if ( m_video_SD_HD >= 0 ) return m_video_SD_HD;
+           if (m_video_SD_HD >= -1) return m_video_SD_HD; // < -2: not checked. -1: Radio. 0 is SD, 1 is HD, >1 is UHD or better
+// see ETSI EN 300 468, V1.15.1 (2016-03) or later, Chapter "6.2.8 Component Descriptor"
            const cComponents *components = RecInfo()->Components();
+           bool videoStreamFound = false;
+           bool audioStreamFound = false;
            if(components) for( int ix = 0; ix < components->NumComponents(); ix++) {
              tComponent * component = components->Component(ix);
              switch (component->stream) {
              case 1: // MPEG2
              case 5: // H.264
+               videoStreamFound = true;
                switch (component->type) {
                  case 1:
                  case 5: m_video_SD_HD = 0; break; // 4:3
@@ -788,13 +792,14 @@ template void RecordingsItem::AppendShortTextOrDesc<cLargeString>(cLargeString &
                break;
              case 9: // HEVC
                // stream_content_ext is missing from VDR info
-               // => use only the first HEVC entry for video, else probably audio track
-               if (m_video_SD_HD >= 1)
-                 goto audio;
+               // stream_content_ext == 0 -> video
+               // stream_content_ext == 1 -> audio
+               // we assume stream_content_ext == 0 (video). This might be wrong :( . On the other hand side, all this data might be wrong as broadcasters often ignore this standard
+               videoStreamFound = true;
                switch (component->type) {
-                 case 0:
-                 case 1:
-                 case 2:
+                 case 0:  // stream_content_ext == 0 -> HD. stream_content_ext == 1 -> AC-4 main audio, mono
+                 case 1:  // stream_content_ext == 0 -> HD. stream_content_ext == 1 -> AC-4 main audio, mono, dialogue enhancement enabled
+                 case 2:  // stream_content_ext == 0 -> HD. stream_content_ext == 1 -> AC-4 main audio, stereo
                  case 3: m_video_SD_HD = 1; break; // HD
                  case 4:
                  case 5:
@@ -804,17 +809,24 @@ template void RecordingsItem::AppendShortTextOrDesc<cLargeString>(cLargeString &
                break;
              case 2: // MPEG2 Audio
              case 4: // AC3 Audio
-             case 6: // HEAAC Audio
-             audio:
-               // Work around for channels with broken component descriptor, i.e. missing video component:
-               // => Require frame rate below 24, very likely for radio channels.
-               if (m_video_SD_HD == -1 && RecInfo()->FramesPerSecond() < 24)
-                 m_video_SD_HD = 9;
+             case 6: // HE-AAC Audio
+             case 7: // reserved for DTS audio modes
+               audioStreamFound = true;
+               break;
+             case 11:
+               videoStreamFound = true; // guess as stream_content_ext is missing, assume stream_content_ext = 0xF
+               break;
              }
            }
-           if(m_video_SD_HD == -1)
-             {
-             m_video_SD_HD = 0;
+           if(m_video_SD_HD < -1)  // nothing known found
+           {
+             // Work around for channels with broken component descriptor, i.e. missing video component:
+             // Frame rate >= 24, very likely _has_ a video stream
+             videoStreamFound |= RecInfo()->FramesPerSecond() >= 24;
+             if (!videoStreamFound && audioStreamFound)
+               m_video_SD_HD = -1; // radio
+             else
+               m_video_SD_HD = 0; // no information -> SD as default
              if(RecInfo()->ChannelName() ) {
                size_t l = strlen(RecInfo()->ChannelName() );
                if( l > 3 && RecInfo()->ChannelName()[l-2] == 'H' && RecInfo()->ChannelName()[l-1] == 'D') m_video_SD_HD = 1;
@@ -858,7 +870,7 @@ void AppendScraperData(cLargeString &target, const std::string &s_IMDB_ID, const
         void RecordingsItemRec::AppendAsJSArray(cLargeString &target, bool displayFolder){
           target.append("\"");
 // [0] : ID
-          target.append(Id().c_str() + 10);
+          target.appendS(Id().c_str() + 10);
           target.append("\",\"");
 // [1] : ArchiveDescr()
           if (IsArchived()) AppendHtmlEscapedAndCorrectNonUTF8(target, ArchiveDescr().c_str() );
@@ -882,7 +894,7 @@ void AppendScraperData(cLargeString &target, const std::string &s_IMDB_ID, const
 #endif
           target.append(", \"");
 // [11] HD_SD
-          target.append(SD_HD() == 0 ? 's': SD_HD() == 1 ? 'h': SD_HD() == 2 ? 'u': 'r');
+          target.append("shur"[std::min(SD_HD(), 2) & 3]);
           target.append("\", \"");
 // [12] channel name
           AppendHtmlEscapedAndCorrectNonUTF8(target, RecInfo()->ChannelName() );
@@ -917,8 +929,12 @@ void AppendScraperData(cLargeString &target, const std::string &s_IMDB_ID, const
             target.append("&nbsp;");
           target.append("\",\"");
 // [20] size
-          if(FileSizeMB() >= 0)
-            target.append(FormatInt(tr("%'d MB"), FileSizeMB()));
+          int fileSizeMB = FileSizeMB();
+          if(fileSizeMB >= 0)
+            if (fileSizeMB >= 1000)
+              AppendFormatted(target, tr("%.1f GB"), (double)fileSizeMB / 1000.);
+            else
+              AppendFormatted(target, tr("%'d MB"), fileSizeMB);
           else
             target.append("&nbsp;");
           target.append("\"");

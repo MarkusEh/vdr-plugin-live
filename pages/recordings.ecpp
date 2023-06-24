@@ -152,7 +152,7 @@ function RecordingActionS(s, id, A, Img, Title) {
 // [1] : ArchiveDescr()
 // scraper data
 // [2] : IMDB ID
-// [3] : image.path  (nach "/tvscraper/") 
+// [3] : image.path  (behind "/tvscraper/") 
 // [4] : "pt" if m_s_image.width <= m_s_image.height, otherwise= ""
 // [5] : title (scraper)
 // [6] : season / episode (scraper, for tv shows, if available. Otherwise: Empty)
@@ -589,6 +589,9 @@ if (recording && recording->Info() ) {
     char sdhd = video_SD_HD == 0 ? 's': video_SD_HD == 1 ? 'h': 'u';
     CONVERT(b_recordingErrors, recordingErrors, toCharsI);
     CONVERT(b_duration_deviation, duration_deviation, toCharsI);
+    std::string duration;
+    if (recording->FileName() )
+      AppendDuration(duration, tr("%d:%02d"), recording->LengthInSeconds() );
 </%cpp>
 <img data-src="img/transparent.png" height="10px" />
 <span id="icons-<$id$>"></span>
@@ -596,7 +599,7 @@ if (recording && recording->Info() ) {
 <img src="img/forceError.png" height="0.1px" onerror="injectErrorHdSdIcon(&quot;icons-<$id$>&quot;, <$b_recordingErrors$>, <$b_duration_deviation$>, &quot;<$sdhd$>&quot;, &quot;<$recording->Info()->ChannelName()?recording->Info()->ChannelName():""$>&quot;)"/>
 #>
 <script class="injectIcons">
-injectErrorHdSdIcon(\"icons-<$id$>\", <$b_recordingErrors$>, <$b_duration_deviation$>, \"<$sdhd$>\", \"<$recording->Info()->ChannelName()?recording->Info()->ChannelName():""$>\")
+injectErrorHdSdIcon(\"icons-<$id$>\", <$b_recordingErrors$>, <$b_duration_deviation$>, \"<$sdhd$>\", \"<$recording->Info()->ChannelName()?recording->Info()->ChannelName():""$>\", \"<$duration$>\")
 </script>
 <%cpp>
   }

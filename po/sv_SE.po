@@ -80,6 +80,10 @@ msgid "%d:%02d"
 msgstr ""
 
 #, c-format
+msgid "%.1f GB"
+msgstr ""
+
+#, c-format
 msgid "%'d MB"
 msgstr ""
 
@@ -216,10 +220,34 @@ msgstr "Lösenord"
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Inte tillåtet för dig. Kontakta din administratör!"
 
+msgid "playing recording"
+msgstr "Spelar upp inspelning"
+
+msgid "no epg info for current event!"
+msgstr "Ingen epg-info för nuvarande händelse!"
+
+msgid "no epg info for current channel!"
+msgstr "Ingen epg-info för nuvarande kanal!"
+
+msgid "no current channel!"
+msgstr "Ingen nuvarande kanal!"
+
+msgid "error retrieving status info!"
+msgstr "fel vid hämtning av statusinfo!"
+
+msgid "%I:%M:%S %p"
+msgstr "%H:%M:%S"
+
 msgid "Duration deviation from event length"
 msgstr ""
 
 msgid "min"
+msgstr ""
+
+msgid "Recording length"
+msgstr ""
+
+msgid "h"
 msgstr ""
 
 msgid "Find more at the Internet Movie Database."
@@ -300,9 +328,6 @@ msgstr ""
 msgid "Artwork"
 msgstr ""
 
-msgid "Recording length"
-msgstr ""
-
 msgid "Event duration"
 msgstr ""
 
@@ -322,6 +347,9 @@ msgid "Episode vote average/count:"
 msgstr ""
 
 msgid "Episode first aired:"
+msgstr ""
+
+msgid "Episode runtime:"
 msgstr ""
 
 msgid "IMDB episode"
@@ -765,12 +793,6 @@ msgstr ""
 msgid "Stop"
 msgstr "Stop"
 
-msgid "No timer conflicts"
-msgstr "Inga timerkonflikter"
-
-msgid "local"
-msgstr ""
-
 msgid "Please set login and password!"
 msgstr "Vänligen sätt login och lösenord!"
 
@@ -848,24 +870,6 @@ msgstr "Startsida"
 
 msgid "Theme"
 msgstr "Tema"
-
-msgid "playing recording"
-msgstr "Spelar upp inspelning"
-
-msgid "no epg info for current event!"
-msgstr "Ingen epg-info för nuvarande händelse!"
-
-msgid "no epg info for current channel!"
-msgstr "Ingen epg-info för nuvarande kanal!"
-
-msgid "no current channel!"
-msgstr "Ingen nuvarande kanal!"
-
-msgid "error retrieving status info!"
-msgstr "fel vid hämtning av statusinfo!"
-
-msgid "%I:%M:%S %p"
-msgstr "%H:%M:%S"
 
 msgid "Search settings"
 msgstr "Sök inställningar"
@@ -1020,30 +1024,6 @@ msgstr "Ny användare"
 msgid "Page error"
 msgstr "Fel på sidan"
 
-msgid "VLC: live video stream"
-msgstr ""
-
-msgid "VLC: play recording"
-msgstr ""
-
-msgid "Play"
-msgstr ""
-
-msgid "Sound on"
-msgstr ""
-
-msgid "Sound off"
-msgstr ""
-
-msgid "Fullscreen"
-msgstr ""
-
-msgid "Close"
-msgstr ""
-
-msgid "VLC media URL"
-msgstr "VLC media-URL"
-
 msgid "Couldn't find user. Maybe you mistyped your request?"
 msgstr "Kan inte hitta användare. Kontrollera stavningen?"
 
@@ -1082,6 +1062,36 @@ msgstr "Radera sök-timers"
 
 msgid "Edit recordings"
 msgstr "Redigera inspelningar"
+
+msgid "VLC: live video stream"
+msgstr ""
+
+msgid "VLC: play recording"
+msgstr ""
+
+msgid "Play"
+msgstr ""
+
+msgid "Sound on"
+msgstr ""
+
+msgid "Sound off"
+msgstr ""
+
+msgid "Fullscreen"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "VLC media URL"
+msgstr "VLC media-URL"
+
+msgid "No timer conflicts"
+msgstr "Inga timerkonflikter"
+
+msgid "local"
+msgstr ""
 
 msgid "Live Interactive VDR Environment"
 msgstr ""

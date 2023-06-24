@@ -82,8 +82,12 @@ msgid "%d:%02d"
 msgstr "%d:%02d"
 
 #, c-format
-msgid "%'d MB"
+msgid "%.1f GB"
 msgstr ""
+
+#, c-format
+msgid "%'d MB"
+msgstr "%'d MB"
 
 msgid "TV shows"
 msgstr "Serien"
@@ -218,11 +222,35 @@ msgstr "Passwort"
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Leider nicht erlaubt. Bitte kontaktieren Sie Ihren Administrator!"
 
+msgid "playing recording"
+msgstr "Wiedergabe"
+
+msgid "no epg info for current event!"
+msgstr "Keine Infos zur Sendung!"
+
+msgid "no epg info for current channel!"
+msgstr "Dieser Kanal hat kein EPG!"
+
+msgid "no current channel!"
+msgstr "Keinen Kanal gefunden!"
+
+msgid "error retrieving status info!"
+msgstr "Fehler: Status nicht verfügbar!"
+
+msgid "%I:%M:%S %p"
+msgstr "%H:%M:%S"
+
 msgid "Duration deviation from event length"
 msgstr "Abweichung der Aufzeichnungslänge von der Länge des EPG Eintrags"
 
 msgid "min"
 msgstr "min"
+
+msgid "Recording length"
+msgstr "Länge der Aufzeichnung"
+
+msgid "h"
+msgstr "h"
 
 msgid "Find more at the Internet Movie Database."
 msgstr "Weitere Informationen in der Internet Movie Database."
@@ -302,9 +330,6 @@ msgstr "Schauspieler"
 msgid "Artwork"
 msgstr "Bilder"
 
-msgid "Recording length"
-msgstr "Länge der Aufzeichnung"
-
 msgid "Event duration"
 msgstr "Länge des EPG Eintrags"
 
@@ -325,6 +350,9 @@ msgstr "Episode Bewertung: Durchschnitt/Anzahl:"
 
 msgid "Episode first aired:"
 msgstr "Episode erstmalig gesendet:"
+
+msgid "Episode runtime:"
+msgstr "Episode Laufzeit:"
 
 msgid "IMDB episode"
 msgstr "Episode IMDB"
@@ -354,7 +382,7 @@ msgid "Release date:"
 msgstr "Veröffentlicht am:"
 
 msgid "Runtime:"
-msgstr "Länge:"
+msgstr "Laufzeit:"
 
 msgid "Popularity:"
 msgstr "Beliebtheit:"
@@ -742,7 +770,7 @@ msgid "No timer defined"
 msgstr "Keine Timer vorhanden"
 
 msgid "Duration"
-msgstr ""
+msgstr "Dauer"
 
 msgid "Timer is recording."
 msgstr "Timer zeichnet auf."
@@ -767,12 +795,6 @@ msgstr "Snapshot-Intervall"
 
 msgid "Stop"
 msgstr "Stopp"
-
-msgid "No timer conflicts"
-msgstr "Keine Timer-Konflikte"
-
-msgid "local"
-msgstr "lokal"
 
 msgid "Please set login and password!"
 msgstr "Bitte Login und Passwort angeben!"
@@ -852,24 +874,6 @@ msgstr "Startseite"
 msgid "Theme"
 msgstr "Thema"
 
-msgid "playing recording"
-msgstr "Wiedergabe"
-
-msgid "no epg info for current event!"
-msgstr "Keine Infos zur Sendung!"
-
-msgid "no epg info for current channel!"
-msgstr "Dieser Kanal hat kein EPG!"
-
-msgid "no current channel!"
-msgstr "Keinen Kanal gefunden!"
-
-msgid "error retrieving status info!"
-msgstr "Fehler: Status nicht verfügbar!"
-
-msgid "%I:%M:%S %p"
-msgstr "%H:%M:%S"
-
 msgid "Search settings"
 msgstr "Einstellungen zur Suche"
 
@@ -895,7 +899,7 @@ msgid "Name"
 msgstr "Name"
 
 msgid "Create new directory"
-msgstr "Neues Verzeichnis erstellen"
+msgstr ""
 
 msgid "Delete resume information"
 msgstr "Wiedergabeposition löschen"
@@ -1023,30 +1027,6 @@ msgstr "Neuen Benutzer anlegen"
 msgid "Page error"
 msgstr "Seitenfehler"
 
-msgid "VLC: live video stream"
-msgstr ""
-
-msgid "VLC: play recording"
-msgstr ""
-
-msgid "Play"
-msgstr ""
-
-msgid "Sound on"
-msgstr ""
-
-msgid "Sound off"
-msgstr ""
-
-msgid "Fullscreen"
-msgstr ""
-
-msgid "Close"
-msgstr ""
-
-msgid "VLC media URL"
-msgstr "VLC Medien URL"
-
 msgid "Couldn't find user. Maybe you mistyped your request?"
 msgstr "Konnte Benutzer nicht finden. Evtl. fehlerhafte Anforderung?"
 
@@ -1085,6 +1065,36 @@ msgstr "Suchtimer löschen"
 
 msgid "Edit recordings"
 msgstr "Aufnahmen editieren"
+
+msgid "VLC: live video stream"
+msgstr ""
+
+msgid "VLC: play recording"
+msgstr ""
+
+msgid "Play"
+msgstr ""
+
+msgid "Sound on"
+msgstr ""
+
+msgid "Sound off"
+msgstr ""
+
+msgid "Fullscreen"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "VLC media URL"
+msgstr "VLC Medien URL"
+
+msgid "No timer conflicts"
+msgstr "Keine Timer-Konflikte"
+
+msgid "local"
+msgstr "lokal"
 
 msgid "Live Interactive VDR Environment"
 msgstr "Live Interactive VDR Environment"

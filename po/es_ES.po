@@ -80,6 +80,10 @@ msgid "%d:%02d"
 msgstr ""
 
 #, c-format
+msgid "%.1f GB"
+msgstr ""
+
+#, c-format
 msgid "%'d MB"
 msgstr ""
 
@@ -216,10 +220,34 @@ msgstr "Contraseña"
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Lo siento, no tiene permiso. ¡Por favor contacte con su administrador!"
 
+msgid "playing recording"
+msgstr "reproduciendo grabación"
+
+msgid "no epg info for current event!"
+msgstr "¡No hay información de epg para este programa!"
+
+msgid "no epg info for current channel!"
+msgstr "¡no hay información de epg para el canal actual!"
+
+msgid "no current channel!"
+msgstr "¡no canal actual!"
+
+msgid "error retrieving status info!"
+msgstr "error recibiendo la información de estado"
+
+msgid "%I:%M:%S %p"
+msgstr "%H:%M:%S"
+
 msgid "Duration deviation from event length"
 msgstr ""
 
 msgid "min"
+msgstr ""
+
+msgid "Recording length"
+msgstr ""
+
+msgid "h"
 msgstr ""
 
 msgid "Find more at the Internet Movie Database."
@@ -300,9 +328,6 @@ msgstr ""
 msgid "Artwork"
 msgstr ""
 
-msgid "Recording length"
-msgstr ""
-
 msgid "Event duration"
 msgstr ""
 
@@ -322,6 +347,9 @@ msgid "Episode vote average/count:"
 msgstr ""
 
 msgid "Episode first aired:"
+msgstr ""
+
+msgid "Episode runtime:"
 msgstr ""
 
 msgid "IMDB episode"
@@ -765,12 +793,6 @@ msgstr "Intervalo de visionado"
 msgid "Stop"
 msgstr "Detener"
 
-msgid "No timer conflicts"
-msgstr "No hay conflictos de programaciones"
-
-msgid "local"
-msgstr ""
-
 msgid "Please set login and password!"
 msgstr "Por favor introduzca nombre de usuario y contraseña"
 
@@ -848,24 +870,6 @@ msgstr "Página de inicio"
 
 msgid "Theme"
 msgstr "Tema"
-
-msgid "playing recording"
-msgstr "reproduciendo grabación"
-
-msgid "no epg info for current event!"
-msgstr "¡No hay información de epg para este programa!"
-
-msgid "no epg info for current channel!"
-msgstr "¡no hay información de epg para el canal actual!"
-
-msgid "no current channel!"
-msgstr "¡no canal actual!"
-
-msgid "error retrieving status info!"
-msgstr "error recibiendo la información de estado"
-
-msgid "%I:%M:%S %p"
-msgstr "%H:%M:%S"
 
 msgid "Search settings"
 msgstr "Configuración de búsquedas"
@@ -1020,30 +1024,6 @@ msgstr "Nuevo usuario"
 msgid "Page error"
 msgstr "Error en la página"
 
-msgid "VLC: live video stream"
-msgstr ""
-
-msgid "VLC: play recording"
-msgstr ""
-
-msgid "Play"
-msgstr ""
-
-msgid "Sound on"
-msgstr ""
-
-msgid "Sound off"
-msgstr ""
-
-msgid "Fullscreen"
-msgstr ""
-
-msgid "Close"
-msgstr ""
-
-msgid "VLC media URL"
-msgstr "medios URL VLC"
-
 msgid "Couldn't find user. Maybe you mistyped your request?"
 msgstr "No se puede encontrar el usuario. ¿Puede que lo haya escrito erróneamente?"
 
@@ -1082,6 +1062,36 @@ msgstr "Borrar programaciones de búsqueda"
 
 msgid "Edit recordings"
 msgstr "Editar grabaciones"
+
+msgid "VLC: live video stream"
+msgstr ""
+
+msgid "VLC: play recording"
+msgstr ""
+
+msgid "Play"
+msgstr ""
+
+msgid "Sound on"
+msgstr ""
+
+msgid "Sound off"
+msgstr ""
+
+msgid "Fullscreen"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "VLC media URL"
+msgstr "medios URL VLC"
+
+msgid "No timer conflicts"
+msgstr "No hay conflictos de programaciones"
+
+msgid "local"
+msgstr ""
 
 msgid "Live Interactive VDR Environment"
 msgstr "Entorno interactivo de Live VDR"

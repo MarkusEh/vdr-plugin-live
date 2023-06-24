@@ -83,6 +83,10 @@ msgid "%d:%02d"
 msgstr ""
 
 #, c-format
+msgid "%.1f GB"
+msgstr ""
+
+#, c-format
 msgid "%'d MB"
 msgstr ""
 
@@ -222,10 +226,34 @@ msgstr ""
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr ""
 
+msgid "playing recording"
+msgstr ""
+
+msgid "no epg info for current event!"
+msgstr ""
+
+msgid "no epg info for current channel!"
+msgstr ""
+
+msgid "no current channel!"
+msgstr ""
+
+msgid "error retrieving status info!"
+msgstr ""
+
+msgid "%I:%M:%S %p"
+msgstr ""
+
 msgid "Duration deviation from event length"
 msgstr ""
 
 msgid "min"
+msgstr ""
+
+msgid "Recording length"
+msgstr ""
+
+msgid "h"
 msgstr ""
 
 msgid "Find more at the Internet Movie Database."
@@ -306,9 +334,6 @@ msgstr ""
 msgid "Artwork"
 msgstr ""
 
-msgid "Recording length"
-msgstr ""
-
 msgid "Event duration"
 msgstr ""
 
@@ -328,6 +353,9 @@ msgid "Episode vote average/count:"
 msgstr ""
 
 msgid "Episode first aired:"
+msgstr ""
+
+msgid "Episode runtime:"
 msgstr ""
 
 msgid "IMDB episode"
@@ -775,13 +803,6 @@ msgstr "interval"
 msgid "Stop"
 msgstr ""
 
-#, fuzzy
-msgid "No timer conflicts"
-msgstr "Serie's opnemen"
-
-msgid "local"
-msgstr ""
-
 msgid "Please set login and password!"
 msgstr ""
 
@@ -858,24 +879,6 @@ msgid "Start page"
 msgstr ""
 
 msgid "Theme"
-msgstr ""
-
-msgid "playing recording"
-msgstr ""
-
-msgid "no epg info for current event!"
-msgstr ""
-
-msgid "no epg info for current channel!"
-msgstr ""
-
-msgid "no current channel!"
-msgstr ""
-
-msgid "error retrieving status info!"
-msgstr ""
-
-msgid "%I:%M:%S %p"
 msgstr ""
 
 msgid "Search settings"
@@ -1034,30 +1037,6 @@ msgstr ""
 msgid "Page error"
 msgstr ""
 
-msgid "VLC: live video stream"
-msgstr ""
-
-msgid "VLC: play recording"
-msgstr ""
-
-msgid "Play"
-msgstr ""
-
-msgid "Sound on"
-msgstr ""
-
-msgid "Sound off"
-msgstr ""
-
-msgid "Fullscreen"
-msgstr ""
-
-msgid "Close"
-msgstr ""
-
-msgid "VLC media URL"
-msgstr ""
-
 msgid "Couldn't find user. Maybe you mistyped your request?"
 msgstr ""
 
@@ -1104,6 +1083,37 @@ msgid "Delete search timers"
 msgstr "Serie's opnemen"
 
 msgid "Edit recordings"
+msgstr ""
+
+msgid "VLC: live video stream"
+msgstr ""
+
+msgid "VLC: play recording"
+msgstr ""
+
+msgid "Play"
+msgstr ""
+
+msgid "Sound on"
+msgstr ""
+
+msgid "Sound off"
+msgstr ""
+
+msgid "Fullscreen"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "VLC media URL"
+msgstr ""
+
+#, fuzzy
+msgid "No timer conflicts"
+msgstr "Serie's opnemen"
+
+msgid "local"
 msgstr ""
 
 msgid "Live Interactive VDR Environment"

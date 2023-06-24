@@ -80,6 +80,10 @@ msgid "%d:%02d"
 msgstr ""
 
 #, c-format
+msgid "%.1f GB"
+msgstr ""
+
+#, c-format
 msgid "%'d MB"
 msgstr ""
 
@@ -216,10 +220,34 @@ msgstr "Пароль"
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Нет доступа, обратитесь к администратору! "
 
+msgid "playing recording"
+msgstr "воспроизведение записи"
+
+msgid "no epg info for current event!"
+msgstr "нет информации телегида о текущем событии!"
+
+msgid "no epg info for current channel!"
+msgstr "нет информации телегида на данном канале!"
+
+msgid "no current channel!"
+msgstr "нет канала!"
+
+msgid "error retrieving status info!"
+msgstr "ошибка при получении статуса"
+
+msgid "%I:%M:%S %p"
+msgstr "%H:%M:%S"
+
 msgid "Duration deviation from event length"
 msgstr ""
 
 msgid "min"
+msgstr ""
+
+msgid "Recording length"
+msgstr ""
+
+msgid "h"
 msgstr ""
 
 msgid "Find more at the Internet Movie Database."
@@ -300,9 +328,6 @@ msgstr ""
 msgid "Artwork"
 msgstr ""
 
-msgid "Recording length"
-msgstr ""
-
 msgid "Event duration"
 msgstr ""
 
@@ -322,6 +347,9 @@ msgid "Episode vote average/count:"
 msgstr ""
 
 msgid "Episode first aired:"
+msgstr ""
+
+msgid "Episode runtime:"
 msgstr ""
 
 msgid "IMDB episode"
@@ -765,12 +793,6 @@ msgstr "Интервал между снимками"
 msgid "Stop"
 msgstr "Стоп"
 
-msgid "No timer conflicts"
-msgstr "Нет конфликта таймеров"
-
-msgid "local"
-msgstr ""
-
 msgid "Please set login and password!"
 msgstr "Пожалуйста установите логин и пароль!"
 
@@ -848,24 +870,6 @@ msgstr "Стартовая страница"
 
 msgid "Theme"
 msgstr "Тема"
-
-msgid "playing recording"
-msgstr "воспроизведение записи"
-
-msgid "no epg info for current event!"
-msgstr "нет информации телегида о текущем событии!"
-
-msgid "no epg info for current channel!"
-msgstr "нет информации телегида на данном канале!"
-
-msgid "no current channel!"
-msgstr "нет канала!"
-
-msgid "error retrieving status info!"
-msgstr "ошибка при получении статуса"
-
-msgid "%I:%M:%S %p"
-msgstr "%H:%M:%S"
 
 msgid "Search settings"
 msgstr "Настройки поиска"
@@ -1020,30 +1024,6 @@ msgstr "Новый пользователь"
 msgid "Page error"
 msgstr "Ошибка страницы"
 
-msgid "VLC: live video stream"
-msgstr ""
-
-msgid "VLC: play recording"
-msgstr ""
-
-msgid "Play"
-msgstr ""
-
-msgid "Sound on"
-msgstr ""
-
-msgid "Sound off"
-msgstr ""
-
-msgid "Fullscreen"
-msgstr ""
-
-msgid "Close"
-msgstr ""
-
-msgid "VLC media URL"
-msgstr "VLC медиа URL"
-
 msgid "Couldn't find user. Maybe you mistyped your request?"
 msgstr "Пользователь не найден. Проверьте правильность запроса."
 
@@ -1082,6 +1062,36 @@ msgstr "Удалять поисковые таймеры"
 
 msgid "Edit recordings"
 msgstr "Изменять запись"
+
+msgid "VLC: live video stream"
+msgstr ""
+
+msgid "VLC: play recording"
+msgstr ""
+
+msgid "Play"
+msgstr ""
+
+msgid "Sound on"
+msgstr ""
+
+msgid "Sound off"
+msgstr ""
+
+msgid "Fullscreen"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "VLC media URL"
+msgstr "VLC медиа URL"
+
+msgid "No timer conflicts"
+msgstr "Нет конфликта таймеров"
+
+msgid "local"
+msgstr ""
 
 msgid "Live Interactive VDR Environment"
 msgstr ""

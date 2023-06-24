@@ -239,7 +239,7 @@ template<class T>
       virtual const std::string ArchiveDescr() const { return "" ; }
       virtual const char *NewR() const { return "" ; }
       virtual const int RecordingErrors() const { return -1; }
-      virtual int SD_HD() { return m_video_SD_HD; }
+      virtual int SD_HD() { return m_video_SD_HD; } // < -2: not checked. -1: Radio. 0: SD. 1: HD. >1 UHD or better
       virtual void AppendAsJSArray(cLargeString &target, bool displayFolder) { }
  		  bool recEntriesSorted() { return m_cmp_rec != NULL; }
  		  bool dirEntriesSorted() { return m_cmp_dir != NULL; }
@@ -270,7 +270,8 @@ template<class T>
       int m_s_episode_number = 0;
       int m_s_season_number = 0;
       int m_language = 0;
-      int m_video_SD_HD = -1;  // 0 is SD, 1 is HD, 2 is UHD, 9 is radio
+      int m_video_SD_HD = -2;  // < -2: not checked. -1: Radio. 0 is SD, 1 is HD, >1 is UHD or better
+
       int m_duration_deviation = 0;
   };
 

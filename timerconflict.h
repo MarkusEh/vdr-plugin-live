@@ -7,7 +7,7 @@
 #include <string>
 #include <time.h>
 
-#include <vdr/timers.h>
+// #include <vdr/timers.h> avoid this to ensure the correct order of vdr includes / cxx includes, see https://www.vdr-portal.de/forum/index.php?thread/135369-live-3-1-12/&postID=1359294#post1359294
 
 namespace vdrlive {
 
@@ -62,7 +62,7 @@ namespace vdrlive {
 			iterator end() { return m_conflicts.end(); }
 			const_iterator end() const { return m_conflicts.end(); }
 
-			bool HasConflict(const cTimer& timer);
+			bool HasConflict(int timerId);
 			static bool CheckAdvised();
 		private:
 			void GetRemote(std::list<std::string> & conflicts);

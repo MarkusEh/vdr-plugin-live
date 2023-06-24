@@ -7,6 +7,7 @@
 // STL headers need to be before VDR tools.h (included by <vdr/plugin.h>)
 #include <vector>
 
+#include <vdr/timers.h>
 #include <vdr/plugin.h>
 #include <vdr/svdrp.h>
 
@@ -149,11 +150,11 @@ namespace vdrlive {
 		svdrpServerNames.Clear();
 	}
 
-	bool TimerConflicts::HasConflict(const cTimer& timer)
+	bool TimerConflicts::HasConflict(int timerId)
 	{
 		for (const auto& conflict : *this)
 			for (const auto& tic : conflict.ConflictingTimers())
-				if (tic.timerIndex == timer.Id())
+				if (tic.timerIndex == timerId)
 					return true;
 		return false;
 	}

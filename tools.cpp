@@ -71,7 +71,7 @@ template<class T>
   size_t i = 0;                 // number of not yet appended chars
   const char* notAppended = s;  // position of the first character which is not yet appended
   for (const char* current = s; *current && current < end; current+=l) {
-l = utf8CodepointIsValid(current);
+  l = utf8CodepointIsValid(current);
     switch(l) {
       case 1:
         switch(*current) {
@@ -180,34 +180,18 @@ template void AppendHtmlEscapedAndCorrectNonUTF8<cLargeString>(cLargeString &tar
 	    return;
 	}
 
-	void AppendDuration(cLargeString &target, char const* format, int duration)
+template<typename T>
+	void AppendDuration(T &target, char const* format, int duration)
 	{
 		int minutes = (duration + 30) / 60;
 		int hours = minutes / 60;
 		minutes %= 60;
-		int numChars = snprintf(target.borrowEnd(32), 32, format, hours, minutes);
-		if (numChars < 0) {
-      target.finishBorrow(0);
-			std::stringstream builder;
-			builder << "cannot represent duration " << hours << ":" << minutes << " as requested";
-			throw std::runtime_error( builder.str() );
-		}
-    target.finishBorrow(numChars);
+    AppendFormatted(target, format, hours, minutes);
 	}
-	void AppendDuration(std::string &target, char const* format, int duration)
-	{
-		int minutes = (duration + 30) / 60;
-		int hours = minutes / 60;
-		minutes %= 60;
-		char result[ 32 ];
-		if ( snprintf(result, sizeof(result), format, hours, minutes) < 0 ) {
-			std::stringstream builder;
-			builder << "cannot represent duration " << hours << ":" << minutes << " as requested";
-			throw std::runtime_error( builder.str() );
-		}
-    target.append(result);
-	}
-	std::string FormatDuration( char const* format, int duration)
+template void AppendDuration<std::string>(std::string &target, char const* format, int duration);
+template void AppendDuration<cLargeString>(cLargeString &target, char const* format, int duration);
+
+	std::string FormatDuration(char const* format, int duration)
 	{
 		std::string result;
 		AppendDuration(result, format, duration);
@@ -248,17 +232,6 @@ template void AppendHtmlEscapedAndCorrectNonUTF8<cLargeString>(cLargeString &tar
     char result[80];
     AppendDateTime(result, sizeof( result ), format, time);
     return result;
-	}
-
-	std::string FormatInt(char const* format, int size)
-	{
-		char result[16];
-		if ( snprintf(result, sizeof(result), format, size) < 0 ) {
-			std::stringstream builder;
-			builder << "cannot represent integer " << size << " as requested";
-			throw std::runtime_error( builder.str() );
-		}
-		return result;
 	}
 
 	std::string StringReplace( std::string const& text, std::string const& substring, std::string const& replacement )

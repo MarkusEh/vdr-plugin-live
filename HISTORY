@@ -38,3 +38,13 @@ VDR Plugin 'live' Revision History
 2023-01-18: Version 3.1.11
 
 - Use new tvscraper service interface "class cScraperVideo"
+
+
+2023-06-18: Version 3.2
+
+- Support mobile devices
+- Support tvscraper data, including images
+- Improve performance, especially for recordings
+- Show duplicate recordings
+- Show errors in recordings
+- And many other, smaller improvements

@@ -81,6 +81,10 @@ msgid "%d:%02d"
 msgstr ""
 
 #, c-format
+msgid "%.1f GB"
+msgstr ""
+
+#, c-format
 msgid "%'d MB"
 msgstr ""
 
@@ -217,10 +221,34 @@ msgstr "Slapyvardis"
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Atleiskit, bet jūs neturite užtektinai teisių. Susisiekite su sistemos administratoriumi!"
 
+msgid "playing recording"
+msgstr "grojamas įrašas"
+
+msgid "no epg info for current event!"
+msgstr "šis įvykis neturi epg įrašo!"
+
+msgid "no epg info for current channel!"
+msgstr "šis kanalas neturi epg įrašo!"
+
+msgid "no current channel!"
+msgstr "nėra šito kanalo!"
+
+msgid "error retrieving status info!"
+msgstr "negali gauti informacijos apie būklę!"
+
+msgid "%I:%M:%S %p"
+msgstr "%I:%M:%S %p"
+
 msgid "Duration deviation from event length"
 msgstr ""
 
 msgid "min"
+msgstr ""
+
+msgid "Recording length"
+msgstr ""
+
+msgid "h"
 msgstr ""
 
 msgid "Find more at the Internet Movie Database."
@@ -301,9 +329,6 @@ msgstr ""
 msgid "Artwork"
 msgstr ""
 
-msgid "Recording length"
-msgstr ""
-
 msgid "Event duration"
 msgstr ""
 
@@ -323,6 +348,9 @@ msgid "Episode vote average/count:"
 msgstr ""
 
 msgid "Episode first aired:"
+msgstr ""
+
+msgid "Episode runtime:"
 msgstr ""
 
 msgid "IMDB episode"
@@ -766,12 +794,6 @@ msgstr "Momentinių nuotraukų intervalas"
 msgid "Stop"
 msgstr "Sustapdyti"
 
-msgid "No timer conflicts"
-msgstr "Nėra laikmačio klaidų"
-
-msgid "local"
-msgstr ""
-
 msgid "Please set login and password!"
 msgstr "Nurodykite prisijungimo vardą ir slapyvardį!"
 
@@ -850,24 +872,6 @@ msgstr "Pradinis puslapis"
 
 msgid "Theme"
 msgstr "Tema"
-
-msgid "playing recording"
-msgstr "grojamas įrašas"
-
-msgid "no epg info for current event!"
-msgstr "šis įvykis neturi epg įrašo!"
-
-msgid "no epg info for current channel!"
-msgstr "šis kanalas neturi epg įrašo!"
-
-msgid "no current channel!"
-msgstr "nėra šito kanalo!"
-
-msgid "error retrieving status info!"
-msgstr "negali gauti informacijos apie būklę!"
-
-msgid "%I:%M:%S %p"
-msgstr "%I:%M:%S %p"
 
 msgid "Search settings"
 msgstr "Paieškos nustatymai"
@@ -1023,30 +1027,6 @@ msgstr "Naujas vartotojas"
 msgid "Page error"
 msgstr "Puslapio klaida"
 
-msgid "VLC: live video stream"
-msgstr ""
-
-msgid "VLC: play recording"
-msgstr ""
-
-msgid "Play"
-msgstr ""
-
-msgid "Sound on"
-msgstr ""
-
-msgid "Sound off"
-msgstr ""
-
-msgid "Fullscreen"
-msgstr ""
-
-msgid "Close"
-msgstr ""
-
-msgid "VLC media URL"
-msgstr "Adresas VLC grotuvui"
-
 msgid "Couldn't find user. Maybe you mistyped your request?"
 msgstr "Toks vartotojas nerastas. Gal klaidingai įvedėte užklausos frazę?"
 
@@ -1084,6 +1064,36 @@ msgid "Delete search timers"
 msgstr "Ištrinti paieškos laikmačius"
 
 msgid "Edit recordings"
+msgstr ""
+
+msgid "VLC: live video stream"
+msgstr ""
+
+msgid "VLC: play recording"
+msgstr ""
+
+msgid "Play"
+msgstr ""
+
+msgid "Sound on"
+msgstr ""
+
+msgid "Sound off"
+msgstr ""
+
+msgid "Fullscreen"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "VLC media URL"
+msgstr "Adresas VLC grotuvui"
+
+msgid "No timer conflicts"
+msgstr "Nėra laikmačio klaidų"
+
+msgid "local"
 msgstr ""
 
 msgid "Live Interactive VDR Environment"

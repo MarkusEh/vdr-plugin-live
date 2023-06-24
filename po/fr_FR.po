@@ -83,6 +83,10 @@ msgid "%d:%02d"
 msgstr ""
 
 #, c-format
+msgid "%.1f GB"
+msgstr ""
+
+#, c-format
 msgid "%'d MB"
 msgstr ""
 
@@ -222,10 +226,34 @@ msgstr "Mot de passe"
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr ""
 
+msgid "playing recording"
+msgstr "Lire l'enregistrement"
+
+msgid "no epg info for current event!"
+msgstr "Pas d'infos pour l'émission!"
+
+msgid "no epg info for current channel!"
+msgstr "Cette chaîne n'a pas d'EPG!"
+
+msgid "no current channel!"
+msgstr "pas de chaîne trouvé!"
+
+msgid "error retrieving status info!"
+msgstr "erreur de récupération du statut d'info!"
+
+msgid "%I:%M:%S %p"
+msgstr "%H:%M:%S"
+
 msgid "Duration deviation from event length"
 msgstr ""
 
 msgid "min"
+msgstr ""
+
+msgid "Recording length"
+msgstr ""
+
+msgid "h"
 msgstr ""
 
 msgid "Find more at the Internet Movie Database."
@@ -306,9 +334,6 @@ msgstr ""
 msgid "Artwork"
 msgstr ""
 
-msgid "Recording length"
-msgstr ""
-
 msgid "Event duration"
 msgstr ""
 
@@ -328,6 +353,9 @@ msgid "Episode vote average/count:"
 msgstr ""
 
 msgid "Episode first aired:"
+msgstr ""
+
+msgid "Episode runtime:"
 msgstr ""
 
 msgid "IMDB episode"
@@ -775,13 +803,6 @@ msgstr "intervalle"
 msgid "Stop"
 msgstr "Stop"
 
-#, fuzzy
-msgid "No timer conflicts"
-msgstr "Programmation est active."
-
-msgid "local"
-msgstr ""
-
 msgid "Please set login and password!"
 msgstr "Entrée le nom d'utilisateur et le mot de passe svp!"
 
@@ -860,24 +881,6 @@ msgstr "Page de départ"
 
 msgid "Theme"
 msgstr "Thème"
-
-msgid "playing recording"
-msgstr "Lire l'enregistrement"
-
-msgid "no epg info for current event!"
-msgstr "Pas d'infos pour l'émission!"
-
-msgid "no epg info for current channel!"
-msgstr "Cette chaîne n'a pas d'EPG!"
-
-msgid "no current channel!"
-msgstr "pas de chaîne trouvé!"
-
-msgid "error retrieving status info!"
-msgstr "erreur de récupération du statut d'info!"
-
-msgid "%I:%M:%S %p"
-msgstr "%H:%M:%S"
 
 msgid "Search settings"
 msgstr "Règlages de recherche"
@@ -1038,30 +1041,6 @@ msgstr "Nouvelle programmation"
 msgid "Page error"
 msgstr "Erreur de paging"
 
-msgid "VLC: live video stream"
-msgstr ""
-
-msgid "VLC: play recording"
-msgstr ""
-
-msgid "Play"
-msgstr ""
-
-msgid "Sound on"
-msgstr ""
-
-msgid "Sound off"
-msgstr ""
-
-msgid "Fullscreen"
-msgstr ""
-
-msgid "Close"
-msgstr ""
-
-msgid "VLC media URL"
-msgstr "VLC lien média "
-
 #, fuzzy
 msgid "Couldn't find user. Maybe you mistyped your request?"
 msgstr "N'a pas pu trouver la programmation. Peut-être vous avez une erreur dans votre requête?"
@@ -1110,6 +1089,37 @@ msgid "Delete search timers"
 msgstr "Effacer la programmation de recherche"
 
 msgid "Edit recordings"
+msgstr ""
+
+msgid "VLC: live video stream"
+msgstr ""
+
+msgid "VLC: play recording"
+msgstr ""
+
+msgid "Play"
+msgstr ""
+
+msgid "Sound on"
+msgstr ""
+
+msgid "Sound off"
+msgstr ""
+
+msgid "Fullscreen"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "VLC media URL"
+msgstr "VLC lien média "
+
+#, fuzzy
+msgid "No timer conflicts"
+msgstr "Programmation est active."
+
+msgid "local"
 msgstr ""
 
 msgid "Live Interactive VDR Environment"

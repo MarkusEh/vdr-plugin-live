@@ -83,6 +83,10 @@ msgid "%d:%02d"
 msgstr "%d:%02d"
 
 #, c-format
+msgid "%.1f GB"
+msgstr ""
+
+#, c-format
 msgid "%'d MB"
 msgstr ""
 
@@ -219,11 +223,35 @@ msgstr "პაროლი"
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "წვდომები არ გაგაჩნიათ. დაკავშირდით თქვენს ადმინისტრატორს!"
 
+msgid "playing recording"
+msgstr "ჩანაწერის დაკვრა"
+
+msgid "no epg info for current event!"
+msgstr "მიმდინარე მოვლენას EPG ინფორმაცია არ გააჩნია!"
+
+msgid "no epg info for current channel!"
+msgstr "მიმდინარე არხს EPG ინფორმაცია არ გააჩნია!"
+
+msgid "no current channel!"
+msgstr "მიმდინარე არხის გარეშე!"
+
+msgid "error retrieving status info!"
+msgstr "სტატუსის ინფორმაციის მიღების შეცდომა!"
+
+msgid "%I:%M:%S %p"
+msgstr "%I:%M:%S %p"
+
 msgid "Duration deviation from event length"
 msgstr "ხანგრძლივობის აცდენა მოვლენის სიგრძესთან"
 
 msgid "min"
 msgstr "წთ"
+
+msgid "Recording length"
+msgstr "ჩანაწერის ხანგრძლივობა"
+
+msgid "h"
+msgstr ""
 
 msgid "Find more at the Internet Movie Database."
 msgstr "მეტის პოვნა IMDB-ზე."
@@ -303,9 +331,6 @@ msgstr "მსახიობები"
 msgid "Artwork"
 msgstr "ნამუშევრები"
 
-msgid "Recording length"
-msgstr "ჩანაწერის ხანგრძლივობა"
-
 msgid "Event duration"
 msgstr "მოვლენის ხანგრძლივობა"
 
@@ -326,6 +351,9 @@ msgstr "ეპიზოდის ხმები საშუალოდ/სუ
 
 msgid "Episode first aired:"
 msgstr "ეპიზოდის პირველი ჩვენების დრო:"
+
+msgid "Episode runtime:"
+msgstr ""
 
 msgid "IMDB episode"
 msgstr "IMDB ეპიზოდი"
@@ -768,12 +796,6 @@ msgstr "სწრაფი ასლის ინტერვალი"
 msgid "Stop"
 msgstr "შეჩერება"
 
-msgid "No timer conflicts"
-msgstr "ტაიმერის კონფლიქტების გარეშე"
-
-msgid "local"
-msgstr "ლოკალური"
-
 msgid "Please set login and password!"
 msgstr "მომხმარებლისა და პაროლის დაყენება აუცილებელია!"
 
@@ -851,24 +873,6 @@ msgstr "საწყისი გვერდი"
 
 msgid "Theme"
 msgstr "თემა"
-
-msgid "playing recording"
-msgstr "ჩანაწერის დაკვრა"
-
-msgid "no epg info for current event!"
-msgstr "მიმდინარე მოვლენას EPG ინფორმაცია არ გააჩნია!"
-
-msgid "no epg info for current channel!"
-msgstr "მიმდინარე არხს EPG ინფორმაცია არ გააჩნია!"
-
-msgid "no current channel!"
-msgstr "მიმდინარე არხის გარეშე!"
-
-msgid "error retrieving status info!"
-msgstr "სტატუსის ინფორმაციის მიღების შეცდომა!"
-
-msgid "%I:%M:%S %p"
-msgstr "%I:%M:%S %p"
 
 msgid "Search settings"
 msgstr "ძიების პარამეტრები"
@@ -1023,30 +1027,6 @@ msgstr "Ახალი მომხმარებელი"
 msgid "Page error"
 msgstr "გვერდის შეცდომა"
 
-msgid "VLC: live video stream"
-msgstr ""
-
-msgid "VLC: play recording"
-msgstr ""
-
-msgid "Play"
-msgstr ""
-
-msgid "Sound on"
-msgstr ""
-
-msgid "Sound off"
-msgstr ""
-
-msgid "Fullscreen"
-msgstr ""
-
-msgid "Close"
-msgstr ""
-
-msgid "VLC media URL"
-msgstr ""
-
 msgid "Couldn't find user. Maybe you mistyped your request?"
 msgstr "მომხმარებელი ვერ ვიპოვე. შეიძლება, მოთხოვნა არასწორია?"
 
@@ -1085,6 +1065,36 @@ msgstr "ძებნის ტაიმერების წაშლა"
 
 msgid "Edit recordings"
 msgstr "ჩანაწერების წაშლა"
+
+msgid "VLC: live video stream"
+msgstr ""
+
+msgid "VLC: play recording"
+msgstr ""
+
+msgid "Play"
+msgstr ""
+
+msgid "Sound on"
+msgstr ""
+
+msgid "Sound off"
+msgstr ""
+
+msgid "Fullscreen"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "VLC media URL"
+msgstr ""
+
+msgid "No timer conflicts"
+msgstr "ტაიმერის კონფლიქტების გარეშე"
+
+msgid "local"
+msgstr "ლოკალური"
 
 msgid "Live Interactive VDR Environment"
 msgstr "ცოცხალი ინტერაქტიური VDR გარემო"
