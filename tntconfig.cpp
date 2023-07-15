@@ -11,6 +11,11 @@
 #else
 #include <cxxtools/loginit.h>
 #endif
+
+#if TNTVERSION >= 31000
+#include <cxxtools/sslctx.h>
+#endif
+
 #include "services.h"
 
 namespace vdrlive {
@@ -331,7 +336,13 @@ namespace vdrlive {
 
 			if (std::ifstream( s_cert.c_str() ) && std::ifstream( s_key.c_str() ) ) {
 				for ( Setup::IpList::const_iterator ip = ips.begin(); ip != ips.end(); ++ip ) {
+#if TNTVERSION < 31000
 					app.sslListen(s_cert, s_key, *ip, s_port);
+#else
+					cxxtools::SslCtx sslCtx;
+					sslCtx.loadCertificateFile(s_cert, s_key);
+					app.listen(*ip, s_port, sslCtx);
+#endif
 				}
 			}
 			else {
