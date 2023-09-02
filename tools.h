@@ -83,15 +83,6 @@ template<class T>
   }
   template<typename... Args> void AppendFormated(cLargeString &target, char const* format, Args&&... args) {
     target.appendFormated(format, std::forward<Args>(args)...);
-/*
-    size_t numRes= 30;
-    size_t numNeeded = snprintf(target.borrowEnd(numRes), numRes, format, std::forward<Args>(args)...);
-    if (numNeeded >= numRes) {
-      target.finishBorrow(0);
-      sprintf(target.borrowEnd(numNeeded + 1), format, std::forward<Args>(args)...);
-    }
-    target.finishBorrow(numNeeded);
-*/
   }
   template<typename... Args> std::string Format(char const* format, Args&&... args) {
     std::string result;
