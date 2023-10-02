@@ -199,6 +199,17 @@ public:
     cTvMedia poster;
 };
 
+// Data structure for enviromment ("GetEnvironment" call)
+class cEnvironment
+{
+  public:
+//in: nothing, no input required
+//out
+    std::string basePath;  // All images are in this path or subdirectories. This was given to the plugin with --dir, or is the default cache directory for the plugin.
+    std::string seriesPath;
+    std::string moviesPath;
+};
+
 // NEW interface, used by live =========================================================
 
 // Data structure for service "GetScraperImageDir"

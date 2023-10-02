@@ -85,8 +85,8 @@ parameters -c or -v (see 'vdr --help' for details).
 cp -a <live-src-dir>/live <vdr-resource-dir>/plugins
 
 
-Setup
-=====
+Setup:
+======
 
 Live provides a username/password protection, so that it can be used from
 the internet. The default username and password are:
@@ -109,9 +109,10 @@ for ssl connections" section below on hints how to setup SSL.
 To display images, you can use:
 
   -e <...>  --epgimages=/path/to/epgimages		use EPG images created by plugins like tvm2vdr
-  -t <...>  --tvscraperimages=/path/to/tvscraperimages	use images created by tvscraper
+  -t <...>  --tvscraperimages=/path/to/tvscraperimages	use images created by tvscraper   DEPRECATED!
 Example:
-  --tvscraperimages=/var/cache/vdr/plugins/tvscraper
+  --tvscraperimages=/var/cache/vdr/plugins/tvscraper   DEPRECATED!
+Note: tvscraperimages is not required any more, live uses the internal service interface "GetEnvironment" for plugins to get this information from tvscraper/scraper2vdr
 
 
 The rest of the parameters can be adjusted in VDR's OSD or in the web
@@ -121,13 +122,13 @@ The password is stored as a MD5 hash.
 "Last Channel" is the last channel in the channels list, that live displays.
 This is especially useful if you have VDR's automatic channel update active.
 For example, you can add a group seperator ":@1000 Found automatically" to
-channels.conf an set this parameter to "1000". Thus, everything VDR finds
+channels.conf and set this parameter to "1000". Thus, everything VDR finds
 during scanning (which can after a few months be well more than 3000
 channels) won't be displayed.
 
 
-How to make LIVE listen for ssl connections
-===========================================
+How to make LIVE listen for ssl connections:
+============================================
 
 To make LIVE listen for incoming ssl connections you`ll have to use a
 Tntnet version > 1.6.0.6. By default it will listen on port 8443.
@@ -152,8 +153,8 @@ to SVN revision 1035 you will have to recompile Tntnet with
 install version 1.6.2 or higher of tntnet on your system.
 
 
-SSL Commandline options
-=======================
+SSL Commandline options:
+========================
 
   -s PORT,  --sslport=PORT     use PORT to listen for incoming ssl connections
                                (default: 8443)
@@ -164,8 +165,8 @@ SSL Commandline options
   			       (default: $CONFIGDIR/live-key.pem)
 
 
-Creating a self-signed SSL server certificate
-=============================================
+Creating a self-signed SSL server certificate:
+==============================================
 
 To create a self-signed certificate file you`ll have to run this litte
 command.
@@ -220,6 +221,14 @@ plugin source.
 Security consideratios
 ======================
 
+Please use live in a controlled environment only, like your home network
+or a save VPN of your home network.
+You cannot expect sufficient security to expose live to the public internet.
+
+Of course, better security is always appreciated, so please send
+patches increasing security.
+
+One possible security issue (there might be others ...):
 Live uses the tntnet MapUrl mechanism to map different request urls to
 tntnet components. One component 'content.ecpp' delivers files found
 in the file system. When given the wrong 'path' it could retrieve any
@@ -230,3 +239,14 @@ valid files. In the current version this approach has been taken. But
 due to the 'difficulty' to fully understand regular expressions, this
 might get spoiled again by 'unchecked' code contribution.
 
+Errors
+======
+
+If VDR crashes on start with these journal messages:
+  loading plugin: /usr/local/lib/vdr/libvdr-live.so.x.x.
+  terminate called after throwing an instance of 'std::runtime_error'
+    what():  locale::facet::_S_create_c_locale name not valid
+
+Most likely, the locale is not installed correctly. On debian based systems, use:
+  dpkg-reconfigure locales
+and restart VDR.

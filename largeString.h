@@ -29,8 +29,8 @@ class cLargeString {
   public:
     cLargeString(const cLargeString& o) = delete;
     cLargeString &operator= (const cLargeString &) = delete;
-    cLargeString(cLargeString&& o) = default;
-    cLargeString &operator= (cLargeString &&) = default;
+//   cLargeString(cLargeString&& o) = default;  // default is wrong, explicit definition required
+//   cLargeString &operator= (cLargeString &&) = default;  // default is wrong, explicit definition required
     template<std::size_t N>
     cLargeString(const char (&name)[N], size_t initialSize = 0, size_t increaseSize = 0, bool debugBufferSize = false) {
       m_nameData = name;
