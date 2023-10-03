@@ -45,6 +45,8 @@ namespace vdrlive {
   bool operator< (int a, const RecordingsItemPtr &b);
   bool operator< (const RecordingsItemPtr &a, int b);
 
+  int GetNumberOfTsFiles(const cRecording* recording);
+
   /**
    *  Class for managing recordings inside the live plugin. It
    *  provides some convenience methods and provides automatic
@@ -357,6 +359,7 @@ template<class T>
 #else
       virtual const int RecordingErrors() const { return -1; }
 #endif
+      int NumberTsFiles() const { return m_number_ts_files; }
       void AppendRecordingErrorsStr(std::string &target) const;
 
       virtual int SD_HD();
@@ -367,6 +370,7 @@ template<class T>
       const cRecording *m_recording;
       const std::string m_id;
       const int m_isArchived;
+      int m_number_ts_files;
   };
 
   /**

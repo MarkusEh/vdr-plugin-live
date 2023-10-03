@@ -67,7 +67,7 @@ else lf = "&#13;";
 </%cpp>
 <script type="text/javascript" src="js/live/createHtml.js"></script>
 <script>
-function addErrorIcon(s, numErrors, durationDeviation, duration) {
+function addErrorIcon(s, numErrors, durationDeviation, duration, numTsFiles) {
   if (numErrors <= -100) return
   s.a += '<div class=\"recording_errors\"><img class=\"icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>'
   if (durationDeviation > 300 || numErrors  > 0) s.a += 'RecordingErrors.png'
@@ -93,6 +93,10 @@ function addErrorIcon(s, numErrors, durationDeviation, duration) {
   s.a += duration
   s.a += ' '
   s.a += '<$tr("h")$>'
+  s.a += '<$$lf$>'
+  s.a += '<$tr("Number of ts files")$>'
+  s.a += ': '
+  s.a += String(numTsFiles)
   s.a += '\" /> </div>'
 }
 
@@ -208,7 +212,7 @@ function eventString(bottomrow, data) {
 }
 
 // existing recording
-function existingRecordingSR(s, col_span1, bottomrow, imdb_id, id, archiveDescr, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, durationDeviation, folder, duration) {
+function existingRecordingSR(s, col_span1, bottomrow, imdb_id, id, archiveDescr, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, durationDeviation, folder, duration, numTsFiles) {
   if (archiveDescr.length != 0) col_span1--;
   s.a += '<tr><td colspan='
   s.a += col_span1.toString()
@@ -226,7 +230,7 @@ function existingRecordingSR(s, col_span1, bottomrow, imdb_id, id, archiveDescr,
 </%cpp>
   } else {
     s.a += '<br/><table><tr><td class=\"noborder\">'
-    addErrorIcon(s, errors, durationDeviation, duration)
+    addErrorIcon(s, errors, durationDeviation, duration, numTsFiles)
     s.a += '</td><td class=\"noborder\">'
     addHdSdIcon(s, hd_sd, channel_name)
     s.a += '</td></tr></table>'
@@ -244,10 +248,10 @@ function existingRecordingSR(s, col_span1, bottomrow, imdb_id, id, archiveDescr,
   addColEventRec(s, day_time_duration, 'recording_', id, name, folder, short_text, description, '<$$lf$>', '<$tr("Click to view details.")$>')
   s.a += '</td></tr>'
 }
-function existingRecordingString(col_span, bottomrow, id, archiveDescr, imdb_id, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, durationDeviation, folder, duration) {
+function existingRecordingString(col_span, bottomrow, id, archiveDescr, imdb_id, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, durationDeviation, folder, duration, numTsFiles) {
   const s = Object.create(null)
   s.a = ""
-  existingRecordingSR(s, col_span, bottomrow, imdb_id, id, archiveDescr, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, durationDeviation, folder, duration)
+  existingRecordingSR(s, col_span, bottomrow, imdb_id, id, archiveDescr, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, durationDeviation, folder, duration, numTsFiles)
   return s.a
 }
 

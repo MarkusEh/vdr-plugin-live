@@ -620,6 +620,9 @@ msgstr "Länge der Aufzeichnung"
 msgid "h"
 msgstr "h"
 
+msgid "Number of ts files"
+msgstr "Zahl der ts Dateien"
+
 msgid "Find more at the Internet Movie Database."
 msgstr "Weitere Informationen in der Internet Movie Database."
 

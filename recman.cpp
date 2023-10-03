@@ -2,6 +2,7 @@
 #include "StringMatch.h"
 #endif
 #include <iostream>
+#include <dirent.h>
 
 #include "recman.h"
 #include "tools.h"
@@ -722,6 +723,21 @@ bool searchNameDesc(RecordingsItemPtr &RecItem, const std::vector<RecordingsItem
 	}
 	RecordingsItemDirSeason::~RecordingsItemDirSeason() { }
 
+  int GetNumberOfTsFiles(const cRecording* recording) {
+// find our number of ts files
+    if (!recording || !recording->FileName() ) return -1;
+    DIR *dir = opendir(recording->FileName());
+    if (dir == nullptr) return -1;
+    struct dirent *ent;
+    int number_ts_files = 0;
+    while ((ent = readdir (dir)) != NULL) if (ent->d_name) {
+      int len = strlen(ent->d_name);
+      if (len > 3 && strcmp(ent->d_name + len -3, ".ts") == 0) ++number_ts_files;
+    }
+    closedir (dir);
+    return number_ts_files;
+  }
+
 	/**
 	 *  Implementation of class RecordingsItemRec:
 	 */
@@ -731,10 +747,12 @@ bool searchNameDesc(RecordingsItemPtr &RecItem, const std::vector<RecordingsItem
 		m_id(id),
 		m_isArchived(RecordingsManager::GetArchiveType(m_recording) )
 	{
-    // dsyslog("live: REC: C: rec %s -> %s", name.c_str(), parent->Name().c_str());
+// dsyslog("live: REC: C: rec %s -> %s", name.c_str(), parent->Name().c_str());
     m_idI = idI;
     getScraperData(recording,
       cImageLevels(eImageLevel::episodeMovie, eImageLevel::seasonMovie, eImageLevel::tvShowCollection, eImageLevel::anySeasonCollection));
+// find our number of ts files
+    m_number_ts_files = GetNumberOfTsFiles(recording);
 	}
 
 	RecordingsItemRec::~RecordingsItemRec()
@@ -929,7 +947,9 @@ void AppendScraperData(cLargeString &target, const std::string &s_IMDB_ID, const
               AppendFormated(target, tr("%'d MB"), fileSizeMB);
           else
             target.append("&nbsp;");
-          target.append("\"");
+          target.append("\",");
+// [21] numTsFiles
+          target.append(NumberTsFiles() );
         }
 
 void RecordingsItemRec::AppendAsJSArray(cLargeString &target, std::vector<RecordingsItemPtr>::const_iterator recIterFirst, std::vector<RecordingsItemPtr>::const_iterator recIterLast, bool &first, const std::string &filter, bool reverse) {

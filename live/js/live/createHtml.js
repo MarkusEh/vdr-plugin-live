@@ -144,10 +144,10 @@ function injectHdSdIcon(elementId, sdhd, channelName) {
   if (typeof liveEnhanced !== 'undefined') liveEnhanced.domReadySetup();
 }
 
-function injectErrorHdSdIcon(elementId, numErrors, durationDeviation, sdhd, channelName, duration) {
+function injectErrorHdSdIcon(elementId, numErrors, durationDeviation, sdhd, channelName, duration, numTsFiles) {
   const s = Object.create(null);
   s.a = "";
-  addErrorIcon(s, numErrors, durationDeviation, duration);
+  addErrorIcon(s, numErrors, durationDeviation, duration, numTsFiles);
   addHdSdIcon(s, sdhd, channelName);
   document.getElementById(elementId).innerHTML = s.a;
   if (typeof liveEnhanced !== 'undefined') liveEnhanced.domReadySetup();

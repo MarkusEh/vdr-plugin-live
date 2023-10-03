@@ -171,6 +171,7 @@ function RecordingActionS(s, id, A, Img, Title) {
 // [18] : Folder (if displayFolder == true. Otherwise, this does not exist / out of range)
 // [19] : duration
 // [20] : size
+// [21] : numTsFiles
 #>
 function RecordingsSt(s, level, displayFolder, data) {
   s.a += '<li class="recording"><div>'
@@ -213,7 +214,7 @@ function RecordingsSt(s, level, displayFolder, data) {
     s.a += '</div><div class="hidden-xs recording_size">'
     s.a += obj[20]
     s.a += '</div></td><td>'
-    addErrorIcon(s, obj[10], obj[17], obj[19])
+    addErrorIcon(s, obj[10], obj[17], obj[19], obj[21])
     addHdSdIcon(s, obj[11], obj[12])
     s.a += '</td>'  // end column with error / sd/hd image
     s.a += '<td><div class=\"recording_name'
@@ -581,6 +582,7 @@ if (recording && recording->Info() ) {
 #if VDRVERSNUM >= 20505
   recordingErrors = recording->Info()->Errors();
 #endif
+
   cGetScraperVideo getScraperVideo(NULL, recording);
   bool scraperDataAvailable = getScraperVideo.call(LiveSetup().GetPluginScraper());
   if (scraperDataAvailable) {
@@ -595,11 +597,8 @@ if (recording && recording->Info() ) {
 </%cpp>
 <img data-src="img/transparent.png" height="10px" />
 <span id="icons-<$id$>"></span>
-<#
-<img src="img/forceError.png" height="0.1px" onerror="injectErrorHdSdIcon(&quot;icons-<$id$>&quot;, <$b_recordingErrors$>, <$b_duration_deviation$>, &quot;<$sdhd$>&quot;, &quot;<$recording->Info()->ChannelName()?recording->Info()->ChannelName():""$>&quot;)"/>
-#>
 <script class="injectIcons">
-injectErrorHdSdIcon(\"icons-<$id$>\", <$b_recordingErrors$>, <$b_duration_deviation$>, \"<$sdhd$>\", \"<$recording->Info()->ChannelName()?recording->Info()->ChannelName():""$>\", \"<$duration$>\")
+injectErrorHdSdIcon(\"icons-<$id$>\", <$b_recordingErrors$>, <$b_duration_deviation$>, \"<$sdhd$>\", \"<$recording->Info()->ChannelName()?recording->Info()->ChannelName():""$>\", \"<$duration$>\", <$ GetNumberOfTsFiles(recording) $>)
 </script>
 <%cpp>
   }
