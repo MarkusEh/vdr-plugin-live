@@ -248,7 +248,7 @@ function existingRecordingSR(s, col_span1, bottomrow, imdb_id, id, archiveDescr,
   addColEventRec(s, day_time_duration, 'recording_', id, name, folder, short_text, description, '<$$lf$>', '<$tr("Click to view details.")$>')
   s.a += '</td></tr>'
 }
-function existingRecordingString(col_span, bottomrow, id, archiveDescr, imdb_id, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, durationDeviation, folder, duration, numTsFiles) {
+function existingRecordingString(col_span, bottomrow, id, archiveDescr, imdb_id, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, durationDeviation, folder, duration, size, numTsFiles) {
   const s = Object.create(null)
   s.a = ""
   existingRecordingSR(s, col_span, bottomrow, imdb_id, id, archiveDescr, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, durationDeviation, folder, duration, numTsFiles)
