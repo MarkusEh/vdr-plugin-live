@@ -17,12 +17,13 @@ using namespace vdrlive;
 	// form parameters
 	std::string name = "";
 	std::string directory = "";
-        std::string delresume = "";
-        std::string delmarks = "";
-        std::string copy = "";
-        std::string sort;
-        std::string filter;
-        std::string flat;
+	std::string newdir = "";
+	std::string delresume = "";
+	std::string delmarks = "";
+	std::string copy = "";
+	std::string sort;
+	std::string filter;
+	std::string flat;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -54,11 +55,11 @@ const cRecording* recording;
 		if (name.empty())
 			message = tr("Please set a name for the recording!");
 		else if (recording) {
-			bool copy_only = false;
 			if (delresume == "delresume") LiveRecordingsManager()->DeleteResume(recording);
-		        if (delmarks == "delmarks") LiveRecordingsManager()->DeleteMarks(recording);
-		        if (copy == "copy") copy_only = true;
-			std::string filename =  directory.empty() ? name : StringReplace(directory, "/", "~") + "~" + name;
+			if (delmarks == "delmarks") LiveRecordingsManager()->DeleteMarks(recording);
+			bool copy_only = copy == "copy";
+			if (newdir != ".") directory = newdir;
+			std::string filename = directory.empty() ? name : StringReplace(directory, "/", "~") + "~" + name;
 			if (LiveRecordingsManager()->MoveRecording(recording, FileSystemExchangeChars(filename, true), copy_only))
 				return reply.redirect(!edit_rec_referer.empty() ? edit_rec_referer : "recordings.html");
 			else
@@ -95,6 +96,16 @@ const cRecording* recording;
 <%cpp>
 	}
 </%cpp>
+	<script type="text/javascript">
+		function new_dir() {
+			var dir = document.getElementById("directory");
+			dir.style.display = "none";
+			document.getElementById("new_dir_button").style.display = "none";
+			var newdir = document.getElementById("newdir");
+			newdir.value = dir.value;
+			newdir.style.display = "";
+		}
+	</script>
 	</head>
 	<body onload="adjustHeader()" onresize="adjustHeader()">
 <%cpp>
@@ -130,7 +141,7 @@ edit_rec_referer.append(flat);
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Directory") $>:</div></td>
 						<td class="rightcol">
-							<select name="directory" size="1" id="directory" style="margin-top: 5px">
+							<select name="directory" size="1" id="directory">
 <%cpp>
         RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
 	for (const auto &dir: recordingsTree->getAllDirs() ) {
@@ -140,6 +151,8 @@ edit_rec_referer.append(flat);
 	}
 </%cpp>
 							</select>
+							<img id="new_dir_button" class="icon" src="<$ LiveSetup().GetThemedLink("img", "button_new.png") $>" title="<$tr("Create new directory")$>" onclick="new_dir()" style="vertical-align: middle">
+							<input type="text" name="newdir" id="newdir" value="." size="55" class="width99" style="display:none" />
 						</td>
 					</tr>
 					<tr>

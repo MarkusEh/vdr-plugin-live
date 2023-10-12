@@ -97,6 +97,12 @@ namespace vdrlive {
 		if (!recording)
 			return false;
 
+		// Check for injections that try to escape from the video dir.
+		if (strcmp(name.c_str(), "../") == 0 || name.find("/..") != std::string::npos) {
+			esyslog("live: renaming failed: new name invalid \"%s\"", name.c_str());
+			return false;
+		}
+
 		std::string oldname = recording->FileName();
 		size_t found = oldname.find_last_of("/");
 
@@ -109,10 +115,8 @@ namespace vdrlive {
 		std::string newname = std::string(VideoDirectory) + "/" + name + oldname.substr(found);
 #endif
 
-		if (!MoveDirectory(oldname.c_str(), newname.c_str(), copy)) {
-			esyslog("live: renaming failed from '%s' to '%s'", oldname.c_str(), newname.c_str());
+		if (!MoveDirectory(oldname.c_str(), newname.c_str(), copy))
 			return false;
-		}
 
 #if VDRVERSNUM >= 20301
 		LOCK_RECORDINGS_WRITE;

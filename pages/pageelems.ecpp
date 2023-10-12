@@ -103,9 +103,10 @@ function addErrorIcon(s, numErrors, durationDeviation, duration, numTsFiles) {
 function addHdSdIcon(s, hdsd, toolTip) {
   s.a += '<div class=\"recording_sd_hd\"><img class=\"icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>'
   s.a += hdsd
-  s.a += 'd.png\" width = \"25px\" title=\"'
-  s.a += toolTip
-  s.a += '\" /></div>'
+  s.a += 'd.png\" width = \"25px\"'
+  if (toolTip)
+    s.w += ' title=\"' + toolTip + '\"'
+  s.a += '/></div>'
 }
 
 function IMDBS(s, im_db, name) {

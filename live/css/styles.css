@@ -1251,13 +1251,8 @@ table.formular tr td {
 	border-bottom: 1px solid #C0C1DA;
 }
 
-table.formular tr td input {
-        margin-top: 5px;
-        margin-bottom: 2px;
-}
-
 table.formular tr td .dotted input {
-        margin-top: 0px;
+	margin-top: 0px;
 }
 
 table.formular tr td.leftcol {
@@ -1265,7 +1260,7 @@ table.formular tr td.leftcol {
 }
 
 table.formular tr td.rightcol {
-	padding-right: 7px;
+	padding: 2px;
 }
 
 table.formular tr td.label {
@@ -1276,7 +1271,6 @@ table.formular tr td.label {
 table.formular tr.head td {
 	color: white;
 	font-weight: bold;
-	margin: 0;
 	padding: 0;
 	border: none;
 }

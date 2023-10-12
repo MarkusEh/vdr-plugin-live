@@ -215,7 +215,7 @@ function RecordingsSt(s, level, displayFolder, data) {
     s.a += obj[20]
     s.a += '</div></td><td>'
     addErrorIcon(s, obj[10], obj[17], obj[19], obj[21])
-    addHdSdIcon(s, obj[11], obj[12])
+    addHdSdIcon(s, obj[11])
     s.a += '</td>'  // end column with error / sd/hd image
     s.a += '<td><div class=\"recording_name'
     s.a += obj[13]

@@ -559,157 +559,159 @@ template void AppendTextTruncateOnWord<cLargeString>(cLargeString &target, const
 			target += "/";
 		}
 
-		if (source != target) {
-			// validate target directory
-			if (target.find(source) != std::string::npos) {
-				esyslog("live: cannot move under sub-directory\n");
-				return false;
-			}
-			if (!MakeDirs(target.c_str(), true)) {
-				esyslog("live: cannot create directory %s", target.c_str());
-				return false;
-			}
+		if (source == target)
+			return true;
 
-			struct stat st1, st2;
-			stat(source.c_str(), &st1);
-			stat(target.c_str(),&st2);
-			if (!copy && (st1.st_dev == st2.st_dev)) {
+		// validate target directory
+		if (target.find(source) != std::string::npos) {
+			esyslog("live: cannot move under sub-directory\n");
+			return false;
+		}
+
+		if (!MakeDirs(target.c_str(), true)) {
+			esyslog("live: cannot create directory \"%s\"", target.c_str());
+			return false;
+		}
+
+		struct stat st1, st2;
+		stat(source.c_str(), &st1);
+		stat(target.c_str(),&st2);
+		if (!copy && (st1.st_dev == st2.st_dev)) {
 #if APIVERSNUM > 20101
-				if (!cVideoDirectory::RenameVideoFile(source.c_str(), target.c_str())) {
+			if (!cVideoDirectory::RenameVideoFile(source.c_str(), target.c_str())) {
 #else
-				if (!RenameVideoFile(source.c_str(), target.c_str())) {
+			if (!RenameVideoFile(source.c_str(), target.c_str())) {
 #endif
-					esyslog("live: rename failed from %s to %s", source.c_str(), target.c_str());
+				esyslog("live: rename failed from \"%s\" to \"%s\"", source.c_str(), target.c_str());
+				return false;
+			}
+		}
+		else {
+			int required = DirSizeMB(source.c_str());
+			int available = FreeDiskSpaceMB(target.c_str());
+
+			// validate free space
+			if (required < available) {
+				cReadDir d(source.c_str());
+				struct dirent *e;
+				bool success = true;
+
+				// allocate copying buffer
+				const int len = 1024 * 1024;
+				char *buffer = MALLOC(char, len);
+				if (!buffer) {
+					esyslog("live: cannot allocate renaming buffer");
 					return false;
 				}
-			}
-			else {
-				int required = DirSizeMB(source.c_str());
-				int available = FreeDiskSpaceMB(target.c_str());
 
-				// validate free space
-				if (required < available) {
-					cReadDir d(source.c_str());
-					struct dirent *e;
-					bool success = true;
+				// loop through all files, but skip all subdirectories
+				while ((e = d.Next()) != NULL) {
+					// skip generic entries
+					if (strcmp(e->d_name, ".") && strcmp(e->d_name, "..") && strcmp(e->d_name, "lost+found")) {
+						std::string sourceFile = source + e->d_name;
+						std::string targetFile = target + e->d_name;
 
-					// allocate copying buffer
-					const int len = 1024 * 1024;
-					char *buffer = MALLOC(char, len);
-					if (!buffer) {
-						esyslog("live: cannot allocate renaming buffer");
-						return false;
-					}
+						// copy only regular files
+						if (!stat(sourceFile.c_str(), &st1) && S_ISREG(st1.st_mode)) {
+							int r = -1, w = -1;
+							cUnbufferedFile *inputFile = cUnbufferedFile::Create(sourceFile.c_str(), O_RDONLY | O_LARGEFILE);
+							cUnbufferedFile *outputFile = cUnbufferedFile::Create(targetFile.c_str(), O_RDWR | O_CREAT | O_LARGEFILE);
 
-					// loop through all files, but skip all subdirectories
-					while ((e = d.Next()) != NULL) {
-						// skip generic entries
-						if (strcmp(e->d_name, ".") && strcmp(e->d_name, "..") && strcmp(e->d_name, "lost+found")) {
-							std::string sourceFile = source + e->d_name;
-							std::string targetFile = target + e->d_name;
-
-							// copy only regular files
-							if (!stat(sourceFile.c_str(), &st1) && S_ISREG(st1.st_mode)) {
-								int r = -1, w = -1;
-								cUnbufferedFile *inputFile = cUnbufferedFile::Create(sourceFile.c_str(), O_RDONLY | O_LARGEFILE);
-								cUnbufferedFile *outputFile = cUnbufferedFile::Create(targetFile.c_str(), O_RDWR | O_CREAT | O_LARGEFILE);
-
-								// validate files
-								if (!inputFile || !outputFile) {
-									esyslog("live: cannot open file %s or %s", sourceFile.c_str(), targetFile.c_str());
-									success = false;
-									break;
-								}
-
-								// do actual copy
-								dsyslog("live: copying %s to %s", sourceFile.c_str(), targetFile.c_str());
-								do {
-									r = inputFile->Read(buffer, len);
-									if (r > 0)
-										w = outputFile->Write(buffer, r);
-									else
-										w = 0;
-								} while (r > 0 && w > 0);
-								DELETENULL(inputFile);
-								DELETENULL(outputFile);
-
-								// validate result
-								if (r < 0 || w < 0) {
-									success = false;
-									break;
-								}
+							// validate files
+							if (!inputFile || !outputFile) {
+								esyslog("live: cannot open file \"%s\" or \"%s\"", sourceFile.c_str(), targetFile.c_str());
+								success = false;
+								break;
 							}
-						}
-					}
 
-					// release allocated buffer
-					free(buffer);
+							// do actual copy
+							dsyslog("live: copying \"%s\" to \"%s\"", sourceFile.c_str(), targetFile.c_str());
+							do {
+								r = inputFile->Read(buffer, len);
+								if (r > 0)
+									w = outputFile->Write(buffer, r);
+								else
+									w = 0;
+							} while (r > 0 && w > 0);
+							DELETENULL(inputFile);
+							DELETENULL(outputFile);
 
-					// delete all created target files and directories
-					if (!success) {
-						size_t found = target.find_last_of(delim);
-						if (found != std::string::npos) {
-							target = target.substr(0, found);
-						}
-						if (!RemoveFileOrDir(target.c_str(), true)) {
-							esyslog("live: cannot remove target %s", target.c_str());
-						}
-						found = target.find_last_of(delim);
-						if (found != std::string::npos) {
-							target = target.substr(0, found);
-						}
-						if (!RemoveEmptyDirectories(target.c_str(), true)) {
-							esyslog("live: cannot remove target directory %s", target.c_str());
-						}
-						esyslog("live: copying failed");
-						return false;
-					}
-					else if (!copy && !RemoveFileOrDir(source.c_str(), true)) { // delete source files
-						esyslog("live: cannot remove source directory %s", source.c_str());
-						return false;
-					}
-
-					// delete all empty source directories
-					if (!copy) {
-						size_t found = source.find_last_of(delim);
-						if (found != std::string::npos) {
-							source = source.substr(0, found);
-#if APIVERSNUM > 20101
-							while (source != cVideoDirectory::Name()) {
-#else
-							while (source != VideoDirectory) {
-#endif
-								found = source.find_last_of(delim);
-								if (found == std::string::npos)
-									break;
-								source = source.substr(0, found);
-								if (!RemoveEmptyDirectories(source.c_str(), true))
-									break;
+							// validate result
+							if (r < 0 || w < 0) {
+								success = false;
+								break;
 							}
 						}
 					}
 				}
-				else {
-					esyslog("live: %s requires %dMB - only %dMB available", copy ? "moving" : "copying", required, available);
-					// delete all created empty target directories
+
+				// release allocated buffer
+				free(buffer);
+
+				// delete all created target files and directories
+				if (!success) {
 					size_t found = target.find_last_of(delim);
 					if (found != std::string::npos) {
 						target = target.substr(0, found);
+					}
+					if (!RemoveFileOrDir(target.c_str(), true)) {
+						esyslog("live: cannot remove target \"%s\"", target.c_str());
+					}
+					found = target.find_last_of(delim);
+					if (found != std::string::npos) {
+						target = target.substr(0, found);
+					}
+					if (!RemoveEmptyDirectories(target.c_str(), true)) {
+						esyslog("live: cannot remove target directory \"%s\"", target.c_str());
+					}
+					esyslog("live: copying failed");
+					return false;
+				}
+				else if (!copy && !RemoveFileOrDir(source.c_str(), true)) { // delete source files
+					esyslog("live: cannot remove source directory \"%s\"", source.c_str());
+					return false;
+				}
+
+				// delete all empty source directories
+				if (!copy) {
+					size_t found = source.find_last_of(delim);
+					if (found != std::string::npos) {
+						source = source.substr(0, found);
 #if APIVERSNUM > 20101
-						while (target != cVideoDirectory::Name()) {
+						while (source != cVideoDirectory::Name()) {
 #else
-						while (target != VideoDirectory) {
+						while (source != VideoDirectory) {
 #endif
-							found = target.find_last_of(delim);
+							found = source.find_last_of(delim);
 							if (found == std::string::npos)
 								break;
-							target = target.substr(0, found);
-							if (!RemoveEmptyDirectories(target.c_str(), true))
+							source = source.substr(0, found);
+							if (!RemoveEmptyDirectories(source.c_str(), true))
 								break;
 						}
 					}
-					return false;
 				}
+			}
+			else {
+				esyslog("live: %s requires %dMB - only %dMB available", copy ? "moving" : "copying", required, available);
+				// delete all created empty target directories
+				size_t found = target.find_last_of(delim);
+				if (found != std::string::npos) {
+					target = target.substr(0, found);
+#if APIVERSNUM > 20101
+					while (target != cVideoDirectory::Name()) {
+#else
+					while (target != VideoDirectory) {
+#endif
+						found = target.find_last_of(delim);
+						if (found == std::string::npos)
+							break;
+						target = target.substr(0, found);
+						if (!RemoveEmptyDirectories(target.c_str(), true))
+							break;
+					}
+				}
+				return false;
 			}
 		}
 
