@@ -97,6 +97,12 @@ namespace vdrlive {
 		if (!recording)
 			return false;
 
+// Check for injections that try to escape from the video dir.
+		if (name.compare(0, 3, "../") == 0 || name.find("/..") != std::string::npos) {
+			esyslog("live: renaming failed: new name invalid \"%s\"", name.c_str());
+			return false;
+		}
+
 		std::string oldname = recording->FileName();
 		size_t found = oldname.find_last_of("/");
 

@@ -191,6 +191,9 @@ msgstr "Name"
 msgid "Directory"
 msgstr "Verzeichnis"
 
+msgid "Create new directory"
+msgstr "Neues Verzeichnis erstellen"
+
 msgid "Delete resume information"
 msgstr "Wiedergabeposition löschen"
 
