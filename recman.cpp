@@ -835,8 +835,10 @@ template void RecordingsItem::AppendShortTextOrDesc<cLargeString>(cLargeString &
            if(m_video_SD_HD < -1)  // nothing known found
              {
 // also check framerate for radio, as components are not reliable
-             if (!videoStreamFound && audioStreamFound && RecInfo()->FramesPerSecond() < 24) m_video_SD_HD = -1; // radio
-             else m_video_SD_HD = 0; // no information -> SD as default
+             if (!videoStreamFound && audioStreamFound && RecInfo()->FramesPerSecond() > 0 && RecInfo()->FramesPerSecond() < 24)
+               m_video_SD_HD = -1; // radio
+             else
+               m_video_SD_HD = 0; // no information -> SD as default
              if(RecInfo()->ChannelName() ) {
                size_t l = strlen(RecInfo()->ChannelName() );
                if( l > 3 && RecInfo()->ChannelName()[l-2] == 'H' && RecInfo()->ChannelName()[l-1] == 'D') m_video_SD_HD = 1;
