@@ -34,7 +34,7 @@ namespace vdrlive {
 			static std::string GetTimerDays(cTimer const *timer);
 			static std::string GetTimerInfo(cTimer const& timer);
 			static std::string SearchTimerInfo(cTimer const& timer, std::string const& value);
-			static std::string TvScraperTimerInfo(cTimer const& timer);
+			static std::string TvScraperTimerInfo(cTimer const& timer, std::string &recID, std::string &recName);
 
 		private:
 			SortedTimers();

@@ -10,6 +10,8 @@
 #include <vdr/plugin.h>
 #include <vdr/menu.h>
 #include <vdr/svdrp.h>
+#include "services.h"
+#include "setup.h"
 
 namespace vdrlive {
 
@@ -129,14 +131,27 @@ namespace vdrlive {
 		return info.str();
 	}
 
-	std::string SortedTimers::TvScraperTimerInfo(cTimer const& timer) {
+	std::string SortedTimers::TvScraperTimerInfo(cTimer const& timer, std::string &recID, std::string &recName) {
 		if (!timer.Aux()) return "";
-                std::string tvScraperInfo = GetXMLValue(timer.Aux(), "tvscraper");
-                if (tvScraperInfo.empty()) return "";
-                std::string data = GetXMLValue(tvScraperInfo, "reason");
-                if (data.empty() ) return "";
-                data.append(": ");
-                data.append(GetXMLValue(tvScraperInfo, "causedBy"));
+    cGetAutoTimerReason getAutoTimerReason;
+    getAutoTimerReason.timer = &timer;
+    getAutoTimerReason.requestRecording = true;
+    if (getAutoTimerReason.call(LiveSetup().GetPluginScraper()) ) {
+      if (!getAutoTimerReason.createdByTvscraper) return "";
+      if (getAutoTimerReason.recording) {
+        recID = "recording_" + MD5Hash(getAutoTimerReason.recording->FileName() );
+        recName = getAutoTimerReason.recordingName;
+        return getAutoTimerReason.reason;
+      }
+      return getAutoTimerReason.reason + " " + getAutoTimerReason.recordingName;
+    }
+// fallback information, if this tvscraper method is not available
+    std::string tvScraperInfo = GetXMLValue(timer.Aux(), "tvscraper");
+    if (tvScraperInfo.empty()) return "";
+    std::string data = GetXMLValue(tvScraperInfo, "reason");
+    if (data.empty() ) return "";
+    data.append(": ");
+    data.append(GetXMLValue(tvScraperInfo, "causedBy"));
 		return data;
 	}
 

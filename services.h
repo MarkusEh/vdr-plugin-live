@@ -212,6 +212,23 @@ class cEnvironment
 
 // NEW interface, used by live =========================================================
 
+// Data structure for service "GetAutoTimerReason"
+class cGetAutoTimerReason {
+public:
+//in:
+  const cTimer *timer = nullptr;
+  bool requestRecording = false;
+//out
+  bool createdByTvscraper;    // if this is false, please ignore all other return values
+  std::string reason;         // translated, e.g. "Verbessern von Action~Salt"
+  std::string recordingName;  // with folder, e.g. Action~Salt
+  const cRecording *recording; // only if requestRecording == true. Can always be nullptr, e.g. if the recording was deleted after the timer was created
+  cPlugin *call(cPlugin *pScraper = NULL) {
+    if (!pScraper) return cPluginManager::CallFirstService("GetAutoTimerReason", this);
+    else return pScraper->Service("GetAutoTimerReason", this)?pScraper:NULL;
+  }
+};
+
 // Data structure for service "GetScraperImageDir"
 class cGetScraperImageDir {
 public:
