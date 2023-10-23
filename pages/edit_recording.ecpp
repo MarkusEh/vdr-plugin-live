@@ -184,14 +184,36 @@ if (recording && recording->Info()->Description()) {
 						<td class="rightcol"><$ recording->Info()->Description() $></td>
 					</tr>
 <%cpp>
+
 }
 if (recording && recording->Info()->Aux()) {
+  std::string aux_data;
+  cGetAutoTimerReason getAutoTimerReason;
+  getAutoTimerReason.aux = recording->Info()->Aux();
+  getAutoTimerReason.requestRecording = false;
+  if (getAutoTimerReason.call(LiveSetup().GetPluginScraper()) && getAutoTimerReason.createdByTvscraper) {
+    AppendHtmlEscapedAndCorrectNonUTF8(aux_data, getAutoTimerReason.reason.c_str() );
+  } else {
+    std::string epgsearchinfo = GetXMLValue(recording->Info()->Aux(), "epgsearch");
+    if (!epgsearchinfo.empty()) {
+      AppendHtmlEscapedAndCorrectNonUTF8(aux_data, GetXMLValue(epgsearchinfo, "searchtimer").c_str() );
+    }
+  }
+  if (!aux_data.empty()) {
+</%cpp>
+					<tr>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Searchtimer") $>:</div></td>
+						<td class="rightcol"><$ aux_data $></td>
+					</tr>
+<%cpp>
+  } else {
 </%cpp>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Auxiliary info") $>:</div></td>
 						<td class="rightcol"><$ recording->Info()->Aux() $></td>
 					</tr>
 <%cpp>
+  }
 }
 </%cpp>
 					<tr>

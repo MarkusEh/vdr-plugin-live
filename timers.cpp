@@ -134,7 +134,7 @@ namespace vdrlive {
 	std::string SortedTimers::TvScraperTimerInfo(cTimer const& timer, std::string &recID, std::string &recName) {
 		if (!timer.Aux()) return "";
     cGetAutoTimerReason getAutoTimerReason;
-    getAutoTimerReason.timer = &timer;
+    getAutoTimerReason.aux = timer.Aux();
     getAutoTimerReason.requestRecording = true;
     if (getAutoTimerReason.call(LiveSetup().GetPluginScraper()) ) {
       if (!getAutoTimerReason.createdByTvscraper) return "";
