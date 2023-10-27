@@ -231,8 +231,8 @@ public:
 class cGetAutoTimerReason {
 public:
 //in:
-  const char *aux = nullptr;      // the aux field of a timer or a recording
-                                  // for a recording information about the timer creating this recoring is provided
+  const cTimer *timer = nullptr;            // only timer OR recording must be provided
+  const cRecording *recording_in = nullptr; // information about the timer creating this recoring is provided
   bool requestRecording = false;  // set this to true if you need the cRecording object
 //out
   bool createdByTvscraper;    // if this is false, please ignore all other return values

@@ -189,7 +189,7 @@ if (recording && recording->Info()->Description()) {
 if (recording && recording->Info()->Aux()) {
   std::string aux_data;
   cGetAutoTimerReason getAutoTimerReason;
-  getAutoTimerReason.aux = recording->Info()->Aux();
+  getAutoTimerReason.recording_in = recording;
   getAutoTimerReason.requestRecording = false;
   if (getAutoTimerReason.call(LiveSetup().GetPluginScraper()) && getAutoTimerReason.createdByTvscraper) {
     AppendHtmlEscapedAndCorrectNonUTF8(aux_data, getAutoTimerReason.reason.c_str() );
