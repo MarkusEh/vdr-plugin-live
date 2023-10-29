@@ -51,6 +51,7 @@ const cRecording* recording;
 			throw HtmlError(tr("Couldn't find recording. Maybe you mistyped your request?"));
 	}
 
+  bool returnToReferer = false;
 	if (request.getMethod() == "POST") {
 		if (name.empty())
 			message = tr("Please set a name for the recording!");
@@ -62,11 +63,22 @@ const cRecording* recording;
       if (newdir != ".") directory = newdir;
 			std::string filename =  directory.empty() ? name : StringReplace(directory, "/", "~") + "~" + name;
 			if (LiveRecordingsManager()->MoveRecording(recording, FileSystemExchangeChars(filename, true), copy_only))
-				return reply.redirect(!edit_rec_referer.empty() ? edit_rec_referer : "recordings.html");
+        returnToReferer = true;
+//      return reply.redirect(!edit_rec_referer.empty() ? edit_rec_referer : "recordings.html");
 			else
 				message = tr("Cannot copy, rename or move the recording.");
 		}
-	}
+  }
+  if (returnToReferer) {
+</%cpp>
+<!DOCTYPE html>
+<html>
+  <script>
+    history.go(-2);
+  </script>
+</html>
+<%cpp>
+	} else {
 
 //	if (message.empty()) edit_rec_referer = request.getHeader("Referer:", "recordings.html");
 
@@ -232,4 +244,5 @@ if (recording && recording->Info()->Aux()) {
 		</div>
 	</body>
 </html>
+% }
 <%include>page_exit.eh</%include>

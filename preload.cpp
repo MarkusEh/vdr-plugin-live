@@ -95,9 +95,11 @@ namespace vdrlive {
 			"img/playlist.png",
 			"img/sd.png",
 			"img/hd.png",
+			"img/rd.png",
 			"img/RecordingErrors.png",
 			"img/NoRecordingErrors.png",
 			"img/NotCheckedForRecordingErrors.png",
+			"js/live/browserwin.js",
 			"js/live/vdr_status.js",
 			"js/live/infowin.js",
 			"js/live/header.js",
@@ -108,6 +110,7 @@ namespace vdrlive {
 			"js/live/epg_tt_box.js",
 			"js/live/treeview.js",
 			"js/mootools/mootools.v1.11.js",
+			"html/back.html",
 			0
 		};
 

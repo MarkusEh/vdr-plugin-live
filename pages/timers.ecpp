@@ -25,6 +25,7 @@ using namespace vdrlive;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
+  reply.setHeader (tnt::httpheader::cacheControl, "no-store, no-cache, max-age=0, must-revalidate, proxy-revalidate", true);
 	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 	pageTitle = trVDR("Timers");
@@ -47,14 +48,22 @@ using namespace vdrlive;
 //                        dsyslog("live: timers.ecpp timer->Remote() %s", timer->Remote());
 			LiveTimerManager().DelTimer(timer->Id(), timer->Remote());
 			timerNotifier.SetTimerModification();
-			return reply.redirect("timers.html");
+//			return reply.redirect("timers.html");
 		}
 		if (action == "toggle") {
 			LiveTimerManager().ToggleTimerActive(timer->Id(), timer->Remote());
 			timerNotifier.SetTimerModification();
-			return reply.redirect("timers.html");
+//			return reply.redirect("timers.html");
 		}
-	}
+</%cpp>
+<!DOCTYPE html>
+<html>
+  <script>
+    history.go(-1);
+  </script>
+</html>
+<%cpp>
+	} else {
 
 	std::string previousDay = "";
 </%cpp>
@@ -217,6 +226,7 @@ using namespace vdrlive;
 		</div>
 	</body>
 </html>
+% }
 <%include>page_exit.eh</%include>
 
 <%def timer_actions>

@@ -54,6 +54,7 @@ std::vector<time_t>			times_start;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
+  reply.setHeader (tnt::httpheader::cacheControl, "no-store, no-cache, max-age=0, must-revalidate, proxy-revalidate", true);
 	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	pageTitle = tr("MultiSchedule");
 

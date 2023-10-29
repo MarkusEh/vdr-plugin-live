@@ -106,9 +106,18 @@ const cTimer* timer;
 //		dsyslog("live: remote '%s'", remote);
 			LiveTimerManager().UpdateTimer( timerId, remote, oldRemote, flags, channel, weekdays, date, start, stop, priority, lifetime, title, aux );
 			timerNotifier.SetTimerModification();
-			return reply.redirect(!edit_timerreferer.empty()?edit_timerreferer:"timers.html");
+</%cpp>
+<!DOCTYPE html>
+<html>
+  <script>
+    history.go(-2);
+  </script>
+</html>
+<%cpp>
+//			return reply.redirect("html/back.html");
+//			return reply.redirect(!edit_timerreferer.empty()?edit_timerreferer:"timers.html");
 		}
-	}
+	} else {
 
 	if (message.empty())
 		edit_timerreferer = request.getHeader("Referer:", "timers.html");
@@ -374,4 +383,5 @@ const cTimer* timer;
 		</div>
 	</body>
 </html>
+% }
 <%include>page_exit.eh</%include>

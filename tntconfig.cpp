@@ -288,6 +288,15 @@ namespace vdrlive {
 			   "/img/$1.$2",
 			   "image/$2");
 
+		// map to 'html/basename(uri)'
+		// inserted by 'MarkusE' -- verified with above, but not counterchecked yet!
+		MapUrl(app,
+			   "^/html.*/(.+)",
+			   "content",
+			   GetResourcePath(),
+			   "/html/$1",
+			   "text/html");
+
 		// Map favicon.ico into img directory
 		MapUrl(app,
 			   "^/favicon.ico$",

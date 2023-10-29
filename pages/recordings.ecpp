@@ -41,6 +41,7 @@ using namespace vdrlive;
 
 <%include>page_init.eh</%include>
 <%cpp>
+reply.setHeader (tnt::httpheader::cacheControl, "no-store, no-cache, max-age=0, must-revalidate, proxy-revalidate", true);
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 // create the "current" values of the global request parameters, based on their old values and the current arguments
