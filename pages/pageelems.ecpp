@@ -201,7 +201,7 @@ function addEvent(s, bottomrow_i, obj) {
   if (obj[9] > 0) s.a += '</a>'
   s.a += '</div>'
 // sec&third line: Link to event, event title, short text
-  addEventRec(s, 'event_', obj[0], obj[11], '', obj[12], obj[13], '<$$lf$>', '<$tr("Click to view details.")$>')
+  addEventRec(s, 'event_', obj[0], obj[11], '', obj[12], obj[13], '<$$lf$>', '<$tr("Click to view details.")$>', '', '', '')
   s.a += '</div></td></tr>'
 }
 function eventString(bottomrow, data) {
@@ -647,6 +647,9 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 	uintptr_t irecording;
 	uintptr_t iepgEvent;
 	int elapsed = -1;
+  std::string sort;
+  std::string filter;
+  std::string flat;
 </%args>
 	<div class="epg_description" id="<$ (boxId) $>">
 		<div class="station">
@@ -758,7 +761,7 @@ if (scraperMovieOrTv.found) {
 		</div>
 		<div class="epg_content">
 			<div class="epg_tools">
-				<& (tools_comp) id=(boxId) archived=(archived) detail=(2) title=(title) s_IMDB_ID=(scraperMovieOrTv.IMDB_ID) &>
+				<& (tools_comp) id=(boxId) archived=(archived) detail=(2) title=(title) s_IMDB_ID=(scraperMovieOrTv.IMDB_ID) sort=(sort) filter=(filter) flat=(flat)&>
 			</div>
 			<div class="epg_info">
 				<div class="info">

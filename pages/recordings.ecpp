@@ -45,18 +45,22 @@ reply.setHeader (tnt::httpheader::cacheControl, "no-store, no-cache, max-age=0, 
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 // create the "current" values of the global request parameters, based on their old values and the current arguments
+// basically, this is a bad idea. Pushing "refresh" changes the sort order :( .
+// Better: Urls on menue have parameters depending on the current sort option
 if (! flat.empty() ) currentFlat = flat;
 // sort depends on old sort, and sort parameter
 currentSort = LiveSetup().GetLastSortingMode();
-//  if (currentSort.compare(0, 6, "errors", 6) == 0 && currentFlat != "true") currentSort = "dateasc";
 if (currentSort.empty() ) currentFlat == "true"?currentSort = "errorsts":currentSort = "datedesc";
 if (!sort.empty()) {
   if (sort == "date")
     currentSort = (currentSort == "datedesc") ? "dateasc" : "datedesc";
+  else if (sort == "datedesc" || sort == "dateasc") currentSort = sort;
   else if (sort == "name")
     currentSort = (currentSort == "nameasc") ? "namedesc" : "nameasc";
+  else if (sort == "nameasc" || sort == "namedesc") currentSort = sort;
   else if (sort == "errors")
     currentSort = (currentSort == "errorsts") ? "errorsdur" : "errorsts";
+  else if (sort == "errorsts" || sort == "errorsdur") currentSort = sort;
   else if (sort == "duplicates")
     currentSort = sort;
   LiveSetup().SetLastSortingMode(currentSort);
@@ -224,7 +228,7 @@ function RecordingsSt(s, level, displayFolder, data) {
     if (displayFolder == 1) folder = obj[18]
     else folder = ''
     s.a += '<div class="withmargin">'
-    addEventRec(s, 'recording_', obj[0], obj[14], folder, obj[15], obj[16], '<$$lf$>', '<$tr("Click to view details.")$>')
+    addEventRec(s, 'recording_', obj[0], obj[14], folder, obj[15], obj[16], '<$$lf$>', '<$tr("Click to view details.")$>', '<$ sort $>', '<$ filter $>', '<$ flat $>');
     s.a += '</div></div></td>'  // end if recording_name / short description
     s.a += '<td><div class=\"recording_actions\">'
     if (obj[1].length == 0) {
@@ -506,16 +510,16 @@ if (currentSort != "duplicates" || currentFlat == "true") {
 <%def sort_options>
 <%cpp> { </%cpp>
 <span class="label bold"><$ tr("Sort:") $> </span>
-<a href="recordings.html?sort=name&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="name" &> ><$ tr("Name") $></a>
+<a href="recordings.html?sort=<$ (currentSort == "nameasc") ? "namedesc" : "nameasc"$>&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="name" &> ><$ tr("Name") $></a>
 <span class="sep">|</span>
-<a href="recordings.html?sort=date&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="date" &> ><$ tr("Date") $></a>
+<a href="recordings.html?sort=<$ (currentSort == "datedesc") ? "dateasc" : "datedesc"$>&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="date" &> ><$ tr("Date") $></a>
 <span class="sep">|</span>
 <a href="recordings.html?sort=duplicates&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="duplicates" &> ><$ tr("Duplicates") $></a>
 <%cpp>
 #if VDRVERSNUM >= 20505
 </%cpp>
 <span class="sep">|</span>
-<a href="recordings.html?sort=errors&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="errors" &>><$ tr("Errors") $></a>
+<a href="recordings.html?sort=<$ (currentSort == "errorsts") ? "errorsdur" : "errorsts" $>&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="errors" &>><$ tr("Errors") $></a>
 <%cpp>
 #endif
 #ifdef HAVE_PCRE2
@@ -549,16 +553,22 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
 <%def del_rec>
 <%args>
 	std::string id;
+  std::string sort;
+  std::string filter;
+  std::string flat;
 </%args>
-<%cpp> { </%cpp><a href="recordings.html?todel=<$ id $>" <& tooltip.hint text=(tr("Delete this recording from hard disc!")) &>><img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" /></a><%cpp> } </%cpp>
+<%cpp> { </%cpp><a href="recordings.html?todel=<$ id $>&sort=<$sort$>&filter=<$filter$>&flat=<$flat$>" <& tooltip.hint text=(tr("Delete this recording from hard disc!")) &>><img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" /></a><%cpp> } </%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
 <%def edit_rec>
 <%args>
 	std::string id;
+  std::string sort;
+  std::string filter;
+  std::string flat;
 </%args>
-<%cpp> { </%cpp><a href="edit_recording.html?recid=<$ id $>"><img src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="" <& tooltip.hint text=(tr("Edit recording")) &> /></a><%cpp> } </%cpp>
+<%cpp> { </%cpp><a href="edit_recording.html?recid=<$ id $>&sort=<$sort$>&filter=<$filter$>&flat=<$flat$>"><img src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="" <& tooltip.hint text=(tr("Edit recording")) &> /></a><%cpp> } </%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -567,14 +577,17 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
 	std::string id;
 	std::string title;
   std::string s_IMDB_ID;
+  std::string sort;
+  std::string filter;
+  std::string flat;
 </%args>
 %   if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
 <& pageelems.ajax_action_href action="play_recording" param=(id) tip=(tr("play this recording")) image="play.png" alt="" &>
 %   }
 <& pageelems.m3u_playlist_recording recid=(id) &>
 <& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID) &>
-<& recordings.edit_rec id=(id) &>
-<& recordings.del_rec id=(id) &>
+<& recordings.edit_rec id=(id) sort=(sort) filter=(filter) flat=(flat)&>
+<& recordings.del_rec id=(id) sort=(sort) filter=(filter) flat=(flat)&>
 <%cpp>
 const cRecording* recording = NULL;
 if (!id.empty()) recording = LiveRecordingsManager()->GetByMd5Hash(id);

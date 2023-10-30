@@ -27,7 +27,6 @@ using namespace vdrlive;
 </%args>
 <%session scope="global">
 bool logged_in(false);
-std::string edit_rec_referer;
 std::string active_r;
 </%session>
 <%request scope="page">
@@ -64,7 +63,6 @@ const cRecording* recording;
 			std::string filename =  directory.empty() ? name : StringReplace(directory, "/", "~") + "~" + name;
 			if (LiveRecordingsManager()->MoveRecording(recording, FileSystemExchangeChars(filename, true), copy_only))
         returnToReferer = true;
-//      return reply.redirect(!edit_rec_referer.empty() ? edit_rec_referer : "recordings.html");
 			else
 				message = tr("Cannot copy, rename or move the recording.");
 		}
@@ -79,8 +77,6 @@ const cRecording* recording;
 </html>
 <%cpp>
 	} else {
-
-//	if (message.empty()) edit_rec_referer = request.getHeader("Referer:", "recordings.html");
 
 	if (recording) {
 		std::string path = recording->Name();
@@ -122,17 +118,6 @@ const cRecording* recording;
 	</head>
 	<body onload="adjustHeader()" onresize="adjustHeader()">
 <%cpp>
-if (!flat.empty() ) {
-edit_rec_referer = "recordings.html?sort=";
-edit_rec_referer.append(sort);
-edit_rec_referer.append("&filter=");
-edit_rec_referer.append(filter);
-edit_rec_referer.append("&flat=");
-edit_rec_referer.append(flat);
-  if (flat == "true") {
-    active_r = "recordings_flat";
-  } else active_r = "recordings";
-}
 	if (!ajaxReq) {
 </%cpp>
 		<& pageelems.logo &>

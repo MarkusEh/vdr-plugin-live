@@ -48,12 +48,10 @@ using namespace vdrlive;
 //                        dsyslog("live: timers.ecpp timer->Remote() %s", timer->Remote());
 			LiveTimerManager().DelTimer(timer->Id(), timer->Remote());
 			timerNotifier.SetTimerModification();
-//			return reply.redirect("timers.html");
 		}
 		if (action == "toggle") {
 			LiveTimerManager().ToggleTimerActive(timer->Id(), timer->Remote());
 			timerNotifier.SetTimerModification();
-//			return reply.redirect("timers.html");
 		}
 </%cpp>
 <!DOCTYPE html>

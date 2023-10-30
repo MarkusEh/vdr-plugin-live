@@ -33,6 +33,9 @@ using namespace vdrlive;
 	std::string epgid;
 	std::string async;
 	std::string tab;
+  std::string sort;
+  std::string filter;
+  std::string flat;
 </%args>
 <%session scope="global">
 	bool logged_in(false);
@@ -167,7 +170,7 @@ using namespace vdrlive;
 			tools_component = "epginfo.epgTools";
 
 </%cpp>
-		<& pageelems.epg_tt_box boxId=(epgEvent->Id()) caption=(epgEvent->Caption()) tools_comp=(tools_component) time=(start) title=(epgEvent->Title()) short_descr=(epgEvent->ShortDescr()) long_descr=(epgEvent->LongDescr()) archived=(epgEvent->Archived()) elapsed=(epgEvent->Elapsed()) channel=(epgEvent->ChannelName()) filename=(epgEvent->FileName()) epgImage=(epgImage) irecording=(irecording) ievent=(i_event) iepgEvent=(i_epgEvent) &>
+		<& pageelems.epg_tt_box boxId=(epgEvent->Id()) caption=(epgEvent->Caption()) tools_comp=(tools_component) time=(start) title=(epgEvent->Title()) short_descr=(epgEvent->ShortDescr()) long_descr=(epgEvent->LongDescr()) archived=(epgEvent->Archived()) elapsed=(epgEvent->Elapsed()) channel=(epgEvent->ChannelName()) filename=(epgEvent->FileName()) epgImage=(epgImage) irecording=(irecording) ievent=(i_event) iepgEvent=(i_epgEvent) sort=(sort) filter=(filter) flat=(flat)&>
 <%cpp>
 	}
 	if (aboutBox) {
