@@ -31,6 +31,8 @@ using namespace vdrlive;
 </%pre>
 <%args>
 	std::string epgid;
+	std::string delete_rec;  // to_confirm or confirmed
+	std::string history_back; // 1 or 2
 	std::string async;
 	std::string tab;
   std::string sort;
@@ -55,6 +57,10 @@ using namespace vdrlive;
 	bool ajaxReq = !async.empty() && (lexical_cast<int>(async) != 0);
 
 	bool aboutBox = false;
+  if (epgid.compare(0, 4, "del_") == 0) {
+    delete_rec = "to_confirm";
+    epgid.erase(0, 4);
+  }
 
 #if VDRVERSNUM >= 20301
 	bool isEvent = false;
@@ -69,7 +75,9 @@ using namespace vdrlive;
         i_event = 0;
         irecording = 0;
 
-	if (!epgid.empty()) {
+  if (!delete_rec.empty()) {
+	    pageTitle = tr("Delete recordings");
+  } else if (!epgid.empty()) {
 
 		const std::string recording_s("recording_");
 		const std::string event_s("event_");
@@ -147,7 +155,7 @@ using namespace vdrlive;
 		<div class="inhalt">
 <%cpp>
   uintptr_t i_epgEvent = 0;
-	if (epgEvent) {
+	if (epgEvent && delete_rec.empty()) {
     uintptr_t i_epgEvent = (uintptr_t)(&epgEvent);
 		std::string start(epgEvent->StartTime("%a,") + std::string(" ")
 				+ epgEvent->StartTime(tr("%b %d %y")) + std::string(" ")
@@ -178,7 +186,10 @@ using namespace vdrlive;
 		<& pageelems.about_tt_box &>
 <%cpp>
 	}
+  if (!delete_rec.empty() ) {
 </%cpp>
+    <& recordings.todel todel=(epgid) confirmed=(delete_rec) history_back=(history_back) &>
+% }
 		</div>
 	</body>
 </html>

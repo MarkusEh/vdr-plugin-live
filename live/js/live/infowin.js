@@ -166,6 +166,17 @@ var InfoWin = new Class({
 				this.winBody.empty();
 				this.fireEvent('onDomExtend', [id, bodyElems]);
 				this.winBody.adopt(bodyElems);
+        var history_back = this.winBody.getElementById('history_' + id);
+        if (history_back) history_back.value = '1';
+        var close_button = this.winBody.getElementById('close_' + id);
+        if (close_button) {
+          close_button.onclick = null;
+          close_button.addEvent('click', function(event){
+              var event = new Event(event);
+              event.stop();
+              return this.hide();
+            }.bind(this));
+        }
         var firstScript = bodyElems.getElement('script.injectIcons');
         if (firstScript && firstScript.length && firstScript[0]) {
           var js_m = new Element('div').adopt(firstScript).firstChild.textContent;
@@ -187,11 +198,13 @@ var InfoWin = new Class({
 
 	  position: function(event){
 			var prop = {'x': 'left', 'y': 'top'};
-			for (var z in prop) {
-				var pos = event.page[z] + this.options.offsets[z];
-				this.winFrame.setStyle(prop[z], pos);
-			}
-		}
+      var pos = event.page['y'] + this.options.offsets['y'];
+      this.winFrame.setStyle(prop['y'], pos);
+      pos = event.page['x'] + this.options.offsets['x'];
+      if (pos > window.innerWidth - 550) pos = window.innerWidth - 550;
+      if (pos < 1) pos = 1;
+      this.winFrame.setStyle(prop['x'], pos);
+    }
 	});
 
 InfoWin.implement(new Events, new Options);

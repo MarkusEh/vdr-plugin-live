@@ -241,9 +241,10 @@ function RecordingsSt(s, level, displayFolder, data) {
         IMDBS(s, obj[2], obj[14])
 <%cpp> } </%cpp>
       RecordingActionS(s, obj[0], "edit_recording.html?recid=", "edit.png", "<$tr("Edit recording")$>")
-      s.a += '<div class=\"hidden-ts\">'
-      RecordingActionS(s, obj[0], "recordings.html?todel=", "del.png", "<$tr("Delete this recording from hard disc!")$>")
-      s.a += '</div>'
+<#    s.a += '<div class=\"hidden-ts\">'  #>
+      RecordingActionS(s, obj[0], "epginfo.html?epgid=del_", "del.png", "<$tr("Delete this recording from hard disc!")$>")
+<#    RecordingActionS(s, obj[0], "recordings.html?todel=", "del.png", "<$tr("Delete this recording from hard disc!")$>") #>
+<#    s.a += '</div>'  #>
 <%cpp> if (LiveSetup().GetShowIMDb() ) { </%cpp>
     } else {
       IMDBS(s, obj[2], obj[14])
@@ -570,6 +571,54 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
 </%args>
 <%cpp> { </%cpp><a href="edit_recording.html?recid=<$ id $>&sort=<$sort$>&filter=<$filter$>&flat=<$flat$>"><img src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="" <& tooltip.hint text=(tr("Edit recording")) &> /></a><%cpp> } </%cpp>
 </%def>
+
+<# ---------------------------------------------------------------------- #>
+<%def todel>
+<%args>
+  std::string todel;
+  std::string confirmed;
+  std::string history_back;
+</%args>
+<%cpp>
+  RecordingsManagerPtr recordings = LiveRecordingsManager();
+  const cRecording *recording = recordings->GetByMd5Hash(todel);
+  if (recording == nullptr)
+    throw HtmlError(tr("Couldn't find recording or no recordings available"));
+  if (!cUser::CurrentUserHasRightTo(UR_DELRECS))
+    throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
+  if (confirmed == "confirmed") {
+    RemoveRecordingTask task(todel);
+    LiveTaskManager().Execute(task);
+</%cpp>
+<!DOCTYPE html>
+<html>
+  <script>
+    history.go(-<$ history_back $>);
+  </script>
+</html>
+%  } else {
+<div class="epg_description" id="del_<$ todel $>">
+  <div class="station">
+    <div class="boxheader"><div><div class="caption"><$ tr("Delete recordings") $></div></div></div>
+  </div>
+  <div class="epg_content">
+    <form>
+      <div class="about_head"><div><div><$ Format(tr("Delete recording \"%s\"?"), recording->Name()?recording->Name():"No recording name available") $></div></div></div>
+      <input type="hidden" name="epgid" value="<$todel$>" \>
+      <input type="hidden" name="delete_rec" value="confirmed" \>
+      <input type="hidden" name="history_back" value="2" id="history_del_<$ todel $>"\>
+      <div class="about_left">
+        <button class="green" type="submit" formmethod="get" formaction="epginfo.html"><$ tr("Delete")$></button>
+      </div>
+      <div class="about_right">
+        <button id="close_del_<$ todel $>" type="button" class="red" onclick="history.back()"><$ tr("Cancel") $></button>
+      </div>
+    </form>
+  </div>
+</div>
+% }
+</%def>
+
 
 <# ---------------------------------------------------------------------- #>
 <%def rec_tools>

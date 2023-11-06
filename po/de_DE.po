@@ -882,6 +882,13 @@ msgstr "Alle Ordner aufklappen"
 msgid "Collapse all folders"
 msgstr "Alle Ordner einklappen"
 
+#, c-format
+msgid "Delete recording \"%s\"?"
+msgstr "Aufzeichnung \"%s\" löschen?"
+
+msgid "Delete"
+msgstr "Löschen"
+
 msgid "Snapshot interval"
 msgstr "Snapshot-Intervall"
 
@@ -1111,45 +1118,6 @@ msgstr "Keine EPG Daten vorhanden"
 #~ msgid "Created by:"
 #~ msgstr "Created by:"
 
-#~ msgid "mm/dd/yyyy"
-#~ msgstr "dd.mm.yyyy"
-
-#~ msgid "January"
-#~ msgstr "Januar"
-
-#~ msgid "February"
-#~ msgstr "Februar"
-
-#~ msgid "March"
-#~ msgstr "März"
-
-#~ msgid "April"
-#~ msgstr "April"
-
-#~ msgid "May"
-#~ msgstr "Mai"
-
-#~ msgid "June"
-#~ msgstr "Juni"
-
-#~ msgid "July"
-#~ msgstr "Juli"
-
-#~ msgid "August"
-#~ msgstr "August"
-
-#~ msgid "September"
-#~ msgstr "September"
-
-#~ msgid "October"
-#~ msgstr "Oktober"
-
-#~ msgid "November"
-#~ msgstr "November"
-
-#~ msgid "December"
-#~ msgstr "Dezember"
-
 #~ msgid "Add links to IMDb"
 #~ msgstr "Füge Links zur IMDb hinzu"
 
@@ -1164,9 +1132,6 @@ msgstr "Keine EPG Daten vorhanden"
 
 #~ msgid "VLC media URL"
 #~ msgstr "VLC Medien URL"
-
-#~ msgid "(%d')"
-#~ msgstr "%d'"
 
 #~ msgid "Show duration in 'Recordings'"
 #~ msgstr "Aufnahmedauer bei 'Aufnahmen' anzeigen"
