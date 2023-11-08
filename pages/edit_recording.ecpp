@@ -14,6 +14,8 @@ using namespace vdrlive;
 	// input parameters
 	std::string recid;
 	std::string async;
+  int history_num_back;  //number of pages to go back to the recordings page
+      // call with 1 -> chancel will go back one page in history
 	// form parameters
 	std::string name = "";
 	std::string directory = "";
@@ -52,6 +54,7 @@ const cRecording* recording;
 
   bool returnToReferer = false;
 	if (request.getMethod() == "POST") {
+    ++history_num_back;
 		if (name.empty())
 			message = tr("Please set a name for the recording!");
 		else if (recording) {
@@ -72,7 +75,7 @@ const cRecording* recording;
 <!DOCTYPE html>
 <html>
   <script>
-    history.go(-2);
+    history.go(-<$ history_num_back $>);
   </script>
 </html>
 <%cpp>
@@ -128,6 +131,7 @@ const cRecording* recording;
 		<div class="inhalt">
 			<form method="post" name="edit_recording" id="<$ recid $>" action="edit_recording.ecpp">
 				<input type="hidden" name="recid" value="<$ recid $>"/>
+				<input type="hidden" name="history_num_back" value="<$ history_num_back $>"/>
 				<table class="formular" cellpadding="0" cellspacing="0">
 					<tr class="head">
 						<td class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div><div class="caption"><$ tr("Edit recording") $></div></div></div></td>
@@ -217,7 +221,7 @@ if (recording && recording->Info()->Aux()) {
 						<td class="buttonpanel leftcol rightcol bottomrow" colspan="2">
 							<div class="withmargin">
 							<button class="green" type="submit"><$ tr("Save") $></button>
-							<button class="red" type="button" onclick="history.back()"><$ tr("Cancel") $></button>
+							<button class="red" type="button" onclick="history.go(-<$ history_num_back $>)"><$ tr("Cancel") $></button>
 							</div>
 						</td>
 					</tr>

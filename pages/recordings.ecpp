@@ -26,6 +26,7 @@ using namespace vdrlive;
 	std::string filter;
 	std::string deletions[];
 	std::string flat;
+  int history_num_back = 0;
 </%args>
 <%session scope="global">
 	bool logged_in(false);
@@ -43,6 +44,9 @@ using namespace vdrlive;
 <%cpp>
 reply.setHeader (tnt::httpheader::cacheControl, "no-store, no-cache, max-age=0, must-revalidate, proxy-revalidate", true);
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+
+if (request.getMethod() != "POST") history_num_back = 0;  // we can go back in history to this page
+else ++history_num_back;  // we have to go back in history to a prev page, to avoid re-send of form data
 
 // create the "current" values of the global request parameters, based on their old values and the current arguments
 // basically, this is a bad idea. Pushing "refresh" changes the sort order :( .
@@ -145,7 +149,7 @@ function RecordingActionS(s, id, A, Img, Title) {
   s.a += A
   s.a += 'recording_'
   s.a += id
-  s.a += '&sort=<$currentSort$>&filter=<$currentFilter$>&flat=<$currentFlat$>\" title=\"'
+  s.a += '&sort=<$currentSort$>&filter=<$currentFilter$>&flat=<$currentFlat$>&history_num_back=<$history_num_back+1$>\" title=\"'
   s.a += Title
   s.a += '\"><img class=\"icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>'
   s.a += Img
@@ -228,7 +232,7 @@ function RecordingsSt(s, level, displayFolder, data) {
     if (displayFolder == 1) folder = obj[18]
     else folder = ''
     s.a += '<div class="withmargin">'
-    addEventRec(s, 'recording_', obj[0], obj[14], folder, obj[15], obj[16], '<$$lf$>', '<$tr("Click to view details.")$>', '<$ sort $>', '<$ filter $>', '<$ flat $>');
+    addEventRec(s, 'recording_', obj[0], obj[14], folder, obj[15], obj[16], '<$$lf$>', '<$tr("Click to view details.")$>', '<$ sort $>', '<$ filter $>', '<$ flat $>', <$ history_num_back+1 $>);
     s.a += '</div></div></td>'  // end if recording_name / short description
     s.a += '<td><div class=\"recording_actions\">'
     if (obj[1].length == 0) {
@@ -323,6 +327,7 @@ if (!deleteResult.empty()) {
 				<input type="hidden" name="sort" value="<$ currentSort $>">
 				<input type="hidden" name="filter" value="<$ currentFilter $>">
 				<input type="hidden" name="flat" value="<$ currentFlat $>">
+				<input type="hidden" name="history_num_back" value="<$ history_num_back $>">
         <div class="withmargin hidden-xs">
           <button class="red" type="submit"><$ tr("Delete selected") $></button>
         </div>
@@ -557,8 +562,9 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
   std::string sort;
   std::string filter;
   std::string flat;
+  int history_num_back = 0;
 </%args>
-<%cpp> { </%cpp><a href="recordings.html?todel=<$ id $>&sort=<$sort$>&filter=<$filter$>&flat=<$flat$>" <& tooltip.hint text=(tr("Delete this recording from hard disc!")) &>><img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" /></a><%cpp> } </%cpp>
+<%cpp> { </%cpp><a href="epginfo.html?epgid=del_<$ id $>&sort=<$sort$>&filter=<$filter$>&flat=<$flat$>&history_num_back=<$history_num_back+1$>" <& tooltip.hint text=(tr("Delete this recording from hard disc!")) &>><img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" /></a><%cpp> } </%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -568,8 +574,9 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
   std::string sort;
   std::string filter;
   std::string flat;
+  int history_num_back = 0;
 </%args>
-<%cpp> { </%cpp><a href="edit_recording.html?recid=<$ id $>&sort=<$sort$>&filter=<$filter$>&flat=<$flat$>"><img src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="" <& tooltip.hint text=(tr("Edit recording")) &> /></a><%cpp> } </%cpp>
+<%cpp> { </%cpp><a href="edit_recording.html?recid=<$ id $>&sort=<$sort$>&filter=<$filter$>&flat=<$flat$>&history_num_back=<$history_num_back+1$>"><img src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="" <& tooltip.hint text=(tr("Edit recording")) &> /></a><%cpp> } </%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -577,7 +584,7 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
 <%args>
   std::string todel;
   std::string confirmed;
-  std::string history_back;
+  std::string history_num_back;
 </%args>
 <%cpp>
   RecordingsManagerPtr recordings = LiveRecordingsManager();
@@ -593,7 +600,7 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
 <!DOCTYPE html>
 <html>
   <script>
-    history.go(-<$ history_back $>);
+    history.go(-<$ history_num_back $>);
   </script>
 </html>
 %  } else {
@@ -606,12 +613,12 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
       <div class="about_head"><div><div><$ Format(tr("Delete recording \"%s\"?"), recording->Name()?recording->Name():"No recording name available") $></div></div></div>
       <input type="hidden" name="epgid" value="<$todel$>" \>
       <input type="hidden" name="delete_rec" value="confirmed" \>
-      <input type="hidden" name="history_back" value="2" id="history_del_<$ todel $>"\>
+      <input type="hidden" name="history_num_back" value="<$ history_num_back $>" id="history_del_<$ todel $>"\>
       <div class="about_left">
-        <button class="green" type="submit" formmethod="get" formaction="epginfo.html"><$ tr("Delete")$></button>
+        <button id="confirm_del_<$ todel $>" class="green" type="button" onclick="delete_rec_back('<$ todel $>', <$ history_num_back $>)"><$ tr("Delete")$></button>
       </div>
       <div class="about_right">
-        <button id="close_del_<$ todel $>" type="button" class="red" onclick="history.back()"><$ tr("Cancel") $></button>
+        <button id="close_del_<$ todel $>" type="button" class="red" onclick="history.go(-<$ history_num_back $>)"><$ tr("Cancel") $></button>
       </div>
     </form>
   </div>
@@ -629,14 +636,15 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
   std::string sort;
   std::string filter;
   std::string flat;
+  int history_num_back = 0;
 </%args>
 %   if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
 <& pageelems.ajax_action_href action="play_recording" param=(id) tip=(tr("play this recording")) image="play.png" alt="" &>
 %   }
 <& pageelems.m3u_playlist_recording recid=(id) &>
 <& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID) &>
-<& recordings.edit_rec id=(id) sort=(sort) filter=(filter) flat=(flat)&>
-<& recordings.del_rec id=(id) sort=(sort) filter=(filter) flat=(flat)&>
+<& recordings.edit_rec id=(id) sort=(sort) filter=(filter) flat=(flat) history_num_back=(history_num_back) &>
+<& recordings.del_rec id=(id) sort=(sort) filter=(filter) flat=(flat) history_num_back=(history_num_back) &>
 <%cpp>
 const cRecording* recording = NULL;
 if (!id.empty()) recording = LiveRecordingsManager()->GetByMd5Hash(id);

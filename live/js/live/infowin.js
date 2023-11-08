@@ -166,8 +166,24 @@ var InfoWin = new Class({
 				this.winBody.empty();
 				this.fireEvent('onDomExtend', [id, bodyElems]);
 				this.winBody.adopt(bodyElems);
+        var history_num_back = 0;
         var history_back = this.winBody.getElementById('history_' + id);
-        if (history_back) history_back.value = '1';
+        if (history_back) {
+          history_num_back = Number(history_back.value);
+        }
+        var confirm_del = this.winBody.getElementById('confirm_' + id);
+        if (confirm_del && id.startsWith("del_") ) {
+          confirm_del.onclick = null;
+          confirm_del.addEvent('click', function(event){
+              var err = delete_recording(id.substring(4) );
+              if (!err.success) alert (err.error);
+              if (history_num_back > 0) { history.go(-history_num_back); }
+              else { location.reload(); }
+              var event = new Event(event);
+              event.stop();
+              return this.hide();
+            }.bind(this));
+        }
         var close_button = this.winBody.getElementById('close_' + id);
         if (close_button) {
           close_button.onclick = null;
@@ -281,6 +297,24 @@ Class: InfoWin.Ajax
 	Use an instance of mootools Ajax class to asynchronously request
 	the content of an info win.
 */
+function is_digit(c){
+  if (c >= '0' && c <= '9') {
+    return true;
+  } else {
+    return false;
+  }
+}
+function decrease_history_num_back(url) {
+  var ind_history = url.indexOf("history_num_back=");
+  if (ind_history == -1) return url;
+  ind_history += 17;
+  for (var ind_history_e = ind_history; ind_history_e < url.length && is_digit(url.substring(ind_history_e, ind_history_e+1)); ++ind_history_e);
+  if (ind_history_e <= ind_history) return url;
+  var history_num_back = Number(url.substring(ind_history, ind_history_e))-1;
+  if (history_num_back < 0) return url;
+  return url.substring(0, ind_history) + history_num_back + url.substring(ind_history_e);
+}
+
 InfoWin.Ajax = InfoWin.extend({
 	  options: {
 		  loadingMsg: 'loading',
@@ -288,7 +322,8 @@ InfoWin.Ajax = InfoWin.extend({
 		  onError: Class.empty
 	  },
 
-	  initialize: function(id, url, options){
+	  initialize: function(id, url_in, options){
+      var url = decrease_history_num_back(url_in);
 			this.parent(id, options);
 			if ($defined(this.ajaxResponse)) {
 				this.addEvent('onError', function(){

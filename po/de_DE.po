@@ -509,9 +509,6 @@ msgstr "Aufnahmen editieren"
 msgid "Electronic program guide information"
 msgstr "Elektronische Programminformation"
 
-msgid "Couldn't find recording or no recordings available"
-msgstr "Die Aufnahme nicht finden oder keine Aufnahmen vorhanden"
-
 msgid "Error aquiring schedules lock"
 msgstr "Fehler beim Zugriffschutz für die Programminfos"
 

@@ -100,7 +100,7 @@ function add2ndLine(s, shortText, description) {
   s.a += '</span>'
 }
 
-function addEventRec(s, eventprefix, eventid, title, folder, shortText, description, lf, cvd, sort, filter, flat) {
+function addEventRec(s, eventprefix, eventid, title, folder, shortText, description, lf, cvd, sort, filter, flat, history_num_back) {
 // eventprefix == 'recording_' or 'event_'
 // lf: line feed
 // cvs: tr("Click to view details.")
@@ -113,6 +113,8 @@ function addEventRec(s, eventprefix, eventid, title, folder, shortText, descript
   s.a += encodeURIComponent(filter)
   s.a += '&flat='
   s.a += flat
+  s.a += '&history_num_back='
+  s.a += history_num_back
   s.a += '" class="apopup" title="'
   if (description.length != 0) {
     s.a += description
@@ -138,7 +140,7 @@ function addColEventRec(s, times, eventprefix, eventid, title, folder, shortText
   s.a += times
   s.a += '</span></div>'
 // sec&third line: Link to event, event title, short text
-  addEventRec(s, eventprefix, eventid, title, folder, shortText, description, lf, cvd, '', '', '')
+  addEventRec(s, eventprefix, eventid, title, folder, shortText, description, lf, cvd, '', '', '', 1)
   s.a += '</div>'
 }
 

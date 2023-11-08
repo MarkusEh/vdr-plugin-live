@@ -15,7 +15,7 @@ std::string const XMLHEADER = "<?xml version=\"1.0\" encoding=\"" + LiveI18n().C
 	std::string name;
 	std::string pname;
 	std::string value;
-	bool result;
+	std::string result;
 	std::string error;
 </%args>
 <$$ XMLHEADER $>

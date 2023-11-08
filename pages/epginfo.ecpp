@@ -32,7 +32,7 @@ using namespace vdrlive;
 <%args>
 	std::string epgid;
 	std::string delete_rec;  // to_confirm or confirmed
-	std::string history_back; // 1 or 2
+	int history_num_back = 0;
 	std::string async;
 	std::string tab;
   std::string sort;
@@ -178,7 +178,7 @@ using namespace vdrlive;
 			tools_component = "epginfo.epgTools";
 
 </%cpp>
-		<& pageelems.epg_tt_box boxId=(epgEvent->Id()) caption=(epgEvent->Caption()) tools_comp=(tools_component) time=(start) title=(epgEvent->Title()) short_descr=(epgEvent->ShortDescr()) long_descr=(epgEvent->LongDescr()) archived=(epgEvent->Archived()) elapsed=(epgEvent->Elapsed()) channel=(epgEvent->ChannelName()) filename=(epgEvent->FileName()) epgImage=(epgImage) irecording=(irecording) ievent=(i_event) iepgEvent=(i_epgEvent) sort=(sort) filter=(filter) flat=(flat)&>
+		<& pageelems.epg_tt_box boxId=(epgEvent->Id()) caption=(epgEvent->Caption()) tools_comp=(tools_component) time=(start) title=(epgEvent->Title()) short_descr=(epgEvent->ShortDescr()) long_descr=(epgEvent->LongDescr()) archived=(epgEvent->Archived()) elapsed=(epgEvent->Elapsed()) channel=(epgEvent->ChannelName()) filename=(epgEvent->FileName()) epgImage=(epgImage) irecording=(irecording) ievent=(i_event) iepgEvent=(i_epgEvent) sort=(sort) filter=(filter) flat=(flat) history_num_back=(history_num_back) &>
 <%cpp>
 	}
 	if (aboutBox) {
@@ -188,7 +188,7 @@ using namespace vdrlive;
 	}
   if (!delete_rec.empty() ) {
 </%cpp>
-    <& recordings.todel todel=(epgid) confirmed=(delete_rec) history_back=(history_back) &>
+    <& recordings.todel todel=(epgid) confirmed=(delete_rec) history_num_back=(history_num_back) &>
 % }
 		</div>
 	</body>
