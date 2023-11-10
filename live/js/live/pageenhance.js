@@ -136,7 +136,7 @@ var PageEnhance = new Class({
 		},
 
 	  // change normal 'title'-Attributes into enhanced hinttips
-	  // usesd by domExtend and domReadySetup functions.
+	  // used by domExtend and domReadySetup functions.
 	  addHintTips: function(elems) {
 			if (window.matchMedia("(hover: none)").matches) {
 			elems_use = elems.filter(

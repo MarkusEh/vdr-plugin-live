@@ -74,8 +74,9 @@ const cRecording* recording;
 </%cpp>
 <!DOCTYPE html>
 <html>
+  <script type="text/javascript" src="js/live/createHtml.js"></script>
   <script>
-    history.go(-<$ history_num_back $>);
+    back_depending_referrer(2, <$ history_num_back $>);
   </script>
 </html>
 <%cpp>
@@ -104,6 +105,7 @@ const cRecording* recording;
 	if (!ajaxReq) {
 </%cpp>
 		<& pageelems.stylesheets &>
+    <& pageelems.create_html_js &>
 		<& pageelems.ajax_js &>
 <%cpp>
 	}
@@ -221,7 +223,7 @@ if (recording && recording->Info()->Aux()) {
 						<td class="buttonpanel leftcol rightcol bottomrow" colspan="2">
 							<div class="withmargin">
 							<button class="green" type="submit"><$ tr("Save") $></button>
-							<button class="red" type="button" onclick="history.go(-<$ history_num_back $>)"><$ tr("Cancel") $></button>
+							<button class="red" type="button" onclick="back_depending_referrer(1, <$ history_num_back $>)"><$ tr("Cancel") $></button>
 							</div>
 						</td>
 					</tr>

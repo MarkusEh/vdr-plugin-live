@@ -61,7 +61,7 @@ Seitenende!
 	}
 	else {
 </%cpp>
-<& xmlresponse.ajax name=("delete_recording") pname=("recording") value=(recording->Name()) result=(result) error=(task.Error()) &>
+<& xmlresponse.ajax name=("delete_recording") pname=("recording") value=(recording->Name()) result=(task.Result()) error=(task.Error()) &>
 <%cpp>
 	}
 </%cpp>

@@ -169,3 +169,80 @@ var imgDefer = document.getElementsByTagName('img');
     }
   }
 }
+
+function clearCheckboxes(form) {
+// clearing checkboxes
+  var inputs = form.getElementsByTagName('input');
+  for (var i = 0; i<inputs.length; i++) {
+    if (inputs[i].type == 'checkbox') {
+        inputs[i].checked = false;   
+    }
+  }
+}
+function execute(url) {
+/*
+ * Input:
+ *   Url: url to the page triggering the execution of the function
+ *        this includes the parameters
+ *        '&async=1' will be appended (which is required to get an XML response,
+ *             actually we wait for the server response)
+ * Output:
+ *   error object (struct) with fields
+ *               - bool   success
+ *               - string error  (only if success == false). Human readable text
+*/
+  var req = new XMLHttpRequest();
+  req.open('POST', encodeURI(url + '&async=1'), false);
+  req.overrideMimeType("text/xml");
+  req.send();
+  var ret_object = new Object();
+  ret_object.success = false;
+  if (!req.responseXML) {
+    ret_object.error = "invalid xml, no responseXML";
+    return ret_object;
+  }
+  var response_array = req.responseXML.getElementsByTagName("response");
+  if (response_array.length != 1) {
+    ret_object.error = "invalid xml, no response tag or several response tags";
+    return ret_object;
+  }
+  var response_child_nodes = response_array[0].childNodes;
+  if (response_child_nodes.length != 1) {
+    ret_object.error = "invalid xml, no child of response tag or several childs of response tag";
+    return ret_object;
+  }
+  if (response_child_nodes[0].nodeValue == "1") {
+    ret_object.success = true;
+    return ret_object;
+  }
+  if (response_child_nodes[0].nodeValue != "0") {
+    ret_object.error = "invalid xml, response node value " + response_child_nodes[0].nodeValue + " unknown";
+    return ret_object;
+  }
+
+  var error_array = req.responseXML.getElementsByTagName("error");
+  if (error_array.length != 1) {
+    ret_object.error = "invalid xml, no error tag or several error tags";
+    return ret_object;
+  }
+  var error_child_nodes = error_array[0].childNodes;
+  if (error_child_nodes.length != 1) {
+    ret_object.error = "invalid xml, no child of error tag or several childs of error tag";
+    return ret_object;
+  }
+  ret_object.error = error_child_nodes[0].nodeValue;
+  return ret_object;
+}
+function delete_rec_back(recid, history_num_back)
+{
+  var ret_object = execute('delete_recording.html?param=' + recid);
+  if (!ret_object.success) alert (ret_object.error);
+  history.go(-history_num_back);
+}
+function back_depending_referrer(back_epginfo, back_others) {
+  if (document.referrer.indexOf("epginfo.html?") != -1) {
+    history.go(-back_epginfo);
+  } else {
+    history.go(-back_others);
+  }
+}

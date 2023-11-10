@@ -280,7 +280,7 @@ function rec_string_d(rec_ids) {
   const tv = new Treeview("<$ LiveSetup().GetThemedLinkPrefixImg()$>minus.png", "<$ LiveSetup().GetThemedLinkPrefixImg()$>plus.png", "<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_open.png", "<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png");
   </script>
 </head>
-<body onload="adjustHeader()" onresize="adjustHeader()">
+<body onload="adjustHeader()" onresize="adjustHeader()" onpageshow="clearCheckboxes(document.getElementById('form_recordings'))">
   <& pageelems.logo &>
 <%cpp>
 const char *active_r;
@@ -318,7 +318,7 @@ if (!deleteResult.empty()) {
       RecordingsItemPtr recItemRoot = recordingsTree->getRoot();
       uintptr_t iRecItemRoot = (uintptr_t)&recItemRoot;
 </%cpp>
-      <form method="post" name="recordings" action="recordings.ecpp">
+      <form method="post" name="recordings" id="form_recordings" action="recordings.ecpp">
         <div class="recordings">
           <ul class="recordingslist" style="display: block;">
             <& recordings.recordings_item iRecItem=(iRecItemRoot) irecoring_item=(irecoring_item) &>
@@ -330,6 +330,7 @@ if (!deleteResult.empty()) {
 				<input type="hidden" name="history_num_back" value="<$ history_num_back $>">
         <div class="withmargin hidden-xs">
           <button class="red" type="submit"><$ tr("Delete selected") $></button>
+<#        <button class="green" type="button" onclick="clearCheckboxes(document.getElementById('form_recordings'))" ><$ tr("Uncheck all checkboxes") $></button> #>
         </div>
       </form>
 <%cpp>
@@ -618,7 +619,17 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
         <button id="confirm_del_<$ todel $>" class="green" type="button" onclick="delete_rec_back('<$ todel $>', <$ history_num_back $>)"><$ tr("Delete")$></button>
       </div>
       <div class="about_right">
-        <button id="close_del_<$ todel $>" type="button" class="red" onclick="history.go(-<$ history_num_back $>)"><$ tr("Cancel") $></button>
+<# if prev page is epginfo.html: just go back one page.#>
+<script>
+function cancel_delete() {
+  if (document.referrer.indexOf("epginfo.html?") != -1) {
+    history.go(-1);
+  } else {
+    history.go(-<$ history_num_back $>);
+  }
+}
+</script>
+        <button id="close_del_<$ todel $>" type="button" class="red" onclick="back_depending_referrer(1, <$history_num_back $>)"><$ tr("Cancel") $></button>
       </div>
     </form>
   </div>
