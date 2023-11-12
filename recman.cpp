@@ -936,11 +936,11 @@ void AppendScraperData(cLargeString &target, const std::string &s_IMDB_ID, const
           target.append(DurationDeviation());
 // [18] Path / folder
           target.append(",");
-          if(displayFolder) {
+//          if(displayFolder) {
             target.append("\"");
             if( *(const char *)Recording()->Folder() ) AppendHtmlEscapedAndCorrectNonUTF8(target, (const char *)Recording()->Folder() );
             target.append("\"");
-          }
+//          }
 // [19] duration
           target.append(",\"");
           if(Duration() >= 0)

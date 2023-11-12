@@ -812,9 +812,13 @@ div.info div.time {
 	margin: 0px 5px 0px 5px;
 }
 
+.margin_right {
+  margin-right: 5px;
+}
+
 div.info div.date {
 	float: left;
-        padding: 0px;
+  padding: 0px;
 }
 
 div.progress {

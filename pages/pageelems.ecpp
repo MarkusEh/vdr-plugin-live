@@ -744,7 +744,7 @@ const bool episodeFound = scraperMovieOrTv.found && (!scraperMovieOrTv.movie) &&
 if (scraperMovieOrTv.found) {
 //  esyslog("live: create caption menu");
 </%cpp>
-<div class = "caption menu">
+<div class = "caption">
   <a id="<$ boxId $>_epg_m"     class = "active"   onclick="displayEPG('<$ boxId $>')" ><$ trVDR("EPG") $></a>
 | <a id="<$ boxId $>_scraper_m" class = "inactive" onclick="displayScraper('<$ boxId $>')"><$ tr("Scraper") $></a>
 | <a id="<$ boxId $>_actors_m"  class = "inactive" onclick="displayActors('<$ boxId $>')" ><$ tr("Actors") $></a>

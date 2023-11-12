@@ -367,7 +367,7 @@ cLargeString *recoring_item = static_cast<cLargeString *>((void *)irecoring_item
 std::vector<RecordingsItemPtr> recItems;
 const std::vector<RecordingsItemPtr> *recItemsC = NULL;
 
-// data for dirs, an loop over dirs
+// data for dirs, and loop over dirs
 const std::vector<RecordingsItemPtr> *dirItems = recItemThisDir->getDirs();
 std::vector<RecordingsItemPtr>::const_iterator dirIterS, dirIterE, dirIter;
 int direction; // for dirs
@@ -455,7 +455,8 @@ if (currentSort != "duplicates" || currentFlat == "true") {
     </script>
   <%cpp> } else {
     bool first = true;
-    const char *displayFolder = currentFlat == "true"?"1":"0";
+//    const char *displayFolder = currentFlat == "true"?"1":"0";
+    const char *displayFolder = "1";
     recoring_item->clear();
     RecordingsItemRec::AppendAsJSArray(*recoring_item, recItemsC->begin(), recItemsC->end(), first, currentFilter, reverse);
     if (level == 0) { </%cpp>

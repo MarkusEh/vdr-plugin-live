@@ -220,7 +220,7 @@ if (type == "now") {
 						<& pageelems.epg_tool_box detail=(1) epgid=(epgEvent->Id()) title=(epgEvent->Title()) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) &>
 					</div>
 					<div>
-						<div class="info nowrap"><div class="date"><$ (startDate) $></div><div class="time"><$ (timeSpan) $></div></div>
+						<div class="info nowrap"><div class="date margin_right"><$ (startDate) $></div><div class="time"><$ (timeSpan) $></div></div>
 						<div class="progress"><div><& pageelems.progressbar progress=(epgEvent->Elapsed()) duration=(epgEvent->Duration()) &></div></div>
 						<div class="title withmargin"><$ (epgEvent->Title()) $></div>
 						<div class="short withmargin"><$ (epgEvent->ShortDescr()) $></div>
