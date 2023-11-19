@@ -1,0 +1,71 @@
+<%pre>
+
+#include <exception.h>
+#include <tools.h>
+#include <recman.h>
+
+using namespace vdrlive;
+
+</%pre>
+<%args>
+  int r[];
+  time_t vdr_start = 0;
+  time_t recordings_tree_creation = 0;
+</%args>
+<%cpp>
+  reply.setContentType("text/javascript");
+  bool error = false;
+  if (vdr_start != 0 && vdr_start != LiveSetup().GetVdrStart()) {
+    esyslog("live ERROR, get_recordings.ecpp, vdr restarted");
+    error = true;
+  }
+  </%cpp>
+vdr_restart = <$ error?"true":"false"$>;
+  <%cpp>
+  if (!error) {
+    bool recordings_tree_re_created = false;
+    RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
+    if (recordings_tree_creation != 0 && recordings_tree_creation != recordingsTree->getCreationTimestamp()) {
+      isyslog("live INFO, get_recordings.ecpp, recordings tree re-created");
+      recordings_tree_re_created = true;
+    }
+    </%cpp>
+recordings_tree_re_created = <$ recordings_tree_re_created?"true":"false"$>;
+    <%cpp>
+  /*
+    esyslog("live, get_recordings.ecpp, qparam as url = %s", qparam.getUrl().c_str() );
+    if(qparam.paramcount())
+      esyslog("live, get_recordings.ecpp, qparam[0] = %s", qparam[0].c_str() );
+
+    esyslog("live, get_recordings.ecpp, r size = %d", (int)r.size());
+    if (r.size() > 0)
+      esyslog("live, get_recordings.ecpp, r[0] = %d", r[0]);
+
+    requires later tntnet
+    std::vector<std::string> names;
+    qparam.getNames(std::back_inserter(names));
+
+    for (const std::string &n: names) {
+      std::vector<std::string> values;
+      qparam.getValues(n, std::back_inserter(values));
+      esyslog("live, get_recordings.ecpp, parameter name %s size = %d",  n.c_str(), (int)values.size());
+      if (values.size() > 0)
+        esyslog("live, get_recordings.ecpp, %s[0] = %s",  n.c_str(), values[0].c_str());
+
+    }
+  */
+
+    cLargeString recoring_item("recoring_item_get_recordings.ecpp", 5000);
+    char buffer_i[21];
+    buffer_i[20] = 0;
+    for (const RecordingsItemPtr &rPtr: *recordingsTree->allRecordings()) {
+      for (int recording: r) if (recording == rPtr->IdI() ) {
+        recoring_item.clear();
+        rPtr->AppendAsJSArray(recoring_item, true);
+        </%cpp>
+  recs[<$concat::addCharsIbe(buffer_i+20, rPtr->IdI())$>]=[<$$ recoring_item.c_str() $>]
+        <%cpp>
+      }
+    }
+  }
+</%cpp>

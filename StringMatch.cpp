@@ -8,14 +8,14 @@
 #include <pcre2.h>
 
 
-StringMatch::StringMatch(std::string Pattern) : re(nullptr), match_data(nullptr) {
+StringMatch::StringMatch(cSv Pattern) : re(nullptr), match_data(nullptr) {
   PCRE2_SIZE erroroffset;
   int errorcode;
 
   if (not Pattern.empty()) {
      re = pcre2_compile(
-            (PCRE2_SPTR) Pattern.c_str(),
-            PCRE2_ZERO_TERMINATED,
+            (PCRE2_SPTR) Pattern.data(),
+            (PCRE2_SIZE) Pattern.length(),
              0
              | PCRE2_CASELESS           // Do caseless matching
              | PCRE2_DUPNAMES           // Allow duplicate names for subpatterns
@@ -39,14 +39,14 @@ StringMatch::~StringMatch() {
   pcre2_code_free((pcre2_code*)re);
 }
 
-bool StringMatch::Matches(std::string s) {
+bool StringMatch::Matches(cSv s) {
   if ((re == nullptr) or (match_data == nullptr))
      return false;
 
   int rc = pcre2_match(
               (pcre2_code*)re,               // the compiled pattern
-              (PCRE2_SPTR) s.c_str(),        // the subject string
-              s.size(),                      // the length of the subject
+              (PCRE2_SPTR) s.data(),         // the subject string
+              (PCRE2_SIZE) s.length(),       // the length of the subject
               0,                             // start at offset 0 in the subject
               0,                             // default options
               (pcre2_match_data*)match_data, // block for storing the result

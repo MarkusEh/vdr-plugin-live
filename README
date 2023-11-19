@@ -36,10 +36,10 @@ Requirements:
 
 VDR >= 2.4.0
 
-gcc >= 4.8.1, must support -std=c++14 
+gcc >= v8, must support -std=c++17
 PCRE2 >= 10.38     	- https://github.com/PhilipHazel/pcre2/releases
-Tntnet >= 1.5.3		- http://www.tntnet.org/download.hms
-Cxxtools >= 1.4.3	- http://www.tntnet.org/download.hms
+Tntnet >= 2.2.1		- http://www.tntnet.org/download.hms  // https://web.archive.org/web/20160314183814/http://www.tntnet.org/download.html
+Cxxtools >= 2.2.1	- http://www.tntnet.org/download.hms  // https://web.archive.org/web/20160314183814/http://www.tntnet.org/download.html
 
 Tntnet provides basic webserver functions for live and needs cxxtools.
 Boost provides some data structures we need. While currently relying on the

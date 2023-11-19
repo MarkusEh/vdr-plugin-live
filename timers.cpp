@@ -18,12 +18,7 @@ namespace vdrlive {
 	static char const* const TIMER_DELETE = "DELETE";
 	static char const* const TIMER_TOGGLE = "TOGGLE";
 
-	SortedTimers::SortedTimers()
-#if VDRVERSNUM < 20301
-	: m_state( 0 )
-#endif
-	{
-	}
+	SortedTimers::SortedTimers() { }
 
 	std::string SortedTimers::GetTimerId( cTimer const& timer )
 	{
@@ -41,17 +36,13 @@ namespace vdrlive {
 			return 0;
 		}
 
-#if VDRVERSNUM >= 20301
-	#ifdef DEBUG_LOCK
+#ifdef DEBUG_LOCK
 		dsyslog("live: timers.cpp SortedTimers::GetByTimerId() LOCK_TIMERS_READ");
 		dsyslog("live: timers.cpp SortedTimers::GetByTimerId() LOCK_CHANNELS_READ");
-	#endif
+#endif
 		LOCK_TIMERS_READ
 		LOCK_CHANNELS_READ;
 		cChannel* channel = (cChannel *)Channels->GetByChannelID( tChannelID::FromString( parts[0].c_str() ) );
-#else
-		cChannel* channel = Channels.GetByChannelID( tChannelID::FromString( parts[0].c_str() ) );
-#endif
 		if ( channel == 0 ) {
 			esyslog("live: GetByTimerId: no channel %s", parts[0].c_str() );
 			return 0;
@@ -76,7 +67,6 @@ namespace vdrlive {
 		}
 		return 0;
 	}
-
 
 	std::string SortedTimers::EncodeDomId(std::string const& timerid)
 	{
@@ -113,21 +103,19 @@ namespace vdrlive {
 
 		if (timer.Aux())
 		{
-			std::string epgsearchinfo = GetXMLValue(timer.Aux(), "epgsearch");
+			cSv epgsearchinfo = partInXmlTag(timer.Aux(), "epgsearch");
 			if (!epgsearchinfo.empty())
 			{
-				std::string searchtimer = GetXMLValue(epgsearchinfo, "searchtimer");
+				cSv searchtimer = partInXmlTag(epgsearchinfo, "searchtimer");
 				if (!searchtimer.empty())
 					info << tr("Searchtimer") << ": " << searchtimer << std::endl;
 			}
 		}
-#if VDRVERSNUM >= 20400
-                if (timer.Local()) {
-                  info << trVDR("Record on") << ": " << trVDR(" ") << std::endl;
-                } else {
-                  info << trVDR("Record on") << ": " << timer.Remote() << std::endl;
-                }
-#endif
+    if (timer.Local()) {
+      info << trVDR("Record on") << ": " << trVDR(" ") << std::endl;
+    } else {
+      info << trVDR("Record on") << ": " << timer.Remote() << std::endl;
+    }
 		return info.str();
 	}
 
@@ -140,38 +128,19 @@ namespace vdrlive {
       if (!getAutoTimerReason.createdByTvscraper) return "";
       if (getAutoTimerReason.recording) {
         recID = "recording_" + MD5Hash(getAutoTimerReason.recording->FileName() );
-        recName = getAutoTimerReason.recordingName;
-        return getAutoTimerReason.reason;
+        recName = std::move(getAutoTimerReason.recordingName);
+        return std::move(getAutoTimerReason.reason);
       }
-      return getAutoTimerReason.reason + " " + getAutoTimerReason.recordingName;
+      return concatenate(getAutoTimerReason.reason, " ", getAutoTimerReason.recordingName);
     }
 // fallback information, if this tvscraper method is not available
-    std::string tvScraperInfo = GetXMLValue(timer.Aux(), "tvscraper");
+    cSv tvScraperInfo = partInXmlTag(timer.Aux(), "tvscraper");
     if (tvScraperInfo.empty()) return "";
-    std::string data = GetXMLValue(tvScraperInfo, "reason");
+    cSv data = partInXmlTag(tvScraperInfo, "reason");
     if (data.empty() ) return "";
-    data.append(": ");
-    data.append(GetXMLValue(tvScraperInfo, "causedBy"));
-		return data;
+    return concatenate(data, " ", partInXmlTag(tvScraperInfo, "causedBy"));
 	}
 
-	std::string SortedTimers::SearchTimerInfo(cTimer const& timer, std::string const& value)
-	{
-		std::stringstream info;
-		if (timer.Aux())
-		{
-			std::string epgsearchinfo = GetXMLValue(timer.Aux(), "epgsearch");
-			if (!epgsearchinfo.empty())
-			{
-				std::string data = GetXMLValue(epgsearchinfo, value);
-				if (!data.empty())
-					info << data;
-			}
-		}
-		return info.str();
-	}
-
-#if VDRVERSNUM >= 20301
 	bool SortedTimers::Modified()
 	{
 		bool modified = false;
@@ -184,7 +153,6 @@ namespace vdrlive {
 
 		return modified;
 	}
-#endif
 
 	TimerManager::TimerManager()
 	:	m_reloadTimers(true)

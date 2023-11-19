@@ -65,7 +65,7 @@ ifeq ($(HAVE_PCRE2),1)
 endif
 
 # -Wno-deprecated-declarations .. get rid of warning: ‘template<class> class std::auto_ptr’ is deprecated
-CXXFLAGS += -std=c++14 -Wfatal-errors -Wundef -Wno-deprecated-declarations
+CXXFLAGS += -std=c++17 -Wfatal-errors -Wundef -Wno-deprecated-declarations
 
 ### export all vars for sub-makes, using absolute paths
 LIBDIR := $(abspath $(LIBDIR))

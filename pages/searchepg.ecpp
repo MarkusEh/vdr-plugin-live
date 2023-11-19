@@ -100,8 +100,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 		searchtimer.SetUseTime(usetime);
 		if (usetime)
 		{
-			searchtimer.SetStartTime(StringToInt(start_h) * 100 + StringToInt(start_m));
-			searchtimer.SetStopTime(StringToInt(stop_h) * 100 + StringToInt(stop_m));
+			searchtimer.SetStartTime(parse_int<int>(start_h) * 100 + parse_int<int>(start_m));
+			searchtimer.SetStopTime(parse_int<int>(stop_h) * 100 + parse_int<int>(stop_m));
 		}
 		searchtimer.SetUseDuration(useduration);
 		if (useduration)

@@ -4,7 +4,6 @@
 // uncomment to debug lock sequence 
 // #define DEBUG_LOCK
 
-#include "largeString.h"
 // STL headers need to be before VDR tools.h (included by <vdr/channels.h>)
 #include <istream>
 #include <sstream>
@@ -12,8 +11,8 @@
 #include <vector>
 
 #if TNTVERSION >= 30000
-        #include <cxxtools/log.h>  // must be loaded before any vdr include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
-        #include "cxxtools/serializationinfo.h"
+  #include <cxxtools/log.h>  // must be loaded before any vdr include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
+  #include "cxxtools/serializationinfo.h"
 #endif
 
 #ifndef DISABLE_TEMPLATES_COLLIDING_WITH_STL
@@ -21,10 +20,8 @@
 #define DISABLE_TEMPLATES_COLLIDING_WITH_STL
 #endif
 #include <vdr/channels.h>
-
-#define CONVERT(result, from, fn) \
-char result[fn(NULL, from) + 1]; \
-fn(result, from);
+#include "stringhelpers.h"
+#include "largeString.h"
 
 std::istream& operator>>( std::istream& is, tChannelID& ret );
 
@@ -53,6 +50,10 @@ namespace cxxtools
 #endif
 
 
+template<typename... Args> void stringAppendFormated(cLargeString &target, const char *format, Args&&... args) {
+  target.appendFormated(format, std::forward<Args>(args)...);
+}
+
 namespace vdrlive {
 	extern const std::locale g_locale;
 	extern const std::collate<char>& g_collate_char;
@@ -61,32 +62,16 @@ namespace vdrlive {
 template<class T>
   void AppendHtmlEscapedAndCorrectNonUTF8(T &target, const char* s, const char *end = NULL, bool tooltip = false);
 template<class T>
+  inline void AppendHtmlEscapedAndCorrectNonUTF8(T &target, cSv s, bool tooltip = false) {
+    AppendHtmlEscapedAndCorrectNonUTF8(target, s.data(), s.data() + s.length(), tooltip);
+  }
+
+template<class T>
 	void AppendTextTruncateOnWord(T &target, const char *text, int max_len, bool tooltip = false);
-  void AppendCorrectNonUTF8(std::string &target, const char* s);
 
-  wint_t getNextUtfCodepoint(const char *&p);
-  int utf8CodepointIsValid(const char *p); // In case of invalid UTF8, return 0. Otherwise: Number of characters
-  wint_t Utf8ToUtf32(const char *&p, int len); // assumes, that uft8 validity checks have already been done. len must be provided. call utf8CodepointIsValid first
-	void AppendUtfCodepoint(std::string &target, wint_t codepoint);
-
-  template<typename... Args> void AppendFormated(std::string &target, char const* format, Args&&... args) {
-    char result[30];
-    size_t numNeeded = snprintf(result, sizeof(result), format, std::forward<Args>(args)...);
-
-    if (numNeeded < sizeof(result)) {
-      target.append(result);
-    } else {
-      char buf2[numNeeded+1];
-      sprintf(buf2, format, std::forward<Args>(args)...);
-      target.append(buf2);
-    }
-  }
-  template<typename... Args> void AppendFormated(cLargeString &target, char const* format, Args&&... args) {
-    target.appendFormated(format, std::forward<Args>(args)...);
-  }
-  template<typename... Args> std::string Format(char const* format, Args&&... args) {
+  template<typename... Args> std::string Format(const char *format, Args&&... args) {
     std::string result;
-    AppendFormated(result, format, std::forward<Args>(args)...);
+    stringAppendFormated(result, format, std::forward<Args>(args)...);
     return result;
   }
  
@@ -97,56 +82,40 @@ template<class T>
   void AppendDateTime(std::string &target, char const* format, time_t time );
 	std::string FormatDateTime( char const* format, time_t time );
 
-	std::string StringReplace( std::string const& text, std::string const& substring, std::string const& replacement );
+	std::string StringReplace(cSv text, cSv substring, cSv replacement );
 
-	std::vector<std::string> StringSplit( std::string const& text, char delimiter );
+	std::vector<std::string> StringSplit(cSv text, char delimiter );
 
-	int StringToInt( std::string const& string, int base = 10 );
+	cSv StringWordTruncate(cSv input, size_t maxLen, bool& truncated);
+	inline cSv StringWordTruncate(cSv input, size_t maxLen) { bool dummy; return StringWordTruncate(input, maxLen, dummy); }
 
-	std::string StringWordTruncate(const std::string& input, size_t maxLen, bool& truncated);
-	inline std::string StringWordTruncate(const std::string& input, size_t maxLen) { bool dummy; return StringWordTruncate(input, maxLen, dummy); }
+  std::string StringEscapeAndBreak(cSv input, const char* nl = "<br/>");
+	std::string StringFormatBreak(cSv input);
+	cSv StringTrim(cSv str);
 
-  std::string StringEscapeAndBreak(std::string const& input, const char* nl = "<br/>");
-
-	std::string StringFormatBreak(std::string const& input);
-
-	std::string StringTrim(const std::string& str);
-	std::string ZeroPad(int number);
-
-	const char *getText(const char *shortText, const char *description);
 template<class T>
   void AppendTextMaxLen(T &target, const char *text);
 
 	std::string MD5Hash(std::string const& str);
-	std::string xxHash32(std::string const& str);
+	std::string xxHash32(cSv str);
 
-	time_t GetTimeT(std::string timestring);
+	time_t GetTimeT(std::string timestring); // timestring in HH:MM
 	std::string ExpandTimeString(std::string timestring);
 
-	std::string StringUrlEncode( std::string const& input );
+	std::string StringUrlEncode(cSv input);
 
-	std::string GetXMLValue( std::string const& xml, std::string const& element );
-
-	time_t GetDateFromDatePicker(std::string const& datestring, std::string const& format);
-	std::string DatePickerToC(time_t date, std::string const& format);
+	time_t GetDateFromDatePicker(cSv datestring, cSv format);
+	std::string DatePickerToC(time_t date, cSv format);
 	std::string intToTimeString(int tm);
 	int timeStringToInt(const char *t);
 	int timeStringToInt(const std::string &t);
-	std::string charToString(const char *s);
 
-	std::string EncodeDomId(std::string const & toEncode, char const * from = ".-:", char const * to = "pmc");
-	std::string DecodeDomId(std::string const & toDecode, char const * from = "pmc", char const * to = ".-:");
+	std::string EncodeDomId(cSv toEncode, char const * from = ".-:", char const * to = "pmc");
+	std::string DecodeDomId(cSv toDecode, char const * from = "pmc", char const * to = ".-:");
 
-	std::string FileSystemExchangeChars(std::string const & s, bool ToFileSystem);
+	std::string FileSystemExchangeChars(cSv s, bool ToFileSystem);
 
-	bool MoveDirectory(std::string const & sourceDir, std::string const & targetDir, bool copy = false);
-
-  template<class T> int toCharsU(char *buffer, T i);
-  template<class T> int toCharsI(char *buffer, T i);
-// notes:
-//    return number of characters written to buffer  (don't count 0 terminator)
-//    if buffer==NULL: don't write anything, just return the number
-//    sizeof(buffer) must be >= this return value + 1 !! This is not checked ....
+	bool MoveDirectory(cSv sourceDir, cSv targetDir, bool copy = false);
 
 	struct bad_lexical_cast: std::runtime_error
 	{
@@ -213,13 +182,13 @@ template<class T>
 // tool for images returned by tvscraper or scraper2vdr:
 // convert path (valid in local file system) to path which can be used by live (in browser) to access the image
 // Note: final browser path is: "/tvscraper/" + ScraperImagePath2Live(...)
-        std::string ScraperImagePath2Live(const std::string &path);
+  cSv ScraperImagePath2Live(cSv path);
 
 // call the service Id
 // return false if there is no scraper plugin, or if the serrvice does not exist
 // otherwise, return true
 // can be called with Data == Null to check is the service exits
-        bool ScraperCallService(const char *Id, void *Data);
+  bool ScraperCallService(const char *Id, void *Data);
 } // namespace vdrlive
 
 #endif // VDR_LIVE_TOOLS_H

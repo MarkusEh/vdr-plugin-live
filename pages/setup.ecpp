@@ -20,7 +20,6 @@ using namespace vdrlive;
 	std::string theme;
 	std::string localnetmask;
 	std::string showLogo;
-	std::string useAjax;
 	std::string showInfoBox;
 	std::string useStreamdev;
 	std::string markNewRec;
@@ -69,10 +68,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 			LiveSetup().SetStartScreen(startscreen);
 			LiveSetup().SetTheme(theme);
 			LiveSetup().SetShowLogo(!showLogo.empty());
-			LiveSetup().SetUseAjax(!useAjax.empty());
-			if (LiveSetup().GetUseAjax()) {
-				LiveSetup().SetShowInfoBox(!showInfoBox.empty());
-			}
+			LiveSetup().SetShowInfoBox(!showInfoBox.empty());
 			LiveSetup().SetUseStreamdev(!useStreamdev.empty());
 			LiveSetup().SetStreamdevPort(streamdevport.empty() ? 3000 : lexical_cast<int>(streamdevport));
 			LiveSetup().SetStreamdevType(streamdevtype.empty() ? "PES" : streamdevtype);
@@ -109,7 +105,6 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 	theme = LiveSetup().GetTheme();
 	localnetmask = LiveSetup().GetLocalNetMask();
 	showLogo = LiveSetup().GetShowLogo() ? "1" : "";
-	useAjax = LiveSetup().GetUseAjax() ? "1" : "";
 	showInfoBox = LiveSetup().GetShowInfoBox() ? "1" : "";
 	useStreamdev = LiveSetup().GetUseStreamdev() ? "1" : "";
 	streamdevport = lexical_cast<std::string, int>(LiveSetup().GetStreamdevPort());
@@ -134,7 +129,6 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 		function initform()
 		{
 			changeduseauth(document.getElementById("useauth"));
-			changeduseajax(document.getElementById("useAjax"));
 			changedusestreamdev(document.getElementById("useStreamdev"));
 			if (document.getElementById("message").value != "")
 				alert(document.getElementById("message").value);
@@ -146,10 +140,6 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 		function setauthchanged(selection)
 		{
 			document.getElementById("authchanged").value = 1;
-		}
-		function changeduseajax(selection)
-		{
-			document.getElementById("ajaxsection").style.display = (selection.checked ? "block" : "none");
 		}
 		function changedusestreamdev(selection)
 		{
@@ -201,17 +191,9 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 						</td>
 					</tr>
 					<tr>
-						<td class="label leftcol"><div class="withmargin"><$ tr("Use ajax technology") $>:</div></td>
+            <td class="label leftcol"><div class="withmargin"><$ tr("Show dynamic VDR information box") $>:</div></td>
 						<td class="rightcol">
-							<input type="checkbox" name="useAjax" id="useAjax" value="1" <%cpp> CHECKIF(!useAjax.empty()); </%cpp>onclick="changeduseajax(this)"/>
-							<div id="ajaxsection" style="display: none">
-							<table border="0" cellpadding="0" cellspacing="0" class="dependent">
-							<tr>
-								<td class="label"><div class="withmargin"><$ tr("Show dynamic VDR information box") $>:</div></td>
-								<td><input type="checkbox" name="showInfoBox" id="showInfoBox" value="1" <%cpp> CHECKIF(!showInfoBox.empty()); </%cpp>/></td>
-							</tr>
-							</table>
-							</div>
+              <input type="checkbox" name="showInfoBox" id="showInfoBox" value="1" <%cpp> CHECKIF(!showInfoBox.empty()); </%cpp>/>
 						</td>
 					</tr>
 					<tr>

@@ -39,7 +39,6 @@ Setup::Setup():
 		m_lastsortingmode("nameasc"),
 		m_tntnetloglevel("WARN"),
 		m_showLogo(1),
-		m_useAjax(1),
 		m_showInfoBox(1),
 		m_useStreamdev(1),
 		m_streamdevPort(3000),
@@ -60,6 +59,7 @@ Setup::Setup():
 {
 	m_adminPasswordMD5 = "4:" + MD5Hash("live");
 	liveplugin = cPluginManager::GetPlugin("live");
+  m_vdr_start = time(0);
 }
 
 bool Setup::ParseCommandLine( int argc, char* argv[] )
@@ -155,7 +155,6 @@ bool Setup::ParseSetupEntry( char const* name, char const* value )
 	else if ( strcmp( name, "LastWhatsOnListMode" ) == 0 ) { m_lastwhatsonlistmode = value; }
 	else if ( strcmp( name, "LastSortingMode" ) == 0 ) { m_lastsortingmode = value; }
 	else if ( strcmp( name, "ShowLogo" ) == 0 ) { m_showLogo = atoi(value); }
-	else if ( strcmp( name, "UseAjax" ) == 0 ) { m_useAjax = atoi(value); }
 	else if ( strcmp( name, "ShowInfoBox" ) == 0 ) { m_showInfoBox = atoi(value); }
 	else if ( strcmp( name, "UseStreamdev" ) == 0 ) { m_useStreamdev = atoi(value); }
 	else if ( strcmp( name, "StreamdevPort" ) == 0 ) { m_streamdevPort = atoi(value); }
@@ -357,7 +356,6 @@ bool Setup::SaveSetup()
 	liveplugin->SetupStore("LastWhatsOnListMode", m_lastwhatsonlistmode.c_str());
 	liveplugin->SetupStore("LastSortingMode", m_lastsortingmode.c_str());
 	liveplugin->SetupStore("ShowLogo", m_showLogo);
-	liveplugin->SetupStore("UseAjax", m_useAjax);
 	liveplugin->SetupStore("ShowInfoBox", m_showInfoBox);
 	liveplugin->SetupStore("UseStreamdev", m_useStreamdev);
 	liveplugin->SetupStore("StreamdevPort", m_streamdevPort);

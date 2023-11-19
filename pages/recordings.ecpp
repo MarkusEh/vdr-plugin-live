@@ -1,11 +1,15 @@
 <%pre>
 
+#include <string>
+#include <string_view>
 #include <setup.h>
 #include <tasks.h>
 #include <tools.h>
 #include <users.h>
 #include <recman.h>
 #include <tntconfig.h>
+#include <vdr/channels.h>
+#include <stringhelpers.h>
 #include <largeString.h>
 
 #ifdef HAVE_PCRE2
@@ -14,7 +18,6 @@
 #include <vdr/videodir.h>
 
 #define MB_PER_MINUTE 25.75 // this is just an estimate!
-#include <string>
 
 using namespace vdrlive;
 
@@ -98,11 +101,7 @@ for (auto it = deletions.begin(); it != deletions.end(); ++it) {
 deletions.clear();
 
 int FreeMB, UsedMB;
-#if APIVERSNUM > 20101
 int Percent = cVideoDirectory::VideoDiskSpace(&FreeMB, &UsedMB);
-#else
-int Percent = VideoDiskSpace(&FreeMB, &UsedMB);
-#endif
 int Minutes = int(double(FreeMB) / MB_PER_MINUTE);
 int Hours = Minutes / 60;
 Minutes %= 60;
@@ -112,11 +111,21 @@ const char *TNT_ARRAY = "[]";
 #else
 const char *TNT_ARRAY = "";
 #endif
-const char *lf;
-if (LiveSetup().GetUseAjax()) lf = "<br/>";
-else lf = "&#13;";
+const char *lf = "<br/>";
 
 
+RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
+char buffer_i[21];
+buffer_i[20] = 0;
+
+// get data for all open nodes
+std::vector<int> available_recs;
+std::string openTreeNodes;
+if (request.hasCookie("VDR-Live-Recordings-Tree-Open-Nodes")) {
+  openTreeNodes = request.getCookie("VDR-Live-Recordings-Tree-Open-Nodes");
+  isyslog("live: VDR-Live-Recordings-Tree-Open-Nodes = %s", openTreeNodes.c_str());
+}
+cLargeString recoring_item("recoring_item", 25000);
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -128,18 +137,19 @@ else lf = "&#13;";
     <& pageelems.ajax_js &>
 <script>
 const recs = [];
+const vdr_start = <$ concat::addCharsIbe(buffer_i+20, LiveSetup().GetVdrStart() ) $>;
+const recordings_tree_creation = <$ concat::addCharsIbe(buffer_i+20, recordingsTree->getCreationTimestamp() ) $>;
+
 <%cpp>
-cLargeString recoring_item("recoring_item", 25000);
-char buffer_i[20];
-RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
+/*
 for (const RecordingsItemPtr &rPtr: *recordingsTree->allRecordings()) {
   recoring_item.clear();
   rPtr->AppendAsJSArray(recoring_item, currentFlat == "true" || currentSort == "duplicates");
-  toCharsI(buffer_i, rPtr->IdI());
 </%cpp>
-  recs[<$buffer_i$>]=[<$$ recoring_item.c_str() $>]
+  recs[<$concat::addCharsIbe(buffer_i+20, rPtr->IdI())$>]=[<$$ recoring_item.c_str() $>]
 <%cpp>
 }
+*/
 </%cpp>
 const rec_ids = Object.create(null)
 rec_ids["T"] = [1, 2]
@@ -181,8 +191,9 @@ function RecordingActionS(s, id, A, Img, Title) {
 // [19] : duration
 // [20] : size
 // [21] : numTsFiles
+// befor calling, make sure that all recs[obj_i] exist!
 #>
-function RecordingsSt(s, level, displayFolder, data) {
+function RecordingsSt_int(s, level, displayFolder, data) {
   s.a += '<li class="recording"><div>'
   s.a += '<table width="100%" class="recordings">'
   for (obj_i of data) {
@@ -265,14 +276,6 @@ function RecordingsSt(s, level, displayFolder, data) {
   s.a += '</table></div></li>'
 }
 
-function rec_string_d(rec_ids) {
-// use img data-src= ...
-  const st = Object.create(null)
-  st.a = ""
-  RecordingsSt(st, rec_ids[0], rec_ids[1], rec_ids[2])
-  return st.a
-}
-
 </script>
 
   <script type="text/javascript" src="js/live/treeview.js"></script>
@@ -301,14 +304,10 @@ if (!deleteResult.empty()) {
     <div class="boxheader"><div><div><$ std::string(tr("List of recordings")) + " (" + diskinfo + ")" $></div></div></div>
 <%cpp>
     int rec_cnt;
-#if VDRVERSNUM >= 20301
     {
       LOCK_RECORDINGS_READ;
       rec_cnt = Recordings->Count();  // Access VDRs global cRecordings Recordings instance.
     }
-#else
-    rec_cnt = Recordings.Count(); // Access VDRs global cRecordings Recordings instance.
-#endif
     if (rec_cnt == 0) {
 </%cpp>
       <$ tr("No recordings found") $>
@@ -317,11 +316,14 @@ if (!deleteResult.empty()) {
       uintptr_t irecoring_item = (uintptr_t)&recoring_item;
       RecordingsItemPtr recItemRoot = recordingsTree->getRoot();
       uintptr_t iRecItemRoot = (uintptr_t)&recItemRoot;
+      uintptr_t iRecordingsTree = (uintptr_t)&recordingsTree;
+      uintptr_t iOpenTreeNodes = (uintptr_t)&openTreeNodes;
+      uintptr_t iAvailable_recs = (uintptr_t)&available_recs;
 </%cpp>
       <form method="post" name="recordings" id="form_recordings" action="recordings.ecpp">
         <div class="recordings">
           <ul class="recordingslist" style="display: block;">
-            <& recordings.recordings_item iRecItem=(iRecItemRoot) irecoring_item=(irecoring_item) &>
+            <& recordings.recordings_item iRecItem=(iRecItemRoot) irecoring_item=(irecoring_item) iRecordingsTree=(iRecordingsTree) iOpenTreeNodes=(iOpenTreeNodes) iAvailable_recs=(iAvailable_recs) &>
           </ul>
         </div>
 				<input type="hidden" name="sort" value="<$ currentSort $>">
@@ -347,6 +349,9 @@ if (!deleteResult.empty()) {
 <%args>
 	uintptr_t iRecItem = 0;
 	uintptr_t irecoring_item = 0;
+	uintptr_t iRecordingsTree = 0;
+  uintptr_t iOpenTreeNodes = 0;
+  uintptr_t iAvailable_recs = 0;
 	std::string parentIdHash;
 </%args>
 <%cpp>
@@ -361,8 +366,12 @@ if (currentSort.compare(0, 10, "duplicates", 10) == 0) sortOrder = eSortOrder::d
 if (currentSort == "datedesc" || currentSort == "namedesc") reverse = true;
 // get rec item of this (current) dir
 RecordingsItemPtr recItemThisDir = *(static_cast<RecordingsItemPtr *>((void *)iRecItem) );
-int level = recItemThisDir->Level();
+RecordingsTreePtr recordingsTree = *(static_cast<RecordingsTreePtr *>((void *)iRecordingsTree) );
 cLargeString *recoring_item = static_cast<cLargeString *>((void *)irecoring_item );
+std::string openTreeNodes= *(static_cast<std::string *>((void *)iOpenTreeNodes) );
+std::vector<int> available_recs = *(static_cast<std::vector<int> *>((void *)iAvailable_recs) );
+int level = recItemThisDir->Level();
+
 
 std::vector<RecordingsItemPtr> recItems;
 const std::vector<RecordingsItemPtr> *recItemsC = NULL;
@@ -426,7 +435,7 @@ if (currentFlat != "true") {
         </td></tr></table>
         </div>
         <ul id="fldr_<$ idHash $>" class="recordingslist" style="display: none;">
-          <& recordings.recordings_item iRecItem=(iRecItem) irecoring_item=(irecoring_item) parentIdHash=(idHash) &>
+          <& recordings.recordings_item iRecItem=(iRecItem) irecoring_item=(irecoring_item) parentIdHash=(idHash) iRecordingsTree=(iRecordingsTree) iOpenTreeNodes=(iOpenTreeNodes) iAvailable_recs=(iAvailable_recs) &>
         </ul>
       </li>
       <%cpp>
@@ -437,7 +446,6 @@ if (currentFlat != "true") {
   } // end if (currentSort != "duplicates")
 } else {
 // here we prepare the items in case of a flat list, no folders
-  RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
   if (currentSort != "duplicates") { 
     recItemsC = recordingsTree->allRecordings(sortOrder);
   } else {
@@ -447,6 +455,21 @@ if (currentFlat != "true") {
     addDuplicateRecordingsNoSd(recItems, recordingsTree);
     recItemsC = &recItems;
   }
+  char buffer_i[21];
+  buffer_i[20] = 0;
+  </%cpp>
+<script>
+  <%cpp>
+  for (const RecordingsItemPtr &rPtr: *recItemsC) {
+    recoring_item->clear();
+    rPtr->AppendAsJSArray(*recoring_item, true);
+  </%cpp>
+recs[<$concat::addCharsIbe(buffer_i+20, rPtr->IdI())$>]=[<$$ recoring_item->c_str() $>]
+  <%cpp>
+  }
+  </%cpp>
+</script>
+  <%cpp>
 }
 if (currentSort != "duplicates" || currentFlat == "true") {
   if (recItemsC->empty() ) { </%cpp>
@@ -459,19 +482,40 @@ if (currentSort != "duplicates" || currentFlat == "true") {
     const char *displayFolder = "1";
     recoring_item->clear();
     RecordingsItemRec::AppendAsJSArray(*recoring_item, recItemsC->begin(), recItemsC->end(), first, currentFilter, reverse);
-    if (level == 0) { </%cpp>
+    </%cpp>
       <script>
-        document.write(rec_string_d([<$level$>, <$displayFolder$>, [ <$$ recoring_item->c_str() $> ]]))
+%   if (level == 0) {
+      document.write(rec_string_d([<$level$>, <$displayFolder$>, [ <$$ recoring_item->c_str() $> ]]))
+%   } else {
+      rec_ids["fldr_<$ parentIdHash $>"] = [<$level$>, <$displayFolder$>, [ <$$ recoring_item->c_str() $> ]]
+      <%cpp>
+// if this folder is open, also add the recs
+// check: is this folder open?
+      auto equal_fldf = [parentIdHash](cSv f) { return f.compare(5, std::string_view::npos, parentIdHash) == 0; };
+      cSplit splitOpenTreeNodes(openTreeNodes, ',');
+      if (std::find_if(splitOpenTreeNodes.begin(), splitOpenTreeNodes.end(), equal_fldf) != splitOpenTreeNodes.end()) {
+// this folder is open -> write the missing recs
+        char buffer_i[21];
+        buffer_i[20] = 0;
+        for (const RecordingsItemPtr &rPtr: *recItemsC) {
+          if (std::find(available_recs.begin(), available_recs.end(), rPtr->IdI() ) == available_recs.end() ) {
+// this rPtr->IdI() was not provided before
+            recoring_item->clear();
+            rPtr->AppendAsJSArray(*recoring_item, true);
+            </%cpp>
+recs[<$concat::addCharsIbe(buffer_i+20, rPtr->IdI())$>]=[<$$ recoring_item->c_str() $>]
+            <%cpp>
+            available_recs.push_back(rPtr->IdI());
+          }
+        }
+      }
+    }
+    </%cpp>
       </script>
-    <%cpp> } else { </%cpp>
-      <script>
-        rec_ids["fldr_<$ parentIdHash $>"] = [<$level$>, <$displayFolder$>, [ <$$ recoring_item->c_str() $> ]]
-      </script>
-    <%cpp> }
+    <%cpp>
   }
 } else {
 // duplicates
-  RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
   for (int i = 0; i < 3; i++) {
     recItems.clear();
     std::string nodeName;
@@ -672,8 +716,10 @@ if (recording && recording->Info() ) {
     int duration_deviation = getScraperVideo.m_scraperVideo->getDurationDeviation();
     int video_SD_HD = getScraperVideo.m_scraperVideo->getHD();
     char sdhd = video_SD_HD == 0 ? 's': video_SD_HD == 1 ? 'h': 'u';
-    CONVERT(b_recordingErrors, recordingErrors, toCharsI);
-    CONVERT(b_duration_deviation, duration_deviation, toCharsI);
+    char b_recordingErrors[21];
+    char b_duration_deviation[21];
+    b_recordingErrors[20] = 0;
+    b_duration_deviation[20] = 0;
     std::string duration;
     if (recording->FileName() )
       AppendDuration(duration, tr("%d:%02d"), recording->LengthInSeconds() );
@@ -681,7 +727,7 @@ if (recording && recording->Info() ) {
 <img data-src="img/transparent.png" height="10px" />
 <span id="icons-<$id$>"></span>
 <script class="injectIcons">
-injectErrorHdSdIcon(\"icons-<$id$>\", <$b_recordingErrors$>, <$b_duration_deviation$>, \"<$sdhd$>\", \"<$recording->Info()->ChannelName()?recording->Info()->ChannelName():""$>\", \"<$duration$>\", <$ GetNumberOfTsFiles(recording) $>)
+injectErrorHdSdIcon(\"icons-<$id$>\", <$concat::addCharsIbe(b_recordingErrors+20, recordingErrors)$>, <$concat::addCharsIbe(b_duration_deviation+20, duration_deviation)$>, \"<$sdhd$>\", \"<$recording->Info()->ChannelName()?recording->Info()->ChannelName():""$>\", \"<$duration$>\", <$ GetNumberOfTsFiles(recording) $>)
 </script>
 <%cpp>
   }

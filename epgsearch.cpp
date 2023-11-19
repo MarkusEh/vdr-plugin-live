@@ -441,7 +441,7 @@ void SearchTimers::TriggerUpdate()
 bool SearchTimer::BlacklistSelected(int id) const
 {
    for(unsigned int i=0; i<m_blacklistIDs.size(); i++)
-      if (StringToInt(m_blacklistIDs[i]) == id) return true;
+      if (parse_int<int>(m_blacklistIDs[i]) == id) return true;
    return false;
 }
 
@@ -474,7 +474,7 @@ void ExtEPGInfo::ParseValues( std::string const& data )
 bool ExtEPGInfo::Selected(unsigned int index, std::string const& values)
 {
    if (index >= m_values.size()) return false;
-   std::string extepgvalue = StringTrim(m_values[index]);
+   std::string extepgvalue(StringTrim(m_values[index]));
 
    std::vector<std::string> parts;
    parts = StringSplit( values, ',' );

@@ -179,7 +179,7 @@ function clearCheckboxes(form) {
     }
   }
 }
-function execute(url) {
+async function execute(url) {
 /*
  * Input:
  *   Url: url to the page triggering the execution of the function
@@ -191,17 +191,26 @@ function execute(url) {
  *               - bool   success
  *               - string error  (only if success == false). Human readable text
 */
+  const response = await fetch(encodeURI(url + '&async=1'), {
+    method: "GET",
+    headers: {
+     "Content-Type": "application/x-www-form-urlencoded",
+    },
+  });
+  const req_responseXML = new window.DOMParser().parseFromString(await response.text(), "text/xml");
+/*
   var req = new XMLHttpRequest();
   req.open('POST', encodeURI(url + '&async=1'), false);
   req.overrideMimeType("text/xml");
   req.send();
+*/
   var ret_object = new Object();
   ret_object.success = false;
-  if (!req.responseXML) {
+  if (!req_responseXML) {
     ret_object.error = "invalid xml, no responseXML";
     return ret_object;
   }
-  var response_array = req.responseXML.getElementsByTagName("response");
+  var response_array = req_responseXML.getElementsByTagName("response");
   if (response_array.length != 1) {
     ret_object.error = "invalid xml, no response tag or several response tags";
     return ret_object;
@@ -220,7 +229,7 @@ function execute(url) {
     return ret_object;
   }
 
-  var error_array = req.responseXML.getElementsByTagName("error");
+  var error_array = req_responseXML.getElementsByTagName("error");
   if (error_array.length != 1) {
     ret_object.error = "invalid xml, no error tag or several error tags";
     return ret_object;
@@ -233,9 +242,9 @@ function execute(url) {
   ret_object.error = error_child_nodes[0].nodeValue;
   return ret_object;
 }
-function delete_rec_back(recid, history_num_back)
+async function delete_rec_back(recid, history_num_back)
 {
-  var ret_object = execute('delete_recording.html?param=' + recid);
+  var ret_object = await execute('delete_recording.html?param=' + recid);
   if (!ret_object.success) alert (ret_object.error);
   history.go(-history_num_back);
 }
@@ -245,4 +254,72 @@ function back_depending_referrer(back_epginfo, back_others) {
   } else {
     history.go(-back_others);
   }
+}
+function RecordingsSt(s, level, displayFolder, data) {
+  var recs_param =  '';
+  for (obj_i of data) {
+    if (typeof recs[obj_i] === 'undefined') {
+      if (recs_param.length == 0) {
+        recs_param += 'r=';
+      } else {
+        recs_param += '&r=';
+      }
+      recs_param += obj_i;
+    }
+  }
+  if (recs_param.length == 0) {
+    RecordingsSt_int(s, level, displayFolder, data);
+  } else {
+    const request = new XMLHttpRequest();
+    request.open("POST", "get_recordings.html", false);
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    request.send(recs_param);
+    eval(request.response);
+    RecordingsSt_int(s, level, displayFolder, data);
+  }
+}
+async function RecordingsSt_a(s, level, displayFolder, data) {
+  var recs_param =  '';
+  for (obj_i of data) {
+    if (typeof recs[obj_i] === 'undefined') {
+      recs_param += '&r=';
+      recs_param += obj_i;
+    }
+  }
+  if (recs_param.length == 0) {
+    RecordingsSt_int(s, level, displayFolder, data);
+  } else {
+    var recs_param_a = 'vdr_start=';
+    recs_param_a += vdr_start;
+    recs_param_a += '&recordings_tree_creation=';
+    recs_param_a += recordings_tree_creation;
+    recs_param_a += recs_param;
+    const response = await fetch("get_recordings.html", {
+      method: "POST",
+      headers: {
+       "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: recs_param_a,
+    });
+    const new_recs = await response.text();
+    eval(new_recs);
+    if (vdr_restart) {
+      location.reload();    
+    } else {
+      RecordingsSt_int(s, level, displayFolder, data);
+    }
+  }
+}
+async function rec_string_d_a(rec_ids) {
+  const st = Object.create(null)
+  st.a = ""
+  await RecordingsSt_a(st, rec_ids[0], rec_ids[1], rec_ids[2])
+  return st.a
+}
+
+function rec_string_d(rec_ids) {
+  const st = Object.create(null)
+  st.a = ""
+  RecordingsSt_int(st, rec_ids[0], rec_ids[1], rec_ids[2])
+  return st.a
 }

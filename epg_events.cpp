@@ -534,7 +534,7 @@ bool appendEpgItem(cLargeString &epg_item, RecordingsItemPtr &recItem, const cEv
 
   epg_item.append("[\"");
 // [0] : EPG ID  (without event_)
-  epg_item.append(EpgEvents::EncodeDomId(Channel->GetChannelID(), Event->EventID()).c_str() + 6);
+  epg_item.appendS(EpgEvents::EncodeDomId(Channel->GetChannelID(), Event->EventID()).c_str() + 6);
   epg_item.append("\",\"");
 // [1] : Timer ID
   const cTimer* timer = LiveTimerManager().GetTimer(Event->EventID(), Channel->GetChannelID() );

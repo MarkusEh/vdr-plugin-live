@@ -195,11 +195,11 @@ if (recording && recording->Info()->Aux()) {
   getAutoTimerReason.recording_in = recording;
   getAutoTimerReason.requestRecording = false;
   if (getAutoTimerReason.call(LiveSetup().GetPluginScraper()) && getAutoTimerReason.createdByTvscraper) {
-    AppendHtmlEscapedAndCorrectNonUTF8(aux_data, getAutoTimerReason.reason.c_str() );
+    AppendHtmlEscapedAndCorrectNonUTF8(aux_data, getAutoTimerReason.reason);
   } else {
-    std::string epgsearchinfo = GetXMLValue(recording->Info()->Aux(), "epgsearch");
+    cSv epgsearchinfo = partInXmlTag(recording->Info()->Aux(), "epgsearch");
     if (!epgsearchinfo.empty()) {
-      AppendHtmlEscapedAndCorrectNonUTF8(aux_data, GetXMLValue(epgsearchinfo, "searchtimer").c_str() );
+      AppendHtmlEscapedAndCorrectNonUTF8(aux_data, partInXmlTag(epgsearchinfo, "searchtimer") );
     }
   }
   if (!aux_data.empty()) {

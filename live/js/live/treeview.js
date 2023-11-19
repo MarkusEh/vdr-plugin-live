@@ -49,7 +49,7 @@ class Treeview {
     this.folder_closed = folder_closed;
   }
 
-  Toggle(node, node_id) {
+  async Toggle(node, node_id) {
 // Unfold the branch if it isn't visible
     const sibling = findSibling(node, "UL");
     if (sibling == null) return;
@@ -57,7 +57,7 @@ class Treeview {
     if (sibling.style.display == 'none') {
       setImages(node, this.minus, this.folder_open);
       if (rec_ids[node_id] != null && rec_ids[node_id].length > 0) {
-        sibling.insertAdjacentHTML("beforeend", rec_string_d(rec_ids[node_id]));
+        sibling.insertAdjacentHTML("beforeend", await rec_string_d_a(rec_ids[node_id]));
           rec_ids[node_id] = [];
           if (typeof liveEnhanced !== 'undefined') liveEnhanced.domReadySetup();
         imgLoad();
@@ -102,7 +102,7 @@ openNodes = openNodes.join(",");
 createCookie( cookieNameRec, openNodes, 14 );
 }
 
-function openNodesOnPageLoad()
+async function openNodesOnPageLoad()
 {
 var openNodes = readCookie( cookieNameRec );
   var domChanges = 0;
@@ -115,7 +115,7 @@ for (var z=0; z<openNodes.length; z++){
   if (ul){
     ul.style.display = 'block';
                   if (rec_ids[openNodes[z]] != null && rec_ids[openNodes[z]].length > 0) {
-                        ul.insertAdjacentHTML("beforeend", rec_string_d(rec_ids[openNodes[z]]));
+                        ul.insertAdjacentHTML("beforeend", await rec_string_d_a(rec_ids[openNodes[z]]));
                   rec_ids[openNodes[z]] = [];
       domChanges = 1;
       }
@@ -140,7 +140,7 @@ function filterRecordings(filter, currentSort, currentFlat)
 {
   window.location.href = "recordings.html?sort=" + currentSort + "&flat=" + currentFlat + "&filter=" + encodeURIComponent(filter.value);
 }
-function ExpandAll()
+async function ExpandAll()
 {
   var openNodes = "";
   var domChanges = 0;
@@ -150,7 +150,7 @@ function ExpandAll()
       recordingNodes[idx].style.display = 'block';
       openNodes += recordingNodes[idx].id + ","; 
       if (rec_ids[recordingNodes[idx].id] != null && rec_ids[recordingNodes[idx].id].length > 0) {
-        recordingNodes[idx].insertAdjacentHTML("beforeend", rec_string_d(rec_ids[recordingNodes[idx].id]));
+        recordingNodes[idx].insertAdjacentHTML("beforeend", await rec_string_d_a(rec_ids[recordingNodes[idx].id]));
         rec_ids[recordingNodes[idx].id] = [];
         domChanges = 1;
       }

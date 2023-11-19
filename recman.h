@@ -1,24 +1,27 @@
 #ifndef VDR_LIVE_RECORDINGS_H
 #define VDR_LIVE_RECORDINGS_H
 
-#include <iostream>
-#include "stdext.h"
-#include "setup.h"
-#include "largeString.h"
-#include "tools.h"
-
 // STL headers need to be before VDR tools.h (included by <vdr/recording.h>)
 #include <map>
 #include <set>
 #include <string>
+#include <string_view>
 #include <vector>
 #include <list>
 
 #if TNTVERSION >= 30000
-        #include <cxxtools/log.h>  // must be loaded before any vdr include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
+  #include <cxxtools/log.h>  // must be loaded before any vdr include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
 #endif
 
+#include <iostream>
+#include "stdext.h"
+#include "setup.h"
+
 #include <vdr/recording.h>
+#include <vdr/channels.h>
+#include "stringhelpers.h"
+#include "largeString.h"
+#include "tools.h"
 #include "services.h"
 
 namespace vdrlive {
@@ -40,8 +43,8 @@ namespace vdrlive {
   typedef std::weak_ptr<RecordingsItem> RecordingsItemWeakPtr;
 
   bool operator< (const RecordingsItemPtr &a, const RecordingsItemPtr &b);
-  bool operator< (const std::string &a, const RecordingsItemPtr &b);
-  bool operator< (const RecordingsItemPtr &a, const std::string &b);
+  bool operator< (cSv a, const RecordingsItemPtr &b);
+  bool operator< (const RecordingsItemPtr &a, cSv b);
   bool operator< (int a, const RecordingsItemPtr &b);
   bool operator< (const RecordingsItemPtr &a, int b);
 
@@ -75,13 +78,13 @@ namespace vdrlive {
                    *  fetches a cRecording from VDR's Recordings collection. Returns
                    *  NULL if recording was not found
                    */
-                  cRecording const* GetByMd5Hash(std::string const & hash) const;
+                  cRecording const* GetByMd5Hash(cSv hash) const;
 
                   /**
                    *  Move a recording with the given hash according to
                    *  VDRs recording mechanisms.
                    */
-                  bool MoveRecording(cRecording const * recording, std::string const & name, bool copy = false) const;
+                  bool MoveRecording(cRecording const * recording, cSv name, bool copy = false) const;
 
                   /**
                    *  Delete recording resume with the given hash according to
@@ -119,18 +122,12 @@ namespace vdrlive {
           private:
                   RecordingsManager();
 
-#if VDRVERSNUM >= 20301
                   static bool StateChanged();
-#endif
                   static RecordingsManagerPtr EnsureValidData();
 
                   static std::weak_ptr<RecordingsManager> m_recMan;
                   static std::shared_ptr<RecordingsTree> m_recTree;
-#if VDRVERSNUM >= 20301
                   static cStateKey m_recordingsStateKey;
-#else
-                  static int m_recordingsState;
-#endif
 
                   cThreadLock m_recordingsLock;
   };
@@ -182,7 +179,7 @@ namespace vdrlive {
     friend class RecordingsTree;
 
     protected:
-      RecordingsItem(const std::string& name);
+      RecordingsItem(cSv name);
 
     public:
       virtual ~RecordingsItem();
@@ -207,19 +204,19 @@ template<class T>
 		  void finishRecordingsTree(); // sort recursively, Order: m_cmp_rec (if defined. Otherwise: no sort)
      // dirs: Order: m_cmp_dir (if defined. Otherwise: m_name_for_sort)
       virtual bool operator< (const RecordingsItemPtr &sec) const { return m_name < sec->m_name; }
-      virtual bool operator< (const std::string &sec) const { return m_name < sec; }
-      virtual bool operator> (const std::string &sec) const { return m_name > sec; }
+      virtual bool operator< (cSv sec) const { return m_name < sec; }
+      virtual bool operator> (cSv sec) const { return m_name > sec; }
       virtual bool operator< (int sec) const { return false; }
       virtual bool operator> (int sec) const { return false; }
       virtual int Level() { return 0; }
       int numberOfRecordings();
-      RecordingsItemPtr addDirIfNotExists(const std::string &dirName);
+      RecordingsItemPtr addDirIfNotExists(cSv dirName);
 		  RecordingsItemPtr addDirCollectionIfNotExists(int collectionId, const cRecording* recording);
 		  RecordingsItemPtr addDirSeasonIfNotExists(int collectionId, const cRecording* recording);
 		  const std::vector<RecordingsItemPtr> *getRecordings(eSortOrder sortOrder);
 		  const std::vector<RecordingsItemPtr> *getDirs() { return &m_subdirs; }
 		  bool checkNew();
-		  void addDirList(std::vector<std::string> &dirs, const std::string &basePath);
+		  void addDirList(std::vector<std::string> &dirs, cSv basePath);
 
       void setTvShow(const cRecording* recording);
 		  void getScraperData(const cRecording* recording, const cImageLevels &imageLevels, std::string *collectionName = NULL);
@@ -236,7 +233,7 @@ template<class T>
       int CompareStD(const RecordingsItemPtr &second, int *numEqualChars=NULL) const;
       bool orderDuplicates(const RecordingsItemPtr &second, bool alwaysShortText, bool lang = false) const;
 // To display the recording on the UI
-      bool matchesFilter(const std::string &filter);
+      bool matchesFilter(cSv filter);
       virtual const int IsArchived() const { return 0 ; }
       virtual const std::string ArchiveDescr() const { return "" ; }
       virtual const char *NewR() const { return "" ; }
@@ -247,7 +244,7 @@ template<class T>
  		  bool dirEntriesSorted() { return m_cmp_dir != NULL; }
 
     private:
-      std::string GetNameForSearch(std::string const & name);
+      std::string GetNameForSearch(cSv name);
     protected:
 		  int m_idI = -1;
       std::string m_name;
@@ -285,7 +282,7 @@ template<class T>
   class RecordingsItemDir : public RecordingsItem
   {
           public:
-                  RecordingsItemDir(const std::string& name, int level);
+                  RecordingsItemDir(cSv name, int level);
 
                   virtual ~RecordingsItemDir();
 
@@ -306,8 +303,8 @@ template<class T>
                   virtual ~RecordingsItemDirSeason();
 
                   virtual bool operator< (const RecordingsItemPtr &sec) const { return m_s_season_number < sec->scraperSeasonNumber(); }
-                  virtual bool operator< (const std::string &sec) const { return false; }
-                  virtual bool operator> (const std::string &sec) const { return false; }
+                  virtual bool operator< (cSv sec) const { return false; }
+                  virtual bool operator> (cSv sec) const { return false; }
                   virtual bool operator< (int sec) const { return m_s_season_number < sec; }
                   virtual bool operator> (int sec) const { return m_s_season_number > sec; }
 
@@ -320,8 +317,8 @@ template<class T>
                   virtual ~RecordingsItemDirCollection();
 
                   virtual bool operator< (const RecordingsItemPtr &sec) const { return m_s_collection_id < sec->scraperCollectionId(); }
-                  virtual bool operator< (const std::string &sec) const { return false; }
-                  virtual bool operator> (const std::string &sec) const { return false; }
+                  virtual bool operator< (cSv sec) const { return false; }
+                  virtual bool operator> (cSv sec) const { return false; }
                   virtual bool operator< (int sec) const { return m_s_collection_id < sec; }
                   virtual bool operator> (int sec) const { return m_s_collection_id > sec; }
 
@@ -336,7 +333,7 @@ template<class T>
   class RecordingsItemRec : public RecordingsItem
   {
     public:
-      RecordingsItemRec(int idI, const std::string& id, const std::string& name, const cRecording* recording);
+      RecordingsItemRec(int idI, cSv id, cSv name, const cRecording* recording);
 
       virtual ~RecordingsItemRec();
 
@@ -364,7 +361,7 @@ template<class T>
 
       virtual int SD_HD();
       virtual void AppendAsJSArray(cLargeString &target, bool displayFolder);
-      static void AppendAsJSArray(cLargeString &target, std::vector<RecordingsItemPtr>::const_iterator recIterFirst, std::vector<RecordingsItemPtr>::const_iterator recIterLast, bool &first, const std::string &filter, bool reverse);
+      static void AppendAsJSArray(cLargeString &target, std::vector<RecordingsItemPtr>::const_iterator recIterFirst, std::vector<RecordingsItemPtr>::const_iterator recIterLast, bool &first, cSv filter, bool reverse);
 
     private:
       const cRecording *m_recording;
@@ -412,6 +409,7 @@ template<class T>
       const std::vector<RecordingsItemPtr> *allRecordings(eSortOrder sortOrder);
 
       int MaxLevel() const { return m_maxLevel; }
+      time_t getCreationTimestamp() { return m_creation_timestamp; }
 
     private:
       int m_maxLevel;
@@ -421,6 +419,7 @@ template<class T>
       bool m_allRecordingsSorted = false;
       std::vector<RecordingsItemPtr> m_allRecordings_other_sort;
       eSortOrder m_sortOrder = (eSortOrder)-1;
+      time_t m_creation_timestamp = 0;
   };
 
 
@@ -459,7 +458,7 @@ template<class T>
     a.swap(b);
   }
 
-void AppendScraperData(cLargeString &target, const std::string &s_IMDB_ID, const cTvMedia &s_image, tvType s_videoType, const std::string &s_title, int s_season_number, int s_episode_number, const std::string &s_episode_name, int s_runtime, const std::string &s_release_date);
+void AppendScraperData(cLargeString &target, cSv s_IMDB_ID, const cTvMedia &s_image, tvType s_videoType, cSv s_title, int s_season_number, int s_episode_number, cSv s_episode_name, int s_runtime, cSv s_release_date);
 
 std::string recordingErrorsHtml(int recordingErrors);
 

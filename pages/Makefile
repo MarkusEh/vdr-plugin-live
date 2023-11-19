@@ -10,15 +10,16 @@ DEFINES += -DDISABLE_TEMPLATES_COLLIDING_WITH_STL
 INCLUDES += -I$(VDRDIR)/include -I..
 
 ### The object files (add further files here):
-OBJS := menu.o recordings.o schedule.o multischedule.o screenshot.o   \
+OBJS := get_recordings.o delete_recording.o recordings.o pageelems.o \
+        epginfo.o schedule.o multischedule.o screenshot.o   \
         timers.o whats_on.o switch_channel.o keypress.o remote.o	\
-        channels_widget.o edit_timer.o error.o pageelems.o tooltip.o	\
+        channels_widget.o edit_timer.o error.o tooltip.o	\
         searchtimers.o edit_searchtimer.o searchresults.o	\
         searchepg.o login.o ibox.o xmlresponse.o play_recording.o	\
         pause_recording.o stop_recording.o ffw_recording.o		\
-        rwd_recording.o setup.o content.o epginfo.o timerconflicts.o  \
+        rwd_recording.o setup.o content.o timerconflicts.o  \
         recstream.o users.o edit_user.o edit_recording.o osd.o	\
-        playlist.o stream.o stream_data.o delete_recording.o
+        playlist.o stream.o stream_data.o menu.o
 SRCS := $(patsubst %.o,%.cpp,$(OBJS))
 ESRCS := $(patsubst %.o,%.ecpp,$(OBJS))
 ESRCS_DEPS := $(patsubst %.o,.%.edep,$(OBJS))

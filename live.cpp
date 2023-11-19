@@ -106,7 +106,7 @@ class cLiveImageProviderImp: public cLiveImageProvider {
         m_errorMessages = false;
         return fullPath?imagePath:LiveSetup().GetTvscraperImageDir() + imagePath;
       }
-      return LiveSetup().GetServerUrlImages() + (fullPath?ScraperImagePath2Live(imagePath):imagePath);
+      return concatenate(LiveSetup().GetServerUrlImages(), (fullPath?ScraperImagePath2Live(imagePath):imagePath));
     }
     virtual ~cLiveImageProviderImp() {}
   private:

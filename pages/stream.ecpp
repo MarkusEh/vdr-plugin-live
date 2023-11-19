@@ -159,8 +159,10 @@ if (Event) {
 		timeSpan = headTime;
 		startDate = headDate;
 	}
-  std::string longDescription = StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), LiveSetup().GetMaxTooltipChars()))
-	  + "<br/><br/>" + tr("Click to view details.");
+  std::string longDescription = concatenate(
+    StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), LiveSetup().GetMaxTooltipChars())),
+	  "<br/><br/>",
+    tr("Click to view details."));
 	</%cpp>
 			<table class="listing" cellspacing="0" cellpadding="0">
 				<tr>

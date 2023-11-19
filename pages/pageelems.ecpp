@@ -347,7 +347,7 @@ function existingRecordingString(col_span, bottomrow, id, archiveDescr, imdb_id,
 // if (LiveSetup().GetShowIMDb())
 {
 if (s_IMDB_ID.empty() ) { </%cpp>
-<a href="http://www.imdb.com/find?s=all&q=<$ (!title.empty() && title[0] == '%')?StringUrlEncode(title.substr(1)):StringUrlEncode(title) $>"
+<a href="http://www.imdb.com/find?s=all&q=<$ (!title.empty() && title[0] == '%')?StringUrlEncode(cSv(title).substr_csv(1)):StringUrlEncode(title) $>"
 <%cpp> } else { </%cpp>
 <a href="http://www.imdb.com/title/<$ s_IMDB_ID $>"
 <%cpp> } </%cpp>
@@ -1020,6 +1020,8 @@ if (scraperMovieOrTv.found) {
 <%cpp>
   const int num_cols = 4;
   int num = 1;
+  std::string loc_name = std::locale("").name().substr(0,2);
+  if (loc_name.length() != 2 || loc_name[0] == 'C' || loc_name[0] == '*') loc_name = "en"; //  use en as default
   std::string actor_names = "";
 
   for (const auto &character:scraperCharacters) {
@@ -1035,8 +1037,9 @@ if (scraperMovieOrTv.found) {
       </a>
     </td>
 <%cpp>
-    actor_names.append("<td>"); 
-    actor_names.append(character->getPersonName()); 
+    stringAppend(actor_names, "<td><a href=\"https://", loc_name, ".wikipedia.org/wiki/",
+      StringUrlEncode(StringReplace(character->getPersonName(), " ", "_")), "\" target=\"_blank\">",
+      character->getPersonName(), "</a>");
     actor_names.append(":<br>"); 
     actor_names.append(character->getCharacterName()); 
     actor_names.append("</td>"); 

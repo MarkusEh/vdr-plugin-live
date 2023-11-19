@@ -111,13 +111,13 @@ using namespace vdrlive;
             longDescription += LiveSetup().GetUseAjax()?"<hr>":lf;
 					  longDescription += StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), LiveSetup().GetMaxTooltipChars(), truncated), lf);
 					  if (truncated) longDescription += "...";
-            AppendHtmlEscapedAndCorrectNonUTF8(searchTimName, SortedTimers::SearchTimerInfo(*timer, "searchtimer").c_str());
+            AppendHtmlEscapedAndCorrectNonUTF8(searchTimName, SortedTimers::SearchTimerInfo(*timer, "searchtimer"));
             searchTimId = SortedTimers::SearchTimerInfo(*timer, "s-id");
-            if (searchTimName.empty() && searchTimId.empty() ) AppendHtmlEscapedAndCorrectNonUTF8(searchTimName, SortedTimers::TvScraperTimerInfo(*timer, recID, recName).c_str());
+            if (searchTimName.empty() && searchTimId.empty() ) AppendHtmlEscapedAndCorrectNonUTF8(searchTimName, SortedTimers::TvScraperTimerInfo(*timer, recID, recName) );
 					}
 					std::string currentDay = SortedTimers::GetTimerDays(timer);
-                                        const cTimer *nextTimer =  NULL;
-                                        if (i < (sortedTimers.Size() - 1)) nextTimer = sortedTimers[i + 1];
+          const cTimer *nextTimer =  NULL;
+          if (i < (sortedTimers.Size() - 1)) nextTimer = sortedTimers[i + 1];
 					bool bottom = false;
 					if (i == sortedTimers.Size() - 1) bottom = true;
 					else {

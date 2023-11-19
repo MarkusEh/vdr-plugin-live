@@ -6,10 +6,11 @@
 #include <string>
 
 #if TNTVERSION >= 30000
-        #include <cxxtools/log.h>  // must be loaded before any vdr include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
+  #include <cxxtools/log.h>  // must be loaded before any vdr include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
 #endif
 
 #include <vdr/timers.h>
+#include "stringhelpers.h"
 
 namespace vdrlive {
 
@@ -25,15 +26,14 @@ namespace vdrlive {
 			static std::string EncodeDomId(std::string const& timerid);
 			static std::string DecodeDomId(std::string const &timerDomId);
 
-#if VDRVERSNUM >= 20301
 			bool Modified();
-#else
-			bool Modified() { return Timers.Modified(m_state); }
-#endif
 
 			static std::string GetTimerDays(cTimer const *timer);
 			static std::string GetTimerInfo(cTimer const& timer);
-			static std::string SearchTimerInfo(cTimer const& timer, std::string const& value);
+template<std::size_t N>
+			static cSv SearchTimerInfo(cTimer const& timer, const char (&value)[N] ) {
+        return partInXmlTag(partInXmlTag(timer.Aux(), "epgsearch"), value);
+      }
 			static std::string TvScraperTimerInfo(cTimer const& timer, std::string &recID, std::string &recName);
 
 		private:
@@ -41,13 +41,7 @@ namespace vdrlive {
 			SortedTimers( SortedTimers const& );
 
 			cMutex m_mutex;
-
-#if VDRVERSNUM >= 20301
 			cStateKey m_TimersStateKey;
-#else
-			int m_state;
-#endif
-
 	};
 
 	class TimerManager: public cMutex

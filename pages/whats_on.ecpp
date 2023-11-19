@@ -192,7 +192,7 @@ if (type == "now") {
 		EpgInfoPtr epgEvent = *i;
 
 		bool truncated = false;
-		std::string truncDescription = StringWordTruncate(epgEvent->LongDescr(), maximumTruncDescriptionLength, truncated);
+		std::string truncDescription(StringWordTruncate(epgEvent->LongDescr(), maximumTruncDescriptionLength, truncated));
 		std::string longDescription = StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), LiveSetup().GetMaxTooltipChars()))
 			+ "<br/><br/>" + tr("Click to view details.");
 		const cChannel* Channel = epgEvent->Channel();

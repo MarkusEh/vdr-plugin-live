@@ -60,7 +60,7 @@ class Setup
 		std::string const GetLastSortingMode() const { return m_lastsortingmode; }
 		std::string const GetTntnetLogLevel() const { return m_tntnetloglevel; }
 		bool GetShowLogo() const { return m_showLogo != 0; }
-		bool GetUseAjax() const { return m_useAjax != 0; }
+		bool GetUseAjax() const { return true; }
 		bool GetShowInfoBox() const { return m_showInfoBox != 0; }
 		bool GetUseStreamdev() const { return m_useStreamdev != 0; }
 		int GetStreamdevPort() const { return m_streamdevPort; }
@@ -95,7 +95,6 @@ class Setup
 		void SetLastWhatsOnListMode(std::string const & mode) { m_lastwhatsonlistmode = mode; SaveSetup(); }
 		void SetLastSortingMode(std::string const & mode) { m_lastsortingmode = mode; SaveSetup(); }
 		void SetShowLogo(bool show) { m_showLogo = show ? 1 : 0; }
-		void SetUseAjax(bool use) { m_useAjax = use ? 1 : 0; }
 		void SetShowInfoBox(bool show) { m_showInfoBox = show ? 1 : 0; }
 		void SetUseStreamdev(bool use) { m_useStreamdev = use ? 1 : 0; }
 		void SetStreamdevPort(int port) { m_streamdevPort = port; }
@@ -118,6 +117,7 @@ class Setup
 		bool ParseSetupEntry( char const* name, char const* value );
 
 		bool CheckLocalNet(std::string const & ip);
+    time_t GetVdrStart() { return m_vdr_start; }
 
 
 	private:
@@ -154,15 +154,14 @@ class Setup
 		std::string m_scheduleDuration;
 		std::string m_startscreen;
 		std::string m_theme;
-                std::string m_themedLinkPrefix;
-                std::string m_themedLinkPrefixImg;
+    std::string m_themedLinkPrefix;
+    std::string m_themedLinkPrefixImg;
 		std::string m_localnetmask;
 		bool m_islocalnet;
 		std::string m_lastwhatsonlistmode;
 		std::string m_lastsortingmode;
 		std::string m_tntnetloglevel;
 		int m_showLogo;
-		int m_useAjax;
 		int m_showInfoBox;
 		int m_useStreamdev;
 		int m_streamdevPort;
@@ -180,6 +179,7 @@ class Setup
 		bool CheckServerPort();
 		bool CheckServerIps();
 		bool CheckServerSslPort();
+    time_t m_vdr_start = 0;
 };
 
 Setup& LiveSetup();
