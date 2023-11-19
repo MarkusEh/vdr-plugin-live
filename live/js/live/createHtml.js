@@ -198,12 +198,6 @@ async function execute(url) {
     },
   });
   const req_responseXML = new window.DOMParser().parseFromString(await response.text(), "text/xml");
-/*
-  var req = new XMLHttpRequest();
-  req.open('POST', encodeURI(url + '&async=1'), false);
-  req.overrideMimeType("text/xml");
-  req.send();
-*/
   var ret_object = new Object();
   ret_object.success = false;
   if (!req_responseXML) {

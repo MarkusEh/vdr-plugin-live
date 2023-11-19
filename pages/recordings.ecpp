@@ -197,6 +197,7 @@ function RecordingsSt_int(s, level, displayFolder, data) {
   s.a += '<li class="recording"><div>'
   s.a += '<table width="100%" class="recordings">'
   for (obj_i of data) {
+    if (typeof recs[obj_i] === 'undefined') continue;
     obj = recs[obj_i]
     s.a += '<tr class="recording_item">'
     if (level > 0) s.a += 
