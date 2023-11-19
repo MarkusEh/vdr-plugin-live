@@ -139,7 +139,7 @@ cLargeString recoring_item("recoring_item", 25000);
 const recs = [];
 const vdr_start = <$ concat::addCharsIbe(buffer_i+20, LiveSetup().GetVdrStart() ) $>;
 const recordings_tree_creation = <$ concat::addCharsIbe(buffer_i+20, recordingsTree->getCreationTimestamp() ) $>;
-
+const param_name_recs = '&r<$ TNT_ARRAY $>=';
 <%cpp>
 /*
 for (const RecordingsItemPtr &rPtr: *recordingsTree->allRecordings()) {

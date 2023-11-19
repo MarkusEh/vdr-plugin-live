@@ -276,7 +276,8 @@ async function RecordingsSt_a(s, level, displayFolder, data) {
   var recs_param =  '';
   for (obj_i of data) {
     if (typeof recs[obj_i] === 'undefined') {
-      recs_param += '&r=';
+//      recs_param += '&r=';
+      recs_param += param_name_recs;
       recs_param += obj_i;
     }
   }
