@@ -1,6 +1,7 @@
 /*
  * version 0.9.2
  * general stringhelper functions
+ * Note: currently, most up to date Version is in live!
  *
  * only depends on g++ -std=c++17 std:: standard headers and on esyslog (from VDR)
  * no other dependencies, so it can be easily included in any other header
@@ -120,17 +121,11 @@ SELECT( CONCATENATE_END, CV_VA_NUM_ARGS(__VA_ARGS__) )(result, __VA_ARGS__) \
 // =========================================================
 // methods for char *s, make sure that s==NULL is just an empty string
 // =========================================================
-inline std::string charPointerToString(const unsigned char *s) {
-  return s?reinterpret_cast<const char *>(s):"";
-}
-inline std::string_view charPointerToStringView(const unsigned char *s) {
-  return s?reinterpret_cast<const char *>(s):std::string_view();
-}
-inline std::string_view charPointerToStringView(const char *s) {
-  return s?s:std::string_view();
-}
 inline std::string charPointerToString(const char *s) {
-  return s?s:"";
+  return s?s:std::string();
+}
+inline std::string charPointerToString(const unsigned char *s) {
+  return s?reinterpret_cast<const char *>(s):std::string();
 }
 // challange:
 //   method with importing parameter cSv called with const char * = nullptr
@@ -145,20 +140,17 @@ class cSv: public std::string_view {
   public:
     cSv(): std::string_view() {}
     cSv(const char *s): std::string_view(charPointerToStringView(s)) {}
+    cSv(const unsigned char *s): std::string_view(charPointerToStringView(reinterpret_cast<const char *>(s))) {}
     cSv(const char *s, size_t l): std::string_view(s, l) {}
     cSv(std::string_view sv): std::string_view(sv) {}
     cSv(const std::string &s): std::string_view(s) {}
     cSv substr_csv(size_t pos = 0) { return (length() > pos)?cSv(data() + pos, length() - pos):cSv(); }
     cSv substr_csv(size_t pos, size_t count) { return (length() > pos)?cSv(data() + pos, std::min(length() - pos, count) ):cSv(); }
+  private:
+    static std::string_view charPointerToStringView(const char *s) {
+      return s?std::string_view(s, strlen(s)):std::string_view();
+    }
 };
-inline bool stringEqual(const char *s1, const char *s2) {
-// return true if texts are identical (or both texts are NULL)
-  if (s1 && s2) return strcmp(s1, s2) == 0;
-  if (!s1 && !s2 ) return true;
-  if (!s1 && !*s2 ) return true;
-  if (!*s1 && !s2 ) return true;
-  return false;
-}
 
 // =========================================================
 // =========================================================
@@ -418,16 +410,6 @@ inline const char *strstr_word (const char *haystack, const char *needle, size_t
   return NULL;
 }
 
-inline cSv textAttributeValue(const char *text, const char *attributeName) {
-  if (!text || !attributeName) return cSv();
-  const char *found = strstr(text, attributeName);
-  if (!found) return cSv();
-  const char *avs = found + strlen(attributeName);
-  const char *ave = strchr(avs, '\n');
-  if (!ave) return cSv();
-  return cSv(avs, ave-avs);
-}
-
 inline bool splitString(cSv str, cSv delim, size_t minLengh, cSv &first, cSv &second) {
 // true if delim is part of str, and length of first & second >= minLengh
   std::size_t found = str.find(delim);
@@ -449,118 +431,23 @@ inline bool splitString(cSv str, cSv delim, size_t minLengh, cSv &first, cSv &se
   return true;
 }
 
-inline bool splitString(cSv str, char delimiter, size_t minLengh, cSv &first, cSv &second) {
-  using namespace std::literals::string_view_literals;
-  if (delimiter == '-') return splitString(str, " - "sv, minLengh, first, second);
-  if (delimiter == ':') return splitString(str, ": "sv, minLengh, first, second);
-  std::string delim(1, delimiter);
-  return splitString(str, delim, minLengh, first, second);
-}
-
 inline cSv SecondPart(cSv str, cSv delim, size_t minLengh) {
 // return second part of split string if delim is part of str, and length of first & second >= minLengh
 // otherwise, return ""
   cSv first, second;
   if (splitString(str, delim, minLengh, first, second)) return second;
-  else return "";
+  else return cSv();
 }
 
 inline cSv SecondPart(cSv str, cSv delim) {
-// Return part of str after first occurence of delim
 // if delim is not in str, return ""
+// Otherwise, return part of str after first occurence of delim
+//   remove leading blanks from result
   size_t found = str.find(delim);
   if (found == std::string::npos) return cSv();
   std::size_t ssnd;
   for(ssnd = found + delim.length(); ssnd < str.length() && str[ssnd] == ' '; ssnd++);
   return str.substr(ssnd);
-}
-
-inline int StringRemoveLastPartWithP(const char *str, int len) {
-// remove part with (...)
-// return -1 if nothing can be removed
-// otherwise length of string without ()
-  len = StringRemoveTrailingWhitespace(str, len);
-  if (len < 3) return -1;
-  if (str[len -1] != ')') return -1;
-  for (int i = len -2; i; i--) {
-    if (!isdigit(str[i]) && str[i] != '/') {
-      if (str[i] != '(') return -1;
-      int len2 = StringRemoveLastPartWithP(str, i);
-      if (len2 == -1 ) return StringRemoveTrailingWhitespace(str, i);
-      return len2;
-    }
-  }
-  return -1;
-}
-
-inline bool StringRemoveLastPartWithP(std::string &str) {
-// remove part with (...)
-  int len = StringRemoveLastPartWithP(str.c_str(), str.length() );
-  if (len < 0) return false;
-  str.erase(len);
-  return true;
-}
-inline cSv removeLastPartWithP(cSv str) {
-  int l = StringRemoveLastPartWithP(str.data(), str.length() );
-  if (l < 0) return str;
-  return cSv(str.data(), l);
-}
-
-inline int NumberInLastPartWithPS(cSv str) {
-// return number in last part with (./.), 0 if not found / invalid
-  if (str.length() < 3 ) return 0;
-  if (str[str.length() - 1] != ')') return 0;
-  std::size_t found = str.find_last_of("(");
-  if (found == std::string::npos) return 0;
-  for (std::size_t i = found + 1; i < str.length() - 1; i ++) {
-    if (!isdigit(str[i]) && str[i] != '/') return 0; // we ignore (asw), and return only number with digits only
-  }
-  return parse_unsigned_internal<int>(str.substr_csv(found + 1));
-}
-inline int NumberInLastPartWithP(cSv str) {
-// return number in last part with (...), 0 if not found / invalid
-  if (str.length() < 3 ) return 0;
-  if (str[str.length() - 1] != ')') return 0;
-  std::size_t found = str.find_last_of("(");
-  if (found == std::string::npos) return 0;
-  for (std::size_t i = found + 1; i < str.length() - 1; i ++) {
-    if (!isdigit(str[i])) return 0; // we ignore (asw), and return only number with digits only
-  }
-  return parse_unsigned_internal<int>(str.substr_csv(found + 1));
-}
-
-inline int seasonS(cSv description_part, const char *S) {
-// return season, if found at the beginning of description_part
-// otherwise, return -1
-//  std::cout << "seasonS " << description_part << "\n";
-  size_t s_len = strlen(S);
-  if (description_part.length() <= s_len ||
-     !isdigit(description_part[s_len])   ||
-     description_part.compare(0, s_len, S)  != 0) return -1;
-  return parse_unsigned<int>(description_part.substr(s_len));
-}
-inline bool episodeSEp(int &season, int &episode, cSv description, const char *S, const char *Ep) {
-// search pattern S<digit> Ep<digits>
-// return true if episode was found.
-// set season = -1 if season was not found
-// set episode = 0 if episode was not found
-// find Ep[digit]
-  season = -1;
-  episode = 0;
-  size_t Ep_len = strlen(Ep);
-  size_t ep_pos = 0;
-  do {
-    ep_pos = description.find(Ep, ep_pos);
-    if (ep_pos == std::string_view::npos || ep_pos + Ep_len >= description.length() ) return false;  // no Ep[digit]
-    ep_pos += Ep_len;
-//  std::cout << "ep_pos = " << ep_pos << "\n";
-  } while (!isdigit(description[ep_pos]));
-// Ep[digit] found
-//  std::cout << "ep found at " << description.substr(ep_pos) << "\n";
-  episode = parse_unsigned<int>(description.substr(ep_pos));
-  if (ep_pos - Ep_len >= 3) season = seasonS(description.substr(ep_pos - Ep_len - 3), S);
-  if (season < 0 && ep_pos - Ep_len >= 4) season = seasonS(description.substr(ep_pos - Ep_len - 4), S);
-  return true;
 }
 
 // =========================================================
@@ -569,21 +456,17 @@ inline bool episodeSEp(int &season, int &episode, cSv description, const char *S
 // =========================================================
 // =========================================================
 
-// =========================================================
-// some performance improvemnt, to get string presentation for channel
-// you can also use channelID.ToString()
-// =========================================================
-
 inline int stringAppendAllASCIICharacters(std::string &target, const char *str) {
 // append all characters > 31 (signed !!!!). Unsigned: 31 < character < 128
 // return number of appended characters
   int i = 0;
-//  for (const signed char *strs = reinterpret_cast<const signed char *>(str); strs[i] > 31; i++);
   for (; reinterpret_cast<const signed char*>(str)[i] > 31; i++);
   target.append(str, i);
   return i;
 }
 inline void stringAppendRemoveControlCharacters(std::string &target, const char *str) {
+// we replace control characters with " " and invalid UTF8 with "?"
+// and remove trailing whitespace
   for(;;) {
     str += stringAppendAllASCIICharacters(target, str);
     wint_t cp = getNextUtfCodepoint(str);
@@ -624,26 +507,13 @@ inline std::string concatenate(cSv s1, cSv s2, cSv s3) {
   return result;
 }
 
-inline std::string concatenate(const char *s1, const char *s2) {
-  if (!s1 && !s2) return std::string();
-  if (!s1) return s2;
-  if (!s2) return s1;
+inline std::string concatenate(cSv s1, cSv s2, cSv s3, cSv s4) {
   std::string result;
-  result.reserve(strlen(s1) + strlen(s2));
-  result.append(s1);
-  result.append(s2);
-  return result;
-}
-
-inline std::string concatenate(const char *s1, const char *s2, const char *s3) {
-  if (!s1) return concatenate(s2, s3);
-  if (!s2) return concatenate(s1, s3);
-  if (!s3) return concatenate(s1, s2);
-  std::string result;
-  result.reserve(strlen(s1) + strlen(s2) + strlen(s3) );
+  result.reserve(s1.length() + s2.length() + s3.length()  + s4.length() );
   result.append(s1);
   result.append(s2);
   result.append(s3);
+  result.append(s4);
   return result;
 }
 
@@ -653,11 +523,6 @@ namespace concat {
     int numChars;
     for (numChars = 0; i; i /= 10) numChars++;
     return numChars;
-  }
-  template<class T> inline int numCharsU(T i) {
-// note: i must be >= 0!!!!
-    if (i < 10) return 1;
-    return numCharsUg0(i);
   }
   inline int numChars(cSv s) { return s.length(); }
   inline int numChars(std::string_view s) { return s.length(); }
@@ -707,11 +572,12 @@ namespace concat {
     char *result = concat::addCharsIbe(be, i);
     return cSv(result, be - result);
   }
+
   inline void addChars(char *b, int l, int i) { addCharsIbe(b+l, i); }
   inline void addChars(char *b, int l, const std::string_view &s) { memcpy(b, s.data(), l); }
   inline void addChars(char *b, int l, const cSv &s) { memcpy(b, s.data(), l); }
   inline void addChars(char *b, int l, const std::string &s) { memcpy(b, s.data(), l); }
-  inline void addChars(char *b, int l, const char *s) { memcpy(b, s, l); }
+  inline void addChars(char *b, int l, const char *s) { if(s) memcpy(b, s, l); }
 
 // methods to append to std::strings ========================
   template<typename T>
@@ -731,6 +597,10 @@ namespace concat {
     char *bufs = addCharsIbe(bufe, i);
     str.append(bufs, bufe-bufs);
   }
+}
+template<class T> inline std::string toStringI(T i) {
+  char buffer[20];
+  return std::string(concat::addCharsIbeSc(buffer+20, i));
 }
 inline void stringAppend(std::string &str, unsigned int i) { concat::stringAppendU(str, i); }
 inline void stringAppend(std::string &str, unsigned long int i) { concat::stringAppendU(str, i); }
@@ -797,103 +667,10 @@ class cConcatenate
 // =========================================================
 // =========================================================
 
-template<class T>
-void push_back_new(std::vector<T> &vec, const T &str) {
-// add str to vec, but only if str is not yet in vec and if str is not empty
-  if (str.empty() ) return;
-  if (find (vec.begin(), vec.end(), str) != vec.end() ) return;
-  vec.push_back(str);
-}
-
-template<class T>
-void stringToVector(std::vector<T> &vec, const char *str) {
-// if str does not start with '|', don't split, just add str to vec
-// otherwise, split str at '|', and add each part to vec
-  if (!str || !*str) return;
-  if (str[0] != '|') { vec.push_back(str); return; }
-  const char *lDelimPos = str;
-  for (const char *rDelimPos = strchr(lDelimPos + 1, '|'); rDelimPos != NULL; rDelimPos = strchr(lDelimPos + 1, '|') ) {
-    push_back_new(vec, T(lDelimPos + 1, rDelimPos - lDelimPos - 1));
-    lDelimPos = rDelimPos;
-  }
-}
-
-inline std::string vectorToString(const std::vector<std::string> &vec) {
-  if (vec.size() == 0) return "";
-  if (vec.size() == 1) return vec[0];
-  std::string result("|");
-  for (const std::string &str: vec) { result.append(str); result.append("|"); }
-  return result;
-}
-
-inline std::string objToString(const int &i) { return std::to_string(i); }
-inline std::string objToString(const std::string &i) { return i; }
-
-template<class T, class C=std::set<T>>
-std::string getStringFromSet(const C &in, char delim = ';') {
-  if (in.size() == 0) return "";
-  std::string result;
-  if (delim == '|') result.append(1, delim);
-  for (const T &i: in) {
-    result.append(objToString(i));
-    result.append(1, delim);
-  }
-  return result;
-}
-
-template<class T> T stringToObj(const char *s, size_t len) {
-  esyslog("tvscraper: ERROR: template<class T> T stringToObj called");
-  return 5; }
-template<> inline int stringToObj<int>(const char *s, size_t len) { return atoi(s); }
-template<> inline std::string stringToObj<std::string>(const char *s, size_t len) { return std::string(s, len); }
-template<> inline cSv stringToObj<cSv>(const char *s, size_t len) { return cSv(s, len); }
-
-template<class T> void insertObject(std::vector<T> &cont, const T &obj) { cont.push_back(obj); }
-template<class T> void insertObject(std::set<T> &cont, const T &obj) { cont.insert(obj); }
-
-template<class T, class C=std::set<T>>
-C getSetFromString(const char *str, char delim = ';') {
-// split str at delim';', and add each part to result
-  C result;
-  if (!str || !*str) return result;
-  const char *lStartPos = str;
-  if (delim == '|' && lStartPos[0] == delim) lStartPos++;
-  for (const char *rDelimPos = strchr(lStartPos, delim); rDelimPos != NULL; rDelimPos = strchr(lStartPos, delim) ) {
-    insertObject<T>(result, stringToObj<T>(lStartPos, rDelimPos - lStartPos));
-    lStartPos = rDelimPos + 1;
-  }
-  const char *rDelimPos = strchr(lStartPos, 0);
-  if (rDelimPos != lStartPos) insertObject<T>(result, stringToObj<T>(lStartPos, rDelimPos - lStartPos));
-  return result;
-}
-
-inline const char *strchr_se(const char *ss, const char *se, char ch) {
-  for (const char *sc = ss; sc < se; sc++) if (*sc == ch) return sc;
-  return NULL;
-}
-
-template<class T, class C=std::set<T>>
-C getSetFromString(cSv str, char delim, const std::set<cSv> &ignoreWords, int max_len = 0) {
-// split str at delim, and add each part to result
-  C result;
-  if (str.empty() ) return result;
-  const char *lCurrentPos = str.data();
-  const char *lEndPos = str.data() + str.length();
-  const char *lSoftEndPos = max_len == 0?lEndPos:str.data() + max_len;
-  for (const char *rDelimPos = strchr_se(lCurrentPos, lEndPos, delim); rDelimPos != NULL; rDelimPos = strchr_se(lCurrentPos, lEndPos, delim) ) {
-    if (ignoreWords.find(cSv(lCurrentPos, rDelimPos - lCurrentPos)) == ignoreWords.end()  )
-      insertObject<T>(result, stringToObj<T>(lCurrentPos, rDelimPos - lCurrentPos));
-    lCurrentPos = rDelimPos + 1;
-    if (lCurrentPos >= lSoftEndPos) break;
-  }
-  if (lCurrentPos < lEndPos && lCurrentPos < lSoftEndPos) insertObject<T>(result, stringToObj<T>(lCurrentPos, lEndPos - lCurrentPos));
-  return result;
-}
-
 class cSplit {
   public:
     cSplit(cSv sv, char delim): m_sv(sv), m_delim(delim), m_end(cSv(), m_delim) {}
-    cSplit(const char *s, char delim): m_sv(charPointerToStringView(s)), m_delim(delim), m_end(cSv(), m_delim) {}
+// sv can start with delim (optional)
     cSplit(const cSplit&) = delete;
     cSplit &operator= (const cSplit &) = delete;
     class iterator {
@@ -943,16 +720,15 @@ class cSplit {
 class cContainer {
   public:
     cContainer(char delim = '|'): m_delim(delim) { }
+// start with delimiter. This allows 'empty' items
     cContainer(const cContainer&) = delete;
     cContainer &operator= (const cContainer &) = delete;
     bool find(cSv sv) {
-      if (!sv.empty() ) {
-        size_t f = m_buffer.find(sv);
-        if (f == std::string_view::npos || f== 0 || f + sv.length() == m_buffer.length() ) return false;
-        if (m_buffer[f-1] == m_delim && m_buffer[f+sv.length()] == m_delim) return true;
-      }
-      CONCATENATE(ns, "|", sv, "|");
-      size_t f = m_buffer.find(ns);
+      char ns[sv.length() + 2];
+      ns[0] = m_delim;
+      ns[sv.length() + 1] = m_delim;
+      memcpy(ns + 1, sv.data(), sv.length());
+      size_t f = m_buffer.find(ns, 0, sv.length()+2);
       return f != std::string_view::npos;
     }
     bool insert(cSv sv) {
@@ -965,10 +741,6 @@ class cContainer {
       m_buffer.append(sv);
       m_buffer.append(1, m_delim);
       return false;
-    }
-    bool insert(const char *s) {
-      if (!s) return true;
-      return insert(cSv(s));
     }
     std::string moveBuffer() { return std::move(m_buffer); }
     const std::string &getBufferRef() { return m_buffer; }
@@ -1002,8 +774,9 @@ class cMeasureTime {
     void print(const char *context) const {
       if (numCalls == 0) return;
       if (!context) context = "cMeasureTime";
-      esyslog("tvscraper: %s num = %5i, time = %9.5f, average %f, max = %f", context, numCalls, sumT.count(), sumT.count()/numCalls, maxT.count());
+      esyslog("%s num = %5i, time = %9.5f, average %f, max = %f", context, numCalls, sumT.count(), sumT.count()/numCalls, maxT.count());
     }
+    int getNumCalls() const { return numCalls; }
 
   private:
     int numCalls = 0;

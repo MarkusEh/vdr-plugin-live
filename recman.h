@@ -73,6 +73,7 @@ namespace vdrlive {
                    *  to reidentify a recording.
                    */
                   std::string Md5Hash(cRecording const * recording) const;
+                  mutable cMeasureTime m_timeMd5Hash;
 
                   /**
                    *  fetches a cRecording from VDR's Recordings collection. Returns
@@ -243,6 +244,11 @@ template<class T>
  		  bool recEntriesSorted() { return m_cmp_rec != NULL; }
  		  bool dirEntriesSorted() { return m_cmp_dir != NULL; }
 
+      mutable cMeasureTime *m_timeIdentify = nullptr;
+      mutable cMeasureTime *m_timeOverview = nullptr;
+      mutable cMeasureTime *m_timeImage = nullptr;
+      mutable cMeasureTime *m_timeDurationDeviation = nullptr;
+
     private:
       std::string GetNameForSearch(cSv name);
     protected:
@@ -333,7 +339,7 @@ template<class T>
   class RecordingsItemRec : public RecordingsItem
   {
     public:
-      RecordingsItemRec(int idI, cSv id, cSv name, const cRecording* recording);
+      RecordingsItemRec(int idI, cSv id, cSv name, const cRecording* recording, cMeasureTime *timeIdentify, cMeasureTime *timeOverview, cMeasureTime *timeImage, cMeasureTime *timeDurationDeviation);
 
       virtual ~RecordingsItemRec();
 

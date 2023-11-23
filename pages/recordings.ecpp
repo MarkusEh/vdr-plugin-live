@@ -123,7 +123,7 @@ std::vector<int> available_recs;
 std::string openTreeNodes;
 if (request.hasCookie("VDR-Live-Recordings-Tree-Open-Nodes")) {
   openTreeNodes = request.getCookie("VDR-Live-Recordings-Tree-Open-Nodes");
-  isyslog("live: VDR-Live-Recordings-Tree-Open-Nodes = %s", openTreeNodes.c_str());
+//  isyslog("live: VDR-Live-Recordings-Tree-Open-Nodes = %s", openTreeNodes.c_str());
 }
 cLargeString recoring_item("recoring_item", 25000);
 </%cpp>
@@ -456,6 +456,17 @@ if (currentFlat != "true") {
     addDuplicateRecordingsNoSd(recItems, recordingsTree);
     recItemsC = &recItems;
   }
+}
+// do we have to get/write the recording details?
+// we have to, if currentFlat == true || level == 0 || this folder is open (cookie)
+bool write_recs = level == 0 || currentFlat == "true";
+if (!write_recs) {
+// check: is this folder open (cookie)?
+  auto equal_fldf = [parentIdHash](cSv f) { return f.compare(5, std::string_view::npos, parentIdHash) == 0; };
+  cSplit splitOpenTreeNodes(openTreeNodes, ',');
+  write_recs = std::find_if(splitOpenTreeNodes.begin(), splitOpenTreeNodes.end(), equal_fldf) != splitOpenTreeNodes.end();
+}
+if (write_recs) {
   char buffer_i[21];
   buffer_i[20] = 0;
   </%cpp>
@@ -466,9 +477,7 @@ if (currentFlat != "true") {
     rPtr->AppendAsJSArray(*recoring_item, true);
   </%cpp>
 recs[<$concat::addCharsIbe(buffer_i+20, rPtr->IdI())$>]=[<$$ recoring_item->c_str() $>]
-  <%cpp>
-  }
-  </%cpp>
+% }
 </script>
   <%cpp>
 }
@@ -489,29 +498,7 @@ if (currentSort != "duplicates" || currentFlat == "true") {
       document.write(rec_string_d([<$level$>, <$displayFolder$>, [ <$$ recoring_item->c_str() $> ]]))
 %   } else {
       rec_ids["fldr_<$ parentIdHash $>"] = [<$level$>, <$displayFolder$>, [ <$$ recoring_item->c_str() $> ]]
-      <%cpp>
-// if this folder is open, also add the recs
-// check: is this folder open?
-      auto equal_fldf = [parentIdHash](cSv f) { return f.compare(5, std::string_view::npos, parentIdHash) == 0; };
-      cSplit splitOpenTreeNodes(openTreeNodes, ',');
-      if (std::find_if(splitOpenTreeNodes.begin(), splitOpenTreeNodes.end(), equal_fldf) != splitOpenTreeNodes.end()) {
-// this folder is open -> write the missing recs
-        char buffer_i[21];
-        buffer_i[20] = 0;
-        for (const RecordingsItemPtr &rPtr: *recItemsC) {
-          if (std::find(available_recs.begin(), available_recs.end(), rPtr->IdI() ) == available_recs.end() ) {
-// this rPtr->IdI() was not provided before
-            recoring_item->clear();
-            rPtr->AppendAsJSArray(*recoring_item, true);
-            </%cpp>
-recs[<$concat::addCharsIbe(buffer_i+20, rPtr->IdI())$>]=[<$$ recoring_item->c_str() $>]
-            <%cpp>
-            available_recs.push_back(rPtr->IdI());
-          }
-        }
-      }
-    }
-    </%cpp>
+%   }
       </script>
     <%cpp>
   }

@@ -65,7 +65,11 @@ namespace vdrlive {
 
 	std::string RecordingsManager::Md5Hash(cRecording const * recording) const
 	{
-		return "recording_" + MD5Hash(recording->FileName());
+    m_timeMd5Hash.start();
+    std::string result = "recording_" + MD5Hash(recording->FileName());
+    m_timeMd5Hash.stop();
+    return result;
+//		return "recording_" + MD5Hash(recording->FileName());
 	}
 
 	cRecording const * RecordingsManager::GetByMd5Hash(cSv hash) const
@@ -580,16 +584,27 @@ bool searchNameDesc(RecordingsItemPtr &RecItem, const std::vector<RecordingsItem
 
 	void RecordingsItem::getScraperData(const cRecording* recording, const cImageLevels &imageLevels, std::string *collectionName) {
     cGetScraperVideo getScraperVideo(NULL, recording);
-    if (getScraperVideo.call(LiveSetup().GetPluginScraper()) ) {
+    if (m_timeIdentify) m_timeIdentify->start();
+    bool scraper_available = getScraperVideo.call(LiveSetup().GetPluginScraper());
+    if (m_timeIdentify) m_timeIdentify->stop();
+    if (scraper_available) {
       m_s_videoType = getScraperVideo.m_scraperVideo->getVideoType();
       m_s_dbid = getScraperVideo.m_scraperVideo->getDbId();
-      getScraperVideo.m_scraperVideo->getOverview(&m_s_title, &m_s_episode_name, &m_s_release_date, &m_s_runtime, &m_s_IMDB_ID, &m_s_collection_id, collectionName);
-      m_s_episode_number = getScraperVideo.m_scraperVideo->getEpisodeNumber();
-      m_s_season_number = getScraperVideo.m_scraperVideo->getSeasonNumber();
+      if (m_s_videoType == tSeries || m_s_videoType == tMovie) {
+        if (m_timeOverview) m_timeOverview->start();
+        getScraperVideo.m_scraperVideo->getOverview(&m_s_title, &m_s_episode_name, &m_s_release_date, &m_s_runtime, &m_s_IMDB_ID, &m_s_collection_id, collectionName);
+        if (m_timeOverview) m_timeOverview->stop();
+        m_s_episode_number = getScraperVideo.m_scraperVideo->getEpisodeNumber();
+        m_s_season_number = getScraperVideo.m_scraperVideo->getSeasonNumber();
+        if (m_timeDurationDeviation) m_timeDurationDeviation->start();
+        m_duration_deviation = getScraperVideo.m_scraperVideo->getDurationDeviation();
+        if (m_timeDurationDeviation) m_timeDurationDeviation->stop();
+        m_language = getScraperVideo.m_scraperVideo->getLanguage();
+        m_video_SD_HD = getScraperVideo.m_scraperVideo->getHD();
+      }
+      if (m_timeImage) m_timeImage->start();
       m_s_image = getScraperVideo.m_scraperVideo->getImage(imageLevels, cOrientations(eOrientation::landscape, eOrientation::portrait, eOrientation::banner), false);
-      m_duration_deviation = getScraperVideo.m_scraperVideo->getDurationDeviation();
-      m_language = getScraperVideo.m_scraperVideo->getLanguage();
-      m_video_SD_HD = getScraperVideo.m_scraperVideo->getHD();
+      if (m_timeImage) m_timeImage->stop();
     } else {
 // service "GetScraperVideo" is not available, just get the image
       m_s_videoType = tNone;
@@ -719,7 +734,7 @@ bool searchNameDesc(RecordingsItemPtr &RecItem, const std::vector<RecordingsItem
 	/**
 	 *  Implementation of class RecordingsItemRec:
 	 */
-	RecordingsItemRec::RecordingsItemRec(int idI, cSv id, cSv name, const cRecording* recording):
+	RecordingsItemRec::RecordingsItemRec(int idI, cSv id, cSv name, const cRecording* recording, cMeasureTime *timeIdentify, cMeasureTime *timeOverview, cMeasureTime *timeImage, cMeasureTime *timeDurationDeviation):
 		RecordingsItem(name),
 		m_recording(recording),
 		m_id(id),
@@ -727,6 +742,11 @@ bool searchNameDesc(RecordingsItemPtr &RecItem, const std::vector<RecordingsItem
 	{
 // dsyslog("live: REC: C: rec %s -> %s", name.c_str(), parent->Name().c_str());
     m_idI = idI;
+    m_timeIdentify = timeIdentify;
+    m_timeOverview = timeOverview;
+    m_timeImage = timeImage;
+    m_timeDurationDeviation = timeDurationDeviation;
+
     getScraperData(recording,
       cImageLevels(eImageLevel::episodeMovie, eImageLevel::seasonMovie, eImageLevel::tvShowCollection, eImageLevel::anySeasonCollection));
 // find our number of ts files
@@ -986,6 +1006,14 @@ void RecordingsItemRec::AppendAsJSArray(cLargeString &target, std::vector<Record
 		m_root(new RecordingsItemDir("", 0))
 	{
 //   esyslog("live: DH: ****** RecordingsTree::RecordingsTree() ********");
+   recMan->m_timeMd5Hash.reset();
+   cMeasureTime timeRecs, timeIdentify, timeOverview, timeImage, timeDurationDeviation;
+   timeRecs.reset();
+   timeIdentify.reset();
+   timeOverview.reset();
+   timeImage.reset();
+   timeDurationDeviation.reset();
+
    std::chrono::time_point<std::chrono::high_resolution_clock> begin = std::chrono::high_resolution_clock::now();
 // check availability of scraper data
     m_creation_timestamp = time(0);
@@ -1015,7 +1043,7 @@ void RecordingsItemRec::AppendAsJSArray(cLargeString &target, std::vector<Record
       else m_maxLevel = std::max(m_maxLevel, recording->HierarchyLevels() );
 
       RecordingsItemPtr dir = m_rootFileSystem;
-      std::string_view name(recording->Name());
+      cSv name(recording->Name());
 
       size_t index = 0;
       size_t pos = 0;
@@ -1023,13 +1051,15 @@ void RecordingsItemRec::AppendAsJSArray(cLargeString &target, std::vector<Record
         pos = name.find('~', index);
         if (pos != std::string::npos) {
 // note: the dir returned is the added (or existing) subdir named name.substr(index, pos - index)
-          dir = dir->addDirIfNotExists(name.substr(index, pos - index) );
+          dir = dir->addDirIfNotExists(name.substr_csv(index, pos - index) );
           index = pos + 1;
           // esyslog("live: DH: current dir: '%s'", dir->Name().c_str());
         }
         else {
-          std::string_view recName(name.substr(index, name.length() - index));
-          RecordingsItemPtr recPtr (new RecordingsItemRec(recording->Id(), recMan->Md5Hash(recording), recName, recording));
+          cSv recName = name.substr_csv(index, name.length() - index);
+          timeRecs.start();
+          RecordingsItemPtr recPtr (new RecordingsItemRec(recording->Id(), recMan->Md5Hash(recording), recName, recording, &timeIdentify, &timeOverview, &timeImage, &timeDurationDeviation));
+          timeRecs.stop();
           dir->m_entries.push_back(recPtr);
 m_allRecordings.push_back(recPtr);
           // esyslog("live: DH: added rec: '%.*s'", (int)recName.length(), recName.data());
@@ -1068,6 +1098,14 @@ m_allRecordings.push_back(recPtr);
 		m_root->finishRecordingsTree();
     std::chrono::duration<double> timeNeeded = std::chrono::high_resolution_clock::now() - begin;
     esyslog("live: DH: ------ RecordingsTree::RecordingsTree() --------, required time: %9.5f", timeNeeded.count() );
+/*
+    recMan->m_timeMd5Hash.print("live: timeMd5Hash");
+                 timeRecs.print("live: timeRecs   ");
+             timeIdentify.print("live: Identify   ");
+             timeOverview.print("live: Overview   ");
+                timeImage.print("live: Image      ");
+    timeDurationDeviation.print("live: DurDev     ");
+*/
 	}
 
 	RecordingsTree::~RecordingsTree()
