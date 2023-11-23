@@ -460,13 +460,14 @@ if (currentFlat != "true") {
 // do we have to get/write the recording details?
 // we have to, if currentFlat == true || level == 0 || this folder is open (cookie)
 bool write_recs = level == 0 || currentFlat == "true";
-if (!write_recs) {
+if (!write_recs && recItemsC) {
 // check: is this folder open (cookie)?
   auto equal_fldf = [parentIdHash](cSv f) { return f.compare(5, std::string_view::npos, parentIdHash) == 0; };
   cSplit splitOpenTreeNodes(openTreeNodes, ',');
   write_recs = std::find_if(splitOpenTreeNodes.begin(), splitOpenTreeNodes.end(), equal_fldf) != splitOpenTreeNodes.end();
 }
-if (write_recs) {
+if (write_recs && recItemsC) {
+// in case of duplicates, and not flat, the recItemsC is not available
   char buffer_i[21];
   buffer_i[20] = 0;
   </%cpp>
@@ -519,6 +520,25 @@ if (currentSort != "duplicates" || currentFlat == "true") {
     }
     if (!recItems.empty() ) {
       std::string idHash(xxHash32(nodeName));
+// do we have to get/write the recording details?
+// check: is this folder open (cookie)?
+      auto equal_fldf = [idHash](cSv f) { return f.compare(5, std::string_view::npos, idHash) == 0; };
+      cSplit splitOpenTreeNodes(openTreeNodes, ',');
+      if (std::find_if(splitOpenTreeNodes.begin(), splitOpenTreeNodes.end(), equal_fldf) != splitOpenTreeNodes.end()) {
+        char buffer_i[21];
+        buffer_i[20] = 0;
+        </%cpp>
+<script>
+        <%cpp>
+        for (const RecordingsItemPtr &rPtr: recItems) {
+          recoring_item->clear();
+          rPtr->AppendAsJSArray(*recoring_item, true);
+          </%cpp>
+recs[<$concat::addCharsIbe(buffer_i+20, rPtr->IdI())$>]=[<$$ recoring_item->c_str() $>]
+%       }
+</script>
+      <%cpp>
+      }
       bool first = true;
       recoring_item->clear();
       RecordingsItemRec::AppendAsJSArray(*recoring_item, recItems.begin(), recItems.end(), first, currentFilter, false);

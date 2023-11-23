@@ -1,9 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include "tools.h"
-#include "xxhash32.h"
+#include "xxhash.h"
 #include "setup.h"
-
 
 #include "md5.h"
 
@@ -272,20 +271,39 @@ template void AppendTextTruncateOnWord<cLargeString>(cLargeString &target, const
 		std::string res = szRes;
 		free(szRes);
 		return res;
-
 	}
 
+template<typename T> void toHex(char *buf, int chars, T value) {
+  const char *hex_chars = "0123456789ABCDEF";
+  for (int i = chars-1; i >= 0; i--, value /= 16) {
+    buf[i] = hex_chars[value%16];
+  }
+}
 	std::string xxHash32(cSv str)
 	{
+//  uint32_t result = XXHash32::hash(str.data(), str.length(), 20);
+	  XXH32_hash_t result = XXH32(str.data(), str.length(), 20);
 	  char res[9];
-	  uint32_t result = XXHash32::hash(str.data(), str.length(), 20);
 	  res[8] = 0;
-      for (int i = 7; i >= 0; i--) {
-	    int dig = result % 16;
-      if (dig < 10) res[i] = dig + '0';
-      else          res[i] = dig - 10 + 'A';
-      result /= 16;
-    }
+    toHex(res, 8, result);
+    return res;
+	}
+
+	std::string xxHash64(cSv str)
+	{
+	  XXH64_hash_t result = XXH3_64bits(str.data(), str.length());
+	  char res[17];
+	  res[16] = 0;
+    toHex(res, 16, result);
+    return res;
+	}
+	std::string xxHash128(cSv str)
+	{
+	  XXH128_hash_t result = XXH3_128bits(str.data(), str.length());
+	  char res[33];
+	  res[32] = 0;
+    toHex(res+16, 16, result.low64);
+    toHex(res   , 16, result.high64);
     return res;
 	}
 

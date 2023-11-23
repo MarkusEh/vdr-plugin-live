@@ -285,7 +285,7 @@ function existingRecordingString(col_span, bottomrow, id, archiveDescr, imdb_id,
 		if (LiveSetup().GetShowLogo()) {
 </%cpp>
 <a href="<$ LiveSetup().GetStartScreenLink()$>">
-<img src="<$ LiveSetup().GetThemedLink("img", "logo.png") $>" alt="VDR Live!" class="logo"></img></a>
+<img src="<$ LiveSetup().GetThemedLink("img", "logo.png") $>" alt="VDR Live!" class="logo" /></a>
 <%cpp>
 		}
 </%cpp>
@@ -319,7 +319,7 @@ function existingRecordingString(col_span, bottomrow, id, archiveDescr, imdb_id,
 	if ((duration >= 0) && ((progress < 0) || (duration == 0)))
 		cls +="_invisible";
 </%cpp>
-<div class="<$ cls $>"><div class="__elapsed" <%cpp> if (!id.empty()) { </%cpp>id="<$ id $>"<%cpp> } </%cpp>style="width: <$ progress $>px"></div></div>
+<div class="<$ cls $>"><div class="__elapsed" <%cpp> if (!id.empty()) { </%cpp>id="<$ id $>" <%cpp> } </%cpp>style="width: <$ progress $>%"></div></div>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -333,7 +333,7 @@ function existingRecordingString(col_span, bottomrow, id, archiveDescr, imdb_id,
 	std::string alt;
 	std::string id;
 </%args>
-<%cpp> { </%cpp><a <%cpp> if (!id.empty()) { </%cpp>id="<$ id $>" <%cpp> } </%cpp><& hide_element hide=(id.empty()? 0 : 1) &> href="vdr_request/<$ action $>?param=<$ param $>" <%cpp>if (!tip.empty()) { </%cpp><& tooltip.hint text=(tip) &> <%cpp> } </%cpp>><img src="<$ LiveSetup().GetThemedLink("img", image) $>" alt="<$ alt $>"></img></a> <%cpp> } </%cpp>
+<%cpp> { </%cpp><a <%cpp> if (!id.empty()) { </%cpp>id="<$ id $>" <%cpp> } </%cpp><& hide_element hide=(id.empty()? 0 : 1) &> href="vdr_request/<$ action $>?param=<$ param $>" <%cpp>if (!tip.empty()) { </%cpp><& tooltip.hint text=(tip) &> <%cpp> } </%cpp>><img src="<$ LiveSetup().GetThemedLink("img", image) $>" alt="<$ alt $>" /></a> <%cpp> } </%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -351,7 +351,7 @@ if (s_IMDB_ID.empty() ) { </%cpp>
 <%cpp> } else { </%cpp>
 <a href="http://www.imdb.com/title/<$ s_IMDB_ID $>"
 <%cpp> } </%cpp>
- target="_blank"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &>></img></a> <%cpp> } </%cpp>
+ target="_blank"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &> /></a> <%cpp> } </%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -363,7 +363,7 @@ if (s_IMDB_ID.empty() ) { </%cpp>
 <%cpp>
 if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded()) {
 </%cpp>
-<a href="stream.html?channelid_str=<$ channelId $>"><img src="<$ LiveSetup().GetThemedLink("img", "stream_button.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into browser.")) &>></img></a>
+<a href="stream.html?channelid_str=<$ channelId $>"><img src="<$ LiveSetup().GetThemedLink("img", "stream_button.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into browser.")) &> /></a>
 <%cpp>
 }
 </%cpp>
@@ -379,11 +379,11 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded()) {
 #if TNTVERSION >= 30000
 </%cpp>
-<a href="playlist.m3u?channel_str=<$ channelId $>"><img src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into media player.")) &>></img></a>
+<a href="playlist.m3u?channel_str=<$ channelId $>"><img src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into media player.")) &> /></a>
 <%cpp>
 #else
 </%cpp>
-<a href="playlist.m3u?channel=<$ channelId $>"><img src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into media player.")) &>></img></a>
+<a href="playlist.m3u?channel=<$ channelId $>"><img src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into media player.")) &> /></a>
 <%cpp>
 #endif
 }
@@ -400,7 +400,7 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 <%cpp>
 #if TNT_WATCHDOG_SILENCE
 {
-</%cpp><a href="playlist.m3u?recid=<$ recid $>"><img src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint text=(tr("Stream this recording into media player.")) &>></img> <$ linkText $></a>
+</%cpp><a href="playlist.m3u?recid=<$ recid $>"><img src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint text=(tr("Stream this recording into media player.")) &> /> <$ linkText $></a>
 <%cpp>
 }
 #endif
@@ -557,7 +557,7 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 <%cpp>
 	} if (LiveFeatures<features::epgsearch>().Recent() && eventId != 0) {
 </%cpp>
-	<a href="searchresults.html?searchplain=<$ StringEscapeAndBreak(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a>
+	<a href="searchresults.html?searchplain=<$ StringEscapeAndBreak(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a>
 <%cpp>
 		}
 		if ((duration == 0) || (elapsed >= 0)) {
@@ -608,7 +608,7 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 		<%cpp> } if (LiveFeatures<features::epgsearch>().Recent()) { </%cpp>
 		<td class="action <? lastCurrentChanel ? "bottomrow"?>">
 			<%cpp> if (eventId) { </%cpp>
-			<a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a></td>
+			<a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a></td>
 		<%cpp> } } </%cpp>
 		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><%cpp>if ((duration == 0) || (elapsed > 0)) { </%cpp><& pageelems.hls_channel channelId=(channelId) &><%cpp> } </%cpp></td>
 		<%cpp> if (LiveSetup().GetShowPlayMediaplayer() ) { </%cpp>
@@ -1032,8 +1032,7 @@ if (scraperMovieOrTv.found) {
 %   }
     <td>
       <a href="/tvscraper/<$ character->getImage().path $>" target="_blank">
-        <img src="/tvscraper/<$ character->getImage().path $>" alt="<$character->getPersonName()$>: <$character->getCharacterName()$>" class="actor">
-        </img>
+        <img src="/tvscraper/<$ character->getImage().path $>" alt="<$character->getPersonName()$>: <$character->getCharacterName()$>" class="actor" />
       </a>
     </td>
 <%cpp>
@@ -1096,8 +1095,7 @@ const std::vector<cTvMedia> *media_v = static_cast<std::vector<cTvMedia> *>((voi
 for (const cTvMedia &media: *media_v) {
 </%cpp>
   <a href="/tvscraper/<$ media.path $>" target="_blank">
-    <img src="/tvscraper/<$ media.path $>" class="artwork">
-    </img>
+    <img src="/tvscraper/<$ media.path $>" class="artwork" />
   </a>
 <%cpp>
 }

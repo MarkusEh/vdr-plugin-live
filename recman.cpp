@@ -66,10 +66,9 @@ namespace vdrlive {
 	std::string RecordingsManager::Md5Hash(cRecording const * recording) const
 	{
     m_timeMd5Hash.start();
-    std::string result = "recording_" + MD5Hash(recording->FileName());
+    std::string result = "recording_" + xxHash128(recording->FileName());
     m_timeMd5Hash.stop();
     return result;
-//		return "recording_" + MD5Hash(recording->FileName());
 	}
 
 	cRecording const * RecordingsManager::GetByMd5Hash(cSv hash) const
@@ -1098,14 +1097,12 @@ m_allRecordings.push_back(recPtr);
 		m_root->finishRecordingsTree();
     std::chrono::duration<double> timeNeeded = std::chrono::high_resolution_clock::now() - begin;
     esyslog("live: DH: ------ RecordingsTree::RecordingsTree() --------, required time: %9.5f", timeNeeded.count() );
-/*
     recMan->m_timeMd5Hash.print("live: timeMd5Hash");
                  timeRecs.print("live: timeRecs   ");
              timeIdentify.print("live: Identify   ");
              timeOverview.print("live: Overview   ");
                 timeImage.print("live: Image      ");
     timeDurationDeviation.print("live: DurDev     ");
-*/
 	}
 
 	RecordingsTree::~RecordingsTree()

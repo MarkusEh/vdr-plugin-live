@@ -60,8 +60,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 </%cpp>
 					<tr class="description">
 						<td class="action leftcol <? bottom ? "bottomrow" ?>"><div class="withmargin"><$ user->Name() $></div></td>	
-						<td class="<? bottom ? "bottomrow" ?>"><a href="edit_user.html?userid=<$ user->Id() $>"><img src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="" <& tooltip.hint text=(tr("Edit user")) &>></img></a></td>					
-						<td class="action rightcol <? bottom ? "bottomrow" ?>"><a href="users.html?userid=<$ user->Id() $>&action=delete"><img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint text=(tr("Delete user")) &>></img></a></td>
+						<td class="<? bottom ? "bottomrow" ?>"><a href="edit_user.html?userid=<$ user->Id() $>"><img src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="" <& tooltip.hint text=(tr("Edit user")) &> /></a></td>
+						<td class="action rightcol <? bottom ? "bottomrow" ?>"><a href="users.html?userid=<$ user->Id() $>&action=delete"><img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint text=(tr("Delete user")) &> /></a></td>
 					</tr>
 <%cpp>
 				    }

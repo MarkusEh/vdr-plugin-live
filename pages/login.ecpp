@@ -47,7 +47,7 @@ if (logged_in || !LiveSetup().UseAuth()) return reply.redirect(LiveSetup().GetSt
 	<div style="width: 350px; margin: 0 auto; text-align: center; padding: 20px">
 		<div class="boxheader"><div><div><$ tr("VDR Live Login") $></div></div></div>
 		<div style="border: 1px solid black; padding: 15px">
-			<img src="<$ LiveSetup().GetThemedLink("img", "logo_login.png") $>" alt="VDR Live"></img>
+			<img src="<$ LiveSetup().GetThemedLink("img", "logo_login.png") $>" alt="VDR Live" />
 			<form name="auth">
 				<input type="hidden" name="action" value="login" />
 				<table class="login">

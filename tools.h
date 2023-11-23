@@ -96,8 +96,11 @@ template<class T>
 template<class T>
   void AppendTextMaxLen(T &target, const char *text);
 
-	std::string MD5Hash(std::string const& str);
+template<typename T> void toHex(char *buf, int chars, T value);
+  std::string MD5Hash(std::string const& str);
 	std::string xxHash32(cSv str);
+	std::string xxHash64(cSv str);
+  std::string xxHash128(cSv str);
 
 	time_t GetTimeT(std::string timestring); // timestring in HH:MM
 	std::string ExpandTimeString(std::string timestring);

@@ -617,7 +617,7 @@ void SearchResults::GetByQuery(std::string const& query)
 std::string SearchResults::AddQuery(std::string const& query)
 {
 	querySet.insert(query);
-	return MD5Hash(query);
+	return xxHash128(query);
 }
 
 std::string SearchResults::PopQuery(std::string const& md5)
@@ -628,7 +628,7 @@ std::string SearchResults::PopQuery(std::string const& md5)
 		std::set<std::string>::iterator it;
 		for (it = querySet.begin(); it != querySet.end(); it++)
 		{
-			if (md5 == MD5Hash(*it))
+			if (md5 == xxHash128(*it))
 			{
 				query = *it;
 				querySet.erase(it);

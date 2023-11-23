@@ -1430,6 +1430,10 @@ img.thumb {
 .display-xs { display: none; }
 @media (max-width: 600px) {
 /* very small display */
+img.logo { width: 70px; margin-top: 25px; margin-right: 5px; }
+div.__progress { width: 75px; }
+div.__progress_invisible { width: 75px; }
+div#infobox { min-width: 280px; }
   .xs-nomargin { margin: 0px !important; }
   .hidden-xs { display: none; }
   .td-hidden-xs { width: 0px !important; padding: 0px !important;}

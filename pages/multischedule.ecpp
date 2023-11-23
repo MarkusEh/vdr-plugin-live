@@ -560,7 +560,7 @@ std::vector<time_t>			times_start;
 <%cpp>
                            if (LiveFeatures<features::epgsearch>().Recent() ) {
 </%cpp>
-                          <a href="searchresults.html?searchplain=<$ StringUrlEncode(en.title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &>></img></a>
+                          <a href="searchresults.html?searchplain=<$ StringUrlEncode(en.title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a>
 <%cpp>
                            } else {
                              </%cpp><img src="img/transparent.png" width="16" height="16"><%cpp>

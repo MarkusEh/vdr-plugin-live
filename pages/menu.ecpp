@@ -33,36 +33,36 @@ if (!component.empty()) {
 
 </%cpp>
 <div class="menu">
-	  <a href="whats_on.html?type=now" <& menu.setactive current=("whats_on") &>><$ tr("What's on?") $></a>
-	| <a href="schedule.html" <& menu.setactive current=("schedule") &>><$ trVDR("Schedule") $></a>
-	| <a href="multischedule.html" <& menu.setactive current=("multischedule") &>><$ tr("MultiSchedule") $></a>
-	| <a href="timers.html" <& menu.setactive current=("timers") &>><$ trVDR("Timers") $></a>
+    <a href="whats_on.html?type=now" <& menu.setactive current=("whats_on") &>><$ tr("What's on?") $></a>
+  | <a href="schedule.html" <& menu.setactive current=("schedule") &>><$ trVDR("Schedule") $></a>
+  | <a href="multischedule.html" <& menu.setactive current=("multischedule") &>><$ tr("MultiSchedule") $></a>
+  | <a href="timers.html" <& menu.setactive current=("timers") &>><$ trVDR("Timers") $></a>
 <%cpp>
 if ( LiveFeatures<features::epgsearch>().Recent() ) {
 </%cpp>
-	| <a href="searchepg.html" <& menu.setactive current=("searchepg") &>><$ tr("Search") $></a>
-	| <a href="searchtimers.html" <& menu.setactive current=("searchtimers") &>><$ tr("Searchtimers") $></a>
+  | <a href="searchepg.html" <& menu.setactive current=("searchepg") &>><$ tr("Search") $></a>
+  | <a href="searchtimers.html" <& menu.setactive current=("searchtimers") &>><$ tr("Searchtimers") $></a>
 <%cpp>
 }
 </%cpp>
-	| <a href="recordings.html?flat=false&filter=<$filter$>" <& menu.setactive current=("recordings") &>><$ tr("Recordings") $></a>
-	| <a href="recordings.html?flat=true&filter=<$filter$>" <& menu.setactive current=("recordings_flat") &>><$ tr("Recordings (flat)") $></a>
-	| <a href="remote.html" <& menu.setactive current=("remote") &>><$ tr("Remote Control") $></a>
+  | <a href="recordings.html?flat=false&filter=<$filter$>" <& menu.setactive current=("recordings") &>><$ tr("Recordings") $></a>
+  | <a href="recordings.html?flat=true&filter=<$filter$>" <& menu.setactive current=("recordings_flat") &>><$ tr("Recordings (flat)") $></a>
+  | <a href="remote.html" <& menu.setactive current=("remote") &>><$ tr("Remote Control") $></a>
 <%cpp>
 if (LiveSetup().GetUseStreamdev()) {
 </%cpp>
-	| <a href="stream.html" <& menu.setactive current=("stream") &>><$ tr("Web-Streaming") $></a>
+  | <a href="stream.html" <& menu.setactive current=("stream") &>><$ tr("Web-Streaming") $></a>
 <%cpp>
 }
 </%cpp>
-	| <a href="setup.html" <& menu.setactive current=("setup") &>><$ trVDR("Setup") $></a>
+  | <a href="setup.html" <& menu.setactive current=("setup") &>><$ trVDR("Setup") $></a>
 <# --- Used by D.H. to test infobox (not part of the released version)
-	| <a href="ibox_status.html" <& menu.setactive current=("status") &>><$ tr("Status Test") $></a>
+  | <a href="ibox_status.html" <& menu.setactive current=("status") &>><$ tr("Status Test") $></a>
 --- #>
 <%cpp>
 if (LiveSetup().UseAuth()) {
 </%cpp>
-	| <a id="login" href="login.html?action=logout"><$ tr("Logout") $></a>
+  | <a id="login" href="login.html?action=logout"><$ tr("Logout") $></a>
 <%cpp>
 }
 </%cpp>

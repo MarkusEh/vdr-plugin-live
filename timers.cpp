@@ -127,7 +127,7 @@ namespace vdrlive {
     if (getAutoTimerReason.call(LiveSetup().GetPluginScraper()) ) {
       if (!getAutoTimerReason.createdByTvscraper) return "";
       if (getAutoTimerReason.recording) {
-        recID = "recording_" + MD5Hash(getAutoTimerReason.recording->FileName() );
+        recID = "recording_" + xxHash128(getAutoTimerReason.recording->FileName() );
         recName = std::move(getAutoTimerReason.recordingName);
         return std::move(getAutoTimerReason.reason);
       }
