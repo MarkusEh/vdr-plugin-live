@@ -297,15 +297,31 @@ template<typename T> void toHex(char *buf, int chars, T value) {
     toHex(res, 16, result);
     return res;
 	}
+  inline void xxHash128_buf(char *buf, cSv str) {
+// sizeof buf must be >= 32. This is not checked!
+	  XXH128_hash_t result = XXH3_128bits(str.data(), str.length());
+    toHex(buf+16, 16, result.low64);
+    toHex(buf   , 16, result.high64);
+	}
+  void stringAppend_xxHash128(std::string &target, cSv str) {
+	  char buf[32];
+    xxHash128_buf(buf, str);
+    target.append(buf, 32);
+  }
 	std::string xxHash128(cSv str)
 	{
-	  XXH128_hash_t result = XXH3_128bits(str.data(), str.length());
-	  char res[33];
-	  res[32] = 0;
-    toHex(res+16, 16, result.low64);
-    toHex(res   , 16, result.high64);
-    return res;
-	}
+	  char buf[32];
+    xxHash128_buf(buf, str);
+    return std::string(buf, 32);
+  }
+
+  bool compare_xxHash128(cSv str1, cSv str2) {
+// return str1 == xxHash128(str2)
+    if (str1.length() != 32) return false;
+	  char buf[32];
+    xxHash128_buf(buf, str2);
+    return str1.compare(0, 32, buf, 32) == 0;
+  }
 
 #define HOURS(x) ((x)/100)
 #define MINUTES(x) ((x)%100)

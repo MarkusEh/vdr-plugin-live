@@ -339,7 +339,7 @@ template<class T>
   class RecordingsItemRec : public RecordingsItem
   {
     public:
-      RecordingsItemRec(int idI, cSv id, cSv name, const cRecording* recording, cMeasureTime *timeIdentify, cMeasureTime *timeOverview, cMeasureTime *timeImage, cMeasureTime *timeDurationDeviation);
+      RecordingsItemRec(int idI, cSv id, cSv name, const cRecording* recording, cMeasureTime *timeIdentify, cMeasureTime *timeOverview, cMeasureTime *timeImage, cMeasureTime *timeDurationDeviation, cMeasureTime *timeNumTsFiles, cMeasureTime *timeItemRec);
 
       virtual ~RecordingsItemRec();
 

@@ -101,6 +101,8 @@ template<typename T> void toHex(char *buf, int chars, T value);
 	std::string xxHash32(cSv str);
 	std::string xxHash64(cSv str);
   std::string xxHash128(cSv str);
+  void stringAppend_xxHash128(std::string &target, cSv str);
+  bool compare_xxHash128(cSv str1, cSv str2); // return str1 == xxHash128(str2)
 
 	time_t GetTimeT(std::string timestring); // timestring in HH:MM
 	std::string ExpandTimeString(std::string timestring);

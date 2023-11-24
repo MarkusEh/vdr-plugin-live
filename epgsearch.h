@@ -14,6 +14,7 @@
 
 #include <vdr/channels.h>
 #include <vdr/epg.h>
+#include "stringhelpers.h"
 
 namespace vdrlive {
 
@@ -394,7 +395,7 @@ public:
 
 	void merge(SearchResults& r) {m_list.merge(r.m_list); m_list.sort();}
 	static std::string AddQuery(std::string const& query);
-	static std::string PopQuery(std::string const& md5);
+	static std::string PopQuery(cSv md5);
 private:
 	searchresults m_list;
 };

@@ -620,22 +620,20 @@ std::string SearchResults::AddQuery(std::string const& query)
 	return xxHash128(query);
 }
 
-std::string SearchResults::PopQuery(std::string const& md5)
+std::string SearchResults::PopQuery(cSv md5)
 {
+	if (md5.empty()) return std::string();
 	std::string query;
-	if (!md5.empty())
-	{
-		std::set<std::string>::iterator it;
-		for (it = querySet.begin(); it != querySet.end(); it++)
-		{
-			if (md5 == xxHash128(*it))
-			{
-				query = *it;
-				querySet.erase(it);
-				break;
-			}
-		}
-	}
+  std::set<std::string>::iterator it;
+  for (it = querySet.begin(); it != querySet.end(); it++)
+  {
+    if (compare_xxHash128(md5, *it))
+    {
+      query = *it;
+      querySet.erase(it);
+      break;
+    }
+  }
 	return query;
 }
 

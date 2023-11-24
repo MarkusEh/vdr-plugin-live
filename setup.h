@@ -11,8 +11,8 @@
 
 #include <vdr/menuitems.h>
 
-#define LIVEVERSION "3.3.1"
-#define LIVEVERSNUM 30301
+#define LIVEVERSION "3.3.2"
+#define LIVEVERSNUM 30302
 #define LIVESUMMARY trNOOP("Live Interactive VDR Environment")
 
 namespace vdrlive {
