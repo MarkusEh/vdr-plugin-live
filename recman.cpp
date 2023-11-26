@@ -1110,7 +1110,7 @@ m_allRecordings.push_back(recPtr);
 		}
 		m_root->finishRecordingsTree();
     std::chrono::duration<double> timeNeeded = std::chrono::high_resolution_clock::now() - begin;
-    esyslog("live: DH: ------ RecordingsTree::RecordingsTree() --------, required time: %9.5f", timeNeeded.count() );
+    dsyslog("live: DH: ------ RecordingsTree::RecordingsTree() --------, required time: %9.5f", timeNeeded.count() );
 /*
     recMan->m_timeMd5Hash.print("live: time Hash ");
                  timeRecs.print("live: timeRecs  ");
