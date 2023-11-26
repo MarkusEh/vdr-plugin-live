@@ -774,7 +774,7 @@ class cMeasureTime {
     void print(const char *context) const {
       if (numCalls == 0) return;
       if (!context) context = "cMeasureTime";
-      esyslog("%s num = %5i, time = %9.5f, average %f, max = %f", context, numCalls, sumT.count(), sumT.count()/numCalls, maxT.count());
+      dsyslog("%s num = %5i, time = %9.5f, average %f, max = %f", context, numCalls, sumT.count(), sumT.count()/numCalls, maxT.count());
     }
     int getNumCalls() const { return numCalls; }
 
