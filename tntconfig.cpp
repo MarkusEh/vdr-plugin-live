@@ -212,6 +212,13 @@ namespace vdrlive {
 			   GetResourcePath(),
 			   "/img/$2.svg",
 			   "image/svg+xml");
+		
+		MapUrl(app,
+			   "^/img.*/(.+)\\.svg",
+			   "content",
+			   GetResourcePath(),
+			   "/img/$1.svg",
+			   "image/svg+xml");		
 
 		// the following rules provide a search scheme for images. The first
 		// rule where a image is found, terminates the search.
