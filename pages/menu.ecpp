@@ -125,7 +125,6 @@ if (!component.empty()) {
 <%args>
 current;
 </%args>
-<%cpp> if (current == set_active) { </%cpp> class="active"<%cpp> } </%cpp>
 <{ if (current == set_active) { }> class="active"<{ }
 }></%def>
 
