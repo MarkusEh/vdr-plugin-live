@@ -44,7 +44,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 		throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
 
 #define SELECTIF(x) reply.out() << ( (x) ? "selected=\"selected\"" : "" );
-#define CHECKIF(x) reply.out() << ( (x) ? "checked=\"checked\" " : "" );
+#define CHECKIF(x) reply.out() << ( (x) ? "checked=\"checked\"" : "" );
 
 	std::string message;
 
