@@ -161,7 +161,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Use authentication") $>:</div></td>
 						<td class="rightcol">
-							<input type="checkbox" name="useauth" id="useauth" value="1"<$ CHECKIF(useauth); $> onclick="changeduseauth(this)"/>
+							<input type="checkbox" name="useauth" id="useauth" value="1"<%cpp> CHECKIF(useauth); <%/cpp> onclick="changeduseauth(this)"/>
 							<div id="authsection" style="display: none">
 							<table border="0" cellpadding="0" cellspacing="0" class="dependent">
 							<tr>
@@ -199,7 +199,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Allow video streaming") $>:</div></td>
 						<td class="rightcol">
-							<input type="checkbox" name="useStreamdev" id="useStreamdev" value="1"<$ CHECKIF(!useStreamdev.empty()); $> onclick="changedusestreamdev(this)"/>
+							<input type="checkbox" name="useStreamdev" id="useStreamdev" value="1"<%cpp> CHECKIF(!useStreamdev.empty()); <%/cpp> onclick="changedusestreamdev(this)"/>
 							<div id="streamdevsection" style="display: none">
 							<table border="0" cellpadding="0" cellspacing="0" class="dependent">
 							<tr>
