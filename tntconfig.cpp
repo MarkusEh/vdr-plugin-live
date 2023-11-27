@@ -196,6 +196,23 @@ namespace vdrlive {
 			   "/themes/$1/css/$2",
 			   "text/css");
 
+		// the following rules enable SVG file support, which require the special
+		// content type "image/svg+xml" for inline display in browsers
+		// inserted by 'flell' -- verified with above, but not counterchecked yet!
+		MapUrl(app,
+			   "^/themes/([^/]*)/img.*/(.+)\\.svg",
+			   "content",
+			   GetResourcePath(),
+			   "/themes/$1/img/$2.svg",
+			   "image/svg+xml");
+
+		MapUrl(app,
+			   "^/themes/([^/]*)/img.*/(.+)\\.svg",
+			   "content",
+			   GetResourcePath(),
+			   "/img/$2.svg",
+			   "image/svg+xml");
+
 		// the following rules provide a search scheme for images. The first
 		// rule where a image is found, terminates the search.
 		// 1. /themes/<theme>/img/<imgname>.<ext>
