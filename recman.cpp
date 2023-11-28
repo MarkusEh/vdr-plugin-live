@@ -732,7 +732,7 @@ bool searchNameDesc(RecordingsItemPtr &RecItem, const std::vector<RecordingsItem
     struct stat buffer;
     int num_ts_files;
     for (num_ts_files = 1; num_ts_files < 100000; ++num_ts_files) {
-      concat::addCharsUg0be(file + folder_length + 6, num_ts_files);
+      ns_concat::addCharsUg0be(file + folder_length + 6, num_ts_files);
       if (stat (file, &buffer) != 0) break;
     }
     return num_ts_files - 1;

@@ -16,8 +16,12 @@
 #include <string_view>
 #include <string.h>
 #include <vector>
-#include <algorithm>
 #include <set>
+#include <algorithm>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/stat.h>
+
 #include <iostream>
 #include <chrono>
 
@@ -34,48 +38,48 @@ fn(result, from);
 // concatenate macro based, and fastest ===============
 #define CONCATENATE_START_2(result, s1, s2) \
 int result##concatenate_lvls = 0; \
-int result##concatenate_lvl1 = concat::numChars(s1); \
+int result##concatenate_lvl1 = ns_concat::numChars(s1); \
 result##concatenate_lvls += result##concatenate_lvl1; \
-int result##concatenate_lvl2 = concat::numChars(s2); \
+int result##concatenate_lvl2 = ns_concat::numChars(s2); \
 result##concatenate_lvls += result##concatenate_lvl2;
 
 #define CONCATENATE_START_3(result, s1, s2, s3) \
 CONCATENATE_START_2(result, s1, s2) \
-int result##concatenate_lvl3 = concat::numChars(s3); \
+int result##concatenate_lvl3 = ns_concat::numChars(s3); \
 result##concatenate_lvls += result##concatenate_lvl3;
 
 #define CONCATENATE_START_4(result, s1, s2, s3, s4) \
 CONCATENATE_START_3(result, s1, s2, s3) \
-int result##concatenate_lvl4 = concat::numChars(s4); \
+int result##concatenate_lvl4 = ns_concat::numChars(s4); \
 result##concatenate_lvls += result##concatenate_lvl4;
 
 #define CONCATENATE_START_5(result, s1, s2, s3, s4, s5) \
 CONCATENATE_START_4(result, s1, s2, s3, s4) \
-int result##concatenate_lvl5 = concat::numChars(s5); \
+int result##concatenate_lvl5 = ns_concat::numChars(s5); \
 result##concatenate_lvls += result##concatenate_lvl5;
 
 #define CONCATENATE_START_6(result, s1, s2, s3, s4, s5, s6) \
 CONCATENATE_START_5(result, s1, s2, s3, s4, s5) \
-int result##concatenate_lvl6 = concat::numChars(s6); \
+int result##concatenate_lvl6 = ns_concat::numChars(s6); \
 result##concatenate_lvls += result##concatenate_lvl6;
 
 #define CONCATENATE_START_7(result, s1, s2, s3, s4, s5, s6, s7) \
 CONCATENATE_START_6(result, s1, s2, s3, s4, s5, s6) \
-int result##concatenate_lvl7 = concat::numChars(s7); \
+int result##concatenate_lvl7 = ns_concat::numChars(s7); \
 result##concatenate_lvls += result##concatenate_lvl7;
 
 #define CONCATENATE_START_8(result, s1, s2, s3, s4, s5, s6, s7, s8) \
 CONCATENATE_START_7(result, s1, s2, s3, s4, s5, s6, s7) \
-int result##concatenate_lvl8 = concat::numChars(s8); \
+int result##concatenate_lvl8 = ns_concat::numChars(s8); \
 result##concatenate_lvls += result##concatenate_lvl8;
 
 #define CONCATENATE_START_9(result, s1, s2, s3, s4, s5, s6, s7, s8, s9) \
 CONCATENATE_START_8(result, s1, s2, s3, s4, s5, s6, s7, s8) \
-int result##concatenate_lvl9 = concat::numChars(s9); \
+int result##concatenate_lvl9 = ns_concat::numChars(s9); \
 result##concatenate_lvls += result##concatenate_lvl9;
 
 #define CONCATENATE_END_ADDCHARS_B(result_concatenate_buf, lvl, s) \
-concat::addChars(result_concatenate_buf, lvl, s); \
+ns_concat::addChars(result_concatenate_buf, lvl, s); \
 result_concatenate_buf += lvl;
 
 #define CONCATENATE_END_2(result, s1, s2) \
@@ -495,6 +499,7 @@ inline std::string concatenate(cSv s1, cSv s2) {
   result.reserve(s1.length() + s2.length());
   result.append(s1);
   result.append(s2);
+//  dsyslog("\nconcatenate 2 result: %s\n", result.c_str() );
   return result;
 }
 
@@ -517,7 +522,7 @@ inline std::string concatenate(cSv s1, cSv s2, cSv s3, cSv s4) {
   return result;
 }
 
-namespace concat {
+namespace ns_concat {
   template<class T> inline int numCharsUg0(T i) {
 // note: i must be > 0!!!!
     int numChars;
@@ -545,6 +550,8 @@ namespace concat {
   }
   template<class T> inline char *addCharsIbe(char *be, T i) {
 // i can be any integer like type (signed, unsigned, ...)
+// only for internal use. Please use class cToSvInt instead
+//
 // make sure to have a large enough buffer size (20 + zero terminator if required)
 // be is buffer end. Last character is written to be-1
 // no zero terminator is written! You can make buffer large enough and set *be=0 before calling
@@ -553,10 +560,10 @@ namespace concat {
 // Example:
 //  char buffer_i[21];
 //  buffer_i[20] = 0;
-//  std::cout << "\"" << concat::addCharsIbe(buffer_i+20, 5) << "\"\n";
+//  std::cout << "\"" << ns_concat::addCharsIbe(buffer_i+20, 5) << "\"\n";
 // Example 2:
 //  char buffer2_i[20];
-//  char *result = concat::addCharsIbe(buffer2_i+20, 6);
+//  char *result = ns_concat::addCharsIbe(buffer2_i+20, 6);
 //  std::cout << "\"" << cSv(result, buffer2_i + 20  - result)  << "\"\n";
 
     if (i > 0) return addCharsUg0be(be, i);
@@ -567,10 +574,6 @@ namespace concat {
     be = addCharsUg0be(be, -i);
     *(--be) = '-';
     return be;
-  }
-  template<class T> inline cSv addCharsIbeSc(char *be, T i) {
-    char *result = concat::addCharsIbe(be, i);
-    return cSv(result, be - result);
   }
 
   inline void addChars(char *b, int l, int i) { addCharsIbe(b+l, i); }
@@ -598,17 +601,59 @@ namespace concat {
     str.append(bufs, bufe-bufs);
   }
 }
-template<class T> inline std::string toStringI(T i) {
-  char buffer[20];
-  return std::string(concat::addCharsIbeSc(buffer+20, i));
-}
-inline void stringAppend(std::string &str, unsigned int i) { concat::stringAppendU(str, i); }
-inline void stringAppend(std::string &str, unsigned long int i) { concat::stringAppendU(str, i); }
-inline void stringAppend(std::string &str, unsigned long long  int i) { concat::stringAppendU(str, i); }
 
-inline void stringAppend(std::string &str, int i) { concat::stringAppendI(str, i); }
-inline void stringAppend(std::string &str, long int i) { concat::stringAppendI(str, i); }
-inline void stringAppend(std::string &str, long long int i) { concat::stringAppendI(str, i); }
+/*
+class cToSvInt_sik: public cSv {
+// decided against this implementation.
+// reason: a class cToSvInt is not a string view, but more like a string (has a buffer)
+// now claiming to be an SV, can be confusing ...
+// cToSvInt itself must exist as long as someone wants to access the data
+// also, the destructor of std::string view is not virtual, so our constructor might
+// not be called. Which is not critical here, but critical for other classes
+  public:
+// T must be an integer type, like long, unsigned, ...
+    template<class T> cToSvInt_sik(T i):
+      cSv(addCharsIbeSc(m_buffer+20, i)) { }
+  private:
+    template<class T> static cSv addCharsIbeSc(char *be, T i) {
+      char *result = ns_concat::addCharsIbe(be, i);
+      return cSv(result, be - result);
+    }
+    char m_buffer[20];
+};
+*/
+
+class cToSv {
+  public:
+    cToSv() {}
+    cToSv(const cToSv&) = delete;
+    cToSv &operator= (const cToSv &) = delete;
+    virtual operator cSv() const = 0;
+};
+class cToSvInt: public cToSv {
+  public:
+// T must be an integer type, like long, unsigned, ...
+    template<class T> cToSvInt(T i):
+      m_result(ns_concat::addCharsIbe(m_buffer + 20, i)) {}
+    cToSvInt(const cToSvInt&) = delete;
+    cToSvInt &operator= (const cToSvInt &) = delete;
+    operator cSv() const { return cSv(m_result, m_buffer + 20 - m_result); }
+  private:
+    char m_buffer[20];
+    char *m_result;
+};
+
+template<class T> inline std::string toStringI(T i) {
+// for integer types i
+  return std::string(cToSvInt(i));
+}
+inline void stringAppend(std::string &str, unsigned int i) { ns_concat::stringAppendU(str, i); }
+inline void stringAppend(std::string &str, unsigned long int i) { ns_concat::stringAppendU(str, i); }
+inline void stringAppend(std::string &str, unsigned long long  int i) { ns_concat::stringAppendU(str, i); }
+
+inline void stringAppend(std::string &str, int i) { ns_concat::stringAppendI(str, i); }
+inline void stringAppend(std::string &str, long int i) { ns_concat::stringAppendI(str, i); }
+inline void stringAppend(std::string &str, long long int i) { ns_concat::stringAppendI(str, i); }
 
 // strings
 inline void stringAppend(std::string &str, const char *s) { if(s) str.append(s); }
@@ -616,13 +661,19 @@ inline void stringAppend(std::string &str, const std::string &s) { str.append(s)
 inline void stringAppend(std::string &str, std::string_view s) { str.append(s); }
 inline void stringAppend(std::string &str, cSv s) { str.append(s); }
 
-template<typename T, typename... Args>
-void stringAppend(std::string &str, const T &n, const Args&... args) {
+template<typename T, typename U, typename... Args>
+void stringAppend(std::string &str, const T &n, const U &u, const Args&... args) {
   stringAppend(str, n);
-  stringAppend(str, args...);
+  stringAppend(str, u, args...);
+}
+inline std::string concatenate() { return std::string(); }
+template<typename T> inline std::string concatenate(const T &t) {
+  std::string result;
+  stringAppend(result, t);
+  return result;
 }
 template<typename... Args>
-std::string concatenate(const Args&... args) {
+inline std::string concatenate(const Args&... args) {
   std::string result;
   result.reserve(200);
 //stringAppend(result, std::forward<Args>(args)...);
@@ -630,36 +681,121 @@ std::string concatenate(const Args&... args) {
   return result;
 }
 
+class cToSvFile: public cToSv {
+  public:
+    cToSvFile(const char *filename) { load(filename); }
+    cToSvFile(const std::string &filename) { load(filename.c_str() ); }
+    cToSvFile(const cToSvFile&) = delete;
+    cToSvFile &operator= (const cToSvFile &) = delete;
+    operator cSv() const { return m_result; }
+    char *data() { return m_s; } // returns 0 in case of an empty file
+    bool exists() const { return m_exists; }
+    ~cToSvFile() { std::free(m_s); }
+  private:
+    void load(const char *filename) {
+      if (!filename) return;
+      int fd = open(filename, O_RDONLY);
+      if (fd == -1) {
+// no message for errno == ENOENT, the file just does not exist
+        if (errno != ENOENT) esyslog("cToSvFile::load, ERROR: open fails, errno %d, filename %s\n", errno, filename);
+        return;
+      }
+      struct stat buffer;
+      if (fstat(fd, &buffer) != 0) {
+        if (errno != ENOENT) esyslog("cToSvFile::load, ERROR: in fstat, errno %d, filename %s\n", errno, filename);
+        close(fd);
+        return;
+      }
+
+// file exists, length buffer.st_size
+      m_exists = true;
+      if (buffer.st_size == 0) { close(fd); return; } // empty file
+      m_s = (char *) malloc((size_t)(buffer.st_size + 1) * sizeof(char));  // add one. So we can add the 0 string terminator
+      if (!m_s) {
+        esyslog("cToSvFile::load, ERROR out of memory, filename = %s, requested size = %zu\n", filename, (size_t)(buffer.st_size + 1));
+        close(fd);
+        return;
+      }
+      size_t num_read = 0;
+      ssize_t num_read1 = 1;
+      for (; num_read1 > 0 && num_read < (size_t)buffer.st_size; num_read += num_read1) {
+        num_read1 = read(fd, m_s + num_read, (size_t)buffer.st_size - num_read);
+        if (num_read1 == -1) {
+          esyslog("cToSvFile::load, ERROR: read fails, errno %d, filename %s\n", errno, filename);
+          close(fd);
+          m_s[0] = 0;
+          return;
+        }
+      }
+      close(fd);
+      m_result = cSv(m_s, num_read);
+      m_s[num_read] = 0;  // so data returns a 0 terminated string
+      if (num_read != (size_t)buffer.st_size) {
+        esyslog("cToSvFile::load, ERROR: num_read = %zu, buffer.st_size = %zu, filename %s\n", num_read, (size_t)buffer.st_size, filename);
+      }
+    }
+    bool m_exists = false;
+    char *m_s = nullptr;
+    cSv m_result;
+};
+class cToSvFormated: public cToSv {
+  public:
+// __attribute__ ((format (printf, 2, 3))) can not be used, but should work starting with gcc 13.1
+    template<typename... Args> cToSvFormated(const char *fmt, Args&&... args) {
+      int needed = snprintf (m_buffer, sizeof(m_buffer), fmt, std::forward<Args>(args)...);
+      if (needed < 0) {
+        esyslog("live: ERROR, cToSvFormated::cToSvFormated, needed = %d", needed);
+        return; // error in snprintf
+      }
+      if ((size_t)needed < sizeof(m_buffer)) {
+        m_result = cSv(m_buffer, needed);
+        return;
+      }
+      m_huge_buffer = (char *)std::malloc(needed + 1);
+      if (m_huge_buffer == nullptr) {
+        esyslog("live: ERROR, out of memory in cToSvFormated::cToSvFormated, needed = %d", needed);
+        return;
+      }
+      needed = sprintf (m_huge_buffer, fmt, args...);
+      if (needed < 0) {
+        esyslog("live: ERROR, cToSvFormated::cToSvFormated, needed (2) = %d", needed);
+        return; // error in sprintf
+      }
+      m_result = cSv(m_huge_buffer, needed);
+    }
+    cToSvFormated(const cToSvFormated&) = delete;
+    cToSvFormated &operator= (const cToSvFormated &) = delete;
+    ~cToSvFormated() {
+      std::free(m_huge_buffer);
+    }
+    operator cSv() const { return m_result; }
+  private:
+    char m_buffer[256];
+    char *m_huge_buffer = nullptr;
+    cSv m_result;
+};
 // __attribute__ ((format (printf, 2, 3))) can not be used, but should work starting with gcc 13.1
 template<typename... Args>
 void stringAppendFormated(std::string &str, const char *fmt, Args&&... args) {
   size_t size = 1024;
   char buf[size];
   int needed = snprintf (buf, size, fmt, std::forward<Args>(args)...);
-  if (needed < 0) return; // error in snprintf
+  if (needed < 0) {
+    esyslog("live: ERROR, stringAppendFormated, needed = %d", needed);
+    return; // error in snprintf
+  }
   if ((size_t)needed < size) {
     str.append(buf);
   } else {
     char buf2[needed + 1];
-    sprintf (buf2, fmt, args...);
+    needed = sprintf (buf2, fmt, args...);
+    if (needed < 0) {
+      esyslog("live: ERROR, stringAppendFormated, needed (2) = %d", needed);
+      return; // error in snprintf
+    }
     str.append(buf2);
   }
 }
-class cConcatenate
-{
-  public:
-    cConcatenate(size_t buf_size = 0) { m_data.reserve(buf_size>0?buf_size:200); }
-    cConcatenate(const cConcatenate&) = delete;
-    cConcatenate &operator= (const cConcatenate &) = delete;
-  template<typename T>
-    cConcatenate & operator<<(const T &i) { stringAppend(m_data, i); return *this; }
-    std::string moveStr() { return std::move(m_data); }
-    const std::string &getStrRef() { return m_data; }
-    const char *getCharS() { return m_data.c_str(); }
-  private:
-    std::string m_data;
-};
-
 // =========================================================
 // =========================================================
 // Chapter 3: containers

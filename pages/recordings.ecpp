@@ -115,8 +115,6 @@ const char *lf = "<br/>";
 
 
 RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
-char buffer_i[21];
-buffer_i[20] = 0;
 
 // get data for all open nodes
 std::vector<int> available_recs;
@@ -137,8 +135,8 @@ cLargeString recoring_item("recoring_item", 25000);
     <& pageelems.ajax_js &>
 <script>
 const recs = [];
-const vdr_start = <$ concat::addCharsIbe(buffer_i+20, LiveSetup().GetVdrStart() ) $>;
-const recordings_tree_creation = <$ concat::addCharsIbe(buffer_i+20, recordingsTree->getCreationTimestamp() ) $>;
+const vdr_start = <$ cSv(cToSvInt(LiveSetup().GetVdrStart() )) $>;
+const recordings_tree_creation = <$ cSv(cToSvInt(recordingsTree->getCreationTimestamp() )) $>;
 const param_name_recs = '&r<$ TNT_ARRAY $>=';
 <%cpp>
 /*
@@ -146,7 +144,7 @@ for (const RecordingsItemPtr &rPtr: *recordingsTree->allRecordings()) {
   recoring_item.clear();
   rPtr->AppendAsJSArray(recoring_item, currentFlat == "true" || currentSort == "duplicates");
 </%cpp>
-  recs[<$concat::addCharsIbe(buffer_i+20, rPtr->IdI())$>]=[<$$ recoring_item.c_str() $>]
+  recs[<$cSv(cToSvInt(rPtr->IdI()))$>]=[<$$ recoring_item.c_str() $>]
 <%cpp>
 }
 */
@@ -468,8 +466,6 @@ if (!write_recs && recItemsC) {
 }
 if (write_recs && recItemsC) {
 // in case of duplicates, and not flat, the recItemsC is not available
-  char buffer_i[21];
-  buffer_i[20] = 0;
   </%cpp>
 <script>
   <%cpp>
@@ -477,7 +473,7 @@ if (write_recs && recItemsC) {
     recoring_item->clear();
     rPtr->AppendAsJSArray(*recoring_item, true);
   </%cpp>
-recs[<$concat::addCharsIbe(buffer_i+20, rPtr->IdI())$>]=[<$$ recoring_item->c_str() $>]
+recs[<$cSv(cToSvInt(rPtr->IdI()))$>]=[<$$ recoring_item->c_str() $>]
 % }
 </script>
   <%cpp>
@@ -525,8 +521,6 @@ if (currentSort != "duplicates" || currentFlat == "true") {
       auto equal_fldf = [idHash](cSv f) { return f.compare(5, std::string_view::npos, idHash) == 0; };
       cSplit splitOpenTreeNodes(openTreeNodes, ',');
       if (std::find_if(splitOpenTreeNodes.begin(), splitOpenTreeNodes.end(), equal_fldf) != splitOpenTreeNodes.end()) {
-        char buffer_i[21];
-        buffer_i[20] = 0;
         </%cpp>
 <script>
         <%cpp>
@@ -534,7 +528,7 @@ if (currentSort != "duplicates" || currentFlat == "true") {
           recoring_item->clear();
           rPtr->AppendAsJSArray(*recoring_item, true);
           </%cpp>
-recs[<$concat::addCharsIbe(buffer_i+20, rPtr->IdI())$>]=[<$$ recoring_item->c_str() $>]
+recs[<$cSv(cToSvInt(rPtr->IdI()))$>]=[<$$ recoring_item->c_str() $>]
 %       }
 </script>
       <%cpp>
@@ -721,13 +715,8 @@ if (recording && recording->Info() ) {
   cGetScraperVideo getScraperVideo(NULL, recording);
   bool scraperDataAvailable = getScraperVideo.call(LiveSetup().GetPluginScraper());
   if (scraperDataAvailable) {
-    int duration_deviation = getScraperVideo.m_scraperVideo->getDurationDeviation();
     int video_SD_HD = getScraperVideo.m_scraperVideo->getHD();
     char sdhd = video_SD_HD == 0 ? 's': video_SD_HD == 1 ? 'h': 'u';
-    char b_recordingErrors[21];
-    char b_duration_deviation[21];
-    b_recordingErrors[20] = 0;
-    b_duration_deviation[20] = 0;
     std::string duration;
     if (recording->FileName() )
       AppendDuration(duration, tr("%d:%02d"), recording->LengthInSeconds() );
@@ -735,7 +724,7 @@ if (recording && recording->Info() ) {
 <img data-src="img/transparent.png" height="10px" />
 <span id="icons-<$id$>"></span>
 <script class="injectIcons">
-injectErrorHdSdIcon(\"icons-<$id$>\", <$concat::addCharsIbe(b_recordingErrors+20, recordingErrors)$>, <$concat::addCharsIbe(b_duration_deviation+20, duration_deviation)$>, \"<$sdhd$>\", \"<$recording->Info()->ChannelName()?recording->Info()->ChannelName():""$>\", \"<$duration$>\", <$ GetNumberOfTsFiles(recording) $>)
+injectErrorHdSdIcon(\"icons-<$id$>\", <$cSv(cToSvInt(recordingErrors))$>, <$cSv(cToSvInt(getScraperVideo.m_scraperVideo->getDurationDeviation()))$>, \"<$sdhd$>\", \"<$cSv(recording->Info()->ChannelName())$>\", \"<$duration$>\", <$ GetNumberOfTsFiles(recording) $>)
 </script>
 <%cpp>
   }
