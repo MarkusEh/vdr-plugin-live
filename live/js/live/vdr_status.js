@@ -139,7 +139,7 @@ var LiveVdrInfo = Ajax.extend({
 			  }
 			  case "elapsed":
 			  {
-				  var width = textContent + "px";
+				  var width = textContent + "%";
 				  if (docNode.style.width != width)
 					  docNode.style.width = width;
 				  break;
