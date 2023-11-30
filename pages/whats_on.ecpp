@@ -238,6 +238,16 @@ if (type == "now") {
 			tChannelID chanId;
 			tEventID eventId;
 			EpgEvents::DecodeDomId(epgEvent->Id(), chanId, eventId);
+
+            // Searching for channel logos
+            std::string chanlogoimg = "/var/lib/vdr/plugins/skinelchihd/logos/" + epgEvent->Caption() + ".png";
+            struct stat chanfilebuffer;
+            if (stat (chanlogoimg.c_str(), &chanfilebuffer) == 0) {
+                chanlogoimg = "<img src=\"channel_logos/" + epgEvent->Caption() + ".png\" style=\"max-height:32px; max-width:150px; vertical-align:middle;\">";
+               }
+            else {
+                chanlogoimg = "";
+                }
 </%cpp>
 			<tr>
 				<& pageelems.epg_tool_box detail=(0) epgid=(epgEvent->Id()) title=(epgEvent->Title()) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) lastCurrentChanel=(lastCurrentChanel ? 1 : 0) &>
@@ -261,7 +271,7 @@ if (type == "now") {
 %					}
 					</div>
 				</td>
-				<td class="topaligned rightcol <? lastCurrentChanel ? "bottomrow"?>"><div class="station withmargin"><a	href="schedule.html?channel=<$ std::to_string(chNumber) $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ std::to_string(chNumber) $><$ tr(" - ") $><$ (epgEvent->Caption()) $></a></div>
+				<td class="topaligned rightcol <? lastCurrentChanel ? "bottomrow"?>"><div class="station withmargin"><a href="schedule.html?channel=<$ std::to_string(chNumber) $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ std::to_string(chNumber) $><$ tr(" - ") $><$$ chanlogoimg != "" ? chanlogoimg : (epgEvent->Caption()) $></a></div>
 				</td>
 			</tr>
 %	}
