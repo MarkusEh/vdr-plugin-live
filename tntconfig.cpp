@@ -218,7 +218,17 @@ namespace vdrlive {
 			   "content",
 			   GetResourcePath(),
 			   "/img/$1.svg",
-			   "image/svg+xml");		
+			   "image/svg+xml");
+
+		// the following rule enables channel logo support
+	        // TODO: supply path via a command line option or Live-GUI setting
+		// inserted by 'flell' -- verified with above, but not counterchecked yet!
+		MapUrl(app,
+			   "^/channel_logos/(.+)\\.png",
+			   "content",
+			   "/var/lib/vdr/plugins/skinelchihd/logos",
+			   "/$1.png",
+			   "image/png");
 
 		// the following rules provide a search scheme for images. The first
 		// rule where a image is found, terminates the search.
