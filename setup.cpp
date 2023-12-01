@@ -74,6 +74,7 @@ bool Setup::ParseCommandLine( int argc, char* argv[] )
 			{ "sslport", required_argument, NULL, 's' },
 			{ "cert", required_argument, NULL, 'c' },
 			{ "key", required_argument, NULL, 'k' },
+			{ "chanlogos",  required_argument, NULL, '1' },
 			{ 0 }
 	};
 
@@ -92,6 +93,9 @@ bool Setup::ParseCommandLine( int argc, char* argv[] )
 		case 's': m_serverSslPort = atoi( optarg ); break;
 		case 'c': m_serverSslCert = optarg; break;
 		case 'k': m_serverSslKey = optarg; break;
+		case '1': m_chanlogodir = optarg;
+			if(!m_chanlogodir.empty() && m_chanlogodir[m_chanlogodir.length()-1] != '/') m_chanlogodir += "/";
+			break;
 		default:  return false;
 		}
 	}
@@ -133,7 +137,8 @@ char const* Setup::CommandLineHelp() const
 				<< "  -k KEY,  --key=KEY           full path to a custom ssl certificate key file\n"
 				<< "  -l level, --log=level        log level for tntnet (values: WARN, ERROR, INFO, DEBUG, TRACE)\n"
 				<< "  -e <dir>, --epgimages=<dir>  directory for epgimages\n"
-				<< "  -t <dir>, --tvscraperimages=<dir> directory for tvscraper images\n";
+				<< "  -t <dir>, --tvscraperimages=<dir> directory for tvscraper images\n"
+				<< "            --chanlogos=<dir>  directory for channel logos (PNG)\n";
 		m_helpString = builder.str();
 	}
 	return m_helpString.c_str();
