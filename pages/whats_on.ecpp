@@ -243,7 +243,7 @@ if (type == "now") {
             std::string chanlogoimg = "/var/lib/vdr/plugins/skinelchihd/logos/" + epgEvent->Caption() + ".png";
             struct stat chanfilebuffer;
             if (stat (chanlogoimg.c_str(), &chanfilebuffer) == 0) {
-                chanlogoimg = "<img src=\"channel_logos/" + epgEvent->Caption() + ".png\" style=\"max-height:32px; max-width:150px; vertical-align:middle;\">";
+                chanlogoimg = "<img src=\"channel_logos/" + epgEvent->Caption() + ".png\" loading=\"lazy\" class=\"channel_logo\">";
                }
             else {
                 chanlogoimg = "";
