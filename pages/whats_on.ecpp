@@ -239,15 +239,15 @@ if (type == "now") {
 			tEventID eventId;
 			EpgEvents::DecodeDomId(epgEvent->Id(), chanId, eventId);
 
-            // Searching for channel logos
-            std::string chanlogoimg = "/var/lib/vdr/plugins/skinelchihd/logos/" + epgEvent->Caption() + ".png";
-            struct stat chanfilebuffer;
-            if (stat (chanlogoimg.c_str(), &chanfilebuffer) == 0) {
-                chanlogoimg = "<img src=\"channel_logos/" + epgEvent->Caption() + ".png\" loading=\"lazy\" class=\"channel_logo\">";
-               }
-            else {
-                chanlogoimg = "";
-                }
+			// Searching for channel logos
+			std::string chanlogoimg("");
+			if (!LiveSetup().GetChanLogoDir().empty() ) {
+				std::string chanlogopath = LiveSetup().GetChanLogoDir() + epgEvent->Caption() + ".png";
+				struct stat chanfilebuf;
+				if (stat (chanlogopath.c_str(), &chanfilebuf) == 0) {
+					chanlogoimg = "<img src=\"chanlogos/" + epgEvent->Caption() + ".png\" loading=\"lazy\" class=\"channel_logo\">";
+				}
+        	        }
 </%cpp>
 			<tr>
 				<& pageelems.epg_tool_box detail=(0) epgid=(epgEvent->Id()) title=(epgEvent->Title()) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) lastCurrentChanel=(lastCurrentChanel ? 1 : 0) &>
