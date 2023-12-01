@@ -315,6 +315,9 @@ img.actor {
 img.artwork {
 	width: 480px
 }
+img.channel_logo {
+	max-height:32px; max-width:150px; vertical-align:middle;
+}
 /* ##############################
    # Infowin styles for epg infos
    ##############################
