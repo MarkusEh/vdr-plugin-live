@@ -19,6 +19,7 @@
 // To get rid of the swap definition in vdr/tools.h
 #define DISABLE_TEMPLATES_COLLIDING_WITH_STL
 #endif
+#include "xxhash.h"
 #include <vdr/channels.h>
 #include "stringhelpers.h"
 #include "largeString.h"
@@ -69,12 +70,6 @@ template<class T>
 template<class T>
 	void AppendTextTruncateOnWord(T &target, const char *text, int max_len, bool tooltip = false);
 
-  template<typename... Args> std::string Format(const char *format, Args&&... args) {
-    std::string result;
-    stringAppendFormated(result, format, std::forward<Args>(args)...);
-    return result;
-  }
- 
   template<typename T> void AppendDuration(T &target, char const* format, int duration);
 	std::string FormatDuration( char const* format, int duration );
 
@@ -101,8 +96,37 @@ template<typename T> void toHex(char *buf, int chars, T value);
 	std::string xxHash32(cSv str);
 	std::string xxHash64(cSv str);
   std::string xxHash128(cSv str);
+  XXH128_hash_t parse_hex_128(cSv str);
   void stringAppend_xxHash128(std::string &target, cSv str);
   bool compare_xxHash128(cSv str1, cSv str2); // return str1 == xxHash128(str2)
+
+  class cToSvXxHash128: public cToSvHex<32> {
+    public:
+        cToSvXxHash128(XXH128_hash_t value): cToSvHex<32>::cToSvHex() {
+        addCharsHex(m_buffer,    16, value.high64);
+        addCharsHex(m_buffer+16, 16, value.low64);
+      }
+      cToSvXxHash128(const cToSvXxHash128&) = delete;
+      cToSvXxHash128 &operator= (const cToSvXxHash128 &) = delete;
+  };
+
+/*
+  class cToSvXxHash128: public cToSv {
+    friend bool operator==(const cToSvXxHash128 &h1, const cToSvXxHash128 &h2);
+    public:
+      cToSvXxHash128(cSv str, bool alreadyHashed = false);
+      cToSvXxHash128(const cToSvXxHash128&) = delete;
+      cToSvXxHash128 &operator= (const cToSvXxHash128 &) = delete;
+      operator cSv() const;
+    private:
+      XXH128_hash_t m_hash;
+      mutable char m_buffer[32];
+      mutable bool m_buffer_filled = false;
+  };
+  inline bool operator==(const cToSvXxHash128 &h1, const cToSvXxHash128 &h2) {
+    return h1.m_hash.low64 == h2.m_hash.low64 && h1.m_hash.high64 == h2.m_hash.high64;
+  }
+*/
 
 	time_t GetTimeT(std::string timestring); // timestring in HH:MM
 	std::string ExpandTimeString(std::string timestring);

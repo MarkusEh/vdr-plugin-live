@@ -131,14 +131,14 @@ namespace vdrlive {
         recName = std::move(getAutoTimerReason.recordingName);
         return std::move(getAutoTimerReason.reason);
       }
-      return concatenate(getAutoTimerReason.reason, " ", getAutoTimerReason.recordingName);
+      return concat(getAutoTimerReason.reason, " ", getAutoTimerReason.recordingName);
     }
 // fallback information, if this tvscraper method is not available
     cSv tvScraperInfo = partInXmlTag(timer.Aux(), "tvscraper");
     if (tvScraperInfo.empty()) return "";
     cSv data = partInXmlTag(tvScraperInfo, "reason");
     if (data.empty() ) return "";
-    return concatenate(data, " ", partInXmlTag(tvScraperInfo, "causedBy"));
+    return concat(data, " ", partInXmlTag(tvScraperInfo, "causedBy"));
 	}
 
 	bool SortedTimers::Modified()

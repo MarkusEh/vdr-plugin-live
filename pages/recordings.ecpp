@@ -138,17 +138,6 @@ const recs = [];
 const vdr_start = <$ cSv(cToSvInt(LiveSetup().GetVdrStart() )) $>;
 const recordings_tree_creation = <$ cSv(cToSvInt(recordingsTree->getCreationTimestamp() )) $>;
 const param_name_recs = '&r<$ TNT_ARRAY $>=';
-<%cpp>
-/*
-for (const RecordingsItemPtr &rPtr: *recordingsTree->allRecordings()) {
-  recoring_item.clear();
-  rPtr->AppendAsJSArray(recoring_item, currentFlat == "true" || currentSort == "duplicates");
-</%cpp>
-  recs[<$cSv(cToSvInt(rPtr->IdI()))$>]=[<$$ recoring_item.c_str() $>]
-<%cpp>
-}
-*/
-</%cpp>
 const rec_ids = Object.create(null)
 rec_ids["T"] = [1, 2]
 
@@ -211,11 +200,11 @@ function RecordingsSt_int(s, level, displayFolder, data) {
       s.a += '" />'
     }
     s.a += '</div></td>'  // end of recording_imgs
-<%cpp> if (!LiveSetup().GetTvscraperImageDir().empty() ) { </%cpp>
+%   if (!LiveSetup().GetTvscraperImageDir().empty() ) {
     s.a += '<td class=\"space\">'
       addScraperImageTitle(s, obj[3], obj[4], obj[5], obj[6], obj[7], obj[8], '<$$lf$>');
     s.a += '</td>'
-<%cpp> } </%cpp>
+%   }
     s.a += '<td class="td-hidden-xs"><div class="hidden-xs recording_day margin-bottom">'
     s.a += obj[9]
     s.a += '</div><div class="hidden-xs recording_channel">'
@@ -249,20 +238,17 @@ function RecordingsSt_int(s, level, displayFolder, data) {
 %     if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
         RecordingActionS(s, obj[0], "vdr_request/play_recording?param=", "play.png", "<$tr("play this recording")$>")
 %     }
-<%cpp> if (LiveSetup().GetShowPlayMediaplayer() ) { </%cpp>
+%     if (LiveSetup().GetShowPlayMediaplayer() ) {
         RecordingActionS(s, obj[0], "playlist.m3u?recid=", "playlist.png", "<$tr("Stream this recording into media player.")$>")
-<%cpp> } if (LiveSetup().GetShowIMDb() ) { </%cpp>
+%     } if (LiveSetup().GetShowIMDb() ) {
         IMDBS(s, obj[2], obj[14])
-<%cpp> } </%cpp>
+%     }
       RecordingActionS(s, obj[0], "edit_recording.html?recid=", "edit.png", "<$tr("Edit recording")$>")
-<#    s.a += '<div class=\"hidden-ts\">'  #>
       RecordingActionS(s, obj[0], "epginfo.html?epgid=del_", "del.png", "<$tr("Delete this recording from hard disc!")$>")
-<#    RecordingActionS(s, obj[0], "recordings.html?todel=", "del.png", "<$tr("Delete this recording from hard disc!")$>") #>
-<#    s.a += '</div>'  #>
-<%cpp> if (LiveSetup().GetShowIMDb() ) { </%cpp>
+%     if (LiveSetup().GetShowIMDb() ) {
     } else {
       IMDBS(s, obj[2], obj[14])
-<%cpp> } </%cpp>
+%     }
     }
     s.a += '</div>'
     if (obj[1].length != 0) {
@@ -446,7 +432,28 @@ if (currentFlat != "true") {
 } else {
 // here we prepare the items in case of a flat list, no folders
   if (currentSort != "duplicates") { 
-    recItemsC = recordingsTree->allRecordings(sortOrder);
+    recItems.clear();
+    size_t max_items = 100;
+    if (reverse) {
+      reverse = false;
+      std::vector<RecordingsItemPtr>::const_iterator recIterFirst = recordingsTree->allRecordings(sortOrder)->begin();
+      std::vector<RecordingsItemPtr>::const_iterator recIterLast  = recordingsTree->allRecordings(sortOrder)->end();
+      for (; recIterFirst != recIterLast;) {
+        --recIterLast;
+        RecordingsItemPtr recItem = *recIterLast;
+        if (!recItem->matchesFilter(currentFilter)) continue;
+        recItems.push_back(recItem);
+        if (recItems.size() >= max_items) break;
+      }
+     } else {
+      for (const RecordingsItemPtr &rPtr: *recordingsTree->allRecordings(sortOrder) ) {
+        if (!rPtr->matchesFilter(currentFilter)) continue;
+        recItems.push_back(rPtr);
+        if (recItems.size() >= max_items) break;
+      }
+    }
+//    recItemsC = recordingsTree->allRecordings(sortOrder);
+    recItemsC = &recItems;
   } else {
     recItems.clear();
     addDuplicateRecordingsSd(recItems, recordingsTree);
@@ -658,7 +665,7 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
   </div>
   <div class="epg_content">
     <form>
-      <div class="about_head"><div><div><$ Format(tr("Delete recording \"%s\"?"), recording->Name()?recording->Name():"No recording name available") $></div></div></div>
+      <div class="about_head"><div><div><$ cSv(cToSvFormated(tr("Delete recording \"%s\"?"), recording->Name()?recording->Name():"No recording name available")) $></div></div></div>
       <input type="hidden" name="epgid" value="<$todel$>" \>
       <input type="hidden" name="delete_rec" value="confirmed" \>
       <input type="hidden" name="history_num_back" value="<$ history_num_back $>" id="history_del_<$ todel $>"\>

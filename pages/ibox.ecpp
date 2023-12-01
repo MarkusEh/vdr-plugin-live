@@ -48,9 +48,10 @@ TimerConflictNotifier timerNotifier();
 		LOCK_RECORDINGS_READ;
 		cRecording *recording = (cRecording *)Recordings->GetByName(NowReplaying);
 		if (recording) {
-			epgEvent = EpgEvents::CreateEpgInfo(recManager->Md5Hash(recording),
-												recording,
-												tr("playing recording"));
+			epgEvent = EpgEvents::CreateEpgInfo(
+        concat("recording_", cToSvXxHash128(XXH3_128bits(NowReplaying, strlen(NowReplaying))) ),
+				recording,
+				tr("playing recording"));
 		}
 	}
 	else {

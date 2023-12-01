@@ -300,9 +300,47 @@ template<typename T> void toHex(char *buf, int chars, T value) {
   inline void xxHash128_buf(char *buf, cSv str) {
 // sizeof buf must be >= 32. This is not checked!
 	  XXH128_hash_t result = XXH3_128bits(str.data(), str.length());
-    toHex(buf+16, 16, result.low64);
     toHex(buf   , 16, result.high64);
+    toHex(buf+16, 16, result.low64);
 	}
+  XXH128_hash_t parse_hex_128(cSv str) {
+    XXH128_hash_t result;
+    if (str.length() != 32) {
+      esyslog("live: ERROR in parse_hex_128, hex = \"%.*s\" is not 32 chars long", (int)str.length(), str.data());
+      result.low64 = 0;
+      result.high64 = 0;
+      return result;
+    }
+    size_t parsed_chars_h, parsed_chars_l;
+    result.high64 = parse_hex<XXH64_hash_t>(str.substr(0, 16), &parsed_chars_h);
+    result.low64  = parse_hex<XXH64_hash_t>(str.substr(16),    &parsed_chars_l);
+    if (parsed_chars_l == 16 && parsed_chars_h == 16) return result;
+    esyslog("live: ERROR in  parse_hex_128, hex = \"%.*s\" contains invalid characters", (int)str.length(), str.data());
+    result.low64 = 0;
+    result.high64 = 0;
+    return result;
+  }
+/*
+  cToSvXxHash128::cToSvXxHash128(cSv str, bool alreadyHashed) {
+    if (alreadyHashed) {
+      m_hash = parse_hex_128(str);
+      if (str != cSv(*this))
+        esyslog("live: ERROR in cToSvXxHash128, str = \"%.*s\" != buffer = \"%.*s\"", (int)str.length(), str.data(), 32, m_buffer);
+    } else {
+      m_hash = XXH3_128bits(str.data(), str.length());
+    }
+  }
+
+  cToSvXxHash128::operator cSv() const {
+    if (!m_buffer_filled) {
+      toHex(m_buffer+16, 16, m_hash.low64);
+      toHex(m_buffer   , 16, m_hash.high64);
+      m_buffer_filled = true;
+    }
+    return cSv(m_buffer, 32); 
+  }
+*/
+
   void stringAppend_xxHash128(std::string &target, cSv str) {
 	  char buf[32];
     xxHash128_buf(buf, str);

@@ -109,7 +109,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 #endif
 							if (timer->Event()) {
 								epgEvent = EpgEvents::CreateEpgInfo(timer->Channel(), timer->Event());
-								longDescription = concatenate(
+								longDescription = concat(
                     StringEscapeAndBreak(SortedTimers::GetTimerInfo(*timer)),
                     "<hr>",
 										StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), LiveSetup().GetMaxTooltipChars())),

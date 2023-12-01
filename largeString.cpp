@@ -21,36 +21,6 @@ void cLargeString::init(size_t initialSize, size_t increaseSize, bool debugBuffe
   m_buffer_end = m_s + initialSize;
   m_string_end = m_s;
 }
-void cLargeString::loadFile(const char *filename, bool *exists) {
-  if (exists) *exists = false;
-  if (!filename) return;
-  struct stat buffer;                                                                                                                       
-  if (stat(filename, &buffer) != 0) return;
-
-// file exists, length buffer.st_size
-  if (exists) *exists = true;
-  if (buffer.st_size == 0) return;  // empty file
-  m_s = (char *) malloc((size_t)(buffer.st_size + 1) * sizeof(char));  // add one. So we can add the 0 string terminator
-  if (!m_s) {
-    esyslog("cLargeString::loadFile, ERROR out of memory, name = %.*s, filename = %s, requested size = %zu", nameLen(), nameData(), filename, (size_t)(buffer.st_size + 1));
-    throw std::runtime_error("cLargeString::cLargeString, ERROR out of memory (file)");
-    return;
-  }
-  m_buffer_end = m_s + buffer.st_size + 1;
-  m_string_end = m_s;
-  FILE *f = fopen(filename, "rb");
-  if (!f) {
-    esyslog("cLargeString::loadFile, ERROR: stat OK, fopen fails, filename %s", filename);
-    return;
-  }
-  size_t num_read = fread (m_s, 1, (size_t)buffer.st_size, f);
-  fclose(f);
-  m_string_end = m_s + num_read;
-  if (num_read != (size_t)buffer.st_size) {
-    esyslog("cLargeString::loadFile, ERROR: num_read = %zu, buffer.st_size = %zu, ferror %i, name = %.*s, filename %s", num_read, (size_t)buffer.st_size, ferror(f), nameLen(), nameData(), filename);
-    m_string_end = m_s + std::min(num_read, (size_t)buffer.st_size);
-  }
-}
 
 cLargeString::~cLargeString() {
   if (m_s == m_s_initial) return;
@@ -151,4 +121,11 @@ void cLargeString::enlarge(size_t increaseSize) {
   }
   m_buffer_end = m_s + newSize;
   m_string_end = m_s + stringLength;
+}
+
+std::string cLargeString::substr(size_t pos, size_t count) const {
+  if (pos >= length() ) return "";
+  std::string result(m_s + pos, std::min(length() - pos, count) );
+  for (char &si: result) if (si == 0) si = '%';
+  return result;
 }

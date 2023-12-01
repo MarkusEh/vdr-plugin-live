@@ -69,13 +69,6 @@ namespace vdrlive {
                   RecordingsTreePtr GetRecordingsTree() const;
 
                   /**
-                   *	generates a Md5 hash from a cRecording entry. It can be used
-                   *  to reidentify a recording.
-                   */
-                  std::string Md5Hash(cRecording const * recording) const;
-                  mutable cMeasureTime m_timeMd5Hash;
-
-                  /**
                    *  fetches a cRecording from VDR's Recordings collection. Returns
                    *  NULL if recording was not found
                    */
@@ -194,7 +187,7 @@ namespace vdrlive {
       virtual const std::string& NameForSearch() const { return m_name_for_search; }
       virtual const char * ShortText() const { return RecInfo()? RecInfo()->ShortText():0; }
       virtual const char * Description() const { return RecInfo()? RecInfo()->Description():0; }
-      virtual const std::string Id() const = 0;
+//      virtual const std::string Id() const = 0;
       int IdI() const { return m_idI;}
 template<class T>
       void AppendShortTextOrDesc(T &target) const;
@@ -228,7 +221,7 @@ template<class T>
       int scraperSeasonNumber() const { return m_s_season_number; }
       const std::string &scraperName() const { return m_s_title; }
       const std::string &scraperReleaseDate() const { return m_s_release_date; }
-      const cTvMedia &scraperImage() const { return m_s_image; }
+      const cTvMedia &scraperImage() const;
       int language() const { return m_language; }
       int CompareTexts(const RecordingsItemPtr &second, int *numEqualChars=NULL) const;
       int CompareStD(const RecordingsItemPtr &second, int *numEqualChars=NULL) const;
@@ -263,13 +256,16 @@ template<class T>
 		  bool (*m_cmp_dir)(const RecordingsItemPtr &itemPtr1, const RecordingsItemPtr &itemPtr2) = NULL;
 		  bool (*m_cmp_rec)(const RecordingsItemPtr &itemPtr1, const RecordingsItemPtr &itemPtr2) = NULL;
 // scraper data
+      std::unique_ptr<cScraperVideo> m_scraperVideo;
       tvType m_s_videoType = tNone;
       int m_s_dbid = 0;
       std::string m_s_title = "";
       std::string m_s_episode_name = "";
       std::string m_s_IMDB_ID = "";
       std::string m_s_release_date = "";
-      cTvMedia m_s_image;
+      mutable cTvMedia m_s_image;
+      mutable bool m_s_image_requested = false;
+      cImageLevels m_imageLevels;
       int m_s_runtime = 0;
       int m_s_collection_id = 0;
       int m_s_episode_number = 0;
@@ -295,7 +291,7 @@ template<class T>
                   virtual time_t StartTime() const { return 0; }
                   virtual int Duration() const { return -1; }
                   virtual bool IsDir() const { return true; }
-                  virtual std::string const Id() const { return ""; }
+//                  virtual std::string const Id() const { return ""; }
                   virtual int Level() { return m_level; }
 
           private:
@@ -339,7 +335,7 @@ template<class T>
   class RecordingsItemRec : public RecordingsItem
   {
     public:
-      RecordingsItemRec(int idI, cSv id, cSv name, const cRecording* recording, cMeasureTime *timeIdentify, cMeasureTime *timeOverview, cMeasureTime *timeImage, cMeasureTime *timeDurationDeviation, cMeasureTime *timeNumTsFiles, cMeasureTime *timeItemRec);
+      RecordingsItemRec(cSv name, const cRecording* recording, cMeasureTime *timeIdentify, cMeasureTime *timeOverview, cMeasureTime *timeImage, cMeasureTime *timeDurationDeviation, cMeasureTime *timeNumTsFiles, cMeasureTime *timeItemRec);
 
       virtual ~RecordingsItemRec();
 
@@ -348,7 +344,7 @@ template<class T>
       virtual int DurationDeviation() const { return m_duration_deviation; } // duration deviation in seconds
       virtual int FileSizeMB() const { return m_recording->FileName() ? m_recording->FileSizeMB() : -1; } // file size in MB
       virtual bool IsDir() const { return false; }
-      virtual const std::string Id() const { return m_id; }
+      virtual const XXH128_hash_t IdHash() const { return m_hash; }
 
       virtual const cRecording* Recording() const { return m_recording; }
       virtual const cRecordingInfo* RecInfo() const { return m_recording->Info(); }
@@ -362,7 +358,10 @@ template<class T>
 #else
       virtual const int RecordingErrors() const { return -1; }
 #endif
-      int NumberTsFiles() const { return m_number_ts_files; }
+      int NumberTsFiles() const {
+        if (m_number_ts_files == -2) m_number_ts_files = GetNumberOfTsFiles(m_recording);
+        return m_number_ts_files;
+      }
       void AppendRecordingErrorsStr(std::string &target) const;
 
       virtual int SD_HD();
@@ -371,9 +370,9 @@ template<class T>
 
     private:
       const cRecording *m_recording;
-      const std::string m_id;
+      const XXH128_hash_t m_hash;
       const int m_isArchived;
-      int m_number_ts_files;
+      mutable int m_number_ts_files = -2;
   };
 
   /**
@@ -390,7 +389,7 @@ template<class T>
       virtual time_t StartTime() const { return m_event->StartTime(); }
       virtual int Duration() const { return m_event->Duration() / 60; } // duration in minutes
       virtual bool IsDir() const { return false; }
-      virtual std::string const Id() const { return ""; }
+//      virtual std::string const Id() const { return ""; }
     private:
       const cEvent *m_event;
   };

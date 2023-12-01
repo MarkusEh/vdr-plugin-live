@@ -146,10 +146,14 @@ class cSv: public std::string_view {
     cSv(const char *s): std::string_view(charPointerToStringView(s)) {}
     cSv(const unsigned char *s): std::string_view(charPointerToStringView(reinterpret_cast<const char *>(s))) {}
     cSv(const char *s, size_t l): std::string_view(s, l) {}
+    cSv(const unsigned char *s, size_t l): std::string_view(reinterpret_cast<const char *>(s), l) {}
     cSv(std::string_view sv): std::string_view(sv) {}
+    cSv(const cSv &sv): std::string_view(sv) {}
     cSv(const std::string &s): std::string_view(s) {}
-    cSv substr_csv(size_t pos = 0) { return (length() > pos)?cSv(data() + pos, length() - pos):cSv(); }
-    cSv substr_csv(size_t pos, size_t count) { return (length() > pos)?cSv(data() + pos, std::min(length() - pos, count) ):cSv(); }
+    cSv substr(size_t pos = 0) const { return (length() > pos)?cSv(data() + pos, length() - pos):cSv(); }
+    cSv substr_csv(size_t pos = 0) const { return (length() > pos)?cSv(data() + pos, length() - pos):cSv(); }
+    cSv substr(size_t pos, size_t count) const { return (length() > pos)?cSv(data() + pos, std::min(length() - pos, count) ):cSv(); }
+    cSv substr_csv(size_t pos, size_t count) const { return (length() > pos)?cSv(data() + pos, std::min(length() - pos, count) ):cSv(); }
   private:
     static std::string_view charPointerToStringView(const char *s) {
       return s?std::string_view(s, strlen(s)):std::string_view();
@@ -344,6 +348,36 @@ template<class T> inline T parse_unsigned(cSv sv) {
   return parse_unsigned_internal<T>(sv);
 }
 
+template<class T> inline T parse_hex(cSv sv, size_t *num_digits = 0) {
+  static const signed char hex_values[256] = {
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+         0,  1,  2,  3,  4,  5,  6,  7,  8,  9, -1, -1, -1, -1, -1, -1,
+        -1, 10, 11, 12, 13, 14, 15, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        -1, 10, 11, 12, 13, 14, 15, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+    };
+  T value = 0;
+  const unsigned char *data = reinterpret_cast<const unsigned char *>(sv.data());
+  const unsigned char *data_e = data + sv.length();
+  for (; data < data_e; ++data) {
+    signed char val = hex_values[*data];
+    if (val == -1) break;
+    value = value*16 + val;
+  }
+  if (num_digits) *num_digits = data - reinterpret_cast<const unsigned char *>(sv.data());
+  return value;
+}
 // =========================================================
 // parse string_view for xml
 // =========================================================
@@ -494,16 +528,15 @@ inline void stringAppendRemoveControlCharactersKeepNl(std::string &target, const
 // =========== concatenate =================================
 // =========================================================
 
-inline std::string concatenate(cSv s1, cSv s2) {
+inline std::string concat(cSv s1, cSv s2) {
   std::string result;
   result.reserve(s1.length() + s2.length());
   result.append(s1);
   result.append(s2);
-//  dsyslog("\nconcatenate 2 result: %s\n", result.c_str() );
   return result;
 }
 
-inline std::string concatenate(cSv s1, cSv s2, cSv s3) {
+inline std::string concat(cSv s1, cSv s2, cSv s3) {
   std::string result;
   result.reserve(s1.length() + s2.length() + s3.length() );
   result.append(s1);
@@ -512,13 +545,36 @@ inline std::string concatenate(cSv s1, cSv s2, cSv s3) {
   return result;
 }
 
-inline std::string concatenate(cSv s1, cSv s2, cSv s3, cSv s4) {
+inline std::string concat(cSv s1, cSv s2, cSv s3, cSv s4) {
   std::string result;
   result.reserve(s1.length() + s2.length() + s3.length()  + s4.length() );
   result.append(s1);
   result.append(s2);
   result.append(s3);
   result.append(s4);
+  return result;
+}
+
+inline std::string concat(cSv s1, cSv s2, cSv s3, cSv s4, cSv s5) {
+  std::string result;
+  result.reserve(s1.length() + s2.length() + s3.length()  + s4.length() + s5.length() );
+  result.append(s1);
+  result.append(s2);
+  result.append(s3);
+  result.append(s4);
+  result.append(s5);
+  return result;
+}
+
+inline std::string concat(cSv s1, cSv s2, cSv s3, cSv s4, cSv s5, cSv s6) {
+  std::string result;
+  result.reserve(s1.length() + s2.length() + s3.length()  + s4.length() + s5.length() + s6.length() );
+  result.append(s1);
+  result.append(s2);
+  result.append(s3);
+  result.append(s4);
+  result.append(s5);
+  result.append(s6);
   return result;
 }
 
@@ -582,26 +638,27 @@ namespace ns_concat {
   inline void addChars(char *b, int l, const std::string &s) { memcpy(b, s.data(), l); }
   inline void addChars(char *b, int l, const char *s) { if(s) memcpy(b, s, l); }
 
-// methods to append to std::strings ========================
-  template<typename T>
-  inline void stringAppendU(std::string &str, T i) {
-// for integer types i >= 0 !!!! This is not checked !!!!!
-    if (i == 0) { str.append(1, '0'); return; }
-    char buf[20]; // unsigned int 64: max. 20. (18446744073709551615) signed int64: max. 19 (+ sign)
-    char *bufe = buf+20;
-    char *bufs = addCharsUg0be(bufe, i);
-    str.append(bufs, bufe-bufs);
-  }
-  template<typename T>
-  inline void stringAppendI(std::string &str, T i) {
-// for integer types i
-    char buf[20];
-    char *bufe = buf+20;
-    char *bufs = addCharsIbe(bufe, i);
-    str.append(bufs, bufe-bufs);
+  template<typename T> inline T addCharsHex(char *buffer, size_t num_chars, T value) {
+// sizeof(buffer) must be >= num_chars. This is not checked !!!
+// value must be >= 0. This is not checked !!!
+// value is written with num_chars chars
+//   if value is too small -> left values filled with 0
+//   if value is too high  -> the highest numbers are not written. This is not checked!
+//           but, you can check: if the returnde value is != 0, some chars are not written
+    const char *hex_chars = "0123456789ABCDEF";
+    for (char *be = buffer + num_chars -1; be >= buffer; --be, value /= 16) *be = hex_chars[value%16];
+  return value;
   }
 }
-
+inline unsigned addCharsHex(char *buffer, size_t num_chars, unsigned value) {
+  return ns_concat::addCharsHex(buffer, num_chars, value);
+}
+inline unsigned long addCharsHex(char *buffer, size_t num_chars, unsigned long value) {
+  return ns_concat::addCharsHex(buffer, num_chars, value);
+}
+inline unsigned long long addCharsHex(char *buffer, size_t num_chars, unsigned long long value) {
+  return ns_concat::addCharsHex(buffer, num_chars, value);
+}
 /*
 class cToSvInt_sik: public cSv {
 // decided against this implementation.
@@ -628,6 +685,7 @@ class cToSv {
     cToSv() {}
     cToSv(const cToSv&) = delete;
     cToSv &operator= (const cToSv &) = delete;
+    virtual ~cToSv() {}
     virtual operator cSv() const = 0;
 };
 class cToSvInt: public cToSv {
@@ -639,21 +697,44 @@ class cToSvInt: public cToSv {
     cToSvInt &operator= (const cToSvInt &) = delete;
     operator cSv() const { return cSv(m_result, m_buffer + 20 - m_result); }
   private:
-    char m_buffer[20];
+    char m_buffer[20]; // unsigned int 64: max. 20. (18446744073709551615) signed int64: max. 19 (+ sign)
     char *m_result;
 };
+template<std::size_t N>
+class cToSvHex: public cToSv {
+  public:
+// T must be an unsigned type, like long long unsigned, ...
+    template<class T> cToSvHex(T value) {
+      addCharsHex(m_buffer, N, value);
+    }
+    cToSvHex(const cToSvHex&) = delete;
+    cToSvHex &operator= (const cToSvHex &) = delete;
+    operator cSv() const { return cSv(m_buffer, N); }
+  protected:
+    cToSvHex() { }
+    char m_buffer[N];
+};
 
-template<class T> inline std::string toStringI(T i) {
-// for integer types i
-  return std::string(cToSvInt(i));
+namespace ns_concat {
+// methods to append to std::strings ========================
+  template<typename T>
+  inline void stringAppendU(std::string &str, T i) {
+// for integer types i >= 0 !!!! This is not checked !!!!!
+    if (i == 0) { str.append(1, '0'); return; }
+    char buf[20]; // unsigned int 64: max. 20. (18446744073709551615) signed int64: max. 19 (+ sign)
+    char *bufe = buf+20;
+    char *bufs = addCharsUg0be(bufe, i);
+    str.append(bufs, bufe-bufs);
+  }
 }
+
 inline void stringAppend(std::string &str, unsigned int i) { ns_concat::stringAppendU(str, i); }
 inline void stringAppend(std::string &str, unsigned long int i) { ns_concat::stringAppendU(str, i); }
 inline void stringAppend(std::string &str, unsigned long long  int i) { ns_concat::stringAppendU(str, i); }
 
-inline void stringAppend(std::string &str, int i) { ns_concat::stringAppendI(str, i); }
-inline void stringAppend(std::string &str, long int i) { ns_concat::stringAppendI(str, i); }
-inline void stringAppend(std::string &str, long long int i) { ns_concat::stringAppendI(str, i); }
+inline void stringAppend(std::string &str, int i) { str.append(cToSvInt(i)); }
+inline void stringAppend(std::string &str, long int i) { str.append(cToSvInt(i)); }
+inline void stringAppend(std::string &str, long long int i) { str.append(cToSvInt(i)); }
 
 // strings
 inline void stringAppend(std::string &str, const char *s) { if(s) str.append(s); }
@@ -683,8 +764,8 @@ inline std::string concatenate(const Args&... args) {
 
 class cToSvFile: public cToSv {
   public:
-    cToSvFile(const char *filename) { load(filename); }
-    cToSvFile(const std::string &filename) { load(filename.c_str() ); }
+    cToSvFile(const char *filename, size_t max_length = 0) { load(filename, max_length); }
+    cToSvFile(const std::string &filename, size_t max_length = 0) { load(filename.c_str(), max_length ); }
     cToSvFile(const cToSvFile&) = delete;
     cToSvFile &operator= (const cToSvFile &) = delete;
     operator cSv() const { return m_result; }
@@ -692,7 +773,7 @@ class cToSvFile: public cToSv {
     bool exists() const { return m_exists; }
     ~cToSvFile() { std::free(m_s); }
   private:
-    void load(const char *filename) {
+    void load(const char *filename, size_t max_length) {
       if (!filename) return;
       int fd = open(filename, O_RDONLY);
       if (fd == -1) {
@@ -710,16 +791,18 @@ class cToSvFile: public cToSv {
 // file exists, length buffer.st_size
       m_exists = true;
       if (buffer.st_size == 0) { close(fd); return; } // empty file
-      m_s = (char *) malloc((size_t)(buffer.st_size + 1) * sizeof(char));  // add one. So we can add the 0 string terminator
+      size_t length = buffer.st_size;
+      if (max_length != 0 && length > max_length) length = max_length;
+      m_s = (char *) malloc((length + 1) * sizeof(char));  // add one. So we can add the 0 string terminator
       if (!m_s) {
-        esyslog("cToSvFile::load, ERROR out of memory, filename = %s, requested size = %zu\n", filename, (size_t)(buffer.st_size + 1));
+        esyslog("cToSvFile::load, ERROR out of memory, filename = %s, requested size = %zu\n", filename, length + 1);
         close(fd);
         return;
       }
       size_t num_read = 0;
       ssize_t num_read1 = 1;
-      for (; num_read1 > 0 && num_read < (size_t)buffer.st_size; num_read += num_read1) {
-        num_read1 = read(fd, m_s + num_read, (size_t)buffer.st_size - num_read);
+      for (; num_read1 > 0 && num_read < length; num_read += num_read1) {
+        num_read1 = read(fd, m_s + num_read, length - num_read);
         if (num_read1 == -1) {
           esyslog("cToSvFile::load, ERROR: read fails, errno %d, filename %s\n", errno, filename);
           close(fd);
@@ -730,14 +813,15 @@ class cToSvFile: public cToSv {
       close(fd);
       m_result = cSv(m_s, num_read);
       m_s[num_read] = 0;  // so data returns a 0 terminated string
-      if (num_read != (size_t)buffer.st_size) {
-        esyslog("cToSvFile::load, ERROR: num_read = %zu, buffer.st_size = %zu, filename %s\n", num_read, (size_t)buffer.st_size, filename);
+      if (num_read != length) {
+        esyslog("cToSvFile::load, ERROR: num_read = %zu, length = %zu, filename %s\n", num_read, length, filename);
       }
     }
     bool m_exists = false;
     char *m_s = nullptr;
     cSv m_result;
 };
+
 class cToSvFormated: public cToSv {
   public:
 // __attribute__ ((format (printf, 2, 3))) can not be used, but should work starting with gcc 13.1
@@ -796,6 +880,15 @@ void stringAppendFormated(std::string &str, const char *fmt, Args&&... args) {
     str.append(buf2);
   }
 }
+
+inline std::string zeroToPercent(cSv sv) {
+// rapidjson, inplace -> there are 0 in data
+// to print such data, we replace 0 with %
+  std::string result(sv);
+  for (char &si: result) if (si == 0) si = '%';
+  return result;
+}
+
 // =========================================================
 // =========================================================
 // Chapter 3: containers

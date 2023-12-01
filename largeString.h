@@ -27,7 +27,6 @@ class cLargeString {
     }
     void setMaxSize() { m_maxSize = std::max(m_maxSize, (size_t)(m_string_end - m_s)); }
     void init(size_t initialSize, size_t increaseSize, bool debugBufferSize);
-    void loadFile(const char *filename, bool *exists);
   public:
     cLargeString(const cLargeString& o) = delete;
     cLargeString &operator= (const cLargeString &) = delete;
@@ -38,12 +37,6 @@ class cLargeString {
       m_nameData = name;
       m_nameLen = static_cast<int>(N) - 1;
       init(initialSize, increaseSize, debugBufferSize);
-    }
-    template<std::size_t N>
-    cLargeString(const char (&name)[N], const char *filename, bool *exists = NULL) {
-      m_nameData = name;
-      m_nameLen = static_cast<int>(N) - 1;
-      loadFile(filename, exists);
     }
     ~cLargeString();
     char *data() { *m_string_end = 0; return m_s; }

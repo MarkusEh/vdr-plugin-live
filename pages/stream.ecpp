@@ -159,7 +159,7 @@ if (Event) {
 		timeSpan = headTime;
 		startDate = headDate;
 	}
-  std::string longDescription = concatenate(
+  std::string longDescription = concat(
     StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), LiveSetup().GetMaxTooltipChars())),
 	  "<br/><br/>",
     tr("Click to view details."));
