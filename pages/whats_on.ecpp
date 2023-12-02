@@ -242,10 +242,11 @@ if (type == "now") {
 			// Searching for channel logos
 			std::string chanlogoimg("");
 			if (!LiveSetup().GetChanLogoDir().empty() ) {
-				std::string chanlogopath = LiveSetup().GetChanLogoDir() + epgEvent->Caption() + ".png";
+				std::string chanlogofile = StringReplace(epgEvent->Caption(), "/", "_") + ".png";
+				std::string chanlogopath = LiveSetup().GetChanLogoDir() + chanlogofile;
 				struct stat chanfilebuf;
 				if (stat (chanlogopath.c_str(), &chanfilebuf) == 0) {
-					chanlogoimg = "<img src=\"chanlogos/" + epgEvent->Caption() + ".png\" loading=\"lazy\" class=\"channel_logo\">";
+					chanlogoimg = "<img src=\"chanlogos/" + chanlogofile + "\" loading=\"lazy\" class=\"channel_logo\">";
 				}
         	        }
 </%cpp>
