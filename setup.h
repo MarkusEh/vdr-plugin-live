@@ -142,6 +142,7 @@ class Setup
 		std::string m_tvscraperimagedir;
                 cPlugin *m_p_tvscraper;
                 cPlugin *m_p_scraper;
+		std::string m_chanlogodir;
 
 		// setup options
 		int m_lastChannel;
