@@ -106,10 +106,11 @@ You can also specifiy this parameter via commandline:
 Additional SSL options are available now. See "How to make LIVE listen
 for ssl connections" section below on hints how to setup SSL.
 
-To display images, you can use:
+To display images or channel logos, you can use:
 
   -e <...>  --epgimages=/path/to/epgimages		use EPG images created by plugins like tvm2vdr
   -t <...>  --tvscraperimages=/path/to/tvscraperimages	use images created by tvscraper   DEPRECATED!
+  --chanlogos=/path/to/channellogos                      use channel logos (PNG only, case sensitive)
 Example:
   --tvscraperimages=/var/cache/vdr/plugins/tvscraper   DEPRECATED!
 Note: tvscraperimages is not required any more, live uses the internal service interface "GetEnvironment" for plugins to get this information from tvscraper/scraper2vdr
@@ -182,7 +183,7 @@ qualified dns name, you should use the ip LIVE is listening on.
 
 Note: This is just a quick'n dirty way to create a SSL self-signed
 certicate.  Recent browsers (like Firefox 3) will complain about it
-because the certificate wasn´t signed by a known Certificate Authority
+because the certificate wasnÂ´t signed by a known Certificate Authority
 (CA).
 
 

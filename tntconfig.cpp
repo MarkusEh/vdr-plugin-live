@@ -218,7 +218,18 @@ namespace vdrlive {
 			   "content",
 			   GetResourcePath(),
 			   "/img/$1.svg",
-			   "image/svg+xml");		
+			   "image/svg+xml");
+
+		// the following rule enables channel logo support
+		// inserted by 'flell' -- verified with above, but not counterchecked yet!
+		if (!LiveSetup().GetChanLogoDir().empty() ) {
+    			MapUrl(app,
+		    		   "^/chanlogos/(.+)\\.png",
+		    		   "content",
+	    			   LiveSetup().GetChanLogoDir(),
+	    			   "/$1.png",
+				   "image/png");
+		}
 
 		// the following rules provide a search scheme for images. The first
 		// rule where a image is found, terminates the search.

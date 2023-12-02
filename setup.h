@@ -78,6 +78,7 @@ class Setup
 		cPlugin *GetPluginTvscraper() { return m_p_tvscraper; } // tvscraper
 		cPlugin *GetPluginScraper() { return m_p_scraper; } // tvscraper. Or, if not available, scraper2vdr
 		void SetTvscraperImageDir(const std::string &dir);
+		const std::string &GetChanLogoDir() const { return m_chanlogodir; }
 		bool GetShowChannelsWithoutEPG() const { return m_showChannelsWithoutEPG != 0; }
 		int GetMaxTooltipChars() const { return m_maxTooltipChars; }
 
@@ -142,6 +143,7 @@ class Setup
 		std::string m_tvscraperimagedir;
                 cPlugin *m_p_tvscraper;
                 cPlugin *m_p_scraper;
+		std::string m_chanlogodir;
 
 		// setup options
 		int m_lastChannel;
