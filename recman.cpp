@@ -599,13 +599,13 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
 	 *  Implementation of class RecordingsItemDirSeason:
 	 */
 	RecordingsItemDirSeason::RecordingsItemDirSeason(int level, const RecordingsItemRecPtr &rPtr):
-		RecordingsItemDir("", level)
+		RecordingsItemDir(std::to_string(rPtr->m_s_season_number), level)
 	{
     m_cmp_rec = RecordingsItemPtrCompare::ByEpisode;
-    m_imageLevels = cImageLevels(eImageLevel::seasonMovie, eImageLevel::tvShowCollection, eImageLevel::anySeasonCollection);
+//    m_imageLevels = cImageLevels(eImageLevel::seasonMovie, eImageLevel::tvShowCollection, eImageLevel::anySeasonCollection);
+    m_imageLevels = cImageLevels(eImageLevel::seasonMovie);
     m_rec_item = rPtr;
     m_s_season_number = m_rec_item->m_s_season_number;
-	  m_name = std::to_string(m_s_season_number);
 	}
 	RecordingsItemDirSeason::~RecordingsItemDirSeason() { }
 
@@ -644,7 +644,8 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
     m_timeImage = timeImage;
     m_timeDurationDeviation = timeDurationDeviation;
 
-    m_imageLevels = cImageLevels(eImageLevel::episodeMovie, eImageLevel::seasonMovie, eImageLevel::tvShowCollection, eImageLevel::anySeasonCollection);
+//  m_imageLevels = cImageLevels(eImageLevel::episodeMovie, eImageLevel::seasonMovie, eImageLevel::tvShowCollection, eImageLevel::anySeasonCollection);
+    m_imageLevels = cImageLevels(eImageLevel::episodeMovie, eImageLevel::seasonMovie, eImageLevel::anySeasonCollection);
     getScraperData();
     timeItemRec->stop();
 	}
@@ -888,7 +889,7 @@ void AppendScraperData(cLargeString &target, cSv s_IMDB_ID, const cTvMedia &s_im
   target.append("\"");
 }
 
-  void RecordingsItemRec::AppendAsJSArray(cLargeString &target, bool displayFolder) {
+  void RecordingsItemRec::AppendAsJSArray(cLargeString &target) {
     target.append("\"");
 // [0] : ID
     target.append(cToSvXxHash128(IdHash()));
@@ -936,12 +937,9 @@ void AppendScraperData(cLargeString &target, cSv s_IMDB_ID, const cTvMedia &s_im
     target.append("\",");
     target.append(DurationDeviation());
 // [18] Path / folder
-    target.append(",");
-//          if(displayFolder) {
-      target.append("\"");
-      AppendHtmlEscapedAndCorrectNonUTF8(target, (const char *)Recording()->Folder() );
-      target.append("\"");
-//          }
+    target.append(",\"");
+    AppendHtmlEscapedAndCorrectNonUTF8(target, (const char *)Recording()->Folder() );
+    target.append("\"");
 // [19] duration
     target.append(",\"");
     if(Duration() >= 0)

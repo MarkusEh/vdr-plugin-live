@@ -194,7 +194,7 @@ bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
 <%cpp>
 if(recItemFound) {
   epg_item.clear();
-  recItem->AppendAsJSArray(epg_item, true);
+  recItem->AppendAsJSArray(epg_item);
 </%cpp>
   <script>
     document.write(existingRecordingString(<$col_span - 2$>, \"<? lastEventCurrentDay ? "bottomrow" ?>\", <$$epg_item.c_str()$>))

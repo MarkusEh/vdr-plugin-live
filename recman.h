@@ -337,7 +337,7 @@ namespace vdrlive {
       bool matchesFilter(cSv filter);
 
       virtual int SD_HD();
-      virtual void AppendAsJSArray(cLargeString &target, bool displayFolder);
+      virtual void AppendAsJSArray(cLargeString &target);
       static void AppendAsJSArray(cLargeString &target, std::vector<RecordingsItemRecPtr>::const_iterator recIterFirst, std::vector<RecordingsItemRecPtr>::const_iterator recIterLast, bool &first, cSv filter, bool reverse);
 
       mutable cMeasureTime *m_timeIdentify = nullptr;
@@ -407,7 +407,7 @@ namespace vdrlive {
       const cTvMedia &scraperImage() const { return m_s_image; }
 
       virtual int SD_HD() { return 0; }
-      virtual void AppendAsJSArray(cLargeString &target, bool displayFolder) {}
+      virtual void AppendAsJSArray(cLargeString &target) {}
     private:
       const cEvent *m_event;
   };

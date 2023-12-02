@@ -48,7 +48,7 @@ recordings_tree_re_created = <$ recordings_tree_re_created?"true":"false"$>;
       bool found = false;
       for (const RecordingsItemRecPtr &rPtr: *recordingsTree->allRecordings()) if (recording == rPtr->IdI() ) {
         recoring_item.clear();
-        rPtr->AppendAsJSArray(recoring_item, true);
+        rPtr->AppendAsJSArray(recoring_item);
         </%cpp>
 recs[<$cSv(cToSvInt(rPtr->IdI()))$>]=[<$$ recoring_item.c_str() $>]
         <%cpp>

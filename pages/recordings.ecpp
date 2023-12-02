@@ -478,7 +478,7 @@ if (write_recs && recItemsC) {
   <%cpp>
   for (const RecordingsItemRecPtr &rPtr: *recItemsC) {
     recoring_item->clear();
-    rPtr->AppendAsJSArray(*recoring_item, true);
+    rPtr->AppendAsJSArray(*recoring_item);
   </%cpp>
 recs[<$cSv(cToSvInt(rPtr->IdI()))$>]=[<$$ recoring_item->c_str() $>]
 % }
@@ -533,7 +533,7 @@ if (currentSort != "duplicates" || currentFlat == "true") {
         <%cpp>
         for (const RecordingsItemRecPtr &rPtr: recItems) {
           recoring_item->clear();
-          rPtr->AppendAsJSArray(*recoring_item, true);
+          rPtr->AppendAsJSArray(*recoring_item);
           </%cpp>
 recs[<$cSv(cToSvInt(rPtr->IdI()))$>]=[<$$ recoring_item->c_str() $>]
 %       }

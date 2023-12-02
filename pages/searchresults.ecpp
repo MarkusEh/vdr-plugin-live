@@ -123,7 +123,7 @@ bool logged_in(false);
 <%cpp>
 if(recItemFound) {
   epg_itemS.clear();
-  recItem->AppendAsJSArray(epg_itemS, true);
+  recItem->AppendAsJSArray(epg_itemS);
 </%cpp>
   <script>  
     document.write(existingRecordingString(<$col_span - 2$>, \"<? bottom ? "bottomrow" ?>\", <$$epg_itemS.c_str()$>))
