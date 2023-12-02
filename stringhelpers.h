@@ -151,9 +151,7 @@ class cSv: public std::string_view {
     cSv(const cSv &sv): std::string_view(sv) {}
     cSv(const std::string &s): std::string_view(s) {}
     cSv substr(size_t pos = 0) const { return (length() > pos)?cSv(data() + pos, length() - pos):cSv(); }
-    cSv substr_csv(size_t pos = 0) const { return (length() > pos)?cSv(data() + pos, length() - pos):cSv(); }
     cSv substr(size_t pos, size_t count) const { return (length() > pos)?cSv(data() + pos, std::min(length() - pos, count) ):cSv(); }
-    cSv substr_csv(size_t pos, size_t count) const { return (length() > pos)?cSv(data() + pos, std::min(length() - pos, count) ):cSv(); }
   private:
     static std::string_view charPointerToStringView(const char *s) {
       return s?std::string_view(s, strlen(s)):std::string_view();

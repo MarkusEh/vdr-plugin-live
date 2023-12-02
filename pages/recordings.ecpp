@@ -299,7 +299,7 @@ if (!deleteResult.empty()) {
 <%cpp>
     } else {
       uintptr_t irecoring_item = (uintptr_t)&recoring_item;
-      RecordingsItemPtr recItemRoot = recordingsTree->getRoot();
+      RecordingsItemDirPtr recItemRoot = recordingsTree->getRoot();
       uintptr_t iRecItemRoot = (uintptr_t)&recItemRoot;
       uintptr_t iRecordingsTree = (uintptr_t)&recordingsTree;
       uintptr_t iOpenTreeNodes = (uintptr_t)&openTreeNodes;
@@ -350,7 +350,7 @@ if (currentSort.compare(0, 8,  "errorsdur", 8) == 0) sortOrder = eSortOrder::dur
 if (currentSort.compare(0, 10, "duplicates", 10) == 0) sortOrder = eSortOrder::duplicatesLanguage;
 if (currentSort == "datedesc" || currentSort == "namedesc") reverse = true;
 // get rec item of this (current) dir
-RecordingsItemPtr recItemThisDir = *(static_cast<RecordingsItemPtr *>((void *)iRecItem) );
+RecordingsItemDirPtr recItemThisDir = *(static_cast<RecordingsItemDirPtr *>((void *)iRecItem) );
 RecordingsTreePtr recordingsTree = *(static_cast<RecordingsTreePtr *>((void *)iRecordingsTree) );
 cLargeString *recoring_item = static_cast<cLargeString *>((void *)irecoring_item );
 std::string openTreeNodes= *(static_cast<std::string *>((void *)iOpenTreeNodes) );
@@ -362,8 +362,8 @@ std::vector<RecordingsItemRecPtr> recItems;
 const std::vector<RecordingsItemRecPtr> *recItemsC = NULL;
 
 // data for dirs, and loop over dirs
-const std::vector<RecordingsItemPtr> *dirItems = recItemThisDir->getDirs();
-std::vector<RecordingsItemPtr>::const_iterator dirIterS, dirIterE, dirIter;
+const std::vector<RecordingsItemDirPtr> *dirItems = recItemThisDir->getDirs();
+std::vector<RecordingsItemDirPtr>::const_iterator dirIterS, dirIterE, dirIter;
 int direction; // for dirs
 if (currentFlat != "true") {
   if (currentSort != "duplicates") {
@@ -384,7 +384,7 @@ if (currentFlat != "true") {
 // this is the loop over the subdirs
 // each subdir is a node, which can be expanded (or not)
 // each subdir has an identifier in <ul> tag: fldr_<$ idHash $>
-      RecordingsItemPtr recItem = *dirIter;
+      RecordingsItemDirPtr recItem = *dirIter;
 
       /* search trough directory for new recordings */
       bool newR = false;

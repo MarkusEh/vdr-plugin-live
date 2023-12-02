@@ -194,9 +194,9 @@ template void AppendDuration<cLargeString>(cLargeString &target, char const* for
 			return input;
 		}
 		truncated = true;
-		cSv result = input.substr_csv(0, maxLen);
+		cSv result = input.substr(0, maxLen);
 		size_t pos = result.find_last_of(" \t,;:.\n?!'\"/\\()[]{}*+-");
-		return result.substr_csv(0, pos);
+		return result.substr(0, pos);
 	}
 
 	std::string StringFormatBreak(cSv input)
@@ -216,10 +216,10 @@ template void AppendDuration<cLargeString>(cLargeString &target, char const* for
 	{
 		size_t pos = str.find_last_not_of(' ');
     if (pos == std::string::npos) return cSv();
-    cSv trailBlankRemoved = str.substr_csv(0, pos);
+    cSv trailBlankRemoved = str.substr(0, pos);
     pos = trailBlankRemoved.find_first_not_of(' ');
     if (pos == std::string::npos) return cSv();
-    return trailBlankRemoved.substr_csv(pos);
+    return trailBlankRemoved.substr(pos);
   }
 
 // Spielfilm Thailand / Deutschland / Großbritannien 2015 (Rak ti Khon Kaen)
@@ -638,7 +638,7 @@ template void AppendTextTruncateOnWord<cLargeString>(cLargeString &target, const
       esyslog("live: ERROR, image path %.*s does not start with %s", (int)path.length(), path.data(), LiveSetup().GetTvscraperImageDir().c_str());
       return cSv();
     }
-    return path.substr_csv(tvscraperImageDirLength);
+    return path.substr(tvscraperImageDirLength);
   }
 
   bool ScraperCallService(const char *Id, void *Data) {

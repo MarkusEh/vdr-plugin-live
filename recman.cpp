@@ -361,7 +361,7 @@ namespace vdrlive {
     if(i != 0) return i < 0;
     return first->CompareStD(second) < 0;
   }
-  bool RecordingsItemPtrCompare::ByAscendingNameSort(const RecordingsItemPtr & first, const RecordingsItemPtr & second)  // return first < second
+  bool RecordingsItemPtrCompare::ByAscendingNameSort(const RecordingsItemDirPtr & first, const RecordingsItemDirPtr & second)  // return first < second
   {
     return compareWithLocale(first->Name(), second->Name()) < 0;
   }
@@ -377,7 +377,7 @@ namespace vdrlive {
 	  return first->scraperEpisodeNumber() < second->scraperEpisodeNumber();
 	}
 
-	bool RecordingsItemPtrCompare::BySeason(const RecordingsItemPtr & first, const RecordingsItemPtr & second) {
+	bool RecordingsItemPtrCompare::BySeason(const RecordingsItemDirPtr & first, const RecordingsItemDirPtr & second) {
 	  return first->scraperSeasonNumber() < second->scraperSeasonNumber();
 	}
 
@@ -463,23 +463,21 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
 }
 
 	/**
-	 *  Implementation of class RecordingsItem:
+	 *  Implementation of class RecordingsItemDir:
 	 */
-	RecordingsItem::RecordingsItem(cSv name) :
-		m_name(name)
-	{ }
+	RecordingsItemDir::RecordingsItemDir(cSv name, int level):
+		m_name(name),
+    m_level(level) { }
 
-	RecordingsItem::~RecordingsItem()
-	{
-	}
+	RecordingsItemDir::~RecordingsItemDir() { }
 
-	int RecordingsItem::numberOfRecordings() {
+	int RecordingsItemDir::numberOfRecordings() const {
     int result = m_entries.size();
 	  for (const auto &item: m_subdirs) result += item->numberOfRecordings();
 	  return result;
   }
 
-	void RecordingsItem::finishRecordingsTree() {
+	void RecordingsItemDir::finishRecordingsTree() {
 	  for (auto &item: m_subdirs) item->finishRecordingsTree();
 	  if (m_cmp_rec) std::sort(m_entries.begin(), m_entries.end(), m_cmp_rec);
 	  if (m_cmp_dir) std::sort(m_subdirs.begin(), m_subdirs.end(), m_cmp_dir);
@@ -488,31 +486,31 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
 	  m_subdirs.shrink_to_fit();
   }
 
-  RecordingsItemPtr RecordingsItem::addDirIfNotExists(cSv dirName) {
-    std::vector<RecordingsItemPtr>::iterator iter = std::lower_bound(m_subdirs.begin(), m_subdirs.end(), dirName);
+  RecordingsItemDirPtr RecordingsItemDir::addDirIfNotExists(cSv dirName) {
+    std::vector<RecordingsItemDirPtr>::iterator iter = std::lower_bound(m_subdirs.begin(), m_subdirs.end(), dirName);
     if (iter != m_subdirs.end() && !(dirName < *iter) ) return *iter;
-	  RecordingsItemPtr recPtr (new RecordingsItemDir(dirName, Level() + 1));
+	  RecordingsItemDirPtr recPtr (new RecordingsItemDir(dirName, Level() + 1));
 	  m_subdirs.insert(iter, recPtr);
     return recPtr;
 	}
 
-  RecordingsItemPtr RecordingsItem::addDirCollectionIfNotExists(int collectionId, const RecordingsItemRecPtr &rPtr) {
-    std::vector<RecordingsItemPtr>::iterator iter = std::lower_bound(m_subdirs.begin(), m_subdirs.end(), collectionId);
+  RecordingsItemDirPtr RecordingsItemDir::addDirCollectionIfNotExists(int collectionId, const RecordingsItemRecPtr &rPtr) {
+    std::vector<RecordingsItemDirPtr>::iterator iter = std::lower_bound(m_subdirs.begin(), m_subdirs.end(), collectionId);
     if (iter != m_subdirs.end() && !(collectionId < *iter) ) return *iter;
-	  RecordingsItemPtr recPtr2 (new RecordingsItemDirCollection(Level() + 1, rPtr));
+	  RecordingsItemDirPtr recPtr2 (new RecordingsItemDirCollection(Level() + 1, rPtr));
 	  m_subdirs.insert(iter, recPtr2);
     return recPtr2;
 	}
 
-  RecordingsItemPtr RecordingsItem::addDirSeasonIfNotExists(int seasonNumber, const RecordingsItemRecPtr &rPtr) {
-    std::vector<RecordingsItemPtr>::iterator iter = std::lower_bound(m_subdirs.begin(), m_subdirs.end(), seasonNumber);
+  RecordingsItemDirPtr RecordingsItemDir::addDirSeasonIfNotExists(int seasonNumber, const RecordingsItemRecPtr &rPtr) {
+    std::vector<RecordingsItemDirPtr>::iterator iter = std::lower_bound(m_subdirs.begin(), m_subdirs.end(), seasonNumber);
     if (iter != m_subdirs.end() && !(seasonNumber < *iter) ) return *iter;
-	  RecordingsItemPtr recPtr2 (new RecordingsItemDirSeason(Level() + 1, rPtr));
+	  RecordingsItemDirPtr recPtr2 (new RecordingsItemDirSeason(Level() + 1, rPtr));
 	  m_subdirs.insert(iter, recPtr2);
     return recPtr2;
 	}
 
-	const std::vector<RecordingsItemRecPtr> *RecordingsItem::getRecordings(eSortOrder sortOrder)
+	const std::vector<RecordingsItemRecPtr> *RecordingsItemDir::getRecordings(eSortOrder sortOrder)
 	{
 	  if (m_cmp_rec) return &m_entries;
 	  if (sortOrder == eSortOrder::name) {
@@ -529,12 +527,12 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
 	  return &m_entries_other_sort;
 	}
 
-  bool RecordingsItem::checkNew() {
+  bool RecordingsItemDir::checkNew() const{
 	  for (const auto &rec:m_entries) if (rec->checkNew()) return true;
 	  for (const auto &subdir:m_subdirs) if (subdir->checkNew() ) return true;
 	  return false;
 	}
-  void RecordingsItem::addDirList(std::vector<std::string> &dirs, cSv basePath)
+  void RecordingsItemDir::addDirList(std::vector<std::string> &dirs, cSv basePath) const
 	{
     std::string basePath0(basePath);
     if (basePath.empty() ) dirs.push_back("");
@@ -548,7 +546,7 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
     }
 	}
 
-	void RecordingsItem::setTvShow(const RecordingsItemRecPtr &rPtr) {
+	void RecordingsItemDir::setTvShow(const RecordingsItemRecPtr &rPtr) {
     if (m_cmp_dir) return;
     m_cmp_dir = RecordingsItemPtrCompare::BySeason;
     m_imageLevels = cImageLevels(eImageLevel::tvShowCollection, eImageLevel::anySeasonCollection);
@@ -556,7 +554,7 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
     m_s_season_number = m_rec_item->scraperSeasonNumber();
 	}
 
-  const cTvMedia &RecordingsItem::scraperImage() const {
+  const cTvMedia &RecordingsItemDir::scraperImage() const {
     if (!m_s_image_requested) {
       m_s_image_requested = true;
       if (m_rec_item && m_rec_item->m_scraperVideo)
@@ -564,21 +562,6 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
     }
     return m_s_image;
   }
-
-	/**
-	 *  Implementation of class RecordingsItemDir:
-	 */
-	RecordingsItemDir::RecordingsItemDir(cSv name, int level):
-		RecordingsItem(name),
-    m_level(level)
-	{
-		// dsyslog("live: REC: C: dir %s -> %s", name.c_str(), parent ? parent->Name().c_str() : "ROOT");
-	}
-
-	RecordingsItemDir::~RecordingsItemDir()
-	{
-		// dsyslog("live: REC: D: dir %s", Name().c_str());
-	}
 
 	/**
 	 *  Implementation of class RecordingsItemDirCollection:
@@ -668,7 +651,7 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
     return result;
 	}
 
-  bool RecordingsItemRec::matchesFilter(cSv filter) {
+  bool RecordingsItemRec::matchesFilter(cSv filter) const {
     if (filter.empty() ) return true;
 #ifdef HAVE_PCRE2
     StringMatch sm(filter);
@@ -780,7 +763,7 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
     }
   }
 
-  int RecordingsItemRec::SD_HD()
+  int RecordingsItemRec::SD_HD() const
   {
      if (m_video_SD_HD >= -1) return m_video_SD_HD; // < -2: not checked. -1: Radio. 0 is SD, 1 is HD, >1 is UHD or better
      if (m_scraperVideo) m_video_SD_HD = m_scraperVideo->getHD();
@@ -889,7 +872,7 @@ void AppendScraperData(cLargeString &target, cSv s_IMDB_ID, const cTvMedia &s_im
   target.append("\"");
 }
 
-  void RecordingsItemRec::AppendAsJSArray(cLargeString &target) {
+  void RecordingsItemRec::AppendAsJSArray(cLargeString &target) const {
     target.append("\"");
 // [0] : ID
     target.append(cToSvXxHash128(IdHash()));
@@ -1001,11 +984,11 @@ void AppendScraperData(cLargeString &target, cSv s_IMDB_ID, const cTvMedia &s_im
       }
     }
 
-  bool operator< (const RecordingsItemPtr &a, const RecordingsItemPtr &b) { return *a < b; }
-  bool operator< (cSv a, const RecordingsItemPtr &b) { return a < b->Name(); }
-  bool operator< (const RecordingsItemPtr &a, cSv b) { return a->Name() < b; }
-  bool operator< (int a, const RecordingsItemPtr &b) { return *b > a; }
-  bool operator< (const RecordingsItemPtr &a, int b) { return *a < b; }
+  bool operator< (const RecordingsItemDirPtr &a, const RecordingsItemDirPtr &b) { return *a < b; }
+  bool operator< (cSv a, const RecordingsItemDirPtr &b) { return a < b->Name(); }
+  bool operator< (const RecordingsItemDirPtr &a, cSv b) { return a->Name() < b; }
+  bool operator< (int a, const RecordingsItemDirPtr &b) { return *b > a; }
+  bool operator< (const RecordingsItemDirPtr &a, int b) { return *a < b; }
 
 	/**
 	 *  Implementation of class RecordingsTree:
@@ -1022,8 +1005,8 @@ void AppendScraperData(cLargeString &target, cSv s_IMDB_ID, const cTvMedia &s_im
     m_creation_timestamp = time(0);
     cGetScraperVideo getScraperVideo;
 		bool scraperDataAvailable = getScraperVideo.call(LiveSetup().GetPluginScraper());
-    RecordingsItemPtr recPtrTvShows (new RecordingsItemDir(tr("TV shows"), 1));
-    RecordingsItemPtr recPtrMovieCollections (new RecordingsItemDir(tr("Movie collections"), 1));
+    RecordingsItemDirPtr recPtrTvShows (new RecordingsItemDir(tr("TV shows"), 1));
+    RecordingsItemDirPtr recPtrMovieCollections (new RecordingsItemDir(tr("Movie collections"), 1));
 // create "base" folders
     m_allRecordings.clear();
     if (scraperDataAvailable) {
@@ -1032,7 +1015,7 @@ void AppendScraperData(cLargeString &target, cSv s_IMDB_ID, const cTvMedia &s_im
       m_root->m_subdirs.push_back(recPtrTvShows);
       recPtrMovieCollections->m_s_season_number = 2;
       m_root->m_subdirs.push_back(recPtrMovieCollections);
-      RecordingsItemPtr recPtrOthers (new RecordingsItemDir(tr("File system view"), 1));
+      RecordingsItemDirPtr recPtrOthers (new RecordingsItemDir(tr("File system view"), 1));
       recPtrOthers->m_s_season_number = 3;
       m_rootFileSystem = recPtrOthers;
       m_root->m_subdirs.push_back(recPtrOthers);
@@ -1045,7 +1028,7 @@ void AppendScraperData(cLargeString &target, cSv s_IMDB_ID, const cTvMedia &s_im
       if (scraperDataAvailable) m_maxLevel = std::max(m_maxLevel, recording->HierarchyLevels() + 1);
       else m_maxLevel = std::max(m_maxLevel, recording->HierarchyLevels() );
 
-      RecordingsItemPtr dir = m_rootFileSystem;
+      RecordingsItemDirPtr dir = m_rootFileSystem;
       cSv name(recording->Name());
 
       size_t index = 0;
