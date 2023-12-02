@@ -358,8 +358,8 @@ std::vector<int> available_recs = *(static_cast<std::vector<int> *>((void *)iAva
 int level = recItemThisDir->Level();
 
 
-std::vector<RecordingsItemPtr> recItems;
-const std::vector<RecordingsItemPtr> *recItemsC = NULL;
+std::vector<RecordingsItemRecPtr> recItems;
+const std::vector<RecordingsItemRecPtr> *recItemsC = NULL;
 
 // data for dirs, and loop over dirs
 const std::vector<RecordingsItemPtr> *dirItems = recItemThisDir->getDirs();
@@ -390,7 +390,7 @@ if (currentFlat != "true") {
       bool newR = false;
       if ( LiveSetup().GetMarkNewRec() ) newR = recItem->checkNew();
 // calculate idHash: uniquely defines this node
-      std::string idHash(xxHash32(parentIdHash + recItem->Name()));
+      std::string idHash(xxHash32(concat(parentIdHash, recItem->Name())));
       iRecItem = (uintptr_t)&recItem;
   </%cpp>
       <li class="recording">
@@ -436,17 +436,17 @@ if (currentFlat != "true") {
     size_t max_items = 100;
     if (reverse) {
       reverse = false;
-      std::vector<RecordingsItemPtr>::const_iterator recIterFirst = recordingsTree->allRecordings(sortOrder)->begin();
-      std::vector<RecordingsItemPtr>::const_iterator recIterLast  = recordingsTree->allRecordings(sortOrder)->end();
+      std::vector<RecordingsItemRecPtr>::const_iterator recIterFirst = recordingsTree->allRecordings(sortOrder)->begin();
+      std::vector<RecordingsItemRecPtr>::const_iterator recIterLast  = recordingsTree->allRecordings(sortOrder)->end();
       for (; recIterFirst != recIterLast;) {
         --recIterLast;
-        RecordingsItemPtr recItem = *recIterLast;
+        RecordingsItemRecPtr recItem = *recIterLast;
         if (!recItem->matchesFilter(currentFilter)) continue;
         recItems.push_back(recItem);
         if (recItems.size() >= max_items) break;
       }
      } else {
-      for (const RecordingsItemPtr &rPtr: *recordingsTree->allRecordings(sortOrder) ) {
+      for (const RecordingsItemRecPtr &rPtr: *recordingsTree->allRecordings(sortOrder) ) {
         if (!rPtr->matchesFilter(currentFilter)) continue;
         recItems.push_back(rPtr);
         if (recItems.size() >= max_items) break;
@@ -476,7 +476,7 @@ if (write_recs && recItemsC) {
   </%cpp>
 <script>
   <%cpp>
-  for (const RecordingsItemPtr &rPtr: *recItemsC) {
+  for (const RecordingsItemRecPtr &rPtr: *recItemsC) {
     recoring_item->clear();
     rPtr->AppendAsJSArray(*recoring_item, true);
   </%cpp>
@@ -531,7 +531,7 @@ if (currentSort != "duplicates" || currentFlat == "true") {
         </%cpp>
 <script>
         <%cpp>
-        for (const RecordingsItemPtr &rPtr: recItems) {
+        for (const RecordingsItemRecPtr &rPtr: recItems) {
           recoring_item->clear();
           rPtr->AppendAsJSArray(*recoring_item, true);
           </%cpp>

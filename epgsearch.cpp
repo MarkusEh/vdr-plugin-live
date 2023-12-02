@@ -617,7 +617,7 @@ void SearchResults::GetByQuery(std::string const& query)
 std::string SearchResults::AddQuery(std::string const& query)
 {
 	querySet.insert(query);
-	return xxHash128(query);
+	return std::string(cToSvXxHash128(query));
 }
 
 std::string SearchResults::PopQuery(cSv md5)
@@ -627,7 +627,7 @@ std::string SearchResults::PopQuery(cSv md5)
   std::set<std::string>::iterator it;
   for (it = querySet.begin(); it != querySet.end(); it++)
   {
-    if (compare_xxHash128(md5, *it))
+    if(md5 == cSv(cToSvXxHash128(*it)))
     {
       query = *it;
       querySet.erase(it);

@@ -139,8 +139,8 @@ bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
 		std::string current_day = "";
 		const cEvent* PresentEvent = Schedule->GetPresentEvent();
 		time_t now = time(NULL) - ::Setup.EPGLinger * 60;
-                RecordingsItemPtr recItem;
-                bool recItemFound;
+    RecordingsItemRecPtr recItem;
+    bool recItemFound;
     cLargeString epg_item("epg_item", 1000);
 #if VDRVERSNUM >= 20301
 		for (const cEvent *Event = (cEvent *)Schedule->Events()->First(); Event; Event = (cEvent *)Schedule->Events()->Next(Event)) {

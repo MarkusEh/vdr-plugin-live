@@ -273,36 +273,24 @@ template void AppendTextTruncateOnWord<cLargeString>(cLargeString &target, const
 		return res;
 	}
 
-template<typename T> void toHex(char *buf, int chars, T value) {
-  const char *hex_chars = "0123456789ABCDEF";
-  for (int i = chars-1; i >= 0; i--, value /= 16) {
-    buf[i] = hex_chars[value%16];
-  }
-}
 	std::string xxHash32(cSv str)
 	{
-//  uint32_t result = XXHash32::hash(str.data(), str.length(), 20);
-	  XXH32_hash_t result = XXH32(str.data(), str.length(), 20);
-	  char res[9];
-	  res[8] = 0;
-    toHex(res, 8, result);
-    return res;
+	  char res[8];
+    addCharsHex(res, 8, XXH32(str.data(), str.length(), 20) );
+    return std::string(res, 8);
 	}
 
-	std::string xxHash64(cSv str)
-	{
-	  XXH64_hash_t result = XXH3_64bits(str.data(), str.length());
-	  char res[17];
-	  res[16] = 0;
-    toHex(res, 16, result);
-    return res;
-	}
-  inline void xxHash128_buf(char *buf, cSv str) {
-// sizeof buf must be >= 32. This is not checked!
-	  XXH128_hash_t result = XXH3_128bits(str.data(), str.length());
-    toHex(buf   , 16, result.high64);
-    toHex(buf+16, 16, result.low64);
-	}
+  XXH64_hash_t parse_hex_64(cSv str) {
+    if (str.length() != 16) {
+      esyslog("live: ERROR in parse_hex_64, hex = \"%.*s\" is not 16 chars long", (int)str.length(), str.data());
+      return 0;
+    }
+    size_t parsed_chars;
+    XXH64_hash_t result = parse_hex<XXH64_hash_t>(str, &parsed_chars);
+    if (parsed_chars == 16) return result;
+    esyslog("live: ERROR in  parse_hex_64, hex = \"%.*s\" contains invalid characters", (int)str.length(), str.data());
+    return 0;
+  }
   XXH128_hash_t parse_hex_128(cSv str) {
     XXH128_hash_t result;
     if (str.length() != 32) {
@@ -320,46 +308,7 @@ template<typename T> void toHex(char *buf, int chars, T value) {
     result.high64 = 0;
     return result;
   }
-/*
-  cToSvXxHash128::cToSvXxHash128(cSv str, bool alreadyHashed) {
-    if (alreadyHashed) {
-      m_hash = parse_hex_128(str);
-      if (str != cSv(*this))
-        esyslog("live: ERROR in cToSvXxHash128, str = \"%.*s\" != buffer = \"%.*s\"", (int)str.length(), str.data(), 32, m_buffer);
-    } else {
-      m_hash = XXH3_128bits(str.data(), str.length());
-    }
-  }
 
-  cToSvXxHash128::operator cSv() const {
-    if (!m_buffer_filled) {
-      toHex(m_buffer+16, 16, m_hash.low64);
-      toHex(m_buffer   , 16, m_hash.high64);
-      m_buffer_filled = true;
-    }
-    return cSv(m_buffer, 32); 
-  }
-*/
-
-  void stringAppend_xxHash128(std::string &target, cSv str) {
-	  char buf[32];
-    xxHash128_buf(buf, str);
-    target.append(buf, 32);
-  }
-	std::string xxHash128(cSv str)
-	{
-	  char buf[32];
-    xxHash128_buf(buf, str);
-    return std::string(buf, 32);
-  }
-
-  bool compare_xxHash128(cSv str1, cSv str2) {
-// return str1 == xxHash128(str2)
-    if (str1.length() != 32) return false;
-	  char buf[32];
-    xxHash128_buf(buf, str2);
-    return str1.compare(0, 32, buf, 32) == 0;
-  }
 
 #define HOURS(x) ((x)/100)
 #define MINUTES(x) ((x)%100)

@@ -524,12 +524,12 @@ void AppendScraperData(cLargeString &target, cScraperVideo *scraperVideo) {
     cOrientations(eOrientation::landscape, eOrientation::portrait, eOrientation::banner), false);
   AppendScraperData(target, s_IMDB_ID, s_image, scraperVideo->getVideoType(), s_title, scraperVideo->getSeasonNumber(), scraperVideo->getEpisodeNumber(), s_episode_name, s_runtime, s_release_date);
 }
-bool appendEpgItem(cLargeString &epg_item, RecordingsItemPtr &recItem, const cEvent *Event, const cChannel *Channel, bool withChannel) {
+bool appendEpgItem(cLargeString &epg_item, RecordingsItemRecPtr &recItem, const cEvent *Event, const cChannel *Channel, bool withChannel) {
   cGetScraperVideo getScraperVideo(Event, NULL);
   getScraperVideo.call(LiveSetup().GetPluginScraper());
 
   RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
-  const std::vector<RecordingsItemPtr> *recItems = recordingsTree->allRecordings(eSortOrder::duplicatesLanguage);
+  const std::vector<RecordingsItemRecPtr> *recItems = recordingsTree->allRecordings(eSortOrder::duplicatesLanguage);
   bool recItemFound = searchNameDesc(recItem, recItems, Event, getScraperVideo.m_scraperVideo.get() );
 
   epg_item.append("[\"");

@@ -46,7 +46,7 @@ recordings_tree_re_created = <$ recordings_tree_re_created?"true":"false"$>;
     cLargeString recoring_item("recoring_item_get_recordings.ecpp", 5000);
     for (int recording: r) {
       bool found = false;
-      for (const RecordingsItemPtr &rPtr: *recordingsTree->allRecordings()) if (recording == rPtr->IdI() ) {
+      for (const RecordingsItemRecPtr &rPtr: *recordingsTree->allRecordings()) if (recording == rPtr->IdI() ) {
         recoring_item.clear();
         rPtr->AppendAsJSArray(recoring_item, true);
         </%cpp>

@@ -70,7 +70,7 @@ bool logged_in(false);
 				std::string current_day = "";
 				bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
         cLargeString epg_itemS("epg_itemS", 1000);
-				RecordingsItemPtr recItem;
+				RecordingsItemRecPtr recItem;
 				bool recItemFound;
 
 				for (SearchResults::iterator result = results.begin(); result != results.end(); ++result) {
