@@ -60,7 +60,7 @@ const cTimer* timer;
 	if (!cUser::CurrentUserHasRightTo(UR_EDITTIMERS))
 		throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
 
-	bool ajaxReq = !async.empty() && (lexical_cast<int>(async) != 0);
+	bool ajaxReq = !async.empty() && (parse_int<int>(async) != 0);
 
 	tChannelID channelid = tChannelID();
 	tEventID eventid = tEventID();

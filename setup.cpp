@@ -101,7 +101,7 @@ bool Setup::ParseCommandLine( int argc, char* argv[] )
 	}
   if (!m_serverUrl.empty() ) {
     m_serverUrlImages = m_serverUrl + ":";
-    m_serverUrlImages += std::to_string(m_serverPort);
+    m_serverUrlImages += cSv(cToSvInt(m_serverPort));
     m_serverUrlImages += "/tvscraper/";
   } else m_serverUrlImages = "";
 
@@ -265,7 +265,7 @@ int Setup::GetAdminPasswordLength() const
 {
 	// format is <length>:<md5-hash of password>
 	std::vector<std::string> parts = StringSplit( m_adminPasswordMD5, ':' );
-	return (parts.size() > 0) ? lexical_cast<int>( parts[0] ) : 0;
+	return (parts.size() > 0) ? parse_int<int>( parts[0] ) : 0;
 }
 
 std::string Setup::SetAdminPassword(std::string password)
@@ -313,7 +313,7 @@ bool Setup::CheckLocalNet(const std::string& ip)
 	if (parts.size() != 2) return false;
 	std::string net = parts[0];
 
-	int range = lexical_cast<int>(parts[1]);
+	int range = parse_int<int>(parts[1]);
 	// split net and ip addr in its 4 subcomponents
 	std::vector<std::string> netparts = StringSplit( net, '.' );
 	std::vector<std::string> addrparts = StringSplit( ip, '.' );
@@ -321,16 +321,16 @@ bool Setup::CheckLocalNet(const std::string& ip)
 
 	// to binary representation
 	std::stringstream bin_netstream;
-	bin_netstream << std::bitset<8>(lexical_cast<long>(netparts[0]))
-		<< std::bitset<8>(lexical_cast<long>(netparts[1]))
-		<< std::bitset<8>(lexical_cast<long>(netparts[2]))
-		<< std::bitset<8>(lexical_cast<long>(netparts[3]));
+	bin_netstream << std::bitset<8>(parse_int<long>(netparts[0]))
+		<< std::bitset<8>(parse_int<long>(netparts[1]))
+		<< std::bitset<8>(parse_int<long>(netparts[2]))
+		<< std::bitset<8>(parse_int<long>(netparts[3]));
 
 	std::stringstream bin_addrstream;
-	bin_addrstream << std::bitset<8>(lexical_cast<long>(addrparts[0]))
-		<< std::bitset<8>(lexical_cast<long>(addrparts[1]))
-		<< std::bitset<8>(lexical_cast<long>(addrparts[2]))
-		<< std::bitset<8>(lexical_cast<long>(addrparts[3]));
+	bin_addrstream << std::bitset<8>(parse_int<long>(addrparts[0]))
+		<< std::bitset<8>(parse_int<long>(addrparts[1]))
+		<< std::bitset<8>(parse_int<long>(addrparts[2]))
+		<< std::bitset<8>(parse_int<long>(addrparts[3]));
 
 	// compare range
 	std::string bin_net = bin_netstream.str();

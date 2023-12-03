@@ -21,6 +21,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/stat.h>
+#include <locale>
 
 #include <iostream>
 #include <chrono>
@@ -132,13 +133,16 @@ inline std::string charPointerToString(const unsigned char *s) {
   return s?reinterpret_cast<const char *>(s):std::string();
 }
 // challange:
-//   method with importing parameter cSv called with const char * = nullptr
-//   undifined behavior, as cSv(nullptr) is undefined.
+//   method with importing parameter std::string_view called with const char * = nullptr
+//   undefined behavior, as std::string_view(nullptr) is undefined. In later c++ standard, it is even an abort
 // solution:
-//   a) be very carefull, check const char * for nullptr before calling a method with cSv as import parameter
-//   b) replace all cSv with cSv
+//   a) be very carefull, check const char * for nullptr before calling a method with std::string_view as import parameter
+// or:
+//   b) replace all std::string_view with cSv
 //      very small performance impact if such a method if called with cSv
-//      convert nullptr to empty cSv if called with const char *
+//      this will convert nullptr to empty cSv if called with const char *
+
+// 2nd advantage of cSv: substr(pos) if pos > length: no dump, just an empty cSv as result
 
 class cSv: public std::string_view {
   public:
@@ -148,9 +152,8 @@ class cSv: public std::string_view {
     cSv(const char *s, size_t l): std::string_view(s, l) {}
     cSv(const unsigned char *s, size_t l): std::string_view(reinterpret_cast<const char *>(s), l) {}
     cSv(std::string_view sv): std::string_view(sv) {}
-    cSv(const cSv &sv): std::string_view(sv) {}
     cSv(const std::string &s): std::string_view(s) {}
-    cSv substr(size_t pos = 0) const { return (length() > pos)?cSv(data() + pos, length() - pos):cSv(); }
+    cSv substr(size_t pos) const { return (length() > pos)?cSv(data() + pos, length() - pos):cSv(); }
     cSv substr(size_t pos, size_t count) const { return (length() > pos)?cSv(data() + pos, std::min(length() - pos, count) ):cSv(); }
   private:
     static std::string_view charPointerToStringView(const char *s) {
@@ -259,6 +262,27 @@ inline wint_t getNextUtfCodepoint(const char *&p){
   int l = utf8CodepointIsValid(p);
   if( l == 0 ) { p++; return '?'; }
   return Utf8ToUtf32(p, l);
+}
+inline void stringAppendToLower(std::string &target, cSv str, const std::locale &loc) {
+  const char *pos = str.data();
+  const char *end = str.data() + str.length();
+  while (pos < end) {
+    wint_t u_char = getNextUtfCodepoint(pos);
+    try {
+      if (u_char) stringAppendUtfCodepoint(target, std::tolower<wchar_t>(u_char, loc));
+// The standard library is guaranteed to provide the following specializations (they are required to be implemented by any locale object):
+//   std::ctype<char> and std::ctype<wchar_t> . So don't call  std::tolower<wint_t>, this is not implemented !!!!
+    } catch (const std::bad_cast& e) {
+      esyslog("ERROR in stringToLower(%.*s,%s), error message: %s", (int) str.length(), str.data(), loc.name().c_str(), e.what() );
+      return;
+    }
+  }
+}
+inline std::string stringToLower(cSv str, const std::locale &loc) {
+  std::string result;
+  result.reserve(str.length() + 1);
+  stringAppendToLower(result, str, loc);
+  return result;
 }
 
 // =========================================================
@@ -533,7 +557,6 @@ inline std::string concat(cSv s1, cSv s2) {
   result.append(s2);
   return result;
 }
-
 inline std::string concat(cSv s1, cSv s2, cSv s3) {
   std::string result;
   result.reserve(s1.length() + s2.length() + s3.length() );
@@ -542,20 +565,18 @@ inline std::string concat(cSv s1, cSv s2, cSv s3) {
   result.append(s3);
   return result;
 }
-
 inline std::string concat(cSv s1, cSv s2, cSv s3, cSv s4) {
   std::string result;
-  result.reserve(s1.length() + s2.length() + s3.length()  + s4.length() );
+  result.reserve(s1.length() + s2.length() + s3.length() + s4.length() );
   result.append(s1);
   result.append(s2);
   result.append(s3);
   result.append(s4);
   return result;
 }
-
 inline std::string concat(cSv s1, cSv s2, cSv s3, cSv s4, cSv s5) {
   std::string result;
-  result.reserve(s1.length() + s2.length() + s3.length()  + s4.length() + s5.length() );
+  result.reserve(s1.length() + s2.length() + s3.length() + s4.length() + s5.length() );
   result.append(s1);
   result.append(s2);
   result.append(s3);
@@ -563,16 +584,85 @@ inline std::string concat(cSv s1, cSv s2, cSv s3, cSv s4, cSv s5) {
   result.append(s5);
   return result;
 }
-
 inline std::string concat(cSv s1, cSv s2, cSv s3, cSv s4, cSv s5, cSv s6) {
   std::string result;
-  result.reserve(s1.length() + s2.length() + s3.length()  + s4.length() + s5.length() + s6.length() );
+  result.reserve(s1.length() + s2.length() + s3.length() + s4.length() + s5.length() + s6.length() );
   result.append(s1);
   result.append(s2);
   result.append(s3);
   result.append(s4);
   result.append(s5);
   result.append(s6);
+  return result;
+}
+inline std::string concat(cSv s1, cSv s2, cSv s3, cSv s4, cSv s5, cSv s6, cSv s7) {
+  std::string result;
+  result.reserve(s1.length() + s2.length() + s3.length() + s4.length() + s5.length() + s6.length() + s7.length());
+  result.append(s1);
+  result.append(s2);
+  result.append(s3);
+  result.append(s4);
+  result.append(s5);
+  result.append(s6);
+  result.append(s7);
+  return result;
+}
+inline std::string concat(cSv s1, cSv s2, cSv s3, cSv s4, cSv s5, cSv s6, cSv s7, cSv s8) {
+  std::string result;
+  result.reserve(s1.length() + s2.length() + s3.length() + s4.length() + s5.length() + s6.length() + s7.length() + s8.length());
+  result.append(s1);
+  result.append(s2);
+  result.append(s3);
+  result.append(s4);
+  result.append(s5);
+  result.append(s6);
+  result.append(s7);
+  result.append(s8);
+  return result;
+}
+inline std::string concat(cSv s1, cSv s2, cSv s3, cSv s4, cSv s5, cSv s6, cSv s7, cSv s8, cSv s9) {
+  std::string result;
+  result.reserve(s1.length() + s2.length() + s3.length() + s4.length() + s5.length() + s6.length() + s7.length() + s8.length() + s9.length());
+  result.append(s1);
+  result.append(s2);
+  result.append(s3);
+  result.append(s4);
+  result.append(s5);
+  result.append(s6);
+  result.append(s7);
+  result.append(s8);
+  result.append(s9);
+  return result;
+}
+inline std::string concat(cSv s1, cSv s2, cSv s3, cSv s4, cSv s5, cSv s6, cSv s7, cSv s8, cSv s9, cSv s10) {
+  std::string result;
+  result.reserve(s1.length() + s2.length() + s3.length() + s4.length() + s5.length() + s6.length() + s7.length() + s8.length() + s9.length() + s10.length());
+  result.append(s1);
+  result.append(s2);
+  result.append(s3);
+  result.append(s4);
+  result.append(s5);
+  result.append(s6);
+  result.append(s7);
+  result.append(s8);
+  result.append(s9);
+  result.append(s10);
+  return result;
+}
+inline std::string concat(cSv s1, cSv s2, cSv s3, cSv s4, cSv s5, cSv s6, cSv s7, cSv s8, cSv s9, cSv s10, cSv s11) {
+  std::string result;
+  result.reserve(s1.length() + s2.length() + s3.length() + s4.length() + s5.length() + s6.length() + s7.length() + s8.length() + s9.length() + s10.length() + s11.length());
+  result.append(s1);
+  result.append(s2);
+  result.append(s3);
+  result.append(s4);
+  result.append(s5);
+  result.append(s6);
+  result.append(s7);
+  result.append(s8);
+  result.append(s9);
+  result.append(s10);
+  result.append(s11);
   return result;
 }
 

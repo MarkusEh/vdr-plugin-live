@@ -184,6 +184,10 @@ div.__progress {
 div.__progress div.__elapsed {
 	background-color: #FFCC00;
 }
+img.channel_logo {
+	background-color: #FFCC00;
+}
+
 
 
 /* #############

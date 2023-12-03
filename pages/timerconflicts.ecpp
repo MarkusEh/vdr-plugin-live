@@ -50,7 +50,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 </%cpp>
 						<tr class="head">
 							<td colspan="12">
-								<div class="boxheader"><div><div><$ FormatDateTime(tr("%A, %x"), conflict->ConflictTime()) + " " + FormatDateTime(tr("%I:%M %p"), conflict->ConflictTime()) + " - " + lexical_cast<std::string, int>(confltimer->percentage) + "%" $><span style="float:right;"><diff><$ tr("Server")$>: <$ (confltimer->remote == "" ) ? tr("local") : confltimer->remote $> </diff></span></div></div></div>
+								<div class="boxheader"><div><div><$ concat(FormatDateTime(tr("%A, %x"), conflict->ConflictTime()), " ", FormatDateTime(tr("%I:%M %p"), conflict->ConflictTime()), " - ", cToSvInt(confltimer->percentage), "%") $><span style="float:right;"><diff><$ tr("Server")$>: <$ (confltimer->remote == "" ) ? tr("local") : confltimer->remote $> </diff></span></div></div></div>
 							</td>
 						</tr>
 						<tr class="description">

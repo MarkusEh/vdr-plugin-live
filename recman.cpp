@@ -282,8 +282,8 @@ namespace vdrlive {
     do {
       if( m_short_text && *m_short_text ) result = getNextUtfCodepoint(m_short_text);
       else result = getNextUtfCodepoint(m_description);
-    } while (result && iswpunct(result));
-    return towlower(result);
+    } while (result && std::ispunct<wchar_t>(result, g_locale));
+    return std::tolower<wchar_t>(result, g_locale);
   }
 
 	/**
@@ -342,7 +342,7 @@ namespace vdrlive {
   int firstNonPunct(cSv s) {
 // returns first non-punct char in s
     unsigned int ret;
-    for (ret = 0; ret < s.length() && ispunct(s[ret]); ret++ );
+    for (ret = 0; ret < s.length() && std::ispunct(s[ret]); ret++ );
     return ret;
   }
   int compareWithLocale(cSv first, cSv second) {
@@ -394,8 +394,8 @@ namespace vdrlive {
           if (fe) return -1;
 // compare strings case-insensitive
           for(; *first && *second; ) {
-            wint_t  flc = towlower(getNextUtfCodepoint(first));
-            wint_t  slc = towlower(getNextUtfCodepoint(second));
+            wint_t  flc = std::tolower<wchar_t>(getNextUtfCodepoint(first), g_locale);
+            wint_t  slc = std::tolower<wchar_t>(getNextUtfCodepoint(second), g_locale);
             if ( flc < slc ) return -1;
             if ( flc > slc ) return  1;
             if (numEqualChars) (*numEqualChars)++;
@@ -582,7 +582,7 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
 	 *  Implementation of class RecordingsItemDirSeason:
 	 */
 	RecordingsItemDirSeason::RecordingsItemDirSeason(int level, const RecordingsItemRecPtr &rPtr):
-		RecordingsItemDir(std::to_string(rPtr->m_s_season_number), level)
+		RecordingsItemDir(cToSvInt(rPtr->m_s_season_number), level)
 	{
     m_cmp_rec = RecordingsItemPtrCompare::ByEpisode;
 //    m_imageLevels = cImageLevels(eImageLevel::seasonMovie, eImageLevel::tvShowCollection, eImageLevel::anySeasonCollection);
@@ -646,7 +646,7 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
     const char *name_c_end = name_c + name.length();
     while(name_c < name_c_end) {
       wint_t codepoint = getNextUtfCodepoint(name_c);
-      if(!iswpunct(codepoint) ) stringAppendUtfCodepoint(result, towlower(codepoint));
+      if(!std::ispunct<wchar_t>(codepoint, g_locale) ) stringAppendUtfCodepoint(result, std::tolower<wchar_t>(codepoint, g_locale));
     }
     return result;
 	}
@@ -1168,12 +1168,12 @@ std::string recordingErrorsHtml(int recordingErrors) {
     result.append("\" title=\"");
     result.append(tr("Number of recording errors:"));
     result.append(" ");
-    result.append(std::to_string(recordingErrors));
+    result.append(cToSvInt(recordingErrors));
   }
   result.append("\" width = \"16px\"/> </div>");
   return result;
 #else
-  return "";
+  return std::string();
 #endif
 }
 

@@ -33,7 +33,7 @@ int cUser::GetPasswordLength() const
 {
 	// format is <length>:<md5-hash of password>
 	std::vector<std::string> parts = StringSplit( m_PasswordMD5, '|' );
-	return (parts.size() > 0) ? lexical_cast<int>( parts[0] ) : 0;
+	return (parts.size() > 0) ? parse_int<int>( parts[0] ) : 0;
 }
 
 std::string const cUser::GetMD5HashPassword() const
@@ -74,14 +74,14 @@ bool cUser::Parse(const char *s)
         pos = pos_next;
 
 		switch (parameter) {
-		case 1: m_ID = lexical_cast<int>(value);
+		case 1: m_ID = parse_int<int>(value);
 			break;
 		case 2:  m_Name = value;
 			break;
 		case 3: m_PasswordMD5 = value;
 			break;
 		case 4:
-			m_Userrights = lexical_cast<int>(value);
+			m_Userrights = parse_int<int>(value);
 			break;
 		default:
 			break;

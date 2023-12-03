@@ -316,7 +316,8 @@ img.artwork {
 	width: 480px
 }
 img.channel_logo {
-	max-height:32px; max-width:150px; vertical-align:middle;
+	max-height:32px; max-width:140px; vertical-align:middle;
+	background-color: #E9EFFF;
 }
 /* ##############################
    # Infowin styles for epg infos
@@ -1474,6 +1475,9 @@ img.actor {
 }
 .hint-tip {
  	max-width: 200px; /* depends on the tip backround image width */
+}
+img.channel_logo {
+	max-height:32px; max-width:90px;
 }
 
 }

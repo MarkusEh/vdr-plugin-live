@@ -287,7 +287,7 @@ namespace vdrlive
 
 			eventId += channelId;
 			eventId += '_';
-			eventId += lexical_cast<std::string>(eId);
+			eventId += cSv(cToSvInt(eId));
 			return eventId;
 		}
 
@@ -303,7 +303,7 @@ namespace vdrlive
 			std::string const eIdStr = epgid.substr(delimPos+1);
 
 			channelId = tChannelID::FromString(cIdStr.c_str());
-			eventId = lexical_cast<tEventID>(eIdStr);
+			eventId = parse_int<tEventID>(eIdStr);
 		}
 
 		EpgInfoPtr CreateEpgInfo(std::string const &epgid, cSchedules const *schedules)

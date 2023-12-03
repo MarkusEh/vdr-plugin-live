@@ -40,20 +40,20 @@ namespace vdrlive {
 		try {
 			std::vector<std::string>::const_iterator part = parts.begin();
 			if (parts.size() > 0) {
-				conflictTime = lexical_cast<time_t>( *part++ );
+				conflictTime = parse_int<time_t>( *part++ );
 				for ( int i = 1; part != parts.end(); ++i, ++part ) {
 					std::vector<std::string> timerparts = StringSplit( *part, '|' );
 					std::vector<std::string>::const_iterator timerpart = timerparts.begin();
 					TimerInConflict timer;
 					for ( int j = 0; timerpart != timerparts.end(); ++j, ++timerpart ) {
 						switch (j) {
-							case 0: timer.timerIndex = lexical_cast<int>( *timerpart ); break;
-							case 1: timer.percentage = lexical_cast<int>( *timerpart ); break;
+							case 0: timer.timerIndex = parse_int<int>( *timerpart ); break;
+							case 1: timer.percentage = parse_int<int>( *timerpart ); break;
 							case 2: {
 								std::vector<std::string> conctimerparts = StringSplit( *timerpart, '#' );
 								std::vector<std::string>::const_iterator conctimerpart = conctimerparts.begin();
 								for ( int k = 0; conctimerpart != conctimerparts.end(); ++k, ++conctimerpart )
-									timer.concurrentTimerIndices.push_back(lexical_cast<int>( *conctimerpart ));
+									timer.concurrentTimerIndices.push_back(parse_int<int>( *conctimerpart ));
 								break;
 							}
 							case 3: {

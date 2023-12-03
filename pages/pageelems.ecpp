@@ -21,15 +21,17 @@ std::string toString(const std::vector<std::string> &vec) {
   return result;
 }
   
+/*
 std::string toString(const std::vector<int> &vec) {
   if (vec.size() == 0) return "";
   std::string result;
   for (const int &i:vec) {
     if (!result.empty() ) result.append(", ");
-    result.append(std::to_string(i) );
+    result.append(cToSvInt(i) );
   }
   return result;
 }
+*/
   
 std::string toString(const std::vector<cActor> &vec) {
   if (vec.size() == 0) return "";
@@ -843,22 +845,19 @@ if (scraperMovieOrTv.found) {
   }
   if (episodeFound) {
 </%cpp>
-    <div class="scraper_list"><$ tr("Episode:") $> S<$ std::to_string(scraperMovieOrTv.episode.season ) $>E<$ (scraperMovieOrTv.episode.number ) $><$scraperMovieOrTv.episode.absoluteNumber?"A" + std::to_string(scraperMovieOrTv.episode.absoluteNumber):""$> <$ (scraperMovieOrTv.episode.name ) $></div>
+    <div class="scraper_list"><$ tr("Episode:") $> S<$ cSv(cToSvInt(scraperMovieOrTv.episode.season )) $>E<$ cSv(cToSvInt(scraperMovieOrTv.episode.number)) $><$scraperMovieOrTv.episode.absoluteNumber?concat("A", cToSvInt(scraperMovieOrTv.episode.absoluteNumber)):""$> <$ scraperMovieOrTv.episode.name $></div>
     <div class="scraper_list"><$ tr("Episode overview:") $>   <$ (scraperMovieOrTv.episode.overview ) $></div>
 <%cpp>
     if (scraperMovieOrTv.episode.vote_average != 0 ) {
 </%cpp>
-      <div class="scraper_list"><$ tr("Episode vote average/count:") $> <$ (scraperMovieOrTv.episode.vote_average ) $> / <$ (scraperMovieOrTv.episode.vote_count ) $></div>
+      <div class="scraper_list"><$ tr("Episode vote average/count:") $> <$ (scraperMovieOrTv.episode.vote_average) $> / <$ (scraperMovieOrTv.episode.vote_count ) $></div>
 <%cpp>
     }
 </%cpp>
     <div class="scraper_list"><$ tr("Episode first aired:") $> <$ (scraperMovieOrTv.episode.firstAired ) $></div>
 %   if (scraperMovieOrTv.episode.runtime > 0) {
-      <div class="scraper_list"><$ tr("Episode runtime:") $> <$ (scraperMovieOrTv.episode.runtime ) $></div>
+      <div class="scraper_list"><$ tr("Episode runtime:") $> <$ FormatDuration(tr("%d:%02d"), scraperMovieOrTv.episode.runtime*60) $></div>
 %   }
-<#
-    <div class="scraper_list">episode Image Url:  <$ (scraperMovieOrTv.episode.episodeImageUrl ) $></div>
-#>
 %   if (!scraperMovieOrTv.episode.IMDB_ID.empty() ) {
       <a href="https://www.imdb.com/title/<$ (scraperMovieOrTv.episode.IMDB_ID ) $>" target="_blank"> <$ tr("IMDB episode") $> </a>
 <%cpp>
@@ -900,21 +899,15 @@ if (scraperMovieOrTv.found) {
   if (!scraperMovieOrTv.tagline.empty() ) {
 </%cpp>
   <div class="scraper_list"><$ tr("Tagline:") $>        <$ (scraperMovieOrTv.tagline ) $></div>
-<%cpp>
-  }
-</%cpp>
+% }
   <div class="scraper_list"><$ tr("Overview:") $>       <$ (scraperMovieOrTv.overview ) $></div>
   <div class="scraper_list"><$ tr("Genres:") $>         <$ toString(scraperMovieOrTv.genres ) $></div>
-<%cpp>
-  if (!scraperMovieOrTv.homepage.empty() ) {
-</%cpp>
+% if (!scraperMovieOrTv.homepage.empty() ) {
   <div class="scraper_list"><a href ="<$ (scraperMovieOrTv.homepage) $>" target="_blank"><$ tr("Homepage") $></a></div>
-<%cpp>
-  }
-</%cpp>
+% }
   <div class="scraper_list"><$ tr("Release date:") $>   <$ (scraperMovieOrTv.releaseDate ) $></div>
 % if (scraperMovieOrTv.runtime > 0) {
-  <div class="scraper_list"><$ tr("Runtime:") $>        <$ std::to_string(scraperMovieOrTv.runtime) $></div>
+  <div class="scraper_list"><$ tr("Runtime:") $>        <$ FormatDuration(tr("%d:%02d"), scraperMovieOrTv.runtime*60) $></div>
 % }
 <%cpp>
   if (scraperMovieOrTv.popularity != 0) {
@@ -924,7 +917,7 @@ if (scraperMovieOrTv.found) {
   }
   if (scraperMovieOrTv.voteAverage  != 0) {
 </%cpp>
-  <div class="scraper_list"><$ tr("Vote average/count:") $> <$ (scraperMovieOrTv.voteAverage ) $> / <$ (scraperMovieOrTv.voteCount ) $></div>
+  <div class="scraper_list"><$ tr("Vote average/count:") $> <$ (scraperMovieOrTv.voteAverage ) $> / <$ (scraperMovieOrTv.voteCount) $></div>
 <%cpp>
   }
 </%cpp>

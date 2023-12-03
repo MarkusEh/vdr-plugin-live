@@ -53,10 +53,10 @@ using namespace vdrlive;
 	if (Channel != 0) {
 		std::string channelname = Channel->Name();
 		int streamdevPort = LiveSetup().GetStreamdevPort();
-		videourl = std::string("#EXTM3U\n#EXTINF:-1,") + channelname + "\nhttp://" + server + ":" + lexical_cast<std::string,int>(streamdevPort) + "/" + LiveSetup().GetStreamdevType() + "/" + *Channel->GetChannelID().ToString();
+		videourl = concat("#EXTM3U\n#EXTINF:-1,", channelname, "\nhttp://", server, ":", cToSvInt(streamdevPort), "/", LiveSetup().GetStreamdevType(), "/", *Channel->GetChannelID().ToString());
 	}
 	else {
-		videourl = std::string("#EXTM3U\n#EXTINF:-1\nhttp://") + server + ":" + lexical_cast<std::string,int>(LiveSetup().GetServerPort()) + "/recstream.html?recid=" + recid;
+		videourl = concat("#EXTM3U\n#EXTINF:-1\nhttp://", server, ":", cToSvInt(LiveSetup().GetServerPort()), "/recstream.html?recid=", recid);
 	}
 </%cpp>
 <& playlist.m3u videourl=(videourl) &>

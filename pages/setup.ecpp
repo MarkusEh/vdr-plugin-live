@@ -1,6 +1,7 @@
 <%pre>
 
 #include <setup.h>
+#include <stringhelpers.h>
 #include <tools.h>
 #include <users.h>
 #include <live.h>
@@ -53,7 +54,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 			message = tr("Please set login and password!");
 		else
 		{
-			LiveSetup().SetLastChannel(lastchannel != "" ? lexical_cast< int >(lastchannel):0);
+			LiveSetup().SetLastChannel(lastchannel != "" ? parse_int<int>(lastchannel):0);
 			LiveSetup().SetUseAuth(useauth);
 			if (useauth) {
 				LiveSetup().SetAdminLogin(login);
@@ -70,7 +71,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 			LiveSetup().SetShowLogo(!showLogo.empty());
 			LiveSetup().SetShowInfoBox(!showInfoBox.empty());
 			LiveSetup().SetUseStreamdev(!useStreamdev.empty());
-			LiveSetup().SetStreamdevPort(streamdevport.empty() ? 3000 : lexical_cast<int>(streamdevport));
+			LiveSetup().SetStreamdevPort(streamdevport.empty() ? 3000 : parse_int<int>(streamdevport));
 			LiveSetup().SetStreamdevType(streamdevtype.empty() ? "PES" : streamdevtype);
 			LiveSetup().SetMarkNewRec(!markNewRec.empty());
 
@@ -94,7 +95,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 	if (ilastchannel == std::numeric_limits< int >::max())
 		lastchannel = "";
 	else
-		lastchannel = lexical_cast<std::string, int>(ilastchannel);
+		lastchannel = std::string(cToSvInt(ilastchannel));
 
 	login = LiveSetup().GetAdminLogin();
 	useauth = LiveSetup().GetUseAuth();
@@ -107,7 +108,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 	showLogo = LiveSetup().GetShowLogo() ? "1" : "";
 	showInfoBox = LiveSetup().GetShowInfoBox() ? "1" : "";
 	useStreamdev = LiveSetup().GetUseStreamdev() ? "1" : "";
-	streamdevport = lexical_cast<std::string, int>(LiveSetup().GetStreamdevPort());
+	streamdevport = std::string(cToSvInt(LiveSetup().GetStreamdevPort()));
 	streamdevtype = LiveSetup().GetStreamdevType();
 	markNewRec = LiveSetup().GetMarkNewRec() ? "1" : "";
 	streamVideoOpt0 = LiveSetup().GetStreamVideoOpt0();

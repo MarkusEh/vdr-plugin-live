@@ -55,7 +55,7 @@ using namespace vdrlive;
 
 	pageTitle = tr("Electronic program guide information");
 
-	bool ajaxReq = !async.empty() && (lexical_cast<int>(async) != 0);
+	bool ajaxReq = !async.empty() && (parse_int<int>(async) != 0);
 
 	bool aboutBox = false;
   if (epgid.compare(0, 4, "del_") == 0) {

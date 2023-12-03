@@ -15,7 +15,7 @@ using namespace vdrlive;
 <%cpp>
 	tChannelID paramID;
         paramID = paramID.FromString(param.c_str());
-	bool ajaxReq = !async.empty() && (lexical_cast<int>(async) != 0);
+	bool ajaxReq = !async.empty() && (parse_int<int>(async) != 0);
 	std::string referrer;
 
 	if (!cUser::CurrentUserHasRightTo(UR_SWITCHCHNL))

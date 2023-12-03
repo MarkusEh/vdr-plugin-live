@@ -137,7 +137,7 @@ std::vector<time_t>			times_start;
                         thisGroup.erase( 0, channelSep+1 );
                     else
                         thisGroup = "";
-                    int channel_no = lexical_cast< int > (thisChannel);
+                    int channel_no = parse_int< int > (thisChannel);
 #if VDRVERSNUM >= 20301
                     cChannel* Channel = (cChannel *)Channels->GetByNumber( channel_no );
 #else
@@ -236,7 +236,7 @@ std::vector<time_t>			times_start;
 					continue;
 				}
 				std::string min = (*part).substr(sep+1, (*part).npos );
-				offsets.push_back( lexical_cast<time_t>( hour )*60*60 + lexical_cast<time_t>( min ) *60 );
+				offsets.push_back( parse_int<time_t>( hour )*60*60 + parse_int<time_t>( min ) *60 );
 			}
 			catch ( const bad_lexical_cast & ) {
 				esyslog("live: Error parsing time '%s'", part->c_str() );
@@ -326,7 +326,7 @@ std::vector<time_t>			times_start;
 	time_t sched_start = (times_start[ time_para ]/300)*300;
 	time_t max_hours;
 	try {
-		max_hours = lexical_cast<time_t>( LiveSetup().GetScheduleDuration() );
+		max_hours = parse_int<time_t>( LiveSetup().GetScheduleDuration() );
 	}
 	catch ( const bad_lexical_cast & )
 	{

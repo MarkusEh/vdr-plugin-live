@@ -213,7 +213,7 @@ if (type == "now") {
 </%cpp>
 			<div class="event">
 				<div class="station">
-					<div><div><div><a href="schedule.html?channel=<$ std::to_string(chNumber) $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ std::to_string(chNumber) $><$ tr(" - ") $><$ (epgEvent->Caption()) $></a></div></div></div>
+					<div><div><div><a href="schedule.html?channel=<$ cSv(cToSvInt(chNumber)) $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ cSv(cToSvInt(chNumber)) $><$ tr(" - ") $><$ (epgEvent->Caption()) $></a></div></div></div>
 				</div>
 				<div class="content">
 					<div class="tools">
@@ -240,14 +240,25 @@ if (type == "now") {
 			EpgEvents::DecodeDomId(epgEvent->Id(), chanId, eventId);
 
 			// Searching for channel logos
-			std::string chanlogoimg("");
+			std::string chanlogoimg;
 			if (!LiveSetup().GetChanLogoDir().empty() ) {
-				std::string chanlogopath = LiveSetup().GetChanLogoDir() + epgEvent->Caption() + ".png";
+				std::string chanlogofile = StringReplace(epgEvent->Caption(), "/", "_") + ".png";
+				std::string chanlogopath = LiveSetup().GetChanLogoDir() + chanlogofile;
 				struct stat chanfilebuf;
-				if (stat (chanlogopath.c_str(), &chanfilebuf) == 0) {
-					chanlogoimg = "<img src=\"chanlogos/" + epgEvent->Caption() + ".png\" loading=\"lazy\" class=\"channel_logo\">";
+        bool logo_available = stat (chanlogopath.c_str(), &chanfilebuf) == 0;
+        if (!logo_available) {
+          chanlogofile = stringToLower(chanlogofile, g_locale);
+          chanlogopath = LiveSetup().GetChanLogoDir() + chanlogofile;
+          logo_available = stat (chanlogopath.c_str(), &chanfilebuf) == 0;
+        }
+				if (logo_available) {
+					chanlogoimg = "<img src=\"chanlogos/";
+          AppendHtmlEscapedAndCorrectNonUTF8(chanlogoimg, chanlogofile);
+          chanlogoimg.append("\" alt=\"");
+          AppendHtmlEscapedAndCorrectNonUTF8(chanlogoimg, epgEvent->Caption());
+          chanlogoimg.append("\" loading=\"lazy\" class=\"channel_logo\">");
 				}
-        	        }
+      }
 </%cpp>
 			<tr>
 				<& pageelems.epg_tool_box detail=(0) epgid=(epgEvent->Id()) title=(epgEvent->Title()) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) lastCurrentChanel=(lastCurrentChanel ? 1 : 0) &>
@@ -271,7 +282,7 @@ if (type == "now") {
 %					}
 					</div>
 				</td>
-				<td class="topaligned rightcol <? lastCurrentChanel ? "bottomrow"?>"><div class="station withmargin"><a href="schedule.html?channel=<$ std::to_string(chNumber) $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ std::to_string(chNumber) $><$ tr(" - ") $><$$ chanlogoimg != "" ? chanlogoimg : (epgEvent->Caption()) $></a></div>
+				<td class="topaligned rightcol <? lastCurrentChanel ? "bottomrow"?>"><div class="station withmargin"><a href="schedule.html?channel=<$ cSv(cToSvInt(chNumber)) $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ cSv(cToSvInt(chNumber)) $><$ tr(" - ") $><$$ chanlogoimg $><$ chanlogoimg.empty()?epgEvent->Caption():"" $></a></div>
 				</td>
 			</tr>
 %	}

@@ -49,10 +49,10 @@ namespace vdrlive {
 		}
 
 		try {
-			int weekdays = lexical_cast<int>( parts[1] );
-			time_t day = lexical_cast<time_t>( parts[2] );
-			int start = lexical_cast<int>( parts[3] );
-			int stop = lexical_cast<int>( parts[4] );
+			int weekdays = parse_int<int>( parts[1] );
+			time_t day = parse_int<time_t>( parts[2] );
+			int start = parse_int<int>( parts[3] );
+			int stop = parse_int<int>( parts[4] );
 
 			cMutexLock MutexLock(&m_mutex);
 
@@ -341,7 +341,7 @@ namespace vdrlive {
 				dsyslog("live: DoUptimer() update timer on remote server '%s'", timerData.remote);
 				cStringList response;
 				std::string command = "MODT ";
-				command.append(std::to_string(timerData.id));
+				command.append(cToSvInt(timerData.id));
 				command.append(" ");
 				command.append(timerData.builder);
 				dsyslog("live: DoUpdateTimer() svdrp command '%s'", command.c_str());
@@ -443,7 +443,7 @@ namespace vdrlive {
 			dsyslog("live: DoDeleteTimer() delete remote timer id '%d' from server '%s'", timerData.id, timerData.remote);
 			cStringList response;
 			std::string command = "DELT ";
-			command.append(std::to_string(timerData.id));
+			command.append(cToSvInt(timerData.id));
 			bool svdrpOK = ExecSVDRPCommand(timerData.remote, command.c_str(), &response);
 			if ( !svdrpOK ) {
 				esyslog( "live: delete remote timer id %d failed", timerData.id);
@@ -517,7 +517,7 @@ namespace vdrlive {
 			LOCK_TIMERS_READ;
 			const cTimer* toggleTimer = Timers->GetById( timerData.id, timerData.remote );
 			std::string command = "MODT ";
-			command.append(std::to_string(timerData.id));
+			command.append(cToSvInt(timerData.id));
 			if (toggleTimer->HasFlags(tfActive)) {
 				dsyslog("live: DoToggleTimer() timer is active");
 				command.append(" off");

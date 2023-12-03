@@ -32,7 +32,7 @@ bool logged_in(false);
 	pageTitle = tr("Search results");
 	SearchResults results;
 	if (!searchtimerid.empty())
-		results.GetByID(lexical_cast< int >(searchtimerid));
+		results.GetByID(parse_int< int >(searchtimerid));
 	if (!searchtimerquery.empty())
 		results.GetByQuery(SearchResults::PopQuery(searchtimerquery));
 	if (!searchplain.empty())
