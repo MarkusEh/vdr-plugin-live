@@ -771,19 +771,35 @@ class cToSvInt_sik: public cSv {
 class cToSv {
   public:
     cToSv() {}
+// not intended for copy
+// you can copy the cSv of this class (from  operator cSv() )
     cToSv(const cToSv&) = delete;
     cToSv &operator= (const cToSv &) = delete;
     virtual ~cToSv() {}
     virtual operator cSv() const = 0;
 };
+inline std::ostream& operator<<(std::ostream& os, cToSv const& sv )
+{
+  return os << cSv(sv);
+}
+
 class cToSvInt: public cToSv {
   public:
 // T must be an integer type, like long, unsigned, ...
     template<class T> cToSvInt(T i):
       m_result(ns_concat::addCharsIbe(m_buffer + 20, i)) {}
-    cToSvInt(const cToSvInt&) = delete;
-    cToSvInt &operator= (const cToSvInt &) = delete;
     operator cSv() const { return cSv(m_result, m_buffer + 20 - m_result); }
+    cToSvInt &setw(size_t desired_width, char fill_char = '0') {
+      char *new_m_result = m_buffer + 20 - std::min((int)desired_width, 20);
+      if (m_result <= new_m_result) return *this;  // requested width alread there
+      if (*m_result == '-') {
+        *new_m_result = '-';
+        memset(new_m_result + 1, fill_char,  m_result - new_m_result);
+      } else
+        memset(new_m_result, fill_char,  m_result - new_m_result);
+      m_result = new_m_result;
+      return *this;
+    }
   private:
     char m_buffer[20]; // unsigned int 64: max. 20. (18446744073709551615) signed int64: max. 19 (+ sign)
     char *m_result;
@@ -795,8 +811,6 @@ class cToSvHex: public cToSv {
     template<class T> cToSvHex(T value) {
       addCharsHex(m_buffer, N, value);
     }
-    cToSvHex(const cToSvHex&) = delete;
-    cToSvHex &operator= (const cToSvHex &) = delete;
     operator cSv() const { return cSv(m_buffer, N); }
   protected:
     cToSvHex() { }
@@ -857,7 +871,8 @@ class cToSvFile: public cToSv {
     cToSvFile(const cToSvFile&) = delete;
     cToSvFile &operator= (const cToSvFile &) = delete;
     operator cSv() const { return m_result; }
-    char *data() { return m_s; } // returns 0 in case of an empty file
+    char *data() { return m_s; } // Retunrs zero if file is empty! Is zero terminated
+    const char *c_str() { return m_s?m_s:""; } // Is zero terminated
     bool exists() const { return m_exists; }
     ~cToSvFile() { std::free(m_s); }
   private:
@@ -941,11 +956,56 @@ class cToSvFormated: public cToSv {
       std::free(m_huge_buffer);
     }
     operator cSv() const { return m_result; }
+    const char *c_str() const { return m_result.data(); }
   private:
     char m_buffer[256];
     char *m_huge_buffer = nullptr;
     cSv m_result;
 };
+/*
+ * channel helper functions (for vdr tChannelID)
+ *
+*/
+// #include <vdr/channels.h>
+
+// =========================================================
+// some performance improvemnt, to get string presentation for channel
+// you can also use channelID.ToString()
+// in struct tChannelID {  (in vdr):
+//   static tChannelID FromString(const char *s);
+//   cString ToString(void) const;
+// =========================================================
+
+class cToSvChannelSource: public cToSv {
+  public:
+    cToSvChannelSource(int Code) {
+      int st_Mask = 0xFF000000;
+      char *q = m_buffer;
+      *q++ = (Code & st_Mask) >> 24;
+      if (int n = cSource::Position(Code)) {
+         q += snprintf(q, 14, "%u.%u", abs(n) / 10, abs(n) % 10); // can't simply use "%g" here since the silly 'locale' messes up the decimal point
+         *q++ = (n < 0) ? 'W' : 'E';
+         }
+      *q = 0;
+    }
+    operator cSv() const { return cSv(m_buffer); }
+    const char *c_str() const { return m_buffer; }
+  private:
+    char m_buffer[16]; // 1 + "%u.%u", sec. %u: 1 digit + 1 zero terminator
+};
+class cToSvChannel: public cToSvFormated {
+  public:
+    cToSvChannel(const tChannelID &channelID):
+      cToSvFormated(channelID.Rid() ? "%s-%d-%d-%d-%d" : "%s-%d-%d-%d",
+          cToSvChannelSource(channelID.Source()).c_str(),
+          channelID.Nid(), channelID.Tid(), channelID.Sid(), channelID.Rid() )
+      {}
+};
+
+inline void stringAppend(std::string &str, const tChannelID &channelID) {
+  str.append(cToSvChannel(channelID));
+}
+
 // __attribute__ ((format (printf, 2, 3))) can not be used, but should work starting with gcc 13.1
 template<typename... Args>
 void stringAppendFormated(std::string &str, const char *fmt, Args&&... args) {

@@ -29,7 +29,8 @@ std::istream& operator>>( std::istream& is, tChannelID& ret );
 inline
 std::ostream& operator<<( std::ostream& os, tChannelID const& id )
 {
-	return os << *id.ToString();
+//	return os << *id.ToString();
+	return os << cToSvChannel(id);
 }
 
 
@@ -98,8 +99,6 @@ template<class T>
     public:
       cToSvXxHash32(XXH32_hash_t value): cToSvHex<8>::cToSvHex(value) {}
       cToSvXxHash32(cSv str): cToSvHex<8>::cToSvHex(XXH32(str.data(), str.length(), 20)) {}
-      cToSvXxHash32(const cToSvXxHash32&) = delete;
-      cToSvXxHash32 &operator= (const cToSvXxHash32 &) = delete;
   };
 
   XXH64_hash_t parse_hex_64(cSv str);
@@ -107,16 +106,12 @@ template<class T>
     public:
       cToSvXxHash64(XXH64_hash_t value): cToSvHex<16>::cToSvHex(value) {}
       cToSvXxHash64(cSv str): cToSvHex<16>::cToSvHex(XXH3_64bits(str.data(), str.length() )) {}
-      cToSvXxHash64(const cToSvXxHash64&) = delete;
-      cToSvXxHash64 &operator= (const cToSvXxHash64 &) = delete;
   };
   XXH128_hash_t parse_hex_128(cSv str);
   class cToSvXxHash128: public cToSvHex<32> {
     public:
       cToSvXxHash128(XXH128_hash_t value): cToSvHex<32>::cToSvHex() { setb(value); }
       cToSvXxHash128(cSv str): cToSvHex<32>::cToSvHex() { setb(XXH3_128bits(str.data(), str.length() )); }
-      cToSvXxHash128(const cToSvXxHash128&) = delete;
-      cToSvXxHash128 &operator= (const cToSvXxHash128 &) = delete;
     private:
       void setb(XXH128_hash_t value) {
         addCharsHex(m_buffer,    16, value.high64);

@@ -121,31 +121,15 @@ if (type == "now") {
 	// collect the broadcasts
 	if (type != "favs")
 	{
-#if VDRVERSNUM >= 20301
 		LOCK_CHANNELS_READ;
 		{
-#else
-		ReadLock channelsLock( Channels );
-		if (channelsLock) {
-#endif
-#if VDRVERSNUM >= 20301
 			for (cChannel *Channel = (cChannel *)Channels->First(); Channel && Channel->Number() <= LiveSetup().GetLastChannel(); Channel = (cChannel *)Channels->Next(Channel)) {
-#else
-			for (cChannel *Channel = Channels.First(); Channel && Channel->Number() <= LiveSetup().GetLastChannel(); Channel = Channels.Next(Channel)) {
-#endif
 				if (Channel->GroupSep()) {
 					continue;
 				}
 				const cSchedule *Schedule;
 				{
-#if VDRVERSNUM >= 20301
-
 					LOCK_SCHEDULES_READ;
-#else
-					cSchedulesLock schedulesLock;
-					const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
-#endif
-
 					Schedule = Schedules->GetSchedule(Channel);
 				}
 				if (!Schedule) {

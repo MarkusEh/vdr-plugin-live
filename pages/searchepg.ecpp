@@ -20,8 +20,8 @@ using namespace vdrlive;
 	bool usesubtitle = false;
 	bool usedescr = false;
 	int usechannel = SearchTimer::NoChannel;
-	tChannelID channelfrom;
-	tChannelID channelto;
+	std::string channelfrom_string;
+	std::string channelto_string;
 	std::string changrpsel = "";
 	bool usetime = false;
 	std::string start_h = "00";
@@ -64,6 +64,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 #define CHECKIF(x) reply.out() << ( (x) ? "checked=\"checked\"" : "" );
 
 	searchtimer = 0;
+  tChannelID channelfrom = tChannelID::FromString(channelfrom_string.c_str());
+  tChannelID channelto   = tChannelID::FromString(channelto_string.c_str());
 
 	if ( request.getMethod() == "POST") {
 		SearchTimer searchtimer;
@@ -362,11 +364,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 									<table class="dependent" cellspacing="0" cellpadding="0">
 										<tr>
 											<td><$ tr("from channel" ) $>:</td>
-											<td><& channels_widget name=("channelfrom") channelid=(true) selected=(channelfrom) &></td>
+											<td><& channels_widget name=("channelfrom_string") channelid=(true) selected=(channelfrom) &></td>
 										</tr>
 										<tr>
 											<td><$ tr("to channel" ) $>:</td>
-											<td><& channels_widget name=("channelto") channelid=(true) selected=(channelto) &></td>
+											<td><& channels_widget name=("channelto_string") channelid=(true) selected=(channelto) &></td>
 										</tr>
 									</table>
 								</div>

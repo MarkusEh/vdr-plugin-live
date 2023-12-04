@@ -24,10 +24,8 @@ using namespace vdrlive;
 	bool usedescr = false;
 	int usechannel = SearchTimer::NoChannel;
 
-	tChannelID  channelfrom;                // used with Tntnet20
-	std::string channelfrom_string = "";    // used with Tntnet30
-	tChannelID  channelto;                  // used with Tntnet20
-	std::string channelto_string = "";      // used with Tntnet30
+	std::string channelfrom_string = "";
+	std::string channelto_string = "";
 
 	std::string changrpsel = "";
 	bool usetime = false;
@@ -105,10 +103,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	bool testmode = !test.empty();
 	editsearchtimer = NULL;
 
-#if TNTVERSION >= 30000
-        channelfrom = channelfrom.FromString(channelfrom_string.c_str());  // Tntnet30: get struct channel from parameter string
-        channelto   = channelto.FromString(channelto_string.c_str());      // Tntnet30: get struct channel from parameter string
-#endif
+  tChannelID channelfrom = tChannelID::FromString(channelfrom_string.c_str());
+  tChannelID channelto   = tChannelID::FromString(channelto_string.c_str());
 
 	if ( request.getMethod() == "POST") {
 		SearchTimer searchtimer;
@@ -611,20 +607,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 									<table class="dependent" border="0" cellpadding="0" cellspacing="0" class="dependent">
 										<tr>
 											<td class="label"><div class="withmargin"><$ tr("from channel" ) $>:</div></td>
-<%cpp>
-#if TNTVERSION >= 30000
-						std::string namefrom = "channelfrom_string";  // Tntnet30 does not work with parameter type tChannelID
-						std::string nameto   = "channelto_string";    // Tntnet30 does not work with parameter type tChannelID
-#else
-						std::string namefrom = "channelfrom";
-						std::string nameto   = "channelto";
-#endif
-</%cpp>
-											<td><& channels_widget name=(namefrom) channelid=(true) selected=(channelfrom) &></td>
+											<td><& channels_widget name=("channelfrom_string") channelid=(true) selected=(channelfrom) &></td>
 										</tr>
 										<tr>
 											<td class="label"><div class="withmargin"><$ tr("to channel" ) $>:</div></td>
-											<td><& channels_widget name=(nameto) channelid=(true) selected=(channelto) &></td>
+											<td><& channels_widget name=("channelto_string") channelid=(true) selected=(channelto)&></td>
 										</tr>
 									</table>
 								</div>

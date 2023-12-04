@@ -350,14 +350,10 @@ std::vector<time_t>			times_start;
 		int chan = channel_groups_numbers[ channel ][ j ];
 
 		cChannel* Channel;
-#if VDRVERSNUM >= 20301
 		{
 			LOCK_CHANNELS_READ;
 			Channel = (cChannel *)Channels->GetByNumber( chan );
 		}
-#else
-		Channel = Channels.GetByNumber( chan );
-#endif
 		if ( ! Channel )
 			continue;
 		if ( Channel->GroupSep() || !Channel->Name() || !*Channel->Name() )
@@ -366,14 +362,10 @@ std::vector<time_t>			times_start;
 		channel_IDs[ j ] = Channel->GetChannelID();
 
 		cSchedule const* Schedule;
-#if VDRVERSNUM >= 20301
 		{
 			LOCK_SCHEDULES_READ;
 			Schedule = Schedules->GetSchedule( Channel );
 		}
-#else
-		Schedule = schedules->GetSchedule( Channel );
-#endif
 		if ( ! Schedule )
 		{
 			// insert dummy event for the entire channel if no EPG data

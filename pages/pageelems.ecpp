@@ -379,15 +379,9 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 </%args>
 <%cpp>
 if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded()) {
-#if TNTVERSION >= 30000
 </%cpp>
 <a href="playlist.m3u?channel_str=<$ channelId $>"><img src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into media player.")) &> /></a>
 <%cpp>
-#else
-</%cpp>
-<a href="playlist.m3u?channel=<$ channelId $>"><img src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into media player.")) &> /></a>
-<%cpp>
-#endif
 }
 </%cpp>
 </%def>

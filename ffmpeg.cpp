@@ -1,4 +1,3 @@
-
 #include "ffmpeg.h"
 #include "setup.h"
 

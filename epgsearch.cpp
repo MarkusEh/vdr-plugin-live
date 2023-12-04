@@ -285,7 +285,7 @@ void SearchTimer::ParseChannel( std::string const& data )
 void SearchTimer::ParseChannelIDs( std::string const& data )
 {
 	std::vector<std::string> parts = StringSplit( data, '|' );
-	m_channelMin = lexical_cast<tChannelID>( parts[ 0 ] );
+	m_channelMin = tChannelID::FromString( parts[ 0 ].c_str() );
 
 	LOCK_CHANNELS_READ;
 	cChannel const* channel = Channels->GetByChannelID( m_channelMin );
@@ -295,13 +295,9 @@ void SearchTimer::ParseChannelIDs( std::string const& data )
 	if ( parts.size() < 2 )
 		return;
 
-	m_channelMax = lexical_cast<tChannelID>( parts[ 1 ] );
+	m_channelMax = tChannelID::FromString( parts[ 1 ].c_str() );
 
-#if VDRVERSNUM >= 20301
 	channel = Channels->GetByChannelID( m_channelMax );
-#else
-	channel = Channels.GetByChannelID( m_channelMax );
-#endif
 	if ( channel != 0 )
 		m_channels += std::string( " - " ) + channel->Name();
 }
@@ -553,7 +549,7 @@ SearchResult::SearchResult( std::string const& data )
 			case  4: m_description = StringReplace( *part, "|", ":" ); break;
 			case  5: m_starttime = parse_int<time_t>( *part ); break;
 			case  6: m_stoptime = parse_int<time_t>( *part ); break;
-			case  7: m_channel = lexical_cast<tChannelID>( *part ); break;
+			case  7: m_channel = tChannelID::FromString( part->c_str() ); break;
 			case  8: m_timerstart = parse_int<time_t>( *part ); break;
 			case  9: m_timerstop = parse_int<time_t>( *part ); break;
 			case 10: m_file = *part; break;

@@ -174,11 +174,9 @@ namespace vdrlive {
   {
     friend class RecordingsTree;
 
-    protected:
-      RecordingsItemDir(cSv name, int level);
-
     public:
       virtual ~RecordingsItemDir();
+      RecordingsItemDir(cSv name, int level);
 
       cSv Name() const { return m_name; }
       int Level() const { return m_level; }

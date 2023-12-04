@@ -22,8 +22,7 @@ using namespace vdrlive;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
-        tChannelID channelid;
-        channelid = channelid.FromString(channelid_str.c_str());
+  tChannelID channelid = channelid.FromString(channelid_str.c_str());
 	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 	pageTitle = trVDR("Stream");
@@ -110,14 +109,7 @@ using namespace vdrlive;
 dsyslog("vdrlive::stream: generating EPG info");
 const cSchedule *Schedule = NULL;
 {
-#if VDRVERSNUM >= 20301
-
 	LOCK_SCHEDULES_READ;
-#else
-	cSchedulesLock schedulesLock;
-	const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
-#endif
-
 	Schedule = Schedules->GetSchedule(Channel);
 }
 const cEvent *Event = NULL;

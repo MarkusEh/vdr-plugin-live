@@ -1,4 +1,3 @@
-
 #include "tntconfig.h"
 
 #include "i18n.h"

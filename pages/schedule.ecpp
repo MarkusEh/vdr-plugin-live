@@ -39,18 +39,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
 
-#if VDRVERSNUM < 20301
-	cSchedulesLock schedulesLock;
-	cSchedules const* schedules = cSchedules::Schedules( schedulesLock );
-
-	ReadLock channelsLock( Channels );
-	if ( !channelsLock )
-		throw HtmlError( tr("Couldn't aquire access to channels, please try again later.") );
-#endif
-
-	// cChannel* Channel; (see %request above)
 	{
-#if VDRVERSNUM >= 20301
 		LOCK_CHANNELS_READ;
 		if ( channel > 0 )
 			Channel = (cChannel *)Channels->GetByNumber( channel );
@@ -64,31 +53,13 @@ bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
 			prev = cString::sprintf("href=\"schedule.html?channel=%i\"", Channel->Number() - 1);
 		if (Channel->Number() < Channels->MaxNumber())
 			next = cString::sprintf("href=\"schedule.html?channel=%i\"", Channel->Number() + 1);
-#else
-		if ( channel > 0 )
-			Channel = Channels.GetByNumber( channel );
-		else if (cDevice::CurrentChannel())
-			Channel = Channels.GetByNumber(cDevice::CurrentChannel());
-		else
-			Channel = Channels.Get( Channels.GetNextNormal( -1 ) );
-		if ( Channel == 0 )
-			throw HtmlError( tr("Couldn't find channel or no channels available. Maybe you mistyped your request?") );
-		if (Channel->Number() > 1)
-			prev = cString::sprintf("href=\"schedule.html?channel=%i\"", Channel->Number() - 1);
-		if (Channel->Number() < Channels.MaxNumber())
-			next = cString::sprintf("href=\"schedule.html?channel=%i\"", Channel->Number() + 1);
-#endif
 	}
 
 	cSchedule const* Schedule;
-#if VDRVERSNUM >= 20301
 	{
 		LOCK_SCHEDULES_READ;
 		Schedule = Schedules->GetSchedule( (const cChannel *)Channel );
 	}
-#else
-	Schedule = schedules->GetSchedule( Channel );
-#endif
 
 </%cpp>
 <& pageelems.doc_type &>
@@ -142,11 +113,7 @@ bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
     RecordingsItemRecPtr recItem;
     bool recItemFound;
     cLargeString epg_item("epg_item", 1000);
-#if VDRVERSNUM >= 20301
 		for (const cEvent *Event = (cEvent *)Schedule->Events()->First(); Event; Event = (cEvent *)Schedule->Events()->Next(Event)) {
-#else
-		for (const cEvent *Event = Schedule->Events()->First(); Event; Event = Schedule->Events()->Next(Event)) {
-#endif
 			if (Event->EndTime() <= now && Event != PresentEvent) continue;
 
 			epg_item.clear();
@@ -156,11 +123,7 @@ bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
 
 			bool lastEventCurrentDay = false;
 			{
-#if VDRVERSNUM >= 20301
 				cEvent* NextEvent = (cEvent *)Schedule->Events()->Next(Event);
-#else
-				cEvent* NextEvent = Schedule->Events()->Next(Event);
-#endif
 				if (!NextEvent) {
 					lastEventCurrentDay = true;
 				}
@@ -215,8 +178,8 @@ if(recItemFound) {
 <%def channel_selection>
 <form action="schedule.html" method="get" id="channels">
    <span>
-     <label for="channel"><$ tr("Channel") $>:&nbsp;<span class="bold"><$ cSv(cToSvInt(Channel->Number())) $></span></label>
-     <& channels_widget name=("channel") selected=(Channel ? *Channel->GetChannelID().ToString() : "") onchange=("document.forms.channels.submit()") &>
+     <label for="channel"><$ tr("Channel") $>:&nbsp;<span class="bold"><$ cToSvInt(Channel->Number()) $></span></label>
+     <& channels_widget name=("channel") selected=(Channel ? cSv(cToSvChannel(Channel->GetChannelID())) : cSv() ) onchange=("document.forms.channels.submit()") &>
 %    if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
        <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(Channel->GetChannelID()) image="zap.png" alt="" &>
 %    }

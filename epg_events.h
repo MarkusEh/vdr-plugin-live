@@ -29,43 +29,43 @@ namespace vdrlive
 	namespace EpgEvents {
 
 		std::string EncodeDomId(tChannelID const &chanId, tEventID const &eventId);
-		void DecodeDomId(std::string const &epgid, tChannelID &chanId, tEventID &eventId);
+		void DecodeDomId(cSv epgid, tChannelID &chanId, tEventID &eventId);
 
 		/**
 		 *	Allocate and initalize an epgEvent instance with the
 		 *	passed channel and event information.
 		 *	Never call this function with a NULL chan pointer
 		 */
-		EpgInfoPtr CreateEpgInfo(cChannel const *chan, cEvent const *event, char const *idOverride = 0);
+		EpgInfoPtr CreateEpgInfo(cChannel const *chan, cEvent const *event, cSv idOverride = cSv());
 
 		/**
 		 *  This is the inverse creator for epgInfos to the creator above.
 		 */
-		EpgInfoPtr CreateEpgInfo(std::string const &epgid, cSchedules const *schedules);
+		EpgInfoPtr CreateEpgInfo(cSv epgid, cSchedules const *schedules);
 
 		/**
 		 *	Allocate and initalize an epgEvent instance with the
 		 *	passed recording information.
 		 */
-		EpgInfoPtr CreateEpgInfo(std::string const &recid, cRecording const *recording, char const *caption = 0);
+		EpgInfoPtr CreateEpgInfo(cSv recid, cRecording const *recording, char const *caption = 0);
 
 		/**
 		 *	Allocate and initalize an epgEvent instance with the
 		 *	passed string informations
 		 */
-		EpgInfoPtr CreateEpgInfo(std::string const &id, std::string const &caption, std::string const &info);
+		EpgInfoPtr CreateEpgInfo(cSv id, cSv caption, cSv info);
 
 		/**
 		 *  Return a list of EpgImage paths for a given epgid.
 		 */
 
-                bool PosterTvscraper(cTvMedia &media, const cEvent *event, const cRecording *recording);
-		std::list<std::string> EpgImages(std::string const &epgid);
+    bool PosterTvscraper(cTvMedia &media, const cEvent *event, const cRecording *recording);
+		std::list<std::string> EpgImages(cSv epgid);
 
 		/**
 		 *  Return a list of RecImages in the given folder.
 		 */
-		std::list<std::string> RecImages(std::string const &epgid, std::string const &recfolder);
+		std::list<std::string> RecImages(cSv epgid, cSv recfolder);
 
 		/**
 		 *  Calculate the duration. A duration can be zero or
@@ -88,30 +88,27 @@ namespace vdrlive
 
 	class EpgInfo
 	{
-		protected:
-			EpgInfo(std::string const &id,
-					std::string const &caption);
-
 		public:
+			EpgInfo(cSv id, cSv caption);
 			virtual ~EpgInfo();
 
-			virtual std::string const Id() const { return m_eventId; }
+			virtual cSv Id() const { return m_eventId; }
 
-			virtual std::string const Caption() const { return m_caption; }
+			virtual cSv Caption() const { return m_caption; }
 
-			virtual std::string const Title() const = 0;
+			virtual cSv Title() const = 0;
 
-			virtual std::string const ShortDescr() const = 0;
+			virtual cSv ShortDescr() const = 0;
 
-			virtual std::string const LongDescr() const = 0;
+			virtual cSv LongDescr() const = 0;
 
 			virtual cChannel const * Channel() const { return 0; }
 
-			virtual std::string const ChannelName() const;
+			virtual cSv ChannelName() const;
 
-			virtual std::string const Archived() const { return ""; }
+			virtual cSv Archived() const { return cSv(); }
 
-			virtual std::string const FileName() const { return ""; }
+			virtual cSv FileName() const { return cSv(); }
 
 			virtual std::string const StartTime(const char* format) const;
 
@@ -138,27 +135,23 @@ namespace vdrlive
 
 	class EpgString : public EpgInfo
 	{
-		friend EpgInfoPtr EpgEvents::CreateEpgInfo(std::string const &, std::string const &, std::string const &);
-
-		protected:
-			EpgString(std::string const &id,
-					  std::string const &caption,
-					  std::string const &info);
+		friend EpgInfoPtr EpgEvents::CreateEpgInfo(cSv, cSv, cSv);
 
 		public:
+			EpgString(cSv id, cSv caption, cSv info);
 			virtual ~EpgString();
 
-			virtual std::string const Title() const;
+			virtual cSv Title() const;
 
-			virtual std::string const ShortDescr() const;
+			virtual cSv ShortDescr() const;
 
-			virtual std::string const LongDescr() const;
+			virtual cSv LongDescr() const;
 
 			virtual time_t GetStartTime() const;
 
 			virtual time_t GetEndTime() const;
 
-			virtual std::string const FileName() const { return ""; }
+			virtual cSv FileName() const { return cSv(); }
 
 		private:
 			const std::string m_info;
@@ -168,33 +161,25 @@ namespace vdrlive
 
 	class EpgEvent : public EpgInfo
 	{
-		friend EpgInfoPtr EpgEvents::CreateEpgInfo(cChannel const *, cEvent const *, char const *);
-
-		protected:
-			EpgEvent(std::string const &id,
-					 cEvent const *event,
-					 char const *channelName);
+		friend EpgInfoPtr EpgEvents::CreateEpgInfo(cChannel const *, cEvent const *, cSv);
 
 		public:
+			EpgEvent(cSv id, cEvent const *event, char const *channelName);
 			virtual ~EpgEvent();
 
-			virtual std::string const Title() const { return std::string(m_event->Title() ? m_event->Title() : ""); }
+			virtual cSv Title() const { return m_event->Title(); }
 
-			virtual std::string const ShortDescr() const { return std::string(m_event->ShortText() ? m_event->ShortText() : ""); }
+			virtual cSv ShortDescr() const { return m_event->ShortText(); }
 
-			virtual std::string const LongDescr() const { return std::string(m_event->Description() ? m_event->Description() : ""); }
+			virtual cSv LongDescr() const { return m_event->Description(); }
 
 			virtual time_t GetStartTime() const { return m_event->StartTime(); }
 
 			virtual time_t GetEndTime() const { return m_event->EndTime(); }
 
-#if VDRVERSNUM >= 20301
 			virtual cChannel const * Channel() const { LOCK_CHANNELS_READ; return Channels->GetByChannelID(m_event->ChannelID());}
-#else
-			virtual cChannel const * Channel() const { return Channels.GetByChannelID(m_event->ChannelID());}
-#endif
 
-			virtual std::string const FileName() const { return ""; }
+			virtual cSv FileName() const { return cSv(); }
 
 			virtual cEvent const *Event() const { return m_event; }
 		private:
@@ -205,31 +190,25 @@ namespace vdrlive
 
 	class EmptyEvent : public EpgInfo
 	{
-		friend EpgInfoPtr EpgEvents::CreateEpgInfo(cChannel const *, cEvent const *, char const *);
-
-		protected:
-			EmptyEvent(std::string const &id, tChannelID const &channelID, const char* channelName);
+		friend EpgInfoPtr EpgEvents::CreateEpgInfo(cChannel const *, cEvent const *, cSv);
 
 		public:
+			EmptyEvent(cSv id, tChannelID const &channelID, const char* channelName);
 			virtual ~EmptyEvent();
 
-			virtual std::string const Title() const { return tr("No EPG information available"); }
+			virtual cSv Title() const { return tr("No EPG information available"); }
 
-			virtual std::string const ShortDescr() const { return ""; }
+			virtual cSv ShortDescr() const { return cSv(); }
 
-			virtual std::string const LongDescr() const { return ""; }
+			virtual cSv LongDescr() const { return cSv(); }
 
 			virtual time_t GetStartTime() const { return 0; }
 
 			virtual time_t GetEndTime() const { return 0; }
 
-#if VDRVERSNUM >= 20301
 			virtual cChannel const * Channel() const { LOCK_CHANNELS_READ; return Channels->GetByChannelID(m_channelID);}
-#else
-			virtual cChannel const * Channel() const { return Channels.GetByChannelID(m_channelID);}
-#endif
 
-			virtual std::string const FileName() const { return ""; }
+			virtual cSv FileName() const { return cSv(); }
 
 		private:
 			tChannelID m_channelID;
@@ -239,31 +218,28 @@ namespace vdrlive
 
 	class EpgRecording : public EpgInfo
 	{
-		friend EpgInfoPtr EpgEvents::CreateEpgInfo(std::string const &, cRecording const *, char const *);
+		friend EpgInfoPtr EpgEvents::CreateEpgInfo(cSv, cRecording const *, const char *);
 
 		protected:
-			EpgRecording(std::string const &recid,
-						 cRecording const *recording,
-						 char const *caption);
-
-			const std::string Name() const;
+			cSv Name() const;
 
 		public:
+			EpgRecording(cSv recid, cRecording const *recording, char const *caption);
 			virtual ~EpgRecording();
 
-			virtual std::string const Caption() const;
+			virtual cSv Caption() const;
 
-			virtual std::string const Title() const;
+			virtual cSv Title() const;
 
-			virtual std::string const ShortDescr() const;
+			virtual cSv ShortDescr() const;
 
-			virtual std::string const LongDescr() const;
+			virtual cSv LongDescr() const;
 
-			virtual std::string const ChannelName() const;
+			virtual cSv ChannelName() const;
 
-			virtual std::string const Archived() const;
+			virtual cSv Archived() const;
 
-			virtual std::string const FileName() const;
+			virtual cSv FileName() const;
 
 			virtual time_t GetStartTime() const;
 

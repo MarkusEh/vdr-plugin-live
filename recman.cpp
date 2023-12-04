@@ -262,7 +262,7 @@ namespace vdrlive {
 				m_recTree.reset();
 			}
 			if (stateChanged || !m_recTree) {
-				m_recTree = std::shared_ptr<RecordingsTree>(new RecordingsTree(recMan));
+        m_recTree = std::shared_ptr<RecordingsTree>(new RecordingsTree(recMan));
 			}
 			if (!m_recTree) {
 				esyslog("live: creation of recordings tree failed!");
@@ -422,7 +422,7 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
   if (RecItems->empty() ) return false;  // there are no recordings
 
 // find all recordings with equal name
-  RecordingsItemRecPtr dummy (new RecordingsItemDummy(event, scraperVideo));
+  RecordingsItemRecPtr dummy = std::make_shared<RecordingsItemDummy>(event, scraperVideo);
   const auto equalName = std::equal_range(RecItems->begin(), RecItems->end(), dummy, RecordingsItemPtrCompare::ByDuplicatesName);
   if (equalName.first == equalName.second) return false; // there is no recording with this name
 
@@ -489,25 +489,25 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
   RecordingsItemDirPtr RecordingsItemDir::addDirIfNotExists(cSv dirName) {
     std::vector<RecordingsItemDirPtr>::iterator iter = std::lower_bound(m_subdirs.begin(), m_subdirs.end(), dirName);
     if (iter != m_subdirs.end() && !(dirName < *iter) ) return *iter;
-	  RecordingsItemDirPtr recPtr (new RecordingsItemDir(dirName, Level() + 1));
-	  m_subdirs.insert(iter, recPtr);
-    return recPtr;
+    RecordingsItemDirPtr dirPtr = std::make_shared<RecordingsItemDir>(dirName, Level() + 1);
+	  m_subdirs.insert(iter, dirPtr);
+    return dirPtr;
 	}
 
   RecordingsItemDirPtr RecordingsItemDir::addDirCollectionIfNotExists(int collectionId, const RecordingsItemRecPtr &rPtr) {
     std::vector<RecordingsItemDirPtr>::iterator iter = std::lower_bound(m_subdirs.begin(), m_subdirs.end(), collectionId);
     if (iter != m_subdirs.end() && !(collectionId < *iter) ) return *iter;
-	  RecordingsItemDirPtr recPtr2 (new RecordingsItemDirCollection(Level() + 1, rPtr));
-	  m_subdirs.insert(iter, recPtr2);
-    return recPtr2;
+	  RecordingsItemDirPtr dirPtr2 = std::make_shared<RecordingsItemDirCollection>(Level() + 1, rPtr);
+	  m_subdirs.insert(iter, dirPtr2);
+    return dirPtr2;
 	}
 
   RecordingsItemDirPtr RecordingsItemDir::addDirSeasonIfNotExists(int seasonNumber, const RecordingsItemRecPtr &rPtr) {
     std::vector<RecordingsItemDirPtr>::iterator iter = std::lower_bound(m_subdirs.begin(), m_subdirs.end(), seasonNumber);
     if (iter != m_subdirs.end() && !(seasonNumber < *iter) ) return *iter;
-	  RecordingsItemDirPtr recPtr2 (new RecordingsItemDirSeason(Level() + 1, rPtr));
-	  m_subdirs.insert(iter, recPtr2);
-    return recPtr2;
+	  RecordingsItemDirPtr dirPtr2 = std::make_shared<RecordingsItemDirSeason>(Level() + 1, rPtr);
+	  m_subdirs.insert(iter, dirPtr2);
+    return dirPtr2;
 	}
 
 	const std::vector<RecordingsItemRecPtr> *RecordingsItemDir::getRecordings(eSortOrder sortOrder)
@@ -995,7 +995,7 @@ void AppendScraperData(cLargeString &target, cSv s_IMDB_ID, const cTvMedia &s_im
 	 */
 	RecordingsTree::RecordingsTree(RecordingsManagerPtr recMan) :
 		m_maxLevel(0),
-		m_root(new RecordingsItemDir("", 0))
+		m_root(std::make_shared<RecordingsItemDir>("", 0))
 	{
 //   esyslog("live: DH: ****** RecordingsTree::RecordingsTree() ********");
    cMeasureTime timeRecs, timeIdentify, timeOverview, timeImage, timeDurationDeviation, timeNumTsFiles, timeItemRec;
@@ -1005,8 +1005,8 @@ void AppendScraperData(cLargeString &target, cSv s_IMDB_ID, const cTvMedia &s_im
     m_creation_timestamp = time(0);
     cGetScraperVideo getScraperVideo;
 		bool scraperDataAvailable = getScraperVideo.call(LiveSetup().GetPluginScraper());
-    RecordingsItemDirPtr recPtrTvShows (new RecordingsItemDir(tr("TV shows"), 1));
-    RecordingsItemDirPtr recPtrMovieCollections (new RecordingsItemDir(tr("Movie collections"), 1));
+    RecordingsItemDirPtr recPtrTvShows = std::make_shared<RecordingsItemDir>(tr("TV shows"), 1);
+    RecordingsItemDirPtr recPtrMovieCollections = std::make_shared<RecordingsItemDir>(tr("Movie collections"), 1);
 // create "base" folders
     m_allRecordings.clear();
     if (scraperDataAvailable) {
@@ -1015,7 +1015,7 @@ void AppendScraperData(cLargeString &target, cSv s_IMDB_ID, const cTvMedia &s_im
       m_root->m_subdirs.push_back(recPtrTvShows);
       recPtrMovieCollections->m_s_season_number = 2;
       m_root->m_subdirs.push_back(recPtrMovieCollections);
-      RecordingsItemDirPtr recPtrOthers (new RecordingsItemDir(tr("File system view"), 1));
+      RecordingsItemDirPtr recPtrOthers = std::make_shared<RecordingsItemDir>(tr("File system view"), 1);
       recPtrOthers->m_s_season_number = 3;
       m_rootFileSystem = recPtrOthers;
       m_root->m_subdirs.push_back(recPtrOthers);
@@ -1044,7 +1044,7 @@ void AppendScraperData(cLargeString &target, cSv s_IMDB_ID, const cTvMedia &s_im
         else {
           cSv recName = name.substr(index, name.length() - index);
           timeRecs.start();
-          RecordingsItemRecPtr recPtr (new RecordingsItemRec(recName, recording, &timeIdentify, &timeOverview, &timeImage, &timeDurationDeviation, &timeNumTsFiles, &timeItemRec));
+          RecordingsItemRecPtr recPtr = std::make_shared<RecordingsItemRec>(recName, recording, &timeIdentify, &timeOverview, &timeImage, &timeDurationDeviation, &timeNumTsFiles, &timeItemRec);
           timeRecs.stop();
           dir->m_entries.push_back(recPtr);
           m_allRecordings.push_back(recPtr);
@@ -1141,7 +1141,7 @@ void AppendScraperData(cLargeString &target, cSv s_IMDB_ID, const cTvMedia &s_im
 			return r;
 		}
 		else {
-			RecordingsManagerPtr n(new RecordingsManager);
+      RecordingsManagerPtr n(new RecordingsManager);
 			RecordingsManager::m_recMan = n;
 			return n;
 		}

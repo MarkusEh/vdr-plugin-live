@@ -1,4 +1,3 @@
-
 #include "epg_events.h"
 
 #include "tools.h"
@@ -27,19 +26,16 @@ namespace vdrlive
 	 * -------------------------------------------------------------------------
 	 */
 
-	EpgInfo::EpgInfo(const std::string& id, const std::string& caption) :
+	EpgInfo::EpgInfo(cSv id, cSv caption):
 		m_eventId(id),
 		m_caption(caption)
-	{
-	}
+	{ }
 
-	EpgInfo::~EpgInfo()
-	{
-	}
+	EpgInfo::~EpgInfo() { }
 
-	const std::string EpgInfo::ChannelName() const
+	cSv EpgInfo::ChannelName() const
 	{	const cChannel* channel = Channel();
-		return channel ? channel->Name() : "";
+		return channel ? channel->Name() : cSv();
 	}
 
 	const std::string EpgInfo::CurrentTime(const char* format) const
@@ -75,15 +71,12 @@ namespace vdrlive
 	 * -------------------------------------------------------------------------
 	 */
 
-	EpgEvent::EpgEvent(const std::string& id, const cEvent* event, const char* channelName) :
+	EpgEvent::EpgEvent(cSv id, const cEvent* event, const char* channelName) :
 		EpgInfo(id, channelName),
 		m_event(event)
-	{
-	}
+	{ }
 
-	EpgEvent::~EpgEvent()
-	{
-	}
+	EpgEvent::~EpgEvent() { }
 
 	/*
 	 * -------------------------------------------------------------------------
@@ -91,29 +84,26 @@ namespace vdrlive
 	 * -------------------------------------------------------------------------
 	 */
 
-	EpgString::EpgString(const std::string& id, const std::string& caption, const std::string& info) :
+	EpgString::EpgString(cSv id, cSv caption, cSv info) :
 		EpgInfo(id, caption),
 		m_info(info)
-	{
-	}
+	{ }
 
-	EpgString::~EpgString()
-	{
-	}
+	EpgString::~EpgString() { }
 
-	const std::string EpgString::Title() const
+	cSv EpgString::Title() const
 	{
 		return m_info;
 	}
 
-	const std::string EpgString::ShortDescr() const
+	cSv EpgString::ShortDescr() const
 	{
-		return "";
+		return cSv();
 	}
 
-	const std::string EpgString::LongDescr() const
+	cSv EpgString::LongDescr() const
 	{
-		return "";
+		return cSv();
 	}
 
 	time_t EpgString::GetStartTime() const
@@ -132,61 +122,60 @@ namespace vdrlive
 	 * -------------------------------------------------------------------------
 	 */
 
-	EpgRecording::EpgRecording(const std::string& recid, const cRecording* recording, const char* caption) :
-		EpgInfo(recid, (caption != 0) ? caption : ""),
+	EpgRecording::EpgRecording(cSv recid, const cRecording* recording, const char* caption) :
+		EpgInfo(recid, caption),
 		m_recording(recording),
 		m_ownCaption(caption != 0),
 		m_checkedArchived(false),
 		m_archived()
-	{
-	}
+	{ }
 
 	EpgRecording::~EpgRecording()
 	{
 		m_recording = 0;
 	}
 
-	const std::string EpgRecording::Caption() const
+	cSv EpgRecording::Caption() const
 	{
 		if (m_ownCaption) {
 			return EpgInfo::Caption();
 		}
 		if (!m_recording) {
-			return "";
+			return cSv();
 		}
 
 		return Name();
 	}
 
-	const std::string EpgRecording::Title() const
+	cSv EpgRecording::Title() const
 	{
 		if (!m_recording) {
-			return "";
+			return cSv();
 		}
 
 		const cRecordingInfo* info = m_recording->Info();
 		return (info && info->Title()) ? info->Title() : Name();
 	}
 
-	const std::string EpgRecording::ShortDescr() const
+	cSv EpgRecording::ShortDescr() const
 	{
 		const cRecordingInfo* info = m_recording ? m_recording->Info() : 0;
-		return (info && info->ShortText()) ? info->ShortText() : "";
+		return (info && info->ShortText()) ? info->ShortText() : cSv();
 	}
 
-	const std::string EpgRecording::LongDescr() const
+	cSv EpgRecording::LongDescr() const
 	{
 		const cRecordingInfo* info = m_recording ? m_recording->Info() : 0;
-		return (info && info->Description()) ? info->Description() : "";
+		return (info && info->Description()) ? info->Description() : cSv();
 	}
 
-	const std::string EpgRecording::ChannelName() const
+	cSv EpgRecording::ChannelName() const
 	{
 		const cRecordingInfo* info = m_recording ? m_recording->Info() : 0;
-		return info && info->ChannelName() ? info->ChannelName(): "";
+		return info && info->ChannelName() ? info->ChannelName(): cSv();
 	}
 
-	const std::string EpgRecording::Archived() const
+	cSv EpgRecording::Archived() const
 	{
 		if (!m_checkedArchived && m_recording) {
 			m_archived = RecordingsManager::GetArchiveDescr(m_recording);
@@ -195,7 +184,7 @@ namespace vdrlive
 		return m_archived;
 	}
 
-	const std::string EpgRecording::FileName() const
+	cSv EpgRecording::FileName() const
 	{
 		return m_recording->FileName();
 	}
@@ -246,9 +235,9 @@ namespace vdrlive
 		return -1;
 	}
 
-	const std::string EpgRecording::Name() const
+	cSv EpgRecording::Name() const
 	{
-		std::string name(m_recording->Name());
+		cSv name(m_recording->Name());
 		size_t index = name.find_last_of('~');
 		if (index != std::string::npos) {
 			name = name.substr(index+1);
@@ -262,15 +251,12 @@ namespace vdrlive
 	 * -------------------------------------------------------------------------
 	 */
 
-	EmptyEvent::EmptyEvent(std::string const &id, tChannelID const &channelID, const char* channelName) :
+	EmptyEvent::EmptyEvent(cSv id, tChannelID const &channelID, const char* channelName) :
 		EpgInfo(id, channelName),
 		m_channelID(channelID)
-	{
-	}
+	{ }
 
-	EmptyEvent::~EmptyEvent()
-	{
-	}
+	EmptyEvent::~EmptyEvent() { }
 
 	/*
 	 * -------------------------------------------------------------------------
@@ -280,90 +266,80 @@ namespace vdrlive
 	namespace EpgEvents {
 		std::string EncodeDomId(tChannelID const &chanId, tEventID const &eId)
 		{
-			std::string channelId(chanId.ToString());
 			std::string eventId("event_");
 
-			channelId = vdrlive::EncodeDomId(channelId, ".-", "pm");
-
-			eventId += channelId;
+			eventId += vdrlive::EncodeDomId(cToSvChannel(chanId), ".-", "pm");
 			eventId += '_';
 			eventId += cSv(cToSvInt(eId));
 			return eventId;
 		}
 
-		void DecodeDomId(std::string const &epgid, tChannelID& channelId, tEventID& eventId)
+		void DecodeDomId(cSv epgid, tChannelID& channelId, tEventID& eventId)
 		{
-			std::string const eventStr("event_");
+			cSv eventStr("event_");
 
 			size_t delimPos = epgid.find_last_of('_');
-			std::string cIdStr = epgid.substr(eventStr.length(), delimPos - eventStr.length());
+			cSv cIdStr_enc = epgid.substr(eventStr.length(), delimPos - eventStr.length());
 
-			cIdStr = vdrlive::DecodeDomId(cIdStr, "mp", "-.");
-
-			std::string const eIdStr = epgid.substr(delimPos+1);
+			std::string cIdStr = vdrlive::DecodeDomId(cIdStr_enc, "mp", "-.");
+			cSv eIdStr = epgid.substr(delimPos+1);
 
 			channelId = tChannelID::FromString(cIdStr.c_str());
 			eventId = parse_int<tEventID>(eIdStr);
 		}
 
-		EpgInfoPtr CreateEpgInfo(std::string const &epgid, cSchedules const *schedules)
+		EpgInfoPtr CreateEpgInfo(cSv epgid, cSchedules const *schedules)
 		{
-			std::string const errorInfo(tr("Epg error"));
-
 			tEventID eventId = tEventID();
 			tChannelID channelId = tChannelID();
 
 			DecodeDomId(epgid, channelId, eventId);
-#if VDRVERSNUM >= 20301
 			LOCK_CHANNELS_READ;
 			cChannel const *channel = Channels->GetByChannelID(channelId);
-#else
-			cChannel const *channel = Channels.GetByChannelID(channelId);
-#endif
 			if (!channel) {
-				return CreateEpgInfo(epgid, errorInfo, tr("Wrong channel id"));
+				return CreateEpgInfo(epgid, tr("Epg error"), tr("Wrong channel id"));
 			}
 			cSchedule const *schedule = schedules->GetSchedule(channel);
 			if (!schedule) {
-				return CreateEpgInfo(epgid, errorInfo, tr("Channel has no schedule"));
+				return CreateEpgInfo(epgid, tr("Epg error"), tr("Channel has no schedule"));
 			}
 			cEvent const *event = schedule->GetEvent(eventId);
 			if (!event) {
-				return CreateEpgInfo(epgid, errorInfo, tr("Wrong event id"));
+				return CreateEpgInfo(epgid, tr("Epg error"), tr("Wrong event id"));
 			}
-			return CreateEpgInfo(channel, event, epgid.c_str());
+			return CreateEpgInfo(channel, event, epgid);
 		}
 
-		EpgInfoPtr CreateEpgInfo(cChannel const *chan, cEvent const *event, char const *idOverride)
+		EpgInfoPtr CreateEpgInfo(cChannel const *chan, cEvent const *event, cSv idOverride)
 		{
 			assert(chan);
 
 			if (event) {
-				std::string domId(idOverride ? idOverride : EncodeDomId(chan->GetChannelID(), event->EventID()));
-				return EpgInfoPtr(new EpgEvent(domId, event, chan->Name()));
+        if (idOverride.empty()) return std::make_shared<EpgEvent>(EncodeDomId(chan->GetChannelID(), event->EventID()), event, chan->Name());
+        return std::make_shared<EpgEvent>(idOverride, event, chan->Name());
 			}
 			if (LiveSetup().GetShowChannelsWithoutEPG()) {
-				std::string domId(idOverride ? idOverride : EncodeDomId(chan->GetChannelID(), 0));
-				return EpgInfoPtr(new EmptyEvent(domId, chan->GetChannelID(), chan->Name()));
+				std::string domId(!idOverride.empty() ? idOverride : EncodeDomId(chan->GetChannelID(), 0));
+				return std::make_shared<EmptyEvent>(domId, chan->GetChannelID(), chan->Name());
 			}
 			return EpgInfoPtr();
 		}
 
-		EpgInfoPtr CreateEpgInfo(std::string const &recid, cRecording const *recording, char const *caption)
+		EpgInfoPtr CreateEpgInfo(cSv recid, cRecording const *recording, char const *caption)
 		{
-			return EpgInfoPtr(new EpgRecording(recid, recording, caption));
+			return std::make_shared<EpgRecording>(recid, recording, caption);
 		}
 
-		EpgInfoPtr CreateEpgInfo(std::string const &id, std::string const &caption, std::string const &info)
+		EpgInfoPtr CreateEpgInfo(cSv id, cSv caption, cSv info)
 		{
-			return EpgInfoPtr(new EpgString(id, caption, info));
+			return std::make_shared<EpgString>(id, caption, info);
 		}
 
 
-		bool ScanForEpgImages(std::string const & imageId, std::string const & wildcard, std::list<std::string> & images)
+		bool ScanForEpgImages(cSv imageId, cSv wildcard, std::list<std::string> & images)
 		{
 			bool found = false;
-			const std::string filemask(LiveSetup().GetEpgImageDir() + "/" + imageId + wildcard);
+			const std::string filemask = concat(LiveSetup().GetEpgImageDir(), "/", imageId, wildcard);
 			glob_t globbuf;
 			globbuf.gl_offs = 0;
 			if (!LiveSetup().GetEpgImageDir().empty() && glob(filemask.c_str(), GLOB_DOOFFS, NULL, &globbuf) == 0) {
@@ -378,20 +354,19 @@ namespace vdrlive
 			return found;
 		}
 
-		bool ScanForRecImages(std::string const & imageId, std::string const & recfolder , std::list<std::string> & images)
+		bool ScanForRecImages(cSv imageId, cSv recfolder , std::list<std::string> & images)
 		{
 			bool found = false;
 			const std::string filetypes[] = {"png", "jpg", "PNG", "JPG"};
 			int size = sizeof(filetypes)/sizeof(filetypes[0]);
 
 			if (recfolder.empty()) {
-				// dsyslog( "live: ScanForRecImages: recFolder empty for %s", imageId.c_str());
 				return found;
 			}
 
 			for (int j = 0; j < size; j++)
 			{
-				const std::string filemask(recfolder + "/*." + filetypes[j]);
+				const std::string filemask = concat(recfolder, "/*.", filetypes[j]);
 				glob_t globbuf;
 				globbuf.gl_offs = 0;
 				if (glob(filemask.c_str(), GLOB_DOOFFS, NULL, &globbuf) == 0) {
@@ -404,7 +379,7 @@ namespace vdrlive
 
 						// create a temporary symlink of the image in /tmp
 						const std::string imagename(imagefile.substr(delimPos+1));
-						const std::string tmpfile("/tmp/" + imageId + "_" + imagename);
+						const std::string tmpfile = concat("/tmp/", imageId, "_", imagename);
 
 						char cmdBuff[500];
 						sprintf(cmdBuff,"ln -s \"%s\" \"%s\"",imagefile.c_str(),tmpfile.c_str());
@@ -436,10 +411,10 @@ namespace vdrlive
 		  return false;
     }
 
-		std::list<std::string> EpgImages(std::string const &epgid)
+		std::list<std::string> EpgImages(cSv epgid)
 		{
 			size_t delimPos = epgid.find_last_of('_');
-			std::string imageId = epgid.substr(delimPos+1);
+			cSv imageId = epgid.substr(delimPos+1);
 
 			std::list<std::string> images;
 
@@ -478,10 +453,10 @@ namespace vdrlive
 			return images;
 		}
 
-		std::list<std::string> RecImages(std::string const &epgid, std::string const &recfolder)
+		std::list<std::string> RecImages(cSv epgid, cSv recfolder)
 		{
 			size_t delimPos = epgid.find_last_of('_');
-			std::string imageId = epgid.substr(delimPos+1);
+			cSv imageId = epgid.substr(delimPos+1);
 
 			std::list<std::string> images;
 			// Scan for all images in recording directory

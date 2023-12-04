@@ -13,8 +13,7 @@ using namespace vdrlive;
 	std::string async;
 </%args>
 <%cpp>
-	tChannelID paramID;
-        paramID = paramID.FromString(param.c_str());
+	tChannelID paramID = tChannelID::FromString(param.c_str());
 	bool ajaxReq = !async.empty() && (parse_int<int>(async) != 0);
 	std::string referrer;
 
