@@ -29,28 +29,8 @@ std::istream& operator>>( std::istream& is, tChannelID& ret );
 inline
 std::ostream& operator<<( std::ostream& os, tChannelID const& id )
 {
-//	return os << *id.ToString();
 	return os << cToSvChannel(id);
 }
-
-
-#if TNTVERSION >= 30000
-namespace cxxtools
-{
-	class SerializationInfo;
-
-	inline void operator<<= (cxxtools::SerializationInfo& si, const tChannelID& id)
-	{
-//		dsyslog("live: operator<<= called");
-	}
-
-	inline void operator>>= (const cxxtools::SerializationInfo& si, tChannelID& id)
-	{
-//		dsyslog("live: operator>>= called");
-	}
-}
-#endif
-
 
 template<typename... Args> void stringAppendFormated(cLargeString &target, const char *format, Args&&... args) {
   target.appendFormated(format, std::forward<Args>(args)...);
