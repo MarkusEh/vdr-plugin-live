@@ -216,7 +216,7 @@ template void AppendDuration<cLargeString>(cLargeString &target, char const* for
 	{
 		size_t pos = str.find_last_not_of(' ');
     if (pos == std::string::npos) return cSv();
-    cSv trailBlankRemoved = str.substr(0, pos);
+    cSv trailBlankRemoved = str.substr(0, pos+1);
     pos = trailBlankRemoved.find_first_not_of(' ');
     if (pos == std::string::npos) return cSv();
     return trailBlankRemoved.substr(pos);
@@ -276,7 +276,7 @@ template void AppendTextTruncateOnWord<cLargeString>(cLargeString &target, const
 	std::string xxHash32(cSv str)
 	{
 	  char res[8];
-    addCharsHex(res, 8, XXH32(str.data(), str.length(), 20) );
+    stringhelpers_internal::addCharsHex(res, 8, XXH32(str.data(), str.length(), 20) );
     return std::string(res, 8);
 	}
 

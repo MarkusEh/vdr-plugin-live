@@ -94,8 +94,8 @@ template<class T>
       cToSvXxHash128(cSv str): cToSvHex<32>::cToSvHex() { setb(XXH3_128bits(str.data(), str.length() )); }
     private:
       void setb(XXH128_hash_t value) {
-        addCharsHex(m_buffer,    16, value.high64);
-        addCharsHex(m_buffer+16, 16, value.low64);
+        stringhelpers_internal::addCharsHex(m_buffer,    16, value.high64);
+        stringhelpers_internal::addCharsHex(m_buffer+16, 16, value.low64);
       }
   };
 
