@@ -35,6 +35,7 @@ Setup::Setup():
 		m_theme("marine"),
                 m_themedLinkPrefix("themes/" + m_theme + "/"),
                 m_themedLinkPrefixImg("themes/marine/img/"),
+		m_chanlogobg("white"),
 		m_lastwhatsonlistmode("detail"),
 		m_lastsortingmode("nameasc"),
 		m_tntnetloglevel("WARN"),
@@ -156,6 +157,7 @@ bool Setup::ParseSetupEntry( char const* name, char const* value )
 	else if ( strcmp( name, "ScheduleDuration" ) == 0 ) m_scheduleDuration = value;
 	else if ( strcmp( name, "StartPage" ) == 0 ) m_startscreen = value;
 	else if ( strcmp( name, "Theme" ) == 0 ) SetTheme(value);
+	else if ( strcmp( name, "ChanLogoBg" ) == 0 ) m_chanlogobg = value;
 	else if ( strcmp( name, "LocalNetMask" ) == 0 ) { m_localnetmask = value; }
 	else if ( strcmp( name, "LastWhatsOnListMode" ) == 0 ) { m_lastwhatsonlistmode = value; }
 	else if ( strcmp( name, "LastSortingMode" ) == 0 ) { m_lastsortingmode = value; }
@@ -358,6 +360,7 @@ bool Setup::SaveSetup()
 	liveplugin->SetupStore("ScheduleDuration",  m_scheduleDuration.c_str());
 	liveplugin->SetupStore("StartPage",  m_startscreen.c_str());
 	liveplugin->SetupStore("Theme", m_theme.c_str());
+	liveplugin->SetupStore("ChanLogoBg", m_chanlogobg.c_str());
 	liveplugin->SetupStore("LastWhatsOnListMode", m_lastwhatsonlistmode.c_str());
 	liveplugin->SetupStore("LastSortingMode", m_lastsortingmode.c_str());
 	liveplugin->SetupStore("ShowLogo", m_showLogo);
