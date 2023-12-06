@@ -54,6 +54,7 @@ class Setup
 		std::string const GetThemedLink(std::string const & type, const std::string& name) const { return GetThemedLinkPrefix() + type + "/" + name; }
                 std::string const GetThemedLinkPrefix() const { return m_themedLinkPrefix ; }
                 std::string const GetThemedLinkPrefixImg() const { return m_themedLinkPrefixImg ; }
+		std::string const GetChanLogoBg() const { return m_chanlogobg; };
 		std::string const GetLocalNetMask() const { return m_localnetmask; };
 		bool GetIsLocalNet() const { return m_islocalnet; };
 		std::string const GetLastWhatsOnListMode() const { return m_lastwhatsonlistmode; }
@@ -92,6 +93,7 @@ class Setup
 		void SetScheduleDuration(std::string const & scheduleDuration) { m_scheduleDuration = scheduleDuration; }
 		void SetStartScreen(std::string const & startscreen) { m_startscreen = startscreen; }
 		void SetTheme(std::string const & theme) { m_theme = theme; m_themedLinkPrefix = "themes/" + theme + "/"; m_themedLinkPrefixImg = m_themedLinkPrefix + "img/"; }
+		void SetChanLogoBg(std::string const & chanlogobg) { m_chanlogobg = chanlogobg; }
 		void SetLocalNetMask(std::string const & localnetmask) { m_localnetmask = localnetmask; }
 		void SetIsLocalNet(bool islocalnet) { m_islocalnet = islocalnet; }
 		void SetLastWhatsOnListMode(std::string const & mode) { m_lastwhatsonlistmode = mode; SaveSetup(); }
@@ -159,6 +161,7 @@ class Setup
 		std::string m_theme;
     std::string m_themedLinkPrefix;
     std::string m_themedLinkPrefixImg;
+		std::string m_chanlogobg;
 		std::string m_localnetmask;
 		bool m_islocalnet;
 		std::string m_lastwhatsonlistmode;
