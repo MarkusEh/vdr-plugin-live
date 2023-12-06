@@ -229,19 +229,23 @@ if (type == "now") {
 				std::string chanlogofile = StringReplace(epgEvent->Caption(), "/", "_") + ".png";
 				std::string chanlogopath = LiveSetup().GetChanLogoDir() + chanlogofile;
 				struct stat chanfilebuf;
-        bool logo_available = stat (chanlogopath.c_str(), &chanfilebuf) == 0;
-        if (!logo_available) {
-          chanlogofile = stringToLower(chanlogofile, g_locale);
-          chanlogopath = LiveSetup().GetChanLogoDir() + chanlogofile;
-          logo_available = stat (chanlogopath.c_str(), &chanfilebuf) == 0;
-        }
-				if (logo_available) {
-					chanlogoimg = "<img src=\"chanlogos/";
-          AppendHtmlEscapedAndCorrectNonUTF8(chanlogoimg, chanlogofile);
-          chanlogoimg.append("\" alt=\"");
-          AppendHtmlEscapedAndCorrectNonUTF8(chanlogoimg, epgEvent->Caption());
-          chanlogoimg.append("\" loading=\"lazy\" class=\"channel_logo\">");
+		        bool logo_available = stat (chanlogopath.c_str(), &chanfilebuf) == 0;
+		        if (!logo_available) {
+				chanlogofile = stringToLower(chanlogofile, g_locale);
+				chanlogopath = LiveSetup().GetChanLogoDir() + chanlogofile;
+				logo_available = stat (chanlogopath.c_str(), &chanfilebuf) == 0;
+			}
+			if (logo_available) {
+				chanlogoimg = "<img src=\"chanlogos/";
+				AppendHtmlEscapedAndCorrectNonUTF8(chanlogoimg, chanlogofile);
+				chanlogoimg.append("\" alt=\"");
+				AppendHtmlEscapedAndCorrectNonUTF8(chanlogoimg, epgEvent->Caption());
+				chanlogoimg.append("\" loading=\"lazy\" class=\"channel_logo\"");
+				if (LiveSetup().GetChanLogoBg() == "white") {
+					chanlogoimg.append(" style=\"background:#FFFFFF;\"");
 				}
+				chanlogoimg.append(">");
+			}
       }
 </%cpp>
 			<tr>
