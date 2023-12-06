@@ -19,6 +19,7 @@ using namespace vdrlive;
 	std::string scheduleDuration;
 	std::string startscreen;
 	std::string theme;
+	std::string chanlogobg;
 	std::string localnetmask;
 	std::string showLogo;
 	std::string showInfoBox;
@@ -69,6 +70,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 			LiveSetup().SetStartScreen(startscreen);
 			LiveSetup().SetTheme(theme);
 			LiveSetup().SetShowLogo(!showLogo.empty());
+			LiveSetup().SetChanLogoBg(chanlogobg);
 			LiveSetup().SetShowInfoBox(!showInfoBox.empty());
 			LiveSetup().SetUseStreamdev(!useStreamdev.empty());
 			LiveSetup().SetStreamdevPort(streamdevport.empty() ? 3000 : parse_int<int>(streamdevport));
@@ -104,6 +106,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 	scheduleDuration = LiveSetup().GetScheduleDuration();
 	startscreen = LiveSetup().GetStartScreen();
 	theme = LiveSetup().GetTheme();
+	chanlogobg = LiveSetup().GetChanLogoBg();
 	localnetmask = LiveSetup().GetLocalNetMask();
 	showLogo = LiveSetup().GetShowLogo() ? "1" : "";
 	showInfoBox = LiveSetup().GetShowInfoBox() ? "1" : "";
@@ -322,6 +325,13 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 	}
 }
 </%cpp>
+						</select></td>
+					</tr>
+					<tr>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Channel logo background") $>:</div></td>
+						<td class="rightcol"><select name="chanlogobg" size="1" id="chanlogobg">
+							<option value="white" <%cpp> SELECTIF(chanlogobg == "white") </%cpp>><$ tr("white") $></option>
+							<option value="themed" <%cpp> SELECTIF(chanlogobg == "themed") </%cpp>><$ tr("themed") $></option>
 						</select></td>
 					</tr>
 					<tr>
