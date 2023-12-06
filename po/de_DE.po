@@ -1009,6 +1009,15 @@ msgstr "Startseite"
 msgid "Theme"
 msgstr "Thema"
 
+msgid "Channel logo background"
+msgstr "Kanallogo-Hintergrund"
+
+msgid "white"
+msgstr "weiß"
+
+msgid "themed"
+msgstr "themed"
+
 #, c-format
 msgid "%a, %x"
 msgstr "%a, %x"
