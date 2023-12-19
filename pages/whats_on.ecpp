@@ -231,7 +231,7 @@ if (type == "now") {
 				struct stat chanfilebuf;
         bool logo_available = stat (chanlogopath.c_str(), &chanfilebuf) == 0;
         if (!logo_available) {
-          chanlogofile = stringToLower(chanlogofile, g_locale);
+          chanlogofile = std::string(cToSvToLower(chanlogofile, g_locale));
           chanlogopath = LiveSetup().GetChanLogoDir() + chanlogofile;
           logo_available = stat (chanlogopath.c_str(), &chanfilebuf) == 0;
         }

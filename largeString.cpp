@@ -67,42 +67,6 @@ bool cLargeString::finishBorrow() {
   return true;
 }
 
-cLargeString &cLargeString::append(char c) {
-  appendLen(1);
-  *(m_string_end++) = c;
-  return *this;
-}
-
-cLargeString &cLargeString::append(int i) {
-  if (i < 0) {
-    appendLen(2);
-    *(m_string_end++) = '-';
-    i *= -1;
-  }
-  if (i < 10) return append((char)('0' + i));
-  char buf[21]; // unsigned int 64: max. 20. (18446744073709551615) signed int64: max. 19 (+ sign)
-  char *bufferEnd = buf+20;
-  *bufferEnd = 0;
-  for (; i; i /= 10) *(--bufferEnd) = '0' + (i%10);
-  return appendS(bufferEnd);
-}
-
-cLargeString &cLargeString::append(const char *s, size_t len) {
-  if (!s || len == 0) return *this;
-  appendLen(len);
-  memcpy(m_string_end, s, len);
-  m_string_end += len;
-  return *this;
-}
-
-cLargeString &cLargeString::appendS(const char *s) {
-  if (!s || !*s) return *this;
-  size_t len = strlen(s);
-  appendLen(len);
-  memcpy(m_string_end, s, len);
-  m_string_end += len;
-  return *this;
-}
 void cLargeString::enlarge(size_t increaseSize) {
   increaseSize = std::max(increaseSize, m_increaseSize);
   increaseSize = std::max(increaseSize, (size_t)((m_buffer_end - m_s)/2) );
@@ -121,11 +85,4 @@ void cLargeString::enlarge(size_t increaseSize) {
   }
   m_buffer_end = m_s + newSize;
   m_string_end = m_s + stringLength;
-}
-
-std::string cLargeString::substr(size_t pos, size_t count) const {
-  if (pos >= length() ) return "";
-  std::string result(m_s + pos, std::min(length() - pos, count) );
-  for (char &si: result) if (si == 0) si = '%';
-  return result;
 }

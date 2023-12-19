@@ -875,7 +875,9 @@ void AppendScraperData(cLargeString &target, cSv s_IMDB_ID, const cTvMedia &s_im
   void RecordingsItemRec::AppendAsJSArray(cLargeString &target) const {
     target.append("\"");
 // [0] : ID
-    target.append(cToSvXxHash128(IdHash()));
+//     target.append(cToSvXxHash128(IdHash()));
+    target.appendHex<16>(IdHash().high64);
+    target.appendHex<16>(IdHash().low64);
     target.append("\",\"");
 // [1] : ArchiveDescr()
     if (IsArchived()) AppendHtmlEscapedAndCorrectNonUTF8(target, ArchiveDescr().c_str() );

@@ -27,6 +27,19 @@ class cLargeString {
     }
     void setMaxSize() { m_maxSize = std::max(m_maxSize, (size_t)(m_string_end - m_s)); }
     void init(size_t initialSize, size_t increaseSize, bool debugBufferSize);
+    cLargeString &append_int(const char *s, size_t len) {
+// internal method, no checks (s!=0)
+      appendLen(len);
+      memcpy(m_string_end, s, len);
+      m_string_end += len;
+      return *this;
+    }
+    template<std::size_t N, typename T> cLargeString &appendHex_int(T u) {
+      appendLen(N);
+      stringhelpers_internal::addCharsHex(m_string_end, N, u);
+      m_string_end += N;
+      return *this;
+    }
   public:
     cLargeString(const cLargeString& o) = delete;
     cLargeString &operator= (const cLargeString &) = delete;
@@ -40,10 +53,19 @@ class cLargeString {
     }
     ~cLargeString();
     char *data() { *m_string_end = 0; return m_s; }
+    size_t length() const { return m_string_end - m_s; }
     const char *c_str() const { *m_string_end = 0; return m_s; }
+    char operator[](size_t i) const { return *(m_s + i); }
+    operator cSv() const { return cSv(m_s, m_string_end - m_s); }
+    bool empty() const { return m_string_end == m_s; }
+
+    cLargeString &append(char c) {
+      appendLen(1);
+      *(m_string_end++) = c;
+      return *this;
+    }
     cLargeString &append(const char (&s)[1]) {
 // note: every other specific implementation is too slow. memcpy is too fast :)
-//      std::cout << "append template xx1xx !!!!\n";
       return *this;
     }
     template<std::size_t N> cLargeString &append(const char (&s)[N]) {
@@ -53,12 +75,24 @@ class cLargeString {
       m_string_end += N-1;
       return *this;
     }
-    cLargeString &append(char c);
-    cLargeString &append(const char *s, size_t len);
-    cLargeString &append(const std::string &s) { return append(s.c_str(), s.length()); }
-    cLargeString &append(std::string_view s) { return append(s.data(), s.length()); }
-    cLargeString &append(int i);
-    cLargeString &appendS(const char *s);
+    cLargeString &append(const char *s, size_t len) {
+      if (!s) return *this;
+      return append_int(s, len);
+    }
+    cLargeString &appendS(const char *s) {
+      if (!s || !*s) return *this;
+      return append_int(s, strlen(s));
+    }
+    template<typename T, std::enable_if_t<std::is_same<T, const char*>::value, bool> = true>
+      cLargeString &append(T s) { return appendS(s); }
+    template<typename T, std::enable_if_t<std::is_same<T, char*>::value, bool> = true>
+      cLargeString &append(T s) { return appendS(s); }
+    cLargeString &append(const std::string &s) { return append_int(s.c_str(), s.length()); }
+    cLargeString &append(cSv s) { return append_int(s.data(), s.length()); }
+    cLargeString &append(int i) { return append(cToSvInt(i)); }
+    template<std::size_t N> cLargeString &appendHex(unsigned u) { return appendHex_int<N>(u); }
+    template<std::size_t N> cLargeString &appendHex(unsigned long u) { return appendHex_int<N>(u); }
+    template<std::size_t N> cLargeString &appendHex(unsigned long long u) { return appendHex_int<N>(u); }
     template<typename... Args> cLargeString &appendFormated(const char *format, Args&&... args) {
       size_t avail = m_buffer_end - m_string_end;
       size_t numNeeded = snprintf(m_string_end, avail, format, std::forward<Args>(args)...);
@@ -73,14 +107,16 @@ class cLargeString {
     bool finishBorrow(size_t len);  // len: number of actually written characters
     bool finishBorrow();  // number of actually written characters: zero terminated
     void clear();
-    inline size_t length() const { return m_string_end - m_s; }
-    inline bool empty() const { return m_string_end == m_s; }
-    std::string substr(size_t pos, size_t count = std::string::npos) const; // as std::string.substr(), but replace 0 with %
 //    cLargeString &erase(size_t index = 0) { setMaxSize(); m_string_end = std::min(m_string_end, m_s + index); return *this;}
-    char operator[](size_t i) const { return *(m_s + i); }
-    operator cSv() const { return cSv(m_s, m_string_end - m_s); }
     const char *nameData() const { return m_nameData; }
     int nameLen() const { return m_nameLen; }
 };
+
+inline void append_csv(cLargeString &str, cSv s1) { str.append(s1); }
+template<typename... Args>
+inline void append_csv(cLargeString &str, cSv s1, Args&&... args) {
+  str.append(s1);
+  append_csv(str, std::forward<Args>(args)...);
+}
 
 #endif  // __LARGE_STRING_H

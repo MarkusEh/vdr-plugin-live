@@ -53,10 +53,23 @@ inline std::string charPointerToString(const unsigned char *s) {
 
 // 2nd advantage of cSv: substr(pos) if pos > length: no dump, just an empty cSv as result
 
+inline wint_t Utf8ToUtf32(const char *&p, int len);
+class utf8_iterator;
 class cSv: public std::string_view {
+  friend class utf8_iterator;
   public:
     cSv(): std::string_view() {}
-    cSv(const char *s): std::string_view(charPointerToStringView(s)) {}
+    template<std::size_t N> cSv(const char (&s)[N]): std::string_view(s, N-1) {
+//      std::cout << "cSv const char (&s)[N] " << s << "\n";
+    }
+    template<typename T, std::enable_if_t<std::is_same<T, const char*>::value, bool> = true>
+    cSv(T s): std::string_view(charPointerToStringView(s)) {
+//      std::cout << "cSv const char *s " << (s?s:"nullptr") << "\n";
+    }
+    template<typename T, std::enable_if_t<std::is_same<T, char*>::value, bool> = true>
+    cSv(T s): std::string_view(charPointerToStringView(s)) {
+//      std::cout << "cSv       char *s " << (s?s:"nullptr") << "\n";
+    }
     cSv(const unsigned char *s): std::string_view(charPointerToStringView(reinterpret_cast<const char *>(s))) {}
     cSv(const char *s, size_t l): std::string_view(s, l) {}
     cSv(const unsigned char *s, size_t l): std::string_view(reinterpret_cast<const char *>(s), l) {}
@@ -68,6 +81,123 @@ class cSv: public std::string_view {
     static std::string_view charPointerToStringView(const char *s) {
       return s?std::string_view(s, strlen(s)):std::string_view();
     }
+// =================================================
+// *********   utf8  *****************
+// =================================================
+    int utf8CodepointIsValid(size_t pos) const {
+// In case of invalid UTF8, return 0
+// In case of invalid input, return -1 (pos  >= sc.length())
+// otherwise, return number of characters for this UTF codepoint
+// note: pos + number of characters <= sc.length(), this is checked (otherwise 0 is returned)
+
+      if (pos >= length() ) return -1;
+      static const uint8_t LEN[] = {2,2,2,2,3,3,4,0};
+
+      int len = (((*this)[pos] & 0xC0) == 0xC0) * LEN[((*this)[pos] >> 3) & 7] + (((*this)[pos] | 0x7F) == 0x7F);
+      if (len == 1) return 1;
+      if (len + pos > length()) return 0;
+      for (size_t k= pos + 1; k < pos + len; k++) if (((*this)[k] & 0xC0) != 0x80) len = 0;
+      return len;
+    }
+    size_t utf8ParseBackwards(size_t pos) const {
+// pos <= s.length()! this is not checked
+// return position of character before pos
+// see also https://stackoverflow.com/questions/22257486/iterate-backwards-through-a-utf8-multibyte-string
+      for (size_t i = pos; i > 0; ) {
+        --i;
+        if (((*this)[i] & 0xC0) != 0x80) return i;
+// (s[i] & 0xC0) == 0x80 is true if bit 6 is clear and bit 7 is set
+      }
+      return 0;
+    }
+  public:
+    utf8_iterator utf8_begin() const;
+    utf8_iterator utf8_end() const;
+};
+
+// iterator for utf8
+class utf8_iterator {
+    const cSv m_sv;
+    size_t m_pos;
+    mutable int m_len = -2;
+    int get_len() const {
+      if (m_len == -2) m_len = m_sv.utf8CodepointIsValid(m_pos);
+      return m_len;
+    }
+  public:
+    using iterator_category = std::bidirectional_iterator_tag;
+    using value_type = wint_t;
+    using difference_type = int;
+    using pointer = const wint_t*;
+    using reference = const wint_t&;
+
+    explicit utf8_iterator(cSv sv, size_t pos): m_sv(sv) {
+// note: if pos is not begin/end, pos will be moved back to a valid utf8 start point
+//       i.e. to an ascii (bit 7 not set) or and utf8 start byte (bit 6&7 set)
+      if (pos == 0) { m_pos = 0; return; }
+      if (pos >= sv.length() ) { m_pos = sv.length(); return; }
+// to avoid a position in the middle of utf8:
+      m_pos = sv.utf8ParseBackwards(pos+1);
+    }
+    utf8_iterator& operator++() {
+      if (m_pos >= m_sv.length() ) return *this;
+      int l = get_len();
+      if (l > 0) m_pos += l; else ++m_pos;
+      m_len = -2;
+      return *this;
+    }
+    utf8_iterator& operator--() {
+      if (m_pos == 0) return *this;
+      size_t new_pos = m_sv.utf8ParseBackwards(m_pos);
+      int new_len = m_sv.utf8CodepointIsValid(new_pos);
+      if (new_pos + new_len == m_pos || m_pos - new_pos == 1) {
+        m_pos = new_pos;
+        m_len = new_len;
+      } else {
+// some invalid UTF8.
+        --m_pos;
+        m_len = -2;
+      }
+      return *this;
+    }
+    bool operator!=(utf8_iterator other) const { return m_pos != other.m_pos; }
+    bool operator==(utf8_iterator other) const { return m_pos == other.m_pos; }
+    wint_t codepoint() const {
+      if (m_pos >= m_sv.length() ) return 0;
+      int l = get_len();
+      if (l <= 0) return '?'; // invalid utf8
+      const char *p = m_sv.data() + m_pos;
+      return Utf8ToUtf32(p, l);
+    }
+    size_t pos() const {
+// note: if this == end(), sv[m_pos] is invalid!!!
+      return m_pos;
+    }
+    const wint_t operator*() const {
+      return codepoint();
+    }
+};
+inline utf8_iterator cSv::utf8_begin() const { return utf8_iterator(*this, 0); }
+inline utf8_iterator cSv::utf8_end() const { return utf8_iterator(*this, length() ); }
+
+
+// =========================================================
+// cStr: similar to cSv, but support c_str()
+// =========================================================
+
+class cStr {
+  public:
+    cStr() {}
+    cStr(const char *s) { if (s) m_s = s; }
+    cStr(const unsigned char *s) { if (s) m_s = reinterpret_cast<const char *>(s); }
+    cStr(const std::string &s): m_s(s.c_str()) {}
+    operator const char*() const { return m_s; }
+    const char *c_str() const { return m_s; }
+    const char *data() const { return m_s; }
+    size_t length() const { return strlen(m_s); }
+    operator cSv() const { return cSv(m_s, strlen(m_s)); }
+  private:
+    const char *m_s = "";
 };
 
 // =========================================================
@@ -76,7 +206,7 @@ class cSv: public std::string_view {
 // =========================================================
 // =========================================================
 
-inline int AppendUtfCodepoint(char *&target, wint_t codepoint){
+inline int AppendUtfCodepoint(char *&target, wint_t codepoint) {
   if (codepoint <= 0x7F) {
     if (target) {
       *(target++) = (char) (codepoint);
@@ -111,7 +241,7 @@ inline int AppendUtfCodepoint(char *&target, wint_t codepoint){
   return 4;
 }
 
-inline void stringAppendUtfCodepoint(std::string &target, wint_t codepoint){
+inline void stringAppendUtfCodepoint(std::string &target, wint_t codepoint) {
   if (codepoint <= 0x7F){
      target.push_back( (char) (codepoint) );
      return;
@@ -134,7 +264,7 @@ inline void stringAppendUtfCodepoint(std::string &target, wint_t codepoint){
      return;
 }
 
-inline int utf8CodepointIsValid(const char *p){
+inline int utf8CodepointIsValid(const char *p) {
 // In case of invalid UTF8, return 0
 // otherwise, return number of characters for this UTF codepoint
   static const uint8_t LEN[] = {2,2,2,2,3,3,4,0};
@@ -143,7 +273,6 @@ inline int utf8CodepointIsValid(const char *p){
   for (int k=1; k < len; k++) if ((p[k] & 0xC0) != 0x80) len = 0;
   return len;
 }
-
 inline wint_t Utf8ToUtf32(const char *&p, int len) {
 // assumes, that uft8 validity checks have already been done. len must be provided. call utf8CodepointIsValid first
 // change p to position of next codepoint (p = p + len)
@@ -171,27 +300,6 @@ inline wint_t getNextUtfCodepoint(const char *&p){
   int l = utf8CodepointIsValid(p);
   if( l == 0 ) { p++; return '?'; }
   return Utf8ToUtf32(p, l);
-}
-inline void stringAppendToLower(std::string &target, cSv str, const std::locale &loc) {
-  const char *pos = str.data();
-  const char *end = str.data() + str.length();
-  while (pos < end) {
-    wint_t u_char = getNextUtfCodepoint(pos);
-    try {
-      if (u_char) stringAppendUtfCodepoint(target, std::tolower<wchar_t>(u_char, loc));
-// The standard library is guaranteed to provide the following specializations (they are required to be implemented by any locale object):
-//   std::ctype<char> and std::ctype<wchar_t> . So don't call  std::tolower<wint_t>, this is not implemented !!!!
-    } catch (const std::bad_cast& e) {
-      esyslog("ERROR in stringToLower(%.*s,%s), error message: %s", (int) str.length(), str.data(), loc.name().c_str(), e.what() );
-      return;
-    }
-  }
-}
-inline std::string stringToLower(cSv str, const std::locale &loc) {
-  std::string result;
-  result.reserve(str.length() + 1);
-  stringAppendToLower(result, str, loc);
-  return result;
 }
 
 // =========================================================
@@ -292,38 +400,6 @@ template<class T> inline T parse_hex(cSv sv, size_t *num_digits = 0) {
   return value;
 }
 // =========================================================
-// parse string_view for xml
-// =========================================================
-
-template<std::size_t N> cSv partInXmlTag(cSv sv, const char (&tag)[N], bool *exists = nullptr) {
-// very simple XML parser
-// if sv contains <tag>...</tag>, ... is returned (part between the outermost XML tags is returned).
-// otherwise, cSv() is returned. This is also returned if the tags are there, but there is nothing between the tags ...
-// there is no error checking, like <tag> is more often in sv than </tag>, ...
-  if (exists) *exists = false;
-// N == strlen(tag) + 1. It includes the 0 terminator ...
-// strlen(startTag) = N+1; strlen(endTag) = N+2. Sums to 2N+3
-  if (N < 1 || sv.length() < 2*N+3) return cSv();
-// create <tag>
-  char tagD[N + 2];
-  memcpy(tagD + 2, tag, N - 1);
-  tagD[N + 1] = '>';
-// find <tag>
-  tagD[1] = '<';
-  size_t pos_start = sv.find(tagD + 1, 0, N + 1);
-  if (pos_start == std::string_view::npos) return cSv();
-  pos_start += N + 1; // start of ... between tags
-// rfind </tag>
-  tagD[0] = '<';
-  tagD[1] = '/';
-//  std::cout << "tagD[0] " << cSv(tagD, N + 2) << "\n";
-  size_t len = sv.substr(pos_start).rfind(tagD, std::string_view::npos, N + 2);
-  if (len == std::string_view::npos) return cSv();
-  if (exists) *exists = true;
-  return sv.substr(pos_start, len);
-}
-
-// =========================================================
 // split sting at delimiter in two parts
 // =========================================================
 
@@ -375,6 +451,12 @@ inline cSv SecondPart(cSv str, cSv delim) {
 // =========================================================
 
 namespace stringhelpers_internal {
+  template<class T> inline int numCharsUg0(T i) {
+// note: i must be > 0!!!!
+      int numChars;
+      for (numChars = 0; i; i /= 10) numChars++;
+      return numChars;
+  }
   template<class T> inline char *addCharsUg0be(char *be, T i) {
 // i > 0 must be ensured before calling!
 // make sure to have a large enough buffer size (20 + zero terminator if required)
@@ -444,6 +526,7 @@ class cToSv {
     cToSv &operator= (const cToSv &) = delete;
     virtual ~cToSv() {}
     virtual operator cSv() const = 0;
+    operator std::string_view() const { return (cSv)*this; }
 };
 inline std::ostream& operator<<(std::ostream& os, cToSv const& sv )
 {
@@ -484,42 +567,59 @@ class cToSvHex: public cToSv {
     char m_buffer[N];
 };
 
+// read files
+class cOpen {
+  public:
+    cOpen(const char *pathname, int flags) {
+      if (!pathname) return;
+      m_fd = open(pathname, flags);
+      checkError(pathname, errno);
+    }
+    cOpen(const char *pathname, int flags, mode_t mode) {
+      if (!pathname) return;
+      m_fd = open(pathname, flags, mode);
+      checkError(pathname, errno);
+    }
+    operator int() const { return m_fd; }
+    bool exists() const { return m_fd != -1; }
+    ~cOpen() {
+      if (m_fd != -1) close(m_fd);
+    }
+  private:
+    void checkError(const char *pathname, int errno_l) {
+      if (m_fd == -1) {
+// no message for errno == ENOENT, the file just does not exist
+        if (errno_l != ENOENT) esyslog("cOpen::checkError, ERROR: open fails, errno %d, filename %s\n", errno_l, pathname);
+      }
+    }
+    int m_fd = -1;
+};
 class cToSvFile: public cToSv {
   public:
-    cToSvFile(const char *filename, size_t max_length = 0) { load(filename, max_length); }
-    cToSvFile(const std::string &filename, size_t max_length = 0) { load(filename.c_str(), max_length ); }
-    cToSvFile(const cToSvFile&) = delete;
-    cToSvFile &operator= (const cToSvFile &) = delete;
+    cToSvFile(cStr filename, size_t max_length = 0) { load(filename, max_length ); }
     operator cSv() const { return m_result; }
-    char *data() { return m_s; } // Retunrs zero if file is empty! Is zero terminated
-    const char *c_str() { return m_s?m_s:""; } // Is zero terminated
+    char *data() { return m_s?m_s:m_empty; } // Is zero terminated
+    const char *c_str() const { return m_s?m_s:m_empty; } // Is zero terminated
+    operator cStr() const { return m_s; }
     bool exists() const { return m_exists; }
     ~cToSvFile() { std::free(m_s); }
   private:
     void load(const char *filename, size_t max_length) {
-      if (!filename) return;
-      int fd = open(filename, O_RDONLY);
-      if (fd == -1) {
-// no message for errno == ENOENT, the file just does not exist
-        if (errno != ENOENT) esyslog("cToSvFile::load, ERROR: open fails, errno %d, filename %s\n", errno, filename);
-        return;
-      }
+      cOpen fd(filename, O_RDONLY);
+      if (!fd.exists()) return;
       struct stat buffer;
       if (fstat(fd, &buffer) != 0) {
         if (errno != ENOENT) esyslog("cToSvFile::load, ERROR: in fstat, errno %d, filename %s\n", errno, filename);
-        close(fd);
         return;
       }
-
 // file exists, length buffer.st_size
       m_exists = true;
-      if (buffer.st_size == 0) { close(fd); return; } // empty file
+      if (buffer.st_size == 0) return; // empty file
       size_t length = buffer.st_size;
       if (max_length != 0 && length > max_length) length = max_length;
       m_s = (char *) malloc((length + 1) * sizeof(char));  // add one. So we can add the 0 string terminator
       if (!m_s) {
         esyslog("cToSvFile::load, ERROR out of memory, filename = %s, requested size = %zu\n", filename, length + 1);
-        close(fd);
         return;
       }
       size_t num_read = 0;
@@ -527,13 +627,11 @@ class cToSvFile: public cToSv {
       for (; num_read1 > 0 && num_read < length; num_read += num_read1) {
         num_read1 = read(fd, m_s + num_read, length - num_read);
         if (num_read1 == -1) {
-          esyslog("cToSvFile::load, ERROR: read fails, errno %d, filename %s\n", errno, filename);
-          close(fd);
+          esyslog("cToSvFile::load, ERROR: read failed, errno %d, filename %s\n", errno, filename);
           m_s[0] = 0;
           return;
         }
       }
-      close(fd);
       m_result = cSv(m_s, num_read);
       m_s[num_read] = 0;  // so data returns a 0 terminated string
       if (num_read != length) {
@@ -543,43 +641,191 @@ class cToSvFile: public cToSv {
     bool m_exists = false;
     char *m_s = nullptr;
     cSv m_result;
+    char m_empty[1] = "";
+};
+template<std::size_t N> class cToSvFileN: public cToSv {
+// read up to N bytes from file
+  public:
+    cToSvFileN(cStr filename) { load(filename); }
+    operator cSv() const { return m_result; }
+    char *data() { return m_s; } // Is zero terminated
+    const char *c_str() { return m_s; } // Is zero terminated
+    operator cStr() const { return m_s; }
+    bool exists() const { return m_exists; }
+  private:
+    void load(const char *filename) {
+      cOpen fd(filename, O_RDONLY);
+      if (!fd.exists()) return;
+      m_exists = true;
+      ssize_t num_read = read(fd, m_s, N);
+      if (num_read == -1) {
+        esyslog("cToSvFile::load, ERROR: read fails, errno %d, filename %s\n", errno, filename);
+        num_read = 0;
+      }
+      m_result = cSv(m_s, num_read);
+      m_s[num_read] = 0;  // so data returns a 0 terminated string
+    }
+    bool m_exists = false;
+    char m_s[N+1] = "";
+    cSv m_result;
 };
 
-class cToSvFormated: public cToSv {
+// N: number of bytes in buffer on stack
+template<std::size_t N = 255>
+class cToSvConcat: public cToSv {
+  public:
+    cToSvConcat() {}
+    template<typename... Args> cToSvConcat(Args&&... args) {
+      append(std::forward<Args>(args)...);
+    }
+    template<typename T, typename U, typename... Args>
+    cToSvConcat &append(T &&n, U &&u, Args&&... args) {
+      append(n);
+      return append(std::forward<U>(u), std::forward<Args>(args)...);
+    }
+// ========================
+// overloads for append
+    cToSvConcat &append(char ch) {
+      if (m_pos_for_append == m_be_data) ensure_free(1);
+      *(m_pos_for_append++) = ch;
+      return *this;
+    }
+    cToSvConcat &append(cSv sv) {
+      if (m_pos_for_append + sv.length() > m_be_data) ensure_free(sv.length() );
+      memcpy(m_pos_for_append, sv.data(), sv.length());
+      m_pos_for_append += sv.length();
+      return *this;
+    }
+template<typename T, std::enable_if_t<std::is_integral<T>::value, bool> = true>
+    cToSvConcat &append(T i) {
+// you can also write: return append(cToSvInt(i)); no real performance difference :(
+      if (i == 0) return append('0');
+      int num_chars;
+      if (i > 0) {
+        num_chars = stringhelpers_internal::numCharsUg0(i);
+        if (m_pos_for_append + num_chars > m_be_data) ensure_free(num_chars);
+      } else {
+        i = -i;
+        num_chars = stringhelpers_internal::numCharsUg0(i) + 1;
+        if (m_pos_for_append + num_chars > m_be_data) ensure_free(num_chars);
+        *m_pos_for_append = '-';
+      }
+      m_pos_for_append += num_chars;
+      stringhelpers_internal::addCharsUg0be(m_pos_for_append, i);
+      return *this;
+    }
+template<typename T> cToSvConcat &operator<<(T sv) { return append(sv); }
+
+// =======================
+// append utf8
+    cToSvConcat &append_utf8(wint_t codepoint) {
+      if (m_pos_for_append + 4 > m_be_data) ensure_free(4);
+      AppendUtfCodepoint(m_pos_for_append, codepoint);
+      return *this;
+    }
+    void appendToLower(cSv sv, const std::locale &loc) {
+      for (auto it = sv.utf8_begin(); it != sv.utf8_end(); ++it) {
+        append_utf8(std::tolower<wchar_t>(*it, loc));
+      }
+    }
+// =======================
+// append formated
+// __attribute__ ((format (printf, 2, 3))) can not be used, but should work starting with gcc 13.1
+    template<typename... Args> cToSvConcat &appendFormated(const char *fmt, Args&&... args) {
+      int needed = snprintf (m_pos_for_append, m_be_data - m_pos_for_append, fmt, std::forward<Args>(args)...);
+      if (needed < 0) {
+        esyslog("live: ERROR, cToScCOncat::appendFormated needed = %d, fmt = %s", needed, fmt);
+        return *this; // error in snprintf
+      }
+      if (needed < m_be_data - m_pos_for_append) {
+        m_pos_for_append += needed;
+        return *this;
+      }
+      ensure_free(needed + 1);
+      needed = sprintf (m_pos_for_append, fmt, std::forward<Args>(args)...);
+      if (needed < 0) {
+        esyslog("live: ERROR,  cToScCOncat::appendFormated needed (2) = %d, fmt = %s", needed, fmt);
+        return *this; // error in sprintf
+      }
+      m_pos_for_append += needed;
+      return *this;
+    }
+// =======================
+// append tChannelID
+    cToSvConcat &append(const tChannelID &channelID) {
+      int st_Mask = 0xFF000000;
+      append((char) ((channelID.Source() & st_Mask) >> 24));
+      if (int n = cSource::Position(channelID.Source())) {
+         appendFormated("%u.%u", abs(n) / 10, abs(n) % 10); // can't simply use "%g" here since the silly 'locale' messes up the decimal point
+         append( (n < 0) ? 'W' : 'E');
+      }
+      appendFormated(channelID.Rid() ? "-%d-%d-%d-%d" : "-%d-%d-%d",
+          channelID.Nid(), channelID.Tid(), channelID.Sid(), channelID.Rid() );
+      return *this;
+    }
+// ========================
+// get data
+    operator cSv() const { return cSv(m_buffer, m_pos_for_append-m_buffer); }
+    char *data() { *m_pos_for_append = 0; return m_buffer; }
+    const char *c_str() const { *m_pos_for_append = 0; return m_buffer; }
+    operator cStr() const { return this->c_str(); }
+// ========================
+// others
+    cToSvConcat &erase(size_t index = 0) {
+      m_pos_for_append = std::min(m_pos_for_append, m_buffer + index);
+      return *this;
+    }
+    void reserve(size_t r) const { m_reserve = r; }
+    ~cToSvConcat() {
+      if (m_buffer_allocated) free (m_buffer_allocated);
+    }
+  private:
+    void ensure_free(size_t l) {
+// make sure that l bytes can we written at m_pos_for_append
+      if (m_pos_for_append + l <= m_be_data) return;
+      size_t current_length = m_pos_for_append - m_buffer;
+      size_t new_buffer_size = std::max(2*current_length + l + 200, m_reserve);
+      if (!m_buffer_allocated) {
+        m_buffer_allocated = (char *) std::malloc(new_buffer_size);
+        if (!m_buffer_allocated) throw std::bad_alloc();
+        memcpy(m_buffer_allocated, m_buffer_static, current_length);
+      } else {
+        m_buffer_allocated = (char *) std::realloc(m_buffer_allocated, new_buffer_size);
+        if (!m_buffer_allocated) throw std::bad_alloc();
+      }
+      m_be_data = m_buffer_allocated + new_buffer_size - 1;
+      m_buffer = m_buffer_allocated;
+      m_pos_for_append = m_buffer + current_length;
+    }
+    char  m_buffer_static[N+1];
+    char *m_buffer_allocated = nullptr;
+    char *m_buffer = m_buffer_static;
+    char *m_pos_for_append = m_buffer;
+    char *m_be_data = m_buffer + sizeof(m_buffer_static) - 1; // [m_buffer, m_be_data) is available for data.
+// It must be possible to write the 0 terminator to m_be_data: *m_be_data = 0.
+// m_pos_for_append <= m_be_data: must be always ensured.
+//   m_be_data - m_pos_for_append: Number of bytes available for write
+    mutable size_t m_reserve = 1024;
+};
+
+template<std::size_t N = 255> 
+class cToSvToLower: public cToSvConcat<N> {
+  public:
+    cToSvToLower(cSv sv, const std::locale &loc) {
+      this->reserve(sv.length() + 5);
+      this->appendToLower(sv, loc);
+    }
+};
+
+template<std::size_t N = 255> 
+class cToSvFormated: public cToSvConcat<N> {
   public:
 // __attribute__ ((format (printf, 2, 3))) can not be used, but should work starting with gcc 13.1
     template<typename... Args> cToSvFormated(const char *fmt, Args&&... args) {
-      int needed = snprintf (m_buffer, sizeof(m_buffer), fmt, std::forward<Args>(args)...);
-      if (needed < 0) {
-        esyslog("live: ERROR, cToSvFormated::cToSvFormated, needed = %d, fmt = %s", needed, fmt);
-        return; // error in snprintf
-      }
-      if ((size_t)needed < sizeof(m_buffer)) {
-        m_result = cSv(m_buffer, needed);
-        return;
-      }
-      m_huge_buffer = (char *)std::malloc(needed + 1);
-      if (m_huge_buffer == nullptr) {
-        esyslog("live: ERROR, out of memory in cToSvFormated::cToSvFormated, needed = %d, fmt = %s", needed, fmt);
-        return;
-      }
-      needed = sprintf (m_huge_buffer, fmt, args...);
-      if (needed < 0) {
-        esyslog("live: ERROR, cToSvFormated::cToSvFormated, needed (2) = %d, fmt = %s", needed, fmt);
-        return; // error in sprintf
-      }
-      m_result = cSv(m_huge_buffer, needed);
+      this->appendFormated(fmt, std::forward<Args>(args)...);
     }
-    ~cToSvFormated() {
-      std::free(m_huge_buffer);
-    }
-    operator cSv() const { return m_result; }
-    const char *c_str() const { return m_result.data(); }
-  private:
-    char m_buffer[256];
-    char *m_huge_buffer = nullptr;
-    cSv m_result;
 };
+
 /*
  * channel helper functions (for vdr tChannelID)
  *
@@ -594,90 +840,12 @@ class cToSvFormated: public cToSv {
 //   cString ToString(void) const;
 // =========================================================
 
-class cToSvChannelSource: public cToSv {
+class cToSvChannel: public cToSvConcat<255> {
   public:
-    cToSvChannelSource(int Code) {
-      int st_Mask = 0xFF000000;
-      char *q = m_buffer;
-      *q++ = (Code & st_Mask) >> 24;
-      if (int n = cSource::Position(Code)) {
-         q += snprintf(q, 14, "%u.%u", abs(n) / 10, abs(n) % 10); // can't simply use "%g" here since the silly 'locale' messes up the decimal point
-         *q++ = (n < 0) ? 'W' : 'E';
-         }
-      *q = 0;
+    cToSvChannel(const tChannelID &channelID) {
+      append(channelID);
     }
-    operator cSv() const { return cSv(m_buffer); }
-    const char *c_str() const { return m_buffer; }
-  private:
-    char m_buffer[16]; // 1 + "%u.%u", sec. %u: 1 digit + 1 zero terminator
 };
-class cToSvChannel: public cToSvFormated {
-  public:
-    cToSvChannel(const tChannelID &channelID):
-      cToSvFormated(channelID.Rid() ? "%s-%d-%d-%d-%d" : "%s-%d-%d-%d",
-          cToSvChannelSource(channelID.Source()).c_str(),
-          channelID.Nid(), channelID.Tid(), channelID.Sid(), channelID.Rid() )
-      {}
-};
-
-class cToSvConcat: public cToSv {
-  public:
-    cToSvConcat() {}
-    template<typename... Args> cToSvConcat(Args&&... args) {
-      append(std::forward<Args>(args)...);
-    }
-    template<typename T, typename U, typename... Args>
-    cToSvConcat &append(const T &n, const U &u, const Args&... args) {
-      append(n);
-      return append(u, args...);
-    }
-    cToSvConcat &append(char ch) {
-      if (m_use_buffer) {
-        if (m_pos_for_append  < m_be_data) {
-          *(m_pos_for_append++) = ch;
-          return *this;
-        }
-// m_buffer too small, switch to string
-        m_use_buffer = false;
-        m_buffer_string.reserve(2*sizeof(m_buffer) );
-        m_buffer_string.append(m_buffer, m_pos_for_append-m_buffer);
-      }
-      m_buffer_string.append(1, ch);
-      return *this;
-    }
-    cToSvConcat &append(cSv sv) {
-      if (m_use_buffer) {
-        if (m_pos_for_append + sv.length() <= m_be_data) {
-          memcpy(m_pos_for_append, sv.data(), sv.length());
-          m_pos_for_append += sv.length();
-          return *this;
-        }
-// m_buffer too small, switch to string
-        m_use_buffer = false;
-        m_buffer_string.reserve(sizeof(m_buffer) + sv.length());
-        m_buffer_string.append(m_buffer, m_pos_for_append-m_buffer);
-      }
-      m_buffer_string.append(sv);
-      return *this;
-    }
-    cToSvConcat &append(int i) { return append(cToSvInt(i)); }
-    cToSvConcat &append(long i) { return append(cToSvInt(i)); }
-    cToSvConcat &append(long long i) { return append(cToSvInt(i)); }
-    cToSvConcat &append(unsigned i) { return append(cToSvInt(i)); }
-    cToSvConcat &append(unsigned long i) { return append(cToSvInt(i)); }
-    cToSvConcat &append(unsigned long long i) { return append(cToSvInt(i)); }
-    cToSvConcat &append(const tChannelID &channelID) { return append(cToSvChannel(channelID)); }
-    template<typename T> cToSvConcat &operator<<(T sv) { return append(sv); }
-    operator cSv() const { return m_use_buffer?cSv(m_buffer, m_pos_for_append-m_buffer):m_buffer_string; }
-    const char *c_str() const { if (m_use_buffer) { *m_pos_for_append = 0; return m_buffer; } else return m_buffer_string.c_str(); }
-  private:
-    char m_buffer[256];
-    char *m_pos_for_append = m_buffer;
-    char *m_be_data = m_buffer + sizeof(m_buffer) - 1; // [m_buffer, m_be_data) is available for data.
-    bool m_use_buffer = true;
-    std::string m_buffer_string;
-};
-
 
 // =========================================================
 // =========================================================
@@ -742,8 +910,24 @@ void stringAppendFormated(std::string &str, const char *fmt, Args&&... args) {
   }
 }
 /*
-  short, and works fine with str.data()
-  but, too slow :) . Usage of buf is twice as fast ...
+ * slower than stringAppendFormated
+ * also, we wast memory as needed_guess is too large
+template<typename... Args>
+void stringAppendFormated_2(std::string &str, const char *fmt, Args&&... args) {
+  size_t needed_guess =  80;
+  size_t old_len = str.length();
+  str.append(needed_guess, 0);
+  int needed = snprintf (str.data() + old_len, needed_guess+1, fmt, std::forward<Args>(args)...);
+  if (needed < 0) {
+    esyslog("live: ERROR, stringAppendFormated, needed = %d, fmt = %s", needed, fmt);
+    return; // error in snprintf
+  }
+  if ( (size_t)needed <= needed_guess) { str.erase(old_len + needed); return; }
+  str.append(needed - needed_guess, '|');
+  sprintf (str.data() + old_len, fmt, std::forward<Args>(args)...);
+}
+ * short, and works fine with str.data()
+ * but, too slow :) . Usage of buf is twice as fast ...
 template<typename... Args>
 void stringAppendFormated_slow(std::string &str, const char *fmt, Args&&... args) {
   int needed = snprintf (nullptr, 0, fmt, std::forward<Args>(args)...);
@@ -786,154 +970,84 @@ inline void stringAppend(std::string &str, long long int i) { str.append(cToSvIn
 inline void stringAppend(std::string &str, const char *s) { if(s) str.append(s); }
 inline void stringAppend(std::string &str, const std::string &s) { str.append(s); }
 inline void stringAppend(std::string &str, std::string_view s) { str.append(s); }
-inline void stringAppend(std::string &str, cSv s) { str.append(s); }
 
 inline void stringAppend(std::string &str, const tChannelID &channelID) {
   str.append(cToSvChannel(channelID));
 }
 template<typename T, typename U, typename... Args>
-void stringAppend(std::string &str, const T &n, const U &u, const Args&... args) {
+void stringAppend(std::string &str, const T &n, const U &u, Args&&... args) {
   stringAppend(str, n);
-  stringAppend(str, u, args...);
+  stringAppend(str, u, std::forward<Args>(args)...);
 }
 
 // =========================================================
 // =========== concatenate =================================
 // =========================================================
-
 // deprecated. Use cToSvConcat
-inline std::string concatenate() { return std::string(); }
-template<typename T> inline std::string concatenate(const T &t) {
-  std::string result;
-  stringAppend(result, t);
-  return result;
-}
+
 template<typename... Args>
-inline std::string concatenate(const Args&... args) {
+inline std::string concatenate(Args&&... args) {
   std::string result;
   result.reserve(200);
-//stringAppend(result, std::forward<Args>(args)...);
-  stringAppend(result, args...);
+  stringAppend(result, std::forward<Args>(args)...);
   return result;
 }
 
-// use concat if you need a string with optimized capacity
+// =========================================================
+// =========== concat      =================================
+// =========================================================
+
+// create a string with "exactly" the required capacity (call reserve() for that)
+// note: cToSvConc has a better performance, so use
+//   concat only if such a string is required
 //   e.g. the string is member of your class
 // otherwise, use cToSvConcat
-inline std::string concat(cSv s1, cSv s2) {
+
+inline size_t length_csv(cSv s1) { return s1.length(); }
+template<typename... Args>
+inline size_t length_csv(cSv s1, Args&&... args) {
+  return s1.length() + length_csv(std::forward<Args>(args)...);
+}
+inline void append_csv(std::string &str, cSv s1) { str.append(s1); }
+template<typename... Args>
+inline void append_csv(std::string &str, cSv s1, Args&&... args) {
+  str.append(s1);
+  append_csv(str, std::forward<Args>(args)...);
+}
+template<typename... Args>
+inline std::string concat(Args&&... args) {
   std::string result;
-  result.reserve(s1.length() + s2.length());
-  result.append(s1);
-  result.append(s2);
+// yes, reserve improves performance. Yes, I tested: 0.17 -> 0.31
+// also tested with reserve(200); -> (almost) no performance improvement
+  result.reserve(length_csv(std::forward<Args>(args)...));
+  append_csv(result, std::forward<Args>(args)...);
   return result;
 }
-inline std::string concat(cSv s1, cSv s2, cSv s3) {
-  std::string result;
-  result.reserve(s1.length() + s2.length() + s3.length() );
-  result.append(s1);
-  result.append(s2);
-  result.append(s3);
-  return result;
-}
-inline std::string concat(cSv s1, cSv s2, cSv s3, cSv s4) {
-  std::string result;
-  result.reserve(s1.length() + s2.length() + s3.length() + s4.length() );
-  result.append(s1);
-  result.append(s2);
-  result.append(s3);
-  result.append(s4);
-  return result;
-}
-inline std::string concat(cSv s1, cSv s2, cSv s3, cSv s4, cSv s5) {
-  std::string result;
-  result.reserve(s1.length() + s2.length() + s3.length() + s4.length() + s5.length() );
-  result.append(s1);
-  result.append(s2);
-  result.append(s3);
-  result.append(s4);
-  result.append(s5);
-  return result;
-}
-inline std::string concat(cSv s1, cSv s2, cSv s3, cSv s4, cSv s5, cSv s6) {
-  std::string result;
-  result.reserve(s1.length() + s2.length() + s3.length() + s4.length() + s5.length() + s6.length() );
-  result.append(s1);
-  result.append(s2);
-  result.append(s3);
-  result.append(s4);
-  result.append(s5);
-  result.append(s6);
-  return result;
-}
-inline std::string concat(cSv s1, cSv s2, cSv s3, cSv s4, cSv s5, cSv s6, cSv s7) {
-  std::string result;
-  result.reserve(s1.length() + s2.length() + s3.length() + s4.length() + s5.length() + s6.length() + s7.length());
-  result.append(s1);
-  result.append(s2);
-  result.append(s3);
-  result.append(s4);
-  result.append(s5);
-  result.append(s6);
-  result.append(s7);
-  return result;
-}
-inline std::string concat(cSv s1, cSv s2, cSv s3, cSv s4, cSv s5, cSv s6, cSv s7, cSv s8) {
-  std::string result;
-  result.reserve(s1.length() + s2.length() + s3.length() + s4.length() + s5.length() + s6.length() + s7.length() + s8.length());
-  result.append(s1);
-  result.append(s2);
-  result.append(s3);
-  result.append(s4);
-  result.append(s5);
-  result.append(s6);
-  result.append(s7);
-  result.append(s8);
-  return result;
-}
-inline std::string concat(cSv s1, cSv s2, cSv s3, cSv s4, cSv s5, cSv s6, cSv s7, cSv s8, cSv s9) {
-  std::string result;
-  result.reserve(s1.length() + s2.length() + s3.length() + s4.length() + s5.length() + s6.length() + s7.length() + s8.length() + s9.length());
-  result.append(s1);
-  result.append(s2);
-  result.append(s3);
-  result.append(s4);
-  result.append(s5);
-  result.append(s6);
-  result.append(s7);
-  result.append(s8);
-  result.append(s9);
-  return result;
-}
-inline std::string concat(cSv s1, cSv s2, cSv s3, cSv s4, cSv s5, cSv s6, cSv s7, cSv s8, cSv s9, cSv s10) {
-  std::string result;
-  result.reserve(s1.length() + s2.length() + s3.length() + s4.length() + s5.length() + s6.length() + s7.length() + s8.length() + s9.length() + s10.length());
-  result.append(s1);
-  result.append(s2);
-  result.append(s3);
-  result.append(s4);
-  result.append(s5);
-  result.append(s6);
-  result.append(s7);
-  result.append(s8);
-  result.append(s9);
-  result.append(s10);
-  return result;
-}
-inline std::string concat(cSv s1, cSv s2, cSv s3, cSv s4, cSv s5, cSv s6, cSv s7, cSv s8, cSv s9, cSv s10, cSv s11) {
-  std::string result;
-  result.reserve(s1.length() + s2.length() + s3.length() + s4.length() + s5.length() + s6.length() + s7.length() + s8.length() + s9.length() + s10.length() + s11.length());
-  result.append(s1);
-  result.append(s2);
-  result.append(s3);
-  result.append(s4);
-  result.append(s5);
-  result.append(s6);
-  result.append(s7);
-  result.append(s8);
-  result.append(s9);
-  result.append(s10);
-  result.append(s11);
-  return result;
+
+// =========================================================
+// parse string_view for xml
+// =========================================================
+
+template<std::size_t N> cSv partInXmlTag(cSv sv, const char (&tag)[N], bool *exists = nullptr) {
+// very simple XML parser
+// if sv contains <tag>...</tag>, ... is returned (part between the outermost XML tags is returned).
+// otherwise, cSv() is returned. This is also returned if the tags are there, but there is nothing between the tags ...
+// there is no error checking, like <tag> is more often in sv than </tag>, ...
+  if (exists) *exists = false;
+// N == strlen(tag) + 1. It includes the 0 terminator ...
+// strlen(startTag) = N+1; strlen(endTag) = N+2. Sums to 2N+3
+  if (N < 1 || sv.length() < 2*N+3) return cSv();
+// create <tag>
+  cToSvConcat<N+2> tagD("<<", tag, ">");
+  size_t pos_start = sv.find(cSv(tagD).substr(1));
+  if (pos_start == std::string_view::npos) return cSv();
+// start tag found at pos_start. Now search the end tag
+  pos_start += N + 1; // start of ... between tags
+  *(tagD.data() + 1) = '/';
+  size_t len = sv.substr(pos_start).rfind(tagD);
+  if (len == std::string_view::npos) return cSv();
+  if (exists) *exists = true;
+  return sv.substr(pos_start, len);
 }
 
 // =========================================================
