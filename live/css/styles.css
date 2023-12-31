@@ -317,7 +317,7 @@ img.artwork {
 }
 img.channel_logo {
 	max-height:32px; max-width:120px; vertical-align:middle;
-	background-color: #E9EFFF;
+	background-color: #E9EFFF00;
 }
 /* ##############################
    # Infowin styles for epg infos

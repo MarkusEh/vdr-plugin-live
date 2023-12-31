@@ -89,7 +89,12 @@ class cLargeString {
       cLargeString &append(T s) { return appendS(s); }
     cLargeString &append(const std::string &s) { return append_int(s.c_str(), s.length()); }
     cLargeString &append(cSv s) { return append_int(s.data(), s.length()); }
-    cLargeString &append(int i) { return append(cToSvInt(i)); }
+template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
+    cLargeString &append(T i) {
+      appendLen(20);
+      m_string_end = stringhelpers_internal::itoa(m_string_end, i);
+      return *this;
+    }
     template<std::size_t N> cLargeString &appendHex(unsigned u) { return appendHex_int<N>(u); }
     template<std::size_t N> cLargeString &appendHex(unsigned long u) { return appendHex_int<N>(u); }
     template<std::size_t N> cLargeString &appendHex(unsigned long long u) { return appendHex_int<N>(u); }

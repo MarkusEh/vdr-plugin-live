@@ -62,11 +62,11 @@ class cSv: public std::string_view {
     template<std::size_t N> cSv(const char (&s)[N]): std::string_view(s, N-1) {
 //      std::cout << "cSv const char (&s)[N] " << s << "\n";
     }
-    template<typename T, std::enable_if_t<std::is_same<T, const char*>::value, bool> = true>
+    template<typename T, std::enable_if_t<std::is_same_v<T, const char*>, bool> = true>
     cSv(T s): std::string_view(charPointerToStringView(s)) {
 //      std::cout << "cSv const char *s " << (s?s:"nullptr") << "\n";
     }
-    template<typename T, std::enable_if_t<std::is_same<T, char*>::value, bool> = true>
+    template<typename T, std::enable_if_t<std::is_same_v<T, char*>, bool> = true>
     cSv(T s): std::string_view(charPointerToStringView(s)) {
 //      std::cout << "cSv       char *s " << (s?s:"nullptr") << "\n";
     }
@@ -451,11 +451,119 @@ inline cSv SecondPart(cSv str, cSv delim) {
 // =========================================================
 
 namespace stringhelpers_internal {
-  template<class T> inline int numCharsUg0(T i) {
-// note: i must be > 0!!!!
-      int numChars;
-      for (numChars = 0; i; i /= 10) numChars++;
+
+  static const char cDigitsLut[200] = {
+        '0','0','0','1','0','2','0','3','0','4','0','5','0','6','0','7','0','8','0','9',
+        '1','0','1','1','1','2','1','3','1','4','1','5','1','6','1','7','1','8','1','9',
+        '2','0','2','1','2','2','2','3','2','4','2','5','2','6','2','7','2','8','2','9',
+        '3','0','3','1','3','2','3','3','3','4','3','5','3','6','3','7','3','8','3','9',
+        '4','0','4','1','4','2','4','3','4','4','4','5','4','6','4','7','4','8','4','9',
+        '5','0','5','1','5','2','5','3','5','4','5','5','5','6','5','7','5','8','5','9',
+        '6','0','6','1','6','2','6','3','6','4','6','5','6','6','6','7','6','8','6','9',
+        '7','0','7','1','7','2','7','3','7','4','7','5','7','6','7','7','7','8','7','9',
+        '8','0','8','1','8','2','8','3','8','4','8','5','8','6','8','7','8','8','8','9',
+        '9','0','9','1','9','2','9','3','9','4','9','5','9','6','9','7','9','8','9','9'
+    };
+
+// max uint16_t 65535
+inline void itoa4w0(char *b, uint16_t i) {
+  memcpy(b+2, cDigitsLut + ((i%100) << 1), 2);
+  memcpy(b  , cDigitsLut + ((i/100) << 1), 2);
+}
+inline void itoa8w0(char *b, uint32_t i) {
+  itoa4w0(b+4, i%10000);
+  itoa4w0(b  , i/10000);
+}
+inline char *itoa2(char *b, uint16_t i) {
+  if (i >= 10) {
+    memcpy(b, cDigitsLut + (i << 1), 2);
+    return b+2;
+  } else {
+    *b = i + '0';
+    return b+1;
+  }
+}
+// max uint16_t 65535
+inline char *itoa4(char *b, uint16_t i) {
+  if (i < 100) return itoa2(b, i);
+  b = itoa2(b, i/100);
+  memcpy(b, cDigitsLut + ((i%100) << 1), 2);
+  return b+2;
+}
+// max uint32_t 4294967295  (10 digits)
+inline char *itoa8(char *b, uint32_t i) {
+  if (i < 10000) return itoa4(b, i);
+  b = itoa4(b, i/10000);
+  itoa4w0(b, i%10000);
+  return b+4;
+}
+template<typename T> inline char *itoa16(char *b, T i) {
+  if (i < 100000000) return itoa8(b, static_cast<uint32_t>(i));
+  b = itoa8(b, static_cast<uint32_t>(i/100000000));
+  itoa8w0(b, static_cast<uint32_t>(i%100000000));
+  return b+8;
+}
+
+// max uint32_t 4294967295  (10 digits)
+template<typename T, std::enable_if_t<sizeof(T) <= 4, bool> = true, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
+inline char *itoa(char *b, T i) {
+  if (i < 100000000) return itoa8(b, i);
+  b = itoa2(b, i/100000000);  // 4294967295/100000000 = 42;
+  itoa8w0(b, i%100000000);
+  return b+8;
+}
+// max uint64_t 18446744073709551615  (20 digits)
+template<typename T, std::enable_if_t<sizeof(T) >= 5, bool> = true, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
+char *itoa(char *b, T i) {
+  if (i < 10000000000000000) return itoa16(b, i);
+  b = itoa4(b, i/10000000000000000);   // 18446744073709551615/10000000000000000 = 1844
+  T r = i%10000000000000000;
+  itoa8w0(b + 8, static_cast<uint32_t>(r%100000000));
+  itoa8w0(b    , static_cast<uint32_t>(r/100000000));
+  return b+16;
+}
+template<typename T, std::enable_if_t<std::is_signed_v<T>, bool> = true>
+char *itoa(char *b, T i) {
+  typedef std::conditional_t<sizeof(T) >= 5, uint64_t, uint32_t> TU;
+  TU u = static_cast<TU>(i);
+  if (i < 0) {
+      *b++ = '-';
+      u = ~u + 1;
+  }
+  return itoa(b, u);
+}
+
+template<typename T, std::enable_if_t<sizeof(T) >= 5, bool> = true>
+  inline int numCharsUg0(T i) {
+// note: i must be >= 0!!!!
+      int numChars = 1;
+      if (i >= 10000000000000000) { i /= 10000000000000000; numChars += 16; }
+      if (i >= 100000000) { i /= 100000000; numChars += 8; }
+      if (i >= 10000) { i /= 10000; numChars += 4; }
+      if (i >= 1000) return numChars+3;
+      if (i >= 100 ) return numChars+2;
+      if (i >= 10  ) return numChars+1;
       return numChars;
+  }
+template<typename T, std::enable_if_t<sizeof(T) <= 4, bool> = true>
+  inline int numCharsUg0(T i) {
+// note: i must be >= 0!!!!
+      int numChars = 1;
+      if (i >= 100000000) { i /= 100000000; numChars += 8; }
+      if (i >= 10000) { i /= 10000; numChars += 4; }
+      if (i >= 1000) return numChars+3;
+      if (i >= 100 ) return numChars+2;
+      if (i >= 10  ) return numChars+1;
+      return numChars;
+  }
+template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
+  inline int numChars(T i) {
+    return numCharsUg0(i);
+  }
+template<typename T, std::enable_if_t<std::is_signed_v<T>, bool> = true>
+  inline int numChars(T i) {
+    if (i >= 0) return numCharsUg0(i);
+    return numCharsUg0(-i)+1;
   }
   template<class T> inline char *addCharsUg0be(char *be, T i) {
 // i > 0 must be ensured before calling!
@@ -464,7 +572,18 @@ namespace stringhelpers_internal {
 // no zero terminator is written! You can make buffer large enough and set *be=0 before calling
 // position of first char is returned
 // length is be - returned value
-    for (; i; i /= 10) *(--be) = '0' + (i%10);
+    const char *lt = cDigitsLut;
+    while (i >= 10) {
+      be -= 2;
+      memcpy(be, lt + ((i%100) << 1), 2);
+/* memcpy is about 4% faster
+       int r2 = (i%100) << 1;
+       *(--be) = lt[r2+1];
+       *(--be) = lt[r2];
+*/
+      i /= 100;
+    }
+    if (i>0) *(--be) = '0' + (i%10);
     return be;
   }
   template<class T> inline char *addCharsIbe(char *be, T i) {
@@ -495,7 +614,8 @@ namespace stringhelpers_internal {
     return be;
   }
 
-  template<typename T> inline T addCharsHex_int(char *buffer, size_t num_chars, T value) {
+template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
+  inline T addCharsHex(char *buffer, size_t num_chars, T value) {
 // sizeof(buffer) must be >= num_chars. This is not checked !!!
 // value must be >= 0. This is not checked !!!
 // value is written with num_chars chars
@@ -505,15 +625,6 @@ namespace stringhelpers_internal {
     const char *hex_chars = "0123456789ABCDEF";
     for (char *be = buffer + num_chars -1; be >= buffer; --be, value /= 16) *be = hex_chars[value%16];
   return value;
-  }
-  inline unsigned addCharsHex(char *buffer, size_t num_chars, unsigned value) {
-    return stringhelpers_internal::addCharsHex_int(buffer, num_chars, value);
-  }
-  inline unsigned long addCharsHex(char *buffer, size_t num_chars, unsigned long value) {
-    return stringhelpers_internal::addCharsHex_int(buffer, num_chars, value);
-  }
-  inline unsigned long long addCharsHex(char *buffer, size_t num_chars, unsigned long long value) {
-    return stringhelpers_internal::addCharsHex_int(buffer, num_chars, value);
   }
 }
 
@@ -533,32 +644,11 @@ inline std::ostream& operator<<(std::ostream& os, cToSv const& sv )
   return os << cSv(sv);
 }
 
-class cToSvInt: public cToSv {
-  public:
-// T must be an integer type, like long, unsigned, ...
-    template<class T> cToSvInt(T i):
-      m_result(stringhelpers_internal::addCharsIbe(m_buffer + 20, i)) {}
-    operator cSv() const { return cSv(m_result, m_buffer + 20 - m_result); }
-    cToSvInt &setw(size_t desired_width, char fill_char = '0') {
-      char *new_m_result = m_buffer + 20 - std::min((int)desired_width, 20);
-      if (m_result <= new_m_result) return *this;  // requested width alread there
-      if (*m_result == '-') {
-        *new_m_result = '-';
-        memset(new_m_result + 1, fill_char,  m_result - new_m_result);
-      } else
-        memset(new_m_result, fill_char,  m_result - new_m_result);
-      m_result = new_m_result;
-      return *this;
-    }
-  private:
-    char m_buffer[20]; // unsigned int 64: max. 20. (18446744073709551615) signed int64: max. 19 (+ sign)
-    char *m_result;
-};
 template<std::size_t N>
 class cToSvHex: public cToSv {
   public:
-// T must be an unsigned type, like long long unsigned, ...
-    template<class T> cToSvHex(T value) {
+template<class T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
+    cToSvHex(T value) {
       stringhelpers_internal::addCharsHex(m_buffer, N, value);
     }
     operator cSv() const { return cSv(m_buffer, N); }
@@ -670,52 +760,77 @@ template<std::size_t N> class cToSvFileN: public cToSv {
     cSv m_result;
 };
 
+// =========================================================
+// cToSvConcat =============================================
+// =========================================================
+
 // N: number of bytes in buffer on stack
 template<std::size_t N = 255>
 class cToSvConcat: public cToSv {
   public:
     cToSvConcat() {}
     template<typename... Args> cToSvConcat(Args&&... args) {
-      append(std::forward<Args>(args)...);
+      concat(std::forward<Args>(args)...);
     }
     template<typename T, typename U, typename... Args>
-    cToSvConcat &append(T &&n, U &&u, Args&&... args) {
-      append(n);
-      return append(std::forward<U>(u), std::forward<Args>(args)...);
+    cToSvConcat &concat(T &&n, U &&u, Args&&... args) {
+      concat(n);
+      return concat(std::forward<U>(u), std::forward<Args>(args)...);
     }
 // ========================
-// overloads for append
-    cToSvConcat &append(char ch) {
+// overloads for concat
+    cToSvConcat &concat(char ch) {
       if (m_pos_for_append == m_be_data) ensure_free(1);
       *(m_pos_for_append++) = ch;
       return *this;
     }
-    cToSvConcat &append(cSv sv) {
-      if (m_pos_for_append + sv.length() > m_be_data) ensure_free(sv.length() );
-      memcpy(m_pos_for_append, sv.data(), sv.length());
-      m_pos_for_append += sv.length();
-      return *this;
-    }
-template<typename T, std::enable_if_t<std::is_integral<T>::value, bool> = true>
-    cToSvConcat &append(T i) {
-// you can also write: return append(cToSvInt(i)); no real performance difference :(
-      if (i == 0) return append('0');
-      int num_chars;
-      if (i > 0) {
-        num_chars = stringhelpers_internal::numCharsUg0(i);
-        if (m_pos_for_append + num_chars > m_be_data) ensure_free(num_chars);
-      } else {
-        i = -i;
-        num_chars = stringhelpers_internal::numCharsUg0(i) + 1;
-        if (m_pos_for_append + num_chars > m_be_data) ensure_free(num_chars);
-        *m_pos_for_append = '-';
-      }
-      m_pos_for_append += num_chars;
-      stringhelpers_internal::addCharsUg0be(m_pos_for_append, i);
-      return *this;
-    }
-template<typename T> cToSvConcat &operator<<(T sv) { return append(sv); }
+    cToSvConcat &concat(cSv sv) { return append(sv.data(), sv.length()); }
 
+template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
+    cToSvConcat &concat(T i) {
+      if (m_pos_for_append + 20 > m_be_data) ensure_free(20);
+      m_pos_for_append = stringhelpers_internal::itoa(m_pos_for_append, i);
+      return *this;
+    }
+template<typename T> cToSvConcat &operator<<(T sv) { return concat(sv); }
+
+// ========================
+// overloads for append. Should be compatible to std::string.append(...)
+// ========================
+    cToSvConcat &append(cSv sv) { return append(sv.data(), sv.length()); }
+    cToSvConcat &append(const char *s, size_t len) {
+      if (m_pos_for_append + len > m_be_data) ensure_free(len);
+      memcpy(m_pos_for_append, s, len);
+      m_pos_for_append += len;
+      return *this;
+    }
+    cToSvConcat &append(size_t count, char ch) {
+      if (m_pos_for_append + count > m_be_data) ensure_free(count);
+      memset(m_pos_for_append, ch, count);
+      m_pos_for_append += count;
+      return *this;
+    }
+
+// =======================
+// special appends
+// =======================
+
+// =======================
+// append_int   append integer (with some format options)
+template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
+    cToSvConcat &append_int(T i, size_t desired_width, char fill_char = '0') {
+      size_t len = stringhelpers_internal::numChars(i);
+      if (desired_width <= len) return concat(i);
+      if (m_pos_for_append + desired_width > m_be_data) ensure_free(desired_width);
+      if (i < 0 && fill_char == '0') {
+        *m_pos_for_append++ = '-';
+        i = -i;
+      }
+      memset(m_pos_for_append, fill_char, desired_width-len);
+      m_pos_for_append += desired_width-len;
+      m_pos_for_append = stringhelpers_internal::itoa(m_pos_for_append, i);
+      return *this;
+    }
 // =======================
 // append utf8
     cToSvConcat &append_utf8(wint_t codepoint) {
@@ -752,12 +867,12 @@ template<typename T> cToSvConcat &operator<<(T sv) { return append(sv); }
     }
 // =======================
 // append tChannelID
-    cToSvConcat &append(const tChannelID &channelID) {
+    cToSvConcat &concat(const tChannelID &channelID) {
       int st_Mask = 0xFF000000;
-      append((char) ((channelID.Source() & st_Mask) >> 24));
+      concat((char) ((channelID.Source() & st_Mask) >> 24));
       if (int n = cSource::Position(channelID.Source())) {
          appendFormated("%u.%u", abs(n) / 10, abs(n) % 10); // can't simply use "%g" here since the silly 'locale' messes up the decimal point
-         append( (n < 0) ? 'W' : 'E');
+         concat( (n < 0) ? 'W' : 'E');
       }
       appendFormated(channelID.Rid() ? "-%d-%d-%d-%d" : "-%d-%d-%d",
           channelID.Nid(), channelID.Tid(), channelID.Sid(), channelID.Rid() );
@@ -768,9 +883,12 @@ template<typename T> cToSvConcat &operator<<(T sv) { return append(sv); }
     operator cSv() const { return cSv(m_buffer, m_pos_for_append-m_buffer); }
     char *data() { *m_pos_for_append = 0; return m_buffer; }
     const char *c_str() const { *m_pos_for_append = 0; return m_buffer; }
+    char operator[](size_t i) const { return *(m_buffer + i); }
     operator cStr() const { return this->c_str(); }
 // ========================
 // others
+    bool empty() const { return m_buffer == m_pos_for_append; }
+    void clear() { m_pos_for_append = m_buffer; }
     cToSvConcat &erase(size_t index = 0) {
       m_pos_for_append = std::min(m_pos_for_append, m_buffer + index);
       return *this;
@@ -808,6 +926,15 @@ template<typename T> cToSvConcat &operator<<(T sv) { return append(sv); }
     mutable size_t m_reserve = 1024;
 };
 
+class cToSvInt: public cToSvConcat<20> {
+  public:
+template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
+    cToSvInt (T i): cToSvConcat(i) { }
+template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
+    cToSvInt (T i, size_t desired_width, char fill_char = '0') {
+      append_int(i, desired_width, fill_char);
+    }
+};
 template<std::size_t N = 255> 
 class cToSvToLower: public cToSvConcat<N> {
   public:
@@ -842,9 +969,7 @@ class cToSvFormated: public cToSvConcat<N> {
 
 class cToSvChannel: public cToSvConcat<255> {
   public:
-    cToSvChannel(const tChannelID &channelID) {
-      append(channelID);
-    }
+    cToSvChannel(const tChannelID &channelID): cToSvConcat(channelID) { }
 };
 
 // =========================================================
@@ -941,30 +1066,15 @@ void stringAppendFormated_slow(std::string &str, const char *fmt, Args&&... args
 }
 */
 
-namespace stringhelpers_internal {
-// methods to append to std::strings ========================
-  template<typename T>
-  inline void stringAppendU(std::string &str, T i) {
-// for integer types i >= 0 !!!! This is not checked !!!!!
-    if (i == 0) { str.append(1, '0'); return; }
-    char buf[20]; // unsigned int 64: max. 20. (18446744073709551615) signed int64: max. 19 (+ sign)
-    char *bufe = buf+20;
-    char *bufs = addCharsUg0be(bufe, i);
-    str.append(bufs, bufe-bufs);
-  }
-}
-
 // =========================================================
 // =========== stringAppend ==  for many data types
 // =========================================================
 
-inline void stringAppend(std::string &str, unsigned int i) { stringhelpers_internal::stringAppendU(str, i); }
-inline void stringAppend(std::string &str, unsigned long int i) { stringhelpers_internal::stringAppendU(str, i); }
-inline void stringAppend(std::string &str, unsigned long long  int i) { stringhelpers_internal::stringAppendU(str, i); }
-
-inline void stringAppend(std::string &str, int i) { str.append(cToSvInt(i)); }
-inline void stringAppend(std::string &str, long int i) { str.append(cToSvInt(i)); }
-inline void stringAppend(std::string &str, long long int i) { str.append(cToSvInt(i)); }
+template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
+inline void stringAppend(std::string &str, T i) {
+  char buf[20]; // unsigned int 64: max. 20. (18446744073709551615) signed int64: max. 19 (+ sign)
+  str.append(buf, stringhelpers_internal::itoa(buf, i) - buf);
+}
 
 // strings
 inline void stringAppend(std::string &str, const char *s) { if(s) str.append(s); }

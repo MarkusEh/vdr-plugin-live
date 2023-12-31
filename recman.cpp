@@ -901,7 +901,29 @@ void AppendScraperData(cLargeString &target, cSv s_IMDB_ID, const cTvMedia &s_im
 #endif
     target.append(", \"");
 // [11] HD_SD
-    target.append(SD_HD() == 0 ? 's': SD_HD() == 1 ? 'h': SD_HD() >= 2 ? 'u': 'r');
+    const char *icon_name = nullptr;
+#if VDRVERSNUM >= 20605
+    if (m_recording && m_recording->Info()) {
+      switch (m_recording->Info()->FrameWidth()) {
+        case 720:
+          icon_name = "720x576";
+          break;
+        case 1280:
+          icon_name = "1280x720";
+          break;
+        case 1920:
+          icon_name = "1920x1080";
+          break;
+        case 3840:
+          icon_name = "3840x2160";
+          break;
+        default:
+          break;
+      }
+    }
+#endif
+    if (!icon_name) icon_name = SD_HD() == 0 ? "sd": SD_HD() == 1 ? "hd": SD_HD() >= 2 ? "ud": "rd";
+    target.append(icon_name);
     target.append("\", \"");
 // [12] channel name
     AppendHtmlEscapedAndCorrectNonUTF8(target, RecInfo()->ChannelName() );

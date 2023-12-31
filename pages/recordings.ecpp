@@ -435,7 +435,7 @@ if (currentFlat != "true") {
   } // end if (currentSort != "duplicates")
 } else {
 // here we prepare the items in case of a flat list, no folders
-  if (currentSort != "duplicates") { 
+  if (currentSort != "duplicates") {
     recItems.clear();
     size_t max_items = 100;
     if (reverse) {
