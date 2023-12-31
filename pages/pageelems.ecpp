@@ -574,7 +574,7 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
     bool scraperDataAvailable = getScraperVideo.call(LiveSetup().GetPluginScraper());
     if (scraperDataAvailable) {
       int video_SD_HD = getScraperVideo.m_scraperVideo->getHD();
-      char sdhd = video_SD_HD == 0 ? 's': video_SD_HD == 1 ? 'h': video_SD_HD == 2 ? 'u' : 0;
+      const char *sdhd = video_SD_HD == 0 ? "sd": video_SD_HD == 1 ? "hd": video_SD_HD == 2 ? "ud" : 0;
 
 </%cpp>
 		<& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID) &>
