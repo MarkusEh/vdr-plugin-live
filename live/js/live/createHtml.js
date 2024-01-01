@@ -144,19 +144,19 @@ function addColEventRec(s, times, eventprefix, eventid, title, folder, shortText
   s.a += '</div>'
 }
 
-function injectHdSdIcon(elementId, sdhd, channelName) {
+function injectHdSdIcon(elementId, sdhd, channelName, frameParams) {
   const s = Object.create(null);
   s.a = "";
-  addHdSdIcon(s, sdhd, channelName);
+  addHdSdIcon(s, sdhd, channelName, frameParams);
   document.getElementById(elementId).innerHTML = s.a;
   if (typeof liveEnhanced !== 'undefined') liveEnhanced.domReadySetup();
 }
 
-function injectErrorHdSdIcon(elementId, numErrors, durationDeviation, sdhd, channelName, duration, numTsFiles) {
+function injectErrorHdSdIcon(elementId, numErrors, durationDeviation, sdhd, channelName, duration, numTsFiles, frameParams) {
   const s = Object.create(null);
   s.a = "";
   addErrorIcon(s, numErrors, durationDeviation, duration, numTsFiles);
-  addHdSdIcon(s, sdhd, channelName);
+  addHdSdIcon(s, sdhd, channelName, frameParams);
   document.getElementById(elementId).innerHTML = s.a;
   if (typeof liveEnhanced !== 'undefined') liveEnhanced.domReadySetup();
 }

@@ -64,6 +64,12 @@ class cLargeString {
       *(m_string_end++) = c;
       return *this;
     }
+    cLargeString &append(size_t count, char c) {
+      appendLen(count);
+      memset(m_string_end, c, count);
+      m_string_end += count;
+      return *this;
+    }
     cLargeString &append(const char (&s)[1]) {
 // note: every other specific implementation is too slow. memcpy is too fast :)
       return *this;
@@ -116,6 +122,10 @@ template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
     const char *nameData() const { return m_nameData; }
     int nameLen() const { return m_nameLen; }
 };
+template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
+void stringAppend(cLargeString &s, T i) {
+  s.append(i);
+}
 
 inline void append_csv(cLargeString &str, cSv s1) { str.append(s1); }
 template<typename... Args>

@@ -24,6 +24,33 @@
 
 
 namespace vdrlive {
+template<typename T>
+void StringAppendFrameParams(T &s, const cRecording *rec) {
+#if VDRVERSNUM >= 20605
+  if (!rec || ! rec->Info() ) return;
+  if (rec->Info()->FrameWidth()  && rec->Info()->FrameHeight() ) {
+    stringAppend(s, rec->Info()->FrameWidth() );
+    s.append("x");
+    stringAppend(s, rec->Info()->FrameHeight() );
+    
+    if (rec->Info()->FramesPerSecond() > 0) {
+      s.append("/");
+      stringAppendFormated(s, "%.2g", rec->Info()->FramesPerSecond() );
+      if (rec->Info()->ScanType() != stUnknown)
+        s.append(1, rec->Info()->ScanTypeChar());
+     }                                                                                                                                                          
+     if (rec->Info()->AspectRatio() != arUnknown) {
+       s.append(" ");
+       s.append(cSv(rec->Info()->AspectRatioText()));
+     }
+  }
+#endif
+}
+
+template void StringAppendFrameParams<std::string>(std::string &s, const cRecording *rec);
+template void StringAppendFrameParams<cLargeString>(cLargeString &s, const cRecording *rec);
+template void StringAppendFrameParams<cToSvConcat<0>>(cToSvConcat<0> &s, const cRecording *rec);
+template void StringAppendFrameParams<cToSvConcat<255>>(cToSvConcat<255> &s, const cRecording *rec);
 
 	/**
 	 *  Implementation of class RecordingsManager:
@@ -966,6 +993,10 @@ void AppendScraperData(cLargeString &target, cSv s_IMDB_ID, const cTvMedia &s_im
     target.append("\",");
 // [21] numTsFiles
     target.append(NumberTsFiles() );
+// [22] frame parameter text
+    target.append(",\"");
+    StringAppendFrameParams(target, m_recording);
+    target.append("\"");
   }
 
   void RecordingsItemRec::AppendAsJSArray(cLargeString &target, std::vector<RecordingsItemRecPtr>::const_iterator recIterFirst, std::vector<RecordingsItemRecPtr>::const_iterator recIterLast, bool &first, cSv filter, bool reverse) {

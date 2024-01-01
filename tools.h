@@ -29,7 +29,7 @@ std::istream& operator>>( std::istream& is, tChannelID& ret );
 inline
 std::ostream& operator<<( std::ostream& os, tChannelID const& id )
 {
-	return os << cToSvChannel(id);
+	return os << cToSvConcat(id);
 }
 
 template<typename... Args> void stringAppendFormated(cLargeString &target, const char *format, Args&&... args) {

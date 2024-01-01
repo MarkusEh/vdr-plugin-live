@@ -866,6 +866,15 @@ template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
       return *this;
     }
 // =======================
+// #include <vdr/channels.h>
+
+// =========================================================
+// some performance improvemnt, to get string presentation for channel
+// you can also use channelID.ToString()
+// in struct tChannelID {  (in vdr):
+//   static tChannelID FromString(const char *s);
+//   cString ToString(void) const;
+// =========================================================
 // append tChannelID
     cToSvConcat &concat(const tChannelID &channelID) {
       int st_Mask = 0xFF000000;
@@ -953,19 +962,6 @@ class cToSvFormated: public cToSvConcat<N> {
     }
 };
 
-/*
- * channel helper functions (for vdr tChannelID)
- *
-*/
-// #include <vdr/channels.h>
-
-// =========================================================
-// some performance improvemnt, to get string presentation for channel
-// you can also use channelID.ToString()
-// in struct tChannelID {  (in vdr):
-//   static tChannelID FromString(const char *s);
-//   cString ToString(void) const;
-// =========================================================
 
 class cToSvChannel: public cToSvConcat<255> {
   public:
@@ -974,42 +970,23 @@ class cToSvChannel: public cToSvConcat<255> {
 
 // =========================================================
 // =========================================================
-// Chapter 5: change string: mainly: append to string
+// stringAppend: for std::string & cToSvConcat
 // =========================================================
 // =========================================================
 
-inline void StringRemoveTrailingWhitespace(std::string &str) {
-  str.erase(remove_trailing_whitespace(str).length());
+template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
+inline void stringAppend(std::string &str, T i) {
+  char buf[20]; // unsigned int 64: max. 20. (18446744073709551615) signed int64: max. 19 (+ sign)
+  str.append(buf, stringhelpers_internal::itoa(buf, i) - buf);
+}
+template<std::size_t N, typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
+inline void stringAppend(cToSvConcat<N> &s, T i) {
+  s.concat(i);
 }
 
-inline int stringAppendAllASCIICharacters(std::string &target, const char *str) {
-// append all characters > 31 (signed !!!!). Unsigned: 31 < character < 128
-// return number of appended characters
-  int i = 0;
-  for (; reinterpret_cast<const signed char*>(str)[i] > 31; i++);
-  target.append(str, i);
-  return i;
-}
-inline void stringAppendRemoveControlCharacters(std::string &target, const char *str) {
-// we replace control characters with " " and invalid UTF8 with "?"
-// and remove trailing whitespace
-  for(;;) {
-    str += stringAppendAllASCIICharacters(target, str);
-    wint_t cp = getNextUtfCodepoint(str);
-    if (cp == 0) { StringRemoveTrailingWhitespace(target); return; }
-    if (cp > 31) stringAppendUtfCodepoint(target, cp);
-    else target.append(" ");
-  }
-}
-inline void stringAppendRemoveControlCharactersKeepNl(std::string &target, const char *str) {
-  for(;;) {
-    str += stringAppendAllASCIICharacters(target, str);
-    wint_t cp = getNextUtfCodepoint(str);
-    if (cp == 0) { StringRemoveTrailingWhitespace(target); return; }
-    if (cp == '\n') { StringRemoveTrailingWhitespace(target); target.append("\n"); continue; }
-    if (cp > 31) stringAppendUtfCodepoint(target, cp);
-    else target.append(" ");
-  }
+template<std::size_t N, typename... Args>
+inline void stringAppendFormated(cToSvConcat<N> &s, const char *fmt, Args&&... args) {
+  s.appendFormated(fmt, std::forward<Args>(args)...);
 }
 
 // __attribute__ ((format (printf, 2, 3))) can not be used, but should work starting with gcc 13.1
@@ -1070,24 +1047,58 @@ void stringAppendFormated_slow(std::string &str, const char *fmt, Args&&... args
 // =========== stringAppend ==  for many data types
 // =========================================================
 
-template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
-inline void stringAppend(std::string &str, T i) {
-  char buf[20]; // unsigned int 64: max. 20. (18446744073709551615) signed int64: max. 19 (+ sign)
-  str.append(buf, stringhelpers_internal::itoa(buf, i) - buf);
-}
-
 // strings
 inline void stringAppend(std::string &str, const char *s) { if(s) str.append(s); }
 inline void stringAppend(std::string &str, const std::string &s) { str.append(s); }
 inline void stringAppend(std::string &str, std::string_view s) { str.append(s); }
 
 inline void stringAppend(std::string &str, const tChannelID &channelID) {
-  str.append(cToSvChannel(channelID));
+  str.append(cToSvConcat(channelID));
 }
 template<typename T, typename U, typename... Args>
 void stringAppend(std::string &str, const T &n, const U &u, Args&&... args) {
   stringAppend(str, n);
   stringAppend(str, u, std::forward<Args>(args)...);
+}
+
+// =========================================================
+// =========================================================
+// Chapter 5: change string: mainly: append to string
+// =========================================================
+// =========================================================
+
+inline void StringRemoveTrailingWhitespace(std::string &str) {
+  str.erase(remove_trailing_whitespace(str).length());
+}
+
+inline int stringAppendAllASCIICharacters(std::string &target, const char *str) {
+// append all characters > 31 (signed !!!!). Unsigned: 31 < character < 128
+// return number of appended characters
+  int i = 0;
+  for (; reinterpret_cast<const signed char*>(str)[i] > 31; i++);
+  target.append(str, i);
+  return i;
+}
+inline void stringAppendRemoveControlCharacters(std::string &target, const char *str) {
+// we replace control characters with " " and invalid UTF8 with "?"
+// and remove trailing whitespace
+  for(;;) {
+    str += stringAppendAllASCIICharacters(target, str);
+    wint_t cp = getNextUtfCodepoint(str);
+    if (cp == 0) { StringRemoveTrailingWhitespace(target); return; }
+    if (cp > 31) stringAppendUtfCodepoint(target, cp);
+    else target.append(" ");
+  }
+}
+inline void stringAppendRemoveControlCharactersKeepNl(std::string &target, const char *str) {
+  for(;;) {
+    str += stringAppendAllASCIICharacters(target, str);
+    wint_t cp = getNextUtfCodepoint(str);
+    if (cp == 0) { StringRemoveTrailingWhitespace(target); return; }
+    if (cp == '\n') { StringRemoveTrailingWhitespace(target); target.append("\n"); continue; }
+    if (cp > 31) stringAppendUtfCodepoint(target, cp);
+    else target.append(" ");
+  }
 }
 
 // =========================================================

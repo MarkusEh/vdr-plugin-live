@@ -26,6 +26,8 @@
 
 namespace vdrlive {
 
+template<typename T>
+  void StringAppendFrameParams(T &s, const cRecording *rec);
   // Forward declations from epg_events.h
   class EpgInfo;
   typedef std::shared_ptr<EpgInfo> EpgInfoPtr;
