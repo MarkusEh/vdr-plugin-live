@@ -85,23 +85,23 @@ const cTimer* timer;
 			oldRemote = timer->Remote();
 //			dsyslog("live: found valid timer on server '%s'", oldRemote);
                 }
-		uint flags = ( active ? tfActive : 0 ) | ( vps ? tfVps : 0 );
-		std::string weekdays = std::string( wday_mon ? "M" : "-" ) + ( wday_tue ? "T" : "-" ) + ( wday_wed ? "W" : "-" )
-							  + ( wday_thu ? "T" : "-" ) + ( wday_fri ? "F" : "-" ) + ( wday_sat ? "S" : "-" )
-							  + ( wday_sun ? "S" : "-" );
-		int start = timeStringToInt(start_s);
-		int stop = timeStringToInt(stop_s);
-
-		if (!directory.empty())
-		   title = directory + "~" + title;
 
 		if (title.empty())
 			message = tr("Please set a title for the timer!");
 		else
 		{
+			uint flags = ( active ? tfActive : 0 ) | ( vps ? tfVps : 0 );
+			std::string weekdays = std::string( wday_mon ? "M" : "-" ) + ( wday_tue ? "T" : "-" ) + ( wday_wed ? "W" : "-" )
+								  + ( wday_thu ? "T" : "-" ) + ( wday_fri ? "F" : "-" ) + ( wday_sat ? "S" : "-" )
+								  + ( wday_sun ? "S" : "-" );
+			int start = timeStringToInt(start_s);
+			int stop = timeStringToInt(stop_s);
+
+			std::string file = directory.empty() ? title : directory + "~" + title;
+
 			const char* remote = ( remoteServerName == "") ? NULL : remoteServerName.c_str();
 //		dsyslog("live: remote '%s'", remote);
-			LiveTimerManager().UpdateTimer( timerId, remote, oldRemote, flags, channel, weekdays, date, start, stop, priority, lifetime, title, aux );
+			LiveTimerManager().UpdateTimer( timerId, remote, oldRemote, flags, channel, weekdays, date, start, stop, priority, lifetime, file, aux );
 			timerNotifier.SetTimerModification();
 </%cpp>
 <!DOCTYPE html>
@@ -148,7 +148,7 @@ const cTimer* timer;
 		timer = eventTimer.get();
 	}
 
-	if ( timer != 0 ) {
+	if ( timer != 0 && request.getMethod() == "GET" ) {
 		active = timer->Flags() & tfActive;
 		channel = timer->Channel()->GetChannelID();
 		title = timer->File() ? timer->File() : "";
