@@ -39,27 +39,6 @@ std::istream& operator>>( std::istream& is, tChannelID& ret )
 
 namespace vdrlive {
 
-  void AppendHtmlEscaped(std::string &target, const char* s){
-// append c-string s to target, html escape some chsracters
-    if(!s) return;
-    size_t i = 0;
-    const char* notAppended = s;
-// moving forward, notAppended is the position of the first character which is not yet appended, in i the number of not yet appended chars
-    for (const char* current = s; *current; current++) {
-      switch(*current) {
-        case '&':  target.append(notAppended, i); target.append("&amp;");  notAppended = notAppended + i + 1; i = 0;   break;
-        case '\"': target.append(notAppended, i); target.append("&quot;"); notAppended = notAppended + i + 1; i = 0;   break;
-        case '\'': target.append(notAppended, i); target.append("&apos;"); notAppended = notAppended + i + 1; i = 0;   break;
-        case '<':  target.append(notAppended, i); target.append("&lt;");   notAppended = notAppended + i + 1; i = 0;   break;
-        case '>':  target.append(notAppended, i); target.append("&gt;");   notAppended = notAppended + i + 1; i = 0;   break;
-        case 10:
-        case 13:  target.append(notAppended, i); target.append("&lt;br/&gt;");   notAppended = notAppended + i + 1; i = 0;   break;
-        default:   i++; break;
-        }
-      }
-    target.append(notAppended, i);
-  }
-
 template<class T>
   void AppendHtmlEscapedAndCorrectNonUTF8(T &target, const char* s, const char *end, bool tooltip){
 // append c-string s to target, html escape some characters
@@ -81,11 +60,7 @@ template<class T>
           case '>':  target.append(notAppended, i); target.append("&gt;");   notAppended = notAppended + i + 1; i = 0;   break;
           case 10:
           case 13:
-            if (LiveSetup().GetUseAjax() || !tooltip) {
               target.append(notAppended, i); target.append("&lt;br/&gt;");   notAppended = notAppended + i + 1; i = 0;   break;
-            } else {
-              target.append(notAppended, i); target.append(*current==10?"\\n":"\\r");   notAppended = notAppended + i + 1; i = 0;   break;
-            }
           default:   i++; break;
           }
         break;
@@ -106,7 +81,7 @@ template<class T>
     target.append(notAppended, i);
   }
 template void AppendHtmlEscapedAndCorrectNonUTF8<std::string>(std::string &target, const char* s, const char *end, bool tooltip);
-template void AppendHtmlEscapedAndCorrectNonUTF8<cLargeString>(cLargeString &target, const char* s, const char *end, bool tooltip);
+template void AppendHtmlEscapedAndCorrectNonUTF8<cToSvConcat<0>>(cToSvConcat<0> &target, const char* s, const char *end, bool tooltip);
 
 template<typename T>
 	void AppendDuration(T &target, char const* format, int duration)
@@ -117,49 +92,13 @@ template<typename T>
     stringAppendFormated(target, format, hours, minutes);
 	}
 template void AppendDuration<std::string>(std::string &target, char const* format, int duration);
-template void AppendDuration<cLargeString>(cLargeString &target, char const* format, int duration);
+template void AppendDuration<cToSvConcat<0>>(cToSvConcat<0> &target, char const* format, int duration);
 
 	std::string FormatDuration(char const* format, int duration)
 	{
 		std::string result;
 		AppendDuration(result, format, duration);
 		return result;
-	}
-
-	size_t AppendDateTime(char *target, int target_size, char const* format, time_t time)
-// writes data to target, make sure that sizeof(target) >= target_size, before calling
-	{
-		if (!time) return 0;
-		struct tm tm_r;
-		if ( localtime_r( &time, &tm_r ) == 0 ) {
-			std::stringstream builder;
-			builder << "cannot represent timestamp " << time << " as local time";
-			throw std::runtime_error( builder.str() );
-		}
-    size_t len = strftime(target, target_size, format, &tm_r);
-		if ( len == 0 ) {
-			std::stringstream builder;
-			builder << "representation of timestamp " << time << " exceeds " << (target_size - 1) << " bytes";
-			throw std::runtime_error( builder.str() );
-		}
-		return len;
-	}
-	void AppendDateTime(cLargeString &target, char const* format, time_t time)
-	{
-		int len = AppendDateTime(target.borrowEnd(80), 80, format, time);
-    target.finishBorrow(len);
-	}
-	void AppendDateTime(std::string &target, char const* format, time_t time )
-	{
-		char result[80];
-		AppendDateTime(result, sizeof( result ), format, time);
-    target.append(result);
-	}
-	std::string FormatDateTime( char const* format, time_t time )
-	{
-    char result[80];
-    AppendDateTime(result, sizeof( result ), format, time);
-    return result;
 	}
 
 	std::string StringReplace(cSv text, cSv substring, cSv replacement)
@@ -248,7 +187,7 @@ template<class T>
     }
   }
 template void AppendTextMaxLen<std::string>(std::string &target, const char *text);
-template void AppendTextMaxLen<cLargeString>(cLargeString &target, const char *text);
+template void AppendTextMaxLen<cToSvConcat<0>>(cToSvConcat<0> &target, const char *text);
 
 template<class T>
   void AppendTextTruncateOnWord(T &target, const char *text, int max_len, bool tooltip) {
@@ -261,7 +200,7 @@ template<class T>
     if (*end) target.append("...");
   }
 template void AppendTextTruncateOnWord<std::string>(std::string &target, const char *text, int max_len, bool tooltip);
-template void AppendTextTruncateOnWord<cLargeString>(cLargeString &target, const char *text, int max_len, bool tooltip);
+template void AppendTextTruncateOnWord<cToSvConcat<0>>(cToSvConcat<0> &target, const char *text, int max_len, bool tooltip);
 
 	std::string MD5Hash(std::string const& str)
 	{
@@ -411,7 +350,7 @@ template void AppendTextTruncateOnWord<cLargeString>(cLargeString &target, const
 		cformat = StringReplace(cformat, "mm", "%m");
 		cformat = StringReplace(cformat, "dd", "%d");
 		cformat = StringReplace(cformat, "yyyy", "%Y");
-		return FormatDateTime(cformat.c_str(), date);
+		return std::string(cToSvDateTime(cformat.c_str(), date));
 	}
   int timeStringToInt(const char *t) {
   // input: t in xx:xx format

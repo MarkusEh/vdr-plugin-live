@@ -315,13 +315,13 @@ void SearchTimer::ParseBlacklist( std::string const& data )
 std::string SearchTimer::StartTimeFormatted()
 {
 	time_t start = cTimer::SetTime(time(NULL), (((StartTime() / 100 ) % 100) * 60 * 60) + (StartTime() % 100 * 60));
-	return FormatDateTime(tr("%I:%M %p"), start);
+	return std::string(cToSvDateTime(tr("%I:%M %p"), start));
 }
 
 std::string SearchTimer::StopTimeFormatted()
 {
 	time_t stop = cTimer::SetTime(time(NULL), (((StopTime() / 100 ) % 100) * 60 * 60) + (StopTime() % 100 * 60));
-	return FormatDateTime(tr("%I:%M %p"), stop);
+	return std::string(cToSvDateTime(tr("%I:%M %p"), stop));
 }
 
 std::string SearchTimer::UseAsSearchTimerFrom(std::string const& format)

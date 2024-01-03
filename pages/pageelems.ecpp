@@ -63,9 +63,7 @@ int update_status(1);
 
 <%def create_html_js>
 <%cpp>
-const char *lf;
-if (LiveSetup().GetUseAjax()) lf = "<br/>";
-else lf = "&#13;";
+const char *lf = "<br/>";
 </%cpp>
 <script type="text/javascript" src="js/live/createHtml.js"></script>
 <script>
@@ -283,8 +281,7 @@ function existingRecordingString(col_span, bottomrow, id, archiveDescr, imdb_id,
 <div id="content">
 <!-- header content follows -->
 <%cpp>
-	if (LiveSetup().GetShowLogo()
-		|| (LiveSetup().GetUseAjax() && LiveSetup().GetShowInfoBox())) {
+	if (LiveSetup().GetShowLogo() || LiveSetup().GetShowInfoBox()) {
 </%cpp>
 <div class="page_header">
 <%cpp>
@@ -295,7 +292,7 @@ function existingRecordingString(col_span, bottomrow, id, archiveDescr, imdb_id,
 <%cpp>
 		}
 </%cpp>
-<%cpp>if (LiveSetup().GetUseAjax() && LiveSetup().GetShowInfoBox()) { </%cpp><& infobox &><%cpp> } </%cpp>
+<%cpp>if (LiveSetup().GetShowInfoBox()) { </%cpp><& infobox &><%cpp> } </%cpp>
 </div>
 <div style="clear: both"></div>
 <%cpp>
@@ -445,9 +442,6 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 <# ---------------------------------------------------------------------- #>
 
 <%def ajax_js>
-<%cpp>
-	if (LiveSetup().GetUseAjax()) {
-</%cpp>
 	<script type="text/javascript" src="js/mootools/mootools.v1.11.js"></script>
 	<script type="text/javascript" src="js/live/liveajax.js"></script>
 	<script type="text/javascript" src="js/live/infowin.js"></script>
@@ -482,9 +476,6 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 	--></script>
 <%cpp>
 		}
-</%cpp>
-<%cpp>
-	}
 </%cpp>
 </%def>
 

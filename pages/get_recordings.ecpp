@@ -43,7 +43,8 @@ recordings_tree_re_created = <$ recordings_tree_re_created?"true":"false"$>;
 
   */
 
-    cLargeString recoring_item("recoring_item_get_recordings.ecpp", 5000);
+    cToSvConcat<0> recoring_item;
+    recoring_item.reserve(5000);
     for (int recording: r) {
       bool found = false;
       for (const RecordingsItemRecPtr &rPtr: *recordingsTree->allRecordings()) if (recording == rPtr->IdI() ) {

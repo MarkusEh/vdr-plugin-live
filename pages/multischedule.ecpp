@@ -263,8 +263,11 @@ std::vector<time_t>			times_start;
 		for ( std::vector< time_t >::const_iterator start = times_start.begin();
 			  start != times_start.end(); ++start )
 		{
-			times_names.push_back(FormatDateTime( tr("%A, %x"), *start)
-								  +std::string(" ")+ FormatDateTime( tr("%I:%M %p"), *start) );
+      cToSvConcat times_name;
+      times_name.appendDateTime(tr("%A, %x"), *start);
+      times_name.concat(' ');
+      times_name.appendDateTime(tr("%I:%M %p"), *start);
+			times_names.push_back(std::string(times_name));
 		}
 		// the first time is now
 		times_names[0]=tr("Now");
@@ -493,7 +496,7 @@ std::vector<time_t>			times_start;
 			if (  minutes < MINUTES_PER_ROW )
 			{
 </%cpp>
-		       <$ FormatDateTime( tr("%I:%M %p"), sched_start +  row * 60 * MINUTES_PER_ROW )  $>
+		       <$ cToSvDateTime( tr("%I:%M %p"), sched_start +  row * 60 * MINUTES_PER_ROW )  $>
 <%cpp>
 			}
 			else

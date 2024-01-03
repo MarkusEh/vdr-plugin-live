@@ -637,7 +637,6 @@ class cToSv {
     cToSv &operator= (const cToSv &) = delete;
     virtual ~cToSv() {}
     virtual operator cSv() const = 0;
-    operator std::string_view() const { return (cSv)*this; }
 };
 inline std::ostream& operator<<(std::ostream& os, cToSv const& sv )
 {
@@ -816,9 +815,9 @@ template<typename T> cToSvConcat &operator<<(T sv) { return concat(sv); }
 // =======================
 
 // =======================
-// append_int   append integer (with some format options)
+// appendInt   append integer (with some format options)
 template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
-    cToSvConcat &append_int(T i, size_t desired_width, char fill_char = '0') {
+    cToSvConcat &appendInt(T i, size_t desired_width, char fill_char = '0') {
       size_t len = stringhelpers_internal::numChars(i);
       if (desired_width <= len) return concat(i);
       if (m_pos_for_append + desired_width > m_be_data) ensure_free(desired_width);
@@ -831,25 +830,34 @@ template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
       m_pos_for_append = stringhelpers_internal::itoa(m_pos_for_append, i);
       return *this;
     }
+template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
+    cToSvConcat &appendHex(T value, int width) {
+      if (m_pos_for_append + width > m_be_data) ensure_free(width);
+      stringhelpers_internal::addCharsHex(m_pos_for_append, width, value);
+      m_pos_for_append += width;
+      return *this;
+    }
 // =======================
-// append utf8
+// append_utf8 append utf8 codepoint
     cToSvConcat &append_utf8(wint_t codepoint) {
       if (m_pos_for_append + 4 > m_be_data) ensure_free(4);
       AppendUtfCodepoint(m_pos_for_append, codepoint);
       return *this;
     }
+// =======================
+// appendToLower
     void appendToLower(cSv sv, const std::locale &loc) {
       for (auto it = sv.utf8_begin(); it != sv.utf8_end(); ++it) {
         append_utf8(std::tolower<wchar_t>(*it, loc));
       }
     }
 // =======================
-// append formated
+// appendFormated append formated
 // __attribute__ ((format (printf, 2, 3))) can not be used, but should work starting with gcc 13.1
     template<typename... Args> cToSvConcat &appendFormated(const char *fmt, Args&&... args) {
-      int needed = snprintf (m_pos_for_append, m_be_data - m_pos_for_append, fmt, std::forward<Args>(args)...);
+      int needed = snprintf(m_pos_for_append, m_be_data - m_pos_for_append, fmt, std::forward<Args>(args)...);
       if (needed < 0) {
-        esyslog("live: ERROR, cToScCOncat::appendFormated needed = %d, fmt = %s", needed, fmt);
+        esyslog("live: ERROR, cToScConcat::appendFormated needed = %d, fmt = %s", needed, fmt);
         return *this; // error in snprintf
       }
       if (needed < m_be_data - m_pos_for_append) {
@@ -857,13 +865,37 @@ template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
         return *this;
       }
       ensure_free(needed + 1);
-      needed = sprintf (m_pos_for_append, fmt, std::forward<Args>(args)...);
+      needed = sprintf(m_pos_for_append, fmt, std::forward<Args>(args)...);
       if (needed < 0) {
-        esyslog("live: ERROR,  cToScCOncat::appendFormated needed (2) = %d, fmt = %s", needed, fmt);
+        esyslog("live: ERROR, cToScConcat::appendFormated needed (2) = %d, fmt = %s", needed, fmt);
         return *this; // error in sprintf
       }
       m_pos_for_append += needed;
       return *this;
+    }
+// =======================
+// appendDateTime: append date/time formated with strftime
+    cToSvConcat &appendDateTime(const char *fmt, const std::tm *tp) {
+      size_t needed = std::strftime(m_pos_for_append, m_be_data - m_pos_for_append, fmt, tp);
+      if (needed == 0) {
+        ensure_free(1024);
+        needed = std::strftime(m_pos_for_append, m_be_data - m_pos_for_append, fmt, tp);
+        if (needed == 0) {
+          esyslog("live: ERROR, cToScConcat::appendDateTime needed = 0, fmt = %s", fmt);
+          return *this; // we did not expect to need more than 1024 chars for the formated time ...
+        }
+      }
+      m_pos_for_append += needed;
+      return *this;
+    }
+    cToSvConcat &appendDateTime(const char *fmt, time_t time) {
+      if (!time) return *this;
+      struct std::tm tm_r;
+      if (localtime_r( &time, &tm_r ) == 0 ) {
+        esyslog("live: ERROR, cToScConcat::appendDateTime localtime_r = 0, fmt = %s, time = %lld", fmt, (long long)time);
+        return *this; // we did not expect to need more than 1024 chars for the formated time ...
+        }
+      return appendDateTime(fmt, &tm_r);
     }
 // =======================
 // #include <vdr/channels.h>
@@ -941,7 +973,7 @@ template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
     cToSvInt (T i): cToSvConcat(i) { }
 template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
     cToSvInt (T i, size_t desired_width, char fill_char = '0') {
-      append_int(i, desired_width, fill_char);
+      appendInt(i, desired_width, fill_char);
     }
 };
 template<std::size_t N = 255> 
@@ -961,11 +993,11 @@ class cToSvFormated: public cToSvConcat<N> {
       this->appendFormated(fmt, std::forward<Args>(args)...);
     }
 };
-
-
-class cToSvChannel: public cToSvConcat<255> {
+class cToSvDateTime: public cToSvConcat<255> {
   public:
-    cToSvChannel(const tChannelID &channelID): cToSvConcat(channelID) { }
+    cToSvDateTime(const char *fmt, time_t time) {
+      this->appendDateTime(fmt, time);
+    }
 };
 
 // =========================================================

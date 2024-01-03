@@ -59,12 +59,12 @@ if (mode == "detail") {
 }
 
 if (type == "now") {
-	headTime = FormatDateTime(timeFormat, time(0));
-	headDate = FormatDateTime(dateFormat, time(0));
+	headTime = std::string(cToSvDateTime(timeFormat, time(0)));
+	headDate = std::string(cToSvDateTime(dateFormat, time(0)));
 	head = std::string(tr("What's running on")) + " " + headDate + " " + tr("at") + " " + headTime;
 } else if (type == "next") {
-	headTime = FormatDateTime(timeFormat, time(0) + 3600);
-	headDate = FormatDateTime(dateFormat, time(0) + 3600);
+	headTime = std::string(cToSvDateTime(timeFormat, time(0) + 3600));
+	headDate = std::string(cToSvDateTime(dateFormat, time(0) + 3600));
 	head = tr("What's on next?");
 } else if (type == "at") {
 	if (attime != "")
@@ -76,8 +76,8 @@ if (type == "now") {
 	seektime = GetTimeT(displaytime);
 	if (seektime - time(0) + 3600 < 0) // if wanted time is past more then 1h, then use tomorrow
 		seektime += SECSINDAY;
-	headTime = FormatDateTime(timeFormat, seektime);
-	headDate = FormatDateTime(dateFormat, seektime);
+	headTime = std::string(cToSvDateTime(timeFormat, seektime));
+	headDate = std::string(cToSvDateTime(dateFormat, seektime));
 	head = std::string(tr("What's running on")) + " " + headDate + " " + tr("at") + std::string(" ") + headTime;
 } else if (type == "favs") {
 	head = tr("Favorites");

@@ -151,7 +151,6 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 				imgsrc = document.images.vdrlive.src;
 			FillIntervals();
 			changeScreenContent();
-<{	  if (LiveSetup().GetUseAjax() ) { 				}>
 			$('osd').addEvents({
 			    'click': function(ev){
 			        $clear(clkTimer);
@@ -164,7 +163,6 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 			        handleOSD(ev.target, true);
 			    }
 			});
-<{	} 				}>
 		}
 
 		function ChangeInterval()
@@ -227,17 +225,10 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 		function KeyPress(keycode,DonotLoadOSD)
 		{
-//			LiveSimpleAjaxRequest('keypress.xml', 'keycode', keycode);
-<{	  if (LiveSetup().GetUseAjax() ) { 				}>
 			var req = new Ajax('keypress.xml', { method : 'post'});
 			if (!DonotLoadOSD && osdAjax)
 				req.addEvent('onComplete', OSDLoad);
 			req.request('keycode=' + keycode + '&async=1');
-<{	  } else { 				}>
-			var req = new XMLHttpRequest();
-			req.open('POST', encodeURI('keypress.xml?keycode=' + keycode));
-			req.send();
-<{	  } 					}>
 			return false;
 		}
 
@@ -356,10 +347,9 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 <%def remote_actions>
 <b><$ tr("Selection") $></b>:&nbsp;
-<{	if ( LiveGrabImageManager().CanGrab()) {			}>
+%	if ( LiveGrabImageManager().CanGrab()) {
 	 <input type="radio" name="screenCon" id="screenCon_grab" onchange="changeScreenContent()"/>&nbsp;<label for="screenCon_grab"><$ tr("Snapshot interval") $>:</label> <select name="interval" onchange="ChangeInterval()"></select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -
-<{	}  if (LiveSetup().GetUseAjax() ) { 				}>
+% }
  <input type="radio" name="screenCon" id="screenCon_osd" onchange="changeScreenContent()" />&nbsp;<label for="screenCon_osd">OSD</label> -
-<{	} 				}>
  <input type="radio" name="screenCon" id="screenCon_none" onchange="changeScreenContent()" />&nbsp;<label for="screenCon_osd"><$ tr("Stop") $></label>
 </%def>

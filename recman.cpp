@@ -48,7 +48,6 @@ void StringAppendFrameParams(T &s, const cRecording *rec) {
 }
 
 template void StringAppendFrameParams<std::string>(std::string &s, const cRecording *rec);
-template void StringAppendFrameParams<cLargeString>(cLargeString &s, const cRecording *rec);
 template void StringAppendFrameParams<cToSvConcat<0>>(cToSvConcat<0> &s, const cRecording *rec);
 template void StringAppendFrameParams<cToSvConcat<255>>(cToSvConcat<255> &s, const cRecording *rec);
 
@@ -867,7 +866,7 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
      return m_video_SD_HD;
   }
 
-void AppendScraperData(cLargeString &target, cSv s_IMDB_ID, const cTvMedia &s_image, tvType s_videoType, cSv s_title, int s_season_number, int s_episode_number, cSv s_episode_name, int s_runtime, cSv s_release_date) {
+void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_image, tvType s_videoType, cSv s_title, int s_season_number, int s_episode_number, cSv s_episode_name, int s_runtime, cSv s_release_date) {
   bool scraperDataAvailable = s_videoType == tMovie || s_videoType == tSeries;
   target.append("\"");
 // [2]  IMDB ID
@@ -884,10 +883,10 @@ void AppendScraperData(cLargeString &target, cSv s_IMDB_ID, const cTvMedia &s_im
   target.append("\",\"");
   if (s_videoType == tSeries && (s_episode_number != 0 || s_season_number != 0)) {
 // [6] : season/episode/episode name (scraper)
-    target.append(s_season_number);
-    target.append('E');
-    target.append(s_episode_number);
-    target.append(' ');
+    target.concat(s_season_number);
+    target.concat('E');
+    target.concat(s_episode_number);
+    target.concat(' ');
     AppendHtmlEscapedAndCorrectNonUTF8(target, s_episode_name.data(), s_episode_name.data() + s_episode_name.length() );
   }
   target.append("\",\"");
@@ -899,12 +898,11 @@ void AppendScraperData(cLargeString &target, cSv s_IMDB_ID, const cTvMedia &s_im
   target.append("\"");
 }
 
-  void RecordingsItemRec::AppendAsJSArray(cLargeString &target) const {
+  void RecordingsItemRec::AppendAsJSArray(cToSvConcat<0> &target) const {
     target.append("\"");
 // [0] : ID
-//     target.append(cToSvXxHash128(IdHash()));
-    target.appendHex<16>(IdHash().high64);
-    target.appendHex<16>(IdHash().low64);
+    target.appendHex(IdHash().high64, 16);
+    target.appendHex(IdHash().low64, 16);
     target.append("\",\"");
 // [1] : ArchiveDescr()
     if (IsArchived()) AppendHtmlEscapedAndCorrectNonUTF8(target, ArchiveDescr().c_str() );
@@ -913,16 +911,16 @@ void AppendScraperData(cLargeString &target, cSv s_IMDB_ID, const cTvMedia &s_im
     AppendScraperData(target, m_s_IMDB_ID, scraperImage(), m_s_videoType, m_s_title, m_s_season_number, m_s_episode_number, m_s_episode_name, m_s_runtime, m_s_release_date);
 // [9] : Day, time
     target.append(",\"");
-    AppendDateTime(target, tr("%a,"), StartTime());  // day of week
-    target.append(' ');
-    AppendDateTime(target, tr("%b %d %y"), StartTime());  // date
-    target.append(' ');
-    AppendDateTime(target, tr("%I:%M %p"), StartTime());  // time
+    target.appendDateTime(tr("%a,"), StartTime() );  // day of week
+    target.concat(' ');
+    target.appendDateTime(tr("%b %d %y"), StartTime());  // date
+    target.concat(' ');
+    target.appendDateTime(tr("%I:%M %p"), StartTime());  // time
     target.append("\", ");
 // RecordingErrors, Icon
 #if VDRVERSNUM >= 20505
 // [10] : Number of recording errors
-    target.append(RecordingErrors() );
+    target.concat(RecordingErrors() );
 #else
     target.append("-100");
 #endif
@@ -956,7 +954,7 @@ void AppendScraperData(cLargeString &target, cSv s_IMDB_ID, const cTvMedia &s_im
     AppendHtmlEscapedAndCorrectNonUTF8(target, RecInfo()->ChannelName() );
     target.append("\", \"");
 // [13] NewR()
-    target.appendS(NewR() );
+    target.append(NewR() );
     target.append("\", \"");
 // [14] Name
     AppendHtmlEscapedAndCorrectNonUTF8(target, Name() );
@@ -969,7 +967,7 @@ void AppendScraperData(cLargeString &target, cSv s_IMDB_ID, const cTvMedia &s_im
     AppendTextTruncateOnWord(target, RecInfo()->Description(), LiveSetup().GetMaxTooltipChars(), true);
 // [17] recording length deviation
     target.append("\",");
-    target.append(DurationDeviation());
+    target.concat(DurationDeviation());
 // [18] Path / folder
     target.append(",\"");
     AppendHtmlEscapedAndCorrectNonUTF8(target, (const char *)Recording()->Folder() );
@@ -992,14 +990,14 @@ void AppendScraperData(cLargeString &target, cSv s_IMDB_ID, const cTvMedia &s_im
       target.append("&nbsp;");
     target.append("\",");
 // [21] numTsFiles
-    target.append(NumberTsFiles() );
+    target.concat(NumberTsFiles() );
 // [22] frame parameter text
     target.append(",\"");
     StringAppendFrameParams(target, m_recording);
     target.append("\"");
   }
 
-  void RecordingsItemRec::AppendAsJSArray(cLargeString &target, std::vector<RecordingsItemRecPtr>::const_iterator recIterFirst, std::vector<RecordingsItemRecPtr>::const_iterator recIterLast, bool &first, cSv filter, bool reverse) {
+  void RecordingsItemRec::AppendAsJSArray(cToSvConcat<0> &target, std::vector<RecordingsItemRecPtr>::const_iterator recIterFirst, std::vector<RecordingsItemRecPtr>::const_iterator recIterLast, bool &first, cSv filter, bool reverse) {
     if (reverse) {
       for (; recIterFirst != recIterLast;) {
         --recIterLast;
@@ -1007,7 +1005,7 @@ void AppendScraperData(cLargeString &target, cSv s_IMDB_ID, const cTvMedia &s_im
         if (!recItem->matchesFilter(filter)) continue;
         if (!first) target.append(",");
         else first = false;
-        target.append(recItem->IdI() );
+        target.concat(recItem->IdI() );
       }
     } else {
       for (; recIterFirst != recIterLast; ++recIterFirst) {
@@ -1015,7 +1013,7 @@ void AppendScraperData(cLargeString &target, cSv s_IMDB_ID, const cTvMedia &s_im
         if (!recItem->matchesFilter(filter)) continue;
         if (!first) target.append(",");
         else first = false;
-        target.append(recItem->IdI() );
+        target.concat(recItem->IdI() );
       }
     }
   }

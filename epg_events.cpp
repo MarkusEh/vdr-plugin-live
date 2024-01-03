@@ -40,19 +40,19 @@ namespace vdrlive
 
 	const std::string EpgInfo::CurrentTime(const char* format) const
 	{
-		return FormatDateTime(format, time(0));
+		return std::string(cToSvDateTime(format, time(0)));
 	}
 
 	const std::string EpgInfo::StartTime(const char* format) const
 	{
 		time_t start = GetStartTime();
-		return start ? FormatDateTime(format, start) : "";
+		return start ? std::string(cToSvDateTime(format, start)) : "";
 	}
 
 	const std::string EpgInfo::EndTime(const char* format) const
 	{
 		time_t end = GetEndTime();
-		return end ? FormatDateTime(format, end) : "";
+		return end ? std::string(cToSvDateTime(format, end)) : "";
 	}
 
 	int EpgInfo::Elapsed() const
@@ -268,7 +268,7 @@ namespace vdrlive
 		{
 			std::string eventId("event_");
 
-			eventId += vdrlive::EncodeDomId(cToSvChannel(chanId), ".-", "pm");
+			eventId += vdrlive::EncodeDomId(cToSvConcat(chanId), ".-", "pm");
 			eventId += '_';
 			eventId += cSv(cToSvInt(eId));
 			return eventId;
@@ -485,7 +485,7 @@ namespace vdrlive
 
 	} // namespace EpgEvents
 
-void AppendScraperData(cLargeString &target, cScraperVideo *scraperVideo) {
+void AppendScraperData(cToSvConcat<0> &target, cScraperVideo *scraperVideo) {
   cTvMedia s_image;
   std::string s_title, s_episode_name, s_IMDB_ID, s_release_date;
   if (scraperVideo == NULL) {
@@ -499,7 +499,7 @@ void AppendScraperData(cLargeString &target, cScraperVideo *scraperVideo) {
     cOrientations(eOrientation::landscape, eOrientation::portrait, eOrientation::banner), false);
   AppendScraperData(target, s_IMDB_ID, s_image, scraperVideo->getVideoType(), s_title, scraperVideo->getSeasonNumber(), scraperVideo->getEpisodeNumber(), s_episode_name, s_runtime, s_release_date);
 }
-bool appendEpgItem(cLargeString &epg_item, RecordingsItemRecPtr &recItem, const cEvent *Event, const cChannel *Channel, bool withChannel) {
+bool appendEpgItem(cToSvConcat<0> &epg_item, RecordingsItemRecPtr &recItem, const cEvent *Event, const cChannel *Channel, bool withChannel) {
   cGetScraperVideo getScraperVideo(Event, NULL);
   getScraperVideo.call(LiveSetup().GetPluginScraper());
 
@@ -509,7 +509,7 @@ bool appendEpgItem(cLargeString &epg_item, RecordingsItemRecPtr &recItem, const 
 
   epg_item.append("[\"");
 // [0] : EPG ID  (without event_)
-  epg_item.appendS(EpgEvents::EncodeDomId(Channel->GetChannelID(), Event->EventID()).c_str() + 6);
+  epg_item.append(EpgEvents::EncodeDomId(Channel->GetChannelID(), Event->EventID()).c_str() + 6);
   epg_item.append("\",\"");
 // [1] : Timer ID
   const cTimer* timer = LiveTimerManager().GetTimer(Event->EventID(), Channel->GetChannelID() );
@@ -520,7 +520,7 @@ bool appendEpgItem(cLargeString &epg_item, RecordingsItemRecPtr &recItem, const 
   epg_item.append(",");
 // [9] : channelnr
   if (withChannel) {
-    epg_item.append(Channel->Number());
+    epg_item.concat(Channel->Number());
     epg_item.append(",\"");
 // [10] : channelname
     AppendHtmlEscapedAndCorrectNonUTF8(epg_item, Channel->Name() );
@@ -536,9 +536,9 @@ bool appendEpgItem(cLargeString &epg_item, RecordingsItemRecPtr &recItem, const 
   AppendTextTruncateOnWord(epg_item, Event->Description(), LiveSetup().GetMaxTooltipChars(), true);
   epg_item.append("\",\"");
 // [14] : Day, time & duration of event
-  AppendDateTime(epg_item, tr("%I:%M %p"), Event->StartTime() );
+  epg_item.appendDateTime(tr("%I:%M %p"), Event->StartTime() );
   epg_item.append(" - ");
-  AppendDateTime(epg_item, tr("%I:%M %p"), Event->EndTime() );
+  epg_item.appendDateTime(tr("%I:%M %p"), Event->EndTime() );
   epg_item.append(" ");
   AppendDuration(epg_item, tr("(%d:%02d)"), Event->Duration());
   epg_item.append("\"]");

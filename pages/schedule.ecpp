@@ -112,7 +112,8 @@ bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
 		time_t now = time(NULL) - ::Setup.EPGLinger * 60;
     RecordingsItemRecPtr recItem;
     bool recItemFound;
-    cLargeString epg_item("epg_item", 1000);
+    cToSvConcat<0> epg_item;
+    epg_item.reserve(1000);
 		for (const cEvent *Event = (cEvent *)Schedule->Events()->First(); Event; Event = (cEvent *)Schedule->Events()->Next(Event)) {
 			if (Event->EndTime() <= now && Event != PresentEvent) continue;
 
@@ -128,7 +129,7 @@ bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
 					lastEventCurrentDay = true;
 				}
 				else {
-					std::string nday(NextEvent->StartTime() ? FormatDateTime(tr("%A, %b %d %Y"), NextEvent->StartTime()) : "");
+					std::string nday(NextEvent->StartTime() ? std::string(cToSvDateTime(tr("%A, %b %d %Y"), NextEvent->StartTime())) : "");
 					lastEventCurrentDay = (day != nday);
 				}
 			}
@@ -179,7 +180,7 @@ if(recItemFound) {
 <form action="schedule.html" method="get" id="channels">
    <span>
      <label for="channel"><$ tr("Channel") $>:&nbsp;<span class="bold"><$ cToSvInt(Channel->Number()) $></span></label>
-     <& channels_widget name=("channel") selected=(Channel ? cSv(cToSvChannel(Channel->GetChannelID())) : cSv() ) onchange=("document.forms.channels.submit()") &>
+     <& channels_widget name=("channel") selected=(Channel ? cSv(cToSvConcat(Channel->GetChannelID())) : cSv() ) onchange=("document.forms.channels.submit()") &>
 %    if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
        <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(Channel->GetChannelID()) image="zap.png" alt="" &>
 %    }

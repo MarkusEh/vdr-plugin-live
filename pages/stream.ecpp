@@ -125,8 +125,8 @@ if (Event) {
 	EpgEvents::DecodeDomId(epgEvent->Id(), chanId, eventId);
 	char const * timeFormat = tr("%I:%M %p");
 	char const * dateFormat = tr("%A, %x");
-	std::string headTime = FormatDateTime(timeFormat, time(0));
-	std::string headDate = FormatDateTime(dateFormat, time(0));
+	std::string headTime = std::string(cToSvDateTime(timeFormat, time(0)));
+	std::string headDate = std::string(cToSvDateTime(dateFormat, time(0)));
 	std::string startTime(epgEvent->StartTime(tr("%I:%M %p")));
 	std::string endTime(epgEvent->EndTime(tr("%I:%M %p")));
 	std::string startDate(epgEvent->StartTime(tr("%a, %x")));

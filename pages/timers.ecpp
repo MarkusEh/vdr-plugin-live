@@ -80,13 +80,11 @@ using namespace vdrlive;
 		<div class="inhalt">
 <%cpp>
 		#ifdef DEBUG_LOCK
-                        dsyslog("live: pages/timers.ecpp LOCK_TIMERS_READ");
-                #endif
-                        const char *lf;
-                        if (LiveSetup().GetUseAjax()) lf = "<br/>";
-                        else lf = "&#13;";
-		        LOCK_TIMERS_READ;
-                        cSortedTimers sortedTimers(Timers);
+      dsyslog("live: pages/timers.ecpp LOCK_TIMERS_READ");
+    #endif
+      const char *lf = "<br/>";
+		  LOCK_TIMERS_READ;
+      cSortedTimers sortedTimers(Timers);
 			if (sortedTimers.Size() == 0) {
 </%cpp>
 				<$ tr("No timer defined") $>
@@ -108,7 +106,7 @@ using namespace vdrlive;
             epgEvent = EpgEvents::CreateEpgInfo(timer->Channel(), timer->Event());
             bool truncated = false;
             longDescription  = StringEscapeAndBreak(SortedTimers::GetTimerInfo(*timer), lf);
-            longDescription += LiveSetup().GetUseAjax()?"<hr>":lf;
+            longDescription += "<hr>";
 					  longDescription += StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), LiveSetup().GetMaxTooltipChars(), truncated), lf);
 					  if (truncated) longDescription += "...";
             AppendHtmlEscapedAndCorrectNonUTF8(searchTimName, SortedTimers::SearchTimerInfo(*timer, "searchtimer"));
@@ -180,12 +178,12 @@ using namespace vdrlive;
 
 				<td class="leftcol <? bottom ? "bottomrow" ?>"><img src="<$ LiveSetup().GetThemedLink("img", timerStateImg) $>" alt="" <%cpp> if (!timerStateHint.empty()) { </%cpp><& tooltip.hint text=(timerStateHint) &> <%cpp> } </%cpp>/></td>
           <td class="<? bottom ? "bottomrow" ?>"><div class="withmargin">
-             <table class="noborder"><tr><td class="noborder"><span class="display-xs nowrap" > <$ FormatDateTime(tr("%I:%M %p"), timer->StartTime()) $> - <$ FormatDateTime(tr("%I:%M %p"), timer->StopTime()) $></span></td></tr>
+             <table class="noborder"><tr><td class="noborder"><span class="display-xs nowrap" > <$ cToSvDateTime(tr("%I:%M %p"), timer->StartTime()) $> - <$ cToSvDateTime(tr("%I:%M %p"), timer->StopTime()) $></span></td></tr>
              <tr><td class="noborder"><a href="schedule.html?channel=<$ timer->Channel()->Number()$>"><$ timer->Channel()->Name() $></a></td></tr>
 </table>
           </div></td>
-          <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin nowrap" title="<$$longDescription$>"><$ FormatDateTime(tr("%I:%M %p"), timer->StartTime()) $>  </div></td>
-          <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin nowrap" title="<$$longDescription$>"><$ FormatDateTime(tr("%I:%M %p"), timer->StopTime()) $>  </div></td>
+          <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin nowrap" title="<$$longDescription$>"><$ cToSvDateTime(tr("%I:%M %p"), timer->StartTime()) $>  </div></td>
+          <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin nowrap" title="<$$longDescription$>"><$ cToSvDateTime(tr("%I:%M %p"), timer->StopTime()) $>  </div></td>
           <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin nowrap" title="<$$longDescription$>"><$ FormatDuration(tr("%d:%02d"), timer->StopTime() - timer->StartTime()) $></div></td>
           <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin nowrap" title="<$$longDescription$>"><$ timer->Priority() $></div></td>
 					<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><a

@@ -22,7 +22,6 @@
 #include "xxhash.h"
 #include <vdr/channels.h>
 #include "stringhelpers.h"
-#include "largeString.h"
 
 std::istream& operator>>( std::istream& is, tChannelID& ret );
 
@@ -32,7 +31,7 @@ std::ostream& operator<<( std::ostream& os, tChannelID const& id )
 	return os << cToSvConcat(id);
 }
 
-template<typename... Args> void stringAppendFormated(cLargeString &target, const char *format, Args&&... args) {
+template<typename... Args> void stringAppendFormated(cToSvConcat<0> &target, const char *format, Args&&... args) {
   target.appendFormated(format, std::forward<Args>(args)...);
 }
 
@@ -40,7 +39,6 @@ namespace vdrlive {
 	extern const std::locale g_locale;
 	extern const std::collate<char>& g_collate_char;
 
-  void AppendHtmlEscaped(std::string &target, const char* s);
 template<class T>
   void AppendHtmlEscapedAndCorrectNonUTF8(T &target, const char* s, const char *end = NULL, bool tooltip = false);
 template<class T>
@@ -53,10 +51,6 @@ template<class T>
 
   template<typename T> void AppendDuration(T &target, char const* format, int duration);
 	std::string FormatDuration( char const* format, int duration );
-
-  void AppendDateTime(cLargeString &target, char const* format, time_t time );
-  void AppendDateTime(std::string &target, char const* format, time_t time );
-	std::string FormatDateTime( char const* format, time_t time );
 
 	std::string StringReplace(cSv text, cSv substring, cSv replacement );
 

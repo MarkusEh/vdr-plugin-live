@@ -254,7 +254,7 @@ namespace vdrlive
 			mutable bool m_checkedArchived;
 			mutable std::string m_archived;
 	};
-bool appendEpgItem(cLargeString &epg_item, RecordingsItemRecPtr &recItem, const cEvent *Event, const cChannel *Channel, bool withChannel);
+bool appendEpgItem(cToSvConcat<0> &epg_item, RecordingsItemRecPtr &recItem, const cEvent *Event, const cChannel *Channel, bool withChannel);
 }; // namespace vdrlive
 
 #endif // VDR_LIVE_EPG_EVENTS_H

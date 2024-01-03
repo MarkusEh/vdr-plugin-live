@@ -69,7 +69,8 @@ bool logged_in(false);
 <%cpp>
 				std::string current_day = "";
 				bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
-        cLargeString epg_itemS("epg_itemS", 1000);
+        cToSvConcat<0> epg_itemS;
+        epg_itemS.reserve(1000);
 				RecordingsItemRecPtr recItem;
 				bool recItemFound;
 
@@ -90,13 +91,13 @@ bool logged_in(false);
 							continue;
 						}
 						const cEvent *event = result->GetEvent(channel);
-						std::string day(result->StartTime() ? FormatDateTime(tr("%A, %b %d %Y"), result->StartTime()) : "");
+						std::string day(result->StartTime() ? std::string(cToSvDateTime(tr("%A, %b %d %Y"), result->StartTime())) : "");
 						bool bottom = false;
 						SearchResults::iterator nextResult = result; ++nextResult;
 						if (nextResult == results.end())
 							bottom = true;
 						else {
-							std::string nextDay(nextResult->StartTime() ? FormatDateTime(tr("%A, %b %d %Y"), nextResult->StartTime()) : "");
+							std::string nextDay(nextResult->StartTime() ? std::string(cToSvDateTime(tr("%A, %b %d %Y"), nextResult->StartTime())) : "");
 							bottom = (day != nextDay);
 						}
 

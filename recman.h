@@ -20,7 +20,6 @@
 #include <vdr/recording.h>
 #include <vdr/channels.h>
 #include "stringhelpers.h"
-#include "largeString.h"
 #include "tools.h"
 #include "services.h"
 
@@ -317,8 +316,8 @@ template<typename T>
       bool matchesFilter(cSv filter) const;
 
       virtual int SD_HD() const;
-      virtual void AppendAsJSArray(cLargeString &target) const;
-      static void AppendAsJSArray(cLargeString &target, std::vector<RecordingsItemRecPtr>::const_iterator recIterFirst, std::vector<RecordingsItemRecPtr>::const_iterator recIterLast, bool &first, cSv filter, bool reverse);
+      virtual void AppendAsJSArray(cToSvConcat<0> &target) const;
+      static void AppendAsJSArray(cToSvConcat<0> &target, std::vector<RecordingsItemRecPtr>::const_iterator recIterFirst, std::vector<RecordingsItemRecPtr>::const_iterator recIterLast, bool &first, cSv filter, bool reverse);
 
       mutable cMeasureTime *m_timeIdentify = nullptr;
       mutable cMeasureTime *m_timeOverview = nullptr;
@@ -387,7 +386,7 @@ template<typename T>
       const cTvMedia &scraperImage() const { return m_s_image; }
 
       virtual int SD_HD() const { return 0; }
-      virtual void AppendAsJSArray(cLargeString &target) const {}
+      virtual void AppendAsJSArray(cToSvConcat<0> &target) const {}
     private:
       const cEvent *m_event;
   };
@@ -464,7 +463,7 @@ template<typename T>
     a.swap(b);
   }
 
-void AppendScraperData(cLargeString &target, cSv s_IMDB_ID, const cTvMedia &s_image, tvType s_videoType, cSv s_title, int s_season_number, int s_episode_number, cSv s_episode_name, int s_runtime, cSv s_release_date);
+void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_image, tvType s_videoType, cSv s_title, int s_season_number, int s_episode_number, cSv s_episode_name, int s_runtime, cSv s_release_date);
 
 std::string recordingErrorsHtml(int recordingErrors);
 

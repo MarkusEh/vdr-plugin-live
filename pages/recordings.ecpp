@@ -10,7 +10,6 @@
 #include <tntconfig.h>
 #include <vdr/channels.h>
 #include <stringhelpers.h>
-#include <largeString.h>
 
 #ifdef HAVE_PCRE2
 #include <StringMatch.h>
@@ -125,7 +124,9 @@ if (request.hasCookie("VDR-Live-Recordings-Tree-Open-Nodes")) {
   openTreeNodes = request.getCookie("VDR-Live-Recordings-Tree-Open-Nodes");
 //  isyslog("live: VDR-Live-Recordings-Tree-Open-Nodes = %s", openTreeNodes.c_str());
 }
-cLargeString recoring_item("recoring_item", 25000);
+cToSvConcat<0> recoring_item;
+recoring_item.reserve(25000);
+
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -357,7 +358,7 @@ if (currentSort == "datedesc" || currentSort == "namedesc") reverse = true;
 // get rec item of this (current) dir
 RecordingsItemDirPtr recItemThisDir = *(static_cast<RecordingsItemDirPtr *>((void *)iRecItem) );
 RecordingsTreePtr recordingsTree = *(static_cast<RecordingsTreePtr *>((void *)iRecordingsTree) );
-cLargeString *recoring_item = static_cast<cLargeString *>((void *)irecoring_item );
+cToSvConcat<0> *recoring_item = static_cast<cToSvConcat<0> *>((void *)irecoring_item );
 std::string openTreeNodes= *(static_cast<std::string *>((void *)iOpenTreeNodes) );
 std::vector<int> available_recs = *(static_cast<std::vector<int> *>((void *)iAvailable_recs) );
 int level = recItemThisDir->Level();

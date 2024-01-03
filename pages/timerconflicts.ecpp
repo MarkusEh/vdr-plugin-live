@@ -50,7 +50,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 </%cpp>
 						<tr class="head">
 							<td colspan="12">
-								<div class="boxheader"><div><div><$ concat(FormatDateTime(tr("%A, %x"), conflict->ConflictTime()), " ", FormatDateTime(tr("%I:%M %p"), conflict->ConflictTime()), " - ", cToSvInt(confltimer->percentage), "%") $><span style="float:right;"><diff><$ tr("Server")$>: <$ (confltimer->remote == "" ) ? tr("local") : confltimer->remote $> </diff></span></div></div></div>
+								<div class="boxheader"><div><div><$ concat(cToSvDateTime(tr("%A, %x"), conflict->ConflictTime()), " ", cToSvDateTime(tr("%I:%M %p"), conflict->ConflictTime()), " - ", cToSvInt(confltimer->percentage), "%") $><span style="float:right;"><diff><$ tr("Server")$>: <$ (confltimer->remote == "" ) ? tr("local") : confltimer->remote $> </diff></span></div></div></div>
 							</td>
 						</tr>
 						<tr class="description">
@@ -126,12 +126,12 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 							<tr>
 								<td class="leftcol <? bottom ? "bottomrow" ?>"><img src="<$ LiveSetup().GetThemedLink("img", timerStateImg) $>" alt="" <%cpp> if (!timerStateHint.empty()) { </%cpp><& tooltip.hint text=(timerStateHint) &><%cpp> } </%cpp>/ ></td>
 								<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin">
-                   <table class="noborder"><tr><td class="noborder"><span class="display-xs nowrap" > <$ FormatDateTime(tr("%I:%M %p"), timer->StartTime()) $> - <$ FormatDateTime(tr("%I:%M %p"), timer->StopTime()) $></span></td></tr>
+                   <table class="noborder"><tr><td class="noborder"><span class="display-xs nowrap" > <$ cToSvDateTime(tr("%I:%M %p"), timer->StartTime()) $> - <$ cToSvDateTime(tr("%I:%M %p"), timer->StopTime()) $></span></td></tr>
                    <tr><td class="noborder"><a href="schedule.html?channel=<$ timer->Channel()->Number()$>"><$ timer->Channel()->Name() $></a></td></tr>
                    <tr><td class="noborder" style="padding-top:2pt"><span class="display-xs" title ="<$ trVDR("Priority") $>"><$ timer->Priority() $> </span></td></tr></table>
                 </div></td>
-								<td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin nowrap" title="<$ trVDR("Start")$>"><$ FormatDateTime(tr("%I:%M %p"), timer->StartTime()) $>  </div></td>
-								<td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin nowrap" title="<$ trVDR("Stop")$>"><$ FormatDateTime(tr("%I:%M %p"), timer->StopTime()) $>  </div></td>
+								<td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin nowrap" title="<$ trVDR("Start")$>"><$ cToSvDateTime(tr("%I:%M %p"), timer->StartTime()) $>  </div></td>
+								<td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin nowrap" title="<$ trVDR("Stop")$>"><$ cToSvDateTime(tr("%I:%M %p"), timer->StopTime()) $>  </div></td>
 								<td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin nowrap" title="<$ trVDR("Duration")$>"><$ FormatDuration(tr("%d:%02d"), timer->StopTime() - timer->StartTime()) $></div></td>
 								<td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin" title="<$ trVDR("Priority") $>"><$ timer->Priority() $></div></td>
 								<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><a

@@ -40,6 +40,7 @@ using namespace vdrlive;
 	int lifetime = 0;
 	std::string aux = "";
 	std::string directory = "";
+  int nav_back = 1;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -79,41 +80,37 @@ const cTimer* timer;
                    	timerId = timer->Id();
 	}
 
-	if ( request.getMethod() == "POST" ) {
+	if ( request.getMethod() == "POST" && title.empty()) { ++nav_back; message = tr("Please set a title for the timer!"); }
+	if ( request.getMethod() == "POST" && !title.empty()) {
 		const char* oldRemote = NULL;
 		if ( timer != 0 ) {
 			oldRemote = timer->Remote();
 //			dsyslog("live: found valid timer on server '%s'", oldRemote);
-                }
-		uint flags = ( active ? tfActive : 0 ) | ( vps ? tfVps : 0 );
-		std::string weekdays = std::string( wday_mon ? "M" : "-" ) + ( wday_tue ? "T" : "-" ) + ( wday_wed ? "W" : "-" )
-							  + ( wday_thu ? "T" : "-" ) + ( wday_fri ? "F" : "-" ) + ( wday_sat ? "S" : "-" )
-							  + ( wday_sun ? "S" : "-" );
-		int start = timeStringToInt(start_s);
-		int stop = timeStringToInt(stop_s);
+      }
 
-		if (!directory.empty())
-		   title = directory + "~" + title;
+			uint flags = ( active ? tfActive : 0 ) | ( vps ? tfVps : 0 );
+			std::string weekdays = std::string( wday_mon ? "M" : "-" ) + ( wday_tue ? "T" : "-" ) + ( wday_wed ? "W" : "-" )
+								  + ( wday_thu ? "T" : "-" ) + ( wday_fri ? "F" : "-" ) + ( wday_sat ? "S" : "-" )
+								  + ( wday_sun ? "S" : "-" );
+			int start = timeStringToInt(start_s);
+			int stop = timeStringToInt(stop_s);
 
-		if (title.empty())
-			message = tr("Please set a title for the timer!");
-		else
-		{
+			std::string file = directory.empty() ? title : directory + "~" + title;
+
 			const char* remote = ( remoteServerName == "") ? NULL : remoteServerName.c_str();
 //		dsyslog("live: remote '%s'", remote);
-			LiveTimerManager().UpdateTimer( timerId, remote, oldRemote, flags, channel, weekdays, date, start, stop, priority, lifetime, title, aux );
+			LiveTimerManager().UpdateTimer( timerId, remote, oldRemote, flags, channel, weekdays, date, start, stop, priority, lifetime, file, aux );
 			timerNotifier.SetTimerModification();
 </%cpp>
 <!DOCTYPE html>
 <html>
   <script>
-    history.go(-2);
+    history.go(<$-nav_back-1$>);
   </script>
 </html>
 <%cpp>
 //			return reply.redirect("html/back.html");
 //			return reply.redirect(!edit_timerreferer.empty()?edit_timerreferer:"timers.html");
-		}
 	} else {
 
 	if (message.empty())
@@ -148,7 +145,7 @@ const cTimer* timer;
 		timer = eventTimer.get();
 	}
 
-	if ( timer != 0 ) {
+	if ( timer != 0 && request.getMethod() == "GET" ) {
 		active = timer->Flags() & tfActive;
 		channel = timer->Channel()->GetChannelID();
 		title = timer->File() ? timer->File() : "";
@@ -205,6 +202,7 @@ const cTimer* timer;
 			<form method="post" name="edit_timer" id="<$ timerid $>" action="edit_timer.ecpp">
 				<input type="hidden" name="timerid" value="<$ timerid $>"/>
 				<input type="hidden" name="aux" value="<$ aux $>"/>
+				<input type="hidden" name="nav_back" value="<$ nav_back $>"/>
 				<table class="formular" cellpadding="0" cellspacing="0">
 					<tr class="head">
 						<td class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div><div class="caption"><$ timer ? tr("Edit timer") : tr("New timer") $></div></div></div></td>
@@ -355,7 +353,7 @@ const cTimer* timer;
 						<td class="buttonpanel leftcol rightcol bottomrow" colspan="2">
 							<div class="withmargin">
 							<button class="green" type="submit"><$ tr("Save") $></button>
-							<button type="button" class="red" onclick="history.back()"><$ tr("Cancel") $></button>
+							<button type="button" class="red" onclick="history.go(<$-nav_back$>)"><$ tr("Cancel") $></button>
 							</div>
 						</td>
 					</tr>

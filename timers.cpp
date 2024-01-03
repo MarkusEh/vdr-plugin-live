@@ -23,7 +23,7 @@ namespace vdrlive {
 	std::string SortedTimers::GetTimerId( cTimer const& timer )
 	{
 		std::stringstream builder;
-		builder << cSv(cToSvChannel(timer.Channel()->GetChannelID())) << ":" << timer.WeekDays() << ":"
+		builder << cSv(cToSvConcat(timer.Channel()->GetChannelID())) << ":" << timer.WeekDays() << ":"
 				<< timer.Day() << ":" << timer.Start() << ":" << timer.Stop();
 		return builder.str();
 	}
@@ -90,7 +90,7 @@ namespace vdrlive {
 		if (!timer) return "";
 		std::string currentDay = timer->WeekDays() > 0 ?
 			*cTimer::PrintDay(0, timer->WeekDays(), true) :
-			FormatDateTime(tr("%A, %x"), timer->Day());
+			std::string(cToSvDateTime(tr("%A, %x"), timer->Day()));
 		return currentDay;
 	}
 
@@ -166,7 +166,7 @@ namespace vdrlive {
 
 		std::stringstream builder;
 		builder << flags << ":"
-				<< cSv(cToSvChannel(channel)) << ":"
+				<< cSv(cToSvConcat(channel)) << ":"
 				<< ( weekdays != "-------" ? weekdays : "" )
 				<< ( weekdays == "-------" || day.empty() ? "" : "@" ) << day << ":"
 				<< start << ":"
@@ -187,7 +187,7 @@ namespace vdrlive {
 		dsyslog("live: UpdateTimer() remote '%s'", remote);
 		dsyslog("live: UpdateTimer() oldRemote '%s'", oldRemote);
 		dsyslog("live: UpdateTimer() channel '%s'", *(channel.ToString()));
-		dsyslog("live: UpdateTimer() channel '%s'", cToSvChannel(channel).c_str() );
+		dsyslog("live: UpdateTimer() channel '%s'", cToSvConcat(channel).c_str() );
 		dsyslog("live: UpdateTimer() builder '%s'", builder.str().c_str());
 
     timerStruct timerData = { .id = timerId, .remote=remote, .oldRemote=oldRemote, .builder=builder.str() };
