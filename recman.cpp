@@ -365,15 +365,18 @@ template void StringAppendFrameParams<cToSvConcat<255>>(cToSvConcat<255> &s, con
           return first->orderDuplicates(second, true, true);
 	}
 
-  int firstNonPunct(cSv s) {
+  size_t firstNonPunct(cSv s) {
 // returns first non-punct char in s
-    unsigned int ret;
+    size_t ret;
     for (ret = 0; ret < s.length() && std::ispunct(s[ret]); ret++ );
     return ret;
   }
   int compareWithLocale(cSv first, cSv second) {
-    int start_f = firstNonPunct(first );
-    int start_s = firstNonPunct(second);
+    size_t start_f = firstNonPunct(first );
+    size_t start_s = firstNonPunct(second);
+    if (start_f >= first.length() && start_s >= second.length() ) return 0;
+    if (start_f >= first.length() ) return 1;
+    if (start_s >= second.length() ) return -1;
 // see https://en.cppreference.com/w/cpp/locale/collate/compare
 // Compares the character sequence [low1, high1) to the character sequence [low2, high2)
     int i = g_collate_char.compare(&first[start_f], &first[0] + first.length(),
@@ -1137,6 +1140,7 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
 		m_root->finishRecordingsTree();
     std::chrono::duration<double> timeNeeded = std::chrono::high_resolution_clock::now() - begin;
     dsyslog("live: DH: ------ RecordingsTree::RecordingsTree() --------, required time: %9.5f", timeNeeded.count() );
+/*
                  timeRecs.print("live: timeRecs  ");
               timeItemRec.print("live: ItemRec   ");
              timeIdentify.print("live: Identify  ");
@@ -1144,6 +1148,7 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
                 timeImage.print("live: Image     ");
     timeDurationDeviation.print("live: Scraper   ");
            timeNumTsFiles.print("live: NumTsFiles");
+*/
 	}
 
 	RecordingsTree::~RecordingsTree()
