@@ -102,7 +102,7 @@ template void StringAppendFrameParams<cToSvConcat<255>>(cToSvConcat<255> &s, con
 		return 0;
 	}
 
-	bool RecordingsManager::MoveRecording(cRecording const * recording, cSv name, bool copy) const
+	bool RecordingsManager::UpdateRecording(cRecording const * recording, cSv name, bool copy, const std::string& shorttext, const std::string description) const
 	{
 		if (!recording)
 			return false;
@@ -131,6 +131,18 @@ template void StringAppendFrameParams<cToSvConcat<255>>(cToSvConcat<255> &s, con
 			Recordings->DelByName(oldname.c_str());
 		Recordings->AddByName(newname.c_str());
 		cRecordingUserCommand::InvokeCommand(*cString::sprintf("rename \"%s\"", *strescape(oldname.c_str(), "\\\"$'")), newname.c_str());
+
+		// update texts
+		std::string title(name, name.compare(0, 1, "%") == 0, std::string::npos); // need null terminated string for VDR API
+		std::string desc = description;
+		desc.erase(std::remove(desc.begin(), desc.end(), '\r'), desc.end()); // remove \r from HTML
+
+		cRecordingInfo* info = recording->Info();
+		if (title != cSv(info->Title()) || shorttext != cSv(info->ShortText()) || desc != cSv(info->Description()))
+		{
+			info->SetData(title.c_str(), shorttext.empty() ? nullptr : shorttext.c_str(), desc.empty() ? nullptr : desc.c_str());
+			info->Write();
+		}
 
 		return true;
 	}

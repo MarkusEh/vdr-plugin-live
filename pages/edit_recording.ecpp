@@ -20,6 +20,8 @@ using namespace vdrlive;
 	std::string name = "";
 	std::string directory = "";
   std::string newdir = "";
+  std::string shorttext = "";
+  std::string description = "";
   std::string delresume = "";
   std::string delmarks = "";
   std::string copy = "";
@@ -64,7 +66,7 @@ const cRecording* recording;
       if (copy == "copy") copy_only = true;
       if (newdir != ".") directory = newdir;
 			std::string filename =  directory.empty() ? name : StringReplace(directory, "/", "~") + "~" + name;
-			if (LiveRecordingsManager()->MoveRecording(recording, FileSystemExchangeChars(filename, true), copy_only))
+			if (LiveRecordingsManager()->UpdateRecording(recording, FileSystemExchangeChars(filename, true), copy_only, shorttext, description))
         returnToReferer = true;
 			else
 				message = tr("Cannot copy, rename or move the recording.");
@@ -94,6 +96,9 @@ const cRecording* recording;
 			directory = "";
 			name = path;
 		}
+
+		shorttext = recording->Info()->ShortText();
+		description = recording->Info()->Description();
 	}
 </%cpp>
 <& pageelems.doc_type &>
@@ -140,7 +145,7 @@ const cRecording* recording;
 					</tr>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Name") $>:</div></td>
-						<td class="rightcol"><input type="text" name="name" value="<$ name $>" size="55" class="width99" /></td>
+						<td class="rightcol"><input type="text" name="name" value="<$ name $>" size="100" class="width99" /></td>
 					</tr>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Directory") $>:</div></td>
@@ -155,8 +160,8 @@ const cRecording* recording;
 	}
 </%cpp>
 							</select>
-              <img id="new_dir_button" class="icon" src="<$ LiveSetup().GetThemedLink("img", "button_new.png") $>" title="<$tr("Create new directory")$>" onclick="new_dir()" style="vertical-align: middle">
-							<input type="text" name="newdir" id="newdir" value="." size="55" class="width99" style="display:none" />
+							<img id="new_dir_button" class="icon" src="<$ LiveSetup().GetThemedLink("img", "button_new.png") $>" title="<$tr("Create new directory")$>" onclick="new_dir()" style="vertical-align: middle">
+							<input type="text" name="newdir" id="newdir" value="." size="100" class="width99" style="display:none" />
 						</td>
 					</tr>
 					<tr>
@@ -171,24 +176,16 @@ const cRecording* recording;
 						<td class="label leftcol"><div class="withmargin"><$ tr("Copy only") $>:</div></td>
 						<td class="rightcol"><input type="checkbox" name="copy" value="copy"/></td>
 					</tr>
-<%cpp>
-if (recording && recording->Info()->ShortText()) {
-</%cpp>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Short description") $>:</div></td>
-						<td class="rightcol"><$ recording->Info()->ShortText() $></td>
+						<td class="rightcol"><input type="text" name="shorttext" value="<$ shorttext $>" size="55" class="width99" /></td>
 					</tr>
-<%cpp>
-}
-if (recording && recording->Info()->Description()) {
-</%cpp>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Description") $>:</div></td>
-						<td class="rightcol"><$ recording->Info()->Description() $></td>
+						<td class="rightcol"><textarea name="description" rows="6" cols="100" class="width99"><$ description $></textarea></td>
 					</tr>
 <%cpp>
 
-}
 if (recording && recording->Info()->Aux()) {
   std::string aux_data;
   cGetAutoTimerReason getAutoTimerReason;
