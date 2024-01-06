@@ -1,6 +1,5 @@
 <%pre>
 
-#include <tools.h>
 #include <recman.h>
 #include <setup.h>
 #include <users.h>
@@ -65,8 +64,7 @@ const cRecording* recording;
       if (delmarks == "delmarks") LiveRecordingsManager()->DeleteMarks(recording);
       if (copy == "copy") copy_only = true;
       if (newdir != ".") directory = newdir;
-			std::string filename =  directory.empty() ? name : StringReplace(directory, "/", "~") + "~" + name;
-			if (LiveRecordingsManager()->UpdateRecording(recording, FileSystemExchangeChars(filename, true), copy_only, shorttext, description))
+			if (LiveRecordingsManager()->UpdateRecording(recording, directory, name, copy_only, shorttext, description))
         returnToReferer = true;
 			else
 				message = tr("Cannot copy, rename or move the recording.");
@@ -85,20 +83,16 @@ const cRecording* recording;
 	} else {
 
 	if (recording) {
-		std::string path = recording->Name();
-		size_t found = path.find_last_of("~");
-
-		if (found != std::string::npos) {
-			directory = StringReplace(path.substr(0, found), "~", "/");
-			name = path.substr(found + 1);
-		}
-		else {
-			directory = "";
-			name = path;
-		}
-
-		shorttext = recording->Info()->ShortText();
-		description = recording->Info()->Description();
+		cRecordingInfo *info = recording->Info();
+		cString basename = recording->BaseName(); 
+		name = cSv(info->Title());
+		if (name.empty())
+			name = basename;
+		if (basename[0] == '%')
+			name.insert(0, 1, '%');
+		directory = StringReplace(*recording->Folder(), "~", "/");
+		shorttext = cSv(info->ShortText());
+		description = cSv(info->Description());
 	}
 </%cpp>
 <& pageelems.doc_type &>
@@ -178,11 +172,11 @@ const cRecording* recording;
 					</tr>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Short description") $>:</div></td>
-						<td class="rightcol"><input type="text" name="shorttext" value="<$ shorttext $>" size="55" class="width99" /></td>
+						<td class="rightcol"><input type="text" name="shorttext" value="<$ shorttext $>" size="100" class="width99" /></td>
 					</tr>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Description") $>:</div></td>
-						<td class="rightcol"><textarea name="description" rows="6" cols="100" class="width99"><$ description $></textarea></td>
+						<td class="rightcol"><textarea name="description" rows="8" cols="100" class="width99"><$ description $></textarea></td>
 					</tr>
 <%cpp>
 

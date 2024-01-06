@@ -79,12 +79,13 @@ template<typename T>
       /**
        *  Move a recording with the given hash according to
        *  VDRs recording mechanisms.
-       *  @param name new file name and title of the recording.
+       *  @param directory new name of the sub folder this recording is stored in.
+       *  @param name new title of the recording, will also synchronize the recording folder name.
        *  @param copy create a copy of the original recording rather than moving it.
        *  @param shorttext new short text of the recording.
        *  @param description new description of the recording.
        */
-      bool UpdateRecording(cRecording const * recording, cSv name, bool copy, const std::string& shorttext, const std::string description) const;
+      bool UpdateRecording(cRecording const * recording, cSv directory, cSv name, bool copy, cSv shorttext, cSv description) const;
 
       /**
        *  Delete recording resume with the given hash according to
