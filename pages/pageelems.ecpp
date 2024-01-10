@@ -47,6 +47,12 @@ std::string toString(const std::vector<cActor> &vec) {
   }
   return result;
 }
+bool getLanguage(std::string &language, const char *env_name) {
+  const char *env_language = std::getenv(env_name);
+  bool found = env_language && strlen(env_language) >= 2;
+  if (found) language.append(env_language, 2);
+  return found;
+}
 
 </%pre>
 <%session scope="global">
@@ -999,8 +1005,15 @@ if (scraperMovieOrTv.found) {
 <%cpp>
   const int num_cols = 4;
   int num = 1;
-  std::string loc_name = std::locale("").name().substr(0,2);
-  if (loc_name.length() != 2 || loc_name[0] == 'C' || loc_name[0] == '*') loc_name = "en"; //  use en as default
+  std::string loc_name;
+  getLanguage(loc_name, "LANGUAGE") ||
+  getLanguage(loc_name, "LC_ALL") ||
+  getLanguage(loc_name, "LC_MESSAGES") ||
+  getLanguage(loc_name, "LANG");
+  if (loc_name.empty() ) {
+    loc_name = std::locale("").name().substr(0,2);
+    if (loc_name.length() != 2 || loc_name[0] == 'C' || loc_name[0] == '*' || loc_name[0] == 'L') loc_name = "en"; //  use en as default
+  }
   std::string actor_names = "";
 
   for (const auto &character:scraperCharacters) {
