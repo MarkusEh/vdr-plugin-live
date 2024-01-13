@@ -19,6 +19,7 @@ using namespace vdrlive;
 	std::string name = "";
 	std::string directory = "";
   std::string newdir = "";
+  std::string title = "";
   std::string shorttext = "";
   std::string description = "";
   std::string delresume = "";
@@ -64,7 +65,7 @@ const cRecording* recording;
       if (delmarks == "delmarks") LiveRecordingsManager()->DeleteMarks(recording);
       if (copy == "copy") copy_only = true;
       if (newdir != ".") directory = newdir;
-			if (LiveRecordingsManager()->UpdateRecording(recording, directory, name, copy_only, shorttext, description))
+			if (LiveRecordingsManager()->UpdateRecording(recording, directory, name, copy_only, title, shorttext, description))
         returnToReferer = true;
 			else
 				message = tr("Cannot copy, rename or move the recording.");
@@ -84,13 +85,9 @@ const cRecording* recording;
 
 	if (recording) {
 		cRecordingInfo *info = recording->Info();
-		cString basename = recording->BaseName(); 
-		name = cSv(info->Title());
-		if (name.empty())
-			name = basename;
-		if (basename[0] == '%')
-			name.insert(0, 1, '%');
+		name = recording->BaseName(); 
 		directory = StringReplace(*recording->Folder(), "~", "/");
+		title = cSv(info->Title());
 		shorttext = cSv(info->ShortText());
 		description = cSv(info->Description());
 	}
@@ -169,6 +166,10 @@ const cRecording* recording;
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Copy only") $>:</div></td>
 						<td class="rightcol"><input type="checkbox" name="copy" value="copy"/></td>
+					</tr>
+					<tr>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Title") $>:</div></td>
+						<td class="rightcol"><input type="text" name="title" value="<$ title $>" size="100" class="width99" /></td>
 					</tr>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Short description") $>:</div></td>

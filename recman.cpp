@@ -102,7 +102,7 @@ template void StringAppendFrameParams<cToSvConcat<255>>(cToSvConcat<255> &s, con
 		return 0;
 	}
 
-	bool RecordingsManager::UpdateRecording(cRecording const * recording, cSv directory, cSv name, bool copy, cSv shorttext, cSv description) const
+	bool RecordingsManager::UpdateRecording(cRecording const * recording, cSv directory, cSv name, bool copy, cSv title, cSv shorttext, cSv description) const
 	{
 		if (!recording)
 			return false;
@@ -136,14 +136,13 @@ template void StringAppendFrameParams<cToSvConcat<255>>(cToSvConcat<255> &s, con
 
 		// update texts
 		// need null terminated strings for VDR API
-		std::string title(name, name.compare(0, 1, "%") == 0, std::string::npos);
 		std::string desc(description);
 		desc.erase(std::remove(desc.begin(), desc.end(), '\r'), desc.end()); // remove \r from HTML
 
 		cRecordingInfo* info = recording->Info();
 		if (title != cSv(info->Title()) || shorttext != cSv(info->ShortText()) || desc != cSv(info->Description()))
 		{
-			info->SetData(title.c_str(), shorttext.empty() ? nullptr : std::string(shorttext).c_str(), desc.empty() ? nullptr : desc.c_str());
+			info->SetData(title.empty() ? nullptr : std::string(title).c_str(), shorttext.empty() ? nullptr : std::string(shorttext).c_str(), desc.empty() ? nullptr : desc.c_str());
 			info->Write();
 		}
 
