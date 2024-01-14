@@ -102,16 +102,10 @@ template void StringAppendFrameParams<cToSvConcat<255>>(cToSvConcat<255> &s, con
 		return 0;
 	}
 
-	bool RecordingsManager::MoveRecording(cRecording const * recording, cSv name, bool copy) const
+	bool RecordingsManager::UpdateRecording(cRecording const * recording, cSv directory, cSv name, bool copy, cSv title, cSv shorttext, cSv description) const
 	{
 		if (!recording)
 			return false;
-
-// Check for injections that try to escape from the video dir.
-		if (name.compare(0, 3, "../") == 0 || name.find("/..") != std::string::npos) {
-			esyslog("live: renaming failed: new name invalid \"%.*s\"", (int)name.length(), name.data());
-			return false;
-		}
 
 		std::string oldname = recording->FileName();
 		size_t found = oldname.find_last_of("/");
@@ -119,7 +113,15 @@ template void StringAppendFrameParams<cToSvConcat<255>>(cToSvConcat<255> &s, con
 		if (found == std::string::npos)
 			return false;
 
-		std::string newname = concat(cVideoDirectory::Name(), "/", name, cSv(oldname).substr(found));
+		std::string filename = FileSystemExchangeChars(directory.empty() ? name : (StringReplace(directory, "/", "~") + "~").append(name), true);
+
+		// Check for injections that try to escape from the video dir.
+		if (filename.compare(0, 3, "..~") == 0 || filename.find("~..") != std::string::npos) {
+			esyslog("live: renaming failed: new name invalid \"%.*s\"", (int)filename.length(), filename.data());
+			return false;
+		}
+
+		std::string newname = concat(cVideoDirectory::Name(), "/", filename, cSv(oldname).substr(found));
 
 		if (!MoveDirectory(oldname, newname, copy)) {
 			esyslog("live: renaming failed from '%.*s' to '%s'", (int)oldname.length(), oldname.data(), newname.c_str());
@@ -131,6 +133,18 @@ template void StringAppendFrameParams<cToSvConcat<255>>(cToSvConcat<255> &s, con
 			Recordings->DelByName(oldname.c_str());
 		Recordings->AddByName(newname.c_str());
 		cRecordingUserCommand::InvokeCommand(*cString::sprintf("rename \"%s\"", *strescape(oldname.c_str(), "\\\"$'")), newname.c_str());
+
+		// update texts
+		// need null terminated strings for VDR API
+		std::string desc(description);
+		desc.erase(std::remove(desc.begin(), desc.end(), '\r'), desc.end()); // remove \r from HTML
+
+		cRecordingInfo* info = recording->Info();
+		if (title != cSv(info->Title()) || shorttext != cSv(info->ShortText()) || desc != cSv(info->Description()))
+		{
+			info->SetData(title.empty() ? nullptr : std::string(title).c_str(), shorttext.empty() ? nullptr : std::string(shorttext).c_str(), desc.empty() ? nullptr : desc.c_str());
+			info->Write();
+		}
 
 		return true;
 	}
