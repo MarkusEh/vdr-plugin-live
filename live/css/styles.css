@@ -31,14 +31,14 @@ form {
 	padding: 0;
 }
 
-input {
+input, textarea {
 	border: 1px solid #6D96A9;
 	font-size: 11px;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	background: #FEFEFE;
 	margin: 0;
 }
-input.width99 {
+input.width99, textarea.width99 {
 	width: 99%;
 }
 
