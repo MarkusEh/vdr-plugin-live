@@ -788,7 +788,9 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
         int i = NameForSearch().compare(second->NameForSearch() );
         if (i != 0) return i < 0;
         if (!alwaysShortText) return false;
-        return RecordingsItemPtrCompare::compareLC(ShortText(), second->ShortText() ) < 0;
+        i = RecordingsItemPtrCompare::compareLC(ShortText(), second->ShortText() );
+        if (i != 0) return i < 0;
+        return RecordingsItemPtrCompare::compareLC(Description(), second->Description() ) < 0;
     }
   }
 

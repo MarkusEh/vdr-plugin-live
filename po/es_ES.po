@@ -165,8 +165,8 @@ msgstr "conflicto"
 msgid "conflicts"
 msgstr "conflictos"
 
-msgid "Couldn't aquire access to channels, please try again later."
-msgstr "No se puede tener acceso a los canales, por favor inténtelo más tarde"
+msgid "Couldn't find recording or no recordings available"
+msgstr "No se puede encontrar la grabación o no hay programaciones disponibles"
 
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Lo siento, no tiene permiso. ¡Por favor contacte con su administrador!"
@@ -188,6 +188,9 @@ msgstr "Nombre"
 
 msgid "Directory"
 msgstr "Directorio"
+
+msgid "Create new directory"
+msgstr ""
 
 msgid "Delete resume information"
 msgstr "Borrar marcador de continuación"
@@ -504,9 +507,6 @@ msgstr "Editar grabaciones"
 msgid "Electronic program guide information"
 msgstr "Información de la Guía Electrónica de Programación (EPG)"
 
-msgid "Couldn't find recording or no recordings available"
-msgstr "No se puede encontrar la grabación o no hay programaciones disponibles"
-
 msgid "Error aquiring schedules lock"
 msgstr "Error adquiriendo el bloqueo de las programaciones"
 
@@ -582,6 +582,9 @@ msgstr "Resolver"
 msgid "Dismiss"
 msgstr "Ignorar"
 
+msgid "Couldn't aquire access to channels, please try again later."
+msgstr "No se puede tener acceso a los canales, por favor inténtelo más tarde"
+
 msgid "Now"
 msgstr "Ahora"
 
@@ -616,6 +619,9 @@ msgid "Recording length"
 msgstr ""
 
 msgid "h"
+msgstr ""
+
+msgid "Number of ts files"
 msgstr ""
 
 msgid "Find more at the Internet Movie Database."
@@ -873,6 +879,13 @@ msgstr ""
 msgid "Collapse all folders"
 msgstr ""
 
+#, c-format
+msgid "Delete recording \"%s\"?"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
 msgid "Snapshot interval"
 msgstr "Intervalo de visionado"
 
@@ -935,9 +948,6 @@ msgstr "Red local (sin autentificación requerida)"
 
 msgid "Show live logo image"
 msgstr "Muestra la imagen del logo Live"
-
-msgid "Use ajax technology"
-msgstr "Usar tecnología ajax"
 
 msgid "Show dynamic VDR information box"
 msgstr "Mostrar información dinámica de VDR box"
@@ -1071,6 +1081,9 @@ msgstr "Entorno interactivo de Live VDR"
 
 msgid "No EPG information available"
 msgstr "No hay información disponible de la EPG"
+
+#~ msgid "Use ajax technology"
+#~ msgstr "Usar tecnología ajax"
 
 #~ msgid "ERROR:"
 #~ msgstr "ERROR"

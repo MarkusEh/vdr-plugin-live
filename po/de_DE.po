@@ -167,8 +167,8 @@ msgstr "Timerkonflikt entdeckt"
 msgid "conflicts"
 msgstr "Timerkonflikte entdeckt"
 
-msgid "Couldn't aquire access to channels, please try again later."
-msgstr "Zugriff auf die Kanäle wurde verweigert. Bitte später versuchen."
+msgid "Couldn't find recording or no recordings available"
+msgstr ""
 
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Leider nicht erlaubt. Bitte kontaktieren Sie Ihren Administrator!"
@@ -584,6 +584,9 @@ msgstr "Reagieren"
 msgid "Dismiss"
 msgstr "Verwerfen"
 
+msgid "Couldn't aquire access to channels, please try again later."
+msgstr "Zugriff auf die Kanäle wurde verweigert. Bitte später versuchen."
+
 msgid "Now"
 msgstr "Jetzt"
 
@@ -948,9 +951,6 @@ msgstr "Lokales Netz (keine Anmeldung notwendig)"
 
 msgid "Show live logo image"
 msgstr "Zeige das Live Logo"
-
-msgid "Use ajax technology"
-msgstr "Verwende AJAX Technologie"
 
 msgid "Show dynamic VDR information box"
 msgstr "Zeige dynamische VDR Status Box"

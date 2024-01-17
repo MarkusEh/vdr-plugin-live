@@ -165,8 +165,8 @@ msgstr "конфликт"
 msgid "conflicts"
 msgstr "конфликты"
 
-msgid "Couldn't aquire access to channels, please try again later."
-msgstr "Нет доступа к каналу, попробуйте позже"
+msgid "Couldn't find recording or no recordings available"
+msgstr "Запись не найдена или недоступна"
 
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Нет доступа, обратитесь к администратору! "
@@ -188,6 +188,9 @@ msgstr "Имя"
 
 msgid "Directory"
 msgstr "Каталог"
+
+msgid "Create new directory"
+msgstr ""
 
 msgid "Delete resume information"
 msgstr "Удалить информацию о воспроизведении"
@@ -504,9 +507,6 @@ msgstr "Изменять запись"
 msgid "Electronic program guide information"
 msgstr "Информация телегида"
 
-msgid "Couldn't find recording or no recordings available"
-msgstr "Запись не найдена или недоступна"
-
 msgid "Error aquiring schedules lock"
 msgstr "Ошибка во время получения расписания"
 
@@ -582,6 +582,9 @@ msgstr "Реагировать"
 msgid "Dismiss"
 msgstr "Освободить"
 
+msgid "Couldn't aquire access to channels, please try again later."
+msgstr "Нет доступа к каналу, попробуйте позже"
+
 msgid "Now"
 msgstr "Сейчас"
 
@@ -616,6 +619,9 @@ msgid "Recording length"
 msgstr ""
 
 msgid "h"
+msgstr ""
+
+msgid "Number of ts files"
 msgstr ""
 
 msgid "Find more at the Internet Movie Database."
@@ -873,6 +879,13 @@ msgstr "Развернуть все папки"
 msgid "Collapse all folders"
 msgstr "Свернуть все папки"
 
+#, c-format
+msgid "Delete recording \"%s\"?"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
 msgid "Snapshot interval"
 msgstr "Интервал между снимками"
 
@@ -935,9 +948,6 @@ msgstr "Локальная сеть (авторизация не требует�
 
 msgid "Show live logo image"
 msgstr "Показать логотип LIVE"
-
-msgid "Use ajax technology"
-msgstr "Использовать ajax"
 
 msgid "Show dynamic VDR information box"
 msgstr "Показывать инфо панель VDR"
@@ -1071,6 +1081,9 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr "EPG информация недоступна"
+
+#~ msgid "Use ajax technology"
+#~ msgstr "Использовать ajax"
 
 #~ msgid "ERROR:"
 #~ msgstr "ОШИБКА:"

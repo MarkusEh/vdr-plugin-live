@@ -168,8 +168,8 @@ msgstr "Nahrávání bez kolize"
 msgid "conflicts"
 msgstr "Nahrávání bez kolize"
 
-msgid "Couldn't aquire access to channels, please try again later."
-msgstr "Nelze získat přístup k programům, zkuste později."
+msgid "Couldn't find recording or no recordings available"
+msgstr "Nelze nalézt nahrávky, nebo žádné neexistují"
 
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Bohužel chybějící oprávnění. Zeptejte se svého administrátora!"
@@ -194,6 +194,9 @@ msgstr "Jméno"
 
 msgid "Directory"
 msgstr "Složka"
+
+msgid "Create new directory"
+msgstr ""
 
 #, fuzzy
 msgid "Delete resume information"
@@ -513,9 +516,6 @@ msgstr "Seznam nahrávek"
 msgid "Electronic program guide information"
 msgstr "Elektronický průvodce programem (EPG)"
 
-msgid "Couldn't find recording or no recordings available"
-msgstr "Nelze nalézt nahrávky, nebo žádné neexistují"
-
 msgid "Error aquiring schedules lock"
 msgstr "Chyba při vytváření zámku pro nahrávky"
 
@@ -591,6 +591,9 @@ msgstr "řešit"
 msgid "Dismiss"
 msgstr "neřešit"
 
+msgid "Couldn't aquire access to channels, please try again later."
+msgstr "Nelze získat přístup k programům, zkuste později."
+
 msgid "Now"
 msgstr "Nyní"
 
@@ -625,6 +628,9 @@ msgid "Recording length"
 msgstr ""
 
 msgid "h"
+msgstr ""
+
+msgid "Number of ts files"
 msgstr ""
 
 msgid "Find more at the Internet Movie Database."
@@ -883,6 +889,13 @@ msgstr ""
 msgid "Collapse all folders"
 msgstr ""
 
+#, c-format
+msgid "Delete recording \"%s\"?"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
 msgid "Snapshot interval"
 msgstr "Interval snímků obrazovky"
 
@@ -945,9 +958,6 @@ msgstr "Lokální síť (bez přilášení)"
 
 msgid "Show live logo image"
 msgstr "Zobrazit logo"
-
-msgid "Use ajax technology"
-msgstr "Používat dynamické stránky (ajax)"
 
 msgid "Show dynamic VDR information box"
 msgstr "Použít dynamický blok informací"
@@ -1084,6 +1094,9 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr "Nejsou dostupné informace o programu"
+
+#~ msgid "Use ajax technology"
+#~ msgstr "Používat dynamické stránky (ajax)"
 
 #~ msgid "ERROR:"
 #~ msgstr "CHYBA:"

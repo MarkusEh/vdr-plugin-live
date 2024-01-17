@@ -171,7 +171,7 @@ msgstr "Serie's opnemen"
 msgid "conflicts"
 msgstr "Serie's opnemen"
 
-msgid "Couldn't aquire access to channels, please try again later."
+msgid "Couldn't find recording or no recordings available"
 msgstr ""
 
 msgid "Sorry, no permission. Please contact your administrator!"
@@ -194,6 +194,9 @@ msgstr ""
 
 msgid "Directory"
 msgstr "Directory"
+
+msgid "Create new directory"
+msgstr ""
 
 msgid "Delete resume information"
 msgstr ""
@@ -520,9 +523,6 @@ msgstr ""
 msgid "Electronic program guide information"
 msgstr ""
 
-msgid "Couldn't find recording or no recordings available"
-msgstr ""
-
 msgid "Error aquiring schedules lock"
 msgstr ""
 
@@ -598,6 +598,9 @@ msgstr ""
 msgid "Dismiss"
 msgstr ""
 
+msgid "Couldn't aquire access to channels, please try again later."
+msgstr ""
+
 msgid "Now"
 msgstr ""
 
@@ -632,6 +635,9 @@ msgid "Recording length"
 msgstr ""
 
 msgid "h"
+msgstr ""
+
+msgid "Number of ts files"
 msgstr ""
 
 msgid "Find more at the Internet Movie Database."
@@ -890,6 +896,13 @@ msgstr ""
 msgid "Collapse all folders"
 msgstr ""
 
+#, c-format
+msgid "Delete recording \"%s\"?"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
 #, fuzzy
 msgid "Snapshot interval"
 msgstr "interval"
@@ -952,9 +965,6 @@ msgid "Local net (no login required)"
 msgstr ""
 
 msgid "Show live logo image"
-msgstr ""
-
-msgid "Use ajax technology"
 msgstr ""
 
 msgid "Show dynamic VDR information box"

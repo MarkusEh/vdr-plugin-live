@@ -165,8 +165,8 @@ msgstr "päällekkäinen ajastin"
 msgid "conflicts"
 msgstr "päällekkäistä ajastinta"
 
-msgid "Couldn't aquire access to channels, please try again later."
-msgstr "Kanavien käyttäminen epäonnistui! Yritä myöhemmin uudelleen."
+msgid "Couldn't find recording or no recordings available"
+msgstr "Tallennetta ei löydy tai yhtään tallennetta ei ole saatavilla."
 
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Ei käyttöoikeutta. Ota yhteyttä ylläpitäjään!"
@@ -188,6 +188,9 @@ msgstr "Nimi"
 
 msgid "Directory"
 msgstr "Hakemisto"
+
+msgid "Create new directory"
+msgstr ""
 
 msgid "Delete resume information"
 msgstr "Poista paluutiedot"
@@ -504,9 +507,6 @@ msgstr "Muokkaa tallenteita"
 msgid "Electronic program guide information"
 msgstr "Ohjelmaoppaan tiedot"
 
-msgid "Couldn't find recording or no recordings available"
-msgstr "Tallennetta ei löydy tai yhtään tallennetta ei ole saatavilla."
-
 msgid "Error aquiring schedules lock"
 msgstr "Ohjelmatietojen lukitus epäonnistui!"
 
@@ -582,6 +582,9 @@ msgstr "Reagoi"
 msgid "Dismiss"
 msgstr "Ohita"
 
+msgid "Couldn't aquire access to channels, please try again later."
+msgstr "Kanavien käyttäminen epäonnistui! Yritä myöhemmin uudelleen."
+
 msgid "Now"
 msgstr "Nyt"
 
@@ -616,6 +619,9 @@ msgid "Recording length"
 msgstr ""
 
 msgid "h"
+msgstr ""
+
+msgid "Number of ts files"
 msgstr ""
 
 msgid "Find more at the Internet Movie Database."
@@ -873,6 +879,13 @@ msgstr "Avaa kaikki kansiot"
 msgid "Collapse all folders"
 msgstr "Sulje kaikki kansiot"
 
+#, c-format
+msgid "Delete recording \"%s\"?"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
 msgid "Snapshot interval"
 msgstr "Kuvien päivitysväli"
 
@@ -935,9 +948,6 @@ msgstr "Paikallinen verkko (ei autentikointia)"
 
 msgid "Show live logo image"
 msgstr "Näytä Live-logo"
-
-msgid "Use ajax technology"
-msgstr "Käytä AJAX-tekniikkaa"
 
 msgid "Show dynamic VDR information box"
 msgstr "Näytä dynaaminen VDR:n infolaatikko"
@@ -1071,6 +1081,9 @@ msgstr "Interaktiivinen VDR-ympäristö"
 
 msgid "No EPG information available"
 msgstr "Ohjelmatietoja ei saatavilla"
+
+#~ msgid "Use ajax technology"
+#~ msgstr "Käytä AJAX-tekniikkaa"
 
 #~ msgid "ERROR:"
 #~ msgstr "VIRHE:"

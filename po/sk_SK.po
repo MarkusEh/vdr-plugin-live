@@ -166,8 +166,8 @@ msgstr "konflikt "
 msgid "conflicts"
 msgstr "konflikty "
 
-msgid "Couldn't aquire access to channels, please try again later."
-msgstr "Nedá sa získa» prístup ku kanálom, prosím skúste to znova neskôr."
+msgid "Couldn't find recording or no recordings available"
+msgstr "Nena¹iel sa záznam alebo nahrávky nie sú k dispozícii"
 
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Prepáète, nemáte oprávnenie. Prosím kontaktujte va¹eho administrátora!"
@@ -189,6 +189,9 @@ msgstr "Meno"
 
 msgid "Directory"
 msgstr "Adresár"
+
+msgid "Create new directory"
+msgstr ""
 
 msgid "Delete resume information"
 msgstr "Znovu zmaza» informácie"
@@ -505,9 +508,6 @@ msgstr "Upravi» nahrávky"
 msgid "Electronic program guide information"
 msgstr "Elektronický sprievodca televíznym programom"
 
-msgid "Couldn't find recording or no recordings available"
-msgstr "Nena¹iel sa záznam alebo nahrávky nie sú k dispozícii"
-
 msgid "Error aquiring schedules lock"
 msgstr "Uzamknuté získavanie televízneho programu"
 
@@ -583,6 +583,9 @@ msgstr "Reagova»"
 msgid "Dismiss"
 msgstr "Zru¹"
 
+msgid "Couldn't aquire access to channels, please try again later."
+msgstr "Nedá sa získa» prístup ku kanálom, prosím skúste to znova neskôr."
+
 msgid "Now"
 msgstr "Teraz ide"
 
@@ -617,6 +620,9 @@ msgid "Recording length"
 msgstr ""
 
 msgid "h"
+msgstr ""
+
+msgid "Number of ts files"
 msgstr ""
 
 msgid "Find more at the Internet Movie Database."
@@ -874,6 +880,13 @@ msgstr "Rozbali» v¹etky zlo¾ky"
 msgid "Collapse all folders"
 msgstr "Zbali» v¹etky zlo¾ky"
 
+#, c-format
+msgid "Delete recording \"%s\"?"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
 msgid "Snapshot interval"
 msgstr "Interval snímkovania"
 
@@ -936,9 +949,6 @@ msgstr "Miestna sie» (nevy¾aduje prihlásenie)"
 
 msgid "Show live logo image"
 msgstr "Zobrazi» obrázok live loga"
-
-msgid "Use ajax technology"
-msgstr "Pou¾i» ajax technológiu"
 
 msgid "Show dynamic VDR information box"
 msgstr "Zobrazi» dynamicky VDR informaèný box"
@@ -1072,6 +1082,9 @@ msgstr "®ivé interaktívne VDR prostredie"
 
 msgid "No EPG information available"
 msgstr "EPG informácie sú nedostupné"
+
+#~ msgid "Use ajax technology"
+#~ msgstr "Pou¾i» ajax technológiu"
 
 #~ msgid "ERROR:"
 #~ msgstr "CHYBA:"

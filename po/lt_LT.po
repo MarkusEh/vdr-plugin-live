@@ -166,8 +166,8 @@ msgstr "nesklandumas"
 msgid "conflicts"
 msgstr "nesklandumai"
 
-msgid "Couldn't aquire access to channels, please try again later."
-msgstr "Neprieina prie kanalų, pabandykit vėliau."
+msgid "Couldn't find recording or no recordings available"
+msgstr "Negali rasti įrašo arba įrašų iš vis nėra"
 
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Atleiskit, bet jūs neturite užtektinai teisių. Susisiekite su sistemos administratoriumi!"
@@ -189,6 +189,9 @@ msgstr "Vardas"
 
 msgid "Directory"
 msgstr "Katalogas"
+
+msgid "Create new directory"
+msgstr ""
 
 msgid "Delete resume information"
 msgstr ""
@@ -506,9 +509,6 @@ msgstr ""
 msgid "Electronic program guide information"
 msgstr "Elektroninis programų gidas"
 
-msgid "Couldn't find recording or no recordings available"
-msgstr "Negali rasti įrašo arba įrašų iš vis nėra"
-
 msgid "Error aquiring schedules lock"
 msgstr "Negali gauti programų užrakto"
 
@@ -584,6 +584,9 @@ msgstr "Reguoti"
 msgid "Dismiss"
 msgstr "Atmesti"
 
+msgid "Couldn't aquire access to channels, please try again later."
+msgstr "Neprieina prie kanalų, pabandykit vėliau."
+
 msgid "Now"
 msgstr "Dabar"
 
@@ -618,6 +621,9 @@ msgid "Recording length"
 msgstr ""
 
 msgid "h"
+msgstr ""
+
+msgid "Number of ts files"
 msgstr ""
 
 msgid "Find more at the Internet Movie Database."
@@ -875,6 +881,13 @@ msgstr ""
 msgid "Collapse all folders"
 msgstr ""
 
+#, c-format
+msgid "Delete recording \"%s\"?"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
 msgid "Snapshot interval"
 msgstr "Momentinių nuotraukų intervalas"
 
@@ -937,9 +950,6 @@ msgstr "Vietinis tinklas (nereikalingas prisijungimas)"
 
 msgid "Show live logo image"
 msgstr "Rodyti live įskiepo logotipą"
-
-msgid "Use ajax technology"
-msgstr "Naudoti AJAX"
 
 msgid "Show dynamic VDR information box"
 msgstr "Rodyti dinaminį VDR informacijos skydelį"
@@ -1074,6 +1084,9 @@ msgstr "Live interaktyvioji VDR aplinka"
 
 msgid "No EPG information available"
 msgstr "Nėra EPG informacijos"
+
+#~ msgid "Use ajax technology"
+#~ msgstr "Naudoti AJAX"
 
 #~ msgid "ERROR:"
 #~ msgstr "KLAIDA:"

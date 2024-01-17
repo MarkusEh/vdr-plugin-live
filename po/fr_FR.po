@@ -171,8 +171,8 @@ msgstr "Programmation est active."
 msgid "conflicts"
 msgstr "Programmation est active."
 
-msgid "Couldn't aquire access to channels, please try again later."
-msgstr "Impossible d'avoir accès à des chaînes, réessayer ultérieurement."
+msgid "Couldn't find recording or no recordings available"
+msgstr "Impossible de trouver un enregistrement ou aucun enregistrements disponibles"
 
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr ""
@@ -194,6 +194,9 @@ msgstr ""
 
 msgid "Directory"
 msgstr "Dossier"
+
+msgid "Create new directory"
+msgstr ""
 
 msgid "Delete resume information"
 msgstr ""
@@ -524,9 +527,6 @@ msgstr ""
 msgid "Electronic program guide information"
 msgstr "Guide électronique d'information des programmes EPG"
 
-msgid "Couldn't find recording or no recordings available"
-msgstr "Impossible de trouver un enregistrement ou aucun enregistrements disponibles"
-
 msgid "Error aquiring schedules lock"
 msgstr "Erreur lors de l'acquisition du verrouillage de programmation de recherche"
 
@@ -602,6 +602,9 @@ msgstr ""
 msgid "Dismiss"
 msgstr ""
 
+msgid "Couldn't aquire access to channels, please try again later."
+msgstr "Impossible d'avoir accès à des chaînes, réessayer ultérieurement."
+
 msgid "Now"
 msgstr "maintenant"
 
@@ -636,6 +639,9 @@ msgid "Recording length"
 msgstr ""
 
 msgid "h"
+msgstr ""
+
+msgid "Number of ts files"
 msgstr ""
 
 msgid "Find more at the Internet Movie Database."
@@ -894,6 +900,13 @@ msgstr ""
 msgid "Collapse all folders"
 msgstr ""
 
+#, c-format
+msgid "Delete recording \"%s\"?"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
 #, fuzzy
 msgid "Snapshot interval"
 msgstr "intervalle"
@@ -957,9 +970,6 @@ msgstr "Réseau local (non requis)"
 
 msgid "Show live logo image"
 msgstr "Afficher l'image du logo de live"
-
-msgid "Use ajax technology"
-msgstr "Utilisez la technologie Ajax"
 
 msgid "Show dynamic VDR information box"
 msgstr "Voir la boîte d'information dynamique VDR"
@@ -1100,6 +1110,9 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr ""
+
+#~ msgid "Use ajax technology"
+#~ msgstr "Utilisez la technologie Ajax"
 
 #~ msgid "ERROR:"
 #~ msgstr "ERREUR:"

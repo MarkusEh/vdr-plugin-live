@@ -166,8 +166,8 @@ msgstr "kolizję"
 msgid "conflicts"
 msgstr "kolizje"
 
-msgid "Couldn't aquire access to channels, please try again later."
-msgstr "Nie można uzyskać dostępu do kanałów, spróbój później."
+msgid "Couldn't find recording or no recordings available"
+msgstr "Nie można odnaleźć nagrania"
 
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Brak uprawenień. Skontaktuj się ze swoim administratorem!"
@@ -189,6 +189,9 @@ msgstr "Nazwa"
 
 msgid "Directory"
 msgstr "Katalog"
+
+msgid "Create new directory"
+msgstr ""
 
 msgid "Delete resume information"
 msgstr "Usuń informację o wznowieniu"
@@ -505,9 +508,6 @@ msgstr "Edycja nagrań"
 msgid "Electronic program guide information"
 msgstr "Informacje EPG"
 
-msgid "Couldn't find recording or no recordings available"
-msgstr "Nie można odnaleźć nagrania"
-
 msgid "Error aquiring schedules lock"
 msgstr "Błąd podczas próby blokady programu"
 
@@ -583,6 +583,9 @@ msgstr "Sprawdź"
 msgid "Dismiss"
 msgstr "Anuluj"
 
+msgid "Couldn't aquire access to channels, please try again later."
+msgstr "Nie można uzyskać dostępu do kanałów, spróbój później."
+
 msgid "Now"
 msgstr "Teraz"
 
@@ -617,6 +620,9 @@ msgid "Recording length"
 msgstr ""
 
 msgid "h"
+msgstr ""
+
+msgid "Number of ts files"
 msgstr ""
 
 msgid "Find more at the Internet Movie Database."
@@ -874,6 +880,13 @@ msgstr "Rozwiń wszystkie katalogi"
 msgid "Collapse all folders"
 msgstr "Zwiń wszystkie katalogi"
 
+#, c-format
+msgid "Delete recording \"%s\"?"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
 msgid "Snapshot interval"
 msgstr "Okres pomiędzy migawkami"
 
@@ -936,9 +949,6 @@ msgstr "Sieć lokalna (logowanie nie wymagane)"
 
 msgid "Show live logo image"
 msgstr "Pokazuj logo VDR-Live"
-
-msgid "Use ajax technology"
-msgstr "Używaj technologii ajax"
 
 msgid "Show dynamic VDR information box"
 msgstr "Pokazuj panel informacyjny"
