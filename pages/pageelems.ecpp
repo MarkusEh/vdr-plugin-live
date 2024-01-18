@@ -794,20 +794,18 @@ if (elapsed >= 0) {
          <a href="/epgimages/<$ *it $>" target="_blank">
 						<img src="/epgimages/<$ *it $>" class="epg_image"/>
          </a>
-<%cpp>
-	}
-	if(!epgImage.empty() ) {
-</%cpp>
+% } bool scraperImage = false;
+% if(!epgImage.empty() ) { scraperImage = true;
     <a href="/tvscraper/<$ epgImage $>" target="_blank">
 	    <img src="/tvscraper/<$ epgImage $>" class="epg_image"/>
     </a>
-%   if (episodeFound && !scraperMovieOrTv.episode.episodeImage.path.empty() ) {
-      <a href="/tvscraper/<$ scraperMovieOrTv.episode.episodeImage.path $>" target="_blank">
-        <img src="/tvscraper/<$ scraperMovieOrTv.episode.episodeImage.path $>" class="epg_image"/>
-      </a>
+% } if (episodeFound && !scraperMovieOrTv.episode.episodeImage.path.empty() ) { scraperImage = true;
+    <a href="/tvscraper/<$ scraperMovieOrTv.episode.episodeImage.path $>" target="_blank">
+      <img src="/tvscraper/<$ scraperMovieOrTv.episode.episodeImage.path $>" class="epg_image"/>
+    </a>
 <%cpp>
-    }  // episodeFound && !scraperMovieOrTv.episode.episodeImage.path.empty()
-	} else {
+  }  // episodeFound && !scraperMovieOrTv.episode.episodeImage.path.empty()
+	if (!scraperImage) {
     std::list<std::string> images1 = EpgEvents::RecImages(boxId, filename);
     size_t delimPos = boxId.find_last_of('_');
     std::string recId = (delimPos)?boxId.substr(delimPos+1):boxId;

@@ -202,6 +202,9 @@ msgstr "Usuń informację o znacznikach"
 msgid "Copy only"
 msgstr "Skopiuj do katalogu"
 
+msgid "Title"
+msgstr "Tytuł"
+
 msgid "Short description"
 msgstr "Krótki opis"
 
@@ -261,9 +264,6 @@ msgstr "Uwzględnij wielkość liter"
 
 msgid "Search in"
 msgstr "Szukaj w"
-
-msgid "Title"
-msgstr "Tytuł"
 
 msgid "Episode"
 msgstr "Epizod"

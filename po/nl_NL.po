@@ -207,6 +207,9 @@ msgstr ""
 msgid "Copy only"
 msgstr ""
 
+msgid "Title"
+msgstr ""
+
 msgid "Short description"
 msgstr ""
 
@@ -265,9 +268,6 @@ msgid "Match case"
 msgstr "Idem case"
 
 msgid "Search in"
-msgstr ""
-
-msgid "Title"
 msgstr ""
 
 msgid "Episode"

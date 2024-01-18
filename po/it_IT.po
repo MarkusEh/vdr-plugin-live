@@ -207,6 +207,9 @@ msgstr "Elimina informazione marcatori"
 msgid "Copy only"
 msgstr "Solo copia"
 
+msgid "Title"
+msgstr "Titolo"
+
 msgid "Short description"
 msgstr "Descrizione breve"
 
@@ -266,9 +269,6 @@ msgstr "Maiuscolo/Minuscolo"
 
 msgid "Search in"
 msgstr "Cerca in"
-
-msgid "Title"
-msgstr "Titolo"
 
 msgid "Episode"
 msgstr "Episodio"

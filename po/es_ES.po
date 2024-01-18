@@ -201,6 +201,9 @@ msgstr "Borrar información de marcadores"
 msgid "Copy only"
 msgstr "Copia únicamente"
 
+msgid "Title"
+msgstr "Título"
+
 msgid "Short description"
 msgstr "Descripción corta"
 
@@ -260,9 +263,6 @@ msgstr "Coincidir Mayúscula/Minúscula"
 
 msgid "Search in"
 msgstr "Buscar en"
-
-msgid "Title"
-msgstr "Título"
 
 msgid "Episode"
 msgstr "Episodio"

@@ -201,6 +201,9 @@ msgstr "Удалить маркеры"
 msgid "Copy only"
 msgstr "Копировать"
 
+msgid "Title"
+msgstr "Название"
+
 msgid "Short description"
 msgstr "Краткое описание"
 
@@ -260,9 +263,6 @@ msgstr "С учетом регистра"
 
 msgid "Search in"
 msgstr "Искать в"
-
-msgid "Title"
-msgstr "Название"
 
 msgid "Episode"
 msgstr "Эпизод"

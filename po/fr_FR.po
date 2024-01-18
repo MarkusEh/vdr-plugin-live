@@ -207,6 +207,9 @@ msgstr ""
 msgid "Copy only"
 msgstr ""
 
+msgid "Title"
+msgstr "Titre"
+
 #, fuzzy
 msgid "Short description"
 msgstr "Description"
@@ -267,9 +270,6 @@ msgstr "Maj/Minuscule"
 
 msgid "Search in"
 msgstr "Recherche dans"
-
-msgid "Title"
-msgstr "Titre"
 
 msgid "Episode"
 msgstr "Épisode"

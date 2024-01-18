@@ -202,6 +202,9 @@ msgstr ""
 msgid "Copy only"
 msgstr ""
 
+msgid "Title"
+msgstr "Pavadinimas"
+
 #, fuzzy
 msgid "Short description"
 msgstr "Aprašymas"
@@ -262,9 +265,6 @@ msgstr "Kreiti dėmesį į raidžių registrą"
 
 msgid "Search in"
 msgstr "Ieškoti"
-
-msgid "Title"
-msgstr "Pavadinimas"
 
 msgid "Episode"
 msgstr "Epizodas"

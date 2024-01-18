@@ -208,6 +208,9 @@ msgstr ""
 msgid "Copy only"
 msgstr ""
 
+msgid "Title"
+msgstr "Název"
+
 #, fuzzy
 msgid "Short description"
 msgstr "Popis"
@@ -268,9 +271,6 @@ msgstr "Velikost písmen"
 
 msgid "Search in"
 msgstr "Vyhledávat v"
-
-msgid "Title"
-msgstr "Název"
 
 msgid "Episode"
 msgstr "Epizoda"

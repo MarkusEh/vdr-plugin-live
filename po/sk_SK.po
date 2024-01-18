@@ -202,6 +202,9 @@ msgstr "Vymaza» informaèné znaèky"
 msgid "Copy only"
 msgstr "Iba kopírova»"
 
+msgid "Title"
+msgstr "V názve"
+
 msgid "Short description"
 msgstr "Struèný opis"
 
@@ -261,9 +264,6 @@ msgstr "Prípadne porovna»"
 
 msgid "Search in"
 msgstr "Hµada» v"
-
-msgid "Title"
-msgstr "V názve"
 
 msgid "Episode"
 msgstr "v epizóde"

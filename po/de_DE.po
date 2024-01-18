@@ -203,6 +203,9 @@ msgstr "Schnittmarken löschen"
 msgid "Copy only"
 msgstr "Nur kopieren"
 
+msgid "Title"
+msgstr "Titel"
+
 msgid "Short description"
 msgstr "Kurzbeschreibung"
 
@@ -262,9 +265,6 @@ msgstr "Groß/klein"
 
 msgid "Search in"
 msgstr "Suche in"
-
-msgid "Title"
-msgstr "Titel"
 
 msgid "Episode"
 msgstr "Episode"

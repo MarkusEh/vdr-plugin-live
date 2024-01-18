@@ -201,6 +201,9 @@ msgstr "Ta bort märkningsinformation"
 msgid "Copy only"
 msgstr "Kopiera endast"
 
+msgid "Title"
+msgstr "Titel"
+
 msgid "Short description"
 msgstr "Kort beskrivning"
 
@@ -260,9 +263,6 @@ msgstr "Matcha versaler / gemener"
 
 msgid "Search in"
 msgstr "Sök i"
-
-msgid "Title"
-msgstr "Titel"
 
 msgid "Episode"
 msgstr "Avsnitt"

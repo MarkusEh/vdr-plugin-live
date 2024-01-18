@@ -201,6 +201,9 @@ msgstr "Poista merkinnät"
 msgid "Copy only"
 msgstr "Kopioi ainoastaan"
 
+msgid "Title"
+msgstr "Otsikko"
+
 msgid "Short description"
 msgstr "Lyhyt kuvaus"
 
@@ -260,9 +263,6 @@ msgstr "Huomioi kirjainkoko"
 
 msgid "Search in"
 msgstr "Hae kentistä"
-
-msgid "Title"
-msgstr "Otsikko"
 
 msgid "Episode"
 msgstr "Jakson nimi"
