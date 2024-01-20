@@ -745,16 +745,13 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
 
 	int RecordingsItemRec::CompareTexts(const RecordingsItemRecPtr &second, int *numEqualChars) const
 // Compare NameForSearch + ShortText + Description
-// if numEqualChars != NULL: return namber of equal characters in ShortText + Description
+// if numEqualChars != NULL: return number of equal characters in ShortText + Description
 	{
     if (numEqualChars) *numEqualChars = 0;
     int i = NameForSearch().compare(second->NameForSearch() );
     if(i != 0) return i;
-// name is identical, compare short text
-    i = RecordingsItemPtrCompare::compareLC(ShortText(), second->ShortText(), numEqualChars);
-    if(i != 0) return i;
-    i = RecordingsItemPtrCompare::compareLC(Description(), second->Description(), numEqualChars);
-    return i;
+// name is identical, compare short text / description
+    return CompareStD(second, numEqualChars);
   }
 
   int RecordingsItemRec::CompareStD(const RecordingsItemRecPtr &second, int *numEqualChars) const
