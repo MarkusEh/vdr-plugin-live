@@ -428,6 +428,7 @@ template void StringAppendFrameParams<cToSvConcat<255>>(cToSvConcat<255> &s, con
 	  return first->scraperReleaseDate() < second->scraperReleaseDate();
 	}
 
+/*
         int RecordingsItemPtrCompare::compareLC(const char *first, const char *second, int *numEqualChars) {
 // if numEqualChars != NULL: Add the number of equal characters to *numEqualChars
           bool fe = !first  || !first[0];    // is first  string empty string?
@@ -447,6 +448,7 @@ template void StringAppendFrameParams<cToSvConcat<255>>(cToSvConcat<255> &s, con
           if (*first  ) return  1;
           return 0;
         }
+*/
 
   tCompRec RecordingsItemPtrCompare::getComp(eSortOrder sortOrder) {
 	  switch (sortOrder) {

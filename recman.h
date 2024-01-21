@@ -165,7 +165,7 @@ template<typename T>
       static bool ByAscendingNameSort(const RecordingsItemDirPtr & first, const RecordingsItemDirPtr & second);
       static bool BySeason(const RecordingsItemDirPtr & first, const RecordingsItemDirPtr & second);
 // helpers
-      static int compareLC(const char *first, const char *second, int *numEqualChars = NULL); // as std::compare, but compare lower case
+//      static int compareLC(const char *first, const char *second, int *numEqualChars = NULL); // as std::compare, but compare lower case
       static int FindBestMatch(RecordingsItemRecPtr &BestMatch, const std::vector<RecordingsItemRecPtr>::const_iterator & First, const std::vector<RecordingsItemRecPtr>::const_iterator & Last, const RecordingsItemRecPtr & EPG_Entry);
 
       static tCompRec getComp(eSortOrder sortOrder);

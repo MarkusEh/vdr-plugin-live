@@ -43,7 +43,7 @@ function addTime(s, time) {
 function addScraperImageTitle(s, image, pt, title, seasonEpisode, runtime, date, lf) {
 // pt: "pt" if m_s_image.width <= m_s_image.height, otherwise= ""
 // seasonEpisode: e.g. 3E8    (we will add the missing S ...)
-  s.a += '<div class=\"thumb\"><img data-src=\"';
+  s.a += '<div class=\"thumb\"><img loading="lazy" data-src=\"';
   if (image.length != 0) {
     s.a += '/tvscraper/'
     s.a += image
