@@ -33,23 +33,14 @@ StickyTask::~StickyTask()
 
 void SwitchChannelTask::Action()
 {
-#if VDRVERSNUM >= 20301
 	LOCK_CHANNELS_READ;
 	cChannel* channel = (cChannel *)Channels->GetByChannelID( m_channel );
-#else
-	ReadLock lock( Channels );
-	cChannel* channel = Channels.GetByChannelID( m_channel );
-#endif
 	if ( channel == 0 ) {
 		SetError( tr("Couldn't find channel or no channels available.") );
 		return;
 	}
 
-#if VDRVERSNUM >= 20301
 	if ( !Channels->SwitchTo( channel->Number() ) )
-#else
-	if ( !Channels.SwitchTo( channel->Number() ) )
-#endif
 		SetError( tr("Couldn't switch to channel.") );
 }
 

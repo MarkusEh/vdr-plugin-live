@@ -63,10 +63,18 @@ TimerConflictNotifier timerNotifier();
 			cChannel* Channel = (cChannel *)Channels->GetByNumber(cDevice::CurrentChannel());
 
 			cChannel* tmp = (cChannel *)Channels->GetByNumber(Channels->GetPrevNormal(cDevice::CurrentChannel()), -SKIP_GAP);
+#if VDRVERSNUM >= 20606
+			if (tmp)
+#else
 			if (tmp && cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() )
+#endif
 				prev_chan = tmp->GetChannelID();
 			tmp = (cChannel *)Channels->GetByNumber(Channels->GetNextNormal(cDevice::CurrentChannel()), SKIP_GAP);
+#if VDRVERSNUM >= 20606
+			if (tmp)
+#else
 			if (tmp && cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() )
+#endif
 				next_chan = tmp->GetChannelID();
 
 			const std::string chanName(Channel->Name());

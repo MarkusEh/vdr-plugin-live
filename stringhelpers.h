@@ -113,6 +113,7 @@ class cSv: public std::string_view {
   public:
     utf8_iterator utf8_begin() const;
     utf8_iterator utf8_end() const;
+    int compareLowerCase(cSv other, const std::locale &loc);
 };
 
 // iterator for utf8
@@ -179,6 +180,21 @@ class utf8_iterator {
 };
 inline utf8_iterator cSv::utf8_begin() const { return utf8_iterator(*this, 0); }
 inline utf8_iterator cSv::utf8_end() const { return utf8_iterator(*this, length() ); }
+
+inline int cSv::compareLowerCase(cSv other, const std::locale &loc) {
+// compare strings case-insensitive
+  utf8_iterator ls = utf8_begin();
+  utf8_iterator rs = other.utf8_begin();
+  for (; ls != utf8_end() && rs != other.utf8_end(); ++ls, ++rs) {
+    wint_t  llc = std::tolower<wchar_t>(*ls, loc);
+    wint_t  rlc = std::tolower<wchar_t>(*rs, loc);
+    if ( llc < rlc ) return -1;
+    if ( llc > rlc ) return  1;
+  }
+  if (rs != other.utf8_end() ) return -1;
+  if (ls !=       utf8_end() ) return  1;
+  return 0;
+}
 
 
 // =========================================================
