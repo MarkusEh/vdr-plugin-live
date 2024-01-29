@@ -437,7 +437,10 @@ template void AppendTextTruncateOnWord<cToSvConcat<0>>(cToSvConcat<0> &target, c
 			}
 
 			struct stat st1, st2;
-			stat(source.c_str(), &st1);
+			if (stat(source.c_str(), &st1) != 0) {
+        esyslog("live: rename. Source %s does not exist", source.c_str());
+        return false;
+      }
 			stat(target.c_str(), &st2);
 			if (!copy && (st1.st_dev == st2.st_dev)) {
 				if (!cVideoDirectory::RenameVideoFile(source.c_str(), target.c_str())) {
