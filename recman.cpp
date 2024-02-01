@@ -132,6 +132,7 @@ template void StringAppendFrameParams<cToSvConcat<255>>(cToSvConcat<255> &s, con
 		if (!copy)
 			Recordings->DelByName(oldname.c_str());
 		Recordings->AddByName(newname.c_str());
+		recording = Recordings->GetByName(newname.c_str());   // old pointer to recording invalid after DelByName/AddByName
 		cRecordingUserCommand::InvokeCommand(*cString::sprintf("rename \"%s\"", *strescape(oldname.c_str(), "\\\"$'")), newname.c_str());
 
 		// update texts
