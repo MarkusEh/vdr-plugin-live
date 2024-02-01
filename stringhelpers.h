@@ -862,10 +862,11 @@ template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
     }
 // =======================
 // appendToLower
-    void appendToLower(cSv sv, const std::locale &loc) {
+    cToSvConcat &appendToLower(cSv sv, const std::locale &loc) {
       for (auto it = sv.utf8_begin(); it != sv.utf8_end(); ++it) {
         append_utf8(std::tolower<wchar_t>(*it, loc));
       }
+      return *this;
     }
 // =======================
 // appendFormated append formated
