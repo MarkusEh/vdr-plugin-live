@@ -651,8 +651,9 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
     m_timeImage = timeImage;
     m_timeDurationDeviation = timeDurationDeviation;
 
-//  m_imageLevels = cImageLevels(eImageLevel::episodeMovie, eImageLevel::seasonMovie, eImageLevel::tvShowCollection, eImageLevel::anySeasonCollection);
-    m_imageLevels = cImageLevels(eImageLevel::episodeMovie, eImageLevel::seasonMovie, eImageLevel::anySeasonCollection);
+    m_imageLevels = cImageLevels(eImageLevel::episodeMovie, eImageLevel::seasonMovie, eImageLevel::tvShowCollection, eImageLevel::anySeasonCollection);
+// this is for the image in "overview". We allow as many levels as we have, to ensure that there is an image
+//  m_imageLevels = cImageLevels(eImageLevel::episodeMovie, eImageLevel::seasonMovie, eImageLevel::anySeasonCollection);
     getScraperData();
     timeItemRec->stop();
 	}

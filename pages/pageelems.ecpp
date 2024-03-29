@@ -411,6 +411,34 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 </%def>
 
 <# ---------------------------------------------------------------------- #>
+<# stream_recording: marked for deletion #>
+
+<%def stream_recording>
+<%args>
+	std::string recid;
+	std::string linkText;
+</%args>
+<%cpp>
+#if TNT_WATCHDOG_SILENCE
+{
+const cRecording* recording = nullptr;
+if (!recid.empty()) recording = LiveRecordingsManager()->GetByMd5Hash(recid);
+cToSvConcat rfid;
+if (recording) {
+  struct stat st;
+	if (stat(recording->FileName(), &st) == 0)
+		rfid.appendFormated("%lu:%llu.rec", (unsigned long) st.st_dev, (unsigned long long) st.st_ino);
+}
+if (!rfid.empty() ) {
+</%cpp><a href="http://localhost:<$cToSvConcat(LiveSetup().GetStreamdevPort())$>/<$rfid$>.ts"><img src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint text=(tr("Stream this recording.")) &> /> <$ linkText $></a>
+<%cpp>
+}
+}
+#endif
+</%cpp>
+</%def>
+
+<# ---------------------------------------------------------------------- #>
 
 <%def event_timer>
 <%args>

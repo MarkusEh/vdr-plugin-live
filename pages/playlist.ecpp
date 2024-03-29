@@ -3,6 +3,7 @@
 #include <setup.h>
 #include <tools.h>
 #include <users.h>
+#include <recman.h>
 
 using namespace vdrlive;
 
@@ -44,7 +45,20 @@ using namespace vdrlive;
 		videourl = concat("#EXTM3U\n#EXTINF:-1,", channelname, "\nhttp://", server, ":", cToSvInt(streamdevPort), "/", LiveSetup().GetStreamdevType(), "/", *Channel->GetChannelID().ToString());
 	}
 	else {
-		videourl = concat("#EXTM3U\n#EXTINF:-1\nhttp://", server, ":", cToSvInt(LiveSetup().GetServerPort()), "/recstream.html?recid=", recid);
+    cToSvConcat rfid;
+    if (LiveSetup().GetUseStreamdev() ) {
+      const cRecording* recording = LiveRecordingsManager()->GetByMd5Hash(recid);
+      if (recording) {
+        struct stat st;
+        if (stat(recording->FileName(), &st) == 0)
+          rfid.appendFormated("%lu:%llu.rec", (unsigned long) st.st_dev, (unsigned long long) st.st_ino);
+      }
+    }
+
+    if (rfid.empty()) 
+      videourl = concat("#EXTM3U\n#EXTINF:-1\nhttp://", server, ":", cToSvInt(LiveSetup().GetServerPort()), "/recstream.html?recid=", recid);
+    else
+      videourl = concat("#EXTM3U\n#EXTINF:-1\nhttp://", server, ":", cToSvInt(LiveSetup().GetStreamdevPort()), "/", rfid, ".ts");
 	}
 </%cpp>
 <& playlist.m3u videourl=(videourl) &>

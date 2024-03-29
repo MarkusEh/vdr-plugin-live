@@ -710,38 +710,54 @@ class cToSvFile: public cToSv {
     ~cToSvFile() { std::free(m_s); }
   private:
     void load(const char *filename, size_t max_length) {
+      for (int n_err = 0; n_err < 3; ++n_err) {
+        if (load_int(filename, max_length) ) return;
+        m_exists = false;
+        std::free(m_s);
+        m_s = nullptr;
+        if (n_err < 3) sleep(1);
+      }
+      esyslog("cToSvFile::load, ERROR: give up after 3 tries, filename %s", filename);
+    }
+    bool load_int(const char *filename, size_t max_length) {
+// return false if an error occured, and we should try again
       cOpen fd(filename, O_RDONLY);
-      if (!fd.exists()) return;
+      if (!fd.exists()) return true;
       struct stat buffer;
       if (fstat(fd, &buffer) != 0) {
-        if (errno != ENOENT) esyslog("cToSvFile::load, ERROR: in fstat, errno %d, filename %s\n", errno, filename);
-        return;
+        if (errno == ENOENT) return false;
+        esyslog("cToSvFile::load, ERROR: in fstat, errno %d, filename %s\n", errno, filename);
+        return true;
       }
 // file exists, length buffer.st_size
       m_exists = true;
-      if (buffer.st_size == 0) return; // empty file
+      if (buffer.st_size == 0) return true; // empty file
       size_t length = buffer.st_size;
       if (max_length != 0 && length > max_length) length = max_length;
       m_s = (char *) malloc((length + 1) * sizeof(char));  // add one. So we can add the 0 string terminator
       if (!m_s) {
         esyslog("cToSvFile::load, ERROR out of memory, filename = %s, requested size = %zu\n", filename, length + 1);
-        return;
+        return true;
       }
       size_t num_read = 0;
       ssize_t num_read1 = 1;
-      for (; num_read1 > 0 && num_read < length; num_read += num_read1) {
+      for (int num_errors = 0; num_errors < 3 && num_read < length; num_read += num_read1) {
         num_read1 = read(fd, m_s + num_read, length - num_read);
+        if (num_read1 == 0) ++num_errors; // should not happen, because fstat reported file size >= length
         if (num_read1 == -1) {
-          esyslog("cToSvFile::load, ERROR: read failed, errno %d, filename %s\n", errno, filename);
-          m_s[0] = 0;
-          return;
+          if (errno == ENOENT) return false;
+          esyslog("cToSvFile::load, ERROR: read failed, errno %d, filename %s, file size = %zu, num_read = %zu\n", errno, filename, (size_t)buffer.st_size, num_read);
+          ++num_errors;
+          num_read1 = 0;
+          if (num_errors < 3) sleep(1);
         }
       }
       m_result = cSv(m_s, num_read);
-      m_s[num_read] = 0;  // so data returns a 0 terminated string
+      m_s[num_read] = 0;  // so data() returns a 0 terminated string
       if (num_read != length) {
         esyslog("cToSvFile::load, ERROR: num_read = %zu, length = %zu, filename %s\n", num_read, length, filename);
       }
+      return true;
     }
     bool m_exists = false;
     char *m_s = nullptr;
