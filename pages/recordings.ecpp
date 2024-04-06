@@ -243,7 +243,7 @@ function RecordingsSt_int(s, level, displayFolder, data) {
         RecordingActionS(s, obj[0], "vdr_request/play_recording?param=", "play.png", "<$tr("play this recording")$>")
 %     }
 %     if (LiveSetup().GetShowPlayMediaplayer() ) {
-        RecordingActionS(s, obj[0], "playlist.m3u?recid=", "playlist.png", "<$tr("Stream this recording into media player.")$>")
+        RecordingActionS(s, obj[0], "playlist.m3u?recid=", "playlist.png", "<$tr("Stream this recording into media player.")$>\\\" download=\\\"playlist.m3u")
 %     } if (LiveSetup().GetShowIMDb() ) {
         IMDBS(s, obj[2], obj[14])
 %     }

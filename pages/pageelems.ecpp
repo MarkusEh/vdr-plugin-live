@@ -402,8 +402,16 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 </%args>
 <%cpp>
 #if TNT_WATCHDOG_SILENCE
+// <a href="intent://my.example.com:8080/test.mp4#Intent;scheme=http;package=org.videolan.vlc;end">OPEN IN VLC</a>
+
+// std::string server = request.getHost();
+// server = server.substr(0, server.rfind(':'));
+// cToSvConcat url("intent://", server, ":", LiveSetup().GetServerPort(), "/recstream.html?recid=", recid, "#Intent;scheme=http;package=org.videolan.vlc;end");
+
+cToSvConcat url("playlist.m3u?recid=", recid);
+// orig href:  href="playlist.m3u?recid=<$ recid $>"
 {
-</%cpp><a href="playlist.m3u?recid=<$ recid $>"><img src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint text=(tr("Stream this recording into media player.")) &> /> <$ linkText $></a>
+</%cpp><a href="<$ url $>" download><img src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint text=(tr("Stream this recording into media player.")) &> /> <$ linkText $></a>
 <%cpp>
 }
 #endif
