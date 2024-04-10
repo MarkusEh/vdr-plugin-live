@@ -357,7 +357,7 @@ namespace vdrlive
 		bool ScanForRecImages(cSv imageId, cSv recfolder , std::list<std::string> & images)
 		{
 			bool found = false;
-			const std::string filetypes[] = {"png", "jpg", "PNG", "JPG"};
+			const std::string filetypes[] = {"png", "jpg", "webp", "PNG", "JPG"};
 			int size = sizeof(filetypes)/sizeof(filetypes[0]);
 
 			if (recfolder.empty()) {
