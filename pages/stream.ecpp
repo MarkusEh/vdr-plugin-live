@@ -15,7 +15,7 @@ using namespace vdrlive;
 </%args>
 <%session scope="global">
 	bool logged_in(false);
-	FFmpegThread *f_worker = NULL;
+	FFmpegThread *f_worker = nullptr;
 </%session>
 <%request scope="global">
 	cChannel* Channel;
