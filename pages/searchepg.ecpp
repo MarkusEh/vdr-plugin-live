@@ -40,7 +40,6 @@ using namespace vdrlive;
 	bool wday_sat = false;
 	bool wday_sun = false;
 	int blacklistmode = 0;
-	std::string blacklistids[];
 	bool useextepginfo = false;
 	std::string extepgvalues[];
 	std::string blacklistids_internal;
@@ -62,6 +61,12 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 #define SELECTIF(x) reply.out() << ( (x) ? "selected=\"selected\"" : "" );
 #define CHECKIF(x) reply.out() << ( (x) ? "checked=\"checked\"" : "" );
+#if TNTVERSION >= 30000
+const char *TNT_ARRAY = "[]";
+#else
+const char *TNT_ARRAY = "";
+#endif
+
 
 	searchtimer = 0;
   tChannelID channelfrom = tChannelID::FromString(channelfrom_string.c_str());
@@ -324,7 +329,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 										<tr valign="top">
 											<td align="left" valign="top"><$ extinfo->Name() $></td>
 											<td align="left" valign="top">
-												<input type="text" name="extepgvalues" value="<$extepgvalues[i]$>" size="10" id="extepg_<{ reply.out() << extinfo->Id(); }>_value"/>
+												<input type="text" name="extepgvalues<$TNT_ARRAY$>" value="<$extepgvalues[i]$>" size="10" id="extepg_<{ reply.out() << extinfo->Id(); }>_value"/>
 											</td>
 %										if (extinfo->Values().size() > 0) {
 											<td>

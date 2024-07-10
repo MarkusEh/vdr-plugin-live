@@ -53,7 +53,6 @@ using namespace vdrlive;
 	int keeprecs = 0;
 	int pauseonrecs = 0;
 	int blacklistmode = 0;
-	std::string blacklistids[];
 	int switchminbefore = 0;
 	bool useextepginfo = false;
 	std::string extepgvalues[];
@@ -98,6 +97,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 #define SELECTIF(x) reply.out() << ( (x) ? "selected=\"selected\"" : "" );
 #define CHECKIF(x) reply.out() << ( (x) ? "checked=\"checked\"" : "" );
+#if TNTVERSION >= 30000
+const char *TNT_ARRAY = "[]";
+#else
+const char *TNT_ARRAY = "";
+#endif
 
 	SearchTimers searchtimers;
 	bool testmode = !test.empty();
@@ -559,7 +563,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 %										int i=0; for (ExtEPGInfos::iterator extinfo = extEPGInfos.begin(); extinfo != extEPGInfos.end(); ++extinfo, i++) {
 										<tr>
 											<td class="label"><div class="withmargin"><$ extinfo->Name() $></div></td>
-											<td><input type="text" name="extepgvalues" value="<$extepgvalues[i]$>" size="20" id="extepg_<{ reply.out() << extinfo->Id(); }>_value"/></td>
+											<td><input type="text" name="extepgvalues<$TNT_ARRAY$>" value="<$extepgvalues[i]$>" size="20" id="extepg_<{ reply.out() << extinfo->Id(); }>_value"/></td>
 %											if (extinfo->Values().size() > 0) {
 											<td >
 												<select size="3" multiple="multiple" align="left" valign="top" name="extepg_<{ reply.out() << extinfo->Id(); }>" onchange="changedextepginfo(this)">
@@ -818,7 +822,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 %															int i=0; for (ExtEPGInfos::iterator extinfo = extEPGInfos.begin(); extinfo != extEPGInfos.end(); ++extinfo, i++) {
 														<tr>
 															<td class="label"><div class="withmargin"><$ tr("Compare" ) $> <$ extinfo->Name() $>:</div></td>
-															<td><input type="checkbox" name="avoidrepeatscatselected" value="<$ i+1 $>" <{ CHECKIF(avoidrepeatscatselected[i]) }>/></td>
+															<td><input type="checkbox" name="avoidrepeatscatselected<$TNT_ARRAY$>" value="<$ i+1 $>" <{ CHECKIF(avoidrepeatscatselected[i]) }>/></td>
 														</tr>
 %															}
 %														}
