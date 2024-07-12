@@ -41,6 +41,7 @@ using namespace vdrlive;
 	std::string aux = "";
 	std::string directory = "";
   int nav_back = 1;
+  std::string navigate_back = "";
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -101,6 +102,7 @@ const cTimer* timer;
 //		dsyslog("live: remote '%s'", remote);
 			LiveTimerManager().UpdateTimer( timerId, remote, oldRemote, flags, channel, weekdays, date, start, stop, priority, lifetime, file, aux );
 			timerNotifier.SetTimerModification();
+      if (navigate_back.empty() ) {
 </%cpp>
 <!DOCTYPE html>
 <html>
@@ -109,6 +111,10 @@ const cTimer* timer;
   </script>
 </html>
 <%cpp>
+       } else {
+          timerid.clear();
+          return reply.redirect(navigate_back);
+       }
 //			return reply.redirect("html/back.html");
 //			return reply.redirect(!edit_timerreferer.empty()?edit_timerreferer:"timers.html");
 	} else {
@@ -203,6 +209,7 @@ const cTimer* timer;
 				<input type="hidden" name="timerid" value="<$ timerid $>"/>
 				<input type="hidden" name="aux" value="<$ aux $>"/>
 				<input type="hidden" name="nav_back" value="<$ nav_back $>"/>
+				<input type="hidden" name="navigate_back" value="<$ navigate_back $>"/>
 				<table class="formular" cellpadding="0" cellspacing="0">
 					<tr class="head">
 						<td class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div><div class="caption"><$ timer ? tr("Edit timer") : tr("New timer") $></div></div></div></td>
@@ -353,7 +360,11 @@ const cTimer* timer;
 						<td class="buttonpanel leftcol rightcol bottomrow" colspan="2">
 							<div class="withmargin">
 							<button class="green" type="submit"><$ tr("Save") $></button>
+%             if (navigate_back.empty() ) {
 							<button type="button" class="red" onclick="history.go(<$-nav_back$>)"><$ tr("Cancel") $></button>
+%             } else {
+							<a href="<$navigate_back$>"><button type="button" class="red"><$ tr("Cancel") $></button></a>
+%             }
 							</div>
 						</td>
 					</tr>

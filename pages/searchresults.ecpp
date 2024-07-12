@@ -102,7 +102,7 @@ bool logged_in(false);
 						}
 
 					        StateKey.Remove();  // release channels read lock before calling event_timer which make a timers read lock
-						recItemFound = appendEpgItem(epg_itemS, recItem, event, channel, true);
+						recItemFound = appendEpgItem(epg_itemS, recItem, event, channel, true, !searchtimerquery.empty() );
 						int col_span = 4;
 						if (display_pictures) col_span++;
 						if (current_day != day) {

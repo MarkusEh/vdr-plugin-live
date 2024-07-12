@@ -35,7 +35,7 @@ using namespace vdrlive;
 	TimerConflicts timerConflicts;
 
 	timer = 0;
-	if ( !timerid.empty() ) {
+	if ( !timerid.empty()  && !action.empty() ) {
 		std::string tId = SortedTimers::DecodeDomId(timerid);
 //		dsyslog("live: DEBUG: TIMER: tId = %s", tId.c_str());
 		timer = timers.GetByTimerId(tId);

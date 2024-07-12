@@ -157,13 +157,21 @@ function addEvent(s, bottomrow_i, obj) {
   let bottomrow = ''
   if (bottomrow_i != 0) bottomrow = 'bottomrow'
   s.a += `<tr><td class=\"action leftcol ${bottomrow}\">`
-  if (obj[1].length != 0) {
+  if (obj[1].length > 1) {
     s.a += '<a href=\"edit_timer.html?timerid=timer_'
-    s.a += obj[1]
+    if (obj[1].startsWith('-')) {
+      s.a += obj[1].substring(1)
+      s.a += '&navigate_back=timers.html'
+    } else {
+      s.a += obj[1]
+    }
     s.a += '\"><img class=\"icon\" src=\"<$ LiveSetup().GetThemedLink("img", "record_timer.png") $>\" title=\"<$tr("Edit timer")$>\" />'
   } else {
     s.a += '<a href=\"edit_timer.html?epgid=event_'
     s.a += obj[0]
+    if (obj[1].startsWith('-')) {
+      s.a += '&navigate_back=timers.html'
+    }
     s.a += '\"><img class=\"icon\" src=\"<$ LiveSetup().GetThemedLink("img", "record.png") $>\" title=\"<$tr("Record this")$>\" />'
   }
   s.a += '</a>'
