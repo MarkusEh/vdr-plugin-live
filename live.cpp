@@ -14,6 +14,7 @@
 #include "preload.h"
 #include "users.h"
 #include "services_live.h"
+#include "epgsearch.h"
 
 namespace vdrlive {
 
@@ -76,6 +77,10 @@ void Plugin::MainThreadHook(void)
 {
 	LiveTimerManager().DoPendingWork();
 	LiveTaskManager().DoScheduledTasks();
+}
+
+void Plugin::Housekeeping(void) {
+  SearchResults::CleanQuery();
 }
 
 cString Plugin::Active(void)

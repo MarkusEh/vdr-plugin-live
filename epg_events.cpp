@@ -499,7 +499,7 @@ void AppendScraperData(cToSvConcat<0> &target, cScraperVideo *scraperVideo) {
     cOrientations(eOrientation::landscape, eOrientation::portrait, eOrientation::banner), false);
   AppendScraperData(target, s_IMDB_ID, s_image, scraperVideo->getVideoType(), s_title, scraperVideo->getSeasonNumber(), scraperVideo->getEpisodeNumber(), s_episode_name, s_runtime, s_release_date);
 }
-bool appendEpgItem(cToSvConcat<0> &epg_item, RecordingsItemRecPtr &recItem, const cEvent *Event, const cChannel *Channel, bool withChannel, bool form) {
+bool appendEpgItem(cToSvConcat<0> &epg_item, RecordingsItemRecPtr &recItem, const cEvent *Event, const cChannel *Channel, bool withChannel) {
   cGetScraperVideo getScraperVideo(Event, NULL);
   getScraperVideo.call(LiveSetup().GetPluginScraper());
 
@@ -512,7 +512,6 @@ bool appendEpgItem(cToSvConcat<0> &epg_item, RecordingsItemRecPtr &recItem, cons
   epg_item.append(EpgEvents::EncodeDomId(Channel->GetChannelID(), Event->EventID()).c_str() + 6);
   epg_item.append("\",\"");
 // [1] : Timer ID
-  if (form) epg_item.append("-");  // timer id starts with - to indicate that history.back is not working
   const cTimer* timer = LiveTimerManager().GetTimer(Event->EventID(), Channel->GetChannelID() );
   if (timer) epg_item.append(vdrlive::EncodeDomId(LiveTimerManager().GetTimers().GetTimerId(*timer), ".-:", "pmc"));
   epg_item.append("\",");

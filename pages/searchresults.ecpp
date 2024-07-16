@@ -34,7 +34,7 @@ bool logged_in(false);
 	if (!searchtimerid.empty())
 		results.GetByID(parse_int< int >(searchtimerid));
 	if (!searchtimerquery.empty())
-		results.GetByQuery(SearchResults::PopQuery(searchtimerquery));
+		results.GetByQuery(SearchResults::GetQuery(searchtimerquery));
 	if (!searchplain.empty())
 	{
 		SearchTimer s;
@@ -102,7 +102,7 @@ bool logged_in(false);
 						}
 
 					        StateKey.Remove();  // release channels read lock before calling event_timer which make a timers read lock
-						recItemFound = appendEpgItem(epg_itemS, recItem, event, channel, true, !searchtimerquery.empty() );
+						recItemFound = appendEpgItem(epg_itemS, recItem, event, channel, true);
 						int col_span = 4;
 						if (display_pictures) col_span++;
 						if (current_day != day) {

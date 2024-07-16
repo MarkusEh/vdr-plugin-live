@@ -135,7 +135,16 @@ const char *TNT_ARRAY = "";
 
 		searchtimer.SetId(0);
 		std::string md5 = SearchResults::AddQuery(searchtimer.ToText());
-		return reply.redirect("searchresults.html?searchtimerquery=" + md5);
+</%cpp>
+<!DOCTYPE html>
+<html>
+  <script>
+    window.location = "searchresults.html?searchtimerquery=<$md5$>";
+  </script>
+</html>
+<%cpp>
+
+//		return reply.redirect("searchresults.html?searchtimerquery=" + md5);
 	}
 	pageTitle = tr("Search");
 

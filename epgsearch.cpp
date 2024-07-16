@@ -577,7 +577,7 @@ const cEvent* SearchResult::GetEvent(const cChannel* Channel)
 	return Schedule->GetEvent(m_eventId);
 }
 
-std::set<std::string> SearchResults::querySet;
+std::vector<cQueryEntry> SearchResults::queryList;
 
 void SearchResults::GetByID(int id)
 {
@@ -587,7 +587,7 @@ void SearchResults::GetByID(int id)
 
 	std::list<std::string> list = service.handler->QuerySearchTimer(id);
 	m_list.assign( list.begin(), list.end() );
-    m_list.sort();
+	m_list.sort();
 }
 
 void SearchResults::GetByQuery(std::string const& query)
@@ -601,27 +601,48 @@ void SearchResults::GetByQuery(std::string const& query)
 	m_list.sort();
 }
 
-std::string SearchResults::AddQuery(std::string const& query)
+std::string SearchResults::AddQuery(cSv query)
 {
-	querySet.insert(query);
+  for (auto it = queryList.begin(); it != queryList.end(); ++it) if (it->Value() == query) {
+    it->Used();
+	  return std::string(cToSvXxHash128(query));
+  }
+	queryList.emplace_back(query);
 	return std::string(cToSvXxHash128(query));
 }
 
-std::string SearchResults::PopQuery(cSv md5)
+std::string SearchResults::GetQuery(cSv md5)
 {
 	if (md5.empty()) return std::string();
 	std::string query;
-  std::set<std::string>::iterator it;
-  for (it = querySet.begin(); it != querySet.end(); it++)
+  for (auto it = queryList.begin(); it != queryList.end(); ++it)
   {
-    if(md5 == cSv(cToSvXxHash128(*it)))
+    if(md5 == cSv(cToSvXxHash128(it->Value() )))
     {
-      query = *it;
-      querySet.erase(it);
+      query = it->Value() ;
+      it->Used();
       break;
     }
   }
 	return query;
+}
+
+void SearchResults::CleanQuery() {
+  time_t now = time(NULL);
+  size_t old_s = queryList.size();
+  for (auto it = queryList.begin(); it != queryList.end();)
+  {
+    if(it->IsOutdated(now))
+      it = queryList.erase(it);
+    else
+      ++it;
+  }
+  if (old_s != queryList.size() ) {
+    size_t mem = 0;
+    for (auto it = queryList.begin(); it != queryList.end(); ++it) mem += it->Value().length();
+
+    dsyslog("live, cleanup queryList, size was %zu, is %zu, requ. mem %zu", old_s, queryList.size(), mem);
+  }
 }
 
 RecordingDirs::RecordingDirs(bool shortList)

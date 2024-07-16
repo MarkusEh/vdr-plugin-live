@@ -373,9 +373,21 @@ private:
 	int m_timerMode;
 };
 
+#define QUERYLIFETIME 60*20 // seconds. If a query is not used in this timeframe, it is deleted
+class cQueryEntry {
+public:
+  cQueryEntry(cSv queryString):
+    value(queryString) { Used(); }
+  bool IsOutdated(time_t now) { return now > outdated_at; }
+  cSv Value() { return value; }
+  void Used() { outdated_at = time(NULL) + QUERYLIFETIME; }
+private:
+  time_t outdated_at;
+  std::string value;
+};
 class SearchResults
 {
-	static std::set<std::string> querySet;
+	static std::vector<cQueryEntry> queryList;
 public:
 	typedef std::list<SearchResult> searchresults;
 	typedef searchresults::size_type size_type;
@@ -394,8 +406,9 @@ public:
 	const_iterator end() const { return m_list.end(); }
 
 	void merge(SearchResults& r) {m_list.merge(r.m_list); m_list.sort();}
-	static std::string AddQuery(std::string const& query);
-	static std::string PopQuery(cSv md5);
+	static std::string AddQuery(cSv query);
+	static std::string GetQuery(cSv md5);
+  static void CleanQuery();
 private:
 	searchresults m_list;
 };

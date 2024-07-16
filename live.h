@@ -29,6 +29,7 @@ public:
 	virtual bool Initialize(void);
 	virtual void Stop(void);
 	virtual void MainThreadHook(void);
+	virtual void Housekeeping(void);
 	virtual cString Active(void);
 	virtual cMenuSetupPage *SetupMenu(void);
 	virtual bool SetupParse(const char *Name, const char *Value);

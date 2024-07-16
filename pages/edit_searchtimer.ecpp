@@ -219,13 +219,29 @@ const char *TNT_ARRAY = "";
 		if (!testmode)
 		{
 			searchtimers.Save(&searchtimer);
-			return reply.redirect("searchtimers.html");
+</%cpp>
+<!DOCTYPE html>
+<html>
+  <script>
+    window.location = "searchtimers.html";
+  </script>
+</html>
+<%cpp>
+//			return reply.redirect("searchtimers.html");
 		}
 		else
 		{
 			searchtimer.SetId(0);
 			std::string md5 = SearchResults::AddQuery(searchtimer.ToText());
-			return reply.redirect("searchresults.html?searchtimerquery=" + md5);
+</%cpp>
+<!DOCTYPE html>
+<html>
+  <script>
+    window.location = "searchresults.html?searchtimerquery=<$md5$>";
+  </script>
+</html>
+<%cpp>
+//			return reply.redirect("searchresults.html?searchtimerquery=" + md5);
 		}
 	}
 	pageTitle = !searchtimerid.empty() ? tr("Edit search timer") : tr("New search timer");
