@@ -1,4 +1,6 @@
 /*
+ * This is part of the live VDR plugin. See COPYING for license information.
+ *
  * Javascript functions for the status update box.
  * This file needs mootools.js to be included on the pages.
  */
@@ -106,7 +108,7 @@ var LiveVdrInfo = Ajax.extend({
 		  }
 	  },
 
-	  // private function to display information from epg info.
+	  // private function to display information from EPG info.
 	  setEpgInfo: function(xmldoc)
 	  {
 		  var epgInfo = xmldoc.getElementsByTagName('epginfo').item(0);

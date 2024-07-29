@@ -643,6 +643,9 @@ msgstr "Oglądaj kanał w odtwarzaczu multimediów"
 msgid "Stream this recording into media player."
 msgstr "Oglądaj nagranie w odtwarzaczu multimediów"
 
+msgid "Stream this recording."
+msgstr ""
+
 msgid "loading data"
 msgstr "ładuję ..."
 

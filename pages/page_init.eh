@@ -1,7 +1,7 @@
 <%pre>
 // do not add to Makefile
 // and do not write a ecpp comment into this file. It must produce no
-// html output not even an empty line.
+// HTML output not even an empty line.
 #include <tnt/savepoint.h>
 #include <exception.h>
 </%pre>

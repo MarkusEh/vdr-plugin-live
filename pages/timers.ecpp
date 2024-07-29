@@ -149,6 +149,7 @@ using namespace vdrlive;
 					<td><div class="withmargin"><$ trVDR("File") $></div></td>
 					<td class="td-hidden-xs"><div class="xs-nomargin hidden-xs"><$ trVDR("Record on") $></div></td>
 					<td><div class="withmargin"><$ tr("Searchtimer") $></div></td>
+
           <td class="td-hidden-xs"><img class="hidden-xs action-rightcol" src="img/transparent.png" alt="" width="16px" height="16px" /></td>
           <td class="td-hidden-xs"><img class="hidden-xs action-rightcol" src="img/transparent.png" alt="" width="16px" height="16px" /></td>
           <td class="rightcol"><img class="action-rightcol" src="img/transparent.png" alt="" width="16px" height="16px" /></td>

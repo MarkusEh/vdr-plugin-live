@@ -1199,8 +1199,8 @@ for (const cTvMedia &media: *media_v) {
 					(<a href="https://github.com/MarkusEh/vdr-plugin-tvscraper" target="_blank"><$ tr("Homepage") $></a>)<br/>
 				</div>
 				<div class="about_head"><div><div><$ tr("Information providers") $></div></div></div>
-				<div class="about_line">Movie information provided by <a target="_blank" href="https://www.themoviedb.org/">TMDB</a>. This product uses the TMDB API but is not endorsed or certified by TMDB</div>
-				<div class="about_line">Information provided by TheTVDB.com. Please consider <a target="_blank" href="https://u10505776.ct.sendgrid.net/ls/click?upn=xMYYCP13hVd-2BZPpbVcMPHeLXfv-2BPRdIsKm2qSeirIHi7kH9am8IxD-2BavFbeqGqIXIcjH_INgc0CXRkIvGU-2BJ1W6HLAynNbR0UBoMb2tkpDdezO3QRj-2FQPQAMrtJKVcB0N7eSvbYpjQTDNOQBf2pb94uDgGr0-2BXyXFk7Oyfva30BASYCRLvtRQyi5eOCAbH8fon7UETlPydobeLA3Recu9OsXol8c7Ng4pDAsH6KsFF8CH7HQoVxivnpKrQW2v4ek7U-2BYlWmH31o9Koke3vq-2FDsQ0P-2BiKLECU3LgttsntUcN8fnUs-3D">supporting them</a></div>
+				<div class="about_line">Movie information provided by <a target="_blank" href="https://www.themoviedb.org/">TMDB</a>. This product uses the TMDB API but is not endorsed or certified by TMDB.</div>
+				<div class="about_line">Information provided by TheTVDB.com. Please consider <a target="_blank" href="https://u10505776.ct.sendgrid.net/ls/click?upn=xMYYCP13hVd-2BZPpbVcMPHeLXfv-2BPRdIsKm2qSeirIHi7kH9am8IxD-2BavFbeqGqIXIcjH_INgc0CXRkIvGU-2BJ1W6HLAynNbR0UBoMb2tkpDdezO3QRj-2FQPQAMrtJKVcB0N7eSvbYpjQTDNOQBf2pb94uDgGr0-2BXyXFk7Oyfva30BASYCRLvtRQyi5eOCAbH8fon7UETlPydobeLA3Recu9OsXol8c7Ng4pDAsH6KsFF8CH7HQoVxivnpKrQW2v4ek7U-2BYlWmH31o9Koke3vq-2FDsQ0P-2BiKLECU3LgttsntUcN8fnUs-3D">supporting them.</a></div>
 				<div class="about_head"><div><div><$ tr("Bugs and suggestions") $></div></div></div>
 				<div class="about_line"><$ tr("If you encounter any bugs or would like to suggest new features, please use our bugtracker") $>:<br/>
 					<a target="_blank" href="https://github.com/MarkusEh/vdr-plugin-live/issues">https://github.com/MarkusEh/vdr-plugin-live/issues</a></div>

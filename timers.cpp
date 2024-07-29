@@ -133,7 +133,7 @@ namespace vdrlive {
       }
       return concat(getAutoTimerReason.reason, " ", getAutoTimerReason.recordingName);
     }
-// fallback information, if this tvscraper method is not available
+// fallback information, if this Tvscraper method is not available
     cSv tvScraperInfo = partInXmlTag(timer.Aux(), "tvscraper");
     if (tvScraperInfo.empty()) return "";
     cSv data = partInXmlTag(tvScraperInfo, "reason");
@@ -243,7 +243,7 @@ namespace vdrlive {
 		if ( m_updateTimers.size() > 0 ) {
 			DoUpdateTimers();
 		}
-		// dsyslog("live: SV: signalling waiters");
+		// dsyslog("live: SV: signaling waiters");
 		m_updateWait.Broadcast();
 	}
 
@@ -282,7 +282,7 @@ namespace vdrlive {
 			   	for (int i = 0; i < response.Size(); i++) {
                                         int code = SVDRPCode(response[i]);
 			      		if (code != 250) {
-				      		esyslog("live: DoInsertTimer() svdrp failed, respone: %s", response[i]);
+				      		esyslog("live: DoInsertTimer() svdrp failed, response: %s", response[i]);
 						svdrpOK = false;
                               		}
 			   	}
@@ -355,7 +355,7 @@ namespace vdrlive {
 					for (int i = 0; i < response.Size(); i++) {
 						int code = SVDRPCode(response[i]);
 						if (code != 250) {
-							esyslog("live: DoInsertTimer() svdrp respone: %s", response[i]);
+							esyslog("live: DoInsertTimer() svdrp response: %s", response[i]);
 							responseOK = false;
 						}
 					}
@@ -453,7 +453,7 @@ namespace vdrlive {
 				for (int i = 0; i < response.Size(); i++) {
 					int code = SVDRPCode(response[i]);
 					if (code != 250) {
-						esyslog("live: DoDeleteTimer() svdrp failed, respone: %s", response[i]);
+						esyslog("live: DoDeleteTimer() svdrp failed, response: %s", response[i]);
 						svdrpOK = false;
 					}
 				}
@@ -537,7 +537,7 @@ namespace vdrlive {
 				for (int i = 0; i < response.Size(); i++) {
                                         int code = SVDRPCode(response[i]);
 					if (code != 250) {
-						esyslog("live: DoToggleTimer() svdrp failed, respone: %s", response[i]);
+						esyslog("live: DoToggleTimer() svdrp failed, response: %s", response[i]);
 						svdrpOK = false;
 					}
 				}

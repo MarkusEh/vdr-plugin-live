@@ -6,7 +6,7 @@
 # repository versions.  For CVS repositories the string contains the
 # date and time of the commit that lead to the current version of
 # files.  For git repositories the output contains the git-id of the
-# current tree.  An indication if localy modified files exist is
+# current tree.  An indication if locally modified files exist is
 # added currently only for CVS.
 # -----------------------------------------------------------------------------
 

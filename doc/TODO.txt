@@ -4,17 +4,17 @@ This is a list of ideas and TODO-Items for live plugin.
   splitting style files in a similar way like it is done for YAML
   (http://www.yaml.de)
 
-- Create a CSS-themeing friendly url scheme. I.E. something like
+- Create a CSS-themeing friendly URL scheme. I.E. something like
   img/<theme>/button.png. Where default as theme is always taken if
   <theme> is not found.
 - Give users the chance to override the selected style with some
   user-override settings.
-- Deliver truely static content, like images, styles, ECMAscript
-  with tntnets sendfile functionality after resolving user selected
+- Deliver truly static content, like images, styles, ECMAscript
+  with Tntnet's send-file functionality after resolving user selected
   themes paths. Take care to support browser cache optimization.
 
-- Deliver epg box infos through AJAX. This would make a ECMAScript
+- Deliver EPG box information through AJAX. This would make a ECMAScript
   capable browser mandatory.
-- Provide a way to get the infos on extra 'static' pages.
+- Provide a way to get the information on extra 'static' pages.
 
 

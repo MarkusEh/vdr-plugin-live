@@ -8,7 +8,7 @@
 #include <list>
 
 #if TNTVERSION >= 30000
-        #include <cxxtools/log.h>  // must be loaded before any vdr include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
+        #include <cxxtools/log.h>  // must be loaded before any VDR include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
 #endif
 
 #include "services.h"
@@ -32,7 +32,7 @@ namespace vdrlive
 		void DecodeDomId(cSv epgid, tChannelID &chanId, tEventID &eventId);
 
 		/**
-		 *	Allocate and initalize an epgEvent instance with the
+		 *	Allocate and initialize an epgEvent instance with the
 		 *	passed channel and event information.
 		 *	Never call this function with a NULL chan pointer
 		 */
@@ -44,13 +44,13 @@ namespace vdrlive
 		EpgInfoPtr CreateEpgInfo(cSv epgid, cSchedules const *schedules);
 
 		/**
-		 *	Allocate and initalize an epgEvent instance with the
+		 *	Allocate and initialize an epgEvent instance with the
 		 *	passed recording information.
 		 */
 		EpgInfoPtr CreateEpgInfo(cSv recid, cRecording const *recording, char const *caption = 0);
 
 		/**
-		 *	Allocate and initalize an epgEvent instance with the
+		 *	Allocate and initialize an epgEvent instance with the
 		 *	passed string informations
 		 */
 		EpgInfoPtr CreateEpgInfo(cSv id, cSv caption, cSv info);

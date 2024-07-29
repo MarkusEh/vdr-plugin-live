@@ -1,3 +1,7 @@
+/*
+ * This is part of the live VDR plugin. See COPYING for license information.
+ */
+
 function adjustHeader()
 {
 	// exchange body top margin by equally-sized header-padding element

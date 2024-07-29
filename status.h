@@ -2,7 +2,7 @@
 #define VDR_LIVE_STATUS_H
 
 #if TNTVERSION >= 30000
-        #include <cxxtools/log.h>  // must be loaded before any vdr include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
+        #include <cxxtools/log.h>  // must be loaded before any VDR include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
 #endif
 
 #include <vdr/status.h>

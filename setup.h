@@ -6,7 +6,7 @@
 #include <limits>
 #include <string>
 #if TNTVERSION >= 30000
-	#include <cxxtools/log.h>  // must be loaded before any vdr include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
+	#include <cxxtools/log.h>  // must be loaded before any VDR include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
 #endif
 
 #include <vdr/menuitems.h>
@@ -24,12 +24,12 @@ class Setup
 {
 	friend Setup& LiveSetup();
 	friend class cMenuSetupLive; // friend declaration is not forward
-								 // declaration, although gcc 3.3 claims so
+								 // declaration, although GCC 3.3 claims so
 
 	public:
 		typedef std::list<std::string> IpList;
 
-		// commandline
+		// command line
 		int GetServerPort() const { return m_serverPort; }
 		int GetServerSslPort() const { return m_serverSslPort; }
 		std::string GetServerSslCert() const { return m_serverSslCert; }
@@ -37,7 +37,7 @@ class Setup
 		const std::string &GetServerUrl() const { return m_serverUrl; }
 		const std::string &GetServerUrlImages() const { return m_serverUrlImages; }
 		IpList const& GetServerIps() const { return m_serverIps; }
-		// vdr-setup
+		// VDR setup
 		int GetLastChannel() const { return m_lastChannel == 0 ? std::numeric_limits<int>::max() : m_lastChannel; }
 		int GetScreenshotInterval() const { return m_screenshotInterval; }
 		std::string const GetAdminLogin() const { return m_adminLogin; }
@@ -129,7 +129,7 @@ class Setup
 		cPlugin* liveplugin;
 
 		mutable std::string m_helpString;
-		// commandline options
+		// command-line options
 		int m_serverPort;
 		int m_serverSslPort;
 		std::string m_serverSslCert;
@@ -177,7 +177,7 @@ class Setup
 		int m_showPlayMediaplayer;
 		int m_showChannelsWithoutEPG;
 
-    const int m_maxTooltipChars = 300; // maximum number of characters to be displayed in Tooltips
+    const int m_maxTooltipChars = 300; // maximum number of characters to be displayed in tooltips
 		bool CheckServerPort();
 		bool CheckServerIps();
 		bool CheckServerSslPort();

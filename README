@@ -41,18 +41,18 @@ PCRE2 >= 10.38     	- https://github.com/PhilipHazel/pcre2/releases
 Tntnet >= 2.2.1		- http://www.tntnet.org/download.hms  // https://web.archive.org/web/20160314183814/http://www.tntnet.org/download.html
 Cxxtools >= 2.2.1	- http://www.tntnet.org/download.hms  // https://web.archive.org/web/20160314183814/http://www.tntnet.org/download.html
 
-Tntnet provides basic webserver functions for live and needs cxxtools.
+Tntnet provides basic Web server functions for live and needs cxxtools.
 Boost provides some data structures we need. While currently relying on the
 full blown package we might provide a stripped down version in the future.
 
-PCRE2 provides filtering for recordings using perl regexp language.
+PCRE2 provides filtering for recordings using Perl regexp language.
 If you don't need filtering, PCRE2 is optional.
 
-If you optionaly want to regenerate the i18n-generated.h header file
+If you optionally want to regenerate the i18n-generated.h header file
 for backward compatible i18n (VDR version prior to 1.5.7) you also
 need: (See also the Internationalization section below)
 
-Locale::PO 		- perl module from CPAN www.cpan.org
+Locale::PO 		- Perl module from CPAN www.cpan.org
 
 The default i18n-generated.h header contains all
 translations from GIT. Users that just want to stay on bleeding development
@@ -77,7 +77,7 @@ copy the resulting binary to VDRs directory where the other plugins
 are expected.
 
 In order to work correctly you must copy the subdirectory 'live' from
-the source distribution to the directory where the vdr plugins look
+the source distribution to the directory where the VDR plugins look
 for their resource files. The pure VDR default for this config
 directory is: /video/plugins, but this depends also from the
 parameters -c or -v (see 'vdr --help' for details).
@@ -95,7 +95,7 @@ the internet. The default username and password are:
 
 The default port is 8008.
 
-You can also specifiy this parameter via commandline:
+You can also specify this parameter via command line:
 
   -p PORT,  --port=PORT     use PORT to listen for incoming connections
                             (default: 8008)
@@ -104,7 +104,7 @@ You can also specifiy this parameter via commandline:
                             (default: 0.0.0.0, ::0)
 
 Additional SSL options are available now. See "How to make LIVE listen
-for ssl connections" section below on hints how to setup SSL.
+for SSL connections" section below on hints how to setup SSL.
 
 To display images or channel logos, you can use:
 
@@ -122,47 +122,47 @@ interface.
 The password is stored as a MD5 hash.
 "Last Channel" is the last channel in the channels list, that live displays.
 This is especially useful if you have VDR's automatic channel update active.
-For example, you can add a group seperator ":@1000 Found automatically" to
+For example, you can add a group separator ":@1000 Found automatically" to
 channels.conf and set this parameter to "1000". Thus, everything VDR finds
 during scanning (which can after a few months be well more than 3000
 channels) won't be displayed.
 
 
-How to make LIVE listen for ssl connections:
+How to make LIVE listen for SSL connections:
 ============================================
 
-To make LIVE listen for incoming ssl connections you`ll have to use a
+To make LIVE listen for incoming SSL connections you`ll have to use a
 Tntnet version > 1.6.0.6. By default it will listen on port 8443.
 
 	* Example: https://localhost:8443
 
 In order to start the SslListener LIVE requires a SSL certificate. If
-no SSL certificate is specified via commandline option, LIVE will try
+no SSL certificate is specified via command-line option, LIVE will try
 to use the default certificate location
 '$VDRDIR/plugins/live/live.pem'.
 
 If neither the default nor the custom certificate (given by the
-commandline option) could be found, LIVE will only start the default
+command-line option) could be found, LIVE will only start the default
 HTTP Listener (default: 8008)
 
-If you want do disable the SslListener for any reason, specify ssl port
-number 0 with the commandline option.
+If you want do disable the SslListener for any reason, specify SSL port
+number 0 with the command-line option.
 
-Note: Since the gnutls SslListener was broken in Tntnet versions prior
+Note: Since the GNU TLS SslListener was broken in Tntnet versions prior
 to SVN revision 1035 you will have to recompile Tntnet with
 "./configure --with-ssl=openssl" to make it work. Alternatively
-install version 1.6.2 or higher of tntnet on your system.
+install version 1.6.2 or higher of Tntnet on your system.
 
 
-SSL Commandline options:
-========================
+SSL Command-line options:
+=========================
 
-  -s PORT,  --sslport=PORT     use PORT to listen for incoming ssl connections
+  -s PORT,  --sslport=PORT     use PORT to listen for incoming SSL connections
                                (default: 8443)
-                               use PORT 0 to disable incoming ssl connections
-  -c CERT,  --cert=CERT        path to a custom ssl certificate file
+                               use PORT 0 to disable incoming SSL connections
+  -c CERT,  --cert=CERT        path to a custom SSL certificate file
   			       (default: $CONFIGDIR/live.pem)
-  -k KEY,   --cert=CERT        path to a custom ssl certificate key file
+  -k KEY,   --cert=CERT        path to a custom SSL certificate key file
   			       (default: $CONFIGDIR/live-key.pem)
 
 
@@ -175,25 +175,25 @@ command.
   $> cd /put/your/path/here/vdr/plugins/live
   $> openssl req -new -x509 -keyout live-key.pem -out live.pem -days 365 -nodes
 
-While generating the certifcate you`ll be asked to answer a couple of
+While generating the certificate you`ll be asked to answer a couple of
 questions.  When it prompts to enter the "Common Name" you`ll have to
-specify the full qualified dns server name of the machine LIVE is
-running on (eg. vdr.example.com).  If your vdr doesn`t have a full
-qualified dns name, you should use the ip LIVE is listening on.
+specify the full qualified DNS server name of the machine LIVE is
+running on (e.g. vdr.example.com).  If your VDR doesn't have a full
+qualified DNS name, you should use the IP Live is listening on.
 
-Note: This is just a quick'n dirty way to create a SSL self-signed
-certicate.  Recent browsers (like Firefox 3) will complain about it
-because the certificate wasn´t signed by a known Certificate Authority
+Note: This is just a quick-and-dirty way to create a SSL self-signed
+certificate.  Recent browsers (like Firefox 3) will complain about it
+because the certificate wasn't signed by a known Certificate Authority
 (CA).
 
 
 So how does LIVE work?
 ======================
 
-Basically, Live itself is a Tntnet webserver integrated into the
+Basically, Live itself is a Tntnet Web server integrated into the
 plugin structure VDR needs.
 
-This webserver, running in VDR's environment, is provided with all
+This Web server, running in VDR's environment, is provided with all
 public data structures VDR provides for plugins and thus has very fast
 access to information like the EPG, timers or recordings.
 
@@ -208,8 +208,8 @@ If you would like to contribute, please read doc/dev-contribute.txt
 and doc/TODO.txt.
 
 
-Internationalization (i18n)
-===========================
+Internationalization (i18n):
+============================
 
 LIVE uses the same i18n support like VDR does since version 1.5.7.
 This version of LIVE can not support i18n compatible with VDR versions
@@ -219,8 +219,8 @@ All localization files are found in the po subdirectory of the LIVE
 plugin source.
 
 
-Security consideratios
-======================
+Security considerations:
+========================
 
 Please use live in a controlled environment only, like your home network
 or a save VPN of your home network.
@@ -230,12 +230,12 @@ Of course, better security is always appreciated, so please send
 patches increasing security.
 
 One possible security issue (there might be others ...):
-Live uses the tntnet MapUrl mechanism to map different request urls to
-tntnet components. One component 'content.ecpp' delivers files found
+Live uses the Tntnet MapUrl mechanism to map different request URLs to
+Tntnet components. One component 'content.ecpp' delivers files found
 in the file system. When given the wrong 'path' it could retrieve any
 file from the server where live runs on.  Therefore content.ecpp has
-beem enhanced to check the paths before returning files.  A second
-measure against missuse is to limit the mappings from MapUrl to only
+been enhanced to check the paths before returning files.  A second
+measure against misuse is to limit the mappings from MapUrl to only
 valid files. In the current version this approach has been taken. But
 due to the 'difficulty' to fully understand regular expressions, this
 might get spoiled again by 'unchecked' code contribution.
@@ -248,6 +248,6 @@ If VDR crashes on start with these journal messages:
   terminate called after throwing an instance of 'std::runtime_error'
     what():  locale::facet::_S_create_c_locale name not valid
 
-Most likely, the locale is not installed correctly. On debian based systems, use:
+Most likely, the locale is not installed correctly. On Debian based systems, use:
   dpkg-reconfigure locales
 and restart VDR.

@@ -31,7 +31,7 @@ the event handlers can take over and provide a nifty Web 2.0 technique
 solution to the user.
 
 To enable a tooltip just add a 'title' attribute on the element and
-load 'hinttips.js' in your pages (Actually this will be allready done
+load 'hinttips.js' in your pages (Actually this will be already done
 for you if you use the live page-framework).
 
 For popup windows that asynchronously load its contents you need to
@@ -60,7 +60,7 @@ More difficult is the access to images, which is spread around the
 pages at the corresponding locations. To support this, a new method in
 the live Setup class (see file setup.h) has been added. It is called
 'GetThemedLink'. For every image, that might be customized, you must
-use a img tag according to this example:
+use an 'img' tag according to this example:
 
   <img src="<$ LiveSetup().GetThemedLink("img", "<imagename>") $>"
   alt="someimage" />

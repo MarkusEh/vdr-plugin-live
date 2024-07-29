@@ -1,6 +1,6 @@
-/* ######################
+/* #############################
    #  Globals
-   ######################
+   #############################
 */
 
 html, body {
@@ -67,19 +67,15 @@ a:active {
 	text-decoration: underline;
 }
 
-/* #########################
-   # global style properties
-   #########################
+
+/* #############################
+   #  Global style properties
+   #############################
 */
 
 .bold {
 	font-weight: bold;
 }
-
-/* ==============================
-   =  Dotted Frame
-   ==============================
-*/
 
 .dotted {
 	border: 1px dotted #bbbbbb;
@@ -88,7 +84,6 @@ a:active {
 	float: left;
 	background-color: #f3f3f3;
 }
-
 
 .title {
 	font-weight: bold;
@@ -132,14 +127,15 @@ a:active {
 	margin-bottom: 4px;
 }
 
-/* ######################
-   # Tooltip style for hints
-   ######################
+
+/* #############################
+   #  Tooltip style for hints
+   #############################
 */
 
 .hint-tip {
 	margin: 0px auto;
- 	max-width: 480px; /* depends on the tip backround image width */
+ 	max-width: 480px; /* depends on the tip background image width */
  	color: #fff;
 }
 
@@ -189,14 +185,14 @@ a:active {
 }
 
 
-/* ######################
-   # Style for positive notification popup
-   ######################
+/* ########################################
+   #  Style for positive notification popup
+   ########################################
 */
 
 .ok-info {
 	margin: 0px auto;
- 	max-width: 480px; /* depends on the tip backround image width */
+ 	max-width: 480px; /* depends on the tip background image width */
  	color: #fff;
 }
 
@@ -242,14 +238,14 @@ a:active {
 }
 
 
-/* ######################
-   # Style for negative notification popup
-   ######################
+/* ########################################
+   #  Style for negative notification popup
+   ########################################
 */
 
 .err-info {
 	margin: 0px auto;
- 	max-width: 480px; /* depends on the tip backround image width */
+ 	max-width: 480px; /* depends on the tip background image width */
  	color: #fff;
 }
 
@@ -294,9 +290,10 @@ a:active {
 	margin-right: -17px;
 }
 
-/* ######################
-   # General styles for epg info
-   ######################
+
+/* ##############################
+   #  General styles for EPG info
+   ##############################
 */
 
 div.epg_content {
@@ -319,8 +316,10 @@ img.channel_logo {
 	max-height:32px; max-width:120px; vertical-align:middle;
 	background-color: #E9EFFF00;
 }
+
+
 /* ##############################
-   # Infowin styles for epg infos
+   #  InfoWin styles for EPG info
    ##############################
 */
 
@@ -413,9 +412,10 @@ div.info-win img.artwork {
 	display: none;
 }
 
-/* #######################
-   #  Menue
-   #######################
+
+/* #############################
+   #  Menu
+   #############################
 */
 
 div.menu {
@@ -453,7 +453,11 @@ div.inhalt {
 	padding: 10px;
 }
 
-/* styles for pagemenu */
+
+/* #############################
+   #  Styles for pagemenu
+   #############################
+*/
 
 div#pagemenu {
 	margin-top: 2px;
@@ -502,7 +506,11 @@ div#pagemenu form a img {
 	margin-top: -5px;
 }
 
-/* styles for messagebar */
+
+/* #############################
+   #  Styles for messagebar
+   #############################
+*/
 
 div#messagebar {
 	margin-top: 8px;
@@ -547,10 +555,11 @@ div#messagebar span#mbmessage {
 }
 
 
-/* #######################
-   #  Info Box (near logo)
-   #######################
+/* #############################
+   #  Info box (near logo)
+   #############################
 */
+
 img.logo {
 	float: left;
 	margin-top: 5px;
@@ -627,9 +636,10 @@ div#infobox div.st_controls div#infobox_channel_buttons {
         padding-left: 5px;
 }
 
-/* #################################
-   # Buttons
-   #################################
+
+/* #############################
+   #  Buttons
+   #############################
 */
 
 button {
@@ -661,10 +671,11 @@ button.yellow {
 }
 
 
-/* ################################
-   # general table cell classes
-   ################################
+/* #############################
+   #  General table-cell classes
+   #############################
 */
+
 table td.buttonpanel {
 	text-align: right;
 }
@@ -700,9 +711,9 @@ table td.cast_role {
 }
 
 
-/* ################
+/* ##############################
    #  Event (page: whats_on.html)
-   ################
+   ##############################
 */
 
 div.event {
@@ -856,10 +867,11 @@ div.__progress div.__elapsed {
 	background-color: #E9EFFF;
 }
 
-/* ##################################
-   # table listing
-   # (this is used in listing tables)
-   ##################################
+
+/* #############################
+   #  Table listing
+   # (used in list tables)
+   #############################
 */
 
 table.listing {
@@ -924,10 +936,11 @@ table.listing a {
 	font-weight: bold;
 }
 
-/* ##################################
-   # table schedule
-   # (this is used for the MultiSchedule)
-   ##################################
+
+/* ##############################
+   #  Table schedule
+   # (used for the MultiSchedule)
+   ##############################
 */
 
 table.mschedule {
@@ -1011,10 +1024,10 @@ table.mschedule a>img {
 	vertical-align: text-bottom;
 }
 
-/*
-  ##############################
-  #  Blue Background Thingy
-  ##############################
+
+/* #############################
+   #  Blue background thingy
+   #############################
 */
 
 div.boxheader	 {
@@ -1043,10 +1056,10 @@ div.boxheader > div > div {
 	white-space: nowrap;
 }
 
-/*
-  ##############################
-  #  Recordings
-  ##############################
+
+/* #############################
+   #  Recordings
+   #############################
 */
 
 table.recordings {
@@ -1128,10 +1141,10 @@ tr.recording_item:last-child {
 	padding-right: 0.5em;
 }
 
-/*
-  ##############################
-  #  Remote Control Keypad
-  ##############################
+
+/* #############################
+   #  Remote control keypad
+   #############################
 */
 
 div.screenshot {
@@ -1150,9 +1163,9 @@ div.screenshot img {
 }
 
 
-/* ##############################
-   # Remote page - OSD
-   ##############################
+/* #############################
+   #  Remote page - OSD
+   #############################
 */
 
 #osd { 
@@ -1206,15 +1219,16 @@ div.screenshot img {
 	text-align: center;
 	cursor:pointer;
 }
+
 .osdButtonGreen {background-color:green}
 .osdButtonYellow {background-color:yellow;color:black}
 .osdButtonBlue {background-color:blue}
 .osdButtonRed {background-color:red}
 
-/*
-  ##############################
-  #  Error widget
-  ##############################
+
+/* #############################
+   #  Error widget
+   #############################
 */
 
 table.error {
@@ -1241,11 +1255,11 @@ table.error td.border {
 	width: 1px;
 }
 
-/*
-  ##############################
-  #  Formular Tables
-  #  (are used in forms to group input elements)
-  ##############################
+
+/* ########################################
+   #  Formular tables
+   # (used in forms to group input elements)
+   ########################################
 */
 
 table.formular {
@@ -1299,10 +1313,10 @@ table.dependent tr td {
 	vertical-align: middle;
 }
 
-/*
-  ##############################
-  #  Login
-  ##############################
+
+/* #############################
+   #  Login
+   #############################
 */
 
 table.login {
@@ -1314,10 +1328,10 @@ table.login tr td {
 	text-align: right;
 }
 
-/*
-  ##############################
-  #  Styles for EPG-Boxes
-  ##############################
+
+/* #############################
+   #  Styles for EPG boxes
+   #############################
 */
 
 div.caption {
@@ -1359,9 +1373,10 @@ span.epg_images img.epg_image {
         border: 0px;
 }
 
-/* ##############################
-   # Style adaptions for About box
-   ##############################
+
+/* ##################################
+   #  Style adaptations for About box
+   ##################################
 */
 
 div.epg_content div.about_left {
@@ -1423,11 +1438,12 @@ img.thumb {
   width: 0px;
 }
 
-/* ######################
+
+/* ###############################################
    #  @media (max-width: 600px)
-   #  on end of stylesheet, as order of stylesheet
+   #  at end of stylesheet, as order of stylesheet
    #  matters in conflicting cases
-   ######################
+   ###############################################
 */
 
 .xs-nomargin { margin: 5px; }
@@ -1474,7 +1490,7 @@ img.actor {
 	width: 73px;
 }
 .hint-tip {
- 	max-width: 200px; /* depends on the tip backround image width */
+ 	max-width: 200px; /* depends on the tip background image width */
 }
 img.channel_logo {
 	max-height:32px; max-width:90px;

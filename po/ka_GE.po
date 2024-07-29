@@ -645,6 +645,9 @@ msgstr "ამ არხის მედიის დამკვრელში
 msgid "Stream this recording into media player."
 msgstr "ამ ჩანაწერის მედიის დამკვრელში ჩვენება."
 
+msgid "Stream this recording."
+msgstr ""
+
 msgid "loading data"
 msgstr "მონაცემების ჩატვირთვა"
 

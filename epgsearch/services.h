@@ -62,7 +62,7 @@ struct Epgsearch_exttimeredit_v1_0
 struct Epgsearch_updatesearchtimers_v1_0
 {
 // in
-      bool showMessage;           // inform via osd when finished?
+      bool showMessage;           // inform via OSD when finished?
 };
 
 // Data structure for service "Epgsearch-osdmessage-v1.0"

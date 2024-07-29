@@ -166,7 +166,7 @@ function RecordingActionS(s, id, A, Img, Title) {
 // [5] : title (scraper)
 // [6] : season / episode (scraper, for tv shows, if available. Otherwise: Empty)
 // [7] : runtime (scraper)
-// [8] : relase date (scraper)
+// [8] : release date (scraper)
 // end scraper data
 // [9] : Day, time
 // [10] : Number of recording errors
@@ -182,7 +182,7 @@ function RecordingActionS(s, id, A, Img, Title) {
 // [20] : size
 // [21] : numTsFiles
 // [22] : frame parameter text
-// befor calling, make sure that all recs[obj_i] exist!
+// before calling, make sure that all recs[obj_i] exist!
 #>
 function RecordingsSt_int(s, level, displayFolder, data) {
   s.a += '<li class="recording"><div>'

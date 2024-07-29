@@ -26,7 +26,7 @@ using namespace vdrlive;
 	if (!cUser::CurrentUserHasRightTo(UR_STARTREPLAY))
 		throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
 
-    // the availabilty of Channel signals that we will do live tv streaming.
+    // the availabilty of Channel signals that we will do live TV streaming.
 	Channel = 0;
 	if (recid.empty()) {
 		LOCK_CHANNELS_READ;

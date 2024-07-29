@@ -21,7 +21,7 @@ namespace vdrlive
 	I18n::I18n()
 		: m_encoding(cCharSetConv::SystemCharacterTable() ? cCharSetConv::SystemCharacterTable() : "UTF-8")
 	{
-		// fix encoding spelling for html standard.
+		// fix encoding spelling for HTML standard.
 		std::string const iso("iso");
 		if (m_encoding.find(iso) != std::string::npos) {
 			if (iso.length() == m_encoding.find_first_of("0123456789")) {

@@ -1,10 +1,10 @@
 /*
  * version 0.9.2
- * general stringhelper functions
+ * general string-helper functions
  * Note: currently, most up to date Version is in live!
  *
- * only depends on g++ -std=c++17 std:: standard headers and on esyslog (from VDR)
- * an on vdr channels :( .
+ * only depends on g++ -std=c++17 std:: standard headers, on esyslog (from VDR),
+ * and on VDR channels :( .
  *
  * no other dependencies, so it can be easily included in any other header
  *
@@ -41,11 +41,11 @@ inline std::string charPointerToString(const char *s) {
 inline std::string charPointerToString(const unsigned char *s) {
   return s?reinterpret_cast<const char *>(s):std::string();
 }
-// challange:
+// challenge:
 //   method with importing parameter std::string_view called with const char * = nullptr
 //   undefined behavior, as std::string_view(nullptr) is undefined. In later c++ standard, it is even an abort
 // solution:
-//   a) be very carefull, check const char * for nullptr before calling a method with std::string_view as import parameter
+//   a) be very careful, check const char * for nullptr before calling a method with std::string_view as import parameter
 // or:
 //   b) replace all std::string_view with cSv
 //      very small performance impact if such a method if called with cSv
@@ -134,7 +134,7 @@ class utf8_iterator {
 
     explicit utf8_iterator(cSv sv, size_t pos): m_sv(sv) {
 // note: if pos is not begin/end, pos will be moved back to a valid utf8 start point
-//       i.e. to an ascii (bit 7 not set) or and utf8 start byte (bit 6&7 set)
+//       i.e. to an ASCII (bit 7 not set) or and utf8 start byte (bit 6&7 set)
       if (pos == 0) { m_pos = 0; return; }
       if (pos >= sv.length() ) { m_pos = sv.length(); return; }
 // to avoid a position in the middle of utf8:
@@ -446,7 +446,7 @@ inline cSv SecondPart(cSv str, cSv delim, size_t minLengh) {
 
 inline cSv SecondPart(cSv str, cSv delim) {
 // if delim is not in str, return ""
-// Otherwise, return part of str after first occurence of delim
+// Otherwise, return part of str after first occurrence of delim
 //   remove leading blanks from result
   size_t found = str.find(delim);
   if (found == std::string::npos) return cSv();
@@ -458,7 +458,7 @@ inline cSv SecondPart(cSv str, cSv delim) {
 // =========================================================
 // =========================================================
 // Chapter 4: convert data to cSv:
-//   cToSv classes, with buffer containing text reprexentation of data
+//   cToSv classes, with buffer containing text representation of data
 // =========================================================
 // =========================================================
 
@@ -637,7 +637,7 @@ template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
 // value is written with num_chars chars
 //   if value is too small -> left values filled with 0
 //   if value is too high  -> the highest numbers are not written. This is not checked!
-//           but, you can check: if the returnde value is != 0, some chars are not written
+//           but, you can check: if the returned value is != 0, some chars are not written
     const char *hex_chars = "0123456789ABCDEF";
     for (char *be = buffer + num_chars -1; be >= buffer; --be, value /= 16) *be = hex_chars[value%16];
   return value;
@@ -720,7 +720,7 @@ class cToSvFile: public cToSv {
       esyslog("cToSvFile::load, ERROR: give up after 3 tries, filename %s", filename);
     }
     bool load_int(const char *filename, size_t max_length) {
-// return false if an error occured, and we should try again
+// return false if an error occurred, and we should try again
       cOpen fd(filename, O_RDONLY);
       if (!fd.exists()) return true;
       struct stat buffer;
@@ -885,8 +885,8 @@ template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
       return *this;
     }
 // =======================
-// appendFormated append formated
-// __attribute__ ((format (printf, 2, 3))) can not be used, but should work starting with gcc 13.1
+// appendFormated append formatted
+// __attribute__ ((format (printf, 2, 3))) can not be used, but should work starting with GCC 13.1
     template<typename... Args> cToSvConcat &appendFormated(const char *fmt, Args&&... args) {
       int needed = snprintf(m_pos_for_append, m_be_data - m_pos_for_append, fmt, std::forward<Args>(args)...);
       if (needed < 0) {
@@ -907,7 +907,7 @@ template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
       return *this;
     }
 // =======================
-// appendDateTime: append date/time formated with strftime
+// appendDateTime: append date/time formatted with strftime
     cToSvConcat &appendDateTime(const char *fmt, const std::tm *tp) {
       size_t needed = std::strftime(m_pos_for_append, m_be_data - m_pos_for_append, fmt, tp);
       if (needed == 0) {
@@ -915,7 +915,7 @@ template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
         needed = std::strftime(m_pos_for_append, m_be_data - m_pos_for_append, fmt, tp);
         if (needed == 0) {
           esyslog("live: ERROR, cToScConcat::appendDateTime needed = 0, fmt = %s", fmt);
-          return *this; // we did not expect to need more than 1024 chars for the formated time ...
+          return *this; // we did not expect to need more than 1024 chars for the formatted time ...
         }
       }
       m_pos_for_append += needed;
@@ -926,7 +926,7 @@ template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
       struct std::tm tm_r;
       if (localtime_r( &time, &tm_r ) == 0 ) {
         esyslog("live: ERROR, cToScConcat::appendDateTime localtime_r = 0, fmt = %s, time = %lld", fmt, (long long)time);
-        return *this; // we did not expect to need more than 1024 chars for the formated time ...
+        return *this; // we did not expect to need more than 1024 chars for the formatted time ...
         }
       return appendDateTime(fmt, &tm_r);
     }
@@ -934,9 +934,9 @@ template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
 // #include <vdr/channels.h>
 
 // =========================================================
-// some performance improvemnt, to get string presentation for channel
+// some performance improvement, to get string presentation for channel
 // you can also use channelID.ToString()
-// in struct tChannelID {  (in vdr):
+// in struct tChannelID {  (in VDR):
 //   static tChannelID FromString(const char *s);
 //   cString ToString(void) const;
 // =========================================================
@@ -1021,7 +1021,7 @@ class cToSvToLower: public cToSvConcat<N> {
 template<std::size_t N = 255> 
 class cToSvFormated: public cToSvConcat<N> {
   public:
-// __attribute__ ((format (printf, 2, 3))) can not be used, but should work starting with gcc 13.1
+// __attribute__ ((format (printf, 2, 3))) can not be used, but should work starting with GCC 13.1
     template<typename... Args> cToSvFormated(const char *fmt, Args&&... args) {
       this->appendFormated(fmt, std::forward<Args>(args)...);
     }
@@ -1054,7 +1054,7 @@ inline void stringAppendFormated(cToSvConcat<N> &s, const char *fmt, Args&&... a
   s.appendFormated(fmt, std::forward<Args>(args)...);
 }
 
-// __attribute__ ((format (printf, 2, 3))) can not be used, but should work starting with gcc 13.1
+// __attribute__ ((format (printf, 2, 3))) can not be used, but should work starting with GCC 13.1
 template<typename... Args>
 void stringAppendFormated(std::string &str, const char *fmt, Args&&... args) {
   size_t size = 1024;
@@ -1211,7 +1211,7 @@ inline std::string concat(Args&&... args) {
 }
 
 // =========================================================
-// parse string_view for xml
+// parse string_view for XML
 // =========================================================
 
 template<std::size_t N> cSv partInXmlTag(cSv sv, const char (&tag)[N], bool *exists = nullptr) {

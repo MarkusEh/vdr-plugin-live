@@ -62,17 +62,17 @@ template void StringAppendFrameParams<cToSvConcat<255>>(cToSvConcat<255> &s, con
 	// The RecordingsManager holds a VDR lock on the
 	// Recordings. Additionally the singleton instance of
 	// RecordingsManager is held in a weak pointer. If it is not in
-	// use any longer, it will be freed automaticaly, which leads to a
+	// use any longer, it will be freed automatically, which leads to a
 	// release of the VDR recordings lock. Upon requesting access to
 	// the RecordingsManager via LiveRecordingsManger function, first
 	// the weak ptr is locked (obtaining a std::shared_ptr from an possible
-	// existing instance) and if not successfull a new instance is
+	// existing instance) and if not successful a new instance is
 	// created, which again locks the VDR Recordings.
 	//
 	// RecordingsManager provides factory methods to obtain other
 	// recordings data structures. The data structures returned keep if
 	// needed the instance of RecordingsManager alive until destructed
-	// themselfs. This way the use of LIVE::recordings is straight
+	// themselves. This way the use of LIVE::recordings is straight
 	// forward and does hide the locking needs from the user.
 
 	RecordingsManager::RecordingsManager()
@@ -190,8 +190,8 @@ template void StringAppendFrameParams<cToSvConcat<255>>(cToSvConcat<255> &s, con
 
 	int RecordingsManager::GetArchiveType(cRecording const * recording)
 	{
-// 1: on dvd
-// 2: on hdd
+// 1: on DVD
+// 2: on HDD
 // 0: "normal" VDR recording
     if (!LiveSetup().GetUseArchive() ) return 0;
     if (!recording || !recording->FileName() ) return 0;
@@ -328,7 +328,7 @@ template void StringAppendFrameParams<cToSvConcat<255>>(cToSvConcat<255> &s, con
   }
 
 	/**
-	 * Implemetation of class RecordingsItemPtrCompare
+	 * Implementation of class RecordingsItemPtrCompare
 	 */
 
   int RecordingsItemPtrCompare::FindBestMatch(RecordingsItemRecPtr & BestMatch, const std::vector<RecordingsItemRecPtr>::const_iterator & First, const std::vector<RecordingsItemRecPtr>::const_iterator & Last, const RecordingsItemRecPtr & EPG_Entry) {
@@ -482,7 +482,7 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
 // no sufficient match in short text / description
 // get best match from length of event match
   int num_match_rec = RecordingsItemPtrCompare::FindBestMatch(RecItem, equalName.first, equalName.second, dummy);
-  if (num_match_rec == 0 || num_match_rec > 5) return false; // no matching lenght or series (too many matching length)
+  if (num_match_rec == 0 || num_match_rec > 5) return false; // no matching length or series (too many matching lengths)
   return true;
 }
 
@@ -757,7 +757,7 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
 
   bool RecordingsItemRec::orderDuplicates(const RecordingsItemRecPtr &second, bool alwaysShortText, bool lang) const {
 // this is a < operation. Return false in case of ==   !!!!!
-// lang is the last criterium. For sorting, you can always set lang == true
+// lang is the last criterion. For sorting, you can always set lang == true
     if (m_s_videoType != second->m_s_videoType) return (int)m_s_videoType < (int)second->m_s_videoType; // 2 if no scraper data. Move these to the end, by using <
     switch (m_s_videoType) {
       case tMovie:
@@ -849,7 +849,7 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
      }
      if(m_video_SD_HD < -1)  // nothing known found
        {
-// also check framerate for radio, as components are not reliable
+// also check frame rate for radio, as components are not reliable
        if (!videoStreamFound && audioStreamFound && RecInfo()->FramesPerSecond() > 0 && RecInfo()->FramesPerSecond() < 24)
          m_video_SD_HD = -1; // radio
        else
@@ -889,7 +889,7 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
 // [7] : runtime (scraper)
   if (scraperDataAvailable && s_runtime) AppendDuration(target, tr("(%d:%02d)"), s_runtime*60);
   target.append("\",\"");
-// [8] : relase date (scraper)
+// [8] : release date (scraper)
   if (scraperDataAvailable && !s_release_date.empty() ) target.append(s_release_date);
   target.append("\"");
 }
@@ -1015,7 +1015,7 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
   }
 
 	/**
-	 * Implemetation of class RecordingsItemDummy
+	 * Implementation of class RecordingsItemDummy
 	 */
   RecordingsItemDummy::RecordingsItemDummy(const cEvent *event, cScraperVideo *scraperVideo):
     RecordingsItemRec(event->Title() ),
@@ -1198,7 +1198,7 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
 		}
 	}
 
-// icon with recording errors, and tooltip
+// icon with recording errors and tooltip
 std::string recordingErrorsHtml(int recordingErrors) {
 #if VDRVERSNUM >= 20505
   std::string result;

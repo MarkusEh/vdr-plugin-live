@@ -11,7 +11,7 @@
 #include <vector>
 
 #if TNTVERSION >= 30000
-  #include <cxxtools/log.h>  // must be loaded before any vdr include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
+  #include <cxxtools/log.h>  // must be loaded before any VDR include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
   #include "cxxtools/serializationinfo.h"
 #endif
 
@@ -173,13 +173,13 @@ template<class T>
 
 // methods for scraper **************************************
 
-// tool for images returned by tvscraper or scraper2vdr:
+// tool for images returned by Tvscraper or scraper2vdr:
 // convert path (valid in local file system) to path which can be used by live (in browser) to access the image
 // Note: final browser path is: "/tvscraper/" + ScraperImagePath2Live(...)
   cSv ScraperImagePath2Live(cSv path);
 
 // call the service Id
-// return false if there is no scraper plugin, or if the serrvice does not exist
+// return false if there is no scraper plugin, or if the service does not exist
 // otherwise, return true
 // can be called with Data == Null to check is the service exits
   bool ScraperCallService(const char *Id, void *Data);

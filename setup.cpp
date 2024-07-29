@@ -129,15 +129,15 @@ char const* Setup::CommandLineHelp() const
 				<< "  -i IP,    --ip=IP            bind server only to specified IP, may appear\n"
 				   "                               multiple times\n"
 				   "                               (default: 0.0.0.0)\n"
-				<< "  -s PORT,  --sslport=PORT     use PORT to listen for incoming ssl connections\n"
+				<< "  -s PORT,  --sslport=PORT     use PORT to listen for incoming SSL connections\n"
 				   "                               (default: " << m_serverSslPort << ")\n"
-				<< "  -u URL,  --url=URL           url to this live server, e.g. http://rpi.fritz.box\n"
+				<< "  -u URL,  --url=URL           URL to this live server, e.g. http://rpi.fritz.box\n"
 				   "                               only required if live is used as image server, e.g. for vnsi\n"
-				<< "  -c CERT,  --cert=CERT        full path to a custom ssl certificate file\n"
-				<< "  -k KEY,  --key=KEY           full path to a custom ssl certificate key file\n"
-				<< "  -l level, --log=level        log level for tntnet (values: WARN, ERROR, INFO, DEBUG, TRACE)\n"
-				<< "  -e <dir>, --epgimages=<dir>  directory for epgimages\n"
-				<< "  -t <dir>, --tvscraperimages=<dir> directory for tvscraper images\n"
+				<< "  -c CERT,  --cert=CERT        full path to a custom SSL certificate file\n"
+				<< "  -k KEY,  --key=KEY           full path to a custom SSL certificate key file\n"
+				<< "  -l level, --log=level        log level for Tntnet (values: WARN, ERROR, INFO, DEBUG, TRACE)\n"
+				<< "  -e <dir>, --epgimages=<dir>  directory for EPG images\n"
+				<< "  -t <dir>, --tvscraperimages=<dir> directory for Tvscraper images\n"
 				<< "            --chanlogos=<dir>  directory for channel logos (PNG)\n";
 		m_helpString = builder.str();
 	}
@@ -190,8 +190,8 @@ bool Setup::CheckServerPort()
 bool Setup::CheckServerSslPort()
 {
 	if ( m_serverSslPort < 0 || m_serverSslPort > std::numeric_limits<uint16_t>::max() ) {
-		esyslog( "live: ERROR: server ssl port %d is not a valid port number", m_serverSslPort );
-		std::cerr << "ERROR: live server ssl port " << m_serverSslPort << " is not a valid port number" << std::endl;
+		esyslog( "live: ERROR: server SSL port %d is not a valid port number", m_serverSslPort );
+		std::cerr << "ERROR: live server SSL port " << m_serverSslPort << " is not a valid port number" << std::endl;
 		return false;
 	}
 	return true;
@@ -205,13 +205,13 @@ namespace {
 			struct in6_addr buf;
 			struct in_addr buf4;
 
-			esyslog( "live: INFO: validating server ip '%s'", ip.c_str());
-			std::cerr << "INFO: validating live server ip '" << ip << "'" << std::endl;
+			esyslog( "live: INFO: validating server IP '%s'", ip.c_str());
+			std::cerr << "INFO: validating live server IP '" << ip << "'" << std::endl;
 			bool valid = inet_aton(ip.c_str(), &buf4) || inet_pton(AF_INET6, ip.c_str(), &buf);
 
 			if (!valid) {
-				esyslog( "live: ERROR: server ip %s is not a valid ip address", ip.c_str());
-				std::cerr << "ERROR: live server ip '" << ip << "' is not a valid ip address" << std::endl;
+				esyslog( "live: ERROR: server IP %s is not a valid IP address", ip.c_str());
+				std::cerr << "ERROR: live server IP '" << ip << "' is not a valid IP address" << std::endl;
 			}
 			return valid;
 		}
@@ -243,7 +243,7 @@ bool Setup::CheckServerIps()
 		}
 		// add a default IPv4 listener address
 		m_serverIps.push_back("0.0.0.0");
-		// we assume these are ok :)
+		// we assume these are OK :)
 		return true;
 #endif // TNT_IPV6_V6ONLY
 	}
@@ -314,7 +314,7 @@ bool Setup::CheckLocalNet(const std::string& ip)
 	std::string net = parts[0];
 
 	int range = parse_int<int>(parts[1]);
-	// split net and ip addr in its 4 subcomponents
+	// split net and IP address in its 4 subcomponents
 	std::vector<std::string> netparts = StringSplit( net, '.' );
 	std::vector<std::string> addrparts = StringSplit( ip, '.' );
 	if (netparts.size() != 4 || addrparts.size() != 4) return false;

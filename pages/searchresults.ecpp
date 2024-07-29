@@ -101,7 +101,7 @@ bool logged_in(false);
 							bottom = (day != nextDay);
 						}
 
-					        StateKey.Remove();  // release channels read lock before calling event_timer which make a timers read lock
+					        StateKey.Remove();  // release channels read lock before calling event_timer which makes a timers read lock
 						recItemFound = appendEpgItem(epg_itemS, recItem, event, channel, true);
 						int col_span = 4;
 						if (display_pictures) col_span++;

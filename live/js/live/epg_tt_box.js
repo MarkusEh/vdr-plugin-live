@@ -1,3 +1,7 @@
+/*
+ * This is part of the live VDR plugin. See COPYING for license information.
+ */
+
 function classSetValue(element_id, value) {
   if (document && document.getElementById(element_id) ) {
     document.getElementById(element_id).setAttribute("class", value);

@@ -49,70 +49,70 @@ namespace vdrlive {
 	void TntConfig::ConfigureTvscraper(tnt::Tntnet& app, const std::string &tvscraperImageDir) const
         {
 // make the Tvscraper images available in the web server
-		// Images from tvscraper themoviedb: Movies
+		// Images from Tvscraper TheMovieDb: Movies
 			MapUrl(app,
 				   "^/tvscraper/movies/([^/]*)\\.([^./]+)",
 				   "content",
 				   tvscraperImageDir + "movies",
 				   "/$1.$2",
 				   "image/$2");
-		// Images from tvscraper themoviedb: Collections
+		// Images from Tvscraper TheMovieDb: Collections
 			MapUrl(app,
 				   "^/tvscraper/movies/collections/([^/]*)\\.([^./]+)",
 				   "content",
 				   tvscraperImageDir + "movies/collections",
 				   "/$1.$2",
 				   "image/$2");
-		// Images from tvscraper themoviedb: Actors
+		// Images from Tvscraper TheMovieDb: Actors
 			MapUrl(app,
 				   "^/tvscraper/movies/actors/([^/]*)\\.([^./]+)",
 				   "content",
 				   tvscraperImageDir + "movies/actors",
 				   "/$1.$2",
 				   "image/$2");
-		// Images from tvscraper themoviedb: tv shows
+		// Images from Tvscraper TheMovieDb: TV shows
 			MapUrl(app,
 				   "^/tvscraper/movies/tv/([^/]*)/([^/]*)\\.([^./]+)",
 				   "content",
 				   tvscraperImageDir + "movies/tv",
 				   "/$1/$2.$3",
 				   "image/$3");
-		// Images from tvscraper themoviedb: tv shows, season
+		// Images from Tvscraper TheMovieDb: TV shows, season
 			MapUrl(app,
 				   "^/tvscraper/movies/tv/([^/]*)/([^/]*)/([^/]*)\\.([^./]+)",
 				   "content",
 				   tvscraperImageDir + "movies/tv",
 				   "/$1/$2/$3.$4",
 				   "image/$4");
-		// Images from tvscraper themoviedb: tv shows, episode
+		// Images from Tvscraper TheMovieDb: TV shows, episode
 			MapUrl(app,
 				   "^/tvscraper/movies/tv/([^/]*)/([^/]*)/([^/]*)/([^/]*)\\.([^./]+)",
 				   "content",
 				   tvscraperImageDir + "movies/tv",
 				   "/$1/$2/$3/$4.$5",
 				   "image/$5");
-		// Images from tvscraper thetvdb: tv shows
+		// Images from Tvscraper TheTvDb: TV shows
 			MapUrl(app,
 				   "^/tvscraper/series/([^/]*)/([^/]*)\\.([^./]+)",
 				   "content",
 				   tvscraperImageDir + "series",
 				   "/$1/$2.$3",
 				   "image/$3");
-		// Images from tvscraper thetvdb: tv shows, episode images
+		// Images from Tvscraper TheTvDb: TV shows, episode images
 			MapUrl(app,
 				   "^/tvscraper/series/([^/]*)/([^/]*)/([^/]*)\\.([^./]+)",
 				   "content",
 				   LiveSetup().GetTvscraperImageDir() + "series",
 				   "/$1/$2/$3.$4",
 				   "image/$4");
-		// Images from tvscraper, from external EPG provider (start time, channel, image)
+		// Images from Tvscraper, from external EPG provider (start time, channel, image)
 			MapUrl(app,
 				   "^/tvscraper/epg/([^/]*)/([^/]*)/([^/]*)\\.([^./]+)",
 				   "content",
 				   LiveSetup().GetTvscraperImageDir() + "epg",
 				   "/$1/$2/$3.$4",
 				   "image/$4");
-		// Images from tvscraper, from external EPG provider, in recordings (start time, channel, image)
+		// Images from Tvscraper, from external EPG provider, in recordings (start time, channel, image)
 			MapUrl(app,
 				   "^/tvscraper/recordings/([^/]*)\\.([^./]+)",
 				   "content",
@@ -159,8 +159,8 @@ namespace vdrlive {
 		// These mapUrl statements are very security sensitive!
 		// A wrong mapping to content may allow retrieval of arbitrary files
 		// from your VDR system via live.
-		// Two meassures are taken against this in our implementation:
-		// 1. The MapUrls need to be checked regulary against possible exploits
+		// Two measures are taken against this in our implementation:
+		// 1. The MapUrls need to be checked regularly against possible exploits
 		//    One tool to do this can be found here:
 		//      http://www.lumadis.be/regex/test_regex.php
 		//    Newly inserted MapUrls should be marked with author and confirmed
@@ -250,21 +250,21 @@ namespace vdrlive {
 			   "/img/$2.$3",
 			   "image/$3");
 
-// get image dir from plugin tvscraper
+// get image dir from plugin Tvscraper
 		static cPlugin *pScraper = LiveSetup().GetPluginTvscraper();
 		if (pScraper) {
-// plugin tvscraper is available
+// plugin Tvscraper is available
 // first try cEnvironment, which is also available in scraper2vdr
       cEnvironment environment;
       if (pScraper->Service("GetEnvironment", &environment) ) {
-// plugin tvscraper/scraper2vdr supports the service interface cEnvironment
+// plugin Tvscraper/scraper2vdr supports the service interface cEnvironment
 				esyslog("live: INFO: set image dir from GetEnvironment to '%s'", environment.basePath.c_str());
         LiveSetup().SetTvscraperImageDir(environment.basePath);
       } else {
         cGetScraperImageDir getScraperImageDir;
         if (getScraperImageDir.call(pScraper) ) {
-// plugin tvscraper supports the service interface GetScraperImageDir (version 1.05 or newer)
-				  esyslog("live: WARNING: set image dir from deprected GetScraperImageDir to '%s'", getScraperImageDir.scraperImageDir.c_str());
+// plugin Tvscraper supports the service interface GetScraperImageDir (version 1.05 or newer)
+				  esyslog("live: WARNING: set image dir from deprecated GetScraperImageDir to '%s'", getScraperImageDir.scraperImageDir.c_str());
           LiveSetup().SetTvscraperImageDir(getScraperImageDir.scraperImageDir);
         }
       }
@@ -273,7 +273,7 @@ namespace vdrlive {
 			ConfigureTvscraper(app, LiveSetup().GetTvscraperImageDir());
 		}
 
-		// Epg images
+		// EPG images
 		std::string const epgImgPath(LiveSetup().GetEpgImageDir());
 		if (!epgImgPath.empty()) {
 			// inserted by 'tadi' -- verified with above, but not counterchecked yet!
@@ -285,7 +285,7 @@ namespace vdrlive {
 				   "image/$2");
 		}
 
-		// rec images
+		// recording images
 		MapUrl(app,
 			   "^/recimages/([^/]*)/([^/]*)\\.([^./]+)",
 			   "content",
@@ -402,7 +402,7 @@ namespace vdrlive {
 			}
 		}
 		else {
-			isyslog( "live: INFO: ssl port %d specified, no ssl webserver will be started", s_port);
+			isyslog( "live: INFO: SSL port %d specified, no SSL Web server will be started", s_port);
 		}
 	}
 

@@ -644,6 +644,9 @@ msgstr "Sender in Mediaplayer abspielen."
 msgid "Stream this recording into media player."
 msgstr "Aufnahme in Mediaplayer abspielen."
 
+msgid "Stream this recording."
+msgstr "Aufnahme streamen."
+
 msgid "loading data"
 msgstr "Daten nachladen"
 

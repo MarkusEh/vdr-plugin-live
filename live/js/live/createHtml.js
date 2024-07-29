@@ -1,8 +1,7 @@
 /*
- * This is part of the live vdr plugin. See COPYING for license information.
+ * This is part of the live VDR plugin. See COPYING for license information.
  *
- * helper functions to create html
- *
+ * Helper functions to create HTML.
  */
 
 function addIfWide(text) {
@@ -89,7 +88,7 @@ function addTruncMedia(s, text, lims, liml) {
 }
 
 function add2ndLine(s, shortText, description) {
-// second line (title / short text). Truncate, use decription, ...
+// second line (title / short text). Truncate, use description, ...
   s.a += '<span class="short">'
   if (shortText.length != 0) {
     addTruncMedia(s, shortText, 50, 80)
@@ -103,7 +102,7 @@ function add2ndLine(s, shortText, description) {
 function addEventRec(s, eventprefix, eventid, title, folder, shortText, description, lf, cvd, sort, filter, flat, history_num_back) {
 // eventprefix == 'recording_' or 'event_'
 // lf: line feed
-// cvs: tr("Click to view details.")
+// cvd: tr("Click to view details.")
   s.a += '<a href="epginfo.html?epgid='
   s.a += eventprefix
   s.a += eventid
@@ -129,7 +128,7 @@ function addEventRec(s, eventprefix, eventid, title, folder, shortText, descript
     s.a += folder.replaceAll("~", "~<wbr>")
     s.a += ')</span>'
   }
-  s.a += '</div>'                                                                                                                                 
+  s.a += '</div>'
   add2ndLine(s, shortText, description)
   s.a += '</a>'
 }
@@ -182,7 +181,7 @@ function clearCheckboxes(form) {
 async function execute(url) {
 /*
  * Input:
- *   Url: url to the page triggering the execution of the function
+ *   url: URL to the page triggering the execution of the function
  *        this includes the parameters
  *        '&async=1' will be appended (which is required to get an XML response,
  *             actually we wait for the server response)
@@ -201,17 +200,17 @@ async function execute(url) {
   var ret_object = new Object();
   ret_object.success = false;
   if (!req_responseXML) {
-    ret_object.error = "invalid xml, no responseXML";
+    ret_object.error = "invalid XML, no responseXML";
     return ret_object;
   }
   var response_array = req_responseXML.getElementsByTagName("response");
   if (response_array.length != 1) {
-    ret_object.error = "invalid xml, no response tag or several response tags";
+    ret_object.error = "invalid XML, no response tag or several response tags";
     return ret_object;
   }
   var response_child_nodes = response_array[0].childNodes;
   if (response_child_nodes.length != 1) {
-    ret_object.error = "invalid xml, no child of response tag or several childs of response tag";
+    ret_object.error = "invalid XML, no child of response tag or several children of response tag";
     return ret_object;
   }
   if (response_child_nodes[0].nodeValue == "1") {
@@ -219,18 +218,18 @@ async function execute(url) {
     return ret_object;
   }
   if (response_child_nodes[0].nodeValue != "0") {
-    ret_object.error = "invalid xml, response node value " + response_child_nodes[0].nodeValue + " unknown";
+    ret_object.error = "invalid XML, response node value " + response_child_nodes[0].nodeValue + " unknown";
     return ret_object;
   }
 
   var error_array = req_responseXML.getElementsByTagName("error");
   if (error_array.length != 1) {
-    ret_object.error = "invalid xml, no error tag or several error tags";
+    ret_object.error = "invalid XML, no error tag or several error tags";
     return ret_object;
   }
   var error_child_nodes = error_array[0].childNodes;
   if (error_child_nodes.length != 1) {
-    ret_object.error = "invalid xml, no child of error tag or several childs of error tag";
+    ret_object.error = "invalid XML, no child of error tag or several children of error tag";
     return ret_object;
   }
   ret_object.error = error_child_nodes[0].nodeValue;
@@ -299,7 +298,7 @@ async function RecordingsSt_a(s, level, displayFolder, data) {
     const new_recs = await response.text();
     eval(new_recs);
     if (vdr_restart) {
-      location.reload();    
+      location.reload();
     } else {
       RecordingsSt_int(s, level, displayFolder, data);
     }

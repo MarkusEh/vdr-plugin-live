@@ -7,7 +7,7 @@ class cLiveImageProvider {
       ///< input: imagePath on file system.
       ///<   if fullPath = true: e.g. /var/cache/vdr/plugins/tvscraper/movies/300803_poster.jpg
       ///<   if fullPath = false: e.g.                                 movies/300803_poster.jpg
-      ///<   for images returned by the "old" tvscraper interface: use the default fullPath = true
+      ///<   for images returned by the "old" Tvscraper interface: use the default fullPath = true
       ///< output:
       ///<   in case of no error:
       ///<     URL to the image, e.g. http://rpi.fritz.box:8008/tvscraper/movies/300803_poster.jpg
@@ -18,7 +18,7 @@ class cLiveImageProvider {
       ///< possible errors:
       ///<   missing server url. This url must be provided to live with -u URL,  --url=URL
       ///<   missing directory for scraper images:
-      ///<     tvscraper makes this directory available to live with the service interface
+      ///<     Tvscraper makes this directory available to live with the service interface
       ///<     for others, e.g. scraper2vdr: provide this to live with -t <dir>, --tvscraperimages=<dir>
       ///<   image path %s does not start with %s: Will only occur if fullPath == true
       ///<     imagePath does not start with directory for scraper images.

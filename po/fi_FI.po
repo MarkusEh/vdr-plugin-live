@@ -642,6 +642,9 @@ msgstr ""
 msgid "Stream this recording into media player."
 msgstr ""
 
+msgid "Stream this recording."
+msgstr ""
+
 msgid "loading data"
 msgstr "ladataan tietoja"
 

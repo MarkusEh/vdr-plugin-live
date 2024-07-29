@@ -10,7 +10,7 @@
 #include <list>
 
 #if TNTVERSION >= 30000
-  #include <cxxtools/log.h>  // must be loaded before any vdr include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
+  #include <cxxtools/log.h>  // must be loaded before any VDR include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
 #endif
 
 #include <iostream>
@@ -27,7 +27,7 @@ namespace vdrlive {
 
 template<typename T>
   void StringAppendFrameParams(T &s, const cRecording *rec);
-  // Forward declations from epg_events.h
+  // Forward declarations from epg_events.h
   class EpgInfo;
   typedef std::shared_ptr<EpgInfo> EpgInfoPtr;
 
@@ -107,7 +107,7 @@ template<typename T>
       void DeleteRecording(cRecording const * recording) const;
 
       /**
-       *	Determine wether the recording has been archived on
+       *	Determine whether the recording has been archived on
        *	removable media (e.g. DVD-ROM)
        */
       static int GetArchiveType(cRecording const * recording);
@@ -432,7 +432,7 @@ template<typename T>
 
   /**
    *  A smart pointer to a recordings tree. As long as an instance of this
-   *  exists the recordings are locked in the vdr.
+   *  exists the recordings are locked in the VDR.
    */
   class RecordingsTreePtr : public std::shared_ptr<RecordingsTree>
   {

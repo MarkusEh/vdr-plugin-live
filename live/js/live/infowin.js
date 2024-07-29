@@ -1,11 +1,11 @@
 /*
- * This is part of the live vdr plugin. See COPYING for license information.
+ * This is part of the live VDR plugin. See COPYING for license information.
  *
  * InfoWin.js
  *
  * InfoWin class, InfoWin.Manager class, InfoWin.Ajax class.
  *
- * Extension of mootools to display a popup window with some html
+ * Extension of mootools to display a popup window with some HTML
  * code.
  */
 
@@ -20,9 +20,9 @@ Options:
 Note:
 	A window consists of a frame-element. This is the overall
 	containing element used to control the display and size of the
-	window. It is accesable through the 'winFrame' property.
+	window. It is accessible through the 'winFrame' property.
 
-	The InfoWin class provides the followin properties to fill the
+	The InfoWin class provides the following properties to fill the
 	window with content:
 		- titleBox: the element meant to place the title of the window into.
 		- buttonBox: here the default window buttons are created. You might
@@ -37,7 +37,7 @@ var InfoWin = new Class({
 		  onDomExtend: Class.empty,
 		  destroyOnHide: false,
 		  className: 'info',
-		  wm: false, // overide default window manager.
+		  wm: false, // override default window manager.
 		  draggable: true,
 		  resizable: true,
 		  buttonimg: 'transparent.png',
@@ -228,8 +228,8 @@ InfoWin.implement(new Events, new Options);
 /*
 Class: InfoWin.Manager
 	Provide an container and events for the created info win
-	instances.  Closed info-wins are preserved in a hidden dom element
-	and used again if a window with a closed id is openend again.
+	instances.  Closed info-wins are preserved in a hidden DOM element
+	and used again if a window with a closed id is opened again.
 */
 InfoWin.Manager = new Class({
 	  options: {
@@ -318,7 +318,7 @@ function decrease_history_num_back(url) {
 InfoWin.Ajax = InfoWin.extend({
 	  options: {
 		  loadingMsg: 'loading',
-		  errorMsg: 'an error occured!',
+		  errorMsg: 'an error occurred!',
 		  onError: Class.empty
 	  },
 
@@ -345,7 +345,7 @@ InfoWin.Ajax = InfoWin.extend({
 		},
 
 	  // this function gets called when no previous instance for 'id'
-	  // created a dom subtree for an infowin.
+	  // created a DOM subtree for an infowin.
 	  build: function(id){
 			if (!this.parent(id)) {
 				this.titleBox.setHTML(this.options.loadingMsg);
@@ -362,8 +362,8 @@ InfoWin.Ajax = InfoWin.extend({
 /*
 Class: Infowin.Notifier
 
-	Creates a notification popup that disappears automaticaly.
-	Usefull for a confirmation message after a AJAX action request.
+	Creates a notification popup that disappears automatically.
+	Useful for a confirmation message after a AJAX action request.
  */
 
 InfoWin.Notifier = InfoWin.extend({

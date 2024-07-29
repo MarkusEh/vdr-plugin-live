@@ -55,11 +55,11 @@
 	* buildutil/version-util*: Added a shell and an awk script to
 	  calculate a version suffix string out of CVS current working dir
 	  status. This was a request bei jo01 and helps distinguish if
-	  newer versions are awailable. It should not break builds if
+	  newer versions are available. It should not break builds if
 	  something goes wrong in the script. At least it was my
 	  intention.  The script also supports git repositories. But it
 	  has not been tested if it determines the correct git commit id
-	  based on current workdir contents.  The caluculated version
+	  based on current workdir contents.  The calculated version
 	  suffix is appended to the LIVE version string visible in the
 	  about box (?-Menu entry).
 
@@ -82,7 +82,7 @@
 
 	- Added configuration option to disable the creation of IMDb URLs
 	  in the epg-info sections. This was done upon of feature
-	  reqest (Bug #401).
+	  request (Bug #401).
 	  Some minor fixes for the IMDb URLs in recordings.
 
 2007-12-23  Dieter Hametner  <dh+vdr at gekrumbel dot de>
@@ -94,14 +94,14 @@
 	  Changed top level Makefile to not create headers in live.pot
 	  file. This prevents creation of new date header in .po file at
 	  fresh translations after updates from CVS and should avoid
-	  continous conflicts at every cvs update even if no changes took
+	  continuous conflicts at every CVS update even if no changes took
 	  place in the local files.
 
 2007-12-22  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
 	* live/js/live/vlc.js
 	  Added an own mootools based implementation of a controlling
-	  class for the vlc plugin as proposed by Rolf Ahrenberg.
+	  class for the VLC plugin as proposed by Rolf Ahrenberg.
 	  Features currently supported are:
 	    - start/stop play (pause is left out because it provides no
 	      timeshift functionality).
@@ -165,19 +165,19 @@
 
 2007-08-19  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	- Adapted (but not tested) live for the new localisation scheme
+	- Adapted (but not tested) live for the new localization scheme
 	  since VDR 1.5.7
 	  Might need some additional tweaking...
 
 2007-07-29  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	- Implemented status notification popup if ajax is active.
-	- Without Ajax it is now possible to request actions from vdr via
+	- Implemented status notification popup if AJAX is active.
+	- Without Ajax it is now possible to request actions from VDR via
 	  a static page.
 
 2007-07-22  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	Added toolbox buttons to epg info popup windows.
+	Added toolbox buttons to EPG info popup windows.
 	Some style fixes for this.
 	* pages/whats_on.ecpp: Use new pageelems.epg_tool_box component.
 	* pages/pageelems.ecpp: new epg_tool_box component.
@@ -186,18 +186,18 @@
 
 	* live/js/live/pageenhance.js: Enhance a normal web page with
 		nifty web 2.0 features.
-	* live/js/live/infowin.js: stand alone class. Used by pageenhance.js
-	* live/js/live/hinttips.js: stand alone class. Used by pageenhance.js
+	* live/js/live/infowin.js: standalone class. Used by pageenhance.js
+	* live/js/live/hinttips.js: standalone class. Used by pageenhance.js
 
 2007-07-21  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	Made epgimages better styleable. Displaying them as floats right
-	of the epg description text.
+	Made EPG images better style-able. Displaying them as floats right
+	of the EPG description text.
 
 2007-07-20  Christian Wieninger <cwieninger at gmx dot de>
 
 	Added support for EPG images: Specify the directory with your
-	EPG images via the new commandline option '-e <dir>' or
+	EPG images via the new command-line option '-e <dir>' or
 	'--epgimages=<dir> like
 	-P'live -e /video/epgimages'
 
@@ -205,12 +205,12 @@
 
 	Changed the javascript base of live. We now use the 'mootools'
 	framework (see http://www.mootools.net for infos) to handle
-	javascript in a browser independend fashion and for nifty Web 2.0
+	javascript in a browser independent fashion and for nifty Web 2.0
 	features.
 
 	Based on this framework we have now tooltips that use the XHTML
-	standard 'title' attribute and Web-2.0 popup windows for epg
-	information. This Epg information is loaded on demand and once
+	standard 'title' attribute and Web-2.0 popup windows for EPG
+	information. This EPG information is loaded on demand and once
 	loaded, they are cached in the page for further viewing.
 
 	On the other hand this also provides us with a solution to have
@@ -250,7 +250,7 @@
 2007-06-13  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
 	* pages/schedule.ecpp: If no channel is given, and a current
-	  channel is known to vdr, select it when calling the schedule
+	  channel is known to VDR, select it when calling the schedule
 	  page in live.
 
 2007-06-12  Dieter Hametner  <dh+vdr at gekrumbel dot de>
@@ -290,7 +290,7 @@
 	doc/css-themeing.txt and doc/dev-conventions.txt.
 	* setup.h, setup.cpp, setup.ecpp: added setup for theme and
 		selection of theme.
-	* pages/*.ecpp: added support for themable images.
+	* pages/*.ecpp: added support for themeable images.
 	* tntconfig.cpp: cascaded search for images, to support themeing.
 
 2007-06-03  Christian Wieninger <cwieninger at gmx dot de>
@@ -325,5 +325,5 @@
 unrecorded  Sascha Volkenandt <sascha at akv-soft dot de>
 
 	Due to the introduction of a uniform header for C++ standard
-	extenstions, the boost library is now only necessary if the used
+	extensions, the boost library is now only necessary if the used
 	g++ compiler version is less than 4.0

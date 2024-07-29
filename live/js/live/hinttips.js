@@ -1,5 +1,5 @@
 /*
- * This is part of the live vdr plugin. See COPYING for license information.
+ * This is part of the live VDR plugin. See COPYING for license information.
  *
  * HintTips class.
  *

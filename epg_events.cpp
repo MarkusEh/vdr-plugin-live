@@ -419,7 +419,7 @@ namespace vdrlive
 			std::list<std::string> images;
 
 			// Initially we scan for images that follow the scheme
-			// '<epgid>_<distinction>.*' where distincition is any
+			// '<epgid>_<distinction>.*' where distinction is any
 			// character sequence.  Usually distinction will be used
 			// to assign more than one image to an epg event. Thus it
 			// will be a digit or number.  The sorting of the images
@@ -436,7 +436,7 @@ namespace vdrlive
 				if (! ScanForEpgImages(imageId, ".*", images))
 				{
 #if TVM2VDR_PL_WORKAROUND
-					// if we didn't get images try to work arround a
+					// if we didn't get images try to work around a
 					// bug in tvm2vdr.  tvm2vdr seems always to use
 					// one digit less, which leads in some rare cases
 					// to the bug in LIVE, that unrelated and to many

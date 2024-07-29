@@ -11,7 +11,7 @@ theme. Read further for more detailed information about themeing.
 How to do live theming with CSS.
 ================================
 
-Live supports CSS theming. While the structure of the html pages is
+Live supports CSS theming. While the structure of the HTML pages is
 given by the plugin, there is the possibility to change the look
 through CSS and exchanged images.
 
@@ -19,7 +19,7 @@ through CSS and exchanged images.
 Themable resources
 ------------------
 
-CSS stylesheets and referenced images are themable. That means a theme
+CSS stylesheets and referenced images are themeable. That means a theme
 can replace the icons and background images in the markup.
 
 
@@ -50,15 +50,15 @@ The site preference stylesheet is requested through this url:
   css/siteprefs.css
 
 
-Access scheme for themable images
----------------------------------
+Access scheme for themeable images
+----------------------------------
 
-All themable images in the pages, that live delivers to the browser are
-accessed through the url
+All themeable images in the pages, that live delivers to the browser are
+accessed through the URL
 
   themes/<themename>/img/<imagename>
 
-If a image is not found under that url, the image is searched in
+If a image is not found under that URL, the image is searched in
   common/img/<imagename>
 
 And if not found there, an attempt to deliver a built in image is taken.
@@ -67,10 +67,10 @@ And if not found there, an attempt to deliver a built in image is taken.
 Location of the resources in the file system
 --------------------------------------------
 
-All themable content must be present in the directory specified by
+All themeable content must be present in the directory specified by
 'GetConfigDir'. GetConfigDir returns at runtime the position in the
-filesystem where the plugins configuration file is stored. The
-location is build from the vdr config path appended with the plugins
+file system where the plugins configuration file is stored. The
+location is build from the VDR config path appended with the plugins
 name (i.E. /var/lib/vdr/plugins/live). The themes are located in the
 'themes' subdirectory of the above path.
 
@@ -79,17 +79,17 @@ Structure of a theme package
 ----------------------------
 
 A theme package consists of directory named after the theme name. It
-must contain the subdirectories 'css' and 'img'. Under css and img no
-other subdirectories are allowed for security reasons (see below).
+must contain the subdirectories 'css' and 'img'. Under 'css' and 'img',
+no other subdirectories are allowed for security reasons (see below).
 
-In the subdirectory css a stylesheet theme.css must exist in oder to
+In the subdirectory CSS a stylesheet theme.css must exist in oder to
 override or extend the already defined styles from 'styles.css'.
 
 Additional images referenced through the stylesheet and images
 replacing the default images go to the 'img' subdirectory. Replacing
 images must have the same name like the image to be replaced.
 
-The live distribution comes with a few predefinded theme packages. You
+The live distribution comes with a few predefined theme packages. You
 should take look into them to better understand this structure.
 
 
@@ -98,11 +98,11 @@ Selecting a theme in live
 
 In the live setup page, the user can select the desired theme. When
 the settings are saved the selected themes become active. Live detects
-the available themes dynamicaly by scanning the 'themes' directory in
+the available themes dynamically by scanning the 'themes' directory in
 plugins config directory for available themes and creates the select
 box from this information.
 
-So the installation of a new theme is easyly done by unpacking a
+So the installation of a new theme is easily done by unpacking a
 theme-archive in the themes directory. This assumes the theme-archive
 follows the structure of a theme package as described above.
 
@@ -110,12 +110,12 @@ follows the structure of a theme package as described above.
 Security provisions
 -------------------
 
-Live will map every url starting with themes/<themename>/css or
+Live will map every URL starting with themes/<themename>/css or
 themes/<themename>/img to exactly these directories under the location
 of the themes directory. That means any path components after 'img' or
-'css' are discarded. Only the basename of the url is appended to these
-directories. This is to prevent possible malicous requests to other
-locations in the filesystem by adding '..' to the request path. The
+'css' are discarded. Only the basename of the URL is appended to these
+directories. This is to prevent possible malicious requests to other
+locations in the file system by adding '..' to the request path. The
 downside of this is, that no additional directories below 'img' and
 'css' are possible for the theme designer.
 
@@ -126,5 +126,5 @@ User Contribution
 If you created a nice new look, you can provide it to us. We will try
 to include it into the live distribution.
 
-If you need special html support for your styling needs, don't hesitate
+If you need special HTML support for your styling needs, don't hesitate
 to submit a suggestion.

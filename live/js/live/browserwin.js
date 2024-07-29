@@ -1,5 +1,5 @@
 /*
- * This is part of the live vdr plugin. See COPYING for license information.
+ * This is part of the live VDR plugin. See COPYING for license information.
  *
  * browserwin.js
  *
@@ -28,7 +28,7 @@ var BrowserWin = new Class({
 		  menubar: false,
 		  scrollbar: false,
 		  resizable: true,
-		  wm: false // overide default window manager.
+		  wm: false // override default window manager.
 	  },
 
 	  initialize: function(id, url, options){

@@ -41,11 +41,11 @@ namespace vdrlive {
 
 template<class T>
   void AppendHtmlEscapedAndCorrectNonUTF8(T &target, const char* s, const char *end, bool tooltip){
-// append c-string s to target, html escape some characters
+// append c-string s to target, HTML escape some characters
 // replace invalid UTF8 characters with ?
   if(!s) return;
   if (!end) end = s + strlen(s);
-  int l = 0;                    // length of current utf8 codepoint
+  int l = 0;                    // length of current UTF8 codepoint
   size_t i = 0;                 // number of not yet appended chars
   const char* notAppended = s;  // position of the first character which is not yet appended
   for (const char* current = s; *current && current < end; current+=l) {
@@ -169,7 +169,7 @@ template<class T>
 //   stop at line break in text (10 || 13)
 //   only up to MAX_LEN_ST characters. If such truncation is required, truncate at ' '
 
-// escape html characters, and correct invalid utf8
+// escape HTML characters, and correct invalid utf8
     if (!text || !*text ) return;
     int len = strlen(text);
     int lb = len;
@@ -192,7 +192,7 @@ template void AppendTextMaxLen<cToSvConcat<0>>(cToSvConcat<0> &target, const cha
 template<class T>
   void AppendTextTruncateOnWord(T &target, const char *text, int max_len, bool tooltip) {
 // append text to target, but only up to max_len characters. If such truncation is required, truncate at ' '
-// escape html characters, and correct invalid utf8
+// escape HTML characters, and correct invalid UTF8
     if (!text || !*text ) return;
     const char *end = text + std::min((int)strlen(text), max_len);
     for (; *end && *end != ' '; end++);
@@ -398,7 +398,7 @@ template void AppendTextTruncateOnWord<cToSvConcat<0>>(cToSvConcat<0> &target, c
 	std::string FileSystemExchangeChars(cSv s, bool ToFileSystem)
 	{
     if (s.empty()) return std::string();
-    char *str = reinterpret_cast<char*>(std::malloc(s.length() + 1)); // vdr ExchangeChars needs a pointer to data allocated with malloc
+    char *str = reinterpret_cast<char*>(std::malloc(s.length() + 1)); // VDR ExchangeChars needs a pointer to data allocated with malloc
     if (!str) {
       esyslog("live, ERROR: out of memory in FileSystemExchangeChars");
       return std::string(s);

@@ -1,8 +1,8 @@
 #ifndef VDR_LIVE_TNTFEATURES_H
 #define VDR_LIVE_TNTFEATURES_H
 
-// This header mapps tntversion strings, whose 'structure' changes over time,
-// to features of tntnet used in the live plugin. This avoids scattering the
+// This header maps tntversion strings, whose 'structure' changes over time,
+// to features of Tntnet used in the live plugin. This avoids scattering the
 // version check for TNTVERSION over several source files in live. Thus when
 // an other change in the structure of the version string was needed then only
 // this file needs to be adapted.
@@ -19,7 +19,7 @@
 // version of TNTNET with properties deserializer for logger configuration args.
 #define TNT_LOG_SERINFO			(CXXTOOLVER >= 22000)
 
-// version of TNTNET wich expects name, value mappings for Url-Mapper arguments.
+// version of Tntnet wich expects name, value mappings for URL-Mapper arguments.
 #define TNT_MAPURL_NAMED_ARGS	(TNTVERSION >= 22000)
 
 // version of TNTNET where configuration is global

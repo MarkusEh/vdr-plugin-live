@@ -1,5 +1,5 @@
 /*
- * This is part of the live vdr plugin. See COPYING for license information.
+ * This is part of the live VDR plugin. See COPYING for license information.
  *
  * PageEnhance class.
  *
@@ -18,7 +18,7 @@ var PageEnhance = new Class({
 		  infoWinOptions: {
 			  bodyselect: 'div.epg_content',
 			  loadingMsg: 'loading',
-			  errorMsg: 'an error occured!'
+			  errorMsg: 'an error occurred!'
 			},
 		  notifyIdPrefix: 'notify',
 		  notifyStrings: {
@@ -50,7 +50,7 @@ var PageEnhance = new Class({
 		},
 
 	  // registered as 'onDomExtend' event for InfoWin. Takes care to
-	  // enhance the new dom elements too.
+	  // enhance the new DOM elements, too.
 	  domExtend: function(id, elems){
 			var sel = '#' + id + ' ' + this.options.hintTipSelector;
 			elems = $$(sel);
@@ -58,8 +58,8 @@ var PageEnhance = new Class({
 			$$('#' + id + ' ' + this.options.actionLinkSelector).each(this.vdrRequest.bind(this));
 		},
 
-	  // Epg Popup function. Apply to all elements that should
-	  // pop up an Epg InfoWin window.
+	  // EPG popup function. Apply to all elements that should
+	  // pop up an EPG InfowWin window.
 	  epgPopup: function(el){
 			var href = el.href;
 			var epgid = $pick(href, "");
@@ -108,7 +108,7 @@ var PageEnhance = new Class({
 			}
 		},
 
-	  // function that requests an action from the server vdr.
+	  // function that requests an action from the server VDR.
 	  vdrRequest: function(el){
 			el.addEvent('click', function(event, element){
 					var href = $pick(element.href, "");
