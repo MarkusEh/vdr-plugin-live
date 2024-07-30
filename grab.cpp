@@ -46,7 +46,7 @@ bool GrabImageTask::GrabImage()
 {
 	cDevice* device = cDevice::PrimaryDevice();
 	if ( device == 0 ) {
-		SetError( tr("Couldn't aquire primary device") );
+		SetError( tr("Couldn't acquire primary device") );
 		return false;
 	}
 

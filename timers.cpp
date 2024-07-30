@@ -108,7 +108,7 @@ namespace vdrlive {
 			{
 				cSv searchtimer = partInXmlTag(epgsearchinfo, "searchtimer");
 				if (!searchtimer.empty())
-					info << tr("Searchtimer") << ": " << searchtimer << std::endl;
+					info << tr("Search timer") << ": " << searchtimer << std::endl;
 			}
 		}
     if (timer.Local()) {

@@ -40,7 +40,7 @@ msgstr "Administratoriaus slapyvardis"
 msgid "%A, %x"
 msgstr "%A, %x"
 
-msgid "Searchtimer"
+msgid "Search timer"
 msgstr "Paieška laikmatyje"
 
 msgid "Error in timer settings"
@@ -151,7 +151,7 @@ msgstr "Nukoduoti kanalai"
 msgid "EPGSearch version outdated! Please update."
 msgstr "Pasenusi EPGSearch įskiepo versija! Atsinaujinkit."
 
-msgid "Couldn't aquire primary device"
+msgid "Couldn't acquire primary device"
 msgstr "Negali nustatyti pirminio įvesties įrenginio"
 
 msgid "Couldn't grab image from primary device"
@@ -221,7 +221,7 @@ msgstr "Išsaugoti"
 msgid "Cancel"
 msgstr "Atmesti"
 
-msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
+msgid "Couldn't find search timer. Maybe you mistyped your request?"
 msgstr "Nerandamas paieškos laikmatis. Gal pateikėte netikslią užklausą?"
 
 msgid "Edit search timer"
@@ -509,10 +509,10 @@ msgstr ""
 msgid "Electronic program guide information"
 msgstr "Elektroninis programų gidas"
 
-msgid "Error aquiring schedules lock"
+msgid "Error acquiring schedules lock"
 msgstr "Negali gauti programų užrakto"
 
-msgid "Error aquiring schedules"
+msgid "Error acquiring schedules"
 msgstr "Negauna programų aprašų"
 
 msgid "Page error"
@@ -557,7 +557,7 @@ msgstr ""
 msgid "Search"
 msgstr "Paieška"
 
-msgid "Searchtimers"
+msgid "Search timers"
 msgstr "Paieškos laikmačiai"
 
 msgid "Recordings"
@@ -584,7 +584,7 @@ msgstr "Reguoti"
 msgid "Dismiss"
 msgstr "Atmesti"
 
-msgid "Couldn't aquire access to channels, please try again later."
+msgid "Couldn't acquire access to channels, please try again later."
 msgstr "Neprieina prie kanalų, pabandykit vėliau."
 
 msgid "Now"
@@ -650,7 +650,7 @@ msgstr ""
 msgid "loading data"
 msgstr "duomenys kraunami"
 
-msgid "an error occured!"
+msgid "an error occurred!"
 msgstr "klaida!"
 
 msgid "Request succeeded!"

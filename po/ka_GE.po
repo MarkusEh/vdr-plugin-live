@@ -43,7 +43,7 @@ msgstr "ადმინისტრატორის პაროლი"
 msgid "%A, %x"
 msgstr "%A, %x"
 
-msgid "Searchtimer"
+msgid "Search timer"
 msgstr "ძებნისტაიმერი"
 
 msgid "Error in timer settings"
@@ -153,7 +153,7 @@ msgstr "FTA"
 msgid "EPGSearch version outdated! Please update."
 msgstr "EPGSearch-ის ვერსია მოძველებულია! გთხოვთ, განაახლოთ."
 
-msgid "Couldn't aquire primary device"
+msgid "Couldn't acquire primary device"
 msgstr "ძირითადი მოწყობილობის მიღების შეცდომა"
 
 msgid "Couldn't grab image from primary device"
@@ -222,7 +222,7 @@ msgstr "შენახვა"
 msgid "Cancel"
 msgstr "გაუქმება"
 
-msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
+msgid "Couldn't find search timer. Maybe you mistyped your request?"
 msgstr "ძებნისტამერი ვერ ვიპოვე. შეიძლება, მოთხოვნა არასწორია?"
 
 msgid "Edit search timer"
@@ -510,10 +510,10 @@ msgstr "ჩანაწერების წაშლა"
 msgid "Electronic program guide information"
 msgstr "ელექტრონული პროგრამის გიდის ინფორმაცია"
 
-msgid "Error aquiring schedules lock"
+msgid "Error acquiring schedules lock"
 msgstr "განრიგის ბლოკის მიღების შეცდომა"
 
-msgid "Error aquiring schedules"
+msgid "Error acquiring schedules"
 msgstr "განრიგის მიღების შეცდომა"
 
 msgid "Page error"
@@ -558,7 +558,7 @@ msgstr "მრავალი განრიგი"
 msgid "Search"
 msgstr "ძებნა"
 
-msgid "Searchtimers"
+msgid "Search timers"
 msgstr "ძებნისტაიმერები"
 
 msgid "Recordings"
@@ -585,7 +585,7 @@ msgstr "რეაქცია"
 msgid "Dismiss"
 msgstr "მოსილება"
 
-msgid "Couldn't aquire access to channels, please try again later."
+msgid "Couldn't acquire access to channels, please try again later."
 msgstr "არხებთან წვდომის შეცდომა. მოგვიანებით სცადეთ."
 
 msgid "Now"
@@ -651,7 +651,7 @@ msgstr ""
 msgid "loading data"
 msgstr "მონაცემების ჩატვირთვა"
 
-msgid "an error occured!"
+msgid "an error occurred!"
 msgstr "აღმოჩენილია შეცდომა!"
 
 msgid "Request succeeded!"

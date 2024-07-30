@@ -43,7 +43,7 @@ msgstr "Mot de passe de l'Admin"
 msgid "%A, %x"
 msgstr "%A, %x"
 
-msgid "Searchtimer"
+msgid "Search timer"
 msgstr "Recherche de programmation"
 
 msgid "Error in timer settings"
@@ -153,7 +153,7 @@ msgstr "FTA"
 msgid "EPGSearch version outdated! Please update."
 msgstr "Version EPGSearch périmée! Mettre à jour Svp."
 
-msgid "Couldn't aquire primary device"
+msgid "Couldn't acquire primary device"
 msgstr "Impossible d'acquérir périphérique primaire"
 
 msgid "Couldn't grab image from primary device"
@@ -226,7 +226,7 @@ msgstr "Sauvegarde"
 msgid "Cancel"
 msgstr "Interrompre"
 
-msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
+msgid "Couldn't find search timer. Maybe you mistyped your request?"
 msgstr "Impossible de trouver la programmation de recherche. Peut-être que votre demande de fautes de frappe?"
 
 msgid "Edit search timer"
@@ -527,10 +527,10 @@ msgstr ""
 msgid "Electronic program guide information"
 msgstr "Guide électronique d'information des programmes EPG"
 
-msgid "Error aquiring schedules lock"
+msgid "Error acquiring schedules lock"
 msgstr "Erreur lors de l'acquisition du verrouillage de programmation de recherche"
 
-msgid "Error aquiring schedules"
+msgid "Error acquiring schedules"
 msgstr "Erreur lors de l'acquisition de programmation"
 
 msgid "Page error"
@@ -575,7 +575,7 @@ msgstr ""
 msgid "Search"
 msgstr "Recherche"
 
-msgid "Searchtimers"
+msgid "Search timers"
 msgstr "Recherche de programmation"
 
 msgid "Recordings"
@@ -602,7 +602,7 @@ msgstr ""
 msgid "Dismiss"
 msgstr ""
 
-msgid "Couldn't aquire access to channels, please try again later."
+msgid "Couldn't acquire access to channels, please try again later."
 msgstr "Impossible d'avoir accès à des chaînes, réessayer ultérieurement."
 
 msgid "Now"
@@ -668,7 +668,7 @@ msgstr ""
 msgid "loading data"
 msgstr "Chargement des données"
 
-msgid "an error occured!"
+msgid "an error occurred!"
 msgstr "Une erreur s'est produite!"
 
 msgid "Request succeeded!"

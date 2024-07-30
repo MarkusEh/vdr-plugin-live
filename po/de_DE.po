@@ -42,7 +42,7 @@ msgstr "Admin Passwort"
 msgid "%A, %x"
 msgstr "%A, %x"
 
-msgid "Searchtimer"
+msgid "Search timer"
 msgstr "Suchtimer"
 
 msgid "Error in timer settings"
@@ -152,7 +152,7 @@ msgstr "FTA"
 msgid "EPGSearch version outdated! Please update."
 msgstr "EPGSearch-Version zu alt, bitte updaten!"
 
-msgid "Couldn't aquire primary device"
+msgid "Couldn't acquire primary device"
 msgstr "Konnte auf das 'primary device' nicht zugreifen"
 
 msgid "Couldn't grab image from primary device"
@@ -221,7 +221,7 @@ msgstr "Speichern"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
+msgid "Couldn't find search timer. Maybe you mistyped your request?"
 msgstr "Keinen Suchtimer gefunden. Möglicherweise ein Tippfehler in der Anfrage?"
 
 msgid "Edit search timer"
@@ -509,10 +509,10 @@ msgstr "Aufnahmen editieren"
 msgid "Electronic program guide information"
 msgstr "Elektronische Programminformation"
 
-msgid "Error aquiring schedules lock"
+msgid "Error acquiring schedules lock"
 msgstr "Fehler beim Zugriffschutz für die Programminfos"
 
-msgid "Error aquiring schedules"
+msgid "Error acquiring schedules"
 msgstr "Fehler beim Zugriff auf Programinfos"
 
 msgid "Page error"
@@ -557,7 +557,7 @@ msgstr "Zeitleiste"
 msgid "Search"
 msgstr "Suchen"
 
-msgid "Searchtimers"
+msgid "Search timers"
 msgstr "Suchtimer"
 
 msgid "Recordings"
@@ -584,7 +584,7 @@ msgstr "Reagieren"
 msgid "Dismiss"
 msgstr "Verwerfen"
 
-msgid "Couldn't aquire access to channels, please try again later."
+msgid "Couldn't acquire access to channels, please try again later."
 msgstr "Zugriff auf die Kanäle wurde verweigert. Bitte später versuchen."
 
 msgid "Now"
@@ -650,7 +650,7 @@ msgstr "Aufnahme streamen."
 msgid "loading data"
 msgstr "Daten nachladen"
 
-msgid "an error occured!"
+msgid "an error occurred!"
 msgstr "Es ist ein Fehler aufgetreten!"
 
 msgid "Request succeeded!"

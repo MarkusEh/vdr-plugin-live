@@ -30,7 +30,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 #if VDRVERSNUM < 20301
 	ReadLock channelsLock( Channels );
 	if ( !channelsLock )
-		throw HtmlError( tr("Couldn't aquire access to channels, please try again later.") );
+		throw HtmlError( tr("Couldn't acquire access to channels, please try again later.") );
 #endif
 
 	// cChannel* Channel; (see %request above)

@@ -41,7 +41,7 @@ msgstr "Hasło Admina"
 msgid "%A, %x"
 msgstr ""
 
-msgid "Searchtimer"
+msgid "Search timer"
 msgstr "Timer wyszukiwania"
 
 msgid "Error in timer settings"
@@ -151,7 +151,7 @@ msgstr "Niekodowane - FTA"
 msgid "EPGSearch version outdated! Please update."
 msgstr "Plugin EPGSearch jest nieaktualny! Proszę zaktualizować."
 
-msgid "Couldn't aquire primary device"
+msgid "Couldn't acquire primary device"
 msgstr "Nie mozna uzyskać dostępu do pierwszego interfejsu DVB"
 
 msgid "Couldn't grab image from primary device"
@@ -220,7 +220,7 @@ msgstr "Zapisz"
 msgid "Cancel"
 msgstr "Anuluj"
 
-msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
+msgid "Couldn't find search timer. Maybe you mistyped your request?"
 msgstr "Nie można odnaleźć timera wyszukiwania."
 
 msgid "Edit search timer"
@@ -508,10 +508,10 @@ msgstr "Edycja nagrań"
 msgid "Electronic program guide information"
 msgstr "Informacje EPG"
 
-msgid "Error aquiring schedules lock"
+msgid "Error acquiring schedules lock"
 msgstr "Błąd podczas próby blokady programu"
 
-msgid "Error aquiring schedules"
+msgid "Error acquiring schedules"
 msgstr "Błąd podczas ściągania programu"
 
 msgid "Page error"
@@ -556,7 +556,7 @@ msgstr "Multiprzewodnik"
 msgid "Search"
 msgstr "Szukaj"
 
-msgid "Searchtimers"
+msgid "Search timers"
 msgstr "Timery wyszukiwania"
 
 msgid "Recordings"
@@ -583,7 +583,7 @@ msgstr "Sprawdź"
 msgid "Dismiss"
 msgstr "Anuluj"
 
-msgid "Couldn't aquire access to channels, please try again later."
+msgid "Couldn't acquire access to channels, please try again later."
 msgstr "Nie można uzyskać dostępu do kanałów, spróbój później."
 
 msgid "Now"
@@ -649,7 +649,7 @@ msgstr ""
 msgid "loading data"
 msgstr "ładuję ..."
 
-msgid "an error occured!"
+msgid "an error occurred!"
 msgstr "wystąpił błąd!"
 
 msgid "Request succeeded!"

@@ -40,7 +40,7 @@ msgstr "Contraseña del administrador"
 msgid "%A, %x"
 msgstr "%A, %x"
 
-msgid "Searchtimer"
+msgid "Search timer"
 msgstr "Buscador Programaciones"
 
 msgid "Error in timer settings"
@@ -150,7 +150,7 @@ msgstr "FTA"
 msgid "EPGSearch version outdated! Please update."
 msgstr "¡Versión de EPGSearch antigua!. Por favor actualice"
 
-msgid "Couldn't aquire primary device"
+msgid "Couldn't acquire primary device"
 msgstr "No se puede capturar el sintonizador principal"
 
 msgid "Couldn't grab image from primary device"
@@ -219,7 +219,7 @@ msgstr "Grabar"
 msgid "Cancel"
 msgstr "Cancelar"
 
-msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
+msgid "Couldn't find search timer. Maybe you mistyped your request?"
 msgstr "No se puede encontrar la programación. ¿Puede que la haya escrito erróneamente?"
 
 msgid "Edit search timer"
@@ -507,10 +507,10 @@ msgstr "Editar grabaciones"
 msgid "Electronic program guide information"
 msgstr "Información de la Guía Electrónica de Programación (EPG)"
 
-msgid "Error aquiring schedules lock"
+msgid "Error acquiring schedules lock"
 msgstr "Error adquiriendo el bloqueo de las programaciones"
 
-msgid "Error aquiring schedules"
+msgid "Error acquiring schedules"
 msgstr "Error adquiriendo programaciones"
 
 msgid "Page error"
@@ -555,7 +555,7 @@ msgstr "Multi programación"
 msgid "Search"
 msgstr "Buscar"
 
-msgid "Searchtimers"
+msgid "Search timers"
 msgstr "Programadores de búsqueda"
 
 msgid "Recordings"
@@ -582,7 +582,7 @@ msgstr "Resolver"
 msgid "Dismiss"
 msgstr "Ignorar"
 
-msgid "Couldn't aquire access to channels, please try again later."
+msgid "Couldn't acquire access to channels, please try again later."
 msgstr "No se puede tener acceso a los canales, por favor inténtelo más tarde"
 
 msgid "Now"
@@ -648,7 +648,7 @@ msgstr ""
 msgid "loading data"
 msgstr "cargando datos"
 
-msgid "an error occured!"
+msgid "an error occurred!"
 msgstr "¡ha ocurrido un error!"
 
 msgid "Request succeeded!"

@@ -109,11 +109,11 @@ using namespace vdrlive;
 #else
 			schedulesLockPtr = SchedulesLockPtr(new SchedulesLock);
 			if (!schedulesLockPtr) {
-				throw HtmlError(tr("Error aquiring schedules lock"));
+				throw HtmlError(tr("Error acquiring schedules lock"));
 			}
 			const cSchedules* schedules = cSchedules::Schedules(*schedulesLockPtr);
 			if (!schedules) {
-				throw HtmlError(tr("Error aquiring schedules"));
+				throw HtmlError(tr("Error acquiring schedules"));
 			}
 			epgEvent = EpgEvents::CreateEpgInfo(epgid, schedules);
 #endif

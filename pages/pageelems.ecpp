@@ -495,7 +495,7 @@ if (!rfid.empty() ) {
 				infoWinOptions: {
 					buttonimg: 'img/transparent.png',
 					loadingMsg: '<$ tr("loading data") $>',
-					errorMsg: '<$ tr("an error occured!") $>'
+					errorMsg: '<$ tr("an error occurred!") $>'
 				},
 				notifyStrings: {
 					successMsg: '<img src="<$ LiveSetup().GetThemedLink("img", "active.png") $>" alt=""> <$ tr("Request succeeded!") $>',

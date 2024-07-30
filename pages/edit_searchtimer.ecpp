@@ -115,7 +115,7 @@ const char *TNT_ARRAY = "";
 		if ( !searchtimerid.empty() && !testmode) {
 			editsearchtimer = searchtimers.GetByTimerId( searchtimerid );
 			if ( editsearchtimer == 0 )
-				throw HtmlError( tr("Couldn't find searchtimer. Maybe you mistyped your request?") );
+				throw HtmlError( tr("Couldn't find search timer. Maybe you mistyped your request?") );
 			searchtimer.SetId(editsearchtimer->Id());
 		}
 
@@ -249,7 +249,7 @@ const char *TNT_ARRAY = "";
 	if (  !searchtimerid.empty() ) {
 		SearchTimer* searchtimer = searchtimers.GetByTimerId( searchtimerid );
 		if ( searchtimer == 0 )
-			throw HtmlError( tr("Couldn't find searchtimer. Maybe you mistyped your request?") );
+			throw HtmlError( tr("Couldn't find search timer. Maybe you mistyped your request?") );
 
 		search = searchtimer->Search();
 		mode = searchtimer->SearchMode();

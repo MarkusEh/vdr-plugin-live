@@ -40,7 +40,7 @@ msgstr "Пароль администратора"
 msgid "%A, %x"
 msgstr ""
 
-msgid "Searchtimer"
+msgid "Search timer"
 msgstr "Поисковый таймер"
 
 msgid "Error in timer settings"
@@ -150,7 +150,7 @@ msgstr "Открытые"
 msgid "EPGSearch version outdated! Please update."
 msgstr "Версия EPGSearch устарела! Пожалуйста обновите EPGSearch. "
 
-msgid "Couldn't aquire primary device"
+msgid "Couldn't acquire primary device"
 msgstr "Нет доступа к основному устройству"
 
 msgid "Couldn't grab image from primary device"
@@ -219,7 +219,7 @@ msgstr "Сохранить"
 msgid "Cancel"
 msgstr "Отменить"
 
-msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
+msgid "Couldn't find search timer. Maybe you mistyped your request?"
 msgstr "Поисковый таймер не найден. Проверьте правильность запроса."
 
 msgid "Edit search timer"
@@ -507,10 +507,10 @@ msgstr "Изменять запись"
 msgid "Electronic program guide information"
 msgstr "Информация телегида"
 
-msgid "Error aquiring schedules lock"
+msgid "Error acquiring schedules lock"
 msgstr "Ошибка во время получения расписания"
 
-msgid "Error aquiring schedules"
+msgid "Error acquiring schedules"
 msgstr "Ошибка в расписании"
 
 msgid "Page error"
@@ -555,7 +555,7 @@ msgstr "Мультирасписание"
 msgid "Search"
 msgstr "Поиск"
 
-msgid "Searchtimers"
+msgid "Search timers"
 msgstr "Поисковый таймер"
 
 msgid "Recordings"
@@ -582,7 +582,7 @@ msgstr "Реагировать"
 msgid "Dismiss"
 msgstr "Освободить"
 
-msgid "Couldn't aquire access to channels, please try again later."
+msgid "Couldn't acquire access to channels, please try again later."
 msgstr "Нет доступа к каналу, попробуйте позже"
 
 msgid "Now"
@@ -648,7 +648,7 @@ msgstr ""
 msgid "loading data"
 msgstr "загрузка данных"
 
-msgid "an error occured!"
+msgid "an error occurred!"
 msgstr "обнаружена ошибка!"
 
 msgid "Request succeeded!"

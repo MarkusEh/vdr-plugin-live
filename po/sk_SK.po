@@ -41,7 +41,7 @@ msgstr "Heslo admina"
 msgid "%A, %x"
 msgstr "%A, %x"
 
-msgid "Searchtimer"
+msgid "Search timer"
 msgstr "Vyhµadávaè vysielacieho èasu"
 
 msgid "Error in timer settings"
@@ -151,7 +151,7 @@ msgstr "Voµné"
 msgid "EPGSearch version outdated! Please update."
 msgstr "Zastaralá verzia EPGSearch! Prosím aktualizujte ju."
 
-msgid "Couldn't aquire primary device"
+msgid "Couldn't acquire primary device"
 msgstr "Nepodarilo sa získa» hlavné zariadenie"
 
 msgid "Couldn't grab image from primary device"
@@ -220,7 +220,7 @@ msgstr "Ulo¾i»"
 msgid "Cancel"
 msgstr "Zru¹i»"
 
-msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
+msgid "Couldn't find search timer. Maybe you mistyped your request?"
 msgstr "Nena¹iel sa vyhµadávaný èas. Mo¾no ste zle napísali va¹u po¾iadavku?"
 
 msgid "Edit search timer"
@@ -508,10 +508,10 @@ msgstr "Upravi» nahrávky"
 msgid "Electronic program guide information"
 msgstr "Elektronický sprievodca televíznym programom"
 
-msgid "Error aquiring schedules lock"
+msgid "Error acquiring schedules lock"
 msgstr "Uzamknuté získavanie televízneho programu"
 
-msgid "Error aquiring schedules"
+msgid "Error acquiring schedules"
 msgstr "Chyba pri získavaní televízneho programu"
 
 msgid "Page error"
@@ -556,7 +556,7 @@ msgstr "TV program v ståpcoch"
 msgid "Search"
 msgstr "Hµada»"
 
-msgid "Searchtimers"
+msgid "Search timers"
 msgstr "Vyhµadávaè vysielacieho èasu"
 
 msgid "Recordings"
@@ -583,7 +583,7 @@ msgstr "Reagova»"
 msgid "Dismiss"
 msgstr "Zru¹"
 
-msgid "Couldn't aquire access to channels, please try again later."
+msgid "Couldn't acquire access to channels, please try again later."
 msgstr "Nedá sa získa» prístup ku kanálom, prosím skúste to znova neskôr."
 
 msgid "Now"
@@ -649,7 +649,7 @@ msgstr ""
 msgid "loading data"
 msgstr "naèítanie dát"
 
-msgid "an error occured!"
+msgid "an error occurred!"
 msgstr "do¹lo k chybe!"
 
 msgid "Request succeeded!"

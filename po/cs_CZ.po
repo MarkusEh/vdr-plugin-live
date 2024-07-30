@@ -41,7 +41,7 @@ msgstr "Admin heslo"
 msgid "%A, %x"
 msgstr ""
 
-msgid "Searchtimer"
+msgid "Search timer"
 msgstr "Nahrávání"
 
 msgid "Error in timer settings"
@@ -151,7 +151,7 @@ msgstr "FTA"
 msgid "EPGSearch version outdated! Please update."
 msgstr "Verze EPGSearch je zastaralá! Použijte novější."
 
-msgid "Couldn't aquire primary device"
+msgid "Couldn't acquire primary device"
 msgstr "Nelze otevřít primární zarízení"
 
 msgid "Couldn't grab image from primary device"
@@ -227,7 +227,7 @@ msgstr "Uložit"
 msgid "Cancel"
 msgstr "Zrušit"
 
-msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
+msgid "Couldn't find search timer. Maybe you mistyped your request?"
 msgstr "Nelze najít Automatické nahrávání. Byl požadavek správně zadán?"
 
 msgid "Edit search timer"
@@ -516,10 +516,10 @@ msgstr "Seznam nahrávek"
 msgid "Electronic program guide information"
 msgstr "Elektronický průvodce programem (EPG)"
 
-msgid "Error aquiring schedules lock"
+msgid "Error acquiring schedules lock"
 msgstr "Chyba při vytváření zámku pro nahrávky"
 
-msgid "Error aquiring schedules"
+msgid "Error acquiring schedules"
 msgstr "Chyba při plánování"
 
 msgid "Page error"
@@ -564,7 +564,7 @@ msgstr ""
 msgid "Search"
 msgstr "Vyhledej"
 
-msgid "Searchtimers"
+msgid "Search timers"
 msgstr "Automatické nahrávání"
 
 msgid "Recordings"
@@ -591,7 +591,7 @@ msgstr "řešit"
 msgid "Dismiss"
 msgstr "neřešit"
 
-msgid "Couldn't aquire access to channels, please try again later."
+msgid "Couldn't acquire access to channels, please try again later."
 msgstr "Nelze získat přístup k programům, zkuste později."
 
 msgid "Now"
@@ -657,7 +657,7 @@ msgstr ""
 msgid "loading data"
 msgstr "aktualizace údajů"
 
-msgid "an error occured!"
+msgid "an error occurred!"
 msgstr "problém!"
 
 msgid "Request succeeded!"

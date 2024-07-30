@@ -40,7 +40,7 @@ msgstr "Admin lösen"
 msgid "%A, %x"
 msgstr ""
 
-msgid "Searchtimer"
+msgid "Search timer"
 msgstr "Söktimer"
 
 msgid "Error in timer settings"
@@ -150,7 +150,7 @@ msgstr "Okrypterade"
 msgid "EPGSearch version outdated! Please update."
 msgstr "För gammal version av EPGSearch. Vänligen uppdatera."
 
-msgid "Couldn't aquire primary device"
+msgid "Couldn't acquire primary device"
 msgstr "Kunde inte få tillgång till primära enheten."
 
 msgid "Couldn't grab image from primary device"
@@ -219,7 +219,7 @@ msgstr "Spara"
 msgid "Cancel"
 msgstr "Avbryt"
 
-msgid "Couldn't find searchtimer. Maybe you mistyped your request?"
+msgid "Couldn't find search timer. Maybe you mistyped your request?"
 msgstr "Kunde inte hitta sök-timer. Kontrollera stavningen?"
 
 msgid "Edit search timer"
@@ -507,10 +507,10 @@ msgstr "Redigera inspelningar"
 msgid "Electronic program guide information"
 msgstr "EPG-information"
 
-msgid "Error aquiring schedules lock"
+msgid "Error acquiring schedules lock"
 msgstr "Fil vid låsning av scheman"
 
-msgid "Error aquiring schedules"
+msgid "Error acquiring schedules"
 msgstr "Fel vid hämtning av scheman"
 
 msgid "Page error"
@@ -555,7 +555,7 @@ msgstr "MultiSchema"
 msgid "Search"
 msgstr "Sök"
 
-msgid "Searchtimers"
+msgid "Search timers"
 msgstr "Sök-timers"
 
 msgid "Recordings"
@@ -582,7 +582,7 @@ msgstr "Reagera"
 msgid "Dismiss"
 msgstr "Avfärda"
 
-msgid "Couldn't aquire access to channels, please try again later."
+msgid "Couldn't acquire access to channels, please try again later."
 msgstr "Kunde inte få tillgång till kanaler, försök igen senare"
 
 msgid "Now"
@@ -648,7 +648,7 @@ msgstr ""
 msgid "loading data"
 msgstr "Laddar data"
 
-msgid "an error occured!"
+msgid "an error occurred!"
 msgstr "Ett fel inträffade!"
 
 msgid "Request succeeded!"

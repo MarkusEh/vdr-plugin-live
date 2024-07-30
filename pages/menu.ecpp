@@ -41,7 +41,7 @@ if (!component.empty()) {
 if ( LiveFeatures<features::epgsearch>().Recent() ) {
 </%cpp>
   | <a href="searchepg.html"<& menu.setactive current=("searchepg") &>><$ tr("Search") $></a>
-  | <a href="searchtimers.html"<& menu.setactive current=("searchtimers") &>><$ tr("Searchtimers") $></a>
+  | <a href="searchtimers.html"<& menu.setactive current=("searchtimers") &>><$ tr("Search timers") $></a>
 <%cpp>
 }
 </%cpp>

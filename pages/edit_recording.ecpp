@@ -197,7 +197,7 @@ if (recording && recording->Info()->Aux()) {
   if (!aux_data.empty()) {
 </%cpp>
 					<tr>
-						<td class="label leftcol"><div class="withmargin"><$ tr("Searchtimer") $>:</div></td>
+						<td class="label leftcol"><div class="withmargin"><$ tr("Search timer") $>:</div></td>
 						<td class="rightcol"><$ aux_data $></td>
 					</tr>
 <%cpp>

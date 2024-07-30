@@ -61,7 +61,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 							<td class="td-hidden-xs"><div class="withmargin hidden-xs"><$ trVDR("Duration")  $></div></td>
 							<td class="td-hidden-xs"><div class="withmargin hidden-xs"><$ trVDR("Priority") $></div></td>
 							<td><div class="withmargin"><$ trVDR("File") $></div></td>
-							<td><div class="withmargin"><$ tr("Searchtimer") $></div></td>
+							<td><div class="withmargin"><$ tr("Search timer") $></div></td>
 	   	 	      <td class="td-hidden-xs"><img class="hidden-xs action-rightcol" src="img/transparent.png" alt="" width="16px" height="16px" /></td>
 						  <td class="td-hidden-xs"><img class="hidden-xs action-rightcol" src="img/transparent.png" alt="" width="16px" height="16px" /></td>
 						  <td class="td-hidden-xs"><img class="hidden-xs action-rightcol" src="img/transparent.png" alt="" width="16px" height="16px" /></td>
