@@ -611,6 +611,12 @@ msgstr "mehr"
 msgid "Channel"
 msgstr "Kanal"
 
+msgid "Prev. entry"
+msgstr "Zurück"
+
+msgid "Next entry"
+msgstr "Vor"
+
 msgid "Duration deviation from event length"
 msgstr "Abweichung der Aufzeichnungslänge von der Länge des EPG Eintrags"
 

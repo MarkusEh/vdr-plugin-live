@@ -189,7 +189,7 @@ if(recItemFound) {
    </span>
 </form>
 <span class="sep">|</span>
-<?? *prev ? "<a " << *prev << ">"?>« Prev<?? *prev ? "</a>" ?>
+<?? *prev ? "<a " << *prev << ">"?>« <$ tr("Prev. entry") $><?? *prev ? "</a>" ?>
 <span class="sep">|</span>
-<?? *next ? "<a " << *next << ">"?>Next »<?? *next ? "</a>" ?>
+<?? *next ? "<a " << *next << ">"?><$ tr("Next entry") $> »<?? *next ? "</a>" ?>
 </%def>

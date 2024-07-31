@@ -609,6 +609,12 @@ msgstr "lisätietoja"
 msgid "Channel"
 msgstr "Kanava"
 
+msgid "Prev. entry"
+msgstr ""
+
+msgid "Next entry"
+msgstr ""
+
 msgid "Duration deviation from event length"
 msgstr ""
 

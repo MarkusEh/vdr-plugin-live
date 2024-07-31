@@ -618,6 +618,12 @@ msgstr "více"
 msgid "Channel"
 msgstr "Kanál"
 
+msgid "Prev. entry"
+msgstr ""
+
+msgid "Next entry"
+msgstr ""
+
 msgid "Duration deviation from event length"
 msgstr ""
 

@@ -609,6 +609,12 @@ msgstr "mera"
 msgid "Channel"
 msgstr "Kanal"
 
+msgid "Prev. entry"
+msgstr ""
+
+msgid "Next entry"
+msgstr ""
+
 msgid "Duration deviation from event length"
 msgstr ""
 

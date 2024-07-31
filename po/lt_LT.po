@@ -611,6 +611,12 @@ msgstr "daugiau"
 msgid "Channel"
 msgstr "Kanalas"
 
+msgid "Prev. entry"
+msgstr ""
+
+msgid "Next entry"
+msgstr ""
+
 msgid "Duration deviation from event length"
 msgstr ""
 

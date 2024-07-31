@@ -609,6 +609,12 @@ msgstr "еще"
 msgid "Channel"
 msgstr "Канал"
 
+msgid "Prev. entry"
+msgstr ""
+
+msgid "Next entry"
+msgstr ""
+
 msgid "Duration deviation from event length"
 msgstr ""
 

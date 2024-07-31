@@ -612,6 +612,12 @@ msgstr "მეტი"
 msgid "Channel"
 msgstr "რხი"
 
+msgid "Prev. entry"
+msgstr ""
+
+msgid "Next entry"
+msgstr ""
+
 msgid "Duration deviation from event length"
 msgstr "ხანგრძლივობის აცდენა მოვლენის სიგრძესთან"
 
