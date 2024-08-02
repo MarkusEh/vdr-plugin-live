@@ -106,7 +106,7 @@ using namespace vdrlive;
             epgEvent = EpgEvents::CreateEpgInfo(timer->Channel(), timer->Event());
             bool truncated = false;
             longDescription  = StringEscapeAndBreak(SortedTimers::GetTimerInfo(*timer), lf);
-            longDescription += "<hr>";
+            if (epgEvent->LongDescr().length()) longDescription += "<hr>";
 					  longDescription += StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), LiveSetup().GetMaxTooltipChars(), truncated), lf);
 					  if (truncated) longDescription += "...";
             AppendHtmlEscapedAndCorrectNonUTF8(searchTimName, SortedTimers::SearchTimerInfo(*timer, "searchtimer"));
