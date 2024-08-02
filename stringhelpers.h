@@ -1,10 +1,13 @@
 /*
- * version 0.9.2
+ * version 0.9.3
  * general string-helper functions
  * Note: currently, most up to date Version is in live!
  *
- * only depends on g++ -std=c++17 std:: standard headers, on esyslog (from VDR),
- * and on VDR channels :( .
+ * only depends on g++:
+ *    -std=c++17 std:: standard headers
+ *     on esyslog (from VDR)
+*     on VDR channels :( .
+*     on "to_chars10.h"
  *
  * no other dependencies, so it can be easily included in any other header
  *
@@ -13,6 +16,7 @@
 #ifndef __STRINGHELPERS_H
 #define __STRINGHELPERS_H
 
+#include "to_chars10.h"
 #include <cstdarg>
 #include <string>
 #include <string_view>
@@ -468,87 +472,6 @@ inline cSv SecondPart(cSv str, cSv delim) {
 
 namespace stringhelpers_internal {
 
-  static const char cDigitsLut[200] = {
-        '0','0','0','1','0','2','0','3','0','4','0','5','0','6','0','7','0','8','0','9',
-        '1','0','1','1','1','2','1','3','1','4','1','5','1','6','1','7','1','8','1','9',
-        '2','0','2','1','2','2','2','3','2','4','2','5','2','6','2','7','2','8','2','9',
-        '3','0','3','1','3','2','3','3','3','4','3','5','3','6','3','7','3','8','3','9',
-        '4','0','4','1','4','2','4','3','4','4','4','5','4','6','4','7','4','8','4','9',
-        '5','0','5','1','5','2','5','3','5','4','5','5','5','6','5','7','5','8','5','9',
-        '6','0','6','1','6','2','6','3','6','4','6','5','6','6','6','7','6','8','6','9',
-        '7','0','7','1','7','2','7','3','7','4','7','5','7','6','7','7','7','8','7','9',
-        '8','0','8','1','8','2','8','3','8','4','8','5','8','6','8','7','8','8','8','9',
-        '9','0','9','1','9','2','9','3','9','4','9','5','9','6','9','7','9','8','9','9'
-    };
-
-// max uint16_t 65535
-inline void itoa4w0(char *b, uint16_t i) {
-  memcpy(b+2, cDigitsLut + ((i%100) << 1), 2);
-  memcpy(b  , cDigitsLut + ((i/100) << 1), 2);
-}
-inline void itoa8w0(char *b, uint32_t i) {
-  itoa4w0(b+4, i%10000);
-  itoa4w0(b  , i/10000);
-}
-inline char *itoa2(char *b, uint16_t i) {
-  if (i >= 10) {
-    memcpy(b, cDigitsLut + (i << 1), 2);
-    return b+2;
-  } else {
-    *b = i + '0';
-    return b+1;
-  }
-}
-// max uint16_t 65535
-inline char *itoa4(char *b, uint16_t i) {
-  if (i < 100) return itoa2(b, i);
-  b = itoa2(b, i/100);
-  memcpy(b, cDigitsLut + ((i%100) << 1), 2);
-  return b+2;
-}
-// max uint32_t 4294967295  (10 digits)
-inline char *itoa8(char *b, uint32_t i) {
-  if (i < 10000) return itoa4(b, i);
-  b = itoa4(b, i/10000);
-  itoa4w0(b, i%10000);
-  return b+4;
-}
-template<typename T> inline char *itoa16(char *b, T i) {
-  if (i < 100000000) return itoa8(b, static_cast<uint32_t>(i));
-  b = itoa8(b, static_cast<uint32_t>(i/100000000));
-  itoa8w0(b, static_cast<uint32_t>(i%100000000));
-  return b+8;
-}
-
-// max uint32_t 4294967295  (10 digits)
-template<typename T, std::enable_if_t<sizeof(T) <= 4, bool> = true, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
-inline char *itoa(char *b, T i) {
-  if (i < 100000000) return itoa8(b, i);
-  b = itoa2(b, i/100000000);  // 4294967295/100000000 = 42;
-  itoa8w0(b, i%100000000);
-  return b+8;
-}
-// max uint64_t 18446744073709551615  (20 digits)
-template<typename T, std::enable_if_t<sizeof(T) >= 5, bool> = true, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
-char *itoa(char *b, T i) {
-  if (i < 10000000000000000) return itoa16(b, i);
-  b = itoa4(b, i/10000000000000000);   // 18446744073709551615/10000000000000000 = 1844
-  T r = i%10000000000000000;
-  itoa8w0(b + 8, static_cast<uint32_t>(r%100000000));
-  itoa8w0(b    , static_cast<uint32_t>(r/100000000));
-  return b+16;
-}
-template<typename T, std::enable_if_t<std::is_signed_v<T>, bool> = true>
-char *itoa(char *b, T i) {
-  typedef std::conditional_t<sizeof(T) >= 5, uint64_t, uint32_t> TU;
-  TU u = static_cast<TU>(i);
-  if (i < 0) {
-      *b++ = '-';
-      u = ~u + 1;
-  }
-  return itoa(b, u);
-}
-
 template<typename T, std::enable_if_t<sizeof(T) >= 5, bool> = true>
   inline int numCharsUg0(T i) {
 // note: i must be >= 0!!!!
@@ -556,10 +479,7 @@ template<typename T, std::enable_if_t<sizeof(T) >= 5, bool> = true>
       if (i >= 10000000000000000) { i /= 10000000000000000; numChars += 16; }
       if (i >= 100000000) { i /= 100000000; numChars += 8; }
       if (i >= 10000) { i /= 10000; numChars += 4; }
-      if (i >= 1000) return numChars+3;
-      if (i >= 100 ) return numChars+2;
-      if (i >= 10  ) return numChars+1;
-      return numChars;
+      return numChars+(i >= 1000)+(i >= 100 )+(i >= 10  );
   }
 template<typename T, std::enable_if_t<sizeof(T) <= 4, bool> = true>
   inline int numCharsUg0(T i) {
@@ -567,10 +487,7 @@ template<typename T, std::enable_if_t<sizeof(T) <= 4, bool> = true>
       int numChars = 1;
       if (i >= 100000000) { i /= 100000000; numChars += 8; }
       if (i >= 10000) { i /= 10000; numChars += 4; }
-      if (i >= 1000) return numChars+3;
-      if (i >= 100 ) return numChars+2;
-      if (i >= 10  ) return numChars+1;
-      return numChars;
+      return numChars+(i >= 1000)+(i >= 100 )+(i >= 10  );
   }
 template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
   inline int numChars(T i) {
@@ -579,8 +496,69 @@ template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
 template<typename T, std::enable_if_t<std::is_signed_v<T>, bool> = true>
   inline int numChars(T i) {
     if (i >= 0) return numCharsUg0(i);
-    return numCharsUg0(-i)+1;
+    typedef std::make_unsigned_t<T> TU;
+    return numCharsUg0(~(static_cast<TU>(i)) + static_cast<TU>(1)) + 1;
   }
+// itoaN: Template for fixed number of characters, left fill with 0
+template<size_t N, typename T>
+inline typename std::enable_if<N == 0, char*>::type itoaN(char *b, T i) {
+  return b;
+}
+template<size_t N, typename T>
+inline typename std::enable_if<N == 2, char*>::type itoaN(char *b, T i) {
+  memcpy(b, to_chars10_internal::digits_100 + (i << 1), 2);
+  return b+N;
+}
+
+template<size_t N, typename T>
+inline typename std::enable_if<N%2 == 0 && N >= 4, char*>::type itoaN(char *b, T i) {
+  T q = i/100;
+  memcpy(b+N-2, to_chars10_internal::digits_100 + ((i - q*100) << 1), 2);
+  itoaN<N-2>(b, q);
+  return b+N;
+}
+
+template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
+inline typename std::enable_if<N%2 != 0, char*>::type itoaN(char *b, T i) {
+  T q = i/10;
+  b[N-1] = (i - q*10) + '0';
+  itoaN<N-1>(b, q);
+  return b+N;
+}
+//template<uint8_t N> uint64_t powN() {
+template<uint8_t N>
+inline typename std::enable_if<N <= 19, uint64_t>::type powN() {
+  uint64_t r = 1;
+  for (int i=0; i<N; i++) {
+    r *= 10;
+  }
+  return r;
+}
+
+template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
+inline typename std::enable_if<N <= 19, char*>::type itoa_min_width(char *b, T i) {
+  if (i < powN<N>() ) return itoaN<N, T>(b, i);
+  T q = i/powN<N>();
+  b = to_chars10_internal::itoa(b, q);
+  return itoaN<N, T>(b, i - q*powN<N>() );
+}
+
+template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
+inline typename std::enable_if<N >= 20, char*>::type itoa_min_width(char *b, T i) {
+// i < 10^20 is always true
+  memset(b, '0', N-20);
+  b += N-20;
+  return itoaN<20, T>(b, i);
+}
+template<size_t N, typename T, std::enable_if_t<std::is_signed_v<T>, bool> = true>
+inline char *itoa_min_width(char *b, T i) {
+  typedef std::make_unsigned_t<T> TU;
+  if (i >= 0) return itoa_min_width<N, TU>(b, (TU)i);
+  *b = '-';
+  if (N==0) return to_chars10_internal::itoa(b+1, ~(TU(i)) + (TU)1);
+  else      return itoa_min_width<N-1, TU>(b + 1, ~(TU(i)) + (TU)1);
+}
+
   template<class T> inline char *addCharsUg0be(char *be, T i) {
 // i > 0 must be ensured before calling!
 // make sure to have a large enough buffer size (20 + zero terminator if required)
@@ -588,18 +566,13 @@ template<typename T, std::enable_if_t<std::is_signed_v<T>, bool> = true>
 // no zero terminator is written! You can make buffer large enough and set *be=0 before calling
 // position of first char is returned
 // length is be - returned value
-    const char *lt = cDigitsLut;
     while (i >= 10) {
       be -= 2;
-      memcpy(be, lt + ((i%100) << 1), 2);
-/* memcpy is about 4% faster
-       int r2 = (i%100) << 1;
-       *(--be) = lt[r2+1];
-       *(--be) = lt[r2];
-*/
-      i /= 100;
+      T q = i/100;
+      memcpy(be, to_chars10_internal::digits_100 + ((i-q*100) << 1), 2);
+      i = q;
     }
-    if (i>0) *(--be) = '0' + (i%10);
+    if (i>0) *(--be) = '0' + i;
     return be;
   }
   template<class T> inline char *addCharsIbe(char *be, T i) {
@@ -819,8 +792,8 @@ class cToSvConcat: public cToSv {
 
 template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
     cToSvConcat &concat(T i) {
-      if (m_pos_for_append + 20 > m_be_data) ensure_free(20);
-      m_pos_for_append = stringhelpers_internal::itoa(m_pos_for_append, i);
+      if (!to_chars10_internal::to_chars10_range_check(m_pos_for_append, m_be_data, i)) ensure_free(20);
+      m_pos_for_append = to_chars10_internal::itoa(m_pos_for_append, i);
       return *this;
     }
 template<typename T> cToSvConcat &operator<<(T sv) { return concat(sv); }
@@ -848,6 +821,12 @@ template<typename T> cToSvConcat &operator<<(T sv) { return concat(sv); }
 
 // =======================
 // appendInt   append integer (with some format options)
+template<size_t M, typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
+    cToSvConcat &appendInt(T i) {
+      if (m_pos_for_append + std::max(M, (size_t)20) > m_be_data) ensure_free(std::max(M, (size_t)20));
+      m_pos_for_append = stringhelpers_internal::itoa_min_width<M, T>(m_pos_for_append, i);
+      return *this;
+    }
 template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
     cToSvConcat &appendInt(T i, size_t desired_width, char fill_char = '0') {
       size_t len = stringhelpers_internal::numChars(i);
@@ -859,7 +838,7 @@ template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
       }
       memset(m_pos_for_append, fill_char, desired_width-len);
       m_pos_for_append += desired_width-len;
-      m_pos_for_append = stringhelpers_internal::itoa(m_pos_for_append, i);
+      m_pos_for_append = to_chars10_internal::itoa(m_pos_for_append, i);
       return *this;
     }
 template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
@@ -1042,7 +1021,7 @@ class cToSvDateTime: public cToSvConcat<255> {
 template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
 inline void stringAppend(std::string &str, T i) {
   char buf[20]; // unsigned int 64: max. 20. (18446744073709551615) signed int64: max. 19 (+ sign)
-  str.append(buf, stringhelpers_internal::itoa(buf, i) - buf);
+  str.append(buf, to_chars10_internal::itoa(buf, i) - buf);
 }
 template<std::size_t N, typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
 inline void stringAppend(cToSvConcat<N> &s, T i) {

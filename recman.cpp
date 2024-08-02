@@ -620,16 +620,26 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
 // find our number of ts files
     if (!recording || !recording->FileName() ) return -1;
     size_t folder_length = strlen(recording->FileName());
+    cToSvConcat file_path(recording->FileName(), "/00001.ts");
+    struct stat buffer;
+    uint32_t num_ts_files;
+    for (num_ts_files = 1; num_ts_files < 100000u; ++num_ts_files) {
+      file_path.erase(folder_length+1);
+      file_path.appendInt<5>(num_ts_files).append(".ts");
+      if (stat (file_path.c_str(), &buffer) != 0) break;
+    }
+/*
     char file[folder_length + 10];   // 00001.ts , 5 digits, + .ts + / -> 9, +1 for 0 terminator
     memcpy(file, recording->FileName(), folder_length);
     memcpy(file + folder_length, "/00001.ts", 9);
     file[folder_length + 9] = 0;
     struct stat buffer;
-    int num_ts_files;
+    uint32_t num_ts_files;
     for (num_ts_files = 1; num_ts_files < 100000; ++num_ts_files) {
       stringhelpers_internal::addCharsUg0be(file + folder_length + 6, num_ts_files);
       if (stat (file, &buffer) != 0) break;
     }
+*/
     return num_ts_files - 1;
   }
 
