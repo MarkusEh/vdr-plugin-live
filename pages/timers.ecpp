@@ -180,7 +180,7 @@ using namespace vdrlive;
 				<td class="leftcol <? bottom ? "bottomrow" ?>"><img src="<$ LiveSetup().GetThemedLink("img", timerStateImg) $>" alt="" <%cpp> if (!timerStateHint.empty()) { </%cpp><& tooltip.hint text=(timerStateHint) &> <%cpp> } </%cpp>/></td>
           <td class="<? bottom ? "bottomrow" ?>"><div class="withmargin">
              <table class="noborder"><tr><td class="noborder"><span class="display-xs nowrap" > <$ cToSvDateTime(tr("%I:%M %p"), timer->StartTime()) $> - <$ cToSvDateTime(tr("%I:%M %p"), timer->StopTime()) $></span></td></tr>
-             <tr><td class="noborder"><a href="schedule.html?channel=<$ timer->Channel()->Number()$>"><$ timer->Channel()->Name() $></a></td></tr>
+             <tr><td class="noborder"><a href="schedule.html?channel=<$ timer->Channel()->Number()$>" title="<$*cSource::ToString(timer->Channel()->Source() )$>"><$ timer->Channel()->Name() $></a></td></tr>
 </table>
           </div></td>
 %         std::string longDescriptionTitle = longDescription.empty()?"":"title=\""+longDescription+"\"";
