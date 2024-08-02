@@ -127,19 +127,22 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 								<td class="leftcol <? bottom ? "bottomrow" ?>"><img src="<$ LiveSetup().GetThemedLink("img", timerStateImg) $>" alt="" <%cpp> if (!timerStateHint.empty()) { </%cpp><& tooltip.hint text=(timerStateHint) &><%cpp> } </%cpp>/ ></td>
 								<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin">
                    <table class="noborder"><tr><td class="noborder"><span class="display-xs nowrap" > <$ cToSvDateTime(tr("%I:%M %p"), timer->StartTime()) $> - <$ cToSvDateTime(tr("%I:%M %p"), timer->StopTime()) $></span></td></tr>
-                   <tr><td class="noborder"><a href="schedule.html?channel=<$ timer->Channel()->Number()$>"><$ timer->Channel()->Name() $></a></td></tr>
+                   <tr><td class="noborder"><a href="schedule.html?channel=<$ timer->Channel()->Number()$>" title="<$trVDR("Source")$>: <$*cSource::ToString(timer->Channel()->Source() )$>, <$trVDR("Tpid")$>: <$timer->Channel()->Tid()$>"><$ timer->Channel()->Name() $></a></td></tr>
                    <tr><td class="noborder" style="padding-top:2pt"><span class="display-xs" title ="<$ trVDR("Priority") $>"><$ timer->Priority() $> </span></td></tr></table>
                 </div></td>
 								<td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin nowrap" title="<$ trVDR("Start")$>"><$ cToSvDateTime(tr("%I:%M %p"), timer->StartTime()) $>  </div></td>
 								<td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin nowrap" title="<$ trVDR("Stop")$>"><$ cToSvDateTime(tr("%I:%M %p"), timer->StopTime()) $>  </div></td>
 								<td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin nowrap" title="<$ trVDR("Duration")$>"><$ FormatDuration(tr("%d:%02d"), timer->StopTime() - timer->StartTime()) $></div></td>
 								<td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin" title="<$ trVDR("Priority") $>"><$ timer->Priority() $></div></td>
-								<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><a
+								<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin">
 %               if(epgEvent) {
-			      			<& tooltip.display domId=(epgEvent->Id()) &>
-%               }
+			      			<a <& tooltip.display domId=(epgEvent->Id()) &>
 						      class="apopup" title="<$$longDescription$>"
-								><$$ StringReplace(timerFile, "~", "~<wbr>") $></a></div></td>
+								><$$ StringReplace(timerFile, "~", "~<wbr>") $></a>
+%               } else {
+								 <$$ StringReplace(timerFile, "~", "~<wbr>") $>
+%               }
+                </div></td>
 
 								<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin">
 %								if ( !timer->Local() || searchTimId.empty() ) {
