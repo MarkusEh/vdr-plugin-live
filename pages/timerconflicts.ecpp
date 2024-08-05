@@ -127,7 +127,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 								<td class="leftcol <? bottom ? "bottomrow" ?>"><img src="<$ LiveSetup().GetThemedLink("img", timerStateImg) $>" alt="" <%cpp> if (!timerStateHint.empty()) { </%cpp><& tooltip.hint text=(timerStateHint) &><%cpp> } </%cpp>/ ></td>
 								<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin">
                    <table class="noborder"><tr><td class="noborder"><span class="display-xs nowrap" > <$ cToSvDateTime(tr("%I:%M %p"), timer->StartTime()) $> - <$ cToSvDateTime(tr("%I:%M %p"), timer->StopTime()) $></span></td></tr>
-                   <tr><td class="noborder"><a href="schedule.html?channel=<$ timer->Channel()->Number()$>" title="<$trVDR("Source")$>: <$*cSource::ToString(timer->Channel()->Source() )$>, <$trVDR("Tpid")$>: <$timer->Channel()->Tid()$>"><$ timer->Channel()->Name() $></a></td></tr>
+                   <tr><td class="noborder"><a href="schedule.html?channel=<$ timer->Channel()->Number()$>" title="<$tr("Transponder")$>: <$*cSource::ToString(timer->Channel()->Source() )$>-<$cToSvConcat(timer->Channel()->Frequency())$>-<$timer->Channel()->Parameters()$>"><$ timer->Channel()->Name() $></a></td></tr>
                    <tr><td class="noborder" style="padding-top:2pt"><span class="display-xs" title ="<$ trVDR("Priority") $>"><$ timer->Priority() $> </span></td></tr></table>
                 </div></td>
 								<td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin nowrap" title="<$ trVDR("Start")$>"><$ cToSvDateTime(tr("%I:%M %p"), timer->StartTime()) $>  </div></td>

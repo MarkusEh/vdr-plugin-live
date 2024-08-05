@@ -1058,6 +1058,9 @@ msgstr "Dauer"
 msgid "Timer is recording."
 msgstr "Timer zeichnet auf."
 
+msgid "Transponder"
+msgstr "Transponder"
+
 msgid "Users"
 msgstr "Benutzer"
 
