@@ -482,8 +482,11 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
 // no sufficient match in short text / description
 // get best match from length of event match
   int num_match_rec = RecordingsItemPtrCompare::FindBestMatch(RecItem, equalName.first, equalName.second, dummy);
-  if (num_match_rec == 0 || num_match_rec > 5) return false; // no matching length or series (too many matching lengths)
-  return true;
+  if (num_match_rec > 5) return false; // series (too many matching lengths)
+  if (num_match_rec > 0) return true;
+// no matching length
+  RecItem = *equalDuplicates.first;
+  return !scraperVideo;
 }
 
 	/**
