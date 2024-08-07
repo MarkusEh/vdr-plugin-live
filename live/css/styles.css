@@ -800,6 +800,10 @@ div.content div.tools {
 	vertical-align: top;
 }
 
+div.content div.whatson_info {
+	margin-left: 31px;
+}
+
 div.content div.tools img {
 	margin: 2px 5px;
 }
@@ -818,8 +822,8 @@ div.short {
 }
 
 div.info {
-	margin: 5px 5px 0px 0px;
-        overflow: hidden;
+	margin: 5px 5px 0px 5px;
+	overflow: hidden;
 }
 
 div.info div.duration {
@@ -843,7 +847,7 @@ div.info div.date {
 div.progress {
 	overflow: hidden;
 	padding: 2px 0px;
-	margin: 0px;
+	margin: 0px 5px 0px 0px;
 }
 
 div.progress div {
@@ -1353,7 +1357,8 @@ div.epg_content {
 div.epg_content div.epg_tools {
 	float: left;
 	width: 26px;
-	margin: 0 9px 0 0;
+	margin: 0 5px 0 0;
+	margin: 0 5px 0 0;
 	padding: 0;
 	padding-top: 3px;
 	text-align: center;

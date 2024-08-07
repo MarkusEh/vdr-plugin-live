@@ -203,15 +203,16 @@ if (type == "now") {
 					<div class="tools">
 						<& pageelems.epg_tool_box detail=(1) epgid=(epgEvent->Id()) title=(epgEvent->Title()) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) &>
 					</div>
-					<div>
+					<div class="whatson_info">
 						<div class="info nowrap"><div class="date margin_right"><$ (startDate) $></div><div class="time"><$ (timeSpan) $></div></div>
 						<div class="progress"><div><& pageelems.progressbar progress=(epgEvent->Elapsed()) duration=(epgEvent->Duration()) &></div></div>
 						<div class="title withmargin"><$ (epgEvent->Title()) $></div>
 						<div class="short withmargin"><$ (epgEvent->ShortDescr()) $></div>
-						<div class="description withmargin"><$ truncDescription $></div>
+						<div class="description withmargin"><$ truncDescription $>
 %						if (truncated) {
-							<div class="more withmargin"><a <& tooltip.hint text=(longDescription) &><& tooltip.display domId=(epgEvent->Id()) &>><$ 	tr("more") $> ...</a></div>
+							...</div><div class="more withmargin"><a <& tooltip.hint text=(longDescription) &><& tooltip.display domId=(epgEvent->Id()) &>><$ tr("more") $></a>
 %						}
+						</div>
 					</div>
 				</div>
 			</div>

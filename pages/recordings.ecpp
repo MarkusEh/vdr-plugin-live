@@ -241,7 +241,7 @@ function RecordingsSt_int(s, level, displayFolder, data) {
     if (displayFolder == 1) folder = obj[18]
     else folder = ''
     s.a += '<div class="withmargin">'
-    addEventRec(s, 'recording_', obj[0], obj[14], folder, obj[15], obj[16], '<$$lf$>', '<$tr("Click to view details.")$>', '<$ sort $>', '<$ filter $>', '<$ flat $>', <$ history_num_back+1 $>);
+    addEventRec(s, 'recording_', obj[0], obj[14], folder, obj[15], obj[16], obj[16] ? '<$$lf$><$$lf$>' : '', '<$tr("Click to view details.")$>', '<$ sort $>', '<$ filter $>', '<$ flat $>', <$ history_num_back+1 $>);
     s.a += '</div></div></td>'  // end if recording_name / short description
     s.a += '<td><div class=\"recording_actions\">'
     if (obj[1].length == 0) {

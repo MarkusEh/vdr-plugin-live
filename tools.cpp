@@ -178,12 +178,12 @@ template<class T>
       AppendHtmlEscapedAndCorrectNonUTF8(target, text);
     else if (lb < MAX_LEN_ST) {
       AppendHtmlEscapedAndCorrectNonUTF8(target, text, text + lb);
-      target.append("...");
+      target.append(" ...");
     } else {
       const char *end = text + MAX_LEN_ST;
       for (; *end && *end != ' ' && *end != 10 && *end != 13; end++);
       AppendHtmlEscapedAndCorrectNonUTF8(target, text, end);
-      if (*end) target.append("...");
+      if (*end) target.append(" ...");
     }
   }
 template void AppendTextMaxLen<std::string>(std::string &target, const char *text);
@@ -197,7 +197,7 @@ template<class T>
     const char *end = text + std::min((int)strlen(text), max_len);
     for (; *end && *end != ' '; end++);
     AppendHtmlEscapedAndCorrectNonUTF8(target, text, end, tooltip);
-    if (*end) target.append("...");
+    if (*end) target.append(" ...");
   }
 template void AppendTextTruncateOnWord<std::string>(std::string &target, const char *text, int max_len, bool tooltip);
 template void AppendTextTruncateOnWord<cToSvConcat<0>>(cToSvConcat<0> &target, const char *text, int max_len, bool tooltip);

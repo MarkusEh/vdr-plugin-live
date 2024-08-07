@@ -575,12 +575,12 @@ std::vector<time_t>			times_start;
                          if ( en.row_count>3 && ! en.description_trunc.empty() )
                          {
 </%cpp>
-                          <div class="description withmargin"><$en.description_trunc$>...
+                          <div class="description withmargin"><$en.description_trunc$>
 <%cpp>
                            if ( en.truncated )
                            {
 </%cpp>
-                           <a <& tooltip.hint text=(StringEscapeAndBreak(tr("Click to view details."))) &><& tooltip.display domId=en.epgid &>> <$ tr("more") $></a>
+                           ... <a <& tooltip.hint text=(StringEscapeAndBreak(tr("Click to view details."))) &><& tooltip.display domId=en.epgid &>><$ tr("more") $></a>
 <%cpp>
                            }
 </%cpp>

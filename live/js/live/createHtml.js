@@ -27,7 +27,7 @@ function truncateOnWordIdx(str, limit) {
 function truncateOnWord(str, limit) {
   var l = truncateOnWordIdx(str, limit)
   if (str.length == l) return str
-  return str.slice(0,l) + '...'
+  return str.slice(0,l) + ' ...'
 }
 
 function addTime(s, time) {
@@ -76,15 +76,15 @@ function addTruncMedia(s, text, lims, liml) {
   s.a += text.slice(0,ls)
   if (text.length == ls) return
   if (text.length <= lims) {
-    s.a += '...'
+    s.a += ' ...'
     return
   }
   var ll = truncateOnWordIdx(text, liml)
   s.a += '<span class="hidden-xs">'
   s.a += text.slice(ls, ll)
   s.a += '</span>'
-  if (text.length == ll) s.a += '<span class="display-xs">...</span>'
-  else s.a += '...'
+  if (text.length == ll) s.a += '<span class="display-xs"> ...</span>'
+  else s.a += ' ...'
 }
 
 function add2ndLine(s, shortText, description) {
