@@ -642,7 +642,7 @@ msgid "Existing Recording:"
 msgstr "Vorhandene Aufnahme:"
 
 msgid "Stream this channel into browser."
-msgstr "Diese Kanal im Browser ansehen."
+msgstr "Diesen Kanal im Browser ansehen."
 
 msgid "Stream this channel into media player."
 msgstr "Sender in Mediaplayer abspielen."

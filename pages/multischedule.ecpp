@@ -564,7 +564,7 @@ std::vector<time_t>			times_start;
                           <& pageelems.imdb_info_href title=(en.title) &>
 			<%cpp> } </%cpp>
                          </div><div class= "start withmargin"><$ en.start $></div>
-			  <div class="title withmargin"><a <& tooltip.hint text=(StringEscapeAndBreak(tr("Click to view details."))) &><& tooltip.display domId=en.epgid &>><$ en.title $></a></div>
+			  <div class="title withmargin"><$ en.title $></div>
 <%cpp>
                          if ( en.row_count>2 && !en.short_description.empty() )
                          {
@@ -580,7 +580,7 @@ std::vector<time_t>			times_start;
                            if ( en.truncated )
                            {
 </%cpp>
-                           ... <a <& tooltip.hint text=(StringEscapeAndBreak(tr("Click to view details."))) &><& tooltip.display domId=en.epgid &>><$ tr("more") $></a>
+                           ...</div><div class="more withmargin"><a <& tooltip.hint text=(StringEscapeAndBreak(tr("Click to view details."))) &><& tooltip.display domId=en.epgid &>><$ tr("more") $></a>
 <%cpp>
                            }
 </%cpp>

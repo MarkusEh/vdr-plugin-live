@@ -998,7 +998,7 @@ table.mschedule div.content1 {
 }
 
 table.mschedule div.content1>div {
-        margin: 5px 5px 5px 7px;
+        margin: 5px 0px 5px 0px;
 }
 
 table.mschedule div.tools1 {
@@ -1024,8 +1024,8 @@ table.mschedule tr td div.description {
 }
 
 table.mschedule a {
-	color: black;
-	font-weight: bold;
+	// color: black;
+	// font-weight: bold;
 }
 
 table.mschedule a>img {
@@ -1056,6 +1056,7 @@ div.boxheader > div > div {
 	margin-right: 3px;
 	margin-left: 3px;
 	padding-left: 5px;
+	padding-right: 5px;
 	padding-top: 2px;
 	color: white;
 	font-weight: bold;
