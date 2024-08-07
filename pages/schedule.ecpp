@@ -181,7 +181,7 @@ if(recItemFound) {
    <span>
      <label for="channel"><$ tr("Channel") $>:&nbsp;<span class="bold"><$ cToSvInt(Channel->Number()) $></span></label>
      <& channels_widget name=("channel") selected=(Channel ? cSv(cToSvConcat(Channel->GetChannelID())) : cSv() ) onchange=("document.forms.channels.submit()") &>
-%    if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
+%    if (cDevice::PrimaryDevice() ) {
        <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(Channel->GetChannelID()) image="zap.png" alt="" &>
 %    }
      <& pageelems.hls_channel channelId=(Channel->GetChannelID()) &>

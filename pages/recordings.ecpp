@@ -156,6 +156,12 @@ function RecordingActionS(s, id, A, Img, Title) {
   s.a += '\" /></a>'
 }
 
+function RecordingActionPlaylist(s, id) {
+  s.a += '<a <? !LiveSetup().GetShowPlayMediaplayer() ?"class=\"hidden-xs\" "?> href=\"playlist.m3u?recid=recording_'
+  s.a += id
+  s.a += '&sort=<$currentSort$>&filter=<$currentFilter$>&flat=<$currentFlat$>&history_num_back=<$history_num_back+1$>\" title=\"<$tr("Stream this recording into media player.")$>\" download><img class=\"icon<? !LiveSetup().GetShowPlayMediaplayer() ?" hidden-xs"?>\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>playlist.png\" /></a>'
+}
+
 <#
 // [0] : ID (prefix "recording_" removed !!!)
 // [1] : ArchiveDescr()
@@ -242,9 +248,13 @@ function RecordingsSt_int(s, level, displayFolder, data) {
 %     if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
         RecordingActionS(s, obj[0], "vdr_request/play_recording?param=", "play.png", "<$tr("play this recording")$>")
 %     }
+      RecordingActionPlaylist(s, obj[0])
+<#
 %     if (LiveSetup().GetShowPlayMediaplayer() ) {
         RecordingActionS(s, obj[0], "playlist.m3u?recid=", "playlist.png", "<$tr("Stream this recording into media player.")$>\\\" download=\\\"playlist.m3u")
-%     } if (LiveSetup().GetShowIMDb() ) {
+%     }
+#>
+%     if (LiveSetup().GetShowIMDb() ) {
         IMDBS(s, obj[2], obj[14])
 %     }
       RecordingActionS(s, obj[0], "edit_recording.html?recid=", "edit.png", "<$tr("Edit recording")$>")

@@ -487,6 +487,10 @@ div#pagemenu form {
 	display: inline;
 }
 
+div#pagemenu form#remote input {
+	margin-left: 1em;
+}
+
 div#pagemenu a {
 	color: black;
 	font-weight: bold;

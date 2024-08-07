@@ -368,11 +368,12 @@ if (s_IMDB_ID.empty() ) { </%cpp>
 <%def hls_channel>
 <%args>
 	std::string channelId;
+	std::string class_;
 </%args>
 <%cpp>
 if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded()) {
 </%cpp>
-<a href="stream.html?channelid_str=<$ channelId $>"><img src="<$ LiveSetup().GetThemedLink("img", "stream_button.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into browser.")) &> /></a>
+<a class="<$class_$>" href="stream.html?channelid_str=<$ channelId $>"><img class="<$class_$>" src="<$ LiveSetup().GetThemedLink("img", "stream_button.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into browser.")) &> /></a>
 <%cpp>
 }
 </%cpp>
@@ -383,11 +384,12 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 <%def m3u_playlist_channel>
 <%args>
 	std::string channelId;
+	std::string class_;
 </%args>
 <%cpp>
-if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded()) {
+if (LiveFeatures<features::streamdev_server>().Loaded()) {
 </%cpp>
-<a href="playlist.m3u?channel_str=<$ channelId $>"><img src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into media player.")) &> /></a>
+<a class="<$class_$>" href="playlist.m3u?channel_str=<$ channelId $>" download><img class="<$class_$>" src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into media player.")) &> /></a>
 <%cpp>
 }
 </%cpp>
@@ -409,7 +411,6 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 // cToSvConcat url("intent://", server, ":", LiveSetup().GetServerPort(), "/recstream.html?recid=", recid, "#Intent;scheme=http;package=org.videolan.vlc;end");
 
 cToSvConcat url("playlist.m3u?recid=", recid);
-// orig href:  href="playlist.m3u?recid=<$ recid $>"
 {
 </%cpp><a href="<$ url $>" download><img src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint text=(tr("Stream this recording into media player.")) &> /> <$ linkText $></a>
 <%cpp>
@@ -630,32 +631,34 @@ if (!rfid.empty() ) {
 	}
 	else { // table output
 </%cpp>
-		<td class="action leftcol <? lastCurrentChanel ? "bottomrow"?>"><& pageelems.event_timer epgid=(epgid) &></td>
-<%cpp>
-    if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
-</%cpp>
-		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channelId) image="zap.png" alt="" &></td>
-		<%cpp> } if (LiveFeatures<features::epgsearch>().Recent()) { </%cpp>
-		<td class="action <? lastCurrentChanel ? "bottomrow"?>">
-			<%cpp> if (eventId) { </%cpp>
-			<a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a></td>
-		<%cpp> } } </%cpp>
-		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><%cpp>if ((duration == 0) || (elapsed > 0)) { </%cpp><& pageelems.hls_channel channelId=(channelId) &><%cpp> } </%cpp></td>
-		<%cpp> if (LiveSetup().GetShowPlayMediaplayer() ) { </%cpp>
-		<td class="action <? lastCurrentChanel ? "bottomrow"?>"><%cpp>if ((duration == 0) || (elapsed > 0)) { </%cpp><& pageelems.m3u_playlist_channel channelId=(channelId) &><%cpp> } </%cpp></td>
-		<%cpp> } if (LiveSetup().GetShowIMDb() ) { </%cpp>
-		<td class="action <? lastCurrentChanel ? "bottomrow"?>">
-<%cpp>
-			if (eventId != 0) {
-</%cpp>
-			<& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID) &>
-<%cpp>
-			}
-</%cpp>
-		</td>
-<%cpp>
-	} }
-</%cpp>
+  <td class="action leftcol <? lastCurrentChanel ? "bottomrow"?>"><& pageelems.event_timer epgid=(epgid) &></td>
+% if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
+    <td class="action <? lastCurrentChanel ? "bottomrow"?>"><& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channelId) image="zap.png" alt="" &></td>
+% } if (LiveFeatures<features::epgsearch>().Recent()) {
+      <td class="action <? lastCurrentChanel ? "bottomrow"?>">
+%     if (eventId) {
+        <a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a>
+%     }
+      </td>
+% } if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded() ) {
+    <td class="<? !LiveSetup().GetShowPlayMediaplayer() ?"td-hidden-xs "?>action<? lastCurrentChanel ? " bottomrow"?>">
+%   if ((duration == 0) || (elapsed > 0)) {
+      <& pageelems.hls_channel channelId=(channelId) class_=(LiveSetup().GetShowPlayMediaplayer()?"":"hidden-xs")&>
+%   }
+    </td>
+% } if (LiveFeatures<features::streamdev_server>().Loaded() ) {
+    <td class="<? !LiveSetup().GetShowPlayMediaplayer() ?"td-hidden-xs "?>action<? lastCurrentChanel ? " bottomrow"?>">
+%   if ((duration == 0) || (elapsed > 0)) {
+      <& pageelems.m3u_playlist_channel channelId=(channelId) class_=(LiveSetup().GetShowPlayMediaplayer()?"":"hidden-xs")&>
+%   }
+    </td>
+% } if (LiveSetup().GetShowIMDb() ) {
+    <td class="action <? lastCurrentChanel ? "bottomrow"?>">
+%   if (eventId != 0) {
+      <& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID) &>
+%   }
+    </td>
+%} }
 </%def>
 
 <# ---------------------------------------------------------------------- #>

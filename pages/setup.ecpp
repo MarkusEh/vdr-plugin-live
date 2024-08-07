@@ -5,6 +5,7 @@
 #include <tools.h>
 #include <users.h>
 #include <live.h>
+#include <livefeatures.h>
 
 using namespace vdrlive;
 
@@ -197,6 +198,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
               <input type="checkbox" name="showInfoBox" id="showInfoBox" value="1"<%cpp> CHECKIF(!showInfoBox.empty()); </%cpp>/>
 						</td>
 					</tr>
+% if (LiveFeatures<features::streamdev_server>().Loaded()) {
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Allow video streaming") $>:</div></td>
 						<td class="rightcol">
@@ -219,13 +221,17 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 								<td class="label"><div class="withmargin"><$ tr("Web-Streaming others") $>:</div></td>
 								<td><input type="text" name="streamVideoOpt3" id="streamVideoOpt3" size="100" value="<$ streamVideoOpt3 $>" /></td>
 							</tr>
+							</table>
+							</div>
+						</td>
+					</tr>
 							<tr>
-								<td class="label"><div class="withmargin"><$ tr("Streamdev server port") $>:</div></td>
-								<td><input type="text" name="streamdevport" id="streamdevport" value="<$ streamdevport $>" /></td>
+								<td class="label leftcol"><div class="withmargin"><$ tr("Streamdev server port") $>:</div></td>
+								<td class="rightcol"><input type="text" name="streamdevport" id="streamdevport" value="<$ streamdevport $>" /></td>
 							</tr>
 							<tr>
-								<td class="label"><div class="withmargin"><$ tr("Streamdev stream type") $>:</div></td>
-								<td><select name="streamdevtype" size="1" id="streamdevtype">
+								<td class="label leftcol"><div class="withmargin"><$ tr("Streamdev stream type") $>:</div></td>
+								<td class="rightcol"><select name="streamdevtype" size="1" id="streamdevtype">
 									<option value="TS" <%cpp> SELECTIF(streamdevtype == "TS") </%cpp>>TS</option>
 									<option value="PES" <%cpp> SELECTIF(streamdevtype == "PES") </%cpp>>PES</option>
 									<option value="PS" <%cpp> SELECTIF(streamdevtype == "PS") </%cpp>>PS</option>
@@ -233,10 +239,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 									<option value="EXT" <%cpp> SELECTIF(streamdevtype == "EXT") </%cpp>>EXT</option>
 								</select></td>
 							</tr>
-							</table>
-							</div>
-						</td>
-					</tr>
+% }   // endif LiveFeatures<features::streamdev_server>().Loaded()
                                         <tr>
                                                 <td class="label leftcol"><div class="withmargin"><$ tr("Mark new recordings") $>:</div></td>
                                                 <td class="rightcol">
@@ -249,12 +252,14 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 							<input type="checkbox" name="showIMDb" id="showIMDb" value="1"<%cpp> CHECKIF(!showIMDb.empty()); </%cpp>/>
 						</td>
 					</tr>
+<#
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Show \"Play in Mediaplayer\" in list views") $>:</div></td>
 						<td class="rightcol">
 							<input type="checkbox" name="showPlayMediaplayer" id="showPlayMediaplayer" value="1"<%cpp> CHECKIF(!showPlayMediaplayer.empty()); </%cpp>/>
 						</td>
 					</tr>
+#>
 					<tr>
 						<td class="label leftcol"><div class="withmargin"><$ tr("Last channel to display") $>:</div></td>
 						<td class="rightcol"><input type="number" min="0" name="lastchannel" value="<$ lastchannel $>" id="lastchannel" /></td>

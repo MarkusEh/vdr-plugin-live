@@ -42,7 +42,7 @@ Setup::Setup():
 		m_showInfoBox(1),
 		m_useStreamdev(1),
 		m_streamdevPort(3000),
-		m_streamdevType(),
+		m_streamdevType("TS"),
 		m_markNewRec(1),
 
 		m_streamVopt0("ffmpeg -loglevel warning -f mpegts -analyzeduration 1.2M -probesize 5M -i <input> -map 0:v -map 0:a:0 "

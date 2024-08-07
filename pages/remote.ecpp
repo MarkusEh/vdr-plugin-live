@@ -14,7 +14,7 @@ using namespace vdrlive;
 <%session scope="global">
 bool logged_in(false);
 </%session>
-<%request scope="page">
+<%request scope="global">
 	cChannel* Channel;
 </%request>
 <%include>page_init.eh</%include>
@@ -346,10 +346,18 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <%include>page_exit.eh</%include>
 
 <%def remote_actions>
-<b><$ tr("Selection") $></b>:&nbsp;
+<form id="remote"><span>
+<span class="label bold"><$ tr("Selection") $>: </span>
 %	if ( LiveGrabImageManager().CanGrab()) {
-	 <input type="radio" name="screenCon" id="screenCon_grab" onchange="changeScreenContent()"/>&nbsp;<label for="screenCon_grab"><$ tr("Snapshot interval") $>:</label> <select name="interval" onchange="ChangeInterval()"></select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -
+	 <input type="radio" name="screenCon" id="screenCon_grab" onchange="changeScreenContent()"/>&nbsp;<label for="screenCon_grab"><$ tr("Snapshot interval") $>:</label> <select name="interval" onchange="ChangeInterval()"></select>
 % }
- <input type="radio" name="screenCon" id="screenCon_osd" onchange="changeScreenContent()" />&nbsp;<label for="screenCon_osd">OSD</label> -
+ <input type="radio" name="screenCon" id="screenCon_osd" onchange="changeScreenContent()" />&nbsp;<label for="screenCon_osd">OSD</label>
  <input type="radio" name="screenCon" id="screenCon_none" onchange="changeScreenContent()" />&nbsp;<label for="screenCon_osd"><$ tr("Stop") $></label>
+<span class="sep">&nbsp;</span>
+% if (Channel) {
+<span class="sep">|</span>
+ <& pageelems.hls_channel channelId=(Channel->GetChannelID()) &>
+ <& pageelems.m3u_playlist_channel channelId=(Channel->GetChannelID()) &>
+% }
+</span></form>
 </%def>

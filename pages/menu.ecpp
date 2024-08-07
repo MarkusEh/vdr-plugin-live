@@ -49,7 +49,7 @@ if ( LiveFeatures<features::epgsearch>().Recent() ) {
   | <a href="recordings.html?flat=true&filter=<$filter$>"<& menu.setactive current=("recordings_flat") &>><$ tr("Recordings (flat)") $></a>
   | <a href="remote.html"<& menu.setactive current=("remote") &>><$ tr("Remote Control") $></a>
 <%cpp>
-if (LiveSetup().GetUseStreamdev()) {
+if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded()) {
 </%cpp>
   | <a href="stream.html"<& menu.setactive current=("stream") &>><$ tr("Web-Streaming") $></a>
 <%cpp>

@@ -4,6 +4,7 @@
 #include <tools.h>
 #include <users.h>
 #include <recman.h>
+#include <livefeatures.h>
 
 using namespace vdrlive;
 
@@ -40,14 +41,12 @@ using namespace vdrlive;
 	std::string videourl;
 	reply.setContentType("audio/x-mpegurl");
 	if (Channel != 0) {
-		std::string channelname = Channel->Name();
-		int streamdevPort = LiveSetup().GetStreamdevPort();
-		videourl = concat("#EXTM3U\n#EXTINF:-1,", channelname, "\nhttp://", server, ":", cToSvInt(streamdevPort), "/", LiveSetup().GetStreamdevType(), "/", *Channel->GetChannelID().ToString());
+		videourl = concat("#EXTM3U\n#EXTINF:-1,", Channel->Name(), "\nhttp://", server, ":", cToSvInt(LiveSetup().GetStreamdevPort()), "/", LiveSetup().GetStreamdevType(), "/", *Channel->GetChannelID().ToString());
 	}
 	else {
+    const cRecording* recording = LiveRecordingsManager()->GetByMd5Hash(recid);
     cToSvConcat rfid;
-    if (LiveSetup().GetUseStreamdev() ) {
-      const cRecording* recording = LiveRecordingsManager()->GetByMd5Hash(recid);
+    if (LiveFeatures<features::streamdev_server>().Loaded()) {
       if (recording) {
         struct stat st;
         if (stat(recording->FileName(), &st) == 0)
@@ -56,9 +55,9 @@ using namespace vdrlive;
     }
 
     if (rfid.empty()) 
-      videourl = concat("#EXTM3U\n#EXTINF:-1\nhttp://", server, ":", cToSvInt(LiveSetup().GetServerPort()), "/recstream.html?recid=", recid);
+      videourl = concat("#EXTM3U\n#EXTINF:-1,", recording?recording->Name():"recording not found", "\nhttp://", server, ":", cToSvInt(LiveSetup().GetServerPort()), "/recstream.html?recid=", recid);
     else
-      videourl = concat("#EXTM3U\n#EXTINF:-1\nhttp://", server, ":", cToSvInt(LiveSetup().GetStreamdevPort()), "/", rfid, ".ts");
+      videourl = concat("#EXTM3U\n#EXTINF:-1,", recording?recording->Name():"recording not found", "\nhttp://", server, ":", cToSvInt(LiveSetup().GetStreamdevPort()), "/", LiveSetup().GetStreamdevType(), "/", rfid, ".ts");
 	}
 </%cpp>
 <& playlist.m3u videourl=(videourl) &>
