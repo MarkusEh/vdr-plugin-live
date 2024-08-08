@@ -472,62 +472,39 @@ inline cSv SecondPart(cSv str, cSv delim) {
 
 namespace stringhelpers_internal {
 
-template<typename T, std::enable_if_t<sizeof(T) >= 5, bool> = true>
-  inline int numCharsUg0(T i) {
-// note: i must be >= 0!!!!
-      int numChars = 1;
-      if (i >= 10000000000000000) { i /= 10000000000000000; numChars += 16; }
-      if (i >= 100000000) { i /= 100000000; numChars += 8; }
-      if (i >= 10000) { i /= 10000; numChars += 4; }
-      return numChars+(i >= 1000)+(i >= 100 )+(i >= 10  );
-  }
-template<typename T, std::enable_if_t<sizeof(T) <= 4, bool> = true>
-  inline int numCharsUg0(T i) {
-// note: i must be >= 0!!!!
-      int numChars = 1;
-      if (i >= 100000000) { i /= 100000000; numChars += 8; }
-      if (i >= 10000) { i /= 10000; numChars += 4; }
-      return numChars+(i >= 1000)+(i >= 100 )+(i >= 10  );
-  }
-template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
-  inline int numChars(T i) {
-    return numCharsUg0(i);
-  }
-template<typename T, std::enable_if_t<std::is_signed_v<T>, bool> = true>
-  inline int numChars(T i) {
-    if (i >= 0) return numCharsUg0(i);
-    typedef std::make_unsigned_t<T> TU;
-    return numCharsUg0(~(static_cast<TU>(i)) + static_cast<TU>(1)) + 1;
-  }
 // itoaN: Template for fixed number of characters, left fill with 0
-template<size_t N, typename T>
+// note: i must fit in N digits, this is not checked!
+template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
 inline typename std::enable_if<N == 0, char*>::type itoaN(char *b, T i) {
   return b;
 }
-template<size_t N, typename T>
+template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
+inline typename std::enable_if<N == 1, char*>::type itoaN(char *b, T i) {
+  b[0] = i + '0';
+  return b+N;
+}
+template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
 inline typename std::enable_if<N == 2, char*>::type itoaN(char *b, T i) {
   memcpy(b, to_chars10_internal::digits_100 + (i << 1), 2);
   return b+N;
 }
-
-template<size_t N, typename T>
+template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
 inline typename std::enable_if<N%2 == 0 && N >= 4, char*>::type itoaN(char *b, T i) {
   T q = i/100;
   memcpy(b+N-2, to_chars10_internal::digits_100 + ((i - q*100) << 1), 2);
   itoaN<N-2>(b, q);
   return b+N;
 }
-
 template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
-inline typename std::enable_if<N%2 != 0, char*>::type itoaN(char *b, T i) {
+inline typename std::enable_if<N%2 != 0 && N >=3, char*>::type itoaN(char *b, T i) {
   T q = i/10;
   b[N-1] = (i - q*10) + '0';
   itoaN<N-1>(b, q);
   return b+N;
 }
-//template<uint8_t N> uint64_t powN() {
 template<uint8_t N>
 inline typename std::enable_if<N <= 19, uint64_t>::type powN() {
+// return 10^N
   uint64_t r = 1;
   for (int i=0; i<N; i++) {
     r *= 10;
@@ -535,8 +512,12 @@ inline typename std::enable_if<N <= 19, uint64_t>::type powN() {
   return r;
 }
 
+template<size_t N, typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
+inline typename std::enable_if<N == 0, char*>::type itoa_min_width(char *b, T i) {
+  return to_chars10_internal::itoa(b, i);
+}
 template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
-inline typename std::enable_if<N <= 19, char*>::type itoa_min_width(char *b, T i) {
+inline typename std::enable_if<N >= 1 && N <= 19, char*>::type itoa_min_width(char *b, T i) {
   if (i < powN<N>() ) return itoaN<N, T>(b, i);
   T q = i/powN<N>();
   b = to_chars10_internal::itoa(b, q);
@@ -551,57 +532,12 @@ inline typename std::enable_if<N >= 20, char*>::type itoa_min_width(char *b, T i
   return itoaN<20, T>(b, i);
 }
 template<size_t N, typename T, std::enable_if_t<std::is_signed_v<T>, bool> = true>
-inline char *itoa_min_width(char *b, T i) {
+inline typename std::enable_if<N >= 1, char*>::type itoa_min_width(char *b, T i) {
   typedef std::make_unsigned_t<T> TU;
   if (i >= 0) return itoa_min_width<N, TU>(b, (TU)i);
   *b = '-';
-  if (N==0) return to_chars10_internal::itoa(b+1, ~(TU(i)) + (TU)1);
-  else      return itoa_min_width<N-1, TU>(b + 1, ~(TU(i)) + (TU)1);
+  return itoa_min_width<N-1, TU>(b + 1, ~(TU(i)) + (TU)1);
 }
-
-  template<class T> inline char *addCharsUg0be(char *be, T i) {
-// i > 0 must be ensured before calling!
-// make sure to have a large enough buffer size (20 + zero terminator if required)
-// be is buffer end. Last character is written to be-1
-// no zero terminator is written! You can make buffer large enough and set *be=0 before calling
-// position of first char is returned
-// length is be - returned value
-    while (i >= 10) {
-      be -= 2;
-      T q = i/100;
-      memcpy(be, to_chars10_internal::digits_100 + ((i-q*100) << 1), 2);
-      i = q;
-    }
-    if (i>0) *(--be) = '0' + i;
-    return be;
-  }
-  template<class T> inline char *addCharsIbe(char *be, T i) {
-// i can be any integer like type (signed, unsigned, ...)
-// only for internal use. Please use class cToSvInt instead
-//
-// make sure to have a large enough buffer size (20 + zero terminator if required)
-// be is buffer end. Last character is written to be-1
-// no zero terminator is written! You can make buffer large enough and set *be=0 before calling
-// position of first char is returned
-// length is be - returned value
-// Example:
-//  char buffer_i[21];
-//  buffer_i[20] = 0;
-//  std::cout << "\"" << stringhelpers_internal::addCharsIbe(buffer_i+20, 5) << "\"\n";
-// Example 2:
-//  char buffer2_i[20];
-//  char *result = stringhelpers_internal::addCharsIbe(buffer2_i+20, 6);
-//  std::cout << "\"" << cSv(result, buffer2_i + 20  - result)  << "\"\n";
-
-    if (i > 0) return addCharsUg0be(be, i);
-    if (i == 0) {
-      *(--be) = '0';
-      return be;
-    }
-    be = addCharsUg0be(be, -i);
-    *(--be) = '-';
-    return be;
-  }
 
 template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
   inline T addCharsHex(char *buffer, size_t num_chars, T value) {
@@ -769,7 +705,7 @@ template<std::size_t N> class cToSvFileN: public cToSv {
 // =========================================================
 
 // N: number of bytes in buffer on stack
-template<std::size_t N = 255>
+template<size_t N = 255>
 class cToSvConcat: public cToSv {
   public:
     cToSvConcat() {}
@@ -825,20 +761,6 @@ template<size_t M, typename T, std::enable_if_t<std::is_integral_v<T>, bool> = t
     cToSvConcat &appendInt(T i) {
       if (m_pos_for_append + std::max(M, (size_t)20) > m_be_data) ensure_free(std::max(M, (size_t)20));
       m_pos_for_append = stringhelpers_internal::itoa_min_width<M, T>(m_pos_for_append, i);
-      return *this;
-    }
-template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
-    cToSvConcat &appendInt(T i, size_t desired_width, char fill_char = '0') {
-      size_t len = stringhelpers_internal::numChars(i);
-      if (desired_width <= len) return concat(i);
-      if (m_pos_for_append + desired_width > m_be_data) ensure_free(desired_width);
-      if (i < 0 && fill_char == '0') {
-        *m_pos_for_append++ = '-';
-        i = -i;
-      }
-      memset(m_pos_for_append, fill_char, desired_width-len);
-      m_pos_for_append += desired_width-len;
-      m_pos_for_append = to_chars10_internal::itoa(m_pos_for_append, i);
       return *this;
     }
 template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
@@ -905,7 +827,7 @@ template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
       struct std::tm tm_r;
       if (localtime_r( &time, &tm_r ) == 0 ) {
         esyslog("live: ERROR, cToScConcat::appendDateTime localtime_r = 0, fmt = %s, time = %lld", fmt, (long long)time);
-        return *this; // we did not expect to need more than 1024 chars for the formatted time ...
+        return *this;
         }
       return appendDateTime(fmt, &tm_r);
     }
@@ -971,22 +893,29 @@ template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
     char  m_buffer_static[N+1];
     char *m_buffer_allocated = nullptr;
     char *m_buffer = m_buffer_static;
+  protected:
     char *m_pos_for_append = m_buffer;
     char *m_be_data = m_buffer + sizeof(m_buffer_static) - 1; // [m_buffer, m_be_data) is available for data.
 // It must be possible to write the 0 terminator to m_be_data: *m_be_data = 0.
 // m_pos_for_append <= m_be_data: must be always ensured.
 //   m_be_data - m_pos_for_append: Number of bytes available for write
+  private:
     mutable size_t m_reserve = 1024;
 };
 
-class cToSvInt: public cToSvConcat<20> {
+template<size_t N=0>
+class cToSvInt: public cToSvConcat<std::max(N, (size_t)20)> {
   public:
 template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
-    cToSvInt (T i): cToSvConcat(i) { }
+    cToSvInt(T i) {
+      this->m_pos_for_append = stringhelpers_internal::itoa_min_width<N>(this->m_pos_for_append, i);
+    }
+/*
 template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
     cToSvInt (T i, size_t desired_width, char fill_char = '0') {
-      appendInt(i, desired_width, fill_char);
+      this->appendInt(i, desired_width, fill_char);
     }
+*/
 };
 template<std::size_t N = 255> 
 class cToSvToLower: public cToSvConcat<N> {
