@@ -15,8 +15,7 @@
 
 #include <cstdint>
 #include <cstring>
-#include <charconv>
-#include <endian.h>
+#include <type_traits>
 
 namespace to_chars10_internal {
 
@@ -253,19 +252,6 @@ inline std::ptrdiff_t max_chars_for_to_chars10(T value) {
   return 20;
 }
 
-inline std::to_chars_result to_chars_error(char* last) {
-  std::to_chars_result res;
-  res.ec = std::errc::value_too_large;
-  res.ptr = last;
-  return res;
-}
-inline std::to_chars_result to_chars_success(char* last) {
-  std::to_chars_result res;
-  res.ec = std::errc();
-  res.ptr = last;
-  return res;
-}
-
 template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
 inline bool to_chars10_range_check(char* first, char* last, T value) {
 // return true if [first, last) is large enough for value
@@ -281,13 +267,5 @@ inline bool to_chars10_range_check(char* first, char* last, T value) {
 }
 
 }  // end of namespace to_chars10_internal
-
-template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
-inline std::to_chars_result to_chars10(char* first, char* last, T value) {
-// same as std::to_chars(char* first, char* last, T value, 10)
-  if (__builtin_expect(to_chars10_internal::to_chars10_range_check(first, last, value), true))
-    return to_chars10_internal::to_chars_success(to_chars10_internal::itoa(first, value));
-  return to_chars10_internal::to_chars_error(last);
-}
 
 #endif // TO_CHARS10_H
