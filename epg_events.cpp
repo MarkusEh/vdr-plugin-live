@@ -344,25 +344,30 @@ namespace vdrlive
 			globbuf.gl_offs = 0;
 			if (!LiveSetup().GetEpgImageDir().empty() && glob(filemask.c_str(), GLOB_DOOFFS, NULL, &globbuf) == 0) {
 				for(size_t i = 0; i < globbuf.gl_pathc; i++) {
-					const std::string imagefile(globbuf.gl_pathv[i]);
+					const std::string_view imagefile(globbuf.gl_pathv[i]);
 					size_t delimPos = imagefile.find_last_of('/');
-					images.push_back(imagefile.substr(delimPos+1));
+					images.push_back(std::move(std::string(imagefile.substr(delimPos+1))));
 					found = true;
 				}
 				globfree(&globbuf);
 			}
 			return found;
 		}
+		bool ScanForEpgImages(cSv channelId, cSv eventId, cSv wildcard, std::list<std::string> & images)
+		{
+      if (LiveSetup().GetEpgImageDir().empty() ) return false;
+			if (ScanForEpgImages(cToSvConcat(channelId, "_", eventId), wildcard, images)) return true;
+			return ScanForEpgImages(eventId, wildcard, images);
+    }
 
 		bool ScanForRecImages(cSv imageId, cSv recfolder , std::list<std::string> & images)
 		{
+// format of imageId: <hashed recording file name>
+			if (recfolder.empty()) return false;
+
 			bool found = false;
 			const std::string filetypes[] = {"png", "jpg", "webp", "PNG", "JPG"};
 			int size = sizeof(filetypes)/sizeof(filetypes[0]);
-
-			if (recfolder.empty()) {
-				return found;
-			}
 
 			for (int j = 0; j < size; j++)
 			{
@@ -371,21 +376,18 @@ namespace vdrlive
 				globbuf.gl_offs = 0;
 				if (glob(filemask.c_str(), GLOB_DOOFFS, NULL, &globbuf) == 0) {
 					for(size_t i = 0; i < globbuf.gl_pathc; i++) {
-						const std::string imagefile(globbuf.gl_pathv[i]);
-						const std::string imagecopy(imagefile);
-
+						const std::string_view imagefile(globbuf.gl_pathv[i]);
 						size_t delimPos = imagefile.find_last_of('/');
-						images.push_back(imagefile.substr(delimPos+1));
+						const std::string_view imagename(imagefile.substr(delimPos+1));
+						images.push_back(std::move(std::string(imagename)));
 
 						// create a temporary symlink of the image in /tmp
-						const std::string imagename(imagefile.substr(delimPos+1));
-						const std::string tmpfile = concat("/tmp/", imageId, "_", imagename);
+						cToSvConcat tmpfile("/tmp/", imageId, "_", imagename);
+            cToSvConcat cmdBuff("ln -s \"", imagefile, "\" \"", tmpfile, "\"");
 
-						char cmdBuff[500];
-						sprintf(cmdBuff,"ln -s \"%s\" \"%s\"",imagefile.c_str(),tmpfile.c_str());
-						int s = system(cmdBuff);
+						int s = system(cmdBuff.c_str() );
 						if (s < 0)
-							esyslog("live: ERROR: Couldn't execute command %s", cmdBuff);
+							esyslog("live: ERROR: Couldn't execute command %s", cmdBuff.c_str() );
 						found = true;
 					}
 					globfree(&globbuf);
@@ -413,27 +415,39 @@ namespace vdrlive
 
 		std::list<std::string> EpgImages(cSv epgid)
 		{
-			size_t delimPos = epgid.find_last_of('_');
-			cSv imageId = epgid.substr(delimPos+1);
+// format of epgid: event_<encoded channel>_<epgid>
+
+			size_t delimPosFirst = epgid.find_first_of('_');
+			size_t delimPosLast = epgid.find_last_of('_');
+			cSv channelIdStr_enc = epgid.substr(delimPosFirst+1, delimPosLast-delimPosFirst-1);
+			std::string channelId = vdrlive::DecodeDomId(channelIdStr_enc, "mp", "-.");
+			cSv eventId = epgid.substr(delimPosLast+1);
+
 
 			std::list<std::string> images;
 
 			// Initially we scan for images that follow the scheme
-			// '<epgid>_<distinction>.*' where distinction is any
-			// character sequence.  Usually distinction will be used
+			// '<channelId>_<epgid>_<distinction>.*' where distinction is
+			// any character sequence.  Usually distinction will be used
 			// to assign more than one image to an epg event. Thus it
 			// will be a digit or number.  The sorting of the images
 			// will depend on the 'distinction' lexical sorting
 			// (similar to what ls does).
 			// Example:
+			//   S19.2E-1-2222-33333_112123_0.jpg		first epg image for event id 112123
+			//   S19.2E-1-2222-33333_112123_1.png		second epg image for event id 112123
+			// If no image is found with channelId it will be searched
+			// with the eventId only following the scheme:
+			// '<eventId>_<distinction>.*'
+			// Example:
 			//   112123_0.jpg		first epg image for event id 112123
 			//   112123_1.png		second epg image for event id 112123
-			if (! ScanForEpgImages(imageId, "_*.*", images))
+			if (! ScanForEpgImages(channelId, eventId, "_*.*", images))
 			{
 				// if we didn't find images that follow the scheme
 				// above we try to find images that contain only the
 				// event id as file name without extension:
-				if (! ScanForEpgImages(imageId, ".*", images))
+				if (! ScanForEpgImages(channelId, eventId, ".*", images))
 				{
 #if TVM2VDR_PL_WORKAROUND
 					// if we didn't get images try to work around a
@@ -445,8 +459,8 @@ namespace vdrlive
 					// should be fixed in tvm2vdr.pl (Perl version of
 					// tvm2vdr).  There exists a plugin - also called
 					// tvm2vdr - which does not have that bug.
-					imageId = imageId.substr(0, imageId.size()-1);
-					ScanForEpgImages(imageId, "*.*", images);
+	        eventId = eventId.substr(0, eventId.size()-1);
+					ScanForEpgImages(channelId, eventId, "*.*", images);
 #endif
 				}
 			}
@@ -455,6 +469,7 @@ namespace vdrlive
 
 		std::list<std::string> RecImages(cSv epgid, cSv recfolder)
 		{
+// format of epgid: recording_<hashed recording file name>
 			size_t delimPos = epgid.find_last_of('_');
 			cSv imageId = epgid.substr(delimPos+1);
 
