@@ -159,8 +159,8 @@ function addEvent(s, bottomrow_i, obj) {
   s.a += `<tr><td class=\"action leftcol ${bottomrow}\">`
   if (obj[1].length != 0) {
     s.a += '<a href=\"edit_timer.html?timerid=timer_'
-    s.a += obj[1]
-    s.a += '\"><img class=\"icon\" src=\"<$ LiveSetup().GetThemedLink("img", "record_timer.png") $>\" title=\"<$tr("Edit timer")$>\" />'
+    s.a += obj[1].replace(/&ts=\w*$/, '')
+    s.a += '\"><img class=\"icon\" src=\"<$ LiveSetup().GetThemedLink("img", "") $>' + (obj[1].endsWith('&ts=r') ? 'recording_timer.gif' : (obj[1].endsWith('&ts=i') ? 'record_inactive_timer.png' : 'record_timer.png')) + '\" title=\"<$tr("Edit timer")$>\" />'
   } else {
     s.a += '<a href=\"edit_timer.html?epgid=event_'
     s.a += obj[0]
@@ -460,7 +460,7 @@ if (!rfid.empty() ) {
 	const cTimer* timer = LiveTimerManager().GetTimer(eventid, channelid);
 	if (timer) {
 </%cpp>
-		<& pageelems.edit_timer timerId=(LiveTimerManager().GetTimers().GetTimerId(*timer)) imgName=("record_timer.png") &>
+		<& pageelems.edit_timer timerId=(LiveTimerManager().GetTimers().GetTimerId(*timer)) imgName=(timer->Recording() ? "recording_timer.gif" : (timer->Flags() & tfActive ? "record_timer.png" : "record_inactive_timer.png")) &>
 <%cpp>
 	}
 	else {

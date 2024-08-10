@@ -8,6 +8,13 @@
 
 using namespace vdrlive;
 
+enum class tState {
+	None,
+	Inactive,
+	Active,
+	Recording
+};
+
 struct SchedEntry {
 	std::string title;
 	std::string short_description;
@@ -18,7 +25,7 @@ struct SchedEntry {
 	std::string day;
 	std::string epgid;
 	bool truncated;
-	bool has_timer;
+	tState timer;
 	int start_row;
 	int row_count;
 
@@ -392,7 +399,15 @@ std::vector<time_t>			times_start;
 			en.end = epgEvent->EndTime(tr("%I:%M %p"));
 			en.day = epgEvent->StartTime(tr("%A, %b %d %Y"));
 			en.epgid = EpgEvents::EncodeDomId(Channel->GetChannelID(), Event->EventID());
-			en.has_timer = LiveTimerManager().GetTimer(Event->EventID(), Channel->GetChannelID() ) != 0;
+			const cTimer* timer = LiveTimerManager().GetTimer(Event->EventID(), Channel->GetChannelID());
+			if (!timer)
+				en.timer = tState::None;
+			else if (timer->Recording())
+				en.timer = tState::Recording;
+			else if (timer->Flags() & tfActive)
+				en.timer = tState::Active;
+			else
+				en.timer = tState::Inactive;
 
 			en.start_row = prev_row > 0 ? prev_row : 0;
 			int end_time = Schedule->Events()->Next(Event) ?
@@ -530,7 +545,7 @@ std::vector<time_t>			times_start;
                                 }
                                   // output an event cell
 </%cpp>
-			<td class="<? row + en.row_count == sched_end_row ? "bottomrow" ?> event topaligned leftcol rightcol <$ en.has_timer ? "has_timer" : "" $>" rowspan="<$ en.row_count $>">
+                        <td class="<? row + en.row_count == sched_end_row ? "bottomrow" ?> event topaligned leftcol rightcol <$ en.timer == tState::None ? "" : (en.timer == tState::Inactive ? "has_inactive_timer" : "has_timer") $>" rowspan="<$ en.row_count $>">
                         <div class=" content1 " >
                         <div class=" tools1 " >
                           <& pageelems.event_timer epgid=(en.epgid) &>
@@ -540,7 +555,7 @@ std::vector<time_t>			times_start;
                           <a href="searchresults.html?searchplain=<$ StringUrlEncode(en.title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a>
 <%cpp>
                            } else {
-                             </%cpp><img src="img/transparent.png" width="16" height="16"><%cpp>
+                             </%cpp><img src="img/<$ en.timer == tState::Recording ? "recording_timer.gif" : (en.timer == tState::Active ? "record_timer.png" : "record_inactive_timer.png") $>" width="16" height="16"><%cpp>
                            }
 			if (LiveSetup().GetShowIMDb() ) { </%cpp>
                           <& pageelems.imdb_info_href title=(en.title) &>

@@ -81,6 +81,7 @@ namespace vdrlive {
 			"img/plus.png",
 			"img/record.png",
 			"img/record_timer.png",
+			"img/recording_timer.gif",
 			"img/reload.png",
 			"img/rwd.png",
 			"img/search.png",

@@ -975,6 +975,10 @@ table.mschedule tr td.has_timer {
         background-color: #FFE0E0;
 }
 
+table.mschedule tr td.has_inactive_timer {
+        background-color: #F0F0F0;
+}
+
 table.mschedule tr td.odd {
         background-color: #D0D0ff;
 }
@@ -1024,8 +1028,10 @@ table.mschedule tr td div.description {
 }
 
 table.mschedule a {
-	// color: black;
-	// font-weight: bold;
+	/*
+    color: black;
+	font-weight: bold;
+    */
 }
 
 table.mschedule a>img {

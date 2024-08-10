@@ -529,6 +529,15 @@ bool appendEpgItem(cToSvConcat<0> &epg_item, RecordingsItemRecPtr &recItem, cons
 // [1] : Timer ID
   const cTimer* timer = LiveTimerManager().GetTimer(Event->EventID(), Channel->GetChannelID() );
   if (timer) epg_item.append(vdrlive::EncodeDomId(LiveTimerManager().GetTimers().GetTimerId(*timer), ".-:", "pmc"));
+  if (timer) {
+    if (timer->Recording()) {
+      epg_item.append("&ts=r");
+      // do not show a recording that is underway
+      recItemFound = false;
+    }
+    else if (!(timer->Flags() & tfActive))
+      epg_item.append("&ts=i");
+  }
   epg_item.append("\",");
 // scraper data
   AppendScraperData(epg_item, getScraperVideo.m_scraperVideo.get() );
