@@ -509,12 +509,6 @@ msgstr "Aufnahmen editieren"
 msgid "Electronic program guide information"
 msgstr "Elektronische Programminformation"
 
-msgid "Error acquiring schedules lock"
-msgstr "Fehler beim Zugriffschutz für die Programminfos"
-
-msgid "Error acquiring schedules"
-msgstr "Fehler beim Zugriff auf Programinfos"
-
 msgid "Page error"
 msgstr "Seitenfehler"
 
@@ -583,9 +577,6 @@ msgstr "Reagieren"
 
 msgid "Dismiss"
 msgstr "Verwerfen"
-
-msgid "Couldn't acquire access to channels, please try again later."
-msgstr "Zugriff auf die Kanäle wurde verweigert. Bitte später versuchen."
 
 msgid "Now"
 msgstr "Jetzt"
@@ -785,6 +776,12 @@ msgstr "Status:"
 msgid "Cast and crew"
 msgstr "Besetzung und Crew"
 
+msgid "Content"
+msgstr "Inhalte"
+
+msgid "Parental rating"
+msgstr "Altersfreigabe"
+
 # msgstr "Schöpfer"
 msgid "Authors"
 msgstr "Autoren"
@@ -803,9 +800,6 @@ msgstr "Bisheriger Entwickler"
 
 msgid "Project leader"
 msgstr "Projektleiter"
-
-msgid "Content"
-msgstr "Inhalte"
 
 msgid "Graphics"
 msgstr "Grafiken"
@@ -897,6 +891,9 @@ msgstr "Aufzeichnung \"%s\" löschen?"
 
 msgid "Delete"
 msgstr "Löschen"
+
+msgid "Couldn't acquire access to channels, please try again later."
+msgstr "Zugriff auf die Kanäle wurde verweigert. Bitte später versuchen."
 
 msgid "Snapshot interval"
 msgstr "Snapshot-Intervall"
@@ -991,9 +988,6 @@ msgstr "Markiere neue Aufnahmen"
 msgid "Show link to IMDb in list views"
 msgstr "Link zu IMDb in Listen anzeigen"
 
-msgid "Show \"Play in Mediaplayer\" in list views"
-msgstr "\"Aufnahme in Mediaplayer abspielen\" in Listen anzeigen"
-
 msgid "Additional fixed times in 'What's on?'"
 msgstr "Zusätzliche Zeitpunkte in 'Was läuft?'"
 
@@ -1043,6 +1037,9 @@ msgstr "Timer hat einen Konflikt."
 msgid "Timer is active."
 msgstr "Timer ist aktiv."
 
+msgid "Transponder"
+msgstr "Transponder"
+
 msgid "Toggle timer active/inactive"
 msgstr "Timer aktiv/inaktiv schalten"
 
@@ -1057,9 +1054,6 @@ msgstr "Dauer"
 
 msgid "Timer is recording."
 msgstr "Timer zeichnet auf."
-
-msgid "Transponder"
-msgstr "Transponder"
 
 msgid "Users"
 msgstr "Benutzer"
@@ -1096,51 +1090,3 @@ msgstr "Live Interactive VDR Environment"
 
 msgid "No EPG information available"
 msgstr "Keine EPG Daten vorhanden"
-
-#~ msgid "ERROR:"
-#~ msgstr "FEHLER:"
-
-#~ msgid "play this recording."
-#~ msgstr "Diese Aufnahme abspielen."
-
-#~ msgid "Episode guest stars:"
-#~ msgstr "Episode Gastdarsteller:"
-
-#~ msgid "Episode director:"
-#~ msgstr "Episode Regisseur:"
-
-#~ msgid "Episode writer:"
-#~ msgstr "Episode Autor:"
-
-#~ msgid "Director:"
-#~ msgstr "Regisseur:"
-
-#~ msgid "Writer:"
-#~ msgstr "Autor:"
-
-#~ msgid "Runtimes:"
-#~ msgstr "Laufzeiten:"
-
-#~ msgid "Actors:"
-#~ msgstr "Schauspieler:"
-
-#~ msgid "Created by:"
-#~ msgstr "Created by:"
-
-#~ msgid "Add links to IMDb"
-#~ msgstr "Füge Links zur IMDb hinzu"
-
-#~ msgid "Sort by name"
-#~ msgstr "Sortiere nach Name"
-
-#~ msgid "Sort by date"
-#~ msgstr "Sortiere nach Datum"
-
-#~ msgid "Web-Streaming packetizer command"
-#~ msgstr "Web-Streaming - Pfad zu FFmpeg"
-
-#~ msgid "VLC media URL"
-#~ msgstr "VLC Medien URL"
-
-#~ msgid "Show duration in 'Recordings'"
-#~ msgstr "Aufnahmedauer bei 'Aufnahmen' anzeigen"

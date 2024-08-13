@@ -472,6 +472,7 @@ inline cSv SecondPart(cSv str, cSv delim) {
 
 namespace stringhelpers_internal {
 
+//  ==== itoaN ===================================================================
 // itoaN: Template for fixed number of characters, left fill with 0
 // note: i must fit in N digits, this is not checked!
 template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
@@ -488,30 +489,44 @@ inline typename std::enable_if<N == 2, char*>::type itoaN(char *b, T i) {
   memcpy(b, to_chars10_internal::digits_100 + (i << 1), 2);
   return b+N;
 }
+// max uint16_t 65535
 template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
-inline typename std::enable_if<N%2 == 0 && N >= 4, char*>::type itoaN(char *b, T i) {
-  T q = i/100;
-  memcpy(b+N-2, to_chars10_internal::digits_100 + ((i - q*100) << 1), 2);
+inline typename std::enable_if<N == 3 || N == 4, char*>::type itoaN(char *b, T i) {
+  uint16_t q = ((uint32_t)i * 5243U) >> 19; // q = i/100; i < 43699
+  memcpy(b+N-2, to_chars10_internal::digits_100 + (((uint16_t)i - q*100) << 1), 2);
+  itoaN<N-2>(b, q);
+  return b+N;
+}
+// max uint32_t 4294967295
+template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
+inline typename std::enable_if<N >= 5 && N <= 9, char*>::type itoaN(char *b, T i) {
+  uint32_t q = (uint32_t)i/100;
+  memcpy(b+N-2, to_chars10_internal::digits_100 + (((uint32_t)i - q*100) << 1), 2);
   itoaN<N-2>(b, q);
   return b+N;
 }
 template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
-inline typename std::enable_if<N%2 != 0 && N >=3, char*>::type itoaN(char *b, T i) {
-  T q = i/10;
-  b[N-1] = (i - q*10) + '0';
-  itoaN<N-1>(b, q);
-  return b+N;
+inline typename std::enable_if<N >= 10 && N != 18, char*>::type itoaN(char *b, T i) {
+  T q = i/100000000;
+  b = itoaN<N-8>(b, q);
+  return itoaN<8>(b, i - q*100000000);
 }
+template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
+inline typename std::enable_if<N == 18, char*>::type itoaN(char *b, T i) {
+  T q = i/1000000000;
+  b = itoaN<N-9>(b, q);
+  return itoaN<9>(b, i - q*1000000000);
+}
+//  ==== powN ===============================
 template<uint8_t N>
-inline typename std::enable_if<N <= 19, uint64_t>::type powN() {
+inline typename std::enable_if<N == 0, uint64_t>::type powN() { return 1; }
+template<uint8_t N>
+inline typename std::enable_if<N <= 19 && N >= 1, uint64_t>::type powN() {
 // return 10^N
-  uint64_t r = 1;
-  for (int i=0; i<N; i++) {
-    r *= 10;
-  }
-  return r;
+  return powN<N-1>() * 10;
 }
 
+//  ==== itoa_min_width =====================
 template<size_t N, typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
 inline typename std::enable_if<N == 0, char*>::type itoa_min_width(char *b, T i) {
   return to_chars10_internal::itoa(b, i);
@@ -539,6 +554,7 @@ inline typename std::enable_if<N >= 1, char*>::type itoa_min_width(char *b, T i)
   return itoa_min_width<N-1, TU>(b + 1, ~(TU(i)) + (TU)1);
 }
 
+//  ==== addCharsHex ========================
 template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
   inline T addCharsHex(char *buffer, size_t num_chars, T value) {
 // sizeof(buffer) must be >= num_chars. This is not checked !!!

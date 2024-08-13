@@ -1106,7 +1106,39 @@ if (scraperMovieOrTv.found) {
 </div>
 <# -----------------  epg -----------------  #>
 <div id = '<$ boxId $>_epg'>
-					<%cpp> reply.out() << StringEscapeAndBreak(long_descr); </%cpp>
+					<%cpp> reply.out() << StringEscapeAndBreak(long_descr);
+const char *br_after_long_desc = "<br><br>";
+if (long_descr.empty()) br_after_long_desc = "";
+const cEvent *event = nullptr;
+if (ievent) event = static_cast<cEvent *>((void *)ievent);
+else if (irecording) {
+  cRecording *recording = static_cast<cRecording *>((void *)irecording);
+  if (recording->Info()) event = recording->Info()->GetEvent();
+}
+
+if (event) {
+  bool first = true;
+  for (int i = 0; event->Contents(i); i++) {
+    const char *s = event->ContentToString(event->Contents(i));
+    if (!isempty(s)) {
+      if (first) {
+        first = false;
+</%cpp>
+ <$$br_after_long_desc$>
+ <$tr("Content")$>:
+%     } else { reply.out() << ","; }
+ <$s$><%cpp>
+    }
+  }
+  if (event->ParentalRating()) {
+    if (first) reply.out() << br_after_long_desc;
+    else reply.out() << "<br>";
+</%cpp>
+   <$tr("Parental rating")$>: <$*event->GetParentalRatingString()$>
+<%cpp>
+  }
+}
+</%cpp>
 				</div>
 			</div>
 		</div>
