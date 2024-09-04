@@ -82,7 +82,6 @@ using namespace vdrlive;
 		#ifdef DEBUG_LOCK
       dsyslog("live: pages/timers.ecpp LOCK_TIMERS_READ");
     #endif
-      const char *lf = "<br/>";
 		  LOCK_TIMERS_READ;
       cSortedTimers sortedTimers(Timers);
 			if (sortedTimers.Size() == 0) {
@@ -92,27 +91,27 @@ using namespace vdrlive;
 			<table class="listing" cellspacing="0" cellpadding="0">
 <%cpp>
 				// output of the timer list:
-                                for (int i = 0; i < sortedTimers.Size(); i++) {
-                                        const cTimer *timer = sortedTimers[i];
-	                 		EpgInfoPtr epgEvent = 0;
+        for (int i = 0; i < sortedTimers.Size(); i++) {
+          const cTimer *timer = sortedTimers[i];
+	        EpgInfoPtr epgEvent = 0;
 					std::string longDescription;
 					std::string searchTimName;
 					std::string searchTimId;
 					std::string recID;
 					std::string recName;
 
+          longDescription  = StringEscapeAndBreak(SortedTimers::GetTimerInfo(*timer));
 					if (timer->Event())
 					{
             epgEvent = EpgEvents::CreateEpgInfo(timer->Channel(), timer->Event());
             bool truncated = false;
-            longDescription  = StringEscapeAndBreak(SortedTimers::GetTimerInfo(*timer), lf);
             if (epgEvent->LongDescr().length()) longDescription += "<hr>";
-					  longDescription += StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), LiveSetup().GetMaxTooltipChars(), truncated), lf);
+					  longDescription += StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), LiveSetup().GetMaxTooltipChars(), truncated));
 					  if (truncated) longDescription += " ...";
-            AppendHtmlEscapedAndCorrectNonUTF8(searchTimName, SortedTimers::SearchTimerInfo(*timer, "searchtimer"));
-            searchTimId = SortedTimers::SearchTimerInfo(*timer, "s-id");
-            if (searchTimName.empty() && searchTimId.empty() ) AppendHtmlEscapedAndCorrectNonUTF8(searchTimName, SortedTimers::TvScraperTimerInfo(*timer, recID, recName) );
-					}
+          }
+          AppendHtmlEscapedAndCorrectNonUTF8(searchTimName, SortedTimers::SearchTimerInfo(*timer, "searchtimer"));
+          searchTimId = SortedTimers::SearchTimerInfo(*timer, "s-id");
+          if (searchTimName.empty() && searchTimId.empty() ) AppendHtmlEscapedAndCorrectNonUTF8(searchTimName, SortedTimers::TvScraperTimerInfo(*timer, recID, recName) );
 					std::string currentDay = SortedTimers::GetTimerDays(timer);
           const cTimer *nextTimer =  NULL;
           if (i < (sortedTimers.Size() - 1)) nextTimer = sortedTimers[i + 1];

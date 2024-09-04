@@ -59,7 +59,7 @@ if (logged_in || !LiveSetup().UseAuth()) return reply.redirect(LiveSetup().GetSt
 					<tr>
 						<td><$ tr("Password") $>:</td>
 						<td><input type="password" name="password" value="<$ password $>" size="15" maxlength="15" /></td>
-						<td><button type="submit" class="blue"><$ tr("Login") $></td>
+						<td><button type="submit" class="blue"><$ tr("Login") $></button></td>
 					</tr>
 				</table>
 			</form>

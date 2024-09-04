@@ -84,7 +84,7 @@ const cRecording* recording;
 	} else {
 
 	if (recording) {
-		cRecordingInfo *info = recording->Info();
+		const cRecordingInfo *info = recording->Info();
 		name = recording->BaseName();
 		directory = StringReplace(*recording->Folder(), "~", "/");
 		title = cSv(info->Title());

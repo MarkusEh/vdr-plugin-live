@@ -69,12 +69,8 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 						</tr>
 <%cpp>
 						for (std::list<int>::const_iterator timerIndex = confltimer->concurrentTimerIndices.begin(); timerIndex != confltimer->concurrentTimerIndices.end(); ++timerIndex) {
-#if VDRVERSNUM >= 20301
 							LOCK_TIMERS_READ;
 							cTimer* timer = (cTimer *)Timers->GetById(*timerIndex, (confltimer->remote == "") ? NULL : confltimer->remote.c_str());
-#else
-							cTimer* timer = Timers.Get(*timerIndex-1);
-#endif
 							if (!timer) continue;
 
 							std::list< int >::const_iterator nexttimerIndex = timerIndex;
@@ -99,27 +95,24 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
               std::string recID;
               std::string recName;
 							std::string title;
-#if VDRVERSNUM >= 20301
+
+              longDescription = StringEscapeAndBreak(SortedTimers::GetTimerInfo(*timer));
+
 							if (!timer->Event()) {
 								LOCK_SCHEDULES_READ;
 								timer->SetEventFromSchedule(Schedules);
 							}
-#else
-							if (!timer->Event()) timer->SetEventFromSchedule();
-#endif
 							if (timer->Event()) {
 								epgEvent = EpgEvents::CreateEpgInfo(timer->Channel(), timer->Event());
-								longDescription = concat(
-                    StringEscapeAndBreak(SortedTimers::GetTimerInfo(*timer)),
-                    "<hr>",
-										StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), LiveSetup().GetMaxTooltipChars())),
-										"<br/><br/>",
-                    tr("Click to view details."));
-                AppendHtmlEscapedAndCorrectNonUTF8(searchTimName, SortedTimers::SearchTimerInfo(*timer, "searchtimer") );
-								searchTimId = SortedTimers::SearchTimerInfo(*timer, "s-id");
-								if (searchTimName.empty() && searchTimId.empty() ) AppendHtmlEscapedAndCorrectNonUTF8(searchTimName, SortedTimers::TvScraperTimerInfo(*timer, recID, recName) );
-								title = epgEvent->Title();
-							}
+                bool truncated = false;
+                if (epgEvent->LongDescr().length()) longDescription += "<hr>";
+                longDescription += StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), LiveSetup().GetMaxTooltipChars(), truncated));
+                if (truncated) longDescription += " ...";
+                title = epgEvent->Title();
+              }
+              AppendHtmlEscapedAndCorrectNonUTF8(searchTimName, SortedTimers::SearchTimerInfo(*timer, "searchtimer") );
+              searchTimId = SortedTimers::SearchTimerInfo(*timer, "s-id");
+              if (searchTimName.empty() && searchTimId.empty() ) AppendHtmlEscapedAndCorrectNonUTF8(searchTimName, SortedTimers::TvScraperTimerInfo(*timer, recID, recName) );
               std::string timerFile;
               AppendHtmlEscapedAndCorrectNonUTF8(timerFile, timer->File());
 </%cpp>

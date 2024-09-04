@@ -420,7 +420,7 @@ template<class T> inline T parse_hex(cSv sv, size_t *num_digits = 0) {
   return value;
 }
 // =========================================================
-// split sting at delimiter in two parts
+// split string at delimiter in two parts
 // =========================================================
 
 inline bool splitString(cSv str, cSv delim, size_t minLengh, cSv &first, cSv &second) {
