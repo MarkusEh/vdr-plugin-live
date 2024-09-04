@@ -90,6 +90,19 @@ using namespace vdrlive;
 %			} else {
 			<table class="listing" cellspacing="0" cellpadding="0">
 <%cpp>
+				// check for remote timers:
+				bool noRemoteTimers = true;
+				for (int i = 0; noRemoteTimers && i < sortedTimers.Size(); i++) {
+					noRemoteTimers &= sortedTimers[i]->Local();
+				}
+				// check for search timers or tvscraper autotimer:
+				bool noSearchTimers = true;
+				for (int i = 0; noSearchTimers && i < sortedTimers.Size(); i++) {
+					std::string recID;
+					std::string recName;
+					timer = sortedTimers[i];
+					noSearchTimers &= timer->Local() && SortedTimers::SearchTimerInfo(*timer, "s-id").empty() && SortedTimers::TvScraperTimerInfo(*timer, recID, recName).empty();
+				}
 				// output of the timer list:
         for (int i = 0; i < sortedTimers.Size(); i++) {
           const cTimer *timer = sortedTimers[i];
@@ -146,8 +159,8 @@ using namespace vdrlive;
           <td class="td-hidden-xs"><div class="withmargin hidden-xs"><$ tr("Duration") $></div></td>
           <td class="td-hidden-xs"><div class="withmargin hidden-xs"><$ trVDR("Priority") $></div></td>
 					<td><div class="withmargin"><$ trVDR("File") $></div></td>
-					<td class="td-hidden-xs"><div class="xs-nomargin hidden-xs"><$ trVDR("Record on") $></div></td>
-					<td><div class="withmargin"><$ tr("Search timer") $></div></td>
+					<td class="td-hidden-xs <? noRemoteTimers ? "notpresent" ?>"><div class="xs-nomargin hidden-xs"><$ trVDR("Record on") $></div></td>
+					<td class="<? noSearchTimers ? "notpresent" ?>"><div class="withmargin"><$ tr("Search timer") $></div></td>
 
           <td class="td-hidden-xs"><img class="hidden-xs action-rightcol" src="img/transparent.png" alt="" width="16px" height="16px" /></td>
           <td class="td-hidden-xs"><img class="hidden-xs action-rightcol" src="img/transparent.png" alt="" width="16px" height="16px" /></td>
@@ -197,8 +210,8 @@ using namespace vdrlive;
 %         }
 						</div>
 					</td>
-					<td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="xs-nomargin"><$ timer->Local()?trVDR(" "):timer->Remote() $></div></td>
-          <td class="<? bottom ? "bottomrow" ?>"><div class="withmargin">
+					<td class="<? bottom ? "bottomrow" ?> <? noRemoteTimers ? "notpresent" ?> td-hidden-xs"><div class="xs-nomargin"><$ timer->Local()?trVDR(" "):timer->Remote() $></div></td>
+          <td class="<? bottom ? "bottomrow" ?> <? noSearchTimers ? "notpresent" ?>"><div class="withmargin">
 %					if ( !timer->Local() || searchTimId.empty() ) {
 <# not created by epgsearch, check tvscraper autotimer #>
             <$$ StringReplace(searchTimName, "~", "~<wbr>") $>

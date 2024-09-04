@@ -111,9 +111,7 @@ namespace vdrlive {
 					info << tr("Search timer") << ": " << searchtimer << std::endl;
 			}
 		}
-    if (timer.Local()) {
-      info << trVDR("Record on") << ": " << trVDR(" ") << std::endl;
-    } else {
+    if (!timer.Local()) {
       info << trVDR("Record on") << ": " << timer.Remote() << std::endl;
     }
 		return info.str();
