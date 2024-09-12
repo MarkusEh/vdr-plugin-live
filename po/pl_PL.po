@@ -508,12 +508,6 @@ msgstr "Edycja nagrań"
 msgid "Electronic program guide information"
 msgstr "Informacje EPG"
 
-msgid "Error acquiring schedules lock"
-msgstr "Błąd podczas próby blokady programu"
-
-msgid "Error acquiring schedules"
-msgstr "Błąd podczas ściągania programu"
-
 msgid "Page error"
 msgstr "Błąd strony"
 
@@ -582,9 +576,6 @@ msgstr "Sprawdź"
 
 msgid "Dismiss"
 msgstr "Anuluj"
-
-msgid "Couldn't acquire access to channels, please try again later."
-msgstr "Nie można uzyskać dostępu do kanałów, spróbój później."
 
 msgid "Now"
 msgstr "Teraz"
@@ -784,6 +775,12 @@ msgstr ""
 msgid "Cast and crew"
 msgstr ""
 
+msgid "Content"
+msgstr "Zawartość"
+
+msgid "Parental rating"
+msgstr ""
+
 msgid "Authors"
 msgstr "Autorzy"
 
@@ -801,9 +798,6 @@ msgstr "Poprzedni opiekun"
 
 msgid "Project leader"
 msgstr "Lider projektu"
-
-msgid "Content"
-msgstr "Zawartość"
 
 msgid "Graphics"
 msgstr "Grafika"
@@ -895,6 +889,9 @@ msgstr ""
 
 msgid "Delete"
 msgstr ""
+
+msgid "Couldn't acquire access to channels, please try again later."
+msgstr "Nie można uzyskać dostępu do kanałów, spróbój później."
 
 msgid "Snapshot interval"
 msgstr "Okres pomiędzy migawkami"
@@ -989,9 +986,6 @@ msgstr "Oznacz nowe nagrania"
 msgid "Show link to IMDb in list views"
 msgstr ""
 
-msgid "Show \"Play in Mediaplayer\" in list views"
-msgstr ""
-
 msgid "Additional fixed times in 'What's on?'"
 msgstr "Lista wyboru godzin w zakładce 'Teraz w TV'"
 
@@ -1040,6 +1034,9 @@ msgstr "Timer jest w kolizji."
 
 msgid "Timer is active."
 msgstr "Timer jest aktywny."
+
+msgid "Transponder"
+msgstr ""
 
 msgid "Toggle timer active/inactive"
 msgstr "Aktywuj/deaktywuj timer"
@@ -1091,6 +1088,12 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr "Brak informacji EPG"
+
+#~ msgid "Error acquiring schedules lock"
+#~ msgstr "Błąd podczas próby blokady programu"
+
+#~ msgid "Error acquiring schedules"
+#~ msgstr "Błąd podczas ściągania programu"
 
 #~ msgid "ERROR:"
 #~ msgstr "BŁĄD:"

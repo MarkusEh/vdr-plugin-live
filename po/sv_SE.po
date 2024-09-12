@@ -507,12 +507,6 @@ msgstr "Redigera inspelningar"
 msgid "Electronic program guide information"
 msgstr "EPG-information"
 
-msgid "Error acquiring schedules lock"
-msgstr "Fil vid låsning av scheman"
-
-msgid "Error acquiring schedules"
-msgstr "Fel vid hämtning av scheman"
-
 msgid "Page error"
 msgstr "Fel på sidan"
 
@@ -581,9 +575,6 @@ msgstr "Reagera"
 
 msgid "Dismiss"
 msgstr "Avfärda"
-
-msgid "Couldn't acquire access to channels, please try again later."
-msgstr "Kunde inte få tillgång till kanaler, försök igen senare"
 
 msgid "Now"
 msgstr "Nu"
@@ -783,6 +774,12 @@ msgstr ""
 msgid "Cast and crew"
 msgstr ""
 
+msgid "Content"
+msgstr "Innehåll"
+
+msgid "Parental rating"
+msgstr ""
+
 msgid "Authors"
 msgstr "Författare"
 
@@ -800,9 +797,6 @@ msgstr ""
 
 msgid "Project leader"
 msgstr "Projektledare"
-
-msgid "Content"
-msgstr "Innehåll"
 
 msgid "Graphics"
 msgstr "Grafik"
@@ -894,6 +888,9 @@ msgstr ""
 
 msgid "Delete"
 msgstr ""
+
+msgid "Couldn't acquire access to channels, please try again later."
+msgstr "Kunde inte få tillgång till kanaler, försök igen senare"
 
 msgid "Snapshot interval"
 msgstr ""
@@ -988,9 +985,6 @@ msgstr ""
 msgid "Show link to IMDb in list views"
 msgstr ""
 
-msgid "Show \"Play in Mediaplayer\" in list views"
-msgstr ""
-
 msgid "Additional fixed times in 'What's on?'"
 msgstr "Ytterligare fixerade tider i 'Vad spelas?'"
 
@@ -1039,6 +1033,9 @@ msgstr "Upptäckt konflikt för timern"
 
 msgid "Timer is active."
 msgstr "Timern är aktiv"
+
+msgid "Transponder"
+msgstr ""
 
 msgid "Toggle timer active/inactive"
 msgstr "Välj aktiv/inaktiv för timer"
@@ -1090,6 +1087,12 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr "EPG-information saknas"
+
+#~ msgid "Error acquiring schedules lock"
+#~ msgstr "Fil vid låsning av scheman"
+
+#~ msgid "Error acquiring schedules"
+#~ msgstr "Fel vid hämtning av scheman"
 
 #~ msgid "Use ajax technology"
 #~ msgstr "Använd ajax-teknik"

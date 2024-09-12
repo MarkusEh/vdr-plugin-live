@@ -513,12 +513,6 @@ msgstr "Modifica registrazioni"
 msgid "Electronic program guide information"
 msgstr "Info Guida Elettronica Programmi (EPG)"
 
-msgid "Error acquiring schedules lock"
-msgstr "Errore acquisizione blocco programmi"
-
-msgid "Error acquiring schedules"
-msgstr "Errore acquisizione programmi"
-
 msgid "Page error"
 msgstr "Errore pagina"
 
@@ -587,9 +581,6 @@ msgstr "Risolvi"
 
 msgid "Dismiss"
 msgstr "Ignora"
-
-msgid "Couldn't acquire access to channels, please try again later."
-msgstr "Impossibile avere accesso ai canali, riprova più tardi."
 
 msgid "Now"
 msgstr "Adesso"
@@ -789,6 +780,12 @@ msgstr ""
 msgid "Cast and crew"
 msgstr ""
 
+msgid "Content"
+msgstr "Contenuti"
+
+msgid "Parental rating"
+msgstr ""
+
 msgid "Authors"
 msgstr "Autori"
 
@@ -806,9 +803,6 @@ msgstr ""
 
 msgid "Project leader"
 msgstr "Capo progetto"
-
-msgid "Content"
-msgstr "Contenuti"
 
 msgid "Graphics"
 msgstr "Grafiche"
@@ -900,6 +894,9 @@ msgstr ""
 
 msgid "Delete"
 msgstr ""
+
+msgid "Couldn't acquire access to channels, please try again later."
+msgstr "Impossibile avere accesso ai canali, riprova più tardi."
 
 msgid "Snapshot interval"
 msgstr "Intervallo schermata"
@@ -994,9 +991,6 @@ msgstr ""
 msgid "Show link to IMDb in list views"
 msgstr ""
 
-msgid "Show \"Play in Mediaplayer\" in list views"
-msgstr ""
-
 msgid "Additional fixed times in 'What's on?'"
 msgstr "Ore aggiuntive fisse menu \"In programmazione\""
 
@@ -1045,6 +1039,9 @@ msgstr "Il timer ha un conflitto."
 
 msgid "Timer is active."
 msgstr "Timer attivo."
+
+msgid "Transponder"
+msgstr ""
 
 msgid "Toggle timer active/inactive"
 msgstr "Attiva/disattiva timer"
@@ -1096,6 +1093,12 @@ msgstr "Ambiente interattivo LIVE per VDR"
 
 msgid "No EPG information available"
 msgstr "Nessuna informazione EPG disponibile"
+
+#~ msgid "Error acquiring schedules lock"
+#~ msgstr "Errore acquisizione blocco programmi"
+
+#~ msgid "Error acquiring schedules"
+#~ msgstr "Errore acquisizione programmi"
 
 #~ msgid "Use ajax technology"
 #~ msgstr "Utilizza tecnologia Ajax"

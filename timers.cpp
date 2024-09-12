@@ -301,28 +301,19 @@ namespace vdrlive {
 	       			StoreError( timerData, tr("Error in timer settings") );
                         	return;
                     }
-#if VDRVERSNUM >= 20301
 		    	dsyslog("live: DoInsertTimer() add local timer");
-	#ifdef DEBUG_LOCK
-                        dsyslog("live: timers.cpp TimerManager::DoInsertTimer() LOCK_TIMERS_WRITE");
-        #endif
+#ifdef DEBUG_LOCK
+          dsyslog("live: timers.cpp TimerManager::DoInsertTimer() LOCK_TIMERS_WRITE");
+#endif
 		    	LOCK_TIMERS_WRITE;
 		    	Timers->SetExplicitModify();
 		    	const cTimer *checkTimer = Timers->GetTimer( newTimer.get() );
-#else
-		    	const cTimer* checkTimer = Timers.GetTimer( newTimer.get() );
-#endif
 		    	if ( checkTimer ) {
 				StoreError( timerData, tr("Timer already defined") );
 				return;
 		    	}
-#if VDRVERSNUM >= 20301
 		    	Timers->Add( newTimer.get() );
 		    	Timers->SetModified();
-#else
-		    	Timers.Add( newTimer.get() );
-		    	Timers.SetModified();
-#endif
 		    	isyslog( "live: local timer %s added", *newTimer->ToDescr() );
 		    	newTimer.release();
 		}

@@ -507,12 +507,6 @@ msgstr "Изменять запись"
 msgid "Electronic program guide information"
 msgstr "Информация телегида"
 
-msgid "Error acquiring schedules lock"
-msgstr "Ошибка во время получения расписания"
-
-msgid "Error acquiring schedules"
-msgstr "Ошибка в расписании"
-
 msgid "Page error"
 msgstr "Ошибка страницы"
 
@@ -581,9 +575,6 @@ msgstr "Реагировать"
 
 msgid "Dismiss"
 msgstr "Освободить"
-
-msgid "Couldn't acquire access to channels, please try again later."
-msgstr "Нет доступа к каналу, попробуйте позже"
 
 msgid "Now"
 msgstr "Сейчас"
@@ -783,6 +774,12 @@ msgstr ""
 msgid "Cast and crew"
 msgstr ""
 
+msgid "Content"
+msgstr "Содержание"
+
+msgid "Parental rating"
+msgstr ""
+
 msgid "Authors"
 msgstr "Авторы"
 
@@ -800,9 +797,6 @@ msgstr ""
 
 msgid "Project leader"
 msgstr "Ведущий проекта"
-
-msgid "Content"
-msgstr "Содержание"
 
 msgid "Graphics"
 msgstr "Графика"
@@ -894,6 +888,9 @@ msgstr ""
 
 msgid "Delete"
 msgstr ""
+
+msgid "Couldn't acquire access to channels, please try again later."
+msgstr "Нет доступа к каналу, попробуйте позже"
 
 msgid "Snapshot interval"
 msgstr "Интервал между снимками"
@@ -988,9 +985,6 @@ msgstr ""
 msgid "Show link to IMDb in list views"
 msgstr ""
 
-msgid "Show \"Play in Mediaplayer\" in list views"
-msgstr ""
-
 msgid "Additional fixed times in 'What's on?'"
 msgstr "Поправка времени в разделе 'Сейчас'"
 
@@ -1039,6 +1033,9 @@ msgstr "Есть конфликт таймеров"
 
 msgid "Timer is active."
 msgstr "Таймер активен"
+
+msgid "Transponder"
+msgstr ""
 
 msgid "Toggle timer active/inactive"
 msgstr "Переключить таймер активны/неактивный"
@@ -1090,6 +1087,12 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr "EPG информация недоступна"
+
+#~ msgid "Error acquiring schedules lock"
+#~ msgstr "Ошибка во время получения расписания"
+
+#~ msgid "Error acquiring schedules"
+#~ msgstr "Ошибка в расписании"
 
 #~ msgid "Use ajax technology"
 #~ msgstr "Использовать ajax"

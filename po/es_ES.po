@@ -507,12 +507,6 @@ msgstr "Editar grabaciones"
 msgid "Electronic program guide information"
 msgstr "Información de la Guía Electrónica de Programación (EPG)"
 
-msgid "Error acquiring schedules lock"
-msgstr "Error adquiriendo el bloqueo de las programaciones"
-
-msgid "Error acquiring schedules"
-msgstr "Error adquiriendo programaciones"
-
 msgid "Page error"
 msgstr "Error en la página"
 
@@ -581,9 +575,6 @@ msgstr "Resolver"
 
 msgid "Dismiss"
 msgstr "Ignorar"
-
-msgid "Couldn't acquire access to channels, please try again later."
-msgstr "No se puede tener acceso a los canales, por favor inténtelo más tarde"
 
 msgid "Now"
 msgstr "Ahora"
@@ -783,6 +774,12 @@ msgstr ""
 msgid "Cast and crew"
 msgstr ""
 
+msgid "Content"
+msgstr "Contenido"
+
+msgid "Parental rating"
+msgstr ""
+
 msgid "Authors"
 msgstr "Autores"
 
@@ -800,9 +797,6 @@ msgstr ""
 
 msgid "Project leader"
 msgstr "Jefe del proyecto"
-
-msgid "Content"
-msgstr "Contenido"
 
 msgid "Graphics"
 msgstr "Gráficos"
@@ -894,6 +888,9 @@ msgstr ""
 
 msgid "Delete"
 msgstr ""
+
+msgid "Couldn't acquire access to channels, please try again later."
+msgstr "No se puede tener acceso a los canales, por favor inténtelo más tarde"
 
 msgid "Snapshot interval"
 msgstr "Intervalo de visionado"
@@ -988,9 +985,6 @@ msgstr ""
 msgid "Show link to IMDb in list views"
 msgstr ""
 
-msgid "Show \"Play in Mediaplayer\" in list views"
-msgstr ""
-
 msgid "Additional fixed times in 'What's on?'"
 msgstr "Horas fijas adicionales en '¿Qué se emite ahora?'"
 
@@ -1039,6 +1033,9 @@ msgstr "La programación tiene un conflicto"
 
 msgid "Timer is active."
 msgstr "La programación está activa"
+
+msgid "Transponder"
+msgstr ""
 
 msgid "Toggle timer active/inactive"
 msgstr "Cambiar programación activa/inactiva"
@@ -1090,6 +1087,12 @@ msgstr "Entorno interactivo de Live VDR"
 
 msgid "No EPG information available"
 msgstr "No hay información disponible de la EPG"
+
+#~ msgid "Error acquiring schedules lock"
+#~ msgstr "Error adquiriendo el bloqueo de las programaciones"
+
+#~ msgid "Error acquiring schedules"
+#~ msgstr "Error adquiriendo programaciones"
 
 #~ msgid "Use ajax technology"
 #~ msgstr "Usar tecnología ajax"

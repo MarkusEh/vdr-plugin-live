@@ -507,12 +507,6 @@ msgstr "Muokkaa tallenteita"
 msgid "Electronic program guide information"
 msgstr "Ohjelmaoppaan tiedot"
 
-msgid "Error acquiring schedules lock"
-msgstr "Ohjelmatietojen lukitus epäonnistui!"
-
-msgid "Error acquiring schedules"
-msgstr "Ohjelmatietojen haku epäonnistui!"
-
 msgid "Page error"
 msgstr "Sivuvirhe"
 
@@ -581,9 +575,6 @@ msgstr "Reagoi"
 
 msgid "Dismiss"
 msgstr "Ohita"
-
-msgid "Couldn't acquire access to channels, please try again later."
-msgstr "Kanavien käyttäminen epäonnistui! Yritä myöhemmin uudelleen."
 
 msgid "Now"
 msgstr "Nyt"
@@ -783,6 +774,12 @@ msgstr ""
 msgid "Cast and crew"
 msgstr ""
 
+msgid "Content"
+msgstr "Sisältö"
+
+msgid "Parental rating"
+msgstr ""
+
 msgid "Authors"
 msgstr "Tekijät"
 
@@ -800,9 +797,6 @@ msgstr ""
 
 msgid "Project leader"
 msgstr "Projektipäällikkö"
-
-msgid "Content"
-msgstr "Sisältö"
 
 msgid "Graphics"
 msgstr "Grafiikka"
@@ -894,6 +888,9 @@ msgstr ""
 
 msgid "Delete"
 msgstr ""
+
+msgid "Couldn't acquire access to channels, please try again later."
+msgstr "Kanavien käyttäminen epäonnistui! Yritä myöhemmin uudelleen."
 
 msgid "Snapshot interval"
 msgstr "Kuvien päivitysväli"
@@ -988,9 +985,6 @@ msgstr ""
 msgid "Show link to IMDb in list views"
 msgstr ""
 
-msgid "Show \"Play in Mediaplayer\" in list views"
-msgstr ""
-
 msgid "Additional fixed times in 'What's on?'"
 msgstr "Lisäajankohdat 'Menossa?'-sivulle"
 
@@ -1039,6 +1033,9 @@ msgstr "Päällekkäinen ajastin"
 
 msgid "Timer is active."
 msgstr "Aktiivinen ajastin"
+
+msgid "Transponder"
+msgstr ""
 
 msgid "Toggle timer active/inactive"
 msgstr "Aseta ajastin päälle/pois"
@@ -1090,6 +1087,12 @@ msgstr "Interaktiivinen VDR-ympäristö"
 
 msgid "No EPG information available"
 msgstr "Ohjelmatietoja ei saatavilla"
+
+#~ msgid "Error acquiring schedules lock"
+#~ msgstr "Ohjelmatietojen lukitus epäonnistui!"
+
+#~ msgid "Error acquiring schedules"
+#~ msgstr "Ohjelmatietojen haku epäonnistui!"
 
 #~ msgid "Use ajax technology"
 #~ msgstr "Käytä AJAX-tekniikkaa"

@@ -516,12 +516,6 @@ msgstr "Seznam nahrávek"
 msgid "Electronic program guide information"
 msgstr "Elektronický průvodce programem (EPG)"
 
-msgid "Error acquiring schedules lock"
-msgstr "Chyba při vytváření zámku pro nahrávky"
-
-msgid "Error acquiring schedules"
-msgstr "Chyba při plánování"
-
 msgid "Page error"
 msgstr "Chyba stránky"
 
@@ -590,9 +584,6 @@ msgstr "řešit"
 
 msgid "Dismiss"
 msgstr "neřešit"
-
-msgid "Couldn't acquire access to channels, please try again later."
-msgstr "Nelze získat přístup k programům, zkuste později."
 
 msgid "Now"
 msgstr "Nyní"
@@ -792,6 +783,12 @@ msgstr ""
 msgid "Cast and crew"
 msgstr ""
 
+msgid "Content"
+msgstr "obsah"
+
+msgid "Parental rating"
+msgstr ""
+
 msgid "Authors"
 msgstr "Autoři"
 
@@ -809,9 +806,6 @@ msgstr ""
 
 msgid "Project leader"
 msgstr "vedoucí týmu"
-
-msgid "Content"
-msgstr "obsah"
 
 msgid "Graphics"
 msgstr "grafika"
@@ -904,6 +898,9 @@ msgstr ""
 
 msgid "Delete"
 msgstr ""
+
+msgid "Couldn't acquire access to channels, please try again later."
+msgstr "Nelze získat přístup k programům, zkuste později."
 
 msgid "Snapshot interval"
 msgstr "Interval snímků obrazovky"
@@ -998,9 +995,6 @@ msgstr ""
 msgid "Show link to IMDb in list views"
 msgstr ""
 
-msgid "Show \"Play in Mediaplayer\" in list views"
-msgstr ""
-
 #, fuzzy
 msgid "Additional fixed times in 'What's on?'"
 msgstr "Přidat časy pro zobrazení v \"Právě se vysílá\""
@@ -1053,6 +1047,9 @@ msgstr "Kolize v nastavení nahrávání"
 msgid "Timer is active."
 msgstr "Nahrávaní povoleno"
 
+msgid "Transponder"
+msgstr ""
+
 msgid "Toggle timer active/inactive"
 msgstr "Povolit/zrušit nahrávání"
 
@@ -1103,6 +1100,12 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr "Nejsou dostupné informace o programu"
+
+#~ msgid "Error acquiring schedules lock"
+#~ msgstr "Chyba při vytváření zámku pro nahrávky"
+
+#~ msgid "Error acquiring schedules"
+#~ msgstr "Chyba při plánování"
 
 #~ msgid "Use ajax technology"
 #~ msgstr "Používat dynamické stránky (ajax)"

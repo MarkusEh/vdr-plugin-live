@@ -509,12 +509,6 @@ msgstr ""
 msgid "Electronic program guide information"
 msgstr "Elektroninis programų gidas"
 
-msgid "Error acquiring schedules lock"
-msgstr "Negali gauti programų užrakto"
-
-msgid "Error acquiring schedules"
-msgstr "Negauna programų aprašų"
-
 msgid "Page error"
 msgstr "Puslapio klaida"
 
@@ -583,9 +577,6 @@ msgstr "Reguoti"
 
 msgid "Dismiss"
 msgstr "Atmesti"
-
-msgid "Couldn't acquire access to channels, please try again later."
-msgstr "Neprieina prie kanalų, pabandykit vėliau."
 
 msgid "Now"
 msgstr "Dabar"
@@ -785,6 +776,12 @@ msgstr ""
 msgid "Cast and crew"
 msgstr ""
 
+msgid "Content"
+msgstr "Turinys"
+
+msgid "Parental rating"
+msgstr ""
+
 msgid "Authors"
 msgstr "Autoriai"
 
@@ -802,9 +799,6 @@ msgstr ""
 
 msgid "Project leader"
 msgstr "Projekto vadovas"
-
-msgid "Content"
-msgstr "Turinys"
 
 msgid "Graphics"
 msgstr "Grafika"
@@ -896,6 +890,9 @@ msgstr ""
 
 msgid "Delete"
 msgstr ""
+
+msgid "Couldn't acquire access to channels, please try again later."
+msgstr "Neprieina prie kanalų, pabandykit vėliau."
 
 msgid "Snapshot interval"
 msgstr "Momentinių nuotraukų intervalas"
@@ -990,9 +987,6 @@ msgstr ""
 msgid "Show link to IMDb in list views"
 msgstr ""
 
-msgid "Show \"Play in Mediaplayer\" in list views"
-msgstr ""
-
 msgid "Additional fixed times in 'What's on?'"
 msgstr "papildomi nustatyti laikai 'Kas šio metu rodoma?' skiltyje"
 
@@ -1042,6 +1036,9 @@ msgstr "Laikmatis turi klaidų."
 
 msgid "Timer is active."
 msgstr "Laikmatis įjungtas."
+
+msgid "Transponder"
+msgstr ""
 
 msgid "Toggle timer active/inactive"
 msgstr "Perjungti laikmačio aktyvumo/neaktyvumo būseną"
@@ -1093,6 +1090,12 @@ msgstr "Live interaktyvioji VDR aplinka"
 
 msgid "No EPG information available"
 msgstr "Nėra EPG informacijos"
+
+#~ msgid "Error acquiring schedules lock"
+#~ msgstr "Negali gauti programų užrakto"
+
+#~ msgid "Error acquiring schedules"
+#~ msgstr "Negauna programų aprašų"
 
 #~ msgid "Use ajax technology"
 #~ msgstr "Naudoti AJAX"

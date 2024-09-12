@@ -523,12 +523,6 @@ msgstr ""
 msgid "Electronic program guide information"
 msgstr ""
 
-msgid "Error acquiring schedules lock"
-msgstr ""
-
-msgid "Error acquiring schedules"
-msgstr ""
-
 msgid "Page error"
 msgstr ""
 
@@ -596,9 +590,6 @@ msgid "React"
 msgstr ""
 
 msgid "Dismiss"
-msgstr ""
-
-msgid "Couldn't acquire access to channels, please try again later."
 msgstr ""
 
 msgid "Now"
@@ -799,6 +790,12 @@ msgstr ""
 msgid "Cast and crew"
 msgstr ""
 
+msgid "Content"
+msgstr ""
+
+msgid "Parental rating"
+msgstr ""
+
 msgid "Authors"
 msgstr ""
 
@@ -815,9 +812,6 @@ msgid "Previous Maintainer"
 msgstr ""
 
 msgid "Project leader"
-msgstr ""
-
-msgid "Content"
 msgstr ""
 
 msgid "Graphics"
@@ -910,6 +904,9 @@ msgid "Delete recording \"%s\"?"
 msgstr ""
 
 msgid "Delete"
+msgstr ""
+
+msgid "Couldn't acquire access to channels, please try again later."
 msgstr ""
 
 #, fuzzy
@@ -1006,9 +1003,6 @@ msgstr ""
 msgid "Show link to IMDb in list views"
 msgstr ""
 
-msgid "Show \"Play in Mediaplayer\" in list views"
-msgstr ""
-
 msgid "Additional fixed times in 'What's on?'"
 msgstr ""
 
@@ -1059,6 +1053,9 @@ msgid "Timer has a conflict."
 msgstr "Serie's opnemen"
 
 msgid "Timer is active."
+msgstr ""
+
+msgid "Transponder"
 msgstr ""
 
 msgid "Toggle timer active/inactive"

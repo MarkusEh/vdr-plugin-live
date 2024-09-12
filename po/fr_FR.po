@@ -527,12 +527,6 @@ msgstr ""
 msgid "Electronic program guide information"
 msgstr "Guide électronique d'information des programmes EPG"
 
-msgid "Error acquiring schedules lock"
-msgstr "Erreur lors de l'acquisition du verrouillage de programmation de recherche"
-
-msgid "Error acquiring schedules"
-msgstr "Erreur lors de l'acquisition de programmation"
-
 msgid "Page error"
 msgstr "Erreur de paging"
 
@@ -601,9 +595,6 @@ msgstr ""
 
 msgid "Dismiss"
 msgstr ""
-
-msgid "Couldn't acquire access to channels, please try again later."
-msgstr "Impossible d'avoir accès à des chaînes, réessayer ultérieurement."
 
 msgid "Now"
 msgstr "maintenant"
@@ -803,6 +794,12 @@ msgstr ""
 msgid "Cast and crew"
 msgstr ""
 
+msgid "Content"
+msgstr "Contenu"
+
+msgid "Parental rating"
+msgstr ""
+
 msgid "Authors"
 msgstr "Auteur"
 
@@ -821,9 +818,6 @@ msgstr ""
 
 msgid "Project leader"
 msgstr "Chef de projet"
-
-msgid "Content"
-msgstr "Contenu"
 
 msgid "Graphics"
 msgstr "Graphiques"
@@ -915,6 +909,9 @@ msgstr ""
 
 msgid "Delete"
 msgstr ""
+
+msgid "Couldn't acquire access to channels, please try again later."
+msgstr "Impossible d'avoir accès à des chaînes, réessayer ultérieurement."
 
 #, fuzzy
 msgid "Snapshot interval"
@@ -1010,9 +1007,6 @@ msgstr ""
 msgid "Show link to IMDb in list views"
 msgstr ""
 
-msgid "Show \"Play in Mediaplayer\" in list views"
-msgstr ""
-
 msgid "Additional fixed times in 'What's on?'"
 msgstr "périodes fixes additionnelles dans 'actuellement?'"
 
@@ -1065,6 +1059,9 @@ msgstr "Programmation est active."
 
 msgid "Timer is active."
 msgstr "Programmation est active."
+
+msgid "Transponder"
+msgstr ""
 
 msgid "Toggle timer active/inactive"
 msgstr "Programmation basculer actif/inactif"
@@ -1119,6 +1116,12 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr ""
+
+#~ msgid "Error acquiring schedules lock"
+#~ msgstr "Erreur lors de l'acquisition du verrouillage de programmation de recherche"
+
+#~ msgid "Error acquiring schedules"
+#~ msgstr "Erreur lors de l'acquisition de programmation"
 
 #~ msgid "Use ajax technology"
 #~ msgstr "Utilisez la technologie Ajax"
