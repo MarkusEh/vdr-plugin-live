@@ -574,7 +574,11 @@ const cEvent* SearchResult::GetEvent(const cChannel* Channel)
 
 	const cSchedule *Schedule = Schedules->GetSchedule(Channel);
 	if (!Schedule) return NULL;
+#if APIVERSNUM >= 20502
+	return Schedule->GetEventById(m_eventId);
+#else
 	return Schedule->GetEvent(m_eventId);
+#endif
 }
 
 std::vector<cQueryEntry> SearchResults::queryList;

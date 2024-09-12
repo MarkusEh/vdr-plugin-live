@@ -219,7 +219,12 @@ namespace vdrlive
 			return -1;
 		int current, total;
 		// try currently playing recording if any
+#if APIVERSNUM >= 20402
+		cMutexLock mutexLock;
+		cControl* pControl = cControl::Control(mutexLock);
+#else
 		cControl* pControl = cControl::Control();
+#endif
 		if (pControl)
 		{
 			const cRecording* playing = pControl->GetRecording();
@@ -303,7 +308,11 @@ namespace vdrlive
 			if (!schedule) {
 				return CreateEpgInfo(epgid, tr("Epg error"), tr("Channel has no schedule"));
 			}
+#if APIVERSNUM >= 20502
+			cEvent const *event = schedule->GetEventById(eventId);
+#else
 			cEvent const *event = schedule->GetEvent(eventId);
+#endif
 			if (!event) {
 				return CreateEpgInfo(epgid, tr("Epg error"), tr("Wrong event id"));
 			}

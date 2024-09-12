@@ -125,7 +125,11 @@ const cTimer* timer;
 				LOCK_SCHEDULES_READ;
 				schedule = Schedules->GetSchedule( channelid );
 			}
+#if APIVERSNUM >= 20502
+			const cEvent *event = schedule->GetEventById( eventid );
+#else
 			const cEvent *event = schedule->GetEvent( eventid );
+#endif
 			if (event) eventTimer.reset( new cTimer( event ) );
 			else {
 				esyslog("live: edit timer with eventid %d not valid", eventid);

@@ -62,7 +62,12 @@ void PlayRecordingTask::Action()
 		cControl::Attach();
 	}
 	else {
+#if APIVERSNUM >= 20402
+		cMutexLock mutexLock;
+		cReplayControl* replayControl = reinterpret_cast<cReplayControl*>(cControl::Control(mutexLock));
+#else
 		cReplayControl* replayControl = reinterpret_cast<cReplayControl*>(cControl::Control());
+#endif
 		if (! replayControl) {
 			SetError(tr("Cannot control playback!"));
 			return;
@@ -93,7 +98,12 @@ void PauseRecordingTask::Action()
 		return;
 	}
 
+#if APIVERSNUM >= 20402
+	cMutexLock mutexLock;
+	cReplayControl* replayControl = reinterpret_cast<cReplayControl*>(cControl::Control(mutexLock));
+#else
 	cReplayControl* replayControl = reinterpret_cast<cReplayControl*>(cControl::Control());
+#endif
 	if (! replayControl) {
 		SetError(tr("Cannot control playback!"));
 		return;
@@ -142,7 +152,12 @@ void ForwardRecordingTask::Action()
 		return;
 	}
 
+#if APIVERSNUM >= 20402
+	cMutexLock mutexLock;
+	cReplayControl* replayControl = reinterpret_cast<cReplayControl*>(cControl::Control(mutexLock));
+#else
 	cReplayControl* replayControl = reinterpret_cast<cReplayControl*>(cControl::Control());
+#endif
 	if (! replayControl) {
 		SetError(tr("Cannot control playback!"));
 		return;
@@ -172,7 +187,12 @@ void BackwardRecordingTask::Action()
 		return;
 	}
 
+#if APIVERSNUM >= 20402
+	cMutexLock mutexLock;
+	cReplayControl* replayControl = reinterpret_cast<cReplayControl*>(cControl::Control(mutexLock));
+#else
 	cReplayControl* replayControl = reinterpret_cast<cReplayControl*>(cControl::Control());
+#endif
 	if (! replayControl) {
 		SetError(tr("Cannot control playback!"));
 		return;
