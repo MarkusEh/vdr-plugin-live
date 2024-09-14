@@ -11,135 +11,135 @@ using namespace vdrlive;
 
 </%pre>
 <%args>
-	int channel = 1;
-	std::string channelid;
-	std::string recid;
+  int channel = 1;
+  std::string channelid;
+  std::string recid;
 </%args>
 <%session scope="global">
-	bool logged_in(false);
-	std::string prev_recording;
-	std::string next_recording;
-	FFmpegThread *f_worker = nullptr;
+  bool logged_in(false);
+  std::string prev_recording;
+  std::string next_recording;
+  FFmpegThread *f_worker = nullptr;
 </%session>
 <%request scope="global">
-	const cChannel* Channel;
-	std::string RecId;
+  const cChannel* Channel;
+  std::string RecId;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
-	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+  if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
-	pageTitle = trVDR("Stream");
+  pageTitle = trVDR("Stream");
 
-	// check for session cookie.
-	std::string session;
-	if (request.hasCookie("tntnet")) {
-		session = request.getCookie("tntnet");
-		dsyslog("vdrlive::stream::session(%s)", session.c_str());
-	}
-	else {
-		esyslog("vdrlive::stream: no session cookie found");
-		return reply.redirect("");
-	}
+  // check for session cookie.
+  std::string session;
+  if (request.hasCookie("tntnet")) {
+    session = request.getCookie("tntnet");
+    dsyslog("vdrlive::stream::session(%s)", session.c_str());
+  }
+  else {
+    esyslog("vdrlive::stream: no session cookie found");
+    return reply.redirect("");
+  }
 
-	Channel = nullptr;
-	std::string url;
-	if ( qparam.has("recid") ) {
-		RecId = recid.substr( 0, 10 ).compare( "recording_" ) == 0 ? recid.substr( 10 ) : recid;
-		const cRecording* Recording = LiveRecordingsManager()->GetByMd5Hash( recid );
-		if ( Recording ) {
-			struct stat st;
-			const char* filename = Recording->FileName();
-			if ( filename && stat( filename, &st ) == 0  ) {
-				char buffer[50];  // suitable for accommodating url with 2x ULLONG_MAX
-				int length = snprintf( buffer, sizeof( buffer ), "%lu:%llu.rec", ( unsigned long )st.st_dev, ( unsigned long long )st.st_ino );
-				if ( 0 < length && length < ( int )sizeof( buffer ) ) {
-					url += buffer;
-					LOCK_CHANNELS_READ;
-					tChannelID cid = Recording->Info()->ChannelID();
-					Channel = Channels->GetByChannelID( cid );
-				}
-			}
-		}
-		if ( !Channel )
-			throw HtmlError( tr("Couldn't find recording or no recordings available. Maybe you mistyped your request?") );
-	} else if ( qparam.has("channelid") ) {
-		LOCK_CHANNELS_READ;
-		tChannelID cid = cid.FromString(channelid.c_str());
-		Channel = Channels->GetByChannelID( cid );
-		url = channelid;
-	} else if ( channel > 0 ) {
-		LOCK_CHANNELS_READ;
-		Channel = Channels->GetByNumber( channel );
-		url += Channel->GetChannelID().ToString();
-	}
-	if ( !Channel )
-		throw HtmlError( tr("Couldn't find channel or no channels available. Maybe you mistyped your request?") );
+  Channel = nullptr;
+  std::string url;
+  if ( qparam.has("recid") ) {
+    RecId = recid.substr( 0, 10 ).compare( "recording_" ) == 0 ? recid.substr( 10 ) : recid;
+    const cRecording* Recording = LiveRecordingsManager()->GetByMd5Hash( recid );
+    if ( Recording ) {
+      struct stat st;
+      const char* filename = Recording->FileName();
+      if ( filename && stat( filename, &st ) == 0  ) {
+        char buffer[50];  // suitable for accommodating url with 2x ULLONG_MAX
+        int length = snprintf( buffer, sizeof( buffer ), "%lu:%llu.rec", ( unsigned long )st.st_dev, ( unsigned long long )st.st_ino );
+        if ( 0 < length && length < ( int )sizeof( buffer ) ) {
+          url += buffer;
+          LOCK_CHANNELS_READ;
+          tChannelID cid = Recording->Info()->ChannelID();
+          Channel = Channels->GetByChannelID( cid );
+        }
+      }
+    }
+    if ( !Channel )
+      throw HtmlError( tr("Couldn't find recording or no recordings available. Maybe you mistyped your request?") );
+  } else if ( qparam.has("channelid") ) {
+    LOCK_CHANNELS_READ;
+    tChannelID cid = cid.FromString(channelid.c_str());
+    Channel = Channels->GetByChannelID( cid );
+    url = channelid;
+  } else if ( channel > 0 ) {
+    LOCK_CHANNELS_READ;
+    Channel = Channels->GetByNumber( channel );
+    url += Channel->GetChannelID().ToString();
+  }
+  if ( !Channel )
+    throw HtmlError( tr("Couldn't find channel or no channels available. Maybe you mistyped your request?") );
 
-	url += ".";
-	for ( auto c : LiveSetup().GetStreamdevType() )
-		url += std::tolower( c );
-	dsyslog("vdrlive::stream::vtype(%d)", Channel->Vtype());
-	dsyslog("vdrlive::stream::f_worker(%p)", f_worker);
-	if ( !f_worker) {
-		f_worker = new FFmpegThread();
-		dsyslog("vdrlive::stream: new FFmpegThread created");
-	}
+  url += ".";
+  for ( auto c : LiveSetup().GetStreamdevType() )
+    url += std::tolower( c );
+  dsyslog("vdrlive::stream::vtype(%d)", Channel->Vtype());
+  dsyslog("vdrlive::stream::f_worker(%p)", f_worker);
+  if ( !f_worker) {
+    f_worker = new FFmpegThread();
+    dsyslog("vdrlive::stream: new FFmpegThread created");
+  }
 
-	switch( Channel->Vtype() ) {
-		case 27: // h264
-			f_worker->StartFFmpeg(session, url, qparam.has("recid") ? tagRecordingH264 : tagChannelH264);
-			break;
-		case 36: // h265
-			f_worker->StartFFmpeg(session, url, qparam.has("recid") ? tagRecordingHVEC : tagChannelHVEC);
-			break;
-		case 2: // mpeg2
-			f_worker->StartFFmpeg(session, url, qparam.has("recid") ? tagRecordingMPG2 : tagChannelMPG2);
-			break;
-		default: // others
-			f_worker->StartFFmpeg(session, url, qparam.has("recid") ? tagRecordingDFLT : tagChannelDFLT);
-	}
-	dsyslog("vdrlive::stream::StartFFmpeg(%s)", url.c_str());
+  switch( Channel->Vtype() ) {
+    case 27: // h264
+      f_worker->StartFFmpeg(session, url, qparam.has("recid") ? tagRecordingH264 : tagChannelH264);
+      break;
+    case 36: // h265
+      f_worker->StartFFmpeg(session, url, qparam.has("recid") ? tagRecordingHVEC : tagChannelHVEC);
+      break;
+    case 2: // mpeg2
+      f_worker->StartFFmpeg(session, url, qparam.has("recid") ? tagRecordingMPG2 : tagChannelMPG2);
+      break;
+    default: // others
+      f_worker->StartFFmpeg(session, url, qparam.has("recid") ? tagRecordingDFLT : tagChannelDFLT);
+  }
+  dsyslog("vdrlive::stream::StartFFmpeg(%s)", url.c_str());
 
 </%cpp>
 <# <& pageelems.doc_type &> #>
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>VDR Live - <$ pageTitle $></title>
-		<& pageelems.stylesheets &>
-		<& pageelems.ajax_js &>
-		<& pageelems.create_html_js &>
-		<script> window.onbeforeunload = function() { player.stop(); } </script>
-	</head>
-	<body onload="adjustHeader()" onresize="adjustHeader()">
-		<& pageelems.logo &>
-%	if ( qparam.has("recid") ) {
-		<& menu active=("stream") component=("stream.recording_selection") &>
-%	} else {
-		<& menu active=("stream") component=("stream.channel_selection") &>
-%	}
-		<div class="inhalt">
-			<div class="player-container">
-			<div id="player" class="player">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VDR Live - <$ pageTitle $></title>
+    <& pageelems.stylesheets &>
+    <& pageelems.ajax_js &>
+    <& pageelems.create_html_js &>
+    <script> window.onbeforeunload = function() { player.stop(); } </script>
+  </head>
+  <body onload="adjustHeader()" onresize="adjustHeader()">
+    <& pageelems.logo &>
+%  if ( qparam.has("recid") ) {
+    <& menu active=("stream") component=("stream.recording_selection") &>
+%  } else {
+    <& menu active=("stream") component=("stream.channel_selection") &>
+%  }
+    <div class="inhalt">
+      <div class="player-container">
+      <div id="player" class="player">
 
-				<script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
-				<script>
-				Clappr.Log.setLevel(Clappr.Log.LEVEL_INFO);
-				var player = new Clappr.Player({
-					source: "media/<$ session $>/master_<$ url $>.m3u8",
-					parentId: "#player",
-					width: "100%", height: "100%",
-					autoPlay: "true",
-					events: {
-						onError: function(error) { console.log('Calppr.Player error: ', error); player.play(); },
-						onEnded: function() { console.log('Clappr.Player ended'); player.play(); },
-					}
-				});
-				</script>
-			</div>
-			</div>
+        <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+        <script>
+        Clappr.Log.setLevel(Clappr.Log.LEVEL_INFO);
+        var player = new Clappr.Player({
+          source: "media/<$ session $>/master_<$ url $>.m3u8",
+          parentId: "#player",
+          width: "100%", height: "100%",
+          autoPlay: "true",
+          events: {
+            onError: function(error) { console.log('Calppr.Player error: ', error); player.play(); },
+            onEnded: function() { console.log('Clappr.Player ended'); player.play(); },
+          }
+        });
+        </script>
+      </div>
+      </div>
 <%cpp>
 if (qparam.has("recid")) {
 dsyslog("vdrlive::stream: generating recording info");
@@ -147,81 +147,81 @@ RecordingsItemRecPtr rPtr = LiveRecordingsManager()->GetByIdHash( recid );
 cToSvConcat<0> recording_item;
 rPtr->AppendAsJSArray(recording_item);
 </%cpp>
-			<table class="listing streaming" cellspacing="0" cellpadding="0">
-				<tbody>
-					<script>
-						document.write(existingRecordingString(1, "", <$$ recording_item.c_str() $>))
-					</script>
-				</tbody>
-			</table>
+      <table class="listing streaming" cellspacing="0" cellpadding="0">
+        <tbody>
+          <script>
+            document.write(existingRecordingString(1, "", <$$ recording_item.c_str() $>))
+          </script>
+        </tbody>
+      </table>
 <%cpp>
 } else {
 dsyslog("vdrlive::stream: generating EPG info");
 const cSchedule *Schedule = NULL;
 {
-	LOCK_SCHEDULES_READ;
-	Schedule = Schedules->GetSchedule(Channel);
+  LOCK_SCHEDULES_READ;
+  Schedule = Schedules->GetSchedule(Channel);
 }
 const cEvent *Event = NULL;
 if (Schedule)
-	Event = Schedule->GetPresentEvent();
+  Event = Schedule->GetPresentEvent();
 
 EpgInfoPtr epgEvent;
 if (Event) {
-	epgEvent = EpgEvents::CreateEpgInfo(Channel, Event);
+  epgEvent = EpgEvents::CreateEpgInfo(Channel, Event);
 
-	tChannelID chanId;
-	tEventID eventId;
-	EpgEvents::DecodeDomId(epgEvent->Id(), chanId, eventId);
-	char const * timeFormat = tr("%I:%M %p");
-	char const * dateFormat = tr("%A, %x");
-	std::string headTime = std::string(cToSvDateTime(timeFormat, time(0)));
-	std::string headDate = std::string(cToSvDateTime(dateFormat, time(0)));
-	std::string startTime(epgEvent->StartTime(tr("%I:%M %p")));
-	std::string endTime(epgEvent->EndTime(tr("%I:%M %p")));
-	std::string startDate(epgEvent->StartTime(tr("%a, %x")));
+  tChannelID chanId;
+  tEventID eventId;
+  EpgEvents::DecodeDomId(epgEvent->Id(), chanId, eventId);
+  char const * timeFormat = tr("%I:%M %p");
+  char const * dateFormat = tr("%A, %x");
+  std::string headTime = std::string(cToSvDateTime(timeFormat, time(0)));
+  std::string headDate = std::string(cToSvDateTime(dateFormat, time(0)));
+  std::string startTime(epgEvent->StartTime(tr("%I:%M %p")));
+  std::string endTime(epgEvent->EndTime(tr("%I:%M %p")));
+  std::string startDate(epgEvent->StartTime(tr("%a, %x")));
 
-	std::string timeSpan(startTime + " - " + endTime);
+  std::string timeSpan(startTime + " - " + endTime);
 
-	if (startTime.empty() && endTime.empty()) {
-		timeSpan = headTime;
-		startDate = headDate;
-	}
+  if (startTime.empty() && endTime.empty()) {
+    timeSpan = headTime;
+    startDate = headDate;
+  }
   std::string longDescription = concat(
     StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), LiveSetup().GetMaxTooltipChars())),
-	  "<br/><br/>",
+    "<br/><br/>",
     tr("Click to view details."));
-	</%cpp>
-			<table class="listing streaming" cellspacing="0" cellpadding="0">
-				<tr>
-					<& pageelems.epg_tool_box detail=(0) epgid=(epgEvent->Id()) title=(epgEvent->Title()) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) lastCurrentChanel=(0) &>
-					<td class="topaligned">
-						<div class="withmargin">
-							<div class="nomargin nowrap"><$ (timeSpan) $></div>
-							<div class="progress"><div><& pageelems.progressbar progress=(epgEvent->Elapsed()) duration=(epgEvent->Duration()) &></div></div>
-						</div>
-					</td>
-					<td class="topaligned" style="width: 788px">
-						<div class="more withmargin">
-%						if (eventId != 0) {
-						    <a
-%							if (!longDescription.empty()) {
-							<& tooltip.hint text=(longDescription) &><& tooltip.display domId=(epgEvent->Id()) &>
-%							}
-							><span class="title"><$ (epgEvent->Title()) $></span><br /><span class="short"><$ (epgEvent->ShortDescr()) $></span></a>
-%							} else {
-							<span class="title"><$ (epgEvent->Title()) $></span>
-%							}
-						</div>
-					</td>
-					<td class="topaligned rightcol" style="width: 250px"><div class="station withmargin"><a	href="schedule.html?channel=<$ cSv(cToSvInt(channel)) $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ cSv(cToSvInt(channel)) $><$ tr(" - ") $><$ (epgEvent->Caption()) $></a></div>
-					</td>
-				</tr>
-			</table>
+  </%cpp>
+      <table class="listing streaming" cellspacing="0" cellpadding="0">
+        <tr>
+          <& pageelems.epg_tool_box detail=(0) epgid=(epgEvent->Id()) title=(epgEvent->Title()) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) lastCurrentChanel=(0) &>
+          <td class="topaligned">
+            <div class="withmargin">
+              <div class="nomargin nowrap"><$ (timeSpan) $></div>
+              <div class="progress"><div><& pageelems.progressbar progress=(epgEvent->Elapsed()) duration=(epgEvent->Duration()) &></div></div>
+            </div>
+          </td>
+          <td class="topaligned" style="width: 788px">
+            <div class="more withmargin">
+%            if (eventId != 0) {
+                <a
+%              if (!longDescription.empty()) {
+              <& tooltip.hint text=(longDescription) &><& tooltip.display domId=(epgEvent->Id()) &>
+%              }
+              ><span class="title"><$ (epgEvent->Title()) $></span><br /><span class="short"><$ (epgEvent->ShortDescr()) $></span></a>
+%              } else {
+              <span class="title"><$ (epgEvent->Title()) $></span>
+%              }
+            </div>
+          </td>
+          <td class="topaligned rightcol" style="width: 250px"><div class="station withmargin"><a  href="schedule.html?channel=<$ cSv(cToSvInt(channel)) $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ cSv(cToSvInt(channel)) $><$ tr(" - ") $><$ (epgEvent->Caption()) $></a></div>
+          </td>
+        </tr>
+      </table>
 %} // if (Event)
 %} // if ( qparam.has("recid")
-		</div>
-	</body>
+    </div>
+  </body>
 </html>
 <%include>page_exit.eh</%include>
 

@@ -3,11 +3,11 @@
 #include <exception.h>
 </%pre>
 <%cpp>
-	spoint.commit();
+  spoint.commit();
 } catch ( vdrlive::HtmlError const& ex ) {
-	tnt::QueryParams param = qparam;
-	param.add( "pageTitle", pageTitle );
-	param.add( "errorMessage", ex.what() );
-	callComp( "error", request, reply, param );
+  tnt::QueryParams param = qparam;
+  param.add( "pageTitle", pageTitle );
+  param.add( "errorMessage", ex.what() );
+  callComp( "error", request, reply, param );
 }
 </%cpp>

@@ -23,24 +23,24 @@ using namespace vdrlive;
 
 </%pre>
 <%args>
-	std::string sort;
-	std::string todel;
-	std::string diskinfo;
-	std::string filter;
-	std::string deletions[];
-	std::string flat;
+  std::string sort;
+  std::string todel;
+  std::string diskinfo;
+  std::string filter;
+  std::string deletions[];
+  std::string flat;
   int history_num_back = 0;
 </%args>
 <%session scope="global">
-	bool logged_in(false);
+  bool logged_in(false);
 </%session>
 
 <# scope="page" should be enough but does not work with tntnet 3.0 #>
 <%request scope="global">
-	std::string currentSort;
-	std::string deleteResult;
-	std::string currentFilter;
-	std::string currentFlat;
+  std::string currentSort;
+  std::string deleteResult;
+  std::string currentFilter;
+  std::string currentFlat;
 </%request>
 
 <%include>page_init.eh</%include>
@@ -334,10 +334,10 @@ if (!deleteResult.empty()) {
             <& recordings.recordings_item iRecItem=(iRecItemRoot) irecording_item=(irecording_item) iRecordingsTree=(iRecordingsTree) iOpenTreeNodes=(iOpenTreeNodes) iAvailable_recs=(iAvailable_recs) &>
           </ul>
         </div>
-				<input type="hidden" name="sort" value="<$ currentSort $>">
-				<input type="hidden" name="filter" value="<$ currentFilter $>">
-				<input type="hidden" name="flat" value="<$ currentFlat $>">
-				<input type="hidden" name="history_num_back" value="<$ history_num_back $>">
+        <input type="hidden" name="sort" value="<$ currentSort $>">
+        <input type="hidden" name="filter" value="<$ currentFilter $>">
+        <input type="hidden" name="flat" value="<$ currentFlat $>">
+        <input type="hidden" name="history_num_back" value="<$ history_num_back $>">
         <div class="withmargin hidden-xs">
           <button class="red" type="submit"><$ tr("Delete selected") $></button>
 <#        <button class="green" type="button" onclick="clearCheckboxes(document.getElementById('form_recordings'))" ><$ tr("Uncheck all checkboxes") $></button> #>
@@ -357,12 +357,12 @@ dsyslog("live, time recordings.ecpp: %f", timeNeeded.count());
 
 <%def recordings_item>
 <%args>
-	uintptr_t iRecItem = 0;
-	uintptr_t irecording_item = 0;
-	uintptr_t iRecordingsTree = 0;
+  uintptr_t iRecItem = 0;
+  uintptr_t irecording_item = 0;
+  uintptr_t iRecordingsTree = 0;
   uintptr_t iOpenTreeNodes = 0;
   uintptr_t iAvailable_recs = 0;
-	std::string parentIdHash;
+  std::string parentIdHash;
 </%args>
 <%cpp>
 // define sort order, and reverse (for recordings)
@@ -638,7 +638,7 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
 <# ---------------------------------------------------------------------- #>
 <%def del_rec>
 <%args>
-	std::string id;
+  std::string id;
   std::string sort;
   std::string filter;
   std::string flat;
@@ -650,7 +650,7 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
 <# ---------------------------------------------------------------------- #>
 <%def edit_rec>
 <%args>
-	std::string id;
+  std::string id;
   std::string sort;
   std::string filter;
   std::string flat;
@@ -720,8 +720,8 @@ function cancel_delete() {
 <# ---------------------------------------------------------------------- #>
 <%def rec_tools>
 <%args>
-	std::string id;
-	std::string title;
+  std::string id;
+  std::string title;
   std::string s_IMDB_ID;
   std::string sort;
   std::string filter;
@@ -789,8 +789,8 @@ injectErrorHdSdIcon(\"icons-<$id$>\", <$cSv(cToSvInt(recordingErrors))$>, <$cSv(
 <# ---------------------------------------------------------------------- #>
 <%def archived_disc>
 <%args>
-	std::string archived;
-	std::string title;
+  std::string archived;
+  std::string title;
         std::string s_IMDB_ID;
 </%args>
 <img src="<$ LiveSetup().GetThemedLink("img", "on_dvd.png") $>" alt="on_dvd" <& tooltip.hint text=(archived) &> />

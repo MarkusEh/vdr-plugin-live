@@ -15,11 +15,11 @@ bool logged_in(false);
 std::string mime("image/png");
 if (request.getArgsCount() > 0) {
 #if TNT_MAPURL_NAMED_ARGS
-	mime = request.getArg("mime-type");
+  mime = request.getArg("mime-type");
 #else
-	mime = request.getArg(0);
+  mime = request.getArg(0);
 #endif
-	// dsyslog("vdrlive::content found mime arg (%s)", mime.c_str());
+  // dsyslog("vdrlive::content found mime arg (%s)", mime.c_str());
 }
 reply.setContentType(mime);
 // dsyslog("vdrlive::content::mimetype(%s)", mime.c_str());
@@ -30,26 +30,26 @@ std::string const path(request.getPathInfo());
 // security checking of path. In order to not allow exploits the
 // path must be absolute and not contain any upward references (e.g '../')
 if (path.empty()) {
-	return HTTP_BAD_REQUEST;
+  return HTTP_BAD_REQUEST;
 }
 if ('/' != path[0]) {
-	return HTTP_BAD_REQUEST;
+  return HTTP_BAD_REQUEST;
 }
 if (std::string::npos != path.find("../", 1)) {
-	return HTTP_BAD_REQUEST;
+  return HTTP_BAD_REQUEST;
 }
 
 FileCache::ptr_type f = LiveFileCache().get(path);
 
 if (f.get() == 0) {
-	// dsyslog("vdrlive::content: DECLINED");
-	return DECLINED;
+  // dsyslog("vdrlive::content: DECLINED");
+  return DECLINED;
 }
 std::string ctime = tnt::HttpMessage::htdate(f->ctime());
 std::string browserTime = request.getHeader(tnt::httpheader::ifModifiedSince);
 if (browserTime == ctime) {
-	// dsyslog("vdrlive::content: HTTP_NOT_MODIFIED");
-	return HTTP_NOT_MODIFIED;
+  // dsyslog("vdrlive::content: HTTP_NOT_MODIFIED");
+  return HTTP_NOT_MODIFIED;
 }
 
 // dsyslog("vdrlive::content: send %d bytes of data", f->size());

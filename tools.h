@@ -28,7 +28,7 @@ std::istream& operator>>( std::istream& is, tChannelID& ret );
 inline
 std::ostream& operator<<( std::ostream& os, tChannelID const& id )
 {
-	return os << cToSvConcat(id);
+  return os << cToSvConcat(id);
 }
 
 template<typename... Args> void stringAppendFormated(cToSvConcat<0> &target, const char *format, Args&&... args) {
@@ -36,8 +36,8 @@ template<typename... Args> void stringAppendFormated(cToSvConcat<0> &target, con
 }
 
 namespace vdrlive {
-	extern const std::locale g_locale;
-	extern const std::collate<char>& g_collate_char;
+  extern const std::locale g_locale;
+  extern const std::collate<char>& g_collate_char;
 
 template<class T>
   void AppendHtmlEscapedAndCorrectNonUTF8(T &target, const char* s, const char *end = NULL, bool tooltip = false);
@@ -47,27 +47,27 @@ template<class T>
   }
 
 template<class T>
-	void AppendTextTruncateOnWord(T &target, const char *text, int max_len, bool tooltip = false);
+  void AppendTextTruncateOnWord(T &target, const char *text, int max_len, bool tooltip = false);
 
   template<typename T> void AppendDuration(T &target, char const* format, int duration);
-	std::string FormatDuration( char const* format, int duration );
+  std::string FormatDuration( char const* format, int duration );
 
-	std::string StringReplace(cSv text, cSv substring, cSv replacement );
+  std::string StringReplace(cSv text, cSv substring, cSv replacement );
 
-	std::vector<std::string> StringSplit(cSv text, char delimiter );
+  std::vector<std::string> StringSplit(cSv text, char delimiter );
 
-	cSv StringWordTruncate(cSv input, size_t maxLen, bool& truncated);
-	inline cSv StringWordTruncate(cSv input, size_t maxLen) { bool dummy; return StringWordTruncate(input, maxLen, dummy); }
+  cSv StringWordTruncate(cSv input, size_t maxLen, bool& truncated);
+  inline cSv StringWordTruncate(cSv input, size_t maxLen) { bool dummy; return StringWordTruncate(input, maxLen, dummy); }
 
   std::string StringEscapeAndBreak(cSv input, const char* nl = "<br/>");
-	std::string StringFormatBreak(cSv input);
-	cSv StringTrim(cSv str);
+  std::string StringFormatBreak(cSv input);
+  cSv StringTrim(cSv str);
 
 template<class T>
   void AppendTextMaxLen(T &target, const char *text);
 
   std::string MD5Hash(std::string const& str);
-	std::string xxHash32(cSv str);
+  std::string xxHash32(cSv str);
 
   class cToSvXxHash32: public cToSvHex<8> {
     public:
@@ -93,56 +93,56 @@ template<class T>
       }
   };
 
-	time_t GetTimeT(std::string timestring); // timestring in HH:MM
-	std::string ExpandTimeString(std::string timestring);
+  time_t GetTimeT(std::string timestring); // timestring in HH:MM
+  std::string ExpandTimeString(std::string timestring);
 
-	std::string StringUrlEncode(cSv input);
+  std::string StringUrlEncode(cSv input);
 
-	time_t GetDateFromDatePicker(cSv datestring, cSv format);
-	std::string DatePickerToC(time_t date, cSv format);
-	std::string intToTimeString(int tm);
-	int timeStringToInt(const char *t);
-	int timeStringToInt(const std::string &t);
+  time_t GetDateFromDatePicker(cSv datestring, cSv format);
+  std::string DatePickerToC(time_t date, cSv format);
+  std::string intToTimeString(int tm);
+  int timeStringToInt(const char *t);
+  int timeStringToInt(const std::string &t);
 
-	std::string EncodeDomId(cSv toEncode, char const * from = ".-:", char const * to = "pmc");
-	std::string DecodeDomId(cSv toDecode, char const * from = "pmc", char const * to = ".-:");
+  std::string EncodeDomId(cSv toEncode, char const * from = ".-:", char const * to = "pmc");
+  std::string DecodeDomId(cSv toDecode, char const * from = "pmc", char const * to = ".-:");
 
-	std::string FileSystemExchangeChars(cSv s, bool ToFileSystem);
+  std::string FileSystemExchangeChars(cSv s, bool ToFileSystem);
 
-	bool MoveDirectory(cSv sourceDir, cSv targetDir, bool copy = false);
+  bool MoveDirectory(cSv sourceDir, cSv targetDir, bool copy = false);
 
-	struct bad_lexical_cast: std::runtime_error
-	{
-		bad_lexical_cast(): std::runtime_error( "bad lexical cast" ) {}
-	};
+  struct bad_lexical_cast: std::runtime_error
+  {
+    bad_lexical_cast(): std::runtime_error( "bad lexical cast" ) {}
+  };
 
-	template<typename To, typename From>
-	To lexical_cast( From const& from )
-	{
-		std::stringstream parser;
-		parser << from;
-		To result;
-		parser >> result;
-		if ( !parser )
-			throw bad_lexical_cast();
-		return result;
-	}
+  template<typename To, typename From>
+  To lexical_cast( From const& from )
+  {
+    std::stringstream parser;
+    parser << from;
+    To result;
+    parser >> result;
+    if ( !parser )
+      throw bad_lexical_cast();
+    return result;
+  }
 
-	template<typename From>
-	std::string ConvertToString( From const& from, std::locale const& loc = g_locale )
-	{
-		std::ostringstream parser;
-		parser.imbue( loc );
-		parser << from;
-		return parser.str();
-	}
+  template<typename From>
+  std::string ConvertToString( From const& from, std::locale const& loc = g_locale )
+  {
+    std::ostringstream parser;
+    parser.imbue( loc );
+    parser << from;
+    return parser.str();
+  }
 
-	class ReadLock
-	{
-		private:
-			typedef void (ReadLock::*safe_bool)() const;
+  class ReadLock
+  {
+    private:
+      typedef void (ReadLock::*safe_bool)() const;
 
-		public:
+    public:
             explicit ReadLock(cRwLock& lock, int timeout = 100)
                 : m_lock(lock)
                 , m_locked(false)
@@ -151,25 +151,25 @@ template<class T>
                     m_locked = true;
             }
 
-			~ReadLock()
-			{
-				if (m_locked)
-					m_lock.Unlock();
-			}
+      ~ReadLock()
+      {
+        if (m_locked)
+          m_lock.Unlock();
+      }
 
-			operator safe_bool() const
-			{
-				return m_locked ? &ReadLock::safe_bool_idiom : 0;
-			}
+      operator safe_bool() const
+      {
+        return m_locked ? &ReadLock::safe_bool_idiom : 0;
+      }
 
-		private:
-			ReadLock(ReadLock const&);
+    private:
+      ReadLock(ReadLock const&);
 
-			cRwLock& m_lock;
-			bool m_locked;
+      cRwLock& m_lock;
+      bool m_locked;
 
-			void safe_bool_idiom() const {}
-	};
+      void safe_bool_idiom() const {}
+  };
 
 // methods for scraper **************************************
 

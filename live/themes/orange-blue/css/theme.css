@@ -4,26 +4,26 @@
 */
 
 html, body {
-	background-color: #081966;
-	color: white;
+  background-color: #081966;
+  color: white;
 }
 
 table {
-	background-color: #263480;
+  background-color: #263480;
 }
 
 input {
-	border: 1px solid #081966;
+  border: 1px solid #081966;
         background: #DDDDFF;
 }
 
 select {
-	border: 1px solid #081966;
+  border: 1px solid #081966;
         background: #DDDDFF;
 }
 
 a {
-	color: #F5EE74;
+  color: #F5EE74;
 }
 
 
@@ -33,31 +33,31 @@ a {
 */
 
 .hint-tip {
-	color: black;
+  color: black;
 }
 
 .hint-tip .hint-tip-top {
-	background: transparent url(/img/rounded-box-orange-tl.png) no-repeat 0px 0px;
+  background: transparent url(/img/rounded-box-orange-tl.png) no-repeat 0px 0px;
 }
 
 .hint-tip .hint-tip-top .hint-tip-c {
-	background: transparent url(/img/rounded-box-orange-tr.png) no-repeat right 0px;
+  background: transparent url(/img/rounded-box-orange-tr.png) no-repeat right 0px;
 }
 
 .hint-tip .hint-tip-bdy {
-	background: transparent url(/img/rounded-box-orange-ml.png) repeat-y 0px 0px;
+  background: transparent url(/img/rounded-box-orange-ml.png) repeat-y 0px 0px;
 }
 
 .hint-tip .hint-tip-bdy .hint-tip-c {
-	background: transparent url(/img/rounded-box-orange-mr.png) repeat-y right 0px;
+  background: transparent url(/img/rounded-box-orange-mr.png) repeat-y right 0px;
 }
 
 .hint-tip .hint-tip-bot {
-	background: transparent url(/img/rounded-box-orange-bl.png) no-repeat 0px 0px;
+  background: transparent url(/img/rounded-box-orange-bl.png) no-repeat 0px 0px;
 }
 
 .hint-tip .hint-tip-bot .hint-tip-c {
-	background: transparent url(/img/rounded-box-orange-br.png) no-repeat right 0px;
+  background: transparent url(/img/rounded-box-orange-br.png) no-repeat right 0px;
 }
 
 
@@ -67,30 +67,30 @@ a {
 */
 
 .info-win .info-win-top {
-	background: transparent url(../img/info-win-t-l.png) no-repeat 0px 0px;
+  background: transparent url(../img/info-win-t-l.png) no-repeat 0px 0px;
 }
 
 .info-win .info-win-top .info-win-c {
-	background: transparent url(../img/info-win-t-r.png) no-repeat right 0px;
+  background: transparent url(../img/info-win-t-r.png) no-repeat right 0px;
 }
 
 .info-win .info-win-top .info-win-c .info-win-t {
-	color: #000;
+  color: #000;
 }
 .info-win .info-win-body {
-	background: transparent url(../img/info-win-m-l.png) repeat-y 0px 0px;
+  background: transparent url(../img/info-win-m-l.png) repeat-y 0px 0px;
 }
 
 .info-win .info-win-body .info-win-c {
-	background: transparent url(../img/info-win-m-r.png) repeat-y right 0px;
+  background: transparent url(../img/info-win-m-r.png) repeat-y right 0px;
 }
 
 .info-win .info-win-bot {
-	background: transparent url(../img/info-win-b-l.png) no-repeat 0px 0px;
+  background: transparent url(../img/info-win-b-l.png) no-repeat 0px 0px;
 }
 
 .info-win .info-win-bot .info-win-c {
-	background: transparent url(../img/info-win-b-r.png) no-repeat right 0px;
+  background: transparent url(../img/info-win-b-r.png) no-repeat right 0px;
 }
 
 
@@ -100,52 +100,52 @@ a {
 */
 
 div.menu {
-	background: #FCBC40  url(../img/menu_line_bg.png) repeat-x;
-	border-top: 1px solid #FFFDDD;
-	border-bottom: 1px solid #FFFDDD;
-	color: #122DBA;
+  background: #FCBC40  url(../img/menu_line_bg.png) repeat-x;
+  border-top: 1px solid #FFFDDD;
+  border-bottom: 1px solid #FFFDDD;
+  color: #122DBA;
 }
 
 div.menu a {
-	color: black;
+  color: black;
 }
 
 a#login {
-	color: red;
+  color: red;
 }
 
 div.menu a.active {
-	color: #122DBA;
+  color: #122DBA;
 }
 
 div#pagemenu {
-	background: #FFFFFF url(../img/bg_line.png) top repeat-x;
+  background: #FFFFFF url(../img/bg_line.png) top repeat-x;
 }
 
 div#pagemenu div {
-	background: #FFFFFF url(../img/bg_line_top.png) bottom repeat-x;
+  background: #FFFFFF url(../img/bg_line_top.png) bottom repeat-x;
 }
 
 div#pagemenu div div {
-	background: #122DBA;
-	border-top: 1px solid #C0C0FF;
-	border-bottom: 1px solid #C0C0FF;
+  background: #122DBA;
+  border-top: 1px solid #C0C0FF;
+  border-bottom: 1px solid #C0C0FF;
 }
 
 div#pagemenu a {
-	color: #FCBC40;
+  color: #FCBC40;
 }
 
 div#pagemenu a.active {
-	color: #FFFDDD;
+  color: #FFFDDD;
 }
 
 div#pagemenu span {
-	color: #FCBC40;
+  color: #FCBC40;
 }
 
 div#pagemenu span.sep {
-	color: #FCBC40;
+  color: #FCBC40;
 }
 
 
@@ -155,16 +155,16 @@ div#pagemenu span.sep {
 */
 
 div#infobox {
-	border: 1px solid #FCBC40;
+  border: 1px solid #FCBC40;
 }
 
 div#infobox div.st_header {
-	background: #122DBA;
-	border-bottom: 1px solid #C0C0FF;
+  background: #122DBA;
+  border-bottom: 1px solid #C0C0FF;
 }
 
 div#infobox div.st_content {
-	background: #081966 url(../img/bg_line_top.png) top left repeat-x;
+  background: #081966 url(../img/bg_line_top.png) top left repeat-x;
 }
 
 div#infobox div.st_controls div.st_update {
@@ -178,15 +178,15 @@ div#infobox div.st_controls div.st_update {
 */
 
 table td.bottomrow {
-	border-bottom: 1px solid #FFFDDD !important;
+  border-bottom: 1px solid #FFFDDD !important;
 }
 
 table td.leftcol {
-	border-left: 1px solid #FFFDDD;
+  border-left: 1px solid #FFFDDD;
 }
 
 table td.rightcol {
-	border-right: 1px solid #FFFDDD;
+  border-right: 1px solid #FFFDDD;
 }
 
 
@@ -196,19 +196,19 @@ table td.rightcol {
 */
 
 table.mschedule tr td.even {
-	background-color: #081999;
+  background-color: #081999;
 }
 
 table.mschedule tr td.odd {
-	background-color: #081966;
+  background-color: #081966;
 }
 
 table.mschedule tr td.current_row {
-	background-color: #FCB840;
+  background-color: #FCB840;
 }
 
 table.mschedule a {
-	color: inherit;
+  color: inherit;
 }
 
 
@@ -218,41 +218,41 @@ table.mschedule a {
 */
 
 div.station div {
-	background: url(../img/bg_box_l.png) top left no-repeat;
+  background: url(../img/bg_box_l.png) top left no-repeat;
 }
 
 div.station div div {
-	background: url(../img/bg_box_r.png) top right no-repeat;
+  background: url(../img/bg_box_r.png) top right no-repeat;
 }
 
 div.station div div div {
-	background: url(../img/bg_box_h.png) repeat-x;
+  background: url(../img/bg_box_h.png) repeat-x;
 }
 
 div.station div div div a {
-	color: #000000;
+  color: #000000;
 }
 
 td div.station a {
-	color: #FCBC40;
+  color: #FCBC40;
 }
 
 div.content {
-	background: #263480 url(../img/bg_tools.png) top left repeat-y;
-	border-left: 1px solid #FFFDDD;
-	border-right: 1px solid #FFFDDD;
-	border-bottom: 1px solid #FFFDDD;
+  background: #263480 url(../img/bg_tools.png) top left repeat-y;
+  border-left: 1px solid #FFFDDD;
+  border-right: 1px solid #FFFDDD;
+  border-bottom: 1px solid #FFFDDD;
 }
 
 div.__progress {
-	border: 1px solid #C0C0FF;
+  border: 1px solid #C0C0FF;
 }
 
 div.__progress div.__elapsed {
-	background-color: #FCB840;
+  background-color: #FCB840;
 }
 img.channel_logo {
-	background-color: #FCB84000;
+  background-color: #FCB84000;
 }
 
 
@@ -262,25 +262,25 @@ img.channel_logo {
 */
 
 table.listing tr td {
-	/* background: url(../img/bg_line.png) bottom repeat-x; */
+  /* background: url(../img/bg_line.png) bottom repeat-x; */
         background: transparent;
-	border-bottom: 1px solid #FCBC40;
+  border-bottom: 1px solid #FCBC40;
 }
 
 table.listing tr.description td {
-	background: #122DBA;
+  background: #122DBA;
 }
 
 table.listing tr td.current {
-	color: #FCBC40;
+  color: #FCBC40;
 }
 
 table.listing tr.spacer td {
-	background-color: #081966;
+  background-color: #081966;
 }
 
 table.listing a {
-	color: #FCBC40;
+  color: #FCBC40;
 }
 
 
@@ -289,17 +289,17 @@ table.listing a {
    #############################
 */
 
-div.boxheader	 {
-	background: url(../img/bg_box_l.png) top left no-repeat;
+div.boxheader   {
+  background: url(../img/bg_box_l.png) top left no-repeat;
 }
 
 div.boxheader div {
-	background: url(../img/bg_box_r.png) top right no-repeat;
+  background: url(../img/bg_box_r.png) top right no-repeat;
 }
 
 div.boxheader div div {
-	background: url(../img/bg_box_h.png) repeat-x;
-	color: black;
+  background: url(../img/bg_box_h.png) repeat-x;
+  color: black;
 }
 
 
@@ -309,14 +309,14 @@ div.boxheader div div {
 */
 
 div.recordings {
-	border: 1px solid #FFFDDD;
-	background-color: #263480;
+  border: 1px solid #FFFDDD;
+  background-color: #263480;
 }
 
 div.recording_item {
-	/* background: url(../img/bg_line.png) bottom repeat-x; */
+  /* background: url(../img/bg_line.png) bottom repeat-x; */
         background: transparent;
-	border-bottom: 1px solid #FCBC40;
+  border-bottom: 1px solid #FCBC40;
 }
 
 
@@ -326,7 +326,7 @@ div.recording_item {
 */
 
 div.screenshot {
-	background-image: url(../img/tv.jpg);
+  background-image: url(../img/tv.jpg);
 }
 
 
@@ -336,11 +336,11 @@ div.screenshot {
 */
 
 div.dotted {
-	border: 1px dotted #bbbbbb;
-	padding: 3px;
-	margin: 2px;
-	float: left;
-	background-color: #122dBA;
+  border: 1px dotted #bbbbbb;
+  padding: 3px;
+  margin: 2px;
+  float: left;
+  background-color: #122dBA;
 }
 
 
@@ -350,13 +350,13 @@ div.dotted {
 */
 
 table.formular tr td {
-	/* background: url(../img/bg_line.png) bottom repeat-x; */
-	background: transparent;
-	border-bottom: 1px solid #FCBC40;
+  /* background: url(../img/bg_line.png) bottom repeat-x; */
+  background: transparent;
+  border-bottom: 1px solid #FCBC40;
 }
 
 table.dependent {
-	background-color: #263480;
+  background-color: #263480;
 }
 
 
@@ -376,7 +376,7 @@ table.dependent {
 */
 
 .info-win div.epg_content div.about_head div div {
-	background: #122DBA;
-	border-top: 1px solid #C0C1DA;
-	border-bottom: 1px solid #C0C1DA;
+  background: #122DBA;
+  border-top: 1px solid #C0C1DA;
+  border-bottom: 1px solid #C0C1DA;
 }

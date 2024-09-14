@@ -2,7 +2,7 @@
 #define VDR_LIVE_TNTCONFIG_H
 
 #if TNTVERSION >= 30000
-	#include <fstream>
+  #include <fstream>
 #endif
 
 #include "tntfeatures.h"
@@ -11,18 +11,18 @@
 
 namespace vdrlive {
 
-	class TntConfig
-	{
-		public:
-			static TntConfig const& Get();
+  class TntConfig
+  {
+    public:
+      static TntConfig const& Get();
 
                         void ConfigureTvscraper(tnt::Tntnet& app, const std::string &tvscraperImageDir) const;
-  			void Configure(tnt::Tntnet& app) const;
+        void Configure(tnt::Tntnet& app) const;
 
-		private:
-			TntConfig();
-			TntConfig( TntConfig const& );
-	};
+    private:
+      TntConfig();
+      TntConfig( TntConfig const& );
+  };
 
 } // namespace vdrlive
 

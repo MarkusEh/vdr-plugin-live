@@ -67,36 +67,36 @@ static unsigned char PADDING[64] =
 // PrintMD5: Converts a completed md5 digest into a char* string.
 char* PrintMD5(uchar md5Digest[16])
 {
-	char chBuffer[256];
-	char chEach[10];
-	int nCount;
+  char chBuffer[256];
+  char chEach[10];
+  int nCount;
 
-	memset(chBuffer,0,256);
-	memset(chEach, 0, 10);
+  memset(chBuffer,0,256);
+  memset(chEach, 0, 10);
 
-	for (nCount = 0; nCount < 16; nCount++)
-	{
-		sprintf(chEach, "%02x", md5Digest[nCount]);
-//		strncat(chBuffer, chEach, sizeof(chEach));                       // compiler warning with gcc V9
-	 	strncat(chBuffer, chEach, sizeof(chBuffer)-strlen(chBuffer)-1);  // no need to limit to the size of chEach,
-		                                                                 // because it will only append up to the 0 byte of chEach,
-		                                                                 // but don't overflow chBuffer and let room the terminating 0
-	}
+  for (nCount = 0; nCount < 16; nCount++)
+  {
+    sprintf(chEach, "%02x", md5Digest[nCount]);
+//    strncat(chBuffer, chEach, sizeof(chEach));                       // compiler warning with gcc V9
+     strncat(chBuffer, chEach, sizeof(chBuffer)-strlen(chBuffer)-1);  // no need to limit to the size of chEach,
+                                                                     // because it will only append up to the 0 byte of chEach,
+                                                                     // but don't overflow chBuffer and let room the terminating 0
+  }
 
-	return strdup(chBuffer);
+  return strdup(chBuffer);
 }
 
 // MD5String: Performs the MD5 algorithm on a char* string, returning
 // the results as a char*.
 char* MD5String(char* szString)
 {
-	int nLen = strlen(szString);
-	md5 alg;
+  int nLen = strlen(szString);
+  md5 alg;
 
-	alg.Update((unsigned char*)szString, (unsigned int)nLen);
-	alg.Finalize();
+  alg.Update((unsigned char*)szString, (unsigned int)nLen);
+  alg.Finalize();
 
-	return PrintMD5(alg.Digest());
+  return PrintMD5(alg.Digest());
 
 }
 
@@ -104,12 +104,12 @@ char* MD5String(char* szString)
 // Initializes a new context.
 void md5::Init()
 {
-	memset(m_Count, 0, 2 * sizeof(uint4));
+  memset(m_Count, 0, 2 * sizeof(uint4));
 
-	m_State[0] = 0x67452301;
-	m_State[1] = 0xefcdab89;
-	m_State[2] = 0x98badcfe;
-	m_State[3] = 0x10325476;
+  m_State[0] = 0x67452301;
+  m_State[1] = 0xefcdab89;
+  m_State[2] = 0x98badcfe;
+  m_State[3] = 0x10325476;
 }
 
 // md5::Update
@@ -118,32 +118,32 @@ void md5::Init()
 // context.
 void md5::Update(uchar* chInput, uint4 nInputLen)
 {
-	uint4 i, index, partLen;
+  uint4 i, index, partLen;
 
-	// Compute number of bytes mod 64
-	index = (unsigned int)((m_Count[0] >> 3) & 0x3F);
+  // Compute number of bytes mod 64
+  index = (unsigned int)((m_Count[0] >> 3) & 0x3F);
 
-	// Update number of bits
-	if ((m_Count[0] += (nInputLen << 3)) < (nInputLen << 3))
-		m_Count[1]++;
+  // Update number of bits
+  if ((m_Count[0] += (nInputLen << 3)) < (nInputLen << 3))
+    m_Count[1]++;
 
-	m_Count[1] += (nInputLen >> 29);
+  m_Count[1] += (nInputLen >> 29);
 
-	partLen = 64 - index;
+  partLen = 64 - index;
 
-	// Transform as many times as possible.
-	if (nInputLen >= partLen)
-	{
-		memcpy( &m_Buffer[index], chInput, partLen );
-		Transform(m_Buffer);
+  // Transform as many times as possible.
+  if (nInputLen >= partLen)
+  {
+    memcpy( &m_Buffer[index], chInput, partLen );
+    Transform(m_Buffer);
 
-		for (i = partLen; i + 63 < nInputLen; i += 64)
-			Transform(&chInput[i]);
+    for (i = partLen; i + 63 < nInputLen; i += 64)
+      Transform(&chInput[i]);
 
-		index = 0;
-	}
-	else
-		i = 0;
+    index = 0;
+  }
+  else
+    i = 0;
 
   // Buffer remaining input
   memcpy( &m_Buffer[index], &chInput[i], nInputLen-i );
@@ -154,26 +154,26 @@ void md5::Update(uchar* chInput, uint4 nInputLen)
 // the message digest and zeroizing the context.
 void md5::Finalize()
 {
-	uchar bits[8];
-	uint4 index, padLen;
+  uchar bits[8];
+  uint4 index, padLen;
 
-	// Save number of bits
-	Encode (bits, m_Count, 8);
+  // Save number of bits
+  Encode (bits, m_Count, 8);
 
-	// Pad out to 56 mod 64
-	index = (unsigned int)((m_Count[0] >> 3) & 0x3f);
-	padLen = (index < 56) ? (56 - index) : (120 - index);
-	Update(PADDING, padLen);
+  // Pad out to 56 mod 64
+  index = (unsigned int)((m_Count[0] >> 3) & 0x3f);
+  padLen = (index < 56) ? (56 - index) : (120 - index);
+  Update(PADDING, padLen);
 
-	// Append length (before padding)
-	Update (bits, 8);
+  // Append length (before padding)
+  Update (bits, 8);
 
-	// Store state in digest
-	Encode (m_Digest, m_State, 16);
+  // Store state in digest
+  Encode (m_Digest, m_State, 16);
 
-	memset(m_Count, 0, 2 * sizeof(uint4));
-	memset(m_State, 0, 4 * sizeof(uint4));
-	memset(m_Buffer,0, 64 * sizeof(uchar));
+  memset(m_Count, 0, 2 * sizeof(uint4));
+  memset(m_State, 0, 4 * sizeof(uint4));
+  memset(m_Buffer,0, 64 * sizeof(uchar));
 }
 
 // md5::Transform
@@ -269,17 +269,17 @@ void md5::Transform (uchar* block)
 // a multiple of 4.
 void md5::Encode(uchar* dest, uint4* src, uint4 nLength)
 {
-	uint4 i, j;
+  uint4 i, j;
 
-	assert(nLength % 4 == 0);
+  assert(nLength % 4 == 0);
 
-	for (i = 0, j = 0; j < nLength; i++, j += 4)
-	{
-		dest[j] = (uchar)(src[i] & 0xff);
-		dest[j+1] = (uchar)((src[i] >> 8) & 0xff);
-		dest[j+2] = (uchar)((src[i] >> 16) & 0xff);
-		dest[j+3] = (uchar)((src[i] >> 24) & 0xff);
-	}
+  for (i = 0, j = 0; j < nLength; i++, j += 4)
+  {
+    dest[j] = (uchar)(src[i] & 0xff);
+    dest[j+1] = (uchar)((src[i] >> 8) & 0xff);
+    dest[j+2] = (uchar)((src[i] >> 16) & 0xff);
+    dest[j+3] = (uchar)((src[i] >> 24) & 0xff);
+  }
 }
 
 // md5::Decode
@@ -287,13 +287,13 @@ void md5::Encode(uchar* dest, uint4* src, uint4 nLength)
 // a multiple of 4.
 void md5::Decode(uint4* dest, uchar* src, uint4 nLength)
 {
-	uint4 i, j;
+  uint4 i, j;
 
-	assert(nLength % 4 == 0);
+  assert(nLength % 4 == 0);
 
-	for (i = 0, j = 0; j < nLength; i++, j += 4)
-	{
-		dest[i] = ((uint4)src[j]) | (((uint4)src[j+1])<<8) |
-			      (((uint4)src[j+2])<<16) | (((uint4)src[j+3])<<24);
-	}
+  for (i = 0, j = 0; j < nLength; i++, j += 4)
+  {
+    dest[i] = ((uint4)src[j]) | (((uint4)src[j+1])<<8) |
+            (((uint4)src[j+2])<<16) | (((uint4)src[j+3])<<24);
+  }
 }

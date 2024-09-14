@@ -4,11 +4,11 @@
 */
 
 input {
-	border: 1px solid #004F00;
+  border: 1px solid #004F00;
 }
 
 select {
-	border: 1px solid #E0F000;
+  border: 1px solid #E0F000;
 }
 
 
@@ -18,31 +18,31 @@ select {
 */
 
 .hint-tip {
-	color: white;
+  color: white;
 }
 
 .hint-tip .hint-tip-top {
-	background: transparent url(/img/rounded-box-green-tl.png) no-repeat 0px 0px;
+  background: transparent url(/img/rounded-box-green-tl.png) no-repeat 0px 0px;
 }
 
 .hint-tip .hint-tip-top .hint-tip-c {
-	background: transparent url(/img/rounded-box-green-tr.png) no-repeat right 0px;
+  background: transparent url(/img/rounded-box-green-tr.png) no-repeat right 0px;
 }
 
 .hint-tip .hint-tip-bdy {
-	background: transparent url(/img/rounded-box-green-ml.png) repeat-y 0px 0px;
+  background: transparent url(/img/rounded-box-green-ml.png) repeat-y 0px 0px;
 }
 
 .hint-tip .hint-tip-bdy .hint-tip-c {
-	background: transparent url(/img/rounded-box-green-mr.png) repeat-y right 0px;
+  background: transparent url(/img/rounded-box-green-mr.png) repeat-y right 0px;
 }
 
 .hint-tip .hint-tip-bot {
-	background: transparent url(/img/rounded-box-green-bl.png) no-repeat 0px 0px;
+  background: transparent url(/img/rounded-box-green-bl.png) no-repeat 0px 0px;
 }
 
 .hint-tip .hint-tip-bot .hint-tip-c {
-	background: transparent url(/img/rounded-box-green-br.png) no-repeat right 0px;
+  background: transparent url(/img/rounded-box-green-br.png) no-repeat right 0px;
 }
 
 
@@ -52,18 +52,18 @@ select {
 */
 
 .info-win .info-win-top {
-	background: transparent url(../img/info-win-t-l.png) no-repeat 0px 0px;
+  background: transparent url(../img/info-win-t-l.png) no-repeat 0px 0px;
 }
 
 .info-win .info-win-top .info-win-c {
-	background: transparent url(../img/info-win-t-r.png) no-repeat right 0px;
+  background: transparent url(../img/info-win-t-r.png) no-repeat right 0px;
 }
 
 .info-win .info-win-top {
-	color: white;
+  color: white;
 }
 .info-win-c .info-win-t {
-	color: #000;
+  color: #000;
 }
 
 
@@ -73,34 +73,34 @@ select {
 */
 
 div.menu {
-	background: #000020 url(../img/menu_line_bg.png) repeat-x;
-	color: #005E00;
+  background: #000020 url(../img/menu_line_bg.png) repeat-x;
+  color: #005E00;
 }
 
 div#pagemenu {
-	background: #00F0F0 url(../img/bg_line.png) top repeat-x;
+  background: #00F0F0 url(../img/bg_line.png) top repeat-x;
 }
 
 div#pagemenu div {
-	background: #00F0F0 url(../img/bg_line_top.png) bottom repeat-x;
+  background: #00F0F0 url(../img/bg_line_top.png) bottom repeat-x;
 }
 
 div#pagemenu div div {
-	background: #00AE00;
-	border-top: 1px solid #006300;
-	border-bottom: 1px solid #005E00;
+  background: #00AE00;
+  border-top: 1px solid #006300;
+  border-bottom: 1px solid #005E00;
 }
 
 div#pagemenu a.active {
-	color: #E03000;
+  color: #E03000;
 }
 
 div#pagemenu span.sep {
-	color: #001E00;
+  color: #001E00;
 }
 
 div#pagemenu span.active {
-	color: #E03000;
+  color: #E03000;
 }
 
 
@@ -110,16 +110,16 @@ div#pagemenu span.active {
 */
 
 div#infobox {
-	border: 1px solid #005F00;
+  border: 1px solid #005F00;
 }
 
 div#infobox div.st_header {
-	background: #00AE00;
-	border-bottom: 1px solid #006300;
+  background: #00AE00;
+  border-bottom: 1px solid #006300;
 }
 
 div#infobox div.st_content {
-	background: white url(../img/bg_line_top.png) top left repeat-x;
+  background: white url(../img/bg_line_top.png) top left repeat-x;
 }
 
 div#infobox div.st_controls div.st_update {
@@ -133,31 +133,31 @@ div#infobox div.st_controls div.st_update {
 */
 
 div.head_box_l {
-	background-image: url(../img/bg_header_l.png);
+  background-image: url(../img/bg_header_l.png);
 }
 
 div.head_box_m {
-	background-image: url(../img/bg_header_h.png);
+  background-image: url(../img/bg_header_h.png);
 }
 
 div.head_box_r {
-	background-image: url(../img/bg_header_r.png);
+  background-image: url(../img/bg_header_r.png);
 }
 
 button.smallbutton {
-	background-image: url(../img/button_blue.png);
+  background-image: url(../img/button_blue.png);
 }
 
 button.green {
-	background-image: url(../img/button_green.png);
+  background-image: url(../img/button_green.png);
 }
 
 button.red {
-	background-image: url(../img/button_red.png);
+  background-image: url(../img/button_red.png);
 }
 
 button.blue {
-	background-image: url(../img/button_blue.png);
+  background-image: url(../img/button_blue.png);
 }
 
 
@@ -167,30 +167,30 @@ button.blue {
 */
 
 div.station div {
-	background: url(../img/bg_box_l.png) top left no-repeat;
+  background: url(../img/bg_box_l.png) top left no-repeat;
 }
 
 div.station div div {
-	background: url(../img/bg_box_r.png) top right no-repeat;
+  background: url(../img/bg_box_r.png) top right no-repeat;
 }
 
 div.station div div div {
-	background: url(../img/bg_box_h.png) repeat-x;
+  background: url(../img/bg_box_h.png) repeat-x;
 }
 
 div.content {
-	background: white url(../img/bg_tools.png) top left repeat-y;
+  background: white url(../img/bg_tools.png) top left repeat-y;
 }
 
 div.__progress {
-	border: 1px solid #006E00;
+  border: 1px solid #006E00;
 }
 
 div.__progress div.__elapsed {
-	background-color: #FFCC00;
+  background-color: #FFCC00;
 }
 img.channel_logo {
-	background-color: #FFCC0000;
+  background-color: #FFCC0000;
 }
 
 
@@ -200,12 +200,12 @@ img.channel_logo {
 */
 
 table.timers tr td {
-	background: url(../img/bg_line.png) bottom repeat-x;
-	border-bottom: 1px solid #006E00;
+  background: url(../img/bg_line.png) bottom repeat-x;
+  border-bottom: 1px solid #006E00;
 }
 
 table.timers tr.description td {
-	background: #00AE00;
+  background: #00AE00;
 }
 
 
@@ -215,11 +215,11 @@ table.timers tr.description td {
 */
 
 table.schedule tr td.head {
-	background: #00AE00;
+  background: #00AE00;
 }
 
 table.schedule tr td {
-	background: url(../img/bg_line.png) bottom repeat-x;
+  background: url(../img/bg_line.png) bottom repeat-x;
         border-bottom: 1px solid #006E00;
 }
 
@@ -229,16 +229,16 @@ table.schedule tr td {
    #############################
 */
 
-div.boxheader	 {
-	background: url(../img/bg_box_l.png) top left no-repeat;
+div.boxheader   {
+  background: url(../img/bg_box_l.png) top left no-repeat;
 }
 
 div.boxheader div {
-	background: url(../img/bg_box_r.png) top right no-repeat;
+  background: url(../img/bg_box_r.png) top right no-repeat;
 }
 
 div.boxheader div div {
-	background: url(../img/bg_box_h.png) repeat-x;
+  background: url(../img/bg_box_h.png) repeat-x;
 }
 
 
@@ -248,8 +248,8 @@ div.boxheader div div {
 */
 
 div.recording_item {
-	background: url(../img/bg_line.png) bottom repeat-x;
-	border-bottom: 1px solid #006E00;
+  background: url(../img/bg_line.png) bottom repeat-x;
+  border-bottom: 1px solid #006E00;
 }
 
 
@@ -259,7 +259,7 @@ div.recording_item {
 */
 
 div.screenshot {
-	background-image: url(../img/tv.jpg);
+  background-image: url(../img/tv.jpg);
 }
 
 
@@ -269,8 +269,8 @@ div.screenshot {
 */
 
 table.edit tr td {
-	background: url(../img/bg_line.png) bottom repeat-x;
-	border-bottom: 1px solid #006E00;
+  background: url(../img/bg_line.png) bottom repeat-x;
+  border-bottom: 1px solid #006E00;
 }
 
 
@@ -280,11 +280,11 @@ table.edit tr td {
 */
 
 table.searchresults tr td.head {
-	background: #00AE00;
+  background: #00AE00;
 }
 
 table.searchresults tr td {
-	background: url(../img/bg_line.png) bottom repeat-x;
+  background: url(../img/bg_line.png) bottom repeat-x;
         border-bottom: 1px solid #006E00;
 }
 
@@ -305,15 +305,15 @@ table.searchresults tr td {
 */
 
 .about_box div.about_content div.about_head {
-	background: #F0F0F0 url(../img/bg_line.png) top repeat-x;
+  background: #F0F0F0 url(../img/bg_line.png) top repeat-x;
 }
 
 .about_box div.about_content div.about_head div {
-	background: #F0F0F0 url(../img/bg_line_top.png) bottom repeat-x;
+  background: #F0F0F0 url(../img/bg_line_top.png) bottom repeat-x;
 }
 
 .about_box div.about_content div.about_head div div {
-	background: #009900;
-	border-top: 1px solid #006E00;
-	border-bottom: 1px solid #006E00;
+  background: #009900;
+  border-top: 1px solid #006E00;
+  border-bottom: 1px solid #006E00;
 }

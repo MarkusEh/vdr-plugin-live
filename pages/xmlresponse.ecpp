@@ -12,11 +12,11 @@ std::string const XMLHEADER = "<?xml version=\"1.0\" encoding=\"" + LiveI18n().C
 
 <%def ajax>
 <%args>
-	std::string name;
-	std::string pname;
-	std::string value;
-	bool result;
-	std::string error;
+  std::string name;
+  std::string pname;
+  std::string value;
+  bool result;
+  std::string error;
 </%args>
 <$$ XMLHEADER $>
 <service>
@@ -32,43 +32,43 @@ std::string const XMLHEADER = "<?xml version=\"1.0\" encoding=\"" + LiveI18n().C
 
 <%def ibox>
 <%args>
-	int update;
-	std::string type;
-	std::string currentTime;
-	std::string caption;
-	std::string title;
-	std::string duration;
-	int elapsed;
-	std::string prev_chan;
-	std::string next_chan;
-	std::string infoMsg;
-	std::string infoUrl;
+  int update;
+  std::string type;
+  std::string currentTime;
+  std::string caption;
+  std::string title;
+  std::string duration;
+  int elapsed;
+  std::string prev_chan;
+  std::string next_chan;
+  std::string infoMsg;
+  std::string infoUrl;
 </%args>
 <$$ XMLHEADER $>
 <service>
   <request name="ibox">
-	<param name="update"><$ update $></param>
+  <param name="update"><$ update $></param>
   </request>
   <response>1</response>
   <error></error>
   <values>
-	<update><$ update $></update>
-	<epginfo>
-	  <type><$ type $></type>
-	  <caption><$ caption $></caption>
-	  <timenow><$ currentTime $></timenow>
-	  <name><$ title $></name>
-	  <duration><$ duration $></duration>
-	  <elapsed><$ elapsed $></elapsed>
-	  <nextchan><$ next_chan $></nextchan>
-	  <prevchan><$ prev_chan $></prevchan>
-	</epginfo>
+  <update><$ update $></update>
+  <epginfo>
+    <type><$ type $></type>
+    <caption><$ caption $></caption>
+    <timenow><$ currentTime $></timenow>
+    <name><$ title $></name>
+    <duration><$ duration $></duration>
+    <elapsed><$ elapsed $></elapsed>
+    <nextchan><$ next_chan $></nextchan>
+    <prevchan><$ prev_chan $></prevchan>
+  </epginfo>
   </values>
 <%cpp>
 if (!infoMsg.empty()) {
 </%cpp>
   <info>
-	<message><$ infoMsg $></message>
+  <message><$ infoMsg $></message>
     <url><$ infoUrl $></url>
   </info>
 <%cpp>

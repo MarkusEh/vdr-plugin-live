@@ -8,22 +8,22 @@ namespace vdrlive {
 
 class FFmpegThread : public cThread {
 public:
-	FFmpegThread();
-	~FFmpegThread();
+  FFmpegThread();
+  ~FFmpegThread();
 
-	void StartFFmpeg(std::string s, std::string url, std::string tag);
-	void Stop();
-	void Touch();
+  void StartFFmpeg(std::string s, std::string url, std::string tag);
+  void Stop();
+  void Touch();
 
 protected:
-	void Action();
+  void Action();
 
 private:
-	cCondWait cw;
-	bool touch = false;
-	std::string targetUrl;
-	std::string targetTag;
-	std::string session;
+  cCondWait cw;
+  bool touch = false;
+  std::string targetUrl;
+  std::string targetTag;
+  std::string session;
 };
 
 // cPipe2 implements a pipe that closes all unnecessary file descriptors in
@@ -31,16 +31,16 @@ private:
 
 class cPipe2 {
 private:
-	pid_t pid;
-	bool terminated = false;
-	FILE *f;
+  pid_t pid;
+  bool terminated = false;
+  FILE *f;
 public:
-	cPipe2(void);
-	~cPipe2();
-	operator FILE* () { return f; }
-	bool Open(const char *Command, const char *Mode);
-	int Check(void);
-	int Close(void);
+  cPipe2(void);
+  ~cPipe2();
+  operator FILE* () { return f; }
+  bool Open(const char *Command, const char *Mode);
+  int Check(void);
+  int Close(void);
 };
 
 } // namespace vdrlive

@@ -13,111 +13,111 @@ using namespace vdrlive;
 
 </%pre>
 <%args>
-	// input parameters
-	std::string searchtimerid;
-	std::string searchtimerquery;
-	std::string searchplain;
+  // input parameters
+  std::string searchtimerid;
+  std::string searchtimerquery;
+  std::string searchplain;
 </%args>
 <%session scope="global">
 bool logged_in(false);
 </%session>
 <%request scope="page">
-	std::string searchterm="";
+  std::string searchterm="";
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
   reply.setHeader (tnt::httpheader::cacheControl, "no-store, no-cache, max-age=0, must-revalidate, proxy-revalidate", true);
-	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+  if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
-	pageTitle = tr("Search results");
-	SearchResults results;
-	if (!searchtimerid.empty())
-		results.GetByID(parse_int< int >(searchtimerid));
-	if (!searchtimerquery.empty())
-		results.GetByQuery(SearchResults::GetQuery(searchtimerquery));
-	if (!searchplain.empty())
-	{
-		SearchTimer s;
-		s.SetId(0);
-		s.SetSearch(searchplain);
-		s.SetSearchMode(0);
-		s.SetUseTitle(true);
-		s.SetUseSubtitle(false);
-		s.SetUseDescription(false);
-		results.GetByQuery(s.ToText());
+  pageTitle = tr("Search results");
+  SearchResults results;
+  if (!searchtimerid.empty())
+    results.GetByID(parse_int< int >(searchtimerid));
+  if (!searchtimerquery.empty())
+    results.GetByQuery(SearchResults::GetQuery(searchtimerquery));
+  if (!searchplain.empty())
+  {
+    SearchTimer s;
+    s.SetId(0);
+    s.SetSearch(searchplain);
+    s.SetSearchMode(0);
+    s.SetUseTitle(true);
+    s.SetUseSubtitle(false);
+    s.SetUseDescription(false);
+    results.GetByQuery(s.ToText());
 
-		searchterm = searchplain;
-	}
+    searchterm = searchplain;
+  }
 </%cpp>
 <& pageelems.doc_type &>
 <html>
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>VDR-Live - <$ pageTitle $></title>
-		<& pageelems.stylesheets &>
-		<& pageelems.ajax_js &>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VDR-Live - <$ pageTitle $></title>
+    <& pageelems.stylesheets &>
+    <& pageelems.ajax_js &>
     <& pageelems.create_html_js &>
-	</head>
-	<body onload="adjustHeader()" onresize="adjustHeader()">
-		<& pageelems.logo &>
-		<& menu active=("searchepg") component=("searchresults.searchresults_actions") &>
-		<div class="inhalt">
-%			if (results.size() == 0) {
-				<$ tr("No search results") $>
-%			}
-			<table class="listing" cellspacing="0" cellpadding="0">
+  </head>
+  <body onload="adjustHeader()" onresize="adjustHeader()">
+    <& pageelems.logo &>
+    <& menu active=("searchepg") component=("searchresults.searchresults_actions") &>
+    <div class="inhalt">
+%      if (results.size() == 0) {
+        <$ tr("No search results") $>
+%      }
+      <table class="listing" cellspacing="0" cellpadding="0">
 <%cpp>
-				std::string current_day = "";
-				bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
+        std::string current_day = "";
+        bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
         cToSvConcat<0> epg_itemS;
         epg_itemS.reserve(1000);
-				RecordingsItemRecPtr recItem;
-				bool recItemFound;
+        RecordingsItemRecPtr recItem;
+        bool recItemFound;
 
-				for (SearchResults::iterator result = results.begin(); result != results.end(); ++result) {
-					epg_itemS.clear();
+        for (SearchResults::iterator result = results.begin(); result != results.end(); ++result) {
+          epg_itemS.clear();
 #if VDRVERSNUM >= 20301
-                                       	cStateKey StateKey;
-                                      	if (const cChannels *Channels = cChannels::GetChannelsRead(StateKey)) {
+                                         cStateKey StateKey;
+                                        if (const cChannels *Channels = cChannels::GetChannelsRead(StateKey)) {
 #ifdef DEBUG_LOCK
-		                		dsyslog("live: pages/searchresults.ecpp LOCK_CHANNELS_READ");
+                        dsyslog("live: pages/searchresults.ecpp LOCK_CHANNELS_READ");
 #endif
-						cChannel* channel = (cChannel *)Channels->GetByChannelID(result->Channel());
+            cChannel* channel = (cChannel *)Channels->GetByChannelID(result->Channel());
 #else
-						cChannel* channel = Channels.GetByChannelID(result->Channel());
+            cChannel* channel = Channels.GetByChannelID(result->Channel());
 #endif
-						if (!channel) {
-         						StateKey.Remove();
-							continue;
-						}
-						const cEvent *event = result->GetEvent(channel);
-						std::string day(result->StartTime() ? std::string(cToSvDateTime(tr("%A, %b %d %Y"), result->StartTime())) : "");
-						bool bottom = false;
-						SearchResults::iterator nextResult = result; ++nextResult;
-						if (nextResult == results.end())
-							bottom = true;
-						else {
-							std::string nextDay(nextResult->StartTime() ? std::string(cToSvDateTime(tr("%A, %b %d %Y"), nextResult->StartTime())) : "");
-							bottom = (day != nextDay);
-						}
+            if (!channel) {
+                     StateKey.Remove();
+              continue;
+            }
+            const cEvent *event = result->GetEvent(channel);
+            std::string day(result->StartTime() ? std::string(cToSvDateTime(tr("%A, %b %d %Y"), result->StartTime())) : "");
+            bool bottom = false;
+            SearchResults::iterator nextResult = result; ++nextResult;
+            if (nextResult == results.end())
+              bottom = true;
+            else {
+              std::string nextDay(nextResult->StartTime() ? std::string(cToSvDateTime(tr("%A, %b %d %Y"), nextResult->StartTime())) : "");
+              bottom = (day != nextDay);
+            }
 
-					        StateKey.Remove();  // release channels read lock before calling event_timer which makes a timers read lock
-						recItemFound = appendEpgItem(epg_itemS, recItem, event, channel, true);
-						int col_span = 4;
-						if (display_pictures) col_span++;
-						if (current_day != day) {
-							if (current_day != "") {
+                  StateKey.Remove();  // release channels read lock before calling event_timer which makes a timers read lock
+            recItemFound = appendEpgItem(epg_itemS, recItem, event, channel, true);
+            int col_span = 4;
+            if (display_pictures) col_span++;
+            if (current_day != day) {
+              if (current_day != "") {
 
 </%cpp>
-							<tr class="spacer">
-								<td colspan="<$col_span$>"/>
-							</tr>
-%							}
-						<tr class="head">
-							<td colspan="<$col_span$>"><div class="boxheader"><div><div><$ day $></div></div></div></td>
-						</tr>
-%							current_day = day;
-%						}
+              <tr class="spacer">
+                <td colspan="<$col_span$>"/>
+              </tr>
+%              }
+            <tr class="head">
+              <td colspan="<$col_span$>"><div class="boxheader"><div><div><$ day $></div></div></div></td>
+            </tr>
+%              current_day = day;
+%            }
 <script>
   document.write(eventString(<$(bottom && !recItemFound)?"1":"0"$>, <$$ epg_itemS.c_str() $>))
 </script>
@@ -130,11 +130,11 @@ if(recItemFound) {
     document.write(existingRecordingString(<$col_span - 2$>, \"<? bottom ? "bottomrow" ?>\", <$$epg_itemS.c_str()$>))
   </script>  
 <%cpp> } </%cpp>
-%					}
-%				}
-			</table>
-		</div>
-	</body>
+%          }
+%        }
+      </table>
+    </div>
+  </body>
 <script>imgLoad()</script>
 </html>
 

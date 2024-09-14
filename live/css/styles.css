@@ -4,67 +4,67 @@
 */
 
 html, body {
-	color: black;
-	background-color: white;
+  color: black;
+  background-color: white;
 }
 
 body {
-	margin: 0px;
-	padding: 0px;
-	font-size: 11px;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+  margin: 0px;
+  padding: 0px;
+  font-size: 11px;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
 table {
-	font-size: 11px;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	margin: 0px;
+  font-size: 11px;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  margin: 0px;
 }
 
 tr, td {
-	padding-top: 0px;
-	padding-bottom: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
 
 form {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 input, textarea {
-	border: 1px solid #6D96A9;
-	font-size: 11px;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	background: #FEFEFE;
-	margin: 0;
+  border: 1px solid #6D96A9;
+  font-size: 11px;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  background: #FEFEFE;
+  margin: 0;
 }
 input.width99, textarea.width99 {
-	width: 99%;
+  width: 99%;
 }
 
 select {
-	border: 1px solid #6D96A9;
-	font-size: 11px;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+  border: 1px solid #6D96A9;
+  font-size: 11px;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
 img {
-	border: 0;
+  border: 0;
 }
 img.icon {
-	margin: 2px;
+  margin: 2px;
 }
 
 a {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 a:hover {
-	text-decoration: underline;
+  text-decoration: underline;
 }
 
 a:active {
-	text-decoration: underline;
+  text-decoration: underline;
 }
 
 
@@ -74,57 +74,57 @@ a:active {
 */
 
 .bold {
-	font-weight: bold;
+  font-weight: bold;
 }
 
 .dotted {
-	border: 1px dotted #bbbbbb;
-	padding: 3px;
-	margin: 2px;
-	float: left;
-	background-color: #f3f3f3;
+  border: 1px dotted #bbbbbb;
+  padding: 3px;
+  margin: 2px;
+  float: left;
+  background-color: #f3f3f3;
 }
 
 .title {
-	font-weight: bold;
+  font-weight: bold;
 }
 
 .short {
-	font-weight: normal;
+  font-weight: normal;
 }
 .normal-font {
-	font-weight: normal;
+  font-weight: normal;
 }
 .bold-font {
-	font-weight: bold;
+  font-weight: bold;
 }
 .margin-bottom {
-	margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 
 .more {
-	font-weight: bold;
-	cursor: pointer;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .withmargin {
-	margin: 5px;
+  margin: 5px;
 }
 
 .nomargin {
-	margin: 0px;
+  margin: 0px;
 }
 
 .notpresent {
-	display: none;
+  display: none;
 }
 
 .nowrap {
-	white-space: nowrap;
+  white-space: nowrap;
 }
 .scraper_list {
-	margin-top: 4px;
-	margin-bottom: 4px;
+  margin-top: 4px;
+  margin-bottom: 4px;
 }
 
 
@@ -134,54 +134,54 @@ a:active {
 */
 
 .hint-tip {
-	margin: 0px auto;
- 	max-width: 480px; /* depends on the tip background image width */
- 	color: #fff;
+  margin: 0px auto;
+   max-width: 480px; /* depends on the tip background image width */
+   color: #fff;
 }
 
 .hint-tip .hint-tip-top .hint-tip-c,
 .hint-tip .hint-tip-bot .hint-tip-c {
-	font-size: 1px; /* ensure minimum height */
-	height: 17px;
+  font-size: 1px; /* ensure minimum height */
+  height: 17px;
 }
 
 .hint-tip .hint-tip-top {
-	background: transparent url(../img/rounded-box-blue-tl.png) no-repeat 0px 0px;
-	margin-right: 17px; /* space for right corner */
+  background: transparent url(../img/rounded-box-blue-tl.png) no-repeat 0px 0px;
+  margin-right: 17px; /* space for right corner */
 }
 
 .hint-tip .hint-tip-top .hint-tip-c {
-	background: transparent url(../img/rounded-box-blue-tr.png) no-repeat right 0px;
-	margin-right: -17px; /* pull right corner back over "empty" space (from above margin) */
+  background: transparent url(../img/rounded-box-blue-tr.png) no-repeat right 0px;
+  margin-right: -17px; /* pull right corner back over "empty" space (from above margin) */
 }
 
 .hint-tip .hint-tip-bdy {
-	background: transparent url(../img/rounded-box-blue-ml.png) repeat-y 0px 0px;
- 	margin-right: 17px;
+  background: transparent url(../img/rounded-box-blue-ml.png) repeat-y 0px 0px;
+   margin-right: 17px;
 }
 
 .hint-tip .hint-tip-bdy .hint-tip-c {
-	background: transparent url(../img/rounded-box-blue-mr.png) repeat-y right 0px;
-	margin-right: -17px;
+  background: transparent url(../img/rounded-box-blue-mr.png) repeat-y right 0px;
+  margin-right: -17px;
 }
 
 .hint-tip .hint-tip-bdy .hint-tip-c .hint-tip-s { /* optional gradient overlay */
-	/* background: transparent url(../img/rounded-box-blue-ms.jpg) repeat-x 0px 0px; */
-	padding: 0px 17px 0px 17px;
+  /* background: transparent url(../img/rounded-box-blue-ms.jpg) repeat-x 0px 0px; */
+  padding: 0px 17px 0px 17px;
 }
 
 .hint-tip .hint-tip-bot {
-	background: transparent url(../img/rounded-box-blue-bl.png) no-repeat 0px 0px;
-	margin-right: 17px;
+  background: transparent url(../img/rounded-box-blue-bl.png) no-repeat 0px 0px;
+  margin-right: 17px;
 }
 
 .hint-tip .hint-tip-bot .hint-tip-c {
-	background: transparent url(../img/rounded-box-blue-br.png) no-repeat right 0px;
-	margin-right: -17px;
+  background: transparent url(../img/rounded-box-blue-br.png) no-repeat right 0px;
+  margin-right: -17px;
 }
 
 .hint-title {
-	display: none;
+  display: none;
 }
 
 
@@ -191,50 +191,50 @@ a:active {
 */
 
 .ok-info {
-	margin: 0px auto;
- 	max-width: 480px; /* depends on the tip background image width */
- 	color: #fff;
+  margin: 0px auto;
+   max-width: 480px; /* depends on the tip background image width */
+   color: #fff;
 }
 
 .ok-info .ok-info-top .ok-info-c,
 .ok-info .ok-info-bot .ok-info-c {
-	font-size: 1px; /* ensure minimum height */
-	height: 17px;
+  font-size: 1px; /* ensure minimum height */
+  height: 17px;
 }
 
 .ok-info .ok-info-top {
-	background: transparent url(../img/rounded-box-green-tl.png) no-repeat 0px 0px;
-	margin-right: 17px; /* space for right corner */
+  background: transparent url(../img/rounded-box-green-tl.png) no-repeat 0px 0px;
+  margin-right: 17px; /* space for right corner */
 }
 
 .ok-info .ok-info-top .ok-info-c {
-	background: transparent url(../img/rounded-box-green-tr.png) no-repeat right 0px;
-	margin-right: -17px; /* pull right corner back over "empty" space (from above margin) */
+  background: transparent url(../img/rounded-box-green-tr.png) no-repeat right 0px;
+  margin-right: -17px; /* pull right corner back over "empty" space (from above margin) */
 }
 
 .ok-info .ok-info-body {
-	background: transparent url(../img/rounded-box-green-ml.png) repeat-y 0px 0px;
- 	margin-right: 17px;
+  background: transparent url(../img/rounded-box-green-ml.png) repeat-y 0px 0px;
+   margin-right: 17px;
 }
 
 .ok-info .ok-info-body .ok-info-c {
-	background: transparent url(../img/rounded-box-green-mr.png) repeat-y right 0px;
-	margin-right: -17px;
+  background: transparent url(../img/rounded-box-green-mr.png) repeat-y right 0px;
+  margin-right: -17px;
 }
 
 .ok-info .ok-info-body .ok-info-c .ok-info-s { /* optional gradient overlay */
-	/* background: transparent url(../img/rounded-box-green-ms.jpg) repeat-x 0px 0px; */
-	padding: 0px 17px 0px 17px;
+  /* background: transparent url(../img/rounded-box-green-ms.jpg) repeat-x 0px 0px; */
+  padding: 0px 17px 0px 17px;
 }
 
 .ok-info .ok-info-bot {
-	background: transparent url(../img/rounded-box-green-bl.png) no-repeat 0px 0px;
-	margin-right: 17px;
+  background: transparent url(../img/rounded-box-green-bl.png) no-repeat 0px 0px;
+  margin-right: 17px;
 }
 
 .ok-info .ok-info-bot .ok-info-c {
-	background: transparent url(../img/rounded-box-green-br.png) no-repeat right 0px;
-	margin-right: -17px;
+  background: transparent url(../img/rounded-box-green-br.png) no-repeat right 0px;
+  margin-right: -17px;
 }
 
 
@@ -244,50 +244,50 @@ a:active {
 */
 
 .err-info {
-	margin: 0px auto;
- 	max-width: 480px; /* depends on the tip background image width */
- 	color: #fff;
+  margin: 0px auto;
+   max-width: 480px; /* depends on the tip background image width */
+   color: #fff;
 }
 
 .err-info .err-info-top .err-info-c,
 .err-info .err-info-bot .err-info-c {
-	font-size: 1px; /* ensure minimum height */
-	height: 17px;
+  font-size: 1px; /* ensure minimum height */
+  height: 17px;
 }
 
 .err-info .err-info-top {
-	background: transparent url(../img/rounded-box-redwine-tl.png) no-repeat 0px 0px;
-	margin-right: 17px; /* space for right corner */
+  background: transparent url(../img/rounded-box-redwine-tl.png) no-repeat 0px 0px;
+  margin-right: 17px; /* space for right corner */
 }
 
 .err-info .err-info-top .err-info-c {
-	background: transparent url(../img/rounded-box-redwine-tr.png) no-repeat right 0px;
-	margin-right: -17px; /* pull right corner back over "empty" space (from above margin) */
+  background: transparent url(../img/rounded-box-redwine-tr.png) no-repeat right 0px;
+  margin-right: -17px; /* pull right corner back over "empty" space (from above margin) */
 }
 
 .err-info .err-info-body {
-	background: transparent url(../img/rounded-box-redwine-ml.png) repeat-y 0px 0px;
- 	margin-right: 17px;
+  background: transparent url(../img/rounded-box-redwine-ml.png) repeat-y 0px 0px;
+   margin-right: 17px;
 }
 
 .err-info .err-info-body .err-info-c {
-	background: transparent url(../img/rounded-box-redwine-mr.png) repeat-y right 0px;
-	margin-right: -17px;
+  background: transparent url(../img/rounded-box-redwine-mr.png) repeat-y right 0px;
+  margin-right: -17px;
 }
 
 .err-info .err-info-body .err-info-c .err-info-s { /* optional gradient overlay */
-	/* background: transparent url(../img/rounded-box-redwine-ms.jpg) repeat-x 0px 0px; */
-	padding: 0px 17px 0px 17px;
+  /* background: transparent url(../img/rounded-box-redwine-ms.jpg) repeat-x 0px 0px; */
+  padding: 0px 17px 0px 17px;
 }
 
 .err-info .err-info-bot {
-	background: transparent url(../img/rounded-box-redwine-bl.png) no-repeat 0px 0px;
-	margin-right: 17px;
+  background: transparent url(../img/rounded-box-redwine-bl.png) no-repeat 0px 0px;
+  margin-right: 17px;
 }
 
 .err-info .err-info-bot .err-info-c {
-	background: transparent url(../img/rounded-box-redwine-br.png) no-repeat right 0px;
-	margin-right: -17px;
+  background: transparent url(../img/rounded-box-redwine-br.png) no-repeat right 0px;
+  margin-right: -17px;
 }
 
 
@@ -297,24 +297,24 @@ a:active {
 */
 
 div.epg_content {
-	border: 1px solid black;
+  border: 1px solid black;
 }
 
 span.epg_images {
-	float: right;
+  float: right;
   margin-left: 5px;
-	width: 240px;
+  width: 240px;
 }
 
 img.actor {
-	width: 118px;
+  width: 118px;
 }
 img.artwork {
-	width: 480px
+  width: 480px
 }
 img.channel_logo {
-	max-height:32px; max-width:120px; vertical-align:middle;
-	background-color: #E9EFFF00;
+  max-height:32px; max-width:120px; vertical-align:middle;
+  background-color: #E9EFFF00;
 }
 
 
@@ -324,92 +324,92 @@ img.channel_logo {
 */
 
 div.info-win {
-	width: 560px;
-	max-width: 2048px;
-	border: none;
-	margin: 0px auto;
+  width: 560px;
+  max-width: 2048px;
+  border: none;
+  margin: 0px auto;
 }
 div.info-win img.actor {
-	width: 118px;
+  width: 118px;
 }
 div.info-win img.artwork {
-	width: 480px;
+  width: 480px;
 }
 
 .info-win .info-win-top .info-win-c {
-	/*font-size: 1px;*/ /* ensure minimum height */
-	height: 37px;
+  /*font-size: 1px;*/ /* ensure minimum height */
+  height: 37px;
 }
 
 .info-win .info-win-bot .info-win-c {
-	font-size: 1px; /* ensure minimum height */
-	height: 21px;
+  font-size: 1px; /* ensure minimum height */
+  height: 21px;
 }
 
 .info-win .info-win-top {
-	background: transparent url(../img/info-win-t-l.png) no-repeat 0px 0px;
-	margin-right: 26px; /* space for right corner */
+  background: transparent url(../img/info-win-t-l.png) no-repeat 0px 0px;
+  margin-right: 26px; /* space for right corner */
 }
 
 .info-win .info-win-top .info-win-c {
-	background: transparent url(../img/info-win-t-r.png) no-repeat right 0px;
-	margin-right: -26px; /* pull right corner back over "empty" space (from above margin) */
-	overflow: hidden;
+  background: transparent url(../img/info-win-t-r.png) no-repeat right 0px;
+  margin-right: -26px; /* pull right corner back over "empty" space (from above margin) */
+  overflow: hidden;
 }
 
 .info-win .info-win-top .info-win-c .info-win-t {
-	color: #FFF;
-	font-weight: bold;
-	margin-top: 14px;
-	margin-left: 15px;
-	float: left;
+  color: #FFF;
+  font-weight: bold;
+  margin-top: 14px;
+  margin-left: 15px;
+  float: left;
         max-width: 490px;
 }
 
 .info-win .info-win-top .info-win-c .info-win-b {
-	margin-top: 17px;
-	margin-right: 26px;
-	float: right;
+  margin-top: 17px;
+  margin-right: 26px;
+  float: right;
 }
 
 .info-win .info-win-top .info-win-c .info-win-b .close {
-	width: 16px;
-	height: 16px;
-	background: transparent url(../img/close.png) no-repeat top right;
+  width: 16px;
+  height: 16px;
+  background: transparent url(../img/close.png) no-repeat top right;
 }
 
 .info-win .info-win-top .info-win-c .info-win-b .close:hover {
-	width: 16px;
-	height: 16px;
-	background: transparent url(../img/close_red.png) no-repeat top right;
+  width: 16px;
+  height: 16px;
+  background: transparent url(../img/close_red.png) no-repeat top right;
 }
 
 .info-win .info-win-body {
-	background: transparent url(../img/info-win-m-l.png) repeat-y 0px 0px;
- 	margin-right: 26px;
+  background: transparent url(../img/info-win-m-l.png) repeat-y 0px 0px;
+   margin-right: 26px;
 }
 
 .info-win .info-win-body .info-win-c {
-	background: transparent url(../img/info-win-m-r.png) repeat-y right 0px;
-	margin-right: -26px;
+  background: transparent url(../img/info-win-m-r.png) repeat-y right 0px;
+  margin-right: -26px;
 }
 
 .info-win .info-win-body .info-win-c .info-win-s {
-	padding: 0px 26px 0px 14px;
+  padding: 0px 26px 0px 14px;
 }
 
 .info-win .info-win-bot {
-	background: transparent url(../img/info-win-b-l.png) no-repeat 0px 0px;
-	margin-right: 26px;
+  background: transparent url(../img/info-win-b-l.png) no-repeat 0px 0px;
+  margin-right: 26px;
 }
 
 .info-win .info-win-bot .info-win-c {
-	background: transparent url(../img/info-win-b-r.png) no-repeat right 0px;
-	margin-right: -26px;
+  background: transparent url(../img/info-win-b-r.png) no-repeat right 0px;
+  margin-right: -26px;
 }
 
 .hint-title {
-	display: none;
+  display: none;
 }
 
 
@@ -419,38 +419,38 @@ div.info-win img.artwork {
 */
 
 div.menu {
-	background: #000057  url(../img/menu_line_bg.png) repeat-x;
-	min-height: 27px;
-	margin: 0;
-	padding: 0 0 0 10px;
-	line-height: 20px;
-	vertical-align: middle;
-	border-top: 1px solid black;
-	border-bottom: 1px solid black;
-	color: #6D96A9;
+  background: #000057  url(../img/menu_line_bg.png) repeat-x;
+  min-height: 27px;
+  margin: 0;
+  padding: 0 0 0 10px;
+  line-height: 20px;
+  vertical-align: middle;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  color: #6D96A9;
 }
 
 div.menu a {
-	color: white;
-	font-weight: bold;
+  color: white;
+  font-weight: bold;
 }
 
 a#login {
-	color: #F5FF2D;
+  color: #F5FF2D;
 }
 
 div.menu a.active {
-	color: #FFDB88;
-	font-weight: bold;
+  color: #FFDB88;
+  font-weight: bold;
 }
 
 div.menu form {
-	display: inline;
+  display: inline;
 }
 
 div.inhalt {
-	overflow: auto;
-	padding: 10px;
+  overflow: auto;
+  padding: 10px;
 }
 
 
@@ -460,56 +460,56 @@ div.inhalt {
 */
 
 div#pagemenu {
-	margin-top: 2px;
-	padding-top: 6px;
-	background: #FFFFFF url(../img/bg_line.png) top repeat-x;
+  margin-top: 2px;
+  padding-top: 6px;
+  background: #FFFFFF url(../img/bg_line.png) top repeat-x;
 }
 
 div#pagemenu div {
-	padding-bottom: 6px;
-	background: #FFFFFF url(../img/bg_line_top.png) bottom repeat-x;
+  padding-bottom: 6px;
+  background: #FFFFFF url(../img/bg_line_top.png) bottom repeat-x;
 }
 
 div#pagemenu div div {
-	padding: 2px 0px 2px 10px;
-	background: #E9EFFF;
-	border-top: 1px solid #C0C1DA;
-	border-bottom: 1px solid #C0C1DA;
+  padding: 2px 0px 2px 10px;
+  background: #E9EFFF;
+  border-top: 1px solid #C0C1DA;
+  border-bottom: 1px solid #C0C1DA;
 }
 
 div#pagemenu div div div {
-	border: 0;
-	padding: 0;
-	margin: 0;
+  border: 0;
+  padding: 0;
+  margin: 0;
 }
 
 div#pagemenu form {
-	display: inline;
+  display: inline;
 }
 
 div#pagemenu form#remote input {
-	margin-left: 1em;
+  margin-left: 1em;
 }
 
 div#pagemenu a {
-	color: black;
-	font-weight: bold;
+  color: black;
+  font-weight: bold;
 }
 
 div#pagemenu a.active {
-	color: blue;
-	font-weight: bold;
+  color: blue;
+  font-weight: bold;
 }
 
 div#pagemenu form a {
-	/*
-	margin-left: 1em;
-	*/
+  /*
+  margin-left: 1em;
+  */
 }
 
 div#pagemenu form a img {
-	vertical-align: middle;
-	margin-top: -5px;
+  vertical-align: middle;
+  margin-top: -5px;
 }
 
 
@@ -519,45 +519,45 @@ div#pagemenu form a img {
 */
 
 div#messagebar {
-	margin-top: 8px;
-	margin-bottom: 2px;
-	line-height: 20px;
+  margin-top: 8px;
+  margin-bottom: 2px;
+  line-height: 20px;
         min-height: 27px;
-	vertical-align: middle;
-	background: #7CAD3F url(../img/msgbar_line_bg.png) top repeat-x;
-	border-top: 1px solid #2B6B00;
-	border-bottom: 1px solid #2B6B00;
+  vertical-align: middle;
+  background: #7CAD3F url(../img/msgbar_line_bg.png) top repeat-x;
+  border-top: 1px solid #2B6B00;
+  border-bottom: 1px solid #2B6B00;
 }
 
 div#messagebar div {
-	color: black;
+  color: black;
 }
 
 div#messagebar div div {
-	padding-left: 10px;
-	background: transparent;
+  padding-left: 10px;
+  background: transparent;
 }
 
 div#messagebar div div div {
-	border: 0;
-	padding: 0;
-	margin: 0;
+  border: 0;
+  padding: 0;
+  margin: 0;
 }
 
 div#messagebar a {
-	color: black;
-	font-weight: bold;
+  color: black;
+  font-weight: bold;
 }
 
 div#messagebar a.active {
-	color: blue;
-	font-weight: bold;
+  color: blue;
+  font-weight: bold;
 }
 
 div#messagebar span#mbmessage {
-	padding: 0em 1em 0em 1em;
-	color: #A14040;
-	font-weight: bold;
+  padding: 0em 1em 0em 1em;
+  color: #A14040;
+  font-weight: bold;
 }
 
 
@@ -567,66 +567,66 @@ div#messagebar span#mbmessage {
 */
 
 img.logo {
-	float: left;
-	margin-top: 5px;
-	margin-left: 5px;
-	margin-right: 25px;
+  float: left;
+  margin-top: 5px;
+  margin-left: 5px;
+  margin-right: 25px;
 }
 
 div#infobox {
-	float: left;
-	border: 1px solid #C0C1DA;
-	margin: 5px;
-	min-width: 320px;
+  float: left;
+  border: 1px solid #C0C1DA;
+  margin: 5px;
+  min-width: 320px;
 }
 
 div#infobox div.st_header {
-	overflow: hidden;
-	padding: 1px 4px;
-	background: #E9EFFF;
-	border-bottom: 1px solid #C0C1DA;
+  overflow: hidden;
+  padding: 1px 4px;
+  background: #E9EFFF;
+  border-bottom: 1px solid #C0C1DA;
 }
 
 div#infobox div.st_header div.now {
-	float: right;
+  float: right;
 }
 
 div#infobox div.st_header div.caption {
-	float: left;
-	overflow: hidden;
-	font-weight: bold;
-	padding: 0px;
+  float: left;
+  overflow: hidden;
+  font-weight: bold;
+  padding: 0px;
 }
 
 div#infobox div.st_content {
-	overflow: hidden;
-	padding: 4px;
-	background: white url(../img/bg_line_top.png) top left repeat-x;
+  overflow: hidden;
+  padding: 4px;
+  background: white url(../img/bg_line_top.png) top left repeat-x;
 }
 
 div#infobox div.st_content div.duration {
-	float: right;
-	padding-left: 2em;
+  float: right;
+  padding-left: 2em;
 }
 
 div#infobox div.st_content div.name {
-	float: left;
-	overflow: hidden;
-	font-weight: bold;
+  float: left;
+  overflow: hidden;
+  font-weight: bold;
 }
 
 div#infobox div.st_controls {
-	overflow: hidden;
-	padding: 4px;
+  overflow: hidden;
+  padding: 4px;
 }
 
 div#infobox div.st_controls div.st_pbar {
-	padding-top: 4px;
-	float: right;
+  padding-top: 4px;
+  float: right;
 }
 
 div#infobox div.st_controls div {
-	float: left;
+  float: left;
 }
 
 div#infobox div.st_controls div.st_update {
@@ -649,31 +649,31 @@ div#infobox div.st_controls div#infobox_channel_buttons {
 */
 
 button {
-	width: 100px;
-	height: 20px;
-	color: #FFFFFF;
-	font-size: 11px;
-	border: 0px;
-	vertical-align: middle;
-	text-align: center;
-	cursor: pointer;
-	padding-bottom: 3px;
+  width: 100px;
+  height: 20px;
+  color: #FFFFFF;
+  font-size: 11px;
+  border: 0px;
+  vertical-align: middle;
+  text-align: center;
+  cursor: pointer;
+  padding-bottom: 3px;
 }
 
 button.green {
-	background-image: url(../img/button_green.png);
+  background-image: url(../img/button_green.png);
 }
 
 button.red {
-	background-image: url(../img/button_red.png);
+  background-image: url(../img/button_red.png);
 }
 
 button.blue {
-	background-image: url(../img/button_blue.png);
+  background-image: url(../img/button_blue.png);
 }
 
 button.yellow {
-	background-image: url(../img/button_yellow.png);
+  background-image: url(../img/button_yellow.png);
 }
 
 
@@ -683,7 +683,7 @@ button.yellow {
 */
 
 table td.buttonpanel {
-	text-align: right;
+  text-align: right;
 }
 
 table td.toprow {
@@ -693,27 +693,27 @@ table th.toprow {
 }
 
 table td.bottomrow {
-	border-bottom: 1px solid black !important;
+  border-bottom: 1px solid black !important;
 }
 
 table td.leftcol {
-	border-left: 1px solid black;
+  border-left: 1px solid black;
 }
 
 table td.rightcol {
-	border-right: 1px solid black;
+  border-right: 1px solid black;
 }
 
 table td.topaligned {
-	vertical-align: top;
+  vertical-align: top;
 }
 
 table td.padded {
-	padding: 3px 7px 3px 3px;
+  padding: 3px 7px 3px 3px;
 }
 table td.cast_role {
-	text-align: left;
-	font-weight: bold;
+  text-align: left;
+  font-weight: bold;
 }
 
 
@@ -723,118 +723,118 @@ table td.cast_role {
 */
 
 div.event {
-	width: 255px;
-	height: 255px;
-	padding: 0;
-	margin-right: 5px;
-	float: left;
+  width: 255px;
+  height: 255px;
+  padding: 0;
+  margin-right: 5px;
+  float: left;
 }
 
 div.event div.station {
-	margin: 0;
-	padding: 0;
-	width: 255px;
+  margin: 0;
+  padding: 0;
+  width: 255px;
 }
 
 div.event div.title a {
-	color: black;
+  color: black;
 }
 
 div.station div {
-	margin: 0;
-	padding: 0;
-	background: url(../img/bg_box_l.png) top left no-repeat;
-	height: 23px;
+  margin: 0;
+  padding: 0;
+  background: url(../img/bg_box_l.png) top left no-repeat;
+  height: 23px;
 }
 
 div.station div div {
-	background: url(../img/bg_box_r.png) top right no-repeat;
+  background: url(../img/bg_box_r.png) top right no-repeat;
 }
 
 div.station div div div {
-	background: url(../img/bg_box_h.png) repeat-x;
-	line-height: 20px;
-	vertical-align: middle;
-	text-align: left;
-	margin-right: 3px;
-	margin-left: 3px;
-	padding-left: 5px;
-	padding-top: 2px;
-	font-weight: bold;
-	border-bottom: none;
+  background: url(../img/bg_box_h.png) repeat-x;
+  line-height: 20px;
+  vertical-align: middle;
+  text-align: left;
+  margin-right: 3px;
+  margin-left: 3px;
+  padding-left: 5px;
+  padding-top: 2px;
+  font-weight: bold;
+  border-bottom: none;
 }
 
 div.station div div div a {
-	color: #ffffff;
-	font-weight: bold;
+  color: #ffffff;
+  font-weight: bold;
 }
 
 td div.station {
-	vertical-align: middle;
+  vertical-align: middle;
 }
 
 td div.station a {
-	color: black;
-	font-weight: bold;
+  color: black;
+  font-weight: bold;
 }
 
 div.content {
-	width: 253px;
-	height: 220px;
-	padding: 0;
-	margin: 0;
-	overflow: hidden;
+  width: 253px;
+  height: 220px;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
 
-	background: white url(../img/bg_tools.png) top left repeat-y;
-	border-left: 1px solid #000000;
-	border-right: 1px solid #000000;
-	border-bottom: 1px solid #000000;
+  background: white url(../img/bg_tools.png) top left repeat-y;
+  border-left: 1px solid #000000;
+  border-right: 1px solid #000000;
+  border-bottom: 1px solid #000000;
 }
 
 div.content div.tools {
-	float: left;
-	width: 26px;
-	height: 220px;
-	margin: 0;
-	padding: 0;
-	padding-top: 3px;
-	text-align: center;
-	vertical-align: top;
+  float: left;
+  width: 26px;
+  height: 220px;
+  margin: 0;
+  padding: 0;
+  padding-top: 3px;
+  text-align: center;
+  vertical-align: top;
 }
 
 div.content div.whatson_info {
-	margin-left: 31px;
+  margin-left: 31px;
 }
 
 div.content div.tools img {
-	margin: 2px 5px;
+  margin: 2px 5px;
 }
 
 div.description {
-	margin: 5px 5px 0px 5px;
-	overflow: hidden;
+  margin: 5px 5px 0px 5px;
+  overflow: hidden;
 }
 
 div.title {
-	margin: 5px;
+  margin: 5px;
 }
 
 div.short {
-	margin: 5px;
+  margin: 5px;
 }
 
 div.info {
-	margin: 5px 5px 0px 5px;
-	overflow: hidden;
+  margin: 5px 5px 0px 5px;
+  overflow: hidden;
 }
 
 div.info div.duration {
-	float: right;
-	margin: 0px 5px 0px 5px;
+  float: right;
+  margin: 0px 5px 0px 5px;
 }
 
 div.info div.time {
-	margin: 0px 5px 0px 5px;
+  margin: 0px 5px 0px 5px;
 }
 
 .margin_right {
@@ -842,39 +842,39 @@ div.info div.time {
 }
 
 div.info div.date {
-	float: left;
+  float: left;
   padding: 0px;
 }
 
 div.progress {
-	overflow: hidden;
-	padding: 2px 0px;
-	margin: 0px 5px 0px 0px;
+  overflow: hidden;
+  padding: 2px 0px;
+  margin: 0px 5px 0px 0px;
 }
 
 div.progress div {
- 	float: right;
-	padding: 0px;
+   float: right;
+  padding: 0px;
 }
 
 div.__progress {
-	overflow: hidden;
-	width: 100px;
-	height: 8px;
-	border: 1px solid #C0C1DA;
+  overflow: hidden;
+  width: 100px;
+  height: 8px;
+  border: 1px solid #C0C1DA;
 }
 
 div.__progress_invisible {
-	overflow: hidden;
-	width: 100px;
-	height: 10px;
-	border: 0px none transparent;
+  overflow: hidden;
+  width: 100px;
+  height: 10px;
+  border: 0px none transparent;
 }
 
 div.__progress div.__elapsed {
-	float: left;
-	height: 8px;
-	background-color: #E9EFFF;
+  float: left;
+  height: 8px;
+  background-color: #E9EFFF;
 }
 
 
@@ -885,21 +885,21 @@ div.__progress div.__elapsed {
 */
 
 table.listing {
-	padding: 0px;
-	margin: 0px;
+  padding: 0px;
+  margin: 0px;
 }
 
 table.listing>tbody>tr>td {
-	background: transparent url(../img/bg_line.png) bottom repeat-x;
-	border-bottom: 1px solid #C0C1DA;
+  background: transparent url(../img/bg_line.png) bottom repeat-x;
+  border-bottom: 1px solid #C0C1DA;
 }
 
 table.listing tbody tr td.action {
-	padding-left: 3px;
-	padding-right: 5px;
+  padding-left: 3px;
+  padding-right: 5px;
 }
 .action-rightcol {
-	padding-right: 4px;
+  padding-right: 4px;
   float: right;
 }
 .noborder {
@@ -909,12 +909,12 @@ table.listing tbody tr td.action {
 }
 
 table.listing tr td.leftcol {
-	padding-left: 7px;
-	padding-right: 5px;
+  padding-left: 7px;
+  padding-right: 5px;
 }
 
 table.listing tr td.current {
-	color: blue;
+  color: blue;
 }
 
 table.listing tr td.noborder {
@@ -923,27 +923,27 @@ table.listing tr td.noborder {
 }
 
 table.listing>tbody>tr.head>td {
-	color: white;
-	font-weight: bold;
-	margin: 0px;
-	padding: 0px;
-	border-bottom: 1px solid black;
+  color: white;
+  font-weight: bold;
+  margin: 0px;
+  padding: 0px;
+  border-bottom: 1px solid black;
 }
 
 table.listing tr.description td {
-	font-weight: bold;
-	background: #E9EFFF;
+  font-weight: bold;
+  background: #E9EFFF;
 }
 
 table.listing tr.spacer td {
-	height: 10px;
-	background: transparent;
-	border-bottom: 0px;
+  height: 10px;
+  background: transparent;
+  border-bottom: 0px;
 }
 
 table.listing a {
-	color: black;
-	font-weight: bold;
+  color: black;
+  font-weight: bold;
 }
 
 
@@ -954,65 +954,65 @@ table.listing a {
 */
 
 div.player-container {
-	width: 100%;
-	padding-top: 56.25%; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
-	position: relative;  /* for the player inside of it */
-	text-align: center;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+  position: relative;  /* for the player inside of it */
+  text-align: center;
 }
 
 div.player {
-	position: absolute;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	right: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
 
 table.streaming {
-	width: 100%;
-	max-width: 1280px;
-	margin-top: 2ex;
-	margin-left: auto;
-	margin-right: auto;
-	text-align: center;
+  width: 100%;
+  max-width: 1280px;
+  margin-top: 2ex;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 
 table.streaming>tbody>tr>td {
-	width: auto;
-	vertical-align: top;
-	white-space: nowrap;
-	border: 0px none black;
-	padding: 0px 5px 0px 5px;
+  width: auto;
+  vertical-align: top;
+  white-space: nowrap;
+  border: 0px none black;
+  padding: 0px 5px 0px 5px;
 }
 
 table.streaming>tbody>tr>td .short {
-	white-space: normal;
+  white-space: normal;
 }
 
 table.streaming>tbody>tr>td.action {
-	border-left: 1px none black;
+  border-left: 1px none black;
 }
 
 table.streaming>tbody>tr>td:first-child {
-	width: auto;
-	border-left: 1px none black;
+  width: auto;
+  border-left: 1px none black;
 }
 
 table.streaming>tbody>tr>td:last-child {
-	width: 100%;
+  width: 100%;
 }
 
 table.streaming>tbody>tr>td {
-	background: inherit;
-	border-left: 1px solid black;
+  background: inherit;
+  border-left: 1px solid black;
 }
 
 table.streaming .withmargin {
-	margin: 0px;
+  margin: 0px;
 }
 
 table.streaming .progress {
-	margin: 0px;
+  margin: 0px;
 }
 
 
@@ -1023,8 +1023,8 @@ table.streaming .progress {
 */
 
 table.mschedule {
-	padding: 0px;
-	margin: 0px;
+  padding: 0px;
+  margin: 0px;
 }
 
 table.mschedule tr {
@@ -1032,14 +1032,14 @@ table.mschedule tr {
 }
 
 table.mschedule td.time {
-	vertical-align: top;
-	padding: 5px;
+  vertical-align: top;
+  padding: 5px;
 }
 
 table.mschedule tr td.event {
-	vertical-align: top;
-	background: transparent url(../img/bg_line.png) bottom repeat-x;
-	border-bottom: 1px solid #C0C1DA;
+  vertical-align: top;
+  background: transparent url(../img/bg_line.png) bottom repeat-x;
+  border-bottom: 1px solid #C0C1DA;
 }
 
 table.mschedule tr td.has_timer {
@@ -1099,14 +1099,14 @@ table.mschedule tr td div.description {
 }
 
 table.mschedule a {
-	/*
+  /*
     color: black;
-	font-weight: bold;
+  font-weight: bold;
     */
 }
 
 table.mschedule a>img {
-	vertical-align: text-bottom;
+  vertical-align: text-bottom;
 }
 
 
@@ -1115,31 +1115,31 @@ table.mschedule a>img {
    #############################
 */
 
-div.boxheader	 {
-	margin: 0px;
-	padding: 0px;
-	background: url(../img/bg_box_l.png) top left no-repeat;
+div.boxheader   {
+  margin: 0px;
+  padding: 0px;
+  background: url(../img/bg_box_l.png) top left no-repeat;
 }
 
 div.boxheader > div {
-	margin: 0px;
-	background: url(../img/bg_box_r.png) top right no-repeat;
+  margin: 0px;
+  background: url(../img/bg_box_r.png) top right no-repeat;
 }
 
 div.boxheader > div > div {
-	background: url(../img/bg_box_h.png) repeat-x;
-	vertical-align: middle;
-	text-align: left;
-	margin-right: 3px;
-	margin-left: 3px;
-	padding-left: 5px;
-	padding-right: 5px;
-	padding-top: 2px;
-	color: white;
-	font-weight: bold;
-	height: 21px;
-	line-height: 20px;
-	white-space: nowrap;
+  background: url(../img/bg_box_h.png) repeat-x;
+  vertical-align: middle;
+  text-align: left;
+  margin-right: 3px;
+  margin-left: 3px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 2px;
+  color: white;
+  font-weight: bold;
+  height: 21px;
+  line-height: 20px;
+  white-space: nowrap;
 }
 
 
@@ -1149,82 +1149,82 @@ div.boxheader > div > div {
 */
 
 table.recordings {
-	border-spacing: 0px;
-	border: 0px;
-	border-collapse: collapse;
+  border-spacing: 0px;
+  border: 0px;
+  border-collapse: collapse;
 }
 table.recordings a {
         color: black;
 }
 div.recordings {
-	border: 1px solid black;
+  border: 1px solid black;
 }
 
 .recordings ul {
-	list-style-type: none;
-	padding: 0px;
-	margin: 0px;
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px;
 }
 
 div.recording_item {
-	overflow: hidden;
-	background: url(../img/bg_line.png) bottom repeat-x;
-	border-bottom: 1px solid #C0C1DA;
+  overflow: hidden;
+  background: url(../img/bg_line.png) bottom repeat-x;
+  border-bottom: 1px solid #C0C1DA;
 }
 
 tr.recording_item {
-	overflow: hidden;
-	background: url(../img/bg_line.png) bottom repeat-x;
-	border-bottom: 1px solid #C0C1DA;
+  overflow: hidden;
+  background: url(../img/bg_line.png) bottom repeat-x;
+  border-bottom: 1px solid #C0C1DA;
 }
 tr.recording_item:last-child {
-	border-bottom: 2px solid #C0C1DA;
+  border-bottom: 2px solid #C0C1DA;
 }
 .recording_item > div {
-	float: left;
+  float: left;
 }
 
 .recording_item div.recording_imgs {
-	margin: 2px;
+  margin: 2px;
 }
 
 .recording_item .recording_folder_name {
-	font-weight: bold;
-	cursor: pointer;
+  font-weight: bold;
+  cursor: pointer;
 }
 .recording_item .recording_folder_name_new {
-	font-weight: bold;
-	color: orangered;
-	cursor: pointer;
+  font-weight: bold;
+  color: orangered;
+  cursor: pointer;
 }
 
 .recording_item div.recording_name_new {
-	color: orangered;
+  color: orangered;
 }
 
 .recording_item div.recording_name_new a {
-	color: orangered;
+  color: orangered;
 }
 
 .recording_item div.recording_errors {
-	width: 26px;
+  width: 26px;
 }
 
 .recording_item div.recording_sd_hd {
-	width: 35px;
+  width: 35px;
 }
 
 .recording_item div.recording_arch {
-	float: right;
-	padding-top: 0.5ex;
-	padding-left: 0.5em;
-	padding-right: 0.5em;
+  float: right;
+  padding-top: 0.5ex;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
 }
 
 .recording_item div.recording_actions {
-	float: right;
-	padding-left: 0.5em;
-	padding-right: 0.5em;
+  float: right;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
 }
 
 
@@ -1234,18 +1234,18 @@ tr.recording_item:last-child {
 */
 
 div.screenshot {
-	background-image: url(../img/tv.jpg);
-	background-repeat: no-repeat;
-	height: 320px;
-	width: 569px;
-	float: left;
-	padding: 20px 20px 98px 21px;
-	margin-right: 20px;
+  background-image: url(../img/tv.jpg);
+  background-repeat: no-repeat;
+  height: 320px;
+  width: 569px;
+  float: left;
+  padding: 20px 20px 98px 21px;
+  margin-right: 20px;
 }
 
 div.screenshot img {
-	width: 569px;
-	height: 320px;
+  width: 569px;
+  height: 320px;
 }
 
 
@@ -1255,55 +1255,55 @@ div.screenshot img {
 */
 
 #osd { 
-	background-color:black;
-	color:white;
-	height: 320px;
-	width: 569px;
+  background-color:black;
+  color:white;
+  height: 320px;
+  width: 569px;
 }
 .osd { 
-	padding: 5px 0px 5px 10px;
-	position:relative;
+  padding: 5px 0px 5px 10px;
+  position:relative;
 }
 .osd div {
-	margin:0px;
-	tab-size:4;
-	font-family: "Courier New", Courier, monospace;
+  margin:0px;
+  tab-size:4;
+  font-family: "Courier New", Courier, monospace;
 }
 .osdMessage {
-	position:absolute;
+  position:absolute;
     overflow:auto;
-	top:250px;
-	max-height: 100px;
-	min-height:20px;
-	width: 510px;
+  top:250px;
+  max-height: 100px;
+  min-height:20px;
+  width: 510px;
     background-color:yellow;
     color:black;
     padding:10px;
     border:2px solid red;
 }
 .osdText, .osdItems {
-	overflow:auto;
-	overflow-x:hidden;
-	height: 267px;
-	width: 555px;
-	margin:5px 0px !important;
+  overflow:auto;
+  overflow-x:hidden;
+  height: 267px;
+  width: 555px;
+  margin:5px 0px !important;
 }
 .osdItem, .osdTitle {
-	cursor:pointer;
-	white-space: nowrap;
+  cursor:pointer;
+  white-space: nowrap;
 }
 .osdItem.selected { 
-	background-color:#cccccc;
-	color:#000000;
+  background-color:#cccccc;
+  color:#000000;
 }
 .osdButtons {}
 .osdButtons div {
-	float:left; 
-	margin-right:5px;
-	padding:2px;
-	width:130px;
-	text-align: center;
-	cursor:pointer;
+  float:left;
+  margin-right:5px;
+  padding:2px;
+  width:130px;
+  text-align: center;
+  cursor:pointer;
 }
 
 .osdButtonGreen {background-color:green}
@@ -1318,27 +1318,27 @@ div.screenshot img {
 */
 
 table.error {
-	border: 1px solid #E9360D;
-	margin: 2px;
-	padding: 0px;
+  border: 1px solid #E9360D;
+  margin: 2px;
+  padding: 0px;
 }
 
 table.error tr td.message {
-	padding: 5px;
+  padding: 5px;
 }
 
 table.error tr td.title {
-	background: #E9360D;
-	color: white;
-	font-weight: bold;
-	margin: 0;
-	padding: 3px 3px 3px 10px;
+  background: #E9360D;
+  color: white;
+  font-weight: bold;
+  margin: 0;
+  padding: 3px 3px 3px 10px;
 }
 
 table.error td.border {
-	padding: 0;
-	margin: 0;
-	width: 1px;
+  padding: 0;
+  margin: 0;
+  width: 1px;
 }
 
 
@@ -1349,14 +1349,14 @@ table.error td.border {
 */
 
 table.formular {
-	margin-top: 10px;
+  margin-top: 10px;
 }
 
 table.formular tr td {
-	vertical-align: top;
-	vertical-align: middle;
-	background: url(../img/bg_line.png) bottom repeat-x;
-	border-bottom: 1px solid #C0C1DA;
+  vertical-align: top;
+  vertical-align: middle;
+  background: url(../img/bg_line.png) bottom repeat-x;
+  border-bottom: 1px solid #C0C1DA;
 }
 
 table.formular tr td input {
@@ -1369,43 +1369,43 @@ table.formular tr td .dotted input {
 }
 
 table.formular tr td.leftcol {
-	padding-left: 2px;
+  padding-left: 2px;
 }
 
 table.formular tr td.rightcol {
-	padding-right: 7px;
+  padding-right: 7px;
 }
 
 table.formular tr td.label {
-	font-weight: bold;
-	vertical-align: top;
+  font-weight: bold;
+  vertical-align: top;
 }
 
 table.formular tr.head td {
-	color: white;
-	font-weight: bold;
-	margin: 0;
-	padding: 0;
-	border: none;
+  color: white;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  border: none;
 }
 
 table.dependent {
-	background-color: #FFFFFF;
-	margin-top: 3px;
-	margin-bottom: 5px;
+  background-color: #FFFFFF;
+  margin-top: 3px;
+  margin-bottom: 5px;
 }
 
 table.dependent tr:last-child td {
-	border-bottom: 1px none red;
+  border-bottom: 1px none red;
 }
 
 table.dependent tr td {
-	background: transparent;
-	vertical-align: middle;
+  background: transparent;
+  vertical-align: middle;
 }
 
 table.dependent tr td.label .withmargin {
-	margin-left: 0px;
+  margin-left: 0px;
 }
 
 
@@ -1415,12 +1415,12 @@ table.dependent tr td.label .withmargin {
 */
 
 table.login {
-	margin: 0 auto;
+  margin: 0 auto;
 }
 
 table.login tr td {
-	padding: 3px 5px;
-	text-align: right;
+  padding: 3px 5px;
+  text-align: right;
 }
 
 
@@ -1430,39 +1430,39 @@ table.login tr td {
 */
 
 div.caption {
-	padding: 2px 0px 0px 5px;
+  padding: 2px 0px 0px 5px;
 }
 
 div.epg_content {
-	padding: 0px 0px 7px 0px;
-	margin: 0px 0px 0px 0px;
+  padding: 0px 0px 7px 0px;
+  margin: 0px 0px 0px 0px;
   background: transparent url(../img/bg_tools.png) top left repeat-y;
   border: 1px solid black;
-	overflow: hidden;
+  overflow: hidden;
 }
 
 div.epg_content div.epg_tools {
-	float: left;
-	width: 26px;
-	margin: 0 5px 0 0;
-	margin: 0 5px 0 0;
-	padding: 0;
-	padding-top: 3px;
-	text-align: center;
-	vertical-align: top;
+  float: left;
+  width: 26px;
+  margin: 0 5px 0 0;
+  margin: 0 5px 0 0;
+  padding: 0;
+  padding-top: 3px;
+  text-align: center;
+  vertical-align: top;
 }
 
 div.epg_content div.epg_tools img {
-	margin: 2px 5px;
+  margin: 2px 5px;
 }
 
 span.epg_images img.epg_image {
-	width: 100%;
+  width: 100%;
 }
 
 /* some adaptions when shown in info-win subwindow */
 .info-win div.boxheader {
-	display: none;
+  display: none;
 }
 
 .info-win div.epg_content {
@@ -1476,35 +1476,35 @@ span.epg_images img.epg_image {
 */
 
 div.epg_content div.about_left {
-	text-align: right;
-	float: left;
-	width: 175px;
+  text-align: right;
+  float: left;
+  width: 175px;
 }
 
 div.epg_content div.about_right {
-	padding-left: 200px;
+  padding-left: 200px;
 }
 
 div.epg_content div.about_line {
-	padding-left: 30px;
+  padding-left: 30px;
 }
 
 div.epg_content div.about_head {
-	font-weight: bold;
-	margin-left: -9px;
-	padding-top: 6px;
+  font-weight: bold;
+  margin-left: -9px;
+  padding-top: 6px;
 }
 
 div.epg_content div.about_head div {
-	padding-bottom: 6px;
-	margin-left: 0px;
+  padding-bottom: 6px;
+  margin-left: 0px;
 }
 
 div.epg_content div.about_head div div {
-	padding: 2px 0px 2px 10px;
-	background: #E9EFFF;
-	border-top: 1px solid #C0C1DA;
-	border-bottom: 1px solid #C0C1DA;
+  padding: 2px 0px 2px 10px;
+  background: #E9EFFF;
+  border-top: 1px solid #C0C1DA;
+  border-bottom: 1px solid #C0C1DA;
 }
 
 div.thumb {
@@ -1565,31 +1565,31 @@ td.enlarge-image img.thumbpt {
   width: 100px;
 }
 span.epg_images {
-	width: 150px;
+  width: 150px;
 }
 
 div.info-win {
-	width: 410px;
+  width: 410px;
 }
 div.info-win img.artwork {
 /* info-win - 95 */
-	width: 315px
+  width: 315px
 }
 img.artwork {
-	width: 315px
+  width: 315px
 }
 div.info-win img.actor {
 /* artwork/4 - 4 */
-	width: 73px;
+  width: 73px;
 }
 img.actor {
-	width: 73px;
+  width: 73px;
 }
 .hint-tip {
- 	max-width: 200px; /* depends on the tip background image width */
+   max-width: 200px; /* depends on the tip background image width */
 }
 img.channel_logo {
-	max-height:32px; max-width:90px;
+  max-height:32px; max-width:90px;
 }
 
 }

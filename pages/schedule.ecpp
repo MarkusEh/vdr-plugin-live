@@ -17,7 +17,7 @@ using namespace vdrlive;
 
 </%pre>
 <%args>
-	int channel = -1;
+  int channel = -1;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -25,9 +25,9 @@ bool logged_in(false);
 
 <# scope="page" should be enough but does not work with tntnet 3.0 #>
 <%request scope="global">
-	cChannel* Channel;
-	cString prev;
-	cString next;
+  cChannel* Channel;
+  cString prev;
+  cString next;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
@@ -35,122 +35,122 @@ reply.setHeader (tnt::httpheader::cacheControl, "no-store, no-cache, max-age=0, 
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 </%cpp>
 <%cpp>
-	pageTitle = trVDR("Schedule");
+  pageTitle = trVDR("Schedule");
 
 bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
 
-	{
-		LOCK_CHANNELS_READ;
-		if ( channel > 0 )
-			Channel = (cChannel *)Channels->GetByNumber( channel );
-		else if (cDevice::CurrentChannel())
-			Channel = (cChannel *)Channels->GetByNumber(cDevice::CurrentChannel());
-		else
-			Channel = (cChannel *)Channels->Get( Channels->GetNextNormal( -1 ) );
-		if ( Channel == 0 )
-			throw HtmlError( tr("Couldn't find channel or no channels available. Maybe you mistyped your request?") );
-		if (Channel->Number() > 1)
-			prev = cString::sprintf("href=\"schedule.html?channel=%i\"", Channel->Number() - 1);
-		if (Channel->Number() < Channels->MaxNumber())
-			next = cString::sprintf("href=\"schedule.html?channel=%i\"", Channel->Number() + 1);
-	}
+  {
+    LOCK_CHANNELS_READ;
+    if ( channel > 0 )
+      Channel = (cChannel *)Channels->GetByNumber( channel );
+    else if (cDevice::CurrentChannel())
+      Channel = (cChannel *)Channels->GetByNumber(cDevice::CurrentChannel());
+    else
+      Channel = (cChannel *)Channels->Get( Channels->GetNextNormal( -1 ) );
+    if ( Channel == 0 )
+      throw HtmlError( tr("Couldn't find channel or no channels available. Maybe you mistyped your request?") );
+    if (Channel->Number() > 1)
+      prev = cString::sprintf("href=\"schedule.html?channel=%i\"", Channel->Number() - 1);
+    if (Channel->Number() < Channels->MaxNumber())
+      next = cString::sprintf("href=\"schedule.html?channel=%i\"", Channel->Number() + 1);
+  }
 
-	cSchedule const* Schedule;
-	{
-		LOCK_SCHEDULES_READ;
-		Schedule = Schedules->GetSchedule( (const cChannel *)Channel );
-	}
+  cSchedule const* Schedule;
+  {
+    LOCK_SCHEDULES_READ;
+    Schedule = Schedules->GetSchedule( (const cChannel *)Channel );
+  }
 
 </%cpp>
 <& pageelems.doc_type &>
 <html>
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>VDR Live - <$ pageTitle $></title>
-		<& pageelems.stylesheets &>
-		<& pageelems.ajax_js &>
-		<& pageelems.create_html_js &>
-		<script type="text/javascript"><!--
-		function KeyboardInput(ev) {
-			if (ev.ctrlKey)
-				switch (ev.which) {
-				case 37: // left
-					<?? *prev ? "window.location." << *prev ?>
-					return false;
-				case 39: // right
-					<?? *next ? "window.location." << *next ?>
-					return false;
-				}
-				switch (ev.key) {
-				case '<':
-					<?? *prev ? "window.location." << *prev ?>
-					return false;
-				case '>':
-					<?? *next ? "window.location." << *next ?>
-					return false;
-				}
-			return true;
-		}
-		//--></script>
-	</head>
-	<body onload="adjustHeader()" onresize="adjustHeader()" onkeydown="return KeyboardInput(event);">
-		<& pageelems.logo &>
-		<& menu active=("schedule") component=("schedule.channel_selection") &>
-		<div class="inhalt">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VDR Live - <$ pageTitle $></title>
+    <& pageelems.stylesheets &>
+    <& pageelems.ajax_js &>
+    <& pageelems.create_html_js &>
+    <script type="text/javascript"><!--
+    function KeyboardInput(ev) {
+      if (ev.ctrlKey)
+        switch (ev.which) {
+        case 37: // left
+          <?? *prev ? "window.location." << *prev ?>
+          return false;
+        case 39: // right
+          <?? *next ? "window.location." << *next ?>
+          return false;
+        }
+        switch (ev.key) {
+        case '<':
+          <?? *prev ? "window.location." << *prev ?>
+          return false;
+        case '>':
+          <?? *next ? "window.location." << *next ?>
+          return false;
+        }
+      return true;
+    }
+    //--></script>
+  </head>
+  <body onload="adjustHeader()" onresize="adjustHeader()" onkeydown="return KeyboardInput(event);">
+    <& pageelems.logo &>
+    <& menu active=("schedule") component=("schedule.channel_selection") &>
+    <div class="inhalt">
 <%cpp>
-	if ( Schedule == 0 ) {
+  if ( Schedule == 0 ) {
 </%cpp>
-			<$ tr("No schedules available for this channel") $>.
+      <$ tr("No schedules available for this channel") $>.
 <%cpp>
-	}
-	else {
+  }
+  else {
 </%cpp>
-		<table class="listing" cellspacing="0" cellpadding="0">
+    <table class="listing" cellspacing="0" cellpadding="0">
 <%cpp>
-		std::string current_day = "";
-		const cEvent* PresentEvent = Schedule->GetPresentEvent();
-		time_t now = time(NULL) - ::Setup.EPGLinger * 60;
+    std::string current_day = "";
+    const cEvent* PresentEvent = Schedule->GetPresentEvent();
+    time_t now = time(NULL) - ::Setup.EPGLinger * 60;
     RecordingsItemRecPtr recItem;
     bool recItemFound;
     cToSvConcat<0> epg_item;
     epg_item.reserve(1000);
-		for (const cEvent *Event = (cEvent *)Schedule->Events()->First(); Event; Event = (cEvent *)Schedule->Events()->Next(Event)) {
-			if (Event->EndTime() <= now && Event != PresentEvent) continue;
+    for (const cEvent *Event = (cEvent *)Schedule->Events()->First(); Event; Event = (cEvent *)Schedule->Events()->Next(Event)) {
+      if (Event->EndTime() <= now && Event != PresentEvent) continue;
 
-			epg_item.clear();
-			recItemFound = appendEpgItem(epg_item, recItem, Event, Channel, false);
-			EpgInfoPtr epgEvent = EpgEvents::CreateEpgInfo(Channel, Event);
-			std::string day(epgEvent->StartTime(tr("%A, %b %d %Y")));
+      epg_item.clear();
+      recItemFound = appendEpgItem(epg_item, recItem, Event, Channel, false);
+      EpgInfoPtr epgEvent = EpgEvents::CreateEpgInfo(Channel, Event);
+      std::string day(epgEvent->StartTime(tr("%A, %b %d %Y")));
 
-			bool lastEventCurrentDay = false;
-			{
-				cEvent* NextEvent = (cEvent *)Schedule->Events()->Next(Event);
-				if (!NextEvent) {
-					lastEventCurrentDay = true;
-				}
-				else {
-					std::string nday(NextEvent->StartTime() ? std::string(cToSvDateTime(tr("%A, %b %d %Y"), NextEvent->StartTime())) : "");
-					lastEventCurrentDay = (day != nday);
-				}
-			}
+      bool lastEventCurrentDay = false;
+      {
+        cEvent* NextEvent = (cEvent *)Schedule->Events()->Next(Event);
+        if (!NextEvent) {
+          lastEventCurrentDay = true;
+        }
+        else {
+          std::string nday(NextEvent->StartTime() ? std::string(cToSvDateTime(tr("%A, %b %d %Y"), NextEvent->StartTime())) : "");
+          lastEventCurrentDay = (day != nday);
+        }
+      }
 
-			int col_span = 3;
-			if (display_pictures) col_span++;
-			if (current_day != day) {
-				if (current_day != "") {
+      int col_span = 3;
+      if (display_pictures) col_span++;
+      if (current_day != day) {
+        if (current_day != "") {
 </%cpp>
-				<tr class="spacer">
-					<td colspan="<$col_span$>"/>
-				</tr>
+        <tr class="spacer">
+          <td colspan="<$col_span$>"/>
+        </tr>
 <%cpp>
-				}
+        }
 </%cpp>
-				<tr class="head">
-					<td colspan=<$col_span$>><div class="boxheader"><div><div><$ day $></div></div></div></td>
-				</tr>
+        <tr class="head">
+          <td colspan=<$col_span$>><div class="boxheader"><div><div><$ day $></div></div></div></td>
+        </tr>
 <%cpp>
-				current_day = day;
-			}
+        current_day = day;
+      }
 </%cpp>
 <script>
   document.write(eventString(<$(lastEventCurrentDay && !recItemFound)?"1":"0"$>, <$$ epg_item.c_str() $>))
@@ -164,14 +164,14 @@ if(recItemFound) {
     document.write(existingRecordingString(<$col_span - 2$>, \"<? lastEventCurrentDay ? "bottomrow" ?>\", <$$epg_item.c_str()$>))
   </script>
 <%cpp> }  // if rec item found
-		}  // loop over all events
+    }  // loop over all events
 </%cpp>
-			</table>
+      </table>
 <%cpp>
-	}
+  }
 </%cpp>
-		</div>
-	</body>
+    </div>
+  </body>
 <script>imgLoad()</script>
 </html>
 <%include>page_exit.eh</%include>

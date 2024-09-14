@@ -19,28 +19,28 @@ std::string cUsers::logged_in_user;
 cUser::cUser(int ID, const std::string& Name, const std::string& Password)
   : m_ID(ID), m_Name(Name)
 {
-	SetPassword(Password);
+  SetPassword(Password);
 }
 
 void cUser::SetPassword(const std::string& Password)
 {
-	std::stringstream passwordStr;
-	passwordStr << Password.size() << "|" << MD5Hash(Password);
-	m_PasswordMD5 = passwordStr.str();
+  std::stringstream passwordStr;
+  passwordStr << Password.size() << "|" << MD5Hash(Password);
+  m_PasswordMD5 = passwordStr.str();
 }
 
 int cUser::GetPasswordLength() const
 {
-	// format is <length>:<md5-hash of password>
-	std::vector<std::string> parts = StringSplit( m_PasswordMD5, '|' );
-	return (parts.size() > 0) ? parse_int<int>( parts[0] ) : 0;
+  // format is <length>:<md5-hash of password>
+  std::vector<std::string> parts = StringSplit( m_PasswordMD5, '|' );
+  return (parts.size() > 0) ? parse_int<int>( parts[0] ) : 0;
 }
 
 std::string const cUser::GetMD5HashPassword() const
 {
-	// format is <length>:<md5-hash of password>
-	std::vector<std::string> parts = StringSplit( m_PasswordMD5, '|' );
-	return (parts.size() > 1) ? parts[1] : "";
+  // format is <length>:<md5-hash of password>
+  std::vector<std::string> parts = StringSplit( m_PasswordMD5, '|' );
+  return (parts.size() > 1) ? parts[1] : "";
 }
 
 bool cUser::Parse(const char *s)
@@ -66,25 +66,25 @@ bool cUser::Parse(const char *s)
           pos_next = pos + strlen(pos);
         valuelen = pos_next - pos + 1;
         if (valuelen > MAXVALUELEN)
-		{
-			esyslog("live: entry '%s' is too long. Will be truncated!", pos);
-	    	valuelen = MAXVALUELEN;
-		}
+    {
+      esyslog("live: entry '%s' is too long. Will be truncated!", pos);
+        valuelen = MAXVALUELEN;
+    }
         strn0cpy(value, pos, valuelen);
         pos = pos_next;
 
-		switch (parameter) {
-		case 1: m_ID = parse_int<int>(value);
-			break;
-		case 2:  m_Name = value;
-			break;
-		case 3: m_PasswordMD5 = value;
-			break;
-		case 4:
-			m_Userrights = parse_int<int>(value);
-			break;
-		default:
-			break;
+    switch (parameter) {
+    case 1: m_ID = parse_int<int>(value);
+      break;
+    case 2:  m_Name = value;
+      break;
+    case 3: m_PasswordMD5 = value;
+      break;
+    case 4:
+      m_Userrights = parse_int<int>(value);
+      break;
+    default:
+      break;
         } //switch
       }
       parameter++;
@@ -111,21 +111,21 @@ bool cUser::Save(FILE *f)
 
 bool cUser::HasRightTo(eUserRights right)
 {
-	return ((m_Userrights & (1 << (right-1))) != 0);
+  return ((m_Userrights & (1 << (right-1))) != 0);
 }
 
 bool cUser::CurrentUserHasRightTo(eUserRights right)
 {
-	if (!LiveSetup().UseAuth()) return true;
-	cUser* user = cUsers::GetByUserName(cUsers::logged_in_user);
-	return (cUsers::logged_in_user == LiveSetup().GetAdminLogin() || (user && (user->m_Userrights & (1 << (right-1))) != 0));
+  if (!LiveSetup().UseAuth()) return true;
+  cUser* user = cUsers::GetByUserName(cUsers::logged_in_user);
+  return (cUsers::logged_in_user == LiveSetup().GetAdminLogin() || (user && (user->m_Userrights & (1 << (right-1))) != 0));
 }
 
 void cUser::SetRight(eUserRights right)
 {
-	isyslog("live: set right '%d' in '%d'", right, m_Userrights);
-	m_Userrights |= (1 << (right-1));
-	isyslog("live: now rights are '%d'", m_Userrights);
+  isyslog("live: set right '%d' in '%d'", right, m_Userrights);
+  m_Userrights |= (1 << (right-1));
+  isyslog("live: now rights are '%d'", m_Userrights);
 }
 
 bool cUsers::Delete(const std::string& Name)
@@ -134,11 +134,11 @@ bool cUsers::Delete(const std::string& Name)
   while (user)
     {
       if (user->Name() == Name)
-	{
-	  Users.Del(user);
-	  Users.Save();
-	  return true;
-	}
+  {
+    Users.Del(user);
+    Users.Save();
+    return true;
+  }
     user = Users.Next(user);
     }
   return false;
@@ -146,53 +146,53 @@ bool cUsers::Delete(const std::string& Name)
 
 cUser* cUsers::GetByUserId(const std::string& Id)
 {
-	cUser* user = Users.First();
-	while (user)
-	{
-		if (user->Id() == atoi(Id.c_str()))
-			return user;
-		user = Users.Next(user);
+  cUser* user = Users.First();
+  while (user)
+  {
+    if (user->Id() == atoi(Id.c_str()))
+      return user;
+    user = Users.Next(user);
     }
-	return NULL;
+  return NULL;
 }
 
 cUser* cUsers::GetByUserName(const std::string& Name)
 {
-	cUser* user = Users.First();
-	while (user)
-	{
-		if (user->Name() == Name)
-			return user;
-		user = Users.Next(user);
+  cUser* user = Users.First();
+  while (user)
+  {
+    if (user->Name() == Name)
+      return user;
+    user = Users.Next(user);
     }
-	return NULL;
+  return NULL;
 }
 
 int cUsers::GetNewId()
 {
-	int iMaxId = -1;
-	cUser* user = Users.First();
-	while (user)
-	{
-		if (iMaxId < user->Id())
-			iMaxId = user->Id();
-		user = Users.Next(user);
+  int iMaxId = -1;
+  cUser* user = Users.First();
+  while (user)
+  {
+    if (iMaxId < user->Id())
+      iMaxId = user->Id();
+    user = Users.Next(user);
     }
-	return iMaxId + 1;
+  return iMaxId + 1;
 }
 
 bool cUsers::ValidUserLogin(const std::string& login, const std::string& password)
 {
-	cUser* user = GetByUserName(login);
-	if (user && MD5Hash(password) == user->GetMD5HashPassword())
-		return true;
-	return false;
+  cUser* user = GetByUserName(login);
+  if (user && MD5Hash(password) == user->GetMD5HashPassword())
+    return true;
+  return false;
 }
 
 bool cUsers::ValidLogin(const std::string& login, const std::string& password)
 {
-	return ((login == LiveSetup().GetAdminLogin() && MD5Hash(password) == LiveSetup().GetMD5HashAdminPassword()) ||
-		ValidUserLogin(login, password));
+  return ((login == LiveSetup().GetAdminLogin() && MD5Hash(password) == LiveSetup().GetMD5HashAdminPassword()) ||
+    ValidUserLogin(login, password));
 }
 
 }

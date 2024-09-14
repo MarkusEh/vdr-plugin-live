@@ -11,145 +11,145 @@ using namespace vdrlive;
 
 </%pre>
 <%args>
-	std::string epgid;
-	std::string delete_rec;  // to_confirm or confirmed
-	int history_num_back = 0;
-	std::string async;
-	std::string tab;
+  std::string epgid;
+  std::string delete_rec;  // to_confirm or confirmed
+  int history_num_back = 0;
+  std::string async;
+  std::string tab;
   std::string sort;
   std::string filter;
   std::string flat;
 </%args>
 <%session scope="global">
-	bool logged_in(false);
+  bool logged_in(false);
 </%session>
 <%request scope="global">
-	EpgInfoPtr epgEvent;
-	std::string epgImage;
+  EpgInfoPtr epgEvent;
+  std::string epgImage;
   uintptr_t i_event;
   uintptr_t irecording;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
   reply.setHeader (tnt::httpheader::cacheControl, "no-store, no-cache, max-age=0, must-revalidate, proxy-revalidate", true);
-	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+  if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
-	pageTitle = tr("Electronic program guide information");
+  pageTitle = tr("Electronic program guide information");
 
-	bool ajaxReq = !async.empty() && (parse_int<int>(async) != 0);
+  bool ajaxReq = !async.empty() && (parse_int<int>(async) != 0);
 
-	bool aboutBox = false;
+  bool aboutBox = false;
   if (epgid.compare(0, 4, "del_") == 0) {
     delete_rec = "to_confirm";
     epgid.erase(0, 4);
   }
 
-	bool isEvent = false;
-	RecordingsManagerPtr recordings;
-	epgImage.clear();
+  bool isEvent = false;
+  RecordingsManagerPtr recordings;
+  epgImage.clear();
   i_event = 0;
   irecording = 0;
 
   if (!delete_rec.empty()) {
-	    pageTitle = tr("Delete recordings");
+      pageTitle = tr("Delete recordings");
   } else if (!epgid.empty()) {
 
-		const std::string_view recording_s("recording_");
-		const std::string_view event_s("event_");
-		const std::string_view aboutbox("aboutBox");
+    const std::string_view recording_s("recording_");
+    const std::string_view event_s("event_");
+    const std::string_view aboutbox("aboutBox");
 
-		// check for recording:
-		if (epgid.compare(0, recording_s.length(), recording_s) == 0) {
-			recordings = LiveRecordingsManager();
-			const cRecording *recording = recordings->GetByMd5Hash(epgid);
-			if (recording == 0) {
-				throw HtmlError(tr("Couldn't find recording or no recordings available"));
-			}
-			epgEvent = EpgEvents::CreateEpgInfo(epgid, recording);
+    // check for recording:
+    if (epgid.compare(0, recording_s.length(), recording_s) == 0) {
+      recordings = LiveRecordingsManager();
+      const cRecording *recording = recordings->GetByMd5Hash(epgid);
+      if (recording == 0) {
+        throw HtmlError(tr("Couldn't find recording or no recordings available"));
+      }
+      epgEvent = EpgEvents::CreateEpgInfo(epgid, recording);
       cTvMedia image;
-			EpgEvents::PosterTvscraper(image, NULL, recording);
-			epgImage = image.path;
+      EpgEvents::PosterTvscraper(image, NULL, recording);
+      epgImage = image.path;
       irecording = (uintptr_t)recording;
-		}
-		// check for event:
-		else if (epgid.compare(0, event_s.length(), event_s) == 0) {
-			/* Need to lock here channels also, because CreateEpgInfo will lock
-			 * it also and this will result in a wrong lock order */
-			LOCK_CHANNELS_READ;
-			LOCK_SCHEDULES_READ;
-			epgEvent = EpgEvents::CreateEpgInfo(epgid, Schedules);
-			isEvent = true;
-			const cEvent* event = epgEvent->Event();
+    }
+    // check for event:
+    else if (epgid.compare(0, event_s.length(), event_s) == 0) {
+      /* Need to lock here channels also, because CreateEpgInfo will lock
+       * it also and this will result in a wrong lock order */
+      LOCK_CHANNELS_READ;
+      LOCK_SCHEDULES_READ;
+      epgEvent = EpgEvents::CreateEpgInfo(epgid, Schedules);
+      isEvent = true;
+      const cEvent* event = epgEvent->Event();
       cTvMedia image;
-			EpgEvents::PosterTvscraper(image, event, NULL);
-			epgImage = image.path;
+      EpgEvents::PosterTvscraper(image, event, NULL);
+      epgImage = image.path;
       i_event = (uintptr_t)event;
-		}
-		// check for aboutbox:
-		else if (epgid.compare(0, aboutbox.length(), aboutbox) == 0) {
-			aboutBox = true;
-		}
-	}
+    }
+    // check for aboutbox:
+    else if (epgid.compare(0, aboutbox.length(), aboutbox) == 0) {
+      aboutBox = true;
+    }
+  }
 </%cpp>
 <& pageelems.doc_type &>
 <html>
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>VDR-Live - <$ pageTitle $></title>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VDR-Live - <$ pageTitle $></title>
 <%cpp>
-	if (!ajaxReq) {
+  if (!ajaxReq) {
 </%cpp>
-		<& pageelems.stylesheets &>
+    <& pageelems.stylesheets &>
     <& pageelems.create_html_js &>
-		<& pageelems.ajax_js &>
+    <& pageelems.ajax_js &>
 <%cpp>
-	}
+  }
 </%cpp>
-	</head>
-	<body onload="adjustHeader()" onresize="adjustHeader()">
+  </head>
+  <body onload="adjustHeader()" onresize="adjustHeader()">
 <%cpp>
-	if (!ajaxReq) {
+  if (!ajaxReq) {
 </%cpp>
-		<& pageelems.logo &>
-		<& menu &>
+    <& pageelems.logo &>
+    <& menu &>
 <%cpp>
-	}
+  }
 </%cpp>
-		<div class="inhalt">
+    <div class="inhalt">
 <%cpp>
-	if (epgEvent && delete_rec.empty()) {
+  if (epgEvent && delete_rec.empty()) {
     uintptr_t i_epgEvent = (uintptr_t)(&epgEvent);
-		std::string start(epgEvent->StartTime("%a,") + std::string(" ")
-				+ epgEvent->StartTime(tr("%b %d %y")) + std::string(" ")
+    std::string start(epgEvent->StartTime("%a,") + std::string(" ")
+        + epgEvent->StartTime(tr("%b %d %y")) + std::string(" ")
         + epgEvent->StartTime(tr("%I:%M %p")) );
     if (epgEvent->EventDuration() < 0) {  // epg event, no recording
       start += std::string(" - ") + epgEvent->EndTime(tr("%I:%M %p"));
-    	start += " ";
-			AppendDuration(start, tr("(%d:%02d)"), epgEvent->Duration());
+      start += " ";
+      AppendDuration(start, tr("(%d:%02d)"), epgEvent->Duration());
     }
 
-		std::string tools_component;
-		if (recordings) {
-			tools_component = epgEvent->Archived().empty() ? "recordings.rec_tools" : "recordings.archived_disc" ;
-		}
-		if (isEvent)
-			tools_component = "epginfo.epgTools";
+    std::string tools_component;
+    if (recordings) {
+      tools_component = epgEvent->Archived().empty() ? "recordings.rec_tools" : "recordings.archived_disc" ;
+    }
+    if (isEvent)
+      tools_component = "epginfo.epgTools";
 
 </%cpp>
-		<& pageelems.epg_tt_box boxId=(epgEvent->Id()) caption=(epgEvent->Caption()) tools_comp=(tools_component) time=(start) title=(epgEvent->Title()) short_descr=(epgEvent->ShortDescr()) long_descr=(epgEvent->LongDescr()) archived=(epgEvent->Archived()) elapsed=(epgEvent->Elapsed()) channel=(epgEvent->ChannelName()) filename=(epgEvent->FileName()) epgImage=(epgImage) irecording=(irecording) ievent=(i_event) iepgEvent=(i_epgEvent) sort=(sort) filter=(filter) flat=(flat) history_num_back=(history_num_back) &>
+    <& pageelems.epg_tt_box boxId=(epgEvent->Id()) caption=(epgEvent->Caption()) tools_comp=(tools_component) time=(start) title=(epgEvent->Title()) short_descr=(epgEvent->ShortDescr()) long_descr=(epgEvent->LongDescr()) archived=(epgEvent->Archived()) elapsed=(epgEvent->Elapsed()) channel=(epgEvent->ChannelName()) filename=(epgEvent->FileName()) epgImage=(epgImage) irecording=(irecording) ievent=(i_event) iepgEvent=(i_epgEvent) sort=(sort) filter=(filter) flat=(flat) history_num_back=(history_num_back) &>
 <%cpp>
-	}
-	if (aboutBox) {
+  }
+  if (aboutBox) {
 </%cpp>
-		<& pageelems.about_tt_box &>
+    <& pageelems.about_tt_box &>
 <%cpp>
-	}
+  }
   if (!delete_rec.empty() ) {
 </%cpp>
     <& recordings.todel todel=(epgid) confirmed=(delete_rec) history_num_back=(history_num_back) &>
 % }
-		</div>
-	</body>
+    </div>
+  </body>
 </html>
 
 <%include>page_exit.eh</%include>

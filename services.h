@@ -66,19 +66,19 @@ public:
 // Data structure for service "GetEventType"
 class ScraperGetEventType {
 public:
-	ScraperGetEventType(void) {
-		event = NULL;
-		recording = NULL;
-		type = tNone;
-		movieId = 0;
-		seriesId = 0;
-		episodeId = 0;
-	};
+  ScraperGetEventType(void) {
+    event = NULL;
+    recording = NULL;
+    type = tNone;
+    movieId = 0;
+    seriesId = 0;
+    episodeId = 0;
+  };
 // in
     const cEvent *event;             // check type for this event 
     const cRecording *recording;     // or for this recording
 //out
-    tvType type;                	 //tSeries or tMovie or tNone
+    tvType type;                   //tSeries or tMovie or tNone
     int movieId;
     int seriesId;
     int episodeId;

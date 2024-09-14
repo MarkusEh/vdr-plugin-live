@@ -10,14 +10,14 @@ using namespace vdrlive;
 
 </%pre>
 <%args>
-	// input parameters
-	std::string recid;
-	std::string async;
+  // input parameters
+  std::string recid;
+  std::string async;
   int history_num_back;  //number of pages to go back to the recordings page
       // call with 1 -> chancel will go back one page in history
-	// form parameters
-	std::string name = "";
-	std::string directory = "";
+  // form parameters
+  std::string name = "";
+  std::string directory = "";
   std::string newdir = "";
   std::string title = "";
   std::string shorttext = "";
@@ -38,38 +38,38 @@ const cRecording* recording;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
-	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+  if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
-	if (!cUser::CurrentUserHasRightTo(UR_EDITRECS))
-		throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
+  if (!cUser::CurrentUserHasRightTo(UR_EDITRECS))
+    throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
 
-	bool ajaxReq = !async.empty() && (parse_int<int>(async) != 0);
+  bool ajaxReq = !async.empty() && (parse_int<int>(async) != 0);
 
-	std::string message;
+  std::string message;
 
-	recording = NULL;
-	if (!recid.empty()) {
-		recording = LiveRecordingsManager()->GetByMd5Hash(recid);
-		if (!recording)
-			throw HtmlError(tr("Couldn't find recording. Maybe you mistyped your request?"));
-	}
+  recording = NULL;
+  if (!recid.empty()) {
+    recording = LiveRecordingsManager()->GetByMd5Hash(recid);
+    if (!recording)
+      throw HtmlError(tr("Couldn't find recording. Maybe you mistyped your request?"));
+  }
 
   bool returnToReferer = false;
-	if (request.getMethod() == "POST") {
+  if (request.getMethod() == "POST") {
     ++history_num_back;
-		if (name.empty())
-			message = tr("Please set a name for the recording!");
-		else if (recording) {
-			bool copy_only = false;
-			if (delresume == "delresume") LiveRecordingsManager()->DeleteResume(recording);
+    if (name.empty())
+      message = tr("Please set a name for the recording!");
+    else if (recording) {
+      bool copy_only = false;
+      if (delresume == "delresume") LiveRecordingsManager()->DeleteResume(recording);
       if (delmarks == "delmarks") LiveRecordingsManager()->DeleteMarks(recording);
       if (copy == "copy") copy_only = true;
       if (newdir != ".") directory = newdir;
-			if (LiveRecordingsManager()->UpdateRecording(recording, directory, name, copy_only, title, shorttext, description))
+      if (LiveRecordingsManager()->UpdateRecording(recording, directory, name, copy_only, title, shorttext, description))
         returnToReferer = true;
-			else
-				message = tr("Cannot copy, rename or move the recording.");
-		}
+      else
+        message = tr("Cannot copy, rename or move the recording.");
+    }
   }
   if (returnToReferer) {
 </%cpp>
@@ -81,104 +81,104 @@ const cRecording* recording;
   </script>
 </html>
 <%cpp>
-	} else {
+  } else {
 
-	if (recording) {
-		const cRecordingInfo *info = recording->Info();
-		name = recording->BaseName();
-		directory = StringReplace(*recording->Folder(), "~", "/");
-		title = cSv(info->Title());
-		shorttext = cSv(info->ShortText());
-		description = cSv(info->Description());
-	}
+  if (recording) {
+    const cRecordingInfo *info = recording->Info();
+    name = recording->BaseName();
+    directory = StringReplace(*recording->Folder(), "~", "/");
+    title = cSv(info->Title());
+    shorttext = cSv(info->ShortText());
+    description = cSv(info->Description());
+  }
 </%cpp>
 <& pageelems.doc_type &>
 <html>
-	<head>
+  <head>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>VDR Live - <$ tr("Edit recording") $></title>
+    <title>VDR Live - <$ tr("Edit recording") $></title>
 <%cpp>
-	if (!ajaxReq) {
+  if (!ajaxReq) {
 </%cpp>
-		<& pageelems.stylesheets &>
+    <& pageelems.stylesheets &>
     <& pageelems.create_html_js &>
-		<& pageelems.ajax_js &>
+    <& pageelems.ajax_js &>
 <%cpp>
-	}
+  }
 </%cpp>
   <script type="text/javascript">
-		function new_dir() {
-			var dir = document.getElementById("directory");
-			dir.style.display = "none";
-			document.getElementById("new_dir_button").style.display = "none";
-			var newdir = document.getElementById("newdir");
-			newdir.value = dir.value;
-			newdir.style.display = "";
-		}
-	</script>
-	</head>
-	<body onload="adjustHeader()" onresize="adjustHeader()">
+    function new_dir() {
+      var dir = document.getElementById("directory");
+      dir.style.display = "none";
+      document.getElementById("new_dir_button").style.display = "none";
+      var newdir = document.getElementById("newdir");
+      newdir.value = dir.value;
+      newdir.style.display = "";
+    }
+  </script>
+  </head>
+  <body onload="adjustHeader()" onresize="adjustHeader()">
 <%cpp>
-	if (!ajaxReq) {
+  if (!ajaxReq) {
 </%cpp>
-		<& pageelems.logo &>
-		<& menu active=(active_r) &>
+    <& pageelems.logo &>
+    <& menu active=(active_r) &>
 <%cpp>
-	}
+  }
 </%cpp>
-		<div class="inhalt">
-			<form method="post" name="edit_recording" id="<$ recid $>" action="edit_recording.ecpp">
-				<input type="hidden" name="recid" value="<$ recid $>"/>
-				<input type="hidden" name="history_num_back" value="<$ history_num_back $>"/>
-				<table class="formular" cellpadding="0" cellspacing="0">
-					<tr class="head">
-						<td class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div><div class="caption"><$ tr("Edit recording") $></div></div></div></td>
-					</tr>
-					<tr>
-						<td class="label leftcol"><div class="withmargin"><$ tr("Name") $>:</div></td>
-						<td class="rightcol"><input type="text" name="name" value="<$ name $>" size="55" class="width99" /></td>
-					</tr>
-					<tr>
-						<td class="label leftcol"><div class="withmargin"><$ tr("Directory") $>:</div></td>
-						<td class="rightcol">
-							<select name="directory" size="1" id="directory" style="margin-top: 5px">
+    <div class="inhalt">
+      <form method="post" name="edit_recording" id="<$ recid $>" action="edit_recording.ecpp">
+        <input type="hidden" name="recid" value="<$ recid $>"/>
+        <input type="hidden" name="history_num_back" value="<$ history_num_back $>"/>
+        <table class="formular" cellpadding="0" cellspacing="0">
+          <tr class="head">
+            <td class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div><div class="caption"><$ tr("Edit recording") $></div></div></div></td>
+          </tr>
+          <tr>
+            <td class="label leftcol"><div class="withmargin"><$ tr("Name") $>:</div></td>
+            <td class="rightcol"><input type="text" name="name" value="<$ name $>" size="55" class="width99" /></td>
+          </tr>
+          <tr>
+            <td class="label leftcol"><div class="withmargin"><$ tr("Directory") $>:</div></td>
+            <td class="rightcol">
+              <select name="directory" size="1" id="directory" style="margin-top: 5px">
 <%cpp>
         RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
-	for (const auto &dir: recordingsTree->getAllDirs() ) {
+  for (const auto &dir: recordingsTree->getAllDirs() ) {
 </%cpp>
-								<option value="<$ dir $>"<$ (dir == directory) ? "selected=\"selected\"" : "" $>><$ dir $></option>
+                <option value="<$ dir $>"<$ (dir == directory) ? "selected=\"selected\"" : "" $>><$ dir $></option>
 <%cpp>
-	}
+  }
 </%cpp>
-							</select>
-							<img id="new_dir_button" class="icon" src="<$ LiveSetup().GetThemedLink("img", "button_new.png") $>" title="<$tr("Create new directory")$>" onclick="new_dir()" style="vertical-align: middle">
-							<input type="text" name="newdir" id="newdir" value="." size="55" class="width99" style="display:none" />
-						</td>
-					</tr>
-					<tr>
-						<td class="label leftcol"><div class="withmargin"><$ tr("Delete resume information") $>:</div></td>
-						<td class="rightcol"><input type="checkbox" name="delresume" value="delresume"/></td>
-					</tr>
-					<tr>
-						<td class="label leftcol"><div class="withmargin"><$ tr("Delete marks information") $>:</div></td>
-						<td class="rightcol"><input type="checkbox" name="delmarks" value="delmarks"/></td>
-					</tr>
-					<tr>
-						<td class="label leftcol"><div class="withmargin"><$ tr("Copy only") $>:</div></td>
-						<td class="rightcol"><input type="checkbox" name="copy" value="copy"/></td>
-					</tr>
-					<tr>
-						<td class="label leftcol"><div class="withmargin"><$ tr("Title") $>:</div></td>
-						<td class="rightcol"><input type="text" name="title" value="<$ title $>" size="55" class="width99" /></td>
-					</tr>
-					<tr>
-						<td class="label leftcol"><div class="withmargin"><$ tr("Short description") $>:</div></td>
-						<td class="rightcol"><input type="text" name="shorttext" value="<$ shorttext $>" size="55" class="width99" /></td>
-					</tr>
-					<tr>
-						<td class="label leftcol"><div class="withmargin"><$ tr("Description") $>:</div></td>
-						<td class="rightcol"><textarea name="description" rows="8" cols="55" class="width99"><$ description $></textarea></td>
-					</tr>
+              </select>
+              <img id="new_dir_button" class="icon" src="<$ LiveSetup().GetThemedLink("img", "button_new.png") $>" title="<$tr("Create new directory")$>" onclick="new_dir()" style="vertical-align: middle">
+              <input type="text" name="newdir" id="newdir" value="." size="55" class="width99" style="display:none" />
+            </td>
+          </tr>
+          <tr>
+            <td class="label leftcol"><div class="withmargin"><$ tr("Delete resume information") $>:</div></td>
+            <td class="rightcol"><input type="checkbox" name="delresume" value="delresume"/></td>
+          </tr>
+          <tr>
+            <td class="label leftcol"><div class="withmargin"><$ tr("Delete marks information") $>:</div></td>
+            <td class="rightcol"><input type="checkbox" name="delmarks" value="delmarks"/></td>
+          </tr>
+          <tr>
+            <td class="label leftcol"><div class="withmargin"><$ tr("Copy only") $>:</div></td>
+            <td class="rightcol"><input type="checkbox" name="copy" value="copy"/></td>
+          </tr>
+          <tr>
+            <td class="label leftcol"><div class="withmargin"><$ tr("Title") $>:</div></td>
+            <td class="rightcol"><input type="text" name="title" value="<$ title $>" size="55" class="width99" /></td>
+          </tr>
+          <tr>
+            <td class="label leftcol"><div class="withmargin"><$ tr("Short description") $>:</div></td>
+            <td class="rightcol"><input type="text" name="shorttext" value="<$ shorttext $>" size="55" class="width99" /></td>
+          </tr>
+          <tr>
+            <td class="label leftcol"><div class="withmargin"><$ tr("Description") $>:</div></td>
+            <td class="rightcol"><textarea name="description" rows="8" cols="55" class="width99"><$ description $></textarea></td>
+          </tr>
 <%cpp>
 
 if (recording && recording->Info()->Aux()) {
@@ -196,36 +196,36 @@ if (recording && recording->Info()->Aux()) {
   }
   if (!aux_data.empty()) {
 </%cpp>
-					<tr>
-						<td class="label leftcol"><div class="withmargin"><$ tr("Search timer") $>:</div></td>
-						<td class="rightcol"><$ aux_data $></td>
-					</tr>
+          <tr>
+            <td class="label leftcol"><div class="withmargin"><$ tr("Search timer") $>:</div></td>
+            <td class="rightcol"><$ aux_data $></td>
+          </tr>
 <%cpp>
   } else {
 </%cpp>
-					<tr>
-						<td class="label leftcol"><div class="withmargin"><$ tr("Auxiliary info") $>:</div></td>
-						<td class="rightcol"><$ recording->Info()->Aux() $></td>
-					</tr>
+          <tr>
+            <td class="label leftcol"><div class="withmargin"><$ tr("Auxiliary info") $>:</div></td>
+            <td class="rightcol"><$ recording->Info()->Aux() $></td>
+          </tr>
 <%cpp>
   }
 }
 </%cpp>
-					<tr>
-						<td class="buttonpanel leftcol rightcol bottomrow" colspan="2">
-							<div class="withmargin">
-							<button class="green" type="submit"><$ tr("Save") $></button>
-							<button class="red" type="button" onclick="back_depending_referrer(1, <$ history_num_back $>)"><$ tr("Cancel") $></button>
-							</div>
-						</td>
-					</tr>
-				</table>
-			</form>
-			<div style="color: red; margin: 0 auto;">
-				<$ message $>
-			</div>
-		</div>
-	</body>
+          <tr>
+            <td class="buttonpanel leftcol rightcol bottomrow" colspan="2">
+              <div class="withmargin">
+              <button class="green" type="submit"><$ tr("Save") $></button>
+              <button class="red" type="button" onclick="back_depending_referrer(1, <$ history_num_back $>)"><$ tr("Cancel") $></button>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </form>
+      <div style="color: red; margin: 0 auto;">
+        <$ message $>
+      </div>
+    </div>
+  </body>
 </html>
 % }
 <%include>page_exit.eh</%include>

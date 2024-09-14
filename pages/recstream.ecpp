@@ -35,7 +35,7 @@ bool logged_in(false);
 
 cRecording const * recording = LiveRecordingsManager()->GetByMd5Hash(recid);
 if (recording) {
-	reply.setContentType("video/mpeg");
+  reply.setContentType("video/mpeg");
     reply.setKeepAliveHeader();
     reply.setContentLengthHeader(RecSize(recording));
     reply.setDirectMode();

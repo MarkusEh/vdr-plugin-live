@@ -51,46 +51,46 @@ template void StringAppendFrameParams<std::string>(std::string &s, const cRecord
 template void StringAppendFrameParams<cToSvConcat<0>>(cToSvConcat<0> &s, const cRecording *rec);
 template void StringAppendFrameParams<cToSvConcat<255>>(cToSvConcat<255> &s, const cRecording *rec);
 
-	/**
-	 *  Implementation of class RecordingsManager:
-	 */
-	std::weak_ptr<RecordingsManager> RecordingsManager::m_recMan;
-	std::shared_ptr<RecordingsTree> RecordingsManager::m_recTree;
-	cStateKey RecordingsManager::m_recordingsStateKey;
+  /**
+   *  Implementation of class RecordingsManager:
+   */
+  std::weak_ptr<RecordingsManager> RecordingsManager::m_recMan;
+  std::shared_ptr<RecordingsTree> RecordingsManager::m_recTree;
+  cStateKey RecordingsManager::m_recordingsStateKey;
   time_t scraperLastRecordingsUpdate;
 
-	// The RecordingsManager holds a VDR lock on the
-	// Recordings. Additionally the singleton instance of
-	// RecordingsManager is held in a weak pointer. If it is not in
-	// use any longer, it will be freed automatically, which leads to a
-	// release of the VDR recordings lock. Upon requesting access to
-	// the RecordingsManager via LiveRecordingsManger function, first
-	// the weak ptr is locked (obtaining a std::shared_ptr from an possible
-	// existing instance) and if not successful a new instance is
-	// created, which again locks the VDR Recordings.
-	//
-	// RecordingsManager provides factory methods to obtain other
-	// recordings data structures. The data structures returned keep if
-	// needed the instance of RecordingsManager alive until destructed
-	// themselves. This way the use of LIVE::recordings is straight
-	// forward and does hide the locking needs from the user.
+  // The RecordingsManager holds a VDR lock on the
+  // Recordings. Additionally the singleton instance of
+  // RecordingsManager is held in a weak pointer. If it is not in
+  // use any longer, it will be freed automatically, which leads to a
+  // release of the VDR recordings lock. Upon requesting access to
+  // the RecordingsManager via LiveRecordingsManger function, first
+  // the weak ptr is locked (obtaining a std::shared_ptr from an possible
+  // existing instance) and if not successful a new instance is
+  // created, which again locks the VDR Recordings.
+  //
+  // RecordingsManager provides factory methods to obtain other
+  // recordings data structures. The data structures returned keep if
+  // needed the instance of RecordingsManager alive until destructed
+  // themselves. This way the use of LIVE::recordings is straight
+  // forward and does hide the locking needs from the user.
 
-	RecordingsManager::RecordingsManager()
-	{
-	}
+  RecordingsManager::RecordingsManager()
+  {
+  }
 
-	RecordingsTreePtr RecordingsManager::GetRecordingsTree() const
-	{
-		RecordingsManagerPtr recMan = EnsureValidData();
-		if (! recMan) {
+  RecordingsTreePtr RecordingsManager::GetRecordingsTree() const
+  {
+    RecordingsManagerPtr recMan = EnsureValidData();
+    if (! recMan) {
       esyslog("live, ERROR, recMan == nullptr after call to EnsureValidData");
-			return RecordingsTreePtr(recMan, std::shared_ptr<RecordingsTree>());
-		}
-		return RecordingsTreePtr(recMan, m_recTree);
-	}
+      return RecordingsTreePtr(recMan, std::shared_ptr<RecordingsTree>());
+    }
+    return RecordingsTreePtr(recMan, m_recTree);
+  }
 
-	cRecording const * RecordingsManager::GetByMd5Hash(cSv hash) const
-	{
+  cRecording const * RecordingsManager::GetByMd5Hash(cSv hash) const
+  {
     if (hash.length() != 42) return 0;
     if (hash.compare(0, 10, "recording_") != 0) return 0;
     XXH128_hash_t xxh = parse_hex_128(hash.substr(10));
@@ -99,11 +99,11 @@ template void StringAppendFrameParams<cToSvConcat<255>>(cToSvConcat<255> &s, con
       XXH128_hash_t xxh_rec = XXH3_128bits(rec->FileName(), strlen(rec->FileName()));
       if (xxh_rec.high64 == xxh.high64 && xxh_rec.low64 == xxh.low64) return rec;
     }
-		return 0;
-	}
+    return 0;
+  }
 
-	RecordingsItemRecPtr const RecordingsManager::GetByIdHash(cSv hash) const
-	{
+  RecordingsItemRecPtr const RecordingsManager::GetByIdHash(cSv hash) const
+  {
     if (hash.length() != 42) return 0;
     if (hash.compare(0, 10, "recording_") != 0) return 0;
     XXH128_hash_t xxh = parse_hex_128(hash.substr(10));
@@ -111,97 +111,97 @@ template void StringAppendFrameParams<cToSvConcat<255>>(cToSvConcat<255> &s, con
       XXH128_hash_t xxh_rec = recItem->IdHash();
       if (xxh_rec.high64 == xxh.high64 && xxh_rec.low64 == xxh.low64) return recItem;
     }
-		return 0;
-	}
+    return 0;
+  }
 
-	bool RecordingsManager::UpdateRecording(cRecording const * recording, cSv directory, cSv name, bool copy, cSv title, cSv shorttext, cSv description) const
-	{
-		if (!recording)
-			return false;
+  bool RecordingsManager::UpdateRecording(cRecording const * recording, cSv directory, cSv name, bool copy, cSv title, cSv shorttext, cSv description) const
+  {
+    if (!recording)
+      return false;
 
-		std::string oldname = recording->FileName();
-		size_t found = oldname.find_last_of("/");
+    std::string oldname = recording->FileName();
+    size_t found = oldname.find_last_of("/");
 
-		if (found == std::string::npos)
-			return false;
+    if (found == std::string::npos)
+      return false;
 
-		std::string filename = FileSystemExchangeChars(directory.empty() ? name : (StringReplace(directory, "/", "~") + "~").append(name), true);
+    std::string filename = FileSystemExchangeChars(directory.empty() ? name : (StringReplace(directory, "/", "~") + "~").append(name), true);
 
-		// Check for injections that try to escape from the video dir.
-		if (filename.compare(0, 3, "..~") == 0 || filename.find("~..") != std::string::npos) {
-			esyslog("live: renaming failed: new name invalid \"%.*s\"", (int)filename.length(), filename.data());
-			return false;
-		}
+    // Check for injections that try to escape from the video dir.
+    if (filename.compare(0, 3, "..~") == 0 || filename.find("~..") != std::string::npos) {
+      esyslog("live: renaming failed: new name invalid \"%.*s\"", (int)filename.length(), filename.data());
+      return false;
+    }
 
-		std::string newname = concat(cVideoDirectory::Name(), "/", filename, cSv(oldname).substr(found));
+    std::string newname = concat(cVideoDirectory::Name(), "/", filename, cSv(oldname).substr(found));
 
-		if (!MoveDirectory(oldname, newname, copy)) {
-			esyslog("live: renaming failed from '%.*s' to '%s'", (int)oldname.length(), oldname.data(), newname.c_str());
-			return false;
-		}
+    if (!MoveDirectory(oldname, newname, copy)) {
+      esyslog("live: renaming failed from '%.*s' to '%s'", (int)oldname.length(), oldname.data(), newname.c_str());
+      return false;
+    }
 
-		LOCK_RECORDINGS_WRITE;
-		if (!copy)
-			Recordings->DelByName(oldname.c_str());
-		Recordings->AddByName(newname.c_str());
-		recording = Recordings->GetByName(newname.c_str());   // old pointer to recording invalid after DelByName/AddByName
-		cRecordingUserCommand::InvokeCommand(*cString::sprintf("rename \"%s\"", *strescape(oldname.c_str(), "\\\"$'")), newname.c_str());
+    LOCK_RECORDINGS_WRITE;
+    if (!copy)
+      Recordings->DelByName(oldname.c_str());
+    Recordings->AddByName(newname.c_str());
+    recording = Recordings->GetByName(newname.c_str());   // old pointer to recording invalid after DelByName/AddByName
+    cRecordingUserCommand::InvokeCommand(*cString::sprintf("rename \"%s\"", *strescape(oldname.c_str(), "\\\"$'")), newname.c_str());
 
-		// update texts
-		// need null terminated strings for VDR API
-		std::string desc(description);
-		desc.erase(std::remove(desc.begin(), desc.end(), '\r'), desc.end()); // remove \r from HTML
+    // update texts
+    // need null terminated strings for VDR API
+    std::string desc(description);
+    desc.erase(std::remove(desc.begin(), desc.end(), '\r'), desc.end()); // remove \r from HTML
 
-		cRecordingInfo* info = recording->Info();
-		if (title != cSv(info->Title()) || shorttext != cSv(info->ShortText()) || desc != cSv(info->Description()))
-		{
-			info->SetData(title.empty() ? nullptr : std::string(title).c_str(), shorttext.empty() ? nullptr : std::string(shorttext).c_str(), desc.empty() ? nullptr : desc.c_str());
-			info->Write();
-		}
+    cRecordingInfo* info = recording->Info();
+    if (title != cSv(info->Title()) || shorttext != cSv(info->ShortText()) || desc != cSv(info->Description()))
+    {
+      info->SetData(title.empty() ? nullptr : std::string(title).c_str(), shorttext.empty() ? nullptr : std::string(shorttext).c_str(), desc.empty() ? nullptr : desc.c_str());
+      info->Write();
+    }
 
-		return true;
-	}
+    return true;
+  }
 
-	void RecordingsManager::DeleteResume(cRecording const * recording) const
-	{
-		if (!recording)
-			return;
+  void RecordingsManager::DeleteResume(cRecording const * recording) const
+  {
+    if (!recording)
+      return;
 
-		cResumeFile ResumeFile(recording->FileName(), recording->IsPesRecording());
-		ResumeFile.Delete();
-	}
+    cResumeFile ResumeFile(recording->FileName(), recording->IsPesRecording());
+    ResumeFile.Delete();
+  }
 
-	void RecordingsManager::DeleteMarks(cRecording const * recording) const
-	{
-		if (!recording)
-			return;
+  void RecordingsManager::DeleteMarks(cRecording const * recording) const
+  {
+    if (!recording)
+      return;
 
-		cMarks marks;
-		marks.Load(recording->FileName());
-		if (marks.Count()) {
-			cMark *mark = marks.First();
-			while (mark) {
-				cMark *nextmark = marks.Next(mark);
-				marks.Del(mark);
-				mark = nextmark;
-			}
-			marks.Save();
-		}
-	}
+    cMarks marks;
+    marks.Load(recording->FileName());
+    if (marks.Count()) {
+      cMark *mark = marks.First();
+      while (mark) {
+        cMark *nextmark = marks.Next(mark);
+        marks.Del(mark);
+        mark = nextmark;
+      }
+      marks.Save();
+    }
+  }
 
-	void RecordingsManager::DeleteRecording(cRecording const * recording) const
-	{
-		if (!recording)
-			return;
+  void RecordingsManager::DeleteRecording(cRecording const * recording) const
+  {
+    if (!recording)
+      return;
 
-		std::string name(recording->FileName());
-		const_cast<cRecording *>(recording)->Delete();
-		LOCK_RECORDINGS_WRITE;
-		Recordings->DelByName(name.c_str());
-	}
+    std::string name(recording->FileName());
+    const_cast<cRecording *>(recording)->Delete();
+    LOCK_RECORDINGS_WRITE;
+    Recordings->DelByName(name.c_str());
+  }
 
-	int RecordingsManager::GetArchiveType(cRecording const * recording)
-	{
+  int RecordingsManager::GetArchiveType(cRecording const * recording)
+  {
 // 1: on DVD
 // 2: on HDD
 // 0: "normal" VDR recording
@@ -218,90 +218,90 @@ template void StringAppendFrameParams<cToSvConcat<255>>(cToSvConcat<255> &s, con
     if (stat (file, &buffer) == 0) return 2;
 // stat is 10% faster than access on my system. On others, there is a larger difference
 // see https://stackoverflow.com/questions/12774207/fastest-way-to-check-if-a-file-exists-using-standard-c-c11-14-17-c
-		return 0;
-	}
+    return 0;
+  }
 
-	std::string const RecordingsManager::GetArchiveId(cRecording const * recording, int archiveType)
-	{
-		std::string filename = recording->FileName();
+  std::string const RecordingsManager::GetArchiveId(cRecording const * recording, int archiveType)
+  {
+    std::string filename = recording->FileName();
 
-		if (archiveType==1) {
-			std::string dvdFile = filename + "/dvd.vdr";
-			std::ifstream dvd(dvdFile);
+    if (archiveType==1) {
+      std::string dvdFile = filename + "/dvd.vdr";
+      std::ifstream dvd(dvdFile);
 
-		if (dvd) {
-			std::string archiveDisc;
-			std::string videoDisc;
-			dvd >> archiveDisc;
-			if ("0000" == archiveDisc) {
-				dvd >> videoDisc;
-				return videoDisc;
-			}
-			return archiveDisc;
-		}
-		} else if(archiveType==2) {
-			std::string hddFile = filename + "/hdd.vdr";
-			std::ifstream hdd(hddFile);
+    if (dvd) {
+      std::string archiveDisc;
+      std::string videoDisc;
+      dvd >> archiveDisc;
+      if ("0000" == archiveDisc) {
+        dvd >> videoDisc;
+        return videoDisc;
+      }
+      return archiveDisc;
+    }
+    } else if(archiveType==2) {
+      std::string hddFile = filename + "/hdd.vdr";
+      std::ifstream hdd(hddFile);
 
-			if (hdd) {
-				std::string archiveDisc;
-				hdd >> archiveDisc;
-				return archiveDisc;
-			}
-		}
-		return "";
-	}
+      if (hdd) {
+        std::string archiveDisc;
+        hdd >> archiveDisc;
+        return archiveDisc;
+      }
+    }
+    return "";
+  }
 
-	std::string const RecordingsManager::GetArchiveDescr(cRecording const * recording)
-	{
-		int archiveType;
-		std::string archived;
-		archiveType = GetArchiveType(recording);
-		if (archiveType==1) {
-			archived += " [";
-			archived += tr("On archive DVD No.");
-			archived += ": ";
-			archived += GetArchiveId(recording, archiveType);
-			archived += "]";
-		} else if (archiveType==2) {
-			archived += " [";
-			archived += tr("On archive HDD No.");
-			archived += ": ";
-			archived += GetArchiveId(recording, archiveType);
-			archived += "]";
-		}
-		return archived;
-	}
+  std::string const RecordingsManager::GetArchiveDescr(cRecording const * recording)
+  {
+    int archiveType;
+    std::string archived;
+    archiveType = GetArchiveType(recording);
+    if (archiveType==1) {
+      archived += " [";
+      archived += tr("On archive DVD No.");
+      archived += ": ";
+      archived += GetArchiveId(recording, archiveType);
+      archived += "]";
+    } else if (archiveType==2) {
+      archived += " [";
+      archived += tr("On archive HDD No.");
+      archived += ": ";
+      archived += GetArchiveId(recording, archiveType);
+      archived += "]";
+    }
+    return archived;
+  }
 
-	bool RecordingsManager::StateChanged ()
-	{
-		bool result = false;
+  bool RecordingsManager::StateChanged ()
+  {
+    bool result = false;
 
-		// will return true only, if the Recordings List has been changed since last read
-		if (cRecordings::GetRecordingsRead(m_recordingsStateKey)) {
-			result = true;
-			m_recordingsStateKey.Remove();
-		}
+    // will return true only, if the Recordings List has been changed since last read
+    if (cRecordings::GetRecordingsRead(m_recordingsStateKey)) {
+      result = true;
+      m_recordingsStateKey.Remove();
+    }
 
-		return result;
-	}
+    return result;
+  }
 
-	RecordingsManagerPtr RecordingsManager::EnsureValidData()
-	{
-		// Get singleton instance of RecordingsManager.  'this' is not
-		// an instance of std::shared_ptr of the singleton
-		// RecordingsManager, so we obtain it in the overall
-		// recommended way.
-		RecordingsManagerPtr recMan = LiveRecordingsManager();
-		if (! recMan) {
-			// theoretically this code is never reached ...
-			esyslog("live: lost RecordingsManager instance while using it!");
-			recMan = RecordingsManagerPtr();
-		}
+  RecordingsManagerPtr RecordingsManager::EnsureValidData()
+  {
+    // Get singleton instance of RecordingsManager.  'this' is not
+    // an instance of std::shared_ptr of the singleton
+    // RecordingsManager, so we obtain it in the overall
+    // recommended way.
+    RecordingsManagerPtr recMan = LiveRecordingsManager();
+    if (! recMan) {
+      // theoretically this code is never reached ...
+      esyslog("live: lost RecordingsManager instance while using it!");
+      recMan = RecordingsManagerPtr();
+    }
 
-		// StateChanged must be executed every time, so not part of
-		// the short cut evaluation in the if statement below.
-		bool stateChanged = StateChanged();
+    // StateChanged must be executed every time, so not part of
+    // the short cut evaluation in the if statement below.
+    bool stateChanged = StateChanged();
 // check: changes on scraper data?
     cGetScraperUpdateTimes scraperUpdateTimes;
     if (scraperUpdateTimes.call(LiveSetup().GetPluginScraper()) ) {
@@ -310,21 +310,21 @@ template void StringAppendFrameParams<cToSvConcat<255>>(cToSvConcat<255> &s, con
         stateChanged = true;
       }
     }
-		if (stateChanged || (!m_recTree) ) {
-			if (stateChanged) {
-				m_recTree.reset();
-			}
-			if (stateChanged || !m_recTree) {
+    if (stateChanged || (!m_recTree) ) {
+      if (stateChanged) {
+        m_recTree.reset();
+      }
+      if (stateChanged || !m_recTree) {
         m_recTree = std::shared_ptr<RecordingsTree>(new RecordingsTree(recMan));
-			}
-			if (!m_recTree) {
-				esyslog("live: creation of recordings tree failed!");
-				return RecordingsManagerPtr();
-			}
+      }
+      if (!m_recTree) {
+        esyslog("live: creation of recordings tree failed!");
+        return RecordingsManagerPtr();
+      }
 
-		}
-		return recMan;
-	}
+    }
+    return recMan;
+  }
 
   ShortTextDescription::ShortTextDescription(const char * ShortText, const char * Description):
     m_short_text(ShortText),
@@ -339,9 +339,9 @@ template void StringAppendFrameParams<cToSvConcat<255>>(cToSvConcat<255> &s, con
     return std::tolower<wchar_t>(result, g_locale);
   }
 
-	/**
-	 * Implementation of class RecordingsItemPtrCompare
-	 */
+  /**
+   * Implementation of class RecordingsItemPtrCompare
+   */
 
   int RecordingsItemPtrCompare::FindBestMatch(RecordingsItemRecPtr & BestMatch, const std::vector<RecordingsItemRecPtr>::const_iterator & First, const std::vector<RecordingsItemRecPtr>::const_iterator & Last, const RecordingsItemRecPtr & EPG_Entry) {
 // d: length of movie in minutes, without commercial breaks
@@ -372,25 +372,25 @@ template void StringAppendFrameParams<cToSvConcat<255>>(cToSvConcat<255> &s, con
    return numRecordings;
 }
 
-	bool RecordingsItemPtrCompare::ByAscendingDate(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second)
-	{
-		return (first->StartTime() < second->StartTime());
-	}
+  bool RecordingsItemPtrCompare::ByAscendingDate(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second)
+  {
+    return (first->StartTime() < second->StartTime());
+  }
 
-	bool RecordingsItemPtrCompare::ByDuplicatesName(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second)  // return first < second
-	{
+  bool RecordingsItemPtrCompare::ByDuplicatesName(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second)  // return first < second
+  {
            return first->orderDuplicates(second, false);
-	}
+  }
 
-	bool RecordingsItemPtrCompare::ByDuplicates(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second)  // return first < second
-	{
+  bool RecordingsItemPtrCompare::ByDuplicates(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second)  // return first < second
+  {
           return first->orderDuplicates(second, true);
-	}
+  }
 
-	bool RecordingsItemPtrCompare::ByDuplicatesLanguage(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second)  // return first < second
-	{
+  bool RecordingsItemPtrCompare::ByDuplicatesLanguage(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second)  // return first < second
+  {
           return first->orderDuplicates(second, true, true);
-	}
+  }
 
   size_t firstNonPunct(cSv s) {
 // returns first non-punct char in s
@@ -427,29 +427,29 @@ template void StringAppendFrameParams<cToSvConcat<255>>(cToSvConcat<255> &s, con
         }
         bool RecordingsItemPtrCompare::ByDescendingDurationDeviation(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second) {
           return first->DurationDeviation() > second->DurationDeviation();
-	      }
+        }
 
-	bool RecordingsItemPtrCompare::ByEpisode(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second) {
-	  return first->scraperEpisodeNumber() < second->scraperEpisodeNumber();
-	}
+  bool RecordingsItemPtrCompare::ByEpisode(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second) {
+    return first->scraperEpisodeNumber() < second->scraperEpisodeNumber();
+  }
 
-	bool RecordingsItemPtrCompare::BySeason(const RecordingsItemDirPtr & first, const RecordingsItemDirPtr & second) {
-	  return first->scraperSeasonNumber() < second->scraperSeasonNumber();
-	}
+  bool RecordingsItemPtrCompare::BySeason(const RecordingsItemDirPtr & first, const RecordingsItemDirPtr & second) {
+    return first->scraperSeasonNumber() < second->scraperSeasonNumber();
+  }
 
-	bool RecordingsItemPtrCompare::ByReleaseDate(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second) {
-	  return first->scraperReleaseDate() < second->scraperReleaseDate();
-	}
+  bool RecordingsItemPtrCompare::ByReleaseDate(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second) {
+    return first->scraperReleaseDate() < second->scraperReleaseDate();
+  }
 
   tCompRec RecordingsItemPtrCompare::getComp(eSortOrder sortOrder) {
-	  switch (sortOrder) {
-	    case eSortOrder::name: return &RecordingsItemPtrCompare::ByAscendingNameDescSort;
-	    case eSortOrder::date: return &RecordingsItemPtrCompare::ByAscendingDate;
-	    case eSortOrder::errors: return &RecordingsItemPtrCompare::ByDescendingRecordingErrors;
-	    case eSortOrder::durationDeviation: return &RecordingsItemPtrCompare::ByDescendingDurationDeviation;
-	    case eSortOrder::duplicatesLanguage: return &RecordingsItemPtrCompare::ByDuplicatesLanguage;
-	  }
-	  esyslog("live: ERROR, RecordingsItemPtrCompare::getComp, sortOrder %d unknown", (int)sortOrder);
+    switch (sortOrder) {
+      case eSortOrder::name: return &RecordingsItemPtrCompare::ByAscendingNameDescSort;
+      case eSortOrder::date: return &RecordingsItemPtrCompare::ByAscendingDate;
+      case eSortOrder::errors: return &RecordingsItemPtrCompare::ByDescendingRecordingErrors;
+      case eSortOrder::durationDeviation: return &RecordingsItemPtrCompare::ByDescendingDurationDeviation;
+      case eSortOrder::duplicatesLanguage: return &RecordingsItemPtrCompare::ByDuplicatesLanguage;
+    }
+    esyslog("live: ERROR, RecordingsItemPtrCompare::getComp, sortOrder %d unknown", (int)sortOrder);
           return &RecordingsItemPtrCompare::ByAscendingNameDescSort;
   }
 
@@ -501,97 +501,97 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
   return !scraperVideo;
 }
 
-	/**
-	 *  Implementation of class RecordingsItemDir:
-	 */
-	RecordingsItemDir::RecordingsItemDir(cSv name, int level):
-		m_name(name),
+  /**
+   *  Implementation of class RecordingsItemDir:
+   */
+  RecordingsItemDir::RecordingsItemDir(cSv name, int level):
+    m_name(name),
     m_level(level) { }
 
-	RecordingsItemDir::~RecordingsItemDir() { }
+  RecordingsItemDir::~RecordingsItemDir() { }
 
-	int RecordingsItemDir::numberOfRecordings() const {
+  int RecordingsItemDir::numberOfRecordings() const {
     int result = m_entries.size();
-	  for (const auto &item: m_subdirs) result += item->numberOfRecordings();
-	  return result;
+    for (const auto &item: m_subdirs) result += item->numberOfRecordings();
+    return result;
   }
 
-	void RecordingsItemDir::finishRecordingsTree() {
-	  for (auto &item: m_subdirs) item->finishRecordingsTree();
-	  if (m_cmp_rec) std::sort(m_entries.begin(), m_entries.end(), m_cmp_rec);
-	  if (m_cmp_dir) std::sort(m_subdirs.begin(), m_subdirs.end(), m_cmp_dir);
-	  else std::sort(m_subdirs.begin(), m_subdirs.end(), RecordingsItemPtrCompare::ByAscendingNameSort);
-	  m_entries.shrink_to_fit();
-	  m_subdirs.shrink_to_fit();
+  void RecordingsItemDir::finishRecordingsTree() {
+    for (auto &item: m_subdirs) item->finishRecordingsTree();
+    if (m_cmp_rec) std::sort(m_entries.begin(), m_entries.end(), m_cmp_rec);
+    if (m_cmp_dir) std::sort(m_subdirs.begin(), m_subdirs.end(), m_cmp_dir);
+    else std::sort(m_subdirs.begin(), m_subdirs.end(), RecordingsItemPtrCompare::ByAscendingNameSort);
+    m_entries.shrink_to_fit();
+    m_subdirs.shrink_to_fit();
   }
 
   RecordingsItemDirPtr RecordingsItemDir::addDirIfNotExists(cSv dirName) {
     std::vector<RecordingsItemDirPtr>::iterator iter = std::lower_bound(m_subdirs.begin(), m_subdirs.end(), dirName);
     if (iter != m_subdirs.end() && !(dirName < *iter) ) return *iter;
     RecordingsItemDirPtr dirPtr = std::make_shared<RecordingsItemDir>(dirName, Level() + 1);
-	  m_subdirs.insert(iter, dirPtr);
+    m_subdirs.insert(iter, dirPtr);
     return dirPtr;
-	}
+  }
 
   RecordingsItemDirPtr RecordingsItemDir::addDirCollectionIfNotExists(int collectionId, const RecordingsItemRecPtr &rPtr) {
     std::vector<RecordingsItemDirPtr>::iterator iter = std::lower_bound(m_subdirs.begin(), m_subdirs.end(), collectionId);
     if (iter != m_subdirs.end() && !(collectionId < *iter) ) return *iter;
-	  RecordingsItemDirPtr dirPtr2 = std::make_shared<RecordingsItemDirCollection>(Level() + 1, rPtr);
-	  m_subdirs.insert(iter, dirPtr2);
+    RecordingsItemDirPtr dirPtr2 = std::make_shared<RecordingsItemDirCollection>(Level() + 1, rPtr);
+    m_subdirs.insert(iter, dirPtr2);
     return dirPtr2;
-	}
+  }
 
   RecordingsItemDirPtr RecordingsItemDir::addDirSeasonIfNotExists(int seasonNumber, const RecordingsItemRecPtr &rPtr) {
     std::vector<RecordingsItemDirPtr>::iterator iter = std::lower_bound(m_subdirs.begin(), m_subdirs.end(), seasonNumber);
     if (iter != m_subdirs.end() && !(seasonNumber < *iter) ) return *iter;
-	  RecordingsItemDirPtr dirPtr2 = std::make_shared<RecordingsItemDirSeason>(Level() + 1, rPtr);
-	  m_subdirs.insert(iter, dirPtr2);
+    RecordingsItemDirPtr dirPtr2 = std::make_shared<RecordingsItemDirSeason>(Level() + 1, rPtr);
+    m_subdirs.insert(iter, dirPtr2);
     return dirPtr2;
-	}
+  }
 
-	const std::vector<RecordingsItemRecPtr> *RecordingsItemDir::getRecordings(eSortOrder sortOrder)
-	{
-	  if (m_cmp_rec) return &m_entries;
-	  if (sortOrder == eSortOrder::name) {
+  const std::vector<RecordingsItemRecPtr> *RecordingsItemDir::getRecordings(eSortOrder sortOrder)
+  {
+    if (m_cmp_rec) return &m_entries;
+    if (sortOrder == eSortOrder::name) {
       if (!m_entriesSorted) {
-	      std::sort(m_entries.begin(), m_entries.end(), RecordingsItemPtrCompare::getComp(eSortOrder::name));
+        std::sort(m_entries.begin(), m_entries.end(), RecordingsItemPtrCompare::getComp(eSortOrder::name));
         m_entriesSorted = true;
-	    }
-     	return &m_entries;
-	  }
-	  if (m_sortOrder == sortOrder) return &m_entries_other_sort;
+      }
+       return &m_entries;
+    }
+    if (m_sortOrder == sortOrder) return &m_entries_other_sort;
     if (m_entries_other_sort.empty() ) m_entries_other_sort = m_entries;
-	  std::sort(m_entries_other_sort.begin(), m_entries_other_sort.end(), RecordingsItemPtrCompare::getComp(sortOrder));
-	  m_sortOrder = sortOrder;
-	  return &m_entries_other_sort;
-	}
+    std::sort(m_entries_other_sort.begin(), m_entries_other_sort.end(), RecordingsItemPtrCompare::getComp(sortOrder));
+    m_sortOrder = sortOrder;
+    return &m_entries_other_sort;
+  }
 
   bool RecordingsItemDir::checkNew() const{
-	  for (const auto &rec:m_entries) if (rec->checkNew()) return true;
-	  for (const auto &subdir:m_subdirs) if (subdir->checkNew() ) return true;
-	  return false;
-	}
+    for (const auto &rec:m_entries) if (rec->checkNew()) return true;
+    for (const auto &subdir:m_subdirs) if (subdir->checkNew() ) return true;
+    return false;
+  }
   void RecordingsItemDir::addDirList(std::vector<std::string> &dirs, cSv basePath) const
-	{
+  {
     std::string basePath0(basePath);
     if (basePath.empty() ) dirs.push_back("");
     else basePath0.append("/");
     size_t basePath0_len = basePath0.length();
-	  for (const auto &subdir: m_subdirs) {
+    for (const auto &subdir: m_subdirs) {
       basePath0.erase(basePath0_len);
       basePath0.append(subdir->m_name);
       dirs.push_back(basePath0);
       subdir->addDirList(dirs, basePath0);
     }
-	}
+  }
 
-	void RecordingsItemDir::setTvShow(const RecordingsItemRecPtr &rPtr) {
+  void RecordingsItemDir::setTvShow(const RecordingsItemRecPtr &rPtr) {
     if (m_cmp_dir) return;
     m_cmp_dir = RecordingsItemPtrCompare::BySeason;
     m_imageLevels = cImageLevels(eImageLevel::tvShowCollection, eImageLevel::anySeasonCollection);
     m_rec_item = rPtr;
     m_s_season_number = m_rec_item->scraperSeasonNumber();
-	}
+  }
 
   const cTvMedia &RecordingsItemDir::scraperImage() const {
     if (!m_s_image_requested) {
@@ -602,34 +602,34 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
     return m_s_image;
   }
 
-	/**
-	 *  Implementation of class RecordingsItemDirCollection:
-	 */
-	RecordingsItemDirCollection::RecordingsItemDirCollection(int level, const RecordingsItemRecPtr &rPtr):
-		RecordingsItemDir("", level)
-	{
+  /**
+   *  Implementation of class RecordingsItemDirCollection:
+   */
+  RecordingsItemDirCollection::RecordingsItemDirCollection(int level, const RecordingsItemRecPtr &rPtr):
+    RecordingsItemDir("", level)
+  {
     m_cmp_rec = RecordingsItemPtrCompare::ByReleaseDate;
     m_imageLevels = cImageLevels(eImageLevel::tvShowCollection, eImageLevel::seasonMovie);
     m_rec_item = rPtr;
     m_s_collection_id = m_rec_item->m_s_collection_id;
     m_rec_item->m_scraperVideo->getOverview(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, &m_name);
-	}
+  }
 
-	RecordingsItemDirCollection::~RecordingsItemDirCollection() { }
+  RecordingsItemDirCollection::~RecordingsItemDirCollection() { }
 
-	/**
-	 *  Implementation of class RecordingsItemDirSeason:
-	 */
-	RecordingsItemDirSeason::RecordingsItemDirSeason(int level, const RecordingsItemRecPtr &rPtr):
-		RecordingsItemDir(cToSvInt(rPtr->m_s_season_number), level)
-	{
+  /**
+   *  Implementation of class RecordingsItemDirSeason:
+   */
+  RecordingsItemDirSeason::RecordingsItemDirSeason(int level, const RecordingsItemRecPtr &rPtr):
+    RecordingsItemDir(cToSvInt(rPtr->m_s_season_number), level)
+  {
     m_cmp_rec = RecordingsItemPtrCompare::ByEpisode;
 //    m_imageLevels = cImageLevels(eImageLevel::seasonMovie, eImageLevel::tvShowCollection, eImageLevel::anySeasonCollection);
     m_imageLevels = cImageLevels(eImageLevel::seasonMovie);
     m_rec_item = rPtr;
     m_s_season_number = m_rec_item->m_s_season_number;
-	}
-	RecordingsItemDirSeason::~RecordingsItemDirSeason() { }
+  }
+  RecordingsItemDirSeason::~RecordingsItemDirSeason() { }
 
   int GetNumberOfTsFiles(const cRecording* recording) {
 // find our number of ts files
@@ -646,17 +646,17 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
     return num_ts_files - 1;
   }
 
-	/**
-	 *  Implementation of class RecordingsItemRec:
-	 */
-	RecordingsItemRec::RecordingsItemRec(cSv name, const cRecording* recording, cMeasureTime *timeIdentify, cMeasureTime *timeOverview, cMeasureTime *timeImage, cMeasureTime *timeDurationDeviation, cMeasureTime *timeNumTsFiles, cMeasureTime *timeItemRec):
-		m_name(name),
+  /**
+   *  Implementation of class RecordingsItemRec:
+   */
+  RecordingsItemRec::RecordingsItemRec(cSv name, const cRecording* recording, cMeasureTime *timeIdentify, cMeasureTime *timeOverview, cMeasureTime *timeImage, cMeasureTime *timeDurationDeviation, cMeasureTime *timeNumTsFiles, cMeasureTime *timeItemRec):
+    m_name(name),
     m_name_for_search(GetNameForSearch(name)),
     m_idI(recording->Id()),
-		m_recording(recording),
+    m_recording(recording),
     m_hash(XXH3_128bits(recording->FileName(), strlen(recording->FileName()) )),
-		m_isArchived(RecordingsManager::GetArchiveType(m_recording) )
-	{
+    m_isArchived(RecordingsManager::GetArchiveType(m_recording) )
+  {
 // dsyslog("live: REC: C: rec %s -> %s", name.c_str(), parent->Name().c_str());
     timeItemRec->start();
     m_timeIdentify = timeIdentify;
@@ -669,15 +669,15 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
 //  m_imageLevels = cImageLevels(eImageLevel::episodeMovie, eImageLevel::seasonMovie, eImageLevel::anySeasonCollection);
     getScraperData();
     timeItemRec->stop();
-	}
+  }
 
-	RecordingsItemRec::~RecordingsItemRec()
-	{
-		// dsyslog("live: REC: D: rec %s", Name().c_str());
-	}
+  RecordingsItemRec::~RecordingsItemRec()
+  {
+    // dsyslog("live: REC: D: rec %s", Name().c_str());
+  }
 
   std::string RecordingsItemRec::GetNameForSearch(cSv name)
-	{
+  {
     std::string result;
     result.reserve(name.length());
     const char *name_c = name.data();
@@ -687,7 +687,7 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
       if(!std::ispunct<wchar_t>(codepoint, g_locale) ) stringAppendUtfCodepoint(result, std::tolower<wchar_t>(codepoint, g_locale));
     }
     return result;
-	}
+  }
 
   bool RecordingsItemRec::matchesFilter(cSv filter) const {
     if (filter.empty() ) return true;
@@ -700,7 +700,7 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
     return true;
   }
 
-	void RecordingsItemRec::getScraperData(std::string *collectionName) {
+  void RecordingsItemRec::getScraperData(std::string *collectionName) {
     if (m_timeDurationDeviation) m_timeDurationDeviation->start();
     cGetScraperVideo getScraperVideo(NULL, m_recording);
     if (m_timeIdentify) m_timeIdentify->start();
@@ -726,7 +726,7 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
       m_s_videoType = tNone;
     }
     if (m_timeDurationDeviation) m_timeDurationDeviation->stop();
-	}
+  }
   const cTvMedia &RecordingsItemRec::scraperImage() const {
     if (!m_s_image_requested) {
       m_s_image_requested = true;
@@ -738,10 +738,10 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
     return m_s_image;
   }
 
-	int RecordingsItemRec::CompareTexts(const RecordingsItemRecPtr &second, int *numEqualChars) const
+  int RecordingsItemRec::CompareTexts(const RecordingsItemRecPtr &second, int *numEqualChars) const
 // Compare NameForSearch + ShortText + Description
 // if numEqualChars != NULL: return number of equal characters in ShortText + Description
-	{
+  {
     if (numEqualChars) *numEqualChars = 0;
     int i = NameForSearch().compare(second->NameForSearch() );
     if(i != 0) return i;
@@ -1027,9 +1027,9 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
     }
   }
 
-	/**
-	 * Implementation of class RecordingsItemDummy
-	 */
+  /**
+   * Implementation of class RecordingsItemDummy
+   */
   RecordingsItemDummy::RecordingsItemDummy(const cEvent *event, cScraperVideo *scraperVideo):
     RecordingsItemRec(event->Title() ),
     m_event(event)
@@ -1052,13 +1052,13 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
   bool operator< (int a, const RecordingsItemDirPtr &b) { return *b > a; }
   bool operator< (const RecordingsItemDirPtr &a, int b) { return *a < b; }
 
-	/**
-	 *  Implementation of class RecordingsTree:
-	 */
-	RecordingsTree::RecordingsTree(RecordingsManagerPtr recMan) :
-		m_maxLevel(0),
-		m_root(std::make_shared<RecordingsItemDir>("", 0))
-	{
+  /**
+   *  Implementation of class RecordingsTree:
+   */
+  RecordingsTree::RecordingsTree(RecordingsManagerPtr recMan) :
+    m_maxLevel(0),
+    m_root(std::make_shared<RecordingsItemDir>("", 0))
+  {
 //   esyslog("live: DH: ****** RecordingsTree::RecordingsTree() ********");
    cMeasureTime timeRecs, timeIdentify, timeOverview, timeImage, timeDurationDeviation, timeNumTsFiles, timeItemRec;
 
@@ -1066,7 +1066,7 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
 // check availability of scraper data
     m_creation_timestamp = time(0);
     cGetScraperVideo getScraperVideo;
-		bool scraperDataAvailable = getScraperVideo.call(LiveSetup().GetPluginScraper());
+    bool scraperDataAvailable = getScraperVideo.call(LiveSetup().GetPluginScraper());
     RecordingsItemDirPtr recPtrTvShows = std::make_shared<RecordingsItemDir>(tr("TV shows"), 1);
     RecordingsItemDirPtr recPtrMovieCollections = std::make_shared<RecordingsItemDir>(tr("Movie collections"), 1);
 // create "base" folders
@@ -1083,10 +1083,10 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
       m_root->m_subdirs.push_back(recPtrOthers);
     } else {
       m_rootFileSystem = m_root;
-		}
+    }
 // add all recordings
-		LOCK_RECORDINGS_READ;
-		for (cRecording* recording = (cRecording *)Recordings->First(); recording; recording = (cRecording *)Recordings->Next(recording)) {
+    LOCK_RECORDINGS_READ;
+    for (cRecording* recording = (cRecording *)Recordings->First(); recording; recording = (cRecording *)Recordings->Next(recording)) {
       if (scraperDataAvailable) m_maxLevel = std::max(m_maxLevel, recording->HierarchyLevels() + 1);
       else m_maxLevel = std::max(m_maxLevel, recording->HierarchyLevels() );
 
@@ -1132,7 +1132,7 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
           }
         }
       } while (pos != std::string::npos);
-		}
+    }
     if (scraperDataAvailable) {
       for (auto it = recPtrTvShows->m_subdirs.begin(); it != recPtrTvShows->m_subdirs.end(); ) {
         if ((*it)->numberOfRecordings() < 2) it = recPtrTvShows->m_subdirs.erase(it);
@@ -1142,8 +1142,8 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
         if ((*it)->numberOfRecordings() < 2) it = recPtrMovieCollections->m_subdirs.erase(it);
         else ++it;
       }
-		}
-		m_root->finishRecordingsTree();
+    }
+    m_root->finishRecordingsTree();
     std::chrono::duration<double> timeNeeded = std::chrono::high_resolution_clock::now() - begin;
     dsyslog("live: DH: ------ RecordingsTree::RecordingsTree() --------, required time: %9.5f", timeNeeded.count() );
 /*
@@ -1155,61 +1155,61 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
     timeDurationDeviation.print("live: Scraper   ");
            timeNumTsFiles.print("live: NumTsFiles");
 */
-	}
+  }
 
-	RecordingsTree::~RecordingsTree()
-	{
-		// esyslog("live: DH: ****** RecordingsTree::~RecordingsTree() ********");
-	}
-	const std::vector<RecordingsItemRecPtr> *RecordingsTree::allRecordings(eSortOrder sortOrder) {
-	  if (sortOrder == m_sortOrder) return &m_allRecordings_other_sort;
-	  if (sortOrder == eSortOrder::name) {
-	    if (!m_allRecordingsSorted) {
-	      std::sort(m_allRecordings.begin(), m_allRecordings.end(), RecordingsItemPtrCompare::getComp(eSortOrder::name));
-	      m_allRecordingsSorted = true;
-	    }
-	    return &m_allRecordings;
+  RecordingsTree::~RecordingsTree()
+  {
+    // esyslog("live: DH: ****** RecordingsTree::~RecordingsTree() ********");
+  }
+  const std::vector<RecordingsItemRecPtr> *RecordingsTree::allRecordings(eSortOrder sortOrder) {
+    if (sortOrder == m_sortOrder) return &m_allRecordings_other_sort;
+    if (sortOrder == eSortOrder::name) {
+      if (!m_allRecordingsSorted) {
+        std::sort(m_allRecordings.begin(), m_allRecordings.end(), RecordingsItemPtrCompare::getComp(eSortOrder::name));
+        m_allRecordingsSorted = true;
+      }
+      return &m_allRecordings;
     }
     if (m_allRecordings_other_sort.empty() ) m_allRecordings_other_sort = m_allRecordings;
-	  std::sort(m_allRecordings_other_sort.begin(), m_allRecordings_other_sort.end(), RecordingsItemPtrCompare::getComp(sortOrder));
+    std::sort(m_allRecordings_other_sort.begin(), m_allRecordings_other_sort.end(), RecordingsItemPtrCompare::getComp(sortOrder));
     m_sortOrder = sortOrder;
-	  return &m_allRecordings_other_sort;
-	}
+    return &m_allRecordings_other_sort;
+  }
 
-	/**
-	 *  Implementation of class RecordingsTreePtr:
-	 */
-	RecordingsTreePtr::RecordingsTreePtr() :
-		std::shared_ptr<RecordingsTree>(),
-		m_recManPtr()
-	{
-	}
+  /**
+   *  Implementation of class RecordingsTreePtr:
+   */
+  RecordingsTreePtr::RecordingsTreePtr() :
+    std::shared_ptr<RecordingsTree>(),
+    m_recManPtr()
+  {
+  }
 
-	RecordingsTreePtr::RecordingsTreePtr(RecordingsManagerPtr recManPtr, std::shared_ptr<RecordingsTree> recTree) :
-		std::shared_ptr<RecordingsTree>(recTree),
-		m_recManPtr(recManPtr)
-	{
-	}
+  RecordingsTreePtr::RecordingsTreePtr(RecordingsManagerPtr recManPtr, std::shared_ptr<RecordingsTree> recTree) :
+    std::shared_ptr<RecordingsTree>(recTree),
+    m_recManPtr(recManPtr)
+  {
+  }
 
-	RecordingsTreePtr::~RecordingsTreePtr()
-	{
-	}
+  RecordingsTreePtr::~RecordingsTreePtr()
+  {
+  }
 
-	/**
-	 *  Implementation of function LiveRecordingsManager:
-	 */
-	RecordingsManagerPtr LiveRecordingsManager()
-	{
-		RecordingsManagerPtr r = RecordingsManager::m_recMan.lock();
-		if (r) {
-			return r;
-		}
-		else {
+  /**
+   *  Implementation of function LiveRecordingsManager:
+   */
+  RecordingsManagerPtr LiveRecordingsManager()
+  {
+    RecordingsManagerPtr r = RecordingsManager::m_recMan.lock();
+    if (r) {
+      return r;
+    }
+    else {
       RecordingsManagerPtr n(new RecordingsManager);
-			RecordingsManager::m_recMan = n;
-			return n;
-		}
-	}
+      RecordingsManager::m_recMan = n;
+      return n;
+    }
+  }
 
 // icon with recording errors and tooltip
 std::string recordingErrorsHtml(int recordingErrors) {

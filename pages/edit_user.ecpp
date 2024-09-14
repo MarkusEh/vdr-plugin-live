@@ -8,21 +8,21 @@ using namespace vdrlive;
 
 </%pre>
 <%args>
-	// input parameters
-	std::string userid;
-	// form parameters
-	std::string username;
-	std::string password;
-	bool ur_editsetup = false;
-	bool ur_addtimers = false;
-	bool ur_deltimers = false;
-	bool ur_delrecs = false;
-	bool ur_useremote = false;
-	bool ur_startreplay = false;
-	bool ur_switchchnl = false;
-	bool ur_addstimers = false;
-	bool ur_delstimers = false;
-	bool ur_editrecs = false;
+  // input parameters
+  std::string userid;
+  // form parameters
+  std::string username;
+  std::string password;
+  bool ur_editsetup = false;
+  bool ur_addtimers = false;
+  bool ur_deltimers = false;
+  bool ur_delrecs = false;
+  bool ur_useremote = false;
+  bool ur_startreplay = false;
+  bool ur_switchchnl = false;
+  bool ur_addstimers = false;
+  bool ur_delstimers = false;
+  bool ur_editrecs = false;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -32,150 +32,150 @@ cUser* editUser;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
-	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+  if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
 #define CHECKIF(x) reply.out() << ( (x) ? "checked=\"checked\"" : "" );
 
-	editUser = NULL;
+  editUser = NULL;
 
-	if (request.getMethod() == "POST") {
-		if (!userid.empty()) {
-			editUser = Users.GetByUserId( userid );
-			if ( editUser == 0 )
-				throw HtmlError( tr("Couldn't find user. Maybe you mistyped your request?") );
-			editUser->SetName(username);
-			if (password != std::string(editUser->GetPasswordLength(), '*'))
-				editUser->SetPassword(password);
-		}
-		else
-		{
-			if (Users.GetByUserName( username ))
-				throw HtmlError( tr("This user name is already in use!") );
-			editUser = new cUser(Users.GetNewId(), username, password);
-			Users.Add(editUser);
-		}
-		editUser->SetUserrights(0);
-		if (ur_editsetup) editUser->SetRight(UR_EDITSETUP);
-		if (ur_addtimers) editUser->SetRight(UR_EDITTIMERS);
-		if (ur_deltimers) editUser->SetRight(UR_DELTIMERS);
-		if (ur_delrecs) editUser->SetRight(UR_DELRECS);
-		if (ur_useremote) editUser->SetRight(UR_USEREMOTE);
-		if (ur_startreplay) editUser->SetRight(UR_STARTREPLAY);
-		if (ur_switchchnl) editUser->SetRight(UR_SWITCHCHNL);
-		if (ur_addstimers) editUser->SetRight(UR_EDITSTIMERS);
-		if (ur_delstimers) editUser->SetRight(UR_DELSTIMERS);
-		if (ur_editrecs) editUser->SetRight(UR_EDITRECS);
+  if (request.getMethod() == "POST") {
+    if (!userid.empty()) {
+      editUser = Users.GetByUserId( userid );
+      if ( editUser == 0 )
+        throw HtmlError( tr("Couldn't find user. Maybe you mistyped your request?") );
+      editUser->SetName(username);
+      if (password != std::string(editUser->GetPasswordLength(), '*'))
+        editUser->SetPassword(password);
+    }
+    else
+    {
+      if (Users.GetByUserName( username ))
+        throw HtmlError( tr("This user name is already in use!") );
+      editUser = new cUser(Users.GetNewId(), username, password);
+      Users.Add(editUser);
+    }
+    editUser->SetUserrights(0);
+    if (ur_editsetup) editUser->SetRight(UR_EDITSETUP);
+    if (ur_addtimers) editUser->SetRight(UR_EDITTIMERS);
+    if (ur_deltimers) editUser->SetRight(UR_DELTIMERS);
+    if (ur_delrecs) editUser->SetRight(UR_DELRECS);
+    if (ur_useremote) editUser->SetRight(UR_USEREMOTE);
+    if (ur_startreplay) editUser->SetRight(UR_STARTREPLAY);
+    if (ur_switchchnl) editUser->SetRight(UR_SWITCHCHNL);
+    if (ur_addstimers) editUser->SetRight(UR_EDITSTIMERS);
+    if (ur_delstimers) editUser->SetRight(UR_DELSTIMERS);
+    if (ur_editrecs) editUser->SetRight(UR_EDITRECS);
 
-		Users.Save();
+    Users.Save();
 
-		return reply.redirect("users.html");
-	}
+    return reply.redirect("users.html");
+  }
 
-	pageTitle = !userid.empty() ? tr("Edit user") : tr("New user");
+  pageTitle = !userid.empty() ? tr("Edit user") : tr("New user");
 
-	if (  !userid.empty() ) {
-		cUser* User = Users.GetByUserId( userid );
-		if ( User == 0 )
-			throw HtmlError( tr("Couldn't find user. Maybe you mistyped your request?") );
+  if (  !userid.empty() ) {
+    cUser* User = Users.GetByUserId( userid );
+    if ( User == 0 )
+      throw HtmlError( tr("Couldn't find user. Maybe you mistyped your request?") );
 
-		username = User->Name();
-		password = std::string(User->GetPasswordLength(), '*');
-		ur_editsetup = User->HasRightTo(UR_EDITSETUP);
-		ur_addtimers = User->HasRightTo(UR_EDITTIMERS);
-		ur_deltimers = User->HasRightTo(UR_DELTIMERS);
-		ur_delrecs = User->HasRightTo(UR_DELRECS);
-		ur_useremote = User->HasRightTo(UR_USEREMOTE);
-		ur_startreplay = User->HasRightTo(UR_STARTREPLAY);
-		ur_switchchnl = User->HasRightTo(UR_SWITCHCHNL);
-		ur_addstimers = User->HasRightTo(UR_EDITSTIMERS);
-		ur_delstimers = User->HasRightTo(UR_DELSTIMERS);
-		ur_editrecs = User->HasRightTo(UR_EDITRECS);
-		editUser = User;
-	}
-	else
-	{
-		ur_editsetup = true;
-		ur_addtimers = true;
-		ur_deltimers = true;
-		ur_delrecs = true;
-		ur_useremote = true;
-		ur_startreplay = true;
-		ur_switchchnl = true;
-		ur_addstimers = true;
-		ur_delstimers = true;
-		ur_editrecs = true;
-	}
+    username = User->Name();
+    password = std::string(User->GetPasswordLength(), '*');
+    ur_editsetup = User->HasRightTo(UR_EDITSETUP);
+    ur_addtimers = User->HasRightTo(UR_EDITTIMERS);
+    ur_deltimers = User->HasRightTo(UR_DELTIMERS);
+    ur_delrecs = User->HasRightTo(UR_DELRECS);
+    ur_useremote = User->HasRightTo(UR_USEREMOTE);
+    ur_startreplay = User->HasRightTo(UR_STARTREPLAY);
+    ur_switchchnl = User->HasRightTo(UR_SWITCHCHNL);
+    ur_addstimers = User->HasRightTo(UR_EDITSTIMERS);
+    ur_delstimers = User->HasRightTo(UR_DELSTIMERS);
+    ur_editrecs = User->HasRightTo(UR_EDITRECS);
+    editUser = User;
+  }
+  else
+  {
+    ur_editsetup = true;
+    ur_addtimers = true;
+    ur_deltimers = true;
+    ur_delrecs = true;
+    ur_useremote = true;
+    ur_startreplay = true;
+    ur_switchchnl = true;
+    ur_addstimers = true;
+    ur_delstimers = true;
+    ur_editrecs = true;
+  }
 </%cpp>
 <& pageelems.doc_type &>
 <html>
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>VDR Live - <$ pageTitle $></title>
-		<& pageelems.stylesheets &>
-		<& pageelems.ajax_js &>
-	</head>
-	<body onload="adjustHeader()" onresize="adjustHeader()">
-		<& pageelems.logo &>
-		<& menu active=("users") &>
-		<div class="inhalt">
-			<form method="post" name="edit_user" action="edit_user.ecpp">
-				<input type="hidden" name="userid" value="<$ userid $>"/>
-				<table class="formular" cellpadding="0" cellspacing="0">
-					<tr class="head">
-						<td class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div><div class="caption"><$ pageTitle $></div></div></div></td>
-					</tr>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VDR Live - <$ pageTitle $></title>
+    <& pageelems.stylesheets &>
+    <& pageelems.ajax_js &>
+  </head>
+  <body onload="adjustHeader()" onresize="adjustHeader()">
+    <& pageelems.logo &>
+    <& menu active=("users") &>
+    <div class="inhalt">
+      <form method="post" name="edit_user" action="edit_user.ecpp">
+        <input type="hidden" name="userid" value="<$ userid $>"/>
+        <table class="formular" cellpadding="0" cellspacing="0">
+          <tr class="head">
+            <td class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div><div class="caption"><$ pageTitle $></div></div></div></td>
+          </tr>
 
-					<tr>
-						<td class="label leftcol"><div class="withmargin"><$ tr("Name" ) $>:</div></td>
-						<td class="rightcol"><input type="text" name="username" value="<$ username $>" class="width99" size="55"/></td>
-					</tr>
-					<tr>
-						<td class="label leftcol"><div class="withmargin"><$ tr("Password" ) $>:</div></td>
-						<td class="rightcol"><input type="password" name="password" value="<$ password $>" class="width99" size="55"/></td>
-					</tr>
-					<!-- user rights -->
-					<tr>
-						<td class="label leftcol"><div class="withmargin"><$ tr("User rights") $>:</div></td>
-						<td class="rightcol">
-							<input type="checkbox" name="ur_editsetup" value="1" <{ CHECKIF(ur_editsetup) }> />
-							<label for="ur_editsetup"><$ tr("Edit setup") $></label><br>
-							<input type="checkbox" name="ur_addtimers" value="1" <{ CHECKIF(ur_addtimers) }> />
-							<label for="ur_addtimers"><$ tr("Add or edit timers") $></label><br>
-							<input type="checkbox" name="ur_deltimers" value="1" <{ CHECKIF(ur_deltimers) }> />
-							<label for="ur_deltimers"><$ tr("Delete timers") $></label><br>
-							<input type="checkbox" name="ur_delrecs" value="1" <{ CHECKIF(ur_delrecs) }> />
-							<label for="ur_delrecs"><$ tr("Delete recordings") $></label><br>
-							<input type="checkbox" name="ur_useremote" value="1" <{ CHECKIF(ur_useremote) }> />
-							<label for="ur_useremote"><$ tr("Use remote menu") $></label><br>
-							<input type="checkbox" name="ur_startreplay" value="1" <{ CHECKIF(ur_startreplay) }> />
-							<label for="ur_startreplay"><$ tr("Start replay") $></label><br>
-							<input type="checkbox" name="ur_switchchnl" value="1" <{ CHECKIF(ur_switchchnl) }> />
-							<label for="ur_switchchnl"><$ tr("Switch channel") $></label><br>
+          <tr>
+            <td class="label leftcol"><div class="withmargin"><$ tr("Name" ) $>:</div></td>
+            <td class="rightcol"><input type="text" name="username" value="<$ username $>" class="width99" size="55"/></td>
+          </tr>
+          <tr>
+            <td class="label leftcol"><div class="withmargin"><$ tr("Password" ) $>:</div></td>
+            <td class="rightcol"><input type="password" name="password" value="<$ password $>" class="width99" size="55"/></td>
+          </tr>
+          <!-- user rights -->
+          <tr>
+            <td class="label leftcol"><div class="withmargin"><$ tr("User rights") $>:</div></td>
+            <td class="rightcol">
+              <input type="checkbox" name="ur_editsetup" value="1" <{ CHECKIF(ur_editsetup) }> />
+              <label for="ur_editsetup"><$ tr("Edit setup") $></label><br>
+              <input type="checkbox" name="ur_addtimers" value="1" <{ CHECKIF(ur_addtimers) }> />
+              <label for="ur_addtimers"><$ tr("Add or edit timers") $></label><br>
+              <input type="checkbox" name="ur_deltimers" value="1" <{ CHECKIF(ur_deltimers) }> />
+              <label for="ur_deltimers"><$ tr("Delete timers") $></label><br>
+              <input type="checkbox" name="ur_delrecs" value="1" <{ CHECKIF(ur_delrecs) }> />
+              <label for="ur_delrecs"><$ tr("Delete recordings") $></label><br>
+              <input type="checkbox" name="ur_useremote" value="1" <{ CHECKIF(ur_useremote) }> />
+              <label for="ur_useremote"><$ tr("Use remote menu") $></label><br>
+              <input type="checkbox" name="ur_startreplay" value="1" <{ CHECKIF(ur_startreplay) }> />
+              <label for="ur_startreplay"><$ tr("Start replay") $></label><br>
+              <input type="checkbox" name="ur_switchchnl" value="1" <{ CHECKIF(ur_switchchnl) }> />
+              <label for="ur_switchchnl"><$ tr("Switch channel") $></label><br>
 <%cpp>
-							if (LiveFeatures<features::epgsearch>().Recent()) {
+              if (LiveFeatures<features::epgsearch>().Recent()) {
 </%cpp>
-							<input type="checkbox" name="ur_addstimers" value="1" <{ CHECKIF(ur_addstimers) }> />
-							<label for="ur_addstimers"><$ tr("Add or edit search timers") $></label><br>
-							<input type="checkbox" name="ur_delstimers" value="1" <{ CHECKIF(ur_delstimers) }> />
-							<label for="ur_delstimers"><$ tr("Delete search timers") $></label><br>
+              <input type="checkbox" name="ur_addstimers" value="1" <{ CHECKIF(ur_addstimers) }> />
+              <label for="ur_addstimers"><$ tr("Add or edit search timers") $></label><br>
+              <input type="checkbox" name="ur_delstimers" value="1" <{ CHECKIF(ur_delstimers) }> />
+              <label for="ur_delstimers"><$ tr("Delete search timers") $></label><br>
 <%cpp>
-							}
+              }
 </%cpp>
-							<input type="checkbox" name="ur_editrecs" value="1" <{ CHECKIF(ur_editrecs) }> />
-							<label for="ur_editrecs"><$ tr("Edit recordings") $></label><br>
-						</td>
-					</tr>
-					<tr>
-						<td class="buttonpanel leftcol rightcol bottomrow" colspan="2">
-							<div class="withmargin">
-							<button class="green" type="submit" name="save"><$ tr("Save") $></button>
-							<button type="button" class="red" onclick="history.back()"><$ tr("Cancel") $></button>
-							</div>
-						</td>
-					</tr>
-				</table>
-			</form>
-		</div>
-	</body>
+              <input type="checkbox" name="ur_editrecs" value="1" <{ CHECKIF(ur_editrecs) }> />
+              <label for="ur_editrecs"><$ tr("Edit recordings") $></label><br>
+            </td>
+          </tr>
+          <tr>
+            <td class="buttonpanel leftcol rightcol bottomrow" colspan="2">
+              <div class="withmargin">
+              <button class="green" type="submit" name="save"><$ tr("Save") $></button>
+              <button type="button" class="red" onclick="history.back()"><$ tr("Cancel") $></button>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </div>
+  </body>
 </html>
 <%include>page_exit.eh</%include>

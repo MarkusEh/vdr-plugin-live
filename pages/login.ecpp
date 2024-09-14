@@ -19,15 +19,15 @@ bool logged_in(false);
 std::string message;
 
 if (action == "login") {
-	if (Users.ValidLogin(login, password)) {
-		logged_in = true;
-		cUsers::logged_in_user = login;
-	} else {
-		message = tr("Wrong username or password");
-	}
+  if (Users.ValidLogin(login, password)) {
+    logged_in = true;
+    cUsers::logged_in_user = login;
+  } else {
+    message = tr("Wrong username or password");
+  }
 } else if (action == "logout") {
-	logged_in = false;
-	cUsers::logged_in_user = "";
+  logged_in = false;
+  cUsers::logged_in_user = "";
 }
 
 LiveSetup().CheckLocalNet(request.getPeerIp());
@@ -37,36 +37,36 @@ if (logged_in || !LiveSetup().UseAuth()) return reply.redirect(LiveSetup().GetSt
 }>
 <& pageelems.doc_type &>
 <html>
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>VDR-Live - <$ tr("Login") $></title>
-		<& pageelems.stylesheets &>
-		<& pageelems.ajax_js &>
-	</head>
-	<body onload="document.auth.login.focus()">
-	<div style="width: 350px; margin: 0 auto; text-align: center; padding: 20px">
-		<div class="boxheader"><div><div><$ tr("VDR Live Login") $></div></div></div>
-		<div style="border: 1px solid black; padding: 15px">
-			<img src="<$ LiveSetup().GetThemedLink("img", "logo_login.png") $>" alt="VDR Live" />
-			<form name="auth">
-				<input type="hidden" name="action" value="login" />
-				<table class="login">
-					<tr>
-						<td><$ tr("User") $>:</td>
-						<td><input type="text" name="login" value="<$ login $>" size="15" maxlength="15" /></td>
-						<td>&nbsp;</td>
-					</tr>
-					<tr>
-						<td><$ tr("Password") $>:</td>
-						<td><input type="password" name="password" value="<$ password $>" size="15" maxlength="15" /></td>
-						<td><button type="submit" class="blue"><$ tr("Login") $></button></td>
-					</tr>
-				</table>
-			</form>
-			<div style="color: red; margin: 0 auto;">
-				<$ message $>
-			</div>
-		</div>
-	</div>
-	</body>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VDR-Live - <$ tr("Login") $></title>
+    <& pageelems.stylesheets &>
+    <& pageelems.ajax_js &>
+  </head>
+  <body onload="document.auth.login.focus()">
+  <div style="width: 350px; margin: 0 auto; text-align: center; padding: 20px">
+    <div class="boxheader"><div><div><$ tr("VDR Live Login") $></div></div></div>
+    <div style="border: 1px solid black; padding: 15px">
+      <img src="<$ LiveSetup().GetThemedLink("img", "logo_login.png") $>" alt="VDR Live" />
+      <form name="auth">
+        <input type="hidden" name="action" value="login" />
+        <table class="login">
+          <tr>
+            <td><$ tr("User") $>:</td>
+            <td><input type="text" name="login" value="<$ login $>" size="15" maxlength="15" /></td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td><$ tr("Password") $>:</td>
+            <td><input type="password" name="password" value="<$ password $>" size="15" maxlength="15" /></td>
+            <td><button type="submit" class="blue"><$ tr("Login") $></button></td>
+          </tr>
+        </table>
+      </form>
+      <div style="color: red; margin: 0 auto;">
+        <$ message $>
+      </div>
+    </div>
+  </div>
+  </body>
 </html>

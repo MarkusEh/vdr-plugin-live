@@ -35,48 +35,48 @@ Plugin::Plugin(void)
 
 const char *Plugin::CommandLineHelp(void)
 {
-	return LiveSetup().CommandLineHelp();
+  return LiveSetup().CommandLineHelp();
 }
 
 bool Plugin::ProcessArgs(int argc, char *argv[])
 {
-	return LiveSetup().ParseCommandLine( argc, argv );
+  return LiveSetup().ParseCommandLine( argc, argv );
 }
 
 bool Plugin::Initialize(void)
 {
-	m_configDirectory = canonicalize_file_name(cPlugin::ConfigDirectory( PLUGIN_NAME_I18N ));
-	m_resourceDirectory = canonicalize_file_name(cPlugin::ResourceDirectory( PLUGIN_NAME_I18N ));
+  m_configDirectory = canonicalize_file_name(cPlugin::ConfigDirectory( PLUGIN_NAME_I18N ));
+  m_resourceDirectory = canonicalize_file_name(cPlugin::ResourceDirectory( PLUGIN_NAME_I18N ));
 
-	return LiveSetup().Initialize();
+  return LiveSetup().Initialize();
 }
 
 bool Plugin::Start(void)
 {
-	// force status monitor startup
-	LiveStatusMonitor();
+  // force status monitor startup
+  LiveStatusMonitor();
 
-	// preload files into file Cache
-	PreLoadFileCache(m_resourceDirectory);
+  // preload files into file Cache
+  PreLoadFileCache(m_resourceDirectory);
 
-	// load users
-	Users.Load(AddDirectory(m_configDirectory.c_str(), "users.conf"), true);
+  // load users
+  Users.Load(AddDirectory(m_configDirectory.c_str(), "users.conf"), true);
 
-	// XXX error handling
-	m_thread.reset( new ServerThread );
-	m_thread->Start();
-	return true;
+  // XXX error handling
+  m_thread.reset( new ServerThread );
+  m_thread->Start();
+  return true;
 }
 
 void Plugin::Stop(void)
 {
-	m_thread->Stop();
+  m_thread->Stop();
 }
 
 void Plugin::MainThreadHook(void)
 {
-	LiveTimerManager().DoPendingWork();
-	LiveTaskManager().DoScheduledTasks();
+  LiveTimerManager().DoPendingWork();
+  LiveTaskManager().DoScheduledTasks();
 }
 
 void Plugin::Housekeeping(void) {
@@ -85,17 +85,17 @@ void Plugin::Housekeeping(void) {
 
 cString Plugin::Active(void)
 {
-	return NULL;
+  return NULL;
 }
 
 cMenuSetupPage *Plugin::SetupMenu(void)
 {
-	return new cMenuSetupLive();
+  return new cMenuSetupLive();
 }
 
 bool Plugin::SetupParse(const char *Name, const char *Value)
 {
-	return LiveSetup().ParseSetupEntry( Name, Value );
+  return LiveSetup().ParseSetupEntry( Name, Value );
 }
 
 class cLiveImageProviderImp: public cLiveImageProvider {

@@ -9,31 +9,31 @@ using namespace vdrlive;
 
 </%pre>
 <%args>
-	std::string param;
-	std::string async;
+  std::string param;
+  std::string async;
 </%args>
 <%cpp>
-	tChannelID paramID = tChannelID::FromString(param.c_str());
-	bool ajaxReq = !async.empty() && (parse_int<int>(async) != 0);
-	std::string referrer;
+  tChannelID paramID = tChannelID::FromString(param.c_str());
+  bool ajaxReq = !async.empty() && (parse_int<int>(async) != 0);
+  std::string referrer;
 
-	if (!cUser::CurrentUserHasRightTo(UR_SWITCHCHNL))
-		throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
+  if (!cUser::CurrentUserHasRightTo(UR_SWITCHCHNL))
+    throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
 
-	if (ajaxReq) {
-		reply.setContentType( "application/xml" );
-	}
-	else {
-		referrer = request.getHeader("Referer:");
-	}
+  if (ajaxReq) {
+    reply.setContentType( "application/xml" );
+  }
+  else {
+    referrer = request.getHeader("Referer:");
+  }
 
-	SwitchChannelTask task( paramID );
-	LiveTaskManager().Execute( task );
+  SwitchChannelTask task( paramID );
+  LiveTaskManager().Execute( task );
 
-	if (!ajaxReq) {
-		if (!referrer.empty()) {
-			return reply.redirect(referrer);
-		}
+  if (!ajaxReq) {
+    if (!referrer.empty()) {
+      return reply.redirect(referrer);
+    }
 </%cpp>
 Normale Seite:<br/>
 channel: <$ paramID $><br/>
@@ -41,10 +41,10 @@ result: <$ (task.Result()) $><br/>
 error: <$ (task.Error()) $><br />
 Seitenende!
 <%cpp>
-	}
-	else {
+  }
+  else {
 </%cpp>
 <& xmlresponse.ajax name=("switch_channel") pname=("channel") value=(paramID) result=(task.Result()) error=(task.Error()) &>
 <%cpp>
-	}
+  }
 </%cpp>

@@ -113,15 +113,15 @@ template<typename T>
       void DeleteRecording(cRecording const * recording) const;
 
       /**
-       *	Determine whether the recording has been archived on
-       *	removable media (e.g. DVD-ROM)
+       *  Determine whether the recording has been archived on
+       *  removable media (e.g. DVD-ROM)
        */
       static int GetArchiveType(cRecording const * recording);
 
       /**
-       *	Provide an identification of the removable media
-       *	(e.g. DVD-ROM Number or Name) where the recording has
-       *	been archived.
+       *  Provide an identification of the removable media
+       *  (e.g. DVD-ROM Number or Name) where the recording has
+       *  been archived.
        */
       static std::string const GetArchiveId(cRecording const * recording, int archiveType);
 
@@ -193,7 +193,7 @@ template<typename T>
       cSv Name() const { return m_name; }
       int Level() const { return m_level; }
 
-		  void finishRecordingsTree(); // sort recursively, Order: m_cmp_rec (if defined. Otherwise: no sort)
+      void finishRecordingsTree(); // sort recursively, Order: m_cmp_rec (if defined. Otherwise: no sort)
 // dirs: Order: m_cmp_dir (if defined. Otherwise: m_name_for_sort)
       virtual bool operator< (const RecordingsItemDirPtr &sec) const { return m_name < sec->m_name; }
       virtual bool operator< (cSv sec) const { return m_name < sec; }
@@ -202,31 +202,31 @@ template<typename T>
       virtual bool operator> (int sec) const { return false; }
       int numberOfRecordings() const;
       RecordingsItemDirPtr addDirIfNotExists(cSv dirName);
-		  RecordingsItemDirPtr addDirCollectionIfNotExists(int collectionId, const RecordingsItemRecPtr &rPtr);
-		  RecordingsItemDirPtr addDirSeasonIfNotExists(int seasonNumber, const RecordingsItemRecPtr &rPtr);
-		  const std::vector<RecordingsItemRecPtr> *getRecordings(eSortOrder sortOrder);
-		  const std::vector<RecordingsItemDirPtr> *getDirs() { return &m_subdirs; }
-		  bool checkNew() const;
-		  void addDirList(std::vector<std::string> &dirs, cSv basePath) const;
+      RecordingsItemDirPtr addDirCollectionIfNotExists(int collectionId, const RecordingsItemRecPtr &rPtr);
+      RecordingsItemDirPtr addDirSeasonIfNotExists(int seasonNumber, const RecordingsItemRecPtr &rPtr);
+      const std::vector<RecordingsItemRecPtr> *getRecordings(eSortOrder sortOrder);
+      const std::vector<RecordingsItemDirPtr> *getDirs() { return &m_subdirs; }
+      bool checkNew() const;
+      void addDirList(std::vector<std::string> &dirs, cSv basePath) const;
 
       void setTvShow(const RecordingsItemRecPtr &rPtr);
 
       int scraperCollectionId() const { return m_s_collection_id; }
       int scraperSeasonNumber() const { return m_s_season_number; }
       const cTvMedia &scraperImage() const;
- 		  bool recEntriesSorted() const { return m_cmp_rec != NULL; }
- 		  bool dirEntriesSorted() const { return m_cmp_dir != NULL; }
+       bool recEntriesSorted() const { return m_cmp_rec != NULL; }
+       bool dirEntriesSorted() const { return m_cmp_dir != NULL; }
 
     protected:
       std::string m_name;
       int m_level;
       std::vector<RecordingsItemDirPtr> m_subdirs;
       std::vector<RecordingsItemRecPtr> m_entries;
-		  bool m_entriesSorted = false;
+      bool m_entriesSorted = false;
       std::vector<RecordingsItemRecPtr> m_entries_other_sort;
-		  eSortOrder m_sortOrder = (eSortOrder)-1;
-		  bool (*m_cmp_dir)(const RecordingsItemDirPtr &itemPtr1, const RecordingsItemDirPtr &itemPtr2) = NULL;
-		  bool (*m_cmp_rec)(const RecordingsItemRecPtr &itemPtr1, const RecordingsItemRecPtr &itemPtr2) = NULL;
+      eSortOrder m_sortOrder = (eSortOrder)-1;
+      bool (*m_cmp_dir)(const RecordingsItemDirPtr &itemPtr1, const RecordingsItemDirPtr &itemPtr2) = NULL;
+      bool (*m_cmp_rec)(const RecordingsItemRecPtr &itemPtr1, const RecordingsItemRecPtr &itemPtr2) = NULL;
 // scraper data
       RecordingsItemRecPtr m_rec_item; // in this rec item (if available), there are the relevant scraper data
                // for dirs (collection), it points to a rec item with relevant data for the collection
@@ -300,7 +300,7 @@ template<typename T>
       virtual const int IsArchived() const { return m_isArchived; }
       virtual const std::string ArchiveDescr() const { return RecordingsManager::GetArchiveDescr(m_recording) ; }
       virtual const char *NewR() const { return LiveSetup().GetMarkNewRec() && Recording()->IsNew() ? "_new" : "" ; }
-		  virtual bool checkNew() const { return m_recording->IsNew(); }  // for recursive checks on dirs, here we don't check LiveSetup
+      virtual bool checkNew() const { return m_recording->IsNew(); }  // for recursive checks on dirs, here we don't check LiveSetup
 #if VDRVERSNUM >= 20505
       virtual const int RecordingErrors() const { return RecInfo()->Errors(); }
 #else
@@ -310,7 +310,7 @@ template<typename T>
         if (m_number_ts_files == -2) m_number_ts_files = GetNumberOfTsFiles(m_recording);
         return m_number_ts_files;
       }
-		  virtual void getScraperData(std::string *collectionName = NULL);
+      virtual void getScraperData(std::string *collectionName = NULL);
       bool scraperDataAvailable() const { return m_s_videoType == tMovie || m_s_videoType == tSeries; }
       tvType scraperVideoType() const { return m_s_videoType; }
       int scraperCollectionId() const { return m_s_collection_id; }
@@ -339,7 +339,7 @@ template<typename T>
       const std::string m_name;
       std::string GetNameForSearch(cSv name);
       const std::string m_name_for_search;
-		  const int m_idI = -1;
+      const int m_idI = -1;
       const cRecording *m_recording = nullptr;
       const XXH128_hash_t m_hash;
       const int m_isArchived = 0;
@@ -387,13 +387,13 @@ template<typename T>
       virtual const cRecording* Recording() const { return nullptr; }
       virtual const cRecordingInfo* RecInfo() const { return nullptr; }
 
-		  virtual bool checkNew() const { return false; }
+      virtual bool checkNew() const { return false; }
       virtual const int IsArchived() const { return 0 ; }
       virtual const std::string ArchiveDescr() const { return std::string(); }
       virtual const char *NewR() const { return ""; }
       virtual const int RecordingErrors() const { return -1; }
       virtual int NumberTsFiles() const { return 0 ; }
-		  virtual void getScraperData(std::string *collectionName = NULL) {}
+      virtual void getScraperData(std::string *collectionName = NULL) {}
       const cTvMedia &scraperImage() const { return m_s_image; }
 
       virtual int SD_HD() const { return 0; }
@@ -460,7 +460,7 @@ template<typename T>
    *  This ensures that after last use of the RecordingsManager it is
    *  deleted. After deletion of the original RecordingsManager a repeated
    *  call to this function creates a new RecordingsManager which is again
-   *	kept alive as long references to it exist.
+   *  kept alive as long references to it exist.
    */
   RecordingsManagerPtr LiveRecordingsManager();
 

@@ -20,17 +20,17 @@ bool logged_in(false);
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 }>
 
-			<table class="event" cellpadding="0" cellspacing="0">
-				<tr><td class="station" colspan="2"><$ channel_name $></td></tr>
-				<tr>
-					<td class="tools">
-					&nbsp;
-					</td>
-					<td class="content">
-						<div class="info"><$ start $> - <$ end $></div>
-						<div class="title"><$ title $></div>
-						<div class="short"><$ short_description $></div>
-						<div class="description"><$  description $></div>
-					</td>
-				</tr>
-			</table>
+      <table class="event" cellpadding="0" cellspacing="0">
+        <tr><td class="station" colspan="2"><$ channel_name $></td></tr>
+        <tr>
+          <td class="tools">
+          &nbsp;
+          </td>
+          <td class="content">
+            <div class="info"><$ start $> - <$ end $></div>
+            <div class="title"><$ title $></div>
+            <div class="short"><$ short_description $></div>
+            <div class="description"><$  description $></div>
+          </td>
+        </tr>
+      </table>

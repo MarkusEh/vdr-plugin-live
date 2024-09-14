@@ -37,9 +37,9 @@ Requirements:
 VDR >= 2.4.0
 
 gcc >= v8, must support -std=c++17
-PCRE2 >= 10.38     	- https://github.com/PhilipHazel/pcre2/releases
-Tntnet >= 2.2.1		- http://www.tntnet.org/download.hms  // https://web.archive.org/web/20160314183814/http://www.tntnet.org/download.html
-Cxxtools >= 2.2.1	- http://www.tntnet.org/download.hms  // https://web.archive.org/web/20160314183814/http://www.tntnet.org/download.html
+PCRE2 >= 10.38       - https://github.com/PhilipHazel/pcre2/releases
+Tntnet >= 2.2.1    - http://www.tntnet.org/download.hms  // https://web.archive.org/web/20160314183814/http://www.tntnet.org/download.html
+Cxxtools >= 2.2.1  - http://www.tntnet.org/download.hms  // https://web.archive.org/web/20160314183814/http://www.tntnet.org/download.html
 
 Tntnet provides basic Web server functions for live and needs cxxtools.
 Boost provides some data structures we need. While currently relying on the
@@ -52,7 +52,7 @@ If you optionally want to regenerate the i18n-generated.h header file
 for backward compatible i18n (VDR version prior to 1.5.7) you also
 need: (See also the Internationalization section below)
 
-Locale::PO 		- Perl module from CPAN www.cpan.org
+Locale::PO     - Perl module from CPAN www.cpan.org
 
 The default i18n-generated.h header contains all
 translations from GIT. Users that just want to stay on bleeding development
@@ -91,7 +91,7 @@ Setup:
 Live provides a username/password protection, so that it can be used from
 the internet. The default username and password are:
 
-	admin/live
+  admin/live
 
 The default port is 8008.
 
@@ -108,10 +108,10 @@ for SSL connections" section below on hints how to setup SSL.
 
 To display images or channel logos, you can use:
 
-  -e <...>  --epgimages=/path/to/epgimages		use EPG images created by plugins like tvm2vdr
-  -t <...>  --tvscraperimages=/path/to/tvscraperimages	use images created by tvscraper   DEPRECATED!
-  -f <...>  --ffmpegconf=conf-filename			use filename to acquire FFMPEG commands
-  --chanlogos=/path/to/channellogos			use channel logos (PNG only, case sensitive)
+  -e <...>  --epgimages=/path/to/epgimages    use EPG images created by plugins like tvm2vdr
+  -t <...>  --tvscraperimages=/path/to/tvscraperimages  use images created by tvscraper   DEPRECATED!
+  -f <...>  --ffmpegconf=conf-filename      use filename to acquire FFMPEG commands
+  --chanlogos=/path/to/channellogos      use channel logos (PNG only, case sensitive)
 Example:
   --tvscraperimages=/var/cache/vdr/plugins/tvscraper   DEPRECATED!
 Note: tvscraperimages is not required any more, live uses the internal service interface "GetEnvironment" for plugins to get this information from tvscraper/scraper2vdr
@@ -135,7 +135,7 @@ How to make LIVE listen for SSL connections:
 To make LIVE listen for incoming SSL connections you`ll have to use a
 Tntnet version > 1.6.0.6. By default it will listen on port 8443.
 
-	* Example: https://localhost:8443
+  * Example: https://localhost:8443
 
 In order to start the SslListener LIVE requires a SSL certificate. If
 no SSL certificate is specified via command-line option, LIVE will try
@@ -162,9 +162,9 @@ SSL Command-line options:
                                (default: 8443)
                                use PORT 0 to disable incoming SSL connections
   -c CERT,  --cert=CERT        path to a custom SSL certificate file
-  			       (default: $CONFIGDIR/live.pem)
+               (default: $CONFIGDIR/live.pem)
   -k KEY,   --cert=CERT        path to a custom SSL certificate key file
-  			       (default: $CONFIGDIR/live-key.pem)
+               (default: $CONFIGDIR/live-key.pem)
 
 
 Creating a self-signed SSL server certificate:

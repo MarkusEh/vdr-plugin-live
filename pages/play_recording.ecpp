@@ -9,18 +9,18 @@ using namespace vdrlive;
 
 </%pre>
 <%args>
-	std::string param;
+  std::string param;
 </%args>
 <%session scope="global">
-	bool logged_in(false);
+  bool logged_in(false);
 </%session>
 <%cpp>
-	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
-	if (!cUser::CurrentUserHasRightTo(UR_STARTREPLAY))
-		throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
-	reply.setContentType( "application/xml" );
+  if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+  if (!cUser::CurrentUserHasRightTo(UR_STARTREPLAY))
+    throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
+  reply.setContentType( "application/xml" );
 
-	PlayRecordingTask task( param );
-	LiveTaskManager().Execute( task );
+  PlayRecordingTask task( param );
+  LiveTaskManager().Execute( task );
 </%cpp>
 <& xmlresponse.ajax name=("play_recording") pname=("recording") value=(param) result=(task.Result()) error=(task.Error()) &>

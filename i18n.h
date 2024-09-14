@@ -7,16 +7,16 @@ namespace vdrlive {
 
 class I18n
 {
-	friend I18n& LiveI18n();
+  friend I18n& LiveI18n();
 
-	private:
-		std::string m_encoding;
+  private:
+    std::string m_encoding;
 
-		I18n( I18n const& ); // don't copy
-		I18n();
+    I18n( I18n const& ); // don't copy
+    I18n();
 
-	public:
-		std::string const& CharacterEncoding() const { return m_encoding; }
+  public:
+    std::string const& CharacterEncoding() const { return m_encoding; }
 };
 
 I18n& LiveI18n();

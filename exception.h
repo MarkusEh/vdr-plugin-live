@@ -8,8 +8,8 @@ namespace vdrlive {
 class HtmlError: public std::runtime_error
 {
 public:
-	explicit HtmlError( std::string const& message ): std::runtime_error( message ) {}
-	virtual ~HtmlError() throw() {}
+  explicit HtmlError( std::string const& message ): std::runtime_error( message ) {}
+  virtual ~HtmlError() throw() {}
 };
 
 } // namespace vdrlive

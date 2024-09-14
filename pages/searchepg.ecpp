@@ -8,41 +8,41 @@ using namespace vdrlive;
 
 </%pre>
 <%args>
-	// input parameters
+  // input parameters
 
-	// form parameters
-	bool useextendedsearch = false;
-	std::string search = "";
-	int mode = 0;
-	bool matchcase = false;
-	int tolerance = 1;
-	bool usetitle = false;
-	bool usesubtitle = false;
-	bool usedescr = false;
-	int usechannel = SearchTimer::NoChannel;
-	std::string channelfrom_string;
-	std::string channelto_string;
-	std::string changrpsel = "";
-	bool usetime = false;
-	std::string start_h = "00";
-	std::string start_m = "00";
-	std::string stop_h = "00";
-	std::string stop_m = "00";
-	bool useduration = false;
-	int durationmin = 0;
-	int durationmax = 90;
-	bool useweekday = false;
-	bool wday_mon = false;
-	bool wday_tue = false;
-	bool wday_wed = false;
-	bool wday_thu = false;
-	bool wday_fri = false;
-	bool wday_sat = false;
-	bool wday_sun = false;
-	int blacklistmode = 0;
-	bool useextepginfo = false;
-	std::string extepgvalues[];
-	std::string blacklistids_internal;
+  // form parameters
+  bool useextendedsearch = false;
+  std::string search = "";
+  int mode = 0;
+  bool matchcase = false;
+  int tolerance = 1;
+  bool usetitle = false;
+  bool usesubtitle = false;
+  bool usedescr = false;
+  int usechannel = SearchTimer::NoChannel;
+  std::string channelfrom_string;
+  std::string channelto_string;
+  std::string changrpsel = "";
+  bool usetime = false;
+  std::string start_h = "00";
+  std::string start_m = "00";
+  std::string stop_h = "00";
+  std::string stop_m = "00";
+  bool useduration = false;
+  int durationmin = 0;
+  int durationmax = 90;
+  bool useweekday = false;
+  bool wday_mon = false;
+  bool wday_tue = false;
+  bool wday_wed = false;
+  bool wday_thu = false;
+  bool wday_fri = false;
+  bool wday_sat = false;
+  bool wday_sun = false;
+  int blacklistmode = 0;
+  bool useextepginfo = false;
+  std::string extepgvalues[];
+  std::string blacklistids_internal;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -68,73 +68,73 @@ const char *TNT_ARRAY = "";
 #endif
 
 
-	searchtimer = 0;
+  searchtimer = 0;
   tChannelID channelfrom = tChannelID::FromString(channelfrom_string.c_str());
   tChannelID channelto   = tChannelID::FromString(channelto_string.c_str());
 
-	if ( request.getMethod() == "POST") {
-		SearchTimer searchtimer;
+  if ( request.getMethod() == "POST") {
+    SearchTimer searchtimer;
 
-		searchtimer.SetSearch(search);
-		searchtimer.SetSearchMode(mode);
-		searchtimer.SetTolerance(tolerance);
-		searchtimer.SetMatchCase(matchcase);
-		searchtimer.SetUseTitle(usetitle);
-		searchtimer.SetUseSubtitle(usesubtitle);
-		searchtimer.SetUseDescription(usedescr);
-		searchtimer.SetUseExtEPGInfo(useextepginfo);
-		if (useextepginfo)
-		{
-			std::vector< std::string > infos;
-			unsigned int i=0;
-			for (ExtEPGInfos::iterator extinfo = extEPGInfos.begin(); extinfo != extEPGInfos.end(); ++extinfo, i++)
-			{
-			std::stringstream os;
-			os << extinfo->Id() << "#" << (i<extepgvalues.size()?extepgvalues[i]:"");
-			infos.push_back(os.str());
-			}
-			searchtimer.SetExtEPGInfo(infos);
-		}
-		searchtimer.SetUseChannel((SearchTimer::eUseChannel)usechannel);
-		if (usechannel == SearchTimer::Interval)
-		{
-			searchtimer.SetChannelMin(channelfrom);
-			searchtimer.SetChannelMax(channelto);
-		}
-		if (usechannel == SearchTimer::Group)
-			searchtimer.SetChannelText(changrpsel);
+    searchtimer.SetSearch(search);
+    searchtimer.SetSearchMode(mode);
+    searchtimer.SetTolerance(tolerance);
+    searchtimer.SetMatchCase(matchcase);
+    searchtimer.SetUseTitle(usetitle);
+    searchtimer.SetUseSubtitle(usesubtitle);
+    searchtimer.SetUseDescription(usedescr);
+    searchtimer.SetUseExtEPGInfo(useextepginfo);
+    if (useextepginfo)
+    {
+      std::vector< std::string > infos;
+      unsigned int i=0;
+      for (ExtEPGInfos::iterator extinfo = extEPGInfos.begin(); extinfo != extEPGInfos.end(); ++extinfo, i++)
+      {
+      std::stringstream os;
+      os << extinfo->Id() << "#" << (i<extepgvalues.size()?extepgvalues[i]:"");
+      infos.push_back(os.str());
+      }
+      searchtimer.SetExtEPGInfo(infos);
+    }
+    searchtimer.SetUseChannel((SearchTimer::eUseChannel)usechannel);
+    if (usechannel == SearchTimer::Interval)
+    {
+      searchtimer.SetChannelMin(channelfrom);
+      searchtimer.SetChannelMax(channelto);
+    }
+    if (usechannel == SearchTimer::Group)
+      searchtimer.SetChannelText(changrpsel);
 
-		searchtimer.SetUseTime(usetime);
-		if (usetime)
-		{
-			searchtimer.SetStartTime(parse_int<int>(start_h) * 100 + parse_int<int>(start_m));
-			searchtimer.SetStopTime(parse_int<int>(stop_h) * 100 + parse_int<int>(stop_m));
-		}
-		searchtimer.SetUseDuration(useduration);
-		if (useduration)
-		{
-			searchtimer.SetMinDuration(durationmin);
-			searchtimer.SetMaxDuration(durationmax);
-		}
-		searchtimer.SetUseDayOfWeek(useweekday);
-		if (useweekday)
-		{
-			int dayofweek = 0;
-			if (wday_sun) dayofweek |= 0x01;
-			if (wday_mon) dayofweek |= 0x02;
-			if (wday_tue) dayofweek |= 0x04;
-			if (wday_wed) dayofweek |= 0x08;
-			if (wday_thu) dayofweek |= 0x10;
-			if (wday_fri) dayofweek |= 0x20;
-			if (wday_sat) dayofweek |= 0x40;
-			searchtimer.SetDayOfWeek(-dayofweek);
-		}
-		searchtimer.SetBlacklistMode(blacklistmode);
-		if (blacklistmode == 1)
-			searchtimer.ParseBlacklist(blacklistids_internal);
+    searchtimer.SetUseTime(usetime);
+    if (usetime)
+    {
+      searchtimer.SetStartTime(parse_int<int>(start_h) * 100 + parse_int<int>(start_m));
+      searchtimer.SetStopTime(parse_int<int>(stop_h) * 100 + parse_int<int>(stop_m));
+    }
+    searchtimer.SetUseDuration(useduration);
+    if (useduration)
+    {
+      searchtimer.SetMinDuration(durationmin);
+      searchtimer.SetMaxDuration(durationmax);
+    }
+    searchtimer.SetUseDayOfWeek(useweekday);
+    if (useweekday)
+    {
+      int dayofweek = 0;
+      if (wday_sun) dayofweek |= 0x01;
+      if (wday_mon) dayofweek |= 0x02;
+      if (wday_tue) dayofweek |= 0x04;
+      if (wday_wed) dayofweek |= 0x08;
+      if (wday_thu) dayofweek |= 0x10;
+      if (wday_fri) dayofweek |= 0x20;
+      if (wday_sat) dayofweek |= 0x40;
+      searchtimer.SetDayOfWeek(-dayofweek);
+    }
+    searchtimer.SetBlacklistMode(blacklistmode);
+    if (blacklistmode == 1)
+      searchtimer.ParseBlacklist(blacklistids_internal);
 
-		searchtimer.SetId(0);
-		std::string md5 = SearchResults::AddQuery(searchtimer.ToText());
+    searchtimer.SetId(0);
+    std::string md5 = SearchResults::AddQuery(searchtimer.ToText());
 </%cpp>
 <!DOCTYPE html>
 <html>
@@ -144,9 +144,9 @@ const char *TNT_ARRAY = "";
 </html>
 <%cpp>
 
-//		return reply.redirect("searchresults.html?searchtimerquery=" + md5);
-	}
-	pageTitle = tr("Search");
+//    return reply.redirect("searchresults.html?searchtimerquery=" + md5);
+  }
+  pageTitle = tr("Search");
 
         for(unsigned int i=0; i<extEPGInfos.size(); i++)
             extepgvalues.push_back("");
@@ -156,347 +156,347 @@ const char *TNT_ARRAY = "";
 </%cpp>
 <& pageelems.doc_type &>
 <html>
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>VDR Live - <$ tr("Search") $></title>
-		<& pageelems.stylesheets &>
-		<& pageelems.ajax_js &>
-		<script type="text/javascript"><!--
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VDR Live - <$ tr("Search") $></title>
+    <& pageelems.stylesheets &>
+    <& pageelems.ajax_js &>
+    <script type="text/javascript"><!--
 
-		function initform()
-		{
-			changeduseextendedsearch(document.getElementById("useextendedsearch"));
-			changedsearchmode(document.getElementById("search_mode"));
-			changedchannelmode(document.getElementById("channel_mode"));
-			changedusetime(document.getElementById("usetime"));
-			changeduseduration(document.getElementById("useduration"));
-			changeduseweekday(document.getElementById("useweekday"));
-			changeduseextepginfo(document.getElementById("useextepginfo"));
-			changedblacklistmode(document.getElementById("blacklistmode"));
-		}
+    function initform()
+    {
+      changeduseextendedsearch(document.getElementById("useextendedsearch"));
+      changedsearchmode(document.getElementById("search_mode"));
+      changedchannelmode(document.getElementById("channel_mode"));
+      changedusetime(document.getElementById("usetime"));
+      changeduseduration(document.getElementById("useduration"));
+      changeduseweekday(document.getElementById("useweekday"));
+      changeduseextepginfo(document.getElementById("useextepginfo"));
+      changedblacklistmode(document.getElementById("blacklistmode"));
+    }
 
-		function checksearch()
-		{
-			if (document.getElementById("searchterm").value.length <= 3)
-				return confirm('<$ tr("Search text too short - use anyway?") $>');
-			return true;
-		}
+    function checksearch()
+    {
+      if (document.getElementById("searchterm").value.length <= 3)
+        return confirm('<$ tr("Search text too short - use anyway?") $>');
+      return true;
+    }
 
-		function changeduseextendedsearch(selection)
-		{
-			document.getElementById("extendedsearch").style.display = (selection.checked ? "block" : "none");
-		}
+    function changeduseextendedsearch(selection)
+    {
+      document.getElementById("extendedsearch").style.display = (selection.checked ? "block" : "none");
+    }
 
-		function changedsearchmode(selection)
-		{
-			document.getElementById("tolerance").style.display = (selection.options[selection.selectedIndex].value == 5 ? "block" : "none");
-		}
+    function changedsearchmode(selection)
+    {
+      document.getElementById("tolerance").style.display = (selection.options[selection.selectedIndex].value == 5 ? "block" : "none");
+    }
 
-		function changedchannelmode(selection)
-		{
-			document.getElementById("channelinterval").style.display = (selection.options[selection.selectedIndex].value == 1 ? "block" : "none");
-			document.getElementById("channelgroup").style.display = (selection.options[selection.selectedIndex].value == 2 ? "block" : "none");
-		}
+    function changedchannelmode(selection)
+    {
+      document.getElementById("channelinterval").style.display = (selection.options[selection.selectedIndex].value == 1 ? "block" : "none");
+      document.getElementById("channelgroup").style.display = (selection.options[selection.selectedIndex].value == 2 ? "block" : "none");
+    }
 
-		function changedusetime(selection)
-		{
-			document.getElementById("timesettings").style.display = (selection.checked ? "block" : "none");
-		}
+    function changedusetime(selection)
+    {
+      document.getElementById("timesettings").style.display = (selection.checked ? "block" : "none");
+    }
 
-		function changeduseduration(selection)
-		{
-			document.getElementById("durationsettings").style.display = (selection.checked ? "block" : "none");
-		}
+    function changeduseduration(selection)
+    {
+      document.getElementById("durationsettings").style.display = (selection.checked ? "block" : "none");
+    }
 
-		function changeduseweekday(selection)
-		{
-			document.getElementById("weekdaysettings").style.display = (selection.checked ? "block" : "none");
-		}
+    function changeduseweekday(selection)
+    {
+      document.getElementById("weekdaysettings").style.display = (selection.checked ? "block" : "none");
+    }
 
-		function changeduseextepginfo(selection)
-		{
-			var doc = document.getElementById("use_extepg_settings");
-			if (doc) doc.style.display = (selection.checked ? "block" : "none");
-		}
+    function changeduseextepginfo(selection)
+    {
+      var doc = document.getElementById("use_extepg_settings");
+      if (doc) doc.style.display = (selection.checked ? "block" : "none");
+    }
 
-		function changedextepginfo(selection)
-		{
-			var i;
-			document.getElementById(selection.name + "_value").value = "";
-			for(i=0;i<selection.length;i++)
-			{
-				if (selection.options[i].selected)
-				{
-				if (document.getElementById(selection.name + "_value").value != "")
-					document.getElementById(selection.name + "_value").value += ",";
-				document.getElementById(selection.name + "_value").value += selection.options[i].value;
-				}
-			}
-		}
+    function changedextepginfo(selection)
+    {
+      var i;
+      document.getElementById(selection.name + "_value").value = "";
+      for(i=0;i<selection.length;i++)
+      {
+        if (selection.options[i].selected)
+        {
+        if (document.getElementById(selection.name + "_value").value != "")
+          document.getElementById(selection.name + "_value").value += ",";
+        document.getElementById(selection.name + "_value").value += selection.options[i].value;
+        }
+      }
+    }
 
-		function changedblacklistmode(selection)
-		{
-			document.getElementById("blacklistmodesettings").style.display =
-				(selection.options[selection.selectedIndex].value == 1 ? "block" : "none");
-		}
+    function changedblacklistmode(selection)
+    {
+      document.getElementById("blacklistmodesettings").style.display =
+        (selection.options[selection.selectedIndex].value == 1 ? "block" : "none");
+    }
 
-		function changedblacklistsel(selection)
-		{
-			var i;
-			document.getElementById("blacklistids_internal").value = "";
-			for(i=0;i<selection.length;i++)
-			{
-				if (selection.options[i].selected)
-				{
-				if (document.getElementById("blacklistids_internal").value != "")
-					document.getElementById("blacklistids_internal").value += "|";
-				document.getElementById("blacklistids_internal").value += selection.options[i].value;
-				}
-			}
-		}
-		//--></script>
-	</head>
-	<body onload="initform(); adjustHeader()" onresize="adjustHeader()">
-		<& pageelems.logo &>
-		<& menu active=("searchepg") &>
-		<div class="inhalt">
-			<form method="post" name="searchepg" action="searchepg.ecpp">
-				<input type="hidden" name="blacklistids_internal" value="<$ blacklistids_internal $>" id="blacklistids_internal"/>
-				<table class="formular" cellpadding="0" cellspacing="0">
-					<tr class="head">
-						<td  class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div><div><$ tr("Search settings") $></div></div></div></td>
-					</tr>
+    function changedblacklistsel(selection)
+    {
+      var i;
+      document.getElementById("blacklistids_internal").value = "";
+      for(i=0;i<selection.length;i++)
+      {
+        if (selection.options[i].selected)
+        {
+        if (document.getElementById("blacklistids_internal").value != "")
+          document.getElementById("blacklistids_internal").value += "|";
+        document.getElementById("blacklistids_internal").value += selection.options[i].value;
+        }
+      }
+    }
+    //--></script>
+  </head>
+  <body onload="initform(); adjustHeader()" onresize="adjustHeader()">
+    <& pageelems.logo &>
+    <& menu active=("searchepg") &>
+    <div class="inhalt">
+      <form method="post" name="searchepg" action="searchepg.ecpp">
+        <input type="hidden" name="blacklistids_internal" value="<$ blacklistids_internal $>" id="blacklistids_internal"/>
+        <table class="formular" cellpadding="0" cellspacing="0">
+          <tr class="head">
+            <td  class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div><div><$ tr("Search settings") $></div></div></div></td>
+          </tr>
 
-					<!-- Search term -->
-					<tr>
-						<td class="label leftcol"><div class="withmargin"><$ tr("Search term") $>:</div></td>
-						<td class="rightcol"><input type="text" name="search" value="<$ search $>" class="width99" size="55" id="searchterm" /></td>
-					</tr>
-					<tr>
-						<td class="label leftcol"><div class="withmargin"><$ tr("Extended search") $>:</div></td>
-						<td class="rightcol">
-							<input type="checkbox" name="useextendedsearch" value="1" <{ CHECKIF(useextendedsearch) }> onclick="changeduseextendedsearch(this)" id="useextendedsearch"/>
-						<div id="extendedsearch" style="display: none">
-						<table class="dependent" border="0" cellpadding="0" cellspacing="0">
-						<!-- Search mode -->
-						<tr>
-							<td class="label"><div class="withmargin"><$ tr("Search mode" ) $>:</div></td>
-							<td>
-								<div style="float:left; margin-right:20px">
-									<select onchange="changedsearchmode(this)" name="mode" size="1" id="search_mode">
-										<option value="0" <{ SELECTIF(mode == 0) }> ><$ tr("phrase") $></option>
-										<option value="1" <{ SELECTIF(mode == 1) }> ><$ tr("all words") $></option>
-										<option value="2" <{ SELECTIF(mode == 2) }> ><$ tr("at least one word") $></option>
-										<option value="3" <{ SELECTIF(mode == 3) }> ><$ tr("match exactly") $></option>
-										<option value="4" <{ SELECTIF(mode == 4) }> ><$ tr("regular expression") $></option>
-										<option value="5" <{ SELECTIF(mode == 5) }> ><$ tr("fuzzy") $></option>
-									</select>
-								</div>
-								<div id="tolerance" style="display: none">
-										<$ tr("Tolerance" ) $>:
-										<input type="text" name="tolerance" size="2" value="<$ tolerance $>" />
-								</div>
-							</td>
-						</tr>
+          <!-- Search term -->
+          <tr>
+            <td class="label leftcol"><div class="withmargin"><$ tr("Search term") $>:</div></td>
+            <td class="rightcol"><input type="text" name="search" value="<$ search $>" class="width99" size="55" id="searchterm" /></td>
+          </tr>
+          <tr>
+            <td class="label leftcol"><div class="withmargin"><$ tr("Extended search") $>:</div></td>
+            <td class="rightcol">
+              <input type="checkbox" name="useextendedsearch" value="1" <{ CHECKIF(useextendedsearch) }> onclick="changeduseextendedsearch(this)" id="useextendedsearch"/>
+            <div id="extendedsearch" style="display: none">
+            <table class="dependent" border="0" cellpadding="0" cellspacing="0">
+            <!-- Search mode -->
+            <tr>
+              <td class="label"><div class="withmargin"><$ tr("Search mode" ) $>:</div></td>
+              <td>
+                <div style="float:left; margin-right:20px">
+                  <select onchange="changedsearchmode(this)" name="mode" size="1" id="search_mode">
+                    <option value="0" <{ SELECTIF(mode == 0) }> ><$ tr("phrase") $></option>
+                    <option value="1" <{ SELECTIF(mode == 1) }> ><$ tr("all words") $></option>
+                    <option value="2" <{ SELECTIF(mode == 2) }> ><$ tr("at least one word") $></option>
+                    <option value="3" <{ SELECTIF(mode == 3) }> ><$ tr("match exactly") $></option>
+                    <option value="4" <{ SELECTIF(mode == 4) }> ><$ tr("regular expression") $></option>
+                    <option value="5" <{ SELECTIF(mode == 5) }> ><$ tr("fuzzy") $></option>
+                  </select>
+                </div>
+                <div id="tolerance" style="display: none">
+                    <$ tr("Tolerance" ) $>:
+                    <input type="text" name="tolerance" size="2" value="<$ tolerance $>" />
+                </div>
+              </td>
+            </tr>
 
-						<!-- Match case -->
-						<tr>
-							<td class="label"><div class="withmargin"><$ tr("Match case") $>:</div></td>
-							<td><input type="checkbox" name="matchcase" value="1" <{ CHECKIF(matchcase) }> id="matchcase"/></td>
-						</tr>
+            <!-- Match case -->
+            <tr>
+              <td class="label"><div class="withmargin"><$ tr("Match case") $>:</div></td>
+              <td><input type="checkbox" name="matchcase" value="1" <{ CHECKIF(matchcase) }> id="matchcase"/></td>
+            </tr>
 
-						<!-- Search in -->
-						<tr>
-							<td class="label"><div class="withmargin"><$ tr("Search in") $>:</div></td>
-							<td>
-								<div class="dotted">
-									<input type="checkbox" name="usetitle" value="1" <{ CHECKIF(usetitle) }> />
-									<label for="usetitle"><$ tr("Title") $> </label>
-								</div>
+            <!-- Search in -->
+            <tr>
+              <td class="label"><div class="withmargin"><$ tr("Search in") $>:</div></td>
+              <td>
+                <div class="dotted">
+                  <input type="checkbox" name="usetitle" value="1" <{ CHECKIF(usetitle) }> />
+                  <label for="usetitle"><$ tr("Title") $> </label>
+                </div>
 
-								<div class="dotted">
-									<input type="checkbox" name="usesubtitle" value="1" <{ CHECKIF(usesubtitle) }> />
-									<label for="usesubtitle"><$ tr("Episode") $> </label>
-								</div>
+                <div class="dotted">
+                  <input type="checkbox" name="usesubtitle" value="1" <{ CHECKIF(usesubtitle) }> />
+                  <label for="usesubtitle"><$ tr("Episode") $> </label>
+                </div>
 
-								<div class="dotted">
-									<input type="checkbox" name="usedescr" value="1" <{ CHECKIF(usedescr) }> />
-									<label for="usedescr"><$ tr("Description") $> </label>
-								</div>
-							</td>
-						</tr>
+                <div class="dotted">
+                  <input type="checkbox" name="usedescr" value="1" <{ CHECKIF(usedescr) }> />
+                  <label for="usedescr"><$ tr("Description") $> </label>
+                </div>
+              </td>
+            </tr>
 
-%					if (extEPGInfos.size() > 0) {
-						<!-- Use ext. EPG categories -->
-						<tr>
-							<td class="label"><div class="withmargin"><$ tr("Use extended EPG info" ) $>:</div></td>
-							<td>
-								<input type="checkbox" name="useextepginfo" value="1" <{ CHECKIF(useextepginfo) }> onclick="changeduseextepginfo(this)" id="useextepginfo"/>
-								<div id="use_extepg_settings" style="display: none">
-									<table class="dependent" border="0" cellspacing="0" cellpadding="0">
-%									int i=0; for (ExtEPGInfos::iterator extinfo = extEPGInfos.begin(); extinfo != extEPGInfos.end(); ++extinfo, i++) {
-										<tr valign="top">
-											<td align="left" valign="top"><$ extinfo->Name() $></td>
-											<td align="left" valign="top">
-												<input type="text" name="extepgvalues<$TNT_ARRAY$>" value="<$extepgvalues[i]$>" size="10" id="extepg_<{ reply.out() << extinfo->Id(); }>_value"/>
-											</td>
-%										if (extinfo->Values().size() > 0) {
-											<td>
-												<select size="3" multiple="multiple" align="left" valign="top" name="extepg_<{ reply.out() << extinfo->Id(); }>" onchange="changedextepginfo(this)">
-%										for (unsigned int j=0; j<extinfo->Values().size(); j++) {
-													<option value="<{ reply.out() << extinfo->Values()[j];}>"
-%												if (extinfo->Selected(j, extepgvalues[i])) {
-																											selected="selected"
+%          if (extEPGInfos.size() > 0) {
+            <!-- Use ext. EPG categories -->
+            <tr>
+              <td class="label"><div class="withmargin"><$ tr("Use extended EPG info" ) $>:</div></td>
+              <td>
+                <input type="checkbox" name="useextepginfo" value="1" <{ CHECKIF(useextepginfo) }> onclick="changeduseextepginfo(this)" id="useextepginfo"/>
+                <div id="use_extepg_settings" style="display: none">
+                  <table class="dependent" border="0" cellspacing="0" cellpadding="0">
+%                  int i=0; for (ExtEPGInfos::iterator extinfo = extEPGInfos.begin(); extinfo != extEPGInfos.end(); ++extinfo, i++) {
+                    <tr valign="top">
+                      <td align="left" valign="top"><$ extinfo->Name() $></td>
+                      <td align="left" valign="top">
+                        <input type="text" name="extepgvalues<$TNT_ARRAY$>" value="<$extepgvalues[i]$>" size="10" id="extepg_<{ reply.out() << extinfo->Id(); }>_value"/>
+                      </td>
+%                    if (extinfo->Values().size() > 0) {
+                      <td>
+                        <select size="3" multiple="multiple" align="left" valign="top" name="extepg_<{ reply.out() << extinfo->Id(); }>" onchange="changedextepginfo(this)">
+%                    for (unsigned int j=0; j<extinfo->Values().size(); j++) {
+                          <option value="<{ reply.out() << extinfo->Values()[j];}>"
+%                        if (extinfo->Selected(j, extepgvalues[i])) {
+                                                      selected="selected"
 %                                           }
-																									> <{ reply.out() << extinfo->Values()[j]; }> </option>
+                                                  > <{ reply.out() << extinfo->Values()[j]; }> </option>
 %                                           }
-												</select>
-											</td>
-										</tr>
+                        </select>
+                      </td>
+                    </tr>
 %                                   }
 %                               }
-									</table>
-								</div>
-							</td>
-						</tr>
-%					}
+                  </table>
+                </div>
+              </td>
+            </tr>
+%          }
 
 
-						<!-- Use channel -->
-						<tr>
-							<td class="label"><div class="withmargin"><$ tr("Use channel" ) $>:</div></td>
-							<td>
+            <!-- Use channel -->
+            <tr>
+              <td class="label"><div class="withmargin"><$ tr("Use channel" ) $>:</div></td>
+              <td>
 
-								<select onchange="changedchannelmode(this)" name="usechannel" size="1" id="channel_mode">
-									<option value="0" <{ SELECTIF(usechannel == 0) }> ><$ tr("no") $></option>
-									<option value="1" <{ SELECTIF(usechannel == 1) }> ><$ tr("interval") $></option>
-									<option value="2" <{ SELECTIF(usechannel == 2) }> ><$ tr("channel group") $></option>
-									<option value="3" <{ SELECTIF(usechannel == 3) }> ><$ tr("only FTA") $></option>
-								</select>
+                <select onchange="changedchannelmode(this)" name="usechannel" size="1" id="channel_mode">
+                  <option value="0" <{ SELECTIF(usechannel == 0) }> ><$ tr("no") $></option>
+                  <option value="1" <{ SELECTIF(usechannel == 1) }> ><$ tr("interval") $></option>
+                  <option value="2" <{ SELECTIF(usechannel == 2) }> ><$ tr("channel group") $></option>
+                  <option value="3" <{ SELECTIF(usechannel == 3) }> ><$ tr("only FTA") $></option>
+                </select>
 
-								<div id="channelinterval" style="display: none;">
-									<table class="dependent" cellspacing="0" cellpadding="0">
-										<tr>
-											<td><$ tr("from channel" ) $>:</td>
-											<td><& channels_widget name=("channelfrom_string") channelid=(true) selected=(channelfrom) &></td>
-										</tr>
-										<tr>
-											<td><$ tr("to channel" ) $>:</td>
-											<td><& channels_widget name=("channelto_string") channelid=(true) selected=(channelto) &></td>
-										</tr>
-									</table>
-								</div>
+                <div id="channelinterval" style="display: none;">
+                  <table class="dependent" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td><$ tr("from channel" ) $>:</td>
+                      <td><& channels_widget name=("channelfrom_string") channelid=(true) selected=(channelfrom) &></td>
+                    </tr>
+                    <tr>
+                      <td><$ tr("to channel" ) $>:</td>
+                      <td><& channels_widget name=("channelto_string") channelid=(true) selected=(channelto) &></td>
+                    </tr>
+                  </table>
+                </div>
 
-								<div id="channelgroup" style="display: none">
-%								if (channelGroups.size() > 0) {
-									<select name="changrpsel" size="1" id="changrpsel">
-%									int i=0; for (ChannelGroups::iterator changrp = channelGroups.begin(); changrp != channelGroups.end(); ++changrp, i++) {
-										<option value="<$ changrp->Name() $>" <{ SELECTIF(changrpsel == changrp->Name()) }> ><$ changrp->Name() $></option>
-%									         }
-									</select>
-%								}
-								</div>
-							</td>
-						</tr>
+                <div id="channelgroup" style="display: none">
+%                if (channelGroups.size() > 0) {
+                  <select name="changrpsel" size="1" id="changrpsel">
+%                  int i=0; for (ChannelGroups::iterator changrp = channelGroups.begin(); changrp != channelGroups.end(); ++changrp, i++) {
+                    <option value="<$ changrp->Name() $>" <{ SELECTIF(changrpsel == changrp->Name()) }> ><$ changrp->Name() $></option>
+%                           }
+                  </select>
+%                }
+                </div>
+              </td>
+            </tr>
 
-						<!-- Use time -->
-						<tr>
-							<td class="label"><div class="withmargin"><$ tr("Use time") $>:</div></td>
-							<td>
-								<input type="checkbox" name="usetime" value="1" <{ CHECKIF(usetime) }> onclick="changedusetime(this)" id="usetime" />
-								<div id="timesettings" style="display: none">
-									<table class="dependent" border="0" cellpadding="0" cellspacing="0">
-										<tr>
-											<td><$ tr("Start after") $>:</td>
-											<td>
-												<input type="text" size="2" maxlength="2" name="start_h" value="<$ start_h $>" /> : <input type="text" size="2" maxlength="2" name="start_m" value="<$ start_m $>" />
-												<& tooltip.help text=(tr("The time the show may start at the earliest")) &>
-											</td>
-										</tr>
-										<tr>
-											<td><$ tr("Start before") $>:</td>
-											<td>
-												<input type="text" size="2" maxlength="2" name="stop_h" value="<$ stop_h $>" /> : <input type="text" size="2" maxlength="2" name="stop_m" value="<$ stop_m $>" />
-												<& tooltip.help text=(tr("The time the show may start at the latest")) &>
-											</td>
-										</tr>
-									</table>
-								</div>
-							</td>
-						</tr>
+            <!-- Use time -->
+            <tr>
+              <td class="label"><div class="withmargin"><$ tr("Use time") $>:</div></td>
+              <td>
+                <input type="checkbox" name="usetime" value="1" <{ CHECKIF(usetime) }> onclick="changedusetime(this)" id="usetime" />
+                <div id="timesettings" style="display: none">
+                  <table class="dependent" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td><$ tr("Start after") $>:</td>
+                      <td>
+                        <input type="text" size="2" maxlength="2" name="start_h" value="<$ start_h $>" /> : <input type="text" size="2" maxlength="2" name="start_m" value="<$ start_m $>" />
+                        <& tooltip.help text=(tr("The time the show may start at the earliest")) &>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><$ tr("Start before") $>:</td>
+                      <td>
+                        <input type="text" size="2" maxlength="2" name="stop_h" value="<$ stop_h $>" /> : <input type="text" size="2" maxlength="2" name="stop_m" value="<$ stop_m $>" />
+                        <& tooltip.help text=(tr("The time the show may start at the latest")) &>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </td>
+            </tr>
 
-						<!-- Use duration -->
-						<tr>
-							<td class="label"><div class="withmargin"><$ tr("Use duration") $>:</div></td>
-							<td>
-								<input type="checkbox" name="useduration" value="1" <{ CHECKIF(useduration) }> onclick="changeduseduration(this)" id="useduration" />
-								<div id="durationsettings" style="display: none">
-									<table class="dependent" border="0" cellpadding="0" cellspacing="0">
-										<tr>
-											<td><$ tr("Min. duration") $>:</td>
-											<td><input type="text" size="3" maxlength="3" name="durationmin" value="<$ durationmin $>" /> min</td>
-										</tr>
-										<tr>
-											<td><$ tr("Max. duration") $>:</td>
-											<td><input type="text" size="3" maxlength="3" name="durationmax" value="<$ durationmax $>" /> min</td>
-										</tr>
-									</table>
-								</div>
-							</td>
-						</tr>
+            <!-- Use duration -->
+            <tr>
+              <td class="label"><div class="withmargin"><$ tr("Use duration") $>:</div></td>
+              <td>
+                <input type="checkbox" name="useduration" value="1" <{ CHECKIF(useduration) }> onclick="changeduseduration(this)" id="useduration" />
+                <div id="durationsettings" style="display: none">
+                  <table class="dependent" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td><$ tr("Min. duration") $>:</td>
+                      <td><input type="text" size="3" maxlength="3" name="durationmin" value="<$ durationmin $>" /> min</td>
+                    </tr>
+                    <tr>
+                      <td><$ tr("Max. duration") $>:</td>
+                      <td><input type="text" size="3" maxlength="3" name="durationmax" value="<$ durationmax $>" /> min</td>
+                    </tr>
+                  </table>
+                </div>
+              </td>
+            </tr>
 
-						<!-- Use weekday -->
-						<tr>
-							<td class="label"><div class="withmargin"><$ tr("Use day of week") $>:</div></td>
-							<td>
-								<input type="checkbox" name="useweekday" value="1" <{ CHECKIF(useweekday) }> onclick="changeduseweekday(this)" id="useweekday" />
-								<div id="weekdaysettings" style="display: none; white-space: nowrap">
-									<div class="dotted"><input type="checkbox" name="wday_mon" value="1" <{ CHECKIF(wday_mon) }> /> <$ tr("Monday") $></div>
-									<div class="dotted"><input type="checkbox" name="wday_tue" value="1" <{ CHECKIF(wday_tue) }> /> <$ tr("Tuesday") $></div>
-									<div class="dotted"><input type="checkbox" name="wday_wed" value="1" <{ CHECKIF(wday_wed) }> /> <$ tr("Wednesday") $></div>
-									<div class="dotted"><input type="checkbox" name="wday_thu" value="1" <{ CHECKIF(wday_thu) }> /> <$ tr("Thursday") $></div>
-									<div class="dotted"><input type="checkbox" name="wday_fri" value="1" <{ CHECKIF(wday_fri) }> /> <$ tr("Friday") $></div>
-									<div class="dotted"><input type="checkbox" name="wday_sat" value="1" <{ CHECKIF(wday_sat) }> /> <$ tr("Saturday") $></div>
-									<div class="dotted"><input type="checkbox" name="wday_sun" value="1" <{ CHECKIF(wday_sun) }> /> <$ tr("Sunday") $></div>
-									<br style="clear: both" /><!-- fuer die Hoehenberechnung vom Div unerlaesslich! HAENDE WEG! -->
-								</div>
-							</td>
-						</tr>
+            <!-- Use weekday -->
+            <tr>
+              <td class="label"><div class="withmargin"><$ tr("Use day of week") $>:</div></td>
+              <td>
+                <input type="checkbox" name="useweekday" value="1" <{ CHECKIF(useweekday) }> onclick="changeduseweekday(this)" id="useweekday" />
+                <div id="weekdaysettings" style="display: none; white-space: nowrap">
+                  <div class="dotted"><input type="checkbox" name="wday_mon" value="1" <{ CHECKIF(wday_mon) }> /> <$ tr("Monday") $></div>
+                  <div class="dotted"><input type="checkbox" name="wday_tue" value="1" <{ CHECKIF(wday_tue) }> /> <$ tr("Tuesday") $></div>
+                  <div class="dotted"><input type="checkbox" name="wday_wed" value="1" <{ CHECKIF(wday_wed) }> /> <$ tr("Wednesday") $></div>
+                  <div class="dotted"><input type="checkbox" name="wday_thu" value="1" <{ CHECKIF(wday_thu) }> /> <$ tr("Thursday") $></div>
+                  <div class="dotted"><input type="checkbox" name="wday_fri" value="1" <{ CHECKIF(wday_fri) }> /> <$ tr("Friday") $></div>
+                  <div class="dotted"><input type="checkbox" name="wday_sat" value="1" <{ CHECKIF(wday_sat) }> /> <$ tr("Saturday") $></div>
+                  <div class="dotted"><input type="checkbox" name="wday_sun" value="1" <{ CHECKIF(wday_sun) }> /> <$ tr("Sunday") $></div>
+                  <br style="clear: both" /><!-- fuer die Hoehenberechnung vom Div unerlaesslich! HAENDE WEG! -->
+                </div>
+              </td>
+            </tr>
 
-						<!-- Use blacklists -->
-						<tr>
-							<td class="label"><div class="withmargin"><$ tr("Use blacklists" ) $>:</div></td>
-							<td>
-								<select onchange="changedblacklistmode(this)" name="blacklistmode" size="1" id="blacklistmode">
-									<option value="0" <{ SELECTIF(blacklistmode == 0) }> ><$ tr("no") $></option>
-									<option value="1" <{ SELECTIF(blacklistmode == 1) }> ><$ tr("Selection") $></option>
-									<option value="2" <{ SELECTIF(blacklistmode == 2) }> ><$ tr("all") $></option>
-								</select>
-								<div class="dependent" id="blacklistmodesettings" style="display: none">
-%							if (blacklists.size() > 0) {
-									<select name="blacklists" multiple="multiple" size="5" onchange="changedblacklistsel(this)">
-%								int i=0; for (Blacklists::iterator blacklist = blacklists.begin(); blacklist != blacklists.end(); ++blacklist, i++) {
-										<option value="<$ blacklist->Id() $>" <{ SELECTIF(searchtimer && searchtimer->BlacklistSelected(blacklist->Id())) }>><$ blacklist->Search() $></option>
-%								         }
-									</select>
-%							}
-								</div>
-							</td>
-						</tr>
-						</table>
-					</div>
-					</td>
-					</tr>
-					<tr>
-						<td class="buttonpanel leftcol rightcol bottomrow" colspan="2">
-							<div class="withmargin">
-							<button class="green" type="submit" name="save" onclick="return checksearch();"><$ tr("Search") $></button>
-							</div>
-						</td>
-					</tr>
-				</table>
-			</form>
-		</div>
-	</body>
+            <!-- Use blacklists -->
+            <tr>
+              <td class="label"><div class="withmargin"><$ tr("Use blacklists" ) $>:</div></td>
+              <td>
+                <select onchange="changedblacklistmode(this)" name="blacklistmode" size="1" id="blacklistmode">
+                  <option value="0" <{ SELECTIF(blacklistmode == 0) }> ><$ tr("no") $></option>
+                  <option value="1" <{ SELECTIF(blacklistmode == 1) }> ><$ tr("Selection") $></option>
+                  <option value="2" <{ SELECTIF(blacklistmode == 2) }> ><$ tr("all") $></option>
+                </select>
+                <div class="dependent" id="blacklistmodesettings" style="display: none">
+%              if (blacklists.size() > 0) {
+                  <select name="blacklists" multiple="multiple" size="5" onchange="changedblacklistsel(this)">
+%                int i=0; for (Blacklists::iterator blacklist = blacklists.begin(); blacklist != blacklists.end(); ++blacklist, i++) {
+                    <option value="<$ blacklist->Id() $>" <{ SELECTIF(searchtimer && searchtimer->BlacklistSelected(blacklist->Id())) }>><$ blacklist->Search() $></option>
+%                         }
+                  </select>
+%              }
+                </div>
+              </td>
+            </tr>
+            </table>
+          </div>
+          </td>
+          </tr>
+          <tr>
+            <td class="buttonpanel leftcol rightcol bottomrow" colspan="2">
+              <div class="withmargin">
+              <button class="green" type="submit" name="save" onclick="return checksearch();"><$ tr("Search") $></button>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </div>
+  </body>
 </html>
 <%include>page_exit.eh</%include>

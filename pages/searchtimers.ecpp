@@ -8,9 +8,9 @@ using namespace vdrlive;
 
 </%pre>
 <%args>
-	// input parameters
-	std::string searchtimerid;
-	std::string action;
+  // input parameters
+  std::string searchtimerid;
+  std::string action;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -20,49 +20,49 @@ bool logged_in(false);
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 </%cpp>
 <%cpp>
-	pageTitle = tr("Search timers");
-	SearchTimers timers;
-	if ( !searchtimerid.empty() ) {
-		if (action == "toggle")
-			timers.ToggleActive(searchtimerid);
-		if (action == "delete") {
-			if (!cUser::CurrentUserHasRightTo(UR_DELSTIMERS))
-				throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
-			timers.Delete(searchtimerid);
-		}
-	}
-	if (action == "update")
-		timers.TriggerUpdate();
+  pageTitle = tr("Search timers");
+  SearchTimers timers;
+  if ( !searchtimerid.empty() ) {
+    if (action == "toggle")
+      timers.ToggleActive(searchtimerid);
+    if (action == "delete") {
+      if (!cUser::CurrentUserHasRightTo(UR_DELSTIMERS))
+        throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
+      timers.Delete(searchtimerid);
+    }
+  }
+  if (action == "update")
+    timers.TriggerUpdate();
 </%cpp>
 <& pageelems.doc_type &>
 <html>
-	<head>
+  <head>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>VDR-Live - <$ pageTitle $></title>
-		<& pageelems.stylesheets &>
-		<& pageelems.ajax_js &>
-	</head>
-	<body onload="adjustHeader()" onresize="adjustHeader()">
-		<& pageelems.logo &>
-		<& menu active=("searchtimers") component=("searchtimers.searchtimer_actions")>
-		<div class="inhalt">
-			<table class="listing" cellspacing="0" cellpadding="0">
-				<tr class="head">
-					<td colspan="8">
-						<div class="boxheader"><div><div><$ pageTitle $></div></div></div>
-					</td>
-				</tr>
-				<tr class="description">
-					<td class="action leftcol"><img src="img/transparent.png" alt="" width="16px" height="16px"/></td>
-					<td><div class="withmargin"><$ tr("Expression") $></div></td>
-					<td><div class="withmargin"><$ tr("Channel") $></div></td>
-					<td><div class="withmargin"><$ tr("Starts between") $></div></td>
-					<td class="rightcol" colspan="4"/>
-				</tr>
+    <title>VDR-Live - <$ pageTitle $></title>
+    <& pageelems.stylesheets &>
+    <& pageelems.ajax_js &>
+  </head>
+  <body onload="adjustHeader()" onresize="adjustHeader()">
+    <& pageelems.logo &>
+    <& menu active=("searchtimers") component=("searchtimers.searchtimer_actions")>
+    <div class="inhalt">
+      <table class="listing" cellspacing="0" cellpadding="0">
+        <tr class="head">
+          <td colspan="8">
+            <div class="boxheader"><div><div><$ pageTitle $></div></div></div>
+          </td>
+        </tr>
+        <tr class="description">
+          <td class="action leftcol"><img src="img/transparent.png" alt="" width="16px" height="16px"/></td>
+          <td><div class="withmargin"><$ tr("Expression") $></div></td>
+          <td><div class="withmargin"><$ tr("Channel") $></div></td>
+          <td><div class="withmargin"><$ tr("Starts between") $></div></td>
+          <td class="rightcol" colspan="4"/>
+        </tr>
 <%cpp>
-				for (SearchTimers::iterator timer = timers.begin(); timer != timers.end(); ++timer) {
-					SearchTimers::iterator nextTimer = timer; ++nextTimer;
-					bool bottom = (nextTimer == timers.end());
+        for (SearchTimers::iterator timer = timers.begin(); timer != timers.end(); ++timer) {
+          SearchTimers::iterator nextTimer = timer; ++nextTimer;
+          bool bottom = (nextTimer == timers.end());
           int i = std::abs(timer->Id() );
           char timerID_b[21]; // unsigned int 64: max. 20. (18446744073709551615) signed int64: max. 19 (+ sign)
           char *timerID = timerID_b+20;
@@ -71,25 +71,25 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
           else for (; i; i /= 10) *(--timerID) = '0' + (i%10);
 
 </%cpp>
-				<tr>
-					<td class="action leftcol <? bottom ? "bottomrow" ?>"><%cpp> if(timer->UseAsSearchTimer()) { </%cpp><img src="<$ LiveSetup().GetThemedLink("img", "arrow.png") $>" alt="" /><%cpp> } </%cpp></td>
-					<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><$ timer->Search() $></div></td>
-					<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><$ timer->ChannelText() $></div></td>
-					<td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><? timer->UseTime() ? timer->StartTimeFormatted()+" - "+timer->StopTimeFormatted() ?></div></td>
-					<td class="action <? bottom ? "bottomrow" ?>"><a href="searchtimers.html?searchtimerid=<$ timerID $>&action=toggle"><img src="<$ LiveSetup().GetThemedLink("img", timer->UseAsSearchTimer() ? "active.png" : "inactive.png") $>" alt="<$ tr("Toggle search timer actions (in)active") $>" <& tooltip.hint text=(tr("Toggle search timer actions (in)active")) &> /></a></td>
-					<td class="action <? bottom ? "bottomrow" ?>"><a href="searchresults.html?searchtimerid=<$ timerID $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="<$ tr("Browse search timer results") $>" <& tooltip.hint text=(tr("Browse search timer results")) &> /></a></td>
-					<td class="action <? bottom ? "bottomrow" ?>"><a href="edit_searchtimer.html?searchtimerid=<$ timerID $>"><img src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="<$ tr("Edit search timer") $>" <& tooltip.hint text=(tr("Edit search timer")) &> /></a></td>
-					<td class="action rightcol <? bottom ? "bottomrow" ?>"><a href="searchtimers.html?searchtimerid=<$ timerID $>&action=delete" onclick="return confirm('<$ tr("Delete this search timer?") $>')"><img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="<$ tr("Delete search timer") $>" <& tooltip.hint text=(tr("Delete search timer")) &> /></a></td>
-				</tr>
+        <tr>
+          <td class="action leftcol <? bottom ? "bottomrow" ?>"><%cpp> if(timer->UseAsSearchTimer()) { </%cpp><img src="<$ LiveSetup().GetThemedLink("img", "arrow.png") $>" alt="" /><%cpp> } </%cpp></td>
+          <td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><$ timer->Search() $></div></td>
+          <td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><$ timer->ChannelText() $></div></td>
+          <td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><? timer->UseTime() ? timer->StartTimeFormatted()+" - "+timer->StopTimeFormatted() ?></div></td>
+          <td class="action <? bottom ? "bottomrow" ?>"><a href="searchtimers.html?searchtimerid=<$ timerID $>&action=toggle"><img src="<$ LiveSetup().GetThemedLink("img", timer->UseAsSearchTimer() ? "active.png" : "inactive.png") $>" alt="<$ tr("Toggle search timer actions (in)active") $>" <& tooltip.hint text=(tr("Toggle search timer actions (in)active")) &> /></a></td>
+          <td class="action <? bottom ? "bottomrow" ?>"><a href="searchresults.html?searchtimerid=<$ timerID $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="<$ tr("Browse search timer results") $>" <& tooltip.hint text=(tr("Browse search timer results")) &> /></a></td>
+          <td class="action <? bottom ? "bottomrow" ?>"><a href="edit_searchtimer.html?searchtimerid=<$ timerID $>"><img src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="<$ tr("Edit search timer") $>" <& tooltip.hint text=(tr("Edit search timer")) &> /></a></td>
+          <td class="action rightcol <? bottom ? "bottomrow" ?>"><a href="searchtimers.html?searchtimerid=<$ timerID $>&action=delete" onclick="return confirm('<$ tr("Delete this search timer?") $>')"><img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="<$ tr("Delete search timer") $>" <& tooltip.hint text=(tr("Delete search timer")) &> /></a></td>
+        </tr>
 <%cpp>
-				}
+        }
 </%cpp>
-				<tr class="spacer">
-					<td colspan="8"/>
-				</tr>
-			</table>
-		</div>
-	</body>
+        <tr class="spacer">
+          <td colspan="8"/>
+        </tr>
+      </table>
+    </div>
+  </body>
 </html>
 <%include>page_exit.eh</%include>
 

@@ -10,8 +10,8 @@ using namespace vdrlive;
 
 </%pre>
 <%args>
-	std::string param;
-	std::string async;
+  std::string param;
+  std::string async;
 </%args>
 <%cpp>
   RecordingsManagerPtr recordings = LiveRecordingsManager();
@@ -26,15 +26,15 @@ using namespace vdrlive;
     throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
   }
 
-	bool ajaxReq = !async.empty() && (parse_int<int>(async) != 0);
-	std::string referrer;
+  bool ajaxReq = !async.empty() && (parse_int<int>(async) != 0);
+  std::string referrer;
 
-	if (ajaxReq) {
-		reply.setContentType( "application/xml" );
-	}
-	else {
-		referrer = request.getHeader("Referer:");
-	}
+  if (ajaxReq) {
+    reply.setContentType( "application/xml" );
+  }
+  else {
+    referrer = request.getHeader("Referer:");
+  }
 
   RemoveRecordingTask task(param);
   LiveTaskManager().Execute(task);
@@ -47,10 +47,10 @@ using namespace vdrlive;
     result = "error";
   }
 
-	if (!ajaxReq) {
-		if (!referrer.empty()) {
-			return reply.redirect(referrer);
-		}
+  if (!ajaxReq) {
+    if (!referrer.empty()) {
+      return reply.redirect(referrer);
+    }
 </%cpp>
 Normale Seite:<br/>
 recording: <$ recording->Name()  $><br/>
@@ -58,10 +58,10 @@ result: <$ result $><br/>
 error: <$ (task.Error()) $><br />
 Seitenende!
 <%cpp>
-	}
-	else {
+  }
+  else {
 </%cpp>
 <& xmlresponse.ajax name=("delete_recording") pname=("recording") value=(recording->Name()) result=(task.Result()) error=(task.Error()) &>
 <%cpp>
-	}
+  }
 </%cpp>

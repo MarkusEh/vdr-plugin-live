@@ -7,10 +7,10 @@ using namespace vdrlive;
 
 </%pre>
 <%args>
-	name = "channel";
-	selected;
-	onchange;
-	bool channelid = false;
+  name = "channel";
+  selected;
+  onchange;
+  bool channelid = false;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -18,13 +18,13 @@ bool logged_in(false);
 % if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <select name="<$ name $>" id="<$ name $>" <{ reply.out() << ( !onchange.empty() ? "onchange=\""+onchange+"\"" : "" ); }>>
 <%cpp>
-	LOCK_CHANNELS_READ;
- 	for ( cChannel *listChannel = (cChannel *)Channels->First(); listChannel; listChannel = (cChannel *)Channels->Next( listChannel ) ) {
- 		if ( listChannel->GroupSep() || *listChannel->Name() == '\0' )
- 			continue;
+  LOCK_CHANNELS_READ;
+   for ( cChannel *listChannel = (cChannel *)Channels->First(); listChannel; listChannel = (cChannel *)Channels->Next( listChannel ) ) {
+     if ( listChannel->GroupSep() || *listChannel->Name() == '\0' )
+       continue;
 
- 		std::string listChannelId = *listChannel->GetChannelID().ToString();
+     std::string listChannelId = *listChannel->GetChannelID().ToString();
 </%cpp>
-		<option value="<? channelid ? listChannelId ?><? !channelid ? cSv(cToSvInt(listChannel->Number())) ?>"<{ reply.out() << ( listChannelId == selected ? " selected=\"selected\"" : "" ); }>><$ cSv(cToSvInt(listChannel->Number())) $>: <$ listChannel->Name() $></option>
-%	}
+    <option value="<? channelid ? listChannelId ?><? !channelid ? cSv(cToSvInt(listChannel->Number())) ?>"<{ reply.out() << ( listChannelId == selected ? " selected=\"selected\"" : "" ); }>><$ cSv(cToSvInt(listChannel->Number())) $>: <$ listChannel->Name() $></option>
+%  }
 </select>

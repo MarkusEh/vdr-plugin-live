@@ -14,24 +14,24 @@ class GrabImageTask;
 
 class GrabImageManager
 {
-	friend GrabImageManager& LiveGrabImageManager();
-	friend class GrabImageTask;
+  friend GrabImageManager& LiveGrabImageManager();
+  friend class GrabImageTask;
 
 public:
-	bool CanGrab() const;
-	GrabImageInfo GetImage() const;
+  bool CanGrab() const;
+  GrabImageInfo GetImage() const;
 
 private:
-	GrabImageManager();
-	GrabImageManager( GrabImageManager const& );
+  GrabImageManager();
+  GrabImageManager( GrabImageManager const& );
 
-	GrabImageManager& operator=( GrabImageManager const& );
+  GrabImageManager& operator=( GrabImageManager const& );
 
-	void PutImage( char* image, int size );
+  void PutImage( char* image, int size );
 
-	std::unique_ptr<GrabImageTask> m_task;
-	GrabImagePtr m_image;
-	int m_size;
+  std::unique_ptr<GrabImageTask> m_task;
+  GrabImagePtr m_image;
+  int m_size;
 };
 
 GrabImageManager& LiveGrabImageManager();

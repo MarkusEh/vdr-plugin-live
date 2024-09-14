@@ -12,7 +12,7 @@ using namespace vdrlive;
 
 </%pre>
 <%args>
-	int update;
+  int update;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -20,125 +20,125 @@ int update_status(1);
 TimerConflictNotifier timerNotifier();
 </%session>
 <%cpp>
-	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
-	std::string EMPTY_STR;
-	tChannelID prev_chan;
-	tChannelID next_chan;
-	reply.setContentType( "application/xml" );
+  if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+  std::string EMPTY_STR;
+  tChannelID prev_chan;
+  tChannelID next_chan;
+  reply.setContentType( "application/xml" );
 
-	if (update_status != update) {
-		update_status = update;
-	}
+  if (update_status != update) {
+    update_status = update;
+  }
 
-	std::string infoMsg;
-	std::string infoUrl;
+  std::string infoMsg;
+  std::string infoUrl;
 
-	if (timerNotifier.ShouldNotify()) {
-		infoMsg = timerNotifier.Message();
-		infoUrl = "timerconflicts.html";
-	}
+  if (timerNotifier.ShouldNotify()) {
+    infoMsg = timerNotifier.Message();
+    infoUrl = "timerconflicts.html";
+  }
 
-	const char* NowReplaying = cReplayControl::NowReplaying();
+  const char* NowReplaying = cReplayControl::NowReplaying();
 
-	EpgInfoPtr epgEvent;
+  EpgInfoPtr epgEvent;
 
-	if (NowReplaying) {
-		RecordingsManagerPtr recManager = LiveRecordingsManager();
-		// is is OK to lock here, because CreateEpgInfo will *not* lock other lists
-		LOCK_RECORDINGS_READ;
-		cRecording *recording = (cRecording *)Recordings->GetByName(NowReplaying);
-		if (recording) {
-			epgEvent = EpgEvents::CreateEpgInfo(
+  if (NowReplaying) {
+    RecordingsManagerPtr recManager = LiveRecordingsManager();
+    // is is OK to lock here, because CreateEpgInfo will *not* lock other lists
+    LOCK_RECORDINGS_READ;
+    cRecording *recording = (cRecording *)Recordings->GetByName(NowReplaying);
+    if (recording) {
+      epgEvent = EpgEvents::CreateEpgInfo(
         concat("recording_", cToSvXxHash128(XXH3_128bits(NowReplaying, strlen(NowReplaying))) ),
-				recording,
-				tr("playing recording"));
-		}
-	}
-	else {
-		std::string CHANNEL_STR("channel");
-		LOCK_CHANNELS_READ;
+        recording,
+        tr("playing recording"));
+    }
+  }
+  else {
+    std::string CHANNEL_STR("channel");
+    LOCK_CHANNELS_READ;
 
-		if (cDevice::CurrentChannel()) {
-			const int SKIP_GAP = 1;
-			cChannel* Channel = (cChannel *)Channels->GetByNumber(cDevice::CurrentChannel());
+    if (cDevice::CurrentChannel()) {
+      const int SKIP_GAP = 1;
+      cChannel* Channel = (cChannel *)Channels->GetByNumber(cDevice::CurrentChannel());
 
-			cChannel* tmp = (cChannel *)Channels->GetByNumber(Channels->GetPrevNormal(cDevice::CurrentChannel()), -SKIP_GAP);
+      cChannel* tmp = (cChannel *)Channels->GetByNumber(Channels->GetPrevNormal(cDevice::CurrentChannel()), -SKIP_GAP);
 #if VDRVERSNUM >= 20606
-			if (tmp)
+      if (tmp)
 #else
-			if (tmp && cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() )
+      if (tmp && cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() )
 #endif
-				prev_chan = tmp->GetChannelID();
-			tmp = (cChannel *)Channels->GetByNumber(Channels->GetNextNormal(cDevice::CurrentChannel()), SKIP_GAP);
+        prev_chan = tmp->GetChannelID();
+      tmp = (cChannel *)Channels->GetByNumber(Channels->GetNextNormal(cDevice::CurrentChannel()), SKIP_GAP);
 #if VDRVERSNUM >= 20606
-			if (tmp)
+      if (tmp)
 #else
-			if (tmp && cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() )
+      if (tmp && cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() )
 #endif
-				next_chan = tmp->GetChannelID();
+        next_chan = tmp->GetChannelID();
 
-			const std::string chanName(Channel->Name());
-			LOCK_SCHEDULES_READ;
-			const cSchedule *Schedule = Schedules->GetSchedule(Channel);
+      const std::string chanName(Channel->Name());
+      LOCK_SCHEDULES_READ;
+      const cSchedule *Schedule = Schedules->GetSchedule(Channel);
 
-			if (Schedule) {
-				const cEvent *Event = Schedule->GetPresentEvent();
-				if (Event) {
-					epgEvent = EpgEvents::CreateEpgInfo(Channel,
-														Event,
-														CHANNEL_STR.c_str());
-				}
-				else {
-					const std::string noInfo(tr("no epg info for current event!"));
-					epgEvent = EpgEvents::CreateEpgInfo(CHANNEL_STR,
-														chanName,
-														noInfo);
-				}
-			}
-			else {
-				const std::string noInfo(tr("no epg info for current channel!"));
-				epgEvent = EpgEvents::CreateEpgInfo(CHANNEL_STR,
-													Channel->Name(),
-													noInfo);
-			}
-		}
-		else {
-			const std::string chanName(tr("no current channel!"));
-			epgEvent = EpgEvents::CreateEpgInfo(CHANNEL_STR,
-												chanName,
-												chanName);
-		}
-	}
-	if (!epgEvent) {
-		const std::string ERROR_STR("error");
-		const std::string noInfo(tr("error retrieving status info!"));
-		const std::string chanName(tr("no current channel!"));
-		epgEvent = EpgEvents::CreateEpgInfo(ERROR_STR,
-											chanName,
-											noInfo);
-	}
-	else {
-		if (prev_chan.Valid() && next_chan.Valid())
-		{
+      if (Schedule) {
+        const cEvent *Event = Schedule->GetPresentEvent();
+        if (Event) {
+          epgEvent = EpgEvents::CreateEpgInfo(Channel,
+                            Event,
+                            CHANNEL_STR.c_str());
+        }
+        else {
+          const std::string noInfo(tr("no epg info for current event!"));
+          epgEvent = EpgEvents::CreateEpgInfo(CHANNEL_STR,
+                            chanName,
+                            noInfo);
+        }
+      }
+      else {
+        const std::string noInfo(tr("no epg info for current channel!"));
+        epgEvent = EpgEvents::CreateEpgInfo(CHANNEL_STR,
+                          Channel->Name(),
+                          noInfo);
+      }
+    }
+    else {
+      const std::string chanName(tr("no current channel!"));
+      epgEvent = EpgEvents::CreateEpgInfo(CHANNEL_STR,
+                        chanName,
+                        chanName);
+    }
+  }
+  if (!epgEvent) {
+    const std::string ERROR_STR("error");
+    const std::string noInfo(tr("error retrieving status info!"));
+    const std::string chanName(tr("no current channel!"));
+    epgEvent = EpgEvents::CreateEpgInfo(ERROR_STR,
+                      chanName,
+                      noInfo);
+  }
+  else {
+    if (prev_chan.Valid() && next_chan.Valid())
+    {
 </%cpp>
 <& xmlresponse.ibox update=(update_status) type=(epgEvent->Id()) caption=(epgEvent->Caption()) currentTime=(epgEvent->CurrentTime(tr("%I:%M:%S %p"))) duration=(epgEvent->StartTime(tr("%I:%M %p")) + std::string(" - ") + epgEvent->EndTime(tr("%I:%M %p"))) title=(epgEvent->Title()) elapsed=(epgEvent->Elapsed()) prev_chan=(prev_chan) next_chan=(next_chan) infoMsg=(infoMsg) infoUrl=(infoUrl) &>
 <%cpp>
-		}
-		else if (prev_chan.Valid()) {
+    }
+    else if (prev_chan.Valid()) {
 </%cpp>
 <& xmlresponse.ibox update=(update_status) type=(epgEvent->Id()) caption=(epgEvent->Caption()) currentTime=(epgEvent->CurrentTime(tr("%I:%M:%S %p"))) duration=(epgEvent->StartTime(tr("%I:%M %p")) + std::string(" - ") + epgEvent->EndTime(tr("%I:%M %p"))) title=(epgEvent->Title()) elapsed=(epgEvent->Elapsed()) prev_chan=(prev_chan) infoMsg=(infoMsg) infoUrl=(infoUrl) &>
 <%cpp>
-		}
-		else if (next_chan.Valid()) {
+    }
+    else if (next_chan.Valid()) {
 </%cpp>
 <& xmlresponse.ibox update=(update_status) type=(epgEvent->Id()) caption=(epgEvent->Caption()) currentTime=(epgEvent->CurrentTime(tr("%I:%M:%S %p"))) duration=(epgEvent->StartTime(tr("%I:%M %p")) + std::string(" - ") + epgEvent->EndTime(tr("%I:%M %p"))) title=(epgEvent->Title()) elapsed=(epgEvent->Elapsed()) next_chan=(next_chan) infoMsg=(infoMsg) infoUrl=(infoUrl) &>
 <%cpp>
-		}
-		else {
+    }
+    else {
 </%cpp>
 <& xmlresponse.ibox update=(update_status) type=(epgEvent->Id()) caption=(epgEvent->Caption()) currentTime=(epgEvent->CurrentTime(tr("%I:%M:%S %p"))) duration=(epgEvent->StartTime(tr("%I:%M %p")) + std::string(" - ") + epgEvent->EndTime(tr("%I:%M %p"))) title=(epgEvent->Title()) elapsed=(epgEvent->Elapsed()) infoMsg=(infoMsg) infoUrl=(infoUrl) &>
 <%cpp>
-		}
-	}
+    }
+  }
 </%cpp>
 

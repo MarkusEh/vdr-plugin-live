@@ -16,9 +16,9 @@ bool logged_in(false);
 </%session>
 <%cpp>
 if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
-	reply.setContentType("image/jpg");
+  reply.setContentType("image/jpg");
 
-	GrabImageInfo image = LiveGrabImageManager().GetImage();
-	if ( image.second > 0 )
-		reply.out().write( image.first.get(), image.second );
+  GrabImageInfo image = LiveGrabImageManager().GetImage();
+  if ( image.second > 0 )
+    reply.out().write( image.first.get(), image.second );
 </%cpp>

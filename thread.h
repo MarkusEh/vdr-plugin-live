@@ -11,16 +11,16 @@ namespace vdrlive {
 
 class ServerThread : public cThread {
 public:
-	ServerThread();
-	virtual ~ServerThread();
+  ServerThread();
+  virtual ~ServerThread();
 
-	void Stop();
+  void Stop();
 
 protected:
-	virtual void Action();
+  virtual void Action();
 
 private:
-	std::unique_ptr<tnt::Tntnet> m_server;
+  std::unique_ptr<tnt::Tntnet> m_server;
 };
 
 } // namespace vdrlive

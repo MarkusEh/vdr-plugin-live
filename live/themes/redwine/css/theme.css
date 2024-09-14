@@ -4,11 +4,11 @@
 */
 
 input {
-	border: 1px solid #963B5F;
+  border: 1px solid #963B5F;
 }
 
 select {
-	border: 1px solid #963B5F;
+  border: 1px solid #963B5F;
 }
 
 
@@ -18,31 +18,31 @@ select {
 */
 
 .hint-tip {
-	color: white;
+  color: white;
 }
 
 .hint-tip .hint-tip-top {
-	background: transparent url(/img/rounded-box-redwine-tl.png) no-repeat 0px 0px;
+  background: transparent url(/img/rounded-box-redwine-tl.png) no-repeat 0px 0px;
 }
 
 .hint-tip .hint-tip-top .hint-tip-c {
-	background: transparent url(/img/rounded-box-redwine-tr.png) no-repeat right 0px;
+  background: transparent url(/img/rounded-box-redwine-tr.png) no-repeat right 0px;
 }
 
 .hint-tip .hint-tip-bdy {
-	background: transparent url(/img/rounded-box-redwine-ml.png) repeat-y 0px 0px;
+  background: transparent url(/img/rounded-box-redwine-ml.png) repeat-y 0px 0px;
 }
 
 .hint-tip .hint-tip-bdy .hint-tip-c {
-	background: transparent url(/img/rounded-box-redwine-mr.png) repeat-y right 0px;
+  background: transparent url(/img/rounded-box-redwine-mr.png) repeat-y right 0px;
 }
 
 .hint-tip .hint-tip-bot {
-	background: transparent url(/img/rounded-box-redwine-bl.png) no-repeat 0px 0px;
+  background: transparent url(/img/rounded-box-redwine-bl.png) no-repeat 0px 0px;
 }
 
 .hint-tip .hint-tip-bot .hint-tip-c {
-	background: transparent url(/img/rounded-box-redwine-br.png) no-repeat right 0px;
+  background: transparent url(/img/rounded-box-redwine-br.png) no-repeat right 0px;
 }
 
 
@@ -62,34 +62,34 @@ select {
 */
 
 div.menu {
-	background: #000057  url(../img/menu_line_bg.png) repeat-x;
-	color: #FFE9FA;
+  background: #000057  url(../img/menu_line_bg.png) repeat-x;
+  color: #FFE9FA;
 }
 
 div#pagemenu {
-	background: #FFFFFF url(../img/bg_line.png) top repeat-x;
+  background: #FFFFFF url(../img/bg_line.png) top repeat-x;
 }
 
 div#pagemenu div {
-	background: #FFFFFF url(../img/bg_line_top.png) bottom repeat-x;
+  background: #FFFFFF url(../img/bg_line_top.png) bottom repeat-x;
 }
 
 div#pagemenu div div {
-	background: #FFE9FA;
-	border-top: 1px solid #DA8DA8;
-	border-bottom: 1px solid #DA8DA8;
+  background: #FFE9FA;
+  border-top: 1px solid #DA8DA8;
+  border-bottom: 1px solid #DA8DA8;
 }
 
 div#pagemenu a.active {
-	color: #984E79;
+  color: #984E79;
 }
 
 div#pagemenu span.sep {
-	color: #DA8DA8;
+  color: #DA8DA8;
 }
 
 div#pagemenu span.active {
-	color: #984E79;
+  color: #984E79;
 }
 
 
@@ -99,16 +99,16 @@ div#pagemenu span.active {
 */
 
 div#infobox {
-	border: 1px solid #DA8DA8;
+  border: 1px solid #DA8DA8;
 }
 
 div#infobox div.st_header {
-	background: #FFE9FA;
-	border-bottom: 1px solid #DA8DA8;
+  background: #FFE9FA;
+  border-bottom: 1px solid #DA8DA8;
 }
 
 div#infobox div.st_content {
-	background: white url(../img/bg_line_top.png) top left repeat-x;
+  background: white url(../img/bg_line_top.png) top left repeat-x;
 }
 
 div#infobox div.st_controls div.st_update {
@@ -122,31 +122,31 @@ div#infobox div.st_controls div.st_update {
 */
 
 div.head_box_l {
-	background-image: url(../img/bg_header_l.png);
+  background-image: url(../img/bg_header_l.png);
 }
 
 div.head_box_m {
-	background-image: url(../img/bg_header_h.png);
+  background-image: url(../img/bg_header_h.png);
 }
 
 div.head_box_r {
-	background-image: url(../img/bg_header_r.png);
+  background-image: url(../img/bg_header_r.png);
 }
 
 button.smallbutton {
-	background-image: url(../img/button_blue.png);
+  background-image: url(../img/button_blue.png);
 }
 
 button.green {
-	background-image: url(../img/button_green.png);
+  background-image: url(../img/button_green.png);
 }
 
 button.red {
-	background-image: url(../img/button_red.png);
+  background-image: url(../img/button_red.png);
 }
 
 button.blue {
-	background-image: url(../img/button_blue.png);
+  background-image: url(../img/button_blue.png);
 }
 
 
@@ -156,30 +156,30 @@ button.blue {
 */
 
 div.station div {
-	background: url(../img/bg_box_l.png) top left no-repeat;
+  background: url(../img/bg_box_l.png) top left no-repeat;
 }
 
 div.station div div {
-	background: url(../img/bg_box_r.png) top right no-repeat;
+  background: url(../img/bg_box_r.png) top right no-repeat;
 }
 
 div.station div div div {
-	background: url(../img/bg_box_h.png) repeat-x;
+  background: url(../img/bg_box_h.png) repeat-x;
 }
 
 div.content {
-	background: white url(../img/bg_tools.png) top left repeat-y;
+  background: white url(../img/bg_tools.png) top left repeat-y;
 }
 
 div.__progress {
-	border: 1px solid #DA8DA8;
+  border: 1px solid #DA8DA8;
 }
 
 div.__progress div.__elapsed {
-	background-color: #FFE9FA;
+  background-color: #FFE9FA;
 }
 img.channel_logo {
-	background-color: #FFE9FA00;
+  background-color: #FFE9FA00;
 }
 
 
@@ -188,16 +188,16 @@ img.channel_logo {
    #############################
 */
 
-div.boxheader	 {
-	background: url(../img/bg_box_l.png) top left no-repeat;
+div.boxheader   {
+  background: url(../img/bg_box_l.png) top left no-repeat;
 }
 
 div.boxheader div {
-	background: url(../img/bg_box_r.png) top right no-repeat;
+  background: url(../img/bg_box_r.png) top right no-repeat;
 }
 
 div.boxheader div div {
-	background: url(../img/bg_box_h.png) repeat-x;
+  background: url(../img/bg_box_h.png) repeat-x;
 }
 
 
@@ -207,8 +207,8 @@ div.boxheader div div {
 */
 
 div.recording_item {
-	background: url(../img/bg_line.png) bottom repeat-x;
-	border-bottom: 1px solid #DA8DA8;
+  background: url(../img/bg_line.png) bottom repeat-x;
+  border-bottom: 1px solid #DA8DA8;
 }
 
 
@@ -218,7 +218,7 @@ div.recording_item {
 */
 
 div.screenshot {
-	background-image: url(../img/tv.jpg);
+  background-image: url(../img/tv.jpg);
 }
 
 
@@ -228,8 +228,8 @@ div.screenshot {
 */
 
 table.formular tr td {
-	background: url(../img/bg_line.png) bottom repeat-x;
-	border-bottom: 1px solid #DA8DA8;
+  background: url(../img/bg_line.png) bottom repeat-x;
+  border-bottom: 1px solid #DA8DA8;
 }
 
 
@@ -239,11 +239,11 @@ table.formular tr td {
 */
 
 table.listing tr td.head {
-	background: #963B5F;
+  background: #963B5F;
 }
 
 table.listing tr td {
-	background: url(../img/bg_line.png) bottom repeat-x;
+  background: url(../img/bg_line.png) bottom repeat-x;
         border-bottom: 1px solid #DA8DA8;
 }
 
@@ -254,15 +254,15 @@ table.listing tr td {
 */
 
 .about_box div.about_content div.about_head {
-	background: #FFFFFF url(../img/bg_line.png) top repeat-x;
+  background: #FFFFFF url(../img/bg_line.png) top repeat-x;
 }
 
 .about_box div.about_content div.about_head div {
-	background: #FFFFFF url(../img/bg_line_top.png) bottom repeat-x;
+  background: #FFFFFF url(../img/bg_line_top.png) bottom repeat-x;
 }
 
 .about_box div.about_content div.about_head div div {
-	background: #FFE9FA;
-	border-top: 1px solid #DA8DA8;
-	border-bottom: 1px solid #DA8DA8;
+  background: #FFE9FA;
+  border-top: 1px solid #DA8DA8;
+  border-bottom: 1px solid #DA8DA8;
 }

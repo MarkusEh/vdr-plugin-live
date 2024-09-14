@@ -14,85 +14,85 @@ namespace vdrlive {
 // classes for timer conflict interface
 
 // conflicting timer
-	class TimerInConflict
-	{
-		public:
-			int timerIndex; 							// it's index in VDR
-			std::string remote = "";
-			int percentage;								// percentage of recording
-			std::list<int> concurrentTimerIndices;		// concurrent timer indices
+  class TimerInConflict
+  {
+    public:
+      int timerIndex;               // it's index in VDR
+      std::string remote = "";
+      int percentage;                // percentage of recording
+      std::list<int> concurrentTimerIndices;    // concurrent timer indices
 
-			TimerInConflict(int TimerIndex=-1, int Percentage=0) : timerIndex(TimerIndex), percentage(Percentage) {}
-	};
+      TimerInConflict(int TimerIndex=-1, int Percentage=0) : timerIndex(TimerIndex), percentage(Percentage) {}
+  };
 
-	class TimerConflict;
+  class TimerConflict;
 
-	bool operator<( TimerConflict const& left, TimerConflict const& right );
+  bool operator<( TimerConflict const& left, TimerConflict const& right );
 
 // one timer conflict time
-	class TimerConflict
-	{
-			time_t conflictTime;							// time of conflict
-			std::list<TimerInConflict> conflictingTimers; // conflicting timers at this time
+  class TimerConflict
+  {
+      time_t conflictTime;              // time of conflict
+      std::list<TimerInConflict> conflictingTimers; // conflicting timers at this time
 
-		friend bool operator<( TimerConflict const& left, TimerConflict const& right );
+    friend bool operator<( TimerConflict const& left, TimerConflict const& right );
 
-		public:
-			TimerConflict( std::string const& data );
-			TimerConflict();
-			void Init();
+    public:
+      TimerConflict( std::string const& data );
+      TimerConflict();
+      void Init();
 
-			time_t ConflictTime() { return conflictTime; }
-			const std::list<TimerInConflict>& ConflictingTimers() const { return conflictingTimers; }
-	};
+      time_t ConflictTime() { return conflictTime; }
+      const std::list<TimerInConflict>& ConflictingTimers() const { return conflictingTimers; }
+  };
 
-	class TimerConflicts
-	{
-		public:
-			typedef std::list<TimerConflict> ConflictList;
-			typedef ConflictList::size_type size_type;
-			typedef ConflictList::iterator iterator;
-			typedef ConflictList::const_iterator const_iterator;
+  class TimerConflicts
+  {
+    public:
+      typedef std::list<TimerConflict> ConflictList;
+      typedef ConflictList::size_type size_type;
+      typedef ConflictList::iterator iterator;
+      typedef ConflictList::const_iterator const_iterator;
 
-			TimerConflicts();
+      TimerConflicts();
 
-			size_type size() const { return m_conflicts.size(); }
-			iterator begin() { return m_conflicts.begin(); }
-			const_iterator begin() const { return m_conflicts.begin(); }
-			iterator end() { return m_conflicts.end(); }
-			const_iterator end() const { return m_conflicts.end(); }
+      size_type size() const { return m_conflicts.size(); }
+      iterator begin() { return m_conflicts.begin(); }
+      const_iterator begin() const { return m_conflicts.begin(); }
+      iterator end() { return m_conflicts.end(); }
+      const_iterator end() const { return m_conflicts.end(); }
 
-			bool HasConflict(int timerId);
-			static bool CheckAdvised();
-		private:
-			void GetRemote(std::list<std::string> & conflicts);
-			ConflictList m_conflicts;
-	};
+      bool HasConflict(int timerId);
+      static bool CheckAdvised();
+    private:
+      void GetRemote(std::list<std::string> & conflicts);
+      ConflictList m_conflicts;
+  };
 
-	class TimerConflictNotifier
-	{
-		public:
-			typedef std::shared_ptr<TimerConflicts> TimerConflictsPtr;
+  class TimerConflictNotifier
+  {
+    public:
+      typedef std::shared_ptr<TimerConflicts> TimerConflictsPtr;
 
-			TimerConflictNotifier();
-			virtual ~TimerConflictNotifier();
+      TimerConflictNotifier();
+      virtual ~TimerConflictNotifier();
 
-			bool ShouldNotify();
+      bool ShouldNotify();
 
-			void SetTimerModification();
+      void SetTimerModification();
 
-			std::string Message() const;
-			std::string Url() const;
+      std::string Message() const;
+      std::string Url() const;
 
-			TimerConflictsPtr const CurrentConflicts() const { return conflicts; }
+      TimerConflictsPtr const CurrentConflicts() const { return conflicts; }
 
-			static int const CHECKINTERVAL = 5; // recheck value in seconds.
+      static int const CHECKINTERVAL = 5; // recheck value in seconds.
 
-		private:
-			time_t lastCheck;
-			time_t lastTimerModification;
-			TimerConflictsPtr conflicts;
-	}; // class TimerConflictNotifier
+    private:
+      time_t lastCheck;
+      time_t lastTimerModification;
+      TimerConflictsPtr conflicts;
+  }; // class TimerConflictNotifier
 
 } // namespace vdrlive
 

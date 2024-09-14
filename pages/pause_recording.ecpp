@@ -7,16 +7,16 @@ using namespace vdrlive;
 
 </%pre>
 <%args>
-	std::string param;
+  std::string param;
 </%args>
 <%session scope="global">
-	bool logged_in(false);
+  bool logged_in(false);
 </%session>
 <%cpp>
-	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
-	reply.setContentType( "application/xml" );
+  if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+  reply.setContentType( "application/xml" );
 
-	PauseRecordingTask task( param );
-	LiveTaskManager().Execute( task );
+  PauseRecordingTask task( param );
+  LiveTaskManager().Execute( task );
 </%cpp>
 <& xmlresponse.ajax name=("pause_recording") pname=("recording") value=(param) result=(task.Result()) error=(task.Error()) &>
