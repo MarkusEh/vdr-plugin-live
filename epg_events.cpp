@@ -293,6 +293,21 @@ namespace vdrlive
 			eventId = parse_int<tEventID>(eIdStr);
 		}
 
+    const cEvent *GetEventByEpgid(cSv epgid) {
+      tChannelID channelid = tChannelID();
+      tEventID eventid = tEventID();
+      DecodeDomId(epgid, channelid, eventid);
+      if ( !channelid.Valid() || eventid == 0 ) return nullptr;
+      LOCK_SCHEDULES_READ;
+      const cSchedule *schedule = Schedules->GetSchedule( channelid );
+      if (!schedule) return nullptr;
+#if APIVERSNUM >= 20502
+      return schedule->GetEventById( eventid );
+#else
+      return schedule->GetEvent( eventid );
+#endif
+    }
+
 		EpgInfoPtr CreateEpgInfo(cSv epgid, cSchedules const *schedules)
 		{
 			tEventID eventId = tEventID();

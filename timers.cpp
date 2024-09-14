@@ -276,46 +276,46 @@ namespace vdrlive {
 			if ( !svdrpOK ) {
 				esyslog("live: svdrp command on remote server %s failed", timerData.remote);
 			}
-                        else {
+      else {
 			   	for (int i = 0; i < response.Size(); i++) {
-                                        int code = SVDRPCode(response[i]);
+                int code = SVDRPCode(response[i]);
 			      		if (code != 250) {
 				      		esyslog("live: DoInsertTimer() svdrp failed, response: %s", response[i]);
 						svdrpOK = false;
                               		}
 			   	}
 				if ( svdrpOK ) {
-		                	isyslog("live: remote timer '%s' on server '%s' added", timerData.builder.c_str(), timerData.remote);
+		      isyslog("live: remote timer '%s' on server '%s' added", timerData.builder.c_str(), timerData.remote);
 				}
 				else {
 					dsyslog("live: TimerManager::DoInsertTimer(): error in settings for remote timer");
 			      		StoreError(timerData, tr("Error in timer settings"));
 				}
-                        }
-                        response.Clear();
-                }
+      }
+      response.Clear();
+    }
 		else {				// add local timer
 			std::unique_ptr<cTimer> newTimer( new cTimer );
 			if ( !newTimer->Parse( timerData.builder.c_str() ) ) {
 				dsyslog("live: TimerManager::DoInsertTimer(): error in settings for local timer");
-	       			StoreError( timerData, tr("Error in timer settings") );
-                        	return;
-                    }
-		    	dsyslog("live: DoInsertTimer() add local timer");
+	      StoreError( timerData, tr("Error in timer settings") );
+        return;
+      }
+		  dsyslog("live: DoInsertTimer() add local timer");
 #ifdef DEBUG_LOCK
-          dsyslog("live: timers.cpp TimerManager::DoInsertTimer() LOCK_TIMERS_WRITE");
+      dsyslog("live: timers.cpp TimerManager::DoInsertTimer() LOCK_TIMERS_WRITE");
 #endif
-		    	LOCK_TIMERS_WRITE;
-		    	Timers->SetExplicitModify();
-		    	const cTimer *checkTimer = Timers->GetTimer( newTimer.get() );
-		    	if ( checkTimer ) {
+		  LOCK_TIMERS_WRITE;
+		  Timers->SetExplicitModify();
+		  const cTimer *checkTimer = Timers->GetTimer( newTimer.get() );
+		  if ( checkTimer ) {
 				StoreError( timerData, tr("Timer already defined") );
 				return;
-		    	}
-		    	Timers->Add( newTimer.get() );
-		    	Timers->SetModified();
-		    	isyslog( "live: local timer %s added", *newTimer->ToDescr() );
-		    	newTimer.release();
+		  }
+		  Timers->Add( newTimer.get() );
+		  Timers->SetModified();
+		  isyslog( "live: local timer %s added", *newTimer->ToDescr() );
+		  newTimer.release();
 		}
 	}
 
@@ -382,28 +382,18 @@ namespace vdrlive {
 		}
 		else {				// old and new are local
 			dsyslog("live: DoUpdateTimer() old and new timer are local");
-#if VDRVERSNUM >= 20301
-	#ifdef DEBUG_LOCK
-                        dsyslog("live: timers.cpp TimerManager::DoUpdateTimer() LOCK_TIMERS_WRITE");
-	#endif
+#ifdef DEBUG_LOCK
+      dsyslog("live: timers.cpp TimerManager::DoUpdateTimer() LOCK_TIMERS_WRITE");
+#endif
 			LOCK_TIMERS_WRITE;
 			Timers->SetExplicitModify();
 			cTimer* oldTimer = Timers->GetById( timerData.id, timerData.oldRemote );
 			dsyslog("live: DoUpdateTimer() change local timer '%s'", *oldTimer->ToDescr());
-#else
-			cTimer* oldTimer = Timers.GetTimer( const_cast<cTimer*>(timerData.first) );
-#endif
 			if ( oldTimer == 0 ) {
 				StoreError( timerData, tr("Timer not defined") );
 			return;
 			}
 
-#if VDRVERSNUM < 20301
-			if ( Timers.BeingEdited() ) {
-				StoreError( timerData, tr("Timers are being edited - try again later") );
-				return;
-			}
-#endif
 			cTimer copy = *oldTimer;
 			dsyslog("live: old timer flags: %u", copy.Flags());
 			if ( !copy.Parse( timerData.builder.c_str() ) ) {
@@ -411,14 +401,13 @@ namespace vdrlive {
 				return;
 			}
 			if (oldTimer->HasFlags(tfRecording)) copy.SetFlags(tfRecording);  // changed a running recording, restore flag "tfRecording"
+#ifdef TFEVENT
+			if (oldTimer->HasFlags(tfEvent) && oldTimer->Start() == copy.Start() && oldTimer->Stop() == copy.Stop() ) copy.SetFlags(tfEvent);
+#endif
 			dsyslog("live: new timer flags: %u", copy.Flags());
 			*oldTimer = copy;
 
-#if VDRVERSNUM >= 20301
 			Timers->SetModified();
-#else
-			Timers.SetModified();
-#endif
 			isyslog("live: local timer %s modified (%s)", *oldTimer->ToDescr(), oldTimer->HasFlags(tfActive) ? "active" : "inactive");
 		}
 	}
