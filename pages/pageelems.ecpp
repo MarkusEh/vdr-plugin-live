@@ -373,7 +373,23 @@ if (s_IMDB_ID.empty() ) { </%cpp>
 <%cpp>
 if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded()) {
 </%cpp>
-<a class="<$class_$>" href="stream.html?channelid_str=<$ channelId $>"><img class="<$class_$>" src="<$ LiveSetup().GetThemedLink("img", "stream_button.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into browser.")) &> /></a>
+<a class="<$class_$>" href="stream.html?channelid=<$ channelId $>"><img class="<$class_$>" src="<$ LiveSetup().GetThemedLink("img", "stream_button.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into browser.")) &> /></a>
+<%cpp>
+}
+</%cpp>
+</%def>
+
+<# ---------------------------------------------------------------------- #>
+
+<%def hls_recording>
+<%args>
+	std::string recId;
+	std::string class_;
+</%args>
+<%cpp>
+if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded()) {
+</%cpp>
+<a class="<$class_$>" href="stream.html?recid=<$ recId $>"><img class="<$class_$>" src="<$ LiveSetup().GetThemedLink("img", "stream_button.png") $>" alt="" <& tooltip.hint text=(tr("Stream this recording into browser.")) &> /></a>
 <%cpp>
 }
 </%cpp>
@@ -389,7 +405,7 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 <%cpp>
 if (LiveFeatures<features::streamdev_server>().Loaded()) {
 </%cpp>
-<a class="<$class_$>" href="playlist.m3u?channel_str=<$ channelId $>" download><img class="<$class_$>" src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into media player.")) &> /></a>
+<a class="<$class_$>" href="playlist.m3u?channelid=<$ channelId $>" download><img class="<$class_$>" src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into media player.")) &> /></a>
 <%cpp>
 }
 </%cpp>

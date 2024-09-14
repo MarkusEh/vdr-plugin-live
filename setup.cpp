@@ -1,4 +1,4 @@
-
+#include "live.h"
 #include "setup.h"
 #include "services.h"
 
@@ -9,6 +9,7 @@
 #include <getopt.h>
 #include <algorithm>
 #include <iostream>
+#include <fstream>
 #include <bitset>
 
 #include <vdr/plugin.h>
@@ -45,14 +46,11 @@ Setup::Setup():
 		m_streamdevType("TS"),
 		m_markNewRec(1),
 
-		m_streamVopt0("ffmpeg -loglevel warning -f mpegts -analyzeduration 1.2M -probesize 5M -i <input> -map 0:v -map 0:a:0 "
-				"-c:v copy -c:a aac -ac 2"),
-		m_streamVopt1("ffmpeg -loglevel warning -f mpegts -analyzeduration 1.2M -probesize 5M -i <input> -map 0:v -map 0:a:0 "
-				"-c:v libx264 -preset ultrafast -crf 23 -tune zerolatency -g 25 -r 25 -c:a aac -ac 2"),
-		m_streamVopt2("ffmpeg -loglevel warning -f mpegts -analyzeduration 1.2M -probesize 5M -i <input> -map 0:v -map 0:a:0 "
-				"-c:v libx264 -preset ultrafast -crf 23 -tune zerolatency -g 25 -r 25 -c:a aac -ac 2"),
-		m_streamVopt3("ffmpeg -loglevel warning -f mpegts -analyzeduration 1.2M -probesize 5M -i <input> -map 0:v -map 0:a:0 "
-				"-c:v libx264 -preset ultrafast -crf 23 -tune zerolatency -g 25 -r 25 -c:a aac -ac 2"),
+		m_streamVopt0(cmdChannelH264),
+		m_streamVopt1(cmdChannelHVEC),
+		m_streamVopt2(cmdChannelMPG2),
+		m_streamVopt3(cmdChannelDFLT),
+
 		m_showIMDb(1),
 		m_showPlayMediaplayer(1),
 		m_showChannelsWithoutEPG(0)
@@ -74,6 +72,7 @@ bool Setup::ParseCommandLine( int argc, char* argv[] )
 			{ "sslport", required_argument, NULL, 's' },
 			{ "cert", required_argument, NULL, 'c' },
 			{ "key", required_argument, NULL, 'k' },
+			{ "ffmpegconf", required_argument, NULL, 'f' },
 			{ "chanlogos",  required_argument, NULL, '1' },
 			{ 0 }
 	};
@@ -93,6 +92,7 @@ bool Setup::ParseCommandLine( int argc, char* argv[] )
 		case 's': m_serverSslPort = atoi( optarg ); break;
 		case 'c': m_serverSslCert = optarg; break;
 		case 'k': m_serverSslKey = optarg; break;
+		case 'f': m_ffmpegFile = optarg; break;
 		case '1': m_chanlogodir = optarg;
 			if(!m_chanlogodir.empty() && m_chanlogodir[m_chanlogodir.length()-1] != '/') m_chanlogodir += "/";
 			break;
@@ -117,6 +117,64 @@ bool Setup::Initialize( void )
     m_p_scraper = m_p_tvscraper;
   else
     m_p_scraper = cPluginManager::GetPlugin("scraper2vdr");
+
+  // set a default channel-logo directory
+  if (!m_chanlogodir.empty()) {
+      if (m_chanlogodir[0] != '/' )
+        m_chanlogodir = Plugin::GetConfigDirectory() + "/" + m_chanlogodir;
+  } else
+    m_chanlogodir = Plugin::GetConfigDirectory() + "/logos";
+
+  // check whether FFMPEG configuration file already exists
+  if (!m_ffmpegFile.empty()) {
+      if (m_ffmpegFile[0] != '/' )
+        m_ffmpegConf = Plugin::GetConfigDirectory() + "/" + m_ffmpegFile;
+      else
+        m_ffmpegConf = m_ffmpegFile;
+  }
+  if (m_ffmpegConf.empty())
+    m_ffmpegConf = Plugin::GetConfigDirectory() + "/ffmpeg.conf";
+  bool haveFFmpegConf = false;
+  try {
+    std::ifstream config(m_ffmpegConf);
+    haveFFmpegConf = config.good();
+    config.close();
+  }
+  catch (std::exception const& ex) {
+    dsyslog("Live: cannot access file \"%s\": %s", m_ffmpegConf.c_str(), ex.what());
+  }
+  if (!haveFFmpegConf) {
+    try {
+      std::ofstream newConfig(m_ffmpegConf);
+      newConfig << "# FFMPEG commands for streaming channels" << std::endl;
+      newConfig << tagChannelH264 << "\t\t" << (m_streamVopt0.empty() ? cmdChannelH264 : m_streamVopt0) << std::endl;
+      newConfig << tagChannelHVEC << "\t\t" << (m_streamVopt1.empty() ? cmdChannelHVEC : m_streamVopt1) << std::endl;
+      newConfig << tagChannelMPG2 << "\t\t" << (m_streamVopt2.empty() ? cmdChannelMPG2 : m_streamVopt2) << std::endl;
+      newConfig << tagChannelDFLT << "\t\t" << (m_streamVopt3.empty() ? cmdChannelDFLT : m_streamVopt3) << std::endl;
+      newConfig << std::endl;
+      newConfig << "# FFMPEG commands for streaming recordings" << std::endl;
+      std::string cmd = m_streamVopt0.empty() ? cmdChannelH264 : m_streamVopt0;
+      size_t input = cmd.find(" -i ");
+      if (input != std::string::npos) cmd.insert(input, " -re");
+      newConfig << tagRecordingH264 << "\t\t" << cmd << std::endl;
+      cmd = m_streamVopt1.empty() ? cmdChannelHVEC : m_streamVopt1;
+      input = cmd.find(" -i ");
+      if (input != std::string::npos) cmd.insert(input, " -re");
+      newConfig << tagRecordingHVEC << "\t\t" << cmd << std::endl;
+      cmd = m_streamVopt2.empty() ? cmdChannelMPG2 : m_streamVopt2;
+      input = cmd.find(" -i ");
+      if (input != std::string::npos) cmd.insert(input, " -re");
+      newConfig << tagRecordingMPG2 << "\t\t" << cmd << std::endl;
+      cmd = m_streamVopt3.empty() ? cmdChannelDFLT : m_streamVopt3;
+      input = cmd.find(" -i ");
+      if (input != std::string::npos) cmd.insert(input, " -re");
+      newConfig << tagRecordingDFLT << "\t\t" << cmd << std::endl;
+      newConfig.close();
+    }
+    catch (std::exception const& ex) {
+      esyslog("ERROR: live writing file \"%s\": %s", m_ffmpegConf.c_str(), ex.what());
+    }
+  }
   return true;
 }
 
@@ -124,21 +182,22 @@ char const* Setup::CommandLineHelp() const
 {
 	if ( m_helpString.empty() ) {
 		std::stringstream builder;
-		builder << "  -p PORT,  --port=PORT        use PORT to listen for incoming connections\n"
-				   "                               (default: " << m_serverPort << ")\n"
-				<< "  -i IP,    --ip=IP            bind server only to specified IP, may appear\n"
-				   "                               multiple times\n"
-				   "                               (default: 0.0.0.0)\n"
-				<< "  -s PORT,  --sslport=PORT     use PORT to listen for incoming SSL connections\n"
-				   "                               (default: " << m_serverSslPort << ")\n"
-				<< "  -u URL,  --url=URL           URL to this live server, e.g. http://rpi.fritz.box\n"
-				   "                               only required if live is used as image server, e.g. for vnsi\n"
-				<< "  -c CERT,  --cert=CERT        full path to a custom SSL certificate file\n"
-				<< "  -k KEY,  --key=KEY           full path to a custom SSL certificate key file\n"
-				<< "  -l level, --log=level        log level for Tntnet (values: WARN, ERROR, INFO, DEBUG, TRACE)\n"
-				<< "  -e <dir>, --epgimages=<dir>  directory for EPG images\n"
-				<< "  -t <dir>, --tvscraperimages=<dir> directory for Tvscraper images\n"
-				<< "            --chanlogos=<dir>  directory for channel logos (PNG)\n";
+		builder << "  -p PORT,   --port=PORT              use PORT to listen for incoming connections\n"
+				   "                                      (default: " << m_serverPort << ")\n"
+				<< "  -i IP,     --ip=IP                  bind server only to specified IP, may appear\n"
+				   "                                      multiple times\n"
+				   "                                      (default: 0.0.0.0)\n"
+				<< "  -s PORT,   --sslport=PORT           use PORT to listen for incoming SSL connections\n"
+				   "                                      (default: " << m_serverSslPort << ")\n"
+				<< "  -u URL,    --url=URL                URL to this live server, e.g. http://rpi.fritz.box\n"
+				   "                                      only required if live is used as image server, e.g. for vnsi\n"
+				<< "  -c CERT,   --cert=CERT              full path to a custom SSL certificate file\n"
+				<< "  -k KEY,    --key=KEY                full path to a custom SSL certificate key file\n"
+				<< "  -l level,  --log=level              log level for Tntnet (values: WARN, ERROR, INFO, DEBUG, TRACE)\n"
+				<< "  -e <dir>,  --epgimages=<dir>        directory for EPG images\n"
+				<< "  -t <dir>,  --tvscraperimages=<dir>  directory for Tvscraper images\n"
+				<< "  -f <file>, --ffmpegconf=<file>      filename of FFMPEG configuration file\n"
+				<< "             --chanlogos=<dir>        directory for channel logos (PNG)\n";
 		m_helpString = builder.str();
 	}
 	return m_helpString.c_str();
@@ -365,10 +424,6 @@ bool Setup::SaveSetup()
 	liveplugin->SetupStore("UseStreamdev", m_useStreamdev);
 	liveplugin->SetupStore("StreamdevPort", m_streamdevPort);
 	liveplugin->SetupStore("StreamdevType", m_streamdevType.c_str());
-	liveplugin->SetupStore("StreamVideoOpt0", m_streamVopt0.c_str());
-	liveplugin->SetupStore("StreamVideoOpt1", m_streamVopt1.c_str());
-	liveplugin->SetupStore("StreamVideoOpt2", m_streamVopt2.c_str());
-	liveplugin->SetupStore("StreamVideoOpt3", m_streamVopt3.c_str());
 	liveplugin->SetupStore("ScreenShotInterval", m_screenshotInterval);
 	liveplugin->SetupStore("MarkNewRec", m_markNewRec);
 	liveplugin->SetupStore("ShowIMDb", m_showIMDb);

@@ -502,7 +502,9 @@ div#pagemenu a.active {
 }
 
 div#pagemenu form a {
+	/*
 	margin-left: 1em;
+	*/
 }
 
 div#pagemenu form a img {
@@ -945,6 +947,75 @@ table.listing a {
 }
 
 
+/* #############################
+   #  Table streaming
+   # (used in browser streaming)
+   #############################
+*/
+
+div.player-container {
+	width: 100%;
+	padding-top: 56.25%; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+	position: relative;  /* for the player inside of it */
+	text-align: center;
+}
+
+div.player {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+}
+
+table.streaming {
+	width: 100%;
+	max-width: 1280px;
+	margin-top: 2ex;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+table.streaming>tbody>tr>td {
+	width: auto;
+	vertical-align: top;
+	white-space: nowrap;
+	border: 0px none black;
+	padding: 0px 5px 0px 5px;
+}
+
+table.streaming>tbody>tr>td .short {
+	white-space: normal;
+}
+
+table.streaming>tbody>tr>td.action {
+	border-left: 1px none black;
+}
+
+table.streaming>tbody>tr>td:first-child {
+	width: auto;
+	border-left: 1px none black;
+}
+
+table.streaming>tbody>tr>td:last-child {
+	width: 100%;
+}
+
+table.streaming>tbody>tr>td {
+	background: inherit;
+	border-left: 1px solid black;
+}
+
+table.streaming .withmargin {
+	margin: 0px;
+}
+
+table.streaming .progress {
+	margin: 0px;
+}
+
+
 /* ##############################
    #  Table schedule
    # (used for the MultiSchedule)
@@ -1320,12 +1391,21 @@ table.formular tr.head td {
 
 table.dependent {
 	background-color: #FFFFFF;
-	margin-top: 0px;
+	margin-top: 3px;
+	margin-bottom: 5px;
+}
+
+table.dependent tr:last-child td {
+	border-bottom: 1px none red;
 }
 
 table.dependent tr td {
 	background: transparent;
 	vertical-align: middle;
+}
+
+table.dependent tr td.label .withmargin {
+	margin-left: 0px;
 }
 
 

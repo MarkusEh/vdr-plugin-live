@@ -17,6 +17,40 @@
 
 namespace vdrlive {
 
+// default values for FFMPEG commands for streaming channels into browser
+#define tagChannelH264      "chnH264"
+#define cmdChannelH264      "ffmpeg -loglevel warning -f mpegts -analyzeduration 1.2M -probesize 5M -i <input> -map 0:v -map 0:a:0 " \
+                            "-c:v copy -c:a aac -ac 2"
+
+#define tagChannelHVEC      "chnHEVC"
+#define cmdChannelHVEC      "ffmpeg -loglevel warning -f mpegts -analyzeduration 1.2M -probesize 5M -i <input> -map 0:v -map 0:a:0 " \
+                            "-c:v libx264 -preset ultrafast -crf 23 -tune zerolatency -g 25 -r 25 -c:a aac -ac 2"
+
+#define tagChannelMPG2      "chnMPG2"
+#define cmdChannelMPG2      "ffmpeg -loglevel warning -f mpegts -analyzeduration 1.2M -probesize 5M -i <input> -map 0:v -map 0:a:0 " \
+                            "-c:v libx264 -preset ultrafast -crf 23 -tune zerolatency -g 25 -r 25 -c:a aac -ac 2"
+
+#define tagChannelDFLT      "chnDFLT"
+#define cmdChannelDFLT      "ffmpeg -loglevel warning -f mpegts -analyzeduration 1.2M -probesize 5M -i <input> -map 0:v -map 0:a:0 " \
+                            "-c:v libx264 -preset ultrafast -crf 23 -tune zerolatency -g 25 -r 25 -c:a aac -ac 2"
+
+// default values for FFMPEG commands for streaming recordings into browser
+#define tagRecordingH264    "recH264"
+#define cmdRecordingH264    "ffmpeg -loglevel warning -f mpegts -analyzeduration 1.2M -probesize 5M -re -i <input> -map 0:v -map 0:a:0 " \
+                            "-c:v copy -c:a aac -ac 2"
+
+#define tagRecordingHVEC    "recHVEC"
+#define cmdRecordingHVEC    "ffmpeg -loglevel warning -f mpegts -analyzeduration 1.2M -probesize 5M -re -i <input> -map 0:v -map 0:a:0 " \
+                            "-c:v libx264 -preset ultrafast -crf 23 -tune zerolatency -g 25 -r 25 -c:a aac -ac 2"
+
+#define tagRecordingMPG2    "recMPG2"
+#define cmdRecordingMPG2    "ffmpeg -loglevel warning -f mpegts -analyzeduration 1.2M -probesize 5M -re -i <input> -map 0:v -map 0:a:0 " \
+                            "-c:v libx264 -preset ultrafast -crf 23 -tune zerolatency -g 25 -r 25 -c:a aac -ac 2"
+
+#define tagRecordingDFLT    "recDFLT"
+#define cmdRecordingDFLT    "ffmpeg -loglevel warning -f mpegts -analyzeduration 1.2M -probesize 5M -re -i <input> -map 0:v -map 0:a:0 " \
+                            "-c:v libx264 -preset ultrafast -crf 23 -tune zerolatency -g 25 -r 25 -c:a aac -ac 2"
+
 // forward declaration, see below
 class cMenuSetupLive;
 
@@ -66,6 +100,7 @@ class Setup
 		int GetStreamdevPort() const { return m_streamdevPort; }
 		std::string const GetStreamdevType() const { return m_streamdevType; }
 		bool GetMarkNewRec() const { return m_markNewRec != 0; }
+		std::string const GetFFmpegConf() const { return m_ffmpegConf; }
 		std::string const GetStreamVideoOpt0() const { return m_streamVopt0; }
 		std::string const GetStreamVideoOpt1() const { return m_streamVopt1; }
 		std::string const GetStreamVideoOpt2() const { return m_streamVopt2; }
@@ -102,10 +137,6 @@ class Setup
 		void SetStreamdevPort(int port) { m_streamdevPort = port; }
 		void SetStreamdevType(std::string const & type) { m_streamdevType = type; }
 		void SetMarkNewRec(bool show) { m_markNewRec = show ? 1 : 0; }
-		void SetStreamVideoOpt0(std::string const & opt) { m_streamVopt0 = opt; }
-		void SetStreamVideoOpt1(std::string const & opt) { m_streamVopt1 = opt; }
-		void SetStreamVideoOpt2(std::string const & opt) { m_streamVopt2 = opt; }
-		void SetStreamVideoOpt3(std::string const & opt) { m_streamVopt3 = opt; }
 		void SetShowIMDb(bool show) { m_showIMDb = show ? 1 : 0; }
 		void SetShowPlayMediaplayer(bool show) { m_showPlayMediaplayer = show ? 1 : 0; }
 		void SetShowChannelsWithoutEPG(bool show) { m_showChannelsWithoutEPG = show ? 1 : 0; }
@@ -170,6 +201,8 @@ class Setup
 		int m_streamdevPort;
 		std::string m_streamdevType;
 		int m_markNewRec;
+		std::string m_ffmpegFile;
+		std::string m_ffmpegConf;
 		std::string m_streamVopt0;
 		std::string m_streamVopt1;
 		std::string m_streamVopt2;

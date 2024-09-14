@@ -102,6 +102,18 @@ template void StringAppendFrameParams<cToSvConcat<255>>(cToSvConcat<255> &s, con
 		return 0;
 	}
 
+	RecordingsItemRecPtr const RecordingsManager::GetByIdHash(cSv hash) const
+	{
+    if (hash.length() != 42) return 0;
+    if (hash.compare(0, 10, "recording_") != 0) return 0;
+    XXH128_hash_t xxh = parse_hex_128(hash.substr(10));
+    for (RecordingsItemRecPtr recItem : *LiveRecordingsManager()->GetRecordingsTree()->allRecordings()) {
+      XXH128_hash_t xxh_rec = recItem->IdHash();
+      if (xxh_rec.high64 == xxh.high64 && xxh_rec.low64 == xxh.low64) return recItem;
+    }
+		return 0;
+	}
+
 	bool RecordingsManager::UpdateRecording(cRecording const * recording, cSv directory, cSv name, bool copy, cSv title, cSv shorttext, cSv description) const
 	{
 		if (!recording)

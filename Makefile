@@ -226,9 +226,17 @@ install-web:
 	@mkdir -p $(DESTDIR)$(RESDIR)/plugins/$(PLUGIN)
 	@cp -a live/* $(DESTDIR)$(RESDIR)/plugins/$(PLUGIN)/
 
+.PHONY: install-conf
+install-conf:
+	mkdir -p $(DESTDIR)$(CONFDIR)/plugins/$(PLUGIN)
+	@for i in conf/*; do\
+	    if ! [ -e $(DESTDIR)$(CONFDIR)/plugins/$(PLUGIN)/$$i ] ; then\
+	        cp -p $$i $(DESTDIR)$(CONFDIR)/plugins/$(PLUGIN);\
+	        fi\
+	    done
 
 .PHONY: install
-install: install-lib install-i18n install-web
+install: install-lib install-i18n install-web install-conf
 
 .PHONY: dist
 dist: $(I18Npo)

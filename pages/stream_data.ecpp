@@ -55,7 +55,7 @@ do {
 
 // fail if file did not appear
 if (!f.is_open()) {
-	dsyslog("vdrlive::stream_data: DECLINED");
+	dsyslog("vdrlive::stream_data: %s - DECLINED", path.c_str());
 	return DECLINED;
 }
 

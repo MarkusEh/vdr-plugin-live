@@ -77,6 +77,12 @@ template<typename T>
       cRecording const* GetByMd5Hash(cSv hash) const;
 
       /**
+       *  fetches a cRecording from the RecordingsTree collection. Returns
+       *  NULL if recording was not found
+       */
+      RecordingsItemRecPtr const GetByIdHash(cSv hash) const;
+
+      /**
        *  Move a recording with the given hash according to
        *  VDRs recording mechanisms.
        *  @param directory new name of the sub folder this recording is stored in.

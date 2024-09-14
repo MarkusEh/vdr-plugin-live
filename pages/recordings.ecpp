@@ -10,6 +10,7 @@
 #include <tntconfig.h>
 #include <vdr/channels.h>
 #include <stringhelpers.h>
+#include <livefeatures.h>
 
 #ifdef HAVE_PCRE2
 #include <StringMatch.h>
@@ -124,8 +125,8 @@ if (request.hasCookie("VDR-Live-Recordings-Tree-Open-Nodes")) {
   openTreeNodes = request.getCookie("VDR-Live-Recordings-Tree-Open-Nodes");
 //  isyslog("live: VDR-Live-Recordings-Tree-Open-Nodes = %s", openTreeNodes.c_str());
 }
-cToSvConcat<0> recoring_item;
-recoring_item.reserve(25000);
+cToSvConcat<0> recording_item;
+recording_item.reserve(25000);
 
 </%cpp>
 <& pageelems.doc_type &>
@@ -154,6 +155,13 @@ function RecordingActionS(s, id, A, Img, Title) {
   s.a += '\"><img class=\"icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>'
   s.a += Img
   s.a += '\" /></a>'
+}
+
+function RecordingActionStream(s, id) {
+  s.a += '<a <? LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded() ?"class=\"hidden-xs\" "?> href=\"stream.html?recid=recording_'
+  s.a += id
+//s.a += '&sort=<$currentSort$>&filter=<$currentFilter$>&flat=<$currentFlat$>&history_num_back=<$history_num_back+1$>\" title=\"<$tr("Stream this recording into browser.")$>\" download><img class=\"icon<? !(LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded()) ?" hidden-xs"?>\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>stream_button.png\" /></a>'
+  s.a += '\" title=\"<$tr("Stream this recording into browser.")$>\"><img class=\"icon<? !(LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded()) ?" hidden-xs"?>\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>stream_button.png\" /></a>'
 }
 
 function RecordingActionPlaylist(s, id) {
@@ -248,6 +256,7 @@ function RecordingsSt_int(s, level, displayFolder, data) {
 %     if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
         RecordingActionS(s, obj[0], "vdr_request/play_recording?param=", "play.png", "<$tr("play this recording")$>")
 %     }
+      RecordingActionStream(s, obj[0])
       RecordingActionPlaylist(s, obj[0])
 <#
 %     if (LiveSetup().GetShowPlayMediaplayer() ) {
@@ -312,7 +321,7 @@ if (!deleteResult.empty()) {
       <$ tr("No recordings found") $>
 <%cpp>
     } else {
-      uintptr_t irecoring_item = (uintptr_t)&recoring_item;
+      uintptr_t irecording_item = (uintptr_t)&recording_item;
       RecordingsItemDirPtr recItemRoot = recordingsTree->getRoot();
       uintptr_t iRecItemRoot = (uintptr_t)&recItemRoot;
       uintptr_t iRecordingsTree = (uintptr_t)&recordingsTree;
@@ -322,7 +331,7 @@ if (!deleteResult.empty()) {
       <form method="post" name="recordings" id="form_recordings" action="recordings.ecpp">
         <div class="recordings">
           <ul class="recordingslist" style="display: block;">
-            <& recordings.recordings_item iRecItem=(iRecItemRoot) irecoring_item=(irecoring_item) iRecordingsTree=(iRecordingsTree) iOpenTreeNodes=(iOpenTreeNodes) iAvailable_recs=(iAvailable_recs) &>
+            <& recordings.recordings_item iRecItem=(iRecItemRoot) irecording_item=(irecording_item) iRecordingsTree=(iRecordingsTree) iOpenTreeNodes=(iOpenTreeNodes) iAvailable_recs=(iAvailable_recs) &>
           </ul>
         </div>
 				<input type="hidden" name="sort" value="<$ currentSort $>">
@@ -349,7 +358,7 @@ dsyslog("live, time recordings.ecpp: %f", timeNeeded.count());
 <%def recordings_item>
 <%args>
 	uintptr_t iRecItem = 0;
-	uintptr_t irecoring_item = 0;
+	uintptr_t irecording_item = 0;
 	uintptr_t iRecordingsTree = 0;
   uintptr_t iOpenTreeNodes = 0;
   uintptr_t iAvailable_recs = 0;
@@ -368,7 +377,7 @@ if (currentSort == "datedesc" || currentSort == "namedesc") reverse = true;
 // get rec item of this (current) dir
 RecordingsItemDirPtr recItemThisDir = *(static_cast<RecordingsItemDirPtr *>((void *)iRecItem) );
 RecordingsTreePtr recordingsTree = *(static_cast<RecordingsTreePtr *>((void *)iRecordingsTree) );
-cToSvConcat<0> *recoring_item = static_cast<cToSvConcat<0> *>((void *)irecoring_item );
+cToSvConcat<0> *recording_item = static_cast<cToSvConcat<0> *>((void *)irecording_item );
 std::string openTreeNodes= *(static_cast<std::string *>((void *)iOpenTreeNodes) );
 std::vector<int> available_recs = *(static_cast<std::vector<int> *>((void *)iAvailable_recs) );
 int level = recItemThisDir->Level();
@@ -436,7 +445,7 @@ if (currentFlat != "true") {
         </td></tr></table>
         </div>
         <ul id="fldr_<$ idHash $>" class="recordingslist" style="display: none;">
-          <& recordings.recordings_item iRecItem=(iRecItem) irecoring_item=(irecoring_item) parentIdHash=(idHash) iRecordingsTree=(iRecordingsTree) iOpenTreeNodes=(iOpenTreeNodes) iAvailable_recs=(iAvailable_recs) &>
+          <& recordings.recordings_item iRecItem=(iRecItem) irecording_item=(irecording_item) parentIdHash=(idHash) iRecordingsTree=(iRecordingsTree) iOpenTreeNodes=(iOpenTreeNodes) iAvailable_recs=(iAvailable_recs) &>
         </ul>
       </li>
       <%cpp>
@@ -493,10 +502,10 @@ if (write_recs && recItemsC) {
 <script>
   <%cpp>
   for (const RecordingsItemRecPtr &rPtr: *recItemsC) {
-    recoring_item->clear();
-    rPtr->AppendAsJSArray(*recoring_item);
+    recording_item->clear();
+    rPtr->AppendAsJSArray(*recording_item);
   </%cpp>
-recs[<$cSv(cToSvInt(rPtr->IdI()))$>]=[<$$ recoring_item->c_str() $>]
+recs[<$cSv(cToSvInt(rPtr->IdI()))$>]=[<$$ recording_item->c_str() $>]
 % }
 </script>
   <%cpp>
@@ -510,14 +519,14 @@ if (currentSort != "duplicates" || currentFlat == "true") {
     bool first = true;
 //    const char *displayFolder = currentFlat == "true"?"1":"0";
     const char *displayFolder = "1";
-    recoring_item->clear();
-    RecordingsItemRec::AppendAsJSArray(*recoring_item, recItemsC->begin(), recItemsC->end(), first, currentFilter, reverse);
+    recording_item->clear();
+    RecordingsItemRec::AppendAsJSArray(*recording_item, recItemsC->begin(), recItemsC->end(), first, currentFilter, reverse);
     </%cpp>
       <script>
 %   if (level == 0) {
-      document.write(rec_string_d([<$level$>, <$displayFolder$>, [ <$$ recoring_item->c_str() $> ]]))
+      document.write(rec_string_d([<$level$>, <$displayFolder$>, [ <$$ recording_item->c_str() $> ]]))
 %   } else {
-      rec_ids["fldr_<$ parentIdHash $>"] = [<$level$>, <$displayFolder$>, [ <$$ recoring_item->c_str() $> ]]
+      rec_ids["fldr_<$ parentIdHash $>"] = [<$level$>, <$displayFolder$>, [ <$$ recording_item->c_str() $> ]]
 %   }
       </script>
     <%cpp>
@@ -548,17 +557,17 @@ if (currentSort != "duplicates" || currentFlat == "true") {
 <script>
         <%cpp>
         for (const RecordingsItemRecPtr &rPtr: recItems) {
-          recoring_item->clear();
-          rPtr->AppendAsJSArray(*recoring_item);
+          recording_item->clear();
+          rPtr->AppendAsJSArray(*recording_item);
           </%cpp>
-recs[<$cSv(cToSvInt(rPtr->IdI()))$>]=[<$$ recoring_item->c_str() $>]
+recs[<$cSv(cToSvInt(rPtr->IdI()))$>]=[<$$ recording_item->c_str() $>]
 %       }
 </script>
       <%cpp>
       }
       bool first = true;
-      recoring_item->clear();
-      RecordingsItemRec::AppendAsJSArray(*recoring_item, recItems.begin(), recItems.end(), first, currentFilter, false);
+      recording_item->clear();
+      RecordingsItemRec::AppendAsJSArray(*recording_item, recItems.begin(), recItems.end(), first, currentFilter, false);
       </%cpp>
       <li class="recording">
         <div class="recording_item" onclick = "tv.Toggle(this, 'fldr_<$ idHash $>')">
@@ -572,7 +581,7 @@ recs[<$cSv(cToSvInt(rPtr->IdI()))$>]=[<$$ recoring_item->c_str() $>]
         </div>
         <ul id="fldr_<$ idHash $>" class="recordingslist" style="display: none;">
           <script>
-            rec_ids["fldr_<$ idHash $>"] = [1, 1, [ <$$ recoring_item->c_str() $> ]]
+            rec_ids["fldr_<$ idHash $>"] = [1, 1, [ <$$ recording_item->c_str() $> ]]
           </script>
         </ul>
       </li>
@@ -722,6 +731,7 @@ function cancel_delete() {
 %   if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
 <& pageelems.ajax_action_href action="play_recording" param=(id) tip=(tr("play this recording")) image="play.png" alt="" &>
 %   }
+<& pageelems.hls_recording recId=(id) &>
 <& pageelems.m3u_playlist_recording recid=(id) &>
 <& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID) &>
 <& recordings.edit_rec id=(id) sort=(sort) filter=(filter) flat=(flat) history_num_back=(history_num_back) &>

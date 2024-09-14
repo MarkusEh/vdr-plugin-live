@@ -11,7 +11,7 @@ public:
 	FFmpegThread();
 	~FFmpegThread();
 
-	void StartFFmpeg(std::string s, int channel, int vopt);
+	void StartFFmpeg(std::string s, std::string url, std::string tag);
 	void Stop();
 	void Touch();
 
@@ -21,8 +21,8 @@ protected:
 private:
 	cCondWait cw;
 	bool touch = false;
-	int targetChannel;
-	int vOption = 0;
+	std::string targetUrl;
+	std::string targetTag;
 	std::string session;
 };
 

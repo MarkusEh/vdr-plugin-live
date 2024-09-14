@@ -45,14 +45,14 @@ bool Plugin::ProcessArgs(int argc, char *argv[])
 
 bool Plugin::Initialize(void)
 {
+	m_configDirectory = canonicalize_file_name(cPlugin::ConfigDirectory( PLUGIN_NAME_I18N ));
+	m_resourceDirectory = canonicalize_file_name(cPlugin::ResourceDirectory( PLUGIN_NAME_I18N ));
+
 	return LiveSetup().Initialize();
 }
 
 bool Plugin::Start(void)
 {
-	m_configDirectory = canonicalize_file_name(cPlugin::ConfigDirectory( PLUGIN_NAME_I18N ));
-	m_resourceDirectory = canonicalize_file_name(cPlugin::ResourceDirectory( PLUGIN_NAME_I18N ));
-
 	// force status monitor startup
 	LiveStatusMonitor();
 

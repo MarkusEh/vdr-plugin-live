@@ -10,7 +10,7 @@ using namespace vdrlive;
 
 </%pre>
 <%args>
-	std::string channel_str;
+	std::string channelid;
 	std::string recid;
 </%args>
 <%session scope="global">
@@ -21,7 +21,7 @@ using namespace vdrlive;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
-	tChannelID channel = tChannelID::FromString(channel_str.c_str());
+	tChannelID channel = tChannelID::FromString(channelid.c_str());
 
 	if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 	if (!cUser::CurrentUserHasRightTo(UR_STARTREPLAY))

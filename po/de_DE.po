@@ -174,7 +174,7 @@ msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Leider nicht erlaubt. Bitte kontaktieren Sie Ihren Administrator!"
 
 msgid "Couldn't find recording. Maybe you mistyped your request?"
-msgstr "Konnte die Aufnahme nicht finden.  Möglicherweise ein Tippfehler in der Anfrage?"
+msgstr "Konnte die Aufnahme nicht finden. Möglicherweise ein Tippfehler in der Anfrage?"
 
 msgid "Please set a name for the recording!"
 msgstr "Bitte einen Namen für die Aufnahme setzen!"
@@ -633,7 +633,10 @@ msgid "Existing Recording:"
 msgstr "Vorhandene Aufnahme:"
 
 msgid "Stream this channel into browser."
-msgstr "Diesen Kanal im Browser ansehen."
+msgstr "Diesen Kanal im Browser abspielen."
+
+msgid "Stream this recording into browser."
+msgstr "Diese Aufnahme im Browser abspielen."
 
 msgid "Stream this channel into media player."
 msgstr "Sender in Mediaplayer abspielen."
@@ -964,18 +967,6 @@ msgstr "Zeige dynamische VDR Status Box"
 msgid "Allow video streaming"
 msgstr "Erlaube Videoanzeige im Browser"
 
-msgid "Web-Streaming h264"
-msgstr ""
-
-msgid "Web-Streaming HEVC"
-msgstr ""
-
-msgid "Web-Streaming MPEG2"
-msgstr ""
-
-msgid "Web-Streaming others"
-msgstr ""
-
 msgid "Streamdev server port"
 msgstr "Streamdev Server Port"
 
@@ -1012,6 +1003,9 @@ msgstr "Startseite"
 msgid "Theme"
 msgstr "Thema"
 
+msgid "Couldn't find recording or no recordings available. Maybe you mistyped your request?"
+msgstr "Konnte die Aufnahme nicht finden oder keine Aufnahmen vorhanden. Möglicherweise ein Tippfehler in der Anfrage?"
+
 #, c-format
 msgid "%a, %x"
 msgstr "%a, %x"
@@ -1021,6 +1015,9 @@ msgstr "Zeige Programm dieses Kanals"
 
 msgid " - "
 msgstr " - "
+
+msgid "Recording"
+msgstr "Aufnahme"
 
 msgid "Timer conflicts"
 msgstr "Timer-Konflikte"

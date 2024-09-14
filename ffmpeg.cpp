@@ -4,10 +4,8 @@
 #include <exception>
 #include <unistd.h>
 #include <sys/wait.h>
-#if TNTVERSION >= 30000
-	#include <sstream>
-	#include <fstream>
-#endif
+#include <sstream>
+#include <fstream>
 
 #include <vdr/tools.h>
 #include <tnt/tntnet.h>
@@ -18,7 +16,6 @@ namespace vdrlive {
 FFmpegThread::FFmpegThread()
 	:cThread("stream utility handler")
 {
-	targetChannel = -1;
 	dsyslog("Live: FFmpegTread() created");
 }
 
@@ -28,13 +25,13 @@ FFmpegThread::~FFmpegThread()
 	dsyslog("Live: FFmpegTread() destructed");
 }
 
-void FFmpegThread::StartFFmpeg(std::string s, int channel, int vopt)
+void FFmpegThread::StartFFmpeg(std::string s, std::string url, std::string tag)
 {
-	if (targetChannel != channel || vOption != vopt) {
-		dsyslog("Live: FFmpegTread::StartFFmpeg() change channel %d -> %d", targetChannel, channel);
+	if ( targetUrl.compare(url) || targetTag.compare(tag)) {
+		dsyslog("Live: FFmpegTread::StartFFmpeg() change %s [%s] -> %s [%s]", targetUrl.c_str(), targetTag.c_str(), url.c_str(), tag.c_str());
 		if ( Active() ) Stop();
-		targetChannel = channel;
-		vOption = vopt;
+		targetUrl = url;
+		targetTag = tag;
 	}
 	session = s;
 	Start();
@@ -56,104 +53,106 @@ void FFmpegThread::Touch()
 
 void FFmpegThread::Action()
 {
-	dsyslog("Live: FFmpegTread::Action() started channel = %d", targetChannel);
+	dsyslog("Live: FFmpegTread::Action() started url = %s [%s]", targetUrl.c_str(), targetTag.c_str());
 
-	cPipe2 pp;
-
-	std::string def = "ffmpeg -loglevel warning -f mpegts -analyzeduration 1.2M -probesize 5M "
-		"-i <input> -map 0:v -map 0:a:0 -c:v copy -c:a aac -ac 2";
-	std::vector<std::string> vopts;
-	vopts.push_back( LiveSetup().GetStreamVideoOpt0() );
-	vopts.push_back( LiveSetup().GetStreamVideoOpt1() );
-	vopts.push_back( LiveSetup().GetStreamVideoOpt2() );
-	vopts.push_back( LiveSetup().GetStreamVideoOpt3() );
-
-	if (vopts[0].empty() || vopts[0].find("<input>") == std::string::npos) { // h264
-		vopts[0] = def;
-		LiveSetup().SetStreamVideoOpt0(vopts[0]);
-	}
-	if (vopts[1].empty() || vopts[1].find("<input>") == std::string::npos) { // h265
-		vopts[1] = def;
-		LiveSetup().SetStreamVideoOpt1(vopts[1]);
-	}
-	if (vopts[2].empty() || vopts[2].find("<input>") == std::string::npos) { // mpeg2
-		vopts[2] = def;
-		LiveSetup().SetStreamVideoOpt2(vopts[2]);
-	}
-	if (vopts[3].empty() || vopts[3].find("<input>") == std::string::npos) { // others
-		vopts[3] = def;
-		LiveSetup().SetStreamVideoOpt3(vopts[3]);
-	}
-
-	std::string packerCmd(vopts[vOption]);
-	std::stringstream ss;
-	ss.str("");
-	ss << "\"http://localhost:" << LiveSetup().GetStreamdevPort() << "/" << targetChannel << "\"";
-	packerCmd.replace(packerCmd.find("<input>"), 7, ss.str());
-	dsyslog("Live: FFmpegTread::Action packetizer cmd: %s", packerCmd.c_str());
-
+	// read command for tag from FFMPG configuration file
+	std::string line;
+	std::string packerCmd;
+	static const char *ws = "\t ";          // whitespace separators between tags and commands
 	try {
-		int retry = 0;
-		int count = 0;
-		do {
-			ss.str("");
-			ss << "mkdir -p /tmp/live-hls-buffer/" << session << " && "
-				"cd /tmp/live-hls-buffer/" << session << " && rm -rf * && "
-				"exec " << packerCmd << " "
-				"-f hls -hls_time 1 -hls_start_number_source datetime -hls_flags delete_segments "
-				"-master_pl_name master_";
-			ss << targetChannel;
-			ss << ".m3u8 ffmpeg_";
-			ss << targetChannel;
-			ss << "_data.m3u8";
-			bool ret = pp.Open(ss.str().c_str(), "w"); // start ffmpeg
-
-			dsyslog("Live: FFmpegTread::Action::Open(%d) ffmpeg started", ret);
-
-			ss.str("");
-			ss << "/tmp/live-hls-buffer/" << session << "/master_";
-			ss << targetChannel;
-			ss << ".m3u8";
-
-			count = 0;
-			do {
-				cw.Wait(1000);
-				std::ifstream f(ss.str().c_str());
-				if (f.good()) break; // check if ffmpeg starts to generate output
-				dsyslog("Live: FFmpegTread::Action() ffmpeg starting... %d", count);
-			} while (Running() && pp.Check() == 0 && ++count < 6);
-			if (pp.Check() < 0) continue;
-
-			if (count < 6) {
-				dsyslog("Live: FFmpegTread::Action() ffmpeg running %d", count);
-				break;
-			}
-			else {  // ffmpeg did not start properly
-				fwrite("q", 1, 1, pp); fflush(pp); // send quit commmand to ffmpeg
-				usleep(200e3);
-				int r = pp.Close();
-				dsyslog("Live: FFmpegTread::Action::Close(%d) disabled ffmpeg", r);
-				usleep(500e3);
-			}
-		} while (retry++ < 2 && Running());
-		if (retry > 1) return;
-
-		touch = false;
-		count = 0;
-		while (Running() && pp.Check() == 0 && count++ < 60) {
-			if (touch) {
-				touch = false;
-				count = 0;
-			}
-			cw.Wait(1000);
+		std::ifstream config(LiveSetup().GetFFmpegConf());
+		while (std::getline(config, line)) {
+			size_t tag = line.find_first_not_of(ws);
+			if (tag == std::string::npos) continue;                             // empty
+			if (line[tag] == '#') continue;                                     // comment
+			if (line.compare(tag, targetTag.length(), targetTag)) continue;     // wrong tag prefix
+			size_t sep = line.find_first_of(ws, tag + targetTag.length());
+			if (sep == std::string::npos) continue;                             // unterminated tag
+			size_t cmd = line.find_first_not_of(ws, sep);
+			if (cmd == std::string::npos) continue;                              // no command
+			packerCmd = line.substr(cmd);
+			break;
 		}
-		fwrite("q", 1, 1, pp); fflush(pp); // send quit commmand to ffmpeg
-		usleep(500e3);
-		int r = pp.Close();
-		dsyslog("Live: FFmpegTread::Action::Close(%d) disabled ffmpeg", r);
+		config.close();
+	}
+	catch (std::exception const& ex) {
+		esyslog("ERROR: live reading file \"%s\": %s", LiveSetup().GetFFmpegConf().c_str(), ex.what());
+	}
 
-	} catch (std::exception const& ex) {
-		esyslog("ERROR: live FFmpegTread::Action() failed: %s", ex.what());
+	if (packerCmd.empty()) {
+		esyslog("ERROR: live could not find FFMPEG command for tag \"%s\"", targetTag.c_str());
+	} else {
+
+		std::stringstream ss;
+		ss.str("");
+		ss << "\"http://localhost:" << LiveSetup().GetStreamdevPort() << "/" << targetUrl << "\"";
+		packerCmd.replace(packerCmd.find("<input>"), 7, ss.str());
+		dsyslog("Live: FFmpegTread::Action packetizer cmd: %s", packerCmd.c_str());
+
+		try {
+			cPipe2 pp;
+			int retry = 0;
+			int count = 0;
+			do {
+				ss.str("");
+				ss << "mkdir -p /tmp/live-hls-buffer/" << session << " && "
+					"cd /tmp/live-hls-buffer/" << session << " && rm -rf * && "
+					"exec " << packerCmd << " "
+					"-f hls -hls_time 1 -hls_start_number_source datetime -hls_flags delete_segments "
+					"-master_pl_name master_";
+				ss << targetUrl;
+				ss << ".m3u8 ffmpeg_";
+				ss << targetUrl;
+				ss << "_data.m3u8";
+				bool ret = pp.Open(ss.str().c_str(), "w"); // start ffmpeg
+
+				dsyslog("Live: FFmpegTread::Action::Open(%d) ffmpeg started", ret);
+
+				ss.str("");
+				ss << "/tmp/live-hls-buffer/" << session << "/master_";
+				ss << targetUrl;
+				ss << ".m3u8";
+
+				count = 0;
+				do {
+					cw.Wait(1000);
+					std::ifstream f(ss.str().c_str());
+					if (f.good()) break; // check if ffmpeg starts to generate output
+					dsyslog("Live: FFmpegTread::Action() ffmpeg starting... %d", count);
+				} while (Running() && pp.Check() == 0 && ++count < 6);
+				if (pp.Check() < 0) continue;
+
+				if (count < 6) {
+					dsyslog("Live: FFmpegTread::Action() ffmpeg running %d", count);
+					break;
+				}
+				else {  // ffmpeg did not start properly
+					fwrite("q", 1, 1, pp); fflush(pp); // send quit commmand to ffmpeg
+					usleep(200e3);
+					int r = pp.Close();
+					dsyslog("Live: FFmpegTread::Action::Close(%d) disabled ffmpeg", r);
+					usleep(500e3);
+				}
+			} while (retry++ < 2 && Running());
+			if (retry > 1) return;
+
+			touch = false;
+			count = 0;
+			while (Running() && pp.Check() == 0 && count++ < 60) {
+				if (touch) {
+					touch = false;
+					count = 0;
+				}
+				cw.Wait(1000);
+			}
+			fwrite("q", 1, 1, pp); fflush(pp); // send quit commmand to ffmpeg
+			usleep(500e3);
+			int r = pp.Close();
+			dsyslog("Live: FFmpegTread::Action::Close(%d) disabled ffmpeg", r);
+
+		} catch (std::exception const& ex) {
+			esyslog("ERROR: live FFmpegTread::Action() failed: %s", ex.what());
+		}
 	}
 	dsyslog("Live: FFmpegTread::Action() finished");
 }
