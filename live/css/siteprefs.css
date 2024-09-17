@@ -1,14 +1,15 @@
 /* ######################
    #  This file is part of vdr-live!
    #  It is here to give the users the possibility to change the
-   #  default css style of vdr-live to their needs.
+   #  default CSS style of vdr-live to their needs.
    #
    #  If you don't want to change default settings, make this file
    #  empty, but don't delete it.
    ######################
 */
 
-/* uncomment this below, to make all tables full page width.
+/* Uncomment the definition below to have all tables expanded to the full
+** page width.
 */
 /*
 table {
@@ -16,12 +17,22 @@ table {
 }
 */
 
-/* comment this out, if you want EPG images at their native size
- * the popup windows. This here restricts their width to 120 px.
- * You might also only change size.
- */
+/* Uncomment the definition below to restrict the width of EPG and recording
+** images to 120 px. Keeping the comment displays the images at their native
+** sizes in the popup windows.
+*/
 /*
 .info-win span.epg_images {
   width: 120px;
+}
+*/
+
+/* Uncomment this to have a light-gray background when hovering over a channel
+** logo, which will make white (parts of) channel logos visible. Remove ':hover'
+** for displaying the images with that background by default.
+*/
+/*
+img.channel_logo:hover {
+  background-color: #E9EFEFFF;
 }
 */

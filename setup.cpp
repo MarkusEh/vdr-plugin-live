@@ -123,7 +123,7 @@ bool Setup::Initialize( void )
       if (m_chanlogodir[0] != '/' )
         m_chanlogodir = Plugin::GetConfigDirectory() + "/" + m_chanlogodir;
   } else
-    m_chanlogodir = Plugin::GetConfigDirectory() + "/logos";
+    m_chanlogodir = Plugin::GetConfigDirectory() + "/logos/";
 
   // check whether FFMPEG configuration file already exists
   if (!m_ffmpegFile.empty()) {

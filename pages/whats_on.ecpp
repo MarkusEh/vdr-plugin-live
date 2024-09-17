@@ -236,6 +236,12 @@ if (type == "now") {
           chanlogopath = LiveSetup().GetChanLogoDir() + chanlogofile;
           logo_available = stat (chanlogopath.c_str(), &chanfilebuf) == 0;
         }
+        if (!logo_available) {
+          chanlogofile = StringReplace(epgEvent->Caption(), "/", "~") + ".png";
+          chanlogofile = std::string(cToSvToLower(chanlogofile, g_locale));
+          chanlogopath = LiveSetup().GetChanLogoDir() + chanlogofile;
+          logo_available = stat (chanlogopath.c_str(), &chanfilebuf) == 0;
+        }
         if (logo_available) {
           chanlogoimg = "<img src=\"chanlogos/";
           AppendHtmlEscapedAndCorrectNonUTF8(chanlogoimg, chanlogofile);
@@ -267,7 +273,10 @@ if (type == "now") {
 %          }
           </div>
         </td>
-        <td class="topaligned rightcol <? lastCurrentChanel ? "bottomrow"?>"><div class="station withmargin"><a href="schedule.html?channel=<$ cSv(cToSvInt(chNumber)) $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ cSv(cToSvInt(chNumber)) $><$ tr(" - ") $><$$ chanlogoimg $><$ chanlogoimg.empty()?epgEvent->Caption():"" $></a></div>
+<%cpp>
+      cToSvConcat hint(epgEvent->Caption().data(), "<br>", tr("View the schedule of this channel"));
+</%cpp>
+        <td class="topaligned rightcol <? lastCurrentChanel ? "bottomrow"?>"><div class="station withmargin"><$ cToSvInt(chNumber) $><$ tr(" - ") $><a href="schedule.html?channel=<$ cToSvInt(chNumber) $>" <& tooltip.hint text=(hint) &>><$$ chanlogoimg $><$ chanlogoimg.empty()?epgEvent->Caption():"" $></a></div>
         </td>
       </tr>
 %  }
