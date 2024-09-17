@@ -293,7 +293,7 @@ namespace vdrlive
       eventId = parse_int<tEventID>(eIdStr);
     }
 
-    const cEvent *GetEventByEpgid(cSv epgid) {
+    const cEvent *GetEventByEpgId(cSv epgid) {
       tChannelID channelid = tChannelID();
       tEventID eventid = tEventID();
       DecodeDomId(epgid, channelid, eventid);

@@ -37,7 +37,7 @@ Requirements:
 VDR >= 2.4.0
 
 gcc >= v8, must support -std=c++17
-PCRE2 >= 10.38       - https://github.com/PhilipHazel/pcre2/releases
+PCRE2 >= 10.38     - https://github.com/PhilipHazel/pcre2/releases
 Tntnet >= 2.2.1    - http://www.tntnet.org/download.hms  // https://web.archive.org/web/20160314183814/http://www.tntnet.org/download.html
 Cxxtools >= 2.2.1  - http://www.tntnet.org/download.hms  // https://web.archive.org/web/20160314183814/http://www.tntnet.org/download.html
 
@@ -108,13 +108,15 @@ for SSL connections" section below on hints how to setup SSL.
 
 To display images or channel logos, you can use:
 
-  -e <...>  --epgimages=/path/to/epgimages    use EPG images created by plugins like tvm2vdr
+  -e <...>  --epgimages=/path/to/epgimages              use EPG images created by plugins like tvm2vdr
   -t <...>  --tvscraperimages=/path/to/tvscraperimages  use images created by tvscraper   DEPRECATED!
-  -f <...>  --ffmpegconf=conf-filename      use filename to acquire FFMPEG commands
-  --chanlogos=/path/to/channellogos      use channel logos (PNG only, case sensitive)
+  -f <...>  --ffmpegconf=conf-filename                  use filename to acquire FFMPEG commands
+  --chanlogos=/path/to/channellogos                     use channel logos (PNG only, case sensitive)
 Example:
   --tvscraperimages=/var/cache/vdr/plugins/tvscraper   DEPRECATED!
-Note: tvscraperimages is not required any more, live uses the internal service interface "GetEnvironment" for plugins to get this information from tvscraper/scraper2vdr
+Note:
+  --tvscraperimages is not required any more, live uses the internal service interface
+  "GetEnvironment" for plugins to get this information from tvscraper/scraper2vdr
 
 
 The rest of the parameters can be adjusted in VDR's OSD or in the web
@@ -162,9 +164,9 @@ SSL Command-line options:
                                (default: 8443)
                                use PORT 0 to disable incoming SSL connections
   -c CERT,  --cert=CERT        path to a custom SSL certificate file
-               (default: $CONFIGDIR/live.pem)
+                               (default: $CONFIGDIR/live.pem)
   -k KEY,   --cert=CERT        path to a custom SSL certificate key file
-               (default: $CONFIGDIR/live-key.pem)
+                               (default: $CONFIGDIR/live-key.pem)
 
 
 Creating a self-signed SSL server certificate:

@@ -30,7 +30,7 @@ namespace vdrlive
 
     std::string EncodeDomId(tChannelID const &chanId, tEventID const &eventId);
     void DecodeDomId(cSv epgid, tChannelID &chanId, tEventID &eventId);
-    const cEvent *GetEventByEpgid(cSv epgid);
+    const cEvent *GetEventByEpgId(cSv epgid);
 
     /**
      *  Allocate and initialize an epgEvent instance with the

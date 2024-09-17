@@ -20,6 +20,7 @@ HAVE_PCRE2 := $(shell if pkg-config --exists libpcre2-8; then echo "1"; else ech
 PKGCFG = $(if $(VDRDIR),$(shell pkg-config --variable=$(1) $(VDRDIR)/vdr.pc),$(shell PKG_CONFIG_PATH="$$PKG_CONFIG_PATH:../../.." pkg-config --variable=$(1) vdr))
 LIBDIR := $(call PKGCFG,libdir)
 LOCDIR := $(call PKGCFG,locdir)
+CFGDIR := $(call PKGCFG,configdir)
 PLGCFG := $(call PKGCFG,plgcfg)
 RESDIR := $(call PKGCFG,resdir)
 #
@@ -228,12 +229,12 @@ install-web:
 
 .PHONY: install-conf
 install-conf:
-	mkdir -p $(DESTDIR)$(CONFDIR)/plugins/$(PLUGIN)
+	mkdir -p $(DESTDIR)$(CFGDIR)/plugins/$(PLUGIN)
 	@for i in conf/*; do\
-	    if ! [ -e $(DESTDIR)$(CONFDIR)/plugins/$(PLUGIN)/$$i ] ; then\
-	        cp -p $$i $(DESTDIR)$(CONFDIR)/plugins/$(PLUGIN);\
-	        fi\
-	    done
+	    if ! [ -e $(DESTDIR)$(CFGDIR)/plugins/$(PLUGIN)/$$i ] ; then\
+	        cp -p $$i $(DESTDIR)$(CFGDIR)/plugins/$(PLUGIN);\
+	    fi;\
+	done
 
 .PHONY: install
 install: install-lib install-i18n install-web install-conf

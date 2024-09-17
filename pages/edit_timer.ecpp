@@ -94,7 +94,7 @@ const cTimer* timer;
     int stop = timeStringToInt(stop_s);
 #ifdef TFEVENT
     if (!vps) {
-      const cEvent *event = EpgEvents::GetEventByEpgid(epgid);
+      const cEvent *event = EpgEvents::GetEventByEpgId(epgid);
       if (event) {
         dsyslog("live: edit_timer.ecpp, event found");
         time_t tstart = event->StartTime();
@@ -136,7 +136,7 @@ const cTimer* timer;
 
   std::unique_ptr<cTimer> eventTimer;
   if (timer == 0 && !epgid.empty()) {
-    const cEvent *event = EpgEvents::GetEventByEpgid(epgid);
+    const cEvent *event = EpgEvents::GetEventByEpgId(epgid);
     if (event) {
       eventTimer.reset( new cTimer( event ) );
       timer = eventTimer.get();
