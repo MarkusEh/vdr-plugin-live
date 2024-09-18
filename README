@@ -110,10 +110,7 @@ To display images or channel logos, you can use:
 
   -e <...>  --epgimages=/path/to/epgimages              use EPG images created by plugins like tvm2vdr
   -t <...>  --tvscraperimages=/path/to/tvscraperimages  use images created by tvscraper   DEPRECATED!
-  -f <...>  --ffmpegconf=conf-filename                  use filename to acquire FFMPEG commands
   --chanlogos=/path/to/channellogos                     use channel logos (PNG only, case sensitive)
-Example:
-  --tvscraperimages=/var/cache/vdr/plugins/tvscraper   DEPRECATED!
 Note:
   --tvscraperimages is not required any more, live uses the internal service interface
   "GetEnvironment" for plugins to get this information from tvscraper/scraper2vdr

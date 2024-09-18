@@ -34,8 +34,8 @@ Setup::Setup():
     m_channelGroups( "" ),
     m_scheduleDuration( "8" ),
     m_theme("marine"),
-                m_themedLinkPrefix("themes/" + m_theme + "/"),
-                m_themedLinkPrefixImg("themes/marine/img/"),
+    m_themedLinkPrefix("themes/" + m_theme + "/"),
+    m_themedLinkPrefixImg("themes/marine/img/"),
     m_lastwhatsonlistmode("detail"),
     m_lastsortingmode("nameasc"),
     m_tntnetloglevel("WARN"),
@@ -45,11 +45,6 @@ Setup::Setup():
     m_streamdevPort(3000),
     m_streamdevType("TS"),
     m_markNewRec(1),
-
-    m_streamVopt0(cmdChannelH264),
-    m_streamVopt1(cmdChannelHVEC),
-    m_streamVopt2(cmdChannelMPG2),
-    m_streamVopt3(cmdChannelDFLT),
 
     m_showIMDb(1),
     m_showPlayMediaplayer(1),
@@ -92,7 +87,7 @@ bool Setup::ParseCommandLine( int argc, char* argv[] )
     case 's': m_serverSslPort = atoi( optarg ); break;
     case 'c': m_serverSslCert = optarg; break;
     case 'k': m_serverSslKey = optarg; break;
-    case 'f': m_ffmpegFile = optarg; break;
+ //   case 'f': m_ffmpegFile = optarg; break;
     case '1': m_chanlogodir = optarg;
       if(!m_chanlogodir.empty() && m_chanlogodir[m_chanlogodir.length()-1] != '/') m_chanlogodir += "/";
       break;
@@ -141,8 +136,18 @@ bool Setup::Initialize( void )
     config.close();
   }
   catch (std::exception const& ex) {
-    dsyslog("Live: cannot access file \"%s\": %s", m_ffmpegConf.c_str(), ex.what());
+    dsyslog("Live: cannot access ffmpeg.conf: \"%s\": %s", m_ffmpegConf.c_str(), ex.what());
   }
+  if (haveFFmpegConf) {
+    esyslog("live: use ffmpeg.conf file %s",  m_ffmpegConf.c_str() );
+    Setup::CheckSetupConfFFmpegConfConsistency(m_streamVopt0, tagChannelH264);
+    Setup::CheckSetupConfFFmpegConfConsistency(m_streamVopt1, tagChannelHVEC);
+    Setup::CheckSetupConfFFmpegConfConsistency(m_streamVopt2, tagChannelMPG2);
+    Setup::CheckSetupConfFFmpegConfConsistency(m_streamVopt3, tagChannelDFLT);
+    }
+  else
+    esyslog("live: ffmpeg.conf file %s does not exist",  m_ffmpegConf.c_str() );
+/*
   if (!haveFFmpegConf) {
     try {
       std::ofstream newConfig(m_ffmpegConf);
@@ -175,7 +180,47 @@ bool Setup::Initialize( void )
       esyslog("ERROR: live writing file \"%s\": %s", m_ffmpegConf.c_str(), ex.what());
     }
   }
+*/
   return true;
+}
+std::string Setup::ReadStreamVideoFFmpegCmdFromConfigFile(cSv tag) const {
+  // read command for tag from FFMPG configuration file
+  std::string line;
+  std::string packerCmd;
+  static const char *ws = "\t ";          // whitespace separators between tags and commands
+  try {
+    std::ifstream config(LiveSetup().GetFFmpegConf());
+    while (std::getline(config, line)) {
+      size_t tag_pos = line.find_first_not_of(ws);
+      if (tag_pos == std::string::npos) continue;                             // empty
+      if (line[tag_pos] == '#') continue;                                     // comment
+      if (line.compare(tag_pos, tag.length(), tag)) continue;     // wrong tag prefix
+      size_t sep = line.find_first_of(ws, tag_pos + tag.length());
+      if (sep == std::string::npos) continue;                             // unterminated tag
+      size_t cmd = line.find_first_not_of(ws, sep);
+      if (cmd == std::string::npos) continue;                              // no command
+      packerCmd = line.substr(cmd);
+      break;
+    }
+    config.close();
+  }
+  catch (std::exception const& ex) {
+    esyslog("ERROR: live reading file \"%s\": %s", LiveSetup().GetFFmpegConf().c_str(), ex.what());
+  }
+  return packerCmd;
+}
+void Setup::CheckSetupConfFFmpegConfConsistency(cSv setupCmd, cSv tag) {
+// compare entry in ffmpeg.conf with entry in setup.conf, and report error if they differ
+  if (setupCmd.empty()) return;
+  std::string cmdFFmpegConf = ReadStreamVideoFFmpegCmdFromConfigFile(tag);
+  if (cmdFFmpegConf.empty()) {
+    esyslog("live: ERROR: tag %.*s missing in ffmpeg.conf", (int)tag.length(), tag.data());
+    return;
+  }
+  dsyslog("live: cmdFFmpegConf \"%s\", setupCmd \"%.*s\"", cmdFFmpegConf.c_str(), (int)setupCmd.length(), setupCmd.data());
+  if (cmdFFmpegConf != setupCmd) {
+    esyslog("live: ERROR: tag %.*s, values differ between ffmpeg.conf and setup.conf. The value in ffmpeg.conf will be used. Please ensure that the value in ffmpeg.conf are correct, and delete the live.StreamVideoOpt* entries in setup.conf", (int)tag.length(), tag.data());
+  }
 }
 
 char const* Setup::CommandLineHelp() const
@@ -196,7 +241,7 @@ char const* Setup::CommandLineHelp() const
         << "  -l level,  --log=level              log level for Tntnet (values: WARN, ERROR, INFO, DEBUG, TRACE)\n"
         << "  -e <dir>,  --epgimages=<dir>        directory for EPG images\n"
         << "  -t <dir>,  --tvscraperimages=<dir>  directory for Tvscraper images\n"
-        << "  -f <file>, --ffmpegconf=<file>      filename of FFMPEG configuration file\n"
+//      << "  -f <file>, --ffmpegconf=<file>      filename of FFMPEG configuration file\n"
         << "             --chanlogos=<dir>        directory for channel logos (PNG)\n";
     m_helpString = builder.str();
   }

@@ -16,6 +16,7 @@
 #ifndef __STRINGHELPERS_H
 #define __STRINGHELPERS_H
 
+#include "vdr/channels.h"
 #include "to_chars10.h"
 #include <cstdarg>
 #include <string>

@@ -9,6 +9,7 @@
   #include <cxxtools/log.h>  // must be loaded before any VDR include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
 #endif
 
+#include "stringhelpers.h"
 #include <vdr/menuitems.h>
 
 #define LIVEVERSION "3.3.6"
@@ -86,8 +87,8 @@ class Setup
     std::string const GetStartScreenLink() const;
     std::string const GetTheme() const { return m_theme; }
     std::string const GetThemedLink(std::string const & type, const std::string& name) const { return GetThemedLinkPrefix() + type + "/" + name; }
-                std::string const GetThemedLinkPrefix() const { return m_themedLinkPrefix ; }
-                std::string const GetThemedLinkPrefixImg() const { return m_themedLinkPrefixImg ; }
+    std::string const GetThemedLinkPrefix() const { return m_themedLinkPrefix ; }
+    std::string const GetThemedLinkPrefixImg() const { return m_themedLinkPrefixImg ; }
     std::string const GetLocalNetMask() const { return m_localnetmask; };
     bool GetIsLocalNet() const { return m_islocalnet; };
     std::string const GetLastWhatsOnListMode() const { return m_lastwhatsonlistmode; }
@@ -100,6 +101,8 @@ class Setup
     int GetStreamdevPort() const { return m_streamdevPort; }
     std::string const GetStreamdevType() const { return m_streamdevType; }
     bool GetMarkNewRec() const { return m_markNewRec != 0; }
+    void CheckSetupConfFFmpegConfConsistency(cSv setupCmd, cSv tag);
+    std::string ReadStreamVideoFFmpegCmdFromConfigFile(cSv tag) const;
     std::string const GetFFmpegConf() const { return m_ffmpegConf; }
     std::string const GetStreamVideoOpt0() const { return m_streamVopt0; }
     std::string const GetStreamVideoOpt1() const { return m_streamVopt1; }

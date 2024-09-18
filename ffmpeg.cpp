@@ -56,28 +56,7 @@ void FFmpegThread::Action()
   dsyslog("Live: FFmpegTread::Action() started url = %s [%s]", targetUrl.c_str(), targetTag.c_str());
 
   // read command for tag from FFMPG configuration file
-  std::string line;
-  std::string packerCmd;
-  static const char *ws = "\t ";          // whitespace separators between tags and commands
-  try {
-    std::ifstream config(LiveSetup().GetFFmpegConf());
-    while (std::getline(config, line)) {
-      size_t tag = line.find_first_not_of(ws);
-      if (tag == std::string::npos) continue;                             // empty
-      if (line[tag] == '#') continue;                                     // comment
-      if (line.compare(tag, targetTag.length(), targetTag)) continue;     // wrong tag prefix
-      size_t sep = line.find_first_of(ws, tag + targetTag.length());
-      if (sep == std::string::npos) continue;                             // unterminated tag
-      size_t cmd = line.find_first_not_of(ws, sep);
-      if (cmd == std::string::npos) continue;                              // no command
-      packerCmd = line.substr(cmd);
-      break;
-    }
-    config.close();
-  }
-  catch (std::exception const& ex) {
-    esyslog("ERROR: live reading file \"%s\": %s", LiveSetup().GetFFmpegConf().c_str(), ex.what());
-  }
+  std::string packerCmd = LiveSetup().ReadStreamVideoFFmpegCmdFromConfigFile(targetTag);
 
   if (packerCmd.empty()) {
     esyslog("ERROR: live could not find FFMPEG command for tag \"%s\"", targetTag.c_str());
