@@ -109,11 +109,15 @@ for SSL connections" section below on hints how to setup SSL.
 To display images or channel logos, you can use:
 
   -e <...>  --epgimages=/path/to/epgimages              use EPG images created by plugins like tvm2vdr
-  -t <...>  --tvscraperimages=/path/to/tvscraperimages  use images created by tvscraper   DEPRECATED!
   --chanlogos=/path/to/channellogos                     use channel logos (PNG only, case sensitive)
-Note:
-  --tvscraperimages is not required any more, live uses the internal service interface
-  "GetEnvironment" for plugins to get this information from tvscraper/scraper2vdr
+
+Web streaming:
+To play live tv / recordings directly in the browser, data must be converted.
+ffmpeg is used for that.
+The ffmpeg commands including command line options used for different
+purpouses are in the file ffmpeg.conf in the VDR config directory
+(on debian like systems, this is /etc/vdr/plugins/live).
+Default values come with live, you can change these in ffmpeg.conf if needed
 
 
 The rest of the parameters can be adjusted in VDR's OSD or in the web

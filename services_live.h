@@ -18,8 +18,8 @@ class cLiveImageProvider {
       ///< possible errors:
       ///<   missing server url. This url must be provided to live with -u URL,  --url=URL
       ///<   missing directory for scraper images:
-      ///<     Tvscraper makes this directory available to live with the service interface
-      ///<     for others, e.g. scraper2vdr: provide this to live with -t <dir>, --tvscraperimages=<dir>
+      ///<     tvscraper and scraper2vdr make this directory available to live with the service interface
+      ///<     tvscraper version 1.2.1 or later is required
       ///<   image path %s does not start with %s: Will only occur if fullPath == true
       ///<     imagePath does not start with directory for scraper images.
       ///<     example:

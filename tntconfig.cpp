@@ -251,12 +251,12 @@ namespace vdrlive {
          "image/$3");
 
 // get image dir from plugin Tvscraper
-    static cPlugin *pScraper = LiveSetup().GetPluginTvscraper();
+    static cPlugin *pScraper = LiveSetup().GetPluginScraper();
     if (pScraper) {
 // plugin Tvscraper is available
 // first try cEnvironment, which is also available in scraper2vdr
       cEnvironment environment;
-      if (pScraper->Service("GetEnvironment", &environment) ) {
+      if (pScraper->Service("GetEnvironment", &environment) ) { // available in tvscraper 1.2.1 and later
 // plugin Tvscraper/scraper2vdr supports the service interface cEnvironment
         esyslog("live: INFO: set image dir from GetEnvironment to '%s'", environment.basePath.c_str());
         LiveSetup().SetTvscraperImageDir(environment.basePath);

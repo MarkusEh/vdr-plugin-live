@@ -204,7 +204,6 @@ class Setup
     int m_streamdevPort;
     std::string m_streamdevType;
     int m_markNewRec;
-    std::string m_ffmpegFile;
     std::string m_ffmpegConf;
     std::string m_streamVopt0;
     std::string m_streamVopt1;

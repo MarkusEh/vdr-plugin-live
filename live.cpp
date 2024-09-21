@@ -104,7 +104,7 @@ class cLiveImageProviderImp: public cLiveImageProvider {
       if (LiveSetup().GetTvscraperImageDir().empty() || LiveSetup().GetServerUrl().empty()) {
         if (m_errorMessages) {
           if (LiveSetup().GetTvscraperImageDir().empty() )
-            esyslog("live: ERROR please provide -t <dir>, --tvscraperimages=<dir>");
+            esyslog("live: ERROR plugin tvscraper/scraper2vdr missing or to old. tvscraper 1.2.1 or later is required");
           if (LiveSetup().GetServerUrl().empty() )
             esyslog("live: ERROR please provide -u URL,  --url=URL");
         }

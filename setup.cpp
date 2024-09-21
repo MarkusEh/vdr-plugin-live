@@ -63,11 +63,9 @@ bool Setup::ParseCommandLine( int argc, char* argv[] )
       { "ip",   required_argument, NULL, 'i' },
       { "log",  required_argument, NULL, 'l' },
       { "epgimages",  required_argument, NULL, 'e' },
-      { "tvscraperimages",  required_argument, NULL, 't' },
       { "sslport", required_argument, NULL, 's' },
       { "cert", required_argument, NULL, 'c' },
       { "key", required_argument, NULL, 'k' },
-      { "ffmpegconf", required_argument, NULL, 'f' },
       { "chanlogos",  required_argument, NULL, '1' },
       { 0 }
   };
@@ -81,13 +79,9 @@ bool Setup::ParseCommandLine( int argc, char* argv[] )
     case 'i': m_serverIps.push_back( optarg ); break;
     case 'l': m_tntnetloglevel = optarg; break;
     case 'e': m_epgimagedir = optarg; break;
-    case 't': m_tvscraperimagedir = optarg;
-      if(!m_tvscraperimagedir.empty() && m_tvscraperimagedir[m_tvscraperimagedir.length()-1] != '/') m_tvscraperimagedir += "/";
-       break;
     case 's': m_serverSslPort = atoi( optarg ); break;
     case 'c': m_serverSslCert = optarg; break;
     case 'k': m_serverSslKey = optarg; break;
- //   case 'f': m_ffmpegFile = optarg; break;
     case '1': m_chanlogodir = optarg;
       if(!m_chanlogodir.empty() && m_chanlogodir[m_chanlogodir.length()-1] != '/') m_chanlogodir += "/";
       break;
@@ -121,14 +115,7 @@ bool Setup::Initialize( void )
     m_chanlogodir = Plugin::GetConfigDirectory() + "/logos/";
 
   // check whether FFMPEG configuration file already exists
-  if (!m_ffmpegFile.empty()) {
-      if (m_ffmpegFile[0] != '/' )
-        m_ffmpegConf = Plugin::GetConfigDirectory() + "/" + m_ffmpegFile;
-      else
-        m_ffmpegConf = m_ffmpegFile;
-  }
-  if (m_ffmpegConf.empty())
-    m_ffmpegConf = Plugin::GetConfigDirectory() + "/ffmpeg.conf";
+  m_ffmpegConf = Plugin::GetConfigDirectory() + "/ffmpeg.conf";
   bool haveFFmpegConf = false;
   try {
     std::ifstream config(m_ffmpegConf);
@@ -147,40 +134,6 @@ bool Setup::Initialize( void )
     }
   else
     esyslog("live: ffmpeg.conf file %s does not exist",  m_ffmpegConf.c_str() );
-/*
-  if (!haveFFmpegConf) {
-    try {
-      std::ofstream newConfig(m_ffmpegConf);
-      newConfig << "# FFMPEG commands for streaming channels" << std::endl;
-      newConfig << tagChannelH264 << "\t\t" << (m_streamVopt0.empty() ? cmdChannelH264 : m_streamVopt0) << std::endl;
-      newConfig << tagChannelHVEC << "\t\t" << (m_streamVopt1.empty() ? cmdChannelHVEC : m_streamVopt1) << std::endl;
-      newConfig << tagChannelMPG2 << "\t\t" << (m_streamVopt2.empty() ? cmdChannelMPG2 : m_streamVopt2) << std::endl;
-      newConfig << tagChannelDFLT << "\t\t" << (m_streamVopt3.empty() ? cmdChannelDFLT : m_streamVopt3) << std::endl;
-      newConfig << std::endl;
-      newConfig << "# FFMPEG commands for streaming recordings" << std::endl;
-      std::string cmd = m_streamVopt0.empty() ? cmdChannelH264 : m_streamVopt0;
-      size_t input = cmd.find(" -i ");
-      if (input != std::string::npos) cmd.insert(input, " -re");
-      newConfig << tagRecordingH264 << "\t\t" << cmd << std::endl;
-      cmd = m_streamVopt1.empty() ? cmdChannelHVEC : m_streamVopt1;
-      input = cmd.find(" -i ");
-      if (input != std::string::npos) cmd.insert(input, " -re");
-      newConfig << tagRecordingHVEC << "\t\t" << cmd << std::endl;
-      cmd = m_streamVopt2.empty() ? cmdChannelMPG2 : m_streamVopt2;
-      input = cmd.find(" -i ");
-      if (input != std::string::npos) cmd.insert(input, " -re");
-      newConfig << tagRecordingMPG2 << "\t\t" << cmd << std::endl;
-      cmd = m_streamVopt3.empty() ? cmdChannelDFLT : m_streamVopt3;
-      input = cmd.find(" -i ");
-      if (input != std::string::npos) cmd.insert(input, " -re");
-      newConfig << tagRecordingDFLT << "\t\t" << cmd << std::endl;
-      newConfig.close();
-    }
-    catch (std::exception const& ex) {
-      esyslog("ERROR: live writing file \"%s\": %s", m_ffmpegConf.c_str(), ex.what());
-    }
-  }
-*/
   return true;
 }
 std::string Setup::ReadStreamVideoFFmpegCmdFromConfigFile(cSv tag) const {
@@ -217,9 +170,10 @@ void Setup::CheckSetupConfFFmpegConfConsistency(cSv setupCmd, cSv tag) {
     esyslog("live: ERROR: tag %.*s missing in ffmpeg.conf", (int)tag.length(), tag.data());
     return;
   }
-  dsyslog("live: cmdFFmpegConf \"%s\", setupCmd \"%.*s\"", cmdFFmpegConf.c_str(), (int)setupCmd.length(), setupCmd.data());
   if (cmdFFmpegConf != setupCmd) {
-    esyslog("live: ERROR: tag %.*s, values differ between ffmpeg.conf and setup.conf. The value in ffmpeg.conf will be used. Please ensure that the value in ffmpeg.conf are correct, and delete the live.StreamVideoOpt* entries in setup.conf", (int)tag.length(), tag.data());
+    esyslog("live: ERROR: tag %.*s, values differ between ffmpeg.conf and setup.conf. The values in ffmpeg.conf will be used. Please ensure that the values in ffmpeg.conf are correct, and delete the live.StreamVideoOpt* entries in setup.conf", (int)tag.length(), tag.data());
+    esyslog("live: cmdFFmpegConf \"%s\"", cmdFFmpegConf.c_str());
+    esyslog("live: setupCmd      \"%.*s\"", (int)setupCmd.length(), setupCmd.data());
   }
 }
 
@@ -240,8 +194,6 @@ char const* Setup::CommandLineHelp() const
         << "  -k KEY,    --key=KEY                full path to a custom SSL certificate key file\n"
         << "  -l level,  --log=level              log level for Tntnet (values: WARN, ERROR, INFO, DEBUG, TRACE)\n"
         << "  -e <dir>,  --epgimages=<dir>        directory for EPG images\n"
-        << "  -t <dir>,  --tvscraperimages=<dir>  directory for Tvscraper images\n"
-//      << "  -f <file>, --ffmpegconf=<file>      filename of FFMPEG configuration file\n"
         << "             --chanlogos=<dir>        directory for channel logos (PNG)\n";
     m_helpString = builder.str();
   }

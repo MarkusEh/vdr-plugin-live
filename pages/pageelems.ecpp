@@ -20,19 +20,7 @@ std::string toString(const std::vector<std::string> &vec) {
   }
   return result;
 }
-  
-/*
-std::string toString(const std::vector<int> &vec) {
-  if (vec.size() == 0) return "";
-  std::string result;
-  for (const int &i:vec) {
-    if (!result.empty() ) result.append(", ");
-    result.append(cToSvInt(i) );
-  }
-  return result;
-}
-*/
-  
+
 std::string toString(const std::vector<cActor> &vec) {
   if (vec.size() == 0) return "";
   std::string result;
@@ -657,15 +645,15 @@ if (!rfid.empty() ) {
 %     }
       </td>
 % } if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded() ) {
-    <td class="<? !LiveSetup().GetShowPlayMediaplayer() ?"td-hidden-xs "?>action<? lastCurrentChanel ? " bottomrow"?>">
+    <td class="td-hidden-xs action<? lastCurrentChanel ? " bottomrow"?>">
 %   if ((duration == 0) || (elapsed > 0)) {
-      <& pageelems.hls_channel channelId=(channelId) class_=(LiveSetup().GetShowPlayMediaplayer()?"":"hidden-xs")&>
+      <& pageelems.hls_channel channelId=(channelId) class_=("hidden-xs")&>
 %   }
     </td>
 % } if (LiveFeatures<features::streamdev_server>().Loaded() ) {
-    <td class="<? !LiveSetup().GetShowPlayMediaplayer() ?"td-hidden-xs "?>action<? lastCurrentChanel ? " bottomrow"?>">
+    <td class="td-hidden-xs action<? lastCurrentChanel ? " bottomrow"?>">
 %   if ((duration == 0) || (elapsed > 0)) {
-      <& pageelems.m3u_playlist_channel channelId=(channelId) class_=(LiveSetup().GetShowPlayMediaplayer()?"":"hidden-xs")&>
+      <& pageelems.m3u_playlist_channel channelId=(channelId) class_=("hidden-xs")&>
 %   }
     </td>
 % } if (LiveSetup().GetShowIMDb() ) {
