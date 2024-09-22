@@ -422,12 +422,12 @@ template void StringAppendFrameParams<cToSvConcat<255>>(cToSvConcat<255> &s, con
     return compareWithLocale(first->Name(), second->Name()) < 0;
   }
 
-        bool RecordingsItemPtrCompare::ByDescendingRecordingErrors(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second){
-           return first->RecordingErrors() > second->RecordingErrors();
-        }
-        bool RecordingsItemPtrCompare::ByDescendingDurationDeviation(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second) {
-          return first->DurationDeviation() > second->DurationDeviation();
-        }
+  bool RecordingsItemPtrCompare::ByDescendingRecordingErrors(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second){
+     return first->RecordingErrors() > second->RecordingErrors();
+  }
+  bool RecordingsItemPtrCompare::ByDescendingDurationDeviation(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second) {
+    return first->DurationDeviation() > second->DurationDeviation();
+  }
 
   bool RecordingsItemPtrCompare::ByEpisode(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second) {
     return first->scraperEpisodeNumber() < second->scraperEpisodeNumber();

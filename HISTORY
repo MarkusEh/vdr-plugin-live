@@ -51,3 +51,4 @@ VDR Plugin 'live' Revision History
 
 2024-xx-xx: Version 3.3.7
 - remove --tvscraperimages commandline option
+- remove ShowPlayMediaplayer from setup

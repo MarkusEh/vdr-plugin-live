@@ -26,7 +26,6 @@ using namespace vdrlive;
   std::string useStreamdev;
   std::string markNewRec;
   std::string showIMDb;
-  std::string showPlayMediaplayer;
   std::string showChannelsWithoutEPG;
   std::string streamdevport;
   std::string streamdevtype;
@@ -73,7 +72,6 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
       LiveSetup().SetMarkNewRec(!markNewRec.empty());
 
       LiveSetup().SetShowIMDb(!showIMDb.empty());
-      LiveSetup().SetShowPlayMediaplayer(!showPlayMediaplayer.empty());
       LiveSetup().SetShowChannelsWithoutEPG(!showChannelsWithoutEPG.empty());
       LiveSetup().SaveSetup();
 
@@ -102,7 +100,6 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
   streamdevtype = LiveSetup().GetStreamdevType();
   markNewRec = LiveSetup().GetMarkNewRec() ? "1" : "";
   showIMDb = LiveSetup().GetShowIMDb() ? "1" : "";
-  showPlayMediaplayer = LiveSetup().GetShowPlayMediaplayer() ? "1" : "";
   showChannelsWithoutEPG = LiveSetup().GetShowChannelsWithoutEPG() ? "1" : "";
 </%cpp>
 <& pageelems.doc_type &>
@@ -212,14 +209,6 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
               <input type="checkbox" name="showIMDb" id="showIMDb" value="1"<%cpp> CHECKIF(!showIMDb.empty()); </%cpp>/>
             </td>
           </tr>
-<#
-          <tr>
-            <td class="label leftcol"><div class="withmargin"><$ tr("Show \"Play in Mediaplayer\" in list views") $>:</div></td>
-            <td class="rightcol">
-              <input type="checkbox" name="showPlayMediaplayer" id="showPlayMediaplayer" value="1"<%cpp> CHECKIF(!showPlayMediaplayer.empty()); </%cpp>/>
-            </td>
-          </tr>
-#>
           <tr>
             <td class="label leftcol"><div class="withmargin"><$ tr("Last channel to display") $>:</div></td>
             <td class="rightcol"><input type="number" min="0" name="lastchannel" value="<$ lastchannel $>" id="lastchannel" /></td>

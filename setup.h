@@ -109,8 +109,6 @@ class Setup
     std::string const GetStreamVideoOpt2() const { return m_streamVopt2; }
     std::string const GetStreamVideoOpt3() const { return m_streamVopt3; }
     bool GetShowIMDb() const { return m_showIMDb != 0; }
-//    bool GetShowPlayMediaplayer() const { return m_showPlayMediaplayer != 0; }
-    bool GetShowPlayMediaplayer() const { return false; }
     std::string const GetEpgImageDir() { return m_epgimagedir; }
     const std::string &GetTvscraperImageDir() const { return m_tvscraperimagedir; }
     cPlugin *GetPluginTvscraper() { return m_p_tvscraper; } // tvscraper
@@ -141,7 +139,6 @@ class Setup
     void SetStreamdevType(std::string const & type) { m_streamdevType = type; }
     void SetMarkNewRec(bool show) { m_markNewRec = show ? 1 : 0; }
     void SetShowIMDb(bool show) { m_showIMDb = show ? 1 : 0; }
-    void SetShowPlayMediaplayer(bool show) { m_showPlayMediaplayer = show ? 1 : 0; }
     void SetShowChannelsWithoutEPG(bool show) { m_showChannelsWithoutEPG = show ? 1 : 0; }
 
     bool SaveSetup();
@@ -210,7 +207,6 @@ class Setup
     std::string m_streamVopt2;
     std::string m_streamVopt3;
     int m_showIMDb;
-    int m_showPlayMediaplayer;
     int m_showChannelsWithoutEPG;
 
     const int m_maxTooltipChars = 300; // maximum number of characters to be displayed in tooltips

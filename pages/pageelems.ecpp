@@ -75,12 +75,14 @@ function addErrorIcon(s, numErrors, durationDeviation, duration, numTsFiles) {
   if (numErrors == 0) s.a += '<$tr("No recording errors")$>'
   if (numErrors  > 0) s.a += '<$tr("Number of recording errors:")$> ' + String(numErrors)
   if (numErrors  < 0) s.a += '<$tr("Recording errors unknown")$>'
-  s.a += '<$$lf$>'
-  s.a += '<$tr("Duration deviation from event length")$>'
-  s.a += ': '
-  addTime(s, durationDeviation)
-  s.a += ' '
-  s.a += '<$tr("min")$>'
+% if (LiveFeatures<features::tvscraper>().Loaded()) {
+    s.a += '<$$lf$>'
+    s.a += '<$tr("Duration deviation from event length")$>'
+    s.a += ': '
+    addTime(s, durationDeviation)
+    s.a += ' '
+    s.a += '<$tr("min")$>'
+% }
   s.a += '<$$lf$>'
   s.a += '<$tr("Recording length")$>'
   s.a += ': '
