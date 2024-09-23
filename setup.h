@@ -18,39 +18,21 @@
 
 namespace vdrlive {
 
-// default values for FFMPEG commands for streaming channels into browser
+// directories within /tmp for storing plugin data
+#define tmpDir              "/tmp/live/"
+#define tmpImageDir         tmpDir "images/"
+#define tmpHlsBufferDir     tmpDir "hls-buffer/"
+
+// tags for FFMPEG commands for streaming channels into browser
 #define tagChannelH264      "chnH264"
-#define cmdChannelH264      "ffmpeg -loglevel warning -f mpegts -analyzeduration 1.2M -probesize 5M -i <input> -map 0:v -map 0:a:0 " \
-                            "-c:v copy -c:a aac -ac 2"
-
 #define tagChannelHVEC      "chnHEVC"
-#define cmdChannelHVEC      "ffmpeg -loglevel warning -f mpegts -analyzeduration 1.2M -probesize 5M -i <input> -map 0:v -map 0:a:0 " \
-                            "-c:v libx264 -preset ultrafast -crf 23 -tune zerolatency -g 25 -r 25 -c:a aac -ac 2"
-
 #define tagChannelMPG2      "chnMPG2"
-#define cmdChannelMPG2      "ffmpeg -loglevel warning -f mpegts -analyzeduration 1.2M -probesize 5M -i <input> -map 0:v -map 0:a:0 " \
-                            "-c:v libx264 -preset ultrafast -crf 23 -tune zerolatency -g 25 -r 25 -c:a aac -ac 2"
-
 #define tagChannelDFLT      "chnDFLT"
-#define cmdChannelDFLT      "ffmpeg -loglevel warning -f mpegts -analyzeduration 1.2M -probesize 5M -i <input> -map 0:v -map 0:a:0 " \
-                            "-c:v libx264 -preset ultrafast -crf 23 -tune zerolatency -g 25 -r 25 -c:a aac -ac 2"
-
-// default values for FFMPEG commands for streaming recordings into browser
+// tags for FFMPEG commands for streaming recordings into browser
 #define tagRecordingH264    "recH264"
-#define cmdRecordingH264    "ffmpeg -loglevel warning -f mpegts -analyzeduration 1.2M -probesize 5M -re -i <input> -map 0:v -map 0:a:0 " \
-                            "-c:v copy -c:a aac -ac 2"
-
 #define tagRecordingHVEC    "recHVEC"
-#define cmdRecordingHVEC    "ffmpeg -loglevel warning -f mpegts -analyzeduration 1.2M -probesize 5M -re -i <input> -map 0:v -map 0:a:0 " \
-                            "-c:v libx264 -preset ultrafast -crf 23 -tune zerolatency -g 25 -r 25 -c:a aac -ac 2"
-
 #define tagRecordingMPG2    "recMPG2"
-#define cmdRecordingMPG2    "ffmpeg -loglevel warning -f mpegts -analyzeduration 1.2M -probesize 5M -re -i <input> -map 0:v -map 0:a:0 " \
-                            "-c:v libx264 -preset ultrafast -crf 23 -tune zerolatency -g 25 -r 25 -c:a aac -ac 2"
-
 #define tagRecordingDFLT    "recDFLT"
-#define cmdRecordingDFLT    "ffmpeg -loglevel warning -f mpegts -analyzeduration 1.2M -probesize 5M -re -i <input> -map 0:v -map 0:a:0 " \
-                            "-c:v libx264 -preset ultrafast -crf 23 -tune zerolatency -g 25 -r 25 -c:a aac -ac 2"
 
 // forward declaration, see below
 class cMenuSetupLive;

@@ -405,8 +405,8 @@ namespace vdrlive
             const std::string_view imagename(imagefile.substr(delimPos+1));
             images.push_back(std::move(std::string(imagename)));
 
-            // create a temporary symlink of the image in /tmp
-            cToSvConcat tmpfile("/tmp/", imageId, "_", imagename);
+            // create a temporary symlink of the image in tmpImageDir
+            cToSvConcat tmpfile(tmpImageDir, imageId, "_", imagename);
             cToSvConcat cmdBuff("ln -s \"", imagefile, "\" \"", tmpfile, "\"");
 
             int s = system(cmdBuff.c_str() );

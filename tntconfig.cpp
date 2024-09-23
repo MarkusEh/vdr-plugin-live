@@ -290,7 +290,7 @@ namespace vdrlive {
          "^/recimages/([^/]*)/([^/]*)\\.([^./]+)",
          "content",
          "",
-         "/tmp/$1_$2.$3",
+         tmpImageDir "$1_$2.$3",
          "image/$3");
 
     // select additional (not build in) javascript.

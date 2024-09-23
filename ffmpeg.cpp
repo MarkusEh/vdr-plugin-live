@@ -74,8 +74,8 @@ void FFmpegThread::Action()
       int count = 0;
       do {
         ss.str("");
-        ss << "mkdir -p /tmp/live-hls-buffer/" << session << " && "
-          "cd /tmp/live-hls-buffer/" << session << " && rm -rf * && "
+        ss << "mkdir -p " << tmpHlsBufferDir << session << " && "
+          "cd " << tmpHlsBufferDir << session << " && rm -rf * && "
           "exec " << packerCmd << " "
           "-f hls -hls_time 1 -hls_start_number_source datetime -hls_flags delete_segments "
           "-master_pl_name master_";
@@ -88,7 +88,7 @@ void FFmpegThread::Action()
         dsyslog("Live: FFmpegTread::Action::Open(%d) ffmpeg started", ret);
 
         ss.str("");
-        ss << "/tmp/live-hls-buffer/" << session << "/master_";
+        ss << tmpHlsBufferDir << session << "/master_";
         ss << targetUrl;
         ss << ".m3u8";
 

@@ -1,5 +1,6 @@
 <%pre>
 
+#include <setup.h>
 #include <filecache.h>
 #include <tntfeatures.h>
 #include <ffmpeg.h>
@@ -37,7 +38,7 @@ if (request.hasCookie("tntnet")) {
 // forge target path from requested path.
 std::string path(request.getPathInfo());
 if (path.substr(0, 7) == "/media/") {
-  path.replace(0, 7, "/tmp/live-hls-buffer/");
+  path.replace(0, 7, tmpHlsBufferDir);
 }
 else return DECLINED;
 

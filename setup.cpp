@@ -4,6 +4,7 @@
 
 #include "tools.h"
 #include "tntfeatures.h"
+#include "stringhelpers.h"
 
 // STL headers need to be before VDR tools.h (included by <vdr/plugin.h>)
 #include <getopt.h>
@@ -100,6 +101,10 @@ bool Setup::ParseCommandLine( int argc, char* argv[] )
 
 bool Setup::Initialize( void )
 {
+  cToSvConcat cmdBuff("mkdir -p ", tmpDir, " && mkdir -p ", tmpImageDir);
+  int s = system(cmdBuff.c_str());
+  if (s < 0)
+    esyslog("live: ERROR: Couldn't execute command %s", cmdBuff.c_str() );
   m_p_tvscraper = cPluginManager::GetPlugin("tvscraper");
   if (m_p_tvscraper)
     m_p_scraper = m_p_tvscraper;
