@@ -276,7 +276,7 @@ if (type == "now") {
 <%cpp>
       cToSvConcat hint(epgEvent->Caption().data(), "<br>", tr("View the schedule of this channel"));
 </%cpp>
-        <td class="topaligned rightcol <? lastCurrentChanel ? "bottomrow"?>"><div class="station withmargin"><$ cToSvInt(chNumber) $><$ tr(" - ") $><a href="schedule.html?channel=<$ cToSvInt(chNumber) $>" <& tooltip.hint text=(hint) &>><$$ chanlogoimg $><$ chanlogoimg.empty()?epgEvent->Caption():"" $></a></div>
+        <td class="topaligned rightcol <? lastCurrentChanel ? "bottomrow"?>"><div class="station withmargin"><span class="channel_id"><$ cToSvInt(chNumber) $><$ tr(" - ") $></span> <a href="schedule.html?channel=<$ cToSvInt(chNumber) $>" <& tooltip.hint text=(hint) &>><$$ chanlogoimg $><$ chanlogoimg.empty()?epgEvent->Caption():"" $></a></div>
         </td>
       </tr>
 %  }

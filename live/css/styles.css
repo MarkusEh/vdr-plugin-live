@@ -312,6 +312,11 @@ img.actor {
 img.artwork {
   width: 480px
 }
+span.channel_id {
+  width: 6ch;
+  display: inline-block;
+  text-align: right;
+}
 img.channel_logo {
   max-height:32px; max-width:120px; vertical-align:middle;
   background-color: #E9EFFF00;
@@ -738,6 +743,10 @@ div.event div.station {
 
 div.event div.title a {
   color: black;
+}
+
+div.station {
+  min-width: calc(8ch + 40px);
 }
 
 div.station div {
