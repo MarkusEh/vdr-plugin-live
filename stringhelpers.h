@@ -874,6 +874,8 @@ template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
 // get data
     operator cSv() const { return cSv(m_buffer, m_pos_for_append-m_buffer); }
     char *data() { *m_pos_for_append = 0; return m_buffer; }
+    char *begin() { return m_buffer; }
+    char *end() { return m_pos_for_append; }
     const char *c_str() const { *m_pos_for_append = 0; return m_buffer; }
     char operator[](size_t i) const { return *(m_buffer + i); }
     operator cStr() const { return this->c_str(); }

@@ -304,7 +304,7 @@ template void StringAppendFrameParams<cToSvConcat<255>>(cToSvConcat<255> &s, con
     bool stateChanged = StateChanged();
 // check: changes on scraper data?
     cGetScraperUpdateTimes scraperUpdateTimes;
-    if (scraperUpdateTimes.call(LiveSetup().GetPluginScraper()) ) {
+    if (scraperUpdateTimes.call(LiveSetup().GetPluginTvscraper()) ) {
       if (scraperUpdateTimes.m_recordingsUpdateTime > scraperLastRecordingsUpdate) {
         scraperLastRecordingsUpdate = scraperUpdateTimes.m_recordingsUpdateTime;
         stateChanged = true;
@@ -704,7 +704,7 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
     if (m_timeDurationDeviation) m_timeDurationDeviation->start();
     cGetScraperVideo getScraperVideo(NULL, m_recording);
     if (m_timeIdentify) m_timeIdentify->start();
-    bool scraper_available = getScraperVideo.call(LiveSetup().GetPluginScraper());
+    bool scraper_available = getScraperVideo.call(LiveSetup().GetPluginTvscraper());
     if (m_timeIdentify) m_timeIdentify->stop();
     if (scraper_available) {
       m_scraperVideo.swap(getScraperVideo.m_scraperVideo);
@@ -1066,7 +1066,7 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
 // check availability of scraper data
     m_creation_timestamp = time(0);
     cGetScraperVideo getScraperVideo;
-    bool scraperDataAvailable = getScraperVideo.call(LiveSetup().GetPluginScraper());
+    bool scraperDataAvailable = getScraperVideo.call(LiveSetup().GetPluginTvscraper());
     RecordingsItemDirPtr recPtrTvShows = std::make_shared<RecordingsItemDir>(tr("TV shows"), 1);
     RecordingsItemDirPtr recPtrMovieCollections = std::make_shared<RecordingsItemDir>(tr("Movie collections"), 1);
 // create "base" folders

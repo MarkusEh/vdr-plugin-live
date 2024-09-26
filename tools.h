@@ -104,6 +104,8 @@ template<class T>
   int timeStringToInt(const char *t);
   int timeStringToInt(const std::string &t);
 
+  void EncodeDomId(char *toEncode_s, char *toEncode_e, char const * from = ".-:", char const * to = "pmc");
+
   std::string EncodeDomId(cSv toEncode, char const * from = ".-:", char const * to = "pmc");
   std::string DecodeDomId(cSv toDecode, char const * from = "pmc", char const * to = ".-:");
 

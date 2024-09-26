@@ -59,6 +59,7 @@ template<std::size_t N>
       // may only be called from Plugin::MainThreadHook
       void DoPendingWork();
       const cTimer* GetTimer(tEventID eventid, tChannelID channelid);
+      const cTimer* GetTimer(const cEvent *event, const cChannel *channel = nullptr);
       void SetReloadTimers() { m_reloadTimers = true; }
 
     private:

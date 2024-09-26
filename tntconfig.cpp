@@ -253,7 +253,7 @@ namespace vdrlive {
 // get image dir from plugin Tvscraper
     static cPlugin *pScraper = LiveSetup().GetPluginScraper();
     if (pScraper) {
-// plugin Tvscraper is available
+// plugin Tvscraper or scraper2vdr is available
 // first try cEnvironment, which is also available in scraper2vdr
       cEnvironment environment;
       if (pScraper->Service("GetEnvironment", &environment) ) { // available in tvscraper 1.2.1 and later

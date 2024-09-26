@@ -186,7 +186,7 @@ if (recording && recording->Info()->Aux()) {
   cGetAutoTimerReason getAutoTimerReason;
   getAutoTimerReason.recording_in = recording;
   getAutoTimerReason.requestRecording = false;
-  if (getAutoTimerReason.call(LiveSetup().GetPluginScraper()) && getAutoTimerReason.createdByTvscraper) {
+  if (getAutoTimerReason.call(LiveSetup().GetPluginTvscraper()) && getAutoTimerReason.createdByTvscraper) {
     AppendHtmlEscapedAndCorrectNonUTF8(aux_data, getAutoTimerReason.reason);
   } else {
     cSv epgsearchinfo = partInXmlTag(recording->Info()->Aux(), "epgsearch");

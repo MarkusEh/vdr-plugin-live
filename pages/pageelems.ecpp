@@ -615,7 +615,7 @@ if (!rfid.empty() ) {
     const cEvent* event = epgEvent->Event();
     const cChannel* channel = event?Channels->GetByChannelID(event->ChannelID()):nullptr;
     cGetScraperVideo getScraperVideo(event, NULL);
-    bool scraperDataAvailable = getScraperVideo.call(LiveSetup().GetPluginScraper());
+    bool scraperDataAvailable = getScraperVideo.call(LiveSetup().GetPluginTvscraper());
     if (scraperDataAvailable) {
       int video_SD_HD = getScraperVideo.m_scraperVideo->getHD();
       const char *sdhd = video_SD_HD == 0 ? "sd": video_SD_HD == 1 ? "hd": video_SD_HD == 2 ? "ud" : 0;
@@ -751,7 +751,7 @@ if (iepgEvent) epgEvent = *static_cast<EpgInfoPtr*>((void *)iepgEvent);
 
 sScraperMovieOrTv scraperMovieOrTv;
 cGetScraperVideo getScraperVideo(static_cast<cEvent *>((void *)ievent), static_cast<cRecording *>((void *)irecording));
-scraperMovieOrTv.found = getScraperVideo.call(LiveSetup().GetPluginScraper());
+scraperMovieOrTv.found = getScraperVideo.call(LiveSetup().GetPluginTvscraper());
 if (scraperMovieOrTv.found) {
   tvType type = getScraperVideo.m_scraperVideo->getVideoType();
 //  esyslog("live: type = %i", (int)type);

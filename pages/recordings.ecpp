@@ -763,7 +763,7 @@ if (recording && recording->Info() ) {
 #endif
 
   cGetScraperVideo getScraperVideo(NULL, recording);
-  bool scraperDataAvailable = getScraperVideo.call(LiveSetup().GetPluginScraper());
+  bool scraperDataAvailable = getScraperVideo.call(LiveSetup().GetPluginTvscraper());
   if (scraperDataAvailable) {
     int video_SD_HD = getScraperVideo.m_scraperVideo->getHD();
     if (!sdhd) sdhd = video_SD_HD == 0 ? "sd": video_SD_HD == 1 ? "hd": "ud";

@@ -399,7 +399,7 @@ std::vector<time_t>      times_start;
       en.end = epgEvent->EndTime(tr("%I:%M %p"));
       en.day = epgEvent->StartTime(tr("%A, %b %d %Y"));
       en.epgid = EpgEvents::EncodeDomId(Channel->GetChannelID(), Event->EventID());
-      const cTimer* timer = LiveTimerManager().GetTimer(Event->EventID(), Channel->GetChannelID());
+      const cTimer* timer = LiveTimerManager().GetTimer(Event, Channel);
       if (!timer)
         en.timer = tState::None;
       else if (timer->Recording())
