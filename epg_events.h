@@ -28,7 +28,7 @@ namespace vdrlive
 
   namespace EpgEvents {
 
-    std::string EncodeDomId(tChannelID const &chanId, tEventID const &eventId);
+    std::string EncodeDomId(tChannelID const &chanId, tEventID eventId);
     void DecodeDomId(cSv epgid, tChannelID &chanId, tEventID &eventId);
     const cEvent *GetEventByEpgId(cSv epgid);
 

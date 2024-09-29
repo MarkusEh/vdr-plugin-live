@@ -387,19 +387,8 @@ template void AppendTextTruncateOnWord<cToSvConcat<0>>(cToSvConcat<0> &target, c
   std::string EncodeDomId(cSv toEncode, char const * from, char const * to)
   {
     std::string encoded(toEncode);
-    for (; *from && *to; from++, to++) {
-      replace(encoded.begin(), encoded.end(), *from, *to);
-    }
+    EncodeDomId(encoded.data(), encoded.data() + encoded.length(), from, to);
     return encoded;
-  }
-
-  std::string DecodeDomId(cSv toDecode, char const * from, char const * to)
-  {
-    std::string decoded(toDecode);
-    for (; *from && *to; from++, to++) {
-      replace(decoded.begin(), decoded.end(), *from, *to);
-    }
-    return decoded;
   }
 
   std::string FileSystemExchangeChars(cSv s, bool ToFileSystem)

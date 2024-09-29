@@ -638,11 +638,15 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
     cToSvConcat file_path(recording->FileName(), "/00001.ts");
     struct stat buffer;
     uint32_t num_ts_files;
+    std::chrono::time_point<std::chrono::high_resolution_clock> timeStart = std::chrono::high_resolution_clock::now();
     for (num_ts_files = 1; num_ts_files < 100000u; ++num_ts_files) {
       file_path.erase(folder_length+1);
       file_path.appendInt<5>(num_ts_files).append(".ts");
       if (stat (file_path.c_str(), &buffer) != 0) break;
     }
+    std::chrono::duration<double> timeNeeded = std::chrono::high_resolution_clock::now() - timeStart;
+    if (timeNeeded.count() > 0.1)
+      dsyslog("live, time GetNumberOfTsFiles: %f, recording %s, num ts files %d", timeNeeded.count(), recording->FileName(), num_ts_files - 1);
     return num_ts_files - 1;
   }
 

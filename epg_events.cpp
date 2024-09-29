@@ -269,33 +269,26 @@ namespace vdrlive
    * -------------------------------------------------------------------------
    */
   namespace EpgEvents {
-    std::string EncodeDomId(tChannelID const &chanId, tEventID const &eId)
+    std::string EncodeDomId(tChannelID const &chanId, tEventID eId)
     {
-      std::string eventId("event_");
-
-      eventId += vdrlive::EncodeDomId(cToSvConcat(chanId), ".-", "pm");
-      eventId += '_';
-      eventId += cSv(cToSvInt(eId));
-      return eventId;
+      cToSvConcat eventId("event_", chanId);
+      vdrlive::EncodeDomId(eventId.begin() + 6, eventId.end(), ".-", "pm");
+      eventId.concat('_', eId);
+      return std::string(eventId);
     }
 
-    void DecodeDomId(cSv epgid, tChannelID& channelId, tEventID& eventId)
+    void DecodeDomId(cSv epgid, tChannelID& channelId, tEventID &eventId)
     {
-      cSv eventStr("event_");
-
       size_t delimPos = epgid.find_last_of('_');
-      cSv cIdStr_enc = epgid.substr(eventStr.length(), delimPos - eventStr.length());
-
-      std::string cIdStr = vdrlive::DecodeDomId(cIdStr_enc, "mp", "-.");
-      cSv eIdStr = epgid.substr(delimPos+1);
-
-      channelId = tChannelID::FromString(cIdStr.c_str());
-      eventId = parse_int<tEventID>(eIdStr);
+      cToSvConcat channelIdStr(epgid.substr(6, delimPos - 6));  // remove "event_" at start and "_<eventid>" at end
+      vdrlive::DecodeDomId(channelIdStr.begin(), channelIdStr.end(), "mp", "-.");
+      channelId = tChannelID::FromString(channelIdStr.c_str());
+      eventId = parse_int<tEventID>(epgid.substr(delimPos+1));
     }
 
     const cEvent *GetEventByEpgId(cSv epgid) {
-      tChannelID channelid = tChannelID();
-      tEventID eventid = tEventID();
+      tChannelID channelid;
+      tEventID eventid;
       DecodeDomId(epgid, channelid, eventid);
       if ( !channelid.Valid() || eventid == 0 ) return nullptr;
       LOCK_SCHEDULES_READ;
@@ -550,10 +543,9 @@ bool appendEpgItem(cToSvConcat<0> &epg_item, RecordingsItemRecPtr &recItem, cons
   epg_item.append("[\"");
 // [0] : EPG ID  (without event_)
 //  epg_item.append(EpgEvents::EncodeDomId(Channel->GetChannelID(), Event->EventID()).c_str() + 6);
-//  eventId += vdrlive::EncodeDomId(cToSvConcat(chanId), ".-", "pm");
-  char *begin_encode = epg_item.end();
+  size_t ch_start = cSv(epg_item).length();
   epg_item.concat(Channel->GetChannelID());
-  vdrlive::EncodeDomId(begin_encode, epg_item.end(), ".-", "pm");
+  vdrlive::EncodeDomId(epg_item.begin() + ch_start, epg_item.end(), ".-", "pm");
   epg_item.concat('_', Event->EventID());
 
   epg_item.append("\",\"");

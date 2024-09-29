@@ -497,12 +497,18 @@ if (write_recs && recItemsC) {
   </%cpp>
 <script>
   <%cpp>
+  std::chrono::time_point<std::chrono::high_resolution_clock> timeStart_recs = std::chrono::high_resolution_clock::now();
   for (const RecordingsItemRecPtr &rPtr: *recItemsC) {
     recording_item->clear();
     rPtr->AppendAsJSArray(*recording_item);
   </%cpp>
 recs[<$cSv(cToSvInt(rPtr->IdI()))$>]=[<$$ recording_item->c_str() $>]
-% }
+  <%cpp>
+  }
+  std::chrono::duration<double> timeNeeded_recs = std::chrono::high_resolution_clock::now() - timeStart_recs;
+  dsyslog("live, time recordings.ecpp recs lv 0: %f", timeNeeded_recs.count());
+  </%cpp>
+
 </script>
   <%cpp>
 }

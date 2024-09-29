@@ -105,9 +105,14 @@ template<class T>
   int timeStringToInt(const std::string &t);
 
   void EncodeDomId(char *toEncode_s, char *toEncode_e, char const * from = ".-:", char const * to = "pmc");
+  inline void DecodeDomId(char *toDecode_s, char *toDecode_e, char const * from = "pmc", char const * to = ".-:") {
+    EncodeDomId(toDecode_s, toDecode_e, from, to);
+  }
 
   std::string EncodeDomId(cSv toEncode, char const * from = ".-:", char const * to = "pmc");
-  std::string DecodeDomId(cSv toDecode, char const * from = "pmc", char const * to = ".-:");
+  inline std::string DecodeDomId(cSv toDecode, char const * from = "pmc", char const * to = ".-:") {
+    return EncodeDomId(toDecode, from, to);
+  }
 
   std::string FileSystemExchangeChars(cSv s, bool ToFileSystem);
 

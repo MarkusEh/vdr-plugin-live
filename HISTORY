@@ -49,6 +49,10 @@ VDR Plugin 'live' Revision History
 - Show errors in recordings
 - And many other, smaller improvements
 
-2024-xx-xx: Version 3.3.7
+2024-09-29: Version 3.3.7
+- mark all events a timer is recording, not only the first one
+- allow streaming of recording to the browser
+
+- ffmpeg commands are now in a configuraton file, and removed from the settings view
 - remove --tvscraperimages commandline option
 - remove ShowPlayMediaplayer from setup

@@ -7,7 +7,7 @@
 #include <string>
 
 #if TNTVERSION >= 30000
-        #include <cxxtools/log.h>  // must be loaded before any VDR include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
+  #include <cxxtools/log.h>  // must be loaded before any VDR include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
 #endif
 
 #ifndef DISABLE_TEMPLATES_COLLIDING_WITH_STL
