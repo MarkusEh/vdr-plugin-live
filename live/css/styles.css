@@ -1234,6 +1234,7 @@ tr.recording_item:last-child {
   float: right;
   padding-left: 0.5em;
   padding-right: 0.5em;
+  white-space: nowrap;
 }
 
 
@@ -1599,6 +1600,9 @@ img.actor {
 }
 img.channel_logo {
   max-height:32px; max-width:90px;
+}
+.recording_item div.recording_actions {
+  white-space: wrap;
 }
 
 }

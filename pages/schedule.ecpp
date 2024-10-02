@@ -98,73 +98,39 @@ bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
     <& menu active=("schedule") component=("schedule.channel_selection") &>
     <div class="inhalt">
 <%cpp>
-  if ( Schedule == 0 ) {
+  if ( !Schedule || !Schedule->Events()->First() ) {
 </%cpp>
       <$ tr("No schedules available for this channel") $>.
 <%cpp>
   }
   else {
-</%cpp>
-    <table class="listing" cellspacing="0" cellpadding="0">
-<%cpp>
+    int col_span = 3;
+    if (display_pictures) col_span++;
     std::string current_day = "";
     const cEvent* PresentEvent = Schedule->GetPresentEvent();
     time_t now = time(NULL) - ::Setup.EPGLinger * 60;
-    RecordingsItemRecPtr recItem;
-    bool recItemFound;
     cToSvConcat<0> epg_item;
-    epg_item.reserve(1000);
+    epg_item.reserve(10000);
+    epg_item.concat('[');
     for (const cEvent *Event = Schedule->Events()->First(); Event; Event = Schedule->Events()->Next(Event)) {
       if (Event->EndTime() <= now && Event != PresentEvent) continue;
-
-      epg_item.clear();
-      recItemFound = appendEpgItem(epg_item, recItem, Event, Channel, false);
-      cToSvDateTime day(tr("%A, %b %d %Y"), Event->StartTime());
-
-      bool lastEventCurrentDay = true;
-      const cEvent* NextEvent = Schedule->Events()->Next(Event);
-      if (NextEvent && NextEvent->StartTime())
-        lastEventCurrentDay = cSv(day) != cSv(cToSvDateTime(tr("%A, %b %d %Y"), NextEvent->StartTime()));
-
-      int col_span = 3;
-      if (display_pictures) col_span++;
-      if (current_day != cSv(day)) {
-        if (current_day != "") {
+      current_day = appendEpgItemWithRecItem(epg_item, current_day, Event, Channel, false);
+    }
+    epg_item.concat("]]]");
+    if (current_day.empty() ) {
 </%cpp>
-        <tr class="spacer">
-          <td colspan="<$col_span$>"/>
-        </tr>
-<%cpp>
-        }
-</%cpp>
-        <tr class="head">
-          <td colspan=<$col_span$>><div class="boxheader"><div><div><$ cSv(day) $></div></div></div></td>
-        </tr>
-<%cpp>
-        current_day = cSv(day);
-      }
-</%cpp>
+      <$ tr("No events available for this channel") $>.
+%   } else {
 <script>
-  document.write(eventString(<$(lastEventCurrentDay && !recItemFound)?"1":"0"$>, <$$ epg_item.c_str() $>))
+document.write(addEventListString(<$col_span$>, <$$ epg_item.c_str() $>))
 </script>
 <%cpp>
-if(recItemFound) {
-  epg_item.clear();
-  recItem->AppendAsJSArray(epg_item);
-</%cpp>
-  <script>
-    document.write(existingRecordingString(<$col_span - 2$>, \"<? lastEventCurrentDay ? "bottomrow" ?>\", <$$epg_item.c_str()$>))
-  </script>
-<%cpp> }  // if rec item found
-    }  // loop over all events
-</%cpp>
-      </table>
-<%cpp>
+    }
   }
 </%cpp>
     </div>
+  <script>imgLoad()</script>
   </body>
-<script>imgLoad()</script>
 </html>
 <%include>page_exit.eh</%include>
 

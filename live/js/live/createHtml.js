@@ -317,3 +317,46 @@ function rec_string_d(rec_ids) {
   RecordingsSt_int(st, rec_ids[0], rec_ids[1], rec_ids[2])
   return st.a
 }
+
+// events[day][0]: day
+// events[day][1][ev][0][]: event data
+// events[day][1][ev][1][]: if available: existing recording data
+//
+function addEventList(s, col_span, events) {
+  s.a += '<table class="listing" cellspacing="0" cellpadding="0">'
+  for (let day=0; day < events.length; day++) {
+    if (day != 0) {
+      s.a += '<tr class="spacer"><td colspan='
+      s.a += col_span
+      s.a += '/></tr>\n'
+    }
+    s.a += '<tr class="head"><td colspan='
+    s.a += col_span
+    s.a += '><div class="boxheader"><div><div>'
+    s.a += events[day][0]
+    s.a += '</div></div></div></td></tr>'
+    for (let event_=0; event_ < events[day][1].length; event_++) {
+      if (events[day][1][event_].length == 1 && event_ == events[day][1].length-1) {
+        addEvent(s, 1, events[day][1][event_][0])    // bottom
+      } else {
+        addEvent(s, 0, events[day][1][event_][0])
+      }
+      if (events[day][1][event_].length == 2) {
+// existing recording
+        if (event_ == events[day][1].length-1) {
+          bottomrow = 'bottomrow'
+        } else {
+          bottomrow = ''
+        }
+        existingRecordingSR(s, col_span-2, bottomrow, events[day][1][event_][1][0], events[day][1][event_][1][1], events[day][1][event_][1][2], events[day][1][event_][1][3], events[day][1][event_][1][4], events[day][1][event_][1][5], events[day][1][event_][1][6], events[day][1][event_][1][7], events[day][1][event_][1][8], events[day][1][event_][1][9], events[day][1][event_][1][10], events[day][1][event_][1][11], events[day][1][event_][1][12], events[day][1][event_][1][13], events[day][1][event_][1][14], events[day][1][event_][1][15], events[day][1][event_][1][16], events[day][1][event_][1][17], events[day][1][event_][1][18], events[day][1][event_][1][19], events[day][1][event_][1][20])
+      }
+    }
+  }
+  s.a += '</table>\n'
+}
+function addEventListString(col_span, events) {
+  const s = Object.create(null)
+  s.a = ""
+  addEventList(s, col_span, events)
+  return s.a
+}

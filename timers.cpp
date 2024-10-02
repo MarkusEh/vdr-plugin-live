@@ -20,19 +20,16 @@ namespace vdrlive {
 
   SortedTimers::SortedTimers() { }
 
-  std::string SortedTimers::GetTimerId( cTimer const& timer )
+  std::string SortedTimers::GetTimerId(cTimer const& timer)
   {
-    std::stringstream builder;
-    builder << cSv(cToSvConcat(timer.Channel()->GetChannelID())) << ":" << timer.WeekDays() << ":"
-        << timer.Day() << ":" << timer.Start() << ":" << timer.Stop();
-    return builder.str();
+    return std::string(cToSvConcat(timer.Channel()->GetChannelID(), ':', timer.WeekDays(), ':', timer.Day(), ':', timer.Start(), ':', timer.Stop()) );
   }
 
-  const cTimer* SortedTimers::GetByTimerId( std::string const& timerid )
+  const cTimer* SortedTimers::GetByTimerId(cSv timerid)
   {
     std::vector<std::string> parts = StringSplit( timerid, ':' );
     if ( parts.size() < 5 ) {
-      esyslog("live: GetByTimerId: invalid format %s", timerid.c_str() );
+      esyslog("live: GetByTimerId: invalid format %.*s", (int)timerid.length(), timerid.data() );
       return 0;
     }
 
@@ -42,7 +39,7 @@ namespace vdrlive {
 #endif
     LOCK_TIMERS_READ
     LOCK_CHANNELS_READ;
-    cChannel* channel = (cChannel *)Channels->GetByChannelID( tChannelID::FromString( parts[0].c_str() ) );
+    const cChannel* channel = Channels->GetByChannelID( tChannelID::FromString( parts[0].c_str() ) );
     if ( channel == 0 ) {
       esyslog("live: GetByTimerId: no channel %s", parts[0].c_str() );
       return 0;
@@ -56,11 +53,11 @@ namespace vdrlive {
 
       cMutexLock MutexLock(&m_mutex);
 
-      for (cTimer* timer = (cTimer *)Timers->First(); timer; timer = (cTimer *)Timers->Next(timer)) {
+      for (const cTimer* timer = Timers->First(); timer; timer = Timers->Next(timer)) {
         if ( timer->Channel() == channel &&
            ( ( weekdays != 0 && timer->WeekDays() == weekdays ) || ( weekdays == 0 && timer->Day() == day ) ) &&
            timer->Start() == start && timer->Stop() == stop )
-          return &*timer;
+          return timer;
       }
     } catch ( bad_lexical_cast const& ex ) {
       esyslog("live: GetByTimer: bad cast");
@@ -68,22 +65,22 @@ namespace vdrlive {
     return 0;
   }
 
-  std::string SortedTimers::EncodeDomId(std::string const& timerid)
+  std::string SortedTimers::EncodeDomId(cSv timerid)
   {
-    std::string tId("timer_");
-    tId += vdrlive::EncodeDomId(timerid, ".-:", "pmc");
-    return tId;
+    cToSvConcat tId("timer_");
+    size_t enc_begin = ((cSv)tId).length();
+    tId.append(timerid);
+    vdrlive::EncodeDomId(tId.begin() + enc_begin, tId.end(), ".-:", "pmc");
+    return std::string(tId);
   }
 
-  std::string SortedTimers::DecodeDomId(std::string const &timerDomId)
+  std::string SortedTimers::DecodeDomId(cSv timerDomId)
   {
-    std::string const timerStr("timer_");
-
-    std::string tId = timerDomId.substr(timerStr.length());
-
-    return vdrlive::DecodeDomId(tId, "pmc", ".-:");
+    cSv timerStr("timer_");
+    cToSvConcat tId(timerDomId.substr(timerStr.length()));
+    vdrlive::DecodeDomId(tId.begin(), tId.end(), "pmc", ".-:");
+    return std::string(tId);
   }
-
 
   std::string SortedTimers::GetTimerDays(cTimer const *timer)
   {

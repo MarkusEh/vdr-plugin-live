@@ -20,11 +20,11 @@ namespace vdrlive {
 
     public:
       static std::string GetTimerId(cTimer const& timer);
-      const cTimer* GetByTimerId(std::string const& timerid);
+      const cTimer* GetByTimerId(cSv timerid);
 
       // en- or decodes a timer into an id usable for DOM Ids.
-      static std::string EncodeDomId(std::string const& timerid);
-      static std::string DecodeDomId(std::string const &timerDomId);
+      static std::string EncodeDomId(cSv timerid);
+      static std::string DecodeDomId(cSv timerDomId);
 
       bool Modified();
 

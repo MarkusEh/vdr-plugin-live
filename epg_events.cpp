@@ -271,9 +271,8 @@ namespace vdrlive
   namespace EpgEvents {
     std::string EncodeDomId(tChannelID const &chanId, tEventID eId)
     {
-      cToSvConcat eventId("event_", chanId);
-      vdrlive::EncodeDomId(eventId.begin() + 6, eventId.end(), ".-", "pm");
-      eventId.concat('_', eId);
+      cToSvConcat eventId("event_");
+      eventId.appendChannel(chanId, 'p', 'm').concat('_', eId);
       return std::string(eventId);
     }
 
@@ -532,8 +531,39 @@ void AppendScraperData(cToSvConcat<0> &target, cScraperVideo *scraperVideo) {
   AppendScraperData(target, s_IMDB_ID, s_image, scraperVideo->getVideoType(), s_title, scraperVideo->getSeasonNumber(), scraperVideo->getEpisodeNumber(), s_episode_name, s_runtime, s_release_date);
 }
 
+
+// first call with lastDay = ""
+// before first call: open with "["
+// after last call: cloes with "]]]"
+// [
+//   ["Day1", [
+//             [[event1], [rec1]], [[event2]], [[event3]]
+//            ]
+//   ],
+//   ["Day2", []
+//   ]
+// ]
+
+std::string appendEpgItemWithRecItem(cToSvConcat<0> &epg_item, cSv lastDay, const cEvent *Event, const cChannel *Channel, bool withChannel) {
+// return current day
+  cToSvDateTime day(tr("%A, %b %d %Y"), Event->StartTime());
+  if (lastDay != cSv(day)) {
+    if (!lastDay.empty()) epg_item.concat("]],\n");
+    epg_item.concat("[\"", day, "\",[");
+  } else
+    epg_item.concat(',');
+  RecordingsItemRecPtr recItem;
+  epg_item.concat('[');
+  if (appendEpgItem(epg_item, recItem, Event, Channel, withChannel)) {
+    epg_item.concat(',');
+    recItem->AppendAsJSArray(epg_item);
+  }
+  epg_item.concat(']');
+  return std::string(day);
+}
+
 bool appendEpgItem(cToSvConcat<0> &epg_item, RecordingsItemRecPtr &recItem, const cEvent *Event, const cChannel *Channel, bool withChannel) {
-  cGetScraperVideo getScraperVideo(Event, NULL);
+  cGetScraperVideo getScraperVideo(Event, nullptr);
   getScraperVideo.call(LiveSetup().GetPluginTvscraper());
 
   RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
@@ -543,9 +573,7 @@ bool appendEpgItem(cToSvConcat<0> &epg_item, RecordingsItemRecPtr &recItem, cons
   epg_item.append("[\"");
 // [0] : EPG ID  (without event_)
 //  epg_item.append(EpgEvents::EncodeDomId(Channel->GetChannelID(), Event->EventID()).c_str() + 6);
-  size_t ch_start = cSv(epg_item).length();
-  epg_item.concat(Channel->GetChannelID());
-  vdrlive::EncodeDomId(epg_item.begin() + ch_start, epg_item.end(), ".-", "pm");
+  epg_item.appendChannel(Channel->GetChannelID(), 'p', 'm');
   epg_item.concat('_', Event->EventID());
 
   epg_item.append("\",\"");

@@ -64,78 +64,38 @@ bool logged_in(false);
     <div class="inhalt">
 %      if (results.size() == 0) {
         <$ tr("No search results") $>
-%      }
-      <table class="listing" cellspacing="0" cellpadding="0">
 <%cpp>
+       } else {
         std::string current_day = "";
         bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
-        cToSvConcat<0> epg_itemS;
-        epg_itemS.reserve(1000);
-        RecordingsItemRecPtr recItem;
-        bool recItemFound;
-
+        int col_span = 4;
+        if (display_pictures) col_span++;
+        cToSvConcat<0> epg_item;
+        epg_item.reserve(10000);
+        epg_item.concat('[');
         for (SearchResults::iterator result = results.begin(); result != results.end(); ++result) {
-          epg_itemS.clear();
-#if VDRVERSNUM >= 20301
-                                         cStateKey StateKey;
-                                        if (const cChannels *Channels = cChannels::GetChannelsRead(StateKey)) {
-#ifdef DEBUG_LOCK
-                        dsyslog("live: pages/searchresults.ecpp LOCK_CHANNELS_READ");
-#endif
-            cChannel* channel = (cChannel *)Channels->GetByChannelID(result->Channel());
-#else
-            cChannel* channel = Channels.GetByChannelID(result->Channel());
-#endif
-            if (!channel) {
-                     StateKey.Remove();
-              continue;
-            }
-            const cEvent *event = result->GetEvent(channel);
-            std::string day(result->StartTime() ? std::string(cToSvDateTime(tr("%A, %b %d %Y"), result->StartTime())) : "");
-            bool bottom = false;
-            SearchResults::iterator nextResult = result; ++nextResult;
-            if (nextResult == results.end())
-              bottom = true;
-            else {
-              std::string nextDay(nextResult->StartTime() ? std::string(cToSvDateTime(tr("%A, %b %d %Y"), nextResult->StartTime())) : "");
-              bottom = (day != nextDay);
-            }
-
-                  StateKey.Remove();  // release channels read lock before calling event_timer which makes a timers read lock
-            recItemFound = appendEpgItem(epg_itemS, recItem, event, channel, true);
-            int col_span = 4;
-            if (display_pictures) col_span++;
-            if (current_day != day) {
-              if (current_day != "") {
-
+          const cChannel* channel;
+          {
+            LOCK_CHANNELS_READ;
+            channel = Channels->GetByChannelID(result->Channel());
+          }
+          if (!channel) continue;
+          const cEvent *event = result->GetEvent(channel);
+          if (!event || !event->StartTime() ) continue;
+          current_day = appendEpgItemWithRecItem(epg_item, current_day, event, channel, true);
+        }
+        epg_item.concat("]]]");
+        if (current_day.empty() ) {
 </%cpp>
-              <tr class="spacer">
-                <td colspan="<$col_span$>"/>
-              </tr>
-%              }
-            <tr class="head">
-              <td colspan="<$col_span$>"><div class="boxheader"><div><div><$ day $></div></div></div></td>
-            </tr>
-%              current_day = day;
-%            }
+          <$ tr("No search results") $>
+%       } else {
 <script>
-  document.write(eventString(<$(bottom && !recItemFound)?"1":"0"$>, <$$ epg_itemS.c_str() $>))
+document.write(addEventListString(<$col_span$>, <$$ epg_item.c_str() $>))
 </script>
-<%cpp>
-if(recItemFound) {
-  epg_itemS.clear();
-  recItem->AppendAsJSArray(epg_itemS);
-</%cpp>
-  <script>  
-    document.write(existingRecordingString(<$col_span - 2$>, \"<? bottom ? "bottomrow" ?>\", <$$epg_itemS.c_str()$>))
-  </script>  
-<%cpp> } </%cpp>
-%          }
-%        }
-      </table>
+%       } }
     </div>
+    <script>imgLoad()</script>
   </body>
-<script>imgLoad()</script>
 </html>
 
 <%include>page_exit.eh</%include>

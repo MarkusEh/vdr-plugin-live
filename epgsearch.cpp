@@ -562,18 +562,11 @@ SearchResult::SearchResult( std::string const& data )
 
 const cEvent* SearchResult::GetEvent(const cChannel* Channel)
 {
-  if (!Channel) return NULL;
+  if (!Channel) return nullptr;
 
-#if VDRVERSNUM >= 20301
   LOCK_SCHEDULES_READ;
-#else
-  cSchedulesLock schedulesLock;
-  const cSchedules* Schedules = cSchedules::Schedules(schedulesLock);
-  if (!Schedules) return NULL;
-#endif
-
   const cSchedule *Schedule = Schedules->GetSchedule(Channel);
-  if (!Schedule) return NULL;
+  if (!Schedule) return nullptr;
 #if APIVERSNUM >= 20502
   return Schedule->GetEventById(m_eventId);
 #else

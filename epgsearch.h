@@ -9,7 +9,7 @@
 #include <algorithm>
 
 #if TNTVERSION >= 30000
-        #include <cxxtools/log.h>  // must be loaded before any VDR include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
+  #include <cxxtools/log.h>  // must be loaded before any VDR include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
 #endif
 
 #include <vdr/channels.h>
@@ -349,14 +349,10 @@ public:
   bool operator<( SearchResult const& other ) const { return m_starttime < other.m_starttime; }
   const cEvent* GetEvent(const cChannel* Channel);
 
-#if VDRVERSNUM >= 20301
   /* Be careful when calling this function concerning the lock order:
    *   Timers, Channels, Recordings Schedules
    */
   const cChannel* GetChannel() { LOCK_CHANNELS_READ; return Channels->GetByChannelID(m_channel); }
-#else
-  const cChannel* GetChannel() { return Channels.GetByChannelID(m_channel); }
-#endif
 
 private:
   int m_searchId;

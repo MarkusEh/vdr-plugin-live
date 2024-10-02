@@ -859,9 +859,26 @@ template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
 //   cString ToString(void) const;
 // =========================================================
 // append tChannelID
-    cToSvConcat &concat(const tChannelID &channelID) {
+    cToSvConcat &appendChannel(const tChannelID &channelID, char point = '.', char minus = '-') {
       int st_Mask = 0xFF000000;
       concat((char) ((channelID.Source() & st_Mask) >> 24));
+      if (int n = cSource::Position(channelID.Source())) {
+        char ew = 'E';
+        if (n < 0) {
+          ew = 'W';
+          n = -n;
+        }
+        int q = n / 10;
+        concat(q, point, (char)(n - 10*q + '0'), ew);
+      }
+      concat(minus, channelID.Nid(), minus, channelID.Tid(), minus, channelID.Sid());
+      if (channelID.Rid() ) concat(minus, channelID.Rid() );
+      return *this;
+    }
+// append tChannelID
+    cToSvConcat &concat(const tChannelID &channelID) {
+      return appendChannel(channelID);
+/*
       if (int n = cSource::Position(channelID.Source())) {
          appendFormated("%u.%u", abs(n) / 10, abs(n) % 10); // can't simply use "%g" here since the silly 'locale' messes up the decimal point
          concat( (n < 0) ? 'W' : 'E');
@@ -869,6 +886,7 @@ template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
       appendFormated(channelID.Rid() ? "-%d-%d-%d-%d" : "-%d-%d-%d",
           channelID.Nid(), channelID.Tid(), channelID.Sid(), channelID.Rid() );
       return *this;
+*/
     }
 // ========================
 // get data
