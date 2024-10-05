@@ -139,6 +139,9 @@ msgstr "Kanál nemá sprievodcu televíznym programom"
 msgid "Wrong event id"
 msgstr "Nesprávne ID udalosti"
 
+msgid "%A, %b %d %Y"
+msgstr "%A, %b %d %Y"
+
 msgid "Required minimum version of epgsearch: "
 msgstr "Povinná minimálna verzia epgsearch:"
 
@@ -580,9 +583,6 @@ msgstr "Zru¹"
 msgid "Now"
 msgstr "Teraz ide"
 
-msgid "%A, %b %d %Y"
-msgstr "%A, %b %d %Y"
-
 msgid "Time"
 msgstr "Èas"
 
@@ -632,6 +632,9 @@ msgid "Existing Recording:"
 msgstr ""
 
 msgid "Stream this channel into browser."
+msgstr ""
+
+msgid "Stream this recording into browser."
 msgstr ""
 
 msgid "Stream this channel into media player."
@@ -902,6 +905,9 @@ msgstr "Zastavi»"
 msgid "No schedules available for this channel"
 msgstr "Pre tento kanál sa nena¹iel ¾iadny televízny program."
 
+msgid "No events available for this channel"
+msgstr ""
+
 msgid "Search settings"
 msgstr "Nastavenie hµadania"
 
@@ -962,18 +968,6 @@ msgstr "Zobrazi» dynamicky VDR informaèný box"
 msgid "Allow video streaming"
 msgstr "Povoli» prúdové video"
 
-msgid "Web-Streaming h264"
-msgstr ""
-
-msgid "Web-Streaming HEVC"
-msgstr ""
-
-msgid "Web-Streaming MPEG2"
-msgstr ""
-
-msgid "Web-Streaming others"
-msgstr ""
-
 msgid "Streamdev server port"
 msgstr "Streamdev port servera"
 
@@ -1010,6 +1004,9 @@ msgstr "©tartovacia stránka"
 msgid "Theme"
 msgstr "Vzhµad"
 
+msgid "Couldn't find recording or no recordings available. Maybe you mistyped your request?"
+msgstr ""
+
 #, c-format
 msgid "%a, %x"
 msgstr "%a, %x"
@@ -1019,6 +1016,9 @@ msgstr "Zobrazi» televízny program pre tento kanál"
 
 msgid " - "
 msgstr " - "
+
+msgid "Recording"
+msgstr ""
 
 msgid "Timer conflicts"
 msgstr "Konflikty plánu"

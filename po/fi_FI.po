@@ -138,6 +138,9 @@ msgstr "Kanavalla ei ole ohjelmatietoja"
 msgid "Wrong event id"
 msgstr "Väärä tapahtuman tunniste"
 
+msgid "%A, %b %d %Y"
+msgstr "%A %d.%m.%Y"
+
 msgid "Required minimum version of epgsearch: "
 msgstr "Vaadittava versio EPGSearch-laajennoksesta: "
 
@@ -579,9 +582,6 @@ msgstr "Ohita"
 msgid "Now"
 msgstr "Nyt"
 
-msgid "%A, %b %d %Y"
-msgstr "%A %d.%m.%Y"
-
 msgid "Time"
 msgstr "Ajankohta"
 
@@ -631,6 +631,9 @@ msgid "Existing Recording:"
 msgstr ""
 
 msgid "Stream this channel into browser."
+msgstr ""
+
+msgid "Stream this recording into browser."
 msgstr ""
 
 msgid "Stream this channel into media player."
@@ -901,6 +904,9 @@ msgstr "Pysäytä"
 msgid "No schedules available for this channel"
 msgstr "Tälle kanavalle ei ole saatavilla ohjelmistoa"
 
+msgid "No events available for this channel"
+msgstr ""
+
 msgid "Search settings"
 msgstr "Hakuasetukset"
 
@@ -961,18 +967,6 @@ msgstr "Näytä dynaaminen VDR:n infolaatikko"
 msgid "Allow video streaming"
 msgstr "Salli lähetyksen suoratoisto"
 
-msgid "Web-Streaming h264"
-msgstr ""
-
-msgid "Web-Streaming HEVC"
-msgstr ""
-
-msgid "Web-Streaming MPEG2"
-msgstr ""
-
-msgid "Web-Streaming others"
-msgstr ""
-
 msgid "Streamdev server port"
 msgstr "Streamdev-palvelimen portti"
 
@@ -1009,6 +1003,9 @@ msgstr "Aloitussivu"
 msgid "Theme"
 msgstr "Ulkoasu"
 
+msgid "Couldn't find recording or no recordings available. Maybe you mistyped your request?"
+msgstr ""
+
 #, c-format
 msgid "%a, %x"
 msgstr "%a %x"
@@ -1017,6 +1014,9 @@ msgid "View the schedule of this channel"
 msgstr "Näytä ohjelmisto kanavalta"
 
 msgid " - "
+msgstr ""
+
+msgid "Recording"
 msgstr ""
 
 msgid "Timer conflicts"

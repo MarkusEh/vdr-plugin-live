@@ -140,6 +140,9 @@ msgstr "Kanal hat keine Programminfos"
 msgid "Wrong event id"
 msgstr "Fehlerhafte Sendungs Id"
 
+msgid "%A, %b %d %Y"
+msgstr "%A, %d.%m.%Y"
+
 msgid "Required minimum version of epgsearch: "
 msgstr "Benötigte Mindestversion von epgsearch: "
 
@@ -581,9 +584,6 @@ msgstr "Verwerfen"
 msgid "Now"
 msgstr "Jetzt"
 
-msgid "%A, %b %d %Y"
-msgstr "%A, %d.%m.%Y"
-
 msgid "Time"
 msgstr "Zeit"
 
@@ -906,6 +906,9 @@ msgstr "Stopp"
 
 msgid "No schedules available for this channel"
 msgstr "Für diesen Kanal liegen keine EPG-Informationen vor"
+
+msgid "No events available for this channel"
+msgstr ""
 
 msgid "Search settings"
 msgstr "Einstellungen zur Suche"

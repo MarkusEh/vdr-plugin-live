@@ -555,8 +555,9 @@ std::string appendEpgItemWithRecItem(cToSvConcat<0> &epg_item, cSv lastDay, cons
   RecordingsItemRecPtr recItem;
   epg_item.concat('[');
   if (appendEpgItem(epg_item, recItem, Event, Channel, withChannel)) {
-    epg_item.concat(',');
+    epg_item.concat(",[");
     recItem->AppendAsJSArray(epg_item);
+    epg_item.concat(']');
   }
   epg_item.concat(']');
   return std::string(day);

@@ -17,22 +17,108 @@ table {
 }
 */
 
+
 /* Uncomment the definition below to restrict the width of EPG and recording
-** images to 120 px. Keeping the comment displays the images at their native
-** sizes in the popup windows.
+** images to 120 pixels. Keeping the comment displays the images at their
+** native sizes in the popup windows.
 */
 /*
 .info-win span.epg_images {
-  width: 120px;
+  max-width: 120px;
 }
 */
 
-/* Uncomment this to have a light-gray background when hovering over a channel
-** logo, which will make white (parts of) channel logos visible. Remove ':hover'
-** for displaying the images with that background by default.
+
+/* Uncomment the definition below to enlarge EPG and recording images upon
+** hovering. Keeping the comment does not enlarge images in the popup windows
+** upon hovering. Note that enlarged images remain clipped to the info window.
 */
 /*
-img.channel_logo:hover {
+span.epg_images:has(> *:nth-child(1)) {
+  margin-bottom: 210px;
+}
+
+span.epg_images img.epg_image:hover {
+  transform: translate(-120px, 96px) scale(3);
+  transition: .1s ease-in-out;
+  box-shadow: -3px 3px 3px gray;
+  transition: .1s ease-in-out;
+}
+
+span.epg_images img.epg_image:not(:hover) {
+  transition: .1s ease-in-out;
+}
+
+span.epg_images img.epg_image:not(:hover) {
+  transition: .1s ease-in-out;
+}
+*/
+
+
+/* Uncomment the definitions below to enlarge recording images in list view
+** upon hovering. Keeping the comment does not enlarge images in the left
+** column upon hovering.
+*/
+/*
+#form_recordings {
+    margin-bottom: 250px
+}
+
+div.thumb {
+  overflow: visible;
+}
+
+div.thumb img.thumbpt:hover {
+  transform: translate(157px, 126px) scale(8);
+  box-shadow: 3px 3px 3px gray;
+  transition: .1s ease-in-out;
+}
+
+div.thumb img.thumbpt:not(:hover) {
+  transition: .1s ease-in-out;
+}
+*/
+
+
+/* Uncomment the definition below to have a light-gray background for channel
+** logos, which will make white (parts of) channel logos visible. Keeping the
+** comment displays the channel logo on the theme's default background.
+*/
+/*
+img.channel_logo {
   background-color: #E9EFEFFF;
+}
+*/
+
+
+/* Uncomment the definition below to enlarge channel logos with a light-gray
+** background when hovering over a logo. Keeping the comment leaves the logo
+** unchanged on hovering.
+*/
+/*
+table.listing:has(.channel_logo) {
+  margin-bottom: 180px;
+}
+
+img.channel_logo:hover {
+  transform: translate(-112px, 84px) scale(6.25);
+  background-color: #E9EFEFFF;
+  box-shadow: -3px 3px 3px gray;
+  transition: .1s ease-in-out;
+}
+
+img.channel_logo:not(:hover) {
+  transition: .1s ease-in-out;
+}
+*/
+
+
+/* Uncomment this to have all recording actions kept on a single row. Keeping
+** the comment can cause wrapping the action buttons into multiple lines on
+** small viewspaces.
+*/
+/*
+.recording_item div.recording_actions {
+  white-space: nowrap;
 }
 */

@@ -138,6 +138,9 @@ msgstr "Нет расписания канала"
 msgid "Wrong event id"
 msgstr "Ошибка id события"
 
+msgid "%A, %b %d %Y"
+msgstr "%A, %d.%m.%Y"
+
 msgid "Required minimum version of epgsearch: "
 msgstr "Минимальный требования к версии EPGSearch: "
 
@@ -579,9 +582,6 @@ msgstr "Освободить"
 msgid "Now"
 msgstr "Сейчас"
 
-msgid "%A, %b %d %Y"
-msgstr "%A, %d.%m.%Y"
-
 msgid "Time"
 msgstr "Время"
 
@@ -631,6 +631,9 @@ msgid "Existing Recording:"
 msgstr ""
 
 msgid "Stream this channel into browser."
+msgstr ""
+
+msgid "Stream this recording into browser."
 msgstr ""
 
 msgid "Stream this channel into media player."
@@ -901,6 +904,9 @@ msgstr "Стоп"
 msgid "No schedules available for this channel"
 msgstr "Расписание для данного канала недоступно"
 
+msgid "No events available for this channel"
+msgstr ""
+
 msgid "Search settings"
 msgstr "Настройки поиска"
 
@@ -961,18 +967,6 @@ msgstr "Показывать инфо панель VDR"
 msgid "Allow video streaming"
 msgstr "Разрешить видео стриминг"
 
-msgid "Web-Streaming h264"
-msgstr ""
-
-msgid "Web-Streaming HEVC"
-msgstr ""
-
-msgid "Web-Streaming MPEG2"
-msgstr ""
-
-msgid "Web-Streaming others"
-msgstr ""
-
 msgid "Streamdev server port"
 msgstr "Streamdev порт"
 
@@ -1009,6 +1003,9 @@ msgstr "Стартовая страница"
 msgid "Theme"
 msgstr "Тема"
 
+msgid "Couldn't find recording or no recordings available. Maybe you mistyped your request?"
+msgstr ""
+
 #, c-format
 msgid "%a, %x"
 msgstr ""
@@ -1017,6 +1014,9 @@ msgid "View the schedule of this channel"
 msgstr "Просмотреть расписание на этом канале"
 
 msgid " - "
+msgstr ""
+
+msgid "Recording"
 msgstr ""
 
 msgid "Timer conflicts"

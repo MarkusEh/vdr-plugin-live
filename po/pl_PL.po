@@ -139,6 +139,9 @@ msgstr "Brak programu dla wybranego kanału"
 msgid "Wrong event id"
 msgstr "Błędny id audycji"
 
+msgid "%A, %b %d %Y"
+msgstr ""
+
 msgid "Required minimum version of epgsearch: "
 msgstr "Wymagana wersja epgsearch (minimum):"
 
@@ -580,9 +583,6 @@ msgstr "Anuluj"
 msgid "Now"
 msgstr "Teraz"
 
-msgid "%A, %b %d %Y"
-msgstr ""
-
 msgid "Time"
 msgstr "Czas"
 
@@ -633,6 +633,9 @@ msgstr ""
 
 msgid "Stream this channel into browser."
 msgstr "Oglądaj kanał w przeglądarce"
+
+msgid "Stream this recording into browser."
+msgstr ""
 
 msgid "Stream this channel into media player."
 msgstr "Oglądaj kanał w odtwarzaczu multimediów"
@@ -902,6 +905,9 @@ msgstr "Stop"
 msgid "No schedules available for this channel"
 msgstr "Brak listy audycji dla tego kanału"
 
+msgid "No events available for this channel"
+msgstr ""
+
 msgid "Search settings"
 msgstr "Ustawienia wyszukiwania"
 
@@ -962,18 +968,6 @@ msgstr "Pokazuj panel informacyjny"
 msgid "Allow video streaming"
 msgstr "Zezwól na streamowanie strumienia video"
 
-msgid "Web-Streaming h264"
-msgstr "Parametry HLS dla AVC (H.264)"
-
-msgid "Web-Streaming HEVC"
-msgstr "Parametry HLS dla HEVC (H.265)"
-
-msgid "Web-Streaming MPEG2"
-msgstr "Parametry HLS dla MPEG2 (H.262)"
-
-msgid "Web-Streaming others"
-msgstr "Parametry HLS dla innych"
-
 msgid "Streamdev server port"
 msgstr "Port serwera Streamdev"
 
@@ -1010,6 +1004,9 @@ msgstr "Strona startowa"
 msgid "Theme"
 msgstr "Skórka"
 
+msgid "Couldn't find recording or no recordings available. Maybe you mistyped your request?"
+msgstr ""
+
 #, c-format
 msgid "%a, %x"
 msgstr ""
@@ -1018,6 +1015,9 @@ msgid "View the schedule of this channel"
 msgstr "Wyświetl program dla tego kanału"
 
 msgid " - "
+msgstr ""
+
+msgid "Recording"
 msgstr ""
 
 msgid "Timer conflicts"
@@ -1088,6 +1088,18 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr "Brak informacji EPG"
+
+#~ msgid "Web-Streaming h264"
+#~ msgstr "Parametry HLS dla AVC (H.264)"
+
+#~ msgid "Web-Streaming HEVC"
+#~ msgstr "Parametry HLS dla HEVC (H.265)"
+
+#~ msgid "Web-Streaming MPEG2"
+#~ msgstr "Parametry HLS dla MPEG2 (H.262)"
+
+#~ msgid "Web-Streaming others"
+#~ msgstr "Parametry HLS dla innych"
 
 #~ msgid "Error acquiring schedules lock"
 #~ msgstr "Błąd podczas próby blokady programu"

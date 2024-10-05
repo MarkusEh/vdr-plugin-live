@@ -144,6 +144,9 @@ msgstr "Il canale non ha programmazione"
 msgid "Wrong event id"
 msgstr "ID evento errato"
 
+msgid "%A, %b %d %Y"
+msgstr "%A, %b %d %Y"
+
 msgid "Required minimum version of epgsearch: "
 msgstr "Versione minima richiesta di EPGSearch:"
 
@@ -585,9 +588,6 @@ msgstr "Ignora"
 msgid "Now"
 msgstr "Adesso"
 
-msgid "%A, %b %d %Y"
-msgstr "%A, %b %d %Y"
-
 msgid "Time"
 msgstr "Ora"
 
@@ -637,6 +637,9 @@ msgid "Existing Recording:"
 msgstr ""
 
 msgid "Stream this channel into browser."
+msgstr ""
+
+msgid "Stream this recording into browser."
 msgstr ""
 
 msgid "Stream this channel into media player."
@@ -907,6 +910,9 @@ msgstr "Ferma"
 msgid "No schedules available for this channel"
 msgstr "Nessun programma disponibile per questo canale"
 
+msgid "No events available for this channel"
+msgstr ""
+
 msgid "Search settings"
 msgstr "Impostazioni ricerca"
 
@@ -967,18 +973,6 @@ msgstr "Mostra tabella informazione dinamica VDR"
 msgid "Allow video streaming"
 msgstr "Permetti trasmissione video"
 
-msgid "Web-Streaming h264"
-msgstr ""
-
-msgid "Web-Streaming HEVC"
-msgstr ""
-
-msgid "Web-Streaming MPEG2"
-msgstr ""
-
-msgid "Web-Streaming others"
-msgstr ""
-
 msgid "Streamdev server port"
 msgstr "Porta server Streamdev"
 
@@ -1015,6 +1009,9 @@ msgstr "Pagina iniziale"
 msgid "Theme"
 msgstr "Tema"
 
+msgid "Couldn't find recording or no recordings available. Maybe you mistyped your request?"
+msgstr ""
+
 #, c-format
 msgid "%a, %x"
 msgstr "%a, %x"
@@ -1024,6 +1021,9 @@ msgstr "Visualizza scheda programmi del canale"
 
 msgid " - "
 msgstr " - "
+
+msgid "Recording"
+msgstr ""
 
 msgid "Timer conflicts"
 msgstr "Conflitti timer"

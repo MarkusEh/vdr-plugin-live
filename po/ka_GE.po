@@ -141,6 +141,9 @@ msgstr "არხს განრიგი არ გააჩნია"
 msgid "Wrong event id"
 msgstr "მოვლენის არასწორი ID"
 
+msgid "%A, %b %d %Y"
+msgstr "%A, %b %d %Y"
+
 msgid "Required minimum version of epgsearch: "
 msgstr "EPGSearch-ის აუცილებელი მინიმალურ ვერსია: "
 
@@ -582,9 +585,6 @@ msgstr "მოსილება"
 msgid "Now"
 msgstr "ახლა"
 
-msgid "%A, %b %d %Y"
-msgstr "%A, %b %d %Y"
-
 msgid "Time"
 msgstr "დრო"
 
@@ -635,6 +635,9 @@ msgstr "არსებული ჩანაწერი:"
 
 msgid "Stream this channel into browser."
 msgstr "ამ არხის ბრაუზერში ჩვენება."
+
+msgid "Stream this recording into browser."
+msgstr ""
 
 msgid "Stream this channel into media player."
 msgstr "ამ არხის მედიის დამკვრელში ჩვენება."
@@ -904,6 +907,9 @@ msgstr "შეჩერება"
 msgid "No schedules available for this channel"
 msgstr "ამ არხისთვის გეგმა ხელმიუწვდომელია"
 
+msgid "No events available for this channel"
+msgstr ""
+
 msgid "Search settings"
 msgstr "ძიების პარამეტრები"
 
@@ -964,18 +970,6 @@ msgstr "დინამიკური VDR ინფორმაციის პ
 msgid "Allow video streaming"
 msgstr "ვიდეო ნაკადის დაშვება"
 
-msgid "Web-Streaming h264"
-msgstr "ვებ-ნაკადი h264"
-
-msgid "Web-Streaming HEVC"
-msgstr "ვებ-ნაკადი HEVC"
-
-msgid "Web-Streaming MPEG2"
-msgstr "ვებ-ნაკადი MPEG2"
-
-msgid "Web-Streaming others"
-msgstr "სხვა ვებ-ნაკადები"
-
 msgid "Streamdev server port"
 msgstr "Streamdev-ის სერვერის პორტი"
 
@@ -1012,6 +1006,9 @@ msgstr "საწყისი გვერდი"
 msgid "Theme"
 msgstr "თემა"
 
+msgid "Couldn't find recording or no recordings available. Maybe you mistyped your request?"
+msgstr ""
+
 #, c-format
 msgid "%a, %x"
 msgstr "%a, %x"
@@ -1021,6 +1018,9 @@ msgstr "ამ არხის განრგის ნახვა"
 
 msgid " - "
 msgstr " - "
+
+msgid "Recording"
+msgstr ""
 
 msgid "Timer conflicts"
 msgstr "ტაიმერის კონფლიქტები"
@@ -1090,6 +1090,18 @@ msgstr "ცოცხალი ინტერაქტიური VDR გარ
 
 msgid "No EPG information available"
 msgstr "EPG-ის ინფორმაცია მიუწვდომელია"
+
+#~ msgid "Web-Streaming h264"
+#~ msgstr "ვებ-ნაკადი h264"
+
+#~ msgid "Web-Streaming HEVC"
+#~ msgstr "ვებ-ნაკადი HEVC"
+
+#~ msgid "Web-Streaming MPEG2"
+#~ msgstr "ვებ-ნაკადი MPEG2"
+
+#~ msgid "Web-Streaming others"
+#~ msgstr "სხვა ვებ-ნაკადები"
 
 #~ msgid "Error acquiring schedules lock"
 #~ msgstr "განრიგის ბლოკის მიღების შეცდომა"

@@ -141,6 +141,9 @@ msgstr "La chaîne n'a pas de programmation"
 msgid "Wrong event id"
 msgstr "Faux ID d'événement"
 
+msgid "%A, %b %d %Y"
+msgstr "%A, %d.%m.%Y"
+
 msgid "Required minimum version of epgsearch: "
 msgstr "Version minimum requise d'epgsearch: "
 
@@ -599,9 +602,6 @@ msgstr ""
 msgid "Now"
 msgstr "maintenant"
 
-msgid "%A, %b %d %Y"
-msgstr "%A, %d.%m.%Y"
-
 msgid "Time"
 msgstr ""
 
@@ -651,6 +651,9 @@ msgid "Existing Recording:"
 msgstr ""
 
 msgid "Stream this channel into browser."
+msgstr ""
+
+msgid "Stream this recording into browser."
 msgstr ""
 
 msgid "Stream this channel into media player."
@@ -923,6 +926,9 @@ msgstr "Stop"
 msgid "No schedules available for this channel"
 msgstr "Aucune programmation disponible pour cette chaîne"
 
+msgid "No events available for this channel"
+msgstr ""
+
 msgid "Search settings"
 msgstr "Règlages de recherche"
 
@@ -983,18 +989,6 @@ msgstr "Voir la boîte d'information dynamique VDR"
 msgid "Allow video streaming"
 msgstr "Permettez-streaming vidéo"
 
-msgid "Web-Streaming h264"
-msgstr ""
-
-msgid "Web-Streaming HEVC"
-msgstr ""
-
-msgid "Web-Streaming MPEG2"
-msgstr ""
-
-msgid "Web-Streaming others"
-msgstr ""
-
 msgid "Streamdev server port"
 msgstr "Port du serveur streamdev"
 
@@ -1032,6 +1026,9 @@ msgstr "Page de départ"
 msgid "Theme"
 msgstr "Thème"
 
+msgid "Couldn't find recording or no recordings available. Maybe you mistyped your request?"
+msgstr ""
+
 #, fuzzy, c-format
 msgid "%a, %x"
 msgstr "%A, %x"
@@ -1040,6 +1037,9 @@ msgid "View the schedule of this channel"
 msgstr "Regarder le programme de cette chaîne"
 
 msgid " - "
+msgstr ""
+
+msgid "Recording"
 msgstr ""
 
 #, fuzzy

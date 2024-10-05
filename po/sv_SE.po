@@ -138,6 +138,9 @@ msgstr "Kanalen har inga scheman"
 msgid "Wrong event id"
 msgstr "Fel händelse-id"
 
+msgid "%A, %b %d %Y"
+msgstr "%A, %d.%m.%Y"
+
 msgid "Required minimum version of epgsearch: "
 msgstr "Minsta version av epgsearch som krävs:"
 
@@ -579,9 +582,6 @@ msgstr "Avfärda"
 msgid "Now"
 msgstr "Nu"
 
-msgid "%A, %b %d %Y"
-msgstr "%A, %d.%m.%Y"
-
 msgid "Time"
 msgstr "Tid"
 
@@ -631,6 +631,9 @@ msgid "Existing Recording:"
 msgstr ""
 
 msgid "Stream this channel into browser."
+msgstr ""
+
+msgid "Stream this recording into browser."
 msgstr ""
 
 msgid "Stream this channel into media player."
@@ -901,6 +904,9 @@ msgstr "Stop"
 msgid "No schedules available for this channel"
 msgstr "Inga scheman för denna kanal!"
 
+msgid "No events available for this channel"
+msgstr ""
+
 msgid "Search settings"
 msgstr "Sök inställningar"
 
@@ -961,18 +967,6 @@ msgstr "Visa dynamisk VDR-informationsruta"
 msgid "Allow video streaming"
 msgstr "Tillåt videoströmmning"
 
-msgid "Web-Streaming h264"
-msgstr ""
-
-msgid "Web-Streaming HEVC"
-msgstr ""
-
-msgid "Web-Streaming MPEG2"
-msgstr ""
-
-msgid "Web-Streaming others"
-msgstr ""
-
 msgid "Streamdev server port"
 msgstr "Streamdev serverns port"
 
@@ -1009,6 +1003,9 @@ msgstr "Startsida"
 msgid "Theme"
 msgstr "Tema"
 
+msgid "Couldn't find recording or no recordings available. Maybe you mistyped your request?"
+msgstr ""
+
 #, c-format
 msgid "%a, %x"
 msgstr ""
@@ -1017,6 +1014,9 @@ msgid "View the schedule of this channel"
 msgstr "Visa schemat för denna kanal"
 
 msgid " - "
+msgstr ""
+
+msgid "Recording"
 msgstr ""
 
 msgid "Timer conflicts"
