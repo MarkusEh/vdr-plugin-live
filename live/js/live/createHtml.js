@@ -39,7 +39,7 @@ function addTime(s, time) {
   s.a += String.fromCharCode(48+(d_sec-d_sec_ld)/10,48+(d_sec%10))
 }
 
-function addScraperImageTitle(s, image, pt, title, seasonEpisode, runtime, date, lf) {
+function addScraperImageTitle(s, image, pt, title, seasonEpisode, runtime, date) {
 // pt: "pt" if m_s_image.width <= m_s_image.height, otherwise= ""
 // seasonEpisode: e.g. 3E8    (we will add the missing S ...)
   s.a += '<div class=\"thumb\"><img loading="lazy" data-src=\"';
@@ -54,16 +54,15 @@ function addScraperImageTitle(s, image, pt, title, seasonEpisode, runtime, date,
     s.a += '\" title=\"'
     s.a += title
       if (seasonEpisode.length != 0) {
-        s.a += lf
-        s.a += 'S'
+        s.a += '<br/>S'
         s.a += seasonEpisode
       }
       if (runtime.length != 0) {
-        s.a += lf
+        s.a += '<br/>'
         s.a += runtime
       }
       if (date.length != 0) {
-        s.a += lf
+        s.a += '<br/>'
         s.a += date
       }
   }
@@ -99,47 +98,13 @@ function add2ndLine(s, shortText, description) {
   s.a += '</span>'
 }
 
-function addEventRec(s, eventprefix, eventid, title, folder, shortText, description, lf, cvd, sort, filter, flat, history_num_back) {
-// eventprefix == 'recording_' or 'event_'
-// lf: line feed
-// cvd: tr("Click to view details.")
-  s.a += '<a href="epginfo.html?epgid='
-  s.a += eventprefix
-  s.a += eventid
-  s.a += '&sort='
-  s.a += sort
-  s.a += '&filter='
-  s.a += encodeURIComponent(filter)
-  s.a += '&flat='
-  s.a += flat
-  s.a += '&history_num_back='
-  s.a += history_num_back
-  s.a += '" class="apopup" title="'
-  if (description.length != 0) {
-    s.a += description
-    s.a += lf
-  }
-  s.a += cvd
-  s.a += '">'
-  s.a += '<div class="margin-bottom bold-font">'
-  s.a += title
-  if (folder.length != 0) {
-    s.a += '<span class="normal-font"> ('
-    s.a += folder.replaceAll("~", "~<wbr>")
-    s.a += ')</span>'
-  }
-  s.a += '</div>'
-  add2ndLine(s, shortText, description)
-  s.a += '</a>'
-}
-
-function addColEventRec(s, times, eventprefix, eventid, title, folder, shortText, description, lf, cvd) {
+function addColEventRec(s, times, eventprefix, eventid, title, folder, shortText, description) {
 // col with times, channel, name, short text
   s.a += '<div class="withmargin"><div class="margin-bottom display-xs"><span class="normal-font">'
   s.a += times
   s.a += '</span></div>'
 // sec&third line: Link to event, event title, short text
-  addEventRec(s, eventprefix, eventid, title, folder, shortText, description, lf, cvd, '', '', '', 1)
+  addEventRec(s, eventprefix, eventid, '&history_num_back=1', title, folder, shortText, description)
   s.a += '</div>'
 }
 
@@ -271,39 +236,6 @@ function RecordingsSt(s, level, displayFolder, data) {
     RecordingsSt_int(s, level, displayFolder, data);
   }
 }
-async function RecordingsSt_a(s, level, displayFolder, data) {
-  var recs_param =  '';
-  for (obj_i of data) {
-    if (typeof recs[obj_i] === 'undefined') {
-//      recs_param += '&r=';
-      recs_param += param_name_recs;
-      recs_param += obj_i;
-    }
-  }
-  if (recs_param.length == 0) {
-    RecordingsSt_int(s, level, displayFolder, data);
-  } else {
-    var recs_param_a = 'vdr_start=';
-    recs_param_a += vdr_start;
-    recs_param_a += '&recordings_tree_creation=';
-    recs_param_a += recordings_tree_creation;
-    recs_param_a += recs_param;
-    const response = await fetch("get_recordings.html", {
-      method: "POST",
-      headers: {
-       "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: recs_param_a,
-    });
-    const new_recs = await response.text();
-    eval(new_recs);
-    if (vdr_restart) {
-      location.reload();
-    } else {
-      RecordingsSt_int(s, level, displayFolder, data);
-    }
-  }
-}
 async function rec_string_d_a(rec_ids) {
   const st = Object.create(null)
   st.a = ""
@@ -348,7 +280,9 @@ function addEventList(s, col_span, events) {
         } else {
           bottomrow = ''
         }
-        existingRecordingSR(s, col_span-2, bottomrow, events[day][1][event_][1][2], events[day][1][event_][1][0], events[day][1][event_][1][1], events[day][1][event_][1][3], events[day][1][event_][1][4], events[day][1][event_][1][5], events[day][1][event_][1][6], events[day][1][event_][1][7], events[day][1][event_][1][8], events[day][1][event_][1][9], events[day][1][event_][1][10], events[day][1][event_][1][11], events[day][1][event_][1][12], events[day][1][event_][1][13], events[day][1][event_][1][14], events[day][1][event_][1][15], events[day][1][event_][1][16], events[day][1][event_][1][17], events[day][1][event_][1][18], events[day][1][event_][1][19], events[day][1][event_][1][20])
+// note: data is written as needed by existingRecordingString
+// which differs soewhat from existingRecordingSR
+        existingRecordingSR(s, col_span-2, bottomrow, events[day][1][event_][1][2], events[day][1][event_][1][0], events[day][1][event_][1][1], events[day][1][event_][1][3], events[day][1][event_][1][4], events[day][1][event_][1][5], events[day][1][event_][1][6], events[day][1][event_][1][7], events[day][1][event_][1][8], events[day][1][event_][1][9], events[day][1][event_][1][10], events[day][1][event_][1][11], events[day][1][event_][1][12], events[day][1][event_][1][13], events[day][1][event_][1][14], events[day][1][event_][1][15], events[day][1][event_][1][16], events[day][1][event_][1][17], events[day][1][event_][1][18], events[day][1][event_][1][19], events[day][1][event_][1][21])
       }
     }
   }

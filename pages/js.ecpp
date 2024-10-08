@@ -1,0 +1,369 @@
+<%pre>
+/* java script functions depending on settings and language,
+ *  but not depending on other parameters
+ *  -> static page, no input parameters
+*/
+#include <setup.h>
+#include <livefeatures.h>
+using namespace vdrlive;
+#if TNTVERSION >= 30000
+const char *TNT_ARRAY = "[]";
+#else
+const char *TNT_ARRAY = "";
+#endif
+</%pre>
+
+<%cpp>
+reply.setHeader (tnt::httpheader::contentType, "text/javascript; charset=utf-8", true);
+</%cpp>
+
+
+function addErrorIcon(s, numErrors, durationDeviation, duration, numTsFiles) {
+  if (numErrors <= -100) return
+  s.a += '<div class=\"recording_errors\"><img class=\"icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>'
+  if (durationDeviation > 300 || numErrors  > 0) s.a += 'RecordingErrors.png'
+  else if (durationDeviation > 60) s.a += 'NotCheckedForRecordingErrors.png'
+  else {
+    if (numErrors == 0) s.a += 'NoRecordingErrors.png'
+    if (numErrors  > 0) s.a += 'RecordingErrors.png'
+    if (numErrors  < 0) s.a += 'NotCheckedForRecordingErrors.png'
+  }
+  s.a += '\" width = \"16px\" title=\"'
+  if (numErrors == 0) s.a += '<$tr("No recording errors")$>'
+  if (numErrors  > 0) s.a += '<$tr("Number of recording errors:")$> ' + String(numErrors)
+  if (numErrors  < 0) s.a += '<$tr("Recording errors unknown")$>'
+% if (LiveFeatures<features::tvscraper>().Loaded()) {
+    s.a += '<br/><$tr("Duration deviation from event length")$>: '
+    addTime(s, durationDeviation)
+    s.a += ' <$tr("min")$>'
+% }
+  s.a += '<br/><$tr("Recording length")$>: '
+  s.a += duration
+  s.a += ' <$tr("h")$><br/><$tr("Number of ts files")$>: '
+  s.a += String(numTsFiles)
+  s.a += '\" /> </div>'
+}
+
+function addHdSdIcon(s, hdsd, toolTip, frameParams) {
+  s.a += '<div class=\"recording_sd_hd\"><img class=\"icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>'
+  s.a += hdsd
+  s.a += '.png\" width = \"25px\" title=\"'
+  if (frameParams.length != 0) {
+    s.a += frameParams
+    s.a += '<br/>'
+  }
+  s.a += toolTip
+  s.a += '\" /></div>'
+}
+
+function IMDBS(s, im_db, name) {
+  if (im_db.length == 0) {
+    s.a += '<a href=\"http://www.imdb.com/find?s=all&q='
+    if (name.startsWith("%") ) {
+      s.a += name.substr(1)
+    } else {
+      s.a += name
+    }
+  } else {
+    s.a += '<a href=\"https://www.imdb.com/title/'
+    s.a += im_db
+  }
+  s.a +=
+   '\" target=\"_blank\"><img class=\"icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>imdb.png\" title=\"<$tr("Find more at the Internet Movie Database.")$>\"/></a>'
+}
+
+<#
+// [0] : EPG ID  (without event_)
+// [1] : Timer ID = SortedTimers::EncodeDomId(LiveTimerManager().GetTimers().GetTimerId(*timer))
+//               (without timer_)
+// [2] : scraper s_IMDB_ID
+// [3] : image.path  (nach "/tvscraper/")
+// [4] : "pt" if m_s_image.width <= m_s_image.height, otherwise= ""
+// [5] : title (scraper)
+// [6] : season / episode (scraper, for tv shows, if available. Otherwise: Empty)
+// [7] : runtime (scraper)
+// [8] : relase date (scraper)
+// [9] : channelnr
+// [10] : channelname
+// [11] : Name
+// [12] : Shorttext
+// [13] : Description
+// [14] : Day, time & duration of event
+#>
+function addEvent(s, bottomrow_i, obj) {
+// first column, timer /red or green, ...
+  let bottomrow = ''
+  if (bottomrow_i != 0) bottomrow = 'bottomrow'
+  s.a += `<tr><td class=\"action leftcol ${bottomrow}\">`
+  if (obj[1].length != 0) {
+    s.a += '<a href=\"edit_timer.html?timerid=timer_'
+    s.a += obj[1].replace(/&ts=\w*$/, '')
+    s.a += '\"><img class=\"icon\" src=\"<$ LiveSetup().GetThemedLink("img", "") $>' + (obj[1].endsWith('&ts=r') ? 'recording_timer.gif' : (obj[1].endsWith('&ts=i') ? 'record_inactive_timer.png' : 'record_timer.png')) + '\" title=\"<$tr("Edit timer")$>\" />'
+  } else {
+    s.a += '<a href=\"edit_timer.html?epgid=event_'
+    s.a += obj[0]
+    s.a += '\"><img class=\"icon\" src=\"<$ LiveSetup().GetThemedLink("img", "record.png") $>\" title=\"<$tr("Record this")$>\" />'
+  }
+  s.a += '</a>'
+% if (LiveFeatures<features::epgsearch>().Recent() ) {
+    s.a += '<a href=\"searchresults.html?searchplain='
+    s.a += obj[11]
+    s.a += '\"><img class=\"icon\" src=\"<$ LiveSetup().GetThemedLink("img", "search.png") $>\" title=\"<$tr("Search for repeats.")$>\"/></a>'
+% } if (LiveSetup().GetShowIMDb() ) {
+    IMDBS(s, obj[2], obj[11])
+% }
+  s.a += '</td>'
+// second col, dependent on width: channel
+  if (obj[9] > 0) {
+    s.a += `<td class=\"td-hidden-xs ${bottomrow}\"><div class=\"hidden-xs withmargin\"><a href=\"schedule.html?channel=`
+    s.a += obj[9]
+    s.a += '\">'
+    s.a += obj[10]
+    s.a += '</a></div></td>'
+  }
+// third col: image
+% if (!LiveSetup().GetTvscraperImageDir().empty() ) {
+    s.a += `<td class=\"enlarge-image ${bottomrow}\">`
+    addScraperImageTitle(s, obj[3], obj[4], obj[5], obj[6], obj[7], obj[8]);
+    s.a += '</td>'
+% }
+  s.a += `<td class=\"td-hidden-xs ${bottomrow}\"><div class=\"hidden-xs withmargin\">`
+  s.a += obj[14]
+  s.a += '</div></td>'
+// col with times, channel, name, short text
+  s.a += `<td class=\"rightcol ${bottomrow}\"><div class=\"withmargin\">`
+// first line: link to channel, times, channel
+  s.a += '<div class=\"margin-bottom display-xs\">'
+  if (obj[9] > 0) {
+    s.a += '<a href=\"schedule.html?channel='
+    s.a += obj[9]
+    s.a += '\">'
+  }
+  s.a += '<span class=\"normal-font\">'
+  s.a += obj[14]
+  if (obj[9] > 0) {
+    s.a += ' '
+    s.a += obj[10]
+  }
+  s.a += '</span>'
+  if (obj[9] > 0) s.a += '</a>'
+  s.a += '</div>'
+// sec&third line: Link to event, event title, short text
+  addEventRec(s, 'event_', obj[0], '&history_num_back=1', obj[11], '', obj[12], obj[13])
+  s.a += '</div></td></tr>'
+}
+function eventString(bottomrow, data) {
+  const s = Object.create(null)
+  s.a = ""
+  addEvent(s, bottomrow, data)
+  return s.a
+}
+
+// existing recording
+function existingRecordingSR(s, col_span1, bottomrow, imdb_id, id, archiveDescr, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, durationDeviation, folder, duration, numTsFiles) {
+  if (archiveDescr.length != 0) col_span1--;
+  s.a += '<tr><td colspan='
+  s.a += col_span1.toString()
+  s.a += ' class=\"leftcol '
+  s.a += bottomrow
+  s.a += '\"><$ tr("Existing Recording:") $>'
+  if (archiveDescr.length != 0) {
+    s.a += '</td><td class=\"action '
+    s.a += bottomrow
+    s.a += '\"> <img class=\"icon\" src=\"<$ LiveSetup().GetThemedLink("img", "on_dvd.png") $>\" alt=\"on dvd\" title=\" />'
+    s.a += archiveDescr
+    s.a += '/>'
+<%cpp>
+#if VDRVERSNUM >= 20505
+</%cpp>
+  } else {
+    s.a += '<br/><table><tr><td class=\"noborder\">'
+    addErrorIcon(s, errors, durationDeviation, duration, numTsFiles)
+    s.a += '</td><td class=\"noborder\">'
+    addHdSdIcon(s, hd_sd, channel_name, \"\")
+    s.a += '</td></tr></table>'
+<%cpp>
+#endif
+</%cpp>
+  }
+  s.a += '</td><td class=\"td-hidden-xs '
+  s.a += bottomrow
+  s.a += '\"><div class=\"hidden-xs recording_day\">'
+  s.a += day_time_duration
+  s.a += '</div></td><td class=\"rightcol '
+  s.a += bottomrow
+  s.a += '\">'
+  addColEventRec(s, day_time_duration, 'recording_', id, name, folder, short_text, description)
+  s.a += '</td></tr>'
+}
+function existingRecordingString(col_span, bottomrow, id, archiveDescr, imdb_id, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, durationDeviation, folder, duration, size, numTsFiles) {
+  const s = Object.create(null)
+  s.a = ""
+  existingRecordingSR(s, col_span, bottomrow, imdb_id, id, archiveDescr, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, durationDeviation, folder, duration, numTsFiles)
+  return s.a
+}
+
+function RecordingActionStream(s, id) {
+  s.a += '<a class=\"hidden-xs\" href=\"stream.html?recid=recording_'
+  s.a += id
+  s.a += '\" title=\"<$tr("Stream this recording into browser.")$>\"><img class=\"icon hidden-xs\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>stream_button.png\" /></a>'
+}
+async function RecordingsSt_a(s, level, displayFolder, data) {
+  var recs_param =  '';
+  for (obj_i of data) {
+    if (typeof recs[obj_i] === 'undefined') {
+      recs_param += '&r<$ TNT_ARRAY $>='
+      recs_param += obj_i;
+    }
+  }
+  if (recs_param.length == 0) {
+    RecordingsSt_int(s, level, displayFolder, data);
+  } else {
+    var recs_param_a = 'vdr_start=<$ cToSvInt(LiveSetup().GetVdrStart() ) $>&recordings_tree_creation=';
+    recs_param_a += recordings_tree_creation;
+    recs_param_a += recs_param;
+    const response = await fetch("get_recordings.html", {
+      method: "POST",
+      headers: {
+       "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: recs_param_a,
+    });
+    const new_recs = await response.text();
+    eval(new_recs);
+    if (vdr_restart) {
+      location.reload();
+    } else {
+      RecordingsSt_int(s, level, displayFolder, data);
+    }
+  }
+}
+
+function addEventRec(s, eventprefix, eventid, http_params, title, folder, shortText, description) {
+// eventprefix == 'recording_' or 'event_'
+  s.a += '<a href="epginfo.html?epgid='
+  s.a += eventprefix
+  s.a += eventid
+  s.a += http_params
+  s.a += '" class="apopup" title="'
+  if (description.length != 0) {
+    s.a += description
+    s.a += '<br/><br/>'
+  }
+  s.a += '<$tr("Click to view details.")$>"><div class="margin-bottom bold-font">'
+  s.a += title
+  if (folder.length != 0) {
+    s.a += '<span class="normal-font"> ('
+    s.a += folder.replaceAll("~", "~<wbr>")
+    s.a += ')</span>'
+  }
+  s.a += '</div>'
+  add2ndLine(s, shortText, description)
+  s.a += '</a>'
+}
+<#
+// [0] : ID (prefix "recording_" removed !!!)
+// [1] : ArchiveDescr()
+// scraper data
+// [2] : IMDB ID
+// [3] : image.path  (behind "/tvscraper/")
+// [4] : "pt" if m_s_image.width <= m_s_image.height, otherwise= ""
+// [5] : title (scraper)
+// [6] : season / episode (scraper, for tv shows, if available. Otherwise: Empty)
+// [7] : runtime (scraper)
+// [8] : release date (scraper)
+// end scraper data
+// [9] : Day, time
+// [10] : Number of recording errors
+// [11] : audio/SD/HD/UHD r/s/h/u
+// [12] : channel name
+// [13] : _new
+// [14] : Name
+// [15] : Shorttext
+// [16] : Description
+// [17] : Recording Length deviation in seconds
+// [18] : Folder (if displayFolder == true. Otherwise, this does not exist / out of range)
+// [19] : duration
+// [20] : size
+// [21] : numTsFiles
+// [22] : frame parameter text
+// before calling, make sure that all recs[obj_i] exist!
+#>
+function RecordingsSt_int(s, level, displayFolder, data) {
+  s.a += '<li class="recording"><div><table width="100%" class="recordings">'
+  for (obj_i of data) {
+    if (typeof recs[obj_i] === 'undefined') continue;
+    obj = recs[obj_i]
+    s.a += '<tr class="recording_item">'
+    if (level > 0) s.a +=
+      '<td class="space"> <img src="img/transparent.png" width="' + String(16 * level) + 'px" height="16px" /></td>'
+    s.a += '<td class="td-hidden-xs"><div class="hidden-xs recording_imgs">'
+    if (obj[1].length != 0) {
+      s.a += '<img class=\"icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>on_dvd.png\" alt=\"on_dvd\" title=\"'
+      s.a += obj[1]
+      s.a += '/>'
+    } else {
+      s.a += '<input type="checkbox" name="deletions<$TNT_ARRAY$>" value="recording_'
+      s.a += obj[0]
+      s.a += '" />'
+    }
+    s.a += '</div></td>'  // end of recording_imgs
+%   if (!LiveSetup().GetTvscraperImageDir().empty() ) {
+    s.a += '<td class=\"space\">'
+      addScraperImageTitle(s, obj[3], obj[4], obj[5], obj[6], obj[7], obj[8]);
+    s.a += '</td>'
+%   }
+    s.a += '<td class="td-hidden-xs"><div class="hidden-xs recording_day margin-bottom">'
+    s.a += obj[9]
+    s.a += '</div><div class="hidden-xs recording_channel">'
+    s.a += obj[12]
+    s.a += '</div></td><td class="td-hidden-xs" style="text-align:right"><div class="hidden-xs recording_duration margin-bottom">'
+    s.a += obj[19]
+    if (obj[17] > 0) {
+      s.a += '<span title=\"<$tr("Duration deviation from event length")$>\"> ['
+      addTime(s, obj[17])
+      s.a += ']</span>'
+    }
+    s.a += '</div><div class="hidden-xs recording_size">'
+    s.a += obj[20]
+    s.a += '</div></td><td>'
+    addErrorIcon(s, obj[10], obj[17], obj[19], obj[21])
+    addHdSdIcon(s, obj[11], obj[12], obj[22])
+    s.a += '</td>'  // end column with error / sd/hd image
+    s.a += '<td><div class=\"recording_name'
+    s.a += obj[13]
+    s.a += '\">'
+    if (displayFolder == 1) folder = obj[18]
+    else folder = ''
+    s.a += '<div class="withmargin">'
+    addEventRec_r(s, obj[0], obj[14], folder, obj[15], obj[16]);
+    s.a += '</div></div></td>'  // end if recording_name / short description
+    s.a += '<td><div class=\"recording_actions\">'
+    if (obj[1].length == 0) {
+%     if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
+        RecordingActionS(s, obj[0], "vdr_request/play_recording?param=", "play.png", "<$tr("play this recording")$>")
+%     }
+%     if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded() ) {
+        RecordingActionStream(s, obj[0])
+%     }
+      RecordingActionPlaylist(s, obj[0])
+%     if (LiveSetup().GetShowIMDb() ) {
+        IMDBS(s, obj[2], obj[14])
+%     }
+      RecordingActionS(s, obj[0], "edit_recording.html?recid=", "edit.png", "<$tr("Edit recording")$>")
+      RecordingActionS(s, obj[0], "epginfo.html?epgid=del_", "del.png", "<$tr("Delete this recording from hard disc!")$>")
+%     if (LiveSetup().GetShowIMDb() ) {
+    } else {
+      IMDBS(s, obj[2], obj[14])
+%     }
+    }
+    s.a += '</div>'
+    if (obj[1].length != 0) {
+      s.a += '<div class=\"recording_arch\">'
+      s.a += obj[1]
+      s.a += '</div>'
+    }
+    s.a += '</td></tr>'
+  }
+  s.a += '</table></div></li>'
+}
