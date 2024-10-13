@@ -119,6 +119,14 @@ using namespace vdrlive;
 <%cpp>
   if (epgEvent && delete_rec.empty()) {
     uintptr_t i_epgEvent = (uintptr_t)(&epgEvent);
+    cToSvConcat<0> start(epgEvent->StartTime("%a,"), ' ',
+                         epgEvent->StartTime(tr("%b %d %y")), ' ',
+                         epgEvent->StartTime(tr("%I:%M %p")) );
+    if (epgEvent->EventDuration() < 0) {  // epg event, no recording
+      start << " - " << epgEvent->EndTime(tr("%I:%M %p")) << ' ';
+      AppendDuration(start, tr("(%d:%02d)"), epgEvent->Duration());
+    }
+/*
     std::string start(epgEvent->StartTime("%a,") + std::string(" ")
         + epgEvent->StartTime(tr("%b %d %y")) + std::string(" ")
         + epgEvent->StartTime(tr("%I:%M %p")) );
@@ -127,6 +135,7 @@ using namespace vdrlive;
       start += " ";
       AppendDuration(start, tr("(%d:%02d)"), epgEvent->Duration());
     }
+*/
 
     std::string tools_component;
     if (recordings) {

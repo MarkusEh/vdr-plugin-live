@@ -225,7 +225,7 @@ if (type == "now") {
       EpgEvents::DecodeDomId(epgEvent->Id(), chanId, eventId);
 
       // Searching for channel logos
-      std::string chanlogoimg;
+      cToSvConcat<0> chanlogoimg;
       if (!LiveSetup().GetChanLogoDir().empty() ) {
         std::string chanlogofile = StringReplace(epgEvent->Caption(), "/", "_") + ".png";
         std::string chanlogopath = LiveSetup().GetChanLogoDir() + chanlogofile;
@@ -243,7 +243,7 @@ if (type == "now") {
           logo_available = stat (chanlogopath.c_str(), &chanfilebuf) == 0;
         }
         if (logo_available) {
-          chanlogoimg = "<img src=\"chanlogos/";
+          chanlogoimg.append("<img src=\"chanlogos/");
           AppendHtmlEscapedAndCorrectNonUTF8(chanlogoimg, chanlogofile);
           chanlogoimg.append("\" alt=\"");
           AppendHtmlEscapedAndCorrectNonUTF8(chanlogoimg, epgEvent->Caption());

@@ -1,13 +1,12 @@
 /*
- * version 0.9.3
+ * version 0.9.4
  * general string-helper functions
  * Note: currently, most up to date Version is in live!
  *
  * only depends on g++:
  *    -std=c++17 std:: standard headers
  *     on esyslog (from VDR)
-*     on VDR channels :( .
-*     on "to_chars10.h"
+ *     on "to_chars10.h"
  *
  * no other dependencies, so it can be easily included in any other header
  *
@@ -16,7 +15,9 @@
 #ifndef __STRINGHELPERS_H
 #define __STRINGHELPERS_H
 
-#include "vdr/channels.h"
+#if !defined test_stringhelpers
+#include "vdr/tools.h"
+#endif
 #include "to_chars10.h"
 #include <cstdarg>
 #include <string>
@@ -58,7 +59,6 @@ inline std::string charPointerToString(const unsigned char *s) {
 
 // 2nd advantage of cSv: substr(pos) if pos > length: no dump, just an empty cSv as result
 
-inline wint_t Utf8ToUtf32(const char *&p, int len);
 class utf8_iterator;
 class cSv: public std::string_view {
   friend class utf8_iterator;
@@ -121,6 +121,7 @@ class cSv: public std::string_view {
     int compareLowerCase(cSv other, const std::locale &loc);
 };
 
+inline wint_t Utf8ToUtf32(const char *&p, int len);
 // iterator for utf8
 class utf8_iterator {
     const cSv m_sv;
@@ -588,14 +589,17 @@ inline std::ostream& operator<<(std::ostream& os, cToSv const& sv )
 template<std::size_t N>
 class cToSvHex: public cToSv {
   public:
-template<class T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
-    cToSvHex(T value) {
+template<typename T>
+    cToSvHex(const T &value) { *this << value; }
+template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
+    cToSvHex &operator<<(T value) {
       stringhelpers_internal::addCharsHex(m_buffer, N, value);
+      return *this;
     }
     operator cSv() const { return cSv(m_buffer, N); }
+    char m_buffer[N];
   protected:
     cToSvHex() { }
-    char m_buffer[N];
 };
 
 // read files
@@ -725,31 +729,32 @@ template<std::size_t N> class cToSvFileN: public cToSv {
 template<size_t N = 255>
 class cToSvConcat: public cToSv {
   public:
-    cToSvConcat() {}
     template<typename... Args> cToSvConcat(Args&&... args) {
       concat(std::forward<Args>(args)...);
     }
-    template<typename T, typename U, typename... Args>
-    cToSvConcat &concat(T &&n, U &&u, Args&&... args) {
-      concat(n);
-      return concat(std::forward<U>(u), std::forward<Args>(args)...);
+    cToSvConcat &concat() { return *this; }
+    template<typename T, typename... Args>
+    cToSvConcat &concat(T &&n, Args&&... args) {
+      *this << n;
+      return concat(std::forward<Args>(args)...);
     }
 // ========================
 // overloads for concat
-    cToSvConcat &concat(char ch) {
+    cToSvConcat &operator<<(char ch) {
       if (m_pos_for_append == m_be_data) ensure_free(1);
       *(m_pos_for_append++) = ch;
       return *this;
     }
-    cToSvConcat &concat(cSv sv) { return append(sv.data(), sv.length()); }
+    cToSvConcat &operator<<(cSv sv) { return append(sv.data(), sv.length()); }
+    template<std::size_t M>
+    cToSvConcat &operator<<(const char (&s)[M]) { return append(s, M-1); }
 
 template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
-    cToSvConcat &concat(T i) {
+    cToSvConcat &operator<<(T i) {
       if (!to_chars10_internal::to_chars10_range_check(m_pos_for_append, m_be_data, i)) ensure_free(20);
       m_pos_for_append = to_chars10_internal::itoa(m_pos_for_append, i);
       return *this;
     }
-template<typename T> cToSvConcat &operator<<(T sv) { return concat(sv); }
 
 // ========================
 // overloads for append. Should be compatible to std::string.append(...)
@@ -781,10 +786,15 @@ template<size_t M, typename T, std::enable_if_t<std::is_integral_v<T>, bool> = t
       return *this;
     }
 template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
-    cToSvConcat &appendHex(T value, int width) {
+    cToSvConcat &appendHex(T value, int width = sizeof(T)*2) {
       if (m_pos_for_append + width > m_be_data) ensure_free(width);
       stringhelpers_internal::addCharsHex(m_pos_for_append, width, value);
       m_pos_for_append += width;
+      return *this;
+    }
+template<typename T, std::enable_if_t<sizeof(T) == 16, bool> = true>
+    cToSvConcat &appendHex(T value) {
+      *this << value;
       return *this;
     }
 // =======================
@@ -848,52 +858,13 @@ template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
         }
       return appendDateTime(fmt, &tm_r);
     }
-// =======================
-// #include <vdr/channels.h>
-
-// =========================================================
-// some performance improvement, to get string presentation for channel
-// you can also use channelID.ToString()
-// in struct tChannelID {  (in VDR):
-//   static tChannelID FromString(const char *s);
-//   cString ToString(void) const;
-// =========================================================
-// append tChannelID
-    cToSvConcat &appendChannel(const tChannelID &channelID, char point = '.', char minus = '-') {
-      int st_Mask = 0xFF000000;
-      concat((char) ((channelID.Source() & st_Mask) >> 24));
-      if (int n = cSource::Position(channelID.Source())) {
-        char ew = 'E';
-        if (n < 0) {
-          ew = 'W';
-          n = -n;
-        }
-        int q = n / 10;
-        concat(q, point, (char)(n - 10*q + '0'), ew);
-      }
-      concat(minus, channelID.Nid(), minus, channelID.Tid(), minus, channelID.Sid());
-      if (channelID.Rid() ) concat(minus, channelID.Rid() );
-      return *this;
-    }
-// append tChannelID
-    cToSvConcat &concat(const tChannelID &channelID) {
-      return appendChannel(channelID);
-/*
-      if (int n = cSource::Position(channelID.Source())) {
-         appendFormated("%u.%u", abs(n) / 10, abs(n) % 10); // can't simply use "%g" here since the silly 'locale' messes up the decimal point
-         concat( (n < 0) ? 'W' : 'E');
-      }
-      appendFormated(channelID.Rid() ? "-%d-%d-%d-%d" : "-%d-%d-%d",
-          channelID.Nid(), channelID.Tid(), channelID.Sid(), channelID.Rid() );
-      return *this;
-*/
-    }
 // ========================
 // get data
     operator cSv() const { return cSv(m_buffer, m_pos_for_append-m_buffer); }
-    char *data() { *m_pos_for_append = 0; return m_buffer; }
-    char *begin() { return m_buffer; }
-    char *end() { return m_pos_for_append; }
+    char *data() const { *m_pos_for_append = 0; return m_buffer; }
+    size_t length() const { return m_pos_for_append-m_buffer; }
+    char *begin() const { return m_buffer; }
+    char *end() const { return m_pos_for_append; }
     const char *c_str() const { *m_pos_for_append = 0; return m_buffer; }
     char operator[](size_t i) const { return *(m_buffer + i); }
     operator cStr() const { return this->c_str(); }
@@ -913,7 +884,7 @@ template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
     void ensure_free(size_t l) {
 // make sure that l bytes can we written at m_pos_for_append
       if (m_pos_for_append + l <= m_be_data) return;
-      size_t current_length = m_pos_for_append - m_buffer;
+      size_t current_length = length();
       size_t new_buffer_size = std::max(2*current_length + l + 200, m_reserve);
       if (!m_buffer_allocated) {
         m_buffer_allocated = (char *) std::malloc(new_buffer_size);
@@ -994,65 +965,6 @@ inline void stringAppend(cToSvConcat<N> &s, T i) {
   s.concat(i);
 }
 
-template<std::size_t N, typename... Args>
-inline void stringAppendFormated(cToSvConcat<N> &s, const char *fmt, Args&&... args) {
-  s.appendFormated(fmt, std::forward<Args>(args)...);
-}
-
-// __attribute__ ((format (printf, 2, 3))) can not be used, but should work starting with GCC 13.1
-template<typename... Args>
-void stringAppendFormated(std::string &str, const char *fmt, Args&&... args) {
-  size_t size = 1024;
-  char buf[size];
-  int needed = snprintf (buf, size, fmt, std::forward<Args>(args)...);
-  if (needed < 0) {
-    esyslog("live: ERROR, stringAppendFormated, needed = %d", needed);
-    return; // error in snprintf
-  }
-  if ((size_t)needed < size) {
-    str.append(buf);
-  } else {
-    char buf2[needed + 1];
-    needed = sprintf (buf2, fmt, args...);
-    if (needed < 0) {
-      esyslog("live: ERROR, stringAppendFormated, needed (2) = %d", needed);
-      return; // error in snprintf
-    }
-    str.append(buf2);
-  }
-}
-/*
- * slower than stringAppendFormated
- * also, we wast memory as needed_guess is too large
-template<typename... Args>
-void stringAppendFormated_2(std::string &str, const char *fmt, Args&&... args) {
-  size_t needed_guess =  80;
-  size_t old_len = str.length();
-  str.append(needed_guess, 0);
-  int needed = snprintf (str.data() + old_len, needed_guess+1, fmt, std::forward<Args>(args)...);
-  if (needed < 0) {
-    esyslog("live: ERROR, stringAppendFormated, needed = %d, fmt = %s", needed, fmt);
-    return; // error in snprintf
-  }
-  if ( (size_t)needed <= needed_guess) { str.erase(old_len + needed); return; }
-  str.append(needed - needed_guess, '|');
-  sprintf (str.data() + old_len, fmt, std::forward<Args>(args)...);
-}
- * short, and works fine with str.data()
- * but, too slow :) . Usage of buf is twice as fast ...
-template<typename... Args>
-void stringAppendFormated_slow(std::string &str, const char *fmt, Args&&... args) {
-  int needed = snprintf (nullptr, 0, fmt, std::forward<Args>(args)...);
-  if (needed < 0) {
-    esyslog("live: ERROR, stringAppendFormated, needed = %d, fmt = %s", needed, fmt);
-    return; // error in snprintf
-  }
-  size_t old_len = str.length();
-  str.append(needed, '|');
-  sprintf (str.data() + old_len, fmt, std::forward<Args>(args)...);
-}
-*/
-
 // =========================================================
 // =========== stringAppend ==  for many data types
 // =========================================================
@@ -1062,9 +974,6 @@ inline void stringAppend(std::string &str, const char *s) { if(s) str.append(s);
 inline void stringAppend(std::string &str, const std::string &s) { str.append(s); }
 inline void stringAppend(std::string &str, std::string_view s) { str.append(s); }
 
-inline void stringAppend(std::string &str, const tChannelID &channelID) {
-  str.append(cToSvConcat(channelID));
-}
 template<typename T, typename U, typename... Args>
 void stringAppend(std::string &str, const T &n, const U &u, Args&&... args) {
   stringAppend(str, n);

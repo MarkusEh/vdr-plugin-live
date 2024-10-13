@@ -21,23 +21,22 @@ using namespace vdrlive;
 % if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 <select name="<$ name $>" id="<$ name $>" <{ reply.out() << ( !onchange.empty() ? "onchange=\""+onchange+"\"" : "" ); }>>
 <%cpp>
-  cToSvConcat<0> recId;
   bool selectedFound = false;
   next_recording = "";
-  recId.reserve(8 + 128/4);  // 32 hash bytes (4 bits per hex digit) plus some spare bytes
+//  recId.reserve(8 + 128/4);  // 32 hash bytes (4 bits per hex digit) plus some spare bytes
+  cToSvConcat<8 + 128/4> recId; // 32 hash bytes (4 bits per hex digit) plus some spare bytes
   eSortOrder sortOrder = vdrlive::eSortOrder::name; // default
   RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
   const std::vector<RecordingsItemRecPtr>* allRecordings = recordingsTree->allRecordings(sortOrder);
   for (const RecordingsItemRecPtr &rPtr : *allRecordings ) {
     if (!selectedFound) {
-      prev_recording = recId.c_str();
+      prev_recording = cSv(recId);
     }
     recId.clear();
-    recId.appendHex(rPtr->IdHash().high64, 16);
-    recId.appendHex(rPtr->IdHash().low64, 16);
-    bool isSelected = strcmp( recId.c_str(), selected.c_str() ) == 0;
+    recId.appendHex(rPtr->IdHash());
+    bool isSelected = selected == cSv(recId);
 </%cpp>
-    <option value="recording_<$$ recId.c_str() $>"<? isSelected ? " selected=\"selected\"" ?>><$ rPtr->Name() $>
+    <option value="recording_<$$ cSv(recId) $>"<? isSelected ? " selected=\"selected\"" ?>><$ rPtr->Name() $>
 <%cpp>
     std::string folder = (const char*)rPtr->Recording()->Folder();
     if (!folder.empty()) {
@@ -47,7 +46,7 @@ using namespace vdrlive;
     </option>
 <%cpp>
     if (selectedFound && next_recording.empty()) {
-      next_recording = recId.c_str();
+      next_recording = cSv(recId);
     }
     selectedFound |= isSelected;
   }

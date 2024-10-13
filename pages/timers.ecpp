@@ -108,7 +108,7 @@ using namespace vdrlive;
           const cTimer *timer = sortedTimers[i];
           EpgInfoPtr epgEvent = 0;
           std::string longDescription;
-          std::string searchTimName;
+          cToSvConcat<0> searchTimName;
           std::string searchTimId;
           std::string recID;
           std::string recName;
@@ -184,7 +184,7 @@ using namespace vdrlive;
               timerStateHint = tr("Timer is active.");
             }
           }
-          std::string timerFile;
+          cToSvConcat<0> timerFile;
           AppendHtmlEscapedAndCorrectNonUTF8(timerFile, timer->File());
 </%cpp>
         <tr>

@@ -25,8 +25,25 @@
 
 namespace vdrlive {
 
-template<typename T>
-  void StringAppendFrameParams(T &s, const cRecording *rec);
+template<std::size_t N>
+cToSvConcat<N> & StringAppendFrameParams(cToSvConcat<N> &s, const cRecording *rec) {
+#if VDRVERSNUM >= 20605
+  if (!rec || ! rec->Info() ) return s;
+  if (rec->Info()->FrameWidth() && rec->Info()->FrameHeight() ) {
+    s << rec->Info()->FrameWidth() << 'x' << rec->Info()->FrameHeight();
+    if (rec->Info()->FramesPerSecond() > 0) {
+      s.append("/");
+      s.appendFormated("%.2g", rec->Info()->FramesPerSecond() );
+      if (rec->Info()->ScanType() != stUnknown)
+        s.append(1, rec->Info()->ScanTypeChar());
+     }
+     if (rec->Info()->AspectRatio() != arUnknown)
+       s << ' ' << rec->Info()->AspectRatioText();
+  }
+#endif
+  return s;
+}
+
   // Forward declarations from epg_events.h
   class EpgInfo;
   typedef std::shared_ptr<EpgInfo> EpgInfoPtr;

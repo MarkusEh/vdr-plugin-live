@@ -182,7 +182,7 @@ const cRecording* recording;
 <%cpp>
 
 if (recording && recording->Info()->Aux()) {
-  std::string aux_data;
+  cToSvConcat<0> aux_data;
   cGetAutoTimerReason getAutoTimerReason;
   getAutoTimerReason.recording_in = recording;
   getAutoTimerReason.requestRecording = false;
@@ -198,7 +198,7 @@ if (recording && recording->Info()->Aux()) {
 </%cpp>
           <tr>
             <td class="label leftcol"><div class="withmargin"><$ tr("Search timer") $>:</div></td>
-            <td class="rightcol"><$ aux_data $></td>
+            <td class="rightcol"><$$ aux_data $></td>
           </tr>
 <%cpp>
   } else {

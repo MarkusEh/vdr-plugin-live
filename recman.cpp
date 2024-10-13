@@ -22,34 +22,7 @@
 #define INDEXFILESUFFIX   "/index.vdr"
 #define LENGTHFILESUFFIX  "/length.vdr"
 
-
 namespace vdrlive {
-template<typename T>
-void StringAppendFrameParams(T &s, const cRecording *rec) {
-#if VDRVERSNUM >= 20605
-  if (!rec || ! rec->Info() ) return;
-  if (rec->Info()->FrameWidth()  && rec->Info()->FrameHeight() ) {
-    stringAppend(s, rec->Info()->FrameWidth() );
-    s.append("x");
-    stringAppend(s, rec->Info()->FrameHeight() );
-    
-    if (rec->Info()->FramesPerSecond() > 0) {
-      s.append("/");
-      stringAppendFormated(s, "%.2g", rec->Info()->FramesPerSecond() );
-      if (rec->Info()->ScanType() != stUnknown)
-        s.append(1, rec->Info()->ScanTypeChar());
-     }                                                                                                                                                          
-     if (rec->Info()->AspectRatio() != arUnknown) {
-       s.append(" ");
-       s.append(cSv(rec->Info()->AspectRatioText()));
-     }
-  }
-#endif
-}
-
-template void StringAppendFrameParams<std::string>(std::string &s, const cRecording *rec);
-template void StringAppendFrameParams<cToSvConcat<0>>(cToSvConcat<0> &s, const cRecording *rec);
-template void StringAppendFrameParams<cToSvConcat<255>>(cToSvConcat<255> &s, const cRecording *rec);
 
   /**
    *  Implementation of class RecordingsManager:
@@ -152,7 +125,7 @@ template void StringAppendFrameParams<cToSvConcat<255>>(cToSvConcat<255> &s, con
     std::string desc(description);
     desc.erase(std::remove(desc.begin(), desc.end(), '\r'), desc.end()); // remove \r from HTML
 
-    cRecordingInfo* info = recording->Info();
+    cRecordingInfo* info = (cRecordingInfo*) recording->Info();
     if (title != cSv(info->Title()) || shorttext != cSv(info->ShortText()) || desc != cSv(info->Description()))
     {
       info->SetData(title.empty() ? nullptr : std::string(title).c_str(), shorttext.empty() ? nullptr : std::string(shorttext).c_str(), desc.empty() ? nullptr : desc.c_str());
@@ -892,7 +865,7 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
   if (s_image.width <= s_image.height) target.append("pt");
   target.append("\",\"");
 // [5] : title (scraper)
-  if (scraperDataAvailable) AppendHtmlEscapedAndCorrectNonUTF8(target, s_title.data(), s_title.data() + s_title.length() );
+  if (scraperDataAvailable) AppendHtmlEscapedAndCorrectNonUTF8(target, s_title);
   target.append("\",\"");
   if (s_videoType == tSeries && (s_episode_number != 0 || s_season_number != 0)) {
 // [6] : season/episode/episode name (scraper)
@@ -900,7 +873,7 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
     target.concat('E');
     target.concat(s_episode_number);
     target.concat(' ');
-    AppendHtmlEscapedAndCorrectNonUTF8(target, s_episode_name.data(), s_episode_name.data() + s_episode_name.length() );
+    AppendHtmlEscapedAndCorrectNonUTF8(target, s_episode_name);
   }
   target.append("\",\"");
 // [7] : runtime (scraper)
@@ -914,11 +887,10 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
   void RecordingsItemRec::AppendAsJSArray(cToSvConcat<0> &target) const {
     target.append("\"");
 // [0] : ID
-    target.appendHex(IdHash().high64, 16);
-    target.appendHex(IdHash().low64, 16);
+    target.appendHex(IdHash());
     target.append("\",\"");
 // [1] : ArchiveDescr()
-    if (IsArchived()) AppendHtmlEscapedAndCorrectNonUTF8(target, ArchiveDescr().c_str() );
+    if (IsArchived()) AppendHtmlEscapedAndCorrectNonUTF8(target, ArchiveDescr());
     target.append("\",");
 // scraper data
     AppendScraperData(target, m_s_IMDB_ID, scraperImage(), m_s_videoType, m_s_title, m_s_season_number, m_s_episode_number, m_s_episode_name, m_s_runtime, m_s_release_date);
@@ -996,9 +968,9 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
     int fileSizeMB = FileSizeMB();
     if(fileSizeMB >= 0)
       if (fileSizeMB >= 1000)
-        stringAppendFormated(target, tr("%.1f GB"), (double)fileSizeMB / 1000.);
+        target.appendFormated(tr("%.1f GB"), (double)fileSizeMB / 1000.);
       else
-        stringAppendFormated(target, tr("%'d MB"), fileSizeMB);
+        target.appendFormated(tr("%'d MB"), fileSizeMB);
     else
       target.append("&nbsp;");
     target.append("\",");

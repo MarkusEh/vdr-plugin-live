@@ -39,66 +39,11 @@ std::istream& operator>>( std::istream& is, tChannelID& ret )
 
 namespace vdrlive {
 
-template<class T>
-  void AppendHtmlEscapedAndCorrectNonUTF8(T &target, const char* s, const char *end, bool tooltip){
-// append c-string s to target, HTML escape some characters
-// replace invalid UTF8 characters with ?
-  if(!s) return;
-  if (!end) end = s + strlen(s);
-  int l = 0;                    // length of current UTF8 codepoint
-  size_t i = 0;                 // number of not yet appended chars
-  const char* notAppended = s;  // position of the first character which is not yet appended
-  for (const char* current = s; *current && current < end; current+=l) {
-  l = utf8CodepointIsValid(current);
-    switch(l) {
-      case 1:
-        switch(*current) {
-          case '&':  target.append(notAppended, i); target.append("&amp;");  notAppended = notAppended + i + 1; i = 0;   break;
-          case '\"': target.append(notAppended, i); target.append("&quot;"); notAppended = notAppended + i + 1; i = 0;   break;
-          case '\'': target.append(notAppended, i); target.append("&apos;"); notAppended = notAppended + i + 1; i = 0;   break;
-          case '<':  target.append(notAppended, i); target.append("&lt;");   notAppended = notAppended + i + 1; i = 0;   break;
-          case '>':  target.append(notAppended, i); target.append("&gt;");   notAppended = notAppended + i + 1; i = 0;   break;
-          case 10:
-          case 13:
-              target.append(notAppended, i); target.append("&lt;br/&gt;");   notAppended = notAppended + i + 1; i = 0;   break;
-          default:   i++; break;
-          }
-        break;
-      case 2:
-      case 3:
-      case 4:
-        i += l;
-        break;
-      default:
-// invalid UTF8
-        target.append(notAppended, i);
-        target.append("?");
-        notAppended = notAppended + i + 1;
-        i = 0;
-        l = 1;
-      }
-    }
-    target.append(notAppended, i);
-  }
-template void AppendHtmlEscapedAndCorrectNonUTF8<std::string>(std::string &target, const char* s, const char *end, bool tooltip);
-template void AppendHtmlEscapedAndCorrectNonUTF8<cToSvConcat<0>>(cToSvConcat<0> &target, const char* s, const char *end, bool tooltip);
-
-template<typename T>
-  void AppendDuration(T &target, char const* format, int duration)
-  {
-    int minutes = (duration + 30) / 60;
-    int hours = minutes / 60;
-    minutes %= 60;
-    stringAppendFormated(target, format, hours, minutes);
-  }
-template void AppendDuration<std::string>(std::string &target, char const* format, int duration);
-template void AppendDuration<cToSvConcat<0>>(cToSvConcat<0> &target, char const* format, int duration);
-
   std::string FormatDuration(char const* format, int duration)
   {
-    std::string result;
+    cToSvConcat result;
     AppendDuration(result, format, duration);
-    return result;
+    return std::string(result);
   }
 
   std::string StringReplace(cSv text, cSv substring, cSv replacement)
@@ -138,11 +83,6 @@ template void AppendDuration<cToSvConcat<0>>(cToSvConcat<0> &target, char const*
     return result.substr(0, pos);
   }
 
-  std::string StringFormatBreak(cSv input)
-  {
-    return StringReplace(input, "\n", "<br/>" );
-  }
-
   std::string StringEscapeAndBreak(cSv input, const char* nl)
   {
     std::stringstream plainBuilder;
@@ -161,47 +101,6 @@ template void AppendDuration<cToSvConcat<0>>(cToSvConcat<0> &target, char const*
     return trailBlankRemoved.substr(pos);
   }
 
-// Spielfilm Thailand / Deutschland / Großbritannien 2015 (Rak ti Khon Kaen)
-#define MAX_LEN_ST 70
-template<class T>
-  void AppendTextMaxLen(T &target, const char *text) {
-// append text to target, but
-//   stop at line break in text (10 || 13)
-//   only up to MAX_LEN_ST characters. If such truncation is required, truncate at ' '
-
-// escape HTML characters, and correct invalid utf8
-    if (!text || !*text ) return;
-    int len = strlen(text);
-    int lb = len;
-    for (const char *s = text; *s; s++) if (*s == 10 || *s == 13) { lb = s-text; break;}
-    if (len < MAX_LEN_ST && lb == len)
-      AppendHtmlEscapedAndCorrectNonUTF8(target, text);
-    else if (lb < MAX_LEN_ST) {
-      AppendHtmlEscapedAndCorrectNonUTF8(target, text, text + lb);
-      target.append(" ...");
-    } else {
-      const char *end = text + MAX_LEN_ST;
-      for (; *end && *end != ' ' && *end != 10 && *end != 13; end++);
-      AppendHtmlEscapedAndCorrectNonUTF8(target, text, end);
-      if (*end) target.append(" ...");
-    }
-  }
-template void AppendTextMaxLen<std::string>(std::string &target, const char *text);
-template void AppendTextMaxLen<cToSvConcat<0>>(cToSvConcat<0> &target, const char *text);
-
-template<class T>
-  void AppendTextTruncateOnWord(T &target, const char *text, int max_len, bool tooltip) {
-// append text to target, but only up to max_len characters. If such truncation is required, truncate at ' '
-// escape HTML characters, and correct invalid UTF8
-    if (!text || !*text ) return;
-    const char *end = text + std::min((int)strlen(text), max_len);
-    for (; *end && *end != ' '; end++);
-    AppendHtmlEscapedAndCorrectNonUTF8(target, text, end, tooltip);
-    if (*end) target.append(" ...");
-  }
-template void AppendTextTruncateOnWord<std::string>(std::string &target, const char *text, int max_len, bool tooltip);
-template void AppendTextTruncateOnWord<cToSvConcat<0>>(cToSvConcat<0> &target, const char *text, int max_len, bool tooltip);
-
   std::string MD5Hash(std::string const& str)
   {
     char* szInput = strdup(str.c_str());
@@ -209,6 +108,7 @@ template void AppendTextTruncateOnWord<cToSvConcat<0>>(cToSvConcat<0> &target, c
     char* szRes = MD5String(szInput);
     std::string res = szRes;
     free(szRes);
+    free(szInput);
     return res;
   }
 

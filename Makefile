@@ -12,12 +12,13 @@ HASH := \#
 VERSION := $(shell awk '/$(HASH)define LIVEVERSION/ { print $$3 }' setup.h | sed -e 's/[";]//g')
 # $(info $$VERSION is [${VERSION}])
 
+PKG_CONFIG ?= pkg-config
 ### Check for libpcre2
-HAVE_PCRE2 := $(shell if pkg-config --exists libpcre2-8; then echo "1"; else echo "0"; fi )
+HAVE_PCRE2 := $(shell if $(PKG_CONFIG) --exists libpcre2-8; then echo "1"; else echo "0"; fi )
 
 ### The directory environment:
 # Use package data if installed...otherwise assume we're under the VDR source directory:
-PKGCFG = $(if $(VDRDIR),$(shell pkg-config --variable=$(1) $(VDRDIR)/vdr.pc),$(shell PKG_CONFIG_PATH="$$PKG_CONFIG_PATH:../../.." pkg-config --variable=$(1) vdr))
+PKGCFG = $(if $(VDRDIR),$(shell $(PKG_CONFIG) --variable=$(1) $(VDRDIR)/vdr.pc),$(shell PKG_CONFIG_PATH="$$PKG_CONFIG_PATH:../../.." $(PKG_CONFIG) --variable=$(1) vdr))
 LIBDIR := $(call PKGCFG,libdir)
 LOCDIR := $(call PKGCFG,locdir)
 CFGDIR := $(call PKGCFG,configdir)
@@ -43,9 +44,9 @@ include global.mk
 ### Determine tntnet and cxxtools versions:
 TNTNET-CONFIG := $(shell which tntnet-config 2>/dev/null)
 ifeq ($(TNTNET-CONFIG),)
-TNTVERSION := $(shell pkg-config --modversion tntnet | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
-CXXFLAGS  += $(shell pkg-config --cflags tntnet)
-LIBS      += $(shell pkg-config --libs tntnet)
+TNTVERSION := $(shell $(PKG_CONFIG) --modversion tntnet | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
+CXXFLAGS  += $(shell $(PKG_CONFIG) --cflags tntnet)
+LIBS      += $(shell $(PKG_CONFIG) --libs tntnet)
 else
 TNTVERSION = $(shell tntnet-config --version | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
 CXXFLAGS  += $(shell tntnet-config --cxxflags)
@@ -61,8 +62,8 @@ CXXTOOLVER := $(shell cxxtools-config --version | sed -e's/\.//g' | sed -e's/pre
 PLUGINFEATURES :=
 ifeq ($(HAVE_PCRE2),1)
 	PLUGINFEATURES += -DHAVE_PCRE2
-	CXXFLAGS       += $(shell pkg-config --cflags libpcre2-8)
-	LIBS           += $(shell pkg-config --libs   libpcre2-8)
+	CXXFLAGS       += $(shell $(PKG_CONFIG) --cflags libpcre2-8)
+	LIBS           += $(shell $(PKG_CONFIG) --libs   libpcre2-8)
 endif
 
 # -Wno-deprecated-declarations .. get rid of warning: ‘template<class> class std::auto_ptr’ is deprecated

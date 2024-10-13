@@ -659,7 +659,7 @@ if (recording && recording->Info() ) {
   if (scraperDataAvailable) {
     int video_SD_HD = getScraperVideo.m_scraperVideo->getHD();
     if (!sdhd) sdhd = video_SD_HD == 0 ? "sd": video_SD_HD == 1 ? "hd": "ud";
-    std::string duration;
+    cToSvConcat<0> duration;
     if (recording->FileName() )
       AppendDuration(duration, tr("%d:%02d"), recording->LengthInSeconds() );
 </%cpp>

@@ -19,37 +19,125 @@
 // To get rid of the swap definition in vdr/tools.h
 #define DISABLE_TEMPLATES_COLLIDING_WITH_STL
 #endif
+#include "stringhelpers.h"
 #include "xxhash.h"
 #include <vdr/channels.h>
-#include "stringhelpers.h"
 
-std::istream& operator>>( std::istream& is, tChannelID& ret );
+// ================ XXH128_hash_t  ============================================
+inline cToSvHex<32>& operator<<(cToSvHex<32> &h, const XXH128_hash_t &value) {
+  stringhelpers_internal::addCharsHex(h.m_buffer,    16, value.high64);
+  stringhelpers_internal::addCharsHex(h.m_buffer+16, 16, value.low64);
+  return h;
+}
+template <size_t N>
+inline cToSvConcat<N>& operator<<(cToSvConcat<N>& s, const XXH128_hash_t &value) {
+  s.appendHex(value.high64);
+  s.appendHex(value.low64);
+  return s;
+}
 
-inline
-std::ostream& operator<<( std::ostream& os, tChannelID const& id )
-{
+// ================ Channels ============================================
+
+template <size_t N>
+inline cToSvConcat<N> &stringAppendChannel(cToSvConcat<N> &target, const tChannelID &channelID, char point = '.', char minus = '-') {
+  const int st_Mask = 0xFF000000;
+  const int st_Pos  = 0x0000FFFF;
+  target.concat((char) ((channelID.Source() & st_Mask) >> 24));
+  if (int16_t n = channelID.Source() & st_Pos) {
+    char ew = 'E';
+    if (n < 0) {
+      ew = 'W';
+      n = -n;
+    }
+    uint16_t q = (uint16_t)n / 10;
+    target.concat(q, point, (char)((uint16_t)n - 10*q + '0'), ew);
+  }
+  target.concat(minus, channelID.Nid(), minus, channelID.Tid(), minus, channelID.Sid());
+  if (channelID.Rid() ) target.concat(minus, channelID.Rid() );
+  return target;
+}
+template <size_t N>
+inline cToSvConcat<N>& operator<<(cToSvConcat<N>& s, const tChannelID &channelID) {
+  return stringAppendChannel(s, channelID);
+}
+inline void stringAppend(std::string &str, const tChannelID &channelID) {
+  str.append(cToSvConcat(channelID));
+}
+
+inline std::ostream& operator<<( std::ostream& os, tChannelID const& id ) {
   return os << cToSvConcat(id);
 }
-
-template<typename... Args> void stringAppendFormated(cToSvConcat<0> &target, const char *format, Args&&... args) {
-  target.appendFormated(format, std::forward<Args>(args)...);
-}
+std::istream& operator>>( std::istream& is, tChannelID& ret );
 
 namespace vdrlive {
   extern const std::locale g_locale;
   extern const std::collate<char>& g_collate_char;
 
-template<class T>
-  void AppendHtmlEscapedAndCorrectNonUTF8(T &target, const char* s, const char *end = NULL, bool tooltip = false);
-template<class T>
-  inline void AppendHtmlEscapedAndCorrectNonUTF8(T &target, cSv s, bool tooltip = false) {
-    AppendHtmlEscapedAndCorrectNonUTF8(target, s.data(), s.data() + s.length(), tooltip);
+template <size_t N>
+inline cToSvConcat<N>& AppendHtmlEscapedAndCorrectNonUTF8(cToSvConcat<N>& target, cSv text, bool tooltip = false) {
+  const char *s = text.data();
+  const char *end = s + text.length();
+  int l = 0;                    // length of current UTF8 codepoint
+  size_t i = 0;                 // number of not yet appended chars
+  const char* notAppended = s;  // position of the first character which is not yet appended
+  for (const char* current = s; current < end; current+=l) {
+  l = utf8CodepointIsValid(current);
+  switch(l) {
+    case 1:
+      switch(*current) {
+        case '&':  target.append(notAppended, i); target.append("&amp;");  notAppended = notAppended + i + 1; i = 0; break;
+        case '\"': target.append(notAppended, i); target.append("&quot;"); notAppended = notAppended + i + 1; i = 0; break;
+        case '\'': target.append(notAppended, i); target.append("&apos;"); notAppended = notAppended + i + 1; i = 0; break;
+        case '<':  target.append(notAppended, i); target.append("&lt;");   notAppended = notAppended + i + 1; i = 0; break;
+        case '>':  target.append(notAppended, i); target.append("&gt;");   notAppended = notAppended + i + 1; i = 0; break;
+        case 10:
+        case 13:
+            target.append(notAppended, i); target.append("&lt;br/&gt;");   notAppended = notAppended + i + 1; i = 0; break;
+        default:   i++; break;
+        }
+      break;
+    case 2:
+    case 3:
+    case 4:
+      i += l;
+      break;
+    default:
+// invalid UTF8
+      target.append(notAppended, i);
+      target.append("?");
+      notAppended = notAppended + i + 1;
+      i = 0;
+      l = 1;
+    }
   }
+  target.append(notAppended, i);
+  return target;
+}
 
-template<class T>
-  void AppendTextTruncateOnWord(T &target, const char *text, int max_len, bool tooltip = false);
+template <size_t N>
+inline cToSvConcat<N>& AppendTextTruncateOnWord(cToSvConcat<N>& target, cSv text, int max_len, bool tooltip = false) {
+// append text to target, but only up to max_len characters. If such truncation is required, truncate at ' '
+// escape HTML characters, and correct invalid UTF8
+  size_t len;
+  for (len = max_len; len < text.length() && text[len] != ' ' && text[len] != '\n'; ++len);
+  if (len < text.length()) {
+    AppendHtmlEscapedAndCorrectNonUTF8(target, text.substr(0, len), tooltip);
+    target.append(" ...");
+  } else
+    AppendHtmlEscapedAndCorrectNonUTF8(target, text, tooltip);
+  return target;
+}
 
-  template<typename T> void AppendDuration(T &target, char const* format, int duration);
+
+template<size_t N>
+inline cToSvConcat<N>& AppendDuration(cToSvConcat<N>& target, char const* format, int duration) {
+  int minutes = (duration + 30) / 60;
+  int hours = minutes / 60;
+  minutes %= 60;
+  target.appendFormated(format, hours, minutes);
+  return target;
+}
+
   std::string FormatDuration( char const* format, int duration );
 
   std::string StringReplace(cSv text, cSv substring, cSv replacement );
@@ -60,11 +148,7 @@ template<class T>
   inline cSv StringWordTruncate(cSv input, size_t maxLen) { bool dummy; return StringWordTruncate(input, maxLen, dummy); }
 
   std::string StringEscapeAndBreak(cSv input, const char* nl = "<br/>");
-  std::string StringFormatBreak(cSv input);
   cSv StringTrim(cSv str);
-
-template<class T>
-  void AppendTextMaxLen(T &target, const char *text);
 
   std::string MD5Hash(std::string const& str);
   std::string xxHash32(cSv str);
@@ -81,16 +165,12 @@ template<class T>
       cToSvXxHash64(XXH64_hash_t value): cToSvHex<16>::cToSvHex(value) {}
       cToSvXxHash64(cSv str): cToSvHex<16>::cToSvHex(XXH3_64bits(str.data(), str.length() )) {}
   };
+
   XXH128_hash_t parse_hex_128(cSv str);
   class cToSvXxHash128: public cToSvHex<32> {
     public:
-      cToSvXxHash128(XXH128_hash_t value): cToSvHex<32>::cToSvHex() { setb(value); }
-      cToSvXxHash128(cSv str): cToSvHex<32>::cToSvHex() { setb(XXH3_128bits(str.data(), str.length() )); }
-    private:
-      void setb(XXH128_hash_t value) {
-        stringhelpers_internal::addCharsHex(m_buffer,    16, value.high64);
-        stringhelpers_internal::addCharsHex(m_buffer+16, 16, value.low64);
-      }
+      cToSvXxHash128(XXH128_hash_t value): cToSvHex<32>::cToSvHex(value) { }
+      cToSvXxHash128(cSv str): cToSvHex<32>::cToSvHex(XXH3_128bits(str.data(), str.length() )) {}
   };
 
   time_t GetTimeT(std::string timestring); // timestring in HH:MM

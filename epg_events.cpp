@@ -272,7 +272,7 @@ namespace vdrlive
     std::string EncodeDomId(tChannelID const &chanId, tEventID eId)
     {
       cToSvConcat eventId("event_");
-      eventId.appendChannel(chanId, 'p', 'm').concat('_', eId);
+      stringAppendChannel(eventId, chanId, 'p', 'm').concat('_', eId);
       return std::string(eventId);
     }
 
@@ -574,7 +574,8 @@ bool appendEpgItem(cToSvConcat<0> &epg_item, RecordingsItemRecPtr &recItem, cons
   epg_item.append("[\"");
 // [0] : EPG ID  (without event_)
 //  epg_item.append(EpgEvents::EncodeDomId(Channel->GetChannelID(), Event->EventID()).c_str() + 6);
-  epg_item.appendChannel(Channel->GetChannelID(), 'p', 'm');
+//  epg_item.appendChannel(Channel->GetChannelID(), 'p', 'm');
+  stringAppendChannel(epg_item, Channel->GetChannelID(), 'p', 'm');
   epg_item.concat('_', Event->EventID());
 
   epg_item.append("\",\"");

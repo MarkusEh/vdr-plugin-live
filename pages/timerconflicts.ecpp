@@ -90,7 +90,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
 
               EpgInfoPtr epgEvent;
               std::string longDescription;
-              std::string searchTimName;
+              cToSvConcat<0> searchTimName;
               std::string searchTimId;
               std::string recID;
               std::string recName;
@@ -113,7 +113,7 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
               AppendHtmlEscapedAndCorrectNonUTF8(searchTimName, SortedTimers::SearchTimerInfo(*timer, "searchtimer") );
               searchTimId = SortedTimers::SearchTimerInfo(*timer, "s-id");
               if (searchTimName.empty() && searchTimId.empty() ) AppendHtmlEscapedAndCorrectNonUTF8(searchTimName, SortedTimers::TvScraperTimerInfo(*timer, recID, recName) );
-              std::string timerFile;
+              cToSvConcat<0> timerFile;
               AppendHtmlEscapedAndCorrectNonUTF8(timerFile, timer->File());
 </%cpp>
               <tr>
