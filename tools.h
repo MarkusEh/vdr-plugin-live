@@ -75,16 +75,15 @@ namespace vdrlive {
 
 template <size_t N>
 inline cToSvConcat<N>& AppendHtmlEscapedAndCorrectNonUTF8(cToSvConcat<N>& target, cSv text, bool tooltip = false) {
-  const char *s = text.data();
-  const char *end = s + text.length();
+  size_t pos = 0;
   int l = 0;                    // length of current UTF8 codepoint
   size_t i = 0;                 // number of not yet appended chars
-  const char* notAppended = s;  // position of the first character which is not yet appended
-  for (const char* current = s; current < end; current+=l) {
-  l = utf8CodepointIsValid(current);
+  const char* notAppended = text.data();  // position of the first character which is not yet appended
+  for (pos = 0; pos < text.length(); pos+=l) {
+  l = text.utf8CodepointIsValid(pos);
   switch(l) {
     case 1:
-      switch(*current) {
+      switch(text[pos]) {
         case '&':  target.append(notAppended, i); target.append("&amp;");  notAppended = notAppended + i + 1; i = 0; break;
         case '\"': target.append(notAppended, i); target.append("&quot;"); notAppended = notAppended + i + 1; i = 0; break;
         case '\'': target.append(notAppended, i); target.append("&apos;"); notAppended = notAppended + i + 1; i = 0; break;

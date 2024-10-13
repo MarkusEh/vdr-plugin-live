@@ -120,17 +120,24 @@ namespace vdrlive {
     recording = Recordings->GetByName(newname.c_str());   // old pointer to recording invalid after DelByName/AddByName
     cRecordingUserCommand::InvokeCommand(*cString::sprintf("rename \"%s\"", *strescape(oldname.c_str(), "\\\"$'")), newname.c_str());
 
+#if VDRVERSNUM >= 20502
+// 2021-04-06: Version 2.5.2
+// Made the functions cRecordingInfo::SetData() and cRecordingInfo::SetAux() public
+// da ist auch cRecordingInfo *Info(void) const { return info; }
+// in 2.5.1: noch const cRecordingInfo *Info(void) const { return info; }
+
     // update texts
     // need null terminated strings for VDR API
     std::string desc(description);
     desc.erase(std::remove(desc.begin(), desc.end(), '\r'), desc.end()); // remove \r from HTML
 
-    cRecordingInfo* info = (cRecordingInfo*) recording->Info();
+    cRecordingInfo* info = recording->Info();
     if (title != cSv(info->Title()) || shorttext != cSv(info->ShortText()) || desc != cSv(info->Description()))
     {
       info->SetData(title.empty() ? nullptr : std::string(title).c_str(), shorttext.empty() ? nullptr : std::string(shorttext).c_str(), desc.empty() ? nullptr : desc.c_str());
       info->Write();
     }
+#endif
 
     return true;
   }

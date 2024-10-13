@@ -89,6 +89,7 @@ class cSv: public std::string_view {
 // =================================================
 // *********   utf8  *****************
 // =================================================
+  public:
     int utf8CodepointIsValid(size_t pos) const {
 // In case of invalid UTF8, return 0
 // In case of invalid input, return -1 (pos  >= sc.length())
@@ -104,6 +105,7 @@ class cSv: public std::string_view {
       for (size_t k= pos + 1; k < pos + len; k++) if (((*this)[k] & 0xC0) != 0x80) len = 0;
       return len;
     }
+  private:
     size_t utf8ParseBackwards(size_t pos) const {
 // pos <= s.length()! this is not checked
 // return position of character before pos
@@ -121,7 +123,7 @@ class cSv: public std::string_view {
     int compareLowerCase(cSv other, const std::locale &loc);
 };
 
-inline wint_t Utf8ToUtf32(const char *&p, int len);
+inline wint_t Utf8ToUtf32(const char *p, int len);
 // iterator for utf8
 class utf8_iterator {
     const cSv m_sv;
@@ -173,8 +175,7 @@ class utf8_iterator {
       if (m_pos >= m_sv.length() ) return 0;
       int l = get_len();
       if (l <= 0) return '?'; // invalid utf8
-      const char *p = m_sv.data() + m_pos;
-      return Utf8ToUtf32(p, l);
+      return Utf8ToUtf32(m_sv.data() + m_pos, l);
     }
     size_t pos() const {
 // note: if this == end(), sv[m_pos] is invalid!!!
@@ -228,41 +229,6 @@ class cStr {
 // =========================================================
 // =========================================================
 
-inline int AppendUtfCodepoint(char *&target, wint_t codepoint) {
-  if (codepoint <= 0x7F) {
-    if (target) {
-      *(target++) = (char) (codepoint);
-      *target = 0;
-    }
-    return 1;
-  }
-  if (codepoint <= 0x07FF) {
-    if (target) {
-      *(target++) =( (char) (0xC0 | (codepoint >> 6 ) ) );
-      *(target++) =( (char) (0x80 | (codepoint & 0x3F)) );
-      *target = 0;
-    }
-    return 2;
-  }
-  if (codepoint <= 0xFFFF) {
-    if (target) {
-      *(target++) =( (char) (0xE0 | ( codepoint >> 12)) );
-      *(target++) =( (char) (0x80 | ((codepoint >>  6) & 0x3F)) );
-      *(target++) =( (char) (0x80 | ( codepoint & 0x3F)) );
-      *target = 0;
-    }
-    return 3;
-  }
-    if (target) {
-      *(target++) =( (char) (0xF0 | ((codepoint >> 18) & 0x07)) );
-      *(target++) =( (char) (0x80 | ((codepoint >> 12) & 0x3F)) );
-      *(target++) =( (char) (0x80 | ((codepoint >>  6) & 0x3F)) );
-      *(target++) =( (char) (0x80 | ( codepoint & 0x3F)) );
-      *target = 0;
-    }
-  return 4;
-}
-
 inline void stringAppendUtfCodepoint(std::string &target, wint_t codepoint) {
   if (codepoint <= 0x7F){
      target.push_back( (char) (codepoint) );
@@ -295,13 +261,11 @@ inline int utf8CodepointIsValid(const char *p) {
   for (int k=1; k < len; k++) if ((p[k] & 0xC0) != 0x80) len = 0;
   return len;
 }
-inline wint_t Utf8ToUtf32(const char *&p, int len) {
+inline wint_t Utf8ToUtf32(const char *p, int len) {
 // assumes, that uft8 validity checks have already been done. len must be provided. call utf8CodepointIsValid first
-// change p to position of next codepoint (p = p + len)
   static const uint8_t FF_MSK[] = {0xFF >>0, 0xFF >>0, 0xFF >>3, 0xFF >>4, 0xFF >>5, 0xFF >>0, 0xFF >>0, 0xFF >>0};
   wint_t val = *p & FF_MSK[len];
-  const char *q = p + len;
-  for (p++; p < q; p++) val = (val << 6) | (*p & 0x3F);
+  for (int i = 1; i < len; i++) val = (val << 6) | (p[i] & 0x3F);
   return val;
 }
 
@@ -311,17 +275,18 @@ inline wint_t getUtfCodepoint(const char *p) {
   if(!p || !*p) return 0;
   int l = utf8CodepointIsValid(p);
   if( l == 0 ) return '?';
-  const char *s = p;
-  return Utf8ToUtf32(s, l);
+  return Utf8ToUtf32(p, l);
 }
 
-inline wint_t getNextUtfCodepoint(const char *&p){
+inline wint_t getNextUtfCodepoint(const char *&p) {
 // get next codepoint, and increment p
 // 0 is returned at end of string, and p will point to the end of the string (0)
   if(!p || !*p) return 0;
   int l = utf8CodepointIsValid(p);
   if( l == 0 ) { p++; return '?'; }
-  return Utf8ToUtf32(p, l);
+  wint_t result = Utf8ToUtf32(p, l);
+  p += l;
+  return result;
 }
 
 // =========================================================
@@ -801,7 +766,25 @@ template<typename T, std::enable_if_t<sizeof(T) == 16, bool> = true>
 // append_utf8 append utf8 codepoint
     cToSvConcat &append_utf8(wint_t codepoint) {
       if (m_pos_for_append + 4 > m_be_data) ensure_free(4);
-      AppendUtfCodepoint(m_pos_for_append, codepoint);
+      if (codepoint <= 0x7F) {
+        *(m_pos_for_append++) = (char) (codepoint);
+        return *this;
+      }
+      if (codepoint <= 0x07FF) {
+        *(m_pos_for_append++) =( (char) (0xC0 | (codepoint >> 6 ) ) );
+        *(m_pos_for_append++) =( (char) (0x80 | (codepoint & 0x3F)) );
+        return *this;
+      }
+      if (codepoint <= 0xFFFF) {
+          *(m_pos_for_append++) =( (char) (0xE0 | ( codepoint >> 12)) );
+          *(m_pos_for_append++) =( (char) (0x80 | ((codepoint >>  6) & 0x3F)) );
+          *(m_pos_for_append++) =( (char) (0x80 | ( codepoint & 0x3F)) );
+        return *this;
+      }
+      *(m_pos_for_append++) =( (char) (0xF0 | ((codepoint >> 18) & 0x07)) );
+      *(m_pos_for_append++) =( (char) (0x80 | ((codepoint >> 12) & 0x3F)) );
+      *(m_pos_for_append++) =( (char) (0x80 | ((codepoint >>  6) & 0x3F)) );
+      *(m_pos_for_append++) =( (char) (0x80 | ( codepoint & 0x3F)) );
       return *this;
     }
 // =======================

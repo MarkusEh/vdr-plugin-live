@@ -169,15 +169,27 @@ const cRecording* recording;
           </tr>
           <tr>
             <td class="label leftcol"><div class="withmargin"><$ tr("Title") $>:</div></td>
+%#if VDRVERSNUM >= 20502
             <td class="rightcol"><input type="text" name="title" value="<$ title $>" size="55" class="width99" /></td>
+%#else
+            <td class="rightcol"><$ title $></td>
+%#endif
           </tr>
           <tr>
             <td class="label leftcol"><div class="withmargin"><$ tr("Short description") $>:</div></td>
+%#if VDRVERSNUM >= 20502
             <td class="rightcol"><input type="text" name="shorttext" value="<$ shorttext $>" size="55" class="width99" /></td>
+%#else
+            <td class="rightcol"><$ shorttext $></td>
+%#endif
           </tr>
           <tr>
             <td class="label leftcol"><div class="withmargin"><$ tr("Description") $>:</div></td>
+%#if VDRVERSNUM >= 20502
             <td class="rightcol"><textarea name="description" rows="8" cols="55" class="width99"><$ description $></textarea></td>
+%#else
+            <td class="rightcol"><$ description $></td>
+%#endif
           </tr>
 <%cpp>
 
