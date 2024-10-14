@@ -531,6 +531,45 @@ msgstr "error recibiendo la información de estado"
 msgid "%I:%M:%S %p"
 msgstr "%H:%M:%S"
 
+msgid "Duration deviation from event length"
+msgstr ""
+
+msgid "min"
+msgstr ""
+
+msgid "Recording length"
+msgstr ""
+
+msgid "h"
+msgstr ""
+
+msgid "Number of ts files"
+msgstr ""
+
+msgid "Find more at the Internet Movie Database."
+msgstr "Encontrar más en la Base de Datos de Películas de Internet"
+
+msgid "Record this"
+msgstr "Grabar esto"
+
+msgid "Search for repeats."
+msgstr "Buscar repeticiones"
+
+msgid "Existing Recording:"
+msgstr ""
+
+msgid "Stream this recording into browser."
+msgstr ""
+
+msgid "Click to view details."
+msgstr "Pulsar para ver detalles"
+
+msgid "play this recording"
+msgstr ""
+
+msgid "Delete this recording from hard disc!"
+msgstr "¡Borrar esta grabación del disco duro!"
+
 msgid "Wrong username or password"
 msgstr "Usuario o contraseña erróneos"
 
@@ -588,12 +627,6 @@ msgstr "Hora"
 msgid "Switch to this channel."
 msgstr "Cambiar a este canal"
 
-msgid "Search for repeats."
-msgstr "Buscar repeticiones"
-
-msgid "Click to view details."
-msgstr "Pulsar para ver detalles"
-
 msgid "more"
 msgstr "más"
 
@@ -606,34 +639,7 @@ msgstr ""
 msgid "Next entry"
 msgstr ""
 
-msgid "Duration deviation from event length"
-msgstr ""
-
-msgid "min"
-msgstr ""
-
-msgid "Recording length"
-msgstr ""
-
-msgid "h"
-msgstr ""
-
-msgid "Number of ts files"
-msgstr ""
-
-msgid "Find more at the Internet Movie Database."
-msgstr "Encontrar más en la Base de Datos de Películas de Internet"
-
-msgid "Record this"
-msgstr "Grabar esto"
-
-msgid "Existing Recording:"
-msgstr ""
-
 msgid "Stream this channel into browser."
-msgstr ""
-
-msgid "Stream this recording into browser."
 msgstr ""
 
 msgid "Stream this channel into media player."
@@ -837,12 +843,6 @@ msgstr "No se puede encontrar el canal o no hay canales disponibles. ¿Puede que 
 msgid "Deleted recording:"
 msgstr "Grabación borrada:"
 
-msgid "play this recording"
-msgstr ""
-
-msgid "Delete this recording from hard disc!"
-msgstr "¡Borrar esta grabación del disco duro!"
-
 msgid "List of recordings"
 msgstr "Lista de grabaciones"
 
@@ -957,6 +957,18 @@ msgstr "Administración de usuarios"
 
 msgid "Local net (no login required)"
 msgstr "Red local (sin autentificación requerida)"
+
+msgid "IPv4 prefix"
+msgstr ""
+
+msgid "Example: 192.168.178.0/24"
+msgstr ""
+
+msgid "IPv6 prefix"
+msgstr ""
+
+msgid "Example: 2003:ec:6f23:ee00:&#x200B;:/64"
+msgstr ""
 
 msgid "Show live logo image"
 msgstr "Muestra la imagen del logo Live"

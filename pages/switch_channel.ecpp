@@ -9,11 +9,19 @@ using namespace vdrlive;
 
 </%pre>
 <%args>
+  int channel_number;
   std::string param;
   std::string async;
 </%args>
 <%cpp>
-  tChannelID paramID = tChannelID::FromString(param.c_str());
+  tChannelID channelID;
+  if (qparam.has("channel_number")) {
+    LOCK_CHANNELS_READ;
+    const cChannel* channel = Channels->GetByNumber(channel_number);
+    channelID = channel ? channel->GetChannelID() : tChannelID::InvalidID;
+  } else
+    channelID = tChannelID::FromString(param.c_str());
+
   bool ajaxReq = !async.empty() && (parse_int<int>(async) != 0);
   std::string referrer;
 
@@ -27,7 +35,7 @@ using namespace vdrlive;
     referrer = request.getHeader("Referer:");
   }
 
-  SwitchChannelTask task( paramID );
+  SwitchChannelTask task( channelID );
   LiveTaskManager().Execute( task );
 
   if (!ajaxReq) {
@@ -36,7 +44,7 @@ using namespace vdrlive;
     }
 </%cpp>
 Normale Seite:<br/>
-channel: <$ paramID $><br/>
+channel: <$ channelID $><br/>
 result: <$ (task.Result()) $><br/>
 error: <$ (task.Error()) $><br />
 Seitenende!
@@ -44,7 +52,7 @@ Seitenende!
   }
   else {
 </%cpp>
-<& xmlresponse.ajax name=("switch_channel") pname=("channel") value=(paramID) result=(task.Result()) error=(task.Error()) &>
+<& xmlresponse.ajax name=("switch_channel") pname=("channel") value=(channelID) result=(task.Result()) error=(task.Error()) &>
 <%cpp>
   }
 </%cpp>

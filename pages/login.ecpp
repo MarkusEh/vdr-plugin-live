@@ -18,6 +18,10 @@ bool logged_in(false);
 
 std::string message;
 
+if (LiveSetup().CheckLocalNet(request.getPeerIp())) {
+  logged_in = true;
+  return reply.redirect(LiveSetup().GetStartScreenLink());
+}
 if (action == "login") {
   if (Users.ValidLogin(login, password)) {
     logged_in = true;
@@ -29,8 +33,6 @@ if (action == "login") {
   logged_in = false;
   cUsers::logged_in_user = "";
 }
-
-LiveSetup().CheckLocalNet(request.getPeerIp());
 
 if (logged_in || !LiveSetup().UseAuth()) return reply.redirect(LiveSetup().GetStartScreenLink());
 

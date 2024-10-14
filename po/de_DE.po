@@ -533,6 +533,45 @@ msgstr "Fehler: Status nicht verfügbar!"
 msgid "%I:%M:%S %p"
 msgstr "%H:%M:%S"
 
+msgid "Duration deviation from event length"
+msgstr "Abweichung der Aufzeichnungslänge von der Länge des EPG Eintrags"
+
+msgid "min"
+msgstr "min"
+
+msgid "Recording length"
+msgstr "Länge der Aufzeichnung"
+
+msgid "h"
+msgstr "h"
+
+msgid "Number of ts files"
+msgstr "Zahl der ts Dateien"
+
+msgid "Find more at the Internet Movie Database."
+msgstr "Weitere Informationen in der Internet Movie Database."
+
+msgid "Record this"
+msgstr "Diese Sendung aufnehmen"
+
+msgid "Search for repeats."
+msgstr "Nach Wiederholungen suchen."
+
+msgid "Existing Recording:"
+msgstr "Vorhandene Aufnahme:"
+
+msgid "Stream this recording into browser."
+msgstr "Diese Aufnahme im Browser abspielen."
+
+msgid "Click to view details."
+msgstr "Für Details klicken."
+
+msgid "play this recording"
+msgstr "Diese Aufzeichnung abspielen"
+
+msgid "Delete this recording from hard disc!"
+msgstr "Diese Aufnahme von der Festplatte löschen!"
+
 msgid "Wrong username or password"
 msgstr "Falscher Benutzername oder Passwort"
 
@@ -590,12 +629,6 @@ msgstr "Zeit"
 msgid "Switch to this channel."
 msgstr "Zu diesem Kanal umschalten."
 
-msgid "Search for repeats."
-msgstr "Nach Wiederholungen suchen."
-
-msgid "Click to view details."
-msgstr "Für Details klicken."
-
 msgid "more"
 msgstr "mehr"
 
@@ -608,35 +641,8 @@ msgstr "Zurück"
 msgid "Next entry"
 msgstr "Vor"
 
-msgid "Duration deviation from event length"
-msgstr "Abweichung der Aufzeichnungslänge von der Länge des EPG Eintrags"
-
-msgid "min"
-msgstr "min"
-
-msgid "Recording length"
-msgstr "Länge der Aufzeichnung"
-
-msgid "h"
-msgstr "h"
-
-msgid "Number of ts files"
-msgstr "Zahl der ts Dateien"
-
-msgid "Find more at the Internet Movie Database."
-msgstr "Weitere Informationen in der Internet Movie Database."
-
-msgid "Record this"
-msgstr "Diese Sendung aufnehmen"
-
-msgid "Existing Recording:"
-msgstr "Vorhandene Aufnahme:"
-
 msgid "Stream this channel into browser."
 msgstr "Diesen Kanal im Browser abspielen."
-
-msgid "Stream this recording into browser."
-msgstr "Diese Aufnahme im Browser abspielen."
 
 msgid "Stream this channel into media player."
 msgstr "Sender in Mediaplayer abspielen."
@@ -840,12 +846,6 @@ msgstr "Konnte Kanal nicht finden oder keine Kanäle verfügbar. Ist die Anfrage
 msgid "Deleted recording:"
 msgstr "Gelöschte Aufnahme:"
 
-msgid "play this recording"
-msgstr "Diese Aufzeichnung abspielen"
-
-msgid "Delete this recording from hard disc!"
-msgstr "Diese Aufnahme von der Festplatte löschen!"
-
 msgid "List of recordings"
 msgstr "Liste der Aufnahmen"
 
@@ -960,6 +960,18 @@ msgstr "Benutzerverwaltung"
 
 msgid "Local net (no login required)"
 msgstr "Lokales Netz (keine Anmeldung notwendig)"
+
+msgid "IPv4 prefix"
+msgstr "IPv4-Präfix"
+
+msgid "Example: 192.168.178.0/24"
+msgstr "Beispiel: 192.168.178.0/24"
+
+msgid "IPv6 prefix"
+msgstr "IPv6-Präfix"
+
+msgid "Example: 2003:ec:6f23:ee00:&#x200B;:/64"
+msgstr "Beispiel: 2003:ec:6f23:ee00:&#x200B;:/64"
 
 msgid "Show live logo image"
 msgstr "Zeige das Live Logo"

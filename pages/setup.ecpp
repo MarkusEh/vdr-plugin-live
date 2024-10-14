@@ -21,6 +21,7 @@ using namespace vdrlive;
   std::string startscreen;
   std::string theme;
   std::string localnetmask;
+  std::string localnetmaskIPv6;
   std::string showLogo;
   std::string showInfoBox;
   std::string useStreamdev;
@@ -57,6 +58,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
         if (pass != "")
           LiveSetup().SetAdminPassword(pass);
         LiveSetup().SetLocalNetMask(localnetmask);
+        LiveSetup().SetLocalNetMaskIPv6(localnetmaskIPv6);
         LiveSetup().CheckLocalNet(request.getPeerIp());
       }
       LiveSetup().SetTimes(times);
@@ -93,6 +95,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
   startscreen = LiveSetup().GetStartScreen();
   theme = LiveSetup().GetTheme();
   localnetmask = LiveSetup().GetLocalNetMask();
+  localnetmaskIPv6 = LiveSetup().GetLocalNetMaskIPv6();
   showLogo = LiveSetup().GetShowLogo() ? "1" : "";
   showInfoBox = LiveSetup().GetShowInfoBox() ? "1" : "";
   useStreamdev = LiveSetup().GetUseStreamdev() ? "1" : "";
@@ -152,12 +155,22 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
                 <td><input  type="password" name="pass" value="<$ pass $>" id="pass" onchange="setauthchanged(this)" /></td>
               </tr>
               <tr>
-                <td class="label"><div class="withmargin"><a href="users.html"><$ tr("User management") $></a></div></td>
-                <td/>
+                <td colspan="2" class="label"><div class="withmargin"><a href="users.html"><$ tr("User management") $></a></div></td>
               </tr>
               <tr>
-                <td class="label"><div class="withmargin"><$ tr("Local net (no login required)") $>:</div></td>
-                <td><input  type="text" name="localnetmask" value="<$ localnetmask $>" id="localnetmask" /></td>
+                <td colspan="2" class="label"><div class="withmargin"><$ tr("Local net (no login required)") $></div></td>
+              </tr>
+              <tr>
+                <td class="label"><div class="withmargin"><$ tr("IPv4 prefix") $>:</div></td>
+                <td><input type="text" name="localnetmask" value="<$ localnetmask $>" id="localnetmask" />
+                <& tooltip.help text=(tr("Example: 192.168.178.0/24")) &></td>
+              </tr>
+              <tr>
+                <td class="label"><div class="withmargin"><$ tr("IPv6 prefix") $>:</div></td>
+                <td><input type="text" name="localnetmaskIPv6" value="<$ localnetmaskIPv6 $>" id="localnetmaskIPv6" />
+%               // the mootools unfortunately use "::" as separator for title and text,
+%               // so we need to escape this by inserting an invisible space U+200B in-between
+                <& tooltip.help text=(tr("Example: 2003:ec:6f23:ee00:&#x200B;:/64")) &></td>
               </tr>
               </table>
               </div>

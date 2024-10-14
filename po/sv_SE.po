@@ -531,6 +531,45 @@ msgstr "fel vid hämtning av statusinfo!"
 msgid "%I:%M:%S %p"
 msgstr "%H:%M:%S"
 
+msgid "Duration deviation from event length"
+msgstr ""
+
+msgid "min"
+msgstr ""
+
+msgid "Recording length"
+msgstr ""
+
+msgid "h"
+msgstr ""
+
+msgid "Number of ts files"
+msgstr ""
+
+msgid "Find more at the Internet Movie Database."
+msgstr "Hitta mera på IMDB"
+
+msgid "Record this"
+msgstr "Spela in detta."
+
+msgid "Search for repeats."
+msgstr "Sök efter upprepningar."
+
+msgid "Existing Recording:"
+msgstr ""
+
+msgid "Stream this recording into browser."
+msgstr ""
+
+msgid "Click to view details."
+msgstr "Klicka för detaljer"
+
+msgid "play this recording"
+msgstr ""
+
+msgid "Delete this recording from hard disc!"
+msgstr "Ta bort den inspelning från hårddisken!"
+
 msgid "Wrong username or password"
 msgstr "Fel användarnamn eller lösenord"
 
@@ -588,12 +627,6 @@ msgstr "Tid"
 msgid "Switch to this channel."
 msgstr "Byt till denna kanal."
 
-msgid "Search for repeats."
-msgstr "Sök efter upprepningar."
-
-msgid "Click to view details."
-msgstr "Klicka för detaljer"
-
 msgid "more"
 msgstr "mera"
 
@@ -606,34 +639,7 @@ msgstr ""
 msgid "Next entry"
 msgstr ""
 
-msgid "Duration deviation from event length"
-msgstr ""
-
-msgid "min"
-msgstr ""
-
-msgid "Recording length"
-msgstr ""
-
-msgid "h"
-msgstr ""
-
-msgid "Number of ts files"
-msgstr ""
-
-msgid "Find more at the Internet Movie Database."
-msgstr "Hitta mera på IMDB"
-
-msgid "Record this"
-msgstr "Spela in detta."
-
-msgid "Existing Recording:"
-msgstr ""
-
 msgid "Stream this channel into browser."
-msgstr ""
-
-msgid "Stream this recording into browser."
 msgstr ""
 
 msgid "Stream this channel into media player."
@@ -837,12 +843,6 @@ msgstr "Kan inte hitta kanal eller inga kanaler är tillgängliga. Kontrollera s
 msgid "Deleted recording:"
 msgstr "Raderade inspelningar:"
 
-msgid "play this recording"
-msgstr ""
-
-msgid "Delete this recording from hard disc!"
-msgstr "Ta bort den inspelning från hårddisken!"
-
 msgid "List of recordings"
 msgstr "Lista över inspelningar"
 
@@ -957,6 +957,18 @@ msgstr "Användarhantering"
 
 msgid "Local net (no login required)"
 msgstr "Lokalt nät (inget login krävs)"
+
+msgid "IPv4 prefix"
+msgstr ""
+
+msgid "Example: 192.168.178.0/24"
+msgstr ""
+
+msgid "IPv6 prefix"
+msgstr ""
+
+msgid "Example: 2003:ec:6f23:ee00:&#x200B;:/64"
+msgstr ""
 
 msgid "Show live logo image"
 msgstr "Visa live logo"

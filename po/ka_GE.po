@@ -534,6 +534,45 @@ msgstr "სტატუსის ინფორმაციის მიღე�
 msgid "%I:%M:%S %p"
 msgstr "%I:%M:%S %p"
 
+msgid "Duration deviation from event length"
+msgstr "ხანგრძლივობის აცდენა მოვლენის სიგრძესთან"
+
+msgid "min"
+msgstr "წთ"
+
+msgid "Recording length"
+msgstr "ჩანაწერის ხანგრძლივობა"
+
+msgid "h"
+msgstr ""
+
+msgid "Number of ts files"
+msgstr ""
+
+msgid "Find more at the Internet Movie Database."
+msgstr "მეტის პოვნა IMDB-ზე."
+
+msgid "Record this"
+msgstr "ამის ჩაწერა"
+
+msgid "Search for repeats."
+msgstr "გამეორებების ძებნა."
+
+msgid "Existing Recording:"
+msgstr "არსებული ჩანაწერი:"
+
+msgid "Stream this recording into browser."
+msgstr ""
+
+msgid "Click to view details."
+msgstr "დეტალების სანახავად დააწკაპუნეთ."
+
+msgid "play this recording"
+msgstr "ამ ჩანაწერის დაკვრა"
+
+msgid "Delete this recording from hard disc!"
+msgstr "ამ ჩანაწერის დისკიდან წაშლა!"
+
 msgid "Wrong username or password"
 msgstr "მომხმარებლის სახელი ან პაროლი არასწორია"
 
@@ -591,12 +630,6 @@ msgstr "დრო"
 msgid "Switch to this channel."
 msgstr "ამ არხზე გადართვა."
 
-msgid "Search for repeats."
-msgstr "გამეორებების ძებნა."
-
-msgid "Click to view details."
-msgstr "დეტალების სანახავად დააწკაპუნეთ."
-
 msgid "more"
 msgstr "მეტი"
 
@@ -609,35 +642,8 @@ msgstr ""
 msgid "Next entry"
 msgstr ""
 
-msgid "Duration deviation from event length"
-msgstr "ხანგრძლივობის აცდენა მოვლენის სიგრძესთან"
-
-msgid "min"
-msgstr "წთ"
-
-msgid "Recording length"
-msgstr "ჩანაწერის ხანგრძლივობა"
-
-msgid "h"
-msgstr ""
-
-msgid "Number of ts files"
-msgstr ""
-
-msgid "Find more at the Internet Movie Database."
-msgstr "მეტის პოვნა IMDB-ზე."
-
-msgid "Record this"
-msgstr "ამის ჩაწერა"
-
-msgid "Existing Recording:"
-msgstr "არსებული ჩანაწერი:"
-
 msgid "Stream this channel into browser."
 msgstr "ამ არხის ბრაუზერში ჩვენება."
-
-msgid "Stream this recording into browser."
-msgstr ""
 
 msgid "Stream this channel into media player."
 msgstr "ამ არხის მედიის დამკვრელში ჩვენება."
@@ -840,12 +846,6 @@ msgstr "არხი ვერ ვიპოვე ან არხები მ�
 msgid "Deleted recording:"
 msgstr "წაშლილია ჩანაწერი:"
 
-msgid "play this recording"
-msgstr "ამ ჩანაწერის დაკვრა"
-
-msgid "Delete this recording from hard disc!"
-msgstr "ამ ჩანაწერის დისკიდან წაშლა!"
-
 msgid "List of recordings"
 msgstr "ჩანაწერების სია"
 
@@ -960,6 +960,18 @@ msgstr "მომხმარებლების მართვა"
 
 msgid "Local net (no login required)"
 msgstr "ლოკალური ქსელი (შესვლის გარეშე)"
+
+msgid "IPv4 prefix"
+msgstr ""
+
+msgid "Example: 192.168.178.0/24"
+msgstr ""
+
+msgid "IPv6 prefix"
+msgstr ""
+
+msgid "Example: 2003:ec:6f23:ee00:&#x200B;:/64"
+msgstr ""
 
 msgid "Show live logo image"
 msgstr "ცოცხალი ლოგოს გამოსახულების ჩვენება"

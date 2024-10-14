@@ -533,6 +533,45 @@ msgstr "negali gauti informacijos apie būklę!"
 msgid "%I:%M:%S %p"
 msgstr "%I:%M:%S %p"
 
+msgid "Duration deviation from event length"
+msgstr ""
+
+msgid "min"
+msgstr ""
+
+msgid "Recording length"
+msgstr ""
+
+msgid "h"
+msgstr ""
+
+msgid "Number of ts files"
+msgstr ""
+
+msgid "Find more at the Internet Movie Database."
+msgstr "Gauti daugiau informacijos iš IMDb."
+
+msgid "Record this"
+msgstr "Įrašyti"
+
+msgid "Search for repeats."
+msgstr "Ieškoti pasikartojimų."
+
+msgid "Existing Recording:"
+msgstr ""
+
+msgid "Stream this recording into browser."
+msgstr ""
+
+msgid "Click to view details."
+msgstr "Spustelkit kad gautumėt daugiau informacijos."
+
+msgid "play this recording"
+msgstr ""
+
+msgid "Delete this recording from hard disc!"
+msgstr "Ištrinti šį įrašą iš disko!"
+
 msgid "Wrong username or password"
 msgstr "Blogas prisijungimo vardas arba slapyvardis"
 
@@ -590,12 +629,6 @@ msgstr ""
 msgid "Switch to this channel."
 msgstr "Pereiti į šį kanalą."
 
-msgid "Search for repeats."
-msgstr "Ieškoti pasikartojimų."
-
-msgid "Click to view details."
-msgstr "Spustelkit kad gautumėt daugiau informacijos."
-
 msgid "more"
 msgstr "daugiau"
 
@@ -608,34 +641,7 @@ msgstr ""
 msgid "Next entry"
 msgstr ""
 
-msgid "Duration deviation from event length"
-msgstr ""
-
-msgid "min"
-msgstr ""
-
-msgid "Recording length"
-msgstr ""
-
-msgid "h"
-msgstr ""
-
-msgid "Number of ts files"
-msgstr ""
-
-msgid "Find more at the Internet Movie Database."
-msgstr "Gauti daugiau informacijos iš IMDb."
-
-msgid "Record this"
-msgstr "Įrašyti"
-
-msgid "Existing Recording:"
-msgstr ""
-
 msgid "Stream this channel into browser."
-msgstr ""
-
-msgid "Stream this recording into browser."
 msgstr ""
 
 msgid "Stream this channel into media player."
@@ -839,12 +845,6 @@ msgstr "Kanalas nerastas arba jo iš vis nėra. Gal klaidingai įvedėte paiešk
 msgid "Deleted recording:"
 msgstr "Ištrynė įrašą:"
 
-msgid "play this recording"
-msgstr ""
-
-msgid "Delete this recording from hard disc!"
-msgstr "Ištrinti šį įrašą iš disko!"
-
 msgid "List of recordings"
 msgstr "Įrašų sąrašas"
 
@@ -959,6 +959,18 @@ msgstr "Vartotojo koregavimas"
 
 msgid "Local net (no login required)"
 msgstr "Vietinis tinklas (nereikalingas prisijungimas)"
+
+msgid "IPv4 prefix"
+msgstr ""
+
+msgid "Example: 192.168.178.0/24"
+msgstr ""
+
+msgid "IPv6 prefix"
+msgstr ""
+
+msgid "Example: 2003:ec:6f23:ee00:&#x200B;:/64"
+msgstr ""
 
 msgid "Show live logo image"
 msgstr "Rodyti live įskiepo logotipą"

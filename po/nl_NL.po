@@ -547,6 +547,45 @@ msgstr ""
 msgid "%I:%M:%S %p"
 msgstr ""
 
+msgid "Duration deviation from event length"
+msgstr ""
+
+msgid "min"
+msgstr ""
+
+msgid "Recording length"
+msgstr ""
+
+msgid "h"
+msgstr ""
+
+msgid "Number of ts files"
+msgstr ""
+
+msgid "Find more at the Internet Movie Database."
+msgstr ""
+
+msgid "Record this"
+msgstr ""
+
+msgid "Search for repeats."
+msgstr ""
+
+msgid "Existing Recording:"
+msgstr ""
+
+msgid "Stream this recording into browser."
+msgstr ""
+
+msgid "Click to view details."
+msgstr ""
+
+msgid "play this recording"
+msgstr ""
+
+msgid "Delete this recording from hard disc!"
+msgstr ""
+
 msgid "Wrong username or password"
 msgstr ""
 
@@ -604,12 +643,6 @@ msgstr ""
 msgid "Switch to this channel."
 msgstr ""
 
-msgid "Search for repeats."
-msgstr ""
-
-msgid "Click to view details."
-msgstr ""
-
 msgid "more"
 msgstr ""
 
@@ -622,34 +655,7 @@ msgstr ""
 msgid "Next entry"
 msgstr ""
 
-msgid "Duration deviation from event length"
-msgstr ""
-
-msgid "min"
-msgstr ""
-
-msgid "Recording length"
-msgstr ""
-
-msgid "h"
-msgstr ""
-
-msgid "Number of ts files"
-msgstr ""
-
-msgid "Find more at the Internet Movie Database."
-msgstr ""
-
-msgid "Record this"
-msgstr ""
-
-msgid "Existing Recording:"
-msgstr ""
-
 msgid "Stream this channel into browser."
-msgstr ""
-
-msgid "Stream this recording into browser."
 msgstr ""
 
 msgid "Stream this channel into media player."
@@ -854,12 +860,6 @@ msgstr ""
 msgid "Deleted recording:"
 msgstr "Serie's opnemen"
 
-msgid "play this recording"
-msgstr ""
-
-msgid "Delete this recording from hard disc!"
-msgstr ""
-
 msgid "List of recordings"
 msgstr ""
 
@@ -974,6 +974,18 @@ msgid "User management"
 msgstr ""
 
 msgid "Local net (no login required)"
+msgstr ""
+
+msgid "IPv4 prefix"
+msgstr ""
+
+msgid "Example: 192.168.178.0/24"
+msgstr ""
+
+msgid "IPv6 prefix"
+msgstr ""
+
+msgid "Example: 2003:ec:6f23:ee00:&#x200B;:/64"
 msgstr ""
 
 msgid "Show live logo image"

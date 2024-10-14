@@ -540,6 +540,45 @@ msgstr "chyba při zjišťování statusu!"
 msgid "%I:%M:%S %p"
 msgstr "%H:%M:%S"
 
+msgid "Duration deviation from event length"
+msgstr ""
+
+msgid "min"
+msgstr ""
+
+msgid "Recording length"
+msgstr ""
+
+msgid "h"
+msgstr ""
+
+msgid "Number of ts files"
+msgstr ""
+
+msgid "Find more at the Internet Movie Database."
+msgstr "Vyhledej více na Internet Movie Database."
+
+msgid "Record this"
+msgstr "Nahrát"
+
+msgid "Search for repeats."
+msgstr "Vyhledat reprízy"
+
+msgid "Existing Recording:"
+msgstr ""
+
+msgid "Stream this recording into browser."
+msgstr ""
+
+msgid "Click to view details."
+msgstr "Detaily"
+
+msgid "play this recording"
+msgstr ""
+
+msgid "Delete this recording from hard disc!"
+msgstr "Smazat nahrávku!"
+
 msgid "Wrong username or password"
 msgstr "Chybné jméno, nebo heslo"
 
@@ -597,12 +636,6 @@ msgstr ""
 msgid "Switch to this channel."
 msgstr "Přepnout"
 
-msgid "Search for repeats."
-msgstr "Vyhledat reprízy"
-
-msgid "Click to view details."
-msgstr "Detaily"
-
 msgid "more"
 msgstr "více"
 
@@ -615,34 +648,7 @@ msgstr ""
 msgid "Next entry"
 msgstr ""
 
-msgid "Duration deviation from event length"
-msgstr ""
-
-msgid "min"
-msgstr ""
-
-msgid "Recording length"
-msgstr ""
-
-msgid "h"
-msgstr ""
-
-msgid "Number of ts files"
-msgstr ""
-
-msgid "Find more at the Internet Movie Database."
-msgstr "Vyhledej více na Internet Movie Database."
-
-msgid "Record this"
-msgstr "Nahrát"
-
-msgid "Existing Recording:"
-msgstr ""
-
 msgid "Stream this channel into browser."
-msgstr ""
-
-msgid "Stream this recording into browser."
 msgstr ""
 
 msgid "Stream this channel into media player."
@@ -846,12 +852,6 @@ msgstr "Kanál je nedostupný, nebo neexistuje. Zkontrolujte zadání."
 msgid "Deleted recording:"
 msgstr "Smazaná nahrávka:"
 
-msgid "play this recording"
-msgstr ""
-
-msgid "Delete this recording from hard disc!"
-msgstr "Smazat nahrávku!"
-
 msgid "List of recordings"
 msgstr "Seznam nahrávek"
 
@@ -967,6 +967,18 @@ msgstr ""
 
 msgid "Local net (no login required)"
 msgstr "Lokální síť (bez přilášení)"
+
+msgid "IPv4 prefix"
+msgstr ""
+
+msgid "Example: 192.168.178.0/24"
+msgstr ""
+
+msgid "IPv6 prefix"
+msgstr ""
+
+msgid "Example: 2003:ec:6f23:ee00:&#x200B;:/64"
+msgstr ""
 
 msgid "Show live logo image"
 msgstr "Zobrazit logo"

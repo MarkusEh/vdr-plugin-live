@@ -102,7 +102,7 @@ class cSv: public std::string_view {
       int len = (((*this)[pos] & 0xC0) == 0xC0) * LEN[((*this)[pos] >> 3) & 7] + (((*this)[pos] | 0x7F) == 0x7F);
       if (len == 1) return 1;
       if (len + pos > length()) return 0;
-      for (size_t k= pos + 1; k < pos + len; k++) if (((*this)[k] & 0xC0) != 0x80) len = 0;
+      for (size_t k= pos + 1; k < pos + len; k++) if (((*this)[k] & 0xC0) != 0x80) return 0;
       return len;
     }
   private:
@@ -253,12 +253,14 @@ inline void stringAppendUtfCodepoint(std::string &target, wint_t codepoint) {
 }
 
 inline int utf8CodepointIsValid(const char *p) {
+// p must be zero terminated
+
 // In case of invalid UTF8, return 0
 // otherwise, return number of characters for this UTF codepoint
   static const uint8_t LEN[] = {2,2,2,2,3,3,4,0};
 
   int len = ((*p & 0xC0) == 0xC0) * LEN[(*p >> 3) & 7] + ((*p | 0x7F) == 0x7F);
-  for (int k=1; k < len; k++) if ((p[k] & 0xC0) != 0x80) len = 0;
+  for (int k=1; k < len; k++) if ((p[k] & 0xC0) != 0x80) return 0;
   return len;
 }
 inline wint_t Utf8ToUtf32(const char *p, int len) {
@@ -269,16 +271,9 @@ inline wint_t Utf8ToUtf32(const char *p, int len) {
   return val;
 }
 
-inline wint_t getUtfCodepoint(const char *p) {
-// get next codepoint
-// 0 is returned at end of string
-  if(!p || !*p) return 0;
-  int l = utf8CodepointIsValid(p);
-  if( l == 0 ) return '?';
-  return Utf8ToUtf32(p, l);
-}
-
 inline wint_t getNextUtfCodepoint(const char *&p) {
+// p must be zero terminated
+
 // get next codepoint, and increment p
 // 0 is returned at end of string, and p will point to the end of the string (0)
   if(!p || !*p) return 0;

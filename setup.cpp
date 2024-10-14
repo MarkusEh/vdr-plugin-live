@@ -217,6 +217,7 @@ bool Setup::ParseSetupEntry( char const* name, char const* value )
   else if ( strcmp( name, "StartPage" ) == 0 ) m_startscreen = value;
   else if ( strcmp( name, "Theme" ) == 0 ) SetTheme(value);
   else if ( strcmp( name, "LocalNetMask" ) == 0 ) { m_localnetmask = value; }
+  else if ( strcmp( name, "LocalNetMaskIPv6" ) == 0 ) { m_localnetmaskIPv6 = value; }
   else if ( strcmp( name, "LastWhatsOnListMode" ) == 0 ) { m_lastwhatsonlistmode = value; }
   else if ( strcmp( name, "LastSortingMode" ) == 0 ) { m_lastsortingmode = value; }
   else if ( strcmp( name, "ShowLogo" ) == 0 ) { m_showLogo = atoi(value); }
@@ -367,38 +368,78 @@ void Setup::SetTvscraperImageDir(const std::string &dir) {
 
 bool Setup::CheckLocalNet(const std::string& ip)
 {
-  // split local net mask in net and range
+  // split IPv4 local net mask in net and range
   std::vector<std::string> parts = StringSplit( m_localnetmask, '/' );
-  if (parts.size() != 2) return false;
-  std::string net = parts[0];
-
-  int range = parse_int<int>(parts[1]);
-  // split net and IP address in its 4 subcomponents
-  std::vector<std::string> netparts = StringSplit( net, '.' );
-  std::vector<std::string> addrparts = StringSplit( ip, '.' );
-  if (netparts.size() != 4 || addrparts.size() != 4) return false;
-
-  // to binary representation
-  std::stringstream bin_netstream;
-  bin_netstream << std::bitset<8>(parse_int<long>(netparts[0]))
-    << std::bitset<8>(parse_int<long>(netparts[1]))
-    << std::bitset<8>(parse_int<long>(netparts[2]))
-    << std::bitset<8>(parse_int<long>(netparts[3]));
-
-  std::stringstream bin_addrstream;
-  bin_addrstream << std::bitset<8>(parse_int<long>(addrparts[0]))
-    << std::bitset<8>(parse_int<long>(addrparts[1]))
-    << std::bitset<8>(parse_int<long>(addrparts[2]))
-    << std::bitset<8>(parse_int<long>(addrparts[3]));
-
-  // compare range
-  std::string bin_net = bin_netstream.str();
-  std::string bin_addr = bin_addrstream.str();
-  std::string bin_net_range(bin_net.begin(), bin_net.begin() + range);
-  std::string addr_net_range(bin_addr.begin(), bin_addr.begin() + range);
-  m_islocalnet = (bin_net_range == addr_net_range);
-
-  return m_islocalnet;
+  if (parts.size() == 2 && parts[0].find_first_not_of("0123456789./") == std::string::npos && parts[1].find_first_not_of("0123456789") == std::string::npos) {
+    std::string net = parts[0];
+    int range = parse_int<int>(parts[1]);
+    // split IPv6 net and address into the 4 subcomponents
+    std::vector<std::string> netparts = StringSplit( net, '.' );
+    std::vector<std::string> addrparts = StringSplit( ip, '.' );
+    if (netparts.size() == 4 & addrparts.size() == 4) {
+      // IPv4 to binary representation
+      std::stringstream bin_netstream;
+      bin_netstream
+        << std::bitset<8>(parse_int<long>(netparts[0]))
+        << std::bitset<8>(parse_int<long>(netparts[1]))
+        << std::bitset<8>(parse_int<long>(netparts[2]))
+        << std::bitset<8>(parse_int<long>(netparts[3]));
+      std::stringstream bin_addrstream;
+      bin_addrstream
+        << std::bitset<8>(parse_int<long>(addrparts[0]))
+        << std::bitset<8>(parse_int<long>(addrparts[1]))
+        << std::bitset<8>(parse_int<long>(addrparts[2]))
+        << std::bitset<8>(parse_int<long>(addrparts[3]));
+      // compare range
+      std::string bin_net = bin_netstream.str();
+      std::string bin_addr = bin_addrstream.str();
+      std::string bin_net_range(bin_net.begin(), bin_net.begin() + range);
+      std::string addr_net_range(bin_addr.begin(), bin_addr.begin() + range);
+      return m_islocalnet = (bin_net_range == addr_net_range);
+    }
+  }
+  // split IPv6 local net mask into net and range
+  parts = StringSplit( m_localnetmaskIPv6, '/' );
+  if (parts.size() == 2 && parts[0].find_first_not_of("0123456789AaBbCcDdEeFf:") == std::string::npos && parts[1].find_first_not_of("0123456789") == std::string::npos) {
+    std::string net = parts[0];
+    int range = parse_int<int>(parts[1]);
+    // split IPv6 net and IP address into the 8 subcomponents; as the TNT library
+    // erroneously reports IPv6 addresses with an abbreviation at the start, which
+    // would intersect with the IETF reserved prefix of 0000::/3, we ignore it
+    size_t addrstart = ip.find_first_not_of(':');
+    if (addrstart == std::string::npos) return m_islocalnet = false;
+    std::vector<std::string> netparts = StringSplit( net, ':' );
+    std::vector<std::string> addrparts = StringSplit( ip.substr(addrstart), ':' );
+    if (3 <= netparts.size() && netparts.size() <= 8 && 1 <= addrparts.size() && addrparts.size() <= 8) {
+      // IPv6 to binary representation; for simplification, we assume that IPv6 addresses
+      // have an abbreviation only at the end
+      std::stringstream bin_netstream;
+      bin_netstream << std::bitset<16>(netparts.size() > 0 ? parse_hex<long>(netparts[0]) : 0L);
+      bin_netstream << std::bitset<16>(netparts.size() > 1 ? parse_hex<long>(netparts[1]) : 0L);
+      bin_netstream << std::bitset<16>(netparts.size() > 2 ? parse_hex<long>(netparts[2]) : 0L);
+      bin_netstream << std::bitset<16>(netparts.size() > 3 ? parse_hex<long>(netparts[3]) : 0L);
+      bin_netstream << std::bitset<16>(netparts.size() > 4 ? parse_hex<long>(netparts[4]) : 0L);
+      bin_netstream << std::bitset<16>(netparts.size() > 5 ? parse_hex<long>(netparts[5]) : 0L);
+      bin_netstream << std::bitset<16>(netparts.size() > 6 ? parse_hex<long>(netparts[6]) : 0L);
+      bin_netstream << std::bitset<16>(netparts.size() > 7 ? parse_hex<long>(netparts[7]) : 0L);
+      std::stringstream bin_addrstream;
+      bin_addrstream << std::bitset<16>(addrparts.size() > 0 ? parse_hex<long>(addrparts[0]) : 0L);
+      bin_addrstream << std::bitset<16>(addrparts.size() > 1 ? parse_hex<long>(addrparts[1]) : 0L);
+      bin_addrstream << std::bitset<16>(addrparts.size() > 2 ? parse_hex<long>(addrparts[2]) : 0L);
+      bin_addrstream << std::bitset<16>(addrparts.size() > 3 ? parse_hex<long>(addrparts[3]) : 0L);
+      bin_addrstream << std::bitset<16>(addrparts.size() > 4 ? parse_hex<long>(addrparts[4]) : 0L);
+      bin_addrstream << std::bitset<16>(addrparts.size() > 5 ? parse_hex<long>(addrparts[5]) : 0L);
+      bin_addrstream << std::bitset<16>(addrparts.size() > 6 ? parse_hex<long>(addrparts[6]) : 0L);
+      bin_addrstream << std::bitset<16>(addrparts.size() > 7 ? parse_hex<long>(addrparts[7]) : 0L);
+      // compare range
+      std::string bin_net = bin_netstream.str();
+      std::string bin_addr = bin_addrstream.str();
+      std::string bin_net_range(bin_net.begin(), bin_net.begin() + range);
+      std::string addr_net_range(bin_addr.begin(), bin_addr.begin() + range);
+      return m_islocalnet = (bin_net_range == addr_net_range);
+    }
+  }
+  return m_islocalnet = false;
 }
 
 bool Setup::SaveSetup()
@@ -411,6 +452,7 @@ bool Setup::SaveSetup()
     liveplugin->SetupStore("AdminLogin",  m_adminLogin.c_str());
     liveplugin->SetupStore("AdminPasswordMD5",  m_adminPasswordMD5.c_str());
     liveplugin->SetupStore("LocalNetMask",  m_localnetmask.c_str());
+    liveplugin->SetupStore("LocalNetMaskIPv6",  m_localnetmaskIPv6.c_str());
   }
   liveplugin->SetupStore("UserdefTimes",  m_times.c_str());
   liveplugin->SetupStore("ChannelGroups",  m_channelGroups.c_str());

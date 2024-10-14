@@ -532,6 +532,45 @@ msgstr "błąd podczas odczytu stanu!"
 msgid "%I:%M:%S %p"
 msgstr "%H:%M:%S"
 
+msgid "Duration deviation from event length"
+msgstr ""
+
+msgid "min"
+msgstr ""
+
+msgid "Recording length"
+msgstr ""
+
+msgid "h"
+msgstr ""
+
+msgid "Number of ts files"
+msgstr ""
+
+msgid "Find more at the Internet Movie Database."
+msgstr "Szukaj w IMDb.com"
+
+msgid "Record this"
+msgstr "Nagraj"
+
+msgid "Search for repeats."
+msgstr "Szukaj powtórek"
+
+msgid "Existing Recording:"
+msgstr ""
+
+msgid "Stream this recording into browser."
+msgstr ""
+
+msgid "Click to view details."
+msgstr "Kliknij aby zobaczyć szczegóły"
+
+msgid "play this recording"
+msgstr ""
+
+msgid "Delete this recording from hard disc!"
+msgstr "Usuń to nagranie z twardego dysku!"
+
 msgid "Wrong username or password"
 msgstr "Błędna nazwa lub hasło użytkownika"
 
@@ -589,12 +628,6 @@ msgstr "Czas"
 msgid "Switch to this channel."
 msgstr "Przełącz na ten kanał"
 
-msgid "Search for repeats."
-msgstr "Szukaj powtórek"
-
-msgid "Click to view details."
-msgstr "Kliknij aby zobaczyć szczegóły"
-
 msgid "more"
 msgstr "więcej"
 
@@ -607,35 +640,8 @@ msgstr ""
 msgid "Next entry"
 msgstr ""
 
-msgid "Duration deviation from event length"
-msgstr ""
-
-msgid "min"
-msgstr ""
-
-msgid "Recording length"
-msgstr ""
-
-msgid "h"
-msgstr ""
-
-msgid "Number of ts files"
-msgstr ""
-
-msgid "Find more at the Internet Movie Database."
-msgstr "Szukaj w IMDb.com"
-
-msgid "Record this"
-msgstr "Nagraj"
-
-msgid "Existing Recording:"
-msgstr ""
-
 msgid "Stream this channel into browser."
 msgstr "Oglądaj kanał w przeglądarce"
-
-msgid "Stream this recording into browser."
-msgstr ""
 
 msgid "Stream this channel into media player."
 msgstr "Oglądaj kanał w odtwarzaczu multimediów"
@@ -838,12 +844,6 @@ msgstr "Nie można odnaleść kanału lub kanały nie są dostępne."
 msgid "Deleted recording:"
 msgstr "Usunięto nagranie:"
 
-msgid "play this recording"
-msgstr ""
-
-msgid "Delete this recording from hard disc!"
-msgstr "Usuń to nagranie z twardego dysku!"
-
 msgid "List of recordings"
 msgstr "Lista nagrań"
 
@@ -958,6 +958,18 @@ msgstr "Zarządzanie użytkownikami"
 
 msgid "Local net (no login required)"
 msgstr "Sieć lokalna (logowanie nie wymagane)"
+
+msgid "IPv4 prefix"
+msgstr ""
+
+msgid "Example: 192.168.178.0/24"
+msgstr ""
+
+msgid "IPv6 prefix"
+msgstr ""
+
+msgid "Example: 2003:ec:6f23:ee00:&#x200B;:/64"
+msgstr ""
 
 msgid "Show live logo image"
 msgstr "Pokazuj logo VDR-Live"

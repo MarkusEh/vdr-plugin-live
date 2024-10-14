@@ -532,6 +532,45 @@ msgstr "Chyba pri naèítaní informácií o stave!"
 msgid "%I:%M:%S %p"
 msgstr "%H:%M:%S"
 
+msgid "Duration deviation from event length"
+msgstr ""
+
+msgid "min"
+msgstr ""
+
+msgid "Recording length"
+msgstr ""
+
+msgid "h"
+msgstr ""
+
+msgid "Number of ts files"
+msgstr ""
+
+msgid "Find more at the Internet Movie Database."
+msgstr "Viac na Internet Movie Database."
+
+msgid "Record this"
+msgstr "Nahra»"
+
+msgid "Search for repeats."
+msgstr "Vyhµada» reprízy."
+
+msgid "Existing Recording:"
+msgstr ""
+
+msgid "Stream this recording into browser."
+msgstr ""
+
+msgid "Click to view details."
+msgstr "Podrobnosti získate kliknutím."
+
+msgid "play this recording"
+msgstr ""
+
+msgid "Delete this recording from hard disc!"
+msgstr "Vymaza» nahrávku z HDD"
+
 msgid "Wrong username or password"
 msgstr "Chybné u¾ívateµské meno alebo heslo"
 
@@ -589,12 +628,6 @@ msgstr "Èas"
 msgid "Switch to this channel."
 msgstr "Prepnú» na tento kanál."
 
-msgid "Search for repeats."
-msgstr "Vyhµada» reprízy."
-
-msgid "Click to view details."
-msgstr "Podrobnosti získate kliknutím."
-
 msgid "more"
 msgstr "viac"
 
@@ -607,34 +640,7 @@ msgstr ""
 msgid "Next entry"
 msgstr ""
 
-msgid "Duration deviation from event length"
-msgstr ""
-
-msgid "min"
-msgstr ""
-
-msgid "Recording length"
-msgstr ""
-
-msgid "h"
-msgstr ""
-
-msgid "Number of ts files"
-msgstr ""
-
-msgid "Find more at the Internet Movie Database."
-msgstr "Viac na Internet Movie Database."
-
-msgid "Record this"
-msgstr "Nahra»"
-
-msgid "Existing Recording:"
-msgstr ""
-
 msgid "Stream this channel into browser."
-msgstr ""
-
-msgid "Stream this recording into browser."
 msgstr ""
 
 msgid "Stream this channel into media player."
@@ -838,12 +844,6 @@ msgstr "Nena¹iel sa ¾iadny kanál alebo kanály nie sú k dispozícii. Mo¾no ste zle
 msgid "Deleted recording:"
 msgstr "Vymazaný nahrávka:"
 
-msgid "play this recording"
-msgstr ""
-
-msgid "Delete this recording from hard disc!"
-msgstr "Vymaza» nahrávku z HDD"
-
 msgid "List of recordings"
 msgstr "Zoznam nahrávok"
 
@@ -958,6 +958,18 @@ msgstr "U¾ívateµský mana¾ment"
 
 msgid "Local net (no login required)"
 msgstr "Miestna sie» (nevy¾aduje prihlásenie)"
+
+msgid "IPv4 prefix"
+msgstr ""
+
+msgid "Example: 192.168.178.0/24"
+msgstr ""
+
+msgid "IPv6 prefix"
+msgstr ""
+
+msgid "Example: 2003:ec:6f23:ee00:&#x200B;:/64"
+msgstr ""
 
 msgid "Show live logo image"
 msgstr "Zobrazi» obrázok live loga"

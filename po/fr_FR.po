@@ -551,6 +551,45 @@ msgstr "erreur de récupération du statut d'info!"
 msgid "%I:%M:%S %p"
 msgstr "%H:%M:%S"
 
+msgid "Duration deviation from event length"
+msgstr ""
+
+msgid "min"
+msgstr ""
+
+msgid "Recording length"
+msgstr ""
+
+msgid "h"
+msgstr ""
+
+msgid "Number of ts files"
+msgstr ""
+
+msgid "Find more at the Internet Movie Database."
+msgstr "Trouver plus d'information du film dans la base de données film IMDB."
+
+msgid "Record this"
+msgstr "Enregistrer cette émission"
+
+msgid "Search for repeats."
+msgstr "Recherche de répétitions."
+
+msgid "Existing Recording:"
+msgstr ""
+
+msgid "Stream this recording into browser."
+msgstr ""
+
+msgid "Click to view details."
+msgstr "Clic pour voire les détails."
+
+msgid "play this recording"
+msgstr ""
+
+msgid "Delete this recording from hard disc!"
+msgstr ""
+
 msgid "Wrong username or password"
 msgstr "Nom de l'utilisateur ou mot de passei sont erroné"
 
@@ -608,12 +647,6 @@ msgstr ""
 msgid "Switch to this channel."
 msgstr "Changer vers cette chaîne. "
 
-msgid "Search for repeats."
-msgstr "Recherche de répétitions."
-
-msgid "Click to view details."
-msgstr "Clic pour voire les détails."
-
 msgid "more"
 msgstr "plus"
 
@@ -626,34 +659,7 @@ msgstr ""
 msgid "Next entry"
 msgstr ""
 
-msgid "Duration deviation from event length"
-msgstr ""
-
-msgid "min"
-msgstr ""
-
-msgid "Recording length"
-msgstr ""
-
-msgid "h"
-msgstr ""
-
-msgid "Number of ts files"
-msgstr ""
-
-msgid "Find more at the Internet Movie Database."
-msgstr "Trouver plus d'information du film dans la base de données film IMDB."
-
-msgid "Record this"
-msgstr "Enregistrer cette émission"
-
-msgid "Existing Recording:"
-msgstr ""
-
 msgid "Stream this channel into browser."
-msgstr ""
-
-msgid "Stream this recording into browser."
 msgstr ""
 
 msgid "Stream this channel into media player."
@@ -858,12 +864,6 @@ msgstr "N'a pas pu trouver la chaîne. Votre requête est t'elle corrête? "
 msgid "Deleted recording:"
 msgstr ""
 
-msgid "play this recording"
-msgstr ""
-
-msgid "Delete this recording from hard disc!"
-msgstr ""
-
 msgid "List of recordings"
 msgstr "Liste des enregistrements"
 
@@ -979,6 +979,18 @@ msgstr ""
 
 msgid "Local net (no login required)"
 msgstr "Réseau local (non requis)"
+
+msgid "IPv4 prefix"
+msgstr ""
+
+msgid "Example: 192.168.178.0/24"
+msgstr ""
+
+msgid "IPv6 prefix"
+msgstr ""
+
+msgid "Example: 2003:ec:6f23:ee00:&#x200B;:/64"
+msgstr ""
 
 msgid "Show live logo image"
 msgstr "Afficher l'image du logo de live"

@@ -531,6 +531,45 @@ msgstr "ошибка при получении статуса"
 msgid "%I:%M:%S %p"
 msgstr "%H:%M:%S"
 
+msgid "Duration deviation from event length"
+msgstr ""
+
+msgid "min"
+msgstr ""
+
+msgid "Recording length"
+msgstr ""
+
+msgid "h"
+msgstr ""
+
+msgid "Number of ts files"
+msgstr ""
+
+msgid "Find more at the Internet Movie Database."
+msgstr "Найти на Kinopoisk.ru."
+
+msgid "Record this"
+msgstr "Запись."
+
+msgid "Search for repeats."
+msgstr "Найти повторы."
+
+msgid "Existing Recording:"
+msgstr ""
+
+msgid "Stream this recording into browser."
+msgstr ""
+
+msgid "Click to view details."
+msgstr "Нажмите чтобы узнать больше."
+
+msgid "play this recording"
+msgstr ""
+
+msgid "Delete this recording from hard disc!"
+msgstr "Удалить эту запись с жесткого диска!"
+
 msgid "Wrong username or password"
 msgstr "Неправильное имя пользователя или пароль"
 
@@ -588,12 +627,6 @@ msgstr "Время"
 msgid "Switch to this channel."
 msgstr "Переключиться на этот канал."
 
-msgid "Search for repeats."
-msgstr "Найти повторы."
-
-msgid "Click to view details."
-msgstr "Нажмите чтобы узнать больше."
-
 msgid "more"
 msgstr "еще"
 
@@ -606,34 +639,7 @@ msgstr ""
 msgid "Next entry"
 msgstr ""
 
-msgid "Duration deviation from event length"
-msgstr ""
-
-msgid "min"
-msgstr ""
-
-msgid "Recording length"
-msgstr ""
-
-msgid "h"
-msgstr ""
-
-msgid "Number of ts files"
-msgstr ""
-
-msgid "Find more at the Internet Movie Database."
-msgstr "Найти на Kinopoisk.ru."
-
-msgid "Record this"
-msgstr "Запись."
-
-msgid "Existing Recording:"
-msgstr ""
-
 msgid "Stream this channel into browser."
-msgstr ""
-
-msgid "Stream this recording into browser."
 msgstr ""
 
 msgid "Stream this channel into media player."
@@ -837,12 +843,6 @@ msgstr "Канал не найден или недоступен. Проверь
 msgid "Deleted recording:"
 msgstr "Удаленный записи:"
 
-msgid "play this recording"
-msgstr ""
-
-msgid "Delete this recording from hard disc!"
-msgstr "Удалить эту запись с жесткого диска!"
-
 msgid "List of recordings"
 msgstr "Список записей"
 
@@ -957,6 +957,18 @@ msgstr "Настройки пользователя"
 
 msgid "Local net (no login required)"
 msgstr "Локальная сеть (авторизация не требуется)"
+
+msgid "IPv4 prefix"
+msgstr ""
+
+msgid "Example: 192.168.178.0/24"
+msgstr ""
+
+msgid "IPv6 prefix"
+msgstr ""
+
+msgid "Example: 2003:ec:6f23:ee00:&#x200B;:/64"
+msgstr ""
 
 msgid "Show live logo image"
 msgstr "Показать логотип LIVE"
