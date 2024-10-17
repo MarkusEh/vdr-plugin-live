@@ -24,7 +24,11 @@ std::string set_component;
 </%request>
 
 <%cpp>
-if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+if (!logged_in && LiveSetup().UseAuth()) {
+  cToSvConcat<0> targetUrl = "/login.html?redirect=";
+  targetUrl.appendUrlEscaped(request.getQuery());
+  return reply.redirect(targetUrl.data());
+}
 
 set_active = active;
 if (!component.empty()) {

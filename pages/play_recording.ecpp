@@ -15,7 +15,11 @@ using namespace vdrlive;
   bool logged_in(false);
 </%session>
 <%cpp>
-  if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+  if (!logged_in && LiveSetup().UseAuth()) {
+    cToSvConcat<0> targetUrl = "/login.html?redirect=";
+    targetUrl.appendUrlEscaped(request.getQuery());
+    return reply.redirect(targetUrl.data());
+  }
   if (!cUser::CurrentUserHasRightTo(UR_STARTREPLAY))
     throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
   reply.setContentType( "application/xml" );

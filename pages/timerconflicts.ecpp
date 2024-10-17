@@ -18,7 +18,11 @@ bool logged_in(false);
 <%include>page_init.eh</%include>
 <%cpp>
 reply.setHeader (tnt::httpheader::cacheControl, "no-store, no-cache, max-age=0, must-revalidate, proxy-revalidate", true);
-if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+if (!logged_in && LiveSetup().UseAuth()) {
+  cToSvConcat<0> targetUrl = "/login.html?redirect=";
+  targetUrl.appendUrlEscaped(request.getQuery());
+  return reply.redirect(targetUrl.data());
+}
 </%cpp>
 <%cpp>
   pageTitle = tr("Timer conflicts");
@@ -89,14 +93,14 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
               }
 
               EpgInfoPtr epgEvent;
-              std::string longDescription;
-              cToSvConcat<0> searchTimName;
+              cToSvConcat longDescription;
+              cToSvConcat searchTimName;
               std::string searchTimId;
               std::string recID;
               std::string recName;
               std::string title;
 
-              longDescription = StringEscapeAndBreak(SortedTimers::GetTimerInfo(*timer));
+              AppendHtmlEscapedAndCorrectNonUTF8(longDescription, SortedTimers::GetTimerInfo(*timer));
 
               if (!timer->Event()) {
                 LOCK_SCHEDULES_READ;
@@ -105,15 +109,17 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
               if (timer->Event()) {
                 epgEvent = EpgEvents::CreateEpgInfo(timer->Channel(), timer->Event());
                 bool truncated = false;
-                if (epgEvent->LongDescr().length()) longDescription += "<hr>";
-                longDescription += StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), LiveSetup().GetMaxTooltipChars(), truncated));
-                if (truncated) longDescription += " ...";
+                if (!epgEvent->LongDescr().empty()) {
+                  longDescription << "<hr>";
+                  AppendHtmlEscapedAndCorrectNonUTF8(longDescription, StringWordTruncate(epgEvent->LongDescr(), LiveSetup().GetMaxTooltipChars(), truncated));
+                  if (truncated) longDescription << " ...";
+                }
                 title = epgEvent->Title();
               }
               AppendHtmlEscapedAndCorrectNonUTF8(searchTimName, SortedTimers::SearchTimerInfo(*timer, "searchtimer") );
               searchTimId = SortedTimers::SearchTimerInfo(*timer, "s-id");
               if (searchTimName.empty() && searchTimId.empty() ) AppendHtmlEscapedAndCorrectNonUTF8(searchTimName, SortedTimers::TvScraperTimerInfo(*timer, recID, recName) );
-              cToSvConcat<0> timerFile;
+              cToSvConcat timerFile;
               AppendHtmlEscapedAndCorrectNonUTF8(timerFile, timer->File());
 </%cpp>
               <tr>
@@ -148,11 +154,11 @@ if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
                   <a href="edit_searchtimer.html?searchtimerid=<$ searchTimId $>"><$$ StringReplace(searchTimName, "~", "~<wbr>") $></a>
 %                }
                 </div></td>
-                <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><a class="hidden-xs action-rightcol" href="searchresults.html?searchplain=<$ StringEscapeAndBreak(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a></td>
+                <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><a class="hidden-xs action-rightcol" href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a></td>
                 <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><a class="hidden-xs action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(timers.GetTimerId(*timer)) $>&action=toggle"><img src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &> /></a></td>
                 <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs action-rightcol"><& pageelems.edit_timer timerId=(timers.GetTimerId(*timer)) &></div></td>
             <td class="rightcol <? bottom ? "bottomrow" ?>">
-<a class="display-xs action-rightcol" href="searchresults.html?searchplain=<$ StringEscapeAndBreak(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a>
+<a class="display-xs action-rightcol" href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a>
 <a class="display-xs action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(timers.GetTimerId(*timer)) $>&action=toggle"><img src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &> /></a>
 <div class="display-xs action-rightcol"><& pageelems.edit_timer timerId=(timers.GetTimerId(*timer)) &></div>
 <a class="action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(timers.GetTimerId(*timer)) $>&action=delete"><img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint text=(tr("Delete timer")) &> /></a></td>

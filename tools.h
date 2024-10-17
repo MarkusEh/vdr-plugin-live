@@ -146,7 +146,6 @@ inline cToSvConcat<N>& AppendDuration(cToSvConcat<N>& target, char const* format
   cSv StringWordTruncate(cSv input, size_t maxLen, bool& truncated);
   inline cSv StringWordTruncate(cSv input, size_t maxLen) { bool dummy; return StringWordTruncate(input, maxLen, dummy); }
 
-  std::string StringEscapeAndBreak(cSv input, const char* nl = "<br/>");
   cSv StringTrim(cSv str);
 
   std::string MD5Hash(std::string const& str);
@@ -174,8 +173,6 @@ inline cToSvConcat<N>& AppendDuration(cToSvConcat<N>& target, char const* format
 
   time_t GetTimeT(std::string timestring); // timestring in HH:MM
   std::string ExpandTimeString(std::string timestring);
-
-  std::string StringUrlEncode(cSv input);
 
   time_t GetDateFromDatePicker(cSv datestring, cSv format);
   std::string DatePickerToC(time_t date, cSv format);

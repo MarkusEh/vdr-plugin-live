@@ -19,7 +19,11 @@ bool logged_in(false);
 </%request>
 <%include>page_init.eh</%include>
 <{
-if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+if (!logged_in && LiveSetup().UseAuth()) {
+  cToSvConcat<0> targetUrl = "/login.html?redirect=";
+  targetUrl.appendUrlEscaped(request.getQuery());
+  return reply.redirect(targetUrl.data());
+}
 }>
 <%cpp>
   if (!cUser::CurrentUserHasRightTo(UR_USEREMOTE))

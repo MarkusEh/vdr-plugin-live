@@ -52,7 +52,11 @@ const cTimer* timer;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
-  if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+  if (!logged_in && LiveSetup().UseAuth()) {
+    cToSvConcat<0> targetUrl = "/login.html?redirect=";
+    targetUrl.appendUrlEscaped(request.getQuery());
+    return reply.redirect(targetUrl.data());
+  }
 
   if (!cUser::CurrentUserHasRightTo(UR_EDITTIMERS))
     throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );

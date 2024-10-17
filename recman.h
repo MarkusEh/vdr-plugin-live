@@ -153,6 +153,7 @@ cToSvConcat<N> & StringAppendFrameParams(cToSvConcat<N> &s, const cRecording *re
       static std::weak_ptr<RecordingsManager> m_recMan;
       static std::shared_ptr<RecordingsTree> m_recTree;
       static cStateKey m_recordingsStateKey;
+      static time_t m_last_recordings_update;
   };
 
   class ShortTextDescription

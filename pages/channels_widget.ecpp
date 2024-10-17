@@ -15,7 +15,13 @@ using namespace vdrlive;
 <%session scope="global">
 bool logged_in(false);
 </%session>
-% if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+<%cpp>
+  if (!logged_in && LiveSetup().UseAuth()) {
+    cToSvConcat<0> targetUrl = "/login.html?redirect=";
+    targetUrl.appendUrlEscaped(request.getQuery());
+    return reply.redirect(targetUrl.data());
+  }
+</%cpp>
 <select name="<$ name $>" id="<$ name $>" <{ reply.out() << ( !onchange.empty() ? "onchange=\""+onchange+"\"" : "" ); }>>
 <%cpp>
   LOCK_CHANNELS_READ;

@@ -20,7 +20,12 @@ int update_status(1);
 TimerConflictNotifier timerNotifier();
 </%session>
 <%cpp>
-  if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+  if (!logged_in && LiveSetup().UseAuth()) {
+    cToSvConcat<0> targetUrl = "/login.html?redirect=";
+    targetUrl.appendUrlEscaped(request.getQuery());
+    return reply.redirect(targetUrl.data());
+  }
+
   std::string EMPTY_STR;
   tChannelID prev_chan;
   tChannelID next_chan;

@@ -1,6 +1,7 @@
 <%pre>
 
 #include <exception.h>
+#include <setup.h>
 #include <tasks.h>
 #include <tools.h>
 #include <users.h>
@@ -13,7 +14,15 @@ using namespace vdrlive;
   std::string param;
   std::string async;
 </%args>
+<%session scope="global">
+bool logged_in(false);
+</%session>
 <%cpp>
+  if (!logged_in && LiveSetup().UseAuth()) {
+    cToSvConcat<0> targetUrl = "/login.html?redirect=";
+    targetUrl.appendUrlEscaped(request.getQuery());
+    return reply.redirect(targetUrl.data());
+  }
   tChannelID channelID;
   if (qparam.has("channel_number")) {
     LOCK_CHANNELS_READ;
@@ -39,15 +48,16 @@ using namespace vdrlive;
   LiveTaskManager().Execute( task );
 
   if (!ajaxReq) {
-    if (!referrer.empty()) {
+    if (!referrer.empty() && referrer.find("login") == std::string::npos) {
       return reply.redirect(referrer);
     }
 </%cpp>
-Normale Seite:<br/>
-channel: <$ channelID $><br/>
-result: <$ (task.Result()) $><br/>
-error: <$ (task.Error()) $><br />
-Seitenende!
+Switch-Channel Request
+<hr/>
+Channel: <$ channelID $><? qparam.has("channel_number") ? " [" + std::to_string(channel_number) + "]" ?><br/>
+Result:  <$ task.Result() $><br/>
+Error:   <$ !task.Error().empty() ? task.Error() : "—" $>
+<hr/>
 <%cpp>
   }
   else {

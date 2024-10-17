@@ -30,7 +30,7 @@ namespace vdrlive {
   std::weak_ptr<RecordingsManager> RecordingsManager::m_recMan;
   std::shared_ptr<RecordingsTree> RecordingsManager::m_recTree;
   cStateKey RecordingsManager::m_recordingsStateKey;
-  time_t scraperLastRecordingsUpdate;
+  time_t RecordingsManager::m_last_recordings_update = 0;
 
   // The RecordingsManager holds a VDR lock on the
   // Recordings. Additionally the singleton instance of
@@ -278,27 +278,21 @@ namespace vdrlive {
       esyslog("live: lost RecordingsManager instance while using it!");
       recMan = RecordingsManagerPtr();
     }
+    if (m_last_recordings_update + 60 > time(NULL) ) return recMan; // don't update too often
 
     // StateChanged must be executed every time, so not part of
     // the short cut evaluation in the if statement below.
     bool stateChanged = StateChanged();
 // check: changes on scraper data?
     cGetScraperUpdateTimes scraperUpdateTimes;
-    if (scraperUpdateTimes.call(LiveSetup().GetPluginTvscraper()) ) {
-      if (scraperUpdateTimes.m_recordingsUpdateTime > scraperLastRecordingsUpdate) {
-        scraperLastRecordingsUpdate = scraperUpdateTimes.m_recordingsUpdateTime;
-        stateChanged = true;
-      }
-    }
+    if (!stateChanged && scraperUpdateTimes.call(LiveSetup().GetPluginTvscraper()) )
+      stateChanged = scraperUpdateTimes.m_recordingsUpdateTime > m_last_recordings_update;
+
     if (stateChanged || (!m_recTree) ) {
-      if (stateChanged) {
-        m_recTree.reset();
-      }
-      if (stateChanged || !m_recTree) {
-        m_recTree = std::shared_ptr<RecordingsTree>(new RecordingsTree(recMan));
-      }
+      m_last_recordings_update = time(NULL);
+      m_recTree = std::shared_ptr<RecordingsTree>(new RecordingsTree(recMan));
       if (!m_recTree) {
-        esyslog("live: creation of recordings tree failed!");
+        esyslog("live: ERROR creation of recordings tree failed!");
         return RecordingsManagerPtr();
       }
 

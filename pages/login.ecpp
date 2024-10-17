@@ -10,6 +10,7 @@ using namespace vdrlive;
 std::string login;
 std::string password;
 std::string action;
+std::string redirect;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -17,10 +18,11 @@ bool logged_in(false);
 <{
 
 std::string message;
+std::string targetUrl = qparam.has("redirect") && !redirect.empty() ? redirect : LiveSetup().GetStartScreenLink();
 
 if (LiveSetup().CheckLocalNet(request.getPeerIp())) {
   logged_in = true;
-  return reply.redirect(LiveSetup().GetStartScreenLink());
+  return reply.redirect(targetUrl);
 }
 if (action == "login") {
   if (Users.ValidLogin(login, password)) {
@@ -33,8 +35,7 @@ if (action == "login") {
   logged_in = false;
   cUsers::logged_in_user = "";
 }
-
-if (logged_in || !LiveSetup().UseAuth()) return reply.redirect(LiveSetup().GetStartScreenLink());
+if (logged_in || !LiveSetup().UseAuth()) return reply.redirect(targetUrl);
 
 }>
 <& pageelems.doc_type &>
@@ -43,7 +44,9 @@ if (logged_in || !LiveSetup().UseAuth()) return reply.redirect(LiveSetup().GetSt
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>VDR-Live - <$ tr("Login") $></title>
     <& pageelems.stylesheets &>
+<#  the Ajax components cause loading the login page twice, so better skip them
     <& pageelems.ajax_js &>
+#>
   </head>
   <body onload="document.auth.login.focus()">
   <div style="width: 350px; margin: 0 auto; text-align: center; padding: 20px">
@@ -52,6 +55,7 @@ if (logged_in || !LiveSetup().UseAuth()) return reply.redirect(LiveSetup().GetSt
       <img src="<$ LiveSetup().GetThemedLink("img", "logo_login.png") $>" alt="VDR Live" />
       <form name="auth">
         <input type="hidden" name="action" value="login" />
+        <input type="hidden" name="redirect" value="<$ targetUrl $>" />
         <table class="login">
           <tr>
             <td><$ tr("User") $>:</td>

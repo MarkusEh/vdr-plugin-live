@@ -33,7 +33,11 @@ std::string current_displaytime;
 <%include>page_init.eh</%include>
 <%cpp>
 reply.setHeader (tnt::httpheader::cacheControl, "no-store, no-cache, max-age=0, must-revalidate, proxy-revalidate", true);
-if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+if (!logged_in && LiveSetup().UseAuth()) {
+  cToSvConcat<0> targetUrl = "/login.html?redirect=";
+  targetUrl.appendUrlEscaped(request.getQuery());
+  return reply.redirect(targetUrl.data());
+}
 
 
 std::string head;
@@ -176,9 +180,12 @@ if (type == "now") {
     EpgInfoPtr epgEvent = *i;
 
     bool truncated = false;
+    cToSvConcat longDescription;
+    AppendHtmlEscapedAndCorrectNonUTF8(longDescription, StringWordTruncate(epgEvent->LongDescr(), LiveSetup().GetMaxTooltipChars(), truncated));
+    if (truncated) longDescription << " ...";
+    longDescription << "<br/><br/>" << tr("Click to view details.");
+
     std::string truncDescription(StringWordTruncate(epgEvent->LongDescr(), maximumTruncDescriptionLength, truncated));
-    std::string longDescription = StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), LiveSetup().GetMaxTooltipChars()))
-      + "<br/><br/>" + tr("Click to view details.");
     const cChannel* Channel = epgEvent->Channel();
     if (!Channel) continue;
     int chNumber = Channel->Number();

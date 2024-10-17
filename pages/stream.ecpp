@@ -27,7 +27,11 @@ using namespace vdrlive;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
-  if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+  if (!logged_in && LiveSetup().UseAuth()) {
+    cToSvConcat<0> targetUrl = "/login.html?redirect=";
+    targetUrl.appendUrlEscaped(request.getQuery());
+    return reply.redirect(targetUrl.data());
+  }
 
   pageTitle = trVDR("Stream");
 
@@ -187,10 +191,11 @@ if (Event) {
     timeSpan = headTime;
     startDate = headDate;
   }
-  std::string longDescription = concat(
-    StringEscapeAndBreak(StringWordTruncate(epgEvent->LongDescr(), LiveSetup().GetMaxTooltipChars())),
-    "<br/><br/>",
-    tr("Click to view details."));
+  cToSvConcat longDescription;
+  AppendHtmlEscapedAndCorrectNonUTF8(longDescription, StringWordTruncate(epgEvent->LongDescr(), LiveSetup().GetMaxTooltipChars()));
+  longDescription << "<br/><br/>";
+  AppendHtmlEscapedAndCorrectNonUTF8(longDescription, tr("Click to view details."));
+
   </%cpp>
       <table class="listing streaming" cellspacing="0" cellpadding="0">
         <tr>

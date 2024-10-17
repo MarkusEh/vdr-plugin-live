@@ -146,7 +146,7 @@ int update_status(1);
 // if (LiveSetup().GetShowIMDb())
 {
 if (s_IMDB_ID.empty() ) { </%cpp>
-<a href="http://www.imdb.com/find?s=all&q=<$ (!title.empty() && title[0] == '%')?StringUrlEncode(cSv(title).substr(1)):StringUrlEncode(title) $>"
+<a href="http://www.imdb.com/find?s=all&q=<$ (!title.empty() && title[0] == '%')?cToSvUrlEscaped(cSv(title).substr(1)):cToSvUrlEscaped(title) $>"
 <%cpp> } else { </%cpp>
 <a href="http://www.imdb.com/title/<$ s_IMDB_ID $>"
 <%cpp> } </%cpp>
@@ -397,7 +397,7 @@ if (!rfid.empty() ) {
 <%cpp>
   } if (LiveFeatures<features::epgsearch>().Recent() && eventId != 0) {
 </%cpp>
-  <a href="searchresults.html?searchplain=<$ StringEscapeAndBreak(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a>
+  <a href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a>
 <%cpp>
     }
     if ((duration == 0) || (elapsed >= 0)) {
@@ -443,7 +443,7 @@ if (!rfid.empty() ) {
 % } if (LiveFeatures<features::epgsearch>().Recent()) {
       <td class="action <? lastCurrentChanel ? "bottomrow"?>">
 %     if (eventId) {
-        <a href="searchresults.html?searchplain=<$ StringUrlEncode(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a>
+        <a href="searchresults.html?searchplain=<$ cToSvUrlEscaped(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a>
 %     }
       </td>
 % } if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded() ) {
@@ -872,7 +872,7 @@ if (scraperMovieOrTv.found) {
     </td>
 <%cpp>
     stringAppend(actor_names, "<td><a href=\"https://", loc_name, ".wikipedia.org/wiki/",
-      StringUrlEncode(StringReplace(character->getPersonName(), " ", "_")), "\" target=\"_blank\">",
+      cToSvUrlEscaped(StringReplace(character->getPersonName(), " ", "_")), "\" target=\"_blank\">",
       character->getPersonName(), "</a>");
     actor_names.append(":<br>"); 
     actor_names.append(character->getCharacterName()); 
@@ -912,7 +912,12 @@ if (scraperMovieOrTv.found) {
 </div>
 <# -----------------  epg -----------------  #>
 <div id = '<$ boxId $>_epg'>
-          <%cpp> reply.out() << StringEscapeAndBreak(long_descr);
+<%cpp>
+{
+  cToSvConcat long_descr_html_esc;
+  AppendHtmlEscapedAndCorrectNonUTF8(long_descr_html_esc, long_descr);
+  reply.out() << long_descr_html_esc;
+}
 const char *br_after_long_desc = "<br><br>";
 if (long_descr.empty()) br_after_long_desc = "";
 const cEvent *event = nullptr;

@@ -216,7 +216,7 @@ class cStr {
     cStr(const std::string &s): m_s(s.c_str()) {}
     operator const char*() const { return m_s; }
     const char *c_str() const { return m_s; }
-    const char *data() const { return m_s; }
+    char *data() { return (char *)m_s; }
     size_t length() const { return strlen(m_s); }
     operator cSv() const { return cSv(m_s, strlen(m_s)); }
   private:
@@ -429,7 +429,7 @@ inline cSv SecondPart(cSv str, cSv delim) {
 // =========================================================
 
 // =========================================================
-// integer and hext
+// integer and hex
 // =========================================================
 
 namespace stringhelpers_internal {
@@ -836,6 +836,23 @@ template<typename T, std::enable_if_t<sizeof(T) == 16, bool> = true>
         }
       return appendDateTime(fmt, &tm_r);
     }
+// =======================
+// appendToUrl: append
+    cToSvConcat &appendUrlEscaped(cSv sv) {
+      const char* reserved = " <>#%+{}|\\^~[]‘;/?:@=&$";
+      bool quoted = false;
+      for (auto c = sv.begin(); c != sv.end(); ++c) {
+        if (*c == '"') {
+          append(1, *c);
+          quoted = !quoted;
+        } else if (strchr(reserved, *c)) {
+          appendFormated("%c%02X", quoted ? '$' : '%', *c);
+        } else {
+          append(1, *c);
+        }
+      }
+      return *this;
+    }
 // ========================
 // get data
     operator cSv() const { return cSv(m_buffer, m_pos_for_append-m_buffer); }
@@ -896,12 +913,6 @@ template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
     cToSvInt(T i) {
       this->m_pos_for_append = stringhelpers_internal::itoa_min_width<N>(this->m_pos_for_append, i);
     }
-/*
-template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
-    cToSvInt (T i, size_t desired_width, char fill_char = '0') {
-      this->appendInt(i, desired_width, fill_char);
-    }
-*/
 };
 template<std::size_t N = 255> 
 class cToSvToLower: public cToSvConcat<N> {
@@ -924,6 +935,13 @@ class cToSvDateTime: public cToSvConcat<255> {
   public:
     cToSvDateTime(const char *fmt, time_t time) {
       this->appendDateTime(fmt, time);
+    }
+};
+template<std::size_t N = 255> 
+class cToSvUrlEscaped: public cToSvConcat<N> {
+  public:
+    cToSvUrlEscaped(cSv sv) {
+      this->appendUrlEscaped(sv);
     }
 };
 
@@ -996,19 +1014,6 @@ inline void stringAppendRemoveControlCharactersKeepNl(std::string &target, const
     if (cp > 31) stringAppendUtfCodepoint(target, cp);
     else target.append(" ");
   }
-}
-
-// =========================================================
-// =========== concatenate =================================
-// =========================================================
-// deprecated. Use cToSvConcat
-
-template<typename... Args>
-inline std::string concatenate(Args&&... args) {
-  std::string result;
-  result.reserve(200);
-  stringAppend(result, std::forward<Args>(args)...);
-  return result;
 }
 
 // =========================================================

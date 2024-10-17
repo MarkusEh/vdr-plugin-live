@@ -62,7 +62,11 @@ std::vector<time_t>      times_start;
 <%include>page_init.eh</%include>
 <%cpp>
   reply.setHeader (tnt::httpheader::cacheControl, "no-store, no-cache, max-age=0, must-revalidate, proxy-revalidate", true);
-  if (!logged_in && LiveSetup().UseAuth()) return reply.redirect("login.html");
+  if (!logged_in && LiveSetup().UseAuth()) {
+    cToSvConcat<0> targetUrl = "/login.html?redirect=";
+    targetUrl.appendUrlEscaped(request.getQuery());
+    return reply.redirect(targetUrl.data());
+  }
   pageTitle = tr("MultiSchedule");
 
 #define MAX_CHANNELS 10
@@ -552,7 +556,7 @@ std::vector<time_t>      times_start;
 <%cpp>
                            if (LiveFeatures<features::epgsearch>().Recent() ) {
 </%cpp>
-                          <a href="searchresults.html?searchplain=<$ StringUrlEncode(en.title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a>
+                          <a href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(en.title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a>
 <%cpp>
                            } else {
                              </%cpp><img src="img/<$ en.timer == tState::Recording ? "recording_timer.gif" : (en.timer == tState::Active ? "record_timer.png" : "record_inactive_timer.png") $>" width="16" height="16"><%cpp>
@@ -577,7 +581,7 @@ std::vector<time_t>      times_start;
                            if ( en.truncated )
                            {
 </%cpp>
-                           ...</div><div class="more withmargin"><a <& tooltip.hint text=(StringEscapeAndBreak(tr("Click to view details."))) &><& tooltip.display domId=en.epgid &>><$ tr("more") $></a>
+                           ...</div><div class="more withmargin"><a <& tooltip.hint text=(tr("Click to view details.")) &><& tooltip.display domId=en.epgid &>><$ tr("more") $></a>
 <%cpp>
                            }
 </%cpp>
