@@ -837,18 +837,17 @@ template<typename T, std::enable_if_t<sizeof(T) == 16, bool> = true>
       return appendDateTime(fmt, &tm_r);
     }
 // =======================
-// appendToUrl: append
+// appendUrlEscaped
     cToSvConcat &appendUrlEscaped(cSv sv) {
-      const char* reserved = " <>#%+{}|\\^~[]‘;/?:@=&$";
-      bool quoted = false;
-      for (auto c = sv.begin(); c != sv.end(); ++c) {
-        if (*c == '"') {
-          append(1, *c);
-          quoted = !quoted;
-        } else if (strchr(reserved, *c)) {
-          appendFormated("%c%02X", quoted ? '$' : '%', *c);
+      const char* reserved = " !#$&'()*+,/:;=?@[]\"<>\n\r";
+// in addition to the reserved URI charaters as defined here https://en.wikipedia.org/wiki/Percent-encoding
+// also escape html characters \"<>\n\r so no additional html-escaping is required
+      for (char c: sv) {
+        if (strchr(reserved, c)) {
+          concat('%');
+          appendHex((unsigned)c, 2);
         } else {
-          append(1, *c);
+          concat(c);
         }
       }
       return *this;
@@ -937,7 +936,7 @@ class cToSvDateTime: public cToSvConcat<255> {
       this->appendDateTime(fmt, time);
     }
 };
-template<std::size_t N = 255> 
+template<std::size_t N = 255>
 class cToSvUrlEscaped: public cToSvConcat<N> {
   public:
     cToSvUrlEscaped(cSv sv) {

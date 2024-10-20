@@ -60,7 +60,7 @@ bool logged_in(false);
       return reply.redirect(referrer);
     }
 </%cpp>
-Delete-Recording Request
+<b>Delete-Recording Request</b>
 <hr/>
 Recording: <$ recording->Name() $><br/>
 Result:    <$ result $><br/>

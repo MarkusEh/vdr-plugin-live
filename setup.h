@@ -73,6 +73,7 @@ class Setup
     std::string const GetThemedLinkPrefixImg() const { return m_themedLinkPrefixImg ; }
     std::string const GetLocalNetMask() const { return m_localnetmask; };
     std::string const GetLocalNetMaskIPv6() const { return m_localnetmaskIPv6; };
+    bool GetAllowLocalhost() const { return m_allowlocalhost != 0; };
     bool GetIsLocalNet() const { return m_islocalnet; };
     std::string const GetLastWhatsOnListMode() const { return m_lastwhatsonlistmode; }
     std::string const GetLastSortingMode() const { return m_lastsortingmode; }
@@ -113,6 +114,7 @@ class Setup
     void SetTheme(std::string const & theme) { m_theme = theme; m_themedLinkPrefix = "themes/" + theme + "/"; m_themedLinkPrefixImg = m_themedLinkPrefix + "img/"; }
     void SetLocalNetMask(std::string const & localnetmask) { m_localnetmask = localnetmask; }
     void SetLocalNetMaskIPv6(std::string const & localnetmaskIPv6) { m_localnetmaskIPv6 = localnetmaskIPv6; }
+    void SetAllowLocalhost(bool allow) { m_allowlocalhost = allow ? 1 : 0; }
     void SetIsLocalNet(bool islocalnet) { m_islocalnet = islocalnet; }
     void SetLastWhatsOnListMode(std::string const & mode) { m_lastwhatsonlistmode = mode; SaveSetup(); }
     void SetLastSortingMode(std::string const & mode) { m_lastsortingmode = mode; SaveSetup(); }
@@ -176,6 +178,7 @@ class Setup
     std::string m_themedLinkPrefixImg;
     std::string m_localnetmask;
     std::string m_localnetmaskIPv6;
+    int m_allowlocalhost;
     bool m_islocalnet;
     std::string m_lastwhatsonlistmode;
     std::string m_lastsortingmode;

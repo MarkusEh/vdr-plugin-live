@@ -973,6 +973,9 @@ msgstr "IPv6-Präfix"
 msgid "Example: 2003:ec:6f23:ee00:&#x200B;:/64"
 msgstr "Beispiel: 2003:ec:6f23:ee00:&#x200B;:/64"
 
+msgid "Allow localhost"
+msgstr "Localhost zulassen"
+
 msgid "Show live logo image"
 msgstr "Zeige das Live Logo"
 

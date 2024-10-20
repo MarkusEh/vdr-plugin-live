@@ -10,7 +10,7 @@ using namespace vdrlive;
 
 </%pre>
 <%args>
-  int channel_number;
+  int channel_number = 0;
   std::string param;
   std::string async;
 </%args>
@@ -19,12 +19,12 @@ bool logged_in(false);
 </%session>
 <%cpp>
   if (!logged_in && LiveSetup().UseAuth()) {
-    cToSvConcat<0> targetUrl = "/login.html?redirect=";
+    cToSvConcat targetUrl = "/login.html?redirect=";
     targetUrl.appendUrlEscaped(request.getQuery());
     return reply.redirect(targetUrl.data());
   }
   tChannelID channelID;
-  if (qparam.has("channel_number")) {
+  if (qparam.has("channel_number") && channel_number > 0) {
     LOCK_CHANNELS_READ;
     const cChannel* channel = Channels->GetByNumber(channel_number);
     channelID = channel ? channel->GetChannelID() : tChannelID::InvalidID;
@@ -52,7 +52,7 @@ bool logged_in(false);
       return reply.redirect(referrer);
     }
 </%cpp>
-Switch-Channel Request
+<b>Switch-Channel Request</b>
 <hr/>
 Channel: <$ channelID $><? qparam.has("channel_number") ? " [" + std::to_string(channel_number) + "]" ?><br/>
 Result:  <$ task.Result() $><br/>

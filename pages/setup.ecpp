@@ -22,6 +22,7 @@ using namespace vdrlive;
   std::string theme;
   std::string localnetmask;
   std::string localnetmaskIPv6;
+  std::string allowlocalhost;
   std::string showLogo;
   std::string showInfoBox;
   std::string useStreamdev;
@@ -63,6 +64,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
           LiveSetup().SetAdminPassword(pass);
         LiveSetup().SetLocalNetMask(localnetmask);
         LiveSetup().SetLocalNetMaskIPv6(localnetmaskIPv6);
+        LiveSetup().SetAllowLocalhost(!allowlocalhost.empty());
         LiveSetup().CheckLocalNet(request.getPeerIp());
       }
       LiveSetup().SetTimes(times);
@@ -100,6 +102,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
   theme = LiveSetup().GetTheme();
   localnetmask = LiveSetup().GetLocalNetMask();
   localnetmaskIPv6 = LiveSetup().GetLocalNetMaskIPv6();
+  allowlocalhost = LiveSetup().GetAllowLocalhost() ? "1" : "";
   showLogo = LiveSetup().GetShowLogo() ? "1" : "";
   showInfoBox = LiveSetup().GetShowInfoBox() ? "1" : "";
   useStreamdev = LiveSetup().GetUseStreamdev() ? "1" : "";
@@ -175,6 +178,10 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 %               // the mootools unfortunately use "::" as separator for title and text,
 %               // so we need to escape this by inserting an invisible space U+200B in-between
                 <& tooltip.help text=(tr("Example: 2003:ec:6f23:ee00:&#x200B;:/64")) &></td>
+              </tr>
+              <tr>
+                <td class="label"><div class="withmargin"><$ tr("Allow localhost") $>:</div></td>
+                <td><input type="checkbox" name="allowlocalhost" value="1"<%cpp> CHECKIF(!allowlocalhost.empty()); </%cpp>/>
               </tr>
               </table>
               </div>

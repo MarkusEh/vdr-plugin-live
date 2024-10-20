@@ -70,15 +70,15 @@ namespace vdrlive {
     return result;
   }
 
-  cSv StringWordTruncate(cSv input, size_t maxLen, bool& truncated)
-  {
-    if (input.length() <= maxLen)
-    {
+  cSv StringWordTruncate(cSv text, size_t maxLen, bool& truncated) {
+// Return text truncted to maxLen characters. If such truncation is required,
+// truncate at " \t,;:.\n?!'\"/\\()[]{}*+-"
+    if (text.length() <= maxLen) {
       truncated = false;
-      return input;
+      return text;
     }
     truncated = true;
-    cSv result = input.substr(0, maxLen);
+    cSv result = text.substr(0, maxLen);
     size_t pos = result.find_last_of(" \t,;:.\n?!'\"/\\()[]{}*+-");
     return result.substr(0, pos);
   }

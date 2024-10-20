@@ -37,6 +37,7 @@ Setup::Setup():
     m_theme("marine"),
     m_themedLinkPrefix("themes/" + m_theme + "/"),
     m_themedLinkPrefixImg("themes/marine/img/"),
+    m_allowlocalhost(0),
     m_lastwhatsonlistmode("detail"),
     m_lastsortingmode("nameasc"),
     m_tntnetloglevel("WARN"),
@@ -218,6 +219,7 @@ bool Setup::ParseSetupEntry( char const* name, char const* value )
   else if ( strcmp( name, "Theme" ) == 0 ) SetTheme(value);
   else if ( strcmp( name, "LocalNetMask" ) == 0 ) { m_localnetmask = value; }
   else if ( strcmp( name, "LocalNetMaskIPv6" ) == 0 ) { m_localnetmaskIPv6 = value; }
+  else if ( strcmp( name, "AllowLocalhost" ) == 0 ) { m_allowlocalhost = atoi(value); }
   else if ( strcmp( name, "LastWhatsOnListMode" ) == 0 ) { m_lastwhatsonlistmode = value; }
   else if ( strcmp( name, "LastSortingMode" ) == 0 ) { m_lastsortingmode = value; }
   else if ( strcmp( name, "ShowLogo" ) == 0 ) { m_showLogo = atoi(value); }
@@ -366,10 +368,10 @@ void Setup::SetTvscraperImageDir(const std::string &dir) {
   else m_tvscraperimagedir = dir;
 }
 
-bool Setup::CheckLocalNet(const std::string& ip)
+bool CheckIpAddress(const std::string& ip, std::string allowedIPv4, std::string allowedIPv6)
 {
   // split IPv4 local net mask in net and range
-  std::vector<std::string> parts = StringSplit( m_localnetmask, '/' );
+  std::vector<std::string> parts = StringSplit( allowedIPv4, '/' );
   if (parts.size() == 2 && parts[0].find_first_not_of("0123456789./") == std::string::npos && parts[1].find_first_not_of("0123456789") == std::string::npos) {
     std::string net = parts[0];
     int range = parse_int<int>(parts[1]);
@@ -395,11 +397,12 @@ bool Setup::CheckLocalNet(const std::string& ip)
       std::string bin_addr = bin_addrstream.str();
       std::string bin_net_range(bin_net.begin(), bin_net.begin() + range);
       std::string addr_net_range(bin_addr.begin(), bin_addr.begin() + range);
-      return m_islocalnet = (bin_net_range == addr_net_range);
+      return (bin_net_range == addr_net_range);
     }
   }
   // split IPv6 local net mask into net and range
-  parts = StringSplit( m_localnetmaskIPv6, '/' );
+  // TODO: correctly decode IPv6 addresses with arbitrary abbreviation
+  parts = StringSplit( allowedIPv6, '/' );
   if (parts.size() == 2 && parts[0].find_first_not_of("0123456789AaBbCcDdEeFf:") == std::string::npos && parts[1].find_first_not_of("0123456789") == std::string::npos) {
     std::string net = parts[0];
     int range = parse_int<int>(parts[1]);
@@ -407,7 +410,7 @@ bool Setup::CheckLocalNet(const std::string& ip)
     // erroneously reports IPv6 addresses with an abbreviation at the start, which
     // would intersect with the IETF reserved prefix of 0000::/3, we ignore it
     size_t addrstart = ip.find_first_not_of(':');
-    if (addrstart == std::string::npos) return m_islocalnet = false;
+    if (addrstart == std::string::npos) return false;
     std::vector<std::string> netparts = StringSplit( net, ':' );
     std::vector<std::string> addrparts = StringSplit( ip.substr(addrstart), ':' );
     if (3 <= netparts.size() && netparts.size() <= 8 && 1 <= addrparts.size() && addrparts.size() <= 8) {
@@ -436,10 +439,20 @@ bool Setup::CheckLocalNet(const std::string& ip)
       std::string bin_addr = bin_addrstream.str();
       std::string bin_net_range(bin_net.begin(), bin_net.begin() + range);
       std::string addr_net_range(bin_addr.begin(), bin_addr.begin() + range);
-      return m_islocalnet = (bin_net_range == addr_net_range);
+      return (bin_net_range == addr_net_range);
     }
   }
-  return m_islocalnet = false;
+  return false;
+}
+
+bool Setup::CheckLocalNet(const std::string& ip)
+{
+  bool isLocalNet = CheckIpAddress( ip, m_localnetmask, m_localnetmaskIPv6);
+  if (!isLocalNet && m_allowlocalhost ) {
+    // TNTnet unfortunately reports 'ip6-localhost' as "::" instead of "::1"
+    isLocalNet = ip.compare("::") == 0 || ip.compare("::1") == 0 || CheckIpAddress( ip, "127.0.0.1/32", "0:0:0:0:0:0:0:1/128");
+  }
+  return m_islocalnet = isLocalNet;
 }
 
 bool Setup::SaveSetup()
@@ -453,6 +466,7 @@ bool Setup::SaveSetup()
     liveplugin->SetupStore("AdminPasswordMD5",  m_adminPasswordMD5.c_str());
     liveplugin->SetupStore("LocalNetMask",  m_localnetmask.c_str());
     liveplugin->SetupStore("LocalNetMaskIPv6",  m_localnetmaskIPv6.c_str());
+    liveplugin->SetupStore("AllowLocalhost",  m_allowlocalhost);
   }
   liveplugin->SetupStore("UserdefTimes",  m_times.c_str());
   liveplugin->SetupStore("ChannelGroups",  m_channelGroups.c_str());

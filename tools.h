@@ -84,14 +84,15 @@ inline cToSvConcat<N>& AppendHtmlEscapedAndCorrectNonUTF8(cToSvConcat<N>& target
   switch(l) {
     case 1:
       switch(text[pos]) {
-        case '&':  target.append(notAppended, i); target.append("&amp;");  notAppended = notAppended + i + 1; i = 0; break;
-        case '\"': target.append(notAppended, i); target.append("&quot;"); notAppended = notAppended + i + 1; i = 0; break;
-        case '\'': target.append(notAppended, i); target.append("&apos;"); notAppended = notAppended + i + 1; i = 0; break;
-        case '<':  target.append(notAppended, i); target.append("&lt;");   notAppended = notAppended + i + 1; i = 0; break;
-        case '>':  target.append(notAppended, i); target.append("&gt;");   notAppended = notAppended + i + 1; i = 0; break;
+        case '&':  target.append(notAppended, i); target.append("&amp;");  notAppended += i + 1; i = 0; break;
+        case '\"': target.append(notAppended, i); target.append("&quot;"); notAppended += i + 1; i = 0; break;
+        case '\'': target.append(notAppended, i); target.append("&apos;"); notAppended += i + 1; i = 0; break;
+        case '<':  target.append(notAppended, i); target.append("&lt;");   notAppended += i + 1; i = 0; break;
+        case '>':  target.append(notAppended, i); target.append("&gt;");   notAppended += i + 1; i = 0; break;
         case 10:
         case 13:
-            target.append(notAppended, i); target.append("&lt;br/&gt;");   notAppended = notAppended + i + 1; i = 0; break;
+//          target.append(notAppended, i); target.append("&lt;br/&gt;");   notAppended += i + 1; i = 0; break;
+            target.append(notAppended, i); target.append("<br/>");   notAppended += i + 1; i = 0; break;
         default:   i++; break;
         }
       break;
@@ -113,20 +114,18 @@ inline cToSvConcat<N>& AppendHtmlEscapedAndCorrectNonUTF8(cToSvConcat<N>& target
   return target;
 }
 
+cSv StringWordTruncate(cSv text, size_t maxLen, bool& truncated);
+inline cSv StringWordTruncate(cSv text, size_t maxLen) { bool dummy; return StringWordTruncate(text, maxLen, dummy); }
+
 template <size_t N>
 inline cToSvConcat<N>& AppendTextTruncateOnWord(cToSvConcat<N>& target, cSv text, int max_len, bool tooltip = false) {
-// append text to target, but only up to max_len characters. If such truncation is required, truncate at ' '
+// append text to target, but only up to max_len characters. If such truncation is required, truncate at ' ' \n, ... and similar
 // escape HTML characters, and correct invalid UTF8
-  size_t len;
-  for (len = max_len; len < text.length() && text[len] != ' ' && text[len] != '\n'; ++len);
-  if (len < text.length()) {
-    AppendHtmlEscapedAndCorrectNonUTF8(target, text.substr(0, len), tooltip);
-    target.append(" ...");
-  } else
-    AppendHtmlEscapedAndCorrectNonUTF8(target, text, tooltip);
+  bool truncated;
+  AppendHtmlEscapedAndCorrectNonUTF8(target, StringWordTruncate(text, max_len, truncated), tooltip);
+  if (truncated) target.append(" ...");
   return target;
 }
-
 
 template<size_t N>
 inline cToSvConcat<N>& AppendDuration(cToSvConcat<N>& target, char const* format, int duration) {
@@ -142,9 +141,6 @@ inline cToSvConcat<N>& AppendDuration(cToSvConcat<N>& target, char const* format
   std::string StringReplace(cSv text, cSv substring, cSv replacement );
 
   std::vector<std::string> StringSplit(cSv text, char delimiter );
-
-  cSv StringWordTruncate(cSv input, size_t maxLen, bool& truncated);
-  inline cSv StringWordTruncate(cSv input, size_t maxLen) { bool dummy; return StringWordTruncate(input, maxLen, dummy); }
 
   cSv StringTrim(cSv str);
 

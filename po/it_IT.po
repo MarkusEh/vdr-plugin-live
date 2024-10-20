@@ -976,6 +976,9 @@ msgstr ""
 msgid "Example: 2003:ec:6f23:ee00:&#x200B;:/64"
 msgstr ""
 
+msgid "Allow localhost"
+msgstr ""
+
 msgid "Show live logo image"
 msgstr "Mostra logo immagine Live"
 
