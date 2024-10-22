@@ -46,17 +46,6 @@ namespace vdrlive {
     return std::string(result);
   }
 
-  std::string StringReplace(cSv text, cSv substring, cSv replacement)
-  {
-    std::string result(text);
-    size_t pos = 0;
-    while ( ( pos = result.find( substring, pos ) ) != std::string::npos ) {
-      result.replace( pos, substring.length(), replacement );
-      pos += replacement.length();
-    }
-    return result;
-  }
-
   std::vector<std::string> StringSplit(cSv text, char delimiter )
   {
     std::vector<std::string> result;
@@ -169,10 +158,9 @@ namespace vdrlive {
     return timestring;
   }
 
-  time_t GetTimeT(std::string timestring) // timestring in HH:MM
+  time_t GetTimeT(cSv timestring) // timestring in HH:MM
   {
-    timestring = StringReplace(timestring, ":", "");
-    int iTime = parse_int<int>( timestring );
+    int iTime = parse_int<int>( cToSvReplace(timestring, ":", "") );
     struct tm tm_r;
     time_t t = time(NULL);
     tm* tmnow = localtime_r(&t, &tm_r);
@@ -202,11 +190,11 @@ namespace vdrlive {
   std::string DatePickerToC(time_t date, cSv format)
   {
     if (date == 0) return "";
-    std::string cformat(format);
-    cformat = StringReplace(cformat, "mm", "%m");
-    cformat = StringReplace(cformat, "dd", "%d");
-    cformat = StringReplace(cformat, "yyyy", "%Y");
-    return std::string(cToSvDateTime(cformat.c_str(), date));
+    cToSvConcat cformat;
+    cformat.appendReplace(format, "mm", "%m");
+    cformat.replaceAll("dd", "%d");
+    cformat.replaceAll("yyyy", "%Y");
+    return std::string(cToSvDateTime(cformat, date));
   }
   int timeStringToInt(const char *t) {
   // input: t in xx:xx format

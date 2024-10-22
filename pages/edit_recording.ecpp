@@ -90,7 +90,7 @@ const cRecording* recording;
   if (recording) {
     const cRecordingInfo *info = recording->Info();
     name = recording->BaseName();
-    directory = StringReplace(*recording->Folder(), "~", "/");
+    directory = std::string(cToSvReplace(*recording->Folder(), "~", "/"));
     title = cSv(info->Title());
     shorttext = cSv(info->ShortText());
     description = cSv(info->Description());

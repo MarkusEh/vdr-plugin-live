@@ -31,6 +31,7 @@ namespace vdrlive {
   std::shared_ptr<RecordingsTree> RecordingsManager::m_recTree;
   cStateKey RecordingsManager::m_recordingsStateKey;
   time_t RecordingsManager::m_last_recordings_update = 0;
+  time_t RecordingsManager::m_time_for_last_recordings_update = 0;
 
   // The RecordingsManager holds a VDR lock on the
   // Recordings. Additionally the singleton instance of
@@ -98,7 +99,7 @@ namespace vdrlive {
     if (found == std::string::npos)
       return false;
 
-    std::string filename = FileSystemExchangeChars(directory.empty() ? name : (StringReplace(directory, "/", "~") + "~").append(name), true);
+    std::string filename = FileSystemExchangeChars(directory.empty() ? name : cSv(cToSvReplace(directory, "/", "~") << "~" << name), true);
 
     // Check for injections that try to escape from the video dir.
     if (filename.compare(0, 3, "..~") == 0 || filename.find("~..") != std::string::npos) {
@@ -278,7 +279,7 @@ namespace vdrlive {
       esyslog("live: lost RecordingsManager instance while using it!");
       recMan = RecordingsManagerPtr();
     }
-    if (m_last_recordings_update + 60 > time(NULL) ) return recMan; // don't update too often
+    if (m_last_recordings_update + 1 > time(NULL) ) return recMan; // don't update too often
 
     // StateChanged must be executed every time, so not part of
     // the short cut evaluation in the if statement below.
@@ -290,7 +291,11 @@ namespace vdrlive {
 
     if (stateChanged || (!m_recTree) ) {
       m_last_recordings_update = time(NULL);
+      std::chrono::time_point<std::chrono::high_resolution_clock> begin = std::chrono::high_resolution_clock::now();
       m_recTree = std::shared_ptr<RecordingsTree>(new RecordingsTree(recMan));
+      std::chrono::duration<double> timeNeeded = std::chrono::high_resolution_clock::now() - begin;
+      m_time_for_last_recordings_update = 2*timeNeeded.count();
+      dsyslog("live: DH: ------ RecordingsTree::RecordingsTree() --------, required time: %9.5f", timeNeeded.count() );
       if (!m_recTree) {
         esyslog("live: ERROR creation of recordings tree failed!");
         return RecordingsManagerPtr();
@@ -943,7 +948,7 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
     target.append(NewR() );
     target.append("\", \"");
 // [14] Name
-    AppendHtmlEscapedAndCorrectNonUTF8(target, Name() );
+    AppendQuoteEscapedAndCorrectNonUTF8(target, Name() );
     target.append("\", \"");
 // [15] Short text
     const char *text = ShortText();
@@ -1039,7 +1044,6 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
 //   esyslog("live: DH: ****** RecordingsTree::RecordingsTree() ********");
    cMeasureTime timeRecs, timeIdentify, timeOverview, timeImage, timeDurationDeviation, timeNumTsFiles, timeItemRec;
 
-   std::chrono::time_point<std::chrono::high_resolution_clock> begin = std::chrono::high_resolution_clock::now();
 // check availability of scraper data
     m_creation_timestamp = time(0);
     cGetScraperVideo getScraperVideo;
@@ -1121,8 +1125,6 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
       }
     }
     m_root->finishRecordingsTree();
-    std::chrono::duration<double> timeNeeded = std::chrono::high_resolution_clock::now() - begin;
-    dsyslog("live: DH: ------ RecordingsTree::RecordingsTree() --------, required time: %9.5f", timeNeeded.count() );
 /*
                  timeRecs.print("live: timeRecs  ");
               timeItemRec.print("live: ItemRec   ");

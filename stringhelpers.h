@@ -698,6 +698,8 @@ class cToSvConcat: public cToSv {
       *this << n;
       return concat(std::forward<Args>(args)...);
     }
+    template<typename T>
+    cToSvConcat &operator+=(T &&n) { return *this << n; }
 // ========================
 // overloads for concat
     cToSvConcat &operator<<(char ch) {
@@ -790,6 +792,38 @@ template<typename T, std::enable_if_t<sizeof(T) == 16, bool> = true>
       }
       return *this;
     }
+// apend text. Before appending, replace all occurances of substring with replacement
+    cToSvConcat &appendReplace(cSv text, cSv substring, cSv replacement) {
+      size_t pos = 0, found;
+      while ( (found = text.find(substring, pos)) != std::string_view::npos) {
+        append(text.data()+pos, found-pos);
+        append(replacement);
+        pos = found + substring.length();
+      }
+      append(text.data()+pos, text.length()-pos);
+      return *this;
+    }
+// Replaces the characters in the range [begin() + pos, begin() + std::min(pos + count, size())) with sv
+    cToSvConcat &replace(size_t pos, size_t count, cSv sv) {
+      if (pos >= length() ) return append(sv);
+      if (pos + count >= length() ) { m_pos_for_append = m_buffer + pos; return append(sv); }
+      if (sv.length() != count) {
+        if (sv.length() > count) ensure_free(sv.length() - count);
+        memmove(m_buffer+pos+sv.length(), m_buffer+pos+count, length() - (pos+count));
+        m_pos_for_append += sv.length() - count;
+      }
+      memcpy(m_buffer+pos, sv.data(), sv.length() );
+      return *this;
+    }
+// Replaces all occurances of substring after pos with replacement
+    cToSvConcat &replaceAll(cSv substring, cSv replacement, size_t pos = 0) {
+      while ( (pos = cSv(*this).find(substring, pos)) != std::string_view::npos) {
+        replace(pos, substring.length(), replacement);
+        pos += replacement.length();
+      }
+      return *this;
+    }
+
 // =======================
 // appendFormated append formatted
 // __attribute__ ((format (printf, 2, 3))) can not be used, but should work starting with GCC 13.1
@@ -814,24 +848,24 @@ template<typename T, std::enable_if_t<sizeof(T) == 16, bool> = true>
     }
 // =======================
 // appendDateTime: append date/time formatted with strftime
-    cToSvConcat &appendDateTime(const char *fmt, const std::tm *tp) {
-      size_t needed = std::strftime(m_pos_for_append, m_be_data - m_pos_for_append, fmt, tp);
+    cToSvConcat &appendDateTime(cStr fmt, const std::tm *tp) {
+      size_t needed = std::strftime(m_pos_for_append, m_be_data - m_pos_for_append, fmt.c_str(), tp);
       if (needed == 0) {
         ensure_free(1024);
-        needed = std::strftime(m_pos_for_append, m_be_data - m_pos_for_append, fmt, tp);
+        needed = std::strftime(m_pos_for_append, m_be_data - m_pos_for_append, fmt.c_str(), tp);
         if (needed == 0) {
-          esyslog("live: ERROR, cToScConcat::appendDateTime needed = 0, fmt = %s", fmt);
+          esyslog("live: ERROR, cToScConcat::appendDateTime needed = 0, fmt = %s", fmt.c_str());
           return *this; // we did not expect to need more than 1024 chars for the formatted time ...
         }
       }
       m_pos_for_append += needed;
       return *this;
     }
-    cToSvConcat &appendDateTime(const char *fmt, time_t time) {
+    cToSvConcat &appendDateTime(cStr fmt, time_t time) {
       if (!time) return *this;
       struct std::tm tm_r;
       if (localtime_r( &time, &tm_r ) == 0 ) {
-        esyslog("live: ERROR, cToScConcat::appendDateTime localtime_r = 0, fmt = %s, time = %lld", fmt, (long long)time);
+        esyslog("live: ERROR, cToScConcat::appendDateTime localtime_r = 0, fmt = %s, time = %lld", fmt.c_str(), (long long)time);
         return *this;
         }
       return appendDateTime(fmt, &tm_r);
@@ -932,7 +966,7 @@ class cToSvFormated: public cToSvConcat<N> {
 };
 class cToSvDateTime: public cToSvConcat<255> {
   public:
-    cToSvDateTime(const char *fmt, time_t time) {
+    cToSvDateTime(cStr fmt, time_t time) {
       this->appendDateTime(fmt, time);
     }
 };
@@ -941,6 +975,14 @@ class cToSvUrlEscaped: public cToSvConcat<N> {
   public:
     cToSvUrlEscaped(cSv sv) {
       this->appendUrlEscaped(sv);
+    }
+};
+
+template<std::size_t N = 255>
+class cToSvReplace: public cToSvConcat<N> {
+  public:
+    cToSvReplace(cSv text, cSv substring, cSv replacement) {
+      this->appendReplace(text, substring, replacement);
     }
 };
 

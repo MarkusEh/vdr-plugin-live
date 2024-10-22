@@ -4,6 +4,11 @@
  * Helper functions to create HTML.
  */
 
+
+function addEncodeHtml(s, str) {
+  s.a += str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
 function addIfWide(text) {
  if (!window.matchMedia("(max-width: 600px)").matches) document.write(text);
 }
@@ -14,6 +19,8 @@ function addIfSmall(text) {
 function truncateOnWordIdx(str, limit) {
   var b = str.indexOf('&lt;br/&gt;')
   if (b >= 0 && b<= limit) return b
+  var c = str.indexOf('<br/>')
+  if (c >= 0 && c<= limit) return c
   var r = str.indexOf('\r')
   if (r >= 0 && r<= limit) return r
   var n = str.indexOf('\n')
@@ -98,6 +105,7 @@ function add2ndLine(s, shortText, description) {
   s.a += '</span>'
 }
 
+// do not html encode title! will be html encoded here
 function addColEventRec(s, times, eventprefix, eventid, title, folder, shortText, description) {
 // col with times, channel, name, short text
   s.a += '<div class="withmargin"><div class="margin-bottom display-xs"><span class="normal-font">'

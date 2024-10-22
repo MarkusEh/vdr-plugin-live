@@ -97,8 +97,12 @@ for (auto it = deletions.begin(); it != deletions.end(); ++it) {
     deleteResult += std::string() + tr("ERROR:") + " " + task.Error() + "<br/>";
     else
 */
-    if (task.Result())
-      deleteResult += std::string() + tr("Deleted recording:") + " " + StringReplace(task.RecName(), "~", "/") + "<br/>";
+    if (task.Result()) {
+      cToSvConcat delRec(tr("Deleted recording:"), " ");
+      delRec.appendReplace(task.RecName(), "~", "/");
+      delRec << "<br/>";
+      deleteResult += std::string(delRec);
+    }
   }
   else {
     throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
@@ -146,13 +150,14 @@ const recs = [];
 const rec_ids = Object.create(null)
 rec_ids["T"] = [1, 2]
 
+// Title is the title of the action (like "play in media player"), and will be html encoded here
 function RecordingActionS(s, id, A, Img, Title) {
   s.a += '<a href=\"'
   s.a += A
   s.a += 'recording_'
   s.a += id
   s.a += '&sort=<$currentSort$>&filter=<$currentFilter$>&flat=<$currentFlat$>&history_num_back=<$history_num_back+1$>\" title=\"'
-  s.a += Title
+  addEncodeHtml(s, Title)
   s.a += '\"><img class=\"icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>'
   s.a += Img
   s.a += '\" /></a>'
@@ -163,6 +168,7 @@ function RecordingActionPlaylist(s, id) {
   s.a += '&sort=<$currentSort$>&filter=<$currentFilter$>&flat=<$currentFlat$>&history_num_back=<$history_num_back+1$>\" title=\"<$tr("Stream this recording into media player.")$>\" download><img class=\"icon hidden-xs\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>playlist.png\" /></a>'
 }
 
+// do not html encode title! will be html encoded here
 function addEventRec_r(s, eventid, title, folder, shortText, description) {
   var http_params = '&sort=<$ sort $>&filter='
   http_params += encodeURIComponent('<$ filter $>')

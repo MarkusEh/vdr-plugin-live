@@ -96,7 +96,7 @@ SearchTimer::SearchTimer( std::string const& data )
       for ( int i = 0; part != parts.end(); ++i, ++part ) {
       switch ( i ) {
       case  0: m_id = parse_int<int>( *part ); break;
-      case  1: m_search = StringReplace( StringReplace( *part, "|", ":" ), "!^pipe^!", "|" ); break;
+      case  1: m_search = cToSvReplace( *part, "|", ":" ).replaceAll("!^pipe^!", "|" ); break;
       case  2: m_useTime = lexical_cast<bool>( *part ); break;
       case  3: if ( m_useTime ) m_startTime = parse_int<int>( *part ); break;
       case  4: if ( m_useTime ) m_stopTime = parse_int<int>( *part ); break;
@@ -114,7 +114,7 @@ SearchTimer::SearchTimer( std::string const& data )
       case 16: m_useDayOfWeek = lexical_cast<bool>( *part ); break;
       case 17: m_dayOfWeek = parse_int<int>( *part ); break;
       case 18: m_useEpisode = lexical_cast<bool>( *part ); break;
-      case 19: m_directory = StringReplace( StringReplace( *part, "|", ":" ), "!^pipe^!", "|" ); break;
+      case 19: m_directory = cToSvReplace( *part, "|", ":" ).replaceAll("!^pipe^!", "|" ); break;
       case 20: m_priority = parse_int<int>( *part ); break;
       case 21: m_lifetime = parse_int<int>( *part ); break;
       case 22: m_marginstart = parse_int<int>( *part ); break;
@@ -163,8 +163,8 @@ std::string SearchTimer::ToText()
    std::string tmp_catvalues;
    std::string tmp_blacklists;
 
-   tmp_search = StringReplace(StringReplace(m_search, "|", "!^pipe^!"), ":", "|");
-   tmp_directory = StringReplace(StringReplace(m_directory, "|", "!^pipe^!"), ":", "|");
+   tmp_search    = cToSvReplace(m_search,    "|", "!^pipe^!").replaceAll(":", "|");
+   tmp_directory = cToSvReplace(m_directory, "|", "!^pipe^!").replaceAll(":", "|");
 
    if (m_useTime)
    {
@@ -208,7 +208,7 @@ std::string SearchTimer::ToText()
    {
       for(unsigned int i=0; i<m_ExtEPGInfo.size(); i++)
          tmp_catvalues += (tmp_catvalues != ""?"|":"") +
-            StringReplace(StringReplace(m_ExtEPGInfo[i], ":", "!^colon^!"), "|", "!^pipe^!");
+            std::string(cToSvReplace(m_ExtEPGInfo[i], ":", "!^colon^!").replaceAll("|", "!^pipe^!"));
    }
 
    if (m_blacklistmode == 1)
@@ -517,7 +517,7 @@ Blacklist::Blacklist( std::string const& data )
       for ( int i = 0; part != parts.end(); ++i, ++part ) {
       switch ( i ) {
       case  0: m_id = parse_int<int>( *part ); break;
-      case  1: m_search = StringReplace( StringReplace( *part, "|", ":" ), "!^pipe^!", "|" ); break;
+      case  1: m_search = cToSvReplace( *part, "|", ":" ).replaceAll("!^pipe^!", "|" ); break;
       }
     }
   } catch ( bad_lexical_cast const& ex ) {
@@ -544,9 +544,9 @@ SearchResult::SearchResult( std::string const& data )
       switch ( i ) {
       case  0: m_searchId = parse_int<int>( *part ); break;
       case  1: m_eventId = parse_int<tEventID>( *part ); break;
-      case  2: m_title = StringReplace( *part, "|", ":" ); break;
-      case  3: m_shorttext = StringReplace( *part, "|", ":" ); break;
-      case  4: m_description = StringReplace( *part, "|", ":" ); break;
+      case  2: m_title = cToSvReplace( *part, "|", ":" ); break;
+      case  3: m_shorttext = cToSvReplace( *part, "|", ":" ); break;
+      case  4: m_description = cToSvReplace( *part, "|", ":" ); break;
       case  5: m_starttime = parse_int<time_t>( *part ); break;
       case  6: m_stoptime = parse_int<time_t>( *part ); break;
       case  7: m_channel = tChannelID::FromString( part->c_str() ); break;

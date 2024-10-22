@@ -603,7 +603,7 @@ bool appendEpgItem(cToSvConcat<0> &epg_item, RecordingsItemRecPtr &recItem, cons
   } else epg_item.append("0,\"");
   epg_item.append("\",\"");
 // [11] : Name
-  AppendHtmlEscapedAndCorrectNonUTF8(epg_item, Event->Title() );
+  AppendQuoteEscapedAndCorrectNonUTF8(epg_item, Event->Title() );
   epg_item.append("\",\"");
 // [12] : Shorttext
   AppendHtmlEscapedAndCorrectNonUTF8(epg_item, Event->ShortText() );

@@ -168,8 +168,8 @@ namespace vdrlive {
         << stop << ":"
         << priority << ":"
         << lifetime << ":"
-        << StringReplace(title, ":", "|" ) << ":"
-        << StringReplace(aux, ":", "|" );
+        << cToSvReplace(title, ":", "|" ) << ":"
+        << cToSvReplace(aux, ":", "|" );
     // Use StringReplace here because if ':' are characters in the
     // title or aux string it breaks parsing of timer definition
     // in VDRs cTimer::Parse method.  The '|' will be replaced

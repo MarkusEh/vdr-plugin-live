@@ -87,6 +87,7 @@ inline cToSvConcat<N>& AppendHtmlEscapedAndCorrectNonUTF8(cToSvConcat<N>& target
         case '&':  target.append(notAppended, i); target.append("&amp;");  notAppended += i + 1; i = 0; break;
         case '\"': target.append(notAppended, i); target.append("&quot;"); notAppended += i + 1; i = 0; break;
         case '\'': target.append(notAppended, i); target.append("&apos;"); notAppended += i + 1; i = 0; break;
+        case '\\': target.append(notAppended, i); target.append("&bsol;"); notAppended += i + 1; i = 0; break;
         case '<':  target.append(notAppended, i); target.append("&lt;");   notAppended += i + 1; i = 0; break;
         case '>':  target.append(notAppended, i); target.append("&gt;");   notAppended += i + 1; i = 0; break;
         case 10:
@@ -108,6 +109,36 @@ inline cToSvConcat<N>& AppendHtmlEscapedAndCorrectNonUTF8(cToSvConcat<N>& target
       notAppended = notAppended + i + 1;
       i = 0;
       l = 1;
+    }
+  }
+  target.append(notAppended, i);
+  return target;
+}
+template <size_t N>
+inline cToSvConcat<N>& AppendQuoteEscapedAndCorrectNonUTF8(cToSvConcat<N>& target, cSv text) {
+  size_t i = 0;                 // number of not yet appended chars
+  const char* notAppended = text.data();  // position of the first character which is not yet appended
+  for (size_t pos = 0; pos < text.length(); ) {
+    if (text[pos] == '"' | text[pos] == '\\') {
+      target.append(notAppended, i);
+      target << '\\';
+      notAppended += i;
+      i = 1;
+      ++pos;
+      continue;
+    }
+    if ((signed char)text[pos] >= 0) { ++i; ++pos; continue; }
+    int l = text.utf8CodepointIsValid(pos);
+    if (l == 0) {
+// invalid UTF8
+      target.append(notAppended, i);
+      target << '?';
+      notAppended += i + 1;
+      i = 0;
+      ++pos;
+    } else {
+      i += l;
+      pos += l;
     }
   }
   target.append(notAppended, i);
@@ -138,8 +169,6 @@ inline cToSvConcat<N>& AppendDuration(cToSvConcat<N>& target, char const* format
 
   std::string FormatDuration( char const* format, int duration );
 
-  std::string StringReplace(cSv text, cSv substring, cSv replacement );
-
   std::vector<std::string> StringSplit(cSv text, char delimiter );
 
   cSv StringTrim(cSv str);
@@ -167,7 +196,7 @@ inline cToSvConcat<N>& AppendDuration(cToSvConcat<N>& target, char const* format
       cToSvXxHash128(cSv str): cToSvHex<32>::cToSvHex(XXH3_128bits(str.data(), str.length() )) {}
   };
 
-  time_t GetTimeT(std::string timestring); // timestring in HH:MM
+  time_t GetTimeT(cSv timestring); // timestring in HH:MM
   std::string ExpandTimeString(std::string timestring);
 
   time_t GetDateFromDatePicker(cSv datestring, cSv format);

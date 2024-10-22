@@ -443,7 +443,7 @@ if (!rfid.empty() ) {
 % } if (LiveFeatures<features::epgsearch>().Recent()) {
       <td class="action <? lastCurrentChanel ? "bottomrow"?>">
 %     if (eventId) {
-        <a href="searchresults.html?searchplain=<$ cToSvUrlEscaped(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a>
+        <a href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a>
 %     }
       </td>
 % } if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded() ) {
@@ -872,7 +872,7 @@ if (scraperMovieOrTv.found) {
     </td>
 <%cpp>
     stringAppend(actor_names, "<td><a href=\"https://", loc_name, ".wikipedia.org/wiki/",
-      cToSvUrlEscaped(StringReplace(character->getPersonName(), " ", "_")), "\" target=\"_blank\">",
+      cToSvUrlEscaped(cToSvReplace(character->getPersonName(), " ", "_")), "\" target=\"_blank\">",
       character->getPersonName(), "</a>");
     actor_names.append(":<br>"); 
     actor_names.append(character->getCharacterName()); 

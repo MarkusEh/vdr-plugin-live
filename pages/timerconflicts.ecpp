@@ -137,21 +137,21 @@ if (!logged_in && LiveSetup().UseAuth()) {
 %               if(epgEvent) {
                   <a <& tooltip.display domId=(epgEvent->Id()) &>
                   class="apopup" title="<$$longDescription$>"
-                ><$$ StringReplace(timerFile, "~", "~<wbr>") $></a>
+                ><$$ cToSvReplace(timerFile, "~", "~<wbr>") $></a>
 %               } else {
-                 <$$ StringReplace(timerFile, "~", "~<wbr>") $>
+                 <$$ cToSvReplace(timerFile, "~", "~<wbr>") $>
 %               }
                 </div></td>
 
                 <td class="<? bottom ? "bottomrow" ?>"><div class="withmargin">
 %                if ( !timer->Local() || searchTimId.empty() ) {
 <# not created by epgsearch, check tvscraper autotimer #>
-                  <$$ StringReplace(searchTimName, "~", "~<wbr>") $>
+                  <$$ cToSvReplace(searchTimName, "~", "~<wbr>") $>
 %                 if (!recID.empty() ) {
-                    <a href="epginfo.html?epgid=<$ recID $>"> <$$ StringReplace(recName, "~", "~<wbr>") $></a>
+                    <a href="epginfo.html?epgid=<$ recID $>"> <$$ cToSvReplace(recName, "~", "~<wbr>") $></a>
 %                 }
 %                } else {
-                  <a href="edit_searchtimer.html?searchtimerid=<$ searchTimId $>"><$$ StringReplace(searchTimName, "~", "~<wbr>") $></a>
+                  <a href="edit_searchtimer.html?searchtimerid=<$ searchTimId $>"><$$ cToSvReplace(searchTimName, "~", "~<wbr>") $></a>
 %                }
                 </div></td>
                 <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><a class="hidden-xs action-rightcol" href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a></td>

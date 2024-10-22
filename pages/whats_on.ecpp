@@ -234,7 +234,7 @@ if (type == "now") {
       // Searching for channel logos
       cToSvConcat<0> chanlogoimg;
       if (!LiveSetup().GetChanLogoDir().empty() ) {
-        std::string chanlogofile = StringReplace(epgEvent->Caption(), "/", "_") + ".png";
+        std::string chanlogofile = std::string(cToSvReplace(epgEvent->Caption(), "/", "_").concat(".png"));
         std::string chanlogopath = LiveSetup().GetChanLogoDir() + chanlogofile;
         struct stat chanfilebuf;
         bool logo_available = stat (chanlogopath.c_str(), &chanfilebuf) == 0;
@@ -244,8 +244,8 @@ if (type == "now") {
           logo_available = stat (chanlogopath.c_str(), &chanfilebuf) == 0;
         }
         if (!logo_available) {
-          chanlogofile = StringReplace(epgEvent->Caption(), "/", "~") + ".png";
-          chanlogofile = std::string(cToSvToLower(chanlogofile, g_locale));
+//          chanlogofile = StringReplace(epgEvent->Caption(), "/", "~") + ".png";
+          chanlogofile = std::string(cToSvToLower(cToSvReplace(epgEvent->Caption(), "/", "~").concat(".png"), g_locale));
           chanlogopath = LiveSetup().GetChanLogoDir() + chanlogofile;
           logo_available = stat (chanlogopath.c_str(), &chanfilebuf) == 0;
         }

@@ -56,13 +56,14 @@ function addHdSdIcon(s, hdsd, toolTip, frameParams) {
   s.a += '\" /></div>'
 }
 
+%// do not html encode name! will be URI encided here
 function IMDBS(s, im_db, name) {
   if (im_db.length == 0) {
     s.a += '<a href=\"http://www.imdb.com/find?s=all&q='
     if (name.startsWith("%") ) {
-      s.a += name.substr(1)
+      s.a += encodeURIComponent(name.substr(1))
     } else {
-      s.a += name
+      s.a += encodeURIComponent(name)
     }
   } else {
     s.a += '<a href=\"https://www.imdb.com/title/'
@@ -85,7 +86,7 @@ function IMDBS(s, im_db, name) {
 // [8] : relase date (scraper)
 // [9] : channelnr
 // [10] : channelname
-// [11] : Name
+// [11] : Name   not html encoded!!! -> can be used for search (URI encode) and in html (HTML encode)
 // [12] : Shorttext
 // [13] : Description
 // [14] : Day, time & duration of event
@@ -107,7 +108,7 @@ function addEvent(s, bottomrow_i, obj) {
   s.a += '</a>'
 % if (LiveFeatures<features::epgsearch>().Recent() ) {
     s.a += '<a href=\"searchresults.html?searchplain='
-    s.a += obj[11]
+    s.a += encodeURIComponent(obj[11])
     s.a += '\"><img class=\"icon\" src=\"<$ LiveSetup().GetThemedLink("img", "search.png") $>\" title=\"<$tr("Search for repeats.")$>\"/></a>'
 % } if (LiveSetup().GetShowIMDb() ) {
     IMDBS(s, obj[2], obj[11])
@@ -160,6 +161,7 @@ function eventString(bottomrow, data) {
 }
 
 // existing recording
+// do not html encode name! will be html encoded here
 function existingRecordingSR(s, col_span1, bottomrow, imdb_id, id, archiveDescr, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, durationDeviation, folder, duration, numTsFiles) {
   if (archiveDescr.length != 0) col_span1--;
   s.a += '<tr><td colspan='
@@ -239,6 +241,7 @@ async function RecordingsSt_a(s, level, displayFolder, data) {
   }
 }
 
+%// do not html encode title! will be html encoded here
 function addEventRec(s, eventprefix, eventid, http_params, title, folder, shortText, description) {
 // eventprefix == 'recording_' or 'event_'
   s.a += '<a href="epginfo.html?epgid='
@@ -251,7 +254,7 @@ function addEventRec(s, eventprefix, eventid, http_params, title, folder, shortT
     s.a += '<br/><br/>'
   }
   s.a += '<$tr("Click to view details.")$>"><div class="margin-bottom bold-font">'
-  s.a += title
+  addEncodeHtml(s, title)
   if (folder.length != 0) {
     s.a += '<span class="normal-font"> ('
     s.a += folder.replaceAll("~", "~<wbr>")
@@ -278,7 +281,7 @@ function addEventRec(s, eventprefix, eventid, http_params, title, folder, shortT
 // [11] : audio/SD/HD/UHD r/s/h/u
 // [12] : channel name
 // [13] : _new
-// [14] : Name
+// [14] : Name   // do not html encode name! will be URI encoded here
 // [15] : Shorttext
 // [16] : Description
 // [17] : Recording Length deviation in seconds
