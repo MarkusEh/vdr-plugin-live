@@ -822,7 +822,7 @@ msgid "VDR version"
 msgstr "VDR-Version"
 
 msgid "Features"
-msgstr "Unterstütze Plugins"
+msgstr "Unterstützte Plugins"
 
 msgid "active"
 msgstr "aktiv"
