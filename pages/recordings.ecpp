@@ -307,7 +307,7 @@ if (currentFlat != "true") {
       bool newR = false;
       if ( LiveSetup().GetMarkNewRec() ) newR = recItem->checkNew();
 // calculate idHash: uniquely defines this node
-      std::string idHash(xxHash32(concat(parentIdHash, recItem->Name())));
+      cToSvXxHash32 idHash(cToSvConcat(parentIdHash, recItem->Name()));
       iRecItem = (uintptr_t)&recItem;
   </%cpp>
       <li class="recording">
@@ -445,10 +445,11 @@ if (currentSort != "duplicates" || currentFlat == "true") {
       nodeName = tr("Duplicates not identified by tvscraper");
     }
     if (!recItems.empty() ) {
-      std::string idHash(xxHash32(nodeName));
+      cToSvXxHash32 idHash(nodeName);
 // do we have to get/write the recording details?
 // check: is this folder open (cookie)?
-      auto equal_fldf = [idHash](cSv f) { return f.compare(5, std::string_view::npos, idHash) == 0; };
+      cSv idHash_sv = idHash;
+      auto equal_fldf = [idHash_sv](cSv f) { return f.compare(5, std::string_view::npos, idHash_sv) == 0; };
       cSplit splitOpenTreeNodes(openTreeNodes, ',');
       if (std::find_if(splitOpenTreeNodes.begin(), splitOpenTreeNodes.end(), equal_fldf) != splitOpenTreeNodes.end()) {
         </%cpp>

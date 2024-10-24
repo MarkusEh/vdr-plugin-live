@@ -75,41 +75,52 @@ namespace vdrlive {
 
 template <size_t N>
 inline cToSvConcat<N>& AppendHtmlEscapedAndCorrectNonUTF8(cToSvConcat<N>& target, cSv text, bool tooltip = false) {
-  size_t pos = 0;
-  int l = 0;                    // length of current UTF8 codepoint
   size_t i = 0;                 // number of not yet appended chars
   const char* notAppended = text.data();  // position of the first character which is not yet appended
-  for (pos = 0; pos < text.length(); pos+=l) {
-  l = text.utf8CodepointIsValid(pos);
-  switch(l) {
-    case 1:
+  for (size_t pos = 0; pos < text.length(); ++pos) {
+    if ((unsigned char)text[pos] <= '\'') {
       switch(text[pos]) {
+        case  9:  target.append(notAppended, i); target.append("&tab;");  notAppended += i + 1; i = 0; break;
+        case 10:
+        case 13:
+  //        target.append(notAppended, i); target.append("&lt;br/&gt;");   notAppended += i + 1; i = 0; break;
+                  target.append(notAppended, i); target.append("<br/>");   notAppended += i + 1; i = 0; break;
         case '&':  target.append(notAppended, i); target.append("&amp;");  notAppended += i + 1; i = 0; break;
         case '\"': target.append(notAppended, i); target.append("&quot;"); notAppended += i + 1; i = 0; break;
         case '\'': target.append(notAppended, i); target.append("&apos;"); notAppended += i + 1; i = 0; break;
+        case ' ':
+        case '!':
+        case '#':
+        case '$':
+        case '%':
+          ++i; break;  // just append these characters, no encoding
+        default:  // replace control characters with ?
+          target.append(notAppended, i); target.append("?"); notAppended += i + 1; i = 0; break;
+        }
+      continue;
+    }
+    if ((unsigned char)text[pos] <= '~') {
+      switch(text[pos]) {
         case '\\': target.append(notAppended, i); target.append("&bsol;"); notAppended += i + 1; i = 0; break;
         case '<':  target.append(notAppended, i); target.append("&lt;");   notAppended += i + 1; i = 0; break;
         case '>':  target.append(notAppended, i); target.append("&gt;");   notAppended += i + 1; i = 0; break;
-        case 10:
-        case 13:
-//          target.append(notAppended, i); target.append("&lt;br/&gt;");   notAppended += i + 1; i = 0; break;
-            target.append(notAppended, i); target.append("<br/>");   notAppended += i + 1; i = 0; break;
-        default:   i++; break;
+        default:  // replace control characters <
+          i++; break;  // just append these characters, no encoding
         }
-      break;
-    case 2:
-    case 3:
-    case 4:
-      i += l;
-      break;
-    default:
-// invalid UTF8
-      target.append(notAppended, i);
-      target.append("?");
-      notAppended = notAppended + i + 1;
-      i = 0;
-      l = 1;
+      continue;
     }
+    if (text[pos] == 127) { // replace control characters with ?
+      target.append(notAppended, i); target.append("?"); notAppended += i + 1; i = 0;
+      continue;
+    }
+    int l = text.utf8CodepointIsValid(pos);
+    if (l == 0) {
+// invalid UTF8, replace with ?
+      target.append(notAppended, i); target.append("?"); notAppended += i + 1; i = 0;
+      continue;
+    }
+    i += l;
+    pos += l-1;
   }
   target.append(notAppended, i);
   return target;
@@ -118,27 +129,40 @@ template <size_t N>
 inline cToSvConcat<N>& AppendQuoteEscapedAndCorrectNonUTF8(cToSvConcat<N>& target, cSv text) {
   size_t i = 0;                 // number of not yet appended chars
   const char* notAppended = text.data();  // position of the first character which is not yet appended
-  for (size_t pos = 0; pos < text.length(); ) {
-    if (text[pos] == '"' | text[pos] == '\\') {
-      target.append(notAppended, i);
-      target << '\\';
-      notAppended += i;
-      i = 1;
-      ++pos;
+  for (size_t pos = 0; pos < text.length(); ++pos) {
+    if ((unsigned char)text[pos] <= '\"') {
+      switch(text[pos]) {
+        case '\t': target.append(notAppended, i); target.append("\\t"); notAppended += i + 1; i = 0; break;
+        case '\n': target.append(notAppended, i); target.append("\\n"); notAppended += i + 1; i = 0; break;
+        case '\r': target.append(notAppended, i); target.append("\\r"); notAppended += i + 1; i = 0; break;
+        case '\"': target.append(notAppended, i); target.append("\\"); notAppended += i; i = 1; break;
+        case ' ':
+        case '!':
+          ++i; break;  // just append these characters, no encoding
+        default:  // replace control characters with ?
+          target.append(notAppended, i); target.append("?"); notAppended += i + 1; i = 0; break;
+        }
       continue;
     }
-    if ((signed char)text[pos] >= 0) { ++i; ++pos; continue; }
+    if ((unsigned char)text[pos] <= '~') {
+      if (text[pos]  == '\\') {
+        target.append(notAppended, i); target.append("\\"); notAppended += i; i = 1;
+      } else {
+        ++i; // just append these characters, no encoding
+      }
+      continue;
+    }
+    if (text[pos] == 127) { // replace control characters with ?
+      target.append(notAppended, i); target.append("?"); notAppended += i + 1; i = 0;
+      continue;
+    }
     int l = text.utf8CodepointIsValid(pos);
     if (l == 0) {
-// invalid UTF8
-      target.append(notAppended, i);
-      target << '?';
-      notAppended += i + 1;
-      i = 0;
-      ++pos;
+// invalid UTF8, replace with ?
+      target.append(notAppended, i); target.append("?"); notAppended += i + 1; i = 0;
     } else {
       i += l;
-      pos += l;
+      pos += l-1;
     }
   }
   target.append(notAppended, i);
@@ -174,7 +198,6 @@ inline cToSvConcat<N>& AppendDuration(cToSvConcat<N>& target, char const* format
   cSv StringTrim(cSv str);
 
   std::string MD5Hash(std::string const& str);
-  std::string xxHash32(cSv str);
 
   class cToSvXxHash32: public cToSvHex<8> {
     public:
@@ -235,49 +258,6 @@ inline cToSvConcat<N>& AppendDuration(cToSvConcat<N>& target, char const* format
       throw bad_lexical_cast();
     return result;
   }
-
-  template<typename From>
-  std::string ConvertToString( From const& from, std::locale const& loc = g_locale )
-  {
-    std::ostringstream parser;
-    parser.imbue( loc );
-    parser << from;
-    return parser.str();
-  }
-
-  class ReadLock
-  {
-    private:
-      typedef void (ReadLock::*safe_bool)() const;
-
-    public:
-            explicit ReadLock(cRwLock& lock, int timeout = 100)
-                : m_lock(lock)
-                , m_locked(false)
-            {
-                if (m_lock.Lock( false, timeout ))
-                    m_locked = true;
-            }
-
-      ~ReadLock()
-      {
-        if (m_locked)
-          m_lock.Unlock();
-      }
-
-      operator safe_bool() const
-      {
-        return m_locked ? &ReadLock::safe_bool_idiom : 0;
-      }
-
-    private:
-      ReadLock(ReadLock const&);
-
-      cRwLock& m_lock;
-      bool m_locked;
-
-      void safe_bool_idiom() const {}
-  };
 
 // methods for scraper **************************************
 

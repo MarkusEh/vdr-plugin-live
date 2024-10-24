@@ -61,15 +61,17 @@ namespace vdrlive {
 
   cSv StringWordTruncate(cSv text, size_t maxLen, bool& truncated) {
 // Return text truncted to maxLen characters. If such truncation is required,
-// truncate at " \t,;:.\n?!'\"/\\()[]{}*+-"
+// truncate at any char in the char list in find_last_of (see code below ...)
     if (text.length() <= maxLen) {
       truncated = false;
       return text;
     }
     truncated = true;
     cSv result = text.substr(0, maxLen);
-    size_t pos = result.find_last_of(" \t,;:.\n?!'\"/\\()[]{}*+-");
-    return result.substr(0, pos);
+    size_t pos = result.find_last_of(" \t\n,;:.?!()[]{}*+-");
+    if (pos == std::string::npos) return result;
+    if (strchr("?!)]}", result[pos])) ++pos; // truncate after these characters
+    return StringTrim(result.substr(0, pos));
   }
 
   cSv StringTrim(cSv str)
@@ -91,13 +93,6 @@ namespace vdrlive {
     free(szRes);
     free(szInput);
     return res;
-  }
-
-  std::string xxHash32(cSv str)
-  {
-    char res[8];
-    stringhelpers_internal::addCharsHex(res, 8, XXH32(str.data(), str.length(), 20) );
-    return std::string(res, 8);
   }
 
   XXH64_hash_t parse_hex_64(cSv str) {

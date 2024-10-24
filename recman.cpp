@@ -31,7 +31,6 @@ namespace vdrlive {
   std::shared_ptr<RecordingsTree> RecordingsManager::m_recTree;
   cStateKey RecordingsManager::m_recordingsStateKey;
   time_t RecordingsManager::m_last_recordings_update = 0;
-  time_t RecordingsManager::m_time_for_last_recordings_update = 0;
 
   // The RecordingsManager holds a VDR lock on the
   // Recordings. Additionally the singleton instance of
@@ -294,7 +293,6 @@ namespace vdrlive {
       std::chrono::time_point<std::chrono::high_resolution_clock> begin = std::chrono::high_resolution_clock::now();
       m_recTree = std::shared_ptr<RecordingsTree>(new RecordingsTree(recMan));
       std::chrono::duration<double> timeNeeded = std::chrono::high_resolution_clock::now() - begin;
-      m_time_for_last_recordings_update = 2*timeNeeded.count();
       dsyslog("live: DH: ------ RecordingsTree::RecordingsTree() --------, required time: %9.5f", timeNeeded.count() );
       if (!m_recTree) {
         esyslog("live: ERROR creation of recordings tree failed!");

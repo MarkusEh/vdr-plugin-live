@@ -873,15 +873,24 @@ template<typename T, std::enable_if_t<sizeof(T) == 16, bool> = true>
 // =======================
 // appendUrlEscaped
     cToSvConcat &appendUrlEscaped(cSv sv) {
-      const char* reserved = " !#$&'()*+,/:;=?@[]\"<>\n\r";
+      const char* reserved = " !#$&'()*+,/:;=?@[]\"<>\n\r\t\\%";
 // in addition to the reserved URI charaters as defined here https://en.wikipedia.org/wiki/Percent-encoding
 // also escape html characters \"<>\n\r so no additional html-escaping is required
-      for (char c: sv) {
+// \ is escaped for easy use in strings where \ has a special meaning
+      for (size_t pos = 0; pos < sv.length(); ++pos) {
+        char c = sv[pos];
         if (strchr(reserved, c)) {
           concat('%');
-          appendHex((unsigned)c, 2);
+          appendHex((unsigned char)c, 2);
+        } else if ((unsigned char)c < ' ' || c == 127) {
+          concat('?');  // replace control characters with ?
         } else {
-          concat(c);
+          int l = sv.utf8CodepointIsValid(pos);
+          if (l == 0) concat('?'); // invalid utf
+          else {
+            append(sv.data() + pos, l);
+            pos += l-1;
+          }
         }
       }
       return *this;

@@ -207,14 +207,14 @@ namespace vdrlive {
   std::string TimerConflictNotifier::Message() const
   {
     int count = conflicts ? conflicts->size() : 0;
-    std::string msg = tr("Timer conflict check detected ");
-    msg += ConvertToString(count) + " ";
+    cToSvConcat msg(tr("Timer conflict check detected "), count, " ");
     if (count == 1)
       msg += tr("conflict");
     else
       msg += tr("conflicts");
+    msg += "!";
 
-    return count > 0 ? msg + "!" : "";
+    return count > 0 ? std::string(msg) : std::string();
   }
 
   std::string TimerConflictNotifier::Url() const

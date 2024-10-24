@@ -187,14 +187,9 @@ std::string SearchTimer::ToText()
 
    if (m_useChannel==1)
    {
-#if VDRVERSNUM >= 20301
       LOCK_CHANNELS_READ;
       cChannel const* channelMin = Channels->GetByChannelID( m_channelMin );
       cChannel const* channelMax = Channels->GetByChannelID( m_channelMax );
-#else
-      cChannel const* channelMin = Channels.GetByChannelID( m_channelMin );
-      cChannel const* channelMax = Channels.GetByChannelID( m_channelMax );
-#endif
 
       if (channelMax && channelMin->Number() < channelMax->Number())
          tmp_chanSel = *m_channelMin.ToString() + std::string("|") + *m_channelMax.ToString();
@@ -356,11 +351,7 @@ bool SearchTimers::Reload()
   if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
     throw HtmlError( tr("EPGSearch version outdated! Please update.") );
 
-#if VDRVERSNUM >= 20301
   LOCK_CHANNELS_READ;
-#else
-  ReadLock channelsLock( Channels, 0 );
-#endif
   std::list<std::string> timers = service.handler->SearchTimerList();
   m_timers.assign( timers.begin(), timers.end() );
   m_timers.sort();
@@ -374,11 +365,7 @@ bool SearchTimers::Save(SearchTimer* searchtimer)
     throw HtmlError( tr("EPGSearch version outdated! Please update.") );
 
   if (!searchtimer) return false;
-#if VDRVERSNUM >= 20301
   LOCK_CHANNELS_READ;
-#else
-  ReadLock channelsLock( Channels, 0 );
-#endif
   if (searchtimer->Id() >= 0)
     return service.handler->ModSearchTimer(searchtimer->ToText());
   else

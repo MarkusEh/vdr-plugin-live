@@ -6,7 +6,7 @@
 
 
 function addEncodeHtml(s, str) {
-  s.a += str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  s.a += str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/[\n\r]/g, '<br/>');
 }
 
 function addIfWide(text) {
