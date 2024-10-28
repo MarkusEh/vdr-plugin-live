@@ -65,18 +65,26 @@ bool Plugin::Start(void)
   // XXX error handling
   m_thread.reset( new ServerThread );
   m_thread->Start();
+
+  m_liveWorker.reset( new cLiveWorker );
+  m_liveWorker->Start();
+
   return true;
 }
 
 void Plugin::Stop(void)
 {
   m_thread->Stop();
+  while (m_liveWorker->Active()) {
+    m_liveWorker->Stop();
+    sleep(1);
+  }
 }
 
 void Plugin::MainThreadHook(void)
 {
-  LiveTimerManager().DoPendingWork();
-  LiveTaskManager().DoScheduledTasks();
+//  LiveTimerManager().DoPendingWork();
+//  LiveTaskManager().DoScheduledTasks();
 }
 
 void Plugin::Housekeeping(void) {

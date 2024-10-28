@@ -6,11 +6,12 @@
 #include <vector>
 
 #if TNTVERSION >= 30000
-        #include <cxxtools/log.h>  // must be loaded before any VDR include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
+  #include <cxxtools/log.h>  // must be loaded before any VDR include because of duplicate macros (LOG_ERROR, LOG_DEBUG, LOG_INFO)
 #endif
 
 #include <vdr/channels.h>
 #include <vdr/thread.h>
+#include "timers.h"
 
 namespace vdrlive {
 
@@ -161,6 +162,28 @@ private:
 
 
 TaskManager& LiveTaskManager();
+
+class cLiveWorker: public cThread {
+  private:
+    cMutex m_mutex;
+    cCondVar m_waitCondition;
+  public:
+    cLiveWorker() {}
+    virtual ~cLiveWorker() {}
+    void Stop() {
+      m_waitCondition.Broadcast();  // wakeup the thread
+      Cancel(10);                   // wait up to 10 seconds for thread was stopping
+    }
+    virtual void Action() {
+      m_mutex.Lock();
+      int loopSleep = 500; // do this every 1/2 second
+      while (Running()) {
+        m_waitCondition.TimedWait(m_mutex, loopSleep);
+        LiveTimerManager().DoPendingWork();
+        LiveTaskManager().DoScheduledTasks();
+      }
+    }
+};
 
 } // namespace vdrlive
 
