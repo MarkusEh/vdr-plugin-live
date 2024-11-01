@@ -913,6 +913,17 @@ template<typename T, std::enable_if_t<sizeof(T) == 16, bool> = true>
       m_pos_for_append = std::min(m_pos_for_append, m_buffer + index);
       return *this;
     }
+    cToSvConcat &erase(size_t index, size_t count) {
+      size_t l_length = length();
+      if ((index >= l_length) | (count == 0) ) return *this;
+      if (index + count >= l_length) {
+        m_pos_for_append = m_buffer + index;
+      } else {
+        memmove(m_buffer+index, m_buffer+index + count, l_length - index - count);
+        m_pos_for_append -= count;
+      }
+      return *this;
+    }
     void reserve(size_t r) const { m_reserve = r; }
     ~cToSvConcat() {
       if (m_buffer_allocated) free (m_buffer_allocated);
@@ -1101,26 +1112,74 @@ inline std::string concat(Args&&... args) {
 // parse string_view for XML
 // =========================================================
 
-template<std::size_t N> cSv partInXmlTag(cSv sv, const char (&tag)[N], bool *exists = nullptr) {
+class cSubstring{
+  public:
+    cSubstring(size_t pos_start, size_t len):
+      m_pos_start(pos_start), m_len(len) {};
+    cSubstring():
+      m_pos_start(std::string::npos), m_len(0) {};
+    bool found() { return m_pos_start != std::string::npos; }
+    cSv substr(cSv sv) { return found()?sv.substr(m_pos_start, m_len):cSv(); }
+template<std::size_t N> cSubstring substringInXmlTag(cSv sv, const char (&tag)[N]);
+template <size_t N>
+    cToSvConcat<N> &erase(cToSvConcat<N> &target, size_t tag_len) {
+      if (found() ) target.erase(m_pos_start-tag_len-2, m_len+2*tag_len+5);
+      return target;
+    }
+    std::string &erase(std::string &target, size_t tag_len) {
+      if (found() ) target.erase(m_pos_start-tag_len-2, m_len+2*tag_len+5);
+      return target;
+    }
+template <size_t N>
+    cToSvConcat<N> &replace(cToSvConcat<N> &target, cSv sv) {
+      if (found() ) target.replace(m_pos_start, m_len, sv);
+      return target;
+    }
+    std::string &replace(std::string &target, cSv sv) {
+      if (found() ) target.replace(m_pos_start, m_len, sv);
+      return target;
+    }
+  private:
+    size_t m_pos_start;
+    size_t m_len;
+};
+template<std::size_t N> inline
+cSubstring substringInXmlTag(cSv sv, const char (&tag)[N]) {
 // very simple XML parser
 // if sv contains <tag>...</tag>, ... is returned (part between the outermost XML tags is returned).
-// otherwise, cSv() is returned. This is also returned if the tags are there, but there is nothing between the tags ...
 // there is no error checking, like <tag> is more often in sv than </tag>, ...
-  if (exists) *exists = false;
+
 // N == strlen(tag) + 1. It includes the 0 terminator ...
 // strlen(startTag) = N+1; strlen(endTag) = N+2. Sums to 2N+3
-  if (N < 1 || sv.length() < 2*N+3) return cSv();
+  if (N < 1 || sv.length() < 2*N+3) return cSubstring();
 // create <tag>
   cToSvConcat<N+2> tagD("<<", tag, ">");
   size_t pos_start = sv.find(cSv(tagD).substr(1));
-  if (pos_start == std::string_view::npos) return cSv();
+  if (pos_start == std::string_view::npos) return cSubstring();
 // start tag found at pos_start. Now search the end tag
   pos_start += N + 1; // start of ... between tags
   *(tagD.data() + 1) = '/';
   size_t len = sv.substr(pos_start).rfind(tagD);
-  if (len == std::string_view::npos) return cSv();
-  if (exists) *exists = true;
-  return sv.substr(pos_start, len);
+  if (len == std::string_view::npos) return cSubstring();
+  return cSubstring(pos_start, len);
+}
+template<std::size_t N> inline
+cSv partInXmlTag(cSv sv, const char (&tag)[N]) {
+  return substringInXmlTag(sv, tag).substr(sv);
+}
+template<std::size_t N, std::size_t M> inline
+cToSvConcat<N> &eraseXmlTag(cToSvConcat<N> &target, const char (&tag)[M]) {
+  return substringInXmlTag(target, tag).erase(target, M-1);
+}
+template<std::size_t M> inline
+std::string &eraseXmlTag(std::string &target, const char (&tag)[M]) {
+  return substringInXmlTag(target, tag).erase(target, M-1);
+}
+template<std::size_t N> inline
+cSubstring cSubstring::substringInXmlTag(cSv sv, const char (&tag)[N]) {
+  cSubstring res = ::substringInXmlTag(substr(sv), tag);
+  if (res.found() ) res.m_pos_start += m_pos_start;
+  return res;
 }
 
 // =========================================================

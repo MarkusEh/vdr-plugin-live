@@ -29,7 +29,6 @@ public:
   virtual bool Start(void);
   virtual bool Initialize(void);
   virtual void Stop(void);
-  virtual void MainThreadHook(void);
   virtual void Housekeeping(void);
   virtual cString Active(void);
   virtual cMenuSetupPage *SetupMenu(void);

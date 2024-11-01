@@ -154,39 +154,18 @@ namespace vdrlive {
   {
   }
 
-  void TimerManager::UpdateTimer( int timerId, const char* remote, const char* oldRemote, int flags, const tChannelID& channel, std::string const& weekdays,
-                      std::string const& day, int start, int stop, int priority, int lifetime, std::string const& title, std::string const& aux )
+  void TimerManager::UpdateTimer( int timerId, const char* remote, const char* oldRemote, const tChannelID& channel, cStr builder)
   {
-    cMutexLock lock( this );
-
-    std::stringstream builder;
-    builder << flags << ":"
-        << cSv(cToSvConcat(channel)) << ":"
-        << ( weekdays != "-------" ? weekdays : "" )
-        << ( weekdays == "-------" || day.empty() ? "" : "@" ) << day << ":"
-        << start << ":"
-        << stop << ":"
-        << priority << ":"
-        << lifetime << ":"
-        << cToSvReplace(title, ":", "|" ) << ":"
-        << cToSvReplace(aux, ":", "|" );
-    // Use StringReplace here because if ':' are characters in the
-    // title or aux string it breaks parsing of timer definition
-    // in VDRs cTimer::Parse method.  The '|' will be replaced
-    // back to ':' by the cTimer::Parse() method.
-
-    // Fix was submitted by rofafor: see
-    // http://www.vdr-portal.de/board/thread.php?threadid=100398
-
     dsyslog("live: UpdateTimer() timerId '%d'", timerId);
     dsyslog("live: UpdateTimer() remote '%s'", remote);
     dsyslog("live: UpdateTimer() oldRemote '%s'", oldRemote);
     dsyslog("live: UpdateTimer() channel '%s'", *(channel.ToString()));
     dsyslog("live: UpdateTimer() channel '%s'", cToSvConcat(channel).c_str() );
-    dsyslog("live: UpdateTimer() builder '%s'", builder.str().c_str());
+    dsyslog("live: UpdateTimer() builder '%s'", builder.c_str());
 
-    timerStruct timerData = { .id = timerId, .remote=remote, .oldRemote=oldRemote, .builder=builder.str() };
+    timerStruct timerData = { .id = timerId, .remote=remote, .oldRemote=oldRemote, .builder=std::string(builder) };
 
+    cMutexLock lock( this );
     // dsyslog("live: SV: in UpdateTimer");
     m_updateTimers.push_back( timerData );
     // dsyslog("live: SV: wait for update");

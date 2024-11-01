@@ -81,12 +81,6 @@ void Plugin::Stop(void)
   }
 }
 
-void Plugin::MainThreadHook(void)
-{
-//  LiveTimerManager().DoPendingWork();
-//  LiveTaskManager().DoScheduledTasks();
-}
-
 void Plugin::Housekeeping(void) {
   SearchResults::CleanQuery();
 }

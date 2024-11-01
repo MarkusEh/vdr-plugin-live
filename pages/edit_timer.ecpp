@@ -35,10 +35,9 @@ using namespace vdrlive;
   bool wday_sun = false;
   std::string start_s = "00:00";
   std::string stop_s = "00:00";
-  bool vps = 0;
+  std::string monitoring;
   int priority = 0;
   int lifetime = 0;
-  std::string aux = "";
   std::string directory = "";
   int nav_back = 1;
 </%args>
@@ -47,13 +46,10 @@ bool logged_in(false);
 std::string edit_timerreferer;
 TimerConflictNotifier timerNotifier;
 </%session>
-<%request scope="page">
-const cTimer* timer;
-</%request>
 <%include>page_init.eh</%include>
 <%cpp>
   if (!logged_in && LiveSetup().UseAuth()) {
-    cToSvConcat<0> targetUrl = "/login.html?redirect=";
+    cToSvConcat targetUrl = "/login.html?redirect=";
     targetUrl.appendUrlEscaped(request.getQuery());
     return reply.redirect(targetUrl.data());
   }
@@ -69,17 +65,29 @@ const cTimer* timer;
   cMutexLock timersLock( &LiveTimerManager() );
   SortedTimers& timers = LiveTimerManager().GetTimers();
 
-  timer = 0;
+  std::string aux = "";
+  const cTimer* timer = nullptr;
   int timerId = 0;
   if ( !timerid.empty() ) {
     std::string tId = SortedTimers::DecodeDomId(timerid);
 //    dsyslog("live: DEBUG: TIMER: timerid = %s", timerid);
 //    dsyslog("live: DEBUG: TIMER: tId = %s", tId.c_str());
     timer = timers.GetByTimerId(tId);
-    if ( timer == 0 )
+    if (timer == nullptr)
       throw HtmlError( tr("Couldn't find timer. Maybe you mistyped your request?") );
-    else
+    else {
       timerId = timer->Id();
+      aux = timer->Aux()?timer->Aux():"";
+    }
+  }
+
+  cSubstring aux_epgsearch = substringInXmlTag(aux, "epgsearch");
+  cSubstring aux_tvscraper = substringInXmlTag(aux, "tvscraper");
+  const cEvent *event_monitoring = nullptr;
+  if (!aux_tvscraper.found() ) {
+    if (timer) event_monitoring = timer->Event();
+    if (!event_monitoring) event_monitoring = EpgEvents::GetEventByEpgId(epgid);
+// if we have no event, we do not support monitoring (which event should we monitor?)
   }
 
   if ( request.getMethod() == "POST" && title.empty()) { ++nav_back; message = tr("Please set a title for the timer!"); }
@@ -90,14 +98,14 @@ const cTimer* timer;
 //      dsyslog("live: found valid timer on server '%s'", oldRemote);
     }
 
-    uint flags = ( active ? tfActive : 0 ) | ( vps ? tfVps : 0 );
+    uint flags = ( active ? tfActive : 0 ) | ( (monitoring == "vps") ? tfVps : 0 );
     std::string weekdays = std::string( wday_mon ? "M" : "-" ) + ( wday_tue ? "T" : "-" ) + ( wday_wed ? "W" : "-" )
                 + ( wday_thu ? "T" : "-" ) + ( wday_fri ? "F" : "-" ) + ( wday_sat ? "S" : "-" )
                 + ( wday_sun ? "S" : "-" );
     int start = timeStringToInt(start_s);
     int stop = timeStringToInt(stop_s);
 #ifdef TFEVENT
-    if (!vps) {
+    if (monitoring != "vps") {
       const cEvent *event = EpgEvents::GetEventByEpgId(epgid);
       if (event) {
         dsyslog("live: edit_timer.ecpp, event found");
@@ -119,9 +127,63 @@ const cTimer* timer;
 
     std::string file = directory.empty() ? title : directory + "~" + title;
 
-    const char* remote = ( remoteServerName == "") ? NULL : remoteServerName.c_str();
+    const char* remote = ( remoteServerName == "") ? nullptr : remoteServerName.c_str();
 //    dsyslog("live: remote '%s'", remote);
-    LiveTimerManager().UpdateTimer( timerId, remote, oldRemote, flags, channel, weekdays, date, start, stop, priority, lifetime, file, aux );
+    cToSvConcat builder;
+    builder << flags << ":"
+            << channel << ":";
+    if (weekdays != "-------") {
+      builder << weekdays;
+      if (!date.empty() ) builder << "@";
+    }
+    builder << date << ":"
+            << start << ":"
+            << stop << ":"
+            << priority << ":"
+            << lifetime << ":";
+    builder.appendReplace(title, ":", "|" ) << ":";
+
+// add aux information for epgsearch
+    if (aux_tvscraper.found() && monitoring != "none" && monitoring != "vps")
+      monitoring == "none";  // tvscraper does the monitoring -> no epgsearch monitoring
+    if (weekdays != "-------" && monitoring != "none" && monitoring != "vps")
+      monitoring == "none";  // monitoring only supported for single shot timers
+    if (!event_monitoring && monitoring != "none" && monitoring != "vps") {
+      if (!aux_epgsearch.found() ) monitoring == "none";
+    }
+
+    if (monitoring == "none" || monitoring == "vps") {
+      if (aux_epgsearch.found() )
+        aux_epgsearch.substringInXmlTag(aux, "update").replace(aux, "0");
+    } else {
+      if (event_monitoring) {
+// we remove the epgsearch tag, and replace it with a new one
+        LOCK_CHANNELS_READ;
+        const cChannel *channel_p = Channels->GetByChannelID(channel);
+        if (channel_p) {
+          cTimer newTimer;
+          if (newTimer.Parse(builder.c_str() )) {
+            if (aux_epgsearch.found() ) eraseXmlTag(aux, "epgsearch");
+            cToSvConcat aux_epgs("<epgsearch><channel>", channel_p->Number(), " - ", channel_p->Name(), "</channel><update>0</update><eventid>", event_monitoring->EventID(), "</eventid><bstart>", event_monitoring->StartTime() - newTimer.StartTime(), "</bstart><bstop>", newTimer.StopTime() - event_monitoring->EndTime(), "</bstop></epgsearch>");
+            aux.append(aux_epgs);
+            aux_epgsearch = substringInXmlTag(aux, "epgsearch");
+          }
+        }
+      }
+      if (aux_epgsearch.found() ) {
+        if (monitoring == "event_id")
+          aux_epgsearch.substringInXmlTag(aux, "update").replace(aux, "2");
+        else if (monitoring == "event_time")
+          aux_epgsearch.substringInXmlTag(aux, "update").replace(aux, "1");
+      }
+    }
+
+    builder.appendReplace(aux, ":", "|" );
+    // Use StringReplace here because if ':' are characters in the
+    // title or aux string it breaks parsing of timer definition
+    // in VDRs cTimer::Parse method.  The '|' will be replaced
+    // back to ':' by the cTimer::Parse() method.
+    LiveTimerManager().UpdateTimer( timerId, remote, oldRemote, channel, builder);
     timerNotifier.SetTimerModification();
 </%cpp>
 <!DOCTYPE html>
@@ -160,7 +222,7 @@ const cTimer* timer;
     channel = timer->Channel()->GetChannelID();
     title = timer->File() ? timer->File() : "";
     remoteServerName = timer->Remote() ? timer->Remote() : "";
-//                dsyslog("live: remoteServerName '%s'", remoteServerName.c_str());
+//  dsyslog("live: remoteServerName '%s'", remoteServerName.c_str());
     if ( LiveFeatures<features::epgsearch>().Recent() ) {
       std::vector<std::string> directories = StringSplit( title, '~' );
       if (directories.size() > 1) {
@@ -179,17 +241,33 @@ const cTimer* timer;
     wday_sun = timer->WeekDays() & 0x40;
     start_s = intToTimeString(timer->Start() );
     stop_s = intToTimeString(timer->Stop() );
-    vps = timer->Flags() & tfVps;
     priority = timer->Priority();
     lifetime = timer->Lifetime();
-    aux = timer->Aux() ? timer->Aux() : "";
+// figure out monitoring of this timer
+    if ( timer->Flags() & tfVps ) {
+      monitoring = "vps";
+    } else {
+      if (aux_tvscraper.found() | !aux_epgsearch.found() || !LiveFeatures<features::epgsearch>().Recent() ) {
+        monitoring = "none";
+      } else {
+// we have epgsearch, and this timer was not created by tvscraper
+        cSv update = aux_epgsearch.substringInXmlTag(aux, "update").substr(aux);
+        if (update == "2") {
+          monitoring = "event_id";
+        } else if (update == "1") {
+          monitoring = "event_time";
+        } else {
+          monitoring = "none";
+        }
+      }
+    }
   }
 </%cpp>
 <& pageelems.doc_type &>
 <html>
   <head>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>VDR Live - <$ timer ? tr("Edit timer") : tr("New timer") $></title>
+    <title>VDR Live - <$ timerid.empty() ? tr("New timer") : tr("Edit timer")  $></title>
 <%cpp>
   if (!ajaxReq) {
 </%cpp>
@@ -198,8 +276,36 @@ const cTimer* timer;
 <%cpp>
   }
 </%cpp>
+    <script type="text/javascript"><!--
+    function initform()
+    {
+      changedwday()
+      adjustHeader()
+    }
+    function changedwday()
+    {
+      if (
+        document.getElementById("wday_mon").checked ||
+        document.getElementById("wday_tue").checked ||
+        document.getElementById("wday_wed").checked ||
+        document.getElementById("wday_thu").checked ||
+        document.getElementById("wday_fri").checked ||
+        document.getElementById("wday_sat").checked ||
+        document.getElementById("wday_sun").checked) {
+          document.getElementById("monitoring_section").style.display = "none"
+          if (!document.getElementById("monitoring_vps").checked) {
+            document.getElementById("monitoring_none").checked = 1
+            document.getElementById("monitoring_event_id").checked = 0
+            document.getElementById("monitoring_event_time").checked = 0
+            }
+        } else {
+          document.getElementById("monitoring_section").style.display = "block"
+        }
+    }
+    //--></script>
+
   </head>
-  <body onload="adjustHeader()" onresize="adjustHeader()">
+  <body onload="initform()" onresize="adjustHeader()">
 <%cpp>
   if (!ajaxReq) {
 </%cpp>
@@ -212,7 +318,6 @@ const cTimer* timer;
       <form method="post" name="edit_timer" id="<$ timerid $>" action="edit_timer.ecpp">
         <input type="hidden" name="timerid" value="<$ timerid $>"/>
         <input type="hidden" name="epgid" value="<$ epgid $>"/>
-        <input type="hidden" name="aux" value="<$ aux $>"/>
         <input type="hidden" name="nav_back" value="<$ nav_back $>"/>
         <table class="formular" cellpadding="0" cellspacing="0">
           <tr class="head">
@@ -304,31 +409,31 @@ const cTimer* timer;
             <td class="label leftcol"><div class="withmargin"><$ tr("Weekday") $>:</div></td>
             <td class="rightcol">
               <div class="dotted">
-                <input id="wday_mon" type="checkbox" name="wday_mon" value="1" <{ reply.out() << ( wday_mon ? "checked=\"checked\"" : "" ); }> />
+                <input id="wday_mon" type="checkbox" name="wday_mon" value="1" <? wday_sun ? "checked=\"checked\"" ?> onclick="changedwday()" />
                 <label for="wday_mon"><$ tr("Monday") $></label>
               </div>
               <div class="dotted">
-                <input id="wday_tue" type="checkbox" name="wday_tue" value="1" <{ reply.out() << ( wday_tue ? "checked=\"checked\"" : "" ); }> />
+                <input id="wday_tue" type="checkbox" name="wday_tue" value="1" <? wday_tue ? "checked=\"checked\"" ?> onclick="changedwday()" />
                 <label for="wday_tue"><$ tr("Tuesday") $></label>
               </div>
               <div class="dotted">
-                <input id="wday_wed" type="checkbox" name="wday_wed" value="1" <{ reply.out() << ( wday_wed ? "checked=\"checked\"" : "" ); }> />
+                <input id="wday_wed" type="checkbox" name="wday_wed" value="1" <? wday_wed ? "checked=\"checked\"" ?> onclick="changedwday()" />
                 <label for="wday_wed"><$ tr("Wednesday") $></label>
               </div>
               <div class="dotted">
-                <input id="wday_thu" type="checkbox" name="wday_thu" value="1" <{ reply.out() << ( wday_thu ? "checked=\"checked\"" : "" ); }> />
+                <input id="wday_thu" type="checkbox" name="wday_thu" value="1" <? wday_thu ? "checked=\"checked\"" ?> onclick="changedwday()" />
                 <label for="wday_thu"><$ tr("Thursday") $></label>
               </div>
               <div class="dotted">
-                <input id ="wday_fri" type="checkbox" name="wday_fri" value="1" <{ reply.out() << ( wday_fri ? "checked=\"checked\"" : "" ); }> />
+                <input id ="wday_fri" type="checkbox" name="wday_fri" value="1" <? wday_fri ? "checked=\"checked\"" ?> onclick="changedwday()" />
                 <label for="wday_fri"><$ tr("Friday") $></label>
               </div>
               <div class="dotted">
-                <input id="wday_sat" type="checkbox" name="wday_sat" value="1" <{ reply.out() << ( wday_sat ? "checked=\"checked\"" : "" ); }> />
+                <input id="wday_sat" type="checkbox" name="wday_sat" value="1" <? wday_sat ? "checked=\"checked\"" ?> onclick="changedwday()" />
                 <label for="wday_sat"><$ tr("Saturday") $></label>
               </div>
               <div class="dotted">
-                <input id="wday_sun" type="checkbox" name="wday_sun" value="1" <{ reply.out() << ( wday_sun ? "checked=\"checked\"" : "" ); }> />
+                <input id="wday_sun" type="checkbox" name="wday_sun" value="1" <? wday_sun ? "checked=\"checked\"" ?> onclick="changedwday()" />
                 <label for="wday_sun"><$ tr("Sunday") $></label>
               </div>
             </td>
@@ -346,8 +451,29 @@ const cTimer* timer;
           </tr>
 
           <tr>
-            <td class="label leftcol"><div class="withmargin"><$ tr("Use VPS") $>:</div></td>
-            <td class="rightcol"><input type="checkbox" name="vps" value="1" <{ reply.out() << ( vps ? "checked=\"checked\"" : "" ); }>/></td>
+            <td class="label leftcol"><div class="withmargin"><$ tr("Monitoring") $>:</div></td>
+            <td class="rightcol">
+              <div class="dotted">
+                <input id="monitoring_none" name="monitoring" value="none" <? monitoring=="none" ? "checked=\"checked\"" ?> type="radio"></input>
+                <label for="monitoring_none"><$ tr("none") $></label>
+              </div>
+              <div class="dotted">
+                <input id="monitoring_vps" name="monitoring" value="vps" <? monitoring=="vps" ? "checked=\"checked\"" ?> type="radio"></input>
+                <label for="monitoring_vps"><$ trVDR("VPS") $></label>
+              </div>
+%             if ( (!aux_tvscraper.found() & event_monitoring != nullptr & LiveFeatures<features::epgsearch>().Recent() ) || monitoring=="event_id" || monitoring=="event_time") {
+              <div id="monitoring_section" style="display: none">
+              <div class="dotted">
+                <input id="monitoring_event_id" name="monitoring" value="event_id" <? monitoring=="event_id" ? "checked=\"checked\"" ?> type="radio"></input>
+                <label for="monitoring_event_id"><$ tr("event ID") $></label>
+              </div>
+              <div class="dotted">
+                <input id="monitoring_event_time" name="monitoring" value="event_time" <? monitoring=="event_time" ? "checked=\"checked\"" ?> type="radio"></input>
+                <label for="monitoring_event_time"><$ tr("event time") $></label>
+              </div>
+              </div>
+%             }
+            </td>
           </tr>
 
           <tr>

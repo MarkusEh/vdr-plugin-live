@@ -449,17 +449,29 @@ msgstr "Kann Timer nicht finden. Eventuell fehlerhafte Anforderung?"
 msgid "Please set a title for the timer!"
 msgstr "Bitte einen Titel für den Timer festlegen!"
 
-msgid "Edit timer"
-msgstr "Timer bearbeiten"
-
 msgid "New timer"
 msgstr "Neuen Timer anlegen"
+
+msgid "Edit timer"
+msgstr "Timer bearbeiten"
 
 msgid "Server"
 msgstr "Server"
 
 msgid "Weekday"
 msgstr "Wochentag"
+
+msgid "Monitoring"
+msgstr "Überwachung"
+
+msgid "none"
+msgstr "aus"
+
+msgid "event ID"
+msgstr "Sendungskennung"
+
+msgid "event time"
+msgstr "Uhrzeit"
 
 msgid "Couldn't find user. Maybe you mistyped your request?"
 msgstr "Kann Benutzer nicht finden. Eventuell fehlerhafte Anforderung?"
@@ -894,9 +906,6 @@ msgstr "Aufzeichnung \"%s\" löschen?"
 msgid "Delete"
 msgstr "Löschen"
 
-msgid "Couldn't acquire access to channels, please try again later."
-msgstr "Zugriff auf die Kanäle wurde verweigert. Bitte später versuchen."
-
 msgid "Snapshot interval"
 msgstr "Snapshot-Intervall"
 
@@ -1104,3 +1113,6 @@ msgstr "Live Interactive VDR Environment"
 
 msgid "No EPG information available"
 msgstr "Keine EPG-Daten vorhanden"
+
+#~ msgid "Couldn't acquire access to channels, please try again later."
+#~ msgstr "Zugriff auf die Kanäle wurde verweigert. Bitte später versuchen."

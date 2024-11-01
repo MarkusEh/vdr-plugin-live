@@ -51,8 +51,7 @@ template<std::size_t N>
     public:
       SortedTimers& GetTimers() { return m_timers; }
 
-      void UpdateTimer( int timerId, const char* remote, const char* oldRemote, int flags, const tChannelID& channel, std::string const& weekdays,
-            std::string const& day, int start, int stop, int priority, int lifetime, std::string const& title, std::string const& aux );
+      void UpdateTimer( int timerId, const char* remote, const char* oldRemote, const tChannelID& channel, cStr builder);
 
       void DelTimer( int timerId, const char* remote);
       void ToggleTimerActive( int timerId, const char* remote);

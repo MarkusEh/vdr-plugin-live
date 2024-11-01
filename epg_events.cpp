@@ -286,6 +286,7 @@ namespace vdrlive
     }
 
     const cEvent *GetEventByEpgId(cSv epgid) {
+      if (epgid.empty() ) return nullptr;
       tChannelID channelid;
       tEventID eventid;
       DecodeDomId(epgid, channelid, eventid);

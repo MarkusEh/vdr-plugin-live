@@ -176,7 +176,7 @@ class cLiveWorker: public cThread {
     }
     virtual void Action() {
       m_mutex.Lock();
-      int loopSleep = 500; // do this every 1/2 second
+      int loopSleep = 50; // do this every 50 milli seconds
       while (Running()) {
         m_waitCondition.TimedWait(m_mutex, loopSleep);
         LiveTimerManager().DoPendingWork();
