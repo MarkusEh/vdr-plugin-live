@@ -83,8 +83,10 @@ TimerConflictNotifier timerNotifier;
 
   cSubstring aux_epgsearch = substringInXmlTag(aux, "epgsearch");
   cSubstring aux_tvscraper = substringInXmlTag(aux, "tvscraper");
+  bool others_monitor = aux_tvscraper.found() || aux_epgsearch.substringInXmlTag(aux, "s-id").found();
+
   const cEvent *event_monitoring = nullptr;
-  if (!aux_tvscraper.found() ) {
+  if (!others_monitor) {
     if (timer) event_monitoring = timer->Event();
     if (!event_monitoring) event_monitoring = EpgEvents::GetEventByEpgId(epgid);
 // if we have no event, we do not support monitoring (which event should we monitor?)
@@ -125,8 +127,6 @@ TimerConflictNotifier timerNotifier;
     }
 #endif
 
-    std::string file = directory.empty() ? title : directory + "~" + title;
-
     const char* remote = ( remoteServerName == "") ? nullptr : remoteServerName.c_str();
 //    dsyslog("live: remote '%s'", remote);
     cToSvConcat builder;
@@ -141,10 +141,11 @@ TimerConflictNotifier timerNotifier;
             << stop << ":"
             << priority << ":"
             << lifetime << ":";
+    if (!directory.empty() ) builder.appendReplace(directory, ":", "|" ).concat('~');
     builder.appendReplace(title, ":", "|" ) << ":";
 
 // add aux information for epgsearch
-    if (aux_tvscraper.found() && monitoring != "none" && monitoring != "vps")
+    if (others_monitor && monitoring != "none" && monitoring != "vps")
       monitoring == "none";  // tvscraper does the monitoring -> no epgsearch monitoring
     if (weekdays != "-------" && monitoring != "none" && monitoring != "vps")
       monitoring == "none";  // monitoring only supported for single shot timers
@@ -247,7 +248,7 @@ TimerConflictNotifier timerNotifier;
     if ( timer->Flags() & tfVps ) {
       monitoring = "vps";
     } else {
-      if (aux_tvscraper.found() | !aux_epgsearch.found() || !LiveFeatures<features::epgsearch>().Recent() ) {
+      if (others_monitor | !aux_epgsearch.found() || !LiveFeatures<features::epgsearch>().Recent() ) {
         monitoring = "none";
       } else {
 // we have epgsearch, and this timer was not created by tvscraper
@@ -461,7 +462,7 @@ TimerConflictNotifier timerNotifier;
                 <input id="monitoring_vps" name="monitoring" value="vps" <? monitoring=="vps" ? "checked=\"checked\"" ?> type="radio"></input>
                 <label for="monitoring_vps"><$ trVDR("VPS") $></label>
               </div>
-%             if ( (!aux_tvscraper.found() & event_monitoring != nullptr & LiveFeatures<features::epgsearch>().Recent() ) || monitoring=="event_id" || monitoring=="event_time") {
+%             if ( (!others_monitor & event_monitoring != nullptr & LiveFeatures<features::epgsearch>().Recent() ) || monitoring=="event_id" || monitoring=="event_time") {
               <div id="monitoring_section" style="display: none">
               <div class="dotted">
                 <input id="monitoring_event_id" name="monitoring" value="event_id" <? monitoring=="event_id" ? "checked=\"checked\"" ?> type="radio"></input>
