@@ -146,11 +146,11 @@ TimerConflictNotifier timerNotifier;
 
 // add aux information for epgsearch
     if (others_monitor && monitoring != "none" && monitoring != "vps")
-      monitoring == "none";  // tvscraper does the monitoring -> no epgsearch monitoring
+      monitoring = "none";  // tvscraper does the monitoring -> no epgsearch monitoring
     if (weekdays != "-------" && monitoring != "none" && monitoring != "vps")
-      monitoring == "none";  // monitoring only supported for single shot timers
+      monitoring = "none";  // monitoring only supported for single shot timers
     if (!event_monitoring && monitoring != "none" && monitoring != "vps") {
-      if (!aux_epgsearch.found() ) monitoring == "none";
+      if (!aux_epgsearch.found() ) monitoring = "none";
     }
 
     if (monitoring == "none" || monitoring == "vps") {
@@ -225,11 +225,18 @@ TimerConflictNotifier timerNotifier;
     remoteServerName = timer->Remote() ? timer->Remote() : "";
 //  dsyslog("live: remoteServerName '%s'", remoteServerName.c_str());
     if ( LiveFeatures<features::epgsearch>().Recent() ) {
+      std::string::size_type tilde_found = title.rfind('~');
+      if (tilde_found != std::string::npos) {
+        directory = title.substr(0, tilde_found);
+        title.erase(0, tilde_found+1);
+      }
+/*
       std::vector<std::string> directories = StringSplit( title, '~' );
       if (directories.size() > 1) {
         directory = directories[0];
         title = title.substr(directory.size()+1);
       }
+*/
     }
     // TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
     date = timer->Day() ? DatePickerToC(timer->Day(), "yyyy-mm-dd") : "";
@@ -383,16 +390,9 @@ TimerConflictNotifier timerNotifier;
           <tr>
             <td class="label leftcol"><div class="withmargin"><$ tr("Directory" ) $>:</div></td>
             <td class="rightcol"><select name="directory" size="1" id="directory" style="margin-top: 5px">
-                 <option/>
-<%cpp>
-            for (RecordingDirs::iterator rdir = recordingdirs.begin(); rdir != recordingdirs.end(); ++rdir) {
-              std::string dir = *rdir;
-</%cpp>
-              <option value="<$ dir $>"
-%              if (*rdir == directory) {
-              selected="selected"
-%              }
-              ><$ dir $></option>
+                 <option></option>
+%           for (RecordingDirs::iterator rdir = recordingdirs.begin(); rdir != recordingdirs.end(); ++rdir) {
+              <option value="<$ *rdir $>"<?? directory == *rdir ? " selected=\"selected\"" ?>><$ *rdir $></option>
 %            }
                </select>
             </td>

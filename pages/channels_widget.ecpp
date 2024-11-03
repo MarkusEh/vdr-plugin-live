@@ -2,6 +2,7 @@
 #include <exception.h>
 #include <setup.h>
 #include <stringhelpers.h>
+#include <tools.h>
 
 using namespace vdrlive;
 
@@ -17,20 +18,18 @@ bool logged_in(false);
 </%session>
 <%cpp>
   if (!logged_in && LiveSetup().UseAuth()) {
-    cToSvConcat<0> targetUrl = "/login.html?redirect=";
+    cToSvConcat targetUrl = "/login.html?redirect=";
     targetUrl.appendUrlEscaped(request.getQuery());
     return reply.redirect(targetUrl.data());
   }
 </%cpp>
-<select name="<$ name $>" id="<$ name $>" <{ reply.out() << ( !onchange.empty() ? "onchange=\""+onchange+"\"" : "" ); }>>
+<select name="<$ name $>" id="<$ name $>"<?? !onchange.empty() ? cToSvConcat(" onchange=\"", onchange, "\"") ?>>
 <%cpp>
+  tChannelID selected_ChannelID = tChannelID::FromString(selected.c_str() );
   LOCK_CHANNELS_READ;
    for ( cChannel *listChannel = (cChannel *)Channels->First(); listChannel; listChannel = (cChannel *)Channels->Next( listChannel ) ) {
-     if ( listChannel->GroupSep() || *listChannel->Name() == '\0' )
-       continue;
-
-     std::string listChannelId = *listChannel->GetChannelID().ToString();
+     if ( listChannel->GroupSep() || *listChannel->Name() == '\0' ) continue;
 </%cpp>
-    <option value="<? channelid ? listChannelId ?><? !channelid ? cSv(cToSvInt(listChannel->Number())) ?>"<{ reply.out() << ( listChannelId == selected ? " selected=\"selected\"" : "" ); }>><$ cSv(cToSvInt(listChannel->Number())) $>: <$ listChannel->Name() $></option>
+    <option value="<? channelid ? listChannel->GetChannelID() ?><? !channelid ? cToSvInt(listChannel->Number()) ?>"<?? selected_ChannelID == listChannel->GetChannelID() ? " selected=\"selected\"" ?>><$$ cToSvInt(listChannel->Number()) $>: <$ listChannel->Name() $></option>
 %  }
 </select>
