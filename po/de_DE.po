@@ -632,6 +632,12 @@ msgstr "Reagieren"
 msgid "Dismiss"
 msgstr "Verwerfen"
 
+msgid "All channels"
+msgstr "Alle Kanäle"
+
+msgid "First (unnamed) group"
+msgstr ""
+
 msgid "Now"
 msgstr "Jetzt"
 
@@ -1013,6 +1019,18 @@ msgstr "Format ist HH:MM. Mehrere Zeiten durch Semikolon trennen"
 
 msgid "Channel groups for MultiSchedule"
 msgstr "Kanalgruppen für die Zeitleiste"
+
+msgid "5 channels per group"
+msgstr " 5 Kanäle pro Gruppe"
+
+msgid "Channel groups as defined in VDR"
+msgstr "In VDR definierte Kanalgruppen"
+
+msgid "All channels in one group"
+msgstr "Alle Kanäle in einer Gruppe"
+
+msgid "Individual channel groups"
+msgstr "Frei wählbare Kanalgruppen"
 
 msgid "Separate channels with a comma ',', separate groups with a semi-colon ';'"
 msgstr "Kanäle mit Komma (\",\"), Kanalgruppen mit Semikolon (\";\") trennen"

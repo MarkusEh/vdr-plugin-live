@@ -25,6 +25,7 @@
 #include <string.h>
 #include <vector>
 #include <set>
+#include <array>
 #include <algorithm>
 #include <fcntl.h>
 #include <unistd.h>
@@ -538,6 +539,13 @@ class cToSv {
 // you can copy the cSv of this class (from  operator cSv() )
     cToSv(const cToSv&) = delete;
     cToSv &operator= (const cToSv &) = delete;
+// deleting this is good :)
+// don't try to implement! Otherwise, users will expect something like
+//  a = a.substr(0,3);
+// and similar to work. Which is possible, implementing lost's of different cases.
+// it's just not worth the offert. For normal =, users can write
+//  a = b.erase(0).append(...)
+
     virtual ~cToSv() {}
     virtual operator cSv() const = 0;
 };
@@ -1189,6 +1197,9 @@ cSubstring cSubstring::substringInXmlTag(cSv sv, const char (&tag)[N]) {
 // =========================================================
 // =========================================================
 
+/*
+ * class cSplit: iterate over parts of a string
+*/
 class cSplit {
   public:
     cSplit(cSv sv, char delim): m_sv(sv), m_delim(delim), m_end(cSv(), m_delim) {}
@@ -1204,7 +1215,7 @@ class cSplit {
         using value_type = cSv;
         using difference_type = int;
         using pointer = const cSv*;
-        using reference = cSv;
+        using reference = cSv&;
 
         explicit iterator(cSv r, char delim): m_delim(delim) {
           if (!r.empty() && r[0] == delim) m_remainingParts = r.substr(1);
@@ -1239,6 +1250,60 @@ class cSplit {
       const iterator m_end;
 };
 
+/*
+ * class cUnion: iterate over serveal containers, as if it was one.
+ *   value_type of first container will be used.
+*/
+template<class T_V, class...U> class cUnion {};
+template<class T_V> class cUnion<T_V> {
+  public:
+    typedef T_V* iterator;
+    iterator begin() { return nullptr; }
+    iterator end()   { return nullptr; }
+};
+template<class T_V, class T, class...U>
+class cUnion<T_V, T, U...> {
+  public:
+    cUnion(T& c1, U&...c2): m_sf1(c1), m_sf2(c2...) { }
+      using T_I = typename T::iterator;
+      using T_I2 = typename cUnion<T_V, U...>::iterator;
+    class iterator {
+        T_I m_it1;
+        T_I m_it1_end;
+        T_I2 m_it2;
+      public:
+        using iterator_category = std::forward_iterator_tag;
+        using value_type = T_V;
+        using difference_type = int;
+        using pointer = const T_V*;
+        using reference = T_V&;
+
+        explicit iterator(T_I it1, T_I it1_end, T_I2 it2):
+          m_it1(it1), m_it1_end(it1_end), m_it2(it2) {}
+        iterator& operator++() {
+          if (m_it1 != m_it1_end) ++m_it1;
+          else ++m_it2;
+          return *this;
+        }
+        bool operator!=(iterator other) const { return m_it1 != other.m_it1  || m_it2 != other.m_it2; }
+        bool operator==(iterator other) const { return m_it1 == other.m_it1  && m_it2 == other.m_it2; }
+        T_V operator*() const {
+          if (m_it1 != m_it1_end) return *m_it1;
+          else return *m_it2;
+        }
+      };
+      iterator begin() { return iterator(m_sf1.begin(), m_sf1.end(), m_sf2.begin() ); }
+      iterator end()   { return iterator(m_sf1.end(),   m_sf1.end(), m_sf2.end()   ); }
+  private:
+    T& m_sf1;
+    cUnion<T_V, U...> m_sf2;
+};
+template<class V1, class ...V> cUnion(V1& c1, V&...c) -> cUnion<typename std::iterator_traits<typename V1::iterator>::value_type, V1, V...>;
+
+/*
+ * class cContainer: combine strings in one string
+ * adding a string which is already in the container will be ignored
+*/
 class cContainer {
   public:
     cContainer(char delim = '|'): m_delim(delim) { }

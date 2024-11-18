@@ -12,8 +12,8 @@
 #include "stringhelpers.h"
 #include <vdr/menuitems.h>
 
-#define LIVEVERSION "3.3.9"
-#define LIVEVERSNUM 30309
+#define LIVEVERSION "3.3.10"
+#define LIVEVERSNUM 30310
 #define LIVESUMMARY trNOOP("Live Interactive VDR Environment")
 
 namespace vdrlive {
@@ -64,6 +64,7 @@ class Setup
     bool UseAuth() const;
     std::string const GetTimes() const { return m_times; }
     std::string const GetChannelGroups() const { return m_channelGroups; }
+    std::string const GetChannelGroupsGen() const { return m_channelGroupsGen; }
     std::string const GetScheduleDuration() const { return m_scheduleDuration; }
     std::string const GetStartScreen() const { return m_startscreen; }
     std::string const GetStartScreenLink() const;
@@ -109,6 +110,7 @@ class Setup
     void SetScreenshotInterval(int interval) { m_screenshotInterval = interval; }
     void SetTimes(std::string const & times) { m_times = times; }
     void SetChannelGroups(std::string const & channelGroups) { m_channelGroups = channelGroups; }
+    void SetChannelGroupsGen(std::string const & channelGroupsGen) { m_channelGroupsGen = channelGroupsGen; }
     void SetScheduleDuration(std::string const & scheduleDuration) { m_scheduleDuration = scheduleDuration; }
     void SetStartScreen(std::string const & startscreen) { m_startscreen = startscreen; }
     void SetTheme(std::string const & theme) { m_theme = theme; m_themedLinkPrefix = "themes/" + theme + "/"; m_themedLinkPrefixImg = m_themedLinkPrefix + "img/"; }
@@ -170,6 +172,7 @@ class Setup
     std::string m_adminLogin;
     std::string m_adminPasswordMD5;
     std::string m_times;
+    std::string m_channelGroupsGen;
     std::string m_channelGroups;
     std::string m_scheduleDuration;
     std::string m_startscreen;

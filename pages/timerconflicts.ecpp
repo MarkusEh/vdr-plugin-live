@@ -122,7 +122,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
               cToSvConcat timerFile;
               AppendHtmlEscapedAndCorrectNonUTF8(timerFile, timer->File());
 </%cpp>
-              <tr>
+              <tr<?? !(timer->Flags() & tfActive) ? " class=\"inactive\""?>>
                 <td class="leftcol <? bottom ? "bottomrow" ?>"><img src="<$ LiveSetup().GetThemedLink("img", timerStateImg) $>" alt="" <%cpp> if (!timerStateHint.empty()) { </%cpp><& tooltip.hint text=(timerStateHint) &><%cpp> } </%cpp>/ ></td>
                 <td class="<? bottom ? "bottomrow" ?>"><div class="withmargin">
                    <table class="noborder"><tr><td class="noborder"><span class="display-xs nowrap" > <$ cToSvDateTime(tr("%I:%M %p"), timer->StartTime()) $> - <$ cToSvDateTime(tr("%I:%M %p"), timer->StopTime()) $></span></td></tr>

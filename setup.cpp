@@ -32,7 +32,8 @@ Setup::Setup():
     m_screenshotInterval( 1000 ),
     m_useAuth( 1 ),
     m_adminLogin("admin"),
-    m_channelGroups( "" ),
+    m_channelGroupsGen(""),
+    m_channelGroups(""),
     m_scheduleDuration( "8" ),
     m_theme("marine"),
     m_themedLinkPrefix("themes/" + m_theme + "/"),
@@ -213,7 +214,9 @@ bool Setup::ParseSetupEntry( char const* name, char const* value )
   else if ( strcmp( name, "AdminLogin" ) == 0 ) m_adminLogin = value;
   else if ( strcmp( name, "AdminPasswordMD5" ) == 0 ) m_adminPasswordMD5 = value;
   else if ( strcmp( name, "UserdefTimes" ) == 0 ) m_times = value;
-  else if ( strcmp( name, "ChannelGroups" ) == 0 ) m_channelGroups = value;
+  else if ( strcmp( name, "ChannelGroupsGen" ) == 0 ) m_channelGroupsGen = value;
+  else if ( strcmp( name, "ChannelGroups" ) == 0 ) { m_channelGroups = value;
+     if (!m_channelGroups.empty() && m_channelGroupsGen.empty()) m_channelGroupsGen = "individual"; } // default if ChannelGroups are available
   else if ( strcmp( name, "ScheduleDuration" ) == 0 ) m_scheduleDuration = value;
   else if ( strcmp( name, "StartPage" ) == 0 ) m_startscreen = value;
   else if ( strcmp( name, "Theme" ) == 0 ) SetTheme(value);
@@ -458,20 +461,21 @@ bool Setup::CheckLocalNet(const std::string& ip)
 bool Setup::SaveSetup()
 {
   if (!liveplugin) return false;
-  liveplugin->SetupStore("LastChannel",  m_lastChannel);
-  liveplugin->SetupStore("UseAuth",  m_useAuth);
+  liveplugin->SetupStore("LastChannel", m_lastChannel);
+  liveplugin->SetupStore("UseAuth", m_useAuth);
   if (m_useAuth)
   {
-    liveplugin->SetupStore("AdminLogin",  m_adminLogin.c_str());
-    liveplugin->SetupStore("AdminPasswordMD5",  m_adminPasswordMD5.c_str());
-    liveplugin->SetupStore("LocalNetMask",  m_localnetmask.c_str());
-    liveplugin->SetupStore("LocalNetMaskIPv6",  m_localnetmaskIPv6.c_str());
-    liveplugin->SetupStore("AllowLocalhost",  m_allowlocalhost);
+    liveplugin->SetupStore("AdminLogin", m_adminLogin.c_str());
+    liveplugin->SetupStore("AdminPasswordMD5", m_adminPasswordMD5.c_str());
+    liveplugin->SetupStore("LocalNetMask", m_localnetmask.c_str());
+    liveplugin->SetupStore("LocalNetMaskIPv6", m_localnetmaskIPv6.c_str());
+    liveplugin->SetupStore("AllowLocalhost", m_allowlocalhost);
   }
-  liveplugin->SetupStore("UserdefTimes",  m_times.c_str());
-  liveplugin->SetupStore("ChannelGroups",  m_channelGroups.c_str());
-  liveplugin->SetupStore("ScheduleDuration",  m_scheduleDuration.c_str());
-  liveplugin->SetupStore("StartPage",  m_startscreen.c_str());
+  liveplugin->SetupStore("UserdefTimes", m_times.c_str());
+  liveplugin->SetupStore("ChannelGroupsGen", m_channelGroupsGen.c_str());
+  liveplugin->SetupStore("ChannelGroups", m_channelGroups.c_str());
+  liveplugin->SetupStore("ScheduleDuration", m_scheduleDuration.c_str());
+  liveplugin->SetupStore("StartPage", m_startscreen.c_str());
   liveplugin->SetupStore("Theme", m_theme.c_str());
   liveplugin->SetupStore("LastWhatsOnListMode", m_lastwhatsonlistmode.c_str());
   liveplugin->SetupStore("LastSortingMode", m_lastsortingmode.c_str());

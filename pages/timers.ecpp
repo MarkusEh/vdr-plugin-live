@@ -193,7 +193,7 @@ using namespace vdrlive;
           cToSvConcat<0> timerFile;
           AppendHtmlEscapedAndCorrectNonUTF8(timerFile, timer->File());
 </%cpp>
-        <tr>
+        <tr<?? !(timer->Flags() & tfActive) ? " class=\"inactive\""?>>
 
         <td class="leftcol <? bottom ? "bottomrow" ?>"><img src="<$ LiveSetup().GetThemedLink("img", timerStateImg) $>" alt="" <%cpp> if (!timerStateHint.empty()) { </%cpp><& tooltip.hint text=(timerStateHint) &> <%cpp> } </%cpp>/></td>
           <td class="<? bottom ? "bottomrow" ?>"><div class="withmargin">

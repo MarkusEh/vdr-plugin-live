@@ -955,7 +955,9 @@ table.listing a {
   font-weight: bold;
 }
 
-
+tr.inactive {
+  background-color: #D0D0D0;
+}
 /* #############################
    #  Table streaming
    # (used in browser streaming)
@@ -1077,7 +1079,7 @@ table.mschedule tr td.leftcol {
 }
 
 table.mschedule div.content1 {
-        min-width: 10em;
+        min-width: 15em;
         max-width: 30em;
 }
 

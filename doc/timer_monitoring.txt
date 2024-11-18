@@ -1,0 +1,20 @@
+See https://www.vdr-portal.de/forum/index.php?thread/135887-live-weiterentwicklung-v3-3-x/&postID=1376226#post1376226
+
+German only, sorry :( .
+
+
+
+Ich muss da glaube ich etwas ausholen:
+
+Normalerweise will ich mit einem Timer ein Event aufzeichnen. Die Frage ist nun, wie kann ich ein Event eindeutig identifizieren? Dass die Sender gelegentlich mal Zeiten verschieben, ist ja bekannt. Also gibt es:
+
+1.   VPS: Klar definiert und im Standard und von VDR ohne Plugins unterstützt: Ein Event bekommt eine VPS Zeit, und diese VPS Zeit ändert sich nicht, auch wenn sich das Event verschiebt. Bei einem VPS Timer zeichnet VDR alle Events auf, die diese VPS Zeit haben. Auch dann, wenn sich diese Events verschieben und die Startzeit der Events nichts mehr mit der VPS Zeit zu tun hat. Einziger Nachteil: Der Sender muss das unterstützen
+
+2.   Sendungskennung == "Event ID": Der Sender schickt bei jedem Event eine ID mit. Leider nicht immer die gleiche ID, d.h. wenn die ID von "Avengers" gestern noch 4567 war, kann sie heute auch 1234 sein. Manche Sender ändern diese IDs recht oft, bei anderen bleibt sie meistens stabil. Erfahrung: Wenn ein Event ganz neu in's EPG kommt, ändert sich die ID mit sehr hoher Wahrscheinlichkeit. Wenn das Event schon 1-2 Tage im EPG ist, bleibt die ID normalerweise stabil. Es gibt aber auch Sender, bei denen diese ID nie stabil bleibt ...
+
+3.   Uhrzeit: Epgsearch merkt sich Start und Dauer des Events, und versucht anhand dieser Daten ein verschobenes Event wiederzufinden. Vorteil: Funktioniert auch, wenn der Sender die Event-ID ändert. Sollte insbesondere bei kleineren Änderungen der Startzeit sehr zuverlässig funktionieren. Sender ändern normalerweise die Dauer der Events nicht.
+
+4.   VDR ohne VPS und ohne Epgsearch: VDR wählt das Event mit der größten Überdeckung. Also das Event, das möglichst vollständig im Zeitraum (Timer Start - Timer Stop) liegt. Um dies möglichst gut machen zu können, verkürzt VDR gegebenenfalls die Timer-Margin (vorne und hinten), so dass beim Anlegen des Timers der Timer nur ein Event überdeckt. Sicherlich die schlechteste Option: Durch die später nicht mehr reproduzierbare Änderung von Start und Endzeit des Timers wird es schwieriger, des original Event zu identifizieren. Ich kann später nicht einmal mehr die Länge des Events herausfinden, zu dem der Timer angelegt wurde. Dass das Event dann möglicherweise nicht mehr korrekt identifiziert wird, ist weniger schlimm: VDR zeichnet von Timer Start - Timer Stop auf, da ist das Event egal. Übel ist, dass durch die Verkürzung der Timer-Margins ein Stück der Sendung fehlen kann, obwohl sie sich nur sehr wenig verschoben hat. Siehe Vor- und Nachlauf bei Aufnahmen
+
+~ Markus
+

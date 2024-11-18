@@ -16,6 +16,7 @@ using namespace vdrlive;
   std::string login;
   std::string pass;
   std::string times;
+  std::string channelGroupsGen;
   std::string channelGroups;
   std::string scheduleDuration;
   std::string startscreen;
@@ -39,7 +40,7 @@ using namespace vdrlive;
 <%include>page_init.eh</%include>
 <%cpp>
 if (!logged_in && LiveSetup().UseAuth()) {
-  cToSvConcat<0> targetUrl = "/login.html?redirect=";
+  cToSvConcat targetUrl = "/login.html?redirect=";
   targetUrl.appendUrlEscaped(request.getQuery());
   return reply.redirect(targetUrl.data());
 }
@@ -68,8 +69,11 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
         LiveSetup().CheckLocalNet(request.getPeerIp());
       }
       LiveSetup().SetTimes(times);
+// for multischedule
+      LiveSetup().SetChannelGroupsGen(channelGroupsGen);
       LiveSetup().SetChannelGroups(channelGroups);
       LiveSetup().SetScheduleDuration(scheduleDuration);
+// end multischedule
       LiveSetup().SetStartScreen(startscreen);
       LiveSetup().SetTheme(theme);
       LiveSetup().SetShowLogo(!showLogo.empty());
@@ -97,6 +101,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
   useauth = LiveSetup().GetUseAuth();
   times = LiveSetup().GetTimes();
   channelGroups = LiveSetup().GetChannelGroups();
+  channelGroupsGen = LiveSetup().GetChannelGroupsGen();
   scheduleDuration = LiveSetup().GetScheduleDuration();
   startscreen = LiveSetup().GetStartScreen();
   theme = LiveSetup().GetTheme();
@@ -123,6 +128,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
     function initform()
     {
       changeduseauth(document.getElementById("useauth"));
+      changedChanGroups();
       if (document.getElementById("message").value != "")
         alert(document.getElementById("message").value);
     }
@@ -133,6 +139,13 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
     function setauthchanged(selection)
     {
       document.getElementById("authchanged").value = 1;
+    }
+    function changedChanGroups() {
+      if (document.getElementById("channelGroupsGen_individual").checked) {
+         document.getElementById("individual_channelGroups_section").style.display = "block"
+      } else {
+         document.getElementById("individual_channelGroups_section").style.display = "none"
+      }
     }
     //--></script>
   </head>
@@ -244,8 +257,35 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
           </tr>
           <tr>
             <td class="label leftcol"><div class="withmargin"><$ tr("Channel groups for MultiSchedule") $>:</div></td>
-            <td class="rightcol"><input type="text" name="channelGroups" value="<$ channelGroups $>" id="channelGroups" />
-              <& tooltip.help text=(tr("Separate channels with a comma ',', separate groups with a semi-colon ';'")) &></td>
+            <td class="rightcol">
+            <div class="dotted">
+              <input id="channelGroupsGen_default" name="channelGroupsGen" value="default" <?? channelGroupsGen=="default"||channelGroupsGen.empty() ? "checked=\"checked\"" ?> type="radio" onclick="changedChanGroups()"/>
+              <label for="channelGroupsGen_default"><$ tr("5 channels per group") $></label>
+            </div>
+            <div class="dotted">
+              <input id="channelGroupsGen_vdr" name="channelGroupsGen" value="vdr" <?? channelGroupsGen=="vdr" ? "checked=\"checked\"" ?> type="radio" onclick="changedChanGroups()"/>
+              <label for="channelGroupsGen_vdr"><$ tr("Channel groups as defined in VDR") $></label>
+            </div>
+            <div class="dotted">
+              <input id="channelGroupsGen_flat" name="channelGroupsGen" value="flat" <?? channelGroupsGen=="flat" ? "checked=\"checked\"" ?> type="radio" onclick="changedChanGroups()"/>
+              <label for="channelGroupsGen_flat"><$ tr("All channels in one group") $></label>
+            </div>
+            <div class="dotted">
+              <input id="channelGroupsGen_individual" name="channelGroupsGen" value="individual" <?? channelGroupsGen=="individual" ? "checked=\"checked\"" ?> type="radio" onclick="changedChanGroups()"/>
+              <label for="channelGroupsGen_individual"><$ tr("Individual channel groups") $></label>
+            </div>
+
+            <div id="individual_channelGroups_section" style="display: none">
+              <table border="0" cellpadding="0" cellspacing="0" class="dependent">
+              <tr>
+                <td class="label"><div class="withmargin"><$ tr("Individual channel groups") $>:</div></td>
+                <td><input type="text" name="channelGroups" value="<$ channelGroups $>" id="channelGroups" />
+                <& tooltip.help text=(tr("Separate channels with a comma ',', separate groups with a semi-colon ';'")) &></td>
+              </tr>
+              </table>
+            </div>
+
+          </td>
           </tr>
           <tr>
             <td class="label leftcol"><div class="withmargin"><$ tr("Duration of MultiSchedule in hours") $>:</div></td>

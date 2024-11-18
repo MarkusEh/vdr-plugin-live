@@ -8,6 +8,18 @@
    ######################
 */
 
+/*
+   # Uncomment to adjust width of each column in multicolumn view
+   # In case of many columns min-width will be used, together with vertical scrolling
+*/
+/*
+table.mschedule div.content1 {
+  min-width: 15em;
+  max-width: 30em;
+}
+*/
+
+
 /* Uncomment the definition below to have all tables expanded to the full
 ** page width.
 */
@@ -29,28 +41,134 @@ table {
 */
 
 
+/* Customize the settings below to match the local image dimensions and the
+** desired box shadow. They have no effect unless one of the sections for
+** enlarging images upon hovering are uncommented.
+*/
+
+/* EPG images within details */
+
+@property --epg-image-hover-scale {
+  syntax: "<percentage>";
+  initial-value: 300%;
+  inherits: false;
+}
+
+@property --epg-image-shadow-size {
+  syntax: "<length>";
+  initial-value: 4px;
+  inherits: false;
+}
+
+@property --epg-image-shadow-blur {
+  syntax: "<length>";
+  initial-value: 4px;
+  inherits: false;
+}
+
+@property --epg-image-shadow-color {
+  syntax: "<color>";
+  initial-value: gray;
+  inherits: false;
+}
+
+/* recording thumbnail images */
+
+@property --thumb-image-hover-scale {
+  syntax: "<percentage>";
+  initial-value: 800%;
+  inherits: false;
+}
+
+@property --thumb-image-shadow-size {
+  syntax: "<length>";
+  initial-value: 3px;
+  inherits: false;
+}
+
+@property --thumb-image-shadow-blur {
+  syntax: "<length>";
+  initial-value: 3px;
+  inherits: false;
+}
+
+@property --thumb-image-shadow-color {
+  syntax: "<color>";
+  initial-value: gray;
+  inherits: false;
+}
+
+/* channel logos */
+
+@property --logo-hover-scale {
+  syntax: "<percentage>";
+  initial-value: 625%;
+  inherits: false;
+}
+
+@property --logo-shadow-size {
+  syntax: "<length>";
+  initial-value: 2px;
+  inherits: false;
+}
+
+@property --logo-shadow-blur {
+  syntax: "<length>";
+  initial-value: 2px;
+  inherits: false;
+}
+
+@property --logo-shadow-color {
+  syntax: "<color>";
+  initial-value: gray;
+  inherits: false;
+}
+
+@property --logo-background-color {
+  syntax: "<color>";
+  initial-value: #E9EFEFFF;
+  inherits: false;
+}
+
+/* common hover transition settings */
+
+@property --hover-transition-time {
+  syntax: "<time>";
+  initial-value: 0.1s;
+  inherits: false;
+}
+
+@property --hover-transition-function {
+  syntax: "<custom-ident>";
+  initial-value: ease-in-out;
+  inherits: false;
+}
+
+
 /* Uncomment the definition below to enlarge EPG and recording images upon
 ** hovering. Keeping the comment does not enlarge images in the popup windows
 ** upon hovering. Note that enlarged images remain clipped to the info window.
+**
+** The margin should be the difference between the heights of scaled and unscaled
+** EPG images and include some extra space for displaying the box shadow.
 */
 /*
 span.epg_images:has(> *:nth-child(1)) {
   margin-bottom: 210px;
 }
 
+span.epg_images img.epg_image {
+  transform-origin: right top;
+}
+
 span.epg_images img.epg_image:hover {
-  transform: translate(-120px, 96px) scale(3);
-  transition: .1s ease-in-out;
-  box-shadow: -3px 3px 3px gray;
-  transition: .1s ease-in-out;
+  transform: scale(var(--epg-image-hover-scale));
+  box-shadow: calc(0px - var(--epg-image-shadow-size)) var(--epg-image-shadow-size) var(--epg-image-shadow-blur) var(--epg-image-shadow-color);
+  transition: var(--hover-transition-time) var(--hover-transition-function);
 }
 
 span.epg_images img.epg_image:not(:hover) {
-  transition: .1s ease-in-out;
-}
-
-span.epg_images img.epg_image:not(:hover) {
-  transition: .1s ease-in-out;
+  transition: var(--hover-transition-time) var(--hover-transition-function);
 }
 */
 
@@ -58,24 +176,31 @@ span.epg_images img.epg_image:not(:hover) {
 /* Uncomment the definitions below to enlarge recording images in list view
 ** upon hovering. Keeping the comment does not enlarge images in the left
 ** column upon hovering.
+**
+** The margin should be the difference between the heights of scaled and unscaled
+** thumb images and include some extra space for displaying the box shadow.
 */
 /*
 #form_recordings {
-    margin-bottom: 250px
+  margin-bottom: 250px
 }
 
 div.thumb {
   overflow: visible;
 }
 
+div.thumb img.thumbpt {
+  transform-origin: left top;
+}
+
 div.thumb img.thumbpt:hover {
-  transform: translate(157px, 126px) scale(8);
-  box-shadow: 3px 3px 3px gray;
-  transition: .1s ease-in-out;
+  transform: scale(var(--thumb-image-hover-scale));
+  box-shadow: var(--thumb-image-shadow-size) var(--thumb-image-shadow-size) var(--thumb-image-shadow-blur) var(--thumb-image-shadow-color);
+  transition: var(--hover-transition-time) var(--hover-transition-function);
 }
 
 div.thumb img.thumbpt:not(:hover) {
-  transition: .1s ease-in-out;
+  transition: var(--hover-transition-time) var(--hover-transition-function);
 }
 */
 
@@ -86,29 +211,36 @@ div.thumb img.thumbpt:not(:hover) {
 */
 /*
 img.channel_logo {
-  background-color: #E9EFEFFF;
+  background-color: var(--logo-background-color);
 }
 */
 
 
-/* Uncomment the definition below to enlarge channel logos with a light-gray
+/* Uncomment the definitions below to enlarge channel logos with a light-color
 ** background when hovering over a logo. Keeping the comment leaves the logo
 ** unchanged on hovering.
+**
+** The margin should be the difference between the heights of scaled and unscaled
+** channel logos and include some extra space for displaying the box shadow.
 */
 /*
 table.listing:has(.channel_logo) {
   margin-bottom: 180px;
 }
 
+img.channel_logo {
+  transform-origin: right top;
+}
+
 img.channel_logo:hover {
-  transform: translate(-112px, 84px) scale(6.25);
-  background-color: #E9EFEFFF;
-  box-shadow: -3px 3px 3px gray;
-  transition: .1s ease-in-out;
+  background-color: var(--logo-background-color);
+  transform: scale(var(--logo-hover-scale));
+  box-shadow: calc(0px - var(--logo-shadow-size)) var(--logo-shadow-size) var(--logo-shadow-blur) var(--logo-shadow-color);
+  transition: var(--hover-transition-time) var(--hover-transition-function);
 }
 
 img.channel_logo:not(:hover) {
-  transition: .1s ease-in-out;
+  transition: var(--hover-transition-time) var(--hover-transition-function);
 }
 */
 
