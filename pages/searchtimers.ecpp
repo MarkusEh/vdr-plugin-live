@@ -75,7 +75,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
           else for (; i; i /= 10) *(--timerID) = '0' + (i%10);
 
 </%cpp>
-        <tr>
+        <tr class="<$ timer->UseAsSearchTimer() ? "active" : "inactive" $>">
           <td class="action leftcol <? bottom ? "bottomrow" ?>"><%cpp> if(timer->UseAsSearchTimer()) { </%cpp><img src="<$ LiveSetup().GetThemedLink("img", "arrow.png") $>" alt="" /><%cpp> } </%cpp></td>
           <td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><$ timer->Search() $></div></td>
           <td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><$ timer->ChannelText() $></div></td>

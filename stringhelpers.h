@@ -731,6 +731,7 @@ template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
 // ========================
     cToSvConcat &append(cSv sv) { return append(sv.data(), sv.length()); }
     cToSvConcat &append(const char *s, size_t len) {
+      if (!s | !len) return *this;
       if (m_pos_for_append + len > m_be_data) ensure_free(len);
       memcpy(m_pos_for_append, s, len);
       m_pos_for_append += len;
@@ -800,7 +801,7 @@ template<typename T, std::enable_if_t<sizeof(T) == 16, bool> = true>
       }
       return *this;
     }
-// apend text. Before appending, replace all occurances of substring with replacement
+// apend text. Before appending, replace all occurrences of substring with replacement
     cToSvConcat &appendReplace(cSv text, cSv substring, cSv replacement) {
       size_t pos = 0, found;
       while ( (found = text.find(substring, pos)) != std::string_view::npos) {
@@ -823,7 +824,7 @@ template<typename T, std::enable_if_t<sizeof(T) == 16, bool> = true>
       memcpy(m_buffer+pos, sv.data(), sv.length() );
       return *this;
     }
-// Replaces all occurances of substring after pos with replacement
+// Replaces all occurrences of substring after pos with replacement
     cToSvConcat &replaceAll(cSv substring, cSv replacement, size_t pos = 0) {
       while ( (pos = cSv(*this).find(substring, pos)) != std::string_view::npos) {
         replace(pos, substring.length(), replacement);

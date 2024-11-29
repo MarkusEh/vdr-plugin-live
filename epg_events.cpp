@@ -400,8 +400,12 @@ namespace vdrlive
 
             // create a temporary symlink of the image in tmpImageDir
             cToSvConcat tmpfile(tmpImageDir, imageId, "_", imagename);
-            cToSvConcat cmdBuff("ln -s \"", imagefile, "\" \"", tmpfile, "\"");
-
+            cToSvConcat imgfile(imagefile);
+            imgfile.replaceAll("$", "\\$");
+            imgfile.replaceAll("\"", "\\\"");
+            tmpfile.replaceAll("$", "\\$");
+            tmpfile.replaceAll("\"", "\\\"");
+            cToSvConcat cmdBuff("ln -s \"", imgfile, "\" \"", tmpfile, "\"");
             int s = system(cmdBuff.c_str() );
             if (s < 0)
               esyslog("live: ERROR: Couldn't execute command %s", cmdBuff.c_str() );

@@ -955,9 +955,20 @@ table.listing a {
   font-weight: bold;
 }
 
-tr.inactive {
-  background-color: #D0D0D0;
+table.listing tr.inactive,
+table.listing tr.inactive a {
+  color: #a0a0a0;
 }
+
+table.listing tr.active,
+table.listing tr.active a {
+}
+
+table.listing tr.recording,
+table.listing tr.recording a {
+  color: #ff4040;
+}
+
 /* #############################
    #  Table streaming
    # (used in browser streaming)

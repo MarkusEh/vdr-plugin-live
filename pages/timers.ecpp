@@ -193,13 +193,12 @@ using namespace vdrlive;
           cToSvConcat<0> timerFile;
           AppendHtmlEscapedAndCorrectNonUTF8(timerFile, timer->File());
 </%cpp>
-        <tr<?? !(timer->Flags() & tfActive) ? " class=\"inactive\""?>>
-
+        <tr class="<$ timer->Recording() ? "recording" : ((timer->Flags() & tfActive) ? "active" : "inactive") $>">
         <td class="leftcol <? bottom ? "bottomrow" ?>"><img src="<$ LiveSetup().GetThemedLink("img", timerStateImg) $>" alt="" <%cpp> if (!timerStateHint.empty()) { </%cpp><& tooltip.hint text=(timerStateHint) &> <%cpp> } </%cpp>/></td>
           <td class="<? bottom ? "bottomrow" ?>"><div class="withmargin">
              <table class="noborder"><tr><td class="noborder"><span class="display-xs nowrap" > <$ cToSvDateTime(tr("%I:%M %p"), timer->StartTime()) $> - <$ cToSvDateTime(tr("%I:%M %p"), timer->StopTime()) $></span></td></tr>
              <tr><td class="noborder"><a href="schedule.html?channel=<$ timer->Channel()->Number()$>" title="<$tr("Transponder")$>: <$*cSource::ToString(timer->Channel()->Source() )$>-<$cToSvConcat(timer->Channel()->Frequency())$>-<$timer->Channel()->Parameters()$>"><$ timer->Channel()->Name() $></a></td></tr>
-</table>
+             </table>
           </div></td>
 %         cToSvConcat longDescriptionTitle;
 %         if (!longDescription.empty()) longDescriptionTitle << "title=\"" << longDescription << "\"";
