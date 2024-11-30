@@ -544,7 +544,7 @@ class cToSv {
 //  a = a.substr(0,3);
 // and similar to work. Which is possible, implementing lost's of different cases.
 // it's just not worth the offert. For normal =, users can write
-//  a = b.erase(0).append(...)
+//  a = a.erase(0).append(...)
 
     virtual ~cToSv() {}
     virtual operator cSv() const = 0;
@@ -1252,8 +1252,8 @@ class cSplit {
 };
 
 /*
- * class cUnion: iterate over serveal containers, as if it was one.
- *   value_type of first container will be used.
+ * class cUnion: iterate over serveral containers, as if it was one.
+ * value_type of first container will be used.
 */
 template<class T_V, class...U> class cUnion {};
 template<class T_V> class cUnion<T_V> {

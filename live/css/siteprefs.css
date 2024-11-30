@@ -9,8 +9,8 @@
 */
 
 /*
-   # Uncomment to adjust width of each column in multicolumn view
-   # In case of many columns min-width will be used, together with vertical scrolling
+** Uncomment to adjust the width of each column in multicolumn view. In case of
+** many columns, min-width will be used in combination with vertical scrolling.
 */
 /*
 table.mschedule div.content1 {

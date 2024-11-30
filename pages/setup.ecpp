@@ -278,7 +278,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
             <div id="individual_channelGroups_section" style="display: none">
               <table border="0" cellpadding="0" cellspacing="0" class="dependent">
               <tr>
-                <td class="label"><div class="withmargin"><$ tr("Individual channel groups") $>:</div></td>
+                <td class="label"><div class="withmargin"><$ tr("Channel groups") $>:</div></td>
                 <td><input type="text" name="channelGroups" value="<$ channelGroups $>" id="channelGroups" />
                 <& tooltip.help text=(tr("Separate channels with a comma ',', separate groups with a semi-colon ';'")) &></td>
               </tr>

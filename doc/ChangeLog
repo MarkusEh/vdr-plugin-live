@@ -2,331 +2,331 @@ unrecorded Markus Ehrnsperger
   * The git repository is now https://github.com/MarkusEh/vdr-plugin-live
 
 2013-04-04  Dieter Hametner  <dh+vdr at gekrumbel dot de>
-	* This file is discontinued. To get an overview of the
-	  changes please consult the git history found on
-	  http://projects.vdr-developer.org/git/vdr-plugin-live.git/
+..* This file is discontinued. To get an overview of the
+..  changes please consult the git history found on
+..  http://projects.vdr-developer.org/git/vdr-plugin-live.git/
 
 2009-09-07  Christian Wieninger  <cwieninger at gmx dot de>
-	* new user management within setup that also handles different
-	  user rights
+..* new user management within setup that also handles different
+..  user rights
 
 2008-11-19  Christian Wieninger  <cwieninger at gmx dot de>
-	* new setup option to display channels without EPG
-	
+..* new setup option to display channels without EPG
+..
 2008-10-21  Christian Wieninger  <cwieninger at gmx dot de>
-	* edit_timer.ecpp: new menu entry to select a recording directory.
-	  requires epgsearch plugin.
-	* epgsearch.h/cpp: read the directory list via epgsearch's
-	  service interface version 1.2
-	
+..* edit_timer.ecpp: new menu entry to select a recording directory.
+..  requires epgsearch plugin.
+..* epgsearch.h/cpp: read the directory list via epgsearch's
+..  service interface version 1.2
+..
 2008-08-04  Christian Wieninger  <cwieninger at gmx dot de>
-	
-	* italian translation update, thanks to Diego Pierotto
-	
+..
+..* italian translation update, thanks to Diego Pierotto
+..
 2008-02-07  Christian Wieninger  <cwieninger at gmx dot de>
 
-	* new menu with timer conflicts
-	
+..* new menu with timer conflicts
+..
 2008-02-07  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	* buildutil/version-util: Further posix-ified the script.
+..* buildutil/version-util: Further posix-ified the script.
 
 2008-02-06  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	* buildutil/version-util: Function definitions in shell should not
-	  have whitespaces between the name and the parentheses.
-	* i18n-generated.h: updated with latest translation contributions.
+..* buildutil/version-util: Function definitions in shell should not
+..  have whitespaces between the name and the parentheses.
+..* i18n-generated.h: updated with latest translation contributions.
 
 2008-01-25  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	* recman.cpp: Fixed memory leak, which resulted through the use of
-	  circular references by using tr1::shared_ptr, where a
-	  tr1::weak_ptr would have been needed.
+..* recman.cpp: Fixed memory leak, which resulted through the use of
+..  circular references by using tr1::shared_ptr, where a
+..  tr1::weak_ptr would have been needed.
 
-	* pages/recordings.ecpp: Added button to delete that single
-	  recording. This feature is somehow limited in usability and
-	  should be used only for occasional deletion of recordings,
-	  because the page reloads when a recording is
-	  deleted. Unfortunately there is currently no way to remember the
-	  position to where the user navigated before he hit the delete
-	  button. In order to delete an other recording in the same
-	  subdirectory he will need to navigate there again after the page
-	  reloaded.
+..* pages/recordings.ecpp: Added button to delete that single
+..  recording. This feature is somehow limited in usability and
+..  should be used only for occasional deletion of recordings,
+..  because the page reloads when a recording is
+..  deleted. Unfortunately there is currently no way to remember the
+..  position to where the user navigated before he hit the delete
+..  button. In order to delete an other recording in the same
+..  subdirectory he will need to navigate there again after the page
+..  reloaded.
 
 2008-01-18  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	* buildutil/version-util*: Added a shell and an awk script to
-	  calculate a version suffix string out of CVS current working dir
-	  status. This was a request bei jo01 and helps distinguish if
-	  newer versions are available. It should not break builds if
-	  something goes wrong in the script. At least it was my
-	  intention.  The script also supports git repositories. But it
-	  has not been tested if it determines the correct git commit id
-	  based on current workdir contents.  The calculated version
-	  suffix is appended to the LIVE version string visible in the
-	  about box (?-Menu entry).
+..* buildutil/version-util*: Added a shell and an awk script to
+..  calculate a version suffix string out of CVS current working dir
+..  status. This was a request bei jo01 and helps distinguish if
+..  newer versions are available. It should not break builds if
+..  something goes wrong in the script. At least it was my
+..  intention.  The script also supports git repositories. But it
+..  has not been tested if it determines the correct git commit id
+..  based on current workdir contents.  The calculated version
+..  suffix is appended to the LIVE version string visible in the
+..  about box (?-Menu entry).
 
 2008-01-15  Christian Wieninger <cwieninger at gmx dot de>
-	* whats_on.ecpp: added listing 'Favorites', that lists all search
-	  results of search timers with setting 'Use in favorites menu'
-	* Makefile: reversed Makefile changes that avoided commit conflicts,
-	  but caused compile time problems
-	* po/*.po: added "translation team" since msgfmt complains about that
+..* whats_on.ecpp: added listing 'Favorites', that lists all search
+..  results of search timers with setting 'Use in favorites menu'
+..* Makefile: reversed Makefile changes that avoided commit conflicts,
+..  but caused compile time problems
+..* po/*.po: added "translation team" since msgfmt complains about that
 
 2008-01-04  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	* Makefile: Thanks to user 'ernie' in vdr-portal.de, who pointed
-	  out that the Makefile uses a bashism without setting SHELL to
-	  bash.
-	  UPDATE: User 'Keef' pointed out a way to omit bash arithmetic
-	  expressions. So the dependency on bash could be dropped again.
+..* Makefile: Thanks to user 'ernie' in vdr-portal.de, who pointed
+..  out that the Makefile uses a bashism without setting SHELL to
+..  bash.
+..  UPDATE: User 'Keef' pointed out a way to omit bash arithmetic
+..  expressions. So the dependency on bash could be dropped again.
 
 2007-12-25  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	- Added configuration option to disable the creation of IMDb URLs
-	  in the epg-info sections. This was done upon of feature
-	  request (Bug #401).
-	  Some minor fixes for the IMDb URLs in recordings.
+..- Added configuration option to disable the creation of IMDb URLs
+..  in the epg-info sections. This was done upon of feature
+..  request (Bug #401).
+..  Some minor fixes for the IMDb URLs in recordings.
 
 2007-12-23  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	* po/*.po
-	  Modified headers in the .po files and updated copyright
-	  information to be more LIVE plugin aware.
+..* po/*.po
+..  Modified headers in the .po files and updated copyright
+..  information to be more LIVE plugin aware.
         * Makefile
-	  Changed top level Makefile to not create headers in live.pot
-	  file. This prevents creation of new date header in .po file at
-	  fresh translations after updates from CVS and should avoid
-	  continuous conflicts at every CVS update even if no changes took
-	  place in the local files.
+..  Changed top level Makefile to not create headers in live.pot
+..  file. This prevents creation of new date header in .po file at
+..  fresh translations after updates from CVS and should avoid
+..  continuous conflicts at every CVS update even if no changes took
+..  place in the local files.
 
 2007-12-22  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	* live/js/live/vlc.js
-	  Added an own mootools based implementation of a controlling
-	  class for the VLC plugin as proposed by Rolf Ahrenberg.
-	  Features currently supported are:
-	    - start/stop play (pause is left out because it provides no
-	      timeshift functionality).
-	    - mute sound. (Use this instead of pause)
-	    - switch to full screen mode.
-	    - close the popup window.
-	  The class is customizable and you can see in vlc.ecpp how
-	  customization for the changed button strings has been done.
+..* live/js/live/vlc.js
+..  Added an own mootools based implementation of a controlling
+..  class for the VLC plugin as proposed by Rolf Ahrenberg.
+..  Features currently supported are:
+..    - start/stop play (pause is left out because it provides no
+..      timeshift functionality).
+..    - mute sound. (Use this instead of pause)
+..    - switch to full screen mode.
+..    - close the popup window.
+..  The class is customizable and you can see in vlc.ecpp how
+..  customization for the changed button strings has been done.
 
 2007-12-18  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	- Integrated a new patch Rolf Ahrenberg sent to me privately
-	  The patch updates finish translations.
-	  Autoplay and the 'standard' video size is used in the playback
-	  window.
+..- Integrated a new patch Rolf Ahrenberg sent to me privately
+..  The patch updates finish translations.
+..  Autoplay and the 'standard' video size is used in the playback
+..  window.
 
 2007-12-17  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	- Adapted Rolf Ahrenbergs patch for VLC plugin streaming to the
-	  browser window using streamdev-server plugin on VDR.  See
-	  Bug-Entry #343.  You can stream current running program from the
-	  "whats_on now" schedules page into an extra browser window if
-	  javascript is active.  Otherwise you get redirected onto a
-	  dedicated new live streaming page.
+..- Adapted Rolf Ahrenbergs patch for VLC plugin streaming to the
+..  browser window using streamdev-server plugin on VDR.  See
+..  Bug-Entry #343.  You can stream current running program from the
+..  "whats_on now" schedules page into an extra browser window if
+..  javascript is active.  Otherwise you get redirected onto a
+..  dedicated new live streaming page.
 
 2007-10-21  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	- Renamed recordings.h/cpp files to recman.h/cpp. Adapted
-	  files that included them.
-	- recman.h has extended functionality for recordings. It is not used
-	  yet.
+..- Renamed recordings.h/cpp files to recman.h/cpp. Adapted
+..  files that included them.
+..- recman.h has extended functionality for recordings. It is not used
+..  yet.
 
 2007-10-17  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	* css/styles.css
-	* live/themes/orange-blue/css/theme.css
-	  Fix missing background color settings for browsers that don't
-	  have white as default background. Thanks to zirias.
-	  See: http://www.vdr-portal.de/board/thread.php?postid=659497#post659497
+..* css/styles.css
+..* live/themes/orange-blue/css/theme.css
+..  Fix missing background color settings for browsers that don't
+..  have white as default background. Thanks to zirias.
+..  See: http://www.vdr-portal.de/board/thread.php?postid=659497#post659497
 
 2007-09-18  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	- Eliminated 'images' directory. The images are now not longer
-	  compiled with ecpp into the executable module of live. With the
-	  content.ecpp part and file cache we have a equally performant
-	  solution to compiled in files.
-	- Added file cache preload functionality. The file cache is filled
-	  with a list of files defined at compile time on plugin startup
-	  time.
+..- Eliminated 'images' directory. The images are now not longer
+..  compiled with ecpp into the executable module of live. With the
+..  content.ecpp part and file cache we have a equally performant
+..  solution to compiled in files.
+..- Added file cache preload functionality. The file cache is filled
+..  with a list of files defined at compile time on plugin startup
+..  time.
 
 2007-09-09  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	* tntconfig.cpp: allways give absolute paths to content.ecpp
-	* pages/content.ecpp: check for absolute paths which don't contain
-		upward references (e.g. '../') and deny such requests.
+..* tntconfig.cpp: allways give absolute paths to content.ecpp
+..* pages/content.ecpp: check for absolute paths which don't contain
+..	upward references (e.g. '../') and deny such requests.
 
 2007-09-07  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	* tntconfig.cpp: Checked and adapted MapUrl regular expressions
-	                 to be more live setup secure.
+..* tntconfig.cpp: Checked and adapted MapUrl regular expressions
+..                 to be more live setup secure.
 
 2007-08-19  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	- Adapted (but not tested) live for the new localization scheme
-	  since VDR 1.5.7
-	  Might need some additional tweaking...
+..- Adapted (but not tested) live for the new localization scheme
+..  since VDR 1.5.7
+..  Might need some additional tweaking...
 
 2007-07-29  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	- Implemented status notification popup if AJAX is active.
-	- Without Ajax it is now possible to request actions from VDR via
-	  a static page.
+..- Implemented status notification popup if AJAX is active.
+..- Without Ajax it is now possible to request actions from VDR via
+..  a static page.
 
 2007-07-22  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	Added toolbox buttons to EPG info popup windows.
-	Some style fixes for this.
-	* pages/whats_on.ecpp: Use new pageelems.epg_tool_box component.
-	* pages/pageelems.ecpp: new epg_tool_box component.
+..Added toolbox buttons to EPG info popup windows.
+..Some style fixes for this.
+..* pages/whats_on.ecpp: Use new pageelems.epg_tool_box component.
+..* pages/pageelems.ecpp: new epg_tool_box component.
 
 2007-07-21  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	* live/js/live/pageenhance.js: Enhance a normal web page with
-		nifty web 2.0 features.
-	* live/js/live/infowin.js: standalone class. Used by pageenhance.js
-	* live/js/live/hinttips.js: standalone class. Used by pageenhance.js
+..* live/js/live/pageenhance.js: Enhance a normal web page with
+..	nifty web 2.0 features.
+..* live/js/live/infowin.js: standalone class. Used by pageenhance.js
+..* live/js/live/hinttips.js: standalone class. Used by pageenhance.js
 
 2007-07-21  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	Made EPG images better style-able. Displaying them as floats right
-	of the EPG description text.
+..Made EPG images better style-able. Displaying them as floats right
+..of the EPG description text.
 
 2007-07-20  Christian Wieninger <cwieninger at gmx dot de>
 
-	Added support for EPG images: Specify the directory with your
-	EPG images via the new command-line option '-e <dir>' or
-	'--epgimages=<dir> like
-	-P'live -e /video/epgimages'
+..Added support for EPG images: Specify the directory with your
+..EPG images via the new command-line option '-e <dir>' or
+..'--epgimages=<dir> like
+..-P'live -e /video/epgimages'
 
 2007-07-12  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	Changed the javascript base of live. We now use the 'mootools'
-	framework (see http://www.mootools.net for infos) to handle
-	javascript in a browser independent fashion and for nifty Web 2.0
-	features.
+..Changed the javascript base of live. We now use the 'mootools'
+..framework (see http://www.mootools.net for infos) to handle
+..javascript in a browser independent fashion and for nifty Web 2.0
+..features.
 
-	Based on this framework we have now tooltips that use the XHTML
-	standard 'title' attribute and Web-2.0 popup windows for EPG
-	information. This EPG information is loaded on demand and once
-	loaded, they are cached in the page for further viewing.
+..Based on this framework we have now tooltips that use the XHTML
+..standard 'title' attribute and Web-2.0 popup windows for EPG
+..information. This EPG information is loaded on demand and once
+..loaded, they are cached in the page for further viewing.
 
-	On the other hand this also provides us with a solution to have
-	live functioning without javascript at all. When done right, the
-	same functionality can be achieved with or without enabled
-	javascript in the browser. Currently there still are javascript
-	only features, which will be resolved in the next weeks.
+..On the other hand this also provides us with a solution to have
+..live functioning without javascript at all. When done right, the
+..same functionality can be achieved with or without enabled
+..javascript in the browser. Currently there still are javascript
+..only features, which will be resolved in the next weeks.
 
-	This is a rather big change on many files, so they are not all
-	mentioned here.
+..This is a rather big change on many files, so they are not all
+..mentioned here.
 
 2007-06-22  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	Start of new 'standalone' javascript source directory
-	for live javascript files.
+..Start of new 'standalone' javascript source directory
+..for live javascript files.
 
-	- Use mootools http://www.mootools.net/ as base library for
-	  'modern' Javascript based functionality.
+..- Use mootools http://www.mootools.net/ as base library for
+..  'modern' Javascript based functionality.
 
 2007-06-15  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	* setup.ecpp: added option to disable infobox at all.
+..* setup.ecpp: added option to disable infobox at all.
 
 2007-06-14  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	* infobox: Keep update status of infobox in session. This allows
-	  the user to switch off status updates and change live
-	  pages. After a page change the status is updated once and then
-	  the users choice is respected.
+..* infobox: Keep update status of infobox in session. This allows
+..  the user to switch off status updates and change live
+..  pages. After a page change the status is updated once and then
+..  the users choice is respected.
 
 2007-06-14  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	* infobox: show 'user friendly' error message when something went
-	  wrong while updating the status box.
-	  Fixed tooltip message for toggle update on/off of status box.
+..* infobox: show 'user friendly' error message when something went
+..  wrong while updating the status box.
+..  Fixed tooltip message for toggle update on/off of status box.
 
 2007-06-13  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	* pages/schedule.ecpp: If no channel is given, and a current
-	  channel is known to VDR, select it when calling the schedule
-	  page in live.
+..* pages/schedule.ecpp: If no channel is given, and a current
+..  channel is known to VDR, select it when calling the schedule
+..  page in live.
 
 2007-06-12  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	Added orange-blue theme as an example of a theme with dark
-	background and light foreground colors. This theme also
-	demonstrates the use of exchanged images (logo.png, tv.jpg and
-	remotecontrol.jpg)
+..Added orange-blue theme as an example of a theme with dark
+..background and light foreground colors. This theme also
+..demonstrates the use of exchanged images (logo.png, tv.jpg and
+..remotecontrol.jpg)
 
-	* styles.css: some minor style fixes, that became visible while
-	creating the orange-blue theme.
+..* styles.css: some minor style fixes, that became visible while
+..creating the orange-blue theme.
 
 2007-06-11  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	Fixed style layout of the tables. Added class 'bottomrow' to the
-	rows that are followed by empty spacer rows.
+..Fixed style layout of the tables. Added class 'bottomrow' to the
+..rows that are followed by empty spacer rows.
 
 2007-06-06  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	Use GetConfigDir instead of USRDIR define.
+..Use GetConfigDir instead of USRDIR define.
 
-	* pages/*.ecpp: begin of unification of table markup.
-		Still needs some tweaking but the general framework
-		is in place.
-	* styles.css: Removed different table styles.
-		Added two general table styles:
-		 - listing: for tables showing listings like
-			    search results or schedules.
-		 - formular: for tables used in input forms to
-			     layout the input elements.
-		Added some general use styles, like 'bold', 'more',
-		'withmargin', 'nomargin', 'short', 'title', 'dotted'
+..* pages/*.ecpp: begin of unification of table markup.
+..	Still needs some tweaking but the general framework
+..	is in place.
+..* styles.css: Removed different table styles.
+..	Added two general table styles:
+..	 - listing: for tables showing listings like
+..		    search results or schedules.
+..	 - formular: for tables used in input forms to
+..		     layout the input elements.
+..	Added some general use styles, like 'bold', 'more',
+..	'withmargin', 'nomargin', 'short', 'title', 'dotted'
 
 2007-06-03  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	Added CSS based themeing support. For details please read
-	doc/css-themeing.txt and doc/dev-conventions.txt.
-	* setup.h, setup.cpp, setup.ecpp: added setup for theme and
-		selection of theme.
-	* pages/*.ecpp: added support for themeable images.
-	* tntconfig.cpp: cascaded search for images, to support themeing.
+..Added CSS based themeing support. For details please read
+..doc/css-themeing.txt and doc/dev-conventions.txt.
+..* setup.h, setup.cpp, setup.ecpp: added setup for theme and
+..	selection of theme.
+..* pages/*.ecpp: added support for themeable images.
+..* tntconfig.cpp: cascaded search for images, to support themeing.
 
 2007-06-03  Christian Wieninger <cwieninger at gmx dot de>
 
-	Setup includes now a local net mask specifying the address range
-	without necessary login (#321)
+..Setup includes now a local net mask specifying the address range
+..without necessary login (#321)
 
 2007-06-02  Christian Wieninger <cwieninger at gmx dot de>
 
-	required version of VDR is now >= 1.4.0-2
+..required version of VDR is now >= 1.4.0-2
 
 2007-06-01  Sascha Volkenandt <sascha at akv-soft dot de>
 
-	The detection of featured plugins was uniformed. The display in
-	the about box now reads "active: <version>" or "required:
-	<version>"
+..The detection of featured plugins was uniformed. The display in
+..the about box now reads "active: <version>" or "required:
+..<version>"
 
 2007-06-01  Dieter Hametner  <dh+vdr at gekrumbel dot de>
 
-	These changes fix bug entry #339
-	* css-themeing.txt: describe how to do css themeing.
-	* content.ecpp:
-		- check for additional parameter and use it as mime
-		  type.
-		- use compile time variable USRDIR for path to the files
-		  loaded via content.ecpp
-	* pageelems.ecpp: link to css/siteprefs.css
-	* pages/*.ecpp: changed style link to pageelems.stylesheet
-		        component.
-	* tntconfig.cpp: added MapUrl for css<something>/cssfile.
+..These changes fix bug entry #339
+..* css-themeing.txt: describe how to do css themeing.
+..* content.ecpp:
+..	- check for additional parameter and use it as mime
+..	  type.
+..	- use compile time variable USRDIR for path to the files
+..	  loaded via content.ecpp
+..* pageelems.ecpp: link to css/siteprefs.css
+..* pages/*.ecpp: changed style link to pageelems.stylesheet
+..	        component.
+..* tntconfig.cpp: added MapUrl for css<something>/cssfile.
 
 unrecorded  Sascha Volkenandt <sascha at akv-soft dot de>
 
-	Due to the introduction of a uniform header for C++ standard
-	extensions, the boost library is now only necessary if the used
-	g++ compiler version is less than 4.0
+..Due to the introduction of a uniform header for C++ standard
+..extensions, the boost library is now only necessary if the used
+..g++ compiler version is less than 4.0

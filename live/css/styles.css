@@ -38,6 +38,7 @@ input, textarea {
   background: #FEFEFE;
   margin: 0;
 }
+
 input.width99, textarea.width99 {
   width: 99%;
 }
@@ -92,12 +93,15 @@ a:active {
 .short {
   font-weight: normal;
 }
+
 .normal-font {
   font-weight: normal;
 }
+
 .bold-font {
   font-weight: bold;
 }
+
 .margin-bottom {
   margin-bottom: 5px;
 }
@@ -122,6 +126,7 @@ a:active {
 .nowrap {
   white-space: nowrap;
 }
+
 .scraper_list {
   margin-top: 4px;
   margin-bottom: 4px;
@@ -135,8 +140,8 @@ a:active {
 
 .hint-tip {
   margin: 0px auto;
-   max-width: 480px; /* depends on the tip background image width */
-   color: #fff;
+  max-width: 480px; /* depends on the tip background image width */
+  color: #fff;
 }
 
 .hint-tip .hint-tip-top .hint-tip-c,
@@ -157,7 +162,7 @@ a:active {
 
 .hint-tip .hint-tip-bdy {
   background: transparent url(../img/rounded-box-blue-ml.png) repeat-y 0px 0px;
-   margin-right: 17px;
+  margin-right: 17px;
 }
 
 .hint-tip .hint-tip-bdy .hint-tip-c {
@@ -192,8 +197,8 @@ a:active {
 
 .ok-info {
   margin: 0px auto;
-   max-width: 480px; /* depends on the tip background image width */
-   color: #fff;
+  max-width: 480px; /* depends on the tip background image width */
+  color: #fff;
 }
 
 .ok-info .ok-info-top .ok-info-c,
@@ -214,7 +219,7 @@ a:active {
 
 .ok-info .ok-info-body {
   background: transparent url(../img/rounded-box-green-ml.png) repeat-y 0px 0px;
-   margin-right: 17px;
+  margin-right: 17px;
 }
 
 .ok-info .ok-info-body .ok-info-c {
@@ -245,8 +250,8 @@ a:active {
 
 .err-info {
   margin: 0px auto;
-   max-width: 480px; /* depends on the tip background image width */
-   color: #fff;
+  max-width: 480px; /* depends on the tip background image width */
+  color: #fff;
 }
 
 .err-info .err-info-top .err-info-c,
@@ -267,7 +272,7 @@ a:active {
 
 .err-info .err-info-body {
   background: transparent url(../img/rounded-box-redwine-ml.png) repeat-y 0px 0px;
-   margin-right: 17px;
+  margin-right: 17px;
 }
 
 .err-info .err-info-body .err-info-c {
@@ -309,6 +314,7 @@ span.epg_images {
 img.actor {
   width: 118px;
 }
+
 img.artwork {
   width: 480px
 }
@@ -334,9 +340,11 @@ div.info-win {
   border: none;
   margin: 0px auto;
 }
+
 div.info-win img.actor {
   width: 118px;
 }
+
 div.info-win img.artwork {
   width: 480px;
 }
@@ -368,7 +376,7 @@ div.info-win img.artwork {
   margin-top: 14px;
   margin-left: 15px;
   float: left;
-        max-width: 490px;
+  max-width: 490px;
 }
 
 .info-win .info-win-top .info-win-c .info-win-b {
@@ -391,7 +399,7 @@ div.info-win img.artwork {
 
 .info-win .info-win-body {
   background: transparent url(../img/info-win-m-l.png) repeat-y 0px 0px;
-   margin-right: 26px;
+  margin-right: 26px;
 }
 
 .info-win .info-win-body .info-win-c {
@@ -527,7 +535,7 @@ div#messagebar {
   margin-top: 8px;
   margin-bottom: 2px;
   line-height: 20px;
-        min-height: 27px;
+  min-height: 27px;
   vertical-align: middle;
   background: #7CAD3F url(../img/msgbar_line_bg.png) top repeat-x;
   border-top: 1px solid #2B6B00;
@@ -635,16 +643,16 @@ div#infobox div.st_controls div {
 }
 
 div#infobox div.st_controls div.st_update {
-        padding-right: 5px;
-        border-right: 1px solid  #C0C1DA;
+  padding-right: 5px;
+  border-right: 1px solid  #C0C1DA;
 }
 
 div#infobox div.st_controls div#infobox_recording_buttons {
-        padding-left: 5px;
+  padding-left: 5px;
 }
 
 div#infobox div.st_controls div#infobox_channel_buttons {
-        padding-left: 5px;
+  padding-left: 5px;
 }
 
 
@@ -716,6 +724,7 @@ table td.topaligned {
 table td.padded {
   padding: 3px 7px 3px 3px;
 }
+
 table td.cast_role {
   text-align: left;
   font-weight: bold;
@@ -862,7 +871,7 @@ div.progress {
 }
 
 div.progress div {
-   float: right;
+  float: right;
   padding: 0px;
 }
 
@@ -907,10 +916,12 @@ table.listing tbody tr td.action {
   padding-left: 3px;
   padding-right: 5px;
 }
+
 .action-rightcol {
   padding-right: 4px;
   float: right;
 }
+
 .noborder {
   border-collapse: collapse;
   padding: 0;
@@ -1050,7 +1061,7 @@ table.mschedule {
 }
 
 table.mschedule tr {
-        height: 12px;
+  height: 12px;
 }
 
 table.mschedule td.time {
@@ -1065,66 +1076,66 @@ table.mschedule tr td.event {
 }
 
 table.mschedule tr td.has_timer {
-        background-color: #FFE0E0;
+  background-color: #FFE0E0;
 }
 
 table.mschedule tr td.has_inactive_timer {
-        background-color: #F0F0F0;
+  background-color: #F0F0F0;
 }
 
 table.mschedule tr td.odd {
-        background-color: #D0D0ff;
+  background-color: #D0D0ff;
 }
 
 table.mschedule tr td.even {
-        background-color: #ffffff;
+  background-color: #ffffff;
 }
 
 table.mschedule tr td.current_row {
-        background-color: #ffB0B0;
+  background-color: #ffB0B0;
 }
 
 table.mschedule tr td.leftcol {
-        padding-left: 7px;
-        padding-right: 5px;
+  padding-left: 7px;
+  padding-right: 5px;
 }
 
 table.mschedule div.content1 {
-        min-width: 15em;
-        max-width: 30em;
+  min-width: 15em;
+  max-width: 30em;
 }
 
 table.mschedule div.content1>div {
-        margin: 5px 0px 5px 0px;
+  margin: 5px 0px 5px 0px;
 }
 
 table.mschedule div.tools1 {
-        float: right;
+  float: right;
 }
 
 table.mschedule div.start {
-        float: left;
+  float: left;
 }
 
 table.mschedule tr td div.title {
-        clear: both;
+  clear: both;
 }
 
 table.mschedule tr td div.short {
-        clear: both;
-        overflow: hidden;
+  clear: both;
+  overflow: hidden;
 }
 
 table.mschedule tr td div.description {
-        overflow: hidden;
-        clear: both;
+  overflow: hidden;
+  clear: both;
 }
 
 table.mschedule a {
   /*
-    color: black;
+  color: black;
   font-weight: bold;
-    */
+  */
 }
 
 table.mschedule a>img {
@@ -1175,9 +1186,11 @@ table.recordings {
   border: 0px;
   border-collapse: collapse;
 }
+
 table.recordings a {
-        color: black;
+  color: black;
 }
+
 div.recordings {
   border: 1px solid black;
 }
@@ -1199,9 +1212,11 @@ tr.recording_item {
   background: url(../img/bg_line.png) bottom repeat-x;
   border-bottom: 1px solid #C0C1DA;
 }
+
 tr.recording_item:last-child {
   border-bottom: 2px solid #C0C1DA;
 }
+
 .recording_item > div {
   float: left;
 }
@@ -1214,6 +1229,7 @@ tr.recording_item:last-child {
   font-weight: bold;
   cursor: pointer;
 }
+
 .recording_item .recording_folder_name_new {
   font-weight: bold;
   color: orangered;
@@ -1277,33 +1293,37 @@ div.screenshot img {
    #############################
 */
 
-#osd { 
+#osd {
   background-color:black;
   color:white;
   height: 320px;
   width: 569px;
 }
-.osd { 
+
+.osd {
   padding: 5px 0px 5px 10px;
   position:relative;
 }
+
 .osd div {
   margin:0px;
   tab-size:4;
   font-family: "Courier New", Courier, monospace;
 }
+
 .osdMessage {
   position:absolute;
-    overflow:auto;
+  overflow:auto;
   top:250px;
   max-height: 100px;
   min-height:20px;
   width: 510px;
-    background-color:yellow;
-    color:black;
-    padding:10px;
-    border:2px solid red;
+  background-color:yellow;
+  color:black;
+  padding:10px;
+  border:2px solid red;
 }
+
 .osdText, .osdItems {
   overflow:auto;
   overflow-x:hidden;
@@ -1311,15 +1331,20 @@ div.screenshot img {
   width: 555px;
   margin:5px 0px !important;
 }
+
 .osdItem, .osdTitle {
   cursor:pointer;
   white-space: nowrap;
 }
-.osdItem.selected { 
+
+.osdItem.selected {
   background-color:#cccccc;
   color:#000000;
 }
-.osdButtons {}
+
+.osdButtons {
+}
+
 .osdButtons div {
   float:left;
   margin-right:5px;
@@ -1329,10 +1354,21 @@ div.screenshot img {
   cursor:pointer;
 }
 
-.osdButtonGreen {background-color:green}
-.osdButtonYellow {background-color:yellow;color:black}
-.osdButtonBlue {background-color:blue}
-.osdButtonRed {background-color:red}
+.osdButtonGreen {
+  background-color:green
+}
+
+.osdButtonYellow {
+  background-color:yellow;color:black
+}
+
+.osdButtonBlue {
+  background-color:blue
+}
+
+.osdButtonRed {
+  background-color:red
+}
 
 
 /* #############################
@@ -1383,12 +1419,12 @@ table.formular tr td {
 }
 
 table.formular tr td input {
-        margin-top: 5px;
-        margin-bottom: 2px;
+  margin-top: 5px;
+  margin-bottom: 2px;
 }
 
 table.formular tr td .dotted input {
-        margin-top: 0px;
+  margin-top: 0px;
 }
 
 table.formular tr td.leftcol {
@@ -1489,7 +1525,7 @@ span.epg_images img.epg_image {
 }
 
 .info-win div.epg_content {
-        border: 0px;
+  border: 0px;
 }
 
 
@@ -1540,6 +1576,7 @@ div.thumb {
   overflow: hidden;
   float: right;
 }
+
 a.thumb {
   float: left;
 }
@@ -1548,10 +1585,12 @@ img.thumbpt {
   width: 80px;
   margin-top: -30px;
 }
+
 img.thumb {
   width: 80px;
   margin: 0 -100%;
 }
+
 .space {
   padding: 0px;
   width: 0px;
@@ -1565,61 +1604,110 @@ img.thumb {
    ###############################################
 */
 
-.xs-nomargin { margin: 5px; }
-.display-xs { display: none; }
+.xs-nomargin {
+  margin: 5px;
+}
+
+.display-xs {
+  display: none;
+}
+
+
 @media (max-width: 600px) {
-/* very small display */
-img.logo { width: 70px; margin-top: 25px; margin-right: 5px; }
-div.__progress { width: 75px; }
-div.__progress_invisible { width: 75px; }
-div#infobox { min-width: 280px; }
-  .xs-nomargin { margin: 0px !important; }
-  .hidden-xs { display: none; }
-  .td-hidden-xs { width: 0px !important; padding: 0px !important;}
-  .display-xs { display: inline; }
-td.enlarge-image div.thumb {
-  width: 100px;
-  max-height: 50px;
-}
-td.enlarge-image img.thumb {
-  width: 100px;
-}
-td.enlarge-image img.thumbpt {
-  width: 100px;
-}
-span.epg_images {
-  width: 150px;
+
+  /* very small display */
+  img.logo {
+    width: 70px; margin-top: 25px; margin-right: 5px;
+  }
+
+  div.__progress {
+    width: 75px;
+  }
+
+  div.__progress_invisible {
+    width: 75px;
+  }
+
+  div#infobox {
+    min-width: 280px;
+  }
+
+  td.enlarge-image div.thumb {
+    width: 100px;
+    max-height: 50px;
+  }
+
+  td.enlarge-image img.thumb {
+    width: 100px;
+  }
+
+  td.enlarge-image img.thumbpt {
+    width: 100px;
+  }
+
+  span.epg_images {
+    width: 150px;
+  }
+
+  div.info-win {
+    width: 410px;
+  }
+
+  div.info-win img.artwork {
+  /* info-win - 95 */
+    width: 315px
+  }
+
+  img.artwork {
+    width: 315px
+  }
+
+  div.info-win img.actor {
+  /* artwork/4 - 4 */
+    width: 73px;
+  }
+
+  img.actor {
+    width: 73px;
+  }
+
+  .hint-tip {
+    max-width: 200px; /* depends on the tip background image width */
+  }
+
+  img.channel_logo {
+    max-height:32px; max-width:90px;
+  }
+
+  .recording_item div.recording_actions {
+    white-space: wrap;
+  }
+
+  .xs-nomargin {
+    margin: 0px !important;
+  }
+
+  .hidden-xs {
+    display: none;
+  }
+
+  .td-hidden-xs {
+    width: 0px !important;
+    padding: 0px !important;
+  }
+
+  .display-xs {
+    display: inline;
+  }
+
 }
 
-div.info-win {
-  width: 410px;
-}
-div.info-win img.artwork {
-/* info-win - 95 */
-  width: 315px
-}
-img.artwork {
-  width: 315px
-}
-div.info-win img.actor {
-/* artwork/4 - 4 */
-  width: 73px;
-}
-img.actor {
-  width: 73px;
-}
-.hint-tip {
-   max-width: 200px; /* depends on the tip background image width */
-}
-img.channel_logo {
-  max-height:32px; max-width:90px;
-}
-.recording_item div.recording_actions {
-  white-space: wrap;
-}
 
-}
 @media (hover: none) {
+
 /* touch screen display */
-  .hidden-ts { display: none; }
+  .hidden-ts {
+    display: none;
+  }
+
 }

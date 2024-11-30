@@ -11,8 +11,8 @@ using namespace vdrlive;
 bool checkEpg(const cChannel *channel) {
 // true if this channel must be displayed.
 // this is true if:
-//   the channel is not a group seperator
-//   we also display channels without EPG or if this channel has EPG
+// - the channel is not a group seperator
+// - we also display channels without EPG or if this channel has EPG
   if (channel->GroupSep() ) return false;
   if (LiveSetup().GetShowChannelsWithoutEPG() ) return true;
   LOCK_SCHEDULES_READ;

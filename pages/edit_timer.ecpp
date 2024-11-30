@@ -410,7 +410,7 @@ TimerConflictNotifier timerNotifier;
             <td class="label leftcol"><div class="withmargin"><$ tr("Weekday") $>:</div></td>
             <td class="rightcol">
               <div class="dotted">
-                <input id="wday_mon" type="checkbox" name="wday_mon" value="1" <? wday_sun ? "checked=\"checked\"" ?> onclick="changedwday()" />
+                <input id="wday_mon" type="checkbox" name="wday_mon" value="1" <? wday_mon ? "checked=\"checked\"" ?> onclick="changedwday()" />
                 <label for="wday_mon"><$ tr("Monday") $></label>
               </div>
               <div class="dotted">
