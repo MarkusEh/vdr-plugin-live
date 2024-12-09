@@ -453,17 +453,29 @@ msgstr "Impossibile trovare il timer. Hai digitato correttamente la richiesta?"
 msgid "Please set a title for the timer!"
 msgstr "Imposta il titolo del timer!"
 
-msgid "Edit timer"
-msgstr "Modifica timer"
-
 msgid "New timer"
 msgstr "Nuovo timer"
+
+msgid "Edit timer"
+msgstr "Modifica timer"
 
 msgid "Server"
 msgstr ""
 
 msgid "Weekday"
 msgstr "Giorno della settimana"
+
+msgid "Monitoring"
+msgstr ""
+
+msgid "none"
+msgstr ""
+
+msgid "event ID"
+msgstr ""
+
+msgid "event time"
+msgstr ""
 
 msgid "Couldn't find user. Maybe you mistyped your request?"
 msgstr "Impossibile trovare l'utente. Hai digitato correttamente la richiesta?"
@@ -623,6 +635,12 @@ msgstr "Risolvi"
 
 msgid "Dismiss"
 msgstr "Ignora"
+
+msgid "All channels"
+msgstr ""
+
+msgid "First (unnamed) group"
+msgstr ""
 
 msgid "Now"
 msgstr "Adesso"
@@ -898,9 +916,6 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-msgid "Couldn't acquire access to channels, please try again later."
-msgstr "Impossibile avere accesso ai canali, riprova più tardi."
-
 msgid "Snapshot interval"
 msgstr "Intervallo schermata"
 
@@ -1009,6 +1024,21 @@ msgstr "Il formato è HH:MM. Separa le ore multiple con un punto e virgola"
 msgid "Channel groups for MultiSchedule"
 msgstr "Gruppi canali per Multi Programmazione"
 
+msgid "5 channels per group"
+msgstr ""
+
+msgid "Channel groups as defined in VDR"
+msgstr ""
+
+msgid "All channels in one group"
+msgstr ""
+
+msgid "Individual channel groups"
+msgstr ""
+
+msgid "Channel groups"
+msgstr ""
+
 msgid "Separate channels with a comma ',', separate groups with a semi-colon ';'"
 msgstr "Separa canali con una virgola ',', separa gruppi con un punto e virgola ';'"
 
@@ -1108,6 +1138,9 @@ msgstr "Ambiente interattivo LIVE per VDR"
 
 msgid "No EPG information available"
 msgstr "Nessuna informazione EPG disponibile"
+
+#~ msgid "Couldn't acquire access to channels, please try again later."
+#~ msgstr "Impossibile avere accesso ai canali, riprova più tardi."
 
 #~ msgid "Error acquiring schedules lock"
 #~ msgstr "Errore acquisizione blocco programmi"

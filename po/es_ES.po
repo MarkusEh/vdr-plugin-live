@@ -447,17 +447,29 @@ msgstr "No se puede encontrar la programación. ¿Puede que la haya escrito erróne
 msgid "Please set a title for the timer!"
 msgstr "¡Por favor introduzca un título para la programación!"
 
-msgid "Edit timer"
-msgstr "Editar programación"
-
 msgid "New timer"
 msgstr "Nueva programación"
+
+msgid "Edit timer"
+msgstr "Editar programación"
 
 msgid "Server"
 msgstr ""
 
 msgid "Weekday"
 msgstr "Día de la semana"
+
+msgid "Monitoring"
+msgstr ""
+
+msgid "none"
+msgstr ""
+
+msgid "event ID"
+msgstr ""
+
+msgid "event time"
+msgstr ""
 
 msgid "Couldn't find user. Maybe you mistyped your request?"
 msgstr "No se puede encontrar el usuario. ¿Puede que lo haya escrito erróneamente?"
@@ -617,6 +629,12 @@ msgstr "Resolver"
 
 msgid "Dismiss"
 msgstr "Ignorar"
+
+msgid "All channels"
+msgstr ""
+
+msgid "First (unnamed) group"
+msgstr ""
 
 msgid "Now"
 msgstr "Ahora"
@@ -892,9 +910,6 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-msgid "Couldn't acquire access to channels, please try again later."
-msgstr "No se puede tener acceso a los canales, por favor inténtelo más tarde"
-
 msgid "Snapshot interval"
 msgstr "Intervalo de visionado"
 
@@ -1003,6 +1018,21 @@ msgstr "El formato es HH:MM. Separado múltiples veces con un punto y coma"
 msgid "Channel groups for MultiSchedule"
 msgstr "Grupos de canales para multi programación"
 
+msgid "5 channels per group"
+msgstr ""
+
+msgid "Channel groups as defined in VDR"
+msgstr ""
+
+msgid "All channels in one group"
+msgstr ""
+
+msgid "Individual channel groups"
+msgstr ""
+
+msgid "Channel groups"
+msgstr ""
+
 msgid "Separate channels with a comma ',', separate groups with a semi-colon ';'"
 msgstr "Canales separados con una coma ',', grupos separados con un punto y coma ';'"
 
@@ -1102,6 +1132,9 @@ msgstr "Entorno interactivo de Live VDR"
 
 msgid "No EPG information available"
 msgstr "No hay información disponible de la EPG"
+
+#~ msgid "Couldn't acquire access to channels, please try again later."
+#~ msgstr "No se puede tener acceso a los canales, por favor inténtelo más tarde"
 
 #~ msgid "Error acquiring schedules lock"
 #~ msgstr "Error adquiriendo el bloqueo de las programaciones"

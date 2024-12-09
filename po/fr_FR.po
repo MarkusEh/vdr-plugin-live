@@ -454,17 +454,29 @@ msgstr "N'a pas pu trouver la programmation. Peut-être vous avez une erreur dans
 msgid "Please set a title for the timer!"
 msgstr "Veuillez indiquer un titre pour la programmation!"
 
-msgid "Edit timer"
-msgstr "Editer la programmation"
-
 msgid "New timer"
 msgstr "Nouvelle programmation"
+
+msgid "Edit timer"
+msgstr "Editer la programmation"
 
 msgid "Server"
 msgstr ""
 
 msgid "Weekday"
 msgstr "Jour de la semaine"
+
+msgid "Monitoring"
+msgstr ""
+
+msgid "none"
+msgstr ""
+
+msgid "event ID"
+msgstr ""
+
+msgid "event time"
+msgstr ""
 
 #, fuzzy
 msgid "Couldn't find user. Maybe you mistyped your request?"
@@ -636,6 +648,12 @@ msgid "React"
 msgstr ""
 
 msgid "Dismiss"
+msgstr ""
+
+msgid "All channels"
+msgstr ""
+
+msgid "First (unnamed) group"
 msgstr ""
 
 msgid "Now"
@@ -913,9 +931,6 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-msgid "Couldn't acquire access to channels, please try again later."
-msgstr "Impossible d'avoir accès à des chaînes, réessayer ultérieurement."
-
 #, fuzzy
 msgid "Snapshot interval"
 msgstr "intervalle"
@@ -1026,6 +1041,21 @@ msgstr "Le format est HH:MM . Plusieurs périodes séparées avec un point-virgule"
 msgid "Channel groups for MultiSchedule"
 msgstr "La chaîne n'a pas de programmation"
 
+msgid "5 channels per group"
+msgstr ""
+
+msgid "Channel groups as defined in VDR"
+msgstr ""
+
+msgid "All channels in one group"
+msgstr ""
+
+msgid "Individual channel groups"
+msgstr ""
+
+msgid "Channel groups"
+msgstr ""
+
 msgid "Separate channels with a comma ',', separate groups with a semi-colon ';'"
 msgstr ""
 
@@ -1131,6 +1161,9 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr ""
+
+#~ msgid "Couldn't acquire access to channels, please try again later."
+#~ msgstr "Impossible d'avoir accès à des chaînes, réessayer ultérieurement."
 
 #~ msgid "Error acquiring schedules lock"
 #~ msgstr "Erreur lors de l'acquisition du verrouillage de programmation de recherche"

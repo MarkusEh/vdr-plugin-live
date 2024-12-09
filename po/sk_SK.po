@@ -448,17 +448,29 @@ msgstr "Nena¹iel sa plán nahrávania. Je mo¾né, ¾e ste zle napísali va¹u po¾iadav
 msgid "Please set a title for the timer!"
 msgstr "Prosím nastavte titul pre plán nahrávania!"
 
-msgid "Edit timer"
-msgstr "Upravi» plán"
-
 msgid "New timer"
 msgstr "Nový plán"
+
+msgid "Edit timer"
+msgstr "Upravi» plán"
 
 msgid "Server"
 msgstr ""
 
 msgid "Weekday"
 msgstr "Pracovný deò"
+
+msgid "Monitoring"
+msgstr ""
+
+msgid "none"
+msgstr ""
+
+msgid "event ID"
+msgstr ""
+
+msgid "event time"
+msgstr ""
 
 msgid "Couldn't find user. Maybe you mistyped your request?"
 msgstr "Nepodarilo sa nájs» u¾ívateµa. Mo¾no ste preklepli va¹u po¾iadavku?"
@@ -618,6 +630,12 @@ msgstr "Reagova»"
 
 msgid "Dismiss"
 msgstr "Zru¹"
+
+msgid "All channels"
+msgstr ""
+
+msgid "First (unnamed) group"
+msgstr ""
 
 msgid "Now"
 msgstr "Teraz ide"
@@ -893,9 +911,6 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-msgid "Couldn't acquire access to channels, please try again later."
-msgstr "Nedá sa získa» prístup ku kanálom, prosím skúste to znova neskôr."
-
 msgid "Snapshot interval"
 msgstr "Interval snímkovania"
 
@@ -1004,6 +1019,21 @@ msgstr "Vo formáte HH:MM. Oddelené niekoµkokrát bodkoèiarkou"
 msgid "Channel groups for MultiSchedule"
 msgstr "Skupiny kanálov pre televízny program v ståpcoch"
 
+msgid "5 channels per group"
+msgstr ""
+
+msgid "Channel groups as defined in VDR"
+msgstr ""
+
+msgid "All channels in one group"
+msgstr ""
+
+msgid "Individual channel groups"
+msgstr ""
+
+msgid "Channel groups"
+msgstr ""
+
 msgid "Separate channels with a comma ',', separate groups with a semi-colon ';'"
 msgstr "Kanály oddeli» s èiarkou ',', skupiny kanálov oddeµova» bodkoèiarkou ';'"
 
@@ -1103,6 +1133,9 @@ msgstr "®ivé interaktívne VDR prostredie"
 
 msgid "No EPG information available"
 msgstr "EPG informácie sú nedostupné"
+
+#~ msgid "Couldn't acquire access to channels, please try again later."
+#~ msgstr "Nedá sa získa» prístup ku kanálom, prosím skúste to znova neskôr."
 
 #~ msgid "Error acquiring schedules lock"
 #~ msgstr "Uzamknuté získavanie televízneho programu"

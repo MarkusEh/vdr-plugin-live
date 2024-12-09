@@ -449,17 +449,29 @@ msgstr "Toks laikmatis nerastas. Gal įvedėte klaidingą paieškos frazę?"
 msgid "Please set a title for the timer!"
 msgstr "Laikmačiui būtina įvesti pavadinimą!"
 
-msgid "Edit timer"
-msgstr "Koreguoti laikmatį"
-
 msgid "New timer"
 msgstr "Naujas laikmatis"
+
+msgid "Edit timer"
+msgstr "Koreguoti laikmatį"
 
 msgid "Server"
 msgstr ""
 
 msgid "Weekday"
 msgstr "Savaitės diena"
+
+msgid "Monitoring"
+msgstr ""
+
+msgid "none"
+msgstr ""
+
+msgid "event ID"
+msgstr ""
+
+msgid "event time"
+msgstr ""
 
 msgid "Couldn't find user. Maybe you mistyped your request?"
 msgstr "Toks vartotojas nerastas. Gal klaidingai įvedėte užklausos frazę?"
@@ -619,6 +631,12 @@ msgstr "Reguoti"
 
 msgid "Dismiss"
 msgstr "Atmesti"
+
+msgid "All channels"
+msgstr ""
+
+msgid "First (unnamed) group"
+msgstr ""
 
 msgid "Now"
 msgstr "Dabar"
@@ -894,9 +912,6 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-msgid "Couldn't acquire access to channels, please try again later."
-msgstr "Neprieina prie kanalų, pabandykit vėliau."
-
 msgid "Snapshot interval"
 msgstr "Momentinių nuotraukų intervalas"
 
@@ -1006,6 +1021,21 @@ msgstr "Laiko formatas yra HH:MM. Jei naudosite keletą laikų, atskirkite juos 
 msgid "Channel groups for MultiSchedule"
 msgstr "Kainalas neturi programos aprašo"
 
+msgid "5 channels per group"
+msgstr ""
+
+msgid "Channel groups as defined in VDR"
+msgstr ""
+
+msgid "All channels in one group"
+msgstr ""
+
+msgid "Individual channel groups"
+msgstr ""
+
+msgid "Channel groups"
+msgstr ""
+
 msgid "Separate channels with a comma ',', separate groups with a semi-colon ';'"
 msgstr ""
 
@@ -1105,6 +1135,9 @@ msgstr "Live interaktyvioji VDR aplinka"
 
 msgid "No EPG information available"
 msgstr "Nėra EPG informacijos"
+
+#~ msgid "Couldn't acquire access to channels, please try again later."
+#~ msgstr "Neprieina prie kanalų, pabandykit vėliau."
 
 #~ msgid "Error acquiring schedules lock"
 #~ msgstr "Negali gauti programų užrakto"

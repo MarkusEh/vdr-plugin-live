@@ -450,17 +450,29 @@ msgstr "ტაიმერი ვერ ვიპოვე. შეიძლე�
 msgid "Please set a title for the timer!"
 msgstr "ტაიმერის სახელის მითითება აუცილებელია!"
 
-msgid "Edit timer"
-msgstr "ტაიმერის ჩასწორება"
-
 msgid "New timer"
 msgstr "ახალი ტაიმერი"
+
+msgid "Edit timer"
+msgstr "ტაიმერის ჩასწორება"
 
 msgid "Server"
 msgstr "სერვერი"
 
 msgid "Weekday"
 msgstr "კვირის დღე"
+
+msgid "Monitoring"
+msgstr ""
+
+msgid "none"
+msgstr ""
+
+msgid "event ID"
+msgstr ""
+
+msgid "event time"
+msgstr ""
 
 msgid "Couldn't find user. Maybe you mistyped your request?"
 msgstr "მომხმარებელი ვერ ვიპოვე. შეიძლება, მოთხოვნა არასწორია?"
@@ -620,6 +632,12 @@ msgstr "რეაქცია"
 
 msgid "Dismiss"
 msgstr "მოსილება"
+
+msgid "All channels"
+msgstr ""
+
+msgid "First (unnamed) group"
+msgstr ""
 
 msgid "Now"
 msgstr "ახლა"
@@ -895,9 +913,6 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-msgid "Couldn't acquire access to channels, please try again later."
-msgstr "არხებთან წვდომის შეცდომა. მოგვიანებით სცადეთ."
-
 msgid "Snapshot interval"
 msgstr "სწრაფი ასლის ინტერვალი"
 
@@ -1006,6 +1021,21 @@ msgstr "ფორმატია სს:წწ. დროები წერტ�
 msgid "Channel groups for MultiSchedule"
 msgstr "არხის ჯგუფები მრავალიგანრგისთვის"
 
+msgid "5 channels per group"
+msgstr ""
+
+msgid "Channel groups as defined in VDR"
+msgstr ""
+
+msgid "All channels in one group"
+msgstr ""
+
+msgid "Individual channel groups"
+msgstr ""
+
+msgid "Channel groups"
+msgstr ""
+
 msgid "Separate channels with a comma ',', separate groups with a semi-colon ';'"
 msgstr "არხები \",\" მძიმით, ჯგუფები კი წერტილმძიმით \";\" გამოყავით"
 
@@ -1105,6 +1135,9 @@ msgstr "ცოცხალი ინტერაქტიური VDR გარ
 
 msgid "No EPG information available"
 msgstr "EPG-ის ინფორმაცია მიუწვდომელია"
+
+#~ msgid "Couldn't acquire access to channels, please try again later."
+#~ msgstr "არხებთან წვდომის შეცდომა. მოგვიანებით სცადეთ."
 
 #~ msgid "Web-Streaming h264"
 #~ msgstr "ვებ-ნაკადი h264"

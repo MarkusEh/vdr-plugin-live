@@ -455,17 +455,29 @@ msgstr "Nelze najít nahrávaní. Je správně zadáno?"
 msgid "Please set a title for the timer!"
 msgstr "Prosím nastavte název nahrávání!"
 
-msgid "Edit timer"
-msgstr "Změna nahrávání"
-
 msgid "New timer"
 msgstr "Nové nahrávání"
+
+msgid "Edit timer"
+msgstr "Změna nahrávání"
 
 msgid "Server"
 msgstr ""
 
 msgid "Weekday"
 msgstr "Den v týdnu"
+
+msgid "Monitoring"
+msgstr ""
+
+msgid "none"
+msgstr ""
+
+msgid "event ID"
+msgstr ""
+
+msgid "event time"
+msgstr ""
 
 msgid "Couldn't find user. Maybe you mistyped your request?"
 msgstr "Nelze nalézt zadaného uživatele. Byl zadán správně?"
@@ -626,6 +638,12 @@ msgstr "řešit"
 
 msgid "Dismiss"
 msgstr "neřešit"
+
+msgid "All channels"
+msgstr ""
+
+msgid "First (unnamed) group"
+msgstr ""
 
 msgid "Now"
 msgstr "Nyní"
@@ -902,9 +920,6 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-msgid "Couldn't acquire access to channels, please try again later."
-msgstr "Nelze získat přístup k programům, zkuste později."
-
 msgid "Snapshot interval"
 msgstr "Interval snímků obrazovky"
 
@@ -1015,6 +1030,21 @@ msgstr "Formát je HH:MM. Oddělte více časů středníkem"
 msgid "Channel groups for MultiSchedule"
 msgstr "Kanál nemá žádný program"
 
+msgid "5 channels per group"
+msgstr ""
+
+msgid "Channel groups as defined in VDR"
+msgstr ""
+
+msgid "All channels in one group"
+msgstr ""
+
+msgid "Individual channel groups"
+msgstr ""
+
+msgid "Channel groups"
+msgstr ""
+
 msgid "Separate channels with a comma ',', separate groups with a semi-colon ';'"
 msgstr ""
 
@@ -1115,6 +1145,9 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr "Nejsou dostupné informace o programu"
+
+#~ msgid "Couldn't acquire access to channels, please try again later."
+#~ msgstr "Nelze získat přístup k programům, zkuste později."
 
 #~ msgid "Error acquiring schedules lock"
 #~ msgstr "Chyba při vytváření zámku pro nahrávky"

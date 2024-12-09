@@ -519,15 +519,15 @@ inline typename std::enable_if<N >= 1, char*>::type itoa_min_width(char *b, T i)
 
 //  ==== addCharsHex ========================
 template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
-  inline T addCharsHex(char *buffer, size_t num_chars, T value) {
+inline T addCharsHex(char *buffer, size_t num_chars, T value) {
 // sizeof(buffer) must be >= num_chars. This is not checked !!!
 // value must be >= 0. This is not checked !!!
 // value is written with num_chars chars
 //   if value is too small -> left values filled with 0
 //   if value is too high  -> the highest numbers are not written. This is not checked!
 //           but, you can check: if the returned value is != 0, some chars are not written
-    const char *hex_chars = "0123456789ABCDEF";
-    for (char *be = buffer + num_chars -1; be >= buffer; --be, value /= 16) *be = hex_chars[value%16];
+  const char *hex_chars = "0123456789ABCDEF";
+  for (char *be = buffer + num_chars -1; be >= buffer; --be, value /= 16) *be = hex_chars[value%16];
   return value;
   }
 }
@@ -623,7 +623,7 @@ class cToSvFile: public cToSv {
       if (!fd.exists()) return true;
       struct stat buffer;
       if (fstat(fd, &buffer) != 0) {
-        if (errno == ENOENT) return false;
+        if (errno == ENOENT) return false;  // somehow strange, cOpen found the file, and fstat says it does not exist ... we try again
         esyslog("cToSvFile::load, ERROR: in fstat, errno %d, filename %s\n", errno, filename);
         return true;
       }
@@ -715,11 +715,8 @@ class cToSvConcat: public cToSv {
       *(m_pos_for_append++) = ch;
       return *this;
     }
-    cToSvConcat &operator<<(cSv sv) { return append(sv.data(), sv.length()); }
-    template<std::size_t M>
-    cToSvConcat &operator<<(const char (&s)[M]) { return append(s, M-1); }
-
-template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
+    cToSvConcat &operator<<(cSv sv) { return append(sv); }
+    template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
     cToSvConcat &operator<<(T i) {
       if (!to_chars10_internal::to_chars10_range_check(m_pos_for_append, m_be_data, i)) ensure_free(20);
       m_pos_for_append = to_chars10_internal::itoa(m_pos_for_append, i);
@@ -729,13 +726,15 @@ template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
 // ========================
 // overloads for append. Should be compatible to std::string.append(...)
 // ========================
-    cToSvConcat &append(cSv sv) { return append(sv.data(), sv.length()); }
-    cToSvConcat &append(const char *s, size_t len) {
-      if (!s | !len) return *this;
-      if (m_pos_for_append + len > m_be_data) ensure_free(len);
-      memcpy(m_pos_for_append, s, len);
-      m_pos_for_append += len;
+    cToSvConcat &append(cSv sv) {
+      if (sv.empty() ) return *this; // this check is required: documentation of std::memcpy: If either dest or src is an invalid or null pointer, the behavior is undefined, even if count is zero.
+      if (m_pos_for_append + sv.length() > m_be_data) ensure_free(sv.length() );
+      memcpy(m_pos_for_append, sv.data(), sv.length());
+      m_pos_for_append += sv.length();
       return *this;
+    }
+    cToSvConcat &append(const char *s, size_t len) {
+      return append(cSv(s, len));
     }
     cToSvConcat &append(size_t count, char ch) {
       if (m_pos_for_append + count > m_be_data) ensure_free(count);
@@ -749,9 +748,10 @@ template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
 // =======================
 
 // =======================
-// appendInt   append integer (with some format options)
+// appendInt:   append integer (with some format options)
 template<size_t M, typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
     cToSvConcat &appendInt(T i) {
+// append integer with min widh M. Left fill with 0, if required.
       if (m_pos_for_append + std::max(M, (size_t)20) > m_be_data) ensure_free(std::max(M, (size_t)20));
       m_pos_for_append = stringhelpers_internal::itoa_min_width<M, T>(m_pos_for_append, i);
       return *this;
@@ -769,7 +769,7 @@ template<typename T, std::enable_if_t<sizeof(T) == 16, bool> = true>
       return *this;
     }
 // =======================
-// append_utf8 append utf8 codepoint
+// append_utf8:     append utf8 codepoint
     cToSvConcat &append_utf8(wint_t codepoint) {
       if (m_pos_for_append + 4 > m_be_data) ensure_free(4);
       if (codepoint <= 0x7F) {
@@ -863,7 +863,7 @@ template<typename T, std::enable_if_t<sizeof(T) == 16, bool> = true>
         ensure_free(1024);
         needed = std::strftime(m_pos_for_append, m_be_data - m_pos_for_append, fmt.c_str(), tp);
         if (needed == 0) {
-          esyslog("live: ERROR, cToScConcat::appendDateTime needed = 0, fmt = %s", fmt.c_str());
+          esyslog("live: ERROR, cToSvConcat::appendDateTime needed = 0, fmt = %s", fmt.c_str());
           return *this; // we did not expect to need more than 1024 chars for the formatted time ...
         }
       }
@@ -874,7 +874,7 @@ template<typename T, std::enable_if_t<sizeof(T) == 16, bool> = true>
       if (!time) return *this;
       struct std::tm tm_r;
       if (localtime_r( &time, &tm_r ) == 0 ) {
-        esyslog("live: ERROR, cToScConcat::appendDateTime localtime_r = 0, fmt = %s, time = %lld", fmt.c_str(), (long long)time);
+        esyslog("live: ERROR, cToSvConcat::appendDateTime localtime_r = 0, fmt = %s, time = %lld", fmt.c_str(), (long long)time);
         return *this;
         }
       return appendDateTime(fmt, &tm_r);
@@ -1249,6 +1249,22 @@ class cSplit {
       const cSv m_sv;
       const char m_delim;
       const iterator m_end;
+};
+
+/*
+ * class cRange: create a "range" class from begin & end iterator
+*/
+template<class I> class cRange {
+  public:
+    cRange(I begin, I end): m_begin(begin), m_end(end) {}
+    void set_begin(I begin) { m_begin = begin; }
+    void set_end(I end) { m_end = end; }
+    using iterator = I;
+    I begin() { return m_begin; }
+    I end()   { return m_end; }
+  private:
+    I m_begin;
+    I m_end;
 };
 
 /*

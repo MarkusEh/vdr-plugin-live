@@ -447,17 +447,29 @@ msgstr "Таймер не найден. Проверьте правильнос�
 msgid "Please set a title for the timer!"
 msgstr "Введите название таймера"
 
-msgid "Edit timer"
-msgstr "Изменить таймер"
-
 msgid "New timer"
 msgstr "Новый таймер"
+
+msgid "Edit timer"
+msgstr "Изменить таймер"
 
 msgid "Server"
 msgstr ""
 
 msgid "Weekday"
 msgstr "День недели"
+
+msgid "Monitoring"
+msgstr ""
+
+msgid "none"
+msgstr ""
+
+msgid "event ID"
+msgstr ""
+
+msgid "event time"
+msgstr ""
 
 msgid "Couldn't find user. Maybe you mistyped your request?"
 msgstr "Пользователь не найден. Проверьте правильность запроса."
@@ -617,6 +629,12 @@ msgstr "Реагировать"
 
 msgid "Dismiss"
 msgstr "Освободить"
+
+msgid "All channels"
+msgstr ""
+
+msgid "First (unnamed) group"
+msgstr ""
 
 msgid "Now"
 msgstr "Сейчас"
@@ -892,9 +910,6 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-msgid "Couldn't acquire access to channels, please try again later."
-msgstr "Нет доступа к каналу, попробуйте позже"
-
 msgid "Snapshot interval"
 msgstr "Интервал между снимками"
 
@@ -1003,6 +1018,21 @@ msgstr "Формат HH:MM. Разделяется несколько раз п�
 msgid "Channel groups for MultiSchedule"
 msgstr "Группа каналов для мультирасписания"
 
+msgid "5 channels per group"
+msgstr ""
+
+msgid "Channel groups as defined in VDR"
+msgstr ""
+
+msgid "All channels in one group"
+msgstr ""
+
+msgid "Individual channel groups"
+msgstr ""
+
+msgid "Channel groups"
+msgstr ""
+
 msgid "Separate channels with a comma ',', separate groups with a semi-colon ';'"
 msgstr "Разделить каналы при помощи ',', разделите группы при помощи ';'"
 
@@ -1102,6 +1132,9 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr "EPG информация недоступна"
+
+#~ msgid "Couldn't acquire access to channels, please try again later."
+#~ msgstr "Нет доступа к каналу, попробуйте позже"
 
 #~ msgid "Error acquiring schedules lock"
 #~ msgstr "Ошибка во время получения расписания"

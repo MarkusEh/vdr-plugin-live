@@ -453,16 +453,28 @@ msgstr ""
 msgid "Please set a title for the timer!"
 msgstr ""
 
-msgid "Edit timer"
+msgid "New timer"
 msgstr ""
 
-msgid "New timer"
+msgid "Edit timer"
 msgstr ""
 
 msgid "Server"
 msgstr ""
 
 msgid "Weekday"
+msgstr ""
+
+msgid "Monitoring"
+msgstr ""
+
+msgid "none"
+msgstr ""
+
+msgid "event ID"
+msgstr ""
+
+msgid "event time"
 msgstr ""
 
 msgid "Couldn't find user. Maybe you mistyped your request?"
@@ -632,6 +644,12 @@ msgid "React"
 msgstr ""
 
 msgid "Dismiss"
+msgstr ""
+
+msgid "All channels"
+msgstr ""
+
+msgid "First (unnamed) group"
 msgstr ""
 
 msgid "Now"
@@ -909,9 +927,6 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-msgid "Couldn't acquire access to channels, please try again later."
-msgstr ""
-
 #, fuzzy
 msgid "Snapshot interval"
 msgstr "interval"
@@ -1019,6 +1034,21 @@ msgid "Format is HH:MM. Separate multiple times with a semicolon"
 msgstr ""
 
 msgid "Channel groups for MultiSchedule"
+msgstr ""
+
+msgid "5 channels per group"
+msgstr ""
+
+msgid "Channel groups as defined in VDR"
+msgstr ""
+
+msgid "All channels in one group"
+msgstr ""
+
+msgid "Individual channel groups"
+msgstr ""
+
+msgid "Channel groups"
 msgstr ""
 
 msgid "Separate channels with a comma ',', separate groups with a semi-colon ';'"

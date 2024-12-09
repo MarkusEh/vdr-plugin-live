@@ -448,17 +448,29 @@ msgstr "Nie można odnaleźć timera."
 msgid "Please set a title for the timer!"
 msgstr "Proszę podać tytuł dla timera!"
 
-msgid "Edit timer"
-msgstr "Edycja timera"
-
 msgid "New timer"
 msgstr "Nowy timer"
+
+msgid "Edit timer"
+msgstr "Edycja timera"
 
 msgid "Server"
 msgstr "Serwer"
 
 msgid "Weekday"
 msgstr "Dzień"
+
+msgid "Monitoring"
+msgstr ""
+
+msgid "none"
+msgstr ""
+
+msgid "event ID"
+msgstr ""
+
+msgid "event time"
+msgstr ""
 
 msgid "Couldn't find user. Maybe you mistyped your request?"
 msgstr "Nie można odnaleźć użytkownika."
@@ -618,6 +630,12 @@ msgstr "Sprawdź"
 
 msgid "Dismiss"
 msgstr "Anuluj"
+
+msgid "All channels"
+msgstr ""
+
+msgid "First (unnamed) group"
+msgstr ""
 
 msgid "Now"
 msgstr "Teraz"
@@ -893,9 +911,6 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-msgid "Couldn't acquire access to channels, please try again later."
-msgstr "Nie można uzyskać dostępu do kanałów, spróbój później."
-
 msgid "Snapshot interval"
 msgstr "Okres pomiędzy migawkami"
 
@@ -1004,6 +1019,21 @@ msgstr "Wpisz czasy, które mają być wyświetlane na liście wyboru w formacie
 msgid "Channel groups for MultiSchedule"
 msgstr "Grypy kanałów w 'Multipzewodniku'"
 
+msgid "5 channels per group"
+msgstr ""
+
+msgid "Channel groups as defined in VDR"
+msgstr ""
+
+msgid "All channels in one group"
+msgstr ""
+
+msgid "Individual channel groups"
+msgstr ""
+
+msgid "Channel groups"
+msgstr ""
+
 msgid "Separate channels with a comma ',', separate groups with a semi-colon ';'"
 msgstr "Kanały oddzielaj przecinkiem, grypu kanałów oddzielaj średnikiem (np. 1,2,7,3,11;4,5,6;21,22,23,40"
 
@@ -1103,6 +1133,9 @@ msgstr ""
 
 msgid "No EPG information available"
 msgstr "Brak informacji EPG"
+
+#~ msgid "Couldn't acquire access to channels, please try again later."
+#~ msgstr "Nie można uzyskać dostępu do kanałów, spróbój później."
 
 #~ msgid "Web-Streaming h264"
 #~ msgstr "Parametry HLS dla AVC (H.264)"
