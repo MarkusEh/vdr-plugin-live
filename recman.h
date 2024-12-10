@@ -169,7 +169,16 @@ cToSvConcat<N> & StringAppendFrameParams(cToSvConcat<N> &s, const cRecording *re
   /**
    * Class containing possible recordings compare functions
    */
-  enum class eSortOrder { name, date, errors, durationDeviation, duplicatesLanguage };
+  enum class eSortOrder
+  {
+    name,
+    date,
+    duration,
+    errors,
+    durationDeviation,
+    duplicatesLanguage
+  };
+
   typedef bool (*tCompRec)(const RecordingsItemRecPtr &a, const RecordingsItemRecPtr &b);
   typedef bool (*tCompDir)(const RecordingsItemDirPtr &a, const RecordingsItemDirPtr &b);
   class RecordingsItemPtrCompare
@@ -177,6 +186,7 @@ cToSvConcat<N> & StringAppendFrameParams(cToSvConcat<N> &s, const cRecording *re
     public:
 // recs
       static bool ByAscendingDate(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second);
+      static bool ByAscendingDuration(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second);
       static bool ByDuplicatesName(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second);
       static bool ByDuplicates(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second);
       static bool ByDuplicatesLanguage(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second);
@@ -338,6 +348,7 @@ cToSvConcat<N> & StringAppendFrameParams(cToSvConcat<N> &s, const cRecording *re
       const cSv scraperReleaseDate() const { return m_s_release_date; }
       const cTvMedia &scraperImage() const;
       int language() const { return m_language; }
+      int CompareL(const RecordingsItemRecPtr &second, int *numEqualChars=NULL) const;
       int CompareTexts(const RecordingsItemRecPtr &second, int *numEqualChars=NULL) const;
       int CompareStD(const RecordingsItemRecPtr &second, int *numEqualChars=NULL) const;
       bool orderDuplicates(const RecordingsItemRecPtr &second, bool alwaysShortText, bool lang = false) const;

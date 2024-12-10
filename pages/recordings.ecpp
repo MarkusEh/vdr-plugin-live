@@ -68,6 +68,9 @@ if (!sort.empty()) {
   if (sort == "date")
     currentSort = (currentSort == "datedesc") ? "dateasc" : "datedesc";
   else if (sort == "datedesc" || sort == "dateasc") currentSort = sort;
+  else if (sort == "duration")
+    currentSort = (currentSort == "durationasc") ? "durationdesc" : "durationasc";
+  else if (sort == "durationasc" || sort == "durationdesc") currentSort = sort;
   else if (sort == "name")
     currentSort = (currentSort == "nameasc") ? "namedesc" : "nameasc";
   else if (sort == "nameasc" || sort == "namedesc") currentSort = sort;
@@ -262,10 +265,11 @@ dsyslog("live, time recordings.ecpp: %f", timeNeeded.count());
 bool reverse = false;
 eSortOrder sortOrder = eSortOrder::name; // default
 if (currentSort.compare(0, 4,  "date"  , 4) == 0) sortOrder = eSortOrder::date;
+if (currentSort.compare(0, 8,  "duration", 8) == 0) sortOrder = eSortOrder::duration;
 if (currentSort.compare(0, 6,  "errors", 6) == 0) sortOrder = eSortOrder::errors;
 if (currentSort.compare(0, 8,  "errorsdur", 8) == 0) sortOrder = eSortOrder::durationDeviation;
 if (currentSort.compare(0, 10, "duplicates", 10) == 0) sortOrder = eSortOrder::duplicatesLanguage;
-if (currentSort == "datedesc" || currentSort == "namedesc") reverse = true;
+if (currentSort == "datedesc" || currentSort == "durationdesc" || currentSort == "namedesc") reverse = true;
 // get rec item of this (current) dir
 RecordingsItemDirPtr recItemThisDir = *(static_cast<RecordingsItemDirPtr *>((void *)iRecItem) );
 RecordingsTreePtr recordingsTree = *(static_cast<RecordingsTreePtr *>((void *)iRecordingsTree) );
@@ -498,6 +502,8 @@ recs[<$cSv(cToSvInt(rPtr->IdI()))$>]=[<$$ recording_item->c_str() $>]
 <a href="recordings.html?sort=<$ (currentSort == "nameasc") ? "namedesc" : "nameasc"$>&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="name" &> ><$ tr("Name") $></a>
 <span class="sep">|</span>
 <a href="recordings.html?sort=<$ (currentSort == "datedesc") ? "dateasc" : "datedesc"$>&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="date" &> ><$ tr("Date") $></a>
+<span class="sep">|</span>
+<a href="recordings.html?sort=<$ (currentSort == "durationasc") ? "durationdesc" : "durationasc"$>&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="duration" &> ><$ tr("Duration") $></a>
 <span class="sep">|</span>
 <a href="recordings.html?sort=duplicates&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="duplicates" &> ><$ tr("Duplicates") $></a>
 <%cpp>
