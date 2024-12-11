@@ -354,6 +354,11 @@ namespace vdrlive {
     return (first->StartTime() < second->StartTime());
   }
 
+  bool RecordingsItemPtrCompare::ByAscendingDuration(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second)
+  {
+    return (first->Duration() < second->Duration());
+  }
+
   bool RecordingsItemPtrCompare::ByDuplicatesName(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second)  // return first < second
   {
            return first->orderDuplicates(second, false);
@@ -422,6 +427,7 @@ namespace vdrlive {
     switch (sortOrder) {
       case eSortOrder::name: return &RecordingsItemPtrCompare::ByAscendingNameDescSort;
       case eSortOrder::date: return &RecordingsItemPtrCompare::ByAscendingDate;
+      case eSortOrder::duration: return &RecordingsItemPtrCompare::ByAscendingDuration;
       case eSortOrder::errors: return &RecordingsItemPtrCompare::ByDescendingRecordingErrors;
       case eSortOrder::durationDeviation: return &RecordingsItemPtrCompare::ByDescendingDurationDeviation;
       case eSortOrder::duplicatesLanguage: return &RecordingsItemPtrCompare::ByDuplicatesLanguage;
