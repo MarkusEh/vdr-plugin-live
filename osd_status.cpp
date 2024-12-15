@@ -1,4 +1,3 @@
-
 #include "osd_status.h"
 
 #include <sstream>
@@ -119,29 +118,31 @@ std::string const OsdStatusMonitor::GetButtonsHtml() {
   return !buffer.empty() ? "<div class=\"osdButtons\">" + buffer + "</div>" : "";
 }
 
-std::string const OsdStatusMonitor::GetItemsHtml(void){
+std::string const OsdStatusMonitor::GetItemsHtml(void) {
   std::string buffer= "";
   for (cLiveOsdItem *item = items.First(); item; item = items.Next(item)) {
-    buffer += "<div class=\"osdItem";
-    if (item->isSelected()) buffer +=  " selected";
-    buffer += "\">";
-/*
     if (tabs[0] > 0) {
-      buffer += EncodeHtml(item->Text(), true);
-      const char *tab = strchr(item->Text().c_str(), '\t');
-      if (tab && *(tab + 1) ) {
-        int charsT1 = tab - item->Text().c_str();
-        buffer.append(std::max(1, (int)tabs[0] - charsT1), ' ');
-        buffer += EncodeHtml(tab + 1);
+      std::string text = item->Text();
+      bool selected = item->isSelected();
+      buffer += "<tr class=\"osdItem";
+      if (selected) buffer += " selected";
+      buffer += "\">";
+      for (cSv tc: cSplit(text, '\t')) {
+        buffer += "<td>";
+        buffer += EncodeHtml(tc);
+        buffer += "</td>";
       }
+      buffer += "</tr>";
     } else {
-*/
+      buffer += "<div class=\"osdItem";
+      if (item->isSelected()) buffer +=  " selected";
+      buffer += "\">";
       buffer += EncodeHtml(item->Text());
-//    }
-    buffer += "</div>";
+      buffer += "</div>";
+    }
   }
   if (buffer.empty() ) return "";
-//  if (tabs[0] > 0) return std::string("<div class=\"osdItems\"><table>") + buffer + "</table></div>";
+  if (tabs[0] > 0) return std::string("<div class=\"osdItems\"><table>") + buffer + "</table></div>";
   return std::string("<div class=\"osdItems\">") + buffer + "</div>";
 }
 
@@ -151,24 +152,23 @@ std::string const OsdStatusMonitor::GetHtml(){
   return "<div class=\"osd\" data-time=\"" + ss.str() + "\">" + GetTitleHtml() + GetItemsHtml() + GetTextHtml() + GetMessageHtml() + GetButtonsHtml() + "</div>";
 }
 
-std::string const OsdStatusMonitor::EncodeHtml(const std::string& html, bool stopAtTab) {
-  std::stringstream ss;
-  std::string::const_iterator i;
-  for (i = html.begin(); i != html.end(); ++i) {
+std::string const OsdStatusMonitor::EncodeHtml(cSv html) {
+  std::string s;
+  for (std::string_view::const_iterator i = html.begin(); i != html.end(); ++i) {
     if (*i == '<')
-      ss << "&lt;";
+      s += "&lt;";
     else if (*i == '>')
-      ss << "&gt;";
+      s += "&gt;";
     else if (*i == '&')
-      ss << "&amp;";
+      s += "&amp;";
     else if (*i == '"')
-      ss << "&quot;";
-    else if (*i == '\t' && stopAtTab)
-      break;
+      s += "&quot;";
+    else if (*i == 10 || *i == 13)
+      s += "<br/>";
     else
-      ss << static_cast<char>(*i); // Copy untranslated
+      s.append(1, static_cast<char>(*i)); // Copy untranslated
   }
-  return ss.str();
+  return s;
 }
 
 

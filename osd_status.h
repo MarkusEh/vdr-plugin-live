@@ -4,6 +4,7 @@
 // STL headers need to be before VDR tools.h (included by <vdr/status.h>)
 #include <string>
 
+#include "stringhelpers.h"
 #include <vdr/status.h>
 
 
@@ -76,7 +77,7 @@ public:
 
   virtual ~OsdStatusMonitor();
 
-  std::string const EncodeHtml(const std::string& html, bool stopAtTab = false);
+  std::string const EncodeHtml(cSv html);
 };
 
 OsdStatusMonitor& LiveOsdStatusMonitor();

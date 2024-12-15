@@ -1201,12 +1201,13 @@ cSubstring cSubstring::substringInXmlTag(cSv sv, const char (&tag)[N]) {
 /*
  * class cSplit: iterate over parts of a string
 */
-class cSplit {
+class cSplit_old {
   public:
-    cSplit(cSv sv, char delim): m_sv(sv), m_delim(delim), m_end(cSv(), m_delim) {}
+    cSplit_old(cSv sv, char delim): m_sv(sv), m_delim(delim), m_end(cSv(), m_delim) {}
 // sv can start with delim (optional), and it will just be ignored
-    cSplit(const cSplit&) = delete;
-    cSplit &operator= (const cSplit &) = delete;
+// moved to old. To much heuristc behaviour
+    cSplit_old(const cSplit_old&) = delete;
+    cSplit_old &operator= (const cSplit_old &) = delete;
     class iterator {
         cSv m_remainingParts;
         char m_delim;
@@ -1234,6 +1235,70 @@ class cSplit {
         }
         bool operator!=(iterator other) const { return m_remainingParts != other.m_remainingParts; }
         bool operator==(iterator other) const { return m_remainingParts == other.m_remainingParts; }
+        cSv operator*() const {
+          if (m_next_delim == std::string_view::npos) return m_remainingParts;
+          else return m_remainingParts.substr(0, m_next_delim);
+        }
+      };
+      iterator begin() { return iterator(m_sv, m_delim); }
+      const iterator &end() { return m_end; }
+      iterator find(cSv sv) {
+        if (m_sv.find(sv) == std::string_view::npos) return m_end;
+        return std::find(begin(), end(), sv);
+      }
+    private:
+      const cSv m_sv;
+      const char m_delim;
+      const iterator m_end;
+};
+inline cSv trim_delim(cSv sv, char delim, bool trunc) {
+// if trunc remove delim from start and end of sv
+  if (!trunc) return sv;
+  if (sv.length() < 2) {
+    esyslog("tvscraper: trim_delim, length() < 2, sv: \"%.*s\"", (int)sv.length(), sv.data());
+    return sv;
+  }
+  if (sv[0] != delim || sv[sv.length()-1] != delim) {
+    esyslog("tvscraper: trim_delim, delim missing, sv: \"%.*s\"", (int)sv.length(), sv.data());
+    return sv;
+  }
+  return sv.substr(1, sv.length() - 2);
+}
+// delimiter is ONLY between parts, and not at beginning or end of string
+// a tring with n delimiters will split into n+1 parts. Always. Parts can be empty
+class cSplit {
+  public:
+    cSplit(cSv sv, char delim): m_sv(sv), m_delim(delim), m_end(m_delim) { }
+    cSplit(cSv sv, char delim, bool trunc): m_sv(trim_delim(sv, delim, trunc)), m_delim(delim), m_end(m_delim) { }
+    cSplit(const cSplit&) = delete;
+    cSplit &operator= (const cSplit &) = delete;
+    class iterator {
+        cSv m_remainingParts;
+        char m_delim;
+        size_t m_next_delim;
+      public:
+        using iterator_category = std::forward_iterator_tag;
+        using value_type = cSv;
+        using difference_type = int;
+        using pointer = const cSv*;
+        using reference = cSv&;
+
+        explicit iterator(cSv r, char delim): m_remainingParts(r), m_delim(delim) {
+          m_next_delim = m_remainingParts.find(m_delim);
+        }
+        explicit iterator(char delim): m_delim(delim), m_next_delim(std::string_view::npos-1) {}
+        iterator& operator++() {
+          if (m_next_delim == std::string_view::npos) {
+            m_remainingParts = cSv();
+            --m_next_delim;
+          } else {
+            m_remainingParts.remove_prefix(m_next_delim + 1);
+            m_next_delim = m_remainingParts.find(m_delim);
+          }
+          return *this;
+        }
+        bool operator!=(iterator other) const { return m_next_delim != other.m_next_delim || m_remainingParts != other.m_remainingParts; }
+        bool operator==(iterator other) const { return m_next_delim == other.m_next_delim && m_remainingParts == other.m_remainingParts; }
         cSv operator*() const {
           if (m_next_delim == std::string_view::npos) return m_remainingParts;
           else return m_remainingParts.substr(0, m_next_delim);

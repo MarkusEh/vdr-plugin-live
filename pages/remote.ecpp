@@ -5,6 +5,8 @@
 #include <tools.h>
 #include <users.h>
 
+#include <vdr/remote.h>
+
 using namespace vdrlive;
 
 </%pre>
@@ -20,7 +22,7 @@ bool logged_in(false);
 <%include>page_init.eh</%include>
 <{
 if (!logged_in && LiveSetup().UseAuth()) {
-  cToSvConcat<0> targetUrl = "/login.html?redirect=";
+  cToSvConcat targetUrl("/login.html?redirect=");
   targetUrl.appendUrlEscaped(request.getQuery());
   return reply.redirect(targetUrl.data());
 }
@@ -53,235 +55,240 @@ if (!logged_in && LiveSetup().UseAuth()) {
 <& pageelems.doc_type &>
 <html>
   <head>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>VDR-Live - <$ pageTitle $></title>
-    <& pageelems.stylesheets &>
-    <& pageelems.ajax_js &>
-    <script type="text/javascript"><!--
-    var newImg = null;
-    var imgsrc = "";
-    var osdAjax = null;
-    var osdTimeout = -1;
-    var interval = -1;
-    var clkTimer;
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VDR-Live - <$ pageTitle $></title>
+  <& pageelems.stylesheets &>
+  <& pageelems.ajax_js &>
+  <script type="text/javascript"><!--
+  var newImg = null;
+  var imgsrc = "";
+  var osdAjax = null;
+  var osdTimeout = -1;
+  var interval = -1;
+  var clkTimer;
 
-    function changeScreenContent(){
-      var screenCon= document.getElementsByName('screenCon');
-      for ( var i=0; i < screenCon.length; i++){
-        if (screenCon[i].id == 'screenCon_grab'){
-          if (screenCon[i].checked){
-            newImg = new Image();
-            StreamLoad();
-            ChangeInterval();
-            StreamLoad();
-            document.images.vdrlive.style.display= '';
-          } else {
-            window.clearInterval(interval);
-            document.images.vdrlive.style.display= 'none';
-            newImg = null;
-          }
-        } else if (screenCon[i].id == 'screenCon_osd'){
-          if (screenCon[i].checked){
-            osdAjax= new Ajax('osd.xml', {method: 'get'});
-            osdAjax.lastUpd= -1;
-            osdAjax.addEvent('onComplete', function(text,xmlDoc){
-              try{
-                var upd= parseInt(xmlDoc.firstChild.getAttribute("data-time"),10);
-                if ( osdAjax.lastUpd != upd ){
-                  $('osd').empty().setHTML(text);
-                  osdAjax.lastUpd = upd;
-                  var sOsdItems= $$('#screenshot .osdItems');
-                  var sSelected= $$('#screenshot .selected');
-                  if (sOsdItems.length > 0 && sSelected.length > 0) sOsdItems[0].scrollTop= sSelected[0].offsetTop - 40;
-                }
-              } catch (e) {}
-              window.clearInterval(osdTimeout);
-              osdTimeout= window.setTimeout("OSDLoad()",1000);
-            });
-            document.getElementById('osd').style.display= '';
+  function changeScreenContent(){
+    var screenCon= document.getElementsByName('screenCon');
+    for ( var i=0; i < screenCon.length; i++){
+      if (screenCon[i].id == 'screenCon_grab'){
+        if (screenCon[i].checked){
+          newImg = new Image();
+          StreamLoad();
+          ChangeInterval();
+          StreamLoad();
+          document.images.vdrlive.style.display= '';
+        } else {
+          window.clearInterval(interval);
+          document.images.vdrlive.style.display= 'none';
+          newImg = null;
+        }
+      } else if (screenCon[i].id == 'screenCon_osd'){
+        if (screenCon[i].checked){
+          osdAjax= new Ajax('osd.xml', {method: 'get'});
+          osdAjax.lastUpd= -1;
+          osdAjax.addEvent('onComplete', function(text,xmlDoc){
+            try{
+              var upd= parseInt(xmlDoc.firstChild.getAttribute("data-time"),10);
+              if ( osdAjax.lastUpd != upd ){
+                $('osd').empty().setHTML(text);
+                osdAjax.lastUpd = upd;
+                var sOsdItems= $$('#screenshot .osdItems');
+                var sSelected= $$('#screenshot .selected');
+                if (sOsdItems.length > 0 && sSelected.length > 0) sOsdItems[0].scrollTop= sSelected[0].offsetTop - 40;
+              }
+            } catch (e) {}
+            window.clearInterval(osdTimeout);
+            osdTimeout= window.setTimeout("OSDLoad()",1000);
+          });
+          document.getElementById('osd').style.display= '';
 
-            OSDLoad()
-          } else {
-            document.getElementById('osd').style.display= 'none';
-            osdAjax= null;
-          }
-        } else if (screenCon[i].id == 'screenCon_none'){
-          if (screenCon[i].checked) {
-            document.getElementById('screenshot').style.display= 'none';
-            document.getElementById('remoteDiv').style.transform= 'scale(1.4)';
-            document.getElementById('remoteDiv').style.transformOrigin= 'left top';
-          } else {
-            document.getElementById('screenshot').style.display= '';
-            document.getElementById('remoteDiv').style.transform= '';
-            document.getElementById('remoteDiv').style.transformOrigin= '';
-          }
-                                }
-      }
-
+          OSDLoad()
+        } else {
+          document.getElementById('osd').style.display= 'none';
+          osdAjax= null;
+        }
+      } else if (screenCon[i].id == 'screenCon_none'){
+        if (screenCon[i].checked) {
+          document.getElementById('screenshot').style.display= 'none';
+          document.getElementById('remoteDiv').style.transform= 'scale(1.4)';
+          document.getElementById('remoteDiv').style.transformOrigin= 'left top';
+        } else {
+          document.getElementById('screenshot').style.display= '';
+          document.getElementById('remoteDiv').style.transform= '';
+          document.getElementById('remoteDiv').style.transformOrigin= '';
+        }
+                              }
     }
 
-    function StreamLoad()
-    {
-      if (!newImg)
-        return;
-      uniq = new Date();
-      uniq = uniq.getTime();
-      document.images.vdrlive.src=newImg.src;
-      newImg.src=imgsrc+"?"+uniq;
-    }
+  }
 
-    function StreamInit()
-    {
-      document.getElementsByName('screenCon')[0].checked= true;
-      if (document.images.vdrlive)
-        imgsrc = document.images.vdrlive.src;
-      FillIntervals();
-      changeScreenContent();
-      $('osd').addEvents({
-          'click': function(ev){
-              $clear(clkTimer);
-              clkTimer = (function(){
-                handleOSD(ev.target, false);
-              }).delay(200, this);
-          },
-          'dblclick': function(ev){
-              $clear(clkTimer);
-              handleOSD(ev.target, true);
-          }
-      });
-    }
+  function StreamLoad()
+  {
+    if (!newImg)
+      return;
+    uniq = new Date();
+    uniq = uniq.getTime();
+    document.images.vdrlive.src=newImg.src;
+    newImg.src=imgsrc+"?"+uniq;
+  }
 
-    function ChangeInterval()
-    {
-      var element = document.getElementsByName('interval').item(0);
-      var timeout = element.value;
-      window.clearInterval(interval);
-      interval = window.setInterval("StreamLoad()", timeout);
-    }
+  function StreamInit()
+  {
+    document.getElementsByName('screenCon')[0].checked= true;
+    if (document.images.vdrlive)
+      imgsrc = document.images.vdrlive.src;
+    FillIntervals();
+    changeScreenContent();
+    $('osd').addEvents({
+        'click': function(ev){
+            $clear(clkTimer);
+            clkTimer = (function(){
+              handleOSD(ev.target, false);
+            }).delay(200, this);
+        },
+        'dblclick': function(ev){
+            $clear(clkTimer);
+            handleOSD(ev.target, true);
+        }
+    });
+  }
 
-    function StreamEnd()
-    {
-      window.clearInterval(interval);
-    }
+  function ChangeInterval()
+  {
+    var element = document.getElementsByName('interval').item(0);
+    var timeout = element.value;
+    window.clearInterval(interval);
+    interval = window.setInterval("StreamLoad()", timeout);
+  }
 
-    function OSDLoad(){
-      if (osdAjax)
-        osdAjax.request();
-    }
-    function handleOSD(elem, doEnter){
-      switch (elem.className){
-      case 'osdButtonRed':
-        return KeyPress(<$ kRed $>);
-      case 'osdButtonGreen':
-        return KeyPress(<$ kGreen $>);
-      case 'osdButtonYellow':
-        return KeyPress(<$ kYellow $>);
-      case 'osdButtonBlue':
-        return KeyPress(<$ kBlue $>);
-      case 'osdTitle':
-        return KeyPress(<$ kBack $>);
-      case 'osdItem':
-        var hits= 0,
-          cur= elem,
-          keycode= <$ kDown $>;
+  function StreamEnd()
+  {
+    window.clearInterval(interval);
+  }
+
+  function OSDLoad(){
+    if (osdAjax)
+      osdAjax.request();
+  }
+  function handleOSD(elem, doEnter){
+    switch (elem.className){
+    case 'osdButtonRed':
+      return KeyPress(<$ kRed $>);
+    case 'osdButtonGreen':
+      return KeyPress(<$ kGreen $>);
+    case 'osdButtonYellow':
+      return KeyPress(<$ kYellow $>);
+    case 'osdButtonBlue':
+      return KeyPress(<$ kBlue $>);
+    case 'osdTitle':
+      return KeyPress(<$ kBack $>);
+    case 'osdItem':
+      var hits= 0,
+        cur= elem,
+        keycode= <$ kDown $>;
+      while (cur && cur.className.indexOf('selected') == -1 ){
+        cur= cur.previousSibling;
+        hits++;
+      };
+      if ( !cur){
+        hits= 0;
+        cur= elem;
+        keycode= <$ kUp $>;
         while (cur && cur.className.indexOf('selected') == -1 ){
-          cur= cur.previousSibling;
+          cur= cur.nextSibling;
           hits++;
         };
-        if ( !cur){
-          hits= 0;
-          cur= elem;
-          keycode= <$ kUp $>;
-          while (cur && cur.className.indexOf('selected') == -1 ){
-            cur= cur.nextSibling;
-            hits++;
-          };
-        }
-        for(;hits > 0; hits--)
-          KeyPress(keycode, true);
-        if ( !doEnter){
-          OSDLoad();
-          return false;
-        }
-      case 'osdItem selected':
-        return KeyPress(<$ kOk $>);
       }
-      return true;
+      for(;hits > 0; hits--)
+        KeyPress(keycode, true);
+      if ( !doEnter){
+        OSDLoad();
+        return false;
+      }
+    case 'osdItem selected':
+      return KeyPress(<$ kOk $>);
     }
+    return true;
+  }
 
-    function KeyPress(keycode,DonotLoadOSD)
-    {
-      var req = new Ajax('keypress.xml', { method : 'post'});
-      if (!DonotLoadOSD && osdAjax)
-        req.addEvent('onComplete', OSDLoad);
-      req.request('keycode=' + keycode + '&async=1');
-      return false;
-    }
+  function KeyPress(keycode,DonotLoadOSD)
+  {
+    var req = new Ajax('keypress.xml', { method : 'post'});
+    if (!DonotLoadOSD && osdAjax)
+      req.addEvent('onComplete', OSDLoad);
+    req.request('keycode=' + keycode + '&async=1');
+    return false;
+  }
 
-    function FillIntervals()
-    {
-      var element = document.getElementsByName('interval').item(0);
-      if (!element)
-        return;
-      var items = new Array(1000, 2000, 5000);
-      element.options.length = items.length;
-      for (i = 0; i < items.length; ++i) {
-        element.options[i].value = items[i];
-        element.options[i].text = (items[i] / 1000) + " s";
-        if (items[i] == <$ cToSvInt(LiveSetup().GetScreenshotInterval() ) $>)
-          element.selectedIndex = i;
-      }
+  function FillIntervals()
+  {
+    var element = document.getElementsByName('interval').item(0);
+    if (!element)
+      return;
+    var items = new Array(1000, 2000, 5000);
+    element.options.length = items.length;
+    for (i = 0; i < items.length; ++i) {
+      element.options[i].value = items[i];
+      element.options[i].text = (items[i] / 1000) + " s";
+      if (items[i] == <$ cToSvInt(LiveSetup().GetScreenshotInterval() ) $>)
+        element.selectedIndex = i;
     }
+  }
 
-    function KeyboardInput(ev)
-    {
-      switch (ev.which){
-      case 38: return KeyPress(<$ kUp $>);
-      case 40: return KeyPress(<$ kDown $>);
-      case 13: return KeyPress(<$ kOk $>);
-      case 8: return KeyPress(<$ kBack $>);
-      case 37: return KeyPress(<$ kLeft $>);
-      case 39: return KeyPress(<$ kRight $>);
-      case 112: return KeyPress(<$ kRed $>);
-      case 113: return KeyPress(<$ kGreen $>);
-      case 114: return KeyPress(<$ kYellow $>);
-      case 115: return KeyPress(<$ kBlue $>);
-      case 33: return KeyPress(<$ kChanUp $>);
-      case 34: return KeyPress(<$ kChanDn $>);
-      }
-      switch (ev.key){
-      case 'm': return KeyPress(<$ kMenu $>);
-      case 'q': return KeyPress(<$ kBack $>);
-      case 'r': return ev.ctrlKey ? KeyPress(<$ kRecord $>) : KeyPress(<$ kRed $>);
-      case 'g': return KeyPress(<$ kGreen $>);
-      case 'y': return KeyPress(<$ kYellow $>);
-      case 'b': return KeyPress(<$ kBlue $>);
-      case '0': return KeyPress(<$ k0 $>);
-      case '1': return KeyPress(<$ k1 $>);
-      case '2': return KeyPress(<$ k2 $>);
-      case '3': return KeyPress(<$ k3 $>);
-      case '4': return KeyPress(<$ k4 $>);
-      case '5': return KeyPress(<$ k5 $>);
-      case '6': return KeyPress(<$ k6 $>);
-      case '7': return KeyPress(<$ k7 $>);
-      case '8': return KeyPress(<$ k8 $>);
-      case '9': return KeyPress(<$ k9 $>);
-      case 'i': return KeyPress(<$ kInfo $>);
-      case 'x': return ev.ctrlKey && KeyPress(<$ kPower $>);
-      case '+': return KeyPress(<$ kVolUp $>);
-      case '-': return KeyPress(<$ kVolDn $>);
-      case '_': return KeyPress(<$ kMute $>);
-      case 'A': return KeyPress(<$ kAudio $>);
-      case 'S': return KeyPress(<$ kSubtitles $>);
-      case 'C': return KeyPress(<$ kChannels $>);
-      case 'T': return KeyPress(<$ kTimers $>);
-      }
-      return true;
+  function KeyboardInput(ev)
+  {
+// https://www.yavdr.org/documentation/0.7/yaVDR07_documentation.html#vdr -> Tastenbelegung
+// https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values
+    switch (ev.which){
+    case 120:                                // F9
+    case 9:  return KeyPress(<$ kMenu $>);   // VK_TAB The Horizontal Tab key,
+    case 27: return KeyPress(<$ kBack $>);   // VK_ESCAPE The Esc (Escape) key
+    case 13: return KeyPress(<$ kOk $>);     // VK_RETURN Enter/Return
+    case 38: return KeyPress(<$ kUp $>);     // VK_UP The up arrow key.
+    case 40: return KeyPress(<$ kDown $>);   // VK_DOWN The down arrow key
+    case 37: return KeyPress(<$ kLeft $>);   // VK_LEFT The left arrow key.
+    case 39: return KeyPress(<$ kRight $>);  // VK_RIGHT The right arrow key
+    case 112: return KeyPress(<$ kRed $>);   // F1
+    case 113: return KeyPress(<$ kGreen $>); // F2
+    case 114: return KeyPress(<$ kYellow $>); // F3
+    case 115: return KeyPress(<$ kBlue $>);  // F4
+    case 116: return KeyPress(<$ kFastRew $>);  // F5
+    case 117: return KeyPress(<$ kFastFwd $>);  // F6
+    case 121: return KeyPress(<$ kMute $>);  // F10
+    case 122: return KeyPress(<$ kVolDn $>); // F11
+    case 123: return KeyPress(<$ kVolUp $>); // F12
+    case 33: return KeyPress(<$ kChanUp $>); // VK_PRIOR  he Page Up (or PgUp) key.
+    case 34: return KeyPress(<$ kChanDn $>); // VK_NEXT The Page Down (or PgDn) key.
+    case 36: return KeyPress(<$ kKbd | (kfHome << 16) $>); // VK_HOME The Home key (or Pos1)
+    case 35: return KeyPress(<$ kKbd | (kfEnd << 16) $>); // VK_END The End key
+    case 45: return KeyPress(<$ kKbd | (kfIns << 16) $>); // VK_INSERT The Insert key, Ins
+    case 46: return KeyPress(<$ kKbd | (kfDel << 16) $>); // VK_DELETE The Delete key, Del
+    case  8: return KeyPress(<$ kKbd | (0x7F << 16) $>); // VK_BACK The Backspace key. This key is labeled Delete on Mac keyboards
     }
-    //--></script>
+    if (ev.key.length == 1) {
+      switch (ev.key) {
+        case '0': return KeyPress(<$ k0 $>);
+        case '1': return KeyPress(<$ k1 $>);
+        case '2': return KeyPress(<$ k2 $>);
+        case '3': return KeyPress(<$ k3 $>);
+        case '4': return KeyPress(<$ k4 $>);
+        case '5': return KeyPress(<$ k5 $>);
+        case '6': return KeyPress(<$ k6 $>);
+        case '7': return KeyPress(<$ k7 $>);
+        case '8': return KeyPress(<$ k8 $>);
+        case '9': return KeyPress(<$ k9 $>);
+      }
+      let i_val = ev.key.charCodeAt(0);
+      if (i_val > 31 & i_val < 256) {
+        return KeyPress(<$ kKbd $> | (i_val << 16));
+      }
+    }
+    return true;
+  }
+  //--></script>
 % reply.sout().imbue(std::locale());
   </head>
-  <body onload="StreamInit(); FillIntervals(); adjustHeader()" onresize="adjustHeader()" onunload="StreamEnd() onkeydown="return KeyboardInput(event);">
+  <body onload="StreamInit(); FillIntervals(); adjustHeader()" onresize="adjustHeader()" onunload="StreamEnd()" onkeydown="return KeyboardInput(event);">
     <& pageelems.logo &>
     <& menu active="remote" component=("remote.remote_actions")>
     <div class="inhalt" id="remoteDiv">

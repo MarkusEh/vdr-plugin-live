@@ -1,0 +1,17 @@
+the keyboard shortcuts in the remote view:
+
+<tab> -> menu
+<esc> -> back
+<ret> -> OK
+<F1>  -> red
+<F2>  -> green
+<F3>  -> jellow
+<F4>  -> blue
+<F5>  -> fast rewind
+<F6>  -> fast fwd
+<F9>  -> menu
+<F10> -> mute
+<F11> -> vol down
+<F12> -> vol up
+<PgUp>-> channel up
+<PgDn>-> channel down
