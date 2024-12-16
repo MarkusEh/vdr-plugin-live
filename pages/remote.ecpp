@@ -170,6 +170,26 @@ if (!logged_in && LiveSetup().UseAuth()) {
     if (osdAjax)
       osdAjax.request();
   }
+  function selectLineOsd(elem) {
+    var hits= 0,
+      cur= elem,
+      keycode= <$ kDown $>;
+    while (cur && cur.className.indexOf('selected') == -1 ){
+      cur= cur.previousSibling;
+      hits++;
+    };
+    if ( !cur){
+      hits= 0;
+      cur= elem;
+      keycode= <$ kUp $>;
+      while (cur && cur.className.indexOf('selected') == -1 ){
+        cur= cur.nextSibling;
+        hits++;
+      };
+    }
+    for(;hits > 0; hits--)
+      KeyPress(keycode, true);
+  }
   function handleOSD(elem, doEnter){
     switch (elem.className){
     case 'osdButtonRed':
@@ -182,25 +202,21 @@ if (!logged_in && LiveSetup().UseAuth()) {
       return KeyPress(<$ kBlue $>);
     case 'osdTitle':
       return KeyPress(<$ kBack $>);
-    case 'osdItem':
-      var hits= 0,
-        cur= elem,
-        keycode= <$ kDown $>;
-      while (cur && cur.className.indexOf('selected') == -1 ){
-        cur= cur.previousSibling;
-        hits++;
-      };
-      if ( !cur){
-        hits= 0;
-        cur= elem;
-        keycode= <$ kUp $>;
-        while (cur && cur.className.indexOf('selected') == -1 ){
-          cur= cur.nextSibling;
-          hits++;
-        };
+    case '':
+      if (elem.parentNode.className == 'osdItem') {
+        selectLineOsd(elem.parentNode);
+        if ( !doEnter){
+          OSDLoad();
+          return false;
+        }
+        return KeyPress(<$ kOk $>);
       }
-      for(;hits > 0; hits--)
-        KeyPress(keycode, true);
+      if (elem.parentNode.className == 'osdItem selected') {
+        return KeyPress(<$ kOk $>);
+      }
+      return true;
+    case 'osdItem':
+      selectLineOsd(elem);
       if ( !doEnter){
         OSDLoad();
         return false;

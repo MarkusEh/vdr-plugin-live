@@ -3,8 +3,10 @@
 
 // STL headers need to be before VDR tools.h (included by <vdr/status.h>)
 #include <string>
+#include <cxxtools/log.h>
 
 #include "stringhelpers.h"
+#include "tools.h"
 #include <vdr/status.h>
 
 
@@ -26,9 +28,6 @@ class cLiveOsdItem: public cListObject {
 class OsdStatusMonitor: public cStatus
 {
   friend OsdStatusMonitor& LiveOsdStatusMonitor();
-public:
-    enum { MaxTabs = 6 };
-private:
   OsdStatusMonitor();
   OsdStatusMonitor( OsdStatusMonitor const& );
 
@@ -40,32 +39,121 @@ private:
   std::string blue;
   std::string text;
   int selected;
-  cList<cLiveOsdItem>  items;
-  unsigned short tabs[MaxTabs];
+  cList<cLiveOsdItem> items;
   clock_t lastUpdate;
 
-protected:
-//  static void append(char *&tail, char type, const char *src, int max);
 public:
 
-  std::string const GetTitle() const {return title;}
+/*
   std::string const GetMessage() const {return message;}
   std::string const GetRed() const {return red;}
   std::string const GetGreen() const {return green;}
   std::string const GetYellow() const {return yellow;}
   std::string const GetBlue() const {return blue;}
   std::string const GetText() const {return text;}
+*/
 
-  virtual std::string const GetHtml();
-  virtual std::string const GetTitleHtml();
-  virtual std::string const GetMessageHtml();
-  virtual std::string const GetRedHtml();
-  virtual std::string const GetGreenHtml();
-  virtual std::string const GetYellowHtml();
-  virtual std::string const GetBlueHtml();
-  virtual std::string const GetTextHtml();
-  virtual std::string const GetButtonsHtml();
-  virtual std::string const GetItemsHtml();
+template <size_t N> cToSvConcat<N>& appendTitleHtml(cToSvConcat<N>& target) {
+    if (title.empty() ) return target;
+    target << "<div class=\"osdTitle\">";
+    AppendHtmlEscapedAndCorrectNonUTF8(target, title);
+    target << "</div>";
+    return target;
+  }
+template <size_t N> cToSvConcat<N>& appendMessageHtml(cToSvConcat<N>& target) {
+    if (message.empty() ) return target;
+    target << "<div class=\"osdMessage\">";
+    AppendHtmlEscapedAndCorrectNonUTF8(target, message);
+    target << "</div>";
+    return target;
+  }
+template <size_t N> cToSvConcat<N>& appendRedHtml(cToSvConcat<N>& target) {
+    if (red.empty() ) {
+      target << "<div class=\"osdButtonInvisible\"></div>";
+    } else {
+      target << "<div class=\"osdButtonRed\">";
+      AppendHtmlEscapedAndCorrectNonUTF8(target, red);
+      target << "</div>";
+    }
+    return target;
+  }
+template <size_t N> cToSvConcat<N>& appendGreenHtml(cToSvConcat<N>& target) {
+    if (green.empty() ) {
+      target << "<div class=\"osdButtonInvisible\"></div>";
+    } else {
+      target << "<div class=\"osdButtonGreen\">";
+      AppendHtmlEscapedAndCorrectNonUTF8(target, green);
+      target << "</div>";
+    }
+    return target;
+  }
+template <size_t N> cToSvConcat<N>& appendYellowHtml(cToSvConcat<N>& target) {
+    if (yellow.empty() ) {
+      target << "<div class=\"osdButtonInvisible\"></div>";
+    } else {
+      target << "<div class=\"osdButtonYellow\">";
+      AppendHtmlEscapedAndCorrectNonUTF8(target, yellow);
+      target << "</div>";
+    }
+    return target;
+  }
+template <size_t N> cToSvConcat<N>& appendBlueHtml(cToSvConcat<N>& target) {
+    if (blue.empty() ) return target;
+    target << "<div class=\"osdButtonBlue\">";
+    AppendHtmlEscapedAndCorrectNonUTF8(target, blue);
+    target << "</div>";
+    return target;
+  }
+template <size_t N> cToSvConcat<N>& appendButtonsHtml(cToSvConcat<N>& target) {
+    if (red.empty() && green.empty() && yellow.empty() && blue.empty() ) return target;
+    target << "<div class=\"osdButtons\">";
+    appendRedHtml(target);
+    appendGreenHtml(target);
+    appendYellowHtml(target);
+    appendBlueHtml(target);
+    target << "</div>";
+    return target;
+  }
+template <size_t N> cToSvConcat<N>& appendTextHtml(cToSvConcat<N>& target) {
+    if (text.empty() ) return target;
+    target << "<div class=\"osdText\">";
+    AppendHtmlEscapedAndCorrectNonUTF8(target, text);
+    target << "</div>";
+    return target;
+  }
+template <size_t N> cToSvConcat<N>& appendItemsHtml(cToSvConcat<N>& target) {
+    bool first = true;
+    std::string text;
+    for (cLiveOsdItem *item = items.First(); item; item = items.Next(item)) {
+      text = item->Text();
+      bool selected = item->isSelected();
+      if (first) {
+        first = false;
+        target += "<div class=\"osdItems\"><table>";
+      }
+      target += "<tr class=\"osdItem";
+      if (selected) target += " selected";
+      target += "\">";
+      for (cSv tc: cSplit(text, '\t')) {
+        target += "<td>";
+        AppendHtmlEscapedAndCorrectNonUTF8(target, tc);
+        target += "</td>";
+      }
+      target += "</tr>";
+    }
+    if (!first) target += "</table></div>";
+    return target;
+  }
+template <size_t N> cToSvConcat<N>& appendHtml(cToSvConcat<N>& target) {
+    target << "<div class=\"osd\" data-time=\"" << lastUpdate << "\">";
+    appendTitleHtml(target);
+    appendItemsHtml(target);
+    appendTextHtml(target);
+    appendMessageHtml(target);
+    appendButtonsHtml(target);
+    target << "</div>";
+    return target;
+  }
 
   virtual void OsdClear();
   virtual void OsdTitle(const char *Title);
@@ -76,8 +164,6 @@ public:
   virtual void OsdCurrentItem(const char *Text);
 
   virtual ~OsdStatusMonitor();
-
-  std::string const EncodeHtml(cSv html);
 };
 
 OsdStatusMonitor& LiveOsdStatusMonitor();

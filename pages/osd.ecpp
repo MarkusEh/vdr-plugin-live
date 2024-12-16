@@ -17,7 +17,9 @@ if (!logged_in && LiveSetup().UseAuth()) {
   targetUrl.appendUrlEscaped(request.getQuery());
   return reply.redirect(targetUrl.data());
 }
-reply.setContentType( "application/xml" );
+reply.setContentType("application/xml");
 
-reply.out() << LiveOsdStatusMonitor().GetHtml();
+cToSvConcat osd;
+LiveOsdStatusMonitor().appendHtml(osd);
+reply.out() << osd;
 </%cpp>

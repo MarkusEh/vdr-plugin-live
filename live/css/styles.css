@@ -1369,6 +1369,9 @@ div.screenshot img {
 .osdButtonRed {
   background-color:red
 }
+.osdButtonInvisible {
+  background-color:transparent;color:transparent
+}
 
 
 /* #############################
