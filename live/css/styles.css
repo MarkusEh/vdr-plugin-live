@@ -1337,10 +1337,25 @@ div.screenshot img {
   white-space: nowrap;
 }
 
-.osdItem.selected {
-  background-color:#cccccc;
+.osdItems table, .osdItems tr, .osdItems td {
+  padding: 0ch;
+  border-collapse: collapse;
+}
+
+tr.osdItem, tr.osdItem td {
+  padding: 1px;
+  border-collapse: collapse;
+}
+
+tr.osdItem td:not(:first-child) {
+  padding-left: 1ch;
+}
+
+tr.osdItem.selected td {
+  background-color: #cccccc;
   color:#000000;
 }
+
 
 .osdButtons {
 }
@@ -1369,6 +1384,7 @@ div.screenshot img {
 .osdButtonRed {
   background-color:red
 }
+
 .osdButtonInvisible {
   background-color:transparent;color:transparent
 }

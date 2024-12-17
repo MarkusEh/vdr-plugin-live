@@ -17,10 +17,10 @@ class cLiveOsdItem: public cListObject {
     std::string text;
     bool selected;
   public:
-    std::string Text() const { return text; }
+    cSv Text() const { return text; }
     int  isSelected() const {return selected;}
     void Select(const bool doSelect) { selected= doSelect; };
-    void Update(const char* Text) { text = Text ? Text : ""; };
+    void Update(const char* Text);
     explicit cLiveOsdItem(const char* Text):text(),selected(false) { text = Text ? Text : ""; };
     ~cLiveOsdItem() { }
 };
@@ -43,16 +43,6 @@ class OsdStatusMonitor: public cStatus
   clock_t lastUpdate;
 
 public:
-
-/*
-  std::string const GetMessage() const {return message;}
-  std::string const GetRed() const {return red;}
-  std::string const GetGreen() const {return green;}
-  std::string const GetYellow() const {return yellow;}
-  std::string const GetBlue() const {return blue;}
-  std::string const GetText() const {return text;}
-*/
-
 template <size_t N> cToSvConcat<N>& appendTitleHtml(cToSvConcat<N>& target) {
     if (title.empty() ) return target;
     target << "<div class=\"osdTitle\">";
@@ -123,18 +113,15 @@ template <size_t N> cToSvConcat<N>& appendTextHtml(cToSvConcat<N>& target) {
   }
 template <size_t N> cToSvConcat<N>& appendItemsHtml(cToSvConcat<N>& target) {
     bool first = true;
-    std::string text;
     for (cLiveOsdItem *item = items.First(); item; item = items.Next(item)) {
-      text = item->Text();
-      bool selected = item->isSelected();
       if (first) {
         first = false;
         target += "<div class=\"osdItems\"><table>";
       }
       target += "<tr class=\"osdItem";
-      if (selected) target += " selected";
+      if (item->isSelected() ) target += " selected";
       target += "\">";
-      for (cSv tc: cSplit(text, '\t')) {
+      for (cSv tc: cSplit(item->Text(), '\t')) {
         target += "<td>";
         AppendHtmlEscapedAndCorrectNonUTF8(target, tc);
         target += "</td>";

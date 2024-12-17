@@ -40,6 +40,14 @@ void OsdStatusMonitor::OsdHelpKeys(const char *Red, const char *Green, const cha
   lastUpdate= clock();
 }
 
+void cLiveOsdItem::Update(const char* Text) {
+  if (Text) {
+    if (text != Text) text = Text;
+  } else {
+    if (!text.empty() ) text.clear();
+  }
+}
+
 /* documentation in vdr source:
   virtual void OsdItem(const char *Text, int Index) {}
     // The OSD displays the given single line Text as menu item at Index.
