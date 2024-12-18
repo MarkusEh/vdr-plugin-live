@@ -1222,6 +1222,8 @@ cSubstring cSubstring::substringInXmlTag(cSv sv, const char (&tag)[N]) {
          must contain the delimiter at beginning and end of string (otherwise, error message in syslog)
          -> a string with n delimiters will split into n-1 parts
 
+  note: for strings created with cContainer use eSplitDelimBeginEnd::required
+
 */
 enum class eSplitDelimBeginEnd { none, optional, required };
 inline cSv trim_delim(cSv sv, char delim, eSplitDelimBeginEnd splitDelimBeginEnd) {

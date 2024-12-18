@@ -123,7 +123,7 @@ inline cToSvConcat<N>& AppendHtmlEscapedAndCorrectNonUTF8(cToSvConcat<N>& target
       target.append(notAppended, i);
       switch (text[pos+2]) {
         case '\x80':
-          // refresh symbol
+          // refresh symbol (counter-clockwise arrow)
           target.append("\xE2\x86\xBA");
           break;
         case '\x82':
@@ -133,6 +133,30 @@ inline cToSvConcat<N>& AppendHtmlEscapedAndCorrectNonUTF8(cToSvConcat<N>& target
         case '\x83':
           // non-breaking space
           target.append("\xC2\xA0");
+          break;
+        case '\x8B':
+          // recording symbol
+          target.append("\xC2\xAE");
+          break;
+        case '\x8C':
+          // timer symbol (full coverage)
+          target.append("\xE2\x8F\xB2");
+          break;
+        case '\x91':
+          // repeat symbol (clockwise arrow)
+          target.append("\xE2\x9F\xB3");
+          break;
+        case '\x92':
+          // running symbol
+          target.append("\xE2\x96\xB6");
+          break;
+        case '\x94':
+          // partial timer symbol (at start)
+          target.append("\xE2\x97\xA0");
+          break;
+        case '\x95':
+          // partial timer symbol (at end)
+          target.append("\xE2\x97\xA1");
           break;
         default:
           target.append(text.substr(pos, 3));

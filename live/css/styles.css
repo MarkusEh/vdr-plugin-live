@@ -1323,6 +1323,9 @@ div.screenshot img {
   padding:10px;
   border:2px solid red;
 }
+.osdProgrammeSubTitle {
+  font-size: 10px;
+}
 
 .osdText, .osdItems {
   overflow:auto;
@@ -1333,8 +1336,13 @@ div.screenshot img {
 }
 
 .osdItem, .osdTitle {
-  cursor:pointer;
   white-space: nowrap;
+}
+.osdItem {
+  cursor:pointer;
+}
+.osdItem.notSelectable {
+  cursor:default;
 }
 
 .osdItems table, .osdItems tr, .osdItems td {
@@ -1355,7 +1363,6 @@ tr.osdItem.selected td {
   background-color: #cccccc;
   color:#000000;
 }
-
 
 .osdButtons {
 }

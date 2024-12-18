@@ -4,16 +4,17 @@
 
 namespace vdrlive {
 
-OsdStatusMonitor::OsdStatusMonitor():title(),message(),red(),green(),yellow(),blue(),text(),selected(-1),lastUpdate(0){
-}
+OsdStatusMonitor::OsdStatusMonitor():present_time(0),following_time(0),selected(-1),lastUpdate(0) {}
 OsdStatusMonitor::~OsdStatusMonitor() {
   OsdClear();
 }
 
 void OsdStatusMonitor::OsdClear() {
-  title = message = text = "";
+  title = message = text = channel_text = present_title = present_subtitle = following_title = following_subtitle = "";
   red = green = yellow = blue = "";
   items.Clear();
+  present_time = 0;
+  following_time = 0;
   selected = -1;
   lastUpdate= clock();
 }
@@ -52,8 +53,13 @@ void cLiveOsdItem::Update(const char* Text) {
   virtual void OsdItem(const char *Text, int Index) {}
     // The OSD displays the given single line Text as menu item at Index.
 */
+#if OSDITEM == 2
+void OsdStatusMonitor::OsdItem2(const char *Text, int Index, bool Selectable) {
+  items.Add(new cLiveOsdItem(Text,Selectable));
+#else
 void OsdStatusMonitor::OsdItem(const char *Text, int Index) {
-  items.Add(new cLiveOsdItem(Text));
+  items.Add(new cLiveOsdItem(Text,true));
+#endif
   lastUpdate= clock();
 }
 
@@ -117,6 +123,25 @@ void OsdStatusMonitor::OsdTextItem(const char *Text, bool Scroll) {
 // Ignore if called with Text == nullptr
 //   accoeding to doc, the previously received text shall be scrolled up (true) or down (false)
 //   we use scroll bar for that ...
+  lastUpdate= clock();
+}
+void OsdStatusMonitor::OsdChannel(const char *Text) {
+  if (Text) {
+    if (channel_text != Text) channel_text = Text;
+  } else {
+    if (!channel_text.empty() ) channel_text.clear();
+  }
+  lastUpdate= clock();
+}
+
+void OsdStatusMonitor::OsdProgramme(time_t PresentTime, const char *PresentTitle, const char *PresentSubtitle, time_t FollowingTime, const char *FollowingTitle, const char *FollowingSubtitle) {
+  present_time = PresentTime;
+  present_title = cSv(PresentTitle);
+  present_subtitle = cSv(PresentSubtitle);
+  following_time = FollowingTime;
+  following_title = cSv(FollowingTitle);
+  following_subtitle = cSv(FollowingSubtitle);
+
   lastUpdate= clock();
 }
 

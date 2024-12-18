@@ -385,7 +385,7 @@ bool write_recs = level == 0 || currentFlat == "true";
 if (!write_recs && recItemsC) {
 // check: is this folder open (cookie)?
   auto equal_fldf = [parentIdHash](cSv f) { return f.compare(5, std::string_view::npos, parentIdHash) == 0; };
-  cSplit splitOpenTreeNodes(openTreeNodes, ',');
+  cSplit splitOpenTreeNodes(openTreeNodes, ',', eSplitDelimBeginEnd::optional);
   write_recs = std::find_if(splitOpenTreeNodes.begin(), splitOpenTreeNodes.end(), equal_fldf) != splitOpenTreeNodes.end();
 }
 if (write_recs && recItemsC) {
@@ -450,7 +450,7 @@ if (currentSort != "duplicates" || currentFlat == "true") {
 // check: is this folder open (cookie)?
       cSv idHash_sv = idHash;
       auto equal_fldf = [idHash_sv](cSv f) { return f.compare(5, std::string_view::npos, idHash_sv) == 0; };
-      cSplit splitOpenTreeNodes(openTreeNodes, ',');
+      cSplit splitOpenTreeNodes(openTreeNodes, ',', eSplitDelimBeginEnd::optional);
       if (std::find_if(splitOpenTreeNodes.begin(), splitOpenTreeNodes.end(), equal_fldf) != splitOpenTreeNodes.end()) {
         </%cpp>
 <script>
