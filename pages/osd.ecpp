@@ -1,6 +1,8 @@
 <%pre>
 
 #include <setup.h>
+#include <time.h>
+#include <vdr/remote.h>
 #include <osd_status.h>
 
 using namespace vdrlive;
@@ -12,14 +14,34 @@ bool logged_in(false);
 <%request scope="page">
 </%request>
 <%cpp>
-if (!logged_in && LiveSetup().UseAuth()) {
-  cToSvConcat targetUrl("/login.html?redirect=");
-  targetUrl.appendUrlEscaped(request.getQuery());
-  return reply.redirect(targetUrl.data());
-}
-reply.setContentType("application/xml");
+  clock_t lastOsdChange = LiveOsdStatusMonitor().getLastUpdate();
+  if (!logged_in && LiveSetup().UseAuth()) {
+    cToSvConcat targetUrl("/login.html?redirect=");
+    targetUrl.appendUrlEscaped(request.getQuery());
+    return reply.redirect(targetUrl.data());
+  }
+  reply.setContentType("text/plain; charset=utf-8");
 
-cToSvConcat osd;
-LiveOsdStatusMonitor().appendHtml(osd);
-reply.out() << osd;
+  struct timespec ts_req;
+  ts_req.tv_sec = 0;
+  ts_req.tv_nsec = 1000000;
+  for (int i = 0; i < 100 && cRemote::HasKeys() ;++i) nanosleep(&ts_req, nullptr);  // to allow processing the keys before we return
+
+// wait for the OSD being stable (not changing any more)
+  for (int i = 0; i < 100; ++i) {
+    nanosleep(&ts_req, nullptr);
+    clock_t osdChange = LiveOsdStatusMonitor().getLastUpdate();
+    if (lastOsdChange == osdChange) break;
+    lastOsdChange = osdChange;
+  }
+
+  cToSvConcat osd;
+  for (int i = 0; i < 100; ++i) {
+    osd.clear();
+    LiveOsdStatusMonitor().appendHtml(osd);
+    clock_t osdChange = LiveOsdStatusMonitor().getLastUpdate();
+    if (lastOsdChange == osdChange) break;
+    lastOsdChange = osdChange;
+  }
+  reply.out() << osd;
 </%cpp>

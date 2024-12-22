@@ -94,23 +94,23 @@ std::vector<std::string> channel_groups_names;
     if (lastChannel == 0) lastChannel = Channels->MaxNumber();
     if (channelGroupsGen == "individual") {
       std::string channelGroups = LiveSetup().GetChannelGroups();
-      for (cSv channelGroup: cSplit(channelGroups, ';')) {
+      for (cSv channelGroup: cSplit(channelGroups, ';', eSplitDelimBeginEnd::optional)) {
         int cur_group_count = 0;
         channel_groups_names.push_back(std::string() );
         channel_groups_numbers.push_back(std::vector<int>() );
-        for (cSv thisChannel: cSplit(channelGroup, ',')) {
+        for (cSv thisChannel: cSplit(channelGroup, ',', eSplitDelimBeginEnd::optional)) {
           if (cur_group_count++ != 0)
             channel_groups_names.back() += " - ";
           else
             channel_groups_names.back() += cToSvConcat(thisChannel, ": ");
           int channel_no = parse_int<int> (thisChannel);
           if (channel_no == 0) {
-            esyslog("live: could not convert '%*.s' into a channel number", (int)thisChannel.length(), thisChannel.data() );
+            esyslog("live: check settings->channel groups: could not convert '%.*s' into a channel number", (int)thisChannel.length(), thisChannel.data() );
             continue;
           }
           const cChannel* Channel = Channels->GetByNumber(channel_no);
           if (!Channel) {
-            esyslog("live: could not find channel no '%*.s'.", (int)thisChannel.length(), thisChannel.data() );
+            esyslog("live: check settings->channel groups: could not find channel no %d, '%.*s'.", channel_no, (int)thisChannel.length(), thisChannel.data() );
             continue;
           }
           channel_groups_numbers.back().push_back(Channel->Number() );
@@ -218,7 +218,7 @@ std::vector<std::string> channel_groups_names;
       unsigned int sep = part.find(':');
       if (sep == part.npos)
       {
-        esyslog("live: Error parsing time '%*.s'", (int)part.length(), part.data() );
+        esyslog("live: Error parsing time '%.*s'", (int)part.length(), part.data() );
         continue;
       }
       cSv hour = part.substr(0, sep );

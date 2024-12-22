@@ -12,100 +12,115 @@
 
 namespace vdrlive {
 
-class cLiveOsdItem: public cListObject {
+class cOsdStatusMonitorLock {
   private:
-    std::string text;
-    bool selected;
-    bool selectable;
+    cStateKey m_stateKey;
   public:
-    cSv Text() const { return text; }
-    int  isSelected() const {return selected; }
-    bool isSelectable() const {return selectable; }
-    void Select(const bool doSelect) { selected= doSelect; };
+    cOsdStatusMonitorLock(bool Write = false);
+    ~cOsdStatusMonitorLock() { m_stateKey.Remove(); }
+};
+
+class cLiveOsdItem {
+  private:
+    std::string m_text;
+    bool m_selectable;
+  public:
+    cSv Text() const { return m_text; }
+    bool isSelectable() const {return m_selectable; }
     void Update(const char* Text);
-    explicit cLiveOsdItem(const char* Text, bool Selectable):text(cSv(Text)),selected(false),selectable(Selectable) {}
+    explicit cLiveOsdItem(cSv Text, bool Selectable):m_text(Text),m_selectable(Selectable) {}
     ~cLiveOsdItem() { }
 };
 
 class OsdStatusMonitor: public cStatus
 {
   friend OsdStatusMonitor& LiveOsdStatusMonitor();
+  friend cOsdStatusMonitorLock;
   OsdStatusMonitor();
   OsdStatusMonitor( OsdStatusMonitor const& );
 
-  std::string title;
-  std::string message;
-  std::string red;
-  std::string green;
-  std::string yellow;
-  std::string blue;
-  std::string text;
-  std::string channel_text;
-  time_t present_time;
-  std::string present_title;
-  std::string present_subtitle;
-  time_t following_time;
-  std::string following_title;
-  std::string following_subtitle;
+  std::string m_title;
+  std::string m_message;
+  std::string m_red;
+  std::string m_green;
+  std::string m_yellow;
+  std::string m_blue;
+  std::string m_text;
+  std::string m_channel_text;
+  time_t m_present_time;
+  std::string m_present_title;
+  std::string m_present_subtitle;
+  time_t m_following_time;
+  std::string m_following_title;
+  std::string m_following_subtitle;
 
-  int selected;
-  cList<cLiveOsdItem> items;
-  clock_t lastUpdate;
+  int m_selected;
+  std::vector<cLiveOsdItem> m_items;
+  clock_t m_lastUpdate;
+  mutable cStateLock m_stateLock;
 
 public:
+  clock_t getLastUpdate() const { cOsdStatusMonitorLock lr; clock_t r = m_lastUpdate; return r; }
 template <size_t N> cToSvConcat<N>& appendTitleHtml(cToSvConcat<N>& target) {
-    if (title.empty() ) return target;
+    cOsdStatusMonitorLock lr;
+    if (m_title.empty() ) return target;
     target << "<div class=\"osdTitle\">";
-    AppendHtmlEscapedAndCorrectNonUTF8(target, title);
+    AppendHtmlEscapedAndCorrectNonUTF8(target, m_title);
     target << "</div>";
     return target;
   }
 template <size_t N> cToSvConcat<N>& appendMessageHtml(cToSvConcat<N>& target) {
-    if (message.empty() ) return target;
+    cOsdStatusMonitorLock lr;
+    if (m_message.empty() ) return target;
     target << "<div class=\"osdMessage\">";
-    AppendHtmlEscapedAndCorrectNonUTF8(target, message);
+    AppendHtmlEscapedAndCorrectNonUTF8(target, m_message);
     target << "</div>";
     return target;
   }
 template <size_t N> cToSvConcat<N>& appendRedHtml(cToSvConcat<N>& target) {
-    if (red.empty() ) {
+    cOsdStatusMonitorLock lr;
+    if (m_red.empty() ) {
       target << "<div class=\"osdButtonInvisible\"></div>";
     } else {
       target << "<div class=\"osdButtonRed\">";
-      AppendHtmlEscapedAndCorrectNonUTF8(target, red);
+      AppendHtmlEscapedAndCorrectNonUTF8(target, m_red);
       target << "</div>";
     }
     return target;
   }
 template <size_t N> cToSvConcat<N>& appendGreenHtml(cToSvConcat<N>& target) {
-    if (green.empty() ) {
+    cOsdStatusMonitorLock lr;
+    if (m_green.empty() ) {
       target << "<div class=\"osdButtonInvisible\"></div>";
     } else {
       target << "<div class=\"osdButtonGreen\">";
-      AppendHtmlEscapedAndCorrectNonUTF8(target, green);
+      AppendHtmlEscapedAndCorrectNonUTF8(target, m_green);
       target << "</div>";
     }
     return target;
   }
 template <size_t N> cToSvConcat<N>& appendYellowHtml(cToSvConcat<N>& target) {
-    if (yellow.empty() ) {
+    cOsdStatusMonitorLock lr;
+    if (m_yellow.empty() ) {
       target << "<div class=\"osdButtonInvisible\"></div>";
     } else {
       target << "<div class=\"osdButtonYellow\">";
-      AppendHtmlEscapedAndCorrectNonUTF8(target, yellow);
+      AppendHtmlEscapedAndCorrectNonUTF8(target, m_yellow);
       target << "</div>";
     }
     return target;
   }
 template <size_t N> cToSvConcat<N>& appendBlueHtml(cToSvConcat<N>& target) {
-    if (blue.empty() ) return target;
+    cOsdStatusMonitorLock lr;
+    if (m_blue.empty() ) return target;
     target << "<div class=\"osdButtonBlue\">";
-    AppendHtmlEscapedAndCorrectNonUTF8(target, blue);
+    AppendHtmlEscapedAndCorrectNonUTF8(target, m_blue);
     target << "</div>";
     return target;
   }
 template <size_t N> cToSvConcat<N>& appendButtonsHtml(cToSvConcat<N>& target) {
-    if (red.empty() && green.empty() && yellow.empty() && blue.empty() ) return target;
+    cOsdStatusMonitorLock lr;
+    if (m_red.empty() && m_green.empty() && m_yellow.empty() && m_blue.empty() ) return target;
     target << "<div class=\"osdButtons\">";
     appendRedHtml(target);
     appendGreenHtml(target);
@@ -115,65 +130,67 @@ template <size_t N> cToSvConcat<N>& appendButtonsHtml(cToSvConcat<N>& target) {
     return target;
   }
 template <size_t N> cToSvConcat<N>& appendTextHtml(cToSvConcat<N>& target) {
-    if (text.empty() ) return target;
+    cOsdStatusMonitorLock lr;
+    if (m_text.empty() ) return target;
     target << "<div class=\"osdText\">";
-    AppendHtmlEscapedAndCorrectNonUTF8(target, text);
+    AppendHtmlEscapedAndCorrectNonUTF8(target, m_text);
     target << "</div>";
     return target;
   }
 template <size_t N> cToSvConcat<N>& appendChannelTextHtml(cToSvConcat<N>& target) {
-    if (channel_text.empty() ) return target;
+    cOsdStatusMonitorLock lr;
+    if (m_channel_text.empty() ) return target;
     target << "<div class=\"osdChannelText\">";
-    AppendHtmlEscapedAndCorrectNonUTF8(target, channel_text);
+    AppendHtmlEscapedAndCorrectNonUTF8(target, m_channel_text);
     target << "</div>";
     return target;
   }
 template <size_t N> cToSvConcat<N>& appendProgrammeHtml(cToSvConcat<N>& target) {
-    if (!present_time || present_title.empty() ) return target;
+    cOsdStatusMonitorLock lr;
+    if (!m_present_time || m_present_title.empty() ) return target;
     target << "<div class=\"osdProgramme\"><table><tr><td>";
-    target.appendDateTime(tr("%I:%M %p"), present_time);
+    target.appendDateTime(tr("%I:%M %p"), m_present_time);
     target << "</td><td>";
     target << "<div class=\"osdProgrammeTitle\">";
-    AppendHtmlEscapedAndCorrectNonUTF8(target, present_title);
+    AppendHtmlEscapedAndCorrectNonUTF8(target, m_present_title);
     target << "</div><div class=\"osdProgrammeSubTitle\">";
-    AppendHtmlEscapedAndCorrectNonUTF8(target, present_subtitle);
+    AppendHtmlEscapedAndCorrectNonUTF8(target, m_present_subtitle);
     target << "</div></td></tr>";
-    if (following_time && !following_title.empty() ) {
+    if (m_following_time && !m_following_title.empty() ) {
       target << "<tr><td>";
-      target.appendDateTime(tr("%I:%M %p"), following_time);
+      target.appendDateTime(tr("%I:%M %p"), m_following_time);
       target << "</td><td>";
       target << "<div class=\"osdProgrammeTitle\">";
-      AppendHtmlEscapedAndCorrectNonUTF8(target, following_title);
+      AppendHtmlEscapedAndCorrectNonUTF8(target, m_following_title);
       target << "</div><div class=\"osdProgrammeSubTitle\">";
-      AppendHtmlEscapedAndCorrectNonUTF8(target, following_subtitle);
+      AppendHtmlEscapedAndCorrectNonUTF8(target, m_following_subtitle);
       target << "</div></td></tr>";
     }
     target << "</table></div>";
     return target;
   }
 template <size_t N> cToSvConcat<N>& appendItemsHtml(cToSvConcat<N>& target) {
-    bool first = true;
-    for (cLiveOsdItem *item = items.First(); item; item = items.Next(item)) {
-      if (first) {
-        first = false;
-        target += "<div class=\"osdItems\"><table>";
-      }
+    cOsdStatusMonitorLock lr;
+    if (m_items.empty()) return target;
+    target += "<div class=\"osdItems\"><table>";
+    for (std::vector<cLiveOsdItem>::size_type item_n = 0; item_n < m_items.size(); ++item_n) {
       target += "<tr class=\"osdItem";
-      if (item->isSelected() ) target += " selected";
-      if (!item->isSelectable() ) target += " notSelectable";
+      if ((int)item_n == m_selected) target += " selected";
+      if (!m_items[item_n].isSelectable() ) target += " notSelectable";
       target += "\">";
-      for (cSv tc: cSplit(item->Text(), '\t')) {
+      for (cSv tc: cSplit(m_items[item_n].Text(), '\t')) {
         target += "<td>";
         AppendHtmlEscapedAndCorrectNonUTF8(target, tc);
         target += "</td>";
       }
       target += "</tr>";
     }
-    if (!first) target += "</table></div>";
+    target += "</table></div>";
     return target;
   }
 template <size_t N> cToSvConcat<N>& appendHtml(cToSvConcat<N>& target) {
-    target << "<div class=\"osd\" data-time=\"" << lastUpdate << "\">";
+    cOsdStatusMonitorLock lr;
+    target << "<div class=\"osd\" data-time=\"" << m_lastUpdate << "\">";
     appendTitleHtml(target);
     appendItemsHtml(target);
     appendTextHtml(target);
@@ -200,6 +217,7 @@ template <size_t N> cToSvConcat<N>& appendHtml(cToSvConcat<N>& target) {
   virtual void OsdItem(const char *Text, int Index);
                // The OSD displays the given single line Text as menu item at Index.
 #endif
+  bool Select_if_matches(std::vector<cLiveOsdItem>::size_type line, const char *Text);
   virtual void OsdCurrentItem(const char *Text);
                // The OSD displays the given single line Text as the current menu item.
   virtual void OsdTextItem(const char *Text, bool Scroll);

@@ -1,6 +1,7 @@
 <%pre>
 
 #include <setup.h>
+#include <time.h>
 
 #include <vdr/remote.h>
 
@@ -9,6 +10,7 @@ using namespace vdrlive;
 </%pre>
 <%args>
   int keycode = kNone;
+  int repeat = 1;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -20,11 +22,20 @@ bool logged_in(false);
     return reply.redirect(targetUrl.data());
   }
   reply.setContentType("application/xml");
+  struct timespec ts_req;
+  ts_req.tv_sec = 0;
+  ts_req.tv_nsec = 1000000;
+  for (int i = 0; i < repeat;) {
+    if (cRemote::Put( (eKeys)keycode ) ) ++i;
+    else nanosleep(&ts_req, nullptr);  // to switch to the thread processing the keys
+  }
+  for (int i = 0; i < 100 && cRemote::HasKeys() ;++i) nanosleep(&ts_req, nullptr);  // to allow processing the keys before we return
 </%cpp>
 <?xml version="1.0"?>
 <service>
 <request name="keypress">
 <param name="keycode"><$ keycode $></param>
+<param name="repeat"><$ repeat $></param>
 </request>
-<response><$ cRemote::Put( (eKeys)keycode ) ? "1" : "0" $></response>
+<response><$ "1" $></response>
 </service>

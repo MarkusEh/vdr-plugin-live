@@ -88,14 +88,14 @@ if (!logged_in && LiveSetup().UseAuth()) {
           osdAjax.lastUpd= -1;
           osdAjax.addEvent('onComplete', function(text,xmlDoc){
             try{
-              var upd= parseInt(xmlDoc.firstChild.getAttribute("data-time"),10);
-              if ( osdAjax.lastUpd != upd ){
-                $('osd').empty().setHTML(text);
-                osdAjax.lastUpd = upd;
-                var sOsdItems= $$('#screenshot .osdItems');
-                var sSelected= $$('#screenshot .selected');
-                if (sOsdItems.length > 0 && sSelected.length > 0) sOsdItems[0].scrollTop= sSelected[0].offsetTop - 40;
-              }
+								var upd = parseInt(text.match(/data-time="(\\d+)"/)[1]);
+                if ( osdAjax.lastUpd != upd ){
+                  $('osd').empty().setHTML(text);
+                  osdAjax.lastUpd = upd;
+                  var sOsdItems= $$('#screenshot .osdItems');
+                  var sSelected= $$('#screenshot .selected');
+                  if (sOsdItems.length > 0 && sSelected.length > 0) sOsdItems[0].scrollTop= sSelected[0].offsetTop - 40;
+                }
             } catch (e) {}
             window.clearInterval(osdTimeout);
             osdTimeout= window.setTimeout("OSDLoad()",1000);
@@ -170,25 +170,24 @@ if (!logged_in && LiveSetup().UseAuth()) {
     if (osdAjax)
       osdAjax.request();
   }
-  function selectLineOsd(elem) {
+  function selectLineOsd(elem,DonotLoadOSD) {
     var hits= 0,
       cur= elem,
       keycode= <$ kDown $>;
-    while (cur && cur.className.indexOf('selected') == -1 ){
+    while (cur && cur.className.indexOf('selected') == -1 ) {
+      if (cur.className.indexOf('notSelectable') == -1) hits++;
       cur= cur.previousSibling;
-      hits++;
     };
-    if ( !cur){
+    if (!cur) {
       hits= 0;
       cur= elem;
       keycode= <$ kUp $>;
       while (cur && cur.className.indexOf('selected') == -1 ){
+        if (cur.className.indexOf('notSelectable') == -1) hits++;
         cur= cur.nextSibling;
-        hits++;
       };
     }
-    for(;hits > 0; hits--)
-      KeyPress(keycode, true);
+    KeyPress(keycode, DonotLoadOSD, hits);
   }
   function handleOSD(elem, doEnter){
     switch (elem.className){
@@ -204,11 +203,8 @@ if (!logged_in && LiveSetup().UseAuth()) {
       return KeyPress(<$ kBack $>);
     case '':
       if (elem.parentNode.className == 'osdItem') {
-        selectLineOsd(elem.parentNode);
-        if ( !doEnter){
-          OSDLoad();
-          return false;
-        }
+        selectLineOsd(elem.parentNode,doEnter);
+        if (!doEnter) return false;
         return KeyPress(<$ kOk $>);
       }
       if (elem.parentNode.className == 'osdItem selected') {
@@ -216,23 +212,20 @@ if (!logged_in && LiveSetup().UseAuth()) {
       }
       return true;
     case 'osdItem':
-      selectLineOsd(elem);
-      if ( !doEnter){
-        OSDLoad();
-        return false;
-      }
+      selectLineOsd(elem,doEnter);
+      if (!doEnter) return false;
     case 'osdItem selected':
       return KeyPress(<$ kOk $>);
     }
     return true;
   }
 
-  function KeyPress(keycode,DonotLoadOSD)
+  function KeyPress(keycode,DonotLoadOSD=false,repeat=1)
   {
     var req = new Ajax('keypress.xml', { method : 'post'});
     if (!DonotLoadOSD && osdAjax)
       req.addEvent('onComplete', OSDLoad);
-    req.request('keycode=' + keycode + '&async=1');
+    req.request('keycode=' + keycode + '&async=1&repeat='+repeat);
     return false;
   }
 

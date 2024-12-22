@@ -86,7 +86,7 @@ namespace vdrlive {
   {
     if (!timer) return "";
     std::string currentDay = timer->WeekDays() > 0 ?
-      *cTimer::PrintDay(0, timer->WeekDays(), true) :
+      *cTimer::PrintDay(0, timer->WeekDays(), false) :
       std::string(cToSvDateTime(tr("%A, %x"), timer->Day()));
     return currentDay;
   }

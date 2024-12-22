@@ -122,41 +122,46 @@ inline cToSvConcat<N>& AppendHtmlEscapedAndCorrectNonUTF8(cToSvConcat<N>& target
     if (l == 3 && text[pos] == '\xEE' && text[pos+1] == '\x80') {
       target.append(notAppended, i);
       switch (text[pos+2]) {
+// mapping of VDR private-use symbols onto well-known UTF symbols
         case '\x80':
-          // refresh symbol (counter-clockwise arrow)
-          target.append("\xE2\x86\xBA");
+// reversion symbol (counter-clockwise arrow)
+          target.append("\u21BA");
           break;
         case '\x82':
-          // folder symbol
-          target.append("\xF0\x9F\x93\x81");
+// U+E002: folder symbol
+          target.append("\U0001F4C1");
           break;
         case '\x83':
-          // non-breaking space
-          target.append("\xC2\xA0");
+// U+E003: non-breaking space
+          target.append("\u00A0");
           break;
         case '\x8B':
-          // recording symbol
-          target.append("\xC2\xAE");
+// U+E00B: recording symbol
+          target.append("\u00AE");
           break;
         case '\x8C':
-          // timer symbol (full coverage)
-          target.append("\xE2\x8F\xB2");
+// U+E00C: timer symbol (full coverage)
+          target.append("\u23F2");
           break;
         case '\x91':
-          // repeat symbol (clockwise arrow)
-          target.append("\xE2\x9F\xB3");
+// U+E011: continuation symbol (clockwise arrow)
+          target.append("\u21BB");
           break;
         case '\x92':
-          // running symbol
-          target.append("\xE2\x96\xB6");
+// U+E012: running symbol
+          target.append("\u25B6");
+          break;
+        case '\x93':
+// U+E013: VPS symbol
+          target.append("\U0001F185");
           break;
         case '\x94':
-          // partial timer symbol (at start)
-          target.append("\xE2\x97\xA0");
+// U+E014: partial timer symbol
+          target.append("\u26AC");
           break;
         case '\x95':
-          // partial timer symbol (at end)
-          target.append("\xE2\x97\xA1");
+// U+E015: inactive timer symbol
+          target.append("\u29B8");
           break;
         default:
           target.append(text.substr(pos, 3));

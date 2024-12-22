@@ -1,51 +1,58 @@
 #include "osd_status.h"
-
-#include <sstream>
+#include <vdr/thread.h>
 
 namespace vdrlive {
 
-OsdStatusMonitor::OsdStatusMonitor():present_time(0),following_time(0),selected(-1),lastUpdate(0) {}
+cOsdStatusMonitorLock::cOsdStatusMonitorLock(bool Write) {
+  LiveOsdStatusMonitor().m_stateLock.Lock(m_stateKey, Write);
+}
+
+OsdStatusMonitor::OsdStatusMonitor():m_present_time(0),m_following_time(0),m_selected(-1),m_lastUpdate(0) {}
 OsdStatusMonitor::~OsdStatusMonitor() {
   OsdClear();
 }
 
 void OsdStatusMonitor::OsdClear() {
-  title = message = text = channel_text = present_title = present_subtitle = following_title = following_subtitle = "";
-  red = green = yellow = blue = "";
-  items.Clear();
-  present_time = 0;
-  following_time = 0;
-  selected = -1;
-  lastUpdate= clock();
+  cOsdStatusMonitorLock lw(true);
+  m_title = m_message = m_text = m_channel_text = m_present_title = m_present_subtitle = m_following_title = m_following_subtitle = "";
+  m_red = m_green = m_yellow = m_blue = "";
+  m_items.clear();
+  m_present_time = 0;
+  m_following_time = 0;
+  m_selected = -1;
+  m_lastUpdate= clock();
 }
 
 void OsdStatusMonitor::OsdTitle(const char *Title) {
+  cOsdStatusMonitorLock lw(true);
   if (Title) {
-    if (title != Title) title = Title;
+    if (m_title != Title) m_title = Title;
   } else {
-    if (!title.empty() ) title.clear();
+    if (!m_title.empty() ) m_title.clear();
   }
-  lastUpdate= clock();
+  m_lastUpdate= clock();
 }
 
 void OsdStatusMonitor::OsdStatusMessage(const char *Message) {
-  message = Message ? Message : "";
-  lastUpdate= clock();
+  cOsdStatusMonitorLock lw(true);
+  m_message = Message ? Message : "";
+  m_lastUpdate= clock();
 }
 
 void OsdStatusMonitor::OsdHelpKeys(const char *Red, const char *Green, const char *Yellow, const char *Blue) {
-  red = Red ? Red :"";
-  green = Green ? Green : "";
-  yellow = Yellow ? Yellow : "";
-  blue = Blue ? Blue : "";
-  lastUpdate= clock();
+  cOsdStatusMonitorLock lw(true);
+  m_red = Red ? Red :"";
+  m_green = Green ? Green : "";
+  m_yellow = Yellow ? Yellow : "";
+  m_blue = Blue ? Blue : "";
+  m_lastUpdate= clock();
 }
 
 void cLiveOsdItem::Update(const char* Text) {
   if (Text) {
-    if (text != Text) text = Text;
+    if (m_text != Text) m_text = Text;
   } else {
-    if (!text.empty() ) text.clear();
+    if (!m_text.empty() ) m_text.clear();
   }
 }
 
@@ -55,55 +62,72 @@ void cLiveOsdItem::Update(const char* Text) {
 */
 #if defined(OSDITEM) && OSDITEM == 2
 void OsdStatusMonitor::OsdItem2(const char *Text, int Index, bool Selectable) {
-  items.Add(new cLiveOsdItem(Text,Selectable));
+  cOsdStatusMonitorLock lw(true);
+  m_items.emplace_back(Text,Selectable);
 #else
 void OsdStatusMonitor::OsdItem(const char *Text, int Index) {
-  items.Add(new cLiveOsdItem(Text,true));
+  cOsdStatusMonitorLock lw(true);
+  m_items.emplace_back(Text,true);
 #endif
-  lastUpdate= clock();
+  m_lastUpdate= clock();
 }
 
+bool OsdStatusMonitor::Select_if_matches(std::vector<cLiveOsdItem>::size_type line, const char *Text) {
+// if matches, select line and return true
+// otherwise, return false
+  if (!m_items[line].isSelectable() || m_items[line].Text().compare(Text) != 0) return false;
+  m_selected = line;
+  m_lastUpdate= clock();
+  return true;
+}
+/* documentation in vdr source:
+     The OSD displays the given single line Text as the current menu item.
+
+  And now the details from VDR source:
+     This is called in 2 cases:
+       a) another item in the current list is selected
+          see osdbase.c: cOsdMenu::Display(), cOsdMenu::DisplayCurrent(bool Current), cOsdMenu::DisplayItem(cOsdItem *Item)
+       b) a text of a line item is changed (more precise: value of setting is changed)
+          see menuitems.c -> void cMenuEditItem::SetValue(const char *Value)
+
+  Implementation:
+    first check whether the current item list contains a line with the given text
+      If this is the case, we assume a) and select this line item
+      If this is not the case, we assume b) and we change the text of the currently selected line
+
+   Note: text of a line item is changed also during creation of a new item. So,
+     while creating a new menu, there will be sevaral calls to OsdCurrentItem
+     changing text of items currently not displayed ...
+
+     This is not intended, so, before changing the text, we check whether the
+     attribute name (this is the text before tab) matches
+
+*/
+
 void OsdStatusMonitor::OsdCurrentItem(const char *Text) {
-  int i = -1;
-  int best = -1;
-  int dist = items.Count();
-  cLiveOsdItem *currentItem = NULL;
-  cLiveOsdItem *bestItem = NULL;
-  for (cLiveOsdItem *item = items.First(); item; item = items.Next(item)) {
-    if (++i == selected)
-      currentItem = item;
-    if ( item->Text().compare(Text) == 0) {
-      if (abs(i - selected) < dist) {
-        // best match is the one closest to previous position
-        best = i;
-        bestItem= item;
-        dist = abs(i - selected);
-      }
-      else if (selected < 0) {
-        // previous position unknown - take first match
-        best = i;
-        bestItem= item;
-        break;
-      }
-      else {
-        // we already have a better match, so we're done
-        break;
-      }
-    }
+  if (!Text) return;
+  cOsdStatusMonitorLock lw(true);
+  if (m_selected < 0) {
+// previous position unknown - take first match
+    for (std::vector<cLiveOsdItem>::size_type item_n = 0; item_n < m_items.size(); ++item_n)
+      if (Select_if_matches(item_n, Text) ) break;
+    return;
   }
-  if (best >= 0) {
-    // found matching item
-    selected = best;
-    bestItem->Select(true);
-    if (currentItem && currentItem != bestItem){
-      currentItem->Select(false);
-      lastUpdate= clock();
-    }
+  if (m_items[m_selected].Text().compare(Text) == 0) return; // currently selected item matches Text
+
+  int item_prev = m_selected-1;
+  std::vector<cLiveOsdItem>::size_type item_next = m_selected+1;
+  for (;item_prev >= 0 || item_next < m_items.size(); --item_prev, ++item_next) {
+    if (item_next < m_items.size() && Select_if_matches(item_next, Text)) return;
+    if (item_prev >= 0             && Select_if_matches(item_prev, Text)) return;
   }
-  else if (currentItem) {
-    // no match: the same item is still selected but its text changed
-    currentItem->Update(Text);
-    lastUpdate= clock();
+// no match: -> cas b), the same item is still selected but its text changed
+  if (*cSplit(Text, '\t').begin() == *cSplit(m_items[m_selected].Text(), '\t').begin() ) {
+// update value of setting
+    m_items[m_selected].Update(Text);
+    m_lastUpdate= clock();
+  } else {
+//  esyslog("live, OsdStatusMonitor::OsdCurrentItem, Text = \"%s\", current text: \"%.*s\"", Text, (int)m_items[m_selected].Text().length(), m_items[m_selected].Text().data() );
   }
 }
 
@@ -117,32 +141,35 @@ void OsdStatusMonitor::OsdCurrentItem(const char *Text) {
 */
 
 void OsdStatusMonitor::OsdTextItem(const char *Text, bool Scroll) {
+  cOsdStatusMonitorLock lw(true);
   if (Text) {
-    if (text != Text) text = Text;
+    if (m_text != Text) m_text = Text;
   }
 // Ignore if called with Text == nullptr
-//   accoeding to doc, the previously received text shall be scrolled up (true) or down (false)
+//   according to doc, the previously received text shall be scrolled up (true) or down (false)
 //   we use scroll bar for that ...
-  lastUpdate= clock();
+  m_lastUpdate= clock();
 }
 void OsdStatusMonitor::OsdChannel(const char *Text) {
+  cOsdStatusMonitorLock lw(true);
   if (Text) {
-    if (channel_text != Text) channel_text = Text;
+    if (m_channel_text != Text) m_channel_text = Text;
   } else {
-    if (!channel_text.empty() ) channel_text.clear();
+    if (!m_channel_text.empty() ) m_channel_text.clear();
   }
-  lastUpdate= clock();
+  m_lastUpdate= clock();
 }
 
 void OsdStatusMonitor::OsdProgramme(time_t PresentTime, const char *PresentTitle, const char *PresentSubtitle, time_t FollowingTime, const char *FollowingTitle, const char *FollowingSubtitle) {
-  present_time = PresentTime;
-  present_title = cSv(PresentTitle);
-  present_subtitle = cSv(PresentSubtitle);
-  following_time = FollowingTime;
-  following_title = cSv(FollowingTitle);
-  following_subtitle = cSv(FollowingSubtitle);
+  cOsdStatusMonitorLock lw(true);
+  m_present_time = PresentTime;
+  m_present_title = cSv(PresentTitle);
+  m_present_subtitle = cSv(PresentSubtitle);
+  m_following_time = FollowingTime;
+  m_following_title = cSv(FollowingTitle);
+  m_following_subtitle = cSv(FollowingSubtitle);
 
-  lastUpdate= clock();
+  m_lastUpdate= clock();
 }
 
 OsdStatusMonitor& LiveOsdStatusMonitor()
