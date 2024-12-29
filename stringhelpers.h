@@ -1,5 +1,5 @@
 /*
- * version 0.9.4
+ * version 0.9.5
  * general string-helper functions
  * Note: currently, most up to date Version is in live!
  *
@@ -839,7 +839,7 @@ template<typename T, std::enable_if_t<sizeof(T) == 16, bool> = true>
     template<typename... Args> cToSvConcat &appendFormated(const char *fmt, Args&&... args) {
       int needed = snprintf(m_pos_for_append, m_be_data - m_pos_for_append, fmt, std::forward<Args>(args)...);
       if (needed < 0) {
-        esyslog("live: ERROR, cToScConcat::appendFormated needed = %d, fmt = %s", needed, fmt);
+        esyslog(PLUGIN_NAME_I18N ": ERROR, cToScConcat::appendFormated needed = %d, fmt = %s", needed, fmt);
         return *this; // error in snprintf
       }
       if (needed < m_be_data - m_pos_for_append) {
@@ -849,7 +849,7 @@ template<typename T, std::enable_if_t<sizeof(T) == 16, bool> = true>
       ensure_free(needed + 1);
       needed = sprintf(m_pos_for_append, fmt, std::forward<Args>(args)...);
       if (needed < 0) {
-        esyslog("live: ERROR, cToScConcat::appendFormated needed (2) = %d, fmt = %s", needed, fmt);
+        esyslog(PLUGIN_NAME_I18N ": ERROR, cToScConcat::appendFormated needed (2) = %d, fmt = %s", needed, fmt);
         return *this; // error in sprintf
       }
       m_pos_for_append += needed;
@@ -863,7 +863,7 @@ template<typename T, std::enable_if_t<sizeof(T) == 16, bool> = true>
         ensure_free(1024);
         needed = std::strftime(m_pos_for_append, m_be_data - m_pos_for_append, fmt.c_str(), tp);
         if (needed == 0) {
-          esyslog("live: ERROR, cToSvConcat::appendDateTime needed = 0, fmt = %s", fmt.c_str());
+          esyslog(PLUGIN_NAME_I18N ": ERROR, cToSvConcat::appendDateTime needed = 0, fmt = %s", fmt.c_str());
           return *this; // we did not expect to need more than 1024 chars for the formatted time ...
         }
       }
@@ -874,7 +874,7 @@ template<typename T, std::enable_if_t<sizeof(T) == 16, bool> = true>
       if (!time) return *this;
       struct std::tm tm_r;
       if (localtime_r( &time, &tm_r ) == 0 ) {
-        esyslog("live: ERROR, cToSvConcat::appendDateTime localtime_r = 0, fmt = %s, time = %lld", fmt.c_str(), (long long)time);
+        esyslog(PLUGIN_NAME_I18N ": ERROR, cToSvConcat::appendDateTime localtime_r = 0, fmt = %s, time = %lld", fmt.c_str(), (long long)time);
         return *this;
         }
       return appendDateTime(fmt, &tm_r);
@@ -1202,16 +1202,17 @@ cSubstring cSubstring::substringInXmlTag(cSv sv, const char (&tag)[N]) {
  * class cSplit: iterate over parts of a string
    standard constructor:
      delimiter is ONLY between parts, and not at beginning or end of string
-     a string with n delimiters will split into n+1 parts. Always. Parts can be empty
+     a string with n delimiters splits into n+1 parts. Always. Parts can be empty
      consequence:
-       an empty string (0 delimiters) will result in a list with one (empty) entry
-       a delimiter at the beginning of the string will result in a first (empty) part
+       an empty string (0 delimiters) results in a list with one (empty) entry
+       a delimiter at the beginning of the string results in a first (empty) part
    constructor with additional parameter of type eSplitDelimBeginEnd:
      eSplitDelimBeginEnd::optional:
-       if there is a delimiter at beginning and/or end of string, delete these delimiters.
-       after that, continue with standartd constructor.
-       this is basically the standard constructor,
-       but ignore up to one empty list element at beginning and end
+       an empty string results in an empty list
+       a string with length 1 containing only the delimiter results in an empty list
+       a string with length 2 containing only delimiters results in a list with one (empty) entry
+       otherwise, if there is a delimiter at beginning and/or end of string, delete these delimiters.
+       after that, continue with standard constructor.
      eSplitDelimBeginEnd::required:
        empty string (length == 0):
          -> empty list (this is not possible with optional!)
@@ -1244,10 +1245,10 @@ inline cSv trim_delim(cSv sv, char delim, eSplitDelimBeginEnd splitDelimBeginEnd
     case eSplitDelimBeginEnd::required:
       if (sv.empty() ) return sv;
       if ((sv[0] != delim) | (sv[sv.length()-1] != delim)) {
-        esyslog("tvscraper: ERROR trim_delim, delim missing, sv: \"%.*s\", delim: \"%c\"", (int)sv.length(), sv.data(), delim);
+        esyslog(PLUGIN_NAME_I18N ": ERROR trim_delim, delim missing, sv: \"%.*s\", delim: \"%c\"", (int)sv.length(), sv.data(), delim);
         return sv;
       }
-      if (sv.length() == 1) return sv;
+      if (sv.length() == 1) return cSv();
       return sv.substr(1, sv.length() - 2);
   }
   return sv;
@@ -1259,7 +1260,9 @@ class cSplit {
       m_sv(trim_delim(sv, delim, splitDelimBeginEnd)),
       m_delim(delim),
       m_end(m_delim),
-      m_empty((sv.length() < 2) & (splitDelimBeginEnd == eSplitDelimBeginEnd::required))
+      m_empty((sv.length() < 2) & (
+              (splitDelimBeginEnd == eSplitDelimBeginEnd::required) |
+              (m_sv.empty() & (splitDelimBeginEnd == eSplitDelimBeginEnd::optional))  ) )
     { }
     cSplit(const cSplit&) = delete;
     cSplit &operator= (const cSplit &) = delete;
