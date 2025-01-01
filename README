@@ -34,40 +34,18 @@ fast.
 Requirements:
 =============
 
+UTF-8 System
 VDR >= 2.4.0
 
-gcc >= v8, must support -std=c++17
+gcc >= v8, must support -std=c++17. -std=c++1z should also work for complilers not yet supporting -std=c++17.
 PCRE2 >= 10.38     - https://github.com/PhilipHazel/pcre2/releases
 Tntnet >= 2.2.1    - http://www.tntnet.org/download.hms  // https://web.archive.org/web/20160314183814/http://www.tntnet.org/download.html
 Cxxtools >= 2.2.1  - http://www.tntnet.org/download.hms  // https://web.archive.org/web/20160314183814/http://www.tntnet.org/download.html
 
 Tntnet provides basic Web server functions for live and needs cxxtools.
-Boost provides some data structures we need. While currently relying on the
-full blown package we might provide a stripped down version in the future.
 
 PCRE2 provides filtering for recordings using Perl regexp language.
 If you don't need filtering, PCRE2 is optional.
-
-If you optionally want to regenerate the i18n-generated.h header file
-for backward compatible i18n (VDR version prior to 1.5.7) you also
-need: (See also the Internationalization section below)
-
-Locale::PO     - Perl module from CPAN www.cpan.org
-
-The default i18n-generated.h header contains all
-translations from GIT. Users that just want to stay on bleeding development
-edge of live do not need Locale::PO installed.
-
-How to get Locale::PO
-- Use search function on www.cpan.org to obtain module.
-- Check if your distribution provides the package.
-  (e.g. in Debian the package name is liblocale-po-perl)
-
-If you added new translations in your language specific .po file and
-still want to use an VDR older than version 1.5.7 you must regenerate
-i18n-generated.h by calling make with the target generate-i18n. Only
-in this case you need to have Locale::PO installed on your system.
-
 
 Installation:
 =============
@@ -210,18 +188,6 @@ Contribute!
 ===========
 If you would like to contribute, please read doc/dev-contribute.txt
 and doc/TODO.txt.
-
-
-Internationalization (i18n):
-============================
-
-LIVE uses the same i18n support like VDR does since version 1.5.7.
-This version of LIVE can not support i18n compatible with VDR versions
-older than 1.5.7.
-
-All localization files are found in the po subdirectory of the LIVE
-plugin source.
-
 
 Security considerations:
 ========================

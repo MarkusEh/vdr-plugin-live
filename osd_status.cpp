@@ -56,7 +56,7 @@ void cLiveOsdItem::Update(const char* Text) {
   }
 }
 
-/* documentation in vdr source:
+/* documentation in VDR source:
   virtual void OsdItem(const char *Text, int Index) {}
     // The OSD displays the given single line Text as menu item at Index.
 */
@@ -80,7 +80,7 @@ bool OsdStatusMonitor::Select_if_matches(std::vector<cLiveOsdItem>::size_type li
   m_lastUpdate= clock();
   return true;
 }
-/* documentation in vdr source:
+/* documentation in VDR source:
      The OSD displays the given single line Text as the current menu item.
 
   And now the details from VDR source:
@@ -96,7 +96,7 @@ bool OsdStatusMonitor::Select_if_matches(std::vector<cLiveOsdItem>::size_type li
       If this is not the case, we assume b) and we change the text of the currently selected line
 
    Note: text of a line item is changed also during creation of a new item. So,
-     while creating a new menu, there will be sevaral calls to OsdCurrentItem
+     while creating a new menu, there will be several calls to OsdCurrentItem
      changing text of items currently not displayed ...
 
      This is not intended, so, before changing the text, we check whether the
@@ -121,7 +121,7 @@ void OsdStatusMonitor::OsdCurrentItem(const char *Text) {
     if (item_next < m_items.size() && Select_if_matches(item_next, Text)) return;
     if (item_prev >= 0             && Select_if_matches(item_prev, Text)) return;
   }
-// no match: -> cas b), the same item is still selected but its text changed
+// no match: -> case b), the same item is still selected but its text changed
   if (*cSplit(Text, '\t').begin() == *cSplit(m_items[m_selected].Text(), '\t').begin() ) {
 // update value of setting
     m_items[m_selected].Update(Text);
@@ -131,7 +131,7 @@ void OsdStatusMonitor::OsdCurrentItem(const char *Text) {
   }
 }
 
-/* documentation in vdr source:
+/* documentation in VDR source:
   virtual void OsdTextItem(const char *Text, bool Scroll) {}
      // The OSD displays the given multi line text. If Text points to an
      // actual string, that text shall be displayed and Scroll has no
@@ -144,11 +144,11 @@ void OsdStatusMonitor::OsdTextItem(const char *Text, bool Scroll) {
   cOsdStatusMonitorLock lw(true);
   if (Text) {
     if (m_text != Text) m_text = Text;
+    m_lastUpdate= clock();
   }
 // Ignore if called with Text == nullptr
 //   according to doc, the previously received text shall be scrolled up (true) or down (false)
 //   we use scroll bar for that ...
-  m_lastUpdate= clock();
 }
 void OsdStatusMonitor::OsdChannel(const char *Text) {
   cOsdStatusMonitorLock lw(true);

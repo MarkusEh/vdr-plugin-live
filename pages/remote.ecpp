@@ -327,7 +327,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
           <area href="#" shape="circle" coords="125,190,13" alt="P-" onclick="return KeyPress(<$ kChanDn $>)" title="&amp;lt;PgDn&amp;gt;" />
           <area href="#" shape="circle" coords="81,174,8" alt="Mute" onclick="return KeyPress(<$ kMute $>)" title="&amp;lt;F10&amp;gt;" />
           <area href="#" shape="circle" coords="81,202,11" alt="Record" onclick="return KeyPress(<$ kRecord $>)" />
-          <area href="#" shape="poly" coords="39,215,29,227,30,235,39,236,51,222,49,215,43,213" alt="Menu" onclick="return KeyPress(<$ kMenu $>)" title="&amp;lt;tab&amp;gt;,&amp;lt;F9&amp;gt;" />
+          <area href="#" shape="poly" coords="39,215,29,227,30,235,39,236,51,222,49,215,43,213" alt="Menu" onclick="return KeyPress(<$ kMenu $>)" title="&amp;lt;Tab&amp;gt;,&amp;lt;F9&amp;gt;" />
           <area href="#" shape="poly" coords="119,213,127,219,135,230,132,235,127,236,119,231,114,223,113,215" alt="Exit" onclick="return KeyPress(<$ kBack $>)" title="&amp;lt;Esc&amp;gt;" />
           <area href="#" shape="poly" coords="33,289,31,298,43,310,51,308,54,300,41,287" alt="Subtitles" onclick="return KeyPress(<$ kSubtitles $>)" />
           <area href="#" shape="poly" coords="131,289,133,298,122,310,112,308,110,300,122,287" alt="Audio" onclick="return KeyPress(<$ kAudio $>)" />

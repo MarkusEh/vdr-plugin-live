@@ -49,6 +49,46 @@ VDR Plugin 'live' Revision History
 - Show errors in recordings
 - And many other, smaller improvements
 
+2023-11-11: Version 3.3.0
+
+- Verschieben von Aufzeichnungen in ein neues Verzeichnis vereinfacht (basierend auf einem Patch von maazl).
+- Markieren von Radio Aufnahmen (basierend auf einem Patch von maazl).
+- Anzeige des Grundes, aus dem Autotimer erstellt wurden (braucht tvscraper 1.2.4.+)
+- Behalten der scroll Position des Browsers bei der Navigation (dank einem Vorschlag von vdr_rossi)
+- Popup zum Bestätigen des Löschens von Aufnahmen beim Löschen einzelner Aufnahmen mit dem roten x.
+
+- Drop support for Internet Explorer
+Requirements:
+- gcc v8 or later. gcc must support -std=c++17. -std=c++1z should also work for complilers not yet supporting -std=c++17.
+- vdr 2.4.0 or later. Recommended: vdr 2.6.0 or later.
+
+
+2023-11-26: Version 3.3.2
+- Bug fix bei Aufnahmen ohne tvscraper
+- Performance-Verbesserungen beim Ändern/Löschen von Aufnahmen. Für optimale Performance solltet ihr auch tvscraper auf 1.2.5 updaten
+- Entfernen / Umpriorisierung von Debug Meldungen (Dank an kfb77 für's Melden).
+
+
+2024-01-04: Version 3.3.4
+- Fix possible shortdump . Dank an utiltiy für die Fehlermeldung
+- Fix compiler error with gcc version 8.3.0. Dank an maazl .
+- Fix: edit timer, Fehlerbehandlung bei fehlendem Titel. Dank an maazl
+- Fix für neue Aufzeichnungen kamel5, danke für's Melden!
+
+- Bei VDR version 2.6.5. werden bei Aufnahmen, die mit VDR 2.6.5 gemacht wurden, Stream-Informationen angezeigt.
+- Kanallogos (Patch von rüsseltier )
+- Auch Kanallogos mit "/" im Namen werden unterstützt. Danke, rüsseltier
+- Kanallogos werden auch gefunden, wenn der Dateiname nur Kleinbuchstaben hat
+- Hintergrund für Kanallogos ist jetzt transparent
+
+2024-04-10 Version 3.3.5
+- Zum Anschauen von Aufzeichnungen mit vlc wird jetzt die streamdev URL verwendet, was auch Springen ermöglicht
+- Zahlreiche kleinere Verbesserungen und Fehlerbehebungen
+
+2024-09-12 Version 3.3.6
+- Zahlreiche Verbesserungen, die vor allem SHofmann beigetragen hat.
+- Compiliert auch wieder mit 2.7.1
+
 2024-09-29: Version 3.3.7
 - mark all events a timer is recording, not only the first one
 - allow streaming of recording to the browser
@@ -56,3 +96,82 @@ VDR Plugin 'live' Revision History
 - ffmpeg commands are now in a configuraton file, and removed from the settings view
 - remove --tvscraperimages commandline option
 - remove ShowPlayMediaplayer from setup
+
+2024-10-25: Version 3.3.8
+- Zahlreiche Verbesserungen, die vor allem shofmann beigetragen hat.
+- Die Suche nach Wiederholungen funktioniert nun auch, wenn im Namen Zeichen wie & vorkommen
+- Code cleanup
+
+2024-11-04: Version 3.3.9
+- Unterstützung von Timerüberwachung mit epgsearch über die Sendungskennung. Dank an LotharE für den Feature Request und Test.
+- MainThreadHook wird nicht mehr verwendet. Damit werden viele Aktionen schneller ausgeführt, z.B. Löschen von Timern, ... Außerdem wird der Fehler behoben, dass in der "Fernbedienung" Ansicht das OSD nicht gezeigt wurde während VDR eine Meldung ausgegeben hat. Dank für die Fehlermeldung und Analyse an SHofmann .
+
+2024-11-18: Version 3.3.10
+- In der Timerliste werden inaktive Timer nun grau hinterlegt, zur besseren Sichtbarkeit.
+- Die siteprefs.css wurde basierend auf dem Vorschlag von SHofmann erweitert. Zum Aufzoomen von Bildern bei mouseover.
+- Für die Zeitleiste gibt es nun keine Beschränkung der Spaltenzahl mehr. Die Mindestbreite einer Spalte wurde auf 15em erhöht. Das kann in der siteprefs.css angepasst werden (table.mschedule div.content1 {min-width: 15em; }).
+- Für die Zeitleiste gibt es in den Einstellungen nun verschiedene Optionen, z.B. können die in VDR definierten Kanalgruppen verwendet werden.
+
+Anmerkung: Wenn ihr viele Spalten habt, solltet ihr Euch mit den Möglichkeiten Eures Browsers zum vertikalen Scrollen vertraut machen.
+
+
+2024-12-09: Version 3.3.11
+- bessere optische Trennung der Timer (ev. müsst ihr den Browser-Cache leeren).
+- Korrektur von Montag (s. Beitrag #474). Dank an zimuland für die Meldung und SHofmann für die Korrektur
+- Code cleanup
+
+2024-12-22: Version 3.3.12
+- die von SHofmann gepostete Korrektur der Sprache bei repetitiven Timern
+- die von SHofmann gepostete Korrektur für den Font mit VDR Symbolen
+- Im tab Fernbedienung:
+-   Bug fix: Funktioniert jetzt auch, wenn in einem Text ein Backslash steht
+-   Unterstützung von "OK" -> Anzeige des aktuellen Kanals mit dem EPG von "jetzt" und "nächstes".
+-   Beim Anwählen einer Zeile mit der Maus wird verifiziert, dass VDR die generierten Tastendrücke auch verarbeitet. Funktioniert damit auch bei längeren Listen
+-   Die OSD Anzeige wird erst upgedatet, wenn das "finale" OSD da ist. Basiert auf Timing, funktioniert daher nicht immer
+-   Zur Unterstützung von nicht anwählbaren Listenelementen muss VDR gepatcht werden. S. https://www.vdr-portal.de/forum/index.php?thread/135887-live-weiterentwicklung-v3-3-x/&postID=1377841#post1377841
+
+
+
+
+2024-12-31: Version 3.4:
+Special thanks to SHofmann@vdr-portal.de and rüsseltier@vdr-portal.de for their contributions!
+Summary of changes to Version 3.2:
+
+- Whats on:
+-   Display sender logos
+
+- Multischedule:
+-   Remove restriction regarding max. number of channels on one page.
+    If you use many channels on one page, make yourself familiar with vertical scrolling features of your browser.
+-   More display options
+
+- Timers:
+-   Support epgsearch timer monitoring fearures
+-   Display reason for tvscraper autotimer
+-   Display transponder information
+-   Better optical separation of inactive timers
+
+- Searchtimers:
+-   Better optical separation of inactive searchtimers
+
+- Recordings:
+-   Display stream-information like resolution. Only for recordings recorded with VDR >= 2.6.5
+-   Confirmation popup before deleting single recordings with the red x icon
+-   If streamdev-server is available,
+    use streamdev-server URL to play recordings with external media player.
+    This allows to jump in recordings.
+
+- Remote:
+-   Support keyboard
+-   Improved OSD
+-   Optional: Patch VDR for support of non-selectable list elements.
+              See https://www.vdr-portal.de/forum/index.php?thread/135887-live-weiterentwicklung-v3-3-x/&postID=1377841#post1377841
+
+- Streaming:
+-   ffmpeg commands are now in a configuraton file, and removed from the settings view
+-   Support recordings
+
+- Others:
+-   Remove --tvscraperimages commandline option
+-   Remove ShowPlayMediaplayer from setup
+-   Many bug fixes, UI improvements, performance improvements, code cleanup, ...

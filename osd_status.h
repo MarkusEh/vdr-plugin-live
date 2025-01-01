@@ -178,8 +178,9 @@ template <size_t N> cToSvConcat<N>& appendItemsHtml(cToSvConcat<N>& target) {
       if ((int)item_n == m_selected) target += " selected";
       if (!m_items[item_n].isSelectable() ) target += " notSelectable";
       target += "\">";
+      bool hasColumns = m_items[item_n].Text().find('\t') != std::string::npos;
       for (cSv tc: cSplit(m_items[item_n].Text(), '\t')) {
-        target += "<td>";
+        target += hasColumns ? "<td>" : "<td colspan=\"100%\">";
         AppendHtmlEscapedAndCorrectNonUTF8(target, tc);
         target += "</td>";
       }
