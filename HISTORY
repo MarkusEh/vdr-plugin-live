@@ -134,11 +134,11 @@ Anmerkung: Wenn ihr viele Spalten habt, solltet ihr Euch mit den Möglichkeiten 
 
 
 2024-12-31: Version 3.4:
-Special thanks to SHofmann@vdr-portal.de and rüsseltier@vdr-portal.de for their contributions!
+Thanks to all users @vdr-portal.de for feedback, tests, bug reports, ...
 Summary of changes to Version 3.2:
 
 - Whats on:
--   Display sender logos
+-   Display sender logos. Code contributed by rüsseltier@vdr-portal.de
 
 - Multischedule:
 -   Remove restriction regarding max. number of channels on one page.
@@ -146,8 +146,8 @@ Summary of changes to Version 3.2:
 -   More display options
 
 - Timers:
--   Support epgsearch timer monitoring fearures
--   Display reason for tvscraper autotimer
+-   Support epgsearch timer monitoring features
+-   Display reason for tvscraper auto-timer
 -   Display transponder information
 -   Better optical separation of inactive timers
 
@@ -160,6 +160,8 @@ Summary of changes to Version 3.2:
 -   If streamdev-server is available,
     use streamdev-server URL to play recordings with external media player.
     This allows to jump in recordings.
+-   Mark radio recordings. Code contributed by maazl@vdr-portal.de
+-   Simplified moving recordings to a new folder. Code contributed by maazl@vdr-portal.de
 
 - Remote:
 -   Support keyboard
@@ -168,10 +170,11 @@ Summary of changes to Version 3.2:
               See https://www.vdr-portal.de/forum/index.php?thread/135887-live-weiterentwicklung-v3-3-x/&postID=1377841#post1377841
 
 - Streaming:
--   ffmpeg commands are now in a configuraton file, and removed from the settings view
--   Support recordings
+-   ffmpeg commands are now in a configuration file, and removed from the settings view. Code contributed by SHofmann@vdr-portal.de
+-   Support recordings. Code contributed by SHofmann@vdr-portal.de
 
 - Others:
--   Remove --tvscraperimages commandline option
+-   Remove --tvscraperimages command line option
 -   Remove ShowPlayMediaplayer from setup
--   Many bug fixes, UI improvements, performance improvements, code cleanup, ...
+-   Many bug fixes, usability and UI improvements, performance improvements, code cleanup, ...
+    Special thanks to SHofmann@vdr-portal.de for his contributions

@@ -3,8 +3,7 @@ This is a "plugin" for the Video Disk Recorder (VDR).
 Written by:                  Thomas Keil <tkeil@datacrystal.de>
                              Sascha Volkenandt <sascha@akv-soft.de>
 
-Currently maintained by:
-                             Markus Ehrnsperger ( MarkusE @ https://www.vdr-portal.de)
+Currently maintained by:     Markus Ehrnsperger ( MarkusE @ https://www.vdr-portal.de)
 
 Previously Maintained by:
                              Dieter Hametner <dh+vdr@gekrumbel.de>
@@ -22,58 +21,64 @@ See the file COPYING for license information.
 Description:
 ============
 
-Live, the "Live Interactive VDR Environment", is a plugin providing the
-possibility to interactively control the VDR and some of it's plugins by
-a web interface.
-
-Unlike external utility programs that communicate with VDR and it's plugins
-by SVDRP, Live has direct access to VDR's data structures and is thus very
-fast.
-
+Live, the "Live Interactive VDR Environment", is a VDR plugin providing
+a web interface to VDR and some of it's plugins.
 
 Requirements:
 =============
 
-UTF-8 System
+System using an UTF-8 locale
 VDR >= 2.4.0
-
 gcc >= v8, must support -std=c++17. -std=c++1z should also work for complilers not yet supporting -std=c++17.
-PCRE2 >= 10.38     - https://github.com/PhilipHazel/pcre2/releases
 Tntnet >= 2.2.1    - http://www.tntnet.org/download.hms  // https://web.archive.org/web/20160314183814/http://www.tntnet.org/download.html
 Cxxtools >= 2.2.1  - http://www.tntnet.org/download.hms  // https://web.archive.org/web/20160314183814/http://www.tntnet.org/download.html
 
 Tntnet provides basic Web server functions for live and needs cxxtools.
 
+PCRE2 >= 10.38     - https://github.com/PhilipHazel/pcre2/releases
 PCRE2 provides filtering for recordings using Perl regexp language.
 If you don't need filtering, PCRE2 is optional.
 
 Installation:
 =============
 
-If you compile the plugin outside of the VDR source codes you must
-copy the resulting binary to VDRs directory where the other plugins
-are expected.
+If you compile the plugin outside of the VDR source code you must
+copy the resulting binary to the directory where VDR plugins are expected.
 
-In order to work correctly you must copy the subdirectory 'live' from
-the source distribution to the directory where the VDR plugins look
-for their resource files. The pure VDR default for this config
-directory is: /video/plugins, but this depends also from the
-parameters -c or -v (see 'vdr --help' for details).
+You also must copy the subdirectory 'live' from the source distribution
+to the directory where the VDR plugins look for their resource files.
+The VDR default for this config directory is: /video/plugins, but this
+depends also on the parameters -c or -v (see 'vdr --help' for details).
 
 cp -a <live-src-dir>/live <vdr-resource-dir>/plugins
 
+On debian like systems, <vdr-resource-dir> is /usr/share/vdr
 
+
+======
 Setup:
 ======
 
-Live provides a username/password protection, so that it can be used from
-the internet. The default username and password are:
+Configuration files:
+====================
 
-  admin/live
+siteprefs.css
+- Allows UI adjustments
 
-The default port is 8008.
+ffmpeg.conf
+- To play live tv / recordings directly in the browser, data must be converted.
+  ffmpeg commands used for this are in ffmpeg.conf
 
-You can also specify this parameter via command line:
+On debian like systems:
+-  These files are installed in /etc/vdr/plugins/live
+-  /var/lib/vdr/plugins/live/ffmpeg.conf is a symbolic link to /etc/vdr/plugins/live/ffmpeg.conf
+-  /usr/share/vdr/plugins/live/css/siteprefs.css is a symbolic link to /etc/vdr/plugins/live/siteprefs.css
+
+
+Command line options:
+=====================
+
+The default port is 8008. You can change this via command line:
 
   -p PORT,  --port=PORT     use PORT to listen for incoming connections
                             (default: 8008)
@@ -81,7 +86,7 @@ You can also specify this parameter via command line:
                             multiple times
                             (default: 0.0.0.0, ::0)
 
-Additional SSL options are available now. See "How to make LIVE listen
+Additional SSL options are available. See "How to make LIVE listen
 for SSL connections" section below on hints how to setup SSL.
 
 To display images or channel logos, you can use:
@@ -89,19 +94,18 @@ To display images or channel logos, you can use:
   -e <...>  --epgimages=/path/to/epgimages              use EPG images created by plugins like tvm2vdr
   --chanlogos=/path/to/channellogos                     use channel logos (PNG only, case sensitive)
 
-Web streaming:
-To play live tv / recordings directly in the browser, data must be converted.
-ffmpeg is used for that.
-The ffmpeg commands including command line options used for different
-purpouses are in the file ffmpeg.conf in the VDR config directory
-(on debian like systems, this is /etc/vdr/plugins/live).
-Default values come with live, you can change these in ffmpeg.conf if needed
 
+Settings in VDR's OSD:
+======================
 
-The rest of the parameters can be adjusted in VDR's OSD or in the web
-interface.
+Note: These settings are also available in the web interface.
+
+Live provides a username/password protection. The default username and password are:
+
+  admin/live
 
 The password is stored as a MD5 hash.
+
 "Last Channel" is the last channel in the channels list, that live displays.
 This is especially useful if you have VDR's automatic channel update active.
 For example, you can add a group separator ":@1000 Found automatically" to
@@ -110,13 +114,8 @@ during scanning (which can after a few months be well more than 3000
 channels) won't be displayed.
 
 
-How to make LIVE listen for SSL connections:
+How to make LIVE listen to SSL connections:
 ============================================
-
-To make LIVE listen for incoming SSL connections you`ll have to use a
-Tntnet version > 1.6.0.6. By default it will listen on port 8443.
-
-  * Example: https://localhost:8443
 
 In order to start the SslListener LIVE requires a SSL certificate. If
 no SSL certificate is specified via command-line option, LIVE will try
@@ -129,12 +128,6 @@ HTTP Listener (default: 8008)
 
 If you want do disable the SslListener for any reason, specify SSL port
 number 0 with the command-line option.
-
-Note: Since the GNU TLS SslListener was broken in Tntnet versions prior
-to SVN revision 1035 you will have to recompile Tntnet with
-"./configure --with-ssl=openssl" to make it work. Alternatively
-install version 1.6.2 or higher of Tntnet on your system.
-
 
 SSL Command-line options:
 =========================
@@ -151,22 +144,20 @@ SSL Command-line options:
 Creating a self-signed SSL server certificate:
 ==============================================
 
-To create a self-signed certificate file you`ll have to run this litte
-command.
+To create a self-signed certificate file you'll have to run this command:
 
   $> cd /put/your/path/here/vdr/plugins/live
   $> openssl req -new -x509 -keyout live-key.pem -out live.pem -days 365 -nodes
 
-While generating the certificate you`ll be asked to answer a couple of
-questions.  When it prompts to enter the "Common Name" you`ll have to
+While generating the certificate you'll be asked to answer a couple of
+questions.  When it prompts to enter the "Common Name" you'll have to
 specify the full qualified DNS server name of the machine LIVE is
 running on (e.g. vdr.example.com).  If your VDR doesn't have a full
 qualified DNS name, you should use the IP Live is listening on.
 
 Note: This is just a quick-and-dirty way to create a SSL self-signed
-certificate.  Recent browsers (like Firefox 3) will complain about it
-because the certificate wasn't signed by a known Certificate Authority
-(CA).
+certificate.  Browsers will complain about it because the certificate
+wasn't signed by a known Certificate Authority (CA).
 
 
 So how does LIVE work?
