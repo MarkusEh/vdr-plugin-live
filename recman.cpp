@@ -579,6 +579,13 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
     return m_s_image;
   }
 
+  bool RecordingsItemDir::matchesFilter(cSv filter) const {
+    if (filter.empty()) return true;
+    for (const auto &rec:m_entries) if (rec->matchesFilter(filter)) return true;
+    for (const auto &subdir:m_subdirs) if (subdir->matchesFilter(filter)) return true;
+    return false;
+  }
+
   /**
    *  Implementation of class RecordingsItemDirCollection:
    */

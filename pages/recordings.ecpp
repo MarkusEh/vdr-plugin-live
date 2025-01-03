@@ -303,6 +303,7 @@ if (currentFlat != "true") {
 // each subdir has an identifier in <ul> tag: fldr_<$ idHash $>
       RecordingsItemDirPtr recItem = *dirIter;
 
+      if (!recItem->matchesFilter(currentFilter)) continue;
       /* search trough directory for new recordings */
       bool newR = false;
       if ( LiveSetup().GetMarkNewRec() ) newR = recItem->checkNew();

@@ -235,6 +235,9 @@ cToSvConcat<N> & StringAppendFrameParams(cToSvConcat<N> &s, const cRecording *re
        bool recEntriesSorted() const { return m_cmp_rec != NULL; }
        bool dirEntriesSorted() const { return m_cmp_dir != NULL; }
 
+      // To display the recording on the UI
+      bool matchesFilter(cSv filter) const;
+
     protected:
       std::string m_name;
       int m_level;
