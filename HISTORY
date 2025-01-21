@@ -178,3 +178,8 @@ Summary of changes to Version 3.2:
 -   Remove ShowPlayMediaplayer from setup
 -   Many bug fixes, usability and UI improvements, performance improvements, code cleanup, ...
     Special thanks to SHofmann@vdr-portal.de for his contributions
+
+
+2025-  -  : Version 3.4.1:
+- Fix: Parsing additional times used in mustischedule and what's on
+- Fix: Ensure to hev locks befar any access to VDR objects like cEvent, cRecording, ...

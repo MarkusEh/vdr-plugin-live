@@ -177,9 +177,11 @@ const cEvent *Event = NULL;
 if (Schedule)
   Event = Schedule->GetPresentEvent();
 
-EpgInfoPtr epgEvent;
+EpgInfo    epgEvent_obj;
+EpgInfoPtr epgEvent = &epgEvent_obj;
 if (Event) {
-  epgEvent = EpgEvents::CreateEpgInfo(Channel, Event);
+//  epgEvent = EpgEvents::CreateEpgInfo(Channel, Event);
+  epgEvent_obj.CreateEpgInfo(Channel, Event);
 
   tChannelID chanId;
   tEventID eventId;

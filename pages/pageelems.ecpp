@@ -263,10 +263,21 @@ if (!rfid.empty() ) {
   tChannelID channelid;
   tEventID eventid;
   EpgEvents::DecodeDomId(epgid, channelid, eventid);
-  const cTimer* timer = LiveTimerManager().GetTimer(eventid, channelid);
-  if (timer) {
+  std::string timerId;
+  bool timerRecording = false;
+  bool timerActive = true;
+  {
+    LOCK_TIMERS_READ;
+    const cTimer* timer = LiveTimerManager().GetTimer(eventid, channelid);
+    if (timer) {
+      timerId = (LiveTimerManager().GetTimers().GetTimerId(*timer));
+      timerRecording = timer->Recording();
+      timerActive = timer->Flags() & tfActive;
+    }
+  }
+  if (!timerId.empty() ) {
 </%cpp>
-    <& pageelems.edit_timer timerId=(LiveTimerManager().GetTimers().GetTimerId(*timer)) imgName=(timer->Recording() ? "recording_timer.gif" : (timer->Flags() & tfActive ? "record_timer.png" : "record_inactive_timer.png")) &>
+    <& pageelems.edit_timer timerId=(timerId) imgName=(timerRecording ? "recording_timer.gif" : (timerActive ? "record_timer.png" : "record_inactive_timer.png")) &>
 <%cpp>
   }
   else {
@@ -407,14 +418,12 @@ if (!rfid.empty() ) {
 <%cpp>
     }
   if (eventId != 0) {
-    /* Need to lock here channels also, because CreateEpgInfo will lock
-     * it also and this will result in a wrong lock order */
     LOCK_CHANNELS_READ;
     LOCK_SCHEDULES_READ;
-    EpgInfoPtr epgEvent = EpgEvents::CreateEpgInfo(epgid, Schedules);
-    const cEvent* event = epgEvent->Event();
-    const cChannel* channel = event?Channels->GetByChannelID(event->ChannelID()):nullptr;
-    cGetScraperVideo getScraperVideo(event, NULL);
+    const cEvent* event;
+    const cChannel* channel;
+    EpgEvents::GetEventChannelByEpgId(event, channel, epgid, Channels, Schedules);
+    cGetScraperVideo getScraperVideo(event, nullptr);
     bool scraperDataAvailable = getScraperVideo.call(LiveSetup().GetPluginTvscraper());
     if (scraperDataAvailable) {
       int video_SD_HD = getScraperVideo.m_scraperVideo->getHD();
@@ -545,8 +554,9 @@ struct sScraperMovieOrTv {
     sEpisode2 episode;
 };
 
-EpgInfoPtr epgEvent;
-if (iepgEvent) epgEvent = *static_cast<EpgInfoPtr*>((void *)iepgEvent);
+EpgInfoPtr epgEvent = nullptr;
+// if (iepgEvent) epgEvent = *static_cast<EpgInfoPtr*>((void *)iepgEvent);
+if (iepgEvent) epgEvent = static_cast<EpgInfo*>((void *)iepgEvent);
 
 
 sScraperMovieOrTv scraperMovieOrTv;
@@ -607,7 +617,7 @@ if (scraperMovieOrTv.found) {
         <div class="info">
           <div class="duration">
 <%cpp>
-if (epgEvent && epgEvent->EventDuration() >= 0) {  // recording
+if (epgEvent && epgEvent->isRecording() ) {  // recording
 </%cpp>
             <span title="<$tr("Recording length")$>"><$ FormatDuration(tr("%d:%02d"), epgEvent->Duration())$></span> / <span title="<$tr("Event duration")$>"><$FormatDuration(tr("%d:%02d"), epgEvent->EventDuration())$></span>
 <%cpp>

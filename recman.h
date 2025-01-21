@@ -44,10 +44,7 @@ cToSvConcat<N> & StringAppendFrameParams(cToSvConcat<N> &s, const cRecording *re
   return s;
 }
 
-  // Forward declarations from epg_events.h
   class EpgInfo;
-  typedef std::shared_ptr<EpgInfo> EpgInfoPtr;
-
   /**
    *  Some forward declarations
    */

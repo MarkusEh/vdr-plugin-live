@@ -214,13 +214,17 @@ template <size_t N> cToSvConcat<N>& appendHtml(cToSvConcat<N>& target) {
                // The help keys have been set to the given values (may be NULL).
 #if defined(OSDITEM) && OSDITEM == 2
   virtual void OsdItem2(const char *Text, int Index, bool Selectable);
+  virtual void OsdItemSelected(int Index);
+               // item with Index is selected
+  virtual void OsdItemChanged(const char *Text);
+               // currently selected item is changed
 #else
   virtual void OsdItem(const char *Text, int Index);
                // The OSD displays the given single line Text as menu item at Index.
-#endif
   bool Select_if_matches(std::vector<cLiveOsdItem>::size_type line, const char *Text);
   virtual void OsdCurrentItem(const char *Text);
                // The OSD displays the given single line Text as the current menu item.
+#endif
   virtual void OsdTextItem(const char *Text, bool Scroll);
                // The OSD displays the given multi line text. If Text points to an
                // actual string, that text shall be displayed and Scroll has no

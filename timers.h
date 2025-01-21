@@ -20,7 +20,7 @@ namespace vdrlive {
 
     public:
       static std::string GetTimerId(cTimer const& timer);
-      const cTimer* GetByTimerId(cSv timerid);
+      const cTimer* GetByTimerId(cSv timerid, const cTimers* Timers);
 
       // en- or decodes a timer into an id usable for DOM Ids.
       static std::string EncodeDomId(cSv timerid);
@@ -63,12 +63,12 @@ template<std::size_t N>
 
     private:
       typedef struct
-                        {
-                          int id;
-                          const char* remote;
-                          const char* oldRemote;
+      {
+        int id;
+        const char* remote;
+        const char* oldRemote;
         std::string builder;
-                        } timerStruct;
+      } timerStruct;
 
       typedef std::pair<timerStruct, std::string> ErrorPair;
       typedef std::list<timerStruct> TimerList;

@@ -59,9 +59,10 @@ TimerConflictNotifier timerNotifier;
 
   bool ajaxReq = !async.empty() && (parse_int<int>(async) != 0);
 
+  std::string message;
   tChannelID channel = tChannelID::FromString(channel_string.c_str());
 
-  std::string message;
+  LOCK_TIMERS_READ;
   cMutexLock timersLock( &LiveTimerManager() );
   SortedTimers& timers = LiveTimerManager().GetTimers();
 
@@ -72,7 +73,7 @@ TimerConflictNotifier timerNotifier;
     std::string tId = SortedTimers::DecodeDomId(timerid);
 //    dsyslog("live: DEBUG: TIMER: timerid = %s", timerid);
 //    dsyslog("live: DEBUG: TIMER: tId = %s", tId.c_str());
-    timer = timers.GetByTimerId(tId);
+    timer = timers.GetByTimerId(tId, Timers);
     if (timer == nullptr)
       throw HtmlError( tr("Couldn't find timer. Maybe you mistyped your request?") );
     else {
@@ -86,9 +87,12 @@ TimerConflictNotifier timerNotifier;
   bool others_monitor = aux_tvscraper.found() || aux_epgsearch.substringInXmlTag(aux, "s-id").found();
 
   const cEvent *event_monitoring = nullptr;
+  LOCK_CHANNELS_READ;
+  LOCK_SCHEDULES_READ;
   if (!others_monitor) {
     if (timer) event_monitoring = timer->Event();
-    if (!event_monitoring) event_monitoring = EpgEvents::GetEventByEpgId(epgid);
+// Wenn ein Event in den Garbage-Collector kommt, wird beim nächsten Umlauf (einmal pro Sekunde) der Hauptschleife dem Timer ein neuer (oder kein) Event zugewiesen. Der alte Event bleibt mindestens 5 Sekunden im Garbage-Collector. Wenn also der Timer einen Pointer auf einen Event hat, dann darf der auch dereferenziert werden
+    if (!event_monitoring) event_monitoring = EpgEvents::GetEventByEpgId(epgid, Schedules);
 // if we have no event, we do not support monitoring (which event should we monitor?)
   }
 
@@ -108,7 +112,7 @@ TimerConflictNotifier timerNotifier;
     int stop = timeStringToInt(stop_s);
 #ifdef TFEVENT
     if (monitoring != "vps") {
-      const cEvent *event = EpgEvents::GetEventByEpgId(epgid);
+      const cEvent *event = EpgEvents::GetEventByEpgId(epgid, Schedules);
       if (event) {
         dsyslog("live: edit_timer.ecpp, event found");
         time_t tstart = event->StartTime();
@@ -159,7 +163,6 @@ TimerConflictNotifier timerNotifier;
     } else {
       if (event_monitoring) {
 // we remove the epgsearch tag, and replace it with a new one
-        LOCK_CHANNELS_READ;
         const cChannel *channel_p = Channels->GetByChannelID(channel);
         if (channel_p) {
           cTimer newTimer;
@@ -203,7 +206,7 @@ TimerConflictNotifier timerNotifier;
 
   std::unique_ptr<cTimer> eventTimer;
   if (timer == 0 && !epgid.empty()) {
-    const cEvent *event = EpgEvents::GetEventByEpgId(epgid);
+    const cEvent *event = EpgEvents::GetEventByEpgId(epgid, Schedules);
     if (event) {
       eventTimer.reset( new cTimer( event ) );
       timer = eventTimer.get();

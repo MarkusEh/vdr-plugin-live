@@ -49,6 +49,7 @@ void OsdStatusMonitor::OsdHelpKeys(const char *Red, const char *Green, const cha
 }
 
 void cLiveOsdItem::Update(const char* Text) {
+// do not lock here: this is called by other methods having already the lock
   if (Text) {
     if (m_text != Text) m_text = Text;
   } else {
@@ -72,6 +73,27 @@ void OsdStatusMonitor::OsdItem(const char *Text, int Index) {
   m_lastUpdate= clock();
 }
 
+#if defined(OSDITEM) && OSDITEM == 2
+void OsdStatusMonitor::OsdItemSelected(int Index) {
+  cOsdStatusMonitorLock lw(true);
+  if (m_selected == Index) return;
+  m_selected = Index;
+  m_lastUpdate= clock();
+}
+void OsdStatusMonitor::OsdItemChanged(const char *Text) {
+  cOsdStatusMonitorLock lw(true);
+  if (m_selected < 0) {
+    esyslog("live: ERROR, OsdStatusMonitor::OsdItemChanged, m_selected < 0, Text = %s", Text);
+    return;
+  }
+  if (*cSplit(Text, '\t').begin() == *cSplit(m_items[m_selected].Text(), '\t').begin() ) {
+// update value of setting
+    m_items[m_selected].Update(Text);
+    m_lastUpdate= clock();
+  } else
+    esyslog("live: ERROR, OsdStatusMonitor::OsdItemChanged, Text = \"%s\" != m_items[m_selected].Text() = \"%.*s\"", Text, (int)m_items[m_selected].Text().length(), m_items[m_selected].Text().data());
+}
+#else
 bool OsdStatusMonitor::Select_if_matches(std::vector<cLiveOsdItem>::size_type line, const char *Text) {
 // if matches, select line and return true
 // otherwise, return false
@@ -130,6 +152,7 @@ void OsdStatusMonitor::OsdCurrentItem(const char *Text) {
 //  esyslog("live, OsdStatusMonitor::OsdCurrentItem, Text = \"%s\", current text: \"%.*s\"", Text, (int)m_items[m_selected].Text().length(), m_items[m_selected].Text().data() );
   }
 }
+#endif
 
 /* documentation in VDR source:
   virtual void OsdTextItem(const char *Text, bool Scroll) {}

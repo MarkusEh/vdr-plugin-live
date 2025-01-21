@@ -120,26 +120,23 @@ if (type == "now") {
         </tr>
 %      }
 <%cpp>
-  std::list<EpgInfoPtr> eventList;
+  std::vector<EpgInfo> eventList;
 
   // collect the broadcasts
   if (type != "favs")
   {
-    LOCK_CHANNELS_READ;
     {
-      for (cChannel *Channel = (cChannel *)Channels->First(); Channel && Channel->Number() <= LiveSetup().GetLastChannel(); Channel = (cChannel *)Channels->Next(Channel)) {
+      LOCK_CHANNELS_READ;
+      LOCK_SCHEDULES_READ;
+      for (const cChannel *Channel = Channels->First(); Channel && Channel->Number() <= LiveSetup().GetLastChannel(); Channel = Channels->Next(Channel)) {
         if (Channel->GroupSep()) {
           continue;
         }
-        const cSchedule *Schedule;
-        {
-          LOCK_SCHEDULES_READ;
-          Schedule = Schedules->GetSchedule(Channel);
-        }
+        const cSchedule *Schedule = Schedules->GetSchedule(Channel);
         if (!Schedule) {
           continue;
         }
-        const cEvent *Event = NULL;
+        const cEvent *Event = nullptr;
         if (type == "now")
           Event = Schedule->GetPresentEvent();
         else if (type == "next")
@@ -149,8 +146,7 @@ if (type == "now") {
 
         if (!Event && !LiveSetup().GetShowChannelsWithoutEPG()) continue;
 
-        EpgInfoPtr epgEvent = EpgEvents::CreateEpgInfo(Channel, Event);
-        eventList.push_back(epgEvent);
+        eventList.emplace_back(Channel, Event);
       }
     }
   }
@@ -170,14 +166,14 @@ if (type == "now") {
       if (labs(diff) >= 24*60*60) continue; // skip broadcasts more than a day away
       const cChannel* Channel = result->GetChannel();
       if (!Channel) continue;
-      EpgInfoPtr epgEvent = EpgEvents::CreateEpgInfo(Channel, result->GetEvent(Channel));
-      eventList.push_back(epgEvent);
+//      EpgInfoPtr epgEvent = EpgEvents::CreateEpgInfo(Channel, result->GetEvent(Channel));
+      eventList.emplace_back(Channel, result->GetEvent(Channel) );
     }
   }
 
   // display broadcasts
-  for(std::list<EpgInfoPtr>::iterator i = eventList.begin(); i != eventList.end(); ++i ) {
-    EpgInfoPtr epgEvent = *i;
+  for(std::vector<EpgInfo>::size_type i = 0; i < eventList.size(); ++i) {
+    EpgInfoPtr epgEvent = &(eventList[i]);
 
     bool truncated = false;
     cToSvConcat longDescription;
@@ -186,9 +182,7 @@ if (type == "now") {
     longDescription << "<br/><br/>" << tr("Click to view details.");
 
     std::string truncDescription(StringWordTruncate(epgEvent->LongDescr(), maximumTruncDescriptionLength, truncated));
-    const cChannel* Channel = epgEvent->Channel();
-    if (!Channel) continue;
-    int chNumber = Channel->Number();
+    int chNumber = epgEvent->ChannelNumber();
 
     std::string startTime(epgEvent->StartTime(tr("%I:%M %p")));
     std::string endTime(epgEvent->EndTime(tr("%I:%M %p")));
@@ -225,8 +219,7 @@ if (type == "now") {
       </div>
 <%cpp>
     } else { // mode == "list"
-      std::list<EpgInfoPtr>::iterator last = i;
-      bool lastCurrentChanel = (++last == eventList.end());
+      bool lastCurrentChanel = i == (eventList.size() - 1);
       tChannelID chanId;
       tEventID eventId;
       EpgEvents::DecodeDomId(epgEvent->Id(), chanId, eventId);

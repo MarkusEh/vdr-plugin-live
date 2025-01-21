@@ -213,7 +213,8 @@ std::vector<std::string> channel_groups_names;
       times_start.push_back( midnight + MAX_HOURS*3600*i );
     }
     std::vector< time_t > offsets;
-    for (cSv part: cSplit(LiveSetup().GetTimes(), ';'))
+    std::string string_times = LiveSetup().GetTimes();
+    for (cSv part: cSplit(string_times, ';', eSplitDelimBeginEnd::optional))
     {
       unsigned int sep = part.find(':');
       if (sep == part.npos)
@@ -357,7 +358,9 @@ std::vector<std::string> channel_groups_names;
       if (Event->StartTime() >= sched_end )
         continue;
 
-      EpgInfoPtr epgEvent = EpgEvents::CreateEpgInfo(Channel, Event);
+      EpgInfo    epgEvent_obj(Channel, Event);
+      EpgInfoPtr epgEvent = &epgEvent_obj;
+//      EpgInfoPtr epgEvent = EpgEvents::CreateEpgInfo(Channel, Event);
       if ( prev_row < 0 && Event->StartTime() > sched_start + MINUTES_PER_ROW )
       {
         // insert dummy event at start

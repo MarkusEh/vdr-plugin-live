@@ -92,7 +92,8 @@ if (!logged_in && LiveSetup().UseAuth()) {
                 timerStateHint = tr("Timer is active.");
               }
 
-              EpgInfoPtr epgEvent;
+              EpgInfo    epgEvent_obj;
+              EpgInfoPtr epgEvent = &epgEvent_obj;
               cToSvConcat longDescription;
               cToSvConcat searchTimName;
               std::string searchTimId;
@@ -107,7 +108,8 @@ if (!logged_in && LiveSetup().UseAuth()) {
                 timer->SetEventFromSchedule(Schedules);
               }
               if (timer->Event()) {
-                epgEvent = EpgEvents::CreateEpgInfo(timer->Channel(), timer->Event());
+                epgEvent_obj.CreateEpgInfo(timer->Channel(), timer->Event());
+//                epgEvent = EpgEvents::CreateEpgInfo(timer->Channel(), timer->Event());
                 bool truncated = false;
                 if (!epgEvent->LongDescr().empty()) {
                   longDescription << "<hr>";
@@ -135,7 +137,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
                 <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin nowrap" title="<$ trVDR("Duration")$>"><$ FormatDuration(tr("%d:%02d"), timer->StopTime() - timer->StartTime()) $></div></td>
                 <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin" title="<$ trVDR("Priority") $>"><$ timer->Priority() $></div></td>
                 <td class="<? bottom ? "bottomrow" ?>"><div class="withmargin">
-%               if(epgEvent) {
+%               if(timer->Event() ) {
                   <a <& tooltip.display domId=(epgEvent->Id()) &>
                   class="apopup" title="<$$longDescription$>"
                 ><$$ cToSvReplace(timerFile, "~", "~<wbr>") $></a>

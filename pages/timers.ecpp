@@ -38,11 +38,12 @@ using namespace vdrlive;
   SortedTimers& timers = LiveTimerManager().GetTimers();
   TimerConflicts timerConflicts;
 
+  LOCK_TIMERS_READ;
   timer = 0;
   if ( !timerid.empty()  && !action.empty() ) {
     std::string tId = SortedTimers::DecodeDomId(timerid);
 //    dsyslog("live: DEBUG: TIMER: tId = %s", tId.c_str());
-    timer = timers.GetByTimerId(tId);
+    timer = timers.GetByTimerId(tId, Timers);
     if ( timer == 0 )
       throw HtmlError( tr("Couldn't find timer. Maybe you mistyped your request?") );
     if (action == "delete") {
@@ -110,7 +111,8 @@ using namespace vdrlive;
         // output of the timer list:
         for (int i = 0; i < sortedTimers.Size(); i++) {
           const cTimer *timer = sortedTimers[i];
-          EpgInfoPtr epgEvent = 0;
+          EpgInfo    epgEvent_obj;
+          EpgInfoPtr epgEvent = &epgEvent_obj;
           cToSvConcat longDescription;
           cToSvConcat searchTimName;
           std::string searchTimId;
@@ -120,7 +122,8 @@ using namespace vdrlive;
           AppendHtmlEscapedAndCorrectNonUTF8(longDescription, SortedTimers::GetTimerInfo(*timer));
           if (timer->Event())
           {
-            epgEvent = EpgEvents::CreateEpgInfo(timer->Channel(), timer->Event());
+//            epgEvent = EpgEvents::CreateEpgInfo(timer->Channel(), timer->Event());
+            epgEvent_obj.CreateEpgInfo(timer->Channel(), timer->Event());
             bool truncated = false;
             if (!epgEvent->LongDescr().empty()) {
               longDescription << "<hr>";
@@ -207,7 +210,7 @@ using namespace vdrlive;
           <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin nowrap" <$$longDescriptionTitle$> ><$ FormatDuration(tr("%d:%02d"), timer->StopTime() - timer->StartTime()) $></div></td>
           <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin nowrap" <$$longDescriptionTitle$> ><$ timer->Priority() $></div></td>
           <td class="<? bottom ? "bottomrow" ?>"><div class="withmargin">
-%         if(epgEvent) {
+%         if(timer->Event()) {
             <a <& tooltip.display domId=(epgEvent->Id()) &>
             class="apopup" title="<$$longDescription$>">
             <$$ cToSvReplace(timerFile, "~", "~<wbr>") $></a>

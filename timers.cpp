@@ -25,7 +25,7 @@ namespace vdrlive {
     return std::string(cToSvConcat(timer.Channel()->GetChannelID(), ':', timer.WeekDays(), ':', timer.Day(), ':', timer.Start(), ':', timer.Stop()) );
   }
 
-  const cTimer* SortedTimers::GetByTimerId(cSv timerid)
+  const cTimer* SortedTimers::GetByTimerId(cSv timerid, const cTimers* Timers)
   {
     std::vector<std::string> parts = StringSplit( timerid, ':' );
     if ( parts.size() < 5 ) {
@@ -34,10 +34,8 @@ namespace vdrlive {
     }
 
 #ifdef DEBUG_LOCK
-    dsyslog("live: timers.cpp SortedTimers::GetByTimerId() LOCK_TIMERS_READ");
     dsyslog("live: timers.cpp SortedTimers::GetByTimerId() LOCK_CHANNELS_READ");
 #endif
-    LOCK_TIMERS_READ
     LOCK_CHANNELS_READ;
     const cChannel* channel = Channels->GetByChannelID( tChannelID::FromString( parts[0].c_str() ) );
     if ( channel == 0 ) {

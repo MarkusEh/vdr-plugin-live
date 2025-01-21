@@ -45,15 +45,16 @@ TimerConflictNotifier timerNotifier();
 
   const char* NowReplaying = cReplayControl::NowReplaying();
 
-  EpgInfoPtr epgEvent;
+  EpgInfo    epgEvent_obj;
+  EpgInfoPtr epgEvent = &epgEvent_obj;
 
   if (NowReplaying) {
     RecordingsManagerPtr recManager = LiveRecordingsManager();
     // is is OK to lock here, because CreateEpgInfo will *not* lock other lists
     LOCK_RECORDINGS_READ;
-    cRecording *recording = (cRecording *)Recordings->GetByName(NowReplaying);
+    const cRecording *recording = Recordings->GetByName(NowReplaying);
     if (recording) {
-      epgEvent = EpgEvents::CreateEpgInfo(
+      epgEvent_obj.CreateEpgInfo(
         concat("recording_", cToSvXxHash128(XXH3_128bits(NowReplaying, strlen(NowReplaying))) ),
         recording,
         tr("playing recording"));
@@ -89,36 +90,36 @@ TimerConflictNotifier timerNotifier();
       if (Schedule) {
         const cEvent *Event = Schedule->GetPresentEvent();
         if (Event) {
-          epgEvent = EpgEvents::CreateEpgInfo(Channel,
+          epgEvent_obj.CreateEpgInfo(Channel,
                             Event,
                             CHANNEL_STR.c_str());
         }
         else {
           const std::string noInfo(tr("no epg info for current event!"));
-          epgEvent = EpgEvents::CreateEpgInfo(CHANNEL_STR,
+          epgEvent_obj.CreateEpgInfo(CHANNEL_STR,
                             chanName,
                             noInfo);
         }
       }
       else {
         const std::string noInfo(tr("no epg info for current channel!"));
-        epgEvent = EpgEvents::CreateEpgInfo(CHANNEL_STR,
+        epgEvent_obj.CreateEpgInfo(CHANNEL_STR,
                           Channel->Name(),
                           noInfo);
       }
     }
     else {
       const std::string chanName(tr("no current channel!"));
-      epgEvent = EpgEvents::CreateEpgInfo(CHANNEL_STR,
+      epgEvent_obj.CreateEpgInfo(CHANNEL_STR,
                         chanName,
                         chanName);
     }
   }
-  if (!epgEvent) {
+  if (epgEvent->Id().empty() ) {
     const std::string ERROR_STR("error");
     const std::string noInfo(tr("error retrieving status info!"));
     const std::string chanName(tr("no current channel!"));
-    epgEvent = EpgEvents::CreateEpgInfo(ERROR_STR,
+    epgEvent_obj.CreateEpgInfo(ERROR_STR,
                       chanName,
                       noInfo);
   }
