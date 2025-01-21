@@ -216,15 +216,13 @@ std::vector<std::string> channel_groups_names;
     std::string string_times = LiveSetup().GetTimes();
     for (cSv part: cSplit(string_times, ';', eSplitDelimBeginEnd::optional))
     {
-      unsigned int sep = part.find(':');
-      if (sep == part.npos)
+      time_t hour, min;
+      if (cSplit(part, ':', "Additional times, multischedule").getValues(hour, min) != 2)
       {
-        esyslog("live: Error parsing time '%.*s'", (int)part.length(), part.data() );
+        esyslog("live: Additional times, multischedule, ERROR parsing time '%.*s'", (int)part.length(), part.data() );
         continue;
       }
-      cSv hour = part.substr(0, sep );
-      cSv min = part.substr(sep+1, part.npos );
-      offsets.push_back( parse_int<time_t>( hour )*60*60 + parse_int<time_t>( min ) *60 );
+      offsets.push_back(hour*60*60 + min*60);
     };
     // add the time of the favourites to the time list
     for (int i=0; i< MAX_DAYS ; i++ )
@@ -386,15 +384,18 @@ std::vector<std::string> channel_groups_names;
       en.end = epgEvent->EndTime(tr("%I:%M %p"));
       en.day = epgEvent->StartTime(tr("%A, %b %d %Y"));
       en.epgid = EpgEvents::EncodeDomId(Channel->GetChannelID(), Event->EventID());
-      const cTimer* timer = LiveTimerManager().GetTimer(Event, Channel);
-      if (!timer)
-        en.timer = tState::None;
-      else if (timer->Recording())
-        en.timer = tState::Recording;
-      else if (timer->Flags() & tfActive)
-        en.timer = tState::Active;
-      else
-        en.timer = tState::Inactive;
+      {
+        LOCK_TIMERS_READ;
+        const cTimer* timer = TimerManager::GetTimer(Event, Channel, Timers);
+        if (!timer)
+          en.timer = tState::None;
+        else if (timer->Recording())
+          en.timer = tState::Recording;
+        else if (timer->Flags() & tfActive)
+          en.timer = tState::Active;
+        else
+          en.timer = tState::Inactive;
+      }
 
       en.start_row = prev_row > 0 ? prev_row : 0;
       int end_time = Schedule->Events()->Next(Event) ?

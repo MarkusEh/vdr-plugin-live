@@ -46,19 +46,6 @@ namespace vdrlive {
     return std::string(result);
   }
 
-  std::vector<std::string> StringSplit(cSv text, char delimiter )
-  {
-    std::vector<std::string> result;
-    size_t last = 0, pos;
-    while ( ( pos = text.find( delimiter, last ) ) != std::string::npos ) {
-      result.emplace_back( text.substr( last, pos - last ) );
-      last = pos + 1;
-    }
-    if ( last < text.length() )
-      result.emplace_back( text.substr( last ) );
-    return result;
-  }
-
   cSv StringWordTruncate(cSv text, size_t maxLen, bool& truncated) {
 // Return text truncted to maxLen characters. If such truncation is required,
 // truncate at any char in the char list in find_last_of (see code below ...)

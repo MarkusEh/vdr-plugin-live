@@ -32,15 +32,15 @@ void cUser::SetPassword(const std::string& Password)
 int cUser::GetPasswordLength() const
 {
   // format is <length>:<md5-hash of password>
-  std::vector<std::string> parts = StringSplit( m_PasswordMD5, '|' );
-  return (parts.size() > 0) ? parse_int<int>( parts[0] ) : 0;
+  cSplit parts( m_PasswordMD5, '|' );
+  return parts.empty() ? 0:parse_int<int>( *parts.begin() );
 }
 
 std::string const cUser::GetMD5HashPassword() const
 {
   // format is <length>:<md5-hash of password>
-  std::vector<std::string> parts = StringSplit( m_PasswordMD5, '|' );
-  return (parts.size() > 1) ? parts[1] : "";
+  cSplit<std::string> parts(m_PasswordMD5, '|');
+  return (parts.size() > 1) ? *(++parts.begin()) : std::string();
 }
 
 bool cUser::Parse(const char *s)

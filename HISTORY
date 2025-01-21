@@ -182,4 +182,9 @@ Summary of changes to Version 3.2:
 
 2025-  -  : Version 3.4.1:
 - Fix: Parsing additional times used in mustischedule and what's on
-- Fix: Ensure to hev locks befar any access to VDR objects like cEvent, cRecording, ...
+- Timers: Remove locks defined in live, rely on VDRs locks only
+-         Do all work in one thread, instead of using another task and waiting for the other task to finish
+-         Note: the old approach (waiting for the other task to finish) will avoid
+-               'Invalid lock sequence' messages. But, there can still be invalid lock sequences
+-               which will not be detected by VDR but result in deadlocks
+- Fix (ongoing): Ensure to have locks before any access to VDR objects like cEvent, cRecording, ...

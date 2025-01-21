@@ -75,7 +75,7 @@ function IMDBS(s, im_db, name) {
 
 <#
 // [0] : EPG ID  (without event_)
-// [1] : Timer ID = SortedTimers::EncodeDomId(LiveTimerManager().GetTimers().GetTimerId(*timer))
+// [1] : Timer ID = SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer))
 //               (without timer_)
 // [2] : scraper s_IMDB_ID
 // [3] : image.path  (nach "/tvscraper/")

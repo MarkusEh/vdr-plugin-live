@@ -89,65 +89,62 @@ void SearchTimer::Init()
 
 SearchTimer::SearchTimer( std::string const& data )
 {
-   Init();
-   std::vector<std::string> parts = StringSplit( data, ':' );
-   try {
-      std::vector<std::string>::const_iterator part = parts.begin();
-      for ( int i = 0; part != parts.end(); ++i, ++part ) {
-      switch ( i ) {
-      case  0: m_id = parse_int<int>( *part ); break;
-      case  1: m_search = cToSvReplace( *part, "|", ":" ).replaceAll("!^pipe^!", "|" ); break;
-      case  2: m_useTime = lexical_cast<bool>( *part ); break;
-      case  3: if ( m_useTime ) m_startTime = parse_int<int>( *part ); break;
-      case  4: if ( m_useTime ) m_stopTime = parse_int<int>( *part ); break;
-      case  5: m_useChannel = parse_int<int>( *part ); break;
-      case  6: ParseChannel( *part ); break;
-      case  7: m_useCase = parse_int<int>( *part ); break;
-      case  8: m_mode = parse_int<int>( *part ); break;
-      case  9: m_useTitle = lexical_cast<bool>( *part ); break;
-      case 10: m_useSubtitle = lexical_cast<bool>( *part ); break;
-      case 11: m_useDescription = lexical_cast<bool>( *part ); break;
-      case 12: m_useDuration = lexical_cast<bool>( *part ); break;
-      case 13: if ( m_useDuration ) m_minDuration = parse_int<int>( *part ); break;
-      case 14: if ( m_useDuration ) m_maxDuration = parse_int<int>( *part ); break;
-      case 15: m_useAsSearchtimer = parse_int<int>( *part ); break;
-      case 16: m_useDayOfWeek = lexical_cast<bool>( *part ); break;
-      case 17: m_dayOfWeek = parse_int<int>( *part ); break;
-      case 18: m_useEpisode = lexical_cast<bool>( *part ); break;
-      case 19: m_directory = cToSvReplace( *part, "|", ":" ).replaceAll("!^pipe^!", "|" ); break;
-      case 20: m_priority = parse_int<int>( *part ); break;
-      case 21: m_lifetime = parse_int<int>( *part ); break;
-      case 22: m_marginstart = parse_int<int>( *part ); break;
-      case 23: m_marginstop = parse_int<int>( *part ); break;
-      case 24: m_useVPS = lexical_cast<bool>( *part ); break;
-      case 25: m_action = parse_int<int>( *part ); break;
-      case 26: m_useExtEPGInfo = lexical_cast<bool>( *part ); break;
-      case 27: ParseExtEPGInfo( *part ); break;
-      case 28: m_avoidrepeats = lexical_cast<bool>( *part ); break;
-      case 29: m_allowedrepeats = parse_int<int>( *part ); break;
-      case 30: m_compareTitle = lexical_cast<bool>( *part ); break;
-      case 31: m_compareSubtitle = parse_int<int>( *part ); break;
-      case 32: m_compareSummary = lexical_cast<bool>( *part ); break;
-      case 33: m_catvaluesAvoidRepeat = parse_int< unsigned long >( *part ); break;
-      case 34: m_repeatsWithinDays = parse_int<int>( *part ); break;
-      case 35: m_delAfterDays = parse_int<int>( *part ); break;
-      case 36: m_recordingsKeep = parse_int<int>( *part ); break;
-      case 37: m_switchMinBefore = parse_int<int>( *part ); break;
-      case 38: m_pauseOnNrRecordings = parse_int<int>( *part ); break;
-      case 39: m_blacklistmode = parse_int<int>( *part ); break;
-      case 40: ParseBlacklist( *part ); break;
-      case 41: m_fuzzytolerance = parse_int<int>( *part ); break;
-      case 42: m_useInFavorites = lexical_cast<bool>( *part ); break;
-      case 43: m_menuTemplate = parse_int<int>( *part ); break;
-      case 44: m_delMode = parse_int<int>( *part ); break;
-      case 45: m_delAfterCountRecs = parse_int<int>( *part ); break;
-      case 46: m_delAfterDaysOfFirstRec = parse_int<int>( *part ); break;
-      case 47: m_useAsSearchTimerFrom = parse_int<time_t>( *part ); break;
-      case 48: m_useAsSearchTimerTil = parse_int<time_t>( *part ); break;
-      case 49: m_ignoreMissingEPGCats = lexical_cast<bool>( *part ); break;
-      }
+  Init();
+  cSplit parts(data, ':');
+  auto part = parts.begin();
+  for (int i = 0; part != parts.end(); ++i, ++part ) {
+    switch ( i ) {
+    case  0: m_id = parse_int<int>( *part ); break;
+    case  1: m_search = cToSvReplace( *part, "|", ":" ).replaceAll("!^pipe^!", "|" ); break;
+    case  2: m_useTime = lexical_cast<bool>( *part ); break;
+    case  3: if ( m_useTime ) m_startTime = parse_int<int>( *part ); break;
+    case  4: if ( m_useTime ) m_stopTime = parse_int<int>( *part ); break;
+    case  5: m_useChannel = parse_int<int>( *part ); break;
+    case  6: ParseChannel( *part ); break;
+    case  7: m_useCase = parse_int<int>( *part ); break;
+    case  8: m_mode = parse_int<int>( *part ); break;
+    case  9: m_useTitle = lexical_cast<bool>( *part ); break;
+    case 10: m_useSubtitle = lexical_cast<bool>( *part ); break;
+    case 11: m_useDescription = lexical_cast<bool>( *part ); break;
+    case 12: m_useDuration = lexical_cast<bool>( *part ); break;
+    case 13: if ( m_useDuration ) m_minDuration = parse_int<int>( *part ); break;
+    case 14: if ( m_useDuration ) m_maxDuration = parse_int<int>( *part ); break;
+    case 15: m_useAsSearchtimer = parse_int<int>( *part ); break;
+    case 16: m_useDayOfWeek = lexical_cast<bool>( *part ); break;
+    case 17: m_dayOfWeek = parse_int<int>( *part ); break;
+    case 18: m_useEpisode = lexical_cast<bool>( *part ); break;
+    case 19: m_directory = cToSvReplace( *part, "|", ":" ).replaceAll("!^pipe^!", "|" ); break;
+    case 20: m_priority = parse_int<int>( *part ); break;
+    case 21: m_lifetime = parse_int<int>( *part ); break;
+    case 22: m_marginstart = parse_int<int>( *part ); break;
+    case 23: m_marginstop = parse_int<int>( *part ); break;
+    case 24: m_useVPS = lexical_cast<bool>( *part ); break;
+    case 25: m_action = parse_int<int>( *part ); break;
+    case 26: m_useExtEPGInfo = lexical_cast<bool>( *part ); break;
+    case 27: ParseExtEPGInfo( *part ); break;
+    case 28: m_avoidrepeats = lexical_cast<bool>( *part ); break;
+    case 29: m_allowedrepeats = parse_int<int>( *part ); break;
+    case 30: m_compareTitle = lexical_cast<bool>( *part ); break;
+    case 31: m_compareSubtitle = parse_int<int>( *part ); break;
+    case 32: m_compareSummary = lexical_cast<bool>( *part ); break;
+    case 33: m_catvaluesAvoidRepeat = parse_int< unsigned long >( *part ); break;
+    case 34: m_repeatsWithinDays = parse_int<int>( *part ); break;
+    case 35: m_delAfterDays = parse_int<int>( *part ); break;
+    case 36: m_recordingsKeep = parse_int<int>( *part ); break;
+    case 37: m_switchMinBefore = parse_int<int>( *part ); break;
+    case 38: m_pauseOnNrRecordings = parse_int<int>( *part ); break;
+    case 39: m_blacklistmode = parse_int<int>( *part ); break;
+    case 40: ParseBlacklist( *part ); break;
+    case 41: m_fuzzytolerance = parse_int<int>( *part ); break;
+    case 42: m_useInFavorites = lexical_cast<bool>( *part ); break;
+    case 43: m_menuTemplate = parse_int<int>( *part ); break;
+    case 44: m_delMode = parse_int<int>( *part ); break;
+    case 45: m_delAfterCountRecs = parse_int<int>( *part ); break;
+    case 46: m_delAfterDaysOfFirstRec = parse_int<int>( *part ); break;
+    case 47: m_useAsSearchTimerFrom = parse_int<time_t>( *part ); break;
+    case 48: m_useAsSearchTimerTil = parse_int<time_t>( *part ); break;
+    case 49: m_ignoreMissingEPGCats = lexical_cast<bool>( *part ); break;
     }
-  } catch ( bad_lexical_cast const& ex ) {
   }
 }
 
@@ -267,44 +264,44 @@ std::string SearchTimer::ToText()
    return os.str();
 }
 
-void SearchTimer::ParseChannel( std::string const& data )
+void SearchTimer::ParseChannel(cSv data)
 {
   switch ( m_useChannel ) {
     case NoChannel: m_channels = tr("All"); break;
     case Interval: ParseChannelIDs( data ); break;
-    case Group: m_channels = data; break;
+    case Group: m_channels = std::string(data); break;
     case FTAOnly: m_channels = tr("FTA"); break;
   }
 }
 
-void SearchTimer::ParseChannelIDs( std::string const& data )
+void SearchTimer::ParseChannelIDs(cSv data)
 {
-  std::vector<std::string> parts = StringSplit( data, '|' );
-  m_channelMin = tChannelID::FromString( parts[ 0 ].c_str() );
+  cSplit parts(data, '|');
+  auto part = parts.begin();
+  m_channelMin = lexical_cast<tChannelID>(*part);
 
   LOCK_CHANNELS_READ;
   cChannel const* channel = Channels->GetByChannelID( m_channelMin );
   if ( channel != 0 )
     m_channels = channel->Name();
 
-  if ( parts.size() < 2 )
-    return;
-
-  m_channelMax = tChannelID::FromString( parts[ 1 ].c_str() );
+  if (parts.size() < 2) return;
+  ++part;
+  m_channelMax = lexical_cast<tChannelID>(*part);
 
   channel = Channels->GetByChannelID( m_channelMax );
   if ( channel != 0 )
     m_channels += std::string( " - " ) + channel->Name();
 }
 
-void SearchTimer::ParseExtEPGInfo( std::string const& data )
+void SearchTimer::ParseExtEPGInfo(cSv data)
 {
-   m_ExtEPGInfo = StringSplit( data, '|' );
+   m_ExtEPGInfo = std::vector<std::string>(cSplit<std::string>(data, '|').begin(), cSplit<std::string>::s_end());
 }
 
-void SearchTimer::ParseBlacklist( std::string const& data )
+void SearchTimer::ParseBlacklist(cSv data)
 {
-   m_blacklistIDs = StringSplit( data, '|' );
+   m_blacklistIDs = std::vector<std::string>(cSplit<std::string>(data, '|').begin(), cSplit<std::string>::s_end());
 }
 
 std::string SearchTimer::StartTimeFormatted()
@@ -427,8 +424,8 @@ ExtEPGInfo::ExtEPGInfo( std::string const& data )
   m_id = -1;
   m_searchmode = 0;
 
-  std::vector<std::string> parts = StringSplit( data, '|' );
-  std::vector<std::string>::const_iterator part = parts.begin();
+  cSplit parts(data, '|');
+  auto part = parts.begin();
   for ( int i = 0; part != parts.end(); ++i, ++part ) {
     switch ( i ) {
       case  0: m_id = parse_int<int>( *part ); break;
@@ -440,25 +437,21 @@ ExtEPGInfo::ExtEPGInfo( std::string const& data )
   }
 }
 
-void ExtEPGInfo::ParseValues( std::string const& data )
+void ExtEPGInfo::ParseValues(cSv data)
 {
-   m_values = StringSplit( data, ',' );
+   m_values = std::vector<std::string>(cSplit<std::string>(data, ',').begin(), cSplit<std::string>::s_end());
 }
 
-bool ExtEPGInfo::Selected(unsigned int index, std::string const& values)
+bool ExtEPGInfo::Selected(unsigned int index, cSv values)
 {
    if (index >= m_values.size()) return false;
    std::string extepgvalue(StringTrim(m_values[index]));
 
-   std::vector<std::string> parts;
-   parts = StringSplit( values, ',' );
-   for(unsigned int i=0; i<parts.size(); i++) if (StringTrim(parts[i]) == extepgvalue) return true;
-   parts = StringSplit( values, ';' );
-   for(unsigned int i=0; i<parts.size(); i++) if (StringTrim(parts[i]) == extepgvalue) return true;
-   parts = StringSplit( values, '|' );
-   for(unsigned int i=0; i<parts.size(); i++) if (StringTrim(parts[i]) == extepgvalue) return true;
-   parts = StringSplit( values, '~' );
-   for(unsigned int i=0; i<parts.size(); i++) if (StringTrim(parts[i]) == extepgvalue) return true;
+   for (cSv part: cSplit(values, ',')) if (StringTrim(part) == extepgvalue) return true;
+   for (cSv part: cSplit(values, ';')) if (StringTrim(part) == extepgvalue) return true;
+   for (cSv part: cSplit(values, '|')) if (StringTrim(part) == extepgvalue) return true;
+   for (cSv part: cSplit(values, '~')) if (StringTrim(part) == extepgvalue) return true;
+
    return false;
 }
 
@@ -474,16 +467,13 @@ ExtEPGInfos::ExtEPGInfos()
 
 ChannelGroup::ChannelGroup( std::string const& data )
 {
-   std::vector<std::string> parts = StringSplit( data, '|' );
-   try {
-      std::vector<std::string>::const_iterator part = parts.begin();
-      for ( int i = 0; part != parts.end(); ++i, ++part ) {
-         switch ( i ) {
+  cSplit parts(data, '|');
+  auto part = parts.begin();
+  for (int i = 0; part != parts.end(); ++i, ++part) {
+    switch ( i ) {
       case  0: m_name = *part; break;
-         }
-      }
-   } catch ( bad_lexical_cast const& ex ) {
-   }
+    }
+  }
 }
 
 ChannelGroups::ChannelGroups()
@@ -498,16 +488,13 @@ ChannelGroups::ChannelGroups()
 
 Blacklist::Blacklist( std::string const& data )
 {
-   std::vector<std::string> parts = StringSplit( data, ':' );
-   try {
-      std::vector<std::string>::const_iterator part = parts.begin();
-      for ( int i = 0; part != parts.end(); ++i, ++part ) {
-      switch ( i ) {
+  cSplit parts(data, ':');
+  auto part = parts.begin();
+  for ( int i = 0; part != parts.end(); ++i, ++part ) {
+    switch ( i ) {
       case  0: m_id = parse_int<int>( *part ); break;
       case  1: m_search = cToSvReplace( *part, "|", ":" ).replaceAll("!^pipe^!", "|" ); break;
-      }
     }
-  } catch ( bad_lexical_cast const& ex ) {
   }
 }
 
@@ -524,11 +511,10 @@ Blacklists::Blacklists()
 
 SearchResult::SearchResult( std::string const& data )
 {
-  std::vector<std::string> parts = StringSplit( data, ':' );
-  try {
-    std::vector<std::string>::const_iterator part = parts.begin();
-    for ( int i = 0; part != parts.end(); ++i, ++part ) {
-      switch ( i ) {
+  cSplit parts(data, ':');
+  auto part = parts.begin();
+  for ( int i = 0; part != parts.end(); ++i, ++part ) {
+    switch ( i ) {
       case  0: m_searchId = parse_int<int>( *part ); break;
       case  1: m_eventId = parse_int<tEventID>( *part ); break;
       case  2: m_title = cToSvReplace( *part, "|", ":" ); break;
@@ -536,14 +522,12 @@ SearchResult::SearchResult( std::string const& data )
       case  4: m_description = cToSvReplace( *part, "|", ":" ); break;
       case  5: m_starttime = parse_int<time_t>( *part ); break;
       case  6: m_stoptime = parse_int<time_t>( *part ); break;
-      case  7: m_channel = tChannelID::FromString( part->c_str() ); break;
+      case  7: m_channel = lexical_cast<tChannelID>(*part); break;
       case  8: m_timerstart = parse_int<time_t>( *part ); break;
       case  9: m_timerstop = parse_int<time_t>( *part ); break;
       case 10: m_file = *part; break;
       case 11: m_timerMode = parse_int<int>( *part ); break;
-      }
     }
-  } catch ( bad_lexical_cast const& ex ) {
   }
 }
 

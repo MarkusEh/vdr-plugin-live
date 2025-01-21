@@ -33,8 +33,14 @@ void OsdStatusMonitor::OsdTitle(const char *Title) {
   m_lastUpdate= clock();
 }
 
+#if defined(OSDMESSAGE)
+void OsdStatusMonitor::OsdStatusMessage2(const char *Message, eMessageType Type) {
+  cOsdStatusMonitorLock lw(true);
+  m_message_type = Type;
+#else
 void OsdStatusMonitor::OsdStatusMessage(const char *Message) {
   cOsdStatusMonitorLock lw(true);
+#endif
   m_message = Message ? Message : "";
   m_lastUpdate= clock();
 }
@@ -73,7 +79,7 @@ void OsdStatusMonitor::OsdItem(const char *Text, int Index) {
   m_lastUpdate= clock();
 }
 
-#if defined(OSDITEM) && OSDITEM == 2
+#if defined(OSDSELECTED)
 void OsdStatusMonitor::OsdItemSelected(int Index) {
   cOsdStatusMonitorLock lw(true);
   if (m_selected == Index) return;

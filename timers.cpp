@@ -18,8 +18,6 @@ namespace vdrlive {
   static char const* const TIMER_DELETE = "DELETE";
   static char const* const TIMER_TOGGLE = "TOGGLE";
 
-  SortedTimers::SortedTimers() { }
-
   std::string SortedTimers::GetTimerId(cTimer const& timer)
   {
     return std::string(cToSvConcat(timer.Channel()->GetChannelID(), ':', timer.WeekDays(), ':', timer.Day(), ':', timer.Start(), ':', timer.Stop()) );
@@ -27,7 +25,7 @@ namespace vdrlive {
 
   const cTimer* SortedTimers::GetByTimerId(cSv timerid, const cTimers* Timers)
   {
-    std::vector<std::string> parts = StringSplit( timerid, ':' );
+    cSplit parts(timerid, ':');
     if ( parts.size() < 5 ) {
       esyslog("live: GetByTimerId: invalid format %.*s", (int)timerid.length(), timerid.data() );
       return 0;
@@ -37,28 +35,23 @@ namespace vdrlive {
     dsyslog("live: timers.cpp SortedTimers::GetByTimerId() LOCK_CHANNELS_READ");
 #endif
     LOCK_CHANNELS_READ;
-    const cChannel* channel = Channels->GetByChannelID( tChannelID::FromString( parts[0].c_str() ) );
+    auto part = parts.begin();
+    const cChannel* channel = Channels->GetByChannelID(lexical_cast<tChannelID>(*part, tChannelID(), "SortedTimers::GetByTimerId"));
     if ( channel == 0 ) {
-      esyslog("live: GetByTimerId: no channel %s", parts[0].c_str() );
+      esyslog("live: GetByTimerId: no channel %.*s", (int)(*part).length(), (*part).data() );
       return 0;
     }
 
-    try {
-      int weekdays = parse_int<int>( parts[1] );
-      time_t day = parse_int<time_t>( parts[2] );
-      int start = parse_int<int>( parts[3] );
-      int stop = parse_int<int>( parts[4] );
+    int weekdays = parse_int<int>(*++part);
+    time_t day = parse_int<time_t>(*++part);
+    int start = parse_int<int>(*++part);
+    int stop = parse_int<int>(*++part);
 
-      cMutexLock MutexLock(&m_mutex);
-
-      for (const cTimer* timer = Timers->First(); timer; timer = Timers->Next(timer)) {
-        if ( timer->Channel() == channel &&
-           ( ( weekdays != 0 && timer->WeekDays() == weekdays ) || ( weekdays == 0 && timer->Day() == day ) ) &&
-           timer->Start() == start && timer->Stop() == stop )
-          return timer;
-      }
-    } catch ( bad_lexical_cast const& ex ) {
-      esyslog("live: GetByTimer: bad cast");
+    for (const cTimer* timer = Timers->First(); timer; timer = Timers->Next(timer)) {
+      if ( timer->Channel() == channel &&
+         ( ( weekdays != 0 && timer->WeekDays() == weekdays ) || ( weekdays == 0 && timer->Day() == day ) ) &&
+         timer->Start() == start && timer->Stop() == stop )
+        return timer;
     }
     return 0;
   }
@@ -66,7 +59,7 @@ namespace vdrlive {
   std::string SortedTimers::EncodeDomId(cSv timerid)
   {
     cToSvConcat tId("timer_");
-    size_t enc_begin = ((cSv)tId).length();
+    size_t enc_begin = tId.length();
     tId.append(timerid);
     vdrlive::EncodeDomId(tId.begin() + enc_begin, tId.end(), ".-:", "pmc");
     return std::string(tId);
@@ -117,14 +110,17 @@ namespace vdrlive {
     cGetAutoTimerReason getAutoTimerReason;
     getAutoTimerReason.timer = &timer;
     getAutoTimerReason.requestRecording = true;
-    if (getAutoTimerReason.call(LiveSetup().GetPluginTvscraper()) ) {
-      if (!getAutoTimerReason.createdByTvscraper) return "";
-      if (getAutoTimerReason.recording) {
-        recID = concat("recording_", cToSvXxHash128(getAutoTimerReason.recording->FileName() ));
-        recName = std::move(getAutoTimerReason.recordingName);
-        return std::move(getAutoTimerReason.reason);
+    {
+      LOCK_RECORDINGS_READ;
+      if (getAutoTimerReason.call(LiveSetup().GetPluginTvscraper()) ) {
+        if (!getAutoTimerReason.createdByTvscraper) return "";
+        if (getAutoTimerReason.recording) {
+          recID = concat("recording_", cToSvXxHash128(getAutoTimerReason.recording->FileName() ));
+          recName = std::move(getAutoTimerReason.recordingName);
+          return std::move(getAutoTimerReason.reason);
+        }
+        return concat(getAutoTimerReason.reason, " ", getAutoTimerReason.recordingName);
       }
-      return concat(getAutoTimerReason.reason, " ", getAutoTimerReason.recordingName);
     }
 // fallback information, if this Tvscraper method is not available
     cSv tvScraperInfo = partInXmlTag(timer.Aux(), "tvscraper");
@@ -134,26 +130,10 @@ namespace vdrlive {
     return concat(data, " ", partInXmlTag(tvScraperInfo, "causedBy"));
   }
 
-  bool SortedTimers::Modified()
-  {
-    bool modified = false;
-
-    // will return != 0 only, if the Timers List has been changed since last read
-    if (cTimers::GetTimersRead(m_TimersStateKey)) {
-      modified = true;
-      m_TimersStateKey.Remove();
-    }
-
-    return modified;
-  }
-
-  TimerManager::TimerManager()
-  :  m_reloadTimers(true)
-  {
-  }
-
   void TimerManager::UpdateTimer( int timerId, const char* remote, const char* oldRemote, const tChannelID& channel, cStr builder)
   {
+    if (remote && !*remote) remote = nullptr;
+    if (oldRemote && !*oldRemote) oldRemote = nullptr;
     dsyslog("live: UpdateTimer() timerId '%d'", timerId);
     dsyslog("live: UpdateTimer() remote '%s'", remote);
     dsyslog("live: UpdateTimer() oldRemote '%s'", oldRemote);
@@ -163,11 +143,10 @@ namespace vdrlive {
 
     timerStruct timerData = { .id = timerId, .remote=remote, .oldRemote=oldRemote, .builder=std::string(builder) };
 
-    cMutexLock lock( this );
     // dsyslog("live: SV: in UpdateTimer");
     m_updateTimers.push_back( timerData );
     // dsyslog("live: SV: wait for update");
-    m_updateWait.Wait( *this );
+    DoUpdateTimers();
     // dsyslog("live: SV: update done");
 
     std::string error = GetError( timerData );
@@ -177,15 +156,13 @@ namespace vdrlive {
 
   void TimerManager::DelTimer( int timerId, const char* remote )
   {
-    cMutexLock lock( this );
-
     dsyslog("live: DelTimer() timerId '%d'", timerId);
     dsyslog("live: DelTimer() remote '%s'", remote);
 
     timerStruct timerData{ .id=timerId, .remote=remote, .oldRemote=remote, .builder=TIMER_DELETE };
 
     m_updateTimers.push_back( timerData );
-    m_updateWait.Wait( *this );
+    DoUpdateTimers();
 
     std::string error = GetError( timerData );
     if ( !error.empty() )
@@ -194,29 +171,14 @@ namespace vdrlive {
 
   void TimerManager::ToggleTimerActive( int timerId, const char* remote)
   {
-    cMutexLock lock( this );
-
     timerStruct timerData{ .id=timerId, .remote=remote, .oldRemote=remote, .builder=TIMER_TOGGLE };
 
     m_updateTimers.push_back( timerData );
-    m_updateWait.Wait( *this );
+    DoUpdateTimers();
 
     std::string error = GetError( timerData );
     if ( !error.empty() )
       throw HtmlError( error );
-  }
-
-  void TimerManager::DoPendingWork()
-  {
-    if ( m_updateTimers.size() == 0 && !m_timers.Modified() && !m_reloadTimers )
-      return;
-
-    cMutexLock lock( this );
-    if ( m_updateTimers.size() > 0 ) {
-      DoUpdateTimers();
-    }
-    // dsyslog("live: SV: signaling waiters");
-    m_updateWait.Broadcast();
   }
 
   void TimerManager::DoUpdateTimers()
@@ -282,7 +244,7 @@ namespace vdrlive {
       LOCK_TIMERS_WRITE;
       Timers->SetExplicitModify();
       const cTimer *checkTimer = Timers->GetTimer( newTimer.get() );
-      if ( checkTimer ) {
+      if (checkTimer) {
         StoreError( timerData, tr("Timer already defined") );
         return;
       }
@@ -333,10 +295,10 @@ namespace vdrlive {
       }
       else {      // timer moves from one remote server to another
         isyslog("live: DoUptimer() move timer from remote server '%s' to remote server '%s'", timerData.oldRemote, timerData.remote);
-                          timerStruct timerDataMove = { .id = timerData.id, .remote=timerData.oldRemote, .oldRemote=timerData.oldRemote, .builder=timerData.builder};
-                          DoDeleteTimer( timerDataMove );
-                          timerDataMove = { .id = timerData.id, .remote=timerData.remote, .oldRemote=timerData.remote, .builder=timerData.builder};
-                          DoInsertTimer( timerDataMove );
+        timerStruct timerDataMove = { .id = timerData.id, .remote=timerData.oldRemote, .oldRemote=timerData.oldRemote, .builder=timerData.builder};
+        DoDeleteTimer( timerDataMove );
+        timerDataMove = { .id = timerData.id, .remote=timerData.remote, .oldRemote=timerData.remote, .builder=timerData.builder};
+        DoInsertTimer( timerDataMove );
       }
 
     }
@@ -484,35 +446,19 @@ namespace vdrlive {
       response.Clear();
     }
     else {           // toggle local timer
-#if VDRVERSNUM < 20301
-      if ( Timers.BeingEdited() ) {
-        StoreError( timerData, tr("Timers are being edited - try again later") );
-        return;
-      }
+#ifdef DEBUG_LOCK
+      dsyslog("live: timers.cpp TimerManager::DoToggleTimer() LOCK_TIMERS_WRITE");
 #endif
-
-#if VDRVERSNUM >= 20301
-  #ifdef DEBUG_LOCK
-                        dsyslog("live: timers.cpp TimerManager::DoToggleTimer() LOCK_TIMERS_WRITE");
-  #endif
       LOCK_TIMERS_WRITE;
       Timers->SetExplicitModify();
       cTimer* toggleTimer = Timers->GetById( timerData.id, timerData.remote );
-#else
-      cTimer* toggleTimer = Timers.GetTimer( const_cast<cTimer*>(timerData.first) );
-#endif
       if ( toggleTimer == 0 ) {
         StoreError( timerData, tr("Timer not defined") );
         return;
       }
 
-#if VDRVERSNUM >= 20301
       toggleTimer->OnOff();
       Timers->SetModified();
-#else
-      toggleTimer->OnOff();
-      Timers.SetModified();
-#endif
       isyslog("live: timer %s toggled %s", *toggleTimer->ToDescr(), toggleTimer->HasFlags(tfActive) ? "on" : "off");
     }
   }
@@ -537,26 +483,9 @@ namespace vdrlive {
     return "";
   }
 
-  const cTimer* TimerManager::GetTimer(const cEvent *event, const cChannel *channel)
+  const cTimer* TimerManager::GetTimer(const cEvent *event, const cChannel *channel, const cTimers *Timers)
   {
-    if (!channel) {
-      tChannelID channelid = event->ChannelID();
-      if (channelid == tChannelID() ) return nullptr;
-      {
-#ifdef DEBUG_LOCK
-        dsyslog("live: timers.cpp TimerManager::GetTimer() LOCK_CHANNELS_READ");
-#endif
-        LOCK_CHANNELS_READ;
-        channel = Channels->GetByChannelID(channelid);
-      }
-    }
-    if (!channel) return nullptr;
-
-    cMutexLock timersLock( &LiveTimerManager() );
-#ifdef DEBUG_LOCK
-    dsyslog("live: timers.cpp TimerManager::GetTimer() LOCK_TIMERS_READ");
-#endif
-    LOCK_TIMERS_READ;
+    if (!event || !channel) return nullptr;
     for (const cTimer* timer = Timers->First(); timer; timer = Timers->Next(timer)) {
       if (timer->Channel() == channel && (timer->Event() == event || timer->Matches(event) == tmFull))
         return timer;
@@ -564,27 +493,19 @@ namespace vdrlive {
     return nullptr;
   }
 
-  const cTimer* TimerManager::GetTimer(tEventID eventid, tChannelID channelid)
+  const cTimer* TimerManager::GetTimer(tEventID eventid, tChannelID channelid, const cTimers *Timers)
   {
-    const cSchedule *schedule;
-    {
-      LOCK_SCHEDULES_READ;
-      schedule = Schedules->GetSchedule(channelid);
-    }
+    LOCK_CHANNELS_READ;
+    LOCK_SCHEDULES_READ;
+    const cSchedule *schedule = Schedules->GetSchedule(channelid);
     if (!schedule) return nullptr;
 #if APIVERSNUM >= 20502
     const cEvent *event = schedule->GetEventById(eventid);
 #else
     const cEvent *event = schedule->GetEvent(eventid);
 #endif
-    if (!event) return nullptr;
-    return GetTimer(event);
-  }
-
-  TimerManager& LiveTimerManager()
-  {
-    static TimerManager instance;
-    return instance;
+    const cChannel *channel = Channels->GetByChannelID(channelid);
+    return GetTimer(event, channel, Timers);
   }
 
 } // namespace vdrlive

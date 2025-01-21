@@ -14,19 +14,15 @@
 
 namespace vdrlive {
 
-  class SortedTimers: public std::list<cTimer>
+  class SortedTimers
   {
-    friend class TimerManager;
-
     public:
       static std::string GetTimerId(cTimer const& timer);
-      const cTimer* GetByTimerId(cSv timerid, const cTimers* Timers);
+      static const cTimer* GetByTimerId(cSv timerid, const cTimers* Timers);
 
       // en- or decodes a timer into an id usable for DOM Ids.
       static std::string EncodeDomId(cSv timerid);
       static std::string DecodeDomId(cSv timerDomId);
-
-      bool Modified();
 
       static std::string GetTimerDays(cTimer const *timer);
       static std::string GetTimerInfo(cTimer const& timer);
@@ -35,31 +31,16 @@ template<std::size_t N>
         return partInXmlTag(partInXmlTag(timer.Aux(), "epgsearch"), value);
       }
       static std::string TvScraperTimerInfo(cTimer const& timer, std::string &recID, std::string &recName);
-
-    private:
-      SortedTimers();
-      SortedTimers( SortedTimers const& );
-
-      cMutex m_mutex;
-      cStateKey m_TimersStateKey;
   };
 
-  class TimerManager: public cMutex
+  class TimerManager
   {
-    friend TimerManager& LiveTimerManager();
-
     public:
-      SortedTimers& GetTimers() { return m_timers; }
-
-      void UpdateTimer( int timerId, const char* remote, const char* oldRemote, const tChannelID& channel, cStr builder);
-
-      void DelTimer( int timerId, const char* remote);
-      void ToggleTimerActive( int timerId, const char* remote);
-      // may only be called from Plugin::MainThreadHook
-      void DoPendingWork();
-      const cTimer* GetTimer(tEventID eventid, tChannelID channelid);
-      const cTimer* GetTimer(const cEvent *event, const cChannel *channel = nullptr);
-      void SetReloadTimers() { m_reloadTimers = true; }
+      void UpdateTimer(int timerId, const char* remote, const char* oldRemote, const tChannelID& channel, cStr builder);
+      void DelTimer(int timerId, const char* remote);
+      void ToggleTimerActive(int timerId, const char* remote);
+      static const cTimer* GetTimer(tEventID eventid, tChannelID channelid, const cTimers* Timers);
+      static const cTimer* GetTimer(const cEvent *event, const cChannel *channel, const cTimers* Timers);
 
     private:
       typedef struct
@@ -74,14 +55,8 @@ template<std::size_t N>
       typedef std::list<timerStruct> TimerList;
       typedef std::list<ErrorPair> ErrorList;
 
-      TimerManager();
-      TimerManager( TimerManager const& );
-
-      SortedTimers m_timers;
       TimerList m_updateTimers;
       ErrorList m_failedUpdates;
-      cCondVar m_updateWait;
-      bool m_reloadTimers = false;
 
       void DoUpdateTimers();
       void DoInsertTimer( timerStruct& timerData );
@@ -92,8 +67,6 @@ template<std::size_t N>
       void StoreError( timerStruct const& timerData, std::string const& error );
       std::string GetError( timerStruct const& timerData );
   };
-
-  TimerManager& LiveTimerManager();
 
 } // namespace vdrlive
 

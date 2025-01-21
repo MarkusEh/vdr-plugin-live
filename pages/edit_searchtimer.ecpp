@@ -322,15 +322,12 @@ const char *TNT_ARRAY = "";
     switchminbefore = searchtimer->SwitchMinBefore();
     useextepginfo = searchtimer->UseExtEPGInfo();
     std::vector<std::string> infos = searchtimer->ExtEPGInfo();
-    for(unsigned int i=0; i<extEPGInfos.size(); i++)
-    {
-      if (i<infos.size())
-      {
-      std::vector<std::string> parts = StringSplit( infos[i], '#' );
-      extepgvalues.push_back(parts.size() > 1?parts[1]:"");
-      }
-      else
-      extepgvalues.push_back("");
+    for(unsigned int i=0; i<extEPGInfos.size(); i++) {
+      if (i<infos.size()) {
+        cSplit<std::string> parts(infos[i], '#');
+        extepgvalues.push_back(parts.size() > 1? *(++parts.begin()):"");
+      } else
+        extepgvalues.push_back("");
     }
     ignoreMissingEPGCats = searchtimer->IgnoreMissingEPGCats();
     avoidrepeats = searchtimer->AvoidRepeats();

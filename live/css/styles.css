@@ -1323,6 +1323,54 @@ div.screenshot img {
   padding:10px;
   border:2px solid red;
 }
+.osdMessageStatus {
+  position:absolute;
+  overflow:auto;
+  top:250px;
+  max-height: 100px;
+  min-height:20px;
+  width: 510px;
+  background-color:blue;
+  color:white;
+  padding:10px;
+  border:2px solid red;
+}
+.osdMessageInfo {
+  position:absolute;
+  overflow:auto;
+  top:250px;
+  max-height: 100px;
+  min-height:20px;
+  width: 510px;
+  background-color:green;
+  color:white;
+  padding:10px;
+  border:2px solid red;
+}
+.osdMessageWarning {
+  position:absolute;
+  overflow:auto;
+  top:250px;
+  max-height: 100px;
+  min-height:20px;
+  width: 510px;
+  background-color:yellow;
+  color:black;
+  padding:10px;
+  border:2px solid red;
+}
+.osdMessageError {
+  position:absolute;
+  overflow:auto;
+  top:250px;
+  max-height: 100px;
+  min-height:20px;
+  width: 510px;
+  background-color:red;
+  color:white;
+  padding:10px;
+  border:2px solid red;
+}
 .osdProgrammeSubTitle {
   font-size: 9px;
 }

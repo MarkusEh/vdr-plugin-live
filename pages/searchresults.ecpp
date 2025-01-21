@@ -78,15 +78,15 @@ bool logged_in(false);
         epg_item.reserve(10000);
         epg_item.concat('[');
         for (SearchResults::iterator result = results.begin(); result != results.end(); ++result) {
-          const cChannel* channel;
-          {
-            LOCK_CHANNELS_READ;
-            channel = Channels->GetByChannelID(result->Channel());
-          }
+          LOCK_TIMERS_READ;
+          LOCK_CHANNELS_READ;
+          const cChannel* channel = Channels->GetByChannelID(result->Channel());
           if (!channel) continue;
+          LOCK_RECORDINGS_READ;  // required because appendEpgItemWithRecItem needs also lock on recordings
+          LOCK_SCHEDULES_READ;
           const cEvent *event = result->GetEvent(channel);
           if (!event || !event->StartTime() ) continue;
-          current_day = appendEpgItemWithRecItem(epg_item, current_day, event, channel, true);
+          current_day = appendEpgItemWithRecItem(epg_item, current_day, event, channel, true, Timers);
         }
         epg_item.concat("]]]");
         if (current_day.empty() ) {

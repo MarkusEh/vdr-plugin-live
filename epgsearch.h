@@ -100,7 +100,7 @@ public:
   int BlacklistMode() const {return m_blacklistmode; }
   void SetBlacklistMode(int blacklistmode) { m_blacklistmode = blacklistmode; }
   bool BlacklistSelected(int id) const;
-  void ParseBlacklist( std::string const& data );
+  void ParseBlacklist(cSv data);
   int SwitchMinBefore() const { return m_switchMinBefore; }
   void SetSwitchMinBefore(int switchMinBefore) { m_switchMinBefore = switchMinBefore; }
   bool UseExtEPGInfo() const { return m_useExtEPGInfo; }
@@ -198,9 +198,9 @@ private:
   time_t m_useAsSearchTimerTil;
   bool m_ignoreMissingEPGCats;
 
-  void ParseChannel( std::string const& data );
-  void ParseChannelIDs( std::string const& data );
-  void ParseExtEPGInfo( std::string const& data );
+  void ParseChannel(cSv data);
+  void ParseChannelIDs(cSv data);
+  void ParseExtEPGInfo(cSv data);
 };
 
 class ExtEPGInfo
@@ -210,7 +210,7 @@ public:
   int Id() const { return m_id; }
   std::string Name() const { return m_menuname; }
   std::vector<std::string> Values() const { return m_values; }
-  bool Selected(unsigned int index, std::string const& values);
+  bool Selected(unsigned int index, cSv values);
 private:
   int m_id;
   std::string m_name;
@@ -218,7 +218,7 @@ private:
   std::vector<std::string> m_values;
   int m_searchmode;
 
-  void ParseValues( std::string const& data );
+  void ParseValues(cSv data);
 };
 
 class ExtEPGInfos

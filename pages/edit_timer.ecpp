@@ -62,47 +62,54 @@ TimerConflictNotifier timerNotifier;
   std::string message;
   tChannelID channel = tChannelID::FromString(channel_string.c_str());
 
-  LOCK_TIMERS_READ;
-  cMutexLock timersLock( &LiveTimerManager() );
-  SortedTimers& timers = LiveTimerManager().GetTimers();
-
   std::string aux = "";
-  const cTimer* timer = nullptr;
   int timerId = 0;
-  if ( !timerid.empty() ) {
+  std::string oldRemote;
+  cSubstring aux_epgsearch;
+  cSubstring aux_tvscraper;
+  bool others_monitor = false;
+  tEventID event_monitoring_id = 0;
+  time_t event_monitoring_startTime = 0;
+  time_t event_monitoring_endTime = 0;
+  if (!timerid.empty() ) {
     std::string tId = SortedTimers::DecodeDomId(timerid);
 //    dsyslog("live: DEBUG: TIMER: timerid = %s", timerid);
 //    dsyslog("live: DEBUG: TIMER: tId = %s", tId.c_str());
-    timer = timers.GetByTimerId(tId, Timers);
-    if (timer == nullptr)
+    LOCK_TIMERS_READ;
+    const cTimer* timer = SortedTimers::GetByTimerId(tId, Timers);
+    if (!timer)
       throw HtmlError( tr("Couldn't find timer. Maybe you mistyped your request?") );
-    else {
-      timerId = timer->Id();
-      aux = timer->Aux()?timer->Aux():"";
-    }
-  }
-
-  cSubstring aux_epgsearch = substringInXmlTag(aux, "epgsearch");
-  cSubstring aux_tvscraper = substringInXmlTag(aux, "tvscraper");
-  bool others_monitor = aux_tvscraper.found() || aux_epgsearch.substringInXmlTag(aux, "s-id").found();
-
-  const cEvent *event_monitoring = nullptr;
-  LOCK_CHANNELS_READ;
-  LOCK_SCHEDULES_READ;
-  if (!others_monitor) {
-    if (timer) event_monitoring = timer->Event();
+    timerId = timer->Id();
+    oldRemote = cSv(timer->Remote());
+    aux = timer->Aux()?timer->Aux():"";
+    aux_epgsearch = substringInXmlTag(aux, "epgsearch");
+    aux_tvscraper = substringInXmlTag(aux, "tvscraper");
+    others_monitor = aux_tvscraper.found() || aux_epgsearch.substringInXmlTag(aux, "s-id").found();
+    if (!others_monitor) {
+      LOCK_SCHEDULES_READ;
+      const cEvent *event_monitoring = timer->Event();
 // Wenn ein Event in den Garbage-Collector kommt, wird beim nächsten Umlauf (einmal pro Sekunde) der Hauptschleife dem Timer ein neuer (oder kein) Event zugewiesen. Der alte Event bleibt mindestens 5 Sekunden im Garbage-Collector. Wenn also der Timer einen Pointer auf einen Event hat, dann darf der auch dereferenziert werden
-    if (!event_monitoring) event_monitoring = EpgEvents::GetEventByEpgId(epgid, Schedules);
-// if we have no event, we do not support monitoring (which event should we monitor?)
+      if (event_monitoring) {
+        event_monitoring_id = event_monitoring->EventID();
+        event_monitoring_startTime = event_monitoring->StartTime();
+        event_monitoring_endTime = event_monitoring->EndTime();
+      }
+    }
   }
 
-  if ( request.getMethod() == "POST" && title.empty()) { ++nav_back; message = tr("Please set a title for the timer!"); }
-  if ( request.getMethod() == "POST" && !title.empty()) {
-    const char* oldRemote = NULL;
-    if (timer) {
-      oldRemote = timer->Remote();
-//      dsyslog("live: found valid timer on server '%s'", oldRemote);
+  if (!others_monitor && event_monitoring_id == 0 && !epgid.empty() ) {
+    LOCK_SCHEDULES_READ;
+    const cEvent *event_monitoring = EpgEvents::GetEventByEpgId(epgid, Schedules);
+// if we have no event, we do not support monitoring (which event should we monitor?)
+    if (event_monitoring) {
+      event_monitoring_id = event_monitoring->EventID();
+      event_monitoring_startTime = event_monitoring->StartTime();
+      event_monitoring_endTime = event_monitoring->EndTime();
     }
+  }
+
+  if (request.getMethod() == "POST" && title.empty()) { ++nav_back; message = tr("Please set a title for the timer!"); }
+  if (request.getMethod() == "POST" && !title.empty()) {
 
     uint flags = ( active ? tfActive : 0 ) | ( (monitoring == "vps") ? tfVps : 0 );
     std::string weekdays = std::string( wday_mon ? "M" : "-" ) + ( wday_tue ? "T" : "-" ) + ( wday_wed ? "W" : "-" )
@@ -131,8 +138,6 @@ TimerConflictNotifier timerNotifier;
     }
 #endif
 
-    const char* remote = ( remoteServerName == "") ? nullptr : remoteServerName.c_str();
-//    dsyslog("live: remote '%s'", remote);
     cToSvConcat builder;
     builder << flags << ":"
             << channel << ":";
@@ -153,7 +158,7 @@ TimerConflictNotifier timerNotifier;
       monitoring = "none";  // tvscraper does the monitoring -> no epgsearch monitoring
     if (weekdays != "-------" && monitoring != "none" && monitoring != "vps")
       monitoring = "none";  // monitoring only supported for single shot timers
-    if (!event_monitoring && monitoring != "none" && monitoring != "vps") {
+    if (event_monitoring_id != 0 && monitoring != "none" && monitoring != "vps") {
       if (!aux_epgsearch.found() ) monitoring = "none";
     }
 
@@ -161,14 +166,15 @@ TimerConflictNotifier timerNotifier;
       if (aux_epgsearch.found() )
         aux_epgsearch.substringInXmlTag(aux, "update").replace(aux, "0");
     } else {
-      if (event_monitoring) {
+      if (event_monitoring_id != 0) {
 // we remove the epgsearch tag, and replace it with a new one
+        LOCK_CHANNELS_READ;
         const cChannel *channel_p = Channels->GetByChannelID(channel);
         if (channel_p) {
           cTimer newTimer;
           if (newTimer.Parse(builder.c_str() )) {
             if (aux_epgsearch.found() ) eraseXmlTag(aux, "epgsearch");
-            cToSvConcat aux_epgs("<epgsearch><channel>", channel_p->Number(), " - ", channel_p->Name(), "</channel><update>0</update><eventid>", event_monitoring->EventID(), "</eventid><bstart>", event_monitoring->StartTime() - newTimer.StartTime(), "</bstart><bstop>", newTimer.StopTime() - event_monitoring->EndTime(), "</bstop></epgsearch>");
+            cToSvConcat aux_epgs("<epgsearch><channel>", channel_p->Number(), " - ", channel_p->Name(), "</channel><update>0</update><eventid>", event_monitoring_id, "</eventid><bstart>", event_monitoring_startTime - newTimer.StartTime(), "</bstart><bstop>", newTimer.StopTime() - event_monitoring_endTime, "</bstop></epgsearch>");
             aux.append(aux_epgs);
             aux_epgsearch = substringInXmlTag(aux, "epgsearch");
           }
@@ -187,7 +193,7 @@ TimerConflictNotifier timerNotifier;
     // title or aux string it breaks parsing of timer definition
     // in VDRs cTimer::Parse method.  The '|' will be replaced
     // back to ':' by the cTimer::Parse() method.
-    LiveTimerManager().UpdateTimer( timerId, remote, oldRemote, channel, builder);
+    TimerManager().UpdateTimer(timerId, remoteServerName.c_str(), oldRemote.c_str(), channel, builder);
     timerNotifier.SetTimerModification();
 </%cpp>
 <!DOCTYPE html>
@@ -204,8 +210,18 @@ TimerConflictNotifier timerNotifier;
   if (message.empty())
     edit_timerreferer = request.getHeader("Referer:", "timers.html");
 
+{
+  LOCK_TIMERS_READ;
+  LOCK_CHANNELS_READ; // required for new cTimer( event )
+  LOCK_SCHEDULES_READ;
+  const cTimer* timer = nullptr;
+  if (timerId != 0) {
+    if (oldRemote.empty()) timer = Timers->GetById(timerId);
+    else timer = Timers->GetById(timerId, oldRemote.c_str() );
+  }
+
   std::unique_ptr<cTimer> eventTimer;
-  if (timer == 0 && !epgid.empty()) {
+  if (!timer && !epgid.empty()) {
     const cEvent *event = EpgEvents::GetEventByEpgId(epgid, Schedules);
     if (event) {
       eventTimer.reset( new cTimer( event ) );
@@ -214,32 +230,25 @@ TimerConflictNotifier timerNotifier;
       esyslog("live: edit timer with epgid %s not valid", epgid.c_str() );
     }
   }
-  if (timer == 0)
+  if (!timer)
   {
     eventTimer.reset( new cTimer() );
     eventTimer->SetFlags( tfActive );
     timer = eventTimer.get();
   }
 
-  if ( timer != 0 && request.getMethod() == "GET" ) {
+  if (timer && request.getMethod() == "GET" ) {
     active = timer->Flags() & tfActive;
     channel = timer->Channel()->GetChannelID();
     title = timer->File() ? timer->File() : "";
     remoteServerName = timer->Remote() ? timer->Remote() : "";
 //  dsyslog("live: remoteServerName '%s'", remoteServerName.c_str());
-    if ( LiveFeatures<features::epgsearch>().Recent() ) {
+    if (LiveFeatures<features::epgsearch>().Recent() ) {
       std::string::size_type tilde_found = title.rfind('~');
       if (tilde_found != std::string::npos) {
         directory = title.substr(0, tilde_found);
         title.erase(0, tilde_found+1);
       }
-/*
-      std::vector<std::string> directories = StringSplit( title, '~' );
-      if (directories.size() > 1) {
-        directory = directories[0];
-        title = title.substr(directory.size()+1);
-      }
-*/
     }
     // TRANSLATORS: only adjust the ordering and separators, don't translate the m's, d's and y's
     date = timer->Day() ? DatePickerToC(timer->Day(), "yyyy-mm-dd") : "";
@@ -273,6 +282,7 @@ TimerConflictNotifier timerNotifier;
       }
     }
   }
+}
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -332,7 +342,7 @@ TimerConflictNotifier timerNotifier;
         <input type="hidden" name="nav_back" value="<$ nav_back $>"/>
         <table class="formular" cellpadding="0" cellspacing="0">
           <tr class="head">
-            <td class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div><div class="caption"><$ timer ? tr("Edit timer") : tr("New timer") $></div></div></div></td>
+            <td class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div><div class="caption"><$ !timerid.empty() ? tr("Edit timer") : tr("New timer") $></div></div></div></td>
           </tr>
 
           <tr>
@@ -465,7 +475,7 @@ TimerConflictNotifier timerNotifier;
                 <input id="monitoring_vps" name="monitoring" value="vps" <? monitoring=="vps" ? "checked=\"checked\"" ?> type="radio"></input>
                 <label for="monitoring_vps"><$ trVDR("VPS") $></label>
               </div>
-%             if ( (!others_monitor & event_monitoring != nullptr & LiveFeatures<features::epgsearch>().Recent() ) || monitoring=="event_id" || monitoring=="event_time") {
+%             if ( (!others_monitor & event_monitoring_id != 0 & LiveFeatures<features::epgsearch>().Recent() ) || monitoring=="event_id" || monitoring=="event_time") {
               <div id="monitoring_section" style="display: none">
               <div class="dotted">
                 <input id="monitoring_event_id" name="monitoring" value="event_id" <? monitoring=="event_id" ? "checked=\"checked\"" ?> type="radio"></input>

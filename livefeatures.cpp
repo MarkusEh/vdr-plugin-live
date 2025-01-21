@@ -15,9 +15,11 @@ SplitVersion::SplitVersion( std::string version )
     m_suffix = version.substr( pos + 1 );
     version.erase( pos );
   }
-  std::vector<std::string> parts = StringSplit( version, '.' );
-  for ( size_t i = 0; i < parts.size() && i < sizeof(factors)/sizeof(factors[0]); ++i ) {
-    m_version += atoi( parts[ i ].c_str() ) * factors[ i ];
+  size_t i = 0;
+  for (int part: cSplit<int>(version, '.' )) {
+    if (i >= sizeof(factors)/sizeof(factors[0])) break;
+    m_version += part * factors[i];
+    ++i;
   }
 }
 

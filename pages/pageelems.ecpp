@@ -268,9 +268,9 @@ if (!rfid.empty() ) {
   bool timerActive = true;
   {
     LOCK_TIMERS_READ;
-    const cTimer* timer = LiveTimerManager().GetTimer(eventid, channelid);
+    const cTimer* timer = TimerManager::GetTimer(eventid, channelid, Timers);
     if (timer) {
-      timerId = (LiveTimerManager().GetTimers().GetTimerId(*timer));
+      timerId = SortedTimers::GetTimerId(*timer);
       timerRecording = timer->Recording();
       timerActive = timer->Flags() & tfActive;
     }

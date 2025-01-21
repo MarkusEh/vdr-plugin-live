@@ -41,6 +41,9 @@ class OsdStatusMonitor: public cStatus
 
   std::string m_title;
   std::string m_message;
+#if defined(OSDMESSAGE)
+  eMessageType m_message_type = mtWarning;
+#endif
   std::string m_red;
   std::string m_green;
   std::string m_yellow;
@@ -72,7 +75,26 @@ template <size_t N> cToSvConcat<N>& appendTitleHtml(cToSvConcat<N>& target) {
 template <size_t N> cToSvConcat<N>& appendMessageHtml(cToSvConcat<N>& target) {
     cOsdStatusMonitorLock lr;
     if (m_message.empty() ) return target;
+#if defined(OSDMESSAGE)
+    switch (m_message_type) {
+      case mtStatus:
+        target << "<div class=\"osdMessageStatus\">";
+        break;
+      case mtInfo:
+        target << "<div class=\"osdMessageInfo\">";
+        break;
+      case mtWarning:
+        target << "<div class=\"osdMessageWarning\">";
+        break;
+      case mtError:
+        target << "<div class=\"osdMessageError\">";
+        break;
+      default:
+        target << "<div class=\"osdMessage\">";
+    }
+#else
     target << "<div class=\"osdMessage\">";
+#endif
     AppendHtmlEscapedAndCorrectNonUTF8(target, m_message);
     target << "</div>";
     return target;
@@ -207,20 +229,27 @@ template <size_t N> cToSvConcat<N>& appendHtml(cToSvConcat<N>& target) {
                // The OSD has been cleared.
   virtual void OsdTitle(const char *Title);
                // Title has been displayed in the title line of the menu.
+#if defined(OSDMESSAGE)
+  virtual void OsdStatusMessage2(const char *Message, eMessageType Type);
+#else
   virtual void OsdStatusMessage(const char *Message);
                // Message has been displayed in the status line of the menu.
                // If Message is NULL, the status line has been cleared.
+#endif
   virtual void OsdHelpKeys(const char *Red, const char *Green, const char *Yellow, const char *Blue);
                // The help keys have been set to the given values (may be NULL).
 #if defined(OSDITEM) && OSDITEM == 2
   virtual void OsdItem2(const char *Text, int Index, bool Selectable);
+#else
+  virtual void OsdItem(const char *Text, int Index);
+               // The OSD displays the given single line Text as menu item at Index.
+#endif
+#if defined(OSDSELECTED)
   virtual void OsdItemSelected(int Index);
                // item with Index is selected
   virtual void OsdItemChanged(const char *Text);
                // currently selected item is changed
 #else
-  virtual void OsdItem(const char *Text, int Index);
-               // The OSD displays the given single line Text as menu item at Index.
   bool Select_if_matches(std::vector<cLiveOsdItem>::size_type line, const char *Text);
   virtual void OsdCurrentItem(const char *Text);
                // The OSD displays the given single line Text as the current menu item.

@@ -105,7 +105,7 @@ class Setup
 
     void SetLastChannel(int lastChannel) { m_lastChannel = lastChannel; }
     void SetAdminLogin(std::string const & login) { m_adminLogin = login; }
-    std::string SetAdminPassword(std::string password);
+    std::string SetAdminPassword(const std::string &password);
     void SetUseAuth(int auth) { m_useAuth = auth; }
     void SetScreenshotInterval(int interval) { m_screenshotInterval = interval; }
     void SetTimes(std::string const & times) { m_times = times; }
@@ -137,7 +137,7 @@ class Setup
 
     bool ParseSetupEntry( char const* name, char const* value );
 
-    bool CheckLocalNet(std::string const & ip);
+    bool CheckLocalNet(cSv ip);
     time_t GetVdrStart() { return m_vdr_start; }
 
 

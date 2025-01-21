@@ -427,7 +427,7 @@ void AppendScraperData(cToSvConcat<0> &target, cScraperVideo *scraperVideo) {
 //   ]
 // ]
 
-std::string appendEpgItemWithRecItem(cToSvConcat<0> &epg_item, cSv lastDay, const cEvent *Event, const cChannel *Channel, bool withChannel) {
+std::string appendEpgItemWithRecItem(cToSvConcat<0> &epg_item, cSv lastDay, const cEvent *Event, const cChannel *Channel, bool withChannel, const cTimers *Timers) {
 // return current day
   cToSvDateTime day(tr("%A, %b %d %Y"), Event->StartTime());
   if (lastDay != cSv(day)) {
@@ -437,7 +437,7 @@ std::string appendEpgItemWithRecItem(cToSvConcat<0> &epg_item, cSv lastDay, cons
     epg_item.concat(',');
   RecordingsItemRecPtr recItem;
   epg_item.concat('[');
-  if (appendEpgItem(epg_item, recItem, Event, Channel, withChannel)) {
+  if (appendEpgItem(epg_item, recItem, Event, Channel, withChannel, Timers)) {
     epg_item.concat(",[");
     recItem->AppendAsJSArray(epg_item);
     epg_item.concat(']');
@@ -446,7 +446,8 @@ std::string appendEpgItemWithRecItem(cToSvConcat<0> &epg_item, cSv lastDay, cons
   return std::string(day);
 }
 
-bool appendEpgItem(cToSvConcat<0> &epg_item, RecordingsItemRecPtr &recItem, const cEvent *Event, const cChannel *Channel, bool withChannel) {
+bool appendEpgItem(cToSvConcat<0> &epg_item, RecordingsItemRecPtr &recItem, const cEvent *Event, const cChannel *Channel, bool withChannel, const cTimers *Timers) {
+// We also need a lock on recordings ...
   cGetScraperVideo getScraperVideo(Event, nullptr);
   getScraperVideo.call(LiveSetup().GetPluginTvscraper());
 
@@ -463,9 +464,9 @@ bool appendEpgItem(cToSvConcat<0> &epg_item, RecordingsItemRecPtr &recItem, cons
 
   epg_item.append("\",\"");
 // [1] : Timer ID
-  const cTimer* timer = LiveTimerManager().GetTimer(Event, Channel);
+  const cTimer* timer = TimerManager::GetTimer(Event, Channel, Timers);
   if (timer) {
-    epg_item.append(vdrlive::EncodeDomId(LiveTimerManager().GetTimers().GetTimerId(*timer), ".-:", "pmc"));
+    epg_item.append(vdrlive::EncodeDomId(SortedTimers::GetTimerId(*timer), ".-:", "pmc"));
     if (timer->Recording()) {
       epg_item.append("&ts=r");
       // do not show a recording that is underway

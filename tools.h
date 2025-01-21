@@ -64,6 +64,17 @@ inline void stringAppend(std::string &str, const tChannelID &channelID) {
   str.append(cToSvConcat(channelID));
 }
 
+template<class T, std::enable_if_t<std::is_same_v<T, tChannelID>, bool> = true>
+inline T lexical_cast(cSv sv, T returnOnError = T(), const char *context = nullptr) {
+  char buf[sv.length()+1];
+  buf[sv.length()] = 0;
+  memcpy(buf, sv.data(), sv.length());
+  tChannelID ret = tChannelID::FromString(buf);
+  if (context && !ret.Valid() )
+    isyslog(PLUGIN_NAME_I18N ": WARNING, converted \"%.*s\" to invalid tChannelID, context %s", (int)sv.length(), sv.data(), context);
+  return ret;
+}
+
 inline std::ostream& operator<<( std::ostream& os, tChannelID const& id ) {
   return os << cToSvConcat(id);
 }
@@ -246,8 +257,6 @@ inline cToSvConcat<N>& AppendDuration(cToSvConcat<N>& target, char const* format
 
   std::string FormatDuration( char const* format, int duration );
 
-  std::vector<std::string> StringSplit(cSv text, char delimiter );
-
   cSv StringTrim(cSv str);
 
   std::string MD5Hash(std::string const& str);
@@ -294,23 +303,6 @@ inline cToSvConcat<N>& AppendDuration(cToSvConcat<N>& target, char const* format
   std::string FileSystemExchangeChars(cSv s, bool ToFileSystem);
 
   bool MoveDirectory(cSv sourceDir, cSv targetDir, bool copy = false);
-
-  struct bad_lexical_cast: std::runtime_error
-  {
-    bad_lexical_cast(): std::runtime_error( "bad lexical cast" ) {}
-  };
-
-  template<typename To, typename From>
-  To lexical_cast( From const& from )
-  {
-    std::stringstream parser;
-    parser << from;
-    To result;
-    parser >> result;
-    if ( !parser )
-      throw bad_lexical_cast();
-    return result;
-  }
 
 // methods for scraper **************************************
 

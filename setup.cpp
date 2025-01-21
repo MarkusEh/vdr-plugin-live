@@ -322,22 +322,23 @@ bool Setup::CheckServerIps()
 std::string const Setup::GetMD5HashAdminPassword() const
 {
   // format is <length>:<md5-hash of password>
-  std::vector<std::string> parts = StringSplit( m_adminPasswordMD5, ':' );
-  return (parts.size() > 1) ? parts[1] : "";
+  cSplit<std::string> parts(m_adminPasswordMD5, ':');
+  if (parts.size() < 2) return "";
+  return *(++parts.begin());
 }
 
 int Setup::GetAdminPasswordLength() const
 {
   // format is <length>:<md5-hash of password>
-  std::vector<std::string> parts = StringSplit( m_adminPasswordMD5, ':' );
-  return (parts.size() > 0) ? parse_int<int>( parts[0] ) : 0;
+  cSplit<int> parts(m_adminPasswordMD5, ':');
+  return *parts.begin();
 }
 
-std::string Setup::SetAdminPassword(std::string password)
+std::string Setup::SetAdminPassword(const std::string &password)
 {
-  std::stringstream passwordStr;
+  cToSvConcat passwordStr;
   passwordStr << password.size() << ":" << MD5Hash(password);
-  m_adminPasswordMD5 = passwordStr.str();
+  m_adminPasswordMD5 = std::string(passwordStr);
   return m_adminPasswordMD5;
 }
 
@@ -371,30 +372,31 @@ void Setup::SetTvscraperImageDir(const std::string &dir) {
   else m_tvscraperimagedir = dir;
 }
 
-bool CheckIpAddress(const std::string& ip, std::string allowedIPv4, std::string allowedIPv6)
+bool CheckIpAddress(cSv ip, cSv allowedIPv4, cSv allowedIPv6)
 {
   // split IPv4 local net mask in net and range
-  std::vector<std::string> parts = StringSplit( allowedIPv4, '/' );
-  if (parts.size() == 2 && parts[0].find_first_not_of("0123456789./") == std::string::npos && parts[1].find_first_not_of("0123456789") == std::string::npos) {
-    std::string net = parts[0];
-    int range = parse_int<int>(parts[1]);
+  cSv net, range_s;
+  if (cSplit(allowedIPv4, '/').getValues(net, range_s) == 2 &&
+      net.find_first_not_of("0123456789./") == std::string::npos && range_s.find_first_not_of("0123456789") == std::string::npos) {
+    int range = lexical_cast<int>(range_s);
     // split IPv6 net and address into the 4 subcomponents
-    std::vector<std::string> netparts = StringSplit( net, '.' );
-    std::vector<std::string> addrparts = StringSplit( ip, '.' );
-    if (netparts.size() == 4 & addrparts.size() == 4) {
+    long netparts_0, netparts_1, netparts_2, netparts_3;
+    long addrparts_0, addrparts_1, addrparts_2, addrparts_3;
+    if (cSplit(net, '.').getValues(netparts_0, netparts_1, netparts_2, netparts_3) == 4 &&
+        cSplit( ip, '.').getValues(addrparts_0, addrparts_1, addrparts_2, addrparts_3) == 4) {
       // IPv4 to binary representation
       std::stringstream bin_netstream;
       bin_netstream
-        << std::bitset<8>(parse_int<long>(netparts[0]))
-        << std::bitset<8>(parse_int<long>(netparts[1]))
-        << std::bitset<8>(parse_int<long>(netparts[2]))
-        << std::bitset<8>(parse_int<long>(netparts[3]));
+        << std::bitset<8>(netparts_0)
+        << std::bitset<8>(netparts_1)
+        << std::bitset<8>(netparts_2)
+        << std::bitset<8>(netparts_3);
       std::stringstream bin_addrstream;
       bin_addrstream
-        << std::bitset<8>(parse_int<long>(addrparts[0]))
-        << std::bitset<8>(parse_int<long>(addrparts[1]))
-        << std::bitset<8>(parse_int<long>(addrparts[2]))
-        << std::bitset<8>(parse_int<long>(addrparts[3]));
+        << std::bitset<8>(addrparts_0)
+        << std::bitset<8>(addrparts_1)
+        << std::bitset<8>(addrparts_2)
+        << std::bitset<8>(addrparts_3);
       // compare range
       std::string bin_net = bin_netstream.str();
       std::string bin_addr = bin_addrstream.str();
@@ -405,38 +407,37 @@ bool CheckIpAddress(const std::string& ip, std::string allowedIPv4, std::string 
   }
   // split IPv6 local net mask into net and range
   // TODO: correctly decode IPv6 addresses with arbitrary abbreviation
-  parts = StringSplit( allowedIPv6, '/' );
-  if (parts.size() == 2 && parts[0].find_first_not_of("0123456789AaBbCcDdEeFf:") == std::string::npos && parts[1].find_first_not_of("0123456789") == std::string::npos) {
-    std::string net = parts[0];
-    int range = parse_int<int>(parts[1]);
+  if (cSplit(allowedIPv6, '/').getValues(net, range_s) == 2 &&
+      net.find_first_not_of("0123456789AaBbCcDdEeFf:") == std::string::npos && range_s.find_first_not_of("0123456789") == std::string::npos) {
+    int range = lexical_cast<int>(range_s);
     // split IPv6 net and IP address into the 8 subcomponents; as the TNT library
     // erroneously reports IPv6 addresses with an abbreviation at the start, which
     // would intersect with the IETF reserved prefix of 0000::/3, we ignore it
     size_t addrstart = ip.find_first_not_of(':');
     if (addrstart == std::string::npos) return false;
-    std::vector<std::string> netparts = StringSplit( net, ':' );
-    std::vector<std::string> addrparts = StringSplit( ip.substr(addrstart), ':' );
+    cSplit netparts(net, ':');
+    cSplit addrparts(ip.substr(addrstart), ':');
     if (3 <= netparts.size() && netparts.size() <= 8 && 1 <= addrparts.size() && addrparts.size() <= 8) {
       // IPv6 to binary representation; for simplification, we assume that IPv6 addresses
       // have an abbreviation only at the end
       std::stringstream bin_netstream;
-      bin_netstream << std::bitset<16>(netparts.size() > 0 ? parse_hex<long>(netparts[0]) : 0L);
-      bin_netstream << std::bitset<16>(netparts.size() > 1 ? parse_hex<long>(netparts[1]) : 0L);
-      bin_netstream << std::bitset<16>(netparts.size() > 2 ? parse_hex<long>(netparts[2]) : 0L);
-      bin_netstream << std::bitset<16>(netparts.size() > 3 ? parse_hex<long>(netparts[3]) : 0L);
-      bin_netstream << std::bitset<16>(netparts.size() > 4 ? parse_hex<long>(netparts[4]) : 0L);
-      bin_netstream << std::bitset<16>(netparts.size() > 5 ? parse_hex<long>(netparts[5]) : 0L);
-      bin_netstream << std::bitset<16>(netparts.size() > 6 ? parse_hex<long>(netparts[6]) : 0L);
-      bin_netstream << std::bitset<16>(netparts.size() > 7 ? parse_hex<long>(netparts[7]) : 0L);
+      auto netparts_it = netparts.begin();
+      for (int i = 0; i < 7; ++i) {
+        if (netparts_it != netparts.end()) {
+          bin_netstream << std::bitset<16>(parse_hex<long>(*netparts_it));
+          ++netparts_it;
+        } else
+          bin_netstream << std::bitset<16>(0L);
+      }
       std::stringstream bin_addrstream;
-      bin_addrstream << std::bitset<16>(addrparts.size() > 0 ? parse_hex<long>(addrparts[0]) : 0L);
-      bin_addrstream << std::bitset<16>(addrparts.size() > 1 ? parse_hex<long>(addrparts[1]) : 0L);
-      bin_addrstream << std::bitset<16>(addrparts.size() > 2 ? parse_hex<long>(addrparts[2]) : 0L);
-      bin_addrstream << std::bitset<16>(addrparts.size() > 3 ? parse_hex<long>(addrparts[3]) : 0L);
-      bin_addrstream << std::bitset<16>(addrparts.size() > 4 ? parse_hex<long>(addrparts[4]) : 0L);
-      bin_addrstream << std::bitset<16>(addrparts.size() > 5 ? parse_hex<long>(addrparts[5]) : 0L);
-      bin_addrstream << std::bitset<16>(addrparts.size() > 6 ? parse_hex<long>(addrparts[6]) : 0L);
-      bin_addrstream << std::bitset<16>(addrparts.size() > 7 ? parse_hex<long>(addrparts[7]) : 0L);
+      auto addrparts_it = addrparts.begin();
+      for (int i = 0; i < 7; ++i) {
+        if (addrparts_it != addrparts.end()) {
+          bin_addrstream << std::bitset<16>(parse_hex<long>(*addrparts_it));
+          ++addrparts_it;
+        } else
+          bin_addrstream << std::bitset<16>(0L);
+      }
       // compare range
       std::string bin_net = bin_netstream.str();
       std::string bin_addr = bin_addrstream.str();
@@ -448,9 +449,9 @@ bool CheckIpAddress(const std::string& ip, std::string allowedIPv4, std::string 
   return false;
 }
 
-bool Setup::CheckLocalNet(const std::string& ip)
+bool Setup::CheckLocalNet(cSv ip)
 {
-  bool isLocalNet = CheckIpAddress( ip, m_localnetmask, m_localnetmaskIPv6);
+  bool isLocalNet = CheckIpAddress(ip, m_localnetmask, m_localnetmaskIPv6);
   if (!isLocalNet && m_allowlocalhost ) {
     // TNTnet unfortunately reports 'ip6-localhost' as "::" instead of "::1"
     isLocalNet = ip.compare("::") == 0 || ip.compare("::1") == 0 || CheckIpAddress( ip, "127.0.0.1/32", "0:0:0:0:0:0:0:1/128");

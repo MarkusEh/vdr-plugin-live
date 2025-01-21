@@ -20,7 +20,6 @@ using namespace vdrlive;
   bool logged_in(false);
 </%session>
 <%request scope="page">
-  const cTimer* timer;
   TimerConflictNotifier timerNotifier;
 </%request>
 <%include>page_init.eh</%include>
@@ -33,29 +32,31 @@ using namespace vdrlive;
   }
 
   pageTitle = trVDR("Timers");
-
-  cMutexLock timersLock( &LiveTimerManager() );
-  SortedTimers& timers = LiveTimerManager().GetTimers();
   TimerConflicts timerConflicts;
 
-  LOCK_TIMERS_READ;
-  timer = 0;
   if ( !timerid.empty()  && !action.empty() ) {
     std::string tId = SortedTimers::DecodeDomId(timerid);
 //    dsyslog("live: DEBUG: TIMER: tId = %s", tId.c_str());
-    timer = timers.GetByTimerId(tId, Timers);
-    if ( timer == 0 )
-      throw HtmlError( tr("Couldn't find timer. Maybe you mistyped your request?") );
+    int timer_id;
+    const char *remote;
+    {
+      LOCK_TIMERS_READ;
+      const cTimer* timer = SortedTimers::GetByTimerId(tId, Timers);
+      if (!timer)
+        throw HtmlError( tr("Couldn't find timer. Maybe you mistyped your request?") );
+      timer_id = timer->Id();
+      remote   = timer->Remote();
+    }
     if (action == "delete") {
       if (!cUser::CurrentUserHasRightTo(UR_DELTIMERS))
         throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
 //                        dsyslog("live: timers.ecpp timer->Id() %d", timer->Id());
 //                        dsyslog("live: timers.ecpp timer->Remote() %s", timer->Remote());
-      LiveTimerManager().DelTimer(timer->Id(), timer->Remote());
+      TimerManager().DelTimer(timer_id, remote);
       timerNotifier.SetTimerModification();
     }
     if (action == "toggle") {
-      LiveTimerManager().ToggleTimerActive(timer->Id(), timer->Remote());
+      TimerManager().ToggleTimerActive(timer_id, remote);
       timerNotifier.SetTimerModification();
     }
 </%cpp>
@@ -67,7 +68,6 @@ using namespace vdrlive;
 </html>
 <%cpp>
   } else {
-
   std::string previousDay = "";
 </%cpp>
 <& pageelems.doc_type &>
@@ -87,6 +87,7 @@ using namespace vdrlive;
     #ifdef DEBUG_LOCK
       dsyslog("live: pages/timers.ecpp LOCK_TIMERS_READ");
     #endif
+      {
       LOCK_TIMERS_READ;
       cSortedTimers sortedTimers(Timers);
       if (sortedTimers.Size() == 0) {
@@ -105,7 +106,7 @@ using namespace vdrlive;
         for (int i = 0; noSearchTimers && i < sortedTimers.Size(); i++) {
           std::string recID;
           std::string recName;
-          timer = sortedTimers[i];
+          const cTimer *timer = sortedTimers[i];
           noSearchTimers &= timer->Local() && SortedTimers::SearchTimerInfo(*timer, "s-id").empty() && SortedTimers::TvScraperTimerInfo(*timer, recID, recName).empty();
         }
         // output of the timer list:
@@ -122,7 +123,6 @@ using namespace vdrlive;
           AppendHtmlEscapedAndCorrectNonUTF8(longDescription, SortedTimers::GetTimerInfo(*timer));
           if (timer->Event())
           {
-//            epgEvent = EpgEvents::CreateEpgInfo(timer->Channel(), timer->Event());
             epgEvent_obj.CreateEpgInfo(timer->Channel(), timer->Event());
             bool truncated = false;
             if (!epgEvent->LongDescr().empty()) {
@@ -231,20 +231,19 @@ using namespace vdrlive;
             <a href="edit_searchtimer.html?searchtimerid=<$ searchTimId $>"><$$ cToSvReplace(searchTimName, "~", "~<wbr>") $></a>
 %          }
           </div></td>
-          <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><a class="hidden-xs action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(timers.GetTimerId(*timer)) $>&action=toggle"><img src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &> /></a></td>
-          <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs action-rightcol"><& pageelems.edit_timer timerId=(timers.GetTimerId(*timer)) &></div></td>
+          <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><a class="hidden-xs action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&action=toggle"><img src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &> /></a></td>
+          <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs action-rightcol"><& pageelems.edit_timer timerId=(SortedTimers::GetTimerId(*timer)) &></div></td>
 
           <td class="rightcol <? bottom ? "bottomrow" ?>">
-<a class="display-xs action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(timers.GetTimerId(*timer)) $>&action=toggle"><img src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &> /></a>
-<div class="display-xs action-rightcol"><& pageelems.edit_timer timerId=(timers.GetTimerId(*timer)) &></div>
-<a class="action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(timers.GetTimerId(*timer)) $>&action=delete"><img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint text=(tr("Delete timer")) &> /></a></td>
+<a class="display-xs action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&action=toggle"><img src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &> /></a>
+<div class="display-xs action-rightcol"><& pageelems.edit_timer timerId=(SortedTimers::GetTimerId(*timer)) &></div>
+<a class="action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&action=delete"><img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint text=(tr("Delete timer")) &> /></a></td>
 
         </tr>
-<%cpp>
-        }
-      }
-</%cpp>
+%       }
       </table>
+%     }
+%     }
     </div>
   </body>
 </html>

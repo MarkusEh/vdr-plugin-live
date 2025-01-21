@@ -26,7 +26,8 @@ bool logged_in(false);
 
 <# scope="page" should be enough but does not work with tntnet 3.0 #>
 <%request scope="global">
-  const cChannel* Channel;
+  tChannelID channel_id = tChannelID();
+  int channel_number = 0;
   cString prev;
   cString next;
 </%request>
@@ -43,31 +44,35 @@ if (!logged_in && LiveSetup().UseAuth()) {
   pageTitle = trVDR("Schedule");
 
 bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
+bool events_available = false;
 
-  {
-    LOCK_CHANNELS_READ;
-    if ( qparam.has("channelid") ) {
-      tChannelID cid = cid.FromString(channelid.c_str());
-      Channel = Channels->GetByChannelID( cid );
-    } else if ( channel > 0 )
-      Channel = Channels->GetByNumber( channel );
-    else if (cDevice::CurrentChannel())
-      Channel = Channels->GetByNumber(cDevice::CurrentChannel());
-    else
-      Channel = Channels->Get( Channels->GetNextNormal( -1 ) );
-    if ( !Channel )
-      throw HtmlError( tr("Couldn't find channel or no channels available. Maybe you mistyped your request?") );
-    if (Channel->Number() > 1)
-      prev = cString::sprintf("href=\"schedule.html?channel=%i\"", Channel->Number() - 1);
-    if (Channel->Number() < Channels->MaxNumber())
-      next = cString::sprintf("href=\"schedule.html?channel=%i\"", Channel->Number() + 1);
-  }
+{
+// figure out channel_id & channel_number
+  const cChannel* Channel = nullptr;
+  LOCK_CHANNELS_READ;
+  if ( qparam.has("channelid") ) {
+    tChannelID cid = cid.FromString(channelid.c_str());
+    Channel = Channels->GetByChannelID( cid );
+  } else if ( channel > 0 )
+    Channel = Channels->GetByNumber( channel );
+  else if (cDevice::CurrentChannel())
+    Channel = Channels->GetByNumber(cDevice::CurrentChannel());
+  else
+    Channel = Channels->Get( Channels->GetNextNormal( -1 ) );
+  if ( !Channel )
+    throw HtmlError( tr("Couldn't find channel or no channels available. Maybe you mistyped your request?") );
+  channel_id = Channel->GetChannelID();
+  channel_number = Channel->Number();
+  if (channel_number > 1)
+    prev = cString::sprintf("href=\"schedule.html?channel=%i\"", channel_number - 1);
+  if (channel_number < Channels->MaxNumber())
+    next = cString::sprintf("href=\"schedule.html?channel=%i\"", channel_number + 1);
 
-  cSchedule const* Schedule;
-  {
-    LOCK_SCHEDULES_READ;
-    Schedule = Schedules->GetSchedule( Channel );
-  }
+  LOCK_SCHEDULES_READ;
+  cSchedule const* Schedule = Schedules->GetSchedule(Channel);
+  events_available = Schedule && Schedule->Events()->First();
+}
+
 
 </%cpp>
 <& pageelems.doc_type &>
@@ -106,7 +111,7 @@ bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
     <& menu active=("schedule") component=("schedule.channel_selection") &>
     <div class="inhalt">
 <%cpp>
-  if ( !Schedule || !Schedule->Events()->First() ) {
+  if (!events_available) {
 </%cpp>
       <$ tr("No schedules available for this channel") $>.
 <%cpp>
@@ -115,14 +120,22 @@ bool display_pictures = !(LiveSetup().GetTvscraperImageDir().empty());
     int col_span = 3;
     if (display_pictures) col_span++;
     std::string current_day = "";
-    const cEvent* PresentEvent = Schedule->GetPresentEvent();
     time_t now = time(NULL) - ::Setup.EPGLinger * 60;
     cToSvConcat<0> epg_item;
     epg_item.reserve(10000);
     epg_item.concat('[');
-    for (const cEvent *Event = Schedule->Events()->First(); Event; Event = Schedule->Events()->Next(Event)) {
-      if (Event->EndTime() <= now && Event != PresentEvent) continue;
-      current_day = appendEpgItemWithRecItem(epg_item, current_day, Event, Channel, false);
+    {
+      LOCK_TIMERS_READ;
+      LOCK_CHANNELS_READ;
+      LOCK_RECORDINGS_READ;  // required because appendEpgItemWithRecItem needs also lock on recording
+      LOCK_SCHEDULES_READ;
+      const cChannel* Channel = Channels->GetByChannelID(channel_id);
+      cSchedule const* Schedule = Schedules->GetSchedule(Channel);
+      const cEvent* PresentEvent = Schedule->GetPresentEvent();
+      for (const cEvent *Event = Schedule->Events()->First(); Event; Event = Schedule->Events()->Next(Event)) {
+        if (Event->EndTime() <= now && Event != PresentEvent) continue;
+        current_day = appendEpgItemWithRecItem(epg_item, current_day, Event, Channel, false, Timers);
+      }
     }
     epg_item.concat("]]]");
     if (current_day.empty() ) {
@@ -145,13 +158,13 @@ document.write(addEventListString(<$col_span$>, <$$ epg_item.c_str() $>))
 <%def channel_selection>
 <form action="schedule.html" method="get" id="channels">
    <span>
-     <label for="channel"><$ tr("Channel") $>:&nbsp;<span class="bold"><$ cToSvInt(Channel->Number()) $></span></label>
-     <& channels_widget name=("channel") selected=(Channel ? cSv(cToSvConcat(Channel->GetChannelID())) : cSv() ) onchange=("document.forms.channels.submit()") &>
+     <label for="channel"><$ tr("Channel") $>:&nbsp;<span class="bold"><$ cToSvInt(channel_number) $></span></label>
+     <& channels_widget name=("channel") selected=(channel_id) onchange=("document.forms.channels.submit()") &>
 %    if (cDevice::PrimaryDevice() ) {
-       <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(Channel->GetChannelID()) image="zap.png" alt="" &>
+       <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channel_id) image="zap.png" alt="" &>
 %    }
-     <& pageelems.hls_channel channelId=(Channel->GetChannelID()) &>
-     <& pageelems.m3u_playlist_channel channelId=(Channel->GetChannelID()) &>
+     <& pageelems.hls_channel channelId=(channel_id) &>
+     <& pageelems.m3u_playlist_channel channelId=(channel_id) &>
    </span>
 </form>
 <span class="sep">|</span>

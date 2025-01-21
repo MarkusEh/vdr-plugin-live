@@ -179,7 +179,7 @@ class cLiveWorker: public cThread {
       int loopSleep = 50; // do this every 50 milli seconds
       while (Running()) {
         m_waitCondition.TimedWait(m_mutex, loopSleep);
-        LiveTimerManager().DoPendingWork();
+//        LiveTimerManager().DoPendingWork();
         LiveTaskManager().DoScheduledTasks();
       }
     }

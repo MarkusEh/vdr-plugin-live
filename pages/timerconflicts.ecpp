@@ -27,8 +27,6 @@ if (!logged_in && LiveSetup().UseAuth()) {
 <%cpp>
   pageTitle = tr("Timer conflicts");
   TimerConflicts timerConflicts;
-  cMutexLock timersLock( &LiveTimerManager() );
-  SortedTimers& timers = LiveTimerManager().GetTimers();
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -158,13 +156,13 @@ if (!logged_in && LiveSetup().UseAuth()) {
 %                }
                 </div></td>
                 <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><a class="hidden-xs action-rightcol" href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a></td>
-                <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><a class="hidden-xs action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(timers.GetTimerId(*timer)) $>&action=toggle"><img src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &> /></a></td>
-                <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs action-rightcol"><& pageelems.edit_timer timerId=(timers.GetTimerId(*timer)) &></div></td>
+                <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><a class="hidden-xs action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&action=toggle"><img src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &> /></a></td>
+                <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs action-rightcol"><& pageelems.edit_timer timerId=(SortedTimers::GetTimerId(*timer)) &></div></td>
             <td class="rightcol <? bottom ? "bottomrow" ?>">
 <a class="display-xs action-rightcol" href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a>
-<a class="display-xs action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(timers.GetTimerId(*timer)) $>&action=toggle"><img src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &> /></a>
-<div class="display-xs action-rightcol"><& pageelems.edit_timer timerId=(timers.GetTimerId(*timer)) &></div>
-<a class="action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(timers.GetTimerId(*timer)) $>&action=delete"><img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint text=(tr("Delete timer")) &> /></a></td>
+<a class="display-xs action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&action=toggle"><img src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &> /></a>
+<div class="display-xs action-rightcol"><& pageelems.edit_timer timerId=(SortedTimers::GetTimerId(*timer)) &></div>
+<a class="action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&action=delete"><img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint text=(tr("Delete timer")) &> /></a></td>
               </tr>
 %            }
 </%cpp>
