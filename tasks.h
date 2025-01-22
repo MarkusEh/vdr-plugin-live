@@ -88,7 +88,7 @@ private:
 class RecordingTask: public Task
 {
 protected:
-  explicit RecordingTask(std::string const& recording)
+  explicit RecordingTask(cSv recording)
     : m_recording(recording)
   {}
 
@@ -98,7 +98,7 @@ protected:
 class PlayRecordingTask: public RecordingTask
 {
 public:
-  explicit PlayRecordingTask( std::string const& recording )
+  explicit PlayRecordingTask(cSv recording)
     : RecordingTask(recording)
   {}
 
@@ -108,7 +108,7 @@ public:
 class PauseRecordingTask: public RecordingTask
 {
 public:
-  explicit PauseRecordingTask( std::string const& recording )
+  explicit PauseRecordingTask(cSv recording)
     : RecordingTask(recording)
   {}
 
@@ -118,7 +118,7 @@ public:
 class StopRecordingTask: public RecordingTask
 {
 public:
-  explicit StopRecordingTask( std::string const& recording )
+  explicit StopRecordingTask(cSv recording)
     : RecordingTask(recording)
   {}
 
@@ -128,7 +128,7 @@ public:
 class ForwardRecordingTask: public RecordingTask
 {
 public:
-  explicit ForwardRecordingTask( std::string const& recording )
+  explicit ForwardRecordingTask(cSv recording)
     : RecordingTask(recording)
   {}
 
@@ -138,7 +138,7 @@ public:
 class BackwardRecordingTask: public RecordingTask
 {
 public:
-  explicit BackwardRecordingTask( std::string const& recording )
+  explicit BackwardRecordingTask(cSv recording)
     : RecordingTask(recording)
   {}
 
@@ -148,7 +148,7 @@ public:
 class RemoveRecordingTask: public RecordingTask
 {
 public:
-  explicit RemoveRecordingTask( std::string const& recording )
+  explicit RemoveRecordingTask(cSv recording)
     : RecordingTask(recording)
   {}
 

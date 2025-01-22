@@ -18,19 +18,23 @@ bool logged_in(false);
 </%session>
 <%cpp>
   if (!logged_in && LiveSetup().UseAuth()) {
-    cToSvConcat<0> targetUrl = "/login.html?redirect=";
+    cToSvConcat targetUrl = "/login.html?redirect=";
     targetUrl.appendUrlEscaped(request.getQuery());
     return reply.redirect(targetUrl.data());
   }
-  RecordingsManagerPtr recordings = LiveRecordingsManager();
-  const cRecording *recording = recordings->GetByMd5Hash(param);
-  if (recording == nullptr) {
-    esyslog("live: ERROR in delete_recording.ecpp, no recording with id %s found", param.c_str() );
-    throw HtmlError(tr("Couldn't find recording or no recordings available"));
+  std::string recording_Name;
+  {
+    LOCK_RECORDINGS_READ;
+    const cRecording *recording = RecordingsManager::GetByHash(param, Recordings);
+    if (recording == nullptr) {
+      esyslog("live: ERROR in delete_recording.ecpp, no recording with id %s found", param.c_str() );
+      throw HtmlError(tr("Couldn't find recording or no recordings available"));
+    }
+    recording_Name = cSv(recording->Name());
   }
 
   if (!cUser::CurrentUserHasRightTo(UR_DELRECS)) {
-    esyslog("live: WARNING in delete_recording.ecpp, no permission to delete recording %s", recording->Name() );
+    esyslog("live: WARNING in delete_recording.ecpp, no permission to delete recording %s", recording_Name.c_str() );
     throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
   }
 
@@ -48,10 +52,10 @@ bool logged_in(false);
   LiveTaskManager().Execute(task);
   const char *result;
   if (task.Result()) {
-    isyslog("live: INFO in delete_recording.ecpp, deleted recording with id %s name %s", param.c_str(), recording->Name() );
+    isyslog("live: INFO in delete_recording.ecpp, deleted recording with id %s name %s", param.c_str(), recording_Name.c_str() );
     result = "success";
   } else {
-    esyslog("live: ERROR in delete_recording.ecpp, cannot delete recording with id %s name %s error %s", param.c_str(), recording->Name(), task.Error().c_str() );
+    esyslog("live: ERROR in delete_recording.ecpp, cannot delete recording with id %s name %s error %s", param.c_str(), recording_Name.c_str(), task.Error().c_str() );
     result = "error";
   }
 
@@ -62,7 +66,7 @@ bool logged_in(false);
 </%cpp>
 <b>Delete-Recording Request</b>
 <hr/>
-Recording: <$ recording->Name() $><br/>
+Recording: <$ recording_Name $><br/>
 Result:    <$ result $><br/>
 Error:     <$ !task.Error().empty() ? task.Error() : "—" $>
 <hr/>
@@ -70,7 +74,7 @@ Error:     <$ !task.Error().empty() ? task.Error() : "—" $>
   }
   else {
 </%cpp>
-<& xmlresponse.ajax name=("delete_recording") pname=("recording") value=(recording->Name()) result=(task.Result()) error=(task.Error()) &>
+<& xmlresponse.ajax name=("delete_recording") pname=("recording") value=(recording_Name) result=(task.Result()) error=(task.Error()) &>
 <%cpp>
   }
 </%cpp>

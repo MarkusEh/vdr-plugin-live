@@ -5,22 +5,21 @@
 
 using namespace vdrlive;
 
-off_t RecSize(cRecording const * recording)
+off_t RecSize(cFileName &recFile)
 {
-    cFileName recFile(recording->FileName(), false, false, recording->IsPesRecording());
-    off_t recSize = 0;
-    for (cUnbufferedFile *recData = recFile.Open(); recData; recData = recFile.NextFile()) {
-        struct stat buf;
-        if (0 == stat(recFile.Name(), &buf)) {
-            recSize += buf.st_size;
-            // dsyslog("live: size of recording part %s is %ld", recFile.Name(), buf.st_size);
-        }
-        else {
-            esyslog("live: can't determine size of %s", recFile.Name());
-        }
+  off_t recSize = 0;
+  for (cUnbufferedFile *recData = recFile.Open(); recData; recData = recFile.NextFile()) {
+    struct stat buf;
+    if (0 == stat(recFile.Name(), &buf)) {
+      recSize += buf.st_size;
+      // dsyslog("live: size of recording part %s is %ld", recFile.Name(), buf.st_size);
     }
-    // dsyslog("live: total size of %s is %ld", recording->FileName(), recSize);
-    return recSize;
+    else {
+      esyslog("live: can't determine size of %s", recFile.Name());
+    }
+  }
+  // dsyslog("live: total size of %s is %ld", recording->FileName(), recSize);
+  return recSize;
 }
 
 </%pre>
@@ -31,37 +30,47 @@ off_t RecSize(cRecording const * recording)
 bool logged_in(false);
 </%session>
 <%cpp>
-cRecording const * recording = LiveRecordingsManager()->GetByMd5Hash(recid);
-if (recording) {
+std::string recording_FileName;
+bool recording_IsPesRecording = false;
+{
+  LOCK_RECORDINGS_READ;
+  const cRecording *recording = RecordingsManager::GetByHash(recid, Recordings);
+  if (recording) {
+    recording_FileName = recording->FileName();
+    recording_IsPesRecording = recording->IsPesRecording();
+  }
+}
+if (!recording_FileName.empty() ) {
+  cFileName recFile_l(recording_FileName.c_str(), false, false, recording_IsPesRecording);
   reply.setContentType("video/mpeg");
-    reply.setKeepAliveHeader();
-    reply.setContentLengthHeader(RecSize(recording));
-    reply.setDirectMode();
+  reply.setKeepAliveHeader();
+  reply.setContentLengthHeader(RecSize(recFile_l));
+  reply.setDirectMode();
 
-    cFileName recFile(recording->FileName(), false, false, recording->IsPesRecording());
-    // dsyslog("live: start send video data.");
-    for (cUnbufferedFile *recData = recFile.Open(); recData; recData = recFile.NextFile()) {
-        char buffer[KILOBYTE(16)];
-        ssize_t bytesRead = 0;
-        // dsyslog("live: send file %s", recFile->Name());
-        while (0 < (bytesRead = recData->Read(buffer, sizeof(buffer)))) {
-            // dsyslog("live: copy %zd bytes", bytesRead);
-            reply.out().write(buffer, bytesRead);
-            if (!reply.out()) {
-                return HTTP_GONE;
-            }
+  // dsyslog("live: start send video data.");
+  cFileName recFile(recording_FileName.c_str(), false, false, recording_IsPesRecording);
+  for (cUnbufferedFile *recData = recFile.Open(); recData; recData = recFile.NextFile()) {
+    char buffer[KILOBYTE(16)];
+    ssize_t bytesRead = 0;
+    // dsyslog("live: send file %s", recFile->Name());
+    while (0 < (bytesRead = recData->Read(buffer, sizeof(buffer)))) {
+      // dsyslog("live: copy %zd bytes", bytesRead);
+      reply.out().write(buffer, bytesRead);
+      if (!reply.out()) {
+          return HTTP_GONE;
+      }
 #if TNT_WATCHDOG_SILENCE
-            request.touch(); // retrigger the watchdog.
+      request.touch(); // retrigger the watchdog.
 #endif
-        }
-        // dsyslog("live: bytesRead = %zd", bytesRead);
-        if (bytesRead < 0) {
-            return HTTP_PARTIAL_CONTENT;
-        }
     }
-    // dsyslog("live: finished send video data.");
-    reply.out() << std::flush;
-    return HTTP_OK;
+    // dsyslog("live: bytesRead = %zd", bytesRead);
+    if (bytesRead < 0) {
+      return HTTP_PARTIAL_CONTENT;
+    }
+  }
+  // dsyslog("live: finished send video data.");
+  reply.out() << std::flush;
+  return HTTP_OK;
 }
 return DECLINED;
 </%cpp>

@@ -16,39 +16,34 @@ using namespace vdrlive;
 <%session scope="global">
   bool logged_in(false);
 </%session>
-<%request scope="page">
-  cChannel* Channel;
-</%request>
 <%include>page_init.eh</%include>
 <%cpp>
-  tChannelID channel = tChannelID::FromString(channelid.c_str());
-
   if (!logged_in && LiveSetup().UseAuth()) {
-    cToSvConcat<0> targetUrl = "/login.html?redirect=";
+    cToSvConcat targetUrl = "/login.html?redirect=";
     targetUrl.appendUrlEscaped(request.getQuery());
     return reply.redirect(targetUrl.data());
   }
   if (!cUser::CurrentUserHasRightTo(UR_STARTREPLAY))
     throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
 
-    // the availabilty of Channel signals that we will do live TV streaming.
-  Channel = 0;
-  if (recid.empty()) {
-    LOCK_CHANNELS_READ;
-    Channel = (cChannel *)Channels->GetByChannelID(channel);
-    if (Channel == 0) {
-      throw HtmlError( tr("Couldn't find channel or no channels available. Maybe you mistyped your request?") );
-    }
-  }
+  std::string videourl;
   std::string server = request.getHost();
   server = server.substr(0, server.rfind(':'));
-  std::string videourl;
   reply.setContentType("audio/x-mpegurl");
-  if (Channel != 0) {
-    videourl = concat("#EXTM3U\n#EXTINF:-1,", Channel->Name(), "\nhttp://", server, ":", cToSvInt(LiveSetup().GetStreamdevPort()), "/", LiveSetup().GetStreamdevType(), "/", *Channel->GetChannelID().ToString());
-  }
-  else {
-    const cRecording* recording = LiveRecordingsManager()->GetByMd5Hash(recid);
+
+  if (recid.empty()) {
+// live stream
+    tChannelID channel = tChannelID::FromString(channelid.c_str());
+    LOCK_CHANNELS_READ;
+    const cChannel* Channel = Channels->GetByChannelID(channel);
+    if (!Channel) {
+      throw HtmlError( tr("Couldn't find channel or no channels available. Maybe you mistyped your request?") );
+    }
+    videourl = concat("#EXTM3U\n#EXTINF:-1,", Channel->Name(), "\nhttp://", server, ":", cToSvInt(LiveSetup().GetStreamdevPort()), "/", LiveSetup().GetStreamdevType(), "/", channelid);
+  } else {
+// stream recording
+    LOCK_RECORDINGS_READ;
+    const cRecording* recording = RecordingsManager::GetByHash(recid, Recordings);
     cToSvConcat rfid;
     if (LiveFeatures<features::streamdev_server>().Loaded()) {
       if (recording) {

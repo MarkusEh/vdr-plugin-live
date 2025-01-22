@@ -15,7 +15,7 @@ bool logged_in(false);
 </%session>
 <{
 if (!logged_in && LiveSetup().UseAuth()) {
-  cToSvConcat<0> targetUrl = "/login.html?redirect=";
+  cToSvConcat targetUrl = "/login.html?redirect=";
   targetUrl.appendUrlEscaped(request.getQuery());
   return reply.redirect(targetUrl.data());
 }

@@ -88,7 +88,7 @@ cToSvConcat<N> & StringAppendFrameParams(cToSvConcat<N> &s, const cRecording *re
        *  fetches a cRecording from VDR's Recordings collection. Returns
        *  NULL if recording was not found
        */
-      cRecording const* GetByMd5Hash(cSv hash) const;
+      static const cRecording *GetByHash(cSv hash, const cRecordings* Recordings);
 
       /**
        *  fetches a cRecording from the RecordingsTree collection. Returns
@@ -106,25 +106,25 @@ cToSvConcat<N> & StringAppendFrameParams(cToSvConcat<N> &s, const cRecording *re
        *  @param shorttext new short text of the recording.
        *  @param description new description of the recording.
        */
-      bool UpdateRecording(cRecording const * recording, cSv directory, cSv name, bool copy, cSv title, cSv shorttext, cSv description) const;
+      static bool UpdateRecording(cRecording const * recording, cSv directory, cSv name, bool copy, cSv title, cSv shorttext, cSv description);
 
       /**
        *  Delete recording resume with the given hash according to
        *  VDRs recording mechanisms.
        */
-      void DeleteResume(cRecording const * recording) const;
+      static void DeleteResume(cRecording const * recording);
 
       /**
        *  Delete recording marks with the given hash according to
        *  VDRs recording mechanisms.
        */
-      void DeleteMarks(cRecording const * recording) const;
+      static void DeleteMarks(cRecording const * recording);
 
       /**
        *  Delete a recording with the given hash according to
        *  VDRs recording deletion mechanisms.
        */
-      void DeleteRecording(cRecording const * recording) const;
+      static void DeleteRecording(cSv recording_hash);
 
       /**
        *  Determine whether the recording has been archived on

@@ -40,22 +40,25 @@ void SwitchChannelTask::Action()
 
 void PlayRecordingTask::Action()
 {
-  RecordingsManagerPtr recordings = LiveRecordingsManager();
-  cRecording const* recording = recordings->GetByMd5Hash( m_recording );
-  if ( recording == 0 ) {
-    SetError( tr("Couldn't find recording or no recordings available.") );
-    return;
+  bool this_is_not_current;
+  {
+    LOCK_RECORDINGS_READ;
+    const cRecording *recording = RecordingsManager::GetByHash(m_recording, Recordings);
+    if ( recording == 0 ) {
+      SetError( tr("Couldn't find recording or no recordings available.") );
+      return;
+    }
+    const char *current = NowReplaying();
+    this_is_not_current = !current || (0 != strcmp(current, recording->FileName()));
+    if (this_is_not_current) {
+      cReplayControl::SetRecording( 0 );
+      cControl::Shutdown();
+      cReplayControl::SetRecording( recording->FileName() );
+      cControl::Launch( new cReplayControl );
+      cControl::Attach();
+    }
   }
-
-  const char *current = NowReplaying();
-  if (!current || (0 != strcmp(current, recording->FileName()))) {
-    cReplayControl::SetRecording( 0 );
-    cControl::Shutdown();
-    cReplayControl::SetRecording( recording->FileName() );
-    cControl::Launch( new cReplayControl );
-    cControl::Attach();
-  }
-  else {
+  if (!this_is_not_current) {
 #if APIVERSNUM >= 20402
     cMutexLock mutexLock;
     cReplayControl* replayControl = reinterpret_cast<cReplayControl*>(cControl::Control(mutexLock));
@@ -73,23 +76,25 @@ void PlayRecordingTask::Action()
 
 void PauseRecordingTask::Action()
 {
-  RecordingsManagerPtr recordings = LiveRecordingsManager();
-  cRecording const* recording = recordings->GetByMd5Hash( m_recording );
-  if ( recording == 0 ) {
-    SetError( tr("Couldn't find recording or no recordings available.") );
-    return;
-  }
+  {
+    LOCK_RECORDINGS_READ;
+    const cRecording *recording = RecordingsManager::GetByHash(m_recording, Recordings);
+    if ( recording == 0 ) {
+      SetError( tr("Couldn't find recording or no recordings available.") );
+      return;
+    }
 
-  const char *current = NowReplaying();
-  if (!current) {
-    SetError(tr("Not playing a recording."));
-    return;
-  }
+    const char *current = NowReplaying();
+    if (!current) {
+      SetError(tr("Not playing a recording."));
+      return;
+    }
 
-  if (0 != strcmp(current, recording->FileName())) {
-    // not replaying same recording like in request
-    SetError(tr("Not playing the same recording as from request."));
-    return;
+    if (0 != strcmp(current, recording->FileName())) {
+      // not replaying same recording like in request
+      SetError(tr("Not playing the same recording as from request."));
+      return;
+    }
   }
 
 #if APIVERSNUM >= 20402
@@ -108,13 +113,14 @@ void PauseRecordingTask::Action()
 
 void StopRecordingTask::Action()
 {
-  RecordingsManagerPtr recordings = LiveRecordingsManager();
-  cRecording const* recording = recordings->GetByMd5Hash( m_recording );
-  if ( recording == 0 ) {
-    SetError( tr("Couldn't find recording or no recordings available.") );
-    return;
+  {
+    LOCK_RECORDINGS_READ;
+    const cRecording *recording = RecordingsManager::GetByHash(m_recording, Recordings);
+    if ( recording == 0 ) {
+      SetError( tr("Couldn't find recording or no recordings available.") );
+      return;
+    }
   }
-
   const char *current = NowReplaying();
   if (!current) {
     SetError(tr("Not playing a recording."));
@@ -127,23 +133,25 @@ void StopRecordingTask::Action()
 
 void ForwardRecordingTask::Action()
 {
-  RecordingsManagerPtr recordings = LiveRecordingsManager();
-  cRecording const* recording = recordings->GetByMd5Hash( m_recording );
-  if ( recording == 0 ) {
-    SetError( tr("Couldn't find recording or no recordings available.") );
-    return;
-  }
+  {
+    LOCK_RECORDINGS_READ;
+    const cRecording *recording = RecordingsManager::GetByHash(m_recording, Recordings);
+    if ( recording == 0 ) {
+      SetError( tr("Couldn't find recording or no recordings available.") );
+      return;
+    }
 
-  const char *current = NowReplaying();
-  if (!current) {
-    SetError(tr("Not playing a recording."));
-    return;
-  }
+    const char *current = NowReplaying();
+    if (!current) {
+      SetError(tr("Not playing a recording."));
+      return;
+    }
 
-  if (0 != strcmp(current, recording->FileName())) {
-    // not replaying same recording like in request
-    SetError(tr("Not playing the same recording as from request."));
-    return;
+    if (0 != strcmp(current, recording->FileName())) {
+      // not replaying same recording like in request
+      SetError(tr("Not playing the same recording as from request."));
+      return;
+    }
   }
 
 #if APIVERSNUM >= 20402
@@ -162,23 +170,25 @@ void ForwardRecordingTask::Action()
 
 void BackwardRecordingTask::Action()
 {
-  RecordingsManagerPtr recordings = LiveRecordingsManager();
-  cRecording const* recording = recordings->GetByMd5Hash( m_recording );
-  if ( recording == 0 ) {
-    SetError(tr("Couldn't find recording or no recordings available."));
-    return;
-  }
+  {
+    LOCK_RECORDINGS_READ;
+    const cRecording *recording = RecordingsManager::GetByHash(m_recording, Recordings);
+    if ( recording == 0 ) {
+      SetError(tr("Couldn't find recording or no recordings available."));
+      return;
+    }
 
-  const char *current = NowReplaying();
-  if (!current) {
-    SetError(tr("Not playing a recording."));
-    return;
-  }
+    const char *current = NowReplaying();
+    if (!current) {
+      SetError(tr("Not playing a recording."));
+      return;
+    }
 
-  if (0 != strcmp(current, recording->FileName())) {
-    // not replaying same recording like in request
-    SetError(tr("Not playing the same recording as from request."));
-    return;
+    if (0 != strcmp(current, recording->FileName())) {
+      // not replaying same recording like in request
+      SetError(tr("Not playing the same recording as from request."));
+      return;
+    }
   }
 
 #if APIVERSNUM >= 20402
@@ -198,22 +208,24 @@ void BackwardRecordingTask::Action()
 
 void RemoveRecordingTask::Action()
 {
-  RecordingsManagerPtr recordings = LiveRecordingsManager();
-  cRecording const * recording = recordings->GetByMd5Hash( m_recording );
-  if ( recording == 0 ) {
-    SetError( tr("Couldn't find recording or no recordings available.") );
-    return;
+  {
+    LOCK_RECORDINGS_READ;
+    const cRecording *recording = RecordingsManager::GetByHash(m_recording, Recordings);
+    if (!recording) {
+      SetError( tr("Couldn't find recording or no recordings available.") );
+      return;
+    }
+
+    m_recName = recording->Name();
+
+    const char *current = NowReplaying();
+    if (current && (0 == strcmp(current, recording->FileName()))) {
+      SetError(tr("Attempt to delete recording currently in playback."));
+      return;
+    }
   }
 
-  m_recName = recording->Name();
-
-  const char *current = NowReplaying();
-  if (current && (0 == strcmp(current, recording->FileName()))) {
-    SetError(tr("Attempt to delete recording currently in playback."));
-    return;
-  }
-
-  recordings->DeleteRecording(recording);
+  RecordingsManager::DeleteRecording(m_recording);
 }
 
 TaskManager::TaskManager()

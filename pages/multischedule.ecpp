@@ -159,7 +159,8 @@ std::vector<std::string> channel_groups_names;
     }
   }
 
-  if ( channel < 0 )
+  if (channel_groups_numbers.size() == 0) channel_groups_numbers.push_back( std::vector<int>() );
+  if (channel < 0)
   {
     if (cDevice::CurrentChannel())
     {
@@ -312,7 +313,7 @@ std::vector<std::string> channel_groups_names;
 
     time_t sched_end = sched_start + 60 * 60 * max_hours;
     int sched_end_row = ( sched_end - sched_start ) / 60 / MINUTES_PER_ROW;
-    std::vector<std::list<SchedEntry> > table;
+    std::vector<std::vector<SchedEntry> > table;
     table.reserve(channel_groups_numbers[ channel ].size() );
     std::vector<std::string> channel_names(channel_groups_numbers[ channel ].size() );
     std::vector<tChannelID> channel_IDs(channel_groups_numbers[ channel ].size() );
@@ -324,11 +325,9 @@ std::vector<std::string> channel_groups_names;
       int prev_row = -1;
       int chan = channel_groups_numbers[ channel ][ j ];
 
-      cChannel* Channel;
-      {
-        LOCK_CHANNELS_READ;
-        Channel = (cChannel *)Channels->GetByNumber( chan );
-      }
+      LOCK_TIMERS_READ;  // required here for correct lock order
+      LOCK_CHANNELS_READ;
+      const cChannel* Channel = Channels->GetByNumber(chan);
       if ( ! Channel )
         continue;
       if ( Channel->GroupSep() || !Channel->Name() || !*Channel->Name() )
@@ -336,11 +335,8 @@ std::vector<std::string> channel_groups_names;
       channel_names[ j ] = Channel->Name();
       channel_IDs[ j ] = Channel->GetChannelID();
 
-      cSchedule const* Schedule;
-      {
-        LOCK_SCHEDULES_READ;
-        Schedule = Schedules->GetSchedule( Channel );
-      }
+      LOCK_SCHEDULES_READ;
+      cSchedule const* Schedule = Schedules->GetSchedule( Channel );
       if ( ! Schedule )
       {
         // insert dummy event for the entire channel if no EPG data
@@ -348,44 +344,37 @@ std::vector<std::string> channel_groups_names;
         prev_row = sched_end_row;
         continue;
       }
-      for (const cEvent *Event = Schedule->Events()->First(); Event;
-       Event = Schedule->Events()->Next(Event) )
-    {
-      if (Event->EndTime() <= sched_start )
-        continue;
-      if (Event->StartTime() >= sched_end )
-        continue;
-
-      EpgInfo    epgEvent_obj(Channel, Event);
-      EpgInfoPtr epgEvent = &epgEvent_obj;
-//      EpgInfoPtr epgEvent = EpgEvents::CreateEpgInfo(Channel, Event);
-      if ( prev_row < 0 && Event->StartTime() > sched_start + MINUTES_PER_ROW )
+      for (const cEvent *Event = Schedule->Events()->First(); Event; Event = Schedule->Events()->Next(Event) )
       {
-        // insert dummy event at start
+        if (Event->EndTime() <= sched_start) continue;
+        if (Event->StartTime() >= sched_end) continue;
+        if (Event->StartTime() == 0) continue;
+
+        if ( prev_row < 0 && Event->StartTime() > sched_start + MINUTES_PER_ROW )
+        {
+          // insert dummy event at start
+          table[ j ].push_back( SchedEntry() );
+          SchedEntry &en=table[ j ].back();
+          int event_start_row = (Event->StartTime() - sched_start) / 60 / MINUTES_PER_ROW;
+          en.start_row = 0;
+          en.row_count = event_start_row;
+          if ( en.row_count < 1 )
+            en.row_count = 1;
+          // no title and no start time = dummy event
+          en.title = "";
+          en.start = "";
+          prev_row = en.start_row + en.row_count;
+        }
         table[ j ].push_back( SchedEntry() );
-        SchedEntry &en=table[ j ].back();
-        int event_start_row = (Event->StartTime() - sched_start) / 60 / MINUTES_PER_ROW;
-        en.start_row = 0;
-        en.row_count = event_start_row;
-        if ( en.row_count < 1 )
-          en.row_count = 1;
-        // no title and no start time = dummy event
-        en.title = "";
-        en.start = "";
-        prev_row = en.start_row + en.row_count;
-      }
-      table[ j ].push_back( SchedEntry() );
-      SchedEntry &en=table[j].back();
+        SchedEntry &en=table[j].back();
 
-      en.title = epgEvent->Title();
-      en.short_description = epgEvent->ShortDescr();
-      en.description = epgEvent->LongDescr();
-      en.start = epgEvent->StartTime(tr("%I:%M %p"));
-      en.end = epgEvent->EndTime(tr("%I:%M %p"));
-      en.day = epgEvent->StartTime(tr("%A, %b %d %Y"));
-      en.epgid = EpgEvents::EncodeDomId(Channel->GetChannelID(), Event->EventID());
-      {
-        LOCK_TIMERS_READ;
+        en.title = cSv(Event->Title());
+        en.short_description = cSv(Event->ShortText());
+        en.description = cSv(Event->Description());
+        en.start = cToSvDateTime(tr("%I:%M %p"), Event->StartTime());
+        en.end   = cToSvDateTime(tr("%I:%M %p"), Event->EndTime());
+        en.day = cToSvDateTime(tr("%A, %b %d %Y"), Event->StartTime());
+        en.epgid = EpgEvents::EncodeDomId(Channel->GetChannelID(), Event->EventID());
         const cTimer* timer = TimerManager::GetTimer(Event, Channel, Timers);
         if (!timer)
           en.timer = tState::None;
@@ -395,25 +384,24 @@ std::vector<std::string> channel_groups_names;
           en.timer = tState::Active;
         else
           en.timer = tState::Inactive;
-      }
 
-      en.start_row = prev_row > 0 ? prev_row : 0;
-      int end_time = Schedule->Events()->Next(Event) ?
-        Schedule->Events()->Next(Event)->StartTime() :
-        Event->EndTime();
-      if (end_time > sched_end)
-        end_time = sched_end;
-      int next_event_start_row = (end_time - sched_start) / 60 / MINUTES_PER_ROW;
-      en.row_count = next_event_start_row - en.start_row;
-      if ( en.row_count < 1 )
-        en.row_count = 1;
-      prev_row = en.start_row + en.row_count;
+        en.start_row = prev_row > 0 ? prev_row : 0;
+        int end_time = Schedule->Events()->Next(Event) ?
+          Schedule->Events()->Next(Event)->StartTime() :
+          Event->EndTime();
+        if (end_time > sched_end)
+          end_time = sched_end;
+        int next_event_start_row = (end_time - sched_start) / 60 / MINUTES_PER_ROW;
+        en.row_count = next_event_start_row - en.start_row;
+        if ( en.row_count < 1 )
+          en.row_count = 1;
+        prev_row = en.start_row + en.row_count;
 
-      // truncate description if too long
-      en.truncated=false;
-      en.description_trunc=StringWordTruncate( en.description,
-                           CHARACTERS_PER_ROW*(en.row_count-2),
-                           en.truncated );
+        // truncate description if too long
+        en.truncated=false;
+        en.description_trunc=StringWordTruncate( en.description,
+                             CHARACTERS_PER_ROW*(en.row_count-2),
+                             en.truncated );
     }
     if ( table[ j ].begin() == table[ j ].end() )
     {
@@ -446,7 +434,7 @@ std::vector<std::string> channel_groups_names;
   </tr>
 <%cpp>
   bool odd=true;
-  std::vector<std::list<SchedEntry>::iterator> cur_event;
+  std::vector<std::vector<SchedEntry>::iterator> cur_event;
   cur_event.reserve(table.size() );
   for (size_t i = 0; i < table.size(); i++) cur_event.push_back(table[i].begin());
   for (int row = 0 ; row < sched_end_row; row++ ) {

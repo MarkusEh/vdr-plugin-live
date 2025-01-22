@@ -333,6 +333,7 @@ namespace vdrlive
   void EpgInfo::CreateEpgInfo(cChannel const *chan, cEvent const *event, cSv idOverride)
   {
     assert(chan);
+    for (int i = 0; i < MaxEventContents; ++i) m_contents[i] = 0;
 
     if (event) {
       m_type = 1;
@@ -348,6 +349,8 @@ namespace vdrlive
       m_endTime = event->EndTime();
       m_eventDuration = event->Duration();
       InitializeScraperVideo(event, nullptr);
+      for (int i = 0; i < MaxEventContents; ++i) m_contents[i] = event->Contents(i);
+      m_parentalRating = event->ParentalRating();
     }
     if (LiveSetup().GetShowChannelsWithoutEPG()) {
       m_type = 1;
@@ -363,6 +366,7 @@ namespace vdrlive
   {
     m_eventId = recid;
     m_type = 2;
+    for (int i = 0; i < MaxEventContents; ++i) m_contents[i] = 0;
     if (recording) {
       m_recordingId = recording->Id();
       m_fileName = cSv(recording->FileName());
@@ -374,7 +378,12 @@ namespace vdrlive
         m_description = cSv(info->Description());
         m_channelId = info->ChannelID();
         m_channelName = cSv(info->ChannelName());
-        m_eventDuration = info->GetEvent() ? info->GetEvent()->Duration():0;
+        const cEvent *event = info->GetEvent();
+        if (event) {
+          m_eventDuration = event->Duration();
+          for (int i = 0; i < MaxEventContents; ++i) m_contents[i] = event->Contents(i);
+          m_parentalRating = event->ParentalRating();
+        }
       }
       if (m_title.empty()) m_title = Name();
       m_startTime = recording->Start();

@@ -24,17 +24,14 @@ using namespace vdrlive;
   bool logged_in(false);
 </%session>
 <%request scope="global">
-  EpgInfo    epgEvent_obj;
-  EpgInfoPtr epgEvent = &epgEvent_obj;
+  EpgInfo    epgEvent;
   std::string epgImage;
-  uintptr_t i_event;
-  uintptr_t irecording;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
   reply.setHeader (tnt::httpheader::cacheControl, "no-store, no-cache, max-age=0, must-revalidate, proxy-revalidate", true);
   if (!logged_in && LiveSetup().UseAuth()) {
-    cToSvConcat<0> targetUrl = "/login.html?redirect=";
+    cToSvConcat targetUrl = "/login.html?redirect=";
     targetUrl.appendUrlEscaped(request.getQuery());
     return reply.redirect(targetUrl.data());
   }
@@ -50,15 +47,9 @@ using namespace vdrlive;
   }
 
   bool isEvent = false;
+  bool isRecording = false;
   epgImage.clear();
 // we use objects of these types during creation of this page, so keep the locks
-  LOCK_TIMERS_READ;
-  LOCK_CHANNELS_READ;
-  LOCK_RECORDINGS_READ;
-  LOCK_SCHEDULES_READ;
-  i_event = 0;
-  irecording = 0;
-  RecordingsManagerPtr recordings;
 
   if (!delete_rec.empty()) {
       pageTitle = tr("Delete recordings");
@@ -70,30 +61,28 @@ using namespace vdrlive;
 
     // check for recording:
     if (epgid.compare(0, recording_s.length(), recording_s) == 0) {
-      recordings = LiveRecordingsManager();
-      const cRecording *recording = recordings->GetByMd5Hash(epgid);
+      isRecording = true;
+      LOCK_RECORDINGS_READ;
+      const cRecording *recording = RecordingsManager::GetByHash(epgid, Recordings);
       if (recording == 0) {
         throw HtmlError(tr("Couldn't find recording or no recordings available"));
       }
-//      epgEvent = EpgEvents::CreateEpgInfo(epgid, recording);
-      epgEvent_obj.CreateEpgInfo(epgid, recording);
+      epgEvent.CreateEpgInfo(epgid, recording);
       cTvMedia image;
       EpgEvents::PosterTvscraper(image, NULL, recording);
       epgImage = image.path;
-      irecording = (uintptr_t)recording;
     }
     // check for event:
     else if (epgid.compare(0, event_s.length(), event_s) == 0) {
       /* Need to lock here channels also, because CreateEpgInfo will lock
        * it also and this will result in a wrong lock order */
-//      epgEvent = EpgEvents::CreateEpgInfo(epgid, Channels, Schedules);
-      epgEvent_obj.CreateEpgInfo(epgid);
+      epgEvent.CreateEpgInfo(epgid);
       isEvent = true;
+      LOCK_SCHEDULES_READ;
       const cEvent* event = EpgEvents::GetEventByEpgId(epgid, Schedules);
       cTvMedia image;
       EpgEvents::PosterTvscraper(image, event, nullptr);
       epgImage = image.path;
-      i_event = (uintptr_t)event;
     }
     // check for aboutbox:
     else if (epgid.compare(0, aboutbox.length(), aboutbox) == 0) {
@@ -127,25 +116,25 @@ using namespace vdrlive;
 </%cpp>
     <div class="inhalt">
 <%cpp>
-  if (epgEvent && delete_rec.empty()) {
-    uintptr_t i_epgEvent = (uintptr_t)epgEvent;
-    cToSvConcat<0> start(epgEvent->StartTime("%a,"), ' ',
-                         epgEvent->StartTime(tr("%b %d %y")), ' ',
-                         epgEvent->StartTime(tr("%I:%M %p")) );
-    if (epgEvent->isRecording() ) {  // epg event, no recording
-      start << " - " << epgEvent->EndTime(tr("%I:%M %p")) << ' ';
-      AppendDuration(start, tr("(%d:%02d)"), epgEvent->Duration());
+  if (!epgEvent.Id().empty() && delete_rec.empty()) {
+    uintptr_t i_epgEvent = (uintptr_t)&epgEvent;
+    cToSvConcat start(epgEvent.StartTime("%a,"), ' ',
+                      epgEvent.StartTime(tr("%b %d %y")), ' ',
+                      epgEvent.StartTime(tr("%I:%M %p")) );
+    if (epgEvent.isRecording() ) {
+      start << " - " << epgEvent.EndTime(tr("%I:%M %p")) << ' ';
+      AppendDuration(start, tr("(%d:%02d)"), epgEvent.Duration());
     }
 
     std::string tools_component;
-    if (recordings) {
-      tools_component = epgEvent->Archived().empty() ? "recordings.rec_tools" : "recordings.archived_disc" ;
+    if (isRecording) {
+      tools_component = epgEvent.Archived().empty() ? "recordings.rec_tools" : "recordings.archived_disc" ;
     }
     if (isEvent)
       tools_component = "epginfo.epgTools";
 
 </%cpp>
-    <& pageelems.epg_tt_box boxId=(epgEvent->Id()) caption=(epgEvent->Caption()) tools_comp=(tools_component) time=(start) title=(epgEvent->Title()) short_descr=(epgEvent->ShortDescr()) long_descr=(epgEvent->LongDescr()) archived=(epgEvent->Archived()) elapsed=(epgEvent->Elapsed()) channel=(epgEvent->ChannelName()) filename=(epgEvent->FileName()) epgImage=(epgImage) irecording=(irecording) ievent=(i_event) iepgEvent=(i_epgEvent) sort=(sort) filter=(filter) flat=(flat) history_num_back=(history_num_back) &>
+    <& pageelems.epg_tt_box boxId=(epgEvent.Id()) caption=(epgEvent.Caption()) tools_comp=(tools_component) time=(start) title=(epgEvent.Title()) short_descr=(epgEvent.ShortDescr()) long_descr=(epgEvent.LongDescr()) archived=(epgEvent.Archived()) elapsed=(epgEvent.Elapsed()) channel=(epgEvent.ChannelName()) filename=(epgEvent.FileName()) epgImage=(epgImage) iepgEvent=(i_epgEvent) sort=(sort) filter=(filter) flat=(flat) history_num_back=(history_num_back) &>
 <%cpp>
   }
   if (aboutBox) {
@@ -172,5 +161,5 @@ std::string title;
 int detail;
 std::string s_IMDB_ID;
 </%args>
-<& pageelems.epg_tool_box detail=(detail) epgid=(id) title=(title) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) s_IMDB_ID=(s_IMDB_ID) &>
+<& pageelems.epg_tool_box detail=(detail) epgid=(id) title=(title) startTime=(epgEvent.GetStartTime()) endTime=(epgEvent.GetEndTime()) s_IMDB_ID=(s_IMDB_ID) &>
 </%def>

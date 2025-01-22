@@ -39,7 +39,7 @@ const cRecording* recording;
 <%include>page_init.eh</%include>
 <%cpp>
   if (!logged_in && LiveSetup().UseAuth()) {
-    cToSvConcat<0> targetUrl = "/login.html?redirect=";
+    cToSvConcat targetUrl = "/login.html?redirect=";
     targetUrl.appendUrlEscaped(request.getQuery());
     return reply.redirect(targetUrl.data());
   }
@@ -53,7 +53,8 @@ const cRecording* recording;
 
   recording = NULL;
   if (!recid.empty()) {
-    recording = LiveRecordingsManager()->GetByMd5Hash(recid);
+    LOCK_RECORDINGS_READ;
+    recording = RecordingsManager::GetByHash(recid, Recordings);
     if (!recording)
       throw HtmlError(tr("Couldn't find recording. Maybe you mistyped your request?"));
   }
@@ -65,11 +66,11 @@ const cRecording* recording;
       message = tr("Please set a name for the recording!");
     else if (recording) {
       bool copy_only = false;
-      if (delresume == "delresume") LiveRecordingsManager()->DeleteResume(recording);
-      if (delmarks == "delmarks") LiveRecordingsManager()->DeleteMarks(recording);
+      if (delresume == "delresume") RecordingsManager::DeleteResume(recording);
+      if (delmarks == "delmarks") RecordingsManager::DeleteMarks(recording);
       if (copy == "copy") copy_only = true;
       if (newdir != ".") directory = newdir;
-      if (LiveRecordingsManager()->UpdateRecording(recording, directory, name, copy_only, title, shorttext, description))
+      if (RecordingsManager::UpdateRecording(recording, directory, name, copy_only, title, shorttext, description))
         returnToReferer = true;
       else
         message = tr("Cannot copy, rename or move the recording.");

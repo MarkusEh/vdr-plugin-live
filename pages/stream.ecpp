@@ -22,13 +22,14 @@ using namespace vdrlive;
   FFmpegThread *f_worker = nullptr;
 </%session>
 <%request scope="global">
-  const cChannel* Channel;
+  tChannelID channelID;
+  int channelNumber;
   std::string RecId;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
   if (!logged_in && LiveSetup().UseAuth()) {
-    cToSvConcat<0> targetUrl = "/login.html?redirect=";
+    cToSvConcat targetUrl = "/login.html?redirect=";
     targetUrl.appendUrlEscaped(request.getQuery());
     return reply.redirect(targetUrl.data());
   }
@@ -46,12 +47,15 @@ using namespace vdrlive;
     return reply.redirect("");
   }
 
-  Channel = nullptr;
   std::string url;
+  int channelVtype = 0;
   if ( qparam.has("recid") ) {
     RecId = recid.substr( 0, 10 ).compare( "recording_" ) == 0 ? recid.substr( 10 ) : recid;
-    const cRecording* Recording = LiveRecordingsManager()->GetByMd5Hash( recid );
-    if ( Recording ) {
+    {
+      LOCK_RECORDINGS_READ;
+      const cRecording* Recording = RecordingsManager::GetByHash(recid, Recordings);
+      if (!Recording)
+        throw HtmlError( tr("Couldn't find recording or no recordings available. Maybe you mistyped your request?") );
       struct stat st;
       const char* filename = Recording->FileName();
       if ( filename && stat( filename, &st ) == 0  ) {
@@ -59,21 +63,23 @@ using namespace vdrlive;
         int length = snprintf( buffer, sizeof( buffer ), "%lu:%llu.rec", ( unsigned long )st.st_dev, ( unsigned long long )st.st_ino );
         if ( 0 < length && length < ( int )sizeof( buffer ) ) {
           url += buffer;
-          tChannelID cid = Recording->Info()->ChannelID();
-          LOCK_CHANNELS_READ;
-          Channel = Channels->GetByChannelID( cid );
         }
       }
+      channelID = Recording->Info()->ChannelID();
     }
+    LOCK_CHANNELS_READ;
+    const cChannel* Channel = Channels->GetByChannelID( channelID );
     if ( !Channel )
-      throw HtmlError( tr("Couldn't find recording or no recordings available. Maybe you mistyped your request?") );
+      throw HtmlError( tr("Couldn't find channel for recording") );
+    channelNumber = Channel->Number();
+    channelVtype = Channel->Vtype();
   } else {
+    const cChannel* Channel = nullptr;
     LOCK_CHANNELS_READ;
     if ( qparam.has("channelid") ) {
-      tChannelID cid = cid.FromString(channelid.c_str());
-      Channel = Channels->GetByChannelID( cid );
+      channelID = channelID.FromString(channelid.c_str());
+      Channel = Channels->GetByChannelID( channelID );
     } else if ( channel > 0 ) {
-      LOCK_CHANNELS_READ;
       Channel = Channels->GetByNumber( channel );
     } else if (cDevice::CurrentChannel()) {
       Channel = Channels->GetByNumber(cDevice::CurrentChannel());
@@ -82,22 +88,24 @@ using namespace vdrlive;
     }
     if ( !Channel )
       throw HtmlError( tr("Couldn't find channel or no channels available. Maybe you mistyped your request?") );
-    channel = Channel->Number();
-    channelid = *Channel->GetChannelID().ToString();
-    url += Channel->GetChannelID().ToString();
+    channelID = Channel->GetChannelID();
+    channelNumber = Channel->Number();
+    channelVtype = Channel->Vtype();
+    channelid = *channelID.ToString();
+    url += channelid;
   }
 
   url += ".";
   for ( auto c : LiveSetup().GetStreamdevType() )
     url += std::tolower( c );
-  dsyslog("vdrlive::stream::vtype(%d)", Channel->Vtype());
+  dsyslog("vdrlive::stream::vtype(%d)", channelVtype);
   dsyslog("vdrlive::stream::f_worker(%p)", f_worker);
   if ( !f_worker) {
     f_worker = new FFmpegThread();
     dsyslog("vdrlive::stream: new FFmpegThread created");
   }
 
-  switch( Channel->Vtype() ) {
+  switch(channelVtype) {
     case 27: // h264
       f_worker->StartFFmpeg(session, url, qparam.has("recid") ? tagRecordingH264 : tagChannelH264);
       break;
@@ -168,71 +176,60 @@ rPtr->AppendAsJSArray(recording_item);
 <%cpp>
 } else {
 dsyslog("vdrlive::stream: generating EPG info");
-const cSchedule *Schedule = NULL;
+EpgInfo epgEvent;
 {
-  LOCK_SCHEDULES_READ;
-  Schedule = Schedules->GetSchedule(Channel);
+  LOCK_CHANNELS_READ;
+  const cChannel* Channel = Channels->GetByChannelID(channelID);
+  if (Channel) {
+    LOCK_SCHEDULES_READ;
+    const cSchedule *Schedule = Schedules->GetSchedule(Channel);
+    if (Schedule) {
+      const cEvent *Event = Schedule->GetPresentEvent();
+      if (Event) epgEvent.CreateEpgInfo(Channel, Event);
+    }
+  }
 }
-const cEvent *Event = NULL;
-if (Schedule)
-  Event = Schedule->GetPresentEvent();
+if (!epgEvent.Id().empty() ) {
+  std::string startTime(epgEvent.StartTime(tr("%I:%M %p")));
+  std::string endTime(epgEvent.EndTime(tr("%I:%M %p")));
 
-EpgInfo    epgEvent_obj;
-EpgInfoPtr epgEvent = &epgEvent_obj;
-if (Event) {
-//  epgEvent = EpgEvents::CreateEpgInfo(Channel, Event);
-  epgEvent_obj.CreateEpgInfo(Channel, Event);
-
-  tChannelID chanId;
-  tEventID eventId;
-  EpgEvents::DecodeDomId(epgEvent->Id(), chanId, eventId);
-  char const * timeFormat = tr("%I:%M %p");
-  char const * dateFormat = tr("%A, %x");
-  std::string headTime = std::string(cToSvDateTime(timeFormat, time(0)));
-  std::string headDate = std::string(cToSvDateTime(dateFormat, time(0)));
-  std::string startTime(epgEvent->StartTime(tr("%I:%M %p")));
-  std::string endTime(epgEvent->EndTime(tr("%I:%M %p")));
-  std::string startDate(epgEvent->StartTime(tr("%a, %x")));
-
+  std::string startDate(epgEvent.StartTime(tr("%a, %x")));
   std::string timeSpan(startTime + " - " + endTime);
-
   if (startTime.empty() && endTime.empty()) {
-    timeSpan = headTime;
-    startDate = headDate;
+    char const * timeFormat = tr("%I:%M %p");
+    char const * dateFormat = tr("%A, %x");
+    timeSpan = std::string(cToSvDateTime(timeFormat, time(0)));
+    startDate = std::string(cToSvDateTime(dateFormat, time(0)));
   }
   cToSvConcat longDescription;
-  AppendHtmlEscapedAndCorrectNonUTF8(longDescription, StringWordTruncate(epgEvent->LongDescr(), LiveSetup().GetMaxTooltipChars()));
+  AppendHtmlEscapedAndCorrectNonUTF8(longDescription, StringWordTruncate(epgEvent.LongDescr(), LiveSetup().GetMaxTooltipChars()));
   longDescription << "<br/><br/>";
   AppendHtmlEscapedAndCorrectNonUTF8(longDescription, tr("Click to view details."));
 
   </%cpp>
-      <table class="listing streaming" cellspacing="0" cellpadding="0">
-        <tr>
-          <& pageelems.epg_tool_box detail=(0) epgid=(epgEvent->Id()) title=(epgEvent->Title()) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) lastCurrentChanel=(0) &>
-          <td class="topaligned">
-            <div class="withmargin">
-              <div class="nomargin nowrap"><$ (timeSpan) $></div>
-              <div class="progress"><div><& pageelems.progressbar progress=(epgEvent->Elapsed()) duration=(epgEvent->Duration()) &></div></div>
-            </div>
-          </td>
-          <td class="topaligned" style="width: 788px">
-            <div class="more withmargin">
-%            if (eventId != 0) {
-                <a
-%              if (!longDescription.empty()) {
-              <& tooltip.hint text=(longDescription) &><& tooltip.display domId=(epgEvent->Id()) &>
-%              }
-              ><span class="title"><$ (epgEvent->Title()) $></span><br /><span class="short"><$ (epgEvent->ShortDescr()) $></span></a>
-%              } else {
-              <span class="title"><$ (epgEvent->Title()) $></span>
-%              }
-            </div>
-          </td>
-          <td class="topaligned rightcol" style="width: 250px"><div class="station withmargin"><a  href="schedule.html?channelid=<$ channelid $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ cSv(cToSvInt(channel)) $><$ tr(" - ") $><$ (epgEvent->Caption()) $></a></div>
-          </td>
-        </tr>
-      </table>
-%} // if (Event)
+  <table class="listing streaming" cellspacing="0" cellpadding="0">
+    <tr>
+      <& pageelems.epg_tool_box detail=(0) epgid=(epgEvent.Id()) title=(epgEvent.Title()) startTime=(epgEvent.GetStartTime()) endTime=(epgEvent.GetEndTime()) lastCurrentChanel=(0) &>
+      <td class="topaligned">
+        <div class="withmargin">
+          <div class="nomargin nowrap"><$ (timeSpan) $></div>
+          <div class="progress"><div><& pageelems.progressbar progress=(epgEvent.Elapsed()) duration=(epgEvent.Duration()) &></div></div>
+        </div>
+      </td>
+      <td class="topaligned" style="width: 788px">
+        <div class="more withmargin">
+        <a
+%             if (!longDescription.empty()) {
+            <& tooltip.hint text=(longDescription) &><& tooltip.display domId=(epgEvent.Id()) &>
+%             }
+          ><span class="title"><$ (epgEvent.Title()) $></span><br /><span class="short"><$ (epgEvent.ShortDescr()) $></span></a>
+        </div>
+      </td>
+      <td class="topaligned rightcol" style="width: 250px"><div class="station withmargin"><a  href="schedule.html?channelid=<$ channelid $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ cSv(cToSvInt(channelNumber)) $><$ tr(" - ") $><$ (epgEvent.Caption()) $></a></div>
+      </td>
+    </tr>
+  </table>
+%} // if (!epgEvent.Id().empty() )
 %} // if ( qparam.has("recid")
     </div>
   </body>
@@ -242,10 +239,10 @@ if (Event) {
 <%def channel_selection>
 <form action="stream.html" method="get" id="channels">
   <span>
-    <label for="channel"><$ tr("Channel") $>:&nbsp;<span class="bold"><$ cSv(cToSvInt(Channel->Number())) $></span></label>
-    <& channels_widget name=("channel") selected=(Channel ? *Channel->GetChannelID().ToString() : "") onchange=("player.stop(); document.forms.channels.submit()") &>
+    <label for="channel"><$ tr("Channel") $>:&nbsp;<span class="bold"><$ cSv(cToSvInt(channelNumber)) $></span></label>
+    <& channels_widget name=("channel") selected=(*channelID.ToString() ) onchange=("player.stop(); document.forms.channels.submit()") &>
 %   if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
-      <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(Channel->GetChannelID()) image="zap.png" alt="" &>
+      <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channelID) image="zap.png" alt="" &>
 %   }
   </span>
 </form>
@@ -254,7 +251,6 @@ if (Event) {
     {  LOCK_CHANNELS_READ;
        maxChannelNumber = Channels->MaxNumber();
     }
-    int channelNumber = Channel->Number();
     bool prev = channelNumber > 1;
     bool next = channelNumber < maxChannelNumber;
 </%cpp>

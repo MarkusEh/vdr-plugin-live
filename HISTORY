@@ -138,7 +138,7 @@ Thanks to all users @vdr-portal.de for feedback, tests, bug reports, ...
 Summary of changes to Version 3.2:
 
 - Whats on:
--   Display sender logos. Code contributed by rüsseltier@vdr-portal.de
+-   Display channel logos. Code contributed by rüsseltier@vdr-portal.de
 
 - Multischedule:
 -   Remove restriction regarding max. number of channels on one page.
@@ -181,10 +181,11 @@ Summary of changes to Version 3.2:
 
 
 2025-  -  : Version 3.4.1:
-- Fix: Parsing additional times used in mustischedule and what's on
+- Fix: Parsing additional times used in multischedule and what's on
+- Fix: Crash in case of an empty entry in channelgroups. Thanks to SHofmann @vdr-portal.de for reporting
 - Timers: Remove locks defined in live, rely on VDRs locks only
 -         Do all work in one thread, instead of using another task and waiting for the other task to finish
 -         Note: the old approach (waiting for the other task to finish) will avoid
--               'Invalid lock sequence' messages. But, there can still be invalid lock sequences
+-               'Invalid lock sequence' messages. Note: There can still be invalid lock sequences
 -               which will not be detected by VDR but result in deadlocks
 - Fix (ongoing): Ensure to have locks before any access to VDR objects like cEvent, cRecording, ...

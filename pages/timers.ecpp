@@ -26,7 +26,7 @@ using namespace vdrlive;
 <%cpp>
   reply.setHeader (tnt::httpheader::cacheControl, "no-store, no-cache, max-age=0, must-revalidate, proxy-revalidate", true);
   if (!logged_in && LiveSetup().UseAuth()) {
-    cToSvConcat<0> targetUrl = "/login.html?redirect=";
+    cToSvConcat targetUrl = "/login.html?redirect=";
     targetUrl.appendUrlEscaped(request.getQuery());
     return reply.redirect(targetUrl.data());
   }
@@ -112,8 +112,6 @@ using namespace vdrlive;
         // output of the timer list:
         for (int i = 0; i < sortedTimers.Size(); i++) {
           const cTimer *timer = sortedTimers[i];
-          EpgInfo    epgEvent_obj;
-          EpgInfoPtr epgEvent = &epgEvent_obj;
           cToSvConcat longDescription;
           cToSvConcat searchTimName;
           std::string searchTimId;
@@ -123,11 +121,11 @@ using namespace vdrlive;
           AppendHtmlEscapedAndCorrectNonUTF8(longDescription, SortedTimers::GetTimerInfo(*timer));
           if (timer->Event())
           {
-            epgEvent_obj.CreateEpgInfo(timer->Channel(), timer->Event());
             bool truncated = false;
-            if (!epgEvent->LongDescr().empty()) {
+            LOCK_SCHEDULES_READ;
+            if (timer->Event()->Description() ) {
               longDescription << "<hr>";
-              AppendHtmlEscapedAndCorrectNonUTF8(longDescription, StringWordTruncate(epgEvent->LongDescr(), LiveSetup().GetMaxTooltipChars(), truncated));
+              AppendHtmlEscapedAndCorrectNonUTF8(longDescription, StringWordTruncate(timer->Event()->Description(), LiveSetup().GetMaxTooltipChars(), truncated));
               if (truncated) longDescription << " ...";
             }
           }
@@ -200,7 +198,10 @@ using namespace vdrlive;
         <td class="leftcol <? bottom ? "bottomrow" ?>"><img src="<$ LiveSetup().GetThemedLink("img", timerStateImg) $>" alt="" <%cpp> if (!timerStateHint.empty()) { </%cpp><& tooltip.hint text=(timerStateHint) &> <%cpp> } </%cpp>/></td>
           <td class="<? bottom ? "bottomrow" ?>"><div class="withmargin">
              <table class="noborder"><tr><td class="noborder"><span class="display-xs nowrap" > <$ cToSvDateTime(tr("%I:%M %p"), timer->StartTime()) $> - <$ cToSvDateTime(tr("%I:%M %p"), timer->StopTime()) $></span></td></tr>
-             <tr><td class="noborder"><a href="schedule.html?channel=<$ timer->Channel()->Number()$>" title="<$tr("Transponder")$>: <$*cSource::ToString(timer->Channel()->Source() )$>-<$cToSvConcat(timer->Channel()->Frequency())$>-<$timer->Channel()->Parameters()$>"><$ timer->Channel()->Name() $></a></td></tr>
+%            {
+%              LOCK_CHANNELS_READ;
+               <tr><td class="noborder"><a href="schedule.html?channel=<$ timer->Channel()->Number()$>" title="<$tr("Transponder")$>: <$*cSource::ToString(timer->Channel()->Source() )$>-<$cToSvConcat(timer->Channel()->Frequency())$>-<$timer->Channel()->Parameters()$>"><$ timer->Channel()->Name() $></a></td></tr>
+%            }
              </table>
           </div></td>
 %         cToSvConcat longDescriptionTitle;
@@ -211,7 +212,9 @@ using namespace vdrlive;
           <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin nowrap" <$$longDescriptionTitle$> ><$ timer->Priority() $></div></td>
           <td class="<? bottom ? "bottomrow" ?>"><div class="withmargin">
 %         if(timer->Event()) {
-            <a <& tooltip.display domId=(epgEvent->Id()) &>
+%           LOCK_CHANNELS_READ;
+%           LOCK_SCHEDULES_READ;
+            <a <& tooltip.display domId=(EpgEvents::EncodeDomId(timer->Channel()->GetChannelID(), timer->Event()->EventID())) &>
             class="apopup" title="<$$longDescription$>">
             <$$ cToSvReplace(timerFile, "~", "~<wbr>") $></a>
 %         } else {

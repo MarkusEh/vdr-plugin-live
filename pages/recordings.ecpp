@@ -566,10 +566,14 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
   std::string history_num_back;
 </%args>
 <%cpp>
-  RecordingsManagerPtr recordings = LiveRecordingsManager();
-  const cRecording *recording = recordings->GetByMd5Hash(todel);
-  if (recording == nullptr)
-    throw HtmlError(tr("Couldn't find recording or no recordings available"));
+  std::string recording_Name;
+  {
+    LOCK_RECORDINGS_READ;
+    const cRecording *recording = RecordingsManager::GetByHash(todel, Recordings);
+    if (recording == nullptr)
+      throw HtmlError(tr("Couldn't find recording or no recordings available"));
+    recording_Name = recording->Name();
+  }
   if (!cUser::CurrentUserHasRightTo(UR_DELRECS))
     throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
   if (confirmed == "confirmed") {
@@ -589,7 +593,7 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
   </div>
   <div class="epg_content">
     <form>
-      <div class="about_head"><div><div><$ cSv(cToSvFormated(tr("Delete recording \"%s\"?"), recording->Name()?recording->Name():"No recording name available")) $></div></div></div>
+      <div class="about_head"><div><div><$ cToSvFormated(tr("Delete recording \"%s\"?"), recording_Name.empty()?"No recording name available":recording_Name.c_str() ) $></div></div></div>
       <input type="hidden" name="epgid" value="<$todel$>" \>
       <input type="hidden" name="delete_rec" value="confirmed" \>
       <input type="hidden" name="history_num_back" value="<$ history_num_back $>" id="history_del_<$ todel $>"\>
@@ -636,8 +640,10 @@ function cancel_delete() {
 <& recordings.edit_rec id=(id) sort=(sort) filter=(filter) flat=(flat) history_num_back=(history_num_back) &>
 <& recordings.del_rec id=(id) sort=(sort) filter=(filter) flat=(flat) history_num_back=(history_num_back) &>
 <%cpp>
-const cRecording* recording = NULL;
-if (!id.empty()) recording = LiveRecordingsManager()->GetByMd5Hash(id);
+{
+LOCK_RECORDINGS_READ;
+const cRecording* recording = nullptr;
+if (!id.empty()) recording = RecordingsManager::GetByHash(id, Recordings);
 if (recording && recording->Info() ) {
   int recordingErrors = -1;
 #if VDRVERSNUM >= 20505
@@ -665,7 +671,7 @@ if (recording && recording->Info() ) {
   }
 #endif
 
-  cGetScraperVideo getScraperVideo(NULL, recording);
+  cGetScraperVideo getScraperVideo(nullptr, recording);
   bool scraperDataAvailable = getScraperVideo.call(LiveSetup().GetPluginTvscraper());
   if (scraperDataAvailable) {
     int video_SD_HD = getScraperVideo.m_scraperVideo->getHD();
@@ -681,6 +687,7 @@ injectErrorHdSdIcon(\"icons-<$id$>\", <$cSv(cToSvInt(recordingErrors))$>, <$cSv(
 </script>
 <%cpp>
   }
+}
 }
 </%cpp>
 </%def>

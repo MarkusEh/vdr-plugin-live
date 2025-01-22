@@ -112,6 +112,8 @@ namespace vdrlive
       int Duration() const { return m_endTime-m_startTime; }  // for recordings: recording duration
       int EventDuration() const { return m_eventDuration; } // this is always the event duration
       int Elapsed() const;
+      uchar Contents(int i = 0) const { return (0 <= i && i < MaxEventContents) ? m_contents[i] : uchar(0); }
+      int ParentalRating() const { return m_parentalRating; }
       bool ScraperVideoAvailable() const { return bool(m_scraperVideo) ; }
       cScraperVideo *GetScraperVideo() const { return m_scraperVideo.get() ; }
 // only for recordings:
@@ -130,6 +132,8 @@ namespace vdrlive
       std::string m_channelName;
       int m_channelNumber = 0;
       int m_eventDuration = 0;  // this is always the event duration
+      uchar m_contents[MaxEventContents];
+      int m_parentalRating = 0;
       void InitializeScraperVideo(cEvent const *event, cRecording const *recording);
       std::unique_ptr<cScraperVideo> m_scraperVideo;
 // for recordings:

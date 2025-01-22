@@ -235,19 +235,20 @@ cToSvConcat url("playlist.m3u?recid=", recid);
 </%args>
 <%cpp>
 #if TNT_WATCHDOG_SILENCE
-{
-const cRecording* recording = nullptr;
-if (!recid.empty()) recording = LiveRecordingsManager()->GetByMd5Hash(recid);
 cToSvConcat rfid;
-if (recording) {
-  struct stat st;
-  if (stat(recording->FileName(), &st) == 0)
-    rfid.appendFormated("%lu:%llu.rec", (unsigned long) st.st_dev, (unsigned long long) st.st_ino);
+{
+  const cRecording* recording = nullptr;
+  LOCK_RECORDINGS_READ
+  if (!recid.empty()) recording = RecordingsManager::GetByHash(recid, Recordings);
+  if (recording) {
+    struct stat st;
+    if (stat(recording->FileName(), &st) == 0)
+      rfid.appendFormated("%lu:%llu.rec", (unsigned long) st.st_dev, (unsigned long long) st.st_ino);
+  }
 }
 if (!rfid.empty() ) {
 </%cpp><a href="http://localhost:<$cToSvConcat(LiveSetup().GetStreamdevPort())$>/<$rfid$>.ts"><img src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint text=(tr("Stream this recording.")) &> /> <$ linkText $></a>
 <%cpp>
-}
 }
 #endif
 </%cpp>
@@ -401,50 +402,45 @@ if (!rfid.empty() ) {
   if (detail) { // output for vertical toolbox
 </%cpp>
   <& pageelems.event_timer epgid=(epgid) &>
-<%cpp>
-  if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
-</%cpp>
+% if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
     <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channelId) image="zap.png" alt="" &>
-<%cpp>
-  } if (LiveFeatures<features::epgsearch>().Recent() && eventId != 0) {
-</%cpp>
+% } if (LiveFeatures<features::epgsearch>().Recent() && eventId != 0) {
   <a href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a>
-<%cpp>
-    }
-    if ((duration == 0) || (elapsed >= 0)) {
-</%cpp>
+% } if ((duration == 0) || (elapsed >= 0)) {
   <& pageelems.hls_channel channelId=(channelId) &>
   <& pageelems.m3u_playlist_channel channelId=(channelId) &>
+% } if (!title.empty()) {
+  <& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID) &>
 <%cpp>
-    }
-  if (eventId != 0) {
-    LOCK_CHANNELS_READ;
-    LOCK_SCHEDULES_READ;
-    const cEvent* event;
-    const cChannel* channel;
-    EpgEvents::GetEventChannelByEpgId(event, channel, epgid, Channels, Schedules);
-    cGetScraperVideo getScraperVideo(event, nullptr);
-    bool scraperDataAvailable = getScraperVideo.call(LiveSetup().GetPluginTvscraper());
-    if (scraperDataAvailable) {
-      int video_SD_HD = getScraperVideo.m_scraperVideo->getHD();
-      const char *sdhd = video_SD_HD == 0 ? "sd": video_SD_HD == 1 ? "hd": video_SD_HD == 2 ? "ud" : 0;
-
-</%cpp>
-    <& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID) &>
-% if (detail > 1) {
-<img data-src="img/transparent.png" height="10px" />
-<span id="icons-<$epgid$>"></span>
-<%cpp> if (sdhd) { </%cpp>
-          <script class="injectIcons">
-          injectHdSdIcon(\"icons-<$epgid$>\", \"<$sdhd$>\", \"<$(channel&&channel->Name())?channel->Name():""$>\", \"\")
-          </script>
-<%cpp>
-        }
+  }
+  if (eventId != 0 && detail > 1) {
+    const char *sdhd = nullptr;
+    std::string channel_Name;
+    {
+      LOCK_CHANNELS_READ;
+      LOCK_SCHEDULES_READ;
+      const cEvent* event;
+      const cChannel* channel;
+      EpgEvents::GetEventChannelByEpgId(event, channel, epgid, Channels, Schedules);
+      cGetScraperVideo getScraperVideo(event, nullptr);
+      bool scraperDataAvailable = getScraperVideo.call(LiveSetup().GetPluginTvscraper());
+      if (scraperDataAvailable) {
+        int video_SD_HD = getScraperVideo.m_scraperVideo->getHD();
+        sdhd = video_SD_HD == 0 ? "sd": video_SD_HD == 1 ? "hd": video_SD_HD == 2 ? "ud" : 0;
+        if (channel) channel_Name = cSv(channel->Name());
       }
     }
+    if (sdhd) {
+</%cpp>
+<img data-src="img/transparent.png" height="10px" />
+<span id="icons-<$epgid$>"></span>
+<script class="injectIcons">
+injectHdSdIcon(\"icons-<$epgid$>\", \"<$sdhd$>\", \"<$ channel_Name $>\", \"\")
+</script>
+<%cpp>
     }
   }
-  else { // table output
+  } else { // table output
 </%cpp>
   <td class="action leftcol <? lastCurrentChanel ? "bottomrow"?>"><& pageelems.event_timer epgid=(epgid) &></td>
 % if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
@@ -490,9 +486,7 @@ if (!rfid.empty() ) {
   std::string long_descr;
   std::string filename;
   std::string archived;
-   std::string epgImage;
-  uintptr_t ievent;
-  uintptr_t irecording;
+  std::string epgImage;
   uintptr_t iepgEvent;
   int elapsed = -1;
   std::string sort;
@@ -554,16 +548,13 @@ struct sScraperMovieOrTv {
     sEpisode2 episode;
 };
 
-EpgInfoPtr epgEvent = nullptr;
-// if (iepgEvent) epgEvent = *static_cast<EpgInfoPtr*>((void *)iepgEvent);
-if (iepgEvent) epgEvent = static_cast<EpgInfo*>((void *)iepgEvent);
-
-
+EpgInfoPtr epgEvent = iepgEvent?static_cast<EpgInfo*>((void *)iepgEvent):nullptr;
 sScraperMovieOrTv scraperMovieOrTv;
-cGetScraperVideo getScraperVideo(static_cast<cEvent *>((void *)ievent), static_cast<cRecording *>((void *)irecording));
-scraperMovieOrTv.found = getScraperVideo.call(LiveSetup().GetPluginTvscraper());
-if (scraperMovieOrTv.found) {
-  tvType type = getScraperVideo.m_scraperVideo->getVideoType();
+scraperMovieOrTv.found = false;
+
+if (epgEvent && epgEvent->ScraperVideoAvailable()) {
+  scraperMovieOrTv.found = true;
+  tvType type = epgEvent->GetScraperVideo()->getVideoType();
 //  esyslog("live: type = %i", (int)type);
   if (type == tMovie) scraperMovieOrTv.movie = true;
   else {
@@ -572,20 +563,21 @@ if (scraperMovieOrTv.found) {
   }
 }
 if (scraperMovieOrTv.found) {
-  scraperMovieOrTv.found = getScraperVideo.m_scraperVideo->getMovieOrTv(&scraperMovieOrTv.title, &scraperMovieOrTv.originalTitle, &scraperMovieOrTv.tagline, &scraperMovieOrTv.overview, &scraperMovieOrTv.genres, &scraperMovieOrTv.homepage, &scraperMovieOrTv.releaseDate, &scraperMovieOrTv.adult, &scraperMovieOrTv.runtime, &scraperMovieOrTv.popularity, &scraperMovieOrTv.voteAverage, &scraperMovieOrTv.voteCount, &scraperMovieOrTv.productionCountries, &scraperMovieOrTv.IMDB_ID, &scraperMovieOrTv.budget, &scraperMovieOrTv.revenue, &scraperMovieOrTv.collectionId, &scraperMovieOrTv.collectionName, &scraperMovieOrTv.status, &scraperMovieOrTv.networks, &scraperMovieOrTv.lastSeason);
+  scraperMovieOrTv.found = epgEvent->GetScraperVideo()->getMovieOrTv(&scraperMovieOrTv.title, &scraperMovieOrTv.originalTitle, &scraperMovieOrTv.tagline, &scraperMovieOrTv.overview, &scraperMovieOrTv.genres, &scraperMovieOrTv.homepage, &scraperMovieOrTv.releaseDate, &scraperMovieOrTv.adult, &scraperMovieOrTv.runtime, &scraperMovieOrTv.popularity, &scraperMovieOrTv.voteAverage, &scraperMovieOrTv.voteCount, &scraperMovieOrTv.productionCountries, &scraperMovieOrTv.IMDB_ID, &scraperMovieOrTv.budget, &scraperMovieOrTv.revenue, &scraperMovieOrTv.collectionId, &scraperMovieOrTv.collectionName, &scraperMovieOrTv.status, &scraperMovieOrTv.networks, &scraperMovieOrTv.lastSeason);
 }
+
 std::vector<std::unique_ptr<cCharacter>> scraperCharacters;
 if (scraperMovieOrTv.found) {
-  scraperCharacters = getScraperVideo.m_scraperVideo->getCharacters(false);
-  scraperMovieOrTv.posters = getScraperVideo.m_scraperVideo->getImages(eOrientation::portrait, 3, false);
-  scraperMovieOrTv.banners = getScraperVideo.m_scraperVideo->getImages(eOrientation::banner, 3, false);
-  scraperMovieOrTv.fanarts = getScraperVideo.m_scraperVideo->getImages(eOrientation::landscape, 3, false);
-  scraperMovieOrTv.episodeFound = getScraperVideo.m_scraperVideo->getEpisode(&scraperMovieOrTv.episode.name, &scraperMovieOrTv.episode.overview, &scraperMovieOrTv.episode.absoluteNumber, &scraperMovieOrTv.episode.firstAired, &scraperMovieOrTv.episode.runtime, &scraperMovieOrTv.episode.vote_average, &scraperMovieOrTv.episode.vote_count, &scraperMovieOrTv.episode.IMDB_ID);
+  scraperCharacters = epgEvent->GetScraperVideo()->getCharacters(false);
+  scraperMovieOrTv.posters = epgEvent->GetScraperVideo()->getImages(eOrientation::portrait, 3, false);
+  scraperMovieOrTv.banners = epgEvent->GetScraperVideo()->getImages(eOrientation::banner, 3, false);
+  scraperMovieOrTv.fanarts = epgEvent->GetScraperVideo()->getImages(eOrientation::landscape, 3, false);
+  scraperMovieOrTv.episodeFound = epgEvent->GetScraperVideo()->getEpisode(&scraperMovieOrTv.episode.name, &scraperMovieOrTv.episode.overview, &scraperMovieOrTv.episode.absoluteNumber, &scraperMovieOrTv.episode.firstAired, &scraperMovieOrTv.episode.runtime, &scraperMovieOrTv.episode.vote_average, &scraperMovieOrTv.episode.vote_count, &scraperMovieOrTv.episode.IMDB_ID);
   if (scraperMovieOrTv.episodeFound) {
-    scraperMovieOrTv.episode.number = getScraperVideo.m_scraperVideo->getEpisodeNumber();
-    scraperMovieOrTv.episode.season = getScraperVideo.m_scraperVideo->getSeasonNumber();
-    scraperMovieOrTv.episode.episodeImage = getScraperVideo.m_scraperVideo->getImage(cImageLevels(eImageLevel::episodeMovie), cOrientations(eOrientation::landscape), false);
-    scraperMovieOrTv.seasonPoster = getScraperVideo.m_scraperVideo->getImage(cImageLevels(eImageLevel::seasonMovie), cOrientations(eOrientation::portrait), false);
+    scraperMovieOrTv.episode.number = epgEvent->GetScraperVideo()->getEpisodeNumber();
+    scraperMovieOrTv.episode.season = epgEvent->GetScraperVideo()->getSeasonNumber();
+    scraperMovieOrTv.episode.episodeImage = epgEvent->GetScraperVideo()->getImage(cImageLevels(eImageLevel::episodeMovie), cOrientations(eOrientation::landscape), false);
+    scraperMovieOrTv.seasonPoster = epgEvent->GetScraperVideo()->getImage(cImageLevels(eImageLevel::seasonMovie), cOrientations(eOrientation::portrait), false);
   }
 }
 
@@ -930,17 +922,11 @@ if (scraperMovieOrTv.found) {
 }
 const char *br_after_long_desc = "<br><br>";
 if (long_descr.empty()) br_after_long_desc = "";
-const cEvent *event = nullptr;
-if (ievent) event = static_cast<cEvent *>((void *)ievent);
-else if (irecording) {
-  cRecording *recording = static_cast<cRecording *>((void *)irecording);
-  if (recording->Info()) event = recording->Info()->GetEvent();
-}
 
-if (event) {
+if (epgEvent) {
   bool first = true;
-  for (int i = 0; event->Contents(i); i++) {
-    const char *s = event->ContentToString(event->Contents(i));
+  for (int i = 0; epgEvent->Contents(i); i++) {
+    const char *s = cEvent::ContentToString(epgEvent->Contents(i));
     if (!isempty(s)) {
       if (first) {
         first = false;
@@ -951,11 +937,11 @@ if (event) {
  <$s$><%cpp>
     }
   }
-  if (event->ParentalRating()) {
+  if (epgEvent->ParentalRating()) {
     if (first) reply.out() << br_after_long_desc;
     else reply.out() << "<br>";
 </%cpp>
-   <$tr("Parental rating")$>: <$*event->GetParentalRatingString()$>
+   <$tr("Parental rating")$>: <$cToSvFormated(trVDR("ParentalRating$from %d"), epgEvent->ParentalRating()) $>
 <%cpp>
   }
 }

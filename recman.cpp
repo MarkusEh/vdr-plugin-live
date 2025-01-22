@@ -62,17 +62,16 @@ namespace vdrlive {
     return RecordingsTreePtr(recMan, m_recTree);
   }
 
-  cRecording const * RecordingsManager::GetByMd5Hash(cSv hash) const
+  const cRecording *RecordingsManager::GetByHash(cSv hash, const cRecordings* Recordings)
   {
-    if (hash.length() != 42) return 0;
-    if (hash.compare(0, 10, "recording_") != 0) return 0;
+    if (hash.length() != 42) return nullptr;
+    if (hash.compare(0, 10, "recording_") != 0) return nullptr;
     XXH128_hash_t xxh = parse_hex_128(hash.substr(10));
-    LOCK_RECORDINGS_READ;
-    for (cRecording* rec = (cRecording *)Recordings->First(); rec; rec = (cRecording *)Recordings->Next(rec)) {
+    for (const cRecording* rec = Recordings->First(); rec; rec = Recordings->Next(rec)) {
       XXH128_hash_t xxh_rec = XXH3_128bits(rec->FileName(), strlen(rec->FileName()));
       if (xxh_rec.high64 == xxh.high64 && xxh_rec.low64 == xxh.low64) return rec;
     }
-    return 0;
+    return nullptr;
   }
 
   RecordingsItemRecPtr const RecordingsManager::GetByIdHash(cSv hash) const
@@ -80,14 +79,14 @@ namespace vdrlive {
     if (hash.length() != 42) return 0;
     if (hash.compare(0, 10, "recording_") != 0) return 0;
     XXH128_hash_t xxh = parse_hex_128(hash.substr(10));
-    for (RecordingsItemRecPtr recItem : *LiveRecordingsManager()->GetRecordingsTree()->allRecordings()) {
+    for (RecordingsItemRecPtr recItem : *GetRecordingsTree()->allRecordings()) {
       XXH128_hash_t xxh_rec = recItem->IdHash();
       if (xxh_rec.high64 == xxh.high64 && xxh_rec.low64 == xxh.low64) return recItem;
     }
     return 0;
   }
 
-  bool RecordingsManager::UpdateRecording(cRecording const * recording, cSv directory, cSv name, bool copy, cSv title, cSv shorttext, cSv description) const
+  bool RecordingsManager::UpdateRecording(cRecording const * recording, cSv directory, cSv name, bool copy, cSv title, cSv shorttext, cSv description)
   {
     if (!recording)
       return false;
@@ -142,7 +141,7 @@ namespace vdrlive {
     return true;
   }
 
-  void RecordingsManager::DeleteResume(cRecording const * recording) const
+  void RecordingsManager::DeleteResume(cRecording const * recording)
   {
     if (!recording)
       return;
@@ -151,7 +150,7 @@ namespace vdrlive {
     ResumeFile.Delete();
   }
 
-  void RecordingsManager::DeleteMarks(cRecording const * recording) const
+  void RecordingsManager::DeleteMarks(cRecording const * recording)
   {
     if (!recording)
       return;
@@ -169,14 +168,14 @@ namespace vdrlive {
     }
   }
 
-  void RecordingsManager::DeleteRecording(cRecording const * recording) const
+  void RecordingsManager::DeleteRecording(cSv recording_hash)
   {
-    if (!recording)
-      return;
+    LOCK_RECORDINGS_WRITE;
+    cRecording *recording = const_cast<cRecording *>(RecordingsManager::GetByHash(recording_hash, Recordings));
+    if (!recording) return;
 
     std::string name(recording->FileName());
-    const_cast<cRecording *>(recording)->Delete();
-    LOCK_RECORDINGS_WRITE;
+    recording->Delete();
     Recordings->DelByName(name.c_str());
   }
 
