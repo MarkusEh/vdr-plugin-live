@@ -70,7 +70,7 @@ using namespace vdrlive;
     LOCK_CHANNELS_READ;
     const cChannel* Channel = Channels->GetByChannelID( channelID );
     if ( !Channel )
-      throw HtmlError( tr("Couldn't find channel for recording") );
+      throw HtmlError( tr("Couldn't find channel for recording.") );
     channelNumber = Channel->Number();
     channelVtype = Channel->Vtype();
   } else {
@@ -162,7 +162,7 @@ using namespace vdrlive;
 <%cpp>
 if (qparam.has("recid")) {
 dsyslog("vdrlive::stream: generating recording info");
-RecordingsItemRecPtr rPtr = LiveRecordingsManager()->GetByIdHash( recid );
+RecordingsItemRecPtr rPtr = RecordingsManager::GetByIdHash(recid);
 cToSvConcat<0> recording_item;
 rPtr->AppendAsJSArray(recording_item);
 </%cpp>

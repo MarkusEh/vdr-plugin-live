@@ -26,7 +26,7 @@ namespace vdrlive
    * -------------------------------------------------------------------------
    */
 
-  const std::string EpgInfo::CurrentTime(const char* format) const
+  const std::string EpgInfo::CurrentTime(const char* format)
   {
     return std::string(cToSvDateTime(format, time(0)));
   }
@@ -307,6 +307,9 @@ namespace vdrlive
 
   } // namespace EpgEvents
 
+  void EpgInfo::Clear() {
+    *this = EpgInfo();
+  }
   void EpgInfo::CreateEpgInfo(cSv epgid)
   {
     const cChannel *channel;
@@ -333,7 +336,6 @@ namespace vdrlive
   void EpgInfo::CreateEpgInfo(cChannel const *chan, cEvent const *event, cSv idOverride)
   {
     assert(chan);
-    for (int i = 0; i < MaxEventContents; ++i) m_contents[i] = 0;
 
     if (event) {
       m_type = 1;
@@ -456,18 +458,16 @@ std::string appendEpgItemWithRecItem(cToSvConcat<0> &epg_item, cSv lastDay, cons
 }
 
 bool appendEpgItem(cToSvConcat<0> &epg_item, RecordingsItemRecPtr &recItem, const cEvent *Event, const cChannel *Channel, bool withChannel, const cTimers *Timers) {
-// We also need a lock on recordings ...
   cGetScraperVideo getScraperVideo(Event, nullptr);
   getScraperVideo.call(LiveSetup().GetPluginTvscraper());
 
-  RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
+  RecordingsTreePtr recordingsTree(RecordingsManager::GetRecordingsTree());
   const std::vector<RecordingsItemRecPtr> *recItems = recordingsTree->allRecordings(eSortOrder::duplicatesLanguage);
-  bool recItemFound = searchNameDesc(recItem, recItems, Event, getScraperVideo.m_scraperVideo.get() );
+  bool recItemFound = searchNameDesc(recItem, recItems, Event, getScraperVideo.m_scraperVideo.get());
 
   epg_item.append("[\"");
 // [0] : EPG ID  (without event_)
 //  epg_item.append(EpgEvents::EncodeDomId(Channel->GetChannelID(), Event->EventID()).c_str() + 6);
-//  epg_item.appendChannel(Channel->GetChannelID(), 'p', 'm');
   stringAppendChannel(epg_item, Channel->GetChannelID(), 'p', 'm');
   epg_item.concat('_', Event->EventID());
 

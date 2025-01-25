@@ -33,9 +33,6 @@ using namespace vdrlive;
 bool logged_in(false);
 std::string active_r;
 </%session>
-<%request scope="page">
-const cRecording* recording;
-</%request>
 <%include>page_init.eh</%include>
 <%cpp>
   if (!logged_in && LiveSetup().UseAuth()) {
@@ -51,26 +48,24 @@ const cRecording* recording;
 
   std::string message;
 
-  recording = NULL;
-  if (!recid.empty()) {
-    LOCK_RECORDINGS_READ;
-    recording = RecordingsManager::GetByHash(recid, Recordings);
-    if (!recording)
-      throw HtmlError(tr("Couldn't find recording. Maybe you mistyped your request?"));
-  }
-
   bool returnToReferer = false;
   if (request.getMethod() == "POST") {
     ++history_num_back;
     if (name.empty())
       message = tr("Please set a name for the recording!");
-    else if (recording) {
+    else  {
+      {
+        LOCK_RECORDINGS_READ;
+        const cRecording* recording = RecordingsManager::GetByHash(recid, Recordings);
+        if (!recording)
+          throw HtmlError(tr("Couldn't find recording. Maybe you mistyped your request?"));
+        if (delresume == "delresume") RecordingsManager::DeleteResume(recording);
+        if (delmarks == "delmarks") RecordingsManager::DeleteMarks(recording);
+      }
       bool copy_only = false;
-      if (delresume == "delresume") RecordingsManager::DeleteResume(recording);
-      if (delmarks == "delmarks") RecordingsManager::DeleteMarks(recording);
       if (copy == "copy") copy_only = true;
       if (newdir != ".") directory = newdir;
-      if (RecordingsManager::UpdateRecording(recording, directory, name, copy_only, title, shorttext, description))
+      if (RecordingsManager::UpdateRecording(recid, directory, name, copy_only, title, shorttext, description))
         returnToReferer = true;
       else
         message = tr("Cannot copy, rename or move the recording.");
@@ -87,15 +82,36 @@ const cRecording* recording;
 </html>
 <%cpp>
   } else {
-
-  if (recording) {
-    const cRecordingInfo *info = recording->Info();
-    name = recording->BaseName();
-    directory = std::string(cToSvReplace(*recording->Folder(), "~", "/"));
-    title = cSv(info->Title());
-    shorttext = cSv(info->ShortText());
-    description = cSv(info->Description());
-  }
+    cToSvConcat aux_data;  // display only data
+    bool search_timer = false;
+    {
+      LOCK_RECORDINGS_READ;
+      const cRecording* recording = RecordingsManager::GetByHash(recid, Recordings);
+      if (recording && recording->Info()) {
+        const cRecordingInfo *info = recording->Info();
+        name = recording->BaseName();
+        directory = std::string(cToSvReplace(*recording->Folder(), "~", "/"));
+        title = cSv(info->Title());
+        shorttext = cSv(info->ShortText());
+        description = cSv(info->Description());
+        if (info->Aux()) {
+          cGetAutoTimerReason getAutoTimerReason;
+          getAutoTimerReason.recording_in = recording;
+          getAutoTimerReason.requestRecording = false;
+          if (getAutoTimerReason.call(LiveSetup().GetPluginTvscraper()) && getAutoTimerReason.createdByTvscraper) {
+            AppendHtmlEscapedAndCorrectNonUTF8(aux_data, getAutoTimerReason.reason);
+            search_timer = true;
+          } else {
+            cSv epgsearchinfo = partInXmlTag(info->Aux(), "epgsearch");
+            if (!epgsearchinfo.empty()) {
+              AppendHtmlEscapedAndCorrectNonUTF8(aux_data, partInXmlTag(epgsearchinfo, "searchtimer") );
+              search_timer = true;
+            }
+          }
+          if (!search_timer) AppendHtmlEscapedAndCorrectNonUTF8(aux_data, info->Aux() );
+        }
+      }
+    }
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -148,7 +164,7 @@ const cRecording* recording;
             <td class="rightcol">
               <select name="directory" size="1" id="directory" style="margin-top: 5px">
 <%cpp>
-        RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
+        RecordingsTreePtr recordingsTree(RecordingsManager::GetRecordingsTree());
   for (const auto &dir: recordingsTree->getAllDirs() ) {
 </%cpp>
                 <option value="<$ dir $>"<$ (dir == directory) ? "selected=\"selected\"" : "" $>><$ dir $></option>
@@ -196,38 +212,12 @@ const cRecording* recording;
             <td class="rightcol"><$ description $></td>
 %#endif
           </tr>
-<%cpp>
-
-if (recording && recording->Info()->Aux()) {
-  cToSvConcat<0> aux_data;
-  cGetAutoTimerReason getAutoTimerReason;
-  getAutoTimerReason.recording_in = recording;
-  getAutoTimerReason.requestRecording = false;
-  if (getAutoTimerReason.call(LiveSetup().GetPluginTvscraper()) && getAutoTimerReason.createdByTvscraper) {
-    AppendHtmlEscapedAndCorrectNonUTF8(aux_data, getAutoTimerReason.reason);
-  } else {
-    cSv epgsearchinfo = partInXmlTag(recording->Info()->Aux(), "epgsearch");
-    if (!epgsearchinfo.empty()) {
-      AppendHtmlEscapedAndCorrectNonUTF8(aux_data, partInXmlTag(epgsearchinfo, "searchtimer") );
-    }
-  }
-  if (!aux_data.empty()) {
-</%cpp>
+% if (!aux_data.empty()) {
           <tr>
-            <td class="label leftcol"><div class="withmargin"><$ tr("Search timer") $>:</div></td>
+            <td class="label leftcol"><div class="withmargin"><$ search_timer?tr("Search timer"):tr("Auxiliary info") $>:</div></td>
             <td class="rightcol"><$$ aux_data $></td>
           </tr>
-<%cpp>
-  } else {
-</%cpp>
-          <tr>
-            <td class="label leftcol"><div class="withmargin"><$ tr("Auxiliary info") $>:</div></td>
-            <td class="rightcol"><$ recording->Info()->Aux() $></td>
-          </tr>
-<%cpp>
-  }
-}
-</%cpp>
+% }
           <tr>
             <td class="buttonpanel leftcol rightcol bottomrow" colspan="2">
               <div class="withmargin">

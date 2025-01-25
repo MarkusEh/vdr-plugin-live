@@ -27,39 +27,31 @@ namespace vdrlive {
   /**
    *  Implementation of class RecordingsManager:
    */
-  std::weak_ptr<RecordingsManager> RecordingsManager::m_recMan;
   std::shared_ptr<RecordingsTree> RecordingsManager::m_recTree;
   cStateKey RecordingsManager::m_recordingsStateKey;
   time_t RecordingsManager::m_last_recordings_update = 0;
 
-  // The RecordingsManager holds a VDR lock on the
-  // Recordings. Additionally the singleton instance of
-  // RecordingsManager is held in a weak pointer. If it is not in
-  // use any longer, it will be freed automatically, which leads to a
-  // release of the VDR recordings lock. Upon requesting access to
-  // the RecordingsManager via LiveRecordingsManger function, first
-  // the weak ptr is locked (obtaining a std::shared_ptr from an possible
-  // existing instance) and if not successful a new instance is
-  // created, which again locks the VDR Recordings.
-  //
-  // RecordingsManager provides factory methods to obtain other
-  // recordings data structures. The data structures returned keep if
-  // needed the instance of RecordingsManager alive until destructed
-  // themselves. This way the use of LIVE::recordings is straight
-  // forward and does hide the locking needs from the user.
+/*
+ cStateKey RecordingsManager::m_recordingsStateKey, together with
+ time_t RecordingsManager::m_last_recordings_update = 0
+ are used to check for any relevant changes (in VDRs recordings or
+ in scraper data)
 
-  RecordingsManager::RecordingsManager()
-  {
-  }
+RecordingsTreePtr RecordingsManager::GetRecordingsTree()
+is checking far such changes. If there are none, it returns a cached
+recording tree (m_recTree)
+Otherwise, the rec tree is re-created from currnet data.
 
-  RecordingsTreePtr RecordingsManager::GetRecordingsTree() const
+Make sure to use such a RecordingsTreePtr max. 5 seconds
+after requesting it. After this, VDRs garbage collector
+might have purged some cRecording objects, resulting in undefined behaviour
+
+*/
+
+  RecordingsTreePtr RecordingsManager::GetRecordingsTree()
   {
-    RecordingsManagerPtr recMan = EnsureValidData();
-    if (! recMan) {
-      esyslog("live, ERROR, recMan == nullptr after call to EnsureValidData");
-      return RecordingsTreePtr(recMan, std::shared_ptr<RecordingsTree>());
-    }
-    return RecordingsTreePtr(recMan, m_recTree);
+    EnsureValidData();
+    return RecordingsTreePtr(m_recTree);
   }
 
   const cRecording *RecordingsManager::GetByHash(cSv hash, const cRecordings* Recordings)
@@ -74,7 +66,7 @@ namespace vdrlive {
     return nullptr;
   }
 
-  RecordingsItemRecPtr const RecordingsManager::GetByIdHash(cSv hash) const
+  RecordingsItemRecPtr const RecordingsManager::GetByIdHash(cSv hash)
   {
     if (hash.length() != 42) return 0;
     if (hash.compare(0, 10, "recording_") != 0) return 0;
@@ -86,38 +78,45 @@ namespace vdrlive {
     return 0;
   }
 
-  bool RecordingsManager::UpdateRecording(cRecording const * recording, cSv directory, cSv name, bool copy, cSv title, cSv shorttext, cSv description)
+  bool RecordingsManager::UpdateRecording(cSv hash, cSv directory, cSv name, bool copy, cSv title, cSv shorttext, cSv description)
   {
-    if (!recording)
-      return false;
-
-    std::string oldname = recording->FileName();
-    size_t found = oldname.find_last_of("/");
-
-    if (found == std::string::npos)
-      return false;
-
-    std::string filename = FileSystemExchangeChars(directory.empty() ? name : cSv(cToSvReplace(directory, "/", "~") << "~" << name), true);
-
+    std::string new_filename = FileSystemExchangeChars(directory.empty() ? name : cSv(cToSvReplace(directory, "/", "~") << "~" << name), true);
     // Check for injections that try to escape from the video dir.
-    if (filename.compare(0, 3, "..~") == 0 || filename.find("~..") != std::string::npos) {
-      esyslog("live: renaming failed: new name invalid \"%.*s\"", (int)filename.length(), filename.data());
-      return false;
-    }
-
-    std::string newname = concat(cVideoDirectory::Name(), "/", filename, cSv(oldname).substr(found));
-
-    if (!MoveDirectory(oldname, newname, copy)) {
-      esyslog("live: renaming failed from '%.*s' to '%s'", (int)oldname.length(), oldname.data(), newname.c_str());
+    if (new_filename.compare(0, 3, "..~") == 0 || new_filename.find("~..") != std::string::npos) {
+      esyslog("live: renaming failed: new name invalid \"%.*s\"", (int)new_filename.length(), new_filename.data());
       return false;
     }
 
     LOCK_RECORDINGS_WRITE;
-    if (!copy)
-      Recordings->DelByName(oldname.c_str());
-    Recordings->AddByName(newname.c_str());
-    recording = Recordings->GetByName(newname.c_str());   // old pointer to recording invalid after DelByName/AddByName
-    cRecordingUserCommand::InvokeCommand(*cString::sprintf("rename \"%s\"", *strescape(oldname.c_str(), "\\\"$'")), newname.c_str());
+    cRecording *recording = const_cast<cRecording *>(RecordingsManager::GetByHash(hash, Recordings));
+    if (!recording) return false;
+
+    std::string oldname = recording->FileName();
+    size_t found = oldname.find_last_of("/");
+    if (found == std::string::npos) return false;
+
+    std::string newname = concat(cVideoDirectory::Name(), "/", new_filename, cSv(oldname).substr(found));
+
+    if (oldname != newname) {
+      if (recording->IsInUse() ) return false;
+      if (!MoveDirectory(oldname, newname, copy)) {
+        esyslog("live: renaming failed from '%.*s' to '%s'", (int)oldname.length(), oldname.data(), newname.c_str());
+        return false;
+      }
+
+      if (!copy)
+        Recordings->DelByName(oldname.c_str());
+      Recordings->AddByName(newname.c_str());
+      recording = Recordings->GetByName(newname.c_str());   // old pointer to recording invalid after DelByName/AddByName
+      if (copy)
+        cRecordingUserCommand::InvokeCommand(RUC_COPIEDRECORDING, newname.c_str(), oldname.c_str());
+      else {
+        if (strcmp(strgetbefore(oldname.c_str(), '/', 2), strgetbefore(newname.c_str(), '/', 2)))
+          cRecordingUserCommand::InvokeCommand(RUC_MOVEDRECORDING, newname.c_str(), oldname.c_str());
+        else
+          cRecordingUserCommand::InvokeCommand(RUC_RENAMEDRECORDING, newname.c_str(), oldname.c_str());
+      }
+    }
 
 #if VDRVERSNUM >= 20502
 // 2021-04-06: Version 2.5.2
@@ -137,7 +136,7 @@ namespace vdrlive {
       info->Write();
     }
 #endif
-
+    Recordings->TouchUpdate();
     return true;
   }
 
@@ -168,15 +167,19 @@ namespace vdrlive {
     }
   }
 
-  void RecordingsManager::DeleteRecording(cSv recording_hash)
+  int RecordingsManager::DeleteRecording(cSv recording_hash, std::string *name)
   {
     LOCK_RECORDINGS_WRITE;
     cRecording *recording = const_cast<cRecording *>(RecordingsManager::GetByHash(recording_hash, Recordings));
-    if (!recording) return;
+    if (!recording) return 1;
+    if (name) *name = cSv(recording->Name());
 
-    std::string name(recording->FileName());
-    recording->Delete();
-    Recordings->DelByName(name.c_str());
+    if (recording->IsInUse() ) return 2;
+
+    std::string l_name(recording->FileName());
+    bool result = recording->Delete();
+    Recordings->DelByName(l_name.c_str());
+    return result?0:3;
   }
 
   int RecordingsManager::GetArchiveType(cRecording const * recording)
@@ -185,6 +188,7 @@ namespace vdrlive {
 // 2: on HDD
 // 0: "normal" VDR recording
     if (!LiveSetup().GetUseArchive() ) return 0;
+/*
     if (!recording || !recording->FileName() ) return 0;
     size_t folder_length = strlen(recording->FileName());
     char file[folder_length + 9];   // "/dvd.vdr" + 0 terminator -> 9
@@ -197,6 +201,7 @@ namespace vdrlive {
     if (stat (file, &buffer) == 0) return 2;
 // stat is 10% faster than access on my system. On others, there is a larger difference
 // see https://stackoverflow.com/questions/12774207/fastest-way-to-check-if-a-file-exists-using-standard-c-c11-14-17-c
+*/
     return 0;
   }
 
@@ -265,19 +270,10 @@ namespace vdrlive {
     return result;
   }
 
-  RecordingsManagerPtr RecordingsManager::EnsureValidData()
+  void RecordingsManager::EnsureValidData()
+// ensure m_recTree is up to date
   {
-    // Get singleton instance of RecordingsManager.  'this' is not
-    // an instance of std::shared_ptr of the singleton
-    // RecordingsManager, so we obtain it in the overall
-    // recommended way.
-    RecordingsManagerPtr recMan = LiveRecordingsManager();
-    if (! recMan) {
-      // theoretically this code is never reached ...
-      esyslog("live: lost RecordingsManager instance while using it!");
-      recMan = RecordingsManagerPtr();
-    }
-    if (m_last_recordings_update + 1 > time(NULL) ) return recMan; // don't update too often
+    if (m_last_recordings_update + 1 > time(NULL) ) return; // don't update too often
 
     // StateChanged must be executed every time, so not part of
     // the short cut evaluation in the if statement below.
@@ -290,16 +286,14 @@ namespace vdrlive {
     if (stateChanged || (!m_recTree) ) {
       m_last_recordings_update = time(NULL);
       std::chrono::time_point<std::chrono::high_resolution_clock> begin = std::chrono::high_resolution_clock::now();
-      m_recTree = std::shared_ptr<RecordingsTree>(new RecordingsTree(recMan));
+      m_recTree = std::shared_ptr<RecordingsTree>(new RecordingsTree());
       std::chrono::duration<double> timeNeeded = std::chrono::high_resolution_clock::now() - begin;
       dsyslog("live: DH: ------ RecordingsTree::RecordingsTree() --------, required time: %9.5f", timeNeeded.count() );
       if (!m_recTree) {
         esyslog("live: ERROR creation of recordings tree failed!");
-        return RecordingsManagerPtr();
+        return;
       }
-
     }
-    return recMan;
   }
 
   ShortTextDescription::ShortTextDescription(const char * ShortText, const char * Description):
@@ -607,11 +601,17 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
   }
   RecordingsItemDirSeason::~RecordingsItemDirSeason() { }
 
-  int GetNumberOfTsFiles(const cRecording* recording) {
+  int GetNumberOfTsFiles(int recId) {
 // find our number of ts files
-    if (!recording || !recording->FileName() ) return -1;
-    size_t folder_length = strlen(recording->FileName());
-    cToSvConcat file_path(recording->FileName(), "/00001.ts");
+    std::string filename;
+    {
+      LOCK_RECORDINGS_READ;
+      const cRecording* recording = Recordings->GetById(recId);
+      if (!recording || !recording->FileName() ) return -1;
+      filename = recording->FileName();
+    }
+    size_t folder_length = filename.length();
+    cToSvConcat file_path(filename, "/00001.ts");
     struct stat buffer;
     uint32_t num_ts_files;
     std::chrono::time_point<std::chrono::high_resolution_clock> timeStart = std::chrono::high_resolution_clock::now();
@@ -622,7 +622,7 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
     }
     std::chrono::duration<double> timeNeeded = std::chrono::high_resolution_clock::now() - timeStart;
     if (timeNeeded.count() > 0.1)
-      dsyslog("live, time GetNumberOfTsFiles: %f, recording %s, num ts files %d", timeNeeded.count(), recording->FileName(), num_ts_files - 1);
+      dsyslog("live, time GetNumberOfTsFiles: %f, recording %s, num ts files %d", timeNeeded.count(), filename.c_str(), num_ts_files - 1);
     return num_ts_files - 1;
   }
 
@@ -633,9 +633,8 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
     m_name(name),
     m_name_for_search(GetNameForSearch(name)),
     m_idI(recording->Id()),
-    m_recording(recording),
     m_hash(XXH3_128bits(recording->FileName(), strlen(recording->FileName()) )),
-    m_isArchived(RecordingsManager::GetArchiveType(m_recording) )
+    m_isArchived(RecordingsManager::GetArchiveType(recording) )
   {
 // dsyslog("live: REC: C: rec %s -> %s", name.c_str(), parent->Name().c_str());
     timeItemRec->start();
@@ -647,8 +646,31 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
     m_imageLevels = cImageLevels(eImageLevel::episodeMovie, eImageLevel::seasonMovie, eImageLevel::tvShowCollection, eImageLevel::anySeasonCollection);
 // this is for the image in "overview". We allow as many levels as we have, to ensure that there is an image
 //  m_imageLevels = cImageLevels(eImageLevel::episodeMovie, eImageLevel::seasonMovie, eImageLevel::anySeasonCollection);
-    getScraperData();
+    getScraperData(recording);
     timeItemRec->stop();
+// to allow us to remove m_recording
+    m_Folder = recording->Folder();
+    m_checkNew = recording->IsNew();
+    m_fileSizeMB = recording->FileName() ? recording->FileSizeMB() : -1;
+    m_startTime = recording->Start();
+    m_duration = recording->FileName() ? recording->LengthInSeconds() : -1;
+    const cRecordingInfo *info = recording->Info();
+    if (info) {
+      m_shortText = cSv(info->ShortText());
+      m_description = cSv(info->Description());
+      m_channelName = cSv(info->ChannelName());
+#if VDRVERSNUM >= 20505
+      m_recordingErrors = info->Errors();
+#endif
+#if VDRVERSNUM >= 20605
+      m_framesPerSecond  = info->FramesPerSecond();
+      m_frameWidth = info->FrameWidth();
+      m_frameHeight = info->FrameHeight();
+      m_scanType = info->ScanType();
+      m_aspectRatio = info->AspectRatio();
+#endif
+      m_video_SD_HD = get_SD_HD(info);
+    }
   }
 
   RecordingsItemRec::~RecordingsItemRec()
@@ -680,9 +702,9 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
     return true;
   }
 
-  void RecordingsItemRec::getScraperData(std::string *collectionName) {
+  void RecordingsItemRec::getScraperData(const cRecording *recording) {
     if (m_timeDurationDeviation) m_timeDurationDeviation->start();
-    cGetScraperVideo getScraperVideo(NULL, m_recording);
+    cGetScraperVideo getScraperVideo(nullptr, recording);
     if (m_timeIdentify) m_timeIdentify->start();
     bool scraper_available = getScraperVideo.call(LiveSetup().GetPluginTvscraper());
     if (m_timeIdentify) m_timeIdentify->stop();
@@ -698,7 +720,7 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
         if (m_timeOverview) m_timeOverview->start();
            // for TV show, we need m_s_title (name of folder)
            // for movie, we need m_s_collection_id
-        m_scraperVideo->getOverview(&m_s_title, &m_s_episode_name, &m_s_release_date, &m_s_runtime, &m_s_IMDB_ID, &m_s_collection_id, collectionName);
+        m_scraperVideo->getOverview(&m_s_title, &m_s_episode_name, &m_s_release_date, &m_s_runtime, &m_s_IMDB_ID, &m_s_collection_id, nullptr);
         if (m_timeOverview) m_timeOverview->stop();
       }
     } else {
@@ -708,12 +730,17 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
     if (m_timeDurationDeviation) m_timeDurationDeviation->stop();
   }
   const cTvMedia &RecordingsItemRec::scraperImage() const {
-    if (!m_s_image_requested) {
-      m_s_image_requested = true;
-      if (m_scraperVideo)
-        m_s_image = m_scraperVideo->getImage(m_imageLevels, cOrientations(eOrientation::landscape, eOrientation::portrait, eOrientation::banner), false);
-      else
-        EpgEvents::PosterTvscraper(m_s_image, NULL, m_recording);
+    if (m_s_image_requested) return m_s_image; // return cached image
+    m_s_image_requested = true;
+    if (m_scraperVideo)
+      m_s_image = m_scraperVideo->getImage(m_imageLevels, cOrientations(eOrientation::landscape, eOrientation::portrait, eOrientation::banner), false);
+    else {
+      if (!LiveSetup().GetTvscraperImageDir().empty() ) {
+// there is a scraper plugin
+        LOCK_RECORDINGS_READ;
+        const cRecording* recording = Recordings->GetById(m_idI);
+        if (recording) EpgEvents::PosterTvscraper(m_s_image, nullptr, recording);
+      }
     }
     return m_s_image;
   }
@@ -778,13 +805,13 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
     }
   }
 
-  int RecordingsItemRec::SD_HD() const
+  int RecordingsItemRec::get_SD_HD(const cRecordingInfo *info)
   {
      if (m_video_SD_HD >= -1) return m_video_SD_HD; // < -2: not checked. -1: Radio. 0 is SD, 1 is HD, >1 is UHD or better
      if (m_scraperVideo) m_video_SD_HD = m_scraperVideo->getHD();
      if (m_video_SD_HD >= -1) return m_video_SD_HD;
 // see ETSI EN 300 468, V1.15.1 (2016-03) or later, Chapter "6.2.8 Component Descriptor"
-     const cComponents *components = RecInfo()->Components();
+     const cComponents *components = info->Components();
      bool videoStreamFound = false;
      bool audioStreamFound = false;
      if(components) for( int ix = 0; ix < components->NumComponents(); ix++) {
@@ -840,16 +867,16 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
          break;
        }
      }
-     if(m_video_SD_HD < -1)  // nothing known found
+     if (m_video_SD_HD < -1)  // nothing known found
        {
 // also check frame rate for radio, as components are not reliable
-       if (!videoStreamFound && audioStreamFound && RecInfo()->FramesPerSecond() > 0 && RecInfo()->FramesPerSecond() < 24)
+       if (!videoStreamFound && audioStreamFound && info->FramesPerSecond() > 0 && info->FramesPerSecond() < 24)
          m_video_SD_HD = -1; // radio
        else
          m_video_SD_HD = 0; // no information -> SD as default
-       if(RecInfo()->ChannelName() ) {
-         size_t l = strlen(RecInfo()->ChannelName() );
-         if( l > 3 && RecInfo()->ChannelName()[l-2] == 'H' && RecInfo()->ChannelName()[l-1] == 'D') m_video_SD_HD = 1;
+       if (info->ChannelName() ) {
+         size_t l = strlen(info->ChannelName() );
+         if( l > 3 && info->ChannelName()[l-2] == 'H' && info->ChannelName()[l-1] == 'D') m_video_SD_HD = 1;
          }
        }
      return m_video_SD_HD;
@@ -893,7 +920,7 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
     target.appendHex(IdHash());
     target.append("\",\"");
 // [1] : ArchiveDescr()
-    if (IsArchived()) AppendHtmlEscapedAndCorrectNonUTF8(target, ArchiveDescr());
+//    if (IsArchived()) AppendHtmlEscapedAndCorrectNonUTF8(target, ArchiveDescr());
     target.append("\",");
 // scraper data
     AppendScraperData(target, m_s_IMDB_ID, scraperImage(), m_s_videoType, m_s_title, m_s_season_number, m_s_episode_number, m_s_episode_name, m_s_runtime, m_s_release_date);
@@ -916,30 +943,28 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
 // [11] HD_SD
     const char *icon_name = nullptr;
 #if VDRVERSNUM >= 20605
-    if (m_recording && m_recording->Info()) {
-      switch (m_recording->Info()->FrameWidth()) {
-        case 720:
-          icon_name = "720x576";
-          break;
-        case 1280:
-          icon_name = "1280x720";
-          break;
-        case 1920:
-          icon_name = "1920x1080";
-          break;
-        case 3840:
-          icon_name = "3840x2160";
-          break;
-        default:
-          break;
-      }
+    switch (FrameWidth()) {
+      case 720:
+        icon_name = "720x576";
+        break;
+      case 1280:
+        icon_name = "1280x720";
+        break;
+      case 1920:
+        icon_name = "1920x1080";
+        break;
+      case 3840:
+        icon_name = "3840x2160";
+        break;
+      default:
+        break;
     }
 #endif
     if (!icon_name) icon_name = SD_HD() == 0 ? "sd": SD_HD() == 1 ? "hd": SD_HD() >= 2 ? "ud": "rd";
     target.append(icon_name);
     target.append("\", \"");
 // [12] channel name
-    AppendHtmlEscapedAndCorrectNonUTF8(target, RecInfo()->ChannelName() );
+    AppendHtmlEscapedAndCorrectNonUTF8(target, ChannelName() );
     target.append("\", \"");
 // [13] NewR()
     target.append(NewR() );
@@ -952,13 +977,13 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
     if (text && Name() != text && !((Name().substr(0, 1) == "%" && Name().substr(1) == text)) ) AppendHtmlEscapedAndCorrectNonUTF8(target, text);
     target.append("\", \"");
 // [16] Description
-    AppendTextTruncateOnWord(target, RecInfo()->Description(), LiveSetup().GetMaxTooltipChars(), true);
+    AppendTextTruncateOnWord(target, Description(), LiveSetup().GetMaxTooltipChars(), true);
 // [17] recording length deviation
     target.append("\",");
     target.concat(DurationDeviation());
 // [18] Path / folder
     target.append(",\"");
-    AppendHtmlEscapedAndCorrectNonUTF8(target, (const char *)Recording()->Folder() );
+    AppendHtmlEscapedAndCorrectNonUTF8(target, Folder() );
     target.append("\"");
 // [19] duration
     target.append(",\"");
@@ -981,7 +1006,7 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
     target.concat(NumberTsFiles() );
 // [22] frame parameter text
     target.append(",\"");
-    StringAppendFrameParams(target, m_recording);
+    StringAppendFrameParams(target, this);
     target.append("\"");
   }
 
@@ -1010,9 +1035,13 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
    * Implementation of class RecordingsItemDummy
    */
   RecordingsItemDummy::RecordingsItemDummy(const cEvent *event, cScraperVideo *scraperVideo):
-    RecordingsItemRec(event->Title() ),
-    m_event(event)
+    RecordingsItemRec(event->Title() )
     {
+      m_startTime = event->StartTime();
+      m_duration = event->Duration() / 60; // duration in minutes
+      m_shortText = std::string(cSv(event->ShortText()));
+      m_description = std::string(cSv(event->Description()));
+
       if (scraperVideo) {
         m_s_videoType = scraperVideo->getVideoType();
         m_s_dbid = scraperVideo->getDbId();
@@ -1034,7 +1063,7 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
   /**
    *  Implementation of class RecordingsTree:
    */
-  RecordingsTree::RecordingsTree(RecordingsManagerPtr recMan) :
+  RecordingsTree::RecordingsTree():
     m_maxLevel(0),
     m_root(std::make_shared<RecordingsItemDir>("", 0))
   {
@@ -1150,41 +1179,6 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
     std::sort(m_allRecordings_other_sort.begin(), m_allRecordings_other_sort.end(), RecordingsItemPtrCompare::getComp(sortOrder));
     m_sortOrder = sortOrder;
     return &m_allRecordings_other_sort;
-  }
-
-  /**
-   *  Implementation of class RecordingsTreePtr:
-   */
-  RecordingsTreePtr::RecordingsTreePtr() :
-    std::shared_ptr<RecordingsTree>(),
-    m_recManPtr()
-  {
-  }
-
-  RecordingsTreePtr::RecordingsTreePtr(RecordingsManagerPtr recManPtr, std::shared_ptr<RecordingsTree> recTree) :
-    std::shared_ptr<RecordingsTree>(recTree),
-    m_recManPtr(recManPtr)
-  {
-  }
-
-  RecordingsTreePtr::~RecordingsTreePtr()
-  {
-  }
-
-  /**
-   *  Implementation of function LiveRecordingsManager:
-   */
-  RecordingsManagerPtr LiveRecordingsManager()
-  {
-    RecordingsManagerPtr r = RecordingsManager::m_recMan.lock();
-    if (r) {
-      return r;
-    }
-    else {
-      RecordingsManagerPtr n(new RecordingsManager);
-      RecordingsManager::m_recMan = n;
-      return n;
-    }
   }
 
 // icon with recording errors and tooltip

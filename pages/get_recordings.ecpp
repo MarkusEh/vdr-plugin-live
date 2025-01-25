@@ -24,7 +24,7 @@ vdr_restart = <$ error?"true":"false"$>;
   <%cpp>
   if (!error) {
     bool recordings_tree_re_created = false;
-    RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
+    RecordingsTreePtr recordingsTree(RecordingsManager::GetRecordingsTree());
     if (recordings_tree_creation != 0 && recordings_tree_creation != recordingsTree->getCreationTimestamp()) {
       isyslog("live INFO, get_recordings.ecpp, recordings tree re-created");
       recordings_tree_re_created = true;
@@ -43,15 +43,15 @@ recordings_tree_re_created = <$ recordings_tree_re_created?"true":"false"$>;
 
   */
 
-    cToSvConcat<0> recoring_item;
-    recoring_item.reserve(5000);
+    cToSvConcat<0> recording_item;
+    recording_item.reserve(5000);
     for (int recording: r) {
       bool found = false;
       for (const RecordingsItemRecPtr &rPtr: *recordingsTree->allRecordings()) if (recording == rPtr->IdI() ) {
-        recoring_item.clear();
-        rPtr->AppendAsJSArray(recoring_item);
+        recording_item.clear();
+        rPtr->AppendAsJSArray(recording_item);
         </%cpp>
-recs[<$cSv(cToSvInt(rPtr->IdI()))$>]=[<$$ recoring_item.c_str() $>]
+recs[<$cToSvInt(rPtr->IdI())$>]=[<$$ recording_item.c_str() $>]
         <%cpp>
         found = true;
         break;

@@ -91,8 +91,8 @@ DEFINES	+= -DDISABLE_TEMPLATES_COLLIDING_WITH_STL
 VERSIONSUFFIX = gen_version_suffix.h
 
 ### The object files (add further files here):
-PLUGINOBJS := $(PLUGIN).o epg_events.o thread.o tntconfig.o setup.o i18n.o timers.o \
-              tools.o recman.o tasks.o status.o epgsearch.o \
+PLUGINOBJS := $(PLUGIN).o recman.o epg_events.o thread.o tntconfig.o setup.o i18n.o timers.o \
+              tools.o tasks.o status.o epgsearch.o \
               grab.o md5.o filecache.o livefeatures.o preload.o timerconflict.o \
               users.o osd_status.o ffmpeg.o StringMatch.o xxhash.o
 PLUGINSRCS := $(patsubst %.o,%.cpp,$(PLUGINOBJS))

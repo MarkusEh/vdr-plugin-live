@@ -23,30 +23,42 @@ bool logged_in(false);
     targetUrl.appendUrlEscaped(request.getQuery());
     return reply.redirect(targetUrl.data());
   }
-  tChannelID channelID;
-  if (qparam.has("channel_number") && channel_number > 0) {
-    LOCK_CHANNELS_READ;
-    const cChannel* channel = Channels->GetByNumber(channel_number);
-    channelID = channel ? channel->GetChannelID() : tChannelID::InvalidID;
-  } else
-    channelID = tChannelID::FromString(param.c_str());
+  if (!cUser::CurrentUserHasRightTo(UR_SWITCHCHNL))
+    throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
 
   bool ajaxReq = !async.empty() && (parse_int<int>(async) != 0);
   std::string referrer;
 
-  if (!cUser::CurrentUserHasRightTo(UR_SWITCHCHNL))
-    throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
-
   if (ajaxReq) {
     reply.setContentType( "application/xml" );
-  }
-  else {
+  } else {
     referrer = request.getHeader("Referer:");
   }
 
-  SwitchChannelTask task( channelID );
-  LiveTaskManager().Execute( task );
+// do work
+  const char *error_message = "";
+  int l_channel_number = -1;
+  tChannelID channelID;
+  {
+    const cChannel* channel = nullptr;
+    LOCK_CHANNELS_READ;
+    if (qparam.has("channel_number") && channel_number > 0) {
+      channel = Channels->GetByNumber(channel_number);
+    } else {
+      channel = Channels->GetByChannelID(tChannelID::FromString(param.c_str()));
+    }
+    if (channel) {
+      l_channel_number = channel->Number();
+      channelID = channel->GetChannelID();
+    } else
+      error_message = tr("Couldn't find channel or no channels available.");
 
+    if (l_channel_number != -1) {
+      if (!Channels->SwitchTo(l_channel_number)) error_message = tr("Couldn't switch to channel.");
+    }
+  }
+
+// report result
   if (!ajaxReq) {
     if (!referrer.empty() && referrer.find("login") == std::string::npos) {
       return reply.redirect(referrer);
@@ -54,15 +66,15 @@ bool logged_in(false);
 </%cpp>
 <b>Switch-Channel Request</b>
 <hr/>
-Channel: <$ channelID $><? qparam.has("channel_number") ? " [" + std::to_string(channel_number) + "]" ?><br/>
-Result:  <$ task.Result() $><br/>
-Error:   <$ !task.Error().empty() ? task.Error() : "—" $>
+Channel: <$ param $>/<$ channelID $><$ cToSvConcat(" [", l_channel_number, "]") $><br/>
+Result:  <$ *error_message?"error":"success" $><br/>
+Error:   <$ error_message $>
 <hr/>
 <%cpp>
   }
   else {
 </%cpp>
-<& xmlresponse.ajax name=("switch_channel") pname=("channel") value=(channelID) result=(task.Result()) error=(task.Error()) &>
+<& xmlresponse.ajax name=("switch_channel") pname=("channel") value=(channelID) result=(*error_message == 0) error=(error_message) &>
 <%cpp>
   }
 </%cpp>

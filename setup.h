@@ -160,8 +160,8 @@ class Setup
     IpList m_serverIps;
     std::string m_epgimagedir;
     std::string m_tvscraperimagedir;
-                cPlugin *m_p_tvscraper;
-                cPlugin *m_p_scraper;
+    cPlugin *m_p_tvscraper;
+    cPlugin *m_p_scraper;
     std::string m_chanlogodir;
 
     // setup options

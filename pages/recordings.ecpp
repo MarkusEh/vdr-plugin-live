@@ -82,33 +82,27 @@ currentFilter = filter;
 
 pageTitle = tr("Recordings");
 
-deleteResult = "";
 if (!todel.empty()) {
   if (!cUser::CurrentUserHasRightTo(UR_DELRECS))
     throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
   deletions.push_back(todel);
 }
-for (auto it = deletions.begin(); it != deletions.end(); ++it) {
-  if (cUser::CurrentUserHasRightTo(UR_DELRECS)) {
-    RemoveRecordingTask task(*it);
-    LiveTaskManager().Execute(task);
-/*
-    if (!task.Result())
-    deleteResult += std::string() + tr("ERROR:") + " " + task.Error() + "<br/>";
-    else
-*/
-    if (task.Result()) {
+
+deleteResult = "";
+if (cUser::CurrentUserHasRightTo(UR_DELRECS)) {
+  for (auto it = deletions.begin(); it != deletions.end(); ++it) {
+    std::string name;
+    if (RecordingsManager::DeleteRecording(*it, &name) == 0) {
       cToSvConcat delRec(tr("Deleted recording:"), " ");
-      delRec.appendReplace(task.RecName(), "~", "/");
+      delRec.appendReplace(name, "~", "/");
       delRec << "<br/>";
       deleteResult += std::string(delRec);
     }
   }
-  else {
-    throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
-  }
+  deletions.clear();
+} else {
+  throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
 }
-deletions.clear();
 
 int FreeMB, UsedMB;
 int Percent = cVideoDirectory::VideoDiskSpace(&FreeMB, &UsedMB);
@@ -117,7 +111,7 @@ int Hours = Minutes / 60;
 Minutes %= 60;
 diskinfo = cString::sprintf("%s %d%%  -  %2d:%02d %s", trVDR("Disk"), Percent, Hours, Minutes, trVDR("free"));
 
-RecordingsTreePtr recordingsTree(LiveRecordingsManager()->GetRecordingsTree());
+RecordingsTreePtr recordingsTree(RecordingsManager::GetRecordingsTree());
 
 // get data for all open nodes
 std::vector<int> available_recs;
@@ -362,14 +356,13 @@ if (currentFlat != "true") {
         recItems.push_back(recItem);
         if (recItems.size() >= max_items) break;
       }
-     } else {
+    } else {
       for (const RecordingsItemRecPtr &rPtr: *recordingsTree->allRecordings(sortOrder) ) {
         if (!rPtr->matchesFilter(currentFilter)) continue;
         recItems.push_back(rPtr);
         if (recItems.size() >= max_items) break;
       }
     }
-//    recItemsC = recordingsTree->allRecordings(sortOrder);
     recItemsC = &recItems;
   } else {
     recItems.clear();
@@ -398,7 +391,7 @@ if (write_recs && recItemsC) {
     recording_item->clear();
     rPtr->AppendAsJSArray(*recording_item);
   </%cpp>
-recs[<$cSv(cToSvInt(rPtr->IdI()))$>]=[<$$ recording_item->c_str() $>]
+recs[<$cSv(cToSvInt(rPtr->IdI()))$>]=[<$$ *recording_item $>]
   <%cpp>
   }
   std::chrono::duration<double> timeNeeded_recs = std::chrono::high_resolution_clock::now() - timeStart_recs;
@@ -422,9 +415,9 @@ if (currentSort != "duplicates" || currentFlat == "true") {
     </%cpp>
       <script>
 %   if (level == 0) {
-      document.write(rec_string_d([<$level$>, <$displayFolder$>, [ <$$ recording_item->c_str() $> ]]))
+      document.write(rec_string_d([<$level$>, <$displayFolder$>, [ <$$ *recording_item $> ]]))
 %   } else {
-      rec_ids["fldr_<$ parentIdHash $>"] = [<$level$>, <$displayFolder$>, [ <$$ recording_item->c_str() $> ]]
+      rec_ids["fldr_<$ parentIdHash $>"] = [<$level$>, <$displayFolder$>, [ <$$ *recording_item $> ]]
 %   }
       </script>
     <%cpp>
@@ -459,7 +452,7 @@ if (currentSort != "duplicates" || currentFlat == "true") {
           recording_item->clear();
           rPtr->AppendAsJSArray(*recording_item);
           </%cpp>
-recs[<$cSv(cToSvInt(rPtr->IdI()))$>]=[<$$ recording_item->c_str() $>]
+recs[<$cSv(cToSvInt(rPtr->IdI()))$>]=[<$$ *recording_item $>]
 %       }
 </script>
       <%cpp>
@@ -480,7 +473,7 @@ recs[<$cSv(cToSvInt(rPtr->IdI()))$>]=[<$$ recording_item->c_str() $>]
         </div>
         <ul id="fldr_<$ idHash $>" class="recordingslist" style="display: none;">
           <script>
-            rec_ids["fldr_<$ idHash $>"] = [1, 1, [ <$$ recording_item->c_str() $> ]]
+            rec_ids["fldr_<$ idHash $>"] = [1, 1, [ <$$ *recording_item $> ]]
           </script>
         </ul>
       </li>
@@ -577,8 +570,7 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
   if (!cUser::CurrentUserHasRightTo(UR_DELRECS))
     throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
   if (confirmed == "confirmed") {
-    RemoveRecordingTask task(todel);
-    LiveTaskManager().Execute(task);
+    RecordingsManager::DeleteRecording(todel);
 </%cpp>
 <!DOCTYPE html>
 <html>
@@ -640,7 +632,41 @@ function cancel_delete() {
 <& recordings.edit_rec id=(id) sort=(sort) filter=(filter) flat=(flat) history_num_back=(history_num_back) &>
 <& recordings.del_rec id=(id) sort=(sort) filter=(filter) flat=(flat) history_num_back=(history_num_back) &>
 <%cpp>
-{
+const RecordingsItemRecPtr recPtr = RecordingsManager::GetByIdHash(id);
+if (recPtr && recPtr->scraperDataAvailable() ) {
+  const char *sdhd = nullptr;
+  cToSvConcat frameParams;
+  StringAppendFrameParams(frameParams, recPtr.get() );
+  switch (recPtr->FrameWidth()) {
+    case 720:
+      sdhd = "720x576";
+      break;
+    case 1280:
+      sdhd = "1280x720";
+      break;
+    case 1920:
+      sdhd = "1920x1080";
+      break;
+    case 3840:
+      sdhd = "3840x2160";
+      break;
+    default:
+      break;
+  }
+  int video_SD_HD = recPtr->SD_HD();
+  if (!sdhd) sdhd = video_SD_HD == 0 ? "sd": video_SD_HD == 1 ? "hd": "ud";
+  cToSvConcat duration;
+  AppendDuration(duration, tr("%d:%02d"), recPtr->Duration() );
+</%cpp>
+<img data-src="img/transparent.png" height="10px" />
+<span id="icons-<$id$>"></span>
+<script class="injectIcons">
+injectErrorHdSdIcon(\"icons-<$id$>\", <$cToSvInt(recPtr->RecordingErrors())$>, <$cToSvInt(recPtr->DurationDeviation())$>, \"<$sdhd$>\", \"<$recPtr->ChannelName()$>\", \"<$duration$>\", <$ cToSvInt(recPtr->NumberTsFiles()) $>, \"<$frameParams$>\")
+</script>
+<%cpp>
+}
+
+if (false) {
 LOCK_RECORDINGS_READ;
 const cRecording* recording = nullptr;
 if (!id.empty()) recording = RecordingsManager::GetByHash(id, Recordings);
@@ -652,7 +678,7 @@ if (recording && recording->Info() ) {
   const char *sdhd = nullptr;
   cToSvConcat frameParams;
 #if VDRVERSNUM >= 20605
-  StringAppendFrameParams(frameParams, recording);
+//   StringAppendFrameParams(frameParams, recording);
   switch (recording->Info()->FrameWidth()) {
     case 720:
       sdhd = "720x576";
@@ -676,14 +702,14 @@ if (recording && recording->Info() ) {
   if (scraperDataAvailable) {
     int video_SD_HD = getScraperVideo.m_scraperVideo->getHD();
     if (!sdhd) sdhd = video_SD_HD == 0 ? "sd": video_SD_HD == 1 ? "hd": "ud";
-    cToSvConcat<0> duration;
+    cToSvConcat duration;
     if (recording->FileName() )
       AppendDuration(duration, tr("%d:%02d"), recording->LengthInSeconds() );
 </%cpp>
 <img data-src="img/transparent.png" height="10px" />
 <span id="icons-<$id$>"></span>
 <script class="injectIcons">
-injectErrorHdSdIcon(\"icons-<$id$>\", <$cSv(cToSvInt(recordingErrors))$>, <$cSv(cToSvInt(getScraperVideo.m_scraperVideo->getDurationDeviation()))$>, \"<$sdhd$>\", \"<$cSv(recording->Info()->ChannelName())$>\", \"<$duration$>\", <$ GetNumberOfTsFiles(recording) $>, \"<$frameParams$>\")
+injectErrorHdSdIcon(\"icons-<$id$>\", <$cSv(cToSvInt(recordingErrors))$>, <$cSv(cToSvInt(getScraperVideo.m_scraperVideo->getDurationDeviation()))$>, \"<$sdhd$>\", \"<$cSv(recording->Info()->ChannelName())$>\", \"<$duration$>\", <$ 0 $>, \"<$frameParams$>\")
 </script>
 <%cpp>
   }
@@ -691,7 +717,6 @@ injectErrorHdSdIcon(\"icons-<$id$>\", <$cSv(cToSvInt(recordingErrors))$>, <$cSv(
 }
 </%cpp>
 </%def>
-
 <# ---------------------------------------------------------------------- #>
 <%def archived_disc>
 <%args>

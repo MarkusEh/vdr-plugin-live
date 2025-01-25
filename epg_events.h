@@ -68,10 +68,12 @@ namespace vdrlive
   class EpgInfo
   {
     public:
-      EpgInfo() {}
+      EpgInfo() { m_contents.fill(uchar(0)); }
       EpgInfo(cChannel const *chan, cEvent const *event) {
+        m_contents.fill(uchar(0));
         CreateEpgInfo(chan, event);
       }
+      void Clear();
       /**
        *  Allocate and initialize an epgEvent instance with the
        *  passed channel and event information.
@@ -106,7 +108,7 @@ namespace vdrlive
       int ChannelNumber() { return m_channelNumber; }
       std::string const StartTime(const char* format) const;
       std::string const EndTime(const char* format) const;
-      std::string const CurrentTime(const char* format) const;
+      static std::string const CurrentTime(const char* format);
       time_t GetStartTime() const { return m_startTime; }
       time_t GetEndTime() const { return m_endTime; }
       int Duration() const { return m_endTime-m_startTime; }  // for recordings: recording duration
@@ -132,7 +134,7 @@ namespace vdrlive
       std::string m_channelName;
       int m_channelNumber = 0;
       int m_eventDuration = 0;  // this is always the event duration
-      uchar m_contents[MaxEventContents];
+      std::array<uchar, MaxEventContents> m_contents;
       int m_parentalRating = 0;
       void InitializeScraperVideo(cEvent const *event, cRecording const *recording);
       std::unique_ptr<cScraperVideo> m_scraperVideo;
