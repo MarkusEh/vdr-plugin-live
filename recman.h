@@ -123,6 +123,17 @@ namespace vdrlive {
 
       static std::string const GetArchiveDescr(cRecording const * recording);
 
+      /**
+       *  Is this recording currently played?
+       *  Return codes:
+       *    0: this recording is currently played
+       *    1: this recording does not exist
+       *    2: no recording is played
+       *    3: another recording is played
+       *  Also return *fileName=recording->FileName() if requested
+       */
+      static int CheckReplay(cSv recording_hash, std::string *fileName = nullptr);
+
     private:
       static bool StateChanged();
       static void EnsureValidData();

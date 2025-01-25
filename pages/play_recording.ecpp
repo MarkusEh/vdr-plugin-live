@@ -1,9 +1,10 @@
 <%pre>
 
 #include <setup.h>
-#include <tasks.h>
 #include <users.h>
 #include <exception.h>
+#include <recman.h>
+#include <vdr/menu.h>
 
 using namespace vdrlive;
 
@@ -16,7 +17,7 @@ using namespace vdrlive;
 </%session>
 <%cpp>
   if (!logged_in && LiveSetup().UseAuth()) {
-    cToSvConcat<0> targetUrl = "/login.html?redirect=";
+    cToSvConcat targetUrl = "/login.html?redirect=";
     targetUrl.appendUrlEscaped(request.getQuery());
     return reply.redirect(targetUrl.data());
   }
@@ -24,7 +25,36 @@ using namespace vdrlive;
     throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
   reply.setContentType( "application/xml" );
 
-  PlayRecordingTask task( param );
-  LiveTaskManager().Execute( task );
+  const char *error_message = "";
+  std::string fileName;
+
+  switch (RecordingsManager::CheckReplay(param, &fileName)) {
+    case 0:
+      {
+#if APIVERSNUM >= 20402
+      cMutexLock mutexLock;
+      cReplayControl* replayControl = reinterpret_cast<cReplayControl*>(cControl::Control(mutexLock));
+#else
+      cReplayControl* replayControl = reinterpret_cast<cReplayControl*>(cControl::Control());
+#endif
+      if (replayControl)
+        replayControl->Play();
+      else
+        error_message = tr("Cannot control playback!");
+      }
+      break;
+    case 1: error_message = tr("Couldn't find recording or no recordings available."); break;
+    case 2:
+    case 3:
+      cReplayControl::SetRecording( 0 );
+      cControl::Shutdown();
+      cReplayControl::SetRecording(fileName.c_str() );
+      cControl::Launch( new cReplayControl );
+      cControl::Attach();
+      break;
+    default:
+      break;
+  }
+
 </%cpp>
-<& xmlresponse.ajax name=("play_recording") pname=("recording") value=(param) result=(task.Result()) error=(task.Error()) &>
+<& xmlresponse.ajax name=("play_recording") pname=("recording") value=(param) result=(*error_message == 0) error=(error_message) &>

@@ -15,46 +15,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Last channel to display"
-msgstr "Последний канал для отображения"
-
-msgid "No limit"
-msgstr "Без ограничений"
-
-msgid "Use authentication"
-msgstr "Идентификация пользователя"
-
-msgid "No"
-msgstr "Нет"
-
-msgid "Yes"
-msgstr "Да"
-
-msgid "Admin login"
-msgstr "Имя администратора"
-
-msgid "Admin password"
-msgstr "Пароль администратора"
-
-#, c-format
-msgid "%A, %x"
-msgstr ""
-
-msgid "Search timer"
-msgstr "Поисковый таймер"
-
-msgid "Error in timer settings"
-msgstr "Ошибка в настройках таймера"
-
-msgid "Timer already defined"
-msgstr "Таймер установлен"
-
-msgid "Timer not defined"
-msgstr "Таймер не установлен"
-
-msgid "Timers are being edited - try again later"
-msgstr "Таймер редактируется - попробуйте позже"
-
 msgid "On archive DVD No."
 msgstr "В архиве на DVD No."
 
@@ -105,41 +65,54 @@ msgstr ""
 msgid "Number of recording errors:"
 msgstr ""
 
-msgid "Couldn't find channel or no channels available."
-msgstr "Канал не найден или недоступен."
-
-msgid "Couldn't switch to channel."
-msgstr "Переключение на канал невозможно."
-
-msgid "Couldn't find recording or no recordings available."
-msgstr "Запись не найдена или более недоступна."
-
-msgid "Cannot control playback!"
-msgstr "Управление воспросизведением недоступно!"
-
-msgid "Not playing a recording."
-msgstr "Запись не проигрывается."
-
-msgid "Not playing the same recording as from request."
-msgstr ""
-
-msgid "Attempt to delete recording currently in playback."
-msgstr ""
-
 msgid "Epg error"
 msgstr "Ошибка телегида"
 
 msgid "Wrong channel id"
 msgstr "Неверный id канала"
 
-msgid "Channel has no schedule"
-msgstr "Нет расписания канала"
-
 msgid "Wrong event id"
 msgstr "Ошибка id события"
 
 msgid "%A, %b %d %Y"
 msgstr "%A, %d.%m.%Y"
+
+msgid "Last channel to display"
+msgstr "Последний канал для отображения"
+
+msgid "No limit"
+msgstr "Без ограничений"
+
+msgid "Use authentication"
+msgstr "Идентификация пользователя"
+
+msgid "No"
+msgstr "Нет"
+
+msgid "Yes"
+msgstr "Да"
+
+msgid "Admin login"
+msgstr "Имя администратора"
+
+msgid "Admin password"
+msgstr "Пароль администратора"
+
+#, c-format
+msgid "%A, %x"
+msgstr ""
+
+msgid "Search timer"
+msgstr "Поисковый таймер"
+
+msgid "Error in timer settings"
+msgstr "Ошибка в настройках таймера"
+
+msgid "Timer already defined"
+msgstr "Таймер установлен"
+
+msgid "Timer not defined"
+msgstr "Таймер не установлен"
 
 msgid "Required minimum version of epgsearch: "
 msgstr "Минимальный требования к версии EPGSearch: "
@@ -153,12 +126,6 @@ msgstr "Открытые"
 msgid "EPGSearch version outdated! Please update."
 msgstr "Версия EPGSearch устарела! Пожалуйста обновите EPGSearch. "
 
-msgid "Couldn't acquire primary device"
-msgstr "Нет доступа к основному устройству"
-
-msgid "Couldn't grab image from primary device"
-msgstr "Не могу получить изображение с основного устройства"
-
 msgid "Timer conflict check detected "
 msgstr "Обнаружен конфликт таймеров"
 
@@ -168,17 +135,20 @@ msgstr "конфликт"
 msgid "conflicts"
 msgstr "конфликты"
 
-msgid "Couldn't find recording or no recordings available"
-msgstr "Запись не найдена или недоступна"
-
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Нет доступа, обратитесь к администратору! "
 
-msgid "Couldn't find recording. Maybe you mistyped your request?"
-msgstr "Запись не найдена. Проверьте правильность запроса."
+msgid "Couldn't find recording or no recordings available."
+msgstr "Запись не найдена или более недоступна."
+
+msgid "Attempt to delete recording currently in playback."
+msgstr ""
 
 msgid "Please set a name for the recording!"
 msgstr "Пожалуйста присвойте имя записи!"
+
+msgid "Couldn't find recording. Maybe you mistyped your request?"
+msgstr "Запись не найдена. Проверьте правильность запроса."
 
 msgid "Cannot copy, rename or move the recording."
 msgstr "Копирование невозможно, переименуйте или переместите запись. "
@@ -522,8 +492,20 @@ msgstr "Изменять запись"
 msgid "Electronic program guide information"
 msgstr "Информация телегида"
 
+msgid "Couldn't find recording or no recordings available"
+msgstr "Запись не найдена или недоступна"
+
 msgid "Page error"
 msgstr "Ошибка страницы"
+
+msgid "Not playing a recording."
+msgstr "Запись не проигрывается."
+
+msgid "Not playing the same recording as from request."
+msgstr ""
+
+msgid "Cannot control playback!"
+msgstr "Управление воспросизведением недоступно!"
 
 msgid "playing recording"
 msgstr "воспроизведение записи"
@@ -536,9 +518,6 @@ msgstr "нет информации телегида на данном кана�
 
 msgid "no current channel!"
 msgstr "нет канала!"
-
-msgid "error retrieving status info!"
-msgstr "ошибка при получении статуса"
 
 msgid "%I:%M:%S %p"
 msgstr "%H:%M:%S"
@@ -1051,6 +1030,9 @@ msgstr "Тема"
 msgid "Couldn't find recording or no recordings available. Maybe you mistyped your request?"
 msgstr ""
 
+msgid "Couldn't find channel for recording."
+msgstr ""
+
 #, c-format
 msgid "%a, %x"
 msgstr ""
@@ -1063,6 +1045,12 @@ msgstr ""
 
 msgid "Recording"
 msgstr ""
+
+msgid "Couldn't find channel or no channels available."
+msgstr "Канал не найден или недоступен."
+
+msgid "Couldn't switch to channel."
+msgstr "Переключение на канал невозможно."
 
 msgid "Timer conflicts"
 msgstr "Таймер конфликт"
@@ -1130,8 +1118,23 @@ msgstr "Список"
 msgid "Live Interactive VDR Environment"
 msgstr ""
 
-msgid "No EPG information available"
-msgstr "EPG информация недоступна"
+#~ msgid "Timers are being edited - try again later"
+#~ msgstr "Таймер редактируется - попробуйте позже"
+
+#~ msgid "Channel has no schedule"
+#~ msgstr "Нет расписания канала"
+
+#~ msgid "Couldn't acquire primary device"
+#~ msgstr "Нет доступа к основному устройству"
+
+#~ msgid "Couldn't grab image from primary device"
+#~ msgstr "Не могу получить изображение с основного устройства"
+
+#~ msgid "error retrieving status info!"
+#~ msgstr "ошибка при получении статуса"
+
+#~ msgid "No EPG information available"
+#~ msgstr "EPG информация недоступна"
 
 #~ msgid "Couldn't acquire access to channels, please try again later."
 #~ msgstr "Нет доступа к каналу, попробуйте позже"

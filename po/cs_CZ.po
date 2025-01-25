@@ -16,46 +16,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Last channel to display"
-msgstr "Poslední zobrazovaný kanál"
-
-msgid "No limit"
-msgstr "Bez limitu"
-
-msgid "Use authentication"
-msgstr "Použít autentifikaci"
-
-msgid "No"
-msgstr "Ne"
-
-msgid "Yes"
-msgstr "Ano"
-
-msgid "Admin login"
-msgstr ""
-
-msgid "Admin password"
-msgstr "Admin heslo"
-
-#, c-format
-msgid "%A, %x"
-msgstr ""
-
-msgid "Search timer"
-msgstr "Nahrávání"
-
-msgid "Error in timer settings"
-msgstr "Chyba v nastavení nahrávání"
-
-msgid "Timer already defined"
-msgstr "Nahrávaní již nastaveno"
-
-msgid "Timer not defined"
-msgstr "Nahrávaní není nastaveno"
-
-msgid "Timers are being edited - try again later"
-msgstr "Nahrávaní někdo mění - zkuste později"
-
 msgid "On archive DVD No."
 msgstr ""
 
@@ -106,41 +66,54 @@ msgstr ""
 msgid "Number of recording errors:"
 msgstr ""
 
-msgid "Couldn't find channel or no channels available."
-msgstr "Kanál neexistuje, nebo je nedostupný."
-
-msgid "Couldn't switch to channel."
-msgstr "Nelze přepnout na kanál."
-
-msgid "Couldn't find recording or no recordings available."
-msgstr "Nelze nalézt nahrávky, nebo žádné neexistují"
-
-msgid "Cannot control playback!"
-msgstr "Přehrávaní nelze ovládat!"
-
-msgid "Not playing a recording."
-msgstr "Nepřehrává se nahrávka."
-
-msgid "Not playing the same recording as from request."
-msgstr "Nepřehrává se požadovaná nahrávka."
-
-msgid "Attempt to delete recording currently in playback."
-msgstr "Pokus o smazání sledované nahrávky"
-
 msgid "Epg error"
 msgstr "Chyba EPG"
 
 msgid "Wrong channel id"
 msgstr "Špatné číslo kanálu"
 
-msgid "Channel has no schedule"
-msgstr "Kanál nemá žádný program"
-
 msgid "Wrong event id"
 msgstr "Chybné id pořadu"
 
 msgid "%A, %b %d %Y"
 msgstr "%a, %d.%m. "
+
+msgid "Last channel to display"
+msgstr "Poslední zobrazovaný kanál"
+
+msgid "No limit"
+msgstr "Bez limitu"
+
+msgid "Use authentication"
+msgstr "Použít autentifikaci"
+
+msgid "No"
+msgstr "Ne"
+
+msgid "Yes"
+msgstr "Ano"
+
+msgid "Admin login"
+msgstr ""
+
+msgid "Admin password"
+msgstr "Admin heslo"
+
+#, c-format
+msgid "%A, %x"
+msgstr ""
+
+msgid "Search timer"
+msgstr "Nahrávání"
+
+msgid "Error in timer settings"
+msgstr "Chyba v nastavení nahrávání"
+
+msgid "Timer already defined"
+msgstr "Nahrávaní již nastaveno"
+
+msgid "Timer not defined"
+msgstr "Nahrávaní není nastaveno"
 
 msgid "Required minimum version of epgsearch: "
 msgstr "Potřebná minimální verze epgsearch: "
@@ -154,12 +127,6 @@ msgstr "FTA"
 msgid "EPGSearch version outdated! Please update."
 msgstr "Verze EPGSearch je zastaralá! Použijte novější."
 
-msgid "Couldn't acquire primary device"
-msgstr "Nelze otevřít primární zarízení"
-
-msgid "Couldn't grab image from primary device"
-msgstr "Nelze získat obrázek z primárního zařízení"
-
 msgid "Timer conflict check detected "
 msgstr ""
 
@@ -171,19 +138,22 @@ msgstr "Nahrávání bez kolize"
 msgid "conflicts"
 msgstr "Nahrávání bez kolize"
 
-msgid "Couldn't find recording or no recordings available"
-msgstr "Nelze nalézt nahrávky, nebo žádné neexistují"
-
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Bohužel chybějící oprávnění. Zeptejte se svého administrátora!"
 
-#, fuzzy
-msgid "Couldn't find recording. Maybe you mistyped your request?"
-msgstr "Nelze nalézt zadaného uživatele. Byl zadán správně?"
+msgid "Couldn't find recording or no recordings available."
+msgstr "Nelze nalézt nahrávky, nebo žádné neexistují"
+
+msgid "Attempt to delete recording currently in playback."
+msgstr "Pokus o smazání sledované nahrávky"
 
 #, fuzzy
 msgid "Please set a name for the recording!"
 msgstr "Prosím nastavte název nahrávání!"
+
+#, fuzzy
+msgid "Couldn't find recording. Maybe you mistyped your request?"
+msgstr "Nelze nalézt zadaného uživatele. Byl zadán správně?"
 
 msgid "Cannot copy, rename or move the recording."
 msgstr ""
@@ -531,8 +501,20 @@ msgstr "Seznam nahrávek"
 msgid "Electronic program guide information"
 msgstr "Elektronický průvodce programem (EPG)"
 
+msgid "Couldn't find recording or no recordings available"
+msgstr "Nelze nalézt nahrávky, nebo žádné neexistují"
+
 msgid "Page error"
 msgstr "Chyba stránky"
+
+msgid "Not playing a recording."
+msgstr "Nepřehrává se nahrávka."
+
+msgid "Not playing the same recording as from request."
+msgstr "Nepřehrává se požadovaná nahrávka."
+
+msgid "Cannot control playback!"
+msgstr "Přehrávaní nelze ovládat!"
 
 msgid "playing recording"
 msgstr "sledování nahrávky"
@@ -545,9 +527,6 @@ msgstr "chybí program pro tento kanál"
 
 msgid "no current channel!"
 msgstr "není zvolen žádný kanál"
-
-msgid "error retrieving status info!"
-msgstr "chyba při zjišťování statusu!"
 
 msgid "%I:%M:%S %p"
 msgstr "%H:%M:%S"
@@ -1063,6 +1042,9 @@ msgstr "Téma"
 msgid "Couldn't find recording or no recordings available. Maybe you mistyped your request?"
 msgstr ""
 
+msgid "Couldn't find channel for recording."
+msgstr ""
+
 #, c-format
 msgid "%a, %x"
 msgstr "%a, %x"
@@ -1075,6 +1057,12 @@ msgstr ""
 
 msgid "Recording"
 msgstr ""
+
+msgid "Couldn't find channel or no channels available."
+msgstr "Kanál neexistuje, nebo je nedostupný."
+
+msgid "Couldn't switch to channel."
+msgstr "Nelze přepnout na kanál."
 
 #, fuzzy
 msgid "Timer conflicts"
@@ -1143,8 +1131,23 @@ msgstr "Souhrný pohled"
 msgid "Live Interactive VDR Environment"
 msgstr ""
 
-msgid "No EPG information available"
-msgstr "Nejsou dostupné informace o programu"
+#~ msgid "Timers are being edited - try again later"
+#~ msgstr "Nahrávaní někdo mění - zkuste později"
+
+#~ msgid "Channel has no schedule"
+#~ msgstr "Kanál nemá žádný program"
+
+#~ msgid "Couldn't acquire primary device"
+#~ msgstr "Nelze otevřít primární zarízení"
+
+#~ msgid "Couldn't grab image from primary device"
+#~ msgstr "Nelze získat obrázek z primárního zařízení"
+
+#~ msgid "error retrieving status info!"
+#~ msgstr "chyba při zjišťování statusu!"
+
+#~ msgid "No EPG information available"
+#~ msgstr "Nejsou dostupné informace o programu"
 
 #~ msgid "Couldn't acquire access to channels, please try again later."
 #~ msgstr "Nelze získat přístup k programům, zkuste později."

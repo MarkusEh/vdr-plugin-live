@@ -15,46 +15,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Last channel to display"
-msgstr "Näytä viimeisenä kanava"
-
-msgid "No limit"
-msgstr "ei rajoitusta"
-
-msgid "Use authentication"
-msgstr "Käytä autentikointia"
-
-msgid "No"
-msgstr "ei"
-
-msgid "Yes"
-msgstr "kyllä"
-
-msgid "Admin login"
-msgstr "Ylläpidon käyttäjätunnus"
-
-msgid "Admin password"
-msgstr "Ylläpidon salasana"
-
-#, c-format
-msgid "%A, %x"
-msgstr "%A %x"
-
-msgid "Search timer"
-msgstr "Hakuajastimet"
-
-msgid "Error in timer settings"
-msgstr "Ajastimen asetukset virheelliset"
-
-msgid "Timer already defined"
-msgstr "Ajastin jo määritelty"
-
-msgid "Timer not defined"
-msgstr "Ajastinta ei ole määritelty"
-
-msgid "Timers are being edited - try again later"
-msgstr "Ajastimia muokataan - yritä uudelleen myöhemmin"
-
 msgid "On archive DVD No."
 msgstr "Arkistointi-DVD:llä numero"
 
@@ -105,41 +65,54 @@ msgstr ""
 msgid "Number of recording errors:"
 msgstr ""
 
-msgid "Couldn't find channel or no channels available."
-msgstr "Kanavaa ei löydy tai yhtään kanavaa ei ole saatavilla."
-
-msgid "Couldn't switch to channel."
-msgstr "Kanavan valinta epäonnistui."
-
-msgid "Couldn't find recording or no recordings available."
-msgstr "Tallennetta ei löydy tai yhtään tallennetta ei ole saatavilla."
-
-msgid "Cannot control playback!"
-msgstr "Toiston hallinta epäonnistui!"
-
-msgid "Not playing a recording."
-msgstr "Tallennetta ei toisteta."
-
-msgid "Not playing the same recording as from request."
-msgstr "Pyydettyä tallennetta ei toisteta."
-
-msgid "Attempt to delete recording currently in playback."
-msgstr "Yritetään poistaa toistettavaa tallennetta."
-
 msgid "Epg error"
 msgstr "Ohjelmaoppaan virhe"
 
 msgid "Wrong channel id"
 msgstr "Väärä kanavan tunniste"
 
-msgid "Channel has no schedule"
-msgstr "Kanavalla ei ole ohjelmatietoja"
-
 msgid "Wrong event id"
 msgstr "Väärä tapahtuman tunniste"
 
 msgid "%A, %b %d %Y"
 msgstr "%A %d.%m.%Y"
+
+msgid "Last channel to display"
+msgstr "Näytä viimeisenä kanava"
+
+msgid "No limit"
+msgstr "ei rajoitusta"
+
+msgid "Use authentication"
+msgstr "Käytä autentikointia"
+
+msgid "No"
+msgstr "ei"
+
+msgid "Yes"
+msgstr "kyllä"
+
+msgid "Admin login"
+msgstr "Ylläpidon käyttäjätunnus"
+
+msgid "Admin password"
+msgstr "Ylläpidon salasana"
+
+#, c-format
+msgid "%A, %x"
+msgstr "%A %x"
+
+msgid "Search timer"
+msgstr "Hakuajastimet"
+
+msgid "Error in timer settings"
+msgstr "Ajastimen asetukset virheelliset"
+
+msgid "Timer already defined"
+msgstr "Ajastin jo määritelty"
+
+msgid "Timer not defined"
+msgstr "Ajastinta ei ole määritelty"
 
 msgid "Required minimum version of epgsearch: "
 msgstr "Vaadittava versio EPGSearch-laajennoksesta: "
@@ -153,12 +126,6 @@ msgstr "Vapaat"
 msgid "EPGSearch version outdated! Please update."
 msgstr "EPGSearch-laajennos pitäisi päivittää!"
 
-msgid "Couldn't acquire primary device"
-msgstr "Ensisijaisen DVB-sovittimen käyttäminen epäonnistui!"
-
-msgid "Couldn't grab image from primary device"
-msgstr "Kuvan kaappaus ensisijaiselta DVB-sovittimelta epäonnistui!"
-
 msgid "Timer conflict check detected "
 msgstr "Tarkistuksessa löydettiin "
 
@@ -168,17 +135,20 @@ msgstr "päällekkäinen ajastin"
 msgid "conflicts"
 msgstr "päällekkäistä ajastinta"
 
-msgid "Couldn't find recording or no recordings available"
-msgstr "Tallennetta ei löydy tai yhtään tallennetta ei ole saatavilla."
-
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Ei käyttöoikeutta. Ota yhteyttä ylläpitäjään!"
 
-msgid "Couldn't find recording. Maybe you mistyped your request?"
-msgstr "Tallennetta ei löydy. Kirjoititko varmasti oikein?"
+msgid "Couldn't find recording or no recordings available."
+msgstr "Tallennetta ei löydy tai yhtään tallennetta ei ole saatavilla."
+
+msgid "Attempt to delete recording currently in playback."
+msgstr "Yritetään poistaa toistettavaa tallennetta."
 
 msgid "Please set a name for the recording!"
 msgstr "Aseta nimi tallenteelle!"
+
+msgid "Couldn't find recording. Maybe you mistyped your request?"
+msgstr "Tallennetta ei löydy. Kirjoititko varmasti oikein?"
 
 msgid "Cannot copy, rename or move the recording."
 msgstr "Tallenteen kopioiminen, uudelleen nimeäminen tai siirto epäonnistui!"
@@ -522,8 +492,20 @@ msgstr "Muokkaa tallenteita"
 msgid "Electronic program guide information"
 msgstr "Ohjelmaoppaan tiedot"
 
+msgid "Couldn't find recording or no recordings available"
+msgstr "Tallennetta ei löydy tai yhtään tallennetta ei ole saatavilla."
+
 msgid "Page error"
 msgstr "Sivuvirhe"
+
+msgid "Not playing a recording."
+msgstr "Tallennetta ei toisteta."
+
+msgid "Not playing the same recording as from request."
+msgstr "Pyydettyä tallennetta ei toisteta."
+
+msgid "Cannot control playback!"
+msgstr "Toiston hallinta epäonnistui!"
 
 msgid "playing recording"
 msgstr "Toistetaan tallennetta"
@@ -536,9 +518,6 @@ msgstr "Kanavalla ei ole ohjelmatietoja!"
 
 msgid "no current channel!"
 msgstr "Kanavaa ei löydy!"
-
-msgid "error retrieving status info!"
-msgstr "Virhe: tilannetietoja ei saatavilla!"
 
 msgid "%I:%M:%S %p"
 msgstr "%H:%M:%S"
@@ -1051,6 +1030,9 @@ msgstr "Ulkoasu"
 msgid "Couldn't find recording or no recordings available. Maybe you mistyped your request?"
 msgstr ""
 
+msgid "Couldn't find channel for recording."
+msgstr ""
+
 #, c-format
 msgid "%a, %x"
 msgstr "%a %x"
@@ -1063,6 +1045,12 @@ msgstr ""
 
 msgid "Recording"
 msgstr ""
+
+msgid "Couldn't find channel or no channels available."
+msgstr "Kanavaa ei löydy tai yhtään kanavaa ei ole saatavilla."
+
+msgid "Couldn't switch to channel."
+msgstr "Kanavan valinta epäonnistui."
 
 msgid "Timer conflicts"
 msgstr "Päällekkäiset ajastimet"
@@ -1130,8 +1118,23 @@ msgstr "Listanäkymä"
 msgid "Live Interactive VDR Environment"
 msgstr "Interaktiivinen VDR-ympäristö"
 
-msgid "No EPG information available"
-msgstr "Ohjelmatietoja ei saatavilla"
+#~ msgid "Timers are being edited - try again later"
+#~ msgstr "Ajastimia muokataan - yritä uudelleen myöhemmin"
+
+#~ msgid "Channel has no schedule"
+#~ msgstr "Kanavalla ei ole ohjelmatietoja"
+
+#~ msgid "Couldn't acquire primary device"
+#~ msgstr "Ensisijaisen DVB-sovittimen käyttäminen epäonnistui!"
+
+#~ msgid "Couldn't grab image from primary device"
+#~ msgstr "Kuvan kaappaus ensisijaiselta DVB-sovittimelta epäonnistui!"
+
+#~ msgid "error retrieving status info!"
+#~ msgstr "Virhe: tilannetietoja ei saatavilla!"
+
+#~ msgid "No EPG information available"
+#~ msgstr "Ohjelmatietoja ei saatavilla"
 
 #~ msgid "Couldn't acquire access to channels, please try again later."
 #~ msgstr "Kanavien käyttäminen epäonnistui! Yritä myöhemmin uudelleen."

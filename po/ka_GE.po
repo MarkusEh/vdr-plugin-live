@@ -18,46 +18,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.2.2\n"
 
-msgid "Last channel to display"
-msgstr "ბოლო საჩვენებელი არხი"
-
-msgid "No limit"
-msgstr "ლიმიტის გარეშე"
-
-msgid "Use authentication"
-msgstr "ავთენტიკაციის გამოყენება"
-
-msgid "No"
-msgstr "არა"
-
-msgid "Yes"
-msgstr "დიახ"
-
-msgid "Admin login"
-msgstr "ადმინისტრატორით შესვლა"
-
-msgid "Admin password"
-msgstr "ადმინისტრატორის პაროლი"
-
-#, c-format
-msgid "%A, %x"
-msgstr "%A, %x"
-
-msgid "Search timer"
-msgstr "ძებნისტაიმერი"
-
-msgid "Error in timer settings"
-msgstr "შეცდომა ტაიმერების პარამეტრებში"
-
-msgid "Timer already defined"
-msgstr "ტაიმერი უკვე აღწერილია"
-
-msgid "Timer not defined"
-msgstr "ტაიმერი აღწერილი არაა"
-
-msgid "Timers are being edited - try again later"
-msgstr "მიმდინარეობს ტაიმერის ჩასწორება - მოგვიანებით სცადეთ"
-
 msgid "On archive DVD No."
 msgstr "არქივში DVD-ზე ნომრით."
 
@@ -108,41 +68,54 @@ msgstr "ჩაწერის უცნობი შეცდომები"
 msgid "Number of recording errors:"
 msgstr "ჩაწერის შეცდომების რაოდენობა:"
 
-msgid "Couldn't find channel or no channels available."
-msgstr "არხზე გადართვა შეუძლებელია ან არხები ხელმიუწვდომელია."
-
-msgid "Couldn't switch to channel."
-msgstr "არხზე გადართვის შეცდომა."
-
-msgid "Couldn't find recording or no recordings available."
-msgstr "ჩანაწერი ვერ ვიპოვე ან ჩანაწერები ხელმიუწვდომელია."
-
-msgid "Cannot control playback!"
-msgstr "დაკვრის კონტროლი შეუძლებელია!"
-
-msgid "Not playing a recording."
-msgstr "არ ვუკრავ ჩანაწერს."
-
-msgid "Not playing the same recording as from request."
-msgstr "არ ვუკრავ ჩანაწერს, რომელიც მოთხოვნილი იყო."
-
-msgid "Attempt to delete recording currently in playback."
-msgstr "ამჟამად დაკვრადი ჩანაწერის წაშლის მცდელობა."
-
 msgid "Epg error"
 msgstr "Epg-ის შეცდომა"
 
 msgid "Wrong channel id"
 msgstr "არხის არასწორი ID"
 
-msgid "Channel has no schedule"
-msgstr "არხს განრიგი არ გააჩნია"
-
 msgid "Wrong event id"
 msgstr "მოვლენის არასწორი ID"
 
 msgid "%A, %b %d %Y"
 msgstr "%A, %b %d %Y"
+
+msgid "Last channel to display"
+msgstr "ბოლო საჩვენებელი არხი"
+
+msgid "No limit"
+msgstr "ლიმიტის გარეშე"
+
+msgid "Use authentication"
+msgstr "ავთენტიკაციის გამოყენება"
+
+msgid "No"
+msgstr "არა"
+
+msgid "Yes"
+msgstr "დიახ"
+
+msgid "Admin login"
+msgstr "ადმინისტრატორით შესვლა"
+
+msgid "Admin password"
+msgstr "ადმინისტრატორის პაროლი"
+
+#, c-format
+msgid "%A, %x"
+msgstr "%A, %x"
+
+msgid "Search timer"
+msgstr "ძებნისტაიმერი"
+
+msgid "Error in timer settings"
+msgstr "შეცდომა ტაიმერების პარამეტრებში"
+
+msgid "Timer already defined"
+msgstr "ტაიმერი უკვე აღწერილია"
+
+msgid "Timer not defined"
+msgstr "ტაიმერი აღწერილი არაა"
 
 msgid "Required minimum version of epgsearch: "
 msgstr "EPGSearch-ის აუცილებელი მინიმალურ ვერსია: "
@@ -156,12 +129,6 @@ msgstr "FTA"
 msgid "EPGSearch version outdated! Please update."
 msgstr "EPGSearch-ის ვერსია მოძველებულია! გთხოვთ, განაახლოთ."
 
-msgid "Couldn't acquire primary device"
-msgstr "ძირითადი მოწყობილობის მიღების შეცდომა"
-
-msgid "Couldn't grab image from primary device"
-msgstr "ძირითადი მოწყობილობიდან გამოსახულების ჩაჭერის შეცდომა"
-
 msgid "Timer conflict check detected "
 msgstr "აღმოჩენილია ტაიმერების კონფლიქტი "
 
@@ -171,17 +138,20 @@ msgstr "კონფლიქტი"
 msgid "conflicts"
 msgstr "კონფლიქტები"
 
-msgid "Couldn't find recording or no recordings available"
-msgstr "ჩანაწერები ვერ ვიპოვე"
-
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "წვდომები არ გაგაჩნიათ. დაკავშირდით თქვენს ადმინისტრატორს!"
 
-msgid "Couldn't find recording. Maybe you mistyped your request?"
-msgstr "ჩანაწერი ვერ ვიპოვე. შეიძლება, მოთხოვნა არასწორია?"
+msgid "Couldn't find recording or no recordings available."
+msgstr "ჩანაწერი ვერ ვიპოვე ან ჩანაწერები ხელმიუწვდომელია."
+
+msgid "Attempt to delete recording currently in playback."
+msgstr "ამჟამად დაკვრადი ჩანაწერის წაშლის მცდელობა."
 
 msgid "Please set a name for the recording!"
 msgstr "ჩანაწერის სახელის მითითება აუცილებელია!"
+
+msgid "Couldn't find recording. Maybe you mistyped your request?"
+msgstr "ჩანაწერი ვერ ვიპოვე. შეიძლება, მოთხოვნა არასწორია?"
 
 msgid "Cannot copy, rename or move the recording."
 msgstr "ჩანაწერის კოპირება, სახელის გადარქმევა და გადატანა შეუძლებელია."
@@ -525,8 +495,20 @@ msgstr "ჩანაწერების წაშლა"
 msgid "Electronic program guide information"
 msgstr "ელექტრონული პროგრამის გიდის ინფორმაცია"
 
+msgid "Couldn't find recording or no recordings available"
+msgstr "ჩანაწერები ვერ ვიპოვე"
+
 msgid "Page error"
 msgstr "გვერდის შეცდომა"
+
+msgid "Not playing a recording."
+msgstr "არ ვუკრავ ჩანაწერს."
+
+msgid "Not playing the same recording as from request."
+msgstr "არ ვუკრავ ჩანაწერს, რომელიც მოთხოვნილი იყო."
+
+msgid "Cannot control playback!"
+msgstr "დაკვრის კონტროლი შეუძლებელია!"
 
 msgid "playing recording"
 msgstr "ჩანაწერის დაკვრა"
@@ -539,9 +521,6 @@ msgstr "მიმდინარე არხს EPG ინფორმაცი
 
 msgid "no current channel!"
 msgstr "მიმდინარე არხის გარეშე!"
-
-msgid "error retrieving status info!"
-msgstr "სტატუსის ინფორმაციის მიღების შეცდომა!"
 
 msgid "%I:%M:%S %p"
 msgstr "%I:%M:%S %p"
@@ -1054,6 +1033,9 @@ msgstr "თემა"
 msgid "Couldn't find recording or no recordings available. Maybe you mistyped your request?"
 msgstr ""
 
+msgid "Couldn't find channel for recording."
+msgstr ""
+
 #, c-format
 msgid "%a, %x"
 msgstr "%a, %x"
@@ -1066,6 +1048,12 @@ msgstr " - "
 
 msgid "Recording"
 msgstr ""
+
+msgid "Couldn't find channel or no channels available."
+msgstr "არხზე გადართვა შეუძლებელია ან არხები ხელმიუწვდომელია."
+
+msgid "Couldn't switch to channel."
+msgstr "არხზე გადართვის შეცდომა."
 
 msgid "Timer conflicts"
 msgstr "ტაიმერის კონფლიქტები"
@@ -1133,8 +1121,23 @@ msgstr "სიის ხედი"
 msgid "Live Interactive VDR Environment"
 msgstr "ცოცხალი ინტერაქტიური VDR გარემო"
 
-msgid "No EPG information available"
-msgstr "EPG-ის ინფორმაცია მიუწვდომელია"
+#~ msgid "Timers are being edited - try again later"
+#~ msgstr "მიმდინარეობს ტაიმერის ჩასწორება - მოგვიანებით სცადეთ"
+
+#~ msgid "Channel has no schedule"
+#~ msgstr "არხს განრიგი არ გააჩნია"
+
+#~ msgid "Couldn't acquire primary device"
+#~ msgstr "ძირითადი მოწყობილობის მიღების შეცდომა"
+
+#~ msgid "Couldn't grab image from primary device"
+#~ msgstr "ძირითადი მოწყობილობიდან გამოსახულების ჩაჭერის შეცდომა"
+
+#~ msgid "error retrieving status info!"
+#~ msgstr "სტატუსის ინფორმაციის მიღების შეცდომა!"
+
+#~ msgid "No EPG information available"
+#~ msgstr "EPG-ის ინფორმაცია მიუწვდომელია"
 
 #~ msgid "Couldn't acquire access to channels, please try again later."
 #~ msgstr "არხებთან წვდომის შეცდომა. მოგვიანებით სცადეთ."

@@ -15,46 +15,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Last channel to display"
-msgstr "Paskutinis rodytas kanalas"
-
-msgid "No limit"
-msgstr "Neribojama"
-
-msgid "Use authentication"
-msgstr "Reikia autentifikuotis"
-
-msgid "No"
-msgstr "Ne"
-
-msgid "Yes"
-msgstr "Taip"
-
-msgid "Admin login"
-msgstr "Administratoriaus prisijungimo vardas"
-
-msgid "Admin password"
-msgstr "Administratoriaus slapyvardis"
-
-#, c-format
-msgid "%A, %x"
-msgstr "%A, %x"
-
-msgid "Search timer"
-msgstr "Paieška laikmatyje"
-
-msgid "Error in timer settings"
-msgstr "Klaida laikmačio nustatymuose"
-
-msgid "Timer already defined"
-msgstr "Laikmatis jau nustatytas"
-
-msgid "Timer not defined"
-msgstr "Laikmatis nenustatytas"
-
-msgid "Timers are being edited - try again later"
-msgstr "Laikmatis šio metu kuoreguojamas - pabandykit vėliau"
-
 msgid "On archive DVD No."
 msgstr "DVB Nr."
 
@@ -106,41 +66,54 @@ msgstr ""
 msgid "Number of recording errors:"
 msgstr ""
 
-msgid "Couldn't find channel or no channels available."
-msgstr "Nerastas arba neegzistuojantis kanalas."
-
-msgid "Couldn't switch to channel."
-msgstr "Negali perjungti kanalo."
-
-msgid "Couldn't find recording or no recordings available."
-msgstr "Negali rasti įrašo arba įrašo visai nėra"
-
-msgid "Cannot control playback!"
-msgstr "Negali valdyti grojimo!"
-
-msgid "Not playing a recording."
-msgstr "Negroja įrašo."
-
-msgid "Not playing the same recording as from request."
-msgstr "Negroja to paties norimo įrašo."
-
-msgid "Attempt to delete recording currently in playback."
-msgstr "Bandoma ištrinti įrašą iš grojaraščio."
-
 msgid "Epg error"
 msgstr "Epg klaida"
 
 msgid "Wrong channel id"
 msgstr "Klaidingas kanalo ID"
 
-msgid "Channel has no schedule"
-msgstr "Kainalas neturi programos aprašo"
-
 msgid "Wrong event id"
 msgstr "Klaidingas įvykio ID"
 
 msgid "%A, %b %d %Y"
 msgstr "%A, %b %d %Y"
+
+msgid "Last channel to display"
+msgstr "Paskutinis rodytas kanalas"
+
+msgid "No limit"
+msgstr "Neribojama"
+
+msgid "Use authentication"
+msgstr "Reikia autentifikuotis"
+
+msgid "No"
+msgstr "Ne"
+
+msgid "Yes"
+msgstr "Taip"
+
+msgid "Admin login"
+msgstr "Administratoriaus prisijungimo vardas"
+
+msgid "Admin password"
+msgstr "Administratoriaus slapyvardis"
+
+#, c-format
+msgid "%A, %x"
+msgstr "%A, %x"
+
+msgid "Search timer"
+msgstr "Paieška laikmatyje"
+
+msgid "Error in timer settings"
+msgstr "Klaida laikmačio nustatymuose"
+
+msgid "Timer already defined"
+msgstr "Laikmatis jau nustatytas"
+
+msgid "Timer not defined"
+msgstr "Laikmatis nenustatytas"
 
 msgid "Required minimum version of epgsearch: "
 msgstr "Darbui reikalinga minimali epgsearch įskiepo versija: "
@@ -154,12 +127,6 @@ msgstr "Nukoduoti kanalai"
 msgid "EPGSearch version outdated! Please update."
 msgstr "Pasenusi EPGSearch įskiepo versija! Atsinaujinkit."
 
-msgid "Couldn't acquire primary device"
-msgstr "Negali nustatyti pirminio įvesties įrenginio"
-
-msgid "Couldn't grab image from primary device"
-msgstr "Negali nuskaityti paveikslo iš pirminio įvesties įrenginio"
-
 msgid "Timer conflict check detected "
 msgstr "Eina laikmačio nesklandumų paieška "
 
@@ -169,16 +136,19 @@ msgstr "nesklandumas"
 msgid "conflicts"
 msgstr "nesklandumai"
 
-msgid "Couldn't find recording or no recordings available"
-msgstr "Negali rasti įrašo arba įrašų iš vis nėra"
-
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Atleiskit, bet jūs neturite užtektinai teisių. Susisiekite su sistemos administratoriumi!"
 
-msgid "Couldn't find recording. Maybe you mistyped your request?"
-msgstr ""
+msgid "Couldn't find recording or no recordings available."
+msgstr "Negali rasti įrašo arba įrašo visai nėra"
+
+msgid "Attempt to delete recording currently in playback."
+msgstr "Bandoma ištrinti įrašą iš grojaraščio."
 
 msgid "Please set a name for the recording!"
+msgstr ""
+
+msgid "Couldn't find recording. Maybe you mistyped your request?"
 msgstr ""
 
 msgid "Cannot copy, rename or move the recording."
@@ -524,8 +494,20 @@ msgstr ""
 msgid "Electronic program guide information"
 msgstr "Elektroninis programų gidas"
 
+msgid "Couldn't find recording or no recordings available"
+msgstr "Negali rasti įrašo arba įrašų iš vis nėra"
+
 msgid "Page error"
 msgstr "Puslapio klaida"
+
+msgid "Not playing a recording."
+msgstr "Negroja įrašo."
+
+msgid "Not playing the same recording as from request."
+msgstr "Negroja to paties norimo įrašo."
+
+msgid "Cannot control playback!"
+msgstr "Negali valdyti grojimo!"
 
 msgid "playing recording"
 msgstr "grojamas įrašas"
@@ -538,9 +520,6 @@ msgstr "šis kanalas neturi epg įrašo!"
 
 msgid "no current channel!"
 msgstr "nėra šito kanalo!"
-
-msgid "error retrieving status info!"
-msgstr "negali gauti informacijos apie būklę!"
 
 msgid "%I:%M:%S %p"
 msgstr "%I:%M:%S %p"
@@ -1054,6 +1033,9 @@ msgstr "Tema"
 msgid "Couldn't find recording or no recordings available. Maybe you mistyped your request?"
 msgstr ""
 
+msgid "Couldn't find channel for recording."
+msgstr ""
+
 #, c-format
 msgid "%a, %x"
 msgstr "%a, %x"
@@ -1066,6 +1048,12 @@ msgstr " - "
 
 msgid "Recording"
 msgstr ""
+
+msgid "Couldn't find channel or no channels available."
+msgstr "Nerastas arba neegzistuojantis kanalas."
+
+msgid "Couldn't switch to channel."
+msgstr "Negali perjungti kanalo."
 
 msgid "Timer conflicts"
 msgstr "Laikmačio klaidos"
@@ -1133,8 +1121,23 @@ msgstr "Sąrašas"
 msgid "Live Interactive VDR Environment"
 msgstr "Live interaktyvioji VDR aplinka"
 
-msgid "No EPG information available"
-msgstr "Nėra EPG informacijos"
+#~ msgid "Timers are being edited - try again later"
+#~ msgstr "Laikmatis šio metu kuoreguojamas - pabandykit vėliau"
+
+#~ msgid "Channel has no schedule"
+#~ msgstr "Kainalas neturi programos aprašo"
+
+#~ msgid "Couldn't acquire primary device"
+#~ msgstr "Negali nustatyti pirminio įvesties įrenginio"
+
+#~ msgid "Couldn't grab image from primary device"
+#~ msgstr "Negali nuskaityti paveikslo iš pirminio įvesties įrenginio"
+
+#~ msgid "error retrieving status info!"
+#~ msgstr "negali gauti informacijos apie būklę!"
+
+#~ msgid "No EPG information available"
+#~ msgstr "Nėra EPG informacijos"
 
 #~ msgid "Couldn't acquire access to channels, please try again later."
 #~ msgstr "Neprieina prie kanalų, pabandykit vėliau."

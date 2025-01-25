@@ -15,46 +15,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Last channel to display"
-msgstr "Sista kanal att visa"
-
-msgid "No limit"
-msgstr "Ingen gräns"
-
-msgid "Use authentication"
-msgstr "Använd inloggning"
-
-msgid "No"
-msgstr "Nej"
-
-msgid "Yes"
-msgstr "Ja"
-
-msgid "Admin login"
-msgstr ""
-
-msgid "Admin password"
-msgstr "Admin lösen"
-
-#, c-format
-msgid "%A, %x"
-msgstr ""
-
-msgid "Search timer"
-msgstr "Söktimer"
-
-msgid "Error in timer settings"
-msgstr "Fel i timer-inställning"
-
-msgid "Timer already defined"
-msgstr "Timer redan satt"
-
-msgid "Timer not defined"
-msgstr "Timer ej definierad"
-
-msgid "Timers are being edited - try again later"
-msgstr "Timers redigieras - försök igen senare"
-
 msgid "On archive DVD No."
 msgstr "På arkiv-dvd nr."
 
@@ -105,41 +65,54 @@ msgstr ""
 msgid "Number of recording errors:"
 msgstr ""
 
-msgid "Couldn't find channel or no channels available."
-msgstr "Kunde inte hitta kanal eller inga kanaler tillgängliga"
-
-msgid "Couldn't switch to channel."
-msgstr "Kunde inte byta till kanal."
-
-msgid "Couldn't find recording or no recordings available."
-msgstr "Kunde inte hitta inspelning eller inga inspelningar tillgängliga"
-
-msgid "Cannot control playback!"
-msgstr "Kan inte styra uppspelning!"
-
-msgid "Not playing a recording."
-msgstr "Spelar inte en inspelning"
-
-msgid "Not playing the same recording as from request."
-msgstr "Spelar inte samma inspelnging som begärdes."
-
-msgid "Attempt to delete recording currently in playback."
-msgstr "Försök att ta bort inspelning som för närvarande spelas upp."
-
 msgid "Epg error"
 msgstr "EPG-fel."
 
 msgid "Wrong channel id"
 msgstr "Fel kanal-id"
 
-msgid "Channel has no schedule"
-msgstr "Kanalen har inga scheman"
-
 msgid "Wrong event id"
 msgstr "Fel händelse-id"
 
 msgid "%A, %b %d %Y"
 msgstr "%A, %d.%m.%Y"
+
+msgid "Last channel to display"
+msgstr "Sista kanal att visa"
+
+msgid "No limit"
+msgstr "Ingen gräns"
+
+msgid "Use authentication"
+msgstr "Använd inloggning"
+
+msgid "No"
+msgstr "Nej"
+
+msgid "Yes"
+msgstr "Ja"
+
+msgid "Admin login"
+msgstr ""
+
+msgid "Admin password"
+msgstr "Admin lösen"
+
+#, c-format
+msgid "%A, %x"
+msgstr ""
+
+msgid "Search timer"
+msgstr "Söktimer"
+
+msgid "Error in timer settings"
+msgstr "Fel i timer-inställning"
+
+msgid "Timer already defined"
+msgstr "Timer redan satt"
+
+msgid "Timer not defined"
+msgstr "Timer ej definierad"
 
 msgid "Required minimum version of epgsearch: "
 msgstr "Minsta version av epgsearch som krävs:"
@@ -153,12 +126,6 @@ msgstr "Okrypterade"
 msgid "EPGSearch version outdated! Please update."
 msgstr "För gammal version av EPGSearch. Vänligen uppdatera."
 
-msgid "Couldn't acquire primary device"
-msgstr "Kunde inte få tillgång till primära enheten."
-
-msgid "Couldn't grab image from primary device"
-msgstr "Kunde inte få bild från primära enheten"
-
 msgid "Timer conflict check detected "
 msgstr "Timer-konflikt koll upptäckt"
 
@@ -168,17 +135,20 @@ msgstr "konflikt"
 msgid "conflicts"
 msgstr "konflikter"
 
-msgid "Couldn't find recording or no recordings available"
-msgstr "Kunde inte hitta inspelning eller inga inspelningar tillgängliga"
-
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Inte tillåtet för dig. Kontakta din administratör!"
 
-msgid "Couldn't find recording. Maybe you mistyped your request?"
-msgstr "Kunde inte hitta inspelningen. Kolla stavningen?"
+msgid "Couldn't find recording or no recordings available."
+msgstr "Kunde inte hitta inspelning eller inga inspelningar tillgängliga"
+
+msgid "Attempt to delete recording currently in playback."
+msgstr "Försök att ta bort inspelning som för närvarande spelas upp."
 
 msgid "Please set a name for the recording!"
 msgstr "Bestäm namn för inspelningen"
+
+msgid "Couldn't find recording. Maybe you mistyped your request?"
+msgstr "Kunde inte hitta inspelningen. Kolla stavningen?"
 
 msgid "Cannot copy, rename or move the recording."
 msgstr "Kan inte kopiera, byta namn på eller flytta inspelningen "
@@ -522,8 +492,20 @@ msgstr "Redigera inspelningar"
 msgid "Electronic program guide information"
 msgstr "EPG-information"
 
+msgid "Couldn't find recording or no recordings available"
+msgstr "Kunde inte hitta inspelning eller inga inspelningar tillgängliga"
+
 msgid "Page error"
 msgstr "Fel på sidan"
+
+msgid "Not playing a recording."
+msgstr "Spelar inte en inspelning"
+
+msgid "Not playing the same recording as from request."
+msgstr "Spelar inte samma inspelnging som begärdes."
+
+msgid "Cannot control playback!"
+msgstr "Kan inte styra uppspelning!"
 
 msgid "playing recording"
 msgstr "Spelar upp inspelning"
@@ -536,9 +518,6 @@ msgstr "Ingen epg-info för nuvarande kanal!"
 
 msgid "no current channel!"
 msgstr "Ingen nuvarande kanal!"
-
-msgid "error retrieving status info!"
-msgstr "fel vid hämtning av statusinfo!"
 
 msgid "%I:%M:%S %p"
 msgstr "%H:%M:%S"
@@ -1051,6 +1030,9 @@ msgstr "Tema"
 msgid "Couldn't find recording or no recordings available. Maybe you mistyped your request?"
 msgstr ""
 
+msgid "Couldn't find channel for recording."
+msgstr ""
+
 #, c-format
 msgid "%a, %x"
 msgstr ""
@@ -1063,6 +1045,12 @@ msgstr ""
 
 msgid "Recording"
 msgstr ""
+
+msgid "Couldn't find channel or no channels available."
+msgstr "Kunde inte hitta kanal eller inga kanaler tillgängliga"
+
+msgid "Couldn't switch to channel."
+msgstr "Kunde inte byta till kanal."
 
 msgid "Timer conflicts"
 msgstr "Timerkonflikter"
@@ -1130,8 +1118,23 @@ msgstr "Listvy"
 msgid "Live Interactive VDR Environment"
 msgstr ""
 
-msgid "No EPG information available"
-msgstr "EPG-information saknas"
+#~ msgid "Timers are being edited - try again later"
+#~ msgstr "Timers redigieras - försök igen senare"
+
+#~ msgid "Channel has no schedule"
+#~ msgstr "Kanalen har inga scheman"
+
+#~ msgid "Couldn't acquire primary device"
+#~ msgstr "Kunde inte få tillgång till primära enheten."
+
+#~ msgid "Couldn't grab image from primary device"
+#~ msgstr "Kunde inte få bild från primära enheten"
+
+#~ msgid "error retrieving status info!"
+#~ msgstr "fel vid hämtning av statusinfo!"
+
+#~ msgid "No EPG information available"
+#~ msgstr "EPG-information saknas"
 
 #~ msgid "Couldn't acquire access to channels, please try again later."
 #~ msgstr "Kunde inte få tillgång till kanaler, försök igen senare"

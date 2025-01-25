@@ -18,6 +18,7 @@
 
 #include <vdr/videodir.h>
 #include <vdr/config.h>
+#include <vdr/menu.h>
 
 #define INDEXFILESUFFIX   "/index.vdr"
 #define LENGTHFILESUFFIX  "/length.vdr"
@@ -255,6 +256,25 @@ might have purged some cRecording objects, resulting in undefined behaviour
       archived += "]";
     }
     return archived;
+  }
+
+      /**
+       *  Is this recording currently played?
+       *  Return codes:
+       *    0: this recording is currently played
+       *    1: this recording does not exist
+       *    2: no recording is played
+       *    3: another recording is played
+       */
+  int RecordingsManager::CheckReplay(cSv recording_hash, std::string *fileName) {
+    LOCK_RECORDINGS_READ;
+    const cRecording *recording = GetByHash(recording_hash, Recordings);
+    if (!recording)  return 1;
+    if (fileName) *fileName = cSv(recording->FileName());
+    const char *current = cReplayControl::NowReplaying();
+    if (!current) return 2;
+    if (0 != strcmp(current, recording->FileName())) return 3;
+    return 0;
   }
 
   bool RecordingsManager::StateChanged ()

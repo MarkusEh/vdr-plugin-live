@@ -1,13 +1,23 @@
 <%pre>
 
-#include <grab.h>
 #include <setup.h>
 #include <tools.h>
 #include <users.h>
 
 #include <vdr/remote.h>
+#include <vdr/device.h>
 
 using namespace vdrlive;
+
+bool IsGrabImageAvailable() {
+  cDevice* device = cDevice::PrimaryDevice();
+  if (!device) return false;
+  int size = 0;
+  uchar* image = device->GrabImage(size, true, 80, 729, 480);
+  if (!image) return false;
+  free(image);
+  return true;
+}
 
 </%pre>
 <%args>
@@ -232,7 +242,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
     var element = document.getElementsByName('interval').item(0);
     if (!element)
       return;
-    var items = new Array(1000, 2000, 5000);
+    var items = new Array(50, 100, 500, 1000, 2000, 5000);
     element.options.length = items.length;
     for (i = 0; i < items.length; ++i) {
       element.options[i].value = items[i];
@@ -300,9 +310,9 @@ if (!logged_in && LiveSetup().UseAuth()) {
     <& menu active="remote" component=("remote.remote_actions")>
     <div class="inhalt" id="remoteDiv">
       <div class="screenshot" id="screenshot">
-<{        if (LiveGrabImageManager().CanGrab()) {  }>
+%       if (IsGrabImageAvailable() ) {
           <img src="screenshot.jpg" name="vdrlive" />
-<{        }                      }>
+%       }
         <div id="osd"></div>
       </div>
       <div>
@@ -348,7 +358,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
 <%def remote_actions>
 <form id="remote"><span>
 <span class="label bold"><$ tr("Selection") $>: </span>
-%  if ( LiveGrabImageManager().CanGrab()) {
+%  if (IsGrabImageAvailable() ) {
    <input type="radio" name="screenCon" id="screenCon_grab" onchange="changeScreenContent()"/>&nbsp;<label for="screenCon_grab"><$ tr("Snapshot interval") $>:</label> <select name="interval" onchange="ChangeInterval()"></select>
 % }
  <input type="radio" name="screenCon" id="screenCon_osd" onchange="changeScreenContent()" />&nbsp;<label for="screenCon_osd">OSD</label>

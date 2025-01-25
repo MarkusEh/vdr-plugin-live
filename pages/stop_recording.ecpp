@@ -1,7 +1,8 @@
 <%pre>
 
 #include <setup.h>
-#include <tasks.h>
+#include <recman.h>
+#include <vdr/menu.h>
 
 using namespace vdrlive;
 
@@ -14,13 +15,29 @@ using namespace vdrlive;
 </%session>
 <%cpp>
   if (!logged_in && LiveSetup().UseAuth()) {
-    cToSvConcat<0> targetUrl = "/login.html?redirect=";
+    cToSvConcat targetUrl = "/login.html?redirect=";
     targetUrl.appendUrlEscaped(request.getQuery());
     return reply.redirect(targetUrl.data());
   }
   reply.setContentType( "application/xml" );
 
-  StopRecordingTask task( param );
-  LiveTaskManager().Execute( task );
+  const char *error_message = "";
+  {
+    LOCK_RECORDINGS_READ;
+    const cRecording *recording = RecordingsManager::GetByHash(param, Recordings);
+    if (!recording)
+      error_message = tr("Couldn't find recording or no recordings available.");
+  }
+
+  if (*error_message == 0) {
+    const char *current = cReplayControl::NowReplaying();
+    if (!current) {
+      error_message = tr("Not playing a recording.");
+    } else {
+      cReplayControl::SetRecording(0);
+      cControl::Shutdown();
+    }
+  }
+
 </%cpp>
-<& xmlresponse.ajax name=("stop_recording") pname=("recording") value=(param) result=(task.Result()) error=(task.Error()) &>
+<& xmlresponse.ajax name=("stop_recording") pname=("recording") value=(param) result=(*error_message == 0) error=(error_message) &>

@@ -17,46 +17,6 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Last channel to display"
-msgstr "EPG-Anzeige bis Kanal"
-
-msgid "No limit"
-msgstr "Alle zeigen"
-
-msgid "Use authentication"
-msgstr "Authentifizierung verwenden"
-
-msgid "No"
-msgstr "nein"
-
-msgid "Yes"
-msgstr "ja"
-
-msgid "Admin login"
-msgstr "Administrator-Login"
-
-msgid "Admin password"
-msgstr "Administrator-Passwort"
-
-#, c-format
-msgid "%A, %x"
-msgstr "%A, %x"
-
-msgid "Search timer"
-msgstr "Suchtimer"
-
-msgid "Error in timer settings"
-msgstr "Fehler in den Timer-Einstellungen"
-
-msgid "Timer already defined"
-msgstr "Timer ist bereits vorhanden"
-
-msgid "Timer not defined"
-msgstr "Timer wurde nicht erstellt"
-
-msgid "Timers are being edited - try again later"
-msgstr "Timer werden bearbeitet - später erneut versuchen"
-
 msgid "On archive DVD No."
 msgstr "Auf Archiv-DVD Nr."
 
@@ -107,41 +67,54 @@ msgstr "Aufzeichnung wurde nicht auf Fehler überprüft"
 msgid "Number of recording errors:"
 msgstr "Zahl der Fehler in der Aufzeichnung:"
 
-msgid "Couldn't find channel or no channels available."
-msgstr "Kann das Programm nicht finden oder keine Programme vorhanden."
-
-msgid "Couldn't switch to channel."
-msgstr "Kann zu dem Programm nicht umschalten."
-
-msgid "Couldn't find recording or no recordings available."
-msgstr "Kann die Aufzeichnung nicht finden oder keine Aufzeichnungen vorhanden."
-
-msgid "Cannot control playback!"
-msgstr "Kann die Wiedergabe nicht steuern."
-
-msgid "Not playing a recording."
-msgstr "Es wird keine Aufzeichnung abgespielt."
-
-msgid "Not playing the same recording as from request."
-msgstr "Eine andere als die gewünschte Aufzeichnung wird abgespielt."
-
-msgid "Attempt to delete recording currently in playback."
-msgstr "Die gerade abgespielte Aufzeichnung soll gelöscht werden."
-
 msgid "Epg error"
 msgstr "EPG-Fehler"
 
 msgid "Wrong channel id"
 msgstr "Fehlerhafte Kanalkennung"
 
-msgid "Channel has no schedule"
-msgstr "Kanal hat keine Programminformationen"
-
 msgid "Wrong event id"
 msgstr "Fehlerhafte Sendungskennung"
 
 msgid "%A, %b %d %Y"
 msgstr "%A, %d.%m.%Y"
+
+msgid "Last channel to display"
+msgstr "EPG-Anzeige bis Kanal"
+
+msgid "No limit"
+msgstr "Alle zeigen"
+
+msgid "Use authentication"
+msgstr "Authentifizierung verwenden"
+
+msgid "No"
+msgstr "nein"
+
+msgid "Yes"
+msgstr "ja"
+
+msgid "Admin login"
+msgstr "Administrator-Login"
+
+msgid "Admin password"
+msgstr "Administrator-Passwort"
+
+#, c-format
+msgid "%A, %x"
+msgstr "%A, %x"
+
+msgid "Search timer"
+msgstr "Suchtimer"
+
+msgid "Error in timer settings"
+msgstr "Fehler in den Timer-Einstellungen"
+
+msgid "Timer already defined"
+msgstr "Timer ist bereits vorhanden"
+
+msgid "Timer not defined"
+msgstr "Timer wurde nicht erstellt"
 
 msgid "Required minimum version of epgsearch: "
 msgstr "Benötigte Mindestversion von EPGSearch: "
@@ -155,12 +128,6 @@ msgstr "FTA"
 msgid "EPGSearch version outdated! Please update."
 msgstr "EPGSearch-Version zu alt, bitte aktualisieren!"
 
-msgid "Couldn't acquire primary device"
-msgstr "Konnte auf das Primärgerät nicht zugreifen"
-
-msgid "Couldn't grab image from primary device"
-msgstr "Konnte vom Primärgerät kein Bild erhalten"
-
 msgid "Timer conflict check detected "
 msgstr "Die Überprüfung von Timer-Konflikten hat "
 
@@ -170,17 +137,20 @@ msgstr "Timerkonflikt entdeckt"
 msgid "conflicts"
 msgstr "Timer-Konflikte entdeckt"
 
-msgid "Couldn't find recording or no recordings available"
-msgstr "Kann die Aufzeichnung nicht finden oder keine Aufzeichnungen vorhanden"
-
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Keine ausreichenden Rechte. Bitte kontaktieren Sie Ihren Administrator!"
 
-msgid "Couldn't find recording. Maybe you mistyped your request?"
-msgstr "Kann die Aufzeichnung nicht finden. Möglicherweise ein Tippfehler in der Anfrage?"
+msgid "Couldn't find recording or no recordings available."
+msgstr "Kann die Aufzeichnung nicht finden oder keine Aufzeichnungen vorhanden."
+
+msgid "Attempt to delete recording currently in playback."
+msgstr "Die gerade abgespielte Aufzeichnung soll gelöscht werden."
 
 msgid "Please set a name for the recording!"
 msgstr "Bitte einen Namen für die Aufzeichnung festlegen!"
+
+msgid "Couldn't find recording. Maybe you mistyped your request?"
+msgstr "Kann die Aufzeichnung nicht finden. Möglicherweise ein Tippfehler in der Anfrage?"
 
 msgid "Cannot copy, rename or move the recording."
 msgstr "Kann die Aufzeichnung nicht umbenennen oder verschieben."
@@ -524,8 +494,20 @@ msgstr "Aufzeichnungen bearbeiten"
 msgid "Electronic program guide information"
 msgstr "Elektronische Programminformation"
 
+msgid "Couldn't find recording or no recordings available"
+msgstr "Kann die Aufzeichnung nicht finden oder keine Aufzeichnungen vorhanden"
+
 msgid "Page error"
 msgstr "Seitenfehler"
+
+msgid "Not playing a recording."
+msgstr "Es wird keine Aufzeichnung abgespielt."
+
+msgid "Not playing the same recording as from request."
+msgstr "Eine andere als die gewünschte Aufzeichnung wird abgespielt."
+
+msgid "Cannot control playback!"
+msgstr "Kann die Wiedergabe nicht steuern."
 
 msgid "playing recording"
 msgstr "Wiedergabe"
@@ -538,9 +520,6 @@ msgstr "Dieser Kanal hat keine EPG-Daten!"
 
 msgid "no current channel!"
 msgstr "Keinen Kanal gefunden!"
-
-msgid "error retrieving status info!"
-msgstr "Status nicht verfügbar!"
 
 msgid "%I:%M:%S %p"
 msgstr "%H:%M:%S"
@@ -1053,6 +1032,9 @@ msgstr "Stilvorlage"
 msgid "Couldn't find recording or no recordings available. Maybe you mistyped your request?"
 msgstr "Kann die Aufzeichnung nicht finden oder keine Aufzeichnungen vorhanden. Möglicherweise ein Tippfehler in der Anfrage?"
 
+msgid "Couldn't find channel for recording."
+msgstr "Kann Sender der Aufnahme nicht finden."
+
 #, c-format
 msgid "%a, %x"
 msgstr "%a, %x"
@@ -1065,6 +1047,12 @@ msgstr " – "
 
 msgid "Recording"
 msgstr "Aufzeichnung"
+
+msgid "Couldn't find channel or no channels available."
+msgstr "Kann das Programm nicht finden oder keine Programme vorhanden."
+
+msgid "Couldn't switch to channel."
+msgstr "Kann zu dem Programm nicht umschalten."
 
 msgid "Timer conflicts"
 msgstr "Timer-Konflikte"
@@ -1131,9 +1119,3 @@ msgstr "Listenansicht"
 
 msgid "Live Interactive VDR Environment"
 msgstr "Live Interactive VDR Environment"
-
-msgid "No EPG information available"
-msgstr "Keine EPG-Daten vorhanden"
-
-#~ msgid "Couldn't acquire access to channels, please try again later."
-#~ msgstr "Zugriff auf die Kanäle wurde verweigert. Bitte später versuchen."

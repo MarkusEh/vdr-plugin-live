@@ -18,7 +18,7 @@
 
 namespace vdrlive {
 
-class cLiveWorker;
+//class cLiveWorker;
 class Plugin : public cPlugin {
 public:
   Plugin(void);
@@ -46,7 +46,6 @@ private:
   static std::string m_resourceDirectory;
 
   std::unique_ptr<ServerThread> m_thread;
-  std::unique_ptr<cLiveWorker> m_liveWorker;
 };
 
 } // namespace vdrlive

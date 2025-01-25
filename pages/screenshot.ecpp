@@ -1,15 +1,14 @@
 <%pre>
 
 #include <setup.h>
-#include <grab.h>
 
 using namespace vdrlive;
 
 </%pre>
 <%args>
 int quality = 80;
-int width = 569;
-int height = 320;
+int width = 729;
+int height = 480;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -22,7 +21,13 @@ bool logged_in(false);
   }
   reply.setContentType("image/jpg");
 
-  GrabImageInfo image = LiveGrabImageManager().GetImage();
-  if ( image.second > 0 )
-    reply.out().write( image.first.get(), image.second );
+  cDevice* device = cDevice::PrimaryDevice();
+  if (device) {
+    int size = 0;
+    uchar* image = device->GrabImage(size, true, quality, width, height);
+    if (image) {
+      reply.out().write(reinterpret_cast<const char*>(image), size);
+      free(image);
+    }
+  }
 </%cpp>

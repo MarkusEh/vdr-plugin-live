@@ -16,46 +16,6 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-2\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Last channel to display"
-msgstr "Posledný zobrazený kanál na obrazovke"
-
-msgid "No limit"
-msgstr "Bez obmedzenia"
-
-msgid "Use authentication"
-msgstr "Pou¾i» overenie toto¾nosti"
-
-msgid "No"
-msgstr "Nie"
-
-msgid "Yes"
-msgstr "Áno"
-
-msgid "Admin login"
-msgstr "Prihlasovacie meno admina"
-
-msgid "Admin password"
-msgstr "Heslo admina"
-
-#, c-format
-msgid "%A, %x"
-msgstr "%A, %x"
-
-msgid "Search timer"
-msgstr "Vyhµadávaè vysielacieho èasu"
-
-msgid "Error in timer settings"
-msgstr "Chyba v nastavení plánu"
-
-msgid "Timer already defined"
-msgstr "Plán nahrávania nie je stanovený."
-
-msgid "Timer not defined"
-msgstr "Plán nahrávania nie je stanovený."
-
-msgid "Timers are being edited - try again later"
-msgstr "Plány sa upravujú - skúste to znova neskôr"
-
 msgid "On archive DVD No."
 msgstr "Na archívne DVD."
 
@@ -106,41 +66,54 @@ msgstr ""
 msgid "Number of recording errors:"
 msgstr ""
 
-msgid "Couldn't find channel or no channels available."
-msgstr "Nena¹iel ¾iadny kanál alebo kanály nie sú k dispozícii."
-
-msgid "Couldn't switch to channel."
-msgstr "Nedá sa prepnú» na kanál."
-
-msgid "Couldn't find recording or no recordings available."
-msgstr "Nena¹li sa ¾iadne záznamy alebo nahrávky nie sú k dispozícii."
-
-msgid "Cannot control playback!"
-msgstr "Nemo¾no ovláda» prehrávanie!"
-
-msgid "Not playing a recording."
-msgstr "Záznam sa neprehráva."
-
-msgid "Not playing the same recording as from request."
-msgstr "Ak sa vy¾iada rovnaká nahrávka, tak ju neprehraje."
-
-msgid "Attempt to delete recording currently in playback."
-msgstr "Pokus o vymazanie nahrávky, ktorá je v súèasnosti v prehrávaní."
-
 msgid "Epg error"
 msgstr "Epg chyba"
 
 msgid "Wrong channel id"
 msgstr "©patný id kanálu"
 
-msgid "Channel has no schedule"
-msgstr "Kanál nemá sprievodcu televíznym programom"
-
 msgid "Wrong event id"
 msgstr "Nesprávne ID udalosti"
 
 msgid "%A, %b %d %Y"
 msgstr "%A, %b %d %Y"
+
+msgid "Last channel to display"
+msgstr "Posledný zobrazený kanál na obrazovke"
+
+msgid "No limit"
+msgstr "Bez obmedzenia"
+
+msgid "Use authentication"
+msgstr "Pou¾i» overenie toto¾nosti"
+
+msgid "No"
+msgstr "Nie"
+
+msgid "Yes"
+msgstr "Áno"
+
+msgid "Admin login"
+msgstr "Prihlasovacie meno admina"
+
+msgid "Admin password"
+msgstr "Heslo admina"
+
+#, c-format
+msgid "%A, %x"
+msgstr "%A, %x"
+
+msgid "Search timer"
+msgstr "Vyhµadávaè vysielacieho èasu"
+
+msgid "Error in timer settings"
+msgstr "Chyba v nastavení plánu"
+
+msgid "Timer already defined"
+msgstr "Plán nahrávania nie je stanovený."
+
+msgid "Timer not defined"
+msgstr "Plán nahrávania nie je stanovený."
 
 msgid "Required minimum version of epgsearch: "
 msgstr "Povinná minimálna verzia epgsearch:"
@@ -154,12 +127,6 @@ msgstr "Voµné"
 msgid "EPGSearch version outdated! Please update."
 msgstr "Zastaralá verzia EPGSearch! Prosím aktualizujte ju."
 
-msgid "Couldn't acquire primary device"
-msgstr "Nepodarilo sa získa» hlavné zariadenie"
-
-msgid "Couldn't grab image from primary device"
-msgstr "Nemo¾no stiahnu» obraz z hlavného zariadenia"
-
 msgid "Timer conflict check detected "
 msgstr "Konflikt plánu nahrávania "
 
@@ -169,17 +136,20 @@ msgstr "konflikt "
 msgid "conflicts"
 msgstr "konflikty "
 
-msgid "Couldn't find recording or no recordings available"
-msgstr "Nena¹iel sa záznam alebo nahrávky nie sú k dispozícii"
-
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Prepáète, nemáte oprávnenie. Prosím kontaktujte va¹eho administrátora!"
 
-msgid "Couldn't find recording. Maybe you mistyped your request?"
-msgstr "Nena¹la sa nahrávka. Mo¾no ste zle napísali va¹u po¾iadavku?"
+msgid "Couldn't find recording or no recordings available."
+msgstr "Nena¹li sa ¾iadne záznamy alebo nahrávky nie sú k dispozícii."
+
+msgid "Attempt to delete recording currently in playback."
+msgstr "Pokus o vymazanie nahrávky, ktorá je v súèasnosti v prehrávaní."
 
 msgid "Please set a name for the recording!"
 msgstr "Prosím zvolte meno pre nahrávku!"
+
+msgid "Couldn't find recording. Maybe you mistyped your request?"
+msgstr "Nena¹la sa nahrávka. Mo¾no ste zle napísali va¹u po¾iadavku?"
 
 msgid "Cannot copy, rename or move the recording."
 msgstr "Nemo¾no kopírova», premenova» alebo presunú» nahrávku."
@@ -523,8 +493,20 @@ msgstr "Upravi» nahrávky"
 msgid "Electronic program guide information"
 msgstr "Elektronický sprievodca televíznym programom"
 
+msgid "Couldn't find recording or no recordings available"
+msgstr "Nena¹iel sa záznam alebo nahrávky nie sú k dispozícii"
+
 msgid "Page error"
 msgstr "Chyba stránky"
+
+msgid "Not playing a recording."
+msgstr "Záznam sa neprehráva."
+
+msgid "Not playing the same recording as from request."
+msgstr "Ak sa vy¾iada rovnaká nahrávka, tak ju neprehraje."
+
+msgid "Cannot control playback!"
+msgstr "Nemo¾no ovláda» prehrávanie!"
 
 msgid "playing recording"
 msgstr "Prehrávanie záznamu"
@@ -537,9 +519,6 @@ msgstr "®iadne epg pre vybraný kanál!"
 
 msgid "no current channel!"
 msgstr "®iadny vybraný kanál!"
-
-msgid "error retrieving status info!"
-msgstr "Chyba pri naèítaní informácií o stave!"
 
 msgid "%I:%M:%S %p"
 msgstr "%H:%M:%S"
@@ -1052,6 +1031,9 @@ msgstr "Vzhµad"
 msgid "Couldn't find recording or no recordings available. Maybe you mistyped your request?"
 msgstr ""
 
+msgid "Couldn't find channel for recording."
+msgstr ""
+
 #, c-format
 msgid "%a, %x"
 msgstr "%a, %x"
@@ -1064,6 +1046,12 @@ msgstr " - "
 
 msgid "Recording"
 msgstr ""
+
+msgid "Couldn't find channel or no channels available."
+msgstr "Nena¹iel ¾iadny kanál alebo kanály nie sú k dispozícii."
+
+msgid "Couldn't switch to channel."
+msgstr "Nedá sa prepnú» na kanál."
 
 msgid "Timer conflicts"
 msgstr "Konflikty plánu"
@@ -1131,8 +1119,23 @@ msgstr "Zobrazi» ako zoznam"
 msgid "Live Interactive VDR Environment"
 msgstr "®ivé interaktívne VDR prostredie"
 
-msgid "No EPG information available"
-msgstr "EPG informácie sú nedostupné"
+#~ msgid "Timers are being edited - try again later"
+#~ msgstr "Plány sa upravujú - skúste to znova neskôr"
+
+#~ msgid "Channel has no schedule"
+#~ msgstr "Kanál nemá sprievodcu televíznym programom"
+
+#~ msgid "Couldn't acquire primary device"
+#~ msgstr "Nepodarilo sa získa» hlavné zariadenie"
+
+#~ msgid "Couldn't grab image from primary device"
+#~ msgstr "Nemo¾no stiahnu» obraz z hlavného zariadenia"
+
+#~ msgid "error retrieving status info!"
+#~ msgstr "Chyba pri naèítaní informácií o stave!"
+
+#~ msgid "No EPG information available"
+#~ msgstr "EPG informácie sú nedostupné"
 
 #~ msgid "Couldn't acquire access to channels, please try again later."
 #~ msgstr "Nedá sa získa» prístup ku kanálom, prosím skúste to znova neskôr."

@@ -18,46 +18,6 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Last channel to display"
-msgstr "Dernière chaîne affichée"
-
-msgid "No limit"
-msgstr "Afficher tout"
-
-msgid "Use authentication"
-msgstr "Utiliser l'authentification"
-
-msgid "No"
-msgstr "Non"
-
-msgid "Yes"
-msgstr "Oui"
-
-msgid "Admin login"
-msgstr "Ouverture Admin"
-
-msgid "Admin password"
-msgstr "Mot de passe de l'Admin"
-
-#, c-format
-msgid "%A, %x"
-msgstr "%A, %x"
-
-msgid "Search timer"
-msgstr "Recherche de programmation"
-
-msgid "Error in timer settings"
-msgstr "Erreur dans la configuration de programmation"
-
-msgid "Timer already defined"
-msgstr "Programmation déjà définit"
-
-msgid "Timer not defined"
-msgstr "Programmation non définit"
-
-msgid "Timers are being edited - try again later"
-msgstr "Programmation sont en cours d'édition - essayer plus tard"
-
 msgid "On archive DVD No."
 msgstr "Sur le DVD archive no°"
 
@@ -108,41 +68,54 @@ msgstr ""
 msgid "Number of recording errors:"
 msgstr ""
 
-msgid "Couldn't find channel or no channels available."
-msgstr "Impossible de trouver la chaîne ou pas de chaînes disponibles."
-
-msgid "Couldn't switch to channel."
-msgstr "Impossible de passer à la chaîne."
-
-msgid "Couldn't find recording or no recordings available."
-msgstr "Impossible de trouver l'enregistrement ou aucun enregistrements disponibles."
-
-msgid "Cannot control playback!"
-msgstr "Ne peut pas contrôler la lecture!"
-
-msgid "Not playing a recording."
-msgstr "Ne joue pas l'enregistrement."
-
-msgid "Not playing the same recording as from request."
-msgstr ""
-
-msgid "Attempt to delete recording currently in playback."
-msgstr "Tentative d'effacer l'enregistrement en cours de lecture."
-
 msgid "Epg error"
 msgstr "Erreur EPG"
 
 msgid "Wrong channel id"
 msgstr "Faux ID de chaîne"
 
-msgid "Channel has no schedule"
-msgstr "La chaîne n'a pas de programmation"
-
 msgid "Wrong event id"
 msgstr "Faux ID d'événement"
 
 msgid "%A, %b %d %Y"
 msgstr "%A, %d.%m.%Y"
+
+msgid "Last channel to display"
+msgstr "Dernière chaîne affichée"
+
+msgid "No limit"
+msgstr "Afficher tout"
+
+msgid "Use authentication"
+msgstr "Utiliser l'authentification"
+
+msgid "No"
+msgstr "Non"
+
+msgid "Yes"
+msgstr "Oui"
+
+msgid "Admin login"
+msgstr "Ouverture Admin"
+
+msgid "Admin password"
+msgstr "Mot de passe de l'Admin"
+
+#, c-format
+msgid "%A, %x"
+msgstr "%A, %x"
+
+msgid "Search timer"
+msgstr "Recherche de programmation"
+
+msgid "Error in timer settings"
+msgstr "Erreur dans la configuration de programmation"
+
+msgid "Timer already defined"
+msgstr "Programmation déjà définit"
+
+msgid "Timer not defined"
+msgstr "Programmation non définit"
 
 msgid "Required minimum version of epgsearch: "
 msgstr "Version minimum requise d'epgsearch: "
@@ -156,12 +129,6 @@ msgstr "FTA"
 msgid "EPGSearch version outdated! Please update."
 msgstr "Version EPGSearch périmée! Mettre à jour Svp."
 
-msgid "Couldn't acquire primary device"
-msgstr "Impossible d'acquérir périphérique primaire"
-
-msgid "Couldn't grab image from primary device"
-msgstr "Impossible de récupérer l'image du périphérique primaire"
-
 #, fuzzy
 msgid "Timer conflict check detected "
 msgstr "Programmation est active."
@@ -174,16 +141,19 @@ msgstr "Programmation est active."
 msgid "conflicts"
 msgstr "Programmation est active."
 
-msgid "Couldn't find recording or no recordings available"
-msgstr "Impossible de trouver un enregistrement ou aucun enregistrements disponibles"
-
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr ""
 
-msgid "Couldn't find recording. Maybe you mistyped your request?"
-msgstr ""
+msgid "Couldn't find recording or no recordings available."
+msgstr "Impossible de trouver l'enregistrement ou aucun enregistrements disponibles."
+
+msgid "Attempt to delete recording currently in playback."
+msgstr "Tentative d'effacer l'enregistrement en cours de lecture."
 
 msgid "Please set a name for the recording!"
+msgstr ""
+
+msgid "Couldn't find recording. Maybe you mistyped your request?"
 msgstr ""
 
 msgid "Cannot copy, rename or move the recording."
@@ -542,8 +512,20 @@ msgstr ""
 msgid "Electronic program guide information"
 msgstr "Guide électronique d'information des programmes EPG"
 
+msgid "Couldn't find recording or no recordings available"
+msgstr "Impossible de trouver un enregistrement ou aucun enregistrements disponibles"
+
 msgid "Page error"
 msgstr "Erreur de paging"
+
+msgid "Not playing a recording."
+msgstr "Ne joue pas l'enregistrement."
+
+msgid "Not playing the same recording as from request."
+msgstr ""
+
+msgid "Cannot control playback!"
+msgstr "Ne peut pas contrôler la lecture!"
 
 msgid "playing recording"
 msgstr "Lire l'enregistrement"
@@ -556,9 +538,6 @@ msgstr "Cette chaîne n'a pas d'EPG!"
 
 msgid "no current channel!"
 msgstr "pas de chaîne trouvé!"
-
-msgid "error retrieving status info!"
-msgstr "erreur de récupération du statut d'info!"
 
 msgid "%I:%M:%S %p"
 msgstr "%H:%M:%S"
@@ -1074,6 +1053,9 @@ msgstr "Thème"
 msgid "Couldn't find recording or no recordings available. Maybe you mistyped your request?"
 msgstr ""
 
+msgid "Couldn't find channel for recording."
+msgstr ""
+
 #, fuzzy, c-format
 msgid "%a, %x"
 msgstr "%A, %x"
@@ -1086,6 +1068,12 @@ msgstr ""
 
 msgid "Recording"
 msgstr ""
+
+msgid "Couldn't find channel or no channels available."
+msgstr "Impossible de trouver la chaîne ou pas de chaînes disponibles."
+
+msgid "Couldn't switch to channel."
+msgstr "Impossible de passer à la chaîne."
 
 #, fuzzy
 msgid "Timer conflicts"
@@ -1159,8 +1147,20 @@ msgstr "Vue en liste"
 msgid "Live Interactive VDR Environment"
 msgstr ""
 
-msgid "No EPG information available"
-msgstr ""
+#~ msgid "Timers are being edited - try again later"
+#~ msgstr "Programmation sont en cours d'édition - essayer plus tard"
+
+#~ msgid "Channel has no schedule"
+#~ msgstr "La chaîne n'a pas de programmation"
+
+#~ msgid "Couldn't acquire primary device"
+#~ msgstr "Impossible d'acquérir périphérique primaire"
+
+#~ msgid "Couldn't grab image from primary device"
+#~ msgstr "Impossible de récupérer l'image du périphérique primaire"
+
+#~ msgid "error retrieving status info!"
+#~ msgstr "erreur de récupération du statut d'info!"
 
 #~ msgid "Couldn't acquire access to channels, please try again later."
 #~ msgstr "Impossible d'avoir accès à des chaînes, réessayer ultérieurement."

@@ -9,7 +9,6 @@
 #include "setup.h"
 #include "tools.h"
 #include "status.h"
-#include "tasks.h"
 #include "timers.h"
 #include "preload.h"
 #include "users.h"
@@ -66,19 +65,12 @@ bool Plugin::Start(void)
   m_thread.reset( new ServerThread );
   m_thread->Start();
 
-  m_liveWorker.reset( new cLiveWorker );
-  m_liveWorker->Start();
-
   return true;
 }
 
 void Plugin::Stop(void)
 {
   m_thread->Stop();
-  while (m_liveWorker->Active()) {
-    m_liveWorker->Stop();
-    sleep(1);
-  }
 }
 
 void Plugin::Housekeeping(void) {
