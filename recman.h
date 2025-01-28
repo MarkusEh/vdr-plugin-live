@@ -212,6 +212,7 @@ namespace vdrlive {
       const std::vector<RecordingsItemRecPtr> *getRecordings(eSortOrder sortOrder);
       const std::vector<RecordingsItemDirPtr> *getDirs() { return &m_subdirs; }
       bool checkNew() const;
+      bool matchesFilter(cSv filter) const;
       void addDirList(std::vector<std::string> &dirs, cSv basePath) const;
 
       void setTvShow(const RecordingsItemRecPtr &rPtr);
@@ -293,7 +294,7 @@ namespace vdrlive {
       const char *ShortText() const { return m_shortText.c_str(); }
       const char *Description() const { return m_description.c_str(); }
       cSv ChannelName() const { return m_channelName; }
-      const char *Folder() const { return *m_Folder; }
+      const char *Folder() const { return *m_folder; }
       int FileSizeMB() const { return m_fileSizeMB; }
       time_t StartTime() const { return m_startTime; }
       int Duration() const { return m_duration; } // duration in seconds
@@ -347,6 +348,7 @@ namespace vdrlive {
       const std::string m_name;
       std::string GetNameForSearch(cSv name);
       const std::string m_name_for_search;
+      const cString m_folder;
       const int m_idI = -1;
       const XXH128_hash_t m_hash;
       const int m_isArchived = 0;
@@ -373,7 +375,6 @@ namespace vdrlive {
       std::string m_shortText;
       std::string m_description;
       std::string m_channelName;
-      cString m_Folder;
       int m_fileSizeMB = -1;
       time_t m_startTime = 0;
       int m_duration = -1;

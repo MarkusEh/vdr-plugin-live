@@ -40,16 +40,15 @@ bool logged_in(false);
   const char *error_message = "";
   int result = RecordingsManager::DeleteRecording(param, &name);
   switch (result) {
+    case 0: isyslog("live: INFO in delete_recording.ecpp, deleted recording with id %s name %s", param.c_str(), name.c_str() );
+            break;
     case 1: error_message = tr("Couldn't find recording or no recordings available."); break;
     case 2: error_message = tr("Attempt to delete recording currently in playback."); break;
     case 3: error_message = "other error"; break;
     default: break;
   }
-  if (result == 0) {
-    isyslog("live: INFO in delete_recording.ecpp, deleted recording with id %s name %s", param.c_str(), name.c_str() );
-  } else {
+  if (result != 0)
     esyslog("live: ERROR in delete_recording.ecpp, cannot delete recording with id %s name %s, error %s", param.c_str(), name.c_str(), error_message);
-  }
 
   if (!ajaxReq) {
     if (!referrer.empty() && referrer.find("login") == std::string::npos) {

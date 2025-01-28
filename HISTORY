@@ -183,15 +183,18 @@ Summary of changes to Version 3.2:
 2025-  -  : Version 3.4.1:
 - Fix: Parsing additional times used in multischedule and what's on
 - Fix: Crash in case of an empty entry in channelgroups. Thanks to SHofmann @vdr-portal.de for reporting
+- Fix: Ensure to have locks before any access to VDR objects like cEvent, cRecording, ...
 - Timers & Recordings: Remove locks defined in live, rely on VDRs locks only
-- Fix (ongoing): Ensure to have locks before any access to VDR objects like cEvent, cRecording, ...
 - Remove grab.h, grab.cpp, tasks.h, tasks.cpp
 -   note for grab.h: Snapshot picture has now less delay to picture on tv
 -                    Allow shorter Snapshot-Interval
 -   note for tasks.h:
--     These tasks require VDR LOCKS. While it seems to be a good idea to
--     have these LOCKS in a separate thread, it is actually a bad one:
+-     These tasks require VDR LOCKs. While it seems to be a good idea to
+-     have these LOCKs in a separate thread, it is actually a bad one:
 -     As we wait for these tasks to finish, this can result in invalid LOCK
 -     sequences not detected by VDR but resulting in deadlocks.
 -     affected: Switch channel, remove timer, remove recording,
         (play, pause, stop, forward, backward) recording
+
+- remove PCRE2 dependency, use c++ std::regex / std::regex_match
+- Hide empty directories in recordings on search (thanks to maazl for the patch)

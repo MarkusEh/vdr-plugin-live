@@ -23,6 +23,7 @@
 #include <string>
 #include <string_view>
 #include <string.h>
+#include <regex>
 #include <vector>
 #include <set>
 #include <array>
@@ -218,7 +219,7 @@ inline int cSv::compareLowerCase(cSv other, const std::locale &loc) {
 // =========================================================
 // cStr: similar to cSv, but support c_str()
 // never returns null pointer!
-// always return pointer to valid data (zero terminated char array)
+// always return pointer to zero terminated char array
 // =========================================================
 
 class cStr {
@@ -497,23 +498,22 @@ namespace stringhelpers_internal {
 //  ==== itoaN ===================================================================
 // itoaN: Template for fixed number of characters, left fill with 0
 // note: i must fit in N digits, this is not checked!
-template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
-inline typename std::enable_if<N == 0, char*>::type itoaN(char *b, T i) {
-  return b;
-}
-template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
-inline typename std::enable_if<N == 1, char*>::type itoaN(char *b, T i) {
+template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T> && N == 0, bool> = true>
+inline char* itoaN(char *b, T i) { return b; }
+
+template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T> && N == 1, bool> = true>
+inline char* itoaN(char *b, T i) {
   b[0] = i + '0';
   return b+N;
 }
-template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
-inline typename std::enable_if<N == 2, char*>::type itoaN(char *b, T i) {
+template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T> && N == 2, bool> = true>
+inline char* itoaN(char *b, T i) {
   memcpy(b, to_chars10_internal::digits_100 + (i << 1), 2);
   return b+N;
 }
 // max uint16_t 65535
-template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
-inline typename std::enable_if<N == 3 || N == 4, char*>::type itoaN(char *b, T i) {
+template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T> && (N == 3 || N == 4), bool> = true>
+inline char* itoaN(char *b, T i) {
   uint16_t q = ((uint32_t)i * 5243U) >> 19; // q = i/100; i < 43699
   b = itoaN<N-2>(b, q);
   memcpy(b, to_chars10_internal::digits_100 + (((uint16_t)i - q*100) << 1), 2);
@@ -521,40 +521,40 @@ inline typename std::enable_if<N == 3 || N == 4, char*>::type itoaN(char *b, T i
 }
 // max uint32_t 4294967295
 template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
-inline typename std::enable_if<N >= 5 && N <= 9, char*>::type itoaN(char *b, T i) {
+inline typename std::enable_if_t<N >= 5 && N <= 9, char*> itoaN(char *b, T i) {
   uint32_t q = (uint32_t)i/100;
   b = itoaN<N-2>(b, q);
   memcpy(b, to_chars10_internal::digits_100 + (((uint32_t)i - q*100) << 1), 2);
   return b+2;
 }
 template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
-inline typename std::enable_if<N >= 10 && N != 18, char*>::type itoaN(char *b, T i) {
+inline typename std::enable_if_t<N >= 10 && N != 18, char*> itoaN(char *b, T i) {
   T q = i/100000000;
   b = itoaN<N-8>(b, q);
   return itoaN<8>(b, i - q*100000000);
 }
 template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
-inline typename std::enable_if<N == 18, char*>::type itoaN(char *b, T i) {
+inline typename std::enable_if_t<N == 18, char*> itoaN(char *b, T i) {
   T q = i/1000000000;
   b = itoaN<N-9>(b, q);
   return itoaN<9>(b, i - q*1000000000);
 }
 //  ==== powN ===============================
 template<uint8_t N>
-inline typename std::enable_if<N == 0, uint64_t>::type powN() { return 1; }
+inline typename std::enable_if_t<N == 0, uint64_t> powN() { return 1; }
 template<uint8_t N>
-inline typename std::enable_if<N <= 19 && N >= 1, uint64_t>::type powN() {
+inline typename std::enable_if_t<N <= 19 && N >= 1, uint64_t> powN() {
 // return 10^N
   return powN<N-1>() * 10;
 }
 
 //  ==== itoa_min_width =====================
 template<size_t N, typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
-inline typename std::enable_if<N == 0, char*>::type itoa_min_width(char *b, T i) {
+inline typename std::enable_if_t<N == 0, char*> itoa_min_width(char *b, T i) {
   return to_chars10_internal::itoa(b, i);
 }
 template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
-inline typename std::enable_if<N >= 1 && N <= 19, char*>::type itoa_min_width(char *b, T i) {
+inline typename std::enable_if_t<N >= 1 && N <= 19, char*> itoa_min_width(char *b, T i) {
   if (i < powN<N>() ) return itoaN<N, T>(b, i);
   T q = i/powN<N>();
   b = to_chars10_internal::itoa(b, q);
@@ -562,14 +562,14 @@ inline typename std::enable_if<N >= 1 && N <= 19, char*>::type itoa_min_width(ch
 }
 
 template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
-inline typename std::enable_if<N >= 20, char*>::type itoa_min_width(char *b, T i) {
+inline typename std::enable_if_t<N >= 20, char*> itoa_min_width(char *b, T i) {
 // i < 10^20 is always true
   memset(b, '0', N-20);
   b += N-20;
   return itoaN<20, T>(b, i);
 }
 template<size_t N, typename T, std::enable_if_t<std::is_signed_v<T>, bool> = true>
-inline typename std::enable_if<N >= 1, char*>::type itoa_min_width(char *b, T i) {
+inline typename std::enable_if_t<N >= 1, char*> itoa_min_width(char *b, T i) {
   typedef std::make_unsigned_t<T> TU;
   if (i >= 0) return itoa_min_width<N, TU>(b, (TU)i);
   *b = '-';
@@ -608,7 +608,7 @@ class cToSv {
     virtual ~cToSv() {}
     virtual operator cSv() const = 0;
 };
-inline std::ostream& operator<<(std::ostream& os, cToSv const& sv )
+inline std::ostream& operator<<(std::ostream& os, cToSv const& sv)
 {
   return os << cSv(sv);
 }
@@ -651,7 +651,7 @@ class cOpen {
     void checkError(const char *pathname, int errno_l) {
       if (m_fd == -1) {
 // no message for errno == ENOENT, the file just does not exist
-        if (errno_l != ENOENT) esyslog("cOpen::checkError, ERROR: open fails, errno %d, filename %s\n", errno_l, pathname);
+        if (errno_l != ENOENT) esyslog(PLUGIN_NAME_I18N "cOpen::checkError, ERROR: open fails, errno %d, filename %s\n", errno_l, pathname);
       }
     }
     int m_fd = -1;
@@ -674,7 +674,7 @@ class cToSvFile: public cToSv {
         m_s = nullptr;
         if (n_err < 3) sleep(1);
       }
-      esyslog("cToSvFile::load, ERROR: give up after 3 tries, filename %s", filename);
+      esyslog(PLUGIN_NAME_I18N "cToSvFile::load, ERROR: give up after 3 tries, filename %s", filename);
     }
     bool load_int(const char *filename, size_t max_length) {
 // return false if an error occurred, and we should try again
@@ -683,7 +683,7 @@ class cToSvFile: public cToSv {
       struct stat buffer;
       if (fstat(fd, &buffer) != 0) {
         if (errno == ENOENT) return false;  // somehow strange, cOpen found the file, and fstat says it does not exist ... we try again
-        esyslog("cToSvFile::load, ERROR: in fstat, errno %d, filename %s\n", errno, filename);
+        esyslog(PLUGIN_NAME_I18N "cToSvFile::load, ERROR: in fstat, errno %d, filename %s\n", errno, filename);
         return true;
       }
 // file exists, length buffer.st_size
@@ -693,7 +693,7 @@ class cToSvFile: public cToSv {
       if (max_length != 0 && length > max_length) length = max_length;
       m_s = (char *) malloc((length + 1) * sizeof(char));  // add one. So we can add the 0 string terminator
       if (!m_s) {
-        esyslog("cToSvFile::load, ERROR out of memory, filename = %s, requested size = %zu\n", filename, length + 1);
+        esyslog(PLUGIN_NAME_I18N "cToSvFile::load, ERROR out of memory, filename = %s, requested size = %zu\n", filename, length + 1);
         return true;
       }
       size_t num_read = 0;
@@ -703,7 +703,7 @@ class cToSvFile: public cToSv {
         if (num_read1 == 0) ++num_errors; // should not happen, because fstat reported file size >= length
         if (num_read1 == -1) {
           if (errno == ENOENT) return false;
-          esyslog("cToSvFile::load, ERROR: read failed, errno %d, filename %s, file size = %zu, num_read = %zu\n", errno, filename, (size_t)buffer.st_size, num_read);
+          esyslog(PLUGIN_NAME_I18N "cToSvFile::load, ERROR: read failed, errno %d, filename %s, file size = %zu, num_read = %zu\n", errno, filename, (size_t)buffer.st_size, num_read);
           ++num_errors;
           num_read1 = 0;
           if (num_errors < 3) sleep(1);
@@ -712,7 +712,7 @@ class cToSvFile: public cToSv {
       m_result = cSv(m_s, num_read);
       m_s[num_read] = 0;  // so data() returns a 0 terminated string
       if (num_read != length) {
-        esyslog("cToSvFile::load, ERROR: num_read = %zu, length = %zu, filename %s\n", num_read, length, filename);
+        esyslog(PLUGIN_NAME_I18N "cToSvFile::load, ERROR: num_read = %zu, length = %zu, filename %s\n", num_read, length, filename);
       }
       return true;
     }
@@ -737,7 +737,7 @@ template<std::size_t N> class cToSvFileN: public cToSv {
       m_exists = true;
       ssize_t num_read = read(fd, m_s, N);
       if (num_read == -1) {
-        esyslog("cToSvFile::load, ERROR: read fails, errno %d, filename %s\n", errno, filename);
+        esyslog(PLUGIN_NAME_I18N "cToSvFile::load, ERROR: read fails, errno %d, filename %s\n", errno, filename);
         num_read = 0;
       }
       m_result = cSv(m_s, num_read);
@@ -769,13 +769,28 @@ class cToSvConcat: public cToSv {
     cToSvConcat &operator+=(T &&n) { return *this << n; }
 // ========================
 // overloads for concat
+// char
     cToSvConcat &operator<<(char ch) {
       if (m_pos_for_append == m_be_data) ensure_free(1);
-      *(m_pos_for_append++) = ch;
+      *m_pos_for_append = ch;
+      ++m_pos_for_append;
       return *this;
     }
+// cSv, string, char * ...
     cToSvConcat &operator<<(cSv sv) { return append(sv); }
-    template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
+    template<size_t M>
+// "awrhjo!"
+    cToSvConcat &operator<<(const char (&s)[M]) {
+      if (m_pos_for_append + M-1 > m_be_data) ensure_free(M-1);
+      memcpy(m_pos_for_append, s, M-1);
+      m_pos_for_append += M-1;
+      return *this;
+    }
+// bool
+    template<typename T, std::enable_if_t<std::is_same_v<T, bool>, bool> = true>
+    cToSvConcat &operator<<(T b) { return *this << (char)('0'+b); }
+// int
+    template<typename T, std::enable_if_t<std::is_integral_v<T> && !std::is_same_v<T, bool>, bool> = true>
     cToSvConcat &operator<<(T i) {
       if (!to_chars10_internal::to_chars10_range_check(m_pos_for_append, m_be_data, i)) ensure_free(20);
       m_pos_for_append = to_chars10_internal::itoa(m_pos_for_append, i);
@@ -793,7 +808,11 @@ class cToSvConcat: public cToSv {
       return *this;
     }
     cToSvConcat &append(const char *s, size_t len) {
-      return append(cSv(s, len));
+      if (!s) return *this;
+      if (m_pos_for_append + len > m_be_data) ensure_free(len);
+      memcpy(m_pos_for_append, s, len);
+      m_pos_for_append += len;
+      return *this;
     }
     cToSvConcat &append(size_t count, char ch) {
       if (m_pos_for_append + count > m_be_data) ensure_free(count);
@@ -993,7 +1012,7 @@ template<typename T, std::enable_if_t<sizeof(T) == 16, bool> = true>
       return *this;
     }
     void reserve(size_t r) const { m_reserve = r; }
-    ~cToSvConcat() {
+    virtual ~cToSvConcat() {
       if (m_buffer_allocated) free (m_buffer_allocated);
     }
   private:
@@ -1631,6 +1650,31 @@ class cSortedVector {
     std::vector<T> m_v;
     Compare m_cmp;
 };
+
+/*
+   ================ regex ==============================================
+   flags:
+  ECMAScript Use the Modified ECMAScript regular expression grammar.
+  icase      Character matching should be performed without regard to case.
+  nosubs     When performing matches, all marked sub-expressions (expr) are treated as non-marking sub-expressions (?:expr). No matches are stored in the supplied std::regex_match structure and mark_count() is zero.
+  optimize 	 Instructs the regular expression engine to make matching faster, with the potential cost of making construction slower. For example, this might mean converting a non-deterministic FSA to a deterministic FSA.
+  collate 	 Character ranges of the form "[a-b]" will be locale sensitive.
+  multiline (C++17) Specifies that ^ shall match the beginning of a line and $ shall match the end of a line, if the ECMAScript engine is selected.
+
+
+*/
+inline std::regex getRegex(cSv sv, const std::locale &locale, std::regex::flag_type flags = std::regex_constants::icase | std::regex_constants::collate | std::regex_constants::multiline) {
+  try {
+    std::regex result;
+    result.imbue(locale);
+    result.assign(sv.data(), sv.length(), flags);
+    return result;
+  } catch (const std::regex_error& e)
+  {
+    esyslog(PLUGIN_NAME_I18N "%s", cToSvConcat(": ERROR ", e.what(), " in regex ", sv).c_str() );
+    return std::regex();
+  }
+}
 
 // =========================================================
 // Utility to measure times (performance) ****************

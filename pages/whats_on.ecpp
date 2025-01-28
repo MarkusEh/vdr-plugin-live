@@ -164,10 +164,11 @@ if (type == "now") {
     for (SearchResults::iterator result = results.begin(); result != results.end(); ++result) {
       long diff = result->StartTime() - now;
       if (labs(diff) >= 24*60*60) continue; // skip broadcasts more than a day away
-      const cChannel* Channel = result->GetChannel();
+      LOCK_CHANNELS_READ;
+      LOCK_SCHEDULES_READ;
+      const cChannel* Channel = result->GetChannel(Channels);
       if (!Channel) continue;
-//      EpgInfoPtr epgEvent = EpgEvents::CreateEpgInfo(Channel, result->GetEvent(Channel));
-      eventList.emplace_back(Channel, result->GetEvent(Channel) );
+      eventList.emplace_back(Channel, result->GetEvent(Channel, Schedules) );
     }
   }
 

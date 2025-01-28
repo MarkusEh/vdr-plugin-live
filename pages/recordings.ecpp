@@ -11,9 +11,6 @@
 #include <stringhelpers.h>
 #include <livefeatures.h>
 
-#ifdef HAVE_PCRE2
-#include <StringMatch.h>
-#endif
 #include <vdr/videodir.h>
 
 #define MB_PER_MINUTE 25.75 // this is just an estimate!
@@ -290,12 +287,13 @@ if (currentFlat != "true") {
       direction = 1;
     }
     for (dirIter = dirIterS; dirIter != dirIterE; std::advance(dirIter, direction) ) {
-      if(direction == 0) dirIter--;
+      if(direction == 0) --dirIter;
 // this is the loop over the subdirs
 // each subdir is a node, which can be expanded (or not)
 // each subdir has an identifier in <ul> tag: fldr_<$ idHash $>
       RecordingsItemDirPtr recItem = *dirIter;
 
+      if (!recItem->matchesFilter(currentFilter)) continue;
       /* search trough directory for new recordings */
       bool newR = false;
       if ( LiveSetup().GetMarkNewRec() ) newR = recItem->checkNew();
@@ -499,12 +497,10 @@ recs[<$cSv(cToSvInt(rPtr->IdI()))$>]=[<$$ *recording_item $>]
 <a href="recordings.html?sort=<$ (currentSort == "errorsts") ? "errorsdur" : "errorsts" $>&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="errors" &>><$ tr("Errors") $></a>
 <%cpp>
 #endif
-#ifdef HAVE_PCRE2
 </%cpp>
 <span class="sep">|</span>
 <span class="label bold"><$ tr("Filter") $>:&nbsp;<input type="text" name="filter" value="<$ currentFilter $>" id="filter" onchange="filterRecordings(this, '<$ currentSort $>', '<$currentFlat$>')" />&nbsp;<& tooltip.help text=(tr("Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE).")) &></span>
 <%cpp>
-#endif
 if (currentFlat != "true") {
 </%cpp>
 <span class="sep">|</span>
@@ -663,56 +659,6 @@ if (recPtr && recPtr->scraperDataAvailable() ) {
 injectErrorHdSdIcon(\"icons-<$id$>\", <$cToSvInt(recPtr->RecordingErrors())$>, <$cToSvInt(recPtr->DurationDeviation())$>, \"<$sdhd$>\", \"<$recPtr->ChannelName()$>\", \"<$duration$>\", <$ cToSvInt(recPtr->NumberTsFiles()) $>, \"<$frameParams$>\")
 </script>
 <%cpp>
-}
-
-if (false) {
-LOCK_RECORDINGS_READ;
-const cRecording* recording = nullptr;
-if (!id.empty()) recording = RecordingsManager::GetByHash(id, Recordings);
-if (recording && recording->Info() ) {
-  int recordingErrors = -1;
-#if VDRVERSNUM >= 20505
-  recordingErrors = recording->Info()->Errors();
-#endif
-  const char *sdhd = nullptr;
-  cToSvConcat frameParams;
-#if VDRVERSNUM >= 20605
-//   StringAppendFrameParams(frameParams, recording);
-  switch (recording->Info()->FrameWidth()) {
-    case 720:
-      sdhd = "720x576";
-      break;
-    case 1280:
-      sdhd = "1280x720";
-      break;
-    case 1920:
-      sdhd = "1920x1080";
-      break;
-    case 3840:
-      sdhd = "3840x2160";
-      break;
-    default:
-      break;
-  }
-#endif
-
-  cGetScraperVideo getScraperVideo(nullptr, recording);
-  bool scraperDataAvailable = getScraperVideo.call(LiveSetup().GetPluginTvscraper());
-  if (scraperDataAvailable) {
-    int video_SD_HD = getScraperVideo.m_scraperVideo->getHD();
-    if (!sdhd) sdhd = video_SD_HD == 0 ? "sd": video_SD_HD == 1 ? "hd": "ud";
-    cToSvConcat duration;
-    if (recording->FileName() )
-      AppendDuration(duration, tr("%d:%02d"), recording->LengthInSeconds() );
-</%cpp>
-<img data-src="img/transparent.png" height="10px" />
-<span id="icons-<$id$>"></span>
-<script class="injectIcons">
-injectErrorHdSdIcon(\"icons-<$id$>\", <$cSv(cToSvInt(recordingErrors))$>, <$cSv(cToSvInt(getScraperVideo.m_scraperVideo->getDurationDeviation()))$>, \"<$sdhd$>\", \"<$cSv(recording->Info()->ChannelName())$>\", \"<$duration$>\", <$ 0 $>, \"<$frameParams$>\")
-</script>
-<%cpp>
-  }
-}
 }
 </%cpp>
 </%def>

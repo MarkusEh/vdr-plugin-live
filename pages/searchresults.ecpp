@@ -80,11 +80,11 @@ bool logged_in(false);
         for (SearchResults::iterator result = results.begin(); result != results.end(); ++result) {
           LOCK_TIMERS_READ;
           LOCK_CHANNELS_READ;
-          const cChannel* channel = Channels->GetByChannelID(result->Channel());
+          const cChannel* channel = result->GetChannel(Channels);
           if (!channel) continue;
           LOCK_RECORDINGS_READ;  // required because appendEpgItemWithRecItem needs also lock on recordings
           LOCK_SCHEDULES_READ;
-          const cEvent *event = result->GetEvent(channel);
+          const cEvent *event = result->GetEvent(channel, Schedules);
           if (!event || !event->StartTime() ) continue;
           current_day = appendEpgItemWithRecItem(epg_item, current_day, event, channel, true, Timers);
         }

@@ -148,120 +148,94 @@ SearchTimer::SearchTimer( std::string const& data )
   }
 }
 
-std::string SearchTimer::ToText()
-{
-   std::string tmp_Start;
-   std::string tmp_Stop;
-   std::string tmp_minDuration;
-   std::string tmp_maxDuration;
-   std::string tmp_chanSel;
-   std::string tmp_search;
-   std::string tmp_directory;
-   std::string tmp_catvalues;
-   std::string tmp_blacklists;
+std::string SearchTimer::ToText() {
+  cToSvConcat os;
+  os << m_id << ':'
+     << cToSvReplace(m_search, "|", "!^pipe^!").replaceAll(":", "|")  << ':';
+  if (m_useTime) {
+    os << "1:";
+    os.appendInt<4>(m_startTime) << ':';
+    os.appendInt<4>(m_stopTime) << ':';
+  } else {
+    os << "0:::";
+  }
+  os << m_useChannel << ':';
+  if (m_useChannel==1) {
+    LOCK_CHANNELS_READ;
+    cChannel const* channelMin = Channels->GetByChannelID( m_channelMin );
+    cChannel const* channelMax = Channels->GetByChannelID( m_channelMax );
 
-   tmp_search    = cToSvReplace(m_search,    "|", "!^pipe^!").replaceAll(":", "|");
-   tmp_directory = cToSvReplace(m_directory, "|", "!^pipe^!").replaceAll(":", "|");
+    if (channelMax && channelMin->Number() < channelMax->Number())
+      os << m_channelMin << '|' << m_channelMax;
+    else
+      os << m_channelMin;
+  } else if (m_useChannel==2) {
+    os << m_channels;
+  } else {
+    os << "0";
+  }
+  os<< ':';
+  os<< m_useCase << ':'
+    << m_mode << ':'
+    << m_useTitle << ':'
+    << m_useSubtitle << ':'
+    << m_useDescription << ':';
+  if (m_useDuration) {
+    os << "1:";
+    os.appendInt<4>(m_minDuration) << ':';
+    os.appendInt<4>(m_maxDuration) << ':';
+  } else {
+    os << "0:::";
+  }
+  os<< m_useAsSearchtimer << ':'
+    << m_useDayOfWeek << ':'
+    << m_dayOfWeek << ':'
+    << m_useEpisode << ':'
+    << cToSvReplace(m_directory, "|", "!^pipe^!").replaceAll(":", "|") << ':'
+    << m_priority << ':'
+    << m_lifetime << ':'
+    << m_marginstart << ':'
+    << m_marginstop << ':'
+    << m_useVPS << ':'
+    << m_action << ':'
+    << m_useExtEPGInfo << ':';
+  if (m_useExtEPGInfo) {
+    for(unsigned int i=0; i<m_ExtEPGInfo.size(); i++) {
+      if (i > 0) os <<  '|';
+      os << cToSvReplace(m_ExtEPGInfo[i], ":", "!^colon^!").replaceAll("|", "!^pipe^!");
+    }
+  }
+  os << ':';
+  os<< m_avoidrepeats << ':'
+    << m_allowedrepeats << ':'
+    << m_compareTitle << ':'
+    << m_compareSubtitle << ':'
+    << m_compareSummary << ':'
+    << m_catvaluesAvoidRepeat << ':'
+    << m_repeatsWithinDays << ':'
+    << m_delAfterDays << ':'
+    << m_recordingsKeep << ':'
+    << m_switchMinBefore << ':'
+    << m_pauseOnNrRecordings << ':'
+    << m_blacklistmode << ':';
+  if (m_blacklistmode == 1) {
+    for (unsigned int i=0; i<m_blacklistIDs.size(); i++) {
+      if (i > 0) os <<  '|';
+      os << m_blacklistIDs[i];
+    }
+  }
+  os << ':';
+  os<< m_fuzzytolerance << ':'
+    << m_useInFavorites << ':'
+    << m_menuTemplate << ':'
+    << m_delMode << ':'
+    << m_delAfterCountRecs << ':'
+    << m_delAfterDaysOfFirstRec << ':'
+    << m_useAsSearchTimerFrom << ':'
+    << m_useAsSearchTimerTil << ':'
+    << m_ignoreMissingEPGCats;
 
-   if (m_useTime)
-   {
-      std::stringstream os;
-      os << std::setw(4) << std::setfill('0') << m_startTime;
-      tmp_Start = os.str();
-      os.str("");
-      os << std::setw(4) << std::setfill('0') << m_stopTime;
-      tmp_Stop = os.str();
-   }
-   if (m_useDuration)
-   {
-      std::stringstream os;
-      os << std::setw(4) << std::setfill('0') << m_minDuration;
-      tmp_minDuration = os.str();
-      os.str("");
-      os << std::setw(4) << std::setfill('0') << m_maxDuration;
-      tmp_maxDuration = os.str();
-   }
-
-   if (m_useChannel==1)
-   {
-      LOCK_CHANNELS_READ;
-      cChannel const* channelMin = Channels->GetByChannelID( m_channelMin );
-      cChannel const* channelMax = Channels->GetByChannelID( m_channelMax );
-
-      if (channelMax && channelMin->Number() < channelMax->Number())
-         tmp_chanSel = *m_channelMin.ToString() + std::string("|") + *m_channelMax.ToString();
-      else
-         tmp_chanSel = *m_channelMin.ToString();
-   }
-   if (m_useChannel==2)
-      tmp_chanSel = m_channels;
-
-   if (m_useExtEPGInfo)
-   {
-      for(unsigned int i=0; i<m_ExtEPGInfo.size(); i++)
-         tmp_catvalues += (tmp_catvalues != ""?"|":"") +
-            std::string(cToSvReplace(m_ExtEPGInfo[i], ":", "!^colon^!").replaceAll("|", "!^pipe^!"));
-   }
-
-   if (m_blacklistmode == 1)
-   {
-      for(unsigned int i=0; i<m_blacklistIDs.size(); i++)
-         tmp_blacklists += (tmp_blacklists != ""?"|":"") +  m_blacklistIDs[i];
-   }
-
-   std::stringstream os;
-   os << m_id << ":"
-      << tmp_search << ":"
-      << (m_useTime?1:0) << ":"
-      << tmp_Start << ":"
-      << tmp_Stop << ":"
-      << m_useChannel << ":"
-      << ((m_useChannel>0 && m_useChannel<3)?tmp_chanSel:"0") << ":"
-      << (m_useCase?1:0) << ":"
-      << m_mode << ":"
-      << (m_useTitle?1:0) << ":"
-      << (m_useSubtitle?1:0) << ":"
-      << (m_useDescription?1:0) << ":"
-      << (m_useDuration?1:0) << ":"
-      << tmp_minDuration << ":"
-      << tmp_maxDuration << ":"
-      << m_useAsSearchtimer << ":"
-      << (m_useDayOfWeek?1:0) << ":"
-      << m_dayOfWeek << ":"
-      << (m_useEpisode?1:0) << ":"
-      << tmp_directory << ":"
-      << m_priority << ":"
-      << m_lifetime << ":"
-      << m_marginstart << ":"
-      << m_marginstop << ":"
-      << (m_useVPS?1:0) << ":"
-      << m_action << ":"
-      << (m_useExtEPGInfo?1:0) << ":"
-      << tmp_catvalues << ":"
-      << (m_avoidrepeats?1:0) << ":"
-      << m_allowedrepeats << ":"
-      << (m_compareTitle?1:0) << ":"
-      << m_compareSubtitle << ":"
-      << (m_compareSummary?1:0) << ":"
-      << m_catvaluesAvoidRepeat << ":"
-      << m_repeatsWithinDays << ":"
-      << m_delAfterDays << ":"
-      << m_recordingsKeep << ":"
-      <<  m_switchMinBefore << ":"
-      << m_pauseOnNrRecordings << ":"
-      << m_blacklistmode << ":"
-      << tmp_blacklists << ":"
-      << m_fuzzytolerance << ":"
-      << (m_useInFavorites?1:0) << ":"
-      << m_menuTemplate << ":"
-      << m_delMode << ":"
-      << m_delAfterCountRecs << ":"
-      << m_delAfterDaysOfFirstRec << ":"
-      << (long) m_useAsSearchTimerFrom << ":"
-      << (long) m_useAsSearchTimerTil << ":"
-      << m_ignoreMissingEPGCats;
-
-   return os.str();
+  return std::string(cSv(os));
 }
 
 void SearchTimer::ParseChannel(cSv data)
@@ -281,17 +255,16 @@ void SearchTimer::ParseChannelIDs(cSv data)
   m_channelMin = lexical_cast<tChannelID>(*part);
 
   LOCK_CHANNELS_READ;
-  cChannel const* channel = Channels->GetByChannelID( m_channelMin );
-  if ( channel != 0 )
+  const cChannel *channel = Channels->GetByChannelID( m_channelMin );
+  if (channel)
     m_channels = channel->Name();
 
-  if (parts.size() < 2) return;
-  ++part;
+  if (++part == parts.end()) return;
   m_channelMax = lexical_cast<tChannelID>(*part);
 
   channel = Channels->GetByChannelID( m_channelMax );
-  if ( channel != 0 )
-    m_channels += std::string( " - " ) + channel->Name();
+  if (channel)
+    m_channels += cSv(cToSvConcat(" - ", channel->Name()));
 }
 
 void SearchTimer::ParseExtEPGInfo(cSv data)
@@ -348,21 +321,20 @@ bool SearchTimers::Reload()
   if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
     throw HtmlError( tr("EPGSearch version outdated! Please update.") );
 
-  LOCK_CHANNELS_READ;
   std::list<std::string> timers = service.handler->SearchTimerList();
   m_timers.assign( timers.begin(), timers.end() );
-  m_timers.sort();
+  std::sort(m_timers.begin(), m_timers.end());
+//  m_timers.sort();
   return true;
 }
 
 bool SearchTimers::Save(SearchTimer* searchtimer)
 {
+  if (!searchtimer) return false;
   Epgsearch_services_v1_0 service;
   if ( !CheckEpgsearchVersion() || cPluginManager::CallFirstService(ServiceInterface, &service) == 0 )
     throw HtmlError( tr("EPGSearch version outdated! Please update.") );
 
-  if (!searchtimer) return false;
-  LOCK_CHANNELS_READ;
   if (searchtimer->Id() >= 0)
     return service.handler->ModSearchTimer(searchtimer->ToText());
   else
@@ -531,11 +503,9 @@ SearchResult::SearchResult( std::string const& data )
   }
 }
 
-const cEvent* SearchResult::GetEvent(const cChannel* Channel)
+const cEvent* SearchResult::GetEvent(const cChannel* Channel, const cSchedules *Schedules)
 {
   if (!Channel) return nullptr;
-
-  LOCK_SCHEDULES_READ;
   const cSchedule *Schedule = Schedules->GetSchedule(Channel);
   if (!Schedule) return nullptr;
 #if APIVERSNUM >= 20502

@@ -273,7 +273,7 @@ private:
 class SearchTimers
 {
 public:
-  typedef std::list<SearchTimer> TimerList;
+  typedef std::vector<SearchTimer> TimerList;
   typedef TimerList::size_type size_type;
   typedef TimerList::iterator iterator;
   typedef TimerList::const_iterator const_iterator;
@@ -347,12 +347,8 @@ public:
   time_t TimerStopTime() const { return m_timerstop; }
   int TimerMode() const { return m_timerMode; }
   bool operator<( SearchResult const& other ) const { return m_starttime < other.m_starttime; }
-  const cEvent* GetEvent(const cChannel* Channel);
-
-  /* Be careful when calling this function concerning the lock order:
-   *   Timers, Channels, Recordings Schedules
-   */
-  const cChannel* GetChannel() { LOCK_CHANNELS_READ; return Channels->GetByChannelID(m_channel); }
+  const cEvent* GetEvent(const cChannel* Channel, const cSchedules *Schedules);
+  const cChannel* GetChannel(const cChannels *Channels) { return Channels->GetByChannelID(m_channel); }
 
 private:
   int m_searchId;

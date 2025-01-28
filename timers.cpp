@@ -26,9 +26,9 @@ namespace vdrlive {
   const cTimer* SortedTimers::GetByTimerId(cSv timerid, const cTimers* Timers)
   {
     cSplit parts(timerid, ':');
-    if ( parts.size() < 5 ) {
+    if (parts.size() < 5) {
       esyslog("live: GetByTimerId: invalid format %.*s", (int)timerid.length(), timerid.data() );
-      return 0;
+      return nullptr;
     }
 
 #ifdef DEBUG_LOCK
@@ -37,9 +37,9 @@ namespace vdrlive {
     LOCK_CHANNELS_READ;
     auto part = parts.begin();
     const cChannel* channel = Channels->GetByChannelID(lexical_cast<tChannelID>(*part, tChannelID(), "SortedTimers::GetByTimerId"));
-    if ( channel == 0 ) {
+    if (!channel) {
       esyslog("live: GetByTimerId: no channel %.*s", (int)(*part).length(), (*part).data() );
-      return 0;
+      return nullptr;
     }
 
     int weekdays = parse_int<int>(*++part);
@@ -53,7 +53,7 @@ namespace vdrlive {
          timer->Start() == start && timer->Stop() == stop )
         return timer;
     }
-    return 0;
+    return nullptr;
   }
 
   std::string SortedTimers::EncodeDomId(cSv timerid)
@@ -496,15 +496,16 @@ namespace vdrlive {
   const cTimer* TimerManager::GetTimer(tEventID eventid, tChannelID channelid, const cTimers *Timers)
   {
     LOCK_CHANNELS_READ;
+    const cChannel *channel = Channels->GetByChannelID(channelid);
+    if (!channel) return nullptr;
     LOCK_SCHEDULES_READ;
-    const cSchedule *schedule = Schedules->GetSchedule(channelid);
+    const cSchedule *schedule = Schedules->GetSchedule(channel);
     if (!schedule) return nullptr;
 #if APIVERSNUM >= 20502
     const cEvent *event = schedule->GetEventById(eventid);
 #else
     const cEvent *event = schedule->GetEvent(eventid);
 #endif
-    const cChannel *channel = Channels->GetByChannelID(channelid);
     return GetTimer(event, channel, Timers);
   }
 

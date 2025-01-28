@@ -24,7 +24,7 @@ using namespace vdrlive;
 <%request scope="global">
   tChannelID channelID;
   int channelNumber;
-  std::string RecId;
+  std::string g_recid;
 </%request>
 <%include>page_init.eh</%include>
 <%cpp>
@@ -50,8 +50,8 @@ using namespace vdrlive;
   std::string url;
   int channelVtype = 0;
   if ( qparam.has("recid") ) {
-    RecId = recid.substr( 0, 10 ).compare( "recording_" ) == 0 ? recid.substr( 10 ) : recid;
     {
+      g_recid = recid;
       LOCK_RECORDINGS_READ;
       const cRecording* Recording = RecordingsManager::GetByHash(recid, Recordings);
       if (!Recording)
@@ -264,7 +264,7 @@ if (!epgEvent.Id().empty() ) {
 <form action="stream.html=" method="get" id="recordings">
   <span>
     <label for="recording"><$ tr("Recording") $>:&nbsp;</label>
-    <& recordings_widget name=("recid") selected=(RecId) onchange=("player.stop(); document.forms.recordings.submit()") &>
+    <& recordings_widget name=("recid") selected=(g_recid) onchange=("player.stop(); document.forms.recordings.submit()") &>
   </span>
 </form>
 <span class="sep">|</span>

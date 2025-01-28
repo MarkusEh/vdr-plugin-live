@@ -35,10 +35,6 @@ Cxxtools >= 2.2.1  - http://www.tntnet.org/download.hms  // https://web.archive.
 
 Tntnet provides basic web server functions for live and needs cxxtools.
 
-PCRE2 >= 10.38     - https://github.com/PhilipHazel/pcre2/releases
-PCRE2 provides filtering for recordings using Perl regexp language.
-If you don't need filtering, PCRE2 is optional.
-
 Installation:
 =============
 

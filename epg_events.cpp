@@ -126,16 +126,17 @@ namespace vdrlive
       tChannelID channelid;
       tEventID eventid;
       DecodeDomId(epgid, channelid, eventid);
-      if ( !channelid.Valid() || eventid == 0 ) return false;
-      const cSchedule *schedule = Schedules->GetSchedule(channelid);
+      if (!channelid.Valid() || eventid == 0) return false;
+      channel = Channels->GetByChannelID(channelid);
+      if (!channel) return false;
+      const cSchedule *schedule = Schedules->GetSchedule(channel);
       if (!schedule) return false;
 #if APIVERSNUM >= 20502
       event = schedule->GetEventById(eventid);
 #else
       event = schedule->GetEvent(eventid);
 #endif
-      channel = Channels->GetByChannelID(channelid);
-      return event && channel;
+      return event;
     }
 
 

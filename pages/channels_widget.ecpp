@@ -27,9 +27,9 @@ bool logged_in(false);
 <%cpp>
   tChannelID selected_ChannelID = tChannelID::FromString(selected.c_str() );
   LOCK_CHANNELS_READ;
-   for ( cChannel *listChannel = (cChannel *)Channels->First(); listChannel; listChannel = (cChannel *)Channels->Next( listChannel ) ) {
-     if ( listChannel->GroupSep() || *listChannel->Name() == '\0' ) continue;
+  for (const cChannel *listChannel = Channels->First(); listChannel; listChannel = Channels->Next(listChannel) ) {
+    if (listChannel->GroupSep() || !listChannel->Name() || *listChannel->Name() == '\0') continue;
 </%cpp>
-    <option value="<? channelid ? listChannel->GetChannelID() ?><? !channelid ? cToSvInt(listChannel->Number()) ?>"<?? selected_ChannelID == listChannel->GetChannelID() ? " selected=\"selected\"" ?>><$$ cToSvInt(listChannel->Number()) $>: <$ listChannel->Name() $></option>
-%  }
+    <option value="<$$ channelid ? cToSvConcat(listChannel->GetChannelID()):cToSvInt(listChannel->Number()) $>"<?? selected_ChannelID == listChannel->GetChannelID() ? " selected=\"selected\"" ?>><$$ cToSvInt(listChannel->Number()) $>: <$ listChannel->Name() $></option>
+% }
 </select>

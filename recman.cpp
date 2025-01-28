@@ -1,6 +1,3 @@
-#ifdef HAVE_PCRE2
-#include "StringMatch.h"
-#endif
 #include <iostream>
 #include <dirent.h>
 
@@ -61,8 +58,7 @@ might have purged some cRecording objects, resulting in undefined behaviour
     if (hash.compare(0, 10, "recording_") != 0) return nullptr;
     XXH128_hash_t xxh = parse_hex_128(hash.substr(10));
     for (const cRecording* rec = Recordings->First(); rec; rec = Recordings->Next(rec)) {
-      XXH128_hash_t xxh_rec = XXH3_128bits(rec->FileName(), strlen(rec->FileName()));
-      if (xxh_rec.high64 == xxh.high64 && xxh_rec.low64 == xxh.low64) return rec;
+      if (XXH128_isEqual(XXH3_128bits(rec->FileName(), strlen(rec->FileName())), xxh)) return rec;
     }
     return nullptr;
   }
@@ -73,10 +69,9 @@ might have purged some cRecording objects, resulting in undefined behaviour
     if (hash.compare(0, 10, "recording_") != 0) return 0;
     XXH128_hash_t xxh = parse_hex_128(hash.substr(10));
     for (RecordingsItemRecPtr recItem : *GetRecordingsTree()->allRecordings()) {
-      XXH128_hash_t xxh_rec = recItem->IdHash();
-      if (xxh_rec.high64 == xxh.high64 && xxh_rec.low64 == xxh.low64) return recItem;
+      if (XXH128_isEqual(recItem->IdHash(), xxh)) return recItem;
     }
-    return 0;
+    return nullptr;
   }
 
   bool RecordingsManager::UpdateRecording(cSv hash, cSv directory, cSv name, bool copy, cSv title, cSv shorttext, cSv description)
@@ -592,6 +587,14 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
     return m_s_image;
   }
 
+  bool RecordingsItemDir::matchesFilter(cSv filter) const {
+    if (filter.empty()) return true;
+    for (const auto &rec:m_entries) if (rec->matchesFilter(filter)) return true;
+    for (const auto &subdir:m_subdirs) if (subdir->matchesFilter(filter)) return true;
+    return false;
+  }
+
+
   /**
    *  Implementation of class RecordingsItemDirCollection:
    */
@@ -652,24 +655,13 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
   RecordingsItemRec::RecordingsItemRec(cSv name, const cRecording* recording, cMeasureTime *timeIdentify, cMeasureTime *timeOverview, cMeasureTime *timeImage, cMeasureTime *timeDurationDeviation, cMeasureTime *timeNumTsFiles, cMeasureTime *timeItemRec):
     m_name(name),
     m_name_for_search(GetNameForSearch(name)),
+    m_folder(recording->Folder()),
     m_idI(recording->Id()),
     m_hash(XXH3_128bits(recording->FileName(), strlen(recording->FileName()) )),
     m_isArchived(RecordingsManager::GetArchiveType(recording) )
   {
 // dsyslog("live: REC: C: rec %s -> %s", name.c_str(), parent->Name().c_str());
-    timeItemRec->start();
-    m_timeIdentify = timeIdentify;
-    m_timeOverview = timeOverview;
-    m_timeImage = timeImage;
-    m_timeDurationDeviation = timeDurationDeviation;
-
-    m_imageLevels = cImageLevels(eImageLevel::episodeMovie, eImageLevel::seasonMovie, eImageLevel::tvShowCollection, eImageLevel::anySeasonCollection);
-// this is for the image in "overview". We allow as many levels as we have, to ensure that there is an image
-//  m_imageLevels = cImageLevels(eImageLevel::episodeMovie, eImageLevel::seasonMovie, eImageLevel::anySeasonCollection);
-    getScraperData(recording);
-    timeItemRec->stop();
 // to allow us to remove m_recording
-    m_Folder = recording->Folder();
     m_checkNew = recording->IsNew();
     m_fileSizeMB = recording->FileName() ? recording->FileSizeMB() : -1;
     m_startTime = recording->Start();
@@ -689,8 +681,20 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
       m_scanType = info->ScanType();
       m_aspectRatio = info->AspectRatio();
 #endif
-      m_video_SD_HD = get_SD_HD(info);
     }
+// scraper data
+    timeItemRec->start();
+    m_timeIdentify = timeIdentify;
+    m_timeOverview = timeOverview;
+    m_timeImage = timeImage;
+    m_timeDurationDeviation = timeDurationDeviation;
+
+    m_imageLevels = cImageLevels(eImageLevel::episodeMovie, eImageLevel::seasonMovie, eImageLevel::tvShowCollection, eImageLevel::anySeasonCollection);
+// this is for the image in "overview". We allow as many levels as we have, to ensure that there is an image
+//  m_imageLevels = cImageLevels(eImageLevel::episodeMovie, eImageLevel::seasonMovie, eImageLevel::anySeasonCollection);
+    getScraperData(recording);
+    timeItemRec->stop();
+    if (info) m_video_SD_HD = get_SD_HD(info);
   }
 
   RecordingsItemRec::~RecordingsItemRec()
@@ -713,13 +717,12 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
 
   bool RecordingsItemRec::matchesFilter(cSv filter) const {
     if (filter.empty() ) return true;
-#ifdef HAVE_PCRE2
-    StringMatch sm(filter);
-    return sm.Matches(Name()) or
-      sm.Matches(ShortText()?ShortText() : "" ) or
-      sm.Matches(Description()?Description() : "");
-#endif
-    return true;
+    std::regex reg = getRegex(filter, g_locale, std::regex_constants::icase | std::regex_constants::nosubs | std::regex_constants::collate);
+
+    if (std::regex_search(Name().data(), Name().data()+Name().length(), reg)) return true;
+    if (ShortText() && std::regex_search(ShortText(), reg)) return true;
+    if (Description() && std::regex_search(Description(), reg)) return true;
+    return false;
   }
 
   void RecordingsItemRec::getScraperData(const cRecording *recording) {
@@ -1112,53 +1115,55 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
       m_rootFileSystem = m_root;
     }
 // add all recordings
-    LOCK_RECORDINGS_READ;
-    for (cRecording* recording = (cRecording *)Recordings->First(); recording; recording = (cRecording *)Recordings->Next(recording)) {
-      if (scraperDataAvailable) m_maxLevel = std::max(m_maxLevel, recording->HierarchyLevels() + 1);
-      else m_maxLevel = std::max(m_maxLevel, recording->HierarchyLevels() );
+    {
+      LOCK_RECORDINGS_READ;
+      for (const cRecording* recording = Recordings->First(); recording; recording = Recordings->Next(recording)) {
+        if (scraperDataAvailable) m_maxLevel = std::max(m_maxLevel, recording->HierarchyLevels() + 1);
+        else m_maxLevel = std::max(m_maxLevel, recording->HierarchyLevels() );
 
-      RecordingsItemDirPtr dir = m_rootFileSystem;
-      cSv name(recording->Name());
+        RecordingsItemDirPtr dir = m_rootFileSystem;
+        cSv name(recording->Name());
 
-      size_t index = 0;
-      size_t pos = 0;
-      do {
-        pos = name.find('~', index);
-        if (pos != std::string::npos) {
-// note: the dir returned is the added (or existing) subdir named name.substr(index, pos - index)
-          dir = dir->addDirIfNotExists(name.substr(index, pos - index) );
-          index = pos + 1;
-          // esyslog("live: DH: current dir: '%s'", dir->Name().c_str());
-        }
-        else {
-          cSv recName = name.substr(index, name.length() - index);
-          timeRecs.start();
-          RecordingsItemRecPtr recPtr = std::make_shared<RecordingsItemRec>(recName, recording, &timeIdentify, &timeOverview, &timeImage, &timeDurationDeviation, &timeNumTsFiles, &timeItemRec);
-          timeRecs.stop();
-          dir->m_entries.push_back(recPtr);
-          m_allRecordings.push_back(recPtr);
-          // esyslog("live: DH: added rec: '%.*s'", (int)recName.length(), recName.data());
-          if (scraperDataAvailable) {
-            switch (recPtr->scraperVideoType() ) {
-              case tMovie:
-                if (recPtr->m_s_collection_id == 0) break;
-                dir = recPtrMovieCollections->addDirCollectionIfNotExists(recPtr->m_s_collection_id, recPtr);
-                dir->m_entries.push_back(recPtr);
-                break;
-              case tSeries:
-                dir = recPtrTvShows->addDirIfNotExists(recPtr->scraperName() );
-                dir->setTvShow(recPtr);
-                if (recPtr->scraperSeasonNumber() != 0 || recPtr->scraperEpisodeNumber() != 0) {
-                  dir = dir->addDirSeasonIfNotExists(recPtr->scraperSeasonNumber(), recPtr);
-                }
-                dir->m_entries.push_back(recPtr);
-                break;
-              default:  // do nothing
-                break;
+        size_t index = 0;
+        size_t pos = 0;
+        do {
+          pos = name.find('~', index);
+          if (pos != std::string::npos) {
+  // note: the dir returned is the added (or existing) subdir named name.substr(index, pos - index)
+            dir = dir->addDirIfNotExists(name.substr(index, pos - index) );
+            index = pos + 1;
+            // esyslog("live: DH: current dir: '%s'", dir->Name().c_str());
+          }
+          else {
+            cSv recName = name.substr(index, name.length() - index);
+            timeRecs.start();
+            RecordingsItemRecPtr recPtr = std::make_shared<RecordingsItemRec>(recName, recording, &timeIdentify, &timeOverview, &timeImage, &timeDurationDeviation, &timeNumTsFiles, &timeItemRec);
+            timeRecs.stop();
+            dir->m_entries.push_back(recPtr);
+            m_allRecordings.push_back(recPtr);
+            // esyslog("live: DH: added rec: '%.*s'", (int)recName.length(), recName.data());
+            if (scraperDataAvailable) {
+              switch (recPtr->scraperVideoType() ) {
+                case tMovie:
+                  if (recPtr->m_s_collection_id == 0) break;
+                  dir = recPtrMovieCollections->addDirCollectionIfNotExists(recPtr->m_s_collection_id, recPtr);
+                  dir->m_entries.push_back(recPtr);
+                  break;
+                case tSeries:
+                  dir = recPtrTvShows->addDirIfNotExists(recPtr->scraperName() );
+                  dir->setTvShow(recPtr);
+                  if (recPtr->scraperSeasonNumber() != 0 || recPtr->scraperEpisodeNumber() != 0) {
+                    dir = dir->addDirSeasonIfNotExists(recPtr->scraperSeasonNumber(), recPtr);
+                  }
+                  dir->m_entries.push_back(recPtr);
+                  break;
+                default:  // do nothing
+                  break;
+              }
             }
           }
-        }
-      } while (pos != std::string::npos);
+        } while (pos != std::string::npos);
+      }
     }
     if (scraperDataAvailable) {
       for (auto it = recPtrTvShows->m_subdirs.begin(); it != recPtrTvShows->m_subdirs.end(); ) {
