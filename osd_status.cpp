@@ -79,25 +79,17 @@ void OsdStatusMonitor::OsdItem(const char *Text, int Index) {
   m_lastUpdate= clock();
 }
 
-#if defined(OSDSELECTED)
-void OsdStatusMonitor::OsdItemSelected(int Index) {
+#if defined(OSDSELECTED_3)
+void OsdStatusMonitor::OsdCurrentItem2(const char *Text, int Index) {
   cOsdStatusMonitorLock lw(true);
-  if (m_selected == Index) return;
-  m_selected = Index;
-  m_lastUpdate= clock();
-}
-void OsdStatusMonitor::OsdItemChanged(const char *Text) {
-  cOsdStatusMonitorLock lw(true);
-  if (m_selected < 0) {
-    esyslog("live: ERROR, OsdStatusMonitor::OsdItemChanged, m_selected < 0, Text = %s", Text);
-    return;
+  if (Index >= 0) m_selected = Index;
+  if (Text) {
+    if (m_selected < 0)
+      esyslog("live: ERROR, OsdStatusMonitor::OsdItemChanged2, m_selected < 0, Text = %s", Text);
+    else
+      m_items[m_selected].Update(Text);
   }
-  if (*cSplit(Text, '\t').begin() == *cSplit(m_items[m_selected].Text(), '\t').begin() ) {
-// update value of setting
-    m_items[m_selected].Update(Text);
-    m_lastUpdate= clock();
-  } else
-    esyslog("live: ERROR, OsdStatusMonitor::OsdItemChanged, Text = \"%s\" != m_items[m_selected].Text() = \"%.*s\"", Text, (int)m_items[m_selected].Text().length(), m_items[m_selected].Text().data());
+  m_lastUpdate= clock();
 }
 #else
 bool OsdStatusMonitor::Select_if_matches(std::vector<cLiveOsdItem>::size_type line, const char *Text) {

@@ -244,11 +244,8 @@ template <size_t N> cToSvConcat<N>& appendHtml(cToSvConcat<N>& target) {
   virtual void OsdItem(const char *Text, int Index);
                // The OSD displays the given single line Text as menu item at Index.
 #endif
-#if defined(OSDSELECTED)
-  virtual void OsdItemSelected(int Index);
-               // item with Index is selected
-  virtual void OsdItemChanged(const char *Text);
-               // currently selected item is changed
+#if defined(OSDSELECTED_3)
+  virtual void OsdCurrentItem2(const char *Text, int Index);
 #else
   bool Select_if_matches(std::vector<cLiveOsdItem>::size_type line, const char *Text);
   virtual void OsdCurrentItem(const char *Text);

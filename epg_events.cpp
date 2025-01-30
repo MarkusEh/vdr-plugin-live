@@ -6,6 +6,9 @@
 #include "setup.h"
 
 // STL headers need to be before VDR tools.h (included by <vdr/player.h>)
+#include <errno.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include <glob.h>
 #include <cassert>
 
@@ -164,39 +167,31 @@ namespace vdrlive
       return ScanForEpgImages(eventId, wildcard, images);
     }
 
-    bool ScanForRecImages(cSv imageId, cSv recfolder , std::list<std::string> & images)
+    bool ScanForRecImages(cSv imageId, cSv recfolder, std::list<std::string> & images)
     {
 // format of imageId: <hashed recording file name>
       if (recfolder.empty()) return false;
 
       bool found = false;
-      const std::string filetypes[] = {"png", "jpg", "webp", "PNG", "JPG"};
-      int size = sizeof(filetypes)/sizeof(filetypes[0]);
-
-      for (int j = 0; j < size; j++)
+      for (cSv filetype: cSplit("png,jpg,jpeg,webp,PNG,JPG", ','))
       {
-        const std::string filemask = concat(recfolder, "/*.", filetypes[j]);
+        cToSvConcat filemask(recfolder, "/*.", filetype);
         glob_t globbuf;
         globbuf.gl_offs = 0;
         if (glob(filemask.c_str(), GLOB_DOOFFS, NULL, &globbuf) == 0) {
           for(size_t i = 0; i < globbuf.gl_pathc; i++) {
-            const std::string_view imagefile(globbuf.gl_pathv[i]);
+            const cSv imagefile(globbuf.gl_pathv[i]);
             size_t delimPos = imagefile.find_last_of('/');
-            const std::string_view imagename(imagefile.substr(delimPos+1));
-            images.push_back(std::move(std::string(imagename)));
+            const cSv imagename(imagefile.substr(delimPos+1));  // file name, part in path after last /
 
             // create a temporary symlink of the image in tmpImageDir
             cToSvConcat tmpfile(tmpImageDir, imageId, "_", imagename);
-            cToSvConcat imgfile(imagefile);
-            imgfile.replaceAll("$", "\\$");
-            imgfile.replaceAll("\"", "\\\"");
-            tmpfile.replaceAll("$", "\\$");
-            tmpfile.replaceAll("\"", "\\\"");
-            cToSvConcat cmdBuff("ln -s \"", imgfile, "\" \"", tmpfile, "\"");
-            int s = system(cmdBuff.c_str() );
-            if (s < 0)
-              esyslog("live: ERROR: Couldn't execute command %s", cmdBuff.c_str() );
-            found = true;
+            if (symlink(globbuf.gl_pathv[i], tmpfile.c_str()) < 0 && errno != EEXIST) {
+              esyslog("live: ERROR: Couldn't create symlink, target = %s, linkpath = %s, error: %s", globbuf.gl_pathv[i], tmpfile.c_str(), strerror(errno));
+            } else {
+              images.push_back(std::move(std::string(imagename)));
+              found = true;
+            }
           }
           globfree(&globbuf);
         }
