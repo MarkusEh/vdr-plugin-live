@@ -503,7 +503,7 @@ inline char* itoaN(char *b, T i) { return b; }
 
 template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T> && N == 1, bool> = true>
 inline char* itoaN(char *b, T i) {
-  b[0] = i + '0';
+  *b = i + '0';
   return b+N;
 }
 template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T> && N == 2, bool> = true>
@@ -514,30 +514,34 @@ inline char* itoaN(char *b, T i) {
 // max uint16_t 65535
 template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T> && (N == 3 || N == 4), bool> = true>
 inline char* itoaN(char *b, T i) {
-  uint16_t q = ((uint32_t)i * 5243U) >> 19; // q = i/100; i < 43699
+  uint16_t q = (static_cast<uint32_t>(i) * 5243U) >> 19; // q = i/100; i < 43699
   b = itoaN<N-2>(b, q);
-  memcpy(b, to_chars10_internal::digits_100 + (((uint16_t)i - q*100) << 1), 2);
+  memcpy(b, to_chars10_internal::digits_100 + ((static_cast<uint16_t>(i) - q*100) << 1), 2);
   return b+2;
 }
-// max uint32_t 4294967295
-template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
-inline typename std::enable_if_t<N >= 5 && N <= 9, char*> itoaN(char *b, T i) {
-  uint32_t q = (uint32_t)i/100;
-  b = itoaN<N-2>(b, q);
-  memcpy(b, to_chars10_internal::digits_100 + (((uint32_t)i - q*100) << 1), 2);
-  return b+2;
+// max uint32_t 4294967295, sizeof(uint32_t) == 4
+template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T> && N >= 5 && (N <= 9 || sizeof(T) <= 4), bool> = true>
+inline char* itoaN(char *b, T i) {
+  for (int j = N-2; j > 0; j-=2) {
+    uint32_t q = static_cast<uint32_t>(i)/100;
+    memcpy(b+j, to_chars10_internal::digits_100 + ((static_cast<uint32_t>(i) - q*100) << 1), 2);
+    i = q;
+  }
+  itoaN<2-N%2>(b, i);
+  return b+N;
 }
-template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
-inline typename std::enable_if_t<N >= 10 && N != 18, char*> itoaN(char *b, T i) {
+// for uint64_t, sizeof(uint64_t) == 8
+template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T> && N >= 10 && N != 18 && sizeof(T) >= 5, bool> = true>
+inline char* itoaN(char *b, T i) {
   T q = i/100000000;
   b = itoaN<N-8>(b, q);
-  return itoaN<8>(b, i - q*100000000);
+  return itoaN<8>(b, static_cast<uint32_t>(i - q*100000000));
 }
-template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
-inline typename std::enable_if_t<N == 18, char*> itoaN(char *b, T i) {
+template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T> && N == 18 && sizeof(T) >= 5, bool> = true>
+inline char* itoaN(char *b, T i) {
   T q = i/1000000000;
-  b = itoaN<N-9>(b, q);
-  return itoaN<9>(b, i - q*1000000000);
+  b = itoaN<N-9>(b, static_cast<uint32_t>(q));
+  return itoaN<9>(b, static_cast<uint32_t>(i - q*1000000000));
 }
 //  ==== powN ===============================
 template<uint8_t N>
@@ -549,27 +553,27 @@ inline typename std::enable_if_t<N <= 19 && N >= 1, uint64_t> powN() {
 }
 
 //  ==== itoa_min_width =====================
-template<size_t N, typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
-inline typename std::enable_if_t<N == 0, char*> itoa_min_width(char *b, T i) {
+template<size_t N, typename T, std::enable_if_t<std::is_integral_v<T> && N == 0, bool> = true>
+inline char* itoa_min_width(char *b, T i) {
   return to_chars10_internal::itoa(b, i);
 }
-template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
-inline typename std::enable_if_t<N >= 1 && N <= 19, char*> itoa_min_width(char *b, T i) {
+template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T> && N >= 1 && N <= 19, bool> = true>
+inline char* itoa_min_width(char *b, T i) {
   if (i < powN<N>() ) return itoaN<N, T>(b, i);
   T q = i/powN<N>();
   b = to_chars10_internal::itoa(b, q);
   return itoaN<N, T>(b, i - q*powN<N>() );
 }
 
-template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
-inline typename std::enable_if_t<N >= 20, char*> itoa_min_width(char *b, T i) {
+template<size_t N, typename T, std::enable_if_t<std::is_unsigned_v<T> && N >= 20, bool> = true>
+inline char* itoa_min_width(char *b, T i) {
 // i < 10^20 is always true
   memset(b, '0', N-20);
   b += N-20;
   return itoaN<20, T>(b, i);
 }
-template<size_t N, typename T, std::enable_if_t<std::is_signed_v<T>, bool> = true>
-inline typename std::enable_if_t<N >= 1, char*> itoa_min_width(char *b, T i) {
+template<size_t N, typename T, std::enable_if_t<std::is_signed_v<T> && N >= 1, bool> = true>
+inline char* itoa_min_width(char *b, T i) {
   typedef std::make_unsigned_t<T> TU;
   if (i >= 0) return itoa_min_width<N, TU>(b, (TU)i);
   *b = '-';
@@ -580,7 +584,6 @@ inline typename std::enable_if_t<N >= 1, char*> itoa_min_width(char *b, T i) {
 template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
 inline T addCharsHex(char *buffer, size_t num_chars, T value) {
 // sizeof(buffer) must be >= num_chars. This is not checked !!!
-// value must be >= 0. This is not checked !!!
 // value is written with num_chars chars
 //   if value is too small -> left values filled with 0
 //   if value is too high  -> the highest numbers are not written. This is not checked!

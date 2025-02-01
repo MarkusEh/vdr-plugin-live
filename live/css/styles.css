@@ -1,4 +1,40 @@
 /* #############################
+   #  Properties
+   #############################
+*/
+
+@property --button-border-width {
+  syntax: "<length>";
+  initial-value: 1px;
+  inherits: false;
+}
+
+@property --button-border-style {
+  syntax: "<custom-ident>";
+  initial-value: outset;
+  inherits: false;
+}
+
+@property --button-border-radius {
+  syntax: "<length>";
+  initial-value: 4px;
+  inherits: false;
+}
+
+@property --button-border-gradient-top {
+  syntax: "<percentage>";
+  initial-value: 40%;
+  inherits: false;
+}
+
+@property --button-border-gradient-middle {
+  syntax: "<percentage>";
+  initial-value: 60%;
+  inherits: false;
+}
+
+
+/* #############################
    #  Globals
    #############################
 */
@@ -662,30 +698,51 @@ div#infobox div.st_controls div#infobox_channel_buttons {
 */
 
 button {
-  width: 100px;
-  height: 20px;
+  min-width: 100px;
+  min-height: 20px;
   color: #FFFFFF;
   font-size: 11px;
   border: 0px;
   vertical-align: middle;
   text-align: center;
   cursor: pointer;
-  padding-bottom: 3px;
+  padding: 0.2ex 0.4ch 0.3ex 0.4ch;
 }
 
 button.green {
+  /*
   background-image: url(../img/button_green.png);
+  */
+  background: linear-gradient(to bottom, rgb(106,223,32) var(--button-border-gradient-top), rgb(88,185,26) var(--button-border-gradient-middle), rgb(88,185,26));
+  border: var(--button-border-width) rgb(71,150,21) var(--button-border-style);
+  border-radius: var(--button-border-radius);
 }
 
 button.red {
+  /*
   background-image: url(../img/button_red.png);
+  */
+  background: linear-gradient(to bottom, rgb(223, 73, 33) var(--button-border-gradient-top), rgb(186,56,26) var(--button-border-gradient-middle), rgb(186,56,26));
+  border: var(--button-border-width) rgb(151,49,21) var(--button-border-style);
+  border-radius: var(--button-border-radius);
 }
 
 button.blue {
+  /*
   background-image: url(../img/button_blue.png);
+  */
+  background: linear-gradient(to bottom, rgb(95,105,175) var(--button-border-gradient-top), rgb(42,54,128) var(--button-border-gradient-middle), rgb(42,54,128));
+  border: var(--button-border-width) rgb(34,43,104) var(--button-border-style);
+  border-radius: var(--button-border-radius);
 }
 
 button.yellow {
+  /*
+  background-image: url(../img/button_yellow.png);
+  */
+  background: linear-gradient(to bottom, rgb(216,223,33) var(--button-border-gradient-top), rgb(184,186,26) var(--button-border-gradient-middle), rgb(184,186,26));
+  border: var(--button-border-width) rgb(146,151,21) var(--button-border-style);
+  border-radius: var(--button-border-radius);
   background-image: url(../img/button_yellow.png);
 }
 
@@ -913,8 +970,15 @@ table.listing>tbody>tr>td {
 }
 
 table.listing tbody tr td.action {
-  padding-left: 3px;
-  padding-right: 5px;
+  padding-left: 4px;
+  padding-right: 0px;
+}
+table.listing tbody tr td.action.rightcol {
+  padding-left: 4px;
+  padding-right: 4px;
+}
+table.listing tbody tr td:has(.progress) {
+  padding-left: 8px;
 }
 
 .action-rightcol {
@@ -1576,7 +1640,7 @@ div.epg_content {
 
 div.epg_content div.epg_tools {
   float: left;
-  width: 26px;
+  width: 29px;
   margin: 0 5px 0 0;
   margin: 0 5px 0 0;
   padding: 0;
@@ -1585,8 +1649,18 @@ div.epg_content div.epg_tools {
   vertical-align: top;
 }
 
-div.epg_content div.epg_tools img {
-  margin: 2px 5px;
+div.epg_content div.epg_tools img.icon {
+  margin: 2px 6px;
+}
+
+div.epg_content div.epg_tools div.recording_errors img.icon {
+  width: 16px;
+  margin: 2px 2px;
+}
+
+div.epg_content div.epg_tools div.recording_sd_hd img.icon {
+  width: 25px;
+  margin: 2px 2px;
 }
 
 span.epg_images img.epg_image {
