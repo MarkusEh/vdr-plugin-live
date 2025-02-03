@@ -36,7 +36,7 @@ namespace vdrlive {
  in scraper data)
 
 RecordingsTreePtr RecordingsManager::GetRecordingsTree()
-is checking far such changes. If there are none, it returns a cached
+is checking for such changes. If there are none, it returns a cached
 recording tree (m_recTree)
 Otherwise, the rec tree is re-created from currnet data.
 
@@ -739,12 +739,12 @@ bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsI
         m_s_episode_number = m_scraperVideo->getEpisodeNumber(); // sort duplicates
         m_s_season_number = m_scraperVideo->getSeasonNumber();   // sort duplicates
         m_language = m_scraperVideo->getLanguage();              // sort duplicates
-        m_duration_deviation = m_scraperVideo->getDurationDeviation();  // sort errors
         if (m_timeOverview) m_timeOverview->start();
            // for TV show, we need m_s_title (name of folder)
            // for movie, we need m_s_collection_id
         m_scraperVideo->getOverview(&m_s_title, &m_s_episode_name, &m_s_release_date, &m_s_runtime, &m_s_IMDB_ID, &m_s_collection_id, nullptr);
         if (m_timeOverview) m_timeOverview->stop();
+        m_duration_deviation = m_scraperVideo->getDurationDeviation();  // sort errors
       }
     } else {
 // service "GetScraperVideo" is not available

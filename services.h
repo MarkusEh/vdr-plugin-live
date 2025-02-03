@@ -78,7 +78,7 @@ public:
     const cEvent *event;             // check type for this event 
     const cRecording *recording;     // or for this recording
 //out
-    tvType type;                   //tSeries or tMovie or tNone
+    tvType type;                	   //tSeries or tMovie or tNone
     int movieId;
     int seriesId;
     int episodeId;
@@ -95,20 +95,6 @@ class cEnvironment
     std::string seriesPath;
     std::string moviesPath;
 };
-
-// Data structure for service "GetScraperImageDir"
-// deprecated, please use "GetEnvironment". Note: GetEnvironment is also available in scraper2vdr
-class cGetScraperImageDir {
-  public:
-//in: nothing, no input required
-//out
-  std::string scraperImageDir;   // this was given to the plugin with --dir, or is the default cache directory for the plugin. It will always end with a '/'
-  cPlugin *call(cPlugin *pScraper = NULL) {
-    if (!pScraper) return cPluginManager::CallFirstService("GetScraperImageDir", this);
-    else return pScraper->Service("GetScraperImageDir", this)?pScraper:NULL;
-  }
-};
-
 
 // Data structures for full series and episode information
 //     service  "GetMovie"
@@ -229,6 +215,9 @@ public:
 
 // Data structure for service "GetAutoTimerReason"
 class cGetAutoTimerReason {
+// note: if call->timer is used, caller must LOCK_TIMERS_READ before the call
+// note: if any cRecording (call->recording_in or call->recording) is used,
+//       caller must LOCK_RECORDINGS_READ before the call
 public:
 //in:
   const cTimer *timer = nullptr;            // only timer OR recording must be provided

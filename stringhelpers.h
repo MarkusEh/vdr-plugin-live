@@ -1666,7 +1666,7 @@ class cSortedVector {
 
 
 */
-inline std::regex getRegex(cSv sv, const std::locale &locale, std::regex::flag_type flags = std::regex_constants::icase | std::regex_constants::collate | std::regex_constants::multiline) {
+inline std::regex getRegex(cSv sv, const std::locale &locale, std::regex::flag_type flags = std::regex_constants::icase | std::regex_constants::collate) {
   try {
     std::regex result;
     result.imbue(locale);
