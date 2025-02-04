@@ -238,7 +238,7 @@ template <size_t N> cToSvConcat<N>& appendHtml(cToSvConcat<N>& target) {
 #endif
   virtual void OsdHelpKeys(const char *Red, const char *Green, const char *Yellow, const char *Blue);
                // The help keys have been set to the given values (may be NULL).
-#if defined(OSDITEM) && OSDITEM == 2
+#if VDRVERSNUM >= 20704 || (defined(OSDITEM) && OSDITEM == 2)
   virtual void OsdItem2(const char *Text, int Index, bool Selectable);
 #else
   virtual void OsdItem(const char *Text, int Index);

@@ -67,7 +67,7 @@ void cLiveOsdItem::Update(const char* Text) {
   virtual void OsdItem(const char *Text, int Index) {}
     // The OSD displays the given single line Text as menu item at Index.
 */
-#if defined(OSDITEM) && OSDITEM == 2
+#if VDRVERSNUM >= 20704 || (defined(OSDITEM) && OSDITEM == 2)
 void OsdStatusMonitor::OsdItem2(const char *Text, int Index, bool Selectable) {
   cOsdStatusMonitorLock lw(true);
   m_items.emplace_back(Text,Selectable);
