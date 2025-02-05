@@ -323,9 +323,11 @@ namespace vdrlive {
       double FramesPerSecond(void) const { return m_framesPerSecond; }
       uint16_t FrameWidth(void) const { return m_frameWidth; }
       uint16_t FrameHeight(void) const { return m_frameHeight; }
+#if VDRVERSNUM >= 20605
       eScanType ScanType(void) const { return m_scanType; }
       char ScanTypeChar(void) const { return ScanTypeChars[m_scanType]; }
       eAspectRatio AspectRatio(void) const { return m_aspectRatio; }
+#endif
 
       int CompareStD(const RecordingsItemRecPtr &second, int *numEqualChars=NULL) const;
       bool matchesFilter(cSv filter) const;
@@ -383,8 +385,10 @@ namespace vdrlive {
       double m_framesPerSecond = 0.;
       uint16_t m_frameWidth = 0;
       uint16_t m_frameHeight = 0;
+#if VDRVERSNUM >= 20605
       eScanType m_scanType = stUnknown;
       eAspectRatio m_aspectRatio = arUnknown;
+#endif
 
     protected:
       RecordingsItemRec(cSv name):
