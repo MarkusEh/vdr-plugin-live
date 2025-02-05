@@ -349,6 +349,7 @@ namespace vdrlive
       InitializeScraperVideo(event, nullptr);
       for (int i = 0; i < MaxEventContents; ++i) m_contents[i] = event->Contents(i);
       m_parentalRating = event->ParentalRating();
+      return;
     }
     if (LiveSetup().GetShowChannelsWithoutEPG()) {
       m_type = 1;
