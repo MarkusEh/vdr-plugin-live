@@ -33,8 +33,8 @@ void OsdStatusMonitor::OsdTitle(const char *Title) {
   m_lastUpdate= clock();
 }
 
-#if defined(OSDMESSAGE)
-void OsdStatusMonitor::OsdStatusMessage2(const char *Message, eMessageType Type) {
+#if VDRVERSNUM >= 20704
+void OsdStatusMonitor::OsdStatusMessage2(eMessageType Type, const char *Message) {
   cOsdStatusMonitorLock lw(true);
   m_message_type = Type;
 #else
@@ -79,7 +79,7 @@ void OsdStatusMonitor::OsdItem(const char *Text, int Index) {
   m_lastUpdate= clock();
 }
 
-#if defined(OSDSELECTED_3)
+#if VDRVERSNUM >= 20704 || defined(OSDSELECTED_3)
 void OsdStatusMonitor::OsdCurrentItem2(const char *Text, int Index) {
   cOsdStatusMonitorLock lw(true);
   if (Index >= 0) m_selected = Index;
