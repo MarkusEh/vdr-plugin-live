@@ -150,7 +150,7 @@ namespace vdrlive
 
   // -------------------------------------------------------------------------
 
-bool appendEpgItem(cToSvConcat<0> &epg_item, RecordingsItemRecPtr &recItem, const cEvent *Event, const cChannel *Channel, bool withChannel, const cTimers *Timers);
+bool appendEpgItem(cToSvConcat<0> &epg_item, RecordingsItemRec *&recItem, const cEvent *Event, const cChannel *Channel, bool withChannel, const cTimers *Timers);
 std::string appendEpgItemWithRecItem(cToSvConcat<0> &epg_item, cSv lastDay, const cEvent *Event, const cChannel *Channel, bool withChannel, const cTimers *Timers);
 }; // namespace vdrlive
 

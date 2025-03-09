@@ -36,7 +36,7 @@ Cxxtools >= 2.2.1  - http://www.tntnet.org/download.hms  // https://web.archive.
 Tntnet provides basic web server functions for live and needs cxxtools.
 
 Optional:
-tvscraper >= 1.2.1, for images and other information from [TMDB](https://www.themoviedb.org/) & TheTVDB.com
+tvscraper >= 1.2.13, for images and other information from [TMDB](https://www.themoviedb.org/) & TheTVDB.com
 
 Installation:
 =============

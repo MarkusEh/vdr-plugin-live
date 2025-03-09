@@ -363,6 +363,16 @@ class cScraperVideo
     virtual bool getEpisode(std::string *name, std::string *overview, int *absoluteNumber, std::string *firstAired, int *runtime, float *voteAverage, int *voteCount, std::string *imdbId) = 0;
     virtual ~cScraperVideo() {}
 };
+class cScraperVideo_v01: public cScraperVideo
+{
+  public:
+// only if this was created by a recording!
+// return true if the assignment to the movie / series or episode changed
+// note: if only runtime and/or duration_deviation changed, it will still return false
+// if true is returned, future calls to the interface methods will return the new (changed) data.
+// but, make sure to update all data you cached
+    virtual bool has_changed(const cRecording *recording, int &runtime) = 0;
+};
 
 // service to return cScraperVideo instance
 class cGetScraperVideo {
@@ -379,6 +389,22 @@ public:
   const cRecording *m_recording;     // must be NULL for events     ; or for this recording
 //OUT
    std::unique_ptr<cScraperVideo> m_scraperVideo;
+};
+// service to return cScraperVideo_v01 instance
+class cGetScraperVideo_v01 {
+public:
+  cGetScraperVideo_v01(const cEvent *event = nullptr, const cRecording *recording = nullptr):
+    m_event(event), m_recording(recording) { }
+
+  cPlugin *call(cPlugin *pScraper = nullptr) {
+    if (!pScraper) return cPluginManager::CallFirstService("GetScraperVideo_v01", this);
+    return pScraper->Service("GetScraperVideo_v01", this)?pScraper:nullptr;
+  }
+//IN: Use constructor to set these values
+  const cEvent *m_event;             // must be NULL for recordings ; provide data for this event
+  const cRecording *m_recording;     // must be NULL for events     ; or for this recording
+//OUT
+   std::unique_ptr<cScraperVideo_v01> m_scraperVideo;
 };
 
 #endif // __TVSCRAPER_SERVICES_H

@@ -162,7 +162,7 @@ using namespace vdrlive;
 <%cpp>
 if (qparam.has("recid")) {
 dsyslog("vdrlive::stream: generating recording info");
-RecordingsItemRecPtr rPtr = RecordingsManager::GetByIdHash(recid);
+RecordingsItemRec * rPtr = RecordingsManager::GetByIdHash(recid);
 cToSvConcat<0> recording_item;
 rPtr->AppendAsJSArray(recording_item);
 </%cpp>

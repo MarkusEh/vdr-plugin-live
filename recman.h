@@ -28,13 +28,16 @@ namespace vdrlive {
   /**
    *  Some forward declarations
    */
+
   class RecordingsTree;
   class RecordingsItemDir;
   class RecordingsItemRec;
+  class c_basic_dir;
+  class c_filesystem_dir;
+  template<class C> class const_rec_iterator;
 
   typedef std::shared_ptr<RecordingsTree>    RecordingsTreePtr;
   typedef std::shared_ptr<RecordingsItemDir> RecordingsItemDirPtr;
-  typedef std::shared_ptr<RecordingsItemRec> RecordingsItemRecPtr;
 
   bool operator< (const RecordingsItemDirPtr &a, const RecordingsItemDirPtr &b);
   bool operator< (cSv a, const RecordingsItemDirPtr &b);
@@ -54,6 +57,22 @@ namespace vdrlive {
   class RecordingsManager
   {
     public:
+      enum class eSortOrder { id=0, name=1, date=2, errors=3, durationDeviation=4, duplicatesLanguage=5, list_end=6 };
+      enum class eDirType { filesystem=0, collections=1, collection=2, seriess=3, series=4, season=5, list_end=6 };
+
+// static members
+    private:
+      static inline cStateKey m_recordingsStateKey;
+      static inline time_t m_last_recordings_update = 0;
+    public:
+      static inline std::vector<RecordingsItemRec*> all_recordings[(int)(eSortOrder::list_end)];
+      static inline std::vector<RecordingsItemRec*> &all_recordings_sorted = all_recordings[(int)(eSortOrder::name)];
+      static inline bool m_backwards = false;
+      static inline std::regex m_filter_regex;
+      static inline bool m_filter = false;
+
+      static void setSortOrder(eSortOrder sortOrder, bool backwards, cSv filter);
+
       /**
        *  Returns a shared pointer to a fully populated
        *  recordings tree.
@@ -70,7 +89,7 @@ namespace vdrlive {
        *  fetches a cRecording from the RecordingsTree collection. Returns
        *  NULL if recording was not found
        */
-      static RecordingsItemRecPtr const GetByIdHash(cSv hash);
+      static RecordingsItemRec* const GetByIdHash(cSv hash);
 
       /**
        *  Move a recording with the given hash according to
@@ -139,50 +158,73 @@ namespace vdrlive {
       static void EnsureValidData();
 
       static std::shared_ptr<RecordingsTree> m_recTree;
-      static cStateKey m_recordingsStateKey;
-      static time_t m_last_recordings_update;
-  };
-
-  class ShortTextDescription
-  {
-    public:
-      ShortTextDescription(const char * ShortText, const char * Description);
-      wint_t getNextNonPunctChar();
-    private:
-      const char * m_short_text;
-      const char * m_description;
   };
 
   /**
    * Class containing possible recordings compare functions
    */
-  enum class eSortOrder { name, date, errors, durationDeviation, duplicatesLanguage };
-  typedef bool (*tCompRec)(const RecordingsItemRecPtr &a, const RecordingsItemRecPtr &b);
+  typedef bool (*tCompRec)(const RecordingsItemRec * first, const RecordingsItemRec * second);
   typedef bool (*tCompDir)(const RecordingsItemDirPtr &a, const RecordingsItemDirPtr &b);
   class RecordingsItemPtrCompare
   {
     public:
 // recs
-      static bool ByAscendingDate(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second);
-      static bool ByDuplicatesName(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second);
-      static bool ByDuplicates(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second);
-      static bool ByDuplicatesLanguage(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second);
-      static bool ByAscendingNameDescSort(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second);
-      static bool ByDescendingRecordingErrors(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second);
-      static bool ByDescendingDurationDeviation(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second);
-      static bool ByEpisode(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second);
-      static bool ByReleaseDate(const RecordingsItemRecPtr & first, const RecordingsItemRecPtr & second);
+      static bool ByAscendingDate(const RecordingsItemRec * first, const RecordingsItemRec * second);
+      static bool ByDuplicatesName(const RecordingsItemRec * first, const RecordingsItemRec * second);
+      static bool ByDuplicates(const RecordingsItemRec * first, const RecordingsItemRec * second);
+      static bool ByDuplicatesLanguage(const RecordingsItemRec * first, const RecordingsItemRec * second);
+      static bool ByAscendingNameDescSort(const RecordingsItemRec * first, const RecordingsItemRec * second);
+      static bool ByDescendingRecordingErrors(const RecordingsItemRec * first, const RecordingsItemRec * second);
+      static bool ByDescendingDurationDeviation(const RecordingsItemRec * first, const RecordingsItemRec * second);
+      static bool ByEpisode(const RecordingsItemRec * first, const RecordingsItemRec * second);
+      static bool ByReleaseDate(const RecordingsItemRec * first, const RecordingsItemRec * second);
 // dirs
+//      static bool ByAscendingNameSort(const c_filesystem_dir * first, const c_filesystem_dir * second);
       static bool ByAscendingNameSort(const RecordingsItemDirPtr & first, const RecordingsItemDirPtr & second);
       static bool BySeason(const RecordingsItemDirPtr & first, const RecordingsItemDirPtr & second);
 // helpers
-      static int FindBestMatch(RecordingsItemRecPtr &BestMatch, const std::vector<RecordingsItemRecPtr>::const_iterator & First, const std::vector<RecordingsItemRecPtr>::const_iterator & Last, const RecordingsItemRecPtr & EPG_Entry);
+      static int FindBestMatch(RecordingsItemRec *&BestMatch, const std::vector<RecordingsItemRec*>::const_iterator & First, const std::vector<RecordingsItemRec*>::const_iterator & Last, const RecordingsItemRec* EPG_Entry);
 
-      static tCompRec getComp(eSortOrder sortOrder);
+      static tCompRec getComp(RecordingsManager::eSortOrder sortOrder);
   };
 // search a recording matching an EPG entry. The EPG entry is given with Name, ShortText, Description, Duration, scraperOverview
-  bool searchNameDesc(RecordingsItemRecPtr &RecItem, const std::vector<RecordingsItemRecPtr> *RecItems, const cEvent *event, cScraperVideo *scraperVideo);
+  bool searchNameDesc(RecordingsItemRec *&RecItem, const std::vector<RecordingsItemRec*> *RecItems, const cEvent *event, cScraperVideo *scraperVideo);
 
+
+  class c_basic_dir {
+    public:
+      c_basic_dir(RecordingsManager::eDirType dirType): m_dirType(dirType) {}
+      virtual ~c_basic_dir() {}
+      RecordingsManager::eDirType Type() const { return m_dirType; }
+      virtual cSv Name() const = 0;
+      virtual cStr NameStr() const = 0;
+      virtual int Level() const = 0;
+      virtual bool Contains(RecordingsItemRec* recordingsItemRec) const = 0;
+      virtual bool Contains(c_basic_dir* basic_dir) const = 0;
+//      bool matches_filter() const; // true if name or any recording (recursively) matches
+      bool matches_regex(const std::regex *reg = nullptr) const; // true if name or any recording (recursively) matches
+      bool ContainsNew() const;
+    private:
+      const RecordingsManager::eDirType m_dirType;
+  };
+  class c_filesystem_dir: public c_basic_dir {
+    public:
+      static void add_if_not_exists(cSv name_vdr);
+      c_filesystem_dir(cSv name_vdr);
+      cSv Name() const { return m_name; }
+      cStr NameStr() const { return m_name_str; }
+      int Level() const { return m_level; }
+      bool Contains(RecordingsItemRec* recordingsItemRec) const;
+      bool Contains(c_basic_dir* basic_dir) const;
+      cSv Name_vdr() const { return m_name_vdr; }
+      cSv Folder() const { return m_folder; }
+    private:
+      std::string m_name_vdr; // folder~folder_name
+      cSv m_name;             // folder_name
+      cStr m_name_str;        // folder_name
+      cSv m_folder;
+      int m_level;
+  };
 /**
  *  A recordings item that resembles a directory with other
  *  subdirectories and/or real recordings.
@@ -196,6 +238,7 @@ namespace vdrlive {
       RecordingsItemDir(cSv name, int level);
 
       cSv Name() const { return m_name; }
+      cStr NameStr() const { return m_name; }
       int Level() const { return m_level; }
 
       void finishRecordingsTree(); // sort recursively, Order: m_cmp_rec (if defined. Otherwise: no sort)
@@ -205,17 +248,22 @@ namespace vdrlive {
       virtual bool operator> (cSv sec) const { return m_name > sec; }
       virtual bool operator< (int sec) const { return false; }
       virtual bool operator> (int sec) const { return false; }
+      virtual bool Contains(const RecordingsItemRec *rec) const { return true; }
+      virtual bool Contains(const c_filesystem_dir *dir) const { return true; }
+      virtual void set_rec_iterator(const_rec_iterator<RecordingsItemRec> &rec_it);
+
       int numberOfRecordings() const;
       RecordingsItemDirPtr addDirIfNotExists(cSv dirName);
-      RecordingsItemDirPtr addDirCollectionIfNotExists(int collectionId, const RecordingsItemRecPtr &rPtr);
-      RecordingsItemDirPtr addDirSeasonIfNotExists(int seasonNumber, const RecordingsItemRecPtr &rPtr);
-      const std::vector<RecordingsItemRecPtr> *getRecordings(eSortOrder sortOrder);
+      RecordingsItemDirPtr addDirCollectionIfNotExists(int collectionId, const RecordingsItemRec *rPtr);
+      RecordingsItemDirPtr addDirSeasonIfNotExists(int seasonNumber, const RecordingsItemRec *rPtr);
+      const std::vector<RecordingsItemRec*> *getRecordings(RecordingsManager::eSortOrder sortOrder);
       const std::vector<RecordingsItemDirPtr> *getDirs() { return &m_subdirs; }
       bool checkNew() const;
       bool matchesFilter(cSv filter) const;
+      bool matchesFilter(std::regex *regex_filter = nullptr) const;
       void addDirList(std::vector<std::string> &dirs, cSv basePath) const;
 
-      void setTvShow(const RecordingsItemRecPtr &rPtr);
+      void setTvShow(const RecordingsItemRec* rPtr);
 
       int scraperCollectionId() const { return m_s_collection_id; }
       int scraperSeasonNumber() const { return m_s_season_number; }
@@ -227,14 +275,14 @@ namespace vdrlive {
       std::string m_name;
       int m_level;
       std::vector<RecordingsItemDirPtr> m_subdirs;
-      std::vector<RecordingsItemRecPtr> m_entries;
+      std::vector<RecordingsItemRec*> m_entries;
       bool m_entriesSorted = false;
-      std::vector<RecordingsItemRecPtr> m_entries_other_sort;
-      eSortOrder m_sortOrder = (eSortOrder)-1;
+      std::vector<RecordingsItemRec*> m_entries_other_sort;
+      RecordingsManager::eSortOrder m_sortOrder = (RecordingsManager::eSortOrder)-1;
       bool (*m_cmp_dir)(const RecordingsItemDirPtr &itemPtr1, const RecordingsItemDirPtr &itemPtr2) = NULL;
-      bool (*m_cmp_rec)(const RecordingsItemRecPtr &itemPtr1, const RecordingsItemRecPtr &itemPtr2) = NULL;
+      bool (*m_cmp_rec)(const RecordingsItemRec* itemPtr1, const RecordingsItemRec* itemPtr2) = NULL;
 // scraper data
-      RecordingsItemRecPtr m_rec_item; // in this rec item (if available), there are the relevant scraper data
+      const RecordingsItemRec *m_rec_item = nullptr; // in this rec item (if available), there are the relevant scraper data
                // for dirs (collection), it points to a rec item with relevant data for the collection
                // similar for dirs (TV show, season).
                // for others, it is just nullptr -> no data available
@@ -248,7 +296,7 @@ namespace vdrlive {
   class RecordingsItemDirSeason : public RecordingsItemDir
   {
     public:
-      RecordingsItemDirSeason(int level, const RecordingsItemRecPtr &rPtr);
+      RecordingsItemDirSeason(int level, const RecordingsItemRec *rPtr);
       virtual ~RecordingsItemDirSeason();
 
       virtual bool operator< (const RecordingsItemDirPtr &sec) const { return m_s_season_number < sec->scraperSeasonNumber(); }
@@ -261,7 +309,7 @@ namespace vdrlive {
   class RecordingsItemDirCollection : public RecordingsItemDir
   {
     public:
-      RecordingsItemDirCollection(int level, const RecordingsItemRecPtr &rPtr);
+      RecordingsItemDirCollection(int level, const RecordingsItemRec *rPtr);
       virtual ~RecordingsItemDirCollection();
 
       virtual bool operator< (const RecordingsItemDirPtr &sec) const { return m_s_collection_id < sec->scraperCollectionId(); }
@@ -284,33 +332,46 @@ namespace vdrlive {
     friend class RecordingsItemDirSeason;
     friend class RecordingsItemDirCollection;
     friend class RecordingsItemPtrCompare;
+    friend void update_all_recordings_scraper();
     public:
-      RecordingsItemRec(cSv name, const cRecording* recording, cMeasureTime *timeIdentify, cMeasureTime *timeOverview, cMeasureTime *timeImage, cMeasureTime *timeDurationDeviation, cMeasureTime *timeNumTsFiles, cMeasureTime *timeItemRec);
+      RecordingsItemRec(const cRecording* recording, cMeasureTime *timeIdentify=nullptr, cMeasureTime *timeOverview=nullptr, cMeasureTime *timeDurationDeviation=nullptr, cMeasureTime *timeItemRec=nullptr);
+      RecordingsItemRec(const cEvent *event, cScraperVideo *scraperVideo); // create dummy
 
-      virtual ~RecordingsItemRec();
+      void finalize(); // call this after constructor, for "work" where cRecording is not required
+      bool has_changed(const cRecording* recording); // true if this differs from recording
+      void set_seen(bool seen) { m_seen = seen; }
+      bool seen() { return m_seen; }
 
+// identify recording
+      int Id() const { return m_id;}   // id used by VDR, will not change until VDR restart
+      XXH128_hash_t IdHash() const { return m_hash; }  // filename hash, will not change until change of filename
+// data from recording / recording->info()
       cSv Name() const { return m_name; }
-      cSv NameForSearch() const { return m_name_for_search; }
-      const char *ShortText() const { return m_shortText.c_str(); }
-      const char *Description() const { return m_description.c_str(); }
+      cStr NameStr() const { return m_name_str; }  // for strcoll
+      cSv ShortText() const { return m_shortText; }
+      cSv Description() const { return m_description; }
       cSv ChannelName() const { return m_channelName; }
-      const char *Folder() const { return *m_folder; }
-      int FileSizeMB() const { return m_fileSizeMB; }
+      cSv Folder() const { return m_folder; }
+      int HierarchyLevels() const { return std::count(m_name_vdr.begin(), m_name_vdr.end(), FOLDERDELIMCHAR); }
+      double FramesPerSecond(void) const { return m_framesPerSecond; }
+      uint16_t FrameWidth(void) const { return m_frameWidth; }
+      uint16_t FrameHeight(void) const { return m_frameHeight; }
+#if VDRVERSNUM >= 20605
+      eScanType ScanType(void) const { return m_scanType; }
+      char ScanTypeChar(void) const { return ScanTypeChars[m_scanType]; }
+      eAspectRatio AspectRatio(void) const { return m_aspectRatio; }
+#endif
+      int FileSizeMB() const;    // ändert sich bei Recs, die aufnehmen!
       time_t StartTime() const { return m_startTime; }
-      int Duration() const { return m_duration; } // duration in seconds
-      int DurationDeviation() const { return m_duration_deviation; } // duration deviation in seconds
-      int IdI() const { return m_idI;}
-      XXH128_hash_t IdHash() const { return m_hash; }
+      int Duration() const;  // duration in seconds, ändert sich bei Recs, die aufnehmen!
+      int RecordingErrors() const;  // ändert sich bei Recs, die aufnehmen! Timestamp info ändert sich
 
 // To display the recording on the UI
-      int IsArchived() const { return m_isArchived; }
-      bool checkNew() const { return m_checkNew; }
-      const char *NewR() const { return LiveSetup().GetMarkNewRec() && checkNew() ? "_new" : "" ; }
-      int RecordingErrors() const { return m_recordingErrors; }
-      int NumberTsFiles() const {
-        if (m_number_ts_files == -2) m_number_ts_files = GetNumberOfTsFiles(m_idI);
-        return m_number_ts_files;
-      }
+      int IsArchived() const { return false; }
+      bool IsNew() const { return m_IsNew; }
+      const char *NewR() const { return LiveSetup().GetMarkNewRec() && IsNew() ? "_new" : "" ; }
+      int NumberTsFiles() const;    // ändert sich bei Recs, die aufnehmen!
+// scraper data
       bool scraperDataAvailable() const { return m_s_videoType == tMovie || m_s_videoType == tSeries; }
       tvType scraperVideoType() const { return m_s_videoType; }
       int scraperCollectionId() const { return m_s_collection_id; }
@@ -320,42 +381,54 @@ namespace vdrlive {
       cSv scraperReleaseDate() const { return m_s_release_date; }
       int language() const { return m_language; }
       int SD_HD() const { return m_video_SD_HD; }
-      double FramesPerSecond(void) const { return m_framesPerSecond; }
-      uint16_t FrameWidth(void) const { return m_frameWidth; }
-      uint16_t FrameHeight(void) const { return m_frameHeight; }
-#if VDRVERSNUM >= 20605
-      eScanType ScanType(void) const { return m_scanType; }
-      char ScanTypeChar(void) const { return ScanTypeChars[m_scanType]; }
-      eAspectRatio AspectRatio(void) const { return m_aspectRatio; }
-#endif
+      int DurationDeviation() const { return m_scraperVideo?m_scraperVideo->getDurationDeviation():0; } // duration deviation in seconds, ändert sich bei Recs, die aufnehmen!
 
-      int CompareStD(const RecordingsItemRecPtr &second, int *numEqualChars=NULL) const;
+      bool matches_filter() const; // true if name or short text or descr. match regex of global filter
+      bool matches_regex(const std::regex *reg = nullptr) const; // true if name or short text or descr. match regex
       bool matchesFilter(cSv filter) const;
+
     private:
+      void getScraperData();
       void getScraperData(const cRecording *recording);
+      void updateScraperData(const cRecording *recording);
       int get_SD_HD(const cRecordingInfo *info);
       const cTvMedia &scraperImage() const;
-      int CompareTexts(const RecordingsItemRecPtr &second, int *numEqualChars=NULL) const;
-      bool orderDuplicates(const RecordingsItemRecPtr &second, bool alwaysShortText, bool lang = false) const;
+      int CompareTexts(const RecordingsItemRec    *second, int *numEqualChars=NULL) const;
+      bool orderDuplicates(const RecordingsItemRec *second, bool alwaysShortText, bool lang = false) const;
     public:
-      virtual void AppendAsJSArray(cToSvConcat<0> &target) const;
-      static void AppendAsJSArray(cToSvConcat<0> &target, std::vector<RecordingsItemRecPtr>::const_iterator recIterFirst, std::vector<RecordingsItemRecPtr>::const_iterator recIterLast, bool &first, cSv filter, bool reverse);
+      int CompareStD(const RecordingsItemRec *second, int *numEqualChars=NULL) const;
+      void AppendAsJSArray(cToSvConcat<0> &target) const;
+      static void AppendAsJSArray(cToSvConcat<0> &target, std::vector<RecordingsItemRec*>::const_iterator recIterFirst, std::vector<RecordingsItemRec*>::const_iterator recIterLast, bool &first, cSv filter, bool reverse);
 
       mutable cMeasureTime *m_timeIdentify = nullptr;
       mutable cMeasureTime *m_timeOverview = nullptr;
-      mutable cMeasureTime *m_timeImage = nullptr;
       mutable cMeasureTime *m_timeDurationDeviation = nullptr;
 
-    protected:
-      const std::string m_name;
-      std::string GetNameForSearch(cSv name);
-      const std::string m_name_for_search;
-      const cString m_folder;
-      const int m_idI = -1;
+    private:
+      const int m_id;
       const XXH128_hash_t m_hash;
-      const int m_isArchived = 0;
-      mutable int m_number_ts_files = -2;
-      std::unique_ptr<cScraperVideo> m_scraperVideo;
+      std::string m_name_vdr;  // name as VDR returns with Name(): folder~name
+      const std::string m_file_name; // name as VDR returns with FileName(): name in filesystem, do no sanitize this!
+      cSv m_name;
+      cStr m_name_str;
+      cSv m_folder;
+      std::string m_shortText;
+      std::string m_description;
+      std::string m_channelName;
+      mutable int m_fileSizeMB = -1;
+      time_t m_startTime = 0;
+      mutable int m_duration = -1;
+      mutable bool m_IsNew = false;
+      mutable int m_recordingErrors = -1;
+      double m_framesPerSecond = 0.;
+      uint16_t m_frameWidth = 0;
+      uint16_t m_frameHeight = 0;
+#if VDRVERSNUM >= 20605
+      eScanType m_scanType = stUnknown;
+      eAspectRatio m_aspectRatio = arUnknown;
+#endif
+      mutable int m_number_ts_files = -1;
+      std::unique_ptr<cScraperVideo_v01> m_scraperVideo;
       tvType m_s_videoType = tNone;
       int m_s_dbid = 0;
       std::string m_s_title;
@@ -364,7 +437,6 @@ namespace vdrlive {
       std::string m_s_release_date;
       mutable cTvMedia m_s_image;
       mutable bool m_s_image_requested = false;
-      cImageLevels m_imageLevels;
       int m_s_runtime = 0;
       int m_s_collection_id = 0;
       int m_s_episode_number = 0;
@@ -372,40 +444,85 @@ namespace vdrlive {
       int m_language = 0;
       int m_video_SD_HD = -2;  // < -2: not checked. -1: Radio. 0 is SD, 1 is HD, >1 is UHD or better
 
-      int m_duration_deviation = 0;
-// to remove m_recording
-      std::string m_shortText;
-      std::string m_description;
-      std::string m_channelName;
-      int m_fileSizeMB = -1;
-      time_t m_startTime = 0;
-      int m_duration = -1;
-      bool m_checkNew = false;
-      int m_recordingErrors = 0;
-      double m_framesPerSecond = 0.;
-      uint16_t m_frameWidth = 0;
-      uint16_t m_frameHeight = 0;
-#if VDRVERSNUM >= 20605
-      eScanType m_scanType = stUnknown;
-      eAspectRatio m_aspectRatio = arUnknown;
-#endif
-
-    protected:
-      RecordingsItemRec(cSv name):
-        m_name(name),
-        m_name_for_search(GetNameForSearch(name)),
-        m_hash(XXH3_128bits("abc", 3)) {}
+      bool m_seen;
   };
 
-  /**
-   * Class containing recordings to compare or "dummy" recordings, i.e. data from EPG which can be compared with a recording
-   */
-  class RecordingsItemDummy: public RecordingsItemRec
-  {
-    friend class RecordingsItemPtrCompare;
+// iterate over all recordings, sorted by id (VDR-id) =====================================
+// examples:
+//   a) for (RecordingsItemRec *r: all_recordings_iterator() ) { ... }
+//   b) std::vector<RecordingsItemRec*> s_name;
+//      s_name.assign(all_recordings_iterator(), all_recordings_iterator(iterator_end() ));
+//      std::sort(s_name.begin(), s_name.end(), comp)
+
+  class all_recordings_iterator {
     public:
-      RecordingsItemDummy(const cEvent *event, cScraperVideo *scraperVideo);
+      using iterator_category = std::forward_iterator_tag;
+      using value_type = RecordingsItemRec*;
+      using difference_type = std::ptrdiff_t;
+      using pointer = RecordingsItemRec**;
+      using reference = RecordingsItemRec*&;
+
+      all_recordings_iterator(iterator_begin d):
+        m_current(RecordingsManager::all_recordings[(int)(RecordingsManager::eSortOrder::id)].begin()) {
+        if (m_current == RecordingsManager::all_recordings[(int)(RecordingsManager::eSortOrder::id)].end() ) return;   // empty container
+        if (!*m_current) ++(*this);
+      }
+      all_recordings_iterator():    // creates the begin() iterator !!!!!
+        all_recordings_iterator(iterator_begin() ) { }
+      all_recordings_iterator(iterator_end d):
+        m_current(RecordingsManager::all_recordings[(int)(RecordingsManager::eSortOrder::id)].end()) {}
+
+      all_recordings_iterator &operator++() {
+        for (++m_current; m_current != RecordingsManager::all_recordings[(int)(RecordingsManager::eSortOrder::id)].end(); ++m_current)
+          if (*m_current) return *this;
+        return *this;
+      }
+      all_recordings_iterator  operator++(int) { auto tmp = *this; ++*this; return tmp; }
+      bool operator==(all_recordings_iterator other) const { return m_current == other.m_current; }
+      bool operator!=(all_recordings_iterator other) const { return m_current != other.m_current; }
+      reference operator*() { return *m_current; }
+      RecordingsItemRec *operator->() { return *m_current; }
+    private:
+      std::vector<RecordingsItemRec*>::iterator m_current;
   };
+inline all_recordings_iterator begin(all_recordings_iterator &it) { return it; }
+inline all_recordings_iterator end  (all_recordings_iterator &it) { return all_recordings_iterator(iterator_end() ); }
+
+//      bool (*m_in_folder)(const RecordingsItemDir &, const RecordingsItemRec* &);
+// C == RecordingsItemRec -> iterate over all recordings in basic_dir
+// C == c_basic_dir       -> iterate over all directories in basic_dir
+template<class C>
+  class const_rec_iterator {
+    public:
+      const_rec_iterator(std::vector<C*> &items, bool backwards, std::regex *regex_filter = nullptr);
+      const_rec_iterator();
+
+      const_rec_iterator<C> &set_container(std::vector<C*> &items);
+      const_rec_iterator<C> &set_begin();
+      const_rec_iterator<C> &set_max_items(unsigned max_items);
+      const_rec_iterator<C> &set_recordingsItemDir(RecordingsItemDirPtr &recordingsItemDir);
+      unsigned count();
+      const_rec_iterator &operator++();
+      bool operator==(iterator_end other) const;
+      bool operator!=(iterator_end other) const { return !(*this == other); }
+      const C *operator*() { return *m_current; }
+    private:
+      bool current_matches() const; // true if m_current is in dir && matches filter
+
+      bool m_backwards;
+      RecordingsItemDirPtr m_recordingsItemDir;
+      std::regex *m_regex_filter;
+      typename std::vector<C*>::const_iterator m_begin;
+      typename std::vector<C*>::const_iterator m_end;
+      typename std::vector<C*>::const_iterator m_current;
+      bool m_backwards_end = false;
+      unsigned m_index = 0;  // count actually matching items
+      unsigned m_max_items = std::numeric_limits<unsigned>::max();
+  };
+template<class C>
+inline const_rec_iterator<C> begin(const_rec_iterator<C> &it) { return it; }
+template<class C>
+inline iterator_end end(const_rec_iterator<C> &it) { return iterator_end(); }
 
   /**
    *  The recordings tree contains all recordings in a file system
@@ -423,8 +540,8 @@ namespace vdrlive {
 
       RecordingsItemDirPtr getRoot() const { return m_root; }
       std::vector<std::string> getAllDirs() { std::vector<std::string> result; m_rootFileSystem->addDirList(result, ""); return result; }
-      const std::vector<RecordingsItemRecPtr> *allRecordings() { return &m_allRecordings;}
-      const std::vector<RecordingsItemRecPtr> *allRecordings(eSortOrder sortOrder);
+      const std::vector<RecordingsItemRec*> *allRecordings() { return &RecordingsManager::all_recordings_sorted;}
+      const std::vector<RecordingsItemRec*> *allRecordings(RecordingsManager::eSortOrder sortOrder);
 
       int MaxLevel() const { return m_maxLevel; }
       time_t getCreationTimestamp() { return m_creation_timestamp; }
@@ -433,20 +550,10 @@ namespace vdrlive {
       int m_maxLevel;
       RecordingsItemDirPtr m_root;
       RecordingsItemDirPtr m_rootFileSystem;
-      std::vector<RecordingsItemRecPtr> m_allRecordings;
-      bool m_allRecordingsSorted = false;
-      std::vector<RecordingsItemRecPtr> m_allRecordings_other_sort;
-      eSortOrder m_sortOrder = (eSortOrder)-1;
       time_t m_creation_timestamp = 0;
   };
 
-  inline void print(const char *t, const RecordingsItemDirPtr &a) {
-    std::cout << t << (a ? a->Name() : "nullptr");
-  }
   inline void swap(RecordingsItemDirPtr &a, RecordingsItemDirPtr &b) {
-    a.swap(b);
-  }
-  inline void swap(RecordingsItemRecPtr &a, RecordingsItemRecPtr &b) {
     a.swap(b);
   }
 
@@ -454,9 +561,9 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
 
 std::string recordingErrorsHtml(int recordingErrors);
 
-void addDuplicateRecordingsNoSd(std::vector<RecordingsItemRecPtr> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree);
-void addDuplicateRecordingsLang(std::vector<RecordingsItemRecPtr> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree);
-void addDuplicateRecordingsSd(std::vector<RecordingsItemRecPtr> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree);
+void addDuplicateRecordingsNoSd(std::vector<RecordingsItemRec*> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree);
+void addDuplicateRecordingsLang(std::vector<RecordingsItemRec*> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree);
+void addDuplicateRecordingsSd(std::vector<RecordingsItemRec*> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree);
 
 template<std::size_t N>
 cToSvConcat<N> & StringAppendFrameParams(cToSvConcat<N> &s, const RecordingsItemRec *itemRec) {

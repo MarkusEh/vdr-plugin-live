@@ -124,7 +124,7 @@ inline cToSvConcat<N>& AppendHtmlEscapedAndCorrectNonUTF8(cToSvConcat<N>& target
       target.append(notAppended, i); target.append("?"); notAppended += i + 1; i = 0;
       continue;
     }
-    int l = text.utf8CodepointIsValid(pos);
+    int l = utf8CodepointIsValid(text, pos);
     if (l == 0) {
       // invalid UTF8, replace with ?
       target.append(notAppended, i); target.append("?"); notAppended += i + 1; i = 0;
@@ -220,7 +220,7 @@ inline cToSvConcat<N>& AppendQuoteEscapedAndCorrectNonUTF8(cToSvConcat<N>& targe
       target.append(notAppended, i); target.append("?"); notAppended += i + 1; i = 0;
       continue;
     }
-    int l = text.utf8CodepointIsValid(pos);
+    int l = utf8CodepointIsValid(text, pos);
     if (l == 0) {
       // invalid UTF8, replace with ?
       target.append(notAppended, i); target.append("?"); notAppended += i + 1; i = 0;

@@ -47,11 +47,11 @@ recordings_tree_re_created = <$ recordings_tree_re_created?"true":"false"$>;
     recording_item.reserve(5000);
     for (int recording: r) {
       bool found = false;
-      for (const RecordingsItemRecPtr &rPtr: *recordingsTree->allRecordings()) if (recording == rPtr->IdI() ) {
+      for (const RecordingsItemRec *rPtr: *recordingsTree->allRecordings()) if (recording == rPtr->Id() ) {
         recording_item.clear();
         rPtr->AppendAsJSArray(recording_item);
         </%cpp>
-recs[<$cToSvInt(rPtr->IdI())$>]=[<$$ recording_item.c_str() $>]
+recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ recording_item.c_str() $>]
         <%cpp>
         found = true;
         break;

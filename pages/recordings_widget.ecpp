@@ -34,8 +34,8 @@ using namespace vdrlive;
   bool prev_selected = false;
   cToSvConcat<8 + 128/4> recId; // 32 hash bytes (4 bits per hex digit) plus some spare bytes
   RecordingsTreePtr recordingsTree(RecordingsManager::GetRecordingsTree());
-  const std::vector<RecordingsItemRecPtr>* allRecordings = recordingsTree->allRecordings(vdrlive::eSortOrder::name);
-  for (const RecordingsItemRecPtr &rPtr : *allRecordings ) {
+  const std::vector<RecordingsItemRec*>* allRecordings = recordingsTree->allRecordings(vdrlive::RecordingsManager::eSortOrder::name);
+  for (const RecordingsItemRec* rPtr : *allRecordings ) {
     bool isSelected = XXH128_isEqual(rPtr->IdHash(), selected_rec_hash);
     if (isSelected) prev_recording = cSv(recId);  // this is the recId from last loop
 
@@ -45,7 +45,7 @@ using namespace vdrlive;
     prev_selected = isSelected;
 </%cpp>
     <option value="recording_<$$ recId $>"<? isSelected ? " selected=\"selected\"" ?>><$ rPtr->Name() $>
-%     if (rPtr->Folder()) {
+%     if (!rPtr->Folder().empty() ) {
       (<$ rPtr->Folder() $>)
 %    }
     </option>

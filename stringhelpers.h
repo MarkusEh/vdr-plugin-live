@@ -61,15 +61,10 @@ inline std::string charPointerToString(const unsigned char *s) {
 
 // 2nd advantage of cSv: substr(pos) if pos > length: no dump, just an empty cSv as result
 
-class utf8_iterator;
-class cSv;
-template<class T> inline T parse_int(cSv sv);
-template<class T> inline T parse_unsigned(cSv sv);
-
 class cSv: public std::string_view {
-  friend class utf8_iterator;
   public:
     typedef typename std::string_view::size_type size_type;
+    typedef typename std::string_view::const_iterator const_iterator;
     static const size_type npos = std::string_view::npos;
     cSv(): std::string_view() {}
     template<size_type N> cSv(const char (&s)[N]): std::string_view(s, N-1) {
@@ -98,123 +93,7 @@ class cSv: public std::string_view {
     static std::string_view charPointerToStringView(const char *s) {
       return s?std::string_view(s, strlen(s)):std::string_view();
     }
-// =================================================
-// *********   utf8  *****************
-// =================================================
-  public:
-    int utf8CodepointIsValid(size_type pos) const {
-// In case of invalid UTF8, return 0
-// In case of invalid input, return -1 (pos  >= sc.length())
-// otherwise, return number of characters for this UTF codepoint
-// note: pos + number of characters <= sc.length(), this is checked (otherwise 0 is returned)
-
-      if (pos >= length() ) return -1;
-      static const uint8_t LEN[] = {2,2,2,2,3,3,4,0};
-
-      int len = (((*this)[pos] & 0xC0) == 0xC0) * LEN[((*this)[pos] >> 3) & 7] + (((*this)[pos] | 0x7F) == 0x7F);
-      if (len == 1) return 1;
-      if (len + pos > length()) return 0;
-      for (size_type k= pos + 1; k < pos + len; k++) if (((*this)[k] & 0xC0) != 0x80) return 0;
-      return len;
-    }
-  private:
-    size_type utf8ParseBackwards(size_type pos) const {
-// pos <= s.length()! this is not checked
-// return position of character before pos
-// see also https://stackoverflow.com/questions/22257486/iterate-backwards-through-a-utf8-multibyte-string
-      for (size_type i = pos; i > 0; ) {
-        --i;
-        if (((*this)[i] & 0xC0) != 0x80) return i;
-// (s[i] & 0xC0) == 0x80 is true if bit 6 is clear and bit 7 is set
-      }
-      return 0;
-    }
-  public:
-    utf8_iterator utf8_begin() const;
-    utf8_iterator utf8_end() const;
-    int compareLowerCase(cSv other, const std::locale &loc);
 };
-
-inline wint_t Utf8ToUtf32(const char *p, int len);
-// iterator for utf8
-class utf8_iterator {
-    const cSv m_sv;
-    cSv::size_type m_pos;
-    mutable int m_len = -2;
-    int get_len() const {
-      if (m_len == -2) m_len = m_sv.utf8CodepointIsValid(m_pos);
-      return m_len;
-    }
-  public:
-    using iterator_category = std::bidirectional_iterator_tag;
-    using value_type = wint_t;
-    using difference_type = int;
-    using pointer = const wint_t*;
-    using reference = const wint_t&;
-
-    explicit utf8_iterator(cSv sv, size_t pos): m_sv(sv) {
-// note: if pos is not begin/end, pos will be moved back to a valid utf8 start point
-//       i.e. to an ASCII (bit 7 not set) or and utf8 start byte (bit 6&7 set)
-      if (pos == 0) { m_pos = 0; return; }
-      if (pos >= sv.length() ) { m_pos = sv.length(); return; }
-// to avoid a position in the middle of utf8:
-      m_pos = sv.utf8ParseBackwards(pos+1);
-    }
-    utf8_iterator& operator++() {
-      if (m_pos >= m_sv.length() ) return *this;
-      int l = get_len();
-      if (l > 0) m_pos += l; else ++m_pos;
-      m_len = -2;
-      return *this;
-    }
-    utf8_iterator& operator--() {
-      if (m_pos == 0) return *this;
-      size_t new_pos = m_sv.utf8ParseBackwards(m_pos);
-      int new_len = m_sv.utf8CodepointIsValid(new_pos);
-      if (new_pos + new_len == m_pos || m_pos - new_pos == 1) {
-        m_pos = new_pos;
-        m_len = new_len;
-      } else {
-// some invalid UTF8.
-        --m_pos;
-        m_len = -2;
-      }
-      return *this;
-    }
-    bool operator!=(utf8_iterator other) const { return m_pos != other.m_pos; }
-    bool operator==(utf8_iterator other) const { return m_pos == other.m_pos; }
-    wint_t codepoint() const {
-      if (m_pos >= m_sv.length() ) return 0;
-      int l = get_len();
-      if (l <= 0) return '?'; // invalid utf8
-      return Utf8ToUtf32(m_sv.data() + m_pos, l);
-    }
-    size_t pos() const {
-// note: if this == end(), sv[m_pos] is invalid!!!
-      return m_pos;
-    }
-    const wint_t operator*() const {
-      return codepoint();
-    }
-};
-inline utf8_iterator cSv::utf8_begin() const { return utf8_iterator(*this, 0); }
-inline utf8_iterator cSv::utf8_end() const { return utf8_iterator(*this, length() ); }
-
-inline int cSv::compareLowerCase(cSv other, const std::locale &loc) {
-// compare strings case-insensitive
-  utf8_iterator ls = utf8_begin();
-  utf8_iterator rs = other.utf8_begin();
-  for (; ls != utf8_end() && rs != other.utf8_end(); ++ls, ++rs) {
-    wint_t  llc = std::tolower<wchar_t>(*ls, loc);
-    wint_t  rlc = std::tolower<wchar_t>(*rs, loc);
-    if ( llc < rlc ) return -1;
-    if ( llc > rlc ) return  1;
-  }
-  if (rs != other.utf8_end() ) return -1;
-  if (ls !=       utf8_end() ) return  1;
-  return 0;
-}
-
 
 // =========================================================
 // cStr: similar to cSv, but support c_str()
@@ -228,22 +107,468 @@ class cStr {
     cStr(const char *s) { if (s) m_s = s; }
     cStr(const unsigned char *s) { if (s) m_s = reinterpret_cast<const char *>(s); }
     cStr(const std::string &s): m_s(s.c_str()) {}
-    operator const char*() const { return m_s; }
+    operator const char *() const { return m_s; }
     const char *c_str() const { return m_s; }
     char *data() { return (char *)m_s; }
     size_t length() const { return strlen(m_s); }
     operator cSv() const { return cSv(m_s, strlen(m_s)); }
+    const char *begin() const { return m_s; }
+    const char *cbegin() const { return m_s; }
+    const char *end() const { return m_s + strlen(m_s); }
+    const char *cend() const { return m_s + strlen(m_s); }
   private:
     const char *m_s = "";
 };
 
+
+// ===============================================================
+// === Proxy Iterators
+// ===============================================================
+
+/*
+ * These iterators are not iterators of own containers, but more like views
+ * to containers:
+ *   we do not change data, but prepare existing data.
+ *   e.g. display wint_t codepoints of an utf8 string
+ * Consequence:
+ *   a) these are proxy iterators, dereference returns a value (and not a reference)
+ *   -> LegacyInputIterator, even if we also provide operator--()
+ *      -> most iterators are std::bidirectional_iterator (since c++20)
+ *      -> std::reverse_iterator does not work, we provide const_reverse_iterator
+ *   -> const_: all iterator names start with const, as it is not possible
+ *              to change the content of the underlying container
+ *
+ *   b) the iterators know their own end. To test for end in loops,
+ *      you can compare with a "sentinel":
+ *
+ *      for (const_..._iterator it("123"); it != iterator_end(); ++it) {
+ *        auto value = *it;
+ *        do something;
+ *      }
+ *      to support ranged for loops, for each const_..._iterator class IT we provide:
+ *        template<class IT> IT           begin(const IT &it) { return it; }
+ *        template<class IT> iterator_end end  (const IT &it) { return iterator_end(); }
+ *      so you can also write:
+ *
+ *      for (auto value: const_..._iterator it("123")) {
+ *        do something;
+ *      }
+ *      Some pre-c++20 methods need an end iterator with the same class as the iterator itself
+ *      To support this, the default constructor of each const_..._iterator class creates an end iterator.
+ *      So you can e.g. write:
+ *
+ *      std::set<int> int_set(const_..._iterator(...), const_..._iterator() );
+ *
+ *      to initialize int_set with the elements of const_..._iterator(...)
+ *
+ * See also:
+ *   https://stackoverflow.com/questions/51046897/what-could-be-a-least-bad-implementation-for-an-iterator-over-a-proxied-contai
+ *   std::bidirectional_iterator (since c++20), see https://en.cppreference.com/w/cpp/iterator/bidirectional_iterator
+ *
+ *   stashing iterators are still not std::bidirectional_iterator, as they violate:
+ *     Pointers and references obtained from a forward iterator into a range remain valid while the range exists.
+ *     -> use proxy iterators (returning a value) and
+ *        not stashing iterators (returning a reference to an object in the iterator)
+*/
+class iterator_begin {};
+class iterator_end   {};
+class iterator_empty {};
+enum class iterator_pos {
+  none = 0,
+  begin = 1,
+  end = 2
+};
+
+// ===============================================================
+// === reverse iterator  ==============
+// creates a proxy iterator (derefernece returns the value)
+// the iterator class IT must provide:
+//   operator--()
+//   operator++()
+//   operator==(IT other)
+//   operator!=(IT other)
+//   operator==(iterator_begin other)
+//   operator!=(iterator_begin other)
+//   IT::value_type operator*()
+//   the empty constructor () returns an "empty" iterator which is
+//       equal to both, the begin iterator AND the end iterator
+//
+// provides a generic constructur forwarding the arguments to the constructor of IT
+//
+// ===============================================================
+
+template<class IT> class const_reverse_iterator {
+    IT m_it;
+  public:
+    using iterator_category = std::input_iterator_tag;
+    using value_type = typename IT::value_type;
+    using difference_type = typename IT::difference_type;
+    using pointer = typename IT::pointer;
+    using reference = typename IT::reference;
+// explicit copy constructor to aviod that the generic constructor is used for that
+    constexpr const_reverse_iterator(const const_reverse_iterator &rit): m_it(rit.m_it) {}
+    constexpr const_reverse_iterator(      const_reverse_iterator &rit): const_reverse_iterator(const_cast<const const_reverse_iterator&>(rit)) {}
+// ====  constructor for the end iterator ======================================
+    constexpr explicit const_reverse_iterator(): m_it(iterator_begin()) { }
+
+// generic constructur, forward arguments to underlying iterator
+    template<typename... Args>
+    constexpr explicit const_reverse_iterator(Args&&... args): m_it(std::forward<Args>(args)...) {}
+
+    const_reverse_iterator& operator++() { --m_it; return *this; }
+    const_reverse_iterator  operator++(int) { auto tmp = *this; --m_it; return tmp; }
+    const_reverse_iterator& operator--() { ++m_it; return *this; }
+    const_reverse_iterator  operator--(int) { auto tmp = *this; ++m_it; return tmp; }
+
+// compare
+    bool operator==(const_reverse_iterator other) const { return m_it == other.m_it; }
+    bool operator!=(const_reverse_iterator other) const { return m_it != other.m_it; }
+    bool operator==(iterator_end other) const { return m_it == iterator_begin(); }
+    bool operator!=(iterator_end other) const { return m_it != iterator_begin(); }
+
+    typename IT::value_type operator*() const {
+      IT tmp = m_it;
+      return *--tmp;
+    }
+    constexpr IT base() const { return m_it; }
+    IT val_base() const {
+// must only be called if the iterator is dereferencable!
+// return the underlying it at the position we also dereference
+      IT tmp = m_it;
+      return --tmp;
+    }
+};
+template<class IT> const_reverse_iterator<IT> begin(const const_reverse_iterator<IT> &rit) { return rit; }
+template<class IT> iterator_end               end  (const const_reverse_iterator<IT> &rit) { return iterator_end(); }
+
 // =========================================================
 // =========================================================
-// Chapter 1: UTF8 string utilities ****************
+// Chapter 1: utf8 utilities
 // =========================================================
 // =========================================================
 
-inline void stringAppendUtfCodepoint(std::string &target, wint_t codepoint) {
+inline int utf8CodepointIsValid(const char *p) {
+// p must be zero terminated
+
+// In case of invalid UTF8, return 0
+// otherwise, return number of characters for this UTF codepoint
+  static const uint8_t LEN[] = {2,2,2,2,3,3,4,0};
+
+  int len = ((unsigned char)*p >= 0xC0) * LEN[(*p >> 3) & 7] + ((unsigned char)*p < 128);
+  for (int k=1; k < len; k++) if ((p[k] & 0xC0) != 0x80) return 0;
+  return len;
+}
+inline int utf8CodepointIsValid(cSv sv, cSv::size_type pos) {
+// In case of invalid UTF8, return 0
+// otherwise, return number of characters for this utf8 codepoint
+  static const uint8_t LEN[] = {2,2,2,2,3,3,4,0};
+
+  int len = ((unsigned char)sv[pos] >= 0xC0) * LEN[(sv[pos] >> 3) & 7] + ((unsigned char)sv[pos] < 128);
+  if (len + pos > sv.length()) return 0;
+  for (cSv::size_type k= pos + 1; k < pos + len; k++) if ((sv[k] & 0xC0) != 0x80) return 0;
+  return len;
+}
+
+// =================================================
+// Chapter 1.1: utf8 iterators
+// =================================================
+
+/*
+ * const_simple_utf8_iterator: simple forward iterator for utf8
+ *   note: this iterator does not really implement standard iterator requirements:
+ *   ++it does nothing: *it also increments
+ * example:
+ *   for (const_simple_utf8_iterator it(cSv("abüXßs")); it != iterator_end(); ) {
+ *     wint_t value = *it;
+ *     ... (do something with value)
+ *   }
+ * example 2:  (with a very small preformance penalty to example 1)
+ * for (wint_t value: const_simple_utf8_iterator("2sßöw") ) { ... }
+*/
+template<class C_IT>
+class const_simple_utf8_iterator {
+  public:
+// begin & end
+    constexpr explicit const_simple_utf8_iterator(C_IT it, C_IT it_end): m_it_next(it), m_it_end(it_end) { }
+    constexpr explicit const_simple_utf8_iterator(cSv s): m_it_next(s.cbegin()), m_it_end(s.cend()) { }
+    constexpr explicit const_simple_utf8_iterator(iterator_end d, cSv s): m_it_next(s.cend()), m_it_end(s.cend()) { }
+// class C can be any container with value type char
+// We need to use reference &s to avoid string copies resulting in only temporary valid pointers
+template<class C>
+    constexpr explicit const_simple_utf8_iterator(C &s): m_it_next(s.cbegin()), m_it_end(s.cend()) { }
+template<class C>
+    constexpr explicit const_simple_utf8_iterator(iterator_end d, C &s): m_it_next(s.cend()), m_it_end(s.cend()) { }
+
+// end iterator if iterator_end cannot be used
+// we asume that the default constructed iterator != any other iterator
+    constexpr explicit const_simple_utf8_iterator(): m_it_next(C_IT()), m_it_end(C_IT()) { }
+
+    C_IT pos() const { return m_it_next; }
+    bool not_end() const { return m_it_next != m_it_end; } // see operator!=(iterator_end other)
+    wint_t operator*() { return get_value_and_forward(); }
+// compare
+    bool operator==(const_simple_utf8_iterator other) const {
+      return ((*this == iterator_end()) & (other == iterator_end())) |
+             (m_it_next == other.m_it_next);
+    }
+    bool operator!=(const_simple_utf8_iterator other) const { return !(*this == other); }
+    bool operator==(iterator_end other) const { return m_it_next == m_it_end; }
+    bool operator!=(iterator_end other) const { return m_it_next != m_it_end; }
+    const_simple_utf8_iterator& operator++() { return *this;}  // does nothing, operator* increments
+  protected:
+    C_IT m_it_next;  // the * operator takes the value from this pos, and increases this pos
+    const C_IT m_it_end;
+    inline static const uint8_t LEN[] = {2,2,2,2,3,3,4,0};
+    wint_t get_value_and_forward() {
+// In case of invalid UTF8, return '?'
+      char current_char = *m_it_next;
+      ++m_it_next;
+      if ((unsigned char)current_char < 128) return current_char; // optimize for ascii chars
+
+      static const uint8_t FF_MSK[] = {0xFF >>0, 0xFF >>0, 0xFF >>3, 0xFF >>4, 0xFF >>5};
+
+      int len = ((current_char & 0xC0) == 0xC0) * LEN[(current_char >> 3) & 7];
+      if (len == 0) return '?'; // utf8 start byte must start with 11xx xxxx, 1111 1xxx is not defined
+      wint_t val = current_char & FF_MSK[len];
+      for (int k = 1; k < len; ++k, ++m_it_next) {
+        if (m_it_next == m_it_end) return '?';
+        current_char = *m_it_next;
+        if ((current_char & 0xC0) != 0x80) return '?';
+        val = (val << 6) | (current_char & 0x3F);
+      }
+      return val;
+    }
+};
+template<class C> const_simple_utf8_iterator(C c1) -> const_simple_utf8_iterator<typename C::const_iterator>;
+template<class C> const_simple_utf8_iterator(iterator_end d, C c1) -> const_simple_utf8_iterator<typename C::const_iterator>;
+
+template<class C_IT>
+const_simple_utf8_iterator<C_IT> begin(const const_simple_utf8_iterator<C_IT> &it) { return it; }
+template<class C_IT>
+iterator_end end(const const_simple_utf8_iterator<C_IT> &it) { return iterator_end(); }  // to support ranged for loops
+
+// for (wint_t value: const_simple_utf8_iterator("2sßöw") ) { ... }
+/*
+  auto&& range__ = const_simple_utf-8_iterator("abc");
+  auto   begin__ = range__.begin();
+  auto   end__   = range__.end();
+  for ( ; begin__  != end__ ; ++begin) {
+    item-declaration = *begin__;
+    ....
+  }
+*/
+
+template<class C_IT>
+class const_utf8_iterator: public const_simple_utf8_iterator<C_IT> {
+// this is an std::bidirectional_iterator (since c++20), see https://en.cppreference.com/w/cpp/iterator/bidirectional_iterator
+// it does not satisfy the LegacyBidirectionalIterator requirements, as dereference returns a value and not an lvalue
+//    still satisfies the LegacyInputIterator -> using iterator_category = std::input_iterator_tag;
+    const C_IT m_it_begin;
+    C_IT m_it;
+    wint_t m_value;
+    iterator_pos m_pos = iterator_pos::none;
+  public:
+    using iterator_category = std::input_iterator_tag;
+    using value_type = wint_t;
+    using difference_type = std::ptrdiff_t;
+    using pointer = wint_t*;
+    using reference = wint_t;
+
+// explicit copy constructor, to avoid that a template is used for that
+    constexpr const_utf8_iterator(const const_utf8_iterator &it):
+      const_simple_utf8_iterator<C_IT>(it.m_it_next, it.m_it_end),
+      m_it_begin(it.m_it_begin), m_it(it.m_it), m_pos(it.m_pos) {}
+    constexpr const_utf8_iterator(      const_utf8_iterator &it):
+      const_utf8_iterator(const_cast<const const_utf8_iterator &>(it)) {}
+// ====  constructors for the begin iterator =======================================
+// begin & end
+    constexpr explicit const_utf8_iterator(C_IT it, C_IT it_end): const_simple_utf8_iterator<C_IT>(it, it_end), m_it_begin(it), m_it(it) {
+      if (it == it_end) m_pos = (iterator_pos)((int)iterator_pos::begin | (int)iterator_pos::end);
+      else m_pos = iterator_pos::begin;
+    }
+    constexpr explicit const_utf8_iterator(iterator_end d, C_IT it, C_IT it_end): const_simple_utf8_iterator<C_IT>(it_end, it_end), m_it_begin(it), m_it(it_end) {
+      if (it == it_end) m_pos = (iterator_pos)((int)iterator_pos::begin | (int)iterator_pos::end);
+      else m_pos = iterator_pos::end;
+    }
+    constexpr explicit const_utf8_iterator(cSv s): const_utf8_iterator(s.begin(), s.end()) {}
+    constexpr explicit const_utf8_iterator(iterator_end d, cSv s): const_utf8_iterator(d, s.begin(), s.end()) {}
+// We need to use reference &s to avoid string copies resulting in only temporary valid pointers
+template<class C>
+    constexpr explicit const_utf8_iterator(C &s): const_utf8_iterator(s.begin(), s.end()) {}
+template<class C>
+    constexpr explicit const_utf8_iterator(iterator_end d, C &s): const_utf8_iterator(d, s.begin(), s.end()) {}
+
+// ====  constructor for the end iterator ======================================
+    constexpr explicit const_utf8_iterator(): const_utf8_iterator(C_IT(), C_IT() ) {
+      m_pos = iterator_pos::end;
+    }
+// ====  constructor for the begin iterator ====================================
+    constexpr explicit const_utf8_iterator(iterator_begin d): const_utf8_iterator() {
+      m_pos = iterator_pos::begin;
+    }
+// ====  constructor for the empty list (begin and end iterator) ===============
+    constexpr explicit const_utf8_iterator(iterator_empty d): const_utf8_iterator() {
+      m_pos = (iterator_pos)((int)iterator_pos::begin | (int)iterator_pos::end);
+    }
+
+// position (counting chars, not utf codepoints!)
+    size_t pos() const { return std::distance(m_it_begin, m_it); }
+
+// change position of iterator
+    void move_to_begin() {
+      m_it = const_simple_utf8_iterator<C_IT>::m_it_next = m_it_begin;
+      m_pos = iterator_pos::begin;
+    }
+    void move_to_end() {
+      m_it = const_simple_utf8_iterator<C_IT>::m_it_next = const_simple_utf8_iterator<C_IT>::m_it_end;
+      m_pos = iterator_pos::end;
+    }
+    const_utf8_iterator& operator++() {
+      if (m_it == const_simple_utf8_iterator<C_IT>::m_it_next) const_simple_utf8_iterator<C_IT>::get_value_and_forward();
+      m_it = const_simple_utf8_iterator<C_IT>::m_it_next;
+      if (m_it == const_simple_utf8_iterator<C_IT>::m_it_end) m_pos = iterator_pos::end;
+      else m_pos = iterator_pos::none;
+      return *this;
+    }
+    const_utf8_iterator  operator++(int) { auto tmp = *this; ++*this; return tmp; }
+    const_utf8_iterator& operator--() {
+      move_one_back();  // moves m_it
+      const_simple_utf8_iterator<C_IT>::m_it_next = m_it;
+      if (m_it == m_it_begin) m_pos = iterator_pos::begin;
+      else m_pos = iterator_pos::none;
+      return *this;
+    }
+    const_utf8_iterator  operator--(int) { auto tmp = *this; --*this; return tmp; }
+
+// compare
+    bool operator==(const_utf8_iterator other) const {
+      return ((*this == iterator_begin()) & (other == iterator_begin())) |
+             ((*this == iterator_end())   & (other == iterator_end())) |
+             (m_it == other.m_it);
+    }
+    bool operator!=(const_utf8_iterator other) const { return !(*this == other); }
+
+    bool operator==(iterator_begin other) const { return (int)m_pos & (int)iterator_pos::begin; }
+    bool operator!=(iterator_begin other) const { return !(*this == other); }
+    bool operator==(iterator_end other)   const { return (int)m_pos & (int)iterator_pos::end; }
+    bool operator!=(iterator_end other)   const { return !(*this == other); }
+
+    wint_t operator*() {
+      if (m_it == const_simple_utf8_iterator<C_IT>::m_it_next) m_value = const_simple_utf8_iterator<C_IT>::get_value_and_forward();
+      return m_value;
+    }
+  private:
+    void move_one_back() {
+// see also https://stackoverflow.com/questions/22257486/iterate-backwards-through-a-utf8-multibyte-string
+      while (m_it != m_it_begin) {
+        --m_it;
+        if ((*m_it & 0xC0) != 0x80) return;
+// (s[i] & 0xC0) == 0x80 is true if bit 6 is clear and bit 7 is set
+      }
+    }
+};
+template<class C> const_utf8_iterator(C c1) -> const_utf8_iterator<typename C::const_iterator>;
+template<class C> const_utf8_iterator(iterator_end d, C c1) -> const_utf8_iterator<typename C::const_iterator>;
+template<class C_IT>
+const_utf8_iterator<C_IT> begin(const const_utf8_iterator<C_IT> &it) { return it; }
+
+// class const_reverse_utf8_iterator ========================
+template<class C_IT>
+class const_reverse_utf8_iterator: public const_reverse_iterator<const_utf8_iterator<C_IT>> {
+  public:
+// Generic constructor to create a new reverse iterator, forwarding the arguments to the underlying classes
+    explicit const_reverse_utf8_iterator(): const_reverse_iterator<const_utf8_iterator<C_IT>>() {}  // end iteratr
+    template<typename... Args> explicit const_reverse_utf8_iterator(Args&&... args):
+      const_reverse_iterator<const_utf8_iterator<C_IT>>(iterator_end(), std::forward<Args>(args)...) {}
+// But: It must not be used with const_reverse_utf8_iterator itself.
+// To prevent this, we use explicit.
+// Still not good enough for const_reverse_utf8_iterator<const char*> et1(at1);
+// Also, const_reverse_utf8_iterator(const_reverse_utf8_iterator& rit) = default; is not sufficent for that
+// So we need explicit constructors:
+    constexpr const_reverse_utf8_iterator(const const_reverse_utf8_iterator& rit):
+      const_reverse_iterator<const_utf8_iterator<C_IT>>(static_cast<const const_reverse_iterator<const_utf8_iterator<C_IT>>&>(rit)){}
+    constexpr const_reverse_utf8_iterator(const_reverse_utf8_iterator& rit): const_reverse_utf8_iterator(const_cast<const const_reverse_utf8_iterator&>(rit)) {}
+};
+template<class C> const_reverse_utf8_iterator(C c1) -> const_reverse_utf8_iterator<typename C::const_iterator>;
+
+template<class T, class U>    // T,U have iterators with char value type
+inline int compare_utf8_lower_case(T ls, U rs) {
+// compare utf8 strings case-insensitive
+  const_simple_utf8_iterator i_ls(ls);
+  const_simple_utf8_iterator i_rs(rs);
+
+  while (i_ls.not_end() && i_rs.not_end() ) {
+    wint_t ls_lc = *i_ls;
+    wint_t rs_lc = *i_rs;
+    if (ls_lc == rs_lc) continue;
+
+    ls_lc = std::towlower(ls_lc);
+    rs_lc = std::towlower(rs_lc);
+    if (ls_lc == rs_lc) continue;
+
+    if (ls_lc > rs_lc) return  1;
+    return -1;
+  }
+  if (i_ls.not_end() ) return  1;
+  if (i_rs.not_end() ) return -1;
+  return 0;
+}
+
+template<class I>
+inline wint_t next_non_punct(const_simple_utf8_iterator<I> &it) {
+  while (it.not_end() ) {
+    wint_t value = *it;
+    if (!iswpunct(value) ) return value;
+  }
+  return 0;
+}
+template<class I>
+inline wint_t next_non_punct(wint_t val, const_simple_utf8_iterator<I> &it) {
+  if (!iswpunct(val) ) return val;
+  while (it.not_end() ) {
+    wint_t value = *it;
+    if (!iswpunct(value) ) return value;
+  }
+  return 0;
+}
+
+template<class T, class U>    // T,U have iterators with char value type
+inline int compare_utf8_lower_case_ignore_punct(T ls, U rs, int *num_equal_chars = nullptr) {
+// compare utf8 strings case-insensitive and ignore punctuation characters
+// num_equal_chars has no measureable performance impact
+// num_equal_chars will be one to high if the compare result is 0 and both end with a punctuation character
+
+  const_simple_utf8_iterator i_ls(ls);
+  const_simple_utf8_iterator i_rs(rs);
+  int i_num_equal_chars = 0;
+
+  while (i_ls.not_end() && i_rs.not_end()) {
+    ++i_num_equal_chars;
+    wint_t ls_lc = *i_ls;
+    wint_t rs_lc = *i_rs;
+    if (ls_lc == rs_lc) continue;
+
+    ls_lc = next_non_punct(ls_lc, i_ls);
+    rs_lc = next_non_punct(rs_lc, i_rs);
+    if (ls_lc == rs_lc) continue;
+
+    ls_lc = std::towlower(ls_lc);
+    rs_lc = std::towlower(rs_lc);
+    if (ls_lc == rs_lc) continue;
+
+    if (num_equal_chars) *num_equal_chars += i_num_equal_chars-1;
+    if (ls_lc > rs_lc) return  1;
+    return -1;
+  }
+  if (num_equal_chars) *num_equal_chars += i_num_equal_chars;
+  wint_t ls_value = next_non_punct(i_ls);
+  wint_t rs_value = next_non_punct(i_rs);
+  if (ls_value) return  1;
+  if (rs_value) return -1;
+  return 0;
+}
+
+inline void stringAppendUtfCodepoint(std::string &target, unsigned int codepoint) {
   if (codepoint <= 0x7F){
      target.push_back( (char) (codepoint) );
      return;
@@ -266,16 +591,37 @@ inline void stringAppendUtfCodepoint(std::string &target, wint_t codepoint) {
      return;
 }
 
-inline int utf8CodepointIsValid(const char *p) {
-// p must be zero terminated
-
-// In case of invalid UTF8, return 0
-// otherwise, return number of characters for this UTF codepoint
-  static const uint8_t LEN[] = {2,2,2,2,3,3,4,0};
-
-  int len = ((*p & 0xC0) == 0xC0) * LEN[(*p >> 3) & 7] + ((*p | 0x7F) == 0x7F);
-  for (int k=1; k < len; k++) if ((p[k] & 0xC0) != 0x80) return 0;
-  return len;
+inline void utf8_sanitize_string(std::string &s) {
+// check s for any invalid utf8. If found, replace with ?
+  bool error_reported = false;
+  for (char *p = s.data(); *p; ++p) {
+    if ((unsigned char)*p < 128) continue; // optimization for strings where many chars are < 128
+    int len = utf8CodepointIsValid(p);
+    if (len == 0) {
+      if (!error_reported) {
+        isyslog(PLUGIN_NAME_I18N ": WARNING, invalid utf8 in string %s", s.c_str());
+        error_reported = true;
+      }
+      *p = '?';
+    } else {
+      p += len - 1;
+    }
+  }
+}
+inline bool is_equal_utf8_sanitized_string(cSv s, const char *other) {
+// return true if s == other
+// invalid utf8 in other is replaced with '?' before the compaison
+// other must be zero terminated
+  if (!other) return s.empty();
+  auto len = strlen(other);
+  if (s.length() != len) return false;
+  if (memcmp(s.data(), other, len) == 0) return true;
+  for (cSv::size_type pos = 0; pos < len; ++pos) {
+    if (s[pos] == other[pos]) continue;
+    if (s[pos] != '?') return false;
+    if (utf8CodepointIsValid(other+pos) != 0) return false;
+  }
+  return true;
 }
 inline wint_t Utf8ToUtf32(const char *p, int len) {
 // assumes, that uft8 validity checks have already been done. len must be provided. call utf8CodepointIsValid first
@@ -309,14 +655,14 @@ inline wint_t getNextUtfCodepoint(const char *&p) {
 // =========================================================
 inline bool my_isspace(char c) {
 // fastest
-  return (c == ' ') || (c >=  0x09 && c <=  0x0d);
+  return (c == ' ') | ((c >=  0x09) & (c <=  0x0d));
 // (0x09, '\t'), (0x0a, '\n'), (0x0b, '\v'),  (0x0c, '\f'), (0x0d, '\r')
 }
 
 inline cSv remove_trailing_whitespace(cSv sv) {
 // return a string_view with trailing whitespace from sv removed
 // for performance: see remove_leading_whitespace
-  for (std::string_view::size_type i = sv.length(); i > 0; ) {
+  for (cSv::size_type i = sv.length(); i > 0; ) {
     i = sv.find_last_not_of(' ', i-1);
     if (i == std::string_view::npos) return cSv(); // only ' '
     if (sv[i] > 0x0d || sv[i] < 0x09) return sv.substr(0, i+1);  // non whitespace found at i -> length i+1 !!!
@@ -851,15 +1197,20 @@ template<typename T, std::enable_if_t<sizeof(T) == 16, bool> = true>
     }
 // =======================
 // append_utf8:     append utf8 codepoint
-    cToSvConcat &append_utf8(wint_t codepoint) {
+// don't use wint_t, as wint_t might be signed
+// see https://stackoverflow.com/questions/42012563/convert-unicode-code-points-to-utf-8-and-utf-32/
+
+    cToSvConcat &append_utf8(const unsigned int codepoint) {
       if (m_pos_for_append + 4 > m_be_data) ensure_free(4);
       if (codepoint <= 0x7F) {
-        *(m_pos_for_append++) = (char) (codepoint);
+        *m_pos_for_append = codepoint;
+        ++m_pos_for_append;
         return *this;
       }
       if (codepoint <= 0x07FF) {
-        *(m_pos_for_append++) =( (char) (0xC0 | (codepoint >> 6 ) ) );
-        *(m_pos_for_append++) =( (char) (0x80 | (codepoint & 0x3F)) );
+        *m_pos_for_append   = 0xC0 | (codepoint >> 6 );
+        *++m_pos_for_append = 0x80 | (codepoint & 0x3F);
+        ++m_pos_for_append;
         return *this;
       }
       if (codepoint <= 0xFFFF) {
@@ -876,10 +1227,9 @@ template<typename T, std::enable_if_t<sizeof(T) == 16, bool> = true>
     }
 // =======================
 // appendToLower
-    cToSvConcat &appendToLower(cSv sv, const std::locale &loc) {
-      for (auto it = sv.utf8_begin(); it != sv.utf8_end(); ++it) {
-        append_utf8(std::tolower<wchar_t>(*it, loc));
-      }
+    cToSvConcat &appendToLower(cSv sv) {
+      for (const_simple_utf8_iterator it(sv); it.not_end();)
+        append_utf8(std::towlower(*it));
       return *this;
     }
 // apend text. Before appending, replace all occurrences of substring with replacement
@@ -969,14 +1319,17 @@ template<typename T, std::enable_if_t<sizeof(T) == 16, bool> = true>
 // \ is escaped for easy use in strings where \ has a special meaning
       for (size_t pos = 0; pos < sv.length(); ++pos) {
         char c = sv[pos];
-        if (strchr(reserved, c)) {
-          concat('%');
-          appendHex((unsigned char)c, 2);
-        } else if ((unsigned char)c < ' ' || c == 127) {
-          concat('?');  // replace control characters with ?
+        if ((unsigned char)c < 128) {
+          if (strchr(reserved, c)) {
+            concat('%');
+            appendHex((unsigned char)c, 2);
+          } else if ((unsigned char)c < ' ' || c == 127) {
+            concat("%3F");  // replace control characters with encoded ?
+          } else
+            concat(c);
         } else {
-          int l = sv.utf8CodepointIsValid(pos);
-          if (l == 0) concat('?'); // invalid utf
+          int l = utf8CodepointIsValid(sv, pos);
+          if (l == 0) concat("%3F"); // invalid utf (this is ? encoded)
           else {
             append(sv.data() + pos, l);
             pos += l-1;
@@ -1060,9 +1413,9 @@ template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
 template<std::size_t N = 255> 
 class cToSvToLower: public cToSvConcat<N> {
   public:
-    cToSvToLower(cSv sv, const std::locale &loc) {
+    cToSvToLower(cSv sv) {
       this->reserve(sv.length() + 5);
-      this->appendToLower(sv, loc);
+      this->appendToLower(sv);
     }
 };
 
@@ -1329,34 +1682,165 @@ cSubstring cSubstring::substringInXmlTag(cSv sv, const char (&tag)[N]) {
 // =========================================================
 // =========================================================
 
-/*
- * class cSplit: iterate over parts of a string
-   standard constructor:
-     delimiter is ONLY between parts, and not at beginning or end of string
-     a string with n delimiters splits into n+1 parts. Always. Parts can be empty
-     consequence:
-       an empty string (0 delimiters) results in a list with one (empty) entry
-       a delimiter at the beginning of the string results in a first (empty) part
-   constructor with additional parameter of type eSplitDelimBeginEnd:
-     eSplitDelimBeginEnd::optional:
-       an empty string results in an empty list
-       a string with length 1 containing only the delimiter results in an empty list
-       a string with length 2 containing only delimiters results in a list with one (empty) entry
-       otherwise, if there is a delimiter at beginning and/or end of string, delete these delimiters.
-       after that, continue with standard constructor.
-     eSplitDelimBeginEnd::required:
-       empty string (length == 0):
-         -> empty list (this is not possible with optional!)
-       string with length == 1:
-         must contain the delimiter (otherwise, error message in syslog)
-         -> empty list (this is not possible with optional!)
-       string with length > 1:
-         must contain the delimiter at beginning and end of string (otherwise, error message in syslog)
-         -> a string with n delimiters will split into n-1 parts
 
-  note: for strings created with cContainer use eSplitDelimBeginEnd::required
+template<class TV=cSv, class C_IT=const char*>  // TV is the value type, do not change C_IT
+class const_split_iterator {
+// this is an std::bidirectional_iterator (since c++20), see https://en.cppreference.com/w/cpp/iterator/bidirectional_iterator
+// it does not satisfy the LegacyBidirectionalIterator requirements, as dereference returns a value and not an lvalue
 
-*/
+// for class C_IT=const char*: it must be possible to create an std::string_view from this class
+// as of c++17, this is only possible for const char* -> do not change!
+  public:
+    using iterator_category = std::input_iterator_tag;
+    using value_type = TV;
+    using difference_type = std::ptrdiff_t;
+    using pointer = const TV*;
+    using reference = const TV;
+
+// ====  constructors for the begin iterator =======================================
+// note: it is not possible to create an end iterator with these constructors
+//       even an empty string (begin == end) has one (empty) element
+    constexpr explicit const_split_iterator(const char *begin, const char *end, char delim, const char *context = nullptr):
+      m_it_begin(begin), m_it_end(end), m_delim(delim), m_context(context) {
+      move_to_begin();
+    }
+    constexpr explicit const_split_iterator(iterator_end d, const char *begin, const char *end, char delim, const char *context):
+      m_it_begin(begin), m_it_end(end), m_delim(delim), m_context(context) {
+      move_to_end();
+    }
+// string view
+    constexpr explicit const_split_iterator(cSv s, char delim, const char *context = nullptr):
+      const_split_iterator(s.data(), s.data() + s.length(), delim, context) {}
+    constexpr explicit const_split_iterator(iterator_end d, cSv s, char delim, const char *context = nullptr):
+      const_split_iterator(d, s.data(), s.data() + s.length(), delim, context) { }
+// class C can be any container with value type char and data() method returning a const char*
+// note: by reference only, do not copy strings!!!
+template<class C>
+    constexpr explicit const_split_iterator(C &s, char delim, const char *context = nullptr):
+      const_split_iterator(s.data(), s.data() + s.length(), delim, context) {}
+template<class C>
+    constexpr explicit const_split_iterator(iterator_end d, C &s, char delim, const char *context = nullptr):
+      const_split_iterator(d, s.data(), s.data() + s.length(), delim, context) { }
+// "ysdfg"
+template<size_t N>
+    constexpr explicit const_split_iterator(const char (&s)[N], char delim, const char *context = nullptr):
+      const_split_iterator(s, s+N-1, delim, context) {}
+template<size_t N>
+    constexpr explicit const_split_iterator(iterator_end d, const char (&s)[N], char delim, const char *context = nullptr):
+      const_split_iterator(d, s, s+N-1, delim, context) {}
+
+// ====  constructor for the end iterator ======================================
+    constexpr explicit const_split_iterator():
+      m_it_begin(nullptr), m_it_end(nullptr), m_delim('|'), m_context(nullptr) {
+      move_to_end();
+    }
+// ====  constructor for the begin iterator ====================================
+    constexpr explicit const_split_iterator(iterator_begin d): const_split_iterator() {
+      m_pos = iterator_pos::begin;
+    }
+// ====  constructor for the empty list (begin and end iterator) ===============
+    constexpr explicit const_split_iterator(iterator_empty d): const_split_iterator() {
+      m_pos = (iterator_pos)((int)iterator_pos::begin | (int)iterator_pos::end);
+    }
+
+    C_IT pos() const { return m_it; }
+// change position of iterator
+    void move_to_begin() {
+      m_it = m_it_begin;
+      m_it_next_delim = std::find(m_it, m_it_end, m_delim);
+      m_pos = iterator_pos::begin;
+    }
+    void move_to_end() {
+      m_it = m_it_next_delim = m_it_end;
+      m_pos = iterator_pos::end;
+    }
+    const_split_iterator& operator++() {
+      m_it = m_it_next_delim;
+      if (m_it_next_delim == m_it_end) {
+        m_pos = iterator_pos::end;
+      } else {
+        m_pos = iterator_pos::none;
+        ++m_it;
+        m_it_next_delim = std::find(m_it, m_it_end, m_delim);
+      }
+      return *this;
+    }
+    const_split_iterator  operator++(int) { auto tmp = *this; ++*this; return tmp; }
+    const_split_iterator& operator--() {
+      if (m_pos == iterator_pos::end) {
+        m_pos = iterator_pos::none;
+      } else {
+        --m_it;
+      }
+      m_it_next_delim = m_it;
+      while (m_it != m_it_begin)
+        if (*--m_it == m_delim) { ++m_it; return *this; }
+      m_pos = iterator_pos::begin;
+      return *this;
+    }
+    const_split_iterator  operator--(int) { auto tmp = *this; --*this; return tmp; }
+
+// compare
+    bool operator==(const_split_iterator other) const {
+      return ((*this == iterator_begin()) & (other == iterator_begin())) |
+             ((*this == iterator_end())   & (other == iterator_end())) |
+             ((m_it == other.m_it) & (m_pos == other.m_pos));
+    }
+    bool operator!=(const_split_iterator other) const { return !(*this == other); }
+
+    bool operator==(iterator_begin other) const { return (int)m_pos & (int)iterator_pos::begin; }
+    bool operator!=(iterator_begin other) const { return !(*this == other); }
+    bool operator==(iterator_end other)   const { return (int)m_pos & (int)iterator_pos::end; }
+    bool operator!=(iterator_end other)   const { return !(*this == other); }
+
+// dereference
+    TV operator*() const { return lexical_cast<TV>(value(), TV(), m_context); }
+    void getValues() {};
+    template<typename T, typename... Args>
+    void getValues(T &n, Args&&... args) {
+      if (*this == iterator_end() ) {
+        n = T();
+      } else {
+        n = lexical_cast<T>(value(), T(), m_context);
+//        (*this).operator++();
+        ++(*this);
+      }
+      return getValues(std::forward<Args>(args)...);
+    }
+    bool empty() const {
+      return m_pos == (iterator_pos)((int)iterator_pos::begin | (int)iterator_pos::end);
+    }
+    size_t size() const {
+      return std::count(m_it_begin, m_it_end, m_delim) + !empty();
+    }
+  private:
+    cSv value() const { return cSv(m_it, std::distance(m_it, m_it_next_delim)); }
+
+    const C_IT m_it_begin;
+    C_IT m_it;  // start of value returned by operator *
+    C_IT m_it_next_delim;  // position of next delim
+    const C_IT m_it_end;
+    iterator_pos m_pos = iterator_pos::none;
+    const char m_delim;
+    const char *m_context;
+};
+template<class TV=cSv, class C_IT=const char*>  // TV is the value type
+const_split_iterator<TV, C_IT> begin(const_split_iterator<TV, C_IT> &it) { return it; }
+template<class TV=cSv, class C_IT=const char*>  // TV is the value type
+iterator_end end(const_split_iterator<TV, C_IT> &it) { return iterator_end(); } // to support ranged for loops
+
+// const_reverse_split_iterator  ========================
+// end iterator
+template<class TV=cSv, class C_IT=const char*>
+inline const_reverse_iterator<const_split_iterator<TV, C_IT>> const_reverse_split_iterator() {
+  return const_reverse_iterator<const_split_iterator<TV, C_IT>>();
+}
+template<class TV=cSv, class C_IT=const char*, typename... Args>
+inline const_reverse_iterator<const_split_iterator<TV, C_IT>> const_reverse_split_iterator(Args&&... args) {
+  return const_reverse_iterator<const_split_iterator<TV, C_IT>>(iterator_end(), std::forward<Args>(args)...);
+}
+
+
 enum class eSplitDelimBeginEnd { none, optional, required };
 inline cSv trim_delim(cSv sv, char delim, eSplitDelimBeginEnd splitDelimBeginEnd) {
 // if trunc remove delim from start and end of sv
@@ -1384,15 +1868,62 @@ inline cSv trim_delim(cSv sv, char delim, eSplitDelimBeginEnd splitDelimBeginEnd
   }
   return sv;
 }
-template<class TV=cSv>  // TV is the value type returned by the const_iterator
+
+template<class TV=cSv, class C_IT=const char*>
+inline const_split_iterator<TV, C_IT> get_const_split_iterator(cSv sv, char delim, eSplitDelimBeginEnd splitDelimBeginEnd, const char *context = nullptr) {
+  if ((sv.length() < 2) & (
+      (splitDelimBeginEnd == eSplitDelimBeginEnd::required) |
+      (sv.empty() & (splitDelimBeginEnd == eSplitDelimBeginEnd::optional))  ) )
+    return const_split_iterator<TV, C_IT>(iterator_empty() );
+  return const_split_iterator<TV, C_IT>(trim_delim(sv, delim, splitDelimBeginEnd), delim, context);
+}
+template<class TV=cSv, class C_IT=const char*>
+inline const_split_iterator<TV, C_IT> get_const_split_iterator(iterator_end d, cSv sv, char delim, eSplitDelimBeginEnd splitDelimBeginEnd, const char *context = nullptr) {
+  if ((sv.length() < 2) & (
+      (splitDelimBeginEnd == eSplitDelimBeginEnd::required) |
+      (sv.empty() & (splitDelimBeginEnd == eSplitDelimBeginEnd::optional))  ) )
+    return const_split_iterator<TV, C_IT>(iterator_empty() );
+  return const_split_iterator<TV, C_IT>(d, trim_delim(sv, delim, splitDelimBeginEnd), delim, context);
+}
+
+/*
+ * class cSplit: iterate over parts of a string
+   note: the iterators are Proxy Iterators, see also https://stackoverflow.com/questions/51046897/what-could-be-a-least-bad-implementation-for-an-iterator-over-a-proxied-contai
+
+   standard constructor:
+     delimiter is ONLY between parts, and not at beginning or end of string
+     a string with n delimiters splits into n+1 parts. Always. Parts can be empty
+     consequence:
+       an empty string (0 delimiters) results in a list with one (empty) entry
+       a delimiter at the beginning of the string results in a first (empty) part
+   constructor with additional parameter of type eSplitDelimBeginEnd:
+     eSplitDelimBeginEnd::optional:
+       an empty string results in an empty list
+       a string with length 1 containing only the delimiter results in an empty list
+       a string with length 2 containing only delimiters results in a list with one (empty) entry
+       otherwise, if there is a delimiter at beginning and/or end of string, delete these delimiters.
+       after that, continue with standard constructor.
+     eSplitDelimBeginEnd::required:
+       empty string (length == 0):
+         -> empty list (this is not possible with optional!)
+       string with length == 1:
+         must contain the delimiter (otherwise, error message in syslog)
+         -> empty list (this is not possible with optional!)
+       string with length > 1:
+         must contain the delimiter at beginning and end of string (otherwise, error message in syslog)
+         -> a string with n delimiters will split into n-1 parts
+
+  note: for strings created with cContainer use eSplitDelimBeginEnd::required
+
+*/
+template<class TV=cSv>  // TV is the value type returned by const_iterator
 class cSplit {
   public:
     cSplit(cSv sv, char delim, const char *context = nullptr):
-      m_sv(sv), m_delim(delim), m_end(sv, delim, context), m_empty(false), m_context(context) { }
+      m_sv(sv), m_delim(delim), m_empty(false), m_context(context) { }
     cSplit(cSv sv, char delim, eSplitDelimBeginEnd splitDelimBeginEnd, const char *context = nullptr):
       m_sv(trim_delim(sv, delim, splitDelimBeginEnd)),
       m_delim(delim),
-      m_end(m_sv, delim, context),
       m_empty((sv.length() < 2) & (
               (splitDelimBeginEnd == eSplitDelimBeginEnd::required) |
               (m_sv.empty() & (splitDelimBeginEnd == eSplitDelimBeginEnd::optional))  ) ),
@@ -1400,88 +1931,35 @@ class cSplit {
     { }
     cSplit(const cSplit&) = delete;
     cSplit &operator= (const cSplit &) = delete;
-    class const_iterator {
-        const cSv m_sv;
-        const char m_delim;
-        const char *m_context;
-        cSv::size_type m_start;
-        cSv::size_type m_end;
-      public:
-        using iterator_category = std::forward_iterator_tag;
-        using value_type = TV;
-        using difference_type = int;
-        using pointer = const TV*;
-        using reference = const TV&;
-
-        explicit const_iterator(cSv sv = cSv(), char delim = ':', const char *context = nullptr, bool begin = false):
-          m_sv(sv), m_delim(delim), m_context(context) {
-          if (begin) {
-            m_start = 0;
-            m_end = m_sv.find2(m_delim);
-          } else {
-            m_start = sv.length() + 1;
-            m_end = cSv::npos;
-          }
-        }
-        const_iterator& operator++() {
-          m_start = m_end+1;
-          if (m_end == m_sv.length() )
-            m_end = cSv::npos;
-          else
-            m_end = m_sv.find2(m_delim, m_start);
-          return *this;
-        }
-        const_iterator& operator--() {
-          m_end = m_start-1;
-          for (m_start = m_end; m_start > 0;) {
-            --m_start;
-            if (m_sv[m_start] == m_delim) {
-              ++m_start;
-              return *this;
-            }
-          }
-          return *this;
-        }
-        bool operator!=(const_iterator other) const { return m_end != other.m_end; }
-        bool operator==(const_iterator other) const { return m_end == other.m_end; }
-        cSv value() const {
-          return m_sv.substr(m_start, m_end-m_start);
-        }
-        TV operator*() const { return lexical_cast<TV>(value()); }
-      void getValues() {};
-      template<typename T, typename... Args>
-      void getValues(T &n, Args&&... args) {
-        if (m_end == cSv::npos) {
-          n = T();
-        } else {
-          n = lexical_cast<T>(value(), T(), m_context);
-          (*this).operator++();
-        }
-        return getValues(std::forward<Args>(args)...);
-      }
-    };
-    typedef typename cSplit<TV>::const_iterator iterator;
+    typedef const_split_iterator<TV, const char *> const_iterator;
+    typedef const_split_iterator<TV, const char *> iterator;
+    typedef ::const_reverse_iterator<const_split_iterator<TV, const char*>> const_reverse_iterator;
     template<typename... Args> size_t getValues(Args&&... args) {
-      begin().getValues(std::forward<Args>(args)...);
+      cbegin().getValues(std::forward<Args>(args)...);
       return size();
     }
-    const_iterator begin() const { return m_empty?m_end:const_iterator(m_sv, m_delim, m_context, true); }
-//    const const_iterator &end() const { return m_end; }
-    const_iterator end() const { return m_end; }
+    const_iterator cbegin() const { return m_empty?const_iterator(iterator_empty()):const_iterator(m_sv, m_delim, m_context); }
+    const_iterator begin() const { return cbegin(); }
+    const_iterator cend() const {
+      return m_empty?const_iterator(iterator_empty()):const_iterator(iterator_end(), m_sv, m_delim, m_context);
+    }
+    const_iterator end() const { return cend(); }
     static const_iterator s_end() { return const_iterator(); }
+    const_reverse_iterator crbegin() const { return const_reverse_iterator(this->cend()); }
+    const_reverse_iterator crend()   const { return const_reverse_iterator(this->cbegin()); }
+    const_reverse_iterator rbegin() const { return const_reverse_iterator(this->end()); }
+    const_reverse_iterator rend()   const { return const_reverse_iterator(this->begin()); }
     const_iterator find(cSv sv) {
-      if (m_sv.find(sv) == std::string_view::npos) return m_end;
-      return std::find(begin(), end(), sv);
+      if (m_sv.find(sv) == std::string_view::npos) return cend();
+      return std::find(cbegin(), cend(), sv);
     }
     bool empty() const { return m_empty; }
     size_t size() const {
-      if (m_empty) return 0;
-      return std::count(m_sv.begin(), m_sv.end(), m_delim)+1;
+      return std::count(m_sv.begin(), m_sv.end(), m_delim) + !m_empty;
     }
   private:
     const cSv m_sv;
     const char m_delim;
-    const const_iterator m_end;
     const bool m_empty;
     const char *m_context;
 };
@@ -1507,44 +1985,81 @@ template<class I> class cRange {
  * class cUnion: iterate over serveral containers, as if it was one.
  * value_type of first container will be used.
 */
+template<class T_V, class T_I, class T_IE, class T_I2> class union_iterator {
+    T_I  m_it1;
+    T_IE m_it1_end;
+    T_I2 m_it2;
+  public:
+    using iterator_category = std::forward_iterator_tag;
+    using value_type = T_V;
+    using difference_type = int;
+    using pointer = T_V*;
+    using reference = T_V&;
+
+    explicit union_iterator(T_I it1, T_IE it1_end, T_I2 it2):
+      m_it1(it1), m_it1_end(it1_end), m_it2(it2) {}
+    union_iterator& operator++() {
+      if (m_it1 != m_it1_end) ++m_it1;
+      else ++m_it2;
+      return *this;
+    }
+    bool operator!=(union_iterator other) const { return m_it1 != other.m_it1  || m_it2 != other.m_it2; }
+    bool operator==(union_iterator other) const { return m_it1 == other.m_it1  && m_it2 == other.m_it2; }
+    T_V &operator*() {
+      if (m_it1 != m_it1_end) return *m_it1;
+      else return *m_it2;
+    }
+  };
+template<class T_I, class T_IE, class T_I2> union_iterator(T_I it1, T_IE it1_end, T_I2 it2) -> union_iterator<typename std::iterator_traits<T_I>::value_type, T_I, T_IE, T_I2>;
+
+template<class T_V, class T_I, class T_IE, class T_I2> class const_union_iterator {
+    T_I  m_it1;
+    T_IE m_it1_end;
+    T_I2 m_it2;
+  public:
+    using iterator_category = std::input_iterator_tag;
+    using value_type = T_V;
+    using difference_type = int;
+    using pointer = T_V*;
+    using reference = T_V;
+
+    explicit const_union_iterator(T_I it1, T_IE it1_end, T_I2 it2):
+      m_it1(it1), m_it1_end(it1_end), m_it2(it2) {}
+    const_union_iterator& operator++() {
+      if (m_it1 != m_it1_end) ++m_it1;
+      else ++m_it2;
+      return *this;
+    }
+    bool operator!=(const_union_iterator other) const { return m_it1 != other.m_it1  || m_it2 != other.m_it2; }
+    bool operator==(const_union_iterator other) const { return m_it1 == other.m_it1  && m_it2 == other.m_it2; }
+    T_V operator*() const {
+      if (m_it1 != m_it1_end) return *m_it1;
+      else return *m_it2;
+    }
+  };
+template<class T_I, class T_IE, class T_I2> const_union_iterator(T_I it1, T_IE it1_end, T_I2 it2) -> const_union_iterator<typename std::iterator_traits<T_I>::value_type, T_I, T_IE, T_I2>;
+
 template<class T_V, class...U> class cUnion {};
 template<class T_V> class cUnion<T_V> {
   public:
     typedef T_V* iterator;
-    iterator begin() { return nullptr; }
-    iterator end()   { return nullptr; }
+    typedef T_V* const_iterator;
+    const_iterator cbegin() const { return nullptr; }
+    const_iterator cend()   const { return nullptr; }
+    const_iterator begin() const { return nullptr; }
+    const_iterator end()   const { return nullptr; }
 };
 template<class T_V, class T, class...U>
 class cUnion<T_V, T, U...> {
   public:
     cUnion(T& c1, U&...c2): m_sf1(c1), m_sf2(c2...) { }
-      using T_I = typename T::iterator;
-      using T_I2 = typename cUnion<T_V, U...>::iterator;
-    class iterator {
-        T_I m_it1;
-        T_I m_it1_end;
-        T_I2 m_it2;
-      public:
-        using iterator_category = std::forward_iterator_tag;
-        using value_type = T_V;
-        using difference_type = int;
-        using pointer = const T_V*;
-        using reference = T_V&;
+      using iterator = union_iterator<T_V, typename T::iterator, typename T::iterator, typename cUnion<T_V, U...>::iterator>;
+      using const_iterator = const_union_iterator<T_V, typename T::const_iterator, typename T::const_iterator, typename cUnion<T_V, U...>::const_iterator>;
 
-        explicit iterator(T_I it1, T_I it1_end, T_I2 it2):
-          m_it1(it1), m_it1_end(it1_end), m_it2(it2) {}
-        iterator& operator++() {
-          if (m_it1 != m_it1_end) ++m_it1;
-          else ++m_it2;
-          return *this;
-        }
-        bool operator!=(iterator other) const { return m_it1 != other.m_it1  || m_it2 != other.m_it2; }
-        bool operator==(iterator other) const { return m_it1 == other.m_it1  && m_it2 == other.m_it2; }
-        T_V operator*() const {
-          if (m_it1 != m_it1_end) return *m_it1;
-          else return *m_it2;
-        }
-      };
+      const_iterator cbegin() const { return const_iterator(m_sf1.begin(), m_sf1.end(), m_sf2.begin() ); }
+      const_iterator cend()   const { return const_iterator(m_sf1.end(),   m_sf1.end(), m_sf2.end()   ); }
+      const_iterator begin() const { return const_iterator(m_sf1.begin(), m_sf1.end(), m_sf2.begin() ); }
+      const_iterator end() const   { return const_iterator(m_sf1.end(),   m_sf1.end(), m_sf2.end()   ); }
       iterator begin() { return iterator(m_sf1.begin(), m_sf1.end(), m_sf2.begin() ); }
       iterator end()   { return iterator(m_sf1.end(),   m_sf1.end(), m_sf2.end()   ); }
   private:
@@ -1552,6 +2067,31 @@ class cUnion<T_V, T, U...> {
     cUnion<T_V, U...> m_sf2;
 };
 template<class V1, class ...V> cUnion(V1& c1, V&...c) -> cUnion<typename std::iterator_traits<typename V1::const_iterator>::value_type, V1, V...>;
+
+template<class T_V, class...U> class c_const_union {};
+template<class T_V> class c_const_union<T_V> {
+  public:
+    typedef T_V* const_iterator;
+    const_iterator cbegin() const { return nullptr; }
+    const_iterator cend()   const { return nullptr; }
+    const_iterator begin() const { return nullptr; }
+    const_iterator end()   const { return nullptr; }
+};
+template<class T_V, class T, class...U>
+class c_const_union<T_V, T, U...> {
+  public:
+    c_const_union(T& c1, U&...c2): m_sf1(c1), m_sf2(c2...) { }
+      using const_iterator = const_union_iterator<T_V, typename T::const_iterator, typename T::const_iterator, typename c_const_union<T_V, U...>::const_iterator>;
+
+      const_iterator cbegin() const { return const_iterator(m_sf1.begin(), m_sf1.end(), m_sf2.begin() ); }
+      const_iterator cend()   const { return const_iterator(m_sf1.end(),   m_sf1.end(), m_sf2.end()   ); }
+      const_iterator begin() const { return const_iterator(m_sf1.begin(), m_sf1.end(), m_sf2.begin() ); }
+      const_iterator end() const   { return const_iterator(m_sf1.end(),   m_sf1.end(), m_sf2.end()   ); }
+  private:
+    T& m_sf1;
+    c_const_union<T_V, U...> m_sf2;
+};
+template<class V1, class ...V> c_const_union(V1& c1, V&...c) -> c_const_union<typename std::iterator_traits<typename V1::const_iterator>::value_type, V1, V...>;
 
 /*
  * class cContainer: combine strings in one string

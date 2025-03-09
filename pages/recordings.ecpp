@@ -209,11 +209,22 @@ if (!deleteResult.empty()) {
       uintptr_t iRecordingsTree = (uintptr_t)&recordingsTree;
       uintptr_t iOpenTreeNodes = (uintptr_t)&openTreeNodes;
       uintptr_t iAvailable_recs = (uintptr_t)&available_recs;
+// get sort order
+// define sort order, and reverse (for recordings)
+// use current sort order and selected sort option for that
+      bool reverse = false;
+      RecordingsManager::eSortOrder sortOrder = RecordingsManager::eSortOrder::name; // default
+      if (currentSort.compare(0, 4,  "date"  , 4) == 0) sortOrder = RecordingsManager::eSortOrder::date;
+      if (currentSort.compare(0, 6,  "errors", 6) == 0) sortOrder = RecordingsManager::eSortOrder::errors;
+      if (currentSort.compare(0, 8,  "errorsdur", 8) == 0) sortOrder = RecordingsManager::eSortOrder::durationDeviation;
+      if (currentSort.compare(0, 10, "duplicates", 10) == 0) sortOrder = RecordingsManager::eSortOrder::duplicatesLanguage;
+      if (currentSort == "datedesc" || currentSort == "namedesc") reverse = true;
+      RecordingsManager::setSortOrder(sortOrder, reverse, currentFilter);
 </%cpp>
       <form method="post" name="recordings" id="form_recordings" action="recordings.ecpp">
         <div class="recordings">
           <ul class="recordingslist" style="display: block;">
-            <& recordings.recordings_item iRecItem=(iRecItemRoot) irecording_item=(irecording_item) iRecordingsTree=(iRecordingsTree) iOpenTreeNodes=(iOpenTreeNodes) iAvailable_recs=(iAvailable_recs) &>
+            <& recordings.recordings_item iRecItem=(iRecItemRoot) irecording_item=(irecording_item) iRecordingsTree=(iRecordingsTree) iOpenTreeNodes=(iOpenTreeNodes) iAvailable_recs=(iAvailable_recs) int_sortOrder=((int)sortOrder) reverse=(reverse) &>
           </ul>
         </div>
         <input type="hidden" name="sort" value="<$ currentSort $>">
@@ -244,18 +255,12 @@ dsyslog("live, time recordings.ecpp: %f", timeNeeded.count());
   uintptr_t iRecordingsTree = 0;
   uintptr_t iOpenTreeNodes = 0;
   uintptr_t iAvailable_recs = 0;
+  int int_sortOrder;
+  bool reverse = false;
   std::string parentIdHash;
 </%args>
 <%cpp>
-// define sort order, and reverse (for recordings)
-// use current sort order and selected sort option for that
-bool reverse = false;
-eSortOrder sortOrder = eSortOrder::name; // default
-if (currentSort.compare(0, 4,  "date"  , 4) == 0) sortOrder = eSortOrder::date;
-if (currentSort.compare(0, 6,  "errors", 6) == 0) sortOrder = eSortOrder::errors;
-if (currentSort.compare(0, 8,  "errorsdur", 8) == 0) sortOrder = eSortOrder::durationDeviation;
-if (currentSort.compare(0, 10, "duplicates", 10) == 0) sortOrder = eSortOrder::duplicatesLanguage;
-if (currentSort == "datedesc" || currentSort == "namedesc") reverse = true;
+RecordingsManager::eSortOrder sortOrder = (RecordingsManager::eSortOrder)int_sortOrder;
 // get rec item of this (current) dir
 RecordingsItemDirPtr recItemThisDir = *(static_cast<RecordingsItemDirPtr *>((void *)iRecItem) );
 RecordingsTreePtr recordingsTree = *(static_cast<RecordingsTreePtr *>((void *)iRecordingsTree) );
@@ -265,8 +270,8 @@ std::vector<int> available_recs = *(static_cast<std::vector<int> *>((void *)iAva
 int level = recItemThisDir->Level();
 
 
-std::vector<RecordingsItemRecPtr> recItems;
-const std::vector<RecordingsItemRecPtr> *recItemsC = NULL;
+std::vector<RecordingsItemRec*> recItems;
+const std::vector<RecordingsItemRec*> *recItemsC = NULL;
 
 // data for dirs, and loop over dirs
 const std::vector<RecordingsItemDirPtr> *dirItems = recItemThisDir->getDirs();
@@ -328,7 +333,7 @@ if (currentFlat != "true") {
         </td></tr></table>
         </div>
         <ul id="fldr_<$ idHash $>" class="recordingslist" style="display: none;">
-          <& recordings.recordings_item iRecItem=(iRecItem) irecording_item=(irecording_item) parentIdHash=(idHash) iRecordingsTree=(iRecordingsTree) iOpenTreeNodes=(iOpenTreeNodes) iAvailable_recs=(iAvailable_recs) &>
+          <& recordings.recordings_item iRecItem=(iRecItem) irecording_item=(irecording_item) parentIdHash=(idHash) iRecordingsTree=(iRecordingsTree) iOpenTreeNodes=(iOpenTreeNodes) iAvailable_recs=(iAvailable_recs) int_sortOrder=(int_sortOrder) reverse=(reverse)&>
         </ul>
       </li>
       <%cpp>
@@ -344,17 +349,17 @@ if (currentFlat != "true") {
     size_t max_items = 100;
     if (reverse) {
       reverse = false;
-      std::vector<RecordingsItemRecPtr>::const_iterator recIterFirst = recordingsTree->allRecordings(sortOrder)->begin();
-      std::vector<RecordingsItemRecPtr>::const_iterator recIterLast  = recordingsTree->allRecordings(sortOrder)->end();
+      std::vector<RecordingsItemRec*>::const_iterator recIterFirst = recordingsTree->allRecordings(sortOrder)->begin();
+      std::vector<RecordingsItemRec*>::const_iterator recIterLast  = recordingsTree->allRecordings(sortOrder)->end();
       for (; recIterFirst != recIterLast;) {
         --recIterLast;
-        RecordingsItemRecPtr recItem = *recIterLast;
+        RecordingsItemRec* recItem = *recIterLast;
         if (!recItem->matchesFilter(currentFilter)) continue;
         recItems.push_back(recItem);
         if (recItems.size() >= max_items) break;
       }
     } else {
-      for (const RecordingsItemRecPtr &rPtr: *recordingsTree->allRecordings(sortOrder) ) {
+      for (RecordingsItemRec *rPtr: *recordingsTree->allRecordings(sortOrder) ) {
         if (!rPtr->matchesFilter(currentFilter)) continue;
         recItems.push_back(rPtr);
         if (recItems.size() >= max_items) break;
@@ -384,11 +389,11 @@ if (write_recs && recItemsC) {
 <script>
   <%cpp>
   std::chrono::time_point<std::chrono::high_resolution_clock> timeStart_recs = std::chrono::high_resolution_clock::now();
-  for (const RecordingsItemRecPtr &rPtr: *recItemsC) {
+  for (const RecordingsItemRec *rPtr: *recItemsC) {
     recording_item->clear();
     rPtr->AppendAsJSArray(*recording_item);
   </%cpp>
-recs[<$cSv(cToSvInt(rPtr->IdI()))$>]=[<$$ *recording_item $>]
+recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
   <%cpp>
   }
   std::chrono::duration<double> timeNeeded_recs = std::chrono::high_resolution_clock::now() - timeStart_recs;
@@ -445,11 +450,11 @@ if (currentSort != "duplicates" || currentFlat == "true") {
         </%cpp>
 <script>
         <%cpp>
-        for (const RecordingsItemRecPtr &rPtr: recItems) {
+        for (const RecordingsItemRec *rPtr: recItems) {
           recording_item->clear();
           rPtr->AppendAsJSArray(*recording_item);
           </%cpp>
-recs[<$cSv(cToSvInt(rPtr->IdI()))$>]=[<$$ *recording_item $>]
+recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
 %       }
 </script>
       <%cpp>
@@ -627,11 +632,11 @@ function cancel_delete() {
 <& recordings.edit_rec id=(id) sort=(sort) filter=(filter) flat=(flat) history_num_back=(history_num_back) &>
 <& recordings.del_rec id=(id) sort=(sort) filter=(filter) flat=(flat) history_num_back=(history_num_back) &>
 <%cpp>
-const RecordingsItemRecPtr recPtr = RecordingsManager::GetByIdHash(id);
+const RecordingsItemRec* recPtr = RecordingsManager::GetByIdHash(id);
 if (recPtr && recPtr->scraperDataAvailable() ) {
   const char *sdhd = nullptr;
   cToSvConcat frameParams;
-  StringAppendFrameParams(frameParams, recPtr.get() );
+  StringAppendFrameParams(frameParams, recPtr);
   switch (recPtr->FrameWidth()) {
     case 720:
       sdhd = "720x576";

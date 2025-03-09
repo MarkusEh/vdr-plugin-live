@@ -153,7 +153,7 @@ if (type == "now") {
   else // get favorite broadcasts from epgsearch
   {
     SearchResults results;
-    SearchTimers timers;
+    SearchTimers timers;  // this class receives "automatically" the data from epgsearch
     for (SearchTimers::iterator timer = timers.begin(); timer != timers.end(); ++timer) {
       if (!timer->UseInFavorites()) continue;
       SearchResults curresults;
@@ -233,13 +233,13 @@ if (type == "now") {
         struct stat chanfilebuf;
         bool logo_available = stat (chanlogopath.c_str(), &chanfilebuf) == 0;
         if (!logo_available) {
-          chanlogofile = std::string(cToSvToLower(chanlogofile, g_locale));
+          chanlogofile = std::string(cToSvToLower(chanlogofile));
           chanlogopath = LiveSetup().GetChanLogoDir() + chanlogofile;
           logo_available = stat (chanlogopath.c_str(), &chanfilebuf) == 0;
         }
         if (!logo_available) {
 //          chanlogofile = StringReplace(epgEvent->Caption(), "/", "~") + ".png";
-          chanlogofile = std::string(cToSvToLower(cToSvReplace(epgEvent->Caption(), "/", "~").concat(".png"), g_locale));
+          chanlogofile = std::string(cToSvToLower(cToSvReplace(epgEvent->Caption(), "/", "~").concat(".png")));
           chanlogopath = LiveSetup().GetChanLogoDir() + chanlogofile;
           logo_available = stat (chanlogopath.c_str(), &chanfilebuf) == 0;
         }
