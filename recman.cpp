@@ -25,9 +25,12 @@ namespace vdrlive {
    *  Implementation of class RecordingsManager:
    */
   void RecordingsManager::setSortOrder(eSortOrder sortOrder, bool backwards, cSv filter) {
+    dsyslog("live: RecordingsManager::setSortOrder, sortOrder = %d, backwards = %s", (int)sortOrder, backwards?"true":"false");
     EnsureValidData();
+    m_sortOrder = sortOrder;
     all_recordings_sorted = all_recordings[(int)(sortOrder)];
     if (all_recordings_sorted.empty() ) {
+      dsyslog("live: RecordingsManager::setSortOrder, sort recordings");
       all_recordings_sorted.assign(all_recordings_iterator(), all_recordings_iterator(iterator_end() ));
       std::sort(all_recordings_sorted.begin(), all_recordings_sorted.end(), RecordingsItemPtrCompare::getComp(sortOrder));
     }
@@ -473,6 +476,12 @@ bool searchNameDesc(RecordingsItemRec *&RecItem, const std::vector<RecordingsIte
    */
   RecordingsItemDir::RecordingsItemDir(cSv name, int level):
     m_name(name),
+    m_name_contains(name),
+    m_level(level) { }
+
+  RecordingsItemDir::RecordingsItemDir(cSv name, cSv name_contains, int level):
+    m_name(name),
+    m_name_contains(name_contains),
     m_level(level) { }
 
   RecordingsItemDir::~RecordingsItemDir() { }
@@ -533,7 +542,16 @@ bool searchNameDesc(RecordingsItemRec *&RecItem, const std::vector<RecordingsIte
     return &m_entries_other_sort;
   }
   void RecordingsItemDir::set_rec_iterator(const_rec_iterator<RecordingsItemRec> &rec_it) {
-    rec_it.set_container(m_entries);
+    if (m_cmp_rec) {
+      rec_it.set_container(m_entries);
+      rec_it.set_backwards(false);
+    } else if (m_rec_item) {
+      rec_it.set_container(*getRecordings(RecordingsManager::m_sortOrder));
+    }
+  }
+  bool RecordingsItemDir::Contains(const RecordingsItemRec *rec) const {
+    if (m_cmp_rec || m_rec_item) return true; // non filesystem folders: use m_entries
+    return rec->Folder() == m_name_contains;  // filesystem folders
   }
 
   bool RecordingsItemDir::checkNew() const{
@@ -601,6 +619,10 @@ bool searchNameDesc(RecordingsItemRec *&RecItem, const std::vector<RecordingsIte
   }
 
   RecordingsItemDirCollection::~RecordingsItemDirCollection() { }
+  void RecordingsItemDirCollection::set_rec_iterator(const_rec_iterator<RecordingsItemRec> &rec_it) {
+    rec_it.set_container(m_entries);
+    rec_it.set_backwards(false);
+  }
 
   /**
    *  Implementation of class RecordingsItemDirSeason:
@@ -615,6 +637,10 @@ bool searchNameDesc(RecordingsItemRec *&RecItem, const std::vector<RecordingsIte
     m_s_season_number = m_rec_item->m_s_season_number;
   }
   RecordingsItemDirSeason::~RecordingsItemDirSeason() { }
+  void RecordingsItemDirSeason::set_rec_iterator(const_rec_iterator<RecordingsItemRec> &rec_it) {
+    rec_it.set_container(m_entries);
+    rec_it.set_backwards(false);
+  }
 
 int GetNumberOfTsFiles(cSv fileName) {
 // find our number of ts files
@@ -806,7 +832,7 @@ bool StillRecording(cSv Directory) {
 
 
   void update_all_recordings () {
-    cMeasureTime time_update_all_recordings;
+    cMeasureTime timeIdentify, timeOverview, timeDurationDeviation, timeItemRec, time_update_all_recordings;
     time_update_all_recordings.start();
     bool change = false;
 // mark all recordings in cache as not seen
@@ -838,6 +864,12 @@ bool StillRecording(cSv Directory) {
         }
       }  // for recording = Recordings->First(); ...
     }
+/*
+              timeItemRec.print("live: ItemRec   ");
+             timeIdentify.print("live: Identify  ");
+             timeOverview.print("live: Overview  ");
+    timeDurationDeviation.print("live: Scraper   ");
+*/
 // delete all non-seen cached recordings
     for (RecordingsItemRec*& r: all_recordings_iterator(iterator_begin() )) if (!r->seen()) {
       change = true;
@@ -850,9 +882,11 @@ bool StillRecording(cSv Directory) {
     for (int sort_order = (int)RecordingsManager::eSortOrder::id + 1; sort_order < (int)RecordingsManager::eSortOrder::list_end; ++sort_order)
       RecordingsManager::all_recordings[sort_order].clear();
 // add sorted by name
-    RecordingsManager::all_recordings[(int)RecordingsManager::eSortOrder::name].assign(all_recordings_iterator(), all_recordings_iterator(iterator_end() ));
-
-    std::sort(RecordingsManager::all_recordings[(int)RecordingsManager::eSortOrder::name].begin(), RecordingsManager::all_recordings[(int)RecordingsManager::eSortOrder::name].end(), &RecordingsItemPtrCompare::ByAscendingNameDescSort);
+    RecordingsManager::m_sortOrder = RecordingsManager::eSortOrder::name;
+    RecordingsManager::all_recordings_sorted = RecordingsManager::all_recordings[(int)(RecordingsManager::m_sortOrder)];
+    dsyslog("live: RecordingsManager::update_all_recordings, sort recordings");
+    RecordingsManager::all_recordings_sorted.assign(all_recordings_iterator(), all_recordings_iterator(iterator_end() ));
+    std::sort(RecordingsManager::all_recordings_sorted.begin(), RecordingsManager::all_recordings_sorted.end(), RecordingsItemPtrCompare::getComp(RecordingsManager::m_sortOrder));
 
     time_update_all_recordings.stop();
     time_update_all_recordings.print("live: time_update_all_recordings ");
@@ -1225,6 +1259,13 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
     target.append("\"");
   }
 
+  void RecordingsItemRec::AppendAsJSArray(cToSvConcat<0> &target, const_rec_iterator<RecordingsItemRec> &rec_iterator, bool &first) {
+    for (const RecordingsItemRec* recItem: rec_iterator) {
+      if (first) first = false;
+      else target.append(",");
+      target.concat(recItem->Id() );
+    }
+  }
   void RecordingsItemRec::AppendAsJSArray(cToSvConcat<0> &target, std::vector<RecordingsItemRec*>::const_iterator recIterFirst, std::vector<RecordingsItemRec*>::const_iterator recIterLast, bool &first, cSv filter, bool reverse) {
     if (reverse) {
       for (; recIterFirst != recIterLast;) {
@@ -1291,7 +1332,12 @@ template<class C>
     return *this;
   }
 template<class C>
-  const_rec_iterator<C> &const_rec_iterator<C>::set_container(std::vector<C*> &items) {
+  const_rec_iterator<C> &const_rec_iterator<C>::set_backwards(bool backwards) {
+    m_backwards = backwards;
+    return *this;
+  }
+template<class C>
+  const_rec_iterator<C> &const_rec_iterator<C>::set_container(const std::vector<C*> &items) {
     m_begin = items.begin();
     m_end   = items.end();
     return set_begin();
@@ -1305,8 +1351,10 @@ template<class C>
       ++(*this);
     } else {
       m_current = m_begin;
-      if (!current_matches() ) ++(*this);
-      else m_index = 1;
+      if (m_current != m_end) {
+        if (!current_matches() ) ++(*this);
+        else m_index = 1;
+      }
     }
     return *this;
   }
@@ -1346,84 +1394,33 @@ template<class C>
 
     return (*m_current)->matches_regex(m_regex_filter);
   }
-// template class const_rec_iterator<c_basic_dir>;
 // template class const_rec_iterator<c_filesystem_dir>;
 template class const_rec_iterator<RecordingsItemRec>;
 
-
-  bool c_basic_dir::matches_regex(const std::regex *reg) const {
-    if (!reg) return true;
-    if (std::regex_search(Name().begin(), Name().end(), *reg)) return true;
-    for (auto r:const_rec_iterator<RecordingsItemRec>(RecordingsManager::all_recordings[(int)(RecordingsManager::eSortOrder::name)], false))
-      if(r->matches_regex(reg)) return true;
-// TODO implement for non-filesystem dirs
-    return false;
-  }
-  bool c_basic_dir::ContainsNew() const {
-    for (auto r:const_rec_iterator<RecordingsItemRec>(RecordingsManager::all_recordings[(int)(RecordingsManager::eSortOrder::name)], false))
-      if(r->IsNew()) return true;
-// TODO implement for non-filesystem dirs
-    return false;
-  }
-
-// c_filesystem_dir
-  void c_filesystem_dir::add_if_not_exists(cSv name_vdr) {
-/*
-    if (name_vdr.empty()) return; // do not add root dir here
-    for (c_basic_dir *basic_dir: RecordingsManager::all_directories)
-      if (basic_dir->Type() == RecordingsManager::eDirType::filesystem &&
-          static_cast<c_filesystem_dir*>(basic_dir)->Name_vdr() == name_vdr) return;
-// not yet in list, so add it now
-    c_filesystem_dir *filesystem_dir = new c_filesystem_dir(name_vdr);
-    RecordingsManager::all_directories.push_back(filesystem_dir);
-    add_if_not_exists(filesystem_dir->Folder());
-*/
-  }
-  c_filesystem_dir::c_filesystem_dir(cSv name_vdr):
-    c_basic_dir(RecordingsManager::eDirType::filesystem),
-    m_name_vdr(std::string(name_vdr)) {
-// get m_name, m_name_str, m_folder
-    const_split_iterator name_split(iterator_end(), m_name_vdr, '~');
-    --name_split;
-    m_name = *name_split;
-    m_name_str = name_split.pos();
-    if (name_split != iterator_begin()) {
-      m_folder = cSv(m_name_vdr.data(), std::distance((const char *)m_name_vdr.data(), name_split.pos())-1);
-    }
-    m_level = name_split.size() - 1;
-  }
-  bool c_filesystem_dir::Contains(RecordingsItemRec* recordingsItemRec) const {
-    return m_name_vdr == recordingsItemRec->Folder();
-  }
-  bool c_filesystem_dir::Contains(c_basic_dir* basic_dir) const {
-    return Type() == basic_dir->Type() &&
-           m_name_vdr == static_cast<c_filesystem_dir*>(basic_dir)->Folder();
-  }
 
   /**
    *  Implementation of class RecordingsTree:
    */
   RecordingsTree::RecordingsTree():
     m_maxLevel(0),
-    m_root(std::make_shared<RecordingsItemDir>("", 0))
+    m_root(std::make_shared<RecordingsItemDir>(cSv(), cSv(), 0))
   {
-//   esyslog("live: DH: ****** RecordingsTree::RecordingsTree() ********");
-    cMeasureTime timeRecs, timeIdentify, timeOverview, timeDurationDeviation, timeItemRec;
-
 // check availability of scraper data
     m_creation_timestamp = time(0);
     cGetScraperVideo_v01 getScraperVideo;
     bool scraperDataAvailable = getScraperVideo.call(LiveSetup().GetPluginTvscraper());
+// create special folders
     RecordingsItemDirPtr recPtrTvShows = std::make_shared<RecordingsItemDir>(tr("TV shows"), 1);
     RecordingsItemDirPtr recPtrMovieCollections = std::make_shared<RecordingsItemDir>(tr("Movie collections"), 1);
 // create "base" folders
     if (scraperDataAvailable) {
       m_root->m_cmp_dir = RecordingsItemPtrCompare::BySeason;
+      m_root->m_cmp_rec = RecordingsItemPtrCompare::ByAscendingNameDescSort;  // there are no recorings -> dummy
       recPtrTvShows->m_s_season_number = 1;
       m_root->m_subdirs.push_back(recPtrTvShows);
       recPtrMovieCollections->m_s_season_number = 2;
       m_root->m_subdirs.push_back(recPtrMovieCollections);
-      RecordingsItemDirPtr recPtrOthers = std::make_shared<RecordingsItemDir>(tr("File system view"), 1);
+      RecordingsItemDirPtr recPtrOthers = std::make_shared<RecordingsItemDir>(tr("File system view"), cSv(), 1);
       recPtrOthers->m_s_season_number = 3;
       m_rootFileSystem = recPtrOthers;
       m_root->m_subdirs.push_back(recPtrOthers);
@@ -1473,13 +1470,6 @@ template class const_rec_iterator<RecordingsItemRec>;
       }
     }
     m_root->finishRecordingsTree();
-/*
-                 timeRecs.print("live: timeRecs  ");
-              timeItemRec.print("live: ItemRec   ");
-             timeIdentify.print("live: Identify  ");
-             timeOverview.print("live: Overview  ");
-    timeDurationDeviation.print("live: Scraper   ");
-*/
   }
 
   RecordingsTree::~RecordingsTree()

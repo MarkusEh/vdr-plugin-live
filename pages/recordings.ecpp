@@ -269,9 +269,11 @@ std::string openTreeNodes= *(static_cast<std::string *>((void *)iOpenTreeNodes) 
 std::vector<int> available_recs = *(static_cast<std::vector<int> *>((void *)iAvailable_recs) );
 int level = recItemThisDir->Level();
 
+bool duplicates_not_flat = currentSort == "duplicates" && currentFlat != "true";
 
 std::vector<RecordingsItemRec*> recItems;
 const std::vector<RecordingsItemRec*> *recItemsC = NULL;
+const_rec_iterator<RecordingsItemRec> l_rec_iterator;
 
 // data for dirs, and loop over dirs
 const std::vector<RecordingsItemDirPtr> *dirItems = recItemThisDir->getDirs();
@@ -339,6 +341,7 @@ if (currentFlat != "true") {
       <%cpp>
     } // end of loop over subdirs
 // now the items
+    l_rec_iterator.set_recordingsItemDir(recItemThisDir);
     recItemsC = recItemThisDir->getRecordings(sortOrder);
     if (recItemThisDir->recEntriesSorted() ) reverse = false;
   } // end if (currentSort != "duplicates")
@@ -365,31 +368,36 @@ if (currentFlat != "true") {
         if (recItems.size() >= max_items) break;
       }
     }
+    l_rec_iterator.set_max_items(100);
     recItemsC = &recItems;
   } else {
     recItems.clear();
     addDuplicateRecordingsSd(recItems, recordingsTree);
     addDuplicateRecordingsLang(recItems, recordingsTree);
     addDuplicateRecordingsNoSd(recItems, recordingsTree);
+    l_rec_iterator.set_container(recItems);
+    l_rec_iterator.set_backwards(false);
     recItemsC = &recItems;
   }
 }
 // do we have to get/write the recording details?
 // we have to, if currentFlat == true || level == 0 || this folder is open (cookie)
 bool write_recs = level == 0 || currentFlat == "true";
-if (!write_recs && recItemsC) {
+if (!write_recs && !duplicates_not_flat) {
 // check: is this folder open (cookie)?
   auto equal_fldf = [parentIdHash](cSv f) { return f.length() > 5 && f.compare(5, std::string_view::npos, parentIdHash) == 0; };
   cSplit splitOpenTreeNodes(openTreeNodes, ',', eSplitDelimBeginEnd::optional);
   write_recs = std::find_if(splitOpenTreeNodes.begin(), splitOpenTreeNodes.end(), equal_fldf) != splitOpenTreeNodes.end();
 }
-if (write_recs && recItemsC) {
+if (write_recs && !duplicates_not_flat) {
 // in case of duplicates, and not flat, the recItemsC is not available
   </%cpp>
 <script>
   <%cpp>
   std::chrono::time_point<std::chrono::high_resolution_clock> timeStart_recs = std::chrono::high_resolution_clock::now();
-  for (const RecordingsItemRec *rPtr: *recItemsC) {
+//for (const RecordingsItemRec *rPtr: *recItemsC)
+  for (const RecordingsItemRec *rPtr: l_rec_iterator)
+  {
     recording_item->clear();
     rPtr->AppendAsJSArray(*recording_item);
   </%cpp>
@@ -398,13 +406,16 @@ recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
   }
   std::chrono::duration<double> timeNeeded_recs = std::chrono::high_resolution_clock::now() - timeStart_recs;
   dsyslog("live, time recordings.ecpp recs lv 0: %f", timeNeeded_recs.count());
+  l_rec_iterator.set_begin();
   </%cpp>
 
 </script>
   <%cpp>
 }
-if (currentSort != "duplicates" || currentFlat == "true") {
-  if (recItemsC->empty() ) { </%cpp>
+if (!duplicates_not_flat) {
+//if (recItemsC->empty() )
+  if (l_rec_iterator == iterator_end() )
+  { </%cpp>
     <script>
       rec_ids["fldr_<$ parentIdHash $>"] = []
     </script>
@@ -413,7 +424,8 @@ if (currentSort != "duplicates" || currentFlat == "true") {
 //    const char *displayFolder = currentFlat == "true"?"1":"0";
     const char *displayFolder = "1";
     recording_item->clear();
-    RecordingsItemRec::AppendAsJSArray(*recording_item, recItemsC->begin(), recItemsC->end(), first, currentFilter, reverse);
+    RecordingsItemRec::AppendAsJSArray(*recording_item, l_rec_iterator, first);
+//    RecordingsItemRec::AppendAsJSArray(*recording_item, recItemsC->begin(), recItemsC->end(), first, currentFilter, reverse);
     </%cpp>
       <script>
 %   if (level == 0) {
@@ -425,7 +437,7 @@ if (currentSort != "duplicates" || currentFlat == "true") {
     <%cpp>
   }
 } else {
-// duplicates
+// duplicates, non flat
   for (int i = 0; i < 3; i++) {
     recItems.clear();
     std::string nodeName;
