@@ -108,6 +108,7 @@ Minutes %= 60;
 diskinfo = cString::sprintf("%s %d%%  -  %2d:%02d %s", trVDR("Disk"), Percent, Hours, Minutes, trVDR("free"));
 
 RecordingsTreePtr recordingsTree(RecordingsManager::GetRecordingsTree());
+DuplicatesRecordingsTreePtr duplicatesRecordingsTree(RecordingsManager::GetDuplicatesRecordingsTree());
 
 // get data for all open nodes
 std::vector<int> available_recs;
@@ -135,7 +136,7 @@ const char *TNT_ARRAY = "";
     <& pageelems.create_html_js &>
     <& pageelems.ajax_js &>
 <script>
-const recordings_tree_creation = <$ cToSvInt(recordingsTree->getCreationTimestamp() ) $>;
+const recordings_tree_creation = <$ cToSvInt(RecordingsManager::GetLastRecordingsUpdate() ) $>;
 const recs = [];
 const rec_ids = Object.create(null)
 rec_ids["T"] = [1, 2]
@@ -204,7 +205,14 @@ if (!deleteResult.empty()) {
 <%cpp>
     } else {
       uintptr_t irecording_item = (uintptr_t)&recording_item;
-      RecordingsItemDirPtr recItemRoot = recordingsTree->getRoot();
+      RecordingsItemDirPtr recItemRoot;
+      if (currentSort.compare(0, 10, "duplicates", 10) == 0) {
+        if (currentFlat == "true")
+          recItemRoot = duplicatesRecordingsTree->getFlatRoot();
+        else
+          recItemRoot = duplicatesRecordingsTree->getRoot();
+      } else
+        recItemRoot = recordingsTree->getRoot();
       uintptr_t iRecItemRoot = (uintptr_t)&recItemRoot;
       uintptr_t iRecordingsTree = (uintptr_t)&recordingsTree;
       uintptr_t iOpenTreeNodes = (uintptr_t)&openTreeNodes;
@@ -272,7 +280,6 @@ int level = recItemThisDir->Level();
 bool duplicates_not_flat = currentSort == "duplicates" && currentFlat != "true";
 
 std::vector<RecordingsItemRec*> recItems;
-const std::vector<RecordingsItemRec*> *recItemsC = NULL;
 const_rec_iterator<RecordingsItemRec> l_rec_iterator;
 
 // data for dirs, and loop over dirs
@@ -280,7 +287,8 @@ const std::vector<RecordingsItemDirPtr> *dirItems = recItemThisDir->getDirs();
 std::vector<RecordingsItemDirPtr>::const_iterator dirIterS, dirIterE, dirIter;
 int direction; // for dirs
 if (currentFlat != "true") {
-  if (currentSort != "duplicates") {
+// loop over subdirs
+//  if (currentSort != "duplicates") {
 // list of subdirs
     if (!recItemThisDir->dirEntriesSorted() && currentSort == "namedesc") {
 // reverse loop over subdirs
@@ -342,60 +350,39 @@ if (currentFlat != "true") {
     } // end of loop over subdirs
 // now the items
     l_rec_iterator.set_recordingsItemDir(recItemThisDir);
-    recItemsC = recItemThisDir->getRecordings(sortOrder);
-    if (recItemThisDir->recEntriesSorted() ) reverse = false;
-  } // end if (currentSort != "duplicates")
+//  } // end if (currentSort != "duplicates")
 } else {
 // here we prepare the items in case of a flat list, no folders
   if (currentSort != "duplicates") {
-    recItems.clear();
-    size_t max_items = 100;
-    if (reverse) {
-      reverse = false;
-      std::vector<RecordingsItemRec*>::const_iterator recIterFirst = recordingsTree->allRecordings(sortOrder)->begin();
-      std::vector<RecordingsItemRec*>::const_iterator recIterLast  = recordingsTree->allRecordings(sortOrder)->end();
-      for (; recIterFirst != recIterLast;) {
-        --recIterLast;
-        RecordingsItemRec* recItem = *recIterLast;
-        if (!recItem->matchesFilter(currentFilter)) continue;
-        recItems.push_back(recItem);
-        if (recItems.size() >= max_items) break;
-      }
-    } else {
-      for (RecordingsItemRec *rPtr: *recordingsTree->allRecordings(sortOrder) ) {
-        if (!rPtr->matchesFilter(currentFilter)) continue;
-        recItems.push_back(rPtr);
-        if (recItems.size() >= max_items) break;
-      }
-    }
     l_rec_iterator.set_max_items(100);
-    recItemsC = &recItems;
   } else {
+    l_rec_iterator.set_recordingsItemDir(recItemThisDir);
+/*
     recItems.clear();
     addDuplicateRecordingsSd(recItems, recordingsTree);
     addDuplicateRecordingsLang(recItems, recordingsTree);
     addDuplicateRecordingsNoSd(recItems, recordingsTree);
     l_rec_iterator.set_container(recItems);
     l_rec_iterator.set_backwards(false);
-    recItemsC = &recItems;
+*/
   }
 }
 // do we have to get/write the recording details?
 // we have to, if currentFlat == true || level == 0 || this folder is open (cookie)
 bool write_recs = level == 0 || currentFlat == "true";
-if (!write_recs && !duplicates_not_flat) {
+// if (!write_recs && !duplicates_not_flat)
+if (!write_recs) {
 // check: is this folder open (cookie)?
   auto equal_fldf = [parentIdHash](cSv f) { return f.length() > 5 && f.compare(5, std::string_view::npos, parentIdHash) == 0; };
   cSplit splitOpenTreeNodes(openTreeNodes, ',', eSplitDelimBeginEnd::optional);
   write_recs = std::find_if(splitOpenTreeNodes.begin(), splitOpenTreeNodes.end(), equal_fldf) != splitOpenTreeNodes.end();
 }
-if (write_recs && !duplicates_not_flat) {
-// in case of duplicates, and not flat, the recItemsC is not available
+// if (write_recs && !duplicates_not_flat)
+if (write_recs) {
   </%cpp>
 <script>
   <%cpp>
   std::chrono::time_point<std::chrono::high_resolution_clock> timeStart_recs = std::chrono::high_resolution_clock::now();
-//for (const RecordingsItemRec *rPtr: *recItemsC)
   for (const RecordingsItemRec *rPtr: l_rec_iterator)
   {
     recording_item->clear();
@@ -412,8 +399,7 @@ recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
 </script>
   <%cpp>
 }
-if (!duplicates_not_flat) {
-//if (recItemsC->empty() )
+// if (!duplicates_not_flat) {
   if (l_rec_iterator == iterator_end() )
   { </%cpp>
     <script>
@@ -425,7 +411,6 @@ if (!duplicates_not_flat) {
     const char *displayFolder = "1";
     recording_item->clear();
     RecordingsItemRec::AppendAsJSArray(*recording_item, l_rec_iterator, first);
-//    RecordingsItemRec::AppendAsJSArray(*recording_item, recItemsC->begin(), recItemsC->end(), first, currentFilter, reverse);
     </%cpp>
       <script>
 %   if (level == 0) {
@@ -436,7 +421,8 @@ if (!duplicates_not_flat) {
       </script>
     <%cpp>
   }
-} else {
+// } else {
+/*
 // duplicates, non flat
   for (int i = 0; i < 3; i++) {
     recItems.clear();
@@ -495,6 +481,7 @@ recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
     }
   }
 }
+*/
 </%cpp>
 </%def>
 

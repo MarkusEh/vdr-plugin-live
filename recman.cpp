@@ -28,12 +28,16 @@ namespace vdrlive {
     dsyslog("live: RecordingsManager::setSortOrder, sortOrder = %d, backwards = %s", (int)sortOrder, backwards?"true":"false");
     EnsureValidData();
     m_sortOrder = sortOrder;
-    all_recordings_sorted = all_recordings[(int)(sortOrder)];
+    std::vector<RecordingsItemRec*> &all_recordings_sorted = all_recordings[(int)(sortOrder)];
     if (all_recordings_sorted.empty() ) {
       dsyslog("live: RecordingsManager::setSortOrder, sort recordings");
       all_recordings_sorted.assign(all_recordings_iterator(), all_recordings_iterator(iterator_end() ));
       std::sort(all_recordings_sorted.begin(), all_recordings_sorted.end(), RecordingsItemPtrCompare::getComp(sortOrder));
     }
+    if (all_recordings_sorted.begin() == all_recordings_sorted.end())
+      dsyslog("live: RecordingsManager::setSortOrder, after sort recordings, empty cont");
+    else
+      dsyslog("live: RecordingsManager::setSortOrder, after sort recordings, first = %s", (*all_recordings_sorted.begin())->NameStr().c_str() );
     m_backwards = backwards;
     if (filter.empty() )
       m_filter = false;
@@ -44,8 +48,6 @@ namespace vdrlive {
       m_filter = true;
     }
   }
-
-  std::shared_ptr<RecordingsTree> RecordingsManager::m_recTree;
 
 /*
  cStateKey RecordingsManager::m_recordingsStateKey, together with
@@ -62,7 +64,12 @@ Otherwise, the rec tree is re-created from currnet data.
   RecordingsTreePtr RecordingsManager::GetRecordingsTree()
   {
     EnsureValidData();
-    return RecordingsTreePtr(m_recTree);
+    return m_recTree;
+  }
+  DuplicatesRecordingsTreePtr RecordingsManager::GetDuplicatesRecordingsTree()
+  {
+    EnsureValidData();
+    return m_duplicatesRecTree;
   }
 
   const cRecording *RecordingsManager::GetByHash(cSv hash, const cRecordings* Recordings)
@@ -81,7 +88,7 @@ Otherwise, the rec tree is re-created from currnet data.
     if (hash.length() != 42) return 0;
     if (hash.compare(0, 10, "recording_") != 0) return 0;
     XXH128_hash_t xxh = parse_hex_128(hash.substr(10));
-    for (RecordingsItemRec * recItem : *GetRecordingsTree()->allRecordings()) {
+    for (RecordingsItemRec * recItem : all_recordings_iterator() ) {
       if (XXH128_isEqual(recItem->IdHash(), xxh)) return recItem;
     }
     return nullptr;
@@ -306,6 +313,7 @@ Otherwise, the rec tree is re-created from currnet data.
       m_last_recordings_update = time(NULL);
       std::chrono::time_point<std::chrono::high_resolution_clock> begin = std::chrono::high_resolution_clock::now();
       m_recTree = std::shared_ptr<RecordingsTree>(new RecordingsTree());
+      m_duplicatesRecTree = std::shared_ptr<DuplicatesRecordingsTree>(new DuplicatesRecordingsTree(m_recTree));
       std::chrono::duration<double> timeNeeded = std::chrono::high_resolution_clock::now() - begin;
       dsyslog("live: DH: ------ RecordingsTree::RecordingsTree() --------, required time: %9.5f", timeNeeded.count() );
     }
@@ -504,7 +512,11 @@ bool searchNameDesc(RecordingsItemRec *&RecItem, const std::vector<RecordingsIte
   RecordingsItemDirPtr RecordingsItemDir::addDirIfNotExists(cSv dirName) {
     std::vector<RecordingsItemDirPtr>::iterator iter = std::lower_bound(m_subdirs.begin(), m_subdirs.end(), dirName);
     if (iter != m_subdirs.end() && !(dirName < *iter) ) return *iter;
-    RecordingsItemDirPtr dirPtr = std::make_shared<RecordingsItemDir>(dirName, Level() + 1);
+    RecordingsItemDirPtr dirPtr;
+    if (m_name_contains.empty())
+      dirPtr = std::make_shared<RecordingsItemDir>(dirName, dirName, Level() + 1);
+    else
+      dirPtr = std::make_shared<RecordingsItemDir>(dirName, cToSvConcat(m_name_contains, '~', dirName), Level() + 1);
     m_subdirs.insert(iter, dirPtr);
     return dirPtr;
   }
@@ -533,7 +545,7 @@ bool searchNameDesc(RecordingsItemRec *&RecItem, const std::vector<RecordingsIte
         std::sort(m_entries.begin(), m_entries.end(), RecordingsItemPtrCompare::getComp(RecordingsManager::eSortOrder::name));
         m_entriesSorted = true;
       }
-       return &m_entries;
+      return &m_entries;
     }
     if (m_sortOrder == sortOrder) return &m_entries_other_sort;
     if (m_entries_other_sort.empty() ) m_entries_other_sort = m_entries;
@@ -883,10 +895,14 @@ bool StillRecording(cSv Directory) {
       RecordingsManager::all_recordings[sort_order].clear();
 // add sorted by name
     RecordingsManager::m_sortOrder = RecordingsManager::eSortOrder::name;
-    RecordingsManager::all_recordings_sorted = RecordingsManager::all_recordings[(int)(RecordingsManager::m_sortOrder)];
+    std::vector<RecordingsItemRec*> &all_recordings_sorted = RecordingsManager::all_recordings[(int)(RecordingsManager::m_sortOrder)];
     dsyslog("live: RecordingsManager::update_all_recordings, sort recordings");
-    RecordingsManager::all_recordings_sorted.assign(all_recordings_iterator(), all_recordings_iterator(iterator_end() ));
-    std::sort(RecordingsManager::all_recordings_sorted.begin(), RecordingsManager::all_recordings_sorted.end(), RecordingsItemPtrCompare::getComp(RecordingsManager::m_sortOrder));
+    all_recordings_sorted.assign(all_recordings_iterator(), all_recordings_iterator(iterator_end() ));
+    std::sort(all_recordings_sorted.begin(), all_recordings_sorted.end(), RecordingsItemPtrCompare::getComp(RecordingsManager::m_sortOrder));
+    if (all_recordings_sorted.begin() == all_recordings_sorted.end())
+      dsyslog("live: RecordingsManager::update_all_recordings, after sort recordings, empty cont");
+    else
+      dsyslog("live: RecordingsManager::update_all_recordings, after sort recordings, first = %s", (*all_recordings_sorted.begin())->NameStr().c_str() );
 
     time_update_all_recordings.stop();
     time_update_all_recordings.print("live: time_update_all_recordings ");
@@ -1297,7 +1313,7 @@ template<class C> std::vector<C*> &get_default_items() {
   return std::vector<C*>();
 }
 template <> std::vector<RecordingsItemRec*> &get_default_items() {
-  return RecordingsManager::all_recordings_sorted;
+  return RecordingsManager::all_recordings[(int)(RecordingsManager::m_sortOrder)];
 }
 /*
 template <> std::vector<c_filesystem_dir*> &get_default_items() {
@@ -1318,11 +1334,18 @@ template<class C>
     m_regex_filter(RecordingsManager::m_filter?(&RecordingsManager::m_filter_regex):(std::regex *)nullptr)
   {
     set_container(get_default_items<C>() );
+/*
+    if (m_begin == m_end)
+      dsyslog("const_rec_iterator def. constr., empty container");
+    else
+      dsyslog("const_rec_iterator def. constr., first = %s", (*m_begin)->NameStr().c_str() );
+*/
   }
 template<class C>
   const_rec_iterator<C> &const_rec_iterator<C>::set_recordingsItemDir(RecordingsItemDirPtr &recordingsItemDir) {
     m_recordingsItemDir = recordingsItemDir;
     m_recordingsItemDir->set_rec_iterator(*this);
+    set_begin();
     return *this;
   }
 
@@ -1406,7 +1429,6 @@ template class const_rec_iterator<RecordingsItemRec>;
     m_root(std::make_shared<RecordingsItemDir>(cSv(), cSv(), 0))
   {
 // check availability of scraper data
-    m_creation_timestamp = time(0);
     cGetScraperVideo_v01 getScraperVideo;
     bool scraperDataAvailable = getScraperVideo.call(LiveSetup().GetPluginTvscraper());
 // create special folders
@@ -1477,14 +1499,57 @@ template class const_rec_iterator<RecordingsItemRec>;
     // esyslog("live: DH: ****** RecordingsTree::~RecordingsTree() ********");
   }
   const std::vector<RecordingsItemRec*> *RecordingsTree::allRecordings(RecordingsManager::eSortOrder sortOrder) {
-    std::vector<RecordingsItemRec*> &l_all_recordings_sorted = RecordingsManager::all_recordings[(int)(sortOrder)];
-    if (l_all_recordings_sorted.empty() ) {
-      l_all_recordings_sorted.assign(all_recordings_iterator(), all_recordings_iterator(iterator_end() ));
-      std::sort(l_all_recordings_sorted.begin(), l_all_recordings_sorted.end(), RecordingsItemPtrCompare::getComp(sortOrder));
+    std::vector<RecordingsItemRec*> &all_recordings_sorted = RecordingsManager::all_recordings[(int)(sortOrder)];
+    if (all_recordings_sorted.empty() ) {
+      all_recordings_sorted.assign(all_recordings_iterator(), all_recordings_iterator(iterator_end() ));
+      std::sort(all_recordings_sorted.begin(), all_recordings_sorted.end(), RecordingsItemPtrCompare::getComp(sortOrder));
     }
-    return &l_all_recordings_sorted;
+    return &all_recordings_sorted;
   }
 
+  /**
+   *  Implementation of class DuplicatesRecordingsTree:
+   */
+  DuplicatesRecordingsTree::DuplicatesRecordingsTree(RecordingsTreePtr &recordingsTree):
+    m_root(std::make_shared<RecordingsItemDir>(cSv(), cSv(), 0)),
+    m_flat_root(std::make_shared<RecordingsItemDir>(cSv(), cSv(), 0))
+  {
+    m_flat_root->m_cmp_rec = RecordingsItemPtrCompare::ByAscendingNameDescSort;  // will not be used -> dummy
+// check availability of scraper data
+    cGetScraperVideo_v01 getScraperVideo;
+    bool scraperDataAvailable = getScraperVideo.call(LiveSetup().GetPluginTvscraper());
+// folder with duplicates not identified by tvscraper
+    RecordingsItemDirPtr dirDupNotTvscraper = std::make_shared<RecordingsItemDir>(tr("Duplicates not identified by tvscraper"), 1);
+    addDuplicateRecordingsNoSd(dirDupNotTvscraper->m_entries, recordingsTree);
+    dirDupNotTvscraper->m_cmp_rec = RecordingsItemPtrCompare::ByAscendingNameDescSort;  // will not be used -> dummy
+    if (scraperDataAvailable) {
+// folder with duplicates identified by tvscraper
+      RecordingsItemDirPtr dirDupTvscraper = std::make_shared<RecordingsItemDir>(tr("Duplicates identified by tvscraper"), 1);
+      addDuplicateRecordingsSd(dirDupTvscraper->m_entries, recordingsTree);
+      dirDupTvscraper->m_cmp_rec = RecordingsItemPtrCompare::ByAscendingNameDescSort;  // will not be used -> dummy
+      m_flat_root->m_entries.insert(m_flat_root->m_entries.end(), dirDupTvscraper->m_entries.begin(), dirDupTvscraper->m_entries.end());
+// folder with duplicates, with different languages
+      RecordingsItemDirPtr dirDupTvscraperDiffLang = std::make_shared<RecordingsItemDir>(tr("Duplicates, with different languages"), 1);
+      addDuplicateRecordingsLang(dirDupTvscraperDiffLang->m_entries, recordingsTree);
+      dirDupTvscraperDiffLang->m_cmp_rec = RecordingsItemPtrCompare::ByAscendingNameDescSort;  // will not be used -> dummy
+      m_flat_root->m_entries.insert(m_flat_root->m_entries.end(), dirDupTvscraperDiffLang->m_entries.begin(), dirDupTvscraperDiffLang->m_entries.end());
+// prepare root
+      m_root->m_cmp_dir = RecordingsItemPtrCompare::BySeason;
+      m_root->m_cmp_rec = RecordingsItemPtrCompare::ByAscendingNameDescSort;  // there are no recorings -> dummy
+// add these folders to root
+      dirDupTvscraper->m_s_season_number = 1;
+      m_root->m_subdirs.push_back(dirDupTvscraper);
+      dirDupTvscraperDiffLang->m_s_season_number = 2;
+      m_root->m_subdirs.push_back(dirDupTvscraperDiffLang);
+      dirDupNotTvscraper->m_s_season_number = 3;
+      m_root->m_subdirs.push_back(dirDupNotTvscraper);
+    } else {
+// no scraper data, root is just "duplicates not identified by tvscraper"
+      m_root = dirDupNotTvscraper;
+      m_root->m_level = 0;
+    }
+    m_flat_root->m_entries.insert(m_flat_root->m_entries.end(), dirDupNotTvscraper->m_entries.begin(), dirDupNotTvscraper->m_entries.end());
+  }
 // icon with recording errors and tooltip
 std::string recordingErrorsHtml(int recordingErrors) {
 #if VDRVERSNUM >= 20505

@@ -25,14 +25,14 @@ vdr_restart = <$ error?"true":"false"$>;
   if (!error) {
     bool recordings_tree_re_created = false;
     RecordingsTreePtr recordingsTree(RecordingsManager::GetRecordingsTree());
-    if (recordings_tree_creation != 0 && recordings_tree_creation != recordingsTree->getCreationTimestamp()) {
+    if (recordings_tree_creation != 0 && recordings_tree_creation != RecordingsManager::GetLastRecordingsUpdate() ) {
       isyslog("live INFO, get_recordings.ecpp, recordings tree re-created");
       recordings_tree_re_created = true;
     }
     </%cpp>
 recordings_tree_re_created = <$ recordings_tree_re_created?"true":"false"$>;
     <%cpp>
-  /*
+/*
     esyslog("live, get_recordings.ecpp, qparam as url = %s", qparam.getUrl().c_str() );
     if(qparam.paramcount())
       esyslog("live, get_recordings.ecpp, qparam[0] = %s", qparam[0].c_str() );
@@ -40,8 +40,7 @@ recordings_tree_re_created = <$ recordings_tree_re_created?"true":"false"$>;
     esyslog("live, get_recordings.ecpp, r size = %d", (int)r.size());
     if (r.size() > 0)
       esyslog("live, get_recordings.ecpp, r[0] = %d", r[0]);
-
-  */
+*/
 
     cToSvConcat<0> recording_item;
     recording_item.reserve(5000);
@@ -50,25 +49,13 @@ recordings_tree_re_created = <$ recordings_tree_re_created?"true":"false"$>;
       RecordingsItemRec *rPtr = nullptr;
       if ((size_t)recording < rec_size) rPtr = RecordingsManager::all_recordings[(int)(RecordingsManager::eSortOrder::id)][recording];
       if (rPtr) {
+//      dsyslog("live, get_recordings.ecpp, write recording %d, rPtr->Id() %d", recording, rPtr->Id() );
         recording_item.clear();
         rPtr->AppendAsJSArray(recording_item);
         </%cpp>
-recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ recording_item.c_str() $>]
+recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ recording_item $>]
         <%cpp>
       } else esyslog("live ERROR, get_recordings.ecpp, recording %i not found", recording);
-/*
-      bool found = false;
-      for (const RecordingsItemRec *rPtr: *recordingsTree->allRecordings()) if (recording == rPtr->Id() ) {
-        recording_item.clear();
-        rPtr->AppendAsJSArray(recording_item);
-        </%cpp>
-recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ recording_item.c_str() $>]
-        <%cpp>
-        found = true;
-        break;
-      }
-      if (!found) esyslog("live ERROR, get_recordings.ecpp, recording %i not found", recording);
-*/
     }
   }
 </%cpp>

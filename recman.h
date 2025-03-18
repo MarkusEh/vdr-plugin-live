@@ -35,12 +35,14 @@ namespace vdrlive {
    */
 
   class RecordingsTree;
+  class DuplicatesRecordingsTree;
   class RecordingsItemDir;
   class RecordingsItemRec;
   template<class C> class const_rec_iterator;
 
-  typedef std::shared_ptr<RecordingsTree>    RecordingsTreePtr;
-  typedef std::shared_ptr<RecordingsItemDir> RecordingsItemDirPtr;
+  typedef std::shared_ptr<RecordingsTree>           RecordingsTreePtr;
+  typedef std::shared_ptr<DuplicatesRecordingsTree> DuplicatesRecordingsTreePtr;
+  typedef std::shared_ptr<RecordingsItemDir>        RecordingsItemDirPtr;
 
   bool operator< (const RecordingsItemDirPtr &a, const RecordingsItemDirPtr &b);
   bool operator< (cSv a, const RecordingsItemDirPtr &b);
@@ -69,19 +71,23 @@ namespace vdrlive {
       static inline time_t m_last_recordings_update = 0;
     public:
       static inline std::vector<RecordingsItemRec*> all_recordings[(int)(eSortOrder::list_end)];
-      static inline std::vector<RecordingsItemRec*> &all_recordings_sorted = all_recordings[(int)(eSortOrder::name)];
       static inline eSortOrder m_sortOrder = eSortOrder::name;
       static inline bool m_backwards = false;
       static inline std::regex m_filter_regex;
       static inline bool m_filter = false;
 
+      static inline RecordingsTreePtr m_recTree;
+      static inline DuplicatesRecordingsTreePtr m_duplicatesRecTree;
+
       static void setSortOrder(eSortOrder sortOrder, bool backwards, cSv filter);
 
+      static time_t GetLastRecordingsUpdate() { return m_last_recordings_update; }
       /**
        *  Returns a shared pointer to a fully populated
        *  recordings tree.
        */
       static RecordingsTreePtr GetRecordingsTree();
+      static DuplicatesRecordingsTreePtr GetDuplicatesRecordingsTree();
 
       /**
        *  fetches a cRecording from VDR's Recordings collection. Returns
@@ -90,7 +96,7 @@ namespace vdrlive {
       static const cRecording *GetByHash(cSv hash, const cRecordings* Recordings);
 
       /**
-       *  fetches a cRecording from the RecordingsTree collection. Returns
+       *  get RecordingsItemRec from the all_recordings. Returns
        *  NULL if recording was not found
        */
       static RecordingsItemRec* const GetByIdHash(cSv hash);
@@ -126,7 +132,7 @@ namespace vdrlive {
        *  return:
        *    0 success
        *    1 no recording with recording_hash exists (name will not be provided ...)
-       *    2 recoring is in use
+       *    2 recording is in use
        *    3 other error (recording->Delete() returned false)
        */
       static int DeleteRecording(cSv recording_hash, std::string *name = nullptr);
@@ -160,8 +166,6 @@ namespace vdrlive {
     private:
       static bool StateChanged();
       static void EnsureValidData();
-
-      static std::shared_ptr<RecordingsTree> m_recTree;
   };
 
   /**
@@ -200,6 +204,7 @@ namespace vdrlive {
   class RecordingsItemDir
   {
     friend class RecordingsTree;
+    friend class DuplicatesRecordingsTree;
 
     public:
       virtual ~RecordingsItemDir();
@@ -516,17 +521,35 @@ inline iterator_end end(const_rec_iterator<C> &it) { return iterator_end(); }
 
       RecordingsItemDirPtr getRoot() const { return m_root; }
       std::vector<std::string> getAllDirs() { std::vector<std::string> result; m_rootFileSystem->addDirList(result, ""); return result; }
-      const std::vector<RecordingsItemRec*> *allRecordings() { return &RecordingsManager::all_recordings_sorted;}
+      const std::vector<RecordingsItemRec*> *allRecordings() { return &RecordingsManager::all_recordings[(int)(RecordingsManager::m_sortOrder)];}
       const std::vector<RecordingsItemRec*> *allRecordings(RecordingsManager::eSortOrder sortOrder);
 
       int MaxLevel() const { return m_maxLevel; }
-      time_t getCreationTimestamp() { return m_creation_timestamp; }
 
     private:
       int m_maxLevel;
       RecordingsItemDirPtr m_root;
       RecordingsItemDirPtr m_rootFileSystem;
-      time_t m_creation_timestamp = 0;
+  };
+
+  /**
+   *  The duplicates recordings tree contains all duplicate recordings in a
+   *  tree like fashion.
+   */
+  class DuplicatesRecordingsTree
+  {
+    friend class RecordingsManager;
+
+    private:
+      DuplicatesRecordingsTree(RecordingsTreePtr &recordingsTree);
+
+    public:
+      RecordingsItemDirPtr getRoot() const { return m_root; }
+      RecordingsItemDirPtr getFlatRoot() const { return m_flat_root; }
+
+    private:
+      RecordingsItemDirPtr m_root;
+      RecordingsItemDirPtr m_flat_root;
   };
 
   inline void swap(RecordingsItemDirPtr &a, RecordingsItemDirPtr &b) {
