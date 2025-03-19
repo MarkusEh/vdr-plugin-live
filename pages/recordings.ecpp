@@ -107,15 +107,12 @@ int Hours = Minutes / 60;
 Minutes %= 60;
 diskinfo = cString::sprintf("%s %d%%  -  %2d:%02d %s", trVDR("Disk"), Percent, Hours, Minutes, trVDR("free"));
 
-RecordingsTreePtr recordingsTree(RecordingsManager::GetRecordingsTree());
-DuplicatesRecordingsTreePtr duplicatesRecordingsTree(RecordingsManager::GetDuplicatesRecordingsTree());
 
 // get data for all open nodes
-std::vector<int> available_recs;
 std::string openTreeNodes;
 if (request.hasCookie("VDR-Live-Recordings-Tree-Open-Nodes")) {
   openTreeNodes = request.getCookie("VDR-Live-Recordings-Tree-Open-Nodes");
-//  isyslog("live: VDR-Live-Recordings-Tree-Open-Nodes = %s", openTreeNodes.c_str());
+//  dsyslog("live: VDR-Live-Recordings-Tree-Open-Nodes = %s", openTreeNodes.c_str());
 }
 cToSvConcat<0> recording_item;
 recording_item.reserve(25000);
@@ -204,20 +201,7 @@ if (!deleteResult.empty()) {
       <$ tr("No recordings found") $>
 <%cpp>
     } else {
-      uintptr_t irecording_item = (uintptr_t)&recording_item;
-      RecordingsItemDirPtr recItemRoot;
-      if (currentSort.compare(0, 10, "duplicates", 10) == 0) {
-        if (currentFlat == "true")
-          recItemRoot = duplicatesRecordingsTree->getFlatRoot();
-        else
-          recItemRoot = duplicatesRecordingsTree->getRoot();
-      } else
-        recItemRoot = recordingsTree->getRoot();
-      uintptr_t iRecItemRoot = (uintptr_t)&recItemRoot;
-      uintptr_t iRecordingsTree = (uintptr_t)&recordingsTree;
-      uintptr_t iOpenTreeNodes = (uintptr_t)&openTreeNodes;
-      uintptr_t iAvailable_recs = (uintptr_t)&available_recs;
-// get sort order
+// get and set sort order
 // define sort order, and reverse (for recordings)
 // use current sort order and selected sort option for that
       bool reverse = false;
@@ -227,12 +211,31 @@ if (!deleteResult.empty()) {
       if (currentSort.compare(0, 8,  "errorsdur", 8) == 0) sortOrder = RecordingsManager::eSortOrder::durationDeviation;
       if (currentSort.compare(0, 10, "duplicates", 10) == 0) sortOrder = RecordingsManager::eSortOrder::duplicatesLanguage;
       if (currentSort == "datedesc" || currentSort == "namedesc") reverse = true;
-      RecordingsManager::setSortOrder(sortOrder, reverse, currentFilter);
+      RecordingsManager::setSortOrder(sortOrder, reverse, currentFilter);  // this also updates the recurdings, if required
+
+// get root directory
+      RecordingsItemDirPtr recItemRoot;
+      if (currentSort.compare(0, 10, "duplicates", 10) == 0) {
+        DuplicatesRecordingsTreePtr duplicatesRecordingsTree(RecordingsManager::GetDuplicatesRecordingsTree());
+        if (currentFlat == "true")
+          recItemRoot = duplicatesRecordingsTree->getFlatRoot();
+        else
+          recItemRoot = duplicatesRecordingsTree->getRoot();
+      } else {
+        if (currentFlat == "true")
+          recItemRoot = std::make_shared<RecordingsItemDirFlat>();
+        else
+          recItemRoot = RecordingsManager::GetRecordingsTree()->getRoot();
+      }
+
+      uintptr_t irecording_item = (uintptr_t)&recording_item;
+      uintptr_t iRecItemRoot = (uintptr_t)&recItemRoot;
+      uintptr_t iOpenTreeNodes = (uintptr_t)&openTreeNodes;
 </%cpp>
       <form method="post" name="recordings" id="form_recordings" action="recordings.ecpp">
         <div class="recordings">
           <ul class="recordingslist" style="display: block;">
-            <& recordings.recordings_item iRecItem=(iRecItemRoot) irecording_item=(irecording_item) iRecordingsTree=(iRecordingsTree) iOpenTreeNodes=(iOpenTreeNodes) iAvailable_recs=(iAvailable_recs) int_sortOrder=((int)sortOrder) reverse=(reverse) &>
+            <& recordings.recordings_item iRecItem=(iRecItemRoot) irecording_item=(irecording_item) iOpenTreeNodes=(iOpenTreeNodes) &>
           </ul>
         </div>
         <input type="hidden" name="sort" value="<$ currentSort $>">
@@ -258,126 +261,94 @@ dsyslog("live, time recordings.ecpp: %f", timeNeeded.count());
 
 <%def recordings_item>
 <%args>
-  uintptr_t iRecItem = 0;
-  uintptr_t irecording_item = 0;
-  uintptr_t iRecordingsTree = 0;
-  uintptr_t iOpenTreeNodes = 0;
-  uintptr_t iAvailable_recs = 0;
-  int int_sortOrder;
-  bool reverse = false;
+  uintptr_t iRecItem = 0;         // current dir, which is displayed here. Including subdirs
+  uintptr_t irecording_item = 0;  // memory used to create the text we send to the browser
+  uintptr_t iOpenTreeNodes = 0;   // list (folder hashes) of open folders
   std::string parentIdHash;
 </%args>
 <%cpp>
-RecordingsManager::eSortOrder sortOrder = (RecordingsManager::eSortOrder)int_sortOrder;
 // get rec item of this (current) dir
 RecordingsItemDirPtr recItemThisDir = *(static_cast<RecordingsItemDirPtr *>((void *)iRecItem) );
-RecordingsTreePtr recordingsTree = *(static_cast<RecordingsTreePtr *>((void *)iRecordingsTree) );
 cToSvConcat<0> *recording_item = static_cast<cToSvConcat<0> *>((void *)irecording_item );
 std::string openTreeNodes= *(static_cast<std::string *>((void *)iOpenTreeNodes) );
-std::vector<int> available_recs = *(static_cast<std::vector<int> *>((void *)iAvailable_recs) );
 int level = recItemThisDir->Level();
 
-bool duplicates_not_flat = currentSort == "duplicates" && currentFlat != "true";
-
-std::vector<RecordingsItemRec*> recItems;
-const_rec_iterator<RecordingsItemRec> l_rec_iterator;
-
-// data for dirs, and loop over dirs
+// data for dirs, and prepare loop over dirs
 const std::vector<RecordingsItemDirPtr> *dirItems = recItemThisDir->getDirs();
 std::vector<RecordingsItemDirPtr>::const_iterator dirIterS, dirIterE, dirIter;
 int direction; // for dirs
-if (currentFlat != "true") {
-// loop over subdirs
-//  if (currentSort != "duplicates") {
-// list of subdirs
-    if (!recItemThisDir->dirEntriesSorted() && currentSort == "namedesc") {
+if (!recItemThisDir->dirEntriesSorted() && currentSort == "namedesc") {
 // reverse loop over subdirs
-      dirIterS = dirItems->end();
-      dirIterE = dirItems->begin();
-      direction = 0;
-    } else {
+  dirIterS = dirItems->end();
+  dirIterE = dirItems->begin();
+  direction = 0;
+} else {
 // forward loop over subdirs
-      dirIterS = dirItems->begin();
-      dirIterE = dirItems->end();
-      direction = 1;
-    }
-    for (dirIter = dirIterS; dirIter != dirIterE; std::advance(dirIter, direction) ) {
-      if(direction == 0) --dirIter;
+  dirIterS = dirItems->begin();
+  dirIterE = dirItems->end();
+  direction = 1;
+}
+// loop over subdirs
+for (dirIter = dirIterS; dirIter != dirIterE; std::advance(dirIter, direction) ) {
+  if(direction == 0) --dirIter;
 // this is the loop over the subdirs
 // each subdir is a node, which can be expanded (or not)
 // each subdir has an identifier in <ul> tag: fldr_<$ idHash $>
-      RecordingsItemDirPtr recItem = *dirIter;
+  RecordingsItemDirPtr recItem = *dirIter;
 
-      if (!recItem->matchesFilter(currentFilter)) continue;
-      /* search trough directory for new recordings */
-      bool newR = false;
-      if ( LiveSetup().GetMarkNewRec() ) newR = recItem->checkNew();
+  if (RecordingsManager::m_filter && !recItem->matchesFilter(&RecordingsManager::m_filter_regex)) continue;
+  /* search trough directory for new recordings */
+  bool newR = false;
+  if ( LiveSetup().GetMarkNewRec() ) newR = recItem->checkNew();
 // calculate idHash: uniquely defines this node
-      cToSvXxHash32 idHash(cToSvConcat(parentIdHash, recItem->Name()));
-      iRecItem = (uintptr_t)&recItem;
-  </%cpp>
-      <li class="recording">
-        <div class="recording_item" onclick = "tv.Toggle(this, 'fldr_<$ idHash $>')">
-        <table><tr>
-          <%cpp> if(level > 0) { </%cpp>
-            <td class = "space">
-              <img src="img/transparent.png" width="<$ 16*level $>px" height="16px" />
-            </td>
-          <%cpp> } </%cpp>
-          <td class="space">
-            <img class="recording_expander" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>plus.png" />
-          </td><td class="space">
-            <img class="recording_folder" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png" />
-          </td>
+  cToSvXxHash32 idHash(cToSvConcat(parentIdHash, recItem->Name()));
+  iRecItem = (uintptr_t)&recItem;
+</%cpp>
+  <li class="recording">
+    <div class="recording_item" onclick = "tv.Toggle(this, 'fldr_<$ idHash $>')">
+    <table><tr>
+      <%cpp> if(level > 0) { </%cpp>
+        <td class = "space">
+          <img src="img/transparent.png" width="<$ 16*level $>px" height="16px" />
+        </td>
+      <%cpp> } </%cpp>
+      <td class="space">
+        <img class="recording_expander" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>plus.png" />
+      </td><td class="space">
+        <img class="recording_folder" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png" />
+      </td>
 %         if (!recItem->scraperImage().path.empty() ) {
-            <td class = space>
-              <div class="thumb">
-                <img data-src="/tvscraper/<$ recItem->scraperImage().path $>"
-                  class="<$ recItem->scraperImage().width > recItem->scraperImage().height?"thumb":"thumbpt" $>"
-                />
-              </div>
-            </td>
+        <td class = space>
+          <div class="thumb">
+            <img data-src="/tvscraper/<$ recItem->scraperImage().path $>"
+              class="<$ recItem->scraperImage().width > recItem->scraperImage().height?"thumb":"thumbpt" $>"
+            />
+          </div>
+        </td>
 %         }
-        <td class="recording_folder_name<$ (newR ? "_new" : "") $>">
-          <$ recItem->Name() $>
-        </td></tr></table>
-        </div>
-        <ul id="fldr_<$ idHash $>" class="recordingslist" style="display: none;">
-          <& recordings.recordings_item iRecItem=(iRecItem) irecording_item=(irecording_item) parentIdHash=(idHash) iRecordingsTree=(iRecordingsTree) iOpenTreeNodes=(iOpenTreeNodes) iAvailable_recs=(iAvailable_recs) int_sortOrder=(int_sortOrder) reverse=(reverse)&>
-        </ul>
-      </li>
-      <%cpp>
-    } // end of loop over subdirs
+    <td class="recording_folder_name<$ (newR ? "_new" : "") $>">
+      <$ recItem->Name() $>
+    </td></tr></table>
+    </div>
+    <ul id="fldr_<$ idHash $>" class="recordingslist" style="display: none;">
+      <& recordings.recordings_item iRecItem=(iRecItem) irecording_item=(irecording_item) parentIdHash=(idHash) iOpenTreeNodes=(iOpenTreeNodes) &>
+    </ul>
+  </li>
+  <%cpp>
+} // end of loop over subdirs
 // now the items
-    l_rec_iterator.set_recordingsItemDir(recItemThisDir);
-//  } // end if (currentSort != "duplicates")
-} else {
-// here we prepare the items in case of a flat list, no folders
-  if (currentSort != "duplicates") {
-    l_rec_iterator.set_max_items(100);
-  } else {
-    l_rec_iterator.set_recordingsItemDir(recItemThisDir);
-/*
-    recItems.clear();
-    addDuplicateRecordingsSd(recItems, recordingsTree);
-    addDuplicateRecordingsLang(recItems, recordingsTree);
-    addDuplicateRecordingsNoSd(recItems, recordingsTree);
-    l_rec_iterator.set_container(recItems);
-    l_rec_iterator.set_backwards(false);
-*/
-  }
-}
+
+const_rec_iterator<RecordingsItemRec> l_rec_iterator = recItemThisDir->get_rec_iterator();
+
 // do we have to get/write the recording details?
 // we have to, if currentFlat == true || level == 0 || this folder is open (cookie)
-bool write_recs = level == 0 || currentFlat == "true";
-// if (!write_recs && !duplicates_not_flat)
+bool write_recs = level == 0;
 if (!write_recs) {
 // check: is this folder open (cookie)?
   auto equal_fldf = [parentIdHash](cSv f) { return f.length() > 5 && f.compare(5, std::string_view::npos, parentIdHash) == 0; };
   cSplit splitOpenTreeNodes(openTreeNodes, ',', eSplitDelimBeginEnd::optional);
   write_recs = std::find_if(splitOpenTreeNodes.begin(), splitOpenTreeNodes.end(), equal_fldf) != splitOpenTreeNodes.end();
 }
-// if (write_recs && !duplicates_not_flat)
 if (write_recs) {
   </%cpp>
 <script>
@@ -399,7 +370,6 @@ recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
 </script>
   <%cpp>
 }
-// if (!duplicates_not_flat) {
   if (l_rec_iterator == iterator_end() )
   { </%cpp>
     <script>
@@ -407,7 +377,6 @@ recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
     </script>
   <%cpp> } else {
     bool first = true;
-//    const char *displayFolder = currentFlat == "true"?"1":"0";
     const char *displayFolder = "1";
     recording_item->clear();
     RecordingsItemRec::AppendAsJSArray(*recording_item, l_rec_iterator, first);
@@ -421,67 +390,6 @@ recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
       </script>
     <%cpp>
   }
-// } else {
-/*
-// duplicates, non flat
-  for (int i = 0; i < 3; i++) {
-    recItems.clear();
-    std::string nodeName;
-    if (i == 0) {
-      addDuplicateRecordingsSd(recItems, recordingsTree);
-      nodeName = tr("Duplicates identified by tvscraper");
-    } else if (i == 1) {
-      addDuplicateRecordingsLang(recItems, recordingsTree);
-      nodeName = tr("Duplicates, with different languages");
-    } else if (i == 2) {
-      addDuplicateRecordingsNoSd(recItems, recordingsTree);
-      nodeName = tr("Duplicates not identified by tvscraper");
-    }
-    if (!recItems.empty() ) {
-      cToSvXxHash32 idHash(nodeName);
-// do we have to get/write the recording details?
-// check: is this folder open (cookie)?
-      cSv idHash_sv = idHash;
-      auto equal_fldf = [idHash_sv](cSv f) { return f.length() > 5 && f.compare(5, std::string_view::npos, idHash_sv) == 0; };
-      cSplit splitOpenTreeNodes(openTreeNodes, ',', eSplitDelimBeginEnd::optional);
-      if (std::find_if(splitOpenTreeNodes.begin(), splitOpenTreeNodes.end(), equal_fldf) != splitOpenTreeNodes.end()) {
-        </%cpp>
-<script>
-        <%cpp>
-        for (const RecordingsItemRec *rPtr: recItems) {
-          recording_item->clear();
-          rPtr->AppendAsJSArray(*recording_item);
-          </%cpp>
-recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
-%       }
-</script>
-      <%cpp>
-      }
-      bool first = true;
-      recording_item->clear();
-      RecordingsItemRec::AppendAsJSArray(*recording_item, recItems.begin(), recItems.end(), first, currentFilter, false);
-      </%cpp>
-      <li class="recording">
-        <div class="recording_item" onclick = "tv.Toggle(this, 'fldr_<$ idHash $>')">
-          <table><tr><td class="space">
-            <img class="recording_expander" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>plus.png" />
-          </td><td class="space">
-            <img class="recording_folder" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png" />
-          </td><td class="recording_folder_name">
-            <$ nodeName $>
-          </td></tr></table>
-        </div>
-        <ul id="fldr_<$ idHash $>" class="recordingslist" style="display: none;">
-          <script>
-            rec_ids["fldr_<$ idHash $>"] = [1, 1, [ <$$ *recording_item $> ]]
-          </script>
-        </ul>
-      </li>
-      <%cpp>
-    }
-  }
-}
-*/
 </%cpp>
 </%def>
 

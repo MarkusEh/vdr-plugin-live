@@ -37,6 +37,7 @@ namespace vdrlive {
   class RecordingsTree;
   class DuplicatesRecordingsTree;
   class RecordingsItemDir;
+  class RecordingsItemDirFileSystem;
   class RecordingsItemRec;
   template<class C> class const_rec_iterator;
 
@@ -74,6 +75,7 @@ namespace vdrlive {
       static inline eSortOrder m_sortOrder = eSortOrder::name;
       static inline bool m_backwards = false;
       static inline std::regex m_filter_regex;
+      static inline std::regex *m_filter_regex_ptr = nullptr;
       static inline bool m_filter = false;
 
       static inline RecordingsTreePtr m_recTree;
@@ -197,107 +199,6 @@ namespace vdrlive {
 // search a recording matching an EPG entry. The EPG entry is given with Name, ShortText, Description, Duration, scraperOverview
   bool searchNameDesc(RecordingsItemRec *&RecItem, const std::vector<RecordingsItemRec*> *RecItems, const cEvent *event, cScraperVideo *scraperVideo);
 
-/**
- *  A recordings item that resembles a directory with other
- *  subdirectories and/or real recordings.
- */
-  class RecordingsItemDir
-  {
-    friend class RecordingsTree;
-    friend class DuplicatesRecordingsTree;
-
-    public:
-      virtual ~RecordingsItemDir();
-      RecordingsItemDir(cSv name, int level);
-      RecordingsItemDir(cSv name, cSv name_contains, int level);
-
-      cSv Name() const { return m_name; }
-      cStr NameStr() const { return m_name; }
-      int Level() const { return m_level; }
-
-      void finishRecordingsTree(); // sort recursively, Order: m_cmp_rec (if defined. Otherwise: no sort)
-// dirs: Order: m_cmp_dir (if defined. Otherwise: m_name_for_sort)
-      virtual bool operator< (const RecordingsItemDirPtr &sec) const { return m_name < sec->m_name; }
-      virtual bool operator< (cSv sec) const { return m_name < sec; }
-      virtual bool operator> (cSv sec) const { return m_name > sec; }
-      virtual bool operator< (int sec) const { return false; }
-      virtual bool operator> (int sec) const { return false; }
-      virtual bool Contains(const RecordingsItemRec *rec) const;
-      virtual void set_rec_iterator(const_rec_iterator<RecordingsItemRec> &rec_it);
-
-      int numberOfRecordings() const;
-      RecordingsItemDirPtr addDirIfNotExists(cSv dirName);
-      RecordingsItemDirPtr addDirCollectionIfNotExists(int collectionId, const RecordingsItemRec *rPtr);
-      RecordingsItemDirPtr addDirSeasonIfNotExists(int seasonNumber, const RecordingsItemRec *rPtr);
-      const std::vector<RecordingsItemRec*> *getRecordings(RecordingsManager::eSortOrder sortOrder);
-      const std::vector<RecordingsItemDirPtr> *getDirs() { return &m_subdirs; }
-      bool checkNew() const;
-      bool matchesFilter(cSv filter) const;
-      bool matchesFilter(std::regex *regex_filter = nullptr) const;
-      void addDirList(std::vector<std::string> &dirs, cSv basePath) const;
-
-      void setTvShow(const RecordingsItemRec* rPtr);
-
-      int scraperCollectionId() const { return m_s_collection_id; }
-      int scraperSeasonNumber() const { return m_s_season_number; }
-      const cTvMedia &scraperImage() const;
-      bool recEntriesSorted() const { return m_cmp_rec != NULL; }
-      bool dirEntriesSorted() const { return m_cmp_dir != NULL; }
-
-    protected:
-      std::string m_name;  // display name
-      std::string m_name_contains;  // all recordings with this folder name are in this folder
-      int m_level;
-      std::vector<RecordingsItemDirPtr> m_subdirs;
-      std::vector<RecordingsItemRec*> m_entries;
-      bool m_entriesSorted = false;
-      std::vector<RecordingsItemRec*> m_entries_other_sort;
-      RecordingsManager::eSortOrder m_sortOrder = (RecordingsManager::eSortOrder)-1;
-      bool (*m_cmp_dir)(const RecordingsItemDirPtr &itemPtr1, const RecordingsItemDirPtr &itemPtr2) = NULL;
-      bool (*m_cmp_rec)(const RecordingsItemRec* itemPtr1, const RecordingsItemRec* itemPtr2) = NULL;
-// scraper data
-      const RecordingsItemRec *m_rec_item = nullptr; // in this rec item (if available), there are the relevant scraper data
-               // for dirs (collection), it points to a rec item with relevant data for the collection
-               // similar for dirs (TV show, season).
-               // for others, it is just nullptr -> no data available
-      mutable cTvMedia m_s_image;
-      mutable bool m_s_image_requested = false;
-      cImageLevels m_imageLevels;
-      int m_s_collection_id = 0;
-      int m_s_season_number = 0;
-  };
-
-  class RecordingsItemDirSeason : public RecordingsItemDir
-  {
-    public:
-      RecordingsItemDirSeason(int level, const RecordingsItemRec *rPtr);
-      virtual ~RecordingsItemDirSeason();
-
-      virtual bool operator< (const RecordingsItemDirPtr &sec) const { return m_s_season_number < sec->scraperSeasonNumber(); }
-      virtual bool operator< (cSv sec) const { return false; }
-      virtual bool operator> (cSv sec) const { return false; }
-      virtual bool operator< (int sec) const { return m_s_season_number < sec; }
-      virtual bool operator> (int sec) const { return m_s_season_number > sec; }
-      virtual bool Contains(const RecordingsItemRec *rec) const { return true; }
-      virtual void set_rec_iterator(const_rec_iterator<RecordingsItemRec> &rec_it); // sort episode number
-  };
-
-  class RecordingsItemDirCollection : public RecordingsItemDir
-  {
-    public:
-      RecordingsItemDirCollection(int level, const RecordingsItemRec *rPtr);
-      virtual ~RecordingsItemDirCollection();
-
-      virtual bool operator< (const RecordingsItemDirPtr &sec) const { return m_s_collection_id < sec->scraperCollectionId(); }
-      virtual bool operator< (cSv sec) const { return false; }
-      virtual bool operator> (cSv sec) const { return false; }
-      virtual bool operator< (int sec) const { return m_s_collection_id < sec; }
-      virtual bool operator> (int sec) const { return m_s_collection_id > sec; }
-      virtual bool Contains(const RecordingsItemRec *rec) const { return true; }
-      virtual void set_rec_iterator(const_rec_iterator<RecordingsItemRec> &rec_it); // sort release date
-  };
-
-
   /**
    *  A recordings item that represents a real recording. This is
    *  the leaf item in the recordings tree or one of the items in
@@ -363,7 +264,6 @@ namespace vdrlive {
 
       bool matches_filter() const; // true if name or short text or descr. match regex of global filter
       bool matches_regex(const std::regex *reg = nullptr) const; // true if name or short text or descr. match regex
-      bool matchesFilter(cSv filter) const;
 
     private:
       void getScraperData();
@@ -376,7 +276,6 @@ namespace vdrlive {
     public:
       int CompareStD(const RecordingsItemRec *second, int *numEqualChars=NULL) const;
       void AppendAsJSArray(cToSvConcat<0> &target) const;
-      static void AppendAsJSArray(cToSvConcat<0> &target, std::vector<RecordingsItemRec*>::const_iterator recIterFirst, std::vector<RecordingsItemRec*>::const_iterator recIterLast, bool &first, cSv filter, bool reverse);
       static void AppendAsJSArray(cToSvConcat<0> &target, const_rec_iterator<RecordingsItemRec> &rec_iterator, bool &first);
 
       mutable cMeasureTime *m_timeIdentify = nullptr;
@@ -473,16 +372,16 @@ inline all_recordings_iterator end  (all_recordings_iterator &it) { return all_r
 template<class C>
   class const_rec_iterator {
     public:
-      const_rec_iterator(std::vector<C*> &items, bool backwards, std::regex *regex_filter = nullptr);
+      const_rec_iterator(const std::vector<C*> &items, bool backwards, std::regex *regex_filter = nullptr);
+      const_rec_iterator(const RecordingsItemDirFileSystem* recordingsItemDirFileSystem, unsigned max_items = std::numeric_limits<unsigned>::max() );
       const_rec_iterator();
       const_rec_iterator<C> &set_begin();
 
       const_rec_iterator<C> &set_container(const std::vector<C*> &items);
       const_rec_iterator<C> &set_max_items(unsigned max_items);
       const_rec_iterator<C> &set_backwards(bool backwards);
-      const_rec_iterator<C> &set_recordingsItemDir(RecordingsItemDirPtr &recordingsItemDir);
       bool empty() const { return *this == iterator_end(); }
-      unsigned count();
+      size_t size();
       const_rec_iterator &operator++();
       bool operator==(iterator_end other) const;
       bool operator!=(iterator_end other) const { return !(*this == other); }
@@ -491,8 +390,9 @@ template<class C>
       bool current_matches() const; // true if m_current is in dir && matches filter
 
       bool m_backwards;
-      RecordingsItemDirPtr m_recordingsItemDir;
       std::regex *m_regex_filter;
+      RecordingsItemDirPtr m_recordingsItemDir;
+      const RecordingsItemDirFileSystem *m_recordingsItemDirFileSystem = nullptr;
       typename std::vector<C*>::const_iterator m_begin;
       typename std::vector<C*>::const_iterator m_end;
       typename std::vector<C*>::const_iterator m_current;
@@ -504,6 +404,118 @@ template<class C>
 inline const_rec_iterator<C> begin(const_rec_iterator<C> &it) { return it; }
 template<class C>
 inline iterator_end end(const_rec_iterator<C> &it) { return iterator_end(); }
+
+/**
+ *  A recordings item that resembles a directory with other
+ *  subdirectories and/or real recordings.
+ */
+  class RecordingsItemDir
+  {
+    friend class RecordingsTree;
+    friend class DuplicatesRecordingsTree;
+
+    public:
+      virtual ~RecordingsItemDir();
+      RecordingsItemDir(cSv name, int level);
+
+      cSv Name() const { return m_name; }
+      cStr NameStr() const { return m_name; }
+      int Level() const { return m_level; }
+
+      void finishRecordingsTree();
+// this is called recursively
+// recs: sort m_entries, Order: m_cmp_rec (if defined. Otherwise: no sort)
+// dirs: sort m_subdirs, Order: m_cmp_dir (if defined. Otherwise: m_name_for_sort)
+
+      virtual bool operator< (const RecordingsItemDirPtr &sec) const { return m_name < sec->m_name; }
+      virtual bool operator< (cSv sec) const { return m_name < sec; }
+      virtual bool operator> (cSv sec) const { return m_name > sec; }
+      virtual bool operator< (int sec) const { return false; }
+      virtual bool operator> (int sec) const { return false; }
+      virtual const_rec_iterator<RecordingsItemRec> get_rec_iterator() const;
+
+      virtual int numberOfRecordings() const;
+      virtual RecordingsItemDirPtr addDirIfNotExists(cSv dirName);
+      RecordingsItemDirPtr addDirCollectionIfNotExists(int collectionId, const RecordingsItemRec *rPtr);
+      RecordingsItemDirPtr addDirSeasonIfNotExists(int seasonNumber, const RecordingsItemRec *rPtr);
+      const std::vector<RecordingsItemDirPtr> *getDirs() { return &m_subdirs; }
+      bool checkNew() const;
+      bool matchesFilter(std::regex *regex_filter = nullptr) const;
+      void addDirList(std::vector<std::string> &dirs, cSv basePath) const;
+
+      void setTvShow(const RecordingsItemRec* rPtr);
+
+      int scraperCollectionId() const { return m_s_collection_id; }
+      int scraperSeasonNumber() const { return m_s_season_number; }
+      const cTvMedia &scraperImage() const;
+      bool recEntriesSorted() const { return m_cmp_rec != NULL; }
+      bool dirEntriesSorted() const { return m_cmp_dir != NULL; }
+
+    protected:
+      std::string m_name;  // display name
+      int m_level;
+// other dirs in this dir:
+      std::vector<RecordingsItemDirPtr> m_subdirs;
+      bool (*m_cmp_dir)(const RecordingsItemDirPtr &itemPtr1, const RecordingsItemDirPtr &itemPtr2) = NULL;
+// recordings in this dir:
+      mutable std::vector<RecordingsItemRec*> m_entries;
+      mutable RecordingsManager::eSortOrder m_sortOrder = (RecordingsManager::eSortOrder)-1;
+      bool (*m_cmp_rec)(const RecordingsItemRec* itemPtr1, const RecordingsItemRec* itemPtr2) = NULL;
+// scraper data
+      const RecordingsItemRec *m_rec_item = nullptr; // in this rec item (if available), there are the relevant scraper data
+               // for dirs (collection), it points to a rec item with relevant data for the collection
+               // similar for dirs (TV show, season).
+               // for others, it is just nullptr -> no data available
+      mutable cTvMedia m_s_image;
+      mutable bool m_s_image_requested = false;
+      cImageLevels m_imageLevels;
+      int m_s_collection_id = 0;
+      int m_s_season_number = 0;
+  };
+
+  class RecordingsItemDirFileSystem : public RecordingsItemDir
+  {
+    public:
+      RecordingsItemDirFileSystem(cSv name, cSv name_contains, int level);
+      bool Contains(const RecordingsItemRec *rec) const;
+      RecordingsItemDirPtr addDirIfNotExists(cSv dirName);
+      const_rec_iterator<RecordingsItemRec> get_rec_iterator() const;
+      int numberOfRecordings() const;
+    private:
+      std::string m_name_contains;  // all recordings with this folder name are in this folder
+  };
+  class RecordingsItemDirFlat : public RecordingsItemDir
+  {
+    public:
+      RecordingsItemDirFlat(): RecordingsItemDir(cSv(), 0) {}
+      const_rec_iterator<RecordingsItemRec> get_rec_iterator() const;
+  };
+  class RecordingsItemDirSeason : public RecordingsItemDir
+  {
+    public:
+      RecordingsItemDirSeason(int level, const RecordingsItemRec *rPtr);
+
+      virtual bool operator< (const RecordingsItemDirPtr &sec) const { return m_s_season_number < sec->scraperSeasonNumber(); }
+      virtual bool operator< (cSv sec) const { return false; }
+      virtual bool operator> (cSv sec) const { return false; }
+      virtual bool operator< (int sec) const { return m_s_season_number < sec; }
+      virtual bool operator> (int sec) const { return m_s_season_number > sec; }
+      const_rec_iterator<RecordingsItemRec> get_rec_iterator() const;
+  };
+
+  class RecordingsItemDirCollection : public RecordingsItemDir
+  {
+    public:
+      RecordingsItemDirCollection(int level, const RecordingsItemRec *rPtr);
+
+      virtual bool operator< (const RecordingsItemDirPtr &sec) const { return m_s_collection_id < sec->scraperCollectionId(); }
+      virtual bool operator< (cSv sec) const { return false; }
+      virtual bool operator> (cSv sec) const { return false; }
+      virtual bool operator< (int sec) const { return m_s_collection_id < sec; }
+      virtual bool operator> (int sec) const { return m_s_collection_id > sec; }
+      const_rec_iterator<RecordingsItemRec> get_rec_iterator() const;
+  };
+
 
   /**
    *  The recordings tree contains all recordings in a file system
