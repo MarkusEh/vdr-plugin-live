@@ -274,30 +274,15 @@ std::string openTreeNodes= *(static_cast<std::string *>((void *)iOpenTreeNodes) 
 int level = recItemThisDir->Level();
 
 // data for dirs, and prepare loop over dirs
-const std::vector<RecordingsItemDirPtr> *dirItems = recItemThisDir->getDirs();
-std::vector<RecordingsItemDirPtr>::const_iterator dirIterS, dirIterE, dirIter;
-int direction; // for dirs
-if (!recItemThisDir->dirEntriesSorted() && currentSort == "namedesc") {
-// reverse loop over subdirs
-  dirIterS = dirItems->end();
-  dirIterE = dirItems->begin();
-  direction = 0;
-} else {
-// forward loop over subdirs
-  dirIterS = dirItems->begin();
-  dirIterE = dirItems->end();
-  direction = 1;
-}
-// loop over subdirs
-for (dirIter = dirIterS; dirIter != dirIterE; std::advance(dirIter, direction) ) {
-  if(direction == 0) --dirIter;
+const_rec_iterator<RecordingsItemDirPtr> l_dir_iterator = recItemThisDir->get_dir_iterator();
+if (!recItemThisDir->dirEntriesSorted() && currentSort == "namedesc") l_dir_iterator.set_backwards(true);
+
+for (const RecordingsItemDirPtr &recItem: l_dir_iterator) {
 // this is the loop over the subdirs
 // each subdir is a node, which can be expanded (or not)
 // each subdir has an identifier in <ul> tag: fldr_<$ idHash $>
-  RecordingsItemDirPtr recItem = *dirIter;
 
-  if (RecordingsManager::m_filter && !recItem->matchesFilter(&RecordingsManager::m_filter_regex)) continue;
-  /* search trough directory for new recordings */
+// search trough directory for new recordings
   bool newR = false;
   if ( LiveSetup().GetMarkNewRec() ) newR = recItem->checkNew();
 // calculate idHash: uniquely defines this node
@@ -338,7 +323,7 @@ for (dirIter = dirIterS; dirIter != dirIterE; std::advance(dirIter, direction) )
 } // end of loop over subdirs
 // now the items
 
-const_rec_iterator<RecordingsItemRec> l_rec_iterator = recItemThisDir->get_rec_iterator();
+const_rec_iterator<RecordingsItemRec*> l_rec_iterator = recItemThisDir->get_rec_iterator();
 
 // do we have to get/write the recording details?
 // we have to, if currentFlat == true || level == 0 || this folder is open (cookie)
@@ -363,7 +348,7 @@ recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
   <%cpp>
   }
   std::chrono::duration<double> timeNeeded_recs = std::chrono::high_resolution_clock::now() - timeStart_recs;
-  dsyslog("live, time recordings.ecpp recs lv 0: %f", timeNeeded_recs.count());
+//  dsyslog("live, time recordings.ecpp recs lv 0: %f", timeNeeded_recs.count());
   l_rec_iterator.set_begin();
   </%cpp>
 
@@ -540,7 +525,7 @@ function cancel_delete() {
 <& recordings.del_rec id=(id) sort=(sort) filter=(filter) flat=(flat) history_num_back=(history_num_back) &>
 <%cpp>
 const RecordingsItemRec* recPtr = RecordingsManager::GetByIdHash(id);
-if (recPtr && recPtr->scraperDataAvailable() ) {
+if (recPtr) {
   const char *sdhd = nullptr;
   cToSvConcat frameParams;
   StringAppendFrameParams(frameParams, recPtr);

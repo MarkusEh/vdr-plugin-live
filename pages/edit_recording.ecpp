@@ -164,7 +164,7 @@ std::string active_r;
             <td class="rightcol">
               <select name="directory" size="1" id="directory" style="margin-top: 5px">
 <%cpp>
-        RecordingsTreePtr recordingsTree(RecordingsManager::GetRecordingsTree());
+  RecordingsTreePtr recordingsTree(RecordingsManager::GetRecordingsTree());
   for (const auto &dir: recordingsTree->getAllDirs() ) {
 </%cpp>
                 <option value="<$ dir $>"<$ (dir == directory) ? "selected=\"selected\"" : "" $>><$ dir $></option>

@@ -228,6 +228,12 @@ namespace vdrlive {
                LiveSetup().GetChanLogoDir(),
                "/$1.png",
            "image/png");
+          MapUrl(app,
+               "^/chanlogos/(.+)\\.svg",
+               "content",
+               LiveSetup().GetChanLogoDir(),
+               "/$1.svg",
+           "image/svg+xml");
     }
 
     // the following rules provide a search scheme for images. The first

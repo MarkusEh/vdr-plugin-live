@@ -64,19 +64,18 @@ namespace vdrlive {
   {
     public:
       enum class eSortOrder { id=0, name=1, date=2, errors=3, durationDeviation=4, duplicatesLanguage=5, list_end=6 };
-      enum class eDirType { filesystem=0, collections=1, collection=2, seriess=3, series=4, season=5, list_end=6 };
 
 // static members
     private:
       static inline cStateKey m_recordingsStateKey;
       static inline time_t m_last_recordings_update = 0;
     public:
+      static inline std::vector<RecordingsItemDirPtr> dirs_dummy;
       static inline std::vector<RecordingsItemRec*> all_recordings[(int)(eSortOrder::list_end)];
       static inline eSortOrder m_sortOrder = eSortOrder::name;
       static inline bool m_backwards = false;
       static inline std::regex m_filter_regex;
-      static inline std::regex *m_filter_regex_ptr = nullptr;
-      static inline bool m_filter = false;
+      static inline std::regex *m_filter_regex_ptr = nullptr; // if a filter is provided, this is set to &m_filter_regex
 
       static inline RecordingsTreePtr m_recTree;
       static inline DuplicatesRecordingsTreePtr m_duplicatesRecTree;
@@ -165,9 +164,9 @@ namespace vdrlive {
        */
       static int CheckReplay(cSv recording_hash, std::string *fileName = nullptr);
 
+      static void EnsureValidData();
     private:
       static bool StateChanged();
-      static void EnsureValidData();
   };
 
   /**
@@ -213,7 +212,7 @@ namespace vdrlive {
     friend class RecordingsItemPtrCompare;
     friend void update_all_recordings_scraper();
     public:
-      RecordingsItemRec(const cRecording* recording, cMeasureTime *timeIdentify=nullptr, cMeasureTime *timeOverview=nullptr, cMeasureTime *timeDurationDeviation=nullptr, cMeasureTime *timeItemRec=nullptr);
+      RecordingsItemRec(const cRecording* recording, cMeasureTime *timeIdentify=nullptr, cMeasureTime *timeOverview=nullptr, cMeasureTime *timeItemRec=nullptr);
       RecordingsItemRec(const cEvent *event, cScraperVideo *scraperVideo); // create dummy
 
       void finalize(); // call this after constructor, for "work" where cRecording is not required
@@ -276,11 +275,10 @@ namespace vdrlive {
     public:
       int CompareStD(const RecordingsItemRec *second, int *numEqualChars=NULL) const;
       void AppendAsJSArray(cToSvConcat<0> &target) const;
-      static void AppendAsJSArray(cToSvConcat<0> &target, const_rec_iterator<RecordingsItemRec> &rec_iterator, bool &first);
+      static void AppendAsJSArray(cToSvConcat<0> &target, const_rec_iterator<RecordingsItemRec*> &rec_iterator, bool &first);
 
       mutable cMeasureTime *m_timeIdentify = nullptr;
       mutable cMeasureTime *m_timeOverview = nullptr;
-      mutable cMeasureTime *m_timeDurationDeviation = nullptr;
 
     private:
       const int m_id;
@@ -366,18 +364,16 @@ namespace vdrlive {
 inline all_recordings_iterator begin(all_recordings_iterator &it) { return it; }
 inline all_recordings_iterator end  (all_recordings_iterator &it) { return all_recordings_iterator(iterator_end() ); }
 
-//      bool (*m_in_folder)(const RecordingsItemDir &, const RecordingsItemRec* &);
-// C == RecordingsItemRec -> iterate over all recordings in basic_dir
-// C == c_basic_dir       -> iterate over all directories in basic_dir
-template<class C>
+// C == RecordingsItemRec*   -> iterate over recordings
+// C == RecordingsItemDirPtr -> iterate over directories
+template<typename C>
   class const_rec_iterator {
     public:
-      const_rec_iterator(const std::vector<C*> &items, bool backwards, std::regex *regex_filter = nullptr);
+      const_rec_iterator(const std::vector<C> &items, bool backwards, std::regex *regex_filter = nullptr);
       const_rec_iterator(const RecordingsItemDirFileSystem* recordingsItemDirFileSystem, unsigned max_items = std::numeric_limits<unsigned>::max() );
-      const_rec_iterator();
       const_rec_iterator<C> &set_begin();
 
-      const_rec_iterator<C> &set_container(const std::vector<C*> &items);
+      const_rec_iterator<C> &set_container(const std::vector<C> &items);
       const_rec_iterator<C> &set_max_items(unsigned max_items);
       const_rec_iterator<C> &set_backwards(bool backwards);
       bool empty() const { return *this == iterator_end(); }
@@ -385,24 +381,23 @@ template<class C>
       const_rec_iterator &operator++();
       bool operator==(iterator_end other) const;
       bool operator!=(iterator_end other) const { return !(*this == other); }
-      const C *operator*() { return *m_current; }
+      const C operator*() { return *m_current; }
     private:
       bool current_matches() const; // true if m_current is in dir && matches filter
 
       bool m_backwards;
       std::regex *m_regex_filter;
-      RecordingsItemDirPtr m_recordingsItemDir;
       const RecordingsItemDirFileSystem *m_recordingsItemDirFileSystem = nullptr;
-      typename std::vector<C*>::const_iterator m_begin;
-      typename std::vector<C*>::const_iterator m_end;
-      typename std::vector<C*>::const_iterator m_current;
+      typename std::vector<C>::const_iterator m_begin;
+      typename std::vector<C>::const_iterator m_end;
+      typename std::vector<C>::const_iterator m_current;
       bool m_backwards_end = false;
       unsigned m_index = 0;  // count actually matching items
       unsigned m_max_items = std::numeric_limits<unsigned>::max();
   };
-template<class C>
+template<typename C>
 inline const_rec_iterator<C> begin(const_rec_iterator<C> &it) { return it; }
-template<class C>
+template<typename C>
 inline iterator_end end(const_rec_iterator<C> &it) { return iterator_end(); }
 
 /**
@@ -432,15 +427,15 @@ inline iterator_end end(const_rec_iterator<C> &it) { return iterator_end(); }
       virtual bool operator> (cSv sec) const { return m_name > sec; }
       virtual bool operator< (int sec) const { return false; }
       virtual bool operator> (int sec) const { return false; }
-      virtual const_rec_iterator<RecordingsItemRec> get_rec_iterator() const;
+      virtual const_rec_iterator<RecordingsItemRec*> get_rec_iterator() const;
+      const_rec_iterator<RecordingsItemDirPtr> get_dir_iterator() const;
 
-      virtual int numberOfRecordings() const;
+      virtual int numberOfRecordings() const; // these are the overall recordings, without the regex filter!
       virtual RecordingsItemDirPtr addDirIfNotExists(cSv dirName);
       RecordingsItemDirPtr addDirCollectionIfNotExists(int collectionId, const RecordingsItemRec *rPtr);
       RecordingsItemDirPtr addDirSeasonIfNotExists(int seasonNumber, const RecordingsItemRec *rPtr);
-      const std::vector<RecordingsItemDirPtr> *getDirs() { return &m_subdirs; }
       bool checkNew() const;
-      bool matchesFilter(std::regex *regex_filter = nullptr) const;
+      bool matches_regex(std::regex *regex_filter = nullptr) const;
       void addDirList(std::vector<std::string> &dirs, cSv basePath) const;
 
       void setTvShow(const RecordingsItemRec* rPtr);
@@ -448,7 +443,6 @@ inline iterator_end end(const_rec_iterator<C> &it) { return iterator_end(); }
       int scraperCollectionId() const { return m_s_collection_id; }
       int scraperSeasonNumber() const { return m_s_season_number; }
       const cTvMedia &scraperImage() const;
-      bool recEntriesSorted() const { return m_cmp_rec != NULL; }
       bool dirEntriesSorted() const { return m_cmp_dir != NULL; }
 
     protected:
@@ -478,8 +472,9 @@ inline iterator_end end(const_rec_iterator<C> &it) { return iterator_end(); }
     public:
       RecordingsItemDirFileSystem(cSv name, cSv name_contains, int level);
       bool Contains(const RecordingsItemRec *rec) const;
+      bool Contains(const RecordingsItemDirPtr &r) const { return true; };
       RecordingsItemDirPtr addDirIfNotExists(cSv dirName);
-      const_rec_iterator<RecordingsItemRec> get_rec_iterator() const;
+      const_rec_iterator<RecordingsItemRec*> get_rec_iterator() const;
       int numberOfRecordings() const;
     private:
       std::string m_name_contains;  // all recordings with this folder name are in this folder
@@ -488,7 +483,7 @@ inline iterator_end end(const_rec_iterator<C> &it) { return iterator_end(); }
   {
     public:
       RecordingsItemDirFlat(): RecordingsItemDir(cSv(), 0) {}
-      const_rec_iterator<RecordingsItemRec> get_rec_iterator() const;
+      const_rec_iterator<RecordingsItemRec*> get_rec_iterator() const;
   };
   class RecordingsItemDirSeason : public RecordingsItemDir
   {
@@ -500,7 +495,7 @@ inline iterator_end end(const_rec_iterator<C> &it) { return iterator_end(); }
       virtual bool operator> (cSv sec) const { return false; }
       virtual bool operator< (int sec) const { return m_s_season_number < sec; }
       virtual bool operator> (int sec) const { return m_s_season_number > sec; }
-      const_rec_iterator<RecordingsItemRec> get_rec_iterator() const;
+      const_rec_iterator<RecordingsItemRec*> get_rec_iterator() const;
   };
 
   class RecordingsItemDirCollection : public RecordingsItemDir
@@ -513,7 +508,7 @@ inline iterator_end end(const_rec_iterator<C> &it) { return iterator_end(); }
       virtual bool operator> (cSv sec) const { return false; }
       virtual bool operator< (int sec) const { return m_s_collection_id < sec; }
       virtual bool operator> (int sec) const { return m_s_collection_id > sec; }
-      const_rec_iterator<RecordingsItemRec> get_rec_iterator() const;
+      const_rec_iterator<RecordingsItemRec*> get_rec_iterator() const;
   };
 
 
