@@ -147,8 +147,8 @@ Otherwise, the rec tree is re-created from currnet data.
     cRecordingInfo* info = recording->Info();
     if (title != cSv(info->Title()) || shorttext != cSv(info->ShortText()) || desc != cSv(info->Description()))
     {
-      info->SetData(title.empty() ? nullptr : std::string(title).c_str(), shorttext.empty() ? nullptr : std::string(shorttext).c_str(), desc.empty() ? nullptr : desc.c_str());
-      info->Write();
+      info->SetData(cToSvConcat(title).c_str(), cToSvConcat(shorttext).c_str(), desc.c_str());
+      recording->WriteInfo();
     }
 #endif
     Recordings->TouchUpdate();
@@ -255,6 +255,18 @@ Otherwise, the rec tree is re-created from currnet data.
       archived += "]";
     }
     return archived;
+  }
+
+  bool RecordingsManager::StillRecording(cSv RecordingFileName) {
+    struct stat buffer;
+    return stat(cToSvConcat(RecordingFileName, TIMERRECFILE).c_str(), &buffer) == 0;
+  }
+  bool RecordingsManager::StillRecording(const cRecording *recording) {
+    int use = recording->IsInUse();
+    return ((use & ruTimer   ) == ruTimer)   |
+           ((use & ruDst     ) == ruDst)     |
+           ((use & ruPending ) == ruPending) |
+           ((use & ruCanceled) == ruCanceled);
   }
 
       /**
@@ -572,11 +584,15 @@ bool searchNameDesc(RecordingsItemRec *&RecItem, const std::vector<RecordingsIte
   }
 
   const cTvMedia &RecordingsItemDir::scraperImage() const {
-    if (!m_s_image_requested) {
-      m_s_image_requested = true;
-      if (m_rec_item && m_rec_item->m_scraperVideo)
+    if (m_s_image_requested) return m_s_image;
+    if (m_rec_item) {
+      if (!m_rec_item->StillRecording() && time(NULL) > m_rec_item->m_stopRecording + 10*60) {  // retry up to 10 mins after recording has finished
+        m_s_image_requested = true;
+      }
+      if (m_rec_item->m_scraperVideo)
         m_s_image = m_rec_item->m_scraperVideo->getImage(m_imageLevels, cOrientations(eOrientation::landscape, eOrientation::portrait, eOrientation::banner), false);
-    }
+    } else
+      m_s_image_requested = true;
     return m_s_image;
   }
 
@@ -682,10 +698,6 @@ int GetNumberOfTsFiles(cSv fileName) {
   return num_ts_files - 1;
 }
 
-bool StillRecording(cSv Directory) {
-  struct stat buffer;
-  return stat(cToSvConcat(Directory, TIMERRECFILE).c_str(), &buffer) == 0;
-}
   /**
    *  Implementation of class RecordingsItemRec:
    */
@@ -698,7 +710,8 @@ bool StillRecording(cSv Directory) {
   {
     m_IsNew = recording->IsNew();
     m_startTime = recording->Start();
-    if (!StillRecording(m_file_name)) {
+    if (!RecordingsManager::StillRecording(recording) && !RecordingsManager::StillRecording(m_file_name)) {
+      m_stopRecording = 0;
       m_fileSizeMB = DirSizeMB(m_file_name.c_str());
       m_duration = recording->LengthInSeconds();
       m_number_ts_files = GetNumberOfTsFiles(m_file_name);
@@ -764,6 +777,7 @@ bool StillRecording(cSv Directory) {
     m_description = std::string(cSv(event->Description()));
     m_startTime = event->StartTime();
     m_duration = event->Duration() / 60; // duration in minutes
+    m_stopRecording = 0;
 
     if (scraperVideo) {
       m_s_videoType = scraperVideo->getVideoType();
@@ -802,22 +816,29 @@ bool StillRecording(cSv Directory) {
   }
 
 
+  bool RecordingsItemRec::StillRecording(const cRecording* recording) const {
+    if (m_stopRecording != std::numeric_limits<time_t>::max() ) return false;
+    if (recording && RecordingsManager::StillRecording(recording)) return true;
+    if (RecordingsManager::StillRecording(m_file_name)) return true;
+    m_stopRecording = time(NULL);
+    return false;
+  }
   int RecordingsItemRec::FileSizeMB() const {
     if (m_fileSizeMB < 0) {
-       int fs = DirSizeMB(m_file_name.c_str());
-       if (StillRecording(m_file_name))
-          return fs; // check again later for ongoing recordings
-       m_fileSizeMB = fs;
-       }
+      int fs = DirSizeMB(m_file_name.c_str());
+      if (StillRecording())
+        return fs; // check again later for ongoing recordings
+      m_fileSizeMB = fs;
+      }
     return m_fileSizeMB;
   }
   int RecordingsItemRec::NumberTsFiles() const {
     if (m_number_ts_files < 0) {
-       int number_ts_files = GetNumberOfTsFiles(m_file_name);
-       if (StillRecording(m_file_name))
-          return number_ts_files; // check again later for ongoing recordings
-       m_number_ts_files = number_ts_files;
-       }
+      int number_ts_files = GetNumberOfTsFiles(m_file_name);
+      if (StillRecording())
+        return number_ts_files; // check again later for ongoing recordings
+      m_number_ts_files = number_ts_files;
+      }
     return m_number_ts_files;
   }
   int RecordingsItemRec::Duration() const {
@@ -826,9 +847,10 @@ bool StillRecording(cSv Directory) {
       const cRecording* recording = Recordings->GetById(m_id);
       if (recording) {
         int duration = recording->LengthInSeconds();
-        if (StillRecording(m_file_name)) return duration;
+        if (StillRecording(recording)) return duration;
         m_duration = duration;
-      }
+      } else
+        m_duration = 0;  // avoid re-checks for not existing recording
     }
     return m_duration;
   }
@@ -839,7 +861,7 @@ bool StillRecording(cSv Directory) {
       const cRecording* recording = Recordings->GetById(m_id);
       if (recording && recording->Info() ) {
         int recordingErrors = recording->Info()->Errors();
-        if (StillRecording(m_file_name)) return recordingErrors;
+        if (StillRecording(recording)) return recordingErrors;
         m_recordingErrors = recordingErrors;
       }
     }
@@ -876,6 +898,7 @@ bool StillRecording(cSv Directory) {
           delete live_rec;
           live_rec = nullptr;
         } // check is there is a recording, and if yes: has it changed?
+        if (live_rec) live_rec->updateScraperDataIfStillRecording(recording);
         if (!live_rec) {
           change = true;
           live_rec = new RecordingsItemRec(recording);
@@ -934,6 +957,8 @@ bool StillRecording(cSv Directory) {
   void RecordingsItemRec::getScraperData() {
     m_s_videoType = m_scraperVideo->getVideoType();   // sort duplicates
     m_s_dbid = m_scraperVideo->getDbId();             // sort duplicates
+    m_s_image = cTvMedia();
+    m_s_image_requested = false;
     if (m_s_videoType == tSeries || m_s_videoType == tMovie) {
       m_s_episode_number = m_scraperVideo->getEpisodeNumber(); // sort duplicates
       m_s_season_number = m_scraperVideo->getSeasonNumber();   // sort duplicates
@@ -945,17 +970,24 @@ bool StillRecording(cSv Directory) {
       if (m_timeOverview) m_timeOverview->stop();
     }
   }
+  void RecordingsItemRec::updateScraperDataIfStillRecording(const cRecording *recording) {
+    if (StillRecording(recording) || m_last_scraper_update < m_stopRecording + 30*60) {  // continue with update up to 30 mins after rec finished, to allow markad data
+      updateScraperData(recording);
+    }
+  }
   void RecordingsItemRec::getScraperData(const cRecording *recording) {
     cGetScraperVideo_v01 getScraperVideo(nullptr, recording);
     if (m_timeIdentify) m_timeIdentify->start();
     bool scraper_available = getScraperVideo.call(LiveSetup().GetPluginTvscraper());
     if (m_timeIdentify) m_timeIdentify->stop();
     if (scraper_available) {
+      m_last_scraper_update = time(NULL);
       m_scraperVideo.swap(getScraperVideo.m_scraperVideo);
       getScraperData();
     } else {
 // service "GetScraperVideo_v01" is not available
       m_s_videoType = tNone;
+      m_last_scraper_update = std::numeric_limits<time_t>::max();
     }
   }
   void RecordingsItemRec::updateScraperData(const cRecording *recording) {
@@ -982,7 +1014,9 @@ bool StillRecording(cSv Directory) {
 
   const cTvMedia &RecordingsItemRec::scraperImage() const {
     if (m_s_image_requested) return m_s_image; // return cached image
-    m_s_image_requested = true;
+    if (!StillRecording() && time(NULL) > m_stopRecording + 10*60) {  // retry up to 10 mins after recording has finished
+      m_s_image_requested = true;
+    }
 // this is for the image in "overview". We allow as many levels as we have, to ensure that there is an image
 //  m_imageLevels = cImageLevels(eImageLevel::episodeMovie, eImageLevel::seasonMovie, eImageLevel::anySeasonCollection);
     if (m_scraperVideo) {
@@ -1183,6 +1217,7 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
     target.append("\",\"");
 // [1] : ArchiveDescr()
 //    if (IsArchived()) AppendHtmlEscapedAndCorrectNonUTF8(target, ArchiveDescr());
+    if (StillRecording()) target.append("is_recording");
     target.append("\",");
 // scraper data
     AppendScraperData(target, m_s_IMDB_ID, scraperImage(), m_s_videoType, m_s_title, m_s_season_number, m_s_episode_number, m_s_episode_name, m_s_runtime, m_s_release_date);

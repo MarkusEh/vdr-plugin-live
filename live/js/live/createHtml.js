@@ -106,9 +106,11 @@ function add2ndLine(s, shortText, description) {
 }
 
 // do not html encode title! will be html encoded here
-function addColEventRec(s, times, eventprefix, eventid, title, folder, shortText, description) {
+function addColEventRec(s, is_recording, times, eventprefix, eventid, title, folder, shortText, description) {
 // col with times, channel, name, short text
-  s.a += '<div class="withmargin"><div class="margin-bottom display-xs"><span class="normal-font">'
+  s.a += '<div class="withmargin'
+  s.a += is_recording
+  s.a += '"><div class="margin-bottom display-xs"><span class="normal-font">'
   s.a += times
   s.a += '</span></div>'
 // sec&third line: Link to event, event title, short text
@@ -289,7 +291,7 @@ function addEventList(s, col_span, events) {
           bottomrow = ''
         }
 // note: data is written as needed by existingRecordingString
-// which differs soewhat from existingRecordingSR
+// which differs somewhat from existingRecordingSR
         existingRecordingSR(s, col_span-2, bottomrow, events[day][1][event_][1][2], events[day][1][event_][1][0], events[day][1][event_][1][1], events[day][1][event_][1][3], events[day][1][event_][1][4], events[day][1][event_][1][5], events[day][1][event_][1][6], events[day][1][event_][1][7], events[day][1][event_][1][8], events[day][1][event_][1][9], events[day][1][event_][1][10], events[day][1][event_][1][11], events[day][1][event_][1][12], events[day][1][event_][1][13], events[day][1][event_][1][14], events[day][1][event_][1][15], events[day][1][event_][1][16], events[day][1][event_][1][17], events[day][1][event_][1][18], events[day][1][event_][1][19], events[day][1][event_][1][21])
       }
     }

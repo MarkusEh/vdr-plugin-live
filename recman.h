@@ -154,6 +154,22 @@ namespace vdrlive {
       static std::string const GetArchiveDescr(cRecording const * recording);
 
       /**
+       *  Is this recording still recording?
+       *  Will access file system (slow), but result is correct even if another VDR is recording
+       *
+       *  Returns false in case of errors (recording does not exist, ...)
+       */
+      static bool StillRecording(cSv RecordingFileName);
+
+      /**
+       *  Is this recording still recording?
+       *  Will not access file system (fast), only check if this VDR is recording
+       *
+       *  Also true if recording is destination of a cut or copy
+       */
+      static bool StillRecording(const cRecording *recording);
+
+      /**
        *  Is this recording currently played?
        *  Return codes:
        *    0: this recording is currently played
@@ -239,10 +255,11 @@ namespace vdrlive {
       char ScanTypeChar(void) const { return ScanTypeChars[m_scanType]; }
       eAspectRatio AspectRatio(void) const { return m_aspectRatio; }
 #endif
-      int FileSizeMB() const;    // ändert sich bei Recs, die aufnehmen!
       time_t StartTime() const { return m_startTime; }
-      int Duration() const;  // duration in seconds, ändert sich bei Recs, die aufnehmen!
-      int RecordingErrors() const;  // ändert sich bei Recs, die aufnehmen! Timestamp info ändert sich
+      bool StillRecording(const cRecording* recording = nullptr) const;  // true if this is still recording. The result is bufferd
+      int Duration() const;  // duration in seconds, is changing for still recording recordings
+      int FileSizeMB() const;       // is changing for still recording recordings
+      int RecordingErrors() const;  // is changing for still recording recordings
 
 // To display the recording on the UI
       int IsArchived() const { return false; }
@@ -263,6 +280,7 @@ namespace vdrlive {
 
       bool matches_filter() const; // true if name or short text or descr. match regex of global filter
       bool matches_regex(const std::regex *reg = nullptr) const; // true if name or short text or descr. match regex
+      void updateScraperDataIfStillRecording(const cRecording *recording);
 
     private:
       void getScraperData();
@@ -293,6 +311,10 @@ namespace vdrlive {
       std::string m_channelName;
       mutable int m_fileSizeMB = -1;
       time_t m_startTime = 0;
+      mutable time_t m_stopRecording = std::numeric_limits<time_t>::max();  // this is an estimate only
+                // set to 0 for recordings not recording at start of live
+                // set to std::numeric_limits<time_t>::max() for currently recording recordings
+                // if we test and find a rec not recording, where this is max, we set it to the current time
       mutable int m_duration = -1;
       mutable bool m_IsNew = false;
       mutable int m_recordingErrors = -1;
@@ -303,6 +325,7 @@ namespace vdrlive {
       eScanType m_scanType = stUnknown;
       eAspectRatio m_aspectRatio = arUnknown;
 #endif
+      mutable time_t m_last_scraper_update = 0;
       mutable int m_number_ts_files = -1;
       std::unique_ptr<cScraperVideo_v01> m_scraperVideo;
       tvType m_s_videoType = tNone;

@@ -158,7 +158,7 @@ function RecordingActionPlaylist(s, id) {
 
 // do not html encode title! will be html encoded here
 function addEventRec_r(s, eventid, title, folder, shortText, description) {
-  var http_params = '&sort=<$ sort $>&filter='
+  let http_params = '&sort=<$ sort $>&filter='
   http_params += encodeURIComponent('<$ filter $>')
   http_params += '&flat=<$ flat $>&history_num_back=<$ history_num_back+1 $>'
   addEventRec(s, 'recording_', eventid, http_params, title, folder, shortText, description)

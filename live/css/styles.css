@@ -1300,6 +1300,13 @@ tr.recording_item:last-child {
   cursor: pointer;
 }
 
+
+.recording_item div.is_recording {
+  color: #ff4040;
+}
+.recording_item div.is_recording a {
+  color: #ff4040;
+}
 .recording_item div.recording_name_new {
   color: orangered;
 }
