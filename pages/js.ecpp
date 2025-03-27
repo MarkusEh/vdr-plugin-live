@@ -358,10 +358,6 @@ function RecordingsSt_int(s, level, displayFolder, data) {
 %   }
     RecordingActionS(s, obj[0], "edit_recording.html?recid=", "edit.png", "<$tr("Edit recording")$>")
     RecordingActionS(s, obj[0], "epginfo.html?epgid=del_", "del.png", "<$tr("Delete this recording from hard disc!")$>")
-%   if (LiveSetup().GetShowIMDb() ) {
-  } else {
-    IMDBS(s, obj[2], obj[14])
-%   }
     s.a += '</div></td></tr>'
   }
   s.a += '</table></div></li>'

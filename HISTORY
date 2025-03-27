@@ -180,7 +180,7 @@ Summary of changes to Version 3.2:
     Special thanks to SHofmann@vdr-portal.de for his contributions
 
 
-2025-  -  : Version 3.4.1:
+2025-02-05: Version 3.4.1:
 - Fix: Parsing additional times used in multischedule and what's on
 - Fix: Crash in case of an empty entry in channelgroups. Thanks to SHofmann @vdr-portal.de for reporting
 - Fix: Ensure to have locks before any access to VDR objects like cEvent, cRecording, ...
@@ -198,3 +198,16 @@ Summary of changes to Version 3.2:
 
 - remove PCRE2 dependency, use c++ std::regex / std::regex_match
 - Hide empty directories in recordings on search (thanks to maazl for the patch)
+
+2025-02-28: Version 3.4.2:
+- Together with vdr 2.7.4, improve the OSD on remote.html
+
+2025-  -  : Version 3.5.0:
+- do not completely re-build the live recordings on each change in vdr recordings.
+  only re-create the changed recordings
+- recordings, which are still being recorded:
+-- Are displayed in a different color
+-- The correct length and file size is displayed. Thanks to @nobanzai and @zimuland for reporting
+
+- support svg channel logos. Thanks @dile for the request, and @SHofmann for the Patch.
+- title short text and description can now also be changed for (old) pes recordings

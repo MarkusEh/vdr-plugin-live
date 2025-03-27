@@ -87,7 +87,7 @@ function updateCookieOnExpand( id )
 
 function updateCookieOnCollapse( id )
 {
-var openNodes = readCookie( cookieNameRec );
+let openNodes = readCookie( cookieNameRec );
 if (openNodes != null)
   openNodes = openNodes.split(",");
 else
@@ -104,22 +104,22 @@ createCookie( cookieNameRec, openNodes, 14 );
 
 async function openNodesOnPageLoad()
 {
-var openNodes = readCookie( cookieNameRec );
-  var domChanges = 0;
+let openNodes = readCookie(cookieNameRec);
 if (openNodes != null && openNodes !== "")
   openNodes = openNodes.split(",");
 else
   openNodes = [];
-for (var z=0; z<openNodes.length; z++){
-  var ul = document.getElementById(openNodes[z]);
+let domChanges = 0;
+for (let z=0; z<openNodes.length; z++){
+  let ul = document.getElementById(openNodes[z]);
   if (ul){
     ul.style.display = 'block';
-                  if (rec_ids[openNodes[z]] != null && rec_ids[openNodes[z]].length > 0) {
-                        ul.insertAdjacentHTML("beforeend", await rec_string_d_a(rec_ids[openNodes[z]]));
-                  rec_ids[openNodes[z]] = [];
+    if (rec_ids[openNodes[z]] != null && rec_ids[openNodes[z]].length > 0) {
+      ul.insertAdjacentHTML("beforeend", await rec_string_d_a(rec_ids[openNodes[z]]));
+      rec_ids[openNodes[z]] = [];
       domChanges = 1;
-      }
-    var divRecItem = ul.parentNode.children[0]
+    }
+    let divRecItem = ul.parentNode.children[0]
     if (divRecItem != null)
       setImages(divRecItem, "img/minus.png", "img/folder_open.png");
   }
@@ -156,8 +156,6 @@ async function ExpandAll()
       }
     }
   }
-  if (domChanges == 1 && typeof liveEnhanced !== 'undefined') liveEnhanced.domReadySetup();
-  if (domChanges == 1) imgLoad();
   expandNodes = getElementsByNodeNameClassName(window.document, 'IMG', 'recording_expander');
   for (idx = 0; idx < expandNodes.length; idx++) {
     expandNodes[idx].src = "img/minus.png";
@@ -167,6 +165,8 @@ async function ExpandAll()
     folderNodes[idx].src = "img/folder_open.png";
   }
   createCookie( cookieNameRec, openNodes, 14 );
+  if (domChanges == 1 && typeof liveEnhanced !== 'undefined') liveEnhanced.domReadySetup();
+  if (domChanges == 1) imgLoad();
 }
 function CollapseAll()
 {
