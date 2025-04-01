@@ -117,26 +117,6 @@ TimerConflictNotifier timerNotifier;
                 + ( wday_sun ? "S" : "-" );
     int start = timeStringToInt(start_s);
     int stop = timeStringToInt(stop_s);
-#ifdef TFEVENT
-    if (monitoring != "vps") {
-      const cEvent *event = EpgEvents::GetEventByEpgId(epgid, Schedules);
-      if (event) {
-        dsyslog("live: edit_timer.ecpp, event found");
-        time_t tstart = event->StartTime();
-        time_t tstop = tstart + event->Duration();
-        struct tm tm_r;
-        struct tm *time = localtime_r(&tstart, &tm_r);
-        int e_start = time->tm_hour * 100 + time->tm_min;
-        time = localtime_r(&tstop, &tm_r);
-        int e_stop = time->tm_hour * 100 + time->tm_min;
-        if (e_stop >= 2400) e_stop -= 2400;
-        if (start == e_start && stop == e_stop) flags |= tfEvent;
-      } else {
-        dsyslog("live: edit_timer.ecpp, event NOT found");
-        if (timer && timer->HasFlags(tfEvent) && timer->Start() == start && timer->Stop() == stop) flags |= tfEvent;
-      }
-    }
-#endif
 
     cToSvConcat builder;
     builder << flags << ":"

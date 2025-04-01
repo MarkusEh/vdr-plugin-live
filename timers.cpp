@@ -337,9 +337,6 @@ namespace vdrlive {
         return;
       }
       if (oldTimer->HasFlags(tfRecording)) copy.SetFlags(tfRecording);  // changed a running recording, restore flag "tfRecording"
-#ifdef TFEVENT
-      if (oldTimer->HasFlags(tfEvent) && oldTimer->Start() == copy.Start() && oldTimer->Stop() == copy.Stop() ) copy.SetFlags(tfEvent);
-#endif
       dsyslog("live: new timer flags: %u", copy.Flags());
       *oldTimer = copy;
 
