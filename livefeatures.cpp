@@ -5,15 +5,15 @@
 
 namespace vdrlive {
 
-SplitVersion::SplitVersion( std::string version )
-  : m_version( 0 )
+SplitVersion::SplitVersion(cSv version)
+  : m_version(0)
 {
   static const int factors[] = { 100000000, 1000000, 1000, 1 };
 
   size_t pos = version.find('-');
-  if ( pos != std::string::npos ) {
-    m_suffix = version.substr( pos + 1 );
-    version.erase( pos );
+  if (pos != std::string_view::npos) {
+    m_suffix = version.substr(pos + 1);
+    version.remove_suffix(version.size() - pos);
   }
   size_t i = 0;
   for (int part: cSplit<int>(version, '.' )) {

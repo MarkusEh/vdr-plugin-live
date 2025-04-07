@@ -9,15 +9,15 @@
 #endif
 
 #include <vdr/plugin.h>
+#include "stringhelpers.h"
 
 namespace vdrlive {
 
 class SplitVersion
 {
 public:
-  explicit SplitVersion( std::string version );
-
-  bool operator<( const SplitVersion& right ) const;
+  explicit SplitVersion(cSv version);
+  bool operator<(const SplitVersion& right) const;
 
 private:
   int m_version;
@@ -76,7 +76,7 @@ namespace features
   struct tvscraper
   {
     static const char* Plugin() { return "tvscraper"; }
-    static const char* MinVersion() { return "1.1.9"; }
+    static const char* MinVersion() { return "1.2.13"; }
   };
 } // namespace features
 

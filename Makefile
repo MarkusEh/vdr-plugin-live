@@ -10,7 +10,28 @@ PLUGIN := live
 ### The version number of this plugin (taken from the main source file):
 HASH := \#
 VERSION := $(shell awk '/$(HASH)define LIVEVERSION/ { print $$3 }' setup.h | sed -e 's/[";]//g')
-# $(info $$VERSION is [${VERSION}])
+$(info $$VERSION is [${VERSION}])
+
+# figure out VERSION_SUFFIX
+VERSION_SUFFIX :=
+ifneq ($(shell which git),)
+  ifeq ($(shell test -d .git || echo void),)
+    VERS_B := $(shell git branch | grep '^*' | sed -e's/^* //')
+    VERS_H := $(shell git show --pretty=format:"%h_%ci" HEAD | head -1 | tr -d ' \-:')
+    VERS_P := $(shell git status -uno --porcelain | grep -qc . && echo "_patched")
+    VERSION_SUFFIX += _git_$(VERS_B)_$(VERS_H)$(VERS_P)
+    $(info VERSION_SUFFIX = $(VERSION_SUFFIX))
+  endif
+endif
+
+ifneq ($(shell which quilt),)
+  ifeq ($(shell quilt applied 2>&1 > /dev/null; echo $$?),0)
+    VERSION_SUFFIX += _quilt_$(shell quilt applied | tr  '\n' '_')
+    $(info VERSION_SUFFIX = [${VERSION_SUFFIX}])
+  endif
+endif
+$(info $$VERSION_SUFFIX is [${VERSION_SUFFIX}])
+
 
 PKG_CONFIG ?= pkg-config
 
@@ -81,7 +102,7 @@ SOINST := $(DESTDIR)$(LIBDIR)/$(SOFILE).$(APIVERSION)
 ### Includes and Defines (add further entries here):
 DEFINES	+= -D_GNU_SOURCE -DPLUGIN_NAME_I18N='"$(PLUGIN)"' -DTNTVERSION=$(TNTVERSION) -DCXXTOOLVER=$(CXXTOOLVER)
 DEFINES	+= -DDISABLE_TEMPLATES_COLLIDING_WITH_STL
-VERSIONSUFFIX = gen_version_suffix.h
+DEFINES	+= -DVERSION_SUFFIX='"$(VERSION_SUFFIX)"'
 
 ### The object files (add further files here):
 PLUGINOBJS := $(PLUGIN).o recman.o epg_events.o thread.o tntconfig.o setup.o \
@@ -173,11 +194,6 @@ install-i18n: i18n recursive-inst_I18Nmsg
 
 ### Targets:
 
-$(VERSIONSUFFIX): FORCE
-ifneq ($(MAKECMDGOALS),clean)
-	@./buildutil/version-util $(VERSIONSUFFIX) || ./buildutil/version-util -F $(VERSIONSUFFIX)
-endif
-
 .PHONY: subdirs $(SUBDIRS)
 subdirs: $(SUBDIRS)
 
@@ -200,11 +216,8 @@ sofile: $(SOFILE)
 recursive-sofile: subdirs
 recursive-soinst: recursive-sofile
 
-# When building in parallel, this will tell make to build VERSIONSUFFIX as first
-subdirs $(PLUGINOBJS): $(VERSIONSUFFIX)
-
 .PHONY: lib
-lib: $(VERSIONSUFFIX) subdirs $(PLUGINOBJS) recursive-sofile
+lib: subdirs $(PLUGINOBJS) recursive-sofile
 
 .PHONY: soinst
 soinst: $(SOINST)
@@ -248,7 +261,6 @@ clean: subdirs
 	$(call PRETTY_PRINT,"CLN top")
 	@-rm -f $(I18Nmo) $(I18Npot)
 	@-rm -f $(PLUGINOBJS) $(DEPFILE) *.so *.tgz core* *~
-	@-rm -f $(VERSIONSUFFIX)
 
 .PRECIOUS: $(I18Npo)
 
