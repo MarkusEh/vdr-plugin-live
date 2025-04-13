@@ -33,8 +33,8 @@ void OsdStatusMonitor::OsdTitle(const char *Title) {
   m_lastUpdate= clock();
 }
 
-#if VDRVERSNUM >= 20704
-void OsdStatusMonitor::OsdStatusMessage2(eMessageType Type, const char *Message) {
+#if VDRVERSNUM >= 20705
+void OsdStatusMonitor::OsdStatusMessage(eMessageType Type, const char *Message) {
   cOsdStatusMonitorLock lw(true);
   m_message_type = Type;
 #else
@@ -67,8 +67,8 @@ void cLiveOsdItem::Update(const char* Text) {
   virtual void OsdItem(const char *Text, int Index) {}
     // The OSD displays the given single line Text as menu item at Index.
 */
-#if VDRVERSNUM >= 20704 || (defined(OSDITEM) && OSDITEM == 2)
-void OsdStatusMonitor::OsdItem2(const char *Text, int Index, bool Selectable) {
+#if VDRVERSNUM >= 20705
+void OsdStatusMonitor::OsdItem(const char *Text, int Index, bool Selectable) {
   cOsdStatusMonitorLock lw(true);
   m_items.emplace_back(Text,Selectable);
 #else
@@ -79,8 +79,8 @@ void OsdStatusMonitor::OsdItem(const char *Text, int Index) {
   m_lastUpdate= clock();
 }
 
-#if VDRVERSNUM >= 20704 || defined(OSDSELECTED_3)
-void OsdStatusMonitor::OsdCurrentItem2(const char *Text, int Index) {
+#if VDRVERSNUM >= 20705
+void OsdStatusMonitor::OsdCurrentItem(const char *Text, int Index) {
   cOsdStatusMonitorLock lw(true);
   if (Index >= 0) m_selected = Index;
   if (Text) {

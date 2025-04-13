@@ -229,8 +229,8 @@ template <size_t N> cToSvConcat<N>& appendHtml(cToSvConcat<N>& target) {
                // The OSD has been cleared.
   virtual void OsdTitle(const char *Title);
                // Title has been displayed in the title line of the menu.
-#if VDRVERSNUM >= 20704
-  virtual void OsdStatusMessage2(eMessageType Type, const char *Message);
+#if VDRVERSNUM >= 20705
+  virtual void OsdStatusMessage(eMessageType Type, const char *Message);
 #else
   virtual void OsdStatusMessage(const char *Message);
 #endif
@@ -238,14 +238,14 @@ template <size_t N> cToSvConcat<N>& appendHtml(cToSvConcat<N>& target) {
                // If Message is NULL, the status line has been cleared.
   virtual void OsdHelpKeys(const char *Red, const char *Green, const char *Yellow, const char *Blue);
                // The help keys have been set to the given values (may be NULL).
-#if VDRVERSNUM >= 20704 || (defined(OSDITEM) && OSDITEM == 2)
-  virtual void OsdItem2(const char *Text, int Index, bool Selectable);
+#if VDRVERSNUM >= 20705
+  virtual void OsdItem(const char *Text, int Index, bool Selectable);
 #else
   virtual void OsdItem(const char *Text, int Index);
                // The OSD displays the given single line Text as menu item at Index.
 #endif
-#if VDRVERSNUM >= 20704 || defined(OSDSELECTED_3)
-  virtual void OsdCurrentItem2(const char *Text, int Index);
+#if VDRVERSNUM >= 20705
+  virtual void OsdCurrentItem(const char *Text, int Index);
 #else
   bool Select_if_matches(std::vector<cLiveOsdItem>::size_type line, const char *Text);
   virtual void OsdCurrentItem(const char *Text);
