@@ -1,20 +1,14 @@
 See https://www.vdr-portal.de/forum/index.php?thread/135887-live-weiterentwicklung-v3-3-x/&postID=1376226#post1376226
 
-German only, sorry :( .
+Normally, I want to record an event with a timer. The question now is, how can I clearly identify an event? It's well known that broadcasters occasionally change times. So the options are:
 
+1. VPS: Clearly defined and supported by both the VPS standard and the VDR without plugins: An event is assigned a VPS time, and this VPS time does not change, even if the event is postponed. With a VPS timer, VDR records all events that have this VPS time, even if these events are postponed and the start time of the events no longer has anything to do with the VPS time. The only disadvantage: The broadcaster has to support this.
 
+2. Broadcast ID == "Event ID": The broadcaster sends an ID with each event. Unfortunately, it's not always the same ID, i.e., if the ID for "Avengers" was 4567 yesterday, it could be 1234 today. Some broadcasters change these IDs quite often, while for others they usually remain stable. Experience has shown that if a new event is added to the EPG, the ID is very likely to change. If the event has been in the EPG for 1-2 days, the ID usually remains stable. However, there are also broadcasters for whom this ID never remains stable...
 
-Ich muss da glaube ich etwas ausholen:
+3. Time: EPGsearch remembers the start and duration of the event and uses this data to try to find a postponed event. Advantage: This also works if the broadcaster changes the event ID. It should work very reliably, especially with minor changes to the start time. Broadcasters do not normally change the duration of events.
 
-Normalerweise will ich mit einem Timer ein Event aufzeichnen. Die Frage ist nun, wie kann ich ein Event eindeutig identifizieren? Dass die Sender gelegentlich mal Zeiten verschieben, ist ja bekannt. Also gibt es:
-
-1.   VPS: Klar definiert und im Standard und von VDR ohne Plugins unterstützt: Ein Event bekommt eine VPS Zeit, und diese VPS Zeit ändert sich nicht, auch wenn sich das Event verschiebt. Bei einem VPS Timer zeichnet VDR alle Events auf, die diese VPS Zeit haben. Auch dann, wenn sich diese Events verschieben und die Startzeit der Events nichts mehr mit der VPS Zeit zu tun hat. Einziger Nachteil: Der Sender muss das unterstützen
-
-2.   Sendungskennung == "Event ID": Der Sender schickt bei jedem Event eine ID mit. Leider nicht immer die gleiche ID, d.h. wenn die ID von "Avengers" gestern noch 4567 war, kann sie heute auch 1234 sein. Manche Sender ändern diese IDs recht oft, bei anderen bleibt sie meistens stabil. Erfahrung: Wenn ein Event ganz neu in's EPG kommt, ändert sich die ID mit sehr hoher Wahrscheinlichkeit. Wenn das Event schon 1-2 Tage im EPG ist, bleibt die ID normalerweise stabil. Es gibt aber auch Sender, bei denen diese ID nie stabil bleibt ...
-
-3.   Uhrzeit: Epgsearch merkt sich Start und Dauer des Events, und versucht anhand dieser Daten ein verschobenes Event wiederzufinden. Vorteil: Funktioniert auch, wenn der Sender die Event-ID ändert. Sollte insbesondere bei kleineren Änderungen der Startzeit sehr zuverlässig funktionieren. Sender ändern normalerweise die Dauer der Events nicht.
-
-4.   VDR ohne VPS und ohne Epgsearch: VDR wählt das Event mit der größten Überdeckung. Also das Event, das möglichst vollständig im Zeitraum (Timer Start - Timer Stop) liegt. Um dies möglichst gut machen zu können, verkürzt VDR gegebenenfalls die Timer-Margin (vorne und hinten), so dass beim Anlegen des Timers der Timer nur ein Event überdeckt. Sicherlich die schlechteste Option: Durch die später nicht mehr reproduzierbare Änderung von Start und Endzeit des Timers wird es schwieriger, des original Event zu identifizieren. Ich kann später nicht einmal mehr die Länge des Events herausfinden, zu dem der Timer angelegt wurde. Dass das Event dann möglicherweise nicht mehr korrekt identifiziert wird, ist weniger schlimm: VDR zeichnet von Timer Start - Timer Stop auf, da ist das Event egal. Übel ist, dass durch die Verkürzung der Timer-Margins ein Stück der Sendung fehlen kann, obwohl sie sich nur sehr wenig verschoben hat. Siehe Vor- und Nachlauf bei Aufnahmen
+4. VDR without VPS and without EPGsearch: VDR selects the event with the greatest coverage. That is, the event that falls as completely as possible within the time period (timer start - timer stop). To achieve this as effectively as possible, VDR may shorten the timer margin (front and back) so that when the timer is created, the timer only covers one event. This is certainly the worst option: The irreproducible change to the timer's start and end times makes it more difficult to identify the original event. You can't even determine the length of the event for which the timer was created. The fact that the event might then no longer be correctly identified is less of a concern: VDR records from timer start to timer stop, so the event doesn't matter. The downside is that shortening the timer margins can result in a portion of the program being missing, even though it has only shifted very slightly. See "Pre- and post-run" in recordings.
 
 ~ Markus
 

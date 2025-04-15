@@ -63,36 +63,37 @@ int update_status(1);
 <link rel="stylesheet" type="text/css" href="css/styles.css"/>
 <link rel="stylesheet" type="text/css" href="<$ LiveSetup().GetThemedLink("css", "theme.css") $>"/>
 <link rel="stylesheet" type="text/css" href="css/siteprefs.css"/>
-<script type="text/javascript" src="js/live/header.js"></script>
 <script type="text/javascript" src="js/live/epg_tt_box.js"></script>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
 
 <%def logo>
-<!-- start of fixed page header -->
-<div id="header" style="width: 100%; background-color: inherit">
-<div id="padding" style="display: none"></div>
-<div id="content">
-<!-- header content follows -->
+<# start of fixed page header #>
+<div id="header">
+<# header content follows #>
+<# page header follows #>
 <%cpp>
-  if (LiveSetup().GetShowLogo() || LiveSetup().GetShowInfoBox()) {
+  bool showLogo = LiveSetup().GetShowLogo();
+  bool showInfoBox = LiveSetup().GetShowInfoBox();
+  if (showLogo || showInfoBox) {
 </%cpp>
 <div class="page_header">
 <%cpp>
-    if (LiveSetup().GetShowLogo()) {
+    if (showLogo) {
 </%cpp>
 <a href="<$ LiveSetup().GetStartScreenLink()$>">
-<img src="<$ LiveSetup().GetThemedLink("img", "logo.png") $>" alt="VDR Live!" class="logo" /></a>
+<img src="<$ LiveSetup().GetThemedLink("img", "logo.png") $>" alt="VDR Live!" class="logo<? showInfoBox ? " with-infobox" ?>" /></a>
 <%cpp>
     }
 </%cpp>
-<%cpp>if (LiveSetup().GetShowInfoBox()) { </%cpp><& infobox &><%cpp> } </%cpp>
+<%cpp>if (showInfoBox) { </%cpp><& infobox &><%cpp> } </%cpp>
 </div>
-<div style="clear: both"></div>
 <%cpp>
   }
 </%cpp>
+<div id="navigation">
+<# content div kept open, menus provided by other file #>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -130,8 +131,9 @@ int update_status(1);
   std::string image;
   std::string alt;
   std::string id;
+  std::string className;
 </%args>
-<%cpp> { </%cpp><a <%cpp> if (!id.empty()) { </%cpp>id="<$ id $>" <%cpp> } </%cpp><& hide_element hide=(id.empty()? 0 : 1) &> href="vdr_request/<$ action $>?param=<$ param $>" <%cpp>if (!tip.empty()) { </%cpp><& tooltip.hint text=(tip) &> <%cpp> } </%cpp>><img src="<$ LiveSetup().GetThemedLink("img", image) $>" alt="<$ alt $>" /></a> <%cpp> } </%cpp>
+<%cpp> { </%cpp><a <%cpp> if (!id.empty()) { </%cpp>id="<$ id $>" <%cpp> } </%cpp><& hide_element hide=(id.empty()? 0 : 1) &> href="vdr_request/<$ action $>?param=<$ param $>" <%cpp>if (!tip.empty()) { </%cpp><& tooltip.hint text=(tip) &> <%cpp> } </%cpp>><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", image) $>" alt="<$ alt $>" /></a> <%cpp> } </%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -140,6 +142,7 @@ int update_status(1);
 <%args>
   std::string title;
   std::string s_IMDB_ID;
+  std::string className;
 </%args>
 <%cpp>
 // if (LiveSetup().GetShowIMDb())
@@ -149,7 +152,7 @@ if (s_IMDB_ID.empty() ) { </%cpp>
 <%cpp> } else { </%cpp>
 <a href="http://www.imdb.com/title/<$ s_IMDB_ID $>"
 <%cpp> } </%cpp>
- target="_blank"><img src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &> /></a> <%cpp> } </%cpp>
+ target="_blank"><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &> /></a> <%cpp> } </%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -157,12 +160,12 @@ if (s_IMDB_ID.empty() ) { </%cpp>
 <%def hls_channel>
 <%args>
   std::string channelId;
-  std::string class_;
+  std::string className;
 </%args>
 <%cpp>
 if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded()) {
 </%cpp>
-<a class="<$class_$>" href="stream.html?channelid=<$ channelId $>"><img class="<$class_$>" src="<$ LiveSetup().GetThemedLink("img", "stream_button.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into browser.")) &> /></a>
+<a href="stream.html?channelid=<$ channelId $>"><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "stream_button.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into browser.")) &> /></a>
 <%cpp>
 }
 </%cpp>
@@ -173,12 +176,12 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 <%def hls_recording>
 <%args>
   std::string recId;
-  std::string class_;
+  std::string className;
 </%args>
 <%cpp>
 if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded()) {
 </%cpp>
-<a class="<$class_$>" href="stream.html?recid=<$ recId $>"><img class="<$class_$>" src="<$ LiveSetup().GetThemedLink("img", "stream_button.png") $>" alt="" <& tooltip.hint text=(tr("Stream this recording into browser.")) &> /></a>
+<a href="stream.html?recid=<$ recId $>"><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "stream_button.png") $>" alt="" <& tooltip.hint text=(tr("Stream this recording into browser.")) &> /></a>
 <%cpp>
 }
 </%cpp>
@@ -189,12 +192,12 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 <%def m3u_playlist_channel>
 <%args>
   std::string channelId;
-  std::string class_;
+  std::string className;
 </%args>
 <%cpp>
 if (LiveFeatures<features::streamdev_server>().Loaded()) {
 </%cpp>
-<a class="<$class_$>" href="playlist.m3u?channelid=<$ channelId $>" download><img class="<$class_$>" src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into media player.")) &> /></a>
+<a href="playlist.m3u?channelid=<$ channelId $>" download><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into media player.")) &> /></a>
 <%cpp>
 }
 </%cpp>
@@ -206,6 +209,7 @@ if (LiveFeatures<features::streamdev_server>().Loaded()) {
 <%args>
   std::string recid;
   std::string linkText;
+  std::string className;
 </%args>
 <%cpp>
 #if TNT_WATCHDOG_SILENCE
@@ -217,7 +221,7 @@ if (LiveFeatures<features::streamdev_server>().Loaded()) {
 
 cToSvConcat url("playlist.m3u?recid=", recid);
 {
-</%cpp><a href="<$ url $>" download><img src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint text=(tr("Stream this recording into media player.")) &> /> <$ linkText $></a>
+</%cpp><a href="<$ url $>" download><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint text=(tr("Stream this recording into media player.")) &> /> <$ linkText $></a>
 <%cpp>
 }
 #endif
@@ -231,6 +235,7 @@ cToSvConcat url("playlist.m3u?recid=", recid);
 <%args>
   std::string recid;
   std::string linkText;
+  std::string className;
 </%args>
 <%cpp>
 #if TNT_WATCHDOG_SILENCE
@@ -246,7 +251,7 @@ cToSvConcat rfid;
   }
 }
 if (!rfid.empty() ) {
-</%cpp><a href="http://localhost:<$cToSvConcat(LiveSetup().GetStreamdevPort())$>/<$rfid$>.ts"><img src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint text=(tr("Stream this recording.")) &> /> <$ linkText $></a>
+</%cpp><a href="http://localhost:<$cToSvConcat(LiveSetup().GetStreamdevPort())$>/<$rfid$>.ts"><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint text=(tr("Stream this recording.")) &> /> <$ linkText $></a>
 <%cpp>
 }
 #endif
@@ -258,6 +263,7 @@ if (!rfid.empty() ) {
 <%def event_timer>
 <%args>
   std::string epgid;
+  std::string className;
 </%args>
 <%cpp>
   tChannelID channelid;
@@ -277,12 +283,12 @@ if (!rfid.empty() ) {
   }
   if (!timerId.empty() ) {
 </%cpp>
-    <& pageelems.edit_timer timerId=(timerId) imgName=(timerRecording ? "recording_timer.gif" : (timerActive ? "record_timer.png" : "record_inactive_timer.png")) &>
+    <& pageelems.edit_timer timerId=(timerId) imgName=(timerRecording || timerActive? "record_timer_active.png" : "record_timer_inactive.png") className=(timerRecording ? "icon fading" : "icon") className=(className) &>
 <%cpp>
   }
   else {
 </%cpp>
-    <a href="edit_timer.html?epgid=<$ epgid $>"><img src="<$ LiveSetup().GetThemedLink("img", "record.png") $>" alt="" <& tooltip.hint text=(tr("Record this")) &> /></a>
+    <a href="edit_timer.html?epgid=<$ epgid $>"><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "record.png") $>" alt="" <& tooltip.hint text=(tr("Record this")) &> /></a>
 <%cpp>
   }
 </%cpp>
@@ -294,8 +300,9 @@ if (!rfid.empty() ) {
 <%args>
   std::string timerId;
   std::string imgName = "edit.png";
+  std::string className;
 </%args>
-  <a href="edit_timer.html?timerid=<$ SortedTimers::EncodeDomId(timerId) $>"><img src="<$ LiveSetup().GetThemedLink("img", imgName) $>" alt="" <& tooltip.hint text=(tr("Edit timer")) &> /></a>
+  <a href="edit_timer.html?timerid=<$ SortedTimers::EncodeDomId(timerId) $>"><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", imgName) $>" alt="" <& tooltip.hint text=(tr("Edit timer")) &> /></a>
 </%def>
 
 
@@ -311,6 +318,7 @@ if (!rfid.empty() ) {
   <script type="text/javascript"><!--
     var liveEnhanced = new PageEnhance({
         infoWinOptions: {
+          resizeimg: '<$ LiveSetup().GetThemedLink("img", "resize.png") $>',
           buttonimg: 'img/transparent.png',
           loadingMsg: '<$ tr("loading data") $>',
           errorMsg: '<$ tr("an error occurred!") $>'
@@ -384,7 +392,7 @@ if (!rfid.empty() ) {
 <%def epg_tool_box>
 <%args>
   int detail;
-  std::string epgid;
+  std::string epgid;    // 0 = event table, 1 = event infowin, 2 = recording infowin
   std::string title;
   time_t startTime;
   time_t endTime;
@@ -397,19 +405,32 @@ if (!rfid.empty() ) {
   tEventID eventId = tEventID();
   tChannelID channelId = tChannelID();
 
+  // using a flexbox, we do not have to differentiate between horizontal and vertical display;
+  // for insertion in tables (detail == 0), we need to provide spacers for actions items being
+  // temporarily unavailable, like actions for transient events
   EpgEvents::DecodeDomId(epgid, channelId, eventId);
-  if (detail) { // output for vertical toolbox
 </%cpp>
-  <& pageelems.event_timer epgid=(epgid) &>
+  <div><& pageelems.event_timer epgid=(epgid) className="icon" &></div>
 % if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
-    <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channelId) image="zap.png" alt="" &>
-% } if (LiveFeatures<features::epgsearch>().Recent() && eventId != 0) {
-  <a href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a>
+    <div><& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channelId) image="zap.png" className="icon" alt="" &></div>
+% } if (LiveFeatures<features::epgsearch>().Recent()) {
+%     if (eventId != 0) {
+  <div><a href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(title) $>"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a></div>
+%     } else if (!detail) {
+  <# as we wrap on small screens and tabulation becomes void, we just hide a transparent icon #>
+  <div class="hidden-xs spacer"><img class="icon" src="img/transparent.png" alt="" /></div>
+%   }
 % } if ((duration == 0) || (elapsed >= 0)) {
-  <& pageelems.hls_channel channelId=(channelId) &>
-  <& pageelems.m3u_playlist_channel channelId=(channelId) &>
+  <div class="hidden-xs"><& pageelems.hls_channel channelId=(channelId) className="icon" &></div>
+  <div class="hidden-xs"><& pageelems.m3u_playlist_channel channelId=(channelId) className="icon" &></div>
+%   } else if (!detail) {
+  <# as we wrap on small screens and tabulation becomes void, we just hide a transparent icon #>
+  <div class="hidden-xs"><img class="icon" src="img/transparent.png" alt="" /></div>
+  <div class="hidden-xs"><img class="icon" src="img/transparent.png" alt="" /></div>
 % } if (!title.empty()) {
-  <& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID) &>
+  <div><& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID) className="icon" &></div>
+% } else if (!detail ) {
+  <div class="hidden-xs"><img class="icon" src="img/transparent.png" alt="" /></div>
 <%cpp>
   }
   if (eventId != 0 && detail > 1) {
@@ -431,43 +452,10 @@ if (!rfid.empty() ) {
     }
     if (sdhd) {
 </%cpp>
-<img data-src="img/transparent.png" height="10px" />
-<span id="icons-<$epgid$>"></span>
+<div id="icons-<$epgid$>" class="event_status"></div>
 <script class="injectIcons">
 injectHdSdIcon(\"icons-<$epgid$>\", \"<$sdhd$>\", \"<$ channel_Name $>\", \"\")
 </script>
-<%cpp>
-    }
-  }
-  } else { // table output
-</%cpp>
-  <td class="action leftcol <? lastCurrentChanel ? "bottomrow"?>"><& pageelems.event_timer epgid=(epgid) &></td>
-% if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
-    <td class="action <? lastCurrentChanel ? "bottomrow"?>"><& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channelId) image="zap.png" alt="" &></td>
-% } if (LiveFeatures<features::epgsearch>().Recent()) {
-      <td class="action <? lastCurrentChanel ? "bottomrow"?>">
-%     if (eventId) {
-        <a href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a>
-%     }
-      </td>
-% } if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded() ) {
-    <td class="td-hidden-xs action<? lastCurrentChanel ? " bottomrow"?>">
-%   if ((duration == 0) || (elapsed > 0)) {
-      <& pageelems.hls_channel channelId=(channelId) class_=("hidden-xs")&>
-%   }
-    </td>
-% } if (LiveFeatures<features::streamdev_server>().Loaded() ) {
-    <td class="td-hidden-xs action<? lastCurrentChanel ? " bottomrow"?>">
-%   if ((duration == 0) || (elapsed > 0)) {
-      <& pageelems.m3u_playlist_channel channelId=(channelId) class_=("hidden-xs")&>
-%   }
-    </td>
-% } if (LiveSetup().GetShowIMDb() ) {
-    <td class="action <? lastCurrentChanel ? "bottomrow"?>">
-%   if (eventId != 0) {
-      <& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID) &>
-%   }
-    </td>
 %} }
 </%def>
 
@@ -496,8 +484,6 @@ injectHdSdIcon(\"icons-<$epgid$>\", \"<$sdhd$>\", \"<$ channel_Name $>\", \"\")
   <div class="epg_description" id="<$ (boxId) $>">
     <div class="station">
       <div class="boxheader">
-
-<div>
 <%cpp>
 struct sEpisode2 {
     int number;
@@ -584,50 +570,60 @@ const bool episodeFound = scraperMovieOrTv.found && (!scraperMovieOrTv.movie) &&
 if (scraperMovieOrTv.found) {
 //  esyslog("live: create caption menu");
 </%cpp>
-<div class = "caption">
-  <a id="<$ boxId $>_epg_m"     class = "active"   onclick="displayEPG('<$ boxId $>')" ><$ trVDR("EPG") $></a>
-| <a id="<$ boxId $>_scraper_m" class = "inactive" onclick="displayScraper('<$ boxId $>')"><$ tr("Scraper") $></a>
-| <a id="<$ boxId $>_actors_m"  class = "inactive" onclick="displayActors('<$ boxId $>')" ><$ tr("Actors") $></a>
-| <a id="<$ boxId $>_artwork_m" class = "inactive" onclick="displayArtwork('<$ boxId $>')" ><$ tr("Artwork") $></a>
-</div>
+        <div class = "caption">
+          <a id="<$ boxId $>_epg_m"     class = "active"   onclick="displayEPG('<$ boxId $>')" ><$ trVDR("EPG") $></a>
+          <span class="sep">|</span>
+          <a id="<$ boxId $>_scraper_m" class = "inactive" onclick="displayScraper('<$ boxId $>')"><$ tr("Scraper") $></a>
+          <span class="sep">|</span>
+          <a id="<$ boxId $>_actors_m"  class = "inactive" onclick="displayActors('<$ boxId $>')" ><$ tr("Actors") $></a>
+          <span class="sep">|</span>
+          <a id="<$ boxId $>_artwork_m" class = "inactive" onclick="displayArtwork('<$ boxId $>')" ><$ tr("Artwork") $></a>
+        </div>
 <%cpp>
 } else {
 </%cpp>
-<div class="caption"><$ (caption) $></div>
+        <div class="caption"><$ (caption) $></div>
 <%cpp>
 }
 </%cpp>
-</div>
-                        </div>
+      </div>
     </div>
-    <div class="epg_content">
+%   size_t endEventType = boxId.find_first_of('_');
+    <div class="epg_content epg_<$ endEventType != std::string::npos ? boxId.substr(0, endEventType) : "unknown" $>">
       <div class="epg_tools">
-        <& (tools_comp) id=(boxId) archived=(archived) detail=(2) title=(title) s_IMDB_ID=(scraperMovieOrTv.IMDB_ID) sort=(sort) filter=(filter) flat=(flat) history_num_back=(history_num_back) &>
+        <div class="tools">
+          <& (tools_comp) id=(boxId) archived=(archived) detail=(2) title=(title) s_IMDB_ID=(scraperMovieOrTv.IMDB_ID) sort=(sort) filter=(filter) flat=(flat) history_num_back=(history_num_back) &>
+        </div>
       </div>
       <div class="epg_info">
         <div class="info">
-          <div class="duration">
+          <div class="spacebar"><# spacer with fade-out effect #></div>
+          <div class="event_details">
+            <div class="time_channel">
+              <div class="time">
+%               if (!archived.empty()) {
+                  <span class="bold"><$ (archived + " ") $></span>
+%               }
+                <$ (time) $>
+              </div>
+%             if (!filename.empty() && !channel.empty()) {
+                <div class="channel"><$ (channel) $></div>
+%             }
+            </div>
+            <div class="duration">
 <%cpp>
 if (epgEvent && epgEvent->isRecording() ) {  // recording
 </%cpp>
-            <span title="<$tr("Recording length")$>"><$ FormatDuration(tr("%d:%02d"), epgEvent->Duration())$></span> / <span title="<$tr("Event duration")$>"><$FormatDuration(tr("%d:%02d"), epgEvent->EventDuration())$></span>
+              <span title="<$tr("Recording length")$>"><$ FormatDuration(tr("%d:%02d"), epgEvent->Duration())$></span> / <span title="<$tr("Event duration")$>"><$FormatDuration(tr("%d:%02d"), epgEvent->EventDuration())$></span>
 <%cpp>
 }
 if (elapsed >= 0) {
 </%cpp>
-            <div class="progress"><div><& pageelems.progressbar progress=(elapsed) &></div></div>
+              <div class="progress"><& pageelems.progressbar progress=(elapsed) &></div>
 <%cpp>
 }
 </%cpp>
-          </div>
-          <div class="time">
-%           if (!archived.empty()) {
-              <span class="bold"><$ (archived + " ") $></span>
-%           }
-            <$ (time) $>
-%           if (!filename.empty() && !channel.empty()) {
-              <div class="channel"><$ (channel) $></div>
-%           }
+            </div>
           </div>
           <div class="title"><$ (title) $></div>
           <div class="short"><$ (short_descr) $></div>
@@ -670,6 +666,16 @@ if (elapsed >= 0) {
 <# -----------------  scraper data -----------------  #>
 <div id = '<$ boxId $>_scraper' hidden>
 <%cpp>
+std::string loc_name;
+getLanguage(loc_name, "LANGUAGE") ||
+getLanguage(loc_name, "LC_ALL") ||
+getLanguage(loc_name, "LC_MESSAGES") ||
+getLanguage(loc_name, "LANG");
+if (loc_name.empty() ) {
+  loc_name = std::locale("").name().substr(0,2);
+  if (loc_name.length() != 2 || loc_name[0] == 'C' || loc_name[0] == '*' || loc_name[0] == 'L') loc_name = "en"; //  use en as default
+}
+
 if (scraperMovieOrTv.found) {
 </%cpp>
   <div class="scraper_list"><$ tr("Title:") $>         <$ (scraperMovieOrTv.title ) $></div>
@@ -706,29 +712,23 @@ if (scraperMovieOrTv.found) {
     if (charFound) {
 </%cpp>
       <div class="scraper_list"><$ tr("Guest stars and crew") $></div>
-      <table>
+      <div class="cast_crew tabular">
 %   for (const auto &character:scraperCharacters) {
 %     if (character->getType() != eCharacterType::guestStar) continue;
-      <tr>
-        <td class="cast_role"> <$ character->getCharacterName() $> </td>
-        <td> <$ character->getPersonName() $> </td>
-      </tr>
+        <div class="cast_role"> <$ character->getCharacterName() $> </div>
+        <div> <a href="https://<$ loc_name $>.wikipedia.org/wiki/<$ cToSvUrlEscaped(cToSvReplace(character->getPersonName(), " ", "_")) $>" target="_blank"><$ character->getPersonName() $></a> </div>
 %   }
 %   for (const auto &character:scraperCharacters) {
 %     if (character->getType() != eCharacterType::writer) continue;
-      <tr>
-        <td class="cast_role"> <$ tr("Writer") $> </td>
-        <td> <$ character->getPersonName() $> </td>
-      </tr>
+        <div class="cast_role"> <$ tr("Writer") $> </div>
+        <div> <a href="https://<$ loc_name $>.wikipedia.org/wiki/<$ cToSvUrlEscaped(cToSvReplace(character->getPersonName(), " ", "_")) $>" target="_blank"><$ character->getPersonName() $></a> </div>
 %   }
 %   for (const auto &character:scraperCharacters) {
 %     if (character->getType() != eCharacterType::director) continue;
-      <tr>
-        <td class="cast_role"> <$ tr("Director") $> </td>
-        <td> <$ character->getPersonName() $> </td>
-      </tr>
+        <div class="cast_role"> <$ tr("Director") $> </div>
+        <div> <a href="https://<$ loc_name $>.wikipedia.org/wiki/<$ cToSvUrlEscaped(cToSvReplace(character->getPersonName(), " ", "_")) $>" target="_blank"><$ character->getPersonName() $></a> </div>
 %   }
-      </table>
+      </div>
 <%cpp>
     }  // end if !episode.<Guest stars and crew>.empty()
   }  // end if episode found
@@ -766,8 +766,8 @@ if (scraperMovieOrTv.found) {
     </div>
 % }
 <#
-  <div class="scraper_list">Poster url:     <$ (scraperMovieOrTv.posterUrl ) $></div>
-  <div class="scraper_list">Fanart url:     <$ (scraperMovieOrTv.fanartUrl ) $></div>
+  <div class="scraper_list">Poster URL:     <$ (scraperMovieOrTv.posterUrl ) $></div>
+  <div class="scraper_list">Fanart URL:     <$ (scraperMovieOrTv.fanartUrl ) $></div>
 #>
 <%cpp>
   if (scraperMovieOrTv.movie) {
@@ -793,6 +793,7 @@ if (scraperMovieOrTv.found) {
     }
   } else {  // TV show
 </%cpp>
+    <# shouldn't we translate the status as well? #>
     <div class="scraper_list"><$ tr("Status:") $>         <$ (scraperMovieOrTv.status    ) $></div>
 <#
     <div class="scraper_list">Networks:       <$ toString(scraperMovieOrTv.networks) $></div>
@@ -810,98 +811,55 @@ if (scraperMovieOrTv.found) {
   if (charFound) {
 </%cpp>
     <div class="scraper_list"><$ tr("Cast and crew") $></div>
-    <table>
+    <div class="cast_crew tabular">
 %   for (const auto &character:scraperCharacters) {
 %     if (character->getType() != eCharacterType::actor) continue;
-      <tr>
-        <td class="cast_role"> <$ character->getCharacterName() $> </td>
-        <td> <$ character->getPersonName() $> </td>
-      </tr>
+      <div class="cast_role"> <$ character->getCharacterName() $> </div>
+      <div> <a href="https://<$ loc_name $>.wikipedia.org/wiki/<$ cToSvUrlEscaped(cToSvReplace(character->getPersonName(), " ", "_")) $>" target="_blank"><$ character->getPersonName() $></a>  </div>
 %   }
 %   if (scraperMovieOrTv.movie) {
 %     for (const auto &character:scraperCharacters) {
 %       if (character->getType() != eCharacterType::writer) continue;
-        <tr>
-          <td class="cast_role"> <$ tr("Writer") $> </td>
-          <td> <$ character->getPersonName() $> </td>
-        </tr>
+        <div class="cast_role"> <$ tr("Writer") $> </div>
+        <div> <a href="https://<$ loc_name $>.wikipedia.org/wiki/<$ cToSvUrlEscaped(cToSvReplace(character->getPersonName(), " ", "_")) $>" target="_blank"><$ character->getPersonName() $></a> </div>
 %     }
 %     for (const auto &character:scraperCharacters) {
 %       if (character->getType() != eCharacterType::director) continue;
-        <tr>
-          <td class="cast_role"> <$ tr("Director") $> </td>
-          <td> <$ character->getPersonName() $> </td>
-        </tr>
+        <div class="cast_role"> <$ tr("Director") $> </div>
+        <div> <a href="https://<$ loc_name $>.wikipedia.org/wiki/<$ cToSvUrlEscaped(cToSvReplace(character->getPersonName(), " ", "_")) $>" target="_blank"><$ character->getPersonName() $></a> </div>
 %     }
 %   }
-  </table>
+    </div>
 <%cpp>
   }
 }
 </%cpp>
 </div>
 <# -----------------  actors -----------------  #>
-<div id = '<$ boxId $>_actors' hidden>
+<div id="<$ boxId $>_actors" hidden>
 <%cpp>
 if (scraperMovieOrTv.found) {
 </%cpp>
-<table>
+  <div class="event_actors">
 <%cpp>
-  const int num_cols = 4;
-  int num = 1;
-  std::string loc_name;
-  getLanguage(loc_name, "LANGUAGE") ||
-  getLanguage(loc_name, "LC_ALL") ||
-  getLanguage(loc_name, "LC_MESSAGES") ||
-  getLanguage(loc_name, "LANG");
-  if (loc_name.empty() ) {
-    loc_name = std::locale("").name().substr(0,2);
-    if (loc_name.length() != 2 || loc_name[0] == 'C' || loc_name[0] == '*' || loc_name[0] == 'L') loc_name = "en"; //  use en as default
-  }
-  std::string actor_names = "";
-
   for (const auto &character:scraperCharacters) {
     if (character->getImage().path.empty() ) continue;  // only actors with images
-    if (num == 1) {
 </%cpp>
-      <tr>
-%   }
-    <td>
-      <a href="/tvscraper/<$ character->getImage().path $>" target="_blank">
-        <img src="/tvscraper/<$ character->getImage().path $>" alt="<$character->getPersonName()$>: <$character->getCharacterName()$>" class="actor" />
-      </a>
-    </td>
+    <div class="actor">
+      <div class="actor_photo"><a href="/tvscraper/<$ character->getImage().path $>" target="_blank"><img class="photo" src="/tvscraper/<$ character->getImage().path $>" alt="<$ character->getPersonName() $>: <$ character->getCharacterName() $>" /></a></div>
+      <div class="actor_name"><a href="https://<$ loc_name $>.wikipedia.org/wiki/<$ cToSvUrlEscaped(cToSvReplace(character->getPersonName(), " ", "_")) $>" target="_blank"><$ character->getPersonName() $></a></div>
+      <div class="character"><$ character->getCharacterName() $></div>
+    </div>
 <%cpp>
-    stringAppend(actor_names, "<td><a href=\"https://", loc_name, ".wikipedia.org/wiki/",
-      cToSvUrlEscaped(cToSvReplace(character->getPersonName(), " ", "_")), "\" target=\"_blank\">",
-      character->getPersonName(), "</a>");
-    actor_names.append(":<br>"); 
-    actor_names.append(character->getCharacterName()); 
-    actor_names.append("</td>"); 
-    if (num == num_cols) {
-</%cpp>
-      </tr>
-      <tr><$$actor_names$></tr>
-<%cpp>
-      num = 0;
-      actor_names = "";
-    }
-    num++;
   } // for character in scraperCharacters
-  if (num != 1) {
 </%cpp>
-    </tr>
-    <tr><$$actor_names$></tr>
-<%cpp>
-  }
-</%cpp>
-</table>
+  </div>
 <%cpp>
 }
 </%cpp>
 </div>
 <# -----------------  posters / artwork -----------------  #>
-<div id = '<$ boxId $>_artwork' hidden>
+<div id="<$ boxId $>_artwork" hidden>
 <%cpp>
   const uintptr_t media_p = (uintptr_t)&(scraperMovieOrTv.posters);
   const uintptr_t media_b = (uintptr_t)&(scraperMovieOrTv.banners);
@@ -912,41 +870,51 @@ if (scraperMovieOrTv.found) {
 <& media media_p=(media_b) &>
 </div>
 <# -----------------  epg -----------------  #>
-<div id = '<$ boxId $>_epg'>
+<div id="<$ boxId $>_epg">
 <%cpp>
-{
-  cToSvConcat long_descr_html_esc;
-  AppendHtmlEscapedAndCorrectNonUTF8(long_descr_html_esc, long_descr);
+if (!long_descr.empty()) {
+  cToSvConcat long_descr_html_esc = "<p>";
+  AppendHtmlEscapedAndCorrectNonUTF8(long_descr_html_esc, long_descr, "</p><p>");
+  long_descr_html_esc.append("</p>");
   reply.out() << long_descr_html_esc;
 }
-const char *br_after_long_desc = "<br><br>";
-if (long_descr.empty()) br_after_long_desc = "";
 
 if (epgEvent) {
-  bool first = true;
+  bool empty = true;
+  cToSvConcat supplemental_info;
   for (int i = 0; epgEvent->Contents(i); i++) {
     const char *s = cEvent::ContentToString(epgEvent->Contents(i));
     if (!isempty(s)) {
-      if (first) {
-        first = false;
-</%cpp>
- <$$br_after_long_desc$>
- <$tr("Content")$>:
-%     } else { reply.out() << ","; }
- <$s$><%cpp>
+      if (empty) {
+        supplemental_info.append(tr("Content"));
+        supplemental_info.append(": ");
+        empty = false;
+      } else {
+        supplemental_info.append(", ");
+      }
+      supplemental_info.append(s);
     }
   }
   if (epgEvent->ParentalRating()) {
-    if (first) reply.out() << br_after_long_desc;
-    else reply.out() << "<br>";
-</%cpp>
-   <$tr("Parental rating")$>: <$cToSvFormated(trVDR("ParentalRating$from %d"), epgEvent->ParentalRating()) $>
-<%cpp>
+    if (!empty) {
+      supplemental_info.append("\n");
+    }
+    supplemental_info.append(tr("Parental rating"));
+    supplemental_info.append(": ");
+    supplemental_info.append(cToSvFormated(trVDR("ParentalRating$from %d"), epgEvent->ParentalRating()));
+    empty = false;
+  }
+  if (!empty) {
+    cToSvConcat supplemental_info_html_esc = "<p class=\"epg_event_info\">";
+    AppendHtmlEscapedAndCorrectNonUTF8(supplemental_info_html_esc, supplemental_info);
+    supplemental_info_html_esc.append("</p>");
+    reply.out() << supplemental_info_html_esc;
   }
 }
 </%cpp>
         </div>
       </div>
+      <div class="spacebar"><# spacer with fade-out effect #></div></div>
     </div>
   </div>
 </div>
@@ -961,92 +929,106 @@ if (epgEvent) {
 const std::vector<cTvMedia> *media_v = static_cast<std::vector<cTvMedia> *>((void *)media_p);
 for (const cTvMedia &media: *media_v) {
 </%cpp>
-  <a href="/tvscraper/<$ media.path $>" target="_blank">
-    <img src="/tvscraper/<$ media.path $>" class="artwork" />
+  <a class="artwork" href="/tvscraper/<$ media.path $>" target="_blank">
+    <img class="artwork" src="/tvscraper/<$ media.path $>" />
   </a>
 <%cpp>
 }
 </%cpp>
 </%def>
+
 <# ---------------------------------------------------------------------- #>
 
 <%def about_tt_box>
   <div class="epg_description" id="aboutBox">
     <div class="station">
-      <div class="boxheader"><div><div class="caption"><$ tr(LIVESUMMARY) $></div></div></div>
+      <div class="boxheader"><div class="caption"><$ tr(LIVESUMMARY) $></div></div>
     </div>
-    <div class="epg_content">
-      <div>
-        <div class="about_head"><div><div><$ tr("Authors") $></div></div></div>
-        <div class="about_left"><$ tr("Project Idea") $>:</div>
-        <div class="about_right">Thomas Keil (Thomas)</div>
-        <div class="about_left"><$ tr("Webserver") $>:</div>
-        <div class="about_right">Sascha Volkenandt (LordJaxom)</div>
-        <div class="about_left"><$ tr("Current Maintainer") $>:</div>
-        <div class="about_right">Markus Ehrnsperger (MarkusE @ <a href="https://www.vdr-portal.de">VDR Portal</a>)</div>
-        <div class="about_left"><$ tr("Previous Maintainer") $>:</div>
-        <div class="about_right">Jasmin Jessich (jasminj)</div>
-        <div class="about_left"><$ tr("Project leader") $>:</div>
-        <div class="about_right">Dieter Hametner (tadi)</div>
-        <div class="about_left"><$ tr("Content") $>:</div>
-        <div class="about_right">Christian Wieninger (winni)</div>
-        <div class="about_left"><$ tr("Graphics") $>:</div>
-        <div class="about_right">Michael Br&uuml;ckner (skiller2k1)</div>
-        <div class="about_head"><div><div><$ tr("Information") $></div></div></div>
-        <div class="about_left"><$ tr("LIVE version") $>:</div>
-        <div class="about_right"><$ LIVEVERSION $><$ VERSION_SUFFIX $></div>
-        <div class="about_left"><$ tr("VDR version") $>:</div>
-        <div class="about_right"><$ VDRVERSION $></div>
-        <div class="about_head"><div><div><$ tr("Features") $></div></div></div>
-        <div class="about_left">EPGsearch:</div>
-        <div class="about_right">
-%          Features< features::epgsearch >& epgsearch = LiveFeatures< features::epgsearch >();
-          <img align="center" src="<$ LiveSetup().GetThemedLink("img", epgsearch.Recent() ? "active.png" : "inactive.png") $>"/>
-%          if ( epgsearch.Recent() ) {
-            <$ tr("active") $>: <$ epgsearch.Version() $>
-%          } else {
-            <$ tr("required") $>: <$ epgsearch.MinVersion() $>
-%          }
-          (<a href="https://github.com/vdr-projects/vdr-plugin-epgsearch" target="_blank"><$ tr("Homepage") $></a>)<br/>
+    <div class="epg_content"><div class="about_content">
+      <div class="about_head"><$ tr("Authors") $></div>
+      <div class="about_section">
+        <div class="tabular">
+          <div class="about_left"><$ tr("Project Idea") $>:</div>
+          <div class="about_right">Thomas Keil (Thomas)</div>
+          <div class="about_left"><$ tr("Webserver") $>:</div>
+          <div class="about_right">Sascha Volkenandt (LordJaxom)</div>
+          <div class="about_left"><$ tr("Current Maintainer") $>:</div>
+          <div class="about_right">Markus Ehrnsperger (MarkusE @ <a href="https://www.vdr-portal.de">VDR Portal</a>)</div>
+          <div class="about_left"><$ tr("Previous Maintainer") $>:</div>
+          <div class="about_right">Jasmin Jessich (jasminj)</div>
+          <div class="about_left"><$ tr("Project leader") $>:</div>
+          <div class="about_right">Dieter Hametner (tadi)</div>
+          <div class="about_left"><$ tr("Content") $>:</div>
+          <div class="about_right">Christian Wieninger (winni)</div>
+          <div class="about_left"><$ tr("Graphics") $>:</div>
+          <div class="about_right">Michael Br&uuml;ckner (skiller2k1)</div>
         </div>
-        <div class="about_left">Streamdev server:</div>
-        <div class="about_right">
-<%cpp>
-          Features< features::streamdev_server >& streamdev = LiveFeatures< features::streamdev_server >();
-</%cpp>
-          <img align="center" src="<$ LiveSetup().GetThemedLink("img", streamdev.Loaded() ? "active.png" : "inactive.png") $>"/>
-<%cpp>
-          if ( streamdev.Loaded() ) {
-</%cpp>
-            <$ tr("active") $>: <$ streamdev.Version() $>
-<%cpp>
-          } else {
-</%cpp>
-            <$ tr("required") $>: <$ streamdev.MinVersion() $>
-<%cpp>
-          }
-</%cpp>
-          (<a href="https://github.com/vdr-projects/vdr-plugin-streamdev" target="_blank"><$ tr("Homepage") $></a>)<br/>
+      </div>
+      <div class="about_head"><$ tr("Information") $></div>
+      <div class="about_section">
+        <div class="tabular">
+          <div class="about_left"><$ tr("LIVE version") $>:</div>
+          <div class="about_right"><$ LIVEVERSION $><$ VERSION_SUFFIX $></div>
+          <div class="about_left"><$ tr("VDR version") $>:</div>
+          <div class="about_right"><$ VDRVERSION $></div>
         </div>
-        <div class="about_left">tvscraper:</div>
-        <div class="about_right">
-%          Features< features::tvscraper >& tvscraper = LiveFeatures< features::tvscraper >();
-          <img align="center" src="<$ LiveSetup().GetThemedLink("img", tvscraper.Recent() ? "active.png" : "inactive.png") $>"/>
-%          if ( tvscraper.Recent() ) {
-            <$ tr("active") $>: <$ tvscraper.Version() $>
-%          } else {
-            <$ tr("required") $>: <$ tvscraper.MinVersion() $>
-%          }
-          (<a href="https://github.com/MarkusEh/vdr-plugin-tvscraper" target="_blank"><$ tr("Homepage") $></a>)<br/>
+      </div>
+      <div class="about_head"><$ tr("Features") $></div>
+      <div class="about_section">
+        <div class="tabular">
+          <div class="about_left">EPGsearch:</div>
+          <div class="about_right">
+%            Features< features::epgsearch >& epgsearch = LiveFeatures< features::epgsearch >();
+            <img src="<$ LiveSetup().GetThemedLink("img", epgsearch.Recent() ? "active.png" : "inactive.png") $>"/>
+%            if ( epgsearch.Recent() ) {
+              <$ tr("active") $>: <$ epgsearch.Version() $>
+%            } else {
+              <$ tr("required") $>: <$ epgsearch.MinVersion() $>
+%            }
+            (<a href="https://github.com/vdr-projects/vdr-plugin-epgsearch" target="_blank"><$ tr("Homepage") $></a>)<br/>
+          </div>
+          <div class="about_left">Streamdev server:</div>
+          <div class="about_right">
+<%cpp>
+            Features< features::streamdev_server >& streamdev = LiveFeatures< features::streamdev_server >();
+</%cpp>
+            <img src="<$ LiveSetup().GetThemedLink("img", streamdev.Loaded() ? "active.png" : "inactive.png") $>"/>
+<%cpp>
+            if ( streamdev.Loaded() ) {
+</%cpp>
+              <$ tr("active") $>: <$ streamdev.Version() $>
+<%cpp>
+            } else {
+</%cpp>
+              <$ tr("required") $>: <$ streamdev.MinVersion() $>
+<%cpp>
+            }
+</%cpp>
+            (<a href="https://github.com/vdr-projects/vdr-plugin-streamdev" target="_blank"><$ tr("Homepage") $></a>)<br/>
+          </div>
+          <div class="about_left">tvscraper:</div>
+          <div class="about_right">
+%            Features< features::tvscraper >& tvscraper = LiveFeatures< features::tvscraper >();
+            <img src="<$ LiveSetup().GetThemedLink("img", tvscraper.Recent() ? "active.png" : "inactive.png") $>"/>
+%            if ( tvscraper.Recent() ) {
+              <$ tr("active") $>: <$ tvscraper.Version() $>
+%            } else {
+              <$ tr("required") $>: <$ tvscraper.MinVersion() $>
+%            }
+            (<a href="https://github.com/MarkusEh/vdr-plugin-tvscraper" target="_blank"><$ tr("Homepage") $></a>)<br/>
+          </div>
         </div>
-        <div class="about_head"><div><div><$ tr("Information providers") $></div></div></div>
+      </div>
+      <div class="about_head"><$ tr("Information providers") $></div>
+      <div class="about_section">
         <div class="about_line">Movie information provided by <a target="_blank" href="https://www.themoviedb.org/">TMDB</a>. This product uses the TMDB API but is not endorsed or certified by TMDB.</div>
         <div class="about_line">Information provided by TheTVDB.com. Please consider <a target="_blank" href="https://u10505776.ct.sendgrid.net/ls/click?upn=xMYYCP13hVd-2BZPpbVcMPHeLXfv-2BPRdIsKm2qSeirIHi7kH9am8IxD-2BavFbeqGqIXIcjH_INgc0CXRkIvGU-2BJ1W6HLAynNbR0UBoMb2tkpDdezO3QRj-2FQPQAMrtJKVcB0N7eSvbYpjQTDNOQBf2pb94uDgGr0-2BXyXFk7Oyfva30BASYCRLvtRQyi5eOCAbH8fon7UETlPydobeLA3Recu9OsXol8c7Ng4pDAsH6KsFF8CH7HQoVxivnpKrQW2v4ek7U-2BYlWmH31o9Koke3vq-2FDsQ0P-2BiKLECU3LgttsntUcN8fnUs-3D">supporting them.</a></div>
-        <div class="about_head"><div><div><$ tr("Bugs and suggestions") $></div></div></div>
+      </div>
+      <div class="about_head"><$ tr("Bugs and suggestions") $></div>
+      <div class="about_section">
         <div class="about_line"><$ tr("If you encounter any bugs or would like to suggest new features, please use our bugtracker") $>:<br/>
           <a target="_blank" href="https://github.com/MarkusEh/vdr-plugin-live/issues">https://github.com/MarkusEh/vdr-plugin-live/issues</a></div>
-        <div class="about_head"><div><div>&nbsp;</div></div></div>
       </div>
-    </div>
+    </div></div>
   </div>
 </%def>

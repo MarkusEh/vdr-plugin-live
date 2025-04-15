@@ -1,5 +1,5 @@
 <%pre>
-/* java script functions depending on settings and language,
+/* javascript functions depending on settings and language,
  *  but not depending on other parameters
  *  -> static page, no input parameters
 */
@@ -17,6 +17,7 @@ const char *TNT_ARRAY = "";
 reply.setHeader (tnt::httpheader::contentType, "text/javascript; charset=utf-8", true);
 </%cpp>
 
+const regExLineBreak = /(<|&lt;)br\\/?(>|&gt;)/g
 
 function addErrorIcon(s, numErrors, durationDeviation, duration, numTsFiles) {
   if (numErrors <= -100) return
@@ -28,35 +29,35 @@ function addErrorIcon(s, numErrors, durationDeviation, duration, numTsFiles) {
     if (numErrors  > 0) s.a += 'RecordingErrors.png'
     if (numErrors  < 0) s.a += 'NotCheckedForRecordingErrors.png'
   }
-  s.a += '\" width = \"16px\" title=\"'
-  if (numErrors == 0) s.a += '<$tr("No recording errors")$>'
-  if (numErrors  > 0) s.a += '<$tr("Number of recording errors:")$> ' + String(numErrors)
-  if (numErrors  < 0) s.a += '<$tr("Recording errors unknown")$>'
+  s.a += '\" title=\"'
+  if (numErrors == 0) s.a += '<p><$tr("No recording errors")$></p>'
+  if (numErrors  > 0) s.a += '<p><$tr("Number of recording errors:")$> ' + String(numErrors) + '</p>'
+  if (numErrors  < 0) s.a += '<p><$tr("Recording errors unknown")$></p>'
 % if (LiveFeatures<features::tvscraper>().Loaded()) {
-    s.a += '<br/><$tr("Duration deviation from event length")$>: '
+    s.a += '<p><$tr("Duration deviation from event length")$>: '
     addTime(s, durationDeviation)
-    s.a += ' <$tr("min")$>'
+    s.a += ' <$tr("min")$></p>'
 % }
-  s.a += '<br/><$tr("Recording length")$>: '
+  s.a += '<p><$tr("Recording length")$>: '
   s.a += duration
-  s.a += ' <$tr("h")$><br/><$tr("Number of ts files")$>: '
+  s.a += ' <$tr("h")$></p><p><$tr("Number of ts files")$>: '
   s.a += String(numTsFiles)
-  s.a += '\" /> </div>'
+  s.a += '</p>\" /> </div>'
 }
 
 function addHdSdIcon(s, hdsd, toolTip, frameParams) {
-  s.a += '<div class=\"recording_sd_hd\"><img class=\"icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>'
+  s.a += '<div class=\"recording_sd_hd\"><img class=\"sdhd\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>'
   s.a += hdsd
-  s.a += '.png\" width = \"25px\" title=\"'
-  if (frameParams.length != 0) {
-    s.a += frameParams
-    s.a += '<br/>'
-  }
+  s.a += '.png\" title=\"<p>'
   s.a += toolTip
-  s.a += '\" /></div>'
+  if (frameParams.length != 0) {
+    s.a += '</p><p>'
+    s.a += frameParams
+  }
+  s.a += '</p>\" /></div>'
 }
 
-%// do not html encode name! will be URI encided here
+%// do not HTML-encode name; will be URI-encoded here!
 function IMDBS(s, im_db, name) {
   if (im_db.length == 0) {
     s.a += '<a href=\"http://www.imdb.com/find?s=all&q='
@@ -81,12 +82,12 @@ function IMDBS(s, im_db, name) {
 // [3] : image.path  (nach "/tvscraper/")
 // [4] : "pt" if m_s_image.width <= m_s_image.height, otherwise= ""
 // [5] : title (scraper)
-// [6] : season / episode (scraper, for tv shows, if available. Otherwise: Empty)
+// [6] : season / episode (scraper, for TV shows, if available. Otherwise: Empty)
 // [7] : runtime (scraper)
 // [8] : relase date (scraper)
 // [9] : channelnr
 // [10] : channelname
-// [11] : Name   not html encoded!!! -> can be used for search (URI encode) and in html (HTML encode)
+// [11] : Name (not HTML-encoded -> can be used for search [URI encode] and in HTML [HTML encode])
 // [12] : Shorttext
 // [13] : Description
 // [14] : Day, time & duration of event
@@ -95,11 +96,11 @@ function addEvent(s, bottomrow_i, obj) {
 // first column, timer /red or green, ...
   let bottomrow = ''
   if (bottomrow_i != 0) bottomrow = 'bottomrow'
-  s.a += `<tr><td class=\"action leftcol ${bottomrow}\">`
+  s.a += `<tr><td class=\"action leftcol ${bottomrow}\"><div class=\"event_actions\">`
   if (obj[1].length != 0) {
     s.a += '<a href=\"edit_timer.html?timerid=timer_'
     s.a += obj[1].replace(/&ts=\w*$/, '')
-    s.a += '\"><img class=\"icon\" src=\"<$ LiveSetup().GetThemedLink("img", "") $>' + (obj[1].endsWith('&ts=r') ? 'recording_timer.gif' : (obj[1].endsWith('&ts=i') ? 'record_inactive_timer.png' : 'record_timer.png')) + '\" title=\"<$tr("Edit timer")$>\" />'
+    s.a += '\"><img class=\"icon' + (obj[1].endsWith('&ts=r') ? ' fading' : '') + '\" src=\"<$ LiveSetup().GetThemedLink("img", "") $>' + (obj[1].endsWith('&ts=r') ? 'record_timer_active.png' : (obj[1].endsWith('&ts=i') ? 'record_timer_inactive.png' : 'record_timer_active.png')) + '\" title=\"<$tr("Edit timer")$>\" />'
   } else {
     s.a += '<a href=\"edit_timer.html?epgid=event_'
     s.a += obj[0]
@@ -113,7 +114,7 @@ function addEvent(s, bottomrow_i, obj) {
 % } if (LiveSetup().GetShowIMDb() ) {
     IMDBS(s, obj[2], obj[11])
 % }
-  s.a += '</td>'
+  s.a += '</div></td>'
 // second col, dependent on width: channel
   if (obj[9] > 0) {
     s.a += `<td class=\"td-hidden-xs ${bottomrow}\"><div class=\"hidden-xs withmargin\"><a href=\"schedule.html?channel=`
@@ -148,11 +149,12 @@ function addEvent(s, bottomrow_i, obj) {
   }
   s.a += '</span>'
   if (obj[9] > 0) s.a += '</a>'
-  s.a += '</div>'
-// sec&third line: Link to event, event title, short text
+  s.a += '</div><div>'
+// second & third line: Link to event, event title, short text
   addEventRec(s, 'event_', obj[0], '&history_num_back=1', obj[11], '', obj[12], obj[13])
-  s.a += '</div></td></tr>'
+  s.a += '</div></div></td></tr>'
 }
+
 function eventString(bottomrow, data) {
   const s = Object.create(null)
   s.a = ""
@@ -161,52 +163,57 @@ function eventString(bottomrow, data) {
 }
 
 // existing recording
-// do not html encode name! will be html encoded here
-function existingRecordingSR(s, col_span1, bottomrow, imdb_id, id, archiveDescr, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, durationDeviation, folder, duration, numTsFiles) {
-  let is_recording = '';
-  if (archiveDescr === 'is_recording') {
-    is_recording = ' is_recording';
+// do not HTML-encode name; will be HTML-encoded here!
+function existingRecordingSR(s, col_span1, bottomrow, imdb_id, id, stillRecording, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, durationDeviation, folder, duration, numTsFiles) {
+  let still_recording = '';
+  if (stillRecording === 'still_recording') {
+    still_recording = ' still_recording';
   }
-  s.a += '<tr><td colspan='
-  s.a += col_span1.toString()
+  s.a += '<tr class=\"existing_recording'
+  s.a += still_recording
+  s.a += '\"><td colspan='
+  s.a += col_span1 > 0 ? col_span1.toString() : '1'
   s.a += ' class=\"leftcol '
   s.a += bottomrow
-  s.a += '\"><$ tr("Existing Recording:") $>'
+  s.a += '\">'
+  if (col_span1 > 0) {
+    // no column span means to skip the label (used in streaming page)
+    s.a += '<div class=\"label\"><$ tr("Existing Recording:") $></div>'
+  }
 <%cpp>
 #if VDRVERSNUM >= 20505
 </%cpp>
-  s.a += '<br/><table><tr><td class=\"noborder\">'
+  s.a += '<div class=\"recording_status\">'
   addErrorIcon(s, errors, durationDeviation, duration, numTsFiles)
-  s.a += '</td><td class=\"noborder\">'
   addHdSdIcon(s, hd_sd, channel_name, \"\")
-  s.a += '</td></tr></table>'
+  s.a += '</div>'
 <%cpp>
 #endif
 </%cpp>
   s.a += '</td><td class=\"td-hidden-xs '
   s.a += bottomrow
-  s.a += '\"><div class=\"hidden-xs recording_day'
-  s.a += is_recording
-  s.a += '\">'
+  s.a += '\"><div class=\"hidden-xs recording_day withmargin\">'
   s.a += day_time_duration
-  s.a += '</div></td><td class=\"rightcol '
+  s.a += '</div></td><td class=\"rightcol more '
   s.a += bottomrow
   s.a += '\">'
-  addColEventRec(s, is_recording, day_time_duration, 'recording_', id, name, folder, short_text, description)
+  addColEventRec(s, still_recording, day_time_duration, 'recording_', id, name, folder, short_text, description)
   s.a += '</td></tr>'
 }
-function existingRecordingString(col_span, bottomrow, id, archiveDescr, imdb_id, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, durationDeviation, folder, duration, size, numTsFiles) {
+
+function existingRecordingString(col_span, bottomrow, id, stillRecording, imdb_id, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, durationDeviation, folder, duration, size, numTsFiles) {
   const s = Object.create(null)
   s.a = ""
-  existingRecordingSR(s, col_span, bottomrow, imdb_id, id, archiveDescr, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, durationDeviation, folder, duration, numTsFiles)
+  existingRecordingSR(s, col_span, bottomrow, imdb_id, id, stillRecording, image, pt, s_title, s_season_episode, s_runtime, s_date, day_time_duration, errors, hd_sd, channel_name, newR, name, short_text, description, durationDeviation, folder, duration, numTsFiles)
   return s.a
 }
 
 function RecordingActionStream(s, id) {
   s.a += '<a class=\"hidden-xs\" href=\"stream.html?recid=recording_'
   s.a += id
-  s.a += '\" title=\"<$tr("Stream this recording into browser.")$>\"><img class=\"icon hidden-xs\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>stream_button.png\" /></a>'
+  s.a += '\" title=\"<$tr("Stream this recording into browser.")$>\"><img class=\"hidden-xs icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>stream_button.png\" /></a>'
 }
+
 async function RecordingsSt_a(s, level, displayFolder, data) {
   var recs_param =  '';
   for (obj_i of data) {
@@ -238,7 +245,7 @@ async function RecordingsSt_a(s, level, displayFolder, data) {
   }
 }
 
-%// do not html encode title! will be html encoded here
+%// do not HTML-encode title; will be HTML-encoded here!
 function addEventRec(s, eventprefix, eventid, http_params, title, folder, shortText, description) {
 // eventprefix == 'recording_' or 'event_'
   s.a += '<a href="epginfo.html?epgid='
@@ -247,10 +254,11 @@ function addEventRec(s, eventprefix, eventid, http_params, title, folder, shortT
   s.a += http_params
   s.a += '" class="apopup" title="'
   if (description.length != 0) {
-    s.a += description
-    s.a += '<br/><br/>'
+    s.a += '<p>'
+    s.a += description.replaceAll(regExLineBreak, '</p><p>')
+    s.a += '</p>'
   }
-  s.a += '<$tr("Click to view details.")$>"><div class="margin-bottom bold-font">'
+  s.a += '<p class=&quot;click-details&quot;><$tr("Click to view details.")$></p>"><div class="margin-bottom bold-font">'
   addEncodeHtml(s, title)
   if (folder.length != 0) {
     s.a += '<span class="normal-font"> ('
@@ -258,18 +266,25 @@ function addEventRec(s, eventprefix, eventid, http_params, title, folder, shortT
     s.a += ')</span>'
   }
   s.a += '</div>'
-  add2ndLine(s, shortText, description)
-  s.a += '</a>'
+  // to avoid a link over empty space
+  if (shortText.length == 0 && description.length == 0) {
+    s.a += '</a>'
+    add2ndLine(s, shortText, description)
+  } else {
+    add2ndLine(s, shortText, description)
+    s.a += '</a>'
+  }
 }
+
 <#
 // [0] : ID (prefix "recording_" removed !!!)
-// [1] : is_recording
+// [1] : still_recording
 // scraper data
 // [2] : IMDB ID
 // [3] : image.path  (behind "/tvscraper/")
 // [4] : "pt" if m_s_image.width <= m_s_image.height, otherwise= ""
 // [5] : title (scraper)
-// [6] : season / episode (scraper, for tv shows, if available. Otherwise: Empty)
+// [6] : season / episode (scraper, for TV shows, if available. Otherwise: Empty)
 // [7] : runtime (scraper)
 // [8] : release date (scraper)
 // end scraper data
@@ -278,7 +293,7 @@ function addEventRec(s, eventprefix, eventid, http_params, title, folder, shortT
 // [11] : audio/SD/HD/UHD r/s/h/u
 // [12] : channel name
 // [13] : _new
-// [14] : Name   // do not html encode name! will be URI encoded here
+// [14] : Name (do not HTML-encode name; will be HTML-encoded here!)
 // [15] : Shorttext
 // [16] : Description
 // [17] : Recording Length deviation in seconds
@@ -294,13 +309,35 @@ function RecordingsSt_int(s, level, displayFolder, data) {
   for (obj_i of data) {
     if (typeof recs[obj_i] === 'undefined') continue;
     let obj = recs[obj_i]
-    let is_recording = '';
-    if (obj[1] === 'is_recording') {
-      is_recording = ' is_recording';
+    <#
+    // the previous name 'is_recoding' [action still underway] had a different
+    // notion than EpgInfo::IsRecording() [kind of element], which is confusing;
+    // so we better choose a moire concise name
+    #>
+    let still_recording = '';
+    if (obj[1] === 'still_recording') {
+      still_recording = ' still_recording';
     }
-    s.a += '<tr class="recording_item">'
+    <#
+    // the class 'recording_new' allows the style sheet to optionally highlight a new
+    // recording's entire row instead of just its title and the short text, whereas the
+    // class 'recording_name_new' only applies for the title/short-text column; just
+    // appending '_new' to 'recording_item' instead of adding a distinct class would
+    // not be flexible enough within the style sheet (i.e, result in too many duplicate
+    // style definitions)
+    #>
+    s.a += '<tr class="recording_item'
+    s.a += obj[13] ? ' recording_new' : ''
+    <#
+    // similar to 'recording_new', the "joint" class 'recording_item.still_recording'
+    // allows the style sheet to optionally highlight/animate the entire row of a
+    // recording still underway, whereas the 'recording_name[_new].still_recording'
+    // will only apply to the title/short-text column
+    #>
+    s.a += still_recording
+    s.a += '">'
     if (level > 0) s.a +=
-      '<td class="space"> <img src="img/transparent.png" width="' + String(16 * level) + 'px" height="16px" /></td>'
+      '<td class="space"> <img src="img/transparent.png" style="width: calc(var(--icon-width, 16px) * ' + String(level) + '); height: var(--icon-height, 16px)" /></td>'
     s.a += '<td class="td-hidden-xs"><div class="hidden-xs recording_imgs">'
     s.a += '<input type="checkbox" name="deletions<$TNT_ARRAY$>" value="recording_'
     s.a += obj[0]
@@ -312,15 +349,15 @@ function RecordingsSt_int(s, level, displayFolder, data) {
     s.a += '</td>'
 %   }
     s.a += '<td class="td-hidden-xs"><div class="hidden-xs recording_day'
-    s.a += is_recording;
+    s.a += still_recording
     s.a += ' margin-bottom">'
     s.a += obj[9]
     s.a += '</div><div class="hidden-xs recording_channel'
-    s.a += is_recording;
+    s.a += still_recording
     s.a += '">'
     s.a += obj[12]
-    s.a += '</div></td><td class="td-hidden-xs" style="text-align:right"><div class="hidden-xs recording_duration'
-    s.a += is_recording;
+    s.a += '</div></td><td class="td-hidden-xs"><div class="hidden-xs recording_info"><div class="hidden-xs recording_duration'
+    s.a += still_recording
     s.a += ' margin-bottom">'
     s.a += obj[19]
     if (obj[17] > 0) {
@@ -329,22 +366,22 @@ function RecordingsSt_int(s, level, displayFolder, data) {
       s.a += ']</span>'
     }
     s.a += '</div><div class="hidden-xs recording_size'
-    s.a += is_recording;
+    s.a += still_recording
     s.a += '">'
     s.a += obj[20]
-    s.a += '</div></td><td>'
+    s.a += '</div></td><td><div class="recording_status">'
     addErrorIcon(s, obj[10], obj[17], obj[19], obj[21])
     addHdSdIcon(s, obj[11], obj[12], obj[22])
-    s.a += '</td>'  // end column with error / sd/hd image
+    s.a += '</div></td>'  // end column with error/sd-hd image
     s.a += '<td><div class=\"recording_name'
     s.a += obj[13]
-    s.a += is_recording;
+    s.a += still_recording
     s.a += '\">'
     if (displayFolder == 1) folder = obj[18]
     else folder = ''
     s.a += '<div class="withmargin">'
     addEventRec_r(s, obj[0], obj[14], folder, obj[15], obj[16]);
-    s.a += '</div></div></td>'  // end if recording_name / short description
+    s.a += '</div></div></td>'  // end of recording_name / short description
     s.a += '<td><div class=\"recording_actions\">'
 %   if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
       RecordingActionS(s, obj[0], "vdr_request/play_recording?param=", "play.png", "<$tr("play this recording")$>")

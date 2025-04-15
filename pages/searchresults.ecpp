@@ -62,10 +62,11 @@ bool logged_in(false);
     <& pageelems.ajax_js &>
     <& pageelems.create_html_js &>
   </head>
-  <body onload="adjustHeader()" onresize="adjustHeader()">
+  <body>
     <& pageelems.logo &>
     <& menu active=("searchepg") component=("searchresults.searchresults_actions") &>
-    <div class="inhalt">
+    <div id="content">
+      <div class="spacebar"><# spacer with fade-out effect #></div>
 %      if (results.size() == 0) {
         <$ tr("No search results") $>
 <%cpp>
@@ -97,6 +98,7 @@ bool logged_in(false);
 document.write(addEventListString(<$col_span$>, <$$ epg_item.c_str() $>))
 </script>
 %       } }
+      <div class="spacebar"><# spacer with fade-out effect #></div>
     </div>
     <script>imgLoad()</script>
   </body>

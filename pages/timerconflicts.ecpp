@@ -37,37 +37,57 @@ if (!logged_in && LiveSetup().UseAuth()) {
     <& pageelems.ajax_js &>
     <& pageelems.create_html_js &>
   </head>
-  <body onload="adjustHeader()" onresize="adjustHeader()">
+  <body>
     <& pageelems.logo &>
     <& menu active=("timersconflicts")>
-    <div class="inhalt">
+    <div id="content">
+      <div class="spacebar"><# spacer with fade-out effect #></div>
 %      if (timerConflicts.size() == 0) {
         <$ tr("No timer conflicts") $>
 %      } else {
-      <table class="listing" cellspacing="0" cellpadding="0">
+      <table class="listing timerconflicts" cellspacing="0" cellpadding="0">
 <%cpp>
+        // similar to the timers, we only want to display the searchtimer column if
+        // data is available; so check if a timer conflict refers to a search timer
+        bool noSearchTimers = true;
+        for (TimerConflicts::iterator conflict = timerConflicts.begin(); conflict != timerConflicts.end(); ++conflict) {
+          const std::list< TimerInConflict >& conflTimers = conflict->ConflictingTimers();
+          for (std::list< TimerInConflict >::const_iterator confltimer = conflTimers.begin(); confltimer != conflTimers.end(); ++confltimer) {
+            for (std::list<int>::const_iterator timerIndex = confltimer->concurrentTimerIndices.begin(); timerIndex != confltimer->concurrentTimerIndices.end(); ++timerIndex) {
+              {
+                LOCK_TIMERS_READ;
+                const cTimer* timer = Timers->GetById(*timerIndex, (confltimer->remote == "") ? NULL : confltimer->remote.c_str());
+                if (!timer) continue;
+                std::string recID;
+                std::string recName;
+                noSearchTimers &= timer->Local() && SortedTimers::SearchTimerInfo(*timer, "s-id").empty() && SortedTimers::TvScraperTimerInfo(*timer, recID, recName).empty();
+              }
+            }
+          }
+        }
+        // populate conflicting timers
         for (TimerConflicts::iterator conflict = timerConflicts.begin(); conflict != timerConflicts.end(); ++conflict) {
           const std::list< TimerInConflict >& conflTimers = conflict->ConflictingTimers();
           for (std::list< TimerInConflict >::const_iterator confltimer = conflTimers.begin(); confltimer != conflTimers.end(); ++confltimer) {
 </%cpp>
             <tr class="head">
               <td colspan="12">
-                <div class="boxheader"><div><div><$ concat(cToSvDateTime(tr("%A, %x"), conflict->ConflictTime()), " ", cToSvDateTime(tr("%I:%M %p"), conflict->ConflictTime()), " - ", cToSvInt(confltimer->percentage), "%") $><span style="float:right;"><diff><$ tr("Server")$>: <$ (confltimer->remote == "" ) ? tr("local") : confltimer->remote $> </diff></span></div></div></div>
+                <div class="boxheader">
+                  <div class="caption"><$ concat(cToSvDateTime(tr("%A, %x"), conflict->ConflictTime()), " ", cToSvDateTime(tr("%I:%M %p"), conflict->ConflictTime()), " - ", cToSvInt(confltimer->percentage), "%") $></div>
+                  <div class="caption"><$ tr("Server")$>: <$ (confltimer->remote == "" ) ? tr("local") : confltimer->remote $></div>
+                </div>
               </td>
             </tr>
             <tr class="description">
-              <td class="leftcol"><img src="img/transparent.png" alt="" width="16px" height="16px" /></td>
+              <td class="leftcol">&nbsp;</td>
               <td><div class="withmargin"><$ trVDR("Channel") $></div></td>
               <td class="td-hidden-xs"><div class="withmargin hidden-xs"><$ trVDR("Start") $></div></td>
               <td class="td-hidden-xs"><div class="withmargin hidden-xs"><$ trVDR("Stop")  $></div></td>
               <td class="td-hidden-xs"><div class="withmargin hidden-xs"><$ trVDR("Duration")  $></div></td>
               <td class="td-hidden-xs"><div class="withmargin hidden-xs"><$ trVDR("Priority") $></div></td>
               <td><div class="withmargin"><$ trVDR("File") $></div></td>
-              <td><div class="withmargin"><$ tr("Search timer") $></div></td>
-                <td class="td-hidden-xs"><img class="hidden-xs action-rightcol" src="img/transparent.png" alt="" width="16px" height="16px" /></td>
-              <td class="td-hidden-xs"><img class="hidden-xs action-rightcol" src="img/transparent.png" alt="" width="16px" height="16px" /></td>
-              <td class="td-hidden-xs"><img class="hidden-xs action-rightcol" src="img/transparent.png" alt="" width="16px" height="16px" /></td>
-              <td class="rightcol"><img class="action-rightcol" src="img/transparent.png" alt="" width="16px" height="16px" /></td>
+              <td class="<$ noSearchTimers ? "notpresent" : "searchtimer" $>"><div class="withmargin"><$ tr("Search timer") $></div></td>
+              <td class="rightcol"><img class="action-rightcol" src="img/transparent.png" alt="" /></td>
             </tr>
 <%cpp>
             for (std::list<int>::const_iterator timerIndex = confltimer->concurrentTimerIndices.begin(); timerIndex != confltimer->concurrentTimerIndices.end(); ++timerIndex) {
@@ -93,13 +113,16 @@ if (!logged_in && LiveSetup().UseAuth()) {
               bool bottom = (nexttimerIndex == confltimer->concurrentTimerIndices.end());
 
               std::string timerStateImg = "transparent.png";
+              std::string timerStateClass;
               std::string timerStateHint;
               if (timer->Id() == confltimer->timerIndex) {
-                timerStateImg = "timerconflict.gif";
+                timerStateImg = "timer_conflict.png";
+                timerStateClass = "conflict";
                 timerStateHint = tr("Timer has a conflict.");
               }
               else if (timer->Flags() & tfActive) {
                 timerStateImg = "arrow.png";
+                timerStateClass = "active";
                 timerStateHint = tr("Timer is active.");
               }
 
@@ -110,26 +133,30 @@ if (!logged_in && LiveSetup().UseAuth()) {
               std::string recName;
               std::string title;
 
-              AppendHtmlEscapedAndCorrectNonUTF8(longDescription, SortedTimers::GetTimerInfo(*timer));
+              longDescription << "<p>";
+              AppendHtmlEscapedAndCorrectNonUTF8(longDescription, SortedTimers::GetTimerInfo(*timer), "</p><p>");
+              longDescription << "</p>";
 
               if (timer->Event()) {
                 bool truncated = false;
                 LOCK_SCHEDULES_READ;
                 if (timer->Event()->Description() ) {
-                  longDescription << "<hr>";
-                  AppendHtmlEscapedAndCorrectNonUTF8(longDescription, StringWordTruncate(timer->Event()->Description(), LiveSetup().GetMaxTooltipChars(), truncated));
+                  longDescription << "<hr><p>";
+                  AppendHtmlEscapedAndCorrectNonUTF8(longDescription, StringWordTruncate(timer->Event()->Description(), LiveSetup().GetMaxTooltipChars(), truncated), "</p><p>");
                   if (truncated) longDescription << " ...";
+                  longDescription << "</p>";
                 }
                 title = cSv(timer->Event()->Title());
               }
-              AppendHtmlEscapedAndCorrectNonUTF8(searchTimName, SortedTimers::SearchTimerInfo(*timer, "searchtimer") );
+              AppendHtmlEscapedAndCorrectNonUTF8(searchTimName, SortedTimers::SearchTimerInfo(*timer, "searchtimer"));
               searchTimId = SortedTimers::SearchTimerInfo(*timer, "s-id");
-              if (searchTimName.empty() && searchTimId.empty() ) AppendHtmlEscapedAndCorrectNonUTF8(searchTimName, SortedTimers::TvScraperTimerInfo(*timer, recID, recName) );
+              if (searchTimName.empty() && searchTimId.empty() ) AppendHtmlEscapedAndCorrectNonUTF8(searchTimName, SortedTimers::TvScraperTimerInfo(*timer, recID, recName));
               cToSvConcat timerFile;
               AppendHtmlEscapedAndCorrectNonUTF8(timerFile, timer->File());
 </%cpp>
-              <tr class="<$ timer->Recording() ? "recording" : ((timer->Flags() & tfActive) ? "active" : "inactive") $>">
-                <td class="leftcol <? bottom ? "bottomrow" ?>"><img src="<$ LiveSetup().GetThemedLink("img", timerStateImg) $>" alt="" <%cpp> if (!timerStateHint.empty()) { </%cpp><& tooltip.hint text=(timerStateHint) &><%cpp> } </%cpp>/ ></td>
+              <tr class="<$ timer->Recording() ? "recording" : ((timer->Flags() & tfActive) ? timerStateClass : "inactive") $>">
+                <# apply the timers' state-class hierarchy for reusing their CSS styles #>
+                <td class="leftcol <? bottom ? "bottomrow" ?>"><div class="state"><img src="<$ LiveSetup().GetThemedLink("img", timerStateImg) $>" alt="" <%cpp> if (!timerStateHint.empty()) { </%cpp><& tooltip.hint text=(timerStateHint) &><%cpp> } </%cpp>/></div></td>
                 <td class="<? bottom ? "bottomrow" ?>"><div class="withmargin">
                    <table class="noborder"><tr><td class="noborder"><span class="display-xs nowrap" > <$ cToSvDateTime(tr("%I:%M %p"), timer->StartTime()) $> - <$ cToSvDateTime(tr("%I:%M %p"), timer->StopTime()) $></span></td></tr>
 <%cpp>
@@ -159,7 +186,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
 %               }
                 </div></td>
 
-                <td class="<? bottom ? "bottomrow" ?>"><div class="withmargin">
+                <td class="<$ noSearchTimers ? "notpresent" : "searchtimer" $><? bottom ? " bottomrow" ?>"><div class="withmargin">
 %                if ( !timer->Local() || searchTimId.empty() ) {
 <# not created by epgsearch, check tvscraper autotimer #>
                   <$$ cToSvReplace(searchTimName, "~", "~<wbr>") $>
@@ -170,17 +197,17 @@ if (!logged_in && LiveSetup().UseAuth()) {
                   <a href="edit_searchtimer.html?searchtimerid=<$ searchTimId $>"><$$ cToSvReplace(searchTimName, "~", "~<wbr>") $></a>
 %                }
                 </div></td>
-                <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><a class="hidden-xs action-rightcol" href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a></td>
-                <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><a class="hidden-xs action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&action=toggle"><img src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &> /></a></td>
-                <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs action-rightcol"><& pageelems.edit_timer timerId=(SortedTimers::GetTimerId(*timer)) &></div></td>
-            <td class="rightcol <? bottom ? "bottomrow" ?>">
-<a class="display-xs action-rightcol" href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a>
-<a class="display-xs action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&action=toggle"><img src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &> /></a>
-<div class="display-xs action-rightcol"><& pageelems.edit_timer timerId=(SortedTimers::GetTimerId(*timer)) &></div>
-<a class="action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&action=delete"><img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint text=(tr("Delete timer")) &> /></a></td>
+                <td class="rightcol <? bottom ? "bottomrow" ?>">
+                  <# use a flexbox to allow dynamic arrangement upon changing screen size #>
+                  <div class="event_actions">
+                    <a class="action-rightcol" href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(title) $>"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a>
+                    <a class="action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&action=toggle"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &> /></a>
+                    <div class="action-rightcol"><& pageelems.edit_timer timerId=(SortedTimers::GetTimerId(*timer)) className="icon" &></div>
+                    <a class="action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&action=delete"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint text=(tr("Delete timer")) &> /></a>
+                  </div>
+                </td>
               </tr>
 %            }
-</%cpp>
             <tr class="spacer">
               <td colspan="10"/>
             </tr>
@@ -190,6 +217,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
 </%cpp>
       </table>
 %      }
+      <div class="spacebar"><# spacer with fade-out effect #></div>
     </div>
   </body>
 </html>

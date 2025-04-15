@@ -1,19 +1,19 @@
-/* ######################
-   #  This file is part of vdr-live!
-   #  It is here to give the users the possibility to change the
-   #  default CSS style of vdr-live to their needs.
+/* ##############################################################
+   #  This file is part of VDR Live and gives users the option
+   #  to adapt the default CSS styles for matching their needs.
    #
-   #  If you don't want to change default settings, make this file
-   #  empty, but don't delete it.
-   ######################
+   #  By default, this file does not affect the default settings.
+   #  But even if you don't intent to apply changes, you must not
+   #  delete this file.
+   ##############################################################
 */
 
-/*
-** Uncomment to adjust the width of each column in multicolumn view. In case of
+
+/* Uncomment to adjust the width of each column in multicolumn view. In case of
 ** many columns, min-width will be used in combination with vertical scrolling.
 */
 /*
-table.mschedule div.content1 {
+table.multischedule div.content1 {
   min-width: 15em;
   max-width: 30em;
 }
@@ -30,29 +30,12 @@ table {
 */
 
 
-/* Uncomment the definition below to restrict the width of EPG and recording
-** images to 120 pixels. Keeping the comment displays the images at their
-** native sizes in the popup windows.
-*/
-/*
-.info-win span.epg_images {
-  max-width: 120px;
-}
+/* Customize the settings below to match the desired shadow for images
+** enlarged upon mouse hovering. They have no effect unless one of the
+** sections for enlarging images upon hovering are uncommented.
 */
 
-
-/* Customize the settings below to match the local image dimensions and the
-** desired box shadow. They have no effect unless one of the sections for
-** enlarging images upon hovering are uncommented.
-*/
-
-/* EPG images within details */
-
-@property --epg-image-hover-scale {
-  syntax: "<percentage>";
-  initial-value: 300%;
-  inherits: false;
-}
+/* EPG and recording images within details */
 
 @property --epg-image-shadow-size {
   syntax: "<length>";
@@ -74,12 +57,6 @@ table {
 
 /* recording thumbnail images */
 
-@property --thumb-image-hover-scale {
-  syntax: "<percentage>";
-  initial-value: 800%;
-  inherits: false;
-}
-
 @property --thumb-image-shadow-size {
   syntax: "<length>";
   initial-value: 3px;
@@ -99,12 +76,6 @@ table {
 }
 
 /* channel logos */
-
-@property --logo-hover-scale {
-  syntax: "<percentage>";
-  initial-value: 625%;
-  inherits: false;
-}
 
 @property --logo-shadow-size {
   syntax: "<length>";
@@ -126,7 +97,7 @@ table {
 
 @property --logo-background-color {
   syntax: "<color>";
-  initial-value: #E9EFEFFF;
+  initial-value: #e9efef;
   inherits: false;
 }
 
@@ -145,20 +116,57 @@ table {
 }
 
 
-/* Uncomment the definition below to enlarge EPG and recording images upon
-** hovering. Keeping the comment does not enlarge images in the popup windows
-** upon hovering. Note that enlarged images remain clipped to the info window.
+/* Uncomment the definition below to enlarge EPG and recording images in
+** detail windows upon hovering. Keeping the comment does not dynamically
+** enlarge the images upon mouse-over.
 **
-** The margin should be the difference between the heights of scaled and unscaled
-** EPG images and include some extra space for displaying the box shadow.
+** Note that enlarged images get clipped at the bottom of the detail window.
+** To avoid such clipping, some spare margin must be added. This margin is
+** the difference between the heights of scaled and unscaled images and
+** includes some extra space for displaying an image shadow.
+**
+** @property --epg-image-width:
+** The width for displaying EPG and recording images in the detail window,
+** serving as reference for the scaling factor. As images can easily be
+** enlarged, the width can be smaller than without this feature.
+**
+** @property --epg-image-ratio:
+** The ratio of height to width for portrait images. The calculated height is
+** used for providing extra space for not clipping an enlarged image. TvScraper
+** posters usually have a ratio of 1.5 (a common portrait ratio).
+**
+** @property --epg-image-hover-scale:
+** The scaling factor for enlarging images upon hovering with the mouse.
+** A scaled image should not exceed a width or height of 480px, and it
+** should neither exceed about 2/3 of the typically used viewport height.
+**
+** Default size upon hovering: 360px on long edge
 */
 /*
-span.epg_images:has(> *:nth-child(1)) {
-  margin-bottom: 210px;
+@property --epg-image-width {
+  syntax: "<length>";
+  initial-value: 120px;
+  inherits: false;
+}
+
+@property --epg-image-ratio {
+  syntax: "<number>";
+  initial-value: 1.5;
+  inherits: false;
+}
+
+@property --epg-image-hover-scale {
+  syntax: "<number>";
+  initial-value: 3;
+  inherits: false;
+}
+
+span.epg_images:has(> :first-child) {
+  margin-bottom: calc(calc(var(--epg-image-width) * var(--epg-image-ratio) + var(--epg-image-shadow-size)) * calc(var(--epg-image-hover-scale) - 1));
 }
 
 span.epg_images img.epg_image {
-  transform-origin: right top;
+  transform-origin: top right;
 }
 
 span.epg_images img.epg_image:hover {
@@ -173,34 +181,101 @@ span.epg_images img.epg_image:not(:hover) {
 */
 
 
-/* Uncomment the definitions below to enlarge recording images in list view
-** upon hovering. Keeping the comment does not enlarge images in the left
-** column upon hovering.
+/* Uncomment the definitions below to enlarge EPG and recording thumbnail
+** images in list view upon hovering. Keeping the comment does not dynamically
+** enlarge the thumbnail images upon mouse-over.
 **
-** The margin should be the difference between the heights of scaled and unscaled
-** thumb images and include some extra space for displaying the box shadow.
+** Note that enlarged thumbnail images get clipped at the bottom of the list.
+** To avoid such clipping, some spare margin must be added. This margin is
+** the difference between the heights of scaled and unscaled thumbnail images
+** and includes some extra space for displaying an image shadow.
+**
+** @property --thumb-image-width:
+** The maximum width for displaying EPG and recording thumbnail images in
+** list view, serving as reference for the scaling factor. As images can
+** easily be enlarged, the width can be smaller than without this feature.
+**
+** @property --thumb-image-ratio:
+** The ratio of height to width for portrait images. The calculated height
+** is used for providing extra space for not clipping an enlarged image.
+** TvScraper posters usually have a ratio of 1.5 (a common portrait ratio).
+**
+** @property --thumb-image-hover-scale-landscape:
+** The scaling factor for enlarging landscape thumbnail images upon hovering
+** with the mouse. A scaled image should not exceed a width or height of 480px,
+** and it should neither exceed about 2/3 of the typically used viewport height.
+**
+** @property --thumb-image-hover-scale-portrait:
+** The scaling factor for enlarging portrait thumbnail images upon hovering
+** with the mouse. As portrait thumbnail images are much smaller than landscape
+** thumbnail images, a distinct scaling factor is needed. See the considerations
+** the size of enlarge landscape thumbnail images.
+**
+** Default size upon hovering: 360px on long edge
 */
 /*
-#form_recordings {
-  margin-bottom: 250px
+@property --thumb-image-width {
+  syntax: "<length>";
+  initial-value: 80px;
+  inherits: false;
+}
+
+@property --thumb-image-ratio {
+  syntax: "<number>";
+  initial-value: 1.5;
+  inherits: false;
+}
+
+@property --thumb-image-hover-scale-landscape {
+  syntax: "<number>";
+  initial-value: 4.8;
+  inherits: false;
+}
+
+@property --thumb-image-hover-scale-portrait {
+  syntax: "<number>";
+  initial-value: 8;
+  inherits: false;
+}
+
+#form_recordings, table.listing.schedule {
+  margin-bottom: calc(max(calc(var(--thumb-image-height) + var(--thumb-image-shadow-size)) * calc(var(--thumb-image-hover-scale-landscape) - 1), calc(var(--thumb-image-height) + var(--thumb-image-shadow-size)) * calc(var(--thumb-image-hover-scale-portrait) - 1)));
 }
 
 div.thumb {
   overflow: visible;
 }
 
-div.thumb img.thumbpt {
+div.thumb img.thumb, div.thumb img.thumbpt {
   transform-origin: left top;
 }
 
-div.thumb img.thumbpt:hover {
-  transform: scale(var(--thumb-image-hover-scale));
+div.thumb img.thumb:hover {
+  transform: scale(var(--thumb-image-hover-scale-landscape));
   box-shadow: var(--thumb-image-shadow-size) var(--thumb-image-shadow-size) var(--thumb-image-shadow-blur) var(--thumb-image-shadow-color);
   transition: var(--hover-transition-time) var(--hover-transition-function);
 }
 
-div.thumb img.thumbpt:not(:hover) {
+div.thumb img.thumbpt:hover {
+  transform: scale(var(--thumb-image-hover-scale-portrait));
+  box-shadow: var(--thumb-image-shadow-size) var(--thumb-image-shadow-size) var(--thumb-image-shadow-blur) var(--thumb-image-shadow-color);
   transition: var(--hover-transition-time) var(--hover-transition-function);
+}
+
+div.thumb img.thumb:not(:hover), div.thumb img.thumbpt:not(:hover) {
+  transition: var(--hover-transition-time) var(--hover-transition-function);
+}
+
+@media (max-width: 600px) {
+
+  div.thumb img.thumb:hover {
+    transform: scale(calc(var(--thumb-image-hover-scale-landscape) / var(--thumb-image-enlargement-scale)));
+  }
+
+  div.thumb img.thumbpt:hover {
+    transform: scale(calc(var(--thumb-image-hover-scale-portrait) / var(--thumb-image-enlargement-scale)));
+  }
+
 }
 */
 
@@ -224,12 +299,18 @@ img.channel_logo {
 ** channel logos and include some extra space for displaying the box shadow.
 */
 /*
+@property --logo-hover-scale {
+  syntax: "<percentage>";
+  initial-value: 625%;
+  inherits: false;
+}
+
 table.listing:has(.channel_logo) {
   margin-bottom: 180px;
 }
 
 img.channel_logo {
-  transform-origin: right top;
+  transform-origin: top right;
 }
 
 img.channel_logo:hover {
@@ -245,12 +326,68 @@ img.channel_logo:not(:hover) {
 */
 
 
-/* Uncomment this to have all recording actions kept on a single row. Keeping
-** the comment can cause wrapping the action buttons into multiple lines on
-** small viewspaces.
+/* Uncomment this to have all whats-on actions displayed on small viewspaces.
+** Keeping the comment will hide the streaming action icons.
 */
 /*
-.recording_item div.recording_actions {
-  white-space: nowrap;
+@media (max-width: 600px) {
+
+  table.listing > tbody > tr > td.leftcol div.event_actions {
+    min-width: calc(3 * var(--icon-width) + 2 * var(--icon-column-gap));
+  }
+
+  table.listing > tbody > tr > td.leftcol div.event_actions .hidden-xs {
+    display: block;
+  }
+
+  table.listing > tbody > tr > td.leftcol div.event_actions .hidden-xs.spacer {
+    display: none;
+  }
+
+}
+*/
+
+
+/* Uncomment this to have all recording actions displayed on small viewspaces.
+** Keeping the comment will hide the streaming action icons.
+*/
+/*
+@media (max-width: 600px) {
+
+  table.recordings > tbody > tr > td div.recording_actions {
+    min-width: calc(3 * var(--icon-width) + 2 * var(--icon-column-gap));
+  }
+
+  table.recordings > tbody > tr > td div.recording_actions .hidden-xs {
+    display: block;
+  }
+
+}
+*/
+
+
+/* Uncomment this to use other than the default fonts. Prepend the desired
+** font to be commonly used to the font family in the 'body' tag. Copy this
+** definition or enter similar ones for the other tags as appropriate.
+*/
+/*
+body {
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+table {
+}
+
+input, textarea, select {
+}
+*/
+
+
+/* Uncomment this to use a sans-serif monospace font for the OSD instead of
+** a variant of the harder-to-read monospace font "Courier".
+*/
+/*
+.osd div {
+  font-family: "Lucida Console", "DejaVu Sans Mono", "Noto Mono", "Ubuntu Mono", "Courier New", Courier, monospace;
 }
 */

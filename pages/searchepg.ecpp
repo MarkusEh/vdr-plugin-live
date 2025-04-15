@@ -24,13 +24,13 @@ using namespace vdrlive;
   std::string channelto_string;
   std::string changrpsel = "";
   bool usetime = false;
-  std::string start_h = "00";
-  std::string start_m = "00";
-  std::string stop_h = "00";
-  std::string stop_m = "00";
+  std::string start_s = "00:00";
+  std::string stop_s = "00:00";
   bool useduration = false;
-  int durationmin = 0;
-  int durationmax = 90;
+  int durationmin_h = 0;
+  int durationmin_m = 0;
+  int durationmax_h = 1;
+  int durationmax_m = 30;
   bool useweekday = false;
   bool wday_mon = false;
   bool wday_tue = false;
@@ -111,14 +111,15 @@ const char *TNT_ARRAY = "";
     searchtimer.SetUseTime(usetime);
     if (usetime)
     {
-      searchtimer.SetStartTime(parse_int<int>(start_h) * 100 + parse_int<int>(start_m));
-      searchtimer.SetStopTime(parse_int<int>(stop_h) * 100 + parse_int<int>(stop_m));
+      searchtimer.SetStartTime(timeStringToInt(start_s));
+      searchtimer.SetStopTime(timeStringToInt(stop_s));
     }
     searchtimer.SetUseDuration(useduration);
     if (useduration)
     {
-      searchtimer.SetMinDuration(durationmin);
-      searchtimer.SetMaxDuration(durationmax);
+      // just submitting the number of minutes (as done originally) would yield wrong results
+      searchtimer.SetMinDuration(durationmin_h * 100 + durationmin_m);
+      searchtimer.SetMaxDuration(durationmax_h * 100 + durationmax_m);
     }
     searchtimer.SetUseDayOfWeek(useweekday);
     if (useweekday)
@@ -188,39 +189,39 @@ const char *TNT_ARRAY = "";
 
     function changeduseextendedsearch(selection)
     {
-      document.getElementById("extendedsearch").style.display = (selection.checked ? "block" : "none");
+      document.getElementById("extendedsearch").style.display = (selection.checked ? "revert-layer" : "none");
     }
 
     function changedsearchmode(selection)
     {
-      document.getElementById("tolerance").style.display = (selection.options[selection.selectedIndex].value == 5 ? "block" : "none");
+      document.getElementById("tolerance").style.display = (selection.options[selection.selectedIndex].value == 5 ? "revert-layer" : "none");
     }
 
     function changedchannelmode(selection)
     {
-      document.getElementById("channelinterval").style.display = (selection.options[selection.selectedIndex].value == 1 ? "block" : "none");
-      document.getElementById("channelgroup").style.display = (selection.options[selection.selectedIndex].value == 2 ? "block" : "none");
+      document.getElementById("channelinterval").style.display = (selection.options[selection.selectedIndex].value == 1 ? "revert-layer" : "none");
+      document.getElementById("channelgroup").style.display = (selection.options[selection.selectedIndex].value == 2 ? "revert-layer" : "none");
     }
 
     function changedusetime(selection)
     {
-      document.getElementById("timesettings").style.display = (selection.checked ? "block" : "none");
+      document.getElementById("timesettings").style.display = (selection.checked ? "revert-layer" : "none");
     }
 
     function changeduseduration(selection)
     {
-      document.getElementById("durationsettings").style.display = (selection.checked ? "block" : "none");
+      document.getElementById("durationsettings").style.display = (selection.checked ? "revert-layer" : "none");
     }
 
     function changeduseweekday(selection)
     {
-      document.getElementById("weekdaysettings").style.display = (selection.checked ? "block" : "none");
+      document.getElementById("weekdaysettings").style.display = (selection.checked ? "revert-layer" : "none");
     }
 
     function changeduseextepginfo(selection)
     {
       var doc = document.getElementById("use_extepg_settings");
-      if (doc) doc.style.display = (selection.checked ? "block" : "none");
+      if (doc) doc.style.display = (selection.checked ? "revert-layer" : "none");
     }
 
     function changedextepginfo(selection)
@@ -241,7 +242,7 @@ const char *TNT_ARRAY = "";
     function changedblacklistmode(selection)
     {
       document.getElementById("blacklistmodesettings").style.display =
-        (selection.options[selection.selectedIndex].value == 1 ? "block" : "none");
+        (selection.options[selection.selectedIndex].value == 1 ? "revert-layer" : "none");
     }
 
     function changedblacklistsel(selection)
@@ -260,15 +261,16 @@ const char *TNT_ARRAY = "";
     }
     //--></script>
   </head>
-  <body onload="initform(); adjustHeader()" onresize="adjustHeader()">
+  <body onload="initform()">
     <& pageelems.logo &>
     <& menu active=("searchepg") &>
-    <div class="inhalt">
+    <div id="content">
+      <div class="spacebar"><# spacer with fade-out effect #></div>
       <form method="post" name="searchepg" action="searchepg.ecpp">
         <input type="hidden" name="blacklistids_internal" value="<$ blacklistids_internal $>" id="blacklistids_internal"/>
-        <table class="formular" cellpadding="0" cellspacing="0">
+        <table class="form" cellpadding="0" cellspacing="0">
           <tr class="head">
-            <td  class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div><div><$ tr("Search settings") $></div></div></div></td>
+            <td  class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div class="caption"><$ tr("Search settings") $></div></div></td>
           </tr>
 
           <!-- Search term -->
@@ -286,7 +288,7 @@ const char *TNT_ARRAY = "";
             <tr>
               <td class="label"><div class="withmargin"><$ tr("Search mode" ) $>:</div></td>
               <td>
-                <div style="float:left; margin-right:20px">
+                <div class="options">
                   <select onchange="changedsearchmode(this)" name="mode" size="1" id="search_mode">
                     <option value="0" <{ SELECTIF(mode == 0) }> ><$ tr("phrase") $></option>
                     <option value="1" <{ SELECTIF(mode == 1) }> ><$ tr("all words") $></option>
@@ -295,10 +297,10 @@ const char *TNT_ARRAY = "";
                     <option value="4" <{ SELECTIF(mode == 4) }> ><$ tr("regular expression") $></option>
                     <option value="5" <{ SELECTIF(mode == 5) }> ><$ tr("fuzzy") $></option>
                   </select>
-                </div>
-                <div id="tolerance" style="display: none">
-                    <$ tr("Tolerance" ) $>:
-                    <input type="text" name="tolerance" size="2" value="<$ tolerance $>" />
+                  <div id="tolerance" style="display: none">
+                      <$ tr("Tolerance" ) $>:
+                      <input type="text" name="tolerance" size="2" value="<$ tolerance $>" />
+                  </div>
                 </div>
               </td>
             </tr>
@@ -312,7 +314,7 @@ const char *TNT_ARRAY = "";
             <!-- Search in -->
             <tr>
               <td class="label"><div class="withmargin"><$ tr("Search in") $>:</div></td>
-              <td>
+              <td><div class="options">
                 <div class="dotted">
                   <input type="checkbox" name="usetitle" value="1" <{ CHECKIF(usetitle) }> />
                   <label for="usetitle"><$ tr("Title") $> </label>
@@ -327,7 +329,7 @@ const char *TNT_ARRAY = "";
                   <input type="checkbox" name="usedescr" value="1" <{ CHECKIF(usedescr) }> />
                   <label for="usedescr"><$ tr("Description") $> </label>
                 </div>
-              </td>
+              </div></td>
             </tr>
 
 %          if (extEPGInfos.size() > 0) {
@@ -340,7 +342,7 @@ const char *TNT_ARRAY = "";
                   <table class="dependent" border="0" cellspacing="0" cellpadding="0">
 %                  int i=0; for (ExtEPGInfos::iterator extinfo = extEPGInfos.begin(); extinfo != extEPGInfos.end(); ++extinfo, i++) {
                     <tr valign="top">
-                      <td align="left" valign="top"><$ extinfo->Name() $></td>
+                      <td class="label" align="left" valign="top"><div class="withmargin"><$ extinfo->Name() $></div></td>
                       <td align="left" valign="top">
                         <input type="text" name="extepgvalues<$TNT_ARRAY$>" value="<$extepgvalues[i]$>" size="10" id="extepg_<{ reply.out() << extinfo->Id(); }>_value"/>
                       </td>
@@ -381,11 +383,11 @@ const char *TNT_ARRAY = "";
                 <div id="channelinterval" style="display: none;">
                   <table class="dependent" cellspacing="0" cellpadding="0">
                     <tr>
-                      <td><$ tr("from channel" ) $>:</td>
+                      <td class="label"><div class="withmargin"><$ tr("from channel" ) $>:<div></td>
                       <td><& channels_widget name=("channelfrom_string") channelid=(true) selected=(channelfrom) &></td>
                     </tr>
                     <tr>
-                      <td><$ tr("to channel" ) $>:</td>
+                      <td class="label"><div class="withmargin"><$ tr("to channel" ) $>:</div></td>
                       <td><& channels_widget name=("channelto_string") channelid=(true) selected=(channelto) &></td>
                     </tr>
                   </table>
@@ -411,16 +413,16 @@ const char *TNT_ARRAY = "";
                 <div id="timesettings" style="display: none">
                   <table class="dependent" border="0" cellpadding="0" cellspacing="0">
                     <tr>
-                      <td><$ tr("Start after") $>:</td>
+                      <td class="label"><div class="withmargin"><$ tr("Start after") $>:</div></td>
                       <td>
-                        <input type="text" size="2" maxlength="2" name="start_h" value="<$ start_h $>" /> : <input type="text" size="2" maxlength="2" name="start_m" value="<$ start_m $>" />
+                        <input type="time" name="start_s" value="<$ start_s $>" />
                         <& tooltip.help text=(tr("The time the show may start at the earliest")) &>
                       </td>
                     </tr>
                     <tr>
-                      <td><$ tr("Start before") $>:</td>
+                      <td class="label"><div class="withmargin"><$ tr("Start before") $>:</div></td>
                       <td>
-                        <input type="text" size="2" maxlength="2" name="stop_h" value="<$ stop_h $>" /> : <input type="text" size="2" maxlength="2" name="stop_m" value="<$ stop_m $>" />
+                        <input type="time" name="stop_s" value="<$ stop_s $>" />
                         <& tooltip.help text=(tr("The time the show may start at the latest")) &>
                       </td>
                     </tr>
@@ -436,13 +438,15 @@ const char *TNT_ARRAY = "";
                 <input type="checkbox" name="useduration" value="1" <{ CHECKIF(useduration) }> onclick="changeduseduration(this)" id="useduration" />
                 <div id="durationsettings" style="display: none">
                   <table class="dependent" border="0" cellpadding="0" cellspacing="0">
+                    <# use same input method as for search timer, i.e. with distinct hour and minute fields;          #>
+                    <# cannot use time input, as time would be rendered acc. to locale (potentially as 12-hour am/pm) #>
                     <tr>
-                      <td><$ tr("Min. duration") $>:</td>
-                      <td><input type="text" size="3" maxlength="3" name="durationmin" value="<$ durationmin $>" /> min</td>
+                      <td class="label"><div class="withmargin"><$ tr("Min. duration") $>:</div></td>
+                      <td><input type="number" min="0" max= "23" step="1" size="2" name="durationmin_h" value="<$ durationmin_h $>" /> : <input type="number" min="0" max= "59" step="1" size="2" name="durationmin_m" value="<$ durationmin_m $>" /> </td>
                     </tr>
                     <tr>
-                      <td><$ tr("Max. duration") $>:</td>
-                      <td><input type="text" size="3" maxlength="3" name="durationmax" value="<$ durationmax $>" /> min</td>
+                      <td class="label"><div class="withmargin"><$ tr("Max. duration") $>:</div></td>
+                      <td><input type="number" min="0" max= "23" step="1" size="2" name="durationmax_h" value="<$ durationmax_h $>" /> : <input type="number" min="0" max= "59" step="1" size="2" name="durationmax_m" value="<$ durationmax_m $>" /> </td>
                     </tr>
                   </table>
                 </div>
@@ -454,15 +458,15 @@ const char *TNT_ARRAY = "";
               <td class="label"><div class="withmargin"><$ tr("Use day of week") $>:</div></td>
               <td>
                 <input type="checkbox" name="useweekday" value="1" <{ CHECKIF(useweekday) }> onclick="changeduseweekday(this)" id="useweekday" />
-                <div id="weekdaysettings" style="display: none; white-space: nowrap">
+                <div id="weekdaysettings" class="options" style="display: none; white-space: nowrap">
                   <div class="dotted"><input type="checkbox" name="wday_mon" value="1" <{ CHECKIF(wday_mon) }> /> <$ tr("Monday") $></div>
                   <div class="dotted"><input type="checkbox" name="wday_tue" value="1" <{ CHECKIF(wday_tue) }> /> <$ tr("Tuesday") $></div>
                   <div class="dotted"><input type="checkbox" name="wday_wed" value="1" <{ CHECKIF(wday_wed) }> /> <$ tr("Wednesday") $></div>
                   <div class="dotted"><input type="checkbox" name="wday_thu" value="1" <{ CHECKIF(wday_thu) }> /> <$ tr("Thursday") $></div>
                   <div class="dotted"><input type="checkbox" name="wday_fri" value="1" <{ CHECKIF(wday_fri) }> /> <$ tr("Friday") $></div>
                   <div class="dotted"><input type="checkbox" name="wday_sat" value="1" <{ CHECKIF(wday_sat) }> /> <$ tr("Saturday") $></div>
+                  <# add class "first" if weekdays shall start with sunday #>
                   <div class="dotted"><input type="checkbox" name="wday_sun" value="1" <{ CHECKIF(wday_sun) }> /> <$ tr("Sunday") $></div>
-                  <br style="clear: both" /><!-- fuer die Hoehenberechnung vom Div unerlaesslich! HAENDE WEG! -->
                 </div>
               </td>
             </tr>
@@ -500,6 +504,7 @@ const char *TNT_ARRAY = "";
           </tr>
         </table>
       </form>
+      <div class="spacebar"><# spacer with fade-out effect #></div>
     </div>
   </body>
 </html>

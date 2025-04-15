@@ -36,50 +36,69 @@ if (!component.empty()) {
 }
 
 </%cpp>
-<div class="menu">
-    <a href="whats_on.html?type=now"<& menu.setactive current=("whats_on") &>><$ tr("What's on?") $></a>
-  | <a href="schedule.html"<& menu.setactive current=("schedule") &>><$ trVDR("Schedule") $></a>
-  | <a href="multischedule.html"<& menu.setactive current=("multischedule") &>><$ tr("MultiSchedule") $></a>
-  | <a href="timers.html"<& menu.setactive current=("timers") &>><$ trVDR("Timers") $></a>
+<div id="menu">
+<# 'choices' could be merged with 'menu', but using the same hierarchy as 'messagebar' and 'pagemenu' #>
+  <div class="menubar"><!-- flexbox container for vertical alignment of menu choices -->
+    <div class="choices"><!-- collect all menu choices into a single flexbox item -->
+      <a href="whats_on.html?type=now"<& menu.setactive current=("whats_on") &>><$ tr("What's on?") $></a>
+      <span class="sep">|</span>
+      <a href="schedule.html"<& menu.setactive current=("schedule") &>><$ trVDR("Schedule") $></a>
+      <span class="sep">|</span>
+      <a href="multischedule.html"<& menu.setactive current=("multischedule") &>><$ tr("MultiSchedule") $></a>
+      <span class="sep">|</span>
+      <a href="timers.html"<& menu.setactive current=("timers") &>><$ trVDR("Timers") $></a>
 <%cpp>
 if ( LiveFeatures<features::epgsearch>().Recent() ) {
 </%cpp>
-  | <a href="searchepg.html"<& menu.setactive current=("searchepg") &>><$ tr("Search") $></a>
-  | <a href="searchtimers.html"<& menu.setactive current=("searchtimers") &>><$ tr("Search timers") $></a>
+      <span class="sep">|</span>
+      <a href="searchepg.html"<& menu.setactive current=("searchepg") &>><$ tr("Search") $></a>
+      <span class="sep">|</span>
+      <a href="searchtimers.html"<& menu.setactive current=("searchtimers") &>><$ tr("Search timers") $></a>
 <%cpp>
 }
 </%cpp>
-  | <a href="recordings.html?flat=false&filter=<$filter$>"<& menu.setactive current=("recordings") &>><$ tr("Recordings") $></a>
-  | <a href="recordings.html?flat=true&filter=<$filter$>"<& menu.setactive current=("recordings_flat") &>><$ tr("Recordings (flat)") $></a>
-  | <a href="remote.html"<& menu.setactive current=("remote") &>><$ tr("Remote Control") $></a>
+      <span class="sep">|</span>
+      <a href="recordings.html?flat=false&filter=<$filter$>"<& menu.setactive current=("recordings") &>><$ tr("Recordings") $></a>
+      <span class="sep">|</span>
+      <a href="recordings.html?flat=true&filter=<$filter$>"<& menu.setactive current=("recordings_flat") &>><$ tr("Recordings (flat)") $></a>
+      <span class="sep">|</span>
+      <a href="remote.html"<& menu.setactive current=("remote") &>><$ tr("Remote Control") $></a>
 <%cpp>
 if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded()) {
 </%cpp>
-  | <a href="stream.html"<& menu.setactive current=("stream") &>><$ tr("Web-Streaming") $></a>
+      <span class="sep">|</span>
+      <a href="stream.html"<& menu.setactive current=("stream") &>><$ tr("Web-Streaming") $></a>
 <%cpp>
 }
 </%cpp>
-  | <a href="setup.html"<& menu.setactive current=("setup") &>><$ trVDR("Setup") $></a>
+      <span class="sep">|</span>
+      <a href="setup.html"<& menu.setactive current=("setup") &>><$ trVDR("Setup") $></a>
 <# --- Used by D.H. to test infobox (not part of the released version)
-  | <a href="ibox_status.html"<& menu.setactive current=("status") &>><$ tr("Status Test") $></a>
+      <span class="sep">|</span>
+      <a href="ibox_status.html"<& menu.setactive current=("status") &>><$ tr("Status Test") $></a>
 --- #>
 <%cpp>
 if (LiveSetup().UseAuth()) {
 </%cpp>
-  | <a id="login" href="login.html?action=logout"><$ tr("Logout") $></a>
+      <span class="sep">|</span>
+      <a id="login" href="login.html?action=logout"><$ tr("Logout") $></a>
 <%cpp>
 }
 </%cpp>
-  | <a <& tooltip.display domId=("aboutBox") &>>?</a>
+      <span class="sep">|</span>
+      <a <& tooltip.display domId=("aboutBox") &>>?</a>
+    </div>
+  </div>
 </div>
 <div id="messagebar" class="<? !timerNotifier.ShouldNotify() ? "notpresent" ?>">
-  <div> <!-- outer -->
-  <div><!-- inner -->
-    <$ tr("Your attention is required") $>:
-    <span id="mbmessage"><$ timerNotifier.Message() $></span>
-    <a id="mbreact" href="<$ timerNotifier.Url() $>"><$ tr("React") $></a>
-      <span id="mbdelimiter" class="<? timerNotifier.Url().empty() ? "notpresent" ?>">|</span>
-    <span id="mbdismiss"><a href="" onclick="$('messagebar').addClass('notpresent'); return false"><$ tr("Dismiss") $></a></span>
+<# use distinct flexbox container to avoid display-style conflict between 'messagebar' and 'notpresent' #>
+  <div class="menubar"><!-- flexbox container for vertical alignment of message-bar choices -->
+    <div class="choices"><!-- collect all message-bar choices into a single flexbox item -->
+      <$ tr("Your attention is required") $>:
+      <span id="mbmessage"><$ timerNotifier.Message() $></span>
+      <span id="mbreact"><a href="<$ timerNotifier.Url() $>"><$ tr("React") $></a></span>
+      <span id="mbdelimiter" class="<? timerNotifier.Url().empty() ? "notpresent " ?>sep">|</span>
+      <span id="mbdismiss"><a href="" onclick="$('messagebar').addClass('notpresent'); return false"><$ tr("Dismiss") $></a></span>
     </div>
   </div>
 </div>
@@ -87,37 +106,38 @@ if (LiveSetup().UseAuth()) {
 if (!component.empty()) {
 </%cpp>
 <div id="pagemenu">
-  <div> <!-- outer -->
-    <div> <!-- inner -->
-    <& menu.component current=("whats_on") &>
-    <& menu.component current=("schedule") &>
-    <& menu.component current=("multischedule") &>
-    <& menu.component current=("timers") &>
+  <div class="top"><!-- container for fading-in background gradient --></div>
+  <div class="menubar"><!-- container for vertical alignment of page-menu choices -->
+    <div class="choices"><!-- collect all page-menu choices into a single flexbox item -->
+      <& menu.component current=("whats_on") &>
+      <& menu.component current=("schedule") &>
+      <& menu.component current=("multischedule") &>
+      <& menu.component current=("timers") &>
 <%cpp>
   if (LiveFeatures<features::epgsearch>().Recent()) {
 </%cpp>
-    <& menu.component current=("search") &>
-    <& menu.component current=("searchepg") &>
-    <& menu.component current=("searchtimers") &>
+      <& menu.component current=("search") &>
+      <& menu.component current=("searchepg") &>
+      <& menu.component current=("searchtimers") &>
 <%cpp>
   }
 </%cpp>
-    <& menu.component current=("recordings") &>
-    <& menu.component current=("recordings_flat") &>
-    <& menu.component current=("remote") &>
-    <& menu.component current=("stream") &>
-    <& menu.component current=("users") &>
+      <& menu.component current=("recordings") &>
+      <& menu.component current=("recordings_flat") &>
+      <& menu.component current=("remote") &>
+      <& menu.component current=("stream") &>
+      <& menu.component current=("users") &>
     </div>
   </div>
+  <div class="bottom"><!-- container for fading-out background gradient --></div>
 </div>
 <%cpp>
 }
 </%cpp>
-<!-- header ends here -->
-</div><!-- content -->
-</div><!-- header -->
-<div id="underlay" style="display: none"></div>
-<!-- end of fixed page header -->
+<# logo, infobox and menus end here #>
+</div> <# content #>
+</div> <# page header #>
+<# end of fixed page header #>
 
 <%def setactive>
 <%args>

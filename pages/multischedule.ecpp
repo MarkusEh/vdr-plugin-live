@@ -100,7 +100,7 @@ std::vector<std::string> channel_groups_names;
         channel_groups_numbers.push_back(std::vector<int>() );
         for (cSv thisChannel: cSplit(channelGroup, ',', eSplitDelimBeginEnd::optional)) {
           if (cur_group_count++ != 0)
-            channel_groups_names.back() += " - ";
+            channel_groups_names.back() += " | ";
           else
             channel_groups_names.back() += cToSvConcat(thisChannel, ": ");
           int channel_no = parse_int<int> (thisChannel);
@@ -152,7 +152,7 @@ std::vector<std::string> channel_groups_names;
           channel_groups_names.push_back(std::string(cToSvConcat(channel->Number(), ": ")));
           channel_groups_numbers.push_back(std::vector<int>() );
         } else
-          channel_groups_names.back() += " - ";
+          channel_groups_names.back() += " | ";
         channel_groups_numbers.back().push_back(channel->Number() );
         channel_groups_names.back() += std::string(channel->Name() );
       }
@@ -296,10 +296,11 @@ std::vector<std::string> channel_groups_names;
       }
       //--></script>
     </head>
-    <body onload="adjustHeader()" onresize="adjustHeader()" onkeydown="return KeyboardInput(event);">
+    <body onkeydown="return KeyboardInput(event);">
       <& pageelems.logo &>
       <& menu active=("multischedule") component=("multischedule.channel_selection") &>
-      <div class="inhalt">
+      <div id="content">
+        <div class="spacebar"><# spacer with fade-out effect #></div>
   <%cpp>
     time_t now = time(NULL);
     if (time_para >= times_start.size() ) time_para = times_start.size()-1;
@@ -416,20 +417,28 @@ std::vector<std::string> channel_groups_names;
     }
   }
 </%cpp>
-<table class="mschedule" cellspacing="0" cellpadding="0">
-  <tr class=" topaligned ">
-  <td > <div class="boxheader"> <div><div><$ tr("Time") $></div></div> </div></td>
-  <td class="time spacer"> &nbsp; </td>
+<table class="multischedule" cellspacing="0" cellpadding="0">
+  <tr class="header">
+    <td class="time"><div class="boxheader"><div class="caption"><$ tr("Time") $></div></div></td>
+    <td class="spacer"> &nbsp; </td>
 <# // first line of table:channel names #>
 % for ( unsigned int channel = 0; channel< channel_names.size() ; channel++) {
-    <td> <div class="boxheader"> <div> <div><$ channel_names[channel] $>
-%   if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
-<& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channel_IDs[channel]) image="zap.png" alt="" &>
+    <td class="channel"><div class="boxheader"><div class="caption">
+%   if (channel_IDs[channel].Valid()) {
+      <a href="schedule.html?channelid=<$ channel_IDs[channel] $>">
 %   }
-<& pageelems.hls_channel channelId=(channel_IDs[channel]) &>
-<& pageelems.m3u_playlist_channel channelId=(channel_IDs[channel]) &>
-</div></div> </div></td>
-<td class="time spacer"> &nbsp; </td>
+      <$ channel_names[channel] $>
+%   if (channel_IDs[channel].Valid()) {
+      </a>
+%   }
+    </div><div class="caption tools">
+%   if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
+<& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channel_IDs[channel]) image="zap.png" className="icon" alt="" &>
+%   }
+<& pageelems.hls_channel channelId=(channel_IDs[channel]) className="icon" &>
+<& pageelems.m3u_playlist_channel channelId=(channel_IDs[channel]) className="icon" &>
+    </div></div></td>
+    <td class="spacer"> &nbsp; </td>
 % }
   </tr>
 <%cpp>
@@ -456,7 +465,7 @@ std::vector<std::string> channel_groups_names;
       </td>
 <# second + line, second + colomns: epg entries #>
 %   for (unsigned int channel = 0; channel < channel_names.size() ; channel++) {
-      <td class = " time spacer " > &nbsp; </td>
+      <td class = "spacer"> &nbsp; </td>
 <%cpp>
       if (cur_event[channel] == table[channel].end()
        || cur_event[channel]->start_row != row )
@@ -494,13 +503,13 @@ std::vector<std::string> channel_groups_names;
       <td class="<? row + en.row_count == sched_end_row ? "bottomrow" ?> event topaligned leftcol rightcol <$ en.timer == tState::None ? "" : (en.timer == tState::Inactive ? "has_inactive_timer" : "has_timer") $>" rowspan="<$ en.row_count $>">
       <div class=" content1 " >
       <div class=" tools1 " >
-        <& pageelems.event_timer epgid=(en.epgid) &>
+        <& pageelems.event_timer epgid=(en.epgid) className="icon" &>
 %     if (LiveFeatures<features::epgsearch>().Recent() ) {
-        <a href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(en.title) $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a>
+        <a href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(en.title) $>"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a>
 %     } else {
-        <img src="img/<$ en.timer == tState::Recording ? "recording_timer.gif" : (en.timer == tState::Active ? "record_timer.png" : "record_inactive_timer.png") $>" width="16" height="16">
+        <img class="icon <? en.timer == tState::Recording ? "fading" ?>" src="<$ LiveSetup().GetThemedLink("img", en.timer == tState::Recording || en.timer == tState::Active ? "record_timer_active.png" : "record_timer_inactive.png") $>">
 %     } if (LiveSetup().GetShowIMDb() ) {
-        <& pageelems.imdb_info_href title=(en.title) &>
+        <& pageelems.imdb_info_href title=(en.title) className="icon" &>
 %     }
         </div><div class= "start withmargin"><$ en.start $></div>
         <div class="title withmargin"><$ en.title $></div>
@@ -522,8 +531,8 @@ std::vector<std::string> channel_groups_names;
 </%cpp>
     </tr>
 % }
-</%cpp>
       </table>
+      <div class="spacebar"><# spacer with fade-out effect #></div>
     </div>
   </body>
 </html>
@@ -549,7 +558,7 @@ std::vector<std::string> channel_groups_names;
   </span>
 </form>
 <span class="sep">|</span>
-<?? *prev ? "<a " << *prev << ">"?>« <$ tr("Prev. entry") $><?? *prev ? "</a>" ?>
+<?? *prev ? "<a " << *prev << ">"?>«&nbsp;<$ tr("Prev. entry") $><?? *prev ? "</a>" ?>
 <span class="sep">|</span>
-<?? *next ? "<a " << *next << ">"?><$ tr("Next entry") $> »<?? *next ? "</a>" ?>
+<?? *next ? "<a " << *next << ">"?><$ tr("Next entry") $>&nbsp;»<?? *next ? "</a>" ?>
 </%def>

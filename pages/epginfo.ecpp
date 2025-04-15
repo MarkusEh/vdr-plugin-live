@@ -105,7 +105,7 @@ using namespace vdrlive;
   }
 </%cpp>
   </head>
-  <body onload="adjustHeader()" onresize="adjustHeader()">
+  <body>
 <%cpp>
   if (!ajaxReq) {
 </%cpp>
@@ -114,7 +114,8 @@ using namespace vdrlive;
 <%cpp>
   }
 </%cpp>
-    <div class="inhalt">
+    <div id="content">
+      <div class="spacebar"><# spacer with fade-out effect #></div>
 <%cpp>
   if (!epgEvent.Id().empty() && delete_rec.empty()) {
     uintptr_t i_epgEvent = (uintptr_t)&epgEvent;
@@ -146,6 +147,7 @@ using namespace vdrlive;
 </%cpp>
     <& recordings.todel todel=(epgid) confirmed=(delete_rec) history_num_back=(history_num_back) &>
 % }
+      <div class="spacebar"><# spacer with fade-out effect #></div>
     </div>
   </body>
 </html>

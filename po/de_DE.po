@@ -58,6 +58,15 @@ msgstr "Filmsammlungen"
 msgid "File system view"
 msgstr "Dateisystem"
 
+msgid "Duplicates not identified by tvscraper"
+msgstr "Duplikate von Sendungen, die tvscraper nicht gefunden hat"
+
+msgid "Duplicates identified by tvscraper"
+msgstr "Duplikate von Sendungen, die tvscraper gefunden hat"
+
+msgid "Duplicates, with different languages"
+msgstr "Duplikate, aber in unterschiedlichen Sprachen"
+
 msgid "No recording errors"
 msgstr "Kein Fehler in der Aufzeichnung"
 
@@ -851,14 +860,8 @@ msgstr "Keine Aufzeichnungen vorhanden"
 msgid "Delete selected"
 msgstr "Markierte löschen"
 
-msgid "Duplicates identified by tvscraper"
-msgstr "Duplikate von Sendungen, die tvscraper gefunden hat"
-
-msgid "Duplicates, with different languages"
-msgstr "Duplikate, aber in unterschiedlichen Sprachen"
-
-msgid "Duplicates not identified by tvscraper"
-msgstr "Duplikate von Sendungen, die tvscraper nicht gefunden hat"
+msgid "No matching recordings found"
+msgstr "Kein zutreffenden Aufzeichnungen gefunden"
 
 msgid "Sort:"
 msgstr "Sortierung:"
@@ -1092,6 +1095,9 @@ msgstr "Benutzer"
 
 msgid "Delete user"
 msgstr "Benutzer löschen"
+
+msgid "No user configured"
+msgstr "Kein Benutzer eingetragen"
 
 msgid "What's running on"
 msgstr "Was läuft am"

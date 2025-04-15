@@ -37,6 +37,7 @@ Tntnet provides basic web server functions for live and needs cxxtools.
 
 Optional:
 tvscraper >= 1.2.13, for images and other information from [TMDB](https://www.themoviedb.org/) & TheTVDB.com
+>>> epgsearch?
 
 Installation:
 =============

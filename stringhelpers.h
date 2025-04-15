@@ -1410,7 +1410,7 @@ template<typename T, std::enable_if_t<std::is_integral_v<T>, bool> = true>
       this->m_pos_for_append = stringhelpers_internal::itoa_min_width<N>(this->m_pos_for_append, i);
     }
 };
-template<std::size_t N = 255> 
+template<std::size_t N = 255>
 class cToSvToLower: public cToSvConcat<N> {
   public:
     cToSvToLower(cSv sv) {
@@ -1419,7 +1419,7 @@ class cToSvToLower: public cToSvConcat<N> {
     }
 };
 
-template<std::size_t N = 255> 
+template<std::size_t N = 255>
 class cToSvFormated: public cToSvConcat<N> {
   public:
 // __attribute__ ((format (printf, 2, 3))) can not be used, but should work starting with GCC 13.1

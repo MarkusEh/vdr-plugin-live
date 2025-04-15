@@ -57,6 +57,15 @@ msgstr ""
 msgid "File system view"
 msgstr ""
 
+msgid "Duplicates not identified by tvscraper"
+msgstr ""
+
+msgid "Duplicates identified by tvscraper"
+msgstr ""
+
+msgid "Duplicates, with different languages"
+msgstr ""
+
 msgid "No recording errors"
 msgstr ""
 
@@ -859,13 +868,7 @@ msgstr "žádné nahrávky"
 msgid "Delete selected"
 msgstr "Smazat automatické nahrávání?"
 
-msgid "Duplicates identified by tvscraper"
-msgstr ""
-
-msgid "Duplicates, with different languages"
-msgstr ""
-
-msgid "Duplicates not identified by tvscraper"
+msgid "No matching recordings found"
 msgstr ""
 
 msgid "Sort:"
@@ -1103,6 +1106,9 @@ msgstr "Uživatelé"
 
 msgid "Delete user"
 msgstr "Smazat uživatele"
+
+msgid "No user configured"
+msgstr ""
 
 msgid "What's running on"
 msgstr "Co právě bězí v "

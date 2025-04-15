@@ -59,6 +59,15 @@ msgstr "ფილმების კოლექციები"
 msgid "File system view"
 msgstr "ფაილური სისტემის ხედი"
 
+msgid "Duplicates not identified by tvscraper"
+msgstr "TVScaper-მა დუბლიკატები ვერ იპოვა"
+
+msgid "Duplicates identified by tvscraper"
+msgstr "წ"
+
+msgid "Duplicates, with different languages"
+msgstr "დუბლიკატები სხვადასხვა ენით"
+
 msgid "No recording errors"
 msgstr "ჩაწერის შეცდომების გარეშე"
 
@@ -852,14 +861,8 @@ msgstr "ჩანაწერების გარეშე"
 msgid "Delete selected"
 msgstr "მონიშნულის წაშლა"
 
-msgid "Duplicates identified by tvscraper"
-msgstr "წ"
-
-msgid "Duplicates, with different languages"
-msgstr "დუბლიკატები სხვადასხვა ენით"
-
-msgid "Duplicates not identified by tvscraper"
-msgstr "TVScaper-მა დუბლიკატები ვერ იპოვა"
+msgid "No matching recordings found"
+msgstr ""
 
 msgid "Sort:"
 msgstr "დალაგება:"
@@ -1093,6 +1096,9 @@ msgstr "მომხმარებლები"
 
 msgid "Delete user"
 msgstr "მომხმარებლის წაშლა"
+
+msgid "No user configured"
+msgstr ""
 
 msgid "What's running on"
 msgstr "რა არის გაშვებული"

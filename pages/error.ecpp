@@ -27,11 +27,13 @@ if (!logged_in && LiveSetup().UseAuth()) {
     <title>VDR-Live - <$ pageTitle $></title>
     <& pageelems.stylesheets &>
   </head>
-  <body onload="adjustHeader()" onresize="adjustHeader()">
+  <body>
     <& pageelems.logo &>
     <& menu &>
-    <div class="inhalt">
+    <div id="content">
+      <div class="spacebar"><# spacer with fade-out effect #></div>
       <& error.error_widget errorTitle=(errorTitle) errorMessage=(errorMessage) &>
+      <div class="spacebar"><# spacer with fade-out effect #></div>
     </div>
   </body>
 </html>

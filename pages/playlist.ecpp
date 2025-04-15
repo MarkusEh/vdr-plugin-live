@@ -53,7 +53,7 @@ using namespace vdrlive;
       }
     }
 
-    if (rfid.empty()) 
+    if (rfid.empty())
       videourl = concat("#EXTM3U\n#EXTINF:-1,", recording?recording->Name():"recording not found", "\nhttp://", server, ":", cToSvInt(LiveSetup().GetServerPort()), "/recstream.html?recid=", recid);
     else
       videourl = concat("#EXTM3U\n#EXTINF:-1,", recording?recording->Name():"recording not found", "\nhttp://", server, ":", cToSvInt(LiveSetup().GetStreamdevPort()), "/", LiveSetup().GetStreamdevType(), "/", rfid, ".ts");
