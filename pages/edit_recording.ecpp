@@ -138,7 +138,7 @@ std::string active_r;
     }
   </script>
   </head>
-  <body onload="adjustHeader()" onresize="adjustHeader()">
+  <body>
 <%cpp>
   if (!ajaxReq) {
 </%cpp>
@@ -147,13 +147,14 @@ std::string active_r;
 <%cpp>
   }
 </%cpp>
-    <div class="inhalt">
+    <div id="content">
+      <div class="spacebar"><# spacer with fade-out effect #></div>
       <form method="post" name="edit_recording" id="<$ recid $>" action="edit_recording.ecpp">
         <input type="hidden" name="recid" value="<$ recid $>"/>
         <input type="hidden" name="history_num_back" value="<$ history_num_back $>"/>
-        <table class="formular" cellpadding="0" cellspacing="0">
+        <table class="form" cellpadding="0" cellspacing="0">
           <tr class="head">
-            <td class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div><div class="caption"><$ tr("Edit recording") $></div></div></div></td>
+            <td class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div class="caption"><$ tr("Edit recording") $></div></div></td>
           </tr>
           <tr>
             <td class="label leftcol"><div class="withmargin"><$ tr("Name") $>:</div></td>
@@ -172,8 +173,8 @@ std::string active_r;
   }
 </%cpp>
               </select>
-              <img id="new_dir_button" class="icon" src="<$ LiveSetup().GetThemedLink("img", "button_new.png") $>" title="<$tr("Create new directory")$>" onclick="new_dir()" style="vertical-align: middle">
-              <input type="text" name="newdir" id="newdir" value="." size="55" class="width99" style="display:none" />
+              <img id="new_dir_button" class="icon button_new" src="<$ LiveSetup().GetThemedLink("img", "button_new.png") $>" title="<$tr("Create new directory")$>" onclick="new_dir()">
+              <input type="text" name="newdir" id="newdir" value="." size="55" class="width99" style="display: none" />
             </td>
           </tr>
           <tr>
@@ -231,6 +232,7 @@ std::string active_r;
       <div style="color: red; margin: 0 auto;">
         <$ message $>
       </div>
+      <div class="spacebar"><# spacer with fade-out effect #></div>
     </div>
   </body>
 </html>

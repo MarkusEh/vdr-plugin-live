@@ -62,7 +62,7 @@ class Treeview {
           if (typeof liveEnhanced !== 'undefined') liveEnhanced.domReadySetup();
         imgLoad();
       }
-      sibling.style.display = 'block';
+      sibling.style.display = 'revert-layer';
       updateCookieOnExpand( sibling.id );
     }
     else
@@ -113,7 +113,7 @@ let domChanges = 0;
 for (let z=0; z<openNodes.length; z++){
   let ul = document.getElementById(openNodes[z]);
   if (ul){
-    ul.style.display = 'block';
+    ul.style.display = 'revert-layer';
     if (rec_ids[openNodes[z]] != null && rec_ids[openNodes[z]].length > 0) {
       ul.insertAdjacentHTML("beforeend", await rec_string_d_a(rec_ids[openNodes[z]]));
       rec_ids[openNodes[z]] = [];
@@ -147,8 +147,8 @@ async function ExpandAll()
   recordingNodes = getElementsByNodeNameClassName(window.document, 'UL', "recordingslist");
   for (idx = 0; idx < recordingNodes.length; idx++) {
     if (recordingNodes[idx].parentNode.className != 'recordings') {
-      recordingNodes[idx].style.display = 'block';
-      openNodes += recordingNodes[idx].id + ","; 
+      recordingNodes[idx].style.display = 'revert-layer';
+      openNodes += recordingNodes[idx].id + ",";
       if (rec_ids[recordingNodes[idx].id] != null && rec_ids[recordingNodes[idx].id].length > 0) {
         recordingNodes[idx].insertAdjacentHTML("beforeend", await rec_string_d_a(rec_ids[recordingNodes[idx].id]));
         rec_ids[recordingNodes[idx].id] = [];
@@ -192,7 +192,7 @@ var cookieNameRec = "VDR-Live-Recordings-Tree-Open-Nodes";
 document.addEventListener("DOMContentLoaded", function()
 {
   openNodesOnPageLoad();
-}); 
+});
 
 //The following cookie functions are taken from http://www.quirksmode.org/js/cookies.html
 

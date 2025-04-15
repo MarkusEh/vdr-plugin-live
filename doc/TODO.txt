@@ -1,20 +1,34 @@
-This is a list of ideas and TODO-Items for live plugin.
+This is a list of ideas and TODO-Items for Live plugin.
 
 - Add better support for the numerous CSS bugs in IE. Maybe by
   splitting style files in a similar way like it is done for YAML
   (http://www.yaml.de)
 
-- Create a CSS-themeing friendly URL scheme. I.E. something like
-  img/<theme>/button.png. Where default as theme is always taken if
+  -> VOID, as IE is out of service and modern browsers do not
+     show such misbehavior.
+
+- Create a CSS-themeing friendly URL scheme, i.e., something like
+  img/<theme>/button.png. Where default theme is always taken if
   <theme> is not found.
+
+  -> UNNECESSARY, as themes are configured through the setup form.
+     URLs not referring a defined scheme should validly fail.
+
 - Give users the chance to override the selected style with some
   user-override settings.
+
+  -> DONE, as 'siteprefs.css' are are available.
+
 - Deliver truly static content, like images, styles, ECMAscript
   with Tntnet's send-file functionality after resolving user selected
   themes paths. Take care to support browser cache optimization.
 
 - Deliver EPG box information through AJAX. This would make a ECMAScript
   capable browser mandatory.
+
+  -> DONE, as the EPG box periodically polls the server to update
+     the current show.
+
 - Provide a way to get the information on extra 'static' pages.
 
 

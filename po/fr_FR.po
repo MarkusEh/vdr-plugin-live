@@ -59,6 +59,15 @@ msgstr ""
 msgid "File system view"
 msgstr ""
 
+msgid "Duplicates not identified by tvscraper"
+msgstr ""
+
+msgid "Duplicates identified by tvscraper"
+msgstr ""
+
+msgid "Duplicates, with different languages"
+msgstr ""
+
 msgid "No recording errors"
 msgstr ""
 
@@ -870,13 +879,7 @@ msgstr "Pas d'enregistrement"
 msgid "Delete selected"
 msgstr ""
 
-msgid "Duplicates identified by tvscraper"
-msgstr ""
-
-msgid "Duplicates, with different languages"
-msgstr ""
-
-msgid "Duplicates not identified by tvscraper"
+msgid "No matching recordings found"
 msgstr ""
 
 msgid "Sort:"
@@ -1118,6 +1121,9 @@ msgstr "Utilisateur"
 #, fuzzy
 msgid "Delete user"
 msgstr "Effacer la programmation"
+
+msgid "No user configured"
+msgstr ""
 
 #, fuzzy
 msgid "What's running on"

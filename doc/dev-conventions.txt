@@ -2,68 +2,83 @@ Live development guidelines
 ===========================
 
 This file contains some guidelines for developers about what to obey
-when adding new functionality to live plugin.
+when adding new functionality to Live plugin.
 
-First of all please look at the existing code and how it was done
+First of all, please look at the existing code and how it was done
 there. We are still open for improvement suggestions though.
 
-We want to support a broad range of browsers. On one side are hand held
-devices like WEB-enabled PDAs or mobile phones. They often lack full
-grown support for ECMAScript and have small screen sizes. The other
-extreme are the desktop browsers like FireFox, Konqueror, Opera and
-perhaps IE (if the 'powers that be' make him more CSS compliant).
-Here WEB 2.0 features can improve the users experience.
+We want to support a broad range of browsers and devices, using Web 2.0
+techniques for improved users experience. Nowadays, major browsers like
+FireFox, Chrome, Edge, Opera, Safari or Konqueror are available on all
+platforms (smartphones with Android or iOS and desktops with macOS,
+Linux or Windows). And as these browsers get updated automatically (or
+can easily be updated on demand), we can validly expect that they conform
+to recent standards of HTML, CSS and ECMAScript. Nevertheless, their
+support of certain features can subtly differ. So compatibility hints
+as, e.g., denoted in the "MDN web docs" should be obeyed. Consider the
+use of an adequate alternative if a certain platform lacks support for
+a given feature. Examples are the use of '@support' checks or the use
+of '--webkit-*' / '--moz-*' properties in CSS.
+
+Another aspect are the varying screen sizes, ranging from smartphones
+with quite small screens to desktops with rather large screens. Live
+pages should be designed such that they provide an identical user
+experience on all these platforms. In particular, Live pages should
+adapt to the screen size (i.e., use so-called "responsive design") and
+hide less important information as appropriate.
 
 
 With or without ECMAScript
 --------------------------
 
-Since not all browsers support ECMAScript, we need to make sure all
-functions live wants to provide need to be accessible through links.
+Although all modern browsers support ECMAScript, users may opt to have
+scripting disabled. We thus need to make sure all functions Live wants
+to provide are accessible through links.
 
-With the mootools framework and its selection functions we can enhance
+With the 'mootools' framework and its selection functions we can enhance
 the user experience through ECMAScript by selecting the relevant
 elements in the DOM and attaching event handlers from the loaded
-script files. Thus when the user disables ECMAScript in his browser
-(or the browser does not support it) the traditional web technique of
-jumping between pages provides the functions. With enabled ECMAScript
+script files. Thus when the user disables ECMAScript in the browser
+(or the browser does not support it), the traditional Web technique of
+jumping between pages provides the functions. With enabled ECMAScript,
 the event handlers can take over and provide a nifty Web 2.0 technique
 solution to the user.
 
-To enable a tooltip just add a 'title' attribute on the element and
-load 'hinttips.js' in your pages (Actually this will be already done
-for you if you use the live page-framework).
+To enable a tooltip, just add a 'title' attribute on the element and
+load 'hinttips.js' in your pages; this will be already done when using
+the Live page framework. Please note that the 'title' attribute must
+properly HTML-encode the content, particularly regarding HTML tags to
+be embedded, particularly regarding '&amp' and '&quot'.
 
-For popup windows that asynchronously load its contents you need to
-use normal links like <a href="epginfo.html?eventid=evnt_identifier">
-your link text here </a>.  If 'infowin.js' is loaded it will enhance
-these links with AJAX functionality. If not the link will change to a
-new page with the requested information.
+For popup windows that asynchronously load their content, you need to
+use normal links like '<a href="epginfo.html?eventid=event_identifier">
+your link text here </a>'.  If 'infowin.js' is loaded, it will enhance
+these links with AJAX functionality. If not loaded, the link will change
+to a new page with the requested information.
 
 This means that both users with and without ECMAScript support will
-benefit from the functions in live.
+benefit from the functions in Live.
 
 
 Themeing
 --------
 
-Current CSS based themeing in live depends on additional stylesheets
-and a configurable location to retrieve images from (see
-css-themeing.txt).
+Current CSS-based themeing in Live depends on additional style sheets and
+a configurable location to retrieve images from (see 'css-themeing.txt').
 
-Developers must use the <& pageelems.stylesheets &> component in their
-pages to include both the default and the themed stylesheet. This is
-the easy part, because stylesheets are referred in the header at a
+Developers must use the '<& pageelems.stylesheets &>' component in their
+pages to include both the default and the themed style sheet. This is
+the easy part, because style sheets are referred in the header at a
 central location.
 
 More difficult is the access to images, which is spread around the
 pages at the corresponding locations. To support this, a new method in
-the live Setup class (see file setup.h) has been added. It is called
-'GetThemedLink'. For every image, that might be customized, you must
+the Live Setup class (see file 'setup.h') has been added. It is called
+'GetThemedLink()'. For every image, that might be customized, you must
 use an 'img' tag according to this example:
 
   <img src="<$ LiveSetup().GetThemedLink("img", "<imagename>") $>"
-  alt="someimage" />
+  alt="someimage">
 
-Please take a look in the existing ecpp pages for additional usage
+Please take a look in the existing '*.ecpp' pages for additional usage
 examples.

@@ -118,55 +118,55 @@ cUser* editUser;
     <& pageelems.stylesheets &>
     <& pageelems.ajax_js &>
   </head>
-  <body onload="adjustHeader()" onresize="adjustHeader()">
+  <body>
     <& pageelems.logo &>
     <& menu active=("users") &>
-    <div class="inhalt">
+    <div id="content">
+      <div class="spacebar"><# spacer with fade-out effect #></div>
       <form method="post" name="edit_user" action="edit_user.ecpp">
         <input type="hidden" name="userid" value="<$ userid $>"/>
-        <table class="formular" cellpadding="0" cellspacing="0">
+        <table class="form" cellpadding="0" cellspacing="0">
           <tr class="head">
-            <td class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div><div class="caption"><$ pageTitle $></div></div></div></td>
+            <td class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div class="caption"><$ pageTitle $></div></div></td>
           </tr>
-
-          <tr>
+          <tr class="account">
             <td class="label leftcol"><div class="withmargin"><$ tr("Name" ) $>:</div></td>
             <td class="rightcol"><input type="text" name="username" value="<$ username $>" class="width99" size="55"/></td>
           </tr>
-          <tr>
+          <tr class="password">
             <td class="label leftcol"><div class="withmargin"><$ tr("Password" ) $>:</div></td>
             <td class="rightcol"><input type="password" name="password" value="<$ password $>" class="width99" size="55"/></td>
           </tr>
-          <!-- user rights -->
-          <tr>
+          <!-- user permissions -->
+          <tr class="permissions">
             <td class="label leftcol"><div class="withmargin"><$ tr("User rights") $>:</div></td>
             <td class="rightcol">
-              <input type="checkbox" name="ur_editsetup" value="1" <{ CHECKIF(ur_editsetup) }> />
-              <label for="ur_editsetup"><$ tr("Edit setup") $></label><br>
-              <input type="checkbox" name="ur_addtimers" value="1" <{ CHECKIF(ur_addtimers) }> />
-              <label for="ur_addtimers"><$ tr("Add or edit timers") $></label><br>
-              <input type="checkbox" name="ur_deltimers" value="1" <{ CHECKIF(ur_deltimers) }> />
-              <label for="ur_deltimers"><$ tr("Delete timers") $></label><br>
-              <input type="checkbox" name="ur_delrecs" value="1" <{ CHECKIF(ur_delrecs) }> />
-              <label for="ur_delrecs"><$ tr("Delete recordings") $></label><br>
-              <input type="checkbox" name="ur_useremote" value="1" <{ CHECKIF(ur_useremote) }> />
-              <label for="ur_useremote"><$ tr("Use remote menu") $></label><br>
-              <input type="checkbox" name="ur_startreplay" value="1" <{ CHECKIF(ur_startreplay) }> />
-              <label for="ur_startreplay"><$ tr("Start replay") $></label><br>
-              <input type="checkbox" name="ur_switchchnl" value="1" <{ CHECKIF(ur_switchchnl) }> />
-              <label for="ur_switchchnl"><$ tr("Switch channel") $></label><br>
+              <div><input type="checkbox" name="ur_editsetup" value="1" <{ CHECKIF(ur_editsetup) }> />
+              <label for="ur_editsetup"><$ tr("Edit setup") $></label></div>
+              <div><input type="checkbox" name="ur_addtimers" value="1" <{ CHECKIF(ur_addtimers) }> />
+              <label for="ur_addtimers"><$ tr("Add or edit timers") $></label></div>
+              <div><input type="checkbox" name="ur_deltimers" value="1" <{ CHECKIF(ur_deltimers) }> />
+              <label for="ur_deltimers"><$ tr("Delete timers") $></label></div>
+              <div><input type="checkbox" name="ur_delrecs" value="1" <{ CHECKIF(ur_delrecs) }> />
+              <label for="ur_delrecs"><$ tr("Delete recordings") $></label></div>
+              <div><input type="checkbox" name="ur_useremote" value="1" <{ CHECKIF(ur_useremote) }> />
+              <label for="ur_useremote"><$ tr("Use remote menu") $></label></div>
+              <div><input type="checkbox" name="ur_startreplay" value="1" <{ CHECKIF(ur_startreplay) }> />
+              <label for="ur_startreplay"><$ tr("Start replay") $></label></div>
+              <div><input type="checkbox" name="ur_switchchnl" value="1" <{ CHECKIF(ur_switchchnl) }> />
+              <label for="ur_switchchnl"><$ tr("Switch channel") $></label></div>
 <%cpp>
               if (LiveFeatures<features::epgsearch>().Recent()) {
 </%cpp>
-              <input type="checkbox" name="ur_addstimers" value="1" <{ CHECKIF(ur_addstimers) }> />
-              <label for="ur_addstimers"><$ tr("Add or edit search timers") $></label><br>
-              <input type="checkbox" name="ur_delstimers" value="1" <{ CHECKIF(ur_delstimers) }> />
-              <label for="ur_delstimers"><$ tr("Delete search timers") $></label><br>
+              <div><input type="checkbox" name="ur_addstimers" value="1" <{ CHECKIF(ur_addstimers) }> />
+              <label for="ur_addstimers"><$ tr("Add or edit search timers") $></label></div>
+              <div><input type="checkbox" name="ur_delstimers" value="1" <{ CHECKIF(ur_delstimers) }> />
+              <label for="ur_delstimers"><$ tr("Delete search timers") $></label></div>
 <%cpp>
               }
 </%cpp>
-              <input type="checkbox" name="ur_editrecs" value="1" <{ CHECKIF(ur_editrecs) }> />
-              <label for="ur_editrecs"><$ tr("Edit recordings") $></label><br>
+              <div><input type="checkbox" name="ur_editrecs" value="1" <{ CHECKIF(ur_editrecs) }> />
+              <label for="ur_editrecs"><$ tr("Edit recordings") $></label></div>
             </td>
           </tr>
           <tr>
@@ -179,6 +179,7 @@ cUser* editUser;
           </tr>
         </table>
       </form>
+      <div class="spacebar"><# spacer with fade-out effect #></div>
     </div>
   </body>
 </html>

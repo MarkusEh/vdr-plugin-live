@@ -281,10 +281,11 @@ TimerConflictNotifier timerNotifier;
     function initform()
     {
       changedwday()
-      adjustHeader()
     }
+
     function changedwday()
     {
+      <# some elements to be changed by the function can be missing #>
       if (
         document.getElementById("wday_mon").checked ||
         document.getElementById("wday_tue").checked ||
@@ -293,20 +294,28 @@ TimerConflictNotifier timerNotifier;
         document.getElementById("wday_fri").checked ||
         document.getElementById("wday_sat").checked ||
         document.getElementById("wday_sun").checked) {
-          document.getElementById("monitoring_section").style.display = "none"
+          var element = document.getElementById("monitoring_option_id")
+          if (element !== null) element.style.display = "none"
+          element = document.getElementById("monitoring_option_time")
+          if (element !== null) element.style.display = "none"
           if (!document.getElementById("monitoring_vps").checked) {
             document.getElementById("monitoring_none").checked = 1
-            document.getElementById("monitoring_event_id").checked = 0
-            document.getElementById("monitoring_event_time").checked = 0
+            element = document.getElementById("monitoring_event_id")
+            if (element !== null) element.checked = 0
+            element = document.getElementById("monitoring_event_time")
+            if (element !== null) element.checked = 0
             }
         } else {
-          document.getElementById("monitoring_section").style.display = "block"
+          var element = document.getElementById("monitoring_option_id")
+          if (element !== null) element.style.display = "revert-layer"
+          element = document.getElementById("monitoring_option_time")
+          if (element !== null) element.style.display = "revert-layer"
         }
     }
     //--></script>
 
   </head>
-  <body onload="initform()" onresize="adjustHeader()">
+  <body onload="initform()">
 <%cpp>
   if (!ajaxReq) {
 </%cpp>
@@ -315,19 +324,20 @@ TimerConflictNotifier timerNotifier;
 <%cpp>
   }
 </%cpp>
-    <div class="inhalt">
+    <div id="content">
+      <div class="spacebar"><# spacer with fade-out effect #></div>
       <form method="post" name="edit_timer" id="<$ timerid $>" action="edit_timer.ecpp">
         <input type="hidden" name="timerid" value="<$ timerid $>"/>
         <input type="hidden" name="epgid" value="<$ epgid $>"/>
         <input type="hidden" name="nav_back" value="<$ nav_back $>"/>
-        <table class="formular" cellpadding="0" cellspacing="0">
+        <table class="form" cellpadding="0" cellspacing="0">
           <tr class="head">
-            <td class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div><div class="caption"><$ !timerid.empty() ? tr("Edit timer") : tr("New timer") $></div></div></div></td>
+            <td class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div class="caption"><$ !timerid.empty() ? tr("Edit timer") : tr("New timer") $></div></div></td>
           </tr>
 
           <tr>
             <td class="label leftcol"><div class="withmargin"><$ trVDR("Active") $>:</div></td>
-            <td class="rightcol">
+            <td class="rightcol"><div class="options">
               <div class="dotted">
                 <input id="active_1" name="active" value="1" <{ reply.out() << ( active ? "checked=\"checked\"" : "" ); }> type="radio"></input>
                 <label for="active_1"><$ trVDR("yes") $></label>
@@ -336,12 +346,12 @@ TimerConflictNotifier timerNotifier;
                 <input id="active_0" name="active" value="0" <{ reply.out() << ( !active ? "checked=\"checked\"" : "" ); }> type="radio"></input>
                 <label for="active_0"><$ trVDR("no") $></label>
               </div>
-            </td>
+            </div></td>
           </tr>
 
           <tr>
             <td class="label leftcol"><div class="withmargin"><$ trVDR("Channel") $>:</div></td>
-            <td class="rightcol"><div class="withmargin"><& channels_widget name=("channel_string") channelid=(true) selected=(channel) &></div></td>
+            <td class="rightcol"><div><& channels_widget name=("channel_string") channelid=(true) selected=(channel) &></div></td>
           </tr>
 
           <tr>
@@ -382,7 +392,7 @@ TimerConflictNotifier timerNotifier;
 </%cpp>
           <tr>
             <td class="label leftcol"><div class="withmargin"><$ tr("Directory" ) $>:</div></td>
-            <td class="rightcol"><select name="directory" size="1" id="directory" style="margin-top: 5px">
+            <td class="rightcol"><select name="directory" size="1" id="directory">
                  <option></option>
 %           for (RecordingDirs::iterator rdir = recordingdirs.begin(); rdir != recordingdirs.end(); ++rdir) {
               <option value="<$ *rdir $>"<?? directory == *rdir ? " selected=\"selected\"" ?>><$ *rdir $></option>
@@ -401,7 +411,7 @@ TimerConflictNotifier timerNotifier;
 
           <tr>
             <td class="label leftcol"><div class="withmargin"><$ tr("Weekday") $>:</div></td>
-            <td class="rightcol">
+            <td class="rightcol"><div class="options">
               <div class="dotted">
                 <input id="wday_mon" type="checkbox" name="wday_mon" value="1" <? wday_mon ? "checked=\"checked\"" ?> onclick="changedwday()" />
                 <label for="wday_mon"><$ tr("Monday") $></label>
@@ -426,11 +436,12 @@ TimerConflictNotifier timerNotifier;
                 <input id="wday_sat" type="checkbox" name="wday_sat" value="1" <? wday_sat ? "checked=\"checked\"" ?> onclick="changedwday()" />
                 <label for="wday_sat"><$ tr("Saturday") $></label>
               </div>
+              <# add class "first" if weekdays shall start with sunday #>
               <div class="dotted">
                 <input id="wday_sun" type="checkbox" name="wday_sun" value="1" <? wday_sun ? "checked=\"checked\"" ?> onclick="changedwday()" />
                 <label for="wday_sun"><$ tr("Sunday") $></label>
               </div>
-            </td>
+            </div></td>
           </tr>
 
           <tr>
@@ -446,7 +457,7 @@ TimerConflictNotifier timerNotifier;
 
           <tr>
             <td class="label leftcol"><div class="withmargin"><$ tr("Monitoring") $>:</div></td>
-            <td class="rightcol">
+            <td class="rightcol"><div class="options">
               <div class="dotted">
                 <input id="monitoring_none" name="monitoring" value="none" <? monitoring=="none" ? "checked=\"checked\"" ?> type="radio"></input>
                 <label for="monitoring_none"><$ tr("none") $></label>
@@ -455,19 +466,18 @@ TimerConflictNotifier timerNotifier;
                 <input id="monitoring_vps" name="monitoring" value="vps" <? monitoring=="vps" ? "checked=\"checked\"" ?> type="radio"></input>
                 <label for="monitoring_vps"><$ trVDR("VPS") $></label>
               </div>
-%             if ( (!others_monitor & event_monitoring_id != 0 & LiveFeatures<features::epgsearch>().Recent() ) || monitoring=="event_id" || monitoring=="event_time") {
-              <div id="monitoring_section" style="display: none">
-              <div class="dotted">
+%             if ( (!others_monitor && event_monitoring_id != 0 && LiveFeatures<features::epgsearch>().Recent()) || monitoring=="event_id" || monitoring=="event_time") {
+              <# why are these options not included all the time? #>
+              <div id="monitoring_option_id" class="dotted" style="display: none">
                 <input id="monitoring_event_id" name="monitoring" value="event_id" <? monitoring=="event_id" ? "checked=\"checked\"" ?> type="radio"></input>
                 <label for="monitoring_event_id"><$ tr("event ID") $></label>
               </div>
-              <div class="dotted">
+              <div id="monitoring_option_time" class="dotted" style="display: none">
                 <input id="monitoring_event_time" name="monitoring" value="event_time" <? monitoring=="event_time" ? "checked=\"checked\"" ?> type="radio"></input>
                 <label for="monitoring_event_time"><$ tr("event time") $></label>
               </div>
-              </div>
 %             }
-            </td>
+            </div></td>
           </tr>
 
           <tr>
@@ -490,9 +500,10 @@ TimerConflictNotifier timerNotifier;
           </tr>
         </table>
       </form>
-      <div style="color: red; margin: 0 auto;">
+      <div class="error">
         <$ message $>
       </div>
+      <div class="spacebar"><# spacer with fade-out effect #></div>
     </div>
   </body>
 </html>

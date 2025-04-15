@@ -49,9 +49,9 @@ if (logged_in || !LiveSetup().UseAuth()) return reply.redirect(targetUrl);
 #>
   </head>
   <body onload="document.auth.login.focus()">
-  <div style="width: 350px; margin: 0 auto; text-align: center; padding: 20px">
-    <div class="boxheader"><div><div><$ tr("VDR Live Login") $></div></div></div>
-    <div style="border: 1px solid black; padding: 15px">
+  <div class="loginwin">
+    <div class="boxheader"><div class="caption"><$ tr("VDR Live Login") $></div></div>
+    <div class="login_content">
       <img src="<$ LiveSetup().GetThemedLink("img", "logo_login.png") $>" alt="VDR Live" />
       <form name="auth">
         <input type="hidden" name="action" value="login" />
@@ -65,11 +65,11 @@ if (logged_in || !LiveSetup().UseAuth()) return reply.redirect(targetUrl);
           <tr>
             <td><$ tr("Password") $>:</td>
             <td><input type="password" name="password" value="<$ password $>" size="15" maxlength="15" /></td>
-            <td><button type="submit" class="blue"><$ tr("Login") $></button></td>
+            <td><button class="login" type="submit"><$ tr("Login") $></button></td>
           </tr>
         </table>
       </form>
-      <div style="color: red; margin: 0 auto;">
+      <div class="message">
         <$ message $>
       </div>
     </div>

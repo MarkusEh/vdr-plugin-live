@@ -85,7 +85,8 @@ namespace vdrlive {
   extern const std::collate<char>& g_collate_char;
 
 template <size_t N>
-inline cToSvConcat<N>& AppendHtmlEscapedAndCorrectNonUTF8(cToSvConcat<N>& target, cSv text, bool tooltip = false) {
+inline cToSvConcat<N>& AppendHtmlEscapedAndCorrectNonUTF8(cToSvConcat<N>& target, cSv text, bool tooltip = false, const char* lf = nullptr) {
+  if (!lf) lf = "<br>";
   size_t i = 0;                 // number of not yet appended chars
   const char* notAppended = text.data();  // position of the first character which is not yet appended
   for (size_t pos = 0; pos < text.length(); ++pos) {
@@ -95,7 +96,7 @@ inline cToSvConcat<N>& AppendHtmlEscapedAndCorrectNonUTF8(cToSvConcat<N>& target
         case '\n':
         case '\r':
 //                 target.append(notAppended, i); target.append("&lt;br/&gt;");   notAppended += i + 1; i = 0; break;
-                   target.append(notAppended, i); target.append("<br/>");  notAppended += i + 1; i = 0; break;
+                   target.append(notAppended, i); target.append(lf);       notAppended += i + 1; i = 0; break;
         case '&':  target.append(notAppended, i); target.append("&amp;");  notAppended += i + 1; i = 0; break;
         case '\"': target.append(notAppended, i); target.append("&quot;"); notAppended += i + 1; i = 0; break;
         case '\'': target.append(notAppended, i); target.append("&apos;"); notAppended += i + 1; i = 0; break;
@@ -187,6 +188,11 @@ inline cToSvConcat<N>& AppendHtmlEscapedAndCorrectNonUTF8(cToSvConcat<N>& target
   }
   target.append(notAppended, i);
   return target;
+}
+
+template <size_t N>
+inline cToSvConcat<N>& AppendHtmlEscapedAndCorrectNonUTF8(cToSvConcat<N>& target, cSv text, const char* lf) {
+    return AppendHtmlEscapedAndCorrectNonUTF8(target, text, false, lf);
 }
 
 template <size_t N>

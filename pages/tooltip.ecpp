@@ -30,5 +30,5 @@ href="epginfo.html?epgid=<$ domId $>&tab=scraper"
 <%args>
 text;
 </%args>
-<img src="<$ LiveSetup().GetThemedLink("img", "help.png") $>" alt="" title="<$ text $>"/>
+<img class="icon help" src="<$ LiveSetup().GetThemedLink("img", "help.png") $>" alt="" title="<$ text $>"/>
 </%def>

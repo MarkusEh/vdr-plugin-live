@@ -138,7 +138,7 @@ const recs = [];
 const rec_ids = Object.create(null)
 rec_ids["T"] = [1, 2]
 
-// Title is the title of the action (like "play in media player"), and will be html encoded here
+// Title is the title of the action (like "play in media player"), and will be HTML-encoded here
 function RecordingActionS(s, id, A, Img, Title) {
   s.a += '<a href=\"'
   s.a += A
@@ -153,10 +153,10 @@ function RecordingActionS(s, id, A, Img, Title) {
 function RecordingActionPlaylist(s, id) {
   s.a += '<a class=\"hidden-xs\" href=\"playlist.m3u?recid=recording_'
   s.a += id
-  s.a += '&sort=<$currentSort$>&filter=<$currentFilter$>&flat=<$currentFlat$>&history_num_back=<$history_num_back+1$>\" title=\"<$tr("Stream this recording into media player.")$>\" download><img class=\"icon hidden-xs\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>playlist.png\" /></a>'
+  s.a += '&sort=<$currentSort$>&filter=<$currentFilter$>&flat=<$currentFlat$>&history_num_back=<$history_num_back+1$>\" title=\"<$tr("Stream this recording into media player.")$>\" download><img class=\"hidden-xs icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>playlist.png\" /></a>'
 }
 
-// do not html encode title! will be html encoded here
+// do not HTML-encode title; will be HTML-encoded here!
 function addEventRec_r(s, eventid, title, folder, shortText, description) {
   let http_params = '&sort=<$ sort $>&filter='
   http_params += encodeURIComponent('<$ filter $>')
@@ -164,14 +164,13 @@ function addEventRec_r(s, eventid, title, folder, shortText, description) {
   addEventRec(s, 'recording_', eventid, http_params, title, folder, shortText, description)
 }
 </script>
-<script type="text/javascript" src="js.html"></script>
 
   <script type="text/javascript" src="js/live/treeview.js"></script>
   <script>
   const tv = new Treeview("<$ LiveSetup().GetThemedLinkPrefixImg()$>minus.png", "<$ LiveSetup().GetThemedLinkPrefixImg()$>plus.png", "<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_open.png", "<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png");
   </script>
 </head>
-<body onload="adjustHeader()" onresize="adjustHeader()" onpageshow="clearCheckboxes(document.getElementById('form_recordings'))">
+<body onpageshow="clearCheckboxes(document.getElementById('form_recordings'))">
   <& pageelems.logo &>
 <%cpp>
 const char *active_r;
@@ -188,8 +187,9 @@ if (!deleteResult.empty()) {
 <%cpp>
 }
 </%cpp>
-  <div class="inhalt">
-    <div class="boxheader"><div><div><$ std::string(tr("List of recordings")) + " (" + diskinfo + ")" $></div></div></div>
+  <div id="content">
+    <div class="spacebar"><# spacer with fade-out effect #></div>
+    <div class="boxheader"><div class="caption"><$ std::string(tr("List of recordings")) + " (" + diskinfo + ")" $></div></div>
 <%cpp>
     int rec_cnt;
     {
@@ -198,7 +198,16 @@ if (!deleteResult.empty()) {
     }
     if (rec_cnt == 0) {
 </%cpp>
-      <$ tr("No recordings found") $>
+      <# add the message in a table row beneath the header, because the message alone looks weird #>
+      <div class="recordings">
+        <table class="recordings" width="100%">
+          <tbody>
+            <tr class="recording_item">
+              <td class="message"><$ tr("No recordings found") $></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 <%cpp>
     } else {
 // get and set sort order
@@ -211,7 +220,7 @@ if (!deleteResult.empty()) {
       if (currentSort.compare(0, 8,  "errorsdur", 8) == 0) sortOrder = RecordingsManager::eSortOrder::durationDeviation;
       if (currentSort.compare(0, 10, "duplicates", 10) == 0) sortOrder = RecordingsManager::eSortOrder::duplicatesLanguage;
       if (currentSort == "datedesc" || currentSort == "namedesc") reverse = true;
-      RecordingsManager::setSortOrder(sortOrder, reverse, currentFilter);  // this also updates the recurdings, if required
+      RecordingsManager::setSortOrder(sortOrder, reverse, currentFilter);  // this also updates the recordings, if required
 
 // get root directory
       RecordingsItemDirPtr recItemRoot;
@@ -234,7 +243,7 @@ if (!deleteResult.empty()) {
 </%cpp>
       <form method="post" name="recordings" id="form_recordings" action="recordings.ecpp">
         <div class="recordings">
-          <ul class="recordingslist" style="display: block;">
+          <ul class="recordingslist" style="display: revert-layer;">
             <& recordings.recordings_item iRecItem=(iRecItemRoot) irecording_item=(irecording_item) iOpenTreeNodes=(iOpenTreeNodes) &>
           </ul>
         </div>
@@ -252,6 +261,7 @@ if (!deleteResult.empty()) {
 std::chrono::duration<double> timeNeeded = std::chrono::high_resolution_clock::now() - timeStart;
 dsyslog("live, time recordings.ecpp: %f", timeNeeded.count());
 </%cpp>
+    <div class="spacebar"><# spacer with fade-out effect #></div>
   </div>
 </body>
 </html>
@@ -294,7 +304,7 @@ for (const RecordingsItemDirPtr &recItem: l_dir_iterator) {
     <table><tr>
       <%cpp> if(level > 0) { </%cpp>
         <td class = "space">
-          <img src="img/transparent.png" width="<$ 16*level $>px" height="16px" />
+          <img src="img/transparent.png" style="width: calc(var(--icon-width, 16px) * <$ level $>); height: var(--icon-height, 16px)" />
         </td>
       <%cpp> } </%cpp>
       <td class="space">
@@ -356,11 +366,15 @@ recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
   <%cpp>
 }
   if (l_rec_iterator == iterator_end() )
-  { </%cpp>
-    <script>
-      rec_ids["fldr_<$ parentIdHash $>"] = []
-    </script>
-  <%cpp> } else {
+  {
+    if (!parentIdHash.empty()) {
+      </%cpp>
+      <script>
+        rec_ids["fldr_<$ parentIdHash $>"] = []
+      </script>
+      <%cpp>
+      }
+    } else {
     bool first = true;
     const char *displayFolder = "1";
     recording_item->clear();
@@ -369,13 +383,28 @@ recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
       <script>
 %   if (level == 0) {
       document.write(rec_string_d([<$level$>, <$displayFolder$>, [ <$$ *recording_item $> ]]))
-%   } else {
+%   } else if (!parentIdHash.empty()) {
       rec_ids["fldr_<$ parentIdHash $>"] = [<$level$>, <$displayFolder$>, [ <$$ *recording_item $> ]]
 %   }
       </script>
     <%cpp>
   }
 </%cpp>
+  <script>
+    if (Object.values(rec_ids).length < 2) {
+      document.write(
+        '<li class="recording">' +
+          '<table class="recordings" width="100%">' +
+            '<tbody>' +
+              '<tr class="recording_item">' +
+                 '<td class="message"><$ tr("No matching recordings found") $></td>' +
+              '</tr>' +
+            '</tbody>' +
+          '</table>' +
+        '</li>'
+      )
+    }
+  </script>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -401,8 +430,8 @@ recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
 if (currentFlat != "true") {
 </%cpp>
 <span class="sep">|</span>
-<img onclick="ExpandAll()" src="<$ LiveSetup().GetThemedLink("img", "plus.png") $>" alt="" <& tooltip.hint text=(tr("Expand all folders")) &>/>
-<img onclick="CollapseAll()" src="<$ LiveSetup().GetThemedLink("img", "minus.png") $>" alt="" <& tooltip.hint text=(tr("Collapse all folders")) &>/>
+<img onclick="ExpandAll()" class="pagemenu_expander" src="<$ LiveSetup().GetThemedLink("img", "plus.png") $>" alt="" <& tooltip.hint text=(tr("Expand all folders")) &>/>
+<img onclick="CollapseAll()" class="pagemenu_expander" src="<$ LiveSetup().GetThemedLink("img", "minus.png") $>" alt="" <& tooltip.hint text=(tr("Collapse all folders")) &>/>
 <%cpp>
 }
 </%cpp>
@@ -427,8 +456,9 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
   std::string filter;
   std::string flat;
   int history_num_back = 0;
+  std::string className;
 </%args>
-<%cpp> { </%cpp><a href="epginfo.html?epgid=del_<$ id $>&sort=<$sort$>&filter=<$filter$>&flat=<$flat$>&history_num_back=<$history_num_back+1$>" <& tooltip.hint text=(tr("Delete this recording from hard disc!")) &>><img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" /></a><%cpp> } </%cpp>
+<%cpp> { </%cpp><a href="epginfo.html?epgid=del_<$ id $>&sort=<$sort$>&filter=<$filter$>&flat=<$flat$>&history_num_back=<$history_num_back+1$>" <& tooltip.hint text=(tr("Delete this recording from hard disc!")) &>><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" /></a><%cpp> } </%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -439,8 +469,9 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
   std::string filter;
   std::string flat;
   int history_num_back = 0;
+  std::string className;
 </%args>
-<%cpp> { </%cpp><a href="edit_recording.html?recid=<$ id $>&sort=<$sort$>&filter=<$filter$>&flat=<$flat$>&history_num_back=<$history_num_back+1$>"><img src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="" <& tooltip.hint text=(tr("Edit recording")) &> /></a><%cpp> } </%cpp>
+<%cpp> { </%cpp><a href="edit_recording.html?recid=<$ id $>&sort=<$sort$>&filter=<$filter$>&flat=<$flat$>&history_num_back=<$history_num_back+1$>"><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="" <& tooltip.hint text=(tr("Edit recording")) &> /></a><%cpp> } </%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -473,19 +504,21 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
 %  } else {
 <div class="epg_description" id="del_<$ todel $>">
   <div class="station">
-    <div class="boxheader"><div><div class="caption"><$ tr("Delete recordings") $></div></div></div>
+    <div class="boxheader"><div class="caption"><$ tr("Delete recordings") $></div></div>
   </div>
   <div class="epg_content">
     <form>
-      <div class="about_head"><div><div><$ cToSvFormated(tr("Delete recording \"%s\"?"), recording_Name.empty()?"No recording name available":recording_Name.c_str() ) $></div></div></div>
       <input type="hidden" name="epgid" value="<$todel$>" \>
       <input type="hidden" name="delete_rec" value="confirmed" \>
       <input type="hidden" name="history_num_back" value="<$ history_num_back $>" id="history_del_<$ todel $>"\>
-      <div class="about_left">
-        <button id="confirm_del_<$ todel $>" class="green" type="button" onclick="delete_rec_back('<$ todel $>', <$ history_num_back $>)"><$ tr("Delete")$></button>
-      </div>
-      <div class="about_right">
-<# if prev page is epginfo.html: just go back one page.#>
+      <div class="about_head"><$ cToSvFormated(tr("Delete recording \"%s\"?"), recording_Name.empty()?"No recording name available":recording_Name.c_str() ) $></div>
+      <div class="about_section">
+        <div class="tabular">
+          <div class="about_left">
+            <button id="confirm_del_<$ todel $>" class="green" type="button" onclick="delete_rec_back('<$ todel $>', <$ history_num_back $>)"><$ tr("Delete")$></button>
+          </div>
+          <div class="about_right">
+<# if previous page is epginfo.html, just go back one page #>
 <script>
 function cancel_delete() {
   if (document.referrer.indexOf("epginfo.html?") != -1) {
@@ -495,7 +528,9 @@ function cancel_delete() {
   }
 }
 </script>
-        <button id="close_del_<$ todel $>" type="button" class="red" onclick="back_depending_referrer(1, <$history_num_back $>)"><$ tr("Cancel") $></button>
+            <button id="close_del_<$ todel $>" type="button" class="red" onclick="back_depending_referrer(1, <$history_num_back $>)"><$ tr("Cancel") $></button>
+          </div>
+        </div>
       </div>
     </form>
   </div>
@@ -516,13 +551,13 @@ function cancel_delete() {
   int history_num_back = 0;
 </%args>
 %   if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
-<& pageelems.ajax_action_href action="play_recording" param=(id) tip=(tr("play this recording")) image="play.png" alt="" &>
+<& pageelems.ajax_action_href action="play_recording" param=(id) tip=(tr("play this recording")) image="play.png" alt="" className="icon" &>
 %   }
-<& pageelems.hls_recording recId=(id) &>
-<& pageelems.m3u_playlist_recording recid=(id) &>
-<& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID) &>
-<& recordings.edit_rec id=(id) sort=(sort) filter=(filter) flat=(flat) history_num_back=(history_num_back) &>
-<& recordings.del_rec id=(id) sort=(sort) filter=(filter) flat=(flat) history_num_back=(history_num_back) &>
+<& pageelems.hls_recording recId=(id) className="icon" &>
+<& pageelems.m3u_playlist_recording recid=(id) className="icon" &>
+<& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID) className="icon" &>
+<& recordings.edit_rec id=(id) sort=(sort) filter=(filter) flat=(flat) history_num_back=(history_num_back) className="icon" &>
+<& recordings.del_rec id=(id) sort=(sort) filter=(filter) flat=(flat) history_num_back=(history_num_back) className="icon" &>
 <%cpp>
 const RecordingsItemRec* recPtr = RecordingsManager::GetByIdHash(id);
 if (recPtr) {
@@ -550,8 +585,7 @@ if (recPtr) {
   cToSvConcat duration;
   AppendDuration(duration, tr("%d:%02d"), recPtr->Duration() );
 </%cpp>
-<img data-src="img/transparent.png" height="10px" />
-<span id="icons-<$id$>"></span>
+<div id="icons-<$id$>" class="recording_status"></div>
 <script class="injectIcons">
 injectErrorHdSdIcon(\"icons-<$id$>\", <$cToSvInt(recPtr->RecordingErrors())$>, <$cToSvInt(recPtr->DurationDeviation())$>, \"<$sdhd$>\", \"<$recPtr->ChannelName()$>\", \"<$duration$>\", <$ cToSvInt(recPtr->NumberTsFiles()) $>, \"<$frameParams$>\")
 </script>
@@ -559,6 +593,7 @@ injectErrorHdSdIcon(\"icons-<$id$>\", <$cToSvInt(recPtr->RecordingErrors())$>, <
 }
 </%cpp>
 </%def>
+
 <# ---------------------------------------------------------------------- #>
 <%def archived_disc>
 <%args>

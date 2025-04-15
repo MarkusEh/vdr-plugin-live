@@ -57,6 +57,15 @@ msgstr ""
 msgid "File system view"
 msgstr ""
 
+msgid "Duplicates not identified by tvscraper"
+msgstr ""
+
+msgid "Duplicates identified by tvscraper"
+msgstr ""
+
+msgid "Duplicates, with different languages"
+msgstr ""
+
 msgid "No recording errors"
 msgstr ""
 
@@ -851,13 +860,7 @@ msgstr "Įrašų nėra"
 msgid "Delete selected"
 msgstr ""
 
-msgid "Duplicates identified by tvscraper"
-msgstr ""
-
-msgid "Duplicates, with different languages"
-msgstr ""
-
-msgid "Duplicates not identified by tvscraper"
+msgid "No matching recordings found"
 msgstr ""
 
 msgid "Sort:"
@@ -1093,6 +1096,9 @@ msgstr "Vartotojai"
 
 msgid "Delete user"
 msgstr "Ištrinti vartotoją"
+
+msgid "No user configured"
+msgstr ""
 
 msgid "What's running on"
 msgstr "Kas rodoma"

@@ -85,7 +85,7 @@ void OsdStatusMonitor::OsdCurrentItem(const char *Text, int Index) {
   if (Index >= 0) m_selected = Index;
   if (Text) {
     if (m_selected < 0)
-      esyslog("live: ERROR, OsdStatusMonitor::OsdItemChanged2, m_selected < 0, Text = %s", Text);
+      esyslog("live: ERROR, OsdStatusMonitor::OsdItemChanged, m_selected < 0, Text = %s", Text);
     else
       m_items[m_selected].Update(Text);
   }

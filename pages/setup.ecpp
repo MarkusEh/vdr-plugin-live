@@ -134,7 +134,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
     }
     function changeduseauth(selection)
     {
-      document.getElementById("authsection").style.display = (selection.checked ? "block" : "none");
+      document.getElementById("authsection").style.display = (selection.checked ? "revert-layer" : "none");
     }
     function setauthchanged(selection)
     {
@@ -142,23 +142,24 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
     }
     function changedChanGroups() {
       if (document.getElementById("channelGroupsGen_individual").checked) {
-         document.getElementById("individual_channelGroups_section").style.display = "block"
+         document.getElementById("individual_channelGroups_section").style.display = "revert-layer"
       } else {
          document.getElementById("individual_channelGroups_section").style.display = "none"
       }
     }
     //--></script>
   </head>
-  <body onload="initform(); adjustHeader()" onresize="adjustHeader()">
+  <body onload="initform()">
     <& pageelems.logo &>
     <& menu active=("setup") &>
-    <div class="inhalt">
+    <div id="content">
+      <div class="spacebar"><# spacer with fade-out effect #></div>
       <form method="post" action="setup.html">
         <input type="hidden" name="authchanged" value="<$ authchanged $>" id="authchanged"/>
         <input type="hidden" name="message" value="<$ message $>" id="message"/>
-        <table class="formular" cellpadding="0" cellspacing="0">
+        <table class="form" cellpadding="0" cellspacing="0">
           <tr class="head">
-            <td  class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div><div><$ tr("Setup") $></div></div></div></td>
+            <td  class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div class="caption"><$ tr("Setup") $></div></div></td>
           </tr>
           <tr>
             <td class="label leftcol"><div class="withmargin"><$ tr("Use authentication") $>:</div></td>
@@ -257,35 +258,36 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
           </tr>
           <tr>
             <td class="label leftcol"><div class="withmargin"><$ tr("Channel groups for MultiSchedule") $>:</div></td>
-            <td class="rightcol">
-            <div class="dotted">
-              <input id="channelGroupsGen_default" name="channelGroupsGen" value="default" <?? channelGroupsGen=="default"||channelGroupsGen.empty() ? "checked=\"checked\"" ?> type="radio" onclick="changedChanGroups()"/>
-              <label for="channelGroupsGen_default"><$ tr("5 channels per group") $></label>
-            </div>
-            <div class="dotted">
-              <input id="channelGroupsGen_vdr" name="channelGroupsGen" value="vdr" <?? channelGroupsGen=="vdr" ? "checked=\"checked\"" ?> type="radio" onclick="changedChanGroups()"/>
-              <label for="channelGroupsGen_vdr"><$ tr("Channel groups as defined in VDR") $></label>
-            </div>
-            <div class="dotted">
-              <input id="channelGroupsGen_flat" name="channelGroupsGen" value="flat" <?? channelGroupsGen=="flat" ? "checked=\"checked\"" ?> type="radio" onclick="changedChanGroups()"/>
-              <label for="channelGroupsGen_flat"><$ tr("All channels in one group") $></label>
-            </div>
-            <div class="dotted">
-              <input id="channelGroupsGen_individual" name="channelGroupsGen" value="individual" <?? channelGroupsGen=="individual" ? "checked=\"checked\"" ?> type="radio" onclick="changedChanGroups()"/>
-              <label for="channelGroupsGen_individual"><$ tr("Individual channel groups") $></label>
-            </div>
+            <td class="rightcol"><div class="options">
+             <div class="dotted">
+               <input id="channelGroupsGen_default" name="channelGroupsGen" value="default" <?? channelGroupsGen=="default"||channelGroupsGen.empty() ? "checked=\"checked\"" ?> type="radio" onclick="changedChanGroups()"/>
+               <label for="channelGroupsGen_default"><$ tr("5 channels per group") $></label>
+             </div>
+             <div class="dotted">
+               <input id="channelGroupsGen_vdr" name="channelGroupsGen" value="vdr" <?? channelGroupsGen=="vdr" ? "checked=\"checked\"" ?> type="radio" onclick="changedChanGroups()"/>
+               <label for="channelGroupsGen_vdr"><$ tr("Channel groups as defined in VDR") $></label>
+             </div>
+             <div class="dotted">
+               <input id="channelGroupsGen_flat" name="channelGroupsGen" value="flat" <?? channelGroupsGen=="flat" ? "checked=\"checked\"" ?> type="radio" onclick="changedChanGroups()"/>
+               <label for="channelGroupsGen_flat"><$ tr("All channels in one group") $></label>
+             </div>
+             <div class="dotted">
+               <input id="channelGroupsGen_individual" name="channelGroupsGen" value="individual" <?? channelGroupsGen=="individual" ? "checked=\"checked\"" ?> type="radio" onclick="changedChanGroups()"/>
+               <label for="channelGroupsGen_individual"><$ tr("Individual channel groups") $></label>
+             </div>
+           </div>
 
-            <div id="individual_channelGroups_section" style="display: none">
-              <table border="0" cellpadding="0" cellspacing="0" class="dependent">
-              <tr>
-                <td class="label"><div class="withmargin"><$ tr("Channel groups") $>:</div></td>
-                <td><input type="text" name="channelGroups" value="<$ channelGroups $>" id="channelGroups" />
-                <& tooltip.help text=(tr("Separate channels with a comma ',', separate groups with a semi-colon ';'")) &></td>
-              </tr>
-              </table>
-            </div>
+           <div id="individual_channelGroups_section" style="display: none">
+             <table border="0" cellpadding="0" cellspacing="0" class="dependent">
+             <tr>
+               <td class="label"><div class="withmargin"><$ tr("Channel groups") $>:</div></td>
+               <td><input type="text" name="channelGroups" value="<$ channelGroups $>" id="channelGroups" />
+               <& tooltip.help text=(tr("Separate channels with a comma ',', separate groups with a semi-colon ';'")) &></td>
+             </tr>
+             </table>
+           </div>
 
-          </td>
+            </td>
           </tr>
           <tr>
             <td class="label leftcol"><div class="withmargin"><$ tr("Duration of MultiSchedule in hours") $>:</div></td>
@@ -321,21 +323,28 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
   std::string parent("..");
   std::string current(".");
   std::string cvsDir("CVS");
+  std::vector<std::string> themes;
   while ((e = d.Next())) {
     if ((current == e->d_name) || (parent == e->d_name) || (cvsDir == e->d_name)) {
       continue;
     }
     /* Check if entry is a directory: I do not rely on e->d_type
-       here because on some systems it is allways DT_UNKNOWN. Also
-       testing for DT_DIR does not take into account symbolic
-       links to directories.
+    ** here because on some systems it is always DT_UNKNOWN. Also
+    ** testing for DT_DIR does not take into account symbolic
+    ** links to directories.
     */
     struct stat buf;
     if ((stat((dirPath + "/" + e->d_name).c_str(), &buf) != 0) || (!S_ISDIR(buf.st_mode))) {
       continue;
     }
+    themes.push_back(e->d_name);
+  }
+  // get theme names sorted for selection
+  std::sort(themes.begin(), themes.end());
+  for (auto name: themes)
+  {
 </%cpp>
-              <option value="<$ e->d_name $>" <%cpp> SELECTIF(theme == e->d_name) </%cpp>><$ e->d_name $></option>
+              <option value="<$ name $>" <%cpp> SELECTIF(theme == name) </%cpp>><$ name $></option>
 <%cpp>
   }
 }
@@ -351,6 +360,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
           </tr>
         </table>
       </form>
+      <div class="spacebar"><# spacer with fade-out effect #></div>
     </div>
   </body>
 </html>

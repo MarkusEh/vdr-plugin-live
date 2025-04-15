@@ -8,6 +8,7 @@
 
 using namespace vdrlive;
 
+static const size_t maximumTruncShortDescrLength = 100;   // characters for the short description in the "boxes"
 static const size_t maximumTruncDescriptionLength = 150;  // characters for the description in the "boxes"
 
 </%pre>
@@ -109,15 +110,19 @@ if (type == "now") {
     }
     //--></script>
   </head>
-  <body onload="adjustHeader()" onresize="adjustHeader()">
+  <body>
     <& pageelems.logo &>
     <& menu active=("whats_on") component=("whats_on.whats_on_actions")>
-    <div class="inhalt">
+    <div id="content">
+      <div class="spacebar"><# spacer with fade-out effect #></div>
 %      if (mode == "list") {
-      <table class="listing" cellspacing="0" cellpadding="0">
+      <table class="listing whats_on" cellspacing="0" cellpadding="0">
         <tr class="head">
-          <td colspan="9"><div class="boxheader"><div><div><$ head $></div></div></div></td>
+          <td colspan="4"><div class="boxheader"><div class="caption"><$ head $></div></div></td>
         </tr>
+%      } else {
+      <# we use a flexbox, because the first row of floats have corrupt box headers #>
+      <div class="event_collection">
 %      }
 <%cpp>
   std::vector<EpgInfo> eventList;
@@ -153,7 +158,7 @@ if (type == "now") {
   else // get favorite broadcasts from epgsearch
   {
     SearchResults results;
-    SearchTimers timers;  // this class receives "automatically" the data from epgsearch
+    SearchTimers timers;  // this class "automatically" receives the data from epgsearch
     for (SearchTimers::iterator timer = timers.begin(); timer != timers.end(); ++timer) {
       if (!timer->UseInFavorites()) continue;
       SearchResults curresults;
@@ -176,13 +181,19 @@ if (type == "now") {
   for(std::vector<EpgInfo>::size_type i = 0; i < eventList.size(); ++i) {
     EpgInfoPtr epgEvent = &(eventList[i]);
 
-    bool truncated = false;
+    bool shortDescrTruncated = false;
+    bool descriptionTruncated = false;
     cToSvConcat longDescription;
-    AppendHtmlEscapedAndCorrectNonUTF8(longDescription, StringWordTruncate(epgEvent->LongDescr(), LiveSetup().GetMaxTooltipChars(), truncated));
-    if (truncated) longDescription << " ...";
-    longDescription << "<br/><br/>" << tr("Click to view details.");
+    if (!epgEvent->LongDescr().empty()) {
+      longDescription << "<p>";
+      AppendHtmlEscapedAndCorrectNonUTF8(longDescription, StringWordTruncate(epgEvent->LongDescr(), LiveSetup().GetMaxTooltipChars(), descriptionTruncated), "</p><p>");
+      if (descriptionTruncated) longDescription << " ...";
+      longDescription << "</p>";
+    }
+    longDescription << "<p class=\"click-details\">" << tr("Click to view details.") << "</p>";
 
-    std::string truncDescription(StringWordTruncate(epgEvent->LongDescr(), maximumTruncDescriptionLength, truncated));
+    std::string truncShortDescr(StringWordTruncate(epgEvent->ShortDescr(), maximumTruncShortDescrLength, shortDescrTruncated));
+    std::string truncDescription(StringWordTruncate(epgEvent->LongDescr(), maximumTruncDescriptionLength, descriptionTruncated));
     int chNumber = epgEvent->ChannelNumber();
 
     std::string startTime(epgEvent->StartTime(tr("%I:%M %p")));
@@ -199,22 +210,28 @@ if (type == "now") {
 </%cpp>
       <div class="event">
         <div class="station">
-          <div><div><div><a href="schedule.html?channel=<$ cSv(cToSvInt(chNumber)) $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ cSv(cToSvInt(chNumber)) $><$ tr(" - ") $><$ (epgEvent->Caption()) $></a></div></div></div>
+          <div class="boxheader"><div class="caption"><a href="schedule.html?channel=<$ cSv(cToSvInt(chNumber)) $>" <& tooltip.hint text=(tr("View the schedule of this channel")) &>><$ cSv(cToSvInt(chNumber)) $><$ tr(" - ") $><$ (epgEvent->Caption()) $></a></div></div>
         </div>
         <div class="content">
           <div class="tools">
             <& pageelems.epg_tool_box detail=(1) epgid=(epgEvent->Id()) title=(epgEvent->Title()) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) &>
           </div>
           <div class="whatson_info">
-            <div class="info nowrap"><div class="date margin_right"><$ (startDate) $></div><div class="time"><$ (timeSpan) $></div></div>
-            <div class="progress"><div><& pageelems.progressbar progress=(epgEvent->Elapsed()) duration=(epgEvent->Duration()) &></div></div>
-            <div class="title withmargin"><$ (epgEvent->Title()) $></div>
-            <div class="short withmargin"><$ (epgEvent->ShortDescr()) $></div>
-            <div class="description withmargin"><$ truncDescription $>
-%            if (truncated) {
-              ...</div><div class="more withmargin"><a <& tooltip.hint text=(longDescription) &><& tooltip.display domId=(epgEvent->Id()) &>><$ tr("more") $></a>
-%            }
+            <div class="epg_details">
+              <div class="info nowrap">
+                <div class="date margin_right"><$ (startDate) $></div>
+                <div class="time"><$ (timeSpan) $></div>
+               </div>
+              <div class="duration">
+                <div class="progress"><& pageelems.progressbar progress=(epgEvent->Elapsed()) duration=(epgEvent->Duration()) &></div>
+              </div>
             </div>
+            <div class="title withmargin"><$ (epgEvent->Title()) $></div>
+            <div class="short withmargin"><$ truncShortDescr $><? shortDescrTruncated ? " ..." ?></div>
+            <div class="description withmargin"><$ truncDescription $><? descriptionTruncated ? " ..." ?></div>
+%           if (shortDescrTruncated || descriptionTruncated) {
+              <div class="more withmargin"><a <& tooltip.hint text=(longDescription) &><& tooltip.display domId=(epgEvent->Id()) &>><$ tr("more") $></a></div>
+%           }
           </div>
         </div>
       </div>
@@ -277,11 +294,11 @@ if (type == "now") {
       }
 </%cpp>
       <tr>
-        <& pageelems.epg_tool_box detail=(0) epgid=(epgEvent->Id()) title=(epgEvent->Title()) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) lastCurrentChanel=(lastCurrentChanel ? 1 : 0) &>
+        <td class="action leftcol <? lastCurrentChanel ? "bottomrow"?>"><div class="event_actions"><& pageelems.epg_tool_box detail=(0) epgid=(epgEvent->Id()) title=(epgEvent->Title()) startTime=(epgEvent->GetStartTime()) endTime=(epgEvent->GetEndTime()) &></div></td>
         <td class="topaligned <? lastCurrentChanel ? "bottomrow"?>">
           <div class="withmargin">
             <div class="nomargin nowrap"><$ (timeSpan) $></div>
-            <div class="progress"><div><& pageelems.progressbar progress=(epgEvent->Elapsed()) duration=(epgEvent->Duration()) &></div></div>
+            <div class="duration"><div class="progress"><& pageelems.progressbar progress=(epgEvent->Elapsed()) duration=(epgEvent->Duration()) &></div></div>
           </div>
         </td>
         <td class="topaligned <? lastCurrentChanel ? "bottomrow"?>">
@@ -299,7 +316,7 @@ if (type == "now") {
           </div>
         </td>
 <%cpp>
-      cToSvConcat hint(epgEvent->Caption().data(), "<br>", tr("View the schedule of this channel"));
+      cToSvConcat hint("<p>", epgEvent->Caption().data(), "</p><p class=\"click-details\">", tr("View the schedule of this channel"), "</p>");
 </%cpp>
         <td class="topaligned rightcol <? lastCurrentChanel ? "bottomrow"?>"><div class="station withmargin"><span class="channel_id"><$ cToSvInt(chNumber) $><$ tr(" - ") $></span> <a href="schedule.html?channel=<$ cToSvInt(chNumber) $>" <& tooltip.hint text=(hint) &>><$$ chanlogoimg $><$ chanlogoimg.empty()?epgEvent->Caption():"" $></a></div>
         </td>
@@ -310,7 +327,10 @@ if (type == "now") {
 </%cpp>
 %  if (mode == "list") {
       </table>
+%   } else {
+      </div>
 %   }
+      <div class="spacebar"><# spacer with fade-out effect #></div>
     </div>
   </body>
 </html>

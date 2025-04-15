@@ -1,4 +1,4 @@
-the keyboard shortcuts in the remote view:
+Keyboard shortcuts in the 'Remote' view:
 
 <tab> -> menu
 <esc> -> back

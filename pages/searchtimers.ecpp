@@ -46,18 +46,19 @@ if (!logged_in && LiveSetup().UseAuth()) {
     <& pageelems.stylesheets &>
     <& pageelems.ajax_js &>
   </head>
-  <body onload="adjustHeader()" onresize="adjustHeader()">
+  <body>
     <& pageelems.logo &>
-    <& menu active=("searchtimers") component=("searchtimers.searchtimer_actions")>
-    <div class="inhalt">
-      <table class="listing" cellspacing="0" cellpadding="0">
+    <& menu active=("searchtimers") component=("searchtimers.searchevent_actions")>
+    <div id="content">
+      <div class="spacebar"><# spacer with fade-out effect #></div>
+      <table class="listing searchtimers" cellspacing="0" cellpadding="0">
         <tr class="head">
           <td colspan="8">
-            <div class="boxheader"><div><div><$ pageTitle $></div></div></div>
+            <div class="boxheader"><div class="caption"><$ pageTitle $></div></div>
           </td>
         </tr>
         <tr class="description">
-          <td class="action leftcol"><img src="img/transparent.png" alt="" width="16px" height="16px"/></td>
+          <td class="action leftcol">&nbsp;</td>
           <td><div class="withmargin"><$ tr("Expression") $></div></td>
           <td><div class="withmargin"><$ tr("Channel") $></div></td>
           <td><div class="withmargin"><$ tr("Starts between") $></div></td>
@@ -76,14 +77,18 @@ if (!logged_in && LiveSetup().UseAuth()) {
 
 </%cpp>
         <tr class="<$ timer->UseAsSearchTimer() ? "active" : "inactive" $>">
-          <td class="action leftcol <? bottom ? "bottomrow" ?>"><%cpp> if(timer->UseAsSearchTimer()) { </%cpp><img src="<$ LiveSetup().GetThemedLink("img", "arrow.png") $>" alt="" /><%cpp> } </%cpp></td>
-          <td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><$ timer->Search() $></div></td>
+          <td class="action leftcol <? bottom ? "bottomrow" ?>"><%cpp> if(timer->UseAsSearchTimer()) { </%cpp><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "arrow.png") $>" alt="" /><%cpp> } </%cpp></td>
+          <td class="<? bottom ? "bottomrow" ?>"><div class="searchtimer withmargin"><$ timer->Search() $></div></td>
           <td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><$ timer->ChannelText() $></div></td>
           <td class="<? bottom ? "bottomrow" ?>"><div class="withmargin"><? timer->UseTime() ? timer->StartTimeFormatted()+" - "+timer->StopTimeFormatted() ?></div></td>
-          <td class="action <? bottom ? "bottomrow" ?>"><a href="searchtimers.html?searchtimerid=<$ timerID $>&action=toggle"><img src="<$ LiveSetup().GetThemedLink("img", timer->UseAsSearchTimer() ? "active.png" : "inactive.png") $>" alt="<$ tr("Toggle search timer actions (in)active") $>" <& tooltip.hint text=(tr("Toggle search timer actions (in)active")) &> /></a></td>
-          <td class="action <? bottom ? "bottomrow" ?>"><a href="searchresults.html?searchtimerid=<$ timerID $>"><img src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="<$ tr("Browse search timer results") $>" <& tooltip.hint text=(tr("Browse search timer results")) &> /></a></td>
-          <td class="action <? bottom ? "bottomrow" ?>"><a href="edit_searchtimer.html?searchtimerid=<$ timerID $>"><img src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="<$ tr("Edit search timer") $>" <& tooltip.hint text=(tr("Edit search timer")) &> /></a></td>
-          <td class="action rightcol <? bottom ? "bottomrow" ?>"><a href="searchtimers.html?searchtimerid=<$ timerID $>&action=delete" onclick="return confirm('<$ tr("Delete this search timer?") $>')"><img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="<$ tr("Delete search timer") $>" <& tooltip.hint text=(tr("Delete search timer")) &> /></a></td>
+          <td class="action rightcol <? bottom ? "bottomrow" ?>">
+            <div class="event_actions">
+               <a href="searchtimers.html?searchtimerid=<$ timerID $>&action=toggle"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", timer->UseAsSearchTimer() ? "active.png" : "inactive.png") $>" alt="<$ tr("Toggle search timer actions (in)active") $>" <& tooltip.hint text=(tr("Toggle search timer actions (in)active")) &> /></a>
+               <a href="searchresults.html?searchtimerid=<$ timerID $>"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="<$ tr("Browse search timer results") $>" <& tooltip.hint text=(tr("Browse search timer results")) &> /></a>
+               <a href="edit_searchtimer.html?searchtimerid=<$ timerID $>"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="<$ tr("Edit search timer") $>" <& tooltip.hint text=(tr("Edit search timer")) &> /></a>
+               <a href="searchtimers.html?searchtimerid=<$ timerID $>&action=delete" onclick="return confirm('<$ tr("Delete this search timer?") $>')"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="<$ tr("Delete search timer") $>" <& tooltip.hint text=(tr("Delete search timer")) &> /></a>
+            </div>
+          </td>
         </tr>
 <%cpp>
         }
@@ -92,12 +97,13 @@ if (!logged_in && LiveSetup().UseAuth()) {
           <td colspan="8"/>
         </tr>
       </table>
+      <div class="spacebar"><# spacer with fade-out effect #></div>
     </div>
   </body>
 </html>
 <%include>page_exit.eh</%include>
 
-<%def searchtimer_actions>
+<%def searchevent_actions>
 <a href="edit_searchtimer.html"><$ tr("New search timer") $></a>
 <span class="sep">|</span>
 <a href="searchtimers.html?action=update"><$ tr("Trigger search timer update") $></a>

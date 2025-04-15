@@ -1,382 +1,870 @@
-/* #############################
-   #  Globals
-   #############################
+/* ##################################################
+   #  These are properties for the orange-blue theme.
+   ##################################################
 */
-
-html, body {
-  background-color: #081966;
-  color: white;
-}
-
-table {
-  background-color: #263480;
-}
-
-input {
-  border: 1px solid #081966;
-        background: #DDDDFF;
-}
-
-select {
-  border: 1px solid #081966;
-        background: #DDDDFF;
-}
-
-a {
-  color: #F5EE74;
-}
 
 
 /* #############################
-   #  Tooltip style for hints
+   #  Color properties
    #############################
 */
 
-.hint-tip {
-  color: black;
+/* body colors */
+
+@property --body-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
 }
 
-.hint-tip .hint-tip-top {
-  background: transparent url(/img/rounded-box-orange-tl.png) no-repeat 0px 0px;
+@property --body-link-color {
+  syntax: "<color>";
+  initial-value: #f5ee74;
+  inherits: false;
 }
 
-.hint-tip .hint-tip-top .hint-tip-c {
-  background: transparent url(/img/rounded-box-orange-tr.png) no-repeat right 0px;
-}
-
-.hint-tip .hint-tip-bdy {
-  background: transparent url(/img/rounded-box-orange-ml.png) repeat-y 0px 0px;
-}
-
-.hint-tip .hint-tip-bdy .hint-tip-c {
-  background: transparent url(/img/rounded-box-orange-mr.png) repeat-y right 0px;
-}
-
-.hint-tip .hint-tip-bot {
-  background: transparent url(/img/rounded-box-orange-bl.png) no-repeat 0px 0px;
-}
-
-.hint-tip .hint-tip-bot .hint-tip-c {
-  background: transparent url(/img/rounded-box-orange-br.png) no-repeat right 0px;
+@property --body-background-color {
+  syntax: "<color>";
+  initial-value: #081966;
+  inherits: false;
 }
 
 
-/* #############################
-   #  Tooltip style for EPG info
-   #############################
-*/
+/* main-menu colors */
 
-.info-win .info-win-top {
-  background: transparent url(../img/info-win-t-l.png) no-repeat 0px 0px;
+@property --menu-color {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
 }
 
-.info-win .info-win-top .info-win-c {
-  background: transparent url(../img/info-win-t-r.png) no-repeat right 0px;
+@property --menu-color-highlight {
+  syntax: "<color>";
+  initial-value: #122dba;
+  inherits: false;
 }
 
-.info-win .info-win-top .info-win-c .info-win-t {
-  color: #000;
-}
-.info-win .info-win-body {
-  background: transparent url(../img/info-win-m-l.png) repeat-y 0px 0px;
-}
-
-.info-win .info-win-body .info-win-c {
-  background: transparent url(../img/info-win-m-r.png) repeat-y right 0px;
+@property --menu-color-login {
+  syntax: "<color>";
+  initial-value: #ff0000;
+  inherits: false;
 }
 
-.info-win .info-win-bot {
-  background: transparent url(../img/info-win-b-l.png) no-repeat 0px 0px;
+@property --menu-border-color {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
 }
 
-.info-win .info-win-bot .info-win-c {
-  background: transparent url(../img/info-win-b-r.png) no-repeat right 0px;
+@property --menu-background-color-top {
+  syntax: "<color>";
+  initial-value: #fffddd;
+  inherits: false;
 }
 
-
-/* #############################
-   #  Menu
-   #############################
-*/
-
-div.menu {
-  background: #FCBC40  url(../img/menu_line_bg.png) repeat-x;
-  border-top: 1px solid #FFFDDD;
-  border-bottom: 1px solid #FFFDDD;
-  color: #122DBA;
+@property --menu-background-color-middle {
+  syntax: "<color>";
+  initial-value: #f0e840;
+  inherits: false;
 }
 
-div.menu a {
-  color: black;
+@property --menu-background-color-bottom {
+  syntax: "<color>";
+  initial-value: #fcbc40;
+  inherits: false;
 }
 
-a#login {
-  color: red;
+/* message-bar colors */
+
+@property --messagebar-color {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
 }
 
-div.menu a.active {
-  color: #122DBA;
+@property --messagebar-color-highlight {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
 }
 
-div#pagemenu {
-  background: #FFFFFF url(../img/bg_line.png) top repeat-x;
+@property --messagebar-color-message {
+  syntax: "<color>";
+  initial-value: #a14040;
+  inherits: false;
 }
 
-div#pagemenu div {
-  background: #FFFFFF url(../img/bg_line_top.png) bottom repeat-x;
+@property --messagebar-border-color {
+  syntax: "<color>";
+  initial-value: #2b6b00;
+  inherits: false;
 }
 
-div#pagemenu div div {
-  background: #122DBA;
-  border-top: 1px solid #C0C0FF;
-  border-bottom: 1px solid #C0C0FF;
+@property --messagebar-background-color-top {
+  syntax: "<color>";
+  initial-value: #bafa61;
+  inherits: false;
 }
 
-div#pagemenu a {
-  color: #FCBC40;
+@property --messagebar-background-color-middle {
+  syntax: "<color>";
+  initial-value: #93c353;
+  inherits: false;
 }
 
-div#pagemenu a.active {
-  color: #FFFDDD;
+@property --messagebar-background-color-bottom {
+  syntax: "<color>";
+  initial-value: #7cad3f;
+  inherits: false;
 }
 
-div#pagemenu span {
-  color: #FCBC40;
+/* page-menu colors */
+
+@property --pagemenu-color {
+  syntax: "<color>";
+  initial-value: #fcbc40;
+  inherits: false;
 }
 
-div#pagemenu span.sep {
-  color: #FCBC40;
+@property --pagemenu-color-highlight {
+  syntax: "<color>";
+  initial-value: #fffddd;
+  inherits: false;
 }
 
-
-/* #############################
-   #  Info box (near logo)
-   #############################
-*/
-
-div#infobox {
-  border: 1px solid #FCBC40;
+@property --pagemenu-border-color {
+  syntax: "<color>";
+  initial-value: #c0c0ff;
+  inherits: false;
 }
 
-div#infobox div.st_header {
-  background: #122DBA;
-  border-bottom: 1px solid #C0C0FF;
+@property --pagemenu-background-color {
+  syntax: "<color>";
+  initial-value: #122dba;
+  inherits: false;
 }
 
-div#infobox div.st_content {
-  background: #081966 url(../img/bg_line_top.png) top left repeat-x;
+/* listing, multi-schedule and form colors */
+
+@property --listing-color {
+  syntax: "<color>";
+  initial-value: #fcbc40;
+  inherits: false;
 }
 
-div#infobox div.st_controls div.st_update {
-        border-right: 1px solid  #FCBC40;
+@property --listing-color-highlight {
+  syntax: "<color>";
+  initial-value: #ff4500;
+  inherits: false;
 }
 
-
-/* #############################
-   #  General table-cell classes
-   #############################
-*/
-
-table td.bottomrow {
-  border-bottom: 1px solid #FFFDDD !important;
+@property --listing-color-inactive {
+  syntax: "<color>";
+  initial-value: #c0c0ff;
+  inherits: false;
 }
 
-table td.leftcol {
-  border-left: 1px solid #FFFDDD;
+@property --listing-color-active {
+  syntax: "<color>";
+  initial-value: #fcbc40;
+  inherits: false;
 }
 
-table td.rightcol {
-  border-right: 1px solid #FFFDDD;
+@property --listing-header-color {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
 }
 
-
-/* #############################
-   #  MultiSchedule
-   #############################
-*/
-
-table.mschedule tr td.even {
-  background-color: #081999;
+@property --listing-border-color {
+  syntax: "<color>";
+  initial-value: #fcbc40;
+  inherits: false;
 }
 
-table.mschedule tr td.odd {
-  background-color: #081966;
+@property --listing-header-border-color {
+  /* color for solid border or 'transparent' for gradient border */
+  syntax: "<color>";
+  initial-value: transparent;
+  inherits: false;
 }
 
-table.mschedule tr td.current_row {
-  background-color: #FCB840;
+@property --listing-header-background-color-top {
+  syntax: "<color>";
+  initial-value: #fffddd;
+  inherits: false;
 }
 
-table.mschedule a {
-  color: inherit;
+@property --listing-header-background-color-middle {
+  syntax: "<color>";
+  initial-value: #f0e840;
+  inherits: false;
 }
 
-
-/* #############################
-   #  Event
-   #############################
-*/
-
-div.station div {
-  background: url(../img/bg_box_l.png) top left no-repeat;
+@property --listing-header-background-color-bottom {
+  syntax: "<color>";
+  initial-value: #fcbc40;
+  inherits: false;
 }
 
-div.station div div {
-  background: url(../img/bg_box_r.png) top right no-repeat;
+@property --listing-description-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
 }
 
-div.station div div div {
-  background: url(../img/bg_box_h.png) repeat-x;
+@property --listing-description-background-color {
+  syntax: "<color>";
+  initial-value: #122dba;
+  inherits: false;
 }
 
-div.station div div div a {
-  color: #000000;
+@property --listing-row-border-color {
+  syntax: "<color>";
+  initial-value: #fcbc40;
+  inherits: false;
 }
 
-td div.station a {
-  color: #FCBC40;
+@property --listing-row-background-color-top {
+  syntax: "<color>";
+  initial-value: #263480;
+  inherits: false;
 }
 
-div.content {
-  background: #263480 url(../img/bg_tools.png) top left repeat-y;
-  border-left: 1px solid #FFFDDD;
-  border-right: 1px solid #FFFDDD;
-  border-bottom: 1px solid #FFFDDD;
+@property --listing-row-background-color-bottom {
+  syntax: "<color>";
+  initial-value: #122dba;
+  inherits: false;
 }
 
-div.__progress {
-  border: 1px solid #C0C0FF;
+@property --listing-row-background-color-even {
+  syntax: "<color>";
+  initial-value: #002295;
+  inherits: false;
 }
 
-div.__progress div.__elapsed {
-  background-color: #FCB840;
-}
-img.channel_logo {
-  background-color: #FCB84000;
-}
-
-
-/* #############################
-   #  Timers
-   #############################
-*/
-
-table.listing tr td {
-  /* background: url(../img/bg_line.png) bottom repeat-x; */
-        background: transparent;
-  border-bottom: 1px solid #FCBC40;
+@property --listing-row-background-color-odd {
+  syntax: "<color>";
+  initial-value: #052064;
+  inherits: false;
 }
 
-table.listing tr.description td {
-  background: #122DBA;
+@property --listing-row-background-color-highlight {
+  syntax: "<color>";
+  initial-value: #fcb840;
+  inherits: false;
 }
 
-table.listing tr td.current {
-  color: #FCBC40;
+@property --listing-row-background-color-active {
+  syntax: "<color>";
+  initial-value: #a22ec1;
+  inherits: false;
 }
 
-table.listing tr.spacer td {
-  background-color: #081966;
+@property --listing-row-background-color-inactive {
+  syntax: "<color>";
+  initial-value: #7b4789;
+  inherits: false;
 }
 
-table.listing a {
-  color: #FCBC40;
+/* form-element colors */
+
+@property --input-color {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
 }
 
-
-/* #############################
-   #  Blue background thingy
-   #############################
-*/
-
-div.boxheader   {
-  background: url(../img/bg_box_l.png) top left no-repeat;
+@property --input-accent-color {
+  syntax: "<color>";
+  initial-value: #0062dc;
+  inherits: false;
 }
 
-div.boxheader div {
-  background: url(../img/bg_box_r.png) top right no-repeat;
+@property --input-background-color {
+  syntax: "<color>";
+  initial-value: #ddddff;
+  inherits: false;
 }
 
-div.boxheader div div {
-  background: url(../img/bg_box_h.png) repeat-x;
-  color: black;
+@property --input-border-color {
+  syntax: "<color>";
+  initial-value: #081966;
+  inherits: false;
 }
 
+/* info-box colors */
 
-/* #############################
-   #  Recordings
-   #############################
-*/
-
-div.recordings {
-  border: 1px solid #FFFDDD;
-  background-color: #263480;
+@property --infobox-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
 }
 
-div.recording_item {
-  /* background: url(../img/bg_line.png) bottom repeat-x; */
-        background: transparent;
-  border-bottom: 1px solid #FCBC40;
+@property --infobox-border-color {
+  syntax: "<color>";
+  initial-value: #fcbc40;
+  inherits: false;
 }
 
-
-/* #############################
-   #  Remote control keypad
-   #############################
-*/
-
-div.screenshot {
-  background-image: url(../img/tv.jpg);
+@property --infobox-background-color {
+  syntax: "<color>";
+  initial-value: #081966;
+  inherits: false;
 }
 
-
-/* #############################
-   #  Dotted frame
-   #############################
-*/
-
-div.dotted {
-  border: 1px dotted #bbbbbb;
-  padding: 3px;
-  margin: 2px;
-  float: left;
-  background-color: #122dBA;
+@property --infobox-header-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
 }
 
-
-/* #############################
-   #  Edit tables
-   #############################
-*/
-
-table.formular tr td {
-  /* background: url(../img/bg_line.png) bottom repeat-x; */
-  background: transparent;
-  border-bottom: 1px solid #FCBC40;
+@property --infobox-header-border-color {
+  syntax: "<color>";
+  initial-value: #c0c0ff;
+  inherits: false;
 }
 
-table.dependent {
-  background-color: #263480;
+@property --infobox-header-background-color {
+  syntax: "<color>";
+  initial-value: #122dba;
+  inherits: false;
 }
 
-
-/* #######################################
-   #  InfoWin support styles for EPG boxes
-   #######################################
-*/
-
-.info-win div.epg_content {
-        background: transparent url(../img/bg_tools.png) top left repeat-y;
+@property --infobox-progressbar-border-color {
+  syntax: "<color>";
+  initial-value: #c0c0ff;
+  inherits: false;
 }
 
+@property --infobox-progressbar-background-color {
+  syntax: "<color>";
+  initial-value: transparent;
+  inherits: false;
+}
 
-/* #############################
-   # About box
-   #############################
-*/
+@property --infobox-progressbar-elapsed-color {
+  syntax: "<color>";
+  initial-value: #fcb840;
+  inherits: false;
+}
 
-.info-win div.epg_content div.about_head div div {
-  background: #122DBA;
-  border-top: 1px solid #C0C1DA;
-  border-bottom: 1px solid #C0C1DA;
+/* login- and info-window colors */
+
+@property --infowin-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --infowin-title-color {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
+}
+
+@property --infowin-section-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --infowin-border-color {
+  syntax: "<color>";
+  initial-value: #fcbc40;
+  inherits: false;
+}
+
+@property --infowin-title-border-color {
+  /* color for solid border or 'transparent' for gradient border */
+  syntax: "<color>";
+  initial-value: transparent;
+  inherits: false;
+}
+
+@property --infowin-title-background-color-top {
+  syntax: "<color>";
+  initial-value: #fffddd;
+  inherits: false;
+}
+
+@property --infowin-title-background-color-middle {
+  syntax: "<color>";
+  initial-value: #f0e840;
+  inherits: false;
+}
+
+@property --infowin-title-background-color-bottom {
+  syntax: "<color>";
+  initial-value: #fcbc40;
+  inherits: false;
+}
+
+@property --infowin-background-color {
+  syntax: "<color>";
+  initial-value: #263480f8;
+  inherits: false;
+}
+
+@property --infowin-section-border-color {
+  syntax: "<color>";
+  initial-value: #c4bff3;
+  inherits: false;
+}
+
+@property --infowin-section-background-color {
+  syntax: "<color>";
+  initial-value: #122dba;
+  inherits: false;
+}
+
+@property --infowin-progressbar-border-color {
+  syntax: "<color>";
+  initial-value: #c0c0ff;
+  inherits: false;
+}
+
+@property --infowin-progressbar-background-color {
+  syntax: "<color>";
+  initial-value: transparent;
+  inherits: false;
+}
+
+@property --infowin-progressbar-elapsed-color {
+  syntax: "<color>";
+  initial-value: #fcb840;
+  inherits: false;
+}
+
+@property --infowin-tools-border-color {
+  syntax: "<color>";
+  initial-value: #c4bff3;
+  inherits: false;
+}
+
+@property --infowin-tools-background-color {
+  syntax: "<color>";
+  initial-value: #122dba;
+  inherits: false;
+}
+
+@property --infowin-shadow-color {
+  syntax: "<color>";
+  initial-value: #404040;
+  inherits: false;
+}
+
+/* hint pop-up colors */
+
+@property --hint-popup-color {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
+}
+
+@property --hint-popup-border-color {
+  syntax: "<color>";
+  initial-value: #f2eb57;
+  inherits: false;
+}
+
+@property --hint-popup-background-color {
+  syntax: "<color>";
+  initial-value: #f2eb57f0;
+  inherits: false;
+}
+
+@property --hint-popup-shadow-color {
+  syntax: "<color>";
+  initial-value: #404040;
+  inherits: false;
+}
+
+/* success pop-up colors */
+
+@property --ok-popup-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --ok-popup-border-color {
+  syntax: "<color>";
+  initial-value: #016139;
+  inherits: false;
+}
+
+@property --ok-popup-background-color {
+  syntax: "<color>";
+  initial-value: #016139f0;
+  inherits: false;
+}
+
+@property --ok-popup-shadow-color {
+  syntax: "<color>";
+  initial-value: #404040;
+  inherits: false;
+}
+
+/* error pop-up colors */
+
+@property --error-popup-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --error-popup-border-color {
+  syntax: "<color>";
+  initial-value: #58002e;
+  inherits: false;
+}
+
+@property --error-popup-background-color {
+  syntax: "<color>";
+  initial-value: #58002ef0;
+  inherits: false;
+}
+
+@property --error-popup-shadow-color {
+  syntax: "<color>";
+  initial-value: #404040;
+  inherits: false;
+}
+
+/* error-widget colors */
+
+@property --error-color {
+  syntax: "<color>";
+  initial-value: #ff4500;
+  inherits: false;
+}
+
+@property --error-title-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --error-border-color {
+  syntax: "<color>";
+  initial-value: #e9360d;
+  inherits: false;
+}
+
+@property --error-title-border-color {
+  /* color for solid border or 'transparent' for gradient border */
+  syntax: "<color>";
+  initial-value: transparent;
+  inherits: false;
+}
+
+@property --error-title-background-color-top {
+  syntax: "<color>";
+  initial-value: #e97d65;
+  inherits: false;
+}
+
+@property --error-title-background-color-middle {
+  syntax: "<color>";
+  initial-value: #e93e17;
+  inherits: false;
+}
+
+@property --error-title-background-color-bottom {
+  syntax: "<color>";
+  initial-value: #e9360d;
+  inherits: false;
+}
+
+@property --error-background-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+/* button colors */
+
+@property --button-login-color {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
+}
+
+@property --button-login-border-color {
+  syntax: "<color>";
+  initial-value: #e6ab3a;
+  inherits: false;
+}
+
+@property --button-login-background-color-top {
+  syntax: "<color>";
+  initial-value: #f0e840;
+  inherits: false;
+}
+
+@property --button-login-background-color-middle {
+  syntax: "<color>";
+  initial-value: #fcbc40;
+  inherits: false;
+}
+
+@property --button-green-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --button-green-border-color {
+  syntax: "<color>";
+  initial-value: #479615;
+  inherits: false;
+}
+
+@property --button-green-background-color-top {
+  syntax: "<color>";
+  initial-value: #6adf20;
+  inherits: false;
+}
+
+@property --button-green-background-color-middle {
+  syntax: "<color>";
+  initial-value: #58b91a;
+  inherits: false;
+}
+
+@property --button-red-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --button-red-border-color {
+  syntax: "<color>";
+  initial-value: #973115;
+  inherits: false;
+}
+
+@property --button-red-background-color-top {
+  syntax: "<color>";
+  initial-value: #df4921;
+  inherits: false;
+}
+
+@property --button-red-background-color-middle {
+  syntax: "<color>";
+  initial-value: #ba381a;
+  inherits: false;
+}
+
+@property --button-blue-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --button-blue-border-color {
+  syntax: "<color>";
+  initial-value: #222b68;
+  inherits: false;
+}
+
+@property --button-blue-background-color-top {
+  syntax: "<color>";
+  initial-value: #5f69af;
+  inherits: false;
+}
+
+@property --button-blue-background-color-middle {
+  syntax: "<color>";
+  initial-value: #2a3680;
+  inherits: false;
+}
+
+@property --button-yellow-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --button-yellow-border-color {
+  syntax: "<color>";
+  initial-value: #929715;
+  inherits: false;
+}
+
+@property --button-yellow-background-color-top {
+  syntax: "<color>";
+  initial-value: #d8df21;
+  inherits: false;
+}
+
+@property --button-yellow-background-color-middle {
+  syntax: "<color>";
+  initial-value: #b8ba1a;
+  inherits: false;
+}
+
+/* OSD colors */
+
+@property --osd-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --osd-background-color {
+  syntax: "<color>";
+  initial-value: #202020;
+  inherits: false;
+}
+
+@property --osd-color-highlight {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
+}
+
+@property --osd-background-color-highlight {
+  syntax: "<color>";
+  initial-value: #cccccc;
+  inherits: false;
+}
+
+@property --osd-message-color {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
+}
+
+@property --osd-message-background-color {
+  syntax: "<color>";
+  initial-value: #ffff00;
+  inherits: false;
+}
+
+@property --osd-message-border-color {
+  syntax: "<color>";
+  initial-value: #ff0000;
+  inherits: false;
+}
+
+@property --osd-status-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --osd-status-background-color {
+  syntax: "<color>";
+  initial-value: #0000ff;
+  inherits: false;
+}
+
+@property --osd-status-border-color {
+  syntax: "<color>";
+  initial-value: #ff0000;
+  inherits: false;
+}
+
+@property --osd-info-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --osd-info-background-color {
+  syntax: "<color>";
+  initial-value: #008000;
+  inherits: false;
+}
+
+@property --osd-info-border-color {
+  syntax: "<color>";
+  initial-value: #ff0000;
+  inherits: false;
+}
+
+@property --osd-warning-color {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
+}
+
+@property --osd-warning-background-color {
+  syntax: "<color>";
+  initial-value: #ffff00;
+  inherits: false;
+}
+
+@property --osd-warning-border-color {
+  syntax: "<color>";
+  initial-value: #ff0000;
+  inherits: false;
+}
+
+@property --osd-error-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --osd-error-background-color {
+  syntax: "<color>";
+  initial-value: #ff0000;
+  inherits: false;
+}
+
+@property --osd-error-border-color {
+  syntax: "<color>";
+  initial-value: #ff0000;
+  inherits: false;
+}
+
+@property --osd-button-green-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --osd-button-green-background-color {
+  syntax: "<color>";
+  initial-value: #008000;
+  inherits: false;
+}
+
+@property --osd-button-yellow-color {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
+}
+
+@property --osd-button-yellow-background-color {
+  syntax: "<color>";
+  initial-value: #ffff00;
+  inherits: false;
+}
+
+@property --osd-button-blue-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --osd-button-blue-background-color {
+  syntax: "<color>";
+  initial-value: #0000ff;
+  inherits: false;
+}
+
+@property --osd-button-red-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --osd-button-red-background-color {
+  syntax: "<color>";
+  initial-value: #ff0000;
+  inherits: false;
 }

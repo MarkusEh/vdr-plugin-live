@@ -305,18 +305,19 @@ if (!logged_in && LiveSetup().UseAuth()) {
   //--></script>
 % reply.sout().imbue(std::locale());
   </head>
-  <body onload="StreamInit(); FillIntervals(); adjustHeader()" onresize="adjustHeader()" onunload="StreamEnd()" onkeydown="return KeyboardInput(event);">
+  <body onload="StreamInit(); FillIntervals()" onunload="StreamEnd()" onkeydown="return KeyboardInput(event);">
     <& pageelems.logo &>
     <& menu active="remote" component=("remote.remote_actions")>
-    <div class="inhalt" id="remoteDiv">
-      <div class="screenshot" id="screenshot">
+    <div id="remoteDiv" class="remote">
+      <# set containers to 'display: none' to avoid flickering upon loading #>
+      <div id="screenshot" class="screenshot">
 %       if (IsGrabImageAvailable() ) {
           <img src="screenshot.jpg" name="vdrlive" />
 %       }
-        <div id="osd"></div>
+        <div id="osd" style="display: none;"></div>
       </div>
       <div>
-      <img src="<$ LiveSetup().GetThemedLink("img", "remotecontrol.jpg") $>" width="162" height="378" border="0" usemap="#remote" alt="" />
+      <img src="<$ LiveSetup().GetThemedLink("img", "remote_control.png") $>" width="162" height="378" border="0" usemap="#remote" alt="" />
            <map name="remote">
           <area href="#" shape="circle" coords="37,36,10" alt="Power" onclick="return KeyPress(<$ kPower $>)" />
           <area href="#" shape="rect" coords="27,60,59,75" alt="1" onclick="return KeyPress(<$ k1 $>)" />
@@ -366,8 +367,8 @@ if (!logged_in && LiveSetup().UseAuth()) {
 <span class="sep">&nbsp;</span>
 % if (channelID.Valid() ) {
 <span class="sep">|</span>
- <& pageelems.hls_channel channelId=(channelID) &>
- <& pageelems.m3u_playlist_channel channelId=(channelID) &>
+ <& pageelems.hls_channel channelId=(channelID) className="icon" &>
+ <& pageelems.m3u_playlist_channel channelId=(channelID) className="icon" &>
 % }
 </span></form>
 </%def>

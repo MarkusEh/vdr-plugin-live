@@ -47,7 +47,7 @@ namespace vdrlive {
   }
 
   cSv StringWordTruncate(cSv text, size_t maxLen, bool& truncated) {
-// Return text truncted to maxLen characters. If such truncation is required,
+// Return text truncated to maxLen characters. If such truncation is required,
 // truncate at any char in the char list in find_last_of (see code below ...)
     if (text.length() <= maxLen) {
       truncated = false;

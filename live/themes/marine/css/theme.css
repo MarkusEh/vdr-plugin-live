@@ -1,5 +1,870 @@
-/* ##############################################
-   # This is the theme file for the marine theme.
-   # It is empty because marine theme is the default live theme.
-   ##############################################
+/* ##################################################
+   #  These are properties for the marine theme.
+   ##################################################
 */
+
+
+/* #############################
+   #  Color properties
+   #############################
+*/
+
+/* body colors */
+
+@property --body-color {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
+}
+
+@property --body-link-color {
+  syntax: "<color>";
+  initial-value: #0067c9;
+  inherits: false;
+}
+
+@property --body-background-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+
+/* main-menu colors */
+
+@property --menu-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --menu-color-highlight {
+  syntax: "<color>";
+  initial-value: #ffdb88;
+  inherits: false;
+}
+
+@property --menu-color-login {
+  syntax: "<color>";
+  initial-value: #f5ff2d;
+  inherits: false;
+}
+
+@property --menu-border-color {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
+}
+
+@property --menu-background-color-top {
+  syntax: "<color>";
+  initial-value: #9093be;
+  inherits: false;
+}
+
+@property --menu-background-color-middle {
+  syntax: "<color>";
+  initial-value: #000669;
+  inherits: false;
+}
+
+@property --menu-background-color-bottom {
+  syntax: "<color>";
+  initial-value: #000057;
+  inherits: false;
+}
+
+/* message-bar colors */
+
+@property --messagebar-color {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
+}
+
+@property --messagebar-color-highlight {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
+}
+
+@property --messagebar-color-message {
+  syntax: "<color>";
+  initial-value: #a14040;
+  inherits: false;
+}
+
+@property --messagebar-border-color {
+  syntax: "<color>";
+  initial-value: #2b6b00;
+  inherits: false;
+}
+
+@property --messagebar-background-color-top {
+  syntax: "<color>";
+  initial-value: #bafa61;
+  inherits: false;
+}
+
+@property --messagebar-background-color-middle {
+  syntax: "<color>";
+  initial-value: #93c353;
+  inherits: false;
+}
+
+@property --messagebar-background-color-bottom {
+  syntax: "<color>";
+  initial-value: #7cad3f;
+  inherits: false;
+}
+
+/* page-menu colors */
+
+@property --pagemenu-color {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
+}
+
+@property --pagemenu-color-highlight {
+  syntax: "<color>";
+  initial-value: #0000ff;
+  inherits: false;
+}
+
+@property --pagemenu-border-color {
+  syntax: "<color>";
+  initial-value: #c0c1da;
+  inherits: false;
+}
+
+@property --pagemenu-background-color {
+  syntax: "<color>";
+  initial-value: #e9efff;
+  inherits: false;
+}
+
+/* listing, multi-schedule and form colors */
+
+@property --listing-color {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
+}
+
+@property --listing-color-highlight {
+  syntax: "<color>";
+  initial-value: #ff4500;
+  inherits: false;
+}
+
+@property --listing-color-inactive {
+  syntax: "<color>";
+  initial-value: #a0a0a0;
+  inherits: false;
+}
+
+@property --listing-color-active {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
+}
+
+@property --listing-header-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --listing-border-color {
+  syntax: "<color>";
+  initial-value: #000057;
+  inherits: false;
+}
+
+@property --listing-header-border-color {
+  /* color for solid border or 'transparent' for gradient border */
+  syntax: "<color>";
+  initial-value: transparent;
+  inherits: false;
+}
+
+@property --listing-header-background-color-top {
+  syntax: "<color>";
+  initial-value: #9093be;
+  inherits: false;
+}
+
+@property --listing-header-background-color-middle {
+  syntax: "<color>";
+  initial-value: #000669;
+  inherits: false;
+}
+
+@property --listing-header-background-color-bottom {
+  syntax: "<color>";
+  initial-value: #000057;
+  inherits: false;
+}
+
+@property --listing-description-color {
+  syntax: "<color>";
+  initial-value: #000057;
+  inherits: false;
+}
+
+@property --listing-description-background-color {
+  syntax: "<color>";
+  initial-value: #e9efff;
+  inherits: false;
+}
+
+@property --listing-row-border-color {
+  syntax: "<color>";
+  initial-value: #c0c1da;
+  inherits: false;
+}
+
+@property --listing-row-background-color-top {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --listing-row-background-color-bottom {
+  syntax: "<color>";
+  initial-value: #e9efff;
+  inherits: false;
+}
+
+@property --listing-row-background-color-even {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --listing-row-background-color-odd {
+  syntax: "<color>";
+  initial-value: #d0d0ff;
+  inherits: false;
+}
+
+@property --listing-row-background-color-highlight {
+  syntax: "<color>";
+  initial-value: #ffb0b0;
+  inherits: false;
+}
+
+@property --listing-row-background-color-active {
+  syntax: "<color>";
+  initial-value: #ffe0e0;
+  inherits: false;
+}
+
+@property --listing-row-background-color-inactive {
+  syntax: "<color>";
+  initial-value: #f0f0f0;
+  inherits: false;
+}
+
+/* form-element colors */
+
+@property --input-color {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
+}
+
+@property --input-accent-color {
+  syntax: "<color>";
+  initial-value: #0062dc;
+  inherits: false;
+}
+
+@property --input-background-color {
+  syntax: "<color>";
+  initial-value: #fafbff;
+  inherits: false;
+}
+
+@property --input-border-color {
+  syntax: "<color>";
+  initial-value: #c0c1da;
+  inherits: false;
+}
+
+/* info-box colors */
+
+@property --infobox-color {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
+}
+
+@property --infobox-border-color {
+  syntax: "<color>";
+  initial-value: #c0c1da;
+  inherits: false;
+}
+
+@property --infobox-background-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --infobox-header-color {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
+}
+
+@property --infobox-header-border-color {
+  syntax: "<color>";
+  initial-value: #c0c1da;
+  inherits: false;
+}
+
+@property --infobox-header-background-color {
+  syntax: "<color>";
+  initial-value: #e9efff;
+  inherits: false;
+}
+
+@property --infobox-progressbar-border-color {
+  syntax: "<color>";
+  initial-value: #c0c1da;
+  inherits: false;
+}
+
+@property --infobox-progressbar-background-color {
+  syntax: "<color>";
+  initial-value: transparent;
+  inherits: false;
+}
+
+@property --infobox-progressbar-elapsed-color {
+  syntax: "<color>";
+  initial-value: #e9efff;
+  inherits: false;
+}
+
+/* login- and info-window colors */
+
+@property --infowin-color {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
+}
+
+@property --infowin-title-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --infowin-section-color {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
+}
+
+@property --infowin-border-color {
+  syntax: "<color>";
+  initial-value: #000057;
+  inherits: false;
+}
+
+@property --infowin-title-border-color {
+  /* color for solid border or 'transparent' for gradient border */
+  syntax: "<color>";
+  initial-value: transparent;
+  inherits: false;
+}
+
+@property --infowin-title-background-color-top {
+  syntax: "<color>";
+  initial-value: #9093be;
+  inherits: false;
+}
+
+@property --infowin-title-background-color-middle {
+  syntax: "<color>";
+  initial-value: #000669;
+  inherits: false;
+}
+
+@property --infowin-title-background-color-bottom {
+  syntax: "<color>";
+  initial-value: #000057;
+  inherits: false;
+}
+
+@property --infowin-background-color {
+  syntax: "<color>";
+  initial-value: #fffffff8;
+  inherits: false;
+}
+
+@property --infowin-section-border-color {
+  syntax: "<color>";
+  initial-value: #c0c1da;
+  inherits: false;
+}
+
+@property --infowin-section-background-color {
+  syntax: "<color>";
+  initial-value: #e9efff;
+  inherits: false;
+}
+
+@property --infowin-progressbar-border-color {
+  syntax: "<color>";
+  initial-value: #c0c1da;
+  inherits: false;
+}
+
+@property --infowin-progressbar-background-color {
+  syntax: "<color>";
+  initial-value: transparent;
+  inherits: false;
+}
+
+@property --infowin-progressbar-elapsed-color {
+  syntax: "<color>";
+  initial-value: #e9efff;
+  inherits: false;
+}
+
+@property --infowin-tools-border-color {
+  syntax: "<color>";
+  initial-value: #c0c1da;
+  inherits: false;
+}
+
+@property --infowin-tools-background-color {
+  syntax: "<color>";
+  initial-value: #e9efff;
+  inherits: false;
+}
+
+@property --infowin-shadow-color {
+  syntax: "<color>";
+  initial-value: #404040;
+  inherits: false;
+}
+
+/* hint pop-up colors */
+
+@property --hint-popup-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --hint-popup-border-color {
+  syntax: "<color>";
+  initial-value: #011060;
+  inherits: false;
+}
+
+@property --hint-popup-background-color {
+  syntax: "<color>";
+  initial-value: #011060f0;
+  inherits: false;
+}
+
+@property --hint-popup-shadow-color {
+  syntax: "<color>";
+  initial-value: #404040;
+  inherits: false;
+}
+
+/* success pop-up colors */
+
+@property --ok-popup-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --ok-popup-border-color {
+  syntax: "<color>";
+  initial-value: #016139;
+  inherits: false;
+}
+
+@property --ok-popup-background-color {
+  syntax: "<color>";
+  initial-value: #016139f0;
+  inherits: false;
+}
+
+@property --ok-popup-shadow-color {
+  syntax: "<color>";
+  initial-value: #404040;
+  inherits: false;
+}
+
+/* error pop-up colors */
+
+@property --error-popup-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --error-popup-border-color {
+  syntax: "<color>";
+  initial-value: #58002e;
+  inherits: false;
+}
+
+@property --error-popup-background-color {
+  syntax: "<color>";
+  initial-value: #58002ef0;
+  inherits: false;
+}
+
+@property --error-popup-shadow-color {
+  syntax: "<color>";
+  initial-value: #404040;
+  inherits: false;
+}
+
+/* error-widget colors */
+
+@property --error-color {
+  syntax: "<color>";
+  initial-value: #e9360d;
+  inherits: false;
+}
+
+@property --error-title-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --error-border-color {
+  syntax: "<color>";
+  initial-value: #e9360d;
+  inherits: false;
+}
+
+@property --error-title-border-color {
+  /* color for solid border or 'transparent' for gradient border */
+  syntax: "<color>";
+  initial-value: transparent;
+  inherits: false;
+}
+
+@property --error-title-background-color-top {
+  syntax: "<color>";
+  initial-value: #e97d65;
+  inherits: false;
+}
+
+@property --error-title-background-color-middle {
+  syntax: "<color>";
+  initial-value: #e93e17;
+  inherits: false;
+}
+
+@property --error-title-background-color-bottom {
+  syntax: "<color>";
+  initial-value: #e9360d;
+  inherits: false;
+}
+
+@property --error-background-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+/* button colors */
+
+@property --button-login-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --button-login-border-color {
+  syntax: "<color>";
+  initial-value: #000057;
+  inherits: false;
+}
+
+@property --button-login-background-color-top {
+  syntax: "<color>";
+  initial-value: #9093be;
+  inherits: false;
+}
+
+@property --button-login-background-color-middle {
+  syntax: "<color>";
+  initial-value: #000669;
+  inherits: false;
+}
+
+@property --button-green-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --button-green-border-color {
+  syntax: "<color>";
+  initial-value: #479615;
+  inherits: false;
+}
+
+@property --button-green-background-color-top {
+  syntax: "<color>";
+  initial-value: #6adf20;
+  inherits: false;
+}
+
+@property --button-green-background-color-middle {
+  syntax: "<color>";
+  initial-value: #58b91a;
+  inherits: false;
+}
+
+@property --button-red-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --button-red-border-color {
+  syntax: "<color>";
+  initial-value: #973115;
+  inherits: false;
+}
+
+@property --button-red-background-color-top {
+  syntax: "<color>";
+  initial-value: #df4921;
+  inherits: false;
+}
+
+@property --button-red-background-color-middle {
+  syntax: "<color>";
+  initial-value: #ba381a;
+  inherits: false;
+}
+
+@property --button-blue-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --button-blue-border-color {
+  syntax: "<color>";
+  initial-value: #222b68;
+  inherits: false;
+}
+
+@property --button-blue-background-color-top {
+  syntax: "<color>";
+  initial-value: #5f69af;
+  inherits: false;
+}
+
+@property --button-blue-background-color-middle {
+  syntax: "<color>";
+  initial-value: #2a3680;
+  inherits: false;
+}
+
+@property --button-yellow-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --button-yellow-border-color {
+  syntax: "<color>";
+  initial-value: #929715;
+  inherits: false;
+}
+
+@property --button-yellow-background-color-top {
+  syntax: "<color>";
+  initial-value: #d8df21;
+  inherits: false;
+}
+
+@property --button-yellow-background-color-middle {
+  syntax: "<color>";
+  initial-value: #b8ba1a;
+  inherits: false;
+}
+
+/* OSD colors */
+
+@property --osd-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --osd-background-color {
+  syntax: "<color>";
+  initial-value: #202020;
+  inherits: false;
+}
+
+@property --osd-color-highlight {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
+}
+
+@property --osd-background-color-highlight {
+  syntax: "<color>";
+  initial-value: #cccccc;
+  inherits: false;
+}
+
+@property --osd-message-color {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
+}
+
+@property --osd-message-background-color {
+  syntax: "<color>";
+  initial-value: #ffff00;
+  inherits: false;
+}
+
+@property --osd-message-border-color {
+  syntax: "<color>";
+  initial-value: #ff0000;
+  inherits: false;
+}
+
+@property --osd-status-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --osd-status-background-color {
+  syntax: "<color>";
+  initial-value: #0000ff;
+  inherits: false;
+}
+
+@property --osd-status-border-color {
+  syntax: "<color>";
+  initial-value: #ff0000;
+  inherits: false;
+}
+
+@property --osd-info-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --osd-info-background-color {
+  syntax: "<color>";
+  initial-value: #008000;
+  inherits: false;
+}
+
+@property --osd-info-border-color {
+  syntax: "<color>";
+  initial-value: #ff0000;
+  inherits: false;
+}
+
+@property --osd-warning-color {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
+}
+
+@property --osd-warning-background-color {
+  syntax: "<color>";
+  initial-value: #ffff00;
+  inherits: false;
+}
+
+@property --osd-warning-border-color {
+  syntax: "<color>";
+  initial-value: #ff0000;
+  inherits: false;
+}
+
+@property --osd-error-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --osd-error-background-color {
+  syntax: "<color>";
+  initial-value: #ff0000;
+  inherits: false;
+}
+
+@property --osd-error-border-color {
+  syntax: "<color>";
+  initial-value: #ff0000;
+  inherits: false;
+}
+
+@property --osd-button-green-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --osd-button-green-background-color {
+  syntax: "<color>";
+  initial-value: #008000;
+  inherits: false;
+}
+
+@property --osd-button-yellow-color {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
+}
+
+@property --osd-button-yellow-background-color {
+  syntax: "<color>";
+  initial-value: #ffff00;
+  inherits: false;
+}
+
+@property --osd-button-blue-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --osd-button-blue-background-color {
+  syntax: "<color>";
+  initial-value: #0000ff;
+  inherits: false;
+}
+
+@property --osd-button-red-color {
+  syntax: "<color>";
+  initial-value: #ffffff;
+  inherits: false;
+}
+
+@property --osd-button-red-background-color {
+  syntax: "<color>";
+  initial-value: #ff0000;
+  inherits: false;
+}

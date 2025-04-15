@@ -1215,9 +1215,8 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
 // [0] : ID
     target.appendHex(IdHash());
     target.append("\",\"");
-// [1] : ArchiveDescr()
-//    if (IsArchived()) AppendHtmlEscapedAndCorrectNonUTF8(target, ArchiveDescr());
-    if (StillRecording()) target.append("is_recording");
+// [1] : Still recording
+    if (StillRecording()) target.append("still_recording");
     target.append("\",");
 // scraper data
     AppendScraperData(target, m_s_IMDB_ID, scraperImage(), m_s_videoType, m_s_title, m_s_season_number, m_s_episode_number, m_s_episode_name, m_s_runtime, m_s_release_date);
@@ -1226,7 +1225,7 @@ void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_
     target.appendDateTime(tr("%a,"), StartTime() );  // day of week
     target.concat(' ');
     target.appendDateTime(tr("%b %d %y"), StartTime());  // date
-    target.concat(' ');
+    target.concat(", ");
     target.appendDateTime(tr("%I:%M %p"), StartTime());  // time
     target.append("\", ");
 // RecordingErrors, Icon
@@ -1576,7 +1575,7 @@ std::string recordingErrorsHtml(int recordingErrors) {
     result.append(" ");
     result.append(cToSvInt(recordingErrors));
   }
-  result.append("\" width = \"16px\"/> </div>");
+  result.append("\" width=\"16px\"/> </div>");
   return result;
 #else
   return std::string();

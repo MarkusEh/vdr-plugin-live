@@ -24,10 +24,13 @@ Note:
 
   The InfoWin class provides the following properties to fill the
   window with content:
-    - titleBox: the element meant to place the title of the window into.
-    - buttonBox: here the default window buttons are created. You might
-      clear this and create your own kind of window controls.
-    - winBody: this is where your window contents goes.
+
+    - titleBox:  The element containing the title of the window.
+    - buttonBox: The default window buttons are created here.
+    - winBody:   This is where the actual window contents goes.
+    - resizeBox: The element acting as anchor for the resize handle.
+                 If resize is supported by the browser, this element
+                 will remain invisible.
  */
 var InfoWin = new Class({
     options: {
@@ -40,12 +43,13 @@ var InfoWin = new Class({
       wm: false, // override default window manager.
       draggable: true,
       resizable: true,
+      resizeimg: 'transparent.png',
       buttonimg: 'transparent.png',
       bodyselect: 'div.content',
       titleselect: 'div.caption',
       classSuffix: '-win',
       idSuffix: '-id',
-      offsets: {'x': -16, 'y': -16}
+      offsets: {'x': 0, 'y': 0}
     },
 
     initialize: function(id, options){
@@ -70,16 +74,16 @@ var InfoWin = new Class({
       var top = new Element('div', {
           'class': this.options.className + this.options.classSuffix + '-top'
         }).inject(this.winFrame);
-      if (this.options.draggable) this.winFrame.makeDraggable({'handle': top});
-      top = new Element('div', {
-          'class': this.options.className + this.options.classSuffix + '-c'
-        }).inject(top);
+      if (this.options.draggable) {
+        top.setStyle('cursor', 'grab');;
+        this.winFrame.makeDraggable({'handle': top});
+      }
       this.titleBox = new Element('div', {
-          'class': this.options.className + this.options.classSuffix + '-t'
+          'class': this.options.className + this.options.classSuffix + '-title'
         }).inject(top);
 
       this.buttonBox = new Element('div', {
-          'class': this.options.className + this.options.classSuffix + '-b'
+          'class': this.options.className + this.options.classSuffix + '-button'
         }).inject(top);
       var cls = new Element('div', {
           'class': 'close'
@@ -91,33 +95,29 @@ var InfoWin = new Class({
         }.bind(this));
       cls = new Element('img', {
           'src': this.options.buttonimg,
-          'alt': 'close',
-          'width': '16px',
-          'height': '16px'
+          'class': 'close-button',
+          'alt': 'close'
         }).inject(cls);
 
       // body of window: user content.
-      var bdy = new Element('div', {
+      this.winBody = new Element('div', {
           'class': this.options.className + this.options.classSuffix + '-body'
         }).inject(this.winFrame);
-      bdy = new Element('div', {
-          'class': this.options.className + this.options.classSuffix + '-c'
-        }).inject(bdy);
-      this.winBody = new Element('div', {
-          'class': this.options.className + this.options.classSuffix + '-s'
-        }).inject(bdy);
 
-      // bottom border of window: lower shadows and corners, optional
-      // resize handle.
-      var bot = new Element('div', {
-          'class': this.options.className + this.options.classSuffix + '-bot'
-        }).inject(this.winFrame);
-      bot = new Element('div', {
-          'class': this.options.className + this.options.classSuffix + '-c'
-        }).inject(bot);
-
+      // by default, we rely on the CSS 'resize' property to for resizing;
+      // if unsupported, and as fall-back approach, we inject a distinct
+      // resize element for the resize handle of the mootools.
       if (this.options.resizable) {
-        this.winFrame.makeResizable({'handle': bot});
+        var resizeBox = new Element('div', {
+            'class': this.options.className + this.options.classSuffix + '-resize'
+          }).inject(this.winFrame);
+        var icon = new Element('img', {
+            'src': this.options.resizeimg,
+            'alt': 'resize',
+            'width': '16px',
+            'height': '16px'
+          }).inject(resizeBox);
+        this.winFrame.makeResizable({'handle': resizeBox});
       }
 
       if (!this.fillTitle(id)) {
@@ -129,7 +129,7 @@ var InfoWin = new Class({
     buildFrame: function(id){
       this.winFrame = new Element('div', {
           'id': id + this.options.classSuffix + this.options.idSuffix,
-          'class': this.options.className + this.options.classSuffix,
+          'class': this.options.className + this.options.classSuffix + ' ' + id.replace(/^([A-Za-z]*)_.*$/, this.options.className + '-$1'),
           'styles': {
             'position': 'absolute',
             'top': '0',
@@ -381,33 +381,10 @@ InfoWin.Notifier = InfoWin.extend({
     },
 
     build: function(id){
-      /* top border of hint */
-      var top = new Element('div', {
-          'class': this.options.className + this.options.classSuffix + '-top'
-        }).inject(this.winFrame);
-      top = new Element('div', {
-          'class': this.options.className + this.options.classSuffix + '-c'
-        }).inject(top);
-
       /* body of tip: some helper divs and content */
-      var bdy = new Element('div', {
+      this.winBody = new Element('div', {
           'class': this.options.className + this.options.classSuffix + '-body'
         }).inject(this.winFrame);
-      bdy = new Element('div', {
-          'class': this.options.className + this.options.classSuffix + '-c'
-        }).inject(bdy);
-      this.winBody = new Element('div', {
-          'class': this.options.className + this.options.classSuffix + '-s'
-        }).inject(bdy);
-
-      /* bottom border of tip */
-      var bot = new Element('div', {
-          'class': this.options.className + this.options.classSuffix + '-bot'
-        }).inject(this.winFrame);
-      bot = new Element('div', {
-          'class': this.options.className + this.options.classSuffix + '-c'
-        }).inject(bot);
-
       return this.fillBody(id);
     },
 
@@ -425,4 +402,3 @@ InfoWin.Notifier = InfoWin.extend({
       }
     }
   });
-

@@ -24,7 +24,7 @@ function displayOn3Off(element_id_on, element_id_off1, element_id_off2, element_
  addAttributeHidden(element_id_off1);
  addAttributeHidden(element_id_off2);
  addAttributeHidden(element_id_off3);
-} 
+}
 function displayEPG(boxId) {
   displayOn3Off(boxId + "_epg", boxId + "_scraper", boxId + "_actors", boxId + "_artwork");
   removeAttributeHidden(boxId + "_epg_image");

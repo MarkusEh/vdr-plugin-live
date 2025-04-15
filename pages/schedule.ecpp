@@ -106,10 +106,11 @@ bool events_available = false;
     }
     //--></script>
   </head>
-  <body onload="adjustHeader()" onresize="adjustHeader()" onkeydown="return KeyboardInput(event);">
+  <body onkeydown="return KeyboardInput(event);">
     <& pageelems.logo &>
     <& menu active=("schedule") component=("schedule.channel_selection") &>
-    <div class="inhalt">
+    <div id="content">
+      <div class="spacebar"><# spacer with fade-out effect #></div>
 <%cpp>
   if (!events_available) {
 </%cpp>
@@ -149,8 +150,9 @@ document.write(addEventListString(<$col_span$>, <$$ epg_item.c_str() $>))
     }
   }
 </%cpp>
+      <div class="spacebar"><# spacer with fade-out effect #></div>
     </div>
-  <script>imgLoad()</script>
+    <script>imgLoad()</script>
   </body>
 </html>
 <%include>page_exit.eh</%include>
@@ -160,15 +162,17 @@ document.write(addEventListString(<$col_span$>, <$$ epg_item.c_str() $>))
    <span>
      <label for="channel"><$ tr("Channel") $>:&nbsp;<span class="bold"><$ cToSvInt(channel_number) $></span></label>
      <& channels_widget name=("channel") selected=(channel_id) onchange=("document.forms.channels.submit()") &>
-%    if (cDevice::PrimaryDevice() ) {
-       <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channel_id) image="zap.png" alt="" &>
-%    }
-     <& pageelems.hls_channel channelId=(channel_id) &>
-     <& pageelems.m3u_playlist_channel channelId=(channel_id) &>
    </span>
 </form>
+<span class="tools">
+% if (cDevice::PrimaryDevice() ) {
+  <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channel_id) image="zap.png" className="icon" alt="" &>
+% }
+  <& pageelems.hls_channel channelId=(channel_id) className="icon" &>
+  <& pageelems.m3u_playlist_channel channelId=(channel_id) className="icon" &>
+</span>
 <span class="sep">|</span>
-<?? *prev ? "<a " << *prev << ">"?>« <$ tr("Prev. entry") $><?? *prev ? "</a>" ?>
+<?? *prev ? "<a " << *prev << ">"?>«&nbsp;<$ tr("Prev. entry") $><?? *prev ? "</a>" ?>
 <span class="sep">|</span>
-<?? *next ? "<a " << *next << ">"?><$ tr("Next entry") $> »<?? *next ? "</a>" ?>
+<?? *next ? "<a " << *next << ">"?><$ tr("Next entry") $>&nbsp;»<?? *next ? "</a>" ?>
 </%def>

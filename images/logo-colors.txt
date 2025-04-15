@@ -1,0 +1,23 @@
+Reference colors for color transformations
+================================================================
+
+Marine		 HSL = ( 236.6°, 100.0%, 41.2 )
+Orange-blue	 HSL = (  57.3°,  73.3%. 94.1 )
+Redwine		 HSL = ( 326.0°, 100.0%, 41.6 )
+Veltiner	 HSL = ( 116.6°, 100.0%, 41.2 )
+
+
+Colors for color transformations (marine acting as pixel source)
+================================================================
+
+Orange-blue	dHSL = (-179.3°, -26,7%, 52.9 )
+Redwine		dHSL = (  89,4°,   0.0%,  0.4 )
+Veltiner	dHSL = (-120.0°,   0.0%,  0.0 )
+
+
+Logo color transformations (Veltiner acting as pixel source)
+================================================================
+
+Marine		dHSL = ( +120.0°,   0.0%,   0.0 )
+Orange-blue	dHSL = (  -58.7°, +26.2%, +52.5 )
+Redwine		dHSL = ( -150.0°,   0.0%,   0.0 )

@@ -27,8 +27,12 @@ if (!logged_in && LiveSetup().UseAuth()) {
   if ( !userid.empty() ) {
     if (action == "delete")
     {
-      Users.Del(Users.GetByUserId( userid ));
-      Users.Save();
+      cUser* user = Users.GetByUserId( userid );
+      if (user) {
+        // invalid userid may occur if page is reloaded
+        Users.Del(user);
+        Users.Save();
+      }
     }
   }
 </%cpp>
@@ -40,39 +44,53 @@ if (!logged_in && LiveSetup().UseAuth()) {
     <& pageelems.stylesheets &>
     <& pageelems.ajax_js &>
   </head>
-  <body onload="adjustHeader()" onresize="adjustHeader()">
+  <body>
     <& pageelems.logo &>
     <& menu active=("users") component=("users.user_actions")>
-    <div class="inhalt">
-      <table class="listing" cellspacing="0" cellpadding="0">
+    <div id="content">
+      <div class="spacebar"><# spacer with fade-out effect #></div>
+      <table class="listing users" cellspacing="0" cellpadding="0">
         <tr class="head">
           <td colspan="3">
-            <div class="boxheader"><div><div><$ pageTitle $></div></div></div>
+            <div class="boxheader"><div class="caption"><$ pageTitle $></div></div>
           </td>
         </tr>
+%       if (Users.Count() > 0) {
         <tr class="description">
-          <td class="action leftcol"><div class="leftcol"><$ tr("Name") $></div></td>
-          <td class="rightcol" colspan="8"/>
+          <td class="action leftcol" ><div class="withmargin"><$ tr("Name") $></div></td>
+          <td class="rightcol" colspan="2"/>
         </tr>
 <%cpp>
-        cUser* user = Users.First();
-        while (user)
-        {
-          bool bottom = (Users.Next(user) == NULL);
+          cUser* user = Users.First();
+          while (user)
+          {
+            bool bottom = (Users.Next(user) == NULL);
             if (user)
             {
 </%cpp>
-          <tr class="description">
-            <td class="action leftcol <? bottom ? "bottomrow" ?>"><div class="withmargin"><$ user->Name() $></div></td>
-            <td class="<? bottom ? "bottomrow" ?>"><a href="edit_user.html?userid=<$ user->Id() $>"><img src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="" <& tooltip.hint text=(tr("Edit user")) &> /></a></td>
-            <td class="action rightcol <? bottom ? "bottomrow" ?>"><a href="users.html?userid=<$ user->Id() $>&action=delete"><img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint text=(tr("Delete user")) &> /></a></td>
+          <tr class="account">
+            <td class="leftcol <? bottom ? "bottomrow" ?>"><div class="withmargin"><$ user->Name() $></div></td>
+            <td class="rightcol <? bottom ? "bottomrow" ?>">
+              <div class="user_actions">
+                <a href="edit_user.html?userid=<$ user->Id() $>"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="" <& tooltip.hint text=(tr("Edit user")) &> /></a>
+                <a href="users.html?userid=<$ user->Id() $>&action=delete"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint text=(tr("Delete user")) &> /></a>
+              </div></td>
+            </td>
           </tr>
 <%cpp>
             }
             user = Users.Next(user);
-        }
+          }
+        } else {
 </%cpp>
+          <tr class="account">
+            <td class="message leftcol bottomrow"><div class="withmargin"><$ tr("No user configured") $></div></td>
+            <td class="bottomrow"></td>
+            <td class="rightcol bottomrow"></td>
+          </tr>
+%       }
       </table>
+      <div class="spacebar"><# spacer with fade-out effect #></div>
     </div>
   </body>
 </html>
