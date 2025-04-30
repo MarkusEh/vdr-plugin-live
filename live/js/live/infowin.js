@@ -76,7 +76,7 @@ var InfoWin = new Class({
         }).inject(this.winFrame);
       if (this.options.draggable) {
         top.setStyle('cursor', 'grab');;
-        this.winFrame.makeDraggable({'handle': top});
+        this.winFrame.makeDraggable({'handle': top, 'container': document.body});
       }
       this.titleBox = new Element('div', {
           'class': this.options.className + this.options.classSuffix + '-title'

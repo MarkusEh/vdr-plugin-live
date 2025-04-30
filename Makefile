@@ -9,28 +9,28 @@ PLUGIN := live
 
 ### The version number of this plugin (taken from the main source file):
 HASH := \#
-ifeq ($(VERSION),)
-  VERSION := $(shell awk '/$(HASH)define LIVEVERSION/ { print $$3 }' setup.h | sed -e 's/[";]//g')
-# $(info $$VERSION is [${VERSION}])
-endif
+VERSION := $(shell awk '/$(HASH)define LIVEVERSION/ { print $$3 }' setup.h | sed -e 's/[";]//g')
+$(info $$VERSION is [${VERSION}])
 
 # figure out VERSION_SUFFIX
-ifeq ($(VERSION_SUFFIX),)
-  ifneq ($(shell which git),)
-    ifeq ($(shell test -d .git || echo void),)
-      VERS_B := $(shell git branch | grep '^*' | sed -e's/^* //')
-      VERS_H := $(shell git show --pretty=format:"%h_%ci" HEAD | head -1 | tr -d ' \-:')
-      VERS_P := $(shell git status -uno --porcelain | grep -qc . && echo "_patched")
-      VERSION_SUFFIX += _git_$(VERS_B)_$(VERS_H)$(VERS_P)
-    endif
+VERSION_SUFFIX :=
+ifneq ($(shell which git),)
+  ifeq ($(shell test -d .git || echo void),)
+    VERS_B := $(shell git branch | grep '^*' | sed -e's/^* //')
+    VERS_H := $(shell git show --pretty=format:"%h_%ci" HEAD | head -1 | tr -d ' \-:')
+    VERS_P := $(shell git status -uno --porcelain | grep -qc . && echo "_patched")
+    VERSION_SUFFIX += _git_$(VERS_B)_$(VERS_H)$(VERS_P)
+    $(info VERSION_SUFFIX = $(VERSION_SUFFIX))
   endif
-  ifneq ($(shell which quilt),)
-    ifeq ($(shell quilt applied 2>&1 > /dev/null; echo $$?),0)
-      VERSION_SUFFIX += _quilt_$(shell quilt applied | tr  '\n' '_')
-    endif
-  endif
-# $(info VERSION_SUFFIX = "$(VERSION_SUFFIX)")
 endif
+
+ifneq ($(shell which quilt),)
+  ifeq ($(shell quilt applied 2>&1 > /dev/null; echo $$?),0)
+    VERSION_SUFFIX += _quilt_$(shell quilt applied | tr  '\n' '_')
+    $(info VERSION_SUFFIX = [${VERSION_SUFFIX}])
+  endif
+endif
+$(info $$VERSION_SUFFIX is [${VERSION_SUFFIX}])
 
 
 PKG_CONFIG ?= pkg-config
@@ -120,7 +120,7 @@ SUBDIRS := $(WEB_DIR_PAGES)
 
 ### The main target:
 .PHONY: all
-all: version_suffix lib i18n
+all: lib i18n
 	@true
 
 ### Implicit rules:
@@ -144,7 +144,7 @@ endif
 ### For all recursive Targets:
 
 recursive-%:
-	@$(MAKE) --no-print-directory VERSION=$(VERSION) VERSION_SUFFIX=$(VERSION_SUFFIX) $*
+	@$(MAKE) --no-print-directory $*
 
 ### Internationalization (I18N):
 PODIR    := po
@@ -190,7 +190,7 @@ recursive-inst_I18Nmsg: recursive-I18Nmo
 i18n: subdirs recursive-I18Nmo
 
 .PHONY: install-i18n
-install-i18n: version_suffix i18n recursive-inst_I18Nmsg
+install-i18n: i18n recursive-inst_I18Nmsg
 
 ### Targets:
 
@@ -224,23 +224,18 @@ soinst: $(SOINST)
 
 $(SOINST): $(SOFILE)
 	$(call PRETTY_PRINT,"Installing" $<)
-	$(Q) install -D $< $@
-
-.PHONY: version_suffix
-version_suffix:
-	@echo "VERSION is $(VERSION)"
-	@echo "VERSION_SUFFIX = \"$(VERSION_SUFFIX)\""
+	$(Q)install -D $< $@
 
 .PHONY: install-lib
-install-lib: version_suffix lib recursive-soinst
+install-lib: lib recursive-soinst
 
 .PHONY: install-web
-install-web: version_suffix
+install-web:
 	@mkdir -p $(DESTDIR)$(RESDIR)/plugins/$(PLUGIN)
 	@cp -a live/* $(DESTDIR)$(RESDIR)/plugins/$(PLUGIN)/
 
 .PHONY: install-conf
-install-conf: version_suffix
+install-conf:
 	mkdir -p $(DESTDIR)$(CFGDIR)/plugins/$(PLUGIN)
 	@for i in conf/*; do\
 	    if ! [ -e $(DESTDIR)$(CFGDIR)/plugins/$(PLUGIN)/$$i ] ; then\

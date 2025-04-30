@@ -162,7 +162,7 @@ table {
 }
 
 span.epg_images:has(> :first-child) {
-  margin-bottom: calc(calc(var(--epg-image-width) * var(--epg-image-ratio) + var(--epg-image-shadow-size)) * calc(var(--epg-image-hover-scale) - 1));
+  margin-bottom: calc(var(--epg-image-width) * var(--epg-image-ratio) * calc(var(--epg-image-hover-scale) - 1) + calc(var(--epg-image-shadow-size) + var(--epg-image-shadow-blur)) * var(--epg-image-hover-scale));
 }
 
 span.epg_images img.epg_image {
@@ -239,7 +239,7 @@ span.epg_images img.epg_image:not(:hover) {
 }
 
 #form_recordings, table.listing.schedule {
-  margin-bottom: calc(max(calc(var(--thumb-image-height) + var(--thumb-image-shadow-size)) * calc(var(--thumb-image-hover-scale-landscape) - 1), calc(var(--thumb-image-height) + var(--thumb-image-shadow-size)) * calc(var(--thumb-image-hover-scale-portrait) - 1)));
+  margin-bottom: calc(max(var(--thumb-image-height) * calc(var(--thumb-image-hover-scale-landscape) - 1) + calc(var(--thumb-image-shadow-size) + var(--thumb-image-shadow-blur)) * var(--thumb-image-hover-scale-landscape), var(--thumb-image-height) * calc(var(--thumb-image-hover-scale-portrait) - 1) + calc(var(--thumb-image-shadow-size) + var(--thumb-image-shadow-blur)) * var(--thumb-image-hover-scale-portrait)));
 }
 
 div.thumb {
@@ -300,13 +300,13 @@ img.channel_logo {
 */
 /*
 @property --logo-hover-scale {
-  syntax: "<percentage>";
-  initial-value: 625%;
+  syntax: "<number>";
+  initial-value: 6.25;
   inherits: false;
 }
 
 table.listing:has(.channel_logo) {
-  margin-bottom: 180px;
+  margin-bottom: calc(var(--logo-image-height) * calc(var(--logo-hover-scale) - 1) + calc(var(--logo-shadow-size) + var(--logo-shadow-blur)) * var(--logo-hover-scale));
 }
 
 img.channel_logo {

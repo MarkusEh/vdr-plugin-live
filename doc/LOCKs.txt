@@ -1,15 +1,10 @@
-Concept
--------
+Concept:
 
-A method returning a VDR object, like cRecording, requires the corresponding
+A method returning a VDR object like cRecording requires the corresponding
 VDR global table (cRecordings) as input parameter.
 
-
-Reasoning
----------
-
+Reasoning:
 cRecordings (LOCK_RECORDINGS_READ) must be locked anyhow, otherwise it is
 not allowed to use the returned cRecording.
-
-So, requesting this parameter reduces the chance that the developer will
+So, requesting this paramater reduces the chance that the developer will
 forget this rule ...

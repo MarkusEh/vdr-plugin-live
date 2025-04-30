@@ -822,8 +822,8 @@ div.whatson_info .withmargin {
 div.cast_crew.tabular {
   display: grid;
   grid-template-columns: auto auto;
+  width: fit-content;
   gap: var(--text-line-gap) var(--margin-left-right);
-  padding: ar(--text-line-gap) 0px;
 }
 
 
@@ -2162,8 +2162,9 @@ tr.recording_item div.recording_status {
   display: flex;
   flex-flow: column;
   align-items: center;
-  gap: 3px 4px;         /* this needs visual adjustment and can thus not be calculated */
-  margin-top: 1px;      /* dito */
+  /* the vertical distances need visual adjustment and can thus not be calculated */
+  gap: 1px var(--icon-column-gap);
+  margin-top: 1px;
 }
 
 tr.recording_item div.recording_actions {
@@ -2970,7 +2971,7 @@ img.thumb, img.thumbpt {
   }
 
   tr.recording_item div.thumb {
-    padding-left: var(--marin-left-right);
+    padding-left: var(--margin-left-right);
   }
 
   table.streaming > tbody > tr > td.action {

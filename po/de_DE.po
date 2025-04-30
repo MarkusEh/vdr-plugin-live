@@ -861,7 +861,7 @@ msgid "Delete selected"
 msgstr "Markierte löschen"
 
 msgid "No matching recordings found"
-msgstr "Kein zutreffenden Aufzeichnungen gefunden"
+msgstr "Keine zutreffende Aufzeichnung gefunden"
 
 msgid "Sort:"
 msgstr "Sortierung:"
