@@ -60,20 +60,21 @@ function addScraperImageTitle(s, image, pt, title, seasonEpisode, runtime, date)
 // scraper data available
     s.a += '\" title=\"<p>'
     s.a += title
-      if (seasonEpisode.length != 0) {
-        s.a += '</p><p>S'
-        s.a += seasonEpisode
-      }
-      if (runtime.length != 0) {
-        s.a += '</p><p>'
-        s.a += runtime
-      }
-      if (date.length != 0) {
-        s.a += '</p><p>'
-        s.a += date
-      }
+    if (seasonEpisode.length != 0) {
+      s.a += '</p><p>S'
+      s.a += seasonEpisode
+    }
+    if (runtime.length != 0) {
+      s.a += '</p><p>'
+      s.a += runtime
+    }
+    if (date.length != 0) {
+      s.a += '</p><p>'
+      s.a += date
+    }
+    s.a += '</p>'
   }
-  s.a += '</p>\"/></div>'
+  s.a += '\"/></div>'
 }
 function addTruncMedia(s, text, lims, liml) {
 // lims: Text limit for small screens

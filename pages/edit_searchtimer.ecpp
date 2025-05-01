@@ -830,7 +830,7 @@ const char *TNT_ARRAY = "";
                               <td><select name="comparesubtitle" size="1" id="comparesubtitle">
                                 <option value="0" <{ SELECTIF(comparesubtitle == 0) }> ><$ trVDR("no") $></option>
                                 <option value="1" <{ SELECTIF(comparesubtitle == 1) }> ><$ trVDR("yes") $></option>
-                                <option value="2" <{ SELECTIF(comparesubtitle == 2) }> ><$ tr("if present") $></option></select>
+                                <option value="2" <{ SELECTIF(comparesubtitle == 2) }> ><$ tr("if present") $></option></select></td>
                             </tr>
 
                             <tr>
