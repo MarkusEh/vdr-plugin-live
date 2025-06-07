@@ -70,7 +70,7 @@ namespace features
   struct streamdev_server
   {
     static const char* Plugin() { return "streamdev-server"; }
-    static const char* MinVersion() { return "?"; }
+    static const char* MinVersion() { return "0.6.0"; }
   };
 
   struct tvscraper

@@ -150,10 +150,11 @@ function RecordingActionS(s, id, A, Img, Title) {
   s.a += Img
   s.a += '\" /></a>'
 }
+
 function RecordingActionPlaylist(s, id) {
-  s.a += '<a class=\"hidden-xs\" href=\"playlist.m3u?recid=recording_'
+  s.a += '<a class=\"hidden-xs invisible\" href=\"playlist.m3u?recid=recording_'
   s.a += id
-  s.a += '&sort=<$currentSort$>&filter=<$currentFilter$>&flat=<$currentFlat$>&history_num_back=<$history_num_back+1$>\" title=\"<$tr("Stream this recording into media player.")$>\" download><img class=\"hidden-xs icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>playlist.png\" /></a>'
+  s.a += '&sort=<$currentSort$>&filter=<$currentFilter$>&flat=<$currentFlat$>&history_num_back=<$history_num_back+1$>\" title=\"<$tr("Stream this recording into media player.")$>\" download><img class=\"hidden-xs invisible icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>playlist.png\" /></a>'
 }
 
 // do not HTML-encode title; will be HTML-encoded here!
@@ -251,10 +252,12 @@ if (!deleteResult.empty()) {
         <input type="hidden" name="filter" value="<$ currentFilter $>">
         <input type="hidden" name="flat" value="<$ currentFlat $>">
         <input type="hidden" name="history_num_back" value="<$ history_num_back $>">
+%       if (!recording_item.empty()) {
         <div class="withmargin hidden-xs">
           <button class="red" type="submit"><$ tr("Delete selected") $></button>
 <#        <button class="green" type="button" onclick="clearCheckboxes(document.getElementById('form_recordings'))" ><$ tr("Uncheck all checkboxes") $></button> #>
         </div>
+%       }
       </form>
 <%cpp>
     }
@@ -274,7 +277,7 @@ dsyslog("live, time recordings.ecpp: %f", timeNeeded.count());
   uintptr_t iRecItem = 0;         // current dir, which is displayed here. Including subdirs
   uintptr_t irecording_item = 0;  // memory used to create the text we send to the browser
   uintptr_t iOpenTreeNodes = 0;   // list (folder hashes) of open folders
-  std::string parentIdHash;
+  std::string parentIdHash;       // empty for root (level 0)
 </%args>
 <%cpp>
 // get rec item of this (current) dir
@@ -287,6 +290,7 @@ int level = recItemThisDir->Level();
 const_rec_iterator<RecordingsItemDirPtr> l_dir_iterator = recItemThisDir->get_dir_iterator();
 if (!recItemThisDir->dirEntriesSorted() && currentSort == "namedesc") l_dir_iterator.set_backwards(true);
 
+bool hasSubDirs = false;
 for (const RecordingsItemDirPtr &recItem: l_dir_iterator) {
 // this is the loop over the subdirs
 // each subdir is a node, which can be expanded (or not)
@@ -330,6 +334,7 @@ for (const RecordingsItemDirPtr &recItem: l_dir_iterator) {
     </ul>
   </li>
   <%cpp>
+  hasSubDirs = true;
 } // end of loop over subdirs
 // now the items
 
@@ -365,16 +370,31 @@ recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
 </script>
   <%cpp>
 }
-  if (l_rec_iterator == iterator_end() )
-  {
-    if (!parentIdHash.empty()) {
+  if (l_rec_iterator == iterator_end()) {
+    if (!hasSubDirs) {
       </%cpp>
       <script>
         rec_ids["fldr_<$ parentIdHash $>"] = []
+        document.write(
+          '<li class="recording">' +
+            '<table class="recordings" width="100%">' +
+              '<tbody>' +
+                '<tr class="recording_item">' +
+                <%cpp> if(level > 0) { </%cpp>
+                  '<td class = "space">' +
+                    '<img src="img/transparent.png" style="width: calc(var(--icon-width, 16px) * <$ level $>); height: var(--icon-height, 16px)" />' +
+                  '</td>' +
+                <%cpp> } </%cpp>
+                  '<td class="message"><$ tr("No matching recordings found") $></td>' +
+                '</tr>' +
+              '</tbody>' +
+            '</table>' +
+          '</li>'
+        )
       </script>
       <%cpp>
-      }
-    } else {
+    }
+  } else {
     bool first = true;
     const char *displayFolder = "1";
     recording_item->clear();
@@ -382,29 +402,14 @@ recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
     </%cpp>
       <script>
 %   if (level == 0) {
-      document.write(rec_string_d([<$level$>, <$displayFolder$>, [ <$$ *recording_item $> ]]))
+        document.write(rec_string_d([<$level$>, <$displayFolder$>, [ <$$ *recording_item $> ]]))
 %   } else if (!parentIdHash.empty()) {
-      rec_ids["fldr_<$ parentIdHash $>"] = [<$level$>, <$displayFolder$>, [ <$$ *recording_item $> ]]
+        rec_ids["fldr_<$ parentIdHash $>"] = [<$level$>, <$displayFolder$>, [ <$$ *recording_item $> ]]
 %   }
       </script>
     <%cpp>
   }
 </%cpp>
-  <script>
-    if (Object.values(rec_ids).length < 2) {
-      document.write(
-        '<li class="recording">' +
-          '<table class="recordings" width="100%">' +
-            '<tbody>' +
-              '<tr class="recording_item">' +
-                 '<td class="message"><$ tr("No matching recordings found") $></td>' +
-              '</tr>' +
-            '</tbody>' +
-          '</table>' +
-        '</li>'
-      )
-    }
-  </script>
 </%def>
 
 <# ---------------------------------------------------------------------- #>

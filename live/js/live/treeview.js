@@ -111,6 +111,7 @@ else
   openNodes = [];
 let domChanges = 0;
 for (let z=0; z<openNodes.length; z++){
+  if (!openNodes[z]) continue;  // otherwise throws error for level 0
   let ul = document.getElementById(openNodes[z]);
   if (ul){
     ul.style.display = 'revert-layer';

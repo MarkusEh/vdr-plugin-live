@@ -198,7 +198,9 @@ if (!logged_in && LiveSetup().UseAuth()) {
     KeyPress(keycode, DonotLoadOSD, hits);
   }
   function handleOSD(elem, doEnter){
-    switch (elem.className){
+    // since we do not know whether all browsers return the same 'className' pattern
+    // for multiple classes, we better eliminate the generic 'odsButton' class
+    switch (elem.className.replace(/osdButton(?=\\W|$)/, '').trim()){
     case 'osdButtonRed':
       return KeyPress(<$ kRed $>);
     case 'osdButtonGreen':

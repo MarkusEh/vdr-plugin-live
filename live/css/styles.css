@@ -833,7 +833,7 @@ div.cast_crew.tabular {
 */
 
 .hint-tip {
-  max-width: var(--popup-width);
+  max-width: calc(min(var(--popup-width), 40vw));
   margin: 0px auto;
   background: var(--hint-popup-background-color);
   border: var(--popup-border-width) solid var(--hint-popup-border-color);
@@ -870,7 +870,7 @@ div.cast_crew.tabular {
 */
 
 .ok-info {
-  max-width: var(--popup-width);
+  max-width: calc(min(var(--popup-width), 60vw));
   margin: 0px auto;
   background: var(--ok-popup-background-color);
   border: var(--popup-border-width) solid var(--ok-popup-border-color);
@@ -898,7 +898,7 @@ div.cast_crew.tabular {
 */
 
 .err-info {
-  max-width: var(--popup-width);
+  max-width: calc(min(var(--popup-width), 60vw));
   margin: 0px auto;
   background: var(--error-popup-background-color);
   border: var(--popup-border-width) solid var(--error-popup-border-color);
@@ -1104,7 +1104,7 @@ div#navigation {
 
 div.page_header {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: row;
   align-items: flex-start;
   gap: var(--margin-top-bottom) var(--page-header-gap);
   margin: var(--margin-top-bottom) var(--body-margin);
@@ -1445,6 +1445,14 @@ button.yellow {
   color: var(--button-yellow-color);
 }
 
+#form_recordings > div.withmargin {
+  margin-left: 0px;
+}
+
+#form_recordings > div > button {
+  min-width: calc(var(--button-width) * 1.2);
+}
+
 
 /* #############################
    #  General table-cell classes
@@ -1486,7 +1494,7 @@ table td.cast_role {
 */
 
 table.listing.whats_on > tbody > tr > td.rightcol {
-  min-width: 0%;        /* to have channel images right-aligned at the border */
+  min-width: 0px;       /* to have channel images right-aligned at the border */
 }
 
 div.event_collection {
@@ -1609,7 +1617,7 @@ div.epg_info div.event_details {
 
 div.whatson_info div.info {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: row;
 }
 
 div.whatson_info div.duration {
@@ -1704,7 +1712,7 @@ table.streaming div.label {
 table.listing.schedule div.recording_status,
 table.streaming div.recording_status {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: row;
   align-items: center;
   gap: var(--icon-row-gap) var(--icon-column-gap);
   line-height: 0px;     /* to keep the block as small as possible */
@@ -1719,7 +1727,6 @@ table.listing > tbody > tr > td.leftcol div.event_actions {
   display: flex;
   flex-flow: row;
   gap: var(--icon-row-gap) var(--icon-column-gap);
-  min-width: calc(2 * var(--icon-width) + var(--icon-column-gap));
   line-height: 0px;     /* to keep the block as small as possible */
 }
 
@@ -2066,6 +2073,16 @@ div.recordings ul {
   list-style-type: none;
 }
 
+div.recordings > ul > li:last-of-type:has(ul:is([style*="display: none"])) > div.recording_item  {
+  /* discard row bottom border if last directory is collapsed */
+  border-bottom: none;
+}
+
+div.recordings > ul > li:last-of-type > ul tr.recording_item:last-child {
+  /* discard row bottom border of last recording */
+  border-bottom: none;
+}
+
 /* 'div.recording_item' refers to a folder */
 
 div.recording_item {
@@ -2106,18 +2123,22 @@ tr.recording_item {
   border-bottom: 1px solid var(--listing-row-border-color);
 }
 
+div.recordings > ul > li:last-of-type tr:has(td.message) {
+  /* discard row bottom border of recording message */
+  border-bottom: none;
+}
+
 tr.recording_item td.message {
   padding: var(--margin-top-bottom) var(--margin-left-right);
   color: var(--listing-color-highlight);
   font-weight: bold;
 }
 
-tr.recording_item:last-child {
-  border-bottom: var(--infowin-border-width) solid var(--infowin-tools-border-color);
-}
-
-tr.recording_item td:last-child {
+table.timerconflicts > tbody > tr > td.rightcol,
+table.searchtimers > tbody > tr > td.rightcol,
+tr.recording_item td:last-child:not(.message) {
   width: 0px;   /* to keep column as small as possible */
+  text-align: right;
 }
 
 tr.recording_item div.recording_info {
@@ -2295,17 +2316,14 @@ div.screenshot img {
 }
 
 .osdText, .osdItems {
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   height: 267px;
   margin: 5px 0px !important;
 }
 
-.osdText {
-  overflow: auto;
-}
-
 .osdItem, .osdTitle {
-  white-space: nowrap;
+  white-space: pre;
 }
 
 .osdItem {
@@ -2335,6 +2353,10 @@ tr.osdItem td:last-child {
   width: 100%;
 }
 
+tr.osdItem:hover {
+  font-weight: bold;
+}
+
 tr.osdItem.selected td {
   background: var(--osd-background-color-highlight);
   color: var(--osd-color-highlight);
@@ -2346,22 +2368,25 @@ tr.osdItem.selected td {
   justify-content: space-evenly;
 }
 
-.osdButtons div {
+.osdButtons .osdButton {
   cursor: pointer;
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  align-items: center;
   width: 130px;
   margin-left: 5px;
   padding: 2px;
   overflow: hidden;
-  text-align: center;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
-.osdButtons div:hover {
+.osdButtons .osdButton:hover {
   font-weight: bold;
 }
 
-.osdButtons div:first-child {
+.osdButtons .osdButton:first-child {
   margin-left: 0px;
 }
 
@@ -2892,8 +2917,9 @@ img.thumb, img.thumbpt {
 
   table.listing > tbody > tr > td.leftcol div.event_actions {
     display: flex;
-    flex-flow: row wrap;
-    max-width: calc(3 * var(--icon-width) + 2 * var(--icon-column-gap));
+    flex-flow: column wrap;
+    width: var(--icon-width);
+    max-height: calc(3 * var(--icon-height) + 2 * var(--icon-row-gap));
   }
 
   table.listing > tbody > tr.existing_recording > td.leftcol {
@@ -2904,14 +2930,9 @@ img.thumb, img.thumbpt {
     vertical-align: middle;
    }
 
-  table.listing.whats_on > tbody > tr > td.leftcol {
-    max-width: unset;
-    vertical-align: top;
-   }
-
   table.listing.schedule div.recording_status {
     display: flex;
-    flex-flow: column nowrap;
+    flex-flow: column;
     align-items: center;
     padding-top: 0px;
   }
@@ -2954,11 +2975,25 @@ img.thumb, img.thumbpt {
   table.listing.searchtimers > tbody > tr > td.rightcol div.event_actions,
   tr.recording_item div.recording_actions {
     display: flex;
-    flex-flow: row wrap;
-    justify-content: flex-end;
+    flex-flow: column wrap;
+    justify-content: flex-start;
     gap: var(--icon-row-gap) var(--icon-column-gap);
-    min-width: calc(2 * var(--icon-width) + var(--icon-row-gap));
-    max-width: calc(2 * var(--icon-width) + 2 * var(--icon-row-gap));
+    width: var(--icon-width);
+    max-height: calc(3 * var(--icon-width) + 2 * var(--icon-row-gap));
+  }
+
+  table.listing > tbody > tr > td.leftcol div.event_actions:has(.xs-columns-2),
+  table.timerconflicts > tbody > tr > td.rightcol div.event_actions:has(.xs-columns-2),
+  table.searchtimers > tbody > tr > td.rightcol div.event_actions:has(.xs-columns-2),
+  tr.recording_item div.recording_actions:has(.xs-columns-2) {
+    width: calc(2 * var(--icon-width) + var(--icon-column-gap));
+  }
+
+  table.listing > tbody > tr > td.leftcol div.event_actions:has(.xs-visible-4),
+  table.timerconflicts > tbody > tr > td.rightcol div.event_actions:has(.xs-visible-4),
+  table.searchtimers > tbody > tr > td.rightcol div.event_actions:has(.xs-visible-4),
+  tr.recording_item div.recording_actions:has(.xs-visible-4) {
+    max-height: calc(2 * var(--icon-height) + var(--icon-row-gap));
   }
 
   tr.recording_item div.recording_status {
@@ -2966,6 +3001,7 @@ img.thumb, img.thumbpt {
   }
 
   tr.recording_item div.recording_actions {
+    margin-left: auto;
     padding-top: var(--margin-top-bottom);
     padding-bottom: var(--margin-top-bottom);
   }

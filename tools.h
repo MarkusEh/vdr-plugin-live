@@ -86,7 +86,7 @@ namespace vdrlive {
 
 template <size_t N>
 inline cToSvConcat<N>& AppendHtmlEscapedAndCorrectNonUTF8(cToSvConcat<N>& target, cSv text, bool tooltip = false, const char* lf = nullptr) {
-  if (!lf) lf = "<br>";
+  if (!lf) lf = "<br/>";
   size_t i = 0;                 // number of not yet appended chars
   const char* notAppended = text.data();  // position of the first character which is not yet appended
   for (size_t pos = 0; pos < text.length(); ++pos) {

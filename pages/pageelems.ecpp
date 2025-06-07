@@ -132,8 +132,14 @@ int update_status(1);
   std::string alt;
   std::string id;
   std::string className;
+  uintptr_t iCounter = 0;
 </%args>
-<%cpp> { </%cpp><a <%cpp> if (!id.empty()) { </%cpp>id="<$ id $>" <%cpp> } </%cpp><& hide_element hide=(id.empty()? 0 : 1) &> href="vdr_request/<$ action $>?param=<$ param $>" <%cpp>if (!tip.empty()) { </%cpp><& tooltip.hint text=(tip) &> <%cpp> } </%cpp>><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", image) $>" alt="<$ alt $>" /></a> <%cpp> } </%cpp>
+<%cpp>
+bool isVisible = id.empty();
+int *pCounter = static_cast<int *>((void *)iCounter);
+if (pCounter && isVisible) (*pCounter)++;
+</%cpp>
+<a <%cpp> if (!id.empty()) { </%cpp>id="<$ id $>" <%cpp> } </%cpp><& hide_element hide=(isVisible ? 0 : 1) &> href="vdr_request/<$ action $>?param=<$ param $>" <%cpp>if (!tip.empty()) { </%cpp><& tooltip.hint text=(tip) &> <%cpp> } </%cpp>><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", image) $>" alt="<$ alt $>" /></a>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -143,16 +149,23 @@ int update_status(1);
   std::string title;
   std::string s_IMDB_ID;
   std::string className;
+  uintptr_t iCounter = 0;
 </%args>
 <%cpp>
-// if (LiveSetup().GetShowIMDb())
+// generation of IMDb link to be checked here, otherwise inconsistent
+if (LiveSetup().GetShowIMDb())
 {
-if (s_IMDB_ID.empty() ) { </%cpp>
+  int *pCounter = static_cast<int *>((void *)iCounter);
+  if (pCounter) (*pCounter)++;
+  if (s_IMDB_ID.empty() ) { </%cpp>
 <a href="http://www.imdb.com/find?s=all&q=<$ (!title.empty() && title[0] == '%')?cToSvUrlEscaped(cSv(title).substr(1)):cToSvUrlEscaped(title) $>"
 <%cpp> } else { </%cpp>
 <a href="http://www.imdb.com/title/<$ s_IMDB_ID $>"
 <%cpp> } </%cpp>
- target="_blank"><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &> /></a> <%cpp> } </%cpp>
+ target="_blank"><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" alt="" <& tooltip.hint text=(tr("Find more at the Internet Movie Database.")) &> /></a>
+<%cpp>
+}
+</%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -161,9 +174,12 @@ if (s_IMDB_ID.empty() ) { </%cpp>
 <%args>
   std::string channelId;
   std::string className;
+  uintptr_t iCounter = 0;
 </%args>
 <%cpp>
 if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded()) {
+  int *pCounter = static_cast<int *>((void *)iCounter);
+  if (pCounter) (*pCounter)++;
 </%cpp>
 <a href="stream.html?channelid=<$ channelId $>"><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "stream_button.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into browser.")) &> /></a>
 <%cpp>
@@ -177,9 +193,12 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 <%args>
   std::string recId;
   std::string className;
+  uintptr_t iCounter = 0;
 </%args>
 <%cpp>
 if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded()) {
+  int *pCounter = static_cast<int *>((void *)iCounter);
+  if (pCounter) (*pCounter)++;
 </%cpp>
 <a href="stream.html?recid=<$ recId $>"><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "stream_button.png") $>" alt="" <& tooltip.hint text=(tr("Stream this recording into browser.")) &> /></a>
 <%cpp>
@@ -193,9 +212,12 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
 <%args>
   std::string channelId;
   std::string className;
+  uintptr_t iCounter = 0;
 </%args>
 <%cpp>
 if (LiveFeatures<features::streamdev_server>().Loaded()) {
+  int *pCounter = static_cast<int *>((void *)iCounter);
+  if (pCounter) (*pCounter)++;
 </%cpp>
 <a href="playlist.m3u?channelid=<$ channelId $>" download><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint text=(tr("Stream this channel into media player.")) &> /></a>
 <%cpp>
@@ -210,6 +232,7 @@ if (LiveFeatures<features::streamdev_server>().Loaded()) {
   std::string recid;
   std::string linkText;
   std::string className;
+  uintptr_t iCounter = 0;
 </%args>
 <%cpp>
 #if TNT_WATCHDOG_SILENCE
@@ -218,6 +241,9 @@ if (LiveFeatures<features::streamdev_server>().Loaded()) {
 // std::string server = request.getHost();
 // server = server.substr(0, server.rfind(':'));
 // cToSvConcat url("intent://", server, ":", LiveSetup().GetServerPort(), "/recstream.html?recid=", recid, "#Intent;scheme=http;package=org.videolan.vlc;end");
+
+int *pCounter = static_cast<int *>((void *)iCounter);
+if (pCounter) (*pCounter)++;
 
 cToSvConcat url("playlist.m3u?recid=", recid);
 {
@@ -236,6 +262,7 @@ cToSvConcat url("playlist.m3u?recid=", recid);
   std::string recid;
   std::string linkText;
   std::string className;
+  uintptr_t iCounter = 0;
 </%args>
 <%cpp>
 #if TNT_WATCHDOG_SILENCE
@@ -251,6 +278,8 @@ cToSvConcat rfid;
   }
 }
 if (!rfid.empty() ) {
+  int *pCounter = static_cast<int *>((void *)iCounter);
+  if (pCounter) (*pCounter)++;
 </%cpp><a href="http://localhost:<$cToSvConcat(LiveSetup().GetStreamdevPort())$>/<$rfid$>.ts"><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint text=(tr("Stream this recording.")) &> /> <$ linkText $></a>
 <%cpp>
 }
@@ -264,6 +293,7 @@ if (!rfid.empty() ) {
 <%args>
   std::string epgid;
   std::string className;
+  uintptr_t iCounter = 0;
 </%args>
 <%cpp>
   tChannelID channelid;
@@ -283,10 +313,11 @@ if (!rfid.empty() ) {
   }
   if (!timerId.empty() ) {
 </%cpp>
-    <& pageelems.edit_timer timerId=(timerId) imgName=(timerRecording || timerActive? "record_timer_active.png" : "record_timer_inactive.png") className=(timerRecording ? "icon fading" : "icon") className=(className) &>
+    <& pageelems.edit_timer timerId=(timerId) imgName=(timerRecording || timerActive? "record_timer_active.png" : "record_timer_inactive.png") className=(timerRecording ? "icon fading" : "icon") className=(className) iCounter=(iCounter) &>
 <%cpp>
-  }
-  else {
+  } else {
+    int *pCounter = static_cast<int *>((void *)iCounter);
+    if (pCounter) (*pCounter)++;
 </%cpp>
     <a href="edit_timer.html?epgid=<$ epgid $>"><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "record.png") $>" alt="" <& tooltip.hint text=(tr("Record this")) &> /></a>
 <%cpp>
@@ -301,7 +332,12 @@ if (!rfid.empty() ) {
   std::string timerId;
   std::string imgName = "edit.png";
   std::string className;
+  uintptr_t iCounter = 0;
 </%args>
+<%cpp>
+  int *pCounter = static_cast<int *>((void *)iCounter);
+  if (pCounter) (*pCounter)++;
+</%cpp>
   <a href="edit_timer.html?timerid=<$ SortedTimers::EncodeDomId(timerId) $>"><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", imgName) $>" alt="" <& tooltip.hint text=(tr("Edit timer")) &> /></a>
 </%def>
 
@@ -404,33 +440,41 @@ if (!rfid.empty() ) {
   int elapsed = EpgEvents::ElapsedTime(startTime, endTime);
   tEventID eventId = tEventID();
   tChannelID channelId = tChannelID();
+  int xsVisibleIcons = 0;
+  int xsInvisibleIcons = 0;
 
   // using a flexbox, we do not have to differentiate between horizontal and vertical display;
   // for insertion in tables (detail == 0), we need to provide spacers for actions items being
   // temporarily unavailable, like actions for transient events
   EpgEvents::DecodeDomId(epgid, channelId, eventId);
 </%cpp>
-  <div><& pageelems.event_timer epgid=(epgid) className="icon" &></div>
+  <div><& pageelems.event_timer epgid=(epgid) className="icon" iCounter=((uintptr_t)&xsVisibleIcons) &></div>
 % if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
-    <div><& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channelId) image="zap.png" className="icon" alt="" &></div>
+    <div><& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channelId) image="zap.png" className="icon" alt="" iCounter=((uintptr_t)&xsVisibleIcons) &></div>
 % } if (LiveFeatures<features::epgsearch>().Recent()) {
 %     if (eventId != 0) {
+%       xsVisibleIcons++;
   <div><a href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(title) $>"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a></div>
 %     } else if (!detail) {
   <# as we wrap on small screens and tabulation becomes void, we just hide a transparent icon #>
   <div class="hidden-xs spacer"><img class="icon" src="img/transparent.png" alt="" /></div>
-%   }
+%     }
 % } if ((duration == 0) || (elapsed >= 0)) {
-  <div class="hidden-xs"><& pageelems.hls_channel channelId=(channelId) className="icon" &></div>
-  <div class="hidden-xs"><& pageelems.m3u_playlist_channel channelId=(channelId) className="icon" &></div>
-%   } else if (!detail) {
+  <div class="hidden-xs invisible"><& pageelems.hls_channel channelId=(channelId) className="icon" iCounter=((uintptr_t)&xsInvisibleIcons) &></div>
+  <div class="hidden-xs invisible"><& pageelems.m3u_playlist_channel channelId=(channelId) className="icon" iCounter=((uintptr_t)&xsInvisibleIcons) &></div>
+%  } else if (!detail) {
   <# as we wrap on small screens and tabulation becomes void, we just hide a transparent icon #>
   <div class="hidden-xs"><img class="icon" src="img/transparent.png" alt="" /></div>
   <div class="hidden-xs"><img class="icon" src="img/transparent.png" alt="" /></div>
 % } if (!title.empty()) {
-  <div><& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID) className="icon" &></div>
+  <div><& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID) className="icon" iCounter=((uintptr_t)&xsVisibleIcons) &></div>
 % } else if (!detail ) {
   <div class="hidden-xs"><img class="icon" src="img/transparent.png" alt="" /></div>
+<%cpp>
+  } if (!detail) {
+</%cpp>
+  <# just for indicating that we need 2 columns (for more than 3 icons) on small screens #>
+  <div class="notpresent xs-visible-<$ xsVisibleIcons $> xs-invisible-<$ xsInvisibleIcons $> xs-columns-<$ (xsVisibleIcons  + 2) / 3 $>"></div>
 <%cpp>
   }
   if (eventId != 0 && detail > 1) {

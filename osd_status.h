@@ -104,9 +104,9 @@ template <size_t N> cToSvConcat<N>& appendMessageHtml(cToSvConcat<N>& target) {
 template <size_t N> cToSvConcat<N>& appendRedHtml(cToSvConcat<N>& target) {
     cOsdStatusMonitorLock lr;
     if (m_red.empty() ) {
-      target << "<div class=\"osdButtonInvisible\"></div>";
+      target << "<div class=\"osdButton osdButtonInvisible\"></div>";
     } else {
-      target << "<div class=\"osdButtonRed\">";
+      target << "<div class=\"osdButton osdButtonRed\">";
       AppendHtmlEscapedAndCorrectNonUTF8(target, m_red);
       target << "</div>";
     }
@@ -115,9 +115,9 @@ template <size_t N> cToSvConcat<N>& appendRedHtml(cToSvConcat<N>& target) {
 template <size_t N> cToSvConcat<N>& appendGreenHtml(cToSvConcat<N>& target) {
     cOsdStatusMonitorLock lr;
     if (m_green.empty() ) {
-      target << "<div class=\"osdButtonInvisible\"></div>";
+      target << "<div class=\"osdButton osdButtonInvisible\"></div>";
     } else {
-      target << "<div class=\"osdButtonGreen\">";
+      target << "<div class=\"osdButton osdButtonGreen\">";
       AppendHtmlEscapedAndCorrectNonUTF8(target, m_green);
       target << "</div>";
     }
@@ -126,9 +126,9 @@ template <size_t N> cToSvConcat<N>& appendGreenHtml(cToSvConcat<N>& target) {
 template <size_t N> cToSvConcat<N>& appendYellowHtml(cToSvConcat<N>& target) {
     cOsdStatusMonitorLock lr;
     if (m_yellow.empty() ) {
-      target << "<div class=\"osdButtonInvisible\"></div>";
+      target << "<div class=\"osdButton osdButtonInvisible\"></div>";
     } else {
-      target << "<div class=\"osdButtonYellow\">";
+      target << "<div class=\"osdButton osdButtonYellow\">";
       AppendHtmlEscapedAndCorrectNonUTF8(target, m_yellow);
       target << "</div>";
     }
@@ -138,9 +138,9 @@ template <size_t N> cToSvConcat<N>& appendBlueHtml(cToSvConcat<N>& target) {
     cOsdStatusMonitorLock lr;
     if (m_blue.empty() ) {
       // create even invisible last button for proper flexbox space balancing
-      target << "<div class=\"osdButtonInvisible\"></div>";
+      target << "<div class=\"osdButton osdButtonInvisible\"></div>";
     } else {
-      target << "<div class=\"osdButtonBlue\">";
+      target << "<div class=\"osdButton osdButtonBlue\">";
       AppendHtmlEscapedAndCorrectNonUTF8(target, m_blue);
       target << "</div>";
     }

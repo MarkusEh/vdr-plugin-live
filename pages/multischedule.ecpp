@@ -508,9 +508,8 @@ std::vector<std::string> channel_groups_names;
         <a href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(en.title) $>"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a>
 %     } else {
         <img class="icon <? en.timer == tState::Recording ? "fading" ?>" src="<$ LiveSetup().GetThemedLink("img", en.timer == tState::Recording || en.timer == tState::Active ? "record_timer_active.png" : "record_timer_inactive.png") $>">
-%     } if (LiveSetup().GetShowIMDb() ) {
+%     } // display of IMDb icon to be determined in subroutine, otherwise inconsistent
         <& pageelems.imdb_info_href title=(en.title) className="icon" &>
-%     }
         </div><div class= "start withmargin"><$ en.start $></div>
         <div class="title withmargin"><$ en.title $></div>
 %     if (en.row_count > 2 && !en.short_description.empty() ) {

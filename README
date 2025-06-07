@@ -36,6 +36,8 @@ Cxxtools >= 2.2.1  - http://www.tntnet.org/download.hms  // https://web.archive.
 Tntnet provides basic web server functions for live and needs cxxtools.
 
 Optional:
+epgsearch >= 0.9.25.beta6, for versatile search timers and searching the EPG on demand
+streamdev >= 0.6.0, for streaming live video and recordings to browser or player
 tvscraper >= 1.2.13, for images and other information from [TMDB](https://www.themoviedb.org/) & TheTVDB.com
 
 Installation:

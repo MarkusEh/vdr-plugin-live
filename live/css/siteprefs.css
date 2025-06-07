@@ -326,40 +326,56 @@ img.channel_logo:not(:hover) {
 */
 
 
-/* Uncomment this to have all whats-on actions displayed on small viewspaces.
-** Keeping the comment will hide the streaming action icons.
+/* Uncomment this to have all whats-on and stream-in-browser action icons
+** displayed on small viewspaces. Keeping the comment will hide the streaming
+** action icons.
 */
 /*
 @media (max-width: 600px) {
 
-  table.listing > tbody > tr > td.leftcol div.event_actions {
-    min-width: calc(3 * var(--icon-width) + 2 * var(--icon-column-gap));
+  table.listing > tbody > tr > td.leftcol div.event_actions:has(.xs-visible-4),
+  table.listing > tbody > tr > td.leftcol div.event_actions:has(.xs-columns-2) {
+    width: calc(2 * var(--icon-width) + var(--icon-column-gap));
+    max-height: calc(3 * var(--icon-height) + 2 * var(--icon-row-gap));
   }
 
-  table.listing > tbody > tr > td.leftcol div.event_actions .hidden-xs {
+  table.listing > tbody > tr > td.leftcol div.event_actions .hidden-xs.invisible {
     display: block;
-  }
-
-  table.listing > tbody > tr > td.leftcol div.event_actions .hidden-xs.spacer {
-    display: none;
   }
 
 }
 */
 
 
-/* Uncomment this to have all recording actions displayed on small viewspaces.
-** Keeping the comment will hide the streaming action icons.
+/* Uncomment this to have all recording action icons displayed on small
+** viewspaces. Keeping the comment will hide the streaming action icons.
 */
 /*
 @media (max-width: 600px) {
 
-  table.recordings > tbody > tr > td div.recording_actions {
-    min-width: calc(3 * var(--icon-width) + 2 * var(--icon-column-gap));
+  tr.recording_item div.recording_actions,
+  tr.recording_item div.recording_actions:has(.xs-visible-4),
+  tr.recording_item div.recording_actions:has(.xs-columns-2) {
+    width: calc(2 * var(--icon-width) + var(--icon-column-gap));
+    max-height: calc(3 * var(--icon-height) + 2 * var(--icon-row-gap));
   }
 
-  table.recordings > tbody > tr > td div.recording_actions .hidden-xs {
+  table.recordings > tbody > tr > td div.recording_actions .hidden-xs.invisible {
     display: block;
+  }
+
+}
+*/
+
+
+/* Uncomment this to have recording action icons right-aligned (ragged left)
+** at the table border.
+*/
+/*
+@media (max-width: 600px) {
+
+  tr.recording_item div.recording_actions {
+    flex-wrap: wrap-reverse;
   }
 
 }

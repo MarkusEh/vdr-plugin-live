@@ -308,7 +308,7 @@ if (type == "now") {
 %            if (!longDescription.empty()) {
             <& tooltip.hint text=(longDescription) &><& tooltip.display domId=(epgEvent->Id()) &>
 %            }
-            ><span class="title"><$ (epgEvent->Title()) $></span><br /><span class="short"><$ (epgEvent->ShortDescr()) $></span></a>
+            ><span class="title"><$ (epgEvent->Title()) $></span><br/><span class="short"><$ (epgEvent->ShortDescr()) $></span></a>
 %          } else {
             <div class="withmargin">
             <$ (epgEvent->Title()) $>

@@ -10,7 +10,7 @@ PLUGIN := live
 ### The version number of this plugin (taken from the main source file):
 HASH := \#
 VERSION := $(shell awk '/$(HASH)define LIVEVERSION/ { print $$3 }' setup.h | sed -e 's/[";]//g')
-$(info $$VERSION is [${VERSION}])
+#$(info $$VERSION is [${VERSION}])
 
 # figure out VERSION_SUFFIX
 VERSION_SUFFIX :=
@@ -20,17 +20,17 @@ ifneq ($(shell which git),)
     VERS_H := $(shell git show --pretty=format:"%h_%ci" HEAD | head -1 | tr -d ' \-:')
     VERS_P := $(shell git status -uno --porcelain | grep -qc . && echo "_patched")
     VERSION_SUFFIX += _git_$(VERS_B)_$(VERS_H)$(VERS_P)
-    $(info VERSION_SUFFIX = $(VERSION_SUFFIX))
+#    $(info VERSION_SUFFIX = $(VERSION_SUFFIX))
   endif
 endif
 
 ifneq ($(shell which quilt),)
   ifeq ($(shell quilt applied 2>&1 > /dev/null; echo $$?),0)
     VERSION_SUFFIX += _quilt_$(shell quilt applied | tr  '\n' '_')
-    $(info VERSION_SUFFIX = [${VERSION_SUFFIX}])
+#    $(info VERSION_SUFFIX = [${VERSION_SUFFIX}])
   endif
 endif
-$(info $$VERSION_SUFFIX is [${VERSION_SUFFIX}])
+#$(info $$VERSION_SUFFIX is [${VERSION_SUFFIX}])
 
 
 PKG_CONFIG ?= pkg-config

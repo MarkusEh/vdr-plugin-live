@@ -370,17 +370,17 @@ Otherwise, the rec tree is re-created from currnet data.
 
   bool RecordingsItemPtrCompare::ByDuplicatesName(const RecordingsItemRec * first, const RecordingsItemRec * second)  // return first < second
   {
-           return first->orderDuplicates(second, false);
+    return first->orderDuplicates(second, false);
   }
 
   bool RecordingsItemPtrCompare::ByDuplicates(const RecordingsItemRec * first, const RecordingsItemRec * second)  // return first < second
   {
-          return first->orderDuplicates(second, true);
+    return first->orderDuplicates(second, true);
   }
 
   bool RecordingsItemPtrCompare::ByDuplicatesLanguage(const RecordingsItemRec * first, const RecordingsItemRec * second)
   {
-          return first->orderDuplicates(second, true, true);
+    return first->orderDuplicates(second, true, true);
   }
 
   const char *firstNonPunct(const char *s) {
@@ -792,7 +792,7 @@ int GetNumberOfTsFiles(cSv fileName) {
   }
 
   void RecordingsItemRec::finalize() {
-// everything that can be doen without needing the vdr cRecording object
+// everything that can be done without needing the VDR cRecording object
 // utf8 sanitize all strings
     utf8_sanitize_string(m_name_vdr);
     utf8_sanitize_string(m_shortText);

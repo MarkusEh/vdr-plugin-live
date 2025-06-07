@@ -58,7 +58,7 @@ function addHdSdIcon(s, hdsd, toolTip, frameParams) {
 }
 
 %// do not HTML-encode name; will be URI-encoded here!
-function IMDBS(s, im_db, name) {
+function IMDbS(s, im_db, name) {
   if (im_db.length == 0) {
     s.a += '<a href=\"http://www.imdb.com/find?s=all&q='
     if (name.startsWith("%") ) {
@@ -112,7 +112,7 @@ function addEvent(s, bottomrow_i, obj) {
     s.a += encodeURIComponent(obj[11])
     s.a += '\"><img class=\"icon\" src=\"<$ LiveSetup().GetThemedLink("img", "search.png") $>\" title=\"<$tr("Search for repeats.")$>\"/></a>'
 % } if (LiveSetup().GetShowIMDb() ) {
-    IMDBS(s, obj[2], obj[11])
+    IMDbS(s, obj[2], obj[11])
 % }
   s.a += '</div></td>'
 // second col, dependent on width: channel
@@ -209,9 +209,9 @@ function existingRecordingString(col_span, bottomrow, id, stillRecording, imdb_i
 }
 
 function RecordingActionStream(s, id) {
-  s.a += '<a class=\"hidden-xs\" href=\"stream.html?recid=recording_'
+  s.a += '<a class=\"hidden-xs invisible\" href=\"stream.html?recid=recording_'
   s.a += id
-  s.a += '\" title=\"<$tr("Stream this recording into browser.")$>\"><img class=\"hidden-xs icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>stream_button.png\" /></a>'
+  s.a += '\" title=\"<$tr("Stream this recording into browser.")$>\"><img class=\"hidden-xs invisible icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>stream_button.png\" /></a>'
 }
 
 async function RecordingsSt_a(s, level, displayFolder, data) {
@@ -369,7 +369,7 @@ function RecordingsSt_int(s, level, displayFolder, data) {
     s.a += still_recording
     s.a += '">'
     s.a += obj[20]
-    s.a += '</div></td><td><div class="recording_status">'
+    s.a += '</div></div></td><td><div class="recording_status">'
     addErrorIcon(s, obj[10], obj[17], obj[19], obj[21])
     addHdSdIcon(s, obj[11], obj[12], obj[22])
     s.a += '</div></td>'  // end column with error/sd-hd image
@@ -383,18 +383,31 @@ function RecordingsSt_int(s, level, displayFolder, data) {
     addEventRec_r(s, obj[0], obj[14], folder, obj[15], obj[16]);
     s.a += '</div></div></td>'  // end of recording_name / short description
     s.a += '<td><div class=\"recording_actions\">'
+    let xsVisibleIcons = 2;       // the invariant edit and delete icons
+    let xsInvisibleIcons = 0;     // the small-screen invisible stream icons
 %   if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
       RecordingActionS(s, obj[0], "vdr_request/play_recording?param=", "play.png", "<$tr("play this recording")$>")
+      xsVisibleIcons++;
 %   }
-%   if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().Loaded() ) {
-      RecordingActionStream(s, obj[0])
+%   if (LiveFeatures<features::streamdev_server>().Loaded()) {
+%     // use same logic as in pageelems.epg_tool_box
+%     if (LiveSetup().GetUseStreamdev()) {
+        RecordingActionStream(s, obj[0])
+        xsInvisibleIcons++
+%     }
+      RecordingActionPlaylist(s, obj[0])
+      xsInvisibleIcons++
 %   }
-    RecordingActionPlaylist(s, obj[0])
 %   if (LiveSetup().GetShowIMDb() ) {
-      IMDBS(s, obj[2], obj[14])
+      IMDbS(s, obj[2], obj[14])
+      xsVisibleIcons++;
 %   }
     RecordingActionS(s, obj[0], "edit_recording.html?recid=", "edit.png", "<$tr("Edit recording")$>")
     RecordingActionS(s, obj[0], "epginfo.html?epgid=del_", "del.png", "<$tr("Delete this recording from hard disc!")$>")
+    let xsClassName = 'xs-visible-' + xsVisibleIcons
+    xsClassName += ' xs-invisible-' + xsInvisibleIcons
+    xsClassName += ' xs-columns-' + Math.floor((xsVisibleIcons + 2) / 3)
+    s.a += '<div class=\"notpresent ' + xsClassName + '\"></div>'
     s.a += '</div></td></tr>'
   }
   s.a += '</table></div></li>'

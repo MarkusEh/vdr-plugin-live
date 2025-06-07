@@ -217,7 +217,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
           <tr>
             <td class="label leftcol"><div class="withmargin"><$ tr("Allow video streaming") $>:</div></td>
             <td class="rightcol">
-              <input type="checkbox" name="useStreamdev" id="useStreamdev" value="1"<{ CHECKIF(!useStreamdev.empty()); }> onclick="changedusestreamdev(this)"/>
+              <input type="checkbox" name="useStreamdev" id="useStreamdev" value="1"<{ CHECKIF(!useStreamdev.empty()); }>/>
             </td>
           </tr>
               <tr>
