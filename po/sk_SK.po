@@ -880,6 +880,9 @@ msgstr "Filter"
 msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
 msgstr "Pozrite sa na nahrávky titulov a titulky pre daný re»azec a zobrazi» iba tie vyhovujúce. Mô¾ete  pou¾i» kompatibilné perl regulárne výrazy (PCRE)."
 
+msgid "Clear filter"
+msgstr ""
+
 msgid "Expand all folders"
 msgstr "Rozbali» v¹etky zlo¾ky"
 

@@ -879,6 +879,9 @@ msgstr "Suodata"
 msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
 msgstr "Suodata tallenteet nimi- ja kuvauskentistä hakusanan avulla. Voit käyttää myös Perl-yhteensopivia säännöllisiä lausekkeita (PCRE)."
 
+msgid "Clear filter"
+msgstr ""
+
 msgid "Expand all folders"
 msgstr "Avaa kaikki kansiot"
 
