@@ -1410,6 +1410,9 @@ button:hover {
   font-weight: bold;
 }
 
+button.clearfilter {
+  min-width: 1px;
+}
 button.login {
   background: linear-gradient(to bottom, var(--button-login-background-color-top) var(--button-border-gradient-top), var(--button-login-background-color-middle) var(--button-border-gradient-middle), var(--button-login-background-color-middle));
   border: var(--button-border-width) var(--button-border-style) var(--button-login-border-color);

@@ -147,6 +147,11 @@ var imgDefer = document.getElementsByTagName('img');
   }
 }
 
+function clearRecordingsFilter(filter, currentSort, currentFlat) {
+// clear filter field
+  filter.value = "";
+  filterRecordings(filter, currentSort, currentFlat)
+}
 function clearCheckboxes(form) {
 // clearing checkboxes
   var inputs = form.getElementsByTagName('input');

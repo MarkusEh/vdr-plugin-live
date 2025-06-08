@@ -1,7 +1,6 @@
 <%pre>
 
 #include <string>
-#include <string_view>
 #include <setup.h>
 #include <tools.h>
 #include <users.h>
@@ -431,6 +430,10 @@ recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
 </%cpp>
 <span class="sep">|</span>
 <span class="label bold"><$ tr("Filter") $>:&nbsp;<input type="text" name="filter" value="<$ currentFilter $>" id="filter" onchange="filterRecordings(this, '<$ currentSort $>', '<$currentFlat$>')" />&nbsp;<& tooltip.help text=(tr("Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE).")) &></span>
+<span class="label bold">
+<#  <input type="reset" value="<$ X $>" title="<$tr("Clear filter")$>" />  #>
+<button type="button" class ="button clearfilter" title="<$tr("Clear filter")$>" onclick="clearRecordingsFilter(document.getElementById('filter'), '<$ currentSort $>', '<$currentFlat$>')">X</button>
+</span>
 <%cpp>
 if (currentFlat != "true") {
 </%cpp>
