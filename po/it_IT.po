@@ -885,6 +885,9 @@ msgstr "Filtro"
 msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
 msgstr "Cerca nei titoli e sottotitoli delle registrazioni determinati valori e mostra solo quelli attinenti. Puoi anche usare espressioni regolari compatibili perl (PCRE)"
 
+msgid "Clear filter"
+msgstr ""
+
 msgid "Expand all folders"
 msgstr "Espandi tutte le cartelle"
 

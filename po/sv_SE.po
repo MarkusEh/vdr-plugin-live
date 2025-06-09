@@ -879,6 +879,9 @@ msgstr ""
 msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
 msgstr "Titta efter given sträng i inspelningarnas titlar och undertitlar och visa endast de som matchar. Du kan också använda PERL-kompatibla reguljära uttryck. (PCRE)"
 
+msgid "Clear filter"
+msgstr ""
+
 msgid "Expand all folders"
 msgstr "Utöka alla bibliotek"
 

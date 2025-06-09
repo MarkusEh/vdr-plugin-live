@@ -882,6 +882,9 @@ msgstr "ფილტრი"
 msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
 msgstr "სანამ სტრიქონის ზუსტ დამთხვევას ჩართავდეთ, ჩანაწერების სახელები და სუბტიტრები გადაამოწმეთ. ასევე შეგიძლიათ გამოიყენოთ Perl-თან თავსებადი რეგულარული გამოსახულებები (PCRE)."
 
+msgid "Clear filter"
+msgstr ""
+
 msgid "Expand all folders"
 msgstr "ყველა საქაღალდის ამოკეცვა"
 
