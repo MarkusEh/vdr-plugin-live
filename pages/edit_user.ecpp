@@ -118,10 +118,10 @@ cUser* editUser;
     <& pageelems.stylesheets &>
     <& pageelems.ajax_js &>
   </head>
-  <body>
+  <body onpageshow="restoreScrollPosition()">
     <& pageelems.logo &>
     <& menu active=("users") &>
-    <div id="content">
+    <div id="content" onscroll="saveScrollPosition(this)">
       <div class="spacebar"><# spacer with fade-out effect #></div>
       <form method="post" name="edit_user" action="edit_user.ecpp">
         <input type="hidden" name="userid" value="<$ userid $>"/>

@@ -27,10 +27,10 @@ if (!logged_in && LiveSetup().UseAuth()) {
     <title>VDR-Live - <$ pageTitle $></title>
     <& pageelems.stylesheets &>
   </head>
-  <body>
+  <body onpageshow="restoreScrollPosition()">
     <& pageelems.logo &>
     <& menu &>
-    <div id="content">
+    <div id="content" onscroll="saveScrollPosition(this)">
       <div class="spacebar"><# spacer with fade-out effect #></div>
       <& error.error_widget errorTitle=(errorTitle) errorMessage=(errorMessage) &>
       <div class="spacebar"><# spacer with fade-out effect #></div>

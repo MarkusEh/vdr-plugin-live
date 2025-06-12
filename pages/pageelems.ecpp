@@ -63,6 +63,7 @@ int update_status(1);
 <link rel="stylesheet" type="text/css" href="css/styles.css"/>
 <link rel="stylesheet" type="text/css" href="<$ LiveSetup().GetThemedLink("css", "theme.css") $>"/>
 <link rel="stylesheet" type="text/css" href="css/siteprefs.css"/>
+<script type="text/javascript" src="js/live/scrolling.js"></script>
 <script type="text/javascript" src="js/live/epg_tt_box.js"></script>
 </%def>
 

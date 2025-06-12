@@ -72,6 +72,7 @@ namespace vdrlive {
       "js/live/infowin.js",
       "js/live/liveajax.js",
       "js/live/pageenhance.js",
+      "js/live/scrolling.js",
       "js/live/treeview.js",
       "js/live/vdr_status.js",
       "js/mootools/mootools.v1.11.js",

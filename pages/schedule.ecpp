@@ -106,10 +106,10 @@ bool events_available = false;
     }
     //--></script>
   </head>
-  <body onkeydown="return KeyboardInput(event);">
+  <body onpageshow="restoreScrollPosition()" onkeydown="return KeyboardInput(event);">
     <& pageelems.logo &>
     <& menu active=("schedule") component=("schedule.channel_selection") &>
-    <div id="content">
+    <div id="content" onscroll="saveScrollPosition(this)">
       <div class="spacebar"><# spacer with fade-out effect #></div>
 <%cpp>
   if (!events_available) {

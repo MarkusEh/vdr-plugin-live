@@ -170,7 +170,7 @@ function addEventRec_r(s, eventid, title, folder, shortText, description) {
   const tv = new Treeview("<$ LiveSetup().GetThemedLinkPrefixImg()$>minus.png", "<$ LiveSetup().GetThemedLinkPrefixImg()$>plus.png", "<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_open.png", "<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png");
   </script>
 </head>
-<body onpageshow="clearCheckboxes(document.getElementById('form_recordings'))">
+<body onpageshow="restoreScrollPosition(); clearCheckboxes(document.getElementById('form_recordings'))">
   <& pageelems.logo &>
 <%cpp>
 const char *active_r;
@@ -187,7 +187,7 @@ if (!deleteResult.empty()) {
 <%cpp>
 }
 </%cpp>
-  <div id="content">
+  <div id="content" onscroll="saveScrollPosition(this)">
     <div class="spacebar"><# spacer with fade-out effect #></div>
     <div class="boxheader"><div class="caption"><$ std::string(tr("List of recordings")) + " (" + diskinfo + ")" $></div></div>
 <%cpp>

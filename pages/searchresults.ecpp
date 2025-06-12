@@ -62,10 +62,10 @@ bool logged_in(false);
     <& pageelems.ajax_js &>
     <& pageelems.create_html_js &>
   </head>
-  <body>
+  <body onpageshow="restoreScrollPosition()">
     <& pageelems.logo &>
     <& menu active=("searchepg") component=("searchresults.searchresults_actions") &>
-    <div id="content">
+    <div id="content" onscroll="saveScrollPosition(this)">
       <div class="spacebar"><# spacer with fade-out effect #></div>
 %      if (results.size() == 0) {
         <$ tr("No search results") $>

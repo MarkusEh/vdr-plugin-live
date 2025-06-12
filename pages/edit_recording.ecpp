@@ -138,7 +138,7 @@ std::string active_r;
     }
   </script>
   </head>
-  <body>
+  <body onpageshow="restoreScrollPosition()">
 <%cpp>
   if (!ajaxReq) {
 </%cpp>
@@ -147,7 +147,7 @@ std::string active_r;
 <%cpp>
   }
 </%cpp>
-    <div id="content">
+    <div id="content" onscroll="saveScrollPosition(this)">
       <div class="spacebar"><# spacer with fade-out effect #></div>
       <form method="post" name="edit_recording" id="<$ recid $>" action="edit_recording.ecpp">
         <input type="hidden" name="recid" value="<$ recid $>"/>
