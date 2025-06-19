@@ -505,10 +505,10 @@ const char *TNT_ARRAY = "";
     //--></script>
 
   </head>
-  <body onload="initform()" onpageshow="restoreScrollPosition()">
+  <body onload="initform()" onpagehide="saveScrollPosition('content')" onpageshow="restoreScrollPosition()">
     <& pageelems.logo &>
     <& menu active=("searchtimers") &>
-      <div id="content" onscroll="saveScrollPosition(this)">
+      <div id="content">
         <div class="spacebar"><# spacer with fade-out effect #></div>
         <form method="post" name="edit_searchtimer" action="edit_searchtimer.ecpp">
           <input type="hidden" name="searchtimerid" value="<$ searchtimerid $>"/>

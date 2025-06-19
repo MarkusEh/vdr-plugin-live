@@ -33,7 +33,7 @@ function setImages(node, expand, folder)
 {
 // input: the div class = recording_item node
 // Change the images (if there is an image)
-  const expandNodes = node.getElementsByClassName("recording_expander");
+  const expandNodes = node.getElementsByClassName("recording-expander");
   if (expandNodes.length > 0)
     expandNodes[0].src = expand;
   const folderNodes = node.getElementsByClassName("recording_folder");
@@ -122,7 +122,7 @@ for (let z=0; z<openNodes.length; z++){
     }
     let divRecItem = ul.parentNode.children[0]
     if (divRecItem != null)
-      setImages(divRecItem, "img/minus.png", "img/folder_open.png");
+      setImages(divRecItem, "img/icon_overlay_minus.png", "img/folder_open.png");
   }
 }
 if (domChanges == 1 && typeof liveEnhanced !== 'undefined') liveEnhanced.domReadySetup();
@@ -157,9 +157,9 @@ async function ExpandAll()
       }
     }
   }
-  expandNodes = getElementsByNodeNameClassName(window.document, 'IMG', 'recording_expander');
+  expandNodes = getElementsByNodeNameClassName(window.document, 'IMG', 'recording-expander');
   for (idx = 0; idx < expandNodes.length; idx++) {
-    expandNodes[idx].src = "img/minus.png";
+    expandNodes[idx].src = "img/icon_overlay_minus.png";
   }
   folderNodes = getElementsByNodeNameClassName(window.document, 'IMG', 'recording_folder');
   for (idx = 0; idx < folderNodes.length; idx++) {
@@ -177,9 +177,9 @@ function CollapseAll()
       recordingNodes[idx].style.display = 'none';
     }
   }
-  expandNodes = getElementsByNodeNameClassName(window.document, 'IMG', 'recording_expander');
+  expandNodes = getElementsByNodeNameClassName(window.document, 'IMG', 'recording-expander');
   for (idx = 0; idx < expandNodes.length; idx++) {
-    expandNodes[idx].src = "img/plus.png";
+    expandNodes[idx].src = "img/icon_overlay_plus.png";
   }
   folderNodes = getElementsByNodeNameClassName(window.document, 'IMG', 'recording_folder');
   for (idx = 0; idx < folderNodes.length; idx++) {

@@ -307,7 +307,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
   //--></script>
 % reply.sout().imbue(std::locale());
   </head>
-  <body onload="StreamInit(); FillIntervals()" onunload="StreamEnd()" onpageshow="restoreScrollPosition()" onkeydown="return KeyboardInput(event);">
+  <body onload="StreamInit(); FillIntervals()" onunload="StreamEnd()" onpagehide="saveScrollPosition('remoteDiv')" onpageshow="restoreScrollPosition()" onkeydown="return KeyboardInput(event);">
     <& pageelems.logo &>
     <& menu active="remote" component=("remote.remote_actions")>
     <div id="remoteDiv" class="remote">

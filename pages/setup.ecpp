@@ -149,10 +149,10 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
     }
     //--></script>
   </head>
-  <body onload="initform()" onpageshow="restoreScrollPosition()">
+  <body onload="initform()" onpagehide="saveScrollPosition('content')" onpageshow="restoreScrollPosition()">
     <& pageelems.logo &>
     <& menu active=("setup") &>
-    <div id="content" onscroll="saveScrollPosition(this)">
+    <div id="content">
       <div class="spacebar"><# spacer with fade-out effect #></div>
       <form method="post" action="setup.html">
         <input type="hidden" name="authchanged" value="<$ authchanged $>" id="authchanged"/>

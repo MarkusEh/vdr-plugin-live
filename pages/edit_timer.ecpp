@@ -315,7 +315,7 @@ TimerConflictNotifier timerNotifier;
     //--></script>
 
   </head>
-  <body onload="initform()" onpageshow="restoreScrollPosition()">
+  <body onload="initform()" onpagehide="saveScrollPosition('content')" onpageshow="restoreScrollPosition()">
 <%cpp>
   if (!ajaxReq) {
 </%cpp>
@@ -324,7 +324,7 @@ TimerConflictNotifier timerNotifier;
 <%cpp>
   }
 </%cpp>
-    <div id="content" onscroll="saveScrollPosition(this)">
+    <div id="content">
       <div class="spacebar"><# spacer with fade-out effect #></div>
       <form method="post" name="edit_timer" id="<$ timerid $>" action="edit_timer.ecpp">
         <input type="hidden" name="timerid" value="<$ timerid $>"/>

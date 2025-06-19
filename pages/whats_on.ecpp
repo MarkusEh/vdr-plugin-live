@@ -110,10 +110,10 @@ if (type == "now") {
     }
     //--></script>
   </head>
-  <body onpageshow="restoreScrollPosition()">
+  <body onpagehide="saveScrollPosition('content')" onpageshow="restoreScrollPosition()">
     <& pageelems.logo &>
     <& menu active=("whats_on") component=("whats_on.whats_on_actions")>
-    <div id="content" onscroll="saveScrollPosition(this)">
+    <div id="content">
       <div class="spacebar"><# spacer with fade-out effect #></div>
 %      if (mode == "list") {
       <table class="listing whats_on" cellspacing="0" cellpadding="0">

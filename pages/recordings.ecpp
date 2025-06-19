@@ -167,10 +167,10 @@ function addEventRec_r(s, eventid, title, folder, shortText, description) {
 
   <script type="text/javascript" src="js/live/treeview.js"></script>
   <script>
-  const tv = new Treeview("<$ LiveSetup().GetThemedLinkPrefixImg()$>minus.png", "<$ LiveSetup().GetThemedLinkPrefixImg()$>plus.png", "<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_open.png", "<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png");
+  const tv = new Treeview("<$ LiveSetup().GetThemedLinkPrefixImg()$>icon_overlay_minus.png", "<$ LiveSetup().GetThemedLinkPrefixImg()$>icon_overlay_plus.png", "<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_open.png", "<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png");
   </script>
 </head>
-<body onpageshow="restoreScrollPosition(); clearCheckboxes(document.getElementById('form_recordings'))">
+<body onpagehide="saveScrollPosition('content')" onpageshow="restoreScrollPosition(); clearCheckboxes(document.getElementById('form_recordings'))">
   <& pageelems.logo &>
 <%cpp>
 const char *active_r;
@@ -187,9 +187,14 @@ if (!deleteResult.empty()) {
 <%cpp>
 }
 </%cpp>
-  <div id="content" onscroll="saveScrollPosition(this)">
+  <div id="content">
     <div class="spacebar"><# spacer with fade-out effect #></div>
-    <div class="boxheader"><div class="caption"><$ std::string(tr("List of recordings")) + " (" + diskinfo + ")" $></div></div>
+    <# we enclose the recordings in a table to allow width control through 'siteprefs.css'; #>
+    <# do not classify as 'listing' to avoid row separators                                 #>
+    <table class="recordings-list" cellspacing="0" cellpadding="0"><tbody>
+    <tr><td>
+      <div class="boxheader"><div class="caption"><$ std::string(tr("List of recordings")) + " (" + diskinfo + ")" $></div></div>
+    </td></tr>
 <%cpp>
     int rec_cnt;
     {
@@ -199,15 +204,9 @@ if (!deleteResult.empty()) {
     if (rec_cnt == 0) {
 </%cpp>
       <# add the message in a table row beneath the header, because the message alone looks weird #>
-      <div class="recordings">
-        <table class="recordings" width="100%">
-          <tbody>
-            <tr class="recording_item">
-              <td class="message"><$ tr("No recordings found") $></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <tr class="recording_item">
+        <td class="message"><$ tr("No recordings found") $></td>
+      </tr>
 <%cpp>
     } else {
 // get and set sort order
@@ -241,6 +240,7 @@ if (!deleteResult.empty()) {
       uintptr_t iRecItemRoot = (uintptr_t)&recItemRoot;
       uintptr_t iOpenTreeNodes = (uintptr_t)&openTreeNodes;
 </%cpp>
+    <tr><td>
       <form method="post" name="recordings" id="form_recordings" action="recordings.ecpp">
         <div class="recordings">
           <ul class="recordingslist" style="display: revert-layer;">
@@ -258,11 +258,13 @@ if (!deleteResult.empty()) {
         </div>
 %       }
       </form>
+    </td></tr>
 <%cpp>
     }
 std::chrono::duration<double> timeNeeded = std::chrono::high_resolution_clock::now() - timeStart;
 dsyslog("live, time recordings.ecpp: %f", timeNeeded.count());
 </%cpp>
+    </tbody></table>
     <div class="spacebar"><# spacer with fade-out effect #></div>
   </div>
 </body>
@@ -311,7 +313,7 @@ for (const RecordingsItemDirPtr &recItem: l_dir_iterator) {
         </td>
       <%cpp> } </%cpp>
       <td class="space">
-        <img class="recording_expander" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>plus.png" />
+        <img class="iconic button recording-expander" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>icon_overlay_plus.png" />
       </td><td class="space">
         <img class="recording_folder" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png" />
       </td>
@@ -430,13 +432,13 @@ recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
 </%cpp>
 <span class="sep">|</span>
 <span class="label bold"><$ tr("Filter") $>:&nbsp;<input type="text" name="filter" value="<$ currentFilter $>" id="filter" onchange="filterRecordings(this, '<$ currentSort $>', '<$currentFlat$>')" />&nbsp;<& tooltip.help text=(tr("Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE).")) &></span>
-<img onclick="clearRecordingsFilter(document.getElementById('filter'), '<$ currentSort $>', '<$currentFlat$>')" class="clear_filter" src="<$ LiveSetup().GetThemedLink("img", "clear.png") $>" alt="" <& tooltip.hint text=(tr("Clear filter")) &>/>
+<img onclick="clearRecordingsFilter(document.getElementById('filter'), '<$ currentSort $>', '<$currentFlat$>')" class="icon button clear-filter" src="<$ LiveSetup().GetThemedLink("img", "icon_overlay_cross.png") $>" alt="" <& tooltip.hint text=(tr("Clear filter")) &>/>
 <%cpp>
 if (currentFlat != "true") {
 </%cpp>
 <span class="sep">|</span>
-<img onclick="ExpandAll()" class="pagemenu_expander" src="<$ LiveSetup().GetThemedLink("img", "plus.png") $>" alt="" <& tooltip.hint text=(tr("Expand all folders")) &>/>
-<img onclick="CollapseAll()" class="pagemenu_expander" src="<$ LiveSetup().GetThemedLink("img", "minus.png") $>" alt="" <& tooltip.hint text=(tr("Collapse all folders")) &>/>
+<img onclick="ExpandAll()" class="icon button expand-all" src="<$ LiveSetup().GetThemedLink("img", "icon_overlay_plus.png") $>" alt="" <& tooltip.hint text=(tr("Expand all folders")) &>/>
+<img onclick="CollapseAll()" class="icon button collapse-all" src="<$ LiveSetup().GetThemedLink("img", "icon_overlay_minus.png") $>" alt="" <& tooltip.hint text=(tr("Collapse all folders")) &>/>
 <%cpp>
 }
 </%cpp>

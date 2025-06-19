@@ -16,7 +16,7 @@ var PageEnhance = new Class({
       hintTipSelector: '*[title]',
       hintClassName: 'hint',
       infoWinOptions: {
-        bodyselect: 'div.epg_content',
+        bodySelect: 'div.epg_content',
         loadingMsg: 'loading',
         errorMsg: 'an error occurred!'
       },
@@ -74,9 +74,10 @@ var PageEnhance = new Class({
                 return true;
               }
               var event = new Event(event);
-              new InfoWin.Ajax(epgid, href, $merge(this.options.infoWinOptions, {
-                    onDomExtend: this.domExtend.bind(this)
-                      })).show(event);
+              var infowin = new InfoWin.Ajax(epgid, href, $merge(this.options.infoWinOptions, {
+                onDomExtend: this.domExtend.bind(this)
+              }));
+              infowin.show(event);
               event.stop();
               return false;
             }.bind(this));
@@ -97,7 +98,7 @@ var PageEnhance = new Class({
           el.addEvent('click', function(event){
               var event = new Event(event);
               new InfoWin.Ajax(timerid, href, $merge(this.options.infoWinOptions, {
-                    bodyselect: '',
+                    bodySelect: '',
                     modal: true,
                     onDomExtend: this.domExtend.bind(this)
                       })).show(event);
