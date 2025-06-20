@@ -296,10 +296,10 @@ std::vector<std::string> channel_groups_names;
       }
       //--></script>
     </head>
-    <body onpageshow="restoreScrollPosition()" onkeydown="return KeyboardInput(event);">
+    <body onpagehide="saveScrollPosition('content')" onpageshow="restoreScrollPosition()" onkeydown="return KeyboardInput(event);">
       <& pageelems.logo &>
       <& menu active=("multischedule") component=("multischedule.channel_selection") &>
-      <div id="content" onscroll="saveScrollPosition(this)">
+      <div id="content">
         <div class="spacebar"><# spacer with fade-out effect #></div>
   <%cpp>
     time_t now = time(NULL);

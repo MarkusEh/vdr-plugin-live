@@ -44,10 +44,10 @@ if (!logged_in && LiveSetup().UseAuth()) {
     <& pageelems.stylesheets &>
     <& pageelems.ajax_js &>
   </head>
-  <body onpageshow="restoreScrollPosition()">
+  <body onpagehide="saveScrollPosition('content')" onpageshow="restoreScrollPosition()">
     <& pageelems.logo &>
     <& menu active=("users") component=("users.user_actions")>
-    <div id="content" onscroll="saveScrollPosition(this)">
+    <div id="content">
       <div class="spacebar"><# spacer with fade-out effect #></div>
       <table class="listing users" cellspacing="0" cellpadding="0">
         <tr class="head">

@@ -355,8 +355,10 @@ if (!rfid.empty() ) {
   <script type="text/javascript"><!--
     var liveEnhanced = new PageEnhance({
         infoWinOptions: {
-          resizeimg: '<$ LiveSetup().GetThemedLink("img", "resize.png") $>',
-          buttonimg: 'img/transparent.png',
+          resizeImg: '<$ LiveSetup().GetThemedLink("img", "resize.png") $>',
+          closeImg: '<$ LiveSetup().GetThemedLink("img", "icon_overlay_cross.png") $>',
+          pinImg: '<$ LiveSetup().GetThemedLink("img", "icon_overlay_pin.png") $>',
+          pinnedImg: '<$ LiveSetup().GetThemedLink("img", "icon_overlay_pinned.png") $>',
           loadingMsg: '<$ tr("loading data") $>',
           errorMsg: '<$ tr("an error occurred!") $>'
         },

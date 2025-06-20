@@ -305,7 +305,7 @@ function addEventRec(s, eventprefix, eventid, http_params, title, folder, shortT
 // before calling, make sure that all recs[obj_i] exist!
 #>
 function RecordingsSt_int(s, level, displayFolder, data) {
-  s.a += '<li class="recording"><div><table width="100%" class="recordings">'
+  s.a += '<li class="recording"><div><table class="recordings">'
   for (obj_i of data) {
     if (typeof recs[obj_i] === 'undefined') continue;
     let obj = recs[obj_i]

@@ -37,10 +37,10 @@ if (!logged_in && LiveSetup().UseAuth()) {
     <& pageelems.ajax_js &>
     <& pageelems.create_html_js &>
   </head>
-  <body onpageshow="restoreScrollPosition()">
+  <body onpagehide="saveScrollPosition('content')" onpageshow="restoreScrollPosition()">
     <& pageelems.logo &>
     <& menu active=("timersconflicts")>
-    <div id="content" onscroll="saveScrollPosition(this)">
+    <div id="content">
       <div class="spacebar"><# spacer with fade-out effect #></div>
 %      if (timerConflicts.size() == 0) {
         <$ tr("No timer conflicts") $>

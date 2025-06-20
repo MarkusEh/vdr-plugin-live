@@ -46,10 +46,10 @@ if (!logged_in && LiveSetup().UseAuth()) {
     <& pageelems.stylesheets &>
     <& pageelems.ajax_js &>
   </head>
-  <body onpageshow="restoreScrollPosition()">
+  <body onpagehide="saveScrollPosition('content')" onpageshow="restoreScrollPosition()">
     <& pageelems.logo &>
     <& menu active=("searchtimers") component=("searchtimers.searchevent_actions")>
-    <div id="content" onscroll="saveScrollPosition(this)">
+    <div id="content">
       <div class="spacebar"><# spacer with fade-out effect #></div>
       <table class="listing searchtimers" cellspacing="0" cellpadding="0">
         <tr class="head">

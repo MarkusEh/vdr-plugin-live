@@ -138,7 +138,7 @@ std::string active_r;
     }
   </script>
   </head>
-  <body onpageshow="restoreScrollPosition()">
+  <body onpagehide="saveScrollPosition('content')" onpageshow="restoreScrollPosition()">
 <%cpp>
   if (!ajaxReq) {
 </%cpp>
@@ -147,7 +147,7 @@ std::string active_r;
 <%cpp>
   }
 </%cpp>
-    <div id="content" onscroll="saveScrollPosition(this)">
+    <div id="content">
       <div class="spacebar"><# spacer with fade-out effect #></div>
       <form method="post" name="edit_recording" id="<$ recid $>" action="edit_recording.ecpp">
         <input type="hidden" name="recid" value="<$ recid $>"/>
@@ -163,7 +163,7 @@ std::string active_r;
           <tr>
             <td class="label leftcol"><div class="withmargin"><$ tr("Directory") $>:</div></td>
             <td class="rightcol">
-              <select name="directory" size="1" id="directory" style="margin-top: 5px">
+              <select name="directory" size="1" id="directory">
 <%cpp>
   RecordingsTreePtr recordingsTree(RecordingsManager::GetRecordingsTree());
   for (const auto &dir: recordingsTree->getAllDirs() ) {
@@ -173,7 +173,7 @@ std::string active_r;
   }
 </%cpp>
               </select>
-              <img id="new_dir_button" class="icon button_new" src="<$ LiveSetup().GetThemedLink("img", "button_new.png") $>" title="<$tr("Create new directory")$>" onclick="new_dir()">
+              <img id="new_dir_button" class="icon button new-dir" src="<$ LiveSetup().GetThemedLink("img", "icon_overlay_plus.png") $>" title="<$tr("Create new directory")$>" onclick="new_dir()">
               <input type="text" name="newdir" id="newdir" value="." size="55" class="width99" style="display: none" />
             </td>
           </tr>

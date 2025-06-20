@@ -48,7 +48,7 @@ if (logged_in || !LiveSetup().UseAuth()) return reply.redirect(targetUrl);
     <& pageelems.ajax_js &>
 #>
   </head>
-  <body onload="document.auth.login.focus()" onpageshow="restoreScrollPosition()">
+  <body onload="document.auth.login.focus()">
   <div class="loginwin">
     <div class="boxheader"><div class="caption"><$ tr("VDR Live Login") $></div></div>
     <div class="login_content">

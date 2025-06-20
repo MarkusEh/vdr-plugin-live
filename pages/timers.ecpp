@@ -79,10 +79,10 @@ using namespace vdrlive;
     <& pageelems.ajax_js &>
     <& pageelems.create_html_js &>
   </head>
-  <body onpageshow="restoreScrollPosition()">
+  <body onpagehide="saveScrollPosition('content')" onpageshow="restoreScrollPosition()">
     <& pageelems.logo &>
     <& menu active=("timers") component=("timers.event_actions")>
-    <div id="content" onscroll="saveScrollPosition(this)">
+    <div id="content">
       <div class="spacebar"><# spacer with fade-out effect #></div>
 <%cpp>
     #ifdef DEBUG_LOCK

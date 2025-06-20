@@ -43,10 +43,12 @@ var InfoWin = new Class({
       wm: false, // override default window manager.
       draggable: true,
       resizable: true,
-      resizeimg: 'transparent.png',
-      buttonimg: 'transparent.png',
-      bodyselect: 'div.content',
-      titleselect: 'div.caption',
+      resizeImg: 'img/transparent.png',
+      closeImg: 'img/icon_overlay_cross.png',
+      pinImg: 'img/icon_overlay_pin.png',
+      pinnedImg: 'img/icon_overlay_pinned.png',
+      bodySelect: 'div.content',
+      titleSelect: 'div.caption',
       classSuffix: '-win',
       idSuffix: '-id',
       offsets: {'x': 0, 'y': 0}
@@ -55,7 +57,9 @@ var InfoWin = new Class({
     initialize: function(id, options){
       this.setOptions(options);
       this.wm = this.options.wm || InfoWin.$wm;
-      this.winFrame = $(id + this.options.classSuffix + this.options.idSuffix);
+      winFrameId = id + this.options.classSuffix + this.options.idSuffix;
+      this.css = {'selector': 'div#' + winFrameId + ' '};
+      this.winFrame = $(winFrameId);
       if (!$defined(this.winFrame)){
         this.buildFrame(id);
         this.build(id);
@@ -76,28 +80,62 @@ var InfoWin = new Class({
         }).inject(this.winFrame);
       if (this.options.draggable) {
         top.setStyle('cursor', 'grab');;
-        this.winFrame.makeDraggable({'handle': top, 'container': document.body});
+        this.winFrame.makeDraggable({'handle': top, 'onComplete': function()
+          { // make sure the window is within the 'content' container;
+            // as the 'content' element uses scrolling, we do not need
+            // to check for overflow in scroll direction
+            if (this.element.offsetLeft < 0) {
+              this.element.style.left = '0px';
+            }
+            if (this.element.offsetTop < 0) {
+              this.element.style.top = '0px';
+            }
+          }
+        });
       }
       this.titleBox = new Element('div', {
           'class': this.options.className + this.options.classSuffix + '-title'
         }).inject(top);
 
       this.buttonBox = new Element('div', {
-          'class': this.options.className + this.options.classSuffix + '-button'
+          'class': this.options.className + this.options.classSuffix + '-buttons'
         }).inject(top);
-      var cls = new Element('div', {
-          'class': 'close'
+      this.pinButton = new Element('img', {
+          'src': this.options.pinImg,
+          'class': 'iconic button pin',
+          'alt': 'pin'
         }).inject(this.buttonBox);
-      cls.addEvent('click', function(event){
+      this.pinButton.addEvent('click', function(event){
+          var event = new Event(event);
+          winFrameRect = this.winFrame.getBoundingClientRect();
+          if (this.winFrame.style.position == 'fixed') {
+            // floating coordinates refer to the 'content' element
+            content = document.getElementById('content');
+            contentRect = content.getBoundingClientRect();
+            this.winFrame.style.position = "absolute";
+            this.winFrame.style.left = (winFrameRect.left - contentRect.left + content.scrollLeft) + 'px';
+            this.winFrame.style.top  = (winFrameRect.top  - contentRect.top  + content.scrollTop ) + 'px';
+            this.pinButton.src = this.options.pinImg;
+          } else {
+            // fixed coordinates refer to the viewport
+            this.winFrame.style.position = 'fixed';
+            this.winFrame.style.left = winFrameRect.left + 'px';
+            this.winFrame.style.top  = winFrameRect.top  + 'px';
+            this.pinButton.src = this.options.pinnedImg;
+          }
+          event.stop();
+          return false;
+        }.bind(this));
+      closeButton = new Element('img', {
+          'src': this.options.closeImg,
+          'class': 'iconic button close',
+          'alt': 'close'
+        }).inject(this.buttonBox);
+      closeButton.addEvent('click', function(event){
           var event = new Event(event);
           event.stop();
           return this.hide();
         }.bind(this));
-      cls = new Element('img', {
-          'src': this.options.buttonimg,
-          'class': 'close-button',
-          'alt': 'close'
-        }).inject(cls);
 
       // body of window: user content.
       this.winBody = new Element('div', {
@@ -112,10 +150,9 @@ var InfoWin = new Class({
             'class': this.options.className + this.options.classSuffix + '-resize'
           }).inject(this.winFrame);
         var icon = new Element('img', {
-            'src': this.options.resizeimg,
-            'alt': 'resize',
-            'width': '16px',
-            'height': '16px'
+            'src': this.options.resizeImg,
+            'class': 'icon resize',
+            'alt': 'resize'
           }).inject(resizeBox);
         this.winFrame.makeResizable({'handle': resizeBox});
       }
@@ -139,9 +176,20 @@ var InfoWin = new Class({
     },
 
     show: function(event){
-      this.position(event);
-      this.fireEvent('onShow', [this.winFrame]);
+      // raise before determining the position, as we then have the true
+      // window dimensions derived from CSS settings for rectification
+      // (instead of just some magic constants)
       this.wm.raise(this);
+      this.position(event);
+      if (this.winFrame.style.position != 'fixed') {
+        // floating coordinates refer to the 'content' element
+        content = document.getElementById('content');
+        contentRect = content.getBoundingClientRect();
+        this.winFrame.style.position = "absolute";
+        this.winFrame.style.left = (parseInt(this.winFrame.style.left) - contentRect.left + content.scrollLeft) + 'px';
+        this.winFrame.style.top  = (parseInt(this.winFrame.style.top)  - contentRect.top  + content.scrollTop ) + 'px';
+      }
+      this.fireEvent('onShow', [this.winFrame]);
       if (this.options.timeout)
         this.timer = this.hide.delay(this.options.timeout, this);
       return false;
@@ -155,13 +203,22 @@ var InfoWin = new Class({
         this.destroyed = true;
       }
       else {
+        if (this.winFrame.style.position == 'fixed') {
+            // floating coordinates refer to the 'content' element
+            content = document.getElementById('content');
+            contentRect = content.getBoundingClientRect();
+            this.winFrame.style.position = "absolute";
+            this.winFrame.style.left = (winFrameRect.left - contentRect.left + content.scrollLeft) + 'px';
+            this.winFrame.style.top  = (winFrameRect.top  - contentRect.top  + content.scrollTop ) + 'px';
+            this.pinButton.src = this.options.pinImg;
+        }
         this.wm.bury(this);
       }
       return false;
     },
 
     fillBody: function(id){
-      var bodyElems = $$('#'+ id + ' ' + this.options.bodyselect);
+      var bodyElems = $$('#'+ id + ' ' + this.options.bodySelect);
       if ($defined(bodyElems) && bodyElems.length > 0) {
         this.winBody.empty();
         this.fireEvent('onDomExtend', [id, bodyElems]);
@@ -204,7 +261,7 @@ var InfoWin = new Class({
     },
 
     fillTitle: function(id){
-      var titleElems = $$('#' + id + ' ' + this.options.titleselect);
+      var titleElems = $$('#' + id + ' ' + this.options.titleSelect);
       if ($defined(titleElems) && titleElems.length > 0) {
         this.titleBox.empty().adopt(titleElems);
         return true;
@@ -217,7 +274,8 @@ var InfoWin = new Class({
       var pos = event.page['y'] + this.options.offsets['y'];
       this.winFrame.setStyle(prop['y'], pos);
       pos = event.page['x'] + this.options.offsets['x'];
-      if (pos > window.innerWidth - 550) pos = window.innerWidth - 550;
+      var width = this.winFrame.getBoundingClientRect().width;
+      if (pos > window.innerWidth - width) pos = window.innerWidth - width;
       if (pos < 1) pos = 1;
       this.winFrame.setStyle(prop['x'], pos);
     }
@@ -255,7 +313,7 @@ InfoWin.Manager = new Class({
                   'display' : (kind == 'closed') ? 'none' : 'block'
                 }
               });
-            this[wins].inject(document.body);
+            this[wins].inject(document.getElementById('content') || document.body);
           }
         }, this);
     },

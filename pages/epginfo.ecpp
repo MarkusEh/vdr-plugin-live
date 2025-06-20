@@ -105,7 +105,7 @@ using namespace vdrlive;
   }
 </%cpp>
   </head>
-  <body onpageshow="restoreScrollPosition()">
+  <body onpagehide="saveScrollPosition('content')" onpageshow="restoreScrollPosition()">
 <%cpp>
   if (!ajaxReq) {
 </%cpp>
@@ -114,7 +114,7 @@ using namespace vdrlive;
 <%cpp>
   }
 </%cpp>
-    <div id="content" onscroll="saveScrollPosition(this)">
+    <div id="content">
       <div class="spacebar"><# spacer with fade-out effect #></div>
 <%cpp>
   if (!epgEvent.Id().empty() && delete_rec.empty()) {

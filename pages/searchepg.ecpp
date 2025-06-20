@@ -261,10 +261,10 @@ const char *TNT_ARRAY = "";
     }
     //--></script>
   </head>
-  <body onload="initform()" onpageshow="restoreScrollPosition()">
+  <body onload="initform()" onpagehide="saveScrollPosition('content')" onpageshow="restoreScrollPosition()">
     <& pageelems.logo &>
     <& menu active=("searchepg") &>
-    <div id="content" onscroll="saveScrollPosition(this)">
+    <div id="content">
       <div class="spacebar"><# spacer with fade-out effect #></div>
       <form method="post" name="searchepg" action="searchepg.ecpp">
         <input type="hidden" name="blacklistids_internal" value="<$ blacklistids_internal $>" id="blacklistids_internal"/>

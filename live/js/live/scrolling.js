@@ -3,7 +3,8 @@
  */
 
 // save the scroll position of an element
-function saveScrollPosition(element) {
+function saveScrollPosition(id) {
+  let element = document.getElementById(id);
   if (element) {
     let left = element.scrollLeft;
     let top  = element.scrollTop;
@@ -20,7 +21,6 @@ function restoreScrollPosition() {
     let left = history.state.scrollLeft;
     let top  = history.state.scrollTop;
     if (element && (top || left)) {
-      history.scrollRestoration = "manual";
       element.scrollTo(left, top);
     }
   }

@@ -133,14 +133,14 @@ using namespace vdrlive;
     <& pageelems.create_html_js &>
     <script> window.onbeforeunload = function() { player.stop(); } </script>
   </head>
-  <body onpageshow="restoreScrollPosition()">
+  <body onpagehide="saveScrollPosition('content')" onpageshow="restoreScrollPosition()">
     <& pageelems.logo &>
 %  if ( qparam.has("recid") ) {
     <& menu active=("stream") component=("stream.recording_selection") &>
 %  } else {
     <& menu active=("stream") component=("stream.channel_selection") &>
 %  }
-    <div id="content" onscroll="saveScrollPosition(this)">
+    <div id="content">
       <div class="spacebar"><# spacer with fade-out effect #></div>
       <div class="player-container">
       <div id="player" class="player">

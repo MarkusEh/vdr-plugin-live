@@ -83,38 +83,42 @@
   inherits: false;
 }
 
-@property --close-width {
-  /* icon width for use in calculated lengths */
-  syntax: "<length>";
-  initial-value: 16px;
-  inherits: false;
-}
-
-@property --close-height {
-  /* icon height for use in calculated lengths */
-  syntax: "<length>";
-  initial-value: 16px;
-  inherits: false;
-}
-
-@property --expander-width {
-  /* icon width for use in calculated lengths */
-  syntax: "<length>";
-  initial-value: 16px;
-  inherits: false;
-}
-
-@property --expander-height {
-  /* icon height for use in calculated lengths */
-  syntax: "<length>";
-  initial-value: 16px;
-  inherits: false;
-}
-
 @property --sdhd-width {
   /* icon width for use in calculated lengths, height acc. to dimension */
   syntax: "<length>";
   initial-value: 24px;
+  inherits: false;
+}
+
+@property --iconic-button-width {
+  /* button width for use in calculated lengths */
+  /* iconic buttons have 12 visible horizontal pixels, thus 2 transparent border pixels */
+  syntax: "<length>";
+  initial-value: 16px;
+  inherits: false;
+}
+
+@property --iconic-button-height {
+  /* button height for use in calculated lengths */
+  /* iconic buttons have 12 visible vertical pixels, thus 2 transparent border pixels  */
+  syntax: "<length>";
+  initial-value: 16px;
+  inherits: false;
+}
+
+@property --iconic-button-row-gap {
+  /* distance between button rows */
+  /* should match the icon row gap, taking transparent border pixels into account */
+  syntax: "<length>";
+  initial-value: 0px;   /* adjacent border pixels already result in a gap of 4 pixels */
+  inherits: false;
+}
+
+@property --iconic-button-column-gap {
+  /* distance between button columns */
+  /* should match the icon row gap, taking transparent border pixels into account */
+  syntax: "<length>";
+  initial-value: 0px;   /* adjacent border pixels already result in a gap of 4 pixels */
   inherits: false;
 }
 
@@ -649,23 +653,13 @@ a {
   color: var(--body-link-color);
 }
 
-img {
-}
-
-img.pagemenu_expander,
-img.recording_expander {
-  width: var(--expander-width, 16px);
-  height: var(--expander-height, 16px);
-}
-
-img.close-button {
-  width: var(--close-width, 16px);
-  height: var(--close-height, 16px);
-}
-
-
 img.sdhd {
   width: var(--sdhd-width, 24px);
+}
+
+img.iconic {
+  width: var(--iconic-button-width, 16px);
+  height: var(--iconic-button-height, 16px);
 }
 
 img.icon {
@@ -678,10 +672,7 @@ img.fading {
 }
 
 img.help,
-img.button_new,
-img.clear_filter,
-img.pagemenu_expander,
-img.recording_expander,
+img.icon.button,
 div#pagemenu img.icon {
   /* images align with the text baseline; we need to lower them manually to
   ** get them centered on the vertical axis, using the following heuristics
@@ -692,6 +683,16 @@ div#pagemenu img.icon {
   */
   margin-bottom: calc(min(max(round(down, max(calc(var(--text-font-size) - 22px) / 3), 1px), -3px), 0px));
   cursor: pointer;
+}
+
+img.icon.button {
+  cursor: default;
+  background: transparent url(../img/icon_regular.png) no-repeat top right;
+  background-size: var(--icon-width, 16px) var(--icon-height, 16px);
+}
+
+img.icon.button:hover {
+  background: transparent url(../img/icon_regular_hovered.png) no-repeat top right;
 }
 
 img.recording_folder {
@@ -962,12 +963,11 @@ img.channel_logo {
 */
 
 div.info-win {
-  overflow: hidden;
+  overflow: hidden;       /* to get the resize handle */
   width: calc(var(--sdhd-width) + var(--infowin-tools-border-width) + 6 * var(--margin-left-right) + max(var(--epg-image-width), 4 * var(--epg-photo-width) + 3 * var(--margin-left-right), var(--epg-artwork-width)) + 15px /* for the scrollbar */);;
   min-width: calc(var(--sdhd-width) + var(--infowin-tools-border-width) + 6 * var(--margin-left-right) + max(var(--infowin-progressbar-width) + 2 * var(--infowin-progressbar-border-width), var(--epg-image-width)) + 15px /* for the scrollbar */);
   max-width: 80vw;
   min-height: calc(var(--infowin-title-height) + 5 * var(--text-line-height));
-  max-height: 80vh;
   margin: 0px auto;
   border-top-left-radius: var(--infowin-title-border-radius);
   border-top-right-radius: var(--infowin-title-border-radius);
@@ -1021,26 +1021,26 @@ div.info-win.info-del {
   font-weight: inherit;
 }
 
-.info-win .info-win-top .info-win-button {
-  align-self: start;
-  cursor: default;
-}
-
-.info-win .info-win-top .info-win-button .close {
-  width: var(--close-width, 16px);
-  height: var(--close-height, 16px);
-  /* see the explanation at img.help */
+.info-win .info-win-top .info-win-buttons {
+  display: flex;
+  flex-flow: row nowrap;
+  column-gap: var(--iconic-button-column-gap);
+  align-items: start;
+  max-width: calc(2 * var(--iconic-button-width)+ var(--iconic-button-column-gap));
   margin-top: calc(0px - min(max(round(down, max(calc(var(--text-font-size) - 22px) / 3), 1px), -3px), 0px));
   margin-right: var(--margin-left-right);
-  background: transparent url(../img/close.png) no-repeat top right;
-  background-size: var(--close-width, 16px) var(--close-height, 16px);
 }
 
-.info-win .info-win-top .info-win-button .close:hover {
-  width: var(--close-width, 16px);
-  height: var(--close-height, 16px);
-  background: transparent url(../img/close_red.png) no-repeat top right;
-  background-size: var(--close-width, 16px) var(--close-height, 16px);
+img.iconic.button.recording-expander, /* for the tree view */
+.info-win .info-win-top img.iconic.button {
+  cursor: default;
+  background: transparent url(../img/icon_small.png) no-repeat top right;
+  background-size: var(--iconic-button-width, 16px) var(--iconic-button-height, 16px);
+}
+
+img.iconic.button.recording-expander:hover, /* for the tree view */
+.info-win .info-win-top img.iconic.button:hover {
+  background: transparent url(../img/icon_small_hovered.png) no-repeat top right;
 }
 
 .info-win .info-win-body {
@@ -1049,10 +1049,15 @@ div.info-win.info-del {
   ** reduce the body height by the height of an unwrapped title and
   ** accept that wrapped titles won't allow scrolling down fully */
   height: calc(100% - var(--infowin-border-width) - var(--text-line-height) - 2 * var(--text-line-gap));
+  min-height: calc(5 * var(--text-line-height) - var(--infowin-border-width) - 2 * var(--text-line-gap));
   max-height: inherit;  /* for enabling the scrollbar */
   border: var(--infowin-border-width) solid var(--infowin-border-color);
   border-top: none;
   border-bottom: none;
+}
+
+.info-win.info-del .info-win-body {
+  min-height: calc(var(--button-height) + 4 * var(--margin-top-bottom));
 }
 
 .info-win .info-win-resize {
@@ -1150,13 +1155,9 @@ div#menu a.active {
   font-weight: bold;
 }
 
-div#menu form {
-  /* check */
-  display: inline;
-  background: yellow;
-}
-
 div#content {
+  flex-grow: 1;
+  position: relative;
   overflow: auto;
   padding: 0px var(--body-margin);
 }
@@ -1165,6 +1166,7 @@ div#content > div.spacebar:first-child {
   top: 0px;
   position: sticky;
   height: var(--spacebar-height);
+  width: calc(100vw - 2 * var(--body-margin));
   background: transparent linear-gradient(to bottom, var(--body-background-color), transparent);
 }
 
@@ -1172,6 +1174,7 @@ div#content > div.spacebar:last-child {
   bottom: 0px;
   position: sticky;
   height: var(--spacebar-height);
+  width: calc(100vw - 2 * var(--body-margin));
   background: transparent linear-gradient(to top, var(--body-background-color), transparent);
 }
 
@@ -2059,6 +2062,10 @@ table.listing div.boxheader, table.multischedule div.boxheader, div.data div.box
    #############################
 */
 
+table.recordings-list {
+  width: 100%;
+}
+
 div.recordings {
   border: var(--listing-border-width) solid var(--listing-border-color);
   border-top: none;
@@ -2107,6 +2114,7 @@ div.recording_item .recording_folder_name_new {
 /* 'table.recordings' refers to the recordings within a folder */
 
 table.recordings {
+  width: 100%;
   border: 0px;
   border-spacing: 0px;
   border-collapse: collapse;
@@ -2713,17 +2721,18 @@ span.epg_images img.epg_image {
 
 /* some adaptions when shown in browser window or tab */
 
-div#content div.epg_content {
+div.epg_description div.epg_content {
   width: unset;
 }
 
 /* some adaptions when shown in info-win subwindow */
 
-.info-win div.boxheader {
+div.info-win div.boxheader {
   display: none;
 }
 
-.info-win div.epg_content {
+div.info-win div.epg_content {
+  width: 100%;
 }
 
 div.epg_content form {
@@ -2914,6 +2923,11 @@ img.thumb, img.thumbpt {
 
   div.display-xs {
     display: block;
+  }
+
+  div#content > table {
+    /* force full with on small screens */
+    width: 100%;
   }
 
   table.listing > tbody > tr > td.leftcol div.event_actions {
