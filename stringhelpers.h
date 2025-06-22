@@ -1002,7 +1002,7 @@ class cOpen {
     void checkError(const char *pathname, int errno_l) {
       if (m_fd == -1) {
 // no message for errno == ENOENT, the file just does not exist
-        if (errno_l != ENOENT) esyslog(PLUGIN_NAME_I18N "cOpen::checkError, ERROR: open fails, errno %d, filename %s\n", errno_l, pathname);
+        if (errno_l != ENOENT) esyslog(PLUGIN_NAME_I18N " cOpen::checkError, ERROR: open fails, errno %d, filename %s\n", errno_l, pathname);
       }
     }
     int m_fd = -1;
@@ -1025,7 +1025,7 @@ class cToSvFile: public cToSv {
         m_s = nullptr;
         if (n_err < 3) sleep(1);
       }
-      esyslog(PLUGIN_NAME_I18N "cToSvFile::load, ERROR: give up after 3 tries, filename %s", filename);
+      esyslog(PLUGIN_NAME_I18N " cToSvFile::load, ERROR: give up after 3 tries, filename %s", filename);
     }
     bool load_int(const char *filename, size_t max_length) {
 // return false if an error occurred, and we should try again
@@ -1034,7 +1034,7 @@ class cToSvFile: public cToSv {
       struct stat buffer;
       if (fstat(fd, &buffer) != 0) {
         if (errno == ENOENT) return false;  // somehow strange, cOpen found the file, and fstat says it does not exist ... we try again
-        esyslog(PLUGIN_NAME_I18N "cToSvFile::load, ERROR: in fstat, errno %d, filename %s\n", errno, filename);
+        esyslog(PLUGIN_NAME_I18N " cToSvFile::load, ERROR: in fstat, errno %d, filename %s\n", errno, filename);
         return true;
       }
 // file exists, length buffer.st_size
@@ -1044,7 +1044,7 @@ class cToSvFile: public cToSv {
       if (max_length != 0 && length > max_length) length = max_length;
       m_s = (char *) malloc((length + 1) * sizeof(char));  // add one. So we can add the 0 string terminator
       if (!m_s) {
-        esyslog(PLUGIN_NAME_I18N "cToSvFile::load, ERROR out of memory, filename = %s, requested size = %zu\n", filename, length + 1);
+        esyslog(PLUGIN_NAME_I18N " cToSvFile::load, ERROR out of memory, filename = %s, requested size = %zu\n", filename, length + 1);
         return true;
       }
       size_t num_read = 0;
@@ -1054,7 +1054,7 @@ class cToSvFile: public cToSv {
         if (num_read1 == 0) ++num_errors; // should not happen, because fstat reported file size >= length
         if (num_read1 == -1) {
           if (errno == ENOENT) return false;
-          esyslog(PLUGIN_NAME_I18N "cToSvFile::load, ERROR: read failed, errno %d, filename %s, file size = %zu, num_read = %zu\n", errno, filename, (size_t)buffer.st_size, num_read);
+          esyslog(PLUGIN_NAME_I18N " cToSvFile::load, ERROR: read failed, errno %d, filename %s, file size = %zu, num_read = %zu\n", errno, filename, (size_t)buffer.st_size, num_read);
           ++num_errors;
           num_read1 = 0;
           if (num_errors < 3) sleep(1);
@@ -1063,7 +1063,7 @@ class cToSvFile: public cToSv {
       m_result = cSv(m_s, num_read);
       m_s[num_read] = 0;  // so data() returns a 0 terminated string
       if (num_read != length) {
-        esyslog(PLUGIN_NAME_I18N "cToSvFile::load, ERROR: num_read = %zu, length = %zu, filename %s\n", num_read, length, filename);
+        esyslog(PLUGIN_NAME_I18N " cToSvFile::load, ERROR: num_read = %zu, length = %zu, filename %s\n", num_read, length, filename);
       }
       return true;
     }
@@ -1083,16 +1083,27 @@ template<std::size_t N> class cToSvFileN: public cToSv {
     bool exists() const { return m_exists; }
   private:
     void load(const char *filename) {
+      for (int n_err = 0; n_err < 3; ++n_err) {
+        if (load_int(filename) ) return;
+        if (n_err < 3) sleep(1);
+      }
+      m_exists = false;
+      esyslog(PLUGIN_NAME_I18N " cToSvFileN::load, ERROR: give up after 3 tries, filename %s", filename);
+    }
+    bool load_int(const char *filename) {
+// return false if we should try again
       cOpen fd(filename, O_RDONLY);
-      if (!fd.exists()) return;
-      m_exists = true;
+      m_exists = fd.exists();
+      if (!m_exists) return true;
       ssize_t num_read = read(fd, m_s, N);
       if (num_read == -1) {
-        esyslog(PLUGIN_NAME_I18N "cToSvFile::load, ERROR: read fails, errno %d, filename %s\n", errno, filename);
+        if (errno == ENOENT) return false;  // somehow strange, cOpen found the file, and fstat says it does not exist ... we try again
+        esyslog(PLUGIN_NAME_I18N " cToSvFileN::load, ERROR: read fails, errno %d, filename %s\n", errno, filename);
         num_read = 0;
       }
       m_result = cSv(m_s, num_read);
       m_s[num_read] = 0;  // so data returns a 0 terminated string
+      return true;
     }
     bool m_exists = false;
     char m_s[N+1] = "";
@@ -1403,6 +1414,9 @@ template<typename T, std::enable_if_t<sizeof(T) == 16, bool> = true>
   private:
     mutable size_t m_reserve = 1024;
 };
+#define esyslog2(...) esyslog(cToSvConcat(__VA_ARGS__).c_str());
+#define isyslog2(...) dsyslog(cToSvConcat(__VA_ARGS__).c_str());
+#define dsyslog2(...) dsyslog(cToSvConcat(__VA_ARGS__).c_str());
 
 template<size_t N=0>
 class cToSvInt: public cToSvConcat<std::max(N, (size_t)20)> {

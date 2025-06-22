@@ -1787,6 +1787,10 @@ table.listing a {
   font-weight: bold;
 }
 
+table.listing .short a {
+  font-weight: normal;
+}
+
 table.listing tr.active,
 table.listing tr.active a {
   color: var(--listing-color-active);

@@ -272,6 +272,9 @@ var InfoWin = new Class({
     position: function(event){
       var prop = {'x': 'left', 'y': 'top'};
       var pos = event.page['y'] + this.options.offsets['y'];
+      content = document.getElementById('content');
+      contentRect = content.getBoundingClientRect();
+      if (pos < contentRect.y) pos = contentRect.y;
       this.winFrame.setStyle(prop['y'], pos);
       pos = event.page['x'] + this.options.offsets['x'];
       var width = this.winFrame.getBoundingClientRect().width;

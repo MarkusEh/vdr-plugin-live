@@ -382,6 +382,22 @@ img.channel_logo:not(:hover) {
 */
 
 
+/* Uncomment this to get (existing) recordings still being recorded without
+** animation. Adjust the rule to get another color or animation sequence.
+*/
+/*
+tr.existing_recording.still_recording, tr.existing_recording.still_recording a,
+tr.existing_recording div.still_recording, tr.existing_recording div.still_recording a,
+tr.recording_item.still_recording, tr.recording_item.still_recording a,
+tr.recording_item div.recording_name.still_recording, tr.recording_item div.recording_name.still_recording a,
+tr.recording_item div.recording_name_new.still_recording, tr.recording_item div.recording_name_new.still_recording a,
+table.streaming tr.still_recording, table.streaming tr.still_recording a {
+  color: var(--listing-color-highlight);
+  animation: unset;
+}
+*/
+
+
 /* Uncomment this to use other than the default fonts. Prepend the desired
 ** font to be commonly used to the font family in the 'body' tag. Copy this
 ** definition or enter similar ones for the other tags as appropriate.
