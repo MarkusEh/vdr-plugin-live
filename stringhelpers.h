@@ -1007,106 +1007,174 @@ class cOpen {
     }
     int m_fd = -1;
 };
+
+namespace stringhelpers_internal {
+
+// helpers to read a file (or part of a file) into memory
+
+inline ssize_t read(int fd, char *buf, size_t count, const char *filename) {
+// read up to count bytes from file fd to buf
+// buf must have at least size(count), the result is not terminated
+// filename is only used for syslog messages
+
+// Return:
+// >= 0: number of bytes read. This might be smaller than count (we give up after 3 tries and assume EOF)
+//   -2: ::read returned -1 with errno == ENOENT or EINTR (or similar). We expect the error to vanish if you try again
+//       note: you should close and re-open the file and try again, as it is left unspecified whether the file position changes
+//   -3: ERROR: fd not open (fd == -1)  -> entry in esyslog already written
+//   -4: ERROR: other error during read -> entry in esyslog already written
+
+  if (fd == -1) {
+    esyslog(PLUGIN_NAME_I18N " %s, ERROR (please write a bug report): file not open, filename %s", __func__, filename);
+    return -3;
+  }
+  size_t num_read = 0;
+  ssize_t num_read1 = 0;
+  for (int num_errors = 0; num_errors < 3 && num_read < count; num_read += num_read1) {
+    num_read1 = ::read(fd, buf + num_read, count - num_read);
+    if (num_read1 == -1) {
+// On error, -1 is returned, and errno is set to indicate the error.
+// In this case, it is left unspecified whether the file position changes.
+      if (errno == ENOENT || errno == EINTR || errno == EEXIST) return -2;  // I really don't understand why ENOENT or EEXIST would be reported. But we retry ...
+      esyslog(PLUGIN_NAME_I18N " ERROR: read failed, errno %d, error %m, filename %s, count %zu, num_read = %zu", errno, filename, count, num_read);
+      return -4;
+    }
+    if (num_read1 == 0) ++num_errors; // try up to 3 times, to make sure this is really EOF
+  }
+  return num_read; // success
+}
+inline ssize_t read_file_one_try(const char *filename, char *&buf, size_t count) {
+// see comment on read_file for documentation, this is identical.
+// except, there is one more return code possible:
+// -2: strange error, should be recoverable. Try again
+
+  if (count == 0 && buf) {
+    esyslog(PLUGIN_NAME_I18N " %s, ERROR (please write a bug report): count == 0 && buf, filename %s", __func__, filename);
+    return -4;
+  }
+  cOpen fd(filename, O_RDONLY);
+  if (!fd.exists()) return -3;
+  struct stat buffer;
+  if (fstat(fd, &buffer) != 0) {
+    if (errno == ENOENT) return -2;  // somehow strange, cOpen found the file, and fstat says it does not exist ... we try again
+    esyslog(PLUGIN_NAME_I18N " %s, ERROR: in fstat, errno %d, error %m, filename %s", __func__, errno, filename);
+    return -4;
+  }
+// file exists, length buffer.st_size
+  size_t length;
+  if (count == 0) length = buffer.st_size;
+  else length = std::min((size_t)buffer.st_size, count);
+  if (length == 0) return length;
+  bool buff_alloc = false;
+  if (!buf) {
+    buf = (char *) malloc((length + 1) * sizeof(char));  // add one. So we can add the 0 string terminator
+    if (!buf) {
+      esyslog(PLUGIN_NAME_I18N " %s, ERROR out of memory, filename = %s, requested size = %zu", __func__, filename, length + 1);
+      return -4;
+    }
+    buff_alloc = true;
+  }
+  ssize_t ret = read(fd, buf, length, filename);
+  if (ret >= 0 && ret != (ssize_t)length)
+    esyslog(PLUGIN_NAME_I18N " %s, ERROR could not read %zu bytes from file %s, fstat size = %zu, available bytes: %zu", __func__, length, filename, (size_t)buffer.st_size, (size_t)ret);
+
+  if (ret <= 0 && buff_alloc) { free(buf); buf = nullptr; }
+  return ret;
+}
+inline ssize_t read_file(const char *filename, char *&buf, size_t count) {
+// if count == 0: read the complete file to buf
+// otherwise, read min(count, filesize) bytes from file to buf
+// if buf is provided, buf must have at least size(count) and count must not be 0
+// if buf is not provided (nullptr) and >0 is returned, buf will be allocated with malloc and must be freed by the caller. Sufficient memory is allocated so you can add a 0 terminator if required
+
+// Return:
+// >= 0: number of bytes read
+//    note: this can be smaller than the number of bytes we try to read (filesize if count == 0, otherwise min(count, filesize))
+//          in this case, a syslog error is already written.
+// >  0: if no buf was provided, buf with 1 extra bype is allocated with malloc and must be freed by the caller!
+// == 0: 0 bytes read. File empty or error. NO buffer is allocated
+
+// -3: file does not exist (no error in syslog)
+// -4: other error -> entry in esyslog already written
+
+  for (int n_err = 0; n_err < 3; ++n_err) {
+    ssize_t ret = read_file_one_try(filename, buf, count);
+    if (ret != -2) return ret;
+    sleep(1);
+  }
+  esyslog(PLUGIN_NAME_I18N " %s, ERROR: give up reading %s after 3 tries, count %zu", __func__, filename, count);
+  return -4;
+}
+}  // end namespace stringhelpers_internal
+
 class cToSvFile: public cToSv {
   public:
     cToSvFile(cStr filename, size_t max_length = 0) { load(filename, max_length ); }
     operator cSv() const { return m_result; }
-    char *data() { return m_s?m_s:m_empty; } // Is zero terminated
-    const char *c_str() const { return m_s?m_s:m_empty; } // Is zero terminated
+    char *data() { return m_s; } // Is zero terminated
+    const char *c_str() const { return m_s; } // Is zero terminated
     operator cStr() const { return m_s; }
+    size_t length() const { return m_result.length(); }
     bool exists() const { return m_exists; }
-    ~cToSvFile() { std::free(m_s); }
+    ~cToSvFile() { if (m_s != m_empty) std::free(m_s); }
   private:
     void load(const char *filename, size_t max_length) {
-      for (int n_err = 0; n_err < 3; ++n_err) {
-        if (load_int(filename, max_length) ) return;
-        m_exists = false;
-        std::free(m_s);
-        m_s = nullptr;
-        if (n_err < 3) sleep(1);
+      m_s = nullptr;
+      ssize_t ret = stringhelpers_internal::read_file(filename, m_s, max_length);
+      if (m_s && ret <= 0)
+        esyslog(PLUGIN_NAME_I18N " %s, ERROR (please write a bug report): m_s && ret <= 0, filename %s", __func__, filename);
+      if (!m_s && ret > 0)
+        esyslog(PLUGIN_NAME_I18N " %s, ERROR (please write a bug report): !m_s && ret > 0, filename %s", __func__, filename);
+
+      m_exists = ret != -3;
+      if (ret > 0) {
+        m_result = cSv(m_s, ret);
+        m_s[ret] = 0;
+      } else {
+        m_result = cSv();
+        m_s = m_empty;
+        m_s[0] = 0;
       }
-      esyslog(PLUGIN_NAME_I18N " cToSvFile::load, ERROR: give up after 3 tries, filename %s", filename);
     }
-    bool load_int(const char *filename, size_t max_length) {
-// return false if an error occurred, and we should try again
-      cOpen fd(filename, O_RDONLY);
-      if (!fd.exists()) return true;
-      struct stat buffer;
-      if (fstat(fd, &buffer) != 0) {
-        if (errno == ENOENT) return false;  // somehow strange, cOpen found the file, and fstat says it does not exist ... we try again
-        esyslog(PLUGIN_NAME_I18N " cToSvFile::load, ERROR: in fstat, errno %d, filename %s\n", errno, filename);
-        return true;
-      }
-// file exists, length buffer.st_size
-      m_exists = true;
-      if (buffer.st_size == 0) return true; // empty file
-      size_t length = buffer.st_size;
-      if (max_length != 0 && length > max_length) length = max_length;
-      m_s = (char *) malloc((length + 1) * sizeof(char));  // add one. So we can add the 0 string terminator
-      if (!m_s) {
-        esyslog(PLUGIN_NAME_I18N " cToSvFile::load, ERROR out of memory, filename = %s, requested size = %zu\n", filename, length + 1);
-        return true;
-      }
-      size_t num_read = 0;
-      ssize_t num_read1 = 1;
-      for (int num_errors = 0; num_errors < 3 && num_read < length; num_read += num_read1) {
-        num_read1 = read(fd, m_s + num_read, length - num_read);
-        if (num_read1 == 0) ++num_errors; // should not happen, because fstat reported file size >= length
-        if (num_read1 == -1) {
-          if (errno == ENOENT) return false;
-          esyslog(PLUGIN_NAME_I18N " cToSvFile::load, ERROR: read failed, errno %d, filename %s, file size = %zu, num_read = %zu\n", errno, filename, (size_t)buffer.st_size, num_read);
-          ++num_errors;
-          num_read1 = 0;
-          if (num_errors < 3) sleep(1);
-        }
-      }
-      m_result = cSv(m_s, num_read);
-      m_s[num_read] = 0;  // so data() returns a 0 terminated string
-      if (num_read != length) {
-        esyslog(PLUGIN_NAME_I18N " cToSvFile::load, ERROR: num_read = %zu, length = %zu, filename %s\n", num_read, length, filename);
-      }
-      return true;
-    }
-    bool m_exists = false;
-    char *m_s = nullptr;
+    bool m_exists;
+    char *m_s;
     cSv m_result;
-    char m_empty[1] = "";
+    char m_empty[1];
 };
 template<std::size_t N> class cToSvFileN: public cToSv {
-// read up to N bytes from file
+// read up to N bytes from file. N != 0!
   public:
     cToSvFileN(cStr filename) { load(filename); }
     operator cSv() const { return m_result; }
     char *data() { return m_s; } // Is zero terminated
     const char *c_str() { return m_s; } // Is zero terminated
     operator cStr() const { return m_s; }
+    size_t length() const { return m_result.length(); }
     bool exists() const { return m_exists; }
   private:
     void load(const char *filename) {
-      for (int n_err = 0; n_err < 3; ++n_err) {
-        if (load_int(filename) ) return;
-        if (n_err < 3) sleep(1);
+      char *buf = m_s;
+      ssize_t ret = stringhelpers_internal::read_file(filename, buf, N);
+      m_exists = ret != -3;
+      if (buf != m_s) {
+        esyslog(PLUGIN_NAME_I18N " %s, ERROR (please write a bug report): buf != m_s, filename %s", __func__, filename);
+        ret = 0;
       }
-      m_exists = false;
-      esyslog(PLUGIN_NAME_I18N " cToSvFileN::load, ERROR: give up after 3 tries, filename %s", filename);
-    }
-    bool load_int(const char *filename) {
-// return false if we should try again
-      cOpen fd(filename, O_RDONLY);
-      m_exists = fd.exists();
-      if (!m_exists) return true;
-      ssize_t num_read = read(fd, m_s, N);
-      if (num_read == -1) {
-        if (errno == ENOENT) return false;  // somehow strange, cOpen found the file, and fstat says it does not exist ... we try again
-        esyslog(PLUGIN_NAME_I18N " cToSvFileN::load, ERROR: read fails, errno %d, filename %s\n", errno, filename);
-        num_read = 0;
+      if (ret > (ssize_t)N) {
+        esyslog(PLUGIN_NAME_I18N " %s, ERROR (please write a bug report): m_result.length() = %zu > N = %zu, filename %s", __func__, m_result.length(), N, filename);
+        ret = N;
       }
-      m_result = cSv(m_s, num_read);
-      m_s[num_read] = 0;  // so data returns a 0 terminated string
-      return true;
+
+      if (ret > 0) {
+        m_result = cSv(m_s, ret);
+        m_s[ret] = 0;
+      } else {
+        m_result = cSv();
+        m_s[0] = 0;
+      }
     }
-    bool m_exists = false;
-    char m_s[N+1] = "";
+    bool m_exists;
+    char m_s[N+1];
     cSv m_result;
 };
 
@@ -1414,9 +1482,16 @@ template<typename T, std::enable_if_t<sizeof(T) == 16, bool> = true>
   private:
     mutable size_t m_reserve = 1024;
 };
-#define esyslog2(...) esyslog(cToSvConcat(__VA_ARGS__).c_str());
-#define isyslog2(...) dsyslog(cToSvConcat(__VA_ARGS__).c_str());
-#define dsyslog2(...) dsyslog(cToSvConcat(__VA_ARGS__).c_str());
+// note: the %s is needed, because VDR has a restriction on the format length ("[tid] "+format length < 255)
+// xsyslog2: include plugin name & ERROR / INFO / DEBUG
+#define esyslog2(...) esyslog(PLUGIN_NAME_I18N " ERROR %s", cToSvConcat(__VA_ARGS__).c_str())
+#define isyslog2(...) isyslog(PLUGIN_NAME_I18N " INFO %s", cToSvConcat(__VA_ARGS__).c_str())
+#define dsyslog2(...) dsyslog(PLUGIN_NAME_I18N " DEBUG %s", cToSvConcat(__VA_ARGS__).c_str())
+
+// xsyslog3: include plugin name and function name & ERROR / INFO / DEBUG
+#define esyslog3(...) esyslog(PLUGIN_NAME_I18N " ERROR %s, %s", __func__, cToSvConcat(__VA_ARGS__).c_str())
+#define isyslog3(...) isyslog(PLUGIN_NAME_I18N " INFO %s, %s", __func__, cToSvConcat(__VA_ARGS__).c_str())
+#define dsyslog3(...) dsyslog(PLUGIN_NAME_I18N " DEBUG %s, %s", __func__, cToSvConcat(__VA_ARGS__).c_str())
 
 template<size_t N=0>
 class cToSvInt: public cToSvConcat<std::max(N, (size_t)20)> {
