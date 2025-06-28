@@ -640,7 +640,6 @@ input[type=checkbox] {
   accent-color: var(--input-accent-color);
 }
 
-
 input[type=checkbox]:checked {
   accent-color: var(--input-accent-color);
 }
@@ -2481,16 +2480,13 @@ table.dependent > tbody > tr > td {
   padding: var(--text-line-gap) 0px;
   background: linear-gradient(to top,var(--listing-row-background-color-bottom), var(--listing-row-background-color-top) var(--listing-row-background-gradient-height), var(--listing-row-background-color-top));
   border-bottom: var(--listing-border-width) solid var(--listing-row-border-color);
-  vertical-align: middle;
+  vertical-align: top;
 }
 
 table > tbody > tr > td:last-child:has(table.dependent) {
   /* eliminate the padding for right-column cells hosting a dependent table,
   ** so that the borders of inner tables touch the borders of the form */
   padding-right: 0px;
-}
-
-table.form > tbody > tr > td input {
 }
 
 table.form > tbody > tr > td .dotted input {
@@ -2524,38 +2520,52 @@ table.form > tbody > tr.permissions > td.rightcol > div {
 }
 
 table.dependent {
+  width: 100%;
 }
 
-table.dependent tr td {
-  background: transparent;
-  vertical-align: middle;
-}
-
-table.dependent tr:last-child td {
+table.dependent > tbody > tr:last-child > td {
   padding-bottom: 0px;
   background: none;
   border-bottom: none;
 }
 
-table.dependent tr td.label .withmargin {
+table.dependent > tbody > tr > td.label {
+  font-weight: bold;
+}
+
+table.dependent > tbody > tr > td.label .withmargin {
   margin-left: 0px;
 }
 
-table.dependent tr td {
-  width: 100%;
-}
-
-table.dependent tr td:first-child {
-  /* both width and min-width required to avoid stretching or wrapping */
-  width: max-content;
-  min-width: max-content;
-}
-
-table.dependent tr td:last-child {
+table.dependent > tbody > tr > td:last-child {
   padding-right: var(--margin-left-right);
 }
 
-select#channel_mode, div#channelgroup, select#useassearchtimer {
+table.form tbody > tr > td > input,
+table.form tbody > tr.permissions > td input[type=checkbox] {
+  margin-top: 3px;      /* visual adjustment */
+}
+
+table.form tbody > tr > td > select {
+  margin-top: 3px;      /* visual adjustment */
+}
+
+div#individual_channelGroups_section input {
+  margin-top: 3px;      /* visual adjustment */
+}
+
+table.form tbody > tr > td > select[multiple=multiple] {
+  margin-left: var(--margin-left-right);
+  margin-bottom: 3px;   /* visual adjustment */
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+table.form tbody > tr > td > input[type=checkbox] {
+  margin-top: var(--margin-top-bottom);
+}
+
+select#channel_mode, div#channelgroup, div#blacklistmodesettings, select#useassearchtimer {
   margin: var(--text-line-gap) 0px;
 }
 
