@@ -431,7 +431,10 @@ recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
 #endif
 </%cpp>
 <span class="sep">|</span>
-<span class="label bold"><$ tr("Filter") $>:&nbsp;<input type="text" name="filter" value="<$ currentFilter $>" id="filter" onchange="filterRecordings(this, '<$ currentSort $>', '<$currentFlat$>')" />&nbsp;<& tooltip.help text=(tr("Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE).")) &></span>
+<span class="label bold" title="<$tr("Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE).")$>" >
+  <label for="filter"><$ tr("Filter") $>:</label>
+  <input type="text" name="filter" value="<$ currentFilter $>" id="filter" onchange="filterRecordings(this, '<$ currentSort $>', '<$currentFlat$>')" />
+</span>
 <img onclick="clearRecordingsFilter(document.getElementById('filter'), '<$ currentSort $>', '<$currentFlat$>')" class="icon button clear-filter" src="<$ LiveSetup().GetThemedLink("img", "icon_overlay_cross.png") $>" alt="" <& tooltip.hint text=(tr("Clear filter")) &>/>
 <%cpp>
 if (currentFlat != "true") {
@@ -518,7 +521,7 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
       <input type="hidden" name="epgid" value="<$todel$>" \>
       <input type="hidden" name="delete_rec" value="confirmed" \>
       <input type="hidden" name="history_num_back" value="<$ history_num_back $>" id="history_del_<$ todel $>"\>
-      <div class="about_head"><$ cToSvFormated(tr("Delete recording \"%s\"?"), recording_Name.empty()?"No recording name available":recording_Name.c_str() ) $></div>
+      <div class="about_head"><$ cToSvFormatted(tr("Delete recording \"%s\"?"), recording_Name.empty()?"No recording name available":recording_Name.c_str() ) $></div>
       <div class="about_section">
         <div class="tabular">
           <div class="about_left">

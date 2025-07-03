@@ -49,7 +49,7 @@ using namespace vdrlive;
       if (recording) {
         struct stat st;
         if (stat(recording->FileName(), &st) == 0)
-          rfid.appendFormated("%lu:%llu.rec", (unsigned long) st.st_dev, (unsigned long long) st.st_ino);
+          rfid.appendFormatted("%lu:%llu.rec", (unsigned long) st.st_dev, (unsigned long long) st.st_ino);
       }
     }
 

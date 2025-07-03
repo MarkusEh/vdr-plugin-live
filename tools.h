@@ -257,7 +257,7 @@ inline cToSvConcat<N>& AppendDuration(cToSvConcat<N>& target, char const* format
   int minutes = (duration + 30) / 60;
   int hours = minutes / 60;
   minutes %= 60;
-  target.appendFormated(format, hours, minutes);
+  target.appendFormatted(format, hours, minutes);
   return target;
 }
 

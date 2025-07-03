@@ -75,6 +75,7 @@ using namespace vdrlive;
   std::string useassearchtimerfrom;
   std::string useassearchtimerto;
   bool ignoreMissingEPGCats = false;
+  int nav_back = 1;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -227,7 +228,8 @@ const char *TNT_ARRAY = "";
 <!DOCTYPE html>
 <html>
   <script>
-    window.location = "searchtimers.html";
+    history.go(<$-nav_back-1$>);
+<#  window.location = "searchtimers.html";  #>
   </script>
 </html>
 <%cpp>
@@ -513,6 +515,7 @@ const char *TNT_ARRAY = "";
         <form method="post" name="edit_searchtimer" action="edit_searchtimer.ecpp">
           <input type="hidden" name="searchtimerid" value="<$ searchtimerid $>"/>
           <input type="hidden" name="blacklistids_internal" value="<$ blacklistids_internal $>" id="blacklistids_internal"/>
+          <input type="hidden" name="nav_back" value="<$ nav_back $>"/>
           <table class="form" cellpadding="0" cellspacing="0">
             <tr class="head">
               <td  class="toprow leftcol rightcol" colspan="2"><div class="boxheader"><div class="caption"><$ editsearchtimer ? tr("Edit search timer") : tr("New search timer") $></div></div></td>
@@ -915,7 +918,7 @@ const char *TNT_ARRAY = "";
                 <div class="withmargin">
                 <button class="green" type="submit" name="test" value="test" onclick="return checksearch();"><$ tr("Test") $></button>
                 <button class="green" type="submit" name="save" onclick="return checksearch();"><$ tr("Save") $></button>
-                <button type="button" class="red" onclick="history.back()"><$ tr("Cancel") $></button>
+                <button type="button" class="red" onclick="history.go(<$-nav_back$>)"><$ tr("Cancel") $></button>
                 </div>
               </td>
             </tr>

@@ -610,7 +610,7 @@ inline void utf8_sanitize_string(std::string &s) {
 }
 inline bool is_equal_utf8_sanitized_string(cSv s, const char *other) {
 // return true if s == other
-// invalid utf8 in other is replaced with '?' before the compaison
+// invalid utf8 in other is replaced with '?' before the comparison
 // other must be zero terminated
   if (!other) return s.empty();
   auto len = strlen(other);
@@ -1035,7 +1035,7 @@ inline ssize_t read(int fd, char *buf, size_t count, const char *filename) {
     if (num_read1 == -1) {
 // On error, -1 is returned, and errno is set to indicate the error.
 // In this case, it is left unspecified whether the file position changes.
-      if (errno == ENOENT || errno == EINTR || errno == EEXIST) return -2;  // I really don't understand why ENOENT or EEXIST would be reported. But we retry ...
+      if (errno == ENOENT || errno == EINTR || errno == EEXIST || errno == 0) return -2;  // I really don't understand why ENOENT or EEXIST would be reported. But we retry ...
       esyslog(PLUGIN_NAME_I18N " ERROR: read failed, errno %d, error %m, filename %s, count %zu, num_read = %zu", errno, filename, count, num_read);
       return -4;
     }
@@ -1226,6 +1226,10 @@ class cToSvConcat: public cToSv {
       m_pos_for_append = to_chars10_internal::itoa(m_pos_for_append, i);
       return *this;
     }
+// double
+    cToSvConcat &operator<<(double i) {
+      return appendFormatted("%g", i);
+    }
 
 // ========================
 // overloads for append. Should be compatible to std::string.append(...)
@@ -1346,12 +1350,12 @@ template<typename T, std::enable_if_t<sizeof(T) == 16, bool> = true>
     }
 
 // =======================
-// appendFormated append formatted
+// appendFormatted append formatted
 // __attribute__ ((format (printf, 2, 3))) can not be used, but should work starting with GCC 13.1
-    template<typename... Args> cToSvConcat &appendFormated(const char *fmt, Args&&... args) {
+    template<typename... Args> cToSvConcat &appendFormatted(const char *fmt, Args&&... args) {
       int needed = snprintf(m_pos_for_append, m_be_data - m_pos_for_append, fmt, std::forward<Args>(args)...);
       if (needed < 0) {
-        esyslog(PLUGIN_NAME_I18N ": ERROR, cToScConcat::appendFormated needed = %d, fmt = %s", needed, fmt);
+        esyslog(PLUGIN_NAME_I18N ": ERROR, cToScConcat::appendFormatted needed = %d, fmt = %s", needed, fmt);
         return *this; // error in snprintf
       }
       if (needed < m_be_data - m_pos_for_append) {
@@ -1361,7 +1365,7 @@ template<typename T, std::enable_if_t<sizeof(T) == 16, bool> = true>
       ensure_free(needed + 1);
       needed = sprintf(m_pos_for_append, fmt, std::forward<Args>(args)...);
       if (needed < 0) {
-        esyslog(PLUGIN_NAME_I18N ": ERROR, cToScConcat::appendFormated needed (2) = %d, fmt = %s", needed, fmt);
+        esyslog(PLUGIN_NAME_I18N ": ERROR, cToScConcat::appendFormatted needed (2) = %d, fmt = %s", needed, fmt);
         return *this; // error in sprintf
       }
       m_pos_for_append += needed;
@@ -1511,11 +1515,11 @@ class cToSvToLower: public cToSvConcat<N> {
 };
 
 template<std::size_t N = 255>
-class cToSvFormated: public cToSvConcat<N> {
+class cToSvFormatted: public cToSvConcat<N> {
   public:
 // __attribute__ ((format (printf, 2, 3))) can not be used, but should work starting with GCC 13.1
-    template<typename... Args> cToSvFormated(const char *fmt, Args&&... args) {
-      this->appendFormated(fmt, std::forward<Args>(args)...);
+    template<typename... Args> cToSvFormatted(const char *fmt, Args&&... args) {
+      this->appendFormatted(fmt, std::forward<Args>(args)...);
     }
 };
 class cToSvDateTime: public cToSvConcat<255> {

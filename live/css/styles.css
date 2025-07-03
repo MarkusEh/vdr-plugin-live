@@ -2086,12 +2086,12 @@ div.recordings ul {
 
 div.recordings > ul > li:last-of-type:has(ul:is([style*="display: none"])) > div.recording_item  {
   /* discard row bottom border if last directory is collapsed */
-  border-bottom: none;
+  /*! border-bottom: none; */       /* selector to be revised */
 }
 
 div.recordings > ul > li:last-of-type > ul tr.recording_item:last-child {
   /* discard row bottom border of last recording */
-  border-bottom: none;
+  /*! border-bottom: none; */       /* selector to be revised */
 }
 
 /* 'div.recording_item' refers to a folder */

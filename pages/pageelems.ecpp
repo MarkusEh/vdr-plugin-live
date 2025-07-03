@@ -275,7 +275,7 @@ cToSvConcat rfid;
   if (recording) {
     struct stat st;
     if (stat(recording->FileName(), &st) == 0)
-      rfid.appendFormated("%lu:%llu.rec", (unsigned long) st.st_dev, (unsigned long long) st.st_ino);
+      rfid.appendFormatted("%lu:%llu.rec", (unsigned long) st.st_dev, (unsigned long long) st.st_ino);
   }
 }
 if (!rfid.empty() ) {
@@ -933,8 +933,7 @@ if (epgEvent) {
     const char *s = cEvent::ContentToString(epgEvent->Contents(i));
     if (!isempty(s)) {
       if (empty) {
-        supplemental_info.append(tr("Content"));
-        supplemental_info.append(": ");
+        supplemental_info.concat(tr("Content"), ": ");
         empty = false;
       } else {
         supplemental_info.append(", ");
@@ -946,9 +945,8 @@ if (epgEvent) {
     if (!empty) {
       supplemental_info.append("\n");
     }
-    supplemental_info.append(tr("Parental rating"));
-    supplemental_info.append(": ");
-    supplemental_info.append(cToSvFormated(trVDR("ParentalRating$from %d"), epgEvent->ParentalRating()));
+    supplemental_info.concat(tr("Parental rating"), ": ");
+    supplemental_info.appendFormatted(trVDR("ParentalRating$from %d"), epgEvent->ParentalRating());
     empty = false;
   }
   if (!empty) {
