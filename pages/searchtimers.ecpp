@@ -17,6 +17,7 @@ bool logged_in(false);
 </%session>
 <%include>page_init.eh</%include>
 <%cpp>
+reply.setHeader (tnt::httpheader::cacheControl, "no-store, no-cache, max-age=0, must-revalidate, proxy-revalidate", true);
 if (!logged_in && LiveSetup().UseAuth()) {
   cToSvConcat targetUrl = "/login.html?redirect=";
   targetUrl.appendUrlEscaped(request.getQuery());
@@ -26,17 +27,27 @@ if (!logged_in && LiveSetup().UseAuth()) {
 <%cpp>
   pageTitle = tr("Search timers");
   SearchTimers timers;
-  if ( !searchtimerid.empty() ) {
-    if (action == "toggle")
-      timers.ToggleActive(searchtimerid);
-    if (action == "delete") {
-      if (!cUser::CurrentUserHasRightTo(UR_DELSTIMERS))
-        throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
-      timers.Delete(searchtimerid);
+  if (!action.empty() ) {
+    if (!searchtimerid.empty() ) {
+      if (action == "toggle")
+        timers.ToggleActive(searchtimerid);
+      if (action == "delete") {
+        if (!cUser::CurrentUserHasRightTo(UR_DELSTIMERS))
+          throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
+        timers.Delete(searchtimerid);
+      }
     }
-  }
-  if (action == "update")
-    timers.TriggerUpdate();
+    if (action == "update")
+      timers.TriggerUpdate();
+</%cpp>
+<!DOCTYPE html>
+<html>
+  <script>
+    history.go(-1);
+  </script>
+</html>
+<%cpp>
+  }  else { // endif (!action.empty()
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -102,6 +113,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
     </div>
   </body>
 </html>
+% }
 <%include>page_exit.eh</%include>
 
 <%def searchevent_actions>

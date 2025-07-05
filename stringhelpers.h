@@ -843,6 +843,62 @@ inline cSv SecondPart(cSv str, cSv delim) {
 
 namespace stringhelpers_internal {
 
+// ====================================================
+// numChars(T i), for signed & unsigned integers
+// return number of chars needed to print i
+// for neg. integers: including the - sign
+// ====================================================
+static const int guess[] = {
+    0, 0, 0, 0, 1, 1, 1, 2, 2, 2,
+    3, 3, 3, 3, 4, 4, 4, 5, 5, 5,
+    6, 6, 6, 6, 7, 7, 7, 8, 8, 8,
+    9, 9, 9,
+    9, 10, 10, 10, 11, 11, 11,
+    12, 12, 12, 12, 13, 13, 13,
+    14, 14, 14, 15, 15, 15, 15,
+    16, 16, 16, 17, 17, 17,
+    18, 18, 18, 18, 19
+};
+
+// i > 0 is pre-requisite for all usedBinDigits methods. !!! not checked in usedBinDigits !!!!!
+inline int usedBinDigits(unsigned char i) {
+  return 8*sizeof(unsigned int)-__builtin_clz((unsigned int)i);
+}
+inline int usedBinDigits(unsigned short int i) {
+  return 8*sizeof(unsigned int)-__builtin_clz((unsigned int)i);
+}
+inline int usedBinDigits(unsigned int i) {
+// if we write:
+//   return 4*sizeof(unsigned long long int)-__builtin_clzll(0x80000000 | ((unsigned long long int)i << 32));
+// this also works for i == 0. But, no performance improvement. So keep it simple
+  return 8*sizeof(unsigned int)-__builtin_clz(i);
+}
+inline int usedBinDigits(unsigned long int i) {
+  return 8*sizeof(unsigned long int)-__builtin_clzl(i);
+}
+inline int usedBinDigits(unsigned long long int i) {
+  return 8*sizeof(unsigned long long int)-__builtin_clzll(i);
+}
+
+template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
+  inline int numChars_internal(T i) {
+// calculate the number of decimal digits from the binary digits
+// i > 0 !!! not cheked here !!!!!
+    int digits = guess[usedBinDigits(i)];
+    return digits + (i > to_chars10_internal::max_int[digits]);
+  }
+template<typename T, std::enable_if_t<std::is_unsigned_v<T>, bool> = true>
+  inline int numChars(T i) {
+  return i?numChars_internal(i):1;
+}
+template<typename T, std::enable_if_t<std::is_signed_v<T>, bool> = true>
+  inline int numChars(T i) {
+    typedef std::make_unsigned_t<T> TU;
+    if (i > 0) return numChars_internal(static_cast<TU>(i));
+    if (i < 0) return numChars_internal(~(static_cast<TU>(i)) + static_cast<TU>(1)) + 1;
+    return 1;
+  }
+
 //  ==== itoaN ===================================================================
 // itoaN: Template for fixed number of characters, left fill with 0
 // note: i must fit in N digits, this is not checked!
