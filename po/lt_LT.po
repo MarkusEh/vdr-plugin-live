@@ -251,6 +251,12 @@ msgstr "Ieškoti"
 msgid "Episode"
 msgstr "Epizodas"
 
+msgid "Use content categories"
+msgstr ""
+
+msgid "Special Characteristics"
+msgstr ""
+
 msgid "Use extended EPG info"
 msgstr "Naudoti išplėstą EPG informaciją"
 
@@ -401,6 +407,21 @@ msgstr "jei egzistuoja"
 msgid "Compare summary"
 msgstr "Palyginti santrauką"
 
+msgid "Match in percent"
+msgstr ""
+
+msgid "Compare date"
+msgstr ""
+
+msgid "same day"
+msgstr ""
+
+msgid "same week"
+msgstr ""
+
+msgid "same month"
+msgstr ""
+
 msgid "Compare"
 msgstr "Palyginti"
 
@@ -418,6 +439,15 @@ msgstr "po ... dienų kai buvo padarytas pirmas įrašas"
 
 msgid "Switch ... minutes before start"
 msgstr "Įjungti ... minutėmis anksčiau prieš pradedant įrašą"
+
+msgid "Unmute sound on switch"
+msgstr ""
+
+msgid "The searchtimer lacks some form fields, so that their values cannot be saved. Please upgrade to the most recent version of EPGsearch."
+msgstr ""
+
+msgid "The searchtimer includes extra fields. These will be saved with their original values."
+msgstr ""
 
 msgid "Test"
 msgstr "Pabandyti"
@@ -875,10 +905,10 @@ msgstr ""
 msgid "Errors"
 msgstr ""
 
-msgid "Filter"
+msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
 msgstr ""
 
-msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
+msgid "Filter"
 msgstr ""
 
 msgid "Clear filter"
@@ -915,8 +945,11 @@ msgstr "Paieškos nustatymai"
 msgid "Extended search"
 msgstr "Išplėstinė paieška"
 
-msgid "no"
-msgstr "ne"
+msgid "The search lacks some form fields, so that their values cannot be used for searching the EPG. Please upgrade to the most recent version of EPGsearch."
+msgstr ""
+
+msgid "The search supports extra fields. These will be not be taken into account."
+msgstr ""
 
 msgid "Search results"
 msgstr "Paieškos rezultatai"
@@ -941,6 +974,9 @@ msgstr "Ištrinti šį paieškos laikmatį?"
 
 msgid "Delete search timer"
 msgstr "Ištrinti paieškos laikmatį"
+
+msgid "No searchtimers found"
+msgstr ""
 
 msgid "Trigger search timer update"
 msgstr "Įjungti paieškos laikmačio atnaujinimą"
@@ -1100,7 +1136,7 @@ msgstr "Vartotojai"
 msgid "Delete user"
 msgstr "Ištrinti vartotoją"
 
-msgid "No user configured"
+msgid "No users configured"
 msgstr ""
 
 msgid "What's running on"
@@ -1129,88 +1165,3 @@ msgstr "Sąrašas"
 
 msgid "Live Interactive VDR Environment"
 msgstr "Live interaktyvioji VDR aplinka"
-
-#~ msgid "Timers are being edited - try again later"
-#~ msgstr "Laikmatis šio metu kuoreguojamas - pabandykit vėliau"
-
-#~ msgid "Channel has no schedule"
-#~ msgstr "Kainalas neturi programos aprašo"
-
-#~ msgid "Couldn't acquire primary device"
-#~ msgstr "Negali nustatyti pirminio įvesties įrenginio"
-
-#~ msgid "Couldn't grab image from primary device"
-#~ msgstr "Negali nuskaityti paveikslo iš pirminio įvesties įrenginio"
-
-#~ msgid "error retrieving status info!"
-#~ msgstr "negali gauti informacijos apie būklę!"
-
-#~ msgid "No EPG information available"
-#~ msgstr "Nėra EPG informacijos"
-
-#~ msgid "Couldn't acquire access to channels, please try again later."
-#~ msgstr "Neprieina prie kanalų, pabandykit vėliau."
-
-#~ msgid "Error acquiring schedules lock"
-#~ msgstr "Negali gauti programų užrakto"
-
-#~ msgid "Error acquiring schedules"
-#~ msgstr "Negauna programų aprašų"
-
-#~ msgid "Use ajax technology"
-#~ msgstr "Naudoti AJAX"
-
-#~ msgid "ERROR:"
-#~ msgstr "KLAIDA:"
-
-#~ msgid "play this recording."
-#~ msgstr "groti šį įrašą."
-
-#~ msgid "mm/dd/yyyy"
-#~ msgstr "yyyy-mm-dd"
-
-#~ msgid "January"
-#~ msgstr "Sausis"
-
-#~ msgid "February"
-#~ msgstr "Vasaris"
-
-#~ msgid "March"
-#~ msgstr "Kovas"
-
-#~ msgid "April"
-#~ msgstr "Balandis"
-
-#~ msgid "May"
-#~ msgstr "Gegužė"
-
-#~ msgid "June"
-#~ msgstr "Birželis"
-
-#~ msgid "July"
-#~ msgstr "Liepa"
-
-#~ msgid "August"
-#~ msgstr "Rugpjūtis"
-
-#~ msgid "September"
-#~ msgstr "Rugsėjis"
-
-#~ msgid "October"
-#~ msgstr "Spalis"
-
-#~ msgid "November"
-#~ msgstr "Lapkritis"
-
-#~ msgid "December"
-#~ msgstr "Gruodis"
-
-#~ msgid "Add links to IMDb"
-#~ msgstr "Pridėti nuorodas į IMDb"
-
-#~ msgid "VLC media URL"
-#~ msgstr "Adresas VLC grotuvui"
-
-#, fuzzy
-#~ msgid "Subtitle"
-#~ msgstr "Pavadinimas"

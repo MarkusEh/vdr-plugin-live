@@ -40,6 +40,9 @@ SearchTimer::SearchTimer()
 
 void SearchTimer::Init()
 {
+  m_suppliedRecordFields = 0;
+  m_hasInsufficientFields = true;
+  m_hasUnknownFields = false;
   m_id = -1;
   m_useTime = false;
   m_startTime = 0;
@@ -58,7 +61,7 @@ void SearchTimer::Init()
   m_useEpisode = false;
   m_priority = parse_int<int>(EPGSearchSetupValues::ReadValue("DefPriority"));
   m_lifetime = parse_int<int>(EPGSearchSetupValues::ReadValue("DefLifetime"));
-  m_fuzzytolerance = 1;
+  m_fuzzyTolerance = 1;
   m_useInFavorites = false;
   m_useAsSearchtimer = 0;
   m_action = 0;
@@ -68,31 +71,35 @@ void SearchTimer::Init()
   m_switchMinBefore = 1;
   m_useExtEPGInfo = false;
   m_useVPS = false;
-  m_marginstart = parse_int<int>(EPGSearchSetupValues::ReadValue("DefMarginStart"));
-  m_marginstop = parse_int<int>(EPGSearchSetupValues::ReadValue("DefMarginStop"));
-  m_avoidrepeats = false;
-  m_allowedrepeats = 0;
+  m_marginStart = parse_int<int>(EPGSearchSetupValues::ReadValue("DefMarginStart"));
+  m_marginStop = parse_int<int>(EPGSearchSetupValues::ReadValue("DefMarginStop"));
+  m_avoidRepeats = false;
+  m_allowedRepeats = 0;
   m_compareTitle = false;
   m_compareSubtitle = 0;
   m_compareSummary = false;
   m_repeatsWithinDays = 0;
-  m_blacklistmode = 0;
+  m_blacklistMode = 0;
   m_menuTemplate = 0;
   m_delMode = 0;
   m_delAfterCountRecs = 0;
   m_delAfterDaysOfFirstRec = 0;
   m_useAsSearchTimerFrom = 0;
   m_useAsSearchTimerTil = 0;
-  m_catvaluesAvoidRepeat = 0;
+  m_catValuesAvoidRepeat = 0;
   m_ignoreMissingEPGCats = false;
+  m_unmuteSoundOnSwitch = false;
+  m_compareSummaryMatchInPercent = 90;
+  m_compareDate = 0;
 }
 
 SearchTimer::SearchTimer( std::string const& data )
 {
   Init();
-  cSplit parts(data, ':');
+  m_data = data;
+  cSplit parts(m_data, ':');
   auto part = parts.begin();
-  for (int i = 0; part != parts.end(); ++i, ++part ) {
+  for (std::size_t i = 0; part != parts.end(); ++i, ++part ) {
     switch ( i ) {
     case  0: m_id = parse_int<int>( *part ); break;
     case  1: m_search = cToSvReplace( *part, "|", ":" ).replaceAll("!^pipe^!", "|" ); break;
@@ -116,26 +123,26 @@ SearchTimer::SearchTimer( std::string const& data )
     case 19: m_directory = cToSvReplace( *part, "|", ":" ).replaceAll("!^pipe^!", "|" ); break;
     case 20: m_priority = parse_int<int>( *part ); break;
     case 21: m_lifetime = parse_int<int>( *part ); break;
-    case 22: m_marginstart = parse_int<int>( *part ); break;
-    case 23: m_marginstop = parse_int<int>( *part ); break;
+    case 22: m_marginStart = parse_int<int>( *part ); break;
+    case 23: m_marginStop = parse_int<int>( *part ); break;
     case 24: m_useVPS = lexical_cast<bool>( *part ); break;
     case 25: m_action = parse_int<int>( *part ); break;
     case 26: m_useExtEPGInfo = lexical_cast<bool>( *part ); break;
     case 27: ParseExtEPGInfo( *part ); break;
-    case 28: m_avoidrepeats = lexical_cast<bool>( *part ); break;
-    case 29: m_allowedrepeats = parse_int<int>( *part ); break;
+    case 28: m_avoidRepeats = lexical_cast<bool>( *part ); break;
+    case 29: m_allowedRepeats = parse_int<int>( *part ); break;
     case 30: m_compareTitle = lexical_cast<bool>( *part ); break;
     case 31: m_compareSubtitle = parse_int<int>( *part ); break;
     case 32: m_compareSummary = lexical_cast<bool>( *part ); break;
-    case 33: m_catvaluesAvoidRepeat = parse_int< unsigned long >( *part ); break;
+    case 33: m_catValuesAvoidRepeat = parse_int< unsigned long >( *part ); break;
     case 34: m_repeatsWithinDays = parse_int<int>( *part ); break;
     case 35: m_delAfterDays = parse_int<int>( *part ); break;
     case 36: m_recordingsKeep = parse_int<int>( *part ); break;
     case 37: m_switchMinBefore = parse_int<int>( *part ); break;
     case 38: m_pauseOnNrRecordings = parse_int<int>( *part ); break;
-    case 39: m_blacklistmode = parse_int<int>( *part ); break;
+    case 39: m_blacklistMode = parse_int<int>( *part ); break;
     case 40: ParseBlacklist( *part ); break;
-    case 41: m_fuzzytolerance = parse_int<int>( *part ); break;
+    case 41: m_fuzzyTolerance = parse_int<int>( *part ); break;
     case 42: m_useInFavorites = lexical_cast<bool>( *part ); break;
     case 43: m_menuTemplate = parse_int<int>( *part ); break;
     case 44: m_delMode = parse_int<int>( *part ); break;
@@ -144,98 +151,113 @@ SearchTimer::SearchTimer( std::string const& data )
     case 47: m_useAsSearchTimerFrom = parse_int<time_t>( *part ); break;
     case 48: m_useAsSearchTimerTil = parse_int<time_t>( *part ); break;
     case 49: m_ignoreMissingEPGCats = lexical_cast<bool>( *part ); break;
+    case 50: m_unmuteSoundOnSwitch = lexical_cast<bool>( *part ); break;
+    case 51: m_compareSummaryMatchInPercent = parse_int<int>( *part ); break;
+    case 52: m_contentsFilter = cToSvReplace( *part, "|", ":" ).replaceAll("!^pipe^!", "|" ); break;
+    case 53: m_compareDate = parse_int<int>( *part );
+             m_hasInsufficientFields = false; break;
+    default: m_hasUnknownFields = !(*part).empty(); break;
     }
   }
+  m_suppliedRecordFields = parts.size();
 }
 
 std::string SearchTimer::ToText() {
+  std::size_t i;
   cToSvConcat os;
-  os << m_id << ':'
-     << cToSvReplace(m_search, "|", "!^pipe^!").replaceAll(":", "|")  << ':';
-  if (m_useTime) {
-    os << "1:";
-    os.appendInt<4>(m_startTime) << ':';
-    os.appendInt<4>(m_stopTime) << ':';
-  } else {
-    os << "0:::";
-  }
-  os << m_useChannel << ':';
-  if (m_useChannel==1) {
-    LOCK_CHANNELS_READ;
-    cChannel const* channelMin = Channels->GetByChannelID( m_channelMin );
-    cChannel const* channelMax = Channels->GetByChannelID( m_channelMax );
-
-    if (channelMax && channelMin->Number() < channelMax->Number())
-      os << m_channelMin << '|' << m_channelMax;
-    else
-      os << m_channelMin;
-  } else if (m_useChannel==2) {
-    os << m_channels;
-  } else {
-    os << "0";
-  }
-  os<< ':';
-  os<< m_useCase << ':'
-    << m_mode << ':'
-    << m_useTitle << ':'
-    << m_useSubtitle << ':'
-    << m_useDescription << ':';
-  if (m_useDuration) {
-    os << "1:";
-    os.appendInt<4>(m_minDuration) << ':';
-    os.appendInt<4>(m_maxDuration) << ':';
-  } else {
-    os << "0:::";
-  }
-  os<< m_useAsSearchtimer << ':'
-    << m_useDayOfWeek << ':'
-    << m_dayOfWeek << ':'
-    << m_useEpisode << ':'
-    << cToSvReplace(m_directory, "|", "!^pipe^!").replaceAll(":", "|") << ':'
-    << m_priority << ':'
-    << m_lifetime << ':'
-    << m_marginstart << ':'
-    << m_marginstop << ':'
-    << m_useVPS << ':'
-    << m_action << ':'
-    << m_useExtEPGInfo << ':';
-  if (m_useExtEPGInfo) {
-    for(unsigned int i=0; i<m_ExtEPGInfo.size(); i++) {
-      if (i > 0) os <<  '|';
-      os << cToSvReplace(m_ExtEPGInfo[i], ":", "!^colon^!").replaceAll("|", "!^pipe^!");
+  cSplit parts(m_data, ':');
+  bool update = parts.size() > 1;   // for updating a previously parsed record
+  bool atEnd = false;               // for creating a new record from scratch
+  // create the record from known fields; note that we can safely send more fields
+  // than the EPGSearch service interface expects
+  auto part = parts.begin();
+  for (i = 0; !atEnd && !(update && part == parts.end()); ++i, ++part ) {
+    switch (i) {
+      case  0: os << m_id; break;
+      case  1: os << ':' << cToSvReplace(m_search, "|", "!^pipe^!").replaceAll(":", "|"); break;
+      case  2: os << ":" << (m_useTime ? "1" : ""); break;
+      case  3: os << ':'; if (m_useTime) { os.appendInt<4>(m_startTime); }; break;
+      case  4: os << ':'; if (m_useTime) { os.appendInt<4>(m_stopTime); }; break;
+      case  5: os << ':' << m_useChannel; break;
+      case  6: os << ':'; if (m_useChannel == 1) {
+                 LOCK_CHANNELS_READ;
+                 cChannel const* channelMin = Channels->GetByChannelID( m_channelMin );
+                 cChannel const* channelMax = Channels->GetByChannelID( m_channelMax );
+                 if (channelMax && channelMin->Number() < channelMax->Number())
+                   os << m_channelMin << '|' << m_channelMax;
+                 else
+                   os << m_channelMin;
+               } else if (m_useChannel == 2) {
+                 os << m_channels;
+               }
+               break;
+      case  7: os << ':' << m_useCase; break;
+      case  8: os << ':' << m_mode; break;
+      case  9: os << ':' << m_useTitle; break;
+      case 10: os << ':' << m_useSubtitle; break;
+      case 11: os << ':' << m_useDescription; break;
+      case 12: os << ':' << (m_useDuration ? "1" : ""); break;
+      case 13: os << ':'; if (m_useDuration) { os.appendInt<4>(m_minDuration); }; break;
+      case 14: os << ':'; if (m_useDuration) { os.appendInt<4>(m_maxDuration); }; break;
+      case 15: os << ':' << m_useAsSearchtimer; break;
+      case 16: os << ':' << m_useDayOfWeek; break;
+      case 17: os << ':' << m_dayOfWeek; break;
+      case 18: os << ':' << m_useEpisode; break;
+      case 19: os << ':' << cToSvReplace(m_directory, "|", "!^pipe^!").replaceAll(":", "|"); break;
+      case 20: os << ':' << m_priority; break;
+      case 21: os << ':' << m_lifetime; break;
+      case 22: os << ':' << m_marginStart; break;
+      case 23: os << ':' << m_marginStop; break;
+      case 24: os << ':' << m_useVPS; break;
+      case 25: os << ':' << m_action; break;
+      case 26: os << ':' << m_useExtEPGInfo; break;
+      case 27: os << ':'; if (m_useExtEPGInfo) {
+                 for(std::size_t i = 0; i < m_ExtEPGInfo.size(); i++) {
+                   if (i > 0) os <<  '|';
+                   os << cToSvReplace(m_ExtEPGInfo[i], ":", "!^colon^!").replaceAll("|", "!^pipe^!");
+                 }
+               }
+               break;
+      case 28: os << ':' << m_avoidRepeats; break;
+      case 29: os << ':' << m_allowedRepeats; break;
+      case 30: os << ':' << m_compareTitle; break;
+      case 31: os << ':' << m_compareSubtitle; break;
+      case 32: os << ':' << m_compareSummary; break;
+      case 33: os << ':' << m_catValuesAvoidRepeat; break;
+      case 34: os << ':' << m_repeatsWithinDays; break;
+      case 35: os << ':' << m_delAfterDays; break;
+      case 36: os << ':' << m_recordingsKeep; break;
+      case 37: os << ':' << m_switchMinBefore; break;
+      case 38: os << ':' << m_pauseOnNrRecordings; break;
+      case 39: os << ':' << m_blacklistMode; break;
+      case 40: os << ':'; if (m_blacklistMode == 1) {
+                 for (std::size_t  i = 0; i < m_blacklistIDs.size(); i++) {
+                   if (i > 0) os <<  '|';
+                   os << m_blacklistIDs[i];
+                 }
+               }
+               break;
+      case 41: os << ':' << m_fuzzyTolerance; break;
+      case 42: os << ':' << m_useInFavorites; break;
+      case 43: os << ':' << m_menuTemplate; break;
+      case 44: os << ':' << m_delMode; break;
+      case 45: os << ':' << m_delAfterCountRecs; break;
+      case 46: os << ':' << m_delAfterDaysOfFirstRec; break;
+      case 47: os << ':' << m_useAsSearchTimerFrom; break;
+      case 48: os << ':' << m_useAsSearchTimerTil; break;
+      case 49: os << ':' << m_ignoreMissingEPGCats; break;
+      case 50: os << ':' << m_unmuteSoundOnSwitch; break;
+      case 51: os << ':' << m_compareSummaryMatchInPercent; break;
+      case 52: os << ':' << m_contentsFilter; break;
+      case 53: os << ':' << m_compareDate; break;
+      default: i--; part--; atEnd = true; break;
     }
   }
-  os << ':';
-  os<< m_avoidrepeats << ':'
-    << m_allowedrepeats << ':'
-    << m_compareTitle << ':'
-    << m_compareSubtitle << ':'
-    << m_compareSummary << ':'
-    << m_catvaluesAvoidRepeat << ':'
-    << m_repeatsWithinDays << ':'
-    << m_delAfterDays << ':'
-    << m_recordingsKeep << ':'
-    << m_switchMinBefore << ':'
-    << m_pauseOnNrRecordings << ':'
-    << m_blacklistmode << ':';
-  if (m_blacklistmode == 1) {
-    for (unsigned int i=0; i<m_blacklistIDs.size(); i++) {
-      if (i > 0) os <<  '|';
-      os << m_blacklistIDs[i];
-    }
+  // append yet unknown fields from the original record
+  for ( ; update && part != parts.end(); i++, part++ ) {
+    os << ':' << *part;
   }
-  os << ':';
-  os<< m_fuzzytolerance << ':'
-    << m_useInFavorites << ':'
-    << m_menuTemplate << ':'
-    << m_delMode << ':'
-    << m_delAfterCountRecs << ':'
-    << m_delAfterDaysOfFirstRec << ':'
-    << m_useAsSearchTimerFrom << ':'
-    << m_useAsSearchTimerTil << ':'
-    << m_ignoreMissingEPGCats;
-
-  return std::string(cSv(os));
+  return std::string(os);
 }
 
 void SearchTimer::ParseChannel(cSv data)
@@ -299,14 +321,14 @@ std::string SearchTimer::UseAsSearchTimerTil(std::string const& format)
   return DatePickerToC(m_useAsSearchTimerTil, format);
 }
 
-void SearchTimer::SetUseAsSearchTimerFrom(std::string const& datestring, std::string const& format)
+void SearchTimer::SetUseAsSearchTimerFrom(std::string const& dateString, std::string const& format)
 {
-  m_useAsSearchTimerFrom = GetDateFromDatePicker(datestring, format);
+  m_useAsSearchTimerFrom = GetDateFromDatePicker(dateString, format);
 }
 
-void SearchTimer::SetUseAsSearchTimerTil(std::string const& datestring, std::string const& format)
+void SearchTimer::SetUseAsSearchTimerTil(std::string const& dateString, std::string const& format)
 {
-  m_useAsSearchTimerTil = GetDateFromDatePicker(datestring, format);
+  m_useAsSearchTimerTil = GetDateFromDatePicker(dateString, format);
 }
 
 

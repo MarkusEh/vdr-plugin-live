@@ -103,7 +103,7 @@ public:
     cMovie(void) {
         title = "";
         originalTitle = "";
-        tagline = "";    
+        tagline = "";
         overview = "";
         adult = false;
         collectionName = "";

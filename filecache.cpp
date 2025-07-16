@@ -8,19 +8,29 @@
 
 namespace vdrlive {
 
-std::time_t FileObject::get_filetime( std::string const& path )
+std::time_t FileObject::get_filetime(cStr path)
 {
   struct stat sbuf;
-  if ( stat( path.c_str(), &sbuf ) < 0 )
+  if ( stat( path.c_str(), &sbuf ) < 0 ) {
+// errno == 2 == ENOENT No such file or directory
+// so this is also used to detect if a file exists
+    if (errno != 2) esyslog3("file ", path, " not found, errno =", errno);
     return 0;
+  }
   return sbuf.st_ctime;
 }
 
 bool FileObject::load()
 {
+  m_file.load(m_path);
+  m_ctime = get_filetime(m_path);
+  return m_file.exists();
+/*
   std::ifstream ifs( m_path.c_str(), std::ios::in | std::ios::binary | std::ios::ate );
-  if ( !ifs )
+  if ( !ifs ) {
+    esyslog3("std::ifstream craetion for file ", path, " failed");
     return false;
+  }
 
   std::streamsize size = ifs.tellg();
   ifs.seekg( 0, std::ios::beg );
@@ -33,6 +43,7 @@ bool FileObject::load()
   m_ctime = get_filetime( m_path );
   m_data.swap( data );
   return true;
+*/
 }
 
 FileCache& LiveFileCache()

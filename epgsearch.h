@@ -39,14 +39,19 @@ public:
   std::string ToText();
   friend bool operator<( SearchTimer const& left, SearchTimer const& right );
 
+  // interfacing with the EPGSearch service
+  std::size_t SuppliedRecordFields() { return m_suppliedRecordFields; }
+  bool HasInsufficientFields() const { return m_hasInsufficientFields; }
+  bool HasUnknownFields() const { return m_hasUnknownFields; }
+  // getters/setters for the fields of an EPGSearch record
   int Id() const { return m_id; }
   void SetId(int id) { m_id = id; }
   std::string const& Search() const { return m_search; }
   void SetSearch(std::string const& search) { m_search = search; }
   int SearchMode() { return m_mode; }
   void SetSearchMode(int mode) { m_mode = mode; }
-  int Tolerance() const { return m_fuzzytolerance; }
-  void SetTolerance(int tolerance) { m_fuzzytolerance = tolerance; }
+  int Tolerance() const { return m_fuzzyTolerance; }
+  void SetTolerance(int tolerance) { m_fuzzyTolerance = tolerance; }
   bool MatchCase() const { return m_useCase; }
   void SetMatchCase(bool useCase) { m_useCase = useCase; }
   bool UseTime() const { return m_useTime; }
@@ -97,8 +102,8 @@ public:
   void SetKeepRecs(int recordingsKeep) { m_recordingsKeep = recordingsKeep; }
   int PauseOnRecs() const {return m_pauseOnNrRecordings; }
   void SetPauseOnRecs(int pauseOnNrRecordings) { m_pauseOnNrRecordings = pauseOnNrRecordings; }
-  int BlacklistMode() const {return m_blacklistmode; }
-  void SetBlacklistMode(int blacklistmode) { m_blacklistmode = blacklistmode; }
+  int BlacklistMode() const {return m_blacklistMode; }
+  void SetBlacklistMode(int blacklistMode) { m_blacklistMode = blacklistMode; }
   bool BlacklistSelected(int id) const;
   void ParseBlacklist(cSv data);
   int SwitchMinBefore() const { return m_switchMinBefore; }
@@ -107,10 +112,10 @@ public:
   void SetUseExtEPGInfo(bool useExtEPGInfo) { m_useExtEPGInfo = useExtEPGInfo; }
   std::vector<std::string> ExtEPGInfo() const { return m_ExtEPGInfo; }
   void SetExtEPGInfo(const std::vector<std::string>& ExtEPGInfo) { m_ExtEPGInfo = ExtEPGInfo; }
-  bool AvoidRepeats() const { return m_avoidrepeats; }
-  void SetAvoidRepeats(bool avoidrepeats) { m_avoidrepeats = avoidrepeats; }
-  int AllowedRepeats() const { return m_allowedrepeats; }
-  void SetAllowedRepeats(int allowedrepeats) { m_allowedrepeats = allowedrepeats; }
+  bool AvoidRepeats() const { return m_avoidRepeats; }
+  void SetAvoidRepeats(bool avoidRepeats) { m_avoidRepeats = avoidRepeats; }
+  int AllowedRepeats() const { return m_allowedRepeats; }
+  void SetAllowedRepeats(int allowedRepeats) { m_allowedRepeats = allowedRepeats; }
   int RepeatsWithinDays() const { return m_repeatsWithinDays; }
   void SetRepeatsWithinDays(int repeatsWithinDays) { m_repeatsWithinDays = repeatsWithinDays; }
   bool CompareTitle() const { return m_compareTitle; }
@@ -119,16 +124,16 @@ public:
   void SetCompareSubtitle(int compareSubtitle) { m_compareSubtitle = compareSubtitle; }
   bool CompareSummary() const { return m_compareSummary; }
   void SetCompareSummary(bool compareSummary) { m_compareSummary = compareSummary; }
-  unsigned long CompareCategories() const { return m_catvaluesAvoidRepeat; }
-  void SetCompareCategories(unsigned long compareCategories) { m_catvaluesAvoidRepeat = compareCategories; }
+  unsigned long CompareCategories() const { return m_catValuesAvoidRepeat; }
+  void SetCompareCategories(unsigned long compareCategories) { m_catValuesAvoidRepeat = compareCategories; }
   int Priority() const { return m_priority; }
   void SetPriority(int priority) { m_priority = priority; }
   int Lifetime() const { return m_lifetime; }
   void SetLifetime(int lifetime) { m_lifetime = lifetime; }
-  int MarginStart() const { return m_marginstart; }
-  void SetMarginStart(int marginstart) { m_marginstart = marginstart; }
-  int MarginStop() const { return m_marginstop; }
-  void SetMarginStop(int marginstop) { m_marginstop = marginstop; }
+  int MarginStart() const { return m_marginStart; }
+  void SetMarginStart(int marginStart) { m_marginStart = marginStart; }
+  int MarginStop() const { return m_marginStop; }
+  void SetMarginStop(int marginStop) { m_marginStop = marginStop; }
   bool UseVPS() const { return m_useVPS; }
   void SetUseVPS(bool useVPS) { m_useVPS = useVPS; }
   int DelMode() const { return m_delMode; }
@@ -138,13 +143,27 @@ public:
   int DelAfterDaysOfFirstRec() const { return m_delAfterDaysOfFirstRec; }
   void SetDelAfterDaysOfFirstRec(int delAfterDaysOfFirstRec) { m_delAfterDaysOfFirstRec = delAfterDaysOfFirstRec; }
   std::string UseAsSearchTimerFrom(std::string const& format);
-  void SetUseAsSearchTimerFrom(std::string const& datestring, std::string const& format);
+  void SetUseAsSearchTimerFrom(std::string const& dateString, std::string const& format);
   std::string UseAsSearchTimerTil(std::string const& format);
-  void SetUseAsSearchTimerTil(std::string const& datestring, std::string const& format);
+  void SetUseAsSearchTimerTil(std::string const& dateString, std::string const& format);
   bool IgnoreMissingEPGCats() const { return m_ignoreMissingEPGCats; }
   void SetIgnoreMissingEPGCats(bool ignoreMissingEPGCats) { m_ignoreMissingEPGCats = ignoreMissingEPGCats; }
+  bool UnmuteSoundOnSwitch() const { return m_unmuteSoundOnSwitch; }
+  void SetUnmuteSoundOnSwitch(bool unmuteSoundOnSwitch) { m_unmuteSoundOnSwitch = unmuteSoundOnSwitch; }
+  int CompareSummaryMatchInPercent() const { return m_compareSummaryMatchInPercent; }
+  void SetCompareSummaryMatchInPercent(int compareSummaryMatchInPercent) { m_compareSummaryMatchInPercent = compareSummaryMatchInPercent; }
+  std::string const& ContentsFilter() const { return m_contentsFilter; }
+  void SetContentsFilter(std::string const& contentsFilter) { m_contentsFilter = contentsFilter; }
+  int CompareDate() const { return m_compareDate; }
+  void SetCompareDate(int compareDate) { m_compareDate = compareDate; }
 
 private:
+  std::string m_data;
+  // compliance with fields supplied by the EPGSearch service
+  std::size_t m_suppliedRecordFields;
+  bool m_hasInsufficientFields;
+  bool m_hasUnknownFields;
+  // fields parsed from an EPGSearch record
   int m_id;
   std::string m_search;
   bool m_useTime;
@@ -167,7 +186,7 @@ private:
   bool m_useEpisode;
   int m_priority;
   int m_lifetime;
-  int m_fuzzytolerance;
+  int m_fuzzyTolerance;
   bool m_useInFavorites;
   int m_useAsSearchtimer;
   int m_action;
@@ -176,27 +195,31 @@ private:
   int m_recordingsKeep;
   int m_pauseOnNrRecordings;
   int m_switchMinBefore;
-  int m_marginstart;
-  int m_marginstop;
+  int m_marginStart;
+  int m_marginStop;
   bool m_useVPS;
   bool m_useExtEPGInfo;
   std::vector<std::string> m_ExtEPGInfo;
-  bool m_avoidrepeats;
-  int m_allowedrepeats;
+  bool m_avoidRepeats;
+  int m_allowedRepeats;
   bool m_compareTitle;
   int m_compareSubtitle;
   bool m_compareSummary;
   int m_repeatsWithinDays;
-  int m_blacklistmode;
+  int m_blacklistMode;
   std::vector<std::string> m_blacklistIDs;
   int m_menuTemplate;
-  unsigned long m_catvaluesAvoidRepeat;
+  unsigned long m_catValuesAvoidRepeat;
   int m_delMode;
   int m_delAfterCountRecs;
   int m_delAfterDaysOfFirstRec;
   time_t m_useAsSearchTimerFrom;
   time_t m_useAsSearchTimerTil;
   bool m_ignoreMissingEPGCats;
+  bool m_unmuteSoundOnSwitch;
+  int m_compareSummaryMatchInPercent;
+  std::string m_contentsFilter;
+  int m_compareDate;
 
   void ParseChannel(cSv data);
   void ParseChannelIDs(cSv data);

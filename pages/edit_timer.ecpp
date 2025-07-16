@@ -267,7 +267,7 @@ TimerConflictNotifier timerNotifier;
 <& pageelems.doc_type &>
 <html>
   <head>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>VDR Live - <$ timerid.empty() ? tr("New timer") : tr("Edit timer")  $></title>
 <%cpp>
   if (!ajaxReq) {

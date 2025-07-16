@@ -255,6 +255,12 @@ msgstr ""
 msgid "Episode"
 msgstr ""
 
+msgid "Use content categories"
+msgstr ""
+
+msgid "Special Characteristics"
+msgstr ""
+
 msgid "Use extended EPG info"
 msgstr "Gebruik uitgebreide EPG info"
 
@@ -405,6 +411,21 @@ msgstr ""
 msgid "Compare summary"
 msgstr ""
 
+msgid "Match in percent"
+msgstr ""
+
+msgid "Compare date"
+msgstr ""
+
+msgid "same day"
+msgstr ""
+
+msgid "same week"
+msgstr ""
+
+msgid "same month"
+msgstr ""
+
 msgid "Compare"
 msgstr ""
 
@@ -421,6 +442,15 @@ msgid "after ... days after first rec."
 msgstr ""
 
 msgid "Switch ... minutes before start"
+msgstr ""
+
+msgid "Unmute sound on switch"
+msgstr ""
+
+msgid "The searchtimer lacks some form fields, so that their values cannot be saved. Please upgrade to the most recent version of EPGsearch."
+msgstr ""
+
+msgid "The searchtimer includes extra fields. These will be saved with their original values."
 msgstr ""
 
 msgid "Test"
@@ -890,10 +920,10 @@ msgstr ""
 msgid "Errors"
 msgstr ""
 
-msgid "Filter"
+msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
 msgstr ""
 
-msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
+msgid "Filter"
 msgstr ""
 
 msgid "Clear filter"
@@ -931,7 +961,10 @@ msgstr ""
 msgid "Extended search"
 msgstr ""
 
-msgid "no"
+msgid "The search lacks some form fields, so that their values cannot be used for searching the EPG. Please upgrade to the most recent version of EPGsearch."
+msgstr ""
+
+msgid "The search supports extra fields. These will be not be taken into account."
 msgstr ""
 
 msgid "Search results"
@@ -956,6 +989,9 @@ msgid "Delete this search timer?"
 msgstr ""
 
 msgid "Delete search timer"
+msgstr ""
+
+msgid "No searchtimers found"
 msgstr ""
 
 msgid "Trigger search timer update"
@@ -1120,7 +1156,7 @@ msgstr ""
 msgid "Delete user"
 msgstr "Serie's opnemen"
 
-msgid "No user configured"
+msgid "No users configured"
 msgstr ""
 
 msgid "What's running on"
@@ -1149,7 +1185,3 @@ msgstr ""
 
 msgid "Live Interactive VDR Environment"
 msgstr ""
-
-#, fuzzy
-#~ msgid "Start"
-#~ msgstr "Start na"

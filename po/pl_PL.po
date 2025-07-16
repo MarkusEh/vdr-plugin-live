@@ -250,6 +250,12 @@ msgstr "Szukaj w"
 msgid "Episode"
 msgstr "Epizod"
 
+msgid "Use content categories"
+msgstr ""
+
+msgid "Special Characteristics"
+msgstr ""
+
 msgid "Use extended EPG info"
 msgstr "Użyj rozszerzonej informacji EPG"
 
@@ -400,6 +406,21 @@ msgstr "jeżeli istenieją"
 msgid "Compare summary"
 msgstr "Podsumowanie porównania"
 
+msgid "Match in percent"
+msgstr ""
+
+msgid "Compare date"
+msgstr ""
+
+msgid "same day"
+msgstr ""
+
+msgid "same week"
+msgstr ""
+
+msgid "same month"
+msgstr ""
+
 msgid "Compare"
 msgstr "Porównaj"
 
@@ -417,6 +438,15 @@ msgstr "po ... dniach nagrywania"
 
 msgid "Switch ... minutes before start"
 msgstr "Przełącz na ... minut przed rozpoczęcziem"
+
+msgid "Unmute sound on switch"
+msgstr ""
+
+msgid "The searchtimer lacks some form fields, so that their values cannot be saved. Please upgrade to the most recent version of EPGsearch."
+msgstr ""
+
+msgid "The searchtimer includes extra fields. These will be saved with their original values."
+msgstr ""
 
 msgid "Test"
 msgstr "Testuj"
@@ -874,11 +904,11 @@ msgstr ""
 msgid "Errors"
 msgstr ""
 
-msgid "Filter"
-msgstr "Filtr"
-
 msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
 msgstr "Pokaż nagrania zgodne z wpisanym wyrażeniem (można używać także wyrażeń regularnych typu PERL)."
+
+msgid "Filter"
+msgstr "Filtr"
 
 msgid "Clear filter"
 msgstr ""
@@ -914,8 +944,11 @@ msgstr "Ustawienia wyszukiwania"
 msgid "Extended search"
 msgstr "Wyszukiwanie zaawansowane"
 
-msgid "no"
-msgstr "nie"
+msgid "The search lacks some form fields, so that their values cannot be used for searching the EPG. Please upgrade to the most recent version of EPGsearch."
+msgstr ""
+
+msgid "The search supports extra fields. These will be not be taken into account."
+msgstr ""
 
 msgid "Search results"
 msgstr "Wyniki wyszykiwania"
@@ -940,6 +973,9 @@ msgstr "Usunąć ten timer wyszukiwania?"
 
 msgid "Delete search timer"
 msgstr "Usuń timer wyszukiwania"
+
+msgid "No searchtimers found"
+msgstr ""
 
 msgid "Trigger search timer update"
 msgstr "Zaprogramuj aktywne timery wyszukiwania"
@@ -1098,7 +1134,7 @@ msgstr "Użytkownicy"
 msgid "Delete user"
 msgstr "Usuń użytkownika"
 
-msgid "No user configured"
+msgid "No users configured"
 msgstr ""
 
 msgid "What's running on"
@@ -1127,96 +1163,3 @@ msgstr "Widok listy"
 
 msgid "Live Interactive VDR Environment"
 msgstr ""
-
-#~ msgid "Timers are being edited - try again later"
-#~ msgstr "Timery są edytowane - spróbuj ponownie później"
-
-#~ msgid "Channel has no schedule"
-#~ msgstr "Brak programu dla wybranego kanału"
-
-#~ msgid "Couldn't acquire primary device"
-#~ msgstr "Nie mozna uzyskać dostępu do pierwszego interfejsu DVB"
-
-#~ msgid "Couldn't grab image from primary device"
-#~ msgstr "Nie można pobrać obrazu z pierwszego interfejsu DVB"
-
-#~ msgid "error retrieving status info!"
-#~ msgstr "błąd podczas odczytu stanu!"
-
-#~ msgid "No EPG information available"
-#~ msgstr "Brak informacji EPG"
-
-#~ msgid "Couldn't acquire access to channels, please try again later."
-#~ msgstr "Nie można uzyskać dostępu do kanałów, spróbój później."
-
-#~ msgid "Web-Streaming h264"
-#~ msgstr "Parametry HLS dla AVC (H.264)"
-
-#~ msgid "Web-Streaming HEVC"
-#~ msgstr "Parametry HLS dla HEVC (H.265)"
-
-#~ msgid "Web-Streaming MPEG2"
-#~ msgstr "Parametry HLS dla MPEG2 (H.262)"
-
-#~ msgid "Web-Streaming others"
-#~ msgstr "Parametry HLS dla innych"
-
-#~ msgid "Error acquiring schedules lock"
-#~ msgstr "Błąd podczas próby blokady programu"
-
-#~ msgid "Error acquiring schedules"
-#~ msgstr "Błąd podczas ściągania programu"
-
-#~ msgid "ERROR:"
-#~ msgstr "BŁĄD:"
-
-#~ msgid "play this recording."
-#~ msgstr "Odtwórz nagranie"
-
-#~ msgid "mm/dd/yyyy"
-#~ msgstr "dd/mm/yyyy"
-
-#~ msgid "January"
-#~ msgstr "Styczeń"
-
-#~ msgid "February"
-#~ msgstr "Luty"
-
-#~ msgid "March"
-#~ msgstr "Marzec"
-
-#~ msgid "April"
-#~ msgstr "Kwiecień"
-
-#~ msgid "May"
-#~ msgstr "Maj"
-
-#~ msgid "June"
-#~ msgstr "Czerwiec"
-
-#~ msgid "July"
-#~ msgstr "Lipiec"
-
-#~ msgid "August"
-#~ msgstr "Sierpień"
-
-#~ msgid "September"
-#~ msgstr "Wrzesień"
-
-#~ msgid "October"
-#~ msgstr "Październik"
-
-#~ msgid "November"
-#~ msgstr "Listopad"
-
-#~ msgid "December"
-#~ msgstr "Grudzień"
-
-#~ msgid "Add links to IMDb"
-#~ msgstr "Pokazuj odnośniki do IMDb"
-
-#~ msgid "Sort by name"
-#~ msgstr "Sortuj według nazwy"
-
-#~ msgid "Sort by date"
-#~ msgstr "Sortuj według daty"

@@ -3,6 +3,7 @@
 #include <epgsearch.h>
 #include <setup.h>
 #include <users.h>
+#include <tools.h>
 
 using namespace vdrlive;
 
@@ -52,7 +53,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
 <& pageelems.doc_type &>
 <html>
   <head>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>VDR-Live - <$ pageTitle $></title>
     <& pageelems.stylesheets &>
     <& pageelems.ajax_js &>
@@ -84,8 +85,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
           char *timerID = timerID_b+20;
           *(timerID) = 0;
           if (i < 10) *(--timerID) = '0' + i;
-          else for (; i; i /= 10) *(--timerID) = '0' + (i%10);
-
+          else for (; i; i /= 10) *(--timerID) = '0' + (i % 10);
 </%cpp>
         <tr class="<$ timer->UseAsSearchTimer() ? "active" : "inactive" $>">
           <td class="action leftcol <? bottom ? "bottomrow" ?>"><%cpp> if(timer->UseAsSearchTimer()) { </%cpp><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "arrow.png") $>" alt="" /><%cpp> } </%cpp></td>
@@ -102,6 +102,16 @@ if (!logged_in && LiveSetup().UseAuth()) {
             </div>
           </td>
         </tr>
+<%cpp>
+        }
+        if (timers.size() == 0) {
+</%cpp>
+          <# add the message in a table row beneath the header, because the message alone looks weird #>
+          <tr>
+            <td class="message leftcol rightcol bottomrow" colspan="8">
+              <div><$ tr("No searchtimers found") $></div>
+            </td>
+          </tr>
 <%cpp>
         }
 </%cpp>

@@ -26,7 +26,7 @@ vdr_restart = <$ error?"true":"false"$>;
     bool recordings_tree_re_created = false;
     RecordingsTreePtr recordingsTree(RecordingsManager::GetRecordingsTree());
     if (recordings_tree_creation != 0 && recordings_tree_creation != RecordingsManager::GetLastRecordingsUpdate() ) {
-      isyslog("live INFO, get_recordings.ecpp, recordings tree re-created");
+      dsyslog2("get_recordings.ecpp, recordings tree re-created");
       recordings_tree_re_created = true;
     }
     </%cpp>

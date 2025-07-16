@@ -22,11 +22,10 @@ using namespace vdrlive;
   bool usetitle = false;
   bool usesubtitle = false;
   bool usedescr = false;
+  bool usecontentids = false;
   int usechannel = SearchTimer::NoChannel;
-
   std::string channelfrom_string = "";
   std::string channelto_string = "";
-
   std::string changrpsel = "";
   bool usetime = false;
   std::string start_s = "00:00";
@@ -75,6 +74,9 @@ using namespace vdrlive;
   std::string useassearchtimerfrom;
   std::string useassearchtimerto;
   bool ignoreMissingEPGCats = false;
+  bool unmutesoundonswitch = false;
+  int comparesummarymatchinpercent = 0;
+  int comparedate = 0;
   int nav_back = 1;
 </%args>
 <%session scope="global">
@@ -86,6 +88,9 @@ ChannelGroups channelGroups;
 Blacklists blacklists;
 RecordingDirs recordingdirs;
 SearchTimer* editsearchtimer;
+bool hasInsufficientFields = false;
+bool hasUnknownFields = false;
+std::string contentsFilter;
 </%request>
 <%include>page_init.eh</%include>
 <{
@@ -108,9 +113,13 @@ const char *TNT_ARRAY = "[]";
 const char *TNT_ARRAY = "";
 #endif
 
+  // ensure match with VDR settings
+  constexpr uint contentGroups = 16;
+  constexpr uint contentIdentifiersPerGroup = 16;
+  constexpr uint contentIdentifiers = contentGroups * contentIdentifiersPerGroup;
+
   SearchTimers searchtimers;
   bool testmode = !test.empty();
-  editsearchtimer = NULL;
 
   tChannelID channelfrom = tChannelID::FromString(channelfrom_string.c_str());
   tChannelID channelto   = tChannelID::FromString(channelto_string.c_str());
@@ -119,9 +128,10 @@ const char *TNT_ARRAY = "";
     SearchTimer searchtimer;
     if ( !searchtimerid.empty() && !testmode) {
       editsearchtimer = searchtimers.GetByTimerId( searchtimerid );
-      if ( editsearchtimer == 0 )
+      if (!editsearchtimer)
         throw HtmlError( tr("Couldn't find search timer. Maybe you mistyped your request?") );
-      searchtimer.SetId(editsearchtimer->Id());
+      // duplicate the search timer to preserve yet unknown fields
+      searchtimer = *editsearchtimer;
     }
 
     searchtimer.SetSearch(search);
@@ -131,15 +141,30 @@ const char *TNT_ARRAY = "";
     searchtimer.SetUseTitle(usetitle);
     searchtimer.SetUseSubtitle(usesubtitle);
     searchtimer.SetUseDescription(usedescr);
+    cToSvConcat contentsFilterString;
+    if (usecontentids) {
+      for (uint groupID = 0; groupID < contentGroups; groupID++) {
+        cToSvFormatted<16> useGroupHexID("usegid%x0", groupID);
+        if (qparam.has(useGroupHexID.data())) {
+          for (uint contentID = 0; contentID < contentIdentifiersPerGroup; contentID++) {
+            cToSvFormatted<8> contentHexID("cid%x%x", groupID, contentID);
+            if (qparam.has(contentHexID.data())) {
+              contentsFilterString.appendFormatted("%x%x", groupID, contentID);
+            }
+          }
+        }
+      }
+    }
+    searchtimer.SetContentsFilter(contentsFilterString.data());
     searchtimer.SetUseExtEPGInfo(useextepginfo);
     if (useextepginfo)
     {
       std::vector<std::string> infos;
-      unsigned int i=0;
+      unsigned int i = 0;
       for (ExtEPGInfos::iterator extinfo = extEPGInfos.begin(); extinfo != extEPGInfos.end(); ++extinfo, i++)
       {
       std::stringstream os;
-      os << extinfo->Id() << "#" << (i<extepgvalues.size()?extepgvalues[i]:"");
+      os << extinfo->Id() << "#" << (i < extepgvalues.size() ? extepgvalues[i] : "");
       infos.push_back(os.str());
       }
       searchtimer.SetExtEPGInfo(infos);
@@ -157,8 +182,8 @@ const char *TNT_ARRAY = "";
     searchtimer.SetUseTime(usetime);
     if (usetime)
     {
-      searchtimer.SetStartTime(timeStringToInt(start_s.data() ));
-      searchtimer.SetStopTime(timeStringToInt(stop_s.data() ));
+      searchtimer.SetStartTime(timeStringToInt(start_s));
+      searchtimer.SetStopTime(timeStringToInt(stop_s));
     }
     searchtimer.SetUseDuration(useduration);
     if (useduration)
@@ -195,8 +220,8 @@ const char *TNT_ARRAY = "";
     searchtimer.SetBlacklistMode(blacklistmode);
     if (blacklistmode == 1)
       searchtimer.ParseBlacklist(blacklistids_internal);
-
     searchtimer.SetSwitchMinBefore(switchminbefore);
+    searchtimer.SetUnmuteSoundOnSwitch(unmutesoundonswitch);
     searchtimer.SetAvoidRepeats(avoidrepeats);
     if (avoidrepeats)
     {
@@ -205,10 +230,12 @@ const char *TNT_ARRAY = "";
       searchtimer.SetCompareTitle(comparetitle);
       searchtimer.SetCompareSubtitle(comparesubtitle);
       searchtimer.SetCompareSummary(comparesummary);
+      searchtimer.SetCompareSummaryMatchInPercent(comparesummarymatchinpercent);
+      searchtimer.SetCompareDate(comparedate);
     }
     unsigned long catsselected = 0;
-    for (unsigned int i=0; i < avoidrepeatscatselected.size(); i++)
-      catsselected |= (1 << (avoidrepeatscatselected[i]-1));
+    for (unsigned int i = 0; i < avoidrepeatscatselected.size(); i++)
+      catsselected |= (1 << (avoidrepeatscatselected[i] - 1));
     searchtimer.SetCompareCategories(catsselected);
     searchtimer.SetPriority(priority);
     searchtimer.SetLifetime(lifetime);
@@ -233,7 +260,6 @@ const char *TNT_ARRAY = "";
   </script>
 </html>
 <%cpp>
-//      return reply.redirect("searchtimers.html");
     }
     else
     {
@@ -247,16 +273,23 @@ const char *TNT_ARRAY = "";
   </script>
 </html>
 <%cpp>
-//      return reply.redirect("searchresults.html?searchtimerquery=" + md5);
     }
   }
-  pageTitle = !searchtimerid.empty() ? tr("Edit search timer") : tr("New search timer");
-
-  if (  !searchtimerid.empty() ) {
-    SearchTimer* searchtimer = searchtimers.GetByTimerId( searchtimerid );
-    if ( searchtimer == 0 )
+  SearchTimer* searchtimer;
+  if (!searchtimerid.empty()) {
+    searchtimer = searchtimers.GetByTimerId(searchtimerid);
+    if (!searchtimer)
       throw HtmlError( tr("Couldn't find search timer. Maybe you mistyped your request?") );
-
+  } else {
+    // get an existing search timer for detemining the compatibility flags
+    searchtimer = &*searchtimers.begin();
+    if (searchtimer) {
+      hasInsufficientFields = searchtimer->HasInsufficientFields();
+      hasUnknownFields = searchtimer->HasUnknownFields();
+    }
+    searchtimer = new SearchTimer();
+  }
+  if (searchtimer) {
     search = searchtimer->Search();
     mode = searchtimer->SearchMode();
     tolerance = searchtimer->Tolerance();
@@ -272,8 +305,8 @@ const char *TNT_ARRAY = "";
     if (usechannel == SearchTimer::Group)
       changrpsel = searchtimer->ChannelText();
     usetime = searchtimer->UseTime();
-                start_s = intToTimeString(searchtimer->StartTime() );
-                stop_s  = intToTimeString(searchtimer->StopTime() );
+    start_s = intToTimeString(searchtimer->StartTime() );
+    stop_s  = intToTimeString(searchtimer->StopTime() );
     useduration = searchtimer->UseDuration();
     if (useduration)
     {
@@ -322,10 +355,11 @@ const char *TNT_ARRAY = "";
     pauseonrecs = searchtimer->PauseOnRecs();
     blacklistmode = searchtimer->BlacklistMode();
     switchminbefore = searchtimer->SwitchMinBefore();
+    unmutesoundonswitch = searchtimer->UnmuteSoundOnSwitch();
     useextepginfo = searchtimer->UseExtEPGInfo();
     std::vector<std::string> infos = searchtimer->ExtEPGInfo();
-    for(unsigned int i=0; i<extEPGInfos.size(); i++) {
-      if (i<infos.size()) {
+    for (unsigned int i = 0; i < extEPGInfos.size(); i++) {
+      if (i < infos.size()) {
         cSplit<std::string> parts(infos[i], '#');
         extepgvalues.push_back(parts.size() > 1? *(++parts.begin()):"");
       } else
@@ -338,7 +372,10 @@ const char *TNT_ARRAY = "";
     comparetitle = searchtimer->CompareTitle();
     comparesubtitle = searchtimer->CompareSubtitle();
     comparesummary = searchtimer->CompareSummary();
-    for(unsigned int i=0; i<extEPGInfos.size(); i++)
+    comparesummarymatchinpercent = searchtimer->CompareSummaryMatchInPercent();
+    comparedate = searchtimer->CompareDate();
+    contentsFilter = searchtimer->ContentsFilter();     // no part of form, thus camelCase
+    for (unsigned int i = 0; i < extEPGInfos.size(); i++)
     {
       bool selected = searchtimer->CompareCategories() & (1<<i);
       avoidrepeatscatselected.push_back(selected);
@@ -351,18 +388,22 @@ const char *TNT_ARRAY = "";
     delmode = searchtimer->DelMode();
     delaftercountrecs = searchtimer->DelAfterCountRecs();
     delafterdaysoffirstrec = searchtimer->DelAfterDaysOfFirstRec();
-
+    // amend the compatibility flags
+    hasInsufficientFields |= searchtimer->HasInsufficientFields();
+    hasUnknownFields |= searchtimer->HasUnknownFields();
     editsearchtimer = searchtimer;
   }
   else
   {
-    for(unsigned int i=0; i<extEPGInfos.size(); i++)
+    for (unsigned int i = 0; i < extEPGInfos.size(); i++)
       extepgvalues.push_back("");
-    for(unsigned int i=0; i<extEPGInfos.size(); i++)
+    for (unsigned int i = 0; i < extEPGInfos.size(); i++)
       avoidrepeatscatselected.push_back(false);
+    tolerance = searchtimer->Tolerance();
     usetitle = true;
     usesubtitle = true;
     usedescr = true;
+    comparesummarymatchinpercent = searchtimer->CompareSummaryMatchInPercent();
     priority = parse_int<int>(EPGSearchSetupValues::ReadValue("DefPriority"));
     lifetime = parse_int<int>(EPGSearchSetupValues::ReadValue("DefLifetime"));
     marginstart = parse_int<int>(EPGSearchSetupValues::ReadValue("DefMarginStart"));
@@ -372,7 +413,7 @@ const char *TNT_ARRAY = "";
 <& pageelems.doc_type &>
 <html>
   <head>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>VDR Live - <$ editsearchtimer ? tr("Edit search timer") : tr("New search timer") $></title>
 
     <& pageelems.stylesheets &>
@@ -381,16 +422,23 @@ const char *TNT_ARRAY = "";
     <script type="text/javascript">
     function initform()
     {
+      var gid;
       changedsearchmode(document.getElementById("search_mode"));
       changedchannelmode(document.getElementById("channel_mode"));
       changedusetime(document.getElementById("usetime"));
       changeduseduration(document.getElementById("useduration"));
       changeduseweekday(document.getElementById("useweekday"));
       changeduseassearchtimer(document.getElementById("useassearchtimer"));
-%    if (extEPGInfos.size() > 0) {
-      changeduseextepginfo(document.getElementById("useextepginfo"));
-%    }
+      for (gid = 0; gid < <$ contentGroups $>; gid++ ) {
+        let hexID = gid.toString(16) + "0";
+        changedusecontentgroup(document.getElementById("usecontentgroup" + hexID));
+      }
+      changedusecontentids(document.getElementById("usecontentids"));
+%     if (extEPGInfos.size() > 0) {
+        changeduseextepginfo(document.getElementById("useextepginfo"));
+%     }
       changedavoidrepeats(document.getElementById("avoidrepeats"));
+      changedcomparesummary(document.getElementById("comparesummary"));
       changedblacklistmode(document.getElementById("blacklistmode"));
       changeddelmode(document.getElementById("delmode"));
     }
@@ -451,16 +499,33 @@ const char *TNT_ARRAY = "";
         "revert-layer" : "none";
     }
 
+    function changedusecontentids(selection)
+    {
+      document.getElementById("use_content_ids").style.display = (selection.checked ? "revert-layer" : "none");
+    }
+
+    function changedusecontentgroup(selection)
+    {
+      if (selection !== null) {
+        let gid = selection.id.slice(-2);
+        let group = document.getElementById("content_group_" + gid);
+        if (group !== null) {
+          group.style.display = (selection.checked ? "revert-layer" : "none");
+        }
+      }
+    }
+
     function changeduseextepginfo(selection)
     {
-      document.getElementById("use_extepg_settings").style.display = (selection.checked ? "revert-layer" : "none");
+      var doc = document.getElementById("use_extepg_settings");
+      if (doc) doc.style.display = (selection.checked ? "revert-layer" : "none");
     }
 
     function changedextepginfo(selection)
     {
       var i;
       document.getElementById(selection.name + "_value").value = "";
-      for(i=0;i<selection.length;i++)
+      for (i = 0; i < selection.length; i++)
       {
         if (selection.options[i].selected)
         {
@@ -476,6 +541,11 @@ const char *TNT_ARRAY = "";
       document.getElementById("avoidrepeatssettings").style.display = (selection.checked ? "revert-layer" : "none");
     }
 
+    function changedcomparesummary(selection)
+    {
+      document.getElementById("summarymatchinpercent").style.display = (selection.checked ? "revert-layer" : "none");
+    }
+
     function changedblacklistmode(selection)
     {
       document.getElementById("blacklistmodesettings").style.display =
@@ -486,7 +556,7 @@ const char *TNT_ARRAY = "";
     {
       var i;
       document.getElementById("blacklistids_internal").value = "";
-      for(i=0;i<selection.length;i++)
+      for (i = 0; i < selection.length; i++)
       {
         if (selection.options[i].selected)
         {
@@ -496,15 +566,17 @@ const char *TNT_ARRAY = "";
         }
       }
     }
+
     function changeddirselection(selection)
     {
       document.getElementById("directory").value = selection.value;
     }
+
     function changeddelmode(selection)
     {
       document.getElementById("delmodesettings").style.display = (selection.checked ? "revert-layer" : "none");
     }
-    //--></script>
+    </script>
 
   </head>
   <body onload="initform()" onpagehide="saveScrollPosition('content')" onpageshow="restoreScrollPosition()">
@@ -524,7 +596,7 @@ const char *TNT_ARRAY = "";
             <!-- Search term -->
             <tr>
               <td class="label leftcol"><div class="withmargin"><$ tr("Search term") $>:</div></td>
-              <td class="rightcol"><input type="text" name="search" value="<$ search $>"class="width99" size="55" id="searchterm" /></td>
+              <td class="rightcol"><input type="text" name="search" value="<$ search $>" class="width99" size="55" id="searchterm" /></td>
             </tr>
 
             <!-- Search mode -->
@@ -542,7 +614,7 @@ const char *TNT_ARRAY = "";
                   </select>
                   <div id="tolerance" style="display: none">
                       <$ tr("Tolerance" ) $>:
-                      <input type="text" name="tolerance" size="2" value="<$ tolerance $>" />
+                    <input type="number" name="tolerance" size="2" min="1" max="9" value="<$ tolerance $>" />
                   </div>
                 </div>
               </td>
@@ -573,7 +645,79 @@ const char *TNT_ARRAY = "";
               </div></td>
             </tr>
 
-%            if (extEPGInfos.size() > 0) {
+            <!-- Use content IDs -->
+<%cpp>
+            // collect the defined content IDs
+            std::set<std::string> contentStrings;             // for identifying duplicates
+            std::vector<uint> contentStringIDs;               // all defined content IDs
+            for (uint contentID = 0; contentID < contentIdentifiers; contentID++) {
+              const std::string contentDescription = cEvent::ContentToString(contentID);
+              if (!contentDescription.empty() && contentStrings.find(contentDescription) == contentStrings.end()) {
+                contentStrings.insert(contentDescription);
+                contentStringIDs.push_back(contentID);
+              }
+            }
+            // create the indicators of the filtered content IDs (for initializing the check marks)
+            bool filteredContentIDs[contentIdentifiers] = { false };
+            bool filteredContentGroupIDs[contentGroups] = { false };
+            cSv contentFilterIDs = cToSvToLower(contentsFilter);
+            for (size_t i = 0; i < contentFilterIDs.length(); i += 2) {
+              uint contentID = parse_hex<uint>(contentFilterIDs.substr(i, 2));
+              if (contentID < contentIdentifiers) filteredContentIDs[contentID] = true;
+              uint groupID = contentID / contentIdentifiersPerGroup;
+              if (groupID < contentGroups) filteredContentGroupIDs[groupID] = true;
+            }
+            if (contentStringIDs.size() > 0) {
+</%cpp>
+              <tr>
+                <td class="label leftcol"><div class="withmargin"><$ tr("Use content categories") $>:</div></td>
+                <td class="rightcol">
+                  <input type="checkbox" name="usecontentids" value="1" <{ CHECKIF(contentFilterIDs.length() > 0) }> onclick="changedusecontentids(this)" id="usecontentids"/>
+                  <div id="use_content_ids" style="display: none">
+                    <table class="dependent" border="0" cellspacing="0" cellpadding="0">
+                    <# we rely on the uniqueness of the content IDs and that group identifiers are always present #>
+%                   for (uint contentID : contentStringIDs) {
+%                     uint groupID = contentID / contentIdentifiersPerGroup;
+%                     cToSvFormatted<8> hexID("%02x", contentID);
+%                     cToSvConcat contentString;
+%                     AppendHtmlEscapedAndCorrectNonUTF8(contentString, cEvent::ContentToString(contentID));
+%                     contentString.replaceAll("/", "/<wbr>");
+                      <# we subsequently deviate from our indentation scheme for better visual tag alignment #>
+%                     if (contentID % contentIdentifiersPerGroup == 0) {
+%                       if (contentID != contentStringIDs.front()) {
+                            </div>
+                          </td>
+                        </tr>
+%                       }
+                        <tr>
+%                         cToSvConcat contentLabel;
+%                         if (groupID == 0xB) {
+%                           // this is kind of a "miscellaneous" group, i.e. the first group entry
+%                           // does not represent a meaningful group heading (cf. EN 300 468, Table 18)
+%                           AppendHtmlEscapedAndCorrectNonUTF8(contentLabel, tr("Special Characteristics"));
+%                         } else
+%                           contentLabel.append(contentString);
+                          <td class="label"><div class="withmargin"><$$ contentLabel $>:</div></td>
+                          <td><input type="checkbox" name="usegid<$ hexID $>" value="1" <{ CHECKIF(groupID < contentIdentifiersPerGroup && filteredContentGroupIDs[groupID]) }> onclick="changedusecontentgroup(this)" id="usecontentgroup<$ hexID $>"/>
+                            <div class="options" id="content_group_<$ hexID $>">
+%                     }
+                              <div class="dotted"><# line in EPGsearch, the groupID is the first item for selection #>
+                                <input type="checkbox" name="cid<$ hexID $>" value="1" <{ CHECKIF(contentID < contentIdentifiers && filteredContentIDs[contentID]) }> onclick="" id="cid<$ hexID $>"/>
+                                <label for="cid<$ hexID $>"><$$ contentString $></label>
+                              </div>
+%                   }
+%                   if (contentStringIDs.size() > 0) {
+                            </div>
+                          </td>
+                        </tr>
+%                   }
+                    </table>
+                  </div>
+                </td>
+              </tr>
+%           }
+
+%           if (extEPGInfos.size() > 0) {
             <!-- Use ext. EPG categories -->
             <tr>
               <td class="label leftcol"><div class="withmargin"><$ tr("Use extended EPG info" ) $>:</div></td>
@@ -581,41 +725,41 @@ const char *TNT_ARRAY = "";
                 <input type="checkbox" name="useextepginfo" value="1" <{ CHECKIF(useextepginfo) }> onclick="changeduseextepginfo(this)" id="useextepginfo"/>
                 <div id="use_extepg_settings" style="display: none">
                   <table class="dependent" border="0" cellspacing="0" cellpadding="0">
-%                    int i=0; for (ExtEPGInfos::iterator extinfo = extEPGInfos.begin(); extinfo != extEPGInfos.end(); ++extinfo, i++) {
+%                 int i = 0; for (ExtEPGInfos::iterator extinfo = extEPGInfos.begin(); extinfo != extEPGInfos.end(); ++extinfo, i++) {
                     <tr>
-                      <td class="label"><div class="withmargin"><$ extinfo->Name() $></div></td>
+                      <td class="label"><div class="withmargin"><$ extinfo->Name() $>:</div></td>
                       <td><input type="text" name="extepgvalues<$TNT_ARRAY$>" value="<$extepgvalues[i]$>" size="20" id="extepg_<{ reply.out() << extinfo->Id(); }>_value"/></td>
-%                      if (extinfo->Values().size() > 0) {
-                      <td >
-                        <select size="3" multiple="multiple" align="left" valign="top" name="extepg_<{ reply.out() << extinfo->Id(); }>" onchange="changedextepginfo(this)">
-%                      for (unsigned int j=0; j<extinfo->Values().size(); j++) {
-                          <option value="<{ reply.out() << extinfo->Values()[j];}>"
-%                          if (extinfo->Selected(j, extepgvalues[i])) {
-                                                      selected="selected"
-%                                               }
-                                                  > <{ reply.out() << extinfo->Values()[j]; }> </option>
-%                                               }
+%                     if (extinfo->Values().size() > 0) {
+                      <td>
+                        <select size="3" multiple="multiple" name="extepg_<{ reply.out() << extinfo->Id(); }>" onchange="changedextepginfo(this)">
+%                       for (unsigned int j = 0; j < extinfo->Values().size(); j++) {
+                          <option value="<{ reply.out() << extinfo->Values()[j]; }>"
+%                         if (extinfo->Selected(j, extepgvalues[i])) {
+                            selected="selected"
+%                         }
+                          > <{ reply.out() << extinfo->Values()[j]; }> </option>
+%                       }
                         </select>
                       </td>
+%                     }
                     </tr>
-%                                       }
-%                                   }
-                  <!-- Ignore missing EPG categories -->
-                  <tr>
-                    <td><div class="options">
-                      <div class="dotted">
-                        <input type="checkbox" name="ignoreMissingEPGCats" value="1" <{ CHECKIF(ignoreMissingEPGCats) }> />
-                        <label for="ignoreMissingEPGCats"><$ tr("Ignore missing EPG info") $> </label>
-                        <& tooltip.help text=(tr("When active this can cause very many timers. So please always first test this search before using it as search timer!")) &>
-                      </div>
-                    </div></td>
-                  </tr>
+%                   }
+
+                    <!-- Ignore missing EPG categories -->
+                    <tr>
+                      <td><div class="options">
+                        <div class="dotted">
+                          <input type="checkbox" name="ignoreMissingEPGCats" value="1" <{ CHECKIF(ignoreMissingEPGCats) }> />
+                          <label for="ignoreMissingEPGCats"><$ tr("Ignore missing EPG info") $> </label>
+                          <& tooltip.help text=(tr("When active this can cause very many timers. So please always first test this search before using it as search timer!")) &>
+                        </div>
+                      </div></td>
+                    </tr>
                   </table>
                 </div>
               </td>
             </tr>
-%            }
-
+%           }
 
             <!-- Use channel -->
             <tr>
@@ -629,36 +773,37 @@ const char *TNT_ARRAY = "";
                 </select>
 
                 <div id="channelinterval" style="display: none;">
-                  <table class="dependent" border="0" cellpadding="0" cellspacing="0" class="dependent">
+                  <table class="dependent" cellpadding="0" cellspacing="0">
                     <tr>
                       <td class="label"><div class="withmargin"><$ tr("from channel" ) $>:</div></td>
                       <td><& channels_widget name=("channelfrom_string") channelid=(true) selected=(channelfrom) &></td>
                     </tr>
                     <tr>
                       <td class="label"><div class="withmargin"><$ tr("to channel" ) $>:</div></td>
-                      <td><& channels_widget name=("channelto_string") channelid=(true) selected=(channelto)&></td>
+                      <td><& channels_widget name=("channelto_string") channelid=(true) selected=(channelto) &></td>
                     </tr>
                   </table>
                 </div>
 
                 <div id="channelgroup" style="display: none">
-%                  if (channelGroups.size() > 0) {
+%               if (channelGroups.size() > 0) {
                   <select name="changrpsel" size="1" id="changrpsel">
-%                    int i=0; for (ChannelGroups::iterator changrp = channelGroups.begin(); changrp != channelGroups.end(); ++changrp, i++) {
+%                 int i = 0; for (ChannelGroups::iterator changrp = channelGroups.begin(); changrp != channelGroups.end(); ++changrp, i++) {
                     <option value="<$ changrp->Name() $>" <{ SELECTIF(changrpsel == changrp->Name()) }> ><$ changrp->Name() $></option>
-%                             }
+%                 }
                   </select>
-%                  }
+%               }
                 </div>
               </td>
             </tr>
+
             <!-- Use time -->
             <tr>
               <td class="label leftcol"><div class="withmargin"><$ tr("Use time") $>:</div></td>
               <td class="rightcol">
                 <input type="checkbox" name="usetime" value="1" <{ CHECKIF(usetime) }> onclick="changedusetime(this)" id="usetime" />
                 <div id="timesettings" style="display: none">
-                  <table class="dependent" border="0" cellpadding="0" cellspacing="0" class="dependent">
+                  <table class="dependent" border="0" cellpadding="0" cellspacing="0">
                     <tr>
                       <td class="label"><div class="withmargin"><$ tr("Start after") $>:</div></td>
                       <td>
@@ -727,13 +872,13 @@ const char *TNT_ARRAY = "";
                   <option value="2" <{ SELECTIF(blacklistmode == 2) }> ><$ tr("all") $></option>
                 </select>
                 <div class="dependent" id="blacklistmodesettings" style="display: none">
-%                if (blacklists.size() > 0) {
+%               if (blacklists.size() > 0) {
                   <select name="blacklists" multiple="multiple" size="5" onchange="changedblacklistsel(this)">
-%                  int i=0; for (Blacklists::iterator blacklist = blacklists.begin(); blacklist != blacklists.end(); ++blacklist, i++) {
+%                 int i = 0; for (Blacklists::iterator blacklist = blacklists.begin(); blacklist != blacklists.end(); ++blacklist, i++) {
                     <option value="<$ blacklist->Id() $>" <{ SELECTIF(editsearchtimer && editsearchtimer->BlacklistSelected(blacklist->Id())) }>><$ blacklist->Search() $></option>
-%                           }
+%                 }
                   </select>
-%                }
+%               }
                 </div>
               </td>
             </tr>
@@ -790,9 +935,9 @@ const char *TNT_ARRAY = "";
                         <div><input type="text" name="directory" id="directory" value="<$ directory $>" class="width99" size="70" /></div>
                         <div><select onchange="changeddirselection(this)" name="recordingdirsselection" size="1" id="recordingdirsselection">
                       <option/>
-%                      for (RecordingDirs::iterator rdir = recordingdirs.begin(); rdir != recordingdirs.end(); ++rdir) {
+%                     for (RecordingDirs::iterator rdir = recordingdirs.begin(); rdir != recordingdirs.end(); ++rdir) {
                         <option value="<$ *rdir $>"><$ *rdir $></option>
-%                      }
+%                     }
                       </select></div>
                       </td>
                     </tr>
@@ -838,17 +983,33 @@ const char *TNT_ARRAY = "";
 
                             <tr>
                               <td class="label"><div class="withmargin"><$ tr("Compare summary" ) $>:</div></td>
-                              <td><input type="checkbox" name="comparesummary" value="1" <{ CHECKIF(comparesummary) }>/></td>
+                              <td>
+                                <input type="checkbox" name="comparesummary" value="1" <{ CHECKIF(comparesummary) }> id="comparesummary" onclick="changedcomparesummary(this)">
+                                <# value is restricted in EPGsearch #>
+                                <span id="summarymatchinpercent" style="display: none">
+                                  <$ tr("Match in percent" ) $>:
+                                  <input type="number" min="1" max="100" name="comparesummarymatchinpercent" size="6" value="<$ comparesummarymatchinpercent $>" id="summarymatchinpercent">
+                                </span>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td class="label"><div class="withmargin"><$ tr("Compare date" ) $>:</div></td>
+                              <td><select name="comparedate" size="1" id="comparedate">
+                                <option value="0" <{ SELECTIF(comparedate == 0) }> ><$ trVDR("no") $></option>
+                                <option value="1" <{ SELECTIF(comparedate == 1) }> ><$ tr("same day") $></option>
+                                <option value="2" <{ SELECTIF(comparedate == 2) }> ><$ tr("same week") $></option><
+                                <option value="3" <{ SELECTIF(comparedate == 3) }> ><$ tr("same month") $></option></select>
+                              </td>
                             </tr>
 
-%                            if (extEPGInfos.size() > 0) {
-%                              int i=0; for (ExtEPGInfos::iterator extinfo = extEPGInfos.begin(); extinfo != extEPGInfos.end(); ++extinfo, i++) {
-                            <tr>
-                              <td class="label"><div class="withmargin"><$ tr("Compare" ) $> <$ extinfo->Name() $>:</div></td>
-                              <td><input type="checkbox" name="avoidrepeatscatselected<$TNT_ARRAY$>" value="<$ i+1 $>" <{ CHECKIF(avoidrepeatscatselected[i]) }>/></td>
-                            </tr>
-%                              }
-%                            }
+%                           if (extEPGInfos.size() > 0) {
+%                             int i = 0; for (ExtEPGInfos::iterator extinfo = extEPGInfos.begin(); extinfo != extEPGInfos.end(); ++extinfo, i++) {
+                                <tr>
+                                  <td class="label"><div class="withmargin"><$ tr("Compare" ) $> <$ extinfo->Name() $>:</div></td>
+                                  <td><input type="checkbox" name="avoidrepeatscatselected<$TNT_ARRAY$>" value="<$ i+1 $>" <{ CHECKIF(avoidrepeatscatselected[i]) }>/></td>
+                                </tr>
+%                             }
+%                           }
                           </table>
                         </div>
                       </td>
@@ -865,13 +1026,15 @@ const char *TNT_ARRAY = "";
                     </tr>
 
                     <tr>
+                      <# validation may fail upon editing, since EPGsearch does not restrict the value #>
                       <td class="label"><div class="withmargin"><$ trVDR("Setup.Recording$Margin at start (min)") $>:</div></td>
-                      <td><input type="number" min="0" max="30"  name="marginstart" size="6" value="<$ marginstart $>"/></td>
+                      <td><input type="number" min="0" max="30" name="marginstart" size="6" value="<$ marginstart $>"/></td>
                     </tr>
 
                     <tr>
+                      <# validation may fail upon editing, since EPGsearch does not restrict the value #>
                       <td class="label"><div class="withmargin"><$ trVDR("Setup.Recording$Margin at stop (min)") $>:</div></td>
-                      <td><input type="number" min="0" max="30"  name="marginstop" size="6" value="<$ marginstop $>"/></td>
+                      <td><input type="number" min="0" max="30" name="marginstop" size="6" value="<$ marginstop $>"/></td>
                     </tr>
 
                     <tr>
@@ -908,17 +1071,31 @@ const char *TNT_ARRAY = "";
                       <td class="label"><div class="withmargin"><$ tr("Switch ... minutes before start") $>:</div></td>
                       <td><input type="number" min="0" max="20"  name="switchminbefore" id="switchminbefore" size="6" value="<$ switchminbefore $>"/></td>
                     </tr>
+                    <tr>
+                      <td class="label"><div class="withmargin"><$ tr("Unmute sound on switch" ) $>:</div></td>
+                      <td><input type="checkbox" name="unmutesoundonswitch" value="1" <{ CHECKIF(unmutesoundonswitch) }>/></td>
+                     <tr>
                   </table>
                 </div>
               </td>
             </tr>
 
+            <!-- Messages and buttons -->
             <tr>
               <td class="buttonpanel leftcol rightcol bottomrow" colspan="2">
-                <div class="withmargin">
-                <button class="green" type="submit" name="test" value="test" onclick="return checksearch();"><$ tr("Test") $></button>
-                <button class="green" type="submit" name="save" onclick="return checksearch();"><$ tr("Save") $></button>
-                <button type="button" class="red" onclick="history.go(<$-nav_back$>)"><$ tr("Cancel") $></button>
+                <div class="submission">
+                  <div class="warning"><# supply at least an empty element to force buttons at right-column border #>
+%                 if (hasInsufficientFields) {
+                    <$ tr("The searchtimer lacks some form fields, so that their values cannot be saved. Please upgrade to the most recent version of EPGsearch.") $>
+%                 } else if (hasUnknownFields) {
+                    <$ tr("The searchtimer includes extra fields. These will be saved with their original values.") $>
+%                 }
+                  </div>
+                  <div class="buttons">
+                    <button class="green" type="submit" name="test" value="test" onclick="return checksearch();"><$ tr("Test") $></button>
+                    <button class="green" type="submit" name="save" onclick="return checksearch();"><$ tr("Save") $></button>
+                    <button type="button" class="red" onclick="history.go(<$-nav_back$>)"><$ tr("Cancel") $></button>
+                  </div>
                 </div>
               </td>
             </tr>

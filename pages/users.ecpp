@@ -84,7 +84,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
         } else {
 </%cpp>
           <tr class="account">
-            <td class="message leftcol bottomrow"><div class="withmargin"><$ tr("No user configured") $></div></td>
+            <td class="message leftcol bottomrow"><div class="withmargin"><$ tr("No users configured") $></div></td>
             <td class="bottomrow"></td>
             <td class="rightcol bottomrow"></td>
           </tr>

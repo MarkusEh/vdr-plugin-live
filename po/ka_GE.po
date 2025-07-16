@@ -252,6 +252,12 @@ msgstr "სად ვეძებო"
 msgid "Episode"
 msgstr "ეპიზოდი"
 
+msgid "Use content categories"
+msgstr ""
+
+msgid "Special Characteristics"
+msgstr ""
+
 msgid "Use extended EPG info"
 msgstr "EPG-ის გაფართოების ინფორმაციის გამოყენება"
 
@@ -402,6 +408,21 @@ msgstr "თუ არსებობს"
 msgid "Compare summary"
 msgstr "მაინც შედარება"
 
+msgid "Match in percent"
+msgstr ""
+
+msgid "Compare date"
+msgstr ""
+
+msgid "same day"
+msgstr ""
+
+msgid "same week"
+msgstr ""
+
+msgid "same month"
+msgstr ""
+
 msgid "Compare"
 msgstr "შედარება"
 
@@ -419,6 +440,15 @@ msgstr "პირველი ჩანაწერიდან ... დღეშ
 
 msgid "Switch ... minutes before start"
 msgstr "დაწყებამდე ... წუთით ადრე გადართვა"
+
+msgid "Unmute sound on switch"
+msgstr ""
+
+msgid "The searchtimer lacks some form fields, so that their values cannot be saved. Please upgrade to the most recent version of EPGsearch."
+msgstr ""
+
+msgid "The searchtimer includes extra fields. These will be saved with their original values."
+msgstr ""
 
 msgid "Test"
 msgstr "შემოწმება"
@@ -876,11 +906,11 @@ msgstr "დუბლიკატები"
 msgid "Errors"
 msgstr "შედომები"
 
-msgid "Filter"
-msgstr "ფილტრი"
-
 msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
 msgstr "სანამ სტრიქონის ზუსტ დამთხვევას ჩართავდეთ, ჩანაწერების სახელები და სუბტიტრები გადაამოწმეთ. ასევე შეგიძლიათ გამოიყენოთ Perl-თან თავსებადი რეგულარული გამოსახულებები (PCRE)."
+
+msgid "Filter"
+msgstr "ფილტრი"
 
 msgid "Clear filter"
 msgstr ""
@@ -916,8 +946,11 @@ msgstr "ძიების პარამეტრები"
 msgid "Extended search"
 msgstr "გაფართოებული ძებნა"
 
-msgid "no"
-msgstr "არა"
+msgid "The search lacks some form fields, so that their values cannot be used for searching the EPG. Please upgrade to the most recent version of EPGsearch."
+msgstr ""
+
+msgid "The search supports extra fields. These will be not be taken into account."
+msgstr ""
 
 msgid "Search results"
 msgstr "ძებნს შედეგები"
@@ -942,6 +975,9 @@ msgstr "წავშალო ეს ძებნის ტაიმერი?"
 
 msgid "Delete search timer"
 msgstr "ძებნის ტაიმერის წაშლა"
+
+msgid "No searchtimers found"
+msgstr ""
 
 msgid "Trigger search timer update"
 msgstr "ძებნის ტაიმერის განახლების დაწყება"
@@ -1100,7 +1136,7 @@ msgstr "მომხმარებლები"
 msgid "Delete user"
 msgstr "მომხმარებლის წაშლა"
 
-msgid "No user configured"
+msgid "No users configured"
 msgstr ""
 
 msgid "What's running on"
@@ -1129,54 +1165,3 @@ msgstr "სიის ხედი"
 
 msgid "Live Interactive VDR Environment"
 msgstr "ცოცხალი ინტერაქტიური VDR გარემო"
-
-#~ msgid "Timers are being edited - try again later"
-#~ msgstr "მიმდინარეობს ტაიმერის ჩასწორება - მოგვიანებით სცადეთ"
-
-#~ msgid "Channel has no schedule"
-#~ msgstr "არხს განრიგი არ გააჩნია"
-
-#~ msgid "Couldn't acquire primary device"
-#~ msgstr "ძირითადი მოწყობილობის მიღების შეცდომა"
-
-#~ msgid "Couldn't grab image from primary device"
-#~ msgstr "ძირითადი მოწყობილობიდან გამოსახულების ჩაჭერის შეცდომა"
-
-#~ msgid "error retrieving status info!"
-#~ msgstr "სტატუსის ინფორმაციის მიღების შეცდომა!"
-
-#~ msgid "No EPG information available"
-#~ msgstr "EPG-ის ინფორმაცია მიუწვდომელია"
-
-#~ msgid "Couldn't acquire access to channels, please try again later."
-#~ msgstr "არხებთან წვდომის შეცდომა. მოგვიანებით სცადეთ."
-
-#~ msgid "Web-Streaming h264"
-#~ msgstr "ვებ-ნაკადი h264"
-
-#~ msgid "Web-Streaming HEVC"
-#~ msgstr "ვებ-ნაკადი HEVC"
-
-#~ msgid "Web-Streaming MPEG2"
-#~ msgstr "ვებ-ნაკადი MPEG2"
-
-#~ msgid "Web-Streaming others"
-#~ msgstr "სხვა ვებ-ნაკადები"
-
-#~ msgid "Error acquiring schedules lock"
-#~ msgstr "განრიგის ბლოკის მიღების შეცდომა"
-
-#~ msgid "Error acquiring schedules"
-#~ msgstr "განრიგის მიღების შეცდომა"
-
-#~ msgid "Show \"Play in Mediaplayer\" in list views"
-#~ msgstr "სიებში \"დაკვრის\" ჩვენება"
-
-#~ msgid "Use ajax technology"
-#~ msgstr "AJAX ტექნოლოგიის გამოყენება"
-
-#~ msgid "ERROR:"
-#~ msgstr "შეცდომა:"
-
-#~ msgid "play this recording."
-#~ msgstr "ამ ჩანაწერის დაკვრა."

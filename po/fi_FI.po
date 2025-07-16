@@ -249,6 +249,12 @@ msgstr "Hae kentistä"
 msgid "Episode"
 msgstr "Jakson nimi"
 
+msgid "Use content categories"
+msgstr ""
+
+msgid "Special Characteristics"
+msgstr ""
+
 msgid "Use extended EPG info"
 msgstr "Käytä laajennettua ohjelmaopasta"
 
@@ -399,6 +405,21 @@ msgstr "jos olemassa"
 msgid "Compare summary"
 msgstr "Vertaa kuvausta"
 
+msgid "Match in percent"
+msgstr ""
+
+msgid "Compare date"
+msgstr ""
+
+msgid "same day"
+msgstr ""
+
+msgid "same week"
+msgstr ""
+
+msgid "same month"
+msgstr ""
+
 msgid "Compare"
 msgstr "Vertaa"
 
@@ -416,6 +437,15 @@ msgstr "... päivän jälkeen ensimmäisestä"
 
 msgid "Switch ... minutes before start"
 msgstr "Vaihda ... minuuttia ennen alkua"
+
+msgid "Unmute sound on switch"
+msgstr ""
+
+msgid "The searchtimer lacks some form fields, so that their values cannot be saved. Please upgrade to the most recent version of EPGsearch."
+msgstr ""
+
+msgid "The searchtimer includes extra fields. These will be saved with their original values."
+msgstr ""
 
 msgid "Test"
 msgstr "Testaa"
@@ -873,11 +903,11 @@ msgstr "Kaksoiskappaleet"
 msgid "Errors"
 msgstr "Virheet"
 
-msgid "Filter"
-msgstr "Suodata"
-
 msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
 msgstr "Suodata tallenteet nimi- ja kuvauskentistä hakusanan avulla. Voit käyttää myös Perl-yhteensopivia säännöllisiä lausekkeita (PCRE)."
+
+msgid "Filter"
+msgstr "Suodata"
 
 msgid "Clear filter"
 msgstr ""
@@ -913,8 +943,11 @@ msgstr "Hakuasetukset"
 msgid "Extended search"
 msgstr "Laajennettu haku"
 
-msgid "no"
-msgstr "ei"
+msgid "The search lacks some form fields, so that their values cannot be used for searching the EPG. Please upgrade to the most recent version of EPGsearch."
+msgstr ""
+
+msgid "The search supports extra fields. These will be not be taken into account."
+msgstr ""
 
 msgid "Search results"
 msgstr "Hakutulokset"
@@ -939,6 +972,9 @@ msgstr "Poistetaanko tämä hakuajastin?"
 
 msgid "Delete search timer"
 msgstr "Poista hakuajastin"
+
+msgid "No searchtimers found"
+msgstr ""
 
 msgid "Trigger search timer update"
 msgstr "Päivitä hakuajastimet"
@@ -1097,7 +1133,7 @@ msgstr "Käyttäjät"
 msgid "Delete user"
 msgstr "Poista käyttäjä"
 
-msgid "No user configured"
+msgid "No users configured"
 msgstr ""
 
 msgid "What's running on"
@@ -1126,99 +1162,3 @@ msgstr "Listanäkymä"
 
 msgid "Live Interactive VDR Environment"
 msgstr "Interaktiivinen VDR-ympäristö"
-
-#~ msgid "Timers are being edited - try again later"
-#~ msgstr "Ajastimia muokataan - yritä uudelleen myöhemmin"
-
-#~ msgid "Channel has no schedule"
-#~ msgstr "Kanavalla ei ole ohjelmatietoja"
-
-#~ msgid "Couldn't acquire primary device"
-#~ msgstr "Ensisijaisen DVB-sovittimen käyttäminen epäonnistui!"
-
-#~ msgid "Couldn't grab image from primary device"
-#~ msgstr "Kuvan kaappaus ensisijaiselta DVB-sovittimelta epäonnistui!"
-
-#~ msgid "error retrieving status info!"
-#~ msgstr "Virhe: tilannetietoja ei saatavilla!"
-
-#~ msgid "No EPG information available"
-#~ msgstr "Ohjelmatietoja ei saatavilla"
-
-#~ msgid "Couldn't acquire access to channels, please try again later."
-#~ msgstr "Kanavien käyttäminen epäonnistui! Yritä myöhemmin uudelleen."
-
-#~ msgid "Error acquiring schedules lock"
-#~ msgstr "Ohjelmatietojen lukitus epäonnistui!"
-
-#~ msgid "Error acquiring schedules"
-#~ msgstr "Ohjelmatietojen haku epäonnistui!"
-
-#~ msgid "Use ajax technology"
-#~ msgstr "Käytä AJAX-tekniikkaa"
-
-#~ msgid "ERROR:"
-#~ msgstr "VIRHE:"
-
-#~ msgid "play this recording."
-#~ msgstr "Toista tallenne"
-
-#~ msgid "mm/dd/yyyy"
-#~ msgstr "mm/dd/yyyy"
-
-#~ msgid "January"
-#~ msgstr "Tammikuu"
-
-#~ msgid "February"
-#~ msgstr "Helmikuu"
-
-#~ msgid "March"
-#~ msgstr "Maaliskuu"
-
-#~ msgid "April"
-#~ msgstr "Huhtikuu"
-
-#~ msgid "May"
-#~ msgstr "Toukokuu"
-
-#~ msgid "June"
-#~ msgstr "Kesäkuu"
-
-#~ msgid "July"
-#~ msgstr "Heinäkuu"
-
-#~ msgid "August"
-#~ msgstr "Elokuu"
-
-#~ msgid "September"
-#~ msgstr "Syyskuu"
-
-#~ msgid "October"
-#~ msgstr "Lokakuu"
-
-#~ msgid "November"
-#~ msgstr "Marraskuu"
-
-#~ msgid "December"
-#~ msgstr "Joulukuu"
-
-#~ msgid "Add links to IMDb"
-#~ msgstr "Lisää linkit IMDb:hen"
-
-#~ msgid "Sort by name"
-#~ msgstr "Järjestä nimen mukaan"
-
-#~ msgid "Sort by date"
-#~ msgstr "Järjestä päivämäärän mukaan"
-
-#~ msgid "VLC media URL"
-#~ msgstr "VLC:n URL"
-
-#~ msgid "(%d')"
-#~ msgstr "%d'"
-
-#~ msgid "Show duration in 'Recordings'"
-#~ msgstr "Näytä kestoajat 'Tallenteet'-sivulla"
-
-#~ msgid "Subtitle"
-#~ msgstr "Lyhyt kuvaus"

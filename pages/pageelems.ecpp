@@ -1032,7 +1032,7 @@ for (const cTvMedia &media: *media_v) {
 %            }
             (<a href="https://github.com/vdr-projects/vdr-plugin-epgsearch" target="_blank"><$ tr("Homepage") $></a>)<br/>
           </div>
-          <div class="about_left">Streamdev server:</div>
+          <div class="about_left">StreamDev server:</div>
           <div class="about_right">
 <%cpp>
             Features< features::streamdev_server >& streamdev = LiveFeatures< features::streamdev_server >();
@@ -1051,7 +1051,7 @@ for (const cTvMedia &media: *media_v) {
 </%cpp>
             (<a href="https://github.com/vdr-projects/vdr-plugin-streamdev" target="_blank"><$ tr("Homepage") $></a>)<br/>
           </div>
-          <div class="about_left">tvscraper:</div>
+          <div class="about_left">TvScraper:</div>
           <div class="about_right">
 %            Features< features::tvscraper >& tvscraper = LiveFeatures< features::tvscraper >();
             <img src="<$ LiveSetup().GetThemedLink("img", tvscraper.Recent() ? "active.png" : "inactive.png") $>"/>

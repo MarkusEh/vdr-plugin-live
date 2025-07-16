@@ -257,6 +257,12 @@ msgstr "Vyhledávat v"
 msgid "Episode"
 msgstr "Epizoda"
 
+msgid "Use content categories"
+msgstr ""
+
+msgid "Special Characteristics"
+msgstr ""
+
 msgid "Use extended EPG info"
 msgstr "Použít rozšířené EPG"
 
@@ -407,6 +413,21 @@ msgstr "pokud existuje"
 msgid "Compare summary"
 msgstr "Porovnávat popis"
 
+msgid "Match in percent"
+msgstr ""
+
+msgid "Compare date"
+msgstr ""
+
+msgid "same day"
+msgstr ""
+
+msgid "same week"
+msgstr ""
+
+msgid "same month"
+msgstr ""
+
 msgid "Compare"
 msgstr "Porovnat"
 
@@ -424,6 +445,15 @@ msgstr "po ... dnech po první nahrávce"
 
 msgid "Switch ... minutes before start"
 msgstr "Přepnout ... minut před začátkem"
+
+msgid "Unmute sound on switch"
+msgstr ""
+
+msgid "The searchtimer lacks some form fields, so that their values cannot be saved. Please upgrade to the most recent version of EPGsearch."
+msgstr ""
+
+msgid "The searchtimer includes extra fields. These will be saved with their original values."
+msgstr ""
 
 msgid "Test"
 msgstr ""
@@ -883,10 +913,10 @@ msgstr ""
 msgid "Errors"
 msgstr ""
 
-msgid "Filter"
+msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
 msgstr ""
 
-msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
+msgid "Filter"
 msgstr ""
 
 msgid "Clear filter"
@@ -923,8 +953,11 @@ msgstr "Nastavení hledání"
 msgid "Extended search"
 msgstr "Rozšířené hledání"
 
-msgid "no"
-msgstr "ne"
+msgid "The search lacks some form fields, so that their values cannot be used for searching the EPG. Please upgrade to the most recent version of EPGsearch."
+msgstr ""
+
+msgid "The search supports extra fields. These will be not be taken into account."
+msgstr ""
 
 msgid "Search results"
 msgstr "Výsledky vyhledávání"
@@ -949,6 +982,9 @@ msgstr "Smazat automatické nahrávání?"
 
 msgid "Delete search timer"
 msgstr "Smazat automatické nahrávání?"
+
+msgid "No searchtimers found"
+msgstr ""
 
 msgid "Trigger search timer update"
 msgstr "Aktualizovat položky nahrávání"
@@ -1110,7 +1146,7 @@ msgstr "Uživatelé"
 msgid "Delete user"
 msgstr "Smazat uživatele"
 
-msgid "No user configured"
+msgid "No users configured"
 msgstr ""
 
 msgid "What's running on"
@@ -1139,88 +1175,3 @@ msgstr "Souhrný pohled"
 
 msgid "Live Interactive VDR Environment"
 msgstr ""
-
-#~ msgid "Timers are being edited - try again later"
-#~ msgstr "Nahrávaní někdo mění - zkuste později"
-
-#~ msgid "Channel has no schedule"
-#~ msgstr "Kanál nemá žádný program"
-
-#~ msgid "Couldn't acquire primary device"
-#~ msgstr "Nelze otevřít primární zarízení"
-
-#~ msgid "Couldn't grab image from primary device"
-#~ msgstr "Nelze získat obrázek z primárního zařízení"
-
-#~ msgid "error retrieving status info!"
-#~ msgstr "chyba při zjišťování statusu!"
-
-#~ msgid "No EPG information available"
-#~ msgstr "Nejsou dostupné informace o programu"
-
-#~ msgid "Couldn't acquire access to channels, please try again later."
-#~ msgstr "Nelze získat přístup k programům, zkuste později."
-
-#~ msgid "Error acquiring schedules lock"
-#~ msgstr "Chyba při vytváření zámku pro nahrávky"
-
-#~ msgid "Error acquiring schedules"
-#~ msgstr "Chyba při plánování"
-
-#~ msgid "Use ajax technology"
-#~ msgstr "Používat dynamické stránky (ajax)"
-
-#~ msgid "ERROR:"
-#~ msgstr "CHYBA:"
-
-#~ msgid "play this recording."
-#~ msgstr "Přehrát nahrávku"
-
-#~ msgid "mm/dd/yyyy"
-#~ msgstr "dd.mm.yyyy"
-
-#~ msgid "January"
-#~ msgstr "leden"
-
-#~ msgid "February"
-#~ msgstr "únor"
-
-#~ msgid "March"
-#~ msgstr "březen"
-
-#~ msgid "April"
-#~ msgstr "duben"
-
-#~ msgid "May"
-#~ msgstr "květen"
-
-#~ msgid "June"
-#~ msgstr "červen"
-
-#~ msgid "July"
-#~ msgstr "červenec"
-
-#~ msgid "August"
-#~ msgstr "srpen"
-
-#~ msgid "September"
-#~ msgstr "září"
-
-#~ msgid "October"
-#~ msgstr "říjen"
-
-#~ msgid "November"
-#~ msgstr "listopad"
-
-#~ msgid "December"
-#~ msgstr "prosinec"
-
-#~ msgid "Add links to IMDb"
-#~ msgstr "Přidat odkazy k IMDb"
-
-#, fuzzy
-#~ msgid "Sort by date"
-#~ msgstr "do data"
-
-#~ msgid "VLC media URL"
-#~ msgstr "VLC adresa"

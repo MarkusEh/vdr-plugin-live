@@ -251,6 +251,12 @@ msgstr "Suchen in"
 msgid "Episode"
 msgstr "Episode"
 
+msgid "Use content categories"
+msgstr "Inhaltskategorien verwenden"
+
+msgid "Special Characteristics"
+msgstr "Spezielle Eigenschaften"
+
 msgid "Use extended EPG info"
 msgstr "Erweiterte EPG-Daten verwenden"
 
@@ -401,6 +407,21 @@ msgstr "falls vorhanden"
 msgid "Compare summary"
 msgstr "Beschreibung vergleichen"
 
+msgid "Match in percent"
+msgstr "Übereinstimmung in Prozent"
+
+msgid "Compare date"
+msgstr "Datum vergleichen"
+
+msgid "same day"
+msgstr "gleicher Tag"
+
+msgid "same week"
+msgstr "gleiche Woche"
+
+msgid "same month"
+msgstr "gleicher Monat"
+
 msgid "Compare"
 msgstr "Vergleiche"
 
@@ -418,6 +439,15 @@ msgstr "nach ... Tagen nach erster Aufnahme"
 
 msgid "Switch ... minutes before start"
 msgstr "Umschalten ... Minuten vor dem Start"
+
+msgid "Unmute sound on switch"
+msgstr "Ton anschalten"
+
+msgid "The searchtimer lacks some form fields, so that their values cannot be saved. Please upgrade to the most recent version of EPGsearch."
+msgstr "Der Suchtimer unterstützt einige Formularfelder nicht, sodass deren Werte nicht gespeichert werden können. Bitte auf die aktuelle Version von EPGsearch upgraden."
+
+msgid "The searchtimer includes extra fields. These will be saved with their original values."
+msgstr "Der Suchtimer beinhaltet noch weitere Felder. Diese werden mit ihren ursprünglichen Werten gespeichert."
 
 msgid "Test"
 msgstr "Testen"
@@ -875,11 +905,11 @@ msgstr "Duplikate"
 msgid "Errors"
 msgstr "Aufnahmefehler"
 
-msgid "Filter"
-msgstr "Filter"
-
 msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
 msgstr "In Titel und Untertitel der Aufzeichnung nach dem angegebenen Wort suchen und nur die zutreffenden anzeigen. Perl-kompatible reguläre Ausdrücke (PCRE) sind ebenfalls zulässig."
+
+msgid "Filter"
+msgstr "Filter"
 
 msgid "Clear filter"
 msgstr "Filter löschen"
@@ -915,8 +945,11 @@ msgstr "Suchparameter"
 msgid "Extended search"
 msgstr "Erweiterte Suche"
 
-msgid "no"
-msgstr "nein"
+msgid "The search lacks some form fields, so that their values cannot be used for searching the EPG. Please upgrade to the most recent version of EPGsearch."
+msgstr "Die Suchfunktion unterstützt einige Formularfelder nicht, sodass deren Werte bei der EPG-Suche nicht berücksichtigt werden können. Bitte auf die aktuelle Version von EPGsearch upgraden."
+
+msgid "The search supports extra fields. These will be not be taken into account."
+msgstr "Der Suchfunktion umfasst noch weitere Suchparameter. Diese werden bei der Suche nciht berücksichtigt."
 
 msgid "Search results"
 msgstr "Suchergebnisse"
@@ -941,6 +974,9 @@ msgstr "Suchtimer löschen?"
 
 msgid "Delete search timer"
 msgstr "Suchtimer löschen"
+
+msgid "No searchtimers found"
+msgstr "Keine Suchtimer vorhanden"
 
 msgid "Trigger search timer update"
 msgstr "Suchtimer-Aktualisierung starten"
@@ -1099,8 +1135,8 @@ msgstr "Benutzer"
 msgid "Delete user"
 msgstr "Benutzer löschen"
 
-msgid "No user configured"
-msgstr "Kein Benutzer eingetragen"
+msgid "No users configured"
+msgstr "Keine Benutzer eingetragen"
 
 msgid "What's running on"
 msgstr "Was läuft am"

@@ -249,6 +249,12 @@ msgstr "Buscar en"
 msgid "Episode"
 msgstr "Episodio"
 
+msgid "Use content categories"
+msgstr ""
+
+msgid "Special Characteristics"
+msgstr ""
+
 msgid "Use extended EPG info"
 msgstr "Usar información EPG ampliada"
 
@@ -399,6 +405,21 @@ msgstr "si está presente"
 msgid "Compare summary"
 msgstr "Comparar resumen"
 
+msgid "Match in percent"
+msgstr ""
+
+msgid "Compare date"
+msgstr ""
+
+msgid "same day"
+msgstr ""
+
+msgid "same week"
+msgstr ""
+
+msgid "same month"
+msgstr ""
+
 msgid "Compare"
 msgstr "Comparar"
 
@@ -416,6 +437,15 @@ msgstr "tras ... días después de la primera grabación"
 
 msgid "Switch ... minutes before start"
 msgstr "Cambia ... minutos antes de comenzar"
+
+msgid "Unmute sound on switch"
+msgstr ""
+
+msgid "The searchtimer lacks some form fields, so that their values cannot be saved. Please upgrade to the most recent version of EPGsearch."
+msgstr ""
+
+msgid "The searchtimer includes extra fields. These will be saved with their original values."
+msgstr ""
 
 msgid "Test"
 msgstr "Probar"
@@ -873,11 +903,11 @@ msgstr ""
 msgid "Errors"
 msgstr ""
 
-msgid "Filter"
-msgstr "Filtrar"
-
 msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
 msgstr "Buscar en grabaciones títulos y subtítulos la cadena indicada y mostrar únicamente las que coincidan. Puede también usar expresiones regulares tipo perl (PCRE)."
+
+msgid "Filter"
+msgstr "Filtrar"
 
 msgid "Clear filter"
 msgstr ""
@@ -913,8 +943,11 @@ msgstr "Configuración de búsquedas"
 msgid "Extended search"
 msgstr "Búsqueda extendida"
 
-msgid "no"
-msgstr "no"
+msgid "The search lacks some form fields, so that their values cannot be used for searching the EPG. Please upgrade to the most recent version of EPGsearch."
+msgstr ""
+
+msgid "The search supports extra fields. These will be not be taken into account."
+msgstr ""
 
 msgid "Search results"
 msgstr "Resultados de la búsqueda"
@@ -939,6 +972,9 @@ msgstr "Borrar este programador de búsqueda"
 
 msgid "Delete search timer"
 msgstr "Borrar programador de búsqueda"
+
+msgid "No searchtimers found"
+msgstr ""
 
 msgid "Trigger search timer update"
 msgstr "Actualizar las programaciones"
@@ -1097,7 +1133,7 @@ msgstr "Usuarios"
 msgid "Delete user"
 msgstr "Borrar usuario"
 
-msgid "No user configured"
+msgid "No users configured"
 msgstr ""
 
 msgid "What's running on"
@@ -1126,96 +1162,3 @@ msgstr "Ver lista"
 
 msgid "Live Interactive VDR Environment"
 msgstr "Entorno interactivo de Live VDR"
-
-#~ msgid "Timers are being edited - try again later"
-#~ msgstr "Las programaciones están siendo editadas - inténtelo de nuevo más tarde"
-
-#~ msgid "Channel has no schedule"
-#~ msgstr "El canal no tiene programación"
-
-#~ msgid "Couldn't acquire primary device"
-#~ msgstr "No se puede capturar el sintonizador principal"
-
-#~ msgid "Couldn't grab image from primary device"
-#~ msgstr "No se puede capturar la imagen con el sintonizador principal"
-
-#~ msgid "error retrieving status info!"
-#~ msgstr "error recibiendo la información de estado"
-
-#~ msgid "No EPG information available"
-#~ msgstr "No hay información disponible de la EPG"
-
-#~ msgid "Couldn't acquire access to channels, please try again later."
-#~ msgstr "No se puede tener acceso a los canales, por favor inténtelo más tarde"
-
-#~ msgid "Error acquiring schedules lock"
-#~ msgstr "Error adquiriendo el bloqueo de las programaciones"
-
-#~ msgid "Error acquiring schedules"
-#~ msgstr "Error adquiriendo programaciones"
-
-#~ msgid "Use ajax technology"
-#~ msgstr "Usar tecnología ajax"
-
-#~ msgid "ERROR:"
-#~ msgstr "ERROR"
-
-#~ msgid "play this recording."
-#~ msgstr "reproducir esta grabación"
-
-#~ msgid "mm/dd/yyyy"
-#~ msgstr "dd/mm/yyyy"
-
-#~ msgid "January"
-#~ msgstr "Enero"
-
-#~ msgid "February"
-#~ msgstr "Febrero"
-
-#~ msgid "March"
-#~ msgstr "Marzo"
-
-#~ msgid "April"
-#~ msgstr "Abril"
-
-#~ msgid "May"
-#~ msgstr "Mayo"
-
-#~ msgid "June"
-#~ msgstr "Junio"
-
-#~ msgid "July"
-#~ msgstr "Julio"
-
-#~ msgid "August"
-#~ msgstr "Agosto"
-
-#~ msgid "September"
-#~ msgstr "Septiembre"
-
-#~ msgid "October"
-#~ msgstr "Octubre"
-
-#~ msgid "November"
-#~ msgstr "Noviembre"
-
-#~ msgid "December"
-#~ msgstr "Diciembre"
-
-#~ msgid "Add links to IMDb"
-#~ msgstr "Añadir enlaces a IMDb"
-
-#~ msgid "Sort by name"
-#~ msgstr "Ordenar por nombre"
-
-#~ msgid "Sort by date"
-#~ msgstr "Ordenar por fecha"
-
-#~ msgid "VLC media URL"
-#~ msgstr "medios URL VLC"
-
-#~ msgid "(%d')"
-#~ msgstr "(%d')"
-
-#~ msgid "Show duration in 'Recordings'"
-#~ msgstr "Duración del programa en 'Grabaciones'"

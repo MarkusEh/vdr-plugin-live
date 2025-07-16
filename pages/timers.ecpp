@@ -227,15 +227,15 @@ using namespace vdrlive;
           </td>
           <td class="<? bottom ? "bottomrow" ?> <$ noRemoteTimers ? "notpresent" : "remotetimer" $> td-hidden-xs"><div class="xs-nomargin"><$ timer->Local()?trVDR(" "):timer->Remote() $></div></td>
           <td class="<$ noSearchTimers ? "notpresent" : "searchtimer" $><? bottom ? " bottomrow" ?>"><div class="withmargin">
-%          if ( !timer->Local() || searchTimId.empty() ) {
+%         if ( !timer->Local() || searchTimId.empty() ) {
 <# not created by epgsearch, check tvscraper autotimer #>
             <$$ cToSvReplace(searchTimName, "~", "~<wbr>") $>
 %           if (!recID.empty() ) {
               <a href="epginfo.html?epgid=<$ recID $>"> <$$ cToSvReplace(recName, "~", "~<wbr>") $></a>
 %           }
-%          } else {
+%         } else {
             <a href="edit_searchtimer.html?searchtimerid=<$ searchTimId $>"><$$ cToSvReplace(searchTimName, "~", "~<wbr>") $></a>
-%          }
+%         }
           </div></td>
           <td class="rightcol <? bottom ? "bottomrow" ?>">
             <# use a flexbox to allow dynamic arrangement upon changing screen size #>

@@ -2,6 +2,7 @@
 #define VDR_LIVE_FILECACHE_H
 
 #include "cache.h"
+#include "stringhelpers.h"
 
 // STL headers need to be before VDR tools.h (included by <vdr/tools.h>)
 #include <limits>
@@ -16,23 +17,24 @@ namespace vdrlive {
 class FileObject
 {
 public:
-  FileObject( std::string const& path )
-    : m_ctime( std::numeric_limits<std::time_t>::max()  )
-    , m_path( path ) {}
+  FileObject(cSv path)
+    : m_ctime(std::numeric_limits<std::time_t>::max() )
+    , m_path(path) {}
 
-  std::size_t size() const { return m_data.size(); }
+  std::size_t size() const { return m_file.size(); }
   std::size_t weight() const { return size(); }
   bool is_current() const { return m_ctime == get_filetime( m_path ); }
   bool load();
-  char const* data() const { return &m_data[0]; }
+  char const* data() const { return m_file.c_str(); }
   std::time_t ctime() const { return m_ctime; }
 
 private:
-  static std::time_t get_filetime( std::string const& path );
+  static std::time_t get_filetime(cStr path);
 
   mutable std::time_t m_ctime;
   std::string m_path;
-  std::vector<char> m_data;
+//  std::vector<char> m_data;
+  cToSvFile m_file;
 };
 
 class FileCache: public vgstools::cache<std::string, FileObject>

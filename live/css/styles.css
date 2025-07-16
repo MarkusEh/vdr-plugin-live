@@ -1401,12 +1401,16 @@ div#infobox div.st_controls div#infobox_channel_buttons {
 
 button {
   cursor: pointer;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  height: fit-content;
   min-width: var(--button-width);
   min-height: var(--button-height);
   padding: 0.2ex 0.4ch 0.3ex 0.4ch;
   font-size: var(--text-font-size);
   text-align: center;
-  vertical-align: middle;
 }
 
 button:hover {
@@ -2147,7 +2151,7 @@ tr.recording_item td.message {
 }
 
 table.timerconflicts > tbody > tr > td.rightcol,
-table.searchtimers > tbody > tr > td.rightcol,
+table.searchtimers > tbody > tr > td.rightcol:not(.message),
 tr.recording_item td:last-child:not(.message) {
   width: 0px;   /* to keep column as small as possible */
   text-align: right;
@@ -2471,12 +2475,12 @@ form.edit_timer + div.error {
 */
 
 table.form {
-  margin-top: var(--spacebar-height);
   color: var(--listing-color);
 }
 
 table.form > tbody > tr > td,
-table.dependent > tbody > tr > td {
+table.dependent > tbody > tr > td,
+table.dependent > tr > td {
   padding: var(--text-line-gap) 0px;
   background: linear-gradient(to top,var(--listing-row-background-color-bottom), var(--listing-row-background-color-top) var(--listing-row-background-gradient-height), var(--listing-row-background-color-top));
   border-bottom: var(--listing-border-width) solid var(--listing-row-border-color);
@@ -2511,12 +2515,46 @@ table.form > tbody > tr > td.label {
   font-weight: bold;
 }
 
+table.form > tbody > tr > td div.video_content {
+  font-weight: bold;
+}
+
+table.form > tbody > tr > td div.video_subcontent {
+  margin-left: calc(var(--margin-left-right) * 2);
+}
+
+
 table.form > tbody > tr.permissions > td.rightcol {
   padding: var(--text-line-gap) 0px;
 }
 
 table.form > tbody > tr.permissions > td.rightcol > div {
   margin: var(--text-line-gap) 0px;
+}
+
+table.form > tbody > tr > td div.submission {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  gap: var(--margin-top-bottom) calc(var(--margin-left-right) * 2);
+}
+
+table.form > tbody > tr > td div.warning {
+  flex-shrink: 1;
+  max-width: 60vw;;
+  margin: var(--margin-top-bottom) var(--margin-left-right);
+  color: var(--listing-color-highlight);
+  font-weight: bold;
+  text-align: left;
+}
+
+table.form > tbody > tr > td div.submission div.buttons {
+  display: flex;
+  flex-flow: row wrap;
+  gap: var(--margin-top-bottom) var(--margin-left-right);
+  flex-shrink: 0;
+  margin: var(--margin-top-bottom) var(--margin-left-right);
+  justify-content:  right;
 }
 
 table.dependent {
@@ -2571,7 +2609,7 @@ select#channel_mode, div#channelgroup, div#blacklistmodesettings, select#useasse
 
 input#directory {
   margin-top: var(--text-line-gap);
-  margin-bottom: var(--text-line-gap);
+  margin-bottom: var(--xt-lin);
 }
 
 div#channelgroup, select#recordingdirsselection {
@@ -2769,7 +2807,7 @@ div.epg_content div.about_content {
   min-width: inherit;
   height: inherit;
   min-height: inherit;
-  overflow: scroll;
+  overflow: auto;
 }
 
 div.epg_content div.about_content a {
