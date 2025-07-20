@@ -75,7 +75,7 @@ public:
     episodeId = 0;
   };
 // in
-    const cEvent *event;             // check type for this event 
+    const cEvent *event;             // check type for this event
     const cRecording *recording;     // or for this recording
 //out
     tvType type;                     //tSeries or tMovie or tNone
@@ -118,10 +118,10 @@ public:
     };
 //IN
     int movieId;                    // movieId fetched from ScraperGetEventType
-//OUT    
+//OUT
     std::string title;
     std::string originalTitle;
-    std::string tagline;    
+    std::string tagline;
     std::string overview;
     bool adult;
     std::string collectionName;

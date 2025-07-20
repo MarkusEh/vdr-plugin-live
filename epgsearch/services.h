@@ -103,7 +103,7 @@ struct Epgsearch_searchresults_v1_0
       bool useDescription;       // search in description
 // out
 
-      class cServiceSearchResult : public cListObject 
+      class cServiceSearchResult : public cListObject
       {
         public:
          const cEvent* event;
@@ -122,7 +122,7 @@ struct Epgsearch_switchtimer_v1_0
 // in/out
       int switchMinsBefore;
       int announceOnly;
-// out   		
+// out
       bool success;              // result
 };
 
@@ -131,7 +131,7 @@ class cServiceHandler
 {
   public:
    virtual std::list<std::string> SearchTimerList() = 0;
-   // returns a list of search timer entries in the same format as used in epgsearch.conf 
+   // returns a list of search timer entries in the same format as used in epgsearch.conf
    virtual int AddSearchTimer(const std::string&) = 0;
    // adds a new search timer and returns its ID (-1 on error)
    virtual bool ModSearchTimer(const std::string&) = 0;
@@ -139,11 +139,11 @@ class cServiceHandler
    virtual bool DelSearchTimer(int) = 0;
    // deletes search timer with given ID and returns success
    virtual std::list<std::string> QuerySearchTimer(int) = 0;
-   // returns the search result of the searchtimer with given ID in the same format as used in SVDRP command 'QRYS' (->MANUAL)        
+   // returns the search result of the searchtimer with given ID in the same format as used in SVDRP command 'QRYS' (->MANUAL)
    virtual std::list<std::string> QuerySearch(std::string) = 0;
-   // returns the search result of the searchtimer with given settings in the same format as used in SVDRP command 'QRYS' (->MANUAL)        
+   // returns the search result of the searchtimer with given settings in the same format as used in SVDRP command 'QRYS' (->MANUAL)
    virtual std::list<std::string> ExtEPGInfoList() = 0;
-   // returns a list of extended EPG categories in the same format as used in epgsearchcats.conf 
+   // returns a list of extended EPG categories in the same format as used in epgsearchcats.conf
    virtual std::list<std::string> ChanGrpList() = 0;
    // returns a list of channel groups maintained by epgsearch
    virtual std::list<std::string> BlackList() = 0;
@@ -168,9 +168,9 @@ class cServiceHandler_v1_1 : public cServiceHandler
 {
   public:
    // Get timer conflicts
-   virtual std::list<std::string> TimerConflictList(bool relOnly=false) = 0;    
+   virtual std::list<std::string> TimerConflictList(bool relOnly=false) = 0;
    // Check if a conflict check is advised
-   virtual bool IsConflictCheckAdvised() = 0;    
+   virtual bool IsConflictCheckAdvised() = 0;
 };
 
 struct Epgsearch_services_v1_1
@@ -186,7 +186,7 @@ class cServiceHandler_v1_2 : public cServiceHandler_v1_1
   // List of all recording directories used in recordings, timers (and optionally search timers or in epgsearchdirs.conf)
   virtual std::set<std::string> ShortDirectoryList() = 0;
   // Evaluate an expression against an event
-  virtual std::string Evaluate(const std::string& expr, const cEvent* event) = 0;    
+  virtual std::string Evaluate(const std::string& expr, const cEvent* event) = 0;
 };
 
 struct Epgsearch_services_v1_2
