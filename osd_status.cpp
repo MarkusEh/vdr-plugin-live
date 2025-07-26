@@ -7,8 +7,11 @@ cOsdStatusMonitorLock::cOsdStatusMonitorLock(bool Write) {
   LiveOsdStatusMonitor().m_stateLock.Lock(m_stateKey, Write);
 }
 
-OsdStatusMonitor::OsdStatusMonitor():m_present_time(0),m_following_time(0),m_selected(-1),m_lastUpdate(0) {}
+OsdStatusMonitor::OsdStatusMonitor():m_present_time(0),m_following_time(0),m_selected(-1),m_lastUpdate(0) {
+  dsyslog2("status monitor constructor");
+}
 OsdStatusMonitor::~OsdStatusMonitor() {
+  dsyslog2("status monitor destructor");
   OsdClear();
 }
 
@@ -86,8 +89,10 @@ void OsdStatusMonitor::OsdCurrentItem(const char *Text, int Index) {
   if (Text) {
     if (m_selected < 0)
       esyslog("live: ERROR, OsdStatusMonitor::OsdItemChanged, m_selected < 0, Text = %s", Text);
-    else
+    else if (m_selected < (int)m_items.size())
       m_items[m_selected].Update(Text);
+    else
+      esyslog("live: ERROR, OsdStatusMonitor::OsdItemChanged, m_items[%d] exceeding size %d, Text = %s", m_selected, (int)m_items.size(), Text);
   }
   m_lastUpdate= clock();
 }

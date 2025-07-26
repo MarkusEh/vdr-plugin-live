@@ -21,7 +21,8 @@ namespace vdrlive {
 //class cLiveWorker;
 class Plugin : public cPlugin {
 public:
-  Plugin(void);
+  Plugin();
+  virtual ~Plugin() override;
   virtual const char *Version(void) { return VERSION; }
   virtual const char *Description(void) { return tr(DESCRIPTION); }
   virtual const char *CommandLineHelp(void);

@@ -14,6 +14,7 @@
 #include "users.h"
 #include "services_live.h"
 #include "epgsearch.h"
+#include "osd_status.h"
 
 namespace vdrlive {
 
@@ -28,9 +29,8 @@ const std::collate<char>& g_collate_char = std::use_facet<std::collate<char> >(g
 
 cUsers Users;
 
-Plugin::Plugin(void)
-{
-}
+Plugin::Plugin() {}
+Plugin::~Plugin() {}
 
 const char *Plugin::CommandLineHelp(void)
 {
@@ -53,7 +53,7 @@ bool Plugin::Initialize(void)
 bool Plugin::Start(void)
 {
   // force status monitor startup
-  LiveStatusMonitor();
+  LiveOsdStatusMonitor();
 
   // preload files into file Cache
   PreLoadFileCache(m_resourceDirectory);

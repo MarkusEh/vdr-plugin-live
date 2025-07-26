@@ -37,7 +37,8 @@ class OsdStatusMonitor: public cStatus
   friend OsdStatusMonitor& LiveOsdStatusMonitor();
   friend cOsdStatusMonitorLock;
   OsdStatusMonitor();
-  OsdStatusMonitor( OsdStatusMonitor const& );
+  OsdStatusMonitor(OsdStatusMonitor const&) = delete;
+  OsdStatusMonitor &operator= (const OsdStatusMonitor &) = delete;
 
   std::string m_title;
   std::string m_message;

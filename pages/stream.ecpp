@@ -230,7 +230,7 @@ if (!epgEvent.Id().empty() ) {
       <td class="topaligned">
         <div class="withmargin">
           <div class="nomargin nowrap"><$ (timeSpan) $></div>
-          <div class="duration"><div class="progress"><& pageelems.progressbar progress=(epgEvent.Elapsed()) duration=(epgEvent.Duration()) &></div>
+          <div class="duration"><div class="progress"><& pageelems.progressbar progress=(epgEvent.Elapsed()) duration=(epgEvent.Duration()) &></div></div>
         </div>
       </td>
       <td class="topaligned more">

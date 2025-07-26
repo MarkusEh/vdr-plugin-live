@@ -1177,7 +1177,7 @@ class cToSvFile: public cToSv {
     ~cToSvFile() { if (m_s != m_empty) std::free(m_s); }
     void load(cStr filename, size_t max_length = 0) {
       if (m_exists) {
-        dsyslog(PLUGIN_NAME_I18N " %s, ERROR file already esixsts, filename %s", __func__, filename.c_str() );
+//      dsyslog(PLUGIN_NAME_I18N " %s, ERROR file already exists, filename %s", __func__, filename.c_str() );
         if (m_s != m_empty) std::free(m_s);
       }
       m_s = nullptr;

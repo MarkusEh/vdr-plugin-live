@@ -1809,8 +1809,9 @@ table.listing tr.recording a {
   color: var(--listing-color-highlight);
 }
 
-table.listing tr div.state {
+table.listing tr td div.state {
   line-height: 0px;     /* to keep the block as small as possible */
+  display: none;
 }
 
 table.listing tr.conflict div.state img,

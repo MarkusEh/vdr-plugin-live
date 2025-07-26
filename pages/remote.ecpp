@@ -310,7 +310,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
   <body onload="StreamInit(); FillIntervals()" onunload="StreamEnd()" onpagehide="saveScrollPosition('remoteDiv')" onpageshow="restoreScrollPosition()" onkeydown="return KeyboardInput(event);">
     <& pageelems.logo &>
     <& menu active="remote" component=("remote.remote_actions")>
-    <div id="remoteDiv" class="remote">
+    <div id="content"><div id="remoteDiv" class="remote">
       <# set containers to 'display: none' to avoid flickering upon loading #>
       <div id="screenshot" class="screenshot">
 %       if (IsGrabImageAvailable() ) {
@@ -353,7 +353,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
           <area href="#" shape="rect" coords="110,324,137,339" alt="Blue" onclick="return KeyPress(<$ kBlue $>)" title="&amp;lt;F4&amp;gt;" />
            </map>
       </div>
-    </div>
+    </div></div>
   </body>
 </html>
 <%include>page_exit.eh</%include>
