@@ -198,7 +198,7 @@ using namespace vdrlive;
           AppendHtmlEscapedAndCorrectNonUTF8(timerFile, timer->File());
 </%cpp>
         <tr class="<$ timerStateClass $>">
-          <td class="leftcol <? bottom ? "bottomrow" ?>"><div class="state"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", timerStateIcon) $>" <%cpp> if (!timerStateHint.empty()) { </%cpp><& tooltip.hint text=(timerStateHint) &> <%cpp> } </%cpp>/></div></td>
+          <td class="leftcol <? bottom ? "bottomrow" ?>"><div class="<$ timerStateClass == "conflict"?"state_conflict":"state"$>"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", timerStateIcon) $>" <%cpp> if (!timerStateHint.empty()) { </%cpp><& tooltip.hint text=(timerStateHint) &> <%cpp> } </%cpp>/></div></td>
           <td class="<? bottom ? "bottomrow" ?>"><div class="withmargin">
              <table class="noborder"><tr><td class="noborder"><span class="display-xs nowrap" > <$ cToSvDateTime(tr("%I:%M %p"), timer->StartTime()) $> - <$ cToSvDateTime(tr("%I:%M %p"), timer->StopTime()) $></span></td></tr>
 %            {
