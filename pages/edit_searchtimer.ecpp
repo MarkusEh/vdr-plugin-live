@@ -278,7 +278,10 @@ const char *TNT_ARRAY = "";
   SearchTimer* searchtimer;
   if (!searchtimerid.empty()) {
     searchtimer = searchtimers.GetByTimerId(searchtimerid);
-    if (!searchtimer)
+    if (searchtimer) {
+      hasInsufficientFields = searchtimer->HasInsufficientFields();
+      hasUnknownFields = searchtimer->HasUnknownFields();
+    } else
       throw HtmlError( tr("Couldn't find search timer. Maybe you mistyped your request?") );
   } else {
     // get an existing search timer for detemining the compatibility flags
@@ -388,9 +391,6 @@ const char *TNT_ARRAY = "";
     delmode = searchtimer->DelMode();
     delaftercountrecs = searchtimer->DelAfterCountRecs();
     delafterdaysoffirstrec = searchtimer->DelAfterDaysOfFirstRec();
-    // amend the compatibility flags
-    hasInsufficientFields |= searchtimer->HasInsufficientFields();
-    hasUnknownFields |= searchtimer->HasUnknownFields();
     editsearchtimer = searchtimer;
   }
   else

@@ -1,6 +1,7 @@
 <%pre>
 
 #include <epgsearch.h>
+#include <timerconflict.h>
 #include <setup.h>
 #include <users.h>
 #include <tools.h>
@@ -15,6 +16,7 @@ using namespace vdrlive;
 </%args>
 <%session scope="global">
 bool logged_in(false);
+TimerConflictNotifier timerNotifier;
 </%session>
 <%include>page_init.eh</%include>
 <%cpp>
@@ -38,8 +40,10 @@ if (!logged_in && LiveSetup().UseAuth()) {
         timers.Delete(searchtimerid);
       }
     }
-    if (action == "update")
+    if (action == "update") {
       timers.TriggerUpdate();
+      timerNotifier.SetTimerModification();
+    }
 </%cpp>
 <!DOCTYPE html>
 <html>

@@ -18,10 +18,8 @@ using namespace vdrlive;
 </%args>
 <%session scope="global">
   bool logged_in(false);
-</%session>
-<%request scope="page">
   TimerConflictNotifier timerNotifier;
-</%request>
+</%session>
 <%include>page_init.eh</%include>
 <%cpp>
   reply.setHeader (tnt::httpheader::cacheControl, "no-store, no-cache, max-age=0, must-revalidate, proxy-revalidate", true);

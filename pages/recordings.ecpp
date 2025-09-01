@@ -609,7 +609,7 @@ injectErrorHdSdIcon(\"icons-<$id$>\", <$cToSvInt(recPtr->RecordingErrors())$>, <
 <%args>
   std::string archived;
   std::string title;
-        std::string s_IMDB_ID;
+  std::string s_IMDB_ID;
 </%args>
 <img src="<$ LiveSetup().GetThemedLink("img", "on_dvd.png") $>" alt="on_dvd" <& tooltip.hint text=(archived) &> />
 <& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID)&>

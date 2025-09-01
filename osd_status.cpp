@@ -8,10 +8,10 @@ cOsdStatusMonitorLock::cOsdStatusMonitorLock(bool Write) {
 }
 
 OsdStatusMonitor::OsdStatusMonitor():m_present_time(0),m_following_time(0),m_selected(-1),m_lastUpdate(0) {
-  dsyslog2("status monitor constructor");
+//  dsyslog2("status monitor constructor");
 }
 OsdStatusMonitor::~OsdStatusMonitor() {
-  dsyslog2("status monitor destructor");
+//  dsyslog2("status monitor destructor");
   OsdClear();
 }
 
