@@ -88,6 +88,7 @@ ChannelGroups channelGroups;
 Blacklists blacklists;
 RecordingDirs recordingdirs;
 SearchTimer* editsearchtimer;
+SearchTimer newSearchTimer;
 bool hasInsufficientFields = false;
 bool hasUnknownFields = false;
 std::string contentsFilter;
@@ -277,138 +278,118 @@ const char *TNT_ARRAY = "";
   }
   SearchTimer* searchtimer;
   if (!searchtimerid.empty()) {
-    searchtimer = searchtimers.GetByTimerId(searchtimerid);
-    if (searchtimer) {
-      hasInsufficientFields = searchtimer->HasInsufficientFields();
-      hasUnknownFields = searchtimer->HasUnknownFields();
-    } else
+    searchtimer = editsearchtimer = searchtimers.GetByTimerId(searchtimerid);
+    if (!searchtimer)
       throw HtmlError( tr("Couldn't find search timer. Maybe you mistyped your request?") );
+    hasInsufficientFields = searchtimer->HasInsufficientFields();
+    hasUnknownFields = searchtimer->HasUnknownFields();
   } else {
     // get an existing search timer for detemining the compatibility flags
-    searchtimer = &*searchtimers.begin();
-    if (searchtimer) {
+    if (searchtimers.begin() != searchtimers.end()) {
+      searchtimer = &*searchtimers.begin();
       hasInsufficientFields = searchtimer->HasInsufficientFields();
       hasUnknownFields = searchtimer->HasUnknownFields();
     }
-    searchtimer = new SearchTimer();
+    searchtimer = &newSearchTimer;
   }
-  if (searchtimer) {
-    search = searchtimer->Search();
-    mode = searchtimer->SearchMode();
-    tolerance = searchtimer->Tolerance();
-    matchcase = searchtimer->MatchCase();
-    usetitle = searchtimer->UseTitle();
-    usesubtitle = searchtimer->UseSubtitle();
-    usedescr = searchtimer->UseDescription();
-    usechannel = searchtimer->UseChannel();
-    channelfrom = searchtimer->ChannelMin();
-    channelto = searchtimer->ChannelMax();
-    if (!channelto.Valid() && channelfrom.Valid())
-      channelto = channelfrom;
-    if (usechannel == SearchTimer::Group)
-      changrpsel = searchtimer->ChannelText();
-    usetime = searchtimer->UseTime();
-    start_s = intToTimeString(searchtimer->StartTime() );
-    stop_s  = intToTimeString(searchtimer->StopTime() );
-    useduration = searchtimer->UseDuration();
-    if (useduration)
-    {
-      durationmin_m = searchtimer->MinDuration() % 100;
-      durationmin_h = searchtimer->MinDuration() / 100;
-      durationmax_m = searchtimer->MaxDuration() % 100;
-      durationmax_h = searchtimer->MaxDuration() / 100;
-    }
-    useweekday = searchtimer->UseDayOfWeek();
-    if (useweekday)
-    {
-      int dayofweek = searchtimer->DayOfWeek();
-      if (dayofweek >= 0)
-      {
-        wday_sun = (dayofweek == 0);
-        wday_mon = (dayofweek == 1);
-      wday_tue = (dayofweek == 2);
-        wday_wed = (dayofweek == 3);
-      wday_thu = (dayofweek == 4);
-        wday_fri = (dayofweek == 5);
-        wday_sat = (dayofweek == 6);
-      }
-      else
-      {
-      wday_sun = -dayofweek & 0x01;
-      wday_mon = -dayofweek & 0x02;
-      wday_tue = -dayofweek & 0x04;
-      wday_wed = -dayofweek & 0x08;
-      wday_thu = -dayofweek & 0x10;
-      wday_fri = -dayofweek & 0x20;
-      wday_sat = -dayofweek & 0x40;
-      }
-    }
-    useinfavorites = searchtimer->UseInFavorites();
-    useassearchtimer = searchtimer->UseAsSearchTimer();
-    if (useassearchtimer == 2)
-    {
-      useassearchtimerfrom = searchtimer->UseAsSearchTimerFrom("yyyy-mm-dd");
-      useassearchtimerto = searchtimer->UseAsSearchTimerTil("yyyy-mm-dd");
-    }
-    searchtimeraction = searchtimer->SearchTimerAction();
-    seriesrecording = searchtimer->UseSeriesRecording();
-    directory = searchtimer->Directory();
-    delrecafterdays = searchtimer->DelRecsAfterDays();
-    keeprecs = searchtimer->KeepRecs();
-    pauseonrecs = searchtimer->PauseOnRecs();
-    blacklistmode = searchtimer->BlacklistMode();
-    switchminbefore = searchtimer->SwitchMinBefore();
-    unmutesoundonswitch = searchtimer->UnmuteSoundOnSwitch();
-    useextepginfo = searchtimer->UseExtEPGInfo();
-    std::vector<std::string> infos = searchtimer->ExtEPGInfo();
-    for (unsigned int i = 0; i < extEPGInfos.size(); i++) {
-      if (i < infos.size()) {
-        cSplit<std::string> parts(infos[i], '#');
-        extepgvalues.push_back(parts.size() > 1? *(++parts.begin()):"");
-      } else
-        extepgvalues.push_back("");
-    }
-    ignoreMissingEPGCats = searchtimer->IgnoreMissingEPGCats();
-    avoidrepeats = searchtimer->AvoidRepeats();
-    allowedrepeats =  searchtimer->AllowedRepeats();
-    repeatswithindays = searchtimer->RepeatsWithinDays();
-    comparetitle = searchtimer->CompareTitle();
-    comparesubtitle = searchtimer->CompareSubtitle();
-    comparesummary = searchtimer->CompareSummary();
-    comparesummarymatchinpercent = searchtimer->CompareSummaryMatchInPercent();
-    comparedate = searchtimer->CompareDate();
-    contentsFilter = searchtimer->ContentsFilter();     // no part of form, thus camelCase
-    for (unsigned int i = 0; i < extEPGInfos.size(); i++)
-    {
-      bool selected = searchtimer->CompareCategories() & (1<<i);
-      avoidrepeatscatselected.push_back(selected);
-    }
-    priority = searchtimer->Priority();
-    lifetime = searchtimer->Lifetime();
-    marginstart = searchtimer->MarginStart();
-    marginstop = searchtimer->MarginStop();
-    usevps = searchtimer->UseVPS();
-    delmode = searchtimer->DelMode();
-    delaftercountrecs = searchtimer->DelAfterCountRecs();
-    delafterdaysoffirstrec = searchtimer->DelAfterDaysOfFirstRec();
-    editsearchtimer = searchtimer;
-  }
-  else
+  search = searchtimer->Search();
+  mode = searchtimer->SearchMode();
+  tolerance = searchtimer->Tolerance();
+  matchcase = searchtimer->MatchCase();
+  usetitle = searchtimer->UseTitle();
+  usesubtitle = searchtimer->UseSubtitle();
+  usedescr = searchtimer->UseDescription();
+  usechannel = searchtimer->UseChannel();
+  channelfrom = searchtimer->ChannelMin();
+  channelto = searchtimer->ChannelMax();
+  if (!channelto.Valid() && channelfrom.Valid())
+    channelto = channelfrom;
+  if (usechannel == SearchTimer::Group)
+    changrpsel = searchtimer->ChannelText();
+  usetime = searchtimer->UseTime();
+  start_s = intToTimeString(searchtimer->StartTime() );
+  stop_s  = intToTimeString(searchtimer->StopTime() );
+  useduration = searchtimer->UseDuration();
+  if (useduration)
   {
-    for (unsigned int i = 0; i < extEPGInfos.size(); i++)
-      extepgvalues.push_back("");
-    for (unsigned int i = 0; i < extEPGInfos.size(); i++)
-      avoidrepeatscatselected.push_back(false);
-    tolerance = searchtimer->Tolerance();
-    usetitle = true;
-    usesubtitle = true;
-    usedescr = true;
-    comparesummarymatchinpercent = searchtimer->CompareSummaryMatchInPercent();
-    priority = parse_int<int>(EPGSearchSetupValues::ReadValue("DefPriority"));
-    lifetime = parse_int<int>(EPGSearchSetupValues::ReadValue("DefLifetime"));
-    marginstart = parse_int<int>(EPGSearchSetupValues::ReadValue("DefMarginStart"));
-    marginstop = parse_int<int>(EPGSearchSetupValues::ReadValue("DefMarginStop"));
+    durationmin_m = searchtimer->MinDuration() % 100;
+    durationmin_h = searchtimer->MinDuration() / 100;
+    durationmax_m = searchtimer->MaxDuration() % 100;
+    durationmax_h = searchtimer->MaxDuration() / 100;
   }
+  useweekday = searchtimer->UseDayOfWeek();
+  if (useweekday)
+  {
+    int dayofweek = searchtimer->DayOfWeek();
+    if (dayofweek >= 0)
+    {
+      wday_sun = (dayofweek == 0);
+      wday_mon = (dayofweek == 1);
+    wday_tue = (dayofweek == 2);
+      wday_wed = (dayofweek == 3);
+    wday_thu = (dayofweek == 4);
+      wday_fri = (dayofweek == 5);
+      wday_sat = (dayofweek == 6);
+    }
+    else
+    {
+    wday_sun = -dayofweek & 0x01;
+    wday_mon = -dayofweek & 0x02;
+    wday_tue = -dayofweek & 0x04;
+    wday_wed = -dayofweek & 0x08;
+    wday_thu = -dayofweek & 0x10;
+    wday_fri = -dayofweek & 0x20;
+    wday_sat = -dayofweek & 0x40;
+    }
+  }
+  useinfavorites = searchtimer->UseInFavorites();
+  useassearchtimer = searchtimer->UseAsSearchTimer();
+  if (useassearchtimer == 2)
+  {
+    useassearchtimerfrom = searchtimer->UseAsSearchTimerFrom("yyyy-mm-dd");
+    useassearchtimerto = searchtimer->UseAsSearchTimerTil("yyyy-mm-dd");
+  }
+  searchtimeraction = searchtimer->SearchTimerAction();
+  seriesrecording = searchtimer->UseSeriesRecording();
+  directory = searchtimer->Directory();
+  delrecafterdays = searchtimer->DelRecsAfterDays();
+  keeprecs = searchtimer->KeepRecs();
+  pauseonrecs = searchtimer->PauseOnRecs();
+  blacklistmode = searchtimer->BlacklistMode();
+  switchminbefore = searchtimer->SwitchMinBefore();
+  unmutesoundonswitch = searchtimer->UnmuteSoundOnSwitch();
+  useextepginfo = searchtimer->UseExtEPGInfo();
+  std::vector<std::string> infos = searchtimer->ExtEPGInfo();
+  for (unsigned int i = 0; i < extEPGInfos.size(); i++) {
+    if (i < infos.size()) {
+      cSplit<std::string> parts(infos[i], '#');
+      extepgvalues.push_back(parts.size() > 1? *(++parts.begin()):"");
+    } else
+      extepgvalues.push_back("");
+  }
+  ignoreMissingEPGCats = searchtimer->IgnoreMissingEPGCats();
+  avoidrepeats = searchtimer->AvoidRepeats();
+  allowedrepeats =  searchtimer->AllowedRepeats();
+  repeatswithindays = searchtimer->RepeatsWithinDays();
+  comparetitle = searchtimer->CompareTitle();
+  comparesubtitle = searchtimer->CompareSubtitle();
+  comparesummary = searchtimer->CompareSummary();
+  comparesummarymatchinpercent = searchtimer->CompareSummaryMatchInPercent();
+  comparedate = searchtimer->CompareDate();
+  contentsFilter = searchtimer->ContentsFilter();     // no part of form, thus camelCase
+  for (unsigned int i = 0; i < extEPGInfos.size(); i++)
+  {
+    bool selected = searchtimer->CompareCategories() & (1<<i);
+    avoidrepeatscatselected.push_back(selected);
+  }
+  priority = searchtimer->Priority();
+  lifetime = searchtimer->Lifetime();
+  marginstart = searchtimer->MarginStart();
+  marginstop = searchtimer->MarginStop();
+  usevps = searchtimer->UseVPS();
+  delmode = searchtimer->DelMode();
+  delaftercountrecs = searchtimer->DelAfterCountRecs();
+  delafterdaysoffirstrec = searchtimer->DelAfterDaysOfFirstRec();
 </%cpp>
 <& pageelems.doc_type &>
 <html>
@@ -875,7 +856,7 @@ const char *TNT_ARRAY = "";
 %               if (blacklists.size() > 0) {
                   <select name="blacklists" multiple="multiple" size="5" onchange="changedblacklistsel(this)">
 %                 int i = 0; for (Blacklists::iterator blacklist = blacklists.begin(); blacklist != blacklists.end(); ++blacklist, i++) {
-                    <option value="<$ blacklist->Id() $>" <{ SELECTIF(editsearchtimer && editsearchtimer->BlacklistSelected(blacklist->Id())) }>><$ blacklist->Search() $></option>
+                    <option value="<$ blacklist->Id() $>" <{ SELECTIF(searchtimer && searchtimer->BlacklistSelected(blacklist->Id())) }>><$ blacklist->Search() $></option>
 %                 }
                   </select>
 %               }

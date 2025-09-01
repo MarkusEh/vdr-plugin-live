@@ -885,6 +885,9 @@ div.cast_crew.tabular {
 }
 
 .ok-info-body {
+  display: flex;
+  column-gap: var(--icon-column-gap);
+  align-items: center;
   margin: var(--popup-body-margin);
 }
 
@@ -913,6 +916,9 @@ div.cast_crew.tabular {
 }
 
 .err-info-body {
+  display: flex;
+  column-gap: var(--icon-column-gap);
+  align-items: center;
   margin: var(--popup-body-margin);
 }
 

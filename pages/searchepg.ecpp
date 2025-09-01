@@ -171,13 +171,13 @@ const char *TNT_ARRAY = "";
 </html>
 <%cpp>
   }
-  SearchTimer* searchtimer;
   // get an existing search timer for detemining the compatibility flags
-  searchtimer = &*searchtimers.begin();
-  if (searchtimer) {
-    hasInsufficientFields = searchtimer->HasInsufficientFields();
-    hasUnknownFields = searchtimer->HasUnknownFields();
+  if (searchtimers.begin() != searchtimers.end()) {
+    SearchTimer* searchtimer_0 = &*searchtimers.begin();
+    hasInsufficientFields = searchtimer_0->HasInsufficientFields();
+    hasUnknownFields = searchtimer_0->HasUnknownFields();
   }
+  SearchTimer* searchtimer = nullptr;
   for (unsigned int i = 0; i < extEPGInfos.size(); i++)
     extepgvalues.push_back("");
   usetitle = true;
