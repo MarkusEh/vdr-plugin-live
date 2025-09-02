@@ -706,23 +706,25 @@ const char *TNT_ARRAY = "";
                 <input type="checkbox" name="useextepginfo" value="1" <{ CHECKIF(useextepginfo) }> onclick="changeduseextepginfo(this)" id="useextepginfo"/>
                 <div id="use_extepg_settings" style="display: none">
                   <table class="dependent" border="0" cellspacing="0" cellpadding="0">
-%                 int i = 0; for (ExtEPGInfos::iterator extinfo = extEPGInfos.begin(); extinfo != extEPGInfos.end(); ++extinfo, i++) {
+                    <!-- Extended EPG categories -->
+%                   int i = 0; for (ExtEPGInfos::iterator extinfo = extEPGInfos.begin(); extinfo != extEPGInfos.end(); ++extinfo, i++) {
                     <tr>
                       <td class="label"><div class="withmargin"><$ extinfo->Name() $>:</div></td>
                       <td><input type="text" name="extepgvalues<$TNT_ARRAY$>" value="<$extepgvalues[i]$>" size="20" id="extepg_<{ reply.out() << extinfo->Id(); }>_value"/></td>
-%                     if (extinfo->Values().size() > 0) {
-                      <td>
-                        <select size="3" multiple="multiple" name="extepg_<{ reply.out() << extinfo->Id(); }>" onchange="changedextepginfo(this)">
-%                       for (unsigned int j = 0; j < extinfo->Values().size(); j++) {
-                          <option value="<{ reply.out() << extinfo->Values()[j]; }>"
-%                         if (extinfo->Selected(j, extepgvalues[i])) {
-                            selected="selected"
+                      <td><# we need an empty cell for retaining the layout #>
+                        <# EPGsearch returns a one-element list with an empty string for text-type categories #>
+%                       if (extinfo->Values().size() > 1 || (extinfo->Values().size() == 1 && !extinfo->Values()[0].empty())) {
+                          <select size="3" multiple="multiple" name="extepg_<{ reply.out() << extinfo->Id(); }>" onchange="changedextepginfo(this)">
+%                         for (unsigned int j = 0; j < extinfo->Values().size(); j++) {
+                            <option value="<{ reply.out() << extinfo->Values()[j]; }>"
+%                           if (extinfo->Selected(j, extepgvalues[i])) {
+                              selected="selected"
+%                           }
+                            > <{ reply.out() << extinfo->Values()[j]; }> </option>
 %                         }
-                          > <{ reply.out() << extinfo->Values()[j]; }> </option>
+                          </select>
 %                       }
-                        </select>
                       </td>
-%                     }
                     </tr>
 %                   }
 
