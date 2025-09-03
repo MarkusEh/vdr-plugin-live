@@ -466,10 +466,13 @@ const char *TNT_ARRAY = "";
 %                   int i = 0; for (ExtEPGInfos::iterator extinfo = extEPGInfos.begin(); extinfo != extEPGInfos.end(); ++extinfo, i++) {
                     <tr>
                       <td class="label"><div class="withmargin"><$ extinfo->Name() $>:</div></td>
-                      <td><input type="text" name="extepgvalues<$TNT_ARRAY$>" value="<$extepgvalues[i]$>" size="20" id="extepg_<{ reply.out() << extinfo->Id(); }>_value"/></td>
-                      <td><# we need an empty cell for retaining the layout #>
-                        <# EPGsearch returns a one-element list with an empty string for text-type categories #>
-%                       if (extinfo->Values().size() > 1 || (extinfo->Values().size() == 1 && !extinfo->Values()[0].empty())) {
+                      <# EPGsearch returns a one-element list with an empty string for text-type categories #>
+%                     bool isTextCategory = extinfo->Values().size() == 0 || (extinfo->Values().size() == 1 && extinfo->Values()[0].empty());
+                      <td <?? isTextCategory ? "colspan=\"2\"" ?>>
+                        <input type="text" name="extepgvalues<$TNT_ARRAY$>" value="<$extepgvalues[i]$>" size="20" id="extepg_<{ reply.out() << extinfo->Id(); }>_value"/>
+                      </td>
+%                     if (!isTextCategory) {
+                        <td>
                           <select size="3" multiple="multiple" name="extepg_<{ reply.out() << extinfo->Id(); }>" onchange="changedextepginfo(this)">
 %                         for (unsigned int j = 0; j < extinfo->Values().size(); j++) {
                             <option value="<{ reply.out() << extinfo->Values()[j]; }>"
@@ -479,14 +482,14 @@ const char *TNT_ARRAY = "";
                             > <{ reply.out() << extinfo->Values()[j]; }> </option>
 %                         }
                           </select>
-%                       }
-                      </td>
+                        </td>
+%                     }
                     </tr>
 %                   }
 
                     <!-- Ignore missing EPG categories -->
                     <tr>
-                      <td><div class="options">
+                      <td colspan="3"><div class="options">
                         <div class="dotted">
                           <input type="checkbox" name="ignoreMissingEPGCats" value="1" <{ CHECKIF(ignoreMissingEPGCats) }> />
                           <label for="ignoreMissingEPGCats"><$ tr("Ignore missing EPG info") $> </label>
