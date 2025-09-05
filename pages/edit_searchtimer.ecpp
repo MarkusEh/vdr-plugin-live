@@ -505,14 +505,18 @@ const char *TNT_ARRAY = "";
     function changedextepginfo(selection)
     {
       var i;
-      document.getElementById(selection.name + "_value").value = "";
-      for (i = 0; i < selection.length; i++)
+      let extepg = selection.name.replace(/_option$/, "_")
+      let input = document.getElementById(extepg + "value")
+      input.value = ""
+      for (i = 0; true; i++)
       {
-        if (selection.options[i].selected)
+        let option = document.getElementById(extepg + "option_" + i)
+        let label =  document.getElementById(extepg + "label_" + i)
+        if (!option || !label) break;
+        if (option.checked)
         {
-        if (document.getElementById(selection.name + "_value").value != "")
-          document.getElementById(selection.name + "_value").value += ",";
-        document.getElementById(selection.name + "_value").value += selection.options[i].value;
+          if (input.value != "") input.value += ",";
+          input.value += label.innerText;
         }
       }
     }
@@ -682,7 +686,7 @@ const char *TNT_ARRAY = "";
                           <td><input type="checkbox" name="usegid<$ hexID $>" value="1" <{ CHECKIF(groupID < contentIdentifiersPerGroup && filteredContentGroupIDs[groupID]) }> onclick="changedusecontentgroup(this)" id="usecontentgroup<$ hexID $>"/>
                             <div class="options" id="content_group_<$ hexID $>">
 %                     }
-                              <div class="dotted"><# line in EPGsearch, the groupID is the first item for selection #>
+                              <div class="dotted"><# like in EPGsearch, the groupID is the first item for selection #>
                                 <input type="checkbox" name="cid<$ hexID $>" value="1" <{ CHECKIF(contentID < contentIdentifiers && filteredContentIDs[contentID]) }> onclick="" id="cid<$ hexID $>"/>
                                 <label for="cid<$ hexID $>"><$$ contentString $></label>
                               </div>
@@ -710,30 +714,29 @@ const char *TNT_ARRAY = "";
 %                   int i = 0; for (ExtEPGInfos::iterator extinfo = extEPGInfos.begin(); extinfo != extEPGInfos.end(); ++extinfo, i++) {
                     <tr>
                       <td class="label"><div class="withmargin"><$ extinfo->Name() $>:</div></td>
-                        <# EPGsearch returns a one-element list with an empty string for text-type categories #>
+                      <# EPGsearch returns a one-element list with an empty string for text-type categories #>
 %                     bool isTextCategory = extinfo->Values().size() == 0 || (extinfo->Values().size() == 1 && extinfo->Values()[0].empty());
-                      <td <?? isTextCategory ? "colspan=\"2\"" ?>>
-                        <input type="text" name="extepgvalues<$TNT_ARRAY$>" value="<$extepgvalues[i]$>" size="20" id="extepg_<{ reply.out() << extinfo->Id(); }>_value"/>
-                      </td>
-%                     if (!isTextCategory) {
-                        <td>
-                          <select size="3" multiple="multiple" name="extepg_<{ reply.out() << extinfo->Id(); }>" onchange="changedextepginfo(this)">
+%                     cToSvConcat<16> id("extepg_");
+%                     id.appendInt<1>(extinfo->Id());
+                      <td>
+                        <input type="text" name="extepgvalues<$TNT_ARRAY$>" value="<$extepgvalues[i]$>" size="20" id="<$ id $>_value" <?? !isTextCategory ? " hidden=\"1\" readonly=\"1\"" ?> />
+%                       if (!isTextCategory) {
+                          <div class="options">
 %                         for (unsigned int j = 0; j < extinfo->Values().size(); j++) {
-                            <option value="<{ reply.out() << extinfo->Values()[j]; }>"
-%                           if (extinfo->Selected(j, extepgvalues[i])) {
-                              selected="selected"
-%                           }
-                            > <{ reply.out() << extinfo->Values()[j]; }> </option>
+                            <div class="dotted">
+                              <input type="checkbox" id="<$ id $>_option_<$ j $>" name="<$ id $>_option" value="1" <{ CHECKIF(extinfo->Selected(j, extepgvalues[i])) }> onchange="changedextepginfo(this)" />
+                              <label id="<$ id $>_label_<$ j $>" for="<$ id $>_<$ j $>"><$ extinfo->Values()[j] $></label>
+                            </div>
 %                         }
-                          </select>
+                          </div>
+%                       }
                       </td>
-%                     }
                     </tr>
 %                   }
 
                     <!-- Ignore missing EPG categories -->
                     <tr>
-                      <td colspan="3"><div class="options">
+                      <td colspan="2"><div class="options">
                         <div class="dotted">
                           <input type="checkbox" name="ignoreMissingEPGCats" value="1" <{ CHECKIF(ignoreMissingEPGCats) }> />
                           <label for="ignoreMissingEPGCats"><$ tr("Ignore missing EPG info") $> </label>
