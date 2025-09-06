@@ -70,7 +70,7 @@ using namespace vdrlive;
   bool delmode = false;
   int delaftercountrecs = 0;
   int delafterdaysoffirstrec = 0;
-  std::string blacklistids_internal;
+  std::string blacklistids;
   std::string useassearchtimerfrom;
   std::string useassearchtimerto;
   bool ignoreMissingEPGCats = false;
@@ -89,8 +89,6 @@ Blacklists blacklists;
 RecordingDirs recordingdirs;
 SearchTimer* editsearchtimer;
 SearchTimer newSearchTimer;
-bool hasInsufficientFields = false;
-bool hasUnknownFields = false;
 std::string contentsFilter;
 </%request>
 <%include>page_init.eh</%include>
@@ -220,7 +218,7 @@ const char *TNT_ARRAY = "";
     searchtimer.SetPauseOnRecs(pauseonrecs);
     searchtimer.SetBlacklistMode(blacklistmode);
     if (blacklistmode == 1)
-      searchtimer.ParseBlacklist(blacklistids_internal);
+      searchtimer.ParseBlacklist(blacklistids);
     searchtimer.SetSwitchMinBefore(switchminbefore);
     searchtimer.SetUnmuteSoundOnSwitch(unmutesoundonswitch);
     searchtimer.SetAvoidRepeats(avoidrepeats);
@@ -281,15 +279,7 @@ const char *TNT_ARRAY = "";
     searchtimer = editsearchtimer = searchtimers.GetByTimerId(searchtimerid);
     if (!searchtimer)
       throw HtmlError( tr("Couldn't find search timer. Maybe you mistyped your request?") );
-    hasInsufficientFields = searchtimer->HasInsufficientFields();
-    hasUnknownFields = searchtimer->HasUnknownFields();
   } else {
-    // get an existing search timer for detemining the compatibility flags
-    if (searchtimers.begin() != searchtimers.end()) {
-      searchtimer = &*searchtimers.begin();
-      hasInsufficientFields = searchtimer->HasInsufficientFields();
-      hasUnknownFields = searchtimer->HasUnknownFields();
-    }
     searchtimer = &newSearchTimer;
   }
   search = searchtimer->Search();
@@ -505,7 +495,7 @@ const char *TNT_ARRAY = "";
     function changedextepginfo(selection)
     {
       var i;
-      let extepg = selection.name.replace(/_option$/, "_")
+      let extepg = selection.id.replace(/_option$/, "_")
       let input = document.getElementById(extepg + "value")
       input.value = ""
       for (i = 0; true; i++)
@@ -515,7 +505,7 @@ const char *TNT_ARRAY = "";
         if (!option || !label) break;
         if (option.checked)
         {
-          if (input.value != "") input.value += ",";
+          if (input.value) input.value += ",";
           input.value += label.innerText;
         }
       }
@@ -537,17 +527,20 @@ const char *TNT_ARRAY = "";
         (selection.options[selection.selectedIndex].value == 1 ? "revert-layer" : "none");
     }
 
-    function changedblacklistsel(selection)
+    function changedblacklists(selection)
     {
       var i;
-      document.getElementById("blacklistids_internal").value = "";
-      for (i = 0; i < selection.length; i++)
+      let base = selection.id.replace(/_.*$/, "_")
+      let input = document.getElementById("blacklistids")
+      input.value = ""
+      for (i = 0; true; i++)
       {
-        if (selection.options[i].selected)
+        let blacklist = document.getElementById(base + i)
+        if (!blacklist) break;
+        if (blacklist.checked)
         {
-        if (document.getElementById("blacklistids_internal").value != "")
-          document.getElementById("blacklistids_internal").value += "|";
-        document.getElementById("blacklistids_internal").value += selection.options[i].value;
+          if (input.value) input.value += "|";
+          input.value += blacklist.name.replace(/^.*_(\\d+)$/, "$1")
         }
       }
     }
@@ -571,7 +564,7 @@ const char *TNT_ARRAY = "";
         <div class="spacebar"><# spacer with fade-out effect #></div>
         <form method="post" name="edit_searchtimer" action="edit_searchtimer.ecpp">
           <input type="hidden" name="searchtimerid" value="<$ searchtimerid $>"/>
-          <input type="hidden" name="blacklistids_internal" value="<$ blacklistids_internal $>" id="blacklistids_internal"/>
+          <input type="hidden" name="blacklistids" value="<$ blacklistids $>" id="blacklistids"/>
           <input type="hidden" name="nav_back" value="<$ nav_back $>"/>
           <table class="form" cellpadding="0" cellspacing="0">
             <tr class="head">
@@ -684,7 +677,7 @@ const char *TNT_ARRAY = "";
 %                           contentLabel.append(contentString);
                           <td class="label"><div class="withmargin"><$$ contentLabel $>:</div></td>
                           <td><input type="checkbox" name="usegid<$ hexID $>" value="1" <{ CHECKIF(groupID < contentIdentifiersPerGroup && filteredContentGroupIDs[groupID]) }> onclick="changedusecontentgroup(this)" id="usecontentgroup<$ hexID $>"/>
-                            <div class="options" id="content_group_<$ hexID $>">
+                            <div class="descriptors options" id="content_group_<$ hexID $>">
 %                     }
                               <div class="dotted"><# like in EPGsearch, the groupID is the first item for selection #>
                                 <input type="checkbox" name="cid<$ hexID $>" value="1" <{ CHECKIF(contentID < contentIdentifiers && filteredContentIDs[contentID]) }> onclick="" id="cid<$ hexID $>"/>
@@ -721,7 +714,7 @@ const char *TNT_ARRAY = "";
                       <td>
                         <input type="text" name="extepgvalues<$TNT_ARRAY$>" value="<$extepgvalues[i]$>" size="20" id="<$ id $>_value" <?? !isTextCategory ? " hidden=\"1\" readonly=\"1\"" ?> />
 %                       if (!isTextCategory) {
-                          <div class="options">
+                          <div class="categories options">
 %                         for (unsigned int j = 0; j < extinfo->Values().size(); j++) {
                             <div class="dotted">
                               <input type="checkbox" id="<$ id $>_option_<$ j $>" name="<$ id $>_option" value="1" <{ CHECKIF(extinfo->Selected(j, extepgvalues[i])) }> onchange="changedextepginfo(this)" />
@@ -862,11 +855,16 @@ const char *TNT_ARRAY = "";
                 </select>
                 <div class="dependent" id="blacklistmodesettings" style="display: none">
 %               if (blacklists.size() > 0) {
-                  <select name="blacklists" multiple="multiple" size="5" onchange="changedblacklistsel(this)">
+                  <div class="blacklists options">
 %                 int i = 0; for (Blacklists::iterator blacklist = blacklists.begin(); blacklist != blacklists.end(); ++blacklist, i++) {
-                    <option value="<$ blacklist->Id() $>" <{ SELECTIF(searchtimer && searchtimer->BlacklistSelected(blacklist->Id())) }>><$ blacklist->Search() $></option>
+%                   cToSvConcat<16> id("blacklist_");
+%                   id.appendInt<1>(i);
+                    <div class="dotted">
+                      <input type="checkbox" id="<$ id $>" name="<$ id $>_<$ blacklist->Id() $>" value="1" <{ CHECKIF(searchtimer && searchtimer->BlacklistSelected(blacklist->Id())) }> onchange="changedblacklists(this)" />
+                      <label for="<$ id $>"><$ blacklist->Search() $></label>
+                    </div>
 %                 }
-                  </select>
+                  </div>
 %               }
                 </div>
               </td>
@@ -1073,13 +1071,13 @@ const char *TNT_ARRAY = "";
             <tr>
               <td class="buttonpanel leftcol rightcol bottomrow" colspan="2">
                 <div class="submission">
-                  <div class="warning"><# supply at least an empty element to force buttons at right-column border #>
-%                 if (hasInsufficientFields) {
+                  <div class="warning"><span id="compatibility">
+%                 if (searchtimers.begin() != searchtimers.end() && searchtimers.begin()->HasInsufficientFields()) {
                     <$ tr("The searchtimer lacks some form fields, so that their values cannot be saved. Please upgrade to the most recent version of EPGsearch.") $>
-%                 } else if (hasUnknownFields) {
+%                 } else if (searchtimers.begin() != searchtimers.end() && searchtimers.begin()->HasUnknownFields()) {
                     <$ tr("The searchtimer includes extra fields. These will be saved with their original values.") $>
 %                 }
-                  </div>
+                  </span></div>
                   <div class="buttons">
                     <button class="green" type="submit" name="test" value="test" onclick="return checksearch();"><$ tr("Test") $></button>
                     <button class="green" type="submit" name="save" onclick="return checksearch();"><$ tr("Save") $></button>
