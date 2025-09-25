@@ -79,7 +79,7 @@ void SearchTimer::Init()
   m_compareSubtitle = 0;
   m_compareSummary = false;
   m_repeatsWithinDays = 0;
-  m_blacklistMode = 0;
+  m_blacklistMode = 3;
   m_menuTemplate = 0;
   m_delMode = 0;
   m_delAfterCountRecs = 0;
@@ -175,7 +175,7 @@ std::string SearchTimer::ToText() {
     switch (i) {
       case  0: os << m_id; break;
       case  1: os << ':' << cToSvReplace(m_search, "|", "!^pipe^!").replaceAll(":", "|"); break;
-      case  2: os << ":" << (m_useTime ? "1" : ""); break;
+      case  2: os << ":" << (m_useTime ? "1" : "0"); break;
       case  3: os << ':'; if (m_useTime) { os.appendInt<4>(m_startTime); }; break;
       case  4: os << ':'; if (m_useTime) { os.appendInt<4>(m_stopTime); }; break;
       case  5: os << ':' << m_useChannel; break;
@@ -196,7 +196,7 @@ std::string SearchTimer::ToText() {
       case  9: os << ':' << m_useTitle; break;
       case 10: os << ':' << m_useSubtitle; break;
       case 11: os << ':' << m_useDescription; break;
-      case 12: os << ':' << (m_useDuration ? "1" : ""); break;
+      case 12: os << ':' << (m_useDuration ? "1" : "0"); break;
       case 13: os << ':'; if (m_useDuration) { os.appendInt<4>(m_minDuration); }; break;
       case 14: os << ':'; if (m_useDuration) { os.appendInt<4>(m_maxDuration); }; break;
       case 15: os << ':' << m_useAsSearchtimer; break;
@@ -291,11 +291,18 @@ void SearchTimer::ParseChannelIDs(cSv data)
 
 void SearchTimer::ParseExtEPGInfo(cSv data)
 {
-   m_ExtEPGInfo = std::vector<std::string>(cSplit<std::string>(data, '|').begin(), cSplit<std::string>::s_end());
+  m_ExtEPGInfo.clear();   // should be empty anyway, but cater for future use
+  if (!data.empty() && std::isdigit(data[0])) {
+    for (auto part : cSplit(data, '|')) {
+      m_ExtEPGInfo.push_back(std::string(cToSvReplace( part, "!^colon^!", ":" ).replaceAll("!^pipe^!", "|" )));
+    }
+  }
 }
 
 void SearchTimer::ParseBlacklist(cSv data)
 {
+  m_blacklistIDs.clear();   // should be empty anyway, but cater for future use
+  if (!data.empty() && std::isdigit(data[0]))
    m_blacklistIDs = std::vector<std::string>(cSplit<std::string>(data, '|').begin(), cSplit<std::string>::s_end());
 }
 

@@ -333,6 +333,9 @@ msgstr "Sunnuntai"
 msgid "Use blacklists"
 msgstr "Käytä mustia listoja"
 
+msgid "only global"
+msgstr ""
+
 msgid "Selection"
 msgstr "valittu"
 
@@ -428,6 +431,12 @@ msgstr "Käytä VPS-toimintoa"
 
 msgid "Auto-delete search timer"
 msgstr "Poista automaattisesti hakuajastimet"
+
+msgid "based on recordings"
+msgstr ""
+
+msgid "based on days"
+msgstr ""
 
 msgid "after ... recordings"
 msgstr "... tallenteen jälkeen"

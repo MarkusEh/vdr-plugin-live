@@ -336,6 +336,9 @@ msgstr "კვირა"
 msgid "Use blacklists"
 msgstr "შავი სიის გამოყენება"
 
+msgid "only global"
+msgstr ""
+
 msgid "Selection"
 msgstr "მონიშვნა"
 
@@ -431,6 +434,12 @@ msgstr "VPS-ის გამოყენება"
 
 msgid "Auto-delete search timer"
 msgstr "ძებნის ტაიმერის ავტომატური წაშლა"
+
+msgid "based on recordings"
+msgstr ""
+
+msgid "based on days"
+msgstr ""
 
 msgid "after ... recordings"
 msgstr "... ჩანაწერის შემდეგ"

@@ -1091,7 +1091,7 @@ inline ssize_t read(int fd, char *buf, size_t count, const char *filename) {
     if (num_read1 == -1) {
 // On error, -1 is returned, and errno is set to indicate the error.
 // In this case, it is left unspecified whether the file position changes.
-      if (errno == ENOENT || errno == EINTR || errno == EEXIST || errno == 0) return -2;  // I really don't understand why ENOENT or EEXIST would be reported. But we retry ...
+      if (errno == ENOENT || errno == EINTR || errno == EEXIST || errno == EAGAIN || errno == 0) return -2;  // I really don't understand why ENOENT or EEXIST would be reported. But we retry ...
       esyslog(PLUGIN_NAME_I18N " ERROR: read failed, errno %d, error %m, filename %s, count %zu, num_read = %zu", errno, filename, count, num_read);
       return -4;
     }

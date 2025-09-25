@@ -335,6 +335,9 @@ msgstr "Sekmadienis"
 msgid "Use blacklists"
 msgstr "Naudoti juoduosius sąrašus"
 
+msgid "only global"
+msgstr ""
+
 msgid "Selection"
 msgstr "Pasirinkimas"
 
@@ -430,6 +433,12 @@ msgstr "Naudoti VPS"
 
 msgid "Auto-delete search timer"
 msgstr "Automatiškai ištrinti paieškos laikmatį"
+
+msgid "based on recordings"
+msgstr ""
+
+msgid "based on days"
+msgstr ""
 
 msgid "after ... recordings"
 msgstr "po ... įrašų"

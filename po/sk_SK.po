@@ -334,6 +334,9 @@ msgstr "Nedeµa"
 msgid "Use blacklists"
 msgstr "Pou¾i» èiernu listinu"
 
+msgid "only global"
+msgstr ""
+
 msgid "Selection"
 msgstr "Vybrané"
 
@@ -429,6 +432,12 @@ msgstr "Pou¾i» VPS"
 
 msgid "Auto-delete search timer"
 msgstr "Samo zmazanie vyhµadaného plánu"
+
+msgid "based on recordings"
+msgstr ""
+
+msgid "based on days"
+msgstr ""
 
 msgid "after ... recordings"
 msgstr "po ... nahrávkach"

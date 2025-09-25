@@ -339,6 +339,9 @@ msgstr ""
 msgid "Use blacklists"
 msgstr ""
 
+msgid "only global"
+msgstr ""
+
 msgid "Selection"
 msgstr ""
 
@@ -433,6 +436,12 @@ msgid "Use VPS"
 msgstr ""
 
 msgid "Auto-delete search timer"
+msgstr ""
+
+msgid "based on recordings"
+msgstr ""
+
+msgid "based on days"
 msgstr ""
 
 msgid "after ... recordings"

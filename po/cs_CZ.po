@@ -341,6 +341,9 @@ msgstr "Neděle"
 msgid "Use blacklists"
 msgstr "Použít blacklist"
 
+msgid "only global"
+msgstr ""
+
 msgid "Selection"
 msgstr "výběr"
 
@@ -436,6 +439,12 @@ msgstr "Použít VPS"
 
 msgid "Auto-delete search timer"
 msgstr "Smazání automatického nahrávání"
+
+msgid "based on recordings"
+msgstr ""
+
+msgid "based on days"
+msgstr ""
 
 msgid "after ... recordings"
 msgstr "po ... nahrávkách"

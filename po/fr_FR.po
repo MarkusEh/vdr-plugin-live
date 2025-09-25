@@ -340,6 +340,9 @@ msgstr "Dimanche"
 msgid "Use blacklists"
 msgstr "Utiliser la liste des exclus"
 
+msgid "only global"
+msgstr ""
+
 msgid "Selection"
 msgstr "Selection"
 
@@ -435,6 +438,12 @@ msgstr "Utiliser VPS"
 
 msgid "Auto-delete search timer"
 msgstr "Auto-suppression de programmation de recherche"
+
+msgid "based on recordings"
+msgstr ""
+
+msgid "based on days"
+msgstr ""
 
 msgid "after ... recordings"
 msgstr "après ... enregistrements"

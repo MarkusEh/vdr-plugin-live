@@ -339,6 +339,9 @@ msgstr "Domenica"
 msgid "Use blacklists"
 msgstr "Utilizza lista esclusioni"
 
+msgid "only global"
+msgstr ""
+
 msgid "Selection"
 msgstr "Selezione"
 
@@ -434,6 +437,12 @@ msgstr "Utilizza VPS"
 
 msgid "Auto-delete search timer"
 msgstr "Eliminazione automatica timer di ricerca"
+
+msgid "based on recordings"
+msgstr ""
+
+msgid "based on days"
+msgstr ""
 
 msgid "after ... recordings"
 msgstr "dopo ... registrazioni"

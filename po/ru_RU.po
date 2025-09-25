@@ -333,6 +333,9 @@ msgstr "Воскресенье"
 msgid "Use blacklists"
 msgstr "Черный список"
 
+msgid "only global"
+msgstr ""
+
 msgid "Selection"
 msgstr "Выбор"
 
@@ -428,6 +431,12 @@ msgstr "VPS"
 
 msgid "Auto-delete search timer"
 msgstr "Автоматически удалять поисковый таймер"
+
+msgid "based on recordings"
+msgstr ""
+
+msgid "based on days"
+msgstr ""
 
 msgid "after ... recordings"
 msgstr "после … записей"

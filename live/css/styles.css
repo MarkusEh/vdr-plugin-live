@@ -2626,6 +2626,11 @@ div#channelgroup, select#recordingdirsselection {
   margin-bottom: calc(var(--text-line-gap) + 1px);
 }
 
+div#delmoderecordings, div#delmodedays {
+  margin-top: var(--text-line-gap);
+  margin-bottom: calc(var(--text-line-gap) + 1px);
+}
+
 
 /* #############################
    #  Login

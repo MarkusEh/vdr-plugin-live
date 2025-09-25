@@ -51,7 +51,7 @@ using namespace vdrlive;
   int delrecafterdays = 0;
   int keeprecs = 0;
   int pauseonrecs = 0;
-  int blacklistmode = 0;
+  int blacklistmode = 3;
   int switchminbefore = 0;
   bool useextepginfo = false;
   std::string extepgvalues[];
@@ -67,7 +67,7 @@ using namespace vdrlive;
   int marginstart = 0;
   int marginstop = 0;
   bool usevps = false;
-  bool delmode = false;
+  int delmode = 0;
   int delaftercountrecs = 0;
   int delafterdaysoffirstrec = 0;
   std::string blacklistids;
@@ -393,28 +393,27 @@ const char *TNT_ARRAY = "";
     <script type="text/javascript">
     function initform()
     {
-      var gid;
       changedsearchmode(document.getElementById("search_mode"));
       changedchannelmode(document.getElementById("channel_mode"));
       changedusetime(document.getElementById("usetime"));
       changeduseduration(document.getElementById("useduration"));
       changeduseweekday(document.getElementById("useweekday"));
-      changeduseassearchtimer(document.getElementById("useassearchtimer"));
-      for (gid = 0; gid < <$ contentGroups $>; gid++ ) {
-        let hexID = gid.toString(16) + "0";
+      for (let gid = 0; gid < <$ contentGroups $>; gid++ ) {
+        const hexID = gid.toString(16) + "0";
         changedusecontentgroup(document.getElementById("usecontentgroup" + hexID));
       }
       changedusecontentids(document.getElementById("usecontentids"));
 %     if (extEPGInfos.size() > 0) {
         changeduseextepginfo(document.getElementById("useextepginfo"));
 %     }
+      changedblacklistmode(document.getElementById("blacklistmode"));
+      changeduseassearchtimer(document.getElementById("useassearchtimer"));
       changedavoidrepeats(document.getElementById("avoidrepeats"));
       changedcomparesummary(document.getElementById("comparesummary"));
-      changedblacklistmode(document.getElementById("blacklistmode"));
       changeddelmode(document.getElementById("delmode"));
     }
 
-    function checksearch()
+    function checksearchterm()
     {
       if (document.getElementById("searchterm").value.length <= 3)
         return confirm('<$ tr("Search text too short - use anyway?") $>');
@@ -423,13 +422,21 @@ const char *TNT_ARRAY = "";
 
     function changedsearchmode(selection)
     {
-      document.getElementById("tolerance").style.display = (selection.options[selection.selectedIndex].value == 5 ? "revert-layer" : "none");
+      const tolerance = document.getElementById("tolerance");
+      if (selection.options[selection.selectedIndex].value == 5) {
+        tolerance.style.display = "revert-layer";
+        tolerance.disabled = false;
+      } else {
+        tolerance.style.display = "none";
+        tolerance.disabled = true;
+      }
     }
 
     function changedchannelmode(selection)
     {
-      document.getElementById("channelinterval").style.display = (selection.options[selection.selectedIndex].value == 1 ? "revert-layer" : "none");
-      document.getElementById("channelgroup").style.display = (selection.options[selection.selectedIndex].value == 2 ? "revert-layer" : "none");
+      const value = selection.options[selection.selectedIndex].value;
+      document.getElementById("channelinterval").style.display = (value == 1 ? "revert-layer" : "none");
+      document.getElementById("channelgroup").style.display = (value == 2 ? "revert-layer" : "none");
     }
 
     function changedusetime(selection)
@@ -439,35 +446,23 @@ const char *TNT_ARRAY = "";
 
     function changeduseduration(selection)
     {
-      document.getElementById("durationsettings").style.display = (selection.checked ? "revert-layer" : "none");
+      const durationSettings = document.getElementById("durationsettings");
+      if (selection.checked) {
+        durationSettings.style.display = "revert-layer";
+        for (const input of durationSettings.getElementsByTagName("input")) {
+          input.disabled = false;
+        }
+      } else {
+        durationSettings.style.display = "none";
+        for (const input of durationSettings.getElementsByTagName("input")) {
+          input.disabled = true;
+        }
+      }
     }
 
     function changeduseweekday(selection)
     {
       document.getElementById("weekdaysettings").style.display = (selection.checked ? "revert-layer" : "none");
-    }
-
-    function changeduseassearchtimer(selection)
-    {
-      document.getElementById("searchtimermodesettings").style.display =
-        (selection.options[selection.selectedIndex].value > 0) ? "revert-layer" : "none";
-      document.getElementById("useassearchtimeruserdef").style.display =
-        (selection.options[selection.selectedIndex].value == 2) ? "revert-layer" : "none";
-      changedsearchtimermode(document.getElementById("searchtimer_mode"));
-    }
-
-    function changedsearchtimermode(selection)
-    {
-      document.getElementById("searchtimermode1settings").style.display =
-        ((selection.options[selection.selectedIndex].value == 0 ||
-          selection.options[selection.selectedIndex].value == 5) &
-        document.getElementById("useassearchtimer").options[document.getElementById("useassearchtimer").selectedIndex].value > 0) ?
-        "revert-layer" : "none";
-      document.getElementById("searchtimermode3settings").style.display =
-        ((selection.options[selection.selectedIndex].value == 2 ||
-          selection.options[selection.selectedIndex].value == 3) &
-        document.getElementById("useassearchtimer").options[document.getElementById("useassearchtimer").selectedIndex].value > 0) ?
-        "revert-layer" : "none";
     }
 
     function changedusecontentids(selection)
@@ -478,8 +473,8 @@ const char *TNT_ARRAY = "";
     function changedusecontentgroup(selection)
     {
       if (selection !== null) {
-        let gid = selection.id.slice(-2);
-        let group = document.getElementById("content_group_" + gid);
+        const gid = selection.id.slice(-2);
+        const group = document.getElementById("content_group_" + gid);
         if (group !== null) {
           group.style.display = (selection.checked ? "revert-layer" : "none");
         }
@@ -488,20 +483,19 @@ const char *TNT_ARRAY = "";
 
     function changeduseextepginfo(selection)
     {
-      var doc = document.getElementById("use_extepg_settings");
-      if (doc) doc.style.display = (selection.checked ? "revert-layer" : "none");
+      const useExtEpgSettings = document.getElementById("use_extepg_settings");
+      if (useExtEpgSettings) useExtEpgSettings.style.display = (selection.checked ? "revert-layer" : "none");
     }
 
     function changedextepginfo(selection)
     {
-      var i;
-      let extepg = selection.id.replace(/_option$/, "_")
-      let input = document.getElementById(extepg + "value")
-      input.value = ""
-      for (i = 0; true; i++)
+      const extEpg = selection.id.replace(/_option_.*$/, "_");
+      const input = document.getElementById(extEpg + "value");
+      input.value = "";
+      for (let i = 0; true; i++)
       {
-        let option = document.getElementById(extepg + "option_" + i)
-        let label =  document.getElementById(extepg + "label_" + i)
+        const option = document.getElementById(extEpg + "option_" + i);
+        const label =  document.getElementById(extEpg + "label_" + i);
         if (!option || !label) break;
         if (option.checked)
         {
@@ -509,16 +503,6 @@ const char *TNT_ARRAY = "";
           input.value += label.innerText;
         }
       }
-    }
-
-    function changedavoidrepeats(selection)
-    {
-      document.getElementById("avoidrepeatssettings").style.display = (selection.checked ? "revert-layer" : "none");
-    }
-
-    function changedcomparesummary(selection)
-    {
-      document.getElementById("summarymatchinpercent").style.display = (selection.checked ? "revert-layer" : "none");
     }
 
     function changedblacklistmode(selection)
@@ -529,19 +513,57 @@ const char *TNT_ARRAY = "";
 
     function changedblacklists(selection)
     {
-      var i;
-      let base = selection.id.replace(/_.*$/, "_")
-      let input = document.getElementById("blacklistids")
-      input.value = ""
-      for (i = 0; true; i++)
+      const base = selection.id.replace(/_.*$/, "_");
+      const input = document.getElementById("blacklistids");
+      input.value = "";
+      for (let i = 0; true; i++)
       {
-        let blacklist = document.getElementById(base + i)
+        const blacklist = document.getElementById(base + i);
         if (!blacklist) break;
         if (blacklist.checked)
         {
           if (input.value) input.value += "|";
-          input.value += blacklist.name.replace(/^.*_(\\d+)$/, "$1")
+          input.value += blacklist.name.replace(/^.*_(\\d+)$/, "$1");
         }
+      }
+    }
+
+    function changeduseassearchtimer(selection)
+    {
+      document.getElementById("searchtimeractionsettings").style.display =
+        (selection.options[selection.selectedIndex].value > 0) ? "revert-layer" : "none";
+      document.getElementById("useassearchtimeruserdef").style.display =
+        (selection.options[selection.selectedIndex].value == 2) ? "revert-layer" : "none";
+      changedsearchtimeraction(document.getElementById("searchtimeraction"));
+    }
+
+    function changedsearchtimeraction(selection)
+    {
+      const actionTimerSettings = document.getElementById("searchtimeraction05settings");
+      const useAsSearchTimer = document.getElementById("useassearchtimer");
+      const searchTimerMode = useAsSearchTimer.options[useAsSearchTimer.selectedIndex].value;
+      // settings if action is (in)active timer
+      let hidden = false;
+      if (searchTimerMode > 0 && ["0", "5"].includes(selection.options[selection.selectedIndex].value)) {
+          actionTimerSettings.style.display = "revert-layer";
+      } else {
+          actionTimerSettings.style.display = "none";
+          hidden = true;
+      }
+      for (const input of actionTimerSettings.getElementsByTagName("input")) {
+        if (input.type == "number") input.disabled = hidden;
+      }
+      changedavoidrepeats(document.getElementById("avoidrepeats"), hidden);
+      changeddelmode(document.getElementById("delmode"), hidden);
+      // settings if action is channel switching
+      const actionAnncouncementSettings = document.getElementById("searchtimeraction23settings");
+      const switchMinBefore = document.getElementById("switchminbefore");
+      if (searchTimerMode > 0 && ["2", "3"].includes(selection.options[selection.selectedIndex].value)) {
+        actionAnncouncementSettings.style.display = "revert-layer";
+        switchMinBefore.disabled = false;
+      } else {
+        actionAnncouncementSettings.style.display = "none";
+        switchMinBefore.disabled = true;
       }
     }
 
@@ -550,9 +572,50 @@ const char *TNT_ARRAY = "";
       document.getElementById("directory").value = selection.value;
     }
 
-    function changeddelmode(selection)
+    function changedavoidrepeats(selection, hidden)
     {
-      document.getElementById("delmodesettings").style.display = (selection.checked ? "revert-layer" : "none");
+      hidden ||= !selection.checked;
+      const avoidRepeatsSettings = document.getElementById("avoidrepeatssettings");
+      avoidRepeatsSettings.style.display = (selection.checked ? "revert-layer" : "none");
+      for (const input of avoidRepeatsSettings.getElementsByTagName("input")) {
+        if (input.type == "number") input.disabled = hidden;
+      }
+      changedcomparesummary(document.getElementById("comparesummary"), hidden);
+    }
+
+    function changedcomparesummary(selection, hidden)
+    {
+      const summaryMatchInPercent = document.getElementById("summarymatchinpercent");
+      const compareSummaryMatchInPercent = document.getElementById("comparesummarymatchinpercent");
+      if ((selection.checked && !hidden)) {
+        summaryMatchInPercent.style.display =  "revert-layer";
+        compareSummaryMatchInPercent.disabled = false;
+      } else {
+        summaryMatchInPercent.style.display =  "none";
+        compareSummaryMatchInPercent.disabled = true;
+      }
+    }
+
+    function changeddelmode(selection, hidden)
+    {
+      const delModeRecordings = document.getElementById("delmoderecordings");
+      const delAfterCountRecordings = document.getElementById("delaftercountrecs");
+      if (selection.value == 1 && !hidden) {
+        delModeRecordings.style.display = "revert-layer";
+        delAfterCountRecordings.disabled = false;
+      } else {
+        delModeRecordings.style.display = "none";
+        delAfterCountRecordings.disabled = true;
+      }
+      const delModeDays = document.getElementById("delmodedays");
+      const delAfterCountDays = document.getElementById("delafterdaysoffirstrec");
+      if (selection.value == 2 && !hidden) {
+        delModeDays.style.display = "revert-layer";
+        delAfterCountDays.disabled = false;
+      } else {
+        delModeDays.style.display = "none";
+        delAfterCountDays.disabled = true;
+      }
     }
     </script>
 
@@ -849,7 +912,8 @@ const char *TNT_ARRAY = "";
               <td class="label leftcol"><div class="withmargin"><$ tr("Use blacklists" ) $>:</div></td>
               <td class="rightcol">
                 <select onchange="changedblacklistmode(this)" name="blacklistmode" size="1" id="blacklistmode">
-                  <option value="0" <{ SELECTIF(blacklistmode == 0) }> ><$ trVDR("no") $></option>
+                  <option value="3" <{ SELECTIF(blacklistmode == 3) }> ><$ trVDR("no") $></option>
+                  <option value="0" <{ SELECTIF(blacklistmode == 0) }> ><$ tr("only global") $></option>
                   <option value="1" <{ SELECTIF(blacklistmode == 1) }> ><$ tr("Selection") $></option>
                   <option value="2" <{ SELECTIF(blacklistmode == 2) }> ><$ tr("all") $></option>
                 </select>
@@ -899,8 +963,8 @@ const char *TNT_ARRAY = "";
                     </tr>
                   </table>
                 </div>
-                <div id="searchtimermodesettings" style="display: none">
-                  <select onchange="changedsearchtimermode(this)" name="searchtimeraction" size="1" id="searchtimer_mode">
+                <div id="searchtimeractionsettings" style="display: none">
+                  <select onchange="changedsearchtimeraction(this)" name="searchtimeraction" size="1" id="searchtimeraction">
                     <option value="0" <{ SELECTIF(searchtimeraction == 0) }> ><$ tr("Record") $></option>
                     <option value="1" <{ SELECTIF(searchtimeraction == 1) }> ><$ tr("Announce only") $></option>
                     <option value="2" <{ SELECTIF(searchtimeraction == 2) }> ><$ tr("Switch only") $></option>
@@ -909,7 +973,7 @@ const char *TNT_ARRAY = "";
                     <option value="5" <{ SELECTIF(searchtimeraction == 5) }> ><$ tr("Inactive Record") $></option>
                   </select>
                 </div>
-                <div id="searchtimermode1settings" style="display: none">
+                <div id="searchtimeraction05settings" style="display: none">
                   <table class="dependent" border="0" cellpadding="0" cellspacing="0">
                     <tr>
                       <td class="label"><div class="withmargin"><$ tr("Series recording") $>:</div></td>
@@ -975,7 +1039,7 @@ const char *TNT_ARRAY = "";
                                 <# value is restricted in EPGsearch #>
                                 <span id="summarymatchinpercent" style="display: none">
                                   <$ tr("Match in percent" ) $>:
-                                  <input type="number" min="1" max="100" name="comparesummarymatchinpercent" size="6" value="<$ comparesummarymatchinpercent $>" id="summarymatchinpercent">
+                                  <input type="number" min="1" max="100" name="comparesummarymatchinpercent" id="comparesummarymatchinpercent" size="6" value="<$ comparesummarymatchinpercent $>">
                                 </span>
                               </td>
                             </tr>
@@ -1030,29 +1094,26 @@ const char *TNT_ARRAY = "";
                     </tr>
                     <tr>
                       <td class="label"><div class="withmargin"><$ tr("Auto-delete search timer") $>:</div></td>
-                      <td><input type="checkbox" name="delmode" value="1" <{ CHECKIF(delmode) }> onclick="changeddelmode(this)" id="delmode"/>
-                      <div id="delmodesettings" style="display: none">
-                        <table class="dependent" border="0" cellpadding="0" cellspacing="0" class="dependent">
-                          <tr>
-                            <td class="label"><div class="withmargin"><$ tr("after ... recordings") $>:</div></td>
-                            <td>
-                              <input type="number" min="0" max="999" size="6" name="delaftercountrecs" value="<$ delaftercountrecs $>" />
-                            </td>
-                          </tr>
-                          <tr>
-                            <td class="label"><div class="withmargin"><$ tr("after ... days after first rec.") $>:</div></td>
-                            <td>
-                              <input type="number" min="0" max="999" size="6" name="delafterdaysoffirstrec" value="<$ delafterdaysoffirstrec $>" />
-                            </td>
-                          </tr>
-                        </table>
-                      </div>
+                      <td>
+                        <select onchange="changeddelmode(this)" name="delmode" size="1" id="delmode">
+                          <option value="0" <{ SELECTIF(delmode == 0) }> ><$ trVDR("no") $></option>
+                          <option value="1" <{ SELECTIF(delmode == 1) }> ><$ tr("based on recordings") $></option>
+                          <option value="2" <{ SELECTIF(delmode == 2) }> ><$ tr("based on days") $></option>
+                        </select>
+                        <div id="delmoderecordings" style="display: none">
+                          <span class="label"><$ tr("after ... recordings") $>:</span>
+                          <input type="number" min="0" max="999" size="6" name="delaftercountrecs" id="delaftercountrecs" value="<$ delaftercountrecs $>" />
+                        </div>
+                        <div id="delmodedays" style="display: none">
+                          <span class="label"><$ tr("after ... days after first rec.") $>:</span>
+                          <input type="number" min="0" max="999" size="6" name="delafterdaysoffirstrec" id="delafterdaysoffirstrec" value="<$ delafterdaysoffirstrec $>" />
+                        </div>
                       </td>
                     </tr>
                   </table>
                 </div>
 
-                <div id="searchtimermode3settings" style="display: none">
+                <div id="searchtimeraction23settings" style="display: none">
                   <table class="dependent" border="0" cellpadding="0" cellspacing="0">
                     <tr>
                       <td class="label"><div class="withmargin"><$ tr("Switch ... minutes before start") $>:</div></td>
@@ -1072,15 +1133,17 @@ const char *TNT_ARRAY = "";
               <td class="buttonpanel leftcol rightcol bottomrow" colspan="2">
                 <div class="submission">
                   <div class="warning"><span id="compatibility">
-%                 if (searchtimers.begin() != searchtimers.end() && searchtimers.begin()->HasInsufficientFields()) {
-                    <$ tr("The searchtimer lacks some form fields, so that their values cannot be saved. Please upgrade to the most recent version of EPGsearch.") $>
-%                 } else if (searchtimers.begin() != searchtimers.end() && searchtimers.begin()->HasUnknownFields()) {
-                    <$ tr("The searchtimer includes extra fields. These will be saved with their original values.") $>
+%                 if (searchtimers.begin() != searchtimers.end()) {
+%                   if (searchtimers.begin()->HasInsufficientFields()) {
+                      <$ tr("The searchtimer lacks some form fields, so that their values cannot be saved. Please upgrade to the most recent version of EPGsearch.") $>
+%                   } else if (searchtimers.begin()->HasUnknownFields()) {
+                      <$ tr("The searchtimer includes extra fields. These will be saved with their original values.") $>
+%                   }
 %                 }
                   </span></div>
                   <div class="buttons">
-                    <button class="green" type="submit" name="test" value="test" onclick="return checksearch();"><$ tr("Test") $></button>
-                    <button class="green" type="submit" name="save" onclick="return checksearch();"><$ tr("Save") $></button>
+                    <button class="green" type="submit" name="test" value="test" onclick="return checksearchterm();"><$ tr("Test") $></button>
+                    <button class="green" type="submit" name="save" onclick="return checksearchterm();"><$ tr("Save") $></button>
                     <button type="button" class="red" onclick="history.go(<$-nav_back$>)"><$ tr("Cancel") $></button>
                   </div>
                 </div>
