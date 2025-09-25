@@ -186,6 +186,7 @@ const char *TNT_ARRAY = "";
     <script type="text/javascript">
     function initform()
     {
+      changeduseextendedsearch(document.getElementById("useextendedsearch"));
       changedsearchmode(document.getElementById("search_mode"));
       changedchannelmode(document.getElementById("channel_mode"));
       changedusetime(document.getElementById("usetime"));
