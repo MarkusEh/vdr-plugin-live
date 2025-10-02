@@ -16,6 +16,7 @@
 #include <vdr/videodir.h>
 #include <vdr/config.h>
 #include <vdr/menu.h>
+#include <vdr/svdrp.h>
 
 #define TIMERRECFILE      "/.timer"
 
@@ -184,14 +185,55 @@ Otherwise, the rec tree is re-created from currnet data.
 
   int RecordingsManager::DeleteRecording(cSv recording_hash, std::string *name)
   {
+    LOCK_TIMERS_WRITE;     // must be before LOCK_RECORDINGS_WRITE
+    Timers->SetExplicitModify();
     LOCK_RECORDINGS_WRITE;
     cRecording *recording = const_cast<cRecording *>(RecordingsManager::GetByHash(recording_hash, Recordings));
     if (!recording) return 1;
     if (name) *name = cSv(recording->Name());
 
-    if (recording->IsInUse() ) return 2;
-
+    // check if recording is activ
     std::string l_name(recording->FileName());
+    if (cRecordControl *rc = cRecordControls::GetRecordControl(l_name.c_str())) {
+        // local timer is activ
+        if (cTimer *Timer = rc->Timer()) {
+            isyslog("live: deactivate local timer %s before delete of recording %s", *Timer->ToDescr(), name->c_str());
+            Timer->OnOff();
+            Timers->SetModified();
+        }
+    }
+    else {
+        // remote timer
+        cString TimerId = GetRecordingTimerId(l_name.c_str());
+        if (*TimerId) {
+            int Id;
+            char *RemoteBuf = NULL;
+            cString Remote;
+            if (2 == sscanf(TimerId, "%d@%m[^ \n]", &Id, &RemoteBuf) && Id != 0) {
+                Remote = RemoteBuf;
+                free(RemoteBuf);
+                if (cTimer *Timer = Timers->GetById(Id, Remote)) {
+                    cTimer OldTimer = *Timer;
+                    Timers->SetSyncStateKey(StateKeySVDRPRemoteTimersPoll);
+                    cString ErrorMessage1;
+                    if (HandleRemoteTimerModifications(NULL, Timer, &ErrorMessage1)) { // delete activ timer on remote vdr
+                        isyslog("live: deactivate remote timer %s before delete of recording %s", *Timer->ToDescr(), name->c_str());
+                        Timer->OnOff();
+                        Timers->SetModified();
+                        cString ErrorMessage2;
+                        if (!HandleRemoteTimerModifications(Timer, NULL, &ErrorMessage2)) {  // add deactived timer on remote vdr
+                            esyslog("live: add inactiv remote timer %s failed: %s", *Timer->ToDescr(), *ErrorMessage2);
+                            return 2;
+                        }
+                    }
+                    else {
+                        esyslog("live: delete of activ remote timer %s failed: %s", *Timer->ToDescr(), *ErrorMessage1);
+                        return 2;
+                    }
+                }
+            }
+        }
+    }
     bool result = recording->Delete();
     Recordings->DelByName(l_name.c_str());
     return result?0:3;
