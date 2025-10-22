@@ -137,23 +137,25 @@ const recs = [];
 const rec_ids = Object.create(null)
 rec_ids["T"] = [1, 2]
 
-// Title is the title of the action (like "play in media player"), and will be HTML-encoded here
-function RecordingActionS(s, id, A, Img, Title) {
+// Label and Action are used for the tooltip  (like "Play in media player"), and will be HTML-encoded here
+function RecordingActionS(s, id, A, Img, Label, Action) {
   s.a += '<a href=\"'
   s.a += A
   s.a += 'recording_'
   s.a += id
   s.a += '&sort=<$currentSort$>&filter=<$currentFilter$>&flat=<$currentFlat$>&history_num_back=<$history_num_back+1$>\" title=\"'
-  addEncodeHtml(s, Title)
+  addEncodeHtml(s, LabelAndAction(Label, Action))
   s.a += '\"><img class=\"icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>'
   s.a += Img
   s.a += '\" /></a>'
 }
 
-function RecordingActionPlaylist(s, id) {
+function RecordingActionPlaylist(s, id, label) {
   s.a += '<a class=\"hidden-xs invisible\" href=\"playlist.m3u?recid=recording_'
   s.a += id
-  s.a += '&sort=<$currentSort$>&filter=<$currentFilter$>&flat=<$currentFlat$>&history_num_back=<$history_num_back+1$>\" title=\"<$tr("Stream this recording into media player.")$>\" download><img class=\"hidden-xs invisible icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>playlist.png\" /></a>'
+  s.a += '&sort=<$currentSort$>&filter=<$currentFilter$>&flat=<$currentFlat$>&history_num_back=<$history_num_back+1$>\" title=\"'
+  addEncodeHtml(s, LabelAndAction(label, '<$tr("Play this recording in the media player")$>'))
+  s.a += '\" download><img class=\"hidden-xs invisible icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>playlist.png\" /></a>'
 }
 
 // do not HTML-encode title; will be HTML-encoded here!
@@ -467,8 +469,11 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
   std::string flat;
   int history_num_back = 0;
   std::string className;
+  std::string label;
+  std::string breaksAtLeft;
+  std::string breaksAtRight;
 </%args>
-<%cpp> { </%cpp><a href="epginfo.html?epgid=del_<$ id $>&sort=<$sort$>&filter=<$filter$>&flat=<$flat$>&history_num_back=<$history_num_back+1$>" <& tooltip.hint text=(tr("Delete this recording from hard disc!")) &>><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" /></a><%cpp> } </%cpp>
+<%cpp> { </%cpp><a href="epginfo.html?epgid=del_<$ id $>&sort=<$sort$>&filter=<$filter$>&flat=<$flat$>&history_num_back=<$history_num_back+1$>" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Delete this recording")) &>><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" /></a><%cpp> } </%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -480,8 +485,11 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
   std::string flat;
   int history_num_back = 0;
   std::string className;
+  std::string label;
+  std::string breaksAtLeft;
+  std::string breaksAtRight;
 </%args>
-<%cpp> { </%cpp><a href="edit_recording.html?recid=<$ id $>&sort=<$sort$>&filter=<$filter$>&flat=<$flat$>&history_num_back=<$history_num_back+1$>"><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="" <& tooltip.hint text=(tr("Edit recording")) &> /></a><%cpp> } </%cpp>
+<%cpp> { </%cpp><a href="edit_recording.html?recid=<$ id $>&sort=<$sort$>&filter=<$filter$>&flat=<$flat$>&history_num_back=<$history_num_back+1$>"><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Edit recording")) &> /></a><%cpp> } </%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -560,16 +568,29 @@ function cancel_delete() {
   std::string flat;
   int history_num_back = 0;
 </%args>
-%   if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
-<& pageelems.ajax_action_href action="play_recording" param=(id) tip=(tr("play this recording")) image="play.png" alt="" className="icon" &>
-%   }
-<& pageelems.hls_recording recId=(id) className="icon" &>
-<& pageelems.m3u_playlist_recording recid=(id) className="icon" &>
-<& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID) className="icon" &>
-<& recordings.edit_rec id=(id) sort=(sort) filter=(filter) flat=(flat) history_num_back=(history_num_back) className="icon" &>
-<& recordings.del_rec id=(id) sort=(sort) filter=(filter) flat=(flat) history_num_back=(history_num_back) className="icon" &>
 <%cpp>
+cToSvConcat label = "";
+constexpr auto breaksAtRight = "~";
 const RecordingsItemRec* recPtr = RecordingsManager::GetByIdHash(id);
+if (recPtr) {
+  time_t startTime = recPtr->StartTime();
+  label.appendDateTime(tr("%a,"), startTime );      // day of week
+  label.concat(' ');
+  label.appendDateTime(tr("%b %d %y"), startTime);  // date
+  label.concat(", ");
+  label.appendDateTime(tr("%I:%M %p"), startTime);  // time
+  label.append(tr(" - ")).append(title);
+}
+</%cpp>
+%   if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
+<& pageelems.ajax_action_href action="play_recording" param=(id) tip=(tr("Play this recording")) label=(label) breaksAtRight=(breaksAtRight) image="play.png" alt="" className="icon" &>
+%   }
+<& pageelems.hls_recording recId=(id) className="icon" label=(label) breaksAtRight=(breaksAtRight) &>
+<& pageelems.m3u_playlist_recording recid=(id) className="icon" label=(label) breaksAtRight=(breaksAtRight) &>
+<& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID) className="icon" label=(label) breaksAtRight=(breaksAtRight) &>
+<& recordings.edit_rec id=(id) sort=(sort) filter=(filter) flat=(flat) history_num_back=(history_num_back) className="icon" label=(label) breaksAtRight=(breaksAtRight) &>
+<& recordings.del_rec id=(id) sort=(sort) filter=(filter) flat=(flat) history_num_back=(history_num_back) className="icon" label=(label) breaksAtRight=(breaksAtRight) &>
+<%cpp>
 if (recPtr) {
   const char *sdhd = nullptr;
   cToSvConcat frameParams;

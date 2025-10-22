@@ -859,6 +859,7 @@ div.cast_crew.tabular {
   margin: var(--text-line-gap) 0px;
 }
 
+.hint-tip-body p.click-action:not(:first-child),
 .hint-tip-body p.click-details:not(:first-child) {
   padding-top: var(--text-block-gap);
 }
@@ -1574,6 +1575,7 @@ div.content div.tools {
   padding: var(--margin-top-bottom) 0px;
   background: var(--infowin-tools-background-color);
   border-right: var(--infowin-border-width) solid var(--infowin-tools-border-color);
+  line-height: 0px;
 }
 
 div.content div.whatson_info {

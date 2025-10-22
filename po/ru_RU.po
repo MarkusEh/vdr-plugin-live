@@ -86,6 +86,9 @@ msgstr "Ошибка id события"
 msgid "%A, %b %d %Y"
 msgstr "%A, %d.%m.%Y"
 
+msgid " - "
+msgstr ""
+
 msgid "Last channel to display"
 msgstr "Последний канал для отображения"
 
@@ -555,13 +558,13 @@ msgstr ""
 msgid "Cannot control playback!"
 msgstr "Управление воспросизведением недоступно!"
 
-msgid "playing recording"
+msgid "Playing recording"
 msgstr "воспроизведение записи"
 
-msgid "no epg info for current event!"
+msgid "No EPG info for current event!"
 msgstr "нет информации телегида о текущем событии!"
 
-msgid "no epg info for current channel!"
+msgid "No EPG info for current channel!"
 msgstr "нет информации телегида на данном канале!"
 
 msgid "no current channel!"
@@ -585,28 +588,28 @@ msgstr ""
 msgid "Number of ts files"
 msgstr ""
 
-msgid "Find more at the Internet Movie Database."
+msgid "Find more in the IMDb (Internet Movie Database)"
 msgstr "Найти на Kinopoisk.ru."
 
 msgid "Record this"
 msgstr "Запись."
 
-msgid "Search for repeats."
+msgid "Search for repeats"
 msgstr "Найти повторы."
 
 msgid "Existing Recording:"
 msgstr ""
 
-msgid "Stream this recording into browser."
+msgid "Play this recording in the browser"
 msgstr ""
 
-msgid "Click to view details."
+msgid "Click to view details"
 msgstr "Нажмите чтобы узнать больше."
 
-msgid "play this recording"
+msgid "Play this recording"
 msgstr ""
 
-msgid "Delete this recording from hard disc!"
+msgid "Delete this recording"
 msgstr "Удалить эту запись с жесткого диска!"
 
 msgid "Wrong username or password"
@@ -669,7 +672,7 @@ msgstr "Сейчас"
 msgid "Time"
 msgstr "Время"
 
-msgid "Switch to this channel."
+msgid "Switch to this channel"
 msgstr "Переключиться на этот канал."
 
 msgid "more"
@@ -684,55 +687,55 @@ msgstr ""
 msgid "Next entry"
 msgstr ""
 
-msgid "Stream this channel into browser."
+msgid "Play this channel in the browser"
 msgstr ""
 
-msgid "Stream this channel into media player."
+msgid "Play this channel in the media player"
 msgstr ""
 
-msgid "Stream this recording into media player."
+msgid "Play this recording in the media player"
 msgstr ""
 
-msgid "Stream this recording."
+msgid "Stream this recording"
 msgstr ""
 
-msgid "loading data"
+msgid "Loading data ..."
 msgstr "загрузка данных"
 
-msgid "an error occurred!"
+msgid "An error occurred!"
 msgstr "обнаружена ошибка!"
 
-msgid "Request succeeded!"
+msgid "Request succeeded"
 msgstr "Запрос выполнен!"
 
 msgid "Request failed!"
 msgstr "Запрос не выполнен!"
 
-msgid "retrieving status ..."
+msgid "Retrieving status ..."
 msgstr "получение статуса … "
 
-msgid "Toggle updates on/off."
+msgid "Toggle updates on/off"
 msgstr "Включить обновления on/off."
 
-msgid "stop playback"
+msgid "Stop playback"
 msgstr "остановить воспроизведение"
 
-msgid "resume playback"
+msgid "Resume playback"
 msgstr "продолжить воспроизведение"
 
-msgid "pause playback"
+msgid "Pause playback"
 msgstr "пауза"
 
-msgid "fast rewind"
+msgid "Fast rewind"
 msgstr "перемотка вперед"
 
-msgid "fast forward"
+msgid "Fast forward"
 msgstr "перемотка назад"
 
-msgid "previous channel"
+msgid "Previous channel"
 msgstr "предыдущий канал"
 
-msgid "next channel"
+msgid "Next channel"
 msgstr "следующий канал"
 
 msgid "No server response!"
@@ -774,7 +777,7 @@ msgstr ""
 msgid "Episode runtime:"
 msgstr ""
 
-msgid "IMDB episode"
+msgid "IMDb episode"
 msgstr ""
 
 msgid "Guest stars and crew"
@@ -810,7 +813,7 @@ msgstr ""
 msgid "Vote average/count:"
 msgstr ""
 
-msgid "IMDB"
+msgid "IMDb"
 msgstr ""
 
 msgid "Budget:"
@@ -1091,9 +1094,6 @@ msgstr ""
 msgid "View the schedule of this channel"
 msgstr "Просмотреть расписание на этом канале"
 
-msgid " - "
-msgstr ""
-
 msgid "Recording"
 msgstr ""
 
@@ -1112,16 +1112,16 @@ msgstr "Нет конфликта таймеров"
 msgid "local"
 msgstr ""
 
-msgid "Timer has a conflict."
+msgid "Timer has a conflict"
 msgstr "Есть конфликт таймеров"
 
-msgid "Timer is active."
+msgid "Timer is active"
 msgstr "Таймер активен"
 
 msgid "Transponder"
 msgstr ""
 
-msgid "Toggle timer active/inactive"
+msgid "Toggle timer (in)active"
 msgstr "Переключить таймер активны/неактивный"
 
 msgid "Delete timer"
@@ -1133,8 +1133,11 @@ msgstr "Таймер не установлен"
 msgid "Duration"
 msgstr ""
 
-msgid "Timer is recording."
+msgid "Timer is recording"
 msgstr "Таймер записывает."
+
+msgid "Delete this timer?"
+msgstr ""
 
 msgid "Users"
 msgstr "Пользователь"
@@ -1156,6 +1159,9 @@ msgstr "Что даллее?"
 
 msgid "Favorites"
 msgstr "Избранные"
+
+msgid "No events found"
+msgstr ""
 
 msgid "Next"
 msgstr "Далее"

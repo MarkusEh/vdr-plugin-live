@@ -87,6 +87,9 @@ msgstr "Nesprávne ID udalosti"
 msgid "%A, %b %d %Y"
 msgstr "%A, %b %d %Y"
 
+msgid " - "
+msgstr " - "
+
 msgid "Last channel to display"
 msgstr "Posledný zobrazený kanál na obrazovke"
 
@@ -556,13 +559,13 @@ msgstr "Ak sa vy¾iada rovnaká nahrávka, tak ju neprehraje."
 msgid "Cannot control playback!"
 msgstr "Nemo¾no ovláda» prehrávanie!"
 
-msgid "playing recording"
+msgid "Playing recording"
 msgstr "Prehrávanie záznamu"
 
-msgid "no epg info for current event!"
+msgid "No EPG info for current event!"
 msgstr "¾iadne EPG informácie na aktuálnu udalos»!"
 
-msgid "no epg info for current channel!"
+msgid "No EPG info for current channel!"
 msgstr "®iadne epg pre vybraný kanál!"
 
 msgid "no current channel!"
@@ -586,28 +589,28 @@ msgstr ""
 msgid "Number of ts files"
 msgstr ""
 
-msgid "Find more at the Internet Movie Database."
+msgid "Find more in the IMDb (Internet Movie Database)"
 msgstr "Viac na Internet Movie Database."
 
 msgid "Record this"
 msgstr "Nahra»"
 
-msgid "Search for repeats."
+msgid "Search for repeats"
 msgstr "Vyhµada» reprízy."
 
 msgid "Existing Recording:"
 msgstr ""
 
-msgid "Stream this recording into browser."
+msgid "Play this recording in the browser"
 msgstr ""
 
-msgid "Click to view details."
+msgid "Click to view details"
 msgstr "Podrobnosti získate kliknutím."
 
-msgid "play this recording"
+msgid "Play this recording"
 msgstr ""
 
-msgid "Delete this recording from hard disc!"
+msgid "Delete this recording"
 msgstr "Vymaza» nahrávku z HDD"
 
 msgid "Wrong username or password"
@@ -670,7 +673,7 @@ msgstr "Teraz ide"
 msgid "Time"
 msgstr "Èas"
 
-msgid "Switch to this channel."
+msgid "Switch to this channel"
 msgstr "Prepnú» na tento kanál."
 
 msgid "more"
@@ -685,55 +688,55 @@ msgstr ""
 msgid "Next entry"
 msgstr ""
 
-msgid "Stream this channel into browser."
+msgid "Play this channel in the browser"
 msgstr ""
 
-msgid "Stream this channel into media player."
+msgid "Play this channel in the media player"
 msgstr ""
 
-msgid "Stream this recording into media player."
+msgid "Play this recording in the media player"
 msgstr ""
 
-msgid "Stream this recording."
+msgid "Stream this recording"
 msgstr ""
 
-msgid "loading data"
+msgid "Loading data ..."
 msgstr "naèítanie dát"
 
-msgid "an error occurred!"
+msgid "An error occurred!"
 msgstr "do¹lo k chybe!"
 
-msgid "Request succeeded!"
+msgid "Request succeeded"
 msgstr "Vyhovelo ¾iadosti!"
 
 msgid "Request failed!"
 msgstr "Chyba ¾iadosti!"
 
-msgid "retrieving status ..."
+msgid "Retrieving status ..."
 msgstr "naèítavanie stavu"
 
-msgid "Toggle updates on/off."
+msgid "Toggle updates on/off"
 msgstr "Prepínaè aktualizácii zapnú»/vypnú»."
 
-msgid "stop playback"
+msgid "Stop playback"
 msgstr "zastavenie prehrávania"
 
-msgid "resume playback"
+msgid "Resume playback"
 msgstr "obnovi» prehrávanie"
 
-msgid "pause playback"
+msgid "Pause playback"
 msgstr "pozastavenie prehrávania"
 
-msgid "fast rewind"
+msgid "Fast rewind"
 msgstr "rýchlo pretoèi»"
 
-msgid "fast forward"
+msgid "Fast forward"
 msgstr "rýchlo vpred"
 
-msgid "previous channel"
+msgid "Previous channel"
 msgstr "predchádzajúci kanál"
 
-msgid "next channel"
+msgid "Next channel"
 msgstr "ïal¹í kanál"
 
 msgid "No server response!"
@@ -775,7 +778,7 @@ msgstr ""
 msgid "Episode runtime:"
 msgstr ""
 
-msgid "IMDB episode"
+msgid "IMDb episode"
 msgstr ""
 
 msgid "Guest stars and crew"
@@ -811,7 +814,7 @@ msgstr ""
 msgid "Vote average/count:"
 msgstr ""
 
-msgid "IMDB"
+msgid "IMDb"
 msgstr ""
 
 msgid "Budget:"
@@ -1092,9 +1095,6 @@ msgstr "%a, %x"
 msgid "View the schedule of this channel"
 msgstr "Zobrazi» televízny program pre tento kanál"
 
-msgid " - "
-msgstr " - "
-
 msgid "Recording"
 msgstr ""
 
@@ -1113,16 +1113,16 @@ msgstr "®iadne konflikty"
 msgid "local"
 msgstr ""
 
-msgid "Timer has a conflict."
+msgid "Timer has a conflict"
 msgstr "Plán má konflikt."
 
-msgid "Timer is active."
+msgid "Timer is active"
 msgstr "Plán je aktívny."
 
 msgid "Transponder"
 msgstr ""
 
-msgid "Toggle timer active/inactive"
+msgid "Toggle timer (in)active"
 msgstr "Vypínaè plánu Zapnú»/vypnú»"
 
 msgid "Delete timer"
@@ -1134,8 +1134,11 @@ msgstr "®iadny plán nahrávania nie je stanovený"
 msgid "Duration"
 msgstr ""
 
-msgid "Timer is recording."
+msgid "Timer is recording"
 msgstr "Nahráva sa podµa plánu."
+
+msgid "Delete this timer?"
+msgstr ""
 
 msgid "Users"
 msgstr "U¾ívatelia"
@@ -1157,6 +1160,9 @@ msgstr "Èo nasleduje?"
 
 msgid "Favorites"
 msgstr "Obµúbené"
+
+msgid "No events found"
+msgstr ""
 
 msgid "Next"
 msgstr "Nasleduje"

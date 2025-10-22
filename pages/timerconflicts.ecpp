@@ -73,7 +73,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
             <tr class="head">
               <td colspan="12">
                 <div class="boxheader">
-                  <div class="caption"><$ concat(cToSvDateTime(tr("%A, %x"), conflict->ConflictTime()), " ", cToSvDateTime(tr("%I:%M %p"), conflict->ConflictTime()), " - ", cToSvInt(confltimer->percentage), "%") $></div>
+                  <div class="caption"><$ concat(cToSvDateTime(tr("%A, %x"), conflict->ConflictTime()), " ", cToSvDateTime(tr("%I:%M %p"), conflict->ConflictTime()), tr(" - "), cToSvInt(confltimer->percentage), "%") $></div>
                   <div class="caption"><$ tr("Server")$>: <$ (confltimer->remote == "" ) ? tr("local") : confltimer->remote $></div>
                 </div>
               </td>
@@ -118,12 +118,12 @@ if (!logged_in && LiveSetup().UseAuth()) {
               if (timer->Id() == confltimer->timerIndex) {
                 timerStateImg = "timer_conflict.png";
                 timerStateClass = "conflict";
-                timerStateHint = tr("Timer has a conflict.");
+                timerStateHint = tr("Timer has a conflict");
               }
               else if (timer->Flags() & tfActive) {
                 timerStateImg = "arrow.png";
                 timerStateClass = "active";
-                timerStateHint = tr("Timer is active.");
+                timerStateHint = tr("Timer is active");
               }
 
               cToSvConcat longDescription;
@@ -200,11 +200,14 @@ if (!logged_in && LiveSetup().UseAuth()) {
                 <td class="rightcol <? bottom ? "bottomrow" ?>">
                   <# use a flexbox to allow dynamic arrangement upon changing screen size #>
                   <div class="event_actions">
+%                   constexpr auto fileNameBreaks = "~";
+%                   cToSvDateTime label(tr("%I:%M %p"), timer->StartTime());
+%                   label.append(tr(" - ")).append(timer->File());
 %                   int xsVisibleIcons = 3;     // all except the edit-timer icon
-                    <a class="action-rightcol" href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(title) $>"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a>
-                    <a class="action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&action=toggle"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &> /></a>
-                    <div class="action-rightcol"><& pageelems.edit_timer timerId=(SortedTimers::GetTimerId(*timer)) className="icon" iCounter=((uintptr_t)&xsVisibleIcons) &></div>
-                    <a class="action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&action=delete"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint text=(tr("Delete timer")) &> /></a>
+                    <a class="action-rightcol" href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(title) $>"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtRight=(fileNameBreaks) text=(tr("Search for repeats")) &> /></a>
+                    <a class="action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&action=toggle"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtRight=(fileNameBreaks) text=(tr("Toggle timer (in)active")) &> /></a>
+                    <div class="action-rightcol"><& pageelems.edit_timer timerId=(SortedTimers::GetTimerId(*timer)) className="icon" label=(label) breaksAtRight=(fileNameBreaks) iCounter=((uintptr_t)&xsVisibleIcons) &></div>
+                    <a class="action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&action=delete"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtRight=(fileNameBreaks) text=(tr("Delete timer")) &> /></a>
                     <div class="notpresent xs-visible-<$ xsVisibleIcons $> xs-columns-<$ (xsVisibleIcons  + 2) / 3 $>"></div>
                   </div>
                 </td>

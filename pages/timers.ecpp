@@ -178,18 +178,18 @@ using namespace vdrlive;
           if (timer->Recording()) {
             timerStateClass = "recording";
             timerStateIcon = "arrow_rec.png";
-            timerStateHint = tr("Timer is recording.");
+            timerStateHint = tr("Timer is recording");
           }
           else if (timer->Flags() & tfActive) {
             if (timerConflicts.HasConflict(timer->Id() )) {
               timerStateClass = "conflict";
               timerStateIcon = "timer_conflict.png";
-              timerStateHint = tr("Timer has a conflict.");
+              timerStateHint = tr("Timer has a conflict");
             }
             else {
               timerStateClass = "active";
               timerStateIcon = "arrow.png";
-              timerStateHint = tr("Timer is active.");
+              timerStateHint = tr("Timer is active");
             }
           }
           cToSvConcat<0> timerFile;
@@ -238,9 +238,12 @@ using namespace vdrlive;
           <td class="rightcol <? bottom ? "bottomrow" ?>">
             <# use a flexbox to allow dynamic arrangement upon changing screen size #>
             <div class="event_actions">
-              <a class="action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&action=toggle"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint text=(tr("Toggle timer active/inactive")) &> /></a>
-              <div class="action-rightcol"><& pageelems.edit_timer timerId=(SortedTimers::GetTimerId(*timer)) className="icon" &></div>
-              <a class="action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&action=delete"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint text=(tr("Delete timer")) &> /></a>
+%             constexpr auto fileNameBreaks = "~";
+%             cToSvDateTime label(tr("%I:%M %p"), timer->StartTime());
+%             label.append(tr(" - ")).append(timer->File());
+              <a class="action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&action=toggle"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtRight=(fileNameBreaks) text=(tr("Toggle timer (in)active")) &> /></a>
+              <div class="action-rightcol"><& pageelems.edit_timer timerId=(SortedTimers::GetTimerId(*timer)) className="icon" label=(label) breaksAtRight=(fileNameBreaks) &></div>
+              <a class="action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&action=delete" onclick="return confirm('<$ label $>\\n\\n<$ tr("Delete this timer?") $>')"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtRight=(fileNameBreaks) text=(tr("Delete timer")) &> /></a>
             </div>
           </td>
         </tr>

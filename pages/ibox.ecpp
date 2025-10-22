@@ -54,7 +54,7 @@ TimerConflictNotifier timerNotifier();
       epgEvent.CreateEpgInfo(
         concat("recording_", cToSvXxHash128(XXH3_128bits(NowReplaying, strlen(NowReplaying))) ),
         recording,
-        tr("playing recording"));
+        tr("Playing recording"));
     }
   }
   else {
@@ -87,12 +87,12 @@ TimerConflictNotifier timerNotifier();
           epgEvent.CreateEpgInfo(Channel, Event, CHANNEL_STR);
         } else {
           epgEvent.CreateEpgInfo(CHANNEL_STR, Channel->Name(),
-                            tr("no epg info for current event!"));
+                            tr("No EPG info for current event!"));
         }
       }
       else {
         epgEvent.CreateEpgInfo(CHANNEL_STR, Channel->Name(),
-                          tr("no epg info for current channel!"));
+                          tr("No EPG info for current channel!"));
       }
     }
     else {
@@ -107,22 +107,22 @@ TimerConflictNotifier timerNotifier();
     if (prev_chan.Valid() && next_chan.Valid())
     {
 </%cpp>
-<& xmlresponse.ibox update=(update_status) type=(epgEvent.Id()) caption=(epgEvent.Caption()) currentTime=(epgEvent.CurrentTime(tr("%I:%M:%S %p"))) duration=(epgEvent.StartTime(tr("%I:%M %p")) + std::string(" - ") + epgEvent.EndTime(tr("%I:%M %p"))) title=(epgEvent.Title()) elapsed=(epgEvent.Elapsed()) prev_chan=(prev_chan) next_chan=(next_chan) infoMsg=(infoMsg) infoUrl=(infoUrl) &>
+<& xmlresponse.ibox update=(update_status) type=(epgEvent.Id()) caption=(epgEvent.Caption()) currentTime=(epgEvent.CurrentTime(tr("%I:%M:%S %p"))) duration=(epgEvent.StartTime(tr("%I:%M %p")) + std::string(tr(" - ")) + epgEvent.EndTime(tr("%I:%M %p"))) title=(epgEvent.Title()) elapsed=(epgEvent.Elapsed()) prev_chan=(prev_chan) next_chan=(next_chan) infoMsg=(infoMsg) infoUrl=(infoUrl) &>
 <%cpp>
     }
     else if (prev_chan.Valid()) {
 </%cpp>
-<& xmlresponse.ibox update=(update_status) type=(epgEvent.Id()) caption=(epgEvent.Caption()) currentTime=(epgEvent.CurrentTime(tr("%I:%M:%S %p"))) duration=(epgEvent.StartTime(tr("%I:%M %p")) + std::string(" - ") + epgEvent.EndTime(tr("%I:%M %p"))) title=(epgEvent.Title()) elapsed=(epgEvent.Elapsed()) prev_chan=(prev_chan) infoMsg=(infoMsg) infoUrl=(infoUrl) &>
+<& xmlresponse.ibox update=(update_status) type=(epgEvent.Id()) caption=(epgEvent.Caption()) currentTime=(epgEvent.CurrentTime(tr("%I:%M:%S %p"))) duration=(epgEvent.StartTime(tr("%I:%M %p")) + std::string(tr(" - ")) + epgEvent.EndTime(tr("%I:%M %p"))) title=(epgEvent.Title()) elapsed=(epgEvent.Elapsed()) prev_chan=(prev_chan) infoMsg=(infoMsg) infoUrl=(infoUrl) &>
 <%cpp>
     }
     else if (next_chan.Valid()) {
 </%cpp>
-<& xmlresponse.ibox update=(update_status) type=(epgEvent.Id()) caption=(epgEvent.Caption()) currentTime=(epgEvent.CurrentTime(tr("%I:%M:%S %p"))) duration=(epgEvent.StartTime(tr("%I:%M %p")) + std::string(" - ") + epgEvent.EndTime(tr("%I:%M %p"))) title=(epgEvent.Title()) elapsed=(epgEvent.Elapsed()) next_chan=(next_chan) infoMsg=(infoMsg) infoUrl=(infoUrl) &>
+<& xmlresponse.ibox update=(update_status) type=(epgEvent.Id()) caption=(epgEvent.Caption()) currentTime=(epgEvent.CurrentTime(tr("%I:%M:%S %p"))) duration=(epgEvent.StartTime(tr("%I:%M %p")) + std::string(tr(" - ")) + epgEvent.EndTime(tr("%I:%M %p"))) title=(epgEvent.Title()) elapsed=(epgEvent.Elapsed()) next_chan=(next_chan) infoMsg=(infoMsg) infoUrl=(infoUrl) &>
 <%cpp>
     }
     else {
 </%cpp>
-<& xmlresponse.ibox update=(update_status) type=(epgEvent.Id()) caption=(epgEvent.Caption()) currentTime=(epgEvent.CurrentTime(tr("%I:%M:%S %p"))) duration=(epgEvent.StartTime(tr("%I:%M %p")) + std::string(" - ") + epgEvent.EndTime(tr("%I:%M %p"))) title=(epgEvent.Title()) elapsed=(epgEvent.Elapsed()) infoMsg=(infoMsg) infoUrl=(infoUrl) &>
+<& xmlresponse.ibox update=(update_status) type=(epgEvent.Id()) caption=(epgEvent.Caption()) currentTime=(epgEvent.CurrentTime(tr("%I:%M:%S %p"))) duration=(epgEvent.StartTime(tr("%I:%M %p")) + std::string(tr(" - ")) + epgEvent.EndTime(tr("%I:%M %p"))) title=(epgEvent.Title()) elapsed=(epgEvent.Elapsed()) infoMsg=(infoMsg) infoUrl=(infoUrl) &>
 <%cpp>
     }
   }

@@ -123,7 +123,7 @@ using namespace vdrlive;
                       epgEvent.StartTime(tr("%b %d %y")), ' ',
                       epgEvent.StartTime(tr("%I:%M %p")) );
     if (epgEvent.isRecording() ) {
-      start << " - " << epgEvent.EndTime(tr("%I:%M %p")) << ' ';
+      start << tr(" - ") << epgEvent.EndTime(tr("%I:%M %p")) << ' ';
       AppendDuration(start, tr("(%d:%02d)"), epgEvent.Duration());
     }
 

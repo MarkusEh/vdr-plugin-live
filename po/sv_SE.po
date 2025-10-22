@@ -86,6 +86,9 @@ msgstr "Fel händelse-id"
 msgid "%A, %b %d %Y"
 msgstr "%A, %d.%m.%Y"
 
+msgid " - "
+msgstr ""
+
 msgid "Last channel to display"
 msgstr "Sista kanal att visa"
 
@@ -555,13 +558,13 @@ msgstr "Spelar inte samma inspelnging som begärdes."
 msgid "Cannot control playback!"
 msgstr "Kan inte styra uppspelning!"
 
-msgid "playing recording"
+msgid "Playing recording"
 msgstr "Spelar upp inspelning"
 
-msgid "no epg info for current event!"
+msgid "No EPG info for current event!"
 msgstr "Ingen epg-info för nuvarande händelse!"
 
-msgid "no epg info for current channel!"
+msgid "No EPG info for current channel!"
 msgstr "Ingen epg-info för nuvarande kanal!"
 
 msgid "no current channel!"
@@ -585,28 +588,28 @@ msgstr ""
 msgid "Number of ts files"
 msgstr ""
 
-msgid "Find more at the Internet Movie Database."
-msgstr "Hitta mera på IMDB"
+msgid "Find more in the IMDb (Internet Movie Database)"
+msgstr "Hitta mera på IMDb"
 
 msgid "Record this"
 msgstr "Spela in detta."
 
-msgid "Search for repeats."
+msgid "Search for repeats"
 msgstr "Sök efter upprepningar."
 
 msgid "Existing Recording:"
 msgstr ""
 
-msgid "Stream this recording into browser."
+msgid "Play this recording in the browser"
 msgstr ""
 
-msgid "Click to view details."
+msgid "Click to view details"
 msgstr "Klicka för detaljer"
 
-msgid "play this recording"
+msgid "Play this recording"
 msgstr ""
 
-msgid "Delete this recording from hard disc!"
+msgid "Delete this recording"
 msgstr "Ta bort den inspelning från hårddisken!"
 
 msgid "Wrong username or password"
@@ -669,7 +672,7 @@ msgstr "Nu"
 msgid "Time"
 msgstr "Tid"
 
-msgid "Switch to this channel."
+msgid "Switch to this channel"
 msgstr "Byt till denna kanal."
 
 msgid "more"
@@ -684,55 +687,55 @@ msgstr ""
 msgid "Next entry"
 msgstr ""
 
-msgid "Stream this channel into browser."
+msgid "Play this channel in the browser"
 msgstr ""
 
-msgid "Stream this channel into media player."
+msgid "Play this channel in the media player"
 msgstr ""
 
-msgid "Stream this recording into media player."
+msgid "Play this recording in the media player"
 msgstr ""
 
-msgid "Stream this recording."
+msgid "Stream this recording"
 msgstr ""
 
-msgid "loading data"
+msgid "Loading data ..."
 msgstr "Laddar data"
 
-msgid "an error occurred!"
+msgid "An error occurred!"
 msgstr "Ett fel inträffade!"
 
-msgid "Request succeeded!"
+msgid "Request succeeded"
 msgstr "Begäran lyckades!"
 
 msgid "Request failed!"
 msgstr "Begäran misslyckades!"
 
-msgid "retrieving status ..."
+msgid "Retrieving status ..."
 msgstr "Hämtar status ..."
 
-msgid "Toggle updates on/off."
+msgid "Toggle updates on/off"
 msgstr "Uppdateringar på/av."
 
-msgid "stop playback"
+msgid "Stop playback"
 msgstr "stoppa uppspelning"
 
-msgid "resume playback"
+msgid "Resume playback"
 msgstr "återuppta uppspelning"
 
-msgid "pause playback"
+msgid "Pause playback"
 msgstr "pausa uppspelning"
 
-msgid "fast rewind"
+msgid "Fast rewind"
 msgstr "spola bakåt"
 
-msgid "fast forward"
+msgid "Fast forward"
 msgstr "spola framåt"
 
-msgid "previous channel"
+msgid "Previous channel"
 msgstr "förra kanalen"
 
-msgid "next channel"
+msgid "Next channel"
 msgstr "nästa kanal"
 
 msgid "No server response!"
@@ -774,7 +777,7 @@ msgstr ""
 msgid "Episode runtime:"
 msgstr ""
 
-msgid "IMDB episode"
+msgid "IMDb episode"
 msgstr ""
 
 msgid "Guest stars and crew"
@@ -810,7 +813,7 @@ msgstr ""
 msgid "Vote average/count:"
 msgstr ""
 
-msgid "IMDB"
+msgid "IMDb"
 msgstr ""
 
 msgid "Budget:"
@@ -1091,9 +1094,6 @@ msgstr ""
 msgid "View the schedule of this channel"
 msgstr "Visa schemat för denna kanal"
 
-msgid " - "
-msgstr ""
-
 msgid "Recording"
 msgstr ""
 
@@ -1112,16 +1112,16 @@ msgstr "Inga timerkonflikter"
 msgid "local"
 msgstr ""
 
-msgid "Timer has a conflict."
+msgid "Timer has a conflict"
 msgstr "Upptäckt konflikt för timern"
 
-msgid "Timer is active."
+msgid "Timer is active"
 msgstr "Timern är aktiv"
 
 msgid "Transponder"
 msgstr ""
 
-msgid "Toggle timer active/inactive"
+msgid "Toggle timer (in)active"
 msgstr "Välj aktiv/inaktiv för timer"
 
 msgid "Delete timer"
@@ -1133,8 +1133,11 @@ msgstr "Ingen timer definierad"
 msgid "Duration"
 msgstr ""
 
-msgid "Timer is recording."
+msgid "Timer is recording"
 msgstr "Timern spelar in."
+
+msgid "Delete this timer?"
+msgstr ""
 
 msgid "Users"
 msgstr "Användare"
@@ -1156,6 +1159,9 @@ msgstr "Vad är nästa program?"
 
 msgid "Favorites"
 msgstr "Favoriter"
+
+msgid "No events found"
+msgstr ""
 
 msgid "Next"
 msgstr "Nästa"

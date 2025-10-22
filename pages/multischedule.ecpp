@@ -36,6 +36,7 @@ struct SchedEntry {
   std::string end;
   std::string day;
   std::string epgid;
+  std::string label;
   bool truncated;
   tState timer;
   int start_row;
@@ -376,6 +377,7 @@ std::vector<std::string> channel_groups_names;
         en.end   = cToSvDateTime(tr("%I:%M %p"), Event->EndTime());
         en.day = cToSvDateTime(tr("%A, %b %d %Y"), Event->StartTime());
         en.epgid = EpgEvents::EncodeDomId(Channel->GetChannelID(), Event->EventID());
+        en.label = cToSvConcat(en.start).append(tr(" - ")).append(en.title);
         const cTimer* timer = TimerManager::GetTimer(Event, Channel, Timers);
         if (!timer)
           en.timer = tState::None;
@@ -433,7 +435,7 @@ std::vector<std::string> channel_groups_names;
 %   }
     </div><div class="caption tools">
 %   if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
-<& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channel_IDs[channel]) image="zap.png" className="icon" alt="" &>
+<& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel")) param=(channel_IDs[channel]) image="zap.png" className="icon" alt="" &>
 %   }
 <& pageelems.hls_channel channelId=(channel_IDs[channel]) className="icon" &>
 <& pageelems.m3u_playlist_channel channelId=(channel_IDs[channel]) className="icon" &>
@@ -505,11 +507,11 @@ std::vector<std::string> channel_groups_names;
       <div class=" tools1 " >
         <& pageelems.event_timer epgid=(en.epgid) className="icon" &>
 %     if (LiveFeatures<features::epgsearch>().Recent() ) {
-        <a href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(en.title) $>"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats.")) &> /></a>
+        <a href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(en.title) $>"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats")) label=(en.label) className="click-action" &> /></a>
 %     } else {
         <img class="icon <? en.timer == tState::Recording ? "fading" ?>" src="<$ LiveSetup().GetThemedLink("img", en.timer == tState::Recording || en.timer == tState::Active ? "record_timer_active.png" : "record_timer_inactive.png") $>">
 %     } // display of IMDb icon to be determined in subroutine, otherwise inconsistent
-        <& pageelems.imdb_info_href title=(en.title) className="icon" &>
+        <& pageelems.imdb_info_href title=(en.title) className="icon" label=(en.label) &>
         </div><div class= "start withmargin"><$ en.start $></div>
         <div class="title withmargin"><$ en.title $></div>
 %     if (en.row_count > 2 && !en.short_description.empty() ) {
@@ -517,7 +519,7 @@ std::vector<std::string> channel_groups_names;
 %     } if (en.row_count > 3 && ! en.description_trunc.empty() ) {
         <div class="description withmargin"><$en.description_trunc$>
 %       if (en.truncated) {
-          ...</div><div class="more withmargin"><a <& tooltip.hint text=(tr("Click to view details.")) &><& tooltip.display domId=en.epgid &>><$ tr("more") $></a>
+          ...</div><div class="more withmargin"><a <& tooltip.hint text=(tr("Click to view details")) &><& tooltip.display domId=en.epgid &>><$ tr("more") $></a>
 %       }
         </div>
 %     }

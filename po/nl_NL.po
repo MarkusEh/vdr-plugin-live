@@ -88,6 +88,9 @@ msgstr "Verkeerde event id"
 msgid "%A, %b %d %Y"
 msgstr ""
 
+msgid " - "
+msgstr " - "
+
 msgid "Last channel to display"
 msgstr "Laatst te tonen kanaal"
 
@@ -165,7 +168,7 @@ msgid "Cannot copy, rename or move the recording."
 msgstr "Kan de opname niet kopiëren, hernoemen of verplaatsen."
 
 msgid "Edit recording"
-msgstr "Bwerk de opname"
+msgstr "Bewerk de opname"
 
 msgid "Name"
 msgstr "Naam"
@@ -557,14 +560,14 @@ msgstr "Op verzoek wordt dezelfde opname niet nogmaals afgespeeld."
 msgid "Cannot control playback!"
 msgstr "Kan afspelen niet beheren!"
 
-msgid "playing recording"
-msgstr "opname afspelen"
+msgid "Playing recording"
+msgstr "Opname afspelen"
 
-msgid "no epg info for current event!"
-msgstr "geen epg informatie voor het huidige programma!"
+msgid "No EPG info for current event!"
+msgstr "Geen EPG informatie voor het huidige programma!"
 
-msgid "no epg info for current channel!"
-msgstr "geen epg informatie voor het huidige kanaal!"
+msgid "No EPG info for current channel!"
+msgstr "Geen EPG informatie voor het huidige kanaal!"
 
 msgid "no current channel!"
 msgstr "geen huidig kanaal!"
@@ -587,29 +590,29 @@ msgstr "h"
 msgid "Number of ts files"
 msgstr "Aantal ts file"
 
-msgid "Find more at the Internet Movie Database."
-msgstr "Zoek verder op de Internet Movie Database."
+msgid "Find more in the IMDb (Internet Movie Database)"
+msgstr "Zoek op de IMDb (Internet Movie Database)"
 
 msgid "Record this"
 msgstr "Neem dit nu op"
 
-msgid "Search for repeats."
+msgid "Search for repeats"
 msgstr "Zoek naar herhalingen"
 
 msgid "Existing Recording:"
-msgstr "Bestaande Opnamen"
+msgstr "Bestaande Opnamen:"
 
-msgid "Stream this recording into browser."
-msgstr "Stream deze opname naar de browser"
+msgid "Play this recording in the browser"
+msgstr "Speel deze opname af in de browser"
 
-msgid "Click to view details."
-msgstr "Klik voor details."
+msgid "Click to view details"
+msgstr "Klik voor details"
 
-msgid "play this recording"
-msgstr "speel deze opname af"
+msgid "Play this recording"
+msgstr "Speel deze opname af"
 
-msgid "Delete this recording from hard disc!"
-msgstr "Wis deze opname van de hardeschijf!"
+msgid "Delete this recording"
+msgstr "Deze opname verwijderen"
 
 msgid "Wrong username or password"
 msgstr "Verkeerde gebruikersnaam of wachtwoord"
@@ -671,8 +674,8 @@ msgstr "Nu"
 msgid "Time"
 msgstr "Tijd"
 
-msgid "Switch to this channel."
-msgstr "Schakel naar did kanaal"
+msgid "Switch to this channel"
+msgstr "Schakel naar dit kanaal"
 
 msgid "more"
 msgstr "meer"
@@ -686,56 +689,56 @@ msgstr "Vorige veld"
 msgid "Next entry"
 msgstr "Volgende veld"
 
-msgid "Stream this channel into browser."
-msgstr "Stream dit kanaal naar browser."
+msgid "Play this channel in the browser"
+msgstr "Speel dit kanaal af in de browser"
 
-msgid "Stream this channel into media player."
-msgstr "Stream dit kanaal naar mediaspeler"
+msgid "Play this channel in the media player"
+msgstr "Speel dit kanaal af in de mediaspeler"
 
-msgid "Stream this recording into media player."
-msgstr "Stream deze opname naar mediaspeler"
+msgid "Play this recording in the media player"
+msgstr "Speel deze opname in de mediaspeler"
 
-msgid "Stream this recording."
+msgid "Stream this recording"
 msgstr "Stream deze opname"
 
-msgid "loading data"
-msgstr "laad data"
+msgid "Loading data ..."
+msgstr "Laad data ..."
 
-msgid "an error occurred!"
-msgstr "er is een fout opgetreden!"
+msgid "An error occurred!"
+msgstr "Er is een fout opgetreden!"
 
-msgid "Request succeeded!"
-msgstr "Verzoek geslaagd!"
+msgid "Request succeeded"
+msgstr "Verzoek geslaagd"
 
 msgid "Request failed!"
 msgstr "Verzoek mislukt!"
 
-msgid "retrieving status ..."
-msgstr "ophalen status ..."
+msgid "Retrieving status ..."
+msgstr "Ophalen status ..."
 
-msgid "Toggle updates on/off."
-msgstr "Schakel updates aan/uit."
+msgid "Toggle updates on/off"
+msgstr "Schakel updates aan/uit"
 
-msgid "stop playback"
-msgstr "stop weergave"
+msgid "Stop playback"
+msgstr "Stop weergave"
 
-msgid "resume playback"
-msgstr "hervat weergave"
+msgid "Resume playback"
+msgstr "Hervat weergave"
 
-msgid "pause playback"
-msgstr "pauzeer weergave"
+msgid "Pause playback"
+msgstr "Pauzeer weergave"
 
-msgid "fast rewind"
-msgstr "terugspoelen"
+msgid "Fast rewind"
+msgstr "Terugspoelen"
 
-msgid "fast forward"
-msgstr "doorspoelen"
+msgid "Fast forward"
+msgstr "Doorspoelen"
 
-msgid "previous channel"
-msgstr "vorige kanaal"
+msgid "Previous channel"
+msgstr "Vorige kanaal"
 
-msgid "next channel"
-msgstr "volgende kanaal"
+msgid "Next channel"
+msgstr "Volgende kanaal"
 
 msgid "No server response!"
 msgstr "Server reageert niet!"
@@ -776,8 +779,8 @@ msgstr "Allereerste aflevering:"
 msgid "Episode runtime:"
 msgstr "Aflevering speelduur:"
 
-msgid "IMDB episode"
-msgstr "IMDB episode"
+msgid "IMDb episode"
+msgstr "IMDb episode"
 
 msgid "Guest stars and crew"
 msgstr "Gastacteurs en crew"
@@ -812,8 +815,8 @@ msgstr "Populariteit:"
 msgid "Vote average/count:"
 msgstr "Waardering gemiddeld/aantal:"
 
-msgid "IMDB"
-msgstr "IMDB"
+msgid "IMDb"
+msgstr "IMDb"
 
 msgid "Budget:"
 msgstr "Budget:"
@@ -1066,7 +1069,7 @@ msgid "Channel groups"
 msgstr "Kanaalgroepen"
 
 msgid "Separate channels with a comma ',', separate groups with a semi-colon ';'"
-msgstr ""
+msgstr "Scheid kanalen met een komma ',', scheid groepen met een puntkomma ';'"
 
 msgid "Duration of MultiSchedule in hours"
 msgstr "Programmaduur in het totaaloverzicht in uren"
@@ -1093,9 +1096,6 @@ msgstr ""
 msgid "View the schedule of this channel"
 msgstr "Bekijk de programmagids van dit kanaal"
 
-msgid " - "
-msgstr " - "
-
 msgid "Recording"
 msgstr "Opnemen"
 
@@ -1114,17 +1114,17 @@ msgstr "Geen timerconflicten"
 msgid "local"
 msgstr "lokaal"
 
-msgid "Timer has a conflict."
-msgstr "Conflict met timer."
+msgid "Timer has a conflict"
+msgstr "Conflict met timer"
 
-msgid "Timer is active."
+msgid "Timer is active"
 msgstr "Timer is actief"
 
 msgid "Transponder"
 msgstr "Transponder"
 
-msgid "Toggle timer active/inactive"
-msgstr "Schakel timer actief/inactief"
+msgid "Toggle timer (in)active"
+msgstr "Schakel timer (in)actief"
 
 msgid "Delete timer"
 msgstr "Verwijder timer"
@@ -1135,8 +1135,11 @@ msgstr "Geen timer aanwezig"
 msgid "Duration"
 msgstr "Duur"
 
-msgid "Timer is recording."
+msgid "Timer is recording"
 msgstr "Timer neemt op"
+
+msgid "Delete this timer?"
+msgstr "Deze timer verwijderen?"
 
 msgid "Users"
 msgstr "Gebruikers"
@@ -1158,6 +1161,9 @@ msgstr "Wat komt er hierna?"
 
 msgid "Favorites"
 msgstr "Favoriten"
+
+msgid "No events found"
+msgstr "Geen uitzendingen gevonden"
 
 msgid "Next"
 msgstr "Volgende"

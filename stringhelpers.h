@@ -1421,6 +1421,14 @@ template<typename T, std::enable_if_t<sizeof(T) == 16, bool> = true>
       }
       return *this;
     }
+// Replaces all occurrences of character after pos with replacement
+    cToSvConcat &replaceAll(char character, cSv replacement, size_t pos = 0) {
+      while ( (pos = cSv(*this).find(character, pos)) != std::string_view::npos) {
+        replace(pos, 1, replacement);
+        pos += replacement.length();
+      }
+      return *this;
+    }
 
 // =======================
 // appendFormatted append formatted

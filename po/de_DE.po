@@ -88,6 +88,9 @@ msgstr "Fehlerhafte Sendungskennung"
 msgid "%A, %b %d %Y"
 msgstr "%A, %d.%m.%Y"
 
+msgid " - "
+msgstr " – "
+
 msgid "Last channel to display"
 msgstr "EPG-Anzeige bis Kanal"
 
@@ -213,7 +216,7 @@ msgid "New search timer"
 msgstr "Neuen Suchtimer anlegen"
 
 msgid "Search text too short - use anyway?"
-msgstr "Suchtext zu kurz - trotzdem verwenden?"
+msgstr "Suchtext zu kurz – trotzdem verwenden?"
 
 msgid "Search term"
 msgstr "Suchbegriff"
@@ -528,7 +531,7 @@ msgid "Start replay"
 msgstr "Wiedergabe starten"
 
 msgid "Switch channel"
-msgstr "Zu diesem Kanal umschalten."
+msgstr "Zu diesem Kanal umschalten"
 
 msgid "Add or edit search timers"
 msgstr "Suchtimer hinzufügen oder ändern"
@@ -557,13 +560,13 @@ msgstr "Eine andere als die gewünschte Aufzeichnung wird abgespielt."
 msgid "Cannot control playback!"
 msgstr "Kann die Wiedergabe nicht steuern."
 
-msgid "playing recording"
+msgid "Playing recording"
 msgstr "Wiedergabe"
 
-msgid "no epg info for current event!"
+msgid "No EPG info for current event!"
 msgstr "Keine Informationen zur Sendung!"
 
-msgid "no epg info for current channel!"
+msgid "No EPG info for current channel!"
 msgstr "Dieser Kanal hat keine EPG-Daten!"
 
 msgid "no current channel!"
@@ -587,29 +590,29 @@ msgstr "h"
 msgid "Number of ts files"
 msgstr "Zahl der TS-Dateien"
 
-msgid "Find more at the Internet Movie Database."
-msgstr "Weitere Informationen in der Internet Movie Database (IMDb)."
+msgid "Find more in the IMDb (Internet Movie Database)"
+msgstr "Weitere Informationen in der IMDb (Internet Movie Database)"
 
 msgid "Record this"
 msgstr "Sendung aufnehmen"
 
-msgid "Search for repeats."
-msgstr "Nach Wiederholungen suchen."
+msgid "Search for repeats"
+msgstr "Nach Wiederholungen suchen"
 
 msgid "Existing Recording:"
 msgstr "Vorhandene Aufnahme:"
 
-msgid "Stream this recording into browser."
-msgstr "Aufzeichnung im Browser abspielen."
+msgid "Play this recording in the browser"
+msgstr "Aufzeichnung im Browser abspielen"
 
-msgid "Click to view details."
-msgstr "Für Details klicken."
+msgid "Click to view details"
+msgstr "Für Details klicken"
 
-msgid "play this recording"
+msgid "Play this recording"
 msgstr "Aufzeichnung abspielen"
 
-msgid "Delete this recording from hard disc!"
-msgstr "Aufzeichnung von der Festplatte löschen!"
+msgid "Delete this recording"
+msgstr "Aufzeichnung löschen"
 
 msgid "Wrong username or password"
 msgstr "Benutzerkennung oder Passwort ungültig"
@@ -671,8 +674,8 @@ msgstr "Jetzt"
 msgid "Time"
 msgstr "Zeit"
 
-msgid "Switch to this channel."
-msgstr "Zu diesem Kanal umschalten."
+msgid "Switch to this channel"
+msgstr "Zu diesem Kanal umschalten"
 
 msgid "more"
 msgstr "mehr"
@@ -686,55 +689,55 @@ msgstr "Zurück"
 msgid "Next entry"
 msgstr "Vor"
 
-msgid "Stream this channel into browser."
-msgstr "Sender im Browser abspielen."
+msgid "Play this channel in the browser"
+msgstr "Sender im Browser abspielen"
 
-msgid "Stream this channel into media player."
-msgstr "Sender im Media-Player abspielen."
+msgid "Play this channel in the media player"
+msgstr "Sender im Media-Player abspielen"
 
-msgid "Stream this recording into media player."
-msgstr "Aufzeichnung im Media-Player abspielen."
+msgid "Play this recording in the media player"
+msgstr "Aufzeichnung im Media-Player abspielen"
 
-msgid "Stream this recording."
-msgstr "Aufzeichnung streamen."
+msgid "Stream this recording"
+msgstr "Aufzeichnung streamen"
 
-msgid "loading data"
-msgstr "Lade Daten"
+msgid "Loading data ..."
+msgstr "Lade Daten ..."
 
-msgid "an error occurred!"
+msgid "An error occurred!"
 msgstr "Ein Fehler ist aufgetreten!"
 
-msgid "Request succeeded!"
+msgid "Request succeeded"
 msgstr "Aktion durchgeführt."
 
 msgid "Request failed!"
 msgstr "Aktion fehlgeschlagen!"
 
-msgid "retrieving status ..."
+msgid "Retrieving status ..."
 msgstr "Hole Status ..."
 
-msgid "Toggle updates on/off."
-msgstr "Statusabfrage ein- oder ausschalten."
+msgid "Toggle updates on/off"
+msgstr "Statusabfrage ein- oder ausschalten"
 
-msgid "stop playback"
+msgid "Stop playback"
 msgstr "Anhalten"
 
-msgid "resume playback"
+msgid "Resume playback"
 msgstr "Fortsetzen"
 
-msgid "pause playback"
+msgid "Pause playback"
 msgstr "Pause"
 
-msgid "fast rewind"
+msgid "Fast rewind"
 msgstr "Suchlauf rückwärts"
 
-msgid "fast forward"
+msgid "Fast forward"
 msgstr "Suchlauf vorwärts"
 
-msgid "previous channel"
+msgid "Previous channel"
 msgstr "Sender zurück"
 
-msgid "next channel"
+msgid "Next channel"
 msgstr "Sender vor"
 
 msgid "No server response!"
@@ -765,18 +768,18 @@ msgid "Episode:"
 msgstr "Episode:"
 
 msgid "Episode overview:"
-msgstr "Episode - Inhalt:"
+msgstr "Episode – Inhalt:"
 
 msgid "Episode vote average/count:"
-msgstr "Episode - Bewertung (Durchschnitt/Anzahl):"
+msgstr "Episode – Bewertung (Durchschnitt/Anzahl):"
 
 msgid "Episode first aired:"
-msgstr "Episode - Erstausstrahlung:"
+msgstr "Episode – Erstausstrahlung:"
 
 msgid "Episode runtime:"
-msgstr "Episode - Laufzeit:"
+msgstr "Episode – Laufzeit:"
 
-msgid "IMDB episode"
+msgid "IMDb episode"
 msgstr "Episode in der IMDb"
 
 msgid "Guest stars and crew"
@@ -812,7 +815,7 @@ msgstr "Beliebtheit:"
 msgid "Vote average/count:"
 msgstr "Bewertung (Durchschnitt/Anzahl):"
 
-msgid "IMDB"
+msgid "IMDb"
 msgstr "IMDb"
 
 msgid "Budget:"
@@ -1093,9 +1096,6 @@ msgstr "%a, %x"
 msgid "View the schedule of this channel"
 msgstr "Programm dieses Kanals anzeigen"
 
-msgid " - "
-msgstr " – "
-
 msgid "Recording"
 msgstr "Aufzeichnung"
 
@@ -1114,17 +1114,17 @@ msgstr "Keine Timer-Konflikte"
 msgid "local"
 msgstr "lokal"
 
-msgid "Timer has a conflict."
+msgid "Timer has a conflict"
 msgstr "Timer hat einen Konflikt."
 
-msgid "Timer is active."
-msgstr "Timer ist aktiv."
+msgid "Timer is active"
+msgstr "Timer ist aktiv"
 
 msgid "Transponder"
 msgstr "Transponder"
 
-msgid "Toggle timer active/inactive"
-msgstr "Timer aktiv/inaktiv schalten"
+msgid "Toggle timer (in)active"
+msgstr "Timer (de)aktivieren"
 
 msgid "Delete timer"
 msgstr "Timer löschen"
@@ -1135,8 +1135,11 @@ msgstr "Keine Timer vorhanden"
 msgid "Duration"
 msgstr "Dauer"
 
-msgid "Timer is recording."
-msgstr "Timer zeichnet auf."
+msgid "Timer is recording"
+msgstr "Timer zeichnet auf"
+
+msgid "Delete this timer?"
+msgstr "Timer löschen?"
 
 msgid "Users"
 msgstr "Benutzer"
@@ -1158,6 +1161,9 @@ msgstr "Was läuft als Nächstes?"
 
 msgid "Favorites"
 msgstr "Favoriten"
+
+msgid "No events found"
+msgstr "Keine Sendungen vorhanden"
 
 msgid "Next"
 msgstr "Als Nächstes"

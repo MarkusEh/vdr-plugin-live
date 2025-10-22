@@ -58,7 +58,7 @@ function addHdSdIcon(s, hdsd, toolTip, frameParams) {
 }
 
 %// do not HTML-encode name; will be URI-encoded here!
-function IMDbS(s, im_db, name) {
+function IMDbS(s, im_db, name, label) {
   if (im_db.length == 0) {
     s.a += '<a href=\"http://www.imdb.com/find?s=all&q='
     if (name.startsWith("%") ) {
@@ -70,8 +70,9 @@ function IMDbS(s, im_db, name) {
     s.a += '<a href=\"https://www.imdb.com/title/'
     s.a += im_db
   }
-  s.a +=
-   '\" target=\"_blank\"><img class=\"icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>imdb.png\" title=\"<$tr("Find more at the Internet Movie Database.")$>\"/></a>'
+  s.a += '\" target=\"_blank\"><img class=\"icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>imdb.png\" title=\"'
+  addEncodeHtml(s, LabelAndAction(label, '<$tr("Find more in the IMDb (Internet Movie Database)")$>'))
+  s.a += '\"/></a>'
 }
 
 <#
@@ -94,25 +95,35 @@ function IMDbS(s, im_db, name) {
 #>
 function addEvent(s, bottomrow_i, obj) {
 // first column, timer /red or green, ...
+  let label = obj[14].replace(/^(\\S*).*$/, '$1') + '<$ tr(" - ") $>' + obj[11]
   let bottomrow = ''
   if (bottomrow_i != 0) bottomrow = 'bottomrow'
   s.a += `<tr><td class=\"action leftcol ${bottomrow}\"><div class=\"event_actions\">`
   if (obj[1].length != 0) {
     s.a += '<a href=\"edit_timer.html?timerid=timer_'
     s.a += obj[1].replace(/&ts=\w*$/, '')
-    s.a += '\"><img class=\"icon' + (obj[1].endsWith('&ts=r') ? ' fading' : '') + '\" src=\"<$ LiveSetup().GetThemedLink("img", "") $>' + (obj[1].endsWith('&ts=r') ? 'record_timer_active.png' : (obj[1].endsWith('&ts=i') ? 'record_timer_inactive.png' : 'record_timer_active.png')) + '\" title=\"<$tr("Edit timer")$>\" />'
+    s.a += '\"><img class=\"icon' + (obj[1].endsWith('&ts=r') ? ' fading' : '') + '\" src=\"<$ LiveSetup().GetThemedLink("img", "") $>' + (obj[1].endsWith('&ts=r') ? 'record_timer_active.png' : (obj[1].endsWith('&ts=i') ? 'record_timer_inactive.png' : 'record_timer_active.png'))
+    s.a += '\" title=\"&lt;p&gt;'
+    addEncodeHtml(s, label)
+    s.a += '&lt;/p&gt;&lt;p class=&quot;click-action&quot;&gt;<$tr("Edit timer")$>&lt;/p&gt;\" />'
   } else {
     s.a += '<a href=\"edit_timer.html?epgid=event_'
     s.a += obj[0]
-    s.a += '\"><img class=\"icon\" src=\"<$ LiveSetup().GetThemedLink("img", "record.png") $>\" title=\"<$tr("Record this")$>\" />'
+    s.a += '\"><img class=\"icon\" src=\"<$ LiveSetup().GetThemedLink("img", "record.png") $>'
+    s.a += '\" title=\"&lt;p&gt;'
+    addEncodeHtml(s, label)
+    s.a += '&lt;/p&gt;&lt;p class=&quot;click-action&quot;&gt;<$tr("Record this")$>&lt;/p&gt;\" />'
   }
   s.a += '</a>'
 % if (LiveFeatures<features::epgsearch>().Recent() ) {
     s.a += '<a href=\"searchresults.html?searchplain='
     s.a += encodeURIComponent(obj[11])
-    s.a += '\"><img class=\"icon\" src=\"<$ LiveSetup().GetThemedLink("img", "search.png") $>\" title=\"<$tr("Search for repeats.")$>\"/></a>'
+    s.a += '\"><img class=\"icon\" src=\"<$ LiveSetup().GetThemedLink("img", "search.png") $>'
+    s.a += '\" title=\"&lt;p&gt;'
+    addEncodeHtml(s, label)
+    s.a += '&lt;/p&gt;&lt;p class=&quot;click-action&quot;&gt;<$tr("Search for repeats")$>&lt;/p&gt;\"/></a>'
 % } if (LiveSetup().GetShowIMDb() ) {
-    IMDbS(s, obj[2], obj[11])
+    IMDbS(s, obj[2], obj[11], label)
 % }
   s.a += '</div></td>'
 // second col, dependent on width: channel
@@ -208,10 +219,12 @@ function existingRecordingString(col_span, bottomrow, id, stillRecording, imdb_i
   return s.a
 }
 
-function RecordingActionStream(s, id) {
+function RecordingActionStream(s, id, label) {
   s.a += '<a class=\"hidden-xs invisible\" href=\"stream.html?recid=recording_'
   s.a += id
-  s.a += '\" title=\"<$tr("Stream this recording into browser.")$>\"><img class=\"hidden-xs invisible icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>stream_button.png\" /></a>'
+  s.a += '\" title=\"'
+  addEncodeHtml(s, LabelAndAction(label, '<$tr("Play this recording in the browser")$>'))
+  s.a += '\"><img class=\"hidden-xs invisible icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>stream_button.png\" /></a>'
 }
 
 async function RecordingsSt_a(s, level, displayFolder, data) {
@@ -258,7 +271,7 @@ function addEventRec(s, eventprefix, eventid, http_params, title, folder, shortT
     s.a += description.replaceAll(regExLineBreak, '</p><p>')
     s.a += '</p>'
   }
-  s.a += '<p class=&quot;click-details&quot;><$tr("Click to view details.")$></p>"><div class="margin-bottom bold-font">'
+  s.a += '<p class=&quot;click-details&quot;><$tr("Click to view details")$></p>"><div class="margin-bottom bold-font">'
   addEncodeHtml(s, title)
   if (folder.length != 0) {
     s.a += '<span class="normal-font"> ('
@@ -383,27 +396,28 @@ function RecordingsSt_int(s, level, displayFolder, data) {
     addEventRec_r(s, obj[0], obj[14], folder, obj[15], obj[16]);
     s.a += '</div></div></td>'  // end of recording_name / short description
     s.a += '<td><div class=\"recording_actions\">'
+    let label = obj[9] + '<$ tr(" - ") $>' + obj[14]
     let xsVisibleIcons = 2;       // the invariant edit and delete icons
     let xsInvisibleIcons = 0;     // the small-screen invisible stream icons
 %   if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
-      RecordingActionS(s, obj[0], "vdr_request/play_recording?param=", "play.png", "<$tr("play this recording")$>")
+      RecordingActionS(s, obj[0], "vdr_request/play_recording?param=", "play.png", label, "<$tr("Play this recording")$>")
       xsVisibleIcons++;
 %   }
 %   if (LiveFeatures<features::streamdev_server>().Loaded()) {
 %     // use same logic as in pageelems.epg_tool_box
 %     if (LiveSetup().GetUseStreamdev()) {
-        RecordingActionStream(s, obj[0])
+        RecordingActionStream(s, obj[0], label)
         xsInvisibleIcons++
 %     }
-      RecordingActionPlaylist(s, obj[0])
+      RecordingActionPlaylist(s, obj[0], label)
       xsInvisibleIcons++
 %   }
 %   if (LiveSetup().GetShowIMDb() ) {
-      IMDbS(s, obj[2], obj[14])
+      IMDbS(s, obj[2], obj[14], label)
       xsVisibleIcons++;
 %   }
-    RecordingActionS(s, obj[0], "edit_recording.html?recid=", "edit.png", "<$tr("Edit recording")$>")
-    RecordingActionS(s, obj[0], "epginfo.html?epgid=del_", "del.png", "<$tr("Delete this recording from hard disc!")$>")
+    RecordingActionS(s, obj[0], "edit_recording.html?recid=", "edit.png", label, "<$tr("Edit recording")$>")
+    RecordingActionS(s, obj[0], "epginfo.html?epgid=del_", "del.png", label, "<$tr("Delete this recording")$>")
     let xsClassName = 'xs-visible-' + xsVisibleIcons
     xsClassName += ' xs-invisible-' + xsInvisibleIcons
     xsClassName += ' xs-columns-' + Math.floor((xsVisibleIcons + 2) / 3)

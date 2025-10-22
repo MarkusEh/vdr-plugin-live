@@ -199,7 +199,7 @@ if (!epgEvent.Id().empty() ) {
   std::string endTime(epgEvent.EndTime(tr("%I:%M %p")));
 
   std::string startDate(epgEvent.StartTime(tr("%a, %x")));
-  std::string timeSpan(startTime + " - " + endTime);
+  std::string timeSpan(startTime + tr(" - ") + endTime);
   if (startTime.empty() && endTime.empty()) {
     char const * timeFormat = tr("%I:%M %p");
     char const * dateFormat = tr("%A, %x");
@@ -210,7 +210,7 @@ if (!epgEvent.Id().empty() ) {
   longDescription << "<p>";
   AppendHtmlEscapedAndCorrectNonUTF8(longDescription, StringWordTruncate(epgEvent.LongDescr(), LiveSetup().GetMaxTooltipChars()), "</p><p>");
   longDescription << "</p><p class=\"click-details\">";
-  AppendHtmlEscapedAndCorrectNonUTF8(longDescription, tr("Click to view details."));
+  AppendHtmlEscapedAndCorrectNonUTF8(longDescription, tr("Click to view details"));
   longDescription << "</p>";
 
   bool timerRecording = false;
@@ -260,7 +260,7 @@ if (!epgEvent.Id().empty() ) {
     <label for="channel"><$ tr("Channel") $>:&nbsp;<span class="bold"><$ cSv(cToSvInt(channelNumber)) $></span></label>
     <& channels_widget name=("channel") selected=(*channelID.ToString() ) onchange=("player.stop(); document.forms.channels.submit()") &>
 %   if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
-      <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channelID) image="zap.png" className="icon" alt="" &>
+      <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel")) param=(channelID) image="zap.png" className="icon" alt="" &>
 %   }
   </span>
 </form>

@@ -87,6 +87,9 @@ msgstr "Błędny identyfikator audycji"
 msgid "%A, %b %d %Y"
 msgstr ""
 
+msgid " - "
+msgstr " - "
+
 msgid "Last channel to display"
 msgstr "Ostatni kanał na liście"
 
@@ -556,13 +559,13 @@ msgstr "Nie można odtworzyć żądanego nagrania."
 msgid "Cannot control playback!"
 msgstr "Nie można kontrolować odtwarzania!"
 
-msgid "playing recording"
+msgid "Playing recording"
 msgstr "Odtwarzanie nagrania"
 
-msgid "no epg info for current event!"
+msgid "No EPG info for current event!"
 msgstr "Brak informacji o audycji!"
 
-msgid "no epg info for current channel!"
+msgid "No EPG info for current channel!"
 msgstr "Brak informacji EPG dla kanału!"
 
 msgid "no current channel!"
@@ -586,28 +589,28 @@ msgstr "godz"
 msgid "Number of ts files"
 msgstr "Liczba plików ts"
 
-msgid "Find more at the Internet Movie Database."
+msgid "Find more in the IMDb (Internet Movie Database)"
 msgstr "Szukaj w IMDb.com"
 
 msgid "Record this"
 msgstr "Nagraj"
 
-msgid "Search for repeats."
+msgid "Search for repeats"
 msgstr "Szukaj powtórek"
 
 msgid "Existing Recording:"
 msgstr "Nagrania:"
 
-msgid "Stream this recording into browser."
+msgid "Play this recording in the browser"
 msgstr "Odtwórz nagranie w przeglądarce."
 
-msgid "Click to view details."
+msgid "Click to view details"
 msgstr "Kliknij aby zobaczyć szczegóły"
 
-msgid "play this recording"
+msgid "Play this recording"
 msgstr "Odtwórz to nagranie"
 
-msgid "Delete this recording from hard disc!"
+msgid "Delete this recording"
 msgstr "Usuń"
 
 msgid "Wrong username or password"
@@ -670,7 +673,7 @@ msgstr "Teraz"
 msgid "Time"
 msgstr "Czas"
 
-msgid "Switch to this channel."
+msgid "Switch to this channel"
 msgstr "Przełącz na ten kanał"
 
 msgid "more"
@@ -685,55 +688,55 @@ msgstr "Poprzedni"
 msgid "Next entry"
 msgstr "Następny"
 
-msgid "Stream this channel into browser."
+msgid "Play this channel in the browser"
 msgstr "Oglądaj kanał w przeglądarce"
 
-msgid "Stream this channel into media player."
+msgid "Play this channel in the media player"
 msgstr "Oglądaj kanał w odtwarzaczu multimediów"
 
-msgid "Stream this recording into media player."
+msgid "Play this recording in the media player"
 msgstr "Oglądaj nagranie w odtwarzaczu multimediów"
 
-msgid "Stream this recording."
+msgid "Stream this recording"
 msgstr "Oglądaj nagranie w przeglądarce"
 
-msgid "loading data"
+msgid "Loading data ..."
 msgstr "ładuję ..."
 
-msgid "an error occurred!"
+msgid "An error occurred!"
 msgstr "wystąpił błąd!"
 
-msgid "Request succeeded!"
+msgid "Request succeeded"
 msgstr "Zakończono powodzeniem!"
 
 msgid "Request failed!"
 msgstr "Zakończono niepowodzeniem!"
 
-msgid "retrieving status ..."
+msgid "Retrieving status ..."
 msgstr "odczytywanie stanu ..."
 
-msgid "Toggle updates on/off."
+msgid "Toggle updates on/off"
 msgstr "Włącz/wyłącz aktualizację stanu."
 
-msgid "stop playback"
+msgid "Stop playback"
 msgstr "zatrzymaj odtwarzanie"
 
-msgid "resume playback"
+msgid "Resume playback"
 msgstr "wznów odtwarzanie"
 
-msgid "pause playback"
+msgid "Pause playback"
 msgstr "pauzuj odtwarzanie"
 
-msgid "fast rewind"
+msgid "Fast rewind"
 msgstr "przewiń do tyłu"
 
-msgid "fast forward"
+msgid "Fast forward"
 msgstr "przewiń do przodu"
 
-msgid "previous channel"
+msgid "Previous channel"
 msgstr "poprzeni kanał"
 
-msgid "next channel"
+msgid "Next channel"
 msgstr "następny kanał"
 
 msgid "No server response!"
@@ -775,8 +778,8 @@ msgstr "Pierwsze wyświetlenie odcinka:"
 msgid "Episode runtime:"
 msgstr "Długość odcinka:"
 
-msgid "IMDB episode"
-msgstr "Odcinek w IMDB"
+msgid "IMDb episode"
+msgstr "Odcinek w IMDb"
 
 msgid "Guest stars and crew"
 msgstr "Goście i ekipa"
@@ -811,8 +814,8 @@ msgstr "Popularność:"
 msgid "Vote average/count:"
 msgstr "Ocena:"
 
-msgid "IMDB"
-msgstr "W IMDB"
+msgid "IMDb"
+msgstr "W IMDb"
 
 msgid "Budget:"
 msgstr "Budżet:"
@@ -1038,7 +1041,7 @@ msgid "Mark new recordings"
 msgstr "Oznacz nowe nagrania"
 
 msgid "Show link to IMDb in list views"
-msgstr "Pokaż link do IMDB w liście"
+msgstr "Pokaż link do IMDb w liście"
 
 msgid "Additional fixed times in 'What's on?'"
 msgstr "Lista wyboru godzin w zakładce 'Teraz w TV'"
@@ -1092,9 +1095,6 @@ msgstr ""
 msgid "View the schedule of this channel"
 msgstr "Wyświetl program dla tego kanału"
 
-msgid " - "
-msgstr ""
-
 msgid "Recording"
 msgstr "Nagranie"
 
@@ -1113,16 +1113,16 @@ msgstr "Brak kolizji."
 msgid "local"
 msgstr "lokalny"
 
-msgid "Timer has a conflict."
-msgstr "Plan koliduje."
+msgid "Timer has a conflict"
+msgstr "Plan koliduje"
 
-msgid "Timer is active."
-msgstr "Pozycja aktywna."
+msgid "Timer is active"
+msgstr "Pozycja aktywna"
 
 msgid "Transponder"
 msgstr ""
 
-msgid "Toggle timer active/inactive"
+msgid "Toggle timer (in)active"
 msgstr "Aktywuj/dezaktywuj"
 
 msgid "Delete timer"
@@ -1134,8 +1134,11 @@ msgstr "Brak zaplanowanych nagrań."
 msgid "Duration"
 msgstr "Czas trwania"
 
-msgid "Timer is recording."
+msgid "Timer is recording"
 msgstr "Trwa nagrywanie."
+
+msgid "Delete this timer?"
+msgstr "Usuń"
 
 msgid "Users"
 msgstr "Użytkownicy"
@@ -1157,6 +1160,9 @@ msgstr "Następnie"
 
 msgid "Favorites"
 msgstr "Ulubione"
+
+msgid "No events found"
+msgstr ""
 
 msgid "Next"
 msgstr "Następnie"

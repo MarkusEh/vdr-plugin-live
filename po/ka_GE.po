@@ -89,6 +89,9 @@ msgstr "მოვლენის არასწორი ID"
 msgid "%A, %b %d %Y"
 msgstr "%A, %b %d %Y"
 
+msgid " - "
+msgstr " - "
+
 msgid "Last channel to display"
 msgstr "ბოლო საჩვენებელი არხი"
 
@@ -558,13 +561,13 @@ msgstr "არ ვუკრავ ჩანაწერს, რომელი�
 msgid "Cannot control playback!"
 msgstr "დაკვრის კონტროლი შეუძლებელია!"
 
-msgid "playing recording"
+msgid "Playing recording"
 msgstr "ჩანაწერის დაკვრა"
 
-msgid "no epg info for current event!"
+msgid "No EPG info for current event!"
 msgstr "მიმდინარე მოვლენას EPG ინფორმაცია არ გააჩნია!"
 
-msgid "no epg info for current channel!"
+msgid "No EPG info for current channel!"
 msgstr "მიმდინარე არხს EPG ინფორმაცია არ გააჩნია!"
 
 msgid "no current channel!"
@@ -588,28 +591,28 @@ msgstr ""
 msgid "Number of ts files"
 msgstr ""
 
-msgid "Find more at the Internet Movie Database."
-msgstr "მეტის პოვნა IMDB-ზე."
+msgid "Find more in the IMDb (Internet Movie Database)"
+msgstr "მეტის პოვნა IMDb-ზე."
 
 msgid "Record this"
 msgstr "ამის ჩაწერა"
 
-msgid "Search for repeats."
+msgid "Search for repeats"
 msgstr "გამეორებების ძებნა."
 
 msgid "Existing Recording:"
 msgstr "არსებული ჩანაწერი:"
 
-msgid "Stream this recording into browser."
-msgstr ""
+msgid "Play this recording in the browser"
+msgstr "ამ ჩანაწერის მედიის დამკვრელში ჩვენება."
 
-msgid "Click to view details."
+msgid "Click to view details"
 msgstr "დეტალების სანახავად დააწკაპუნეთ."
 
-msgid "play this recording"
+msgid "Play this recording"
 msgstr "ამ ჩანაწერის დაკვრა"
 
-msgid "Delete this recording from hard disc!"
+msgid "Delete this recording"
 msgstr "ამ ჩანაწერის დისკიდან წაშლა!"
 
 msgid "Wrong username or password"
@@ -672,7 +675,7 @@ msgstr "ახლა"
 msgid "Time"
 msgstr "დრო"
 
-msgid "Switch to this channel."
+msgid "Switch to this channel"
 msgstr "ამ არხზე გადართვა."
 
 msgid "more"
@@ -687,55 +690,55 @@ msgstr ""
 msgid "Next entry"
 msgstr ""
 
-msgid "Stream this channel into browser."
+msgid "Play this channel in the browser"
 msgstr "ამ არხის ბრაუზერში ჩვენება."
 
-msgid "Stream this channel into media player."
+msgid "Play this channel in the media player"
 msgstr "ამ არხის მედიის დამკვრელში ჩვენება."
 
-msgid "Stream this recording into media player."
-msgstr "ამ ჩანაწერის მედიის დამკვრელში ჩვენება."
-
-msgid "Stream this recording."
+msgid "Play this recording in the media player"
 msgstr ""
 
-msgid "loading data"
+msgid "Stream this recording"
+msgstr ""
+
+msgid "Loading data ..."
 msgstr "მონაცემების ჩატვირთვა"
 
-msgid "an error occurred!"
+msgid "An error occurred!"
 msgstr "აღმოჩენილია შეცდომა!"
 
-msgid "Request succeeded!"
+msgid "Request succeeded"
 msgstr "მოთხოვნა წარმატებულია!"
 
 msgid "Request failed!"
 msgstr "მოთხოვნის შეცდომა!"
 
-msgid "retrieving status ..."
+msgid "Retrieving status ..."
 msgstr "სტატუსის მიღება ..."
 
-msgid "Toggle updates on/off."
+msgid "Toggle updates on/off"
 msgstr "განახლებების გადართვა."
 
-msgid "stop playback"
+msgid "Stop playback"
 msgstr "დაკვრის გაჩერება"
 
-msgid "resume playback"
+msgid "Resume playback"
 msgstr "დაკვრის გაგრძელება"
 
-msgid "pause playback"
+msgid "Pause playback"
 msgstr "დაკვრის შეჩერება"
 
-msgid "fast rewind"
+msgid "Fast rewind"
 msgstr "სწრაფი გადახვევა"
 
-msgid "fast forward"
+msgid "Fast forward"
 msgstr "წინ წრაფი გადახვევა"
 
-msgid "previous channel"
+msgid "Previous channel"
 msgstr "წინა არხი"
 
-msgid "next channel"
+msgid "Next channel"
 msgstr "შემდეგი არხი"
 
 msgid "No server response!"
@@ -777,7 +780,7 @@ msgstr "ეპიზოდის პირველი ჩვენების 
 msgid "Episode runtime:"
 msgstr ""
 
-msgid "IMDB episode"
+msgid "IMDb episode"
 msgstr "IMDB ეპიზოდი"
 
 msgid "Guest stars and crew"
@@ -813,8 +816,8 @@ msgstr "პოპულარობა:"
 msgid "Vote average/count:"
 msgstr "ხმები საშუალოდ/სულ:"
 
-msgid "IMDB"
-msgstr "IMDB"
+msgid "IMDb"
+msgstr "IMDb"
 
 msgid "Budget:"
 msgstr "ბიუჯეტი:"
@@ -1094,9 +1097,6 @@ msgstr "%a, %x"
 msgid "View the schedule of this channel"
 msgstr "ამ არხის განრგის ნახვა"
 
-msgid " - "
-msgstr " - "
-
 msgid "Recording"
 msgstr ""
 
@@ -1115,16 +1115,16 @@ msgstr "ტაიმერის კონფლიქტების გარ�
 msgid "local"
 msgstr "ლოკალური"
 
-msgid "Timer has a conflict."
+msgid "Timer has a conflict"
 msgstr "ტაიმერის კონფლიქტი."
 
-msgid "Timer is active."
+msgid "Timer is active"
 msgstr "ტაიმერი აქტიურია."
 
 msgid "Transponder"
 msgstr ""
 
-msgid "Toggle timer active/inactive"
+msgid "Toggle timer (in)active"
 msgstr "ტაიმერის აქტივობის გადართვა"
 
 msgid "Delete timer"
@@ -1136,8 +1136,11 @@ msgstr "ტაიმერ აღწერილი არაა"
 msgid "Duration"
 msgstr ""
 
-msgid "Timer is recording."
+msgid "Timer is recording"
 msgstr "ტაიმერი ჩანაწერია."
+
+msgid "Delete this timer?"
+msgstr ""
 
 msgid "Users"
 msgstr "მომხმარებლები"
@@ -1159,6 +1162,9 @@ msgstr "შემდეგი?"
 
 msgid "Favorites"
 msgstr "რჩეულები"
+
+msgid "No events found"
+msgstr ""
 
 msgid "Next"
 msgstr "შემდეგი"

@@ -503,7 +503,7 @@ bool appendEpgItem(cToSvConcat<0> &epg_item, RecordingsItemRec *&recItem, const 
   epg_item.append("\",\"");
 // [14] : Day, time & duration of event
   epg_item.appendDateTime(tr("%I:%M %p"), Event->StartTime() );
-  epg_item.append(" - ");
+  epg_item.append(tr(" - "));
   epg_item.appendDateTime(tr("%I:%M %p"), Event->EndTime() );
   epg_item.append(" ");
   AppendDuration(epg_item, tr("(%d:%02d)"), Event->Duration());

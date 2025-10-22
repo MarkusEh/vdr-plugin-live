@@ -1,15 +1,46 @@
 <%pre>
 
 #include <setup.h>
+#include <tools.h>
 
 using namespace vdrlive;
 
 </%pre>
+
 <%def hint>
 <%args>
-text;
+  std::string label;
+  std::string text;
+  std::string className;
+  std::string breaksAtLeft;
+  std::string breaksAtRight;
 </%args>
-title="<$ text $>"
+<%cpp>
+cToSvConcat labelAndText;
+if (!label.empty()) {
+  labelAndText << "<p>";
+  AppendHtmlEscapedAndCorrectNonUTF8(labelAndText, label, "</p><p>");
+  if (!breaksAtLeft.empty()) {
+    for (auto c : breaksAtLeft) {
+      labelAndText.replaceAll(c, cToSvConcat("<wbr>").append(1, c));
+    }
+  }
+  if (!breaksAtRight.empty()) {
+    for (auto c : breaksAtRight) {
+      labelAndText.replaceAll(c, cToSvConcat(c).append("<wbr>"));
+    }
+  }
+  labelAndText << "</p>";
+  labelAndText.replaceAll("<p><wbr>", "<p>");
+  labelAndText.replaceAll("<wbr></p>", "</p>");
+}
+labelAndText << "<p class=\"";
+labelAndText << (!className.empty() ? className : "click-details");
+labelAndText << "\">";
+AppendHtmlEscapedAndCorrectNonUTF8(labelAndText, text);
+labelAndText << "</p>";
+</%cpp>
+title="<$ labelAndText $>"
 </%def>
 
 <%def display>

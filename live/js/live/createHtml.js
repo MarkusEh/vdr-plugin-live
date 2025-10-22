@@ -5,6 +5,21 @@
  */
 
 
+function LabelAndAction(label, action) {
+  let html = ''
+  if (label) {
+    html += '<p>'
+    html += label.replace(/~/, '~<wbr>').replace(/<br[ /]*>|\\n/, '</p><p>')
+    html += '</p>'
+  }
+  if (action) {
+    html += '<p class=\"click-action\">'
+    html += action
+    html += '</p>'
+  }
+  return html
+}
+
 function addEncodeHtml(s, str) {
   s.a += str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/[\n\r]/g, '<br/>');
 }

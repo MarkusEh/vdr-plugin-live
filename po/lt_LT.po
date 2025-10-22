@@ -87,6 +87,9 @@ msgstr "Klaidingas įvykio ID"
 msgid "%A, %b %d %Y"
 msgstr "%A, %b %d %Y"
 
+msgid " - "
+msgstr " - "
+
 msgid "Last channel to display"
 msgstr "Paskutinis rodytas kanalas"
 
@@ -557,13 +560,13 @@ msgstr "Negroja to paties norimo įrašo."
 msgid "Cannot control playback!"
 msgstr "Negali valdyti grojimo!"
 
-msgid "playing recording"
+msgid "Playing recording"
 msgstr "grojamas įrašas"
 
-msgid "no epg info for current event!"
+msgid "No EPG info for current event!"
 msgstr "šis įvykis neturi epg įrašo!"
 
-msgid "no epg info for current channel!"
+msgid "No EPG info for current channel!"
 msgstr "šis kanalas neturi epg įrašo!"
 
 msgid "no current channel!"
@@ -587,28 +590,28 @@ msgstr ""
 msgid "Number of ts files"
 msgstr ""
 
-msgid "Find more at the Internet Movie Database."
+msgid "Find more in the IMDb (Internet Movie Database)"
 msgstr "Gauti daugiau informacijos iš IMDb."
 
 msgid "Record this"
 msgstr "Įrašyti"
 
-msgid "Search for repeats."
+msgid "Search for repeats"
 msgstr "Ieškoti pasikartojimų."
 
 msgid "Existing Recording:"
 msgstr ""
 
-msgid "Stream this recording into browser."
+msgid "Play this recording in the browser"
 msgstr ""
 
-msgid "Click to view details."
+msgid "Click to view details"
 msgstr "Spustelkit kad gautumėt daugiau informacijos."
 
-msgid "play this recording"
+msgid "Play this recording"
 msgstr ""
 
-msgid "Delete this recording from hard disc!"
+msgid "Delete this recording"
 msgstr "Ištrinti šį įrašą iš disko!"
 
 msgid "Wrong username or password"
@@ -671,7 +674,7 @@ msgstr "Dabar"
 msgid "Time"
 msgstr ""
 
-msgid "Switch to this channel."
+msgid "Switch to this channel"
 msgstr "Pereiti į šį kanalą."
 
 msgid "more"
@@ -686,55 +689,55 @@ msgstr ""
 msgid "Next entry"
 msgstr ""
 
-msgid "Stream this channel into browser."
+msgid "Play this channel in the browser"
 msgstr ""
 
-msgid "Stream this channel into media player."
+msgid "Play this channel in the media player"
 msgstr ""
 
-msgid "Stream this recording into media player."
+msgid "Play this recording in the media player"
 msgstr ""
 
-msgid "Stream this recording."
+msgid "Stream this recording"
 msgstr ""
 
-msgid "loading data"
+msgid "Loading data ..."
 msgstr "duomenys kraunami"
 
-msgid "an error occurred!"
+msgid "An error occurred!"
 msgstr "klaida!"
 
-msgid "Request succeeded!"
+msgid "Request succeeded"
 msgstr "Užklausa pavyko!"
 
 msgid "Request failed!"
 msgstr "Užklausa nepavyko!"
 
-msgid "retrieving status ..."
+msgid "Retrieving status ..."
 msgstr "užklausos būklė ..."
 
-msgid "Toggle updates on/off."
+msgid "Toggle updates on/off"
 msgstr "Įjungti/Išjunti atnaujinimus"
 
-msgid "stop playback"
+msgid "Stop playback"
 msgstr "sustapdyti grojimą"
 
-msgid "resume playback"
+msgid "Resume playback"
 msgstr "paleisti grojimą iš naujo"
 
-msgid "pause playback"
+msgid "Pause playback"
 msgstr "pristapdyti grojimą"
 
-msgid "fast rewind"
+msgid "Fast rewind"
 msgstr "greitas atsukimas atgal"
 
-msgid "fast forward"
+msgid "Fast forward"
 msgstr "greitas prasukimas pirmyn"
 
-msgid "previous channel"
+msgid "Previous channel"
 msgstr "prieš tai buvęs kanalas"
 
-msgid "next channel"
+msgid "Next channel"
 msgstr "sekantis kanalas"
 
 msgid "No server response!"
@@ -776,7 +779,7 @@ msgstr ""
 msgid "Episode runtime:"
 msgstr ""
 
-msgid "IMDB episode"
+msgid "IMDb episode"
 msgstr ""
 
 msgid "Guest stars and crew"
@@ -812,7 +815,7 @@ msgstr ""
 msgid "Vote average/count:"
 msgstr ""
 
-msgid "IMDB"
+msgid "IMDb"
 msgstr ""
 
 msgid "Budget:"
@@ -1094,9 +1097,6 @@ msgstr "%a, %x"
 msgid "View the schedule of this channel"
 msgstr "Žiūrėti šio kanalo programą"
 
-msgid " - "
-msgstr " - "
-
 msgid "Recording"
 msgstr ""
 
@@ -1115,16 +1115,16 @@ msgstr "Nėra laikmačio klaidų"
 msgid "local"
 msgstr ""
 
-msgid "Timer has a conflict."
+msgid "Timer has a conflict"
 msgstr "Laikmatis turi klaidų."
 
-msgid "Timer is active."
+msgid "Timer is active"
 msgstr "Laikmatis įjungtas."
 
 msgid "Transponder"
 msgstr ""
 
-msgid "Toggle timer active/inactive"
+msgid "Toggle timer (in)active"
 msgstr "Perjungti laikmačio aktyvumo/neaktyvumo būseną"
 
 msgid "Delete timer"
@@ -1136,8 +1136,11 @@ msgstr "Nenustatytas laikmatis"
 msgid "Duration"
 msgstr ""
 
-msgid "Timer is recording."
+msgid "Timer is recording"
 msgstr "Laikmatis įrašinėja."
+
+msgid "Delete this timer?"
+msgstr ""
 
 msgid "Users"
 msgstr "Vartotojai"
@@ -1159,6 +1162,9 @@ msgstr "Kas bus transliuojama po to?"
 
 msgid "Favorites"
 msgstr "Mėgiamiausi"
+
+msgid "No events found"
+msgstr ""
 
 msgid "Next"
 msgstr "Sekantis"

@@ -115,15 +115,6 @@ if (type == "now") {
     <& menu active=("whats_on") component=("whats_on.whats_on_actions")>
     <div id="content">
       <div class="spacebar"><# spacer with fade-out effect #></div>
-%      if (mode == "list") {
-      <table class="listing whats_on" cellspacing="0" cellpadding="0">
-        <tr class="head">
-          <td colspan="4"><div class="boxheader"><div class="caption"><$ head $></div></div></td>
-        </tr>
-%      } else {
-      <# we use a flexbox, because the first row of floats have corrupt box headers #>
-      <div class="event_collection">
-%      }
 <%cpp>
   std::vector<EpgInfo> eventList;
 
@@ -178,6 +169,17 @@ if (type == "now") {
   }
 
   // display broadcasts
+  if (eventList.size() > 0 && mode == "detail") {
+</%cpp>
+      <# we use a flexbox, because the first row of floats have corrupt box headers #>
+      <div class="event_collection">
+% } else {
+      <table class="listing whats_on" cellspacing="0" cellpadding="0">
+        <tr class="head">
+          <td colspan="4"><div class="boxheader"><div class="caption"><$ head $></div></div></td>
+        </tr>
+<%cpp>
+  }
   for(std::vector<EpgInfo>::size_type i = 0; i < eventList.size(); ++i) {
     EpgInfoPtr epgEvent = &(eventList[i]);
 
@@ -190,7 +192,7 @@ if (type == "now") {
       if (descriptionTruncated) longDescription << " ...";
       longDescription << "</p>";
     }
-    longDescription << "<p class=\"click-details\">" << tr("Click to view details.") << "</p>";
+    longDescription << "<p class=\"click-details\">" << tr("Click to view details") << "</p>";
 
     std::string truncShortDescr(StringWordTruncate(epgEvent->ShortDescr(), maximumTruncShortDescrLength, shortDescrTruncated));
     std::string truncDescription(StringWordTruncate(epgEvent->LongDescr(), maximumTruncDescriptionLength, descriptionTruncated));
@@ -200,13 +202,13 @@ if (type == "now") {
     std::string endTime(epgEvent->EndTime(tr("%I:%M %p")));
     std::string startDate(epgEvent->StartTime(tr("%a, %x")));
 
-    std::string timeSpan(startTime + " - " + endTime);
+    std::string timeSpan(startTime + tr(" - ") + endTime);
 
     if (startTime.empty() && endTime.empty()) {
       timeSpan = mode=="detail" ? headTime : std::string();
       startDate = headDate;
     }
-    if (mode == "detail") {
+    if (eventList.size() > 0 && mode == "detail") {
 </%cpp>
       <div class="event">
         <div class="station">
@@ -315,21 +317,23 @@ if (type == "now") {
 %          }
           </div>
         </td>
-<%cpp>
-      cToSvConcat hint("<p>", epgEvent->Caption().data(), "</p><p class=\"click-details\">", tr("View the schedule of this channel"), "</p>");
-</%cpp>
-        <td class="topaligned rightcol <? lastCurrentChanel ? "bottomrow"?>"><div class="station withmargin"><span class="channel_id"><$ cToSvInt(chNumber) $><$ tr(" - ") $></span> <a href="schedule.html?channel=<$ cToSvInt(chNumber) $>" <& tooltip.hint text=(hint) &>><$$ chanlogoimg $><$ chanlogoimg.empty()?epgEvent->Caption():"" $></a></div>
+        <td class="topaligned rightcol <? lastCurrentChanel ? "bottomrow"?>"><div class="station withmargin"><span class="channel_id"><$ cToSvInt(chNumber) $><$ tr(" - ") $></span> <a href="schedule.html?channel=<$ cToSvInt(chNumber) $>" <& tooltip.hint label=(epgEvent->Caption().data()) className=("click-action") text=(tr("View the schedule of this channel")) &>><$$ chanlogoimg $><$ chanlogoimg.empty()?epgEvent->Caption():"" $></a></div>
         </td>
       </tr>
 %  }
 <%cpp>
   }
 </%cpp>
-%  if (mode == "list") {
-      </table>
-%   } else {
+%   if (eventList.size() > 0 && mode == "detail") {
       </div>
+% } else {
+%   if (eventList.size() == 0) {
+        <tr>
+          <td class="leftcol rightcol bottomrow message"><$ tr("No events found") $></td>
+        </tr>
 %   }
+      </table>
+% }
       <div class="spacebar"><# spacer with fade-out effect #></div>
     </div>
   </body>

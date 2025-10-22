@@ -166,7 +166,7 @@ document.write(addEventListString(<$col_span$>, <$$ epg_item.c_str() $>))
 </form>
 <span class="tools">
 % if (cDevice::PrimaryDevice() ) {
-  <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel.")) param=(channel_id) image="zap.png" className="icon" alt="" &>
+  <& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel")) param=(channel_id) image="zap.png" className="icon" alt="" &>
 % }
   <& pageelems.hls_channel channelId=(channel_id) className="icon" &>
   <& pageelems.m3u_playlist_channel channelId=(channel_id) className="icon" &>
