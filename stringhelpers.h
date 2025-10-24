@@ -599,7 +599,7 @@ inline void utf8_sanitize_string(std::string &s) {
     int len = utf8CodepointIsValid(p);
     if (len == 0) {
       if (!error_reported) {
-        isyslog(PLUGIN_NAME_I18N ": WARNING, invalid utf8 in string %s", s.c_str());
+        dsyslog(PLUGIN_NAME_I18N ": WARNING, invalid utf8 in string %s", s.c_str());
         error_reported = true;
       }
       *p = '?';

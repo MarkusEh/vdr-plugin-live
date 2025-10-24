@@ -371,8 +371,11 @@ std::vector<std::string> channel_groups_names;
         SchedEntry &en=table[j].back();
 
         en.title = cSv(Event->Title());
+        utf8_sanitize_string(en.title);
         en.short_description = cSv(Event->ShortText());
+        utf8_sanitize_string(en.short_description);
         en.description = cSv(Event->Description());
+        utf8_sanitize_string(en.description);
         en.start = cToSvDateTime(tr("%I:%M %p"), Event->StartTime());
         en.end   = cToSvDateTime(tr("%I:%M %p"), Event->EndTime());
         en.day = cToSvDateTime(tr("%A, %b %d %Y"), Event->StartTime());
