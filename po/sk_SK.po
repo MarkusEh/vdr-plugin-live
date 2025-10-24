@@ -1,7 +1,7 @@
 # VDR LIVE plugin language source file.
 # Copyright (C) 2007 LIVE Development team. See http://live.vdr-developer.org
 # This file is distributed under the same license as the VDR-LIVE package.
-# Vladimír Bárta <vladimir.barta@k2atmitec.cz>, 2006
+# VladimÃ­r BÃ¡rta <vladimir.barta@k2atmitec.cz>, 2006
 #
 msgid ""
 msgstr ""
@@ -13,14 +13,14 @@ msgstr ""
 "Language-Team: Slovak <hrala.milan@gmail.com>\n"
 "Language: sk_SK\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-2\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "On archive DVD No."
-msgstr "Na archívne DVD."
+msgstr "Na archÃ­vne DVD."
 
 msgid "On archive HDD No."
-msgstr "Na archívne HDD."
+msgstr "Na archÃ­vne HDD."
 
 #, c-format
 msgid "(%d:%02d)"
@@ -79,10 +79,10 @@ msgid "Epg error"
 msgstr "Epg chyba"
 
 msgid "Wrong channel id"
-msgstr "©patnı id kanálu"
+msgstr "Å patnÃ½ id kanÃ¡lu"
 
 msgid "Wrong event id"
-msgstr "Nesprávne ID udalosti"
+msgstr "NesprÃ¡vne ID udalosti"
 
 msgid "%A, %b %d %Y"
 msgstr "%A, %b %d %Y"
@@ -91,19 +91,19 @@ msgid " - "
 msgstr " - "
 
 msgid "Last channel to display"
-msgstr "Poslednı zobrazenı kanál na obrazovke"
+msgstr "PoslednÃ½ zobrazenÃ½ kanÃ¡l na obrazovke"
 
 msgid "No limit"
 msgstr "Bez obmedzenia"
 
 msgid "Use authentication"
-msgstr "Pou¾i» overenie toto¾nosti"
+msgstr "PouÅ¾iÅ¥ overenie totoÅ¾nosti"
 
 msgid "No"
 msgstr "Nie"
 
 msgid "Yes"
-msgstr "Áno"
+msgstr "Ãno"
 
 msgid "Admin login"
 msgstr "Prihlasovacie meno admina"
@@ -116,31 +116,31 @@ msgid "%A, %x"
 msgstr "%A, %x"
 
 msgid "Search timer"
-msgstr "Vyhµadávaè vysielacieho èasu"
+msgstr "VyhÄ¾adÃ¡vaÄ vysielacieho Äasu"
 
 msgid "Error in timer settings"
-msgstr "Chyba v nastavení plánu"
+msgstr "Chyba v nastavenÃ­ plÃ¡nu"
 
 msgid "Timer already defined"
-msgstr "Plán nahrávania nie je stanovenı."
+msgstr "PlÃ¡n nahrÃ¡vania nie je stanovenÃ½."
 
 msgid "Timer not defined"
-msgstr "Plán nahrávania nie je stanovenı."
+msgstr "PlÃ¡n nahrÃ¡vania nie je stanovenÃ½."
 
 msgid "Required minimum version of epgsearch: "
-msgstr "Povinná minimálna verzia epgsearch:"
+msgstr "PovinnÃ¡ minimÃ¡lna verzia epgsearch:"
 
 msgid "All"
-msgstr "V¹etky"
+msgstr "VÅ¡etky"
 
 msgid "FTA"
-msgstr "Voµné"
+msgstr "VoÄ¾nÃ©"
 
 msgid "EPGSearch version outdated! Please update."
-msgstr "Zastaralá verzia EPGSearch! Prosím aktualizujte ju."
+msgstr "ZastaralÃ¡ verzia EPGSearch! ProsÃ­m aktualizujte ju."
 
 msgid "Timer conflict check detected "
-msgstr "Konflikt plánu nahrávania "
+msgstr "Konflikt plÃ¡nu nahrÃ¡vania "
 
 msgid "conflict"
 msgstr "konflikt "
@@ -149,109 +149,109 @@ msgid "conflicts"
 msgstr "konflikty "
 
 msgid "Sorry, no permission. Please contact your administrator!"
-msgstr "Prepáète, nemáte oprávnenie. Prosím kontaktujte va¹eho administrátora!"
+msgstr "PrepÃ¡Äte, nemÃ¡te oprÃ¡vnenie. ProsÃ­m kontaktujte vaÅ¡eho administrÃ¡tora!"
 
 msgid "Couldn't find recording or no recordings available."
-msgstr "Nena¹li sa ¾iadne záznamy alebo nahrávky nie sú k dispozícii."
+msgstr "NenaÅ¡li sa Å¾iadne zÃ¡znamy alebo nahrÃ¡vky nie sÃº k dispozÃ­cii."
 
 msgid "Attempt to delete recording currently in playback."
-msgstr "Pokus o vymazanie nahrávky, ktorá je v súèasnosti v prehrávaní."
+msgstr "Pokus o vymazanie nahrÃ¡vky, ktorÃ¡ je v sÃºÄasnosti v prehrÃ¡vanÃ­."
 
 msgid "Please set a name for the recording!"
-msgstr "Prosím zvolte meno pre nahrávku!"
+msgstr "ProsÃ­m zvolte meno pre nahrÃ¡vku!"
 
 msgid "Couldn't find recording. Maybe you mistyped your request?"
-msgstr "Nena¹la sa nahrávka. Mo¾no ste zle napísali va¹u po¾iadavku?"
+msgstr "NenaÅ¡la sa nahrÃ¡vka. MoÅ¾no ste zle napÃ­sali vaÅ¡u poÅ¾iadavku?"
 
 msgid "Cannot copy, rename or move the recording."
-msgstr "Nemo¾no kopírova», premenova» alebo presunú» nahrávku."
+msgstr "NemoÅ¾no kopÃ­rovaÅ¥, premenovaÅ¥ alebo presunÃºÅ¥ nahrÃ¡vku."
 
 msgid "Edit recording"
-msgstr "Upravi» nahrávku"
+msgstr "UpraviÅ¥ nahrÃ¡vku"
 
 msgid "Name"
 msgstr "Meno"
 
 msgid "Directory"
-msgstr "Adresár"
+msgstr "AdresÃ¡r"
 
 msgid "Create new directory"
 msgstr ""
 
 msgid "Delete resume information"
-msgstr "Znovu zmaza» informácie"
+msgstr "Znovu zmazaÅ¥ informÃ¡cie"
 
 msgid "Delete marks information"
-msgstr "Vymaza» informaèné znaèky"
+msgstr "VymazaÅ¥ informaÄnÃ© znaÄky"
 
 msgid "Copy only"
-msgstr "Iba kopírova»"
+msgstr "Iba kopÃ­rovaÅ¥"
 
 msgid "Title"
-msgstr "V názve"
+msgstr "V nÃ¡zve"
 
 msgid "Short description"
-msgstr "Struènı opis"
+msgstr "StruÄnÃ½ opis"
 
 msgid "Description"
 msgstr "v popise"
 
 msgid "Auxiliary info"
-msgstr "Pomocné info"
+msgstr "PomocnÃ© info"
 
 msgid "Save"
-msgstr "Ulo¾i»"
+msgstr "UloÅ¾iÅ¥"
 
 msgid "Cancel"
-msgstr "Zru¹i»"
+msgstr "ZruÅ¡iÅ¥"
 
 msgid "Couldn't find search timer. Maybe you mistyped your request?"
-msgstr "Nena¹iel sa vyhµadávanı èas. Mo¾no ste zle napísali va¹u po¾iadavku?"
+msgstr "NenaÅ¡iel sa vyhÄ¾adÃ¡vanÃ½ Äas. MoÅ¾no ste zle napÃ­sali vaÅ¡u poÅ¾iadavku?"
 
 msgid "Edit search timer"
-msgstr "Úprava vyhµadávaèa vysielacieho èasu"
+msgstr "Ãšprava vyhÄ¾adÃ¡vaÄa vysielacieho Äasu"
 
 msgid "New search timer"
-msgstr "Novı vyhµadávaè vysielacieho èasu"
+msgstr "NovÃ½ vyhÄ¾adÃ¡vaÄ vysielacieho Äasu"
 
 msgid "Search text too short - use anyway?"
-msgstr "Hµadanı text je príli¹ krátky - pou¾i» aj tak?"
+msgstr "HÄ¾adanÃ½ text je prÃ­liÅ¡ krÃ¡tky - pouÅ¾iÅ¥ aj tak?"
 
 msgid "Search term"
-msgstr "Hµadanı pojem"
+msgstr "HÄ¾adanÃ½ pojem"
 
 msgid "Search mode"
-msgstr "Spôsob hµadania"
+msgstr "SpÃ´sob hÄ¾adania"
 
 msgid "phrase"
-msgstr "vıraz"
+msgstr "vÃ½raz"
 
 msgid "all words"
-msgstr "v¹etky slová"
+msgstr "vÅ¡etky slovÃ¡"
 
 msgid "at least one word"
-msgstr "aspoò jedno slovo"
+msgstr "aspoÅˆ jedno slovo"
 
 msgid "match exactly"
-msgstr "porovna» presne"
+msgstr "porovnaÅ¥ presne"
 
 msgid "regular expression"
-msgstr "regulárny vıraz"
+msgstr "regulÃ¡rny vÃ½raz"
 
 msgid "fuzzy"
-msgstr "nejasnı"
+msgstr "nejasnÃ½"
 
 msgid "Tolerance"
 msgstr "tolerancia"
 
 msgid "Match case"
-msgstr "Prípadne porovna»"
+msgstr "PrÃ­padne porovnaÅ¥"
 
 msgid "Search in"
-msgstr "Hµada» v"
+msgstr "HÄ¾adaÅ¥ v"
 
 msgid "Episode"
-msgstr "v epizóde"
+msgstr "v epizÃ³de"
 
 msgid "Use content categories"
 msgstr ""
@@ -260,58 +260,58 @@ msgid "Special Characteristics"
 msgstr ""
 
 msgid "Use extended EPG info"
-msgstr "Pou¾i» roz¹írené EPG informácie"
+msgstr "PouÅ¾iÅ¥ rozÅ¡Ã­renÃ© EPG informÃ¡cie"
 
 msgid "Ignore missing EPG info"
-msgstr "Ignorova» chıbajúce EPG informácie"
+msgstr "IgnorovaÅ¥ chÃ½bajÃºce EPG informÃ¡cie"
 
 msgid "When active this can cause very many timers. So please always first test this search before using it as search timer!"
-msgstr "Aktívny mô¾e spôsobi» veµmi veµa plánov nahrávania. Tak¾e, prosím, v¾dy najprv testujte vyhµadávanie pred pou¾itím!"
+msgstr "AktÃ­vny mÃ´Å¾e spÃ´sobiÅ¥ veÄ¾mi veÄ¾a plÃ¡nov nahrÃ¡vania. TakÅ¾e, prosÃ­m, vÅ¾dy najprv testujte vyhÄ¾adÃ¡vanie pred pouÅ¾itÃ­m!"
 
 msgid "Use channel"
-msgstr "Urèi» kanál"
+msgstr "UrÄiÅ¥ kanÃ¡l"
 
 msgid "interval"
 msgstr "rozmedzie"
 
 msgid "channel group"
-msgstr "skupina kanálov"
+msgstr "skupina kanÃ¡lov"
 
 msgid "only FTA"
-msgstr "iba volne ¹íriteµné"
+msgstr "iba volne Å¡Ã­riteÄ¾nÃ©"
 
 msgid "from channel"
-msgstr "od kanálu"
+msgstr "od kanÃ¡lu"
 
 msgid "to channel"
-msgstr "po kanál"
+msgstr "po kanÃ¡l"
 
 msgid "Use time"
-msgstr "Urèi» èas"
+msgstr "UrÄiÅ¥ Äas"
 
 msgid "Start after"
-msgstr "©tart po"
+msgstr "Å tart po"
 
 msgid "The time the show may start at the earliest"
-msgstr "Èas, keï show mô¾e zaèa» èo najskôr"
+msgstr "ÄŒas, keÄ show mÃ´Å¾e zaÄaÅ¥ Äo najskÃ´r"
 
 msgid "Start before"
-msgstr "©tart pred"
+msgstr "Å tart pred"
 
 msgid "The time the show may start at the latest"
-msgstr "V èase, keï show mô¾e zaèa» najneskôr"
+msgstr "V Äase, keÄ show mÃ´Å¾e zaÄaÅ¥ najneskÃ´r"
 
 msgid "Use duration"
-msgstr "Urèi» då¾ku"
+msgstr "UrÄiÅ¥ dÄºÅ¾ku"
 
 msgid "Min. duration"
-msgstr "Minimálna då¾ka"
+msgstr "MinimÃ¡lna dÄºÅ¾ka"
 
 msgid "Max. duration"
-msgstr "Maximálna då¾ka"
+msgstr "MaximÃ¡lna dÄºÅ¾ka"
 
 msgid "Use day of week"
-msgstr "Urèi» deò v tı¾dni"
+msgstr "UrÄiÅ¥ deÅˆ v tÃ½Å¾dni"
 
 msgid "Monday"
 msgstr "Pondelok"
@@ -323,7 +323,7 @@ msgid "Wednesday"
 msgstr "Streda"
 
 msgid "Thursday"
-msgstr "©tvrtok"
+msgstr "Å tvrtok"
 
 msgid "Friday"
 msgstr "Piatok"
@@ -332,43 +332,43 @@ msgid "Saturday"
 msgstr "Sobota"
 
 msgid "Sunday"
-msgstr "Nedeµa"
+msgstr "NedeÄ¾a"
 
 msgid "Use blacklists"
-msgstr "Pou¾i» èiernu listinu"
+msgstr "PouÅ¾iÅ¥ Äiernu listinu"
 
 msgid "only global"
 msgstr ""
 
 msgid "Selection"
-msgstr "Vybrané"
+msgstr "VybranÃ©"
 
 msgid "all"
-msgstr "v¹etky"
+msgstr "vÅ¡etky"
 
 msgid "Use in favorites menu"
-msgstr "Pou¾ite v menu obµúbenıch"
+msgstr "PouÅ¾ite v menu obÄ¾ÃºbenÃ½ch"
 
 msgid "Use as search timer"
-msgstr "Pou¾i» ako vyhµadávaè plánu"
+msgstr "PouÅ¾iÅ¥ ako vyhÄ¾adÃ¡vaÄ plÃ¡nu"
 
 msgid "user defined"
-msgstr "pou¾ívateµom definované"
+msgstr "pouÅ¾Ã­vateÄ¾om definovanÃ©"
 
 msgid "from date"
-msgstr "od dátumu"
+msgstr "od dÃ¡tumu"
 
 msgid "to date"
-msgstr "do dátumu"
+msgstr "do dÃ¡tumu"
 
 msgid "Record"
-msgstr "Nahra»"
+msgstr "NahraÅ¥"
 
 msgid "Announce only"
-msgstr "Len oznamova»"
+msgstr "Len oznamovaÅ¥"
 
 msgid "Switch only"
-msgstr "Iba prepína»"
+msgstr "Iba prepÃ­naÅ¥"
 
 msgid "Announce and Switch"
 msgstr ""
@@ -380,37 +380,37 @@ msgid "Inactive Record"
 msgstr ""
 
 msgid "Series recording"
-msgstr "Sériové nahrávky"
+msgstr "SÃ©riovÃ© nahrÃ¡vky"
 
 msgid "Delete recordings after ... days"
-msgstr "Odstránenie nahrávok po ... dòoch"
+msgstr "OdstrÃ¡nenie nahrÃ¡vok po ... dÅˆoch"
 
 msgid "Keep ... recordings"
-msgstr "Uchova» ... nahrávok"
+msgstr "UchovaÅ¥ ... nahrÃ¡vok"
 
 msgid "Pause when ... recordings exist"
-msgstr "Pauza, keï ... nahrávky existujú"
+msgstr "Pauza, keÄ ... nahrÃ¡vky existujÃº"
 
 msgid "Avoid repeats"
-msgstr "Vyhnú» sa reprízam"
+msgstr "VyhnÃºÅ¥ sa reprÃ­zam"
 
 msgid "Allowed repeats"
-msgstr "Povolené reprízy"
+msgstr "PovolenÃ© reprÃ­zy"
 
 msgid "Only repeats within ... days"
-msgstr "Opakova» iba do ... dní"
+msgstr "OpakovaÅ¥ iba do ... dnÃ­"
 
 msgid "Compare title"
-msgstr "Porovna» titul"
+msgstr "PorovnaÅ¥ titul"
 
 msgid "Compare subtitle"
-msgstr "Porovna» titulky"
+msgstr "PorovnaÅ¥ titulky"
 
 msgid "if present"
-msgstr "ak je prítomnı"
+msgstr "ak je prÃ­tomnÃ½"
 
 msgid "Compare summary"
-msgstr "Porovna» celkovo"
+msgstr "PorovnaÅ¥ celkovo"
 
 msgid "Match in percent"
 msgstr ""
@@ -431,10 +431,10 @@ msgid "Compare"
 msgstr "Porovnanie"
 
 msgid "Use VPS"
-msgstr "Pou¾i» VPS"
+msgstr "PouÅ¾iÅ¥ VPS"
 
 msgid "Auto-delete search timer"
-msgstr "Samo zmazanie vyhµadaného plánu"
+msgstr "Samo zmazanie vyhÄ¾adanÃ©ho plÃ¡nu"
 
 msgid "based on recordings"
 msgstr ""
@@ -443,13 +443,13 @@ msgid "based on days"
 msgstr ""
 
 msgid "after ... recordings"
-msgstr "po ... nahrávkach"
+msgstr "po ... nahrÃ¡vkach"
 
 msgid "after ... days after first rec."
-msgstr "po ... dòoch po prvom nahratí."
+msgstr "po ... dÅˆoch po prvom nahratÃ­."
 
 msgid "Switch ... minutes before start"
-msgstr "Prepnú» ... minút pred zaèiatkom"
+msgstr "PrepnÃºÅ¥ ... minÃºt pred zaÄiatkom"
 
 msgid "Unmute sound on switch"
 msgstr ""
@@ -461,25 +461,25 @@ msgid "The searchtimer includes extra fields. These will be saved with their ori
 msgstr ""
 
 msgid "Test"
-msgstr "Testova»"
+msgstr "TestovaÅ¥"
 
 msgid "Couldn't find timer. Maybe you mistyped your request?"
-msgstr "Nena¹iel sa plán nahrávania. Je mo¾né, ¾e ste zle napísali va¹u po¾iadavku."
+msgstr "NenaÅ¡iel sa plÃ¡n nahrÃ¡vania. Je moÅ¾nÃ©, Å¾e ste zle napÃ­sali vaÅ¡u poÅ¾iadavku."
 
 msgid "Please set a title for the timer!"
-msgstr "Prosím nastavte titul pre plán nahrávania!"
+msgstr "ProsÃ­m nastavte titul pre plÃ¡n nahrÃ¡vania!"
 
 msgid "New timer"
-msgstr "Novı plán"
+msgstr "NovÃ½ plÃ¡n"
 
 msgid "Edit timer"
-msgstr "Upravi» plán"
+msgstr "UpraviÅ¥ plÃ¡n"
 
 msgid "Server"
 msgstr ""
 
 msgid "Weekday"
-msgstr "Pracovnı deò"
+msgstr "PracovnÃ½ deÅˆ"
 
 msgid "Monitoring"
 msgstr ""
@@ -494,82 +494,82 @@ msgid "event time"
 msgstr ""
 
 msgid "Couldn't find user. Maybe you mistyped your request?"
-msgstr "Nepodarilo sa nájs» u¾ívateµa. Mo¾no ste preklepli va¹u po¾iadavku?"
+msgstr "Nepodarilo sa nÃ¡jsÅ¥ uÅ¾Ã­vateÄ¾a. MoÅ¾no ste preklepli vaÅ¡u poÅ¾iadavku?"
 
 msgid "This user name is already in use!"
-msgstr "To to u¾ívateµské meno sa u¾ pou¾íva"
+msgstr "To to uÅ¾Ã­vateÄ¾skÃ© meno sa uÅ¾ pouÅ¾Ã­va"
 
 msgid "Edit user"
-msgstr "Upravi» U¾ívateµa"
+msgstr "UpraviÅ¥ UÅ¾Ã­vateÄ¾a"
 
 msgid "New user"
-msgstr "Novı u¾ívateµ"
+msgstr "NovÃ½ uÅ¾Ã­vateÄ¾"
 
 msgid "Password"
 msgstr "Heslo"
 
 msgid "User rights"
-msgstr "U¾ívateµské práva"
+msgstr "UÅ¾Ã­vateÄ¾skÃ© prÃ¡va"
 
 msgid "Edit setup"
-msgstr "Upravi» nastavenie"
+msgstr "UpraviÅ¥ nastavenie"
 
 msgid "Add or edit timers"
-msgstr "Prida» a upravi» plány"
+msgstr "PridaÅ¥ a upraviÅ¥ plÃ¡ny"
 
 msgid "Delete timers"
-msgstr "Vymaza» plány"
+msgstr "VymazaÅ¥ plÃ¡ny"
 
 msgid "Delete recordings"
-msgstr "Vymaza» nahrávky"
+msgstr "VymazaÅ¥ nahrÃ¡vky"
 
 msgid "Use remote menu"
-msgstr "Pou¾i vzdialené menu"
+msgstr "PouÅ¾i vzdialenÃ© menu"
 
 msgid "Start replay"
-msgstr "Spusti» prehrávanie"
+msgstr "SpustiÅ¥ prehrÃ¡vanie"
 
 msgid "Switch channel"
-msgstr "Prepnú» kanál"
+msgstr "PrepnÃºÅ¥ kanÃ¡l"
 
 msgid "Add or edit search timers"
-msgstr "Prida» alebo upravi» vyhµadávanie plánov"
+msgstr "PridaÅ¥ alebo upraviÅ¥ vyhÄ¾adÃ¡vanie plÃ¡nov"
 
 msgid "Delete search timers"
-msgstr "Vymaza» vyhµadávaè plánov"
+msgstr "VymazaÅ¥ vyhÄ¾adÃ¡vaÄ plÃ¡nov"
 
 msgid "Edit recordings"
-msgstr "Upravi» nahrávky"
+msgstr "UpraviÅ¥ nahrÃ¡vky"
 
 msgid "Electronic program guide information"
-msgstr "Elektronickı sprievodca televíznym programom"
+msgstr "ElektronickÃ½ sprievodca televÃ­znym programom"
 
 msgid "Couldn't find recording or no recordings available"
-msgstr "Nena¹iel sa záznam alebo nahrávky nie sú k dispozícii"
+msgstr "NenaÅ¡iel sa zÃ¡znam alebo nahrÃ¡vky nie sÃº k dispozÃ­cii"
 
 msgid "Page error"
-msgstr "Chyba stránky"
+msgstr "Chyba strÃ¡nky"
 
 msgid "Not playing a recording."
-msgstr "Záznam sa neprehráva."
+msgstr "ZÃ¡znam sa neprehrÃ¡va."
 
 msgid "Not playing the same recording as from request."
-msgstr "Ak sa vy¾iada rovnaká nahrávka, tak ju neprehraje."
+msgstr "Ak sa vyÅ¾iada rovnakÃ¡ nahrÃ¡vka, tak ju neprehraje."
 
 msgid "Cannot control playback!"
-msgstr "Nemo¾no ovláda» prehrávanie!"
+msgstr "NemoÅ¾no ovlÃ¡daÅ¥ prehrÃ¡vanie!"
 
 msgid "Playing recording"
-msgstr "Prehrávanie záznamu"
+msgstr "PrehrÃ¡vanie zÃ¡znamu"
 
 msgid "No EPG info for current event!"
-msgstr "¾iadne EPG informácie na aktuálnu udalos»!"
+msgstr "Å¾iadne EPG informÃ¡cie na aktuÃ¡lnu udalosÅ¥!"
 
 msgid "No EPG info for current channel!"
-msgstr "®iadne epg pre vybranı kanál!"
+msgstr "Å½iadne epg pre vybranÃ½ kanÃ¡l!"
 
 msgid "no current channel!"
-msgstr "®iadny vybranı kanál!"
+msgstr "Å½iadny vybranÃ½ kanÃ¡l!"
 
 msgid "%I:%M:%S %p"
 msgstr "%H:%M:%S"
@@ -593,10 +593,10 @@ msgid "Find more in the IMDb (Internet Movie Database)"
 msgstr "Viac na Internet Movie Database."
 
 msgid "Record this"
-msgstr "Nahra»"
+msgstr "NahraÅ¥"
 
 msgid "Search for repeats"
-msgstr "Vyhµada» reprízy."
+msgstr "VyhÄ¾adaÅ¥ reprÃ­zy."
 
 msgid "Existing Recording:"
 msgstr ""
@@ -605,16 +605,16 @@ msgid "Play this recording in the browser"
 msgstr ""
 
 msgid "Click to view details"
-msgstr "Podrobnosti získate kliknutím."
+msgstr "Podrobnosti zÃ­skate kliknutÃ­m."
 
 msgid "Play this recording"
 msgstr ""
 
 msgid "Delete this recording"
-msgstr "Vymaza» nahrávku z HDD"
+msgstr "VymazaÅ¥ nahrÃ¡vku z HDD"
 
 msgid "Wrong username or password"
-msgstr "Chybné u¾ívateµské meno alebo heslo"
+msgstr "ChybnÃ© uÅ¾Ã­vateÄ¾skÃ© meno alebo heslo"
 
 msgid "Login"
 msgstr "Meno"
@@ -623,43 +623,43 @@ msgid "VDR Live Login"
 msgstr "VDR Live meno"
 
 msgid "User"
-msgstr "U¾ívateµ"
+msgstr "UÅ¾Ã­vateÄ¾"
 
 msgid "What's on?"
-msgstr "Èo práve ide?"
+msgstr "ÄŒo prÃ¡ve ide?"
 
 msgid "MultiSchedule"
-msgstr "TV program v ståpcoch"
+msgstr "TV program v stÄºpcoch"
 
 msgid "Search"
-msgstr "Hµada»"
+msgstr "HÄ¾adaÅ¥"
 
 msgid "Search timers"
-msgstr "Vyhµadávaè vysielacieho èasu"
+msgstr "VyhÄ¾adÃ¡vaÄ vysielacieho Äasu"
 
 msgid "Recordings"
-msgstr "Nahrávky"
+msgstr "NahrÃ¡vky"
 
 msgid "Recordings (flat)"
 msgstr ""
 
 msgid "Remote Control"
-msgstr "Diaµkové ovládanie"
+msgstr "DiaÄ¾kovÃ© ovlÃ¡danie"
 
 msgid "Web-Streaming"
 msgstr ""
 
 msgid "Logout"
-msgstr "Odhlási»"
+msgstr "OdhlÃ¡siÅ¥"
 
 msgid "Your attention is required"
 msgstr "Upozornenie! "
 
 msgid "React"
-msgstr "Reagova»"
+msgstr "ReagovaÅ¥"
 
 msgid "Dismiss"
-msgstr "Zru¹"
+msgstr "ZruÅ¡"
 
 msgid "All channels"
 msgstr ""
@@ -671,16 +671,16 @@ msgid "Now"
 msgstr "Teraz ide"
 
 msgid "Time"
-msgstr "Èas"
+msgstr "ÄŒas"
 
 msgid "Switch to this channel"
-msgstr "Prepnú» na tento kanál."
+msgstr "PrepnÃºÅ¥ na tento kanÃ¡l."
 
 msgid "more"
 msgstr "viac"
 
 msgid "Channel"
-msgstr "Kanál"
+msgstr "KanÃ¡l"
 
 msgid "Prev. entry"
 msgstr ""
@@ -701,49 +701,49 @@ msgid "Stream this recording"
 msgstr ""
 
 msgid "Loading data ..."
-msgstr "naèítanie dát"
+msgstr "naÄÃ­tanie dÃ¡t"
 
 msgid "An error occurred!"
-msgstr "do¹lo k chybe!"
+msgstr "doÅ¡lo k chybe!"
 
 msgid "Request succeeded"
-msgstr "Vyhovelo ¾iadosti!"
+msgstr "Vyhovelo Å¾iadosti!"
 
 msgid "Request failed!"
-msgstr "Chyba ¾iadosti!"
+msgstr "Chyba Å¾iadosti!"
 
 msgid "Retrieving status ..."
-msgstr "naèítavanie stavu"
+msgstr "naÄÃ­tavanie stavu"
 
 msgid "Toggle updates on/off"
-msgstr "Prepínaè aktualizácii zapnú»/vypnú»."
+msgstr "PrepÃ­naÄ aktualizÃ¡cii zapnÃºÅ¥/vypnÃºÅ¥."
 
 msgid "Stop playback"
-msgstr "zastavenie prehrávania"
+msgstr "zastavenie prehrÃ¡vania"
 
 msgid "Resume playback"
-msgstr "obnovi» prehrávanie"
+msgstr "obnoviÅ¥ prehrÃ¡vanie"
 
 msgid "Pause playback"
-msgstr "pozastavenie prehrávania"
+msgstr "pozastavenie prehrÃ¡vania"
 
 msgid "Fast rewind"
-msgstr "rıchlo pretoèi»"
+msgstr "rÃ½chlo pretoÄiÅ¥"
 
 msgid "Fast forward"
-msgstr "rıchlo vpred"
+msgstr "rÃ½chlo vpred"
 
 msgid "Previous channel"
-msgstr "predchádzajúci kanál"
+msgstr "predchÃ¡dzajÃºci kanÃ¡l"
 
 msgid "Next channel"
-msgstr "ïal¹í kanál"
+msgstr "ÄalÅ¡Ã­ kanÃ¡l"
 
 msgid "No server response!"
-msgstr "Server neodpovedá!"
+msgstr "Server neodpovedÃ¡!"
 
 msgid "Failed to update infobox!"
-msgstr "Nepodarilo sa aktualizova» infobox!"
+msgstr "Nepodarilo sa aktualizovaÅ¥ infobox!"
 
 msgid "Scraper"
 msgstr ""
@@ -800,7 +800,7 @@ msgid "Genres:"
 msgstr ""
 
 msgid "Homepage"
-msgstr "Domovská stránka"
+msgstr "DomovskÃ¡ strÃ¡nka"
 
 msgid "Release date:"
 msgstr ""
@@ -842,10 +842,10 @@ msgid "Authors"
 msgstr "Autori"
 
 msgid "Project Idea"
-msgstr "My¹lienka projektu"
+msgstr "MyÅ¡lienka projektu"
 
 msgid "Webserver"
-msgstr "Webovı server"
+msgstr "WebovÃ½ server"
 
 msgid "Current Maintainer"
 msgstr ""
@@ -854,13 +854,13 @@ msgid "Previous Maintainer"
 msgstr ""
 
 msgid "Project leader"
-msgstr "Vedúci projektu"
+msgstr "VedÃºci projektu"
 
 msgid "Graphics"
 msgstr "Grafika"
 
 msgid "Information"
-msgstr "Informácie"
+msgstr "InformÃ¡cie"
 
 msgid "LIVE version"
 msgstr "LIVE verzia"
@@ -872,10 +872,10 @@ msgid "Features"
 msgstr "Charakteristika"
 
 msgid "active"
-msgstr "aktívny"
+msgstr "aktÃ­vny"
 
 msgid "required"
-msgstr "po¾adované"
+msgstr "poÅ¾adovanÃ©"
 
 msgid "Information providers"
 msgstr ""
@@ -884,22 +884,22 @@ msgid "Bugs and suggestions"
 msgstr "Chyby a podnety"
 
 msgid "If you encounter any bugs or would like to suggest new features, please use our bugtracker"
-msgstr "Ak narazíte na akúkoµvek chybu, alebo ak chcete navrhnú» nové funkcie, pou¾ite prosím ná¹ BUGTRACKER."
+msgstr "Ak narazÃ­te na akÃºkoÄ¾vek chybu, alebo ak chcete navrhnÃºÅ¥ novÃ© funkcie, pouÅ¾ite prosÃ­m nÃ¡Å¡ BUGTRACKER."
 
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
-msgstr "Nena¹iel sa ¾iadny kanál alebo kanály nie sú k dispozícii. Mo¾no ste zle napísali va¹u po¾iadavku?"
+msgstr "NenaÅ¡iel sa Å¾iadny kanÃ¡l alebo kanÃ¡ly nie sÃº k dispozÃ­cii. MoÅ¾no ste zle napÃ­sali vaÅ¡u poÅ¾iadavku?"
 
 msgid "Deleted recording:"
-msgstr "Vymazanı nahrávka:"
+msgstr "VymazanÃ½ nahrÃ¡vka:"
 
 msgid "List of recordings"
-msgstr "Zoznam nahrávok"
+msgstr "Zoznam nahrÃ¡vok"
 
 msgid "No recordings found"
-msgstr "Nena¹la sa nahrávka"
+msgstr "NenaÅ¡la sa nahrÃ¡vka"
 
 msgid "Delete selected"
-msgstr "Vymaza» vybrané"
+msgstr "VymazaÅ¥ vybranÃ©"
 
 msgid "No matching recordings found"
 msgstr ""
@@ -917,7 +917,7 @@ msgid "Errors"
 msgstr ""
 
 msgid "Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE)."
-msgstr "Pozrite sa na nahrávky titulov a titulky pre danı re»azec a zobrazi» iba tie vyhovujúce. Mô¾ete  pou¾i» kompatibilné perl regulárne vırazy (PCRE)."
+msgstr "Pozrite sa na nahrÃ¡vky titulov a titulky pre danÃ½ reÅ¥azec a zobraziÅ¥ iba tie vyhovujÃºce. MÃ´Å¾ete  pouÅ¾iÅ¥ kompatibilnÃ© perl regulÃ¡rne vÃ½razy (PCRE)."
 
 msgid "Filter"
 msgstr "Filter"
@@ -926,10 +926,10 @@ msgid "Clear filter"
 msgstr ""
 
 msgid "Expand all folders"
-msgstr "Rozbali» v¹etky zlo¾ky"
+msgstr "RozbaliÅ¥ vÅ¡etky zloÅ¾ky"
 
 msgid "Collapse all folders"
-msgstr "Zbali» v¹etky zlo¾ky"
+msgstr "ZbaliÅ¥ vÅ¡etky zloÅ¾ky"
 
 #, c-format
 msgid "Delete recording \"%s\"?"
@@ -939,22 +939,22 @@ msgid "Delete"
 msgstr ""
 
 msgid "Snapshot interval"
-msgstr "Interval snímkovania"
+msgstr "Interval snÃ­mkovania"
 
 msgid "Stop"
-msgstr "Zastavi»"
+msgstr "ZastaviÅ¥"
 
 msgid "No schedules available for this channel"
-msgstr "Pre tento kanál sa nena¹iel ¾iadny televízny program."
+msgstr "Pre tento kanÃ¡l sa nenaÅ¡iel Å¾iadny televÃ­zny program."
 
 msgid "No events available for this channel"
 msgstr ""
 
 msgid "Search settings"
-msgstr "Nastavenie hµadania"
+msgstr "Nastavenie hÄ¾adania"
 
 msgid "Extended search"
-msgstr "Roz¹írené vyhµadávanie"
+msgstr "RozÅ¡Ã­renÃ© vyhÄ¾adÃ¡vanie"
 
 msgid "The search lacks some form fields, so that their values cannot be used for searching the EPG. Please upgrade to the most recent version of EPGsearch."
 msgstr ""
@@ -963,49 +963,49 @@ msgid "The search supports extra fields. These will be not be taken into account
 msgstr ""
 
 msgid "Search results"
-msgstr "Vısledky vyhµadávania"
+msgstr "VÃ½sledky vyhÄ¾adÃ¡vania"
 
 msgid "No search results"
-msgstr "Hµadanie bez vısledku"
+msgstr "HÄ¾adanie bez vÃ½sledku"
 
 msgid "Expression"
 msgstr "Pripomienky"
 
 msgid "Starts between"
-msgstr "Zaèína medzi"
+msgstr "ZaÄÃ­na medzi"
 
 msgid "Toggle search timer actions (in)active"
-msgstr "Vypínaè vyhµadávania. Zapnú»/Vypnú»"
+msgstr "VypÃ­naÄ vyhÄ¾adÃ¡vania. ZapnÃºÅ¥/VypnÃºÅ¥"
 
 msgid "Browse search timer results"
-msgstr "Zobrazi» vısledky vyhµadávania"
+msgstr "ZobraziÅ¥ vÃ½sledky vyhÄ¾adÃ¡vania"
 
 msgid "Delete this search timer?"
-msgstr "Vymaza» tento vyhµadanı plán?"
+msgstr "VymazaÅ¥ tento vyhÄ¾adanÃ½ plÃ¡n?"
 
 msgid "Delete search timer"
-msgstr "Vymaza» vyhµadávaè"
+msgstr "VymazaÅ¥ vyhÄ¾adÃ¡vaÄ"
 
 msgid "No searchtimers found"
 msgstr ""
 
 msgid "Trigger search timer update"
-msgstr "Spusti» obnovenie vyhµadávania èasu"
+msgstr "SpustiÅ¥ obnovenie vyhÄ¾adÃ¡vania Äasu"
 
 msgid "Please set login and password!"
-msgstr "Prosím nastavte u¾ívateµské meno a heslo!"
+msgstr "ProsÃ­m nastavte uÅ¾Ã­vateÄ¾skÃ© meno a heslo!"
 
 msgid "Setup saved."
-msgstr "Nastavenie ulo¾ené."
+msgstr "Nastavenie uloÅ¾enÃ©."
 
 msgid "Setup"
 msgstr "Nastavenie"
 
 msgid "User management"
-msgstr "U¾ívateµskı mana¾ment"
+msgstr "UÅ¾Ã­vateÄ¾skÃ½ manaÅ¾ment"
 
 msgid "Local net (no login required)"
-msgstr "Miestna sie» (nevy¾aduje prihlásenie)"
+msgstr "Miestna sieÅ¥ (nevyÅ¾aduje prihlÃ¡senie)"
 
 msgid "IPv4 prefix"
 msgstr ""
@@ -1023,19 +1023,19 @@ msgid "Allow localhost"
 msgstr ""
 
 msgid "Show live logo image"
-msgstr "Zobrazi» obrázok live loga"
+msgstr "ZobraziÅ¥ obrÃ¡zok live loga"
 
 msgid "Show dynamic VDR information box"
-msgstr "Zobrazi» dynamicky VDR informaènı box"
+msgstr "ZobraziÅ¥ dynamicky VDR informaÄnÃ½ box"
 
 msgid "Allow video streaming"
-msgstr "Povoli» prúdové video"
+msgstr "PovoliÅ¥ prÃºdovÃ© video"
 
 msgid "Streamdev server port"
 msgstr "Streamdev port servera"
 
 msgid "Streamdev stream type"
-msgstr "Typ prúdového videa"
+msgstr "Typ prÃºdovÃ©ho videa"
 
 msgid "Mark new recordings"
 msgstr ""
@@ -1044,13 +1044,13 @@ msgid "Show link to IMDb in list views"
 msgstr ""
 
 msgid "Additional fixed times in 'What's on?'"
-msgstr "Dodatoènı èas v ponuke 'Èo práve ide?'"
+msgstr "DodatoÄnÃ½ Äas v ponuke 'ÄŒo prÃ¡ve ide?'"
 
 msgid "Format is HH:MM. Separate multiple times with a semicolon"
-msgstr "Vo formáte HH:MM. Oddelené niekoµkokrát bodkoèiarkou"
+msgstr "Vo formÃ¡te HH:MM. OddelenÃ© niekoÄ¾kokrÃ¡t bodkoÄiarkou"
 
 msgid "Channel groups for MultiSchedule"
-msgstr "Skupiny kanálov pre televízny program v ståpcoch"
+msgstr "Skupiny kanÃ¡lov pre televÃ­zny program v stÄºpcoch"
 
 msgid "5 channels per group"
 msgstr ""
@@ -1068,19 +1068,19 @@ msgid "Channel groups"
 msgstr ""
 
 msgid "Separate channels with a comma ',', separate groups with a semi-colon ';'"
-msgstr "Kanály oddeli» s èiarkou ',', skupiny kanálov oddeµova» bodkoèiarkou ';'"
+msgstr "KanÃ¡ly oddeliÅ¥ s Äiarkou ',', skupiny kanÃ¡lov oddeÄ¾ovaÅ¥ bodkoÄiarkou ';'"
 
 msgid "Duration of MultiSchedule in hours"
-msgstr "Då¾ka ståpcovitého televízneho programu v hodinách"
+msgstr "DÄºÅ¾ka stÄºpcovitÃ©ho televÃ­zneho programu v hodinÃ¡ch"
 
 msgid "Show channels without EPG"
-msgstr "Zobrazi» kanály s EPG"
+msgstr "ZobraziÅ¥ kanÃ¡ly s EPG"
 
 msgid "Start page"
-msgstr "©tartovacia stránka"
+msgstr "Å tartovacia strÃ¡nka"
 
 msgid "Theme"
-msgstr "Vzhµad"
+msgstr "VzhÄ¾ad"
 
 msgid "Couldn't find recording or no recordings available. Maybe you mistyped your request?"
 msgstr ""
@@ -1093,73 +1093,73 @@ msgid "%a, %x"
 msgstr "%a, %x"
 
 msgid "View the schedule of this channel"
-msgstr "Zobrazi» televízny program pre tento kanál"
+msgstr "ZobraziÅ¥ televÃ­zny program pre tento kanÃ¡l"
 
 msgid "Recording"
 msgstr ""
 
 msgid "Couldn't find channel or no channels available."
-msgstr "Nena¹iel ¾iadny kanál alebo kanály nie sú k dispozícii."
+msgstr "NenaÅ¡iel Å¾iadny kanÃ¡l alebo kanÃ¡ly nie sÃº k dispozÃ­cii."
 
 msgid "Couldn't switch to channel."
-msgstr "Nedá sa prepnú» na kanál."
+msgstr "NedÃ¡ sa prepnÃºÅ¥ na kanÃ¡l."
 
 msgid "Timer conflicts"
-msgstr "Konflikty plánu"
+msgstr "Konflikty plÃ¡nu"
 
 msgid "No timer conflicts"
-msgstr "®iadne konflikty"
+msgstr "Å½iadne konflikty"
 
 msgid "local"
 msgstr ""
 
 msgid "Timer has a conflict"
-msgstr "Plán má konflikt."
+msgstr "PlÃ¡n mÃ¡ konflikt."
 
 msgid "Timer is active"
-msgstr "Plán je aktívny."
+msgstr "PlÃ¡n je aktÃ­vny."
 
 msgid "Transponder"
 msgstr ""
 
 msgid "Toggle timer (in)active"
-msgstr "Vypínaè plánu Zapnú»/vypnú»"
+msgstr "VypÃ­naÄ plÃ¡nu ZapnÃºÅ¥/vypnÃºÅ¥"
 
 msgid "Delete timer"
-msgstr "Vymaza» plán"
+msgstr "VymazaÅ¥ plÃ¡n"
 
 msgid "No timer defined"
-msgstr "®iadny plán nahrávania nie je stanovenı"
+msgstr "Å½iadny plÃ¡n nahrÃ¡vania nie je stanovenÃ½"
 
 msgid "Duration"
 msgstr ""
 
 msgid "Timer is recording"
-msgstr "Nahráva sa podµa plánu."
+msgstr "NahrÃ¡va sa podÄ¾a plÃ¡nu."
 
 msgid "Delete this timer?"
 msgstr ""
 
 msgid "Users"
-msgstr "U¾ívatelia"
+msgstr "UÅ¾Ã­vatelia"
 
 msgid "Delete user"
-msgstr "Vymaza» u¾ívateµa"
+msgstr "VymazaÅ¥ uÅ¾Ã­vateÄ¾a"
 
 msgid "No users configured"
 msgstr ""
 
 msgid "What's running on"
-msgstr "Èo práve ide?"
+msgstr "ÄŒo prÃ¡ve ide?"
 
 msgid "at"
 msgstr "o"
 
 msgid "What's on next?"
-msgstr "Èo nasleduje?"
+msgstr "ÄŒo nasleduje?"
 
 msgid "Favorites"
-msgstr "Obµúbené"
+msgstr "ObÄ¾ÃºbenÃ©"
 
 msgid "No events found"
 msgstr ""
@@ -1168,13 +1168,13 @@ msgid "Next"
 msgstr "Nasleduje"
 
 msgid "What's on"
-msgstr "Èo bude"
+msgstr "ÄŒo bude"
 
 msgid "Details view"
-msgstr "Zobrazi» podrobnosti"
+msgstr "ZobraziÅ¥ podrobnosti"
 
 msgid "List view"
-msgstr "Zobrazi» ako zoznam"
+msgstr "ZobraziÅ¥ ako zoznam"
 
 msgid "Live Interactive VDR Environment"
-msgstr "®ivé interaktívne VDR prostredie"
+msgstr "Å½ivÃ© interaktÃ­vne VDR prostredie"
