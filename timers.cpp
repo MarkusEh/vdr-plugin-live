@@ -117,6 +117,7 @@ namespace vdrlive {
         if (getAutoTimerReason.recording) {
           recID = concat("recording_", cToSvXxHash128(getAutoTimerReason.recording->FileName() ));
           recName = std::move(getAutoTimerReason.recordingName);
+          utf8_sanitize_string(recName);
           return std::move(getAutoTimerReason.reason);
         }
         return concat(getAutoTimerReason.reason, " ", getAutoTimerReason.recordingName);
