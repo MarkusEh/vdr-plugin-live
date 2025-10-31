@@ -96,9 +96,10 @@ Otherwise, the rec tree is re-created from currnet data.
 
   bool RecordingsManager::UpdateRecording(cSv hash, cSv directory, cSv name, bool copy, cSv title, cSv shorttext, cSv description)
   {
-    std::string new_filename = FileSystemExchangeChars(directory.empty() ? name : cSv(cToSvReplace(directory, "/", "~") << "~" << name), true);
+//  std::string new_filename = FileSystemExchangeChars(directory.empty() ? name : cSv(cToSvReplace(directory, "/", "~") << "~" << name), true);
+    std::string new_filename = FileSystemExchangeChars(directory.empty() ? name : cSv(cToSvConcat(directory, "~", name)), true);
     // Check for injections that try to escape from the video dir.
-    if (new_filename.compare(0, 3, "..~") == 0 || new_filename.find("~..") != std::string::npos) {
+    if (new_filename.compare(0, 3, "../") == 0 || new_filename.find("/..") != std::string::npos) {
       esyslog("live: renaming failed: new name invalid \"%.*s\"", (int)new_filename.length(), new_filename.data());
       return false;
     }
@@ -607,7 +608,7 @@ bool searchNameDesc(RecordingsItemRec *&RecItem, const std::vector<RecordingsIte
   {
     std::string basePath0(basePath);
     if (basePath.empty() ) dirs.push_back("");
-    else basePath0.append("/");
+    else basePath0.append(1, FOLDERDELIMCHAR);
     size_t basePath0_len = basePath0.length();
     for (const auto &subdir: m_subdirs) {
       basePath0.erase(basePath0_len);
