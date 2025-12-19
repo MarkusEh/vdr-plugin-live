@@ -15,3 +15,24 @@ Keyboard shortcuts in the 'Remote' view:
 <F12> -> vol up
 <PgUp>-> channel up
 <PgDn>-> channel down
+
+For X & softhddevice, remote.conf:
+XKeySym.Up         Up
+XKeySym.Down       Down
+XKeySym.Right      Right
+XKeySym.Left       Left
+XKeySym.Menu       Tab
+XKeySym.Menu       F9
+XKeySym.Ok         Return
+XKeySym.Back       Escape
+XKeySym.Red        F1
+XKeySym.Green      F2
+XKeySym.Yellow     F3
+XKeySym.Blue       F4
+XKeySym.FastFwd    F5
+XKeySym.FastRew    F6
+XKeySym.Channel+   Prior
+XKeySym.Channel-   Next
+XKeySym.Volume+    F12
+XKeySym.Volume-    F11
+XKeySym.Mute       F10
