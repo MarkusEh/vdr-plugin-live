@@ -254,20 +254,53 @@ msgstr "Suchen in"
 msgid "Episode"
 msgstr "Episode"
 
+msgid "Use parental rating"
+msgstr "Altersfreigabe verwenden"
+
+msgid "Minimum rating"
+msgstr "Minimale Altersfreigabe"
+
+msgid "Maximum rating"
+msgstr "Maximale Altersfreigabe"
+
 msgid "Use content categories"
 msgstr "Inhaltskategorien verwenden"
 
+msgid "Category matching mode"
+msgstr "Art der Übereinstimmung"
+
+msgid "all selected descriptors"
+msgstr "alle gewählten Kennungen"
+
+msgid "any selected descriptor"
+msgstr "eine der gewählten Kennungen"
+
+msgid "one selected descriptor per group"
+msgstr "eine gewählte Kennung je Gruppe"
+
+msgid "When \"one selected descriptor per group\" is chosen, at least one of a group's selcted descriptors must be present (OR) for every included group (AND); groups without selected descriptors are ignored. Not including sufficient descriptors can cause a lot of timers. So please always test this search before using it as search timer!"
+msgstr "Bei \"eine gewählte Kennung je Gruppe\" muss mindestens eine der ausgewählten Kennungen einer Gruppe (ODER) für jede involvierte Gruppe (UND) vorhanden sein; Gruppen ohne ausgewählte Kennungen werden nicht betrachtet. Zu wenige Kennungen können zu sehr vielen Timern führen. Testen Sie die Suche daher immer zuerst, bevor Sie sie als Suchtimer verwenden!"
+
 msgid "Special Characteristics"
-msgstr "Spezielle Eigenschaften"
+msgstr "Besondere Merkmale"
+
+msgid "Special characteristics use their own matching mode. Both the other categories and the special characteristics must match jointly."
+msgstr "Die besonderen Merkmale verwenden ihre eigene Art der Übereinstimmung. Insgesamt muss sowohl bei den anderen Kategorien als auch bei den besonderen Merkmalen eine Übereinstimmung vorliegen."
 
 msgid "Use extended EPG info"
 msgstr "Erweiterte EPG-Daten verwenden"
 
-msgid "Ignore missing EPG info"
-msgstr "Fehlende EPG-Daten ignorieren"
+msgid "all categories"
+msgstr "alle Kategorien"
 
-msgid "When active this can cause very many timers. So please always first test this search before using it as search timer!"
-msgstr "Diese Einstellung kann bei Aktivierung sehr viele Timer erzeugen. Bitte zuerst die Suche testen, bevor sie als Suchtimer verwendet wird!"
+msgid "all except missing categories"
+msgstr "alle außer fehlende Kategorien"
+
+msgid "at least one category"
+msgstr "mindestens eine Kategorie"
+
+msgid "Not including all categories can cause very many timers. So please always first test this search before using it as search timer!"
+msgstr "Der Ausschluss von Kategorien kann sehr viele Timer erzeugen. Testen Sie die Suche daher immer zuerst, bevor Sie sie als Suchtimer verwenden!"
 
 msgid "Use channel"
 msgstr "Kanal verwenden"
@@ -387,7 +420,7 @@ msgid "Delete recordings after ... days"
 msgstr "Aufzeichnung nach ... Tagen löschen"
 
 msgid "Keep ... recordings"
-msgstr "Behalte ... Aufzeichnungen"
+msgstr "bis zu ... Aufzeichnungen behalten"
 
 msgid "Pause when ... recordings exist"
 msgstr "Pause, wenn ... Aufz. existieren"
@@ -428,8 +461,8 @@ msgstr "gleiche Woche"
 msgid "same month"
 msgstr "gleicher Monat"
 
-msgid "Compare"
-msgstr "Vergleiche"
+msgid "Compare extended EPG info"
+msgstr "Erweiterte EPG-Daten vergleichen"
 
 msgid "Use VPS"
 msgstr "VPS verwenden"
@@ -1179,3 +1212,15 @@ msgstr "Listenansicht"
 
 msgid "Live Interactive VDR Environment"
 msgstr "Live Interactive VDR Environment"
+
+#~ msgid "Compare"
+#~ msgstr "Vergleiche"
+
+#~ msgid "Matching of EPG info"
+#~ msgstr "Übereinstimmung der EPG-Daten"
+
+#~ msgid "Ignore missing EPG info"
+#~ msgstr "Fehlende EPG-Daten ignorieren"
+
+#~ msgid "When active this can cause very many timers. So please always first test this search before using it as search timer!"
+#~ msgstr "Diese Einstellung kann bei Aktivierung sehr viele Timer erzeugen. Bitte zuerst die Suche testen, bevor sie als Suchtimer verwendet wird!"

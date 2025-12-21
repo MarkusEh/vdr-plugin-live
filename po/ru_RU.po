@@ -252,20 +252,53 @@ msgstr "Искать в"
 msgid "Episode"
 msgstr "Эпизод"
 
+msgid "Use parental rating"
+msgstr ""
+
+msgid "Minimum rating"
+msgstr ""
+
+msgid "Maximum rating"
+msgstr ""
+
 msgid "Use content categories"
+msgstr ""
+
+msgid "Category matching mode"
+msgstr ""
+
+msgid "all selected descriptors"
+msgstr ""
+
+msgid "any selected descriptor"
+msgstr ""
+
+msgid "one selected descriptor per group"
+msgstr ""
+
+msgid "When \"one selected descriptor per group\" is chosen, at least one of a group's selcted descriptors must be present (OR) for every included group (AND); groups without selected descriptors are ignored. Not including sufficient descriptors can cause a lot of timers. So please always test this search before using it as search timer!"
 msgstr ""
 
 msgid "Special Characteristics"
 msgstr ""
 
+msgid "Special characteristics use their own matching mode. Both the other categories and the special characteristics must match jointly."
+msgstr ""
+
 msgid "Use extended EPG info"
 msgstr "Расширенная информацию телегида"
 
-msgid "Ignore missing EPG info"
-msgstr "Игнорировать отсутствие информации телегида"
+msgid "all categories"
+msgstr ""
 
-msgid "When active this can cause very many timers. So please always first test this search before using it as search timer!"
-msgstr "Внимание! Проверьте поисковый таймер перед включением этой функции. Это поможет избежать ошибочных записей."
+msgid "all except missing categories"
+msgstr ""
+
+msgid "at least one category"
+msgstr ""
+
+msgid "Not including all categories can cause very many timers. So please always first test this search before using it as search timer!"
+msgstr ""
 
 msgid "Use channel"
 msgstr "Канал"
@@ -426,8 +459,8 @@ msgstr ""
 msgid "same month"
 msgstr ""
 
-msgid "Compare"
-msgstr "Сравнить"
+msgid "Compare extended EPG info"
+msgstr ""
 
 msgid "Use VPS"
 msgstr "VPS"
@@ -1177,3 +1210,12 @@ msgstr "Список"
 
 msgid "Live Interactive VDR Environment"
 msgstr ""
+
+#~ msgid "Ignore missing EPG info"
+#~ msgstr "Игнорировать отсутствие информации телегида"
+
+#~ msgid "When active this can cause very many timers. So please always first test this search before using it as search timer!"
+#~ msgstr "Внимание! Проверьте поисковый таймер перед включением этой функции. Это поможет избежать ошибочных записей."
+
+#~ msgid "Compare"
+#~ msgstr "Сравнить"

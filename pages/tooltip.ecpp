@@ -9,8 +9,8 @@ using namespace vdrlive;
 
 <%def hint>
 <%args>
-  std::string label;
-  std::string text;
+  std::string label;  // the label will be html escaped
+  std::string text;   // the text will NOT be html escaped, to allow multi-line texts with linebreaks
   std::string className;
   std::string breaksAtLeft;
   std::string breaksAtRight;
@@ -37,7 +37,7 @@ if (!label.empty()) {
 labelAndText << "<p class=\"";
 labelAndText << (!className.empty() ? className : "click-details");
 labelAndText << "\">";
-AppendHtmlEscapedAndCorrectNonUTF8(labelAndText, text);
+labelAndText << text;
 labelAndText << "</p>";
 </%cpp>
 title="<$ labelAndText $>"

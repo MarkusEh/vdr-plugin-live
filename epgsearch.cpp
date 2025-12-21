@@ -87,10 +87,15 @@ void SearchTimer::Init()
   m_useAsSearchTimerFrom = 0;
   m_useAsSearchTimerTil = 0;
   m_catValuesAvoidRepeat = 0;
-  m_ignoreMissingEPGCats = false;
+  m_extEPGInfoMatchingMode = false;
   m_unmuteSoundOnSwitch = false;
   m_compareSummaryMatchInPercent = 90;
   m_compareDate = 0;
+  m_contentsCategoryMatchingMode = 0;
+  m_contentsCharacteristicsMatchingMode = 0;
+  m_useParentalRating = false;
+  m_minParentalRating = 0;
+  m_maxParentalRating = 18;
 }
 
 SearchTimer::SearchTimer( std::string const& data )
@@ -150,11 +155,16 @@ SearchTimer::SearchTimer( std::string const& data )
     case 46: m_delAfterDaysOfFirstRec = parse_int<int>( *part ); break;
     case 47: m_useAsSearchTimerFrom = parse_int<time_t>( *part ); break;
     case 48: m_useAsSearchTimerTil = parse_int<time_t>( *part ); break;
-    case 49: m_ignoreMissingEPGCats = lexical_cast<bool>( *part ); break;
+    case 49: m_extEPGInfoMatchingMode = parse_int<int>( *part ); break;
     case 50: m_unmuteSoundOnSwitch = lexical_cast<bool>( *part ); break;
     case 51: m_compareSummaryMatchInPercent = parse_int<int>( *part ); break;
     case 52: m_contentsFilter = cToSvReplace( *part, "|", ":" ).replaceAll("!^pipe^!", "|" ); break;
-    case 53: m_compareDate = parse_int<int>( *part );
+    case 53: m_compareDate = parse_int<int>( *part ); break;
+    case 54: m_contentsCategoryMatchingMode = parse_int<int>( *part ); break;
+    case 55: m_contentsCharacteristicsMatchingMode = parse_int<int>( *part ); break;
+    case 56: m_useParentalRating = lexical_cast<bool>( *part ); break;
+    case 57: m_minParentalRating = parse_int<int>( *part ); break;
+    case 58: m_maxParentalRating = parse_int<int>( *part );
              m_hasInsufficientFields = false; break;
     default: m_hasUnknownFields = !(*part).empty(); break;
     }
@@ -245,11 +255,16 @@ std::string SearchTimer::ToText() {
       case 46: os << ':' << m_delAfterDaysOfFirstRec; break;
       case 47: os << ':' << m_useAsSearchTimerFrom; break;
       case 48: os << ':' << m_useAsSearchTimerTil; break;
-      case 49: os << ':' << m_ignoreMissingEPGCats; break;
+      case 49: os << ':' << m_extEPGInfoMatchingMode; break;
       case 50: os << ':' << m_unmuteSoundOnSwitch; break;
       case 51: os << ':' << m_compareSummaryMatchInPercent; break;
       case 52: os << ':' << m_contentsFilter; break;
       case 53: os << ':' << m_compareDate; break;
+      case 54: os << ':' << m_contentsCategoryMatchingMode; break;
+      case 55: os << ':' << m_contentsCharacteristicsMatchingMode; break;
+      case 56: os << ':' << m_useParentalRating; break;
+      case 57: os << ':' << m_minParentalRating; break;
+      case 58: os << ':' << m_maxParentalRating; break;
       default: i--; part--; atEnd = true; break;
     }
   }

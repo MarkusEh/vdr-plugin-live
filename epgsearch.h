@@ -146,8 +146,8 @@ public:
   void SetUseAsSearchTimerFrom(std::string const& dateString, std::string const& format);
   std::string UseAsSearchTimerTil(std::string const& format);
   void SetUseAsSearchTimerTil(std::string const& dateString, std::string const& format);
-  bool IgnoreMissingEPGCats() const { return m_ignoreMissingEPGCats; }
-  void SetIgnoreMissingEPGCats(bool ignoreMissingEPGCats) { m_ignoreMissingEPGCats = ignoreMissingEPGCats; }
+  int ExtEPGInfoMatchingMode() const { return m_extEPGInfoMatchingMode; }
+  void SetExtEPGInfoMatchingMode(int extEPGInfoMatchingMode) { m_extEPGInfoMatchingMode = extEPGInfoMatchingMode; }
   bool UnmuteSoundOnSwitch() const { return m_unmuteSoundOnSwitch; }
   void SetUnmuteSoundOnSwitch(bool unmuteSoundOnSwitch) { m_unmuteSoundOnSwitch = unmuteSoundOnSwitch; }
   int CompareSummaryMatchInPercent() const { return m_compareSummaryMatchInPercent; }
@@ -156,6 +156,16 @@ public:
   void SetContentsFilter(std::string const& contentsFilter) { m_contentsFilter = contentsFilter; }
   int CompareDate() const { return m_compareDate; }
   void SetCompareDate(int compareDate) { m_compareDate = compareDate; }
+  int ContentsCategoryMatchingMode() { return m_contentsCategoryMatchingMode; }
+  void SetContentsCategoryMatchingMode( int contentsCategoryMatchingMode ) { m_contentsCategoryMatchingMode = contentsCategoryMatchingMode; }
+  int ContentsCharacteristicsMatchingMode() { return m_contentsCharacteristicsMatchingMode; }
+  void SetContentsCharacteristicsMatchingMode(int contentsCharacteristicsMatchingMode) { m_contentsCharacteristicsMatchingMode = contentsCharacteristicsMatchingMode; }
+  bool UseParentalRating() { return m_useParentalRating; }
+  void SetUseParentalRating(bool useParentalRating) { m_useParentalRating = useParentalRating; }
+  int MinParentalRating() { return m_minParentalRating; }
+  void SetMinParentalRating(int minParentalRating) { m_minParentalRating = minParentalRating; }
+  int MaxParentalRating() { return m_maxParentalRating; }
+  void SetMaxParentalRating(int maxParentalRating) { m_maxParentalRating = maxParentalRating; }
 
 private:
   std::string m_data;
@@ -215,11 +225,16 @@ private:
   int m_delAfterDaysOfFirstRec;
   time_t m_useAsSearchTimerFrom;
   time_t m_useAsSearchTimerTil;
-  bool m_ignoreMissingEPGCats;
+  int m_extEPGInfoMatchingMode;
   bool m_unmuteSoundOnSwitch;
   int m_compareSummaryMatchInPercent;
   std::string m_contentsFilter;
   int m_compareDate;
+  int m_contentsCategoryMatchingMode;
+  int m_contentsCharacteristicsMatchingMode;
+  bool m_useParentalRating;
+  int m_minParentalRating;
+  int m_maxParentalRating;
 
   void ParseChannel(cSv data);
   void ParseChannelIDs(cSv data);

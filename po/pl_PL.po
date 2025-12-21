@@ -253,20 +253,53 @@ msgstr "Szukaj w"
 msgid "Episode"
 msgstr "Epizod"
 
+msgid "Use parental rating"
+msgstr ""
+
+msgid "Minimum rating"
+msgstr ""
+
+msgid "Maximum rating"
+msgstr ""
+
 msgid "Use content categories"
 msgstr "Użyj kategorii"
+
+msgid "Category matching mode"
+msgstr ""
+
+msgid "all selected descriptors"
+msgstr ""
+
+msgid "any selected descriptor"
+msgstr ""
+
+msgid "one selected descriptor per group"
+msgstr ""
+
+msgid "When \"one selected descriptor per group\" is chosen, at least one of a group's selcted descriptors must be present (OR) for every included group (AND); groups without selected descriptors are ignored. Not including sufficient descriptors can cause a lot of timers. So please always test this search before using it as search timer!"
+msgstr ""
 
 msgid "Special Characteristics"
 msgstr "Specjalna charkterystyka"
 
+msgid "Special characteristics use their own matching mode. Both the other categories and the special characteristics must match jointly."
+msgstr ""
+
 msgid "Use extended EPG info"
 msgstr "Użyj rozszerzonej informacji EPG"
 
-msgid "Ignore missing EPG info"
-msgstr "Ignoruj brakujące informacje EPG"
+msgid "all categories"
+msgstr ""
 
-msgid "When active this can cause very many timers. So please always first test this search before using it as search timer!"
-msgstr "Aktywacja może spowodować dodanie wielu pozycji do planu nagrań, więc przed zapisem najpiew przetestuj działanie wyszukiwania!"
+msgid "all except missing categories"
+msgstr ""
+
+msgid "at least one category"
+msgstr ""
+
+msgid "Not including all categories can cause very many timers. So please always first test this search before using it as search timer!"
+msgstr ""
 
 msgid "Use channel"
 msgstr "Kanał"
@@ -427,8 +460,8 @@ msgstr "ten sam tydzień"
 msgid "same month"
 msgstr "ten sam miesiąc"
 
-msgid "Compare"
-msgstr "Porównaj"
+msgid "Compare extended EPG info"
+msgstr ""
 
 msgid "Use VPS"
 msgstr "Użyj VPS"
@@ -1178,3 +1211,12 @@ msgstr "Widok listy"
 
 msgid "Live Interactive VDR Environment"
 msgstr ""
+
+#~ msgid "Ignore missing EPG info"
+#~ msgstr "Ignoruj brakujące informacje EPG"
+
+#~ msgid "When active this can cause very many timers. So please always first test this search before using it as search timer!"
+#~ msgstr "Aktywacja może spowodować dodanie wielu pozycji do planu nagrań, więc przed zapisem najpiew przetestuj działanie wyszukiwania!"
+
+#~ msgid "Compare"
+#~ msgstr "Porównaj"

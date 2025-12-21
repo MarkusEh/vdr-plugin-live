@@ -254,20 +254,53 @@ msgstr "Ieškoti"
 msgid "Episode"
 msgstr "Epizodas"
 
+msgid "Use parental rating"
+msgstr ""
+
+msgid "Minimum rating"
+msgstr ""
+
+msgid "Maximum rating"
+msgstr ""
+
 msgid "Use content categories"
+msgstr ""
+
+msgid "Category matching mode"
+msgstr ""
+
+msgid "all selected descriptors"
+msgstr ""
+
+msgid "any selected descriptor"
+msgstr ""
+
+msgid "one selected descriptor per group"
+msgstr ""
+
+msgid "When \"one selected descriptor per group\" is chosen, at least one of a group's selcted descriptors must be present (OR) for every included group (AND); groups without selected descriptors are ignored. Not including sufficient descriptors can cause a lot of timers. So please always test this search before using it as search timer!"
 msgstr ""
 
 msgid "Special Characteristics"
 msgstr ""
 
+msgid "Special characteristics use their own matching mode. Both the other categories and the special characteristics must match jointly."
+msgstr ""
+
 msgid "Use extended EPG info"
 msgstr "Naudoti išplėstą EPG informaciją"
 
-msgid "Ignore missing EPG info"
-msgstr "Ignoruoti trūkstamą EPG informaciją"
+msgid "all categories"
+msgstr ""
 
-msgid "When active this can cause very many timers. So please always first test this search before using it as search timer!"
-msgstr "Aktyvavus gali įjungti labai daug laikmačių. Taigi visalaik pirmiausia išbandykit šią paiesšką prieš naudodamiesi laikmačio paieška!"
+msgid "all except missing categories"
+msgstr ""
+
+msgid "at least one category"
+msgstr ""
+
+msgid "Not including all categories can cause very many timers. So please always first test this search before using it as search timer!"
+msgstr ""
 
 msgid "Use channel"
 msgstr "Naudoti kanalą"
@@ -428,8 +461,8 @@ msgstr ""
 msgid "same month"
 msgstr ""
 
-msgid "Compare"
-msgstr "Palyginti"
+msgid "Compare extended EPG info"
+msgstr ""
 
 msgid "Use VPS"
 msgstr "Naudoti VPS"
@@ -1180,3 +1213,12 @@ msgstr "Sąrašas"
 
 msgid "Live Interactive VDR Environment"
 msgstr "Live interaktyvioji VDR aplinka"
+
+#~ msgid "Ignore missing EPG info"
+#~ msgstr "Ignoruoti trūkstamą EPG informaciją"
+
+#~ msgid "When active this can cause very many timers. So please always first test this search before using it as search timer!"
+#~ msgstr "Aktyvavus gali įjungti labai daug laikmačių. Taigi visalaik pirmiausia išbandykit šią paiesšką prieš naudodamiesi laikmačio paieška!"
+
+#~ msgid "Compare"
+#~ msgstr "Palyginti"

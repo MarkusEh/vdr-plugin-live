@@ -744,6 +744,15 @@ div.boxheader .caption {
   color: var(--input-color);
 }
 
+input ~ div.selection {
+  margin-left: var(--margin-left-right);
+  margin-right: var(--margin-left-right);
+}
+
+div.selection {
+  display: inline-block;
+}
+
 .title {
   font-weight: bold;
 }

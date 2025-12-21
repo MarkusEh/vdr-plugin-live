@@ -43,7 +43,12 @@ using namespace vdrlive;
   bool useextepginfo = false;
   std::string extepgvalues[];
   std::string blacklistids;
-  bool ignoreMissingEPGCats = false;
+  int extepginfomatchingmode = 0;
+  int contentscategorymatchingmode = 0;
+  int contentscharacteristicsmatchingmode = 0;
+  bool useparentalrating = false;
+  int minparentalrating = 0;
+  int maxparentalrating = 18;
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -92,6 +97,11 @@ const char *TNT_ARRAY = "";
     searchtimer.SetUseTitle(usetitle);
     searchtimer.SetUseSubtitle(usesubtitle);
     searchtimer.SetUseDescription(usedescr);
+    searchtimer.SetUseParentalRating(useparentalrating);
+    if (useparentalrating) {
+      searchtimer.SetMinParentalRating(minparentalrating);
+      searchtimer.SetMaxParentalRating(maxparentalrating);
+    }
     cToSvConcat contentsFilterString;
     if (usecontentids) {
       for (uint groupID = 0; groupID < contentGroups; groupID++) {
@@ -107,6 +117,10 @@ const char *TNT_ARRAY = "";
       }
     }
     searchtimer.SetContentsFilter(contentsFilterString.data());
+    if (!contentsFilterString.empty()) {
+      searchtimer.SetContentsCategoryMatchingMode(contentscategorymatchingmode);
+      searchtimer.SetContentsCharacteristicsMatchingMode(contentscharacteristicsmatchingmode);
+    }
     searchtimer.SetUseExtEPGInfo(useextepginfo);
     if (useextepginfo)
     {
@@ -119,7 +133,7 @@ const char *TNT_ARRAY = "";
       infos.push_back(os.str());
       }
       searchtimer.SetExtEPGInfo(infos);
-      searchtimer.SetIgnoreMissingEPGCats(ignoreMissingEPGCats);
+      searchtimer.SetExtEPGInfoMatchingMode(extepginfomatchingmode);
     }
     searchtimer.SetUseChannel((SearchTimer::eUseChannel)usechannel);
     if (usechannel == SearchTimer::Interval)
@@ -196,6 +210,7 @@ const char *TNT_ARRAY = "";
         const hexID = gid.toString(16) + "0";
         changedusecontentgroup(document.getElementById("usecontentgroup" + hexID));
       }
+      changeduseparentalrating(document.getElementById("useparentalrating"));
       changedusecontentids(document.getElementById("usecontentids"));
 %     if (extEPGInfos.size() > 0) {
         changeduseextepginfo(document.getElementById("useextepginfo"));
@@ -261,15 +276,24 @@ const char *TNT_ARRAY = "";
       document.getElementById("weekdaysettings").style.display = (selection.checked ? "revert-layer" : "none");
     }
 
+    function changeduseparentalrating(selection)
+    {
+      document.getElementById("use_parental_rating").style.display = (selection.checked ? "revert-layer" : "none");
+    }
+
     function changedusecontentids(selection)
     {
       document.getElementById("use_content_ids").style.display = (selection.checked ? "revert-layer" : "none");
+      document.getElementById("use_content_ids_category_matching_mode").style.display = (selection.checked ? "revert-layer" : "none");
     }
 
     function changedusecontentgroup(selection)
     {
       if (selection !== null) {
         const gid = selection.id.slice(-2);
+        if (gid == 'b0') {
+          document.getElementById("use_content_ids_characteristics_matching_mode").style.display = (selection.checked ? "revert-layer" : "none");
+        }
         const group = document.getElementById("content_group_" + gid);
         if (group !== null) {
           group.style.display = (selection.checked ? "revert-layer" : "none");
@@ -279,8 +303,10 @@ const char *TNT_ARRAY = "";
 
     function changeduseextepginfo(selection)
     {
-      const useExtEpgSettings = document.getElementById("use_extepg_settings");
-      if (useExtEpgSettings) useExtEpgSettings.style.display = (selection.checked ? "revert-layer" : "none");
+      var doc = document.getElementById("use_extepg_matching_mode");
+      if (doc) doc.style.display = (selection.checked ? "revert-layer" : "none");
+      var doc = document.getElementById("use_extepg_settings");
+      if (doc) doc.style.display = (selection.checked ? "revert-layer" : "none");
     }
 
     function changedextepginfo(selection)
@@ -396,6 +422,30 @@ const char *TNT_ARRAY = "";
               </div></td>
             </tr>
 
+            <!-- Use parental rating -->
+            <tr>
+              <td class="label"><div class="withmargin"><$ tr("Use parental rating") $>:</div></td>
+              <td>
+                <input type="checkbox" name="useparentalrating" value="1" <{ CHECKIF(useparentalrating) }> onclick="changeduseparentalrating(this)" id="useparentalrating" />
+                <div id="use_parental_rating" style="display: none">
+                  <table class="dependent" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td class="label"><div class="withmargin"><$ tr("Minimum rating") $>:</div></td>
+                      <td>
+                        <input type="number" name="minparentalrating" min="0" max="18" value="<$ minparentalrating $>" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="label"><div class="withmargin"><$ tr("Maximum rating") $>:</div></td>
+                      <td>
+                        <input type="number" name="maxparentalrating" min="0" max="18" value="<$ maxparentalrating $>" />
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </td>
+            </tr>
+
             <!-- Use content IDs -->
 <%cpp>
             // collect the defined content IDs
@@ -424,6 +474,20 @@ const char *TNT_ARRAY = "";
                 <td class="label"><div class="withmargin"><$ tr("Use content categories") $>:</div></td>
                 <td>
                   <input type="checkbox" name="usecontentids" value="1" <{ CHECKIF(contentFilterIDs.length() > 0) }> onclick="changedusecontentids(this)" id="usecontentids"/>
+                  <!-- content category matching mode -->
+                  <div id="use_content_ids_category_matching_mode" class="selection" style="display: none">
+                    <label for="contentscategorymatchingmode"><$ tr("Category matching mode") $>: </label>
+                    <select name="contentscategorymatchingmode" size="1">
+                      <option value="0" <{ SELECTIF(contentscategorymatchingmode == 0) }> ><$ tr("all selected descriptors") $></option>
+                      <option value="1" <{ SELECTIF(contentscategorymatchingmode == 1) }> ><$ tr("any selected descriptor") $></option>
+                      <option value="2" <{ SELECTIF(contentscategorymatchingmode == 2) }> ><$ tr("one selected descriptor per group") $></option>
+                    </select>
+                    <& tooltip.help text=(tr("When \"one selected descriptor per group\" is chosen, "
+                      "at least one of a group's selcted descriptors must be present (OR) for every "
+                      "included group (AND); groups without selected descriptors are ignored. "
+                      "Not including sufficient descriptors can cause a lot of timers. "
+                      "So please always test this search before using it as search timer!")) &>
+                  </div>
                   <div id="use_content_ids" style="display: none">
                     <table class="dependent" border="0" cellspacing="0" cellpadding="0">
                     <# we rely on the uniqueness of the content IDs and that group identifiers are always present #>
@@ -450,6 +514,18 @@ const char *TNT_ARRAY = "";
 %                           contentLabel.append(contentString);
                           <td class="label"><div class="withmargin"><$$ contentLabel $>:</div></td>
                           <td><input type="checkbox" name="usegid<$ hexID $>" value="1" <{ CHECKIF(groupID < contentIdentifiersPerGroup && filteredContentGroupIDs[groupID]) }> onclick="changedusecontentgroup(this)" id="usecontentgroup<$ hexID $>"/>
+%                         if (groupID == 0x0B) {
+                            <!-- content characteristics matching mode -->
+                            <div id="use_content_ids_characteristics_matching_mode" class="selection" style="display: none">
+                              <label for="contentscharacteristicsmatchingmode"><$ tr("Category matching mode") $>: </label>
+                              <select name="contentscharacteristicsmatchingmode" size="1">
+                                <option value="0" <{ SELECTIF(contentscharacteristicsmatchingmode == 0) }> ><$ tr("all selected descriptors") $></option>
+                                <option value="1" <{ SELECTIF(contentscharacteristicsmatchingmode == 1) }> ><$ tr("any selected descriptor") $></option>
+                              </select>
+                              <& tooltip.help text=(tr("Special characteristics use their own matching mode. "
+                                "Both the other categories and the special characteristics must match jointly.")) &>
+                            </div>
+%                         }
                             <div class="descriptors options" id="content_group_<$ hexID $>">
 %                     }
                               <div class="dotted"><# like in EPGsearch, the groupID is the first item for selection #>
@@ -474,6 +550,16 @@ const char *TNT_ARRAY = "";
               <td class="label"><div class="withmargin"><$ tr("Use extended EPG info" ) $>:</div></td>
               <td>
                 <input type="checkbox" name="useextepginfo" value="1" <{ CHECKIF(useextepginfo) }> onclick="changeduseextepginfo(this)" id="useextepginfo"/>
+                <!-- EPG category matching mode -->
+                <div id="use_extepg_matching_mode" class="selection" style="display: none">
+                  <label for="extepginfomatchingmode"><$ tr("Category matching mode") $>: </label>
+                  <select name="extepginfomatchingmode" size="1">
+                    <option value="0" <{ SELECTIF(extepginfomatchingmode == 0) }> ><$ tr("all categories") $></option>
+                    <option value="1" <{ SELECTIF(extepginfomatchingmode == 1) }> ><$ tr("all except missing categories") $></option>
+                    <option value="2" <{ SELECTIF(extepginfomatchingmode == 2) }> ><$ tr("at least one category") $></option>
+                  </select>
+                  <& tooltip.help text=(tr("Not including all categories can cause very many timers. So please always first test this search before using it as search timer!")) &>
+                </div>
                 <div id="use_extepg_settings" style="display: none">
                   <table class="dependent" border="0" cellspacing="0" cellpadding="0">
                     <!-- Extended EPG categories -->
@@ -499,17 +585,6 @@ const char *TNT_ARRAY = "";
                         </td>
                     </tr>
 %                   }
-
-                    <!-- Ignore missing EPG categories -->
-                    <tr>
-                      <td colspan="2"><div class="options">
-                        <div class="dotted">
-                          <input type="checkbox" name="ignoreMissingEPGCats" value="1" <{ CHECKIF(ignoreMissingEPGCats) }> />
-                          <label for="ignoreMissingEPGCats"><$ tr("Ignore missing EPG info") $> </label>
-                          <& tooltip.help text=(tr("When active this can cause very many timers. So please always first test this search before using it as search timer!")) &>
-                        </div>
-                      </div></td>
-                    </tr>
                   </table>
                 </div>
               </td>

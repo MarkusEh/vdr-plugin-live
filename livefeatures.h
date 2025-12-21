@@ -64,7 +64,7 @@ namespace features
   struct epgsearch
   {
     static const char* Plugin() { return "epgsearch"; }
-    static const char* MinVersion() { return "0.9.25.beta6"; }
+    static const char* MinVersion() { return "2.4.5"; }
   };
 
   struct streamdev_server
