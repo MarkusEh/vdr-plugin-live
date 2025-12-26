@@ -354,7 +354,7 @@ if (type == "now") {
   std::string string_times = LiveSetup().GetTimes();
   cSplit parts(string_times, ';');
   auto part = parts.begin();
-  for (int i = 0; part != parts.end(); ++i, ++part) {
+  for (; part != parts.end(); ++part) {
 </%cpp>
   <option <%cpp> reply.out() << ( (current_fixtime != "" && *part == current_displaytime) ? "selected=\"selected\"" : "" ); </%cpp>value="<$ *part $>"> <$ cToSvConcat(tr("at"), ' ', *part) $></option>
 <%cpp>

@@ -41,7 +41,7 @@ namespace vdrlive {
     if (parts.size() > 0) {
       conflictTime = parse_int<time_t>(*part);
       ++part;
-      for ( int i = 1; part != parts.end(); ++i, ++part ) {
+      for ( ; part != parts.end(); ++part ) {
         cSplit timerparts( *part, '|' );
         auto timerpart = timerparts.begin();
         TimerInConflict timer;
@@ -52,7 +52,7 @@ namespace vdrlive {
             case 2: {
               cSplit conctimerparts( *timerpart, '#' );
               auto conctimerpart = conctimerparts.begin();
-              for ( int k = 0; conctimerpart != conctimerparts.end(); ++k, ++conctimerpart )
+              for ( ; conctimerpart != conctimerparts.end(); ++conctimerpart )
                 timer.concurrentTimerIndices.push_back(parse_int<int>( *conctimerpart ));
               break;
             }
