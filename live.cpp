@@ -56,7 +56,7 @@ bool Plugin::Start(void)
   LiveOsdStatusMonitor();
 
   // preload files into file Cache
-  PreLoadFileCache(m_resourceDirectory);
+//  PreLoadFileCache(m_resourceDirectory);
 
   // load users
   Users.Load(AddDirectory(m_configDirectory.c_str(), "users.conf"), true);

@@ -273,6 +273,17 @@ dsyslog("live, time recordings.ecpp: %f", timeNeeded.count());
 </html>
 <%include>page_exit.eh</%include>
 
+<#
+param insted of args does not work. Seems to be a bug in ecpp:
+ecpp creates the macro TNT_PARAM(uintptr_t, iRecItem, recordings.ecpp, (0));
+-> but this macro only takes 3 arguments, recordings.ecpp should be removed
+<%param>
+  uintptr_t iRecItem = 0;         // current dir, which is displayed here. Including subdirs
+</%param>
+
+<& recordings.recordings_item(iRecItem=iRecItem) irecording_item=(irecording_item) parentIdHash=(idHash) iOpenTreeNodes=(iOpenTreeNodes) &>
+
+#>
 <# ---------------------------------------------------------------------- #>
 
 <%def recordings_item>

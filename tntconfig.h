@@ -16,8 +16,8 @@ namespace vdrlive {
     public:
       static TntConfig const& Get();
 
-                        void ConfigureTvscraper(tnt::Tntnet& app, const std::string &tvscraperImageDir) const;
-        void Configure(tnt::Tntnet& app) const;
+      void ConfigureTvscraper(tnt::Tntnet& app, const std::string &tvscraperImageDir) const;
+      void Configure(tnt::Tntnet& app) const;
 
     private:
       TntConfig();

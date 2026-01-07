@@ -15,6 +15,7 @@
 #define DISABLE_TEMPLATES_COLLIDING_WITH_STL
 #endif
 #include <vdr/plugin.h>
+#include "stringhelpers.h"
 
 namespace vdrlive {
 
@@ -37,7 +38,7 @@ public:
   virtual bool Service(const char *Id, void *Data = NULL);
 
   static std::string const& GetConfigDirectory() { return m_configDirectory; }
-  static std::string const& GetResourceDirectory() { return m_resourceDirectory; }
+  static cSv GetResourceDirectory() { return m_resourceDirectory; }
 
 private:
   static const char *VERSION;

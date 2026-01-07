@@ -317,12 +317,12 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
             <td class="rightcol"><select name="theme" size="1" id="theme">
 <%cpp>
 {
-  const std::string dirPath(Plugin::GetResourceDirectory() + "/themes");
+  const cToSvConcat dirPath(Plugin::GetResourceDirectory(), "/themes");
   cReadDir d(dirPath.c_str());
   struct dirent* e;
-  std::string parent("..");
-  std::string current(".");
-  std::string cvsDir("CVS");
+  cSv parent("..");
+  cSv current(".");
+  cSv cvsDir("CVS");
   std::vector<std::string> themes;
   while ((e = d.Next())) {
     if ((current == e->d_name) || (parent == e->d_name) || (cvsDir == e->d_name)) {
@@ -334,7 +334,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
     ** links to directories.
     */
     struct stat buf;
-    if ((stat((dirPath + "/" + e->d_name).c_str(), &buf) != 0) || (!S_ISDIR(buf.st_mode))) {
+    if ((stat((cToSvConcat(dirPath, "/", e->d_name)).c_str(), &buf) != 0) || (!S_ISDIR(buf.st_mode))) {
       continue;
     }
     themes.push_back(e->d_name);

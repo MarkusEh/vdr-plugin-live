@@ -155,7 +155,7 @@ I18Npot_deps := $(PLUGINSRCS) $(wildcard $(WEB_DIR_PAGES)/*.cpp) setup.h epg_eve
 
 $(I18Npot): $(I18Npot_deps)
 	$(call PRETTY_PRINT,"GT" $@)
-	$(Q)xgettext -C -cTRANSLATORS --no-wrap --no-location -k -ktr -ktrNOOP --omit-header -o $@ $(I18Npot_deps)
+	$(Q)xgettext -C -cTRANSLATORS --no-wrap --no-location -k -ktr -ktrNOOP --package-name=VDR-LIVE --package-version=$(VERSION) -o $@ $(I18Npot_deps)
 
 .PHONY: I18Nmo
 I18Nmo: $(I18Nmo)

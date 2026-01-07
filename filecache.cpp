@@ -1,4 +1,4 @@
-
+/*
 #include "filecache.h"
 
 #include <algorithm>
@@ -25,30 +25,12 @@ bool FileObject::load()
   m_file.load(m_path);
   m_ctime = get_filetime(m_path);
   return m_file.exists();
-/*
-  std::ifstream ifs( m_path.c_str(), std::ios::in | std::ios::binary | std::ios::ate );
-  if ( !ifs ) {
-    esyslog3("std::ifstream craetion for file ", path, " failed");
-    return false;
-  }
-
-  std::streamsize size = ifs.tellg();
-  ifs.seekg( 0, std::ios::beg );
-
-  std::vector<char> data( size );
-  data.resize( size );
-  ifs.read( &data[0], size );
-  ifs.close();
-
-  m_ctime = get_filetime( m_path );
-  m_data.swap( data );
-  return true;
-*/
 }
 
 FileCache& LiveFileCache()
 {
-  static FileCache instance( 1000000 );
+//  static FileCache instance( 1000000 );
+  static FileCache instance( 1 );
   return instance;
 }
 
@@ -62,3 +44,4 @@ int main()
   FileCache::ptr_type f = LiveFileCache().get("/tmp/live/active.png");
 }
 #endif
+*/

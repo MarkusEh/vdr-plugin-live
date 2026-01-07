@@ -31,7 +31,8 @@ void ServerThread::Action()
 {
   try {
     m_server.reset(new Tntnet());
-    TntConfig::Get().Configure(*m_server);
+    TntConfig::Get().Configure(*m_server);    // this calls live/tntconfig.cpp -> Configure(...)
+// TntConfig is vdrlive::TntConfig, und NOT tnt::TntConfig  !!!!
     m_server->run();
     m_server.reset(0);
   } catch (std::exception const& ex) {

@@ -913,7 +913,7 @@ const char *TNT_ARRAY = "";
                 <div id="channelgroup" style="display: none">
 %               if (channelGroups.size() > 0) {
                   <select name="changrpsel" size="1" id="changrpsel">
-%                 int i = 0; for (ChannelGroups::iterator changrp = channelGroups.begin(); changrp != channelGroups.end(); ++changrp, i++) {
+%                 for (auto changrp = channelGroups.begin(); changrp != channelGroups.end(); ++changrp) {
                     <option value="<$ changrp->Name() $>" <{ SELECTIF(changrpsel == changrp->Name()) }> ><$ changrp->Name() $></option>
 %                 }
                   </select>

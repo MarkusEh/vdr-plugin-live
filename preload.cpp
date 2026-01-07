@@ -1,4 +1,4 @@
-
+/*
 #include "preload.h"
 
 #include "filecache.h"
@@ -95,6 +95,7 @@ namespace vdrlive {
       "js/mootools/mootools.v1.11.js",
       0
     };
+//  static char const * const preloadFiles[] = { 0 };
 
     FileCache& fc = LiveFileCache();
     size_t i = 0;
@@ -108,3 +109,4 @@ namespace vdrlive {
     isyslog("live: initial file cache has %zu entries and needs %zu bytes of data!", fc.count(), fc.weight());
   }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 #ifndef VDR_LIVE_FILECACHE_H
 #define VDR_LIVE_FILECACHE_H
 
@@ -65,3 +66,4 @@ FileCache& LiveFileCache();
 } // namespace vdrlive
 
 #endif // VDR_LIVE_FILECACHE_H
+*/

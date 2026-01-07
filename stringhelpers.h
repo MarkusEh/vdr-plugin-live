@@ -653,49 +653,49 @@ inline wint_t getNextUtfCodepoint(const char *&p) {
 // =========================================================
 // whitespace ==============================================
 // =========================================================
-inline bool my_isspace(char c) {
-// fastest
-  return (c == ' ') | ((c >=  0x09) & (c <=  0x0d));
-// (0x09, '\t'), (0x0a, '\n'), (0x0b, '\v'),  (0x0c, '\f'), (0x0d, '\r')
+
+inline cSv trim(cSv s) {
+  // remove all ASCII <= 32 from left and right
+  // this is whitespace and special characters
+
+  cSv::size_type left = 0;
+  for (; left < s.length() && (unsigned char)s[left] < 33; ++left);
+
+  cSv::size_type right = s.length();
+  for (; right > left && (unsigned char)s[right-1] < 33; --right);
+
+  return s.substr(left, right-left);
 }
 
 inline cSv remove_trailing_whitespace(cSv sv) {
 // return a string_view with trailing whitespace from sv removed
-// for performance: see remove_leading_whitespace
   for (cSv::size_type i = sv.length(); i > 0; ) {
     --i;
     if ((unsigned char)sv[i] > 32) return sv.substr(0, i+1);  // non whitespace found at i -> length i+1 !!!
   }
   return cSv();
 }
-/*
-inline cSv remove_trailing_whitespace(cSv sv) {
-// return a string_view with trailing whitespace from sv removed
-// for performance: see remove_leading_whitespace
-  for (cSv::size_type i = sv.length(); i > 0; ) {
-    i = sv.find_last_not_of(' ', i-1);
-    if (i == std::string_view::npos) return cSv(); // only ' '
-    if (sv[i] > 0x0d || sv[i] < 0x09) return sv.substr(0, i+1);  // non whitespace found at i -> length i+1 !!!
-  }
-  return cSv();
-}
-*/
-inline cSv remove_leading_whitespace(cSv sv) {
+inline cSv remove_leading_whitespace(cSv s) {
 // return a string_view with leading whitespace from sv removed
 // for performance:
 //   avoid changing sv: cSv &sv is much slower than cSv sv
-//   don't use std::isspace or isspace: this is really slow ... 0.055 <-> 0.037
-//   also avoid find_first_not_of(" \t\f\v\n\r";): way too slow ...
-// definition of whitespace:
-// (0x20, ' '), (0x09, '\t'), (0x0a, '\n'), (0x0b, '\v'),  (0x0c, '\f'), (0x0d, '\r')
-// or:  (c == ' ') || (c >=  0x09 && c <=  0x0d);
-// best performance: use find_first_not_of for ' ':
-  for (size_t i = 0; i < sv.length(); ++i) {
-    i = sv.find_first_not_of(' ', i);
-    if (i == std::string_view::npos) return cSv(); // only ' '
-    if (sv[i] > 0x0d || sv[i] < 0x09) return sv.substr(i);  // non whitespace found at i
-  }
-  return cSv();
+
+  cSv::size_type left = 0;
+  for (; left < s.length() && (unsigned char)s[left] < 33; ++left);
+  return s.substr(left);
+}
+
+inline void trim_string(std::string &s) {
+  // remove all ASCII <= 32 from left and right
+  // this is whitespace and special characters
+
+  std::string::size_type left = 0;
+  for (; left < s.length() && (unsigned char)s[left] < 33; ++left);
+  s.erase(0, left);
+
+  cSv::size_type right = s.length();
+  for (; right > 0 && (unsigned char)s[right-1] < 33; --right);
+  s.erase(right);
 }
 // =========================================================
 // parse string_view for int
@@ -1063,7 +1063,9 @@ class cOpen {
     operator int() const { return m_fd; }
     bool exists() const { return m_fd != -1; }
     ~cOpen() {
-      if (m_fd != -1) close(m_fd);
+      if (m_fd != -1) {
+        if (close(m_fd) == -1) esyslog(PLUGIN_NAME_I18N " cOpen::~cOpen, ERROR: close fails, errno %d, error %m\n", errno);
+      }
     }
   private:
     void checkError(const char *pathname, int errno_l) {
@@ -1102,7 +1104,10 @@ inline ssize_t read(int fd, char *buf, size_t count, const char *filename) {
     if (num_read1 == -1) {
 // On error, -1 is returned, and errno is set to indicate the error.
 // In this case, it is left unspecified whether the file position changes.
-      if (errno == ENOENT || errno == EINTR || errno == EEXIST || errno == EAGAIN || errno == 0) return -2;  // I really don't understand why ENOENT or EEXIST would be reported. But we retry ...
+      if (errno == ENOENT || errno == EINTR || errno == EEXIST || errno == EAGAIN || errno == 0) {
+        dsyslog(PLUGIN_NAME_I18N " %s, ERROR, errno = %d, error %m, filename %s", __func__, errno, filename);
+        return -2;  // I really don't understand why ENOENT or EEXIST would be reported. But we retry ...
+      }
       esyslog(PLUGIN_NAME_I18N " ERROR: read failed, errno %d, error %m, filename %s, count %zu, num_read = %zu", errno, filename, count, num_read);
       return -4;
     }
@@ -1328,6 +1333,14 @@ class cToSvConcat: public cToSv {
       return *this;
     }
 
+    cToSvConcat &append_with_delimiter(cSv delimiter, cSv sv) {
+      if (sv.empty() ) return *this;
+      return append(delimiter).append(sv);
+    }
+    cToSvConcat &append_with_delimiter(cSv delimiter, cSv sv, cSv end) {
+      if (sv.empty() ) return *this;
+      return append(delimiter).append(sv).append(end);
+    }
 // =======================
 // special appends
 // =======================

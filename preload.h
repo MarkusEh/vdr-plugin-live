@@ -1,3 +1,4 @@
+/*
 #ifndef VDR_LIVE_PRELOAD_H
 #define VDR_LIVE_PRELOAD_H
 
@@ -9,3 +10,4 @@ namespace vdrlive {
 };
 
 #endif // VDR_LIVE_PRELOAD_H
+*/
