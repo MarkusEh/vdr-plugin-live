@@ -186,15 +186,26 @@ Otherwise, the rec tree is re-created from currnet data.
 
   int RecordingsManager::DeleteRecording(cSv recording_hash, std::string *name)
   {
+    std::string fileName;
+    {
+      LOCK_RECORDINGS_READ;
+      const cRecording *recording = RecordingsManager::GetByHash(recording_hash, Recordings);
+      if (!recording) return 1;
+      fileName = recording->FileName();
+    }
+    RecordingsHandler.Del(fileName.c_str() ); // must do this w/o holding a lock, because the cleanup section in cDirCopier::Action() might request one!
+    if (cReplayControl::NowReplaying() && strcmp(cReplayControl::NowReplaying(), fileName.c_str() ) == 0)
+      cControl::Shutdown();
+
     LOCK_TIMERS_WRITE;     // must be before LOCK_RECORDINGS_WRITE
     Timers->SetExplicitModify();
     LOCK_RECORDINGS_WRITE;
     cRecording *recording = const_cast<cRecording *>(RecordingsManager::GetByHash(recording_hash, Recordings));
     if (!recording) return 1;
+    fileName = recording->FileName();  // should not be required, but there is a short time without a lock ...
     if (name) *name = cSv(recording->Name());
 
     // check if recording is active
-    std::string fileName(recording->FileName());
     if (cRecordControl *rc = cRecordControls::GetRecordControl(fileName.c_str())) {
         // local timer is active
         if (cTimer *Timer = rc->Timer()) {
@@ -236,7 +247,18 @@ Otherwise, the rec tree is re-created from currnet data.
         }
     }
     bool result = recording->Delete();
-    Recordings->DelByName(fileName.c_str());
+    if (result) {
+#if VDRVERSNUM >= 20704
+      LOCK_DELETEDRECORDINGS_WRITE;
+      cReplayControl::ClearLastReplayed(fileName.c_str() );
+      Recordings->Del(recording, false);
+      DeletedRecordings->Add(recording);
+      cVideoDiskUsage::ForceCheck();
+#else
+      Recordings->DelByName(fileName.c_str());
+      Recordings->SetModified();
+#endif
+    }
     return result?0:3;
   }
 

@@ -28,9 +28,18 @@ pages/*.edep
 pages/*.cpp
 gen_version_suffix.h
 *.a
-*.mo
 *.o
-*.pot
 *.so
 .libs
 locale
+
+# gettext files: see https://stackoverflow.com/questions/50658622/how-to-correctly-use-gettext-with-git/51769371#51769371
+#  - The .pot PO Template file that contains the master message catalog. This is under version control in every project I know although it is strictly spoken generated and redundant.
+#  - The .po files with the individual translations. They are sometimes generated, sometimes not. When you merge in new strings with msgmerge, they are generated. But when your translators send back a new translation, they are not. You have to put them under version control because they contain the translations.
+#  - The .mo files that the .po files compile to. Do not put them under version control but ship them with releases (source and binary).
+*.mo
+# but, see https://stackoverflow.com/questions/57454610/git-and-po-and-pot-files-i-dont-know-how-to-stop-large-diffs-in-my-commits-wo
+#   po/git.pot: don't check in result of "make pot"
+*.pot
+# actually, I think most of our translators just use the po file in their language and add missing texts, and don't need the pot file.
+# -> we don't make the pot file available in git

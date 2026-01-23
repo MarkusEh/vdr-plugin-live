@@ -655,8 +655,8 @@ inline wint_t getNextUtfCodepoint(const char *&p) {
 // =========================================================
 
 inline cSv trim(cSv s) {
-  // remove all ASCII <= 32 from left and right
-  // this is whitespace and special characters
+// remove all ASCII <= 32 from left and right,
+// this is whitespace and special characters
 
   cSv::size_type left = 0;
   for (; left < s.length() && (unsigned char)s[left] < 33; ++left);
@@ -686,8 +686,8 @@ inline cSv remove_leading_whitespace(cSv s) {
 }
 
 inline void trim_string(std::string &s) {
-  // remove all ASCII <= 32 from left and right
-  // this is whitespace and special characters
+// remove all ASCII <= 32 from left and right,
+// this is whitespace and special characters
 
   std::string::size_type left = 0;
   for (; left < s.length() && (unsigned char)s[left] < 33; ++left);

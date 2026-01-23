@@ -160,8 +160,8 @@ namespace vdrlive {
      * - images
      * - ...
      *
-     * lokking at man tntent, <target>static@tntnet</target> can be used for that
-     * but: this requires the tntnet componet, which is not available here / deliverd with live
+     * looking at man tntent, <target>static@tntnet</target> can be used for that
+     * but: this requires the tntnet component, which is not available here / delivered with live
      * note: live is a standalone webserver, and NOT tntnet with some components
      *
      * live has an own component to deliver static files: content

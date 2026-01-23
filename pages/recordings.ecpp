@@ -274,7 +274,7 @@ dsyslog("live, time recordings.ecpp: %f", timeNeeded.count());
 <%include>page_exit.eh</%include>
 
 <#
-param insted of args does not work. Seems to be a bug in ecpp:
+param instead of args does not work. Seems to be a bug in ecpp:
 ecpp creates the macro TNT_PARAM(uintptr_t, iRecItem, recordings.ecpp, (0));
 -> but this macro only takes 3 arguments, recordings.ecpp should be removed
 <%param>
