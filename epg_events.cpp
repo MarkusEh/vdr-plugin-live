@@ -459,7 +459,7 @@ bool appendEpgItem(cToSvConcat<0> &epg_item, RecordingsItemRec *&recItem, const 
   getScraperVideo.call(LiveSetup().GetPluginTvscraper());
 
   RecordingsTreePtr recordingsTree(RecordingsManager::GetRecordingsTree());
-  const std::vector<RecordingsItemRec *> *recItems = recordingsTree->allRecordings(RecordingsManager::eSortOrder::duplicatesLanguage);
+  const std::vector<RecordingsItemRec *> *recItems = recordingsTree->allRecordings(RecordingsManager::eSortOrder::duplicatesLanguage, 0);
   bool recItemFound = searchNameDesc(recItem, recItems, Event, getScraperVideo.m_scraperVideo.get());
 
   epg_item.append("[\"");

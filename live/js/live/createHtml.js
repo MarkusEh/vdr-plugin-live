@@ -233,9 +233,9 @@ async function execute(url) {
   ret_object.error = error_child_nodes[0].nodeValue;
   return ret_object;
 }
-async function delete_rec_back(recid, history_num_back)
+async function action_back(id, history_num_back)
 {
-  var ret_object = await execute('delete_recording.html?param=' + recid);
+  var ret_object = await execute('action.html?id=' + id);
   if (!ret_object.success) alert (ret_object.error);
   history.go(-history_num_back);
 }

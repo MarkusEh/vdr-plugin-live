@@ -10,8 +10,8 @@ DEFINES += -DDISABLE_TEMPLATES_COLLIDING_WITH_STL
 INCLUDES += -I$(VDRDIR)/include -I..
 
 ### The object files (add further files here):
-OBJS := content.o recordings_widget.o play_recording.o timers.o edit_timer.o \
-        pageelems.o js.o get_recordings.o delete_recording.o recordings.o \
+OBJS := action.o content.o recordings_widget.o play_recording.o timers.o edit_timer.o \
+        pageelems.o js.o get_recordings.o recordings.o \
         epginfo.o schedule.o multischedule.o screenshot.o   \
         whats_on.o switch_channel.o keypress.o remote.o	\
         channels_widget.o error.o tooltip.o	\

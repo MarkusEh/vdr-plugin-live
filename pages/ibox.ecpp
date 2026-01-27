@@ -52,7 +52,7 @@ TimerConflictNotifier timerNotifier();
     const cRecording *recording = Recordings->GetByName(NowReplaying);
     if (recording) {
       epgEvent.CreateEpgInfo(
-        concat("recording_", cToSvXxHash128(XXH3_128bits(NowReplaying, strlen(NowReplaying))) ),
+        concat("recording_", cToSvXxHash128(XXH3_128bits(NowReplaying, strlen(NowReplaying)-4) )),
         recording,
         tr("Playing recording"));
     }

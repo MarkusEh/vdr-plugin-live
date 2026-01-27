@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
-"Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-27 19:52+0100\n"
 "PO-Revision-Date: 2011-12-25 23:22+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: see developers in README\n"
@@ -582,6 +582,15 @@ msgstr "Modifica registrazioni"
 msgid "Electronic program guide information"
 msgstr "Info Guida Elettronica Programmi (EPG)"
 
+msgid "Delete recording"
+msgstr ""
+
+msgid "Restore recording"
+msgstr ""
+
+msgid "Permanently delete recording"
+msgstr ""
+
 msgid "Couldn't find recording or no recordings available"
 msgstr "Impossibile trovare registrazioni o nessuna registrazione disponibile"
 
@@ -650,6 +659,12 @@ msgstr ""
 
 msgid "Delete this recording"
 msgstr "Elimina questa registrazione dal disco fisso!"
+
+msgid "Restore this recording"
+msgstr ""
+
+msgid "Permanently delete this recording? Warning: this cannot be undone!"
+msgstr ""
 
 msgid "Wrong username or password"
 msgstr "Nome utente o password errata"
@@ -936,6 +951,9 @@ msgstr "Elenco registrazioni"
 msgid "No recordings found"
 msgstr "Nessuna registrazione trovata"
 
+msgid "No deleted recordings found"
+msgstr ""
+
 msgid "Delete selected"
 msgstr "Elimina selezionati"
 
@@ -969,11 +987,19 @@ msgstr "Espandi tutte le cartelle"
 msgid "Collapse all folders"
 msgstr "Comprimi tutte le cartelle"
 
+msgid "Permanantly delete this recording"
+msgstr ""
+
 #, c-format
 msgid "Delete recording \"%s\"?"
 msgstr ""
 
-msgid "Delete"
+#, c-format
+msgid "Permanently delete recording \"%s\"? Warning: this cannot be undone!"
+msgstr ""
+
+#, c-format
+msgid "Restore recording \"%s\"?"
 msgstr ""
 
 msgid "Snapshot interval"

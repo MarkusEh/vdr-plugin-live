@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.3.0\n"
-"Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-27 19:52+0100\n"
 "PO-Revision-Date: 2023-02-14 20:02+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <(nothing)>\n"
@@ -579,6 +579,15 @@ msgstr "ჩანაწერების წაშლა"
 msgid "Electronic program guide information"
 msgstr "ელექტრონული პროგრამის გიდის ინფორმაცია"
 
+msgid "Delete recording"
+msgstr ""
+
+msgid "Restore recording"
+msgstr ""
+
+msgid "Permanently delete recording"
+msgstr ""
+
 msgid "Couldn't find recording or no recordings available"
 msgstr "ჩანაწერები ვერ ვიპოვე"
 
@@ -647,6 +656,12 @@ msgstr "ამ ჩანაწერის დაკვრა"
 
 msgid "Delete this recording"
 msgstr "ამ ჩანაწერის დისკიდან წაშლა!"
+
+msgid "Restore this recording"
+msgstr ""
+
+msgid "Permanently delete this recording? Warning: this cannot be undone!"
+msgstr ""
 
 msgid "Wrong username or password"
 msgstr "მომხმარებლის სახელი ან პაროლი არასწორია"
@@ -933,6 +948,9 @@ msgstr "ჩანაწერების სია"
 msgid "No recordings found"
 msgstr "ჩანაწერების გარეშე"
 
+msgid "No deleted recordings found"
+msgstr ""
+
 msgid "Delete selected"
 msgstr "მონიშნულის წაშლა"
 
@@ -966,11 +984,19 @@ msgstr "ყველა საქაღალდის ამოკეცვა"
 msgid "Collapse all folders"
 msgstr "ყველა საქაღალდის ჩაკეცვა"
 
+msgid "Permanantly delete this recording"
+msgstr ""
+
 #, c-format
 msgid "Delete recording \"%s\"?"
 msgstr ""
 
-msgid "Delete"
+#, c-format
+msgid "Permanently delete recording \"%s\"? Warning: this cannot be undone!"
+msgstr ""
+
+#, c-format
+msgid "Restore recording \"%s\"?"
 msgstr ""
 
 msgid "Snapshot interval"

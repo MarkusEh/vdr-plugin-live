@@ -8,8 +8,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 3.5.3\n"
-"Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
-"PO-Revision-Date: 2007-08-19 20:15+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-27 19:26+0100\n"
+"PO-Revision-Date: 2026-01-27 20:15+0200\n"
 "Last-Translator: Stefan Hofmann <info@stefans-galerie.de>\n"
 "Language-Team: see developers in README\n"
 "Language: de_DE\n"
@@ -578,6 +579,15 @@ msgstr "Aufzeichnungen bearbeiten"
 msgid "Electronic program guide information"
 msgstr "Elektronische Programminformation"
 
+msgid "Delete recording"
+msgstr "Aufzeichnung löschen"
+
+msgid "Restore recording"
+msgstr "Aufzeichnung wiederherstellen"
+
+msgid "Permanently delete recording"
+msgstr "Aufzeichnung dauerhaft löschen"
+
 msgid "Couldn't find recording or no recordings available"
 msgstr "Kann die Aufzeichnung nicht finden oder keine Aufzeichnungen vorhanden"
 
@@ -646,6 +656,12 @@ msgstr "Aufzeichnung abspielen"
 
 msgid "Delete this recording"
 msgstr "Aufzeichnung löschen"
+
+msgid "Restore this recording"
+msgstr "Aufzeichnung wiederherstellen"
+
+msgid "Permanently delete this recording? Warning: this cannot be undone!"
+msgstr "Aufzeichnung dauerhaft löschen? Warnung: das kann nicht rückgängig gemacht werden!"
 
 msgid "Wrong username or password"
 msgstr "Benutzerkennung oder Passwort ungültig"
@@ -932,6 +948,9 @@ msgstr "Liste der Aufzeichnungen"
 msgid "No recordings found"
 msgstr "Keine Aufzeichnungen vorhanden"
 
+msgid "No deleted recordings found"
+msgstr "Keine gelöschten Aufzeichnungen vorhanden"
+
 msgid "Delete selected"
 msgstr "Markierte löschen"
 
@@ -965,12 +984,20 @@ msgstr "Alle Ordner aufklappen"
 msgid "Collapse all folders"
 msgstr "Alle Ordner einklappen"
 
+msgid "Permanantly delete this recording"
+msgstr "Aufzeichnung dauerhaft löschen"
+
 #, c-format
 msgid "Delete recording \"%s\"?"
 msgstr "Aufzeichnung \"%s\" löschen?"
 
-msgid "Delete"
-msgstr "Löschen"
+#, c-format
+msgid "Permanently delete recording \"%s\"? Warning: this cannot be undone!"
+msgstr "Aufzeichnung \"%s\" dauerhaft löschen? Achtung: das kann nicht rückgängig gemacht werden!"
+
+#, c-format
+msgid "Restore recording \"%s\"?"
+msgstr "Aufzeichnung \"%s\" wiederherstellen?"
 
 msgid "Snapshot interval"
 msgstr "Snapshot-Intervall"
@@ -1212,6 +1239,9 @@ msgstr "Listenansicht"
 
 msgid "Live Interactive VDR Environment"
 msgstr "Live Interactive VDR Environment"
+
+#~ msgid "Delete"
+#~ msgstr "Löschen"
 
 #~ msgid "Compare"
 #~ msgstr "Vergleiche"

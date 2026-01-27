@@ -13,6 +13,7 @@
  *  bool load()
  *
  */
+/*
 
 namespace vgstools {
 
@@ -94,4 +95,5 @@ private:
 
 } // namespace vgstools
 
+*/
 #endif // VGSTOOLS_CACHE_H

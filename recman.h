@@ -68,10 +68,11 @@ namespace vdrlive {
 // static members
     private:
       static inline cStateKey m_recordingsStateKey;
+      static inline cStateKey m_deletedRecordingsStateKey;
       static inline time_t m_last_recordings_update = 0;
     public:
       static inline std::vector<RecordingsItemDirPtr> dirs_dummy;
-      static inline std::vector<RecordingsItemRec*> all_recordings[(int)(eSortOrder::list_end)];
+      static inline std::vector<RecordingsItemRec*> all_recordings[(int)(eSortOrder::list_end)][2];
       static inline eSortOrder m_sortOrder = eSortOrder::name;
       static inline bool m_backwards = false;
       static inline std::regex m_filter_regex;
@@ -94,13 +95,17 @@ namespace vdrlive {
        *  fetches a cRecording from VDR's Recordings collection. Returns
        *  NULL if recording was not found
        */
+#if VDRVERSNUM >= 20708
+      static const cRecording *GetByHash(cSv hash, const cRecordings* Recordings, const cRecordings* DeletedRecordings = nullptr);
+#else
       static const cRecording *GetByHash(cSv hash, const cRecordings* Recordings);
+#endif
 
       /**
        *  get RecordingsItemRec from the all_recordings. Returns
        *  NULL if recording was not found
        */
-      static RecordingsItemRec* const GetByIdHash(cSv hash);
+      static RecordingsItemRec* const GetByIdHash(cSv hash, bool *deleted = nullptr);
 
       /**
        *  Move a recording with the given hash according to
@@ -137,6 +142,9 @@ namespace vdrlive {
        *    3 other error (recording->Delete() returned false)
        */
       static int DeleteRecording(cSv recording_hash, std::string *name = nullptr);
+
+      static int RestoreRecording(cSv recording_hash, std::string *name = nullptr);
+      static int PurgeRecording(cSv recording_hash, std::string *name = nullptr);
 
       /**
        *  Determine whether the recording has been archived on
@@ -226,7 +234,7 @@ namespace vdrlive {
     friend class RecordingsItemDirSeason;
     friend class RecordingsItemDirCollection;
     friend class RecordingsItemPtrCompare;
-    friend void update_all_recordings_scraper();
+    friend void update_all_recordings_scraper(const cRecordings* Recordings, int recycle_bin);
     public:
       RecordingsItemRec(const cRecording* recording, cMeasureTime *timeIdentify=nullptr, cMeasureTime *timeOverview=nullptr, cMeasureTime *timeItemRec=nullptr);
       RecordingsItemRec(const cEvent *event, cScraperVideo *scraperVideo); // create dummy
@@ -363,18 +371,25 @@ namespace vdrlive {
       using pointer = RecordingsItemRec**;
       using reference = RecordingsItemRec*&;
 
-      all_recordings_iterator(iterator_begin d):
-        m_current(RecordingsManager::all_recordings[(int)(RecordingsManager::eSortOrder::id)].begin()) {
-        if (m_current == RecordingsManager::all_recordings[(int)(RecordingsManager::eSortOrder::id)].end() ) return;   // empty container
+      all_recordings_iterator(iterator_begin d, int recycle_bin):
+        m_current(RecordingsManager::all_recordings[(int)(RecordingsManager::eSortOrder::id)][recycle_bin].begin()),
+        m_end    (RecordingsManager::all_recordings[(int)(RecordingsManager::eSortOrder::id)][recycle_bin].end())
+      {
+        if (m_current == m_end) return;   // empty container
         if (!*m_current) ++(*this);
       }
-      all_recordings_iterator():    // creates the begin() iterator !!!!!
-        all_recordings_iterator(iterator_begin() ) { }
-      all_recordings_iterator(iterator_end d):
-        m_current(RecordingsManager::all_recordings[(int)(RecordingsManager::eSortOrder::id)].end()) {}
+      all_recordings_iterator(int recycle_bin):    // creates the begin() iterator !!!!!
+        all_recordings_iterator(iterator_begin(), recycle_bin) { }
+      all_recordings_iterator(iterator_end d, int recycle_bin):
+        m_current(RecordingsManager::all_recordings[(int)(RecordingsManager::eSortOrder::id)][recycle_bin].end()),
+        m_end(m_current) {}
+
+      all_recordings_iterator(iterator_end d, all_recordings_iterator other):
+        m_current(other.m_end),
+        m_end(m_current) {}
 
       all_recordings_iterator &operator++() {
-        for (++m_current; m_current != RecordingsManager::all_recordings[(int)(RecordingsManager::eSortOrder::id)].end(); ++m_current)
+        for (++m_current; m_current != m_end; ++m_current)
           if (*m_current) return *this;
         return *this;
       }
@@ -385,9 +400,10 @@ namespace vdrlive {
       RecordingsItemRec *operator->() { return *m_current; }
     private:
       std::vector<RecordingsItemRec*>::iterator m_current;
+      std::vector<RecordingsItemRec*>::iterator m_end;
   };
 inline all_recordings_iterator begin(all_recordings_iterator &it) { return it; }
-inline all_recordings_iterator end  (all_recordings_iterator &it) { return all_recordings_iterator(iterator_end() ); }
+inline all_recordings_iterator end  (all_recordings_iterator &it) { return all_recordings_iterator(iterator_end(), it); }
 
 // C == RecordingsItemRec*   -> iterate over recordings
 // C == RecordingsItemDirPtr -> iterate over directories
@@ -395,7 +411,7 @@ template<typename C>
   class const_rec_iterator {
     public:
       const_rec_iterator(const std::vector<C> &items, bool backwards, std::regex *regex_filter = nullptr);
-      const_rec_iterator(const RecordingsItemDirFileSystem* recordingsItemDirFileSystem, unsigned max_items = std::numeric_limits<unsigned>::max() );
+      const_rec_iterator(const RecordingsItemDirFileSystem* recordingsItemDirFileSystem, unsigned max_items = std::numeric_limits<unsigned>::max(), int recycle_bin = 0);
       const_rec_iterator<C> &set_begin();
 
       const_rec_iterator<C> &set_container(const std::vector<C> &items);
@@ -507,8 +523,10 @@ inline iterator_end end(const_rec_iterator<C> &it) { return iterator_end(); }
   class RecordingsItemDirFlat : public RecordingsItemDir
   {
     public:
-      RecordingsItemDirFlat(): RecordingsItemDir(cSv(), 0) {}
+      RecordingsItemDirFlat(int recycle_bin): RecordingsItemDir(cSv(), 0), m_recycle_bin(recycle_bin) {}
       const_rec_iterator<RecordingsItemRec*> get_rec_iterator() const;
+    private:
+      const int m_recycle_bin;
   };
   class RecordingsItemDirSeason : public RecordingsItemDir
   {
@@ -553,8 +571,8 @@ inline iterator_end end(const_rec_iterator<C> &it) { return iterator_end(); }
 
       RecordingsItemDirPtr getRoot() const { return m_root; }
       std::vector<std::string> getAllDirs() { std::vector<std::string> result; m_rootFileSystem->addDirList(result, ""); return result; }
-      const std::vector<RecordingsItemRec*> *allRecordings() { return &RecordingsManager::all_recordings[(int)(RecordingsManager::m_sortOrder)];}
-      const std::vector<RecordingsItemRec*> *allRecordings(RecordingsManager::eSortOrder sortOrder);
+      const std::vector<RecordingsItemRec*> *allRecordings(int recycle_bin) { return &RecordingsManager::all_recordings[(int)(RecordingsManager::m_sortOrder)][recycle_bin];}
+      const std::vector<RecordingsItemRec*> *allRecordings(RecordingsManager::eSortOrder sortOrder, int recycle_bin);
 
       int MaxLevel() const { return m_maxLevel; }
 

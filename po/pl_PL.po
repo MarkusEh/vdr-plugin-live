@@ -7,7 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
-"Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-27 19:52+0100\n"
 "PO-Revision-Date: 2025-10-05 18:19+0200\n"
 "Last-Translator: Tomasz Maciej Nowak <tomek_n@o2.pl>\n"
 "Language-Team: see developers in README\n"
@@ -577,6 +578,15 @@ msgstr "Edytuj"
 msgid "Electronic program guide information"
 msgstr "Informacje EPG"
 
+msgid "Delete recording"
+msgstr ""
+
+msgid "Restore recording"
+msgstr ""
+
+msgid "Permanently delete recording"
+msgstr ""
+
 msgid "Couldn't find recording or no recordings available"
 msgstr "Nie można odnaleźć nagrania"
 
@@ -645,6 +655,12 @@ msgstr "Odtwórz to nagranie"
 
 msgid "Delete this recording"
 msgstr "Usuń"
+
+msgid "Restore this recording"
+msgstr ""
+
+msgid "Permanently delete this recording? Warning: this cannot be undone!"
+msgstr ""
 
 msgid "Wrong username or password"
 msgstr "Błędna nazwa lub hasło użytkownika"
@@ -931,6 +947,9 @@ msgstr "Lista nagrań"
 msgid "No recordings found"
 msgstr "Nie znaleziono nagrań"
 
+msgid "No deleted recordings found"
+msgstr ""
+
 msgid "Delete selected"
 msgstr "Usuń zaznaczone"
 
@@ -964,12 +983,20 @@ msgstr "Rozwiń wszystkie katalogi"
 msgid "Collapse all folders"
 msgstr "Zwiń wszystkie katalogi"
 
+msgid "Permanantly delete this recording"
+msgstr ""
+
 #, c-format
 msgid "Delete recording \"%s\"?"
 msgstr "Usunąć nagranie \"%s\"?"
 
-msgid "Delete"
-msgstr "Usuń"
+#, c-format
+msgid "Permanently delete recording \"%s\"? Warning: this cannot be undone!"
+msgstr ""
+
+#, c-format
+msgid "Restore recording \"%s\"?"
+msgstr ""
 
 msgid "Snapshot interval"
 msgstr "Okres pomiędzy migawkami"
@@ -1211,6 +1238,9 @@ msgstr "Widok listy"
 
 msgid "Live Interactive VDR Environment"
 msgstr ""
+
+#~ msgid "Delete"
+#~ msgstr "Usuń"
 
 #~ msgid "Ignore missing EPG info"
 #~ msgstr "Ignoruj brakujące informacje EPG"

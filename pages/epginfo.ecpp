@@ -12,7 +12,6 @@ using namespace vdrlive;
 </%pre>
 <%args>
   std::string epgid;
-  std::string delete_rec;  // to_confirm or confirmed
   int history_num_back = 0;
   std::string async;
   std::string tab;
@@ -41,9 +40,18 @@ using namespace vdrlive;
   bool ajaxReq = !async.empty() && (parse_int<int>(async) != 0);
 
   bool aboutBox = false;
-  if (epgid.compare(0, 4, "del_") == 0) {
-    delete_rec = "to_confirm";
-    epgid.erase(0, 4);
+  bool action   = false;
+
+  cSv action_id = cSv(epgid).substr(0, 4);
+  if (action_id == "del_") {
+    action = true;
+    pageTitle = tr("Delete recording");
+  } else if (action_id == "res_") {
+    action = true;
+    pageTitle = tr("Restore recording");
+  } else if (action_id == "pur_") {
+    action = true;
+    pageTitle = tr("Permanently delete recording");
   }
 
   bool isEvent = false;
@@ -51,8 +59,8 @@ using namespace vdrlive;
   epgImage.clear();
 // we use objects of these types during creation of this page, so keep the locks
 
-  if (!delete_rec.empty()) {
-      pageTitle = tr("Delete recordings");
+  if (action) {
+      dsyslog2("pages/epginfo.ecpp, epgid = ", epgid, " action_id = ", action_id, " pageTitle = ", pageTitle);
   } else if (!epgid.empty()) {
 
     const std::string_view recording_s("recording_");
@@ -63,7 +71,8 @@ using namespace vdrlive;
     if (epgid.compare(0, recording_s.length(), recording_s) == 0) {
       isRecording = true;
       LOCK_RECORDINGS_READ;
-      const cRecording *recording = RecordingsManager::GetByHash(epgid, Recordings);
+      LOCK_DELETEDRECORDINGS_READ;
+      const cRecording *recording = RecordingsManager::GetByHash(epgid, Recordings, DeletedRecordings);
       if (recording == 0) {
         throw HtmlError(tr("Couldn't find recording or no recordings available"));
       }
@@ -117,7 +126,7 @@ using namespace vdrlive;
     <div id="content">
       <div class="spacebar"><# spacer with fade-out effect #></div>
 <%cpp>
-  if (!epgEvent.Id().empty() && delete_rec.empty()) {
+  if (!epgEvent.Id().empty() && !action) {
     uintptr_t i_epgEvent = (uintptr_t)&epgEvent;
     cToSvConcat start(epgEvent.StartTime("%a,"), ' ',
                       epgEvent.StartTime(tr("%b %d %y")), ' ',
@@ -143,9 +152,9 @@ using namespace vdrlive;
     <& pageelems.about_tt_box &>
 <%cpp>
   }
-  if (!delete_rec.empty() ) {
+  if (action) {
 </%cpp>
-    <& recordings.todel todel=(epgid) confirmed=(delete_rec) history_num_back=(history_num_back) &>
+    <& recordings.action id=(epgid) history_num_back=(history_num_back) &>
 % }
       <div class="spacebar"><# spacer with fade-out effect #></div>
     </div>

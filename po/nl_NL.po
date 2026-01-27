@@ -8,7 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
-"Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-27 19:52+0100\n"
 "PO-Revision-Date: 2025-10-03 20:15+0200\n"
 "Last-Translator: Carel Willemse <carel@nekanali.nl>\n"
 "Language-Team: see developers in README\n"
@@ -578,6 +579,15 @@ msgstr "Bewerk opname"
 msgid "Electronic program guide information"
 msgstr "Elektronische programmagids informatie"
 
+msgid "Delete recording"
+msgstr ""
+
+msgid "Restore recording"
+msgstr ""
+
+msgid "Permanently delete recording"
+msgstr ""
+
 msgid "Couldn't find recording or no recordings available"
 msgstr "Kon opname niet vinden of opname is niet aanwezig"
 
@@ -646,6 +656,12 @@ msgstr "Speel deze opname af"
 
 msgid "Delete this recording"
 msgstr "Deze opname verwijderen"
+
+msgid "Restore this recording"
+msgstr ""
+
+msgid "Permanently delete this recording? Warning: this cannot be undone!"
+msgstr ""
 
 msgid "Wrong username or password"
 msgstr "Verkeerde gebruikersnaam of wachtwoord"
@@ -932,6 +948,9 @@ msgstr "Lijst van opnamen"
 msgid "No recordings found"
 msgstr "geen opnamen gevonden"
 
+msgid "No deleted recordings found"
+msgstr ""
+
 msgid "Delete selected"
 msgstr "Wis de selectie"
 
@@ -965,12 +984,20 @@ msgstr "Klap alle mappen uit"
 msgid "Collapse all folders"
 msgstr "Klap alle mappen dicht"
 
+msgid "Permanantly delete this recording"
+msgstr ""
+
 #, c-format
 msgid "Delete recording \"%s\"?"
 msgstr "Verwijder opname \"%s\"?"
 
-msgid "Delete"
-msgstr "Verwijder"
+#, c-format
+msgid "Permanently delete recording \"%s\"? Warning: this cannot be undone!"
+msgstr ""
+
+#, c-format
+msgid "Restore recording \"%s\"?"
+msgstr ""
 
 msgid "Snapshot interval"
 msgstr "Snapshot interval"
@@ -1212,6 +1239,9 @@ msgstr "Overzichtslijst"
 
 msgid "Live Interactive VDR Environment"
 msgstr "Live Interactieve VDR Omgeving"
+
+#~ msgid "Delete"
+#~ msgstr "Verwijder"
 
 #~ msgid "Ignore missing EPG info"
 #~ msgstr "Negeer ontbrekende EPG info"

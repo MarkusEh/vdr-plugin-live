@@ -137,9 +137,17 @@ const classElements = elementd.getElementsByClassName(className);
   );
 }
 
-function filterRecordings(filter, currentSort, currentFlat)
+function filterRecordings(filter, currentSort, currentFlat, recycle_bin)
 {
-  window.location.href = "recordings.html?sort=" + currentSort + "&flat=" + currentFlat + "&filter=" + encodeURIComponent(filter.value);
+  window.location.href = "recordings.html?sort=" + currentSort + "&flat=" + currentFlat + "&filter=" + encodeURIComponent(filter.value) + "&recycle_bin=" + recycle_bin;
+}
+function deletedRecordings(recycle_bin, currentSort, currentFilter)
+{
+  if (recycle_bin.checked) {
+    window.location.href = "recordings.html?sort=" + currentSort + "&flat=true&filter=" + currentFilter + "&recycle_bin=1";
+  } else {
+    window.location.href = "recordings.html?sort=" + currentSort + "&flat=true&filter=" + currentFilter + "&recycle_bin=0";
+  }
 }
 async function ExpandAll()
 {

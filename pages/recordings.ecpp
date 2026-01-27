@@ -25,6 +25,7 @@ using namespace vdrlive;
   std::string deletions[];
   std::string flat;
   int history_num_back = 0;
+  int recycle_bin = 0;  // set this to 1 to display the deleted recordings
 </%args>
 <%session scope="global">
   bool logged_in(false);
@@ -36,6 +37,7 @@ using namespace vdrlive;
   std::string deleteResult;
   std::string currentFilter;
   std::string currentFlat;
+  int currentRecycle_bin = 0;
 </%request>
 
 <%include>page_init.eh</%include>
@@ -47,6 +49,13 @@ if (!logged_in && LiveSetup().UseAuth()) {
   cToSvConcat<0> targetUrl = "/login.html?redirect=";
   targetUrl.appendUrlEscaped(request.getQuery());
   return reply.redirect(targetUrl.data());
+}
+
+if (recycle_bin == 1) {
+  pageTitle = trVDR("Deleted recordings");
+} else {
+  recycle_bin = 0;  //only 0&1 allowed, 0 is the default
+  pageTitle = trVDR("Recordings");
 }
 
 if (request.getMethod() != "POST") history_num_back = 0;  // we can go back in history to this page
@@ -73,9 +82,12 @@ if (!sort.empty()) {
     currentSort = sort;
   LiveSetup().SetLastSortingMode(currentSort);
 }
-currentFilter = filter;
 
-pageTitle = tr("Recordings");
+if (recycle_bin == 1 && currentSort == "duplicates") currentSort = "datedesc";
+
+currentFilter = filter;
+currentRecycle_bin = recycle_bin;
+
 
 if (!todel.empty()) {
   if (!cUser::CurrentUserHasRightTo(UR_DELRECS))
@@ -132,6 +144,7 @@ const char *TNT_ARRAY = "";
     <& pageelems.create_html_js &>
     <& pageelems.ajax_js &>
 <script>
+const recycle_bin = <$ recycle_bin $>;
 const recordings_tree_creation = <$ cToSvInt(RecordingsManager::GetLastRecordingsUpdate() ) $>;
 const recs = [];
 const rec_ids = Object.create(null)
@@ -198,7 +211,14 @@ if (!deleteResult.empty()) {
       <div class="boxheader"><div class="caption"><$ std::string(tr("List of recordings")) + " (" + diskinfo + ")" $></div></div>
     </td></tr>
 <%cpp>
-    int rec_cnt;
+    int rec_cnt = -1;
+#if VDRVERSNUM >= 20708
+    if (recycle_bin == 1) {
+      LOCK_DELETEDRECORDINGS_READ;
+      rec_cnt = DeletedRecordings->Count();  // Access VDRs global cRecordings Recordings instance.
+    }
+#endif
+    if (rec_cnt == -1)
     {
       LOCK_RECORDINGS_READ;
       rec_cnt = Recordings->Count();  // Access VDRs global cRecordings Recordings instance.
@@ -207,7 +227,10 @@ if (!deleteResult.empty()) {
 </%cpp>
       <# add the message in a table row beneath the header, because the message alone looks weird #>
       <tr class="recording_item">
-        <td class="message"><$ tr("No recordings found") $></td>
+        <td class="message">
+          <? recycle_bin == 0 ? tr("No recordings found") ?>
+          <? recycle_bin == 1 ? tr("No deleted recordings found") ?>
+        </td>
       </tr>
 <%cpp>
     } else {
@@ -233,7 +256,7 @@ if (!deleteResult.empty()) {
           recItemRoot = duplicatesRecordingsTree->getRoot();
       } else {
         if (currentFlat == "true")
-          recItemRoot = std::make_shared<RecordingsItemDirFlat>();
+          recItemRoot = std::make_shared<RecordingsItemDirFlat>(recycle_bin);
         else
           recItemRoot = RecordingsManager::GetRecordingsTree()->getRoot();
       }
@@ -433,9 +456,11 @@ recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
 <a href="recordings.html?sort=<$ (currentSort == "nameasc") ? "namedesc" : "nameasc"$>&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="name" &> ><$ tr("Name") $></a>
 <span class="sep">|</span>
 <a href="recordings.html?sort=<$ (currentSort == "datedesc") ? "dateasc" : "datedesc"$>&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="date" &> ><$ tr("Date") $></a>
+% if (currentRecycle_bin != 1) {
 <span class="sep">|</span>
 <a href="recordings.html?sort=duplicates&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="duplicates" &> ><$ tr("Duplicates") $></a>
 <%cpp>
+}
 #if VDRVERSNUM >= 20505
 </%cpp>
 <span class="sep">|</span>
@@ -446,7 +471,7 @@ recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
 <span class="sep">|</span>
 <span class="label bold" title="<$tr("Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE).")$>" >
   <label for="filter"><$ tr("Filter") $>:</label>
-  <input type="text" name="filter" value="<$ currentFilter $>" id="filter" onchange="filterRecordings(this, '<$ currentSort $>', '<$currentFlat$>')" />
+  <input type="text" name="filter" value="<$ currentFilter $>" id="filter" onchange="filterRecordings(this, '<$ currentSort $>', '<$currentFlat$>', '<$currentRecycle_bin$>')" />
 </span>
 <img onclick="clearRecordingsFilter(document.getElementById('filter'), '<$ currentSort $>', '<$currentFlat$>')" class="icon button clear-filter" src="<$ LiveSetup().GetThemedLink("img", "icon_overlay_cross.png") $>" alt="" <& tooltip.hint text=(tr("Clear filter")) &>/>
 <%cpp>
@@ -457,6 +482,15 @@ if (currentFlat != "true") {
 <img onclick="CollapseAll()" class="icon button collapse-all" src="<$ LiveSetup().GetThemedLink("img", "icon_overlay_minus.png") $>" alt="" <& tooltip.hint text=(tr("Collapse all folders")) &>/>
 <%cpp>
 }
+#if VDRVERSNUM >= 20708
+</%cpp>
+<span class="sep">|</span>
+<span class="label bold" >
+  <label for="recycle_bin"><$ trVDR("Deleted recordings") $></label>
+  <input type="checkbox" name="recycle_bin" value="recycle_bin" <? currentRecycle_bin == 1 ? "checked" ?> id="recycle_bin" onchange="deletedRecordings(this, '<$ currentSort $>', '<$currentFilter$>')" />
+</span>
+<%cpp>
+#endif
 </%cpp>
 <br />
 <%cpp> } </%cpp>
@@ -484,7 +518,34 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
   std::string breaksAtLeft;
   std::string breaksAtRight;
 </%args>
-<%cpp> { </%cpp><a href="epginfo.html?epgid=del_<$ id $>&sort=<$sort$>&filter=<$filter$>&flat=<$flat$>&history_num_back=<$history_num_back+1$>" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Delete this recording")) &>><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" /></a><%cpp> } </%cpp>
+<a href="epginfo.html?epgid=del_<$ id $>&sort=<$sort$>&filter=<$filter$>&flat=<$flat$>&history_num_back=<$history_num_back+1$>" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Delete this recording")) &>><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" /></a>
+</%def>
+
+<# ---------------------------------------------------------------------- #>
+<%def pur_rec>
+<%args>
+  std::string id;
+  int history_num_back = 0;
+  std::string className;
+  std::string label;
+  std::string breaksAtLeft;
+  std::string breaksAtRight;
+</%args>
+<a href="epginfo.html?epgid=pur_<$ id $>&history_num_back=<$history_num_back+1$>" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Permanantly delete this recording")) &>><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" /></a>
+</%def>
+
+
+<# ---------------------------------------------------------------------- #>
+<%def res_rec>
+<%args>
+  std::string id;
+  int history_num_back = 0;
+  std::string className;
+  std::string label;
+  std::string breaksAtLeft;
+  std::string breaksAtRight;
+</%args>
+<a href="epginfo.html?epgid=res_<$ id $>&history_num_back=<$history_num_back+1$>" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Restore this recording")) &>><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "record_timer_active.png") $>" alt="" /></a>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -504,67 +565,62 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
 </%def>
 
 <# ---------------------------------------------------------------------- #>
-<%def todel>
+<%def action>
 <%args>
-  std::string todel;
-  std::string confirmed;
+  std::string id;
   std::string history_num_back;
 </%args>
 <%cpp>
+  if (!cUser::CurrentUserHasRightTo(UR_DELRECS))
+    throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
+
   std::string recording_Name;
   {
     LOCK_RECORDINGS_READ;
-    const cRecording *recording = RecordingsManager::GetByHash(todel, Recordings);
-    if (recording == nullptr)
+    LOCK_DELETEDRECORDINGS_READ;
+    const cRecording *recording = RecordingsManager::GetByHash(cSv(id).substr(4), Recordings, DeletedRecordings);
+    if (recording == nullptr) {
+      esyslog2("pages/recordings.action, couldn't find action/recording ", id);
       throw HtmlError(tr("Couldn't find recording or no recordings available"));
+    }
     recording_Name = recording->Name();
   }
-  if (!cUser::CurrentUserHasRightTo(UR_DELRECS))
-    throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
-  if (confirmed == "confirmed") {
-    RecordingsManager::DeleteRecording(todel);
+
+  cSv action_id = cSv(id).substr(0, 4);
+  const char *headline;
+  cToSvConcat confirmation_question;
+  if (action_id == "del_") {
+    headline = tr("Delete recording");
+    confirmation_question.appendFormatted(tr("Delete recording \"%s\"?"), recording_Name.empty()?"No recording name available":recording_Name.c_str());
+  } else if (action_id == "pur_") {
+    headline = tr("Permanently delete recording");
+    confirmation_question.appendFormatted(tr("Permanently delete recording \"%s\"? Warning: this cannot be undone!"), recording_Name.empty()?"No recording name available":recording_Name.c_str());
+  } else {
+    headline = tr("Restore recording");
+    confirmation_question.appendFormatted(tr("Restore recording \"%s\"?"), recording_Name.empty()?"No recording name available":recording_Name.c_str());
+  }
 </%cpp>
-<!DOCTYPE html>
-<html>
-  <script>
-    history.go(-<$ history_num_back $>);
-  </script>
-</html>
-%  } else {
-<div class="epg_description" id="del_<$ todel $>">
+<div class="epg_description" id="<$ id $>">
   <div class="station">
-    <div class="boxheader"><div class="caption"><$ tr("Delete recordings") $></div></div>
+    <div class="boxheader"><div class="caption"><$ headline $></div></div>
   </div>
   <div class="epg_content">
     <form>
-      <input type="hidden" name="epgid" value="<$todel$>" \>
-      <input type="hidden" name="delete_rec" value="confirmed" \>
-      <input type="hidden" name="history_num_back" value="<$ history_num_back $>" id="history_del_<$ todel $>"\>
-      <div class="about_head"><$ cToSvFormatted(tr("Delete recording \"%s\"?"), recording_Name.empty()?"No recording name available":recording_Name.c_str() ) $></div>
+      <input type="hidden" name="history_num_back" value="<$ history_num_back $>" id="history_<$ id $>"\>
+      <div class="about_head"><$ confirmation_question $></div>
       <div class="about_section">
         <div class="tabular">
           <div class="about_left">
-            <button id="confirm_del_<$ todel $>" class="green" type="button" onclick="delete_rec_back('<$ todel $>', <$ history_num_back $>)"><$ tr("Delete")$></button>
+            <button id="confirm_<$ id $>" class="green" type="button" onclick="action_back('<$ id $>', <$ history_num_back $>)"><$headline$></button>
           </div>
           <div class="about_right">
-<# if previous page is epginfo.html, just go back one page #>
-<script>
-function cancel_delete() {
-  if (document.referrer.indexOf("epginfo.html?") != -1) {
-    history.go(-1);
-  } else {
-    history.go(-<$ history_num_back $>);
-  }
-}
-</script>
-            <button id="close_del_<$ todel $>" type="button" class="red" onclick="back_depending_referrer(1, <$history_num_back $>)"><$ tr("Cancel") $></button>
+            <button id="close_<$ id $>" type="button" class="red" onclick="back_depending_referrer(1, <$history_num_back $>)"><$ tr("Cancel") $></button>
           </div>
         </div>
       </div>
     </form>
   </div>
 </div>
-% }
 </%def>
 
 
@@ -582,7 +638,8 @@ function cancel_delete() {
 <%cpp>
 cToSvConcat label = "";
 constexpr auto breaksAtRight = "~";
-const RecordingsItemRec* recPtr = RecordingsManager::GetByIdHash(id);
+bool deleted = false;
+const RecordingsItemRec* recPtr = RecordingsManager::GetByIdHash(id, &deleted);
 if (recPtr) {
   time_t startTime = recPtr->StartTime();
   label.appendDateTime(tr("%a,"), startTime );      // day of week
@@ -592,15 +649,22 @@ if (recPtr) {
   label.appendDateTime(tr("%I:%M %p"), startTime);  // time
   label.append(tr(" - ")).append(title);
 }
+if (!deleted) {
+  if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
 </%cpp>
-%   if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
 <& pageelems.ajax_action_href action="play_recording" param=(id) tip=(tr("Play this recording")) label=(label) breaksAtRight=(breaksAtRight) image="play.png" alt="" className="icon" &>
 %   }
 <& pageelems.hls_recording recId=(id) className="icon" label=(label) breaksAtRight=(breaksAtRight) &>
 <& pageelems.m3u_playlist_recording recid=(id) className="icon" label=(label) breaksAtRight=(breaksAtRight) &>
+% }
 <& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID) className="icon" label=(label) breaksAtRight=(breaksAtRight) &>
+% if (!deleted) {
 <& recordings.edit_rec id=(id) sort=(sort) filter=(filter) flat=(flat) history_num_back=(history_num_back) className="icon" label=(label) breaksAtRight=(breaksAtRight) &>
 <& recordings.del_rec id=(id) sort=(sort) filter=(filter) flat=(flat) history_num_back=(history_num_back) className="icon" label=(label) breaksAtRight=(breaksAtRight) &>
+% } else {
+<& recordings.res_rec id=(id) history_num_back=(history_num_back) className="icon" label=(label) breaksAtRight=(breaksAtRight) &>
+<& recordings.pur_rec id=(id) history_num_back=(history_num_back) className="icon" label=(label) breaksAtRight=(breaksAtRight) &>
+% }
 <%cpp>
 if (recPtr) {
   const char *sdhd = nullptr;

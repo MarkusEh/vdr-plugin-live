@@ -229,17 +229,20 @@ var InfoWin = new Class({
           history_num_back = Number(history_back.value);
         }
         var confirm_del = this.winBody.getElementById('confirm_' + id);
-        if (confirm_del && id.startsWith("del_") ) {
-          confirm_del.onclick = null;
-          confirm_del.addEvent('click', async function(event) {
-              var err = await execute('delete_recording.html?param=' + id.substring(4) );
-              if (!err.success) alert (err.error);
-              if (history_num_back > 0) { history.go(-history_num_back); }
-              else { location.reload(); }
-              var event = new Event(event);
-              event.stop();
-              return this.hide();
-            }.bind(this));
+        if (confirm_del) {
+          let action_id = id.substring(0, 4);
+          if (action_id == "del_" || action_id == "pur_" || action_id == "res_") {
+            confirm_del.onclick = null;
+            confirm_del.addEvent('click', async function(event) {
+                var err = await execute('action.html?id=' + id);
+                if (!err.success) alert (err.error);
+                if (history_num_back > 0) { history.go(-history_num_back); }
+                else { location.reload(); }
+                var event = new Event(event);
+                event.stop();
+                return this.hide();
+              }.bind(this));
+          }
         }
         var close_button = this.winBody.getElementById('close_' + id);
         if (close_button) {

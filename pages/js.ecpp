@@ -325,10 +325,10 @@ function RecordingsSt_int(s, level, displayFolder, data) {
     <#
     // the previous name 'is_recoding' [action still underway] had a different
     // notion than EpgInfo::IsRecording() [kind of element], which is confusing;
-    // so we better choose a moire concise name
+    // so we better choose a more concise name
     #>
     let still_recording = '';
-    if (obj[1] === 'still_recording') {
+    if (recycle_bin == 0 && obj[1] === 'still_recording') {
       still_recording = ' still_recording';
     }
     <#
@@ -399,11 +399,12 @@ function RecordingsSt_int(s, level, displayFolder, data) {
     let label = obj[9] + '<$ tr(" - ") $>' + obj[14]
     let xsVisibleIcons = 2;       // the invariant edit and delete icons
     let xsInvisibleIcons = 0;     // the small-screen invisible stream icons
+    if (recycle_bin == 0) {
 %   if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
       RecordingActionS(s, obj[0], "vdr_request/play_recording?param=", "play.png", label, "<$tr("Play this recording")$>")
       xsVisibleIcons++;
 %   }
-%   if (LiveFeatures<features::streamdev_server>().Loaded()) {
+%   if (LiveFeatures<features::streamdev_server>().Loaded() ) {
 %     // use same logic as in pageelems.epg_tool_box
 %     if (LiveSetup().GetUseStreamdev()) {
         RecordingActionStream(s, obj[0], label)
@@ -412,12 +413,18 @@ function RecordingsSt_int(s, level, displayFolder, data) {
       RecordingActionPlaylist(s, obj[0], label)
       xsInvisibleIcons++
 %   }
+    }
 %   if (LiveSetup().GetShowIMDb() ) {
       IMDbS(s, obj[2], obj[14], label)
       xsVisibleIcons++;
 %   }
-    RecordingActionS(s, obj[0], "edit_recording.html?recid=", "edit.png", label, "<$tr("Edit recording")$>")
-    RecordingActionS(s, obj[0], "epginfo.html?epgid=del_", "del.png", label, "<$tr("Delete this recording")$>")
+    if (recycle_bin == 0) {
+      RecordingActionS(s, obj[0], "edit_recording.html?recid=", "edit.png", label, "<$tr("Edit recording")$>")
+      RecordingActionS(s, obj[0], "epginfo.html?epgid=del_", "del.png", label, "<$tr("Delete this recording")$>")
+    } else {
+      RecordingActionS(s, obj[0], "epginfo.html?epgid=res_", "record_timer_active.png", label, "<$tr("Restore this recording")$>")
+      RecordingActionS(s, obj[0], "epginfo.html?epgid=pur_", "del.png", label, "<$tr("Permanently delete this recording? Warning: this cannot be undone!")$>")
+    }
     let xsClassName = 'xs-visible-' + xsVisibleIcons
     xsClassName += ' xs-invisible-' + xsInvisibleIcons
     xsClassName += ' xs-columns-' + Math.floor((xsVisibleIcons + 2) / 3)

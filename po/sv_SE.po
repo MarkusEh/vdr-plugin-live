@@ -6,7 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.3.0\n"
-"Report-Msgid-Bugs-To: <cwieninger@gmx.de>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-27 19:52+0100\n"
 "PO-Revision-Date: 2013-06-21 20:15+0200\n"
 "Last-Translator: Fredrik Olofsson <fredrik.olofsson@freddano.se>\n"
 "Language-Team: see developers in README\n"
@@ -576,6 +577,15 @@ msgstr "Redigera inspelningar"
 msgid "Electronic program guide information"
 msgstr "EPG-information"
 
+msgid "Delete recording"
+msgstr ""
+
+msgid "Restore recording"
+msgstr ""
+
+msgid "Permanently delete recording"
+msgstr ""
+
 msgid "Couldn't find recording or no recordings available"
 msgstr "Kunde inte hitta inspelning eller inga inspelningar tillgängliga"
 
@@ -644,6 +654,12 @@ msgstr ""
 
 msgid "Delete this recording"
 msgstr "Ta bort den inspelning från hårddisken!"
+
+msgid "Restore this recording"
+msgstr ""
+
+msgid "Permanently delete this recording? Warning: this cannot be undone!"
+msgstr ""
 
 msgid "Wrong username or password"
 msgstr "Fel användarnamn eller lösenord"
@@ -930,6 +946,9 @@ msgstr "Lista över inspelningar"
 msgid "No recordings found"
 msgstr "Inga inspelningar funna"
 
+msgid "No deleted recordings found"
+msgstr ""
+
 msgid "Delete selected"
 msgstr "Ta bort valda"
 
@@ -963,11 +982,19 @@ msgstr "Utöka alla bibliotek"
 msgid "Collapse all folders"
 msgstr "Kollapsa alla bibliotek"
 
+msgid "Permanantly delete this recording"
+msgstr ""
+
 #, c-format
 msgid "Delete recording \"%s\"?"
 msgstr ""
 
-msgid "Delete"
+#, c-format
+msgid "Permanently delete recording \"%s\"? Warning: this cannot be undone!"
+msgstr ""
+
+#, c-format
+msgid "Restore recording \"%s\"?"
 msgstr ""
 
 msgid "Snapshot interval"

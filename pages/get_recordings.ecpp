@@ -44,10 +44,10 @@ recordings_tree_re_created = <$ recordings_tree_re_created?"true":"false"$>;
 
     cToSvConcat<0> recording_item;
     recording_item.reserve(5000);
-    size_t rec_size = RecordingsManager::all_recordings[(int)(RecordingsManager::eSortOrder::id)].size();
+    size_t rec_size = RecordingsManager::all_recordings[(int)(RecordingsManager::eSortOrder::id)][0].size();
     for (int recording: r) {
       RecordingsItemRec *rPtr = nullptr;
-      if ((size_t)recording < rec_size) rPtr = RecordingsManager::all_recordings[(int)(RecordingsManager::eSortOrder::id)][recording];
+      if ((size_t)recording < rec_size) rPtr = RecordingsManager::all_recordings[(int)(RecordingsManager::eSortOrder::id)][0][recording];
       if (rPtr) {
 //      dsyslog("live, get_recordings.ecpp, write recording %d, rPtr->Id() %d", recording, rPtr->Id() );
         recording_item.clear();
