@@ -84,6 +84,9 @@ bool logged_in(false);
           const cChannel* channel = result->GetChannel(Channels);
           if (!channel) continue;
           LOCK_RECORDINGS_READ;  // required because appendEpgItemWithRecItem needs also lock on recordings
+#if VDRVERSNUM >= 20708
+          LOCK_DELETEDRECORDINGS_READ;
+#endif
           LOCK_SCHEDULES_READ;
           const cEvent *event = result->GetEvent(channel, Schedules);
           if (!event || !event->StartTime() ) continue;

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-27 19:52+0100\n"
+"POT-Creation-Date: 2026-01-28 19:42+0100\n"
 "PO-Revision-Date: 2023-02-14 20:02+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <(nothing)>\n"
@@ -942,8 +942,14 @@ msgstr "არხი ვერ ვიპოვე ან არხები მ�
 msgid "Deleted recording:"
 msgstr "წაშლილია ჩანაწერი:"
 
+msgid "Permanently deleted recording:"
+msgstr ""
+
 msgid "List of recordings"
 msgstr "ჩანაწერების სია"
+
+msgid "List of deleted recordings"
+msgstr ""
 
 msgid "No recordings found"
 msgstr "ჩანაწერების გარეშე"
@@ -953,6 +959,9 @@ msgstr ""
 
 msgid "Delete selected"
 msgstr "მონიშნულის წაშლა"
+
+msgid "Permanently delete selected recordings. Warning: This cannot be undone!"
+msgstr ""
 
 msgid "No matching recordings found"
 msgstr ""

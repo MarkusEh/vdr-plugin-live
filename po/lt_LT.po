@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-27 19:52+0100\n"
+"POT-Creation-Date: 2026-01-28 19:42+0100\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Valdemaras Pipiras <varas@ambernet.lt>\n"
 "Language-Team: see developers in README\n"
@@ -942,8 +942,14 @@ msgstr "Kanalas nerastas arba jo iš vis nėra. Gal klaidingai įvedėte paiešk
 msgid "Deleted recording:"
 msgstr "Ištrynė įrašą:"
 
+msgid "Permanently deleted recording:"
+msgstr ""
+
 msgid "List of recordings"
 msgstr "Įrašų sąrašas"
+
+msgid "List of deleted recordings"
+msgstr ""
 
 msgid "No recordings found"
 msgstr "Įrašų nėra"
@@ -952,6 +958,9 @@ msgid "No deleted recordings found"
 msgstr ""
 
 msgid "Delete selected"
+msgstr ""
+
+msgid "Permanently delete selected recordings. Warning: This cannot be undone!"
 msgstr ""
 
 msgid "No matching recordings found"

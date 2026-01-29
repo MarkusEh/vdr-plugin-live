@@ -129,6 +129,9 @@ bool events_available = false;
       LOCK_TIMERS_READ;
       LOCK_CHANNELS_READ;
       LOCK_RECORDINGS_READ;  // required because appendEpgItemWithRecItem needs also lock on recording
+#if VDRVERSNUM >= 20708
+      LOCK_DELETEDRECORDINGS_READ;
+#endif
       LOCK_SCHEDULES_READ;
       const cChannel* Channel = Channels->GetByChannelID(channel_id);
       cSchedule const* Schedule = Schedules->GetSchedule(Channel);

@@ -89,26 +89,29 @@ currentFilter = filter;
 currentRecycle_bin = recycle_bin;
 
 
-if (!todel.empty()) {
-  if (!cUser::CurrentUserHasRightTo(UR_DELRECS))
-    throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
-  deletions.push_back(todel);
-}
+if (!todel.empty()) deletions.push_back(todel);
 
 deleteResult = "";
-if (cUser::CurrentUserHasRightTo(UR_DELRECS)) {
-  for (auto it = deletions.begin(); it != deletions.end(); ++it) {
-    std::string name;
-    if (RecordingsManager::DeleteRecording(*it, &name) == 0) {
-      cToSvConcat delRec(tr("Deleted recording:"), " ");
-      delRec.appendReplace(name, "~", "/");
-      delRec << "<br/>";
-      deleteResult += std::string(delRec);
+if (!deletions.empty()) {
+  if (cUser::CurrentUserHasRightTo(UR_DELRECS)) {
+    for (auto it = deletions.begin(); it != deletions.end(); ++it) {
+      std::string name;
+      if (currentRecycle_bin == 0) {
+        if (RecordingsManager::DeleteRecording(*it, &name) == 0) {
+          cToSvConcat delRec(tr("Deleted recording:"), " ", name, "<br/>");
+          deleteResult += cSv(delRec);
+        }
+      } else {
+        if (RecordingsManager::PurgeRecording(*it, &name) == 0) {
+          cToSvConcat delRec(tr("Permanently deleted recording:"), " ", name, "<br/>");
+          deleteResult += cSv(delRec);
+        }
+      }
     }
+  } else {
+    throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
   }
   deletions.clear();
-} else {
-  throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
 }
 
 int FreeMB, UsedMB;
@@ -208,7 +211,11 @@ if (!deleteResult.empty()) {
     <# do not classify as 'listing' to avoid row separators                                 #>
     <table class="recordings-list" cellspacing="0" cellpadding="0"><tbody>
     <tr><td>
+% if (recycle_bin == 0) {
       <div class="boxheader"><div class="caption"><$ std::string(tr("List of recordings")) + " (" + diskinfo + ")" $></div></div>
+% } else {
+      <div class="boxheader"><div class="caption"><$ std::string(tr("List of deleted recordings")) + " (" + diskinfo + ")" $></div></div>
+% }
     </td></tr>
 <%cpp>
     int rec_cnt = -1;
@@ -275,10 +282,15 @@ if (!deleteResult.empty()) {
         <input type="hidden" name="sort" value="<$ currentSort $>">
         <input type="hidden" name="filter" value="<$ currentFilter $>">
         <input type="hidden" name="flat" value="<$ currentFlat $>">
+        <input type="hidden" name="recycle_bin" value="<$ currentRecycle_bin $>">
         <input type="hidden" name="history_num_back" value="<$ history_num_back $>">
 %       if (!recording_item.empty()) {
         <div class="withmargin hidden-xs">
+% if (currentRecycle_bin == 0) {
           <button class="red" type="submit"><$ tr("Delete selected") $></button>
+% } else {
+          <button class="red" type="submit"><$ tr("Permanently delete selected recordings. Warning: This cannot be undone!") $></button>
+% }
 <#        <button class="green" type="button" onclick="clearCheckboxes(document.getElementById('form_recordings'))" ><$ tr("Uncheck all checkboxes") $></button> #>
         </div>
 %       }

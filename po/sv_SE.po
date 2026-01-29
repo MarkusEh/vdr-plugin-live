@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-27 19:52+0100\n"
+"POT-Creation-Date: 2026-01-28 19:42+0100\n"
 "PO-Revision-Date: 2013-06-21 20:15+0200\n"
 "Last-Translator: Fredrik Olofsson <fredrik.olofsson@freddano.se>\n"
 "Language-Team: see developers in README\n"
@@ -940,8 +940,14 @@ msgstr "Kan inte hitta kanal eller inga kanaler är tillgängliga. Kontrollera s
 msgid "Deleted recording:"
 msgstr "Raderade inspelningar:"
 
+msgid "Permanently deleted recording:"
+msgstr ""
+
 msgid "List of recordings"
 msgstr "Lista över inspelningar"
+
+msgid "List of deleted recordings"
+msgstr ""
 
 msgid "No recordings found"
 msgstr "Inga inspelningar funna"
@@ -951,6 +957,9 @@ msgstr ""
 
 msgid "Delete selected"
 msgstr "Ta bort valda"
+
+msgid "Permanently delete selected recordings. Warning: This cannot be undone!"
+msgstr ""
 
 msgid "No matching recordings found"
 msgstr ""

@@ -114,43 +114,44 @@ namespace vdrlive {
 
     bool RecordingsManager::UpdateRecording(cSv hash, cSv directory, cSv name, bool copy, cSv title, cSv shorttext, cSv description)
     {
-  //  std::string new_filename = FileSystemExchangeChars(directory.empty() ? name : cSv(cToSvReplace(directory, "/", "~") << "~" << name), true);
-      std::string new_filename = FileSystemExchangeChars(directory.empty() ? name : cSv(cToSvConcat(directory, "~", name)), true);
-      // Check for injections that try to escape from the video dir.
-      if (new_filename.compare(0, 3, "../") == 0 || new_filename.find("/..") != std::string::npos) {
-        esyslog("live: renaming failed: new name invalid \"%.*s\"", (int)new_filename.length(), new_filename.data());
+// note: we do NOT change deleted recordings, this is not intended and not supported!
+
+// new_name is VDR's BaseName with chars exchanged to the chars ues in file system
+      std::string new_name = FileSystemExchangeChars(directory.empty() ? name : cSv(cToSvConcat(directory, "~", name)), true);
+// Check for injections that try to escape from the video dir.
+      if (new_name.compare(0, 3, "../") == 0 || new_name.find("/..") != std::string::npos) {
+        esyslog("live: renaming failed: new name invalid \"%.*s\"", (int)new_name.length(), new_name.data());
         return false;
       }
 
       LOCK_RECORDINGS_WRITE;
-      LOCK_DELETEDRECORDINGS_WRITE;
-      cRecording *recording = const_cast<cRecording *>(RecordingsManager::GetByHash(hash, Recordings, DeletedRecordings));
+      cRecording *recording = const_cast<cRecording *>(RecordingsManager::GetByHash(hash, Recordings));
       if (!recording) return false;
 
-      std::string oldname = recording->FileName();
-      size_t found = oldname.find_last_of("/");
+      std::string oldFileName = recording->FileName();
+      size_t found = oldFileName.find_last_of("/");
       if (found == std::string::npos) return false;
 
-      std::string newname = concat(cVideoDirectory::Name(), "/", new_filename, cSv(oldname).substr(found));
+      std::string newFileName = concat(cVideoDirectory::Name(), "/", new_name, cSv(oldFileName).substr(found));
 
-      if (oldname != newname) {
+      if (oldFileName != newFileName) {
         if (recording->IsInUse() ) return false;
-        if (!MoveDirectory(oldname, newname, copy)) {
-          esyslog("live: renaming failed from '%.*s' to '%s'", (int)oldname.length(), oldname.data(), newname.c_str());
+        if (!MoveDirectory(oldFileName, newFileName, copy)) {
+          esyslog("live: renaming failed from '%.*s' to '%s'", (int)oldFileName.length(), oldFileName.data(), newFileName.c_str());
           return false;
         }
 
         if (!copy)
-          Recordings->DelByName(oldname.c_str());
-        Recordings->AddByName(newname.c_str());
-        recording = Recordings->GetByName(newname.c_str());   // old pointer to recording invalid after DelByName/AddByName
+          Recordings->DelByName(oldFileName.c_str());
+        Recordings->AddByName(newFileName.c_str());
+        recording = Recordings->GetByName(newFileName.c_str());   // old pointer to recording invalid after DelByName/AddByName
         if (copy)
-          cRecordingUserCommand::InvokeCommand(RUC_COPIEDRECORDING, newname.c_str(), oldname.c_str());
+          cRecordingUserCommand::InvokeCommand(RUC_COPIEDRECORDING, newFileName.c_str(), oldFileName.c_str());
         else {
-          if (strcmp(strgetbefore(oldname.c_str(), '/', 2), strgetbefore(newname.c_str(), '/', 2)))
-            cRecordingUserCommand::InvokeCommand(RUC_MOVEDRECORDING, newname.c_str(), oldname.c_str());
+          if (strcmp(strgetbefore(oldFileName.c_str(), '/', 2), strgetbefore(newFileName.c_str(), '/', 2)))
+            cRecordingUserCommand::InvokeCommand(RUC_MOVEDRECORDING, newFileName.c_str(), oldFileName.c_str());
           else
-            cRecordingUserCommand::InvokeCommand(RUC_RENAMEDRECORDING, newname.c_str(), oldname.c_str());
+            cRecordingUserCommand::InvokeCommand(RUC_RENAMEDRECORDING, newFileName.c_str(), oldFileName.c_str());
         }
       }
 
@@ -413,11 +414,11 @@ namespace vdrlive {
     bool RecordingsManager::StateChanged ()
     {
       // will return true only, if the Recordings List has been changed since last read
-      bool rec_changed = cRecordings::GetRecordingsRead(m_recordingsStateKey);
+      bool rec_changed = (cRecordings::GetRecordingsRead(m_recordingsStateKey) != nullptr);
       if (rec_changed) m_recordingsStateKey.Remove();
 
 #if VDRVERSNUM >= 20708
-      bool del_rec_changed = cRecordings::GetDeletedRecordingsRead(m_deletedRecordingsStateKey);
+      bool del_rec_changed = (cRecordings::GetDeletedRecordingsRead(m_deletedRecordingsStateKey) != nullptr);
       if (del_rec_changed) m_deletedRecordingsStateKey.Remove();
       return rec_changed || del_rec_changed;
 #else
