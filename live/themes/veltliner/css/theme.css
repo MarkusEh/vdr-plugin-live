@@ -38,6 +38,12 @@
   inherits: false;
 }
 
+@property --menu-color-inactive {
+  syntax: "<color>";
+  initial-value: #a0a0a0;
+  inherits: false;
+}
+
 @property --menu-color-highlight {
   syntax: "<color>";
   initial-value: #ffdb88;

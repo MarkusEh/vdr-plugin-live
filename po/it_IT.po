@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-28 19:42+0100\n"
+"POT-Creation-Date: 2026-01-30 16:03+0100\n"
 "PO-Revision-Date: 2011-12-25 23:22+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: see developers in README\n"
@@ -963,7 +963,10 @@ msgstr ""
 msgid "Delete selected"
 msgstr "Elimina selezionati"
 
-msgid "Permanently delete selected recordings. Warning: This cannot be undone!"
+msgid "Permanently delete selected recordings."
+msgstr ""
+
+msgid "Warning: This cannot be undone!"
 msgstr ""
 
 msgid "No matching recordings found"
@@ -996,7 +999,7 @@ msgstr "Espandi tutte le cartelle"
 msgid "Collapse all folders"
 msgstr "Comprimi tutte le cartelle"
 
-msgid "Permanantly delete this recording"
+msgid "Permanently delete this recording"
 msgstr ""
 
 #, c-format
@@ -1004,7 +1007,7 @@ msgid "Delete recording \"%s\"?"
 msgstr ""
 
 #, c-format
-msgid "Permanently delete recording \"%s\"? Warning: this cannot be undone!"
+msgid "Permanently delete recording \"%s\"?"
 msgstr ""
 
 #, c-format

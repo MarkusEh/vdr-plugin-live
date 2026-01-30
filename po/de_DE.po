@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 3.5.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-28 19:16+0100\n"
+"POT-Creation-Date: 2026-01-30 15:43+0100\n"
 "PO-Revision-Date: 2026-01-27 20:15+0200\n"
 "Last-Translator: Stefan Hofmann <info@stefans-galerie.de>\n"
 "Language-Team: see developers in README\n"
@@ -960,8 +960,11 @@ msgstr "Keine gelöschten Aufzeichnungen vorhanden"
 msgid "Delete selected"
 msgstr "Markierte löschen"
 
-msgid "Permanently delete selected recordings. Warning: This cannot be undone!"
-msgstr "Markierte Aufzeichnungen dauerhaft löschen. Achtung: das kann nicht rückgängig gemacht werden!"
+msgid "Permanently delete selected recordings."
+msgstr "Markierte Aufzeichnungen dauerhaft löschen."
+
+msgid "Warning: This cannot be undone!"
+msgstr "Achtung: Das kann nicht rückgängig gemacht werden!"
 
 msgid "No matching recordings found"
 msgstr "Keine zutreffende Aufzeichnung gefunden"
@@ -993,16 +996,16 @@ msgstr "Alle Ordner aufklappen"
 msgid "Collapse all folders"
 msgstr "Alle Ordner einklappen"
 
-msgid "Permanantly delete this recording"
-msgstr "Aufzeichnung dauerhaft löschen"
+msgid "Permanently delete this recording"
+msgstr "Aufzeichnung endgültig löschen"
 
 #, c-format
 msgid "Delete recording \"%s\"?"
 msgstr "Aufzeichnung \"%s\" löschen?"
 
 #, c-format
-msgid "Permanently delete recording \"%s\"? Warning: this cannot be undone!"
-msgstr "Aufzeichnung \"%s\" dauerhaft löschen? Achtung: das kann nicht rückgängig gemacht werden!"
+msgid "Permanently delete recording \"%s\"?"
+msgstr "Aufzeichnung \"%s\" endgültig löschen?"
 
 #, c-format
 msgid "Restore recording \"%s\"?"

@@ -999,6 +999,11 @@ div.info-win.info-del {
   min-height: calc(var(--infowin-title-height) + 2 * var(--text-line-height) + 7 * var(--margin-top-bottom));
 }
 
+div.info-win.info-pur {
+  min-width: calc(3 * var(--margin-left-right) + 2 * var(--infowin-body-margin) + 2 * var(--infowin-label-width) + 15px );
+  min-height: calc(var(--infowin-title-height) + 3 * var(--text-line-height) + 9 * var(--margin-top-bottom));
+}
+
 .info-win .info-win-top {
   display: flex;
   justify-content: space-between;
@@ -1155,6 +1160,12 @@ div#menu div.menubar div.choices {
   line-height: var(--text-line-height);
 }
 
+div#menu .inactive {
+  color: var(--menu-color-inactive);
+  font-weight: bold;
+  white-space: nowrap;
+}
+
 div#menu a {
   color: var(--menu-color);
   font-weight: bold;
@@ -1263,6 +1274,12 @@ div#pagemenu div.menubar {
 div#pagemenu div.menubar div.choices {
   color: var(--pagemenu-color);
   line-height: var(--text-line-height);
+}
+
+div#pagemenu div.menubar .inactive {
+  color: var(--menu-color-inactive);
+  font-weight: bold;
+  white-space: nowrap;
 }
 
 div#pagemenu div.bottom {
@@ -1427,6 +1444,10 @@ button {
   padding: 0.2ex 0.4ch 0.3ex 0.4ch;
   font-size: var(--text-font-size);
   text-align: center;
+}
+
+.tabular button {
+  height: 100%;
 }
 
 button:hover {
@@ -2846,6 +2867,14 @@ div.epg_content div.about_head {
   border-bottom: var(--infowin-section-border-width) solid var(--infowin-section-border-color);
   color: var(--infowin-section-color);
   font-weight: bold;
+}
+
+div.epg_content div.about_head.prompt p {
+  margin: var(--text-line-gap) 0px 0px 0px;
+}
+
+div.epg_content div.about_head.prompt p:first-child {
+  margin-top: 0px;
 }
 
 div.epg_content div.about_section {

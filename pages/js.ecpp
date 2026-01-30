@@ -422,7 +422,7 @@ function RecordingsSt_int(s, level, displayFolder, data) {
       RecordingActionS(s, obj[0], "edit_recording.html?recid=", "edit.png", label, "<$tr("Edit recording")$>")
       RecordingActionS(s, obj[0], "epginfo.html?epgid=del_", "del.png", label, "<$tr("Delete this recording")$>")
     } else {
-      RecordingActionS(s, obj[0], "epginfo.html?epgid=res_", "record_timer_active.png", label, "<$tr("Restore this recording")$>")
+      RecordingActionS(s, obj[0], "epginfo.html?epgid=res_", "restore.png", label, "<$tr("Restore this recording")$>")
       RecordingActionS(s, obj[0], "epginfo.html?epgid=pur_", "del.png", label, "<$tr("Permanently delete this recording? Warning: this cannot be undone!")$>")
     }
     let xsClassName = 'xs-visible-' + xsVisibleIcons

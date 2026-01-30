@@ -289,7 +289,7 @@ if (!deleteResult.empty()) {
 % if (currentRecycle_bin == 0) {
           <button class="red" type="submit"><$ tr("Delete selected") $></button>
 % } else {
-          <button class="red" type="submit"><$ tr("Permanently delete selected recordings. Warning: This cannot be undone!") $></button>
+          <button class="red" type="submit"><$ tr("Permanently delete selected recordings.") $> <$ tr("Warning: This cannot be undone!") $></button>
 % }
 <#        <button class="green" type="button" onclick="clearCheckboxes(document.getElementById('form_recordings'))" ><$ tr("Uncheck all checkboxes") $></button> #>
         </div>
@@ -468,9 +468,11 @@ recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
 <a href="recordings.html?sort=<$ (currentSort == "nameasc") ? "namedesc" : "nameasc"$>&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="name" &> ><$ tr("Name") $></a>
 <span class="sep">|</span>
 <a href="recordings.html?sort=<$ (currentSort == "datedesc") ? "dateasc" : "datedesc"$>&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="date" &> ><$ tr("Date") $></a>
-% if (currentRecycle_bin != 1) {
 <span class="sep">|</span>
+% if (currentRecycle_bin != 1) {
 <a href="recordings.html?sort=duplicates&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="duplicates" &> ><$ tr("Duplicates") $></a>
+% } else {
+<span class="inactive"><$ tr("Duplicates") $></span>
 <%cpp>
 }
 #if VDRVERSNUM >= 20505
@@ -543,7 +545,7 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
   std::string breaksAtLeft;
   std::string breaksAtRight;
 </%args>
-<a href="epginfo.html?epgid=pur_<$ id $>&history_num_back=<$history_num_back+1$>" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Permanantly delete this recording")) &>><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" /></a>
+<a href="epginfo.html?epgid=pur_<$ id $>&history_num_back=<$history_num_back+1$>" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Permanently delete this recording")) &>><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" /></a>
 </%def>
 
 
@@ -557,7 +559,7 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
   std::string breaksAtLeft;
   std::string breaksAtRight;
 </%args>
-<a href="epginfo.html?epgid=res_<$ id $>&history_num_back=<$history_num_back+1$>" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Restore this recording")) &>><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "record_timer_active.png") $>" alt="" /></a>
+<a href="epginfo.html?epgid=res_<$ id $>&history_num_back=<$history_num_back+1$>" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Restore this recording")) &>><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "restore.png") $>" alt="" /></a>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -601,15 +603,17 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
   cSv action_id = cSv(id).substr(0, 4);
   const char *headline;
   cToSvConcat confirmation_question;
+  cToSvConcat warning;
   if (action_id == "del_") {
     headline = tr("Delete recording");
-    confirmation_question.appendFormatted(tr("Delete recording \"%s\"?"), recording_Name.empty()?"No recording name available":recording_Name.c_str());
+    confirmation_question.appendFormatted(tr("Delete recording \"%s\"?"), recording_Name.empty()?"[recording name unavailable]":recording_Name.c_str());
   } else if (action_id == "pur_") {
     headline = tr("Permanently delete recording");
-    confirmation_question.appendFormatted(tr("Permanently delete recording \"%s\"? Warning: this cannot be undone!"), recording_Name.empty()?"No recording name available":recording_Name.c_str());
+    confirmation_question.appendFormatted(tr("Permanently delete recording \"%s\"?"), recording_Name.empty()?"[recording name unavailable]":recording_Name.c_str());
+    warning.append(tr("Warning: This cannot be undone!"));
   } else {
     headline = tr("Restore recording");
-    confirmation_question.appendFormatted(tr("Restore recording \"%s\"?"), recording_Name.empty()?"No recording name available":recording_Name.c_str());
+    confirmation_question.appendFormatted(tr("Restore recording \"%s\"?"), recording_Name.empty()?"[recording name unavailable]":recording_Name.c_str());
   }
 </%cpp>
 <div class="epg_description" id="<$ id $>">
@@ -619,9 +623,13 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
   <div class="epg_content">
     <form>
       <input type="hidden" name="history_num_back" value="<$ history_num_back $>" id="history_<$ id $>"\>
-      <div class="about_head"><$ confirmation_question $></div>
+      <div class="about_head prompt"><p><$ confirmation_question $></p>
+%       if (!warning.empty()) {
+        <p><$ warning $></p>
+%       }
+      </div>
       <div class="about_section">
-        <div class="tabular">
+        <div class="tabular buttons">
           <div class="about_left">
             <button id="confirm_<$ id $>" class="green" type="button" onclick="action_back('<$ id $>', <$ history_num_back $>)"><$headline$></button>
           </div>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-28 19:42+0100\n"
+"POT-Creation-Date: 2026-01-30 16:03+0100\n"
 "PO-Revision-Date: 2010-05-10 22:15+0200\n"
 "Last-Translator: Vladimír Bárta <vladimir.barta@k2atmitec.cz>,Radek Stastny <dedkus@gmail.com> \n"
 "Language-Team: see developers in README\n"
@@ -968,7 +968,10 @@ msgstr ""
 msgid "Delete selected"
 msgstr "Smazat automatické nahrávání?"
 
-msgid "Permanently delete selected recordings. Warning: This cannot be undone!"
+msgid "Permanently delete selected recordings."
+msgstr ""
+
+msgid "Warning: This cannot be undone!"
 msgstr ""
 
 msgid "No matching recordings found"
@@ -1001,7 +1004,7 @@ msgstr ""
 msgid "Collapse all folders"
 msgstr ""
 
-msgid "Permanantly delete this recording"
+msgid "Permanently delete this recording"
 msgstr ""
 
 #, c-format
@@ -1009,7 +1012,7 @@ msgid "Delete recording \"%s\"?"
 msgstr ""
 
 #, c-format
-msgid "Permanently delete recording \"%s\"? Warning: this cannot be undone!"
+msgid "Permanently delete recording \"%s\"?"
 msgstr ""
 
 #, c-format
