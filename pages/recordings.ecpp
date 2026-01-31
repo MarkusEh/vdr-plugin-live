@@ -487,7 +487,7 @@ recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
   <label for="filter"><$ tr("Filter") $>:</label>
   <input type="text" name="filter" value="<$ currentFilter $>" id="filter" onchange="filterRecordings(this, '<$ currentSort $>', '<$currentFlat$>', '<$currentRecycle_bin$>')" />
 </span>
-<img onclick="clearRecordingsFilter(document.getElementById('filter'), '<$ currentSort $>', '<$currentFlat$>')" class="icon button clear-filter" src="<$ LiveSetup().GetThemedLink("img", "icon_overlay_cross.png") $>" alt="" <& tooltip.hint text=(tr("Clear filter")) &>/>
+<img onclick="clearRecordingsFilter(document.getElementById('filter'), '<$ currentSort $>', '<$currentFlat$>', '<$currentRecycle_bin$>')" class="icon button clear-filter" src="<$ LiveSetup().GetThemedLink("img", "icon_overlay_cross.png") $>" alt="" <& tooltip.hint text=(tr("Clear filter")) &>/>
 <%cpp>
 if (currentFlat != "true") {
 </%cpp>

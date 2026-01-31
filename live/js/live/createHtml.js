@@ -162,10 +162,10 @@ var imgDefer = document.getElementsByTagName('img');
   }
 }
 
-function clearRecordingsFilter(filter, currentSort, currentFlat) {
+function clearRecordingsFilter(filter, currentSort, currentFlat, recycle_bin) {
 // clear filter field
   filter.value = "";
-  filterRecordings(filter, currentSort, currentFlat)
+  filterRecordings(filter, currentSort, currentFlat, recycle_bin)
 }
 function clearCheckboxes(form) {
 // clearing checkboxes
