@@ -48,8 +48,6 @@ using namespace vdrlive;
     if (action == "delete") {
       if (!cUser::CurrentUserHasRightTo(UR_DELTIMERS))
         throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
-//                        dsyslog("live: timers.ecpp timer->Id() %d", timer->Id());
-//                        dsyslog("live: timers.ecpp timer->Remote() %s", timer->Remote());
       TimerManager().DelTimer(timer_id, remote);
       timerNotifier.SetTimerModification();
     }
@@ -244,7 +242,7 @@ using namespace vdrlive;
 %             AppendHtmlEscapedAndCorrectNonUTF8(label, timer->File() );
               <a class="action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&action=toggle"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtRight=(fileNameBreaks) text=(tr("Toggle timer (in)active")) &> /></a>
               <div class="action-rightcol"><& pageelems.edit_timer timerId=(SortedTimers::GetTimerId(*timer)) className="icon" label=(label) breaksAtRight=(fileNameBreaks) &></div>
-              <a class="action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&action=delete" onclick="return confirm('<$ label $>\\n\\n<$ tr("Delete this timer?") $>')"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtRight=(fileNameBreaks) text=(tr("Delete timer")) &> /></a>
+              <a class="action-rightcol" href="epginfo.html?epgid=det_<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&history_num_back=1"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtRight=(fileNameBreaks) text=(tr("Delete timer")) &> /></a>
             </div>
           </td>
         </tr>

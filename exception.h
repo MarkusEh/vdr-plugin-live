@@ -9,6 +9,7 @@ class HtmlError: public std::runtime_error
 {
 public:
   explicit HtmlError( std::string const& message ): std::runtime_error( message ) {}
+  explicit HtmlError( const char *message ): std::runtime_error( message ) {}
   virtual ~HtmlError() throw() {}
 };
 

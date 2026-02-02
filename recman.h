@@ -100,6 +100,7 @@ namespace vdrlive {
 #else
       static const cRecording *GetByHash(cSv hash, const cRecordings* Recordings);
 #endif
+      static const char *GetNameByHash(cSv hash);
 
       /**
        *  get RecordingsItemRec from the all_recordings. Returns
@@ -192,6 +193,12 @@ namespace vdrlive {
     private:
       static bool StateChanged();
   };
+  std::string RecordingsManager_DeleteConfirmationQuestion(cSv hash);
+  std::string RecordingsManager_RestoreConfirmationQuestion(cSv hash);
+  std::string RecordingsManager_PurgeConfirmationQuestion(cSv hash);
+  int RecordingsManager_DeleteRecording(cSv hash, std::string &message);
+  int RecordingsManager_RestoreRecording(cSv hash, std::string &message);
+  int RecordingsManager_PurgeRecording(cSv hash, std::string &message);
 
   /**
    * Class containing possible recordings compare functions

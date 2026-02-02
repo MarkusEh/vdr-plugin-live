@@ -4,6 +4,7 @@
 #include <tools.h>
 #include <users.h>
 #include <recman.h>
+#include <confirm.h>
 
 using namespace vdrlive;
 
@@ -22,64 +23,43 @@ bool logged_in(false);
     return reply.redirect(targetUrl.data());
   }
 
-  if (!cUser::CurrentUserHasRightTo(UR_DELRECS)) {
-    esyslog("live: WARNING in delete_recording.ecpp, no permission to delete recording");
+  const cConfirm *confirm = get_confirm_popup(id);
+  if (!confirm) {
+    cToSvConcat error_message("pages/action.ecpp, no action found for ID \"", id, "\"");
+    esyslog2(error_message);
+    throw HtmlError(error_message.c_str() );
+  }
+
+  if (!confirm->currentUserHasRight() ) {
+    esyslog2("pages/action.ecpp, no authorization for ", id);
     throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
   }
 
-  bool ajaxReq = !async.empty() && (parse_int<int>(async) != 0);
-  std::string referrer;
-
-  if (ajaxReq) {
-    reply.setContentType( "application/xml" );
-  } else {
-    referrer = request.getHeader("Referer:");
-  }
-
-  cSv rec_id = cSv(id).substr(4);
-  cSv action_id = cSv(id).substr(0, 4);
-  std::string name;
-  const char *error_message = "";
-  const char *action_name = "unknown";
-  int result = 4;
-  if (action_id == "del_") {
-    action_name = "deleted";
-    result = RecordingsManager::DeleteRecording(rec_id, &name);
-  } else if (action_id == "pur_") {
-    action_name = "purged";
-    result = RecordingsManager::PurgeRecording(rec_id, &name);
-  } else if (action_id == "res_") {
-    action_name = "restored";
-    result = RecordingsManager::RestoreRecording(rec_id, &name);
-  }
-  switch (result) {
-    case 0: dsyslog2("in action.ecpp, sucessfully ", action_name, " recording ID ", rec_id, " name ", name);
-            break;
-    case 1: error_message = tr("Couldn't find recording or no recordings available."); break;
-    case 2: error_message = tr("Attempt to delete recording currently in playback."); break;
-    case 3: error_message = "other error"; break;
-    case 4: error_message = "unknown action ID"; break;
-    default: break;
-  }
+  std::string message;
+  int result = confirm->perform_action(id, message);
   if (result != 0)
-    esyslog2("in action.ecpp, rec_id = ", rec_id, " action_id = ", action_id, " error_message = ", error_message);
+    esyslog2("in action.ecpp, id = ", id, " error_message = ", message);
+  else
+    dsyslog2("in action.ecpp, id = ", id, " message = ", message);
 
+  bool ajaxReq = !async.empty() && (parse_int<int>(async) != 0);
   if (!ajaxReq) {
+    std::string referrer = request.getHeader("Referer:");
     if (!referrer.empty() && referrer.find("login") == std::string::npos) {
       return reply.redirect(referrer);
     }
 </%cpp>
 <b>Result of Request:</b>
 <hr/>
-Action:    <$ action_name $><br/>
-Recording: <$ name $><br/>
+ID:        <$ id $><br/>
 Result:    <$ result==0?"success":"error" $><br/>
-Error:     <$ error_message $>
+Message:   <$ message $>
 <hr/>
 <%cpp>
   } else {
+reply.setContentType( "application/xml" );
 </%cpp>
-<& xmlresponse.ajax name=("action") pname=("recording") value=(name) result=(result==0) error=(error_message) &>
+<& xmlresponse.ajax name=("action") pname=("id") value=(id) result=(result==0) error=(result==0?std::string():message) &>
 <%cpp>
   }
 </%cpp>

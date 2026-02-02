@@ -1,10 +1,10 @@
 <%pre>
 
-#include <i18n.h>
+#include <live.h>
 
 using namespace vdrlive;
 
-std::string const XMLHEADER = "<?xml version=\"1.0\" encoding=\"" + LiveI18n().CharacterEncoding() + "\"?>";
+const char *XMLHEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
 </%pre>
 

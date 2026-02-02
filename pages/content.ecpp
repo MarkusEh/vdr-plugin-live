@@ -3,7 +3,6 @@
 
 #include <fstream>
 #include <setup.h>
-#include <filecache.h>
 #include <tntfeatures.h>
 #include <vdr/channels.h>
 #include <stringhelpers.h>

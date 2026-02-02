@@ -326,13 +326,16 @@ public:
   const_iterator begin() const { return m_timers.begin(); }
   iterator end() { return m_timers.end(); }
   const_iterator end() const { return m_timers.end(); }
-  SearchTimer* GetByTimerId( std::string const& id );
+  SearchTimer* GetByTimerId(cSv id);
   bool ToggleActive(std::string const& id);
-  bool Delete(std::string const& id);
+  bool Delete(cSv id);
   void TriggerUpdate();
 private:
   TimerList m_timers;
 };
+
+std::string SearchTimers_DeleteConfirmationQuestion(cSv id);
+int SearchTimers_DeleteSearchTimer(cSv id, std::string &message);
 
 class Blacklist
 {

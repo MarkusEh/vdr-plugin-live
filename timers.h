@@ -67,6 +67,8 @@ template<std::size_t N>
       void StoreError( timerStruct const& timerData, std::string const& error );
       std::string GetError( timerStruct const& timerData );
   };
+  std::string TimerManager_DeleteConfirmationQuestion(cSv id);
+  int TimerManager_DeleteTimer(cSv id, std::string &message);
 
 } // namespace vdrlive
 

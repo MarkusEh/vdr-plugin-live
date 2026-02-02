@@ -95,6 +95,17 @@ namespace vdrlive {
 #endif
       return nullptr;
     }
+    const char *RecordingsManager::GetNameByHash(cSv hash) {
+      LOCK_RECORDINGS_READ;
+#if VDRVERSNUM >= 20708
+      LOCK_DELETEDRECORDINGS_READ;
+      const cRecording *recording = RecordingsManager::GetByHash(hash, Recordings, DeletedRecordings);
+#else
+      const cRecording *recording = RecordingsManager::GetByHash(hash, Recordings);
+#endif
+      if (recording == nullptr) return nullptr;
+      return recording->Name();
+    }
 
     RecordingsItemRec* const RecordingsManager::GetByIdHash(cSv hash, bool *deleted)
     {
@@ -281,6 +292,32 @@ namespace vdrlive {
       }
       return result?0:3;
     }
+    std::string RecordingsManager_DeleteConfirmationQuestion(cSv hash) {
+      const char *name = RecordingsManager::GetNameByHash(hash);
+      if (name) return std::string(cToSvFormatted(tr("Delete recording \"%s\"?"), name));
+      return tr("Delete recording [recording name unavailable]?");
+    }
+    std::string RecordingsManager_RestoreConfirmationQuestion(cSv hash) {
+      const char *name = RecordingsManager::GetNameByHash(hash);
+      if (name) return std::string(cToSvFormatted(tr("Restore recording \"%s\"?"), name));
+      return tr("Restore recording [recording name unavailable]?");
+    }
+    std::string RecordingsManager_PurgeConfirmationQuestion(cSv hash) {
+      const char *name = RecordingsManager::GetNameByHash(hash);
+      if (name) return std::string(cToSvFormatted(tr("Permanently delete recording \"%s\"?"), name));
+      return tr("Permanently delete recording [recording name unavailable]?");
+    }
+    int RecordingsManager_DeleteRecording(cSv hash, std::string &message) {
+      std::string name;
+      int result = RecordingsManager::DeleteRecording(hash, &name);
+      switch (result) {
+        case 0: message = concat("Sucessfully deleted recording ID ", hash, " name ", name); break;
+        case 1: message = concat("Error deleting recording: Couldn't find recording ID ", hash); break;
+        case 2: message = concat("Error deleting recording: Couldn't set timer to inactive, recording ID ", hash); break;
+        default: message = concat("Error deleting recording: other errror, recording ID ", hash); break;
+      }
+      return result;
+    }
     int RecordingsManager::RestoreRecording(cSv recording_hash, std::string *name)
     {
 #if VDRVERSNUM >= 20708
@@ -301,6 +338,16 @@ namespace vdrlive {
       return 5;
 #endif
     }
+    int RecordingsManager_RestoreRecording(cSv hash, std::string &message) {
+      std::string name;
+      int result = RecordingsManager::RestoreRecording(hash, &name);
+      switch (result) {
+        case 0: message = concat("Sucessfully restored recording ID ", hash, " name ", name); break;
+        case 1: message = concat("Error restoring recording: Couldn't find recording ID ", hash); break;
+        default: message = concat("Error restoring recording: other errror, recording ID ", hash); break;
+      }
+      return result;
+    }
     int RecordingsManager::PurgeRecording(cSv recording_hash, std::string *name)
     {
 #if VDRVERSNUM >= 20708
@@ -318,6 +365,16 @@ namespace vdrlive {
 #else
       return 5;
 #endif
+    }
+    int RecordingsManager_PurgeRecording(cSv hash, std::string &message) {
+      std::string name;
+      int result = RecordingsManager::PurgeRecording(hash, &name);
+      switch (result) {
+        case 0: message = concat("Sucessfully purged recording ID ", hash, " name ", name); break;
+        case 1: message = concat("Error purging recording: Couldn't find recording ID ", hash); break;
+        default: message = concat("Error purging recording: other errror, recording ID ", hash); break;
+      }
+      return result;
     }
 
     int RecordingsManager::GetArchiveType(cRecording const * recording)

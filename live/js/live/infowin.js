@@ -231,7 +231,7 @@ var InfoWin = new Class({
         var confirm_del = this.winBody.getElementById('confirm_' + id);
         if (confirm_del) {
           let action_id = id.substring(0, 4);
-          if (action_id == "del_" || action_id == "pur_" || action_id == "res_") {
+          if (action_id == "del_" || action_id == "pur_" || action_id == "res_" || action_id == "det_" || action_id == "des_") {
             confirm_del.onclick = null;
             confirm_del.addEvent('click', async function(event) {
                 var err = await execute('action.html?id=' + id);

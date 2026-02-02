@@ -391,11 +391,12 @@ bool SearchTimers::Save(SearchTimer* searchtimer)
   }
 }
 
-SearchTimer* SearchTimers::GetByTimerId( std::string const& id )
+SearchTimer* SearchTimers::GetByTimerId(cSv id)
 {
+  int id_i = parse_int<int>(id);
   for (SearchTimers::iterator timer = m_timers.begin(); timer != m_timers.end(); ++timer)
-    if (timer->Id() == parse_int<int>(id)) return &*timer;
-  return NULL;
+    if (timer->Id() == id_i) return &*timer;
+  return nullptr;
 }
 
 bool SearchTimers::ToggleActive(std::string const& id)
@@ -406,7 +407,7 @@ bool SearchTimers::ToggleActive(std::string const& id)
   return Save(search);
 }
 
-bool SearchTimers::Delete(std::string const& id)
+bool SearchTimers::Delete(cSv id)
 {
   SearchTimer* search = GetByTimerId( id );
   if (!search) return false;
@@ -418,6 +419,32 @@ bool SearchTimers::Delete(std::string const& id)
   if (service.handler->DelSearchTimer(parse_int<int>( id )))
     return Reload();
   return false;
+}
+
+std::string SearchTimers_DeleteConfirmationQuestion(cSv id) {
+
+  SearchTimers searchTimers;
+  SearchTimer* search = searchTimers.GetByTimerId(id);
+  if (!search) return tr("Delete search timer [search timer name unavailable]?");
+  return std::string(cToSvFormatted(tr("Delete search timer \"%s\"?"), search->Search().c_str()  ));
+}
+
+int SearchTimers_DeleteSearchTimer(cSv id, std::string &message) {
+
+  SearchTimers searchTimers;
+  SearchTimer* search = searchTimers.GetByTimerId(id);
+  if (!search) {
+    message = concat("Error deleting search timer: Couldn't find search timer ID ", id);
+    return 1;
+  }
+  std::string name = search->Search();
+  bool res = searchTimers.Delete(id);
+  if (!res) {
+    message = concat("Error deleting search timer ID ", id, " name ", name);
+    return 2;
+  }
+  message = concat("Sucessfully deleted search timer ID ", id, " name ", name);
+  return 0;
 }
 
 void SearchTimers::TriggerUpdate()

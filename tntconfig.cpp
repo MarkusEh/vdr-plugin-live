@@ -1,6 +1,5 @@
 #include "tntconfig.h"
 
-#include "i18n.h"
 #include "live.h"
 #include "setup.h"
 
@@ -355,11 +354,12 @@ namespace vdrlive {
 
 #if TNT_GLOBAL_TNTCONFIG
     tnt::TntConfig::it().sessionTimeout = 86400;
-    tnt::TntConfig::it().defaultContentType = std::string("text/html; charset=") + LiveI18n().CharacterEncoding();
+    tnt::TntConfig::it().defaultContentType = std::string("text/html; charset=UTF-8");
 #else
     tnt::Sessionscope::setDefaultTimeout(86400);
-    tnt::HttpReply::setDefaultContentType(std::string("text/html; charset=") + LiveI18n().CharacterEncoding());
+    tnt::HttpReply::setDefaultContentType(std::string("text/html; charset=UTF-8"));
 #endif
+//  dsyslog2("vdr's encoding: cCharSetConv::SystemCharacterTable() = ", cCharSetConv::SystemCharacterTable());
 
     Setup::IpList const& ips = LiveSetup().GetServerIps();
     int port = LiveSetup().GetServerPort();

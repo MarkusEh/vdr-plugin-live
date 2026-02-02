@@ -1,7 +1,6 @@
 <%pre>
 
 #include <setup.h>
-#include <filecache.h>
 #include <tntfeatures.h>
 #include <ffmpeg.h>
 #include <fstream>
