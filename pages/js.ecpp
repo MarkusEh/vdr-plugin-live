@@ -19,6 +19,21 @@ reply.setHeader (tnt::httpheader::contentType, "text/javascript; charset=utf-8",
 
 const regExLineBreak = /(<|&lt;)br\\/?(>|&gt;)/g
 
+function set_icons_closed(img_plus_minus, img_folder_symbol) {
+// input: images nodes
+// -> set the images to the closed state, indicating the folder is currently closed
+
+  img_plus_minus.src="<$ LiveSetup().GetThemedLinkPrefixImg()$>icon_overlay_plus.png";
+  img_folder_symbol.src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png";
+}
+function set_icons_open(img_plus_minus, img_folder_symbol) {
+// input: images nodes
+// -> set the images to the open state, indicating the folder is currently open
+
+  img_plus_minus.src="<$ LiveSetup().GetThemedLinkPrefixImg()$>icon_overlay_minus.png";
+  img_folder_symbol.src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_open.png";
+}
+
 function addErrorIcon(s, numErrors, durationDeviation, duration, numTsFiles) {
   if (numErrors <= -100) return
   s.a += '<div class=\"recording_errors\"><img class=\"icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>'
@@ -250,7 +265,7 @@ async function RecordingsSt_a(s, level, displayFolder, data) {
     });
     const new_recs = await response.text();
     eval(new_recs);
-    if (vdr_restart) {
+    if (vdr_restart || recordings_tree_re_created) {
       location.reload();
     } else {
       RecordingsSt_int(s, level, displayFolder, data);
@@ -352,7 +367,9 @@ function RecordingsSt_int(s, level, displayFolder, data) {
     if (level > 0) s.a +=
       '<td class="space"> <img src="img/transparent.png" style="width: calc(var(--icon-width, 16px) * ' + String(level) + '); height: var(--icon-height, 16px)" /></td>'
     s.a += '<td class="td-hidden-xs"><div class="hidden-xs recording_imgs">'
-    s.a += '<input type="checkbox" name="deletions<$TNT_ARRAY$>" value="recording_'
+    s.a += '<input type="checkbox" name="deletions<$TNT_ARRAY$>" id="cb_'
+    s.a += obj_i
+    s.a += '" value="recording_'
     s.a += obj[0]
     s.a += '" />'
     s.a += '</div></td>'  // end of recording_imgs

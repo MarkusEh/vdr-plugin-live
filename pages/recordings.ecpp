@@ -182,11 +182,8 @@ function addEventRec_r(s, eventid, title, folder, shortText, description) {
   addEventRec(s, 'recording_', eventid, http_params, title, folder, shortText, description)
 }
 </script>
+<script type="text/javascript" src="js/live/treeview.js"></script>
 
-  <script type="text/javascript" src="js/live/treeview.js"></script>
-  <script>
-  const tv = new Treeview("<$ LiveSetup().GetThemedLinkPrefixImg()$>icon_overlay_minus.png", "<$ LiveSetup().GetThemedLinkPrefixImg()$>icon_overlay_plus.png", "<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_open.png", "<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png");
-  </script>
 </head>
 <body onpagehide="saveScrollPosition('content')" onpageshow="restoreScrollPosition(); clearCheckboxes(document.getElementById('form_recordings'))">
   <& pageelems.logo &>
@@ -343,7 +340,12 @@ bool hasSubDirs = false;
 for (const RecordingsItemDirPtr &recItem: l_dir_iterator) {
 // this is the loop over the subdirs
 // each subdir is a node, which can be expanded (or not)
-// each subdir has an identifier in <ul> tag: fldr_<$ idHash $>
+// folder checkbox:          id="ca_<$ idHash $>", onchange="ToggleChecked(this, '<$ idHash $>')"
+// image with +/-:           id="pm_<$ idHash $>",  onclick="Toggle(this, '<$ idHash $>')"
+// image with folder symbol: id="fs_<$ idHash $>"
+// <ul items in folder:      id="<$ idHash $>   "  // recordings list
+
+// rec_ids["<$ parentIdHash $>"] = [<$level$>, <$displayFolder$>, [ <$$ *recording_item $> ]]
 
 // search trough directory for new recordings
   bool newR = false;
@@ -353,19 +355,24 @@ for (const RecordingsItemDirPtr &recItem: l_dir_iterator) {
   iRecItem = (uintptr_t)&recItem;
 </%cpp>
   <li class="recording">
-    <div class="recording_item" onclick = "tv.Toggle(this, 'fldr_<$ idHash $>')">
+    <div class="recording_item" onclick="click_folder_line(event, '<$ idHash $>')">
     <table><tr>
-      <%cpp> if(level > 0) { </%cpp>
+%     if(level > 0) {
         <td class = "space">
           <img src="img/transparent.png" style="width: calc(var(--icon-width, 16px) * <$ level $>); height: var(--icon-height, 16px)" />
         </td>
-      <%cpp> } </%cpp>
+%     }
+<#    <td class="td-hidden-xs"><div class="hidden-xs">
+        <input type="checkbox" id="ca_<$ idHash $>" disabled onchange="ToggleChecked(this, '<$ idHash $>')" />
+      </div></td>
+#>
       <td class="space">
-        <img class="iconic button recording-expander" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>icon_overlay_plus.png" />
-      </td><td class="space">
-        <img class="recording_folder" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png" />
+        <img class="iconic button recording-expander" id="pm_<$ idHash $>" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>icon_overlay_plus.png" <# onclick="Toggle(this, '<$ idHash $>')" #> />
       </td>
-%         if (!recItem->scraperImage().path.empty() ) {
+      <td class="space">
+        <img class="recording_folder" id="fs_<$ idHash $>" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png" />
+      </td>
+%     if (!recItem->scraperImage().path.empty() ) {
         <td class = space>
           <div class="thumb">
             <img data-src="/tvscraper/<$ recItem->scraperImage().path $>"
@@ -373,12 +380,12 @@ for (const RecordingsItemDirPtr &recItem: l_dir_iterator) {
             />
           </div>
         </td>
-%         }
-    <td class="recording_folder_name<$ (newR ? "_new" : "") $>">
-      <$ recItem->Name() $>
-    </td></tr></table>
+%     }
+      <td class="recording_folder_name<$ (newR ? "_new" : "") $>">
+        <$ recItem->Name() $>
+      </td></tr></table>
     </div>
-    <ul id="fldr_<$ idHash $>" class="recordingslist" style="display: none;">
+    <ul id="<$ idHash $>" class="recordingslist" style="display: none;">
       <& recordings.recordings_item iRecItem=(iRecItem) irecording_item=(irecording_item) parentIdHash=(idHash) iOpenTreeNodes=(iOpenTreeNodes) &>
     </ul>
   </li>
@@ -423,17 +430,17 @@ recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
     if (!hasSubDirs) {
       </%cpp>
       <script>
-        rec_ids["fldr_<$ parentIdHash $>"] = []
+        rec_ids["<$ parentIdHash $>"] = []
         document.write(
           '<li class="recording">' +
             '<table class="recordings" width="100%">' +
               '<tbody>' +
                 '<tr class="recording_item">' +
-                <%cpp> if(level > 0) { </%cpp>
+%               if(level > 0) {
                   '<td class = "space">' +
                     '<img src="img/transparent.png" style="width: calc(var(--icon-width, 16px) * <$ level $>); height: var(--icon-height, 16px)" />' +
                   '</td>' +
-                <%cpp> } </%cpp>
+%               }
                   '<td class="message"><$ tr("No matching recordings found") $></td>' +
                 '</tr>' +
               '</tbody>' +
@@ -453,7 +460,7 @@ recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
 %   if (level == 0) {
         document.write(rec_string_d([<$level$>, <$displayFolder$>, [ <$$ *recording_item $> ]]))
 %   } else if (!parentIdHash.empty()) {
-        rec_ids["fldr_<$ parentIdHash $>"] = [<$level$>, <$displayFolder$>, [ <$$ *recording_item $> ]]
+        rec_ids["<$ parentIdHash $>"] = [<$level$>, <$displayFolder$>, [ <$$ *recording_item $> ]]
 %   }
       </script>
     <%cpp>

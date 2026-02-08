@@ -994,7 +994,9 @@ div.info-win.aboutBox {
   min-width: calc(3 * var(--margin-left-right) + 2 * var(--margin-left-right) + 2 * var(--infowin-label-width) + 15px );
 }
 
-div.info-win.info-del {
+div.info-win.info-del,
+div.info-win.info-des,
+div.info-win.info-det {
   min-width: calc(3 * var(--margin-left-right) + 2 * var(--infowin-body-margin) + 2 * var(--infowin-label-width) + 15px );
   min-height: calc(var(--infowin-title-height) + 2 * var(--text-line-height) + 7 * var(--margin-top-bottom));
 }
@@ -1076,7 +1078,9 @@ img.iconic.button.recording-expander:hover, /* for the tree view */
   border-bottom: none;
 }
 
-.info-win.info-del .info-win-body {
+.info-win.info-del .info-win-body,
+.info-win.info-des .info-win-body,
+.info-win.info-det .info-win-body {
   min-height: calc(var(--button-height) + 4 * var(--margin-top-bottom));
 }
 

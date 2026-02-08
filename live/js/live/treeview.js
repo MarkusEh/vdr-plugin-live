@@ -8,125 +8,173 @@
 // --- Version: 0.3          Date: 14-6-2017  --
 // ---------------------------------------------
 
-function findSibling(node, name)
-{
-  while ((node.nextSibling.nodeType != Node.ELEMENT_NODE)
-         || (node.nextSibling.nodeName != name)) {
-    node = node.nextSibling;
-  }
-  if (node.nextSibling.nodeName == name)
-    return node.nextSibling;
+function set_folder_closed(rec_list) {
+  const fldr_hash = rec_list.id;
+  uncheck_all(rec_list);
+  updateCookieOnCollapse(fldr_hash);
 
-  return null;
+  const folder_symbol_element=document.getElementById('fs_'+fldr_hash);
+//folder_symbol_element.setAttribute("onClick", '');
+  set_icons_closed(document.getElementById('pm_'+fldr_hash), folder_symbol_element);
+
+//document.getElementById('ca_'+fldr_hash).disabled = true;
+  rec_list.style.display = 'none';
 }
+async function set_folder_open(rec_list) {
+// return true in case of a dom change
+  const fldr_hash = rec_list.id;
+  updateCookieOnExpand(fldr_hash);
 
-function findChildNode(node, className)
-{
-  for (idx = 0; idx < node.childNodes.length; idx++) {
-    n = node.childNodes.item(idx);
-    if (n.classList.contains(className)) return n;
-  }
-  return null;
-}
+  var dom_changed = false;
 
-function setImages(node, expand, folder)
-{
-// input: the div class = recording_item node
-// Change the images (if there is an image)
-  const expandNodes = node.getElementsByClassName("recording-expander");
-  if (expandNodes.length > 0)
-    expandNodes[0].src = expand;
-  const folderNodes = node.getElementsByClassName("recording_folder");
-  if (folderNodes.length > 0)
-    folderNodes[0].src = folder;
-}
-
-class Treeview {
-  constructor(minus, plus, folder_open, folder_closed) {
-    this.minus = minus;
-    this.plus = plus;
-    this.folder_open = folder_open;
-    this.folder_closed = folder_closed;
-  }
-
-  async Toggle(node, node_id) {
-// Unfold the branch if it isn't visible
-    const sibling = findSibling(node, "UL");
-    if (sibling == null) return;
-
-    if (sibling.style.display == 'none') {
-      setImages(node, this.minus, this.folder_open);
-      if (rec_ids[node_id] != null && rec_ids[node_id].length > 0) {
-        sibling.insertAdjacentHTML("beforeend", await rec_string_d_a(rec_ids[node_id]));
-          rec_ids[node_id] = [];
-          if (typeof liveEnhanced !== 'undefined') liveEnhanced.domReadySetup();
-        imgLoad();
+  const rec_id = rec_ids[fldr_hash];
+  if (rec_id != null && rec_id.length >= 3 && rec_id[1] != 2) {
+    for (var rec of rec_id[2]) {
+      const cb=document.getElementById("cb_"+rec);
+      if (cb == null) {
+        dom_changed = true;
+        break;
       }
-      sibling.style.display = 'revert-layer';
-      updateCookieOnExpand( sibling.id );
     }
-    else
-    {
-// Collapse the branch if it IS visible
-      updateCookieOnCollapse( sibling.id );
-      setImages(node, this.plus, this.folder_closed);
-      sibling.style.display = 'none';
+    if (dom_changed) {
+      rec_list.insertAdjacentHTML("beforeend", await rec_string_d_a(rec_id));
     }
+    rec_id[1] = 2;
+  }
+
+  const folder_symbol_element=document.getElementById('fs_'+fldr_hash);
+//folder_symbol_element.setAttribute( "onClick", 'javascript: SetChecked("'+fldr_hash+'")');
+  set_icons_open(document.getElementById('pm_'+fldr_hash), folder_symbol_element);
+
+//document.getElementById('ca_'+fldr_hash).disabled = false;
+  rec_list.style.display = 'revert-layer';
+  return dom_changed;
+}
+
+function SetCheckboxValues(fldr_hash, value) {
+//document.getElementById('ca_'+fldr_hash).checked = value;
+
+  if (rec_ids[fldr_hash] == null || rec_ids[fldr_hash].length < 3) return;
+  for (var item of rec_ids[fldr_hash][2]) {
+    const cb=document.getElementById("cb_"+item);
+    if (cb != null) cb.checked=value;
+  }
+}
+function uncheck_all(rec_list)
+{
+  SetCheckboxValues(rec_list.id, false);
+  for (var recordingNode of rec_list.getElementsByClassName("recordingslist") ) {
+    SetCheckboxValues(recordingNode.id, false);
   }
 }
 
+async function click_folder_line (e, fldr_hash) {
+//alert('click_folder_line, currentTarget='+e.currentTarget.id+' target='+e.target.id+' fldr_hash='+fldr_hash);
+//alert('click_folder_line, target='+e.target.id+' fldr_hash='+fldr_hash);
+
+  const rec_list = document.getElementById(fldr_hash);
+  if (rec_list == null) return;
+
+  if (rec_list.style.display == 'none') {
+    if (await set_folder_open(rec_list) ) {
+      if (typeof liveEnhanced !== 'undefined') liveEnhanced.domReadySetup();
+      imgLoad();
+    }
+  } else {
+    if ('fs_'+fldr_hash == e.target.id) {
+// click on open folder symbol -> select all recordings in this folder
+      SetCheckboxValues(fldr_hash, true);
+    } else {
+// Collapse the branch if it IS visible
+      set_folder_closed(rec_list);
+    }
+  }
+}
+async function Toggle(node, fldr_hash) {
+// Unfold the branch if it isn't visible
+  alert("Toggle, fldr_hash="+fldr_hash);
+  const rec_list = document.getElementById(fldr_hash);
+  if (rec_list == null) return;
+
+  if (rec_list.style.display == 'none') {
+    if (await set_folder_open(rec_list) ) {
+      if (typeof liveEnhanced !== 'undefined') liveEnhanced.domReadySetup();
+      imgLoad();
+    }
+  } else {
+// Collapse the branch if it IS visible
+    set_folder_closed(rec_list);
+  }
+}
+function ToggleChecked(node, fldr_hash) {
+// If unchecked,   check all items.
+// If   checked, uncheck all items.
+  const rec_list = document.getElementById(fldr_hash);
+  if (rec_list == null) return;
+
+  if (rec_list.style.display == 'none') return;
+  SetCheckboxValues(fldr_hash, node.checked);
+}
+
+function SetChecked(fldr_hash) {
+// check all items.
+  const rec_list = document.getElementById(fldr_hash);
+  if (rec_list == null) return;
+
+  if (rec_list.style.display == 'none') return;
+  SetCheckboxValues(fldr_hash, true);
+}
 function updateCookieOnExpand( id )
 {
-  var openNodes = readCookie( cookieNameRec );
+  var openNodes = readCookie(cookieNameRec);
   if (openNodes == null || openNodes == "")
     openNodes = id;
-  else
+  else {
+    for (var openNode of openNodes.split(",")) {
+      if (openNode === id) return;
+    }
     openNodes += "," + id;
-  createCookie( cookieNameRec, openNodes, 14 );
+  }
+  createCookie(cookieNameRec, openNodes, 14);
 }
 
-function updateCookieOnCollapse( id )
+function updateCookieOnCollapse(id)
 {
-let openNodes = readCookie( cookieNameRec );
+let openNodes = readCookie(cookieNameRec);
 if (openNodes != null)
   openNodes = openNodes.split(",");
 else
   openNodes = [];
-for (var z=0; z<openNodes.length; z++){
+for (var z=0; z<openNodes.length; z++) {
   if (openNodes[z] === id){
     openNodes.splice(z,1);
     break;
   }
 }
 openNodes = openNodes.join(",");
-createCookie( cookieNameRec, openNodes, 14 );
+createCookie(cookieNameRec, openNodes, 14);
 }
 
 async function openNodesOnPageLoad()
 {
-let openNodes = readCookie(cookieNameRec);
-if (openNodes != null && openNodes !== "")
-  openNodes = openNodes.split(",");
-else
-  openNodes = [];
-let domChanges = 0;
-for (let z=0; z<openNodes.length; z++){
-  if (!openNodes[z]) continue;  // otherwise throws error for level 0
-  let ul = document.getElementById(openNodes[z]);
-  if (ul){
-    ul.style.display = 'revert-layer';
-    if (rec_ids[openNodes[z]] != null && rec_ids[openNodes[z]].length > 0) {
-      ul.insertAdjacentHTML("beforeend", await rec_string_d_a(rec_ids[openNodes[z]]));
-      rec_ids[openNodes[z]] = [];
-      domChanges = 1;
-    }
-    let divRecItem = ul.parentNode.children[0]
-    if (divRecItem != null)
-      setImages(divRecItem, "img/icon_overlay_minus.png", "img/folder_open.png");
+  let openNodes = readCookie(cookieNameRec);
+  if (openNodes != null && openNodes !== "")
+    openNodes = openNodes.split(",");
+  else
+    openNodes = [];
+  let domChanges = 0;
+  for (var openNode of openNodes) {
+    const rec_id = rec_ids[openNode];
+//  if (!openNode) continue;  // otherwise throws error for level 0
+    const rec_list = document.getElementById(openNode);
+    if (rec_list == null) continue;
+    if (await set_folder_open(rec_list) ) domChanges = 1;
   }
-}
-if (domChanges == 1 && typeof liveEnhanced !== 'undefined') liveEnhanced.domReadySetup();
-imgLoad();
+  if (domChanges == 1 && typeof liveEnhanced !== 'undefined') liveEnhanced.domReadySetup();
+  for (var openNode of openNodes) {
+    const rec_id = rec_ids[openNode];
+  }
+  imgLoad();
 }
 
 function getElementsByNodeNameClassName(elementd, nodeName, className) {
@@ -149,31 +197,16 @@ function deletedRecordings(recycle_bin, currentSort, currentFilter)
     window.location.href = "recordings.html?sort=" + currentSort + "&flat=true&filter=" + currentFilter + "&recycle_bin=0";
   }
 }
+
 async function ExpandAll()
 {
-  var openNodes = "";
   var domChanges = 0;
   recordingNodes = getElementsByNodeNameClassName(window.document, 'UL', "recordingslist");
   for (idx = 0; idx < recordingNodes.length; idx++) {
     if (recordingNodes[idx].parentNode.className != 'recordings') {
-      recordingNodes[idx].style.display = 'revert-layer';
-      openNodes += recordingNodes[idx].id + ",";
-      if (rec_ids[recordingNodes[idx].id] != null && rec_ids[recordingNodes[idx].id].length > 0) {
-        recordingNodes[idx].insertAdjacentHTML("beforeend", await rec_string_d_a(rec_ids[recordingNodes[idx].id]));
-        rec_ids[recordingNodes[idx].id] = [];
-        domChanges = 1;
-      }
+      if (await set_folder_open(recordingNodes[idx]) ) domChanges = 1;
     }
   }
-  expandNodes = getElementsByNodeNameClassName(window.document, 'IMG', 'recording-expander');
-  for (idx = 0; idx < expandNodes.length; idx++) {
-    expandNodes[idx].src = "img/icon_overlay_minus.png";
-  }
-  folderNodes = getElementsByNodeNameClassName(window.document, 'IMG', 'recording_folder');
-  for (idx = 0; idx < folderNodes.length; idx++) {
-    folderNodes[idx].src = "img/folder_open.png";
-  }
-  createCookie( cookieNameRec, openNodes, 14 );
   if (domChanges == 1 && typeof liveEnhanced !== 'undefined') liveEnhanced.domReadySetup();
   if (domChanges == 1) imgLoad();
 }
@@ -182,16 +215,8 @@ function CollapseAll()
   recordingNodes = getElementsByNodeNameClassName(window.document, 'UL', "recordingslist");
   for (idx = 0; idx < recordingNodes.length; idx++) {
     if (recordingNodes[idx].parentNode.className != 'recordings') {
-      recordingNodes[idx].style.display = 'none';
+      set_folder_closed(recordingNodes[idx]);
     }
-  }
-  expandNodes = getElementsByNodeNameClassName(window.document, 'IMG', 'recording-expander');
-  for (idx = 0; idx < expandNodes.length; idx++) {
-    expandNodes[idx].src = "img/icon_overlay_plus.png";
-  }
-  folderNodes = getElementsByNodeNameClassName(window.document, 'IMG', 'recording_folder');
-  for (idx = 0; idx < folderNodes.length; idx++) {
-    folderNodes[idx].src = "img/folder_closed.png";
   }
   eraseCookie( cookieNameRec );
 }

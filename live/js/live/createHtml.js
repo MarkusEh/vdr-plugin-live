@@ -246,29 +246,6 @@ function back_depending_referrer(back_epginfo, back_others) {
     history.go(-back_others);
   }
 }
-function RecordingsSt(s, level, displayFolder, data) {
-  var recs_param =  '';
-  for (obj_i of data) {
-    if (typeof recs[obj_i] === 'undefined') {
-      if (recs_param.length == 0) {
-        recs_param += 'r=';
-      } else {
-        recs_param += '&r=';
-      }
-      recs_param += obj_i;
-    }
-  }
-  if (recs_param.length == 0) {
-    RecordingsSt_int(s, level, displayFolder, data);
-  } else {
-    const request = new XMLHttpRequest();
-    request.open("POST", "get_recordings.html", false);
-    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    request.send(recs_param);
-    eval(request.response);
-    RecordingsSt_int(s, level, displayFolder, data);
-  }
-}
 async function rec_string_d_a(rec_ids) {
   const st = Object.create(null)
   st.a = ""

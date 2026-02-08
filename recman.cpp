@@ -472,15 +472,20 @@ namespace vdrlive {
     {
       // will return true only, if the Recordings List has been changed since last read
       bool rec_changed = (cRecordings::GetRecordingsRead(m_recordingsStateKey) != nullptr);
-      if (rec_changed) m_recordingsStateKey.Remove();
+      if (rec_changed) {
+        m_recordingsStateKey.Remove();
+        dsyslog2("VDR recordings changed");
+      }
 
 #if VDRVERSNUM >= 20708
       bool del_rec_changed = (cRecordings::GetDeletedRecordingsRead(m_deletedRecordingsStateKey) != nullptr);
-      if (del_rec_changed) m_deletedRecordingsStateKey.Remove();
-      return rec_changed || del_rec_changed;
-#else
-      return rec_changed;
+      if (del_rec_changed) {
+        m_deletedRecordingsStateKey.Remove();
+        dsyslog2("VDR deleted recordings changed");
+        return true;
+      }
 #endif
+      return rec_changed;
     }
 
     void update_all_recordings();
@@ -501,6 +506,7 @@ namespace vdrlive {
       cGetScraperUpdateTimes scraperUpdateTimes;
       if (scraperUpdateTimes.call(LiveSetup().GetPluginTvscraper()) )
         scraperChanged = scraperUpdateTimes.m_recordingsUpdateTime > m_last_recordings_update;
+      if (scraperChanged) dsyslog2("tvscraper data changed, scraperUpdateTimes.m_recordingsUpdateTime = ", scraperUpdateTimes.m_recordingsUpdateTime, " m_last_recordings_update = ", m_last_recordings_update);
 
       if (stateChanged || all_recordings[(int)(RecordingsManager::eSortOrder::id)][0].empty() ) update_all_recordings();
       if (scraperChanged) update_all_recordings_scraper();
