@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 16:03+0100\n"
+"POT-Creation-Date: 2026-02-10 08:33+0100\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Javier Bradineras <jbradi@hotmail.com>\n"
 "Language-Team: see developers in README\n"
@@ -15,6 +15,27 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#, c-format
+msgid "Delete recording \"%s\"?"
+msgstr ""
+
+msgid "Delete recording [recording name unavailable]?"
+msgstr ""
+
+#, c-format
+msgid "Restore recording \"%s\"?"
+msgstr ""
+
+msgid "Restore recording [recording name unavailable]?"
+msgstr ""
+
+#, c-format
+msgid "Permanently delete recording \"%s\"?"
+msgstr ""
+
+msgid "Permanently delete recording [recording name unavailable]?"
+msgstr ""
 
 msgid "On archive DVD No."
 msgstr "En archivo DVD número"
@@ -127,6 +148,13 @@ msgstr "Programación ya definida"
 msgid "Timer not defined"
 msgstr "Programación no definida"
 
+#, c-format
+msgid "Delete timer \"%s\"?"
+msgstr ""
+
+msgid "Delete timer [timer name unavailable]?"
+msgstr ""
+
 msgid "Required minimum version of epgsearch: "
 msgstr "Versión mínima de epgsearch requerida: "
 
@@ -139,6 +167,13 @@ msgstr "FTA"
 msgid "EPGSearch version outdated! Please update."
 msgstr "¡Versión de EPGSearch antigua!. Por favor actualice"
 
+msgid "Delete search timer [search timer name unavailable]?"
+msgstr ""
+
+#, c-format
+msgid "Delete search timer \"%s\"?"
+msgstr ""
+
 msgid "Timer conflict check detected "
 msgstr "Detectados conflictos de programaciones"
 
@@ -150,12 +185,6 @@ msgstr "conflictos"
 
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Lo siento, no tiene permiso. ¡Por favor contacte con su administrador!"
-
-msgid "Couldn't find recording or no recordings available."
-msgstr "No se puede encontrar la grabación o grabaciones no disponibles"
-
-msgid "Attempt to delete recording currently in playback."
-msgstr "Intentar borrar la grabación que se está reproduciendo"
 
 msgid "Please set a name for the recording!"
 msgstr "¡Por favor, introduzca un nombre para la grabación!"
@@ -577,20 +606,14 @@ msgstr "Editar grabaciones"
 msgid "Electronic program guide information"
 msgstr "Información de la Guía Electrónica de Programación (EPG)"
 
-msgid "Delete recording"
-msgstr ""
-
-msgid "Restore recording"
-msgstr ""
-
-msgid "Permanently delete recording"
-msgstr ""
-
 msgid "Couldn't find recording or no recordings available"
 msgstr "No se puede encontrar la grabación o no hay programaciones disponibles"
 
 msgid "Page error"
 msgstr "Error en la página"
+
+msgid "Couldn't find recording or no recordings available."
+msgstr "No se puede encontrar la grabación o grabaciones no disponibles"
 
 msgid "Not playing a recording."
 msgstr "No se está reproduciendo una grabación"
@@ -659,6 +682,9 @@ msgid "Restore this recording"
 msgstr ""
 
 msgid "Permanently delete this recording? Warning: this cannot be undone!"
+msgstr ""
+
+msgid "Select all recordings in this folder"
 msgstr ""
 
 msgid "Wrong username or password"
@@ -997,18 +1023,6 @@ msgstr ""
 msgid "Permanently delete this recording"
 msgstr ""
 
-#, c-format
-msgid "Delete recording \"%s\"?"
-msgstr ""
-
-#, c-format
-msgid "Permanently delete recording \"%s\"?"
-msgstr ""
-
-#, c-format
-msgid "Restore recording \"%s\"?"
-msgstr ""
-
 msgid "Snapshot interval"
 msgstr "Intervalo de visionado"
 
@@ -1050,9 +1064,6 @@ msgstr "Cambiar acciones de la programación de búsqueda (in)activo"
 
 msgid "Browse search timer results"
 msgstr "Navegar por los resultados de la búsqueda"
-
-msgid "Delete this search timer?"
-msgstr "Borrar este programador de búsqueda"
 
 msgid "Delete search timer"
 msgstr "Borrar programador de búsqueda"
@@ -1208,9 +1219,6 @@ msgstr ""
 msgid "Timer is recording"
 msgstr "La programación se está grabando."
 
-msgid "Delete this timer?"
-msgstr ""
-
 msgid "Users"
 msgstr "Usuarios"
 
@@ -1249,6 +1257,21 @@ msgstr "Ver lista"
 
 msgid "Live Interactive VDR Environment"
 msgstr "Entorno interactivo de Live VDR"
+
+msgid "Delete recording"
+msgstr ""
+
+msgid "Restore recording"
+msgstr ""
+
+msgid "Permanently delete recording"
+msgstr ""
+
+#~ msgid "Attempt to delete recording currently in playback."
+#~ msgstr "Intentar borrar la grabación que se está reproduciendo"
+
+#~ msgid "Delete this search timer?"
+#~ msgstr "Borrar este programador de búsqueda"
 
 #~ msgid "Ignore missing EPG info"
 #~ msgstr "Ignorar EPG sin información"

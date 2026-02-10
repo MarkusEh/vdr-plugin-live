@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 16:03+0100\n"
+"POT-Creation-Date: 2026-02-10 08:33+0100\n"
 "PO-Revision-Date: 2013-06-21 20:15+0200\n"
 "Last-Translator: Dmitrii Kiselev <wm.amid@gmail.com>\n"
 "Language-Team: see developers in README\n"
@@ -15,6 +15,27 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#, c-format
+msgid "Delete recording \"%s\"?"
+msgstr ""
+
+msgid "Delete recording [recording name unavailable]?"
+msgstr ""
+
+#, c-format
+msgid "Restore recording \"%s\"?"
+msgstr ""
+
+msgid "Restore recording [recording name unavailable]?"
+msgstr ""
+
+#, c-format
+msgid "Permanently delete recording \"%s\"?"
+msgstr ""
+
+msgid "Permanently delete recording [recording name unavailable]?"
+msgstr ""
 
 msgid "On archive DVD No."
 msgstr "В архиве на DVD No."
@@ -127,6 +148,13 @@ msgstr "Таймер установлен"
 msgid "Timer not defined"
 msgstr "Таймер не установлен"
 
+#, c-format
+msgid "Delete timer \"%s\"?"
+msgstr ""
+
+msgid "Delete timer [timer name unavailable]?"
+msgstr ""
+
 msgid "Required minimum version of epgsearch: "
 msgstr "Минимальный требования к версии EPGSearch: "
 
@@ -139,6 +167,13 @@ msgstr "Открытые"
 msgid "EPGSearch version outdated! Please update."
 msgstr "Версия EPGSearch устарела! Пожалуйста обновите EPGSearch. "
 
+msgid "Delete search timer [search timer name unavailable]?"
+msgstr ""
+
+#, c-format
+msgid "Delete search timer \"%s\"?"
+msgstr ""
+
 msgid "Timer conflict check detected "
 msgstr "Обнаружен конфликт таймеров"
 
@@ -150,12 +185,6 @@ msgstr "конфликты"
 
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Нет доступа, обратитесь к администратору! "
-
-msgid "Couldn't find recording or no recordings available."
-msgstr "Запись не найдена или более недоступна."
-
-msgid "Attempt to delete recording currently in playback."
-msgstr ""
 
 msgid "Please set a name for the recording!"
 msgstr "Пожалуйста присвойте имя записи!"
@@ -577,20 +606,14 @@ msgstr "Изменять запись"
 msgid "Electronic program guide information"
 msgstr "Информация телегида"
 
-msgid "Delete recording"
-msgstr ""
-
-msgid "Restore recording"
-msgstr ""
-
-msgid "Permanently delete recording"
-msgstr ""
-
 msgid "Couldn't find recording or no recordings available"
 msgstr "Запись не найдена или недоступна"
 
 msgid "Page error"
 msgstr "Ошибка страницы"
+
+msgid "Couldn't find recording or no recordings available."
+msgstr "Запись не найдена или более недоступна."
 
 msgid "Not playing a recording."
 msgstr "Запись не проигрывается."
@@ -659,6 +682,9 @@ msgid "Restore this recording"
 msgstr ""
 
 msgid "Permanently delete this recording? Warning: this cannot be undone!"
+msgstr ""
+
+msgid "Select all recordings in this folder"
 msgstr ""
 
 msgid "Wrong username or password"
@@ -997,18 +1023,6 @@ msgstr "Свернуть все папки"
 msgid "Permanently delete this recording"
 msgstr ""
 
-#, c-format
-msgid "Delete recording \"%s\"?"
-msgstr ""
-
-#, c-format
-msgid "Permanently delete recording \"%s\"?"
-msgstr ""
-
-#, c-format
-msgid "Restore recording \"%s\"?"
-msgstr ""
-
 msgid "Snapshot interval"
 msgstr "Интервал между снимками"
 
@@ -1050,9 +1064,6 @@ msgstr "Включить поисковый таймер"
 
 msgid "Browse search timer results"
 msgstr "Просмотреть результаты поискового таймера"
-
-msgid "Delete this search timer?"
-msgstr "Удалить этот поисковый таймер?"
 
 msgid "Delete search timer"
 msgstr "Удалить поисковый таймер"
@@ -1208,9 +1219,6 @@ msgstr ""
 msgid "Timer is recording"
 msgstr "Таймер записывает."
 
-msgid "Delete this timer?"
-msgstr ""
-
 msgid "Users"
 msgstr "Пользователь"
 
@@ -1249,6 +1257,18 @@ msgstr "Список"
 
 msgid "Live Interactive VDR Environment"
 msgstr ""
+
+msgid "Delete recording"
+msgstr ""
+
+msgid "Restore recording"
+msgstr ""
+
+msgid "Permanently delete recording"
+msgstr ""
+
+#~ msgid "Delete this search timer?"
+#~ msgstr "Удалить этот поисковый таймер?"
 
 #~ msgid "Ignore missing EPG info"
 #~ msgstr "Игнорировать отсутствие информации телегида"

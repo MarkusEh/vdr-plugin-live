@@ -70,6 +70,7 @@ namespace vdrlive {
       static inline cStateKey m_recordingsStateKey;
       static inline cStateKey m_deletedRecordingsStateKey;
       static inline time_t m_last_recordings_update = 0;
+      static inline time_t m_last_recordings_update_check = 0;
     public:
       static inline std::vector<RecordingsItemDirPtr> dirs_dummy;
       static inline std::vector<RecordingsItemRec*> all_recordings[(int)(eSortOrder::list_end)][2];
@@ -296,12 +297,12 @@ namespace vdrlive {
 
       bool matches_filter() const; // true if name or short text or descr. match regex of global filter
       bool matches_regex(const std::regex *reg = nullptr) const; // true if name or short text or descr. match regex
-      void updateScraperDataIfStillRecording(const cRecording *recording);
+      bool updateScraperDataIfStillRecording(const cRecording *recording);
 
     private:
       void getScraperData();
       void getScraperData(const cRecording *recording);
-      void updateScraperData(const cRecording *recording);
+      bool updateScraperData(const cRecording *recording);
       int get_SD_HD(const cRecordingInfo *info);
       const cTvMedia &scraperImage() const;
       int CompareTexts(const RecordingsItemRec    *second, int *numEqualChars=NULL) const;

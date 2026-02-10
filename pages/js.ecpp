@@ -450,3 +450,7 @@ function RecordingsSt_int(s, level, displayFolder, data) {
   }
   s.a += '</table></div></li>'
 }
+
+function get_text_Select_all_recordings_in_this_folder() {
+  return '<$ tr("Select all recordings in this folder") $>';
+}

@@ -488,19 +488,23 @@ namespace vdrlive {
       return rec_changed;
     }
 
-    void update_all_recordings();
-    void update_all_recordings(const cRecordings* Recordings, int recycle_bin);
+    bool update_all_recordings();
+    bool update_all_recordings(const cRecordings* Recordings, int recycle_bin);
     void update_all_recordings_scraper();
     void update_all_recordings_scraper(const cRecordings* Recordings, int recycle_bin);
 
     void RecordingsManager::EnsureValidData()
   // ensure m_recTree is up to date
     {
-      if (m_last_recordings_update + 1 > time(NULL) ) return; // don't update too often
+      if (m_last_recordings_update_check + 4 > time(NULL) ) return; // don't update too often
 
       // StateChanged must be executed every time, so not part of
       // the short cut evaluation in the if statement below.
       bool stateChanged = StateChanged();
+      if (stateChanged || all_recordings[(int)(RecordingsManager::eSortOrder::id)][0].empty() ) {
+        stateChanged = update_all_recordings();
+        m_last_recordings_update_check = time(NULL);
+      }
   // check: changes on scraper data?
       bool scraperChanged = false;
       cGetScraperUpdateTimes scraperUpdateTimes;
@@ -508,11 +512,11 @@ namespace vdrlive {
         scraperChanged = scraperUpdateTimes.m_recordingsUpdateTime > m_last_recordings_update;
       if (scraperChanged) dsyslog2("tvscraper data changed, scraperUpdateTimes.m_recordingsUpdateTime = ", scraperUpdateTimes.m_recordingsUpdateTime, " m_last_recordings_update = ", m_last_recordings_update);
 
-      if (stateChanged || all_recordings[(int)(RecordingsManager::eSortOrder::id)][0].empty() ) update_all_recordings();
       if (scraperChanged) update_all_recordings_scraper();
 
       if (stateChanged || scraperChanged || (!m_recTree) ) {
         m_last_recordings_update = time(NULL);
+        m_last_recordings_update_check = m_last_recordings_update;
         std::chrono::time_point<std::chrono::high_resolution_clock> begin = std::chrono::high_resolution_clock::now();
         m_recTree = std::shared_ptr<RecordingsTree>(new RecordingsTree());
         m_duplicatesRecTree = std::shared_ptr<DuplicatesRecordingsTree>(new DuplicatesRecordingsTree(m_recTree));
@@ -1066,19 +1070,23 @@ namespace vdrlive {
     }
 
 
-    void update_all_recordings () {
+    bool update_all_recordings () {
+// return true in case of a change
+      bool result;
       {
         LOCK_RECORDINGS_READ;
-        update_all_recordings(Recordings, 0);
+        result = update_all_recordings(Recordings, 0);
       }
 #if VDRVERSNUM >= 20708
       {
         LOCK_DELETEDRECORDINGS_READ;
-        update_all_recordings(DeletedRecordings, 1);
+        result = update_all_recordings(DeletedRecordings, 1) | result;
       }
 #endif
+      return result;
     }
-    void update_all_recordings (const cRecordings* Recordings, int recycle_bin) {
+    bool update_all_recordings (const cRecordings* Recordings, int recycle_bin) {
+// return true in case of a change
       cMeasureTime timeIdentify, timeOverview, timeItemRec, time_update_all_recordings;
       time_update_all_recordings.start();
       bool change = false;
@@ -1090,20 +1098,20 @@ namespace vdrlive {
       for (const cRecording* recording = Recordings->First(); recording; recording = Recordings->Next(recording))
         max_id = std::max(max_id, recording->Id());
       dsyslog("live, max rec id %d, recycle_bin = %d, number of recordings %d", max_id, recycle_bin, Recordings->Count());
-      if ((size_t)(max_id)+1 > RecordingsManager::all_recordings[(int)(RecordingsManager::eSortOrder::id)][recycle_bin].size())
-        RecordingsManager::all_recordings[(int)(RecordingsManager::eSortOrder::id)][recycle_bin].resize(max_id+1, nullptr);
+      std::vector<RecordingsItemRec*> &recordings = RecordingsManager::all_recordings[(int)(RecordingsManager::eSortOrder::id)][recycle_bin];
+      if ((size_t)(max_id)+1 > recordings.size()) recordings.resize(max_id+1, nullptr);
 // for each vdr recording: compare with cached recording:
 //   if equal: mark as seen
 //   if not equal: delete
 //   if not available (or just deleted); create, and mark as seen
       for (const cRecording* recording = Recordings->First(); recording; recording = Recordings->Next(recording)) {
-        RecordingsItemRec *& live_rec = RecordingsManager::all_recordings[(int)(RecordingsManager::eSortOrder::id)][recycle_bin][recording->Id()];
+        RecordingsItemRec *& live_rec = recordings[recording->Id()];
         if (live_rec && live_rec->has_changed(recording)) {
           dsyslog("live, recording %s has changed", recording->Name());
           delete live_rec;
           live_rec = nullptr;
-        } // check is there is a recording, and if yes: has it changed?
-        if (live_rec) live_rec->updateScraperDataIfStillRecording(recording);
+        } // check is there a recording, and if yes: has it changed?
+        if (live_rec) change = live_rec->updateScraperDataIfStillRecording(recording) | change;
         if (!live_rec) {
           change = true;
           live_rec = new RecordingsItemRec(recording);
@@ -1115,20 +1123,20 @@ namespace vdrlive {
                timeIdentify.print("live: scraper: Identify  ");
                timeOverview.print("live: scraper: Overview  ");
   */
-  // delete all non-seen cached recordings
+// delete all non-seen cached recordings
       for (RecordingsItemRec*& r: all_recordings_iterator(iterator_begin(), recycle_bin)) if (!r->seen()) {
         change = true;
         dsyslog("live cache: delete recording %s", r->NameStr().c_str() );
         delete r;
         r = nullptr;
       }
-      if (!change) return;
-  // update sorted recs
+      if (!change) return false;
+// update sorted recs
       for (int sort_order = (int)RecordingsManager::eSortOrder::id + 1; sort_order < (int)RecordingsManager::eSortOrder::list_end; ++sort_order)
         RecordingsManager::all_recordings[sort_order][recycle_bin].clear();
-  // add sorted by name
+// add sorted by name
       RecordingsManager::m_sortOrder = RecordingsManager::eSortOrder::name;
-      std::vector<RecordingsItemRec*> &all_recordings_sorted = RecordingsManager::all_recordings[(int)(RecordingsManager::m_sortOrder)][recycle_bin];
+      std::vector<RecordingsItemRec*> &all_recordings_sorted = RecordingsManager::all_recordings[(int)RecordingsManager::m_sortOrder][recycle_bin];
       all_recordings_sorted.assign(all_recordings_iterator(recycle_bin), all_recordings_iterator(iterator_end(), recycle_bin));
       std::sort(all_recordings_sorted.begin(), all_recordings_sorted.end(), RecordingsItemPtrCompare::getComp(RecordingsManager::m_sortOrder));
       if (all_recordings_sorted.begin() == all_recordings_sorted.end())
@@ -1138,6 +1146,7 @@ namespace vdrlive {
 
       time_update_all_recordings.stop();
       time_update_all_recordings.print(cToSvConcat("live: time_update_all_recordings recycle_bin = ", recycle_bin, " ").c_str() );
+      return true;
     }
 
     void update_all_recordings_scraper() {
@@ -1182,10 +1191,12 @@ namespace vdrlive {
         if (m_timeOverview) m_timeOverview->stop();
       }
     }
-    void RecordingsItemRec::updateScraperDataIfStillRecording(const cRecording *recording) {
+    bool RecordingsItemRec::updateScraperDataIfStillRecording(const cRecording *recording) {
+// return true in case of a change
       if (StillRecording(recording) || m_last_scraper_update < m_stopRecording + 30*60) {  // continue with update up to 30 mins after rec finished, to allow markad data
-        updateScraperData(recording);
+        return updateScraperData(recording);
       }
+      return false;
     }
     void RecordingsItemRec::getScraperData(const cRecording *recording) {
       cGetScraperVideo_v01 getScraperVideo(nullptr, recording);
@@ -1202,11 +1213,12 @@ namespace vdrlive {
         m_last_scraper_update = std::numeric_limits<time_t>::max();
       }
     }
-    void RecordingsItemRec::updateScraperData(const cRecording *recording) {
-      if (!m_scraperVideo || !m_scraperVideo->has_changed(recording, m_s_runtime)) return;
-  // m_s_runtime is updated, and we do not cache duration deviation. There are no further changes -> return
+    bool RecordingsItemRec::updateScraperData(const cRecording *recording) {
+// return true in case of a change
+      if (!m_scraperVideo || !m_scraperVideo->has_changed(recording, m_s_runtime)) return false;
+// m_s_runtime is updated, and we do not cache duration deviation. There are no further changes -> return
 
-  // here we have to update our cached scraper data
+// here we have to update our cached scraper data
       dsyslog("live, update scraper data for recording %s", recording->Name());
       getScraperData();
       if (m_s_videoType != tSeries && m_s_videoType != tMovie) {
@@ -1222,6 +1234,7 @@ namespace vdrlive {
       m_s_image = cTvMedia();
       m_s_image_requested = false;
       m_video_SD_HD = get_SD_HD(recording->Info() );
+      return true;
     }
 
     const cTvMedia &RecordingsItemRec::scraperImage() const {

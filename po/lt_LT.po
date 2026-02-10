@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 16:03+0100\n"
+"POT-Creation-Date: 2026-02-10 08:33+0100\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Valdemaras Pipiras <varas@ambernet.lt>\n"
 "Language-Team: see developers in README\n"
@@ -15,6 +15,27 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#, c-format
+msgid "Delete recording \"%s\"?"
+msgstr ""
+
+msgid "Delete recording [recording name unavailable]?"
+msgstr ""
+
+#, c-format
+msgid "Restore recording \"%s\"?"
+msgstr ""
+
+msgid "Restore recording [recording name unavailable]?"
+msgstr ""
+
+#, c-format
+msgid "Permanently delete recording \"%s\"?"
+msgstr ""
+
+msgid "Permanently delete recording [recording name unavailable]?"
+msgstr ""
 
 msgid "On archive DVD No."
 msgstr "DVB Nr."
@@ -128,6 +149,13 @@ msgstr "Laikmatis jau nustatytas"
 msgid "Timer not defined"
 msgstr "Laikmatis nenustatytas"
 
+#, c-format
+msgid "Delete timer \"%s\"?"
+msgstr ""
+
+msgid "Delete timer [timer name unavailable]?"
+msgstr ""
+
 msgid "Required minimum version of epgsearch: "
 msgstr "Darbui reikalinga minimali epgsearch įskiepo versija: "
 
@@ -140,6 +168,13 @@ msgstr "Nukoduoti kanalai"
 msgid "EPGSearch version outdated! Please update."
 msgstr "Pasenusi EPGSearch įskiepo versija! Atsinaujinkit."
 
+msgid "Delete search timer [search timer name unavailable]?"
+msgstr ""
+
+#, c-format
+msgid "Delete search timer \"%s\"?"
+msgstr ""
+
 msgid "Timer conflict check detected "
 msgstr "Eina laikmačio nesklandumų paieška "
 
@@ -151,12 +186,6 @@ msgstr "nesklandumai"
 
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Atleiskit, bet jūs neturite užtektinai teisių. Susisiekite su sistemos administratoriumi!"
-
-msgid "Couldn't find recording or no recordings available."
-msgstr "Negali rasti įrašo arba įrašo visai nėra"
-
-msgid "Attempt to delete recording currently in playback."
-msgstr "Bandoma ištrinti įrašą iš grojaraščio."
 
 msgid "Please set a name for the recording!"
 msgstr ""
@@ -579,20 +608,14 @@ msgstr ""
 msgid "Electronic program guide information"
 msgstr "Elektroninis programų gidas"
 
-msgid "Delete recording"
-msgstr ""
-
-msgid "Restore recording"
-msgstr ""
-
-msgid "Permanently delete recording"
-msgstr ""
-
 msgid "Couldn't find recording or no recordings available"
 msgstr "Negali rasti įrašo arba įrašų iš vis nėra"
 
 msgid "Page error"
 msgstr "Puslapio klaida"
+
+msgid "Couldn't find recording or no recordings available."
+msgstr "Negali rasti įrašo arba įrašo visai nėra"
 
 msgid "Not playing a recording."
 msgstr "Negroja įrašo."
@@ -661,6 +684,9 @@ msgid "Restore this recording"
 msgstr ""
 
 msgid "Permanently delete this recording? Warning: this cannot be undone!"
+msgstr ""
+
+msgid "Select all recordings in this folder"
 msgstr ""
 
 msgid "Wrong username or password"
@@ -999,18 +1025,6 @@ msgstr ""
 msgid "Permanently delete this recording"
 msgstr ""
 
-#, c-format
-msgid "Delete recording \"%s\"?"
-msgstr ""
-
-#, c-format
-msgid "Permanently delete recording \"%s\"?"
-msgstr ""
-
-#, c-format
-msgid "Restore recording \"%s\"?"
-msgstr ""
-
 msgid "Snapshot interval"
 msgstr "Momentinių nuotraukų intervalas"
 
@@ -1052,9 +1066,6 @@ msgstr "Įjungti/Išjungti paieškos laikmačio aktyvumą"
 
 msgid "Browse search timer results"
 msgstr "Naršyti po paieškos laikmačio rezultatus"
-
-msgid "Delete this search timer?"
-msgstr "Ištrinti šį paieškos laikmatį?"
 
 msgid "Delete search timer"
 msgstr "Ištrinti paieškos laikmatį"
@@ -1211,9 +1222,6 @@ msgstr ""
 msgid "Timer is recording"
 msgstr "Laikmatis įrašinėja."
 
-msgid "Delete this timer?"
-msgstr ""
-
 msgid "Users"
 msgstr "Vartotojai"
 
@@ -1252,6 +1260,21 @@ msgstr "Sąrašas"
 
 msgid "Live Interactive VDR Environment"
 msgstr "Live interaktyvioji VDR aplinka"
+
+msgid "Delete recording"
+msgstr ""
+
+msgid "Restore recording"
+msgstr ""
+
+msgid "Permanently delete recording"
+msgstr ""
+
+#~ msgid "Attempt to delete recording currently in playback."
+#~ msgstr "Bandoma ištrinti įrašą iš grojaraščio."
+
+#~ msgid "Delete this search timer?"
+#~ msgstr "Ištrinti šį paieškos laikmatį?"
 
 #~ msgid "Ignore missing EPG info"
 #~ msgstr "Ignoruoti trūkstamą EPG informaciją"

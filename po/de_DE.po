@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 3.5.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-01 20:23+0100\n"
+"POT-Creation-Date: 2026-02-08 20:07+0100\n"
 "PO-Revision-Date: 2026-01-27 20:15+0200\n"
 "Last-Translator: Stefan Hofmann <info@stefans-galerie.de>\n"
 "Language-Team: see developers in README\n"
@@ -685,6 +685,9 @@ msgstr "Aufzeichnung wiederherstellen"
 
 msgid "Permanently delete this recording? Warning: this cannot be undone!"
 msgstr "Aufzeichnung dauerhaft löschen? Warnung: das kann nicht rückgängig gemacht werden!"
+
+msgid "Select all recordings in this folder"
+msgstr "Wähle alle Aufzeichnungen in diesem Ordner"
 
 msgid "Wrong username or password"
 msgstr "Benutzerkennung oder Passwort ungültig"

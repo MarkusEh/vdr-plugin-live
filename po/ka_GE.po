@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 16:03+0100\n"
+"POT-Creation-Date: 2026-02-10 08:33+0100\n"
 "PO-Revision-Date: 2023-02-14 20:02+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <(nothing)>\n"
@@ -17,6 +17,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.2.2\n"
+
+#, c-format
+msgid "Delete recording \"%s\"?"
+msgstr ""
+
+msgid "Delete recording [recording name unavailable]?"
+msgstr ""
+
+#, c-format
+msgid "Restore recording \"%s\"?"
+msgstr ""
+
+msgid "Restore recording [recording name unavailable]?"
+msgstr ""
+
+#, c-format
+msgid "Permanently delete recording \"%s\"?"
+msgstr ""
+
+msgid "Permanently delete recording [recording name unavailable]?"
+msgstr ""
 
 msgid "On archive DVD No."
 msgstr "არქივში DVD-ზე ნომრით."
@@ -129,6 +150,13 @@ msgstr "ტაიმერი უკვე აღწერილია"
 msgid "Timer not defined"
 msgstr "ტაიმერი აღწერილი არაა"
 
+#, c-format
+msgid "Delete timer \"%s\"?"
+msgstr ""
+
+msgid "Delete timer [timer name unavailable]?"
+msgstr ""
+
 msgid "Required minimum version of epgsearch: "
 msgstr "EPGSearch-ის აუცილებელი მინიმალურ ვერსია: "
 
@@ -141,6 +169,13 @@ msgstr "FTA"
 msgid "EPGSearch version outdated! Please update."
 msgstr "EPGSearch-ის ვერსია მოძველებულია! გთხოვთ, განაახლოთ."
 
+msgid "Delete search timer [search timer name unavailable]?"
+msgstr ""
+
+#, c-format
+msgid "Delete search timer \"%s\"?"
+msgstr ""
+
 msgid "Timer conflict check detected "
 msgstr "აღმოჩენილია ტაიმერების კონფლიქტი "
 
@@ -152,12 +187,6 @@ msgstr "კონფლიქტები"
 
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "წვდომები არ გაგაჩნიათ. დაკავშირდით თქვენს ადმინისტრატორს!"
-
-msgid "Couldn't find recording or no recordings available."
-msgstr "ჩანაწერი ვერ ვიპოვე ან ჩანაწერები ხელმიუწვდომელია."
-
-msgid "Attempt to delete recording currently in playback."
-msgstr "ამჟამად დაკვრადი ჩანაწერის წაშლის მცდელობა."
 
 msgid "Please set a name for the recording!"
 msgstr "ჩანაწერის სახელის მითითება აუცილებელია!"
@@ -579,20 +608,14 @@ msgstr "ჩანაწერების წაშლა"
 msgid "Electronic program guide information"
 msgstr "ელექტრონული პროგრამის გიდის ინფორმაცია"
 
-msgid "Delete recording"
-msgstr ""
-
-msgid "Restore recording"
-msgstr ""
-
-msgid "Permanently delete recording"
-msgstr ""
-
 msgid "Couldn't find recording or no recordings available"
 msgstr "ჩანაწერები ვერ ვიპოვე"
 
 msgid "Page error"
 msgstr "გვერდის შეცდომა"
+
+msgid "Couldn't find recording or no recordings available."
+msgstr "ჩანაწერი ვერ ვიპოვე ან ჩანაწერები ხელმიუწვდომელია."
 
 msgid "Not playing a recording."
 msgstr "არ ვუკრავ ჩანაწერს."
@@ -661,6 +684,9 @@ msgid "Restore this recording"
 msgstr ""
 
 msgid "Permanently delete this recording? Warning: this cannot be undone!"
+msgstr ""
+
+msgid "Select all recordings in this folder"
 msgstr ""
 
 msgid "Wrong username or password"
@@ -999,18 +1025,6 @@ msgstr "ყველა საქაღალდის ჩაკეცვა"
 msgid "Permanently delete this recording"
 msgstr ""
 
-#, c-format
-msgid "Delete recording \"%s\"?"
-msgstr ""
-
-#, c-format
-msgid "Permanently delete recording \"%s\"?"
-msgstr ""
-
-#, c-format
-msgid "Restore recording \"%s\"?"
-msgstr ""
-
 msgid "Snapshot interval"
 msgstr "სწრაფი ასლის ინტერვალი"
 
@@ -1052,9 +1066,6 @@ msgstr "ძებნის ტაიმერის ქმედებები�
 
 msgid "Browse search timer results"
 msgstr "ძებნის ტაიმერის შედეგებში ძებნა"
-
-msgid "Delete this search timer?"
-msgstr "წავშალო ეს ძებნის ტაიმერი?"
 
 msgid "Delete search timer"
 msgstr "ძებნის ტაიმერის წაშლა"
@@ -1210,9 +1221,6 @@ msgstr ""
 msgid "Timer is recording"
 msgstr "ტაიმერი ჩანაწერია."
 
-msgid "Delete this timer?"
-msgstr ""
-
 msgid "Users"
 msgstr "მომხმარებლები"
 
@@ -1251,6 +1259,21 @@ msgstr "სიის ხედი"
 
 msgid "Live Interactive VDR Environment"
 msgstr "ცოცხალი ინტერაქტიური VDR გარემო"
+
+msgid "Delete recording"
+msgstr ""
+
+msgid "Restore recording"
+msgstr ""
+
+msgid "Permanently delete recording"
+msgstr ""
+
+#~ msgid "Attempt to delete recording currently in playback."
+#~ msgstr "ამჟამად დაკვრადი ჩანაწერის წაშლის მცდელობა."
+
+#~ msgid "Delete this search timer?"
+#~ msgstr "წავშალო ეს ძებნის ტაიმერი?"
 
 #~ msgid "Ignore missing EPG info"
 #~ msgstr "EPG-ის ნაკლული ინფორმაციის იგნორი"

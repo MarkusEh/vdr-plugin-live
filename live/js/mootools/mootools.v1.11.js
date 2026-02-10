@@ -4757,6 +4757,7 @@ var Tips = new Class({
 	},
 
 	start: function(el){
+    if (el.$tmp.myTitle || el.$tmp.myText) {
 		this.wrapper.empty();
 		if (el.$tmp.myTitle){
 			this.title = new Element('span').inject(new Element('div', {'class': this.options.className + '-title'}).inject(this.wrapper)).setHTML(el.$tmp.myTitle);
@@ -4766,6 +4767,7 @@ var Tips = new Class({
 		}
 		$clear(this.timer);
 		this.timer = this.show.delay(this.options.showDelay, this);
+    }
 	},
 
 	end: function(event){

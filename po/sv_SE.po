@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 16:03+0100\n"
+"POT-Creation-Date: 2026-02-10 08:33+0100\n"
 "PO-Revision-Date: 2013-06-21 20:15+0200\n"
 "Last-Translator: Fredrik Olofsson <fredrik.olofsson@freddano.se>\n"
 "Language-Team: see developers in README\n"
@@ -15,6 +15,27 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#, c-format
+msgid "Delete recording \"%s\"?"
+msgstr ""
+
+msgid "Delete recording [recording name unavailable]?"
+msgstr ""
+
+#, c-format
+msgid "Restore recording \"%s\"?"
+msgstr ""
+
+msgid "Restore recording [recording name unavailable]?"
+msgstr ""
+
+#, c-format
+msgid "Permanently delete recording \"%s\"?"
+msgstr ""
+
+msgid "Permanently delete recording [recording name unavailable]?"
+msgstr ""
 
 msgid "On archive DVD No."
 msgstr "På arkiv-dvd nr."
@@ -127,6 +148,13 @@ msgstr "Timer redan satt"
 msgid "Timer not defined"
 msgstr "Timer ej definierad"
 
+#, c-format
+msgid "Delete timer \"%s\"?"
+msgstr ""
+
+msgid "Delete timer [timer name unavailable]?"
+msgstr ""
+
 msgid "Required minimum version of epgsearch: "
 msgstr "Minsta version av epgsearch som krävs:"
 
@@ -139,6 +167,13 @@ msgstr "Okrypterade"
 msgid "EPGSearch version outdated! Please update."
 msgstr "För gammal version av EPGSearch. Vänligen uppdatera."
 
+msgid "Delete search timer [search timer name unavailable]?"
+msgstr ""
+
+#, c-format
+msgid "Delete search timer \"%s\"?"
+msgstr ""
+
 msgid "Timer conflict check detected "
 msgstr "Timer-konflikt koll upptäckt"
 
@@ -150,12 +185,6 @@ msgstr "konflikter"
 
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Inte tillåtet för dig. Kontakta din administratör!"
-
-msgid "Couldn't find recording or no recordings available."
-msgstr "Kunde inte hitta inspelning eller inga inspelningar tillgängliga"
-
-msgid "Attempt to delete recording currently in playback."
-msgstr "Försök att ta bort inspelning som för närvarande spelas upp."
 
 msgid "Please set a name for the recording!"
 msgstr "Bestäm namn för inspelningen"
@@ -577,20 +606,14 @@ msgstr "Redigera inspelningar"
 msgid "Electronic program guide information"
 msgstr "EPG-information"
 
-msgid "Delete recording"
-msgstr ""
-
-msgid "Restore recording"
-msgstr ""
-
-msgid "Permanently delete recording"
-msgstr ""
-
 msgid "Couldn't find recording or no recordings available"
 msgstr "Kunde inte hitta inspelning eller inga inspelningar tillgängliga"
 
 msgid "Page error"
 msgstr "Fel på sidan"
+
+msgid "Couldn't find recording or no recordings available."
+msgstr "Kunde inte hitta inspelning eller inga inspelningar tillgängliga"
 
 msgid "Not playing a recording."
 msgstr "Spelar inte en inspelning"
@@ -659,6 +682,9 @@ msgid "Restore this recording"
 msgstr ""
 
 msgid "Permanently delete this recording? Warning: this cannot be undone!"
+msgstr ""
+
+msgid "Select all recordings in this folder"
 msgstr ""
 
 msgid "Wrong username or password"
@@ -997,18 +1023,6 @@ msgstr "Kollapsa alla bibliotek"
 msgid "Permanently delete this recording"
 msgstr ""
 
-#, c-format
-msgid "Delete recording \"%s\"?"
-msgstr ""
-
-#, c-format
-msgid "Permanently delete recording \"%s\"?"
-msgstr ""
-
-#, c-format
-msgid "Restore recording \"%s\"?"
-msgstr ""
-
 msgid "Snapshot interval"
 msgstr ""
 
@@ -1050,9 +1064,6 @@ msgstr ""
 
 msgid "Browse search timer results"
 msgstr "Visa söktimer-resultat"
-
-msgid "Delete this search timer?"
-msgstr "Ta bort denna sök-timer?"
 
 msgid "Delete search timer"
 msgstr "Ta bort sök-timer"
@@ -1208,9 +1219,6 @@ msgstr ""
 msgid "Timer is recording"
 msgstr "Timern spelar in."
 
-msgid "Delete this timer?"
-msgstr ""
-
 msgid "Users"
 msgstr "Användare"
 
@@ -1249,6 +1257,21 @@ msgstr "Listvy"
 
 msgid "Live Interactive VDR Environment"
 msgstr ""
+
+msgid "Delete recording"
+msgstr ""
+
+msgid "Restore recording"
+msgstr ""
+
+msgid "Permanently delete recording"
+msgstr ""
+
+#~ msgid "Attempt to delete recording currently in playback."
+#~ msgstr "Försök att ta bort inspelning som för närvarande spelas upp."
+
+#~ msgid "Delete this search timer?"
+#~ msgstr "Ta bort denna sök-timer?"
 
 #~ msgid "Ignore missing EPG info"
 #~ msgstr "Ignorera saknad EPG-info"

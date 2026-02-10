@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 16:03+0100\n"
+"POT-Creation-Date: 2026-02-10 08:33+0100\n"
 "PO-Revision-Date: 2025-10-03 20:15+0200\n"
 "Last-Translator: Carel Willemse <carel@nekanali.nl>\n"
 "Language-Team: see developers in README\n"
@@ -17,6 +17,27 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#, c-format
+msgid "Delete recording \"%s\"?"
+msgstr "Verwijder opname \"%s\"?"
+
+msgid "Delete recording [recording name unavailable]?"
+msgstr ""
+
+#, c-format
+msgid "Restore recording \"%s\"?"
+msgstr ""
+
+msgid "Restore recording [recording name unavailable]?"
+msgstr ""
+
+#, c-format
+msgid "Permanently delete recording \"%s\"?"
+msgstr ""
+
+msgid "Permanently delete recording [recording name unavailable]?"
+msgstr ""
 
 msgid "On archive DVD No."
 msgstr "Op archief DVD nr."
@@ -129,6 +150,13 @@ msgstr "Timer al gedefinieerd"
 msgid "Timer not defined"
 msgstr "Timer niet gedefinieerd"
 
+#, c-format
+msgid "Delete timer \"%s\"?"
+msgstr ""
+
+msgid "Delete timer [timer name unavailable]?"
+msgstr ""
+
 msgid "Required minimum version of epgsearch: "
 msgstr "Minimum vereiste versie van epgsearch plugin"
 
@@ -141,6 +169,13 @@ msgstr "FTA"
 msgid "EPGSearch version outdated! Please update."
 msgstr "EPGSearch plugin verouderd, Vernieuw deze a.u.b."
 
+msgid "Delete search timer [search timer name unavailable]?"
+msgstr ""
+
+#, c-format
+msgid "Delete search timer \"%s\"?"
+msgstr ""
+
 msgid "Timer conflict check detected "
 msgstr "Timerconflict gedetecteed "
 
@@ -152,12 +187,6 @@ msgstr "conflicten"
 
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Sorry, geen rechten. Raadpleeg uw administrator!"
-
-msgid "Couldn't find recording or no recordings available."
-msgstr "Kon geen opnamen vinden, of geen opnamen beschikbaar."
-
-msgid "Attempt to delete recording currently in playback."
-msgstr "Poging opname te wissen die op dit moment worst afgespeeld.1"
 
 msgid "Please set a name for the recording!"
 msgstr "Geef de opname een naam, a.u.b.!"
@@ -579,20 +608,14 @@ msgstr "Bewerk opname"
 msgid "Electronic program guide information"
 msgstr "Elektronische programmagids informatie"
 
-msgid "Delete recording"
-msgstr ""
-
-msgid "Restore recording"
-msgstr ""
-
-msgid "Permanently delete recording"
-msgstr ""
-
 msgid "Couldn't find recording or no recordings available"
 msgstr "Kon opname niet vinden of opname is niet aanwezig"
 
 msgid "Page error"
 msgstr "Fout in pagina"
+
+msgid "Couldn't find recording or no recordings available."
+msgstr "Kon geen opnamen vinden, of geen opnamen beschikbaar."
 
 msgid "Not playing a recording."
 msgstr "Er wordt geen opname afgespeeld."
@@ -661,6 +684,9 @@ msgid "Restore this recording"
 msgstr ""
 
 msgid "Permanently delete this recording? Warning: this cannot be undone!"
+msgstr ""
+
+msgid "Select all recordings in this folder"
 msgstr ""
 
 msgid "Wrong username or password"
@@ -999,18 +1025,6 @@ msgstr "Klap alle mappen dicht"
 msgid "Permanently delete this recording"
 msgstr ""
 
-#, c-format
-msgid "Delete recording \"%s\"?"
-msgstr "Verwijder opname \"%s\"?"
-
-#, c-format
-msgid "Permanently delete recording \"%s\"?"
-msgstr ""
-
-#, c-format
-msgid "Restore recording \"%s\"?"
-msgstr ""
-
 msgid "Snapshot interval"
 msgstr "Snapshot interval"
 
@@ -1052,9 +1066,6 @@ msgstr "Schakel zoektimer acties (in)actief"
 
 msgid "Browse search timer results"
 msgstr "Doorzoek zoektimer resultaten"
-
-msgid "Delete this search timer?"
-msgstr "Deze timer verwijderen?"
 
 msgid "Delete search timer"
 msgstr "Verwijder zoektimer"
@@ -1210,9 +1221,6 @@ msgstr "Duur"
 msgid "Timer is recording"
 msgstr "Timer neemt op"
 
-msgid "Delete this timer?"
-msgstr "Deze timer verwijderen?"
-
 msgid "Users"
 msgstr "Gebruikers"
 
@@ -1252,8 +1260,26 @@ msgstr "Overzichtslijst"
 msgid "Live Interactive VDR Environment"
 msgstr "Live Interactieve VDR Omgeving"
 
+msgid "Delete recording"
+msgstr ""
+
+msgid "Restore recording"
+msgstr ""
+
+msgid "Permanently delete recording"
+msgstr ""
+
+#~ msgid "Attempt to delete recording currently in playback."
+#~ msgstr "Poging opname te wissen die op dit moment worst afgespeeld.1"
+
 #~ msgid "Delete"
 #~ msgstr "Verwijder"
+
+#~ msgid "Delete this search timer?"
+#~ msgstr "Deze timer verwijderen?"
+
+#~ msgid "Delete this timer?"
+#~ msgstr "Deze timer verwijderen?"
 
 #~ msgid "Ignore missing EPG info"
 #~ msgstr "Negeer ontbrekende EPG info"

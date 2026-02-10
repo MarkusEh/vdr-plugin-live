@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 16:03+0100\n"
+"POT-Creation-Date: 2026-02-10 08:33+0100\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Rolf Ahrenberg <rahrenbe@cc.hut.fi>\n"
 "Language-Team: see developers in README\n"
@@ -15,6 +15,27 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#, c-format
+msgid "Delete recording \"%s\"?"
+msgstr ""
+
+msgid "Delete recording [recording name unavailable]?"
+msgstr ""
+
+#, c-format
+msgid "Restore recording \"%s\"?"
+msgstr ""
+
+msgid "Restore recording [recording name unavailable]?"
+msgstr ""
+
+#, c-format
+msgid "Permanently delete recording \"%s\"?"
+msgstr ""
+
+msgid "Permanently delete recording [recording name unavailable]?"
+msgstr ""
 
 msgid "On archive DVD No."
 msgstr "Arkistointi-DVD:llä numero"
@@ -127,6 +148,13 @@ msgstr "Ajastin jo määritelty"
 msgid "Timer not defined"
 msgstr "Ajastinta ei ole määritelty"
 
+#, c-format
+msgid "Delete timer \"%s\"?"
+msgstr ""
+
+msgid "Delete timer [timer name unavailable]?"
+msgstr ""
+
 msgid "Required minimum version of epgsearch: "
 msgstr "Vaadittava versio EPGSearch-laajennoksesta: "
 
@@ -139,6 +167,13 @@ msgstr "Vapaat"
 msgid "EPGSearch version outdated! Please update."
 msgstr "EPGSearch-laajennos pitäisi päivittää!"
 
+msgid "Delete search timer [search timer name unavailable]?"
+msgstr ""
+
+#, c-format
+msgid "Delete search timer \"%s\"?"
+msgstr ""
+
 msgid "Timer conflict check detected "
 msgstr "Tarkistuksessa löydettiin "
 
@@ -150,12 +185,6 @@ msgstr "päällekkäistä ajastinta"
 
 msgid "Sorry, no permission. Please contact your administrator!"
 msgstr "Ei käyttöoikeutta. Ota yhteyttä ylläpitäjään!"
-
-msgid "Couldn't find recording or no recordings available."
-msgstr "Tallennetta ei löydy tai yhtään tallennetta ei ole saatavilla."
-
-msgid "Attempt to delete recording currently in playback."
-msgstr "Yritetään poistaa toistettavaa tallennetta."
 
 msgid "Please set a name for the recording!"
 msgstr "Aseta nimi tallenteelle!"
@@ -577,20 +606,14 @@ msgstr "Muokkaa tallenteita"
 msgid "Electronic program guide information"
 msgstr "Ohjelmaoppaan tiedot"
 
-msgid "Delete recording"
-msgstr ""
-
-msgid "Restore recording"
-msgstr ""
-
-msgid "Permanently delete recording"
-msgstr ""
-
 msgid "Couldn't find recording or no recordings available"
 msgstr "Tallennetta ei löydy tai yhtään tallennetta ei ole saatavilla."
 
 msgid "Page error"
 msgstr "Sivuvirhe"
+
+msgid "Couldn't find recording or no recordings available."
+msgstr "Tallennetta ei löydy tai yhtään tallennetta ei ole saatavilla."
 
 msgid "Not playing a recording."
 msgstr "Tallennetta ei toisteta."
@@ -659,6 +682,9 @@ msgid "Restore this recording"
 msgstr ""
 
 msgid "Permanently delete this recording? Warning: this cannot be undone!"
+msgstr ""
+
+msgid "Select all recordings in this folder"
 msgstr ""
 
 msgid "Wrong username or password"
@@ -997,18 +1023,6 @@ msgstr "Sulje kaikki kansiot"
 msgid "Permanently delete this recording"
 msgstr ""
 
-#, c-format
-msgid "Delete recording \"%s\"?"
-msgstr ""
-
-#, c-format
-msgid "Permanently delete recording \"%s\"?"
-msgstr ""
-
-#, c-format
-msgid "Restore recording \"%s\"?"
-msgstr ""
-
 msgid "Snapshot interval"
 msgstr "Kuvien päivitysväli"
 
@@ -1050,9 +1064,6 @@ msgstr "Aseta hakuajastin päälle/pois"
 
 msgid "Browse search timer results"
 msgstr "Selaa hakutuloksia"
-
-msgid "Delete this search timer?"
-msgstr "Poistetaanko tämä hakuajastin?"
 
 msgid "Delete search timer"
 msgstr "Poista hakuajastin"
@@ -1208,9 +1219,6 @@ msgstr ""
 msgid "Timer is recording"
 msgstr "Ajastinta tallennetaan"
 
-msgid "Delete this timer?"
-msgstr ""
-
 msgid "Users"
 msgstr "Käyttäjät"
 
@@ -1249,6 +1257,21 @@ msgstr "Listanäkymä"
 
 msgid "Live Interactive VDR Environment"
 msgstr "Interaktiivinen VDR-ympäristö"
+
+msgid "Delete recording"
+msgstr ""
+
+msgid "Restore recording"
+msgstr ""
+
+msgid "Permanently delete recording"
+msgstr ""
+
+#~ msgid "Attempt to delete recording currently in playback."
+#~ msgstr "Yritetään poistaa toistettavaa tallennetta."
+
+#~ msgid "Delete this search timer?"
+#~ msgstr "Poistetaanko tämä hakuajastin?"
 
 #~ msgid "Ignore missing EPG info"
 #~ msgstr "Jätä puuttuvat ohjelmatiedot huomioimatta"

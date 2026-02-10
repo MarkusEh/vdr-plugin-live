@@ -16,6 +16,7 @@ function set_folder_closed(rec_list) {
   const folder_symbol_element=document.getElementById('fs_'+fldr_hash);
 //folder_symbol_element.setAttribute("onClick", '');
   set_icons_closed(document.getElementById('pm_'+fldr_hash), folder_symbol_element);
+  if (folder_symbol_element.$tmp) folder_symbol_element.$tmp.myText=null;
 
 //document.getElementById('ca_'+fldr_hash).disabled = true;
   rec_list.style.display = 'none';
@@ -29,22 +30,20 @@ async function set_folder_open(rec_list) {
 
   const rec_id = rec_ids[fldr_hash];
   if (rec_id != null && rec_id.length >= 3 && rec_id[1] != 2) {
-    for (var rec of rec_id[2]) {
-      const cb=document.getElementById("cb_"+rec);
-      if (cb == null) {
-        dom_changed = true;
-        break;
-      }
-    }
-    if (dom_changed) {
-      rec_list.insertAdjacentHTML("beforeend", await rec_string_d_a(rec_id));
-    }
     rec_id[1] = 2;
+    dom_changed = true;
+    const to_insert=await rec_string_d_a(rec_id);
+    rec_list.insertAdjacentHTML("beforeend", to_insert);
   }
 
   const folder_symbol_element=document.getElementById('fs_'+fldr_hash);
 //folder_symbol_element.setAttribute( "onClick", 'javascript: SetChecked("'+fldr_hash+'")');
   set_icons_open(document.getElementById('pm_'+fldr_hash), folder_symbol_element);
+  if (folder_symbol_element.$tmp==null) {
+    folder_symbol_element.title=get_text_Select_all_recordings_in_this_folder();
+  } else {
+    folder_symbol_element.$tmp.myText=get_text_Select_all_recordings_in_this_folder();
+  }
 
 //document.getElementById('ca_'+fldr_hash).disabled = false;
   rec_list.style.display = 'revert-layer';
