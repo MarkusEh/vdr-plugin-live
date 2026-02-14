@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-10 08:33+0100\n"
+"POT-Creation-Date: 2026-02-13 20:02+0100\n"
 "PO-Revision-Date: 2025-10-05 18:19+0200\n"
 "Last-Translator: Tomasz Maciej Nowak <tomek_n@o2.pl>\n"
 "Language-Team: see developers in README\n"
@@ -612,9 +612,6 @@ msgstr "Nie można odnaleźć nagrania"
 
 msgid "Page error"
 msgstr "Błąd strony"
-
-msgid "Couldn't find recording or no recordings available."
-msgstr "Nie można odnaleźć nagrania lub nagranie nie jest dostępne."
 
 msgid "Not playing a recording."
 msgstr "Nie można odtworzyć nagrania."
@@ -1267,6 +1264,9 @@ msgstr ""
 
 msgid "Permanently delete recording"
 msgstr ""
+
+#~ msgid "Couldn't find recording or no recordings available."
+#~ msgstr "Nie można odnaleźć nagrania lub nagranie nie jest dostępne."
 
 #~ msgid "Attempt to delete recording currently in playback."
 #~ msgstr "Próba usunięcia aktualnie odtwarzanego nagrania."

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-10 08:33+0100\n"
+"POT-Creation-Date: 2026-02-13 20:02+0100\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Valdemaras Pipiras <varas@ambernet.lt>\n"
 "Language-Team: see developers in README\n"
@@ -613,9 +613,6 @@ msgstr "Negali rasti įrašo arba įrašų iš vis nėra"
 
 msgid "Page error"
 msgstr "Puslapio klaida"
-
-msgid "Couldn't find recording or no recordings available."
-msgstr "Negali rasti įrašo arba įrašo visai nėra"
 
 msgid "Not playing a recording."
 msgstr "Negroja įrašo."
@@ -1269,6 +1266,9 @@ msgstr ""
 
 msgid "Permanently delete recording"
 msgstr ""
+
+#~ msgid "Couldn't find recording or no recordings available."
+#~ msgstr "Negali rasti įrašo arba įrašo visai nėra"
 
 #~ msgid "Attempt to delete recording currently in playback."
 #~ msgstr "Bandoma ištrinti įrašą iš grojaraščio."

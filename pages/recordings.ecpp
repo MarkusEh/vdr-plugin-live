@@ -472,12 +472,12 @@ recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
 <%def sort_options>
 <%cpp> { </%cpp>
 <span class="label bold"><$ tr("Sort:") $> </span>
-<a href="recordings.html?sort=<$ (currentSort == "nameasc") ? "namedesc" : "nameasc"$>&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="name" &> ><$ tr("Name") $></a>
+<a href="recordings.html?sort=<$ (currentSort == "nameasc") ? "namedesc" : "nameasc"$>&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>&recycle_bin=<$currentRecycle_bin$>" <& setactive current="name" &> ><$ tr("Name") $></a>
 <span class="sep">|</span>
-<a href="recordings.html?sort=<$ (currentSort == "datedesc") ? "dateasc" : "datedesc"$>&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="date" &> ><$ tr("Date") $></a>
+<a href="recordings.html?sort=<$ (currentSort == "datedesc") ? "dateasc" : "datedesc"$>&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>&recycle_bin=<$currentRecycle_bin$>" <& setactive current="date" &> ><$ tr("Date") $></a>
 <span class="sep">|</span>
 % if (currentRecycle_bin != 1) {
-<a href="recordings.html?sort=duplicates&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="duplicates" &> ><$ tr("Duplicates") $></a>
+<a href="recordings.html?sort=duplicates&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>&recycle_bin=<$currentRecycle_bin$>" <& setactive current="duplicates" &> ><$ tr("Duplicates") $></a>
 % } else {
 <span class="inactive"><$ tr("Duplicates") $></span>
 <%cpp>
@@ -485,7 +485,7 @@ recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
 #if VDRVERSNUM >= 20505
 </%cpp>
 <span class="sep">|</span>
-<a href="recordings.html?sort=<$ (currentSort == "errorsts") ? "errorsdur" : "errorsts" $>&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>" <& setactive current="errors" &>><$ tr("Errors") $></a>
+<a href="recordings.html?sort=<$ (currentSort == "errorsts") ? "errorsdur" : "errorsts" $>&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>&recycle_bin=<$currentRecycle_bin$>" <& setactive current="errors" &>><$ tr("Errors") $></a>
 <%cpp>
 #endif
 </%cpp>

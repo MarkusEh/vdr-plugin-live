@@ -23,7 +23,7 @@ using namespace vdrlive;
 
   const char *error_message = "";
   switch (RecordingsManager::CheckReplay(param)) {
-    case 1: error_message = tr("Couldn't find recording or no recordings available."); break;
+    case 1: error_message = tr("Couldn't find recording or no recordings available"); break;
     case 2: error_message = tr("Not playing a recording."); break;
     case 3: error_message = tr("Not playing the same recording as from request."); break;
     default: break;

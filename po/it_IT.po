@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-10 08:33+0100\n"
+"POT-Creation-Date: 2026-02-13 20:02+0100\n"
 "PO-Revision-Date: 2011-12-25 23:22+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: see developers in README\n"
@@ -616,9 +616,6 @@ msgstr "Impossibile trovare registrazioni o nessuna registrazione disponibile"
 
 msgid "Page error"
 msgstr "Errore pagina"
-
-msgid "Couldn't find recording or no recordings available."
-msgstr "Impossibile trovare registrazione o registrazioni disponibili."
 
 msgid "Not playing a recording."
 msgstr "Nessuna registrazione in riproduzione."
@@ -1271,6 +1268,9 @@ msgstr ""
 
 msgid "Permanently delete recording"
 msgstr ""
+
+#~ msgid "Couldn't find recording or no recordings available."
+#~ msgstr "Impossibile trovare registrazione o registrazioni disponibili."
 
 #~ msgid "Attempt to delete recording currently in playback."
 #~ msgstr "Tentativo di eliminare una registrazione in corso."

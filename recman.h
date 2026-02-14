@@ -242,7 +242,7 @@ namespace vdrlive {
     friend class RecordingsItemDirSeason;
     friend class RecordingsItemDirCollection;
     friend class RecordingsItemPtrCompare;
-    friend void update_all_recordings_scraper(const cRecordings* Recordings, int recycle_bin);
+    friend bool update_all_recordings_scraper(const cRecordings* Recordings, int recycle_bin);
     public:
       RecordingsItemRec(const cRecording* recording, cMeasureTime *timeIdentify=nullptr, cMeasureTime *timeOverview=nullptr, cMeasureTime *timeItemRec=nullptr);
       RecordingsItemRec(const cEvent *event, cScraperVideo *scraperVideo); // create dummy

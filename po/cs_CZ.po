@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-10 08:33+0100\n"
+"POT-Creation-Date: 2026-02-13 20:02+0100\n"
 "PO-Revision-Date: 2010-05-10 22:15+0200\n"
 "Last-Translator: Vladimír Bárta <vladimir.barta@k2atmitec.cz>,Radek Stastny <dedkus@gmail.com> \n"
 "Language-Team: see developers in README\n"
@@ -620,9 +620,6 @@ msgstr "Nelze nalézt nahrávky, nebo žádné neexistují"
 
 msgid "Page error"
 msgstr "Chyba stránky"
-
-msgid "Couldn't find recording or no recordings available."
-msgstr "Nelze nalézt nahrávky, nebo žádné neexistují"
 
 msgid "Not playing a recording."
 msgstr "Nepřehrává se nahrávka."
@@ -1279,6 +1276,9 @@ msgstr ""
 
 msgid "Permanently delete recording"
 msgstr ""
+
+#~ msgid "Couldn't find recording or no recordings available."
+#~ msgstr "Nelze nalézt nahrávky, nebo žádné neexistují"
 
 #~ msgid "Attempt to delete recording currently in playback."
 #~ msgstr "Pokus o smazání sledované nahrávky"

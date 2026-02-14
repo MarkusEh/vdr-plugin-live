@@ -43,7 +43,7 @@ using namespace vdrlive;
         error_message = tr("Cannot control playback!");
       }
       break;
-    case 1: error_message = tr("Couldn't find recording or no recordings available."); break;
+    case 1: error_message = tr("Couldn't find recording or no recordings available"); break;
     case 2:
     case 3:
       cReplayControl::SetRecording( 0 );

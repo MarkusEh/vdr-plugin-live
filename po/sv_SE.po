@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-10 08:33+0100\n"
+"POT-Creation-Date: 2026-02-13 20:02+0100\n"
 "PO-Revision-Date: 2013-06-21 20:15+0200\n"
 "Last-Translator: Fredrik Olofsson <fredrik.olofsson@freddano.se>\n"
 "Language-Team: see developers in README\n"
@@ -611,9 +611,6 @@ msgstr "Kunde inte hitta inspelning eller inga inspelningar tillgängliga"
 
 msgid "Page error"
 msgstr "Fel på sidan"
-
-msgid "Couldn't find recording or no recordings available."
-msgstr "Kunde inte hitta inspelning eller inga inspelningar tillgängliga"
 
 msgid "Not playing a recording."
 msgstr "Spelar inte en inspelning"
@@ -1266,6 +1263,9 @@ msgstr ""
 
 msgid "Permanently delete recording"
 msgstr ""
+
+#~ msgid "Couldn't find recording or no recordings available."
+#~ msgstr "Kunde inte hitta inspelning eller inga inspelningar tillgängliga"
 
 #~ msgid "Attempt to delete recording currently in playback."
 #~ msgstr "Försök att ta bort inspelning som för närvarande spelas upp."

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-10 08:33+0100\n"
+"POT-Creation-Date: 2026-02-13 20:02+0100\n"
 "PO-Revision-Date: 2025-10-03 20:15+0200\n"
 "Last-Translator: Carel Willemse <carel@nekanali.nl>\n"
 "Language-Team: see developers in README\n"
@@ -613,9 +613,6 @@ msgstr "Kon opname niet vinden of opname is niet aanwezig"
 
 msgid "Page error"
 msgstr "Fout in pagina"
-
-msgid "Couldn't find recording or no recordings available."
-msgstr "Kon geen opnamen vinden, of geen opnamen beschikbaar."
 
 msgid "Not playing a recording."
 msgstr "Er wordt geen opname afgespeeld."
@@ -1268,6 +1265,9 @@ msgstr ""
 
 msgid "Permanently delete recording"
 msgstr ""
+
+#~ msgid "Couldn't find recording or no recordings available."
+#~ msgstr "Kon geen opnamen vinden, of geen opnamen beschikbaar."
 
 #~ msgid "Attempt to delete recording currently in playback."
 #~ msgstr "Poging opname te wissen die op dit moment worst afgespeeld.1"
