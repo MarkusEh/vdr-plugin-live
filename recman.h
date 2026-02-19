@@ -84,7 +84,7 @@ namespace vdrlive {
 
       static void setSortOrder(eSortOrder sortOrder, bool backwards, cSv filter);
 
-      static time_t GetLastRecordingsUpdate() { return m_last_recordings_update; }
+      static time_t GetLastRecordingsUpdate(bool update=false) { if (update) EnsureValidData(); return m_last_recordings_update; }
       /**
        *  Returns a shared pointer to a fully populated
        *  recordings tree.

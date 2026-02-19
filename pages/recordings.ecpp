@@ -22,6 +22,7 @@ using namespace vdrlive;
   std::string todel;
   std::string diskinfo;
   std::string filter;
+  std::string deleted;
   std::string deletions[];
   std::string flat;
   int history_num_back = 0;
@@ -113,6 +114,13 @@ if (!deletions.empty()) {
   }
   deletions.clear();
 }
+for (cSv id: cSplit(deleted, ',')) {
+  const char *name=RecordingsManager::GetNameByHash(cToSvConcat("recording_", id));
+  if (name) {
+    cToSvConcat delRec(tr("Deleted recording:"), " ", name, "<br/>");
+    deleteResult += cSv(delRec);
+  }
+}
 
 int FreeMB, UsedMB;
 int Percent = cVideoDirectory::VideoDiskSpace(&FreeMB, &UsedMB);
@@ -148,7 +156,7 @@ const char *TNT_ARRAY = "";
     <& pageelems.ajax_js &>
 <script>
 const recycle_bin = <$ recycle_bin $>;
-const recordings_tree_creation = <$ cToSvInt(RecordingsManager::GetLastRecordingsUpdate() ) $>;
+const recordings_tree_creation = <$ cToSvInt(RecordingsManager::GetLastRecordingsUpdate(true) ) $>;
 const recs = [];
 const rec_ids = Object.create(null)
 rec_ids["T"] = [1, 2]
@@ -284,7 +292,8 @@ if (!deleteResult.empty()) {
 %       if (!recording_item.empty()) {
         <div class="withmargin hidden-xs">
 % if (currentRecycle_bin == 0) {
-          <button class="red" type="submit"><$ tr("Delete selected") $></button>
+<#        <button class="red" type="submit"><$ tr("Delete selected") $></button>  #>
+          <button class="red" type="button" onclick="deleteMarkedRecodings(document.getElementById('form_recordings'))" ><$ tr("Delete selected") $></button>
 % } else {
           <button class="red" type="submit"><$ tr("Permanently delete selected recordings.") $> <$ tr("Warning: This cannot be undone!") $></button>
 % }

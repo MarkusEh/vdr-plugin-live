@@ -176,6 +176,33 @@ function clearCheckboxes(form) {
     }
   }
 }
+async function deleteMarkedRecodings(form) {
+// deleteMarkedRecodings
+  var inputs = form.getElementsByTagName('input');
+  let all_del='';
+  for (var i = 0; i<inputs.length; i++) {
+    if (inputs[i].type == 'checkbox' && inputs[i].checked &&
+        inputs[i].value && inputs[i].value.startsWith('recording_')) {
+      const id = inputs[i].value.substring(10);
+      all_del = all_del + id + ",";
+      var err = await execute('action.html?id=del_' + inputs[i].value);
+      if (!err.success) alert (err.error);
+    }
+  }
+  if (all_del == '') return;
+  let new_loc = '';
+  if (window.location.href.includes("?")) {
+    let pos = window.location.href.indexOf("deleted=");
+    if (pos == -1) {
+      new_loc = window.location.href + "&deleted=" + all_del;
+    } else {
+      new_loc = window.location.href.substring(0, pos) + "deleted=" + all_del;
+    }
+  } else {
+    new_loc = window.location.href + "?deleted=" + all_del;
+  }
+  window.location=new_loc;
+}
 async function execute(url) {
 /*
  * Input:
@@ -249,7 +276,7 @@ function back_depending_referrer(back_epginfo, back_others) {
 async function rec_string_d_a(rec_ids) {
   const st = Object.create(null)
   st.a = ""
-  await RecordingsSt_a(st, rec_ids[0], rec_ids[1], rec_ids[2])
+  let res = await RecordingsSt_a(st, rec_ids[0], rec_ids[1], rec_ids[2])
   return st.a
 }
 
