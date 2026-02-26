@@ -193,13 +193,27 @@ var LiveVdrInfo = Ajax.extend({
         this.reload = rel;
         var img = $('statusReloadBtn');
         if (img != null) {
-          // change image according to state.
-          img.src = this.reload ? 'img/stop_update.png' : 'img/reload.png';
+          // change image according to state
+          if (this.reload) {
+            var icon = getThemedLink('img', 'stop_update.svg');
+            var tooltip = this.tooltipStopUpdate;
+          } else {
+            var icon = getThemedLink('img', 'reload.svg');
+            var tooltip = this.tooltipStartUpdate;
+          }
+          img.src = icon;
+          var link = img.parentElement;
+          if (tooltip && link != null) {
+            link.$tmp.myText = link.$tmp.myText.replace(/\>[^<>]*\</, '>' + tooltip + '<');
+          }
         }
       }
       if (this.reload)
         this.timer = this.request.delay(1000, this, true);
     },
+
+    tooltipStopUpdate: '',
+    tooltipStartUpdate: '',
 
     toggleUpdate: function()
     {

@@ -52,6 +52,10 @@ int update_status(1);
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 </%def>
 
+<%def favicon>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
+</%def>
+
 <# ---------------------------------------------------------------------- #>
 
 <%def create_html_js>
@@ -60,11 +64,20 @@ int update_status(1);
 </%def>
 
 <%def stylesheets>
+<link rel="stylesheet" type="text/css" href="css/properties.css?st=<$cToSvInt(LiveSetup().GetVdrStart())$>"/>
 <link rel="stylesheet" type="text/css" href="css/styles.css?st=<$cToSvInt(LiveSetup().GetVdrStart())$>"/>
+<link rel="stylesheet" type="text/css" href="<$ LiveSetup().GetThemedLink("css", "layout.css") $>?st=<$cToSvInt(LiveSetup().GetVdrStart())$>"/>
 <link rel="stylesheet" type="text/css" href="<$ LiveSetup().GetThemedLink("css", "theme.css") $>?st=<$cToSvInt(LiveSetup().GetVdrStart())$>"/>
 <link rel="stylesheet" type="text/css" href="css/siteprefs.css?st=<$cToSvInt(LiveSetup().GetVdrStart())$>"/>
 <script type="text/javascript" src="js/live/scrolling.js?st=<$cToSvInt(LiveSetup().GetVdrStart() )$>"></script>
 <script type="text/javascript" src="js/live/epg_tt_box.js?st=<$cToSvInt(LiveSetup().GetVdrStart() )$>"></script>
+<script type="text/javascript"><!--
+  function getThemedLink(dir, image)
+  {
+    var url = '<$ LiveSetup().GetThemedLinkPrefix() $>' + dir + '/' + image;
+    return url;
+  }
+--></script>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -83,12 +96,14 @@ int update_status(1);
 <%cpp>
     if (showLogo) {
 </%cpp>
-<a href="<$ LiveSetup().GetStartScreenLink()$>">
-<img src="<$ LiveSetup().GetThemedLink("img", "logo.png") $>" alt="VDR Live!" class="logo<? showInfoBox ? " with-infobox" ?>" /></a>
+<div class="logo" id="logo">
+  <a href="<$ LiveSetup().GetStartScreenLink()$>">
+  <img src="<$ LiveSetup().GetThemedLink("img", "logo.svg") $>" alt="VDR Live!" class="logo<? showInfoBox ? " with-infobox" ?>" /></a>
+</div>
 <%cpp>
     }
 </%cpp>
-<%cpp>if (showInfoBox) { </%cpp><& infobox &><%cpp> } </%cpp>
+<%cpp>if (showInfoBox) { </%cpp><& infobox className=(showLogo ? "with-logo" : "") &><%cpp> } </%cpp>
 </div>
 <%cpp>
   }
@@ -168,7 +183,7 @@ if (pCounter && isVisible) (*pCounter)++;
 % } else {
 <a href="http://www.imdb.com/title/<$ s_IMDB_ID $>"
 % }
- target="_blank"><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "imdb.png") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Find more in the IMDb (Internet Movie Database)")) &> /></a>
+ target="_blank"><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "info.svg") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Find more in the IMDb (Internet Movie Database)")) &> /></a>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -187,7 +202,7 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
   int *pCounter = static_cast<int *>((void *)iCounter);
   if (pCounter) (*pCounter)++;
 </%cpp>
-<a href="stream.html?channelid=<$ channelId $>"><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "stream_button.png") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Play this channel in the browser")) &> /></a>
+<a href="stream.html?channelid=<$ channelId $>"><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "stream.svg") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Play this channel in the browser")) &> /></a>
 <%cpp>
 }
 </%cpp>
@@ -209,7 +224,7 @@ if (LiveSetup().GetUseStreamdev() && LiveFeatures<features::streamdev_server>().
   int *pCounter = static_cast<int *>((void *)iCounter);
   if (pCounter) (*pCounter)++;
 </%cpp>
-<a href="stream.html?recid=<$ recId $>"><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "stream_button.png") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Play this recording in the browser")) &> /></a>
+<a href="stream.html?recid=<$ recId $>"><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "stream.svg") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Play this recording in the browser")) &> /></a>
 <%cpp>
 }
 </%cpp>
@@ -231,7 +246,7 @@ if (LiveFeatures<features::streamdev_server>().Loaded()) {
   int *pCounter = static_cast<int *>((void *)iCounter);
   if (pCounter) (*pCounter)++;
 </%cpp>
-<a href="playlist.m3u?channelid=<$ channelId $>" download><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Play this channel in the media player")) &> /></a>
+<a href="playlist.m3u?channelid=<$ channelId $>" download><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "playlist.svg") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Play this channel in the media player")) &> /></a>
 <%cpp>
 }
 </%cpp>
@@ -262,7 +277,7 @@ if (pCounter) (*pCounter)++;
 
 cToSvConcat url("playlist.m3u?recid=", recid);
 {
-</%cpp><a href="<$ url $>" download><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Play this recording in the media player")) &> /> <$ linkText $></a>
+</%cpp><a href="<$ url $>" download><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "playlist.svg") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Play this recording in the media player")) &> /> <$ linkText $></a>
 <%cpp>
 }
 #endif
@@ -298,7 +313,7 @@ cToSvConcat rfid;
 if (!rfid.empty() ) {
   int *pCounter = static_cast<int *>((void *)iCounter);
   if (pCounter) (*pCounter)++;
-</%cpp><a href="http://localhost:<$cToSvConcat(LiveSetup().GetStreamdevPort())$>/<$rfid$>.ts"><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "playlist.png") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Stream this recording")) &> /> <$ linkText $></a>
+</%cpp><a href="http://localhost:<$cToSvConcat(LiveSetup().GetStreamdevPort())$>/<$rfid$>.ts"><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "playlist.svg") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Stream this recording")) &> /> <$ linkText $></a>
 <%cpp>
 }
 #endif
@@ -338,13 +353,13 @@ if (!rfid.empty() ) {
   }
   if (!timerId.empty() ) {
 </%cpp>
-    <& pageelems.edit_timer timerId=(timerId) imgName=(timerRecording || timerActive? "record_timer_active.png" : "record_timer_inactive.png") className=(timerRecording ? "icon fading" : "icon") label=(label) breaksAtRight=(fileNameBreaks) iCounter=(iCounter) &>
+    <& pageelems.edit_timer timerId=(timerId) imgName=(timerRecording || timerActive? "record_timer_active.svg" : "record_timer_inactive.svg") className=(timerRecording ? "icon fading" : "icon") label=(label) breaksAtRight=(fileNameBreaks) iCounter=(iCounter) &>
 <%cpp>
   } else {
     int *pCounter = static_cast<int *>((void *)iCounter);
     if (pCounter) (*pCounter)++;
 </%cpp>
-    <a href="edit_timer.html?epgid=<$ epgid $>"><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "record.png") $>" alt="" <& tooltip.hint text=(tr("Record this")) label=(label) className=("click-action") &> /></a>
+    <a href="edit_timer.html?epgid=<$ epgid $>"><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "record.svg") $>" alt="" <& tooltip.hint text=(tr("Record this")) label=(label) className=("click-action") &> /></a>
 <%cpp>
   }
 </%cpp>
@@ -355,7 +370,7 @@ if (!rfid.empty() ) {
 <%def edit_timer>
 <%args>
   std::string timerId;
-  std::string imgName = "edit.png";
+  std::string imgName = "edit.svg";
   std::string label;
   std::string className;
   std::string breaksAtLeft;
@@ -382,16 +397,16 @@ if (!rfid.empty() ) {
   <script type="text/javascript"><!--
     var liveEnhanced = new PageEnhance({
         infoWinOptions: {
-          resizeImg: '<$ LiveSetup().GetThemedLink("img", "resize.png") $>',
-          closeImg: '<$ LiveSetup().GetThemedLink("img", "icon_overlay_cross.png") $>',
-          pinImg: '<$ LiveSetup().GetThemedLink("img", "icon_overlay_pin.png") $>',
-          pinnedImg: '<$ LiveSetup().GetThemedLink("img", "icon_overlay_pinned.png") $>',
+          resizeImg: '<$ LiveSetup().GetThemedLink("img", "resize.svg") $>',
+          closeImg: '<$ LiveSetup().GetThemedLink("img", "icon_overlay_cross.svg") $>',
+          pinImg: '<$ LiveSetup().GetThemedLink("img", "icon_overlay_pin.svg") $>',
+          pinnedImg: '<$ LiveSetup().GetThemedLink("img", "icon_overlay_pinned.svg") $>',
           loadingMsg: '<$ tr("Loading data ...") $>',
           errorMsg: '<$ tr("An error occurred!") $>'
         },
         notifyStrings: {
-          successMsg: '<img src="<$ LiveSetup().GetThemedLink("img", "active.png") $>" alt=""> <$ tr("Request succeeded") $>',
-          errorMsg: '<img src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt=""> <$ tr("Request failed!") $>'
+          successMsg: '<img class="icon" src="<$ LiveSetup().GetThemedLink("img", "active.svg") $>" alt=""> <$ tr("Request succeeded") $>',
+          errorMsg: '<img class="icon" src="<$ LiveSetup().GetThemedLink("img", "del.svg") $>" alt=""> <$ tr("Request failed!") $>'
         }
       });
   --></script>
@@ -416,7 +431,10 @@ if (!rfid.empty() ) {
 <# ---------------------------------------------------------------------- #>
 
 <%def infobox>
-<div id="infobox">
+<%args>
+  std::string className;
+</%args>
+<div id="infobox" class="<$ className $>">
   <div class="statuscontent">
     <div class="st_header">
       <div id="infobox_caption" class="caption"><$ tr("Retrieving status ...") $></div>
@@ -428,18 +446,22 @@ if (!rfid.empty() ) {
     </div>
     <div class="st_controls">
       <div class="st_update">
-        <a href="javascript:InfoBox.toggleUpdate()" <& tooltip.hint text=(tr("Toggle updates on/off")) &>><img id="statusReloadBtn" src="<$ LiveSetup().GetThemedLink("img", "stop_update.png") $>" alt="" /></a>
+        <script type="text/javascript"><!--
+          InfoBox['tooltipStopUpdate'] = '<$ tr("Stop infobox update") $>';
+          InfoBox['tooltipStartUpdate'] = '<$ tr("Start infobox update") $>';
+        --></script>
+        <a href="javascript:InfoBox.toggleUpdate()" <& tooltip.hint text=(tr("Stop infobox update")) &>><img class="icon" id="statusReloadBtn" src="<$ LiveSetup().GetThemedLink("img", "stop_update.svg") $>" alt="" /></a>
       </div>
       <div id="infobox_recording_buttons" style="display: none">
-        <& ajax_action_href action=("stop_recording") id=("infobox_stop") image=("stop.png") tip=(tr("Stop playback")) &>
-        <& ajax_action_href action=("play_recording") id=("infobox_play") image=("play.png") tip=(tr("Resume playback")) &>
-        <& ajax_action_href action=("pause_recording") id=("infobox_pause") image=("pause.png") tip=(tr("Pause playback")) &>
-        <& ajax_action_href action=("rwd_recording") id=("infobox_rwd") image=("rwd.png") tip=(tr("Fast rewind")) &>
-        <& ajax_action_href action=("ffw_recording") id=("infobox_ffw") image=("ffw.png") tip=(tr("Fast forward")) &>
+        <& ajax_action_href action=("stop_recording") id=("infobox_stop") image=("stop.svg") className="icon" tip=(tr("Stop playback")) &>
+        <& ajax_action_href action=("play_recording") id=("infobox_play") image=("play.svg") className="icon" tip=(tr("Resume playback")) &>
+        <& ajax_action_href action=("pause_recording") id=("infobox_pause") image=("pause.svg") className="icon" tip=(tr("Pause playback")) &>
+        <& ajax_action_href action=("rwd_recording") id=("infobox_rwd") image=("rwd.svg") className="icon" tip=(tr("Fast rewind")) &>
+        <& ajax_action_href action=("ffw_recording") id=("infobox_ffw") image=("ffw.svg") className="icon" tip=(tr("Fast forward")) &>
       </div>
       <div id="infobox_channel_buttons">
-        <& ajax_action_href action=("switch_channel") id=("infobox_prevchan") image=("one_downarrow.png") tip=(tr("Previous channel")) &>
-        <& ajax_action_href action=("switch_channel") id=("infobox_nextchan") image=("one_uparrow.png") tip=(tr("Next channel")) &>
+        <& ajax_action_href action=("switch_channel") id=("infobox_prevchan") image=("one_downarrow.svg") className="icon" tip=(tr("Previous channel")) &>
+        <& ajax_action_href action=("switch_channel") id=("infobox_nextchan") image=("one_uparrow.svg") className="icon" tip=(tr("Next channel")) &>
       </div>
       <div class="st_pbar">
         <& progressbar id=("infobox_elapsed") &>
@@ -482,26 +504,26 @@ if (!rfid.empty() ) {
 </%cpp>
   <div><& pageelems.event_timer epgid=(epgid) className="icon" iCounter=((uintptr_t)&xsVisibleIcons) &></div>
 % if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
-    <div><& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel")) param=(channelId) image="zap.png" className="icon" label=(label) alt="" iCounter=((uintptr_t)&xsVisibleIcons) &></div>
+    <div><& pageelems.ajax_action_href action="switch_channel" tip=(tr("Switch to this channel")) param=(channelId) image="zap.svg" className="icon" label=(label) alt="" iCounter=((uintptr_t)&xsVisibleIcons) &></div>
 % } if (LiveFeatures<features::epgsearch>().Recent()) {
 %     if (eventId != 0) {
 %       xsVisibleIcons++;
-  <div><a href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(title) $>"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint text=(tr("Search for repeats")) label=(label) className=("click-action") &> /></a></div>
+  <div><a href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(title) $>"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "search.svg") $>" alt="" <& tooltip.hint text=(tr("Search for repeats")) label=(label) className=("click-action") &> /></a></div>
 %     } else if (!detail) {
   <# as we wrap on small screens and tabulation becomes void, we just hide a transparent icon #>
-  <div class="hidden-xs spacer"><img class="icon" src="img/transparent.png" alt="" /></div>
+  <div class="hidden-xs spacer"><img class="icon" src="img/transparent.svg" alt="" /></div>
 %     }
 % } if ((duration == 0) || (elapsed >= 0)) {
   <div class="hidden-xs invisible"><& pageelems.hls_channel channelId=(channelId) className="icon" label=(label) iCounter=((uintptr_t)&xsInvisibleIcons) &></div>
   <div class="hidden-xs invisible"><& pageelems.m3u_playlist_channel channelId=(channelId) className="icon" label=(label) iCounter=((uintptr_t)&xsInvisibleIcons) &></div>
 %  } else if (!detail) {
   <# as we wrap on small screens and tabulation becomes void, we just hide a transparent icon #>
-  <div class="hidden-xs"><img class="icon" src="img/transparent.png" alt="" /></div>
-  <div class="hidden-xs"><img class="icon" src="img/transparent.png" alt="" /></div>
+  <div class="hidden-xs"><img class="icon" src="img/transparent.svg" alt="" /></div>
+  <div class="hidden-xs"><img class="icon" src="img/transparent.svg" alt="" /></div>
 % } if (!title.empty()) {
   <div><& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID) className="icon" label=(label) iCounter=((uintptr_t)&xsVisibleIcons) &></div>
 % } else if (!detail ) {
-  <div class="hidden-xs"><img class="icon" src="img/transparent.png" alt="" /></div>
+  <div class="hidden-xs"><img class="icon" src="img/transparent.svg" alt="" /></div>
 <%cpp>
   } if (!detail) {
 </%cpp>
@@ -1051,7 +1073,7 @@ for (const cTvMedia &media: *media_v) {
           <div class="about_left">EPGsearch:</div>
           <div class="about_right">
 %            Features< features::epgsearch >& epgsearch = LiveFeatures< features::epgsearch >();
-            <img src="<$ LiveSetup().GetThemedLink("img", epgsearch.Recent() ? "active.png" : "inactive.png") $>"/>
+            <img class="icon" src="<$ LiveSetup().GetThemedLink("img", epgsearch.Recent() ? "active.svg" : "inactive.svg") $>"/>
 %            if ( epgsearch.Recent() ) {
               <$ tr("active") $>: <$ epgsearch.Version() $>
 %            } else {
@@ -1064,7 +1086,7 @@ for (const cTvMedia &media: *media_v) {
 <%cpp>
             Features< features::streamdev_server >& streamdev = LiveFeatures< features::streamdev_server >();
 </%cpp>
-            <img src="<$ LiveSetup().GetThemedLink("img", streamdev.Loaded() ? "active.png" : "inactive.png") $>"/>
+            <img class="icon" src="<$ LiveSetup().GetThemedLink("img", streamdev.Loaded() ? "active.svg" : "inactive.svg") $>"/>
 <%cpp>
             if ( streamdev.Loaded() ) {
 </%cpp>
@@ -1081,7 +1103,7 @@ for (const cTvMedia &media: *media_v) {
           <div class="about_left">TvScraper:</div>
           <div class="about_right">
 %            Features< features::tvscraper >& tvscraper = LiveFeatures< features::tvscraper >();
-            <img src="<$ LiveSetup().GetThemedLink("img", tvscraper.Recent() ? "active.png" : "inactive.png") $>"/>
+            <img class="icon" src="<$ LiveSetup().GetThemedLink("img", tvscraper.Recent() ? "active.svg" : "inactive.svg") $>"/>
 %            if ( tvscraper.Recent() ) {
               <$ tr("active") $>: <$ tvscraper.Version() $>
 %            } else {

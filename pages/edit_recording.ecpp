@@ -126,6 +126,7 @@ std::string active_r;
 <%cpp>
   if (!ajaxReq) {
 </%cpp>
+    <& pageelems.favicon &>
     <& pageelems.stylesheets &>
     <& pageelems.create_html_js &>
     <& pageelems.ajax_js &>
@@ -178,7 +179,7 @@ std::string active_r;
   }
 </%cpp>
               </select>
-              <img id="new_dir_button" class="icon button new-dir" src="<$ LiveSetup().GetThemedLink("img", "icon_overlay_plus.png") $>" title="<$tr("Create new directory")$>" onclick="new_dir()">
+              <img id="new_dir_button" class="icon button new-dir" src="<$ LiveSetup().GetThemedLink("img", "icon_overlay_plus.svg") $>" title="<$tr("Create new directory")$>" alt="" onclick="new_dir()">
               <input type="text" name="newdir" id="newdir" value="." size="55" class="width99" style="display: none" />
             </td>
           </tr>

@@ -1989,7 +1989,7 @@ Element.extend({
 	*/
 
 	remove: function(){
-		return this.parentNode.removeChild(this);
+		return this.parentNode?.removeChild(this);
 	},
 
 	/*
@@ -3154,7 +3154,8 @@ function $ES(selector, filter){
 
 $$.shared = {
 
-	'regexp': /^(\w*|\*)(?:#([\w-]+)|\.([\w-]+))?(?:\[(\w+)(?:([!*^$]?=)["']?([^"'\]]*)["']?)?])?$/,
+  // allow namespace prefix in selector
+	'regexp': /^(\w*|\*)(?:#([\w-]+)|\.([\w-]+))?(?:\[([\w:]+)(?:([!*^$]?=)["']?([^"'\]]*)["']?)?])?$/,
 
 	'xpath': {
 
@@ -3215,7 +3216,8 @@ $$.shared = {
 	},
 
 	resolver: function(prefix){
-		return (prefix == 'xhtml') ? 'http://www.w3.org/1999/xhtml' : false;
+    // resolve both XHTML and  SVG/XLINK prefixes
+		return (prefix == 'xhtml') ? 'http://www.w3.org/1999/xhtml' : prefix == 'xlink' ? 'http://www.w3.org/1999/xlink' : '';
 	},
 
 	getElementsByTagName: function(context, tagName){
@@ -4731,14 +4733,23 @@ var Tips = new Class({
 	},
 
 	build: function(el){
-		el.$tmp.myTitle = (el.href && el.getTag() == 'a') ? el.href.replace('http://', '') : (el.rel || false);
-		if (el.title){
-			var dual = el.title.split('::');
+    if (el.getTag() == 'a') {
+      // access link 'href' attribute in both (X)HTML and SVG/XLINK namespaces
+      var xmlns = el.namespaceURI.endsWith('/svg') ? 'http://www.w3.org/1999/xlink' : '';
+      let href = el.getAttribute('href');
+      if (!href) href = el.getAttributeNS(xmlns, 'href');
+      el.$tmp.myTitle = href ? href.replace('http://', '').replace('https://', '') : (el.rel || false);
+    } else {
+      el.$tmp.myTitle = el.rel || false;
+    }
+    var title = el.getAttribute('title');
+		if (title){
+			var dual = title.split('::');
 			if (dual.length > 1){
 				el.$tmp.myTitle = dual[0].trim();
 				el.$tmp.myText = dual[1].trim();
 			} else {
-				el.$tmp.myText = el.title;
+				el.$tmp.myText = title;
 			}
 			el.removeAttribute('title');
 		} else {

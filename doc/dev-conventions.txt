@@ -48,13 +48,14 @@ To enable a tooltip, just add a 'title' attribute on the element and
 load 'hinttips.js' in your pages; this will be already done when using
 the Live page framework. Please note that the 'title' attribute must
 properly HTML-encode the content, particularly regarding HTML tags to
-be embedded, particularly regarding '&amp' and '&quot'.
+be embedded, which requires substitution of reserved characters by
+'&amp;', '&lt;', '&gt;' and '&quot;'.
 
 For popup windows that asynchronously load their content, you need to
 use normal links like '<a href="epginfo.html?eventid=event_identifier">
 your link text here </a>'.  If 'infowin.js' is loaded, it will enhance
-these links with AJAX functionality. If not loaded, the link will change
-to a new page with the requested information.
+these links with AJAX functionality. If not loaded, or on small screens,
+the link will change to a new page with the requested information.
 
 This means that both users with and without ECMAScript support will
 benefit from the functions in Live.
@@ -77,8 +78,20 @@ the Live Setup class (see file 'setup.h') has been added. It is called
 'GetThemedLink()'. For every image, that might be customized, you must
 use an 'img' tag according to this example:
 
-  <img src="<$ LiveSetup().GetThemedLink("img", "<imagename>") $>"
-  alt="someimage">
+  <img src="<$ LiveSetup().GetThemedLink("img", "<image-name>") $>"
+  alt="some-image">
+
+For use in supplemental Javascript code, a twin function is available.
+The example from above would thus look like:
+
+  const img = document.getElementById('image-id');
+  img.src = getThemedLink('img', '<image-name>');
+  img.alt = 'some-image';
+
+Note that screen readers cite the image URL if no 'alt' attribute has
+been assigned. You should thus provide an empty 'alt' attribute if no
+specific information is associated with the image that should be read
+out to a user.
 
 Please take a look in the existing '*.ecpp' pages for additional usage
 examples.

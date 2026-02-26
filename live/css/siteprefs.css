@@ -470,29 +470,52 @@ table.listing.timerconflicts div.short {
 }
 */
 
+
+/* Uncomment this to adjust the sizes of the OSD screen and the remote control
+** to your personal preferences or to the dimensions of small screens. The
+** scale should be a multiple of 0.05 to avoid fractional pixel sizes.
+*/
 /*
- * Uncomment to permanently disable popups
- * Values:
- *   1 -> disable popup
- *   0 -> enable popup (default)
- * Abbreviations:
- *   del: delete recording
- *   pur: permanently delete recording
- *   res: restore recording
- *   det: delete timer
- *   des: delete search timer
- *
- *   ms: multiple selection
- */
+@property --osd-screen-scale {
+  syntax: "<number>";
+  initial-value: 1.0;
+  inherits: false;
+}
+
+@property --remote-control-scale {
+  syntax: "<number>";
+  initial-value: 1.0;
+  inherits: false;
+}
+*/
+
+
+/* Uncomment this to permanently disable confirmation dialogs for selected
+** operations.
+**
+** Operation tags:
+**   del: delete recording
+**   pur: permanently delete recording
+**   res: restore recording
+**   det: delete timer
+**   des: delete search timer
+**
+** Operations variants:
+**   ms:  multiple-item selection
+**
+** Values:
+**   0 = enable popup (default)
+**   1 = disable popup
+*/
 /*
 :root {
-  --disable_popup_del: 1;
+  --disable_popup_del:    1;
   --disable_popup_del_ms: 1;
-  --disable_popup_res: 1;
+  --disable_popup_res:    1;
   --disable_popup_res_ms: 1;
-  --disable_popup_pur: 1;
+  --disable_popup_pur:    1;
   --disable_popup_pur_ms: 1;
-  --disable_popup_det: 1;
-  --disable_popup_des: 1;
+  --disable_popup_det:    1;
+  --disable_popup_des:    1;
 }
 */

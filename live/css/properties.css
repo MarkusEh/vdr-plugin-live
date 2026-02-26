@@ -1,0 +1,690 @@
+/* ###########################################################################
+   #  This file provides properties, which are referenced in 'styles.css',
+   #  for the page layout of all themes. By default, themes only differ in
+   #  colors defined in 'theme.css' or customized logos and icons stored in
+   #  the theme's 'img' directory. However, selected (or even all) global
+   #  properties defined in this file can be refined by a supplemental file
+   #  'layout.css' in a theme's directory or globally in 'siteprefs.css'.
+   ###########################################################################
+*/
+
+
+/* #############################
+   #  Global properties
+   #############################
+*/
+
+/* global settings */
+
+@property --margin-top-bottom {
+  /* vertical distance towards box borders */
+  syntax: "<length>";
+  initial-value: 5px;
+  inherits: false;
+}
+
+@property --margin-left-right {
+  /* horizontal distance towards box borders */
+  syntax: "<length>";
+  initial-value: 5px;
+  inherits: false;
+}
+
+@property --vdr-logo-image-width {
+  /* VDR-logo image width in pixels for use in calculated lengths */
+  syntax: "<integer>";
+  initial-value: 192;
+  inherits: false;
+}
+
+@property --vdr-logo-image-height {
+  /* VDR-logo image height in pixels for use in calculated lengths */
+  syntax: "<integer>";
+  initial-value: 80;
+  inherits: false;
+}
+
+@property --logo-image-width {
+  /* Channel-logo image width for use in calculated lengths */
+  syntax: "<length>";
+  initial-value: 120px;
+  inherits: false;
+}
+
+@property --logo-image-height {
+  /* Channel-logo image width for use in calculated lengths */
+  syntax: "<length>";
+  initial-value: 32px;
+  inherits: false;
+}
+
+@property --thumb-image-width {
+  /* Thumbnail-image width for use in calculated lengths */
+  syntax: "<length>";
+  initial-value: 80px;
+  inherits: false;
+}
+
+@property --thumb-image-height {
+  /* Thumbnail-image width for use in calculated lengths */
+  syntax: "<length>";
+  initial-value: 40px;
+  inherits: false;
+}
+
+@property --thumb-image-enlargement-scale {
+  /* Scaling factor for enlarged thumbnail images on small screens */
+  syntax: "<number>";
+  initial-value: 1.25;
+  inherits: false;
+}
+
+@property --epg-image-width {
+  /* EPG-image width for use in calculated lengths */
+  syntax: "<length>";
+  initial-value: 240px;
+  inherits: false;
+}
+
+@property --epg-artwork-width {
+  /* Artwork-image width for use in calculated lengths */
+  syntax: "<length>";
+  initial-value: 480px;
+  inherits: false;
+}
+
+@property --epg-photo-width {
+  /* Actor-image width for use in calculated lengths */
+  syntax: "<length>";
+  initial-value: 120px;
+  inherits: false;
+}
+
+@property --sdhd-width {
+  /* icon width for use in calculated lengths, height acc. to dimension */
+  syntax: "<length>";
+  initial-value: 24px;
+  inherits: false;
+}
+
+@property --iconic-button-width {
+  /* button width for use in calculated lengths */
+  /* iconic buttons have 12 visible horizontal pixels, thus 2 transparent border pixels */
+  syntax: "<length>";
+  initial-value: 16px;
+  inherits: false;
+}
+
+@property --iconic-button-height {
+  /* button height for use in calculated lengths */
+  /* iconic buttons have 12 visible vertical pixels, thus 2 transparent border pixels  */
+  syntax: "<length>";
+  initial-value: 16px;
+  inherits: false;
+}
+
+@property --iconic-button-row-gap {
+  /* distance between button rows */
+  /* should match the icon row gap, taking transparent border pixels into account */
+  syntax: "<length>";
+  initial-value: 0px;   /* adjacent border pixels already result in a gap of 4 pixels */
+  inherits: false;
+}
+
+@property --iconic-button-column-gap {
+  /* distance between button columns */
+  /* should match the icon row gap, taking transparent border pixels into account */
+  syntax: "<length>";
+  initial-value: 0px;   /* adjacent border pixels already result in a gap of 4 pixels */
+  inherits: false;
+}
+
+@property --icon-width {
+  /* icon width for use in calculated lengths */
+  syntax: "<length>";
+  initial-value: 16px;
+  inherits: false;
+}
+
+@property --icon-height {
+  /* icon height for use in calculated lengths */
+  syntax: "<length>";
+  initial-value: 16px;
+  inherits: false;
+}
+
+@property --icon-row-gap {
+  /* distance between icons rows */
+  syntax: "<length>";
+  initial-value: 4px;
+  inherits: false;
+}
+
+@property --icon-column-gap {
+  /*  distance between icon columns */
+  syntax: "<length>";
+  initial-value: 4px;
+  inherits: false;
+}
+
+@property --text-font-size {
+  /* common font size */
+  syntax: "<length>";
+  initial-value: 11px;
+  inherits: false;
+}
+
+@property --text-line-height {
+  /* line height w.r.t. font size */
+  syntax: "<length>";
+  initial-value: 20px;
+  inherits: false;
+}
+
+@property --text-line-gap {
+  /*  distance between lines within a text block */
+  syntax: "<length>";
+  initial-value: 2px;
+  inherits: false;
+}
+
+@property --text-block-gap {
+  /*  distance between text blocks */
+  syntax: "<length>";
+  initial-value: 5px;
+  inherits: false;
+}
+
+/* page-layout settings */
+
+@property --body-margin {
+  syntax: "<length>";
+  initial-value: 10px;
+  inherits: false;
+}
+
+@property --page-header-gap {
+  syntax: "<length>";
+  initial-value: 25px;
+  inherits: false;
+}
+
+@property --menubar-gap {
+  syntax: "<length>";
+  initial-value: 8px;
+  inherits: false;
+}
+
+@property --spacebar-height {
+  syntax: "<length>";
+  initial-value: 10px;
+  inherits: false;
+}
+
+/* main-menu settings */
+
+@property --menu-height {
+  syntax: "<length>";
+  initial-value: 27px;
+  inherits: false;
+}
+
+@property --menu-border-width {
+  syntax: "<length>";
+  initial-value: 1px;
+  inherits: false;
+}
+
+/* message-bar settings */
+
+@property --messagebar-height {
+  syntax: "<length>";
+  initial-value: 27px;
+  inherits: false;
+}
+
+@property --messagebar-border-width {
+  syntax: "<length>";
+  initial-value: 1px;
+  inherits: false;
+}
+
+/* page-menu settings */
+
+@property --pagemenu-height {
+  syntax: "<length>";
+  initial-value: 27px;
+  inherits: false;
+}
+
+@property --pagemenu-border-width {
+  syntax: "<length>";
+  initial-value: 1px;
+  inherits: false;
+}
+
+@property --pagemenu-shadow-height {
+  syntax: "<length>";
+  initial-value: 6px;
+  inherits: false;
+}
+
+/* table and box-header settings */
+
+@property --listing-border-width {
+  syntax: "<length>";
+  initial-value: 1px;
+  inherits: false;
+}
+
+@property --listing-header-border-radius {
+  syntax: "<length>";
+  initial-value: 8px;
+  inherits: false;
+}
+
+@property --listing-header-height {
+  syntax: "<length>";
+  initial-value: 20px;
+  inherits: false;
+}
+
+@property --listing-row-background-gradient-height {
+  syntax: "<length>";
+  initial-value: 6px;
+  inherits: false;
+}
+
+/* user-input settings */
+
+@property --input-border-width {
+  syntax: "<length>";
+  initial-value: 1px;
+  inherits: false;
+}
+
+@property --input-border-style {
+  syntax: "<custom-ident>";
+  initial-value: solid;
+  inherits: false;
+}
+
+@property --input-accent-border-width {
+  syntax: "<length>";
+  initial-value: 1px;
+  inherits: false;
+}
+
+@property --input-accent-border-style {
+  syntax: "<custom-ident>";
+  initial-value: dotted;
+  inherits: false;
+}
+
+/* info-box settings */
+
+@property --infobox-border-width {
+  syntax: "<length>";
+  initial-value: 1px;
+  inherits: false;
+}
+
+@property --infobox-border-radius {
+  syntax: "<length>";
+  initial-value: 0px;
+  inherits: false;
+}
+
+@property --infobox-header-height {
+  syntax: "<length>";
+  initial-value: 16px;
+  inherits: false;
+}
+
+@property --infobox-header-border-width {
+  syntax: "<length>";
+  initial-value: 1px;
+  inherits: false;
+}
+
+@property --infobox-header-background-gradient-height {
+  syntax: "<length>";
+  initial-value: 5px;
+  inherits: false;
+}
+
+@property --infobox-progressbar-height {
+  syntax: "<length>";
+  initial-value: 8px;
+  inherits: false;
+}
+
+@property --infobox-progressbar-width {
+  syntax: "<length>";
+  initial-value: 100px;
+  inherits: false;
+}
+
+@property --infobox-progressbar-border-width {
+  syntax: "<length>";
+  initial-value: 1px;
+  inherits: false;
+}
+
+@property --infobox-margin {
+  syntax: "<length>";
+  initial-value: 4px;
+  inherits: false;
+}
+
+/* login- and info-window settings */
+
+@property --infowin-border-width {
+  syntax: "<length>";
+  initial-value: 1px;
+  inherits: false;
+}
+
+@property --infowin-section-border-width {
+  syntax: "<length>";
+  initial-value: 1px;
+  inherits: false;
+}
+
+@property --infowin-tools-border-width {
+  syntax: "<length>";
+  initial-value: 1px;
+  inherits: false;
+}
+
+@property --infowin-title-border-radius {
+  syntax: "<length>";
+  initial-value: 8px;
+  inherits: false;
+}
+
+@property --infowin-title-height {
+  syntax: "<length>";
+  initial-value: 20px;
+  inherits: false;
+}
+
+@property --infowin-body-margin {
+  syntax: "<length>";
+  initial-value: 10px;
+  inherits: false;
+}
+
+@property --infowin-progressbar-height {
+  syntax: "<length>";
+  initial-value: 8px;
+  inherits: false;
+}
+
+@property --infowin-progressbar-width {
+  syntax: "<length>";
+  initial-value: 100px;
+  inherits: false;
+}
+
+@property --infowin-progressbar-border-width {
+  syntax: "<length>";
+  initial-value: 1px;
+  inherits: false;
+}
+
+@property --infowin-label-width {
+  syntax: "<length>";
+  initial-value: 130px;
+  inherits: false;
+}
+
+@property --infowin-background-gradient-height {
+  syntax: "<length>";
+  initial-value: 5px;
+  inherits: false;
+}
+
+@property --infowin-shadow-offset {
+  syntax: "<length>";
+  initial-value: 4px;
+  inherits: false;
+}
+
+@property --infowin-shadow-blur {
+  syntax: "<length>";
+  initial-value: 16px;
+  inherits: false;
+}
+
+@property --infowin-shadow-spread {
+  syntax: "<length>";
+  initial-value: 0px;
+  inherits: false;
+}
+
+/* popup settings */
+
+@property --popup-width {
+  syntax: "<length>";
+  initial-value: 480px;
+  inherits: false;
+}
+
+@property --popup-border-width {
+  syntax: "<length>";
+  initial-value: 1px;
+  inherits: false;
+}
+
+@property --popup-border-radius {
+  syntax: "<length>";
+  initial-value: 8px;
+  inherits: false;
+}
+
+@property --popup-body-margin {
+  syntax: "<length>";
+  initial-value: 10px;
+  inherits: false;
+}
+
+@property --popup-shadow-offset {
+  syntax: "<length>";
+  initial-value: 4px;
+  inherits: false;
+}
+
+@property --popup-shadow-blur {
+  syntax: "<length>";
+  initial-value: 16px;
+  inherits: false;
+}
+
+@property --popup-shadow-spread {
+  syntax: "<length>";
+  initial-value: 0px;
+  inherits: false;
+}
+
+/* error-widget settings */
+
+@property --error-border-width {
+  syntax: "<length>";
+  initial-value: 1px;
+  inherits: false;
+}
+
+@property --error-title-border-radius {
+  syntax: "<length>";
+  initial-value: 8px;
+  inherits: false;
+}
+
+@property --error-title-height {
+  syntax: "<length>";
+  initial-value: 21px;
+  inherits: false;
+}
+
+/* button settings */
+
+@property --button-width {
+  syntax: "<length>";
+  initial-value: 120px;
+  inherits: false;
+}
+
+@property --button-height {
+  syntax: "<length>";
+  initial-value: 20px;
+  inherits: false;
+}
+
+@property --button-border-width {
+  syntax: "<length>";
+  initial-value: 1px;
+  inherits: false;
+}
+
+@property --button-border-style {
+  syntax: "<custom-ident>";
+  initial-value: outset;
+  inherits: false;
+}
+
+@property --button-border-radius {
+  syntax: "<length>";
+  initial-value: 4px;
+  inherits: false;
+}
+
+@property --button-border-gradient-top {
+  syntax: "<percentage>";
+  initial-value: 40%;
+  inherits: false;
+}
+
+@property --button-border-gradient-middle {
+  syntax: "<percentage>";
+  initial-value: 60%;
+  inherits: false;
+}
+
+/* OSD settings */
+
+@property --osd-screen-width {
+  /* the width of the TV's native screenshot area */
+  syntax: "<length>";
+  initial-value: 640px;
+  inherits: false;
+}
+
+@property --osd-screen-height {
+  /* the height of the TV's native screenshot area */
+  syntax: "<length>";
+  initial-value: 360px;
+  inherits: false;
+}
+
+@property --osd-screen-scale {
+  /* for adaptation to small screens; should be a multiple of 0.05 */
+  syntax: "<number>";
+  initial-value: 1.0;
+  inherits: false;
+}
+
+@property --osd-screen-border-width {
+  syntax: "<length>";
+  initial-value: 20px;
+  inherits: false;
+}
+
+@property --osd-screen-border-height {
+  syntax: "<length>";
+  initial-value: 20px;
+  inherits: false;
+}
+
+@property --osd-screen-base-height {
+  syntax: "<length>";
+  initial-value: 72px;
+  inherits: false;
+}
+
+@property --osd-font-size {
+  syntax: "<length>";
+  initial-value: 11px;
+  inherits: false;
+}
+
+@property --osd-title-font-size {
+  syntax: "<length>";
+  initial-value: 12px;
+  inherits: false;
+}
+
+@property --osd-subtitle-font-size {
+  syntax: "<length>";
+  initial-value: 9px;
+  inherits: false;
+}
+
+@property --osd-message-border-width {
+  syntax: "<length>";
+  initial-value: 2px;
+  inherits: false;
+}
+
+@property --osd-button-margin {
+  syntax: "<length>";
+  initial-value: 10px;
+  inherits: false;
+}
+
+@property --osd-button-gap {
+  /* should satisfy (screen-width - 3 * button-gap) % 4 == 0 */
+  syntax: "<length>";
+  initial-value: 10px;
+  inherits: false;
+}
+
+/* remote-control settings */
+
+@property --remote-control-width {
+  /* the remote-control's native width */
+  syntax: "<length>";
+  initial-value: 160px;
+  inherits: false;
+}
+
+@property --remote-control-height {
+  /* the remote-control's native height */
+  syntax: "<length>";
+  initial-value: 420px;
+  inherits: false;
+}
+
+@property --remote-control-scale {
+  /* for adaptation to small screens; should be a multiple of 0.05 */
+  syntax: "<number>";
+  initial-value: 1.0;
+  inherits: false;
+}
+
+/* animation settings */
+
+@keyframes desaturating {
+  from { filter: saturate(100%); }
+  to   { filter: saturate(40%);  }
+}
+
+@keyframes fading {
+  from { filter: opacity(100%); }
+  to   { filter: opacity(40%);  }
+}
+
+@keyframes row-highlighting {
+  from { color: var(--listing-color);           }
+  to   { color: var(--listing-color-highlight); }
+}

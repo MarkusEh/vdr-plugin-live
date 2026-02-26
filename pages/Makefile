@@ -5,9 +5,12 @@ PLUGIN := live
 TNTFLAGS ?= -Wno-overloaded-virtual -Wno-unused-variable
 
 DEFINES += -DDISABLE_TEMPLATES_COLLIDING_WITH_STL
+DEFINES += -DNEW_RCKEYS
 
 ### Includes and Defines (add further entries here):
 INCLUDES += -I$(VDRDIR)/include -I..
+
+ECPPINCLUDES += -I../live/img
 
 ### The object files (add further files here):
 OBJS := action.o content.o recordings_widget.o play_recording.o timers.o edit_timer.o \
@@ -39,10 +42,10 @@ all: libpages.a
 
 %.cpp: %.ecpp
 	$(call PRETTY_PRINT,"ECPP pages/" $@)
-	$(Q)$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CPP) $<
+	$(Q)$(ECPPC) $(ECPPFLAGS) $(ECPPFLAGS_CPP) $(ECPPINCLUDES) $<
 
 .%.edep: %.ecpp
-	@$(ECPPC) -M $(ECPPFLAGS) $(ECPPFLAGS_CPP) $< > $@
+	@$(ECPPC) -M $(ECPPFLAGS) $(ECPPFLAGS_CPP) $(ECPPINCLUDES) $< > $@
 
 ### Dependencies:
 MAKEDEP := $(CXX) -MM -MG

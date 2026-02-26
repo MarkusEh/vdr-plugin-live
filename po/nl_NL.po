@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-24 16:51+0200\n"
+"POT-Creation-Date: 2026-05-03 13:33+0200\n"
 "PO-Revision-Date: 2025-10-03 20:15+0200\n"
 "Last-Translator: Carel Willemse <carel@nekanali.nl>\n"
 "Language-Team: see developers in README\n"
@@ -806,8 +806,11 @@ msgstr "Verzoek mislukt!"
 msgid "Retrieving status ..."
 msgstr "Ophalen status ..."
 
-msgid "Toggle updates on/off"
-msgstr "Schakel updates aan/uit"
+msgid "Stop infobox update"
+msgstr ""
+
+msgid "Start infobox update"
+msgstr ""
 
 msgid "Stop playback"
 msgstr "Stop weergave"
@@ -1033,6 +1036,9 @@ msgstr "Klap alle mappen uit"
 
 msgid "Collapse all folders"
 msgstr "Klap alle mappen dicht"
+
+msgid "Keyboard help"
+msgstr ""
 
 msgid "Snapshot interval"
 msgstr "Snapshot interval"
@@ -1286,6 +1292,9 @@ msgstr ""
 
 msgid "Delete permanently"
 msgstr ""
+
+#~ msgid "Toggle updates on/off"
+#~ msgstr "Schakel updates aan/uit"
 
 #~ msgid "On archive DVD No."
 #~ msgstr "Op archief DVD nr."

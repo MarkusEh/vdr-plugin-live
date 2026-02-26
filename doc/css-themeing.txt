@@ -3,51 +3,78 @@ Live themeing in a few steps
 
 - Copy the 'themes' directory from the sources to
   $VDRCONFIG/plugins/live (default: /video/vdr/plugins/live)
-- Go to setup page, select the desired theme from the list box.
 
-You can add own themes by creating in themes a subdirectory with your
-theme. Read further for more detailed information about themeing.
+- Go to the setup page and select the desired theme from the
+  drop-down menu.
+
+You can add themes of your own by creating a subdirectory with the
+name of your theme in the 'themes' directory. An underscore will be
+translated to a space in the themes' drop-down menu.
+
+Read further for more detailed information about themeing.
 
 
 How to do Live themeing with CSS
 ================================
 
 Live supports CSS themeing. While the structure and layout of the HTML
-pages is given by the plugin, there is the possibility to change the
-look through CSS and exchanged images.
+pages is given by the plugin, it allows changing the look through CSS
+and theme-specific images.
 
 
 Themable resources
 ------------------
 
-CSS style sheets and referenced images are themeable. This means, a theme
-can replace the colors in the its 'theme.css' style sheet as well as the
-icons in the theme's 'img' directory.
+CSS style sheets and referenced images are themeable. This means that a
+theme can
+
+- adjust or add selected properties (dimensions, scales, etc.) in its
+  'layout.css' style sheet
+
+- refine, amend or add colors and selected formatting rules in its
+  'theme.css' style sheet
+
+- overlay or add distinct icons in its 'img' directory
+
+Properties not defining colors (i.e., not of type 'syntax: "<color>"')
+are located in a style sheet 'layout.css' instead of 'theme.css' to
+allow sharing property adjustments among themes by means of symbolic
+links. An example are the "large" theme variants that commonly increase
+the icon size by 50 percent via sym-linking the centrally provided
+style sheet 'layout-large.css' and thereby avoiding copy redundancy.
 
 
 Access scheme for the CSS style sheets
 --------------------------------------
 
-Each Live page requests at least three style sheets in the following
+Each Live page requests at least five style sheets in the following
 order:
 
- 1. 'styles.css' (the build-in style sheet) is requested.
- 2. The theme's master style sheet 'theme.css' is requested.
- 3. A site preferences style sheet is requested ('siteprefs.css')
+ 1. 'properties.css' (global layout properties)
+ 2. 'styles.css' (built-in styles for page display)
+ 3. the theme's 'layout.css' (adjusted layout properties)
+ 4. the theme's 'theme.css' (adjusted colors and styles)
+ 5. 'siteprefs.css' (site-specific adjustments of properties and styles)
 
 
 Location for the style sheets
 -----------------------------
 
-The initial style sheet 'styles.css' provides a basic layout. It is a
-built-in style sheet and can not be altered after Live is compiled and
-installed.
+The initial style sheets 'properties.css' and 'styles.css' provide a
+basic layout and coloring. Both are built-in style sheets and can not
+be altered after Live has been compiled and installed. They are loaded
+via the following URLs.:
 
-The theme's style sheet 'theme.css' is requested through following URL:
+  css/properties.css
+  css/theme.css
 
-  themes/<themename>/css/theme.css
+The theme's style sheets 'layout.css' and 'theme.css' are loaded via the
+following URLs:
 
-The site preference style sheet is requested through this URL:
+  themes/<theme-name>/css/layout.css
+  themes/<theme-name>/css/theme.css
+
+The style sheet for the site-preferences is loaded via this URL:
 
   css/siteprefs.css
 
@@ -55,49 +82,59 @@ The site preference style sheet is requested through this URL:
 Access scheme for themeable images
 ----------------------------------
 
-All themeable images in the pages, that Live delivers to the browser are
-accessed through the URL
+All themeable images in the pages that Live delivers to the browser are
+accessed via the URL:
 
-  themes/<themename>/img/<imagename>
+  themes/<theme-name>/img/<image-name>
 
-If a image is not found under that URL, the image is searched in
+If an image is not found under that URL, the image is further searched
+in:
 
-  img/<imagename>
+  img/<image-name>
 
-And if not found there, an attempt to deliver a built-in image is taken.
+If even not found there, an attempt to deliver a built-in image is made.
 
 
 Location of the resources in the file system
 --------------------------------------------
 
 All themeable content must be present in the directory specified by
-'GetConfigDir'. At runtime, 'GetConfigDir' returns the position in
-the file system where the plugin's configuration file is stored. The
-location is build from the VDR config path appended with the plugin's
-name (i.e., /var/lib/vdr/plugins/live). The themes are located in the
-'themes' subdirectory of the above path.
+'GetConfigDirectory()'. At runtime, 'GetConfigDirectory()' returns
+the position in the file system where the plugin's configuration files
+are stored. The location is build from the VDR's configuration path
+with the plugin's name appended (i.e., /var/lib/vdr/plugins/live).
+The themes are located in the 'themes' subdirectory of the above path.
 
 
 Structure of a theme package
 ----------------------------
 
 A theme provides distinct colors and icons for the display of the
-various pages. The general page layout is defined by the global
-style sheet 'styles.css', whereas a style sheet 'themes.css' just
-provides the coloring.
+various pages. The general page layout is defined by the global style
+sheets 'properties.css' (dimensions) and 'styles.css' (coloring and
+formatting based upon the dimensions). Likewise, a theme's style sheet
+'layout.css' adjusts or amends dimensions, whereas its style sheet
+'themes.css' provides coloring and possibly refines formatting.
 
-A theme package consists of directory with the theme's name. It must
-contain the subdirectories 'css' and 'img'. Under 'css' and 'img',
-no other subdirectories are allowed for security reasons (see below).
+A theme package consists of a directory with the theme's name (with
+underscores translated to spaces for the drop-down menu), containing
+the subdirectories 'css' and 'img'. Under 'css' and 'img', no other
+subdirectories are allowed for security reasons (see below).
 
-In the subdirectory 'css', a style sheet 'theme.css' must exist for
-defining color properties that are referenced by styles in 'styles.css'.
+In the subdirectory 'css', two files must be present:
 
-Additional images referenced through the style sheet and images
-replacing the default images go to the 'img' subdirectory. Replacing
-images must have the same name like the image to be replaced. Note
-that icons should have a native dimension of 16x16 pixels for best
-representation in the page layout, else they will be scaled to match.
+- a (possibly empty) style sheet 'layout.css' for adjusted dimensions
+
+- a style sheet 'theme.css' for defining color properties referenced
+  by styles in 'styles.css' or supplemental styles in 'theme.css'
+
+Additional images referenced by the style sheet and images replacing
+the default images are located the 'img' subdirectory. Replacement
+images must have the same name as the image to be replaced. Icons that
+cannot seamlessly be scaled (i.e., are no SVG images) should have a
+native dimension of 16x16 pixels for best representation in the page
+layout, or they will be scaled to match the theme's desired icon size
+otherwise.
 
 The Live distribution comes with a few predefined theme packages. You
 should look into them to better understand this structure.
@@ -106,13 +143,13 @@ should look into them to better understand this structure.
 Selecting a theme in Live
 -------------------------
 
-In the live setup page, the user can select the desired theme. When
+In the Live setup page, the user can select the desired theme. When
 the settings are saved, the selected theme becomes active. Live detects
 the available themes dynamically by scanning the 'themes' directory in
-plugin's config directory for available themes and creates the select
-box from this information.
+plugin's configuration directory for available themes and creates the
+drop-down menu from this information.
 
-So, the installation of a new theme can easily be done by unpacking a
+Thus, the installation of a new theme can easily be done by unpacking a
 theme archive in the 'themes' directory. This assumes that the theme
 archive follows the structure of a theme package as described above.
 
@@ -120,14 +157,14 @@ archive follows the structure of a theme package as described above.
 Security provisions
 -------------------
 
-Live will map every URL starting with themes/<themename>/css or
-themes/<themename>/img to exactly these directories under the location
-of the themes directory. This means that any path components after 'img'
-or 'css' are discarded. Only the basename of the URL is appended to these
-directories. This is to prevent possible malicious requests to other
-locations in the file system by adding '..' to the requested path. The
-downside of this is that a theme designer cannot make use of additional
-directories below the 'img' and 'css' subdirectories.
+Live will map every URL starting with 'themes/<theme-name>/css' or
+'themes/<theme-name>/img' to exactly these directories under the
+location of the themes directory. This means that any path components
+after 'img' or 'css' are discarded. Only the basename of the URL is
+appended to these directories. This is to prevent possible malicious
+requests to other locations in the file system by adding '..' to the
+requested path. The downside of this is that a theme designer cannot
+use additional directories below the 'img' and 'css' subdirectories.
 
 
 User Contribution

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-24 16:51+0200\n"
+"POT-Creation-Date: 2026-05-03 13:33+0200\n"
 "PO-Revision-Date: 2025-10-05 18:19+0200\n"
 "Last-Translator: Tomasz Maciej Nowak <tomek_n@o2.pl>\n"
 "Language-Team: see developers in README\n"
@@ -805,8 +805,11 @@ msgstr "Zakończono niepowodzeniem!"
 msgid "Retrieving status ..."
 msgstr "odczytywanie stanu ..."
 
-msgid "Toggle updates on/off"
-msgstr "Włącz/wyłącz aktualizację stanu."
+msgid "Stop infobox update"
+msgstr ""
+
+msgid "Start infobox update"
+msgstr ""
 
 msgid "Stop playback"
 msgstr "zatrzymaj odtwarzanie"
@@ -1032,6 +1035,9 @@ msgstr "Rozwiń wszystkie katalogi"
 
 msgid "Collapse all folders"
 msgstr "Zwiń wszystkie katalogi"
+
+msgid "Keyboard help"
+msgstr ""
 
 msgid "Snapshot interval"
 msgstr "Okres pomiędzy migawkami"
@@ -1285,6 +1291,9 @@ msgstr ""
 
 msgid "Delete permanently"
 msgstr ""
+
+#~ msgid "Toggle updates on/off"
+#~ msgstr "Włącz/wyłącz aktualizację stanu."
 
 #~ msgid "On archive DVD No."
 #~ msgstr "W archiwum DVD nr"

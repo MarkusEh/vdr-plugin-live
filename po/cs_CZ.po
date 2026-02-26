@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-24 16:51+0200\n"
+"POT-Creation-Date: 2026-05-03 13:33+0200\n"
 "PO-Revision-Date: 2010-05-10 22:15+0200\n"
 "Last-Translator: Vladimír Bárta <vladimir.barta@k2atmitec.cz>,Radek Stastny <dedkus@gmail.com> \n"
 "Language-Team: see developers in README\n"
@@ -812,8 +812,11 @@ msgstr "Požadavek selhal!"
 msgid "Retrieving status ..."
 msgstr "zjišťování stavu..."
 
-msgid "Toggle updates on/off"
-msgstr "aktualizovat změny ano/ne."
+msgid "Stop infobox update"
+msgstr ""
+
+msgid "Start infobox update"
+msgstr ""
 
 msgid "Stop playback"
 msgstr "ukončit přehrávání"
@@ -1039,6 +1042,9 @@ msgid "Expand all folders"
 msgstr ""
 
 msgid "Collapse all folders"
+msgstr ""
+
+msgid "Keyboard help"
 msgstr ""
 
 msgid "Snapshot interval"
@@ -1296,6 +1302,9 @@ msgstr ""
 
 msgid "Delete permanently"
 msgstr ""
+
+#~ msgid "Toggle updates on/off"
+#~ msgstr "aktualizovat změny ano/ne."
 
 #, fuzzy
 #~ msgid "Couldn't find recording. Maybe you mistyped your request?"

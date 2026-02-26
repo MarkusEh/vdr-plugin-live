@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-24 16:51+0200\n"
+"POT-Creation-Date: 2026-05-03 13:33+0200\n"
 "PO-Revision-Date: 2013-06-21 20:15+0200\n"
 "Last-Translator: Fredrik Olofsson <fredrik.olofsson@freddano.se>\n"
 "Language-Team: see developers in README\n"
@@ -804,8 +804,11 @@ msgstr "Begäran misslyckades!"
 msgid "Retrieving status ..."
 msgstr "Hämtar status ..."
 
-msgid "Toggle updates on/off"
-msgstr "Uppdateringar på/av."
+msgid "Stop infobox update"
+msgstr ""
+
+msgid "Start infobox update"
+msgstr ""
 
 msgid "Stop playback"
 msgstr "stoppa uppspelning"
@@ -1031,6 +1034,9 @@ msgstr "Utöka alla bibliotek"
 
 msgid "Collapse all folders"
 msgstr "Kollapsa alla bibliotek"
+
+msgid "Keyboard help"
+msgstr ""
 
 msgid "Snapshot interval"
 msgstr ""
@@ -1284,6 +1290,9 @@ msgstr ""
 
 msgid "Delete permanently"
 msgstr ""
+
+#~ msgid "Toggle updates on/off"
+#~ msgstr "Uppdateringar på/av."
 
 #~ msgid "On archive DVD No."
 #~ msgstr "På arkiv-dvd nr."

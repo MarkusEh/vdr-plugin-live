@@ -43,6 +43,7 @@ if (logged_in || !LiveSetup().UseAuth()) return reply.redirect(targetUrl);
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>VDR-Live - <$ tr("Login") $></title>
+    <& pageelems.favicon &>
     <& pageelems.stylesheets &>
 <#  the Ajax components cause loading the login page twice, so better skip them
     <& pageelems.ajax_js &>
@@ -52,7 +53,7 @@ if (logged_in || !LiveSetup().UseAuth()) return reply.redirect(targetUrl);
   <div class="loginwin">
     <div class="boxheader"><div class="caption"><$ tr("VDR Live Login") $></div></div>
     <div class="login_content">
-      <img src="<$ LiveSetup().GetThemedLink("img", "logo_login.png") $>" alt="VDR Live" />
+      <img class="logo" src="<$ LiveSetup().GetThemedLink("img", "logo.svg") $>" alt="VDR Live" />
       <form name="auth">
         <input type="hidden" name="action" value="login" />
         <input type="hidden" name="redirect" value="<$ targetUrl $>" />

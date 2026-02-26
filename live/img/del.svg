@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="24"
+   height="24"
+   viewBox="0 0 24 24"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="del.svg"
+   inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview5"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="27.375"
+     inkscape:cx="12"
+     inkscape:cy="12"
+     inkscape:window-width="1920"
+     inkscape:window-height="1129"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg5"
+     showgrid="false" />
+  <defs
+     id="defs2">
+    <radialGradient
+       id="radial-pattern-0"
+       gradientUnits="userSpaceOnUse"
+       cx="96.169754"
+       cy="94.547119"
+       fx="96.169754"
+       fy="94.547119"
+       r="10.35"
+       gradientTransform="matrix(0, 1.649721, -1.420822, 0.00000407673, 232.613815, -62.903522)">
+      <stop
+         offset="0"
+         stop-color="rgb(100%, 100%, 100%)"
+         stop-opacity="1"
+         id="stop1"
+         style="stop-color:#f0f0f0;stop-opacity:1;" />
+      <stop
+         offset="1"
+         stop-color="rgb(83.137255%, 33.333333%, 0%)"
+         stop-opacity="1"
+         id="stop2"
+         style="stop-color:#f00000;stop-opacity:1;" />
+    </radialGradient>
+  </defs>
+  <path
+     fill-rule="nonzero"
+     fill="url(#radial-pattern-0)"
+     stroke-width="0.7"
+     stroke-linecap="butt"
+     stroke-linejoin="miter"
+     stroke="rgb(66.666667%, 26.666667%, 0%)"
+     stroke-opacity="1"
+     stroke-miterlimit="4"
+     d="M 112.224358 102.224749 C 112.224358 107.749033 107.749033 112.224358 102.224749 112.224358 C 96.700465 112.224358 92.225139 107.749033 92.225139 102.224749 C 92.225139 96.700465 96.700465 92.225139 102.224749 92.225139 C 107.749033 92.225139 112.224358 96.700465 112.224358 102.224749 Z M 112.224358 102.224749 "
+     id="path3"
+     style="stroke:#c00000;stroke-opacity:1"
+     transform="matrix(1.132075, 0, 0, 1.132075, -103.726126, -103.726126)" />
+  <path
+     fill-rule="nonzero"
+     fill="#ffffff"
+     fill-opacity="1"
+     d="M 19.20325,7.195437 7.195437,19.20325 4.797,16.804813 16.804813,4.797 Z m 0,0"
+     id="path4-6"
+     inkscape:label="path2" />
+  <path
+     fill-rule="nonzero"
+     fill="#ffffff"
+     fill-opacity="1"
+     d="M 7.195437,4.797 19.20325,16.804813 16.804813,19.20325 4.797,7.195437 Z m 0,0"
+     id="path5-8"
+     inkscape:label="path1" />
+</svg>

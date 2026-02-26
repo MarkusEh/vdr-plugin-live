@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+<defs>
+<clipPath id="clip-0">
+<path clip-rule="nonzero" d="M 0 0 L 2 0 L 2 22 L 0 22 Z M 0 0 "/>
+</clipPath>
+<clipPath id="clip-1">
+<rect x="0" y="0" width="4" height="22"/>
+</clipPath>
+<g id="source-7" clip-path="url(#clip-1)">
+<g clip-path="url(#clip-0)">
+<path fill-rule="nonzero" fill="rgb(40%, 40%, 40%)" fill-opacity="1" d="M 0 -1.101562 L 2 -1.101562 L 2 23.101562 L 0 23.101562 Z M 0 -1.101562 "/>
+</g>
+</g>
+<pattern id="pattern-0" patternUnits="userSpaceOnUse" x="0" y="0" width="4" height="22" viewBox="0 0 4 22" patternTransform="matrix(0.760473, 0.760473, -0.727726, 0.727726, -103.726126, -103.726126)">
+<use xlink:href="#source-7"/>
+</pattern>
+</defs>
+<path fill-rule="nonzero" fill="url(#pattern-0)" d="M 0 24 L 24 0 L 24 24 Z M 0 24 "/>
+</svg>

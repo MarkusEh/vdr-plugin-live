@@ -10,10 +10,10 @@
 
 var PageEnhance = new Class({
     options: {
-      epgLinkSelector: 'a[href^="epginfo.html?epgid"]',
+      epgLinkSelector: 'a[href^="epginfo.html?epgid"], *[xlink:href="epginfo.html?epgid=rcKeys"]',
       actionLinkSelector: 'a[href^="vdr_request/"]',
       editTimerSelector: 'a[href^="edit_timer.html?timerid"]',
-      hintTipSelector: '*[title]',
+      hintTipSelector: '*[title], *[xlink:title]',
       hintClassName: 'hint',
       infoWinOptions: {
         bodySelect: 'div.epg_content',
@@ -22,8 +22,8 @@ var PageEnhance = new Class({
       },
       notifyIdPrefix: 'notify',
       notifyStrings: {
-        successMsg: '<img src="active.png" alt=""> Success!',
-        errorMsg: '<img src="del.png" alt=""> failed!'
+        successMsg: '<img class="icon" src="active.svg" alt=""> Success!',
+        errorMsg: '<img lass="icon" src="del.svg" alt=""> failed!'
       }
     },
 
@@ -62,6 +62,10 @@ var PageEnhance = new Class({
     // pop up an EPG InfowWin window.
     epgPopup: function(el){
       var href = el.href;
+      // xlink:href returns an animation object
+      if (typeof(href) === 'object') {
+        href = href.baseVal ?? "";
+      }
       var epgid = $pick(href, "");
       if (epgid != "") {
         var extractId = /epgid=(\w+)/;

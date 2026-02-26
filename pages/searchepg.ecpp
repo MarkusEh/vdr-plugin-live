@@ -198,6 +198,7 @@ const char *TNT_ARRAY = "";
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>VDR Live - <$ tr("Search") $></title>
+    <& pageelems.favicon &>
     <& pageelems.stylesheets &>
     <& pageelems.ajax_js &>
 
@@ -231,16 +232,16 @@ const char *TNT_ARRAY = "";
 
     function changeduseextendedsearch(selection)
     {
-      document.getElementById("extendedsearch").style.display = (selection.checked ? "revert-layer" : "none");
+      document.getElementById("extendedsearch").style.display = (selection.checked ? "" : "none");
       const compatibility = document.getElementById("compatibility");
-      if (compatibility) compatibility.style.display = (selection.checked ? "revert-layer" : "none");
+      if (compatibility) compatibility.style.display = (selection.checked ? "" : "none");
     }
 
     function changedsearchmode(selection)
     {
       const tolerance = document.getElementById("tolerance");
       if (selection.options[selection.selectedIndex].value == 5) {
-        tolerance.style.display = "revert-layer";
+        tolerance.style.display = "";
         tolerance.disabled = false;
       } else {
         tolerance.style.display = "none";
@@ -251,20 +252,20 @@ const char *TNT_ARRAY = "";
     function changedchannelmode(selection)
     {
       const value = selection.options[selection.selectedIndex].value;
-      document.getElementById("channelinterval").style.display = (value == 1 ? "revert-layer" : "none");
-      document.getElementById("channelgroup").style.display = (value == 2 ? "revert-layer" : "none");
+      document.getElementById("channelinterval").style.display = (value == 1 ? "" : "none");
+      document.getElementById("channelgroup").style.display = (value == 2 ? "" : "none");
     }
 
     function changedusetime(selection)
     {
-      document.getElementById("timesettings").style.display = (selection.checked ? "revert-layer" : "none");
+      document.getElementById("timesettings").style.display = (selection.checked ? "" : "none");
     }
 
     function changeduseduration(selection)
     {
       const durationSettings = document.getElementById("durationsettings");
       if (selection.checked) {
-        durationSettings.style.display = "revert-layer";
+        durationSettings.style.display = "";
         for (const input of durationSettings.getElementsByTagName("input")) {
           input.disabled = false;
         }
@@ -278,18 +279,18 @@ const char *TNT_ARRAY = "";
 
     function changeduseweekday(selection)
     {
-      document.getElementById("weekdaysettings").style.display = (selection.checked ? "revert-layer" : "none");
+      document.getElementById("weekdaysettings").style.display = (selection.checked ? "" : "none");
     }
 
     function changeduseparentalrating(selection)
     {
-      document.getElementById("use_parental_rating").style.display = (selection.checked ? "revert-layer" : "none");
+      document.getElementById("use_parental_rating").style.display = (selection.checked ? "" : "none");
     }
 
     function changedusecontentids(selection)
     {
-      document.getElementById("use_content_ids").style.display = (selection.checked ? "revert-layer" : "none");
-      document.getElementById("use_content_ids_category_matching_mode").style.display = (selection.checked ? "revert-layer" : "none");
+      document.getElementById("use_content_ids").style.display = (selection.checked ? "" : "none");
+      document.getElementById("use_content_ids_category_matching_mode").style.display = (selection.checked ? "" : "none");
     }
 
     function changedusecontentgroup(selection)
@@ -297,11 +298,11 @@ const char *TNT_ARRAY = "";
       if (selection !== null) {
         const gid = selection.id.slice(-2);
         if (gid == 'b0') {
-          document.getElementById("use_content_ids_characteristics_matching_mode").style.display = (selection.checked ? "revert-layer" : "none");
+          document.getElementById("use_content_ids_characteristics_matching_mode").style.display = (selection.checked ? "" : "none");
         }
         const group = document.getElementById("content_group_" + gid);
         if (group !== null) {
-          group.style.display = (selection.checked ? "revert-layer" : "none");
+          group.style.display = (selection.checked ? "" : "none");
         }
       }
     }
@@ -309,9 +310,9 @@ const char *TNT_ARRAY = "";
     function changeduseextepginfo(selection)
     {
       var doc = document.getElementById("use_extepg_matching_mode");
-      if (doc) doc.style.display = (selection.checked ? "revert-layer" : "none");
+      if (doc) doc.style.display = (selection.checked ? "" : "none");
       var doc = document.getElementById("use_extepg_settings");
-      if (doc) doc.style.display = (selection.checked ? "revert-layer" : "none");
+      if (doc) doc.style.display = (selection.checked ? "" : "none");
     }
 
     function changedextepginfo(selection)
@@ -335,7 +336,7 @@ const char *TNT_ARRAY = "";
     function changedblacklistmode(selection)
     {
       document.getElementById("blacklistmodesettings").style.display =
-        (selection.options[selection.selectedIndex].value == 1 ? "revert-layer" : "none");
+        (selection.options[selection.selectedIndex].value == 1 ? "" : "none");
     }
 
     function changedblacklists(selection)
@@ -480,13 +481,13 @@ const char *TNT_ARRAY = "";
                 <td>
                   <input type="checkbox" name="usecontentids" value="1" <{ CHECKIF(contentFilterIDs.length() > 0) }> onclick="changedusecontentids(this)" id="usecontentids"/>
                   <!-- content category matching mode -->
-                  <div id="use_content_ids_category_matching_mode" class="selection" style="display: none">
-                    <label for="contentscategorymatchingmode"><$ tr("Category matching mode") $>: </label>
+                  <div id="use_content_ids_category_matching_mode" class="selection with-tooltip" style="display: none">
+                    <div><label for="contentscategorymatchingmode"><$ tr("Category matching mode") $>: </label>
                     <select name="contentscategorymatchingmode" size="1">
                       <option value="0" <{ SELECTIF(contentscategorymatchingmode == 0) }> ><$ tr("all selected descriptors") $></option>
                       <option value="1" <{ SELECTIF(contentscategorymatchingmode == 1) }> ><$ tr("any selected descriptor") $></option>
                       <option value="2" <{ SELECTIF(contentscategorymatchingmode == 2) }> ><$ tr("one selected descriptor per group") $></option>
-                    </select>
+                    </select></div>
                     <& tooltip.help text=(tr("When \"one selected descriptor per group\" is chosen, "
                       "at least one of a group's selcted descriptors must be present (OR) for every "
                       "included group (AND); groups without selected descriptors are ignored. "
@@ -521,12 +522,12 @@ const char *TNT_ARRAY = "";
                           <td><input type="checkbox" name="usegid<$ hexID $>" value="1" <{ CHECKIF(groupID < contentIdentifiersPerGroup && filteredContentGroupIDs[groupID]) }> onclick="changedusecontentgroup(this)" id="usecontentgroup<$ hexID $>"/>
 %                         if (groupID == 0x0B) {
                             <!-- content characteristics matching mode -->
-                            <div id="use_content_ids_characteristics_matching_mode" class="selection" style="display: none">
-                              <label for="contentscharacteristicsmatchingmode"><$ tr("Category matching mode") $>: </label>
+                            <div id="use_content_ids_characteristics_matching_mode" class="selection with-tooltip" style="display: none">
+                              <div><label for="contentscharacteristicsmatchingmode"><$ tr("Category matching mode") $>: </label>
                               <select name="contentscharacteristicsmatchingmode" size="1">
                                 <option value="0" <{ SELECTIF(contentscharacteristicsmatchingmode == 0) }> ><$ tr("all selected descriptors") $></option>
                                 <option value="1" <{ SELECTIF(contentscharacteristicsmatchingmode == 1) }> ><$ tr("any selected descriptor") $></option>
-                              </select>
+                              </select></div>
                               <& tooltip.help text=(tr("Special characteristics use their own matching mode. "
                                 "Both the other categories and the special characteristics must match jointly.")) &>
                             </div>
@@ -556,13 +557,13 @@ const char *TNT_ARRAY = "";
               <td>
                 <input type="checkbox" name="useextepginfo" value="1" <{ CHECKIF(useextepginfo) }> onclick="changeduseextepginfo(this)" id="useextepginfo"/>
                 <!-- EPG category matching mode -->
-                <div id="use_extepg_matching_mode" class="selection" style="display: none">
-                  <label for="extepginfomatchingmode"><$ tr("Category matching mode") $>: </label>
+                <div id="use_extepg_matching_mode" class="selection with-tooltip" style="display: none">
+                  <div><label for="extepginfomatchingmode"><$ tr("Category matching mode") $>: </label>
                   <select name="extepginfomatchingmode" size="1">
                     <option value="0" <{ SELECTIF(extepginfomatchingmode == 0) }> ><$ tr("all categories") $></option>
                     <option value="1" <{ SELECTIF(extepginfomatchingmode == 1) }> ><$ tr("all except missing categories") $></option>
                     <option value="2" <{ SELECTIF(extepginfomatchingmode == 2) }> ><$ tr("at least one category") $></option>
-                  </select>
+                  </select></div>
                   <& tooltip.help text=(tr("Not including all categories can cause very many timers. So please always first test this search before using it as search timer!")) &>
                 </div>
                 <div id="use_extepg_settings" style="display: none">
@@ -641,17 +642,17 @@ const char *TNT_ARRAY = "";
                   <table class="dependent" border="0" cellpadding="0" cellspacing="0">
                     <tr>
                       <td class="label"><div class="withmargin"><$ tr("Start after") $>:</div></td>
-                      <td>
+                      <td><div class="with-tooltip">
                         <input type="time" name="start_s" value="<$ start_s $>" />
                         <& tooltip.help text=(tr("The time the show may start at the earliest")) &>
-                      </td>
+                      </div></td>
                     </tr>
                     <tr>
                       <td class="label"><div class="withmargin"><$ tr("Start before") $>:</div></td>
-                      <td>
+                      <td><div class="with-tooltip">
                         <input type="time" name="stop_s" value="<$ stop_s $>" />
                         <& tooltip.help text=(tr("The time the show may start at the latest")) &>
-                      </td>
+                      </div></td>
                     </tr>
                   </table>
                 </div>

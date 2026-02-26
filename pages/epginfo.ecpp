@@ -41,6 +41,7 @@ using namespace vdrlive;
   bool ajaxReq = !async.empty() && (parse_int<int>(async) != 0);
 
   bool aboutBox = false;
+  bool rcKeys = false;
 
   const cConfirm *confirm = get_confirm_popup(epgid);
   if (confirm) pageTitle = confirm->get_headline();
@@ -57,6 +58,7 @@ using namespace vdrlive;
     const std::string_view recording_s("recording_");
     const std::string_view event_s("event_");
     const std::string_view aboutbox("aboutBox");
+    const std::string_view rckeys("rcKeys");
 
     // check for recording:
     if (epgid.compare(0, recording_s.length(), recording_s) == 0) {
@@ -91,6 +93,8 @@ using namespace vdrlive;
     // check for aboutbox:
     else if (epgid.compare(0, aboutbox.length(), aboutbox) == 0) {
       aboutBox = true;
+    } else if (epgid.compare(0, rckeys.length(), rckeys) == 0) {
+      rcKeys = true;
     }
   }
 </%cpp>
@@ -102,6 +106,7 @@ using namespace vdrlive;
 <%cpp>
   if (!ajaxReq) {
 </%cpp>
+    <& pageelems.favicon &>
     <& pageelems.stylesheets &>
     <& pageelems.create_html_js &>
     <& pageelems.ajax_js &>
@@ -145,6 +150,11 @@ using namespace vdrlive;
   if (aboutBox) {
 </%cpp>
     <& pageelems.about_tt_box &>
+<%cpp>
+  }
+  if (rcKeys) {
+</%cpp>
+    <& remote.rckeys &>
 <%cpp>
   }
   if (confirm) {

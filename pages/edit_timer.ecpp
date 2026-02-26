@@ -272,6 +272,7 @@ TimerConflictNotifier timerNotifier;
 <%cpp>
   if (!ajaxReq) {
 </%cpp>
+    <& pageelems.favicon &>
     <& pageelems.stylesheets &>
     <& pageelems.ajax_js &>
 <%cpp>
@@ -307,9 +308,9 @@ TimerConflictNotifier timerNotifier;
             }
         } else {
           var element = document.getElementById("monitoring_option_id")
-          if (element !== null) element.style.display = "revert-layer"
+          if (element !== null) element.style.display = ""
           element = document.getElementById("monitoring_option_time")
-          if (element !== null) element.style.display = "revert-layer"
+          if (element !== null) element.style.display = ""
         }
     }
     //--></script>
