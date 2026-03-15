@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-19 15:34+0100\n"
+"POT-Creation-Date: 2026-03-15 09:42+0100\n"
 "PO-Revision-Date: 2010-05-10 22:15+0200\n"
 "Last-Translator: Vladimír Bárta <vladimir.barta@k2atmitec.cz>,Radek Stastny <dedkus@gmail.com> \n"
 "Language-Team: see developers in README\n"
@@ -232,6 +232,9 @@ msgstr "Popis"
 
 msgid "Description"
 msgstr "Popis"
+
+msgid "Parental rating"
+msgstr ""
 
 msgid "Auxiliary info"
 msgstr ""
@@ -533,6 +536,9 @@ msgstr ""
 msgid "Test"
 msgstr ""
 
+msgid "Save as new"
+msgstr ""
+
 msgid "Couldn't find timer. Maybe you mistyped your request?"
 msgstr "Nelze najít nahrávaní. Je správně zadáno?"
 
@@ -687,7 +693,10 @@ msgstr "Smazat nahrávku!"
 msgid "Restore this recording"
 msgstr ""
 
-msgid "Permanently delete this recording? Warning: this cannot be undone!"
+msgid "Permanently delete this recording"
+msgstr ""
+
+msgid "Warning: This cannot be undone!"
 msgstr ""
 
 msgid "Select all recordings in this folder"
@@ -915,9 +924,6 @@ msgstr ""
 msgid "Content"
 msgstr "obsah"
 
-msgid "Parental rating"
-msgstr ""
-
 msgid "Authors"
 msgstr "Autoři"
 
@@ -991,10 +997,10 @@ msgstr ""
 msgid "Delete selected"
 msgstr "Smazat automatické nahrávání?"
 
-msgid "Permanently delete selected recordings."
+msgid "Permanently delete selected recordings"
 msgstr ""
 
-msgid "Warning: This cannot be undone!"
+msgid "Deselect all recordings in this folder"
 msgstr ""
 
 msgid "No matching recordings found"
@@ -1025,9 +1031,6 @@ msgid "Expand all folders"
 msgstr ""
 
 msgid "Collapse all folders"
-msgstr ""
-
-msgid "Permanently delete this recording"
 msgstr ""
 
 msgid "Snapshot interval"
@@ -1271,10 +1274,19 @@ msgstr ""
 msgid "Delete recording"
 msgstr ""
 
+msgid "Delete"
+msgstr ""
+
 msgid "Restore recording"
 msgstr ""
 
+msgid "Restore"
+msgstr ""
+
 msgid "Permanently delete recording"
+msgstr ""
+
+msgid "Delete permanently"
 msgstr ""
 
 #~ msgid "Couldn't find recording or no recordings available."

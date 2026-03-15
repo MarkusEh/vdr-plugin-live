@@ -25,16 +25,20 @@ class cConfirm {
   public:
     const char *m_id; // like pur_  for purge_recording
     eUserRights m_user_rights;
-    const char *m_headline_button;  // text, headline and button of popup
+    const char *m_headline;  // text, headline of popup
     const char *m_warning;   // text, warning in popup (can be nullptr)
+    const char *m_prompt;    // text for confirmation button, headline if nullptr)
     tConfirmationQuestion m_confirmation_question;
     tPerformAction m_perform_action;
 
-    const char *get_headline_button() const {
-      return tr(m_headline_button);
+    const char *get_headline() const {
+      return tr(m_headline);
     }
     std::string get_question(cSv id) const {
       return m_confirmation_question(id.substr(4));
+    }
+    std::string get_prompt() const {
+      return tr(m_prompt && *m_prompt ? m_prompt : m_headline);
     }
     int perform_action(cSv id, std::string &message) const {
       return m_perform_action(id.substr(4), message);
@@ -51,11 +55,11 @@ inline bool operator==(const cConfirm &c1, const cConfirm &c2) { return cSv(c1.m
 
 inline static const cSortedVector<cConfirm, std::less<>> g_confirm_popups =
 {
-  { "del_", UR_DELRECS, trNOOP("Delete recording"), nullptr, &RecordingsManager_DeleteConfirmationQuestion, &RecordingsManager_DeleteRecording},
-  { "res_", UR_DELRECS, trNOOP("Restore recording"), nullptr, &RecordingsManager_RestoreConfirmationQuestion, &RecordingsManager_RestoreRecording},
-  { "pur_", UR_DELRECS, trNOOP("Permanently delete recording"), trNOOP("Warning: This cannot be undone!"), &RecordingsManager_PurgeConfirmationQuestion, &RecordingsManager_PurgeRecording},
-  { "det_", UR_DELTIMERS, trNOOP("Delete timer"), nullptr, &TimerManager_DeleteConfirmationQuestion, &TimerManager_DeleteTimer},
-  { "des_", UR_DELSTIMERS, trNOOP("Delete search timer"), nullptr, &SearchTimers_DeleteConfirmationQuestion, &SearchTimers_DeleteSearchTimer}
+  { "del_", UR_DELRECS, trNOOP("Delete recording"), nullptr, trNOOP("Delete"), &RecordingsManager_DeleteConfirmationQuestion, &RecordingsManager_DeleteRecording},
+  { "res_", UR_DELRECS, trNOOP("Restore recording"), nullptr, trNOOP("Restore"), &RecordingsManager_RestoreConfirmationQuestion, &RecordingsManager_RestoreRecording},
+  { "pur_", UR_DELRECS, trNOOP("Permanently delete recording"), trNOOP("Warning: This cannot be undone!"), trNOOP("Delete permanently"), &RecordingsManager_PurgeConfirmationQuestion, &RecordingsManager_PurgeRecording},
+  { "det_", UR_DELTIMERS, trNOOP("Delete timer"), nullptr, trNOOP("Delete"), &TimerManager_DeleteConfirmationQuestion, &TimerManager_DeleteTimer},
+  { "des_", UR_DELSTIMERS, trNOOP("Delete search timer"), nullptr, trNOOP("Delete"), &SearchTimers_DeleteConfirmationQuestion, &SearchTimers_DeleteSearchTimer}
 
 };
 

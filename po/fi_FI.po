@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-19 15:34+0100\n"
+"POT-Creation-Date: 2026-03-15 09:42+0100\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Rolf Ahrenberg <rahrenbe@cc.hut.fi>\n"
 "Language-Team: see developers in README\n"
@@ -224,6 +224,9 @@ msgstr "Lyhyt kuvaus"
 
 msgid "Description"
 msgstr "Kuvaus"
+
+msgid "Parental rating"
+msgstr ""
 
 msgid "Auxiliary info"
 msgstr "Lisätiedot"
@@ -525,6 +528,9 @@ msgstr ""
 msgid "Test"
 msgstr "Testaa"
 
+msgid "Save as new"
+msgstr ""
+
 msgid "Couldn't find timer. Maybe you mistyped your request?"
 msgstr "Ajastinta ei löydy. Kirjoititko varmasti oikein?"
 
@@ -678,7 +684,10 @@ msgstr "Poista tallenne kovalevyltä!"
 msgid "Restore this recording"
 msgstr ""
 
-msgid "Permanently delete this recording? Warning: this cannot be undone!"
+msgid "Permanently delete this recording"
+msgstr ""
+
+msgid "Warning: This cannot be undone!"
 msgstr ""
 
 msgid "Select all recordings in this folder"
@@ -906,9 +915,6 @@ msgstr ""
 msgid "Content"
 msgstr "Sisältö"
 
-msgid "Parental rating"
-msgstr ""
-
 msgid "Authors"
 msgstr "Tekijät"
 
@@ -981,10 +987,10 @@ msgstr ""
 msgid "Delete selected"
 msgstr "Poista valitut"
 
-msgid "Permanently delete selected recordings."
+msgid "Permanently delete selected recordings"
 msgstr ""
 
-msgid "Warning: This cannot be undone!"
+msgid "Deselect all recordings in this folder"
 msgstr ""
 
 msgid "No matching recordings found"
@@ -1016,9 +1022,6 @@ msgstr "Avaa kaikki kansiot"
 
 msgid "Collapse all folders"
 msgstr "Sulje kaikki kansiot"
-
-msgid "Permanently delete this recording"
-msgstr ""
 
 msgid "Snapshot interval"
 msgstr "Kuvien päivitysväli"
@@ -1258,10 +1261,19 @@ msgstr "Interaktiivinen VDR-ympäristö"
 msgid "Delete recording"
 msgstr ""
 
+msgid "Delete"
+msgstr ""
+
 msgid "Restore recording"
 msgstr ""
 
+msgid "Restore"
+msgstr ""
+
 msgid "Permanently delete recording"
+msgstr ""
+
+msgid "Delete permanently"
 msgstr ""
 
 #~ msgid "Couldn't find recording or no recordings available."

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-19 15:34+0100\n"
+"POT-Creation-Date: 2026-03-15 09:42+0100\n"
 "PO-Revision-Date: 2025-10-05 18:19+0200\n"
 "Last-Translator: Tomasz Maciej Nowak <tomek_n@o2.pl>\n"
 "Language-Team: see developers in README\n"
@@ -225,6 +225,9 @@ msgstr "Krótki opis"
 
 msgid "Description"
 msgstr "Opis"
+
+msgid "Parental rating"
+msgstr "Dozwolone"
 
 msgid "Auxiliary info"
 msgstr "Dodatkowe informacje"
@@ -526,6 +529,9 @@ msgstr "Plan nagrań zawiera dodatkowe pola. Zostaną zapisane z oryginalną war
 msgid "Test"
 msgstr "Testuj"
 
+msgid "Save as new"
+msgstr ""
+
 msgid "Couldn't find timer. Maybe you mistyped your request?"
 msgstr "Nie można odnaleźć pozycji. Literówka?"
 
@@ -679,7 +685,10 @@ msgstr "Usuń"
 msgid "Restore this recording"
 msgstr ""
 
-msgid "Permanently delete this recording? Warning: this cannot be undone!"
+msgid "Permanently delete this recording"
+msgstr ""
+
+msgid "Warning: This cannot be undone!"
 msgstr ""
 
 msgid "Select all recordings in this folder"
@@ -907,9 +916,6 @@ msgstr "Obsada i ekipa"
 msgid "Content"
 msgstr "Zawartość"
 
-msgid "Parental rating"
-msgstr "Dozwolone"
-
 msgid "Authors"
 msgstr "Autorzy"
 
@@ -982,10 +988,10 @@ msgstr ""
 msgid "Delete selected"
 msgstr "Usuń zaznaczone"
 
-msgid "Permanently delete selected recordings."
+msgid "Permanently delete selected recordings"
 msgstr ""
 
-msgid "Warning: This cannot be undone!"
+msgid "Deselect all recordings in this folder"
 msgstr ""
 
 msgid "No matching recordings found"
@@ -1017,9 +1023,6 @@ msgstr "Rozwiń wszystkie katalogi"
 
 msgid "Collapse all folders"
 msgstr "Zwiń wszystkie katalogi"
-
-msgid "Permanently delete this recording"
-msgstr ""
 
 msgid "Snapshot interval"
 msgstr "Okres pomiędzy migawkami"
@@ -1259,10 +1262,19 @@ msgstr ""
 msgid "Delete recording"
 msgstr ""
 
+msgid "Delete"
+msgstr "Usuń"
+
 msgid "Restore recording"
 msgstr ""
 
+msgid "Restore"
+msgstr ""
+
 msgid "Permanently delete recording"
+msgstr ""
+
+msgid "Delete permanently"
 msgstr ""
 
 #~ msgid "Couldn't find recording or no recordings available."
@@ -1270,9 +1282,6 @@ msgstr ""
 
 #~ msgid "Attempt to delete recording currently in playback."
 #~ msgstr "Próba usunięcia aktualnie odtwarzanego nagrania."
-
-#~ msgid "Delete"
-#~ msgstr "Usuń"
 
 #~ msgid "Delete this search timer?"
 #~ msgstr "Usunąć to seryjne nagrywanie?"

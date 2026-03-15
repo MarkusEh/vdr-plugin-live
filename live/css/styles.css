@@ -514,7 +514,7 @@
 
 @property --button-width {
   syntax: "<length>";
-  initial-value: 100px;
+  initial-value: 120px;
   inherits: false;
 }
 
@@ -774,7 +774,6 @@ div.selection {
 }
 
 .more {
-  cursor: pointer;
   font-weight: bold;
 }
 
@@ -996,14 +995,11 @@ div.info-win.aboutBox {
 
 div.info-win.info-del,
 div.info-win.info-des,
-div.info-win.info-det {
+div.info-win.info-det,
+div.info-win.info-pur,
+div.info-win.info-res {
   min-width: calc(3 * var(--margin-left-right) + 2 * var(--infowin-body-margin) + 2 * var(--infowin-label-width) + 15px );
   min-height: calc(var(--infowin-title-height) + 2 * var(--text-line-height) + 7 * var(--margin-top-bottom));
-}
-
-div.info-win.info-pur {
-  min-width: calc(3 * var(--margin-left-right) + 2 * var(--infowin-body-margin) + 2 * var(--infowin-label-width) + 15px );
-  min-height: calc(var(--infowin-title-height) + 3 * var(--text-line-height) + 9 * var(--margin-top-bottom));
 }
 
 .info-win .info-win-top {
@@ -1060,7 +1056,29 @@ img.iconic.button.recording-expander, /* for the tree view */
   background-size: var(--iconic-button-width, 16px) var(--iconic-button-height, 16px);
 }
 
+img.iconic.button.recording-select-all, /* for the tree view */
+.info-win .info-win-top img.iconic.button {
+  cursor: default;
+  background: transparent url(../img/icon_small.png) no-repeat top right;
+  background-size: var(--iconic-button-width, 16px) var(--iconic-button-height, 16px);
+}
+
+img.iconic.button.recording-deselect-all, /* for the tree view */
+.info-win .info-win-top img.iconic.button {
+  cursor: default;
+  background: transparent url(../img/icon_small.png) no-repeat top right;
+  background-size: var(--iconic-button-width, 16px) var(--iconic-button-height, 16px);
+}
+
 img.iconic.button.recording-expander:hover, /* for the tree view */
+.info-win .info-win-top img.iconic.button:hover {
+  background: transparent url(../img/icon_small_hovered.png) no-repeat top right;
+}
+img.iconic.button.recording-select-all:hover, /* for the tree view */
+.info-win .info-win-top img.iconic.button:hover {
+  background: transparent url(../img/icon_small_hovered.png) no-repeat top right;
+}
+img.iconic.button.recording-deselect-all:hover, /* for the tree view */
 .info-win .info-win-top img.iconic.button:hover {
   background: transparent url(../img/icon_small_hovered.png) no-repeat top right;
 }
@@ -1080,8 +1098,10 @@ img.iconic.button.recording-expander:hover, /* for the tree view */
 
 .info-win.info-del .info-win-body,
 .info-win.info-des .info-win-body,
-.info-win.info-det .info-win-body {
-  min-height: calc(var(--button-height) + 4 * var(--margin-top-bottom));
+.info-win.info-det .info-win-body,
+.info-win.info-pur .info-win-body,
+.info-win.info-res .info-win-body {
+  min-height: unset;    /* let the buttons control the height */
 }
 
 .info-win .info-win-resize {
@@ -1497,8 +1517,8 @@ button.yellow {
   margin-left: 0px;
 }
 
-#form_recordings > div > button {
-  min-width: calc(var(--button-width) * 1.2);
+#form_recordings div.submission div.buttons button {
+  min-width: calc(var(--button-width) * 1.5);
 }
 
 
@@ -1570,7 +1590,7 @@ div.station {
   min-width: calc(8ch + 40px);
 }
 
-div.station a, td.channel a {
+div.station a, th.channel a, td.channel a {
   color: var(--infowin-title-color);
   font-weight: bold;
 }
@@ -1960,7 +1980,9 @@ table.multischedule tr {
 table.multischedule tr.header {
 }
 
-table.multischedule tr.header td {
+table.multischedule tr.header th {
+  top: 0px;   /* required for stickiness */
+  position: sticky;
   height: inherit;
   box-sizing: border-box;
 }
@@ -1968,25 +1990,25 @@ table.multischedule tr.header td {
 @-moz-document url-prefix() {
 
   /* as Firefox has a different flexbox-height logic */
-  table.multischedule tr.header td {
+  table.multischedule tr.header th {
     height: 100%;
   }
 
 }
 
-table.multischedule tr.header td.time {
+table.multischedule tr.header th.time {
   padding: 0px;
 }
 
-table.multischedule tr.header td.time div.boxheader {
+table.multischedule tr.header th.time div.boxheader {
   text-align: center;
   justify-content: center;
 }
 
-table.multischedule tr.header td.spacer {
+table.multischedule tr.header th.spacer {
 }
 
-table.multischedule tr.header td.channel {
+table.multischedule tr.header th.channel {
 }
 
 table.multischedule tr.header div.flexbox {
@@ -2002,21 +2024,23 @@ table.multischedule tr.header div.boxheader {
   box-sizing: border-box;
 }
 
-table.multischedule tr.header td .caption {
+table.multischedule tr.header th .caption {
   overflow: hidden;
 }
 
-table.multischedule tr.header td .caption {
+table.multischedule tr.header th .caption {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
+table.multischedule th.time, table.multischedule th.spacer,
 table.multischedule td.time, table.multischedule td.spacer {
   padding: var(--margin-top-bottom) var(--margin-left-right);
   text-align: center;
 }
 
+table.multischedule tr th.event,
 table.multischedule tr td.event {
   background: linear-gradient(to top,var(--listing-row-background-color-bottom), var(--listing-row-background-color-top) var(--listing-row-background-gradient-height), var(--listing-row-background-color-top));
   border-bottom: var(--listing-border-width) solid var(--listing-row-border-color);
@@ -2048,7 +2072,9 @@ table.multischedule tr td.leftcol {
   padding-right: var(--margin-left-right);
 }
 
-table.multischedule td.channel, table.multischedule div.content1 {
+table.multischedule th.channel,
+table.multischedule td.channel,
+table.multischedule div.content1 {
   min-width: 15em;
   max-width: 30em;
 }
@@ -2578,20 +2604,29 @@ table.form > tbody > tr.permissions > td.rightcol > div {
   margin: var(--text-line-gap) 0px;
 }
 
+form div.submission,
 table.form > tbody > tr > td div.submission {
   display: flex;
+  align-items: center;
   flex-flow: row nowrap;
-  justify-content: space-between;
   gap: var(--margin-top-bottom) calc(var(--margin-left-right) * 2);
+}
+
+table.form > tbody > tr > td div.submission {
+  justify-content: space-between;
+}
+
+form div.warning,
+table.form > tbody > tr > td div.warning {
+  color: var(--listing-color-highlight);
+  font-weight: bold;
+  text-align: left;
 }
 
 table.form > tbody > tr > td div.warning {
   flex-shrink: 1;
   max-width: 60vw;;
   margin: var(--margin-top-bottom) var(--margin-left-right);
-  color: var(--listing-color-highlight);
-  font-weight: bold;
-  text-align: left;
 }
 
 table.form > tbody > tr > td div.submission div.buttons {

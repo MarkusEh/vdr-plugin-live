@@ -39,11 +39,11 @@ async function set_folder_open(rec_list) {
   const folder_symbol_element=document.getElementById('fs_'+fldr_hash);
 //folder_symbol_element.setAttribute( "onClick", 'javascript: SetChecked("'+fldr_hash+'")');
   set_icons_open(document.getElementById('pm_'+fldr_hash), folder_symbol_element);
-  if (folder_symbol_element.$tmp==null) {
-    folder_symbol_element.title=get_text_Select_all_recordings_in_this_folder();
-  } else {
-    folder_symbol_element.$tmp.myText=get_text_Select_all_recordings_in_this_folder();
-  }
+//if (folder_symbol_element.$tmp==null) {
+//  folder_symbol_element.title=get_text_Select_all_recordings_in_this_folder();
+//} else {
+//  folder_symbol_element.$tmp.myText=get_text_Select_all_recordings_in_this_folder();
+//}
 
 //document.getElementById('ca_'+fldr_hash).disabled = false;
   rec_list.style.display = 'revert-layer';
@@ -74,19 +74,20 @@ async function click_folder_line (e, fldr_hash) {
   const rec_list = document.getElementById(fldr_hash);
   if (rec_list == null) return;
 
-  if (rec_list.style.display == 'none') {
+  if ('sa_'+fldr_hash == e.target.id) {
+// click on folder select all symbol
+    if (rec_list.style.display != 'none') SetCheckboxValues(fldr_hash, true);
+  } else if ('ds_'+fldr_hash == e.target.id) {
+// click on folder de-select all symbol
+    SetCheckboxValues(fldr_hash, false);
+  } else if (rec_list.style.display == 'none') {
     if (await set_folder_open(rec_list) ) {
       if (typeof liveEnhanced !== 'undefined') liveEnhanced.domReadySetup();
       imgLoad();
     }
   } else {
-    if ('fs_'+fldr_hash == e.target.id) {
-// click on open folder symbol -> select all recordings in this folder
-      SetCheckboxValues(fldr_hash, true);
-    } else {
 // Collapse the branch if it IS visible
       set_folder_closed(rec_list);
-    }
   }
 }
 async function Toggle(node, fldr_hash) {

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-19 15:34+0100\n"
+"POT-Creation-Date: 2026-03-15 09:42+0100\n"
 "PO-Revision-Date: 2011-12-25 23:22+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: see developers in README\n"
@@ -229,6 +229,9 @@ msgstr "Descrizione breve"
 
 msgid "Description"
 msgstr "Descrizione"
+
+msgid "Parental rating"
+msgstr ""
 
 msgid "Auxiliary info"
 msgstr "Informazioni ausiliarie"
@@ -530,6 +533,9 @@ msgstr ""
 msgid "Test"
 msgstr "Prova"
 
+msgid "Save as new"
+msgstr ""
+
 msgid "Couldn't find timer. Maybe you mistyped your request?"
 msgstr "Impossibile trovare il timer. Hai digitato correttamente la richiesta?"
 
@@ -683,7 +689,10 @@ msgstr "Elimina questa registrazione dal disco fisso!"
 msgid "Restore this recording"
 msgstr ""
 
-msgid "Permanently delete this recording? Warning: this cannot be undone!"
+msgid "Permanently delete this recording"
+msgstr ""
+
+msgid "Warning: This cannot be undone!"
 msgstr ""
 
 msgid "Select all recordings in this folder"
@@ -911,9 +920,6 @@ msgstr ""
 msgid "Content"
 msgstr "Contenuti"
 
-msgid "Parental rating"
-msgstr ""
-
 msgid "Authors"
 msgstr "Autori"
 
@@ -986,10 +992,10 @@ msgstr ""
 msgid "Delete selected"
 msgstr "Elimina selezionati"
 
-msgid "Permanently delete selected recordings."
+msgid "Permanently delete selected recordings"
 msgstr ""
 
-msgid "Warning: This cannot be undone!"
+msgid "Deselect all recordings in this folder"
 msgstr ""
 
 msgid "No matching recordings found"
@@ -1021,9 +1027,6 @@ msgstr "Espandi tutte le cartelle"
 
 msgid "Collapse all folders"
 msgstr "Comprimi tutte le cartelle"
-
-msgid "Permanently delete this recording"
-msgstr ""
 
 msgid "Snapshot interval"
 msgstr "Intervallo schermata"
@@ -1263,10 +1266,19 @@ msgstr "Ambiente interattivo LIVE per VDR"
 msgid "Delete recording"
 msgstr ""
 
+msgid "Delete"
+msgstr ""
+
 msgid "Restore recording"
 msgstr ""
 
+msgid "Restore"
+msgstr ""
+
 msgid "Permanently delete recording"
+msgstr ""
+
+msgid "Delete permanently"
 msgstr ""
 
 #~ msgid "Couldn't find recording or no recordings available."

@@ -62,7 +62,7 @@ libpages.a: $(OBJS)
 
 clean:
 	$(call PRETTY_PRINT,"CLN pages/")
-	@rm -f *~ *.o core* libpages.a $(SRCS) $(DEPFILE) $(ESRCS_DEPS)
+	@rm -f *~ *.cpp *.o core* libpages.a $(SRCS) $(DEPFILE) $(ESRCS_DEPS)
 
 dist: clean
 	@echo "Nothing to do for distribution here ..."

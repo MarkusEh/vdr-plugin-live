@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 3.5.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-11 13:05+0100\n"
+"POT-Creation-Date: 2026-03-14 16:57+0100\n"
 "PO-Revision-Date: 2026-01-27 20:15+0200\n"
 "Last-Translator: Stefan Hofmann <info@stefans-galerie.de>\n"
 "Language-Team: see developers in README\n"
@@ -226,6 +226,9 @@ msgstr "Untertitel"
 
 msgid "Description"
 msgstr "Beschreibung"
+
+msgid "Parental rating"
+msgstr "Altersfreigabe"
 
 msgid "Auxiliary info"
 msgstr "Zusätzliche Informationen"
@@ -527,6 +530,9 @@ msgstr "Der Suchtimer beinhaltet noch weitere Felder. Diese werden mit ihren urs
 msgid "Test"
 msgstr "Testen"
 
+msgid "Save as new"
+msgstr "Neu anlegen"
+
 msgid "Couldn't find timer. Maybe you mistyped your request?"
 msgstr "Kann Timer nicht finden. Eventuell fehlerhafte Anforderung?"
 
@@ -680,8 +686,11 @@ msgstr "Aufzeichnung löschen"
 msgid "Restore this recording"
 msgstr "Aufzeichnung wiederherstellen"
 
-msgid "Permanently delete this recording? Warning: this cannot be undone!"
-msgstr "Aufzeichnung dauerhaft löschen? Warnung: Das kann nicht rückgängig gemacht werden!"
+msgid "Permanently delete this recording"
+msgstr "Aufzeichnung endgültig löschen"
+
+msgid "Warning: This cannot be undone!"
+msgstr "Achtung: Das kann nicht rückgängig gemacht werden!"
 
 msgid "Select all recordings in this folder"
 msgstr "Alle Aufzeichnungen in diesem Ordner auswählen"
@@ -908,9 +917,6 @@ msgstr "Besetzung und Crew"
 msgid "Content"
 msgstr "Inhalte"
 
-msgid "Parental rating"
-msgstr "Altersfreigabe"
-
 msgid "Authors"
 msgstr "Autoren"
 
@@ -983,11 +989,11 @@ msgstr "Keine gelöschten Aufzeichnungen vorhanden"
 msgid "Delete selected"
 msgstr "Markierte löschen"
 
-msgid "Permanently delete selected recordings."
-msgstr "Markierte Aufzeichnungen dauerhaft löschen."
+msgid "Permanently delete selected recordings"
+msgstr "Markierte Aufzeichnungen dauerhaft löschen"
 
-msgid "Warning: This cannot be undone!"
-msgstr "Achtung: Das kann nicht rückgängig gemacht werden!"
+msgid "Deselect all recordings in this folder"
+msgstr "Auswahl für alle Aufzeichnungen in diesem Ordner aufheben"
 
 msgid "No matching recordings found"
 msgstr "Keine zutreffende Aufzeichnung gefunden"
@@ -1018,9 +1024,6 @@ msgstr "Alle Ordner aufklappen"
 
 msgid "Collapse all folders"
 msgstr "Alle Ordner einklappen"
-
-msgid "Permanently delete this recording"
-msgstr "Aufzeichnung endgültig löschen"
 
 msgid "Snapshot interval"
 msgstr "Snapshot-Intervall"
@@ -1260,11 +1263,20 @@ msgstr "Live Interactive VDR Environment"
 msgid "Delete recording"
 msgstr "Aufzeichnung löschen"
 
+msgid "Delete"
+msgstr "Löschen"
+
 msgid "Restore recording"
 msgstr "Aufzeichnung wiederherstellen"
 
+msgid "Restore"
+msgstr "Wiederherstellen"
+
 msgid "Permanently delete recording"
 msgstr "Aufzeichnung dauerhaft löschen"
+
+msgid "Delete permanently"
+msgstr "Dauerhaft löschen"
 
 #~ msgid "Couldn't find recording or no recordings available."
 #~ msgstr "Kann die Aufzeichnung nicht finden oder keine Aufzeichnungen vorhanden."
@@ -1277,9 +1289,6 @@ msgstr "Aufzeichnung dauerhaft löschen"
 
 #~ msgid "Delete this timer?"
 #~ msgstr "Timer löschen?"
-
-#~ msgid "Delete"
-#~ msgstr "Löschen"
 
 #~ msgid "Compare"
 #~ msgstr "Vergleiche"

@@ -423,12 +423,12 @@ std::vector<std::string> channel_groups_names;
   }
 </%cpp>
 <table class="multischedule" cellspacing="0" cellpadding="0">
-  <tr class="header">
-    <td class="time"><div class="boxheader"><div class="caption"><$ tr("Time") $></div></div></td>
-    <td class="spacer"> &nbsp; </td>
+  <thead><tr class="header">
+    <th class="time"><div class="boxheader"><div class="caption"><$ tr("Time") $></div></div></th>
+    <th class="spacer"> &nbsp; </th>
 <# // first line of table:channel names #>
 % for ( unsigned int channel = 0; channel< channel_names.size() ; channel++) {
-    <td class="channel"><div class="boxheader"><div class="caption">
+    <th class="channel"><div class="boxheader"><div class="caption">
 %   if (channel_IDs[channel].Valid()) {
       <a href="schedule.html?channelid=<$ channel_IDs[channel] $>">
 %   }
@@ -442,10 +442,10 @@ std::vector<std::string> channel_groups_names;
 %   }
 <& pageelems.hls_channel channelId=(channel_IDs[channel]) className="icon" &>
 <& pageelems.m3u_playlist_channel channelId=(channel_IDs[channel]) className="icon" &>
-    </div></div></td>
-    <td class="spacer"> &nbsp; </td>
+    </div></div></th>
+    <th class="spacer"> &nbsp; </th>
 % }
-  </tr>
+  </tr></thead>
 <%cpp>
   bool odd=true;
   std::vector<std::vector<SchedEntry>::iterator> cur_event;
@@ -461,7 +461,7 @@ std::vector<std::string> channel_groups_names;
 </%cpp>
     <tr>
 <# second + line, first colomn: time #>
-      <td class="<? row == sched_end_row - 1 ? "bottomrow" ?> time leftcol rightcol <$ row_class $>">
+      <td class="<? row == sched_end_row - 1 ? "bottomrow" ?> time topaligned leftcol rightcol <$ row_class $>">
 %   if (minutes < MINUTES_PER_ROW) {
         <$ cToSvDateTime(tr("%I:%M %p"), sched_start +  row * 60 * MINUTES_PER_ROW)  $>
 %   } else {

@@ -290,14 +290,17 @@ if (!deleteResult.empty()) {
         <input type="hidden" name="recycle_bin" value="<$ currentRecycle_bin $>">
         <input type="hidden" name="history_num_back" value="<$ history_num_back $>">
 %       if (!recording_item.empty()) {
-        <div class="withmargin hidden-xs">
+        <div class="submission withmargin hidden-xs">
 % if (currentRecycle_bin == 0) {
-<#        <button class="red" type="submit"><$ tr("Delete selected") $></button>  #>
-          <button class="red" type="button" onclick="deleteMarkedRecodings(document.getElementById('form_recordings'))" ><$ tr("Delete selected") $></button>
+          <div class="buttons">
+            <button class="red" type="button" onclick="deleteMarkedRecodings(document.getElementById('form_recordings'))" ><$ tr("Delete selected") $></button>
+          </div>
 % } else {
-          <button class="red" type="submit"><$ tr("Permanently delete selected recordings.") $> <$ tr("Warning: This cannot be undone!") $></button>
+          <div class="buttons">
+            <button class="red" type="submit"><$ tr("Permanently delete selected recordings") $></button>
+          </div>
+          <div class="warning"><$ tr("Warning: This cannot be undone!") $></div>
 % }
-<#        <button class="green" type="button" onclick="clearCheckboxes(document.getElementById('form_recordings'))" ><$ tr("Uncheck all checkboxes") $></button> #>
         </div>
 %       }
       </form>
@@ -351,6 +354,8 @@ for (const RecordingsItemDirPtr &recItem: l_dir_iterator) {
 // each subdir is a node, which can be expanded (or not)
 // folder checkbox:          id="ca_<$ idHash $>", onchange="ToggleChecked(this, '<$ idHash $>')"
 // image with +/-:           id="pm_<$ idHash $>",  onclick="Toggle(this, '<$ idHash $>')"
+// image with sel all        id="sa_<$ idHash $>"
+// image with de-sel all     id="ds_<$ idHash $>"
 // image with folder symbol: id="fs_<$ idHash $>"
 // <ul items in folder:      id="<$ idHash $>   "  // recordings list
 
@@ -376,8 +381,14 @@ for (const RecordingsItemDirPtr &recItem: l_dir_iterator) {
       </div></td>
 #>
       <td class="space">
-        <img class="iconic button recording-expander" id="pm_<$ idHash $>" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>icon_overlay_plus.png" <# onclick="Toggle(this, '<$ idHash $>')" #> />
+        <img class="iconic button recording-expander" id="pm_<$ idHash $>" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>icon_overlay_plus.png" />
       </td>
+      <td class="td-hidden-xs space"><div class="hidden-xs">
+        <img class="iconic button recording-select-all" id="sa_<$ idHash $>" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>icon_overlay_checkmark.png" title="<$tr("Select all recordings in this folder") $>" />
+      </div></td>
+      <td class="td-hidden-xs space"><div class="hidden-xs">
+        <img class="iconic button recording-deselect-all" id="ds_<$ idHash $>" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>icon_overlay_cross.png" title="<$tr("Deselect all recordings in this folder") $>" />
+      </div></td>
       <td class="space">
         <img class="recording_folder" id="fs_<$ idHash $>" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png" />
       </td>

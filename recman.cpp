@@ -125,7 +125,7 @@ RecordingsItemRec* const RecordingsManager::GetByIdHash(cSv hash, bool *deleted)
   return nullptr;
 }
 
-bool RecordingsManager::UpdateRecording(cSv hash, cSv directory, cSv name, bool copy, cSv title, cSv shorttext, cSv description)
+bool RecordingsManager::UpdateRecording(cSv hash, cSv directory, cSv name, bool copy, cSv title, cSv shorttext, cSv description, int rating)
 {
 // note: we do NOT change deleted recordings, this is not intended and not supported!
 
@@ -143,10 +143,19 @@ bool RecordingsManager::UpdateRecording(cSv hash, cSv directory, cSv name, bool 
   std::string desc(description);
   desc.erase(std::remove(desc.begin(), desc.end(), '\r'), desc.end()); // remove \r from HTML
 
+  bool updated = false;
   cRecordingInfo* info = recording->Info();
   if (title != cSv(info->Title()) || shorttext != cSv(info->ShortText()) || desc != cSv(info->Description()))
   {
     info->SetData(cToSvConcat(title).c_str(), cToSvConcat(shorttext).c_str(), desc.c_str());
+    updated = true;
+  }
+  cEvent* event = (cEvent*)info->GetEvent();
+  if (event && 0 <= rating && rating <= 255 && rating != event->ParentalRating()) {
+    event->SetParentalRating(rating);
+    updated = true;
+  }
+  if (updated) {
     recording->WriteInfo();
     Recordings->TouchUpdate();
   }
@@ -497,12 +506,13 @@ bool update_all_recordings_scraper();
 
 void RecordingsManager::EnsureValidData()
 {
-  if (m_last_recordings_update_check + 4 > time(NULL) ) return; // don't update too often
+  time_t now = time(NULL);
+  if (m_last_recordings_update_check + 4 > now ) return; // don't update too often
 
   bool stateChanged = StateChanged();
   if (stateChanged || all_recordings[(int)(RecordingsManager::eSortOrder::id)][0].empty() ) {
     stateChanged = update_all_recordings();
-    m_last_recordings_update_check = time(NULL);
+    m_last_recordings_update_check = now;
   }
 // check: changes on scraper data?
   bool scraperChanged = false;
@@ -512,10 +522,11 @@ void RecordingsManager::EnsureValidData()
   if (scraperChanged) {
     dsyslog2("tvscraper data changed, scraperUpdateTimes.m_recordingsUpdateTime = ", scraperUpdateTimes.m_recordingsUpdateTime, " m_last_recordings_update = ", m_last_recordings_update);
     scraperChanged = update_all_recordings_scraper();
+    m_last_recordings_update_check = now;
   }
 
   if (stateChanged || scraperChanged) {
-    m_last_recordings_update = time(NULL);
+    m_last_recordings_update = now;
     m_last_recordings_update_check = m_last_recordings_update;
 
     cMeasureTime time_sort_name;

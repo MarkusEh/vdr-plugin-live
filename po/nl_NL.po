@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-19 15:34+0100\n"
+"POT-Creation-Date: 2026-03-15 09:42+0100\n"
 "PO-Revision-Date: 2025-10-03 20:15+0200\n"
 "Last-Translator: Carel Willemse <carel@nekanali.nl>\n"
 "Language-Team: see developers in README\n"
@@ -226,6 +226,9 @@ msgstr "Korte omschrijving"
 
 msgid "Description"
 msgstr "Omschrijving"
+
+msgid "Parental rating"
+msgstr "Leeftijdswijzer"
 
 msgid "Auxiliary info"
 msgstr "Meer informatie"
@@ -527,6 +530,9 @@ msgstr "The zoektimer bevat extra velden. Deze zullen worden opgeslagen met hun 
 msgid "Test"
 msgstr "Test"
 
+msgid "Save as new"
+msgstr ""
+
 msgid "Couldn't find timer. Maybe you mistyped your request?"
 msgstr "Kon timer niet vinden. Misschien een typefout in het verzoek?"
 
@@ -680,7 +686,10 @@ msgstr "Deze opname verwijderen"
 msgid "Restore this recording"
 msgstr ""
 
-msgid "Permanently delete this recording? Warning: this cannot be undone!"
+msgid "Permanently delete this recording"
+msgstr ""
+
+msgid "Warning: This cannot be undone!"
 msgstr ""
 
 msgid "Select all recordings in this folder"
@@ -908,9 +917,6 @@ msgstr "Cast and crew"
 msgid "Content"
 msgstr "Inhoud"
 
-msgid "Parental rating"
-msgstr "Leeftijdswijzer"
-
 msgid "Authors"
 msgstr "Acteurs"
 
@@ -983,10 +989,10 @@ msgstr ""
 msgid "Delete selected"
 msgstr "Wis de selectie"
 
-msgid "Permanently delete selected recordings."
+msgid "Permanently delete selected recordings"
 msgstr ""
 
-msgid "Warning: This cannot be undone!"
+msgid "Deselect all recordings in this folder"
 msgstr ""
 
 msgid "No matching recordings found"
@@ -1018,9 +1024,6 @@ msgstr "Klap alle mappen uit"
 
 msgid "Collapse all folders"
 msgstr "Klap alle mappen dicht"
-
-msgid "Permanently delete this recording"
-msgstr ""
 
 msgid "Snapshot interval"
 msgstr "Snapshot interval"
@@ -1260,10 +1263,19 @@ msgstr "Live Interactieve VDR Omgeving"
 msgid "Delete recording"
 msgstr ""
 
+msgid "Delete"
+msgstr "Verwijder"
+
 msgid "Restore recording"
 msgstr ""
 
+msgid "Restore"
+msgstr ""
+
 msgid "Permanently delete recording"
+msgstr ""
+
+msgid "Delete permanently"
 msgstr ""
 
 #~ msgid "Couldn't find recording or no recordings available."
@@ -1271,9 +1283,6 @@ msgstr ""
 
 #~ msgid "Attempt to delete recording currently in playback."
 #~ msgstr "Poging opname te wissen die op dit moment worst afgespeeld.1"
-
-#~ msgid "Delete"
-#~ msgstr "Verwijder"
 
 #~ msgid "Delete this search timer?"
 #~ msgstr "Deze timer verwijderen?"

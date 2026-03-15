@@ -118,8 +118,9 @@ namespace vdrlive {
        *  @param title new title of the recording.
        *  @param shorttext new short text of the recording.
        *  @param description new description of the recording.
+       *  @param rating new parental rating of the recording.
        */
-      static bool UpdateRecording(cSv hash, cSv directory, cSv name, bool copy, cSv title, cSv shorttext, cSv description);
+      static bool UpdateRecording(cSv hash, cSv directory, cSv name, bool copy, cSv title, cSv shorttext, cSv description, int rating);
 
       /**
        *  Delete recording resume with the given hash according to

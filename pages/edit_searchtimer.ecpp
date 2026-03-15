@@ -428,16 +428,19 @@ const char *TNT_ARRAY = "";
 %     }
       changedblacklistmode(document.getElementById("blacklistmode"));
       changeduseassearchtimer(document.getElementById("useassearchtimer"));
-      changedavoidrepeats(document.getElementById("avoidrepeats"));
-      changedcomparesummary(document.getElementById("comparesummary"));
-      changeddelmode(document.getElementById("delmode"));
     }
 
-    function checksearchterm()
+    function checksearchterm(button)
     {
-      if (document.getElementById("searchterm").value.length <= 3)
-        return confirm('<$ tr("Search text too short - use anyway?") $>');
-      return true;
+      var proceed = true;
+      if (document.getElementById("searchterm").value.length <= 3) {
+        proceed = confirm('<$ tr("Search text too short - use anyway?") $>');
+      }
+      if (proceed && button && button.name == "clone") {
+        const searchtimerId = document.getElementById('searchtimerid');
+        if (searchtimerId) searchtimerId.value = '';
+      }
+      return proceed;
     }
 
     function changedsearchmode(selection)
@@ -657,7 +660,7 @@ const char *TNT_ARRAY = "";
       <div id="content">
         <div class="spacebar"><# spacer with fade-out effect #></div>
         <form method="post" name="edit_searchtimer" action="edit_searchtimer.ecpp">
-          <input type="hidden" name="searchtimerid" value="<$ searchtimerid $>"/>
+          <input type="hidden" id="searchtimerid" name="searchtimerid" value="<$ searchtimerid $>"/>
           <input type="hidden" name="blacklistids" value="<$ blacklistids $>" id="blacklistids"/>
           <input type="hidden" name="nav_back" value="<$ nav_back $>"/>
           <table class="form" cellpadding="0" cellspacing="0">
@@ -1227,8 +1230,9 @@ const char *TNT_ARRAY = "";
 %                 }
                   </span></div>
                   <div class="buttons">
-                    <button class="green" type="submit" name="test" value="test" onclick="return checksearchterm();"><$ tr("Test") $></button>
-                    <button class="green" type="submit" name="save" onclick="return checksearchterm();"><$ tr("Save") $></button>
+                    <button class="green" type="submit" name="test" value="test" onclick="return checksearchterm(this);"><$ tr("Test") $></button>
+                    <button class="green" type="submit" name="save" onclick="return checksearchterm(this);"><$ tr("Save") $></button>
+                    <button class="green" type="submit" name="clone" onclick="return checksearchterm(this);"><$ tr("Save as new") $></button>
                     <button type="button" class="red" onclick="history.go(<$-nav_back$>)"><$ tr("Cancel") $></button>
                   </div>
                 </div>

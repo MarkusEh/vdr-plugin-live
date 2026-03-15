@@ -276,32 +276,28 @@ async function RecordingsSt_a(s, level, displayFolder, data) {
 %// do not HTML-encode title; will be HTML-encoded here!
 function addEventRec(s, eventprefix, eventid, http_params, title, folder, shortText, description) {
 // eventprefix == 'recording_' or 'event_'
-  s.a += '<a href="epginfo.html?epgid='
-  s.a += eventprefix
-  s.a += eventid
-  s.a += http_params
-  s.a += '" class="apopup" title="'
+  let href = 'href="epginfo.html?epgid='
+  href += eventprefix
+  href += eventid
+  href += http_params
+  href += '" class="apopup" title="'
   if (description.length != 0) {
-    s.a += '<p>'
-    s.a += description.replaceAll(regExLineBreak, '</p><p>')
-    s.a += '</p>'
+    href += '<p>'
+    href += description.replaceAll(regExLineBreak, '</p><p>')
+    href += '</p>'
   }
-  s.a += '<p class=&quot;click-details&quot;><$tr("Click to view details")$></p>"><div class="margin-bottom bold-font">'
+  href += '<p class=&quot;click-details&quot;><$tr("Click to view details")$></p>"'
+  s.a += '<div class="margin-bottom bold-font"><a '
+  s.a += href
+  s.a += '>'
   addEncodeHtml(s, title)
   if (folder.length != 0) {
     s.a += '<span class="normal-font"> ('
     s.a += folder.replaceAll("~", "~<wbr>")
     s.a += ')</span>'
   }
-  s.a += '</div>'
-  // to avoid a link over empty space
-  if (shortText.length == 0 && description.length == 0) {
-    s.a += '</a>'
-    add2ndLine(s, shortText, description)
-  } else {
-    add2ndLine(s, shortText, description)
-    s.a += '</a>'
-  }
+  s.a += '</a></div>'
+  add2ndLine(s, shortText, description, href)
 }
 
 <#
@@ -440,7 +436,7 @@ function RecordingsSt_int(s, level, displayFolder, data) {
       RecordingActionS(s, obj[0], "epginfo.html?epgid=del_", "del.png", label, "<$tr("Delete this recording")$>")
     } else {
       RecordingActionS(s, obj[0], "epginfo.html?epgid=res_", "restore.png", label, "<$tr("Restore this recording")$>")
-      RecordingActionS(s, obj[0], "epginfo.html?epgid=pur_", "del.png", label, "<$tr("Permanently delete this recording? Warning: this cannot be undone!")$>")
+      RecordingActionS(s, obj[0], "epginfo.html?epgid=pur_", "del.png", label, "<$tr("Permanently delete this recording")$>\\n<$tr("Warning: This cannot be undone!")$>")
     }
     let xsClassName = 'xs-visible-' + xsVisibleIcons
     xsClassName += ' xs-invisible-' + xsInvisibleIcons

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-19 15:34+0100\n"
+"POT-Creation-Date: 2026-03-15 09:42+0100\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Valdemaras Pipiras <varas@ambernet.lt>\n"
 "Language-Team: see developers in README\n"
@@ -226,6 +226,9 @@ msgstr "Aprašymas"
 
 msgid "Description"
 msgstr "Aprašymas"
+
+msgid "Parental rating"
+msgstr ""
 
 msgid "Auxiliary info"
 msgstr ""
@@ -527,6 +530,9 @@ msgstr ""
 msgid "Test"
 msgstr "Pabandyti"
 
+msgid "Save as new"
+msgstr ""
+
 msgid "Couldn't find timer. Maybe you mistyped your request?"
 msgstr "Toks laikmatis nerastas. Gal įvedėte klaidingą paieškos frazę?"
 
@@ -680,7 +686,10 @@ msgstr "Ištrinti šį įrašą iš disko!"
 msgid "Restore this recording"
 msgstr ""
 
-msgid "Permanently delete this recording? Warning: this cannot be undone!"
+msgid "Permanently delete this recording"
+msgstr ""
+
+msgid "Warning: This cannot be undone!"
 msgstr ""
 
 msgid "Select all recordings in this folder"
@@ -908,9 +917,6 @@ msgstr ""
 msgid "Content"
 msgstr "Turinys"
 
-msgid "Parental rating"
-msgstr ""
-
 msgid "Authors"
 msgstr "Autoriai"
 
@@ -983,10 +989,10 @@ msgstr ""
 msgid "Delete selected"
 msgstr ""
 
-msgid "Permanently delete selected recordings."
+msgid "Permanently delete selected recordings"
 msgstr ""
 
-msgid "Warning: This cannot be undone!"
+msgid "Deselect all recordings in this folder"
 msgstr ""
 
 msgid "No matching recordings found"
@@ -1017,9 +1023,6 @@ msgid "Expand all folders"
 msgstr ""
 
 msgid "Collapse all folders"
-msgstr ""
-
-msgid "Permanently delete this recording"
 msgstr ""
 
 msgid "Snapshot interval"
@@ -1261,10 +1264,19 @@ msgstr "Live interaktyvioji VDR aplinka"
 msgid "Delete recording"
 msgstr ""
 
+msgid "Delete"
+msgstr ""
+
 msgid "Restore recording"
 msgstr ""
 
+msgid "Restore"
+msgstr ""
+
 msgid "Permanently delete recording"
+msgstr ""
+
+msgid "Delete permanently"
 msgstr ""
 
 #~ msgid "Couldn't find recording or no recordings available."

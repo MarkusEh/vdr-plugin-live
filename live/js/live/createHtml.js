@@ -109,14 +109,23 @@ function addTruncMedia(s, text, lims, liml) {
   else s.a += ' ...'
 }
 
-function add2ndLine(s, shortText, description) {
+function add2ndLine(s, shortText, description, href) {
 // second line (title / short text). Truncate, use description, ...
   s.a += '<div class="short">'
   if (shortText.length != 0) {
+    s.a += '<a '
+    s.a += href
+    s.a += '>'
     addTruncMedia(s, shortText, 50, 80)
+    s.a += '</a>'
+  } else  if (description.length > 0) {
+    s.a += '<a '
+    s.a += href
+    s.a += '>'
+    addTruncMedia(s, description, 50, 80)
+    s.a += '</a>'
   } else {
-    if (description.length == 0) s.a += '&nbsp;'
-    else addTruncMedia(s, description, 50, 80)
+    s.a += '&nbsp;'
   }
   s.a += '</div>'
 }

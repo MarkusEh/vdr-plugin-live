@@ -43,7 +43,7 @@ using namespace vdrlive;
   bool aboutBox = false;
 
   const cConfirm *confirm = get_confirm_popup(epgid);
-  if (confirm) pageTitle = confirm->get_headline_button();
+  if (confirm) pageTitle = confirm->get_headline();
 
   bool isEvent = false;
   bool isRecording = false;
@@ -62,8 +62,12 @@ using namespace vdrlive;
     if (epgid.compare(0, recording_s.length(), recording_s) == 0) {
       isRecording = true;
       LOCK_RECORDINGS_READ;
+#if VDRVERSNUM >= 20708
       LOCK_DELETEDRECORDINGS_READ;
       const cRecording *recording = RecordingsManager::GetByHash(epgid, Recordings, DeletedRecordings);
+#else
+      const cRecording *recording = RecordingsManager::GetByHash(epgid, Recordings);
+#endif
       if (recording == 0) {
         throw HtmlError(tr("Couldn't find recording or no recordings available"));
       }
@@ -147,7 +151,7 @@ using namespace vdrlive;
 </%cpp>
 <div class="epg_description" id="<$ epgid $>">
   <div class="station">
-    <div class="boxheader"><div class="caption"><$ confirm->get_headline_button() $></div></div>
+    <div class="boxheader"><div class="caption"><$ confirm->get_headline() $></div></div>
   </div>
   <div class="epg_content">
     <form>
@@ -160,7 +164,7 @@ using namespace vdrlive;
       <div class="about_section">
         <div class="tabular buttons">
           <div class="about_left">
-            <button id="confirm_<$ epgid $>" class="green" type="button" onclick="action_back('<$ epgid $>', <$ history_num_back $>)"><$confirm->get_headline_button()$></button>
+            <button id="confirm_<$ epgid $>" class="green" type="button" onclick="action_back('<$ epgid $>', <$ history_num_back $>)"><$confirm->get_prompt()$></button>
           </div>
           <div class="about_right">
             <button id="close_<$ epgid $>" type="button" class="red" onclick="back_depending_referrer(1, <$history_num_back $>)"><$ tr("Cancel") $></button>

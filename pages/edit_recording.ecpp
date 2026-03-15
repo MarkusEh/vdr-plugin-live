@@ -22,6 +22,7 @@ using namespace vdrlive;
   std::string title = "";
   std::string shorttext = "";
   std::string description = "";
+  std::string rating = "";
   std::string delresume = "";
   std::string delmarks = "";
   std::string copy = "";
@@ -65,7 +66,15 @@ std::string active_r;
       bool copy_only = false;
       if (copy == "copy") copy_only = true;
       if (newdir != ".") directory = newdir;
-      if (RecordingsManager::UpdateRecording(recid, directory, name, copy_only, title, shorttext, description))
+      cToSvConcat normalizedDescription(description);
+      normalizedDescription.replaceAll("\r", "");
+      std::size_t length = 0;
+      while (length != normalizedDescription.length()) {
+        length = normalizedDescription.length();
+        normalizedDescription.replaceAll("\n\n", "\n");
+      }
+      int parentalRating = rating.empty() ? -1 : parse_int<int>(rating);
+      if (RecordingsManager::UpdateRecording(recid, directory, name, copy_only, title, shorttext, normalizedDescription, parentalRating))
         returnToReferer = true;
       else
         message = tr("Cannot copy, rename or move the recording.");
@@ -95,6 +104,7 @@ std::string active_r;
         title = cSv(info->Title());
         shorttext = cSv(info->ShortText());
         description = cSv(info->Description());
+        rating = cToSvInt(info->GetEvent() ? info->GetEvent()->ParentalRating() : 0);
         if (info->Aux()) {
           cGetAutoTimerReason getAutoTimerReason;
           getAutoTimerReason.recording_in = recording;
@@ -212,6 +222,14 @@ std::string active_r;
             <td class="rightcol"><textarea name="description" rows="8" cols="55" class="width99"><$ description $></textarea></td>
 %#else
             <td class="rightcol"><$ description $></td>
+%#endif
+          </tr>
+          <tr>
+            <td class="label leftcol"><div class="withmargin"><$ tr("Parental rating") $>:</div></td>
+%#if VDRVERSNUM >= 20502
+            <td class="rightcol"><input type="number" name="rating" size="2" min="0" max="255" value="<$ rating $>" /></td>
+%#else
+            <td class="rightcol"><$ rating $></td>
 %#endif
           </tr>
 % if (!aux_data.empty()) {
