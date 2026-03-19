@@ -1211,6 +1211,10 @@ div#content {
   overflow: auto;
   padding: 0px var(--body-margin);
 }
+div#content:not(:has(table.multischedule)) {
+  overflow-x: inherit;  /* could also be set to 'hidden' */
+}
+
 
 div#content > div.spacebar:first-child {
   top: 0px;

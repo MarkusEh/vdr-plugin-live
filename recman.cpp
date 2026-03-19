@@ -66,15 +66,25 @@ recording tree (m_recTree)
 Otherwise, the rec tree is re-created from currnet data.
 */
 
-RecordingsTreePtr RecordingsManager::GetRecordingsTree()
+RecordingsTreePtr RecordingsManager::GetRecordingsTree(int recycle_bin)
 {
   EnsureValidData();
+  if (recycle_bin == 1) return m_recTreeDel;
   return m_recTree;
 }
 DuplicatesRecordingsTreePtr RecordingsManager::GetDuplicatesRecordingsTree()
 {
   EnsureValidData();
   return m_duplicatesRecTree;
+}
+const std::vector<RecordingsItemRec*> *RecordingsManager::allRecordings(RecordingsManager::eSortOrder sortOrder, int recycle_bin) {
+  EnsureValidData();
+  std::vector<RecordingsItemRec*> &all_recordings_sorted = RecordingsManager::all_recordings[(int)(sortOrder)][recycle_bin];
+  if (all_recordings_sorted.empty() ) {
+    all_recordings_sorted.assign(all_recordings_iterator(recycle_bin), all_recordings_iterator(iterator_end(), recycle_bin));
+    std::sort(all_recordings_sorted.begin(), all_recordings_sorted.end(), RecordingsItemPtrCompare::getComp(sortOrder));
+  }
+  return &all_recordings_sorted;
 }
 
 #if VDRVERSNUM >= 20708
@@ -556,6 +566,7 @@ void RecordingsManager::EnsureValidData()
     cMeasureTime time_rec_tree;
     time_rec_tree.start();
     m_recTree = std::shared_ptr<RecordingsTree>(new RecordingsTree());
+    m_recTreeDel = std::shared_ptr<RecordingsTree>(new RecordingsTree(1));
     time_rec_tree.stop();
     time_rec_tree.start();
     m_duplicatesRecTree = std::shared_ptr<DuplicatesRecordingsTree>(new DuplicatesRecordingsTree(m_recTree));
@@ -840,9 +851,10 @@ bool RecordingsItemDir::matches_regex(std::regex *regex_filter) const {
 /**
  *  Implementation of class RecordingsItemDirFileSystem
  */
-RecordingsItemDirFileSystem::RecordingsItemDirFileSystem(cSv name, cSv name_contains, int level):
+RecordingsItemDirFileSystem::RecordingsItemDirFileSystem(cSv name, cSv name_contains, int level, int recycle_bin):
   RecordingsItemDir(name, level),
-  m_name_contains(name_contains)
+  m_name_contains(name_contains),
+  m_recycle_bin(recycle_bin)
   { }
 
 int RecordingsItemDirFileSystem::numberOfRecordings() const {
@@ -861,7 +873,7 @@ bool RecordingsItemDirFileSystem::Contains(const RecordingsItemRec *rec) const {
 }
 
 const_rec_iterator<RecordingsItemRec*> RecordingsItemDirFileSystem::get_rec_iterator() const {
-  return const_rec_iterator<RecordingsItemRec*>(this);
+  return const_rec_iterator<RecordingsItemRec*>(this, std::numeric_limits<unsigned>::max(), m_recycle_bin);
 }
 
 RecordingsItemDirPtr RecordingsItemDirFileSystem::addDirIfNotExists(cSv dirName) {
@@ -869,9 +881,9 @@ RecordingsItemDirPtr RecordingsItemDirFileSystem::addDirIfNotExists(cSv dirName)
   if (iter != m_subdirs.end() && !(dirName < *iter) ) return *iter;
   RecordingsItemDirPtr dirPtr;
   if (m_name_contains.empty())
-    dirPtr = std::make_shared<RecordingsItemDirFileSystem>(dirName, dirName, Level() + 1);
+    dirPtr = std::make_shared<RecordingsItemDirFileSystem>(dirName, dirName, Level() + 1, m_recycle_bin);
   else
-    dirPtr = std::make_shared<RecordingsItemDirFileSystem>(dirName, cToSvConcat(m_name_contains, FOLDERDELIMCHAR, dirName), Level() + 1);
+    dirPtr = std::make_shared<RecordingsItemDirFileSystem>(dirName, cToSvConcat(m_name_contains, FOLDERDELIMCHAR, dirName), Level() + 1, m_recycle_bin);
   m_subdirs.insert(iter, dirPtr);
   return dirPtr;
 }
@@ -1751,19 +1763,32 @@ template class const_rec_iterator<RecordingsItemRec*>;
     }
     m_root->finishRecordingsTree();
   }
+  RecordingsTree::RecordingsTree(int recycle_bin):
+    m_maxLevel(0)
+  {
+// tree for deleted recordings
+// create "base" folder
+    m_rootFileSystem = std::make_shared<RecordingsItemDirFileSystem>(cSv(), cSv(), 0, 1);
+    m_root = m_rootFileSystem;
+// add all recordings
+    for (RecordingsItemRec *recPtr: all_recordings_iterator(1) ) {
+      m_maxLevel = std::max(m_maxLevel, recPtr->HierarchyLevels() );
+
+// add file system directories
+      RecordingsItemDirPtr dir = m_rootFileSystem;
+      if (!recPtr->Folder().empty())
+        for (cSv folderPart: cSplit(recPtr->Folder(), FOLDERDELIMCHAR)) {
+          dir = dir->addDirIfNotExists(folderPart);
+        }
+    }
+    m_root->finishRecordingsTree();
+  }
 
   RecordingsTree::~RecordingsTree()
   {
     // esyslog("live: DH: ****** RecordingsTree::~RecordingsTree() ********");
   }
-  const std::vector<RecordingsItemRec*> *RecordingsTree::allRecordings(RecordingsManager::eSortOrder sortOrder, int recycle_bin) {
-    std::vector<RecordingsItemRec*> &all_recordings_sorted = RecordingsManager::all_recordings[(int)(sortOrder)][recycle_bin];
-    if (all_recordings_sorted.empty() ) {
-      all_recordings_sorted.assign(all_recordings_iterator(recycle_bin), all_recordings_iterator(iterator_end(), recycle_bin));
-      std::sort(all_recordings_sorted.begin(), all_recordings_sorted.end(), RecordingsItemPtrCompare::getComp(sortOrder));
-    }
-    return &all_recordings_sorted;
-}
+
 
 /**
  *  Implementation of class DuplicatesRecordingsTree:
@@ -1845,7 +1870,7 @@ bool ByScraperDataAvailable(const RecordingsItemRec *first, tvType videoType) {
 
 void addDuplicateRecordingsNoSd(std::vector<RecordingsItemRec*> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree){
 // add duplicate recordings where NO scraper data are available.
-  const std::vector<RecordingsItemRec*> *recItems = RecordingsTree->allRecordings(RecordingsManager::eSortOrder::duplicatesLanguage, 0);
+  const std::vector<RecordingsItemRec*> *recItems = RecordingsManager::allRecordings(RecordingsManager::eSortOrder::duplicatesLanguage, 0);
 // sorting for duplicatesLanguage is OK, even if language is not required here (language is ignored later)
   std::vector<RecordingsItemRec*>::const_iterator currentRecItem, recIterUpName, recIterUpShortText, recIterLowShortText;
   bool isSeries;
@@ -1883,7 +1908,7 @@ void addDuplicateRecordingsNoSd(std::vector<RecordingsItemRec*> &DuplicateRecIte
 void addDuplicateRecordingsLang(std::vector<RecordingsItemRec*> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree) {
 // add duplicate recordings where scraper data are available.
 // add only recordings with different language
-  const std::vector<RecordingsItemRec*> *recItems = RecordingsTree->allRecordings(RecordingsManager::eSortOrder::duplicatesLanguage, 0);
+  const std::vector<RecordingsItemRec*> *recItems = RecordingsManager::allRecordings(RecordingsManager::eSortOrder::duplicatesLanguage, 0);
   std::vector<RecordingsItemRec*>::const_iterator currentRecItem, nextRecItem, recIterUpName, recIterLowName;
 
   for (currentRecItem = recItems->begin(); currentRecItem != recItems->end(); currentRecItem++) {
@@ -1905,7 +1930,7 @@ void addDuplicateRecordingsLang(std::vector<RecordingsItemRec*> &DuplicateRecIte
 void addDuplicateRecordingsSd(std::vector<RecordingsItemRec*> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree){
 // add duplicate recordings where scraper data are available.
 // recordings with different languages are NOT duplicates
-  const std::vector<RecordingsItemRec*> *recItems = RecordingsTree->allRecordings(RecordingsManager::eSortOrder::duplicatesLanguage, 0);
+  const std::vector<RecordingsItemRec*> *recItems = RecordingsManager::allRecordings(RecordingsManager::eSortOrder::duplicatesLanguage, 0);
   std::vector<RecordingsItemRec*>::const_iterator currentRecItem, recIterUpName, recIterLowName;
 
   for (currentRecItem = recItems->begin(); currentRecItem != recItems->end(); ) {

@@ -80,6 +80,7 @@ namespace vdrlive {
       static inline std::regex *m_filter_regex_ptr = nullptr; // if a filter is provided, this is set to &m_filter_regex
 
       static inline RecordingsTreePtr m_recTree;
+      static inline RecordingsTreePtr m_recTreeDel;
       static inline DuplicatesRecordingsTreePtr m_duplicatesRecTree;
 
       static void setSortOrder(eSortOrder sortOrder, bool backwards, cSv filter);
@@ -89,8 +90,9 @@ namespace vdrlive {
        *  Returns a shared pointer to a fully populated
        *  recordings tree.
        */
-      static RecordingsTreePtr GetRecordingsTree();
+      static RecordingsTreePtr GetRecordingsTree(int recycle_bin = 0);
       static DuplicatesRecordingsTreePtr GetDuplicatesRecordingsTree();
+      static const std::vector<RecordingsItemRec*> *allRecordings(eSortOrder sortOrder, int recycle_bin);
 
       /**
        *  fetches a cRecording from VDR's Recordings collection. Returns
@@ -520,7 +522,7 @@ inline iterator_end end(const_rec_iterator<C> &it) { return iterator_end(); }
   class RecordingsItemDirFileSystem : public RecordingsItemDir
   {
     public:
-      RecordingsItemDirFileSystem(cSv name, cSv name_contains, int level);
+      RecordingsItemDirFileSystem(cSv name, cSv name_contains, int level, int recycle_bin = 0);
       bool Contains(const RecordingsItemRec *rec) const;
       bool Contains(const RecordingsItemDirPtr &r) const { return true; };
       RecordingsItemDirPtr addDirIfNotExists(cSv dirName);
@@ -528,6 +530,7 @@ inline iterator_end end(const_rec_iterator<C> &it) { return iterator_end(); }
       int numberOfRecordings() const;
     private:
       std::string m_name_contains;  // all recordings with this folder name are in this folder
+      int m_recycle_bin;
   };
   class RecordingsItemDirFlat : public RecordingsItemDir
   {
@@ -574,14 +577,13 @@ inline iterator_end end(const_rec_iterator<C> &it) { return iterator_end(); }
 
     private:
       RecordingsTree();
+      RecordingsTree(int recycle_bin);
 
     public:
       ~RecordingsTree();
 
       RecordingsItemDirPtr getRoot() const { return m_root; }
       std::vector<std::string> getAllDirs() { std::vector<std::string> result; m_rootFileSystem->addDirList(result, ""); return result; }
-      const std::vector<RecordingsItemRec*> *allRecordings(int recycle_bin) { return &RecordingsManager::all_recordings[(int)(RecordingsManager::m_sortOrder)][recycle_bin];}
-      const std::vector<RecordingsItemRec*> *allRecordings(RecordingsManager::eSortOrder sortOrder, int recycle_bin);
 
       int MaxLevel() const { return m_maxLevel; }
 

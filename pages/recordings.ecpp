@@ -270,7 +270,7 @@ if (!deleteResult.empty()) {
         if (currentFlat == "true")
           recItemRoot = std::make_shared<RecordingsItemDirFlat>(recycle_bin);
         else
-          recItemRoot = RecordingsManager::GetRecordingsTree()->getRoot();
+          recItemRoot = RecordingsManager::GetRecordingsTree(recycle_bin)->getRoot();
       }
 
       uintptr_t irecording_item = (uintptr_t)&recording_item;
@@ -293,11 +293,11 @@ if (!deleteResult.empty()) {
         <div class="submission withmargin hidden-xs">
 % if (currentRecycle_bin == 0) {
           <div class="buttons">
-            <button class="red" type="button" onclick="deleteMarkedRecodings(document.getElementById('form_recordings'))" ><$ tr("Delete selected") $></button>
+            <button class="red" type="button" onclick="deleteMarkedRecodings(document.getElementById('form_recordings'), 'del')" ><$ tr("Delete selected") $></button>
           </div>
 % } else {
           <div class="buttons">
-            <button class="red" type="submit"><$ tr("Permanently delete selected recordings") $></button>
+            <button class="red" type="button" onclick="deleteMarkedRecodings(document.getElementById('form_recordings'), 'pur')" ><$ tr("Permanently delete selected recordings") $></button>
           </div>
           <div class="warning"><$ tr("Warning: This cannot be undone!") $></div>
 % }
@@ -528,7 +528,7 @@ if (currentFlat != "true") {
 <span class="sep">|</span>
 <span class="label bold" >
   <label for="recycle_bin"><$ trVDR("Deleted recordings") $></label>
-  <input type="checkbox" name="recycle_bin" value="recycle_bin" <? currentRecycle_bin == 1 ? "checked" ?> id="recycle_bin" onchange="deletedRecordings(this, '<$ currentSort $>', '<$currentFilter$>')" />
+  <input type="checkbox" name="recycle_bin" value="recycle_bin" <? currentRecycle_bin == 1 ? "checked" ?> id="recycle_bin" onchange="deletedRecordings(this, '<$ currentSort $>', '<$currentFlat$>', '<$currentFilter$>')" />
 </span>
 <%cpp>
 #endif

@@ -185,8 +185,9 @@ function clearCheckboxes(form) {
     }
   }
 }
-async function deleteMarkedRecodings(form) {
+async function deleteMarkedRecodings(form, act) {
 // deleteMarkedRecodings
+// act = 'del' or 'pur'
   var inputs = form.getElementsByTagName('input');
   let all_del='';
   for (var i = 0; i<inputs.length; i++) {
@@ -194,7 +195,7 @@ async function deleteMarkedRecodings(form) {
         inputs[i].value && inputs[i].value.startsWith('recording_')) {
       const id = inputs[i].value.substring(10);
       all_del = all_del + id + ",";
-      var err = await execute('action.html?id=del_' + inputs[i].value);
+      var err = await execute('action.html?id=' + act + '_' + inputs[i].value);
       if (!err.success) alert (err.error);
     }
   }
