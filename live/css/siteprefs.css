@@ -423,3 +423,37 @@ input, textarea, select {
   font-family: "Lucida Console", "DejaVu Sans Mono", "Noto Mono", "Ubuntu Mono", "Courier New", Courier, monospace;
 }
 */
+
+
+/* Uncomment this to add some space around the action icons for selecting
+** and deselecting all of a folder's recordings in tree view.
+*/
+/*
+img.iconic.button.recording-select-all {
+  margin-left: calc(var(--margin-left-right) * 2);
+}
+
+img.iconic.button.recording-deselect-all {
+  margin-right: calc(var(--margin-left-right) * 2);
+}
+*/
+
+
+/* Uncomment this to hide the action icons for selecting and deselecting
+** all of a folder's recordings in tree view.
+*/
+/*
+img.iconic.button.recording-select-all,
+img.iconic.button.recording-deselect-all {
+  display: none;
+}
+
+
+/* Uncomment this to receive warnings about compatibility issues with the
+** loaded EPGSearch plugin.
+*/
+/*
+table.form > tbody > tr > td div.warning span#compatibility {
+  display: unset;
+}
+*/

@@ -28,6 +28,11 @@
 #include "tools.h"
 #include "services.h"
 
+#include <vdr/epg.h>
+#ifndef MAXPARENTALRATING
+#define MAXPARENTALRATING  18 // maximum age (years)
+#endif
+
 namespace vdrlive {
 
   /**

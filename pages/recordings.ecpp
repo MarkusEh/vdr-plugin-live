@@ -215,7 +215,7 @@ if (!deleteResult.empty()) {
     <# we enclose the recordings in a table to allow width control through 'siteprefs.css'; #>
     <# do not classify as 'listing' to avoid row separators                                 #>
     <table class="recordings-list" cellspacing="0" cellpadding="0"><tbody>
-    <tr><td>
+    <tr class="head"><td>
 % if (recycle_bin == 0) {
       <div class="boxheader"><div class="caption"><$ std::string(tr("List of recordings")) + " (" + diskinfo + ")" $></div></div>
 % } else {

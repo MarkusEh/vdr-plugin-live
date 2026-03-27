@@ -7,6 +7,8 @@
 
 #include <iomanip>
 
+#include <recman.h>
+
 using namespace vdrlive;
 </%pre>
 <%args>
@@ -730,13 +732,13 @@ const char *TNT_ARRAY = "";
                     <tr>
                       <td class="label"><div class="withmargin"><$ tr("Minimum rating") $>:</div></td>
                       <td>
-                        <input type="number" name="minparentalrating" min="0" max="18" value="<$ minparentalrating $>" />
+                        <input type="number" name="minparentalrating" min="0" max="<$ MAXPARENTALRATING $>" value="<$ minparentalrating $>" />
                       </td>
                     </tr>
                     <tr>
                       <td class="label"><div class="withmargin"><$ tr("Maximum rating") $>:</div></td>
                       <td>
-                        <input type="number" name="maxparentalrating" min="0" max="18" value="<$ maxparentalrating $>" />
+                        <input type="number" name="maxparentalrating" min="0" max="<$ MAXPARENTALRATING $>" value="<$ maxparentalrating $>" />
                       </td>
                     </tr>
                   </table>

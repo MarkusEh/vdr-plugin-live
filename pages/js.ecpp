@@ -244,7 +244,7 @@ function RecordingActionStream(s, id, label) {
 
 async function RecordingsSt_a(s, level, displayFolder, data) {
   var recs_param =  '';
-  for (obj_i of data) {
+  for (obj_i of data ?? []) { // to cater for undefined data
     if (typeof recs[obj_i] === 'undefined') {
       recs_param += '&r<$ TNT_ARRAY $>='
       recs_param += obj_i;

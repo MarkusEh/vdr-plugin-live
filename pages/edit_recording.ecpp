@@ -227,7 +227,7 @@ std::string active_r;
           <tr>
             <td class="label leftcol"><div class="withmargin"><$ tr("Parental rating") $>:</div></td>
 %#if VDRVERSNUM >= 20502
-            <td class="rightcol"><input type="number" name="rating" size="2" min="0" max="255" value="<$ rating $>" /></td>
+            <td class="rightcol"><input type="number" name="rating" size="2" min="0" max="<$ MAXPARENTALRATING $>" value="<$ rating $>" /></td>
 %#else
             <td class="rightcol"><$ rating $></td>
 %#endif

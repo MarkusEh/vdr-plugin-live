@@ -155,16 +155,35 @@ bool RecordingsManager::UpdateRecording(cSv hash, cSv directory, cSv name, bool 
 
   bool updated = false;
   cRecordingInfo* info = recording->Info();
+#if VDRVERSNUM >= 20801
+  if (title != cSv(info->Title())) {
+    info->SetTitle(cToSvConcat(title).c_str());
+    updated = true;
+  }
+  if (shorttext != cSv(info->ShortText())) {
+    info->SetShortText(cToSvConcat(shorttext).c_str());
+    updated = true;
+  }
+  if (desc != cSv(info->Description())) {
+    info->SetDescription(desc.c_str());
+    updated = true;
+  }
+  if (0 <= rating && rating <= MAXPARENTALRATING && rating != info->ParentalRating()) {
+    info->SetParentalRating(rating);
+    updated = true;
+  }
+#else
   if (title != cSv(info->Title()) || shorttext != cSv(info->ShortText()) || desc != cSv(info->Description()))
   {
     info->SetData(cToSvConcat(title).c_str(), cToSvConcat(shorttext).c_str(), desc.c_str());
     updated = true;
   }
   cEvent* event = (cEvent*)info->GetEvent();
-  if (event && 0 <= rating && rating <= 255 && rating != event->ParentalRating()) {
+  if (event && 0 <= rating && rating <= MAXPARENTALRATING && rating != event->ParentalRating()) {
     event->SetParentalRating(rating);
     updated = true;
   }
+#endif
   if (updated) {
     recording->WriteInfo();
     Recordings->TouchUpdate();

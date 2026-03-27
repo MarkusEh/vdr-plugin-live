@@ -789,7 +789,7 @@ msgid "An error occurred!"
 msgstr "Ein Fehler ist aufgetreten!"
 
 msgid "Request succeeded"
-msgstr "Aktion durchgeführt."
+msgstr "Aktion durchgeführt"
 
 msgid "Request failed!"
 msgstr "Aktion fehlgeschlagen!"
@@ -1047,7 +1047,7 @@ msgid "The search lacks some form fields, so that their values cannot be used fo
 msgstr "Die Suchfunktion unterstützt einige Formularfelder nicht, sodass deren Werte bei der EPG-Suche nicht berücksichtigt werden können. Bitte auf die aktuelle Version von EPGsearch upgraden."
 
 msgid "The search supports extra fields. These will be not be taken into account."
-msgstr "Der Suchfunktion umfasst noch weitere Suchparameter. Diese werden bei der Suche nciht berücksichtigt."
+msgstr "Der Suchfunktion umfasst noch weitere Suchparameter. Diese werden bei der Suche nicht berücksichtigt."
 
 msgid "Search results"
 msgstr "Suchergebnisse"
@@ -1198,7 +1198,7 @@ msgid "local"
 msgstr "lokal"
 
 msgid "Timer has a conflict"
-msgstr "Timer hat einen Konflikt."
+msgstr "Timer hat einen Konflikt"
 
 msgid "Timer is active"
 msgstr "Timer ist aktiv"

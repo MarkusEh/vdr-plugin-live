@@ -629,14 +629,14 @@ select {
 }
 
 input[type=radio] {
-  height: calc(var(--text-font-size));
-  width: calc(var(--text-font-size));
+  height: var(--text-font-size);
+  width: var(--text-font-size);
   accent-color: var(--input-accent-color);
 }
 
 input[type=checkbox] {
-  height: calc(var(--text-font-size));
-  width: calc(var(--text-font-size));
+  height: var(--text-font-size);
+  width: var(--text-font-size);
   accent-color: var(--input-accent-color);
 }
 
@@ -1150,6 +1150,11 @@ div#header {
 }
 
 div#navigation {
+  margin-bottom: var(--menubar-gap);
+}
+
+div#navigation:has(div#pagemenu) {
+  margin-bottom: 0px;
 }
 
 div.page_header {
@@ -1215,21 +1220,20 @@ div#content:not(:has(table.multischedule)) {
   overflow-x: inherit;  /* could also be set to 'hidden' */
 }
 
-
-div#content > div.spacebar:first-child {
-  top: 0px;
-  position: sticky;
-  height: var(--spacebar-height);
-  width: calc(100vw - 2 * var(--body-margin));
-  background: transparent linear-gradient(to bottom, var(--body-background-color), transparent);
-}
-
-div#content > div.spacebar:last-child {
+div#content > div.spacebar {
   bottom: 0px;
   position: sticky;
   height: var(--spacebar-height);
   width: calc(100vw - 2 * var(--body-margin));
   background: transparent linear-gradient(to top, var(--body-background-color), transparent);
+}
+
+div#content > div.spacebar:first-of-type {
+  top: 0px;
+  position: sticky;
+  height: var(--spacebar-height);
+  width: calc(100vw - 2 * var(--body-margin));
+  background: transparent linear-gradient(to bottom, var(--body-background-color), transparent);
 }
 
 
@@ -1538,7 +1542,10 @@ table td.buttonpanel {
 table td.toprow {
 }
 
-table td.bottomrow {
+table td.bottomrow,
+table.multischedule > tbody > tr:last-of-type > td.time,
+table.multischedule > tbody > tr:last-of-type > td.event,
+table.form > tbody > tr:last-of-type > td {
   border-bottom: var(--listing-border-width) solid var(--listing-border-color) !important;
 }
 
@@ -1984,11 +1991,25 @@ table.multischedule tr {
 table.multischedule tr.header {
 }
 
-table.multischedule tr.header th {
+table.form > tbody > tr.head > td,
+table.listing > tbody > tr.head > td,
+table.recordings-list > tbody > tr.head > td,
+table.multischedule tr.header th,
+div.event_collection div.event div.station {
   top: 0px;   /* required for stickiness */
   position: sticky;
-  height: inherit;
+  /*! height: inherit; */
   box-sizing: border-box;
+}
+
+table.multischedule tr.header th.time,
+table.multischedule tr.header th.channel,
+table.form > tbody > tr.head:first-of-type > td,
+table.listing > tbody > tr.head:first-of-type > td,
+table.recordings-list > tbody > tr.head > td,
+div.event_collection div.event div.station {
+  /* to avoid fragments of column borders aside sticky headers */
+  background: var(--body-background-color);
 }
 
 @-moz-document url-prefix() {
@@ -2044,8 +2065,8 @@ table.multischedule td.time, table.multischedule td.spacer {
   text-align: center;
 }
 
-table.multischedule tr th.event,
-table.multischedule tr td.event {
+table.multischedule tr td.event,
+table.multischedule > tbody > tr:last-of-type > td.time.even {
   background: linear-gradient(to top,var(--listing-row-background-color-bottom), var(--listing-row-background-color-top) var(--listing-row-background-gradient-height), var(--listing-row-background-color-top));
   border-bottom: var(--listing-border-width) solid var(--listing-row-border-color);
   vertical-align: top;
@@ -2164,15 +2185,15 @@ div.recordings ul {
   list-style-type: none;
 }
 
-div.recordings > ul > li:last-of-type:has(ul:is([style*="display: none"])) > div.recording_item  {
+form div.recordings ul > li:last-of-type:has(> ul:is([style*="display: none"])) > div.recording_item  {
   /* discard row bottom border if last directory is collapsed */
-  /*! border-bottom: none; */       /* selector to be revised */
-}
+  border-bottom: none;
+ }
 
-div.recordings > ul > li:last-of-type > ul tr.recording_item:last-child {
+form div.recordings > ul > li:last-of-type tr.recording_item:last-child {
   /* discard row bottom border of last recording */
-  /*! border-bottom: none; */       /* selector to be revised */
-}
+  border-bottom: none;
+ }
 
 /* 'div.recording_item' refers to a folder */
 
@@ -2608,16 +2629,12 @@ table.form > tbody > tr.permissions > td.rightcol > div {
   margin: var(--text-line-gap) 0px;
 }
 
-form div.submission,
-table.form > tbody > tr > td div.submission {
+form div.submission div.buttons,
+table.form > tbody > tr > td div.submission div.buttons {
   display: flex;
   align-items: center;
   flex-flow: row nowrap;
   gap: var(--margin-top-bottom) calc(var(--margin-left-right) * 2);
-}
-
-table.form > tbody > tr > td div.submission {
-  justify-content: space-between;
 }
 
 form div.warning,
@@ -2628,9 +2645,11 @@ table.form > tbody > tr > td div.warning {
 }
 
 table.form > tbody > tr > td div.warning {
-  flex-shrink: 1;
-  max-width: 60vw;;
   margin: var(--margin-top-bottom) var(--margin-left-right);
+}
+
+table.form > tbody > tr > td div.warning span#compatibility {
+  display: none;
 }
 
 table.form > tbody > tr > td div.submission div.buttons {

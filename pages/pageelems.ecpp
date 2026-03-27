@@ -1042,7 +1042,9 @@ for (const cTvMedia &media: *media_v) {
       <div class="about_section">
         <div class="tabular">
           <div class="about_left"><$ tr("LIVE version") $>:</div>
-          <div class="about_right"><$ LIVEVERSION $><$ VERSION_SUFFIX $></div>
+%         cToSvConcat versionSuffix;
+%         AppendHtmlEscapedAndCorrectNonUTF8(versionSuffix, VERSION_SUFFIX).replaceAll("_", "_<wbr>").replaceAll("+", "<wbr>+");
+          <div class="about_right"><$ LIVEVERSION $><$$ versionSuffix $></div>
           <div class="about_left"><$ tr("VDR version") $>:</div>
           <div class="about_right"><$ VDRVERSION $></div>
         </div>
