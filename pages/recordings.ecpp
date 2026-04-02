@@ -19,17 +19,18 @@ using namespace vdrlive;
 </%pre>
 <%args>
   std::string sort;
-  std::string todel;
   std::string diskinfo;
   std::string filter;
   std::string deleted;
-  std::string deletions[];
   std::string flat;
   int history_num_back = 0;
   int recycle_bin = 0;  // set this to 1 to display the deleted recordings
 </%args>
 <%session scope="global">
   bool logged_in(false);
+  std::string last_page;
+  int lastRecycle_bin(-1);
+  std::string lastFlat("n/a");
 </%session>
 
 <# scope="page" should be enough but does not work with tntnet 3.0 #>
@@ -90,34 +91,15 @@ currentFilter = filter;
 currentRecycle_bin = recycle_bin;
 
 
-if (!todel.empty()) deletions.push_back(todel);
-
 deleteResult = "";
-if (!deletions.empty()) {
-  if (cUser::CurrentUserHasRightTo(UR_DELRECS)) {
-    for (auto it = deletions.begin(); it != deletions.end(); ++it) {
-      std::string name;
-      if (currentRecycle_bin == 0) {
-        if (RecordingsManager::DeleteRecording(*it, &name) == 0) {
-          cToSvConcat delRec(tr("Deleted recording:"), " ", name, "<br/>");
-          deleteResult += cSv(delRec);
-        }
-      } else {
-        if (RecordingsManager::PurgeRecording(*it, &name) == 0) {
-          cToSvConcat delRec(tr("Permanently deleted recording:"), " ", name, "<br/>");
-          deleteResult += cSv(delRec);
-        }
-      }
-    }
-  } else {
-    throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
-  }
-  deletions.clear();
-}
+const char *del_text;
+if (currentRecycle_bin == 0) del_text = tr("Deleted recording:");
+else del_text = tr("Permanently deleted recording:");
+
 for (cSv id: cSplit(deleted, ',')) {
   const char *name=RecordingsManager::GetNameByHash(cToSvConcat("recording_", id));
   if (name) {
-    cToSvConcat delRec(tr("Deleted recording:"), " ", name, "<br/>");
+    cToSvConcat delRec(del_text, " ", name, "<br/>");
     deleteResult += cSv(delRec);
   }
 }
@@ -154,7 +136,7 @@ const char *TNT_ARRAY = "";
     <& pageelems.stylesheets &>
     <& pageelems.create_html_js &>
     <& pageelems.ajax_js &>
-<script>
+<script type="text/javascript">
 const recycle_bin = <$ recycle_bin $>;
 const recordings_tree_creation = <$ cToSvInt(RecordingsManager::GetLastRecordingsUpdate(true) ) $>;
 const recs = [];
@@ -191,9 +173,24 @@ function addEventRec_r(s, eventid, title, folder, shortText, description) {
 }
 </script>
 <script type="text/javascript" src="js/live/treeview.js"></script>
+%if (lastRecycle_bin != currentRecycle_bin || lastFlat != currentFlat || last_page != "recordings") {
+<# clear at first call or when the context changes #>
+  <script type="text/javascript">
+  clearSavedSelection();
+  </script>
+<%cpp>
+}
+lastRecycle_bin = currentRecycle_bin;
+lastFlat = currentFlat;
+last_page="recordings";
+</%cpp>
 
 </head>
-<body onpagehide="saveScrollPosition('content')" onpageshow="restoreScrollPosition(); clearCheckboxes(document.getElementById('form_recordings'))">
+<body
+onpagehide="saveScrollPosition('content');
+            saveSelection(document.getElementById('form_recordings'))"
+<# restoreSelection() and restoreScrollPosition() to be called once open nodes have been reloaded #>
+>
   <& pageelems.logo &>
 <%cpp>
 const char *active_r;
@@ -290,18 +287,21 @@ if (!deleteResult.empty()) {
         <input type="hidden" name="recycle_bin" value="<$ currentRecycle_bin $>">
         <input type="hidden" name="history_num_back" value="<$ history_num_back $>">
 %       if (!recording_item.empty()) {
-        <div class="submission withmargin hidden-xs">
 % if (currentRecycle_bin == 0) {
+        <div class="submission withmargin hidden-xs">
           <div class="buttons">
-            <button class="red" type="button" onclick="deleteMarkedRecodings(document.getElementById('form_recordings'), 'del')" ><$ tr("Delete selected") $></button>
+            <button class="red" type="button" onclick="clearSavedSelection(); deleteMarkedRecordings(document.getElementById('form_recordings'), 'del')" ><$ tr("Delete selected recordings") $></button>
           </div>
-% } else {
-          <div class="buttons">
-            <button class="red" type="button" onclick="deleteMarkedRecodings(document.getElementById('form_recordings'), 'pur')" ><$ tr("Permanently delete selected recordings") $></button>
-          </div>
-          <div class="warning"><$ tr("Warning: This cannot be undone!") $></div>
-% }
         </div>
+% } else {
+        <div class="message warning"><$ tr("Warning: Permanently deleted recordings cannot be recovered!") $></div>
+        <div class="button-panel hidden-xs">
+          <div class="buttons">
+            <button class="green" type="button" onclick="clearSavedSelection(); deleteMarkedRecordings(document.getElementById('form_recordings'), 'res')" ><$ tr("Restore selected recordings") $></button>
+            <button class="red" type="button" onclick="clearSavedSelection(); deleteMarkedRecordings(document.getElementById('form_recordings'), 'pur')" ><$ tr("Permanently delete selected recordings") $></button>
+          </div>
+        </div>
+% }
 %       }
       </form>
     </td></tr>
@@ -478,7 +478,7 @@ recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
     </%cpp>
       <script>
 %   if (level == 0) {
-        document.write(rec_string_d([<$level$>, <$displayFolder$>, [ <$$ *recording_item $> ]]))
+        document.write(rec_string_d([<$level$>, <$displayFolder$>, [ <$$ *recording_item $> ]], '0'))
 %   } else if (!parentIdHash.empty()) {
         rec_ids["<$ parentIdHash $>"] = [<$level$>, <$displayFolder$>, [ <$$ *recording_item $> ]]
 %   }
@@ -527,7 +527,7 @@ if (currentFlat != "true") {
 </%cpp>
 <span class="sep">|</span>
 <span class="label bold" >
-  <label for="recycle_bin"><$ trVDR("Deleted recordings") $></label>
+  <label for="recycle_bin"><$ trVDR("Deleted recordings") $>:</label>
   <input type="checkbox" name="recycle_bin" value="recycle_bin" <? currentRecycle_bin == 1 ? "checked" ?> id="recycle_bin" onchange="deletedRecordings(this, '<$ currentSort $>', '<$currentFlat$>', '<$currentFilter$>')" />
 </span>
 <%cpp>

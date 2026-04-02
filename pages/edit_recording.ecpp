@@ -238,19 +238,16 @@ std::string active_r;
             <td class="rightcol"><$$ aux_data $></td>
           </tr>
 % }
-          <tr>
-            <td class="buttonpanel leftcol rightcol bottomrow" colspan="2">
-              <div class="withmargin">
-              <button class="green" type="submit"><$ tr("Save") $></button>
-              <button class="red" type="button" onclick="back_depending_referrer(1, <$ history_num_back $>)"><$ tr("Cancel") $></button>
-              </div>
-            </td>
-          </tr>
         </table>
+        <!-- Messages and buttons -->
+        <div class="message error"><$ message $></div>
+        <div class="button-panel">
+          <div class="buttons">
+            <button class="green" type="submit"><$ tr("Save") $></button>
+            <button class="red" type="button" onclick="back_depending_referrer(1, <$ history_num_back $>)"><$ tr("Cancel") $></button>
+          </div>
+        </div>
       </form>
-      <div style="color: red; margin: 0 auto;">
-        <$ message $>
-      </div>
       <div class="spacebar"><# spacer with fade-out effect #></div>
     </div>
   </body>

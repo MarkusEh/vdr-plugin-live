@@ -185,11 +185,29 @@ function clearCheckboxes(form) {
     }
   }
 }
-async function deleteMarkedRecodings(form, act) {
-// deleteMarkedRecodings
+async function deleteMarkedRecordings(form, act) {
+// deleteMarkedRecordings
 // act = 'del' or 'pur'
   var inputs = form.getElementsByTagName('input');
-  let all_del='';
+  let epgid=act+'_recording_';
+  for (var i = 0; i<inputs.length; i++) {
+    if (inputs[i].type == 'checkbox' && inputs[i].checked &&
+        inputs[i].value && inputs[i].value.startsWith('recording_')) {
+      const id = inputs[i].value.substring(10);
+      epgid = epgid + id + "_";
+    }
+  }
+  if (typeof liveEnhanced !== 'undefined') {
+    var event_ = new Event(event);
+    var infowin = new InfoWin.Ajax(epgid, "epginfo.html?epgid="+epgid, $merge(liveEnhanced.options.infoWinOptions, {
+                      onDomExtend: liveEnhanced.domExtend.bind(liveEnhanced)
+                    }));
+    infowin.options.offsets.y = -400;
+    infowin.show(event_);
+    event_.stop();
+  } else alert("ERROR createHtml.js, deleteMarkedRecordings, liveEnhanced not defined");
+
+  /*
   for (var i = 0; i<inputs.length; i++) {
     if (inputs[i].type == 'checkbox' && inputs[i].checked &&
         inputs[i].value && inputs[i].value.startsWith('recording_')) {
@@ -212,6 +230,7 @@ async function deleteMarkedRecodings(form, act) {
     new_loc = window.location.href + "?deleted=" + all_del;
   }
   window.location=new_loc;
+*/
 }
 async function execute(url) {
 /*
@@ -283,17 +302,17 @@ function back_depending_referrer(back_epginfo, back_others) {
     history.go(-back_others);
   }
 }
-async function rec_string_d_a(rec_ids) {
+async function rec_string_d_a(rec_ids, folderId) {
   const st = Object.create(null)
   st.a = ""
-  let res = await RecordingsSt_a(st, rec_ids[0], rec_ids[1], rec_ids[2])
+  let res = await RecordingsSt_a(st, rec_ids[0], rec_ids[1], rec_ids[2], folderId)
   return st.a
 }
 
-function rec_string_d(rec_ids) {
+function rec_string_d(rec_ids, folderId) {
   const st = Object.create(null)
   st.a = ""
-  RecordingsSt_int(st, rec_ids[0], rec_ids[1], rec_ids[2])
+  RecordingsSt_int(st, rec_ids[0], rec_ids[1], rec_ids[2], folderId)
   return st.a
 }
 

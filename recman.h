@@ -205,6 +205,7 @@ namespace vdrlive {
   std::string RecordingsManager_DeleteConfirmationQuestion(cSv hash);
   std::string RecordingsManager_RestoreConfirmationQuestion(cSv hash);
   std::string RecordingsManager_PurgeConfirmationQuestion(cSv hash);
+  std::vector<std::string> RecordingsManager_object_names(cSv hash);
   int RecordingsManager_DeleteRecording(cSv hash, std::string &message);
   int RecordingsManager_RestoreRecording(cSv hash, std::string &message);
   int RecordingsManager_PurgeRecording(cSv hash, std::string &message);

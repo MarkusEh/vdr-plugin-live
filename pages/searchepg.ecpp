@@ -54,6 +54,7 @@ using namespace vdrlive;
 </%args>
 <%session scope="global">
 bool logged_in(false);
+std::string last_page;
 </%session>
 <%request scope="page">
 ExtEPGInfos extEPGInfos;
@@ -63,6 +64,7 @@ std::string contentsFilter;
 </%request>
 <%include>page_init.eh</%include>
 <{
+last_page="searchepg";
 if (!logged_in && LiveSetup().UseAuth()) {
   cToSvConcat<0> targetUrl = "/login.html?redirect=";
   targetUrl.appendUrlEscaped(request.getQuery());
@@ -230,7 +232,8 @@ const char *TNT_ARRAY = "";
     function changeduseextendedsearch(selection)
     {
       document.getElementById("extendedsearch").style.display = (selection.checked ? "revert-layer" : "none");
-      document.getElementById("compatibility").style.display = (selection.checked ? "revert-layer" : "none");
+      const compatibility = document.getElementById("compatibility");
+      if (compatibility) compatibility.style.display = (selection.checked ? "revert-layer" : "none");
     }
 
     function changedsearchmode(selection)
@@ -372,8 +375,8 @@ const char *TNT_ARRAY = "";
             <td class="rightcol"><input type="text" name="search" value="<$ search $>" class="width99" size="55" id="searchterm" /></td>
           </tr>
           <tr>
-            <td class="label leftcol"><div class="withmargin"><$ tr("Extended search") $>:</div></td>
-            <td class="rightcol">
+            <td class="label leftcol bottomrow"><div class="withmargin"><$ tr("Extended search") $>:</div></td>
+            <td class="rightcol bottomrow">
               <input type="checkbox" name="useextendedsearch" value="1" <{ CHECKIF(useextendedsearch) }> onclick="changeduseextendedsearch(this)" id="useextendedsearch"/>
             <div id="extendedsearch" style="display: none">
             <table class="dependent" border="0" cellpadding="0" cellspacing="0">
@@ -723,27 +726,23 @@ const char *TNT_ARRAY = "";
             </table>
             </td>
           </tr>
-
-          <!-- Messages and buttons -->
-          <tr>
-            <td class="buttonpanel leftcol rightcol bottomrow" colspan="2">
-              <div class="submission">
-                <div class="warning"><span id="compatibility">
-%               if (searchtimers.begin() != searchtimers.end()) {
-%                 if (searchtimers.begin()->HasInsufficientFields()) {
-                    <$ tr("The search lacks some form fields, so that their values cannot be used for searching the EPG. Please upgrade to the most recent version of EPGsearch.") $>
-%                 } else if (searchtimers.begin()->HasUnknownFields()) {
-                    <$ tr("The search supports extra fields. These will be not be taken into account.") $>
-%                 }
-%               }
-                </span></div>
-                <div class="buttons">
-                  <button class="green" type="submit" name="save" onclick="return checksearchterm();"><$ tr("Search") $></button>
-                </div>
-              </div>
-            </td>
-          </tr>
         </table>
+
+        <!-- Messages and buttons -->
+        <div class="message warning" id="compatibility" style="display: none">
+%       if (searchtimers.begin() != searchtimers.end()) {
+%         if (searchtimers.begin()->HasInsufficientFields()) {
+              <$ tr("The search lacks some form fields, so that their values cannot be used for searching the EPG. Please upgrade to the most recent version of EPGsearch.") $>
+%         } else if (searchtimers.begin()->HasUnknownFields()) {
+              <$ tr("The search supports extra fields. These will be not be taken into account.") $>
+%         }
+%       }
+        </div>
+        <div class="button-panel">
+          <div class="buttons">
+            <button class="green" type="submit" name="save" onclick="return checksearchterm();"><$ tr("Search") $></button>
+          </div>
+        </div>
       </form>
       <div class="spacebar"><# spacer with fade-out effect #></div>
     </div>

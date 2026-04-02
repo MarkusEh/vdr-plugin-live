@@ -489,16 +489,15 @@ TimerConflictNotifier timerNotifier;
             <td class="label leftcol"><div class="withmargin"><$ trVDR("Lifetime") $>:</div></td>
             <td class="rightcol"><input type="number" size="6" min="0" max="99" name="lifetime" value="<$ lifetime $>" /></td>
           </tr>
-
-          <tr>
-            <td class="buttonpanel leftcol rightcol bottomrow" colspan="2">
-              <div class="withmargin">
-              <button class="green" type="submit"><$ tr("Save") $></button>
-              <button type="button" class="red" onclick="history.go(<$-nav_back$>)"><$ tr("Cancel") $></button>
-              </div>
-            </td>
-          </tr>
         </table>
+        <!-- Messages and buttons -->
+        <div class="message error"><$ message $></div>
+        <div class="button-panel">
+          <div class="buttons">
+            <button class="green" type="submit"><$ tr("Save") $></button>
+            <button type="button" class="red" onclick="history.go(<$-nav_back$>)"><$ tr("Cancel") $></button>
+          </div>
+        </div>
       </form>
       <div class="error">
         <$ message $>

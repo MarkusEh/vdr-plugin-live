@@ -242,7 +242,7 @@ function RecordingActionStream(s, id, label) {
   s.a += '\"><img class=\"hidden-xs invisible icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>stream_button.png\" /></a>'
 }
 
-async function RecordingsSt_a(s, level, displayFolder, data) {
+async function RecordingsSt_a(s, level, displayFolder, data, folderId) {
   var recs_param =  '';
   for (obj_i of data ?? []) { // to cater for undefined data
     if (typeof recs[obj_i] === 'undefined') {
@@ -251,7 +251,7 @@ async function RecordingsSt_a(s, level, displayFolder, data) {
     }
   }
   if (recs_param.length == 0) {
-    RecordingsSt_int(s, level, displayFolder, data);
+    RecordingsSt_int(s, level, displayFolder, data, folderId);
   } else {
     var recs_param_a = 'vdr_start=<$ cToSvInt(LiveSetup().GetVdrStart() ) $>&recordings_tree_creation=';
     recs_param_a += recordings_tree_creation;
@@ -268,7 +268,7 @@ async function RecordingsSt_a(s, level, displayFolder, data) {
     if (vdr_restart || recordings_tree_re_created) {
       location.reload();
     } else {
-      RecordingsSt_int(s, level, displayFolder, data);
+      RecordingsSt_int(s, level, displayFolder, data, folderId);
     }
   }
 }
@@ -328,7 +328,7 @@ function addEventRec(s, eventprefix, eventid, http_params, title, folder, shortT
 // [22] : frame parameter text
 // before calling, make sure that all recs[obj_i] exist!
 #>
-function RecordingsSt_int(s, level, displayFolder, data) {
+function RecordingsSt_int(s, level, displayFolder, data, folderId) {
   s.a += '<li class="recording"><div><table class="recordings">'
   for (obj_i of data) {
     if (typeof recs[obj_i] === 'undefined') continue;
@@ -364,6 +364,9 @@ function RecordingsSt_int(s, level, displayFolder, data) {
       '<td class="space"> <img src="img/transparent.png" style="width: calc(var(--icon-width, 16px) * ' + String(level) + '); height: var(--icon-height, 16px)" /></td>'
     s.a += '<td class="td-hidden-xs"><div class="hidden-xs recording_imgs">'
     s.a += '<input type="checkbox" name="deletions<$TNT_ARRAY$>" id="cb_'
+// insert 'folderId' to avoid duplicate IDs in virtual folders
+    s.a += folderId
+    s.a += '_'
     s.a += obj_i
     s.a += '" value="recording_'
     s.a += obj[0]

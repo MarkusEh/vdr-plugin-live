@@ -69,9 +69,7 @@ if (logged_in || !LiveSetup().UseAuth()) return reply.redirect(targetUrl);
           </tr>
         </table>
       </form>
-      <div class="message">
-        <$ message $>
-      </div>
+      <div class="message error"><$ message $></div>
     </div>
   </div>
   </body>

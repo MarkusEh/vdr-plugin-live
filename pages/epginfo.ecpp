@@ -157,6 +157,16 @@ using namespace vdrlive;
     <form>
       <input type="hidden" name="history_num_back" value="<$ history_num_back $>" id="history_<$ epgid $>"\>
       <div class="about_head prompt"><p><$ confirm->get_question(epgid) $></p>
+<%cpp>
+  auto obj_list = confirm->get_object_names(epgid);
+  if (!obj_list.empty()) {
+</%cpp>
+  <table class="object-list">
+%   for (auto obj: obj_list) {
+<tr class="object"><td><$obj$></td></tr>
+%   }
+  </table>
+% }
 %       if (confirm->m_warning) {
         <p><$ tr(confirm->m_warning) $></p>
 %       }

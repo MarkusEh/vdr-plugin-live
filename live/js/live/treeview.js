@@ -32,7 +32,7 @@ async function set_folder_open(rec_list) {
   if (rec_id != null && rec_id.length >= 3 && rec_id[1] != 2) {
     rec_id[1] = 2;
     dom_changed = true;
-    const to_insert=await rec_string_d_a(rec_id);
+    const to_insert=await rec_string_d_a(rec_id, fldr_hash);
     rec_list.insertAdjacentHTML("beforeend", to_insert);
   }
 
@@ -55,7 +55,7 @@ function SetCheckboxValues(fldr_hash, value) {
 
   if (rec_ids[fldr_hash] == null || rec_ids[fldr_hash].length < 3) return;
   for (var item of rec_ids[fldr_hash][2]) {
-    const cb=document.getElementById("cb_"+item);
+    const cb=document.getElementById("cb_"+fldr_hash+"_"+item);
     if (cb != null) cb.checked=value;
   }
 }
@@ -124,9 +124,43 @@ function SetChecked(fldr_hash) {
   if (rec_list.style.display == 'none') return;
   SetCheckboxValues(fldr_hash, true);
 }
+
+function saveSelection(form)
+{
+  let checkboxes = [];
+  for (const input of form?.getElementsByTagName('input') ?? []) {
+    if (input.type == 'checkbox' && input.checked) {
+      checkboxes.push(input.id);
+    }
+  }
+  if (checkboxes.length > 0) {
+    createCookie(cookieNameSelection, checkboxes.join(','), 1);
+  } else {
+    clearSavedSelection();
+  }
+}
+
+function restoreSelection()
+{
+  clearCheckboxes(document.getElementById('form_recordings'));
+  const cookie = readCookie(cookieNameSelection);
+  for (const id of cookie?.split(',') ?? []) {
+    const fldr_hash = id.split('_')[1];
+    const input = document.getElementById(id);
+    if (input?.type == 'checkbox') {
+      input.checked = true;
+    }
+  }
+}
+
+function clearSavedSelection()
+{
+  eraseCookie(cookieNameSelection);
+}
+
 function updateCookieOnExpand( id )
 {
-  var openNodes = readCookie(cookieNameRec);
+  var openNodes = readCookie(cookieNameOpenNodes);
   if (openNodes == null || openNodes == "")
     openNodes = id;
   else {
@@ -135,12 +169,12 @@ function updateCookieOnExpand( id )
     }
     openNodes += "," + id;
   }
-  createCookie(cookieNameRec, openNodes, 14);
+  createCookie(cookieNameOpenNodes, openNodes, 14);
 }
 
 function updateCookieOnCollapse(id)
 {
-let openNodes = readCookie(cookieNameRec);
+let openNodes = readCookie(cookieNameOpenNodes);
 if (openNodes != null)
   openNodes = openNodes.split(",");
 else
@@ -152,12 +186,12 @@ for (var z=0; z<openNodes.length; z++) {
   }
 }
 openNodes = openNodes.join(",");
-createCookie(cookieNameRec, openNodes, 14);
+createCookie(cookieNameOpenNodes, openNodes, 14);
 }
 
 async function openNodesOnPageLoad()
 {
-  let openNodes = readCookie(cookieNameRec);
+  let openNodes = readCookie(cookieNameOpenNodes);
   if (openNodes != null && openNodes !== "")
     openNodes = openNodes.split(",");
   else
@@ -174,7 +208,6 @@ async function openNodesOnPageLoad()
   for (var openNode of openNodes) {
     const rec_id = rec_ids[openNode];
   }
-  imgLoad();
 }
 
 function getElementsByNodeNameClassName(elementd, nodeName, className) {
@@ -218,43 +251,58 @@ function CollapseAll()
       set_folder_closed(recordingNodes[idx]);
     }
   }
-  eraseCookie( cookieNameRec );
+  eraseCookie( cookieNameOpenNodes );
 }
 
-var cookieNameRec = "VDR-Live-Recordings-Tree-Open-Nodes";
+const cookieNamePrefix = "VDR-Live-Recordings-Tree";
+const cookieNameOpenNodes = cookieNamePrefix + "-Open-Nodes";
+const cookieNameSelection = cookieNamePrefix + "-Selection";
 
-document.addEventListener("DOMContentLoaded", function()
+async function DOMContentLoaded_() {
+  await openNodesOnPageLoad();
+  restoreSelection();
+  restoreScrollPosition();
+  imgLoad();
+}
+document.addEventListener("DOMContentLoaded", DOMContentLoaded_);
+
+
+//The following cookie functions have evolved from the examples of http://www.quirksmode.org/js/cookies.html
+function createCookie(name, value, days)
 {
-  openNodesOnPageLoad();
-});
-
-//The following cookie functions are taken from http://www.quirksmode.org/js/cookies.html
-
-function createCookie(name,value,days)
-{
-  if (value.length > 1000) return; // too large cookies result in too large http headers
-  if (days) {
-    var date = new Date();
-    date.setTime(date.getTime()+(days*24*60*60*1000));
-    var expires = "; expires="+date.toGMTString();
+  const scope = "; SameSite=Lax; path=/"
+  var expiration = "";   // defaults to session cookie
+  if (days > 0) {
+    // cookie with expiration time
+    let date = new Date();
+    date.setTime(date.getTime() + days * 24*60*60*1000);
+    expiration = "; expires=" + date.toGMTString();
+  } else if (days < 0) {
+    // already expired cookie, i.e., cookie to be deleted
+    let date = new Date(0);
+    expiration = "; expires=" + date.toGMTString();
   }
-  else var expires = "";
-  document.cookie = name+"="+value+expires+";SameSite=Lax; path=/";
+  var cookie = name + "=" + value + expiration + scope;
+  if (cookie.length >= 4096 ) {
+    // oversized cookie deleted to avoid truncation issues
+    let date = new Date(0);
+    expiration = "; expires=" + date.toGMTString();
+    cookie = name + "=" + expiration + scope;
+  }
+  document.cookie = cookie;
 }
 
 function readCookie(name)
 {
   var nameEQ = name + "=";
-  var ca = document.cookie.split(';');
-  for(var i=0;i < ca.length;i++) {
-    var c = ca[i];
-    while (c.charAt(0)==' ') c = c.substring(1,c.length);
-    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+  for (let c of document.cookie.split(';')) {
+    c = c.trim();
+    if (c.startsWith(nameEQ)) return c.substring(nameEQ.length);
   }
   return null;
 }
 
 function eraseCookie(name)
 {
-  createCookie(name,"",-1);
+  createCookie(name, "", -1);
 }

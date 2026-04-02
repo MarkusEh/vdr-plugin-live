@@ -538,13 +538,27 @@
   inherits: false;
 }
 
-/* error-widget colors */
+/* message colors */
+
+@property --message-color {
+  syntax: "<color>";
+  initial-value: #000000;
+  inherits: false;
+}
+
+@property --warning-color {
+  syntax: "<color>";
+  initial-value: #e9360d;
+  inherits: false;
+}
 
 @property --error-color {
   syntax: "<color>";
-  initial-value: #ff4500;
+  initial-value: #e9360d;
   inherits: false;
 }
+
+/* error-widget colors */
 
 @property --error-title-color {
   syntax: "<color>";

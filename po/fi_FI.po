@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-27 10:03+0100\n"
+"POT-Creation-Date: 2026-04-02 16:03+0200\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Rolf Ahrenberg <rahrenbe@cc.hut.fi>\n"
 "Language-Team: see developers in README\n"
@@ -23,6 +23,9 @@ msgstr ""
 msgid "Delete recording [recording name unavailable]?"
 msgstr ""
 
+msgid "Delete the following recordings?"
+msgstr ""
+
 #, c-format
 msgid "Restore recording \"%s\"?"
 msgstr ""
@@ -30,11 +33,17 @@ msgstr ""
 msgid "Restore recording [recording name unavailable]?"
 msgstr ""
 
+msgid "Restore the following recordings?"
+msgstr ""
+
 #, c-format
 msgid "Permanently delete recording \"%s\"?"
 msgstr ""
 
 msgid "Permanently delete recording [recording name unavailable]?"
+msgstr ""
+
+msgid "Permanently delete the following recordings?"
 msgstr ""
 
 msgid "On archive DVD No."
@@ -618,10 +627,10 @@ msgstr "Tallennetta ei löydy tai yhtään tallennetta ei ole saatavilla."
 msgid "Page error"
 msgstr "Sivuvirhe"
 
-msgid "Not playing a recording."
+msgid "Not playing a recording"
 msgstr "Tallennetta ei toisteta."
 
-msgid "Not playing the same recording as from request."
+msgid "Not playing the same recording as from request"
 msgstr "Pyydettyä tallennetta ei toisteta."
 
 msgid "Cannot control playback!"
@@ -984,8 +993,14 @@ msgstr "Tallenteita ei löydy"
 msgid "No deleted recordings found"
 msgstr ""
 
-msgid "Delete selected"
+msgid "Delete selected recordings"
 msgstr "Poista valitut"
+
+msgid "Warning: Permanently deleted recordings cannot be recovered!"
+msgstr ""
+
+msgid "Restore selected recordings"
+msgstr ""
 
 msgid "Permanently delete selected recordings"
 msgstr ""

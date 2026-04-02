@@ -68,7 +68,7 @@ bool logged_in(false);
     <div id="content">
       <div class="spacebar"><# spacer with fade-out effect #></div>
 %      if (results.size() == 0) {
-        <$ tr("No search results") $>
+        <div class="message"><$ tr("No search results") $></div>
 <%cpp>
        } else {
         std::string current_day = "";

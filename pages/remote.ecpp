@@ -25,12 +25,14 @@ bool IsGrabImageAvailable() {
 </%args>
 <%session scope="global">
 bool logged_in(false);
+std::string last_page;
 </%session>
 <%request scope="global">
   tChannelID channelID;
 </%request>
 <%include>page_init.eh</%include>
 <{
+last_page="remote";
 if (!logged_in && LiveSetup().UseAuth()) {
   cToSvConcat targetUrl("/login.html?redirect=");
   targetUrl.appendUrlEscaped(request.getQuery());

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-27 10:03+0100\n"
+"POT-Creation-Date: 2026-04-02 16:03+0200\n"
 "PO-Revision-Date: 2012-12-03 21:41+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: Slovak <hrala.milan@gmail.com>\n"
@@ -23,6 +23,9 @@ msgstr ""
 msgid "Delete recording [recording name unavailable]?"
 msgstr ""
 
+msgid "Delete the following recordings?"
+msgstr ""
+
 #, c-format
 msgid "Restore recording \"%s\"?"
 msgstr ""
@@ -30,11 +33,17 @@ msgstr ""
 msgid "Restore recording [recording name unavailable]?"
 msgstr ""
 
+msgid "Restore the following recordings?"
+msgstr ""
+
 #, c-format
 msgid "Permanently delete recording \"%s\"?"
 msgstr ""
 
 msgid "Permanently delete recording [recording name unavailable]?"
+msgstr ""
+
+msgid "Permanently delete the following recordings?"
 msgstr ""
 
 msgid "On archive DVD No."
@@ -618,10 +627,10 @@ msgstr "Nenašiel sa záznam alebo nahrávky nie sú k dispozícii"
 msgid "Page error"
 msgstr "Chyba stránky"
 
-msgid "Not playing a recording."
+msgid "Not playing a recording"
 msgstr "Záznam sa neprehráva."
 
-msgid "Not playing the same recording as from request."
+msgid "Not playing the same recording as from request"
 msgstr "Ak sa vyžiada rovnaká nahrávka, tak ju neprehraje."
 
 msgid "Cannot control playback!"
@@ -984,8 +993,14 @@ msgstr "Nenašla sa nahrávka"
 msgid "No deleted recordings found"
 msgstr ""
 
-msgid "Delete selected"
+msgid "Delete selected recordings"
 msgstr "Vymazať vybrané"
+
+msgid "Warning: Permanently deleted recordings cannot be recovered!"
+msgstr ""
+
+msgid "Restore selected recordings"
+msgstr ""
 
 msgid "Permanently delete selected recordings"
 msgstr ""

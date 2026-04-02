@@ -1027,8 +1027,8 @@ const char *TNT_ARRAY = "";
 
             <!-- Use as search timer -->
             <tr>
-              <td class="label leftcol"><div class="withmargin"><$ tr("Use as search timer" ) $>:</div></td>
-              <td class="rightcol">
+              <td class="label leftcol bottomrow"><div class="withmargin"><$ tr("Use as search timer" ) $>:</div></td>
+              <td class="rightcol bottomrow">
                 <div>
                   <select onchange="changeduseassearchtimer(this)" name="useassearchtimer" size="1" id="useassearchtimer">
                     <option value="0" <{ SELECTIF(useassearchtimer == 0) }> ><$ trVDR("no") $></option>
@@ -1217,30 +1217,26 @@ const char *TNT_ARRAY = "";
                 </div>
               </td>
             </tr>
-
-            <!-- Messages and buttons -->
-            <tr>
-              <td class="buttonpanel leftcol rightcol bottomrow" colspan="2">
-                <div class="submission">
-                  <div class="warning"><span id="compatibility">
-%                 if (searchtimers.begin() != searchtimers.end()) {
-%                   if (searchtimers.begin()->HasInsufficientFields()) {
-                      <$ tr("The searchtimer lacks some form fields, so that their values cannot be saved. Please upgrade to the most recent version of EPGsearch.") $>
-%                   } else if (searchtimers.begin()->HasUnknownFields()) {
-                      <$ tr("The searchtimer includes extra fields. These will be saved with their original values.") $>
-%                   }
-%                 }
-                  </span></div>
-                  <div class="buttons">
-                    <button class="green" type="submit" name="test" value="test" onclick="return checksearchterm(this);"><$ tr("Test") $></button>
-                    <button class="green" type="submit" name="save" onclick="return checksearchterm(this);"><$ tr("Save") $></button>
-                    <button class="green" type="submit" name="clone" onclick="return checksearchterm(this);"><$ tr("Save as new") $></button>
-                    <button type="button" class="red" onclick="history.go(<$-nav_back$>)"><$ tr("Cancel") $></button>
-                  </div>
-                </div>
-              </td>
-            </tr>
           </table>
+
+          <!-- Messages and buttons -->
+          <div class="message warning" id="compatibility">
+%         if (searchtimers.begin() != searchtimers.end()) {
+%           if (searchtimers.begin()->HasInsufficientFields()) {
+                <$ tr("The searchtimer lacks some form fields, so that their values cannot be saved. Please upgrade to the most recent version of EPGsearch.") $>
+%           } else if (searchtimers.begin()->HasUnknownFields()) {
+                <$ tr("The searchtimer includes extra fields. These will be saved with their original values.") $>
+%           }
+%         }
+          </div>
+          <div class="button-panel">
+            <div class="buttons">
+              <button class="green" type="submit" name="test" value="test" onclick="return checksearchterm(this);"><$ tr("Test") $></button>
+              <button class="green" type="submit" name="save" onclick="return checksearchterm(this);"><$ tr("Save") $></button>
+              <button class="green" type="submit" name="clone" onclick="return checksearchterm(this);"><$ tr("Save as new") $></button>
+              <button type="button" class="red" onclick="history.go(<$-nav_back$>)"><$ tr("Cancel") $></button>
+            </div>
+          </div>
         </form>
         <div class="spacebar"><# spacer with fade-out effect #></div>
       </div>

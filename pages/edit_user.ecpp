@@ -169,15 +169,13 @@ cUser* editUser;
               <label for="ur_editrecs"><$ tr("Edit recordings") $></label></div>
             </td>
           </tr>
-          <tr>
-            <td class="buttonpanel leftcol rightcol bottomrow" colspan="2">
-              <div class="withmargin">
-              <button class="green" type="submit" name="save"><$ tr("Save") $></button>
-              <button type="button" class="red" onclick="history.back()"><$ tr("Cancel") $></button>
-              </div>
-            </td>
-          </tr>
         </table>
+        <div class="button-panel">
+          <div class="buttons">
+            <button class="green" type="submit" name="save"><$ tr("Save") $></button>
+            <button type="button" class="red" onclick="history.back()"><$ tr("Cancel") $></button>
+          </div>
+        </div>
       </form>
       <div class="spacebar"><# spacer with fade-out effect #></div>
     </div>

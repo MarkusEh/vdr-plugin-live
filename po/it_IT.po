@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-27 10:03+0100\n"
+"POT-Creation-Date: 2026-04-02 16:03+0200\n"
 "PO-Revision-Date: 2011-12-25 23:22+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: see developers in README\n"
@@ -28,6 +28,9 @@ msgstr ""
 msgid "Delete recording [recording name unavailable]?"
 msgstr ""
 
+msgid "Delete the following recordings?"
+msgstr ""
+
 #, c-format
 msgid "Restore recording \"%s\"?"
 msgstr ""
@@ -35,11 +38,17 @@ msgstr ""
 msgid "Restore recording [recording name unavailable]?"
 msgstr ""
 
+msgid "Restore the following recordings?"
+msgstr ""
+
 #, c-format
 msgid "Permanently delete recording \"%s\"?"
 msgstr ""
 
 msgid "Permanently delete recording [recording name unavailable]?"
+msgstr ""
+
+msgid "Permanently delete the following recordings?"
 msgstr ""
 
 msgid "On archive DVD No."
@@ -623,10 +632,10 @@ msgstr "Impossibile trovare registrazioni o nessuna registrazione disponibile"
 msgid "Page error"
 msgstr "Errore pagina"
 
-msgid "Not playing a recording."
+msgid "Not playing a recording"
 msgstr "Nessuna registrazione in riproduzione."
 
-msgid "Not playing the same recording as from request."
+msgid "Not playing the same recording as from request"
 msgstr "Riproduzione di una registrazione diversa da quella richiesta."
 
 msgid "Cannot control playback!"
@@ -989,8 +998,14 @@ msgstr "Nessuna registrazione trovata"
 msgid "No deleted recordings found"
 msgstr ""
 
-msgid "Delete selected"
+msgid "Delete selected recordings"
 msgstr "Elimina selezionati"
+
+msgid "Warning: Permanently deleted recordings cannot be recovered!"
+msgstr ""
+
+msgid "Restore selected recordings"
+msgstr ""
 
 msgid "Permanently delete selected recordings"
 msgstr ""

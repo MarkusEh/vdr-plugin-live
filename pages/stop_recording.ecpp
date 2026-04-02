@@ -32,7 +32,7 @@ using namespace vdrlive;
   if (*error_message == 0) {
     const char *current = cReplayControl::NowReplaying();
     if (!current) {
-      error_message = tr("Not playing a recording.");
+      error_message = tr("Not playing a recording");
     } else {
       cReplayControl::SetRecording(0);
       cControl::Shutdown();

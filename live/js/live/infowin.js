@@ -175,12 +175,12 @@ var InfoWin = new Class({
         });
     },
 
-    show: function(event){
+    show: function(event_){
       // raise before determining the position, as we then have the true
       // window dimensions derived from CSS settings for rectification
       // (instead of just some magic constants)
       this.wm.raise(this);
-      this.position(event);
+      if (event_) this.position(event_);
       if (this.winFrame.style.position != 'fixed') {
         // floating coordinates refer to the 'content' element
         content = document.getElementById('content');

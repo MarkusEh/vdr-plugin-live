@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 3.5.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-14 16:57+0100\n"
+"POT-Creation-Date: 2026-04-02 16:03+0200\n"
 "PO-Revision-Date: 2026-01-27 20:15+0200\n"
 "Last-Translator: Stefan Hofmann <info@stefans-galerie.de>\n"
 "Language-Team: see developers in README\n"
@@ -25,6 +25,9 @@ msgstr "Aufzeichnung \"%s\" löschen?"
 msgid "Delete recording [recording name unavailable]?"
 msgstr "Aufzeichnung löschen [Name nicht verfügbar]?"
 
+msgid "Delete the following recordings?"
+msgstr "Folgende Aufzeichnungen löschen?"
+
 #, c-format
 msgid "Restore recording \"%s\"?"
 msgstr "Aufzeichnung \"%s\" wiederherstellen?"
@@ -32,12 +35,18 @@ msgstr "Aufzeichnung \"%s\" wiederherstellen?"
 msgid "Restore recording [recording name unavailable]?"
 msgstr "Aufzeichnung wiederherstellen [Name nicht verfügbar]?"
 
+msgid "Restore the following recordings?"
+msgstr "Folgende Aufzeichnungen wiederherstellen?"
+
 #, c-format
 msgid "Permanently delete recording \"%s\"?"
 msgstr "Aufzeichnung \"%s\" endgültig löschen?"
 
 msgid "Permanently delete recording [recording name unavailable]?"
 msgstr "Aufzeichnung endgültig löschen [Name nicht verfügbar]?"
+
+msgid "Permanently delete the following recordings?"
+msgstr "Folgende Aufzeichnungen endgültig löschen?"
 
 msgid "On archive DVD No."
 msgstr "Auf Archiv-DVD Nr."
@@ -620,11 +629,11 @@ msgstr "Kann die Aufzeichnung nicht finden oder keine Aufzeichnungen vorhanden"
 msgid "Page error"
 msgstr "Seitenfehler"
 
-msgid "Not playing a recording."
-msgstr "Es wird keine Aufzeichnung abgespielt."
+msgid "Not playing a recording"
+msgstr "Es wird keine Aufzeichnung abgespielt"
 
-msgid "Not playing the same recording as from request."
-msgstr "Eine andere als die gewünschte Aufzeichnung wird abgespielt."
+msgid "Not playing the same recording as from request"
+msgstr "Eine andere als die gewünschte Aufzeichnung wird abgespielt"
 
 msgid "Cannot control playback!"
 msgstr "Kann die Wiedergabe nicht steuern."
@@ -986,11 +995,17 @@ msgstr "Keine Aufzeichnungen vorhanden"
 msgid "No deleted recordings found"
 msgstr "Keine gelöschten Aufzeichnungen vorhanden"
 
-msgid "Delete selected"
-msgstr "Markierte löschen"
+msgid "Delete selected recordings"
+msgstr "Ausgewählte Aufzeichnungen löschen"
+
+msgid "Warning: Permanently deleted recordings cannot be recovered!"
+msgstr "Achtung: Dauerhaft gelöschte Aufzeichnungen können nicht wiederhergestellt werden!"
+
+msgid "Restore selected recordings"
+msgstr "Ausgewählte Aufzeichnungen wiederherstellen"
 
 msgid "Permanently delete selected recordings"
-msgstr "Markierte Aufzeichnungen dauerhaft löschen"
+msgstr "Ausgewählte Aufzeichnungen dauerhaft löschen"
 
 msgid "Deselect all recordings in this folder"
 msgstr "Auswahl für alle Aufzeichnungen in diesem Ordner aufheben"

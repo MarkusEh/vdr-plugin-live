@@ -1525,8 +1525,12 @@ button.yellow {
   margin-left: 0px;
 }
 
-#form_recordings div.submission div.buttons button {
-  min-width: calc(var(--button-width) * 1.5);
+#form_recordings div.button-panel div.buttons button.delete {
+  min-width: calc(var(--button-width) * 2.0);
+}
+
+#form_recordings div.button-panel div.buttons button.purge {
+  min-width: calc(var(--button-width) * 2.5);
 }
 
 
@@ -2629,36 +2633,34 @@ table.form > tbody > tr.permissions > td.rightcol > div {
   margin: var(--text-line-gap) 0px;
 }
 
-form div.submission div.buttons,
-table.form > tbody > tr > td div.submission div.buttons {
-  display: flex;
-  align-items: center;
-  flex-flow: row nowrap;
-  gap: var(--margin-top-bottom) calc(var(--margin-left-right) * 2);
+form div.message {
+  margin: var(--margin-top-bottom) 0px;
 }
 
-form div.warning,
-table.form > tbody > tr > td div.warning {
-  color: var(--listing-color-highlight);
+div.message {
+  color: var(--message-color);
   font-weight: bold;
   text-align: left;
 }
 
-table.form > tbody > tr > td div.warning {
-  margin: var(--margin-top-bottom) var(--margin-left-right);
+div.message.warning {
+  color: var(--warning-color);
 }
 
-table.form > tbody > tr > td div.warning span#compatibility {
-  display: none;
+div.message.error {
+  color: var(--error-color);
 }
 
-table.form > tbody > tr > td div.submission div.buttons {
+form div.button-panel {
+  width: 100%;
+}
+
+div.buttons {
   display: flex;
+  align-items: center;
   flex-flow: row wrap;
-  gap: var(--margin-top-bottom) var(--margin-left-right);
-  flex-shrink: 0;
-  margin: var(--margin-top-bottom) var(--margin-left-right);
-  justify-content:  right;
+  gap: var(--margin-top-bottom) calc(var(--margin-left-right) * 2);
+  margin: var(--margin-top-bottom) 0px;
 }
 
 table.dependent {

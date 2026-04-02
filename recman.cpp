@@ -335,28 +335,72 @@ int RecordingsManager::DeleteRecording(cSv recording_hash, std::string *name)
 }
 
 std::string RecordingsManager_DeleteConfirmationQuestion(cSv hash) {
-  const char *name = RecordingsManager::GetNameByHash(hash);
-  if (name) return std::string(cToSvFormatted(tr("Delete recording \"%s\"?"), name));
-  return tr("Delete recording [recording name unavailable]?");
+  cSv::size_type found = hash.substr(10).find("_");
+  if (found == cSv::npos) {
+    const char *name = RecordingsManager::GetNameByHash(hash);
+    if (name) return std::string(cToSvFormatted(tr("Delete recording \"%s\"?"), name));
+    return tr("Delete recording [recording name unavailable]?");
+  } else {
+    return tr("Delete the following recordings?");
+  }
+}
+std::vector<std::string> RecordingsManager_object_names(cSv hash) {
+  std::vector<std::string> result;
+  cSv::size_type found = hash.substr(10).find("_");
+  if (found == cSv::npos) return result;
+  for (cSv id: cSplit(hash.substr(10), '_')) if (id.length() == 32) {
+    const char *name = RecordingsManager::GetNameByHash(cToSvConcat("recording_", id));
+    result.push_back(std::string(cSv(name)));
+  }
+  return result;
 }
 std::string RecordingsManager_RestoreConfirmationQuestion(cSv hash) {
-  const char *name = RecordingsManager::GetNameByHash(hash);
-  if (name) return std::string(cToSvFormatted(tr("Restore recording \"%s\"?"), name));
-  return tr("Restore recording [recording name unavailable]?");
+  cSv::size_type found = hash.substr(10).find("_");
+  if (found == cSv::npos) {
+    const char *name = RecordingsManager::GetNameByHash(hash);
+    if (name) return std::string(cToSvFormatted(tr("Restore recording \"%s\"?"), name));
+    return tr("Restore recording [recording name unavailable]?");
+  } else {
+    return tr("Restore the following recordings?");
+  }
 }
 std::string RecordingsManager_PurgeConfirmationQuestion(cSv hash) {
-  const char *name = RecordingsManager::GetNameByHash(hash);
-  if (name) return std::string(cToSvFormatted(tr("Permanently delete recording \"%s\"?"), name));
-  return tr("Permanently delete recording [recording name unavailable]?");
+  cSv::size_type found = hash.substr(10).find("_");
+  if (found == cSv::npos) {
+    const char *name = RecordingsManager::GetNameByHash(hash);
+    if (name) return std::string(cToSvFormatted(tr("Permanently delete recording \"%s\"?"), name));
+    return tr("Permanently delete recording [recording name unavailable]?");
+  } else {
+    return tr("Permanently delete the following recordings?");
+  }
 }
 int RecordingsManager_DeleteRecording(cSv hash, std::string &message) {
+  int result = 0;
   std::string name;
-  int result = RecordingsManager::DeleteRecording(hash, &name);
-  switch (result) {
-    case 0: message = concat("Sucessfully deleted recording ID ", hash, " name ", name); break;
-    case 1: message = concat("Error deleting recording: Couldn't find recording ID ", hash); break;
-    case 2: message = concat("Error deleting recording: Couldn't set timer to inactive, recording ID ", hash); break;
-    default: message = concat("Error deleting recording: other errror, recording ID ", hash); break;
+  cSv::size_type found = hash.substr(10).find("_");
+  if (found == cSv::npos) {
+    result = RecordingsManager::DeleteRecording(hash, &name);
+    switch (result) {
+      case 0: message = concat("Sucessfully deleted recording ID ", hash, " name ", name); break;
+      case 1: message = concat("Error deleting recording: Couldn't find recording ID ", hash); break;
+      case 2: message = concat("Error deleting recording: Couldn't set timer to inactive, recording ID ", hash); break;
+      default: message = concat("Error deleting recording: other errror, recording ID ", hash); break;
+    }
+  } else {
+    message.clear();
+    for (cSv id: cSplit(hash.substr(10), '_')) if (id.length() == 32) {
+      int res= RecordingsManager::DeleteRecording(cToSvConcat("recording_", id), &name);
+      if (res!= 0) {
+        switch (res) {
+          case 1: message.append("Error deleting recording: Couldn't find recording ID "); break;
+          case 2: message.append("Error deleting recording: Couldn't set timer to inactive, recording ID "); break;
+          default: message.append("Error deleting recording: other errror, recording ID "); break;
+        }
+        message.append(id);
+        message.append(";");
+        result += 1;
+      }
+    }
   }
   return result;
 }
@@ -381,12 +425,30 @@ int RecordingsManager::RestoreRecording(cSv recording_hash, std::string *name)
 #endif
 }
 int RecordingsManager_RestoreRecording(cSv hash, std::string &message) {
+  int result = 0;
   std::string name;
-  int result = RecordingsManager::RestoreRecording(hash, &name);
-  switch (result) {
-    case 0: message = concat("Sucessfully restored recording ID ", hash, " name ", name); break;
-    case 1: message = concat("Error restoring recording: Couldn't find recording ID ", hash); break;
-    default: message = concat("Error restoring recording: other errror, recording ID ", hash); break;
+  cSv::size_type found = hash.substr(10).find("_");
+  if (found == cSv::npos) {
+    result = RecordingsManager::RestoreRecording(hash, &name);
+    switch (result) {
+      case 0: message = concat("Sucessfully restored recording ID ", hash, " name ", name); break;
+      case 1: message = concat("Error restoring recording: Couldn't find recording ID ", hash); break;
+      default: message = concat("Error restoring recording: other errror, recording ID ", hash); break;
+    }
+  } else {
+    message.clear();
+    for (cSv id: cSplit(hash.substr(10), '_')) if (id.length() == 32) {
+      int res= RecordingsManager::RestoreRecording(cToSvConcat("recording_", id), &name);
+      if (res!= 0) {
+        switch (res) {
+          case 1: message.append("Error restoring recording: Couldn't find recording ID "); break;
+          default: message.append("Error restoring recording: other errror, recording ID "); break;
+        }
+        message.append(id);
+        message.append(";");
+        result += 1;
+      }
+    }
   }
   return result;
 }
@@ -409,12 +471,30 @@ int RecordingsManager::PurgeRecording(cSv recording_hash, std::string *name)
 #endif
 }
 int RecordingsManager_PurgeRecording(cSv hash, std::string &message) {
+  int result = 0;
   std::string name;
-  int result = RecordingsManager::PurgeRecording(hash, &name);
-  switch (result) {
-    case 0: message = concat("Sucessfully purged recording ID ", hash, " name ", name); break;
-    case 1: message = concat("Error purging recording: Couldn't find recording ID ", hash); break;
-    default: message = concat("Error purging recording: other errror, recording ID ", hash); break;
+  cSv::size_type found = hash.substr(10).find("_");
+  if (found == cSv::npos) {
+    result = RecordingsManager::PurgeRecording(hash, &name);
+    switch (result) {
+      case 0: message = concat("Sucessfully purged recording ID ", hash, " name ", name); break;
+      case 1: message = concat("Error purging recording: Couldn't find recording ID ", hash); break;
+      default: message = concat("Error purging recording: other errror, recording ID ", hash); break;
+    }
+  } else {
+    message.clear();
+    for (cSv id: cSplit(hash.substr(10), '_')) if (id.length() == 32) {
+      int res= RecordingsManager::PurgeRecording(cToSvConcat("recording_", id), &name);
+      if (res!= 0) {
+        switch (res) {
+          case 1: message.append("Error purging recording: Couldn't find recording ID "); break;
+          default: message.append("Error purging recording: other errror, recording ID "); break;
+        }
+        message.append(id);
+        message.append(";");
+        result += 1;
+      }
+    }
   }
   return result;
 }
