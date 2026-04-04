@@ -590,7 +590,7 @@ body {
   display: flex;
   flex-flow: column;
   width: 100vw;         /* required to achieve a horizontal flexbox overflow */
-  height: 100vh;        /* required to achieve a vertical flexbox overflow */
+  height: 100svh;       /* required to achieve a vertical flexbox overflow, svh required for mobile */
   margin: 0px;
   padding: 0px;
   background: var(--body-background-color);

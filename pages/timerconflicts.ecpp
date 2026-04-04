@@ -71,7 +71,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
           for (std::list< TimerInConflict >::const_iterator confltimer = conflTimers.begin(); confltimer != conflTimers.end(); ++confltimer) {
 </%cpp>
             <tr class="head">
-              <td colspan="12">
+              <td colspan="13">
                 <div class="boxheader">
                   <div class="caption"><$ concat(cToSvDateTime(tr("%A, %x"), conflict->ConflictTime()), " ", cToSvDateTime(tr("%I:%M %p"), conflict->ConflictTime()), tr(" - "), cToSvInt(confltimer->percentage), "%") $></div>
                   <div class="caption"><$ tr("Server")$>: <$ (confltimer->remote == "" ) ? tr("local") : confltimer->remote $></div>
@@ -86,6 +86,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
               <td class="td-hidden-xs"><div class="withmargin hidden-xs"><$ trVDR("Duration")  $></div></td>
               <td class="td-hidden-xs"><div class="withmargin hidden-xs"><$ trVDR("Priority") $></div></td>
               <td><div class="withmargin"><$ trVDR("File") $></div></td>
+              <td class="td-hidden-xs"><div class="withmargin hidden-xs"><$ tr("Short description") $></div></td>
               <td class="<$ noSearchTimers ? "notpresent" : "searchtimer" $>"><div class="withmargin"><$ tr("Search timer") $></div></td>
               <td class="rightcol"><img class="action-rightcol" src="img/transparent.png" alt="" /></td>
             </tr>
@@ -126,6 +127,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
                 timerStateHint = tr("Timer is active");
               }
 
+              cToSvConcat shortDescription;
               cToSvConcat longDescription;
               cToSvConcat searchTimName;
               std::string searchTimId;
@@ -140,6 +142,11 @@ if (!logged_in && LiveSetup().UseAuth()) {
               if (timer->Event()) {
                 bool truncated = false;
                 LOCK_SCHEDULES_READ;
+                if (timer->Event()->ShortText()) {
+                  AppendHtmlEscapedAndCorrectNonUTF8(shortDescription, StringWordTruncate(timer->Event()->ShortText(), 100, truncated));
+                  if (truncated) shortDescription << " ...";
+                }
+                truncated = false;
                 if (timer->Event()->Description() ) {
                   longDescription << "<hr><p>";
                   AppendHtmlEscapedAndCorrectNonUTF8(longDescription, StringWordTruncate(timer->Event()->Description(), LiveSetup().GetMaxTooltipChars(), truncated), "</p><p>");
@@ -185,6 +192,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
                  <$$ cToSvReplace(timerFile, "~", "~<wbr>") $>
 %               }
                 </div></td>
+                <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin"><$ shortDescription $></div></td>
 
                 <td class="<$ noSearchTimers ? "notpresent" : "searchtimer" $><? bottom ? " bottomrow" ?>"><div class="withmargin">
 %               if ( !timer->Local() || searchTimId.empty() ) {
