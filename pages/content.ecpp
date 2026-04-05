@@ -6,6 +6,7 @@
 #include <tntfeatures.h>
 #include <vdr/channels.h>
 #include <stringhelpers.h>
+#include "content.h"
 
 using namespace vdrlive;
 
@@ -13,6 +14,9 @@ using namespace vdrlive;
 <%session scope="global">
 bool logged_in(false);
 </%session>
+<%args>
+std::string size;
+</%args>
 <%cpp>
 std::string mime;
 if (request.getArgsCount() > 0) {
@@ -21,6 +25,10 @@ if (request.getArgsCount() > 0) {
 #else
   mime = request.getArg(0);
 #endif
+if (mime == "image/jpg")
+  mime = "image/jpeg";
+else if (mime == "image/svg")
+  mime = "image/svg+xml";
 //  dsyslog("vdrlive::content found mime arg (%s)", mime.c_str());
 } else  {
 mime = "image/png";
@@ -48,6 +56,9 @@ struct stat st;
 if (stat(path.c_str(), &st) != 0) {
   return DECLINED;
 }
+
+reply.setHeader(tnt::httpheader::cacheControl, "public, max-age=2592000"); // cache for 30 days, even when URL has parameters
+
 // file exists, length st.st_size, modification time st.st_mtime
 std::string mtime = tnt::HttpMessage::htdate(st.st_mtime);
 std::string browserTime = request.getHeader(tnt::httpheader::ifModifiedSince);
@@ -57,11 +68,20 @@ if (browserTime == mtime) {
 }
 // dsyslog("vdrlive::content: mimetype(%s), path = %s, modified", mime.c_str(), path.c_str());
 
+cFileContent data(path);
 
-std::ifstream in(path, std::ifstream::binary);
-if (!in) {
+if (!data) {
   esyslog("vdrlive::content: mimetype(%s), path = %s, found by fstat, but in == 0", mime.c_str(), path.c_str());
   return DECLINED;
+}
+
+if (!size.empty() && mime == "image/jpeg") {
+  size_t s = (size_t)std::stoul(size);
+  if (s > 0) {
+    s = data.ReduceImageSize(s, s);
+    if (s > 0)
+      st.st_size = s;
+  }
 }
 
 reply.setContentType(mime);
@@ -69,24 +89,7 @@ reply.setContentLengthHeader(st.st_size);
 reply.setHeader(tnt::httpheader::lastModified, mtime);
 
 reply.setDirectMode();
-reply.out() << in.rdbuf();
 
-/*
-FileCache::ptr_type f = LiveFileCache().get(path);
+data.WriteTo(reply.out());
 
-if (f.get() == 0) {
-  // dsyslog("vdrlive::content: DECLINED");
-  return DECLINED;
-}
-std::string ctime = tnt::HttpMessage::htdate(f->ctime());
-std::string browserTime = request.getHeader(tnt::httpheader::ifModifiedSince);
-if (browserTime == ctime) {
-  // dsyslog("vdrlive::content: HTTP_NOT_MODIFIED");
-  return HTTP_NOT_MODIFIED;
-}
-
-// dsyslog("vdrlive::content: send %d bytes of data", f->size());
-reply.setHeader(tnt::httpheader::lastModified, ctime);
-reply.out().write(f->data(), f->size());
-*/
 </%cpp>

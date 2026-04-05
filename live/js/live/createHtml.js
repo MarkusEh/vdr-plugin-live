@@ -68,7 +68,7 @@ function addScraperImageTitle(s, image, pt, title, seasonEpisode, runtime, date)
   if (image.length != 0) {
     s.a += '/tvscraper/'
     s.a += image
-    s.a += '\" class=\"thumb'
+    s.a += '?size=120\" class=\"thumb'
     s.a += pt
   } else s.a += 'img/transparent.png\" style=\"height: var(--icon-height, 16px)'
   if (title.length != 0 || date.length != 0) {
