@@ -546,7 +546,7 @@ std::vector<std::string> channel_groups_names;
 
 <%def channel_selection>
 <form action="multischedule.html" method="get" id="channels">
-  <span>
+  <span class="label bold">
   <label for="channel"><$ tr("Channel") $>:&nbsp;<span class="bold"></span></label>
   <select name="channel" id="channel" onchange="document.forms.channels.submit()" >
 % for (unsigned int i = 0; i < channel_groups_names.size(); ++i) {
@@ -554,6 +554,8 @@ std::vector<std::string> channel_groups_names;
     <$ channel_groups_names[i] $></option>
 % }
   </select>
+  </span>
+  <span class="label bold">
   <label for="time_para"><$ tr("Time") $>:&nbsp;<span class="bold"></span></label>
   <select name="time_para" id="time_para" onchange="document.forms.channels.submit()" >
 % for (unsigned int i = 0; i < times_names.size(); ++i) {

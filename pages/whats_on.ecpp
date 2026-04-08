@@ -349,22 +349,26 @@ if (type == "now") {
 <span class="sep">|</span>
 <a class="<? current_type == "next" ? "active" ?>" href="whats_on.html?type=next&amp;mode=<$ current_mode $>" id="nexthref"><$ tr("Next") $></a>
 <span class="sep">|</span>
-<span class="<? current_type == "at" && current_fixtime != "" ? "active" ?>"><$ tr("What's on") $></span>
-<select name="userdeftimes" size="1" id="userdeftimes" onchange="showtime(this)">
-  <option value="0"/>
+<span class="label bold">
+  <span class="<? current_type == "at" && current_fixtime != "" ? "active" ?>"><$ tr("What's on") $></span>
+  <select name="userdeftimes" size="1" id="userdeftimes" onchange="showtime(this)">
+    <option value="0"/>
 <%cpp>
-  std::string string_times = LiveSetup().GetTimes();
-  cSplit parts(string_times, ';');
-  for (auto part = parts.begin(); part != parts.end(); ++part) {
+    std::string string_times = LiveSetup().GetTimes();
+    cSplit parts(string_times, ';');
+    for (auto part = parts.begin(); part != parts.end(); ++part) {
 </%cpp>
-  <option <%cpp> reply.out() << ( (current_fixtime != "" && *part == current_displaytime) ? "selected=\"selected\"" : "" ); </%cpp>value="<$ *part $>"> <$ cToSvConcat(tr("at"), ' ', *part) $></option>
+      <option <%cpp> reply.out() << ( (current_fixtime != "" && *part == current_displaytime) ? "selected=\"selected\"" : "" ); </%cpp>value="<$ *part $>"> <$ cToSvConcat(tr("at"), ' ', *part) $></option>
 <%cpp>
   }
 </%cpp>
-</select>
+  </select>
+</span>
 <span class="sep">|</span>
-<span class="<? current_type == "at" && current_fixtime == "" ? "active" ?>"><$ tr("at") $></span>
-<input type="text" size="6" name="spectime" id="spectime" value = "<? current_attime != "" ? current_displaytime ?>" onchange="showspectime(this)"/>
+<span class="label bold">
+  <span class="<? current_type == "at" && current_fixtime == "" ? "active" ?>"><$ tr("at") $></span>
+  <input type="text" size="6" name="spectime" id="spectime" value = "<? current_attime != "" ? current_displaytime ?>" onchange="showspectime(this)"/>
+</span>
 <span class="sep">|</span>
 % if ( LiveFeatures< features::epgsearch >().Recent() ) {
 <a class="<? current_type == "favs" ? "active" ?>" href="whats_on.html?type=favs&amp;mode=<$ current_mode $>"><$ tr("Favorites") $></a>

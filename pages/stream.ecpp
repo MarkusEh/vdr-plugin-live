@@ -256,7 +256,7 @@ if (!epgEvent.Id().empty() ) {
 
 <%def channel_selection>
 <form action="stream.html" method="get" id="channels">
-  <span>
+  <span class="label bold">
     <label for="channel"><$ tr("Channel") $>:&nbsp;<span class="bold"><$ cSv(cToSvInt(channelNumber)) $></span></label>
     <& channels_widget name=("channel") selected=(*channelID.ToString() ) onchange=("player.stop(); document.forms.channels.submit()") &>
 %   if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
@@ -280,7 +280,7 @@ if (!epgEvent.Id().empty() ) {
 
 <%def recording_selection>
 <form action="stream.html=" method="get" id="recordings">
-  <span>
+  <span class"label bold">
     <label for="recording"><$ tr("Recording") $>:&nbsp;</label>
     <& recordings_widget name=("recid") selected=(g_recid) onchange=("player.stop(); document.forms.recordings.submit()") &>
   </span>

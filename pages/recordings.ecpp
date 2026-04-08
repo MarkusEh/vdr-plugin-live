@@ -515,14 +515,16 @@ recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
 <span class="label bold" title="<$tr("Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE).")$>" >
   <label for="filter"><$ tr("Filter") $>:</label>
   <input type="text" name="filter" value="<$ currentFilter $>" id="filter" onchange="filterRecordings(this, '<$ currentSort $>', '<$currentFlat$>', '<$currentRecycle_bin$>')" />
+  <img onclick="clearRecordingsFilter(document.getElementById('filter'), '<$ currentSort $>', '<$currentFlat$>', '<$currentRecycle_bin$>')" class="icon button clear-filter" src="<$ LiveSetup().GetThemedLink("img", "icon_overlay_cross.png") $>" alt="" <& tooltip.hint text=(tr("Clear filter")) &>/>
 </span>
-<img onclick="clearRecordingsFilter(document.getElementById('filter'), '<$ currentSort $>', '<$currentFlat$>', '<$currentRecycle_bin$>')" class="icon button clear-filter" src="<$ LiveSetup().GetThemedLink("img", "icon_overlay_cross.png") $>" alt="" <& tooltip.hint text=(tr("Clear filter")) &>/>
 <%cpp>
 if (currentFlat != "true") {
 </%cpp>
 <span class="sep">|</span>
-<img onclick="ExpandAll()" class="icon button expand-all" src="<$ LiveSetup().GetThemedLink("img", "icon_overlay_plus.png") $>" alt="" <& tooltip.hint text=(tr("Expand all folders")) &>/>
-<img onclick="CollapseAll()" class="icon button collapse-all" src="<$ LiveSetup().GetThemedLink("img", "icon_overlay_minus.png") $>" alt="" <& tooltip.hint text=(tr("Collapse all folders")) &>/>
+<span class="tools">
+  <img onclick="ExpandAll()" class="icon button expand-all" src="<$ LiveSetup().GetThemedLink("img", "icon_overlay_plus.png") $>" alt="" <& tooltip.hint text=(tr("Expand all folders")) &>/>
+  <img onclick="CollapseAll()" class="icon button collapse-all" src="<$ LiveSetup().GetThemedLink("img", "icon_overlay_minus.png") $>" alt="" <& tooltip.hint text=(tr("Collapse all folders")) &>/>
+</span>
 <%cpp>
 }
 #if VDRVERSNUM >= 20708

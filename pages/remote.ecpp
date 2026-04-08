@@ -366,13 +366,15 @@ if (!logged_in && LiveSetup().UseAuth()) {
 %  if (IsGrabImageAvailable() ) {
    <input type="radio" name="screenCon" id="screenCon_grab" onchange="changeScreenContent()"/>&nbsp;<label for="screenCon_grab"><$ tr("Snapshot interval") $>:</label> <select name="interval" onchange="ChangeInterval()"></select>
 % }
- <input type="radio" name="screenCon" id="screenCon_osd" onchange="changeScreenContent()" />&nbsp;<label for="screenCon_osd">OSD</label>
- <input type="radio" name="screenCon" id="screenCon_none" onchange="changeScreenContent()" />&nbsp;<label for="screenCon_osd"><$ tr("Stop") $></label>
+  <input type="radio" name="screenCon" id="screenCon_osd" onchange="changeScreenContent()" />&nbsp;<label for="screenCon_osd">OSD</label>
+  <input type="radio" name="screenCon" id="screenCon_none" onchange="changeScreenContent()" />&nbsp;<label for="screenCon_osd"><$ tr("Stop") $></label>
 <span class="sep">&nbsp;</span>
 % if (channelID.Valid() ) {
 <span class="sep">|</span>
- <& pageelems.hls_channel channelId=(channelID) className="icon" &>
- <& pageelems.m3u_playlist_channel channelId=(channelID) className="icon" &>
+<span class="tools">
+  <& pageelems.hls_channel channelId=(channelID) className="icon" &>
+  <& pageelems.m3u_playlist_channel channelId=(channelID) className="icon" &>
+</span>
 % }
 </span></form>
 </%def>

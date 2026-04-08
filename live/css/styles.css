@@ -1323,6 +1323,11 @@ div#pagemenu div.menubar .inactive {
   white-space: nowrap;
 }
 
+div#pagemenu div.menubar .label,
+div#pagemenu div.menubar .tools {
+  white-space: nowrap;
+}
+
 div#pagemenu div.bottom {
   height: var(--menubar-gap);
   background: transparent linear-gradient(to bottom, var(--pagemenu-background-color), transparent var(--pagemenu-shadow-height));
