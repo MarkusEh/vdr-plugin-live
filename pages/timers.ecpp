@@ -123,14 +123,14 @@ using namespace vdrlive;
           longDescription << "</p>";
           if (timer->Event())
           {
-            bool truncated = false;
             LOCK_SCHEDULES_READ;
             if (timer->Event()->ShortText()) {
+              bool truncated = false;
               AppendHtmlEscapedAndCorrectNonUTF8(shortDescription, StringWordTruncate(timer->Event()->ShortText(), 100, truncated));
               if (truncated) shortDescription << " ...";
             }
-            truncated = false;
             if (timer->Event()->Description() ) {
+              bool truncated = false;
               longDescription << "<hr><p>";
               AppendHtmlEscapedAndCorrectNonUTF8(longDescription, StringWordTruncate(timer->Event()->Description(), LiveSetup().GetMaxTooltipChars(), truncated), "</p><p>");
               if (truncated) longDescription << " ...";
@@ -160,7 +160,7 @@ using namespace vdrlive;
             previousDay = currentDay;
 </%cpp>
         <tr class="head">
-          <td colspan="13">
+          <td colspan="12">
             <div class="boxheader"><div class="caption"><$ currentDay $></div></div>
           </td>
         </tr>
@@ -172,7 +172,6 @@ using namespace vdrlive;
           <td class="td-hidden-xs"><div class="withmargin hidden-xs"><$ tr("Duration") $></div></td>
           <td class="td-hidden-xs"><div class="withmargin hidden-xs"><$ trVDR("Priority") $></div></td>
           <td><div class="withmargin"><$ trVDR("File") $></div></td>
-          <td class="td-hidden-xs"><div class="withmargin hidden-xs"><$ tr("Short description") $></div></td>
           <td class="td-hidden-xs<$ noRemoteTimers ? " notpresent" : " remotetimer" $>"><div class="xs-nomargin hidden-xs"><$ trVDR("Record on") $></div></td>
           <td class="<$ noSearchTimers ? "notpresent" : "searchtimer" $>"><div class="withmargin"><$ tr("Search timer") $></div></td>
           <td class="rightcol"><img class="action-rightcol" src="img/transparent.png" alt="" /></td>
@@ -224,13 +223,15 @@ using namespace vdrlive;
 %           LOCK_SCHEDULES_READ;
             <a <& tooltip.display domId=(EpgEvents::EncodeDomId(timer->Channel()->GetChannelID(), timer->Event()->EventID())) &>
             class="apopup" title="<$$longDescription$>">
-            <$$ cToSvReplace(timerFile, "~", "~<wbr>") $></a>
+            <$$ cToSvReplace(timerFile, "~", "~<wbr>") $></a></div>
+            <div class="withmargin short" <$$longDescriptionTitle$> >
+              <a <& tooltip.display domId=(EpgEvents::EncodeDomId(timer->Channel()->GetChannelID(), timer->Event()->EventID())) &>
+              class="apopup" title="<$$longDescription$>"><$ shortDescription $></a>
 %         } else {
             <$$ cToSvReplace(timerFile, "~", "~<wbr>") $>
 %         }
             </div>
           </td>
-          <td class="<? bottom ? "bottomrow" ?> td-hidden-xs"><div class="hidden-xs withmargin" <$$longDescriptionTitle$> ><$ shortDescription $></div></td>
           <td class="<? bottom ? "bottomrow" ?> <$ noRemoteTimers ? "notpresent" : "remotetimer" $> td-hidden-xs"><div class="xs-nomargin"><$ timer->Local()?trVDR(" "):timer->Remote() $></div></td>
           <td class="<$ noSearchTimers ? "notpresent" : "searchtimer" $><? bottom ? " bottomrow" ?>"><div class="withmargin">
 %         if ( !timer->Local() || searchTimId.empty() ) {
