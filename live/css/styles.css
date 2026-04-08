@@ -999,7 +999,16 @@ div.info-win.info-det,
 div.info-win.info-pur,
 div.info-win.info-res {
   min-width: calc(3 * var(--margin-left-right) + 2 * var(--infowin-body-margin) + 2 * var(--infowin-label-width) + 15px );
-  min-height: calc(var(--infowin-title-height) + 2 * var(--text-line-height) + 7 * var(--margin-top-bottom));
+  min-height: calc(var(--infowin-title-height) + 2 * var(--text-line-height) + 10 * var(--margin-top-bottom));
+}
+
+div.info-win.info-del:has(.object-list),
+div.info-win.info-des:has(.object-list),
+div.info-win.info-det:has(.object-list),
+div.info-win.info-pur:has(.object-list),
+div.info-win.info-res:has(.object-list) {
+  min-height: calc(var(--infowin-title-height) + 3 * var(--text-line-height) + 0lh + 0 * var(--text-line-gap) + 10 * var(--margin-top-bottom));
+  max-height: 70svh;
 }
 
 .info-win .info-win-top {
@@ -2934,14 +2943,6 @@ div.epg_content div.about_head {
   font-weight: bold;
 }
 
-div.epg_content div.about_head.prompt p {
-  margin: var(--text-line-gap) 0px 0px 0px;
-}
-
-div.epg_content div.about_head.prompt p:first-child {
-  margin-top: 0px;
-}
-
 div.epg_content div.about_section {
   padding: var(--margin-top-bottom) var(--infowin-body-margin);
 }
@@ -2968,6 +2969,43 @@ div.epg_content div.about_section div.about_right img {
 div.epg_content div.about_line {
   padding: var(--margin-top-bottom) calc(2 * var(--margin-left-right));
   color: var(--infowin-color);
+}
+
+div.epg_content.confirmation {
+  display: flex;
+  flex-flow: column;
+}
+
+div.epg_content.confirmation div.about_head:has(.object-list) {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  min-height: calc(calc(var(--margin-top-bottom) + var(--text-line-gap)) * 2 + 1lh);
+}
+
+div.epg_content.confirmation div.about_head:has(.object-list) div.prompt {
+  padding-bottom: var(--margin-top-bottom);
+}
+
+div.epg_content.confirmation div.about_head div.object-list {
+  display: flex;
+  flex-flow: column;
+  overflow-y: auto;
+}
+
+div.epg_content.confirmation div.object-list ol,
+div.epg_content.confirmation div.object-list ul {
+  margin: 0px;
+  padding-left: 3ch;  /* set to 0ch for no marker */
+}
+
+div.epg_content.confirmation div.object-list ul > li,
+div.epg_content.confirmation div.object-list ol > li {
+  margin: var(--text-line-gap) 0px;
+}
+
+div.epg_content.confirmation div.message {
+  padding: var(--margin-top-bottom)  var(--margin-left-right) 0px var(--margin-left-right);
 }
 
 div.thumb {

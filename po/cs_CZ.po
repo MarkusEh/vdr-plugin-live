@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-07 17:55+0200\n"
+"POT-Creation-Date: 2026-04-08 09:51+0200\n"
 "PO-Revision-Date: 2010-05-10 22:15+0200\n"
 "Last-Translator: Vladimír Bárta <vladimir.barta@k2atmitec.cz>,Radek Stastny <dedkus@gmail.com> \n"
 "Language-Team: see developers in README\n"
@@ -628,6 +628,9 @@ msgstr "Elektronický průvodce programem (EPG)"
 
 msgid "Couldn't find recording or no recordings available"
 msgstr "Nelze nalézt nahrávky, nebo žádné neexistují"
+
+msgid "Nothing selected!"
+msgstr ""
 
 msgid "Page error"
 msgstr "Chyba stránky"

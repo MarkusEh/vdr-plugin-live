@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-07 17:55+0200\n"
+"POT-Creation-Date: 2026-04-08 09:51+0200\n"
 "PO-Revision-Date: 2011-12-25 23:22+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: see developers in README\n"
@@ -625,6 +625,9 @@ msgstr "Info Guida Elettronica Programmi (EPG)"
 
 msgid "Couldn't find recording or no recordings available"
 msgstr "Impossibile trovare registrazioni o nessuna registrazione disponibile"
+
+msgid "Nothing selected!"
+msgstr ""
 
 msgid "Page error"
 msgstr "Errore pagina"
