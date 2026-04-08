@@ -1529,6 +1529,7 @@ button.yellow {
   min-width: calc(var(--button-width) * 2.0);
 }
 
+#form_recordings div.button-panel div.buttons button.restore,
 #form_recordings div.button-panel div.buttons button.purge {
   min-width: calc(var(--button-width) * 2.5);
 }

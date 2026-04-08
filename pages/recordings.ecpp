@@ -287,21 +287,23 @@ if (!deleteResult.empty()) {
         <input type="hidden" name="recycle_bin" value="<$ currentRecycle_bin $>">
         <input type="hidden" name="history_num_back" value="<$ history_num_back $>">
 %       if (!recording_item.empty()) {
-% if (currentRecycle_bin == 0) {
         <div class="submission withmargin hidden-xs">
-          <div class="buttons">
-            <button class="red" type="button" onclick="clearSavedSelection(); deleteMarkedRecordings(document.getElementById('form_recordings'), 'del')" ><$ tr("Delete selected recordings") $></button>
+%         if (currentRecycle_bin == 0) {
+          <div class="button-panel hidden-xs">
+            <div class="buttons">
+              <button class="red delete" type="button" onclick="clearSavedSelection(); deleteMarkedRecordings(document.getElementById('form_recordings'), 'del')" ><$ tr("Delete selected recordings") $></button>
+            </div>
           </div>
-        </div>
-% } else {
-        <div class="message warning"><$ tr("Warning: Permanently deleted recordings cannot be recovered!") $></div>
-        <div class="button-panel hidden-xs">
-          <div class="buttons">
-            <button class="green" type="button" onclick="clearSavedSelection(); deleteMarkedRecordings(document.getElementById('form_recordings'), 'res')" ><$ tr("Restore selected recordings") $></button>
-            <button class="red" type="button" onclick="clearSavedSelection(); deleteMarkedRecordings(document.getElementById('form_recordings'), 'pur')" ><$ tr("Permanently delete selected recordings") $></button>
+%         } else {
+          <div class="message warning"><$ tr("Warning: Permanently deleted recordings cannot be recovered!") $></div>
+          <div class="button-panel hidden-xs">
+            <div class="buttons">
+              <button class="green restore" type="button" onclick="clearSavedSelection(); deleteMarkedRecordings(document.getElementById('form_recordings'), 'res')" ><$ tr("Restore selected recordings") $></button>
+              <button class="red purge" type="button" onclick="clearSavedSelection(); deleteMarkedRecordings(document.getElementById('form_recordings'), 'pur')" ><$ tr("Permanently delete selected recordings") $></button>
+            </div>
           </div>
+%         }
         </div>
-% }
 %       }
       </form>
     </td></tr>
