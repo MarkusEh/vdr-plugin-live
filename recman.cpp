@@ -229,22 +229,40 @@ bool RecordingsManager::UpdateRecording(cSv hash, cSv directory, cSv name, bool 
   return true;
 }
 
-void RecordingsManager::DeleteResume(cRecording const * recording)
+void RecordingsManager::DeleteResume(cSv hash)
 {
-  if (!recording)
-    return;
+  std::string fileName;
+  bool isPesRecording;
+  {
+    LOCK_RECORDINGS_READ;
+    const cRecording *recording = RecordingsManager::GetByHash(hash, Recordings);
+    if (!recording) {
+      isyslog3("recording for hash ", hash, " not found");
+      return;
+    }
+    fileName = recording->FileName();
+    isPesRecording = recording->IsPesRecording();
+  }
 
-  cResumeFile ResumeFile(recording->FileName(), recording->IsPesRecording());
-  ResumeFile.Delete();
+  cResumeFile ResumeFile(fileName.c_str(), isPesRecording);
+  ResumeFile.Delete();  // this calls LOCK_RECORDINGS_WRITE -> we must not have any lock on recordings before calling this
 }
 
-void RecordingsManager::DeleteMarks(cRecording const * recording)
+void RecordingsManager::DeleteMarks(cSv hash)
 {
-  if (!recording)
-    return;
+  std::string fileName;
+  {
+    LOCK_RECORDINGS_READ;
+    const cRecording *recording = RecordingsManager::GetByHash(hash, Recordings);
+    if (!recording) {
+      isyslog3("recording for hash ", hash, " not found");
+      return;
+    }
+    fileName = recording->FileName();
+  }
 
   cMarks marks;
-  marks.Load(recording->FileName());
+  marks.Load(fileName.c_str() );
   if (marks.Count()) {
     cMark *mark = marks.First();
     while (mark) {

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 3.5.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-02 16:03+0200\n"
+"POT-Creation-Date: 2026-04-07 17:55+0200\n"
 "PO-Revision-Date: 2026-01-27 20:15+0200\n"
 "Last-Translator: Stefan Hofmann <info@stefans-galerie.de>\n"
 "Language-Team: see developers in README\n"
@@ -199,9 +199,6 @@ msgstr "Keine ausreichenden Rechte. Bitte kontaktieren Sie Ihren Administrator!"
 
 msgid "Please set a name for the recording!"
 msgstr "Bitte einen Namen für die Aufzeichnung festlegen!"
-
-msgid "Couldn't find recording. Maybe you mistyped your request?"
-msgstr "Kann die Aufzeichnung nicht finden. Möglicherweise ein Tippfehler in der Anfrage?"
 
 msgid "Cannot copy, rename or move the recording."
 msgstr "Kann die Aufzeichnung nicht umbenennen oder verschieben."
@@ -1292,6 +1289,9 @@ msgstr "Aufzeichnung dauerhaft löschen"
 
 msgid "Delete permanently"
 msgstr "Dauerhaft löschen"
+
+#~ msgid "Couldn't find recording. Maybe you mistyped your request?"
+#~ msgstr "Kann die Aufzeichnung nicht finden. Möglicherweise ein Tippfehler in der Anfrage?"
 
 #~ msgid "Couldn't find recording or no recordings available."
 #~ msgstr "Kann die Aufzeichnung nicht finden oder keine Aufzeichnungen vorhanden."

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-02 16:03+0200\n"
+"POT-Creation-Date: 2026-04-07 17:55+0200\n"
 "PO-Revision-Date: 2010-05-10 22:15+0200\n"
 "Last-Translator: Vladimír Bárta <vladimir.barta@k2atmitec.cz>,Radek Stastny <dedkus@gmail.com> \n"
 "Language-Team: see developers in README\n"
@@ -201,10 +201,6 @@ msgstr "Bohužel chybějící oprávnění. Zeptejte se svého administrátora!"
 #, fuzzy
 msgid "Please set a name for the recording!"
 msgstr "Prosím nastavte název nahrávání!"
-
-#, fuzzy
-msgid "Couldn't find recording. Maybe you mistyped your request?"
-msgstr "Nelze nalézt zadaného uživatele. Byl zadán správně?"
 
 msgid "Cannot copy, rename or move the recording."
 msgstr ""
@@ -1303,6 +1299,10 @@ msgstr ""
 
 msgid "Delete permanently"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Couldn't find recording. Maybe you mistyped your request?"
+#~ msgstr "Nelze nalézt zadaného uživatele. Byl zadán správně?"
 
 #~ msgid "Couldn't find recording or no recordings available."
 #~ msgstr "Nelze nalézt nahrávky, nebo žádné neexistují"

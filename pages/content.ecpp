@@ -15,7 +15,7 @@ using namespace vdrlive;
 bool logged_in(false);
 </%session>
 <%args>
-std::string size;
+int thumb=0;  // 0:false, 1:true. If true, the image is aused as thumb and the size will be resuced according to --thumb_size
 </%args>
 <%cpp>
 std::string mime;
@@ -29,10 +29,9 @@ if (mime == "image/jpg")
   mime = "image/jpeg";
 else if (mime == "image/svg")
   mime = "image/svg+xml";
-//  dsyslog("vdrlive::content found mime arg (%s)", mime.c_str());
 } else  {
 mime = "image/png";
-dsyslog("vdrlive::content called without args");
+dsyslog("vdrlive::content.ecpp called without args");
 }
 
 std::string const path(request.getPathInfo());
@@ -57,8 +56,6 @@ if (stat(path.c_str(), &st) != 0) {
   return DECLINED;
 }
 
-reply.setHeader(tnt::httpheader::cacheControl, "public, max-age=2592000"); // cache for 30 days, even when URL has parameters
-
 // file exists, length st.st_size, modification time st.st_mtime
 std::string mtime = tnt::HttpMessage::htdate(st.st_mtime);
 std::string browserTime = request.getHeader(tnt::httpheader::ifModifiedSince);
@@ -68,28 +65,36 @@ if (browserTime == mtime) {
 }
 // dsyslog("vdrlive::content: mimetype(%s), path = %s, modified", mime.c_str(), path.c_str());
 
-cFileContent data(path);
-
-if (!data) {
-  esyslog("vdrlive::content: mimetype(%s), path = %s, found by fstat, but in == 0", mime.c_str(), path.c_str());
-  return DECLINED;
-}
-
-if (!size.empty() && mime == "image/jpeg") {
-  size_t s = (size_t)std::stoul(size);
-  if (s > 0) {
-    s = data.ReduceImageSize(s, s);
-    if (s > 0)
-      st.st_size = s;
-  }
-}
-
-reply.setContentType(mime);
-reply.setContentLengthHeader(st.st_size);
+reply.setHeader(tnt::httpheader::cacheControl, "public, max-age=2592000"); // cache for 30 days, even when URL has parameters
 reply.setHeader(tnt::httpheader::lastModified, mtime);
-
+reply.setContentType(mime);
 reply.setDirectMode();
 
-data.WriteTo(reply.out());
+bool done = false;
+size_t s = LiveSetup().GetThumb_size();
+if (thumb == 1 && s > 0 && mime == "image/jpeg") {
+  cFileContent data(path);
+
+  if (!data) {
+    esyslog("vdrlive::content.ecpp: mimetype(%s), path = %s, found by fstat, but !data", mime.c_str(), path.c_str());
+    return DECLINED;
+  }
+
+  s = data.ReduceImageSize(s, s);
+  if (s > 0) {
+    reply.setContentLengthHeader(s);
+    data.WriteTo(reply.out());
+    done = true;
+  }
+}
+if (!done) {
+  std::ifstream in(path, std::ifstream::binary);
+  if (!in) {
+    esyslog("vdrlive::content.ecpp: mimetype(%s), path = %s, found by fstat, but !in", mime.c_str(), path.c_str());
+    return DECLINED;
+  }
+  reply.setContentLengthHeader(st.st_size);
+  reply.out() << in.rdbuf();
+}
 
 </%cpp>

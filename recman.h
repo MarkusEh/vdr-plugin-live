@@ -133,13 +133,13 @@ namespace vdrlive {
        *  Delete recording resume with the given hash according to
        *  VDRs recording mechanisms.
        */
-      static void DeleteResume(cRecording const * recording);
+      static void DeleteResume(cSv hash);
 
       /**
        *  Delete recording marks with the given hash according to
        *  VDRs recording mechanisms.
        */
-      static void DeleteMarks(cRecording const * recording);
+      static void DeleteMarks(cSv hash);
 
       /**
        *  Delete a recording with the given hash according to

@@ -1,4 +1,5 @@
 #include "content.h"
+#include "stringhelpers.h"
 #include <istream>
 #include <memory>
 #include <jpeglib.h>
@@ -124,7 +125,11 @@ std::size_t cFileContent::ReduceImageSize(unsigned width, unsigned height)
 
   try
   {
-    jpeg_read_header(&src, TRUE);
+    int ret_header = jpeg_read_header(&src, TRUE);
+    if (ret_header != JPEG_HEADER_OK) {
+      esyslog3("jpeg_read_header ret code = ", ret_header);
+      goto nope;
+    }
 
     // calculate decimation factor
     int df = 0;
@@ -168,11 +173,16 @@ std::size_t cFileContent::ReduceImageSize(unsigned width, unsigned height)
 
     // capture result
     reduced = std::move(dst.Data());
+//  esyslog3("reduced size = ", reduced.size());
     return reduced.size();
   }
-  catch (jpeg_error_mgr*) {} // from error_mgr.error_exit
+  catch (jpeg_error_mgr* l_jpeg_error) {
+    jpeg_abort_decompress(&src);
+//  esyslog3("reached catch");
+  } // from error_mgr.error_exit
 
 nope:
+//esyslog3("reached nope, reduced.size() = ", reduced.size() );
   file.seekg(0);
   return 0; // keep original file content
 }

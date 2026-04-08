@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-02 16:03+0200\n"
+"POT-Creation-Date: 2026-04-07 17:55+0200\n"
 "PO-Revision-Date: 2013-06-21 20:15+0200\n"
 "Last-Translator: Dmitrii Kiselev <wm.amid@gmail.com>\n"
 "Language-Team: see developers in README\n"
@@ -197,9 +197,6 @@ msgstr "Нет доступа, обратитесь к администрато�
 
 msgid "Please set a name for the recording!"
 msgstr "Пожалуйста присвойте имя записи!"
-
-msgid "Couldn't find recording. Maybe you mistyped your request?"
-msgstr "Запись не найдена. Проверьте правильность запроса."
 
 msgid "Cannot copy, rename or move the recording."
 msgstr "Копирование невозможно, переименуйте или переместите запись. "
@@ -1290,6 +1287,9 @@ msgstr ""
 
 msgid "Delete permanently"
 msgstr ""
+
+#~ msgid "Couldn't find recording. Maybe you mistyped your request?"
+#~ msgstr "Запись не найдена. Проверьте правильность запроса."
 
 #~ msgid "Couldn't find recording or no recordings available."
 #~ msgstr "Запись не найдена или более недоступна."

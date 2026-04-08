@@ -395,7 +395,7 @@ for (const RecordingsItemDirPtr &recItem: l_dir_iterator) {
 %     if (!recItem->scraperImage().path.empty() ) {
         <td class = space>
           <div class="thumb">
-            <img data-src="/tvscraper/<$ recItem->scraperImage().path $>?size=120"
+            <img data-src="/tvscraper/<$ recItem->scraperImage().path $>?thumb=1"
               class="<$ recItem->scraperImage().width > recItem->scraperImage().height?"thumb":"thumbpt" $>"
             />
           </div>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-02 16:03+0200\n"
+"POT-Creation-Date: 2026-04-07 17:55+0200\n"
 "PO-Revision-Date: 2025-10-05 18:19+0200\n"
 "Last-Translator: Tomasz Maciej Nowak <tomek_n@o2.pl>\n"
 "Language-Team: see developers in README\n"
@@ -198,9 +198,6 @@ msgstr "Brak uprawenień. Skontaktuj się ze swoim administratorem!"
 
 msgid "Please set a name for the recording!"
 msgstr "Proszę podać nazwę nagrania!"
-
-msgid "Couldn't find recording. Maybe you mistyped your request?"
-msgstr "Nie można odnaleźć nagrania. Literówka?"
 
 msgid "Cannot copy, rename or move the recording."
 msgstr "Nie można skopiować, przenieść ani zmienić nazwy nagrania."
@@ -1291,6 +1288,9 @@ msgstr ""
 
 msgid "Delete permanently"
 msgstr ""
+
+#~ msgid "Couldn't find recording. Maybe you mistyped your request?"
+#~ msgstr "Nie można odnaleźć nagrania. Literówka?"
 
 #~ msgid "Couldn't find recording or no recordings available."
 #~ msgstr "Nie można odnaleźć nagrania lub nagranie nie jest dostępne."

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-02 16:03+0200\n"
+"POT-Creation-Date: 2026-04-07 17:55+0200\n"
 "PO-Revision-Date: 2025-10-03 20:15+0200\n"
 "Last-Translator: Carel Willemse <carel@nekanali.nl>\n"
 "Language-Team: see developers in README\n"
@@ -199,9 +199,6 @@ msgstr "Sorry, geen rechten. Raadpleeg uw administrator!"
 
 msgid "Please set a name for the recording!"
 msgstr "Geef de opname een naam, a.u.b.!"
-
-msgid "Couldn't find recording. Maybe you mistyped your request?"
-msgstr "Kon opname niet vinden, misschien een typefout in het verzoek?"
 
 msgid "Cannot copy, rename or move the recording."
 msgstr "Kan de opname niet kopiëren, hernoemen of verplaatsen."
@@ -1292,6 +1289,9 @@ msgstr ""
 
 msgid "Delete permanently"
 msgstr ""
+
+#~ msgid "Couldn't find recording. Maybe you mistyped your request?"
+#~ msgstr "Kon opname niet vinden, misschien een typefout in het verzoek?"
 
 #~ msgid "Couldn't find recording or no recordings available."
 #~ msgstr "Kon geen opnamen vinden, of geen opnamen beschikbaar."
