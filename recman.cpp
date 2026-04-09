@@ -352,13 +352,13 @@ int RecordingsManager::DeleteRecording(cSv recording_hash, std::string *name)
   return result?0:3;
 }
 
-bool has_object_list(cSv hash) {
-  // true if hash has an object list
+bool RecordingsManager::has_object_list(cSv hash) {
+// true if hash has an object list. The empty object list is also an object list -> true
   if (hash.length() == 10) return true;  // empty object list
   return hash.substr(10).find("_") != cSv::npos;
 }
 std::string RecordingsManager_DeleteConfirmationQuestion(cSv hash) {
-  if (!has_object_list(hash)) {
+  if (!RecordingsManager::has_object_list(hash)) {
     const char *name = RecordingsManager::GetNameByHash(hash);
     if (name) return std::string(cToSvFormatted(tr("Delete recording \"%s\"?"), name));
     return tr("Delete recording [recording name unavailable]?");
@@ -368,7 +368,7 @@ std::string RecordingsManager_DeleteConfirmationQuestion(cSv hash) {
 }
 std::vector<std::string> RecordingsManager_object_names(cSv hash) {
   std::vector<std::string> result;
-  if (!has_object_list(hash)) return result;
+  if (!RecordingsManager::has_object_list(hash)) return result;
   for (cSv id: cSplit(hash.substr(10), '_')) if (id.length() == 32) {
     const char *name = RecordingsManager::GetNameByHash(cToSvConcat("recording_", id));
     result.push_back(std::string(cSv(name)));
@@ -376,7 +376,7 @@ std::vector<std::string> RecordingsManager_object_names(cSv hash) {
   return result;
 }
 std::string RecordingsManager_RestoreConfirmationQuestion(cSv hash) {
-  if (!has_object_list(hash)) {
+  if (!RecordingsManager::has_object_list(hash)) {
     const char *name = RecordingsManager::GetNameByHash(hash);
     if (name) return std::string(cToSvFormatted(tr("Restore recording \"%s\"?"), name));
     return tr("Restore recording [recording name unavailable]?");
@@ -385,7 +385,7 @@ std::string RecordingsManager_RestoreConfirmationQuestion(cSv hash) {
   }
 }
 std::string RecordingsManager_PurgeConfirmationQuestion(cSv hash) {
-  if (!has_object_list(hash)) {
+  if (!RecordingsManager::has_object_list(hash)) {
     const char *name = RecordingsManager::GetNameByHash(hash);
     if (name) return std::string(cToSvFormatted(tr("Permanently delete recording \"%s\"?"), name));
     return tr("Permanently delete recording [recording name unavailable]?");
@@ -396,13 +396,13 @@ std::string RecordingsManager_PurgeConfirmationQuestion(cSv hash) {
 int RecordingsManager_DeleteRecording(cSv hash, std::string &message) {
   int result = 0;
   std::string name;
-  if (!has_object_list(hash)) {
+  if (!RecordingsManager::has_object_list(hash)) {
     result = RecordingsManager::DeleteRecording(hash, &name);
     switch (result) {
-      case 0: message = concat("Sucessfully deleted recording ID ", hash, " name ", name); break;
+      case 0: message = concat("Successfully deleted recording ID ", hash, " name ", name); break;
       case 1: message = concat("Error deleting recording: Couldn't find recording ID ", hash); break;
       case 2: message = concat("Error deleting recording: Couldn't set timer to inactive, recording ID ", hash); break;
-      default: message = concat("Error deleting recording: other errror, recording ID ", hash); break;
+      default: message = concat("Error deleting recording: other error, recording ID ", hash); break;
     }
   } else {
     message.clear();
@@ -412,7 +412,7 @@ int RecordingsManager_DeleteRecording(cSv hash, std::string &message) {
         switch (res) {
           case 1: message.append("Error deleting recording: Couldn't find recording ID "); break;
           case 2: message.append("Error deleting recording: Couldn't set timer to inactive, recording ID "); break;
-          default: message.append("Error deleting recording: other errror, recording ID "); break;
+          default: message.append("Error deleting recording: other error, recording ID "); break;
         }
         message.append(id);
         message.append(";");
@@ -445,7 +445,7 @@ int RecordingsManager::RestoreRecording(cSv recording_hash, std::string *name)
 int RecordingsManager_RestoreRecording(cSv hash, std::string &message) {
   int result = 0;
   std::string name;
-  if (!has_object_list(hash)) {
+  if (!RecordingsManager::has_object_list(hash)) {
     result = RecordingsManager::RestoreRecording(hash, &name);
     switch (result) {
       case 0: message = concat("Sucessfully restored recording ID ", hash, " name ", name); break;
@@ -490,7 +490,7 @@ int RecordingsManager::PurgeRecording(cSv recording_hash, std::string *name)
 int RecordingsManager_PurgeRecording(cSv hash, std::string &message) {
   int result = 0;
   std::string name;
-  if (!has_object_list(hash)) {
+  if (!RecordingsManager::has_object_list(hash)) {
     result = RecordingsManager::PurgeRecording(hash, &name);
     switch (result) {
       case 0: message = concat("Sucessfully purged recording ID ", hash, " name ", name); break;

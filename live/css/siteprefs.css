@@ -457,4 +457,15 @@ img.iconic.button.recording-deselect-all {
 table.form > tbody > tr > td div.warning span#compatibility {
   display: unset;
 }
+
+
+*/
+/* Uncomment this to hide short texts in timer listings (as these are often
+** part of the filename when using search/pattern timers).
+*/
+/*
+table.listing.timers div.short,
+table.listing.timerconflicts div.short {
+  display: none;
+}
 */

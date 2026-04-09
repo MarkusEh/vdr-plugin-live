@@ -15,7 +15,7 @@ using namespace vdrlive;
 bool logged_in(false);
 </%session>
 <%args>
-int thumb=0;  // 0:false, 1:true. If true, the image is aused as thumb and the size will be resuced according to --thumb_size
+int thumb=0;  // 0:false, 1:true. If true, the image is used as thumb and the size will be resuced according to --thumb_size
 </%args>
 <%cpp>
 std::string mime;
