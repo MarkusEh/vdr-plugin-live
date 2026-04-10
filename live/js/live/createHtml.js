@@ -197,6 +197,11 @@ async function deleteMarkedRecordings(form, act) {
       epgid = epgid + id + "_";
     }
   }
+  if (is_popup_disabled(epgid)) {
+    await action(epgid);
+    location.reload();
+    return;
+  }
   if (typeof liveEnhanced !== 'undefined') {
     var event_ = new Event(event);
     var infowin = new InfoWin.Ajax(epgid, "epginfo.html?epgid="+epgid, $merge(liveEnhanced.options.infoWinOptions, {
@@ -207,30 +212,6 @@ async function deleteMarkedRecordings(form, act) {
     event_.stop();
   } else alert("ERROR createHtml.js, deleteMarkedRecordings, liveEnhanced not defined");
 
-  /*
-  for (var i = 0; i<inputs.length; i++) {
-    if (inputs[i].type == 'checkbox' && inputs[i].checked &&
-        inputs[i].value && inputs[i].value.startsWith('recording_')) {
-      const id = inputs[i].value.substring(10);
-      all_del = all_del + id + ",";
-      var err = await execute('action.html?id=' + act + '_' + inputs[i].value);
-      if (!err.success) alert (err.error);
-    }
-  }
-  if (all_del == '') return;
-  let new_loc = '';
-  if (window.location.href.includes("?")) {
-    let pos = window.location.href.indexOf("deleted=");
-    if (pos == -1) {
-      new_loc = window.location.href + "&deleted=" + all_del;
-    } else {
-      new_loc = window.location.href.substring(0, pos) + "deleted=" + all_del;
-    }
-  } else {
-    new_loc = window.location.href + "?deleted=" + all_del;
-  }
-  window.location=new_loc;
-*/
 }
 async function execute(url) {
 /*
@@ -244,6 +225,7 @@ async function execute(url) {
  *               - bool   success
  *               - string error  (only if success == false). Human readable text
 */
+  let enc = encodeURI(url + '&async=1');
   const response = await fetch(encodeURI(url + '&async=1'), {
     method: "GET",
     headers: {
@@ -289,10 +271,18 @@ async function execute(url) {
   ret_object.error = error_child_nodes[0].nodeValue;
   return ret_object;
 }
-async function action_back(id, history_num_back)
+async function action(id)
 {
+  let cb = document.getElementById("disable_popup_" + id);
+  if (cb && cb.type == 'checkbox' && cb.checked) {
+      disable_popup(id);
+  }
   var ret_object = await execute('action.html?id=' + id);
   if (!ret_object.success) alert (ret_object.error);
+}
+async function action_back(id, history_num_back)
+{
+  await action(id);
   history.go(-history_num_back);
 }
 function back_depending_referrer(back_epginfo, back_others) {
@@ -359,4 +349,62 @@ function addEventListString(col_span, events) {
   s.a = ""
   addEventList(s, col_span, events)
   return s.a
+}
+
+function get_disable_popup_cookie_name(id) {
+  if (id.endsWith('_') ) {
+    return "disable_popup_" + id.substring(0, 3) + "_ms";   // ms for multible selection
+  } else {
+    return "disable_popup_" + id.substring(0, 3);
+  }
+}
+
+function is_popup_disabled(id) {
+//  let c = readCookie(get_disable_popup_cookie_name(id));
+  let c = sessionStorage.getItem(get_disable_popup_cookie_name(id));
+  return (c && c == '1');
+}
+function disable_popup(id) {
+//  createCookie(get_disable_popup_cookie_name(id), '1', 0);
+  sessionStorage.setItem(get_disable_popup_cookie_name(id), '1');
+}
+
+//The following cookie functions have evolved from the examples of http://www.quirksmode.org/js/cookies.html
+function createCookie(name, value, days)
+{
+  const scope = "; SameSite=Lax; path=/"
+  var expiration = "";   // defaults to session cookie
+  if (days > 0) {
+    // cookie with expiration time
+    let date = new Date();
+    date.setTime(date.getTime() + days * 24*60*60*1000);
+    expiration = "; expires=" + date.toGMTString();
+  } else if (days < 0) {
+    // already expired cookie, i.e., cookie to be deleted
+    let date = new Date(0);
+    expiration = "; expires=" + date.toGMTString();
+  }
+  var cookie = name + "=" + value + expiration + scope;
+  if (cookie.length >= 4096 ) {
+    // oversized cookie deleted to avoid truncation issues
+    let date = new Date(0);
+    expiration = "; expires=" + date.toGMTString();
+    cookie = name + "=" + expiration + scope;
+  }
+  document.cookie = cookie;
+}
+
+function readCookie(name)
+{
+  var nameEQ = name + "=";
+  for (let c of document.cookie.split(';')) {
+    c = c.trim();
+    if (c.startsWith(nameEQ)) return c.substring(nameEQ.length);
+  }
+  return null;
+}
+
+function eraseCookie(name)
+{
+  createCookie(name, "", -1);
 }

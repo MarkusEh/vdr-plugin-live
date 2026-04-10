@@ -1,3 +1,10 @@
+/* Requirements:
+ * see https://www.vdr-portal.de/forum/thread/137309-live-vereinheitlichung-der-best%C3%A4tigungs-popups/?postID=1391352#post1391352
+ *
+ * - Distinguish between popup after selection of elements and just a button press (where no elements need to be selected
+ *   - Reason: Allow to disable popup in case of selection of elements + button is required
+ *
+ */
 #ifndef CONFIRM_H
 #define CONFIRM_H
 

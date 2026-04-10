@@ -234,8 +234,7 @@ var InfoWin = new Class({
           if (action_id == "del_" || action_id == "pur_" || action_id == "res_" || action_id == "det_" || action_id == "des_") {
             confirm_del.onclick = null;
             confirm_del.addEvent('click', async function(event) {
-                var err = await execute('action.html?id=' + id);
-                if (!err.success) alert (err.error);
+                await action(id);
                 if (history_num_back > 0) { history.go(-history_num_back); }
                 else { location.reload(); }
                 var event = new Event(event);
@@ -247,9 +246,9 @@ var InfoWin = new Class({
         var close_button = this.winBody.getElementById('close_' + id);
         if (close_button) {
           close_button.onclick = null;
-          close_button.addEvent('click', function(event){
-              var event = new Event(event);
-              event.stop();
+          close_button.addEvent('click', function(event) {
+              var event_ = new Event(event);
+              event_.stop();
               return this.hide();
             }.bind(this));
         }

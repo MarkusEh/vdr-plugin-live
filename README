@@ -21,7 +21,7 @@ See the file COPYING for license information.
 Description:
 ============
 
-Live, the "Live Interactive VDR Environment", is a VDR plugin providing
+LIVE, the "Live Interactive VDR Environment", is a VDR plugin providing
 a web interface to VDR and some of it's plugins.
 
 Requirements:
@@ -32,8 +32,9 @@ VDR >= 2.4.0
 gcc >= v8, must support -std=c++17. -std=c++1z should also work for complilers not yet supporting -std=c++17.
 Tntnet >= 2.2.1    - http://www.tntnet.org/download.hms  // https://web.archive.org/web/20160314183814/http://www.tntnet.org/download.html
 Cxxtools >= 2.2.1  - http://www.tntnet.org/download.hms  // https://web.archive.org/web/20160314183814/http://www.tntnet.org/download.html
+libjpeg
 
-Tntnet provides basic web server functions for live and needs cxxtools.
+Tntnet provides basic web server functions for LIVE and needs cxxtools.
 
 Optional:
 epgsearch >= 0.9.25.beta6, for versatile search timers and searching the EPG on demand
@@ -55,6 +56,7 @@ cp -a <live-src-dir>/live <vdr-resource-dir>/plugins
 
 On debian like systems, <vdr-resource-dir> is /usr/share/vdr
 
+The default port is 8008.
 
 ======
 Setup:
@@ -79,21 +81,10 @@ On debian like systems:
 Command line options:
 =====================
 
-The default port is 8008. You can change this via command line:
+Use "vdr -Plive --help" to get a compleate list of command line options
 
-  -p PORT,  --port=PORT     use PORT to listen for incoming connections
-                            (default: 8008)
-  -i IP,    --ip=IP         bind server only to specified IP, may appear
-                            multiple times
-                            (default: 0.0.0.0, ::0)
-
-Additional SSL options are available. See "How to make LIVE listen
-for SSL connections" section below on hints how to setup SSL.
-
-To display images or channel logos, you can use:
-
-  -e <...>  --epgimages=/path/to/epgimages              use EPG images created by plugins like tvm2vdr
-  --chanlogos=/path/to/channellogos                     use channel logos (PNG only, case sensitive)
+See "How to make LIVE listen for SSL connections" section below
+for SSL setup command line options.
 
 
 Settings in VDR's OSD:
@@ -101,13 +92,13 @@ Settings in VDR's OSD:
 
 Note: These settings are also available in the web interface.
 
-Live provides a username/password protection. The default username and password are:
+LIVE provides a username/password protection. The default username and password are:
 
   admin/live
 
 The password is stored as a MD5 hash.
 
-"Last Channel" is the last channel in the channels list, that live displays.
+"Last Channel" is the last channel in the channels list, that LIVE displays.
 This is especially useful if you have VDR's automatic channel update active.
 For example, you can add a group separator ":@1000 Found automatically" to
 channels.conf and set this parameter to "1000". Thus, everything VDR finds
@@ -118,7 +109,7 @@ channels) won't be displayed.
 How to make LIVE listen to SSL connections:
 ============================================
 
-In order to start the SslListener LIVE requires a SSL certificate. If
+In order to start the SslListener LIVE requires an SSL certificate. If
 no SSL certificate is specified via command-line option, LIVE will try
 to use the default certificate location
 '$VDRDIR/plugins/live/live.pem'.
@@ -154,7 +145,7 @@ While generating the certificate you'll be asked to answer a couple of
 questions.  When it prompts to enter the "Common Name" you'll have to
 specify the full qualified DNS server name of the machine LIVE is
 running on (e.g. vdr.example.com).  If your VDR doesn't have a full
-qualified DNS name, you should use the IP Live is listening on.
+qualified DNS name, you should use the IP LIVE is listening on.
 
 Note: This is just a quick-and-dirty way to create a SSL self-signed
 certificate.  Browsers will complain about it because the certificate
@@ -164,14 +155,14 @@ wasn't signed by a known Certificate Authority (CA).
 So how does LIVE work?
 ======================
 
-Basically, Live itself is a Tntnet Web server integrated into the
+Basically, LIVE itself is a Tntnet Web server integrated into the
 plugin structure VDR needs.
 
 This Web server, running in VDR's environment, is provided with all
 public data structures VDR provides for plugins and thus has very fast
 access to information like the EPG, timers or recordings.
 
-Live's "pages" are written in "ecpp", a language integrating C++ and
+LIVE's "pages" are written in "ecpp", a language integrating C++ and
 HTML in one file, very much like e.g. PHP or ASP weave functionality
 and "static" content information together.
 
@@ -184,18 +175,18 @@ and doc/TODO.txt.
 Security considerations:
 ========================
 
-Please use live in a controlled environment only, like your home network
+Please use LIVE in a controlled environment only, like your home network
 or a save VPN of your home network.
-You cannot expect sufficient security to expose live to the public internet.
+You cannot expect sufficient security to expose LIVE to the public internet.
 
 Of course, better security is always appreciated, so please send
 patches increasing security.
 
 One possible security issue (there might be others ...):
-Live uses the Tntnet MapUrl mechanism to map different request URLs to
+LIVE uses the Tntnet MapUrl mechanism to map different request URLs to
 Tntnet components. One component 'content.ecpp' delivers files found
 in the file system. When given the wrong 'path' it could retrieve any
-file from the server where live runs on.  Therefore content.ecpp has
+file from the server where LIVE runs on.  Therefore content.ecpp has
 been enhanced to check the paths before returning files.  A second
 measure against misuse is to limit the mappings from MapUrl to only
 valid files. In the current version this approach has been taken. But

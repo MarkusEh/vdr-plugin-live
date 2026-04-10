@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 3.5.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-09 08:46+0200\n"
+"POT-Creation-Date: 2026-04-10 08:10+0200\n"
 "PO-Revision-Date: 2026-01-27 20:15+0200\n"
 "Last-Translator: Stefan Hofmann <info@stefans-galerie.de>\n"
 "Language-Team: see developers in README\n"
@@ -625,6 +625,9 @@ msgstr "Kann die Aufzeichnung nicht finden oder keine Aufzeichnungen vorhanden"
 
 msgid "Nothing selected!"
 msgstr "Kein Auswahl getroffen!"
+
+msgid "Do not ask again during this session"
+msgstr "In dieser Sitzung nicht mehr fragen"
 
 msgid "Page error"
 msgstr "Seitenfehler"
