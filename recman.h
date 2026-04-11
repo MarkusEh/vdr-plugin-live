@@ -199,7 +199,6 @@ namespace vdrlive {
       static int CheckReplay(cSv recording_hash, std::string *fileName = nullptr);
 
       static void EnsureValidData();
-      static bool has_object_list(cSv hash);
     private:
       static bool StateChanged();
   };

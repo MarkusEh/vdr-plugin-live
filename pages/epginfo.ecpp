@@ -149,7 +149,7 @@ using namespace vdrlive;
   }
   if (confirm) {
     auto obj_list = confirm->get_object_names(epgid);
-    bool need_confirmation = (!RecordingsManager::has_object_list(cSv(epgid).substr(4))) | (!obj_list.empty());
+    bool need_confirmation = !obj_list.empty();
 </%cpp>
 <div class="epg_description" id="<$ epgid $>">
   <div class="station">
@@ -157,8 +157,8 @@ using namespace vdrlive;
   </div>
   <div class="epg_content confirmation">
     <div class="about_head">
-      <div class="prompt"><$ need_confirmation ? confirm->get_question(epgid).c_str() : tr("Nothing selected!") $></div>
-%     if (!obj_list.empty()) {
+      <div class="prompt"><$ confirm->get_question(epgid).c_str() $></div>
+%     if (obj_list.size() > 1) {
         <div class="object-list">
           <ul>
 %         for (auto obj: obj_list) {
@@ -175,8 +175,10 @@ using namespace vdrlive;
       <input type="hidden" name="history_num_back" value="<$ history_num_back $>" id="history_<$ epgid $>"\>
       <div class="about_section">
 
+%       if (need_confirmation) {
         <input type="checkbox" name="disable_popup" value="disable_popup" id="disable_popup_<$ epgid $>" />
         <label for="disable_popup"><$ tr("Do not ask again during this session") $></label>
+%       }
 
         <div class="tabular buttons">
 %         if (need_confirmation) {

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 16:13+0200\n"
+"POT-Creation-Date: 2026-04-11 12:11+0200\n"
 "PO-Revision-Date: 2010-05-10 22:15+0200\n"
 "Last-Translator: Vladimír Bárta <vladimir.barta@k2atmitec.cz>,Radek Stastny <dedkus@gmail.com> \n"
 "Language-Team: see developers in README\n"
@@ -17,6 +17,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+msgid "Nothing selected!"
+msgstr ""
+
 #, c-format
 msgid "Delete recording \"%s\"?"
 msgstr ""
@@ -24,7 +27,8 @@ msgstr ""
 msgid "Delete recording [recording name unavailable]?"
 msgstr ""
 
-msgid "Delete the following recordings?"
+#, c-format
+msgid "Delete the following %i recordings?"
 msgstr ""
 
 #, c-format
@@ -34,7 +38,8 @@ msgstr ""
 msgid "Restore recording [recording name unavailable]?"
 msgstr ""
 
-msgid "Restore the following recordings?"
+#, c-format
+msgid "Restore the following %i recordings?"
 msgstr ""
 
 #, c-format
@@ -44,13 +49,8 @@ msgstr ""
 msgid "Permanently delete recording [recording name unavailable]?"
 msgstr ""
 
-msgid "Permanently delete the following recordings?"
-msgstr ""
-
-msgid "On archive DVD No."
-msgstr ""
-
-msgid "On archive HDD No."
+#, c-format
+msgid "Permanently delete the following %i recordings?"
 msgstr ""
 
 #, c-format
@@ -628,9 +628,6 @@ msgstr "Elektronický průvodce programem (EPG)"
 
 msgid "Couldn't find recording or no recordings available"
 msgstr "Nelze nalézt nahrávky, nebo žádné neexistují"
-
-msgid "Nothing selected!"
-msgstr ""
 
 msgid "Do not ask again during this session"
 msgstr ""

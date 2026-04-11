@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 16:13+0200\n"
+"POT-Creation-Date: 2026-04-11 12:11+0200\n"
 "PO-Revision-Date: 2011-12-25 23:22+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: see developers in README\n"
@@ -21,6 +21,9 @@ msgstr ""
 "X-Poedit-Country: ITALY\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
+msgid "Nothing selected!"
+msgstr ""
+
 #, c-format
 msgid "Delete recording \"%s\"?"
 msgstr ""
@@ -28,7 +31,8 @@ msgstr ""
 msgid "Delete recording [recording name unavailable]?"
 msgstr ""
 
-msgid "Delete the following recordings?"
+#, c-format
+msgid "Delete the following %i recordings?"
 msgstr ""
 
 #, c-format
@@ -38,7 +42,8 @@ msgstr ""
 msgid "Restore recording [recording name unavailable]?"
 msgstr ""
 
-msgid "Restore the following recordings?"
+#, c-format
+msgid "Restore the following %i recordings?"
 msgstr ""
 
 #, c-format
@@ -48,14 +53,9 @@ msgstr ""
 msgid "Permanently delete recording [recording name unavailable]?"
 msgstr ""
 
-msgid "Permanently delete the following recordings?"
+#, c-format
+msgid "Permanently delete the following %i recordings?"
 msgstr ""
-
-msgid "On archive DVD No."
-msgstr "In archivio DVD No."
-
-msgid "On archive HDD No."
-msgstr "In archivio HDD No."
 
 #, c-format
 msgid "(%d:%02d)"
@@ -625,9 +625,6 @@ msgstr "Info Guida Elettronica Programmi (EPG)"
 
 msgid "Couldn't find recording or no recordings available"
 msgstr "Impossibile trovare registrazioni o nessuna registrazione disponibile"
-
-msgid "Nothing selected!"
-msgstr ""
 
 msgid "Do not ask again during this session"
 msgstr ""
@@ -1298,6 +1295,12 @@ msgstr ""
 
 msgid "Delete permanently"
 msgstr ""
+
+#~ msgid "On archive DVD No."
+#~ msgstr "In archivio DVD No."
+
+#~ msgid "On archive HDD No."
+#~ msgstr "In archivio HDD No."
 
 #~ msgid "Couldn't find recording. Maybe you mistyped your request?"
 #~ msgstr "Impossibile trovare la registrazione. Hai digitato correttamente la richiesta?"

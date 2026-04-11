@@ -30,8 +30,10 @@ typedef std::string (*tConfirmationQuestion)(cSv id);
 typedef std::vector<std::string> (*tObjectNames)(cSv id);
 typedef int (*tPerformAction)(cSv id, std::string &message); // return 0 on success;
 
-inline std::vector<std::string> no_objects(cSv id) {
-  return std::vector<std::string>();
+inline std::vector<std::string> one_object(cSv id) {
+  std::vector<std::string> result;
+  result.push_back(std::string());
+  return result;
 }
 
 class cConfirm {
@@ -75,8 +77,8 @@ inline static const cSortedVector<cConfirm, std::less<>> g_confirm_popups =
   { "del_", UR_DELRECS, trNOOP("Delete recording"), nullptr, trNOOP("Delete"), &RecordingsManager_DeleteConfirmationQuestion, &RecordingsManager_object_names, &RecordingsManager_DeleteRecording},
   { "res_", UR_DELRECS, trNOOP("Restore recording"), nullptr, trNOOP("Restore"), &RecordingsManager_RestoreConfirmationQuestion, &RecordingsManager_object_names, &RecordingsManager_RestoreRecording},
   { "pur_", UR_DELRECS, trNOOP("Permanently delete recording"), trNOOP("Warning: This cannot be undone!"), trNOOP("Delete permanently"), &RecordingsManager_PurgeConfirmationQuestion, &RecordingsManager_object_names, &RecordingsManager_PurgeRecording},
-  { "det_", UR_DELTIMERS, trNOOP("Delete timer"), nullptr, trNOOP("Delete"), &TimerManager_DeleteConfirmationQuestion, &no_objects, &TimerManager_DeleteTimer},
-  { "des_", UR_DELSTIMERS, trNOOP("Delete search timer"), nullptr, trNOOP("Delete"), &SearchTimers_DeleteConfirmationQuestion, &no_objects, &SearchTimers_DeleteSearchTimer}
+  { "det_", UR_DELTIMERS, trNOOP("Delete timer"), nullptr, trNOOP("Delete"), &TimerManager_DeleteConfirmationQuestion, &one_object, &TimerManager_DeleteTimer},
+  { "des_", UR_DELSTIMERS, trNOOP("Delete search timer"), nullptr, trNOOP("Delete"), &SearchTimers_DeleteConfirmationQuestion, &one_object, &SearchTimers_DeleteSearchTimer}
 
 };
 

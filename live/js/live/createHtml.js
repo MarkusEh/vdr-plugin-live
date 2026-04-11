@@ -351,7 +351,7 @@ function addEventListString(col_span, events) {
   return s.a
 }
 
-function get_disable_popup_cookie_name(id) {
+function get_disable_popup_storage_name(id) {
   if (id.endsWith('_') ) {
     return "disable_popup_" + id.substring(0, 3) + "_ms";   // ms for multible selection
   } else {
@@ -360,13 +360,15 @@ function get_disable_popup_cookie_name(id) {
 }
 
 function is_popup_disabled(id) {
-//  let c = readCookie(get_disable_popup_cookie_name(id));
-  let c = sessionStorage.getItem(get_disable_popup_cookie_name(id));
-  return (c && c == '1');
+  let storage_name = get_disable_popup_storage_name(id);
+  let c = sessionStorage.getItem(storage_name);
+  if (c && c == '1') return true;
+  const el = document.querySelector("div");
+  let cs = getComputedStyle(el).getPropertyValue("--" + storage_name);
+  return cs && cs == '1';
 }
 function disable_popup(id) {
-//  createCookie(get_disable_popup_cookie_name(id), '1', 0);
-  sessionStorage.setItem(get_disable_popup_cookie_name(id), '1');
+  sessionStorage.setItem(get_disable_popup_storage_name(id), '1');
 }
 
 //The following cookie functions have evolved from the examples of http://www.quirksmode.org/js/cookies.html

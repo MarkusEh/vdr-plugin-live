@@ -469,3 +469,30 @@ table.listing.timerconflicts div.short {
   display: none;
 }
 */
+
+/*
+ * Uncomment to permanently disable popups
+ * Values:
+ *   1 -> disable popup
+ *   0 -> enable popup (default)
+ * Abbreviations:
+ *   del: delete recording
+ *   pur: permanently delete recording
+ *   res: restore recording
+ *   det: delete timer
+ *   des: delete search timer
+ *
+ *   ms: multiple selection
+ */
+/*
+:root {
+  --disable_popup_del: 1;
+  --disable_popup_del_ms: 1;
+  --disable_popup_res: 1;
+  --disable_popup_res_ms: 1;
+  --disable_popup_pur: 1;
+  --disable_popup_pur_ms: 1;
+  --disable_popup_det: 1;
+  --disable_popup_des: 1;
+}
+*/

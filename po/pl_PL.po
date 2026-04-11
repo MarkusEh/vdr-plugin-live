@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 16:13+0200\n"
+"POT-Creation-Date: 2026-04-11 12:11+0200\n"
 "PO-Revision-Date: 2025-10-05 18:19+0200\n"
 "Last-Translator: Tomasz Maciej Nowak <tomek_n@o2.pl>\n"
 "Language-Team: see developers in README\n"
@@ -17,6 +17,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+msgid "Nothing selected!"
+msgstr ""
+
 #, c-format
 msgid "Delete recording \"%s\"?"
 msgstr "Usunąć nagranie \"%s\"?"
@@ -24,7 +27,8 @@ msgstr "Usunąć nagranie \"%s\"?"
 msgid "Delete recording [recording name unavailable]?"
 msgstr ""
 
-msgid "Delete the following recordings?"
+#, c-format
+msgid "Delete the following %i recordings?"
 msgstr ""
 
 #, c-format
@@ -34,7 +38,8 @@ msgstr ""
 msgid "Restore recording [recording name unavailable]?"
 msgstr ""
 
-msgid "Restore the following recordings?"
+#, c-format
+msgid "Restore the following %i recordings?"
 msgstr ""
 
 #, c-format
@@ -44,14 +49,9 @@ msgstr ""
 msgid "Permanently delete recording [recording name unavailable]?"
 msgstr ""
 
-msgid "Permanently delete the following recordings?"
+#, c-format
+msgid "Permanently delete the following %i recordings?"
 msgstr ""
-
-msgid "On archive DVD No."
-msgstr "W archiwum DVD nr"
-
-msgid "On archive HDD No."
-msgstr "W archiwum HDD nr"
 
 #, c-format
 msgid "(%d:%02d)"
@@ -621,9 +621,6 @@ msgstr "Informacje EPG"
 
 msgid "Couldn't find recording or no recordings available"
 msgstr "Nie można odnaleźć nagrania"
-
-msgid "Nothing selected!"
-msgstr ""
 
 msgid "Do not ask again during this session"
 msgstr ""
@@ -1294,6 +1291,12 @@ msgstr ""
 
 msgid "Delete permanently"
 msgstr ""
+
+#~ msgid "On archive DVD No."
+#~ msgstr "W archiwum DVD nr"
+
+#~ msgid "On archive HDD No."
+#~ msgstr "W archiwum HDD nr"
 
 #~ msgid "Couldn't find recording. Maybe you mistyped your request?"
 #~ msgstr "Nie można odnaleźć nagrania. Literówka?"

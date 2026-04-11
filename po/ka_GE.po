@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-10 16:13+0200\n"
+"POT-Creation-Date: 2026-04-11 12:11+0200\n"
 "PO-Revision-Date: 2023-02-14 20:02+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <(nothing)>\n"
@@ -18,6 +18,9 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.2.2\n"
 
+msgid "Nothing selected!"
+msgstr ""
+
 #, c-format
 msgid "Delete recording \"%s\"?"
 msgstr ""
@@ -25,7 +28,8 @@ msgstr ""
 msgid "Delete recording [recording name unavailable]?"
 msgstr ""
 
-msgid "Delete the following recordings?"
+#, c-format
+msgid "Delete the following %i recordings?"
 msgstr ""
 
 #, c-format
@@ -35,7 +39,8 @@ msgstr ""
 msgid "Restore recording [recording name unavailable]?"
 msgstr ""
 
-msgid "Restore the following recordings?"
+#, c-format
+msgid "Restore the following %i recordings?"
 msgstr ""
 
 #, c-format
@@ -45,14 +50,9 @@ msgstr ""
 msgid "Permanently delete recording [recording name unavailable]?"
 msgstr ""
 
-msgid "Permanently delete the following recordings?"
+#, c-format
+msgid "Permanently delete the following %i recordings?"
 msgstr ""
-
-msgid "On archive DVD No."
-msgstr "არქივში DVD-ზე ნომრით."
-
-msgid "On archive HDD No."
-msgstr "არქივში HDD-ზე ნომრით."
 
 #, c-format
 msgid "(%d:%02d)"
@@ -622,9 +622,6 @@ msgstr "ელექტრონული პროგრამის გიდ�
 
 msgid "Couldn't find recording or no recordings available"
 msgstr "ჩანაწერები ვერ ვიპოვე"
-
-msgid "Nothing selected!"
-msgstr ""
 
 msgid "Do not ask again during this session"
 msgstr ""
@@ -1295,6 +1292,12 @@ msgstr ""
 
 msgid "Delete permanently"
 msgstr ""
+
+#~ msgid "On archive DVD No."
+#~ msgstr "არქივში DVD-ზე ნომრით."
+
+#~ msgid "On archive HDD No."
+#~ msgstr "არქივში HDD-ზე ნომრით."
 
 #~ msgid "Couldn't find recording. Maybe you mistyped your request?"
 #~ msgstr "ჩანაწერი ვერ ვიპოვე. შეიძლება, მოთხოვნა არასწორია?"
