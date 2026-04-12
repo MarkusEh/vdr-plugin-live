@@ -90,19 +90,7 @@ if (recycle_bin == 1 && currentSort == "duplicates") currentSort = "datedesc";
 currentFilter = filter;
 currentRecycle_bin = recycle_bin;
 
-
 deleteResult = "";
-const char *del_text;
-if (currentRecycle_bin == 0) del_text = tr("Deleted recording:");
-else del_text = tr("Permanently deleted recording:");
-
-for (cSv id: cSplit(deleted, ',')) {
-  const char *name=RecordingsManager::GetNameByHash(cToSvConcat("recording_", id));
-  if (name) {
-    cToSvConcat delRec(del_text, " ", name, "<br/>");
-    deleteResult += cSv(delRec);
-  }
-}
 
 int FreeMB, UsedMB;
 int Percent = cVideoDirectory::VideoDiskSpace(&FreeMB, &UsedMB);
@@ -624,7 +612,7 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
 cToSvConcat label = "";
 constexpr auto breaksAtRight = "~";
 bool deleted = false;
-const RecordingsItemRec* recPtr = RecordingsManager::GetByIdHash(id, &deleted);
+const RecordingsItemRec* recPtr = RecordingsManager::GetByIdHash(RecordingsManager::GetHash(id), &deleted);
 if (recPtr) {
   time_t startTime = recPtr->StartTime();
   label.appendDateTime(tr("%a,"), startTime );      // day of week

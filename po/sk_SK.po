@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-11 12:11+0200\n"
+"POT-Creation-Date: 2026-04-11 21:09+0200\n"
 "PO-Revision-Date: 2012-12-03 21:41+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: Slovak <hrala.milan@gmail.com>\n"
@@ -975,12 +975,6 @@ msgstr "Ak narazíte na akúkoľvek chybu, alebo ak chcete navrhnúť nové funk
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "Nenašiel sa žiadny kanál alebo kanály nie sú k dispozícii. Možno ste zle napísali vašu požiadavku?"
 
-msgid "Deleted recording:"
-msgstr "Vymazaný nahrávka:"
-
-msgid "Permanently deleted recording:"
-msgstr ""
-
 msgid "List of recordings"
 msgstr "Zoznam nahrávok"
 
@@ -1299,6 +1293,9 @@ msgstr ""
 
 #~ msgid "Couldn't find recording. Maybe you mistyped your request?"
 #~ msgstr "Nenašla sa nahrávka. Možno ste zle napísali vašu požiadavku?"
+
+#~ msgid "Deleted recording:"
+#~ msgstr "Vymazaný nahrávka:"
 
 #~ msgid "Couldn't find recording or no recordings available."
 #~ msgstr "Nenašli sa žiadne záznamy alebo nahrávky nie sú k dispozícii."

@@ -64,9 +64,9 @@ using namespace vdrlive;
       LOCK_RECORDINGS_READ;
 #if VDRVERSNUM >= 20708
       LOCK_DELETEDRECORDINGS_READ;
-      const cRecording *recording = RecordingsManager::GetByHash(epgid, Recordings, DeletedRecordings);
+      const cRecording *recording = RecordingsManager::GetByHash(RecordingsManager::GetHash(epgid), Recordings, DeletedRecordings);
 #else
-      const cRecording *recording = RecordingsManager::GetByHash(epgid, Recordings);
+      const cRecording *recording = RecordingsManager::GetByHash(RecordingsManager::GetHash(epgid), Recordings);
 #endif
       if (recording == 0) {
         throw HtmlError(tr("Couldn't find recording or no recordings available"));
@@ -173,13 +173,15 @@ using namespace vdrlive;
 %   }
     <form>
       <input type="hidden" name="history_num_back" value="<$ history_num_back $>" id="history_<$ epgid $>"\>
-      <div class="about_section">
 
-%       if (need_confirmation) {
+%     if (need_confirmation) {
+      <div class="label">
         <input type="checkbox" name="disable_popup" value="disable_popup" id="disable_popup_<$ epgid $>" />
         <label for="disable_popup"><$ tr("Do not ask again during this session") $></label>
-%       }
+      </div>
+%     }
 
+      <div class="about_section">
         <div class="tabular buttons">
 %         if (need_confirmation) {
           <div class="about_left">

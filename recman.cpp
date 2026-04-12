@@ -87,15 +87,21 @@ const std::vector<RecordingsItemRec*> *RecordingsManager::allRecordings(Recordin
   return &all_recordings_sorted;
 }
 
+cSv RecordingsManager::GetHash(cSv recording_hash) {
+  if (recording_hash.length() != 42 || recording_hash.compare(0, 10, "recording_") != 0) {
+    dsyslog3("recording_hash = \"", recording_hash, "\"");
+    return cSv();
+  }
+  return recording_hash.substr(10);
+}
 #if VDRVERSNUM >= 20708
 const cRecording *RecordingsManager::GetByHash(cSv hash, const cRecordings* Recordings, const cRecordings* DeletedRecordings)
 #else
 const cRecording *RecordingsManager::GetByHash(cSv hash, const cRecordings* Recordings)
 #endif
 {
-  if (hash.length() != 42) return nullptr;
-  if (hash.compare(0, 10, "recording_") != 0) return nullptr;
-  XXH128_hash_t xxh = parse_hex_128(hash.substr(10));
+  if (hash.length() != 32) dsyslog3("hash = \"", hash, "\"");
+  XXH128_hash_t xxh = parse_hex_128(hash);
   for (const cRecording* rec = Recordings->First(); rec; rec = Recordings->Next(rec)) {
     if (XXH128_isEqual(XXH3_128bits(rec->FileName(), strlen(rec->FileName())-4), xxh)) return rec;
   }
@@ -108,6 +114,7 @@ const cRecording *RecordingsManager::GetByHash(cSv hash, const cRecordings* Reco
   return nullptr;
 }
 const char *RecordingsManager::GetNameByHash(cSv hash) {
+  if (hash.length() != 32) dsyslog3("hash = \"", hash, "\"");
   LOCK_RECORDINGS_READ;
 #if VDRVERSNUM >= 20708
   LOCK_DELETEDRECORDINGS_READ;
@@ -121,9 +128,8 @@ const char *RecordingsManager::GetNameByHash(cSv hash) {
 
 RecordingsItemRec* const RecordingsManager::GetByIdHash(cSv hash, bool *deleted)
 {
-  if (hash.length() != 42) return nullptr;
-  if (hash.compare(0, 10, "recording_") != 0) return nullptr;
-  XXH128_hash_t xxh = parse_hex_128(hash.substr(10));
+  if (hash.length() != 32) dsyslog3("hash = \"", hash, "\"");
+  XXH128_hash_t xxh = parse_hex_128(hash);
   for (int recycle_bin = 0; recycle_bin <=1; ++recycle_bin) {
     for (RecordingsItemRec * recItem : all_recordings_iterator(recycle_bin) ) {
       if (XXH128_isEqual(recItem->IdHash(), xxh)) {
@@ -139,6 +145,7 @@ bool RecordingsManager::UpdateRecording(cSv hash, cSv directory, cSv name, bool 
 {
 // note: we do NOT change deleted recordings, this is not intended and not supported!
 
+  if (hash.length() != 32) dsyslog3("hash = \"", hash, "\"");
   LOCK_RECORDINGS_WRITE;
   cRecording *recording = const_cast<cRecording *>(RecordingsManager::GetByHash(hash, Recordings));
   if (!recording) return false;
@@ -231,6 +238,7 @@ bool RecordingsManager::UpdateRecording(cSv hash, cSv directory, cSv name, bool 
 
 void RecordingsManager::DeleteResume(cSv hash)
 {
+  if (hash.length() != 32) dsyslog3("hash = \"", hash, "\"");
   std::string fileName;
   bool isPesRecording;
   {
@@ -250,6 +258,7 @@ void RecordingsManager::DeleteResume(cSv hash)
 
 void RecordingsManager::DeleteMarks(cSv hash)
 {
+  if (hash.length() != 32) dsyslog3("hash = \"", hash, "\"");
   std::string fileName;
   {
     LOCK_RECORDINGS_READ;
@@ -274,12 +283,13 @@ void RecordingsManager::DeleteMarks(cSv hash)
   }
 }
 
-int RecordingsManager::DeleteRecording(cSv recording_hash, std::string *name)
+int RecordingsManager::DeleteRecording(cSv hash, std::string *name)
 {
+  if (hash.length() != 32) dsyslog3("hash = \"", hash, "\"");
   std::string fileName;
   {
     LOCK_RECORDINGS_READ;
-    const cRecording *recording = RecordingsManager::GetByHash(recording_hash, Recordings);
+    const cRecording *recording = RecordingsManager::GetByHash(hash, Recordings);
     if (!recording) return 1;
     fileName = recording->FileName();
   }
@@ -290,7 +300,7 @@ int RecordingsManager::DeleteRecording(cSv recording_hash, std::string *name)
   LOCK_TIMERS_WRITE;     // must be before LOCK_RECORDINGS_WRITE
   Timers->SetExplicitModify();
   LOCK_RECORDINGS_WRITE;
-  cRecording *recording = const_cast<cRecording *>(RecordingsManager::GetByHash(recording_hash, Recordings));
+  cRecording *recording = const_cast<cRecording *>(RecordingsManager::GetByHash(hash, Recordings));
   if (!recording) return 1;
   fileName = recording->FileName();  // should not be required, but there is a short time without a lock ...
   if (name) *name = cSv(recording->Name());
@@ -351,11 +361,12 @@ int RecordingsManager::DeleteRecording(cSv recording_hash, std::string *name)
   }
   return result?0:3;
 }
-int RecordingsManager::RestoreRecording(cSv recording_hash, std::string *name) {
+int RecordingsManager::RestoreRecording(cSv hash, std::string *name) {
+  if (hash.length() != 32) dsyslog3("hash = \"", hash, "\"");
 #if VDRVERSNUM >= 20708
   LOCK_RECORDINGS_WRITE
   LOCK_DELETEDRECORDINGS_WRITE
-  cRecording *recording = const_cast<cRecording *>(RecordingsManager::GetByHash(recording_hash, DeletedRecordings));
+  cRecording *recording = const_cast<cRecording *>(RecordingsManager::GetByHash(hash, DeletedRecordings));
   if (!recording) return 1;
   if (name) *name = cSv(recording->Name());
 
@@ -370,10 +381,11 @@ int RecordingsManager::RestoreRecording(cSv recording_hash, std::string *name) {
   return 5;
 #endif
 }
-int RecordingsManager::PurgeRecording(cSv recording_hash, std::string *name) {
+int RecordingsManager::PurgeRecording(cSv hash, std::string *name) {
+  if (hash.length() != 32) dsyslog3("hash = \"", hash, "\"");
 #if VDRVERSNUM >= 20708
   LOCK_DELETEDRECORDINGS_WRITE
-  cRecording *recording = const_cast<cRecording *>(RecordingsManager::GetByHash(recording_hash, DeletedRecordings));
+  cRecording *recording = const_cast<cRecording *>(RecordingsManager::GetByHash(hash, DeletedRecordings));
   if (!recording) return 1;
   if (name) *name = cSv(recording->Name());
 
@@ -391,70 +403,70 @@ int RecordingsManager::PurgeRecording(cSv recording_hash, std::string *name) {
 
 
 
-int get_number_of_objects(cSv hash) {
-  if (hash.length() == 10) return 0;
-  if (hash.length() == 42) return 1;
-  return std::count(hash.begin()+10, hash.end(), '_');
+int get_number_of_objects(cSv recordings_hash) {
+  if (recordings_hash.length() == 10) return 0;
+  if (recordings_hash.length() == 42) return 1;
+  return std::count(recordings_hash.begin()+10, recordings_hash.end(), '_');
 }
 
-std::vector<std::string> RecordingsManager_object_names(cSv hash) {
+std::vector<std::string> RecordingsManager_object_names(cSv recordings_hash) {
   std::vector<std::string> result;
-  if (hash.length() == 42) {
-    result.push_back(std::string(cSv(RecordingsManager::GetNameByHash(hash))));
+  if (recordings_hash.length() == 42) {
+    result.push_back(std::string(cSv(RecordingsManager::GetNameByHash(RecordingsManager::GetHash(recordings_hash)))));
   } else {
-    for (cSv id: cSplit(hash.substr(10), '_')) if (id.length() == 32) {
-      const char *name = RecordingsManager::GetNameByHash(cToSvConcat("recording_", id));
+    for (cSv id: cSplit(recordings_hash.substr(10), '_')) if (id.length() == 32) {
+      const char *name = RecordingsManager::GetNameByHash(id);
       result.push_back(std::string(cSv(name)));
     }
   }
   return result;
 }
-std::string RecordingsManager_DeleteConfirmationQuestion(cSv hash) {
-  int num_recs = get_number_of_objects(hash);
+std::string RecordingsManager_DeleteConfirmationQuestion(cSv recordings_hash) {
+  int num_recs = get_number_of_objects(recordings_hash);
   if (num_recs == 0) return tr("Nothing selected!");
   if (num_recs == 1) {
-    const char *name = RecordingsManager::GetNameByHash(hash.substr(0, 42));
+    const char *name = RecordingsManager::GetNameByHash(RecordingsManager::GetHash(recordings_hash.substr(0, 42)));
     if (name) return std::string(cToSvFormatted(tr("Delete recording \"%s\"?"), name));
     return tr("Delete recording [recording name unavailable]?");
   }
   return std::string(cToSvFormatted(tr("Delete the following %i recordings?"), num_recs));
 }
-std::string RecordingsManager_RestoreConfirmationQuestion(cSv hash) {
-  int num_recs = get_number_of_objects(hash);
+std::string RecordingsManager_RestoreConfirmationQuestion(cSv recordings_hash) {
+  int num_recs = get_number_of_objects(recordings_hash);
   if (num_recs == 0) return tr("Nothing selected!");
   if (num_recs == 1) {
-    const char *name = RecordingsManager::GetNameByHash(hash.substr(0, 42));
+    const char *name = RecordingsManager::GetNameByHash(RecordingsManager::GetHash(recordings_hash.substr(0, 42)));
     if (name) return std::string(cToSvFormatted(tr("Restore recording \"%s\"?"), name));
     return tr("Restore recording [recording name unavailable]?");
   }
   return std::string(cToSvFormatted(tr("Restore the following %i recordings?"), num_recs));
 }
-std::string RecordingsManager_PurgeConfirmationQuestion(cSv hash) {
-  int num_recs = get_number_of_objects(hash);
+std::string RecordingsManager_PurgeConfirmationQuestion(cSv recordings_hash) {
+  int num_recs = get_number_of_objects(recordings_hash);
   if (num_recs == 0) return tr("Nothing selected!");
   if (num_recs == 1) {
-    const char *name = RecordingsManager::GetNameByHash(hash.substr(0, 42));
+    const char *name = RecordingsManager::GetNameByHash(RecordingsManager::GetHash(recordings_hash.substr(0, 42)));
     if (name) return std::string(cToSvFormatted(tr("Permanently delete recording \"%s\"?"), name));
     return tr("Permanently delete recording [recording name unavailable]?");
   }
   return std::string(cToSvFormatted(tr("Permanently delete the following %i recordings?"), num_recs));
 }
 
-int RecordingsManager_DeleteRecording(cSv hash, std::string &message) {
+int RecordingsManager_DeleteRecording(cSv recordings_hash, std::string &message) {
   int result = 0;
   std::string name;
-  if (hash.length() == 42) {
-    result = RecordingsManager::DeleteRecording(hash, &name);
+  if (recordings_hash.length() == 42) {
+    result = RecordingsManager::DeleteRecording(RecordingsManager::GetHash(recordings_hash), &name);
     switch (result) {
-      case 0: message = concat("Successfully deleted recording ID ", hash, " name ", name); break;
-      case 1: message = concat("Error deleting recording: Couldn't find recording ID ", hash); break;
-      case 2: message = concat("Error deleting recording: Couldn't set timer to inactive, recording ID ", hash); break;
-      default: message = concat("Error deleting recording: other error, recording ID ", hash); break;
+      case 0: message = concat("Successfully deleted recording ID ", recordings_hash, " name ", name); break;
+      case 1: message = concat("Error deleting recording: Couldn't find recording ID ", recordings_hash); break;
+      case 2: message = concat("Error deleting recording: Couldn't set timer to inactive, recording ID ", recordings_hash); break;
+      default: message = concat("Error deleting recording: other error, recording ID ", recordings_hash); break;
     }
   } else {
     message.clear();
-    for (cSv id: cSplit(hash.substr(10), '_')) if (id.length() == 32) {
-      int res= RecordingsManager::DeleteRecording(cToSvConcat("recording_", id), &name);
+    for (cSv id: cSplit(recordings_hash.substr(10), '_')) if (id.length() == 32) {
+      int res= RecordingsManager::DeleteRecording(id, &name);
       if (res!= 0) {
         switch (res) {
           case 1: message.append("Error deleting recording: Couldn't find recording ID "); break;
@@ -469,20 +481,20 @@ int RecordingsManager_DeleteRecording(cSv hash, std::string &message) {
   }
   return result;
 }
-int RecordingsManager_RestoreRecording(cSv hash, std::string &message) {
+int RecordingsManager_RestoreRecording(cSv recordings_hash, std::string &message) {
   int result = 0;
   std::string name;
-  if (hash.length() == 42) {
-    result = RecordingsManager::RestoreRecording(hash, &name);
+  if (recordings_hash.length() == 42) {
+    result = RecordingsManager::RestoreRecording(RecordingsManager::GetHash(recordings_hash), &name);
     switch (result) {
-      case 0: message = concat("Sucessfully restored recording ID ", hash, " name ", name); break;
-      case 1: message = concat("Error restoring recording: Couldn't find recording ID ", hash); break;
-      default: message = concat("Error restoring recording: other errror, recording ID ", hash); break;
+      case 0: message = concat("Sucessfully restored recording ID ", recordings_hash, " name ", name); break;
+      case 1: message = concat("Error restoring recording: Couldn't find recording ID ", recordings_hash); break;
+      default: message = concat("Error restoring recording: other errror, recording ID ", recordings_hash); break;
     }
   } else {
     message.clear();
-    for (cSv id: cSplit(hash.substr(10), '_')) if (id.length() == 32) {
-      int res= RecordingsManager::RestoreRecording(cToSvConcat("recording_", id), &name);
+    for (cSv id: cSplit(recordings_hash.substr(10), '_')) if (id.length() == 32) {
+      int res= RecordingsManager::RestoreRecording(id, &name);
       if (res!= 0) {
         switch (res) {
           case 1: message.append("Error restoring recording: Couldn't find recording ID "); break;
@@ -496,20 +508,20 @@ int RecordingsManager_RestoreRecording(cSv hash, std::string &message) {
   }
   return result;
 }
-int RecordingsManager_PurgeRecording(cSv hash, std::string &message) {
+int RecordingsManager_PurgeRecording(cSv recordings_hash, std::string &message) {
   int result = 0;
   std::string name;
-  if (hash.length() == 42) {
-    result = RecordingsManager::PurgeRecording(hash, &name);
+  if (recordings_hash.length() == 42) {
+    result = RecordingsManager::PurgeRecording(RecordingsManager::GetHash(recordings_hash), &name);
     switch (result) {
-      case 0: message = concat("Sucessfully deleted permanently recording ID ", hash, " name ", name); break;
-      case 1: message = concat("Error deleting permanently recording: Couldn't find recording ID ", hash); break;
-      default: message = concat("Error deleting permanently recording: other errror, recording ID ", hash); break;
+      case 0: message = concat("Sucessfully deleted permanently recording ID ", recordings_hash, " name ", name); break;
+      case 1: message = concat("Error deleting permanently recording: Couldn't find recording ID ", recordings_hash); break;
+      default: message = concat("Error deleting permanently recording: other errror, recording ID ", recordings_hash); break;
     }
   } else {
     message.clear();
-    for (cSv id: cSplit(hash.substr(10), '_')) if (id.length() == 32) {
-      int res= RecordingsManager::PurgeRecording(cToSvConcat("recording_", id), &name);
+    for (cSv id: cSplit(recordings_hash.substr(10), '_')) if (id.length() == 32) {
+      int res= RecordingsManager::PurgeRecording(id, &name);
       if (res!= 0) {
         switch (res) {
           case 1: message.append("Error deleting permanently recording: Couldn't find recording ID "); break;
@@ -563,7 +575,7 @@ bool RecordingsManager::StillRecording(const cRecording *recording) {
 */
 int RecordingsManager::CheckReplay(cSv recording_hash, std::string *fileName) {
   LOCK_RECORDINGS_READ;
-  const cRecording *recording = GetByHash(recording_hash, Recordings);
+  const cRecording *recording = GetByHash(RecordingsManager::GetHash(recording_hash), Recordings);
   if (!recording)  return 1;
   if (fileName) *fileName = cSv(recording->FileName());
   const char *current = cReplayControl::NowReplaying();

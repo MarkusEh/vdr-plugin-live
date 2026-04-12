@@ -288,7 +288,7 @@ cToSvConcat rfid;
 {
   const cRecording* recording = nullptr;
   LOCK_RECORDINGS_READ
-  if (!recid.empty()) recording = RecordingsManager::GetByHash(recid, Recordings);
+  if (!recid.empty()) recording = RecordingsManager::GetByHash(RecordingsManager::GetHash(recid), Recordings);
   if (recording) {
     struct stat st;
     if (stat(recording->FileName(), &st) == 0)

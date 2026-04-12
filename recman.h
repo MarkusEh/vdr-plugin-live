@@ -100,6 +100,11 @@ namespace vdrlive {
       static const std::vector<RecordingsItemRec*> *allRecordings(eSortOrder sortOrder, int recycle_bin);
 
       /**
+       *  get 32 byte hash from 42 byte recording_hash
+       *  cSv() in case of an error
+       */
+      static cSv GetHash(cSv recording_hash);
+      /**
        *  fetches a cRecording from VDR's Recordings collection. Returns
        *  NULL if recording was not found
        */
@@ -147,14 +152,14 @@ namespace vdrlive {
        *  If name is provided, it is set to recording->Name()  (name for use in Menues)
        *  return:
        *    0 success
-       *    1 no recording with recording_hash exists (name will not be provided ...)
+       *    1 no recording with hash exists (name will not be provided ...)
        *    2 recording is in use
        *    3 other error (recording->Delete() returned false)
        */
-      static int DeleteRecording(cSv recording_hash, std::string *name = nullptr);
+      static int DeleteRecording(cSv hash, std::string *name = nullptr);
 
-      static int RestoreRecording(cSv recording_hash, std::string *name = nullptr);
-      static int PurgeRecording(cSv recording_hash, std::string *name = nullptr);
+      static int RestoreRecording(cSv hash, std::string *name = nullptr);
+      static int PurgeRecording(cSv hash, std::string *name = nullptr);
 
       /**
        *  Determine whether the recording has been archived on
@@ -202,13 +207,13 @@ namespace vdrlive {
     private:
       static bool StateChanged();
   };
-  std::string RecordingsManager_DeleteConfirmationQuestion(cSv hash);
-  std::string RecordingsManager_RestoreConfirmationQuestion(cSv hash);
-  std::string RecordingsManager_PurgeConfirmationQuestion(cSv hash);
-  std::vector<std::string> RecordingsManager_object_names(cSv hash);
-  int RecordingsManager_DeleteRecording(cSv hash, std::string &message);
-  int RecordingsManager_RestoreRecording(cSv hash, std::string &message);
-  int RecordingsManager_PurgeRecording(cSv hash, std::string &message);
+  std::string RecordingsManager_DeleteConfirmationQuestion(cSv recordings_hash);
+  std::string RecordingsManager_RestoreConfirmationQuestion(cSv recordings_hash);
+  std::string RecordingsManager_PurgeConfirmationQuestion(cSv recordings_hash);
+  std::vector<std::string> RecordingsManager_object_names(cSv recordings_hash);
+  int RecordingsManager_DeleteRecording(cSv recordings_hash, std::string &message);
+  int RecordingsManager_RestoreRecording(cSv recordings_hash, std::string &message);
+  int RecordingsManager_PurgeRecording(cSv recordings_hash, std::string &message);
 
   /**
    * Class containing possible recordings compare functions

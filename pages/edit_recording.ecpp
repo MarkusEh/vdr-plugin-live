@@ -55,8 +55,8 @@ std::string active_r;
     if (name.empty())
       message = tr("Please set a name for the recording!");
     else  {
-      if (delresume == "delresume") RecordingsManager::DeleteResume(recid);
-      if (delmarks == "delmarks") RecordingsManager::DeleteMarks(recid);
+      if (delresume == "delresume") RecordingsManager::DeleteResume(RecordingsManager::GetHash(recid));
+      if (delmarks == "delmarks") RecordingsManager::DeleteMarks(RecordingsManager::GetHash(recid));
       bool copy_only = false;
       if (copy == "copy") copy_only = true;
       if (newdir != ".") directory = newdir;
@@ -68,7 +68,7 @@ std::string active_r;
         normalizedDescription.replaceAll("\n\n", "\n");
       }
       int parentalRating = rating.empty() ? -1 : parse_int<int>(rating);
-      if (RecordingsManager::UpdateRecording(recid, directory, name, copy_only, title, shorttext, normalizedDescription, parentalRating))
+      if (RecordingsManager::UpdateRecording(RecordingsManager::GetHash(recid), directory, name, copy_only, title, shorttext, normalizedDescription, parentalRating))
         returnToReferer = true;
       else
         message = tr("Cannot copy, rename or move the recording.");
@@ -89,7 +89,7 @@ std::string active_r;
     bool search_timer = false;
     {
       LOCK_RECORDINGS_READ;
-      const cRecording* recording = RecordingsManager::GetByHash(recid, Recordings);
+      const cRecording* recording = RecordingsManager::GetByHash(RecordingsManager::GetHash(recid), Recordings);
       if (recording && recording->Info()) {
         const cRecordingInfo *info = recording->Info();
         name = recording->BaseName();

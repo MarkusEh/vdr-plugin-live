@@ -34,7 +34,7 @@ std::string recording_FileName;
 bool recording_IsPesRecording = false;
 {
   LOCK_RECORDINGS_READ;
-  const cRecording *recording = RecordingsManager::GetByHash(recid, Recordings);
+  const cRecording *recording = RecordingsManager::GetByHash(RecordingsManager::GetHash(recid), Recordings);
   if (recording) {
     recording_FileName = recording->FileName();
     recording_IsPesRecording = recording->IsPesRecording();

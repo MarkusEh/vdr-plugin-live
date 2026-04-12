@@ -353,7 +353,7 @@ function addEventListString(col_span, events) {
 
 function get_disable_popup_storage_name(id) {
   if (id.endsWith('_') ) {
-    return "disable_popup_" + id.substring(0, 3) + "_ms";   // ms for multible selection
+    return "disable_popup_" + id.substring(0, 3) + "_ms";   // ms for multiple selection
   } else {
     return "disable_popup_" + id.substring(0, 3);
   }

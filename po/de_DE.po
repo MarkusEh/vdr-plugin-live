@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 3.5.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-11 11:47+0200\n"
+"POT-Creation-Date: 2026-04-11 21:09+0200\n"
 "PO-Revision-Date: 2026-01-27 20:15+0200\n"
 "Last-Translator: Stefan Hofmann <info@stefans-galerie.de>\n"
 "Language-Team: see developers in README\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "Nothing selected!"
-msgstr "Kein Auswahl getroffen!"
+msgstr "Keine Auswahl getroffen!"
 
 #, c-format
 msgid "Delete recording \"%s\"?"
@@ -977,12 +977,6 @@ msgstr "Für Fehler oder Verbesserungsvorschläge steht unser Bug-Tracker bereit
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "Kann Kanal nicht finden oder keine Kanäle verfügbar. Ist die Anfrage korrekt?"
 
-msgid "Deleted recording:"
-msgstr "Gelöschte Aufzeichnung:"
-
-msgid "Permanently deleted recording:"
-msgstr "Dauerhaft gelöschte Aufzeichnung:"
-
 msgid "List of recordings"
 msgstr "Liste der Aufzeichnungen"
 
@@ -1292,6 +1286,12 @@ msgstr "Aufzeichnung dauerhaft löschen"
 
 msgid "Delete permanently"
 msgstr "Dauerhaft löschen"
+
+#~ msgid "Deleted recording:"
+#~ msgstr "Gelöschte Aufzeichnung:"
+
+#~ msgid "Permanently deleted recording:"
+#~ msgstr "Dauerhaft gelöschte Aufzeichnung:"
 
 #, c-format
 #~ msgid "Delete the following recordings?"

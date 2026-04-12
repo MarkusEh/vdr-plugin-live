@@ -993,13 +993,26 @@ div.info-win.aboutBox {
   min-width: calc(3 * var(--margin-left-right) + 2 * var(--margin-left-right) + 2 * var(--infowin-label-width) + 15px );
 }
 
+div.info-win {
+  --confirmation-title-bar-height: calc(var(--infowin-title-height) + 2 * var(--text-line-gap));
+  --confirmation-prompt-height: calc(2 * var(--infowin-border-width) + 2 * var(--margin-top-bottom) + 1lh);
+  --confirmation-list-height: calc(var(--margin-top-bottom) + 2 * var(--text-line-gap) + 1lh);
+  --confirmation-warning-height: calc(var(--margin-top-bottom) + 1lh);
+  --confirmation-label-height: calc(var(--margin-top-bottom) + 1lh);
+  --confirmation-form-height: calc(8 * var(--margin-top-bottom) + var(--infowin-border-width) + var(--button-height));
+}
+
 div.info-win.info-del,
 div.info-win.info-des,
 div.info-win.info-det,
 div.info-win.info-pur,
 div.info-win.info-res {
   min-width: calc(3 * var(--margin-left-right) + 2 * var(--infowin-body-margin) + 2 * var(--infowin-label-width) + 15px );
-  min-height: calc(var(--infowin-title-height) + 2 * var(--text-line-height) + 10 * var(--margin-top-bottom));
+  min-height: calc(var(--confirmation-title-bar-height) + var(--confirmation-prompt-height) + var(--confirmation-label-height) + var(--confirmation-form-height));
+}
+
+div.info-win.info-pur {
+  min-height: calc(var(--confirmation-title-bar-height) + var(--confirmation-prompt-height) + var(--confirmation-warning-height) + var(--confirmation-label-height) + var(--confirmation-form-height));
 }
 
 div.info-win.info-del:has(.object-list),
@@ -1007,9 +1020,22 @@ div.info-win.info-des:has(.object-list),
 div.info-win.info-det:has(.object-list),
 div.info-win.info-pur:has(.object-list),
 div.info-win.info-res:has(.object-list) {
-  min-height: calc(var(--infowin-title-height) + 3 * var(--text-line-height) + 0lh + 0 * var(--text-line-gap) + 10 * var(--margin-top-bottom));
+  min-height: calc(var(--confirmation-title-bar-height) + var(--confirmation-prompt-height) + var(--confirmation-list-height) + var(--confirmation-label-height) + var(--confirmation-form-height));
   max-height: 70svh;
 }
+
+div.info-win.info-pur:has(.object-list) {
+  min-height: calc(var(--confirmation-title-bar-height) + var(--confirmation-prompt-height) + var(--confirmation-list-height) + var(--confirmation-warning-height) + var(--confirmation-label-height) + var(--confirmation-form-height));
+}
+
+div.info-win.info-del:not(:has(.label)),
+div.info-win.info-des:not(:has(.label)),
+div.info-win.info-det:not(:has(.label)),
+div.info-win.info-pur:not(:has(.label)),
+div.info-win.info-res:not(:has(.label)) {
+  min-height: calc(var(--confirmation-title-bar-height) + var(--confirmation-prompt-height) + var(--confirmation-form-height));
+}
+
 
 .info-win .info-win-top {
   display: flex;
@@ -3009,6 +3035,7 @@ div.epg_content.confirmation div.object-list ol > li {
   margin: var(--text-line-gap) 0px;
 }
 
+div.epg_content.confirmation div.label,
 div.epg_content.confirmation div.message {
   padding: var(--margin-top-bottom)  var(--margin-left-right) 0px var(--margin-left-right);
 }

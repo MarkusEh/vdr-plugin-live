@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-11 12:11+0200\n"
+"POT-Creation-Date: 2026-04-11 21:09+0200\n"
 "PO-Revision-Date: 2025-10-05 18:19+0200\n"
 "Last-Translator: Tomasz Maciej Nowak <tomek_n@o2.pl>\n"
 "Language-Team: see developers in README\n"
@@ -976,12 +976,6 @@ msgstr "Jeśli znajdziesz jakieś błędy lub chciałbyś zasugerować nowe funk
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "Nie można odnaleźć kanału lub kanały nie są dostępne. Literówka?"
 
-msgid "Deleted recording:"
-msgstr "Usunięto nagranie:"
-
-msgid "Permanently deleted recording:"
-msgstr ""
-
 msgid "List of recordings"
 msgstr "Lista nagrań"
 
@@ -1300,6 +1294,9 @@ msgstr ""
 
 #~ msgid "Couldn't find recording. Maybe you mistyped your request?"
 #~ msgstr "Nie można odnaleźć nagrania. Literówka?"
+
+#~ msgid "Deleted recording:"
+#~ msgstr "Usunięto nagranie:"
 
 #~ msgid "Couldn't find recording or no recordings available."
 #~ msgstr "Nie można odnaleźć nagrania lub nagranie nie jest dostępne."

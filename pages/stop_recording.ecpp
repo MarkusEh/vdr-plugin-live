@@ -24,7 +24,7 @@ using namespace vdrlive;
   const char *error_message = "";
   {
     LOCK_RECORDINGS_READ;
-    const cRecording *recording = RecordingsManager::GetByHash(param, Recordings);
+    const cRecording *recording = RecordingsManager::GetByHash(RecordingsManager::GetHash(param), Recordings);
     if (!recording)
       error_message = tr("Couldn't find recording or no recordings available");
   }

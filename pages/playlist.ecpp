@@ -43,7 +43,7 @@ using namespace vdrlive;
   } else {
 // stream recording
     LOCK_RECORDINGS_READ;
-    const cRecording* recording = RecordingsManager::GetByHash(recid, Recordings);
+    const cRecording* recording = RecordingsManager::GetByHash(RecordingsManager::GetHash(recid), Recordings);
     cToSvConcat rfid;
     if (LiveFeatures<features::streamdev_server>().Loaded()) {
       if (recording) {

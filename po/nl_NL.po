@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-11 12:11+0200\n"
+"POT-Creation-Date: 2026-04-11 21:09+0200\n"
 "PO-Revision-Date: 2025-10-03 20:15+0200\n"
 "Last-Translator: Carel Willemse <carel@nekanali.nl>\n"
 "Language-Team: see developers in README\n"
@@ -977,12 +977,6 @@ msgstr "Als u een bug vindt of nieuwe mogelijkheden wenst, bezoek dan onze bugtr
 msgid "Couldn't find channel or no channels available. Maybe you mistyped your request?"
 msgstr "Kon geen kanaal vinden of kanaal is niet beschikbaar, misschien een typefout in het verzoek?"
 
-msgid "Deleted recording:"
-msgstr "Gewiste opnamen:"
-
-msgid "Permanently deleted recording:"
-msgstr ""
-
 msgid "List of recordings"
 msgstr "Lijst van opnamen"
 
@@ -1301,6 +1295,9 @@ msgstr ""
 
 #~ msgid "Couldn't find recording. Maybe you mistyped your request?"
 #~ msgstr "Kon opname niet vinden, misschien een typefout in het verzoek?"
+
+#~ msgid "Deleted recording:"
+#~ msgstr "Gewiste opnamen:"
 
 #~ msgid "Couldn't find recording or no recordings available."
 #~ msgstr "Kon geen opnamen vinden, of geen opnamen beschikbaar."
