@@ -134,7 +134,7 @@ function saveSelection(form)
     }
   }
   if (checkboxes.length > 0) {
-    createCookie(cookieNameSelection, checkboxes.join(','), 1);
+    sessionStorage.setItem(sessionStorageNameSelection, checkboxes.join(','));
   } else {
     clearSavedSelection();
   }
@@ -143,8 +143,9 @@ function saveSelection(form)
 function restoreSelection()
 {
   clearCheckboxes(document.getElementById('form_recordings'));
-  const cookie = readCookie(cookieNameSelection);
-  for (const id of cookie?.split(',') ?? []) {
+
+  let c = sessionStorage.getItem(sessionStorageNameSelection);
+  for (const id of c?.split(',') ?? []) {
     const fldr_hash = id.split('_')[1];
     const input = document.getElementById(id);
     if (input?.type == 'checkbox') {
@@ -155,7 +156,7 @@ function restoreSelection()
 
 function clearSavedSelection()
 {
-  eraseCookie(cookieNameSelection);
+  sessionStorage.setItem(sessionStorageNameSelection, "");
 }
 
 function updateCookieOnExpand( id )
@@ -256,7 +257,7 @@ function CollapseAll()
 
 const cookieNamePrefix = "VDR-Live-Recordings-Tree";
 const cookieNameOpenNodes = cookieNamePrefix + "-Open-Nodes";
-const cookieNameSelection = cookieNamePrefix + "-Selection";
+const sessionStorageNameSelection = cookieNamePrefix + "-Selection";
 
 async function DOMContentLoaded_() {
   await openNodesOnPageLoad();

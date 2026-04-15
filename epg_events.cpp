@@ -390,7 +390,6 @@ namespace vdrlive
       m_endTime = (length < 0) ? m_startTime : m_startTime + length;
       m_resume = recording->GetResume();
       m_numFrames = recording->NumFrames();
-      m_archived = RecordingsManager::GetArchiveDescr(recording);
       InitializeScraperVideo(nullptr, recording);
     }
 

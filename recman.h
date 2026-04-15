@@ -157,24 +157,8 @@ namespace vdrlive {
        *    3 other error (recording->Delete() returned false)
        */
       static int DeleteRecording(cSv hash, std::string *name = nullptr);
-
       static int RestoreRecording(cSv hash, std::string *name = nullptr);
       static int PurgeRecording(cSv hash, std::string *name = nullptr);
-
-      /**
-       *  Determine whether the recording has been archived on
-       *  removable media (e.g. DVD-ROM)
-       */
-      static int GetArchiveType(cRecording const * recording);
-
-      /**
-       *  Provide an identification of the removable media
-       *  (e.g. DVD-ROM Number or Name) where the recording has
-       *  been archived.
-       */
-      static std::string const GetArchiveId(cRecording const * recording, int archiveType);
-
-      static std::string const GetArchiveDescr(cRecording const * recording);
 
       /**
        *  Is this recording still recording?
@@ -201,7 +185,7 @@ namespace vdrlive {
        *    3: another recording is played
        *  Also return *fileName=recording->FileName() if requested
        */
-      static int CheckReplay(cSv recording_hash, std::string *fileName = nullptr);
+      static int CheckReplay(cSv hash, std::string *fileName = nullptr);
 
       static void EnsureValidData();
     private:

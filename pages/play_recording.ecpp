@@ -28,7 +28,7 @@ using namespace vdrlive;
   const char *error_message = "";
   std::string fileName;
 
-  switch (RecordingsManager::CheckReplay(param, &fileName)) {
+  switch (RecordingsManager::CheckReplay(RecordingsManager::GetHash(param), &fileName)) {
     case 0:
       {
 #if APIVERSNUM >= 20402

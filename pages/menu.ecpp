@@ -8,9 +8,10 @@ using namespace vdrlive;
 
 </%pre>
 <%args>
-active;
-component;
-filter;
+std::string active;
+std::string component;
+std::string filter;
+int recycle_bin = -1;  // -1: no change; 0: do not display deleted recordings; 1: display deleted recordings
 </%args>
 <%session scope="global">
 bool logged_in(false);
@@ -58,9 +59,9 @@ if ( LiveFeatures<features::epgsearch>().Recent() ) {
 }
 </%cpp>
       <span class="sep">|</span>
-      <a href="recordings.html?flat=false&filter=<$filter$>"<& menu.setactive current=("recordings") &>><$ tr("Recordings") $></a>
+      <a href="recordings.html?flat=false&filter=<$filter$>&recycle_bin=<$recycle_bin$>"<& menu.setactive current=("recordings") &>><$ tr("Recordings") $></a>
       <span class="sep">|</span>
-      <a href="recordings.html?flat=true&filter=<$filter$>"<& menu.setactive current=("recordings_flat") &>><$ tr("Recordings (flat)") $></a>
+      <a href="recordings.html?flat=true&filter=<$filter$>&recycle_bin=<$recycle_bin$>"<& menu.setactive current=("recordings_flat") &>><$ tr("Recordings (flat)") $></a>
       <span class="sep">|</span>
       <a href="remote.html"<& menu.setactive current=("remote") &>><$ tr("Remote Control") $></a>
 <%cpp>

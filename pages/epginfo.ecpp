@@ -131,15 +131,15 @@ using namespace vdrlive;
       AppendDuration(start, tr("(%d:%02d)"), epgEvent.Duration());
     }
 
-    std::string tools_component;
+    const char *tools_component="";
     if (isRecording) {
-      tools_component = epgEvent.Archived().empty() ? "recordings.rec_tools" : "recordings.archived_disc" ;
+      tools_component = "recordings.rec_tools";
     }
     if (isEvent)
       tools_component = "epginfo.epgTools";
 
 </%cpp>
-    <& pageelems.epg_tt_box boxId=(epgEvent.Id()) caption=(epgEvent.Caption()) tools_comp=(tools_component) time=(start) title=(epgEvent.Title()) short_descr=(epgEvent.ShortDescr()) long_descr=(epgEvent.LongDescr()) archived=(epgEvent.Archived()) elapsed=(epgEvent.Elapsed()) channel=(epgEvent.ChannelName()) filename=(epgEvent.FileName()) epgImage=(epgImage) iepgEvent=(i_epgEvent) sort=(sort) filter=(filter) flat=(flat) history_num_back=(history_num_back) &>
+    <& pageelems.epg_tt_box boxId=(epgEvent.Id()) caption=(epgEvent.Caption()) tools_comp=(tools_component) time=(start) title=(epgEvent.Title()) short_descr=(epgEvent.ShortDescr()) long_descr=(epgEvent.LongDescr()) elapsed=(epgEvent.Elapsed()) channel=(epgEvent.ChannelName()) filename=(epgEvent.FileName()) epgImage=(epgImage) iepgEvent=(i_epgEvent) sort=(sort) filter=(filter) flat=(flat) history_num_back=(history_num_back) &>
 <%cpp>
   }
   if (aboutBox) {

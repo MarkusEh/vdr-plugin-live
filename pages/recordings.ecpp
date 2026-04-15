@@ -19,12 +19,10 @@ using namespace vdrlive;
 </%pre>
 <%args>
   std::string sort;
-  std::string diskinfo;
   std::string filter;
-  std::string deleted;
   std::string flat;
   int history_num_back = 0;
-  int recycle_bin = 0;  // set this to 1 to display the deleted recordings
+  int recycle_bin = -1;  // -1: no change; 0: do not display deleted recordings; 1: display deleted recordings
 </%args>
 <%session scope="global">
   bool logged_in(false);
@@ -36,15 +34,21 @@ using namespace vdrlive;
 <# scope="page" should be enough but does not work with tntnet 3.0 #>
 <%request scope="global">
   std::string currentSort;
-  std::string deleteResult;
   std::string currentFilter;
   std::string currentFlat;
-  int currentRecycle_bin = 0;
+  int currentRecycle_bin(-1);
 </%request>
 
 <%include>page_init.eh</%include>
 <%cpp>
 std::chrono::time_point<std::chrono::high_resolution_clock> timeStart = std::chrono::high_resolution_clock::now();
+
+if (!currentSort.empty() || !currentFilter.empty() || !currentFlat.empty() || currentRecycle_bin != -1) {
+// this is to verify my understanding that a request starts with calling this page, i.e. here
+// -> we are at the beginning of a request
+// -> all request parameters must have their initial value
+dsyslog2("ERROR in recordings.ecpp, request parameters are not initial, currentSort = ", currentSort, " currentFilter = ", currentFilter, " currentFlat = ", currentFlat, " currentRecycle_bin = ", currentRecycle_bin);
+}
 
 reply.setHeader (tnt::httpheader::cacheControl, "no-store, no-cache, max-age=0, must-revalidate, proxy-revalidate", true);
 if (!logged_in && LiveSetup().UseAuth()) {
@@ -53,23 +57,13 @@ if (!logged_in && LiveSetup().UseAuth()) {
   return reply.redirect(targetUrl.data());
 }
 
-if (recycle_bin == 1) {
-  pageTitle = trVDR("Deleted recordings");
-} else {
-  recycle_bin = 0;  //only 0&1 allowed, 0 is the default
-  pageTitle = trVDR("Recordings");
-}
-
-if (request.getMethod() != "POST") history_num_back = 0;  // we can go back in history to this page
-else ++history_num_back;  // we have to go back in history to a prev page, to avoid re-send of form data
-
 // create the "current" values of the global request parameters, based on their old values and the current arguments
 // basically, this is a bad idea. Pushing "refresh" changes the sort order :( .
 // Better: Urls on menue have parameters depending on the current sort option
 if (! flat.empty() ) currentFlat = flat;
 // sort depends on old sort, and sort parameter
 currentSort = LiveSetup().GetLastSortingMode();
-if (currentSort.empty() ) currentFlat == "true"?currentSort = "errorsts":currentSort = "datedesc";
+if (currentSort.empty() ) currentSort = "datedesc";
 if (!sort.empty()) {
   if (sort == "date")
     currentSort = (currentSort == "datedesc") ? "dateasc" : "datedesc";
@@ -84,20 +78,29 @@ if (!sort.empty()) {
     currentSort = sort;
   LiveSetup().SetLastSortingMode(currentSort);
 }
-
-if (recycle_bin == 1 && currentSort == "duplicates") currentSort = "datedesc";
-
 currentFilter = filter;
 currentRecycle_bin = recycle_bin;
+if (currentRecycle_bin != 1) currentRecycle_bin = 0;  //only 0&1 allowed, 0 is the default
 
-deleteResult = "";
+if (currentRecycle_bin == 1 && currentSort == "duplicates") currentSort = "datedesc";
+
+
+if (currentRecycle_bin == 1) {
+  pageTitle = trVDR("Deleted recordings");
+} else {
+  pageTitle = trVDR("Recordings");
+}
+
+if (request.getMethod() != "POST") history_num_back = 0;  // we can go back in history to this page
+else ++history_num_back;  // we have to go back in history to a prev page, to avoid re-send of form data
+
 
 int FreeMB, UsedMB;
 int Percent = cVideoDirectory::VideoDiskSpace(&FreeMB, &UsedMB);
 int Minutes = int(double(FreeMB) / MB_PER_MINUTE);
 int Hours = Minutes / 60;
 Minutes %= 60;
-diskinfo = cString::sprintf("%s %d%%  -  %2d:%02d %s", trVDR("Disk"), Percent, Hours, Minutes, trVDR("free"));
+std::string diskinfo = std::string(cString::sprintf("%s %d%%  -  %2d:%02d %s", trVDR("Disk"), Percent, Hours, Minutes, trVDR("free")));
 
 
 // get data for all open nodes
@@ -125,7 +128,7 @@ const char *TNT_ARRAY = "";
     <& pageelems.create_html_js &>
     <& pageelems.ajax_js &>
 <script type="text/javascript">
-const recycle_bin = <$ recycle_bin $>;
+const recycle_bin = <$ currentRecycle_bin $>;
 const recordings_tree_creation = <$ cToSvInt(RecordingsManager::GetLastRecordingsUpdate(true) ) $>;
 const recs = [];
 const rec_ids = Object.create(null)
@@ -185,23 +188,15 @@ const char *active_r;
 if (flat == "true") active_r = "recordings_flat";
 else active_r = "recordings";
 
-if (!deleteResult.empty()) {
 </%cpp>
-  <& menu active=(active_r) component="recordings.delete_error" filter=(filter) &>
-<%cpp>
-} else {
-</%cpp>
-  <& menu active=(active_r) component="recordings.sort_options" filter=(filter) &>
-<%cpp>
-}
-</%cpp>
+  <& menu active=(active_r) component="recordings.sort_options" filter=(currentFilter) recycle_bin=(currentRecycle_bin) &>
   <div id="content">
     <div class="spacebar"><# spacer with fade-out effect #></div>
     <# we enclose the recordings in a table to allow width control through 'siteprefs.css'; #>
     <# do not classify as 'listing' to avoid row separators                                 #>
     <table class="recordings-list" cellspacing="0" cellpadding="0"><tbody>
     <tr class="head"><td>
-% if (recycle_bin == 0) {
+% if (currentRecycle_bin == 0) {
       <div class="boxheader"><div class="caption"><$ std::string(tr("List of recordings")) + " (" + diskinfo + ")" $></div></div>
 % } else {
       <div class="boxheader"><div class="caption"><$ std::string(tr("List of deleted recordings")) + " (" + diskinfo + ")" $></div></div>
@@ -210,7 +205,7 @@ if (!deleteResult.empty()) {
 <%cpp>
     int rec_cnt = -1;
 #if VDRVERSNUM >= 20708
-    if (recycle_bin == 1) {
+    if (currentRecycle_bin == 1) {
       LOCK_DELETEDRECORDINGS_READ;
       rec_cnt = DeletedRecordings->Count();  // Access VDRs global cRecordings Recordings instance.
     }
@@ -225,8 +220,8 @@ if (!deleteResult.empty()) {
       <# add the message in a table row beneath the header, because the message alone looks weird #>
       <tr class="recording_item">
         <td class="message">
-          <? recycle_bin == 0 ? tr("No recordings found") ?>
-          <? recycle_bin == 1 ? tr("No deleted recordings found") ?>
+          <? currentRecycle_bin == 0 ? tr("No recordings found") ?>
+          <? currentRecycle_bin == 1 ? tr("No deleted recordings found") ?>
         </td>
       </tr>
 <%cpp>
@@ -253,9 +248,9 @@ if (!deleteResult.empty()) {
           recItemRoot = duplicatesRecordingsTree->getRoot();
       } else {
         if (currentFlat == "true")
-          recItemRoot = std::make_shared<RecordingsItemDirFlat>(recycle_bin);
+          recItemRoot = std::make_shared<RecordingsItemDirFlat>(currentRecycle_bin);
         else
-          recItemRoot = RecordingsManager::GetRecordingsTree(recycle_bin)->getRoot();
+          recItemRoot = RecordingsManager::GetRecordingsTree(currentRecycle_bin)->getRoot();
       }
 
       uintptr_t irecording_item = (uintptr_t)&recording_item;
@@ -480,7 +475,7 @@ recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
 
 <# ---------------------------------------------------------------------- #>
 <%def sort_options>
-<%cpp> { </%cpp>
+% {
 <span class="label bold"><$ tr("Sort:") $> </span>
 <a href="recordings.html?sort=<$ (currentSort == "nameasc") ? "namedesc" : "nameasc"$>&filter=<? !currentFilter.empty() ? currentFilter ?>&flat=<$currentFlat$>&recycle_bin=<$currentRecycle_bin$>" <& setactive current="name" &> ><$ tr("Name") $></a>
 <span class="sep">|</span>
@@ -526,7 +521,7 @@ if (currentFlat != "true") {
 #endif
 </%cpp>
 <br />
-<%cpp> } </%cpp>
+% }
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -671,21 +666,4 @@ injectErrorHdSdIcon(\"icons-<$id$>\", <$cToSvInt(recPtr->RecordingErrors())$>, <
 <%cpp>
 }
 </%cpp>
-</%def>
-
-<# ---------------------------------------------------------------------- #>
-<%def archived_disc>
-<%args>
-  std::string archived;
-  std::string title;
-  std::string s_IMDB_ID;
-</%args>
-<img src="<$ LiveSetup().GetThemedLink("img", "on_dvd.png") $>" alt="on_dvd" <& tooltip.hint text=(archived) &> />
-<& pageelems.imdb_info_href title=(title) s_IMDB_ID=(s_IMDB_ID)&>
-</%def>
-
-<# ---------------------------------------------------------------------- #>
-<%def delete_error>
-<& recordings.sort_options &>
-<%cpp> { reply.out() << deleteResult; } </%cpp>
 </%def>

@@ -536,23 +536,6 @@ int RecordingsManager_PurgeRecording(cSv recordings_hash, std::string &message) 
   return result;
 }
 
-int RecordingsManager::GetArchiveType(cRecording const * recording)
-{
-// 1: on DVD
-// 2: on HDD
-// 0: "normal" VDR recording
-  return 0;
-}
-std::string const RecordingsManager::GetArchiveId(cRecording const * recording, int archiveType)
-{
-  return "";
-}
-
-std::string const RecordingsManager::GetArchiveDescr(cRecording const * recording)
-{
-  return std::string();
-}
-
 bool RecordingsManager::StillRecording(cSv RecordingFileName) {
   struct stat buffer;
   return stat(cToSvConcat(RecordingFileName, TIMERRECFILE).c_str(), &buffer) == 0;
@@ -573,11 +556,11 @@ bool RecordingsManager::StillRecording(const cRecording *recording) {
 *    2: no recording is played
 *    3: another recording is played
 */
-int RecordingsManager::CheckReplay(cSv recording_hash, std::string *fileName) {
+int RecordingsManager::CheckReplay(cSv hash, std::string *fileName) {
   LOCK_RECORDINGS_READ;
-  const cRecording *recording = GetByHash(RecordingsManager::GetHash(recording_hash), Recordings);
+  const cRecording *recording = GetByHash(hash, Recordings);
   if (!recording)  return 1;
-  if (fileName) *fileName = cSv(recording->FileName());
+  if (fileName) *fileName = recording->FileName();
   const char *current = cReplayControl::NowReplaying();
   if (!current) return 2;
   if (0 != strcmp(current, recording->FileName())) return 3;
