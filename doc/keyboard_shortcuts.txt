@@ -13,8 +13,8 @@ F1          Red             Red
 F2          Green           Green
 F3          Yellow          Yellow
 F4          Blue            Blue
-F5          Fast rewind     Schedule
-F6          Fast forward    Timers
+F5          FastRew         Schedule
+F6          FastFwd         Timers
 F7          —               Recordings
 F8          —               Channels
 F9          Menu            Setup

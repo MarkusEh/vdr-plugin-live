@@ -31,9 +31,9 @@ typedef struct {
 
 static const tKeyMap keyMap[] {
 //  https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values
-//  code  VDR key         SVG ID         Function key
-  { 0,   -1,              "aLive",       "",               trNOOP("Keyboard help") },  // tooltip only
-  { 0,   -1,              "aRemote",     "",               trNOOP("Keyboard help") },
+//  code   VDR key        SVG ID         Function key
+  { 0,     -1,            "aLive",       "",               trNOOP("Keyboard help") },  // tooltip only
+  { 0,     -1,            "aRemote",     "",               trNOOP("Keyboard help") },
   { 0,     kPower,        "kPower",      "Key$Power",      ""        },
   { 0x30,  k0,            "k0",          "",               ""        },  // digit keys are encoded literally
   { 0x31,  k1,            "k1",          "",               ""        },
@@ -62,7 +62,6 @@ static const tKeyMap keyMap[] {
   { 0x09,  kMenu,         "kMenu",       "Key$Menu",       "Tab"     },  // VK_TAB: Horizontal tab
 #else
   { 0x09,  kMenu,         "kMenu",       "Key$Menu",       "Tab, F9" },  // VK_TAB: Horizontal tab
-  { 0x78,  kMenu,          ""  ,         "",               ""        },  // VK_F9
 #endif
   { 0x1B,  kBack,         "kBack",       "Key$Back",       "Esc"     },  // VK_ESCAPE: Esc (Escape)
   { 0,     kSubtitles,    "kSubtitles",  "Key$Subtitles",  ""        },
@@ -86,7 +85,12 @@ static const tKeyMap keyMap[] {
   { 0,     kChannels,     "kChannels",   "Key$Channels",   ""        },
   { 0,     kSetup,        "kSetup",      "Key$Setup",      ""        },
   { 0,     kCommands,     "kCommands",   "Key$Commands",   ""        },
-  { 0,     kMute,         "kMute",       "Key$Mute",       "F10"     },
+  { 0x74,  kFastRew,      "",            "Key$FastRew",    "F5"      },  // VK_F5
+  { 0x75,  kFastFwd,      "",            "Key$FastFwd",    "F6"      },  // VK_F6
+  { 0x76,  -1,            "",            "",               ""        },  // VK_F7 - hide from browser
+  { 0x77,  -1,            "",            "",               ""        },  // VK_F8 - hide from browser
+  { 0x78,  kMenu,         ""  ,          "",               ""        },  // VK_F9
+  { 0x79,  kMute,         "kMute",       "Key$Mute",       "F10"     },  // VK_F10
 #endif
   { 0x7A,  kVolUp,        "kVolUp",      "Key$Volume-",    "F11"     },  // VK_F11
   { 0x7B,  kVolDn,        "kVolDn",      "Key$Volume+",    "F12"     }   // VK_F12
@@ -298,10 +302,10 @@ if (!logged_in && LiveSetup().UseAuth()) {
     return true;
   }
 
-  function KeyPress(keycode,DonotLoadOSD=false,repeat=1)
+  function KeyPress(keycode, DoNotLoadOSD = false, repeat = 1)
   {
     var req = new Ajax('keypress.xml', { method : 'post'});
-    if (!DonotLoadOSD && osdAjax)
+    if (!DoNotLoadOSD && osdAjax)
       req.addEvent('onComplete', OSDLoad);
     req.request('keycode=' + keycode + '&async=1&repeat='+repeat);
     return false;
@@ -337,16 +341,16 @@ if (!logged_in && LiveSetup().UseAuth()) {
     for (const item of keyMap) {
       const id = item.id;
       if (id) {
-        if(item.key != -1) {
+        if(item.key >= 0) {
           rcCodes[id] = item.key;
         }
         const button = document.getElementById(id);
         if (button) {
-          const xmlns = button.namespaceURI.endsWith('/svg') ? 'http://www.w3.org/1999/xlink' : '';
           if (item.tooltip) {
             button.setAttribute("title", item.tooltip);
           }
-          if (item.key == -1) {
+          if (item.key < 0) {
+            const xmlns = button.namespaceURI.endsWith('/svg') ? 'http://www.w3.org/1999/xlink' : '';
             button.setAttributeNS(xmlns, "href", "epginfo.html?epgid=rcKeys");
           }
         }
@@ -355,6 +359,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
       if (kbd) {
         kbdCodes[kbd] = item.key;
       }
+
     }
     if (typeof liveEnhanced !== 'undefined') {
       liveEnhanced.domReadySetup();
@@ -365,7 +370,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
   // submit mapped key to VDR
     const id = button.id;
     const key = rcCodes[id];
-    if (key) {
+    if (key >= 0) {
       KeyPress(key);
     }
   }
@@ -374,8 +379,11 @@ if (!logged_in && LiveSetup().UseAuth()) {
   // map keyboard event to VDR key
     const kbd = event.which;
     const key = kbdCodes[kbd];
-    if (key) {
+    if (key >= 0) {
       return KeyPress(key);
+    } else if (key < 0) {
+      // prevent the browser from handling the key
+      return false;
     } else if (event.key.length == 1) {
       switch (event.key) {
         // from the numerical pad
@@ -395,6 +403,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
         return KeyPress(<$ kKbd $> | utf << 16);
       }
     }
+    return true;
   }
 
   //--></script>
@@ -448,7 +457,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
       <div class="about_section">
         <div class="tabular">
 %         for (auto item: keyMap) {
-%           if (item.key != -1 && *item.id && item.tooltip && *item.tooltip) {
+%           if (item.kbd > 0 && item.key >= 0 && item.tooltip && *item.tooltip) {
               <div class="about_left"><$ cToSvReplace(trVDR(item.label), "-", "−") $></div>
               <div class="about_right"><$ item.tooltip $></div>
 %           }

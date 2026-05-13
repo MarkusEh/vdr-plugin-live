@@ -5,7 +5,7 @@ PLUGIN := live
 TNTFLAGS ?= -Wno-overloaded-virtual -Wno-unused-variable
 
 DEFINES += -DDISABLE_TEMPLATES_COLLIDING_WITH_STL
-DEFINES += -DNEW_RCKEYS
+# DEFINES += -DNEW_RCKEYS
 
 ### Includes and Defines (add further entries here):
 INCLUDES += -I$(VDRDIR)/include -I..

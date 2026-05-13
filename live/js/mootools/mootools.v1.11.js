@@ -1989,7 +1989,7 @@ Element.extend({
 	*/
 
 	remove: function(){
-		return this.parentNode?.removeChild(this);
+		return this.parentNode.removeChild(this);
 	},
 
 	/*

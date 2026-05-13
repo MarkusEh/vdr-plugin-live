@@ -1958,7 +1958,6 @@
        inkscape:label="kVolUp"
        onclick="ButtonClick(this)"><g
          id="gVolUp"
-         onclick="return KeyPress(this)"
          inkscape:label="gVolUp"><path
            id="circle18"
            style="display:inline;fill:url(#linearGradient19);stroke:url(#linearGradient20);stroke-width:0.769939;stroke-linejoin:round;stroke-miterlimit:6.7;paint-order:fill markers stroke"
@@ -1989,7 +1988,6 @@
        inkscape:label="k0"
        onclick="ButtonClick(this)"><g
          id="g0"
-         onclick="return KeyPress(this)"
          inkscape:label="g0"><path
            id="rect4707"
            style="display:inline;fill:url(#linearGradient4709);stroke:url(#linearGradient4710);stroke-width:0.84578;stroke-linejoin:round;stroke-miterlimit:6.7;paint-order:fill markers stroke"
@@ -2009,7 +2007,6 @@
        inkscape:label="k9"
        onclick="ButtonClick(this)"><g
          id="g9"
-         onclick="return KeyPress(this)"
          inkscape:label="g9"><path
            id="rect4703"
            style="display:inline;fill:url(#linearGradient4705);stroke:url(#linearGradient4706);stroke-width:0.845782;stroke-linejoin:round;stroke-miterlimit:6.7;paint-order:fill markers stroke"
@@ -2029,7 +2026,6 @@
        inkscape:label="k8"
        onclick="ButtonClick(this)"><g
          id="g8"
-         onclick="return KeyPress(this)"
          inkscape:label="g8"><path
            id="rect4698"
            style="display:inline;fill:url(#linearGradient4701);stroke:url(#linearGradient4702);stroke-width:0.845778;stroke-linejoin:round;stroke-miterlimit:6.7;paint-order:fill markers stroke"
@@ -2049,7 +2045,6 @@
        inkscape:label="k7"
        onclick="ButtonClick(this)"><g
          id="g7"
-         onclick="return KeyPress(this)"
          inkscape:label="g7"><path
            id="rect4694"
            style="display:inline;fill:url(#linearGradient4696);stroke:url(#linearGradient4697);stroke-width:0.845778;stroke-linejoin:round;stroke-miterlimit:6.7;paint-order:fill markers stroke"
@@ -2069,7 +2064,6 @@
        inkscape:label="k6"
        onclick="ButtonClick(this)"><g
          id="g6"
-         onclick="return KeyPress(this)"
          inkscape:label="g6"><path
            id="rect4690"
            style="display:inline;fill:url(#linearGradient4692);stroke:url(#linearGradient4693);stroke-width:0.84578;stroke-linejoin:round;stroke-miterlimit:6.7;paint-order:fill markers stroke"
@@ -2089,7 +2083,6 @@
        inkscape:label="k5"
        onclick="ButtonClick(this)"><g
          id="g5"
-         onclick="return KeyPress(this)"
          inkscape:label="g5"><path
            id="rect4686"
            style="display:inline;fill:url(#linearGradient4688);stroke:url(#linearGradient4689);stroke-width:0.845778;stroke-linejoin:round;stroke-miterlimit:6.7;paint-order:fill markers stroke"
@@ -2109,7 +2102,6 @@
        inkscape:label="k4"
        onclick="ButtonClick(this)"><g
          id="g4"
-         onclick="return KeyPress(this)"
          inkscape:label="g4"><path
            id="rect4681"
            style="display:inline;fill:url(#linearGradient4683);stroke:url(#linearGradient4684);stroke-width:0.845778;stroke-linejoin:round;stroke-miterlimit:6.7;paint-order:fill markers stroke"
@@ -2129,7 +2121,6 @@
        inkscape:label="k3"
        onclick="ButtonClick(this)"><g
          id="g3"
-         onclick="return KeyPress(this)"
          inkscape:label="g3"><path
            id="rect4711"
            style="display:inline;fill:url(#linearGradient4713);stroke:url(#linearGradient4714);stroke-width:0.84578;stroke-linejoin:round;stroke-miterlimit:6.7;paint-order:fill markers stroke"

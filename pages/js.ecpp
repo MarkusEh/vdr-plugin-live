@@ -37,13 +37,11 @@ function set_icons_open(img_plus_minus, img_folder_symbol) {
 function addErrorIcon(s, numErrors, durationDeviation, duration, numTsFiles) {
   if (numErrors <= -100) return
   s.a += '<div class=\"recording_errors\"><img class=\"icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>'
-  if (durationDeviation > 300) s.a += 'error.svg'
-  else if (durationDeviation > 60) s.a += 'warning.svg'
-  else {
-    if (numErrors == 0) s.a += 'no_error.svg'
-    if (numErrors  > 0) s.a += 'error.svg'
-    if (numErrors  < 0) s.a += 'warning.svg'
-  }
+
+  if (durationDeviation > 300 || numErrors  > 0) s.a += 'error.svg'
+  else if (durationDeviation > 60 || numErrors  < 0) s.a += 'warning.svg'
+  else s.a += 'no_error.svg'
+
   s.a += '\" title=\"'
   if (numErrors == 0) s.a += '<p><$tr("No recording errors")$></p>'
   if (numErrors  > 0) s.a += '<p><$tr("Number of recording errors:")$> ' + String(numErrors) + '</p>'

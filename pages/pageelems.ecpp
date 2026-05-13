@@ -447,10 +447,10 @@ if (!rfid.empty() ) {
     <div class="st_controls">
       <div class="st_update">
         <script type="text/javascript"><!--
-          InfoBox['tooltipStopUpdate'] = '<$ tr("Stop infobox update") $>';
-          InfoBox['tooltipStartUpdate'] = '<$ tr("Start infobox update") $>';
+          InfoBox['tooltipStopUpdate'] = '<$ tr("Infobox update is on. Click to turn it off") $>';
+          InfoBox['tooltipStartUpdate'] = '<$ tr("Infobox update is off. Click to turn it on") $>';
         --></script>
-        <a href="javascript:InfoBox.toggleUpdate()" <& tooltip.hint text=(tr("Stop infobox update")) &>><img class="icon" id="statusReloadBtn" src="<$ LiveSetup().GetThemedLink("img", "stop_update.svg") $>" alt="" /></a>
+        <a href="javascript:InfoBox.toggleUpdate()" <& tooltip.hint text=(tr("Infobox update is on. Click to turn it off")) &>><img class="icon" id="statusReloadBtn" src="<$ LiveSetup().GetThemedLink("img", "stop_update.svg") $>" alt="" /></a>
       </div>
       <div id="infobox_recording_buttons" style="display: none">
         <& ajax_action_href action=("stop_recording") id=("infobox_stop") image=("stop.svg") className="icon" tip=(tr("Stop playback")) &>
