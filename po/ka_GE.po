@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-24 16:51+0200\n"
+"POT-Creation-Date: 2026-05-03 13:33+0200\n"
 "PO-Revision-Date: 2023-02-14 20:02+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <(nothing)>\n"
@@ -806,8 +806,11 @@ msgstr "მოთხოვნის შეცდომა!"
 msgid "Retrieving status ..."
 msgstr "სტატუსის მიღება ..."
 
-msgid "Toggle updates on/off"
-msgstr "განახლებების გადართვა."
+msgid "Stop infobox update"
+msgstr ""
+
+msgid "Start infobox update"
+msgstr ""
 
 msgid "Stop playback"
 msgstr "დაკვრის გაჩერება"
@@ -1033,6 +1036,9 @@ msgstr "ყველა საქაღალდის ამოკეცვა"
 
 msgid "Collapse all folders"
 msgstr "ყველა საქაღალდის ჩაკეცვა"
+
+msgid "Keyboard help"
+msgstr ""
 
 msgid "Snapshot interval"
 msgstr "სწრაფი ასლის ინტერვალი"
@@ -1286,6 +1292,9 @@ msgstr ""
 
 msgid "Delete permanently"
 msgstr ""
+
+#~ msgid "Toggle updates on/off"
+#~ msgstr "განახლებების გადართვა."
 
 #~ msgid "On archive DVD No."
 #~ msgstr "არქივში DVD-ზე ნომრით."

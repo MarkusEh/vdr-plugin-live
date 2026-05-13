@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-24 16:51+0200\n"
+"POT-Creation-Date: 2026-05-03 13:33+0200\n"
 "PO-Revision-Date: 2012-12-03 21:41+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: Slovak <hrala.milan@gmail.com>\n"
@@ -804,8 +804,11 @@ msgstr "Chyba žiadosti!"
 msgid "Retrieving status ..."
 msgstr "načítavanie stavu"
 
-msgid "Toggle updates on/off"
-msgstr "Prepínač aktualizácii zapnúť/vypnúť."
+msgid "Stop infobox update"
+msgstr ""
+
+msgid "Start infobox update"
+msgstr ""
 
 msgid "Stop playback"
 msgstr "zastavenie prehrávania"
@@ -1031,6 +1034,9 @@ msgstr "Rozbaliť všetky zložky"
 
 msgid "Collapse all folders"
 msgstr "Zbaliť všetky zložky"
+
+msgid "Keyboard help"
+msgstr ""
 
 msgid "Snapshot interval"
 msgstr "Interval snímkovania"
@@ -1284,6 +1290,9 @@ msgstr ""
 
 msgid "Delete permanently"
 msgstr ""
+
+#~ msgid "Toggle updates on/off"
+#~ msgstr "Prepínač aktualizácii zapnúť/vypnúť."
 
 #~ msgid "On archive DVD No."
 #~ msgstr "Na archívne DVD."

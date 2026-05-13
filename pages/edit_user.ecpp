@@ -115,6 +115,7 @@ cUser* editUser;
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>VDR Live - <$ pageTitle $></title>
+    <& pageelems.favicon &>
     <& pageelems.stylesheets &>
     <& pageelems.ajax_js &>
   </head>

@@ -124,6 +124,7 @@ const char *TNT_ARRAY = "";
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>VDR-Live - <$ pageTitle $></title>
+    <& pageelems.favicon &>
     <& pageelems.stylesheets &>
     <& pageelems.create_html_js &>
     <& pageelems.ajax_js &>
@@ -152,7 +153,7 @@ function RecordingActionPlaylist(s, id, label) {
   s.a += id
   s.a += '&sort=<$currentSort$>&filter=<$currentFilter$>&flat=<$currentFlat$>&history_num_back=<$history_num_back+1$>\" title=\"'
   addEncodeHtml(s, LabelAndAction(label, '<$tr("Play this recording in the media player")$>'))
-  s.a += '\" download><img class=\"hidden-xs invisible icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>playlist.png\" /></a>'
+  s.a += '\" download><img class=\"hidden-xs invisible icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>playlist.svg\" /></a>'
 }
 
 // do not HTML-encode title; will be HTML-encoded here!
@@ -358,7 +359,7 @@ for (const RecordingsItemDirPtr &recItem: l_dir_iterator) {
     <table><tr>
 %     if(level > 0) {
         <td class = "space">
-          <img src="img/transparent.png" style="width: calc(var(--icon-width, 16px) * <$ level $>); height: var(--icon-height, 16px)" />
+          <img src="img/transparent.svg" style="width: calc(var(--icon-width, 16px) * <$ level $>); height: var(--icon-height, 16px)" />
         </td>
 %     }
 <#    <td class="td-hidden-xs"><div class="hidden-xs">
@@ -366,16 +367,16 @@ for (const RecordingsItemDirPtr &recItem: l_dir_iterator) {
       </div></td>
 #>
       <td class="space">
-        <img class="iconic button recording-expander" id="pm_<$ idHash $>" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>icon_overlay_plus.png" />
+        <img class="iconic button recording-expander" id="pm_<$ idHash $>" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>icon_overlay_plus.svg" />
       </td>
       <td class="td-hidden-xs space"><div class="hidden-xs">
-        <img class="iconic button recording-select-all" id="sa_<$ idHash $>" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>icon_overlay_checkmark.png" title="<$tr("Select all recordings in this folder") $>" />
+        <img class="iconic button recording-select-all" id="sa_<$ idHash $>" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>icon_overlay_checkmark.svg" title="<$tr("Select all recordings in this folder") $>" />
       </div></td>
       <td class="td-hidden-xs space"><div class="hidden-xs">
-        <img class="iconic button recording-deselect-all" id="ds_<$ idHash $>" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>icon_overlay_cross.png" title="<$tr("Deselect all recordings in this folder") $>" />
+        <img class="iconic button recording-deselect-all" id="ds_<$ idHash $>" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>icon_overlay_cross.svg" title="<$tr("Deselect all recordings in this folder") $>" />
       </div></td>
       <td class="space">
-        <img class="recording_folder" id="fs_<$ idHash $>" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.png" />
+        <img class="recording_folder icon" id="fs_<$ idHash $>" src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.svg" />
       </td>
 %     if (!recItem->scraperImage().path.empty() ) {
         <td class = space>
@@ -443,7 +444,7 @@ recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
                 '<tr class="recording_item">' +
 %               if(level > 0) {
                   '<td class = "space">' +
-                    '<img src="img/transparent.png" style="width: calc(var(--icon-width, 16px) * <$ level $>); height: var(--icon-height, 16px)" />' +
+                    '<img src="img/transparent.svg" style="width: calc(var(--icon-width, 16px) * <$ level $>); height: var(--icon-height, 16px)" />' +
                   '</td>' +
 %               }
                   '<td class="message"><$ tr("No matching recordings found") $></td>' +
@@ -495,18 +496,18 @@ recs[<$$cToSvInt(rPtr->Id())$>]=[<$$ *recording_item $>]
 #endif
 </%cpp>
 <span class="sep">|</span>
-<span class="label bold" title="<$tr("Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE).")$>" >
+<span class="label with-tools bold" title="<$tr("Look in recordings titles and subtitles for the given string and display only the matching ones. You may also use perl compatible regular expressions (PCRE).")$>" >
   <label for="filter"><$ tr("Filter") $>:</label>
   <input type="text" name="filter" value="<$ currentFilter $>" id="filter" onchange="filterRecordings(this, '<$ currentSort $>', '<$currentFlat$>', '<$currentRecycle_bin$>')" />
-  <img onclick="clearRecordingsFilter(document.getElementById('filter'), '<$ currentSort $>', '<$currentFlat$>', '<$currentRecycle_bin$>')" class="icon button clear-filter" src="<$ LiveSetup().GetThemedLink("img", "icon_overlay_cross.png") $>" alt="" <& tooltip.hint text=(tr("Clear filter")) &>/>
+  <img onclick="clearRecordingsFilter(document.getElementById('filter'), '<$ currentSort $>', '<$currentFlat$>', '<$currentRecycle_bin$>')" class="icon button clear-filter" src="<$ LiveSetup().GetThemedLink("img", "icon_overlay_cross.svg") $>" alt="" <& tooltip.hint text=(tr("Clear filter")) &>/>
 </span>
 <%cpp>
 if (currentFlat != "true") {
 </%cpp>
 <span class="sep">|</span>
 <span class="tools">
-  <img onclick="ExpandAll()" class="icon button expand-all" src="<$ LiveSetup().GetThemedLink("img", "icon_overlay_plus.png") $>" alt="" <& tooltip.hint text=(tr("Expand all folders")) &>/>
-  <img onclick="CollapseAll()" class="icon button collapse-all" src="<$ LiveSetup().GetThemedLink("img", "icon_overlay_minus.png") $>" alt="" <& tooltip.hint text=(tr("Collapse all folders")) &>/>
+  <img onclick="ExpandAll()" class="icon button expand-all" src="<$ LiveSetup().GetThemedLink("img", "icon_overlay_plus.svg") $>" alt="" <& tooltip.hint text=(tr("Expand all folders")) &>/>
+  <img onclick="CollapseAll()" class="icon button collapse-all" src="<$ LiveSetup().GetThemedLink("img", "icon_overlay_minus.svg") $>" alt="" <& tooltip.hint text=(tr("Collapse all folders")) &>/>
 </span>
 <%cpp>
 }
@@ -546,7 +547,7 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
   std::string breaksAtLeft;
   std::string breaksAtRight;
 </%args>
-<a href="epginfo.html?epgid=del_<$ id $>&sort=<$sort$>&filter=<$filter$>&flat=<$flat$>&history_num_back=<$history_num_back+1$>" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Delete this recording")) &>><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" /></a>
+<a href="epginfo.html?epgid=del_<$ id $>&sort=<$sort$>&filter=<$filter$>&flat=<$flat$>&history_num_back=<$history_num_back+1$>" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Delete this recording")) &>><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "del.svg") $>" alt="" /></a>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -559,7 +560,7 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
   std::string breaksAtLeft;
   std::string breaksAtRight;
 </%args>
-<a href="epginfo.html?epgid=pur_<$ id $>&history_num_back=<$history_num_back+1$>" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Permanently delete this recording")) &>><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" /></a>
+<a href="epginfo.html?epgid=pur_<$ id $>&history_num_back=<$history_num_back+1$>" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Permanently delete this recording")) &>><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "del.svg") $>" alt="" /></a>
 </%def>
 
 
@@ -573,7 +574,7 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
   std::string breaksAtLeft;
   std::string breaksAtRight;
 </%args>
-<a href="epginfo.html?epgid=res_<$ id $>&history_num_back=<$history_num_back+1$>" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Restore this recording")) &>><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "restore.png") $>" alt="" /></a>
+<a href="epginfo.html?epgid=res_<$ id $>&history_num_back=<$history_num_back+1$>" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Restore this recording")) &>><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "restore.svg") $>" alt="" /></a>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -589,7 +590,7 @@ if (currentSort.compare(0, current.length(), current) == 0) { </%cpp>class="acti
   std::string breaksAtLeft;
   std::string breaksAtRight;
 </%args>
-<%cpp> { </%cpp><a href="edit_recording.html?recid=<$ id $>&sort=<$sort$>&filter=<$filter$>&flat=<$flat$>&history_num_back=<$history_num_back+1$>"><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Edit recording")) &> /></a><%cpp> } </%cpp>
+<%cpp> { </%cpp><a href="edit_recording.html?recid=<$ id $>&sort=<$sort$>&filter=<$filter$>&flat=<$flat$>&history_num_back=<$history_num_back+1$>"><img class="<$ className $>" src="<$ LiveSetup().GetThemedLink("img", "edit.svg") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtLeft=(breaksAtLeft) breaksAtRight=(breaksAtRight) text=(tr("Edit recording")) &> /></a><%cpp> } </%cpp>
 </%def>
 
 <# ---------------------------------------------------------------------- #>
@@ -620,7 +621,7 @@ if (recPtr) {
 if (!deleted) {
   if (cDevice::PrimaryDevice() && cDevice::PrimaryDevice()->HasDecoder() ) {
 </%cpp>
-<& pageelems.ajax_action_href action="play_recording" param=(id) tip=(tr("Play this recording")) label=(label) breaksAtRight=(breaksAtRight) image="play.png" alt="" className="icon" &>
+<& pageelems.ajax_action_href action="play_recording" param=(id) tip=(tr("Play this recording")) label=(label) breaksAtRight=(breaksAtRight) image="play.svg" className="icon" alt="" &>
 %   }
 <& pageelems.hls_recording recId=(id) className="icon" label=(label) breaksAtRight=(breaksAtRight) &>
 <& pageelems.m3u_playlist_recording recid=(id) className="icon" label=(label) breaksAtRight=(breaksAtRight) &>

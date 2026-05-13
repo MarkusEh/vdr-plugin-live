@@ -41,6 +41,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>VDR-Live - <$ pageTitle $></title>
+    <& pageelems.favicon &>
     <& pageelems.stylesheets &>
     <& pageelems.ajax_js &>
   </head>
@@ -72,8 +73,8 @@ if (!logged_in && LiveSetup().UseAuth()) {
             <td class="leftcol <? bottom ? "bottomrow" ?>"><div class="withmargin"><$ user->Name() $></div></td>
             <td class="rightcol <? bottom ? "bottomrow" ?>">
               <div class="user_actions">
-                <a href="edit_user.html?userid=<$ user->Id() $>"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "edit.png") $>" alt="" <& tooltip.hint text=(tr("Edit user")) &> /></a>
-                <a href="users.html?userid=<$ user->Id() $>&action=delete"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint text=(tr("Delete user")) &> /></a>
+                <a href="edit_user.html?userid=<$ user->Id() $>"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "edit.svg") $>" alt="" <& tooltip.hint text=(tr("Edit user")) &> /></a>
+                <a href="users.html?userid=<$ user->Id() $>&action=delete"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "del.svg") $>" alt="" <& tooltip.hint text=(tr("Delete user")) &> /></a>
               </div></td>
             </td>
           </tr>

@@ -73,6 +73,7 @@ using namespace vdrlive;
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>VDR-Live - <$ pageTitle $></title>
+    <& pageelems.favicon &>
     <& pageelems.stylesheets &>
     <& pageelems.ajax_js &>
     <& pageelems.create_html_js &>
@@ -174,27 +175,27 @@ using namespace vdrlive;
           <td><div class="withmargin"><$ trVDR("File") $></div></td>
           <td class="td-hidden-xs<$ noRemoteTimers ? " notpresent" : " remotetimer" $>"><div class="xs-nomargin hidden-xs"><$ trVDR("Record on") $></div></td>
           <td class="<$ noSearchTimers ? "notpresent" : "searchtimer" $>"><div class="withmargin"><$ tr("Search timer") $></div></td>
-          <td class="rightcol"><img class="action-rightcol" src="img/transparent.png" alt="" /></td>
+          <td class="rightcol"><img class="action-rightcol icon" src="img/transparent.svg" alt="" /></td>
         </tr>
 <%cpp>
           }
           std::string timerStateClass = "inactive";
-          std::string timerStateIcon = "transparent.png";
+          std::string timerStateIcon = "transparent.svg";
           std::string timerStateHint;
           if (timer->Recording()) {
             timerStateClass = "recording";
-            timerStateIcon = "arrow_rec.png";
+            timerStateIcon = "arrow_rec.svg";
             timerStateHint = tr("Timer is recording");
           }
           else if (timer->Flags() & tfActive) {
             if (timerConflicts.HasConflict(timer->Id() )) {
               timerStateClass = "conflict";
-              timerStateIcon = "timer_conflict.png";
+              timerStateIcon = "caution.svg";
               timerStateHint = tr("Timer has a conflict");
             }
             else {
               timerStateClass = "active";
-              timerStateIcon = "arrow.png";
+              timerStateIcon = "arrow.svg";
               timerStateHint = tr("Timer is active");
             }
           }
@@ -251,9 +252,9 @@ using namespace vdrlive;
 %             cToSvDateTime label(tr("%I:%M %p"), timer->StartTime());
 %             label.append(tr(" - "));
 %             AppendHtmlEscapedAndCorrectNonUTF8(label, timer->File() );
-              <a class="action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&action=toggle"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtRight=(fileNameBreaks) text=(tr("Toggle timer (in)active")) &> /></a>
+              <a class="action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&action=toggle"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.svg" : "inactive.svg") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtRight=(fileNameBreaks) text=(tr("Toggle timer (in)active")) &> /></a>
               <div class="action-rightcol"><& pageelems.edit_timer timerId=(SortedTimers::GetTimerId(*timer)) className="icon" label=(label) breaksAtRight=(fileNameBreaks) &></div>
-              <a class="action-rightcol" href="epginfo.html?epgid=det_<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&history_num_back=1"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtRight=(fileNameBreaks) text=(tr("Delete timer")) &> /></a>
+              <a class="action-rightcol" href="epginfo.html?epgid=det_<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&history_num_back=1"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "del.svg") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtRight=(fileNameBreaks) text=(tr("Delete timer")) &> /></a>
             </div>
           </td>
         </tr>

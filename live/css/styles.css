@@ -1,583 +1,12 @@
-/* ##################################################
-   #  These are properties for the page layout of
-   #  all themes. Themes only differ in colors,
-   #  including customized logos and icons.
-   ##################################################
+/* ###########################################################################
+   #  This file provides style definitions for the page layout of all themes.
+   ä  By default, themes only differ in colors defined in 'theme.css' or
+   #  customized logos and icons stored in the theme's 'img' directory. Since
+   #  the styles are shared throughout all themes, they must not be modified.
+   #  However, selected styles defined in this file can be refined or amended
+   #  locally in 'theme.css' or globally in 'siteprefs.css'.
+   ###########################################################################
 */
-
-
-/* #############################
-   #  Layout properties
-   #############################
-*/
-
-/* global settings */
-
-@property --margin-top-bottom {
-  /* vertical distance towards box borders */
-  syntax: "<length>";
-  initial-value: 5px;
-  inherits: false;
-}
-
-@property --margin-left-right {
-  /* horizontal distance towards box borders */
-  syntax: "<length>";
-  initial-value: 5px;
-  inherits: false;
-}
-
-@property --logo-image-width {
-  /* Channel-logo image width for use in calculated lengths */
-  syntax: "<length>";
-  initial-value: 120px;
-  inherits: false;
-}
-
-@property --logo-image-height {
-  /* Channel-logo image width for use in calculated lengths */
-  syntax: "<length>";
-  initial-value: 32px;
-  inherits: false;
-}
-
-@property --thumb-image-width {
-  /* Thumbnail-image width for use in calculated lengths */
-  syntax: "<length>";
-  initial-value: 80px;
-  inherits: false;
-}
-
-@property --thumb-image-height {
-  /* Thumbnail-image width for use in calculated lengths */
-  syntax: "<length>";
-  initial-value: 40px;
-  inherits: false;
-}
-
-@property --thumb-image-enlargement-scale {
-  /* Scaling factor for enlarged thumbnail images on small screens */
-  syntax: "<number>";
-  initial-value: 1.25;
-  inherits: false;
-}
-
-@property --epg-image-width {
-  /* EPG-image width for use in calculated lengths */
-  syntax: "<length>";
-  initial-value: 240px;
-  inherits: false;
-}
-
-@property --epg-artwork-width {
-  /* Artwork-image width for use in calculated lengths */
-  syntax: "<length>";
-  initial-value: 480px;
-  inherits: false;
-}
-
-@property --epg-photo-width {
-  /* Actor-image width for use in calculated lengths */
-  syntax: "<length>";
-  initial-value: 120px;
-  inherits: false;
-}
-
-@property --sdhd-width {
-  /* icon width for use in calculated lengths, height acc. to dimension */
-  syntax: "<length>";
-  initial-value: 24px;
-  inherits: false;
-}
-
-@property --iconic-button-width {
-  /* button width for use in calculated lengths */
-  /* iconic buttons have 12 visible horizontal pixels, thus 2 transparent border pixels */
-  syntax: "<length>";
-  initial-value: 16px;
-  inherits: false;
-}
-
-@property --iconic-button-height {
-  /* button height for use in calculated lengths */
-  /* iconic buttons have 12 visible vertical pixels, thus 2 transparent border pixels  */
-  syntax: "<length>";
-  initial-value: 16px;
-  inherits: false;
-}
-
-@property --iconic-button-row-gap {
-  /* distance between button rows */
-  /* should match the icon row gap, taking transparent border pixels into account */
-  syntax: "<length>";
-  initial-value: 0px;   /* adjacent border pixels already result in a gap of 4 pixels */
-  inherits: false;
-}
-
-@property --iconic-button-column-gap {
-  /* distance between button columns */
-  /* should match the icon row gap, taking transparent border pixels into account */
-  syntax: "<length>";
-  initial-value: 0px;   /* adjacent border pixels already result in a gap of 4 pixels */
-  inherits: false;
-}
-
-@property --icon-width {
-  /* icon width for use in calculated lengths */
-  syntax: "<length>";
-  initial-value: 16px;
-  inherits: false;
-}
-
-@property --icon-height {
-  /* icon height for use in calculated lengths */
-  syntax: "<length>";
-  initial-value: 16px;
-  inherits: false;
-}
-
-@property --icon-row-gap {
-  /* distance between icons rows */
-  syntax: "<length>";
-  initial-value: 4px;
-  inherits: false;
-}
-
-@property --icon-column-gap {
-  /*  distance between icon columns */
-  syntax: "<length>";
-  initial-value: 4px;
-  inherits: false;
-}
-
-@property --text-font-size {
-  /* common font size */
-  syntax: "<length>";
-  initial-value: 11px;
-  inherits: false;
-}
-
-@property --text-line-height {
-  /* line height w.r.t. font size */
-  syntax: "<length>";
-  initial-value: 20px;
-  inherits: false;
-}
-
-@property --text-line-gap {
-  /*  distance between lines within a text block */
-  syntax: "<length>";
-  initial-value: 2px;
-  inherits: false;
-}
-
-@property --text-block-gap {
-  /*  distance between text blocks */
-  syntax: "<length>";
-  initial-value: 5px;
-  inherits: false;
-}
-
-/* page-layout settings */
-
-@property --body-margin {
-  syntax: "<length>";
-  initial-value: 10px;
-  inherits: false;
-}
-
-@property --page-header-gap {
-  syntax: "<length>";
-  initial-value: 25px;
-  inherits: false;
-}
-
-@property --menubar-gap {
-  syntax: "<length>";
-  initial-value: 8px;
-  inherits: false;
-}
-
-@property --spacebar-height {
-  syntax: "<length>";
-  initial-value: 10px;
-  inherits: false;
-}
-
-/* main-menu settings */
-
-@property --menu-height {
-  syntax: "<length>";
-  initial-value: 27px;
-  inherits: false;
-}
-
-@property --menu-border-width {
-  syntax: "<length>";
-  initial-value: 1px;
-  inherits: false;
-}
-
-/* message-bar settings */
-
-@property --messagebar-height {
-  syntax: "<length>";
-  initial-value: 27px;
-  inherits: false;
-}
-
-@property --messagebar-border-width {
-  syntax: "<length>";
-  initial-value: 1px;
-  inherits: false;
-}
-
-/* page-menu settings */
-
-@property --pagemenu-height {
-  syntax: "<length>";
-  initial-value: 27px;
-  inherits: false;
-}
-
-@property --pagemenu-border-width {
-  syntax: "<length>";
-  initial-value: 1px;
-  inherits: false;
-}
-
-@property --pagemenu-shadow-height {
-  syntax: "<length>";
-  initial-value: 6px;
-  inherits: false;
-}
-
-/* table and box-header settings */
-
-@property --listing-border-width {
-  syntax: "<length>";
-  initial-value: 1px;
-  inherits: false;
-}
-
-@property --listing-header-border-radius {
-  syntax: "<length>";
-  initial-value: 8px;
-  inherits: false;
-}
-
-@property --listing-header-height {
-  syntax: "<length>";
-  initial-value: 20px;
-  inherits: false;
-}
-
-@property --listing-row-background-gradient-height {
-  syntax: "<length>";
-  initial-value: 6px;
-  inherits: false;
-}
-
-/* user-input settings */
-
-@property --input-border-width {
-  syntax: "<length>";
-  initial-value: 1px;
-  inherits: false;
-}
-
-@property --input-border-style {
-  syntax: "<custom-ident>";
-  initial-value: solid;
-  inherits: false;
-}
-
-@property --input-accent-border-width {
-  syntax: "<length>";
-  initial-value: 1px;
-  inherits: false;
-}
-
-@property --input-accent-border-style {
-  syntax: "<custom-ident>";
-  initial-value: dotted;
-  inherits: false;
-}
-
-/* info-box settings */
-
-@property --infobox-border-width {
-  syntax: "<length>";
-  initial-value: 1px;
-  inherits: false;
-}
-
-@property --infobox-border-radius {
-  syntax: "<length>";
-  initial-value: 0px;
-  inherits: false;
-}
-
-@property --infobox-header-height {
-  syntax: "<length>";
-  initial-value: 16px;
-  inherits: false;
-}
-
-@property --infobox-header-border-width {
-  syntax: "<length>";
-  initial-value: 1px;
-  inherits: false;
-}
-
-@property --infobox-header-background-gradient-height {
-  syntax: "<length>";
-  initial-value: 5px;
-  inherits: false;
-}
-
-@property --infobox-progressbar-height {
-  syntax: "<length>";
-  initial-value: 8px;
-  inherits: false;
-}
-
-@property --infobox-progressbar-width {
-  syntax: "<length>";
-  initial-value: 100px;
-  inherits: false;
-}
-
-@property --infobox-progressbar-border-width {
-  syntax: "<length>";
-  initial-value: 1px;
-  inherits: false;
-}
-
-@property --infobox-margin {
-  syntax: "<length>";
-  initial-value: 4px;
-  inherits: false;
-}
-
-/* login- and info-window settings */
-
-@property --infowin-border-width {
-  syntax: "<length>";
-  initial-value: 1px;
-  inherits: false;
-}
-
-@property --infowin-section-border-width {
-  syntax: "<length>";
-  initial-value: 1px;
-  inherits: false;
-}
-
-@property --infowin-tools-border-width {
-  syntax: "<length>";
-  initial-value: 1px;
-  inherits: false;
-}
-
-@property --infowin-title-border-radius {
-  syntax: "<length>";
-  initial-value: 8px;
-  inherits: false;
-}
-
-@property --infowin-title-height {
-  syntax: "<length>";
-  initial-value: 20px;
-  inherits: false;
-}
-
-@property --infowin-body-margin {
-  syntax: "<length>";
-  initial-value: 10px;
-  inherits: false;
-}
-
-@property --infowin-progressbar-height {
-  syntax: "<length>";
-  initial-value: 8px;
-  inherits: false;
-}
-
-@property --infowin-progressbar-width {
-  syntax: "<length>";
-  initial-value: 100px;
-  inherits: false;
-}
-
-@property --infowin-progressbar-border-width {
-  syntax: "<length>";
-  initial-value: 1px;
-  inherits: false;
-}
-
-@property --infowin-label-width {
-  syntax: "<length>";
-  initial-value: 130px;
-  inherits: false;
-}
-
-@property --infowin-background-gradient-height {
-  syntax: "<length>";
-  initial-value: 5px;
-  inherits: false;
-}
-
-@property --infowin-shadow-offset {
-  syntax: "<length>";
-  initial-value: 4px;
-  inherits: false;
-}
-
-@property --infowin-shadow-blur {
-  syntax: "<length>";
-  initial-value: 16px;
-  inherits: false;
-}
-
-@property --infowin-shadow-spread {
-  syntax: "<length>";
-  initial-value: 0px;
-  inherits: false;
-}
-
-/* popup settings */
-
-@property --popup-width {
-  syntax: "<length>";
-  initial-value: 480px;
-  inherits: false;
-}
-
-@property --popup-border-width {
-  syntax: "<length>";
-  initial-value: 1px;
-  inherits: false;
-}
-
-@property --popup-border-radius {
-  syntax: "<length>";
-  initial-value: 8px;
-  inherits: false;
-}
-
-@property --popup-body-margin {
-  syntax: "<length>";
-  initial-value: 10px;
-  inherits: false;
-}
-
-@property --popup-shadow-offset {
-  syntax: "<length>";
-  initial-value: 4px;
-  inherits: false;
-}
-
-@property --popup-shadow-blur {
-  syntax: "<length>";
-  initial-value: 16px;
-  inherits: false;
-}
-
-@property --popup-shadow-spread {
-  syntax: "<length>";
-  initial-value: 0px;
-  inherits: false;
-}
-
-/* error-widget settings */
-
-@property --error-border-width {
-  syntax: "<length>";
-  initial-value: 1px;
-  inherits: false;
-}
-
-@property --error-title-border-radius {
-  syntax: "<length>";
-  initial-value: 8px;
-  inherits: false;
-}
-
-@property --error-title-height {
-  syntax: "<length>";
-  initial-value: 21px;
-  inherits: false;
-}
-
-/* button settings */
-
-@property --button-width {
-  syntax: "<length>";
-  initial-value: 120px;
-  inherits: false;
-}
-
-@property --button-height {
-  syntax: "<length>";
-  initial-value: 20px;
-  inherits: false;
-}
-
-@property --button-border-width {
-  syntax: "<length>";
-  initial-value: 1px;
-  inherits: false;
-}
-
-@property --button-border-style {
-  syntax: "<custom-ident>";
-  initial-value: outset;
-  inherits: false;
-}
-
-@property --button-border-radius {
-  syntax: "<length>";
-  initial-value: 4px;
-  inherits: false;
-}
-
-@property --button-border-gradient-top {
-  syntax: "<percentage>";
-  initial-value: 40%;
-  inherits: false;
-}
-
-@property --button-border-gradient-middle {
-  syntax: "<percentage>";
-  initial-value: 60%;
-  inherits: false;
-}
-
-/* OSD settings */
-
-@property --osd-message-border-width {
-  syntax: "<length>";
-  initial-value: 2px;
-  inherits: false;
-}
-
-/* animation settings */
-
-@keyframes desaturating {
-  from { filter: saturate(100%); }
-  to   { filter: saturate(40%);  }
-}
-
-@keyframes fading {
-  from { filter: opacity(100%); }
-  to   { filter: opacity(40%);  }
-}
-
-@keyframes row-highlighting {
-  from { color: var(--listing-color);           }
-  to   { color: var(--listing-color-highlight); }
-}
 
 
 /* #############################
@@ -652,6 +81,12 @@ a {
   color: var(--body-link-color);
 }
 
+svg a:hover {
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+
 img.sdhd {
   width: var(--sdhd-width, 24px);
 }
@@ -670,28 +105,15 @@ img.fading {
   animation: desaturating 2s alternate infinite running;
 }
 
-img.help,
-img.icon.button,
-div#pagemenu img.icon {
-  /* images align with the text baseline; we need to lower them manually to
-  ** get them centered on the vertical axis, using the following heuristics
-  ** for 16x16 icon images:
-  **
-  ** Font size:  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24
-  ** Margin:     -4  -4  -4  -3  -3  -3  -2  -2  -2  -1  -1  -1   0   0   0
-  */
-  margin-bottom: calc(min(max(round(down, max(calc(var(--text-font-size) - 22px) / 3), 1px), -3px), 0px));
-  cursor: pointer;
-}
-
 img.icon.button {
   cursor: default;
-  background: transparent url(../img/icon_regular.png) no-repeat top right;
+  background: transparent url(../img/icon_regular.svg) no-repeat top right;
   background-size: var(--icon-width, 16px) var(--icon-height, 16px);
 }
 
 img.icon.button:hover {
-  background: transparent url(../img/icon_regular_hovered.png) no-repeat top right;
+  background: transparent url(../img/icon_regular_hovered.svg) no-repeat top right;
+  background-size: var(--icon-width, 16px) var(--icon-height, 16px);
 }
 
 img.recording_folder {
@@ -978,7 +400,7 @@ img.channel_logo {
 
 div.info-win {
   overflow: hidden;       /* to get the resize handle */
-  width: calc(var(--sdhd-width) + var(--infowin-tools-border-width) + 6 * var(--margin-left-right) + max(var(--epg-image-width), 4 * var(--epg-photo-width) + 3 * var(--margin-left-right), var(--epg-artwork-width)) + 15px /* for the scrollbar */);;
+  width: calc(var(--sdhd-width) + var(--infowin-tools-border-width) + 6 * var(--margin-left-right) + max(var(--epg-image-width), 4 * var(--epg-photo-width) + 3 * var(--margin-left-right), var(--epg-artwork-width)) + 15px /* for the scrollbar */);
   min-width: calc(var(--sdhd-width) + var(--infowin-tools-border-width) + 6 * var(--margin-left-right) + max(var(--infowin-progressbar-width) + 2 * var(--infowin-progressbar-border-width), var(--epg-image-width)) + 15px /* for the scrollbar */);
   max-width: 80vw;
   min-height: calc(var(--infowin-title-height) + 5 * var(--text-line-height));
@@ -990,6 +412,11 @@ div.info-win {
 }
 
 div.info-win.aboutBox {
+  min-width: calc(3 * var(--margin-left-right) + 2 * var(--margin-left-right) + 2 * var(--infowin-label-width) + 15px );
+}
+
+div.info-win.rcKeys {
+  width: calc(3 * var(--margin-left-right) + 2 * var(--margin-left-right) + 2 * var(--infowin-label-width) + 15px );
   min-width: calc(3 * var(--margin-left-right) + 2 * var(--margin-left-right) + 2 * var(--infowin-label-width) + 15px );
 }
 
@@ -1087,35 +514,30 @@ div.info-win.info-res:not(:has(.label)) {
 img.iconic.button.recording-expander, /* for the tree view */
 .info-win .info-win-top img.iconic.button {
   cursor: default;
-  background: transparent url(../img/icon_small.png) no-repeat top right;
+  background: transparent url(../img/icon_small.svg) no-repeat top right;
   background-size: var(--iconic-button-width, 16px) var(--iconic-button-height, 16px);
 }
 
 img.iconic.button.recording-select-all, /* for the tree view */
 .info-win .info-win-top img.iconic.button {
   cursor: default;
-  background: transparent url(../img/icon_small.png) no-repeat top right;
+  background: transparent url(../img/icon_small.svg) no-repeat top right;
   background-size: var(--iconic-button-width, 16px) var(--iconic-button-height, 16px);
 }
 
 img.iconic.button.recording-deselect-all, /* for the tree view */
 .info-win .info-win-top img.iconic.button {
   cursor: default;
-  background: transparent url(../img/icon_small.png) no-repeat top right;
+  background: transparent url(../img/icon_small.svg) no-repeat top right;
   background-size: var(--iconic-button-width, 16px) var(--iconic-button-height, 16px);
 }
 
 img.iconic.button.recording-expander:hover, /* for the tree view */
-.info-win .info-win-top img.iconic.button:hover {
-  background: transparent url(../img/icon_small_hovered.png) no-repeat top right;
-}
 img.iconic.button.recording-select-all:hover, /* for the tree view */
-.info-win .info-win-top img.iconic.button:hover {
-  background: transparent url(../img/icon_small_hovered.png) no-repeat top right;
-}
 img.iconic.button.recording-deselect-all:hover, /* for the tree view */
 .info-win .info-win-top img.iconic.button:hover {
-  background: transparent url(../img/icon_small_hovered.png) no-repeat top right;
+  background: transparent url(../img/icon_small_hovered.svg) no-repeat top right;
+  background-size: var(--iconic-button-width, 16px) var(--iconic-button-height, 16px);
 }
 
 .info-win .info-win-body {
@@ -1193,11 +615,17 @@ div#navigation:has(div#pagemenu) {
 }
 
 div.page_header {
+  --infobox-st-header-height: calc(2 * var(--infobox-border-width) + 2 * var(--text-line-gap) + max(1lh, var(--infobox-header-height)));
+  --infobox-st-content-height: calc(2 * var(--infobox-margin) + 1lh);
+  --infobox-st-control-height: calc(2 * var(--infobox-margin) + var(--icon-height, 16px) + var(--infobox-border-width));
+  --vdr-logo-height: calc(var(--infobox-st-header-height) + var(--infobox-st-content-height) + var(--infobox-st-control-height) + 2 * var(--margin-top-bottom));
+  --vdr-logo-width: calc(var(--vdr-logo-image-width) / var(--vdr-logo-image-height) * var(--vdr-logo-height));
+  --vdr-logo-small-width: calc(0.5px * var(--vdr-logo-image-width));
   display: flex;
   flex-flow: row;
   align-items: flex-start;
   gap: var(--margin-top-bottom) var(--page-header-gap);
-  margin: var(--margin-top-bottom) var(--body-margin);
+  margin: 0px var(--body-margin);
 }
 
 
@@ -1251,6 +679,7 @@ div#content {
   overflow: auto;
   padding: 0px var(--body-margin);
 }
+
 div#content:not(:has(table.multischedule)) {
   overflow-x: inherit;  /* could also be set to 'hidden' */
 }
@@ -1339,6 +768,11 @@ div#pagemenu div.menubar {
 }
 
 div#pagemenu div.menubar div.choices {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--margin-left-right);
+  padding: var(--margin-top-bottom) 0px;
   color: var(--pagemenu-color);
   line-height: var(--text-line-height);
 }
@@ -1349,9 +783,15 @@ div#pagemenu div.menubar .inactive {
   white-space: nowrap;
 }
 
-div#pagemenu div.menubar .label,
-div#pagemenu div.menubar .tools {
+div#pagemenu div.menubar .label {
   white-space: nowrap;
+}
+
+div#pagemenu div.menubar .tools,
+div#pagemenu div.menubar .with-tools {
+  display: inline-flex;
+  align-items: center;
+  column-gap: var(--margin-left-right);
 }
 
 div#pagemenu div.bottom {
@@ -1363,8 +803,12 @@ div#pagemenu form {
   display: inline;
 }
 
-div#pagemenu form#remote input {
-  margin-left: 1em;
+div#pagemenu form#remoteActions input {
+  margin-left: var(--margin-left-right);
+}
+
+div#pagemenu span.tools {
+  line-height: 0lh
 }
 
 div#pagemenu a {
@@ -1384,16 +828,23 @@ div#pagemenu a.active {
    #############################
 */
 
-img.logo {
+div#logo {
+  overflow: visible;
 }
 
-a img.logo {
-  cursor: pointer;
+div#logo img.logo {
+  display: block;
+  height: var(--vdr-logo-height);
 }
 
 div#infobox {
-  min-width: 320px;
-  max-width: calc(100vw - var(--body-margin) - var(--page-header-gap) - 175px /* VDR logo */);
+  min-width: calc(600px - 2 * var(--body-margin));
+  margin: var(--margin-top-bottom) 0px;
+}
+
+div#infobox.with-logo {
+  min-width: calc(600px - 2 * var(--body-margin) - var(--page-header-gap) - var(--vdr-logo-width));
+  max-width: calc(100vw - 2 * var(--body-margin) - var(--page-header-gap) - var(--vdr-logo-width));
 }
 
 div#infobox div.statuscontent {
@@ -1447,6 +898,7 @@ div#infobox div.st_content div.duration {
 
 div#infobox div.st_controls {
   display: flex;
+  align-items: center;
   overflow: hidden;
   padding: var(--infobox-margin);
   background: var(--infobox-background-color);
@@ -1456,9 +908,14 @@ div#infobox div.st_controls {
   border-bottom-right-radius: var(--infobox-border-radius);
 }
 
+div#infobox div.st_controls a {
+  /* to avoid extra space beneath the icons */
+  vertical-align: top;
+  line-height: 0px;
+}
+
 div#infobox div.st_controls div.st_pbar {
   margin-left: auto;
-  padding-top: var(--infobox-margin);
 }
 
 div#infobox div.__progress {
@@ -1480,9 +937,6 @@ div#infobox div.__progress_invisible {
 div#infobox div.__progress div.__elapsed {
   height: var(--infobox-progressbar-height);
   background: var(--infobox-progressbar-elapsed-color);
-}
-
-div#infobox div.st_controls div {
 }
 
 div#infobox div.st_controls div.st_update {
@@ -1930,6 +1384,7 @@ table.listing tr.recording a {
 table.listing tr td div.state_conflict {
   line-height: 0px;     /* to keep the block as small as possible */
 }
+
 table.listing tr td div.state {
   line-height: 0px;     /* to keep the block as small as possible */
   display: none;
@@ -2375,24 +1830,37 @@ tr.recording_item div.recording_sd_hd img.icon {
 /* for the time being, we keep the discrete dimensions, but they could become
 ** configurable; we even could think of making the screenshot frame resizable */
 
-div.remote {
+div#remote {
   display: flex;
   flex-flow: row wrap;
   gap: calc(4 * var(--margin-top-bottom)) calc(4 * var(--margin-left-right));
-  padding: calc(2 * var(--margin-top-bottom)) calc(2 * var(--margin-left-right));
+  padding: calc(2 * var(--margin-top-bottom)) 0px;
 }
 
-div.screenshot {
-  width: 571px;
-  height: 321px;
-  padding: 20px 20px 98px 20px;
-  background-image: url(../img/tv.png);
+div#screenshot {
+  --osd-screenshot-width: calc(var(--osd-screen-width) * var(--osd-screen-scale));
+  --osd-screenshot-height: calc(var(--osd-screen-height) * var(--osd-screen-scale));
+  width: var(--osd-screenshot-width);
+  height: var(--osd-screenshot-height);
+  padding: calc(var(--osd-screen-border-height) * var(--osd-screen-scale)) calc(var(--osd-screen-border-width) * var(--osd-screen-scale));
+  padding-bottom: calc(calc(var(--osd-screen-border-height) + var(--osd-screen-base-height)) * var(--osd-screen-scale));
+  background-image: url(../img/tv.svg);
   background-repeat: no-repeat;
+  background-size: contain;
 }
 
-div.screenshot img {
-  width: 571px;
-  height: 321px;
+div#screenshot img {
+  width: var(--osd-screenshot-width);
+  height: var(--osd-screenshot-height);
+  object-position: top left;
+  object-fit: scale-down;
+}
+
+div#control svg {
+  width: calc(var(--remote-control-width) * var(--remote-control-scale));
+  height: calc(var(--remote-control-height) * var(--remote-control-scale));
+  object-position: top left;
+  object-fit: scale-down;
 }
 
 
@@ -2404,84 +1872,73 @@ div.screenshot img {
 /* for the time being, we keep the discrete dimensions, but they could become
 ** configurable; we even could think of making the OSD frame resizable */
 
-
-#osd {
-  /* the width should allow hosting four evenly-spaced buttons without fractional
-  ** gap sizes; the height depends on the width w.r.t. a 16:9 screenshot ratio */
-  width: 571px;
-  height: 321px;
+div#osd {
+  /* the button width should result in four evenly-spaced buttons without fractional gap sizes */
+  --osd-button-width: calc(calc(var(--osd-screenshot-width) - 2 * var(--margin-left-right) - 3 * var(--osd-button-gap)) / 4);
+  --osd-button-height: calc(1lh + 2 * var(--text-line-gap));
+  --osd-title-height: calc(1lh + var(--text-block-gap));
+  /* fonts to just use half of the scale */
+  --osd-font-scale: calc(calc(1 + var(--osd-screen-scale)) / 2);
+  width: var(--osd-screenshot-width);
+  height: var(--osd-screenshot-height);
   background: var(--osd-background-color);
-  font-size: 11px;
+  font-size: calc(var(--osd-font-size) * var(--osd-font-scale));
   color: var(--osd-color);
 }
 
 .osd {
   position:relative;
-  height: inherit;      /* to properly position OSD messages without items */
-  padding: 5px 10px;
+  height: calc(var(--osd-screenshot-height) - 2 * var(--margin-left-right));      /* to properly position OSD messages without items */
+  padding: var(--margin-top-bottom) var(--margin-left-right);
 }
 
 .osd div {
-  margin: 0px;
   tab-size: 4;
   font-family: "Courier New", Courier, monospace;
 }
 
-.osdMessage {
-  position: absolute;
-  bottom: 40px;         /* use bottom to expand multi-line message to top */
-  width: 527px;
-  display: flex;
-  flex-flow: column;
-  overflow: hidden;
-  max-height: 4lh;
-  padding: 10px;
-  background: var(--osd-message-background-color);
-  border: var(--osd-message-border-width) solid var(--osd-message-border-color);
-  color: var(--osd-message-color);
+.osdChannel {
+  font-size: calc(var(--osd-title-font-size) * var(--osd-font-scale));
+  font-weight: bold;
 }
 
-.osdMessage div {
-  overflow: hidden;
+.osdSchedule td {
+  padding-left: var(--margin-left-right);
+  vertical-align: top;
 }
 
-.osdMessageStatus {
-  background: var(--osd-status-background-color);
-  border: var(--osd-message-border-width) solid var(--osd-status-border-color);
-  color: var(--osd-status-color);
+.osdSchedule td:first-of-type {
+  padding-left: 0px;
 }
 
-.osdMessageInfo {
-  background: var(--osd-info-background-color);
-  border: var(--osd-message-border-width) solid var(--osd-info-border-color);
-  color: var(--osd-info-color);
+.osdSchedule {
+  font-size: calc(var(--osd-font-size) * var(--osd-font-scale));
 }
 
-.osdMessageWarning {
-  background: var(--osd-warning-background-color);
-  border: var(--osd-message-border-width) solid var(--osd-warning-border-color);
-  color: var(--osd-warning-color);
+.osdSchedule.title {
+  margin: initial;
+  font-size: calc(var(--osd-font-size) * var(--osd-font-scale));
+  font-weight: inherit;
 }
 
-.osdMessageError {
-  background: var(--osd-error-background-color);
-  border: var(--osd-message-border-width) solid var(--osd-error-border-color);
-  color: var(--osd-error-color);
-}
-
-.osdProgrammeSubTitle {
-  font-size: 9px;
+.osdSchedule.subtitle {
+  font-size: calc(var(--osd-subtitle-font-size) * var(--osd-font-scale));
 }
 
 .osdText, .osdItems {
   overflow-x: hidden;
   overflow-y: auto;
-  height: 267px;
-  margin: 5px 0px !important;
+  height: calc(var(--osd-screenshot-height) - var(--osd-title-height) - var(--margin-top-bottom) - var(--osd-button-height) - var(--osd-button-margin));
+  margin: var(--margin-top-bottom) 0px;
 }
 
 .osdItem, .osdTitle {
   white-space: pre;
+}
+
+.osdTitle {
+  font-size: calc(var(--osd-title-font-size) * var(--osd-font-scale));
+  font-weight: bold;
 }
 
 .osdItem {
@@ -2496,6 +1953,7 @@ div.screenshot img {
   padding: 0ch;
   border-collapse: collapse;
   width: 100%;
+  font-size: calc(var(--osd-font-size) * var(--osd-font-scale));
 }
 
 tr.osdItem, tr.osdItem td {
@@ -2520,57 +1978,108 @@ tr.osdItem.selected td {
   color: var(--osd-color-highlight);
 }
 
+.osdMessage {
+  position: absolute;
+  /* use bottom to expand multi-line message to top */
+  bottom: calc(var(--osd-button-height) + 2 * var(--margin-top-bottom));
+  width: calc(var(--osd-screen-width) - 4 * var(--margin-left-right) - 2 * var(--osd-message-border-width));
+  display: flex;
+  flex-flow: column;
+  overflow: hidden;
+  max-height: 4lh;
+  padding: var(--margin-top-bottom) var(--margin-left-right);
+  background: var(--osd-message-background-color);
+  border: var(--osd-message-border-width) solid var(--osd-message-border-color);
+  color: var(--osd-message-color);
+}
+
+.osdMessage div {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.osdMessage.status {
+  background: var(--osd-status-background-color);
+  border: var(--osd-message-border-width) solid var(--osd-status-border-color);
+  color: var(--osd-status-color);
+}
+
+.osdMessage.info {
+  background: var(--osd-info-background-color);
+  border: var(--osd-message-border-width) solid var(--osd-info-border-color);
+  color: var(--osd-info-color);
+}
+
+.osdMessage.warning {
+  background: var(--osd-warning-background-color);
+  border: var(--osd-message-border-width) solid var(--osd-warning-border-color);
+  color: var(--osd-warning-color);
+  font-weight: bold;
+}
+
+.osdMessage.error {
+  background: var(--osd-error-background-color);
+  border: var(--osd-message-border-width) solid var(--osd-error-border-color);
+  color: var(--osd-error-color);
+  font-weight: bold;
+}
+
 .osdButtons {
   display: flex;
   flex-flow: nowrap;
-  justify-content: space-evenly;
+  justify-content: space-between;
 }
 
 .osdButtons .osdButton {
-  cursor: pointer;
   display: flex;
   flex-flow: row;
   justify-content: center;
   align-items: center;
-  width: 130px;
-  margin-left: 5px;
-  padding: 2px;
+  box-sizing: border-box;
+  width: var(--osd-button-width);
+  padding: var(--text-line-gap) var(--margin-left-right);
   overflow: hidden;
   white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.osdButtons .osdButton:hover {
-  font-weight: bold;
+  cursor: pointer;
 }
 
 .osdButtons .osdButton:first-child {
   margin-left: 0px;
 }
 
-.osdButtonGreen {
+.osdButtons .osdButton:hover {
+  font-weight: bold;
+}
+
+.osdButton.green {
   background: var(--osd-button-green-background-color);
   color: var(--osd-button-green-color);
 }
 
-.osdButtonYellow {
+.osdButton.yellow {
   background: var(--osd-button-yellow-background-color);
   color: var(--osd-button-yellow-color);
 }
 
-.osdButtonBlue {
+.osdButton.blue {
   background: var(--osd-button-blue-background-color);
   color: var(--osd-button-blue-color);
 }
 
-.osdButtonRed {
+.osdButton.red {
   background: var(--osd-button-red-background-color);
   color: var(--osd-button-red-color);
 }
 
-.osdButtonInvisible {
+.osdButton.invisible {
   background: transparent;
   color: transparent;
+  cursor: default;
+}
+
+.osdButton .label {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 
@@ -2674,6 +2183,13 @@ table.form > tbody > tr.permissions > td.rightcol > div {
   margin: var(--text-line-gap) 0px;
 }
 
+table.form div.with-tooltip {
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  column-gap: var(--margin-left-right);
+}
+
 form div.message {
   margin: var(--margin-top-bottom) 0px;
 }
@@ -2735,10 +2251,6 @@ table.form tbody > tr > td > select {
   margin-top: 3px;      /* visual adjustment */
 }
 
-div#individual_channelGroups_section input {
-  margin-top: 3px;      /* visual adjustment */
-}
-
 table.form tbody > tr > td > select[multiple=multiple] {
   margin-left: var(--margin-left-right);
   margin-bottom: 3px;   /* visual adjustment */
@@ -2784,6 +2296,10 @@ div.login_content {
   padding: calc(3 * var(--margin-top-bottom)) calc(3 * var(--margin-left-right));
   border: var(--infowin-border-width) solid var(--infowin-border-color);
   border-top: none;
+}
+
+div.login_content img.logo {
+  width: 100%
 }
 
 div.login_content .message {
@@ -3086,11 +2602,16 @@ img.thumb, img.thumbpt {
   /* rather small display */
 
   div#infobox {
-    min-width: 280px;
+    min-width: calc(100svw - 2 * var(--body-margin));
   }
 
-  img.logo {
-    width: 70px;
+  div#infobox.with-logo {
+    min-width: calc(100svw - 2 * var(--body-margin) - var(--page-header-gap) - var(--vdr-logo-small-width));
+    max-width: calc(100svw - 2 * var(--body-margin) - var(--page-header-gap) - var(--vdr-logo-small-width));
+  }
+
+  div#logo img.logo {
+    width: var(--vdr-logo-small-width);
   }
 
   div.__progress {
@@ -3223,7 +2744,7 @@ img.thumb, img.thumbpt {
   table.listing > tbody > tr > td.rightcol div.event_actions {
     display: flex;
     flex-flow: column;
-    justify-content: flex-end;
+    align-items: flex-end;
     gap: var(--icon-row-gap) var(--icon-column-gap);
     padding: var(--margin-top-bottom) var(--margin-left-right);
   }

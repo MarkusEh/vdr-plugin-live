@@ -70,10 +70,10 @@ function addScraperImageTitle(s, image, pt, title, seasonEpisode, runtime, date)
     s.a += image
     s.a += '?thumb=1&cache_max_age=2592000\" class=\"thumb'
     s.a += pt
-  } else s.a += 'img/transparent.png\" style=\"height: var(--icon-height, 16px)'
+  } else s.a += 'img/transparent.svg\" style=\"height: var(--icon-height, 16px)'
   if (title.length != 0 || date.length != 0) {
 // scraper data available
-    s.a += '\" title=\"<p>'
+    s.a += '\"  alt=\"\" title=\"<p>'
     s.a += title
     if (seasonEpisode.length != 0) {
       s.a += '</p><p>S'
@@ -349,26 +349,6 @@ function addEventListString(col_span, events) {
   s.a = ""
   addEventList(s, col_span, events)
   return s.a
-}
-
-function get_disable_popup_storage_name(id) {
-  if (id.endsWith('_') ) {
-    return "disable_popup_" + id.substring(0, 3) + "_ms";   // ms for multiple selection
-  } else {
-    return "disable_popup_" + id.substring(0, 3);
-  }
-}
-
-function is_popup_disabled(id) {
-  let storage_name = get_disable_popup_storage_name(id);
-  let c = sessionStorage.getItem(storage_name);
-  if (c && c == '1') return true;
-  const el = document.querySelector("div");
-  let cs = getComputedStyle(el).getPropertyValue("--" + storage_name);
-  return cs && cs == '1';
-}
-function disable_popup(id) {
-  sessionStorage.setItem(get_disable_popup_storage_name(id), '1');
 }
 
 //The following cookie functions have evolved from the examples of http://www.quirksmode.org/js/cookies.html

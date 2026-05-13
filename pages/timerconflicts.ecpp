@@ -33,6 +33,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>VDR-Live - <$ pageTitle $></title>
+    <& pageelems.favicon &>
     <& pageelems.stylesheets &>
     <& pageelems.ajax_js &>
     <& pageelems.create_html_js &>
@@ -87,7 +88,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
               <td class="td-hidden-xs"><div class="withmargin hidden-xs"><$ trVDR("Priority") $></div></td>
               <td><div class="withmargin"><$ trVDR("File") $></div></td>
               <td class="<$ noSearchTimers ? "notpresent" : "searchtimer" $>"><div class="withmargin"><$ tr("Search timer") $></div></td>
-              <td class="rightcol"><img class="action-rightcol" src="img/transparent.png" alt="" /></td>
+              <td class="rightcol"><img class="action-rightcol icon" src="img/transparent.svg" alt="" /></td>
             </tr>
 <%cpp>
             for (std::list<int>::const_iterator timerIndex = confltimer->concurrentTimerIndices.begin(); timerIndex != confltimer->concurrentTimerIndices.end(); ++timerIndex) {
@@ -112,16 +113,16 @@ if (!logged_in && LiveSetup().UseAuth()) {
               ++nexttimerIndex;
               bool bottom = (nexttimerIndex == confltimer->concurrentTimerIndices.end());
 
-              std::string timerStateImg = "transparent.png";
+              std::string timerStateIcon = "transparent.svg";
               std::string timerStateClass;
               std::string timerStateHint;
               if (timer->Id() == confltimer->timerIndex) {
-                timerStateImg = "timer_conflict.png";
+                timerStateIcon = "caution.svg";
                 timerStateClass = "conflict";
                 timerStateHint = tr("Timer has a conflict");
               }
               else if (timer->Flags() & tfActive) {
-                timerStateImg = "arrow.png";
+                timerStateIcon = "arrow.svg";
                 timerStateClass = "active";
                 timerStateHint = tr("Timer is active");
               }
@@ -162,7 +163,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
 </%cpp>
               <tr class="<$ timer->Recording() ? "recording" : ((timer->Flags() & tfActive) ? timerStateClass : "inactive") $>">
                 <# class="state" -> normally invisible #>
-                <td class="leftcol <? bottom ? "bottomrow" ?>"><div class="<$ timerStateClass == "conflict"?"state_conflict":"state"$>"><img src="<$ LiveSetup().GetThemedLink("img", timerStateImg) $>" alt="" <%cpp> if (!timerStateHint.empty()) { </%cpp><& tooltip.hint text=(timerStateHint) &><%cpp> } </%cpp>/></div></td>
+                <td class="leftcol <? bottom ? "bottomrow" ?>"><div class="<$ timerStateClass == "conflict"?"state_conflict":"state"$>"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", timerStateIcon) $>" alt="" <%cpp> if (!timerStateHint.empty()) { </%cpp><& tooltip.hint text=(timerStateHint) &><%cpp> } </%cpp>/></div></td>
                 <td class="<? bottom ? "bottomrow" ?>"><div class="withmargin">
                    <table class="noborder"><tr><td class="noborder"><span class="display-xs nowrap" > <$ cToSvDateTime(tr("%I:%M %p"), timer->StartTime()) $> - <$ cToSvDateTime(tr("%I:%M %p"), timer->StopTime()) $></span></td></tr>
 <%cpp>
@@ -212,10 +213,10 @@ if (!logged_in && LiveSetup().UseAuth()) {
 %                   cToSvDateTime label(tr("%I:%M %p"), timer->StartTime());
 %                   label.append(tr(" - ")).append(timer->File());
 %                   int xsVisibleIcons = 3;     // all except the edit-timer icon
-                    <a class="action-rightcol" href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(title) $>"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "search.png") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtRight=(fileNameBreaks) text=(tr("Search for repeats")) &> /></a>
-                    <a class="action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&action=toggle"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.png" : "inactive.png") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtRight=(fileNameBreaks) text=(tr("Toggle timer (in)active")) &> /></a>
+                    <a class="action-rightcol" href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(title) $>"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "search.svg") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtRight=(fileNameBreaks) text=(tr("Search for repeats")) &> /></a>
+                    <a class="action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&action=toggle"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.svg" : "inactive.svg") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtRight=(fileNameBreaks) text=(tr("Toggle timer (in)active")) &> /></a>
                     <div class="action-rightcol"><& pageelems.edit_timer timerId=(SortedTimers::GetTimerId(*timer)) className="icon" label=(label) breaksAtRight=(fileNameBreaks) iCounter=((uintptr_t)&xsVisibleIcons) &></div>
-                    <a class="action-rightcol" href="epginfo.html?epgid=det_<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&history_num_back=1"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "del.png") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtRight=(fileNameBreaks) text=(tr("Delete timer")) &> /></a>
+                    <a class="action-rightcol" href="epginfo.html?epgid=det_<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&history_num_back=1"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "del.svg") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtRight=(fileNameBreaks) text=(tr("Delete timer")) &> /></a>
                     <div class="notpresent xs-visible-<$ xsVisibleIcons $> xs-columns-<$ (xsVisibleIcons  + 2) / 3 $>"></div>
                   </div>
                 </td>

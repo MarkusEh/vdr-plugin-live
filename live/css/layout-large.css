@@ -1,0 +1,60 @@
+/* ###########################################################################
+   #  This file overrides properties, which are referenced in 'styles.css'
+   #  and possibly in 'theme.css' or 'siteprefs.css', for the page layout of
+   #  themes with large icons. To include this file into a specific theme,
+   #  it should be referenced by a symbolic link instead of copying.
+   ###########################################################################
+*/
+
+/* icon settings */
+
+@property --icon-width {
+  syntax: "<length>";
+  initial-value: 24px;
+  inherits: false;
+}
+
+@property --icon-height {
+  syntax: "<length>";
+  initial-value: 24px;
+  inherits: false;
+}
+
+@property --iconic-button-width {
+  syntax: "<length>";
+  initial-value: 24px;
+  inherits: false;
+}
+
+@property --iconic-button-height {
+  syntax: "<length>";
+  initial-value: 24px;
+  inherits: false;
+}
+
+/* icon visual adjustments */
+
+table.listing > tbody > tr > td.rightcol div.event_actions,
+table.listing > tbody > tr > td.rightcol div.user_actions {
+  padding-top: var(--margin-top-bottom);
+  padding-bottom: var(--margin-top-bottom);
+}
+
+.ok-info-body, .err-info-body {
+  column-gap: calc(2 * var(--icon-column-gap));
+}
+
+/* OSD settings */
+
+@property --osd-screen-scale {
+  syntax: "<number>";
+  initial-value: 1.0;
+  inherits: false;
+}
+
+@property --remote-control-scale {
+  syntax: "<number>";
+  initial-value: 1.5;
+  inherits: false;
+}
+

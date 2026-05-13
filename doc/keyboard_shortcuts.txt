@@ -1,20 +1,28 @@
 Keyboard shortcuts in the 'Remote' view:
 
-<tab> -> menu
-<esc> -> back
-<ret> -> OK
-<F1>  -> red
-<F2>  -> green
-<F3>  -> jellow
-<F4>  -> blue
-<F5>  -> fast rewind
-<F6>  -> fast fwd
-<F9>  -> menu
-<F10> -> mute
-<F11> -> vol down
-<F12> -> vol up
-<PgUp>-> channel up
-<PgDn>-> channel down
+Key         Legacy Map      Extended Map
+--------    ------------    ------------
+Tab         Menu            Menu
+Esc         Back            Back
+Enter ↵     OK              OK
+Up    ▲     Up              Up
+Left  ◀     Left            Left
+Right ▶     Right           Right
+Down  ▼     Down            Down
+F1          Red             Red
+F2          Green           Green
+F3          Yellow          Yellow
+F4          Blue            Blue
+F5          Fast rewind     Schedule
+F6          Fast forward    Timers
+F7          —               Recordings
+F8          —               Channels
+F9          Menu            Setup
+F10         Mute            Commands
+F11         Volume+         Volume+
+F12         Volume−         Volume−
+PgUp  ▢⬆    Channel+        Channel
+PgDn  ▢⬇    Channel−        Channel
 
 For X & softhddevice, remote.conf:
 XKeySym.Up         Up

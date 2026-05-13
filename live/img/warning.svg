@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="24"
+   height="24"
+   viewBox="0 0 24 24"
+   version="1.1"
+   id="svg6"
+   sodipodi:docname="status_warning.svg"
+   inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview6"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="27.375"
+     inkscape:cx="12"
+     inkscape:cy="12"
+     inkscape:window-width="1920"
+     inkscape:window-height="1129"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg6" />
+  <defs
+     id="defs2">
+    <radialGradient
+       id="radial-pattern-0"
+       gradientUnits="userSpaceOnUse"
+       cx="98.116898"
+       cy="91.464104"
+       fx="98.116898"
+       fy="91.464104"
+       r="11.037036"
+       gradientTransform="matrix(0.0000154245, 2.293313, -2.085641, -0.00000121897, 198.292685, -220.340706)">
+      <stop
+         offset="0"
+         stop-color="rgb(100%, 100%, 100%)"
+         stop-opacity="1"
+         id="stop1"
+         style="stop-color:#f0f0f0;stop-opacity:1;" />
+      <stop
+         offset="1"
+         stop-color="rgb(100%, 80%, 0%)"
+         stop-opacity="0"
+         id="stop2" />
+    </radialGradient>
+  </defs>
+  <path
+     fill="none"
+     stroke-width="1.04102"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     stroke="rgb(83.137255%, 66.666667%, 0%)"
+     stroke-opacity="1"
+     stroke-miterlimit="4"
+     d="M 102.224747 90.082997 L 112.742306 108.294754 L 91.707188 108.294754 Z M 102.224747 90.082997 "
+     transform="matrix(1.087467, 0, 0, 1.087467, -99.166055, -95.864644)"
+     id="path2" />
+  <path
+     fill-rule="nonzero"
+     fill="rgb(100%, 80%, 0%)"
+     fill-opacity="1"
+     d="M 12 2.097656 L 23.4375 21.902344 L 0.5625 21.902344 Z M 12 2.097656 "
+     id="path3" />
+  <path
+     fill-rule="nonzero"
+     fill="url(#radial-pattern-0)"
+     d="M 12 2.097656 L 23.4375 21.902344 L 0.5625 21.902344 Z M 12 2.097656 "
+     id="path4" />
+  <path
+     fill="none"
+     stroke-width="0.3"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     stroke="rgb(100%, 100%, 100%)"
+     stroke-opacity="1"
+     stroke-miterlimit="4"
+     d="M 103.104631 105.105934 L 101.410426 105.105934 L 101.058473 98.304957 L 103.456585 98.304957 Z M 101.030868 107.390178 C 101.030868 106.958863 101.148186 106.651767 101.382821 106.47234 C 101.627808 106.296363 101.917652 106.20665 102.259254 106.20665 C 102.587053 106.20665 102.869996 106.296363 103.104631 106.47234 C 103.349618 106.651767 103.470387 106.958863 103.470387 107.390178 C 103.470387 107.804241 103.349618 108.104436 103.104631 108.294215 C 102.869996 108.473642 102.587053 108.563356 102.259254 108.563356 C 101.917652 108.563356 101.627808 108.473642 101.382821 108.294215 C 101.148186 108.104436 101.030868 107.804241 101.030868 107.390178 Z M 101.030868 107.390178 "
+     transform="matrix(1.132075, 0, 0, 1.132075, -103.726126, -103.726126)"
+     id="path5" />
+  <path
+     fill-rule="nonzero"
+     fill="rgb(100%, 100%, 100%)"
+     fill-opacity="1"
+     d="M 12.996094 15.261719 L 11.078125 15.261719 L 10.679688 7.5625 L 13.394531 7.5625 Z M 10.648438 17.847656 C 10.648438 17.359375 10.78125 17.011719 11.046875 16.808594 C 11.324219 16.609375 11.652344 16.507812 12.039062 16.507812 C 12.410156 16.507812 12.730469 16.609375 12.996094 16.808594 C 13.273438 17.011719 13.410156 17.359375 13.410156 17.847656 C 13.410156 18.316406 13.273438 18.65625 12.996094 18.871094 C 12.730469 19.074219 12.410156 19.175781 12.039062 19.175781 C 11.652344 19.175781 11.324219 19.074219 11.046875 18.871094 C 10.78125 18.65625 10.648438 18.316406 10.648438 17.847656 Z M 10.648438 17.847656 "
+     id="path6" />
+</svg>

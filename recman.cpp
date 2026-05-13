@@ -1917,23 +1917,23 @@ std::string recordingErrorsHtml(int recordingErrors) {
   result.append("<div class=\"recording_errors\"><img src=\"");
 
   if (recordingErrors == 0) {
-    result.append(LiveSetup().GetThemedLink("img", "NoRecordingErrors.png"));
+    result.append(LiveSetup().GetThemedLink("img", "no_error.svg"));
     result.append("\" title=\"");
     result.append(tr("No recording errors"));
   }
   if (recordingErrors == -1) {
-    result.append(LiveSetup().GetThemedLink("img", "NotCheckedForRecordingErrors.png"));
+    result.append(LiveSetup().GetThemedLink("img", "warning.svg"));
     result.append("\" title=\"");
     result.append(tr("Recording errors unknown"));
   }
   if (recordingErrors >   0) {
-    result.append(LiveSetup().GetThemedLink("img", "RecordingErrors.png"));
+    result.append(LiveSetup().GetThemedLink("img", "error.svg"));
     result.append("\" title=\"");
     result.append(tr("Number of recording errors:"));
     result.append(" ");
     result.append(cToSvInt(recordingErrors));
   }
-  result.append("\" width=\"16px\"/> </div>");
+  result.append("\" width=\"16px\" alt=\"\" /> </div>");
   return result;
 #else
   return std::string();

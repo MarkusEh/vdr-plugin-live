@@ -81,16 +81,16 @@ template <size_t N> cToSvConcat<N>& appendMessageHtml(cToSvConcat<N>& target) {
       // class 'osdMessage' establishes common settings and a flexbox for centering;
       // subordinate 'div' just provides background and color
       case mtStatus:
-        target << "<div class=\"osdMessage osdMessageStatus\"><div>";
+        target << "<div class=\"osdMessage status\"><div>";
         break;
       case mtInfo:
-        target << "<div class=\"osdMessage osdMessageInfo\"><div>";
+        target << "<div class=\"osdMessage info\"><div>";
         break;
       case mtWarning:
-        target << "<div class=\"osdMessage osdMessageWarning\"><div>";
+        target << "<div class=\"osdMessage warning\"><div>";
         break;
       case mtError:
-        target << "<div class=\"osdMessage osdMessageError\"><div>";
+        target << "<div class=\"osdMessage error\"><div>";
         break;
       default:
         target << "<div class=\"osdMessage\"><div>";
@@ -105,33 +105,33 @@ template <size_t N> cToSvConcat<N>& appendMessageHtml(cToSvConcat<N>& target) {
 template <size_t N> cToSvConcat<N>& appendRedHtml(cToSvConcat<N>& target) {
     cOsdStatusMonitorLock lr;
     if (m_red.empty() ) {
-      target << "<div class=\"osdButton osdButtonInvisible\"></div>";
+      target << "<div class=\"osdButton invisible\"></div>";
     } else {
-      target << "<div class=\"osdButton osdButtonRed\">";
+      target << "<div class=\"osdButton red\"><div class=\"label\">";
       AppendHtmlEscapedAndCorrectNonUTF8(target, m_red);
-      target << "</div>";
+      target << "</div></div>";
     }
     return target;
   }
 template <size_t N> cToSvConcat<N>& appendGreenHtml(cToSvConcat<N>& target) {
     cOsdStatusMonitorLock lr;
     if (m_green.empty() ) {
-      target << "<div class=\"osdButton osdButtonInvisible\"></div>";
+      target << "<div class=\"osdButton invisible\"></div>";
     } else {
-      target << "<div class=\"osdButton osdButtonGreen\">";
+      target << "<div class=\"osdButton green\"><div class=\"label\">";
       AppendHtmlEscapedAndCorrectNonUTF8(target, m_green);
-      target << "</div>";
+      target << "</div></div>";
     }
     return target;
   }
 template <size_t N> cToSvConcat<N>& appendYellowHtml(cToSvConcat<N>& target) {
     cOsdStatusMonitorLock lr;
     if (m_yellow.empty() ) {
-      target << "<div class=\"osdButton osdButtonInvisible\"></div>";
+      target << "<div class=\"osdButton invisible\"></div>";
     } else {
-      target << "<div class=\"osdButton osdButtonYellow\">";
+      target << "<div class=\"osdButton yellow\"><div class=\"label\">";
       AppendHtmlEscapedAndCorrectNonUTF8(target, m_yellow);
-      target << "</div>";
+      target << "</div></div>";
     }
     return target;
   }
@@ -139,11 +139,11 @@ template <size_t N> cToSvConcat<N>& appendBlueHtml(cToSvConcat<N>& target) {
     cOsdStatusMonitorLock lr;
     if (m_blue.empty() ) {
       // create even invisible last button for proper flexbox space balancing
-      target << "<div class=\"osdButton osdButtonInvisible\"></div>";
+      target << "<div class=\"osdButton invisible\"></div>";
     } else {
-      target << "<div class=\"osdButton osdButtonBlue\">";
+      target << "<div class=\"osdButton blue\"><div class=\"label\">";
       AppendHtmlEscapedAndCorrectNonUTF8(target, m_blue);
-      target << "</div>";
+      target << "</div></div>";
     }
     return target;
   }
@@ -169,29 +169,29 @@ template <size_t N> cToSvConcat<N>& appendTextHtml(cToSvConcat<N>& target) {
 template <size_t N> cToSvConcat<N>& appendChannelTextHtml(cToSvConcat<N>& target) {
     cOsdStatusMonitorLock lr;
     if (m_channel_text.empty() ) return target;
-    target << "<div class=\"osdChannelText\">";
+    target << "<div class=\"osdChannel\">";
     AppendHtmlEscapedAndCorrectNonUTF8(target, m_channel_text);
     target << "</div>";
     return target;
   }
-template <size_t N> cToSvConcat<N>& appendProgrammeHtml(cToSvConcat<N>& target) {
+template <size_t N> cToSvConcat<N>& appendProgramHtml(cToSvConcat<N>& target) {
     cOsdStatusMonitorLock lr;
     if (!m_present_time || m_present_title.empty() ) return target;
-    target << "<div class=\"osdProgramme\"><table><tr><td>";
+    target << "<div class=\"osdSchedule\"><table><tr><td class=\"osdSchedule time\">";
     target.appendDateTime(tr("%I:%M %p"), m_present_time);
     target << "</td><td>";
-    target << "<div class=\"osdProgrammeTitle\">";
+    target << "<div class=\"osdSchedule title\">";
     AppendHtmlEscapedAndCorrectNonUTF8(target, m_present_title);
-    target << "</div><div class=\"osdProgrammeSubTitle\">";
+    target << "</div><div class=\"osdSchedule subtitle\">";
     AppendHtmlEscapedAndCorrectNonUTF8(target, m_present_subtitle);
     target << "</div></td></tr>";
     if (m_following_time && !m_following_title.empty() ) {
-      target << "<tr><td>";
+      target << "<tr><td class=\"osdSchedule time\">";
       target.appendDateTime(tr("%I:%M %p"), m_following_time);
       target << "</td><td>";
-      target << "<div class=\"osdProgrammeTitle\">";
+      target << "<div class=\"osdSchedule title\">";
       AppendHtmlEscapedAndCorrectNonUTF8(target, m_following_title);
-      target << "</div><div class=\"osdProgrammeSubTitle\">";
+      target << "</div><div class=\"osdSchedule subtitle\">";
       AppendHtmlEscapedAndCorrectNonUTF8(target, m_following_subtitle);
       target << "</div></td></tr>";
     }
@@ -225,7 +225,7 @@ template <size_t N> cToSvConcat<N>& appendHtml(cToSvConcat<N>& target) {
     appendItemsHtml(target);
     appendTextHtml(target);
     appendChannelTextHtml(target);
-    appendProgrammeHtml(target);
+    appendProgramHtml(target);
     appendMessageHtml(target);
     appendButtonsHtml(target);
     target << "</div>";

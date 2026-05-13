@@ -336,13 +336,19 @@ namespace vdrlive {
          "/html/$1",
          "text/html");
 
-    // Map favicon.ico into img directory
+    // Map favicon.ico and favicon.svg into img directory
     MapUrl(app,
          "^/favicon.ico$",
          "content",
          GetResourcePath(),
-         "/img/favicon.ico",
+         "/img/favicon/favicon.ico",
          "image/x-icon");
+    MapUrl(app,
+         "^/favicon.svg$",
+         "content",
+         GetResourcePath(),
+         "/img/favicon/favicon.svg",
+         "image/svg+xml");
 
     // Map HLS streaming data folder. Module stream_data.ecpp is used to serve content.
     app.mapUrl("^/media/(.+)", "stream_data");
