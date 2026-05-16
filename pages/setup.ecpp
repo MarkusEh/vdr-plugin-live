@@ -186,14 +186,14 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
               </tr>
               <tr>
                 <td class="label"><div class="withmargin"><$ tr("IPv4 prefix") $>:</div></td>
-                <td><div class="withmargin with-tooltip">
+                <td><div class="with-tooltip">
                   <input type="text" name="localnetmask" value="<$ localnetmask $>" id="localnetmask" />
                   <& tooltip.help text=(tr("Example: 192.168.178.0/24")) &>
                 </div></td>
               </tr>
               <tr>
                 <td class="label"><div class="withmargin"><$ tr("IPv6 prefix") $>:</div></td>
-                <td><div class="withmargin with-tooltip">
+                <td><div class="with-tooltip">
                   <input type="text" name="localnetmaskIPv6" value="<$ localnetmaskIPv6 $>" id="localnetmaskIPv6" />
 %                 // the mootools unfortunately use "::" as separator for title and text,
 %                 // so we need to escape this by inserting an invisible space U+200B in-between
@@ -260,7 +260,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
           </tr>
           <tr>
             <td class="label leftcol"><div class="withmargin"><$ tr("Additional fixed times in 'What's on?'") $>:</div></td>
-            <td class="rightcol"><div class="withmargin with-tooltip">
+            <td class="rightcol"><div class="with-tooltip">
               <input type="text" name="times" value="<$ times $>" id="times" />
               <& tooltip.help text=(tr("Format is HH:MM. Separate multiple times with a semicolon")) &>
             </div></td>
@@ -290,7 +290,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
              <table border="0" cellpadding="0" cellspacing="0" class="dependent">
              <tr>
                <td class="label"><div class="withmargin"><$ tr("Channel groups") $>:</div></td>
-               <td><div class="withmargin with-tooltip">
+               <td><div class="with-tooltip">
                   <input type="text" name="channelGroups" value="<$ channelGroups $>" id="channelGroups" />
                   <& tooltip.help text=(tr("Separate channels with a comma ',', separate groups with a semi-colon ';'")) &>
                 </div></td>

@@ -2243,17 +2243,15 @@ table.dependent > tbody > tr > td:last-child {
 }
 
 table.form tbody > tr > td > input,
+table.form tbody > tr > td > select,
+table.form tbody > tr > td > div.with-tooltip,
 table.form tbody > tr.permissions > td input[type=checkbox] {
-  margin-top: 3px;      /* visual adjustment */
-}
-
-table.form tbody > tr > td > select {
-  margin-top: 3px;      /* visual adjustment */
+  margin-top: calc(var(--margin-top-bottom) - var(--text-line-gap));  /* visual adjustment */
 }
 
 table.form tbody > tr > td > select[multiple=multiple] {
   margin-left: var(--margin-left-right);
-  margin-bottom: 3px;   /* visual adjustment */
+  margin-top: calc(var(--margin-top-bottom) - var(--text-line-gap));  /* visual adjustment */
   padding-top: 0px;
   padding-bottom: 0px;
 }
@@ -2789,7 +2787,7 @@ img.thumb, img.thumbpt {
   }
 
   table.streaming > tbody > tr > td.action {
-    padding-top: 3px;
+    padding-top: calc(var(--margin-top-bottom) - var(--text-line-gap));   /* visual adjustment */
   }
 
   table.streaming > tbody > tr > td.leftcol div.recording_status {

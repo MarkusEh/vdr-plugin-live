@@ -807,10 +807,10 @@ msgid "Retrieving status ..."
 msgstr "Hole Status ..."
 
 msgid "Infobox update is on. Click to turn it off"
-msgstr "Statusabfrage ist eingeschaltet. Zum Ausschalten clicken"
+msgstr "Statusabfrage ist eingeschaltet. Zum Ausschalten klicken"
 
 msgid "Infobox update is off. Click to turn it on"
-msgstr "Statusabfrage ist ausgeschaltet. Zum Einschalten clicken"
+msgstr "Statusabfrage ist ausgeschaltet. Zum Einschalten klicken"
 
 msgid "Stop playback"
 msgstr "Anhalten"

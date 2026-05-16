@@ -22,78 +22,78 @@ bool IsGrabImageAvailable() {
 #define KEYBD(key) (kKbd | (key) << 16)
 
 typedef struct {
-  int kbd;              // keyboard code, 0 means unmapped
-  int key;              // VDR key to be submitted, -1 for keyboard help
-  const char* id;       // RC shape ID, empty means no RC button
-  const char* label;    // label for keyboard help
+  const char* key;      // key value or name (empty means no key assigned)
+  const char* id;       // ID of SVG anchor (empty means no RC button)
+  int code;             // VDR key code to be submitted (-1 means input discarded)
+  const char* name ;    // VDR key name for keyboard help
   const char* tooltip;  // tooltip on RC hover
 } tKeyMap;
 
 static const tKeyMap keyMap[] {
 //  https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values
-//  code   VDR key        SVG ID         Function key
-  { 0,     -1,            "aLive",       "",               trNOOP("Keyboard help") },  // tooltip only
-  { 0,     -1,            "aRemote",     "",               trNOOP("Keyboard help") },
-  { 0,     kPower,        "kPower",      "Key$Power",      ""        },
-  { 0x30,  k0,            "k0",          "",               ""        },  // digit keys are encoded literally
-  { 0x31,  k1,            "k1",          "",               ""        },
-  { 0x32,  k2,            "k2",          "",               ""        },
-  { 0x33,  k3,            "k3",          "",               ""        },
-  { 0x34,  k4,            "k4",          "",               ""        },
-  { 0x35,  k5,            "k5",          "",               ""        },
-  { 0x36,  k6,            "k6",          "",               ""        },
-  { 0x37,  k7,            "k7",          "",               ""        },
-  { 0x38,  k8,            "k8",          "",               ""        },
-  { 0x39,  k9,            "k9",          "",               ""        },
-  { 0x21,  kChanUp,       "kChanUp",     "Key$Channel-",   "▢⬆"      },  // VK_PRIOR: Page Up (PgUp)
-  { 0x22,  kChanDn,       "kChanDn",     "Key$Channel+",   "▢⬇"      },  // VK_NEXT:  Page Down (PgDn)
-  { 0,     kRecord,       "kRecord",     "Key$Record",     ""        },
-  { 0x0D,  kOk,           "kOk",         "Key$Ok",         "Enter ↵" },  // VK_RETURN: Enter, Return
-  { 0x08,  KEYBD(0x7F),   ""  ,          "",               ""        },  // VK_BACK: Backspace (Delete on Mac)
-  { 0x23,  KEYBD(kfEnd),  ""  ,          "",               ""        },  // VK_END:  End
-  { 0x24,  KEYBD(kfHome), ""  ,          "",               ""        },  // VK_HOME: Home (Pos1)
-  { 0x2D,  KEYBD(kfIns),  ""  ,          "",               ""        },  // VK_INSERT: Ins
-  { 0x2E,  KEYBD(kfDel),  ""  ,          "",               ""        },  // VK_DELETE: Del
-  { 0x26,  kUp,           "kUp",         "Key$Up",         "▲"       },  // VK_UP: Up arrow
-  { 0x25,  kLeft,         "kLeft",       "Key$Left",       "◀"       },  // VK_LEFT: Left arrow
-  { 0x27,  kRight,        "kRight",      "Key$Right",      "▶"       },  // VK_RIGHT: Right arrow
-  { 0x28,  kDown,         "kDown",       "Key$Down",       "▼"       },  // VK_DOWN: Down arrow
+//  Keyboard      SVG Anchor     VDR Code       VDR Name          Tooltip
+  { "",           "aLive",       -1,            "",               trNOOP("Keyboard help") },  // tooltip only
+  { "",           "aRemote",     -1,            "",               trNOOP("Keyboard help") },
+  { "",           "kPower",      kPower,        "Key$Power",      ""        },
+  { "0",          "k0",          k0,            "",               ""        },  // digit keys are encoded literally
+  { "1",          "k1",          k1,            "",               ""        },
+  { "2",          "k2",          k2,            "",               ""        },
+  { "3",          "k3",          k3,            "",               ""        },
+  { "4",          "k4",          k4,            "",               ""        },
+  { "5",          "k5",          k5,            "",               ""        },
+  { "6",          "k6",          k6,            "",               ""        },
+  { "7",          "k7",          k7,            "",               ""        },
+  { "8",          "k8",          k8,            "",               ""        },
+  { "9",          "k9",          k9,            "",               ""        },
+  { "PageUp",     "kChanUp",     kChanUp,       "Key$Channel-",   "▢⬆"      },  // VK_PRIOR: Page Up (PgUp)
+  { "PageDown",   "kChanDn",     kChanDn,       "Key$Channel+",   "▢⬇"      },  // VK_NEXT:  Page Down (PgDn)
+  { "",           "kRecord",     kRecord,       "Key$Record",     ""        },
+  { "Enter",      "kOk",         kOk,           "Key$Ok",         "Enter ↵" },  // VK_RETURN: Enter, Return
+  { "Backspace",  ""  ,          KEYBD(0x7F),   "",               ""        },  // VK_BACK: Backspace (Delete on Mac)
+  { "End",        ""  ,          KEYBD(kfEnd),  "",               ""        },  // VK_END:  End
+  { "Home",       ""  ,          KEYBD(kfHome), "",               ""        },  // VK_HOME: Home (Pos1)
+  { "Insert",     ""  ,          KEYBD(kfIns),  "",               ""        },  // VK_INSERT: Ins
+  { "Delete",     ""  ,          KEYBD(kfDel),  "",               ""        },  // VK_DELETE: Del
+  { "ArrowUp",    "kUp",         kUp,           "Key$Up",         "▲"       },  // VK_UP: Up arrow
+  { "ArrowLeft",  "kLeft",       kLeft,         "Key$Left",       "◀"       },  // VK_LEFT: Left arrow
+  { "ArrowRight", "kRight",      kRight,        "Key$Right",      "▶"       },  // VK_RIGHT: Right arrow
+  { "ArrowDown",  "kDown",       kDown,         "Key$Down",       "▼"       },  // VK_DOWN: Down arrow
 #ifdef NEW_RCKEYS
-  { 0x09,  kMenu,         "kMenu",       "Key$Menu",       "Tab"     },  // VK_TAB: Horizontal tab
+  { "Tab",        "kMenu",       kMenu,         "Key$Menu",       "Tab"     },  // VK_TAB: Horizontal tab
 #else
-  { 0x09,  kMenu,         "kMenu",       "Key$Menu",       "Tab, F9" },  // VK_TAB: Horizontal tab
+  { "Tab",        "kMenu",       kMenu,         "Key$Menu",       "Tab, F9" },  // VK_TAB: Horizontal tab
 #endif
-  { 0x1B,  kBack,         "kBack",       "Key$Back",       "Esc"     },  // VK_ESCAPE: Esc (Escape)
-  { 0,     kSubtitles,    "kSubtitles",  "Key$Subtitles",  ""        },
-  { 0,     kAudio,        "kAudio",      "Key$Audio",      ""        },
-  { 0x70,  kRed,          "kRed",        "Key$Red",        "F1"      },  // VK_F1
-  { 0x71,  kGreen,        "kGreen",      "Key$Green",      "F2"      },  // VK_F2
-  { 0x72,  kYellow,       "kYellow",     "Key$Yellow",     "F3"      },  // VK_F3
-  { 0x73,  kBlue,         "kBlue",       "Key$Blue",       "F4"      },  // VK_F4
+  { "Escape",     "kBack",       kBack,         "Key$Back",       "Esc"     },  // VK_ESCAPE: Esc (Escape)
+  { "",           "kSubtitles",  kSubtitles,    "Key$Subtitles",  ""        },
+  { "",           "kAudio",      kAudio,        "Key$Audio",      ""        },
+  { "F1",         "kRed",        kRed,          "Key$Red",        "F1"      },  // VK_F1
+  { "F2",         "kGreen",      kGreen,        "Key$Green",      "F2"      },  // VK_F2
+  { "F3",         "kYellow",     kYellow,       "Key$Yellow",     "F3"      },  // VK_F3
+  { "F4",         "kBlue",       kBlue,         "Key$Blue",       "F4"      },  // VK_F4
 #ifdef NEW_RCKEYS
-  { 0x74,  kSchedule,     "kSchedule",   "Key$Schedule",   "F5"      },  // VK_F5
-  { 0x75,  kTimers,       "kTimers",     "Key$Timers",     "F6"      },  // VK_F6
-  { 0x76,  kRecordings,   "kRecordings", "Key$Recordings", "F7"      },  // VK_F7
-  { 0x77,  kChannels,     "kChannels",   "Key$Channels",   "F8"      },  // VK_F8
-  { 0x78,  kSetup,        "kSetup",      "Key$Setup",      "F9"      },  // VK_F9
-  { 0x79,  kCommands,     "kCommands",   "Key$Commands",   "F10"     },  // VK_F10
-  { 0,     kMute,         "kMute",       "Key$Mute",       ""        },
+  { "F5",         "kSchedule",   kSchedule,     "Key$Schedule",   "F5"      },  // VK_F5
+  { "F6",         "kTimers",     kTimers,       "Key$Timers",     "F6"      },  // VK_F6
+  { "F7",         "kRecordings", kRecordings,   "Key$Recordings", "F7"      },  // VK_F7
+  { "F8",         "kChannels",   kChannels,     "Key$Channels",   "F8"      },  // VK_F8
+  { "F9",         "kSetup",      kSetup,        "Key$Setup",      "F9"      },  // VK_F9
+  { "F10",        "kCommands",   kCommands,     "Key$Commands",   "F10"     },  // VK_F10
+  { "",           "kMute",       kMute,         "Key$Mute",       ""        },
 #else
-  { 0,     kSchedule,     "kSchedule",   "Key$Schedule",   ""        },
-  { 0,     kTimers,       "kTimers",     "Key$Timers",     ""        },
-  { 0,     kRecordings,   "kRecordings", "Key$Recordings", ""        },
-  { 0,     kChannels,     "kChannels",   "Key$Channels",   ""        },
-  { 0,     kSetup,        "kSetup",      "Key$Setup",      ""        },
-  { 0,     kCommands,     "kCommands",   "Key$Commands",   ""        },
-  { 0x74,  kFastRew,      "",            "Key$FastRew",    "F5"      },  // VK_F5
-  { 0x75,  kFastFwd,      "",            "Key$FastFwd",    "F6"      },  // VK_F6
-  { 0x76,  -1,            "",            "",               ""        },  // VK_F7 - hide from browser
-  { 0x77,  -1,            "",            "",               ""        },  // VK_F8 - hide from browser
-  { 0x78,  kMenu,         ""  ,          "",               ""        },  // VK_F9
-  { 0x79,  kMute,         "kMute",       "Key$Mute",       "F10"     },  // VK_F10
+  { "",           "kSchedule",   kSchedule,     "Key$Schedule",   ""        },
+  { "",           "kTimers",     kTimers,       "Key$Timers",     ""        },
+  { "",           "kRecordings", kRecordings,   "Key$Recordings", ""        },
+  { "",           "kChannels",   kChannels,     "Key$Channels",   ""        },
+  { "",           "kSetup",      kSetup,        "Key$Setup",      ""        },
+  { "",           "kCommands",   kCommands,     "Key$Commands",   ""        },
+  { "F5",         "",            kFastRew,      "Key$FastRew",    "F5"      },  // VK_F5
+  { "F6",         "",            kFastFwd,      "Key$FastFwd",    "F6"      },  // VK_F6
+  { "F7",         "",            -1,            "",               ""        },  // VK_F7 - hide from browser
+  { "F8",         "",            -1,            "",               ""        },  // VK_F8 - hide from browser
+  { "F9",         ""  ,          kMenu,         "",               ""        },  // VK_F9
+  { "F10",        "kMute",       kMute,         "Key$Mute",       "F10"     },  // VK_F10
 #endif
-  { 0x7A,  kVolUp,        "kVolUp",      "Key$Volume-",    "F11"     },  // VK_F11
-  { 0x7B,  kVolDn,        "kVolDn",      "Key$Volume+",    "F12"     }   // VK_F12
+  { "F11",        "kVolUp",      kVolUp,        "Key$Volume-",    "F11"     },  // VK_F11
+  { "F12",        "kVolDn",      kVolDn,        "Key$Volume+",    "F12"     }   // VK_F12
 };
 </%pre>
 <%args>
@@ -329,35 +329,35 @@ if (!logged_in && LiveSetup().UseAuth()) {
   const keyMap = [
 % for (auto item: keyMap) {
 %   const char* tooltip = item.tooltip && *item.tooltip ? tr(item.tooltip) : "";
-    { kbd: <$ item.kbd $>, key: <$ item.key $>, id: "<$ item.id $>", tooltip: "<$ tooltip $>" },
+    { key: "<$ item.key $>", id: "<$ item.id $>", code: <$ item.code $>, tooltip: "<$ tooltip $>" },
 % }
   ];
 
   const rcCodes = {};
-  const kbdCodes = {};
+  const keyCodes = {};
 
   function ButtonInit() {
   // map button ID to VDR key code and assign tooltip, if any
     for (const item of keyMap) {
       const id = item.id;
       if (id) {
-        if(item.key >= 0) {
-          rcCodes[id] = item.key;
+        if(item.code >= 0) {
+          rcCodes[id] = item.code;
         }
         const button = document.getElementById(id);
         if (button) {
           if (item.tooltip) {
             button.setAttribute("title", item.tooltip);
           }
-          if (item.key < 0) {
+          if (item.code < 0) {
             const xmlns = button.namespaceURI.endsWith('/svg') ? 'http://www.w3.org/1999/xlink' : '';
             button.setAttributeNS(xmlns, "href", "epginfo.html?epgid=rcKeys");
           }
         }
       }
-      const kbd = item.kbd;
-      if (kbd) {
-        kbdCodes[kbd] = item.key;
+      const key = item.key;
+      if (key) {
+        keyCodes[key] = item.code;
       }
 
     }
@@ -367,37 +367,23 @@ if (!logged_in && LiveSetup().UseAuth()) {
   }
 
   function ButtonClick(button) {
-  // submit mapped key to VDR
+  // submit mapped VDR key code
     const id = button.id;
-    const key = rcCodes[id];
-    if (key >= 0) {
-      KeyPress(key);
+    const code = rcCodes[id];
+    if (code >= 0) {
+      KeyPress(code);
     }
   }
 
   function KeyboardInput(event) {
-  // map keyboard event to VDR key
-    const kbd = event.which;
-    const key = kbdCodes[kbd];
-    if (key >= 0) {
-      return KeyPress(key);
-    } else if (key < 0) {
-      // prevent the browser from handling the key
+  // map keyboard event to VDR key code
+    const code = keyCodes[event.key];
+    if (code >= 0) {
+      return KeyPress(code);
+    } else if (code < 0) {
+      // prevent the browser from handling the code
       return false;
     } else if (event.key.length == 1) {
-      switch (event.key) {
-        // from the numerical pad
-        case '0': return KeyPress(<$ k0 $>);
-        case '1': return KeyPress(<$ k1 $>);
-        case '2': return KeyPress(<$ k2 $>);
-        case '3': return KeyPress(<$ k3 $>);
-        case '4': return KeyPress(<$ k4 $>);
-        case '5': return KeyPress(<$ k5 $>);
-        case '6': return KeyPress(<$ k6 $>);
-        case '7': return KeyPress(<$ k7 $>);
-        case '8': return KeyPress(<$ k8 $>);
-        case '9': return KeyPress(<$ k9 $>);
-      }
       let utf = event.key.charCodeAt(0);
       if (0x20 <= utf && utf < 0xFF) {
         return KeyPress(<$ kKbd $> | utf << 16);
@@ -457,8 +443,8 @@ if (!logged_in && LiveSetup().UseAuth()) {
       <div class="about_section">
         <div class="tabular">
 %         for (auto item: keyMap) {
-%           if (item.kbd > 0 && item.key >= 0 && item.tooltip && *item.tooltip) {
-              <div class="about_left"><$ cToSvReplace(trVDR(item.label), "-", "−") $></div>
+%           if (item.key && *item.key && item.code >= 0 && item.tooltip && *item.tooltip) {
+              <div class="about_left"><$ cToSvReplace(trVDR(item.name), "-", "−") $></div>
               <div class="about_right"><$ item.tooltip $></div>
 %           }
 %         }
