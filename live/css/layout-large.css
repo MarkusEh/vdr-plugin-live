@@ -58,3 +58,8 @@ table.listing > tbody > tr > td.rightcol div.user_actions {
   inherits: false;
 }
 
+@property --osd-button-min-height {
+  syntax: "<length>";
+  initial-value: 24px;
+  inherits: false;
+}

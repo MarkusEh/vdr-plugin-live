@@ -642,6 +642,13 @@
   inherits: false;
 }
 
+@property --osd-button-min-height {
+  /* button width will be determined by screen width and button gab */
+  syntax: "<length>";
+  initial-value: 16px;
+  inherits: false;
+}
+
 @property --osd-button-gap {
   /* should satisfy (screen-width - 3 * button-gap) % 4 == 0 */
   syntax: "<length>";

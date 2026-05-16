@@ -487,6 +487,12 @@ table.listing.timerconflicts div.short {
   initial-value: 1.0;
   inherits: false;
 }
+
+@property --osd-button-min-height {
+  syntax: "<length>";
+  initial-value: 24px;
+  inherits: false;
+}
 */
 
 

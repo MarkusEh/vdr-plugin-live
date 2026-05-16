@@ -1875,7 +1875,7 @@ div#control svg {
 div#osd {
   /* the button width should result in four evenly-spaced buttons without fractional gap sizes */
   --osd-button-width: calc(calc(var(--osd-screenshot-width) - 2 * var(--margin-left-right) - 3 * var(--osd-button-gap)) / 4);
-  --osd-button-height: calc(1lh + 2 * var(--text-line-gap));
+  --osd-button-height: calc(max(1lh + 2 * var(--text-line-gap), var(--osd-button-min-height)));
   --osd-title-height: calc(1lh + var(--text-block-gap));
   /* fonts to just use half of the scale */
   --osd-font-scale: calc(calc(1 + var(--osd-screen-scale)) / 2);
@@ -2037,6 +2037,7 @@ tr.osdItem.selected td {
   align-items: center;
   box-sizing: border-box;
   width: var(--osd-button-width);
+  height: var(--osd-button-height);
   padding: var(--text-line-gap) var(--margin-left-right);
   overflow: hidden;
   white-space: nowrap;

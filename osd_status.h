@@ -107,7 +107,7 @@ template <size_t N> cToSvConcat<N>& appendRedHtml(cToSvConcat<N>& target) {
     if (m_red.empty() ) {
       target << "<div class=\"osdButton invisible\"></div>";
     } else {
-      target << "<div class=\"osdButton red\"><div class=\"label\">";
+      target << "<div class=\"osdButton red\"><div class=\"label red\">";
       AppendHtmlEscapedAndCorrectNonUTF8(target, m_red);
       target << "</div></div>";
     }
@@ -118,7 +118,7 @@ template <size_t N> cToSvConcat<N>& appendGreenHtml(cToSvConcat<N>& target) {
     if (m_green.empty() ) {
       target << "<div class=\"osdButton invisible\"></div>";
     } else {
-      target << "<div class=\"osdButton green\"><div class=\"label\">";
+      target << "<div class=\"osdButton green\"><div class=\"label green\">";
       AppendHtmlEscapedAndCorrectNonUTF8(target, m_green);
       target << "</div></div>";
     }
@@ -129,7 +129,7 @@ template <size_t N> cToSvConcat<N>& appendYellowHtml(cToSvConcat<N>& target) {
     if (m_yellow.empty() ) {
       target << "<div class=\"osdButton invisible\"></div>";
     } else {
-      target << "<div class=\"osdButton yellow\"><div class=\"label\">";
+      target << "<div class=\"osdButton yellow\"><div class=\"label yellow\">";
       AppendHtmlEscapedAndCorrectNonUTF8(target, m_yellow);
       target << "</div></div>";
     }
@@ -141,7 +141,7 @@ template <size_t N> cToSvConcat<N>& appendBlueHtml(cToSvConcat<N>& target) {
       // create even invisible last button for proper flexbox space balancing
       target << "<div class=\"osdButton invisible\"></div>";
     } else {
-      target << "<div class=\"osdButton blue\"><div class=\"label\">";
+      target << "<div class=\"osdButton blue\"><div class=\"label blue\">";
       AppendHtmlEscapedAndCorrectNonUTF8(target, m_blue);
       target << "</div></div>";
     }

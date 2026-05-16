@@ -272,7 +272,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
   function handleOSD(elem, doEnter){
     // since we do not know whether all browsers return the same 'className' pattern
     // for multiple classes, we better eliminate the generic 'odsButton' class
-    switch (elem.className.replace(/osdButton(?=\\W|$)/, '').trim()){
+    switch (elem.className.replace(/(osdButton|label)(?=\\W|$)/, '').trim()){
     case 'red':
       return KeyPress(<$ kRed $>);
     case 'green':
@@ -285,7 +285,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
       return KeyPress(<$ kBack $>);
     case '':
       if (elem.parentNode.className == 'osdItem') {
-        selectLineOsd(elem.parentNode,doEnter);
+        selectLineOsd(elem.parentNode, doEnter);
         if (!doEnter) return false;
         return KeyPress(<$ kOk $>);
       }
@@ -294,7 +294,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
       }
       return true;
     case 'osdItem':
-      selectLineOsd(elem,doEnter);
+      selectLineOsd(elem, doEnter);
       if (!doEnter) return false;
     case 'osdItem selected':
       return KeyPress(<$ kOk $>);
