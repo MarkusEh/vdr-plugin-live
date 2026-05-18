@@ -163,7 +163,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
 </%cpp>
               <tr class="<$ timer->Recording() ? "recording" : ((timer->Flags() & tfActive) ? timerStateClass : "inactive") $>">
                 <# class="state" -> normally invisible #>
-                <td class="leftcol <? bottom ? "bottomrow" ?>"><div class="<$ timerStateClass == "conflict"?"state_conflict":"state"$>"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", timerStateIcon) $>" alt="" <%cpp> if (!timerStateHint.empty()) { </%cpp><& tooltip.hint text=(timerStateHint) &><%cpp> } </%cpp>/></div></td>
+                <td class="leftcol <? bottom ? "bottomrow" ?>"><div class="<$ timerStateClass == "conflict"?"state_conflict":"state"$>"><img class="icon" src="<$ GetThemedLink("img", timerStateIcon) $>" alt="" <%cpp> if (!timerStateHint.empty()) { </%cpp><& tooltip.hint text=(timerStateHint) &><%cpp> } </%cpp>/></div></td>
                 <td class="<? bottom ? "bottomrow" ?>"><div class="withmargin">
                    <table class="noborder"><tr><td class="noborder"><span class="display-xs nowrap" > <$ cToSvDateTime(tr("%I:%M %p"), timer->StartTime()) $> - <$ cToSvDateTime(tr("%I:%M %p"), timer->StopTime()) $></span></td></tr>
 <%cpp>
@@ -213,10 +213,10 @@ if (!logged_in && LiveSetup().UseAuth()) {
 %                   cToSvDateTime label(tr("%I:%M %p"), timer->StartTime());
 %                   label.append(tr(" - ")).append(timer->File());
 %                   int xsVisibleIcons = 3;     // all except the edit-timer icon
-                    <a class="action-rightcol" href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(title) $>"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "search.svg") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtRight=(fileNameBreaks) text=(tr("Search for repeats")) &> /></a>
-                    <a class="action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&action=toggle"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.svg" : "inactive.svg") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtRight=(fileNameBreaks) text=(tr("Toggle timer (in)active")) &> /></a>
+                    <a class="action-rightcol" href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(title) $>"><img class="icon" src="<$ GetThemedLink("img", "search.svg") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtRight=(fileNameBreaks) text=(tr("Search for repeats")) &> /></a>
+                    <a class="action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&action=toggle"><img class="icon" src="<$ GetThemedLink("img", (timer->Flags() & tfActive) ? "active.svg" : "inactive.svg") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtRight=(fileNameBreaks) text=(tr("Toggle timer (in)active")) &> /></a>
                     <div class="action-rightcol"><& pageelems.edit_timer timerId=(SortedTimers::GetTimerId(*timer)) className="icon" label=(label) breaksAtRight=(fileNameBreaks) iCounter=((uintptr_t)&xsVisibleIcons) &></div>
-                    <a class="action-rightcol" href="epginfo.html?epgid=det_<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&history_num_back=1"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "del.svg") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtRight=(fileNameBreaks) text=(tr("Delete timer")) &> /></a>
+                    <a class="action-rightcol" href="epginfo.html?epgid=det_<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&history_num_back=1"><img class="icon" src="<$ GetThemedLink("img", "del.svg") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtRight=(fileNameBreaks) text=(tr("Delete timer")) &> /></a>
                     <div class="notpresent xs-visible-<$ xsVisibleIcons $> xs-columns-<$ (xsVisibleIcons  + 2) / 3 $>"></div>
                   </div>
                 </td>

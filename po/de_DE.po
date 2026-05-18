@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 3.5.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-11 15:03+0200\n"
+"POT-Creation-Date: 2026-05-17 16:26+0200\n"
 "PO-Revision-Date: 2026-01-27 20:15+0200\n"
 "Last-Translator: Stefan Hofmann <info@stefans-galerie.de>\n"
 "Language-Team: see developers in README\n"
@@ -97,15 +97,6 @@ msgstr "Duplikate von Sendungen, die tvscraper gefunden hat"
 
 msgid "Duplicates, with different languages"
 msgstr "Duplikate, aber in unterschiedlichen Sprachen"
-
-msgid "No recording errors"
-msgstr "Kein Fehler in der Aufzeichnung"
-
-msgid "Recording errors unknown"
-msgstr "Aufzeichnung wurde nicht auf Fehler überprüft"
-
-msgid "Number of recording errors:"
-msgstr "Zahl der Fehler in der Aufzeichnung:"
 
 msgid "Epg error"
 msgstr "EPG-Fehler"
@@ -653,6 +644,15 @@ msgstr "Keinen Kanal gefunden!"
 msgid "%I:%M:%S %p"
 msgstr "%H:%M:%S"
 
+msgid "No recording errors"
+msgstr "Kein Fehler in der Aufzeichnung"
+
+msgid "Number of recording errors:"
+msgstr "Zahl der Fehler in der Aufzeichnung:"
+
+msgid "Recording errors unknown"
+msgstr "Aufzeichnung wurde nicht auf Fehler überprüft"
+
 msgid "Duration deviation from event length"
 msgstr "Abweichung von der Länge des EPG-Eintrags"
 
@@ -1097,6 +1097,12 @@ msgstr "Bitte Benutzerkennung und Passwort eingeben!"
 msgid "Setup saved."
 msgstr "Einstellungen gespeichert."
 
+msgid "Local theme set to"
+msgstr "Lokale Stilvorlage ist"
+
+msgid "Local theme cleared"
+msgstr "Lokale Stilvorlage gelöscht"
+
 msgid "Setup"
 msgstr "Einstellungen"
 
@@ -1180,6 +1186,9 @@ msgstr "Startseite"
 
 msgid "Theme"
 msgstr "Stilvorlage"
+
+msgid "Use browser-specific theme"
+msgstr "Lokale Stilvorlage verwenden"
 
 msgid "Couldn't find recording or no recordings available. Maybe you mistyped your request?"
 msgstr "Kann die Aufzeichnung nicht finden oder keine Aufzeichnungen vorhanden. Möglicherweise ein Tippfehler in der Anfrage?"

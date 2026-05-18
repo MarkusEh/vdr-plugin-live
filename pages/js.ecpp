@@ -1,3 +1,4 @@
+<%include>page.eh</%include>
 <%pre>
 /* javascript functions depending on settings and language,
  *  but not depending on other parameters
@@ -23,20 +24,20 @@ function set_icons_closed(img_plus_minus, img_folder_symbol) {
 // input: images nodes
 // -> set the images to the closed state, indicating the folder is currently closed
 
-  img_plus_minus.src="<$ LiveSetup().GetThemedLinkPrefixImg()$>icon_overlay_plus.svg";
-  img_folder_symbol.src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_closed.svg";
+  img_plus_minus.src="<$ GetThemedLinkPrefixImg()$>icon_overlay_plus.svg";
+  img_folder_symbol.src="<$ GetThemedLinkPrefixImg()$>folder_closed.svg";
 }
 function set_icons_open(img_plus_minus, img_folder_symbol) {
 // input: images nodes
 // -> set the images to the open state, indicating the folder is currently open
 
-  img_plus_minus.src="<$ LiveSetup().GetThemedLinkPrefixImg()$>icon_overlay_minus.svg";
-  img_folder_symbol.src="<$ LiveSetup().GetThemedLinkPrefixImg()$>folder_open.svg";
+  img_plus_minus.src="<$ GetThemedLinkPrefixImg()$>icon_overlay_minus.svg";
+  img_folder_symbol.src="<$ GetThemedLinkPrefixImg()$>folder_open.svg";
 }
 
 function addErrorIcon(s, numErrors, durationDeviation, duration, numTsFiles) {
   if (numErrors <= -100) return
-  s.a += '<div class=\"recording_errors\"><img class=\"icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>'
+  s.a += '<div class=\"recording_errors\"><img class=\"icon\" src=\"<$GetThemedLinkPrefixImg()$>'
 
   if (durationDeviation > 300 || numErrors  > 0) s.a += 'error.svg'
   else if (durationDeviation > 60 || numErrors  < 0) s.a += 'warning.svg'
@@ -59,7 +60,7 @@ function addErrorIcon(s, numErrors, durationDeviation, duration, numTsFiles) {
 }
 
 function addHdSdIcon(s, hdsd, toolTip, frameParams) {
-  s.a += '<div class=\"recording_sd_hd\"><img class=\"sdhd\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>'
+  s.a += '<div class=\"recording_sd_hd\"><img class=\"sdhd\" src=\"<$GetThemedLinkPrefixImg()$>'
   s.a += hdsd
   s.a += '.svg\" title=\"<p>'
   s.a += toolTip
@@ -83,7 +84,7 @@ function IMDbS(s, im_db, name, label) {
     s.a += '<a href=\"https://www.imdb.com/title/'
     s.a += im_db
   }
-  s.a += '\" target=\"_blank\"><img class=\"icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>info.svg\" title=\"'
+  s.a += '\" target=\"_blank\"><img class=\"icon\" src=\"<$GetThemedLinkPrefixImg()$>info.svg\" title=\"'
   addEncodeHtml(s, LabelAndAction(label, '<$tr("Find more in the IMDb (Internet Movie Database)")$>'))
   s.a += '\"/></a>'
 }
@@ -115,14 +116,14 @@ function addEvent(s, bottomrow_i, obj) {
   if (obj[1].length != 0) {
     s.a += '<a href=\"edit_timer.html?timerid=timer_'
     s.a += obj[1].replace(/&ts=\w*$/, '')
-    s.a += '\"><img class=\"icon' + (obj[1].endsWith('&ts=r') ? ' fading' : '') + '\" src=\"<$ LiveSetup().GetThemedLink("img", "") $>' + (obj[1].endsWith('&ts=r') ? 'record_timer_active.svg' : (obj[1].endsWith('&ts=i') ? 'record_timer_inactive.svg' : 'record_timer_active.svg'))
+    s.a += '\"><img class=\"icon' + (obj[1].endsWith('&ts=r') ? ' fading' : '') + '\" src=\"<$ GetThemedLink("img", "") $>' + (obj[1].endsWith('&ts=r') ? 'record_timer_active.svg' : (obj[1].endsWith('&ts=i') ? 'record_timer_inactive.svg' : 'record_timer_active.svg'))
     s.a += '\" title=\"&lt;p&gt;'
     addEncodeHtml(s, label)
     s.a += '&lt;/p&gt;&lt;p class=&quot;click-action&quot;&gt;<$tr("Edit timer")$>&lt;/p&gt;\" />'
   } else {
     s.a += '<a href=\"edit_timer.html?epgid=event_'
     s.a += obj[0]
-    s.a += '\"><img class=\"icon\" src=\"<$ LiveSetup().GetThemedLink("img", "record.svg") $>'
+    s.a += '\"><img class=\"icon\" src=\"<$ GetThemedLink("img", "record.svg") $>'
     s.a += '\" title=\"&lt;p&gt;'
     addEncodeHtml(s, label)
     s.a += '&lt;/p&gt;&lt;p class=&quot;click-action&quot;&gt;<$tr("Record this")$>&lt;/p&gt;\" />'
@@ -131,7 +132,7 @@ function addEvent(s, bottomrow_i, obj) {
 % if (LiveFeatures<features::epgsearch>().Recent() ) {
     s.a += '<a href=\"searchresults.html?searchplain='
     s.a += encodeURIComponent(obj[11])
-    s.a += '\"><img class=\"icon\" src=\"<$ LiveSetup().GetThemedLink("img", "search.svg") $>'
+    s.a += '\"><img class=\"icon\" src=\"<$ GetThemedLink("img", "search.svg") $>'
     s.a += '\" title=\"&lt;p&gt;'
     addEncodeHtml(s, label)
     s.a += '&lt;/p&gt;&lt;p class=&quot;click-action&quot;&gt;<$tr("Search for repeats")$>&lt;/p&gt;\"/></a>'
@@ -237,7 +238,7 @@ function RecordingActionStream(s, id, label) {
   s.a += id
   s.a += '\" title=\"'
   addEncodeHtml(s, LabelAndAction(label, '<$tr("Play this recording in the browser")$>'))
-  s.a += '\"><img class=\"hidden-xs invisible icon\" src=\"<$LiveSetup().GetThemedLinkPrefixImg()$>stream.svg\" /></a>'
+  s.a += '\"><img class=\"hidden-xs invisible icon\" src=\"<$GetThemedLinkPrefixImg()$>stream.svg\" /></a>'
 }
 
 async function RecordingsSt_a(s, level, displayFolder, data, folderId) {

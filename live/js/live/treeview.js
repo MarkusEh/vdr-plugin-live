@@ -255,9 +255,10 @@ function CollapseAll()
   eraseCookie( cookieNameOpenNodes );
 }
 
-const cookieNamePrefix = "VDR-Live-Recordings-Tree";
-const cookieNameOpenNodes = cookieNamePrefix + "-Open-Nodes";
-const sessionStorageNameSelection = cookieNamePrefix + "-Selection";
+// please observe the systematic of the naming scheme
+const liveNamePrefixRecTree = liveNamePrefix + "Recordings-Tree-";
+const cookieNameOpenNodes = liveNamePrefixRecTree + "Open-Nodes";
+const sessionStorageNameSelection = liveNamePrefixRecTree + "Selection";
 
 async function DOMContentLoaded_() {
   await openNodesOnPageLoad();

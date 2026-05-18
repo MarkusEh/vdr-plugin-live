@@ -614,7 +614,6 @@ inline iterator_end end(const_rec_iterator<C> &it) { return iterator_end(); }
 
 void AppendScraperData(cToSvConcat<0> &target, cSv s_IMDB_ID, const cTvMedia &s_image, tvType s_videoType, cSv s_title, int s_season_number, int s_episode_number, cSv s_episode_name, int s_runtime, cSv s_release_date);
 
-std::string recordingErrorsHtml(int recordingErrors);
 
 void addDuplicateRecordingsNoSd(std::vector<RecordingsItemRec*> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree);
 void addDuplicateRecordingsLang(std::vector<RecordingsItemRec*> &DuplicateRecItems, RecordingsTreePtr &RecordingsTree);

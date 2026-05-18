@@ -203,7 +203,7 @@ using namespace vdrlive;
           AppendHtmlEscapedAndCorrectNonUTF8(timerFile, timer->File());
 </%cpp>
         <tr class="<$ timerStateClass $>">
-          <td class="leftcol <? bottom ? "bottomrow" ?>"><div class="<$ timerStateClass == "conflict"?"state_conflict":"state"$>"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", timerStateIcon) $>" <%cpp> if (!timerStateHint.empty()) { </%cpp><& tooltip.hint text=(timerStateHint) &> <%cpp> } </%cpp>/></div></td>
+          <td class="leftcol <? bottom ? "bottomrow" ?>"><div class="<$ timerStateClass == "conflict"?"state_conflict":"state"$>"><img class="icon" src="<$ GetThemedLink("img", timerStateIcon) $>" <%cpp> if (!timerStateHint.empty()) { </%cpp><& tooltip.hint text=(timerStateHint) &> <%cpp> } </%cpp>/></div></td>
           <td class="<? bottom ? "bottomrow" ?>"><div class="withmargin">
              <table class="noborder"><tr><td class="noborder"><span class="display-xs nowrap" > <$ cToSvDateTime(tr("%I:%M %p"), timer->StartTime()) $> - <$ cToSvDateTime(tr("%I:%M %p"), timer->StopTime()) $></span></td></tr>
 %            {
@@ -252,9 +252,9 @@ using namespace vdrlive;
 %             cToSvDateTime label(tr("%I:%M %p"), timer->StartTime());
 %             label.append(tr(" - "));
 %             AppendHtmlEscapedAndCorrectNonUTF8(label, timer->File() );
-              <a class="action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&action=toggle"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", (timer->Flags() & tfActive) ? "active.svg" : "inactive.svg") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtRight=(fileNameBreaks) text=(tr("Toggle timer (in)active")) &> /></a>
+              <a class="action-rightcol" href="timers.html?timerid=<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&action=toggle"><img class="icon" src="<$ GetThemedLink("img", (timer->Flags() & tfActive) ? "active.svg" : "inactive.svg") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtRight=(fileNameBreaks) text=(tr("Toggle timer (in)active")) &> /></a>
               <div class="action-rightcol"><& pageelems.edit_timer timerId=(SortedTimers::GetTimerId(*timer)) className="icon" label=(label) breaksAtRight=(fileNameBreaks) &></div>
-              <a class="action-rightcol" href="epginfo.html?epgid=det_<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&history_num_back=1"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "del.svg") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtRight=(fileNameBreaks) text=(tr("Delete timer")) &> /></a>
+              <a class="action-rightcol" href="epginfo.html?epgid=det_<$ SortedTimers::EncodeDomId(SortedTimers::GetTimerId(*timer)) $>&history_num_back=1"><img class="icon" src="<$ GetThemedLink("img", "del.svg") $>" alt="" <& tooltip.hint label=(label) className=("click-action") breaksAtRight=(fileNameBreaks) text=(tr("Delete timer")) &> /></a>
             </div>
           </td>
         </tr>

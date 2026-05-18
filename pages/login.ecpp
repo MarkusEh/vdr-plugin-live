@@ -1,3 +1,4 @@
+<%include>page.eh</%include>
 <%pre>
 
 #include <setup.h>
@@ -22,9 +23,7 @@ std::string targetUrl = qparam.has("redirect") && !redirect.empty() ? redirect :
 
 if (LiveSetup().CheckLocalNet(request.getPeerIp())) {
   logged_in = true;
-  return reply.redirect(targetUrl);
-}
-if (action == "login") {
+} else if (action == "login") {
   if (Users.ValidLogin(login, password)) {
     logged_in = true;
     cUsers::logged_in_user = login;
@@ -35,7 +34,14 @@ if (action == "login") {
   logged_in = false;
   cUsers::logged_in_user = "";
 }
-if (logged_in || !LiveSetup().UseAuth()) return reply.redirect(targetUrl);
+if (logged_in || !LiveSetup().UseAuth()) {
+  std::string theme = request.getCookie(liveNamePrefix cookieNameLocalTheme).getValue();
+  if (!theme.empty()) {
+    // update the expiration date
+    reply.setCookie(liveNamePrefix cookieNameLocalTheme, browserLocalTheme = theme, 366*24*3600);
+  }
+  return reply.redirect(targetUrl);
+}
 
 }>
 <& pageelems.doc_type &>
@@ -53,7 +59,7 @@ if (logged_in || !LiveSetup().UseAuth()) return reply.redirect(targetUrl);
   <div class="loginwin">
     <div class="boxheader"><div class="caption"><$ tr("VDR Live Login") $></div></div>
     <div class="login_content">
-      <img class="logo" src="<$ LiveSetup().GetThemedLink("img", "logo.svg") $>" alt="VDR Live" />
+      <img class="logo" src="<$ GetThemedLink("img", "logo.svg") $>" alt="VDR Live" />
       <form name="auth">
         <input type="hidden" name="action" value="login" />
         <input type="hidden" name="redirect" value="<$ targetUrl $>" />

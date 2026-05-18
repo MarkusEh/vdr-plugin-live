@@ -7,6 +7,8 @@
 #include <live.h>
 #include <livefeatures.h>
 
+#include <unistd.h>
+
 using namespace vdrlive;
 
 </%pre>
@@ -21,6 +23,8 @@ using namespace vdrlive;
   std::string scheduleDuration;
   std::string startscreen;
   std::string theme;
+  std::string localtheme;
+  std::string uselocaltheme;
   std::string localnetmask;
   std::string localnetmaskIPv6;
   std::string allowlocalhost;
@@ -90,6 +94,16 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
       LiveSetup().SaveSetup();
 
       message = tr("Setup saved.");
+
+      if (!uselocaltheme.empty() && !localtheme.empty()) {
+        // browsers usually limit cookie expiration period to 1 year
+        reply.setCookie(liveNamePrefix cookieNameLocalTheme, localtheme, 366*24*3600);
+        message += std::string("\n") + tr("Local theme set to") + " \"" + (browserLocalTheme = localtheme) + "\".";
+      } else if (!browserLocalTheme.empty()) {
+        reply.clearCookie(liveNamePrefix cookieNameLocalTheme);
+        message += std::string("\n") + tr("Local theme cleared");
+        browserLocalTheme = "";
+      }
     }
   }
   pageTitle = tr("Setup");
@@ -132,6 +146,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
     {
       changeduseauth(document.getElementById("useauth"));
       changedChanGroups();
+      changedLocalTheme();
       if (document.getElementById("message").value != "")
         alert(document.getElementById("message").value);
     }
@@ -145,9 +160,17 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
     }
     function changedChanGroups() {
       if (document.getElementById("channelGroupsGen_individual").checked) {
-         document.getElementById("individual_channelGroups_section").style.display = ""
+        document.getElementById("individual_channelGroups_section").style.display = "";
       } else {
-         document.getElementById("individual_channelGroups_section").style.display = "none"
+        document.getElementById("individual_channelGroups_section").style.display = "none";
+      }
+    }
+    function changedLocalTheme() {
+      if (document.getElementById("uselocaltheme").checked) {
+        document.getElementById("localtheme").style.visibility = "";
+      } else {
+        document.getElementById("localtheme").style.visibility = "hidden";
+
       }
     }
     //--></script>
@@ -325,7 +348,6 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
           </tr>
           <tr>
             <td class="label leftcol"><div class="withmargin"><$ tr("Theme") $>:</div></td>
-            <td class="rightcol"><select name="theme" size="1" id="theme">
 <%cpp>
 {
   const cToSvConcat dirPath(Plugin::GetResourceDirectory(), "/themes");
@@ -352,15 +374,31 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
   }
   // get theme names sorted for selection
   std::sort(themes.begin(), themes.end());
-  for (auto name: themes)
-  {
 </%cpp>
-              <option value="<$ name $>" <%cpp> SELECTIF(theme == name) </%cpp>><$ cToSvReplace(name, "_", " ") $></option>
+            <td class="rightcol">
+              <table border="0" cellpadding="0" cellspacing="0" class="dependent">
+              <tr><td colspan="2"><div class="without-label"><select name="theme" size="1" id="theme">
+%             for (auto name: themes) {
+                <option value="<$ name $>" <%cpp> SELECTIF(theme == name) </%cpp>><$ cToSvReplace(name, "_", " ") $></option>
+%             }
+              </select></div></td></tr>
+              <tr>
+                <td class="label"><div class="withmargin"><$ tr("Use browser-specific theme") $>:</div></td>
+                <td>
+                  <input type="checkbox" name="uselocaltheme" id="uselocaltheme" onclick="changedLocalTheme(this)" value="1"<%cpp> CHECKIF(GetEffectiveTheme() != theme); </%cpp>/>
+                  <select id="localtheme" name="localtheme" size="1">
+                    <option value=""></option>
+%                   for (auto name: themes) {
+                    <option value="<$ name $>" <%cpp> SELECTIF(browserLocalTheme == name) </%cpp>><$ cToSvReplace(name, "_", " ") $></option>
+%                   }
+                  </select>
+                </td>
+              </tr>
+              </table>
+            </td>
 <%cpp>
-  }
 }
 </%cpp>
-            </select></td>
           </tr>
         </table>
         <div class="button-panel">

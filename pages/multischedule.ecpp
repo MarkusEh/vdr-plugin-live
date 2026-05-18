@@ -513,9 +513,9 @@ std::vector<std::string> channel_groups_names;
       <div class=" tools1 " >
         <& pageelems.event_timer epgid=(en.epgid) className="icon" &>
 %     if (LiveFeatures<features::epgsearch>().Recent() ) {
-        <a href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(en.title) $>"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "search.svg") $>" alt="" <& tooltip.hint text=(tr("Search for repeats")) label=(en.label) className="click-action" &> /></a>
+        <a href="searchresults.html?searchplain=<$$ cToSvUrlEscaped(en.title) $>"><img class="icon" src="<$ GetThemedLink("img", "search.svg") $>" alt="" <& tooltip.hint text=(tr("Search for repeats")) label=(en.label) className="click-action" &> /></a>
 %     } else {
-        <img class="icon <? en.timer == tState::Recording ? "fading" ?>" src="<$ LiveSetup().GetThemedLink("img", en.timer == tState::Recording || en.timer == tState::Active ? "record_timer_active.svg" : "record_timer_inactive.svg") $>">
+        <img class="icon <? en.timer == tState::Recording ? "fading" ?>" src="<$ GetThemedLink("img", en.timer == tState::Recording || en.timer == tState::Active ? "record_timer_active.svg" : "record_timer_inactive.svg") $>">
 %     } // display of IMDb icon to be determined in subroutine, otherwise inconsistent
         <& pageelems.imdb_info_href title=(en.title) className="icon" label=(en.label) &>
         </div><div class= "start withmargin"><$ en.start $></div>

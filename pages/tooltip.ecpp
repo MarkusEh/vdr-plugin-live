@@ -1,3 +1,4 @@
+<%include>page.eh</%include>
 <%pre>
 
 #include <setup.h>
@@ -61,5 +62,5 @@ href="epginfo.html?epgid=<$ domId $>&tab=scraper"
 <%args>
 text;
 </%args>
-<img class="icon help" src="<$ LiveSetup().GetThemedLink("img", "help.svg") $>" alt="" title="<$ text $>"/>
+<img class="icon help" src="<$ GetThemedLink("img", "help.svg") $>" alt="" title="<$ text $>"/>
 </%def>

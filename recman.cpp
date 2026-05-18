@@ -1910,35 +1910,6 @@ DuplicatesRecordingsTree::DuplicatesRecordingsTree(RecordingsTreePtr &recordings
   }
   m_flat_root->m_entries.insert(m_flat_root->m_entries.end(), dirDupNotTvscraper->m_entries.begin(), dirDupNotTvscraper->m_entries.end());
 }
-// icon with recording errors and tooltip
-std::string recordingErrorsHtml(int recordingErrors) {
-#if VDRVERSNUM >= 20505
-  std::string result;
-  result.append("<div class=\"recording_errors\"><img src=\"");
-
-  if (recordingErrors == 0) {
-    result.append(LiveSetup().GetThemedLink("img", "no_error.svg"));
-    result.append("\" title=\"");
-    result.append(tr("No recording errors"));
-  }
-  if (recordingErrors == -1) {
-    result.append(LiveSetup().GetThemedLink("img", "warning.svg"));
-    result.append("\" title=\"");
-    result.append(tr("Recording errors unknown"));
-  }
-  if (recordingErrors >   0) {
-    result.append(LiveSetup().GetThemedLink("img", "error.svg"));
-    result.append("\" title=\"");
-    result.append(tr("Number of recording errors:"));
-    result.append(" ");
-    result.append(cToSvInt(recordingErrors));
-  }
-  result.append("\" width=\"16px\" alt=\"\" /> </div>");
-  return result;
-#else
-  return std::string();
-#endif
-}
 
 // find duplicates
 bool ByScraperDataAvailable(const RecordingsItemRec *first, tvType videoType) {

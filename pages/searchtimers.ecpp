@@ -98,7 +98,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
         <tr class="<$ timer->UseAsSearchTimer() ? "active" : "inactive" $>">
           <td class="action leftcol <? bottom ? "bottomrow" ?>"><div class="state">
 %         if(timer->UseAsSearchTimer()) {
-            <img class="icon" src="<$ LiveSetup().GetThemedLink("img", "arrow.svg") $>" alt="" />
+            <img class="icon" src="<$ GetThemedLink("img", "arrow.svg") $>" alt="" />
 %         }
           </div></td>
           <td class="<? bottom ? "bottomrow" ?>"><div class="searchtimer withmargin"><$ timer->Search() $></div></td>
@@ -108,10 +108,10 @@ if (!logged_in && LiveSetup().UseAuth()) {
             <div class="event_actions">
 %             constexpr auto regexBreaksAtLeft = "{[(|";
 %             constexpr auto regexBreaksAtRight = "|)]}";
-              <a href="searchtimers.html?searchtimerid=<$ timerID $>&action=toggle"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", timer->UseAsSearchTimer() ? "active.svg" : "inactive.svg") $>" alt="<$ tr("Toggle search timer actions (in)active") $>" <& tooltip.hint label=(timer->Search()) className=("click-action") breaksAtLeft=(regexBreaksAtLeft) breaksAtRight=(regexBreaksAtRight) text=(tr("Toggle search timer actions (in)active")) &> /></a>
-              <a href="searchresults.html?searchtimerid=<$ timerID $>"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "search.svg") $>" alt="<$ tr("Browse search timer results") $>" <& tooltip.hint label=(timer->Search()) className=("click-action") breaksAtLeft=(regexBreaksAtLeft) breaksAtRight=(regexBreaksAtRight) text=(tr("Browse search timer results")) &> /></a>
-              <a href="edit_searchtimer.html?searchtimerid=<$ timerID $>"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "edit.svg") $>" alt="<$ tr("Edit search timer") $>" <& tooltip.hint label=(timer->Search()) className=("click-action") breaksbreaksAtLeft=(regexBreaksAtLeft) breaksAtRight=(regexBreaksAtRight) text=(tr("Edit search timer")) &> /></a>
-              <a href="epginfo.html?epgid=des_<$ timerID $>&history_num_back=1"><img class="icon" src="<$ LiveSetup().GetThemedLink("img", "del.svg") $>" alt="<$ tr("Delete search timer") $>" <& tooltip.hint label=(timer->Search()) className=("click-action") breaksAtLeft=(regexBreaksAtLeft) breaksAtRight=(regexBreaksAtRight) text=(tr("Delete search timer")) &> /></a>
+              <a href="searchtimers.html?searchtimerid=<$ timerID $>&action=toggle"><img class="icon" src="<$ GetThemedLink("img", timer->UseAsSearchTimer() ? "active.svg" : "inactive.svg") $>" alt="<$ tr("Toggle search timer actions (in)active") $>" <& tooltip.hint label=(timer->Search()) className=("click-action") breaksAtLeft=(regexBreaksAtLeft) breaksAtRight=(regexBreaksAtRight) text=(tr("Toggle search timer actions (in)active")) &> /></a>
+              <a href="searchresults.html?searchtimerid=<$ timerID $>"><img class="icon" src="<$ GetThemedLink("img", "search.svg") $>" alt="<$ tr("Browse search timer results") $>" <& tooltip.hint label=(timer->Search()) className=("click-action") breaksAtLeft=(regexBreaksAtLeft) breaksAtRight=(regexBreaksAtRight) text=(tr("Browse search timer results")) &> /></a>
+              <a href="edit_searchtimer.html?searchtimerid=<$ timerID $>"><img class="icon" src="<$ GetThemedLink("img", "edit.svg") $>" alt="<$ tr("Edit search timer") $>" <& tooltip.hint label=(timer->Search()) className=("click-action") breaksbreaksAtLeft=(regexBreaksAtLeft) breaksAtRight=(regexBreaksAtRight) text=(tr("Edit search timer")) &> /></a>
+              <a href="epginfo.html?epgid=des_<$ timerID $>&history_num_back=1"><img class="icon" src="<$ GetThemedLink("img", "del.svg") $>" alt="<$ tr("Delete search timer") $>" <& tooltip.hint label=(timer->Search()) className=("click-action") breaksAtLeft=(regexBreaksAtLeft) breaksAtRight=(regexBreaksAtRight) text=(tr("Delete search timer")) &> /></a>
               <div class="notpresent xs-visible-4 xs-columns-2"></div>
             </div>
           </td>

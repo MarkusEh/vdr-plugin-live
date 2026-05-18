@@ -1,3 +1,4 @@
+<%include>page.eh</%include>
 <%pre>
 
 #include <setup.h>

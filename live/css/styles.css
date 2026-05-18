@@ -2239,6 +2239,11 @@ table.dependent > tbody > tr > td.label .withmargin {
   margin-left: 0px;
 }
 
+table.dependent > tbody > tr > td > .without-label {
+  margin-top: calc(var(--margin-top-bottom) - 2 * var(--text-line-gap));
+  margin-bottom: calc(var(--margin-top-bottom) - var(--text-line-gap));
+}
+
 table.dependent > tbody > tr > td:last-child {
   padding-right: var(--margin-left-right);
 }

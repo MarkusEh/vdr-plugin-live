@@ -36,8 +36,6 @@ Setup::Setup():
     m_channelGroups(""),
     m_scheduleDuration( "8" ),
     m_theme("marine"),
-    m_themedLinkPrefix("themes/" + m_theme + "/"),
-    m_themedLinkPrefixImg("themes/marine/img/"),
     m_allowlocalhost(0),
     m_lastwhatsonlistmode("detail"),
     m_lastsortingmode("nameasc"),

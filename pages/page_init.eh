@@ -5,6 +5,7 @@
 #include <tnt/savepoint.h>
 #include <exception.h>
 </%pre>
+<%include>page.eh</%include>
 <%request scope="global">
 std::string pageTitle;
 </%request>
