@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-13 09:23+0200\n"
+"POT-Creation-Date: 2026-05-18 08:43+0200\n"
 "PO-Revision-Date: 2025-10-05 18:19+0200\n"
 "Last-Translator: Tomasz Maciej Nowak <tomek_n@o2.pl>\n"
 "Language-Team: see developers in README\n"
@@ -96,15 +96,6 @@ msgstr "Duplikaty rozpoznne przez tvscraper"
 
 msgid "Duplicates, with different languages"
 msgstr "Duplikaty w innych językach"
-
-msgid "No recording errors"
-msgstr "Brak błędów w nagraniu"
-
-msgid "Recording errors unknown"
-msgstr "Brak znanych rodzajów błędów w nagraniu"
-
-msgid "Number of recording errors:"
-msgstr "Liczba błędów w nagraniu:"
 
 msgid "Epg error"
 msgstr "Błąd EPG"
@@ -652,6 +643,15 @@ msgstr "brak informacji o kanale!"
 msgid "%I:%M:%S %p"
 msgstr "%H:%M:%S"
 
+msgid "No recording errors"
+msgstr "Brak błędów w nagraniu"
+
+msgid "Number of recording errors:"
+msgstr "Liczba błędów w nagraniu:"
+
+msgid "Recording errors unknown"
+msgstr "Brak znanych rodzajów błędów w nagraniu"
+
 msgid "Duration deviation from event length"
 msgstr "Odstępstwo od długości audycji"
 
@@ -1096,6 +1096,12 @@ msgstr "Proszę wpisać login i hasło!"
 msgid "Setup saved."
 msgstr "Zapisano ustawienia."
 
+msgid "Local theme set to"
+msgstr ""
+
+msgid "Local theme cleared"
+msgstr ""
+
 msgid "Setup"
 msgstr "Ustawienia"
 
@@ -1179,6 +1185,9 @@ msgstr "Strona startowa"
 
 msgid "Theme"
 msgstr "Skórka"
+
+msgid "Use browser-specific theme"
+msgstr ""
 
 msgid "Couldn't find recording or no recordings available. Maybe you mistyped your request?"
 msgstr "Brak nagrania. Literówka?"

@@ -4,8 +4,14 @@ std::string browserLocalTheme;
 <%pre>
 // unfortunately there is no way to use inline functions as session-specific
 // variables are not accessible outside of the function that builds the page
-#define GetEffectiveTheme() (std::string(!browserLocalTheme.empty() ? browserLocalTheme : LiveSetup().GetTheme()))
-#define GetThemedLinkPrefix() (std::string("themes/") + GetEffectiveTheme() + "/")
-#define GetThemedLinkPrefixImg() (GetThemedLinkPrefix() + "img/")
-#define GetThemedLink(type, name) (GetThemedLinkPrefix() + (type) + "/" + (name))
+#include "stringhelpers.h"
 </%pre>
+<%cpp>
+std::string effectiveTheme = browserLocalTheme.empty() ? LiveSetup().GetTheme(): browserLocalTheme;
+std::string themedLinkPrefix = concat("themes/", effectiveTheme, "/");
+
+#define GetEffectiveTheme() (effectiveTheme)
+#define GetThemedLinkPrefix() (themedLinkPrefix)
+#define GetThemedLinkPrefixImg()  (cToSvConcat("themes/", browserLocalTheme.empty() ? LiveSetup().GetTheme(): browserLocalTheme, "/img/"))
+#define GetThemedLink(type, name) (cToSvConcat("themes/", browserLocalTheme.empty() ? LiveSetup().GetTheme(): browserLocalTheme, "/", (type), "/", (name)))
+</%cpp>

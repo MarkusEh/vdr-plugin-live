@@ -18,7 +18,13 @@ const char *TNT_ARRAY = "";
 reply.setHeader (tnt::httpheader::contentType, "text/javascript; charset=utf-8", true);
 </%cpp>
 
+const liveNamePrefix = "<$ liveNamePrefix $>"
 const regExLineBreak = /(<|&lt;)br\\/?(>|&gt;)/g
+
+function getThemedLink(dir, image) {
+  var url = '<$ GetThemedLinkPrefix() $>' + dir + '/' + image;
+  return url;
+}
 
 function set_icons_closed(img_plus_minus, img_folder_symbol) {
 // input: images nodes

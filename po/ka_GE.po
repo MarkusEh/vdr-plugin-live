@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-13 09:23+0200\n"
+"POT-Creation-Date: 2026-05-18 08:43+0200\n"
 "PO-Revision-Date: 2023-02-14 20:02+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <(nothing)>\n"
@@ -97,15 +97,6 @@ msgstr "წ"
 
 msgid "Duplicates, with different languages"
 msgstr "დუბლიკატები სხვადასხვა ენით"
-
-msgid "No recording errors"
-msgstr "ჩაწერის შეცდომების გარეშე"
-
-msgid "Recording errors unknown"
-msgstr "ჩაწერის უცნობი შეცდომები"
-
-msgid "Number of recording errors:"
-msgstr "ჩაწერის შეცდომების რაოდენობა:"
 
 msgid "Epg error"
 msgstr "Epg-ის შეცდომა"
@@ -653,6 +644,15 @@ msgstr "მიმდინარე არხის გარეშე!"
 msgid "%I:%M:%S %p"
 msgstr "%I:%M:%S %p"
 
+msgid "No recording errors"
+msgstr "ჩაწერის შეცდომების გარეშე"
+
+msgid "Number of recording errors:"
+msgstr "ჩაწერის შეცდომების რაოდენობა:"
+
+msgid "Recording errors unknown"
+msgstr "ჩაწერის უცნობი შეცდომები"
+
 msgid "Duration deviation from event length"
 msgstr "ხანგრძლივობის აცდენა მოვლენის სიგრძესთან"
 
@@ -1097,6 +1097,12 @@ msgstr "მომხმარებლისა და პაროლის დ
 msgid "Setup saved."
 msgstr "პარამეტრები შენახულია."
 
+msgid "Local theme set to"
+msgstr ""
+
+msgid "Local theme cleared"
+msgstr ""
+
 msgid "Setup"
 msgstr "მორგება"
 
@@ -1180,6 +1186,9 @@ msgstr "საწყისი გვერდი"
 
 msgid "Theme"
 msgstr "თემა"
+
+msgid "Use browser-specific theme"
+msgstr ""
 
 msgid "Couldn't find recording or no recordings available. Maybe you mistyped your request?"
 msgstr ""

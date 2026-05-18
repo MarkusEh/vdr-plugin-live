@@ -72,15 +72,6 @@ int update_status(1);
 <link rel="stylesheet" type="text/css" href="css/siteprefs.css?st=<$cToSvInt(LiveSetup().GetVdrStart())$>"/>
 <script type="text/javascript" src="js/live/scrolling.js?st=<$cToSvInt(LiveSetup().GetVdrStart() )$>"></script>
 <script type="text/javascript" src="js/live/epg_tt_box.js?st=<$cToSvInt(LiveSetup().GetVdrStart() )$>"></script>
-<script type="text/javascript"><!--
-  const liveNamePrefix = "<$ liveNamePrefix $>";
-
-  function getThemedLink(dir, image)
-  {
-    var url = '<$ GetThemedLinkPrefix() $>' + dir + '/' + image;
-    return url;
-  }
---></script>
 </%def>
 
 <# ---------------------------------------------------------------------- #>

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-13 09:23+0200\n"
+"POT-Creation-Date: 2026-05-18 08:43+0200\n"
 "PO-Revision-Date: 2013-06-21 20:15+0200\n"
 "Last-Translator: Dmitrii Kiselev <wm.amid@gmail.com>\n"
 "Language-Team: see developers in README\n"
@@ -94,15 +94,6 @@ msgid "Duplicates identified by tvscraper"
 msgstr ""
 
 msgid "Duplicates, with different languages"
-msgstr ""
-
-msgid "No recording errors"
-msgstr ""
-
-msgid "Recording errors unknown"
-msgstr ""
-
-msgid "Number of recording errors:"
 msgstr ""
 
 msgid "Epg error"
@@ -651,6 +642,15 @@ msgstr "нет канала!"
 msgid "%I:%M:%S %p"
 msgstr "%H:%M:%S"
 
+msgid "No recording errors"
+msgstr ""
+
+msgid "Number of recording errors:"
+msgstr ""
+
+msgid "Recording errors unknown"
+msgstr ""
+
 msgid "Duration deviation from event length"
 msgstr ""
 
@@ -1095,6 +1095,12 @@ msgstr "Пожалуйста установите логин и пароль!"
 msgid "Setup saved."
 msgstr "Настройки сохранены."
 
+msgid "Local theme set to"
+msgstr ""
+
+msgid "Local theme cleared"
+msgstr ""
+
 msgid "Setup"
 msgstr "Настройка"
 
@@ -1178,6 +1184,9 @@ msgstr "Стартовая страница"
 
 msgid "Theme"
 msgstr "Тема"
+
+msgid "Use browser-specific theme"
+msgstr ""
 
 msgid "Couldn't find recording or no recordings available. Maybe you mistyped your request?"
 msgstr ""

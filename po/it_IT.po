@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-13 09:23+0200\n"
+"POT-Creation-Date: 2026-05-18 08:43+0200\n"
 "PO-Revision-Date: 2011-12-25 23:22+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: see developers in README\n"
@@ -99,15 +99,6 @@ msgid "Duplicates identified by tvscraper"
 msgstr ""
 
 msgid "Duplicates, with different languages"
-msgstr ""
-
-msgid "No recording errors"
-msgstr ""
-
-msgid "Recording errors unknown"
-msgstr ""
-
-msgid "Number of recording errors:"
 msgstr ""
 
 msgid "Epg error"
@@ -656,6 +647,15 @@ msgstr "Canale non trovato!"
 msgid "%I:%M:%S %p"
 msgstr "%I:%M:%S %p"
 
+msgid "No recording errors"
+msgstr ""
+
+msgid "Number of recording errors:"
+msgstr ""
+
+msgid "Recording errors unknown"
+msgstr ""
+
 msgid "Duration deviation from event length"
 msgstr ""
 
@@ -1100,6 +1100,12 @@ msgstr "Digita un nome utente e password!"
 msgid "Setup saved."
 msgstr "Opzioni salvate."
 
+msgid "Local theme set to"
+msgstr ""
+
+msgid "Local theme cleared"
+msgstr ""
+
 msgid "Setup"
 msgstr "Opzioni"
 
@@ -1183,6 +1189,9 @@ msgstr "Pagina iniziale"
 
 msgid "Theme"
 msgstr "Tema"
+
+msgid "Use browser-specific theme"
+msgstr ""
 
 msgid "Couldn't find recording or no recordings available. Maybe you mistyped your request?"
 msgstr ""

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-13 09:23+0200\n"
+"POT-Creation-Date: 2026-05-18 08:43+0200\n"
 "PO-Revision-Date: 2025-10-03 20:15+0200\n"
 "Last-Translator: Carel Willemse <carel@nekanali.nl>\n"
 "Language-Team: see developers in README\n"
@@ -97,15 +97,6 @@ msgstr "Duplicaten gevonden door tvscraper"
 
 msgid "Duplicates, with different languages"
 msgstr "Duplicaten met verschillende talen"
-
-msgid "No recording errors"
-msgstr "Geen opnamefouten"
-
-msgid "Recording errors unknown"
-msgstr "Opnamefouten onbekend"
-
-msgid "Number of recording errors:"
-msgstr "Aantal opnamefouten:"
 
 msgid "Epg error"
 msgstr "EPG fout"
@@ -653,6 +644,15 @@ msgstr "geen huidig kanaal!"
 msgid "%I:%M:%S %p"
 msgstr ""
 
+msgid "No recording errors"
+msgstr "Geen opnamefouten"
+
+msgid "Number of recording errors:"
+msgstr "Aantal opnamefouten:"
+
+msgid "Recording errors unknown"
+msgstr "Opnamefouten onbekend"
+
 msgid "Duration deviation from event length"
 msgstr "Speeltijd wijkt af van de programmaduur"
 
@@ -1097,6 +1097,12 @@ msgstr "Vul gebruikersnaam en wachtwoord in!"
 msgid "Setup saved."
 msgstr "Instellingen opgeslagen."
 
+msgid "Local theme set to"
+msgstr ""
+
+msgid "Local theme cleared"
+msgstr ""
+
 msgid "Setup"
 msgstr "Instellingen"
 
@@ -1180,6 +1186,9 @@ msgstr "Startpagina"
 
 msgid "Theme"
 msgstr "Thema"
+
+msgid "Use browser-specific theme"
+msgstr ""
 
 msgid "Couldn't find recording or no recordings available. Maybe you mistyped your request?"
 msgstr "Kon geen opname vinden of er zijn geen opnamen beschikbaar, misschien een typefout in het verzoek?"
