@@ -57,6 +57,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
 #define CHECKIF(x) reply.out() << ( (x) ? " checked=\"checked\"" : "" );
 
   std::string message;
+  std::string browserLocalTheme = request.getCookie(liveNamePrefix cookieNameLocalTheme).getValue();
 
   if ( request.getMethod() == "POST") {
     if (authchanged && useauth && (login.empty() || pass.empty()))
@@ -99,10 +100,12 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
         // browsers usually limit cookie expiration period to 1 year
         reply.setCookie(liveNamePrefix cookieNameLocalTheme, localtheme, 366*24*3600);
         message += std::string("\n") + tr("Local theme set to") + " \"" + (browserLocalTheme = localtheme) + "\".";
+        effectiveTheme = browserLocalTheme;
       } else if (!browserLocalTheme.empty()) {
         reply.clearCookie(liveNamePrefix cookieNameLocalTheme);
         message += std::string("\n") + tr("Local theme cleared");
         browserLocalTheme = "";
+        effectiveTheme = LiveSetup().GetTheme();
       }
     }
   }

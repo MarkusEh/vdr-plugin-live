@@ -38,7 +38,7 @@ if (logged_in || !LiveSetup().UseAuth()) {
   std::string theme = request.getCookie(liveNamePrefix cookieNameLocalTheme).getValue();
   if (!theme.empty()) {
     // update the expiration date
-    reply.setCookie(liveNamePrefix cookieNameLocalTheme, browserLocalTheme = theme, 366*24*3600);
+    reply.setCookie(liveNamePrefix cookieNameLocalTheme, theme, 366*24*3600);
   }
   return reply.redirect(targetUrl);
 }

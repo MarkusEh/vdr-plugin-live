@@ -3,6 +3,7 @@
 #include <setup.h>
 #include <tools.h>
 #include <users.h>
+#include <livefeatures.h>
 
 #include <vdr/remote.h>
 #include <vdr/device.h>
@@ -423,7 +424,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
    <input type="radio" name="screenCon" id="screenCon_osd" onchange="changeScreenContent()" />&nbsp;<label for="screenCon_osd">OSD</label>
    <input type="radio" name="screenCon" id="screenCon_none" onchange="changeScreenContent()" />&nbsp;<label for="screenCon_osd"><$ tr("Stop") $></label>
 </form>
-% if (channelID.Valid() ) {
+% if (channelID.Valid()  && LiveFeatures<features::streamdev_server>().Loaded() ) {
 <span class="sep">|</span>
 <span class="tools">
   <& pageelems.hls_channel channelId=(channelID) className="icon" &>
