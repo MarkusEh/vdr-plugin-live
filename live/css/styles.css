@@ -1853,7 +1853,7 @@ div#screenshot img {
   width: var(--osd-screenshot-width);
   height: var(--osd-screenshot-height);
   object-position: top left;
-  object-fit: scale-down;
+  object-fit: cover;
 }
 
 div#control svg {
@@ -2253,6 +2253,7 @@ table.form tbody > tr > td > select,
 table.form tbody > tr > td > div.with-tooltip,
 table.form tbody > tr.permissions > td input[type=checkbox] {
   margin-top: calc(var(--margin-top-bottom) - var(--text-line-gap));  /* visual adjustment */
+  margin-left: 0px;
 }
 
 table.form tbody > tr > td > select[multiple=multiple] {
@@ -2265,6 +2266,11 @@ table.form tbody > tr > td > select[multiple=multiple] {
 table.form tbody > tr > td > input[type=checkbox] {
   margin-top: var(--margin-top-bottom);
 }
+
+table.form tbody > tr > td > div.with-tooltip > input[type=checkbox] {
+  margin-top: var(--text-line-gap);
+}
+
 
 select#channel_mode, div#channelgroup, div#blacklistmodesettings, select#useassearchtimer {
   margin: var(--text-line-gap) 0px;

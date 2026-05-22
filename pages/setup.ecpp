@@ -43,6 +43,7 @@ using namespace vdrlive;
   std::string last_page;
 </%session>
 <%include>page_init.eh</%include>
+<script type="text/javascript" src="js.html"></script>
 <%cpp>
 last_page="setup";
 if (!logged_in && LiveSetup().UseAuth()) {

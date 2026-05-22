@@ -142,6 +142,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
 <& pageelems.doc_type &>
 <html>
   <head>
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>VDR-Live - <$ pageTitle $></title>
   <& pageelems.favicon &>
@@ -330,7 +331,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
   const keyMap = [
 % for (auto item: keyMap) {
 %   const char* tooltip = item.tooltip && *item.tooltip ? tr(item.tooltip) : "";
-    { key: "<$ item.key $>", id: "<$ item.id $>", code: <$ item.code $>, tooltip: "<$ tooltip $>" },
+    { key: "<$ item.key $>", id: "<$ item.id $>", code: <$ cToSvInt(item.code) $>, tooltip: "<$ tooltip $>" },
 % }
   ];
 
