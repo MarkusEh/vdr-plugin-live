@@ -60,25 +60,18 @@ std::vector<std::string> channel_groups_names;
   int channel = -1;
   unsigned int time_para = 0;
 </%args>
-<%session scope="global">
-  bool logged_in(false);
-  std::string last_page;
-</%session>
 <%request scope="global">
   unsigned int channel_group=0;
   unsigned int time_selected=0;
   cString prev;
   cString next;
 </%request>
+<%include>page.eh</%include>
 <%include>page_init.eh</%include>
+<& login.authentication &>
 <%cpp>
   last_page="multischedule";
   reply.setHeader (tnt::httpheader::cacheControl, "no-store, no-cache, max-age=0, must-revalidate, proxy-revalidate", true);
-  if (!logged_in && LiveSetup().UseAuth()) {
-    cToSvConcat<0> targetUrl = "/login.html?redirect=";
-    targetUrl.appendUrlEscaped(request.getQuery());
-    return reply.redirect(targetUrl.data());
-  }
   pageTitle = tr("MultiSchedule");
 
 #define MAX_DAYS 3
@@ -275,6 +268,7 @@ std::vector<std::string> channel_groups_names;
       <title>VDR Live - <$ pageTitle $></title>
       <& pageelems.favicon &>
       <& pageelems.stylesheets &>
+      <& pageelems.scripts &>
       <& pageelems.ajax_js &>
       <& pageelems.create_html_js &>
       <script type="text/javascript"><!--

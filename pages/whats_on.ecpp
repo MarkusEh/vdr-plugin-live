@@ -18,10 +18,6 @@ std::string mode;
 std::string attime;
 std::string fixtime;
 </%args>
-<%session scope="global">
-bool logged_in(false);
-std::string last_page;
-</%session>
 
 <# scope="page" should be enough but does not work with tntnet 3.0 #>
 <%request scope="global">
@@ -32,16 +28,12 @@ std::string current_fixtime;
 std::string current_displaytime;
 </%request>
 
+<%include>page.eh</%include>
 <%include>page_init.eh</%include>
+<& login.authentication &>
 <%cpp>
 last_page="whats_on";
 reply.setHeader (tnt::httpheader::cacheControl, "no-store, no-cache, max-age=0, must-revalidate, proxy-revalidate", true);
-if (!logged_in && LiveSetup().UseAuth()) {
-  cToSvConcat<0> targetUrl = "/login.html?redirect=";
-  targetUrl.appendUrlEscaped(request.getQuery());
-  return reply.redirect(targetUrl.data());
-}
-
 
 std::string head;
 time_t seektime = 0;
@@ -98,6 +90,7 @@ if (type == "now") {
     <title>VDR-Live - <$ head $></title>
     <& pageelems.favicon &>
     <& pageelems.stylesheets &>
+    <& pageelems.scripts &>
     <& pageelems.ajax_js &>
     <& pageelems.create_html_js &>
     <script type="text/javascript"><!--

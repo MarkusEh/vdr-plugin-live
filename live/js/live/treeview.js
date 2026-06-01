@@ -145,11 +145,13 @@ function restoreSelection()
   clearCheckboxes(document.getElementById('form_recordings'));
 
   let c = sessionStorage.getItem(sessionStorageNameSelection);
-  for (const id of c?.split(',') ?? []) {
-    const fldr_hash = id.split('_')[1];
-    const input = document.getElementById(id);
-    if (input?.type == 'checkbox') {
-      input.checked = true;
+  if (c && c != "") {
+    for (const id of c.split(',') ?? []) {
+      const fldr_hash = id.split('_')[1];
+      const input = document.getElementById(id);
+      if (input?.type == 'checkbox') {
+        input.checked = true;
+      }
     }
   }
 }

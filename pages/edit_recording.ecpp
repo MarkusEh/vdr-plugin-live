@@ -31,17 +31,13 @@ using namespace vdrlive;
   std::string flat;
 </%args>
 <%session scope="global">
-bool logged_in(false);
 std::string active_r;
 </%session>
+<%include>page.eh</%include>
 <%include>page_init.eh</%include>
+<& login.authentication &>
 <%cpp>
-  if (!logged_in && LiveSetup().UseAuth()) {
-    cToSvConcat targetUrl = "/login.html?redirect=";
-    targetUrl.appendUrlEscaped(request.getQuery());
-    return reply.redirect(targetUrl.data());
-  }
-
+  last_page="edit_recording";   // to cater for direct access
   if (!cUser::CurrentUserHasRightTo(UR_EDITRECS))
     throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
 
@@ -128,6 +124,7 @@ std::string active_r;
 </%cpp>
     <& pageelems.favicon &>
     <& pageelems.stylesheets &>
+    <& pageelems.scripts &>
     <& pageelems.create_html_js &>
     <& pageelems.ajax_js &>
 <%cpp>
@@ -137,7 +134,6 @@ std::string active_r;
     function new_dir() {
       var dir = document.getElementById("directory");
       dir.style.display = "none";
-      document.getElementById("new_dir_button").style.display = "none";
       var newdir = document.getElementById("newdir");
       newdir.value = dir.value;
       newdir.style.display = "";
@@ -169,17 +165,19 @@ std::string active_r;
           <tr>
             <td class="label leftcol"><div class="withmargin"><$ tr("Directory") $>:</div></td>
             <td class="rightcol">
-              <select name="directory" size="1" id="directory">
+              <div class="with-action-icon" id="directory">
+                <select name="directory" size="1">
 <%cpp>
   RecordingsTreePtr recordingsTree(RecordingsManager::GetRecordingsTree());
   for (const auto &dir: recordingsTree->getAllDirs() ) {
 </%cpp>
-                <option value="<$ dir $>"<$ (dir == directory) ? "selected=\"selected\"" : "" $>><$ dir $></option>
+                  <option value="<$ dir $>"<$ (dir == directory) ? "selected=\"selected\"" : "" $>><$ dir $></option>
 <%cpp>
   }
 </%cpp>
-              </select>
-              <img id="new_dir_button" class="icon button new-dir" src="<$ GetThemedLink("img", "icon_overlay_plus.svg") $>" title="<$tr("Create new directory")$>" alt="" onclick="new_dir()">
+                </select>
+                <img id="new_dir_button" class="icon button new-dir" src="<$ GetThemedLink("img", "icon_overlay_plus.svg") $>" title="<$tr("Create new directory")$>" alt="" onclick="new_dir()">
+              </div>
               <input type="text" name="newdir" id="newdir" value="." size="55" class="width99" style="display: none" />
             </td>
           </tr>

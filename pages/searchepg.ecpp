@@ -53,8 +53,6 @@ using namespace vdrlive;
   int maxparentalrating = 18;
 </%args>
 <%session scope="global">
-bool logged_in(false);
-std::string last_page;
 </%session>
 <%request scope="page">
 ExtEPGInfos extEPGInfos;
@@ -62,16 +60,11 @@ ChannelGroups channelGroups;
 Blacklists blacklists;
 std::string contentsFilter;
 </%request>
+<%include>page.eh</%include>
 <%include>page_init.eh</%include>
-<{
-last_page="searchepg";
-if (!logged_in && LiveSetup().UseAuth()) {
-  cToSvConcat<0> targetUrl = "/login.html?redirect=";
-  targetUrl.appendUrlEscaped(request.getQuery());
-  return reply.redirect(targetUrl.data());
-}
-}>
+<& login.authentication &>
 <%cpp>
+last_page="searchepg";
 
 #define SELECTIF(x) reply.out() << ( (x) ? "selected=\"selected\"" : "" );
 #define CHECKIF(x) reply.out() << ( (x) ? "checked=\"checked\"" : "" );
@@ -200,6 +193,7 @@ const char *TNT_ARRAY = "";
     <title>VDR Live - <$ tr("Search") $></title>
     <& pageelems.favicon &>
     <& pageelems.stylesheets &>
+    <& pageelems.scripts &>
     <& pageelems.ajax_js &>
 
     <script type="text/javascript">

@@ -13,16 +13,8 @@ using namespace vdrlive;
   onchange;
   bool channelid = false;
 </%args>
-<%session scope="global">
-bool logged_in(false);
-</%session>
-<%cpp>
-  if (!logged_in && LiveSetup().UseAuth()) {
-    cToSvConcat targetUrl = "/login.html?redirect=";
-    targetUrl.appendUrlEscaped(request.getQuery());
-    return reply.redirect(targetUrl.data());
-  }
-</%cpp>
+<%include>page.eh</%include>
+<& login.authentication &>
 <select name="<$ name $>" id="<$ name $>"<?? !onchange.empty() ? cToSvConcat(" onchange=\"", onchange, "\"") ?>>
 <%cpp>
   tChannelID selected_ChannelID = tChannelID::FromString(selected.c_str() );

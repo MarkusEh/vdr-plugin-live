@@ -42,18 +42,14 @@ using namespace vdrlive;
   int nav_back = 1;
 </%args>
 <%session scope="global">
-bool logged_in(false);
 std::string edit_timerreferer;
 TimerConflictNotifier timerNotifier;
 </%session>
+<%include>page.eh</%include>
 <%include>page_init.eh</%include>
+<& login.authentication &>
 <%cpp>
-  if (!logged_in && LiveSetup().UseAuth()) {
-    cToSvConcat targetUrl = "/login.html?redirect=";
-    targetUrl.appendUrlEscaped(request.getQuery());
-    return reply.redirect(targetUrl.data());
-  }
-
+  last_page="edit_timer";   // to cater for direct access
   if (!cUser::CurrentUserHasRightTo(UR_EDITTIMERS))
     throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
 
@@ -274,6 +270,7 @@ TimerConflictNotifier timerNotifier;
 </%cpp>
     <& pageelems.favicon &>
     <& pageelems.stylesheets &>
+    <& pageelems.scripts &>
     <& pageelems.ajax_js &>
 <%cpp>
   }

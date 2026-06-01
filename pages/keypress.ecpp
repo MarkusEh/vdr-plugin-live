@@ -12,15 +12,11 @@ using namespace vdrlive;
   int keycode = kNone;
   int repeat = 1;
 </%args>
-<%session scope="global">
-bool logged_in(false);
-</%session>
-<%cpp>
-  if (!logged_in && LiveSetup().UseAuth()) {
-    cToSvConcat targetUrl("/login.html?redirect=");
-    targetUrl.appendUrlEscaped(request.getQuery());
-    return reply.redirect(targetUrl.data());
-  }
+<%include>page.eh</%include>
+<& login.authentication &><%cpp>
+// there must be no newline after <& login.authentication &> (before <%cpp>),
+// otherwise there will be a newline in the output, which will break the resulting XML file
+
   reply.setContentType("application/xml");
   struct timespec ts_req;
   ts_req.tv_sec = 0;

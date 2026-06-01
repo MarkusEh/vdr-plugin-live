@@ -14,17 +14,11 @@ using namespace vdrlive;
   onchange;
 </%args>
 <%session scope="global">
-  bool logged_in(false);
   std::string prev_recording;
   std::string next_recording;
 </%session>
-<%cpp>
-  if (!logged_in && LiveSetup().UseAuth()) {
-    cToSvConcat targetUrl = "/login.html?redirect=";
-    targetUrl.appendUrlEscaped(request.getQuery());
-    return reply.redirect(targetUrl.data());
-  }
-</%cpp>
+<%include>page.eh</%include>
+<& login.authentication &>
 <select name="<$ name $>" id="<$ name $>" <{ reply.out() << ( !onchange.empty() ? "onchange=\""+onchange+"\"" : "" ); }>>
 <%cpp>
   XXH128_hash_t selected_rec_hash = {0, 0};

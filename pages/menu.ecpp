@@ -14,7 +14,6 @@ std::string filter;
 int recycle_bin = -1;  // -1: no change; 0: do not display deleted recordings; 1: display deleted recordings
 </%args>
 <%session scope="global">
-bool logged_in(false);
 TimerConflictNotifier timerNotifier();
 </%session>
 
@@ -24,13 +23,9 @@ std::string set_active;
 std::string set_component;
 </%request>
 
+<%include>page.eh</%include>
+<& login.authentication &>
 <%cpp>
-if (!logged_in && LiveSetup().UseAuth()) {
-  cToSvConcat targetUrl = "/login.html?redirect=";
-  targetUrl.appendUrlEscaped(request.getQuery());
-  return reply.redirect(targetUrl.data());
-}
-
 set_active = active;
 if (!component.empty()) {
   set_component = component;

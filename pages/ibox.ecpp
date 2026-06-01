@@ -1,5 +1,6 @@
-<%include>page.eh</%include>
 <%pre>
+// Do not write an ecpp comment into this file. It must produce no
+// HTML output not even an empty line.
 
 #include <setup.h>
 #include <tools.h>
@@ -16,16 +17,13 @@ using namespace vdrlive;
   int update;
 </%args>
 <%session scope="global">
-bool logged_in(false);
 int update_status(1);
 TimerConflictNotifier timerNotifier();
 </%session>
-<%cpp>
-  if (!logged_in && LiveSetup().UseAuth()) {
-    cToSvConcat targetUrl = "/login.html?redirect=";
-    targetUrl.appendUrlEscaped(request.getQuery());
-    return reply.redirect(targetUrl.data());
-  }
+<%include>page.eh</%include>
+<& login.authentication &><%cpp>
+// there must be no newline after <& login.authentication &> (before <%cpp>),
+// otherwise there will be a newline in the output, which will break the resulting XML file
 
   tChannelID prev_chan;
   tChannelID next_chan;

@@ -11,18 +11,11 @@ using namespace vdrlive;
   std::string userid;
   std::string action;
 </%args>
-<%session scope="global">
-bool logged_in(false);
-</%session>
+<%include>page.eh</%include>
 <%include>page_init.eh</%include>
+<& login.authentication &>
 <%cpp>
-if (!logged_in && LiveSetup().UseAuth()) {
-  cToSvConcat targetUrl = "/login.html?redirect=";
-  targetUrl.appendUrlEscaped(request.getQuery());
-  return reply.redirect(targetUrl.data());
-}
-</%cpp>
-<%cpp>
+  last_page="users";  // to cater for direct access
   pageTitle = tr("Users");
   if ( !userid.empty() ) {
     if (action == "delete")
@@ -43,6 +36,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
     <title>VDR-Live - <$ pageTitle $></title>
     <& pageelems.favicon &>
     <& pageelems.stylesheets &>
+    <& pageelems.scripts &>
     <& pageelems.ajax_js &>
   </head>
   <body onpagehide="saveScrollPosition('content')" onpageshow="restoreScrollPosition()">

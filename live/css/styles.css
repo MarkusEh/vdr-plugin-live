@@ -2184,7 +2184,8 @@ table.form > tbody > tr.permissions > td.rightcol > div {
   margin: var(--text-line-gap) 0px;
 }
 
-table.form div.with-tooltip {
+table.form div.with-tooltip,
+table.form div.with-action-icon {
   display: inline-flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -2251,9 +2252,15 @@ table.dependent > tbody > tr > td:last-child {
 table.form tbody > tr > td > input,
 table.form tbody > tr > td > select,
 table.form tbody > tr > td > div.with-tooltip,
+table.form tbody > tr > td > div.with-action-icon,
 table.form tbody > tr.permissions > td input[type=checkbox] {
-  margin-top: calc(var(--margin-top-bottom) - var(--text-line-gap));  /* visual adjustment */
+  margin-top: calc(var(--margin-top-bottom) - var(--text-line-gap));      /* visual adjustment */
   margin-left: 0px;
+}
+
+table.form tbody > tr > td > div.with-tooltip,
+table.form tbody > tr > td > div.with-action-icon {
+  margin-bottom: calc(var(--margin-top-bottom) - var(--text-line-gap));   /* visual adjustment */
 }
 
 table.form tbody > tr > td > select[multiple=multiple] {
@@ -2267,8 +2274,10 @@ table.form tbody > tr > td > input[type=checkbox] {
   margin-top: var(--margin-top-bottom);
 }
 
-table.form tbody > tr > td > div.with-tooltip > input[type=checkbox] {
-  margin-top: var(--text-line-gap);
+table.form tbody > tr > td > div.with-tooltip > input[type=checkbox],
+table.form tbody > tr > td > div.with-action-icon > input[type=checkbox] {
+  margin-top: var(--text-line-gap);     /* visual adjustment */
+  margin-bottom: var(--text-line-gap);  /* visual adjustment */
 }
 
 

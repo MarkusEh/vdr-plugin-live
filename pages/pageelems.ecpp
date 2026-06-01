@@ -59,19 +59,30 @@ int update_status(1);
 
 <# ---------------------------------------------------------------------- #>
 
-<%def create_html_js>
-<script type="text/javascript" src="js/live/createHtml.js?st=<$cToSvInt(LiveSetup().GetVdrStart() )$>"></script>
-<script type="text/javascript" src="js.html"></script>
-</%def>
-
 <%def stylesheets>
 <link rel="stylesheet" type="text/css" href="css/properties.css?st=<$cToSvInt(LiveSetup().GetVdrStart())$>"/>
 <link rel="stylesheet" type="text/css" href="css/styles.css?st=<$cToSvInt(LiveSetup().GetVdrStart())$>"/>
 <link rel="stylesheet" type="text/css" href="<$ GetThemedLink("css", "layout.css") $>?st=<$cToSvInt(LiveSetup().GetVdrStart())$>"/>
 <link rel="stylesheet" type="text/css" href="<$ GetThemedLink("css", "theme.css") $>?st=<$cToSvInt(LiveSetup().GetVdrStart())$>"/>
 <link rel="stylesheet" type="text/css" href="css/siteprefs.css?st=<$cToSvInt(LiveSetup().GetVdrStart())$>"/>
+</%def>
+
+<%def scripts>
+<script type="text/javascript"><!--
+const liveNamePrefix = "<$ liveNamePrefix $>"
+
+function getEffectiveTheme()       { return "<$ effectiveTheme $>"; }
+function getThemedLinkPrefix()     { return "<$ cToSvConcat("/themes/", effectiveTheme, "/") $>"; }
+function getThemedLinkPrefixImg()  { return "<$ cToSvConcat("/themes/", effectiveTheme, "/img/") $>"; }
+function getThemedLink(type, name) { return "<$ cToSvConcat("/themes/", effectiveTheme, "/") $>" + type + "/" + name; }
+--></script>
 <script type="text/javascript" src="js/live/scrolling.js?st=<$cToSvInt(LiveSetup().GetVdrStart() )$>"></script>
 <script type="text/javascript" src="js/live/epg_tt_box.js?st=<$cToSvInt(LiveSetup().GetVdrStart() )$>"></script>
+</%def>
+
+<%def create_html_js>
+<script type="text/javascript" src="js/live/createHtml.js?st=<$cToSvInt(LiveSetup().GetVdrStart() )$>"></script>
+<script type="text/javascript" src="js.html"></script>
 </%def>
 
 <# ---------------------------------------------------------------------- #>

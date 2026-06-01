@@ -11,9 +11,6 @@
 using namespace vdrlive;
 
 </%pre>
-<%session scope="global">
-bool logged_in(false);
-</%session>
 <%args>
 int thumb=0;  // 0:false, 1:true. If true, the image is used as thumb and the size will be resuced according to --thumb_size
 std::string cache_max_age="2592000";   // Time in seconds this file will be cached by the browser

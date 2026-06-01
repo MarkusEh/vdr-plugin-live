@@ -81,8 +81,9 @@ use an 'img' tag according to this example:
   <img src="<$ LiveSetup().GetThemedLink("img", "<image-name>") $>"
   alt="some-image">
 
-For use in supplemental Javascript code, a twin function is available.
-The example from above would thus look like:
+For use in supplemental Javascript code, a twin function is available,
+which is provided by the '<& pageelems.scripts &>' component. The
+example from above would thus look like:
 
   const img = document.getElementById('image-id');
   img.src = getThemedLink('img', '<image-name>');

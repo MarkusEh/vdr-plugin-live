@@ -8,18 +8,10 @@
 using namespace vdrlive;
 
 </%pre><?xml version="1.0" encoding="utf-8"?>
-<%session scope="global">
-bool logged_in(false);
-</%session>
-<%request scope="page">
-</%request>
+<%include>page.eh</%include>
+<& login.authentication &>
 <%cpp>
   clock_t lastOsdChange = LiveOsdStatusMonitor().getLastUpdate();
-  if (!logged_in && LiveSetup().UseAuth()) {
-    cToSvConcat targetUrl("/login.html?redirect=");
-    targetUrl.appendUrlEscaped(request.getQuery());
-    return reply.redirect(targetUrl.data());
-  }
   reply.setContentType("text/plain; charset=utf-8");
 
   struct timespec ts_req;

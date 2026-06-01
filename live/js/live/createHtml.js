@@ -178,10 +178,13 @@ function clearRecordingsFilter(filter, currentSort, currentFlat, recycle_bin) {
 }
 function clearCheckboxes(form) {
 // clearing checkboxes
-  var inputs = form.getElementsByTagName('input');
-  for (var i = 0; i<inputs.length; i++) {
-    if (inputs[i].type == 'checkbox') {
-        inputs[i].checked = false;
+  if (form) {
+// note: in case of no recordings there is no form
+    var inputs = form.getElementsByTagName('input');
+    for (var i = 0; i<inputs.length; i++) {
+      if (inputs[i].type == 'checkbox') {
+          inputs[i].checked = false;
+      }
     }
   }
 }

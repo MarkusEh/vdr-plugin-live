@@ -71,9 +71,16 @@ CXXFLAGS  += $(shell tntnet-config --cxxflags)
 LIBS      += $(shell tntnet-config --libs)
 endif
 
-# $(info $$TNTVERSION is [${TNTVERSION}])
+$(info $$TNTVERSION is [${TNTVERSION}])
 
+CXXTOOL-CONFIG := $(shell which cxxtools-config 2>/dev/null)
+ifeq ($(CXXTOOL-CONFIG),)
+CXXTOOLVER := $(shell $(PKG_CONFIG) --modversion cxxtools | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
+else
 CXXTOOLVER := $(shell cxxtools-config --version | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
+endif
+
+$(info $$CXXTOOLVER is [${CXXTOOLVER}])
 
 # For rough image scaling, used by VDR core anyway
 LIBS += -ljpeg

@@ -38,19 +38,11 @@ using namespace vdrlive;
   std::string streamdevtype;
   int authchanged = 0;
 </%args>
-<%session scope="global">
-  bool logged_in(false);
-  std::string last_page;
-</%session>
+<%include>page.eh</%include>
 <%include>page_init.eh</%include>
-<script type="text/javascript" src="js.html"></script>
+<& login.authentication &>
 <%cpp>
 last_page="setup";
-if (!logged_in && LiveSetup().UseAuth()) {
-  cToSvConcat targetUrl = "/login.html?redirect=";
-  targetUrl.appendUrlEscaped(request.getQuery());
-  return reply.redirect(targetUrl.data());
-}
 if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
     throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
 
@@ -101,13 +93,12 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
         // browsers usually limit cookie expiration period to 1 year
         reply.setCookie(liveNamePrefix cookieNameLocalTheme, localtheme, 366*24*3600);
         message += std::string("\n") + tr("Local theme set to") + " \"" + (browserLocalTheme = localtheme) + "\".";
-        effectiveTheme = browserLocalTheme;
       } else if (!browserLocalTheme.empty()) {
         reply.clearCookie(liveNamePrefix cookieNameLocalTheme);
         message += std::string("\n") + tr("Local theme cleared");
         browserLocalTheme = "";
-        effectiveTheme = LiveSetup().GetTheme();
       }
+    effectiveTheme = browserLocalTheme.empty()?LiveSetup().GetTheme():browserLocalTheme;
     }
   }
   pageTitle = tr("Setup");
@@ -144,6 +135,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
     <title>VDR-Live - <$ pageTitle $></title>
     <& pageelems.favicon &>
     <& pageelems.stylesheets &>
+    <& pageelems.scripts &>
     <& pageelems.ajax_js &>
     <script type="text/javascript"><!--
     function initform()

@@ -10,15 +10,9 @@ int quality = 80;
 int width = 640;
 int height = 360;
 </%args>
-<%session scope="global">
-bool logged_in(false);
-</%session>
+<%include>page.eh</%include>
+<& login.authentication &>
 <%cpp>
-  if (!logged_in && LiveSetup().UseAuth()) {
-    cToSvConcat targetUrl = "/login.html?redirect=";
-    targetUrl.appendUrlEscaped(request.getQuery());
-    return reply.redirect(targetUrl.data());
-  }
   reply.setContentType("image/jpg");
 
   cDevice* device = cDevice::PrimaryDevice();

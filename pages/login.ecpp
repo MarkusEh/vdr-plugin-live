@@ -1,4 +1,3 @@
-<%include>page.eh</%include>
 <%pre>
 
 #include <setup.h>
@@ -13,35 +12,38 @@ std::string password;
 std::string action;
 std::string redirect;
 </%args>
-<%session scope="global">
-bool logged_in(false);
-</%session>
+<%include>page.eh</%include>
 <{
 
 std::string message;
 std::string targetUrl = qparam.has("redirect") && !redirect.empty() ? redirect : LiveSetup().GetStartScreenLink();
 
-if (LiveSetup().CheckLocalNet(request.getPeerIp())) {
-  logged_in = true;
-} else if (action == "login") {
-  if (Users.ValidLogin(login, password)) {
+bool already_logged_in = logged_in;
+if (LiveSetup().UseAuth()) {
+  if (LiveSetup().CheckLocalNet(request.getPeerIp())) {
     logged_in = true;
-    cUsers::logged_in_user = login;
-  } else {
-    message = tr("Wrong username or password");
+  } else if (action == "login") {
+    if (Users.ValidLogin(login, password)) {
+      logged_in = true;
+      cUsers::logged_in_user = login;
+    } else {
+      message = tr("Wrong username or password");
+    }
+  } else if (action == "logout") {
+    logged_in = false;
+    cUsers::logged_in_user = "";
   }
-} else if (action == "logout") {
-  logged_in = false;
-  cUsers::logged_in_user = "";
+} else {
+  logged_in = true;
 }
-if (logged_in || !LiveSetup().UseAuth()) {
+if (!already_logged_in && logged_in) {
   std::string theme = request.getCookie(liveNamePrefix cookieNameLocalTheme).getValue();
   if (!theme.empty()) {
     // update the expiration date
     reply.setCookie(liveNamePrefix cookieNameLocalTheme, theme, 366*24*3600);
   }
-  return reply.redirect(targetUrl);
 }
+if (logged_in) return reply.redirect(targetUrl);
 
 }>
 <& pageelems.doc_type &>
@@ -51,6 +53,7 @@ if (logged_in || !LiveSetup().UseAuth()) {
     <title>VDR-Live - <$ tr("Login") $></title>
     <& pageelems.favicon &>
     <& pageelems.stylesheets &>
+    <& pageelems.scripts &>
 <#  the Ajax components cause loading the login page twice, so better skip them
     <& pageelems.ajax_js &>
 #>
@@ -81,3 +84,13 @@ if (logged_in || !LiveSetup().UseAuth()) {
   </div>
   </body>
 </html>
+
+<# ---------------------------------------------------------------------- #>
+<%def authentication><%cpp>
+if (!logged_in) {
+  cToSvConcat targetUrl = "/login.html?redirect=";
+  targetUrl.appendUrlEscaped(request.getQuery());
+  return reply.redirect(targetUrl.data());
+}
+</%cpp>
+</%def>

@@ -26,9 +26,6 @@ off_t RecSize(cFileName &recFile)
 <%args>
     std::string recid;
 </%args>
-<%session scope="global">
-bool logged_in(false);
-</%session>
 <%cpp>
 std::string recording_FileName;
 bool recording_IsPesRecording = false;

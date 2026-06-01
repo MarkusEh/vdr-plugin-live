@@ -1,11 +1,10 @@
 <%pre>
 // do not add to Makefile
-// and do not write a ecpp comment into this file. It must produce no
+// and do not write an ecpp comment into this file. It must produce no
 // HTML output not even an empty line.
 #include <tnt/savepoint.h>
 #include <exception.h>
 </%pre>
-<%include>page.eh</%include>
 <%request scope="global">
 std::string pageTitle;
 </%request>

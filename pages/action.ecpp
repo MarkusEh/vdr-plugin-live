@@ -1,4 +1,6 @@
 <%pre>
+// Do not write an ecpp comment into this file. It must produce no
+// HTML output not even an empty line.
 
 #include <exception.h>
 #include <tools.h>
@@ -13,15 +15,10 @@ using namespace vdrlive;
   std::string id;  // action ID, what needs to be done
   std::string async;
 </%args>
-<%session scope="global">
-bool logged_in(false);
-</%session>
-<%cpp>
-  if (!logged_in && LiveSetup().UseAuth()) {
-    cToSvConcat targetUrl = "/login.html?redirect=";
-    targetUrl.appendUrlEscaped(request.getQuery());
-    return reply.redirect(targetUrl.data());
-  }
+<%include>page.eh</%include>
+<& login.authentication &><%cpp>
+// there must be no newline after <& login.authentication &> (before <%cpp>),
+// otherwise there will be a newline in the output, which will break the resulting XML file
 
   const cConfirm *confirm = get_confirm_popup(id);
   if (!confirm) {

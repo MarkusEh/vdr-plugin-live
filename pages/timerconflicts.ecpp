@@ -12,19 +12,12 @@ using namespace vdrlive;
 <%args>
   // input parameters
 </%args>
-<%session scope="global">
-bool logged_in(false);
-</%session>
+<%include>page.eh</%include>
 <%include>page_init.eh</%include>
+<& login.authentication &>
 <%cpp>
-reply.setHeader (tnt::httpheader::cacheControl, "no-store, no-cache, max-age=0, must-revalidate, proxy-revalidate", true);
-if (!logged_in && LiveSetup().UseAuth()) {
-  cToSvConcat targetUrl = "/login.html?redirect=";
-  targetUrl.appendUrlEscaped(request.getQuery());
-  return reply.redirect(targetUrl.data());
-}
-</%cpp>
-<%cpp>
+  last_page="timerconflicts";   // to cater for direct access
+  reply.setHeader (tnt::httpheader::cacheControl, "no-store, no-cache, max-age=0, must-revalidate, proxy-revalidate", true);
   pageTitle = tr("Timer conflicts");
   TimerConflicts timerConflicts;
 </%cpp>
@@ -36,6 +29,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
     <title>VDR-Live - <$ pageTitle $></title>
     <& pageelems.favicon &>
     <& pageelems.stylesheets &>
+    <& pageelems.scripts &>
     <& pageelems.ajax_js &>
     <& pageelems.create_html_js &>
   </head>

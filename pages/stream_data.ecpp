@@ -14,7 +14,6 @@ using namespace vdrlive;
 
 </%pre>
 <%session scope="global">
-bool logged_in(false);
 FFmpegThread *f_worker = nullptr;
 </%session>
 <%cpp>

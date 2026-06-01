@@ -24,20 +24,13 @@ using namespace vdrlive;
   bool ur_delstimers = false;
   bool ur_editrecs = false;
 </%args>
-<%session scope="global">
-bool logged_in(false);
-</%session>
 <%request scope="page">
 cUser* editUser;
 </%request>
+<%include>page.eh</%include>
 <%include>page_init.eh</%include>
+<& login.authentication &>
 <%cpp>
-  if (!logged_in && LiveSetup().UseAuth()) {
-    cToSvConcat<0> targetUrl = "/login.html?redirect=";
-    targetUrl.appendUrlEscaped(request.getQuery());
-    return reply.redirect(targetUrl.data());
-  }
-
 #define CHECKIF(x) reply.out() << ( (x) ? "checked=\"checked\"" : "" );
 
   editUser = NULL;
@@ -117,6 +110,7 @@ cUser* editUser;
     <title>VDR Live - <$ pageTitle $></title>
     <& pageelems.favicon &>
     <& pageelems.stylesheets &>
+    <& pageelems.scripts &>
     <& pageelems.ajax_js &>
   </head>
   <body onpagehide="saveScrollPosition('content')" onpageshow="restoreScrollPosition()">

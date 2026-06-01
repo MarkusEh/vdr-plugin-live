@@ -17,7 +17,6 @@ using namespace vdrlive;
   std::string recid;
 </%args>
 <%session scope="global">
-  bool logged_in(false);
   std::string prev_recording;
   std::string next_recording;
   FFmpegThread *f_worker = nullptr;
@@ -27,14 +26,10 @@ using namespace vdrlive;
   int channelNumber;
   std::string g_recid;
 </%request>
+<%include>page.eh</%include>
 <%include>page_init.eh</%include>
+<& login.authentication &>
 <%cpp>
-  if (!logged_in && LiveSetup().UseAuth()) {
-    cToSvConcat targetUrl = "/login.html?redirect=";
-    targetUrl.appendUrlEscaped(request.getQuery());
-    return reply.redirect(targetUrl.data());
-  }
-
   pageTitle = trVDR("Stream");
 
   // check for session cookie.
@@ -130,6 +125,7 @@ using namespace vdrlive;
     <title>VDR Live - <$ pageTitle $></title>
     <& pageelems.favicon &>
     <& pageelems.stylesheets &>
+    <& pageelems.scripts &>
     <& pageelems.ajax_js &>
     <& pageelems.create_html_js &>
     <script> window.onbeforeunload = function() { player.stop(); } </script>

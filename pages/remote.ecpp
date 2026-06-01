@@ -100,23 +100,14 @@ static const tKeyMap keyMap[] {
 <%args>
   int channel = -1;
 </%args>
-<%session scope="global">
-bool logged_in(false);
-std::string last_page;
-</%session>
 <%request scope="global">
   tChannelID channelID;
 </%request>
+<%include>page.eh</%include>
 <%include>page_init.eh</%include>
-<{
-last_page="remote";
-if (!logged_in && LiveSetup().UseAuth()) {
-  cToSvConcat targetUrl("/login.html?redirect=");
-  targetUrl.appendUrlEscaped(request.getQuery());
-  return reply.redirect(targetUrl.data());
-}
-}>
+<& login.authentication &>
 <%cpp>
+last_page="remote";
   if (!cUser::CurrentUserHasRightTo(UR_USEREMOTE))
     throw HtmlError( tr("Sorry, no permission. Please contact your administrator!") );
 
@@ -147,6 +138,7 @@ if (!logged_in && LiveSetup().UseAuth()) {
   <title>VDR-Live - <$ pageTitle $></title>
   <& pageelems.favicon &>
   <& pageelems.stylesheets &>
+  <& pageelems.scripts &>
   <& pageelems.ajax_js &>
   <script type="text/javascript"><!--
   var newImg = null;

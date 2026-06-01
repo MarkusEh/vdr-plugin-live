@@ -20,21 +20,15 @@ using namespace vdrlive;
   std::string filter;
   std::string flat;
 </%args>
-<%session scope="global">
-  bool logged_in(false);
-</%session>
 <%request scope="global">
   EpgInfo    epgEvent;
   std::string epgImage;
 </%request>
+<%include>page.eh</%include>
 <%include>page_init.eh</%include>
+<& login.authentication &>
 <%cpp>
   reply.setHeader (tnt::httpheader::cacheControl, "no-store, no-cache, max-age=0, must-revalidate, proxy-revalidate", true);
-  if (!logged_in && LiveSetup().UseAuth()) {
-    cToSvConcat targetUrl = "/login.html?redirect=";
-    targetUrl.appendUrlEscaped(request.getQuery());
-    return reply.redirect(targetUrl.data());
-  }
 
   pageTitle = tr("Electronic program guide information");
 
@@ -108,6 +102,7 @@ using namespace vdrlive;
 </%cpp>
     <& pageelems.favicon &>
     <& pageelems.stylesheets &>
+    <& pageelems.scripts &>
     <& pageelems.create_html_js &>
     <& pageelems.ajax_js &>
 <%cpp>
