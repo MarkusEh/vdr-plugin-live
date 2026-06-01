@@ -1,4 +1,6 @@
 <%pre>
+// Do not write an ecpp comment into this file. It must produce no
+// HTML output not even an empty line.
 
 #include <setup.h>
 
@@ -11,8 +13,10 @@ int width = 640;
 int height = 360;
 </%args>
 <%include>page.eh</%include>
-<& login.authentication &>
-<%cpp>
+<& login.authentication &><%cpp>
+// there must be no newline after <& login.authentication &> (before <%cpp>),
+// otherwise there will be a newline in the output, which will break the resulting binary file (image)
+
   reply.setContentType("image/jpg");
 
   cDevice* device = cDevice::PrimaryDevice();
