@@ -98,7 +98,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
         message += std::string("\n") + tr("Local theme cleared");
         browserLocalTheme = "";
       }
-    effectiveTheme = browserLocalTheme.empty()?LiveSetup().GetTheme():browserLocalTheme;
+      effectiveTheme = browserLocalTheme.empty()?LiveSetup().GetTheme():browserLocalTheme;
     }
   }
   pageTitle = tr("Setup");

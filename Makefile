@@ -62,25 +62,26 @@ include global.mk
 ### Determine tntnet and cxxtools versions:
 TNTNET-CONFIG := $(shell which tntnet-config 2>/dev/null)
 ifeq ($(TNTNET-CONFIG),)
-TNTVERSION := $(shell $(PKG_CONFIG) --modversion tntnet | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
+TNTNET_VERSION = $(shell $(PKG_CONFIG) --modversion tntnet)
 CXXFLAGS  += $(shell $(PKG_CONFIG) --cflags tntnet)
 LIBS      += $(shell $(PKG_CONFIG) --libs tntnet)
 else
-TNTVERSION = $(shell tntnet-config --version | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
+TNTNET_VERSION = $(shell tntnet-config --version)
 CXXFLAGS  += $(shell tntnet-config --cxxflags)
 LIBS      += $(shell tntnet-config --libs)
 endif
 
-$(info $$TNTVERSION is [${TNTVERSION}])
+TNTVERSION = $(shell echo $(TNTNET_VERSION) | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
+# $(info $$TNTVERSION is [${TNTVERSION}])
 
 CXXTOOL-CONFIG := $(shell which cxxtools-config 2>/dev/null)
 ifeq ($(CXXTOOL-CONFIG),)
-CXXTOOLVER := $(shell $(PKG_CONFIG) --modversion cxxtools | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
+CXXTOOLS_VERSION = $(shell $(PKG_CONFIG) --modversion cxxtools)
 else
-CXXTOOLVER := $(shell cxxtools-config --version | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
+CXXTOOLS_VERSION = $(shell cxxtools-config --version)
 endif
 
-$(info $$CXXTOOLVER is [${CXXTOOLVER}])
+CXXTOOLVER := $(shell echo $(CXXTOOLS_VERSION) | sed -e's/\.//g' | sed -e's/pre.*//g' | awk '/^..$$/ { print $$1."000"} /^...$$/ { print $$1."00"} /^....$$/ { print $$1."0" } /^.....$$/ { print $$1 }')
 
 # For rough image scaling, used by VDR core anyway
 LIBS += -ljpeg
@@ -88,8 +89,7 @@ LIBS += -ljpeg
 ### Optional configuration features
 PLUGINFEATURES :=
 
-# -Wno-deprecated-declarations .. get rid of warning: ‘template<class> class std::auto_ptr’ is deprecated
-CXXFLAGS += -std=c++17 -Wfatal-errors -Wundef -Wno-deprecated-declarations
+CXXFLAGS += -std=c++17 -Wfatal-errors -Wundef
 
 ### export all vars for sub-makes, using absolute paths
 LIBDIR := $(abspath $(LIBDIR))
@@ -128,7 +128,7 @@ SUBDIRS := $(WEB_DIR_PAGES)
 
 ### The main target:
 .PHONY: all
-all: version_suffix lib i18n
+all: version_suffix tool-versions lib i18n
 	@true
 
 ### Implicit rules:
@@ -198,7 +198,7 @@ recursive-inst_I18Nmsg: recursive-I18Nmo
 i18n: subdirs recursive-I18Nmo
 
 .PHONY: install-i18n
-install-i18n: version_suffix i18n recursive-inst_I18Nmsg
+install-i18n: version_suffix tool-versions i18n recursive-inst_I18Nmsg
 
 ### Targets:
 
@@ -238,6 +238,12 @@ $(SOINST): $(SOFILE)
 version_suffix:
 	@echo "VERSION is $(VERSION)"
 	@echo "VERSION_SUFFIX = \"$(VERSION_SUFFIX)\""
+
+.PHONY: tool-versions
+tool-versions:
+	@echo "TNTNET_VERSION is ${TNTNET_VERSION}, adding \"-DTNTVERSION=$(TNTVERSION)\""
+	@echo "CXXTOOLS_VERSION is ${CXXTOOLS_VERSION}, adding \"-DCXXTOOLVER=$(CXXTOOLVER)\""
+
 
 .PHONY: install-lib
 install-lib: version_suffix lib recursive-soinst
