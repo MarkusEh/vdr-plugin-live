@@ -126,11 +126,11 @@ cUser* editUser;
           </tr>
           <tr class="account">
             <td class="label leftcol"><div class="withmargin"><$ tr("Name" ) $>:</div></td>
-            <td class="rightcol"><input type="text" name="username" value="<$ username $>" class="width99" size="55"/></td>
+            <td class="rightcol"><input type="text" name="username" value="<$ username $>" required class="width99" size="55"/></td>
           </tr>
           <tr class="password">
             <td class="label leftcol"><div class="withmargin"><$ tr("Password" ) $>:</div></td>
-            <td class="rightcol"><input type="password" name="password" value="<$ password $>" class="width99" size="55"/></td>
+            <td class="rightcol"><input type="password" name="password" value="<$ password $>" required class="width99" size="55"/></td>
           </tr>
           <!-- user permissions -->
           <tr class="permissions">
