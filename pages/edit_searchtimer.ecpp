@@ -134,7 +134,8 @@ const char *TNT_ARRAY = "";
 
     searchtimer.SetSearch(search);
     searchtimer.SetSearchMode(mode);
-    searchtimer.SetTolerance(tolerance);
+    if (mode == 5)  // fuzzy with tolerance
+      searchtimer.SetTolerance(tolerance);
     searchtimer.SetMatchCase(matchcase);
     searchtimer.SetUseTitle(usetitle);
     searchtimer.SetUseSubtitle(usesubtitle);
@@ -216,44 +217,53 @@ const char *TNT_ARRAY = "";
       searchtimer.ParseBlacklist(blacklistids);
     searchtimer.SetUseInFavorites(useinfavorites);
     searchtimer.SetUseAsSearchTimer(useassearchtimer);
-    if (useassearchtimer == 2)
+    if (useassearchtimer > 0)
     {
-      searchtimer.SetUseAsSearchTimerFrom(useassearchtimerfrom, "yyyy-mm-dd");
-      searchtimer.SetUseAsSearchTimerTil(useassearchtimerto, "yyyy-mm-dd");
-    }
-    searchtimer.SetSearchTimerAction(searchtimeraction);
-    searchtimer.SetUseSeriesRecording(seriesrecording);
-    searchtimer.SetDirectory(directory);
-    searchtimer.SetDelRecsAfterDays(delrecafterdays);
-    searchtimer.SetKeepRecs(keeprecs);
-    searchtimer.SetPauseOnRecs(pauseonrecs);
-    searchtimer.SetSwitchMinBefore(switchminbefore);
-    searchtimer.SetUnmuteSoundOnSwitch(unmutesoundonswitch);
-    searchtimer.SetAvoidRepeats(avoidrepeats);
-    if (avoidrepeats)
-    {
-      searchtimer.SetAllowedRepeats(allowedrepeats);
-      searchtimer.SetRepeatsWithinDays(repeatswithindays);
-      searchtimer.SetCompareTitle(comparetitle);
-      searchtimer.SetCompareSubtitle(comparesubtitle);
-      searchtimer.SetCompareSummary(comparesummary);
-      searchtimer.SetCompareSummaryMatchInPercent(comparesummarymatchinpercent);
-      searchtimer.SetCompareDate(comparedate);
-    }
-    unsigned long catsselected = 0;
-    for (unsigned int i = 0; i < avoidrepeatscatselected.size(); i++)
-      catsselected |= (1 << (avoidrepeatscatselected[i] - 1));
-    searchtimer.SetCompareCategories(catsselected);
-    searchtimer.SetPriority(priority);
-    searchtimer.SetLifetime(lifetime);
-    searchtimer.SetMarginStart(marginstart);
-    searchtimer.SetMarginStop(marginstop);
-    searchtimer.SetUseVPS(usevps);
-    searchtimer.SetDelMode(delmode);
-    if (delmode)
-    {
-      searchtimer.SetDelAfterCountRecs(delaftercountrecs);
-      searchtimer.SetDelAfterDaysOfFirstRec(delafterdaysoffirstrec);
+      if (useassearchtimer == 2)                                  // user-defined
+      {
+        searchtimer.SetUseAsSearchTimerFrom(useassearchtimerfrom, "yyyy-mm-dd");
+        searchtimer.SetUseAsSearchTimerTil(useassearchtimerto, "yyyy-mm-dd");
+      }
+      searchtimer.SetSearchTimerAction(searchtimeraction);
+      if (searchtimeraction == 2 || searchtimeraction == 3)       // switch channel
+      {
+        searchtimer.SetSwitchMinBefore(switchminbefore);
+        searchtimer.SetUnmuteSoundOnSwitch(unmutesoundonswitch);
+      }
+      else if (searchtimeraction == 0 || searchtimeraction == 5)  // recording or inactive
+      {
+        searchtimer.SetUseSeriesRecording(seriesrecording);
+        searchtimer.SetDirectory(directory);
+        searchtimer.SetDelRecsAfterDays(delrecafterdays);
+        searchtimer.SetKeepRecs(keeprecs);
+        searchtimer.SetPauseOnRecs(pauseonrecs);
+        searchtimer.SetAvoidRepeats(avoidrepeats);
+        if (avoidrepeats)
+        {
+          searchtimer.SetAllowedRepeats(allowedrepeats);
+          searchtimer.SetRepeatsWithinDays(repeatswithindays);
+          searchtimer.SetCompareTitle(comparetitle);
+          searchtimer.SetCompareSubtitle(comparesubtitle);
+          searchtimer.SetCompareSummary(comparesummary);
+          if (comparesummary)
+            searchtimer.SetCompareSummaryMatchInPercent(comparesummarymatchinpercent);
+          searchtimer.SetCompareDate(comparedate);
+        }
+        unsigned long catsselected = 0;
+        for (unsigned int i = 0; i < avoidrepeatscatselected.size(); i++)
+          catsselected |= (1 << (avoidrepeatscatselected[i] - 1));
+        searchtimer.SetCompareCategories(catsselected);
+        searchtimer.SetPriority(priority);
+        searchtimer.SetLifetime(lifetime);
+        searchtimer.SetMarginStart(marginstart);
+        searchtimer.SetMarginStop(marginstop);
+        searchtimer.SetUseVPS(usevps);
+        searchtimer.SetDelMode(delmode);
+        if (delmode == 1)
+          searchtimer.SetDelAfterCountRecs(delaftercountrecs);
+        else if (delmode == 2)
+          searchtimer.SetDelAfterDaysOfFirstRec(delafterdaysoffirstrec);
+      }
     }
     if (!testmode)
     {
@@ -441,12 +451,13 @@ const char *TNT_ARRAY = "";
 
     function changedsearchmode(selection)
     {
+      const toleranceSettings = document.getElementById("toleranceSettings");
       const tolerance = document.getElementById("tolerance");
       if (selection.options[selection.selectedIndex].value == 5) {
-        tolerance.style.display = "";
+        toleranceSettings.style.display = "";
         tolerance.disabled = false;
       } else {
-        tolerance.style.display = "none";
+        toleranceSettings.style.display = "none";
         tolerance.disabled = true;
       }
     }
@@ -487,6 +498,8 @@ const char *TNT_ARRAY = "";
     function changeduseparentalrating(selection)
     {
       document.getElementById("use_parental_rating").style.display = (selection.checked ? "" : "none");
+      document.getElementById("minparentalrating").disabled = !selection.checked;
+      document.getElementById("maxparentalrating").disabled = !selection.checked;
     }
 
     function changedusecontentids(selection)
@@ -602,7 +615,7 @@ const char *TNT_ARRAY = "";
       document.getElementById("directory").value = selection.value;
     }
 
-    function changedavoidrepeats(selection, hidden)
+    function changedavoidrepeats(selection, hidden = false)
     {
       hidden ||= !selection.checked;
       const avoidRepeatsSettings = document.getElementById("avoidrepeatssettings");
@@ -613,7 +626,7 @@ const char *TNT_ARRAY = "";
       changedcomparesummary(document.getElementById("comparesummary"), hidden);
     }
 
-    function changedcomparesummary(selection, hidden)
+    function changedcomparesummary(selection, hidden = false)
     {
       const summaryMatchInPercent = document.getElementById("summarymatchinpercent");
       const compareSummaryMatchInPercent = document.getElementById("comparesummarymatchinpercent");
@@ -626,7 +639,7 @@ const char *TNT_ARRAY = "";
       }
     }
 
-    function changeddelmode(selection, hidden)
+    function changeddelmode(selection, hidden = false)
     {
       const delModeRecordings = document.getElementById("delmoderecordings");
       const delAfterCountRecordings = document.getElementById("delaftercountrecs");
@@ -683,9 +696,9 @@ const char *TNT_ARRAY = "";
                     <option value="4" <{ SELECTIF(mode == 4) }> ><$ tr("regular expression") $></option>
                     <option value="5" <{ SELECTIF(mode == 5) }> ><$ tr("fuzzy") $></option>
                   </select>
-                  <div id="tolerance" style="display: none">
-                      <$ tr("Tolerance" ) $>:
-                    <input type="number" name="tolerance" size="2" min="1" max="9" value="<$ tolerance $>" />
+                  <div id="toleranceSettings" style="display: none">
+                    <$ tr("Tolerance" ) $>:
+                    <input type="number" name="tolerance" id="tolerance" size="2" min="1" max="9" value="<$ tolerance $>" />
                   </div>
                 </div>
               </td>
@@ -726,13 +739,13 @@ const char *TNT_ARRAY = "";
                     <tr>
                       <td class="label"><div class="withmargin"><$ tr("Minimum rating") $>:</div></td>
                       <td>
-                        <input type="number" name="minparentalrating" min="0" max="<$ MAXPARENTALRATING $>" value="<$ minparentalrating $>" />
+                        <input type="number" name="minparentalrating" id="minparentalrating" min="0" max="<$ MAXPARENTALRATING $>" value="<$ minparentalrating $>" />
                       </td>
                     </tr>
                     <tr>
                       <td class="label"><div class="withmargin"><$ tr("Maximum rating") $>:</div></td>
                       <td>
-                        <input type="number" name="maxparentalrating" min="0" max="<$ MAXPARENTALRATING $>" value="<$ maxparentalrating $>" />
+                        <input type="number" name="maxparentalrating" id="maxparentalrating" min="0" max="<$ MAXPARENTALRATING $>" value="<$ maxparentalrating $>" />
                       </td>
                     </tr>
                   </table>

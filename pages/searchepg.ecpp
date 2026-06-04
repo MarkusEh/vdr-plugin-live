@@ -89,7 +89,8 @@ const char *TNT_ARRAY = "";
 
     searchtimer.SetSearch(search);
     searchtimer.SetSearchMode(mode);
-    searchtimer.SetTolerance(tolerance);
+    if (mode == 5)  // fuzzy with tolerance
+      searchtimer.SetTolerance(tolerance);
     searchtimer.SetMatchCase(matchcase);
     searchtimer.SetUseTitle(usetitle);
     searchtimer.SetUseSubtitle(usesubtitle);
@@ -200,16 +201,24 @@ const char *TNT_ARRAY = "";
     function initform()
     {
       changeduseextendedsearch(document.getElementById("useextendedsearch"));
-      changedsearchmode(document.getElementById("search_mode"));
+    }
+
+    function changeduseextendedsearch(selection)
+    {
+      const hidden = !selection.checked;
+      document.getElementById("extendedsearch").style.display = (hidden ? "none" : "");
+      const compatibility = document.getElementById("compatibility");
+      if (compatibility) compatibility.style.display = (hidden ? "none" : "");
+      changedsearchmode(document.getElementById("search_mode"), hidden);
       changedchannelmode(document.getElementById("channel_mode"));
       changedusetime(document.getElementById("usetime"));
-      changeduseduration(document.getElementById("useduration"));
+      changeduseduration(document.getElementById("useduration"), hidden);
       changeduseweekday(document.getElementById("useweekday"));
       for (let gid = 0; gid < <$ contentGroups $>; gid++ ) {
         const hexID = gid.toString(16) + "0";
         changedusecontentgroup(document.getElementById("usecontentgroup" + hexID));
       }
-      changeduseparentalrating(document.getElementById("useparentalrating"));
+      changeduseparentalrating(document.getElementById("useparentalrating"), hidden);
       changedusecontentids(document.getElementById("usecontentids"));
 %     if (extEPGInfos.size() > 0) {
         changeduseextepginfo(document.getElementById("useextepginfo"));
@@ -224,21 +233,15 @@ const char *TNT_ARRAY = "";
       return true;
     }
 
-    function changeduseextendedsearch(selection)
+    function changedsearchmode(selection, hidden = false)
     {
-      document.getElementById("extendedsearch").style.display = (selection.checked ? "" : "none");
-      const compatibility = document.getElementById("compatibility");
-      if (compatibility) compatibility.style.display = (selection.checked ? "" : "none");
-    }
-
-    function changedsearchmode(selection)
-    {
+      const toleranceSettings = document.getElementById("toleranceSettings");
       const tolerance = document.getElementById("tolerance");
       if (selection.options[selection.selectedIndex].value == 5) {
-        tolerance.style.display = "";
-        tolerance.disabled = false;
+        toleranceSettings.style.display = "";
+        tolerance.disabled = hidden;
       } else {
-        tolerance.style.display = "none";
+        toleranceSettings.style.display = "none";
         tolerance.disabled = true;
       }
     }
@@ -255,13 +258,13 @@ const char *TNT_ARRAY = "";
       document.getElementById("timesettings").style.display = (selection.checked ? "" : "none");
     }
 
-    function changeduseduration(selection)
+    function changeduseduration(selection, hidden = false)
     {
       const durationSettings = document.getElementById("durationsettings");
       if (selection.checked) {
         durationSettings.style.display = "";
         for (const input of durationSettings.getElementsByTagName("input")) {
-          input.disabled = false;
+          input.disabled = hidden;
         }
       } else {
         durationSettings.style.display = "none";
@@ -276,9 +279,11 @@ const char *TNT_ARRAY = "";
       document.getElementById("weekdaysettings").style.display = (selection.checked ? "" : "none");
     }
 
-    function changeduseparentalrating(selection)
+    function changeduseparentalrating(selection, hidden = false)
     {
       document.getElementById("use_parental_rating").style.display = (selection.checked ? "" : "none");
+      document.getElementById("minparentalrating").disabled = hidden || !selection.checked;
+      document.getElementById("maxparentalrating").disabled = hidden || !selection.checked;
     }
 
     function changedusecontentids(selection)
@@ -389,9 +394,9 @@ const char *TNT_ARRAY = "";
                     <option value="4" <{ SELECTIF(mode == 4) }> ><$ tr("regular expression") $></option>
                     <option value="5" <{ SELECTIF(mode == 5) }> ><$ tr("fuzzy") $></option>
                   </select>
-                  <div id="tolerance" style="display: none">
-                      <$ tr("Tolerance" ) $>:
-                      <input type="number" name="tolerance" size="2" min="1" max="9" value="<$ tolerance $>" />
+                  <div id="toleranceSettings" style="display: none">
+                    <$ tr("Tolerance" ) $>:
+                    <input type="number" name="tolerance" id="tolerance" size="2" min="1" max="9" value="<$ tolerance $>" />
                   </div>
                 </div>
               </td>
@@ -432,13 +437,13 @@ const char *TNT_ARRAY = "";
                     <tr>
                       <td class="label"><div class="withmargin"><$ tr("Minimum rating") $>:</div></td>
                       <td>
-                        <input type="number" name="minparentalrating" min="0" max="<$ MAXPARENTALRATING $>" value="<$ minparentalrating $>" />
+                        <input type="number" name="minparentalrating" id="minparentalrating" min="0" max="<$ MAXPARENTALRATING $>" value="<$ minparentalrating $>" />
                       </td>
                     </tr>
                     <tr>
                       <td class="label"><div class="withmargin"><$ tr("Maximum rating") $>:</div></td>
                       <td>
-                        <input type="number" name="maxparentalrating" min="0" max="<$ MAXPARENTALRATING $>" value="<$ maxparentalrating $>" />
+                        <input type="number" name="maxparentalrating" id="maxparentalrating" min="0" max="<$ MAXPARENTALRATING $>" value="<$ maxparentalrating $>" />
                       </td>
                     </tr>
                   </table>
@@ -500,9 +505,9 @@ const char *TNT_ARRAY = "";
                       <# we subsequently deviate from our indentation scheme for better visual tag alignment #>
 %                     if (contentID % contentIdentifiersPerGroup == 0) {
 %                       if (contentID != contentStringIDs.front()) {
-                              </div>
-                            </td>
-                          </tr>
+                            </div>
+                          </td>
+                        </tr>
 %                       }
                         <tr>
 %                         cToSvConcat contentLabel;
@@ -577,12 +582,12 @@ const char *TNT_ARRAY = "";
 %                         for (unsigned int j = 0; j < extinfo->Values().size(); j++) {
                             <div class="dotted">
                               <input type="checkbox" id="<$ id $>_option_<$ j $>" name="<$ id $>_option" value="1" <{ CHECKIF(extinfo->Selected(j, extepgvalues[i])) }> onchange="changedextepginfo(this)" />
-                              <label id="<$ id $>_label_<$ j $>" for="<$ id $>_<$ j $>"><$ extinfo->Values()[j] $></label>
+                              <label id="<$ id $>_label_<$ j $>" for="<$ id $>_option_<$ j $>"><$ extinfo->Values()[j] $></label>
                             </div>
 %                         }
                           </div>
 %                       }
-                        </td>
+                      </td>
                     </tr>
 %                   }
                   </table>
