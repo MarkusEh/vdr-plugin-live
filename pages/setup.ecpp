@@ -16,7 +16,7 @@ using namespace vdrlive;
   std::string lastchannel;
   bool useauth = false;
   std::string login;
-  std::string pass;
+  std::string password;
   std::string times;
   std::string channelGroupsGen;
   std::string channelGroups;
@@ -53,7 +53,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
   std::string browserLocalTheme = request.getCookie(liveNamePrefix cookieNameLocalTheme).getValue();
 
   if ( request.getMethod() == "POST") {
-    if (authchanged && useauth && (login.empty() || pass.empty()))
+    if (authchanged && useauth && (login.empty() || password == std::string(LiveSetup().GetAdminPasswordLength(), '*') ))
       message = tr("Please set login and password!");
     else
     {
@@ -61,8 +61,8 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
       LiveSetup().SetUseAuth(useauth);
       if (useauth) {
         LiveSetup().SetAdminLogin(login);
-        if (pass != "")
-          LiveSetup().SetAdminPassword(pass);
+        if (password != std::string(LiveSetup().GetAdminPasswordLength(), '*'))
+          LiveSetup().SetAdminPassword(password);
         LiveSetup().SetLocalNetMask(localnetmask);
         LiveSetup().SetLocalNetMaskIPv6(localnetmaskIPv6);
         LiveSetup().SetAllowLocalhost(!allowlocalhost.empty());
@@ -109,6 +109,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
     lastchannel = std::string(cToSvInt(ilastchannel));
 
   login = LiveSetup().GetAdminLogin();
+  password = std::string(LiveSetup().GetAdminPasswordLength(), '*');
   useauth = LiveSetup().GetUseAuth();
   times = LiveSetup().GetTimes();
   channelGroups = LiveSetup().GetChannelGroups();
@@ -150,7 +151,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
     {
       document.getElementById("authsection").style.display = (selection.checked ? "" : "none");
       document.getElementById("login_local").disabled = !selection?.checked;
-      document.getElementById("pass").disabled = !selection?.checked;
+      document.getElementById("password").disabled = !selection?.checked;
     }
     function setauthchanged(selection)
     {
@@ -197,7 +198,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
               </tr>
               <tr>
                 <td class="label"><div class="withmargin"><$ tr("Admin password") $>:</div></td>
-                <td><input type="password" name="pass" value="<$ pass $>" disabled id="pass" onchange="setauthchanged(this)" /></td>
+                <td><input type="password" name="password" value="<$ password $>" required disabled id="password" onchange="setauthchanged(this)" /></td>
               </tr>
               <tr>
                 <td colspan="2" class="label"><div class="withmargin"><a href="users.html"><$ tr("User management") $></a></div></td>
@@ -341,6 +342,7 @@ if (!cUser::CurrentUserHasRightTo(UR_EDITSETUP))
               <option value="schedule" <%cpp> SELECTIF(startscreen == "schedule") </%cpp>><$ trVDR("Schedule") $></option>
               <option value="multischedule" <%cpp> SELECTIF(startscreen == "multischedule") </%cpp>><$ tr("MultiSchedule") $></option>
               <option value="recordings" <%cpp> SELECTIF(startscreen == "recordings") </%cpp>><$ trVDR("Recordings") $></option>
+              <option value="recordings_flat" <%cpp> SELECTIF(startscreen == "recordings_flat") </%cpp>><$ tr("Recordings (flat)") $></option>
               <option value="timers" <%cpp> SELECTIF(startscreen == "timers") </%cpp>><$ trVDR("Timers") $></option>
             </select></td>
           </tr>

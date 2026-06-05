@@ -54,7 +54,7 @@ if ( LiveFeatures<features::epgsearch>().Recent() ) {
 }
 </%cpp>
       <span class="sep">|</span>
-      <a href="recordings.html?flat=false&filter=<$filter$>&recycle_bin=<$recycle_bin$>"<& menu.setactive current=("recordings") &>><$ tr("Recordings") $></a>
+      <a href="recordings.html?flat=false&filter=<$filter$>&recycle_bin=<$recycle_bin$>"<& menu.setactive current=("recordings") &>><$ trVDR("Recordings") $></a>
       <span class="sep">|</span>
       <a href="recordings.html?flat=true&filter=<$filter$>&recycle_bin=<$recycle_bin$>"<& menu.setactive current=("recordings_flat") &>><$ tr("Recordings (flat)") $></a>
       <span class="sep">|</span>

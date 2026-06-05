@@ -356,6 +356,8 @@ std::string const Setup::GetStartScreenLink() const
     return "timers.html";
   else if (m_startscreen == "recordings")
     return "recordings.html";
+  else if (m_startscreen == "recordings_flat")
+    return "recordings.html?flat=true";
   else
     return "whats_on.html?type=now";
 }

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-01 11:36+0200\n"
+"POT-Creation-Date: 2026-06-05 18:58+0200\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Valdemaras Pipiras <varas@ambernet.lt>\n"
 "Language-Team: see developers in README\n"
@@ -727,9 +727,6 @@ msgstr "Paieška"
 msgid "Search timers"
 msgstr "Paieškos laikmačiai"
 
-msgid "Recordings"
-msgstr "Įrašai"
-
 msgid "Recordings (flat)"
 msgstr ""
 
@@ -1301,6 +1298,9 @@ msgstr ""
 
 msgid "Delete permanently"
 msgstr ""
+
+#~ msgid "Recordings"
+#~ msgstr "Įrašai"
 
 #~ msgid "Toggle updates on/off"
 #~ msgstr "Įjungti/Išjunti atnaujinimus"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 3.5.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-17 16:26+0200\n"
+"POT-Creation-Date: 2026-06-05 16:55+0200\n"
 "PO-Revision-Date: 2026-01-27 20:15+0200\n"
 "Last-Translator: Stefan Hofmann <info@stefans-galerie.de>\n"
 "Language-Team: see developers in README\n"
@@ -447,7 +447,7 @@ msgid "Series recording"
 msgstr "Serienaufnahme"
 
 msgid "Delete recordings after ... days"
-msgstr "Aufzeichnung nach ... Tagen löschen"
+msgstr "Aufzeichnungen nach ... Tagen löschen"
 
 msgid "Keep ... recordings"
 msgstr "bis zu ... Aufzeichnungen behalten"
@@ -678,7 +678,7 @@ msgid "Search for repeats"
 msgstr "Nach Wiederholungen suchen"
 
 msgid "Existing Recording:"
-msgstr "Vorhandene Aufnahme:"
+msgstr "Vorhandene Aufzeichnung:"
 
 msgid "Play this recording in the browser"
 msgstr "Aufzeichnung im Browser abspielen"
@@ -728,11 +728,8 @@ msgstr "Suchen"
 msgid "Search timers"
 msgstr "Suchtimer"
 
-msgid "Recordings"
-msgstr "Aufnahmen"
-
 msgid "Recordings (flat)"
-msgstr "Aufnahmen (flach)"
+msgstr "Aufzeichnungen (flach)"
 
 msgid "Remote Control"
 msgstr "Fernbedienung"
@@ -1194,7 +1191,7 @@ msgid "Couldn't find recording or no recordings available. Maybe you mistyped yo
 msgstr "Kann die Aufzeichnung nicht finden oder keine Aufzeichnungen vorhanden. Möglicherweise ein Tippfehler in der Anfrage?"
 
 msgid "Couldn't find channel for recording."
-msgstr "Kann Sender der Aufnahme nicht finden."
+msgstr "Kann Sender der Aufzeichnung nicht finden."
 
 #, c-format
 msgid "%a, %x"

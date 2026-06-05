@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-01 11:36+0200\n"
+"POT-Creation-Date: 2026-06-05 18:58+0200\n"
 "PO-Revision-Date: 2011-12-25 23:22+0100\n"
 "Last-Translator: Diego Pierotto <vdr-italian@tiscali.it>\n"
 "Language-Team: see developers in README\n"
@@ -731,9 +731,6 @@ msgstr "Ricerca"
 msgid "Search timers"
 msgstr "Timer di ricerca"
 
-msgid "Recordings"
-msgstr "Registrazioni"
-
 msgid "Recordings (flat)"
 msgstr ""
 
@@ -1304,6 +1301,9 @@ msgstr ""
 
 msgid "Delete permanently"
 msgstr ""
+
+#~ msgid "Recordings"
+#~ msgstr "Registrazioni"
 
 #~ msgid "Toggle updates on/off"
 #~ msgstr "Attiva/disattiva aggiornamenti"

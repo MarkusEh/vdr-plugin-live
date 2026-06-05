@@ -17,6 +17,8 @@ function set_folder_closed(rec_list) {
 //folder_symbol_element.setAttribute("onClick", '');
   set_icons_closed(document.getElementById('pm_'+fldr_hash), folder_symbol_element);
   if (folder_symbol_element.$tmp) folder_symbol_element.$tmp.myText=null;
+  document.getElementById('sa_'+fldr_hash)?.classList?.toggle('operational', false);
+  document.getElementById('ds_'+fldr_hash)?.classList?.toggle('operational', false);
 
 //document.getElementById('ca_'+fldr_hash).disabled = true;
   rec_list.style.display = 'none';
@@ -39,6 +41,8 @@ async function set_folder_open(rec_list) {
   const folder_symbol_element=document.getElementById('fs_'+fldr_hash);
 //folder_symbol_element.setAttribute( "onClick", 'javascript: SetChecked("'+fldr_hash+'")');
   set_icons_open(document.getElementById('pm_'+fldr_hash), folder_symbol_element);
+  document.getElementById('sa_'+fldr_hash)?.classList?.toggle('operational', true);
+  document.getElementById('ds_'+fldr_hash)?.classList?.toggle('operational', true);
 //if (folder_symbol_element.$tmp==null) {
 //  folder_symbol_element.title=get_text_Select_all_recordings_in_this_folder();
 //} else {

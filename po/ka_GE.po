@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-01 11:36+0200\n"
+"POT-Creation-Date: 2026-06-05 18:58+0200\n"
 "PO-Revision-Date: 2023-02-14 20:02+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <(nothing)>\n"
@@ -728,9 +728,6 @@ msgstr "ძებნა"
 msgid "Search timers"
 msgstr "ძებნისტაიმერები"
 
-msgid "Recordings"
-msgstr "ჩანაწერები"
-
 msgid "Recordings (flat)"
 msgstr "ჩანაწერები (მიყოლებით)"
 
@@ -1301,6 +1298,9 @@ msgstr ""
 
 msgid "Delete permanently"
 msgstr ""
+
+#~ msgid "Recordings"
+#~ msgstr "ჩანაწერები"
 
 #~ msgid "Toggle updates on/off"
 #~ msgstr "განახლებების გადართვა."

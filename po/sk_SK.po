@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-01 11:36+0200\n"
+"POT-Creation-Date: 2026-06-05 18:58+0200\n"
 "PO-Revision-Date: 2012-12-03 21:41+0100\n"
 "Last-Translator: Milan Hrala <hrala.milan@gmail.com>\n"
 "Language-Team: Slovak <hrala.milan@gmail.com>\n"
@@ -726,9 +726,6 @@ msgstr "Hľadať"
 msgid "Search timers"
 msgstr "Vyhľadávač vysielacieho času"
 
-msgid "Recordings"
-msgstr "Nahrávky"
-
 msgid "Recordings (flat)"
 msgstr ""
 
@@ -1299,6 +1296,9 @@ msgstr ""
 
 msgid "Delete permanently"
 msgstr ""
+
+#~ msgid "Recordings"
+#~ msgstr "Nahrávky"
 
 #~ msgid "Toggle updates on/off"
 #~ msgstr "Prepínač aktualizácii zapnúť/vypnúť."

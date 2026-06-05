@@ -532,10 +532,30 @@ img.iconic.button.recording-deselect-all, /* for the tree view */
   background-size: var(--iconic-button-width, 16px) var(--iconic-button-height, 16px);
 }
 
+img.iconic.button.recording-select-all,
+img.iconic.button.recording-deselect-all {
+  object-position: calc(2 * var(--iconic-button-width, 16px))  calc(2 * var(--iconic-button-height, 16px));
+}
+
+img.iconic.button.recording-select-all.operational,
+img.iconic.button.recording-deselect-all.operational {
+  object-position: unset;
+}
+
 img.iconic.button.recording-expander:hover, /* for the tree view */
-img.iconic.button.recording-select-all:hover, /* for the tree view */
-img.iconic.button.recording-deselect-all:hover, /* for the tree view */
 .info-win .info-win-top img.iconic.button:hover {
+  background: transparent url(../img/icon_small_hovered.svg) no-repeat top right;
+  background-size: var(--iconic-button-width, 16px) var(--iconic-button-height, 16px);
+}
+
+img.iconic.button.recording-select-all:hover, /* for the tree view */
+img.iconic.button.recording-deselect-all:hover {
+  background: transparent url(../img/icon_small.svg) no-repeat top right;
+  background-size: var(--iconic-button-width, 16px) var(--iconic-button-height, 16px);
+}
+
+img.iconic.button.recording-select-all.operational:hover, /* for the tree view */
+img.iconic.button.recording-deselect-all.operational:hover {
   background: transparent url(../img/icon_small_hovered.svg) no-repeat top right;
   background-size: var(--iconic-button-width, 16px) var(--iconic-button-height, 16px);
 }

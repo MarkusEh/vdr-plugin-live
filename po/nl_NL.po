@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-01 11:36+0200\n"
+"POT-Creation-Date: 2026-06-05 18:58+0200\n"
 "PO-Revision-Date: 2025-10-03 20:15+0200\n"
 "Last-Translator: Carel Willemse <carel@nekanali.nl>\n"
 "Language-Team: see developers in README\n"
@@ -728,9 +728,6 @@ msgstr "Zoek"
 msgid "Search timers"
 msgstr "Zoektimers"
 
-msgid "Recordings"
-msgstr "Opnamen"
-
 msgid "Recordings (flat)"
 msgstr "Opnamen (vlak)"
 
@@ -1301,6 +1298,9 @@ msgstr ""
 
 msgid "Delete permanently"
 msgstr ""
+
+#~ msgid "Recordings"
+#~ msgstr "Opnamen"
 
 #~ msgid "Toggle updates on/off"
 #~ msgstr "Schakel updates aan/uit"
