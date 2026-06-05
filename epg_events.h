@@ -108,9 +108,11 @@ namespace vdrlive
       int ChannelNumber() { return m_channelNumber; }
       std::string const StartTime(const char* format) const;
       std::string const EndTime(const char* format) const;
+      std::string const VpsTime(const char* format) const;
       static std::string const CurrentTime(const char* format);
       time_t GetStartTime() const { return m_startTime; }
       time_t GetEndTime() const { return m_endTime; }
+      time_t GetVpsTime() const { return m_vpsTime; }
       int Duration() const { return m_endTime-m_startTime; }  // for recordings: recording duration
       int EventDuration() const { return m_eventDuration; } // this is always the event duration
       int Elapsed() const;
@@ -129,6 +131,7 @@ namespace vdrlive
       std::string m_description;
       time_t m_startTime = 0;
       time_t m_endTime = 0;
+      time_t m_vpsTime = 0;
       tChannelID m_channelId = tChannelID();
       std::string m_channelName;
       int m_channelNumber = 0;

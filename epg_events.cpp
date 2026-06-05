@@ -44,6 +44,11 @@ namespace vdrlive
     return m_endTime ? std::string(cToSvDateTime(format, m_endTime)) : "";
   }
 
+  const std::string EpgInfo::VpsTime(const char* format) const
+  {
+    return m_vpsTime ? std::string(cToSvDateTime(format, m_vpsTime)) : "";
+  }
+
   int EpgInfo::Elapsed() const
   {
     if (m_type == 0) return -1;   //  not an event, not a recording ...
@@ -345,6 +350,7 @@ namespace vdrlive
       m_description = cSv(event->Description());
       m_startTime = event->StartTime();
       m_endTime = event->EndTime();
+      m_vpsTime = event->Vps();
       m_eventDuration = event->Duration();
       InitializeScraperVideo(event, nullptr);
       for (int i = 0; i < MaxEventContents; ++i) m_contents[i] = event->Contents(i);
@@ -382,6 +388,7 @@ namespace vdrlive
           m_eventDuration = event->Duration();
           for (int i = 0; i < MaxEventContents; ++i) m_contents[i] = event->Contents(i);
           m_parentalRating = event->ParentalRating();
+          m_vpsTime = event->Vps();
         }
       }
       if (m_title.empty()) m_title = Name();

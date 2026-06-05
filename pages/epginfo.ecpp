@@ -130,6 +130,25 @@ using namespace vdrlive;
       start << tr(" - ") << epgEvent.EndTime(tr("%I:%M %p")) << ' ';
       AppendDuration(start, tr("(%d:%02d)"), epgEvent.Duration());
     }
+    if (epgEvent.GetVpsTime() ) {
+      time_t startTime = epgEvent.GetStartTime();
+      time_t   vpsTime = epgEvent.GetVpsTime();
+      struct std::tm tm_startTime;
+      struct std::tm tm_vpsTime;
+      if (localtime_r(&startTime, &tm_startTime) == 0 ||
+          localtime_r(&vpsTime,   &tm_vpsTime  ) == 0 ) {
+        esyslog2("epginfo.ecpp localtime_r() = 0, startTime = ", startTime, " vpsTime = ", vpsTime);
+      } else {
+        start << ", " << trVDR("VPS") << ": ";
+        if (tm_startTime.tm_year != tm_vpsTime.tm_year ||
+            tm_startTime.tm_mon  != tm_vpsTime.tm_mon  ||
+            tm_startTime.tm_mday != tm_vpsTime.tm_mday) {
+          start << epgEvent.VpsTime("%a,") << ' ' <<
+                   epgEvent.VpsTime(tr("%b %d %y")) << ' ';
+        }
+        start << epgEvent.VpsTime(tr("%I:%M %p"));
+      }
+    }
 
     const char *tools_component="";
     if (isRecording) {
