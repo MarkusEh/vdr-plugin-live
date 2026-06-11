@@ -24,6 +24,10 @@ Description:
 LIVE, the "Live Interactive VDR Environment", is a VDR plugin providing
 a web interface to VDR and some of it's plugins.
 
+The intended use is a save local network, where family and friends can access the
+endpoint provided by live. Make sure to NOT expose this endpoint to the internet.
+For this use case (exposure to internet) live is NOT secure enough.
+
 Requirements:
 =============
 
@@ -37,7 +41,7 @@ libjpeg
 Tntnet provides basic web server functions for LIVE and needs cxxtools.
 
 Optional:
-epgsearch >= 0.9.25.beta6, for versatile search timers and searching the EPG on demand
+epgsearch >= 2.4.5, for versatile search timers and searching the EPG on demand
 streamdev >= 0.6.0, for streaming live video and recordings to browser or player
 tvscraper >= 1.2.13, for images and other information from [TMDB](https://www.themoviedb.org/) & TheTVDB.com
 

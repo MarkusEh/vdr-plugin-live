@@ -132,8 +132,9 @@ std::string active_r;
 </%cpp>
   <script type="text/javascript">
     function new_dir() {
+      var dirSelection = document.getElementById("dirSelection");
+      dirSelection.style.display = "none";
       var dir = document.getElementById("directory");
-      dir.style.display = "none";
       var newdir = document.getElementById("newdir");
       newdir.value = dir.value;
       newdir.style.display = "";
@@ -165,8 +166,8 @@ std::string active_r;
           <tr>
             <td class="label leftcol"><div class="withmargin"><$ tr("Directory") $>:</div></td>
             <td class="rightcol">
-              <div class="with-action-icon" id="directory">
-                <select name="directory" size="1">
+              <div class="with-action-icon" id="dirSelection">
+                <select name="directory" id="directory" size="1">
 <%cpp>
   RecordingsTreePtr recordingsTree(RecordingsManager::GetRecordingsTree());
   for (const auto &dir: recordingsTree->getAllDirs() ) {
