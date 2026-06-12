@@ -206,6 +206,9 @@ msgstr "Verzeichnis"
 msgid "Create new directory"
 msgstr "Neuen Ordner erstellen"
 
+msgid "Separate directories with a tilde '~'; directory names must not start with a tilde, dot, or whitespace"
+msgstr "Verzeichnisse mit Tilde (\"~\") trennen; Verzeichnisnamen dürfen nicht mit Tilde, Punkt oder Leerzeichen beginnen"
+
 msgid "Delete resume information"
 msgstr "Wiedergabeposition löschen"
 

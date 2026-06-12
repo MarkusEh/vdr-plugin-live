@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-05 18:58+0200\n"
+"POT-Creation-Date: 2026-06-12 09:18+0200\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Rolf Ahrenberg <rahrenbe@cc.hut.fi>\n"
 "Language-Team: see developers in README\n"
@@ -202,6 +202,9 @@ msgid "Directory"
 msgstr "Hakemisto"
 
 msgid "Create new directory"
+msgstr ""
+
+msgid "Separate directories with a tilde '~'; directory names must not start with a tilde, dot, or whitespace"
 msgstr ""
 
 msgid "Delete resume information"
