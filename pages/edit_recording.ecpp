@@ -18,7 +18,7 @@ using namespace vdrlive;
   // form parameters
   std::string name = "";
   std::string directory = "";
-  std::string newdir = "";
+  std::string newdir = ".";
   std::string title = "";
   std::string shorttext = "";
   std::string description = "";
