@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-12 09:18+0200\n"
+"POT-Creation-Date: 2026-06-14 16:15+0200\n"
 "PO-Revision-Date: 2007-08-19 20:15+0200\n"
 "Last-Translator: Rolf Ahrenberg <rahrenbe@cc.hut.fi>\n"
 "Language-Team: see developers in README\n"
@@ -936,17 +936,17 @@ msgstr "Projektin idea"
 msgid "Webserver"
 msgstr "HTTP-palvelin"
 
-msgid "Current Maintainer"
-msgstr ""
-
-msgid "Previous Maintainer"
-msgstr ""
-
 msgid "Project leader"
 msgstr "Projektipäällikkö"
 
 msgid "Graphics"
 msgstr "Grafiikka"
+
+msgid "Current Maintainer"
+msgstr ""
+
+msgid "Previous Maintainer"
+msgstr ""
 
 msgid "Information"
 msgstr "Tietoja"

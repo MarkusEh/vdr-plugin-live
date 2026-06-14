@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-12 09:18+0200\n"
+"POT-Creation-Date: 2026-06-14 16:15+0200\n"
 "PO-Revision-Date: 2025-10-05 18:19+0200\n"
 "Last-Translator: Tomasz Maciej Nowak <tomek_n@o2.pl>\n"
 "Language-Team: see developers in README\n"
@@ -937,17 +937,17 @@ msgstr "Pomysł projektu"
 msgid "Webserver"
 msgstr "Serwer HTTP"
 
-msgid "Current Maintainer"
-msgstr "Obecny opiekun"
-
-msgid "Previous Maintainer"
-msgstr "Poprzedni opiekun"
-
 msgid "Project leader"
 msgstr "Lider projektu"
 
 msgid "Graphics"
 msgstr "Grafika"
+
+msgid "Current Maintainer"
+msgstr "Obecny opiekun"
+
+msgid "Previous Maintainer"
+msgstr "Poprzedni opiekun"
 
 msgid "Information"
 msgstr "Informacje"

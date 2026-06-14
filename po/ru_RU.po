@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-12 09:18+0200\n"
+"POT-Creation-Date: 2026-06-14 16:15+0200\n"
 "PO-Revision-Date: 2013-06-21 20:15+0200\n"
 "Last-Translator: Dmitrii Kiselev <wm.amid@gmail.com>\n"
 "Language-Team: see developers in README\n"
@@ -936,17 +936,17 @@ msgstr "Идея проекта"
 msgid "Webserver"
 msgstr "WEB сервер"
 
-msgid "Current Maintainer"
-msgstr ""
-
-msgid "Previous Maintainer"
-msgstr ""
-
 msgid "Project leader"
 msgstr "Ведущий проекта"
 
 msgid "Graphics"
 msgstr "Графика"
+
+msgid "Current Maintainer"
+msgstr ""
+
+msgid "Previous Maintainer"
+msgstr ""
 
 msgid "Information"
 msgstr "Информация"

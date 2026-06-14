@@ -5,8 +5,7 @@ Written by:                  Thomas Keil <tkeil@datacrystal.de>
 
 Currently maintained by:     Markus Ehrnsperger ( MarkusE @ https://www.vdr-portal.de)
 
-Previously Maintained by:
-                             Dieter Hametner <dh+vdr@gekrumbel.de>
+Previously Maintained by:    Dieter Hametner <dh+vdr@gekrumbel.de>
                              Christian Wieninger <cwieninger@gmx.de>
                              Jasmin Jessich <jasmin@anw.at>
 
@@ -52,13 +51,13 @@ If you compile the plugin outside of the VDR source code you must
 copy the resulting binary to the directory where VDR plugins are expected.
 
 You also must copy the subdirectory 'live' from the source distribution
-to the directory where the VDR plugins look for their resource files.
-The VDR default for this config directory is: /video/plugins, but this
-depends also on the parameters -c or -v (see 'vdr --help' for details).
+to the vdr resource directory <vdr-resource-dir>. This is:
+- /video: The VDR default
+- /usr/share/vdr: On debian like distributions
+- It can be changed with the parameters --resdir=dir, -c dir or -v dir (see 'vdr --help' for details)
 
-cp -a <live-src-dir>/live <vdr-resource-dir>/plugins
+cp -a <live-src-dir>/live <vdr-resource-dir>/plugins/
 
-On debian like systems, <vdr-resource-dir> is /usr/share/vdr
 
 The default port is 8008.
 

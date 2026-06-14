@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VDR-LIVE 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-12 09:18+0200\n"
+"POT-Creation-Date: 2026-06-14 16:15+0200\n"
 "PO-Revision-Date: 2025-10-03 20:15+0200\n"
 "Last-Translator: Carel Willemse <carel@nekanali.nl>\n"
 "Language-Team: see developers in README\n"
@@ -938,17 +938,17 @@ msgstr "Projectidee"
 msgid "Webserver"
 msgstr "Webserver"
 
-msgid "Current Maintainer"
-msgstr "Huidige beheerder"
-
-msgid "Previous Maintainer"
-msgstr "Vorige beheerder"
-
 msgid "Project leader"
 msgstr "Projectleider"
 
 msgid "Graphics"
 msgstr "Grafische vormgeving"
+
+msgid "Current Maintainer"
+msgstr "Huidige beheerder"
+
+msgid "Previous Maintainer"
+msgstr "Vorige beheerder"
 
 msgid "Information"
 msgstr "Informatie"
